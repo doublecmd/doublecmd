@@ -113,12 +113,11 @@ type
   TOperationManagerEvent =
     (omevOperationAdded,
      omevOperationRemoved,
-     omevOperationStarted,
-     omevOperationFinished);
+     omevOperationMoved);
 
   TOperationManagerEvents = set of TOperationManagerEvent;
 
-  TOperationManagerEventNotify = procedure(Operation: TFileSourceOperation;
+  TOperationManagerEventNotify = procedure(Item: TOperationsManagerItem;
                                            Event: TOperationManagerEvent) of object;
 
   {en
@@ -157,7 +156,7 @@ type
     {en
        Notifies all listeners that an event has occurred (or multiple events).
     }
-    procedure NotifyEvents(Operation: TFileSourceOperation; Events: TOperationManagerEvents);
+    procedure NotifyEvents(Item: TOperationsManagerItem; Events: TOperationManagerEvents);
 
   public
     constructor Create;
@@ -257,6 +256,7 @@ begin
     begin
       FQueue := NewQueue;
       NewQueue.Insert(Self, InsertAtFront);
+      OperationsManager.NotifyEvents(Self, [omevOperationMoved]);
     end;
   end;
 end;
@@ -340,7 +340,10 @@ begin
   if FromIndex >= 0 then
   begin
     if not Assigned(TargetItem) then
-      FList.Move(FromIndex, FList.Count - 1)
+    begin
+      FList.Move(FromIndex, FList.Count - 1);
+      OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
+    end
     else
     begin
       ToIndex := GetIndexByHandle(TargetItem.Handle);
@@ -357,6 +360,7 @@ begin
             Inc(ToIndex);
         end;
         FList.Move(FromIndex, ToIndex);
+        OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
       end;
     end;
   end;
@@ -475,7 +479,7 @@ begin
 
         Item.SetQueue(GetOrCreateQueue(QueueIdentifier), InsertAtFrontOfQueue);
 
-        NotifyEvents(Operation, [omevOperationAdded]);
+        NotifyEvents(Item, [omevOperationAdded]);
 
         Thread.Resume;
       except
@@ -627,8 +631,6 @@ begin
       Item := TOperationsManagerItem(Queue.Items[OperIndex]);
       if Item.Thread = Thread then
       begin
-        NotifyEvents(Item.Operation, [omevOperationFinished]);
-
         Queue.Remove(Item);
 
         if Queue.Count = 0 then
@@ -637,7 +639,7 @@ begin
           Queue.Free;
         end;
 
-        NotifyEvents(Item.Operation, [omevOperationRemoved]);
+        NotifyEvents(Item, [omevOperationRemoved]);
 
         // Here the operation should not be used anymore
         // (by the thread and by any operations viewer).
@@ -652,7 +654,6 @@ end;
 procedure TOperationsManager.StartOperation(Item: TOperationsManagerItem);
 begin
   Item.Operation.Start;
-  NotifyEvents(Item.Operation, [omevOperationStarted]);
 end;
 
 procedure TOperationsManager.CancelAll;
@@ -802,10 +803,9 @@ begin
   end;
 end;
 
-procedure TOperationsManager.NotifyEvents(Operation: TFileSourceOperation;
-                                          Events: TOperationManagerEvents);
+procedure TOperationsManager.NotifyEvents(Item: TOperationsManagerItem; Events: TOperationManagerEvents);
 var
-  Item: PEventsListItem;
+  EventItem: PEventsListItem;
   Event: TOperationManagerEvent;
   i: Integer;
 begin
@@ -816,8 +816,8 @@ begin
       // Call each listener function.
       for i := 0 to FEventsListeners[Event].Count - 1 do
       begin
-        Item := PEventsListItem(FEventsListeners[Event].Items[i]);
-        Item^.EventFunction(Operation, Event);
+        EventItem := PEventsListItem(FEventsListeners[Event].Items[i]);
+        EventItem^.EventFunction(Item, Event);
       end;
     end;
   end;

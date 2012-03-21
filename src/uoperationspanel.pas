@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Forms, Graphics,
-  uFileSourceOperation;
+  uFileSourceOperation, uOperationsManager;
 
 type
 
@@ -43,6 +43,7 @@ type
     function GetProgressString(Progress: Double): String;
     function GetOperationDescription(Operation: TFileSourceOperation): String;
     procedure GetStateColor(State: TFileSourceOperationState; out ColorFrom, ColorTo: TColor);
+    procedure OperationsManagerEvent(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
     procedure StartPauseOperation(Operation: TFileSourceOperation);
     procedure UpdateItems;
   public
@@ -60,7 +61,6 @@ uses
   LCLIntf, LCLType, LCLProc, Math,
   fViewOperations, fFileOpDlg,
   uDCUtils, uLng,
-  uOperationsManager,
   uFileSourceOperationTypes;
 
 const
@@ -157,6 +157,12 @@ begin
   end;
 end;
 
+procedure TOperationsPanel.OperationsManagerEvent(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
+begin
+  UpdateItems;
+  UpdateView;
+end;
+
 procedure TOperationsPanel.UpdateItems;
 var
   OpManItem: TOperationsManagerItem;
@@ -236,10 +242,18 @@ begin
   inherited Create(AOwner);
   FOperations := TFPList.Create;
   FQueues := TFPList.Create;
+
+  OperationsManager.AddEventsListener(
+    [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
+    @OperationsManagerEvent);
 end;
 
 destructor TOperationsPanel.Destroy;
 begin
+  OperationsManager.RemoveEventsListener(
+    [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
+    @OperationsManagerEvent);
+
   inherited Destroy;
   FOperations.Free;
   FQueues.Free;
@@ -434,7 +448,7 @@ end;
 
 procedure TOperationsPanel.UpdateView;
 begin
-  UpdateItems;
+  UpdateItems; //
   Invalidate;
 end;
 
