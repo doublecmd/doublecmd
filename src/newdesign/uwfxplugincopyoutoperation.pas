@@ -100,7 +100,7 @@ begin
 
   if (FNeedsConnection = False) then
     FInfoOperation:= FS_STATUS_OP_GET_MULTI_THREAD
-  else if (theSourceFiles.Count > 1) then
+  else if (SourceFiles.Count > 1) then
     FInfoOperation:= FS_STATUS_OP_GET_MULTI
   else
     FInfoOperation:= FS_STATUS_OP_GET_SINGLE;
