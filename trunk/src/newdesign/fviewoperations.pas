@@ -120,7 +120,7 @@ type
     function GetFocusedItem: TViewBaseItem;
     procedure SetFocusItem(AOperationHandle: TOperationHandle);
     procedure SetNewQueue(Item: TViewOperationItem; NewQueue: TOperationsManagerQueueIdentifier);
-    procedure UpdateView(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
+    procedure UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
     procedure UpdateCounters;
     procedure UpdateControls;
     procedure UpdateItems;
@@ -379,7 +379,8 @@ begin
   UpdateControls;
   UpdateItems;
 
-  OperationsManager.AddEventsListener([omevOperationAdded, omevOperationRemoved],
+  OperationsManager.AddEventsListener(
+    [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
     @UpdateView);
 end;
 
@@ -421,7 +422,8 @@ end;
 
 procedure TfrmViewOperations.FormDestroy(Sender: TObject);
 begin
-  OperationsManager.RemoveEventsListener([omevOperationAdded, omevOperationRemoved],
+  OperationsManager.RemoveEventsListener(
+    [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
     @UpdateView);
 end;
 
@@ -852,8 +854,7 @@ begin
   end;
 end;
 
-procedure TfrmViewOperations.UpdateView(Operation: TFileSourceOperation;
-  Event: TOperationManagerEvent);
+procedure TfrmViewOperations.UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
 begin
   UpdateCounters;
   UpdateItems;
