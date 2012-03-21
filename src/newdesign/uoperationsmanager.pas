@@ -37,6 +37,18 @@ type
                        AThread: TOperationThread);
     destructor Destroy; override;
 
+    {en
+       Moves the item and places it before or after another operation.
+       @param(TargetOperation
+              Handle to another operation where item should be moved.
+              If handle belongs to operation from a different queue then
+              the item is moved to that queue and placed before or after the operation.)
+       @param(PlaceBefore
+              If @true then places item before TargetOperation.
+              If @false then places item after TargetOperation.)
+    }
+    procedure Move(TargetOperation: TOperationHandle; PlaceBefore: Boolean);
+    procedure MoveToBottom;
     procedure SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean = False);
 
     property Handle: TOperationHandle read FHandle;
@@ -52,6 +64,7 @@ type
   strict private
     FList: TFPList;
     FIdentifier: TOperationsManagerQueueIdentifier;
+    function GetIndexByHandle(Handle: TOperationHandle): Integer;
     function GetItem(Index: Integer): TOperationsManagerItem;
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOperationsCount: Integer;
@@ -73,6 +86,19 @@ type
               if @false then inserts at the back.)
     }
     function Insert(Item: TOperationsManagerItem; InsertAtFront: Boolean): Integer;
+    {en
+       Moves item within the queue.
+       @param(SourceItem
+              Which item should be moved.)
+       @param(TargetItem
+              SourceItem is moved placed either before or after TargetItem.
+              If TargetItem is @nil then SourceItem is moved to the back
+              of the queue, regardless of PlaceBefore parameter.)
+       @param(PlaceBefore
+              If @true then SourceItem is placed before TargetItem.
+              If @false then SourceItem is placed after TargetItem.)
+    }
+    procedure Move(SourceItem, TargetItem: TOperationsManagerItem; PlaceBefore: Boolean);
     function Remove(Item: TOperationsManagerItem): Boolean;
   public
     constructor Create(AIdentifier: TOperationsManagerQueueIdentifier);
@@ -157,14 +183,6 @@ type
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOrCreateQueue(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
 
-    {en
-       Changes the Item's (and thus operation's) position in the list.
-       It is used to change the order of execution of queued operations.
-       @param(FromIndex is an index in the operations list of the Item that should be moved.)
-       @param(ToIndex is an index in the operations list where the Item should be moved to.)
-    }
-    procedure MoveOperation(FromIndex: Integer; ToIndex: Integer);
-
     procedure CancelAll;
     procedure PauseRunning;
     procedure StartRunning;
@@ -214,6 +232,23 @@ begin
   FOperation.Free;
 end;
 
+procedure TOperationsManagerItem.Move(TargetOperation: TOperationHandle; PlaceBefore: Boolean);
+var
+  TargetItem: TOperationsManagerItem;
+begin
+  TargetItem := OperationsManager.GetItemByHandle(TargetOperation);
+  if Assigned(TargetItem) then
+  begin
+    SetQueue(TargetItem.Queue);
+    TargetItem.Queue.Move(Self, TargetItem, PlaceBefore);
+  end;
+end;
+
+procedure TOperationsManagerItem.MoveToBottom;
+begin
+  Queue.Move(Self, nil, False);
+end;
+
 procedure TOperationsManagerItem.SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean);
 begin
   if (Queue <> NewQueue) and Assigned(NewQueue) then
@@ -227,6 +262,16 @@ begin
 end;
 
 { TOperationsManagerQueue }
+
+function TOperationsManagerQueue.GetIndexByHandle(Handle: TOperationHandle): Integer;
+begin
+  for Result := 0 to Count - 1 do
+  begin
+    if TOperationsManagerItem(Items[Result]).Handle = Handle then
+      Exit;
+  end;
+  Result := -1;
+end;
 
 function TOperationsManagerQueue.GetItem(Index: Integer): TOperationsManagerItem;
 begin
@@ -285,6 +330,36 @@ begin
   for i := 0 to FList.Count - 1 do
     Items[i].Free;
   FList.Free;
+end;
+
+procedure TOperationsManagerQueue.Move(SourceItem, TargetItem: TOperationsManagerItem; PlaceBefore: Boolean);
+var
+  FromIndex, ToIndex: Integer;
+begin
+  FromIndex := GetIndexByHandle(SourceItem.Handle);
+  if FromIndex >= 0 then
+  begin
+    if not Assigned(TargetItem) then
+      FList.Move(FromIndex, FList.Count - 1)
+    else
+    begin
+      ToIndex := GetIndexByHandle(TargetItem.Handle);
+      if ToIndex >= 0 then
+      begin
+        if PlaceBefore then
+        begin
+          if FromIndex < ToIndex then
+            Dec(ToIndex);
+        end
+        else
+        begin
+          if FromIndex > ToIndex then
+            Inc(ToIndex);
+        end;
+        FList.Move(FromIndex, ToIndex);
+      end;
+    end;
+  end;
 end;
 
 function TOperationsManagerQueue.Insert(Item: TOperationsManagerItem; InsertAt: Integer): Integer;
@@ -578,23 +653,6 @@ procedure TOperationsManager.StartOperation(Item: TOperationsManagerItem);
 begin
   Item.Operation.Start;
   NotifyEvents(Item.Operation, [omevOperationStarted]);
-end;
-
-procedure TOperationsManager.MoveOperation(FromIndex: Integer; ToIndex: Integer);
-var
-  Item: TOperationsManagerItem = nil;
-begin
-{
-  if (FromIndex >= 0) and (FromIndex < FOperations.Count) and
-     (ToIndex >= 0) and (ToIndex < FOperations.Count) then
-  begin
-    Item := TOperationsManagerItem(FOperations.Items[FromIndex]);
-
-    // This has to be in exactly this order: first delete then insert.
-    FOperations.Delete(FromIndex);
-    FOperations.Insert(ToIndex, Item);
-  end;
-}
 end;
 
 procedure TOperationsManager.CancelAll;
