@@ -81,6 +81,7 @@ type
   TfrmViewOperations = class(TForm)
     btnStop: TBitBtn;
     btnStartPause: TBitBtn;
+    mnuNewQueue: TMenuItem;
     mnuCancel: TMenuItem;
     mnuPutFirstInQueue: TMenuItem;
     mnuPutLastInQueue: TMenuItem;
@@ -102,6 +103,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure mnuNewQueueClick(Sender: TObject);
     procedure mnuPutFirstInQueueClick(Sender: TObject);
     procedure mnuPutLastInQueueClick(Sender: TObject);
     procedure mnuShowDetachedClick(Sender: TObject);
@@ -490,6 +492,20 @@ begin
     @UpdateView);
 end;
 
+procedure TfrmViewOperations.mnuNewQueueClick(Sender: TObject);
+var
+  Item: TViewBaseItem;
+  OpManItem: TOperationsManagerItem;
+begin
+  Item := GetFocusedItem;
+  if Assigned(Item) and (Item is TViewOperationItem) then
+  begin
+    OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
+    if Assigned(OpManItem) then
+      OpManItem.MoveToNewQueue;
+  end;
+end;
+
 procedure TfrmViewOperations.mnuPutFirstInQueueClick(Sender: TObject);
 begin
   MoveWithinQueue(True);
@@ -677,43 +693,48 @@ var
   TargetQueueId: TOperationsManagerQueueIdentifier;
   HitTopPart: Boolean;
 begin
-  TargetNode := tvOperations.GetNodeAt(X, Y);
-  if not Assigned(TargetNode) then
-    TargetNode := tvOperations.Items.GetLastNode;
-  if (Source = tvOperations) and Assigned(TargetNode) then
+  if Source = tvOperations then
   begin
     SourceOpManItem := OperationsManager.GetItemByHandle(FDraggedOperation);
     if Assigned(SourceOpManItem) then
     begin
-      NodeRect := TargetNode.DisplayRect(False);
-      TargetItem := TViewBaseItem(TargetNode.Data);
-      HitTopPart := Y - NodeRect.Top < (NodeRect.Bottom - NodeRect.Top) div 2;
-
-      if TargetItem is TViewQueueItem then
+      TargetNode := tvOperations.GetNodeAt(X, Y);
+      if not Assigned(TargetNode) then
       begin
-        QueueItem := TViewQueueItem(TargetItem);
-        if HitTopPart and
-           (TargetNode = tvOperations.Items.GetFirstNode) and
-           (QueueItem.FQueueIdentifier <> FreeOperationsQueueId) then
-        begin
-          // There are no free operations and item was dropped at the top of the list
-          // on some queue. Create a free operations queue and move to it.
-          TargetQueueId := FreeOperationsQueueId;
-        end
-        else
-        begin
-          TargetQueueId := QueueItem.FQueueIdentifier;
-        end;
-        TargetQueue := OperationsManager.QueueByIdentifier[TargetQueueId];
-        SourceOpManItem.SetQueue(TargetQueue);
+        SourceOpManItem.MoveToNewQueue;
       end
-      else if (TargetItem is TViewOperationItem) and
-              (FDraggedOperation <> TViewOperationItem(TargetItem).FOperationHandle) then
+      else
       begin
-        OperItem := TViewOperationItem(TargetItem);
-        TargetOpManItem := OperationsManager.GetItemByHandle(OperItem.FOperationHandle);
-        if Assigned(TargetOpManItem) then
-          SourceOpManItem.Move(TargetOpManItem.Handle, HitTopPart);
+        NodeRect := TargetNode.DisplayRect(False);
+        TargetItem := TViewBaseItem(TargetNode.Data);
+        HitTopPart := Y - NodeRect.Top < (NodeRect.Bottom - NodeRect.Top) div 2;
+
+        if TargetItem is TViewQueueItem then
+        begin
+          QueueItem := TViewQueueItem(TargetItem);
+          if HitTopPart and
+             (TargetNode = tvOperations.Items.GetFirstNode) and
+             (QueueItem.FQueueIdentifier <> FreeOperationsQueueId) then
+          begin
+            // There are no free operations and item was dropped at the top of the list
+            // on some queue. Create a free operations queue and move to it.
+            TargetQueueId := FreeOperationsQueueId;
+          end
+          else
+          begin
+            TargetQueueId := QueueItem.FQueueIdentifier;
+          end;
+          TargetQueue := OperationsManager.QueueByIdentifier[TargetQueueId];
+          SourceOpManItem.SetQueue(TargetQueue);
+        end
+        else if (TargetItem is TViewOperationItem) and
+                (FDraggedOperation <> TViewOperationItem(TargetItem).FOperationHandle) then
+        begin
+          OperItem := TViewOperationItem(TargetItem);
+          TargetOpManItem := OperationsManager.GetItemByHandle(OperItem.FOperationHandle);
+          if Assigned(TargetOpManItem) then
+            SourceOpManItem.Move(TargetOpManItem.Handle, HitTopPart);
+        end;
       end;
     end;
   end;

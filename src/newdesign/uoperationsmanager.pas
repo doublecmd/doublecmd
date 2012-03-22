@@ -49,6 +49,7 @@ type
     }
     procedure Move(TargetOperation: TOperationHandle; PlaceBefore: Boolean);
     procedure MoveToBottom;
+    function  MoveToNewQueue: TOperationsManagerQueueIdentifier;
     procedure MoveToTop;
     procedure SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean = False);
 
@@ -145,6 +146,7 @@ type
     function GetQueueByIdentifier(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
     function GetQueuesCount: Integer;
 
+    function MoveToNewQueue(Item: TOperationsManagerItem): TOperationsManagerQueueIdentifier;
     procedure MoveToQueue(Item: TOperationsManagerItem; QueueIdentifier: TOperationsManagerQueueIdentifier);
     procedure StartOperation(Item: TOperationsManagerItem);
 
@@ -247,6 +249,11 @@ end;
 procedure TOperationsManagerItem.MoveToBottom;
 begin
   Queue.Move(Self, nil, False);
+end;
+
+function TOperationsManagerItem.MoveToNewQueue: TOperationsManagerQueueIdentifier;
+begin
+  Result := OperationsManager.MoveToNewQueue(Self);
 end;
 
 procedure TOperationsManagerItem.MoveToTop;
@@ -521,6 +528,22 @@ end;
 function TOperationsManager.GetQueuesCount: Integer;
 begin
   Result := FQueues.Count;
+end;
+
+function TOperationsManager.MoveToNewQueue(Item: TOperationsManagerItem): TOperationsManagerQueueIdentifier;
+var
+  NewQueueId: TOperationsManagerQueueIdentifier;
+  NewQueue: TOperationsManagerQueue;
+begin
+  for NewQueueId := Succ(FreeOperationsQueueId) to MaxInt do
+  begin
+    if not Assigned(QueueByIdentifier[NewQueueId]) then
+    begin
+      NewQueue := GetOrCreateQueue(NewQueueId);
+      Item.SetQueue(NewQueue);
+      Exit(NewQueueId);
+    end;
+  end;
 end;
 
 function TOperationsManager.GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;

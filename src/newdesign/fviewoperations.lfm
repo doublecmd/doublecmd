@@ -1,12 +1,12 @@
 object frmViewOperations: TfrmViewOperations
   Left = 18
-  Height = 229
+  Height = 353
   Top = 117
-  Width = 458
+  Width = 507
   ActiveControl = tvOperations
   Caption = 'File operations'
-  ClientHeight = 229
-  ClientWidth = 458
+  ClientHeight = 353
+  ClientWidth = 507
   FormStyle = fsStayOnTop
   OnClose = FormClose
   OnCreate = FormCreate
@@ -22,7 +22,7 @@ object frmViewOperations: TfrmViewOperations
     Left = 0
     Height = 40
     Top = 0
-    Width = 458
+    Width = 507
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BevelOuter = bvNone
@@ -31,7 +31,7 @@ object frmViewOperations: TfrmViewOperations
     ChildSizing.ShrinkVertical = crsHomogenousChildResize
     ChildSizing.Layout = cclTopToBottomThenLeftToRight
     ClientHeight = 40
-    ClientWidth = 458
+    ClientWidth = 507
     TabOrder = 0
     object tbPauseAll: TToggleBox
       Left = 0
@@ -85,9 +85,9 @@ object frmViewOperations: TfrmViewOperations
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 189
+    Height = 313
     Top = 40
-    Width = 458
+    Width = 507
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoExpand = True
     DefaultItemHeight = 24
@@ -144,6 +144,10 @@ object frmViewOperations: TfrmViewOperations
       object mnuQueue5: TMenuItem
         Caption = 'Queue 5'
         OnClick = mnuQueueNumberClick
+      end
+      object mnuNewQueue: TMenuItem
+        Caption = 'New queue'
+        OnClick = mnuNewQueueClick
       end
     end
     object mnuShowDetached: TMenuItem
