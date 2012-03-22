@@ -31,6 +31,9 @@ type
     FQueue        : TOperationsManagerQueue;
     FThread       : TOperationThread;
 
+  private
+    function RemoveFromQueue: Boolean;
+
   public
     constructor Create(AHandle: TOperationHandle;
                        AOperation: TFileSourceOperation;
@@ -204,6 +207,9 @@ var
 
 implementation
 
+uses
+  uDebug;
+
 type
   PEventsListItem = ^TEventsListItem;
   TEventsListItem = record
@@ -252,11 +258,22 @@ begin
   Queue.Move(Self, nil, True);
 end;
 
+function TOperationsManagerItem.RemoveFromQueue: Boolean;
+begin
+  Result := Queue.Remove(Self);
+  if Queue.Count = 0 then
+  begin
+    OperationsManager.FQueues.Remove(Queue);
+    Queue.Free;
+  end;
+  FQueue := nil;
+end;
+
 procedure TOperationsManagerItem.SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean);
 begin
   if (Queue <> NewQueue) and Assigned(NewQueue) then
   begin
-    if not Assigned(Queue) or Queue.Remove(Self) then
+    if not Assigned(Queue) or RemoveFromQueue then
     begin
       FQueue := NewQueue;
       NewQueue.Insert(Self, InsertAtFront);
@@ -425,23 +442,9 @@ end;
 destructor TOperationsManager.Destroy;
 var
   i: Integer;
-  OperIndex, QueueIndex: Integer;
-  Item: TOperationsManagerItem;
   Event: TOperationManagerEvent;
-  Queue: TOperationsManagerQueue;
 begin
   inherited Destroy;
-
-  // If any operations still exist, remove listeners as we're destroying the object.
-  for QueueIndex := 0 to QueuesCount - 1 do
-  begin
-    Queue := QueueByIndex[QueueIndex];
-    for OperIndex := 0 to Queue.Count - 1 do
-    begin
-      Item := Queue.Items[OperIndex];
-    end;
-    Queue.Free;
-  end;
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
   begin
@@ -450,6 +453,9 @@ begin
 
     FreeAndNil(FEventsListeners[Event]);
   end;
+
+  if QueuesCount > 0 then
+    DCDebug('Warning: Destroying Operations Manager with active operations!');
 
   FreeAndNil(FQueues);
 end;
@@ -659,13 +665,7 @@ begin
       Item := TOperationsManagerItem(Queue.Items[OperIndex]);
       if Item.Thread = Thread then
       begin
-        Queue.Remove(Item);
-
-        if Queue.Count = 0 then
-        begin
-          FQueues.Remove(Queue);
-          Queue.Free;
-        end;
+        Item.RemoveFromQueue;
 
         NotifyEvents(Item, [omevOperationRemoved]);
 
