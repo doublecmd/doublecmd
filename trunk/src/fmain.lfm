@@ -1524,11 +1524,6 @@ object frmMain: TfrmMain
       Visible = False
       OnClick = AllOpPctClick
     end
-    object AllOpProgressInd: TMenuItem
-      Caption = '||||||||||||||||||||'
-      RightJustify = True
-      Visible = False
-    end
     object AllOpStart: TMenuItem
       Caption = 'Start'
       RightJustify = True

@@ -159,7 +159,6 @@ type
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
     AllOpPause: TMenuItem;
-    AllOpProgressInd: TMenuItem;
     AllOpCancel: TMenuItem;
     AllOpStart: TMenuItem;
     AllOpPct: TMenuItem;
@@ -4636,16 +4635,14 @@ end;
 
 procedure TfrmMain.AllProgressOnUpdateTimer(Sender: TObject);
 var
-  Pct: string;
-  i, AllProgressPoint: integer;
+  AllProgressPoint: Integer;
 begin
   // Hide progress bar if there are no operations
   if OperationsManager.OperationsCount = 0 then
     begin
-      AllOpPct.Visible:= false;
-      AllOpProgressInd.Visible:= false;
-      AllOpStart.Visible:= false;
-      AllOpPause.Visible:= false;
+      AllOpPct.Visible:= False;
+      AllOpStart.Visible:= False;
+      AllOpPause.Visible:= False;
     end
   else
     begin
@@ -4656,17 +4653,9 @@ begin
         begin
           AllProgressPoint:= Round(OperationsManager.AllProgressPoint*100);
           AllOpPct.Caption:=IntToStr(AllProgressPoint)+' %'; // Show in menu line
-          Pct:='';
-          for i:=0 to 25 do
-          begin
-            if i <=  AllProgressPoint/4 then
-              Pct:=Pct+'|' else Pct:= Pct+'.';
-          end;
-          AllOpProgressInd.Caption:='['+Pct+']';
-          AllOpPct.Visible:= true;
-          AllOpProgressInd.Visible:= true;
-          AllOpStart.Visible:= true;
-          AllOpPause.Visible:= true;
+          AllOpPct.Visible:= True;
+          AllOpStart.Visible:= True;
+          AllOpPause.Visible:= True;
         end;
     end;
   PanelAllProgress.Visible := FOperationsPanel.Visible;
