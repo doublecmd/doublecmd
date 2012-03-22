@@ -217,8 +217,8 @@ resourcestring
   rsDlgAllOpProgress = 'Progress of all operations %d %%';
   rsDlgAllOpComplete = 'All operations completed';
   rsDlgUnknownOperation = 'Unknown operation';
-  rsDlgOpStart = 'Start';
-  rsDlgOpPause = 'Pause';
+  rsDlgOpStart = '&Start';
+  rsDlgOpPause = 'Pau&se';
   rsDlgQueue = 'Queue';
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
