@@ -4642,7 +4642,6 @@ begin
   // Hide progress bar if there are no operations
   if OperationsManager.OperationsCount = 0 then
     begin
-      PanelAllProgress.Visible:=false;
       AllOpPct.Visible:= false;
       AllOpProgressInd.Visible:= false;
       AllOpStart.Visible:= false;
@@ -4651,10 +4650,7 @@ begin
   else
     begin
       if gPanelOfOp = True then
-      begin
         FOperationsPanel.UpdateView;
-        PanelAllProgress.Visible := FOperationsPanel.Visible;
-      end;
 
       if gProgInMenuBar = true then
         begin
@@ -4673,6 +4669,7 @@ begin
           AllOpPause.Visible:= true;
         end;
     end;
+  PanelAllProgress.Visible := FOperationsPanel.Visible;
 end;
 
 procedure TfrmMain.SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);

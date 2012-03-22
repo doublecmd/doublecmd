@@ -28,6 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Forms, Graphics,
+  fFileOpDlg,
   uFileSourceOperation, uOperationsManager;
 
 type
@@ -44,8 +45,11 @@ type
     function GetOperationDescription(Operation: TFileSourceOperation): String;
     procedure GetStateColor(State: TFileSourceOperationState; out ColorFrom, ColorTo: TColor);
     procedure OperationsManagerEvent(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
+    procedure ProgressWindowEvent(OperationHandle: TOperationHandle;
+                                  Event: TOperationProgressWindowEvent);
     procedure StartPauseOperation(Operation: TFileSourceOperation);
     procedure UpdateItems;
+    procedure UpdateVisibility;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -58,8 +62,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LCLProc, Math,
-  fViewOperations, fFileOpDlg,
+  LCLIntf, LCLType, Math,
   uDCUtils, uLng,
   uFileSourceOperationTypes;
 
@@ -163,6 +166,11 @@ begin
   UpdateView;
 end;
 
+procedure TOperationsPanel.ProgressWindowEvent(OperationHandle: TOperationHandle; Event: TOperationProgressWindowEvent);
+begin
+  UpdateVisibility;
+end;
+
 procedure TOperationsPanel.UpdateItems;
 var
   OpManItem: TOperationsManagerItem;
@@ -210,7 +218,8 @@ begin
               GetOperationDescription(OpManItem.Operation) + ' - ' + GetProgressString(100);
             SetSize;
 
-            if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) then
+            if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) and
+               not (OpManItem.Operation.State in [fsosStopping, fsosStopped]) then
               Visibility := True;
           end;
         end;
@@ -226,7 +235,8 @@ begin
           LineEnding + GetOperationDescription(Queue.Items[0].Operation);
         SetSize;
 
-        if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) then
+        if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) and
+           not (Queue.Items[0].Operation.State in [fsosStopping, fsosStopped]) then
           Visibility := True;
       end;
     end;
@@ -234,6 +244,42 @@ begin
 
   ClientHeight := OverallHeight + 2;
   ClientWidth := Max(OverallWidth - HorizontalSpaceBetween, FParentWidth);
+  Visible := Visibility;
+end;
+
+procedure TOperationsPanel.UpdateVisibility;
+var
+  OpManItem: TOperationsManagerItem;
+  QueueIndex, OperIndex: Integer;
+  Queue: TOperationsManagerQueue;
+  Visibility: Boolean = False;
+begin
+  for QueueIndex := 0 to OperationsManager.QueuesCount - 1 do
+  begin
+    Queue := OperationsManager.QueueByIndex[QueueIndex];
+    if Queue.Count > 0 then
+    begin
+      if Queue.Identifier = FreeOperationsQueueId then
+      begin
+        for OperIndex := 0 to Queue.Count - 1 do
+        begin
+          OpManItem := Queue.Items[OperIndex];
+          if Assigned(OpManItem) then
+          begin
+            if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) and
+               not (OpManItem.Operation.State in [fsosStopping, fsosStopped]) then
+              Visibility := True;
+          end;
+        end;
+      end
+      else
+      begin
+        if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) and
+           not (Queue.Items[0].Operation.State in [fsosStopping, fsosStopped]) then
+          Visibility := True;
+      end;
+    end;
+  end;
   Visible := Visibility;
 end;
 
@@ -246,6 +292,8 @@ begin
   OperationsManager.AddEventsListener(
     [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
     @OperationsManagerEvent);
+  TfrmFileOp.AddEventsListener([opwevOpened, opwevClosed],
+    @ProgressWindowEvent);
 end;
 
 destructor TOperationsPanel.Destroy;
@@ -253,6 +301,8 @@ begin
   OperationsManager.RemoveEventsListener(
     [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
     @OperationsManagerEvent);
+  TfrmFileOp.RemoveEventsListener([opwevOpened, opwevClosed],
+    @ProgressWindowEvent);
 
   inherited Destroy;
   FOperations.Free;
@@ -448,7 +498,6 @@ end;
 
 procedure TOperationsPanel.UpdateView;
 begin
-  UpdateItems; //
   Invalidate;
 end;
 
