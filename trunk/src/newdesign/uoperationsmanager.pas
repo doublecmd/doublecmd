@@ -49,6 +49,7 @@ type
     }
     procedure Move(TargetOperation: TOperationHandle; PlaceBefore: Boolean);
     procedure MoveToBottom;
+    procedure MoveToTop;
     procedure SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean = False);
 
     property Handle: TOperationHandle read FHandle;
@@ -92,8 +93,8 @@ type
               Which item should be moved.)
        @param(TargetItem
               SourceItem is moved placed either before or after TargetItem.
-              If TargetItem is @nil then SourceItem is moved to the back
-              of the queue, regardless of PlaceBefore parameter.)
+              If TargetItem is @nil then SourceItem is moved to the front if
+              PlaceBefore is @true and to the back if PlaceBefore is @false.)
        @param(PlaceBefore
               If @true then SourceItem is placed before TargetItem.
               If @false then SourceItem is placed after TargetItem.)
@@ -248,6 +249,11 @@ begin
   Queue.Move(Self, nil, False);
 end;
 
+procedure TOperationsManagerItem.MoveToTop;
+begin
+  Queue.Move(Self, nil, True);
+end;
+
 procedure TOperationsManagerItem.SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean);
 begin
   if (Queue <> NewQueue) and Assigned(NewQueue) then
@@ -335,14 +341,18 @@ end;
 procedure TOperationsManagerQueue.Move(SourceItem, TargetItem: TOperationsManagerItem; PlaceBefore: Boolean);
 var
   FromIndex, ToIndex: Integer;
+  ShouldMove: Boolean = False;
 begin
   FromIndex := GetIndexByHandle(SourceItem.Handle);
   if FromIndex >= 0 then
   begin
     if not Assigned(TargetItem) then
     begin
-      FList.Move(FromIndex, FList.Count - 1);
-      OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
+      if PlaceBefore then
+        ToIndex := 0
+      else
+        ToIndex := FList.Count - 1;
+      ShouldMove := True;
     end
     else
     begin
@@ -359,10 +369,16 @@ begin
           if FromIndex > ToIndex then
             Inc(ToIndex);
         end;
-        FList.Move(FromIndex, ToIndex);
-        OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
+        ShouldMove := True;
       end;
     end;
+  end;
+
+  if ShouldMove then
+  begin
+    FList.Move(FromIndex, ToIndex);
+    RunNextOperation(ToIndex);
+    OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
   end;
 end;
 
