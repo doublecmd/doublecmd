@@ -6266,6 +6266,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr ""
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6354,7 +6358,7 @@ msgid "Copy (%d) %s"
 msgstr ""
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+msgid "All operations completed"
 msgstr ""
 
 #: ulng.rsdlgallopprogress
@@ -6474,31 +6478,24 @@ msgstr "Извличане..."
 msgid "Move file(s)"
 msgstr "Преместване на на файл(ове)"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr ""
-
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr ""
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "Начало"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Сбиване..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr ""
-
-#: ulng.rsdlgqueueout
-msgid "Out"
+#: ulng.rsdlgqueue
+msgid "Queue"
 msgstr ""
 
 #: ulng.rsdlgspeed
@@ -7257,16 +7254,8 @@ msgstr "Без промяна; ВИСША; низша; Първият знак �
 msgid "Aborted"
 msgstr ""
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr ""
-
 #: ulng.rsoperfinished
 msgid "Finished"
-msgstr ""
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
 msgstr ""
 
 #: ulng.rsopernotstarted
@@ -7281,7 +7270,8 @@ msgstr ""
 msgid "Pausing"
 msgstr ""
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr ""
 
@@ -7291,23 +7281,6 @@ msgstr ""
 
 #: ulng.rsoperstarting
 msgid "Starting"
-msgstr ""
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "Начало"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr ""
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr ""
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
 msgstr ""
 
 #: ulng.rsoperstopped

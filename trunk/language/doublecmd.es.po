@@ -6220,6 +6220,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "cuando el archivo exista"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6308,7 +6312,9 @@ msgid "Copy (%d) %s"
 msgstr "Copiar (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "Se han completado todas las operaciones"
 
 #: ulng.rsdlgallopprogress
@@ -6428,32 +6434,27 @@ msgstr "Extrayendo..."
 msgid "Move file(s)"
 msgstr "Mover archivo(s)"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "Info. de operación"
-
 #: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr "Pausa"
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "Comenzar"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Comprimiendo..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr "Dentro"
-
-#: ulng.rsdlgqueueout
-msgid "Out"
-msgstr "Fuera"
+#: ulng.rsdlgqueue
+msgid "Queue"
+msgstr ""
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -7210,17 +7211,9 @@ msgstr "Sin cambios;MAYÚSCULAS;minúsculas;Primer caracter en Mayúsculas; Prim
 msgid "Aborted"
 msgstr "Abortado"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "Autoarrancado"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Finalizado"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "Iniciado manualmente"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7234,7 +7227,8 @@ msgstr "Pausado"
 msgid "Pausing"
 msgstr "Pausando"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "En cola"
 
@@ -7245,23 +7239,6 @@ msgstr "Funcionando"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Iniciando"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "Comenzar"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "Inicio manual"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "Poner en primer lugar"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "Poner en último lugar"
 
 #: ulng.rsoperstopped
 msgid "Stopped"

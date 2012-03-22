@@ -6304,6 +6304,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Wenn die Datei vorhanden ist"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6392,7 +6396,9 @@ msgid "Copy (%d) %s"
 msgstr "Kopiere (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "Alle Vorgänge abgeschlossen"
 
 #: ulng.rsdlgallopprogress
@@ -6512,32 +6518,23 @@ msgstr "Entpacke..."
 msgid "Move file(s)"
 msgstr "Datei(en) verschieben"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "Titel des Vorgangs"
-
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr ""
 
 #: ulng.rsdlgopstart
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr ""
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Packe..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr "Hinein"
-
-#: ulng.rsdlgqueueout
-msgid "Out"
-msgstr "Hinaus"
+#: ulng.rsdlgqueue
+msgid "Queue"
+msgstr ""
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -7296,17 +7293,9 @@ msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe Gross"
 msgid "Aborted"
 msgstr "Abgebrochen"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "Automatisch gestartet"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Beendet"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "Manuell gestartet"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7320,7 +7309,8 @@ msgstr "Pausiert"
 msgid "Pausing"
 msgstr "Pause"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "In Warteschlange"
 
@@ -7331,23 +7321,6 @@ msgstr "Wird ausgeführt"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Wird gestartet"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr ""
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "Manueller Start"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "Warteschlange zuerst"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "Warteschlange zuletzt"
 
 #: ulng.rsoperstopped
 msgid "Stopped"

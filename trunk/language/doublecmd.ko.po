@@ -6370,6 +6370,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "파일이 존재할 때"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6461,7 +6465,9 @@ msgid "Copy (%d) %s"
 msgstr "(%d)를 %s로 복사하기"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "모든 작업이 완료되었습니다."
 
 #: ulng.rsdlgallopprogress
@@ -6583,31 +6589,26 @@ msgstr "압축 푸는 중..."
 msgid "Move file(s)"
 msgstr "파일 이동"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "작업 캡션"
-
 #: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr "중지"
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "시작"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "압축 중..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr ""
-
-#: ulng.rsdlgqueueout
-msgid "Out"
+#: ulng.rsdlgqueue
+msgid "Queue"
 msgstr ""
 
 #: ulng.rsdlgspeed
@@ -7380,17 +7381,9 @@ msgstr "변경 없음;대문자로;소문자로;첫 문자만 대문자로;모�
 msgid "Aborted"
 msgstr "취소됨"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "자동으로 시작됨"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "완료됨"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "수동으로 시작됨"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7404,7 +7397,8 @@ msgstr "중지됨"
 msgid "Pausing"
 msgstr "중지중"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "대기중"
 
@@ -7415,23 +7409,6 @@ msgstr "실행중"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "시작중"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "시작"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "수동 시작"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "대기열의 처음에 넣기"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "대기열의 마지막에 넣기"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
