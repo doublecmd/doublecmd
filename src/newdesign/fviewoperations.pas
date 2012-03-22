@@ -123,6 +123,7 @@ type
     FDraggedOperation: TOperationHandle;
     FMenuOperation: TOperationHandle;
     function GetFocusedItem: TViewBaseItem;
+    procedure MoveWithinQueue(MoveToTop: Boolean);
     procedure SetFocusItem(AOperationHandle: TOperationHandle);
     procedure SetNewQueue(Item: TViewOperationItem; NewQueue: TOperationsManagerQueueIdentifier);
     procedure UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
@@ -490,27 +491,13 @@ begin
 end;
 
 procedure TfrmViewOperations.mnuPutFirstInQueueClick(Sender: TObject);
-var
-  Item: TViewBaseItem;
-  OpManItem: TOperationsManagerItem;
 begin
-  Item := GetFocusedItem;
-  if Assigned(Item) and (Item is TViewOperationItem) then
-  begin
-    OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
-    if Assigned(OpManItem) then
-    begin
-      if OpManItem.Queue.Identifier <> FreeOperationsQueueId then
-      begin
-        // TODO: Move within queue
-      end;
-    end;
-  end;
+  MoveWithinQueue(True);
 end;
 
 procedure TfrmViewOperations.mnuPutLastInQueueClick(Sender: TObject);
 begin
-
+  MoveWithinQueue(False);
 end;
 
 procedure TfrmViewOperations.mnuShowDetachedClick(Sender: TObject);
@@ -780,6 +767,28 @@ begin
     Result := TViewBaseItem(Node.Data)
   else
     Result := nil;
+end;
+
+procedure TfrmViewOperations.MoveWithinQueue(MoveToTop: Boolean);
+var
+  Item: TViewBaseItem;
+  OpManItem: TOperationsManagerItem;
+begin
+  Item := GetFocusedItem;
+  if Assigned(Item) and (Item is TViewOperationItem) then
+  begin
+    OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
+    if Assigned(OpManItem) then
+    begin
+      if OpManItem.Queue.Identifier <> FreeOperationsQueueId then
+      begin
+        if MoveToTop then
+          OpManItem.MoveToTop
+        else
+          OpManItem.MoveToBottom;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmViewOperations.SetFocusItem(AOperationHandle: TOperationHandle);
