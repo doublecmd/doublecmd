@@ -26,6 +26,14 @@ type
 
   TFileOpDlgLook = set of (fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb);
 
+  TOperationProgressWindowEvent =
+    (opwevOpened,
+     opwevClosed);
+
+  TOperationProgressWindowEvents = set of TOperationProgressWindowEvent;
+
+  TOperationProgressWindowEventProc = procedure(OperationHandle: TOperationHandle;
+                                                Event: TOperationProgressWindowEvent) of object;
 
   { TfrmFileOp }
 
@@ -64,6 +72,7 @@ type
     procedure OnUpdateTimer(Sender: TObject);
 
     procedure InitializeControls(FileOpDlgLook: TFileOpDlgLook);
+    procedure NotifyEvents(Events: TOperationProgressWindowEvents);
     procedure SetPauseGlyph;
     procedure SetPlayGlyph;
     procedure UpdatePauseStartButton(OperationState: TFileSourceOperationState);
@@ -90,11 +99,15 @@ type
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
 
   public
-    // Change to override later.
-    constructor Create(OperationHandle: TOperationHandle); overload;
+    constructor Create(OperationHandle: TOperationHandle); reintroduce;
     destructor Destroy; override;
 
     function CloseQuery: Boolean; override;
+
+    class procedure AddEventsListener(Events: TOperationProgressWindowEvents;
+                                      FunctionToCall: TOperationProgressWindowEventProc);
+    class procedure RemoveEventsListener(Events: TOperationProgressWindowEvents;
+                                         FunctionToCall: TOperationProgressWindowEventProc);
 
     class function IsOpenedFor(AOperationHandle: TOperationHandle): Boolean;
     class procedure ShowFor(AOperationHandle: TOperationHandle);
@@ -122,9 +135,41 @@ uses
    uFileSourceOperationMessageBoxesUI
    ;
 
+type
+  PEventsListItem = ^TEventsListItem;
+  TEventsListItem = record
+    EventFunction: TOperationProgressWindowEventProc;
+  end;
+
 var
   OpenedForms: TFPList;
   OpenedHandles: TFPList;
+  EventsListeners: array[TOperationProgressWindowEvent] of TFPList;
+
+procedure Initialize;
+var
+  Event: TOperationProgressWindowEvent;
+begin
+  OpenedForms := TFPList.Create;
+  OpenedHandles := TFPList.Create;
+  for Event := Low(EventsListeners) to High(EventsListeners) do
+    EventsListeners[Event] := TFPList.Create;
+end;
+
+procedure Finalize;
+var
+  Event: TOperationProgressWindowEvent;
+  Item: PEventsListItem;
+begin
+  for Event := Low(EventsListeners) to High(EventsListeners) do
+  begin
+    for Item in EventsListeners[Event] do
+      Dispose(Item);
+    FreeAndNil(EventsListeners[Event]);
+  end;
+  OpenedForms.Free;
+  OpenedHandles.Free;
+end;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 var
@@ -175,6 +220,7 @@ begin
   i := OpenedHandles.Remove(Pointer(FOperationHandle));
   if i >= 0 then
     OpenedForms.Delete(i);
+  NotifyEvents([opwevClosed]);
 end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
@@ -219,21 +265,22 @@ begin
     end;
 
     UpdatePauseStartButton(OpManItem.Operation.State);
+
+    FUpdateTimer := TTimer.Create(Self);
+    FUpdateTimer.Interval := 100;
+    FUpdateTimer.OnTimer := @OnUpdateTimer;
+    FUpdateTimer.Enabled := True;
+
+    if OpenedHandles.IndexOf(Pointer(FOperationHandle)) < 0 then
+    begin
+      OpenedForms.Add(Self);
+      OpenedHandles.Add(Pointer(FOperationHandle));
+      NotifyEvents([opwevOpened]);
+    end;
   end
   else
   begin
     Caption := 'Invalid operation';
-  end;
-
-  FUpdateTimer := TTimer.Create(Self);
-  FUpdateTimer.Interval := 100;
-  FUpdateTimer.OnTimer := @OnUpdateTimer;
-  FUpdateTimer.Enabled := True;
-
-  if OpenedHandles.IndexOf(Pointer(FOperationHandle)) < 0 then
-  begin
-    OpenedForms.Add(Self);
-    OpenedHandles.Add(Pointer(FOperationHandle));
   end;
 end;
 
@@ -241,21 +288,25 @@ constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
 var
   OpManItem: TOperationsManagerItem;
 begin
-  FOperationHandle := OperationHandle;
+  FOperationHandle := InvalidOperationHandle;
 
   inherited Create(Application);
 
   AutoSize := True;
 
-  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  OpManItem := OperationsManager.GetItemByHandle(OperationHandle);
   if Assigned(OpManItem) then
   begin
     FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
     OpManItem.Operation.AddUserInterface(FUserInterface);
     FStopOperationOnClose := True;
+    FOperationHandle := OperationHandle;
   end
   else
+  begin
     FUserInterface := nil;
+    Close;
+  end;
 end;
 
 destructor TfrmFileOp.Destroy;
@@ -283,11 +334,42 @@ begin
   if FStopOperationOnClose then
   begin
     OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-    if Assigned(OpManItem) and (OpManItem.Operation.State <> fsosStopped) then
-    begin
-      Result := False;
+    if Assigned(OpManItem) then
       OpManItem.Operation.Stop;
-    end
+  end;
+end;
+
+class procedure TfrmFileOp.AddEventsListener(Events: TOperationProgressWindowEvents; FunctionToCall: TOperationProgressWindowEventProc);
+var
+  Item: PEventsListItem;
+  Event: TOperationProgressWindowEvent;
+begin
+  for Event in Events do
+  begin
+    New(Item);
+    Item^.EventFunction := FunctionToCall;
+    EventsListeners[Event].Add(Item);
+  end;
+end;
+
+class procedure TfrmFileOp.RemoveEventsListener(Events: TOperationProgressWindowEvents; FunctionToCall: TOperationProgressWindowEventProc);
+var
+  Item: PEventsListItem;
+  Event: TOperationProgressWindowEvent;
+  i: Integer;
+begin
+  for Event in Events do
+  begin
+    for i := 0 to EventsListeners[Event].Count - 1 do
+    begin
+      Item := PEventsListItem(EventsListeners[Event].Items[i]);
+      if Item^.EventFunction = FunctionToCall then
+      begin
+        EventsListeners[Event].Delete(i);
+        Dispose(Item);
+        Break;  // break from one for only
+      end;
+    end;
   end;
 end;
 
@@ -372,6 +454,7 @@ begin
     // if CloseOnFinish then
     Close;
     // if BeepOnFinish then Beep;
+    FStopOperationOnClose := False;
   end;
 end;
 
@@ -396,6 +479,16 @@ begin
   lblEstimated.Caption := #32;
 
   Hint := Caption;
+end;
+
+procedure TfrmFileOp.NotifyEvents(Events: TOperationProgressWindowEvents);
+var
+  Item: PEventsListItem;
+  Event: TOperationProgressWindowEvent;
+begin
+  for Event in Events do
+    for Item in EventsListeners[Event] do
+      Item^.EventFunction(FOperationHandle, Event);
 end;
 
 procedure TfrmFileOp.SetPauseGlyph;
@@ -698,11 +791,9 @@ begin
 end;
 
 initialization
-  OpenedForms := TFPList.Create;
-  OpenedHandles := TFPList.Create;
+  Initialize;
 
 finalization
-  OpenedForms.Free;
-  OpenedHandles.Free;
+  Finalize;
 
 end.
