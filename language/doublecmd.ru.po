@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-03-10 13:00+0400\n"
+"PO-Revision-Date: 2012-03-22 19:46+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -624,7 +624,7 @@ msgstr "Соединиться с:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
 msgid "Add To Queue"
-msgstr ""
+msgstr "В очередь"
 
 #: tfrmcopydlg.btncancel.caption
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -4239,7 +4239,7 @@ msgstr "Показывать квадратные скобки вокруг им
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
 msgid "Highlight new and updated files"
-msgstr ""
+msgstr "Подсвечивать новые и измененные файлы"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -4727,7 +4727,7 @@ msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"
-msgstr ""
+msgstr "Прокрутка"
 
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
@@ -5210,19 +5210,19 @@ msgstr ""
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
-msgstr ""
+msgstr "К"
 
 #: tfrmquicksearch.sbdirectories.hint
 msgid "Directories"
-msgstr ""
+msgstr "Каталоги"
 
 #: tfrmquicksearch.sbfiles.caption
 msgid "F"
-msgstr ""
+msgstr "Ф"
 
 #: tfrmquicksearch.sbfiles.hint
 msgid "Files"
-msgstr ""
+msgstr "Файлы"
 
 #: tfrmquicksearch.sbmatchbeginning.caption
 msgid "{"
@@ -6178,6 +6178,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Если файл существует"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr "Работать в фоне (отдельное соединение)"
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6266,7 +6270,9 @@ msgid "Copy (%d) %s"
 msgstr "Копия (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "Все операции завершены"
 
 #: ulng.rsdlgallopprogress
@@ -6387,32 +6393,27 @@ msgstr "Распаковка..."
 msgid "Move file(s)"
 msgstr "Переместить файл(ы)"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "Заголовок операции"
-
 #: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr "Пауза"
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "Старт"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Упаковка..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr "+"
-
-#: ulng.rsdlgqueueout
-msgid "Out"
-msgstr "-"
+#: ulng.rsdlgqueue
+msgid "Queue"
+msgstr "Очередь"
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -7166,17 +7167,9 @@ msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С про�
 msgid "Aborted"
 msgstr "Прервано"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "Запущено автоматически"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Завершено"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "Ручной пуск"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7190,7 +7183,8 @@ msgstr "На паузе"
 msgid "Pausing"
 msgstr "Установка на паузу"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "В очереди"
 
@@ -7201,23 +7195,6 @@ msgstr "Выполняется"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Запускается"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "Старт"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "Ручной старт"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "В очередь (первым)"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "В очередь (последним)"
 
 #: ulng.rsoperstopped
 msgid "Stopped"

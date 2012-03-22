@@ -6169,6 +6169,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Pokud soubor existuje"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6257,7 +6261,9 @@ msgid "Copy (%d) %s"
 msgstr "Kopírovat (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "Všechny operace dokončeny"
 
 #: ulng.rsdlgallopprogress
@@ -6377,32 +6383,27 @@ msgstr "Dekomprese..."
 msgid "Move file(s)"
 msgstr "Přesunout soubor(y)"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "Titulek operace"
-
 #: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr "Pozastavit"
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "Začít"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Komprese..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr "V"
-
-#: ulng.rsdlgqueueout
-msgid "Out"
-msgstr "Ven"
+#: ulng.rsdlgqueue
+msgid "Queue"
+msgstr ""
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -7157,17 +7158,9 @@ msgstr "Neměnit;VELKÁ;malá;1. znak velký;První znak každého slov velký"
 msgid "Aborted"
 msgstr "Přerušeno"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "Automaticky spuštěno"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Hotovo"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "Ručně začato"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7181,7 +7174,8 @@ msgstr "Pozastaveno"
 msgid "Pausing"
 msgstr "Pozastavuji"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "Ve frontě"
 
@@ -7192,23 +7186,6 @@ msgstr "Běží"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Spouštím"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "Začátek"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "Ruční začátek"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "Zařadit jako první"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "Zařadit jako poslední"
 
 #: ulng.rsoperstopped
 msgid "Stopped"

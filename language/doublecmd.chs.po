@@ -6264,6 +6264,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr ""
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6352,7 +6356,7 @@ msgid "Copy (%d) %s"
 msgstr ""
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+msgid "All operations completed"
 msgstr ""
 
 #: ulng.rsdlgallopprogress
@@ -6472,31 +6476,22 @@ msgstr "解压缩..."
 msgid "Move file(s)"
 msgstr "移动文件"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr ""
-
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr ""
 
 #: ulng.rsdlgopstart
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr ""
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "打包..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr ""
-
-#: ulng.rsdlgqueueout
-msgid "Out"
+#: ulng.rsdlgqueue
+msgid "Queue"
 msgstr ""
 
 #: ulng.rsdlgspeed
@@ -7256,17 +7251,9 @@ msgstr "不修改;大写;小写;首字大写;"
 msgid "Aborted"
 msgstr "终止"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "自动开始"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "已结束"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr ""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7280,7 +7267,8 @@ msgstr "暂停"
 msgid "Pausing"
 msgstr "暂停中"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "队列"
 
@@ -7291,23 +7279,6 @@ msgstr "运行中"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "正开始"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr ""
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr ""
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr ""
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr ""
 
 #: ulng.rsoperstopped
 msgid "Stopped"

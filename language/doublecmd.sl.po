@@ -6019,6 +6019,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Če datoteka že obstaja,"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6107,7 +6111,9 @@ msgid "Copy (%d) %s"
 msgstr "Kopiraj (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "Vsa opravila so končana."
 
 #: ulng.rsdlgallopprogress
@@ -6227,32 +6233,27 @@ msgstr "Poteka odpakiranje ..."
 msgid "Move file(s)"
 msgstr "Premakni datoteke"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "Naziv opravila"
-
 #: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr "Premor"
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "Začni"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Pakiranje ..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr "V vrsto"
-
-#: ulng.rsdlgqueueout
-msgid "Out"
-msgstr "Iz vrste"
+#: ulng.rsdlgqueue
+msgid "Queue"
+msgstr ""
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -7005,17 +7006,9 @@ msgstr "Brez spremembe;VELIKE ČRKE;male črke;Prva črka je velika;Prva Črka V
 msgid "Aborted"
 msgstr "Preklicano"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "Samodejno začeto"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Končano"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "Začeto ročno"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7029,7 +7022,8 @@ msgstr "V premoru"
 msgid "Pausing"
 msgstr "V premoru"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "V vrsti"
 
@@ -7040,23 +7034,6 @@ msgstr "Zagnano"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Začenjanje"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "Začni"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "Opravilo začni ročno"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "Postavi na začetek vrste opravil"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "Postavi na konec vrste opravil"
 
 #: ulng.rsoperstopped
 msgid "Stopped"

@@ -6153,6 +6153,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Якщо файл існує"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6241,7 +6245,9 @@ msgid "Copy (%d) %s"
 msgstr "Копіювати (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "Всі операції завершено"
 
 #: ulng.rsdlgallopprogress
@@ -6363,32 +6369,27 @@ msgctxt "ulng.rsdlgmv"
 msgid "Move file(s)"
 msgstr "Переміщення файлу(ів)"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "Заголовок операції"
-
 #: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr "Пауза"
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "Старт"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Упакування..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr "В"
-
-#: ulng.rsdlgqueueout
-msgid "Out"
-msgstr "Із"
+#: ulng.rsdlgqueue
+msgid "Queue"
+msgstr ""
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -7144,17 +7145,9 @@ msgstr "Без змін;ПРОПИСНІ;рядкові;З Прописної;К
 msgid "Aborted"
 msgstr "Перервано"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "Автозапуск"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Завершено"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "Запущено вручну"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7168,7 +7161,8 @@ msgstr "Призупинено"
 msgid "Pausing"
 msgstr "Призупинення"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "У черзі"
 
@@ -7179,23 +7173,6 @@ msgstr "Виконується"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Запускається"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "Старт"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "Ручний старт"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "В першу чергу"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "В останню чергу"
 
 #: ulng.rsoperstopped
 msgid "Stopped"

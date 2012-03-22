@@ -3667,8 +3667,7 @@ msgid "Allow only one copy of DC at a time"
 msgstr "Zezwalaj na tylko jedną kopię DC"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
-msgid ""
-"Here you can enter one or more drives or mount points, separated by \";\"."
+msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Tu można wpisać jeden lub więcej dysków oddzielonych średnikiem \";\"."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
@@ -3983,8 +3982,7 @@ msgstr "Pokaż pasek postępu podczas kopiowania/przenoszenia"
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "Skip file operations errors and write them to log window"
-msgstr ""
-"Komunikaty o błędach przy operacjach na plikach pokazuj tylko w oknie logów"
+msgstr "Komunikaty o błędach przy operacjach na plikach pokazuj tylko w oknie logów"
 
 #: tfrmoptionsfileoperations.gbcopybuffersize.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.GBCOPYBUFFERSIZE.CAPTION"
@@ -4163,9 +4161,7 @@ msgstr "Pokaż pliki ukryte/systemowe"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
-msgid ""
-"When selecting files with <SPACEBAR>, move down to next file (as with "
-"<INSERT>)"
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Klawisz <spacja> przenosi do następnego pliku (tak jak <INSERT>)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
@@ -4675,12 +4671,8 @@ msgstr "Dostosuj"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid ""
-"Search plugins allow to use alternative search algorithms or external tools "
-"(like \"locate\", etc.)"
-msgstr ""
-"Zezwalaj na szukanie wtyczek wg alternatwnych algorytmów i narzędzi "
-"zewnętrznych (np. \"locate\")"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Zezwalaj na szukanie wtyczek wg alternatwnych algorytmów i narzędzi zewnętrznych (np. \"locate\")"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
@@ -4689,30 +4681,18 @@ msgstr "Obsługa archiwów z użyciem wtyczek."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid ""
-"Content plugins allow to display extended file details like mp3 tags or "
-"image attributes in file lists, or use them in search and multi-rename tool"
-msgstr ""
-"Wtyczki pozwalające wyświetlać dodatkowe informacje o plikach (np. tagi mp3, "
-"atrybuty grafiki) w panelach oraz przy szukaniu i zamianie."
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Wtyczki pozwalające wyświetlać dodatkowe informacje o plikach (np. tagi mp3, atrybuty grafiki) w panelach oraz przy szukaniu i zamianie."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
-msgid ""
-"File system plugins allow access to disks inaccessible by operating system "
-"or to external devices like Palm/PocketPC."
-msgstr ""
-"Wtyczki obsługujące niedostępne dla systemu dyski i urządzenia zewnętrzne "
-"(np. Palm/PocketPC)"
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Wtyczki obsługujące niedostępne dla systemu dyski i urządzenia zewnętrzne (np. Palm/PocketPC)"
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid ""
-"Viewer plugins allow to display file formats like images, spreadsheets, "
-"databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr ""
-"Wtyczki pozwalające wyświetlić za pomocą przeglądarki (listera, komendą F3) "
-"pliki takie jak np. grafika, bazy danych akusze kalkulacyjne"
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Wtyczki pozwalające wyświetlić za pomocą przeglądarki (listera, komendą F3) pliki takie jak np. grafika, bazy danych akusze kalkulacyjne"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -4943,8 +4923,7 @@ msgstr "Nie pokazuj"
 #: tfrmoptionstooltips.rbtooltiponlylarge.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
 msgid "Show tool tip for files in file panel if truncated"
-msgstr ""
-"Pokazuj podpowiedzi dla plików jeśli panel plików nie jest widoczny w całości"
+msgstr "Pokazuj podpowiedzi dla plików jeśli panel plików nie jest widoczny w całości"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -6084,6 +6063,10 @@ msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Gdy plik istnieje"
 
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -6172,7 +6155,9 @@ msgid "Copy (%d) %s"
 msgstr "Kopiuj (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-msgid "All operations is complete"
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
 msgstr "Wszystkie operacje zakończone"
 
 #: ulng.rsdlgallopprogress
@@ -6292,32 +6277,27 @@ msgstr "Rozpakowywanie..."
 msgid "Move file(s)"
 msgstr "Przenieś plik/i"
 
-#: ulng.rsdlgopcaption
-msgid "Caption of operation"
-msgstr "Opis operacji"
-
 #: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
-msgid "Pause"
+msgid "Pau&se"
 msgstr "Pauza"
 
 #: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
-msgid "Start"
+msgid "&Start"
 msgstr "Start"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Pakowanie..."
 
-#: ulng.rsdlgqueuein
-msgctxt "ulng.rsdlgqueuein"
-msgid "In"
-msgstr "Wejście"
-
-#: ulng.rsdlgqueueout
-msgid "Out"
-msgstr "Wyjście"
+#: ulng.rsdlgqueue
+msgid "Queue"
+msgstr ""
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -6800,12 +6780,8 @@ msgid "File operations active"
 msgstr "Aktywne operacje na plikach"
 
 #: ulng.rsmsgfileoperationsactivelong
-msgid ""
-"Some file operations have not yet finished. Closing Double Commander may "
-"result in data loss."
-msgstr ""
-"Niektóre operacje na plikach nie zostały zakończone. Zamknięcie Double "
-"Commandera może spowodować utratę danych."
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr "Niektóre operacje na plikach nie zostały zakończone. Zamknięcie Double Commandera może spowodować utratę danych."
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -7065,27 +7041,16 @@ msgid "Wipe selected \"%s\"?"
 msgstr "Zamazać \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
-msgid ""
-"No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word "
-"Uppercase;"
-msgstr ""
-"Bez zmian;WIELKIMI ZNAKAMI;małymi znakami;Pierwszy wielki;Wszystkie Pierwsze;"
+msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
+msgstr "Bez zmian;WIELKIMI ZNAKAMI;małymi znakami;Pierwszy wielki;Wszystkie Pierwsze;"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Przerwane"
 
-#: ulng.rsoperautostart
-msgid "Auto-started"
-msgstr "Automatycznie wystatrowany"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Zakończony"
-
-#: ulng.rsopermanualstart
-msgid "Manually started"
-msgstr "Uruchomiony ręcznie"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7099,7 +7064,8 @@ msgstr "Pauza"
 msgid "Pausing"
 msgstr "Pauzowanie"
 
-#: ulng.rsoperqueue
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
 msgid "Queued"
 msgstr "W kolejce"
 
@@ -7110,23 +7076,6 @@ msgstr "Działające"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Uruchamianie"
-
-#: ulng.rsoperstartstateautostart
-msgctxt "ulng.rsoperstartstateautostart"
-msgid "Start"
-msgstr "Start"
-
-#: ulng.rsoperstartstatemanualstart
-msgid "Manual start"
-msgstr "Ręczny start"
-
-#: ulng.rsoperstartstatequeuefirst
-msgid "Queue as first"
-msgstr "Kolejkuj jako pierwszy"
-
-#: ulng.rsoperstartstatequeuelast
-msgid "Queue as last"
-msgstr "Kolejkuj jako ostatni"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
@@ -7240,12 +7189,8 @@ msgid "Add shortcut to delete file"
 msgstr "Dadaj skrót do kasowania pliku"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-msgid ""
-"Shortcut %s for cm_Delete will be registered, so it can be used to reverse "
-"this setting."
-msgstr ""
-"Skrót %s do cm_Delete zostanie dodany, a więc może zostać używany do "
-"odwracania tego ustawienia."
+msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgstr "Skrót %s do cm_Delete zostanie dodany, a więc może zostać używany do odwracania tego ustawienia."
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
@@ -7260,20 +7205,12 @@ msgid "Command"
 msgstr "Polecenia"
 
 #: ulng.rsopthotkeysdeleteshortcutalreadyassigned
-msgid ""
-"Shortcut %s for cm_Delete is already assigned, so it cannot be used to "
-"reverse this setting."
-msgstr ""
-"Skrót %s do cm_Delete już istnieje, a więc może zostać używany do odwracania "
-"tego ustawienia."
+msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
+msgstr "Skrót %s do cm_Delete już istnieje, a więc może zostać używany do odwracania tego ustawienia."
 
 #: ulng.rsopthotkeysdeleteshortcutwrongparams
-msgid ""
-"Current shortcut %s for cm_Delete has parameters that don't depend on this "
-"setting, so the setting will have no effect."
-msgstr ""
-"Skrót %s do cm_Delete posiada parametry nie zależące od tego ustawienia, a "
-"więc może te ustawienie nie będzie miało żadnego efektu."
+msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
+msgstr "Skrót %s do cm_Delete posiada parametry nie zależące od tego ustawienia, a więc może te ustawienie nie będzie miało żadnego efektu."
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7485,26 +7422,16 @@ msgid "Registered for"
 msgstr "Skojarzenia"
 
 #: ulng.rsoptsortcasesens
-msgid ""
-"not case sensitive;according to locale settings (aAbBcC);first upper then "
-"lower case (ABCabc)"
-msgstr ""
-"nie uwzględnia wielkości liter; według ustawień lokalnych (aAbBcC); napierw "
-"wielkie, potem małe litery (ABCabc)"
+msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr "nie uwzględnia wielkości liter; według ustawień lokalnych (aAbBcC); napierw wielkie, potem małe litery (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
-msgid ""
-"sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
-"według nazwy i pokaż pierwsze; sortuj jako pliki i pokaż pierwsze; sortuj "
-"jako pliki"
+msgid "sort by name and show first;sort like files and show first;sort like files"
+msgstr "według nazwy i pokaż pierwsze; sortuj jako pliki i pokaż pierwsze; sortuj jako pliki"
 
 #: ulng.rsoptsortmethod
-msgid ""
-"Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr ""
-"Alfabetycznie, uwzględniając akcenty;Naturalne sortowanie: alfabetycznie i "
-"numery"
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr "Alfabetycznie, uwzględniając akcenty;Naturalne sortowanie: alfabetycznie i numery"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -7698,14 +7625,8 @@ msgid "Viewer"
 msgstr "Lister"
 
 #: ulng.rsunhandledexceptionmessage
-msgid ""
-"Please report this error to the bug tracker with a description of what you "
-"were doing and the following file:%sPress %s to continue or %s to abort the "
-"program."
-msgstr ""
-"Proszę zgłosić ten błąd do systemu śledzenia błędów wraz z opisem "
-"wcześniejszych działań i następującym plikiem:%sWciśnij %s aby kontynuować "
-"lub %s aby zakończyć program."
+msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr "Proszę zgłosić ten błąd do systemu śledzenia błędów wraz z opisem wcześniejszych działań i następującym plikiem:%sWciśnij %s aby kontynuować lub %s aby zakończyć program."
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
@@ -7724,3 +7645,4 @@ msgstr "Kodowanie"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nie znaleziony!"
+
