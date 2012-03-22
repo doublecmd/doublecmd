@@ -763,6 +763,13 @@ begin
      gMouseSelectionEnabled and (gMouseSelectionButton = 1) then
     begin
       Node := dgPanel.GetNodeAt(X, Y);
+      if not Assigned(Node) then
+      begin
+        if Y < dgPanel.GetHeaderHeight then
+          Node := dgPanel.GetFirstNoInit
+        else
+          Node := dgPanel.GetLastNoInit;
+      end;
       if dgPanel.FocusedNode <> Node then // if new row index
         begin
           tmContextMenu.Enabled:= False; // stop context menu timer
