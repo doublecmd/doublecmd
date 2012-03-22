@@ -719,12 +719,13 @@ begin
             // There are no free operations and item was dropped at the top of the list
             // on some queue. Create a free operations queue and move to it.
             TargetQueueId := FreeOperationsQueueId;
+            TargetQueue := OperationsManager.GetOrCreateQueue(TargetQueueId);
           end
           else
           begin
             TargetQueueId := QueueItem.FQueueIdentifier;
+            TargetQueue := OperationsManager.QueueByIdentifier[TargetQueueId];
           end;
-          TargetQueue := OperationsManager.QueueByIdentifier[TargetQueueId];
           SourceOpManItem.SetQueue(TargetQueue);
         end
         else if (TargetItem is TViewOperationItem) and
