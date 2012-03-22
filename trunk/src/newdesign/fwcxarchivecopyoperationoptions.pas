@@ -22,7 +22,7 @@ type
     procedure SetOperationOptions(CopyInOperation: TWcxArchiveCopyInOperation); overload;
     procedure SetOperationOptions(CopyOutOperation: TWcxArchiveCopyOutOperation); overload;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
     procedure SaveOptions; override;
     procedure SetOperationOptions(Operation: TObject); override;
   end;
@@ -36,7 +36,7 @@ uses
 
 { TWcxArchiveCopyOperationOptionsUI }
 
-constructor TWcxArchiveCopyOperationOptionsUI.Create(AOwner: TComponent);
+constructor TWcxArchiveCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
 
@@ -88,4 +88,4 @@ begin
 end;
 
 end.
-
+

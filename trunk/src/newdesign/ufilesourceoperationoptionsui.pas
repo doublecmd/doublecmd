@@ -14,6 +14,7 @@ type
 
   TFileSourceOperationOptionsUI = class(TFrame)
   public
+    constructor Create(AOwner: TComponent; AFileSource: IInterface); virtual;
     class function GetOptionsClass: TFileSourceOperationOptionsUIClass;
     procedure SaveOptions; virtual; abstract;
     {en
@@ -25,6 +26,11 @@ type
 implementation
 
 { TFileSourceOperationOptionsUI }
+
+constructor TFileSourceOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
+begin
+  inherited Create(AOwner);
+end;
 
 class function TFileSourceOperationOptionsUI.GetOptionsClass: TFileSourceOperationOptionsUIClass;
 begin

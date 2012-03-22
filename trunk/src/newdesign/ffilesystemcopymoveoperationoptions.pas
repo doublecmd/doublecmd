@@ -32,14 +32,14 @@ type
     procedure SetOperationOptions(CopyOperation: TFileSystemCopyOperation); overload;
     procedure SetOperationOptions(MoveOperation: TFileSystemMoveOperation); overload;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
     procedure SaveOptions; override;
     procedure SetOperationOptions(Operation: TObject); override;
   end;
 
   TFileSystemCopyOperationOptionsUI = class(TFileSystemCopyMoveOperationOptionsUI)
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
   end;
 
   TFileSystemMoveOperationOptionsUI = class(TFileSystemCopyMoveOperationOptionsUI)
@@ -54,7 +54,7 @@ uses
 
 { TFileSystemCopyMoveOperationOptionsUI }
 
-constructor TFileSystemCopyMoveOperationOptionsUI.Create(AOwner: TComponent);
+constructor TFileSystemCopyMoveOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
 
@@ -193,7 +193,7 @@ end;
 
 { TFileSystemCopyOperationOptionsUI }
 
-constructor TFileSystemCopyOperationOptionsUI.Create(AOwner: TComponent);
+constructor TFileSystemCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
   cbDropReadOnlyFlag.Visible := True;
@@ -201,4 +201,4 @@ begin
 end;
 
 end.
-
+

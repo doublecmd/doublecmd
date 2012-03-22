@@ -6,6 +6,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus, KASPathEdit,
+  uFileSource,
   uFileViewNotebook,
   uFileSourceOperation,
   uFileSourceOperationOptionsUI,
@@ -54,6 +55,7 @@ type
     FDialogType: TCopyMoveDlgType;
     FQueueIdentifier: TOperationsManagerQueueIdentifier;
     noteb: TFileViewNotebook;
+    FFileSource: IFileSource;
     FOperationOptionsUIClass: TFileSourceOperationOptionsUIClass;
     FOperationOptionsUI: TFileSourceOperationOptionsUI;
 
@@ -67,6 +69,7 @@ type
 
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
+                       AFileSource: IFileSource;
                        AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass); reintroduce;
     constructor Create(TheOwner: TComponent); override;
     procedure SetOperationOptions(Operation: TFileSourceOperation);
@@ -96,9 +99,11 @@ const
   HotkeysCategory = 'Copy/Move Dialog';
 
 constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
+                               AFileSource: IFileSource;
                                AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass);
 begin
   FDialogType := DialogType;
+  FFileSource := AFileSource;
   FOperationOptionsUIClass := AOperationOptionsUIClass;
   FQueueIdentifier := FreeOperationsQueueId;
   FCommands := TFormCommands.Create(Self);
@@ -107,7 +112,7 @@ end;
 
 constructor TfrmCopyDlg.Create(TheOwner: TComponent);
 begin
-  Create(TheOwner, cmdtCopy, nil);
+  Create(TheOwner, cmdtCopy, nil, nil);
 end;
 
 procedure TfrmCopyDlg.SetOperationOptions(Operation: TFileSourceOperation);
@@ -337,7 +342,7 @@ begin
   // Operation options.
   if Assigned(FOperationOptionsUIClass) then
   begin
-    FOperationOptionsUI := FOperationOptionsUIClass.Create(Self);
+    FOperationOptionsUI := FOperationOptionsUIClass.Create(Self, FFileSource);
     FOperationOptionsUI.Parent := grpOptions;
   end
   else
