@@ -13,6 +13,7 @@ type
 
   TViewBaseItem = class;
   TViewBaseItemClick = procedure(Item: TViewBaseItem; Button: TMouseButton; Shift: TShiftState; const Pt: TPoint) of object;
+  TViewBaseItemContextMenu = procedure(Item: TViewBaseItem; const Point: TPoint) of object;
   TViewBaseItemSelected = procedure(Item: TViewBaseItem) of object;
 
   { TViewBaseItem }
@@ -20,6 +21,7 @@ type
   TViewBaseItem = class
   private
     FOnClick: TViewBaseItemClick;
+    FOnContextMenu: TViewBaseItemContextMenu;
     FOnSelected: TViewBaseItemSelected;
     FTreeNode: TTreeNode;
     procedure DrawThemedBackground(Canvas: TCanvas; Element: TThemedTreeview; ARect: TRect);
@@ -31,9 +33,13 @@ type
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); virtual; abstract;
     function GetBackgroundColor: TColor; virtual; abstract;
     function GetHeight(Canvas: TCanvas): Integer; virtual; abstract;
+    procedure KeyDown(var Key: Word; Shift: TShiftState); virtual;
     procedure Selected; virtual;
+    procedure StartPause; virtual; abstract;
+    procedure Stop; virtual; abstract;
     property Height: Integer read GetHeight;
     property OnClick: TViewBaseItemClick read FOnClick write FOnClick;
+    property OnContextMenu: TViewBaseItemContextMenu read FOnContextMenu write FOnContextMenu;
     property OnSelected: TViewBaseItemSelected read FOnSelected write FOnSelected;
   end;
 
@@ -48,17 +54,17 @@ type
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); override;
     function GetBackgroundColor: TColor; override;
     function GetHeight(Canvas: TCanvas): Integer; override;
+    procedure StartPause; override;
+    procedure Stop; override;
   end;
 
   TViewOperationItem = class;
-  TOpItemOnStatusIconClick = procedure(Item: TViewOperationItem) of object;
 
   { TViewOperationItem }
 
   TViewOperationItem = class(TViewBaseItem)
   private
     FOperationHandle: TOperationHandle;
-    FOnStatusIconClick: TOpItemOnStatusIconClick;
     FTextHeight: Integer;
   public
     constructor Create(ANode: TTreeNode; AOperationHandle: TOperationHandle); reintroduce;
@@ -66,7 +72,8 @@ type
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); override;
     function GetHeight(Canvas: TCanvas): Integer; override;
     function GetBackgroundColor: TColor; override;
-    property OnStatusIconClick: TOpItemOnStatusIconClick read FOnStatusIconClick write FOnStatusIconClick;
+    procedure StartPause; override;
+    procedure Stop; override;
   end;
 
   { TfrmViewOperations }
@@ -98,10 +105,9 @@ type
     procedure mnuPutFirstInQueueClick(Sender: TObject);
     procedure mnuPutLastInQueueClick(Sender: TObject);
     procedure mnuShowDetachedClick(Sender: TObject);
-    procedure OnOperationItemClick(Item: TViewBaseItem; Button: TMouseButton; Shift: TShiftState; const Pt: TPoint);
+    procedure OnOperationItemContextMenu(Item: TViewBaseItem; const Point: TPoint);
     procedure OnOperationItemSelected(Item: TViewBaseItem);
     procedure OnQueueItemSelected(Item: TViewBaseItem);
-    procedure OnItemStatusIconClick(Item: TViewOperationItem);
     procedure OnUpdateTimer(Sender: TObject);
     procedure btnStartPauseClick(Sender: TObject);
     procedure mnuQueueNumberClick(Sender: TObject);
@@ -110,6 +116,7 @@ type
     procedure tvOperationsDeletion(Sender: TObject; Node: TTreeNode);
     procedure tvOperationsDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure tvOperationsDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+    procedure tvOperationsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure tvOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure tvOperationsSelectionChanged(Sender: TObject);
   private
@@ -224,6 +231,34 @@ begin
     FOnClick(Self, Button, Shift, Pt);
 end;
 
+procedure TViewBaseItem.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  Rect: TRect;
+  Point: TPoint;
+begin
+  case Key of
+    VK_APPS:
+      if Assigned(FOnContextMenu) then
+      begin
+        Rect := FTreeNode.DisplayRect(False);
+        Point.x := Rect.Left + (Rect.Right - Rect.Left) div 2;
+        Point.y := Rect.Top + (Rect.Bottom - Rect.Top) div 2;
+        OnContextMenu(Self, Point);
+        Key := 0;
+      end;
+    VK_SPACE:
+      begin
+        StartPause;
+        Key := 0;
+      end;
+    VK_DELETE, VK_BACK:
+      begin
+        Stop;
+        Key := 0;
+      end;
+  end;
+end;
+
 procedure TViewBaseItem.Selected;
 begin
   if Assigned(FOnSelected) then
@@ -239,10 +274,24 @@ begin
 end;
 
 procedure TViewOperationItem.Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState);
+var
+  Handled: Boolean = False;
 begin
-  if not (ssDouble in Shift) and (Button = mbLeft) and PtInRect(StatusIconFrame, Pt) then
-    OnStatusIconClick(Self)
-  else
+  case Button of
+    mbLeft:
+      if (ssDouble in Shift) or PtInRect(StatusIconFrame, Pt) then
+      begin
+        StartPause;
+        Handled := True;
+      end;
+    mbRight:
+      if Assigned(FOnContextMenu) then
+      begin
+        OnContextMenu(Self, Pt);
+        Handled := True;
+      end;
+  end;
+  if not Handled then
     inherited;
 end;
 
@@ -336,6 +385,30 @@ begin
   Result := FTreeNode.TreeView.BackgroundColor;
 end;
 
+procedure TViewOperationItem.StartPause;
+var
+  OpManItem: TOperationsManagerItem;
+begin
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
+  begin
+    if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
+      OpManItem.Operation.Pause
+    else
+      OpManItem.Operation.Start;
+    OpManItem.PauseRunning := False;
+  end;
+end;
+
+procedure TViewOperationItem.Stop;
+var
+  OpManItem: TOperationsManagerItem;
+begin
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
+    OpManItem.Operation.Stop;
+end;
+
 function TViewOperationItem.GetHeight(Canvas: TCanvas): Integer;
 begin
   FTextHeight := Canvas.TextExtent('Wg').cy;
@@ -368,6 +441,16 @@ begin
   Result := Canvas.TextExtent(FText).cy + 6;
 end;
 
+procedure TViewQueueItem.StartPause;
+begin
+  // Not implemented.
+end;
+
+procedure TViewQueueItem.Stop;
+begin
+  // Not implemented.
+end;
+
 { TfrmViewOperations }
 
 procedure TfrmViewOperations.FormCreate(Sender: TObject);
@@ -386,16 +469,11 @@ end;
 
 procedure TfrmViewOperations.btnStopClick(Sender: TObject);
 var
-  OpManItem: TOperationsManagerItem;
   Item: TViewBaseItem;
 begin
   Item := GetFocusedItem;
-  if Assigned(Item) and (Item is TViewOperationItem) then
-  begin
-    OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
-    if Assigned(OpManItem) then
-      OpManItem.Operation.Stop;
-  end;
+  if Assigned(Item) then
+    Item.Stop;
 end;
 
 procedure TfrmViewOperations.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -444,38 +522,24 @@ begin
     TfrmFileOp.ShowFor(OpManItem.Handle);
 end;
 
-procedure TfrmViewOperations.OnOperationItemClick(Item: TViewBaseItem; Button: TMouseButton; Shift: TShiftState; const Pt: TPoint);
+procedure TfrmViewOperations.OnOperationItemContextMenu(Item: TViewBaseItem; const Point: TPoint);
 var
-  OpManItem: TOperationsManagerItem;
-  PopupPoint: TPoint;
   i: Integer;
+  PopupPoint: TPoint;
+  OpManItem: TOperationsManagerItem;
 begin
   OpManItem := OperationsManager.GetItemByHandle((Item as TViewOperationItem).FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    case Button of
-      mbLeft:
-        if ssDouble in Shift then
-        begin
-          if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
-            OpManItem.Operation.Pause
-          else
-            OpManItem.Operation.Start;
-          OpManItem.PauseRunning := False;
-        end;
-      mbRight:
-        begin
-          for i := 0 to mnuQueue.Count - 1 do
-            if i = OpManItem.Queue.Identifier then
-              mnuQueue.Items[i].Checked:=True
-            else
-              mnuQueue.Items[i].Checked:=False;
+    for i := 0 to mnuQueue.Count - 1 do
+      if i = OpManItem.Queue.Identifier then
+        mnuQueue.Items[i].Checked:=True
+      else
+        mnuQueue.Items[i].Checked:=False;
 
-          FMenuOperation := (Item as TViewOperationItem).FOperationHandle;
-          PopupPoint := tvOperations.ClientToScreen(Pt);
-          pmOperationPopup.PopUp(PopupPoint.x, PopupPoint.y);
-        end;
-    end;
+    FMenuOperation := (Item as TViewOperationItem).FOperationHandle;
+    PopupPoint := tvOperations.ClientToScreen(Point);
+    pmOperationPopup.PopUp(PopupPoint.x, PopupPoint.y);
   end;
 end;
 
@@ -505,21 +569,6 @@ begin
   // Pause/start queue not implemented yet.
   btnStartPause.Enabled := False;
   btnStop.Enabled := False;
-end;
-
-procedure TfrmViewOperations.OnItemStatusIconClick(Item: TViewOperationItem);
-var
-  OpManItem: TOperationsManagerItem;
-begin
-  OpManItem := OperationsManager.GetItemByHandle(Item.FOperationHandle);
-  if Assigned(OpManItem) then
-  begin
-    if (OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection]) then
-      OpManItem.Operation.Pause
-    else
-      OpManItem.Operation.Start;
-    OpManItem.PauseRunning := False;
-  end;
 end;
 
 procedure TfrmViewOperations.OnUpdateTimer(Sender: TObject);
@@ -688,6 +737,15 @@ begin
   Accept := True;
 end;
 
+procedure TfrmViewOperations.tvOperationsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Item: TViewBaseItem;
+begin
+  Item := GetFocusedItem;
+  if Assigned(Item) then
+    Item.KeyDown(Key, Shift);
+end;
+
 procedure TfrmViewOperations.tvOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   Node: TTreeNode;
@@ -750,22 +808,11 @@ end;
 
 procedure TfrmViewOperations.btnStartPauseClick(Sender: TObject);
 var
-  OpManItem: TOperationsManagerItem;
   Item: TViewBaseItem;
 begin
   Item := GetFocusedItem;
-  if Assigned(Item) and (Item is TViewOperationItem) then
-  begin
-    OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
-    if Assigned(OpManItem) then
-    begin
-      if (OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection]) then
-        OpManItem.Operation.Pause
-      else
-        OpManItem.Operation.Start;
-      OpManItem.PauseRunning := False;
-    end;
-  end;
+  if Assigned(Item) then
+    Item.StartPause;
 end;
 
 procedure TfrmViewOperations.UpdateItems;
@@ -783,8 +830,7 @@ procedure TfrmViewOperations.UpdateItems;
       Item := TViewOperationItem.Create(OperNode, OpManItem.Handle);
       OperNode.Data := Item;
       OperNode.Height := Item.GetHeight(tvOperations.Canvas);
-      TViewOperationItem(Item).OnStatusIconClick := @OnItemStatusIconClick;
-      Item.OnClick := @OnOperationItemClick;
+      Item.OnContextMenu := @OnOperationItemContextMenu;
       Item.OnSelected := @OnOperationItemSelected;
     end;
   end;

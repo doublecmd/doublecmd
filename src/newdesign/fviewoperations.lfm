@@ -12,6 +12,7 @@ object frmViewOperations: TfrmViewOperations
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
+  SessionProperties = 'WindowState;Width;Top;Left;Height'
   LCLVersion = '0.9.31'
   object pnlHeader: TPanel
     AnchorSideLeft.Control = Owner
@@ -104,6 +105,7 @@ object frmViewOperations: TfrmViewOperations
     OnDeletion = tvOperationsDeletion
     OnDragDrop = tvOperationsDragDrop
     OnDragOver = tvOperationsDragOver
+    OnKeyDown = tvOperationsKeyDown
     OnMouseDown = tvOperationsMouseDown
     OnSelectionChanged = tvOperationsSelectionChanged
     Options = [tvoAllowMultiselect, tvoAutoExpand, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowRoot, tvoShowSeparators, tvoToolTips, tvoThemedDraw]
