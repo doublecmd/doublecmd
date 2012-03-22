@@ -6,13 +6,15 @@ unit uWfxPluginFileSource;
 interface
 
 uses
-  Classes, SysUtils, uWFXModule, WfxPlugin,
+  Classes, SysUtils, fgl, uWFXModule, WfxPlugin,
   uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uFileProperty, uFileSource, uFileSourceOperation;
 
 type
 
   TUpdateProgress = function(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer of object;
+
+  TCallbackList = specialize TFPGMap<TThreadID, TUpdateProgress>;
 
   { IWfxPluginFileSource }
 
@@ -38,6 +40,8 @@ type
   { TCallbackDataClass }
 
   TCallbackDataClass = class
+  private
+    FList: TCallbackList;
   public
     // Must use class here instead of interface because of circular reference
     // between TWfxPluginFileSource and TCallbackDataClass, which would cause
@@ -45,8 +49,12 @@ type
     // TWfxPluginFileSource controls the lifetime of TCallbackDataClass though,
     // so it should be fine.
     FileSource: TWfxPluginFileSource;
-    UpdateProgressFunction: TUpdateProgress;
+
     constructor Create(aFileSource: TWfxPluginFileSource);
+    destructor Destroy; override;
+
+    procedure Add(UpdateProgress: TUpdateProgress);
+    procedure Remove;
   end;
 
   { TWfxPluginFileSource }
@@ -77,7 +85,6 @@ type
 
     procedure NotifyNextWaitingOperation(allowedOps: TFileSourceOperationTypes);
 
-    procedure ClearCurrentOperation(Operation: TFileSourceOperation);
   protected
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
@@ -171,6 +178,7 @@ var
 
 function MainProgressProc(PluginNr: Integer; SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
 var
+  I: Integer;
   CallbackDataClass: TCallbackDataClass;
 begin
   Result:= 0;
@@ -179,9 +187,12 @@ begin
 
   CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
 
-  if not (Assigned(CallbackDataClass) and Assigned(CallbackDataClass.UpdateProgressFunction)) then Exit;
-
-  Result:= CallbackDataClass.UpdateProgressFunction(SourceName, TargetName, PercentDone);
+  // Find callback function by operation ThreadID
+  if Assigned(CallbackDataClass) and CallbackDataClass.FList.Find(GetCurrentThreadId, I) then
+  begin
+    // Call operation progress function
+    Result:= CallbackDataClass.FList.Data[I](SourceName, TargetName, PercentDone);
+  end;
 end;
 
 function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; dcpcall;
@@ -947,8 +958,6 @@ var
   allowedIDs: TFileSourceOperationTypes = [];
   connection: TFileSourceConnection;
 begin
-  ClearCurrentOperation(Operation);
-
   connection := FindConnectionByOperation(Operation);
   if Assigned(connection) then
   begin
@@ -997,20 +1006,6 @@ begin
   end;
 end;
 
-procedure TWfxPluginFileSource.ClearCurrentOperation(Operation: TFileSourceOperation);
-begin
-  {
-  case Operation.ID of
-    fsoCopyIn:
-      TWfxPluginCopyInOperation.ClearCurrentOperation;
-    fsoCopyOut:
-      TWfxPluginCopyOutOperation.ClearCurrentOperation;
-    fsoDelete:
-      TWfxPluginDeleteOperation.ClearCurrentOperation;
-  end;
-  }
-end;
-
 { TWfxPluginFileSourceConnection }
 
 constructor TWfxPluginFileSourceConnection.Create(aWfxModule: TWfxModule);
@@ -1025,7 +1020,23 @@ constructor TCallbackDataClass.Create(aFileSource: TWfxPluginFileSource);
 begin
   inherited Create;
   FileSource:= aFileSource;
-  UpdateProgressFunction:= nil;
+  FList:= TCallbackList.Create;
+end;
+
+destructor TCallbackDataClass.Destroy;
+begin
+  inherited Destroy;
+  FList.Free;
+end;
+
+procedure TCallbackDataClass.Add(UpdateProgress: TUpdateProgress);
+begin
+  FList.Add(GetCurrentThreadId, UpdateProgress);
+end;
+
+procedure TCallbackDataClass.Remove;
+begin
+  FList.Remove(GetCurrentThreadId);
 end;
 
 initialization
