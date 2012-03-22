@@ -49,6 +49,7 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property NeedsConnection: Boolean read FNeedsConnection write FNeedsConnection;
 
   end;
 
@@ -96,8 +97,6 @@ begin
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
-
-  FNeedsConnection:= (FWfxPluginFileSource.WfxModule.BackgroundFlags and BG_UPLOAD = 0);
 
   if (FNeedsConnection = False) then
     FInfoOperation:= FS_STATUS_OP_PUT_MULTI_THREAD
@@ -162,7 +161,7 @@ end;
 
 class function TWfxPluginCopyInOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
 begin
-  Result := TWfxPluginCopyOperationOptionsUI;
+  Result := TWfxPluginCopyInOperationOptionsUI;
 end;
 
 end.

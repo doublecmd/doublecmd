@@ -8,35 +8,70 @@ inherited WfxPluginCopyMoveOperationOptionsUI: TWfxPluginCopyMoveOperationOption
   TabOrder = 0
   DesignLeft = 535
   DesignTop = 391
-  object lblFileExists: TLabel[0]
+  object pnlComboBoxes: TPanel[0]
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = cmbFileExists
-    AnchorSideTop.Side = asrCenter
-    Left = 6
-    Height = 22
-    Top = 3
-    Width = 107
-    BorderSpacing.Around = 6
-    Caption = 'When file exists'
-    FocusControl = cmbFileExists
-    ParentColor = False
-  end
-  object cmbFileExists: TComboBox[1]
-    AnchorSideLeft.Control = lblFileExists
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Owner
-    Left = 121
-    Height = 29
+    Left = 0
+    Height = 21
     Top = 0
-    Width = 109
-    BorderSpacing.Left = 8
-    ItemHeight = 21
-    Items.Strings = (
-      'Ask'
-      'Overwrite'
-      'Skip'
-    )
-    Style = csDropDownList
+    Width = 182
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.HorizontalSpacing = 5
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 21
+    ClientWidth = 182
     TabOrder = 0
+    object lblFileExists: TLabel
+      Left = 0
+      Height = 14
+      Top = 3
+      Width = 77
+      BorderSpacing.CellAlignVertical = ccaCenter
+      Caption = 'When file exists'
+      FocusControl = cmbFileExists
+      ParentColor = False
+    end
+    object cmbFileExists: TComboBox
+      Left = 82
+      Height = 21
+      Top = 0
+      Width = 100
+      ItemHeight = 13
+      Items.Strings = (
+        'Ask'
+        'Overwrite'
+        'Skip'
+      )
+      Style = csDropDownList
+      TabOrder = 0
+    end
+  end
+  object pnlCheckboxes: TPanel[1]
+    AnchorSideLeft.Control = pnlComboBoxes
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = pnlComboBoxes
+    Left = 190
+    Height = 17
+    Top = 0
+    Width = 224
+    AutoSize = True
+    BorderSpacing.Left = 8
+    BevelOuter = bvNone
+    BevelWidth = 8
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 17
+    ClientWidth = 224
+    TabOrder = 1
+    object cbWorkInBackground: TCheckBox
+      Left = 0
+      Height = 17
+      Top = 0
+      Width = 224
+      Caption = 'Work in background (separate connection)'
+      TabOrder = 0
+      Visible = False
+    end
   end
 end

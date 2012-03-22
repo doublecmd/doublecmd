@@ -2420,6 +2420,7 @@ var
   OperationType: TFileSourceOperationType;
   ProgressDialog: TfrmFileOp;
   CopyDialog: TfrmCopyDlg = nil;
+  FileSource: IFileSource;
   QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
   OperationClass: TFileSourceOperationClass;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
@@ -2444,18 +2445,21 @@ begin
        SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
     begin
       OperationType := fsoCopy;
+      FileSource := SourceFileSource;
       OperationClass := SourceFileSource.GetOperationClass(fsoCopy);
     end
     else if TargetFileSource.IsClass(TFileSystemFileSource) and
             (fsoCopyOut in SourceFileSource.GetOperationsTypes) then
     begin
       OperationType := fsoCopyOut;
+      FileSource := SourceFileSource;
       OperationClass := SourceFileSource.GetOperationClass(fsoCopyOut);
     end
     else if SourceFileSource.IsClass(TFileSystemFileSource) and
             (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
     begin
       OperationType := fsoCopyIn;
+      FileSource := TargetFileSource;
       OperationClass := TargetFileSource.GetOperationClass(fsoCopyIn);
     end
     else
@@ -2469,7 +2473,7 @@ begin
       if Assigned(OperationClass) then
         OperationOptionsUIClass := OperationClass.GetOptionsUIClass;
 
-      CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy, OperationOptionsUIClass);
+      CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy, FileSource, OperationOptionsUIClass);
       CopyDialog.edtDst.Text := sDestination;
       CopyDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
 
@@ -2594,7 +2598,7 @@ begin
 
     if bShowDialog then
     begin
-      MoveDialog := TfrmCopyDlg.Create(Application, cmdtMove,
+      MoveDialog := TfrmCopyDlg.Create(Application, cmdtMove, SourceFileSource,
         SourceFileSource.GetOperationClass(fsoMove).GetOptionsUIClass);
       MoveDialog.edtDst.Text := sDestination;
       MoveDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
