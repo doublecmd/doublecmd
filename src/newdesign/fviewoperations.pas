@@ -13,12 +13,14 @@ type
 
   TViewBaseItem = class;
   TViewBaseItemClick = procedure(Item: TViewBaseItem; Button: TMouseButton; Shift: TShiftState; const Pt: TPoint) of object;
+  TViewBaseItemSelected = procedure(Item: TViewBaseItem) of object;
 
   { TViewBaseItem }
 
   TViewBaseItem = class
   private
     FOnClick: TViewBaseItemClick;
+    FOnSelected: TViewBaseItemSelected;
     FTreeNode: TTreeNode;
     procedure DrawThemedBackground(Canvas: TCanvas; Element: TThemedTreeview; ARect: TRect);
     procedure DrawThemedText(Canvas: TCanvas; Element: TThemedTreeview; NodeRect: TRect; Center: Boolean; AText: String);
@@ -29,8 +31,10 @@ type
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); virtual; abstract;
     function GetBackgroundColor: TColor; virtual; abstract;
     function GetHeight(Canvas: TCanvas): Integer; virtual; abstract;
+    procedure Selected; virtual;
     property Height: Integer read GetHeight;
     property OnClick: TViewBaseItemClick read FOnClick write FOnClick;
+    property OnSelected: TViewBaseItemSelected read FOnSelected write FOnSelected;
   end;
 
   { TViewQueueItem }
@@ -68,12 +72,8 @@ type
   { TfrmViewOperations }
 
   TfrmViewOperations = class(TForm)
-    btnCancelCurOp: TBitBtn;
+    btnStop: TBitBtn;
     btnStartPause: TBitBtn;
-    cbCurrentQueue: TComboBox;
-    lblActiveOperations: TLabel;
-    lblOperationsCountNumber: TLabel;
-    lblActiveOperationsNumber: TLabel;
     mnuCancel: TMenuItem;
     mnuPutFirstInQueue: TMenuItem;
     mnuPutLastInQueue: TMenuItem;
@@ -85,17 +85,13 @@ type
     mnuQueue1: TMenuItem;
     mnuQueue0: TMenuItem;
     mnuQueue: TMenuItem;
-    lblOperationsCount: TLabel;
-    Cntr_running: TPanel;
-    pnlCurrentOperation: TPanel;
     pnlHeader: TPanel;
     pmOperationPopup: TPopupMenu;
     tbPauseAll: TToggleBox;
     tvOperations: TTreeView;
     UpdateTimer: TTimer;
 
-    procedure btnCancelCurOpClick(Sender: TObject);
-    procedure cbCurrentQueueChange(Sender: TObject);
+    procedure btnStopClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -103,6 +99,8 @@ type
     procedure mnuPutLastInQueueClick(Sender: TObject);
     procedure mnuShowDetachedClick(Sender: TObject);
     procedure OnOperationItemClick(Item: TViewBaseItem; Button: TMouseButton; Shift: TShiftState; const Pt: TPoint);
+    procedure OnOperationItemSelected(Item: TViewBaseItem);
+    procedure OnQueueItemSelected(Item: TViewBaseItem);
     procedure OnItemStatusIconClick(Item: TViewOperationItem);
     procedure OnUpdateTimer(Sender: TObject);
     procedure btnStartPauseClick(Sender: TObject);
@@ -121,8 +119,6 @@ type
     procedure SetFocusItem(AOperationHandle: TOperationHandle);
     procedure SetNewQueue(Item: TViewOperationItem; NewQueue: TOperationsManagerQueueIdentifier);
     procedure UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
-    procedure UpdateCounters;
-    procedure UpdateControls;
     procedure UpdateItems;
   end;
 
@@ -226,6 +222,12 @@ procedure TViewBaseItem.Click(const Pt: TPoint; Button: TMouseButton; Shift: TSh
 begin
   if Assigned(FOnClick) then
     FOnClick(Self, Button, Shift, Pt);
+end;
+
+procedure TViewBaseItem.Selected;
+begin
+  if Assigned(FOnSelected) then
+    FOnSelected(Self);
 end;
 
 { TViewOperationItem }
@@ -375,8 +377,6 @@ begin
   FMenuOperation := InvalidOperationHandle;
   tvOperations.DoubleBuffered := True;
 
-  UpdateCounters;
-  UpdateControls;
   UpdateItems;
 
   OperationsManager.AddEventsListener(
@@ -384,7 +384,7 @@ begin
     @UpdateView);
 end;
 
-procedure TfrmViewOperations.btnCancelCurOpClick(Sender: TObject);
+procedure TfrmViewOperations.btnStopClick(Sender: TObject);
 var
   OpManItem: TOperationsManagerItem;
   Item: TViewBaseItem;
@@ -395,22 +395,6 @@ begin
     OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
     if Assigned(OpManItem) then
       OpManItem.Operation.Stop;
-  end;
-end;
-
-procedure TfrmViewOperations.cbCurrentQueueChange(Sender: TObject);
-var
-  Item: TViewBaseItem;
-  NewQueue: TOperationsManagerQueueIdentifier;
-begin
-  Item := GetFocusedItem;
-  if Assigned(Item) and (Item is TViewOperationItem) then
-  begin
-    if cbCurrentQueue.ItemIndex = 0 then
-      NewQueue := FreeOperationsQueueId
-    else
-      NewQueue := cbCurrentQueue.ItemIndex;
-    SetNewQueue(TViewOperationItem(Item), NewQueue);
   end;
 end;
 
@@ -464,28 +448,63 @@ procedure TfrmViewOperations.OnOperationItemClick(Item: TViewBaseItem; Button: T
 var
   OpManItem: TOperationsManagerItem;
   PopupPoint: TPoint;
+  i: Integer;
 begin
-  case Button of
-    mbLeft:
-      if ssDouble in Shift then
-      begin
-        OpManItem := OperationsManager.GetItemByHandle((Item as TViewOperationItem).FOperationHandle);
-        if Assigned(OpManItem) then
+  OpManItem := OperationsManager.GetItemByHandle((Item as TViewOperationItem).FOperationHandle);
+  if Assigned(OpManItem) then
+  begin
+    case Button of
+      mbLeft:
+        if ssDouble in Shift then
         begin
-          if (OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection]) then
+          if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
             OpManItem.Operation.Pause
           else
             OpManItem.Operation.Start;
           OpManItem.PauseRunning := False;
         end;
-      end;
-    mbRight:
-      begin
-        FMenuOperation := (Item as TViewOperationItem).FOperationHandle;
-        PopupPoint := tvOperations.ClientToScreen(Pt);
-        pmOperationPopup.PopUp(PopupPoint.x, PopupPoint.y);
-      end;
+      mbRight:
+        begin
+          for i := 0 to mnuQueue.Count - 1 do
+            if i = OpManItem.Queue.Identifier then
+              mnuQueue.Items[i].Checked:=True
+            else
+              mnuQueue.Items[i].Checked:=False;
+
+          FMenuOperation := (Item as TViewOperationItem).FOperationHandle;
+          PopupPoint := tvOperations.ClientToScreen(Pt);
+          pmOperationPopup.PopUp(PopupPoint.x, PopupPoint.y);
+        end;
+    end;
   end;
+end;
+
+procedure TfrmViewOperations.OnOperationItemSelected(Item: TViewBaseItem);
+var
+  OpManItem: TOperationsManagerItem;
+begin
+  OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
+  if Assigned(OpManItem) then
+    begin
+      if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
+        btnStartPause.Caption := rsDlgOpPause
+      else
+        btnStartPause.Caption := rsDlgOpStart;
+
+      btnStartPause.Enabled := True;
+    end
+  else
+    begin
+      btnStartPause.Enabled := False;
+    end;
+  btnStop.Enabled := btnStartPause.Enabled;
+end;
+
+procedure TfrmViewOperations.OnQueueItemSelected(Item: TViewBaseItem);
+begin
+  // Pause/start queue not implemented yet.
+  btnStartPause.Enabled := False;
+  btnStop.Enabled := False;
 end;
 
 procedure TfrmViewOperations.OnItemStatusIconClick(Item: TViewOperationItem);
@@ -505,6 +524,7 @@ end;
 
 procedure TfrmViewOperations.OnUpdateTimer(Sender: TObject);
 begin
+  tvOperationsSelectionChanged(tvOperations);
   tvOperations.Invalidate;
 end;
 
@@ -685,8 +705,12 @@ begin
 end;
 
 procedure TfrmViewOperations.tvOperationsSelectionChanged(Sender: TObject);
+var
+  Node: TTreeNode;
 begin
-  UpdateControls;
+  Node := tvOperations.Selected;
+  if Assigned(Node) then
+    TViewBaseItem(Node.Data).Selected;
 end;
 
 function TfrmViewOperations.GetFocusedItem: TViewBaseItem;
@@ -744,70 +768,6 @@ begin
   end;
 end;
 
-procedure TfrmViewOperations.UpdateCounters;
-var
-  ActiveOperationsCount: Integer = 0;
-  TotalOperationsCount: Integer = 0;
-  OpManItem: TOperationsManagerItem;
-  OperIndex, QueueIndex: Integer;
-  Queue: TOperationsManagerQueue;
-begin
-  for QueueIndex := 0 to OperationsManager.QueuesCount - 1 do
-  begin
-    Queue := OperationsManager.QueueByIndex[QueueIndex];
-    for OperIndex := 0 to Queue.Count - 1 do
-    begin
-      OpManItem := Queue.Items[OperIndex];
-      if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosPausing, fsosStopping] then
-        Inc(ActiveOperationsCount);
-      Inc(TotalOperationsCount);
-    end;
-  end;
-  lblActiveOperationsNumber.Caption := IntToStr(ActiveOperationsCount);
-  lblOperationsCountNumber.Caption := IntToStr(TotalOperationsCount);
-end;
-
-procedure TfrmViewOperations.UpdateControls;
-var
-  i: integer;
-  OpManItem: TOperationsManagerItem;
-  Item: TViewBaseItem;
-begin
-  Item := GetFocusedItem;
-  if Assigned(Item) and (Item is TViewOperationItem) then
-  begin
-    OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
-    if Assigned(OpManItem) then
-      begin
-        for i := 0 to mnuQueue.Count - 1 do
-          if (i = OpManItem.Queue.Identifier) then
-            mnuQueue.Items[i].Checked:=True
-          else
-            mnuQueue.Items[i].Checked:=False;
-
-        if (OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection]) then
-          btnStartPause.Caption := rsDlgOpPause
-        else
-          btnStartPause.Caption := rsDlgOpStart;
-
-        If (not cbCurrentQueue.DroppedDown) and (cbCurrentQueue.ItemIndex <> OpManItem.Queue.Identifier) Then
-          cbCurrentQueue.ItemIndex:=OpManItem.Queue.Identifier;
-
-        cbCurrentQueue.Enabled := True;
-        btnCancelCurOp.Enabled := True;
-        mnuShowDetached.Enabled := True;
-      end
-    else
-      begin
-        btnStartPause.Enabled    := False;
-        btnCancelCurOp.Enabled   := False;
-        cbCurrentQueue.ItemIndex := -1;
-        cbCurrentQueue.Enabled   := False;
-        mnuShowDetached.Enabled   := False;
-      end;
-  end;
-end;
-
 procedure TfrmViewOperations.UpdateItems;
   procedure AddOperations(Queue: TOperationsManagerQueue; QueueNode: TTreeNode);
   var
@@ -825,6 +785,7 @@ procedure TfrmViewOperations.UpdateItems;
       OperNode.Height := Item.GetHeight(tvOperations.Canvas);
       TViewOperationItem(Item).OnStatusIconClick := @OnItemStatusIconClick;
       Item.OnClick := @OnOperationItemClick;
+      Item.OnSelected := @OnOperationItemSelected;
     end;
   end;
 var
@@ -849,6 +810,7 @@ begin
       Item := TViewQueueItem.Create(QueueNode, Queue.Identifier);
       QueueNode.Data := Item;
       QueueNode.Height := Item.GetHeight(tvOperations.Canvas);
+      Item.OnSelected := @OnQueueItemSelected;
       AddOperations(Queue, QueueNode);
     end;
   end;
@@ -856,7 +818,6 @@ end;
 
 procedure TfrmViewOperations.UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
 begin
-  UpdateCounters;
   UpdateItems;
   tvOperations.Invalidate;
 end;
