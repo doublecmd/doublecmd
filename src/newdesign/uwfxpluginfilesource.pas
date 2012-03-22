@@ -166,6 +166,7 @@ const
   connCopyIn      = 0;
   connCopyOut     = 1;
   connDelete      = 2;
+  connCopyMove    = 3;
 
 var
   // Always use appropriate lock to access these lists.
@@ -881,6 +882,9 @@ function TWfxPluginFileSource.GetConnection(Operation: TFileSourceOperation): TF
 begin
   Result := nil;
   case Operation.ID of
+    fsoCopy,
+    fsoMove:
+      Result := WfxConnections[connCopyMove] as TFileSourceConnection;
     fsoCopyIn:
       Result := WfxConnections[connCopyIn] as TFileSourceConnection;
     fsoCopyOut:
@@ -928,6 +932,7 @@ begin
       WfxConnections.Add(CreateConnection); // connCopyIn
       WfxConnections.Add(CreateConnection); // connCopyOut
       WfxConnections.Add(CreateConnection); // connDelete
+      WfxConnections.Add(CreateConnection); // connCopyMove
     end;
   finally
     WfxConnectionsLock.Release;
