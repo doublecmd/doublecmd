@@ -70,8 +70,6 @@ type
     function GetItem(Index: Integer): TOperationsManagerItem;
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOperationsCount: Integer;
-    procedure RunNextOperation(Index: Integer);
-    procedure RunOperation(Item: TOperationsManagerItem);
   private
     {en
        Inserts new item into the queue.
@@ -148,7 +146,6 @@ type
 
     function MoveToNewQueue(Item: TOperationsManagerItem): TOperationsManagerQueueIdentifier;
     procedure MoveToQueue(Item: TOperationsManagerItem; QueueIdentifier: TOperationsManagerQueueIdentifier);
-    procedure StartOperation(Item: TOperationsManagerItem);
 
     {en
        Notifies all listeners that an event has occurred (or multiple events).
@@ -303,26 +300,6 @@ begin
   Result := FList.Count;
 end;
 
-procedure TOperationsManagerQueue.RunNextOperation(Index: Integer);
-var
-  Item: TOperationsManagerItem;
-begin
-  if Count > 0 then
-  begin
-    if Index = 0 then
-    begin
-      Item := Items[0];
-      if Item.Operation.State in [fsosNotStarted, fsosPaused] then
-        RunOperation(Item);
-    end;
-  end;
-end;
-
-procedure TOperationsManagerQueue.RunOperation(Item: TOperationsManagerItem);
-begin
-  OperationsManager.StartOperation(Item);
-end;
-
 constructor TOperationsManagerQueue.Create(AIdentifier: TOperationsManagerQueueIdentifier);
 begin
   FList := TFPList.Create;
@@ -375,10 +352,16 @@ begin
     end;
   end;
 
-  if ShouldMove then
+  if ShouldMove and (FromIndex <> ToIndex) then
   begin
+    if ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
+      Items[0].Operation.Pause;
+
     FList.Move(FromIndex, ToIndex);
-    RunNextOperation(ToIndex);
+
+    if ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
+      Items[0].Operation.Start;
+
     OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
   end;
 end;
@@ -386,13 +369,20 @@ end;
 function TOperationsManagerQueue.Insert(Item: TOperationsManagerItem; InsertAt: Integer): Integer;
 begin
   if InsertAt = -1 then
-    InsertAt := FList.Count;
+    InsertAt := FList.Count
+  else
+  begin
+    if (InsertAt = 0) and (FIdentifier <> FreeOperationsQueueId) then
+      Items[0].Operation.Pause;
+  end;
+
   FList.Insert(InsertAt, Item);
   Result := InsertAt;
-  if FIdentifier = FreeOperationsQueueId then
-    RunOperation(Item)
+
+  if (FIdentifier = FreeOperationsQueueId) or (InsertAt = 0) then
+    Item.Operation.Start
   else
-    RunNextOperation(InsertAt);
+    Item.Operation.Pause;
 end;
 
 function TOperationsManagerQueue.Insert(Item: TOperationsManagerItem; InsertAtFront: Boolean): Integer;
@@ -409,8 +399,12 @@ var
 begin
   Index := FList.Remove(Item);
   Result := Index <> -1;
-  if Result and (FIdentifier <> FreeOperationsQueueId) then
-    RunNextOperation(Index);
+  if Result and
+     (FIdentifier <> FreeOperationsQueueId) and
+     (Index = 0) and (Count > 0) then
+  begin
+    Items[0].Operation.Start;
+  end;
 end;
 
 { TOperationsManager }
@@ -420,7 +414,7 @@ var
   Event: TOperationManagerEvent;
 begin
   FQueues := TFPList.Create;
-  FLastUsedHandle := 0;
+  FLastUsedHandle := InvalidOperationHandle;
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
     FEventsListeners[Event] := TFPList.Create;
@@ -683,11 +677,6 @@ begin
       end;
     end;
   end;
-end;
-
-procedure TOperationsManager.StartOperation(Item: TOperationsManagerItem);
-begin
-  Item.Operation.Start;
 end;
 
 procedure TOperationsManager.CancelAll;
