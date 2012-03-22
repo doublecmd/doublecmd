@@ -150,12 +150,6 @@ type
     procedure MoveToQueue(Item: TOperationsManagerItem; QueueIdentifier: TOperationsManagerQueueIdentifier);
     procedure StartOperation(Item: TOperationsManagerItem);
 
-    procedure AddOperationListeners(Operation: TFileSourceOperation);
-    procedure RemoveOperationListeners(Operation: TFileSourceOperation);
-
-    procedure OperationStateChangedEvent(Operation: TFileSourceOperation;
-                                         State: TFileSourceOperationState);
-
     {en
        Notifies all listeners that an event has occurred (or multiple events).
     }
@@ -451,7 +445,6 @@ begin
     for OperIndex := 0 to Queue.Count - 1 do
     begin
       Item := Queue.Items[OperIndex];
-      RemoveOperationListeners(Item.Operation);
     end;
     Queue.Free;
   end;
@@ -491,7 +484,6 @@ begin
         Item.PauseRunning := False;
 
         Operation.PreventStart;
-        AddOperationListeners(Operation);
 
         Result := Item.Handle;
 
@@ -551,12 +543,15 @@ var
   QueueIndex: Integer;
   Queue: TOperationsManagerQueue;
 begin
-  for QueueIndex := 0 to QueuesCount - 1 do
+  if Handle <> InvalidOperationHandle then
   begin
-    Queue  := QueueByIndex[QueueIndex];
-    Result := Queue.ItemByHandle[Handle];
-    if Assigned(Result) then
-      Exit;
+    for QueueIndex := 0 to QueuesCount - 1 do
+    begin
+      Queue  := QueueByIndex[QueueIndex];
+      Result := Queue.ItemByHandle[Handle];
+      if Assigned(Result) then
+        Exit;
+    end;
   end;
   Result := nil;
 end;
@@ -771,32 +766,6 @@ begin
         Result := Result + Item.Operation.Progress;  // calculate allProgressBar
     end;
     Result := Result / OperationsManager.OperationsCount;  // Показываем средний прогресс
-  end;
-end;
-
-procedure TOperationsManager.AddOperationListeners(Operation: TFileSourceOperation);
-begin
-  Operation.AddStateChangedListener([fsosStarting], @OperationStateChangedEvent);
-end;
-
-procedure TOperationsManager.RemoveOperationListeners(Operation: TFileSourceOperation);
-begin
-  Operation.RemoveStateChangedListener(fsosAllStates, @OperationStateChangedEvent);
-end;
-
-procedure TOperationsManager.OperationStateChangedEvent(Operation: TFileSourceOperation;
-                                                        State: TFileSourceOperationState);
-var
-  Item: TOperationsManagerItem;
-begin
-  Item := GetItemByOperation(Operation);
-  if Assigned(Item) then
-  begin
-    if State = fsosStarting then
-    begin
-      // Listener is not needed anymore.
-      Operation.RemoveStateChangedListener(fsosAllStates, @OperationStateChangedEvent);
-    end;
   end;
 end;
 
