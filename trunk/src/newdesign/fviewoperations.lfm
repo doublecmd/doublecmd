@@ -1,11 +1,12 @@
 object frmViewOperations: TfrmViewOperations
-  Left = 12
-  Height = 232
-  Top = 118
-  Width = 561
+  Left = 18
+  Height = 229
+  Top = 117
+  Width = 458
+  ActiveControl = tvOperations
   Caption = 'File operations'
-  ClientHeight = 232
-  ClientWidth = 561
+  ClientHeight = 229
+  ClientWidth = 458
   FormStyle = fsStayOnTop
   OnClose = FormClose
   OnCreate = FormCreate
@@ -14,166 +15,65 @@ object frmViewOperations: TfrmViewOperations
   LCLVersion = '0.9.31'
   object pnlHeader: TPanel
     AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 56
+    Height = 40
     Top = 0
-    Width = 132
+    Width = 458
+    Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 56
-    ClientWidth = 132
+    ChildSizing.HorizontalSpacing = 10
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkVertical = crsHomogenousChildResize
+    ChildSizing.Layout = cclTopToBottomThenLeftToRight
+    ClientHeight = 40
+    ClientWidth = 458
     TabOrder = 0
-    object lblOperationsCount: TLabel
-      AnchorSideLeft.Control = pnlHeader
-      AnchorSideTop.Control = pnlHeader
-      Left = 8
-      Height = 22
-      Top = 4
-      Width = 120
-      BorderSpacing.Left = 4
-      BorderSpacing.Around = 4
-      Caption = 'Operations count:'
-      ParentColor = False
-    end
-    object lblActiveOperations: TLabel
-      AnchorSideLeft.Control = pnlHeader
-      AnchorSideTop.Control = lblOperationsCount
-      AnchorSideTop.Side = asrBottom
-      Left = 8
-      Height = 22
-      Top = 30
-      Width = 120
-      BorderSpacing.Left = 4
-      BorderSpacing.Around = 4
-      Caption = 'Active operations:'
-      ParentColor = False
-    end
-  end
-  object pnlCurrentOperation: TPanel
-    AnchorSideLeft.Control = tbPauseAll
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = pnlHeader
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = pnlHeader
-    AnchorSideBottom.Side = asrBottom
-    Left = 258
-    Height = 56
-    Top = 0
-    Width = 303
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Left = 10
-    ClientHeight = 56
-    ClientWidth = 303
-    TabOrder = 2
-    object cbCurrentQueue: TComboBox
-      AnchorSideLeft.Control = pnlCurrentOperation
-      AnchorSideTop.Control = pnlCurrentOperation
-      AnchorSideTop.Side = asrCenter
-      Left = 7
-      Height = 29
-      Top = 14
-      Width = 140
-      BorderSpacing.Around = 6
-      ItemHeight = 21
-      Items.Strings = (
-        'Not in queue'
-        'Queue #1'
-        'Queue #2'
-        'Queue #3'
-        'Queue #4'
-        'Queue #5'
-      )
-      OnChange = cbCurrentQueueChange
-      Style = csDropDownList
+    object tbPauseAll: TToggleBox
+      Left = 0
+      Height = 40
+      Top = 0
+      Width = 100
+      AutoSize = True
+      BorderSpacing.Right = 50
+      Caption = '&Pause all'
+      Constraints.MinHeight = 40
+      Constraints.MinWidth = 100
+      OnChange = tbPauseAllChange
       TabOrder = 0
     end
-    object btnCancelCurOp: TBitBtn
-      AnchorSideLeft.Control = btnStartPause
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = pnlCurrentOperation
-      AnchorSideRight.Control = pnlCurrentOperation
+    object btnStop: TBitBtn
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = pnlCurrentOperation
       AnchorSideBottom.Side = asrBottom
-      Left = 221
-      Height = 42
-      Top = 7
-      Width = 71
-      Anchors = [akTop, akLeft, akBottom]
+      Left = 150
+      Height = 40
+      Top = 0
+      Width = 80
       AutoSize = True
-      BorderSpacing.Around = 6
-      Caption = 'Cancel'
-      Constraints.MinWidth = 60
+      Caption = 'S&top'
+      Constraints.MinWidth = 80
+      Enabled = False
       NumGlyphs = 0
-      OnClick = btnCancelCurOpClick
-      TabOrder = 2
-    end
-    object btnStartPause: TBitBtn
-      AnchorSideLeft.Control = cbCurrentQueue
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = pnlCurrentOperation
-      AnchorSideBottom.Control = pnlCurrentOperation
-      AnchorSideBottom.Side = asrBottom
-      Left = 153
-      Height = 42
-      Top = 7
-      Width = 60
-      Anchors = [akTop, akLeft, akBottom]
-      AutoSize = True
-      BorderSpacing.Right = 2
-      BorderSpacing.Around = 6
-      Caption = 'Start'
-      Constraints.MinWidth = 60
-      NumGlyphs = 0
-      OnClick = btnStartPauseClick
+      OnClick = btnStopClick
       TabOrder = 1
     end
-  end
-  object lblOperationsCountNumber: TLabel
-    AnchorSideLeft.Control = pnlHeader
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = pnlHeader
-    Left = 132
-    Height = 22
-    Top = 5
-    Width = 10
-    BorderSpacing.Top = 5
-    Caption = '0'
-    ParentColor = False
-  end
-  object lblActiveOperationsNumber: TLabel
-    AnchorSideLeft.Control = pnlHeader
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = lblOperationsCountNumber
-    AnchorSideTop.Side = asrBottom
-    Left = 132
-    Height = 22
-    Top = 31
-    Width = 10
-    BorderSpacing.Top = 4
-    Caption = '0'
-    ParentColor = False
-  end
-  object tbPauseAll: TToggleBox
-    AnchorSideLeft.Control = lblActiveOperationsNumber
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = pnlHeader
-    AnchorSideBottom.Control = pnlHeader
-    AnchorSideBottom.Side = asrBottom
-    Left = 156
-    Height = 48
-    Top = 4
-    Width = 92
-    Anchors = [akTop, akLeft, akBottom]
-    AutoSize = True
-    BorderSpacing.Left = 10
-    BorderSpacing.Around = 4
-    Caption = 'Pause All'
-    OnChange = tbPauseAllChange
-    TabOrder = 1
+    object btnStartPause: TBitBtn
+      AnchorSideBottom.Side = asrBottom
+      Left = 240
+      Height = 40
+      Top = 0
+      Width = 80
+      AutoSize = True
+      Caption = '&Start'
+      Constraints.MinWidth = 80
+      Enabled = False
+      NumGlyphs = 0
+      OnClick = btnStartPauseClick
+      TabOrder = 2
+    end
   end
   object tvOperations: TTreeView
     AnchorSideLeft.Control = Owner
@@ -184,9 +84,9 @@ object frmViewOperations: TfrmViewOperations
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 176
-    Top = 56
-    Width = 561
+    Height = 189
+    Top = 40
+    Width = 458
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoExpand = True
     DefaultItemHeight = 24
@@ -199,7 +99,7 @@ object frmViewOperations: TfrmViewOperations
     RowSelect = True
     ScrollBars = ssAutoVertical
     ShowLines = False
-    TabOrder = 3
+    TabOrder = 1
     OnCustomDrawItem = tvOperationsCustomDrawItem
     OnDeletion = tvOperationsDeletion
     OnDragDrop = tvOperationsDragDrop
@@ -258,7 +158,7 @@ object frmViewOperations: TfrmViewOperations
     end
     object mnuCancel: TMenuItem
       Caption = 'Cancel'
-      OnClick = btnCancelCurOpClick
+      OnClick = btnStopClick
     end
   end
 end
