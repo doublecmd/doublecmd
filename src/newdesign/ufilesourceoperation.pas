@@ -205,7 +205,13 @@ type
     // This should be run from GUI thread only.
     procedure TryAskQuestion;
 
-    procedure UpdateState(NewState: TFileSourceOperationState);
+    {en
+       Checks (under lock) if current state is one of ExpectedStates.
+       If yes then changes state to NewState and returns @true.
+       If no then does not change state and returns @false.
+       If state already is NewState then does nothing and returns @true.
+    }
+    function UpdateState(NewState: TFileSourceOperationState; ExpectedStates: TFileSourceOperationStates = fsosAllStates): Boolean;
     function GetState: TFileSourceOperationState;
     function GetUserInterface: TFileSourceOperationUI;
     procedure UpdateStartTime(NewStartTime: TDateTime);
@@ -535,8 +541,7 @@ begin
           if Assigned(FConnection) then
             break;
 
-          if State <> fsosWaitingForConnection then
-            UpdateState(fsosWaitingForConnection);
+          UpdateState(fsosWaitingForConnection);
 
           DoWaitForConnection;
 
@@ -606,12 +611,14 @@ begin
   FProgress := NewProgress;
 end;
 
-procedure TFileSourceOperation.UpdateState(NewState: TFileSourceOperationState);
+function TFileSourceOperation.UpdateState(NewState: TFileSourceOperationState; ExpectedStates: TFileSourceOperationStates): Boolean;
 begin
   FStateLock.Acquire;
   try
     if FState = NewState then
-      Exit;
+      Exit(True)
+    else if not (FState in ExpectedStates) then
+      Exit(False);
     FState := NewState;
   finally
     FStateLock.Release;
@@ -621,6 +628,7 @@ begin
   DCDebug('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Updated state to ', IntToStr(Integer(NewState)));
 {$ENDIF}
   NotifyStateChanged(NewState);
+  Result := True;
 end;
 
 function TFileSourceOperation.GetDesiredState: TFileSourceOperationState;
@@ -706,18 +714,20 @@ begin
   case GetDesiredState of
     fsosPaused:
       begin
-        UpdateState(fsosPaused);
-        DoPauseIfNeeded([fsosPaused]);
+        if UpdateState(fsosPaused, [fsosPausing]) then
+        begin
+          DoPauseIfNeeded([fsosPaused]);
 
-        // Check if the operation was unpaused because it is being aborted.
-        if GetDesiredState = fsosStopped then
-          RaiseAbortOperation;
+          // Check if the operation was unpaused because it is being aborted.
+          if GetDesiredState = fsosStopped then
+            RaiseAbortOperation;
 
-        UpdateStartTime(SysUtils.Now);
-        if FOperationInitialized then
-          UpdateState(fsosRunning)
-        else
-          UpdateState(fsosStarting);
+          UpdateStartTime(SysUtils.Now);
+          if FOperationInitialized then
+            UpdateState(fsosRunning)
+          else
+            UpdateState(fsosStarting);
+        end;
       end;
 
     fsosStopped:  // operation was asked to stop (via Stop function)
@@ -736,18 +746,24 @@ begin
 end;
 
 procedure TFileSourceOperation.Start;
+var
+  LocalState: TFileSourceOperationState;
 begin
   FStateLock.Acquire;
   try
-    if FState in [fsosNotStarted, fsosPaused] then
+    if FState in [fsosPausing] then
+      // The operation didn't manage to pause yet, so simply go back to running state.
+      FState := fsosRunning
+    else if FState in [fsosNotStarted, fsosPaused] then
       FState := fsosStarting
     else
       Exit;
+    LocalState := FState;
   finally
     FStateLock.Release;
   end;
 
-  NotifyStateChanged(fsosStarting);
+  NotifyStateChanged(LocalState);
   FDesiredState := fsosRunning;
   DoUnPause;
 end;
