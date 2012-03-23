@@ -1518,29 +1518,28 @@ object frmMain: TfrmMain
         Action = actAbout
       end
     end
-    object AllOpPct: TMenuItem
-      Caption = '%'
+    object mnuAllOperProgress: TMenuItem
       RightJustify = True
       Visible = False
-      OnClick = AllOpPctClick
+      OnClick = mnuAllOperProgressClick
     end
-    object AllOpStart: TMenuItem
+    object mnuAllOperStart: TMenuItem
       Caption = 'Start'
       RightJustify = True
       Visible = False
-      OnClick = AllOpStartClick
+      OnClick = mnuAllOperStartClick
     end
-    object AllOpPause: TMenuItem
+    object mnuAllOperPause: TMenuItem
       Caption = '||'
       RightJustify = True
       Visible = False
-      OnClick = AllOpPauseClick
+      OnClick = mnuAllOperPauseClick
     end
-    object AllOpCancel: TMenuItem
+    object mnuAllOperStop: TMenuItem
       Caption = 'Cancel'
       RightJustify = True
       Visible = False
-      OnClick = AllOpCancelClick
+      OnClick = mnuAllOperStopClick
     end
   end
   object actionLst: TActionList

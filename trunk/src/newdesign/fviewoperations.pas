@@ -51,6 +51,7 @@ type
     FText: String;
   public
     constructor Create(ANode: TTreeNode; AQueueId: TOperationsManagerQueueIdentifier); reintroduce;
+    procedure Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState); override;
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); override;
     function GetBackgroundColor: TColor; override;
     function GetHeight(Canvas: TCanvas): Integer; override;
@@ -128,6 +129,7 @@ type
     procedure MoveWithinQueue(MoveToTop: Boolean);
     procedure SetFocusItem(AOperationHandle: TOperationHandle);
     procedure SetNewQueue(Item: TViewOperationItem; NewQueue: TOperationsManagerQueueIdentifier);
+    procedure SetStartPauseCaption(SetPause: Boolean);
     procedure UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
     procedure UpdateItems;
   end;
@@ -386,7 +388,6 @@ begin
       OpManItem.Operation.Pause
     else
       OpManItem.Operation.Start;
-    OpManItem.PauseRunning := False;
   end;
 end;
 
@@ -407,6 +408,22 @@ end;
 
 { TViewQueueItem }
 
+procedure TViewQueueItem.Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState);
+var
+  Handled: Boolean = False;
+begin
+  case Button of
+    mbLeft:
+      if (ssDouble in Shift) then
+      begin
+        StartPause;
+        Handled := True;
+      end;
+  end;
+  if not Handled then
+    inherited Click(Pt, Button, Shift);
+end;
+
 constructor TViewQueueItem.Create(ANode: TTreeNode; AQueueId: TOperationsManagerQueueIdentifier);
 begin
   FQueueIdentifier := AQueueId;
@@ -415,10 +432,16 @@ begin
 end;
 
 procedure TViewQueueItem.Draw(Canvas: TCanvas; NodeRect: TRect);
+var
+  Element: TThemedTreeview;
 begin
-  DrawThemedBackground(Canvas, ttItemSelectedNotFocus, NodeRect);
+  if FTreeNode.Selected then
+    Element := ttItemSelected
+  else
+    Element := ttItemSelectedNotFocus;
+  DrawThemedBackground(Canvas, Element, NodeRect);
   NodeRect.Left := NodeRect.Left + 5 + FTreeNode.DisplayTextLeft;
-  DrawThemedText(Canvas, ttItemSelectedNotFocus, NodeRect, True, FText);
+  DrawThemedText(Canvas, Element, NodeRect, True, FText);
 end;
 
 function TViewQueueItem.GetBackgroundColor: TColor;
@@ -432,13 +455,28 @@ begin
 end;
 
 procedure TViewQueueItem.StartPause;
+var
+  Queue: TOperationsManagerQueue;
 begin
-  // Not implemented.
+  Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
+  if Assigned(Queue) then
+  begin
+    if Queue.Paused then
+      Queue.UnPause
+    else
+      Queue.Pause;
+  end;
 end;
 
 procedure TViewQueueItem.Stop;
+var
+  Queue: TOperationsManagerQueue;
 begin
-  // Not implemented.
+  Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
+  if Assigned(Queue) then
+  begin
+    Queue.Stop;
+  end;
 end;
 
 { TfrmViewOperations }
@@ -540,11 +578,7 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(Item).FOperationHandle);
   if Assigned(OpManItem) then
     begin
-      if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
-        btnStartPause.Caption := rsDlgOpPause
-      else
-        btnStartPause.Caption := rsDlgOpStart;
-
+      SetStartPauseCaption(OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection]);
       btnStartPause.Enabled := True;
     end
   else
@@ -555,10 +589,20 @@ begin
 end;
 
 procedure TfrmViewOperations.OnQueueItemSelected(Item: TViewBaseItem);
+var
+  Queue: TOperationsManagerQueue;
 begin
-  // Pause/start queue not implemented yet.
-  btnStartPause.Enabled := False;
-  btnStop.Enabled := False;
+  Queue := OperationsManager.QueueByIdentifier[TViewQueueItem(Item).FQueueIdentifier];
+  if Assigned(Queue) then
+    begin
+      SetStartPauseCaption(not Queue.Paused);
+      btnStartPause.Enabled := True;
+    end
+  else
+    begin
+      btnStartPause.Enabled := False;
+    end;
+  btnStop.Enabled := btnStartPause.Enabled;
 end;
 
 procedure TfrmViewOperations.OnUpdateTimer(Sender: TObject);
@@ -583,9 +627,9 @@ end;
 procedure TfrmViewOperations.tbPauseAllChange(Sender: TObject);
 begin
   if tbPauseAll.State = cbChecked then
-    OperationsManager.PauseRunning
+    OperationsManager.PauseAll
   else
-    OperationsManager.StartRunning;
+    OperationsManager.UnPauseAll;
 end;
 
 procedure TfrmViewOperations.tvOperationsCustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode; State: TCustomDrawState; var DefaultDraw: Boolean);
@@ -822,6 +866,14 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(Item.FOperationHandle);
   if Assigned(OpManItem) then
     OpManItem.SetQueue(OperationsManager.GetOrCreateQueue(NewQueue));
+end;
+
+procedure TfrmViewOperations.SetStartPauseCaption(SetPause: Boolean);
+begin
+  if SetPause then
+    btnStartPause.Caption := rsDlgOpPause
+  else
+    btnStartPause.Caption := rsDlgOpStart;
 end;
 
 procedure TfrmViewOperations.btnStartPauseClick(Sender: TObject);
