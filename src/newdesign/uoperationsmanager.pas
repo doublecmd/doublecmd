@@ -27,13 +27,25 @@ type
   strict private
     FHandle       : TOperationHandle;
     FOperation    : TFileSourceOperation;
-    FPauseRunning : Boolean;
     FQueue        : TOperationsManagerQueue;
     FThread       : TOperationThread;
 
   private
     function RemoveFromQueue: Boolean;
-
+    {en
+       Inserts the item into new queue at specific position.
+       @param(NewQueue
+              To which queue to insert the item. If it is the same queue in which
+              the item is currently nothing is performed.)
+       @param(TargetOperation
+              Handle to another operation in NewQueue near which the item should be placed.)
+       @param(PlaceBefore
+              If @true then places item before TargetOperation.
+              If @false then places item after TargetOperation.)
+    }
+    procedure SetQueue(NewQueue: TOperationsManagerQueue;
+                       TargetOperation: TOperationHandle;
+                       PlaceBefore: Boolean);
   public
     constructor Create(AHandle: TOperationHandle;
                        AOperation: TFileSourceOperation;
@@ -58,7 +70,6 @@ type
 
     property Handle: TOperationHandle read FHandle;
     property Operation: TFileSourceOperation read FOperation;
-    property PauseRunning: Boolean read FPauseRunning write FPauseRunning;
     property Queue: TOperationsManagerQueue read FQueue;
     property Thread: TOperationThread read FThread;
   end;
@@ -67,8 +78,9 @@ type
 
   TOperationsManagerQueue = class
   strict private
-    FList: TFPList;
     FIdentifier: TOperationsManagerQueueIdentifier;
+    FList: TFPList;
+    FPaused: Boolean;
     function GetIndexByHandle(Handle: TOperationHandle): Integer;
     function GetItem(Index: Integer): TOperationsManagerItem;
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
@@ -88,7 +100,9 @@ type
               If @true then inserts at the front,
               if @false then inserts at the back.)
     }
-    function Insert(Item: TOperationsManagerItem; InsertAtFront: Boolean): Integer;
+    function Insert(Item: TOperationsManagerItem;
+                    TargetOperation: TOperationHandle;
+                    PlaceBefore: Boolean): Integer;
     {en
        Moves item within the queue.
        @param(SourceItem
@@ -107,10 +121,15 @@ type
     constructor Create(AIdentifier: TOperationsManagerQueueIdentifier);
     destructor Destroy; override;
 
+    procedure Pause;
+    procedure Stop;
+    procedure UnPause;
+
     property Count: Integer read GetOperationsCount;
+    property Identifier: TOperationsManagerQueueIdentifier read FIdentifier;
     property Items[Index: Integer]: TOperationsManagerItem read GetItem;
     property ItemByHandle[Handle: TOperationHandle]: TOperationsManagerItem read GetItemByHandle;
-    property Identifier: TOperationsManagerQueueIdentifier read FIdentifier;
+    property Paused: Boolean read FPaused;
   end;
 
   TOperationManagerEvent =
@@ -179,9 +198,9 @@ type
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOrCreateQueue(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
 
-    procedure CancelAll;
-    procedure PauseRunning;
-    procedure StartRunning;
+    procedure PauseAll;
+    procedure StopAll;
+    procedure UnPauseAll;
     function  AllProgressPoint: Double;
 
     {en
@@ -238,8 +257,10 @@ begin
   TargetItem := OperationsManager.GetItemByHandle(TargetOperation);
   if Assigned(TargetItem) then
   begin
-    SetQueue(TargetItem.Queue);
-    TargetItem.Queue.Move(Self, TargetItem, PlaceBefore);
+    if Queue = TargetItem.Queue then
+      Queue.Move(Self, TargetItem, PlaceBefore)
+    else
+      SetQueue(TargetItem.Queue, TargetOperation, PlaceBefore);
   end;
 end;
 
@@ -276,7 +297,26 @@ begin
     if not Assigned(Queue) or RemoveFromQueue then
     begin
       FQueue := NewQueue;
-      NewQueue.Insert(Self, InsertAtFront);
+      if InsertAtFront then
+        NewQueue.Insert(Self, 0)  // Insert at the front of the queue.
+      else
+        NewQueue.Insert(Self);    // Add at the back of the queue.
+
+      OperationsManager.NotifyEvents(Self, [omevOperationMoved]);
+    end;
+  end;
+end;
+
+procedure TOperationsManagerItem.SetQueue(NewQueue: TOperationsManagerQueue;
+                                          TargetOperation: TOperationHandle;
+                                          PlaceBefore: Boolean);
+begin
+  if (Queue <> NewQueue) and Assigned(NewQueue) then
+  begin
+    if not Assigned(Queue) or RemoveFromQueue then
+    begin
+      FQueue := NewQueue;
+      NewQueue.Insert(Self, TargetOperation, PlaceBefore);
       OperationsManager.NotifyEvents(Self, [omevOperationMoved]);
     end;
   end;
@@ -371,12 +411,12 @@ begin
 
   if ShouldMove and (FromIndex <> ToIndex) then
   begin
-    if ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
+    if (not Paused) and ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
       Items[0].Operation.Pause;
 
     FList.Move(FromIndex, ToIndex);
 
-    if ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
+    if (not Paused) and ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
       Items[0].Operation.Start;
 
     OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
@@ -389,25 +429,49 @@ begin
     InsertAt := FList.Count
   else
   begin
-    if (InsertAt = 0) and (FIdentifier <> FreeOperationsQueueId) then
+    if (not Paused) and (InsertAt = 0) and (FIdentifier <> FreeOperationsQueueId) then
       Items[0].Operation.Pause;
   end;
 
   FList.Insert(InsertAt, Item);
   Result := InsertAt;
 
-  if (FIdentifier = FreeOperationsQueueId) or (InsertAt = 0) then
-    Item.Operation.Start
+  if (not Paused) and
+     ((FIdentifier = FreeOperationsQueueId) or (InsertAt = 0)) then
+  begin
+    Item.Operation.Start;
+  end
   else
     Item.Operation.Pause;
 end;
 
-function TOperationsManagerQueue.Insert(Item: TOperationsManagerItem; InsertAtFront: Boolean): Integer;
+function TOperationsManagerQueue.Insert(Item: TOperationsManagerItem; TargetOperation: TOperationHandle; PlaceBefore: Boolean): Integer;
 begin
-  if InsertAtFront then
-    Result := Insert(Item, 0)  // Insert at the front of the queue.
+  Result := GetIndexByHandle(TargetOperation);
+  if Result >= 0 then
+  begin
+    if not PlaceBefore then
+      Inc(Result);
+    Insert(Item, Result);
+  end;
+end;
+
+procedure TOperationsManagerQueue.Pause;
+var
+  Index: Integer;
+  Item: TOperationsManagerItem;
+begin
+  if FIdentifier = FreeOperationsQueueId then
+  begin
+    for Index := 0 to Count - 1 do
+      Items[Index].Operation.Pause;
+  end
   else
-    Result := Insert(Item);    // Add at the back of the queue.
+  begin
+    FPaused := True;
+    if Count > 0 then
+      Items[0].Operation.Pause;
+  end;
 end;
 
 function TOperationsManagerQueue.Remove(Item: TOperationsManagerItem): Boolean;
@@ -417,10 +481,38 @@ begin
   Index := FList.Remove(Item);
   Result := Index <> -1;
   if Result and
+     (not Paused) and
      (FIdentifier <> FreeOperationsQueueId) and
      (Index = 0) and (Count > 0) then
   begin
     Items[0].Operation.Start;
+  end;
+end;
+
+procedure TOperationsManagerQueue.Stop;
+var
+  i: Integer;
+  Item: TOperationsManagerItem;
+begin
+  for i := 0 to Count - 1 do
+    Items[i].Operation.Stop;
+end;
+
+procedure TOperationsManagerQueue.UnPause;
+var
+  Index: Integer;
+  Item: TOperationsManagerItem;
+begin
+  if FIdentifier = FreeOperationsQueueId then
+  begin
+    for Index := 0 to Count - 1 do
+      Items[Index].Operation.Start;
+  end
+  else
+  begin
+    if Count > 0 then
+      Items[0].Operation.Start;
+    FPaused := False;
   end;
 end;
 
@@ -481,8 +573,6 @@ begin
       Item := TOperationsManagerItem.Create(GetNextUnusedHandle, Operation, Thread);
       if Assigned(Item) then
       try
-        Item.PauseRunning := False;
-
         Operation.PreventStart;
 
         Result := Item.Handle;
@@ -679,65 +769,28 @@ begin
   end;
 end;
 
-procedure TOperationsManager.CancelAll;
+procedure TOperationsManager.PauseAll;
 var
-  Item: TOperationsManagerItem;
   i: Integer;
 begin
-  // Cancel all operations
-  for i := 0 to OperationsCount - 1 do
-  begin
-    Item := OperationsManager.GetItemByIndex(i);
-    if Assigned(Item) then
-      Item.Operation.Stop;
-  end;
+  for i := 0 to QueuesCount - 1 do
+    OperationsManager.QueueByIndex[i].Pause;
 end;
 
-procedure TOperationsManager.PauseRunning;
+procedure TOperationsManager.StopAll;
 var
-  Item: TOperationsManagerItem;
   i: Integer;
-       //true - operation was runnig
 begin
-  for i := 0 to OperationsCount - 1 do
-  begin
-    Item := OperationsManager.GetItemByIndex(i);
-    if Assigned(Item) then
-      begin
-        if Item.Operation.State = fsosRunning then
-          begin
-            Item.PauseRunning := True; //«апоминаем строку которую приостановили
-            Item.Operation.Pause;
-          end;
-      end;
-  end;
+  for i := 0 to QueuesCount - 1 do
+    OperationsManager.QueueByIndex[i].Stop;
 end;
 
-procedure TOperationsManager.StartRunning;
+procedure TOperationsManager.UnPauseAll;
 var
-  Item: TOperationsManagerItem;
-  I: Integer;
-  StartOp: Boolean = False;
+  i: Integer;
 begin
-  for I := 0 to OperationsCount - 1 do
-  begin
-    Item := OperationsManager.GetItemByIndex(i);
-    if Assigned(Item) then
-      begin
-        if Item.PauseRunning = True  then //¬споминаем остановленную операцию и запускаем
-          begin
-            Item.Operation.Start;
-            Item.PauseRunning := False;      // —брасываем пам€ть
-            StartOp:= True;                                                  //ѕометка, что есть запущенна€ операци€
-          end;
-      end;
-  end;
-  if not StartOp then
-  begin
-    Item := OperationsManager.GetItemByIndex(0);
-    if Assigned(Item) then
-      Item.Operation.Start;        //если нет до этого запущенных, то запускаем первую
-  end;
+  for i := 0 to QueuesCount - 1 do
+    OperationsManager.QueueByIndex[i].UnPause;
 end;
 
 function TOperationsManager.AllProgressPoint: Double;

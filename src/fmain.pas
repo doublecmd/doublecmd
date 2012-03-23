@@ -158,10 +158,10 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
-    AllOpPause: TMenuItem;
-    AllOpCancel: TMenuItem;
-    AllOpStart: TMenuItem;
-    AllOpPct: TMenuItem;
+    mnuAllOperStart: TMenuItem;
+    mnuAllOperStop: TMenuItem;
+    mnuAllOperPause: TMenuItem;
+    mnuAllOperProgress: TMenuItem;
     miCompareDirectories: TMenuItem;
     miLine37: TMenuItem;
     miRenameTab: TMenuItem;
@@ -388,10 +388,10 @@ type
     MainTrayIcon: TTrayIcon;
 
     procedure actExecute(Sender: TObject);
-    procedure AllOpCancelClick(Sender: TObject);
-    procedure AllOpPauseClick(Sender: TObject);
-    procedure AllOpPctClick(Sender: TObject);
-    procedure AllOpStartClick(Sender: TObject);
+    procedure mnuAllOperStartClick(Sender: TObject);
+    procedure mnuAllOperStopClick(Sender: TObject);
+    procedure mnuAllOperPauseClick(Sender: TObject);
+    procedure mnuAllOperProgressClick(Sender: TObject);
     procedure btnF8Click(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
@@ -829,24 +829,24 @@ begin
   Commands.Commands.ExecuteCommand(cmd, '');
 end;
 
-procedure TfrmMain.AllOpCancelClick(Sender: TObject);
+procedure TfrmMain.mnuAllOperStopClick(Sender: TObject);
 begin
-  OperationsManager.CancelAll;
+  OperationsManager.StopAll;
 end;
 
-procedure TfrmMain.AllOpPauseClick(Sender: TObject);
+procedure TfrmMain.mnuAllOperPauseClick(Sender: TObject);
 begin
-  OperationsManager.PauseRunning;
+  OperationsManager.PauseAll;
 end;
 
-procedure TfrmMain.AllOpPctClick(Sender: TObject);
+procedure TfrmMain.mnuAllOperProgressClick(Sender: TObject);
 begin
   ShowOperationsViewer;
 end;
 
-procedure TfrmMain.AllOpStartClick(Sender: TObject);
+procedure TfrmMain.mnuAllOperStartClick(Sender: TObject);
 begin
-   OperationsManager.StartRunning;
+  OperationsManager.UnPauseAll;
 end;
 
 procedure TfrmMain.btnF8Click(Sender: TObject);
@@ -4644,9 +4644,9 @@ begin
   // Hide progress bar if there are no operations
   if OperationsManager.OperationsCount = 0 then
     begin
-      AllOpPct.Visible:= False;
-      AllOpStart.Visible:= False;
-      AllOpPause.Visible:= False;
+      mnuAllOperProgress.Visible:= False;
+      mnuAllOperPause.Visible:= False;
+      mnuAllOperStart.Visible:= False;
     end
   else
     begin
@@ -4656,10 +4656,10 @@ begin
       if gProgInMenuBar = true then
         begin
           AllProgressPoint:= Round(OperationsManager.AllProgressPoint*100);
-          AllOpPct.Caption:=IntToStr(AllProgressPoint)+' %'; // Show in menu line
-          AllOpPct.Visible:= True;
-          AllOpStart.Visible:= True;
-          AllOpPause.Visible:= True;
+          mnuAllOperProgress.Caption:=IntToStr(AllProgressPoint)+' %'; // Show in menu line
+          mnuAllOperProgress.Visible:= True;
+          mnuAllOperPause.Visible:= True;
+          mnuAllOperStart.Visible:= True;
         end;
     end;
   PanelAllProgress.Visible := FOperationsPanel.Visible;

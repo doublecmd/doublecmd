@@ -108,7 +108,7 @@ object frmViewOperations: TfrmViewOperations
     OnKeyDown = tvOperationsKeyDown
     OnMouseDown = tvOperationsMouseDown
     OnSelectionChanged = tvOperationsSelectionChanged
-    Options = [tvoAllowMultiselect, tvoAutoExpand, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowRoot, tvoShowSeparators, tvoToolTips, tvoThemedDraw]
+    Options = [tvoAllowMultiselect, tvoAutoExpand, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowRoot, tvoShowSeparators, tvoToolTips, tvoNoDoubleClickExpand, tvoThemedDraw]
   end
   object UpdateTimer: TTimer
     Interval = 100
