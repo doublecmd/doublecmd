@@ -42,7 +42,6 @@ type
     procedure ClearItems;
     procedure DeleteItem(List: TFPList; Index: Integer);
     function GetProgressString(Progress: Double): String;
-    function GetOperationDescription(Operation: TFileSourceOperation): String;
     procedure GetStateColor(State: TFileSourceOperationState; out ColorFrom, ColorTo: TColor);
     procedure OperationsManagerEvent(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
     procedure ProgressWindowEvent(OperationHandle: TOperationHandle;
@@ -63,8 +62,7 @@ implementation
 
 uses
   LCLIntf, LCLType, Math,
-  uDCUtils, uLng,
-  uFileSourceOperationTypes;
+  uDCUtils, uLng;
 
 const
   MinimumHeight = 25;
@@ -111,24 +109,6 @@ end;
 function TOperationsPanel.GetProgressString(Progress: Double): String;
 begin
   Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + ' %';
-end;
-
-function TOperationsPanel.GetOperationDescription(Operation: TFileSourceOperation): String;
-begin
-  case Operation.ID of
-    fsoCopy, fsoCopyIn, fsoCopyOut:
-      Result := 'Copying';
-    fsoMove:
-      Result := 'Moving';
-    fsoDelete:
-      Result := 'Delete';
-    fsoWipe:
-      Result := 'Erasing';
-    fsoCalcChecksum:
-      Result := 'Counting';
-    else
-      Result := 'Unknown';
-  end;
 end;
 
 procedure TOperationsPanel.GetStateColor(State: TFileSourceOperationState; out ColorFrom, ColorTo: TColor);
@@ -215,7 +195,7 @@ begin
             OperationItem^.OperationHandle := OpManItem.Handle;
 
             OutString := IntToStr(OpManItem.Handle) + ': ' +
-              GetOperationDescription(OpManItem.Operation) + ' - ' + GetProgressString(100);
+              OpManItem.Operation.GetDescription([fsoddJob]) + ' - ' + GetProgressString(100);
             SetSize;
 
             if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) and
@@ -232,7 +212,7 @@ begin
         OperationItem^.OperationHandle := InvalidOperationHandle;
 
         OutString := rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' + GetProgressString(100) +
-          LineEnding + GetOperationDescription(Queue.Items[0].Operation);
+          LineEnding + Queue.Items[0].Operation.GetDescription([fsoddJob]);
         SetSize;
 
         if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) and
@@ -442,7 +422,7 @@ begin
         DrawProgress(OpManItem.Operation.State, OpManItem.Operation.Progress / Queue.Count);
         DrawString(rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' +
                    GetProgressString(OpManItem.Operation.Progress / Queue.Count) +
-                   LineEnding + GetOperationDescription(Queue.Items[0].Operation));
+                   LineEnding + Queue.Items[0].Operation.GetDescription([fsoddJob]));
         Inc(i);
       end
       else
@@ -476,7 +456,7 @@ begin
 
         DrawProgress(OpManItem.Operation.State, OpManItem.Operation.Progress);
         DrawString(IntToStr(OpManItem.Handle) + ': ' +
-                   GetOperationDescription(OpManItem.Operation) + ' - ' +
+                   OpManItem.Operation.GetDescription([fsoddJob]) + ' - ' +
                    GetProgressString(OpManItem.Operation.Progress));
         Inc(i);
       end

@@ -62,6 +62,7 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceTestArchiveOperationStatistics;
 
   end;
@@ -69,7 +70,7 @@ type
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 // -- TFileSourceTestArchiveOperation ------------------------------------------------
 
@@ -108,6 +109,11 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FSourceFiles) then
     FreeAndNil(FSourceFiles);
+end;
+
+function TFileSourceTestArchiveOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperTesting;
 end;
 
 function TFileSourceTestArchiveOperation.GetID: TFileSourceOperationType;

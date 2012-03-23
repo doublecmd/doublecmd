@@ -27,6 +27,9 @@ type
      Operation that deletes files from an arbitrary file source.
      File source should match the class type.
   }
+
+  { TFileSourceDeleteOperation }
+
   TFileSourceDeleteOperation = class(TFileSourceOperation)
 
   private
@@ -51,13 +54,14 @@ type
                        var theFilesToDelete: TFiles); virtual reintroduce;
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceDeleteOperationStatistics;
   end;
 
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 constructor TFileSourceDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -102,6 +106,11 @@ end;
 procedure TFileSourceDeleteOperation.DoReloadFileSources;
 begin
   FFileSource.Reload(FFilesToDelete.Path);
+end;
+
+function TFileSourceDeleteOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperDeleting;
 end;
 
 procedure TFileSourceDeleteOperation.UpdateStatistics(var NewStatistics: TFileSourceDeleteOperationStatistics);

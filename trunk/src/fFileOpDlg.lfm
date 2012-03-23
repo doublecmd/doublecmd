@@ -3,7 +3,6 @@ object frmFileOp: TfrmFileOp
   Height = 137
   Top = 243
   Width = 500
-  Caption = 'Process file(s)'
   ClientHeight = 137
   ClientWidth = 500
   Constraints.MinWidth = 500
@@ -52,7 +51,6 @@ object frmFileOp: TfrmFileOp
         Top = 0
         Width = 454
         Align = alClient
-        Caption = 'File name from'
         ParentColor = False
       end
     end
@@ -75,7 +73,6 @@ object frmFileOp: TfrmFileOp
         Top = 0
         Width = 454
         Align = alClient
-        Caption = 'File name to'
         ParentColor = False
       end
       object lblTo: TLabel

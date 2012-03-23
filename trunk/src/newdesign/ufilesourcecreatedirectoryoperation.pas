@@ -12,6 +12,8 @@ uses
 
 type
 
+  { TFileSourceCreateDirectoryOperation }
+
   TFileSourceCreateDirectoryOperation = class(TFileSourceOperation)
 
   private
@@ -47,12 +49,14 @@ type
                        aDirectoryPath: String); virtual reintroduce;
 
     destructor Destroy; override;
+
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
   end;
 
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 constructor TFileSourceCreateDirectoryOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -95,6 +99,11 @@ end;
 procedure TFileSourceCreateDirectoryOperation.DoReloadFileSources;
 begin
   FFileSource.Reload(FFileSource.GetParentDir(FAbsolutePath));
+end;
+
+function TFileSourceCreateDirectoryOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperCreatingDirectory;
 end;
 
 end.

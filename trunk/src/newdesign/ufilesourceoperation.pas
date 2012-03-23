@@ -50,6 +50,11 @@ type
     (fsorFinished,    //<en operation has finished successfully
      fsorAborted);    //<en operation has been aborted by user
 
+  TFileSourceOperationDescriptionDetail =
+    (fsoddJob);       //<en What the operation is supposed to be doing in general: copying, deleting, etc.
+
+  TFileSourceOperationDescriptionDetails = set of TFileSourceOperationDescriptionDetail;
+
 const
   FileSourceOperationStateText: array[TFileSourceOperationState] of string =
     (rsOperNotStarted, rsOperStarting, rsOperRunning, rsOperPausing,
@@ -80,6 +85,9 @@ type
   {en
      Base class for each file source operation.
   }
+
+  { TFileSourceOperation }
+
   TFileSourceOperation = class
   private
     {
@@ -386,6 +394,8 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; virtual;
     class function GetOperationClass: TFileSourceOperationClass;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; virtual;
+
     property Progress: Double read FProgress;
     property ID: TFileSourceOperationType read GetID;
     property State: TFileSourceOperationState read GetState;
@@ -684,6 +694,11 @@ end;
 function TFileSourceOperation.GetConnection: TObject;
 begin
   Result := (FileSource as IFileSource).GetConnection(Self);
+end;
+
+function TFileSourceOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperWorking;
 end;
 
 procedure TFileSourceOperation.CheckOperationState;

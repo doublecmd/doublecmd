@@ -29,6 +29,9 @@ type
      Operation that wipes files from an arbitrary file source.
      File source should match the class type.
   }
+
+  { TFileSourceWipeOperation }
+
   TFileSourceWipeOperation = class(TFileSourceOperation)
 
   private
@@ -53,13 +56,14 @@ type
                        var theFilesToWipe: TFiles); virtual reintroduce;
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceWipeOperationStatistics;
   end;
 
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 constructor TFileSourceWipeOperation.Create(aTargetFileSource: IFileSource;
                                             var theFilesToWipe: TFiles);
@@ -105,6 +109,11 @@ end;
 procedure TFileSourceWipeOperation.DoReloadFileSources;
 begin
   FFileSource.Reload(FFilesToWipe.Path);
+end;
+
+function TFileSourceWipeOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperWiping;
 end;
 
 procedure TFileSourceWipeOperation.UpdateStatistics(var NewStatistics: TFileSourceWipeOperationStatistics);

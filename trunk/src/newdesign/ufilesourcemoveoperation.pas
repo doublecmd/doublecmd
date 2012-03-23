@@ -20,6 +20,9 @@ type
      Operation that moves or renames files within the same file source
      (for example: in the same archive, in the same ftp server).
   }
+
+  { TFileSourceMoveOperation }
+
   TFileSourceMoveOperation = class(TFileSourceOperation)
 
   private
@@ -59,6 +62,7 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceMoveOperationStatistics;
 
     property RenameMask: String read FRenameMask write FRenameMask;
@@ -67,7 +71,7 @@ type
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 // -- TFileSourceMoveOperation ------------------------------------------------
 
@@ -177,6 +181,11 @@ begin
   Paths[0] := FSourceFiles.Path;  // Move source path
   Paths[1] := FTargetPath;        // Move target path
   FFileSource.Reload(Paths);
+end;
+
+function TFileSourceMoveOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperMoving;
 end;
 
 end.

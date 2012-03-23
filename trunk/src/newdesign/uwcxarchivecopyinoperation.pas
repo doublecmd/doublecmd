@@ -54,6 +54,7 @@ type
     procedure Finalize; override;
 
     class procedure ClearCurrentOperation;
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
 
     property PackingFlags: Integer read FPackingFlags write FPackingFlags;
     property TarBefore: Boolean read FTarBefore write SetTarBefore;
@@ -277,6 +278,11 @@ end;
 procedure TWcxArchiveCopyInOperation.Finalize;
 begin
   ClearCurrentOperation;
+end;
+
+function TWcxArchiveCopyInOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperPacking;
 end;
 
 function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;

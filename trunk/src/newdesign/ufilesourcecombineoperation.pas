@@ -19,6 +19,9 @@ type
   {en
      Operation that combine files within the same file source.
   }
+
+  { TFileSourceCombineOperation }
+
   TFileSourceCombineOperation = class(TFileSourceOperation)
 
   private
@@ -57,6 +60,7 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceCombineOperationStatistics;
 
   end;
@@ -64,7 +68,7 @@ type
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 // -- TFileSourceCombineOperation ------------------------------------------------
 
@@ -171,6 +175,11 @@ begin
   SetLength(Paths, 1);
   Paths[0] := ExtractFilePath(FTargetFile);  // Combine target path
   FFileSource.Reload(Paths);
+end;
+
+function TFileSourceCombineOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperCombining;
 end;
 
 end.

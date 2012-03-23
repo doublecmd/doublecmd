@@ -73,6 +73,7 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
 
     property RenameMask: String read FRenameMask write FRenameMask;
@@ -121,7 +122,7 @@ type
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 // -- TFileSourceCopyOperation ------------------------------------------------
 
@@ -186,6 +187,11 @@ end;
 procedure TFileSourceCopyOperation.DoReloadFileSources;
 begin
   FTargetFileSource.Reload(FTargetPath);
+end;
+
+function TFileSourceCopyOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperCopying;
 end;
 
 procedure TFileSourceCopyOperation.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);

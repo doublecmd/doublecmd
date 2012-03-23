@@ -13,6 +13,8 @@ uses
 
 type
 
+  { TFileSourceListOperation }
+
   TFileSourceListOperation = class(TFileSourceOperation)
 
   private
@@ -33,6 +35,8 @@ type
     constructor Create(aFileSource: IFileSource; aPath: String); virtual reintroduce;
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
+
     // Retrieves files and revokes ownership of TFiles list.
     // The result of this function should be freed by the caller.
     function ReleaseFiles: TFiles;
@@ -43,6 +47,9 @@ type
   end;
 
 implementation
+
+uses
+  uLng;
 
 constructor TFileSourceListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -57,6 +64,11 @@ begin
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
+end;
+
+function TFileSourceListOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperListing;
 end;
 
 function TFileSourceListOperation.GetID: TFileSourceOperationType;

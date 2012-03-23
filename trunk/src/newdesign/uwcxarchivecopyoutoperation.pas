@@ -80,6 +80,7 @@ type
 
     class procedure ClearCurrentOperation;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
@@ -367,6 +368,11 @@ end;
 procedure TWcxArchiveCopyOutOperation.Finalize;
 begin
   ClearCurrentOperation;
+end;
+
+function TWcxArchiveCopyOutOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperExtracting;
 end;
 
 procedure TWcxArchiveCopyOutOperation.CreateDirsAndCountFiles(
