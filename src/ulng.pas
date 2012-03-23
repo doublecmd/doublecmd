@@ -198,28 +198,22 @@ resourcestring
   rsCfgToolBarInsertButton = '&Insert new button';
 
   // File operations dialog
-  rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
-  rsDlgSpeed = 'Speed %s/s';
-  rsDlgDel = 'Delete file(s)';
-  rsDlgWipe = 'Wipe file(s)';
-  rsDlgSplit = 'Split';
-  rsDlgCombine = 'Combine';
-  rsDlgCp = 'Copy file(s)';
-  rsDlgMv = 'Move file(s)';
-  rsDlgPack = 'Packing...';
-  rsDlgExtract = 'Extracting...';
-  rsDlgTest = 'Testing...';
-  rsDlgDeleting = 'Deleting';
-  rsDlgCalculating = 'Calculating';
-  rsDlgCheckSumCalc = 'Calculate check sum...';
-  rsDlgCalcStatistics = 'Calculate files and folders';
-  rsDlgCheckSumVerify = 'Verify check sum...';
-  rsDlgAllOpProgress = 'Progress of all operations %d %%';
   rsDlgAllOpComplete = 'All operations completed';
-  rsDlgUnknownOperation = 'Unknown operation';
-  rsDlgOpStart = '&Start';
+  rsDlgAllOpProgress = 'Progress of all operations %d %%';
+  rsDlgCalcStatistics = 'Calculate files and folders';
+  rsDlgCheckSumCalc = 'Calculate check sum...';
+  rsDlgCheckSumVerify = 'Verify check sum...';
+  rsDlgCp = 'Copy file(s)';
+  rsDlgDel = 'Delete file(s)';
+  rsDlgMv = 'Move file(s)';
   rsDlgOpPause = 'Pau&se';
+  rsDlgOpStart = '&Start';
   rsDlgQueue = 'Queue';
+  rsDlgSpeed = 'Speed %s/s';
+  rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
+  rsDlgSplit = 'Split';
+  rsDlgWipe = 'Wipe file(s)';
+
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   rsViewNotFound = '%s not found!';
@@ -460,6 +454,25 @@ resourcestring
   rsOperFinished = 'Finished';
   rsOperAborted = 'Aborted';
   rsOperQueued = 'Queued';
+
+  // Operations descriptions.
+  rsOperCalculatingCheckSum = 'Calculating check sum';
+  rsOperCalculatingStatictics = 'Calculating';
+  rsOperCombining = 'Joining';
+  rsOperCopying = 'Copying';
+  rsOperCreatingDirectory = 'Creating directory';
+  rsOperDeleting = 'Deleting';
+  rsOperExecuting = 'Executing';
+  rsOperExtracting = 'Extracting';
+  rsOperListing = 'Listing';
+  rsOperMoving = 'Moving';
+  rsOperPacking = 'Packing';
+  rsOperSettingProperty = 'Setting property';
+  rsOperSplitting = 'Splitting';
+  rsOperTesting = 'Testing';
+  rsOperVerifyingCheckSum = 'Verifying check sum';
+  rsOperWiping = 'Wiping';
+  rsOperWorking = 'Working'; // Generic description for unknown operation
 
   // Unhandled error.
   rsUnhandledExceptionMessage =

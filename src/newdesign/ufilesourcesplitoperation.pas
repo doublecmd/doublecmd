@@ -19,6 +19,9 @@ type
   {en
      Operation that split file within the same file source.
   }
+
+  { TFileSourceSplitOperation }
+
   TFileSourceSplitOperation = class(TFileSourceOperation)
 
   private
@@ -59,6 +62,7 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceSplitOperationStatistics;
 
     property VolumeSize: Int64 read FVolumeSize write FVolumeSize;
@@ -68,7 +72,7 @@ type
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 // -- TFileSourceSplitOperation ------------------------------------------------
 
@@ -175,6 +179,11 @@ begin
   SetLength(Paths, 1);
   Paths[0] := FTargetPath;  // Split target path
   FFileSource.Reload(Paths);
+end;
+
+function TFileSourceSplitOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperSplitting;
 end;
 
 end.

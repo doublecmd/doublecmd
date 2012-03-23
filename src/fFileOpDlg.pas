@@ -259,11 +259,12 @@ begin
 
       else
         begin
-          Caption := 'Unknown operation';
           InitializeControls([fodl_first_pb]);
         end;
     end;
 
+    Caption := OpManItem.Operation.GetDescription([fsoddJob]);
+    Hint := Caption;
     UpdatePauseStartButton(OpManItem.Operation.State);
 
     FUpdateTimer := TTimer.Create(Self);
@@ -277,10 +278,6 @@ begin
       OpenedHandles.Add(Pointer(FOperationHandle));
       NotifyEvents([opwevOpened]);
     end;
-  end
-  else
-  begin
-    Caption := 'Invalid operation';
   end;
 end;
 
@@ -477,8 +474,6 @@ begin
   lblFileNameFrom.Caption := '';
   lblFileNameTo.Caption := '';
   lblEstimated.Caption := #32;
-
-  Hint := Caption;
 end;
 
 procedure TfrmFileOp.NotifyEvents(Events: TOperationProgressWindowEvents);
@@ -555,59 +550,50 @@ end;
 
 procedure TfrmFileOp.InitializeCopyOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgCp;
   InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
 procedure TfrmFileOp.InitializeMoveOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgMv;
   InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
 procedure TfrmFileOp.InitializeDeleteOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgDel;
   InitializeControls([fodl_from_lbl, fodl_first_pb]);
-  lblFrom.Caption := rsDlgDeleting;
+  lblFrom.Caption := rsOperDeleting;
 end;
 
 procedure TfrmFileOp.InitializeCalcStatisticsOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgCalcStatistics;
   InitializeControls([fodl_from_lbl]);
-  lblFrom.Caption := rsDlgCalculating;
+  lblFrom.Caption := rsOperCalculatingStatictics;
 end;
 
 procedure TfrmFileOp.InitializeWipeOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgWipe;
   InitializeControls([fodl_from_lbl, fodl_first_pb, fodl_second_pb]);
-  lblFrom.Caption := rsDlgDeleting;
+  lblFrom.Caption := rsOperWiping;
 end;
 
 procedure TfrmFileOp.InitializeSplitOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgSplit;
   InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
 procedure TfrmFileOp.InitializeCombineOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgCombine;
   InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
 procedure TfrmFileOp.InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgCheckSumCalc;
   InitializeControls([fodl_from_lbl, fodl_first_pb, fodl_second_pb]);
   lblFrom.Visible := False;
 end;
 
 procedure TfrmFileOp.InitializeTestArchiveOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgTest;
   InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 

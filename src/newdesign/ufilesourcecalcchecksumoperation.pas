@@ -31,6 +31,9 @@ type
   {en
      Operation that calculates checksum of the files.
   }
+
+  { TFileSourceCalcChecksumOperation }
+
   TFileSourceCalcChecksumOperation = class(TFileSourceOperation)
 
   private
@@ -66,6 +69,7 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceCalcChecksumOperationStatistics;
 
     property Mode: TCalcCheckSumOperationMode read FMode write FMode;
@@ -77,7 +81,7 @@ type
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uLng;
 
 constructor TFileSourceCalcChecksumOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -124,6 +128,18 @@ begin
     FreeAndNil(FFiles);
   if Assigned(FResult) then
     FreeAndNil(FResult);
+end;
+
+function TFileSourceCalcChecksumOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  case Mode of
+    checksum_calc:
+      Result := rsOperCalculatingCheckSum;
+    checksum_verify:
+      Result := rsOperVerifyingCheckSum;
+    else
+      Result := inherited GetDescription(Details);
+  end;
 end;
 
 function TFileSourceCalcChecksumOperation.GetID: TFileSourceOperationType;

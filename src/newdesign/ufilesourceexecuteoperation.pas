@@ -56,6 +56,8 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
+
     property CurrentPath: UTF8String read FCurrentPath;
     property ExecutableFile: TFile read FExecutableFile;
     property ResultString: UTF8String read FResultString write FResultString;
@@ -66,6 +68,9 @@ type
   end;
 
 implementation
+
+uses
+  uLng;
 
 constructor TFileSourceExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -108,5 +113,10 @@ begin
     FFileSource.Reload(FCurrentPath);
 end;
 
+function TFileSourceExecuteOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperExecuting;
+end;
+
 end.
-
+

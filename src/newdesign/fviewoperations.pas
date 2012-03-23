@@ -140,7 +140,6 @@ implementation
 
 uses
   GraphMath, GraphType, Math,
-  uFileSourceOperationTypes,
   uLng, fFileOpDlg, uGlobs, LCLProc;
 
 const
@@ -317,21 +316,9 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    case OpManItem.Operation.ID of
-      fsoCopy, fsoCopyIn, fsoCopyOut:
-        OutString := rsDlgCp;
-      fsoMove:
-        OutString := rsDlgMv;
-      fsoDelete:
-        OutString := rsDlgDel;
-      fsoWipe:
-        OutString := rsDlgWipe;
-      fsoCalcChecksum:
-        OutString := rsDlgCheckSumCalc;
-      else
-        OutString := rsDlgUnknownOperation;
-    end;
-    OutString := IntToStr(OpManItem.Handle) + ': ' + OutString + ' - ' +
+    OutString :=
+      IntToStr(OpManItem.Handle) + ': ' +
+      OpManItem.Operation.GetDescription([fsoddJob]) + ' - ' +
       FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 1, 1) + ' %' +
       ' (' + FileSourceOperationStateText[OpManItem.Operation.State] + ')';
 

@@ -10,8 +10,7 @@ uses
   uFileSourceOperationTypes,
   uFileSource,
   uFile,
-  uFileProperty,
-  uLng;
+  uFileProperty;
 
 type
 
@@ -59,6 +58,9 @@ type
      If template files list is @nil, to indicate that the template files
      are not used, then only the NewProperties are used.)
   }
+
+  { TFileSourceSetFilePropertyOperation }
+
   TFileSourceSetFilePropertyOperation = class(TFileSourceOperation)
 
   private
@@ -107,6 +109,7 @@ type
 
     procedure SetTemplateFiles(var theTemplateFiles: TFiles);
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceSetFilePropertyOperationStatistics;
 
     property NewProperties: TFileProperties read FNewProperties;
@@ -119,7 +122,7 @@ type
 implementation
 
 uses
-  uDCUtils, uGlobs, uLog, uFileSourceOperationUI;
+  uDCUtils, uGlobs, uLog, uLng, uFileSourceOperationUI;
 
 constructor TFileSourceSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                        var theTargetFiles: TFiles;
@@ -177,6 +180,11 @@ end;
 procedure TFileSourceSetFilePropertyOperation.DoReloadFileSources;
 begin
   FFileSource.Reload(FTargetFiles.Path);
+end;
+
+function TFileSourceSetFilePropertyOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperSettingProperty;
 end;
 
 procedure TFileSourceSetFilePropertyOperation.UpdateStatistics(var NewStatistics: TFileSourceSetFilePropertyOperationStatistics);

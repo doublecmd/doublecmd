@@ -35,6 +35,9 @@ type
   {en
      Operation that calculates several statistics for a directory tree.
   }
+
+  { TFileSourceCalcStatisticsOperation }
+
   TFileSourceCalcStatisticsOperation = class(TFileSourceOperation)
 
   private
@@ -63,6 +66,7 @@ type
 
     destructor Destroy; override;
 
+    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceCalcStatisticsOperationStatistics;
 
     property SymLinkOption: TFileSourceOperationOptionSymLink
@@ -73,7 +77,7 @@ type
 implementation
 
 uses
-  uGlobs, uDCUtils;
+  uGlobs, uDCUtils, uLng;
 
 constructor TFileSourceCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -113,6 +117,11 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
+end;
+
+function TFileSourceCalcStatisticsOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
+begin
+  Result := rsOperCalculatingStatictics;
 end;
 
 function TFileSourceCalcStatisticsOperation.GetID: TFileSourceOperationType;
