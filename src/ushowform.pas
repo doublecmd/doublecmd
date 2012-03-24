@@ -116,7 +116,7 @@ begin
     if aFileSource.IsClass(TTempFileSystemFileSource) then
       begin
         WaitThread := TWaitThread.Create(FilesToView, aFileSource);
-        WaitThread.Resume;
+        WaitThread.Start;
       end
     else
     begin

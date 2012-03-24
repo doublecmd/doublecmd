@@ -3610,7 +3610,7 @@ begin
           Cons.ColsCount:= 80;
           Cons.RowsCount:= cmdConsole.LineCount;
           Cons.CmdBox:= cmdConsole;
-          Cons.Resume;
+          Cons.Start;
         end;
     end
   else
