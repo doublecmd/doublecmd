@@ -566,15 +566,14 @@ begin
     end
   else
     begin
-      if not GetConnectionByPath(IncludeTrailingPathDelimiter(Path), FtpSend, sPath) then
+      try
+        ListLock.Acquire;
+        if not GetConnectionByPath(IncludeTrailingPathDelimiter(Path), FtpSend, sPath) then
         begin
           Result := THandle(-1);
           Dispose(ListRec);
           Exit;
         end;
-
-      try
-        ListLock.Acquire;
         if FtpSend.List(sPath, False) then
           begin
             if FtpSend.FtpList.Count > 0 then
