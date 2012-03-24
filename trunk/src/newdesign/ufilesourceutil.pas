@@ -94,8 +94,13 @@ begin
           Operation.Execute;
           case Operation.ExecuteOperationResult of
           fseorError:
-            // Show error message
-            msgError(Operation.ResultString);
+            begin
+              // Show error message
+              if Length(Operation.ResultString) = 0 then
+                msgError(rsMsgErrEOpen)
+              else
+                msgError(Operation.ResultString);
+            end;
           fseorYourSelf:
             begin
               // Copy out file to temp file system and execute
@@ -312,4 +317,4 @@ begin
 end;
 
 end.
-
+
