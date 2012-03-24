@@ -291,24 +291,26 @@ end;
 
 function AddQuickConnection(const Connection: TConnection): Boolean;
 var
-  pcTemp: PAnsiChar;
+  Temp: AnsiString;
 begin
   Result:= False;
-  GetMem(pcTemp, MAX_PATH);
-  if RequestProc(PluginNumber, RT_URL, nil, nil, pcTemp, MAX_PATH) then
+  SetLength(Temp, MAX_PATH);
+  Temp[1]:= #0;
+  if RequestProc(PluginNumber, RT_URL, nil, nil, PAnsiChar(Temp), MAX_PATH) then
   begin
-    Connection.Host := pcTemp;
-    if RequestProc(PluginNumber, RT_TargetDir, nil, nil, pcTemp, MAX_PATH) then
+    Connection.Host := Temp;
+    Temp[1]:= #0;
+    if RequestProc(PluginNumber, RT_TargetDir, nil, nil, PAnsiChar(Temp), MAX_PATH) then
     begin
-      Connection.Path := pcTemp;
-      if RequestProc(PluginNumber, RT_UserName, nil, nil, pcTemp, MAX_PATH) then
+      Connection.Path := Temp;
+      Temp[1]:= #0;
+      if RequestProc(PluginNumber, RT_UserName, nil, nil, PAnsiChar(Temp), MAX_PATH) then
       begin
-        Connection.UserName := pcTemp;
+        Connection.UserName := Temp;
         Result:= True;
       end;
     end;
   end;
-  FreeMem(pcTemp);
 end;
 
 function QuickConnection: Boolean;
@@ -335,10 +337,9 @@ begin
     Connection.Free;
 end;
 
-
 function AddConnection: Integer;
 var
-  pcTemp: PAnsiChar;
+  Temp: AnsiString;
   bCancel: Boolean;
 begin
   Result:= -1;
@@ -361,17 +362,17 @@ begin
     end
   else
     begin
-      GetMem(pcTemp, MAX_PATH);
-      if RequestProc(PluginNumber, RT_Other, nil, nil, pcTemp, MAX_PATH) then
+      SetLength(Temp, MAX_PATH);
+      Temp[1]:= #0;
+      if RequestProc(PluginNumber, RT_Other, nil, nil, PAnsiChar(Temp), MAX_PATH) then
       begin
-        gConnection.ConnectionName := pcTemp;
+        gConnection.ConnectionName := Temp;
         if AddQuickConnection(gConnection) then
         begin
           Result:= ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
           bCancel := False;
         end;
       end;
-      FreeMem(pcTemp);
     end;
 
   if bCancel then
@@ -507,7 +508,6 @@ function RemoteFindNext(Hdl: THandle; var FindData: TWin32FindData): Boolean;
 var
   ListRec: PListRec absolute Hdl;
   I: Integer;
-  sTemp: AnsiString;
 begin
   Result := False;
   if Assigned(ListRec^.FtpList) then
@@ -551,7 +551,6 @@ end;
 function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; dcpcall;
 var
   ListRec: PListRec;
-  I, iCount: Integer;
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
 begin
@@ -630,7 +629,6 @@ end;
 
 function FsExecuteFile(MainWin: THandle; RemoteName, Verb: PAnsiChar): Integer; dcpcall;
 var
-  I: Integer;
   FtpSend: TFTPSendEx;
   sFileName: AnsiString;
 begin
@@ -660,7 +658,7 @@ begin
                 if QuickConnection then
                   Result := FS_EXEC_SYMLINK
                 else
-                  Result := FS_EXEC_ERROR;
+                  Result := FS_EXEC_OK;
               end;
           end;
       end; // root path
@@ -679,6 +677,7 @@ begin
     if (ExtractFileDir(RemoteName) = PathDelim) and (RemoteName[1] <> '<') then // connection
       begin
         EditConnection(RemoteName + 1);
+        Result:= FS_EXEC_OK;
       end;
 end;
 
@@ -687,13 +686,11 @@ function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
 var
   I: Integer;
   FtpSend: TFTPSendEx;
-  sRemotePath, sOldName, sNewName: AnsiString;
+  sOldName, sNewName: AnsiString;
 begin
-  if not Move then
-  begin
-    Result := FS_FILE_NOTSUPPORTED;
-    Exit;
-  end;
+  Result := FS_FILE_NOTSUPPORTED;
+
+  if not Move then Exit;
 
   if (ExtractFileDir(OldName) = PathDelim) and (AnsiChar(OldName[1]) <> '<') then
     begin
@@ -946,6 +943,7 @@ function DeletePassword(ConnectionName: UTF8String): Boolean;
 var
   Password: AnsiString;
 begin
+  Password:= EmptyStr;
   Result:= CryptFunc(FS_CRYPT_DELETE_PASSWORD, ConnectionName, Password) = FS_FILE_OK;
 end;
 
