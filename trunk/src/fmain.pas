@@ -3129,7 +3129,7 @@ end;
 
 procedure TfrmMain.AddVirtualDriveButton(dskPanel: TKASToolBar);
 const
-  btnCaption = ':' + PathDelim + PathDelim;
+  btnCaption = PathDelim + PathDelim;
 var
   btnIndex : Integer;
   bmpBitmap: TBitmap = nil;
