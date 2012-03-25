@@ -116,7 +116,8 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FInfoOperation);
-    FCallbackDataClass.Add(@UpdateProgress);
+    FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
+    UpdateProgressFunction:= @UpdateProgress;
   end;
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -155,7 +156,8 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FInfoOperation);
-    FCallbackDataClass.Remove;
+    FCallbackDataClass.UpdateProgressFunction:= nil;
+    UpdateProgressFunction:= nil;
   end;
 end;
 

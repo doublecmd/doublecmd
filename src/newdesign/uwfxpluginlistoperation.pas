@@ -62,7 +62,8 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(FCurrentPath, FS_STATUS_START, FS_STATUS_OP_LIST);
-    FCallbackDataClass.Add(@UpdateProgress);
+    FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
+    UpdateProgressFunction:= @UpdateProgress;
   end;
 end;
 
@@ -103,7 +104,8 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(FCurrentPath, FS_STATUS_END, FS_STATUS_OP_LIST);
-    FCallbackDataClass.Remove;
+    FCallbackDataClass.UpdateProgressFunction:= nil;
+    UpdateProgressFunction:= nil;
   end;
 end;
 
