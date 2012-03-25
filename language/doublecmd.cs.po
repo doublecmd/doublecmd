@@ -1904,6 +1904,7 @@ msgid "S&ave"
 msgstr "&Uložit"
 
 #: tfrmfinddlg.btnstart.caption
+msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
 msgstr "&Start"
 
@@ -6059,105 +6060,75 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: tfrmviewoperations.btnallcancel.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Zrušit"
+#: tfrmviewoperations.btnstartpause.caption
+#, fuzzy
+#| msgid "Start"
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
+msgstr "Začít"
 
-#: tfrmviewoperations.btnallinqueue.caption
-msgid "Queue In"
-msgstr "Zařadit do fronty"
-
-#: tfrmviewoperations.btnallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "Pozastavit"
-
-#: tfrmviewoperations.btnallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
-msgid "Start"
-msgstr "Začátek"
-
-#: tfrmviewoperations.btncancelcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: tfrmviewoperations.btncuropqueueinout.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
-msgid "In"
-msgstr "V"
-
-#: tfrmviewoperations.btndncurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
-msgid "Down"
-msgstr "Dolů"
-
-#: tfrmviewoperations.btnrunallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "Pozastavit"
-
-#: tfrmviewoperations.btnrunallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
-msgid "Start"
-msgstr "Začátek"
-
-#: tfrmviewoperations.btnstartpausecurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION"
-msgid "Start"
-msgstr "Začátek"
-
-#: tfrmviewoperations.btnstartqueue.caption
-msgid "Start queue"
-msgstr "Spustit frontu"
-
-#: tfrmviewoperations.btnupcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
-msgid "Up"
-msgstr "Nahoru"
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
+msgstr ""
 
 #: tfrmviewoperations.caption
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "Souborové operace"
 
-#: tfrmviewoperations.chkqueue.caption
-msgid "Enable queue"
-msgstr "Povolit frontu"
+#: tfrmviewoperations.mnucancel.caption
+msgctxt "tfrmviewoperations.mnucancel.caption"
+msgid "Cancel"
+msgstr "Zrušit"
 
-#: tfrmviewoperations.grpalloperation.caption
-msgid "Operations control"
-msgstr "Řízení operací"
+#: tfrmviewoperations.mnunewqueue.caption
+msgid "New queue"
+msgstr ""
 
-#: tfrmviewoperations.lblall.caption
-msgid "for all"
-msgstr "pro všechny"
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr ""
 
-#: tfrmviewoperations.lblallprogress.caption
-msgid "Progress"
-msgstr "Průběh"
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr ""
 
-#: tfrmviewoperations.lblcount.caption
-msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
-msgid "0"
-msgstr "0"
+#: tfrmviewoperations.mnuqueue.caption
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
+msgstr ""
 
-#: tfrmviewoperations.lblcurrentoperation.caption
-msgid "Current operation"
-msgstr "Aktuální operace"
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr ""
 
-#: tfrmviewoperations.lbloperationscount.caption
-msgid "Active operations:"
-msgstr "Aktivní operace:"
+#: tfrmviewoperations.mnuqueue1.caption
+msgid "Queue 1"
+msgstr ""
 
-#: tfrmviewoperations.lblqueue.caption
-msgid "Queue:"
-msgstr "Fronta:"
+#: tfrmviewoperations.mnuqueue2.caption
+msgid "Queue 2"
+msgstr ""
 
-#: tfrmviewoperations.lblrunning.caption
-msgid "for running"
-msgstr "pro běžící"
+#: tfrmviewoperations.mnuqueue3.caption
+msgid "Queue 3"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue4.caption
+msgid "Queue 4"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue5.caption
+msgid "Queue 5"
+msgstr ""
+
+#: tfrmviewoperations.mnushowdetached.caption
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr ""
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -6344,10 +6315,6 @@ msgstr "&Ano"
 msgid "Calculate files and folders"
 msgstr "Spočítat soubory a adresáře"
 
-#: ulng.rsdlgcalculating
-msgid "Calculating"
-msgstr "Počítání"
-
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -6358,10 +6325,6 @@ msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Kontrola kontrolního součtu..."
 
-#: ulng.rsdlgcombine
-msgid "Combine"
-msgstr "Sloučit"
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -6370,14 +6333,6 @@ msgstr "Kopírovat soubor(y)"
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
 msgstr "Smazat soubor(y)"
-
-#: ulng.rsdlgdeleting
-msgid "Deleting"
-msgstr "Mazání"
-
-#: ulng.rsdlgextract
-msgid "Extracting..."
-msgstr "Dekomprese..."
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -6397,11 +6352,8 @@ msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
 msgstr "Začít"
 
-#: ulng.rsdlgpack
-msgid "Packing..."
-msgstr "Komprese..."
-
 #: ulng.rsdlgqueue
+msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
 msgstr ""
 
@@ -6419,14 +6371,6 @@ msgstr "Rychlost %s/s, zbývající čas %s"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
 msgstr "Dělení"
-
-#: ulng.rsdlgtest
-msgid "Testing..."
-msgstr "Testování..."
-
-#: ulng.rsdlgunknownoperation
-msgid "Unknown operation"
-msgstr "Neznámá operace"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -7158,13 +7102,59 @@ msgstr "Neměnit;VELKÁ;malá;1. znak velký;První znak každého slov velký"
 msgid "Aborted"
 msgstr "Přerušeno"
 
+#: ulng.rsopercalculatingchecksum
+msgid "Calculating check sum"
+msgstr ""
+
+#: ulng.rsopercalculatingstatictics
+msgctxt "ulng.rsopercalculatingstatictics"
+msgid "Calculating"
+msgstr "Počítání"
+
+#: ulng.rsopercombining
+msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercopying
+msgid "Copying"
+msgstr ""
+
+#: ulng.rsopercreatingdirectory
+msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsoperdeleting
+msgctxt "ulng.rsoperdeleting"
+msgid "Deleting"
+msgstr "Mazání"
+
+#: ulng.rsoperexecuting
+msgid "Executing"
+msgstr ""
+
+#: ulng.rsoperextracting
+msgid "Extracting"
+msgstr ""
+
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Hotovo"
 
+#: ulng.rsoperlisting
+msgid "Listing"
+msgstr ""
+
+#: ulng.rsopermoving
+msgid "Moving"
+msgstr ""
+
 #: ulng.rsopernotstarted
 msgid "Not started"
 msgstr "Nespuštěno"
+
+#: ulng.rsoperpacking
+msgid "Packing"
+msgstr ""
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7183,6 +7173,14 @@ msgstr "Ve frontě"
 msgid "Running"
 msgstr "Běží"
 
+#: ulng.rsopersettingproperty
+msgid "Setting property"
+msgstr ""
+
+#: ulng.rsopersplitting
+msgid "Splitting"
+msgstr ""
+
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Spouštím"
@@ -7195,6 +7193,14 @@ msgstr "Zastaveno"
 msgid "Stopping"
 msgstr "Zastavuji"
 
+#: ulng.rsopertesting
+msgid "Testing"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksum
+msgid "Verifying check sum"
+msgstr ""
+
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
 msgstr "Čekání pro přístup k zdroji souboru"
@@ -7202,6 +7208,14 @@ msgstr "Čekání pro přístup k zdroji souboru"
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
 msgstr "Čekám na reakci uživatele"
+
+#: ulng.rsoperwiping
+msgid "Wiping"
+msgstr ""
+
+#: ulng.rsoperworking
+msgid "Working"
+msgstr ""
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"

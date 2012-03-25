@@ -1921,6 +1921,7 @@ msgid "S&ave"
 msgstr "저장(&A)"
 
 #: tfrmfinddlg.btnstart.caption
+msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
 msgstr "시작(&S)"
 
@@ -6259,63 +6260,16 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "전부 선택"
 
-#: tfrmviewoperations.btnallcancel.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "취소"
+#: tfrmviewoperations.btnstartpause.caption
+#, fuzzy
+#| msgid "Start"
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
+msgstr "시작"
 
-#: tfrmviewoperations.btnallinqueue.caption
-msgid "Queue In"
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
 msgstr ""
-
-#: tfrmviewoperations.btnallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "중지"
-
-#: tfrmviewoperations.btnallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
-msgid "Start"
-msgstr "시작"
-
-#: tfrmviewoperations.btncancelcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
-msgid "Cancel"
-msgstr "취소"
-
-#: tfrmviewoperations.btncuropqueueinout.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
-msgid "In"
-msgstr ""
-
-#: tfrmviewoperations.btndncurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
-msgid "Down"
-msgstr "아래"
-
-#: tfrmviewoperations.btnrunallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "중지"
-
-#: tfrmviewoperations.btnrunallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
-msgid "Start"
-msgstr "시작"
-
-#: tfrmviewoperations.btnstartpausecurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION"
-msgid "Start"
-msgstr "시작"
-
-#: tfrmviewoperations.btnstartqueue.caption
-msgid "Start queue"
-msgstr "대기열 시작"
-
-#: tfrmviewoperations.btnupcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
-msgid "Up"
-msgstr "위"
 
 #: tfrmviewoperations.caption
 #, fuzzy
@@ -6323,42 +6277,59 @@ msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "파일 작업"
 
-#: tfrmviewoperations.chkqueue.caption
-msgid "Enable queue"
-msgstr "대기열 사용"
+#: tfrmviewoperations.mnucancel.caption
+msgctxt "tfrmviewoperations.mnucancel.caption"
+msgid "Cancel"
+msgstr "취소"
 
-#: tfrmviewoperations.grpalloperation.caption
-msgid "Operations control"
-msgstr "작업 제어"
+#: tfrmviewoperations.mnunewqueue.caption
+msgid "New queue"
+msgstr ""
 
-#: tfrmviewoperations.lblall.caption
-msgid "for all"
-msgstr "모든 작업"
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr ""
 
-#: tfrmviewoperations.lblallprogress.caption
-msgid "Progress"
-msgstr "처리중"
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr ""
 
-#: tfrmviewoperations.lblcount.caption
-msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
-msgid "0"
-msgstr "0"
+#: tfrmviewoperations.mnuqueue.caption
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
+msgstr ""
 
-#: tfrmviewoperations.lblcurrentoperation.caption
-msgid "Current operation"
-msgstr "현재 작업"
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr ""
 
-#: tfrmviewoperations.lbloperationscount.caption
-msgid "Active operations:"
-msgstr "활성 작업:"
+#: tfrmviewoperations.mnuqueue1.caption
+msgid "Queue 1"
+msgstr ""
 
-#: tfrmviewoperations.lblqueue.caption
-msgid "Queue:"
-msgstr "대기열:"
+#: tfrmviewoperations.mnuqueue2.caption
+msgid "Queue 2"
+msgstr ""
 
-#: tfrmviewoperations.lblrunning.caption
-msgid "for running"
-msgstr "실행중 작업"
+#: tfrmviewoperations.mnuqueue3.caption
+msgid "Queue 3"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue4.caption
+msgid "Queue 4"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue5.caption
+msgid "Queue 5"
+msgstr ""
+
+#: tfrmviewoperations.mnushowdetached.caption
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr ""
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -6550,10 +6521,6 @@ msgstr "예(&Y)"
 msgid "Calculate files and folders"
 msgstr "파일과 폴더 계산하기"
 
-#: ulng.rsdlgcalculating
-msgid "Calculating"
-msgstr "계산중"
-
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -6564,10 +6531,6 @@ msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "CRC 체크섬 검사..."
 
-#: ulng.rsdlgcombine
-msgid "Combine"
-msgstr "결합하기"
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -6576,14 +6539,6 @@ msgstr "파일 복사"
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
 msgstr "파일 삭제"
-
-#: ulng.rsdlgdeleting
-msgid "Deleting"
-msgstr "삭제중"
-
-#: ulng.rsdlgextract
-msgid "Extracting..."
-msgstr "압축 푸는 중..."
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -6603,11 +6558,8 @@ msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
 msgstr "시작"
 
-#: ulng.rsdlgpack
-msgid "Packing..."
-msgstr "압축 중..."
-
 #: ulng.rsdlgqueue
+msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
 msgstr ""
 
@@ -6625,14 +6577,6 @@ msgstr "속도 %s/s, 남은 시간 %s"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
 msgstr "파일 분할(&S)"
-
-#: ulng.rsdlgtest
-msgid "Testing..."
-msgstr "시험중..."
-
-#: ulng.rsdlgunknownoperation
-msgid "Unknown operation"
-msgstr "미확인 동작"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -7381,13 +7325,59 @@ msgstr "변경 없음;대문자로;소문자로;첫 문자만 대문자로;모�
 msgid "Aborted"
 msgstr "취소됨"
 
+#: ulng.rsopercalculatingchecksum
+msgid "Calculating check sum"
+msgstr ""
+
+#: ulng.rsopercalculatingstatictics
+msgctxt "ulng.rsopercalculatingstatictics"
+msgid "Calculating"
+msgstr "계산중"
+
+#: ulng.rsopercombining
+msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercopying
+msgid "Copying"
+msgstr ""
+
+#: ulng.rsopercreatingdirectory
+msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsoperdeleting
+msgctxt "ulng.rsoperdeleting"
+msgid "Deleting"
+msgstr "삭제중"
+
+#: ulng.rsoperexecuting
+msgid "Executing"
+msgstr ""
+
+#: ulng.rsoperextracting
+msgid "Extracting"
+msgstr ""
+
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "완료됨"
 
+#: ulng.rsoperlisting
+msgid "Listing"
+msgstr ""
+
+#: ulng.rsopermoving
+msgid "Moving"
+msgstr ""
+
 #: ulng.rsopernotstarted
 msgid "Not started"
 msgstr "시작되지 않음"
+
+#: ulng.rsoperpacking
+msgid "Packing"
+msgstr ""
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7406,6 +7396,14 @@ msgstr "대기중"
 msgid "Running"
 msgstr "실행중"
 
+#: ulng.rsopersettingproperty
+msgid "Setting property"
+msgstr ""
+
+#: ulng.rsopersplitting
+msgid "Splitting"
+msgstr ""
+
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "시작중"
@@ -7418,6 +7416,14 @@ msgstr "정지됨"
 msgid "Stopping"
 msgstr "정지중"
 
+#: ulng.rsopertesting
+msgid "Testing"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksum
+msgid "Verifying check sum"
+msgstr ""
+
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
 msgstr "파일 소스에 접근을 기다리는 중"
@@ -7425,6 +7431,14 @@ msgstr "파일 소스에 접근을 기다리는 중"
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
 msgstr "사용자 응답을 기다리는 중"
+
+#: ulng.rsoperwiping
+msgid "Wiping"
+msgstr ""
+
+#: ulng.rsoperworking
+msgid "Working"
+msgstr ""
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"

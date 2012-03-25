@@ -1897,6 +1897,7 @@ msgid "S&ave"
 msgstr ""
 
 #: tfrmfinddlg.btnstart.caption
+msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
 msgstr "&Indítás"
 
@@ -6142,104 +6143,72 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Összes kijelölése"
 
-#: tfrmviewoperations.btnallcancel.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Mégsem"
+#: tfrmviewoperations.btnstartpause.caption
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
+msgstr "&Indítás"
 
-#: tfrmviewoperations.btnallinqueue.caption
-msgid "Queue In"
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
 msgstr ""
-
-#: tfrmviewoperations.btnallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr ""
-
-#: tfrmviewoperations.btnallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
-msgid "Start"
-msgstr ""
-
-#: tfrmviewoperations.btncancelcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
-msgid "Cancel"
-msgstr "Mégsem"
-
-#: tfrmviewoperations.btncuropqueueinout.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
-msgid "In"
-msgstr ""
-
-#: tfrmviewoperations.btndncurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
-msgid "Down"
-msgstr "Le"
-
-#: tfrmviewoperations.btnrunallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr ""
-
-#: tfrmviewoperations.btnrunallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
-msgid "Start"
-msgstr ""
-
-#: tfrmviewoperations.btnstartpausecurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION"
-msgid "Start"
-msgstr ""
-
-#: tfrmviewoperations.btnstartqueue.caption
-msgid "Start queue"
-msgstr ""
-
-#: tfrmviewoperations.btnupcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
-msgid "Up"
-msgstr "Fel"
 
 #: tfrmviewoperations.caption
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "Fájlműveletek"
 
-#: tfrmviewoperations.chkqueue.caption
-msgid "Enable queue"
+#: tfrmviewoperations.mnucancel.caption
+msgctxt "tfrmviewoperations.mnucancel.caption"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: tfrmviewoperations.mnunewqueue.caption
+msgid "New queue"
 msgstr ""
 
-#: tfrmviewoperations.grpalloperation.caption
-msgid "Operations control"
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
 msgstr ""
 
-#: tfrmviewoperations.lblall.caption
-msgid "for all"
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
 msgstr ""
 
-#: tfrmviewoperations.lblallprogress.caption
-msgid "Progress"
+#: tfrmviewoperations.mnuqueue.caption
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
 msgstr ""
 
-#: tfrmviewoperations.lblcount.caption
-msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
-msgid "0"
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
 msgstr ""
 
-#: tfrmviewoperations.lblcurrentoperation.caption
-msgid "Current operation"
+#: tfrmviewoperations.mnuqueue1.caption
+msgid "Queue 1"
 msgstr ""
 
-#: tfrmviewoperations.lbloperationscount.caption
-msgid "Active operations:"
+#: tfrmviewoperations.mnuqueue2.caption
+msgid "Queue 2"
 msgstr ""
 
-#: tfrmviewoperations.lblqueue.caption
-msgid "Queue:"
+#: tfrmviewoperations.mnuqueue3.caption
+msgid "Queue 3"
 msgstr ""
 
-#: tfrmviewoperations.lblrunning.caption
-msgid "for running"
+#: tfrmviewoperations.mnuqueue4.caption
+msgid "Queue 4"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue5.caption
+msgid "Queue 5"
+msgstr ""
+
+#: tfrmviewoperations.mnushowdetached.caption
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
 msgstr ""
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
@@ -6427,10 +6396,6 @@ msgstr "&Igen"
 msgid "Calculate files and folders"
 msgstr ""
 
-#: ulng.rsdlgcalculating
-msgid "Calculating"
-msgstr ""
-
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -6441,10 +6406,6 @@ msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Ellenőrző összeg vizsgálata..."
 
-#: ulng.rsdlgcombine
-msgid "Combine"
-msgstr ""
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -6453,14 +6414,6 @@ msgstr "Fájl(ok) másolása"
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
 msgstr "Fájl(ok) törlése"
-
-#: ulng.rsdlgdeleting
-msgid "Deleting"
-msgstr ""
-
-#: ulng.rsdlgextract
-msgid "Extracting..."
-msgstr "Kibontás..."
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -6474,13 +6427,10 @@ msgstr ""
 #: ulng.rsdlgopstart
 msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
-msgstr ""
-
-#: ulng.rsdlgpack
-msgid "Packing..."
-msgstr "Tömörítés..."
+msgstr "&Indítás"
 
 #: ulng.rsdlgqueue
+msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
 msgstr ""
 
@@ -6500,14 +6450,6 @@ msgstr "Sebesség %s/s, hátralevő idő %s"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
 msgstr "Fájl szeletelése"
-
-#: ulng.rsdlgtest
-msgid "Testing..."
-msgstr ""
-
-#: ulng.rsdlgunknownoperation
-msgid "Unknown operation"
-msgstr ""
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -7242,12 +7184,58 @@ msgstr "Nincs változás;NAGYBETŰS;kisbetűs;Első Betű Nagy;"
 msgid "Aborted"
 msgstr ""
 
+#: ulng.rsopercalculatingchecksum
+msgid "Calculating check sum"
+msgstr ""
+
+#: ulng.rsopercalculatingstatictics
+msgctxt "ulng.rsopercalculatingstatictics"
+msgid "Calculating"
+msgstr ""
+
+#: ulng.rsopercombining
+msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercopying
+msgid "Copying"
+msgstr ""
+
+#: ulng.rsopercreatingdirectory
+msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsoperdeleting
+msgctxt "ulng.rsoperdeleting"
+msgid "Deleting"
+msgstr ""
+
+#: ulng.rsoperexecuting
+msgid "Executing"
+msgstr ""
+
+#: ulng.rsoperextracting
+msgid "Extracting"
+msgstr ""
+
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr ""
 
+#: ulng.rsoperlisting
+msgid "Listing"
+msgstr ""
+
+#: ulng.rsopermoving
+msgid "Moving"
+msgstr ""
+
 #: ulng.rsopernotstarted
 msgid "Not started"
+msgstr ""
+
+#: ulng.rsoperpacking
+msgid "Packing"
 msgstr ""
 
 #: ulng.rsoperpaused
@@ -7267,6 +7255,14 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
+#: ulng.rsopersettingproperty
+msgid "Setting property"
+msgstr ""
+
+#: ulng.rsopersplitting
+msgid "Splitting"
+msgstr ""
+
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr ""
@@ -7279,12 +7275,28 @@ msgstr ""
 msgid "Stopping"
 msgstr ""
 
+#: ulng.rsopertesting
+msgid "Testing"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksum
+msgid "Verifying check sum"
+msgstr ""
+
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
 msgstr ""
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
+msgstr ""
+
+#: ulng.rsoperwiping
+msgid "Wiping"
+msgstr ""
+
+#: ulng.rsoperworking
+msgid "Working"
 msgstr ""
 
 #: ulng.rsoptarchivedelete
