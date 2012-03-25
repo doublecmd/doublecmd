@@ -121,6 +121,10 @@ type
     constructor Create(AIdentifier: TOperationsManagerQueueIdentifier);
     destructor Destroy; override;
 
+    {en
+       Returns @true if this queue is a free operations queue.
+    }
+    function IsFree: Boolean; inline;
     procedure Pause;
     procedure Stop;
     procedure UnPause;
@@ -411,12 +415,12 @@ begin
 
   if ShouldMove and (FromIndex <> ToIndex) then
   begin
-    if (not Paused) and ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
+    if (not Paused) and ((FromIndex = 0) or (ToIndex = 0)) and not IsFree then
       Items[0].Operation.Pause;
 
     FList.Move(FromIndex, ToIndex);
 
-    if (not Paused) and ((FromIndex = 0) or (ToIndex = 0)) and (FIdentifier <> FreeOperationsQueueId) then
+    if (not Paused) and ((FromIndex = 0) or (ToIndex = 0)) and not IsFree then
       Items[0].Operation.Start;
 
     OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
@@ -429,15 +433,14 @@ begin
     InsertAt := FList.Count
   else
   begin
-    if (not Paused) and (InsertAt = 0) and (FIdentifier <> FreeOperationsQueueId) then
+    if (not Paused) and (InsertAt = 0) and not IsFree then
       Items[0].Operation.Pause;
   end;
 
   FList.Insert(InsertAt, Item);
   Result := InsertAt;
 
-  if (not Paused) and
-     ((FIdentifier = FreeOperationsQueueId) or (InsertAt = 0)) then
+  if (not Paused) and (IsFree or (InsertAt = 0)) then
   begin
     Item.Operation.Start;
   end
@@ -456,12 +459,17 @@ begin
   end;
 end;
 
+function TOperationsManagerQueue.IsFree: Boolean;
+begin
+  Result := FIdentifier = FreeOperationsQueueId;
+end;
+
 procedure TOperationsManagerQueue.Pause;
 var
   Index: Integer;
   Item: TOperationsManagerItem;
 begin
-  if FIdentifier = FreeOperationsQueueId then
+  if IsFree then
   begin
     for Index := 0 to Count - 1 do
       Items[Index].Operation.Pause;
@@ -482,7 +490,7 @@ begin
   Result := Index <> -1;
   if Result and
      (not Paused) and
-     (FIdentifier <> FreeOperationsQueueId) and
+     (not IsFree) and
      (Index = 0) and (Count > 0) then
   begin
     Items[0].Operation.Start;
@@ -503,7 +511,7 @@ var
   Index: Integer;
   Item: TOperationsManagerItem;
 begin
-  if FIdentifier = FreeOperationsQueueId then
+  if IsFree then
   begin
     for Index := 0 to Count - 1 do
       Items[Index].Operation.Start;
