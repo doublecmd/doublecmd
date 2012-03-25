@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-03-22 19:46+0400\n"
+"PO-Revision-Date: 2012-03-25 12:05+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1898,6 +1898,7 @@ msgid "S&ave"
 msgstr "Сохранить"
 
 #: tfrmfinddlg.btnstart.caption
+msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
 msgstr "&Старт"
 
@@ -6068,105 +6069,75 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Выделить &всё"
 
-#: tfrmviewoperations.btnallcancel.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Отмена"
-
-#: tfrmviewoperations.btnallinqueue.caption
-msgid "Queue In"
-msgstr "В очередь"
-
-#: tfrmviewoperations.btnallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "Пауза"
-
-#: tfrmviewoperations.btnallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
-msgid "Start"
+#: tfrmviewoperations.btnstartpause.caption
+#, fuzzy
+#| msgid "Start"
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
 msgstr "Старт"
 
-#: tfrmviewoperations.btncancelcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
-msgid "Cancel"
-msgstr "Отмена"
-
-#: tfrmviewoperations.btncuropqueueinout.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
-msgid "In"
-msgstr "+"
-
-#: tfrmviewoperations.btndncurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
-msgid "Down"
-msgstr "Вниз"
-
-#: tfrmviewoperations.btnrunallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "Пауза"
-
-#: tfrmviewoperations.btnrunallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
-msgid "Start"
-msgstr "Старт"
-
-#: tfrmviewoperations.btnstartpausecurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION"
-msgid "Start"
-msgstr "Старт"
-
-#: tfrmviewoperations.btnstartqueue.caption
-msgid "Start queue"
-msgstr "Запуск очереди"
-
-#: tfrmviewoperations.btnupcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
-msgid "Up"
-msgstr "Вверх"
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
+msgstr "Стоп"
 
 #: tfrmviewoperations.caption
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "Файловые операции"
 
-#: tfrmviewoperations.chkqueue.caption
-msgid "Enable queue"
+#: tfrmviewoperations.mnucancel.caption
+msgctxt "tfrmviewoperations.mnucancel.caption"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: tfrmviewoperations.mnunewqueue.caption
+msgid "New queue"
+msgstr "Новая очередь"
+
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr "В начало очереди"
+
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr "В конец очереди"
+
+#: tfrmviewoperations.mnuqueue.caption
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
 msgstr "Очередь"
 
-#: tfrmviewoperations.grpalloperation.caption
-msgid "Operations control"
-msgstr "Управление"
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr "Убрать из очереди"
 
-#: tfrmviewoperations.lblall.caption
-msgid "for all"
-msgstr "для всех"
+#: tfrmviewoperations.mnuqueue1.caption
+msgid "Queue 1"
+msgstr "Очередь 1"
 
-#: tfrmviewoperations.lblallprogress.caption
-msgid "Progress"
-msgstr "Прогресс"
+#: tfrmviewoperations.mnuqueue2.caption
+msgid "Queue 2"
+msgstr "Очередь 2"
 
-#: tfrmviewoperations.lblcount.caption
-msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
-msgid "0"
-msgstr ""
+#: tfrmviewoperations.mnuqueue3.caption
+msgid "Queue 3"
+msgstr "Очередь 3"
 
-#: tfrmviewoperations.lblcurrentoperation.caption
-msgid "Current operation"
-msgstr "Текущая операция"
+#: tfrmviewoperations.mnuqueue4.caption
+msgid "Queue 4"
+msgstr "Очередь 4"
 
-#: tfrmviewoperations.lbloperationscount.caption
-msgid "Active operations:"
-msgstr "Активные операции:"
+#: tfrmviewoperations.mnuqueue5.caption
+msgid "Queue 5"
+msgstr "Очередь 5"
 
-#: tfrmviewoperations.lblqueue.caption
-msgid "Queue:"
-msgstr "Очередь:"
+#: tfrmviewoperations.mnushowdetached.caption
+msgid "Show in detached window"
+msgstr "Показать в отдельном окне"
 
-#: tfrmviewoperations.lblrunning.caption
-msgid "for running"
-msgstr "для запущенных"
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr "Пауза (для всех)"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -6354,10 +6325,6 @@ msgstr "&Да"
 msgid "Calculate files and folders"
 msgstr ""
 
-#: ulng.rsdlgcalculating
-msgid "Calculating"
-msgstr "Подсчет"
-
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -6368,10 +6335,6 @@ msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Проверить контрольные суммы..."
 
-#: ulng.rsdlgcombine
-msgid "Combine"
-msgstr "Сборка"
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -6380,14 +6343,6 @@ msgstr "Копировать файл(ы)"
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
 msgstr "Удалить файл(ы)"
-
-#: ulng.rsdlgdeleting
-msgid "Deleting"
-msgstr "Удаление"
-
-#: ulng.rsdlgextract
-msgid "Extracting..."
-msgstr "Распаковка..."
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -6407,11 +6362,8 @@ msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
 msgstr "Старт"
 
-#: ulng.rsdlgpack
-msgid "Packing..."
-msgstr "Упаковка..."
-
 #: ulng.rsdlgqueue
+msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
 msgstr "Очередь"
 
@@ -6428,14 +6380,6 @@ msgstr "Скорость %s/с, осталось времени %s"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
 msgstr "Разбиение"
-
-#: ulng.rsdlgtest
-msgid "Testing..."
-msgstr "Проверка..."
-
-#: ulng.rsdlgunknownoperation
-msgid "Unknown operation"
-msgstr "Неизвестная операция"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -7167,13 +7111,59 @@ msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С про�
 msgid "Aborted"
 msgstr "Прервано"
 
+#: ulng.rsopercalculatingchecksum
+msgid "Calculating check sum"
+msgstr ""
+
+#: ulng.rsopercalculatingstatictics
+msgctxt "ulng.rsopercalculatingstatictics"
+msgid "Calculating"
+msgstr "Подсчет"
+
+#: ulng.rsopercombining
+msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercopying
+msgid "Copying"
+msgstr ""
+
+#: ulng.rsopercreatingdirectory
+msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsoperdeleting
+msgctxt "ulng.rsoperdeleting"
+msgid "Deleting"
+msgstr "Удаление"
+
+#: ulng.rsoperexecuting
+msgid "Executing"
+msgstr ""
+
+#: ulng.rsoperextracting
+msgid "Extracting"
+msgstr "Распаковка"
+
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Завершено"
 
+#: ulng.rsoperlisting
+msgid "Listing"
+msgstr ""
+
+#: ulng.rsopermoving
+msgid "Moving"
+msgstr ""
+
 #: ulng.rsopernotstarted
 msgid "Not started"
 msgstr "Не запущено"
+
+#: ulng.rsoperpacking
+msgid "Packing"
+msgstr "Упаковка"
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7192,6 +7182,14 @@ msgstr "В очереди"
 msgid "Running"
 msgstr "Выполняется"
 
+#: ulng.rsopersettingproperty
+msgid "Setting property"
+msgstr ""
+
+#: ulng.rsopersplitting
+msgid "Splitting"
+msgstr ""
+
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Запускается"
@@ -7204,6 +7202,14 @@ msgstr "Остановлено"
 msgid "Stopping"
 msgstr "Останавливается"
 
+#: ulng.rsopertesting
+msgid "Testing"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksum
+msgid "Verifying check sum"
+msgstr ""
+
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
 msgstr ""
@@ -7211,6 +7217,14 @@ msgstr ""
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
 msgstr "Ожидание ответа от пользователя"
+
+#: ulng.rsoperwiping
+msgid "Wiping"
+msgstr "Стирание"
+
+#: ulng.rsoperworking
+msgid "Working"
+msgstr ""
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"

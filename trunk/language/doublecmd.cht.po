@@ -1904,6 +1904,7 @@ msgid "S&ave"
 msgstr "儲存(&A)"
 
 #: tfrmfinddlg.btnstart.caption
+msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
 msgstr "開始(&S)"
 
@@ -6126,106 +6127,75 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "全選"
 
-#: tfrmviewoperations.btnallcancel.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfrmviewoperations.btnallinqueue.caption
-msgid "Queue In"
-msgstr "放大"
-
-#: tfrmviewoperations.btnallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "暫停"
-
-#: tfrmviewoperations.btnallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
-msgid "Start"
+#: tfrmviewoperations.btnstartpause.caption
+#, fuzzy
+#| msgid "Start"
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
 msgstr "開始"
 
-#: tfrmviewoperations.btncancelcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfrmviewoperations.btncuropqueueinout.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
-msgid "In"
-msgstr "放大"
-
-#: tfrmviewoperations.btndncurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
-msgid "Down"
-msgstr "下"
-
-#: tfrmviewoperations.btnrunallpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
-msgid "Pause"
-msgstr "暫停"
-
-#: tfrmviewoperations.btnrunallstart.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
-msgid "Start"
-msgstr "開始"
-
-#: tfrmviewoperations.btnstartpausecurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION"
-msgid "Start"
-msgstr "開始"
-
-#: tfrmviewoperations.btnstartqueue.caption
-msgid "Start queue"
-msgstr "開始佇列"
-
-#: tfrmviewoperations.btnupcurop.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
-msgid "Up"
-msgstr "上"
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
+msgstr ""
 
 #: tfrmviewoperations.caption
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "檔案操作"
 
-#: tfrmviewoperations.chkqueue.caption
-msgid "Enable queue"
-msgstr "啟用佇列"
+#: tfrmviewoperations.mnucancel.caption
+msgctxt "tfrmviewoperations.mnucancel.caption"
+msgid "Cancel"
+msgstr "取消"
 
-#: tfrmviewoperations.grpalloperation.caption
-msgid "Operations control"
-msgstr "操作控制"
-
-#: tfrmviewoperations.lblall.caption
-msgid "for all"
+#: tfrmviewoperations.mnunewqueue.caption
+msgid "New queue"
 msgstr ""
 
-#: tfrmviewoperations.lblallprogress.caption
-#, fuzzy
-msgid "Progress"
-msgstr "進度"
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr ""
 
-#: tfrmviewoperations.lblcount.caption
-msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
-msgid "0"
-msgstr "0"
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr ""
 
-#: tfrmviewoperations.lblcurrentoperation.caption
-msgid "Current operation"
-msgstr "目前的操作"
+#: tfrmviewoperations.mnuqueue.caption
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
+msgstr ""
 
-#: tfrmviewoperations.lbloperationscount.caption
-msgid "Active operations:"
-msgstr "操作啟動"
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr ""
 
-#: tfrmviewoperations.lblqueue.caption
-msgid "Queue:"
-msgstr "佇列 :"
+#: tfrmviewoperations.mnuqueue1.caption
+msgid "Queue 1"
+msgstr ""
 
-#: tfrmviewoperations.lblrunning.caption
-msgid "for running"
-msgstr "執行時"
+#: tfrmviewoperations.mnuqueue2.caption
+msgid "Queue 2"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue3.caption
+msgid "Queue 3"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue4.caption
+msgid "Queue 4"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue5.caption
+msgid "Queue 5"
+msgstr ""
+
+#: tfrmviewoperations.mnushowdetached.caption
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr ""
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -6412,10 +6382,6 @@ msgstr "是(&Y)"
 msgid "Calculate files and folders"
 msgstr "計算全部檔案及目錄"
 
-#: ulng.rsdlgcalculating
-msgid "Calculating"
-msgstr "計算中"
-
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -6426,10 +6392,6 @@ msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "驗證校驗..."
 
-#: ulng.rsdlgcombine
-msgid "Combine"
-msgstr ""
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -6438,14 +6400,6 @@ msgstr "複製檔案"
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
 msgstr "刪除檔案"
-
-#: ulng.rsdlgdeleting
-msgid "Deleting"
-msgstr "刪除中"
-
-#: ulng.rsdlgextract
-msgid "Extracting..."
-msgstr "解壓縮..."
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -6465,11 +6419,8 @@ msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
 msgstr "開始"
 
-#: ulng.rsdlgpack
-msgid "Packing..."
-msgstr "壓縮..."
-
 #: ulng.rsdlgqueue
+msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
 msgstr ""
 
@@ -6487,14 +6438,6 @@ msgstr "速度 %s/s, 剩餘時間 %s"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
 msgstr "分割"
-
-#: ulng.rsdlgtest
-msgid "Testing..."
-msgstr "測試..."
-
-#: ulng.rsdlgunknownoperation
-msgid "Unknown operation"
-msgstr "未知操作"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -7230,13 +7173,59 @@ msgstr "不修改;大寫;小寫;首字大寫;"
 msgid "Aborted"
 msgstr "放棄"
 
+#: ulng.rsopercalculatingchecksum
+msgid "Calculating check sum"
+msgstr ""
+
+#: ulng.rsopercalculatingstatictics
+msgctxt "ulng.rsopercalculatingstatictics"
+msgid "Calculating"
+msgstr "計算中"
+
+#: ulng.rsopercombining
+msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercopying
+msgid "Copying"
+msgstr ""
+
+#: ulng.rsopercreatingdirectory
+msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsoperdeleting
+msgctxt "ulng.rsoperdeleting"
+msgid "Deleting"
+msgstr "刪除中"
+
+#: ulng.rsoperexecuting
+msgid "Executing"
+msgstr ""
+
+#: ulng.rsoperextracting
+msgid "Extracting"
+msgstr ""
+
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "已結束"
 
+#: ulng.rsoperlisting
+msgid "Listing"
+msgstr ""
+
+#: ulng.rsopermoving
+msgid "Moving"
+msgstr ""
+
 #: ulng.rsopernotstarted
 msgid "Not started"
 msgstr "沒有開始"
+
+#: ulng.rsoperpacking
+msgid "Packing"
+msgstr ""
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7255,6 +7244,14 @@ msgstr "佇列中"
 msgid "Running"
 msgstr "執行中"
 
+#: ulng.rsopersettingproperty
+msgid "Setting property"
+msgstr ""
+
+#: ulng.rsopersplitting
+msgid "Splitting"
+msgstr ""
+
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "開始中"
@@ -7267,6 +7264,14 @@ msgstr "停止"
 msgid "Stopping"
 msgstr "停止中"
 
+#: ulng.rsopertesting
+msgid "Testing"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksum
+msgid "Verifying check sum"
+msgstr ""
+
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
 msgstr "等待存取原始檔"
@@ -7274,6 +7279,14 @@ msgstr "等待存取原始檔"
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
 msgstr "等待使用者回應"
+
+#: ulng.rsoperwiping
+msgid "Wiping"
+msgstr ""
+
+#: ulng.rsoperworking
+msgid "Working"
+msgstr ""
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
