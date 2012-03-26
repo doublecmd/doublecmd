@@ -462,7 +462,7 @@ var
   OpManItem: TOperationsManagerItem;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  if Assigned(OpManItem) then
+  if Assigned(OpManItem) and OpManItem.Queue.IsFree then
   begin
     if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
       OpManItem.Operation.Pause
@@ -476,7 +476,7 @@ var
   OpManItem: TOperationsManagerItem;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  if Assigned(OpManItem) then
+  if Assigned(OpManItem) and OpManItem.Queue.IsFree then
     OpManItem.Operation.Stop;
 end;
 
@@ -668,7 +668,7 @@ var
   OpManItem: TOperationsManagerItem;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FMenuOperation);
-  if Assigned(OpManItem) then
+  if Assigned(OpManItem) and OpManItem.Queue.IsFree then
     TfrmFileOp.ShowFor(OpManItem.Handle);
 end;
 
@@ -683,10 +683,11 @@ begin
   begin
     for i := 0 to mnuQueue.Count - 1 do
       if i = OpManItem.Queue.Identifier then
-        mnuQueue.Items[i].Checked:=True
+        mnuQueue.Items[i].Checked := True
       else
-        mnuQueue.Items[i].Checked:=False;
+        mnuQueue.Items[i].Checked := False;
 
+    mnuShowDetached.Enabled := OpManItem.Queue.IsFree;
     FMenuOperation := (Item as TViewOperationItem).FOperationHandle;
     PopupPoint := tvOperations.ClientToScreen(Point);
     pmOperationPopup.PopUp(PopupPoint.x, PopupPoint.y);
@@ -701,7 +702,7 @@ begin
   if Assigned(OpManItem) then
     begin
       SetStartPauseCaption(OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection]);
-      btnStartPause.Enabled := True;
+      btnStartPause.Enabled := OpManItem.Queue.IsFree;
     end
   else
     begin
