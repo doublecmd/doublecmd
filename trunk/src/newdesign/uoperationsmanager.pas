@@ -482,7 +482,6 @@ end;
 procedure TOperationsManagerQueue.Pause;
 var
   Index: Integer;
-  Item: TOperationsManagerItem;
 begin
   if IsFree then
   begin
@@ -515,7 +514,6 @@ end;
 procedure TOperationsManagerQueue.Stop;
 var
   i: Integer;
-  Item: TOperationsManagerItem;
 begin
   for i := 0 to Count - 1 do
     Items[i].Operation.Stop;
@@ -524,7 +522,6 @@ end;
 procedure TOperationsManagerQueue.UnPause;
 var
   Index: Integer;
-  Item: TOperationsManagerItem;
 begin
   if IsFree then
   begin
