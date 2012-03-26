@@ -7,6 +7,8 @@ object frmViewOperations: TfrmViewOperations
   Caption = 'File operations'
   ClientHeight = 353
   ClientWidth = 507
+  Constraints.MinHeight = 100
+  Constraints.MinWidth = 200
   FormStyle = fsStayOnTop
   OnClose = FormClose
   OnCreate = FormCreate
