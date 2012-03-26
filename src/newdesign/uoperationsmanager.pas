@@ -85,6 +85,7 @@ type
     function GetItem(Index: Integer): TOperationsManagerItem;
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOperationsCount: Integer;
+    function GetProgress: Double;
   private
     {en
        Inserts new item into the queue.
@@ -134,6 +135,7 @@ type
     property Items[Index: Integer]: TOperationsManagerItem read GetItem;
     property ItemByHandle[Handle: TOperationHandle]: TOperationsManagerItem read GetItemByHandle;
     property Paused: Boolean read FPaused;
+    property Progress: Double read GetProgress;
   end;
 
   TOperationManagerEvent =
@@ -359,6 +361,19 @@ end;
 function TOperationsManagerQueue.GetOperationsCount: Integer;
 begin
   Result := FList.Count;
+end;
+
+function TOperationsManagerQueue.GetProgress: Double;
+var
+  i: Integer;
+begin
+  Result := 0;
+  if Count <> 0 then
+  begin
+    for i := 0 to Count - 1 do
+      Result := Result + Items[i].Operation.Progress;
+    Result := Result / Count;
+  end;
 end;
 
 constructor TOperationsManagerQueue.Create(AIdentifier: TOperationsManagerQueueIdentifier);

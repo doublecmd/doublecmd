@@ -370,6 +370,7 @@ var
   Queue: TOperationsManagerQueue;
   Item: POperationPanelItem;
   i: Integer;
+  AProgress: Double;
 
   procedure DrawString(s: String);
   begin
@@ -419,9 +420,10 @@ begin
         Canvas.Brush.Style := bsSolid;
         Canvas.Rectangle(ItemRect);
 
-        DrawProgress(OpManItem.Operation.State, OpManItem.Operation.Progress / Queue.Count);
+        AProgress := Queue.Progress;
+        DrawProgress(OpManItem.Operation.State, AProgress);
         DrawString(rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' +
-                   GetProgressString(OpManItem.Operation.Progress / Queue.Count) +
+                   GetProgressString(AProgress) +
                    LineEnding + Queue.Items[0].Operation.GetDescription([fsoddJob]));
         Inc(i);
       end
@@ -454,10 +456,11 @@ begin
         Canvas.Brush.Style := bsSolid;
         Canvas.Rectangle(ItemRect);
 
-        DrawProgress(OpManItem.Operation.State, OpManItem.Operation.Progress);
+        AProgress := OpManItem.Operation.Progress;
+        DrawProgress(OpManItem.Operation.State, AProgress);
         DrawString(IntToStr(OpManItem.Handle) + ': ' +
                    OpManItem.Operation.GetDescription([fsoddJob]) + ' - ' +
-                   GetProgressString(OpManItem.Operation.Progress));
+                   GetProgressString(AProgress));
         Inc(i);
       end
       else

@@ -16,6 +16,8 @@ type
   TViewBaseItemContextMenu = procedure(Item: TViewBaseItem; const Point: TPoint) of object;
   TViewBaseItemSelected = procedure(Item: TViewBaseItem) of object;
 
+  TViewOperationsStatusIcon = (vosiPlay, vosiPause, vosiHourglass);
+
   { TViewBaseItem }
 
   TViewBaseItem = class
@@ -23,10 +25,14 @@ type
     FOnClick: TViewBaseItemClick;
     FOnContextMenu: TViewBaseItemContextMenu;
     FOnSelected: TViewBaseItemSelected;
+    FStatusIconX: Integer;
     FTreeNode: TTreeNode;
+    procedure DrawProgress(Canvas: TCanvas; NodeRect: TRect; Progress: Double);
+    procedure DrawStatusIcon(Canvas: TCanvas; NodeRect: TRect; Icon: TViewOperationsStatusIcon);
     procedure DrawThemedBackground(Canvas: TCanvas; Element: TThemedTreeview; ARect: TRect);
     procedure DrawThemedText(Canvas: TCanvas; Element: TThemedTreeview; NodeRect: TRect; Center: Boolean; AText: String);
     function GetHeight: Integer;
+    function GetStatusIconRect(ItemHeight: Integer): TRect;
   public
     constructor Create(ANode: TTreeNode); virtual;
     procedure Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState); virtual;
@@ -48,7 +54,7 @@ type
   TViewQueueItem = class(TViewBaseItem)
   private
     FQueueIdentifier: TOperationsManagerQueueIdentifier;
-    FText: String;
+    FTextHeight: Integer;
   public
     constructor Create(ANode: TTreeNode; AQueueId: TOperationsManagerQueueIdentifier); reintroduce;
     procedure Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState); override;
@@ -145,18 +151,21 @@ uses
   uLng, fFileOpDlg, uGlobs, LCLProc;
 
 const
+  ExpandSignSize = 9;
   StatusIconPlay: array[0..2] of TPoint =
-    ((x: 12; y: 1), (x: 20; y: 9), (x: 12; y: 17));
+    ((x: 5; y: 1), (x: 13; y: 9), (x: 5; y: 17));
   StatusIconPause1: array[0..3] of TPoint =
-    ((x: 10; y: 2), (x: 10; y: 16), (x: 14; y: 16), (x: 14; y: 2));
+    ((x: 3; y: 2), (x: 3; y: 16), (x: 7; y: 16), (x: 7; y: 2));
   StatusIconPause2: array[0..3] of TPoint =
-    ((x: 17; y: 2), (x: 17; y: 16), (x: 21; y: 16), (x: 21; y: 2));
+    ((x: 10; y: 2), (x: 10; y: 16), (x: 14; y: 16), (x: 14; y: 2));
   StatusIconHourglass1: array[0..2] of TPoint =
-    ((x: 10; y: 4), (x: 20; y: 4), (x: 15; y: 10));
+    ((x: 3; y: 4), (x: 13; y: 4), (x: 8; y: 10));
   StatusIconHourglass2: array[0..2] of TPoint =
-    ((x: 15; y: 10), (x: 20; y: 15), (x: 10; y: 15));
-  StatusIconFrame: TRect = (Left: 7; Top: 0; Right: 24; Bottom: 19);
-  ProgressHeight = 8;
+    ((x: 8; y: 10), (x: 13; y: 15), (x: 3; y: 15));
+  StatusIconFrame: TRect = (Left: 0; Top: 0; Right: 17; Bottom: 19);
+  ProgressHeight = 16;
+  ProgressWidth = 150;
+  ProgressMarginHorizontal = 5;
 
 var
   frmViewOperations: TfrmViewOperations = nil;
@@ -168,6 +177,11 @@ begin
   frmViewOperations.ShowOnTop;
   if AOperationHandle <> InvalidOperationHandle then
     frmViewOperations.SetFocusItem(AOperationHandle);
+end;
+
+procedure ApplyProgress(var ARect: TRect; Progress: Double);
+begin
+  ARect.Right := ARect.Left + Round((ARect.Right - ARect.Left) * Progress);
 end;
 
 function MoveRect(aRect: TRect; DeltaX, DeltaY: Integer): TRect;
@@ -208,6 +222,70 @@ begin
   ThemeServices.DrawElement(Canvas.Handle, Details, ARect, nil);
 end;
 
+procedure TViewBaseItem.DrawProgress(Canvas: TCanvas; NodeRect: TRect; Progress: Double);
+var
+  Details: TThemedElementDetails;
+begin
+  if Progress > 0 then
+  begin
+    NodeRect.Right  := NodeRect.Right - ProgressMarginHorizontal;
+    NodeRect.Left   := NodeRect.Right - ProgressWidth;
+    NodeRect.Top    := NodeRect.Top + (NodeRect.Bottom - NodeRect.Top - ProgressHeight) div 2;
+    NodeRect.Bottom := NodeRect.Top + ProgressHeight;
+
+    if ThemeServices.ThemesEnabled then
+    begin
+      Details := ThemeServices.GetElementDetails(tpBar);
+      ThemeServices.DrawElement(Canvas.Handle, Details, NodeRect, nil);
+      Details := ThemeServices.GetElementDetails(tpChunk);
+      InflateRect(NodeRect, -2, -2);
+      ApplyProgress(NodeRect, Progress);
+      ThemeServices.DrawElement(Canvas.Handle, Details, NodeRect, nil);
+    end
+    else
+    begin
+      Canvas.Pen.Color := clWindowText;
+      Canvas.Brush.Color := clForm;
+      Canvas.RoundRect(NodeRect, 3, 3);
+      Canvas.Brush.Color := clHighlight;
+      ApplyProgress(NodeRect, Progress);
+      Canvas.RoundRect(NodeRect, 3, 3);
+    end;
+  end;
+end;
+
+procedure TViewBaseItem.DrawStatusIcon(Canvas: TCanvas; NodeRect: TRect; Icon: TViewOperationsStatusIcon);
+var
+  IconRect: TRect;
+begin
+  Canvas.Brush.Color := GetBackgroundColor;
+  Canvas.Pen.Color := clWindowText;
+
+  IconRect := MoveRect(GetStatusIconRect(NodeRect.Bottom - NodeRect.Top),
+                       NodeRect.Left, NodeRect.Top);
+  Canvas.Rectangle(IconRect);
+
+  case Icon of
+    vosiPlay:     // Paint "Play" triangle
+      begin
+        Canvas.Brush.Color := RGBToColor(0, 200, 0);
+        DrawMovePolygon(Canvas, StatusIconPlay, IconRect.Left, IconRect.Top);
+      end;
+    vosiPause:    // Paint "Pause" double line
+      begin
+        Canvas.Brush.Color := RGBToColor(0, 0, 200);
+        DrawMovePolygon(Canvas, StatusIconPause1, IconRect.Left, IconRect.Top);
+        DrawMovePolygon(Canvas, StatusIconPause2, IconRect.Left, IconRect.Top);
+      end;
+    else          // Paint "Hourglass"
+      begin
+        Canvas.Brush.Color := RGBToColor(255, 255, 255);
+        DrawMovePolygon(Canvas, StatusIconHourglass1, IconRect.Left, IconRect.Top);
+        DrawMovePolygon(Canvas, StatusIconHourglass2, IconRect.Left, IconRect.Top);
+      end;
+  end;
+end;
+
 procedure TViewBaseItem.DrawThemedText(Canvas: TCanvas; Element: TThemedTreeview; NodeRect: TRect; Center: Boolean; AText: String);
 var
   Details: TThemedElementDetails;
@@ -222,6 +300,13 @@ end;
 function TViewBaseItem.GetHeight: Integer;
 begin
   Result := FTreeNode.Height;
+end;
+
+function TViewBaseItem.GetStatusIconRect(ItemHeight: Integer): TRect;
+begin
+  Result := MoveRect(StatusIconFrame,
+                     FStatusIconX,
+                     (ItemHeight - (StatusIconFrame.Bottom - StatusIconFrame.Top)) div 2);
 end;
 
 constructor TViewBaseItem.Create(ANode: TTreeNode);
@@ -274,26 +359,33 @@ end;
 constructor TViewOperationItem.Create(ANode: TTreeNode; AOperationHandle: TOperationHandle);
 begin
   FOperationHandle := AOperationHandle;
+  FStatusIconX := 7;
   inherited Create(ANode);
 end;
 
 procedure TViewOperationItem.Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState);
 var
   Handled: Boolean = False;
+  OpManItem: TOperationsManagerItem;
 begin
-  case Button of
-    mbLeft:
-      if (ssDouble in Shift) or PtInRect(StatusIconFrame, Pt) then
-      begin
-        StartPause;
-        Handled := True;
-      end;
-    mbRight:
-      if Assigned(FOnContextMenu) then
-      begin
-        OnContextMenu(Self, Pt);
-        Handled := True;
-      end;
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
+  begin
+    case Button of
+      mbLeft:
+        if OpManItem.Queue.IsFree and
+           ((ssDouble in Shift) or PtInRect(GetStatusIconRect(FTreeNode.Height), Pt)) then
+        begin
+          StartPause;
+          Handled := True;
+        end;
+      mbRight:
+        if Assigned(FOnContextMenu) then
+        begin
+          OnContextMenu(Self, Pt);
+          Handled := True;
+        end;
+    end;
   end;
   if not Handled then
     inherited;
@@ -305,8 +397,7 @@ var
   OpManItem: TOperationsManagerItem;
   aRect: TRect;
   Element: TThemedTreeview;
-  aWidth: Integer;
-  StatusIconTop: Integer;
+  Icon: TViewOperationsStatusIcon;
 begin
   if FTreeNode.Selected then
     Element := ttItemSelected
@@ -324,51 +415,24 @@ begin
       FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 1, 1) + ' %' +
       ' (' + FileSourceOperationStateText[OpManItem.Operation.State] + ')';
 
-    aWidth := NodeRect.Right - NodeRect.Left;
     aRect := NodeRect;
     aRect.Left := aRect.Left + 30;
-    DrawThemedText(Canvas, Element, aRect, False, OutString);
+    DrawThemedText(Canvas, Element, aRect, True, OutString);
 
-    Canvas.Brush.Color := GetBackgroundColor;
-    Canvas.Pen.Style := psSolid;
-    Canvas.Pen.Color := clWindowText;
-
-    // Progress rectangle.
-    aRect.Left   := NodeRect.Left + 30;
-    aRect.Top    := NodeRect.Top + FTextHeight;
-    aRect.Right  := aRect.Left + (aWidth - aRect.Left) - 10;
-    aRect.Bottom := aRect.Top + ProgressHeight;
-    Canvas.Frame(aRect);
-
-    StatusIconTop := ((NodeRect.Bottom - NodeRect.Top) - (StatusIconFrame.Bottom - StatusIconFrame.Top)) div 2;
-
-    // Paint status icon.
-    Canvas.Rectangle(MoveRect(StatusIconFrame, NodeRect.Left, NodeRect.Top + StatusIconTop));
-
-    case OpManItem.Operation.State of
-      fsosRunning:  // Paint "Play" triangle
-      begin
-        Canvas.Brush.Color := RGBToColor(0, 200, 0);
-        DrawMovePolygon(Canvas, StatusIconPlay, NodeRect.Left, NodeRect.Top + StatusIconTop);
+    if OpManItem.Queue.IsFree then
+    begin
+      case OpManItem.Operation.State of
+        fsosRunning:
+          Icon := vosiPlay;
+        fsosPaused:
+          Icon := vosiPause;
+        else
+          Icon := vosiHourglass;
       end;
-      fsosPaused:   // Paint "Pause" double line
-      begin
-        Canvas.Brush.Color := RGBToColor(0, 0, 200);
-        DrawMovePolygon(Canvas, StatusIconPause1, NodeRect.Left, NodeRect.Top + StatusIconTop);
-        DrawMovePolygon(Canvas, StatusIconPause2, NodeRect.Left, NodeRect.Top + StatusIconTop);
-      end;
-      else           // Paint "Hourglass"
-      begin
-        Canvas.Brush.Color := RGBToColor(255, 255, 255);
-        DrawMovePolygon(Canvas, StatusIconHourglass1, NodeRect.Left, NodeRect.Top + StatusIconTop);
-        DrawMovePolygon(Canvas, StatusIconHourglass2, NodeRect.Left, NodeRect.Top + StatusIconTop);
-      end;
+      DrawStatusIcon(Canvas, NodeRect, Icon);
     end;
 
-    // Paint progress.
-    aRect.Right := aRect.Left + Round(aRect.Left + (aWidth - aRect.Left) * OpManItem.Operation.Progress);
-    InflateRect(aRect, -1, -1);
-    Canvas.FillRect(aRect);
+    DrawProgress(Canvas, aRect, OpManItem.Operation.Progress);
   end;
 end;
 
@@ -401,9 +465,18 @@ begin
 end;
 
 function TViewOperationItem.GetHeight(Canvas: TCanvas): Integer;
+var
+  OpManItem: TOperationsManagerItem;
 begin
   FTextHeight := Canvas.TextExtent('Wg').cy;
-  Result := Max(FTextHeight + ProgressHeight + 2, (StatusIconFrame.Bottom - StatusIconFrame.Top) + 4);
+  Result := Max(FTextHeight, ProgressHeight);
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
+  begin
+    if OpManItem.Queue.IsFree then
+      Result := Max(Result, StatusIconFrame.Bottom - StatusIconFrame.Top);
+  end;
+  Inc(Result, 4);
 end;
 
 { TViewQueueItem }
@@ -414,7 +487,7 @@ var
 begin
   case Button of
     mbLeft:
-      if (ssDouble in Shift) then
+      if (ssDouble in Shift) or PtInRect(GetStatusIconRect(FTreeNode.Height), Pt) then
       begin
         StartPause;
         Handled := True;
@@ -427,21 +500,47 @@ end;
 constructor TViewQueueItem.Create(ANode: TTreeNode; AQueueId: TOperationsManagerQueueIdentifier);
 begin
   FQueueIdentifier := AQueueId;
+  FStatusIconX := ExpandSignSize + 4;
   inherited Create(ANode);
-  FText := rsDlgQueue + ' [#' + IntToStr(AQueueId) + ']';
 end;
 
 procedure TViewQueueItem.Draw(Canvas: TCanvas; NodeRect: TRect);
 var
   Element: TThemedTreeview;
+  OutString: string;
+  Queue: TOperationsManagerQueue;
+  aRect: TRect;
+  AProgress: Double;
+  Icon: TViewOperationsStatusIcon;
 begin
   if FTreeNode.Selected then
     Element := ttItemSelected
   else
     Element := ttItemSelectedNotFocus;
   DrawThemedBackground(Canvas, Element, NodeRect);
-  NodeRect.Left := NodeRect.Left + 5 + FTreeNode.DisplayTextLeft;
-  DrawThemedText(Canvas, Element, NodeRect, True, FText);
+
+  Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
+  if Assigned(Queue) then
+  begin
+    OutString := rsDlgQueue + ' ' + IntToStr(FQueueIdentifier);
+    AProgress := Queue.Progress;
+    if AProgress > 0 then
+      OutString := OutString + ' - ' + FloatToStrF(AProgress * 100, ffFixed, 1, 1) + ' %';
+    if Queue.Paused then
+      OutString := OutString + ' (' + FileSourceOperationStateText[fsosPaused] + ')';
+
+    aRect := NodeRect;
+    aRect.Left := aRect.Left + 25 + FTreeNode.DisplayTextLeft;
+    DrawThemedText(Canvas, Element, aRect, True, OutString);
+
+    if Queue.Paused then
+      Icon := vosiPause
+    else
+      Icon := vosiPlay;
+    DrawStatusIcon(Canvas, NodeRect, Icon);
+
+    DrawProgress(Canvas, aRect, AProgress);
+  end;
 end;
 
 function TViewQueueItem.GetBackgroundColor: TColor;
@@ -451,7 +550,10 @@ end;
 
 function TViewQueueItem.GetHeight(Canvas: TCanvas): Integer;
 begin
-  Result := Canvas.TextExtent(FText).cy + 6;
+  FTextHeight := Canvas.TextExtent('Wg').cy;
+  Result := 4 + Max(FTextHeight,
+                    Max((StatusIconFrame.Bottom - StatusIconFrame.Top),
+                        ProgressHeight));
 end;
 
 procedure TViewQueueItem.StartPause;
@@ -487,6 +589,7 @@ begin
 
   FMenuOperation := InvalidOperationHandle;
   tvOperations.DoubleBuffered := True;
+  DoubleBuffered := True;
 
   UpdateItems;
 
@@ -639,7 +742,6 @@ var
 
   procedure DrawExpandSign(MidX, MidY: integer; CollapseSign: boolean);
   const
-    ExpandSignSize = 9;
     ExpandSignColor = clWindowText;
   var
     HalfSize, ALeft, ATop, ARight, ABottom: integer;
@@ -648,6 +750,7 @@ var
   begin
     with Sender.Canvas do
     begin
+      Brush.Color := clWindow;
       Pen.Color := ExpandSignColor;
       Pen.Style := psSolid;
 
