@@ -25,25 +25,27 @@ type
     FOnClick: TViewBaseItemClick;
     FOnContextMenu: TViewBaseItemContextMenu;
     FOnSelected: TViewBaseItemSelected;
+    FProgress: Double;
     FTreeNode: TTreeNode;
+    FText: String;
+    FTextRect: TRect;
+    procedure CalculateSizes(Canvas: TCanvas; NeedsStatusIcon, NeedsProgress: Boolean);
     procedure DrawProgress(Canvas: TCanvas; NodeRect: TRect; Progress: Double);
     procedure DrawStatusIcon(Canvas: TCanvas; NodeRect: TRect; Icon: TViewOperationsStatusIcon);
     procedure DrawThemedBackground(Canvas: TCanvas; Element: TThemedTreeview; ARect: TRect);
     procedure DrawThemedText(Canvas: TCanvas; Element: TThemedTreeview; NodeRect: TRect; Center: Boolean; AText: String);
-    function GetHeight: Integer;
     function GetStatusIconRect(NodeRect: TRect): TRect;
-    function GetTextIndent: Integer;
+    function GetTextIndent: Integer; virtual; abstract;
+    procedure UpdateView(Canvas: TCanvas); virtual; abstract;
   public
     constructor Create(ANode: TTreeNode); virtual;
     procedure Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState); virtual;
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); virtual; abstract;
     function GetBackgroundColor: TColor; virtual; abstract;
-    function GetHeight(Canvas: TCanvas): Integer; virtual; abstract;
     procedure KeyDown(var Key: Word; Shift: TShiftState); virtual;
     procedure Selected; virtual;
     procedure StartPause; virtual; abstract;
     procedure Stop; virtual; abstract;
-    property Height: Integer read GetHeight;
     property OnClick: TViewBaseItemClick read FOnClick write FOnClick;
     property OnContextMenu: TViewBaseItemContextMenu read FOnContextMenu write FOnContextMenu;
     property OnSelected: TViewBaseItemSelected read FOnSelected write FOnSelected;
@@ -54,13 +56,13 @@ type
   TViewQueueItem = class(TViewBaseItem)
   private
     FQueueIdentifier: TOperationsManagerQueueIdentifier;
-    FTextHeight: Integer;
+    function GetTextIndent: Integer; override;
+    procedure UpdateView(Canvas: TCanvas); override;
   public
     constructor Create(ANode: TTreeNode; AQueueId: TOperationsManagerQueueIdentifier); reintroduce;
     procedure Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState); override;
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); override;
     function GetBackgroundColor: TColor; override;
-    function GetHeight(Canvas: TCanvas): Integer; override;
     procedure StartPause; override;
     procedure Stop; override;
   end;
@@ -72,12 +74,12 @@ type
   TViewOperationItem = class(TViewBaseItem)
   private
     FOperationHandle: TOperationHandle;
-    FTextHeight: Integer;
+    function GetTextIndent: Integer; override;
+    procedure UpdateView(Canvas: TCanvas); override;
   public
     constructor Create(ANode: TTreeNode; AOperationHandle: TOperationHandle); reintroduce;
     procedure Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState); override;
     procedure Draw(Canvas: TCanvas; NodeRect: TRect); override;
-    function GetHeight(Canvas: TCanvas): Integer; override;
     function GetBackgroundColor: TColor; override;
     procedure StartPause; override;
     procedure Stop; override;
@@ -127,10 +129,12 @@ type
     procedure tvOperationsDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure tvOperationsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure tvOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure tvOperationsResize(Sender: TObject);
     procedure tvOperationsSelectionChanged(Sender: TObject);
   private
     FDraggedOperation: TOperationHandle;
     FMenuOperation: TOperationHandle;
+    procedure CreateNodes;
     function GetFocusedItem: TViewBaseItem;
     procedure MoveWithinQueue(MoveToTop: Boolean);
     procedure SetFocusItem(AOperationHandle: TOperationHandle);
@@ -138,7 +142,7 @@ type
     procedure SetNewQueue(Item: TViewOperationItem; NewQueue: TOperationsManagerQueueIdentifier);
     procedure SetStartPauseCaption(SetPause: Boolean);
     procedure UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
-    procedure UpdateItems;
+    procedure UpdateSizes;
   end;
 
 procedure ShowOperationsViewer;
@@ -169,7 +173,9 @@ const
   StatusIconRightMargin = 5;
   ProgressHeight = 16;
   ProgressWidth = 150;
-  ProgressRightMargin = 5;
+  ProgressHorizontalMargin = 5;
+  FreeOperationTextIndent = 3;
+  MarginTopBottom = 2;
 
 var
   frmViewOperations: TfrmViewOperations = nil;
@@ -304,17 +310,12 @@ end;
 procedure TViewBaseItem.DrawThemedText(Canvas: TCanvas; Element: TThemedTreeview; NodeRect: TRect; Center: Boolean; AText: String);
 var
   Details: TThemedElementDetails;
-  Flags: Cardinal = DT_SINGLELINE or DT_NOPREFIX;
+  Flags: Cardinal = DT_WORDBREAK or DT_NOPREFIX;
 begin
   Details := ThemeServices.GetElementDetails(Element);
   if Center then
     Flags := Flags + DT_VCENTER;
   ThemeServices.DrawText(Canvas, Details, AText, NodeRect, Flags, 0);
-end;
-
-function TViewBaseItem.GetHeight: Integer;
-begin
-  Result := FTreeNode.Height;
 end;
 
 function TViewBaseItem.GetStatusIconRect(NodeRect: TRect): TRect;
@@ -324,18 +325,35 @@ begin
                      ((NodeRect.Bottom - NodeRect.Top) - (StatusIconFrame.Bottom - StatusIconFrame.Top)) div 2);
 end;
 
-function TViewBaseItem.GetTextIndent: Integer;
-begin
-  Result := FTreeNode.DisplayExpandSignLeft;
-  if FTreeNode.Level = 0 then
-    Inc(Result, TTreeView(FTreeNode.TreeView).Indent)
-  else
-    Dec(Result, TTreeView(FTreeNode.TreeView).Indent * (FTreeNode.Level - 1));
-end;
-
 constructor TViewBaseItem.Create(ANode: TTreeNode);
 begin
   FTreeNode := ANode;
+end;
+
+procedure TViewBaseItem.CalculateSizes(Canvas: TCanvas; NeedsStatusIcon, NeedsProgress: Boolean);
+var
+  NodeRect: TRect;
+  NeededHeight: Integer;
+begin
+  // Calculate available width for text.
+  NodeRect := FTreeNode.DisplayRect(False);
+  FTextRect := Rect(0, 0, 0, 0);
+  FTextRect.Right := (NodeRect.Right - NodeRect.Left) - GetTextIndent -
+                     (ProgressRight + ProgressWidth + ProgressHorizontalMargin);
+
+  // Calculate text height.
+  DrawText(Canvas.Handle, PChar(FText), Length(FText), FTextRect, DT_NOPREFIX + DT_CALCRECT + DT_WORDBREAK);
+
+  // Take max of text, progress and status icon.
+  NeededHeight := FTextRect.Bottom - FTextRect.Top;
+  if NeedsProgress then
+    NeededHeight := Max(NeededHeight, ProgressHeight);
+  if NeedsStatusIcon then
+    NeededHeight := Max(NeededHeight, StatusIconFrame.Bottom - StatusIconFrame.Top);
+  Inc(NeededHeight, 2 * MarginTopBottom);
+
+  FTextRect := MoveRect(FTextRect, NodeRect.Left + GetTextIndent, NodeRect.Top);
+  FTreeNode.Height := NeededHeight;
 end;
 
 procedure TViewBaseItem.Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState);
@@ -420,9 +438,7 @@ end;
 
 procedure TViewOperationItem.Draw(Canvas: TCanvas; NodeRect: TRect);
 var
-  OutString: string;
   OpManItem: TOperationsManagerItem;
-  aRect: TRect;
   Element: TThemedTreeview;
   Icon: TViewOperationsStatusIcon;
 begin
@@ -436,18 +452,7 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    OutString :=
-      IntToStr(OpManItem.Handle) + ': ' +
-      OpManItem.Operation.GetDescription([fsoddJob]) + ' - ' +
-      FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 1, 1) + ' %' +
-      ' (' + FileSourceOperationStateText[OpManItem.Operation.State] + ')';
-
-    aRect := NodeRect;
-    if OpManItem.Queue.IsFree then
-      aRect.Left := aRect.Left + 3
-    else
-      aRect.Left := aRect.Left + GetTextIndent;
-    DrawThemedText(Canvas, Element, aRect, True, OutString);
+    DrawThemedText(Canvas, Element, FTextRect, True, FText);
 
     if OpManItem.Queue.IsFree then
     begin
@@ -462,7 +467,7 @@ begin
       DrawStatusIcon(Canvas, NodeRect, Icon);
     end;
 
-    DrawProgress(Canvas, aRect, OpManItem.Operation.Progress);
+    DrawProgress(Canvas, NodeRect, FProgress);
   end;
 end;
 
@@ -494,19 +499,37 @@ begin
     OpManItem.Operation.Stop;
 end;
 
-function TViewOperationItem.GetHeight(Canvas: TCanvas): Integer;
+procedure TViewOperationItem.UpdateView(Canvas: TCanvas);
 var
   OpManItem: TOperationsManagerItem;
 begin
-  FTextHeight := Canvas.TextExtent('Wg').cy;
-  Result := Max(FTextHeight, ProgressHeight);
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    if OpManItem.Queue.IsFree then
-      Result := Max(Result, StatusIconFrame.Bottom - StatusIconFrame.Top);
+    FText := IntToStr(OpManItem.Handle) + ': ' +
+             OpManItem.Operation.GetDescription([fsoddJob]);
+    FProgress := OpManItem.Operation.Progress;
+    if FProgress > 0 then
+      FText := FText + ' - ' + FloatToStrF(FProgress * 100, ffFixed, 1, 1) + ' %';
+    FText := FText + ' (' + FileSourceOperationStateText[OpManItem.Operation.State] + ')';
+
+    CalculateSizes(Canvas, OpManItem.Queue.IsFree, FProgress > 0);
+  end
+  else
+  begin
+    FText := '';
+    FProgress := 0;
+    FTreeNode.Height := 10;
   end;
-  Inc(Result, 4);
+end;
+
+function TViewOperationItem.GetTextIndent: Integer;
+begin
+  Result := FTreeNode.DisplayExpandSignLeft;
+  if FTreeNode.Level = 0 then
+    Inc(Result, FreeOperationTextIndent)
+  else
+    Dec(Result, TTreeView(FTreeNode.TreeView).Indent * (FTreeNode.Level - 1));
 end;
 
 { TViewQueueItem }
@@ -540,10 +563,7 @@ end;
 procedure TViewQueueItem.Draw(Canvas: TCanvas; NodeRect: TRect);
 var
   Element: TThemedTreeview;
-  OutString: string;
   Queue: TOperationsManagerQueue;
-  aRect: TRect;
-  AProgress: Double;
   Icon: TViewOperationsStatusIcon;
 begin
   if FTreeNode.Selected then
@@ -555,16 +575,7 @@ begin
   Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
   if Assigned(Queue) then
   begin
-    OutString := rsDlgQueue + ' ' + IntToStr(FQueueIdentifier);
-    AProgress := Queue.Progress;
-    if AProgress > 0 then
-      OutString := OutString + ' - ' + FloatToStrF(AProgress * 100, ffFixed, 1, 1) + ' %';
-    if Queue.Paused then
-      OutString := OutString + ' (' + FileSourceOperationStateText[fsosPaused] + ')';
-
-    aRect := NodeRect;
-    aRect.Left := aRect.Left + GetTextIndent;
-    DrawThemedText(Canvas, Element, aRect, True, OutString);
+    DrawThemedText(Canvas, Element, FTextRect, True, FText);
 
     if Queue.Paused then
       Icon := vosiPause
@@ -572,7 +583,7 @@ begin
       Icon := vosiPlay;
     DrawStatusIcon(Canvas, NodeRect, Icon);
 
-    DrawProgress(Canvas, aRect, AProgress);
+    DrawProgress(Canvas, NodeRect, FProgress);
   end;
 end;
 
@@ -581,12 +592,14 @@ begin
   Result := FTreeNode.TreeView.BackgroundColor;
 end;
 
-function TViewQueueItem.GetHeight(Canvas: TCanvas): Integer;
+function TViewQueueItem.GetTextIndent: Integer;
+var
+  ATreeView: TCustomTreeView;
 begin
-  FTextHeight := Canvas.TextExtent('Wg').cy;
-  Result := 4 + Max(FTextHeight,
-                    Max((StatusIconFrame.Bottom - StatusIconFrame.Top),
-                        ProgressHeight));
+  Result := FTreeNode.DisplayExpandSignLeft;
+  ATreeView := FTreeNode.TreeView;
+  if ATreeView is TTreeView then
+    Inc(Result, TTreeView(ATreeView).Indent);
 end;
 
 procedure TViewQueueItem.StartPause;
@@ -614,6 +627,30 @@ begin
   end;
 end;
 
+procedure TViewQueueItem.UpdateView(Canvas: TCanvas);
+var
+  Queue: TOperationsManagerQueue;
+begin
+  Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
+  if Assigned(Queue) then
+  begin
+    FText := rsDlgQueue + ' ' + IntToStr(FQueueIdentifier);
+    FProgress := Queue.Progress;
+    if FProgress > 0 then
+      FText := FText + ' - ' + FloatToStrF(FProgress * 100, ffFixed, 1, 1) + ' %';
+    if Queue.Paused then
+      FText := FText + ' (' + FileSourceOperationStateText[fsosPaused] + ')';
+
+    CalculateSizes(Canvas, True, FProgress > 0);
+  end
+  else
+  begin
+    FText := '';
+    FProgress := 0;
+    FTreeNode.Height := 10;
+  end;
+end;
+
 { TfrmViewOperations }
 
 procedure TfrmViewOperations.FormCreate(Sender: TObject);
@@ -624,11 +661,13 @@ begin
   tvOperations.DoubleBuffered := True;
   DoubleBuffered := True;
 
-  UpdateItems;
+  CreateNodes;
 
   OperationsManager.AddEventsListener(
     [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
     @UpdateView);
+
+  tvOperations.OnResize := @tvOperationsResize;
 end;
 
 procedure TfrmViewOperations.btnStopClick(Sender: TObject);
@@ -745,6 +784,7 @@ end;
 
 procedure TfrmViewOperations.OnUpdateTimer(Sender: TObject);
 begin
+  UpdateSizes;
   tvOperationsSelectionChanged(tvOperations);
   tvOperations.Invalidate;
 end;
@@ -942,6 +982,11 @@ begin
   end;
 end;
 
+procedure TfrmViewOperations.tvOperationsResize(Sender: TObject);
+begin
+  UpdateSizes;
+end;
+
 procedure TfrmViewOperations.tvOperationsSelectionChanged(Sender: TObject);
 var
   Node: TTreeNode;
@@ -1040,7 +1085,7 @@ begin
     Item.StartPause;
 end;
 
-procedure TfrmViewOperations.UpdateItems;
+procedure TfrmViewOperations.CreateNodes;
   procedure AddOperations(Queue: TOperationsManagerQueue; QueueNode: TTreeNode);
   var
     OperIndex: Integer;
@@ -1054,7 +1099,7 @@ procedure TfrmViewOperations.UpdateItems;
       OperNode := tvOperations.Items.AddChild(QueueNode, '');
       Item := TViewOperationItem.Create(OperNode, OpManItem.Handle);
       OperNode.Data := Item;
-      OperNode.Height := Item.GetHeight(tvOperations.Canvas);
+      Item.UpdateView(tvOperations.Canvas);
       Item.OnContextMenu := @OnOperationItemContextMenu;
       Item.OnSelected := @OnOperationItemSelected;
     end;
@@ -1080,21 +1125,33 @@ begin
       QueueNode := tvOperations.Items.AddChild(nil, '');
       Item := TViewQueueItem.Create(QueueNode, Queue.Identifier);
       QueueNode.Data := Item;
-      QueueNode.Height := Item.GetHeight(tvOperations.Canvas);
+      Item.UpdateView(tvOperations.Canvas);
       Item.OnSelected := @OnQueueItemSelected;
       AddOperations(Queue, QueueNode);
     end;
   end;
 end;
 
+procedure TfrmViewOperations.UpdateSizes;
+var
+  Node: TTreeNode;
+begin
+  Node := tvOperations.Items.GetFirstNode;
+  while Assigned(Node) do
+  begin
+    TViewBaseItem(Node.Data).UpdateView(tvOperations.Canvas);
+    Node := Node.GetNext;
+  end;
+end;
+
 procedure TfrmViewOperations.UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
 begin
-  UpdateItems;
+  CreateNodes;
   tvOperations.Invalidate;
 end;
 
 initialization
-  ProgressRight := ProgressRightMargin + StatusIconRightMargin + (StatusIconFrame.Right - StatusIconFrame.Left);
+  ProgressRight := ProgressHorizontalMargin + StatusIconRightMargin + (StatusIconFrame.Right - StatusIconFrame.Left);
 
 end.
 
