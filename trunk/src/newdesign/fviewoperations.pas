@@ -134,13 +134,16 @@ type
     function GetFocusedItem: TViewBaseItem;
     procedure MoveWithinQueue(MoveToTop: Boolean);
     procedure SetFocusItem(AOperationHandle: TOperationHandle);
+    procedure SetFocusItem(AQueueIdentifier: TOperationsManagerQueueIdentifier);
     procedure SetNewQueue(Item: TViewOperationItem; NewQueue: TOperationsManagerQueueIdentifier);
     procedure SetStartPauseCaption(SetPause: Boolean);
     procedure UpdateView(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
     procedure UpdateItems;
   end;
 
-procedure ShowOperationsViewer(AOperationHandle: TOperationHandle = InvalidOperationHandle);
+procedure ShowOperationsViewer;
+procedure ShowOperationsViewer(AOperationHandle: TOperationHandle);
+procedure ShowOperationsViewer(AQueueIdentifier: TOperationsManagerQueueIdentifier);
 
 implementation
 
@@ -172,13 +175,24 @@ var
   frmViewOperations: TfrmViewOperations = nil;
   ProgressRight: Integer;
 
-procedure ShowOperationsViewer(AOperationHandle: TOperationHandle);
+procedure ShowOperationsViewer;
 begin
   if not Assigned(frmViewOperations) then
     frmViewOperations := TfrmViewOperations.Create(Application);
   frmViewOperations.ShowOnTop;
+end;
+
+procedure ShowOperationsViewer(AOperationHandle: TOperationHandle);
+begin
+  ShowOperationsViewer;
   if AOperationHandle <> InvalidOperationHandle then
     frmViewOperations.SetFocusItem(AOperationHandle);
+end;
+
+procedure ShowOperationsViewer(AQueueIdentifier: TOperationsManagerQueueIdentifier);
+begin
+  ShowOperationsViewer;
+  frmViewOperations.SetFocusItem(AQueueIdentifier);
 end;
 
 procedure ApplyProgress(var ARect: TRect; Progress: Double);
@@ -977,6 +991,21 @@ begin
   begin
     if (TViewBaseItem(Node.Data) is TViewOperationItem) and
        (TViewOperationItem(Node.Data).FOperationHandle = AOperationHandle) then
+    begin
+      Node.Selected := True;
+      Exit;
+    end;
+  end;
+end;
+
+procedure TfrmViewOperations.SetFocusItem(AQueueIdentifier: TOperationsManagerQueueIdentifier);
+var
+  Node: TTreeNode;
+begin
+  for Node in tvOperations.Items do
+  begin
+    if (TViewBaseItem(Node.Data) is TViewQueueItem) and
+       (TViewQueueItem(Node.Data).FQueueIdentifier = AQueueIdentifier) then
     begin
       Node.Selected := True;
       Exit;
