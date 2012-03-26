@@ -121,7 +121,12 @@ end;
 
 function TFileSourceCalcStatisticsOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperCalculatingStatictics;
+  case Details of
+    fsoddJobAndTarget:
+      Result := Format(rsOperCalculatingStatisticsIn, [Files.Path]);
+    else
+      Result := rsOperCalculatingStatictics;
+  end;
 end;
 
 function TFileSourceCalcStatisticsOperation.GetID: TFileSourceOperationType;

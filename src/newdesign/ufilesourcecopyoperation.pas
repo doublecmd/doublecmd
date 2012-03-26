@@ -191,7 +191,17 @@ end;
 
 function TFileSourceCopyOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperCopying;
+  case Details of
+    fsoddJobAndTarget:
+    begin
+      if SourceFiles.Count = 1 then
+        Result := Format(rsOperCopyingSomethingTo, [SourceFiles[0].Name, TargetPath])
+      else
+        Result := Format(rsOperCopyingFromTo, [SourceFiles.Path, TargetPath]);
+    end;
+    else
+      Result := rsOperCopying;
+  end;
 end;
 
 procedure TFileSourceCopyOperation.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);

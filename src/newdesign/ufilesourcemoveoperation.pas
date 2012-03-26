@@ -185,7 +185,17 @@ end;
 
 function TFileSourceMoveOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperMoving;
+  case Details of
+    fsoddJobAndTarget:
+    begin
+      if SourceFiles.Count = 1 then
+        Result := Format(rsOperMovingSomethingTo, [SourceFiles[0].Name, TargetPath])
+      else
+        Result := Format(rsOperMovingFromTo, [SourceFiles.Path, TargetPath]);
+    end;
+    else
+      Result := rsOperMoving;
+  end;
 end;
 
 end.

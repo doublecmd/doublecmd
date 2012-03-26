@@ -372,7 +372,12 @@ end;
 
 function TWcxArchiveCopyOutOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperExtracting;
+  case Details of
+    fsoddJobAndTarget:
+      Result := Format(rsOperExtractingFromTo, [FWcxArchiveFileSource.ArchiveFileName, TargetPath]);
+    else
+      Result := rsOperExtracting;
+  end;
 end;
 
 procedure TWcxArchiveCopyOutOperation.CreateDirsAndCountFiles(

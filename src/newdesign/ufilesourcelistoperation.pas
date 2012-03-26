@@ -68,7 +68,12 @@ end;
 
 function TFileSourceListOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperListing;
+  case Details of
+    fsoddJobAndTarget:
+      Result := Format(rsOperListingIn, [Path]);
+    else
+      Result := rsOperListing;
+  end;
 end;
 
 function TFileSourceListOperation.GetID: TFileSourceOperationType;

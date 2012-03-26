@@ -50,10 +50,9 @@ type
     (fsorFinished,    //<en operation has finished successfully
      fsorAborted);    //<en operation has been aborted by user
 
-  TFileSourceOperationDescriptionDetail =
-    (fsoddJob);       //<en What the operation is supposed to be doing in general: copying, deleting, etc.
-
-  TFileSourceOperationDescriptionDetails = set of TFileSourceOperationDescriptionDetail;
+  TFileSourceOperationDescriptionDetails =
+    (fsoddJob,           //<en What the operation is supposed to be doing in general: copying, deleting, etc.
+     fsoddJobAndTarget); //<en Job + on what the operation works: copying from /path to /path2, deleting from /path, etc.
 
 const
   FileSourceOperationStateText: array[TFileSourceOperationState] of string =

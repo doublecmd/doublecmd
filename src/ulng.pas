@@ -457,21 +457,46 @@ resourcestring
 
   // Operations descriptions.
   rsOperCalculatingCheckSum = 'Calculating check sum';
+  rsOperCalculatingCheckSumIn = 'Calculating check sum in "%s"';
+  rsOperCalculatingCheckSumOf = 'Calculating check sum of "%s"';
   rsOperCalculatingStatictics = 'Calculating';
+  rsOperCalculatingStatisticsIn = 'Calculating "%s"';
   rsOperCombining = 'Joining';
+  rsOperCombiningFromTo = 'Joining files in "%s" to "%s"';
   rsOperCopying = 'Copying';
+  rsOperCopyingFromTo = 'Copying from "%s" to "%s"';
+  rsOperCopyingSomethingTo = 'Copying "%s" to "%s"';
   rsOperCreatingDirectory = 'Creating directory';
+  rsOperCreatingSomeDirectory = 'Creating directory "%s"';
   rsOperDeleting = 'Deleting';
+  rsOperDeletingIn = 'Deleting in "%s"';
+  rsOperDeletingSomething = 'Deleting "%s"';
   rsOperExecuting = 'Executing';
+  rsOperExecutingSomething = 'Executing "%s"';
   rsOperExtracting = 'Extracting';
+  rsOperExtractingFromTo = 'Extracting from "%s" to "%s"';
   rsOperListing = 'Listing';
+  rsOperListingIn = 'Listing "%s"';
   rsOperMoving = 'Moving';
+  rsOperMovingFromTo = 'Moving from "%s" to "%s"';
+  rsOperMovingSomethingTo = 'Moving "%s" to "%s"';
   rsOperPacking = 'Packing';
+  rsOperPackingFromTo = 'Packing from "%s" to "%s"';
+  rsOperPackingSomethingTo = 'Packing "%s" to "%s"';
   rsOperSettingProperty = 'Setting property';
+  rsOperSettingPropertyIn = 'Setting property in "%s"';
+  rsOperSettingPropertyOf = 'Setting property of "%s"';
   rsOperSplitting = 'Splitting';
+  rsOperSplittingFromTo = 'Splitting "%s" to "%s"';
   rsOperTesting = 'Testing';
+  rsOperTestingSomething = 'Testing "%s"';
+  rsOperTestingIn = 'Testing in "%s"';
   rsOperVerifyingCheckSum = 'Verifying check sum';
+  rsOperVerifyingCheckSumIn = 'Verifying check sum in "%s"';
+  rsOperVerifyingCheckSumOf = 'Verifying check sum of "%s"';
   rsOperWiping = 'Wiping';
+  rsOperWipingIn = 'Wiping in "%s"';
+  rsOperWipingSomething = 'Wiping "%s"';
   rsOperWorking = 'Working'; // Generic description for unknown operation
 
   // Unhandled error.
