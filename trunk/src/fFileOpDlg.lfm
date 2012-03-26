@@ -99,7 +99,7 @@ object frmFileOp: TfrmFileOp
       ClientWidth = 494
       TabOrder = 4
       object btnViewOperations: TButton
-        Left = 91
+        Left = 87
         Height = 35
         Top = 0
         Width = 78
@@ -146,11 +146,11 @@ object frmFileOp: TfrmFileOp
         Left = 0
         Height = 35
         Top = 0
-        Width = 88
+        Width = 84
         Align = alLeft
         AutoSize = True
         BorderSpacing.Right = 3
-        Caption = '&Minimize'
+        Caption = '&To panel'
         OnClick = btnMinimizeToPanelClick
         TabOrder = 3
       end
