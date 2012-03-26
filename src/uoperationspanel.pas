@@ -47,6 +47,7 @@ type
     procedure ProgressWindowEvent(OperationHandle: TOperationHandle;
                                   Event: TOperationProgressWindowEvent);
     procedure StartPauseOperation(Operation: TFileSourceOperation);
+    procedure StartPauseQueue(Queue: TOperationsManagerQueue);
     procedure UpdateItems;
     procedure UpdateVisibility;
   public
@@ -62,6 +63,7 @@ implementation
 
 uses
   LCLIntf, LCLType, Math,
+  fViewOperations,
   uDCUtils, uLng;
 
 const
@@ -303,13 +305,11 @@ var
     begin
       if Item^.OperationHandle = InvalidOperationHandle then
       begin
-        OpManItem := Queue.Items[0];
-        if Assigned(OpManItem) then
-        begin
-          case Button of
-            mbLeft:
-              StartPauseOperation(OpManItem.Operation);
-          end;
+        case Button of
+          mbLeft:
+            ShowOperationsViewer(Item^.QueueId);
+          mbMiddle:
+            StartPauseQueue(Queue);
         end;
       end
       else
@@ -319,9 +319,9 @@ var
         begin
           case Button of
             mbLeft:
-              StartPauseOperation(OpManItem.Operation);
-            mbMiddle:
               TfrmFileOp.ShowFor(OpManItem.Handle);
+            mbMiddle:
+              StartPauseOperation(OpManItem.Operation);
           end;
         end;
       end;
@@ -477,6 +477,14 @@ begin
     Operation.Pause
   else
     Operation.Start;
+end;
+
+procedure TOperationsPanel.StartPauseQueue(Queue: TOperationsManagerQueue);
+begin
+  if Queue.Paused then
+    Queue.UnPause
+  else
+    Queue.Pause;
 end;
 
 procedure TOperationsPanel.UpdateView;
