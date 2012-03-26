@@ -93,7 +93,6 @@ object frmViewOperations: TfrmViewOperations
     DefaultItemHeight = 24
     DragMode = dmAutomatic
     ExpandSignType = tvestArrow
-    Indent = 10
     MultiSelect = True
     MultiSelectStyle = [msControlSelect, msShiftSelect]
     ReadOnly = True

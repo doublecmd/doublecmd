@@ -25,14 +25,14 @@ type
     FOnClick: TViewBaseItemClick;
     FOnContextMenu: TViewBaseItemContextMenu;
     FOnSelected: TViewBaseItemSelected;
-    FStatusIconX: Integer;
     FTreeNode: TTreeNode;
     procedure DrawProgress(Canvas: TCanvas; NodeRect: TRect; Progress: Double);
     procedure DrawStatusIcon(Canvas: TCanvas; NodeRect: TRect; Icon: TViewOperationsStatusIcon);
     procedure DrawThemedBackground(Canvas: TCanvas; Element: TThemedTreeview; ARect: TRect);
     procedure DrawThemedText(Canvas: TCanvas; Element: TThemedTreeview; NodeRect: TRect; Center: Boolean; AText: String);
     function GetHeight: Integer;
-    function GetStatusIconRect(ItemHeight: Integer): TRect;
+    function GetStatusIconRect(NodeRect: TRect): TRect;
+    function GetTextIndent: Integer;
   public
     constructor Create(ANode: TTreeNode); virtual;
     procedure Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState); virtual;
@@ -162,13 +162,15 @@ const
     ((x: 3; y: 4), (x: 13; y: 4), (x: 8; y: 10));
   StatusIconHourglass2: array[0..2] of TPoint =
     ((x: 8; y: 10), (x: 13; y: 15), (x: 3; y: 15));
-  StatusIconFrame: TRect = (Left: 0; Top: 0; Right: 17; Bottom: 19);
+  StatusIconFrame: TRect = (Left: 0; Top: 0; Right: 18; Bottom: 19);
+  StatusIconRightMargin = 5;
   ProgressHeight = 16;
   ProgressWidth = 150;
-  ProgressMarginHorizontal = 5;
+  ProgressRightMargin = 5;
 
 var
   frmViewOperations: TfrmViewOperations = nil;
+  ProgressRight: Integer;
 
 procedure ShowOperationsViewer(AOperationHandle: TOperationHandle);
 begin
@@ -228,7 +230,7 @@ var
 begin
   if Progress > 0 then
   begin
-    NodeRect.Right  := NodeRect.Right - ProgressMarginHorizontal;
+    NodeRect.Right  := NodeRect.Right - ProgressRight;
     NodeRect.Left   := NodeRect.Right - ProgressWidth;
     NodeRect.Top    := NodeRect.Top + (NodeRect.Bottom - NodeRect.Top - ProgressHeight) div 2;
     NodeRect.Bottom := NodeRect.Top + ProgressHeight;
@@ -261,8 +263,7 @@ begin
   Canvas.Brush.Color := GetBackgroundColor;
   Canvas.Pen.Color := clWindowText;
 
-  IconRect := MoveRect(GetStatusIconRect(NodeRect.Bottom - NodeRect.Top),
-                       NodeRect.Left, NodeRect.Top);
+  IconRect := MoveRect(GetStatusIconRect(NodeRect), NodeRect.Left, NodeRect.Top);
   Canvas.Rectangle(IconRect);
 
   case Icon of
@@ -302,11 +303,20 @@ begin
   Result := FTreeNode.Height;
 end;
 
-function TViewBaseItem.GetStatusIconRect(ItemHeight: Integer): TRect;
+function TViewBaseItem.GetStatusIconRect(NodeRect: TRect): TRect;
 begin
   Result := MoveRect(StatusIconFrame,
-                     FStatusIconX,
-                     (ItemHeight - (StatusIconFrame.Bottom - StatusIconFrame.Top)) div 2);
+                     (NodeRect.Right - NodeRect.Left) - (StatusIconFrame.Right - StatusIconFrame.Left) - StatusIconRightMargin,
+                     ((NodeRect.Bottom - NodeRect.Top) - (StatusIconFrame.Bottom - StatusIconFrame.Top)) div 2);
+end;
+
+function TViewBaseItem.GetTextIndent: Integer;
+begin
+  Result := FTreeNode.DisplayExpandSignLeft;
+  if FTreeNode.Level = 0 then
+    Inc(Result, TTreeView(FTreeNode.TreeView).Indent)
+  else
+    Dec(Result, TTreeView(FTreeNode.TreeView).Indent * (FTreeNode.Level - 1));
 end;
 
 constructor TViewBaseItem.Create(ANode: TTreeNode);
@@ -359,7 +369,6 @@ end;
 constructor TViewOperationItem.Create(ANode: TTreeNode; AOperationHandle: TOperationHandle);
 begin
   FOperationHandle := AOperationHandle;
-  FStatusIconX := 7;
   inherited Create(ANode);
 end;
 
@@ -367,17 +376,21 @@ procedure TViewOperationItem.Click(const Pt: TPoint; Button: TMouseButton; Shift
 var
   Handled: Boolean = False;
   OpManItem: TOperationsManagerItem;
+  NodeRect: TRect;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
     case Button of
       mbLeft:
-        if OpManItem.Queue.IsFree and
-           ((ssDouble in Shift) or PtInRect(GetStatusIconRect(FTreeNode.Height), Pt)) then
+        if OpManItem.Queue.IsFree then
         begin
-          StartPause;
-          Handled := True;
+          NodeRect := FTreeNode.DisplayRect(False);
+          if ((ssDouble in Shift) or PtInRect(GetStatusIconRect(NodeRect), Pt)) then
+          begin
+            StartPause;
+            Handled := True;
+          end;
         end;
       mbRight:
         if Assigned(FOnContextMenu) then
@@ -416,7 +429,10 @@ begin
       ' (' + FileSourceOperationStateText[OpManItem.Operation.State] + ')';
 
     aRect := NodeRect;
-    aRect.Left := aRect.Left + 30;
+    if OpManItem.Queue.IsFree then
+      aRect.Left := aRect.Left + 3
+    else
+      aRect.Left := aRect.Left + GetTextIndent;
     DrawThemedText(Canvas, Element, aRect, True, OutString);
 
     if OpManItem.Queue.IsFree then
@@ -484,13 +500,17 @@ end;
 procedure TViewQueueItem.Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState);
 var
   Handled: Boolean = False;
+  NodeRect: TRect;
 begin
   case Button of
     mbLeft:
-      if (ssDouble in Shift) or PtInRect(GetStatusIconRect(FTreeNode.Height), Pt) then
       begin
-        StartPause;
-        Handled := True;
+        NodeRect := FTreeNode.DisplayRect(False);
+        if (ssDouble in Shift) or PtInRect(GetStatusIconRect(NodeRect), Pt) then
+        begin
+          StartPause;
+          Handled := True;
+        end;
       end;
   end;
   if not Handled then
@@ -500,7 +520,6 @@ end;
 constructor TViewQueueItem.Create(ANode: TTreeNode; AQueueId: TOperationsManagerQueueIdentifier);
 begin
   FQueueIdentifier := AQueueId;
-  FStatusIconX := ExpandSignSize + 4;
   inherited Create(ANode);
 end;
 
@@ -530,7 +549,7 @@ begin
       OutString := OutString + ' (' + FileSourceOperationStateText[fsosPaused] + ')';
 
     aRect := NodeRect;
-    aRect.Left := aRect.Left + 25 + FTreeNode.DisplayTextLeft;
+    aRect.Left := aRect.Left + GetTextIndent;
     DrawThemedText(Canvas, Element, aRect, True, OutString);
 
     if Queue.Paused then
@@ -788,12 +807,14 @@ begin
 
   Item := TViewBaseItem(Node.Data);
   NodeRect := Node.DisplayRect(False);
-  VertMid := (NodeRect.Top + NodeRect.Bottom) div 2;
 
   Item.Draw(Sender.Canvas, NodeRect);
 
   if tvOperations.ShowButtons and Node.HasChildren and ((tvoShowRoot in tvOperations.Options) or (Node.Parent <> nil)) then
+  begin
+    VertMid := (NodeRect.Top + NodeRect.Bottom) div 2;
     DrawExpandSign(Node.DisplayExpandSignLeft + tvOperations.Indent shr 1, VertMid, Node.Expanded);
+  end;
 
   // draw separator
   if (tvoShowSeparators in tvOperations.Options) then
@@ -1040,6 +1061,9 @@ begin
   UpdateItems;
   tvOperations.Invalidate;
 end;
+
+initialization
+  ProgressRight := ProgressRightMargin + StatusIconRightMargin + (StatusIconFrame.Right - StatusIconFrame.Left);
 
 end.
 
