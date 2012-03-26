@@ -490,7 +490,7 @@ var
   OpManItem: TOperationsManagerItem;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  if Assigned(OpManItem) and OpManItem.Queue.IsFree then
+  if Assigned(OpManItem) then
     OpManItem.Operation.Stop;
 end;
 
@@ -717,12 +717,13 @@ begin
     begin
       SetStartPauseCaption(OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection]);
       btnStartPause.Enabled := OpManItem.Queue.IsFree;
+      btnStop.Enabled := True;
     end
   else
     begin
       btnStartPause.Enabled := False;
+      btnStop.Enabled := False;
     end;
-  btnStop.Enabled := btnStartPause.Enabled;
 end;
 
 procedure TfrmViewOperations.OnQueueItemSelected(Item: TViewBaseItem);
