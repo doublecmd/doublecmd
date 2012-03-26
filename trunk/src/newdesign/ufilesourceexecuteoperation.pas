@@ -115,7 +115,12 @@ end;
 
 function TFileSourceExecuteOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperExecuting;
+  case Details of
+    fsoddJobAndTarget:
+      Result := Format(rsOperExecutingSomething, [ExecutableFile.Name]);
+    else
+      Result := rsOperExecuting;
+  end;
 end;
 
 end.

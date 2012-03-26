@@ -113,7 +113,17 @@ end;
 
 function TFileSourceTestArchiveOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperTesting;
+  case Details of
+    fsoddJobAndTarget:
+    begin
+      if SourceFiles.Count = 1 then
+        Result := Format(rsOperTestingSomething, [SourceFiles[0].Name])
+      else
+        Result := Format(rsOperTestingIn, [SourceFiles.Path]);
+    end;
+    else
+      Result := rsOperTesting;
+  end;
 end;
 
 function TFileSourceTestArchiveOperation.GetID: TFileSourceOperationType;

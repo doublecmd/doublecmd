@@ -183,7 +183,12 @@ end;
 
 function TFileSourceSplitOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperSplitting;
+  case Details of
+    fsoddJobAndTarget:
+      Result := Format(rsOperSplittingFromTo, [SourceFile.Path, TargetPath]);
+    else
+      Result := rsOperSplitting;
+  end;
 end;
 
 end.

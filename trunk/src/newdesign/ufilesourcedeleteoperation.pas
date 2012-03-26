@@ -110,7 +110,17 @@ end;
 
 function TFileSourceDeleteOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperDeleting;
+  case Details of
+    fsoddJobAndTarget:
+    begin
+      if FilesToDelete.Count = 1 then
+        Result := Format(rsOperDeletingSomething, [FilesToDelete[0].FullPath])
+      else
+        Result := Format(rsOperDeletingIn, [FilesToDelete.Path]);
+    end;
+    else
+      Result := rsOperDeleting;
+  end;
 end;
 
 procedure TFileSourceDeleteOperation.UpdateStatistics(var NewStatistics: TFileSourceDeleteOperationStatistics);

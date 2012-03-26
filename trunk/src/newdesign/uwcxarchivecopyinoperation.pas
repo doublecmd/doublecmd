@@ -282,7 +282,17 @@ end;
 
 function TWcxArchiveCopyInOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperPacking;
+  case Details of
+    fsoddJobAndTarget:
+    begin
+      if SourceFiles.Count = 1 then
+        Result := Format(rsOperPackingSomethingTo, [SourceFiles[0].Name, FWcxArchiveFileSource.ArchiveFileName])
+      else
+        Result := Format(rsOperPackingFromTo, [SourceFiles.Path, FWcxArchiveFileSource.ArchiveFileName]);
+    end;
+    else
+      Result := rsOperPacking;
+  end;
 end;
 
 function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;

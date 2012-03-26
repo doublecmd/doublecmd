@@ -103,7 +103,12 @@ end;
 
 function TFileSourceCreateDirectoryOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperCreatingDirectory;
+  case Details of
+    fsoddJobAndTarget:
+      Result := Format(rsOperCreatingSomeDirectory, [AbsolutePath]);
+    else
+      Result := rsOperCreatingDirectory;
+  end;
 end;
 
 end.

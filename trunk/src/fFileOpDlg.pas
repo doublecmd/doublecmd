@@ -263,7 +263,7 @@ begin
         end;
     end;
 
-    Caption := OpManItem.Operation.GetDescription([fsoddJob]);
+    Caption := OpManItem.Operation.GetDescription(fsoddJob);
     Hint := Caption;
     UpdatePauseStartButton(OpManItem.Operation.State);
 

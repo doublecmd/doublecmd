@@ -197,7 +197,7 @@ begin
             OperationItem^.OperationHandle := OpManItem.Handle;
 
             OutString := IntToStr(OpManItem.Handle) + ': ' +
-              OpManItem.Operation.GetDescription([fsoddJob]) + ' - ' + GetProgressString(100);
+              OpManItem.Operation.GetDescription(fsoddJob) + ' - ' + GetProgressString(100);
             SetSize;
 
             if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) and
@@ -214,7 +214,7 @@ begin
         OperationItem^.OperationHandle := InvalidOperationHandle;
 
         OutString := rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' + GetProgressString(100) +
-          LineEnding + Queue.Items[0].Operation.GetDescription([fsoddJob]);
+          LineEnding + Queue.Items[0].Operation.GetDescription(fsoddJob);
         SetSize;
 
         if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) and
@@ -424,7 +424,7 @@ begin
         DrawProgress(OpManItem.Operation.State, AProgress);
         DrawString(rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' +
                    GetProgressString(AProgress) +
-                   LineEnding + Queue.Items[0].Operation.GetDescription([fsoddJob]));
+                   LineEnding + Queue.Items[0].Operation.GetDescription(fsoddJob));
         Inc(i);
       end
       else
@@ -459,7 +459,7 @@ begin
         AProgress := OpManItem.Operation.Progress;
         DrawProgress(OpManItem.Operation.State, AProgress);
         DrawString(IntToStr(OpManItem.Handle) + ': ' +
-                   OpManItem.Operation.GetDescription([fsoddJob]) + ' - ' +
+                   OpManItem.Operation.GetDescription(fsoddJob) + ' - ' +
                    GetProgressString(AProgress));
         Inc(i);
       end

@@ -134,9 +134,29 @@ function TFileSourceCalcChecksumOperation.GetDescription(Details: TFileSourceOpe
 begin
   case Mode of
     checksum_calc:
-      Result := rsOperCalculatingCheckSum;
+      case Details of
+        fsoddJobAndTarget:
+        begin
+          if Files.Count = 1 then
+            Result := Format(rsOperCalculatingCheckSumOf, [Files[0].FullPath])
+          else
+            Result := Format(rsOperCalculatingCheckSumIn, [Files.Path]);
+        end;
+        else
+          Result := rsOperCalculatingCheckSum;
+      end;
     checksum_verify:
-      Result := rsOperVerifyingCheckSum;
+      case Details of
+        fsoddJobAndTarget:
+        begin
+          if Files.Count = 1 then
+            Result := Format(rsOperVerifyingCheckSumOf, [Files[0].FullPath])
+          else
+            Result := Format(rsOperVerifyingCheckSumIn, [Files.Path]);
+        end;
+        else
+          Result := rsOperVerifyingCheckSum;
+      end;
     else
       Result := inherited GetDescription(Details);
   end;

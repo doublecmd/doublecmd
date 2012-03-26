@@ -507,7 +507,7 @@ begin
   if Assigned(OpManItem) then
   begin
     FText := IntToStr(OpManItem.Handle) + ': ' +
-             OpManItem.Operation.GetDescription([fsoddJob]);
+             OpManItem.Operation.GetDescription(fsoddJobAndTarget);
     FProgress := OpManItem.Operation.Progress;
     if FProgress > 0 then
       FText := FText + ' - ' + FloatToStrF(FProgress * 100, ffFixed, 1, 1) + ' %';

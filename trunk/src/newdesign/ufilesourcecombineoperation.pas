@@ -179,7 +179,12 @@ end;
 
 function TFileSourceCombineOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperCombining;
+  case Details of
+    fsoddJobAndTarget:
+      Result := Format(rsOperCombiningFromTo, [SourceFiles.Path, TargetFile]);
+    else
+      Result := rsOperCombining;
+  end;
 end;
 
 end.

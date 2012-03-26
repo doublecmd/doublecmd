@@ -113,7 +113,17 @@ end;
 
 function TFileSourceWipeOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperWiping;
+  case Details of
+    fsoddJobAndTarget:
+    begin
+      if FilesToWipe.Count = 1 then
+        Result := Format(rsOperWipingSomething, [FilesToWipe[0].FullPath])
+      else
+        Result := Format(rsOperWipingIn, [FilesToWipe.Path]);
+    end;
+    else
+      Result := rsOperWiping;
+  end;
 end;
 
 procedure TFileSourceWipeOperation.UpdateStatistics(var NewStatistics: TFileSourceWipeOperationStatistics);

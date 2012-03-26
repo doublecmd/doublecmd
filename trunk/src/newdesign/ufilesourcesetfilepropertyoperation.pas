@@ -184,7 +184,17 @@ end;
 
 function TFileSourceSetFilePropertyOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
 begin
-  Result := rsOperSettingProperty;
+  case Details of
+    fsoddJobAndTarget:
+    begin
+      if TargetFiles.Count = 1 then
+        Result := Format(rsOperSettingPropertyOf, [TargetFiles[0].FullPath])
+      else
+        Result := Format(rsOperSettingPropertyIn, [TargetFiles.Path]);
+    end;
+    else
+      Result := rsOperSettingProperty;
+  end;
 end;
 
 procedure TFileSourceSetFilePropertyOperation.UpdateStatistics(var NewStatistics: TFileSourceSetFilePropertyOperationStatistics);
