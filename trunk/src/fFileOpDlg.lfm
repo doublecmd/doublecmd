@@ -1,40 +1,89 @@
 object frmFileOp: TfrmFileOp
-  Left = 292
-  Height = 137
-  Top = 243
-  Width = 500
-  ClientHeight = 137
-  ClientWidth = 500
+  Left = 287
+  Height = 212
+  Top = 244
+  Width = 522
+  ClientHeight = 212
+  ClientWidth = 522
   Constraints.MinWidth = 500
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.30.2'
+  LCLVersion = '0.9.31'
   object pnlClient: TPanel
     Left = 3
-    Height = 139
+    Height = 200
     Top = 3
-    Width = 494
+    Width = 516
     Align = alTop
     AutoSize = True
     BorderSpacing.Around = 3
     BevelOuter = bvNone
-    ClientHeight = 139
-    ClientWidth = 494
+    ClientHeight = 200
+    ClientWidth = 516
     TabOrder = 0
+    object pnlQueue: TPanel
+      Left = 0
+      Height = 61
+      Top = 0
+      Width = 516
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 61
+      ClientWidth = 516
+      TabOrder = 0
+      object lblQueue: TLabel
+        Left = 0
+        Height = 1
+        Top = 0
+        Width = 516
+        Align = alTop
+        ParentColor = False
+      end
+      object pbQueue: TKASProgressBar
+        Left = 0
+        Height = 22
+        Top = 1
+        Width = 516
+        Align = alTop
+        Max = 516
+        Smooth = True
+        TabOrder = 0
+        BarShowText = True
+      end
+      object lblCurrentOperation: TLabel
+        Left = 0
+        Height = 22
+        Top = 38
+        Width = 516
+        Align = alTop
+        BorderSpacing.Top = 15
+        Caption = 'Current operation:'
+        ParentColor = False
+      end
+      object lblCurrentOperationText: TLabel
+        Left = 0
+        Height = 1
+        Top = 60
+        Width = 516
+        Align = alTop
+        ParentColor = False
+      end
+    end
     object pnlFrom: TPanel
       Left = 0
       Height = 22
-      Top = 0
-      Width = 494
+      Top = 61
+      Width = 516
       Align = alTop
       AutoSize = True
       BorderSpacing.Bottom = 3
       BevelOuter = bvNone
       ClientHeight = 22
-      ClientWidth = 494
-      TabOrder = 0
+      ClientWidth = 516
+      TabOrder = 1
       object lblFrom: TLabel
         Left = 0
         Height = 22
@@ -49,7 +98,7 @@ object frmFileOp: TfrmFileOp
         Left = 40
         Height = 22
         Top = 0
-        Width = 454
+        Width = 476
         Align = alClient
         ParentColor = False
       end
@@ -57,21 +106,21 @@ object frmFileOp: TfrmFileOp
     object pnlTo: TPanel
       Left = 0
       Height = 22
-      Top = 25
-      Width = 494
+      Top = 86
+      Width = 516
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 3
       BorderSpacing.Bottom = 3
       BevelOuter = bvNone
       ClientHeight = 22
-      ClientWidth = 494
-      TabOrder = 1
+      ClientWidth = 516
+      TabOrder = 2
       object lblFileNameTo: TLabel
         Left = 40
         Height = 22
         Top = 0
-        Width = 454
+        Width = 476
         Align = alClient
         ParentColor = False
       end
@@ -86,18 +135,63 @@ object frmFileOp: TfrmFileOp
         ParentColor = False
       end
     end
+    object lblEstimated: TLabel
+      Left = 0
+      Height = 1
+      Top = 111
+      Width = 516
+      Align = alTop
+      BorderSpacing.Top = 3
+      ParentColor = False
+    end
+    object pbFirst: TKASProgressBar
+      Left = 0
+      Height = 22
+      Top = 140
+      Width = 516
+      Align = alTop
+      BorderSpacing.Top = 3
+      Max = 516
+      Smooth = True
+      TabOrder = 3
+      BarShowText = True
+    end
+    object pbSecond: TKASProgressBar
+      Left = 0
+      Height = 22
+      Top = 115
+      Width = 516
+      Align = alTop
+      BorderSpacing.Top = 3
+      Max = 516
+      Smooth = True
+      TabOrder = 4
+      BarShowText = True
+    end
     object pnlButtons: TPanel
       Left = 0
       Height = 35
-      Top = 104
-      Width = 494
+      Top = 165
+      Width = 516
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 3
       BevelOuter = bvNone
       ClientHeight = 35
-      ClientWidth = 494
-      TabOrder = 4
+      ClientWidth = 516
+      TabOrder = 5
+      object btnMinimizeToPanel: TButton
+        Left = 0
+        Height = 35
+        Top = 0
+        Width = 84
+        Align = alLeft
+        AutoSize = True
+        BorderSpacing.Right = 3
+        Caption = '&To panel'
+        OnClick = btnMinimizeToPanelClick
+        TabOrder = 0
+      end
       object btnViewOperations: TButton
         Left = 87
         Height = 35
@@ -108,10 +202,10 @@ object frmFileOp: TfrmFileOp
         BorderSpacing.Right = 3
         Caption = '&View all'
         OnClick = btnViewOperationsClick
-        TabOrder = 2
+        TabOrder = 1
       end
       object btnCancel: TBitBtn
-        Left = 347
+        Left = 369
         Height = 35
         Top = 0
         Width = 94
@@ -126,10 +220,10 @@ object frmFileOp: TfrmFileOp
         ModalResult = 2
         NumGlyphs = 0
         OnClick = btnCancelClick
-        TabOrder = 0
+        TabOrder = 2
       end
       object btnPauseStart: TBitBtn
-        Left = 444
+        Left = 466
         Height = 35
         Top = 0
         Width = 50
@@ -140,53 +234,8 @@ object frmFileOp: TfrmFileOp
         NumGlyphs = 0
         OnClick = btnPauseStartClick
         Spacing = 0
-        TabOrder = 1
-      end
-      object btnMinimizeToPanel: TButton
-        Left = 0
-        Height = 35
-        Top = 0
-        Width = 84
-        Align = alLeft
-        AutoSize = True
-        BorderSpacing.Right = 3
-        Caption = '&To panel'
-        OnClick = btnMinimizeToPanelClick
         TabOrder = 3
       end
-    end
-    object pbFirst: TKASProgressBar
-      Left = 0
-      Height = 22
-      Top = 54
-      Width = 494
-      Align = alTop
-      BorderSpacing.Top = 3
-      Max = 494
-      Smooth = True
-      TabOrder = 2
-      BarShowText = True
-    end
-    object pbSecond: TKASProgressBar
-      Left = 0
-      Height = 22
-      Top = 79
-      Width = 494
-      Align = alTop
-      BorderSpacing.Top = 3
-      Max = 494
-      Smooth = True
-      TabOrder = 3
-      BarShowText = True
-    end
-    object lblEstimated: TLabel
-      Left = 0
-      Height = 1
-      Top = 50
-      Width = 494
-      Align = alTop
-      BorderSpacing.Top = 3
-      ParentColor = False
     end
   end
 end
