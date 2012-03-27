@@ -51,7 +51,7 @@ type
      fsorAborted);    //<en operation has been aborted by user
 
   TFileSourceOperationDescriptionDetails =
-    (fsoddJob,           //<en What the operation is supposed to be doing in general: copying, deleting, etc.
+    (fsoddJob,                    //<en What the operation is supposed to be doing in general: copying, deleting, etc.
      fsoddJobAndTarget); //<en Job + on what the operation works: copying from /path to /path2, deleting from /path, etc.
 
 const
@@ -359,6 +359,10 @@ type
        Makes sense only before first call to Execute.
     }
     procedure PreventStart;
+    {en
+       If the operation can be paused it pauses otherwise starts the operation.
+    }
+    procedure TogglePause;
 
     {en
        Notifies the operation that possibly a connection is available from
@@ -814,6 +818,14 @@ begin
   // Wake it up then, because it is being aborted
   // (this must be after setting state to Stopping).
   RTLeventSetEvent(FUserInterfaceAssignedEvent);
+end;
+
+procedure TFileSourceOperation.TogglePause;
+begin
+  if State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
+    Pause
+  else
+    Start;
 end;
 
 procedure TFileSourceOperation.PreventStart;

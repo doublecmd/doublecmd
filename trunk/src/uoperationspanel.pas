@@ -41,13 +41,10 @@ type
     FParentWidth: Integer;
     procedure ClearItems;
     procedure DeleteItem(List: TFPList; Index: Integer);
-    function GetProgressString(Progress: Double): String;
     procedure GetStateColor(State: TFileSourceOperationState; out ColorFrom, ColorTo: TColor);
     procedure OperationsManagerEvent(Item: TOperationsManagerItem; Event: TOperationManagerEvent);
     procedure ProgressWindowEvent(OperationHandle: TOperationHandle;
                                   Event: TOperationProgressWindowEvent);
-    procedure StartPauseOperation(Operation: TFileSourceOperation);
-    procedure StartPauseQueue(Queue: TOperationsManagerQueue);
     procedure UpdateItems;
     procedure UpdateVisibility;
   public
@@ -106,11 +103,6 @@ procedure TOperationsPanel.DeleteItem(List: TFPList; Index: Integer);
 begin
   Dispose(POperationPanelItem(List[Index]));
   List.Delete(Index);
-end;
-
-function TOperationsPanel.GetProgressString(Progress: Double): String;
-begin
-  Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + ' %';
 end;
 
 procedure TOperationsPanel.GetStateColor(State: TFileSourceOperationState; out ColorFrom, ColorTo: TColor);
@@ -309,7 +301,7 @@ var
           mbLeft:
             ShowOperationsViewer(Item^.QueueId);
           mbMiddle:
-            StartPauseQueue(Queue);
+            Queue.TogglePause;
         end;
       end
       else
@@ -321,7 +313,7 @@ var
             mbLeft:
               TfrmFileOp.ShowFor(OpManItem.Handle);
             mbMiddle:
-              StartPauseOperation(OpManItem.Operation);
+              OpManItem.Operation.TogglePause;
           end;
         end;
       end;
@@ -469,22 +461,6 @@ begin
     else
       DeleteItem(FOperations, i);
   end;
-end;
-
-procedure TOperationsPanel.StartPauseOperation(Operation: TFileSourceOperation);
-begin
-  if Operation.State = fsosRunning then
-    Operation.Pause
-  else
-    Operation.Start;
-end;
-
-procedure TOperationsPanel.StartPauseQueue(Queue: TOperationsManagerQueue);
-begin
-  if Queue.Paused then
-    Queue.UnPause
-  else
-    Queue.Pause;
 end;
 
 procedure TOperationsPanel.UpdateView;
