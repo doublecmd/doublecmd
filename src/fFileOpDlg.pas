@@ -42,11 +42,16 @@ type
     btnPauseStart: TBitBtn;
     btnViewOperations: TButton;
     btnMinimizeToPanel: TButton;
+    lblCurrentOperationText: TLabel;
+    lblQueue: TLabel;
     lblEstimated: TLabel;
     lblFileNameFrom: TLabel;
     lblFileNameTo: TLabel;
     lblFrom: TLabel;
+    lblCurrentOperation: TLabel;
     lblTo: TLabel;
+    pbQueue: TKASProgressBar;
+    pnlQueue: TPanel;
     pbFirst: TKASProgressBar;
     pbSecond: TKASProgressBar;
     pnlButtons: TPanel;
@@ -63,31 +68,38 @@ type
     procedure SetProgressBarStyle(const AValue: TProgressBarStyle);
 
   private
-    { Private declarations }
     FOperationHandle: TOperationHandle;
+    FQueueIdentifier: TOperationsManagerQueueIdentifier;
     FUpdateTimer: TTimer;  //<en Timer for updating statistics.
     FUserInterface: TFileSourceOperationUI;
     FStopOperationOnClose: Boolean;
 
     procedure OnUpdateTimer(Sender: TObject);
 
-    procedure InitializeControls(FileOpDlgLook: TFileOpDlgLook);
+    function  AddToOpenedForms(OpManItem: TOperationsManagerItem): Boolean;
+    procedure CloseDialog;
+    procedure FinalizeOperation;
+    function  GetFirstOperationHandle(QueueIdentifier: TOperationsManagerQueueIdentifier): TOperationHandle;
+    procedure InitializeControls(OpManItem: TOperationsManagerItem; FileOpDlgLook: TFileOpDlgLook);
+    function  InitializeOperation: Boolean;
     procedure NotifyEvents(Events: TOperationProgressWindowEvents);
+    procedure RemoveFromOpenedForms;
     procedure SetPauseGlyph;
     procedure SetPlayGlyph;
-    procedure UpdatePauseStartButton(OperationState: TFileSourceOperationState);
+    procedure UpdateOperation(OpManItem: TOperationsManagerItem);
+    procedure UpdatePauseStartButton(OpManItem: TOperationsManagerItem);
     procedure SetProgressBytes(ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
 
-    procedure InitializeCopyOperation(Operation: TFileSourceOperation);
-    procedure InitializeMoveOperation(Operation: TFileSourceOperation);
-    procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
-    procedure InitializeWipeOperation(Operation: TFileSourceOperation);
-    procedure InitializeSplitOperation(Operation: TFileSourceOperation);
-    procedure InitializeCombineOperation(Operation: TFileSourceOperation);
-    procedure InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
-    procedure InitializeTestArchiveOperation(Operation: TFileSourceOperation);
-    procedure InitializeCalcStatisticsOperation(Operation: TFileSourceOperation);
+    procedure InitializeCopyOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeMoveOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeDeleteOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeWipeOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeSplitOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeCombineOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeCalcChecksumOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeTestArchiveOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeCalcStatisticsOperation(OpManItem: TOperationsManagerItem);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateMoveOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
@@ -98,8 +110,12 @@ type
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
 
+    class function GetOpenedForm(AOperationHandle: TOperationHandle): TfrmFileOp;
+    class function GetOpenedForm(AQueueIdentifier: TOperationsManagerQueueIdentifier): TfrmFileOp;
+
   public
     constructor Create(OperationHandle: TOperationHandle); reintroduce;
+    constructor Create(QueueIdentifier: TOperationsManagerQueueIdentifier); reintroduce;
     destructor Destroy; override;
 
     function CloseQuery: Boolean; override;
@@ -110,7 +126,9 @@ type
                                          FunctionToCall: TOperationProgressWindowEventProc);
 
     class function IsOpenedFor(AOperationHandle: TOperationHandle): Boolean;
+    class function IsOpenedFor(AQueueIdentifier: TOperationsManagerQueueIdentifier): Boolean;
     class procedure ShowFor(AOperationHandle: TOperationHandle);
+    class procedure ShowFor(AQueueIdentifier: TOperationsManagerQueueIdentifier);
 
     property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
   end;
@@ -141,9 +159,15 @@ type
     EventFunction: TOperationProgressWindowEventProc;
   end;
 
+  POpenedForm = ^TOpenedForm;
+  TOpenedForm = record
+    Form: TfrmFileOp;
+    OperationHandle: TOperationHandle;
+    QueueIdentifier: TOperationsManagerQueueIdentifier;
+  end;
+
 var
   OpenedForms: TFPList;
-  OpenedHandles: TFPList;
   EventsListeners: array[TOperationProgressWindowEvent] of TFPList;
 
 procedure Initialize;
@@ -151,7 +175,6 @@ var
   Event: TOperationProgressWindowEvent;
 begin
   OpenedForms := TFPList.Create;
-  OpenedHandles := TFPList.Create;
   for Event := Low(EventsListeners) to High(EventsListeners) do
     EventsListeners[Event] := TFPList.Create;
 end;
@@ -160,6 +183,7 @@ procedure Finalize;
 var
   Event: TOperationProgressWindowEvent;
   Item: PEventsListItem;
+  OpenedForm: POpenedForm;
 begin
   for Event := Low(EventsListeners) to High(EventsListeners) do
   begin
@@ -167,8 +191,9 @@ begin
       Dispose(Item);
     FreeAndNil(EventsListeners[Event]);
   end;
+  for OpenedForm in OpenedForms do
+    Dispose(OpenedForm);
   OpenedForms.Free;
-  OpenedHandles.Free;
 end;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
@@ -177,14 +202,18 @@ var
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
-    OpManItem.Operation.Stop;
-  ModalResult:= mrCancel;
+  begin
+    if OpManItem.Queue.IsFree then
+      OpManItem.Operation.Stop
+    else
+      OpManItem.Queue.Stop;
+    ModalResult:= mrCancel;
+  end;
 end;
 
 procedure TfrmFileOp.btnMinimizeToPanelClick(Sender: TObject);
 begin
-  FStopOperationOnClose := False;
-  Close;
+  CloseDialog;
 end;
 
 procedure TfrmFileOp.btnPauseStartClick(Sender: TObject);
@@ -194,83 +223,93 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    OpManItem.Operation.TogglePause;
-    UpdatePauseStartButton(OpManItem.Operation.State);
+    if OpManItem.Queue.IsFree then
+      OpManItem.Operation.TogglePause
+    else
+      OpManItem.Queue.TogglePause;
+    UpdatePauseStartButton(OpManItem);
   end;
 end;
 
 procedure TfrmFileOp.btnViewOperationsClick(Sender: TObject);
-begin
-  ShowOperationsViewer(FOperationHandle);
-end;
-
-procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-var
-  i: Integer;
-begin
-  CloseAction:= caFree;
-  i := OpenedHandles.Remove(Pointer(FOperationHandle));
-  if i >= 0 then
-    OpenedForms.Delete(i);
-  NotifyEvents([opwevClosed]);
-end;
-
-procedure TfrmFileOp.FormCreate(Sender: TObject);
 var
   OpManItem: TOperationsManagerItem;
 begin
-  pbFirst.DoubleBuffered:= True;
-  pbSecond.DoubleBuffered:= True;
-  Self.DoubleBuffered:= True;
-
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    ProgressBarStyle:= pbstMarquee;
-
-    case OpManItem.Operation.ID of
-
-      fsoCopy, fsoCopyIn, fsoCopyOut:
-        InitializeCopyOperation(OpManItem.Operation);
-      fsoMove:
-        InitializeMoveOperation(OpManItem.Operation);
-      fsoDelete:
-        InitializeDeleteOperation(OpManItem.Operation);
-      fsoWipe:
-        InitializeWipeOperation(OpManItem.Operation);
-      fsoSplit:
-        InitializeSplitOperation(OpManItem.Operation);
-      fsoCombine:
-        InitializeCombineOperation(OpManItem.Operation);
-      fsoCalcChecksum:
-        InitializeCalcChecksumOperation(OpManItem.Operation);
-      fsoTestArchive:
-        InitializeTestArchiveOperation(OpManItem.Operation);
-      fsoCalcStatistics:
-        InitializeCalcStatisticsOperation(OpManItem.Operation);
-
-      else
-        begin
-          InitializeControls([fodl_first_pb]);
-        end;
-    end;
-
-    Caption := OpManItem.Operation.GetDescription(fsoddJob);
-    Hint := Caption;
-    UpdatePauseStartButton(OpManItem.Operation.State);
-
-    FUpdateTimer := TTimer.Create(Self);
-    FUpdateTimer.Interval := 100;
-    FUpdateTimer.OnTimer := @OnUpdateTimer;
-    FUpdateTimer.Enabled := True;
-
-    if OpenedHandles.IndexOf(Pointer(FOperationHandle)) < 0 then
-    begin
-      OpenedForms.Add(Self);
-      OpenedHandles.Add(Pointer(FOperationHandle));
-      NotifyEvents([opwevOpened]);
-    end;
+    if OpManItem.Queue.IsFree then
+      ShowOperationsViewer(OpManItem.Handle)
+    else
+      ShowOperationsViewer(OpManItem.Queue.Identifier);
   end;
+end;
+
+procedure TfrmFileOp.CloseDialog;
+begin
+  FStopOperationOnClose := False;
+  Close;
+end;
+
+procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caFree;
+  FinalizeOperation;
+end;
+
+procedure TfrmFileOp.FormCreate(Sender: TObject);
+begin
+  pbFirst.DoubleBuffered:= True;
+  pbSecond.DoubleBuffered:= True;
+  pbQueue.DoubleBuffered:= True;
+  Self.DoubleBuffered:= True;
+
+  FUpdateTimer := TTimer.Create(Self);
+  FUpdateTimer.Interval := 100;
+  FUpdateTimer.OnTimer := @OnUpdateTimer;
+  FUpdateTimer.Enabled := False;
+
+  if not InitializeOperation then
+    CloseDialog;
+end;
+
+function TfrmFileOp.GetFirstOperationHandle(QueueIdentifier: TOperationsManagerQueueIdentifier): TOperationHandle;
+var
+  Queue: TOperationsManagerQueue;
+begin
+  Queue := OperationsManager.QueueByIdentifier[QueueIdentifier];
+  if Assigned(Queue) and (Queue.Count > 0) then
+    Result := Queue.Items[0].Handle
+  else
+    Result := InvalidOperationHandle;
+end;
+
+class function TfrmFileOp.GetOpenedForm(AOperationHandle: TOperationHandle): TfrmFileOp;
+var
+  Index: Integer;
+  Item: POpenedForm;
+begin
+  for Index := 0 to OpenedForms.Count - 1 do
+  begin
+    Item := OpenedForms[Index];
+    if Item^.OperationHandle = AOperationHandle then
+      Exit(Item^.Form);
+  end;
+  Result := nil;
+end;
+
+class function TfrmFileOp.GetOpenedForm(AQueueIdentifier: TOperationsManagerQueueIdentifier): TfrmFileOp;
+var
+  Index: Integer;
+  Item: POpenedForm;
+begin
+  for Index := 0 to OpenedForms.Count - 1 do
+  begin
+    Item := OpenedForms[Index];
+    if Item^.QueueIdentifier = AQueueIdentifier then
+      Exit(Item^.Form);
+  end;
+  Result := nil;
 end;
 
 constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
@@ -286,31 +325,43 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(OperationHandle);
   if Assigned(OpManItem) then
   begin
-    FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
-    OpManItem.Operation.AddUserInterface(FUserInterface);
     FStopOperationOnClose := True;
     FOperationHandle := OperationHandle;
   end
   else
   begin
-    FUserInterface := nil;
-    Close;
+    CloseDialog;
   end;
 end;
 
+constructor TfrmFileOp.Create(QueueIdentifier: TOperationsManagerQueueIdentifier);
+begin
+  Create(GetFirstOperationHandle(QueueIdentifier));
+end;
+
 destructor TfrmFileOp.Destroy;
+begin
+  inherited Destroy;
+  FreeAndNil(FUserInterface);
+end;
+
+procedure TfrmFileOp.FinalizeOperation;
 var
   OpManItem: TOperationsManagerItem;
 begin
-  inherited Destroy;
+  FUpdateTimer.Enabled := False;
 
-  if Assigned(FUserInterface) then
+  if FOperationHandle <> InvalidOperationHandle then
   begin
-    OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-    if Assigned(OpManItem) then
-      OpManItem.Operation.RemoveUserInterface(FUserInterface);
+    if Assigned(FUserInterface) then
+    begin
+      OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+      if Assigned(OpManItem) then
+        OpManItem.Operation.RemoveUserInterface(FUserInterface);
+    end;
 
-    FreeAndNil(FUserInterface);
+    RemoveFromOpenedForms;
+    FOperationHandle := InvalidOperationHandle;
   end;
 end;
 
@@ -341,6 +392,41 @@ begin
   end;
 end;
 
+function TfrmFileOp.AddToOpenedForms(OpManItem: TOperationsManagerItem): Boolean;
+var
+  Index: Integer;
+  Item: POpenedForm;
+  Found: Boolean = False;
+begin
+  for Index := 0 to OpenedForms.Count - 1 do
+  begin
+    Item := OpenedForms[Index];
+    // Check if another form is not already opened for the operation or queue.
+    if (Item^.OperationHandle = FOperationHandle) or
+       (not OpManItem.Queue.IsFree and (Item^.QueueIdentifier = FQueueIdentifier)) then
+    begin
+      Exit(False);
+    end
+    else if Item^.Form = Self then
+    begin
+      Found := True;
+      Break;
+    end;
+  end;
+
+  if not Found then
+  begin
+    New(Item);
+    OpenedForms.Add(Item);
+  end;
+
+  Item^.Form := Self;
+  Item^.OperationHandle := FOperationHandle;
+  Item^.QueueIdentifier := FQueueIdentifier;
+  NotifyEvents([opwevOpened]);
+  Result := True;
+end;
+
 class procedure TfrmFileOp.RemoveEventsListener(Events: TOperationProgressWindowEvents; FunctionToCall: TOperationProgressWindowEventProc);
 var
   Item: PEventsListItem;
@@ -362,91 +448,139 @@ begin
   end;
 end;
 
+procedure TfrmFileOp.RemoveFromOpenedForms;
+var
+  i: Integer;
+  Item: POpenedForm;
+begin
+  for i := 0 to OpenedForms.Count - 1 do
+  begin
+    Item := OpenedForms[i];
+    if Item^.Form = Self then
+    begin
+      Dispose(Item);
+      OpenedForms.Delete(i);
+      NotifyEvents([opwevClosed]);
+      Break;
+    end;
+  end;
+end;
+
 class function TfrmFileOp.IsOpenedFor(AOperationHandle: TOperationHandle): Boolean;
 begin
-  Result := OpenedHandles.IndexOf(Pointer(AOperationHandle)) >= 0;
+  Result := Assigned(GetOpenedForm(AOperationHandle));
+end;
+
+class function TfrmFileOp.IsOpenedFor(AQueueIdentifier: TOperationsManagerQueueIdentifier): Boolean;
+begin
+  Result := Assigned(GetOpenedForm(AQueueIdentifier));
 end;
 
 class procedure TfrmFileOp.ShowFor(AOperationHandle: TOperationHandle);
 var
   OperationDialog: TfrmFileOp;
-  Index: Integer;
 begin
-  if AOperationHandle <> InvalidOperationHandle then
+  OperationDialog := GetOpenedForm(AOperationHandle);
+  if Assigned(OperationDialog) then
+    OperationDialog.ShowOnTop
+  else
   begin
-    Index := OpenedHandles.IndexOf(Pointer(AOperationHandle));
-    if Index < 0 then
-    begin
-      OperationDialog := TfrmFileOp.Create(AOperationHandle);
-      OperationDialog.Show;
-    end
-    else
-    begin
-      OperationDialog := TfrmFileOp(OpenedForms[Index]);
-      OperationDialog.ShowOnTop;
-    end;
+    OperationDialog := TfrmFileOp.Create(AOperationHandle);
+    OperationDialog.Show;
+  end;
+end;
+
+class procedure TfrmFileOp.ShowFor(AQueueIdentifier: TOperationsManagerQueueIdentifier);
+var
+  OperationDialog: TfrmFileOp;
+begin
+  OperationDialog := GetOpenedForm(AQueueIdentifier);
+  if Assigned(OperationDialog) then
+    OperationDialog.ShowOnTop
+  else
+  begin
+    OperationDialog := TfrmFileOp.Create(AQueueIdentifier);
+    OperationDialog.Show;
   end;
 end;
 
 procedure TfrmFileOp.OnUpdateTimer(Sender: TObject);
 var
   OpManItem: TOperationsManagerItem;
+  Queue: TOperationsManagerQueue;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  if Assigned(OpManItem) and (OpManItem.Operation.State <> fsosStopped) then
+
+  // Check if operation did not change queues.
+  if Assigned(OpManItem) and (OpManItem.Queue.Identifier <> FQueueIdentifier) then
   begin
-    if (OpManItem.Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
+    Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
+    FinalizeOperation;
+    if Assigned(Queue) and not Queue.IsFree then
     begin
-      ProgressBarStyle:= pbstNormal;
+      // Queue was begin followed - switch to next operation from that queue.
+      FQueueIdentifier := Queue.Identifier;
+      FOperationHandle := GetFirstOperationHandle(Queue.Identifier);
+    end
+    else
+    begin
+      // Follow the operation to new queue either because previously followed
+      // queue was free-operations queue or old queue was destroyed.
+      FQueueIdentifier := OpManItem.Queue.Identifier;
+      FOperationHandle := OpManItem.Handle;
     end;
-
-    case OpManItem.Operation.ID of
-
-      fsoCopy, fsoCopyIn, fsoCopyOut:
-        UpdateCopyOperation(OpManItem.Operation);
-      fsoMove:
-        UpdateMoveOperation(OpManItem.Operation);
-      fsoDelete:
-        UpdateDeleteOperation(OpManItem.Operation);
-      fsoWipe:
-        UpdateWipeOperation(OpManItem.Operation);
-      fsoSplit:
-        UpdateSplitOperation(OpManItem.Operation);
-      fsoCombine:
-        UpdateCombineOperation(OpManItem.Operation);
-      fsoCalcChecksum:
-        UpdateCalcChecksumOperation(OpManItem.Operation);
-      fsoCalcStatistics:
-        UpdateCalcStatisticsOperation(OpManItem.Operation);
-      fsoTestArchive:
-        UpdateTestArchiveOperation(OpManItem.Operation);
-
-      else
-      begin
-        // Operation not currently supported for display.
-        // Only show general progress.
-        pbFirst.Position := Round(OpManItem.Operation.Progress * pbFirst.Max);
-      end;
+    if not InitializeOperation then
+    begin
+      CloseDialog;
+      Exit;
     end;
+    OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  end;
 
-    UpdatePauseStartButton(OpManItem.Operation.State);
-
-    Caption := GetProgressString(OpManItem.Operation.Progress)
-               + Hint
-               + GetOperationStateString(OpManItem.Operation.State);
-  end
-  else
+  // Check if first operation in the queue hasn't changed.
+  if Assigned(OpManItem) and
+     not OpManItem.Queue.IsFree and
+     (GetFirstOperationHandle(FQueueIdentifier) <> FOperationHandle) then
   begin
-    // Operation has finished.
-    // if CloseOnFinish then
-    Close;
-    // if BeepOnFinish then Beep;
-    FStopOperationOnClose := False;
+    FinalizeOperation;
+    FOperationHandle := GetFirstOperationHandle(FQueueIdentifier);
+    if not InitializeOperation then
+    begin
+      CloseDialog;
+      Exit;
+    end;
+    OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  end;
+
+  if Assigned(OpManItem) then
+  begin
+    UpdateOperation(OpManItem);
+  end
+  else // Operation was destroyed
+  begin
+    Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
+    if not Assigned(Queue) or Queue.IsFree then
+    begin
+      // Single operation was being followed and it has finished
+      // or all operations in queue have finished - close window.
+      CloseDialog;
+    end
+    else
+    begin
+      // Queue was begin followed - switch to next operation from that queue.
+      FOperationHandle := GetFirstOperationHandle(FQueueIdentifier);
+    end;
   end;
 end;
 
-procedure TfrmFileOp.InitializeControls(FileOpDlgLook: TFileOpDlgLook);
+procedure TfrmFileOp.InitializeControls(OpManItem: TOperationsManagerItem; FileOpDlgLook: TFileOpDlgLook);
+var
+  ShowQueue: Boolean;
 begin
+  ShowQueue := not OpManItem.Queue.IsFree;
+
+  pnlQueue.Visible := ShowQueue;
+
   lblFrom.Visible         := fodl_from_lbl in FileOpDlgLook;
   lblFileNameFrom.Visible := lblFrom.Visible;
 
@@ -456,10 +590,14 @@ begin
   pbFirst.Visible         := fodl_first_pb in FileOpDlgLook;
   pbSecond.Visible        := fodl_second_pb in FileOpDlgLook;
 
-  if (fodl_second_pb in FileOpDlgLook) then
-    pbSecond.ShowInTaskbar:= True
-  else
-    pbFirst.ShowInTaskbar:= True;
+  pbQueue.ShowInTaskbar  := ShowQueue;
+  pbFirst.ShowInTaskbar  :=
+    not ShowQueue and ([fodl_first_pb, fodl_second_pb] * FileOpDlgLook = [fodl_first_pb]);
+  pbSecond.ShowInTaskbar :=
+    not ShowQueue and (fodl_second_pb in FileOpDlgLook);
+
+  if ShowQueue then
+    lblQueue.Caption := rsDlgQueue + ' ' + IntToStr(OpManItem.Queue.Identifier);
 
   lblFileNameFrom.Caption := '';
   lblFileNameTo.Caption := '';
@@ -484,31 +622,6 @@ end;
 procedure TfrmFileOp.SetPlayGlyph;
 begin
   dmComData.ImageList.GetBitmap(0, btnPauseStart.Glyph);
-end;
-
-procedure TfrmFileOp.UpdatePauseStartButton(OperationState: TFileSourceOperationState);
-begin
-  case OperationState of
-    fsosNotStarted, fsosStopped, fsosPaused:
-      begin
-        btnPauseStart.Enabled := True;
-        SetPlayGlyph;
-      end;
-
-    fsosStarting, fsosStopping, fsosPausing, fsosWaitingForFeedback:
-      begin
-        btnPauseStart.Enabled := False;
-      end;
-
-    fsosRunning, fsosWaitingForConnection:
-      begin
-        btnPauseStart.Enabled := True;
-        SetPauseGlyph;
-      end;
-
-    else
-      btnPauseStart.Enabled := False;
-  end;
 end;
 
 procedure TfrmFileOp.SetProgressBytes(ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
@@ -538,53 +651,112 @@ begin
   lblEstimated.Caption := sEstimated;
 end;
 
-procedure TfrmFileOp.InitializeCopyOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeCopyOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
-procedure TfrmFileOp.InitializeMoveOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeMoveOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
-procedure TfrmFileOp.InitializeDeleteOperation(Operation: TFileSourceOperation);
+function TfrmFileOp.InitializeOperation: Boolean;
+var
+  OpManItem: TOperationsManagerItem;
 begin
-  InitializeControls([fodl_from_lbl, fodl_first_pb]);
-  lblFrom.Caption := rsOperDeleting;
+  Result := False;
+
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+
+  if Assigned(OpManItem) and not OpManItem.Queue.IsFree then
+  begin
+    FOperationHandle := GetFirstOperationHandle(OpManItem.Queue.Identifier);
+    OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  end;
+
+  if Assigned(OpManItem) then
+  begin
+    FQueueIdentifier := OpManItem.Queue.Identifier;
+
+    if AddToOpenedForms(OpManItem) then
+    begin
+      if not Assigned(FUserInterface) then
+        FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
+      OpManItem.Operation.AddUserInterface(FUserInterface);
+
+      ProgressBarStyle:= pbstMarquee;
+
+      case OpManItem.Operation.ID of
+
+        fsoCopy, fsoCopyIn, fsoCopyOut:
+          InitializeCopyOperation(OpManItem);
+        fsoMove:
+          InitializeMoveOperation(OpManItem);
+        fsoDelete:
+          InitializeDeleteOperation(OpManItem);
+        fsoWipe:
+          InitializeWipeOperation(OpManItem);
+        fsoSplit:
+          InitializeSplitOperation(OpManItem);
+        fsoCombine:
+          InitializeCombineOperation(OpManItem);
+        fsoCalcChecksum:
+          InitializeCalcChecksumOperation(OpManItem);
+        fsoTestArchive:
+          InitializeTestArchiveOperation(OpManItem);
+        fsoCalcStatistics:
+          InitializeCalcStatisticsOperation(OpManItem);
+
+        else
+          begin
+            InitializeControls(OpManItem, [fodl_first_pb]);
+          end;
+      end;
+
+      UpdatePauseStartButton(OpManItem);
+      Caption := EmptyStr;
+      FUpdateTimer.Enabled := True;
+      Result := True;
+    end;
+  end;
+  if not Result then
+    FOperationHandle := InvalidOperationHandle;
 end;
 
-procedure TfrmFileOp.InitializeCalcStatisticsOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeDeleteOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl]);
-  lblFrom.Caption := rsOperCalculatingStatictics;
+  InitializeControls(OpManItem, [fodl_first_pb]);
 end;
 
-procedure TfrmFileOp.InitializeWipeOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeCalcStatisticsOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl, fodl_first_pb, fodl_second_pb]);
-  lblFrom.Caption := rsOperWiping;
+  InitializeControls(OpManItem, [fodl_from_lbl]);
 end;
 
-procedure TfrmFileOp.InitializeSplitOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeWipeOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_first_pb, fodl_second_pb]);
 end;
 
-procedure TfrmFileOp.InitializeCombineOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeSplitOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
-procedure TfrmFileOp.InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeCombineOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl, fodl_first_pb, fodl_second_pb]);
-  lblFrom.Visible := False;
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
-procedure TfrmFileOp.InitializeTestArchiveOperation(Operation: TFileSourceOperation);
+procedure TfrmFileOp.InitializeCalcChecksumOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_first_pb, fodl_second_pb]);
+end;
+
+procedure TfrmFileOp.InitializeTestArchiveOperation(OpManItem: TOperationsManagerItem);
+begin
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
 procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
@@ -622,6 +794,110 @@ begin
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
+  end;
+end;
+
+procedure TfrmFileOp.UpdateOperation(OpManItem: TOperationsManagerItem);
+var
+  NewCaption: String;
+begin
+  // Proceed with update.
+  if (OpManItem.Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
+  begin
+    ProgressBarStyle:= pbstNormal;
+  end;
+
+  case OpManItem.Operation.ID of
+
+    fsoCopy, fsoCopyIn, fsoCopyOut:
+      UpdateCopyOperation(OpManItem.Operation);
+    fsoMove:
+      UpdateMoveOperation(OpManItem.Operation);
+    fsoDelete:
+      UpdateDeleteOperation(OpManItem.Operation);
+    fsoWipe:
+      UpdateWipeOperation(OpManItem.Operation);
+    fsoSplit:
+      UpdateSplitOperation(OpManItem.Operation);
+    fsoCombine:
+      UpdateCombineOperation(OpManItem.Operation);
+    fsoCalcChecksum:
+      UpdateCalcChecksumOperation(OpManItem.Operation);
+    fsoCalcStatistics:
+      UpdateCalcStatisticsOperation(OpManItem.Operation);
+    fsoTestArchive:
+      UpdateTestArchiveOperation(OpManItem.Operation);
+
+    else
+    begin
+      // Operation not currently supported for display.
+      // Only show general progress.
+      pbFirst.Position := Round(OpManItem.Operation.Progress * pbFirst.Max);
+    end;
+  end;
+
+  if not OpManItem.Queue.IsFree then
+    pbQueue.Position := Round(OpManItem.Queue.Progress * pbQueue.Max);
+
+  UpdatePauseStartButton(OpManItem);
+
+  if OpManItem.Queue.IsFree then
+  begin
+    NewCaption := GetProgressString(OpManItem.Operation.Progress) + ' '
+                  + OpManItem.Operation.GetDescription(fsoddJob)
+                  + GetOperationStateString(OpManItem.Operation.State);
+  end
+  else
+  begin
+    NewCaption := GetProgressString(OpManItem.Queue.Progress) + ' '
+                  + rsDlgQueue + ' ' + IntToStr(OpManItem.Queue.Identifier);
+
+    if OpManItem.Queue.Paused then
+      NewCaption := NewCaption + GetOperationStateString(fsosPaused)
+    else
+      NewCaption := NewCaption + ': ' + OpManItem.Operation.GetDescription(fsoddJob);
+
+    lblCurrentOperationText.Caption :=
+      OpManItem.Operation.GetDescription(fsoddJob) + ' ' +
+      GetProgressString(OpManItem.Operation.Progress);
+  end;
+
+  Caption := NewCaption;
+end;
+
+procedure TfrmFileOp.UpdatePauseStartButton(OpManItem: TOperationsManagerItem);
+begin
+  if OpManItem.Queue.IsFree then
+  begin
+    case OpManItem.Operation.State of
+      fsosNotStarted, fsosStopped, fsosPaused:
+        begin
+          btnPauseStart.Enabled := True;
+          SetPlayGlyph;
+        end;
+
+      fsosStarting, fsosStopping, fsosPausing, fsosWaitingForFeedback:
+        begin
+          btnPauseStart.Enabled := False;
+        end;
+
+      fsosRunning, fsosWaitingForConnection:
+        begin
+          btnPauseStart.Enabled := True;
+          SetPauseGlyph;
+        end;
+
+      else
+        btnPauseStart.Enabled := False;
+    end;
+  end
+  else
+  begin
+    btnPauseStart.Enabled := True;
+    if OpManItem.Queue.Paused then
+      SetPlayGlyph
+    else
+      SetPauseGlyph;
   end;
 end;
 

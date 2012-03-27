@@ -90,11 +90,12 @@ type
   TfrmViewOperations = class(TForm)
     btnStop: TBitBtn;
     btnStartPause: TBitBtn;
+    mnuCancelQueue: TMenuItem;
     mnuNewQueue: TMenuItem;
-    mnuCancel: TMenuItem;
+    mnuCancelOperation: TMenuItem;
     mnuPutFirstInQueue: TMenuItem;
     mnuPutLastInQueue: TMenuItem;
-    mnuShowDetached: TMenuItem;
+    mnuOperationShowDetached: TMenuItem;
     mnuQueue2: TMenuItem;
     mnuQueue3: TMenuItem;
     mnuQueue5: TMenuItem;
@@ -102,6 +103,8 @@ type
     mnuQueue1: TMenuItem;
     mnuQueue0: TMenuItem;
     mnuQueue: TMenuItem;
+    mnuQueueShowDetached: TMenuItem;
+    pmQueuePopup: TPopupMenu;
     pnlHeader: TPanel;
     pmOperationPopup: TPopupMenu;
     tbPauseAll: TToggleBox;
@@ -112,12 +115,16 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure mnuCancelOperationClick(Sender: TObject);
+    procedure mnuCancelQueueClick(Sender: TObject);
     procedure mnuNewQueueClick(Sender: TObject);
     procedure mnuPutFirstInQueueClick(Sender: TObject);
     procedure mnuPutLastInQueueClick(Sender: TObject);
-    procedure mnuShowDetachedClick(Sender: TObject);
+    procedure mnuOperationShowDetachedClick(Sender: TObject);
+    procedure mnuQueueShowDetachedClick(Sender: TObject);
     procedure OnOperationItemContextMenu(Item: TViewBaseItem; const Point: TPoint);
     procedure OnOperationItemSelected(Item: TViewBaseItem);
+    procedure OnQueueContextMenu(Item: TViewBaseItem; const Point: TPoint);
     procedure OnQueueItemSelected(Item: TViewBaseItem);
     procedure OnUpdateTimer(Sender: TObject);
     procedure btnStartPauseClick(Sender: TObject);
@@ -134,6 +141,7 @@ type
   private
     FDraggedOperation: TOperationHandle;
     FMenuOperation: TOperationHandle;
+    FMenuQueueIdentifier: TOperationsManagerQueueIdentifier;
     procedure CreateNodes;
     function GetFocusedItem: TViewBaseItem;
     procedure MoveWithinQueue(MoveToTop: Boolean);
@@ -544,6 +552,12 @@ begin
           Handled := True;
         end;
       end;
+    mbRight:
+      if Assigned(FOnContextMenu) then
+      begin
+        OnContextMenu(Self, Pt);
+        Handled := True;
+      end;
   end;
   if not Handled then
     inherited Click(Pt, Button, Shift);
@@ -706,7 +720,7 @@ begin
   MoveWithinQueue(False);
 end;
 
-procedure TfrmViewOperations.mnuShowDetachedClick(Sender: TObject);
+procedure TfrmViewOperations.mnuOperationShowDetachedClick(Sender: TObject);
 var
   OpManItem: TOperationsManagerItem;
 begin
@@ -721,7 +735,8 @@ var
   PopupPoint: TPoint;
   OpManItem: TOperationsManagerItem;
 begin
-  OpManItem := OperationsManager.GetItemByHandle((Item as TViewOperationItem).FOperationHandle);
+  FMenuOperation := (Item as TViewOperationItem).FOperationHandle;
+  OpManItem := OperationsManager.GetItemByHandle(FMenuOperation);
   if Assigned(OpManItem) then
   begin
     for i := 0 to mnuQueue.Count - 1 do
@@ -730,8 +745,7 @@ begin
       else
         mnuQueue.Items[i].Checked := False;
 
-    mnuShowDetached.Enabled := OpManItem.Queue.IsFree;
-    FMenuOperation := (Item as TViewOperationItem).FOperationHandle;
+    mnuOperationShowDetached.Enabled := OpManItem.Queue.IsFree;
     PopupPoint := tvOperations.ClientToScreen(Point);
     pmOperationPopup.PopUp(PopupPoint.x, PopupPoint.y);
   end;
@@ -753,6 +767,15 @@ begin
       btnStartPause.Enabled := False;
       btnStop.Enabled := False;
     end;
+end;
+
+procedure TfrmViewOperations.OnQueueContextMenu(Item: TViewBaseItem; const Point: TPoint);
+var
+  PopupPoint: TPoint;
+begin
+  FMenuQueueIdentifier := (Item as TViewQueueItem).FQueueIdentifier;
+  PopupPoint := tvOperations.ClientToScreen(Point);
+  pmQueuePopup.PopUp(PopupPoint.x, PopupPoint.y);
 end;
 
 procedure TfrmViewOperations.OnQueueItemSelected(Item: TViewBaseItem);
@@ -790,6 +813,15 @@ begin
     if Assigned(Item) and (Item is TViewOperationItem) then
       SetNewQueue(TViewOperationItem(Item), NewQueueNumber);
   end;
+end;
+
+procedure TfrmViewOperations.mnuQueueShowDetachedClick(Sender: TObject);
+var
+  Queue: TOperationsManagerQueue;
+begin
+  Queue := OperationsManager.QueueByIdentifier[FMenuQueueIdentifier];
+  if Assigned(Queue) then
+    TfrmFileOp.ShowFor(Queue.Identifier);
 end;
 
 procedure TfrmViewOperations.tbPauseAllChange(Sender: TObject);
@@ -997,6 +1029,24 @@ begin
     Result := nil;
 end;
 
+procedure TfrmViewOperations.mnuCancelOperationClick(Sender: TObject);
+var
+  OpManItem: TOperationsManagerItem;
+begin
+  OpManItem := OperationsManager.GetItemByHandle(FMenuOperation);
+  if Assigned(OpManItem) then
+    OpManItem.Operation.Stop;
+end;
+
+procedure TfrmViewOperations.mnuCancelQueueClick(Sender: TObject);
+var
+  Queue: TOperationsManagerQueue;
+begin
+  Queue := OperationsManager.QueueByIdentifier[FMenuQueueIdentifier];
+  if Assigned(Queue) then
+    Queue.Stop;
+end;
+
 procedure TfrmViewOperations.MoveWithinQueue(MoveToTop: Boolean);
 var
   Item: TViewBaseItem;
@@ -1116,6 +1166,7 @@ begin
       Item := TViewQueueItem.Create(QueueNode, Queue.Identifier);
       QueueNode.Data := Item;
       Item.UpdateView(tvOperations.Canvas);
+      Item.OnContextMenu := @OnQueueContextMenu;
       Item.OnSelected := @OnQueueItemSelected;
       AddOperations(Queue, QueueNode);
     end;

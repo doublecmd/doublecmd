@@ -299,9 +299,11 @@ var
       begin
         case Button of
           mbLeft:
-            ShowOperationsViewer(Item^.QueueId);
+            TfrmFileOp.ShowFor(Item^.QueueId);
           mbMiddle:
             Queue.TogglePause;
+          mbRight:
+            ShowOperationsViewer(Item^.QueueId);
         end;
       end
       else
@@ -314,6 +316,8 @@ var
               TfrmFileOp.ShowFor(OpManItem.Handle);
             mbMiddle:
               OpManItem.Operation.TogglePause;
+            mbRight:
+              ShowOperationsViewer(OpManItem.Handle);
           end;
         end;
       end;

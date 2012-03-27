@@ -151,9 +151,9 @@ object frmViewOperations: TfrmViewOperations
         OnClick = mnuNewQueueClick
       end
     end
-    object mnuShowDetached: TMenuItem
+    object mnuOperationShowDetached: TMenuItem
       Caption = 'Show in detached window'
-      OnClick = mnuShowDetachedClick
+      OnClick = mnuOperationShowDetachedClick
     end
     object mnuPutFirstInQueue: TMenuItem
       Caption = 'Put first in queue'
@@ -163,9 +163,21 @@ object frmViewOperations: TfrmViewOperations
       Caption = 'Put last in queue'
       OnClick = mnuPutLastInQueueClick
     end
-    object mnuCancel: TMenuItem
+    object mnuCancelOperation: TMenuItem
       Caption = 'Cancel'
-      OnClick = btnStopClick
+      OnClick = mnuCancelOperationClick
+    end
+  end
+  object pmQueuePopup: TPopupMenu
+    left = 224
+    top = 208
+    object mnuQueueShowDetached: TMenuItem
+      Caption = 'Show in detached window'
+      OnClick = mnuQueueShowDetachedClick
+    end
+    object mnuCancelQueue: TMenuItem
+      Caption = 'Cancel'
+      OnClick = mnuCancelQueueClick
     end
   end
 end
