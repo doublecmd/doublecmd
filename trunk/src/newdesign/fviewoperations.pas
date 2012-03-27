@@ -365,8 +365,18 @@ begin
 end;
 
 procedure TViewBaseItem.Click(const Pt: TPoint; Button: TMouseButton; Shift: TShiftState);
+var
+  Handled: Boolean = False;
 begin
-  if Assigned(FOnClick) then
+  case Button of
+    mbRight:
+      if Assigned(FOnContextMenu) then
+      begin
+        OnContextMenu(Self, Pt);
+        Handled := True;
+      end;
+  end;
+  if not Handled and Assigned(FOnClick) then
     FOnClick(Self, Button, Shift, Pt);
 end;
 
@@ -432,16 +442,10 @@ begin
             Handled := True;
           end;
         end;
-      mbRight:
-        if Assigned(FOnContextMenu) then
-        begin
-          OnContextMenu(Self, Pt);
-          Handled := True;
-        end;
     end;
   end;
   if not Handled then
-    inherited;
+    inherited Click(Pt, Button, Shift);
 end;
 
 procedure TViewOperationItem.Draw(Canvas: TCanvas; NodeRect: TRect);
@@ -551,12 +555,6 @@ begin
           StartPause;
           Handled := True;
         end;
-      end;
-    mbRight:
-      if Assigned(FOnContextMenu) then
-      begin
-        OnContextMenu(Self, Pt);
-        Handled := True;
       end;
   end;
   if not Handled then
