@@ -107,7 +107,7 @@ begin
   if WSVersion <> EmptyStr then
     DCDebug('Widgetset library: ' + WSVersion);
   DCDebug('This program is free software released under terms of GNU GPL 2');
-  DCDebug('(C)opyright 2006-2011 Koblov Alexander (Alexx2000@mail.ru)');
+  DCDebug('(C)opyright 2006-2012 Koblov Alexander (Alexx2000@mail.ru)');
   DCDebug('   and contributors (see about dialog)');
 
   ProcessCommandLineParams; // before load paths

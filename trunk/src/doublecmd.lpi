@@ -24,7 +24,7 @@
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="5"/>
-      <StringTable FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2011  Koblov Alexander" ProductName="Double Commander" ProductVersion=""/>
+      <StringTable FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander" ProductName="Double Commander" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="5">
       <Item1 Name="Debug" Default="True"/>
