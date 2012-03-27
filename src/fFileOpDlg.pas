@@ -194,16 +194,8 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    if OpManItem.Operation.State in [fsosNotStarted, fsosPaused] then
-    begin
-      OpManItem.Operation.Start;
-      SetPauseGlyph;
-    end
-    else if OpManItem.Operation.State in [fsosRunning, fsosWaitingForConnection] then
-    begin
-      OpManItem.Operation.Pause;
-      SetPlayGlyph;
-    end;
+    OpManItem.Operation.TogglePause;
+    UpdatePauseStartButton(OpManItem.Operation.State);
   end;
 end;
 
@@ -399,7 +391,6 @@ end;
 procedure TfrmFileOp.OnUpdateTimer(Sender: TObject);
 var
   OpManItem: TOperationsManagerItem;
-  NewCaption: String;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) and (OpManItem.Operation.State <> fsosStopped) then
@@ -440,10 +431,9 @@ begin
 
     UpdatePauseStartButton(OpManItem.Operation.State);
 
-    NewCaption := FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 0, 0) + '% ' + Hint;
-    if OpManItem.Operation.State <> fsosRunning then
-      NewCaption := NewCaption + ' [' + FileSourceOperationStateText[OpManItem.Operation.State] + ']';
-    Caption := NewCaption;
+    Caption := GetProgressString(OpManItem.Operation.Progress)
+               + Hint
+               + GetOperationStateString(OpManItem.Operation.State);
   end
   else
   begin

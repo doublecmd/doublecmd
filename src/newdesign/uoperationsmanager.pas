@@ -1,3 +1,26 @@
+{
+    Double Commander
+    -------------------------------------------------------------------------
+    Manager that maintains a list of running file source operations
+    and manages queues of operations.
+
+    Copyright (C) 2010-2012  Przemys³aw Nagay (cobines@gmail.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
+
 unit uOperationsManager;
 
 {$mode objfpc}{$H+}
@@ -128,6 +151,7 @@ type
     function IsFree: Boolean; inline;
     procedure Pause;
     procedure Stop;
+    procedure TogglePause;
     procedure UnPause;
 
     property Count: Integer read GetOperationsCount;
@@ -227,6 +251,9 @@ type
     property QueueByIdentifier[Identifier: TOperationsManagerQueueIdentifier]: TOperationsManagerQueue read GetQueueByIdentifier;
   end;
 
+function GetOperationStateString(OperationState: TFileSourceOperationState): String;
+function GetProgressString(const Progress: Double): String;
+
 var
   OperationsManager: TOperationsManager = nil;
 
@@ -240,6 +267,19 @@ type
   TEventsListItem = record
     EventFunction: TOperationManagerEventNotify;
   end;
+
+function GetOperationStateString(OperationState: TFileSourceOperationState): String;
+begin
+  if OperationState <> fsosRunning then
+    Result := ' [' + FileSourceOperationStateText[OperationState] + ']'
+  else
+    Result := '';
+end;
+
+function GetProgressString(const Progress: Double): String;
+begin
+  Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + ' %';
+end;
 
 { TOperationsManagerItem }
 
@@ -517,6 +557,14 @@ var
 begin
   for i := 0 to Count - 1 do
     Items[i].Operation.Stop;
+end;
+
+procedure TOperationsManagerQueue.TogglePause;
+begin
+  if Paused then
+    UnPause
+  else
+    Pause;
 end;
 
 procedure TOperationsManagerQueue.UnPause;

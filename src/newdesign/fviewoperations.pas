@@ -482,12 +482,7 @@ var
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) and OpManItem.Queue.IsFree then
-  begin
-    if OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
-      OpManItem.Operation.Pause
-    else
-      OpManItem.Operation.Start;
-  end;
+    OpManItem.Operation.TogglePause;
 end;
 
 procedure TViewOperationItem.Stop;
@@ -510,8 +505,8 @@ begin
              OpManItem.Operation.GetDescription(fsoddJobAndTarget);
     FProgress := OpManItem.Operation.Progress;
     if FProgress > 0 then
-      FText := FText + ' - ' + FloatToStrF(FProgress * 100, ffFixed, 1, 1) + ' %';
-    FText := FText + ' (' + FileSourceOperationStateText[OpManItem.Operation.State] + ')';
+      FText := FText + ' - ' + GetProgressString(FProgress);
+    FText := FText + GetOperationStateString(OpManItem.Operation.State);
 
     CalculateSizes(Canvas, OpManItem.Queue.IsFree, FProgress > 0);
   end
@@ -608,12 +603,7 @@ var
 begin
   Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
   if Assigned(Queue) then
-  begin
-    if Queue.Paused then
-      Queue.UnPause
-    else
-      Queue.Pause;
-  end;
+    Queue.TogglePause;
 end;
 
 procedure TViewQueueItem.Stop;
@@ -637,9 +627,9 @@ begin
     FText := rsDlgQueue + ' ' + IntToStr(FQueueIdentifier);
     FProgress := Queue.Progress;
     if FProgress > 0 then
-      FText := FText + ' - ' + FloatToStrF(FProgress * 100, ffFixed, 1, 1) + ' %';
+      FText := FText + ' - ' + GetProgressString(FProgress);
     if Queue.Paused then
-      FText := FText + ' (' + FileSourceOperationStateText[fsosPaused] + ')';
+      FText := FText + GetOperationStateString(fsosPaused);
 
     CalculateSizes(Canvas, True, FProgress > 0);
   end
