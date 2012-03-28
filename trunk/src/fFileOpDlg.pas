@@ -98,6 +98,7 @@ type
     procedure UpdatePauseStartButton(OpManItem: TOperationsManagerItem);
     procedure SetProgressBytes(ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
+    procedure StopOperationOrQueue;
 
     procedure InitializeCopyOperation(OpManItem: TOperationsManagerItem);
     procedure InitializeMoveOperation(OpManItem: TOperationsManagerItem);
@@ -206,18 +207,9 @@ begin
 end;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
-var
-  OpManItem: TOperationsManagerItem;
 begin
-  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  if Assigned(OpManItem) then
-  begin
-    if OpManItem.Queue.IsFree then
-      OpManItem.Operation.Stop
-    else
-      OpManItem.Queue.Stop;
-    ModalResult:= mrCancel;
-  end;
+  StopOperationOrQueue;
+  ModalResult:= mrCancel;
 end;
 
 procedure TfrmFileOp.btnMinimizeToPanelClick(Sender: TObject);
@@ -374,17 +366,11 @@ begin
 end;
 
 function TfrmFileOp.CloseQuery: Boolean;
-var
-  OpManItem: TOperationsManagerItem;
 begin
   Result := True;
 
   if FStopOperationOnClose then
-  begin
-    OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-    if Assigned(OpManItem) then
-      OpManItem.Operation.Stop;
-  end;
+    StopOperationOrQueue;
 end;
 
 class procedure TfrmFileOp.AddEventsListener(Events: TOperationProgressWindowEvents; FunctionToCall: TOperationProgressWindowEventProc);
@@ -509,6 +495,20 @@ begin
   begin
     OperationDialog := TfrmFileOp.Create(AQueueIdentifier);
     OperationDialog.Show;
+  end;
+end;
+
+procedure TfrmFileOp.StopOperationOrQueue;
+var
+  OpManItem: TOperationsManagerItem;
+begin
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
+  begin
+    if OpManItem.Queue.IsFree then
+      OpManItem.Operation.Stop
+    else
+      OpManItem.Queue.Stop;
   end;
 end;
 
