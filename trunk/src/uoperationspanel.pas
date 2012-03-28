@@ -205,12 +205,12 @@ begin
         OperationItem^.QueueId := Queue.Identifier;
         OperationItem^.OperationHandle := InvalidOperationHandle;
 
-        OutString := rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' + GetProgressString(100) +
-          LineEnding + Queue.Items[0].Operation.GetDescription(fsoddJob);
+        OutString := Queue.GetDescription(True) + LineEnding +
+                     Queue.Items[0].Operation.GetDescription(fsoddJob) + ' - ' +
+                     GetProgressString(100);
         SetSize;
 
-        if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) and
-           not (Queue.Items[0].Operation.State in [fsosStopping, fsosStopped]) then
+        if not TfrmFileOp.IsOpenedFor(Queue.Identifier) then
           Visibility := True;
       end;
     end;
@@ -248,8 +248,7 @@ begin
       end
       else
       begin
-        if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) and
-           not (Queue.Items[0].Operation.State in [fsosStopping, fsosStopped]) then
+        if not TfrmFileOp.IsOpenedFor(Queue.Identifier) then
           Visibility := True;
       end;
     end;
@@ -416,11 +415,11 @@ begin
         Canvas.Brush.Style := bsSolid;
         Canvas.Rectangle(ItemRect);
 
-        AProgress := Queue.Progress;
+        AProgress := OpManItem.Operation.Progress;
         DrawProgress(OpManItem.Operation.State, AProgress);
-        DrawString(rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' +
-                   GetProgressString(AProgress) +
-                   LineEnding + Queue.Items[0].Operation.GetDescription(fsoddJob));
+        DrawString(Queue.GetDescription(True) + LineEnding +
+                   OpManItem.Operation.GetDescription(fsoddJob) + ' - ' +
+                   GetProgressString(AProgress));
         Inc(i);
       end
       else

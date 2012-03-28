@@ -53,14 +53,12 @@ type
     btnViewOperations: TButton;
     btnMinimizeToPanel: TButton;
     lblCurrentOperationText: TLabel;
-    lblQueue: TLabel;
     lblEstimated: TLabel;
     lblFileNameFrom: TLabel;
     lblFileNameTo: TLabel;
     lblFrom: TLabel;
     lblCurrentOperation: TLabel;
     lblTo: TLabel;
-    pbQueue: TKASProgressBar;
     pnlQueue: TPanel;
     pbFirst: TKASProgressBar;
     pbSecond: TKASProgressBar;
@@ -271,7 +269,6 @@ procedure TfrmFileOp.FormCreate(Sender: TObject);
 begin
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
-  pbQueue.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
 
   FUpdateTimer := TTimer.Create(Self);
@@ -584,12 +581,8 @@ begin
 end;
 
 procedure TfrmFileOp.InitializeControls(OpManItem: TOperationsManagerItem; FileOpDlgLook: TFileOpDlgLook);
-var
-  ShowQueue: Boolean;
 begin
-  ShowQueue := not OpManItem.Queue.IsFree;
-
-  pnlQueue.Visible := ShowQueue;
+  pnlQueue.Visible := not OpManItem.Queue.IsFree;
 
   lblFrom.Visible         := fodl_from_lbl in FileOpDlgLook;
   lblFileNameFrom.Visible := lblFrom.Visible;
@@ -600,14 +593,8 @@ begin
   pbFirst.Visible         := fodl_first_pb in FileOpDlgLook;
   pbSecond.Visible        := fodl_second_pb in FileOpDlgLook;
 
-  pbQueue.ShowInTaskbar  := ShowQueue;
-  pbFirst.ShowInTaskbar  :=
-    not ShowQueue and ([fodl_first_pb, fodl_second_pb] * FileOpDlgLook = [fodl_first_pb]);
-  pbSecond.ShowInTaskbar :=
-    not ShowQueue and (fodl_second_pb in FileOpDlgLook);
-
-  if ShowQueue then
-    lblQueue.Caption := rsDlgQueue + ' ' + IntToStr(OpManItem.Queue.Identifier);
+  pbFirst.ShowInTaskbar  := [fodl_first_pb, fodl_second_pb] * FileOpDlgLook = [fodl_first_pb];
+  pbSecond.ShowInTaskbar := fodl_second_pb in FileOpDlgLook;
 
   lblFileNameFrom.Caption := '';
   lblFileNameTo.Caption := '';
@@ -846,9 +833,6 @@ begin
     end;
   end;
 
-  if not OpManItem.Queue.IsFree then
-    pbQueue.Position := Round(OpManItem.Queue.Progress * pbQueue.Max);
-
   UpdatePauseStartButton(OpManItem);
 
   if OpManItem.Queue.IsFree then
@@ -859,13 +843,15 @@ begin
   end
   else
   begin
-    NewCaption := GetProgressString(OpManItem.Queue.Progress) + ' '
-                  + rsDlgQueue + ' ' + IntToStr(OpManItem.Queue.Identifier);
-
     if OpManItem.Queue.Paused then
-      NewCaption := NewCaption + GetOperationStateString(fsosPaused)
+      NewCaption := '[' + IntToStr(OpManItem.Queue.Count) + '] '
+                    + OpManItem.Queue.GetDescription(False)
+                    + GetOperationStateString(fsosPaused)
     else
-      NewCaption := NewCaption + ': ' + OpManItem.Operation.GetDescription(fsoddJob);
+      NewCaption := '[' + IntToStr(OpManItem.Queue.Count) + '] '
+                    + GetProgressString(OpManItem.Operation.Progress) + ' '
+                    + OpManItem.Operation.GetDescription(fsoddJob) + ' - '
+                    + OpManItem.Queue.GetDescription(False);
 
     lblCurrentOperationText.Caption :=
       OpManItem.Operation.GetDescription(fsoddJob) + ' ' +

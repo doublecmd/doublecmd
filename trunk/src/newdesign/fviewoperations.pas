@@ -25,7 +25,6 @@ type
     FOnClick: TViewBaseItemClick;
     FOnContextMenu: TViewBaseItemContextMenu;
     FOnSelected: TViewBaseItemSelected;
-    FProgress: Double;
     FTreeNode: TTreeNode;
     FText: String;
     FTextRect: TRect;
@@ -74,6 +73,7 @@ type
   TViewOperationItem = class(TViewBaseItem)
   private
     FOperationHandle: TOperationHandle;
+    FProgress: Double;
     function GetTextIndent: Integer; override;
     procedure UpdateView(Canvas: TCanvas); override;
   public
@@ -589,8 +589,6 @@ begin
     else
       Icon := vosiPlay;
     DrawStatusIcon(Canvas, NodeRect, Icon);
-
-    DrawProgress(Canvas, NodeRect, FProgress);
   end;
 end;
 
@@ -636,19 +634,15 @@ begin
   Queue := OperationsManager.QueueByIdentifier[FQueueIdentifier];
   if Assigned(Queue) then
   begin
-    FText := rsDlgQueue + ' ' + IntToStr(FQueueIdentifier);
-    FProgress := Queue.Progress;
-    if FProgress > 0 then
-      FText := FText + ' - ' + GetProgressString(FProgress);
+    FText := Queue.GetDescription(False);
     if Queue.Paused then
       FText := FText + GetOperationStateString(fsosPaused);
 
-    CalculateSizes(Canvas, True, FProgress > 0);
+    CalculateSizes(Canvas, True, False);
   end
   else
   begin
     FText := '';
-    FProgress := 0;
     FTreeNode.Height := 10;
   end;
 end;
