@@ -13,60 +13,41 @@ object frmFileOp: TfrmFileOp
   LCLVersion = '0.9.31'
   object pnlClient: TPanel
     Left = 3
-    Height = 200
+    Height = 167
     Top = 3
     Width = 516
     Align = alTop
     AutoSize = True
     BorderSpacing.Around = 3
     BevelOuter = bvNone
-    ClientHeight = 200
+    ClientHeight = 167
     ClientWidth = 516
     TabOrder = 0
     object pnlQueue: TPanel
       Left = 0
-      Height = 61
+      Height = 28
       Top = 0
       Width = 516
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 61
+      ClientHeight = 28
       ClientWidth = 516
       TabOrder = 0
-      object lblQueue: TLabel
-        Left = 0
-        Height = 1
-        Top = 0
-        Width = 516
-        Align = alTop
-        ParentColor = False
-      end
-      object pbQueue: TKASProgressBar
-        Left = 0
-        Height = 22
-        Top = 1
-        Width = 516
-        Align = alTop
-        Max = 516
-        Smooth = True
-        TabOrder = 0
-        BarShowText = True
-      end
       object lblCurrentOperation: TLabel
         Left = 0
         Height = 22
-        Top = 38
+        Top = 0
         Width = 516
         Align = alTop
-        BorderSpacing.Top = 15
+        BorderSpacing.Bottom = 5
         Caption = 'Current operation:'
         ParentColor = False
       end
       object lblCurrentOperationText: TLabel
         Left = 0
         Height = 1
-        Top = 60
+        Top = 27
         Width = 516
         Align = alTop
         ParentColor = False
@@ -75,7 +56,7 @@ object frmFileOp: TfrmFileOp
     object pnlFrom: TPanel
       Left = 0
       Height = 22
-      Top = 61
+      Top = 28
       Width = 516
       Align = alTop
       AutoSize = True
@@ -106,7 +87,7 @@ object frmFileOp: TfrmFileOp
     object pnlTo: TPanel
       Left = 0
       Height = 22
-      Top = 86
+      Top = 53
       Width = 516
       Align = alTop
       AutoSize = True
@@ -138,7 +119,7 @@ object frmFileOp: TfrmFileOp
     object lblEstimated: TLabel
       Left = 0
       Height = 1
-      Top = 111
+      Top = 78
       Width = 516
       Align = alTop
       BorderSpacing.Top = 3
@@ -147,7 +128,7 @@ object frmFileOp: TfrmFileOp
     object pbFirst: TKASProgressBar
       Left = 0
       Height = 22
-      Top = 140
+      Top = 107
       Width = 516
       Align = alTop
       BorderSpacing.Top = 3
@@ -159,7 +140,7 @@ object frmFileOp: TfrmFileOp
     object pbSecond: TKASProgressBar
       Left = 0
       Height = 22
-      Top = 115
+      Top = 82
       Width = 516
       Align = alTop
       BorderSpacing.Top = 3
@@ -171,7 +152,7 @@ object frmFileOp: TfrmFileOp
     object pnlButtons: TPanel
       Left = 0
       Height = 35
-      Top = 165
+      Top = 132
       Width = 516
       Align = alTop
       AutoSize = True

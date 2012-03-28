@@ -108,7 +108,6 @@ type
     function GetItem(Index: Integer): TOperationsManagerItem;
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOperationsCount: Integer;
-    function GetProgress: Double;
   private
     {en
        Inserts new item into the queue.
@@ -145,6 +144,7 @@ type
     constructor Create(AIdentifier: TOperationsManagerQueueIdentifier);
     destructor Destroy; override;
 
+    function GetDescription(IncludeCount: Boolean): String;
     {en
        Returns @true if this queue is a free operations queue.
     }
@@ -159,7 +159,6 @@ type
     property Items[Index: Integer]: TOperationsManagerItem read GetItem;
     property ItemByHandle[Handle: TOperationHandle]: TOperationsManagerItem read GetItemByHandle;
     property Paused: Boolean read FPaused;
-    property Progress: Double read GetProgress;
   end;
 
   TOperationManagerEvent =
@@ -260,7 +259,7 @@ var
 implementation
 
 uses
-  uDebug;
+  uDebug, uLng;
 
 type
   PEventsListItem = ^TEventsListItem;
@@ -278,7 +277,7 @@ end;
 
 function GetProgressString(const Progress: Double): String;
 begin
-  Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + ' %';
+  Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + '%';
 end;
 
 { TOperationsManagerItem }
@@ -403,19 +402,6 @@ begin
   Result := FList.Count;
 end;
 
-function TOperationsManagerQueue.GetProgress: Double;
-var
-  i: Integer;
-begin
-  Result := 0;
-  if Count <> 0 then
-  begin
-    for i := 0 to Count - 1 do
-      Result := Result + Items[i].Operation.Progress;
-    Result := Result / Count;
-  end;
-end;
-
 constructor TOperationsManagerQueue.Create(AIdentifier: TOperationsManagerQueueIdentifier);
 begin
   FList := TFPList.Create;
@@ -430,6 +416,13 @@ begin
   for i := 0 to FList.Count - 1 do
     Items[i].Free;
   FList.Free;
+end;
+
+function TOperationsManagerQueue.GetDescription(IncludeCount: Boolean): String;
+begin
+  Result := rsDlgQueue + ' #' + IntToStr(Identifier);
+  if IncludeCount then
+    Result := Result + ' [' + IntToStr(Count) + ']';
 end;
 
 procedure TOperationsManagerQueue.Move(SourceItem, TargetItem: TOperationsManagerItem; PlaceBefore: Boolean);
