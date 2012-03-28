@@ -148,6 +148,7 @@ implementation
 uses
    dmCommonData, uLng, uDCUtils,
    fViewOperations,
+   uFileSourceOperationMisc,
    uFileSourceOperationTypes,
    uFileSourceCopyOperation,
    uFileSourceMoveOperation,
