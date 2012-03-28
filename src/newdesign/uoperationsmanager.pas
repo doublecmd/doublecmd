@@ -209,13 +209,26 @@ type
 
     {en
        Adds an operation to the manager.
-       @param(QueueNumber
-              Specifies to which queue to put the operation.
-              If QueueNumber is FreeOperationsQueue the operation is not put into any queue (a free operation).)
+       @param(ShowProgress
+              If @true automatically shows progress window.)
     }
     function AddOperation(Operation: TFileSourceOperation;
-                          QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
-                          InsertAtFrontOfQueue: Boolean = False): TOperationHandle;
+                          ShowProgress: Boolean = True): TOperationHandle;
+
+    {en
+       Adds an operation to the manager.
+       @param(QueueIdentifier
+              Specifies to which queue to put the operation.)
+       @param(InsertAtFrontOfQueue
+              If @true inserts the operation at the front of the queue,
+              if @false inserts at the back of the queue.)
+       @param(ShowProgress
+              If @true automatically shows progress window.)
+    }
+    function AddOperation(Operation: TFileSourceOperation;
+                          QueueIdentifier: TOperationsManagerQueueIdentifier;
+                          InsertAtFrontOfQueue: Boolean;
+                          ShowProgress: Boolean = True): TOperationHandle;
 
     {en
        Operations retrieved this way can be safely used from the main GUI thread.
@@ -256,7 +269,7 @@ var
 implementation
 
 uses
-  uDebug, uLng;
+  uDebug, uLng, uFileSourceOperationMisc;
 
 type
   PEventsListItem = ^TEventsListItem;
@@ -597,10 +610,16 @@ begin
   FreeAndNil(FQueues);
 end;
 
+function TOperationsManager.AddOperation(Operation: TFileSourceOperation; ShowProgress: Boolean): TOperationHandle;
+begin
+  Result := AddOperation(Operation, FreeOperationsQueueId, False, ShowProgress);
+end;
+
 function TOperationsManager.AddOperation(
   Operation: TFileSourceOperation;
-  QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
-  InsertAtFrontOfQueue: Boolean = False): TOperationHandle;
+  QueueIdentifier: TOperationsManagerQueueIdentifier;
+  InsertAtFrontOfQueue: Boolean;
+  ShowProgress: Boolean = True): TOperationHandle;
 var
   Thread: TOperationThread;
   Item: TOperationsManagerItem;
@@ -631,7 +650,10 @@ begin
 
         NotifyEvents(Item, [omevOperationAdded]);
 
+        ShowOperation(Item);
+
         Thread.Resume;
+
       except
         Item.Free;
       end;

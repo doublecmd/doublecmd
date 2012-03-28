@@ -212,7 +212,7 @@ type
 implementation
 
 uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
-     dmHelpManager, typinfo, fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc,
+     dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, fFileAssoc,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
@@ -863,8 +863,6 @@ procedure TMainCommands.cm_Wipe(Param: String='');
 var
   theFilesToWipe: TFiles;
   Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
 begin
   with frmMain.ActiveFrame do
   begin
@@ -891,10 +889,7 @@ begin
       if Assigned(Operation) then
       begin
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation);
-
-        ProgressDialog := TfrmFileOp.Create(OperationHandle);
-        ProgressDialog.Show;
+        OperationsManager.AddOperation(Operation);
       end
       else
       begin
@@ -1345,8 +1340,6 @@ var
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
   bRecycle: Boolean = False;
 begin
   with frmMain.ActiveFrame do
@@ -1404,10 +1397,7 @@ begin
           end;
 
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation);
-
-        ProgressDialog := TfrmFileOp.Create(OperationHandle);
-        ProgressDialog.Show;
+        OperationsManager.AddOperation(Operation);
       end
       else
       begin
@@ -1429,8 +1419,6 @@ var
   sFileName: UTF8String;
   SelectedFiles: TFiles;
   Operation: TFileSourceCalcChecksumOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
 begin
   // This will work only for filesystem.
   // For other file sources use temp file system when it's done.
@@ -1479,10 +1467,7 @@ begin
           Operation.Algorithm := HashAlgorithm;
 
           // Start operation.
-          OperationHandle := OperationsManager.AddOperation(Operation);
-
-          ProgressDialog := TfrmFileOp.Create(OperationHandle);
-          ProgressDialog.Show;
+          OperationsManager.AddOperation(Operation);
         end
         else
         begin
@@ -1502,8 +1487,6 @@ var
   I: Integer;
   SelectedFiles: TFiles;
   Operation: TFileSourceCalcChecksumOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
 begin
   // This will work only for filesystem.
   // For other file sources use temp file system when it's done.
@@ -1543,10 +1526,7 @@ begin
         Operation.Mode := checksum_verify;
 
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation);
-
-        ProgressDialog := TfrmFileOp.Create(OperationHandle);
-        ProgressDialog.Show;
+        OperationsManager.AddOperation(Operation);
       end
       else
       begin
@@ -2190,8 +2170,6 @@ procedure TMainCommands.cm_CalculateSpace(Param: String='');
 var
   SelectedFiles: TFiles;
   Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
 begin
   with frmMain do
   begin
@@ -2205,9 +2183,7 @@ begin
     try
       Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
       Operation.AddStateChangedListener([fsosStopped], @OnCalcStatisticsStateChanged);
-      OperationHandle := OperationsManager.AddOperation(Operation);
-      ProgressDialog := TfrmFileOp.Create(OperationHandle);
-      ProgressDialog.Show;
+      OperationsManager.AddOperation(Operation);
     finally
       if Assigned(SelectedFiles) then
         FreeAndNil(SelectedFiles);
@@ -2226,8 +2202,6 @@ var
   SelectedFiles: TFiles = nil;
   aFileProperties: TFileProperties;
   Operation: TFileSourceSetFilePropertyOperation = nil;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
 begin
   with frmMain do
   try
@@ -2259,10 +2233,8 @@ begin
           begin
             if ShowChangeFilePropertiesDialog(Operation) then
               begin
-                OperationHandle := OperationsManager.AddOperation(Operation);
+                OperationsManager.AddOperation(Operation);
                 Operation := nil; // So it doesn't get destroyed below.
-                ProgressDialog := TfrmFileOp.Create(OperationHandle);
-                ProgressDialog.Show;
               end;
           end;
       end;
@@ -2494,8 +2466,6 @@ var
   filenamesList: TStringList;
   Files: TFiles = nil;
   Operation: TFileSourceOperation = nil;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
   SourceFileSource: IFileSource = nil;
 begin
   with frmMain do
@@ -2577,9 +2547,7 @@ begin
         begin
           if Operation is TFileSystemCopyOperation then
             (Operation as TFileSystemCopyOperation).AutoRenameItSelf:= True;
-          OperationHandle := OperationsManager.AddOperation(Operation);
-          ProgressDialog := TfrmFileOp.Create(OperationHandle);
-          ProgressDialog.Show;
+          OperationsManager.AddOperation(Operation);
 
           // Files have been moved so clear the clipboard because
           // the files location in the clipboard is invalid now.

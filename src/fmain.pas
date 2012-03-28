@@ -663,7 +663,7 @@ uses
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
-  fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
+  uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil
   {$IFDEF COLUMNSFILEVIEW_VTV}
@@ -2416,9 +2416,7 @@ var
   sDestination: String;
   sDstMaskTemp: String;
   Operation: TFileSourceCopyOperation = nil;
-  OperationHandle: TOperationHandle;
   OperationType: TFileSourceOperationType;
-  ProgressDialog: TfrmFileOp;
   CopyDialog: TfrmCopyDlg = nil;
   FileSource: IFileSource;
   QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
@@ -2531,11 +2529,7 @@ begin
         CopyDialog.SetOperationOptions(Operation);
 
       // Start operation.
-      OperationHandle := OperationsManager.AddOperation(Operation, QueueIdentifier);
-
-      ProgressDialog := TfrmFileOp.Create(OperationHandle);
-      ProgressDialog.Show;
-
+      OperationsManager.AddOperation(Operation, QueueIdentifier, False, True);
       Result := True;
     end
     else
@@ -2556,8 +2550,6 @@ var
   sDestination: String;
   sDstMaskTemp: String;
   Operation: TFileSourceMoveOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
   bMove: Boolean;
   MoveDialog: TfrmCopyDlg = nil;
   QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
@@ -2640,11 +2632,7 @@ begin
           MoveDialog.SetOperationOptions(Operation);
 
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation, QueueIdentifier);
-
-        ProgressDialog := TfrmFileOp.Create(OperationHandle);
-        ProgressDialog.Show;
-
+        OperationsManager.AddOperation(Operation, QueueIdentifier, False, True);
         Result := True;
       end
       else
