@@ -61,7 +61,8 @@ implementation
 uses
   LCLIntf, LCLType, Math,
   fViewOperations,
-  uDCUtils, uLng;
+  uDCUtils, uLng,
+  uFileSourceOperationMisc;
 
 const
   MinimumHeight = 25;

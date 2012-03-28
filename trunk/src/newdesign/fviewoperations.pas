@@ -163,7 +163,7 @@ implementation
 
 uses
   GraphMath, GraphType, Math,
-  uLng, fFileOpDlg, uGlobs, LCLProc;
+  fFileOpDlg, uLng, uGlobs, uFileSourceOperationMisc;
 
 const
   ExpandSignSize = 9;

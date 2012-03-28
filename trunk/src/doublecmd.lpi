@@ -272,7 +272,7 @@
         <PackageName Value="viewerpackage"/>
       </Item10>
     </RequiredPackages>
-    <Units Count="160">
+    <Units Count="161">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1268,6 +1268,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOperationsPanel"/>
       </Unit159>
+      <Unit160>
+        <Filename Value="newdesign\ufilesourceoperationmisc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationMisc"/>
+      </Unit160>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

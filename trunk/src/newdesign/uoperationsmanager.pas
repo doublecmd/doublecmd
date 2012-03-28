@@ -250,9 +250,6 @@ type
     property QueueByIdentifier[Identifier: TOperationsManagerQueueIdentifier]: TOperationsManagerQueue read GetQueueByIdentifier;
   end;
 
-function GetOperationStateString(OperationState: TFileSourceOperationState): String;
-function GetProgressString(const Progress: Double): String;
-
 var
   OperationsManager: TOperationsManager = nil;
 
@@ -266,19 +263,6 @@ type
   TEventsListItem = record
     EventFunction: TOperationManagerEventNotify;
   end;
-
-function GetOperationStateString(OperationState: TFileSourceOperationState): String;
-begin
-  if OperationState <> fsosRunning then
-    Result := ' [' + FileSourceOperationStateText[OperationState] + ']'
-  else
-    Result := '';
-end;
-
-function GetProgressString(const Progress: Double): String;
-begin
-  Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + '%';
-end;
 
 { TOperationsManagerItem }
 
