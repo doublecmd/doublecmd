@@ -56,15 +56,13 @@ implementation
 
 uses
   LCLProc, Controls, uFileProcs, uOperationsManager,
-  uFileSourceCombineOperation, fFileOpDlg;
+  uFileSourceCombineOperation;
 
 function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: UTF8String): Boolean;
 var
   I: Integer;
   xFiles: TFiles = nil;
   Operation: TFileSourceCombineOperation = nil;
-  ProgressDialog: TfrmFileOp;
-  OperationHandle: TOperationHandle;
 begin
   with TfrmLinker.Create(Application) do
   begin
@@ -93,12 +91,7 @@ begin
             xFiles.Add(TFile(Objects[I]).Clone);
           end;
           Operation:= aFileSource.CreateCombineOperation(xFiles, edSave.Text) as TFileSourceCombineOperation;
-          if Assigned(Operation) then
-          begin
-            OperationHandle:= OperationsManager.AddOperation(Operation);
-            ProgressDialog:= TfrmFileOp.Create(OperationHandle);
-            ProgressDialog.Show;
-          end;
+          OperationsManager.AddOperation(Operation);
         finally
           FreeThenNil(xFiles);
         end;

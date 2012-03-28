@@ -66,15 +66,13 @@ implementation
 
 uses
   LCLProc, uLng, uOSUtils, uFileProcs, uOperationsManager,
-  uFileSourceSplitOperation, fFileOpDlg, uShowMsg;
+  uFileSourceSplitOperation, uShowMsg;
 
 function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: UTF8String): Boolean;
 var
   iVolumeNumber: Integer;
   iFileSize, iVolumeSize: Int64;
   Operation: TFileSourceSplitOperation = nil;
-  ProgressDialog: TfrmFileOp;
-  OperationHandle: TOperationHandle;
 begin
   with TfrmSplitter.Create(Application) do
   begin
@@ -125,9 +123,7 @@ begin
           begin
             Operation.VolumeSize:= iVolumeSize;
             Operation.VolumeNumber:= iVolumeNumber;
-            OperationHandle:= OperationsManager.AddOperation(Operation);
-            ProgressDialog:= TfrmFileOp.Create(OperationHandle);
-            ProgressDialog.Show;
+            OperationsManager.AddOperation(Operation);
           end;
         finally
           FreeThenNil(aFile);

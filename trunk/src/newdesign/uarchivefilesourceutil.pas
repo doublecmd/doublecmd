@@ -21,7 +21,6 @@ procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 implementation
 
 uses
-  fFileOpDlg,
   uShowMsg,
   uLng,
   uDCUtils,
@@ -165,8 +164,6 @@ var
   I: Integer;
   FilesToTest: TFiles = nil;
   Operation: TFileSourceOperation = nil;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp = nil;
   ArchiveFileSource: IArchiveFileSource;
 begin
   try
@@ -181,11 +178,8 @@ begin
            if Assigned(Operation) then
              begin
                // Start operation.
-               OperationHandle := OperationsManager.AddOperation(Operation);
-
-               ProgressDialog := TfrmFileOp.Create(OperationHandle);
-               ProgressDialog.Show;
-            end
+               OperationsManager.AddOperation(Operation);
+             end
            else
              msgWarning(rsMsgNotImplemented);
          end
@@ -217,10 +211,7 @@ begin
                         if Assigned(Operation) then
                           begin
                             // Start operation.
-                            OperationHandle := OperationsManager.AddOperation(Operation);
-
-                            ProgressDialog := TfrmFileOp.Create(OperationHandle);
-                            ProgressDialog.Show;
+                            OperationsManager.AddOperation(Operation);
                           end
                         else
                           msgWarning(rsMsgNotImplemented);

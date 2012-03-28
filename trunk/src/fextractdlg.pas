@@ -81,7 +81,6 @@ uses
   uWcxArchiveCopyOutOperation,
   uFileSourceOperationOptions,
   uOperationsManager,
-  fFileOpDlg,
   uMasks;
 
 procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
@@ -89,7 +88,6 @@ procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
 var
   I: integer;
   Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
   ArchiveFileSource: IArchiveFileSource;
   extractDialog: TfrmExtractDlg;
   Result: boolean;
@@ -145,11 +143,7 @@ begin
               if Assigned(Operation) then
               begin
                 // Start operation.
-                OperationHandle := OperationsManager.AddOperation(Operation);
-
-                // Create and show progress dialog
-                with TfrmFileOp.Create(OperationHandle) do
-                  Show;
+                OperationsManager.AddOperation(Operation);
               end
               else
                 msgWarning(rsMsgNotImplemented);
@@ -239,7 +233,6 @@ procedure TfrmExtractDlg.ExtractArchive(ArchiveFileSource: IArchiveFileSource;
 var
   FilesToExtract: TFiles;
   Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
   sTmpPath: string;
 begin
   if Assigned(ArchiveFileSource) then
@@ -289,10 +282,7 @@ begin
             end;
 
             // Start operation.
-            OperationHandle := OperationsManager.AddOperation(Operation);
-
-            // Create and show progress dialog
-            with TfrmFileOp.Create(OperationHandle) do Show;
+            OperationsManager.AddOperation(Operation);
           end
           else
             msgWarning(rsMsgNotImplemented);

@@ -27,12 +27,16 @@ unit uFileSourceOperationMisc;
 interface
 
 uses
-  Classes, SysUtils, uFileSourceOperation, uLng;
+  Classes, SysUtils, uFileSourceOperation, uOperationsManager;
 
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 function GetProgressString(const Progress: Double): String;
+procedure ShowOperation(OpManItem: TOperationsManagerItem);
 
 implementation
+
+uses
+  fFileOpDlg;
 
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 begin
@@ -45,6 +49,12 @@ end;
 function GetProgressString(const Progress: Double): String;
 begin
   Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + '%';
+end;
+
+procedure ShowOperation(OpManItem: TOperationsManagerItem);
+begin
+  if OpManItem.Queue.IsFree or (OpManItem.Queue.Count = 1) then
+    TfrmFileOp.ShowFor(OpManItem.Handle);
 end;
 
 end.

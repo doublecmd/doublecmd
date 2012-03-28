@@ -92,7 +92,7 @@ implementation
 
 uses
   StrUtils, WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
-  uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource,
+  uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
@@ -106,8 +106,6 @@ var
   NewTargetFileSource: IArchiveFileSource = nil;
   aFlags : PtrInt;
   Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
   PackDialog: TfrmPackDlg;
   aFile: TFile = nil;
   aFiles: TFiles = nil;
@@ -172,13 +170,10 @@ var
                   end;
                 end;
 
-                // Start operation.
-                OperationHandle := OperationsManager.AddOperation(Operation, QueueIdentifier);
-
-                ProgressDialog := TfrmFileOp.Create(OperationHandle);
-                ProgressDialog.Show;
-              end;
+              // Start operation.
+              OperationsManager.AddOperation(Operation, QueueIdentifier, False, True);
             end;
+        end;
     end;
   end;
 
