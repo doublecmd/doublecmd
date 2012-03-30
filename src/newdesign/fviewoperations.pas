@@ -718,7 +718,7 @@ var
 begin
   OpManItem := OperationsManager.GetItemByHandle(FMenuOperation);
   if Assigned(OpManItem) and OpManItem.Queue.IsFree then
-    TfrmFileOp.ShowFor(OpManItem.Handle);
+    TfrmFileOp.ShowFor(OpManItem.Handle, [opwoIfExistsBringToFront]);
 end;
 
 procedure TfrmViewOperations.OnOperationItemContextMenu(Item: TViewBaseItem; const Point: TPoint);
@@ -813,7 +813,7 @@ var
 begin
   Queue := OperationsManager.QueueByIdentifier[FMenuQueueIdentifier];
   if Assigned(Queue) then
-    TfrmFileOp.ShowFor(Queue.Identifier);
+    TfrmFileOp.ShowFor(Queue.Identifier, [opwoIfExistsBringToFront]);
 end;
 
 procedure TfrmViewOperations.tbPauseAllChange(Sender: TObject);

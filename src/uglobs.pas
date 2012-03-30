@@ -56,6 +56,8 @@ type
   TNewFilesPosition = (nfpTop, nfpTopAfterDirectories, nfpSortedPosition, nfpBottom);
   { Where to move updated files in the filelist }
   TUpdatedFilesPosition = (ufpSameAsNewFiles, ufpSortedPosition, ufpNoChange);
+  { How initially progress is shown for file operations }
+  TFileOperationsProgressKind = (fopkSeparateWindow, fopkSeparateWindowMinimized, fopkOperationsPanel);
 
   TExternalTool = (etViewer, etEditor, etDiffer);
   TExternalToolOptions = record
@@ -247,6 +249,7 @@ var
   gRenameSelOnlyName:boolean;
   gShowDialogOnDragDrop: Boolean;
   gOverwriteFolder: Boolean;
+  gFileOperationsProgressKind: TFileOperationsProgressKind;
 
   { Folder tabs page }
 
@@ -811,6 +814,7 @@ begin
   gSkipFileOpError := False;
   gShowDialogOnDragDrop := False;
   gOverwriteFolder := False;
+  gFileOperationsProgressKind := fopkSeparateWindow;
   // Operations options
   gOperationOptionSymLinks := fsooslNone;
   gOperationOptionCorrectLinks := False;
@@ -1717,6 +1721,7 @@ begin
       gSkipFileOpError := GetValue(Node, 'SkipFileOpError', gSkipFileOpError);
       gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
       gOverwriteFolder := GetValue(Node, 'OverwriteFolder', gOverwriteFolder);
+      gFileOperationsProgressKind := TFileOperationsProgressKind(GetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind)));
       // Operations options
       SubNode := Node.FindNode('Options');
       if Assigned(SubNode) then
@@ -2032,6 +2037,7 @@ begin
     SetValue(Node, 'SkipFileOpError', gSkipFileOpError);
     SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
     SetValue(Node, 'OverwriteFolder', gOverwriteFolder);
+    SetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind));
     // Operations options
     SubNode := FindNode(Node, 'Options', True);
     SetValue(SubNode, 'Symlink', Integer(gOperationOptionSymLinks));
