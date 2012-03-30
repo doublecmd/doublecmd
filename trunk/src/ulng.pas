@@ -436,6 +436,7 @@ resourcestring
   rsOptSortFolderMode = 'sort by name and show first;sort like files and show first;sort like files';
   rsOptNewFilesPosition = 'at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list';
   rsOptUpdatedFilesPosition = 'don''t change position;use the same setting as for new files;to sorted position';
+  rsOptFileOperationsProgressKind = 'separate window;minimized separate window;operations panel';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

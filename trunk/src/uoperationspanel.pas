@@ -299,7 +299,7 @@ var
       begin
         case Button of
           mbLeft:
-            TfrmFileOp.ShowFor(Item^.QueueId);
+            TfrmFileOp.ShowFor(Item^.QueueId, [opwoIfExistsBringToFront]);
           mbMiddle:
             Queue.TogglePause;
           mbRight:
@@ -313,7 +313,7 @@ var
         begin
           case Button of
             mbLeft:
-              TfrmFileOp.ShowFor(OpManItem.Handle);
+              TfrmFileOp.ShowFor(OpManItem.Handle, [opwoIfExistsBringToFront]);
             mbMiddle:
               OpManItem.Operation.TogglePause;
             mbRight:

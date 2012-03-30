@@ -44,147 +44,14 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       TabOrder = 0
     end
   end
-  object gbGeneralOptions: TGroupBox[1]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = gbFileSearch
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 6
-    Height = 273
-    Top = 206
-    Width = 722
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    BorderSpacing.Around = 6
-    Caption = 'General options'
-    ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 251
-    ClientWidth = 718
-    TabOrder = 1
-    object lblWipePassNumber: TLabel
-      AnchorSideLeft.Control = gbGeneralOptions
-      AnchorSideTop.Control = gbGeneralOptions
-      Left = 14
-      Height = 22
-      Top = 6
-      Width = 163
-      BorderSpacing.Left = 14
-      BorderSpacing.Top = 6
-      Caption = 'Number of wipe passes:'
-      ParentColor = False
-    end
-    object cbDropReadOnlyFlag: TCheckBox
-      AnchorSideLeft.Control = gbGeneralOptions
-      AnchorSideTop.Control = lblWipePassNumber
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 34
-      Width = 151
-      BorderSpacing.Left = 14
-      BorderSpacing.Top = 6
-      Caption = 'Drop readonly flag'
-      TabOrder = 1
-    end
-    object seWipePassNumber: TSpinEdit
-      AnchorSideLeft.Control = lblWipePassNumber
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = lblWipePassNumber
-      AnchorSideTop.Side = asrCenter
-      Left = 187
-      Height = 29
-      Top = 3
-      Width = 98
-      BorderSpacing.Left = 10
-      TabOrder = 0
-    end
-    object cbProcessComments: TCheckBox
-      AnchorSideLeft.Control = gbGeneralOptions
-      AnchorSideTop.Control = cbDropReadOnlyFlag
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 65
-      Width = 271
-      BorderSpacing.Left = 14
-      BorderSpacing.Top = 6
-      Caption = 'Process comments with files/folders'
-      TabOrder = 2
-    end
-    object cbRenameSelOnlyName: TCheckBox
-      AnchorSideLeft.Control = gbGeneralOptions
-      AnchorSideTop.Control = cbProcessComments
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 96
-      Width = 434
-      BorderSpacing.Left = 14
-      BorderSpacing.Top = 6
-      Caption = 'Select only the file name when renaming (not the extension)'
-      TabOrder = 3
-    end
-    object cbShowCopyTabSelectPanel: TCheckBox
-      AnchorSideLeft.Control = gbGeneralOptions
-      AnchorSideTop.Control = cbRenameSelOnlyName
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 127
-      Width = 316
-      BorderSpacing.Left = 14
-      BorderSpacing.Top = 6
-      Caption = 'Show tab select panel in copy/move dialog'
-      TabOrder = 4
-    end
-    object cbDeleteToTrash: TCheckBox
-      AnchorSideLeft.Control = gbGeneralOptions
-      AnchorSideTop.Control = cbShowCopyTabSelectPanel
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 158
-      Width = 375
-      BorderSpacing.Left = 14
-      BorderSpacing.Top = 6
-      Caption = 'Delete to recycle bin (Shift key reverses this setting)'
-      OnChange = cbDeleteToTrashChange
-      TabOrder = 5
-    end
-    object cbSkipFileOpError: TCheckBox
-      AnchorSideLeft.Control = cbDeleteToTrash
-      AnchorSideTop.Control = cbDeleteToTrash
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 189
-      Width = 403
-      BorderSpacing.Top = 6
-      Caption = 'Skip file operations errors and write them to log window'
-      TabOrder = 6
-    end
-    object cbSaveThumbnails: TCheckBox
-      AnchorSideLeft.Control = cbSkipFileOpError
-      AnchorSideTop.Control = cbSkipFileOpError
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 220
-      Width = 201
-      BorderSpacing.Top = 6
-      Caption = 'Save thumbnails in cache'
-      TabOrder = 7
-    end
-  end
-  object gbFileSearch: TGroupBox[2]
+  object gbFileSearch: TGroupBox[1]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbCopyBufferSize
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 121
+    Height = 127
     Top = 79
     Width = 722
     Anchors = [akTop, akLeft, akRight]
@@ -193,16 +60,16 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     Caption = 'File search'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 99
+    ClientHeight = 105
     ClientWidth = 718
-    TabOrder = 2
+    TabOrder = 1
     object rbUseMmapInSearch: TRadioButton
       AnchorSideLeft.Control = gbFileSearch
       AnchorSideTop.Control = gbFileSearch
       Left = 10
-      Height = 25
+      Height = 27
       Top = 6
-      Width = 323
+      Width = 325
       Caption = 'Use memory mapping for search text in files'
       TabOrder = 0
     end
@@ -211,9 +78,9 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = rbUseMmapInSearch
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 37
-      Width = 251
+      Height = 27
+      Top = 39
+      Width = 253
       BorderSpacing.Top = 6
       Caption = 'Use stream for search text in files'
       Checked = True
@@ -225,12 +92,178 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = rbUseStreamInSearch
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 68
-      Width = 211
+      Height = 27
+      Top = 72
+      Width = 213
       BorderSpacing.Top = 6
       Caption = 'Search for part of file name'
       TabOrder = 2
+    end
+  end
+  object gbGeneralOptions: TGroupBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbFileSearch
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 329
+    Top = 212
+    Width = 722
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'General options'
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 307
+    ClientWidth = 718
+    TabOrder = 2
+    object lblProgressKind: TLabel
+      AnchorSideLeft.Control = gbGeneralOptions
+      AnchorSideTop.Control = cbProgressKind
+      AnchorSideTop.Side = asrCenter
+      Left = 14
+      Height = 22
+      Top = 9
+      Width = 191
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 6
+      Caption = 'Show operations progress in'
+      ParentColor = False
+    end
+    object cbProgressKind: TComboBox
+      AnchorSideLeft.Control = lblProgressKind
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbGeneralOptions
+      AnchorSideRight.Control = gbGeneralOptions
+      AnchorSideRight.Side = asrBottom
+      Left = 215
+      Height = 29
+      Top = 6
+      Width = 497
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
+      ItemHeight = 21
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object lblWipePassNumber: TLabel
+      AnchorSideLeft.Control = gbGeneralOptions
+      AnchorSideTop.Control = seWipePassNumber
+      AnchorSideTop.Side = asrCenter
+      Left = 14
+      Height = 22
+      Top = 44
+      Width = 163
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 6
+      Caption = 'Number of wipe passes:'
+      ParentColor = False
+    end
+    object cbDropReadOnlyFlag: TCheckBox
+      AnchorSideLeft.Control = gbGeneralOptions
+      AnchorSideTop.Control = seWipePassNumber
+      AnchorSideTop.Side = asrBottom
+      Left = 14
+      Height = 27
+      Top = 76
+      Width = 153
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 6
+      Caption = 'Drop readonly flag'
+      TabOrder = 2
+    end
+    object seWipePassNumber: TSpinEdit
+      AnchorSideLeft.Control = lblWipePassNumber
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbProgressKind
+      AnchorSideTop.Side = asrBottom
+      Left = 187
+      Height = 29
+      Top = 41
+      Width = 98
+      BorderSpacing.Left = 10
+      BorderSpacing.Top = 6
+      TabOrder = 1
+    end
+    object cbProcessComments: TCheckBox
+      AnchorSideLeft.Control = gbGeneralOptions
+      AnchorSideTop.Control = cbDropReadOnlyFlag
+      AnchorSideTop.Side = asrBottom
+      Left = 14
+      Height = 27
+      Top = 109
+      Width = 273
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 6
+      Caption = 'Process comments with files/folders'
+      TabOrder = 3
+    end
+    object cbRenameSelOnlyName: TCheckBox
+      AnchorSideLeft.Control = gbGeneralOptions
+      AnchorSideTop.Control = cbProcessComments
+      AnchorSideTop.Side = asrBottom
+      Left = 14
+      Height = 27
+      Top = 142
+      Width = 436
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 6
+      Caption = 'Select only the file name when renaming (not the extension)'
+      TabOrder = 4
+    end
+    object cbShowCopyTabSelectPanel: TCheckBox
+      AnchorSideLeft.Control = gbGeneralOptions
+      AnchorSideTop.Control = cbRenameSelOnlyName
+      AnchorSideTop.Side = asrBottom
+      Left = 14
+      Height = 27
+      Top = 175
+      Width = 318
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 6
+      Caption = 'Show tab select panel in copy/move dialog'
+      TabOrder = 5
+    end
+    object cbDeleteToTrash: TCheckBox
+      AnchorSideLeft.Control = gbGeneralOptions
+      AnchorSideTop.Control = cbShowCopyTabSelectPanel
+      AnchorSideTop.Side = asrBottom
+      Left = 14
+      Height = 27
+      Top = 208
+      Width = 377
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 6
+      Caption = 'Delete to recycle bin (Shift key reverses this setting)'
+      OnChange = cbDeleteToTrashChange
+      TabOrder = 6
+    end
+    object cbSkipFileOpError: TCheckBox
+      AnchorSideLeft.Control = cbDeleteToTrash
+      AnchorSideTop.Control = cbDeleteToTrash
+      AnchorSideTop.Side = asrBottom
+      Left = 14
+      Height = 27
+      Top = 241
+      Width = 405
+      BorderSpacing.Top = 6
+      Caption = 'Skip file operations errors and write them to log window'
+      TabOrder = 7
+    end
+    object cbSaveThumbnails: TCheckBox
+      AnchorSideLeft.Control = cbSkipFileOpError
+      AnchorSideTop.Control = cbSkipFileOpError
+      AnchorSideTop.Side = asrBottom
+      Left = 14
+      Height = 27
+      Top = 274
+      Width = 203
+      BorderSpacing.Top = 6
+      Caption = 'Save thumbnails in cache'
+      TabOrder = 8
     end
   end
 end

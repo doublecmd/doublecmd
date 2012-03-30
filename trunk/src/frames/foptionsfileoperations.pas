@@ -43,10 +43,12 @@ type
     cbSaveThumbnails: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
     cbSkipFileOpError: TCheckBox;
+    cbProgressKind: TComboBox;
     edtCopyBufferSize: TEdit;
     gbCopyBufferSize: TGroupBox;
     gbFileSearch: TGroupBox;
     gbGeneralOptions: TGroupBox;
+    lblProgressKind: TLabel;
     lblCopyBufferSize: TLabel;
     lblWipePassNumber: TLabel;
     rbUseMmapInSearch: TRadioButton;
@@ -56,6 +58,7 @@ type
   private
     FLoading: Boolean;
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -69,7 +72,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng, fOptionsHotkeys;
+  uDCUtils, uGlobs, uLng, fOptionsHotkeys;
 
 { TfrmOptionsFileOperations }
 
@@ -81,6 +84,11 @@ end;
 class function TfrmOptionsFileOperations.GetTitle: String;
 begin
   Result := rsOptionsEditorFileOperations;
+end;
+
+procedure TfrmOptionsFileOperations.Init;
+begin
+  ParseLineToList(rsOptFileOperationsProgressKind, cbProgressKind.Items);
 end;
 
 procedure TfrmOptionsFileOperations.cbDeleteToTrashChange(Sender: TObject);
@@ -111,6 +119,12 @@ begin
   cbSaveThumbnails.Checked         := gSaveThumb;
   cbRenameSelOnlyName.Checked      := gRenameSelOnlyName;
 
+  case gFileOperationsProgressKind of
+    fopkSeparateWindow:           cbProgressKind.ItemIndex := 0;
+    fopkSeparateWindowMinimized:  cbProgressKind.ItemIndex := 1;
+    fopkOperationsPanel:          cbProgressKind.ItemIndex := 2;
+  end;
+
   FLoading := False;
 end;
 
@@ -129,6 +143,12 @@ begin
   gUseTrash               := cbDeleteToTrash.Checked;
   gSaveThumb              := cbSaveThumbnails.Checked;
   gRenameSelOnlyName      := cbRenameSelOnlyName.Checked;
+
+  case cbProgressKind.ItemIndex of
+    0: gFileOperationsProgressKind := fopkSeparateWindow;
+    1: gFileOperationsProgressKind := fopkSeparateWindowMinimized;
+    2: gFileOperationsProgressKind := fopkOperationsPanel;
+  end;
 end;
 
 constructor TfrmOptionsFileOperations.Create(TheOwner: TComponent);

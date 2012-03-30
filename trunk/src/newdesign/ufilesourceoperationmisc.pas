@@ -36,7 +36,7 @@ procedure ShowOperation(OpManItem: TOperationsManagerItem);
 implementation
 
 uses
-  fFileOpDlg;
+  fFileOpDlg, uGlobs;
 
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 begin
@@ -52,9 +52,18 @@ begin
 end;
 
 procedure ShowOperation(OpManItem: TOperationsManagerItem);
+var
+  Options: TOperationProgressWindowOptions = [];
 begin
   if OpManItem.Queue.IsFree or (OpManItem.Queue.Count = 1) then
-    TfrmFileOp.ShowFor(OpManItem.Handle);
+  begin
+    if gFileOperationsProgressKind in [fopkSeparateWindow, fopkSeparateWindowMinimized] then
+    begin
+      if gFileOperationsProgressKind = fopkSeparateWindowMinimized then
+        Options := Options + [opwoStartMinimized];
+      TfrmFileOp.ShowFor(OpManItem.Handle, Options);
+    end;
+  end;
 end;
 
 end.

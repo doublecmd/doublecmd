@@ -45,6 +45,12 @@ type
   TOperationProgressWindowEventProc = procedure(OperationHandle: TOperationHandle;
                                                 Event: TOperationProgressWindowEvent) of object;
 
+  TOperationProgressWindowOption =
+    (opwoIfExistsBringToFront,
+     opwoStartMinimized);
+
+  TOperationProgressWindowOptions = set of TOperationProgressWindowOption;
+
   { TfrmFileOp }
 
   TfrmFileOp = class(TForm)
@@ -72,8 +78,6 @@ type
     procedure btnViewOperationsClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    function GetProgressBarStyle: TProgressBarStyle;
-    procedure SetProgressBarStyle(const AValue: TProgressBarStyle);
 
   private
     FOperationHandle: TOperationHandle;
@@ -88,6 +92,7 @@ type
     procedure CloseDialog;
     procedure FinalizeOperation;
     function  GetFirstOperationHandle(QueueIdentifier: TOperationsManagerQueueIdentifier): TOperationHandle;
+    function  GetProgressBarStyle: TProgressBarStyle;
     procedure InitializeControls(OpManItem: TOperationsManagerItem; FileOpDlgLook: TFileOpDlgLook);
     function  InitializeOperation: Boolean;
     procedure NotifyEvents(Events: TOperationProgressWindowEvents);
@@ -96,6 +101,7 @@ type
     procedure SetPlayGlyph;
     procedure UpdateOperation(OpManItem: TOperationsManagerItem);
     procedure UpdatePauseStartButton(OpManItem: TOperationsManagerItem);
+    procedure SetProgressBarStyle(const AValue: TProgressBarStyle);
     procedure SetProgressBytes(ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
     procedure StopOperationOrQueue;
@@ -121,6 +127,8 @@ type
 
     class function GetOpenedForm(AOperationHandle: TOperationHandle): TfrmFileOp;
     class function GetOpenedForm(AQueueIdentifier: TOperationsManagerQueueIdentifier): TfrmFileOp;
+    class procedure ShowExistingWindow(AWindow: TfrmFileOp; Options: TOperationProgressWindowOptions);
+    class procedure ShowNewWindow(AWindow: TfrmFileOp; Options: TOperationProgressWindowOptions);
 
   public
     constructor Create(OperationHandle: TOperationHandle); reintroduce;
@@ -136,8 +144,8 @@ type
 
     class function IsOpenedFor(AOperationHandle: TOperationHandle): Boolean;
     class function IsOpenedFor(AQueueIdentifier: TOperationsManagerQueueIdentifier): Boolean;
-    class procedure ShowFor(AOperationHandle: TOperationHandle);
-    class procedure ShowFor(AQueueIdentifier: TOperationsManagerQueueIdentifier);
+    class procedure ShowFor(AOperationHandle: TOperationHandle; Options: TOperationProgressWindowOptions);
+    class procedure ShowFor(AQueueIdentifier: TOperationsManagerQueueIdentifier; Options: TOperationProgressWindowOptions);
 
     property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
   end;
@@ -147,7 +155,7 @@ implementation
 {$R *.lfm}
 
 uses
-   dmCommonData, uLng, uDCUtils,
+   dmCommonData, uLng, uDCUtils, LCLVersion,
    fViewOperations,
    uFileSourceOperationMisc,
    uFileSourceOperationTypes,
@@ -470,32 +478,69 @@ begin
   Result := Assigned(GetOpenedForm(AQueueIdentifier));
 end;
 
-class procedure TfrmFileOp.ShowFor(AOperationHandle: TOperationHandle);
+class procedure TfrmFileOp.ShowFor(AOperationHandle: TOperationHandle; Options: TOperationProgressWindowOptions);
 var
   OperationDialog: TfrmFileOp;
+  OpManItem: TOperationsManagerItem;
 begin
-  OperationDialog := GetOpenedForm(AOperationHandle);
-  if Assigned(OperationDialog) then
-    OperationDialog.ShowOnTop
-  else
+  OpManItem := OperationsManager.GetItemByHandle(AOperationHandle);
+  if Assigned(OpManItem) then
   begin
-    OperationDialog := TfrmFileOp.Create(AOperationHandle);
-    OperationDialog.Show;
+    if not OpManItem.Queue.IsFree then
+    begin
+      ShowFor(OpManItem.Queue.Identifier, Options);
+    end
+    else
+    begin
+      OperationDialog := GetOpenedForm(AOperationHandle);
+      if Assigned(OperationDialog) then
+        ShowExistingWindow(OperationDialog, Options)
+      else
+      begin
+        OperationDialog := TfrmFileOp.Create(AOperationHandle);
+        ShowNewWindow(OperationDialog, Options);
+      end;
+    end;
   end;
 end;
 
-class procedure TfrmFileOp.ShowFor(AQueueIdentifier: TOperationsManagerQueueIdentifier);
+class procedure TfrmFileOp.ShowFor(AQueueIdentifier: TOperationsManagerQueueIdentifier; Options: TOperationProgressWindowOptions);
 var
   OperationDialog: TfrmFileOp;
 begin
   OperationDialog := GetOpenedForm(AQueueIdentifier);
   if Assigned(OperationDialog) then
-    OperationDialog.ShowOnTop
+  begin
+    ShowExistingWindow(OperationDialog, Options);
+  end
   else
   begin
     OperationDialog := TfrmFileOp.Create(AQueueIdentifier);
-    OperationDialog.Show;
+    ShowNewWindow(OperationDialog, Options);
   end;
+end;
+
+class procedure TfrmFileOp.ShowExistingWindow(AWindow: TfrmFileOp; Options: TOperationProgressWindowOptions);
+begin
+  if opwoIfExistsBringToFront in Options then
+    AWindow.ShowOnTop;
+end;
+
+class procedure TfrmFileOp.ShowNewWindow(AWindow: TfrmFileOp; Options: TOperationProgressWindowOptions);
+begin
+  if opwoStartMinimized in Options then
+  begin
+    {$IF lcl_fullversion >= 093100}
+    // Workaround for bug in Lazarus 0.9.31 #0021603.
+    AWindow.Visible := True;
+    AWindow.WindowState := wsMinimized;
+    {$ELSE}
+    AWindow.WindowState := wsMinimized;
+    AWindow.Visible := True;
+    {$ENDIF}
+  end
+  else
+    AWindow.Show;
 end;
 
 procedure TfrmFileOp.StopOperationOrQueue;
