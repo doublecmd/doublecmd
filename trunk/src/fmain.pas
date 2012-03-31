@@ -48,8 +48,10 @@ uses
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
   uXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel
-  {$IFDEF LCLQT}
+  {$IF DEFINED(LCLQT)}
   , Qt4, QtWidgets
+  {$ELSEIF DEFINED(LCLGTK2)}
+  , Glib2, Gtk2
   {$ENDIF}
   ;
 
@@ -2864,6 +2866,12 @@ end;
 procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
 var
   APanel: TPanel;
+{$IF DEFINED(LCLGTK2)}
+  X, ArrowWidth: Integer;
+  arrow_spacing: gint = 0;
+  scroll_arrow_hlength: gint = 16;
+  FileViewNotebook: TFileViewNotebook;
+{$ENDIF}
 begin
   if Sender is TPanel then
   begin
@@ -2873,10 +2881,20 @@ begin
     else if APanel = pnlRight then
       Commands.DoNewTab(nbRight);
   end;
-  {$IF DEFINED(LCLGTK2)}
+{$IF DEFINED(LCLGTK2)}
   if Sender is TFileViewNotebook then
-    Commands.DoNewTab(Sender as TFileViewNotebook);
-  {$ENDIF}
+  begin
+    FileViewNotebook:= Sender as TFileViewNotebook;
+    gtk_widget_style_get(PGtkWidget(FileViewNotebook.Handle),
+                         'arrow-spacing', @arrow_spacing,
+                         'scroll-arrow-hlength', @scroll_arrow_hlength,
+                         nil);
+    ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
+    X:= FileViewNotebook.ScreenToClient(Mouse.CursorPos).X;
+    if (X > ArrowWidth) and (X < FileViewNotebook.ClientWidth - ArrowWidth) then
+      Commands.DoNewTab(FileViewNotebook);
+  end;
+{$ENDIF}
 end;
 
 procedure TfrmMain.pnlNotebooksResize(Sender: TObject);
@@ -4760,4 +4778,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
