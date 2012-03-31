@@ -283,7 +283,7 @@ type
 
     {$IF FPC_FULLVERSION < 020501}
     // "implements" does not work in FPC < 2.5.1
-    function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
+    function ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
     function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
     procedure GetCommandsList(List: TStrings);
     {$ENDIF}
@@ -291,19 +291,19 @@ type
     property QuickView: Boolean read bQuickView write bQuickView;
   published
     // Commands for hotkey manager
-    procedure cm_About(Param: String='');
-    procedure cm_Reload(Param: String='');
-    procedure cm_LoadNextFile(Param: String='');
-    procedure cm_LoadPrevFile(Param: String='');
-    procedure cm_MoveFile(Param: String='');
-    procedure cm_CopyFile(Param: String='');
-    procedure cm_DeleteFile(Param: String='');
-    procedure cm_StretchImage(Param: String='');
-    procedure cm_SaveAs(Param: String='');
-    procedure cm_Rotate90(Param: String='');
-    procedure cm_Rotate180(Param: String='');
-    procedure cm_Rotate270(Param: String='');
-    procedure cm_Mirror(Param: String='');
+    procedure cm_About(const Params: array of string);
+    procedure cm_Reload(const Params: array of string);
+    procedure cm_LoadNextFile(const Params: array of string);
+    procedure cm_LoadPrevFile(const Params: array of string);
+    procedure cm_MoveFile(const Params: array of string);
+    procedure cm_CopyFile(const Params: array of string);
+    procedure cm_DeleteFile(const Params: array of string);
+    procedure cm_StretchImage(const Params: array of string);
+    procedure cm_SaveAs(const Params: array of string);
+    procedure cm_Rotate90(const Params: array of string);
+    procedure cm_Rotate180(const Params: array of string);
+    procedure cm_Rotate270(const Params: array of string);
+    procedure cm_Mirror(const Params: array of string);
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
@@ -456,12 +456,12 @@ begin
     case Key of
       'N', 'n':
         begin
-          cm_LoadNextFile();
+          cm_LoadNextFile([]);
           Key := #0;
         end;
       'P', 'p':
         begin
-          cm_LoadPrevFile();
+          cm_LoadPrevFile([]);
           Key := #0;
         end;
       '1':
@@ -1259,7 +1259,7 @@ begin
   i_timer:=i_timer+1;
   if (cbSlideShow.Checked) and (i_timer=60*seTimeShow.Value) then
     begin
-     cm_LoadNextFile();
+     cm_LoadNextFile([]);
      i_timer:=0;
     end;
   if i_timer=180 then
@@ -1495,7 +1495,7 @@ var
 begin
   cmd := (Sender as TAction).Name;
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
-  Commands.ExecuteCommand(cmd, '');
+  Commands.ExecuteCommand(cmd, []);
 end;
 
 procedure TfrmViewer.btnFullScreenClick(Sender: TObject);
@@ -2117,9 +2117,9 @@ end;
 // Commands for hotkey manager
 
 {$IF FPC_FULLVERSION < 020501}
-function TfrmViewer.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
+function TfrmViewer.ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
 begin
-  Result := FCommands.ExecuteCommand(Command, Param);
+  Result := FCommands.ExecuteCommand(Command, Params);
 end;
 
 function TfrmViewer.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
@@ -2133,17 +2133,17 @@ begin
 end;
 {$ENDIF}
 
-procedure TfrmViewer.cm_About(Param: String='');
+procedure TfrmViewer.cm_About(const Params: array of string);
 begin
   miAbout2Click(Self);
 end;
 
-procedure TfrmViewer.cm_Reload(Param: String='');
+procedure TfrmViewer.cm_Reload(const Params: array of string);
 begin
   LoadFile(iActiveFile);
 end;
 
-procedure TfrmViewer.cm_LoadNextFile(Param: String='');
+procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);
 var
   I: Integer;
 begin
@@ -2170,7 +2170,7 @@ begin
   else LoadFile(I);
 end;
 
-procedure TfrmViewer.cm_LoadPrevFile(Param: String='');
+procedure TfrmViewer.cm_LoadPrevFile(const Params: array of string);
 var
   I: Integer;
 begin
@@ -2196,47 +2196,47 @@ begin
   else LoadFile(I);
 end;
 
-procedure TfrmViewer.cm_MoveFile(Param: String='');
+procedure TfrmViewer.cm_MoveFile(const Params: array of string);
 begin
   btnCopyMoveFileClick(btnMoveFile);
 end;
 
-procedure TfrmViewer.cm_CopyFile(Param: String='');
+procedure TfrmViewer.cm_CopyFile(const Params: array of string);
 begin
   btnCopyMoveFileClick(Self);
 end;
 
-procedure TfrmViewer.cm_DeleteFile(Param: String='');
+procedure TfrmViewer.cm_DeleteFile(const Params: array of string);
 begin
   btnDeleteFileClick(Self);
 end;
 
-procedure TfrmViewer.cm_StretchImage(Param: String='');
+procedure TfrmViewer.cm_StretchImage(const Params: array of string);
 begin
   if bImage then miStretchClick(Self);
 end;
 
-procedure TfrmViewer.cm_SaveAs(Param: String='');
+procedure TfrmViewer.cm_SaveAs(const Params: array of string);
 begin
   if bAnimation or bImage then miSaveAsClick(Self);
 end;
 
-procedure TfrmViewer.cm_Rotate90(Param: String='');
+procedure TfrmViewer.cm_Rotate90(const Params: array of string);
 begin
   if bImage then miRotateClick(mi90);
 end;
 
-procedure TfrmViewer.cm_Rotate180(Param: String='');
+procedure TfrmViewer.cm_Rotate180(const Params: array of string);
 begin
   if bImage then miRotateClick(mi180);
 end;
 
-procedure TfrmViewer.cm_Rotate270(Param: String='');
+procedure TfrmViewer.cm_Rotate270(const Params: array of string);
 begin
   if bImage then miRotateClick(mi270);
 end;
 
-procedure TfrmViewer.cm_Mirror(Param: String='');
+procedure TfrmViewer.cm_Mirror(const Params: array of string);
 begin
   if bImage then miRotateClick(miMirror);
 end;

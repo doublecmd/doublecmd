@@ -124,7 +124,7 @@ begin
     FFileView.SetActiveFile(dirNameToSelect);
   end
   else
-    frmMain.Commands.cm_ViewHistory('');
+    frmMain.Commands.cm_ViewHistory([]);
 end;
 
 procedure TFileViewHeader.PathLabelMouseUp(Sender: TObject; Button: TMouseButton;
@@ -134,7 +134,7 @@ begin
     mbMiddle:
       begin
         FFileView.SetFocus;
-        frmMain.Commands.cm_DirHotList('');
+        frmMain.Commands.cm_DirHotList([]);
       end;
 
     mbRight:
@@ -316,4 +316,4 @@ begin
 end;
 
 end.
-
+

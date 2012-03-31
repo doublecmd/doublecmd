@@ -639,7 +639,7 @@ type
 
     {$IF FPC_FULLVERSION < 020501}
     // "implements" does not work in FPC < 2.5.1
-    function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
+    function ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
     function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
     procedure GetCommandsList(List: TStrings);
     {$ENDIF}
@@ -826,7 +826,7 @@ var
 begin
   cmd := (Sender as TAction).Name;
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
-  Commands.Commands.ExecuteCommand(cmd, '');
+  Commands.Commands.ExecuteCommand(cmd, []);
 end;
 
 procedure TfrmMain.mnuAllOperStopClick(Sender: TObject);
@@ -852,9 +852,9 @@ end;
 procedure TfrmMain.btnF8Click(Sender: TObject);
 begin
   if GetKeyShiftStateEx * KeyModifiersShortcut = [ssShift] then
-    Commands.cm_Delete('recyclesettingrev')
+    Commands.cm_Delete(['recyclesettingrev'])
   else
-    Commands.cm_Delete('');
+    Commands.cm_Delete([]);
 end;
 
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
@@ -1063,7 +1063,7 @@ begin
     1:
       seLogWindow.SelectAll;
     2:
-      Commands.cm_ClearLogWindow();
+      Commands.cm_ClearLogWindow([]);
     3:
       ShowLogWindow(False);
   end;
@@ -1334,9 +1334,9 @@ begin
 end;
 
 {$IF FPC_FULLVERSION < 020501}
-function TfrmMain.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
+function TfrmMain.ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
 begin
-  Result := Commands.Commands.ExecuteCommand(Command, Param);
+  Result := Commands.Commands.ExecuteCommand(Command, Params);
 end;
 
 function TfrmMain.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
@@ -1410,7 +1410,7 @@ begin
   MainSplitterLeftMouseBtnDown:=false;
   MainSplitter.ParentColor:=true;
   // Set splitter to 50/50
-  Commands.cm_PanelsSplitterPerPos('50');
+  Commands.cm_PanelsSplitterPerPos(['50']);
 end;
 
 procedure TfrmMain.MainSplitterMouseDown(Sender: TObject; Button: TMouseButton;
@@ -1538,7 +1538,7 @@ begin
     else if Sender = lblLeftDriveInfo then
       SetActiveFrame(fpLeft);
   end;
-  Commands.cm_DirHotList('');
+  Commands.cm_DirHotList(['']);
 end;
 
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -1635,7 +1635,7 @@ end;
 
 procedure TfrmMain.btnVirtualDriveClick(Sender: TObject);
 begin
-  Commands.cm_OpenVirtualFileSystemList(((Sender as TSpeedButton).Parent as TKASToolBar).Name);
+  Commands.cm_OpenVirtualFileSystemList([((Sender as TSpeedButton).Parent as TKASToolBar).Name]);
 end;
 
 procedure TfrmMain.MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1781,7 +1781,7 @@ procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
 begin
   with (Sender as TMenuItem) do
   begin
-    Commands.cm_PanelsSplitterPerPos(IntToStr(Tag));
+    Commands.cm_PanelsSplitterPerPos([IntToStr(Tag)]);
   end;
 end;
 
@@ -1872,7 +1872,7 @@ begin
     end;
   end;
   if Assigned(QuickViewPanel) then
-    Commands.cm_QuickView('Close');
+    Commands.cm_QuickView(['Close']);
 end;
 
 procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
@@ -3944,7 +3944,7 @@ begin
 
   sDir := MainToolBar.GetButtonX(I, PathX);
   sDir := PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
-  Commands.cm_ChangeDir(sDir);
+  Commands.cm_ChangeDir([sDir]);
 end;
 
 procedure TfrmMain.tbCopyClick(Sender: TObject);
@@ -4139,7 +4139,7 @@ end;
 
 procedure TfrmMain.TypeInCommandLine(Str: String);
 begin
-  Commands.cm_FocusCmdLine();
+  Commands.cm_FocusCmdLine([]);
   edtCommand.Text := edtCommand.Text + Str;
   edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
 end;

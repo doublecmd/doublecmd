@@ -78,13 +78,13 @@ type
 
     {$IF FPC_FULLVERSION < 020501}
     // "implements" does not work in FPC < 2.5.1
-    function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
+    function ExecuteCommand(Command: string; const Params: array of String): TCommandFuncResult;
     function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
     procedure GetCommandsList(List: TStrings);
     {$ENDIF}
 
   published
-    procedure cm_AddToQueue(Param: String = '');
+    procedure cm_AddToQueue(const Params: array of String);
   end;
 
 
@@ -121,11 +121,11 @@ begin
     FOperationOptionsUI.SetOperationOptions(Operation);
 end;
 
-procedure TfrmCopyDlg.cm_AddToQueue(Param: String);
+procedure TfrmCopyDlg.cm_AddToQueue(const Params: array of String);
 var
   Value: Integer;
 begin
-  if (Param <> '') and TryStrToInt(Param, Value) then
+  if (Length(Params) > 0) and TryStrToInt(Params[0], Value) then
     FQueueIdentifier := Value
   else
     FQueueIdentifier := SingleQueueId;
@@ -385,9 +385,9 @@ begin
 end;
 
 {$IF FPC_FULLVERSION < 020501}
-function TfrmCopyDlg.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
+function TfrmCopyDlg.ExecuteCommand(Command: string; const Params: array of String): TCommandFuncResult;
 begin
-  Result := FCommands.ExecuteCommand(Command, Param);
+  Result := FCommands.ExecuteCommand(Command, Params);
 end;
 
 function TfrmCopyDlg.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
