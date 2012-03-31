@@ -40,16 +40,15 @@ type
     cbPartialNameSearch: TCheckBox;
     cbProcessComments: TCheckBox;
     cbRenameSelOnlyName: TCheckBox;
-    cbSaveThumbnails: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     cbProgressKind: TComboBox;
-    edtCopyBufferSize: TEdit;
-    gbCopyBufferSize: TGroupBox;
+    edtBufferSize: TEdit;
+    gbUserInterface: TGroupBox;
     gbFileSearch: TGroupBox;
-    gbGeneralOptions: TGroupBox;
+    gbExecutingOperations: TGroupBox;
+    lblBufferSize: TLabel;
     lblProgressKind: TLabel;
-    lblCopyBufferSize: TLabel;
     lblWipePassNumber: TLabel;
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
@@ -107,7 +106,7 @@ procedure TfrmOptionsFileOperations.Load;
 begin
   FLoading := True;
 
-  edtCopyBufferSize.Text           := IntToStr(gCopyBlockSize div 1024);
+  edtBufferSize.Text               := IntToStr(gCopyBlockSize div 1024);
   cbSkipFileOpError.Checked        := gSkipFileOpError;
   cbDropReadOnlyFlag.Checked       := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked        := gUseMmapInSearch;
@@ -116,7 +115,6 @@ begin
   cbProcessComments.Checked        := gProcessComments;
   cbShowCopyTabSelectPanel.Checked := gShowCopyTabSelectPanel;
   cbDeleteToTrash.Checked          := gUseTrash;
-  cbSaveThumbnails.Checked         := gSaveThumb;
   cbRenameSelOnlyName.Checked      := gRenameSelOnlyName;
 
   case gFileOperationsProgressKind of
@@ -132,7 +130,7 @@ function TfrmOptionsFileOperations.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 
-  gCopyBlockSize          := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
+  gCopyBlockSize          := StrToIntDef(edtBufferSize.Text, gCopyBlockSize) * 1024;
   gSkipFileOpError        := cbSkipFileOpError.Checked;
   gDropReadOnlyFlag       := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch        := rbUseMmapInSearch.Checked;
@@ -141,7 +139,6 @@ begin
   gProcessComments        := cbProcessComments.Checked;
   gShowCopyTabSelectPanel := cbShowCopyTabSelectPanel.Checked;
   gUseTrash               := cbDeleteToTrash.Checked;
-  gSaveThumb              := cbSaveThumbnails.Checked;
   gRenameSelOnlyName      := cbRenameSelOnlyName.Checked;
 
   case cbProgressKind.ItemIndex of

@@ -1,35 +1,41 @@
 inherited frmOptionsMisc: TfrmOptionsMisc
-  Height = 73
+  Height = 98
   Width = 719
-  ClientHeight = 73
+  ClientHeight = 98
   ClientWidth = 719
   object gbExtended: TGroupBox[0]
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Side = asrBottom
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 8
-    Height = 59
-    Top = 0
-    Width = 703
+    Left = 6
+    Height = 88
+    Top = 6
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 8
+    BorderSpacing.Around = 6
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 37
-    ClientWidth = 699
+    ClientHeight = 66
+    ClientWidth = 703
     TabOrder = 0
     object cbShowWarningMessages: TCheckBox
       Left = 12
-      Height = 25
+      Height = 27
       Top = 6
-      Width = 318
+      Width = 320
       Caption = 'Show warning messages ("OK" button only)'
       TabOrder = 0
+    end
+    object cbSaveThumbnails: TCheckBox
+      Left = 12
+      Height = 27
+      Top = 33
+      Width = 320
+      Caption = 'Save thumbnails in cache'
+      TabOrder = 1
     end
   end
 end
