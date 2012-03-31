@@ -34,6 +34,7 @@ type
   { TfrmOptionsMisc }
 
   TfrmOptionsMisc = class(TOptionsEditor)
+    cbSaveThumbnails: TCheckBox;
     cbShowWarningMessages: TCheckBox;
     gbExtended: TGroupBox;
   protected
@@ -65,15 +66,17 @@ end;
 
 procedure TfrmOptionsMisc.Load;
 begin
-  cbShowWarningMessages.Checked:= gShowWarningMessages;
+  cbShowWarningMessages.Checked := gShowWarningMessages;
+  cbSaveThumbnails.Checked      := gSaveThumb;
 end;
 
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 
-  gShowWarningMessages:= cbShowWarningMessages.Checked;
+  gShowWarningMessages := cbShowWarningMessages.Checked;
+  gSaveThumb           := cbSaveThumbnails.Checked;
 end;
 
 end.
-
+
