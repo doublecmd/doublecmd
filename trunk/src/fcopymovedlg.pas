@@ -31,7 +31,7 @@ type
     pnlButtons: TPanel;
     pnlOptions: TPanel;
     pnlSelector: TPanel;
-    btnCreateSpecialQueue: TSpeedButton;
+    btnCreateSpecialQueue: TButton;
     procedure btnAddToQueueClick(Sender: TObject);
     procedure btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -122,8 +122,13 @@ begin
 end;
 
 procedure TfrmCopyDlg.cm_AddToQueue(Param: String);
+var
+  Value: Integer;
 begin
-  FQueueIdentifier := SingleQueueId;
+  if (Param <> '') and TryStrToInt(Param, Value) then
+    FQueueIdentifier := Value
+  else
+    FQueueIdentifier := SingleQueueId;
   ModalResult := btnAddToQueue.ModalResult;
 end;
 
