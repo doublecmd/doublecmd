@@ -372,7 +372,7 @@ type
     }
     procedure ChangePathToChild(const aFile: TFile); virtual;
 
-    procedure ExecuteCommand(CommandName: String; Parameter: String = ''); virtual;
+    procedure ExecuteCommand(CommandName: String; const Params: array of String); virtual;
 
     {en
        Returns @true if at least one file is somehow selected.
@@ -1942,9 +1942,9 @@ begin
   end;
 end;
 
-procedure TFileView.ExecuteCommand(CommandName: String; Parameter: String);
+procedure TFileView.ExecuteCommand(CommandName: String; const Params: array of String);
 begin
-  FMethods.ExecuteCommand(CommandName, Parameter);
+  FMethods.ExecuteCommand(CommandName, Params);
 end;
 
 procedure TFileView.AddFileSource(aFileSource: IFileSource; aPath: String);

@@ -31,7 +31,7 @@ uses
 
 type
   TCommandFuncResult = (cfrSuccess, cfrDisabled, cfrNotFound);
-  TCommandFunc = procedure(Param: String) of object;
+  TCommandFunc = procedure(const Params: array of string) of object;
   TCommandCaptionType = (cctShort, cctLong);
 
   (*
@@ -64,7 +64,7 @@ type
   // commands with parameters.
   IFormCommands = interface
     ['{0464B1C0-BA98-4258-A286-F0F726FF66C4}']
-    function ExecuteCommand(Command: String; Param: String=''): TCommandFuncResult;
+    function ExecuteCommand(Command: String; const Params: array of string): TCommandFuncResult;
     function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType = cctShort): String;
     procedure GetCommandsList(List: TStrings);
   end;
@@ -111,7 +111,7 @@ type
     constructor Create(TheOwner: TComponent; ActionList: TActionList = nil); reintroduce;
     destructor Destroy; override;
 
-    function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
+    function ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
 
     {en
        Enables/disables command.
@@ -133,6 +133,8 @@ type
 
     property FilterFunc: TCommandFilterFunc read FFilterFunc write FFilterFunc;
   end;
+
+  function GetDefaultParam(const Params: array of String): String;
 
 implementation
 
@@ -169,7 +171,7 @@ begin
   inherited;
 end;
 
-function TFormCommands.ExecuteCommand(Command: String; Param: String): TCommandFuncResult;
+function TFormCommands.ExecuteCommand(Command: String; const Params: array of string): TCommandFuncResult;
 var
   Method: TMethod;
   CommandRec: PCommandRec;
@@ -183,7 +185,7 @@ begin
     begin
       Method.Code := CommandRec^.Address;  // address of method
       Method.Data := FInstanceObject;      // pointer to instance
-      TCommandFunc(Method)(Param);
+      TCommandFunc(Method)(Params);
       Result := cfrSuccess;
     end;
   end
@@ -340,6 +342,14 @@ begin
   CommandsForms[High(CommandsForms)].AClass := TComponentClass(AClass);
   CommandsForms[High(CommandsForms)].Name   := CategoryName;
   CommandsForms[High(CommandsForms)].TranslatedName := TranslatedName;
+end;
+
+function GetDefaultParam(const Params: array of String): String;
+begin
+  if Length(Params) > 0 then
+    Result := Params[0]
+  else
+    Result := '';
 end;
 
 end.

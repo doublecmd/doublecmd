@@ -337,27 +337,27 @@ type
                                   var DropParams: TDropParams); override;
 
   published  // commands
-    procedure cm_MarkInvert(param: string='');
-    procedure cm_MarkMarkAll(param: string='');
-    procedure cm_MarkUnmarkAll(param: string='');
-    procedure cm_MarkPlus(param: string='');
-    procedure cm_MarkMinus(param: string='');
-    procedure cm_MarkCurrentExtension(param: string='');
-    procedure cm_UnmarkCurrentExtension(param: string='');
-    procedure cm_SaveSelection(param: string='');
-    procedure cm_RestoreSelection(param: string='');
-    procedure cm_SaveSelectionToFile(param: string='');
-    procedure cm_LoadSelectionFromFile(param: string='');
-    procedure cm_LoadSelectionFromClip(param: string='');
-    procedure cm_QuickSearch(param: string='');
-    procedure cm_QuickFilter(param: string='');
-    procedure cm_Open(param: string='');
-    procedure cm_CountDirContent(param: string='');
-    procedure cm_RenameOnly(param: string='');
-    procedure cm_ContextMenu(param: string='');
-    procedure cm_EditPath(param: string='');
-    procedure cm_GoToFirstFile(param: string='');
-    procedure cm_GoToLastFile(param: string='');
+    procedure cm_MarkInvert(const Params: array of string);
+    procedure cm_MarkMarkAll(const Params: array of string);
+    procedure cm_MarkUnmarkAll(const Params: array of string);
+    procedure cm_MarkPlus(const Params: array of string);
+    procedure cm_MarkMinus(const Params: array of string);
+    procedure cm_MarkCurrentExtension(const Params: array of string);
+    procedure cm_UnmarkCurrentExtension(const Params: array of string);
+    procedure cm_SaveSelection(const Params: array of string);
+    procedure cm_RestoreSelection(const Params: array of string);
+    procedure cm_SaveSelectionToFile(const Params: array of string);
+    procedure cm_LoadSelectionFromFile(const Params: array of string);
+    procedure cm_LoadSelectionFromClip(const Params: array of string);
+    procedure cm_QuickSearch(const Params: array of string);
+    procedure cm_QuickFilter(const Params: array of string);
+    procedure cm_Open(const Params: array of string);
+    procedure cm_CountDirContent(const Params: array of string);
+    procedure cm_RenameOnly(const Params: array of string);
+    procedure cm_ContextMenu(const Params: array of string);
+    procedure cm_EditPath(const Params: array of string);
+    procedure cm_GoToFirstFile(const Params: array of string);
+    procedure cm_GoToLastFile(const Params: array of string);
   end;
 
 implementation
@@ -372,7 +372,8 @@ uses
   fColumnsSetConf,
   uKeyboard,
   uFileSourceUtil,
-  uFileFunctions
+  uFileFunctions,
+  uFormCommands
 {$IF DEFINED(LCLGTK)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime
@@ -858,7 +859,7 @@ begin
   { Open folder in new tab on middle click }
   else if (Button = mbMiddle) and (Y > dgPanel.GetHeaderHeight) then
     begin
-      frmMain.Commands.cm_OpenDirInNewTab();
+      frmMain.Commands.cm_OpenDirInNewTab([]);
     end;
 end;
 
@@ -1955,7 +1956,7 @@ begin
   case Key of
     VK_APPS:
       begin
-        cm_ContextMenu('');
+        cm_ContextMenu([]);
         Key := 0;
       end;
 
@@ -2821,59 +2822,62 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.cm_MarkInvert(param: string='');
+procedure TColumnsFileView.cm_MarkInvert(const Params: array of string);
 begin
   InvertAll;
 end;
 
-procedure TColumnsFileView.cm_MarkMarkAll(param: string='');
+procedure TColumnsFileView.cm_MarkMarkAll(const Params: array of string);
 begin
   MarkAll;
 end;
 
-procedure TColumnsFileView.cm_MarkUnmarkAll(param: string='');
+procedure TColumnsFileView.cm_MarkUnmarkAll(const Params: array of string);
 begin
   UnMarkAll;
 end;
 
-procedure TColumnsFileView.cm_MarkPlus(param: string='');
+procedure TColumnsFileView.cm_MarkPlus(const Params: array of string);
 begin
   MarkPlus;
 end;
 
-procedure TColumnsFileView.cm_MarkMinus(param: string='');
+procedure TColumnsFileView.cm_MarkMinus(const Params: array of string);
 begin
   MarkMinus;
 end;
 
-procedure TColumnsFileView.cm_MarkCurrentExtension(param: string='');
+procedure TColumnsFileView.cm_MarkCurrentExtension(const Params: array of string);
 begin
   MarkShiftPlus;
 end;
 
-procedure TColumnsFileView.cm_UnmarkCurrentExtension(param: string='');
+procedure TColumnsFileView.cm_UnmarkCurrentExtension(const Params: array of string);
 begin
   MarkShiftMinus;
 end;
 
-procedure TColumnsFileView.cm_SaveSelection(param: string);
+procedure TColumnsFileView.cm_SaveSelection(const Params: array of string);
 begin
   SaveSelection;
 end;
 
-procedure TColumnsFileView.cm_RestoreSelection(param: string);
+procedure TColumnsFileView.cm_RestoreSelection(const Params: array of string);
 begin
   RestoreSelection;
 end;
 
-procedure TColumnsFileView.cm_SaveSelectionToFile(param: string);
+procedure TColumnsFileView.cm_SaveSelectionToFile(const Params: array of string);
+var
+  Param: String;
 begin
   with dmComData do
   begin
+    Param := GetDefaultParam(Params);
     SaveDialog.DefaultExt:= '.txt';
     SaveDialog.Filter:= '*.txt|*.txt';
-    SaveDialog.FileName:= param;
-    if (param <> EmptyStr) or SaveDialog.Execute then
+    SaveDialog.FileName:= Param;
+    if (Param <> EmptyStr) or SaveDialog.Execute then
       try
         SaveSelection;
         FSavedSelection.SaveToFile(SaveDialog.FileName);
@@ -2884,14 +2888,17 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.cm_LoadSelectionFromFile(param: string);
+procedure TColumnsFileView.cm_LoadSelectionFromFile(const Params: array of string);
+var
+  Param: String;
 begin
   with dmComData do
   begin
+    Param := GetDefaultParam(Params);
     OpenDialog.DefaultExt:= '.txt';
     OpenDialog.Filter:= '*.txt|*.txt';
-    OpenDialog.FileName:= param;
-    if ((param <> EmptyStr) and mbFileExists(param)) or OpenDialog.Execute then
+    OpenDialog.FileName:= Param;
+    if ((Param <> EmptyStr) and mbFileExists(Param)) or OpenDialog.Execute then
       try
         FSavedSelection.LoadFromFile(OpenDialog.FileName);
         RestoreSelection;
@@ -2902,7 +2909,7 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.cm_LoadSelectionFromClip(param: string);
+procedure TColumnsFileView.cm_LoadSelectionFromClip(const Params: array of string);
 begin
   FSavedSelection.Text:= Clipboard.AsText;
   RestoreSelection;
@@ -2916,12 +2923,12 @@ end;
   "casesensitivity"  - toggle case sensitive searching
   "filesdirectories" - toggle betwen files, directories and both
 }
-procedure TColumnsFileView.cm_QuickSearch(param: string='');
+procedure TColumnsFileView.cm_QuickSearch(const Params: array of string);
 begin
-  if param = EmptyStr then
+  if Length(Params) = 0 then
     quickSearch.Initialize(qsSearch)
   else
-    quickSearch.ToggleOption(param);
+    quickSearch.ToggleOption(Params[0]);
 end;
 
 {
@@ -2932,25 +2939,25 @@ end;
   "casesensitivity"  - toggle case sensitive searching
   "filesdirectories" - toggle betwen files, directories and both
 }
-procedure TColumnsFileView.cm_QuickFilter(param: string='');
+procedure TColumnsFileView.cm_QuickFilter(const Params: array of string);
 begin
-  if param = EmptyStr then
+  if Length(Params) = 0 then
     quickSearch.Initialize(qsFilter)
   else
-    quickSearch.ToggleOption(param);
+    quickSearch.ToggleOption(Params[0]);
 end;
 
-procedure TColumnsFileView.cm_Open(param: string='');
+procedure TColumnsFileView.cm_Open(const Params: array of string);
 begin
   ChooseFile(GetActiveDisplayFile);
 end;
 
-procedure TColumnsFileView.cm_CountDirContent(param: string='');
+procedure TColumnsFileView.cm_CountDirContent(const Params: array of string);
 begin
   CalculateSpaceOfAllDirectories;
 end;
 
-procedure TColumnsFileView.cm_RenameOnly(param: string='');
+procedure TColumnsFileView.cm_RenameOnly(const Params: array of string);
 var
   aFile: TFile;
 begin
@@ -2969,7 +2976,7 @@ begin
     end;
 end;
 
-procedure TColumnsFileView.cm_ContextMenu(param: string='');
+procedure TColumnsFileView.cm_ContextMenu(const Params: array of string);
 var
   Rect: TRect;
   Point: TPoint;
@@ -2981,17 +2988,17 @@ begin
   frmMain.Commands.DoContextMenu(Self, Point.X, Point.Y, False);
 end;
 
-procedure TColumnsFileView.cm_EditPath(param: string);
+procedure TColumnsFileView.cm_EditPath(const Params: array of string);
 begin
   pnlHeader.ShowPathEdit;
 end;
 
-procedure TColumnsFileView.cm_GoToFirstFile(param: string);
+procedure TColumnsFileView.cm_GoToFirstFile(const Params: array of string);
 begin
   dgPanel.Row:= dgPanel.FixedRows;
 end;
 
-procedure TColumnsFileView.cm_GoToLastFile(param: string);
+procedure TColumnsFileView.cm_GoToLastFile(const Params: array of string);
 begin
   dgPanel.Row:= dgPanel.RowCount - 1;
 end;

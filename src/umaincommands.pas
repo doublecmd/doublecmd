@@ -87,126 +87,126 @@ type
    // 3. Commands intended for file sources (cm_Copy, cm_Rename, cm_MakeDir).
    //    The file operations will mostly work only for non-virtual file sources.
    //
-   procedure cm_AddPathToCmdLine(Param: String='');
-   procedure cm_AddFilenameToCmdLine(Param: String='');
-   procedure cm_AddPathAndFilenameToCmdLine(Param: String='');
-   procedure cm_ContextMenu(Param: String='');
-   procedure cm_CopyFullNamesToClip(Param: String='');
-   procedure cm_Exchange(Param: String='');
-   procedure cm_OpenArchive(Param: String='');
-   procedure cm_TestArchive(Param: String='');
-   procedure cm_OpenDirInNewTab(Param: String='');
-   procedure cm_Open(Param: String='');
-   procedure cm_OpenVirtualFileSystemList(Param: String='');
-   procedure cm_TargetEqualSource(Param: String='');
-   procedure cm_LeftEqualRight(Param: String='');
-   procedure cm_RightEqualLeft(Param: String='');
-   procedure cm_PackFiles(Param: String='');
-   procedure cm_ExtractFiles(Param: String='');
-   procedure cm_QuickSearch(Param: String='');
-   procedure cm_QuickFilter(Param: String='');
-   procedure cm_LeftOpenDrives(Param: String='');
-   procedure cm_RightOpenDrives(Param: String='');
-   procedure cm_OpenBar(Param: String='');
-   procedure cm_ShowButtonMenu(Param: String='');
-   procedure cm_TransferLeft(Param: String='');
-   procedure cm_TransferRight(Param: String='');
-   procedure cm_GoToFirstFile(Param: String='');
-   procedure cm_GoToLastFile(Param: String='');
-   procedure cm_Minimize(Param: String='');
-   procedure cm_Wipe(Param: String='');
-   procedure cm_Exit(Param: String='');
-   procedure cm_NewTab(Param: String='');
-   procedure cm_RenameTab(Param: String='');
-   procedure cm_RemoveTab(Param: String='');
-   procedure cm_RemoveAllTabs(Param: String='');
-   procedure cm_NextTab(Param: String='');
-   procedure cm_PrevTab(Param: String='');
-   procedure cm_SetTabOptionNormal(Param: String='');
-   procedure cm_SetTabOptionPathLocked(Param: String='');
-   procedure cm_SetTabOptionPathResets(Param: String='');
-   procedure cm_SetTabOptionDirsInNewTab(Param: String='');
-   procedure cm_Copy(Param: String='');
-   procedure cm_CopyNoAsk(Param: String='');
-   procedure cm_Delete(Param: String='');
-   procedure cm_CheckSumCalc(Param: String='');
-   procedure cm_CheckSumVerify(Param: String='');
-   procedure cm_Edit(Param: String='');
-   procedure cm_EditPath(Param: String='');
-   procedure cm_MakeDir(Param: String='');
-   procedure cm_Rename(Param: String='');
-   procedure cm_RenameNoAsk(Param: String='');
-   procedure cm_View(Param: String='');
-   procedure cm_QuickView(Param: String='');
-   procedure cm_CopyNamesToClip(Param: String='');
-   procedure cm_FocusCmdLine(Param: String='');
-   procedure cm_FileAssoc(Param: String='');
-   procedure cm_HelpIndex(Param: String='');
-   procedure cm_Keyboard(Param: String='');
-   procedure cm_VisitHomePage(Param: String='');
-   procedure cm_About(Param: String='');
-   procedure cm_ShowSysFiles(Param: String='');
-   procedure cm_SwitchIgnoreList(Param: String='');
-   procedure cm_Options(Param: String='');
-   procedure cm_CompareContents(Param: String='');
-   procedure cm_Refresh(Param: String='');
-   procedure cm_ShowMainMenu(Param: String='');
-   procedure cm_DirHotList(Param: String='');
-   procedure cm_MarkInvert(Param: String='');
-   procedure cm_MarkMarkAll(Param: String='');
-   procedure cm_MarkUnmarkAll(Param: String='');
-   procedure cm_MarkPlus(Param: String='');
-   procedure cm_MarkMinus(Param: String='');
-   procedure cm_MarkCurrentExtension(Param: String='');
-   procedure cm_UnmarkCurrentExtension(Param: String='');
-   procedure cm_SaveSelection(Param: String='');
-   procedure cm_RestoreSelection(Param: String='');
-   procedure cm_SaveSelectionToFile(Param: String='');
-   procedure cm_LoadSelectionFromFile(Param: String='');
-   procedure cm_LoadSelectionFromClip(Param: String='');
-   procedure cm_Search(Param: String='');
-   procedure cm_HardLink(Param: String='');
-   procedure cm_MultiRename(Param: String='');
-   procedure cm_ReverseOrder(Param: String='');
-   procedure cm_SortByAttr(Param: String='');
-   procedure cm_SortByDate(Param: String='');
-   procedure cm_SortByExt(Param: String='');
-   procedure cm_SortByName(Param: String='');
-   procedure cm_SortBySize(Param: String='');
-   procedure cm_SymLink(Param: String='');
-   procedure cm_CopySamePanel(Param: String='');
-   procedure cm_DirHistory(Param: String='');
-   procedure cm_ViewHistory(Param: String='');
-   procedure cm_ViewHistoryPrev(Param: String='');
-   procedure cm_ViewHistoryNext(Param: String='');
-   procedure cm_EditNew(Param: String='');
-   procedure cm_RenameOnly(Param: String='');
-   procedure cm_RunTerm(Param: String='');
-   procedure cm_ShowCmdLineHistory(Param: String='');
-   procedure cm_CalculateSpace(Param: String='');
-   procedure cm_CountDirContent(Param: String='');
-   procedure cm_SetFileProperties(Param: String='');
-   procedure cm_FileProperties(Param: String='');
-   procedure cm_FileLinker(Param: String='');
-   procedure cm_FileSpliter(Param: String='');
-   procedure cm_PanelsSplitterPerPos(Param: String='');
-   procedure cm_EditComment(Param: String='');
-   procedure cm_CopyToClipboard(Param: String='');
-   procedure cm_CutToClipboard(Param: String='');
-   procedure cm_PasteFromClipboard(Param: String='');
-   procedure cm_ChangeDirToRoot(Param: String='');
-   procedure cm_ChangeDirToParent(Param: String='');
-   procedure cm_ChangeDir(Param: String='');
-   procedure cm_ClearLogWindow(Param: String='');
-   procedure cm_ClearLogFile(Param: String='');
-   procedure cm_NetworkConnect(Param: String='');
-   procedure cm_NetworkDisconnect(Param: String='');
-   procedure cm_HorizontalFilePanels(Param: String='');
-   procedure cm_OperationsViewer(Param: String='');
-   procedure cm_CompareDirectories(Param: String='');
+   procedure cm_AddPathToCmdLine(const Params: array of string);
+   procedure cm_AddFilenameToCmdLine(const Params: array of string);
+   procedure cm_AddPathAndFilenameToCmdLine(const Params: array of string);
+   procedure cm_ContextMenu(const Params: array of string);
+   procedure cm_CopyFullNamesToClip(const Params: array of string);
+   procedure cm_Exchange(const Params: array of string);
+   procedure cm_OpenArchive(const Params: array of string);
+   procedure cm_TestArchive(const Params: array of string);
+   procedure cm_OpenDirInNewTab(const Params: array of string);
+   procedure cm_Open(const Params: array of string);
+   procedure cm_OpenVirtualFileSystemList(const Params: array of string);
+   procedure cm_TargetEqualSource(const Params: array of string);
+   procedure cm_LeftEqualRight(const Params: array of string);
+   procedure cm_RightEqualLeft(const Params: array of string);
+   procedure cm_PackFiles(const Params: array of string);
+   procedure cm_ExtractFiles(const Params: array of string);
+   procedure cm_QuickSearch(const Params: array of string);
+   procedure cm_QuickFilter(const Params: array of string);
+   procedure cm_LeftOpenDrives(const Params: array of string);
+   procedure cm_RightOpenDrives(const Params: array of string);
+   procedure cm_OpenBar(const Params: array of string);
+   procedure cm_ShowButtonMenu(const Params: array of string);
+   procedure cm_TransferLeft(const Params: array of string);
+   procedure cm_TransferRight(const Params: array of string);
+   procedure cm_GoToFirstFile(const Params: array of string);
+   procedure cm_GoToLastFile(const Params: array of string);
+   procedure cm_Minimize(const Params: array of string);
+   procedure cm_Wipe(const Params: array of string);
+   procedure cm_Exit(const Params: array of string);
+   procedure cm_NewTab(const Params: array of string);
+   procedure cm_RenameTab(const Params: array of string);
+   procedure cm_RemoveTab(const Params: array of string);
+   procedure cm_RemoveAllTabs(const Params: array of string);
+   procedure cm_NextTab(const Params: array of string);
+   procedure cm_PrevTab(const Params: array of string);
+   procedure cm_SetTabOptionNormal(const Params: array of string);
+   procedure cm_SetTabOptionPathLocked(const Params: array of string);
+   procedure cm_SetTabOptionPathResets(const Params: array of string);
+   procedure cm_SetTabOptionDirsInNewTab(const Params: array of string);
+   procedure cm_Copy(const Params: array of string);
+   procedure cm_CopyNoAsk(const Params: array of string);
+   procedure cm_Delete(const Params: array of string);
+   procedure cm_CheckSumCalc(const Params: array of string);
+   procedure cm_CheckSumVerify(const Params: array of string);
+   procedure cm_Edit(const Params: array of string);
+   procedure cm_EditPath(const Params: array of string);
+   procedure cm_MakeDir(const Params: array of string);
+   procedure cm_Rename(const Params: array of string);
+   procedure cm_RenameNoAsk(const Params: array of string);
+   procedure cm_View(const Params: array of string);
+   procedure cm_QuickView(const Params: array of string);
+   procedure cm_CopyNamesToClip(const Params: array of string);
+   procedure cm_FocusCmdLine(const Params: array of string);
+   procedure cm_FileAssoc(const Params: array of string);
+   procedure cm_HelpIndex(const Params: array of string);
+   procedure cm_Keyboard(const Params: array of string);
+   procedure cm_VisitHomePage(const Params: array of string);
+   procedure cm_About(const Params: array of string);
+   procedure cm_ShowSysFiles(const Params: array of string);
+   procedure cm_SwitchIgnoreList(const Params: array of string);
+   procedure cm_Options(const Params: array of string);
+   procedure cm_CompareContents(const Params: array of string);
+   procedure cm_Refresh(const Params: array of string);
+   procedure cm_ShowMainMenu(const Params: array of string);
+   procedure cm_DirHotList(const Params: array of string);
+   procedure cm_MarkInvert(const Params: array of string);
+   procedure cm_MarkMarkAll(const Params: array of string);
+   procedure cm_MarkUnmarkAll(const Params: array of string);
+   procedure cm_MarkPlus(const Params: array of string);
+   procedure cm_MarkMinus(const Params: array of string);
+   procedure cm_MarkCurrentExtension(const Params: array of string);
+   procedure cm_UnmarkCurrentExtension(const Params: array of string);
+   procedure cm_SaveSelection(const Params: array of string);
+   procedure cm_RestoreSelection(const Params: array of string);
+   procedure cm_SaveSelectionToFile(const Params: array of string);
+   procedure cm_LoadSelectionFromFile(const Params: array of string);
+   procedure cm_LoadSelectionFromClip(const Params: array of string);
+   procedure cm_Search(const Params: array of string);
+   procedure cm_HardLink(const Params: array of string);
+   procedure cm_MultiRename(const Params: array of string);
+   procedure cm_ReverseOrder(const Params: array of string);
+   procedure cm_SortByAttr(const Params: array of string);
+   procedure cm_SortByDate(const Params: array of string);
+   procedure cm_SortByExt(const Params: array of string);
+   procedure cm_SortByName(const Params: array of string);
+   procedure cm_SortBySize(const Params: array of string);
+   procedure cm_SymLink(const Params: array of string);
+   procedure cm_CopySamePanel(const Params: array of string);
+   procedure cm_DirHistory(const Params: array of string);
+   procedure cm_ViewHistory(const Params: array of string);
+   procedure cm_ViewHistoryPrev(const Params: array of string);
+   procedure cm_ViewHistoryNext(const Params: array of string);
+   procedure cm_EditNew(const Params: array of string);
+   procedure cm_RenameOnly(const Params: array of string);
+   procedure cm_RunTerm(const Params: array of string);
+   procedure cm_ShowCmdLineHistory(const Params: array of string);
+   procedure cm_CalculateSpace(const Params: array of string);
+   procedure cm_CountDirContent(const Params: array of string);
+   procedure cm_SetFileProperties(const Params: array of string);
+   procedure cm_FileProperties(const Params: array of string);
+   procedure cm_FileLinker(const Params: array of string);
+   procedure cm_FileSpliter(const Params: array of string);
+   procedure cm_PanelsSplitterPerPos(const Params: array of string);
+   procedure cm_EditComment(const Params: array of string);
+   procedure cm_CopyToClipboard(const Params: array of string);
+   procedure cm_CutToClipboard(const Params: array of string);
+   procedure cm_PasteFromClipboard(const Params: array of string);
+   procedure cm_ChangeDirToRoot(const Params: array of string);
+   procedure cm_ChangeDirToParent(const Params: array of string);
+   procedure cm_ChangeDir(const Params: array of string);
+   procedure cm_ClearLogWindow(const Params: array of string);
+   procedure cm_ClearLogFile(const Params: array of string);
+   procedure cm_NetworkConnect(const Params: array of string);
+   procedure cm_NetworkDisconnect(const Params: array of string);
+   procedure cm_HorizontalFilePanels(const Params: array of string);
+   procedure cm_OperationsViewer(const Params: array of string);
+   procedure cm_CompareDirectories(const Params: array of string);
 
    // Internal commands
-   procedure cm_Int_RunCommandFromBarFile(Param: String='');
+   procedure cm_Int_RunCommandFromBarFile(const Params: array of string);
   end;
 
 implementation
@@ -503,7 +503,7 @@ end;
 //Published methods
 //------------------------------------------------------
 
-procedure TMainCommands.cm_AddPathToCmdLine(Param: String='');
+procedure TMainCommands.cm_AddPathToCmdLine(const Params: array of string);
 var
   OldPosition: Integer;
   AddedString: String;
@@ -517,7 +517,7 @@ begin
     end;
 end;
 
-procedure TMainCommands.cm_AddFilenameToCmdLine(Param: String='');
+procedure TMainCommands.cm_AddFilenameToCmdLine(const Params: array of string);
 var
   AddedString: String;
   OldPosition: Integer;
@@ -538,7 +538,7 @@ begin
     end;
 end;
 
-procedure TMainCommands.cm_AddPathAndFilenameToCmdLine(Param: String='');
+procedure TMainCommands.cm_AddPathAndFilenameToCmdLine(const Params: array of string);
 var
   AddedString: String;
   OldPosition: Integer;
@@ -563,24 +563,24 @@ begin
     end;
 end;
 
-procedure TMainCommands.cm_ContextMenu(Param: String='');
+procedure TMainCommands.cm_ContextMenu(const Params: array of string);
 begin
   // Let file view handle displaying context menu at appropriate position.
-  frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', '');
+  frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', []);
 end;
 
-procedure TMainCommands.cm_CopyFullNamesToClip(Param: String='');
+procedure TMainCommands.cm_CopyFullNamesToClip(const Params: array of string);
 begin
   DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, True);
 end;
 
-procedure TMainCommands.cm_CopyNamesToClip(Param: String='');
+procedure TMainCommands.cm_CopyNamesToClip(const Params: array of string);
 begin
   DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, False);
 end;
 
 //------------------------------------------------------
-procedure TMainCommands.cm_Exchange(Param: String='');
+procedure TMainCommands.cm_Exchange(const Params: array of string);
 var
   sDir: String;
 begin
@@ -589,7 +589,7 @@ begin
   FrmMain.NotActiveFrame.CurrentPath:= sDir;
 end;
 
-procedure TMainCommands.cm_OpenDirInNewTab(Param: String='');
+procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
 var
   NewPage: TFileViewPage;
   NewPath: String;
@@ -616,7 +616,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_TargetEqualSource(Param: String='');
+procedure TMainCommands.cm_TargetEqualSource(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -627,7 +627,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_LeftEqualRight(Param: String='');
+procedure TMainCommands.cm_LeftEqualRight(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -641,7 +641,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_RightEqualLeft(Param: String='');
+procedure TMainCommands.cm_RightEqualLeft(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -655,7 +655,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_OpenArchive(Param: String='');
+procedure TMainCommands.cm_OpenArchive(const Params: array of string);
 var
   aFile: TFile;
 begin
@@ -677,7 +677,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_TestArchive(Param: String='');
+procedure TMainCommands.cm_TestArchive(const Params: array of string);
 var
   SelectedFiles: TFiles;
 begin
@@ -693,24 +693,26 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_Open(Param: String='');
+procedure TMainCommands.cm_Open(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_Open', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_Open', Params);
 end;
 
-procedure TMainCommands.cm_OpenVirtualFileSystemList(Param: String='');
+procedure TMainCommands.cm_OpenVirtualFileSystemList(const Params: array of string);
 var
   FileSource: IFileSource;
+  Param: String;
 begin
+  Param := GetDefaultParam(Params);
   with frmMain do
   begin
     if (gWFXPlugins.Count = 0) and (gVfsModuleList.Count = 0) then Exit;
     FileSource:= TVfsFileSource.Create(gWFXPlugins);
     if Assigned(FileSource) then
     begin
-      if dskLeft.Name = param then
+      if dskLeft.Name = Param then
         FrameLeft.AddFileSource(FileSource, FileSource.GetRootDir)
-      else if dskRight.Name = param then
+      else if dskRight.Name = Param then
         FrameRight.AddFileSource(FileSource, FileSource.GetRootDir)
       else
         ActiveFrame.AddFileSource(FileSource, FileSource.GetRootDir)
@@ -720,7 +722,7 @@ end;
 
 //------------------------------------------------------
 (* Pack files in archive by creating a new archive *)
-procedure TMainCommands.cm_PackFiles(Param: String='');
+procedure TMainCommands.cm_PackFiles(const Params: array of string);
 var
   SelectedFiles: TFiles;
 begin
@@ -743,7 +745,7 @@ begin
 end;
 
 // This command is needed for extracting whole archive by Alt+F9 (without opening it).
-procedure TMainCommands.cm_ExtractFiles(Param: String='');
+procedure TMainCommands.cm_ExtractFiles(const Params: array of string);
 var
   SelectedFiles: TFiles;
 begin
@@ -765,101 +767,105 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_QuickSearch(Param: String='');
+procedure TMainCommands.cm_QuickSearch(const Params: array of string);
 begin
-  FrmMain.ActiveFrame.ExecuteCommand('cm_QuickSearch', param);
+  FrmMain.ActiveFrame.ExecuteCommand('cm_QuickSearch', Params);
 end;
 
-procedure TMainCommands.cm_QuickFilter(Param: String='');
+procedure TMainCommands.cm_QuickFilter(const Params: array of string);
 begin
-  FrmMain.ActiveFrame.ExecuteCommand('cm_QuickFilter', param);
+  FrmMain.ActiveFrame.ExecuteCommand('cm_QuickFilter', Params);
 end;
 
-procedure TMainCommands.cm_LeftOpenDrives(Param: String='');
+procedure TMainCommands.cm_LeftOpenDrives(const Params: array of string);
 begin
   frmMain.ShowDrivesList(fpLeft);
 end;
 
-procedure TMainCommands.cm_RightOpenDrives(Param: String='');
+procedure TMainCommands.cm_RightOpenDrives(const Params: array of string);
 begin
   frmMain.ShowDrivesList(fpRight);
 end;
 
-procedure TMainCommands.cm_OpenBar(Param: String='');
+procedure TMainCommands.cm_OpenBar(const Params: array of string);
 var
   sFileName: UTF8String;
   IniFile: TIniFileEx = nil;
 begin
-  if param = EmptyStr then Exit;
-  with frmMain do
-  try
-    if Pos(PathDelim, param) <> 0 then
-      sFileName:= GetCmdDirFromEnvVar(param)
-    else
-      sFileName:= gpCfgDir + param;
-    IniFile:= TIniFileEx.Create(sFileName);
-    MainToolBar.AutoSize:= False;
-    MainToolBar.LoadFromIniFile(IniFile);
-  finally
-    MainToolBar.AutoSize:= True;
-    FreeThenNil(IniFile);
+  if Length(Params) > 0 then
+  begin
+    with frmMain do
+    try
+      if Pos(PathDelim, Params[0]) <> 0 then
+        sFileName:= GetCmdDirFromEnvVar(Params[0])
+      else
+        sFileName:= gpCfgDir + Params[0];
+      IniFile:= TIniFileEx.Create(sFileName);
+      MainToolBar.AutoSize:= False;
+      MainToolBar.LoadFromIniFile(IniFile);
+    finally
+      MainToolBar.AutoSize:= True;
+      FreeThenNil(IniFile);
+    end;
   end;
 end;
 
-procedure TMainCommands.cm_ShowButtonMenu(Param: String='');
+procedure TMainCommands.cm_ShowButtonMenu(const Params: array of string);
 var
   Point: TPoint;
   sFileName: UTF8String;
   IniFile: TIniFileEx = nil;
 begin
-  if param = EmptyStr then Exit;
-  with frmMain do
-  try
-    if Pos(PathDelim, param) <> 0 then
-      sFileName:= GetCmdDirFromEnvVar(param)
-    else
-      sFileName:= gpCfgDir + param;
-    IniFile:= TIniFileEx.Create(sFileName);
-    pmButtonMenu.LoadFromIniFile(IniFile);
-    Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
-    Point.Y:=Point.Y+MainToolbar.Height;
-    Point.X:=mouse.CursorPos.X-60;
-    pmButtonMenu.PopUp(Point.x,Point.Y);
-  finally
-    FreeThenNil(IniFile);
+  if Length(Params) > 0 then
+  begin
+    with frmMain do
+    try
+      if Pos(PathDelim, Params[0]) <> 0 then
+        sFileName:= GetCmdDirFromEnvVar(Params[0])
+      else
+        sFileName:= gpCfgDir + Params[0];
+      IniFile:= TIniFileEx.Create(sFileName);
+      pmButtonMenu.LoadFromIniFile(IniFile);
+      Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
+      Point.Y:=Point.Y+MainToolbar.Height;
+      Point.X:=mouse.CursorPos.X-60;
+      pmButtonMenu.PopUp(Point.x,Point.Y);
+    finally
+      FreeThenNil(IniFile);
+    end;
   end;
 end;
 
-procedure TMainCommands.cm_TransferLeft(Param: String='');
+procedure TMainCommands.cm_TransferLeft(const Params: array of string);
 begin
   DoTransferPath(frmMain.RightTabs.ActivePage,
                  frmMain.LeftTabs.ActivePage,
                  frmMain.SelectedPanel = fpRight);
 end;
 
-procedure TMainCommands.cm_TransferRight(Param: String='');
+procedure TMainCommands.cm_TransferRight(const Params: array of string);
 begin
   DoTransferPath(frmMain.LeftTabs.ActivePage,
                  frmMain.RightTabs.ActivePage,
                  frmMain.SelectedPanel = fpLeft);
 end;
 
-procedure TMainCommands.cm_GoToFirstFile(Param: String='');
+procedure TMainCommands.cm_GoToFirstFile(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_GoToFirstFile', '');
+  frmMain.ActiveFrame.ExecuteCommand('cm_GoToFirstFile', []);
 end;
 
-procedure TMainCommands.cm_GoToLastFile(Param: String='');
+procedure TMainCommands.cm_GoToLastFile(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_GoToLastFile', '');
+  frmMain.ActiveFrame.ExecuteCommand('cm_GoToLastFile', []);
 end;
 
-procedure TMainCommands.cm_Minimize(Param: String='');
+procedure TMainCommands.cm_Minimize(const Params: array of string);
 begin
   FrmMain.MinimizeWindow;
 end;
 
-procedure TMainCommands.cm_Wipe(Param: String='');
+procedure TMainCommands.cm_Wipe(const Params: array of string);
 var
   theFilesToWipe: TFiles;
   Operation: TFileSourceOperation;
@@ -903,17 +909,17 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_Exit(Param: String='');
+procedure TMainCommands.cm_Exit(const Params: array of string);
 begin
   frmMain.Close; // application.Terminate not save settings.
 end;
 
-procedure TMainCommands.cm_NewTab(Param: String='');
+procedure TMainCommands.cm_NewTab(const Params: array of string);
 begin
   DoNewTab(frmMain.ActiveNotebook);
 end;
 
-procedure TMainCommands.cm_RenameTab(Param: String='');
+procedure TMainCommands.cm_RenameTab(const Params: array of string);
 var
   sCaption: UTF8String;
 begin
@@ -929,25 +935,27 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_RemoveTab(Param: String='');
+procedure TMainCommands.cm_RemoveTab(const Params: array of string);
 begin
   with frmMain do
     DoRemoveTab(ActiveNotebook, ActiveNotebook.PageIndex);
 end;
 
-procedure TMainCommands.cm_RemoveAllTabs(Param: String='');
+procedure TMainCommands.cm_RemoveAllTabs(const Params: array of string);
 var
   I: Integer;
   ANotebook: TFileViewNotebook;
+  Param: String;
 begin
   with frmMain do
   begin
     if (tb_confirm_close_all in gDirTabOptions) then
       if not msgYesNo(rsMsgCloseAllInActiveTabs) then Exit;
 
-    if param = 'LeftTabs' then
+    Param := GetDefaultParam(Params);
+    if Param = 'LeftTabs' then
       ANotebook := LeftTabs
-    else if param = 'RightTabs' then
+    else if Param = 'RightTabs' then
       ANotebook := RightTabs
     else
       ANotebook := ActiveNotebook;
@@ -963,35 +971,35 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_NextTab(Param: String='');
+procedure TMainCommands.cm_NextTab(const Params: array of string);
 begin
   frmMain.ActiveNotebook.ActivateNextTab;
 end;
 
-procedure TMainCommands.cm_PrevTab(Param: String='');
+procedure TMainCommands.cm_PrevTab(const Params: array of string);
 begin
   frmMain.ActiveNotebook.ActivatePrevTab;
 end;
 
-procedure TMainCommands.cm_SetTabOptionNormal(Param: String='');
+procedure TMainCommands.cm_SetTabOptionNormal(const Params: array of string);
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsNormal;
 end;
 
-procedure TMainCommands.cm_SetTabOptionPathLocked(Param: String='');
+procedure TMainCommands.cm_SetTabOptionPathLocked(const Params: array of string);
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsPathLocked;
 end;
 
-procedure TMainCommands.cm_SetTabOptionPathResets(Param: String='');
+procedure TMainCommands.cm_SetTabOptionPathResets(const Params: array of string);
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsPathResets;
 end;
 
-procedure TMainCommands.cm_SetTabOptionDirsInNewTab(Param: String='');
+procedure TMainCommands.cm_SetTabOptionDirsInNewTab(const Params: array of string);
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsDirsInNewTab;
@@ -999,7 +1007,7 @@ end;
 
 //------------------------------------------------------
 
-procedure TMainCommands.cm_View(Param: String='');
+procedure TMainCommands.cm_View(const Params: array of string);
 var
   sl: TStringList = nil;
   i, n: Integer;
@@ -1023,7 +1031,7 @@ begin
     if Assigned(ActiveFile) and
        (ActiveFile.IsDirectory or ActiveFile.IsLinkToDirectory) then
     begin
-      ActiveFrame.ExecuteCommand('cm_Open');
+      ActiveFrame.ExecuteCommand('cm_Open', []);
       Exit;
     end;
 
@@ -1175,10 +1183,13 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_QuickView(Param: String='');
+procedure TMainCommands.cm_QuickView(const Params: array of string);
+var
+  Param: String;
 begin
   with frmMain do
   begin
+    Param := GetDefaultParam(Params);
     if Assigned(QuickViewPanel) then
       begin
         QuickViewClose;
@@ -1190,7 +1201,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_Edit(Param: String='');
+procedure TMainCommands.cm_Edit(const Params: array of string);
 var
   i: Integer;
   sEditCmd: String;
@@ -1257,36 +1268,36 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_EditPath(Param: String='');
+procedure TMainCommands.cm_EditPath(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_EditPath', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_EditPath', Params);
 end;
 
-procedure TMainCommands.cm_Copy(Param: String='');
+procedure TMainCommands.cm_Copy(const Params: array of string);
 begin
   if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, True) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TMainCommands.cm_CopyNoAsk(Param: String='');
+procedure TMainCommands.cm_CopyNoAsk(const Params: array of string);
 begin
   if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, False) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TMainCommands.cm_Rename(Param: String='');
+procedure TMainCommands.cm_Rename(const Params: array of string);
 begin
   if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, True) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TMainCommands.cm_RenameNoAsk(Param: String='');
+procedure TMainCommands.cm_RenameNoAsk(const Params: array of string);
 begin
   if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, False) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TMainCommands.cm_MakeDir(Param: String='');
+procedure TMainCommands.cm_MakeDir(const Params: array of string);
 var
   sPath: UTF8String;
   ActiveFile: TFile = nil;
@@ -1334,13 +1345,14 @@ end;
 // "recyclesetting"    - if gUseTrash then delete to trash, otherwise delete directly
 // "recyclesettingrev" - if gUseTrash then delete directly, otherwise delete to trash
 // no parameter        - depends on gUseTrash
-procedure TMainCommands.cm_Delete(Param: String='');
+procedure TMainCommands.cm_Delete(const Params: array of string);
 var
   theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
   bRecycle: Boolean = False;
+  Param: String;
 begin
   with frmMain.ActiveFrame do
   begin
@@ -1350,9 +1362,10 @@ begin
       Exit;
     end;
 
-    if (((gUseTrash = True) and ((param = '') or (param = 'recyclesetting'))) or
-        ((gUseTrash = False) and (param = 'recyclesettingrev')) or
-        (param = 'recycle')) and
+    Param := GetDefaultParam(Params);
+    if (((gUseTrash = True) and ((Param = '') or (Param = 'recyclesetting'))) or
+        ((gUseTrash = False) and (Param = 'recyclesettingrev')) or
+        (Param = 'recycle')) and
        FileSource.IsClass(TFileSystemFileSource) and
        mbCheckTrash(CurrentPath) then
     begin
@@ -1411,7 +1424,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_CheckSumCalc(Param: String='');
+procedure TMainCommands.cm_CheckSumCalc(const Params: array of string);
 var
   I: Integer;
   bSeparateFile: Boolean;
@@ -1482,7 +1495,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_CheckSumVerify(Param: String='');
+procedure TMainCommands.cm_CheckSumVerify(const Params: array of string);
 var
   I: Integer;
   SelectedFiles: TFiles;
@@ -1540,7 +1553,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_FocusCmdLine(Param: String='');
+procedure TMainCommands.cm_FocusCmdLine(const Params: array of string);
 begin
   if frmMain.edtCommand.Visible then
   begin
@@ -1554,34 +1567,34 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_FileAssoc(Param: String='');
+procedure TMainCommands.cm_FileAssoc(const Params: array of string);
 begin
   ShowFileAssocDlg;
 end;
 
-procedure TMainCommands.cm_HelpIndex(Param: String='');
+procedure TMainCommands.cm_HelpIndex(const Params: array of string);
 begin
   ShowHelpOrErrorForKeyword('', '/index.html');
 end;
 
-procedure TMainCommands.cm_Keyboard(Param: String='');
+procedure TMainCommands.cm_Keyboard(const Params: array of string);
 begin
   ShowHelpOrErrorForKeyword('', '/shortcuts.html');
 end;
 
-procedure TMainCommands.cm_VisitHomePage(Param: String='');
+procedure TMainCommands.cm_VisitHomePage(const Params: array of string);
 var
   ErrMsg: String;
 begin
   dmHelpMgr.HTMLHelpDatabase.ShowURL('http://doublecmd.sourceforge.net','Double Commander Web Site', ErrMsg);
 end;
 
-procedure TMainCommands.cm_About(Param: String='');
+procedure TMainCommands.cm_About(const Params: array of string);
 begin
   ShowAboutBox;
 end;
 
-procedure TMainCommands.cm_ShowSysFiles(Param: String='');
+procedure TMainCommands.cm_ShowSysFiles(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -1593,7 +1606,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_SwitchIgnoreList(Param: String='');
+procedure TMainCommands.cm_SwitchIgnoreList(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -1606,7 +1619,7 @@ begin
 end;
 
 // Parameter is name of TOptionsEditorClass.
-procedure TMainCommands.cm_Options(Param: String='');
+procedure TMainCommands.cm_Options(const Params: array of string);
 begin
   if Assigned(frmOptions) then
     begin
@@ -1617,16 +1630,16 @@ begin
     end
   else
     begin
-      if param = '' then
+      if Length(Params) = 0 then
         frmOptions := TfrmOptions.Create(Application)
       else
-        frmOptions := TfrmOptions.Create(Application, param);
+        frmOptions := TfrmOptions.Create(Application, Params[0]);
 
       frmOptions.Show;
   end;
 end;
 
-procedure TMainCommands.cm_CompareContents(Param: String='');
+procedure TMainCommands.cm_CompareContents(const Params: array of string);
 var
   FilesToCompare: TStringList = nil;
   DirsToCompare: TStringList = nil;
@@ -1666,6 +1679,7 @@ var
   i : Integer;
   ActiveSelectedFiles: TFiles = nil;
   NotActiveSelectedFiles: TFiles = nil;
+  Param: String;
 begin
   //Maybe this will not be dependant on file view but file source.
   //But will work only for non-virtual file sources.
@@ -1679,8 +1693,9 @@ begin
     try
       FilesToCompare := TStringList.Create;
       DirsToCompare := TStringList.Create;
+      Param := GetDefaultParam(Params);
 
-      if param = 'dir' then
+      if Param = 'dir' then
       begin
         DirsToCompare.Add(FrameLeft.CurrentPath);
         DirsToCompare.Add(FrameRight.CurrentPath);
@@ -1772,81 +1787,81 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_ShowMainMenu(Param: String='');
+procedure TMainCommands.cm_ShowMainMenu(const Params: array of string);
 begin
   DoShowMainMenu(not gMainMenu);
 end;
 
-procedure TMainCommands.cm_Refresh(Param: String='');
+procedure TMainCommands.cm_Refresh(const Params: array of string);
 begin
   frmMain.ActiveFrame.Reload;
 end;
 
 //------------------------------------------------------
 
-procedure TMainCommands.cm_MarkInvert(Param: String='');
+procedure TMainCommands.cm_MarkInvert(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkInvert', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkInvert', Params);
 end;
 
-procedure TMainCommands.cm_MarkMarkAll(Param: String='');
+procedure TMainCommands.cm_MarkMarkAll(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMarkAll', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMarkAll', Params);
 end;
 
-procedure TMainCommands.cm_MarkUnmarkAll(Param: String='');
+procedure TMainCommands.cm_MarkUnmarkAll(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkUnmarkAll', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkUnmarkAll', Params);
 end;
 
-procedure TMainCommands.cm_MarkPlus(Param: String='');
+procedure TMainCommands.cm_MarkPlus(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkPlus', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkPlus', Params);
 end;
 
-procedure TMainCommands.cm_MarkMinus(Param: String='');
+procedure TMainCommands.cm_MarkMinus(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMinus', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMinus', Params);
 end;
 
-procedure TMainCommands.cm_MarkCurrentExtension(Param: String='');
+procedure TMainCommands.cm_MarkCurrentExtension(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkCurrentExtension', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkCurrentExtension', Params);
 end;
 
-procedure TMainCommands.cm_UnmarkCurrentExtension(Param: String='');
+procedure TMainCommands.cm_UnmarkCurrentExtension(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', Params);
 end;
 
-procedure TMainCommands.cm_SaveSelection(Param: String='');
+procedure TMainCommands.cm_SaveSelection(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelection', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelection', Params);
 end;
 
-procedure TMainCommands.cm_RestoreSelection(Param: String='');
+procedure TMainCommands.cm_RestoreSelection(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_RestoreSelection', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_RestoreSelection', Params);
 end;
 
-procedure TMainCommands.cm_SaveSelectionToFile(Param: String='');
+procedure TMainCommands.cm_SaveSelectionToFile(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelectionToFile', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelectionToFile', Params);
 end;
 
-procedure TMainCommands.cm_LoadSelectionFromFile(Param: String='');
+procedure TMainCommands.cm_LoadSelectionFromFile(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromFile', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromFile', Params);
 end;
 
-procedure TMainCommands.cm_LoadSelectionFromClip(Param: String='');
+procedure TMainCommands.cm_LoadSelectionFromClip(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromClip', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromClip', Params);
 end;
 
 //------------------------------------------------------
 
-procedure TMainCommands.cm_DirHotList(Param: String='');
+procedure TMainCommands.cm_DirHotList(const Params: array of string);
 var
   p:TPoint;
 begin
@@ -1855,7 +1870,7 @@ begin
   frmMain.pmHotList.Popup(p.X,p.Y);
 end;
 
-procedure TMainCommands.cm_Search(Param: String='');
+procedure TMainCommands.cm_Search(const Params: array of string);
 begin
   ShowFindDlg(frmMain.ActiveFrame.CurrentPath);
 end;
@@ -1863,7 +1878,7 @@ end;
 
 //------------------------------------------------------
 
-procedure TMainCommands.cm_SymLink(Param: String='');
+procedure TMainCommands.cm_SymLink(const Params: array of string);
 var
   sExistingFile, sLinkToCreate: String;
   SelectedFiles: TFiles;
@@ -1888,8 +1903,8 @@ begin
       begin
         sExistingFile := SelectedFiles[0].Path + SelectedFiles[0].Name;
 
-        if param <> '' then
-          sLinkToCreate := param
+        if Length(Params) > 0 then
+          sLinkToCreate := Params[0]
         else
         begin
           if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
@@ -1914,7 +1929,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_HardLink(Param: String='');
+procedure TMainCommands.cm_HardLink(const Params: array of string);
 var
   sExistingFile, sLinkToCreate: String;
   SelectedFiles: TFiles;
@@ -1938,8 +1953,8 @@ begin
       begin
         sExistingFile := SelectedFiles[0].Path + SelectedFiles[0].Name;
 
-        if param <> '' then
-          sLinkToCreate := param
+        if Length(Params) > 0 then
+          sLinkToCreate := Params[0]
         else
         begin
           if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
@@ -1965,13 +1980,13 @@ begin
 end;
 
 // Uses to change sort direction when columns header is disabled
-procedure TMainCommands.cm_ReverseOrder(Param: String='');
+procedure TMainCommands.cm_ReverseOrder(const Params: array of string);
 begin
   with frmMain.ActiveFrame do
     Sorting := ReverseSortDirection(Sorting);
 end;
 
-procedure TMainCommands.cm_SortByName(Param: String='');
+procedure TMainCommands.cm_SortByName(const Params: array of string);
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -1980,7 +1995,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TMainCommands.cm_SortByExt(Param: String='');
+procedure TMainCommands.cm_SortByExt(const Params: array of string);
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -1988,7 +2003,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TMainCommands.cm_SortBySize(Param: String='');
+procedure TMainCommands.cm_SortBySize(const Params: array of string);
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -1996,7 +2011,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TMainCommands.cm_SortByDate(Param: String='');
+procedure TMainCommands.cm_SortByDate(const Params: array of string);
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -2004,7 +2019,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TMainCommands.cm_SortByAttr(Param: String='');
+procedure TMainCommands.cm_SortByAttr(const Params: array of string);
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -2012,7 +2027,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TMainCommands.cm_MultiRename(Param: String='');
+procedure TMainCommands.cm_MultiRename(const Params: array of string);
 var
   aFiles: TFiles;
 begin
@@ -2039,24 +2054,24 @@ end;
 
 //------------------------------------------------------
 
-procedure TMainCommands.cm_CopySamePanel(Param: String='');
+procedure TMainCommands.cm_CopySamePanel(const Params: array of string);
 begin
   frmMain.CopyFiles('', True);
 end;
 
-procedure TMainCommands.cm_RenameOnly(Param: String='');
+procedure TMainCommands.cm_RenameOnly(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_RenameOnly', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_RenameOnly', Params);
 end;
 
-procedure TMainCommands.cm_EditNew(Param: String='');
+procedure TMainCommands.cm_EditNew(const Params: array of string);
 var
   sNewFile: String;
   hFile: System.THandle = 0;
   aFile: TFile;
   Attrs: TFileAttrs;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', Params);
 
   // For now only works for FileSystem.
 
@@ -2106,7 +2121,7 @@ begin
 end;
 
 // Shows recently visited directories (global).
-procedure TMainCommands.cm_DirHistory(Param: String='');
+procedure TMainCommands.cm_DirHistory(const Params: array of string);
 var
   p:TPoint;
 begin
@@ -2116,12 +2131,12 @@ begin
 end;
 
 // Shows browser-like history for active file view.
-procedure TMainCommands.cm_ViewHistory(Param: String='');
+procedure TMainCommands.cm_ViewHistory(const Params: array of string);
 begin
   frmMain.ShowFileViewHistory;
 end;
 
-procedure TMainCommands.cm_ViewHistoryPrev(Param: String='');
+procedure TMainCommands.cm_ViewHistoryPrev(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -2129,7 +2144,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_ViewHistoryNext(Param: String='');
+procedure TMainCommands.cm_ViewHistoryNext(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -2137,7 +2152,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_ShowCmdLineHistory(Param: String='');
+procedure TMainCommands.cm_ShowCmdLineHistory(const Params: array of string);
 begin
   with frmMain do
   begin
@@ -2150,7 +2165,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_RunTerm(Param: String='');
+procedure TMainCommands.cm_RunTerm(const Params: array of string);
 begin
   if not frmMain.edtCommand.Focused then
     begin
@@ -2166,7 +2181,7 @@ begin
     end;
 end;
 
-procedure TMainCommands.cm_CalculateSpace(Param: String='');
+procedure TMainCommands.cm_CalculateSpace(const Params: array of string);
 var
   SelectedFiles: TFiles;
   Operation: TFileSourceOperation;
@@ -2191,12 +2206,12 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_CountDirContent(Param: String='');
+procedure TMainCommands.cm_CountDirContent(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CountDirContent', param);
+  frmMain.ActiveFrame.ExecuteCommand('cm_CountDirContent', Params);
 end;
 
-procedure TMainCommands.cm_SetFileProperties(Param: String='');
+procedure TMainCommands.cm_SetFileProperties(const Params: array of string);
 var
   ActiveFile: TFile = nil;
   SelectedFiles: TFiles = nil;
@@ -2248,7 +2263,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_FileProperties(Param: String='');
+procedure TMainCommands.cm_FileProperties(const Params: array of string);
 var
   SelectedFiles: TFiles;
   Operation: TFileSourceExecuteOperation;
@@ -2291,7 +2306,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_FileLinker(Param: String='');
+procedure TMainCommands.cm_FileLinker(const Params: array of string);
 var
   I: Integer;
   aSelectedFiles: TFiles = nil;
@@ -2328,7 +2343,7 @@ begin
   end; // with
 end;
 
-procedure TMainCommands.cm_FileSpliter(Param: String='');
+procedure TMainCommands.cm_FileSpliter(const Params: array of string);
 var
   aFile: TFile = nil;
 begin
@@ -2352,22 +2367,25 @@ begin
   end; // with
 end;
 
-procedure TMainCommands.cm_PanelsSplitterPerPos(Param: String='');
-var i:integer;
+procedure TMainCommands.cm_PanelsSplitterPerPos(const Params: array of string);
+var
+  i: Integer;
+  Param: String;
 begin
   with frmMain do
   begin
-   if TryStrToInt(param,i) then
-     begin
-       if not gHorizontalFilePanels then
-         pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * i div 100
-       else
-         pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * i div 100;
-     end;
+    Param := GetDefaultParam(Params);
+    if TryStrToInt(Param,i) then
+      begin
+        if not gHorizontalFilePanels then
+          pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * i div 100
+        else
+          pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * i div 100;
+      end;
   end;
 end;
 
-procedure TMainCommands.cm_EditComment(Param: String='');
+procedure TMainCommands.cm_EditComment(const Params: array of string);
 var
   aFile: TFile;
 begin
@@ -2450,17 +2468,17 @@ begin
     msgWarning(rsMsgErrNotSupported);
 end;
 
-procedure TMainCommands.cm_CopyToClipboard(Param: String='');
+procedure TMainCommands.cm_CopyToClipboard(const Params: array of string);
 begin
   SendToClipboard(ClipboardCopy);
 end;
 
-procedure TMainCommands.cm_CutToClipboard(Param: String='');
+procedure TMainCommands.cm_CutToClipboard(const Params: array of string);
 begin
   SendToClipboard(ClipboardCut);
 end;
 
-procedure TMainCommands.cm_PasteFromClipboard(Param: String='');
+procedure TMainCommands.cm_PasteFromClipboard(const Params: array of string);
 var
   ClipboardOp: TClipboardOperation;
   filenamesList: TStringList;
@@ -2566,7 +2584,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_ChangeDirToRoot(Param: String='');
+procedure TMainCommands.cm_ChangeDirToRoot(const Params: array of string);
 begin
   with frmMain.ActiveFrame do
   begin
@@ -2574,36 +2592,37 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_ChangeDirToParent(Param: String='');
+procedure TMainCommands.cm_ChangeDirToParent(const Params: array of string);
 begin
   frmMain.ActiveFrame.ChangePathToParent(True);
 end;
 
 // Parameters:
 // Full path to a directory.
-procedure TMainCommands.cm_ChangeDir(Param: String='');
+procedure TMainCommands.cm_ChangeDir(const Params: array of string);
 begin
-  FrmMain.ActiveFrame.CurrentPath := ReplaceEnvVars(param);
+  if Length(Params) > 0 then
+    FrmMain.ActiveFrame.CurrentPath := ReplaceEnvVars(Params[0]);
 end;
 
-procedure TMainCommands.cm_ClearLogWindow(Param: String='');
+procedure TMainCommands.cm_ClearLogWindow(const Params: array of string);
 begin
   frmMain.seLogWindow.Lines.Clear;
 end;
 
-procedure TMainCommands.cm_ClearLogFile(Param: String='');
+procedure TMainCommands.cm_ClearLogFile(const Params: array of string);
 begin
   mbDeleteFile(gLogFileName);
 end;
 
-procedure TMainCommands.cm_NetworkConnect(Param: String='');
+procedure TMainCommands.cm_NetworkConnect(const Params: array of string);
 begin
   {
   ShowConnectionManager(frmMain.ActiveFrame);
   }
 end;
 
-procedure TMainCommands.cm_NetworkDisconnect(Param: String='');
+procedure TMainCommands.cm_NetworkDisconnect(const Params: array of string);
 begin
   {
   if frmMain.ActiveFrame.FileSource.IsClass(TWfxPluginFileSource) then
@@ -2615,19 +2634,19 @@ begin
   }
 end;
 
-procedure TMainCommands.cm_HorizontalFilePanels(Param: String='');
+procedure TMainCommands.cm_HorizontalFilePanels(const Params: array of string);
 begin
   gHorizontalFilePanels := not gHorizontalFilePanels;
   frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
   frmMain.UpdateWindowView;
 end;
 
-procedure TMainCommands.cm_OperationsViewer(Param: String='');
+procedure TMainCommands.cm_OperationsViewer(const Params: array of string);
 begin
   ShowOperationsViewer;
 end;
 
-procedure TMainCommands.cm_CompareDirectories(Param: String);
+procedure TMainCommands.cm_CompareDirectories(const Params: array of string);
 var
   I: LongWord;
   SourceFile: TDisplayFile;
@@ -2679,16 +2698,18 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_Int_RunCommandFromBarFile(Param: String='');
+procedure TMainCommands.cm_Int_RunCommandFromBarFile(const Params: array of string);
 var
   SR : TSearchRecEx;
   Res : Integer;
-  sCmd, sParam, sPath : string;
+  Param : String;
+  sCmd, sParam, sPath : String;
 begin
+  Param := GetDefaultParam(Params);
   Res := FindFirstEx(gpCfgDir + '*.bar', faAnyFile, SR);
   while Res = 0 do
   begin
-    GetCommandFromBar (gpCfgDir + Sr.Name, param, sCmd, sParam, sPath);
+    GetCommandFromBar (gpCfgDir + Sr.Name, Param, sCmd, sParam, sPath);
     if sCmd = '' then
       Res := FindNextEx(SR)
     else

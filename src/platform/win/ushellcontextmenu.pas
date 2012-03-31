@@ -530,7 +530,7 @@ begin
               if SameText(sCmd, 'cm_PasteFromClipboard') then
                 TShellThread.Create(FParent.Handle, FShellMenu1, sCmdVerbPaste).Start
               else
-                FormCommands.ExecuteCommand(sCmd);
+                FormCommands.ExecuteCommand(sCmd, []);
               bHandled:= True;
             end
           else
