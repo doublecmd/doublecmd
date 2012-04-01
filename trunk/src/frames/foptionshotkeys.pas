@@ -125,7 +125,8 @@ implementation
 
 uses
   Forms, Controls, Dialogs, LCLProc, LCLVersion,
-  uFindEx, uGlobs, uGlobsPaths, uLng, uTypes, uKeyboard, uFormCommands;
+  uFindEx, uGlobs, uGlobsPaths, uLng, uTypes, uKeyboard, uFormCommands,
+  uDCUtils;
 
 const
   stgCmdCommandIndex = 0;
@@ -210,12 +211,12 @@ procedure TfrmOptionsHotkeys.btSetHotKeyClick(Sender: TObject);
 var
   i: Integer;
   sCommand: string;
-  sShortCut, sParam: String;
+  sShortCut: String;
+  Params: array of String;
   HMForm: THMForm;
   HMControl: THMControl;
   hotkey: THotkey;
   isFormHotkey: Boolean;
-
 begin
 // ToDo: Black list HotKey which can't use
 
@@ -228,7 +229,7 @@ begin
   if sShortCut = EmptyStr then
     Exit;
 
-  sParam := edtParam.Text;
+  AddString(Params, edtParam.Text); // TODO: Multiple params
   sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
 
   if (lblHotKeyConflict.Caption <> EmptyStr) then
@@ -262,7 +263,7 @@ begin
     begin
       isFormHotkey := false;
 
-      HMControl.Hotkeys.Add(sShortCut, sCommand, sParam);
+      HMControl.Hotkeys.Add(sShortCut, sCommand, Params);
     end;
   end;
 
@@ -272,7 +273,7 @@ begin
     HMForm.Hotkeys.Remove(hotkey);
 
   if isFormHotkey then
-    HMForm.Hotkeys.Add(sShortCut, sCommand, sParam);
+    HMForm.Hotkeys.Add(sShortCut, sCommand, Params);
 
   // refresh hotkey lists
   Self.UpdateHotkeys(HMForm);
@@ -589,6 +590,14 @@ var
   iHotKey, iControl, iGrid: Integer;
   hotkey: THotkey;
   found: Boolean;
+  function GatherParams(const Params: array of String): String;
+  var
+    i: Integer;
+  begin
+    Result := '';
+    for i := Low(Params) to High(Params) do
+      AddStrWithSep(Result, Params[i], ' ');
+  end;
 begin
   Self.stgHotkeys.RowCount := Self.stgHotkeys.FixedRows;
 
@@ -613,7 +622,7 @@ begin
 
       stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
       stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
-      stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
+      stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := GatherParams(hotkey.Params);
     end;
 
     // add hotkeys from controls
@@ -643,7 +652,7 @@ begin
         begin
           stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
           stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
-          stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
+          stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := GatherParams(hotkey.Params);
           stgHotkeys.Cells[2, stgHotkeys.RowCount - 1] := HMControl.Name + ';';
         end; { if }
       end; { for }
@@ -904,23 +913,26 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey;
     Shortcut: TShortCut;
     ShiftState: TShiftState;
     TextShortcut: String;
-    NewParams: String;
+    NewParams: array of String;
   begin
     for i := 0 to Hotkeys.Count - 1 do
     begin
       if Hotkeys[i].Command = 'cm_Delete' then
       begin
-        if (Hotkeys[i].Params = '') or (Hotkeys[i].Params = 'recyclesetting') then
-          NewParams := 'recyclesettingrev'
-        else if Hotkeys[i].Params = 'recyclesettingrev' then
-          NewParams := 'recyclesetting'
-        else
+        NewParams := Copy(Hotkeys[i].Params);
+        if ContainsOneOf(NewParams, ['recycle', 'norecycle']) then
         begin
           MessageDlg(rsOptHotkeysCannotAddShortcut,
                      Format(rsOptHotkeysDeleteShortcutWrongParams, [Hotkeys[i].Shortcut]),
                      mtWarning, [mbOK], 0);
           Exit;
-        end;
+        end
+        else if Contains(NewParams, 'recyclesettingrev') then
+          ReplaceString(NewParams, 'recyclesettingrev', 'recyclesetting')
+        else if Contains(NewParams, 'recyclesetting') then
+          ReplaceString(NewParams, 'recyclesetting', 'recyclesettingrev')
+        else
+          AddString(NewParams, 'recyclesettingrev');
 
         Shortcut := TextToShortCutEx(Hotkeys[i].Shortcut);
         ShiftState := ShortcutToShiftEx(Shortcut);

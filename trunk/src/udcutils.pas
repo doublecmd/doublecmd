@@ -421,6 +421,16 @@ procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor)
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
 
+procedure AddString(var anArray: TOpenStringArray; const sToAdd: String);
+function Compare(const Array1, Array2: array of String): Boolean;
+{en
+   Copies open array to dynamic array.
+}
+function CopyArray(const anArray: array of String): TOpenStringArray;
+function ContainsOneOf(const ArrayToSearch, StringsToSearch: array of String): Boolean;
+function Contains(const ArrayToSearch: array of String; const StringToSearch: String): Boolean;
+procedure ReplaceString(var anArray: array of String; const sToReplace: String; sReplaceWith: String);
+
 implementation
 
 uses
@@ -1757,6 +1767,71 @@ begin
       Control.Font.Color:= clGrayText;
     end;
   {$ENDIF}
+end;
+
+procedure AddString(var anArray: TOpenStringArray; const sToAdd: String);
+var
+  Len: Integer;
+begin
+  Len := Length(anArray);
+  SetLength(anArray, Len + 1);
+  anArray[Len] := sToAdd;
+end;
+
+function Compare(const Array1, Array2: array of String): Boolean;
+var
+  Len1, Len2: Integer;
+  i: Integer;
+begin
+  Len1 := Length(Array1);
+  Len2 := Length(Array2);
+  if Len1 <> Len2 then
+    Result := False
+  else
+  begin
+    for i := 0 to Len1 - 1 do
+      if Array1[i] <> Array2[i] then
+        Exit(False);
+    Result := True;
+  end;
+end;
+
+function CopyArray(const anArray: array of String): TOpenStringArray;
+var
+  i: Integer;
+begin
+  SetLength(Result, Length(anArray));
+  for i := Low(anArray) to High(anArray) do
+    Result[i] := anArray[i];
+end;
+
+function ContainsOneOf(const ArrayToSearch, StringsToSearch: array of String): Boolean;
+var
+  i: Integer;
+begin
+  for i := Low(StringsToSearch) to High(StringsToSearch) do
+    if HasString(ArrayToSearch, StringsToSearch[i]) then
+      Exit(True);
+  Result := False;
+end;
+
+function Contains(const ArrayToSearch: array of String; const StringToSearch: String): Boolean;
+var
+  i: Integer;
+begin
+  for i := Low(ArrayToSearch) to High(ArrayToSearch) do
+    if ArrayToSearch[i] = StringToSearch then
+      Exit(True);
+  Result := False;
+end;
+
+procedure ReplaceString(var anArray: array of String; const sToReplace: String; sReplaceWith: String);
+var
+  i: Integer;
+begin
+  for i := Low(anArray) to High(anArray) do
+    if anArray[i] = sToReplace then
+      anArray[i] := sReplaceWith;
 end;
 
 end.
