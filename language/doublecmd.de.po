@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-02-07 16:12+0100\n"
+"PO-Revision-Date: 2012-03-31 15:12+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,12 +13,12 @@ msgstr ""
 #: dmhigh.rssyndefaulttext
 msgctxt "dmhigh.rssyndefaulttext"
 msgid "Default text"
-msgstr ""
+msgstr "Standardtext"
 
 #: dmhigh.rssynlangplaintext
 msgctxt "dmhigh.rssynlangplaintext"
 msgid "Plain text"
-msgstr ""
+msgstr "Reiner Text"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -628,7 +628,7 @@ msgstr "Verbinde mit:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
 msgid "Add To Queue"
-msgstr ""
+msgstr "Zur Warteschlange hinzufügen"
 
 #: tfrmcopydlg.btncancel.caption
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1182,7 +1182,7 @@ msgstr "En&de"
 
 #: tfrmeditor.actfileexit.hint
 msgid "Exit"
-msgstr ""
+msgstr "Programm beenden"
 
 #: tfrmeditor.actfilenew.caption
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
@@ -1219,7 +1219,7 @@ msgstr "Speichern &unter..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr ""
+msgstr "Speichern unter ..."
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1227,7 +1227,7 @@ msgstr "Alles &speichern"
 
 #: tfrmeditor.actsaveall.hint
 msgid "Save All"
-msgstr ""
+msgstr "Alle speichern"
 
 #: tfrmeditor.frmeditor.caption
 msgctxt "tfrmeditor.frmeditor.caption"
@@ -3999,51 +3999,51 @@ msgstr "Zeige Bestätigungsdialog nach dem Ziehen und Ablegen von Dateien"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show file system"
-msgstr ""
+msgstr "Zeige Dateisystem"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
 msgid "Show free space"
-msgstr ""
+msgstr "Zeige freien Speicherplatz"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
 msgid "Show label"
-msgstr ""
+msgstr "Zeige Laufwerksbezeichnung"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
-msgstr ""
+msgstr "Laufwerksliste"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
-msgstr ""
+msgstr "Hintergrund"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
 msgid "Background"
-msgstr ""
+msgstr "Hintergrund"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
-msgstr ""
+msgstr "Attribut des Elements"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
 msgid "Foreground"
-msgstr ""
+msgstr "Vordergrund"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
 msgid "Foreground"
-msgstr ""
+msgstr "Vordergrund"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
 msgid "Text-mark"
-msgstr ""
+msgstr "Textmarkierung"
 
 #: tfrmoptionseditorcolors.frameedgesbox.text
 msgid "Around"
-msgstr ""
+msgstr "Umgebung"
 
 #: tfrmoptionseditorcolors.framestylebox.text
 msgid "slsSolid"
@@ -4051,53 +4051,53 @@ msgstr ""
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
-msgstr ""
+msgstr "Nutze (und bearbeite) allgemeine Schemeinstellungen"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
 msgid "Use local scheme settings"
-msgstr ""
+msgstr "Nutze lokales Schemaeinstellungen"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
 msgid "Bold"
-msgstr ""
+msgstr "Fett"
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "Umgekehrt"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "Aus"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
 msgid "On"
-msgstr ""
+msgstr "An"
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
 msgid "Italic"
-msgstr ""
+msgstr "Kursiv"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "Umgekehrt"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "Aus"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
 msgid "On"
-msgstr ""
+msgstr "An"
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
 msgid "Strike Out"
-msgstr ""
+msgstr "Durchgestrichen"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
@@ -4121,17 +4121,17 @@ msgstr ""
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "Umgekehrt"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "Aus"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
-msgstr ""
+msgstr "An"
 
 #: tfrmoptionseditorcolors.toolbar1.caption
 msgid "ToolBar1"
@@ -4332,7 +4332,7 @@ msgstr "Textfarbe"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Don't load file list until a tab is activated"
-msgstr ""
+msgstr "Datei nicht laden bis ein Reiter aktiviert ist"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
@@ -4341,7 +4341,7 @@ msgstr "Zeige eckige Klammern um Verzeichnisse"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
 msgid "Highlight new and updated files"
-msgstr ""
+msgstr "Markiere neue und aktualisierte Dateien"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -4392,7 +4392,7 @@ msgstr "Datums- und Zeitformat"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "Insert new files"
-msgstr ""
+msgstr "Neue Dateien einfügen"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "Sorting directories:"
@@ -4405,7 +4405,7 @@ msgstr "Sortierungs&methode"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "Move updated files"
-msgstr ""
+msgstr "Aktualisierte Dateien verschieben"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -4733,7 +4733,7 @@ msgstr "Zeige Schalterleiste"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
 msgid "Show short free space label"
-msgstr ""
+msgstr "Zeige kurze Information zum freien Speicherplatz"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
@@ -5319,7 +5319,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbcasesensitive.hint
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Abhängig von der Schreibweise"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -5327,7 +5327,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbdirectories.hint
 msgid "Directories"
-msgstr ""
+msgstr "Verzeichnisse"
 
 #: tfrmquicksearch.sbfiles.caption
 msgid "F"
@@ -5335,7 +5335,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbfiles.hint
 msgid "Files"
-msgstr ""
+msgstr "Dateien"
 
 #: tfrmquicksearch.sbmatchbeginning.caption
 msgid "{"
@@ -5343,7 +5343,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbmatchbeginning.hint
 msgid "Match Beginning"
-msgstr ""
+msgstr "Entspricht dem Anfang"
 
 #: tfrmquicksearch.sbmatchending.caption
 msgid "}"
@@ -5351,7 +5351,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbmatchending.hint
 msgid "Match Ending"
-msgstr ""
+msgstr "Entspricht der Endung"
 
 #: tfrmquicksearch.tglfilter.caption
 msgctxt "tfrmquicksearch.tglfilter.caption"
@@ -6125,7 +6125,7 @@ msgstr "Speichern"
 #: tfrmviewer.misaveas.caption
 msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
 msgid "Save As..."
-msgstr "Speichern als ..."
+msgstr "Speichern unter ..."
 
 #: tfrmviewer.miscreenshot.caption
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
@@ -6216,24 +6216,24 @@ msgstr "Abbruch"
 
 #: tfrmviewoperations.mnunewqueue.caption
 msgid "New queue"
-msgstr ""
+msgstr "Neue Warteschlange"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr ""
+msgstr "An den Beginn der Warteschlange setzen"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
-msgstr ""
+msgstr "An das Ende der Warteschlange setzen"
 
 #: tfrmviewoperations.mnuqueue.caption
 msgctxt "tfrmviewoperations.mnuqueue.caption"
 msgid "Queue"
-msgstr ""
+msgstr "Warteschlange"
 
 #: tfrmviewoperations.mnuqueue0.caption
 msgid "Out of queue"
-msgstr ""
+msgstr "Aus der Warteschlange entfernen"
 
 #: tfrmviewoperations.mnuqueue1.caption
 msgid "Queue 1"
@@ -6257,11 +6257,11 @@ msgstr ""
 
 #: tfrmviewoperations.mnushowdetached.caption
 msgid "Show in detached window"
-msgstr ""
+msgstr "In eigenem Fenster anzeigen"
 
 #: tfrmviewoperations.tbpauseall.caption
 msgid "&Pause all"
-msgstr ""
+msgstr "Alle &pausieren"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -6275,7 +6275,7 @@ msgstr "Wenn die Datei vorhanden ist"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"
-msgstr ""
+msgstr "Im Hintergrund ausführen (eigene Verbindung)"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -6484,7 +6484,7 @@ msgstr "&Starten"
 #: ulng.rsdlgqueue
 msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
-msgstr ""
+msgstr "Warteschlange"
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -6626,7 +6626,7 @@ msgstr "Kommentar"
 
 #: ulng.rsfunccompressedsize
 msgid "Compressed size"
-msgstr ""
+msgstr "Komprimierte Größe"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
@@ -6683,7 +6683,7 @@ msgstr "Fehler beim Erstellen des Hardlink."
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
-msgstr ""
+msgstr "Kopieren/Verschieben-Dialog"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -7094,7 +7094,7 @@ msgstr "Nächster Teil wird entpackt"
 
 #: ulng.rsmsgnofiles
 msgid "No files"
-msgstr ""
+msgstr "Keine Dateien"
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
@@ -7167,7 +7167,7 @@ msgstr "Bitte DoubleCommander neustarten um die Änderungen zu übernehmen"
 
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
-msgstr ""
+msgstr "Ausgewählt: %s von %s, Dateien: %d von %d, Verzeichnisse: %d von %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
@@ -7237,7 +7237,7 @@ msgstr "Abgebrochen"
 
 #: ulng.rsopercalculatingchecksum
 msgid "Calculating check sum"
-msgstr ""
+msgstr "Berechne Prüfsumme"
 
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
@@ -7246,15 +7246,15 @@ msgstr "Berechne"
 
 #: ulng.rsopercombining
 msgid "Joining"
-msgstr ""
+msgstr "Verschmelze"
 
 #: ulng.rsopercopying
 msgid "Copying"
-msgstr ""
+msgstr "Kopiere"
 
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
-msgstr ""
+msgstr "Erstelle Verzeichnis"
 
 #: ulng.rsoperdeleting
 msgctxt "ulng.rsoperdeleting"
@@ -7263,11 +7263,11 @@ msgstr "Lösche"
 
 #: ulng.rsoperexecuting
 msgid "Executing"
-msgstr ""
+msgstr "Führe aus"
 
 #: ulng.rsoperextracting
 msgid "Extracting"
-msgstr ""
+msgstr "Entpacke"
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -7275,11 +7275,11 @@ msgstr "Beendet"
 
 #: ulng.rsoperlisting
 msgid "Listing"
-msgstr ""
+msgstr "Liste auf"
 
 #: ulng.rsopermoving
 msgid "Moving"
-msgstr ""
+msgstr "Verschiebe"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7287,7 +7287,7 @@ msgstr "Nicht gestartet"
 
 #: ulng.rsoperpacking
 msgid "Packing"
-msgstr ""
+msgstr "Packe"
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7308,11 +7308,11 @@ msgstr "Wird ausgeführt"
 
 #: ulng.rsopersettingproperty
 msgid "Setting property"
-msgstr ""
+msgstr "Stelle Eigenschaften ein"
 
 #: ulng.rsopersplitting
 msgid "Splitting"
-msgstr ""
+msgstr "Teile"
 
 #: ulng.rsoperstarting
 msgid "Starting"
@@ -7328,11 +7328,11 @@ msgstr "Stoppe"
 
 #: ulng.rsopertesting
 msgid "Testing"
-msgstr ""
+msgstr "Test"
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying check sum"
-msgstr ""
+msgstr "Verifiziere Prüfsumme"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -7344,11 +7344,11 @@ msgstr "Warte auf Benutzereingabe"
 
 #: ulng.rsoperwiping
 msgid "Wiping"
-msgstr ""
+msgstr "Lösche sicher"
 
 #: ulng.rsoperworking
 msgid "Working"
-msgstr ""
+msgstr "Führe aus"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
@@ -7582,7 +7582,7 @@ msgstr "Schriftart"
 
 #: ulng.rsoptionseditorhighlighters
 msgid "Highlighters"
-msgstr ""
+msgstr "Hervorheber"
 
 #: ulng.rsoptionseditorhotkeys
 msgctxt "ulng.rsoptionseditorhotkeys"
@@ -7660,7 +7660,7 @@ msgstr "Linke Taste;Rechte Taste;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr ""
+msgstr "an den Beginn der Dateiliste;hinter die Verzeichnisse (wenn Verzeichnisse vor Dateien sortiert werden sollen);an festgelegte Position;ans Ende der Dateiliste"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -7704,7 +7704,7 @@ msgstr "Oben;Unten;"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr ""
+msgstr "Position nicht verändern;die gleiche Einstellung wie für neue Dateien nutzen;an festgelegte Position"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
@@ -7818,12 +7818,12 @@ msgstr "Fehler beim Erstellen des symb. Link."
 #: ulng.rssyndefaulttext
 msgctxt "ulng.rssyndefaulttext"
 msgid "Default text"
-msgstr ""
+msgstr "Standardtext"
 
 #: ulng.rssynlangplaintext
 msgctxt "ulng.rssynlangplaintext"
 msgid "Plain text"
-msgstr ""
+msgstr "Reiner Text"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
