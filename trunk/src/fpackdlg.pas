@@ -179,6 +179,12 @@ var
 
 begin
   PackDialog := TfrmPackDlg.Create(nil);
+{$IF DEFINED(LCLGTK2)}
+  // TRadioGroup.ItemIndex:= -1 will not work under Gtk2
+  // if items have been added dynamically, this workaround fixes it
+  PackDialog.rgPacker.Items.Add(EmptyStr);
+  PackDialog.rgPacker.Items.Clear;
+{$ENDIF}
   try
     with PackDialog do
       begin
