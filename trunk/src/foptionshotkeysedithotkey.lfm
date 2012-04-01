@@ -1,0 +1,157 @@
+object frmEditHotkey: TfrmEditHotkey
+  Left = 337
+  Height = 386
+  Top = 120
+  Width = 464
+  ActiveControl = edtHotKey
+  BorderIcons = [biSystemMenu]
+  ClientHeight = 386
+  ClientWidth = 464
+  Constraints.MinHeight = 200
+  Constraints.MinWidth = 200
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '0.9.31'
+  object lblHotKey: TLabel
+    AnchorSideLeft.Control = edtParameters
+    AnchorSideTop.Control = Owner
+    Left = 8
+    Height = 22
+    Top = 6
+    Width = 55
+    BorderSpacing.Top = 6
+    Caption = 'Hot key:'
+    ParentColor = False
+  end
+  object edtHotKey: TEdit
+    AnchorSideLeft.Control = edtParameters
+    AnchorSideTop.Control = lblHotKey
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 29
+    Top = 28
+    Width = 448
+    Anchors = [akTop, akLeft, akRight]
+    OnKeyDown = edtHotKeyKeyDown
+    OnKeyPress = edtHotKeyKeyPress
+    TabOrder = 0
+  end
+  object lblHotKeyConflict: TLabel
+    AnchorSideLeft.Control = edtParameters
+    AnchorSideTop.Control = edtHotKey
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 1
+    Top = 61
+    Width = 448
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    BorderSpacing.Bottom = 4
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Visible = False
+    WordWrap = True
+  end
+  object lblParameters: TLabel
+    AnchorSideLeft.Control = edtParameters
+    AnchorSideTop.Control = lblHotKeyConflict
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 22
+    Top = 68
+    Width = 247
+    BorderSpacing.Top = 6
+    Caption = 'Parameters (each in a separate line):'
+    ParentColor = False
+  end
+  object edtParameters: TMemo
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblParameters
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = cgHKControls
+    Left = 8
+    Height = 172
+    Top = 90
+    Width = 448
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 4
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+    WordWrap = False
+  end
+  object cgHKControls: TCheckGroup
+    AnchorSideLeft.Control = edtParameters
+    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnOK
+    Left = 8
+    Height = 68
+    Top = 266
+    Width = 448
+    Anchors = [akLeft, akRight, akBottom]
+    AutoFill = True
+    AutoSize = True
+    BorderSpacing.Bottom = 6
+    Caption = 'Only for these controls'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    OnItemClick = cgHKControlsItemClick
+    TabOrder = 2
+    Visible = False
+  end
+  object btnOK: TBitBtn
+    AnchorSideLeft.Control = edtParameters
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 8
+    Height = 40
+    Top = 340
+    Width = 120
+    Anchors = [akLeft, akBottom]
+    AutoSize = True
+    BorderSpacing.Bottom = 6
+    Constraints.MinHeight = 40
+    Constraints.MinWidth = 120
+    Default = True
+    DefaultCaption = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 3
+  end
+  object btnCancel: TBitBtn
+    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 336
+    Height = 40
+    Top = 340
+    Width = 120
+    Anchors = [akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Bottom = 6
+    Cancel = True
+    Constraints.MinHeight = 40
+    Constraints.MinWidth = 120
+    DefaultCaption = True
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 4
+  end
+end

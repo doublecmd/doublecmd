@@ -28,51 +28,48 @@ interface
 
 uses
   Classes, SysUtils, ExtCtrls, StdCtrls, Grids,
-  fOptionsFrame, uHotkeyManager;
+  fOptionsFrame, fOptionsHotkeysEditHotkey, uHotkeyManager, uTypes;
 
 type
 
   { TfrmOptionsHotkeys }
 
   TfrmOptionsHotkeys = class(TOptionsEditor)
-    btClearHotKey: TButton;
-    btSetHotKey: TButton;
-    cgHKControls: TCheckGroup;
-    edtHotKey: TEdit;
+    btnDeleteHotKey: TButton;
+    btnAddHotKey: TButton;
+    btnEditHotkey: TButton;
     edtFilter: TEdit;
-    edtParam: TEdit;
     lblCommands: TLabel;
     lbFilter: TLabel;
-    lblHotKey: TLabel;
-    lblParam: TLabel;
     lblSCFiles: TLabel;
-    lblHotKeyConflict: TLabel;
     lbSCFilesList: TListBox;
     lblCategories: TLabel;
     lbxCategories: TListBox;
     pnlHotkeyButtons: TPanel;
     stgCommands: TStringGrid;
     stgHotkeys: TStringGrid;
-    procedure btClearHotKeyClick(Sender: TObject);
-    procedure btSetHotKeyClick(Sender: TObject);
-    procedure cgHKControlsItemClick(Sender: TObject; Index: Integer);
+    procedure btnAddHotKeyClick(Sender: TObject);
+    procedure btnDeleteHotKeyClick(Sender: TObject);
+    procedure btnEditHotkeyClick(Sender: TObject);
     procedure edtFilterChange(Sender: TObject);
-    procedure edtHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure edtHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+    procedure stgHotkeysDblClick(Sender: TObject);
     procedure stgHotkeysResize(Sender: TObject);
     procedure stgHotkeysSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
   private
+    FEditForm: TfrmEditHotkey;
     FHotkeysAutoColWidths: array of Integer;
     FHotkeysAutoGridWidth: Integer;
     FHotkeysCategories: TStringList; // Untranslated
     procedure AutoSizeCommandsGrid;
     procedure AutoSizeHotkeysGrid;
+    procedure ClearHotkeysGrid;
     procedure DeleteHotkeyFromGrid(aHotkey: String);
+    function  GetSelectedCommand: String;
     {en
        Refreshes all hotkeys from the Commands grid
     }
@@ -84,18 +81,9 @@ type
     }
     procedure GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: TStringList);
     {en
-       Check if combination of pressed hotkey and checked controls are already in use.
-       Conflicting hotkeys are deleted if DeleteConflicts parameter is true.
-    }
-    procedure CheckHotKeyConflicts(DeleteConflicts: Boolean = false);
-    {en
        Fill hotkey grid with all hotkeys assigned to a command
     }
     procedure FillHotkeyList(sCommand: String);
-    {en
-       Add form controls to HKControl checkbox list
-    }
-    procedure FillHKControlList();
     {en
        Fill Commands grid with all commands available for the selected category.
        @param(Filter
@@ -104,9 +92,15 @@ type
     procedure FillCommandList(Filter: String);
     procedure FillCategoriesList;
     {en
-       Retrieves untranslated category.
+       Retrieves untranslated form name.
     }
-    function GetSelectedCategory: String;
+    function GetSelectedForm: String;
+    procedure ShowEditHotkeyForm(EditMode: Boolean; aHotkeyRow: Integer);
+    procedure ShowEditHotkeyForm(EditMode: Boolean;
+                                 const AForm: String;
+                                 const ACommand: String;
+                                 const AHotkey: THotkey;
+                                 const AControls: TDynamicStringArray);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -125,13 +119,28 @@ implementation
 
 uses
   Forms, Controls, Dialogs, LCLProc, LCLVersion,
-  uFindEx, uGlobs, uGlobsPaths, uLng, uTypes, uKeyboard, uFormCommands,
-  uDCUtils;
+  uFindEx, uGlobs, uGlobsPaths, uLng, uKeyboard, uFormCommands, uDCUtils;
 
 const
   stgCmdCommandIndex = 0;
   stgCmdHotkeysIndex = 1;
   stgCmdDescriptionIndex = 2;
+
+type
+  PHotkeyItem = ^THotkeyItem;
+  THotkeyItem = record
+    Hotkey: THotkey;
+    Controls: TDynamicStringArray;
+  end;
+
+procedure DestroyHotkeyItem(HotkeyItem: PHotkeyItem);
+begin
+  if Assigned(HotkeyItem) then
+  begin
+    HotkeyItem^.Hotkey.Free;
+    Dispose(HotkeyItem);
+  end;
+end;
 
 function StListToStr(separator:string; const lStList:TStringList; duplicates: boolean = true):string;
 //< convert stringlist to string
@@ -171,7 +180,7 @@ end;
 
 { TfrmOptionsHotkeys }
 
-procedure TfrmOptionsHotkeys.btClearHotKeyClick(Sender: TObject);
+procedure TfrmOptionsHotkeys.btnDeleteHotKeyClick(Sender: TObject);
 var
   i: Integer;
   sShortCut: String;
@@ -182,8 +191,8 @@ var
 begin
   if lbxCategories.ItemIndex=-1 then Exit;
   sShortCut := stgHotkeys.Cells[0, stgHotkeys.Row];
-  sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
-  HMForm := HotMan.Forms.Find(GetSelectedCategory);
+  sCommand := GetSelectedCommand;
+  HMForm := HotMan.Forms.Find(GetSelectedForm);
   if Assigned(HMForm) then
   begin
     for i := 0 to HMForm.Controls.Count - 1 do
@@ -207,115 +216,16 @@ begin
   end;
 end;
 
-procedure TfrmOptionsHotkeys.btSetHotKeyClick(Sender: TObject);
-var
-  i: Integer;
-  sCommand: string;
-  sShortCut: String;
-  Params: array of String;
-  HMForm: THMForm;
-  HMControl: THMControl;
-  hotkey: THotkey;
-  isFormHotkey: Boolean;
+procedure TfrmOptionsHotkeys.btnEditHotkeyClick(Sender: TObject);
 begin
-// ToDo: Black list HotKey which can't use
-
-  if lbxCategories.ItemIndex=-1 then Exit;
-  if stgCommands.Row<1 then Exit;
-
-  sShortCut := edtHotKey.Text;
-
-  // check for invalid hotkey
-  if sShortCut = EmptyStr then
-    Exit;
-
-  AddString(Params, edtParam.Text); // TODO: Multiple params
-  sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
-
-  if (lblHotKeyConflict.Caption <> EmptyStr) then
-  begin
-    if (MessageDlg(rsOptHotkeysShortCutUsed,                                     // delete command on assigned shortcut
-                   Format(rsOptHotkeysShortCutUsedText1,                         // if another was applied
-                          [sShortCut]) + LineEnding +
-                   Format(rsOptHotkeysShortCutUsedText2,
-                          [sCommand]),
-                   mtConfirmation, mbYesNo, 0) = mrYes) then
-      CheckHotKeyConflicts(true)
-    else
-      Exit;
-  end;
-
-  HMForm := HotMan.Forms.FindOrCreate(GetSelectedCategory);
-  isFormHotkey := true;
-  for i := 0 to Self.cgHKControls.Items.Count - 1 do
-  begin
-    HMControl := THMControl(Self.cgHKControls.Items.Objects[i]);
-    if not Assigned(HMControl) then
-      continue;
-
-    // delete previous hotkey if exists
-    hotkey := HMControl.Hotkeys.Find(sShortCut);
-    if Assigned(hotkey) and (hotkey.Command = sCommand) then
-      HMControl.Hotkeys.Remove(hotkey);
-
-    // add new hotkey
-    if Self.cgHKControls.Checked[i] then
-    begin
-      isFormHotkey := false;
-
-      HMControl.Hotkeys.Add(sShortCut, sCommand, Params);
-    end;
-  end;
-
-  // delete previous hotkey if exists
-  hotkey := HMForm.Hotkeys.Find(sShortCut);
-  if Assigned(hotkey) and (hotkey.Command = sCommand) then
-    HMForm.Hotkeys.Remove(hotkey);
-
-  if isFormHotkey then
-    HMForm.Hotkeys.Add(sShortCut, sCommand, Params);
-
-  // refresh hotkey lists
-  Self.UpdateHotkeys(HMForm);
-  Self.FillHotkeyList(sCommand);
-
-  // Select the new shortcut in the hotkeys table.
-  stgHotkeys.Row := stgHotkeys.Cols[0].IndexOf(sShortCut);
-end;
-
-procedure TfrmOptionsHotkeys.cgHKControlsItemClick(Sender: TObject; Index: Integer);
-begin
-  CheckHotKeyConflicts();
+  ShowEditHotkeyForm(True, stgHotkeys.Row);
 end;
 
 procedure TfrmOptionsHotkeys.edtFilterChange(Sender: TObject);
 {< filtering active commands list}
 begin
   if lbxCategories.ItemIndex=-1 then Exit;
-  edtHotKey.Clear;
   FillCommandList(edtFilter.Text);
-end;
-
-procedure TfrmOptionsHotkeys.edtHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-var
-  ShortCut: TShortCut;
-begin
-  ShortCut := KeyToShortCutEx(Key,GetKeyShiftStateEx);
-  edtHotKey.Text := ShortCutToTextEx(ShortCut);
-  Key := 0;
-  btSetHotKey.Enabled := (edtHotKey.Text <> '');
-  lblHotKeyConflict.Caption:='';
-  btClearHotKey.Enabled := (edtHotKey.Text <> '');
-  cgHKControls.Enabled := btSetHotKey.Enabled;
-
-  CheckHotKeyConflicts();
-end;
-
-procedure TfrmOptionsHotkeys.edtHotKeyKeyPress(Sender: TObject; var Key: char);
-begin
-  Key := #0;
-  edtHotKey.Text := '';
-  btSetHotKey.Enabled := False;
 end;
 
 procedure TfrmOptionsHotkeys.lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
@@ -331,8 +241,6 @@ procedure TfrmOptionsHotkeys.lbxCategoriesSelectionChange(Sender: TObject; User:
 begin
   if lbxCategories.ItemIndex=-1 then Exit;
 
-  Self.FillHKControlList();
-
   edtFilter.Clear;
   FillCommandList('');
 end;
@@ -345,26 +253,24 @@ end;
 procedure TfrmOptionsHotkeys.stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
   // < find hotkeys for command
 var
-  selcmd: String;
-  HMForm: THMForm;
+  sCommand: String;
 begin
   // clears all controls
-  btSetHotKey.Enabled := False;
-  btClearHotKey.Enabled := False;
-  edtHotKey.Clear;
-  lblHotKeyConflict.Caption:='';
-  cgHKControls.Enabled := False;
-  stgHotkeys.RowCount := stgHotkeys.FixedRows;
-  if aRow<1 then
-    Exit;
+  btnAddHotKey.Enabled := False;
+  btnDeleteHotKey.Enabled := False;
+  btnEditHotkey.Enabled := False;
+  ClearHotkeysGrid;
 
-  HMForm := HotMan.Forms.Find(GetSelectedCategory);
-  if not Assigned(HMForm) then
-    Exit;
+  if aRow >= stgCommands.FixedRows then
+  begin
+    sCommand := stgCommands.Cells[stgCmdCommandIndex, aRow];
+    FillHotkeyList(sCommand);
+  end;
+end;
 
-  selcmd:=stgCommands.Cells[stgCmdCommandIndex,aRow];// get selected command
-
-  FillHotkeyList(selcmd);
+procedure TfrmOptionsHotkeys.stgHotkeysDblClick(Sender: TObject);
+begin
+  ShowEditHotkeyForm(True, stgHotkeys.Row);
 end;
 
 procedure TfrmOptionsHotkeys.stgHotkeysResize(Sender: TObject);
@@ -374,42 +280,12 @@ end;
 
 procedure TfrmOptionsHotkeys.stgHotkeysSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
 var
-  controlList: TStringList;
-  i, j: Integer;
+  aEnabled: Boolean;
 begin
-  if aRow < stgHotkeys.FixedRows then
-    Exit;
-
-  edtHotKey.Text := stgHotkeys.Cells[0, aRow];
-  edtParam.Text := stgHotkeys.Cells[1, aRow];
-  btSetHotKey.Enabled := true;
-  btClearHotKey.Enabled := true;
-  lblHotKeyConflict.Caption:='';
-  cgHKControls.Enabled := true;
-
-  // check objects to which hotkey applies
-  controlList := TStringList.Create();
-  try
-    controlList.Delimiter := ';';
-    controlList.StrictDelimiter := True;
-    controlList.DelimitedText := stgHotkeys.Cells[2, aRow];
-
-    for i := 0 to Self.cgHKControls.Items.Count - 1 do
-    begin
-      Self.cgHKControls.Checked[i] := false;
-
-      // last string of list is always be empty, so [Count - 2]
-      for j := 0 to controlList.Count - 2 do
-        if Self.cgHKControls.Items[i] = controlList[j] then
-        begin
-          Self.cgHKControls.Checked[i] := true;
-          break;
-        end;
-    end;
-
-  finally
-    FreeAndNil(controlList);
-  end;
+  aEnabled := aRow >= stgHotkeys.FixedRows;
+  btnAddHotKey.Enabled := aEnabled;
+  btnDeleteHotKey.Enabled := aEnabled;
+  btnEditHotkey.Enabled := aEnabled;
 end;
 
 procedure TfrmOptionsHotkeys.AutoSizeCommandsGrid;
@@ -439,6 +315,11 @@ begin
   end;
 end;
 
+procedure TfrmOptionsHotkeys.btnAddHotKeyClick(Sender: TObject);
+begin
+  ShowEditHotkeyForm(False, GetSelectedForm, GetSelectedCommand, nil, nil);
+end;
+
 procedure TfrmOptionsHotkeys.DeleteHotkeyFromGrid(aHotkey: String);
 var
   i: Integer;
@@ -446,6 +327,7 @@ begin
   for i := stgHotkeys.FixedRows to stgHotkeys.RowCount - 1 do
     if stgHotkeys.Cells[0, i] = aHotkey then
     begin
+      DestroyHotkeyItem(PHotkeyItem(stgHotkeys.Objects[0, i]));
       stgHotkeys.DeleteColRow(False, i);
       Break;
     end;
@@ -505,91 +387,16 @@ begin
     AddHotkeys(HMForm.Controls[i].Hotkeys);
 end;
 
-procedure TfrmOptionsHotkeys.CheckHotKeyConflicts(DeleteConflicts: Boolean);
-  procedure AddConflictHint(ACommand, AName: String);
-  var
-    s: String = '';
-  begin
-    if lblHotKeyConflict.Hint <> '' then
-      s := LineEnding;
-    lblHotKeyConflict.Hint := lblHotKeyConflict.Hint + s +
-        Format(rsOptHotkeysUsedBy, [ACommand, AName]);
-  end;
+procedure TfrmOptionsHotkeys.ClearHotkeysGrid;
 var
-  HMForm: THMForm;
-  HMControl: THMControl;
-  sShortCut: String;
-  hotkey: THotkey;
-  i, count: Integer;
-  isFormHotKey: Boolean;
-  sCommand: String;
+  i: Integer;
 begin
-  lblHotKeyConflict.Caption := EmptyStr;
-  lblHotKeyConflict.Hint := EmptyStr;
-
-  HMForm := HotMan.Forms.Find(GetSelectedCategory);
-  if not Assigned(HMForm) then
-    Exit;
-
-  sShortCut := edtHotKey.Text;
-  sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
-
-  count := 0;
-  isFormHotKey := true;
-  // search if any checked control has same hotkey assigned somewhere else
-  for i := 0 to cgHKControls.Items.Count - 1 do
-  begin
-    if not cgHKControls.Checked[i] then
-      continue;
-
-    isFormHotKey := false;
-
-    HMControl := THMControl(cgHKControls.Items.Objects[i]);
-    if not Assigned(HMControl) then
-      continue;
-
-    hotkey := HMControl.Hotkeys.Find(sShortCut);
-    if Assigned(hotkey) and (hotkey.command <> sCommand) then
-    begin
-      Inc(count);
-
-      if DeleteConflicts then
-        HMControl.Hotkeys.Remove(hotkey)
-      else
-        AddConflictHint(hotkey.Command, HMControl.Name);
-    end;
-  end;
-
-  if isFormHotKey then
-  begin
-    hotkey := HMForm.Hotkeys.Find(sShortCut);
-    if Assigned(hotkey) and (hotkey.command <> sCommand) then
-    begin
-      Inc(count);
-
-      if DeleteConflicts then
-        HMForm.Hotkeys.Remove(hotkey)
-      else
-        AddConflictHint(hotkey.Command, HMForm.Name);
-    end;
-  end;
-
-  // show full message if only one conflict, else show a generic message
-  if count = 1 then
-    lblHotKeyConflict.Caption := lblHotKeyConflict.Hint
-  else if count > 1 then
-    lblHotKeyConflict.Caption := rsOptHotkeysShortCutUsed + ' [..]';
-
-  lblHotKeyConflict.Visible := count > 0;
+  for i := stgHotkeys.FixedRows to stgHotkeys.RowCount - 1 do
+    DestroyHotkeyItem(PHotkeyItem(stgHotkeys.Objects[0, i]));
+  stgHotkeys.RowCount := stgHotkeys.FixedRows;
 end;
 
 procedure TfrmOptionsHotkeys.FillHotkeyList(sCommand: String);
-var
-  HMForm: THMForm;
-  HMControl: THMControl;
-  iHotKey, iControl, iGrid: Integer;
-  hotkey: THotkey;
-  found: Boolean;
   function GatherParams(const Params: array of String): String;
   var
     i: Integer;
@@ -598,16 +405,29 @@ var
     for i := Low(Params) to High(Params) do
       AddStrWithSep(Result, Params[i], ' ');
   end;
+  function SetObject(RowNr: Integer; AHotkey: THotkey): PHotkeyItem;
+  var
+    HotkeyItem: PHotkeyItem;
+  begin
+    New(HotkeyItem);
+    stgHotkeys.Objects[0, RowNr] := TObject(HotkeyItem);
+    HotkeyItem^.Hotkey := AHotkey.Clone;
+    Result := HotkeyItem;
+  end;
+var
+  HMForm: THMForm;
+  HMControl: THMControl;
+  iHotKey, iControl, iGrid: Integer;
+  hotkey: THotkey;
+  found: Boolean;
+  HotkeyItem: PHotkeyItem;
 begin
-  Self.stgHotkeys.RowCount := Self.stgHotkeys.FixedRows;
+  ClearHotkeysGrid;
 
-  if sCommand = EmptyStr then
+  if (sCommand = EmptyStr) or (lbxCategories.ItemIndex = -1) then
     Exit;
 
-  if Self.lbxCategories.ItemIndex = -1 then
-    Exit;
-
-  HMForm := HotMan.Forms.Find(GetSelectedCategory);
+  HMForm := HotMan.Forms.Find(GetSelectedForm);
   if not Assigned(HMForm) then
     Exit;
 
@@ -623,6 +443,7 @@ begin
       stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
       stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
       stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := GatherParams(hotkey.Params);
+      SetObject(stgHotkeys.RowCount - 1, hotkey);
     end;
 
     // add hotkeys from controls
@@ -642,6 +463,8 @@ begin
           if stgHotkeys.Cells[0, iGrid] = hotkey.ShortCut then
           begin
             stgHotkeys.Cells[2, iGrid] := stgHotkeys.Cells[2, iGrid] + HMControl.Name + ';';
+            HotkeyItem := PHotkeyItem(stgHotkeys.Objects[0, iGrid]);
+            AddString(HotkeyItem^.Controls, HMControl.Name);
             found := true;
             break;
           end; { if }
@@ -654,6 +477,8 @@ begin
           stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
           stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := GatherParams(hotkey.Params);
           stgHotkeys.Cells[2, stgHotkeys.RowCount - 1] := HMControl.Name + ';';
+          HotkeyItem := SetObject(stgHotkeys.RowCount - 1, hotkey);
+          AddString(HotkeyItem^.Controls, HMControl.Name);
         end; { if }
       end; { for }
     end; { for }
@@ -669,27 +494,6 @@ begin
   AutoSizeHotkeysGrid;
 end;
 
-procedure TfrmOptionsHotkeys.FillHKControlList;
-var
-  HMForm: THMForm;
-  i: Integer;
-  ControlsList: TStringList;
-begin
-  ControlsList := TStringList.Create;
-  try
-    HMForm := HotMan.Forms.Find(GetSelectedCategory);
-    if Assigned(HMForm) then
-    begin
-      for i := 0 to HMForm.Controls.Count - 1 do
-        ControlsList.AddObject(HMForm.Controls[i].Name, HMForm.Controls[i]);
-    end;
-    ControlsList.Sort;
-    cgHKControls.Items.Assign(ControlsList);
-    cgHKControls.Visible := cgHKControls.Items.Count <> 0;
-  finally
-    ControlsList.Free;
-  end;
-end;
 
 procedure TfrmOptionsHotkeys.FillCommandList(Filter: String);
 //< fill stgCommands with commands and descriptions
@@ -705,7 +509,7 @@ var
   CommandsFormCreated: Boolean = False;
   CommandsIntf: IFormCommands;
 begin
-  sForm := GetSelectedCategory;
+  sForm := GetSelectedForm;
   CommandsFormClass := TFormCommands.GetCommandsForm(sForm);
   if not Assigned(CommandsFormClass) or
      not Supports(CommandsFormClass, IFormCommands) then
@@ -849,7 +653,7 @@ begin
   end;
 end;
 
-function TfrmOptionsHotkeys.GetSelectedCategory: String;
+function TfrmOptionsHotkeys.GetSelectedForm: String;
 var
   Index: Integer;
 begin
@@ -863,6 +667,14 @@ end;
 class function TfrmOptionsHotkeys.GetIconIndex: Integer;
 begin
   Result := 5;
+end;
+
+function TfrmOptionsHotkeys.GetSelectedCommand: String;
+begin
+  if stgCommands.Row >= stgCommands.FixedRows then
+    Result := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row]
+  else
+    Result := EmptyStr;
 end;
 
 class function TfrmOptionsHotkeys.GetTitle: String;
@@ -892,6 +704,47 @@ begin
   // Save hotkeys file name.
   if lbSCFilesList.ItemIndex >= 0 then
     gNameSCFile := lbSCFilesList.Items[lbSCFilesList.ItemIndex];
+end;
+
+procedure TfrmOptionsHotkeys.ShowEditHotkeyForm(EditMode: Boolean; aHotkeyRow: Integer);
+var
+  HotkeyItem: PHotkeyItem;
+begin
+  HotkeyItem := PHotkeyItem(stgHotkeys.Objects[0, aHotkeyRow]);
+  if Assigned(HotkeyItem) then
+    ShowEditHotkeyForm(EditMode,
+                       GetSelectedForm,
+                       HotkeyItem^.Hotkey.Command,
+                       HotkeyItem^.Hotkey,
+                       HotkeyItem^.Controls);
+end;
+
+procedure TfrmOptionsHotkeys.ShowEditHotkeyForm(
+  EditMode: Boolean;
+  const AForm: String;
+  const ACommand: String;
+  const AHotkey: THotkey;
+  const AControls: TDynamicStringArray);
+var
+  HMForm: THMForm;
+begin
+  if AForm <> EmptyStr then
+  begin
+    if not Assigned(FEditForm) then
+      FEditForm := TfrmEditHotkey.Create(Self);
+
+    if FEditForm.Execute(EditMode, AForm, ACommand, AHotkey, AControls) then
+    begin
+      HMForm := HotMan.Forms.FindOrCreate(AForm);
+
+      // refresh hotkey lists
+      Self.UpdateHotkeys(HMForm);
+      Self.FillHotkeyList(ACommand);
+
+      // Select the new shortcut in the hotkeys table.
+      stgHotkeys.Row := stgHotkeys.Cols[0].IndexOf(FEditForm.NewShortcut);
+    end;
+  end;
 end;
 
 constructor TfrmOptionsHotkeys.Create(TheOwner: TComponent);
@@ -981,7 +834,7 @@ begin
     for I := 0 to HMForm.Controls.Count - 1 do
       AddShiftShortcut(HMForm.Controls[i].Hotkeys);
     // Refresh hotkeys list.
-    if stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row] = 'cm_Delete' then
+    if GetSelectedCommand = 'cm_Delete' then
       Self.FillHotkeyList('cm_Delete');
   end;
 end;

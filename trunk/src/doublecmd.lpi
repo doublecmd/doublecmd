@@ -272,7 +272,7 @@
         <PackageName Value="viewerpackage"/>
       </Item10>
     </RequiredPackages>
-    <Units Count="161">
+    <Units Count="162">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1273,6 +1273,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSourceOperationMisc"/>
       </Unit160>
+      <Unit161>
+        <Filename Value="foptionshotkeysedithotkey.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmEditHotkey"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fOptionsHotkeysEditHotkey"/>
+      </Unit161>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
