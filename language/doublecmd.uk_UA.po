@@ -446,14 +446,14 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Так"
 
+#: tfrmchecksumcalc.caption
+msgctxt "tfrmchecksumcalc.caption"
+msgid "Calculate check sum..."
+msgstr "Розрахувати контрольну суму..."
+
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "Create separate checksum file for each file"
 msgstr "Для кожного файлу створити свій контрольний файл"
-
-#: tfrmchecksumcalc.frmchecksumcalc.caption
-msgctxt "tfrmchecksumcalc.frmchecksumcalc.caption"
-msgid "Calculate check sum..."
-msgstr "Розрахувати контрольну суму..."
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "Save check sum file(s) to:"
@@ -631,6 +631,11 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Скасувати"
 
+#: tfrmcopydlg.btncreatespecialqueue.caption
+msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "Налашт&увати"
@@ -643,10 +648,6 @@ msgstr "Зберегти ці налаштування за замовчуван
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Копіювати файл(и)"
-
-#: tfrmcopydlg.lblcopysrc.caption
-msgid "Copy %s:"
-msgstr "Копіювати %s:"
 
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -1013,6 +1014,20 @@ msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
 msgstr "&Налаштування"
 
+#: tfrmedithotkey.cghkcontrols.caption
+#, fuzzy
+msgctxt "tfrmedithotkey.cghkcontrols.caption"
+msgid "Only for these controls"
+msgstr "Тільки для цих елементів керування"
+
+#: tfrmedithotkey.lblhotkey.caption
+msgid "Hot key:"
+msgstr ""
+
+#: tfrmedithotkey.lblparameters.caption
+msgid "Parameters (each in a separate line):"
+msgstr ""
+
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
 msgid "About"
@@ -1223,8 +1238,8 @@ msgstr "&Зберегти все"
 msgid "Save All"
 msgstr ""
 
-#: tfrmeditor.frmeditor.caption
-msgctxt "tfrmeditor.frmeditor.caption"
+#: tfrmeditor.caption
+msgctxt "tfrmeditor.caption"
 msgid "Editor"
 msgstr "Редактор"
 
@@ -1602,12 +1617,6 @@ msgstr "З"
 msgid "Click on Close when the temporary file can be deleted!"
 msgstr "Натисніть \"Закрити\", коли тимчасовий файл може бути видалений!"
 
-#: tfrmfileop.bthopend.caption
-#, fuzzy
-#| msgid "End"
-msgid "&End"
-msgstr "Кінець"
-
 #: tfrmfileop.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
@@ -1615,36 +1624,17 @@ msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "Скасувати"
 
-#: tfrmfileop.btnophome.caption
-#, fuzzy
-#| msgid "Home"
-msgid "&Home"
-msgstr "Початок"
+#: tfrmfileop.btnminimizetopanel.caption
+msgid "&To panel"
+msgstr ""
 
-#: tfrmfileop.btntoqueue.caption
-#, fuzzy
-#| msgid "To Queue"
-msgid "To &Queue"
-msgstr "До черги"
+#: tfrmfileop.btnviewoperations.caption
+msgid "&View all"
+msgstr ""
 
-#: tfrmfileop.btnworkinbackground.caption
-msgid "Work in &background"
-msgstr "У &фоні"
-
-#: tfrmfileop.frmfileop.caption
-msgctxt "tfrmfileop.frmfileop.caption"
-msgid "Process file(s)"
-msgstr "Обробити файл(и)"
-
-#: tfrmfileop.lblfilenamefrom.caption
-#, fuzzy
-msgctxt "TFRMFILEOP.LBLFILENAMEFROM.CAPTION"
-msgid "File name from"
-msgstr "Ім'я файлу від"
-
-#: tfrmfileop.lblfilenameto.caption
-msgid "File name to"
-msgstr "Ім’я файлу до"
+#: tfrmfileop.lblcurrentoperation.caption
+msgid "Current operation:"
+msgstr ""
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -2751,29 +2741,6 @@ msgstr "Відвідати домашн&ю сторінку Double Commander"
 msgid "Wipe"
 msgstr "Стерти"
 
-#: tfrmmain.allopcancel.caption
-msgctxt "TFRMMAIN.ALLOPCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Скасувати"
-
-#: tfrmmain.alloppause.caption
-msgctxt "TFRMMAIN.ALLOPPAUSE.CAPTION"
-msgid "||"
-msgstr "||"
-
-#: tfrmmain.alloppct.caption
-msgid "%"
-msgstr "%"
-
-#: tfrmmain.allopprogressind.caption
-msgid "||||||||||||||||||||"
-msgstr "||||||||||||||||||||"
-
-#: tfrmmain.allopstart.caption
-msgctxt "TFRMMAIN.ALLOPSTART.CAPTION"
-msgid "Start"
-msgstr "Старт"
-
 #: tfrmmain.btnf10.caption
 msgid "Exit F10"
 msgstr "Вихід F10"
@@ -2863,8 +2830,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: tfrmmain.frmmain.caption
-msgctxt "tfrmmain.frmmain.caption"
+#: tfrmmain.caption
+msgctxt "tfrmmain.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -3080,6 +3047,21 @@ msgstr "Ви&хід"
 msgid "Restore"
 msgstr "Відновити"
 
+#: tfrmmain.mnualloperpause.caption
+msgctxt "tfrmmain.mnualloperpause.caption"
+msgid "||"
+msgstr "||"
+
+#: tfrmmain.mnualloperstart.caption
+msgctxt "tfrmmain.mnualloperstart.caption"
+msgid "Start"
+msgstr "Старт"
+
+#: tfrmmain.mnualloperstop.caption
+msgctxt "tfrmmain.mnualloperstop.caption"
+msgid "Cancel"
+msgstr "Скасувати"
+
 #: tfrmmain.mnucmd.caption
 msgid "&Commands"
 msgstr "&Команди"
@@ -3242,10 +3224,12 @@ msgid "1"
 msgstr "1"
 
 #: tfrmmodview.lblpath2.caption
+msgctxt "tfrmmodview.lblpath2.caption"
 msgid "2"
 msgstr "2"
 
 #: tfrmmodview.lblpath3.caption
+msgctxt "tfrmmodview.lblpath3.caption"
 msgid "3"
 msgstr "3"
 
@@ -3335,6 +3319,11 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "З&берегти"
 
+#: tfrmmultirename.caption
+msgctxt "tfrmmultirename.caption"
+msgid "MultiRename"
+msgstr "Групове перейменування"
+
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Enable"
@@ -3366,11 +3355,6 @@ msgstr "1"
 #: tfrmmultirename.extension.caption
 msgid "[E] Extension"
 msgstr "[E] Розширення"
-
-#: tfrmmultirename.frmmultirename.caption
-msgctxt "tfrmmultirename.frmmultirename.caption"
-msgid "MultiRename"
-msgstr "Групове перейменування"
 
 #: tfrmmultirename.gbcounter.caption
 msgid "Counter"
@@ -3552,18 +3536,18 @@ msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmmultirename.stringgrid.columns[0].tgridcolumntitle.caption
-msgctxt "tfrmmultirename.stringgrid.columns[0].tgridcolumntitle.caption"
+#: tfrmmultirename.stringgrid.columns[0].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[0].title.caption"
 msgid "Old File Name"
 msgstr "Старе ім’я файлу"
 
-#: tfrmmultirename.stringgrid.columns[1].tgridcolumntitle.caption
-msgctxt "tfrmmultirename.stringgrid.columns[1].tgridcolumntitle.caption"
+#: tfrmmultirename.stringgrid.columns[1].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[1].title.caption"
 msgid "New File Name"
 msgstr "Нове ім’я файлу"
 
-#: tfrmmultirename.stringgrid.columns[2].tgridcolumntitle.caption
-msgctxt "tfrmmultirename.stringgrid.columns[2].tgridcolumntitle.caption"
+#: tfrmmultirename.stringgrid.columns[2].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Шлях до файлу"
 
@@ -3582,8 +3566,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Так"
 
-#: tfrmoptions.frmoptions.caption
-msgctxt "tfrmoptions.frmoptions.caption"
+#: tfrmoptions.caption
+msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "Налаштування"
 
@@ -4033,14 +4017,11 @@ msgid "Process comments with files/folders"
 msgstr "Опрацьовувати коментарі з файлами/каталогами"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
-msgid "Select only the file name when renaming (not the extension)"
-msgstr "При перейменуванні виділяти лише ім'я файлу (без розширення)"
-
-#: tfrmoptionsfileoperations.cbsavethumbnails.caption
 #, fuzzy
-msgid "Save thumbnails in cache"
-msgstr "Зберегти мініатюри в кеші"
+#| msgid "Select only the file name when renaming (not the extension)"
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
+msgid "Select file name without extension when renaming"
+msgstr "При перейменуванні виділяти лише ім'я файлу (без розширення)"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
@@ -4052,25 +4033,26 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "Skip file operations errors and write them to log window"
 msgstr "Пропускати помилки при файлових операціях і заносити їх у звіт"
 
-#: tfrmoptionsfileoperations.gbcopybuffersize.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.GBCOPYBUFFERSIZE.CAPTION"
-msgid "&Buffer size for files:"
-msgstr "&Розмір буфера для файлів:"
+#: tfrmoptionsfileoperations.gbexecutingoperations.caption
+msgid "Executing operations"
+msgstr ""
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
 msgid "File search"
 msgstr "Пошук файлів"
 
-#: tfrmoptionsfileoperations.gbgeneraloptions.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.GBGENERALOPTIONS.CAPTION"
-msgid "General options"
-msgstr "Основні налаштування"
+#: tfrmoptionsfileoperations.gbuserinterface.caption
+msgid "User interface"
+msgstr ""
 
-#: tfrmoptionsfileoperations.lblcopybuffersize.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLCOPYBUFFERSIZE.CAPTION"
-msgid "Buffer size (Kb):"
-msgstr "Розмір буфера (Кб):"
+#: tfrmoptionsfileoperations.lblbuffersize.caption
+msgid "Buffer size for file operations (in KB):"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblprogresskind.caption
+msgid "Show operations progress initially in"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 #, fuzzy
@@ -4372,21 +4354,18 @@ msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
 msgid "Viewer font"
 msgstr "Шрифт переглядача"
 
-#: tfrmoptionshotkeys.btclearhotkey.caption
-msgctxt "TFRMOPTIONSHOTKEYS.BTCLEARHOTKEY.CAPTION"
-msgid "Clear HotKey"
-msgstr "Стерти ГарКлавішу"
+#: tfrmoptionshotkeys.btnaddhotkey.caption
+msgid "Add hotkey"
+msgstr ""
 
-#: tfrmoptionshotkeys.btsethotkey.caption
-msgctxt "TFRMOPTIONSHOTKEYS.BTSETHOTKEY.CAPTION"
-msgid "Set HotKey"
-msgstr "Задати ГарКлавішу"
+#: tfrmoptionshotkeys.btndeletehotkey.caption
+msgid "Delete hotkey"
+msgstr ""
 
-#: tfrmoptionshotkeys.cghkcontrols.caption
-#, fuzzy
-msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
-msgid "Only for these controls"
-msgstr "Тільки для цих елементів керування"
+#: tfrmoptionshotkeys.btnedithotkey.caption
+msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
+msgid "Edit hotkey"
+msgstr ""
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
@@ -4402,17 +4381,6 @@ msgstr "Категорії:"
 msgctxt "tfrmoptionshotkeys.lblcommands.caption"
 msgid "Commands:"
 msgstr "Команди:"
-
-#: tfrmoptionshotkeys.lblhotkey.caption
-#, fuzzy
-msgctxt "TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION"
-msgid "Hot Key:"
-msgstr "Гаряча клавіша:"
-
-#: tfrmoptionshotkeys.lblparam.caption
-msgctxt "TFRMOPTIONSHOTKEYS.LBLPARAM.CAPTION"
-msgid "Param:"
-msgstr "Параметри:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
@@ -4690,6 +4658,12 @@ msgstr "Підзвітні дії"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
 msgstr "Статус операції"
+
+#: tfrmoptionsmisc.cbsavethumbnails.caption
+#, fuzzy
+msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
+msgid "Save thumbnails in cache"
+msgstr "Зберегти мініатюри в кеші"
 
 #: tfrmoptionsmisc.cbshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
@@ -5240,11 +5214,6 @@ msgstr "&Закрити"
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
 msgid "&Help"
 msgstr "&Допомога"
-
-#: tfrmselecttextrange.btppanel.okbutton.caption
-msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
-msgid "&OK"
-msgstr "&Так"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "Select the characters to insert:"
@@ -5806,6 +5775,11 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr "Зменшити"
 
+#: tfrmviewer.caption
+msgctxt "tfrmviewer.caption"
+msgid "Viewer"
+msgstr "Переглядач"
+
 #: tfrmviewer.cbslideshow.caption
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5819,11 +5793,6 @@ msgstr "Ручка"
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
-
-#: tfrmviewer.frmviewer.caption
-msgctxt "tfrmviewer.frmviewer.caption"
-msgid "Viewer"
-msgstr "Переглядач"
 
 #: tfrmviewer.gboxhightlight.caption
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -6060,13 +6029,23 @@ msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "Операції з файлами"
 
-#: tfrmviewoperations.mnucancel.caption
-msgctxt "tfrmviewoperations.mnucancel.caption"
+#: tfrmviewoperations.mnucanceloperation.caption
+msgctxt "tfrmviewoperations.mnucanceloperation.caption"
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: tfrmviewoperations.mnucancelqueue.caption
+msgctxt "tfrmviewoperations.mnucancelqueue.caption"
 msgid "Cancel"
 msgstr "Скасувати"
 
 #: tfrmviewoperations.mnunewqueue.caption
 msgid "New queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuoperationshowdetached.caption
+msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
+msgid "Show in detached window"
 msgstr ""
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
@@ -6106,7 +6085,8 @@ msgstr ""
 msgid "Queue 5"
 msgstr ""
 
-#: tfrmviewoperations.mnushowdetached.caption
+#: tfrmviewoperations.mnuqueueshowdetached.caption
+msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
 msgid "Show in detached window"
 msgstr ""
 
@@ -7093,21 +7073,49 @@ msgstr "Перервано"
 msgid "Calculating check sum"
 msgstr ""
 
+#: ulng.rsopercalculatingchecksumin
+msgid "Calculating check sum in \"%s\""
+msgstr ""
+
+#: ulng.rsopercalculatingchecksumof
+msgid "Calculating check sum of \"%s\""
+msgstr ""
+
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
 msgid "Calculating"
 msgstr "Підрахунок"
 
+#: ulng.rsopercalculatingstatisticsin
+msgid "Calculating \"%s\""
+msgstr ""
+
 #: ulng.rsopercombining
 msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercombiningfromto
+msgid "Joining files in \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsopercopying
 msgid "Copying"
 msgstr ""
 
+#: ulng.rsopercopyingfromto
+msgid "Copying from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopercopyingsomethingto
+msgid "Copying \"%s\" to \"%s\""
+msgstr ""
+
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsopercreatingsomedirectory
+msgid "Creating directory \"%s\""
 msgstr ""
 
 #: ulng.rsoperdeleting
@@ -7115,12 +7123,28 @@ msgctxt "ulng.rsoperdeleting"
 msgid "Deleting"
 msgstr "Видалення"
 
+#: ulng.rsoperdeletingin
+msgid "Deleting in \"%s\""
+msgstr ""
+
+#: ulng.rsoperdeletingsomething
+msgid "Deleting \"%s\""
+msgstr ""
+
 #: ulng.rsoperexecuting
 msgid "Executing"
 msgstr ""
 
+#: ulng.rsoperexecutingsomething
+msgid "Executing \"%s\""
+msgstr ""
+
 #: ulng.rsoperextracting
 msgid "Extracting"
+msgstr ""
+
+#: ulng.rsoperextractingfromto
+msgid "Extracting from \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsoperfinished
@@ -7131,8 +7155,20 @@ msgstr "Завершено"
 msgid "Listing"
 msgstr ""
 
+#: ulng.rsoperlistingin
+msgid "Listing \"%s\""
+msgstr ""
+
 #: ulng.rsopermoving
 msgid "Moving"
+msgstr ""
+
+#: ulng.rsopermovingfromto
+msgid "Moving from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopermovingsomethingto
+msgid "Moving \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsopernotstarted
@@ -7141,6 +7177,14 @@ msgstr "Не запущено"
 
 #: ulng.rsoperpacking
 msgid "Packing"
+msgstr ""
+
+#: ulng.rsoperpackingfromto
+msgid "Packing from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsoperpackingsomethingto
+msgid "Packing \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsoperpaused
@@ -7164,8 +7208,20 @@ msgstr "Виконується"
 msgid "Setting property"
 msgstr ""
 
+#: ulng.rsopersettingpropertyin
+msgid "Setting property in \"%s\""
+msgstr ""
+
+#: ulng.rsopersettingpropertyof
+msgid "Setting property of \"%s\""
+msgstr ""
+
 #: ulng.rsopersplitting
 msgid "Splitting"
+msgstr ""
+
+#: ulng.rsopersplittingfromto
+msgid "Splitting \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsoperstarting
@@ -7184,8 +7240,24 @@ msgstr "Зупиняється"
 msgid "Testing"
 msgstr ""
 
+#: ulng.rsopertestingin
+msgid "Testing in \"%s\""
+msgstr ""
+
+#: ulng.rsopertestingsomething
+msgid "Testing \"%s\""
+msgstr ""
+
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying check sum"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksumin
+msgid "Verifying check sum in \"%s\""
+msgstr ""
+
+#: ulng.rsoperverifyingchecksumof
+msgid "Verifying check sum of \"%s\""
 msgstr ""
 
 #: ulng.rsoperwaitingforconnection
@@ -7198,6 +7270,14 @@ msgstr "Очікування відповіді від користувача"
 
 #: ulng.rsoperwiping
 msgid "Wiping"
+msgstr ""
+
+#: ulng.rsoperwipingin
+msgid "Wiping in \"%s\""
+msgstr ""
+
+#: ulng.rsoperwipingsomething
+msgid "Wiping \"%s\""
 msgstr ""
 
 #: ulng.rsoperworking
@@ -7297,6 +7377,10 @@ msgstr "Відмітка + Курсор"
 msgid "Text"
 msgstr "Текст"
 
+#: ulng.rsoptfileoperationsprogresskind
+msgid "separate window;minimized separate window;operations panel"
+msgstr ""
+
 #: ulng.rsopthotkeysadddeleteshortcut
 msgid "Add shortcut to delete file"
 msgstr "Додати гар.клавішу для видалення файлів"
@@ -7304,6 +7388,10 @@ msgstr "Додати гар.клавішу для видалення файлі�
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Буде зареєстровано гар.клавішу %s  для cm_Delete , таким чином вона буде використана для реверсінгу налаштування."
+
+#: ulng.rsopthotkeysaddhotkey
+msgid "Add hotkey for %s"
+msgstr ""
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
@@ -7328,6 +7416,10 @@ msgstr "Поточна гар.клавіша %s  для cm_Delete має пар�
 #: ulng.rsopthotkeysdescription
 msgid "Description"
 msgstr "Опис"
+
+#: ulng.rsopthotkeysedithotkey
+msgid "Edit hotkey for %s"
+msgstr ""
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"

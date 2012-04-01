@@ -445,14 +445,14 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Aceptar"
 
+#: tfrmchecksumcalc.caption
+msgctxt "tfrmchecksumcalc.caption"
+msgid "Calculate check sum..."
+msgstr "Calcular suma de comprobación"
+
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "Create separate checksum file for each file"
 msgstr "Crear un archivo por cada comprobación"
-
-#: tfrmchecksumcalc.frmchecksumcalc.caption
-msgctxt "tfrmchecksumcalc.frmchecksumcalc.caption"
-msgid "Calculate check sum..."
-msgstr "Calcular suma de comprobación"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "Save check sum file(s) to:"
@@ -632,6 +632,11 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: tfrmcopydlg.btncreatespecialqueue.caption
+msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
+msgid "..."
+msgstr ""
+
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "O&pciones"
@@ -644,10 +649,6 @@ msgstr "Guardar opciones por defecto"
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Copiar archivo(s)"
-
-#: tfrmcopydlg.lblcopysrc.caption
-msgid "Copy %s:"
-msgstr "Copiar %s:"
 
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -1016,6 +1017,19 @@ msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
 msgstr "&Opciones"
 
+#: tfrmedithotkey.cghkcontrols.caption
+msgctxt "tfrmedithotkey.cghkcontrols.caption"
+msgid "Only for these controls"
+msgstr ""
+
+#: tfrmedithotkey.lblhotkey.caption
+msgid "Hot key:"
+msgstr ""
+
+#: tfrmedithotkey.lblparameters.caption
+msgid "Parameters (each in a separate line):"
+msgstr ""
+
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
 msgid "About"
@@ -1226,8 +1240,8 @@ msgstr "G&uardarlo todo"
 msgid "Save All"
 msgstr ""
 
-#: tfrmeditor.frmeditor.caption
-msgctxt "tfrmeditor.frmeditor.caption"
+#: tfrmeditor.caption
+msgctxt "tfrmeditor.caption"
 msgid "Editor"
 msgstr "Editor"
 
@@ -1609,12 +1623,6 @@ msgstr "De:"
 msgid "Click on Close when the temporary file can be deleted!"
 msgstr "¡Picar en Cerrar cuando el archivo temporal se pueda borrar!"
 
-#: tfrmfileop.bthopend.caption
-#, fuzzy
-#| msgid "End"
-msgid "&End"
-msgstr "Fin"
-
 #: tfrmfileop.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
@@ -1622,37 +1630,17 @@ msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "Cancelar"
 
-#: tfrmfileop.btnophome.caption
-#, fuzzy
-#| msgid "Home"
-msgid "&Home"
-msgstr "Inicio"
+#: tfrmfileop.btnminimizetopanel.caption
+msgid "&To panel"
+msgstr ""
 
-#: tfrmfileop.btntoqueue.caption
-#, fuzzy
-#| msgid "To Queue"
-msgid "To &Queue"
-msgstr "A la cola"
+#: tfrmfileop.btnviewoperations.caption
+msgid "&View all"
+msgstr ""
 
-#: tfrmfileop.btnworkinbackground.caption
-msgid "Work in &background"
-msgstr "Segundo plano"
-
-#: tfrmfileop.frmfileop.caption
-msgctxt "tfrmfileop.frmfileop.caption"
-msgid "Process file(s)"
-msgstr "Procesar archivo(s)"
-
-#: tfrmfileop.lblfilenamefrom.caption
-#, fuzzy
-#| msgid "File name"
-msgctxt "TFRMFILEOP.LBLFILENAMEFROM.CAPTION"
-msgid "File name from"
-msgstr "Nombre de archivo desde"
-
-#: tfrmfileop.lblfilenameto.caption
-msgid "File name to"
-msgstr "Nombre de archivo para"
+#: tfrmfileop.lblcurrentoperation.caption
+msgid "Current operation:"
+msgstr ""
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -2777,29 +2765,6 @@ msgstr "Visitar el sitio web de Double Commander"
 msgid "Wipe"
 msgstr "Destruir"
 
-#: tfrmmain.allopcancel.caption
-msgctxt "TFRMMAIN.ALLOPCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: tfrmmain.alloppause.caption
-msgctxt "TFRMMAIN.ALLOPPAUSE.CAPTION"
-msgid "||"
-msgstr ""
-
-#: tfrmmain.alloppct.caption
-msgid "%"
-msgstr ""
-
-#: tfrmmain.allopprogressind.caption
-msgid "||||||||||||||||||||"
-msgstr ""
-
-#: tfrmmain.allopstart.caption
-msgctxt "TFRMMAIN.ALLOPSTART.CAPTION"
-msgid "Start"
-msgstr "Comenzar"
-
 #: tfrmmain.btnf10.caption
 msgid "Exit F10"
 msgstr "Salir F10"
@@ -2885,8 +2850,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: tfrmmain.frmmain.caption
-msgctxt "tfrmmain.frmmain.caption"
+#: tfrmmain.caption
+msgctxt "tfrmmain.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -3102,6 +3067,21 @@ msgstr "&Salir"
 msgid "Restore"
 msgstr "Restaurar"
 
+#: tfrmmain.mnualloperpause.caption
+msgctxt "tfrmmain.mnualloperpause.caption"
+msgid "||"
+msgstr ""
+
+#: tfrmmain.mnualloperstart.caption
+msgctxt "tfrmmain.mnualloperstart.caption"
+msgid "Start"
+msgstr "Comenzar"
+
+#: tfrmmain.mnualloperstop.caption
+msgctxt "tfrmmain.mnualloperstop.caption"
+msgid "Cancel"
+msgstr "Cancelar"
+
 #: tfrmmain.mnucmd.caption
 msgid "&Commands"
 msgstr "&Comandos"
@@ -3268,10 +3248,12 @@ msgid "1"
 msgstr "1"
 
 #: tfrmmodview.lblpath2.caption
+msgctxt "tfrmmodview.lblpath2.caption"
 msgid "2"
 msgstr ""
 
 #: tfrmmodview.lblpath3.caption
+msgctxt "tfrmmodview.lblpath3.caption"
 msgid "3"
 msgstr ""
 
@@ -3363,6 +3345,11 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "&Guardar"
 
+#: tfrmmultirename.caption
+msgctxt "tfrmmultirename.caption"
+msgid "MultiRename"
+msgstr "Renombrado múltiple"
+
 #: tfrmmultirename.cblog.caption
 #, fuzzy
 #| msgid "Log"
@@ -3398,11 +3385,6 @@ msgstr "1"
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E]xtensión"
-
-#: tfrmmultirename.frmmultirename.caption
-msgctxt "tfrmmultirename.frmmultirename.caption"
-msgid "MultiRename"
-msgstr "Renombrado múltiple"
 
 #: tfrmmultirename.gbcounter.caption
 msgid "Counter"
@@ -3615,18 +3597,18 @@ msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr ""
 
-#: tfrmmultirename.stringgrid.columns[0].tgridcolumntitle.caption
-msgctxt "tfrmmultirename.stringgrid.columns[0].tgridcolumntitle.caption"
+#: tfrmmultirename.stringgrid.columns[0].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[0].title.caption"
 msgid "Old File Name"
 msgstr "Nombre antiguo"
 
-#: tfrmmultirename.stringgrid.columns[1].tgridcolumntitle.caption
-msgctxt "tfrmmultirename.stringgrid.columns[1].tgridcolumntitle.caption"
+#: tfrmmultirename.stringgrid.columns[1].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[1].title.caption"
 msgid "New File Name"
 msgstr "Nombre nuevo"
 
-#: tfrmmultirename.stringgrid.columns[2].tgridcolumntitle.caption
-msgctxt "tfrmmultirename.stringgrid.columns[2].tgridcolumntitle.caption"
+#: tfrmmultirename.stringgrid.columns[2].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Ruta"
 
@@ -3645,8 +3627,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Aceptar"
 
-#: tfrmoptions.frmoptions.caption
-msgctxt "tfrmoptions.frmoptions.caption"
+#: tfrmoptions.caption
+msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "Opciones"
 
@@ -4095,13 +4077,11 @@ msgid "Process comments with files/folders"
 msgstr "Procesar comentarios con archivos/carpetas"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
+#, fuzzy
+#| msgid "Select only the file name when renaming (not the extension)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
-msgid "Select only the file name when renaming (not the extension)"
+msgid "Select file name without extension when renaming"
 msgstr "Seleccionar sólo el nombre del archivo cuando se renombra (no la extensión)"
-
-#: tfrmoptionsfileoperations.cbsavethumbnails.caption
-msgid "Save thumbnails in cache"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
@@ -4113,25 +4093,26 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "Skip file operations errors and write them to log window"
 msgstr "Saltar errores de operación con archivos y escribirlos en una ventana de registro"
 
-#: tfrmoptionsfileoperations.gbcopybuffersize.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.GBCOPYBUFFERSIZE.CAPTION"
-msgid "&Buffer size for files:"
-msgstr "Tamaño de &Buffer para archivos:"
+#: tfrmoptionsfileoperations.gbexecutingoperations.caption
+msgid "Executing operations"
+msgstr ""
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
 msgid "File search"
 msgstr "Búsqueda de archivos"
 
-#: tfrmoptionsfileoperations.gbgeneraloptions.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.GBGENERALOPTIONS.CAPTION"
-msgid "General options"
-msgstr "Opciones generales"
+#: tfrmoptionsfileoperations.gbuserinterface.caption
+msgid "User interface"
+msgstr ""
 
-#: tfrmoptionsfileoperations.lblcopybuffersize.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLCOPYBUFFERSIZE.CAPTION"
-msgid "Buffer size (Kb):"
-msgstr "Tamaño de buffer (Kb)"
+#: tfrmoptionsfileoperations.lblbuffersize.caption
+msgid "Buffer size for file operations (in KB):"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblprogresskind.caption
+msgid "Show operations progress initially in"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 #, fuzzy
@@ -4438,18 +4419,17 @@ msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
 msgid "Viewer font"
 msgstr "Fuente del visor"
 
-#: tfrmoptionshotkeys.btclearhotkey.caption
-msgctxt "TFRMOPTIONSHOTKEYS.BTCLEARHOTKEY.CAPTION"
-msgid "Clear HotKey"
-msgstr "Borrar tecla rápida"
+#: tfrmoptionshotkeys.btnaddhotkey.caption
+msgid "Add hotkey"
+msgstr ""
 
-#: tfrmoptionshotkeys.btsethotkey.caption
-msgctxt "TFRMOPTIONSHOTKEYS.BTSETHOTKEY.CAPTION"
-msgid "Set HotKey"
-msgstr "Elegir tecla rápida"
+#: tfrmoptionshotkeys.btndeletehotkey.caption
+msgid "Delete hotkey"
+msgstr ""
 
-#: tfrmoptionshotkeys.cghkcontrols.caption
-msgid "Only for these controls"
+#: tfrmoptionshotkeys.btnedithotkey.caption
+msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
+msgid "Edit hotkey"
 msgstr ""
 
 #: tfrmoptionshotkeys.lbfilter.caption
@@ -4466,16 +4446,6 @@ msgstr "Categorías:"
 msgctxt "tfrmoptionshotkeys.lblcommands.caption"
 msgid "Commands:"
 msgstr "Comandos:"
-
-#: tfrmoptionshotkeys.lblhotkey.caption
-msgctxt "TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION"
-msgid "Hot Key:"
-msgstr "Tecla rápida:"
-
-#: tfrmoptionshotkeys.lblparam.caption
-msgctxt "TFRMOPTIONSHOTKEYS.LBLPARAM.CAPTION"
-msgid "Param:"
-msgstr "Parámetro:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
@@ -4754,6 +4724,11 @@ msgstr "Registrar operaciones:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
 msgstr "Estado de la operación:"
+
+#: tfrmoptionsmisc.cbsavethumbnails.caption
+msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
+msgid "Save thumbnails in cache"
+msgstr ""
 
 #: tfrmoptionsmisc.cbshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
@@ -5303,11 +5278,6 @@ msgstr "&Cerrar"
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
 msgid "&Help"
 msgstr "A&yuda"
-
-#: tfrmselecttextrange.btppanel.okbutton.caption
-msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
-msgid "&OK"
-msgstr "&Aceptar"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "Select the characters to insert:"
@@ -5875,6 +5845,11 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr "Alejar"
 
+#: tfrmviewer.caption
+msgctxt "tfrmviewer.caption"
+msgid "Viewer"
+msgstr "Visor"
+
 #: tfrmviewer.cbslideshow.caption
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5888,11 +5863,6 @@ msgstr "Lápiz"
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
-
-#: tfrmviewer.frmviewer.caption
-msgctxt "tfrmviewer.frmviewer.caption"
-msgid "Viewer"
-msgstr "Visor"
 
 #: tfrmviewer.gboxhightlight.caption
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -6127,13 +6097,23 @@ msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "Operaciones con archivos"
 
-#: tfrmviewoperations.mnucancel.caption
-msgctxt "tfrmviewoperations.mnucancel.caption"
+#: tfrmviewoperations.mnucanceloperation.caption
+msgctxt "tfrmviewoperations.mnucanceloperation.caption"
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: tfrmviewoperations.mnucancelqueue.caption
+msgctxt "tfrmviewoperations.mnucancelqueue.caption"
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: tfrmviewoperations.mnunewqueue.caption
 msgid "New queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuoperationshowdetached.caption
+msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
+msgid "Show in detached window"
 msgstr ""
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
@@ -6173,7 +6153,8 @@ msgstr ""
 msgid "Queue 5"
 msgstr ""
 
-#: tfrmviewoperations.mnushowdetached.caption
+#: tfrmviewoperations.mnuqueueshowdetached.caption
+msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
 msgid "Show in detached window"
 msgstr ""
 
@@ -7159,21 +7140,49 @@ msgstr "Abortado"
 msgid "Calculating check sum"
 msgstr ""
 
+#: ulng.rsopercalculatingchecksumin
+msgid "Calculating check sum in \"%s\""
+msgstr ""
+
+#: ulng.rsopercalculatingchecksumof
+msgid "Calculating check sum of \"%s\""
+msgstr ""
+
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
 msgid "Calculating"
 msgstr "Calculando"
 
+#: ulng.rsopercalculatingstatisticsin
+msgid "Calculating \"%s\""
+msgstr ""
+
 #: ulng.rsopercombining
 msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercombiningfromto
+msgid "Joining files in \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsopercopying
 msgid "Copying"
 msgstr ""
 
+#: ulng.rsopercopyingfromto
+msgid "Copying from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopercopyingsomethingto
+msgid "Copying \"%s\" to \"%s\""
+msgstr ""
+
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsopercreatingsomedirectory
+msgid "Creating directory \"%s\""
 msgstr ""
 
 #: ulng.rsoperdeleting
@@ -7181,12 +7190,28 @@ msgctxt "ulng.rsoperdeleting"
 msgid "Deleting"
 msgstr "Borrando"
 
+#: ulng.rsoperdeletingin
+msgid "Deleting in \"%s\""
+msgstr ""
+
+#: ulng.rsoperdeletingsomething
+msgid "Deleting \"%s\""
+msgstr ""
+
 #: ulng.rsoperexecuting
 msgid "Executing"
 msgstr ""
 
+#: ulng.rsoperexecutingsomething
+msgid "Executing \"%s\""
+msgstr ""
+
 #: ulng.rsoperextracting
 msgid "Extracting"
+msgstr ""
+
+#: ulng.rsoperextractingfromto
+msgid "Extracting from \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsoperfinished
@@ -7197,8 +7222,20 @@ msgstr "Finalizado"
 msgid "Listing"
 msgstr ""
 
+#: ulng.rsoperlistingin
+msgid "Listing \"%s\""
+msgstr ""
+
 #: ulng.rsopermoving
 msgid "Moving"
+msgstr ""
+
+#: ulng.rsopermovingfromto
+msgid "Moving from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopermovingsomethingto
+msgid "Moving \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsopernotstarted
@@ -7207,6 +7244,14 @@ msgstr "No iniciado"
 
 #: ulng.rsoperpacking
 msgid "Packing"
+msgstr ""
+
+#: ulng.rsoperpackingfromto
+msgid "Packing from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsoperpackingsomethingto
+msgid "Packing \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsoperpaused
@@ -7230,8 +7275,20 @@ msgstr "Funcionando"
 msgid "Setting property"
 msgstr ""
 
+#: ulng.rsopersettingpropertyin
+msgid "Setting property in \"%s\""
+msgstr ""
+
+#: ulng.rsopersettingpropertyof
+msgid "Setting property of \"%s\""
+msgstr ""
+
 #: ulng.rsopersplitting
 msgid "Splitting"
+msgstr ""
+
+#: ulng.rsopersplittingfromto
+msgid "Splitting \"%s\" to \"%s\""
 msgstr ""
 
 #: ulng.rsoperstarting
@@ -7250,8 +7307,24 @@ msgstr "Parando"
 msgid "Testing"
 msgstr ""
 
+#: ulng.rsopertestingin
+msgid "Testing in \"%s\""
+msgstr ""
+
+#: ulng.rsopertestingsomething
+msgid "Testing \"%s\""
+msgstr ""
+
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying check sum"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksumin
+msgid "Verifying check sum in \"%s\""
+msgstr ""
+
+#: ulng.rsoperverifyingchecksumof
+msgid "Verifying check sum of \"%s\""
 msgstr ""
 
 #: ulng.rsoperwaitingforconnection
@@ -7264,6 +7337,14 @@ msgstr "Esperando su respuesta"
 
 #: ulng.rsoperwiping
 msgid "Wiping"
+msgstr ""
+
+#: ulng.rsoperwipingin
+msgid "Wiping in \"%s\""
+msgstr ""
+
+#: ulng.rsoperwipingsomething
+msgid "Wiping \"%s\""
 msgstr ""
 
 #: ulng.rsoperworking
@@ -7361,12 +7442,20 @@ msgstr "Marca + Cursor"
 msgid "Text"
 msgstr "Texto"
 
+#: ulng.rsoptfileoperationsprogresskind
+msgid "separate window;minimized separate window;operations panel"
+msgstr ""
+
 #: ulng.rsopthotkeysadddeleteshortcut
 msgid "Add shortcut to delete file"
 msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgstr ""
+
+#: ulng.rsopthotkeysaddhotkey
+msgid "Add hotkey for %s"
 msgstr ""
 
 #: ulng.rsopthotkeysaddshortcutbutton
@@ -7391,6 +7480,10 @@ msgstr ""
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
+msgstr ""
+
+#: ulng.rsopthotkeysedithotkey
+msgid "Edit hotkey for %s"
 msgstr ""
 
 #: ulng.rsopthotkeyshotkey
