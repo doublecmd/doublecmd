@@ -3939,14 +3939,6 @@ msgstr ""
 msgid "Text-mark"
 msgstr ""
 
-#: tfrmoptionseditorcolors.frameedgesbox.text
-msgid "Around"
-msgstr ""
-
-#: tfrmoptionseditorcolors.framestylebox.text
-msgid "slsSolid"
-msgstr ""
-
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
 msgstr ""
@@ -4029,14 +4021,6 @@ msgstr ""
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
-msgstr ""
-
-#: tfrmoptionseditorcolors.toolbar1.caption
-msgid "ToolBar1"
-msgstr ""
-
-#: tfrmoptionseditorcolors.toolbutton3.caption
-msgid "ToolButton3"
 msgstr ""
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption

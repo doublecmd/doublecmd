@@ -3980,15 +3980,6 @@ msgstr "찾았습니다"
 msgid "Text-mark"
 msgstr "텍스트"
 
-#: tfrmoptionseditorcolors.frameedgesbox.text
-#, fuzzy
-msgid "Around"
-msgstr "찾았습니다"
-
-#: tfrmoptionseditorcolors.framestylebox.text
-msgid "slsSolid"
-msgstr ""
-
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
 msgstr ""
@@ -4080,15 +4071,6 @@ msgstr ""
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "열기"
-
-#: tfrmoptionseditorcolors.toolbar1.caption
-#, fuzzy
-msgid "ToolBar1"
-msgstr "도구"
-
-#: tfrmoptionseditorcolors.toolbutton3.caption
-msgid "ToolButton3"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 #, fuzzy

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-02-06 23:08+0300\n"
+"PO-Revision-Date: 2012-03-31 23:55+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -14,12 +14,12 @@ msgstr ""
 #: dmhigh.rssyndefaulttext
 msgctxt "dmhigh.rssyndefaulttext"
 msgid "Default text"
-msgstr ""
+msgstr "Текст за замовчуванням"
 
 #: dmhigh.rssynlangplaintext
 msgctxt "dmhigh.rssynlangplaintext"
 msgid "Plain text"
-msgstr ""
+msgstr "Звичайний текст"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -624,7 +624,7 @@ msgstr "З'єднатися з:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
 msgid "Add To Queue"
-msgstr ""
+msgstr "Додати в чергу"
 
 #: tfrmcopydlg.btncancel.caption
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1191,7 +1191,7 @@ msgstr "Ви&хід"
 
 #: tfrmeditor.actfileexit.hint
 msgid "Exit"
-msgstr ""
+msgstr "Вихід"
 
 #: tfrmeditor.actfilenew.caption
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
@@ -1228,7 +1228,7 @@ msgstr "Зберегти &як.."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr ""
+msgstr "Зберегти як"
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1236,7 +1236,7 @@ msgstr "&Зберегти все"
 
 #: tfrmeditor.actsaveall.hint
 msgid "Save All"
-msgstr ""
+msgstr "Зберегти все"
 
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
@@ -1618,11 +1618,10 @@ msgid "Click on Close when the temporary file can be deleted!"
 msgstr "Натисніть \"Закрити\", коли тимчасовий файл може бути видалений!"
 
 #: tfrmfileop.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Скасувати"
+msgstr "&Скасувати"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
@@ -3224,12 +3223,10 @@ msgid "1"
 msgstr "1"
 
 #: tfrmmodview.lblpath2.caption
-msgctxt "tfrmmodview.lblpath2.caption"
 msgid "2"
 msgstr "2"
 
 #: tfrmmodview.lblpath3.caption
-msgctxt "tfrmmodview.lblpath3.caption"
 msgid "3"
 msgstr "3"
 
@@ -3854,147 +3851,134 @@ msgstr "Показувати діалог підтвердження при пе
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show file system"
-msgstr ""
+msgstr "Показувати файлову систему"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
 msgid "Show free space"
-msgstr ""
+msgstr "Показувати вільне місце"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
 msgid "Show label"
-msgstr ""
+msgstr "Показувати мітки"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
-msgstr ""
+msgstr "Список дисків"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
-msgstr ""
+msgstr "Фон"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
 msgid "Background"
-msgstr ""
+msgstr "Фон"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
-msgstr ""
+msgstr "Атрибути елементу"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
 msgid "Foreground"
-msgstr ""
+msgstr "Передній план"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
 msgid "Foreground"
-msgstr ""
+msgstr "Передній план"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
+#, fuzzy
 msgid "Text-mark"
-msgstr ""
-
-#: tfrmoptionseditorcolors.frameedgesbox.text
-msgid "Around"
-msgstr ""
-
-#: tfrmoptionseditorcolors.framestylebox.text
-msgid "slsSolid"
-msgstr ""
+msgstr "Текстова мітка"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
-msgstr ""
+msgstr "Використовувати (і редагувати) глобальні налаштування схеми"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
 msgid "Use local scheme settings"
-msgstr ""
+msgstr "Використовувати локальні параметри схеми"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
 msgid "Bold"
-msgstr ""
+msgstr "Bold"
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
 msgid "On"
-msgstr ""
+msgstr "Увімк."
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
 msgid "Italic"
-msgstr ""
+msgstr "Italic"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
 msgid "On"
-msgstr ""
+msgstr "Увімк."
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
+#, fuzzy
 msgid "Strike Out"
-msgstr ""
+msgstr "Закреслений"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioon.caption"
 msgid "On"
-msgstr ""
+msgstr "Увімк."
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
+#, fuzzy
 msgid "Underline"
-msgstr ""
+msgstr "Підкреслений"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
-msgstr ""
-
-#: tfrmoptionseditorcolors.toolbar1.caption
-msgid "ToolBar1"
-msgstr ""
-
-#: tfrmoptionseditorcolors.toolbutton3.caption
-msgid "ToolButton3"
-msgstr ""
+msgstr "Увімк."
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
@@ -4180,8 +4164,9 @@ msgid "Text Color:"
 msgstr "Колір тексту:"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
+#, fuzzy
 msgid "Don't load file list until a tab is activated"
-msgstr ""
+msgstr "Не завантажувати список файлів доки вкладка не активна"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
@@ -4190,7 +4175,7 @@ msgstr "Показувати квадратні дужки навколо кат
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
 msgid "Highlight new and updated files"
-msgstr ""
+msgstr "Виділяти нові та оновлені файли"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -4237,7 +4222,7 @@ msgstr "Формат дати і часу:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "Insert new files"
-msgstr ""
+msgstr "Вставити нові файли"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "Sorting directories:"
@@ -4250,7 +4235,7 @@ msgstr "&Метод сортування:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "Move updated files"
-msgstr ""
+msgstr "Перемістити оновлені файли"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -4363,7 +4348,6 @@ msgid "Delete hotkey"
 msgstr ""
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
-msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
 msgid "Edit hotkey"
 msgstr ""
 
@@ -4512,7 +4496,7 @@ msgstr "Показувати індикатор вільного місця на
 #: tfrmoptionslayout.cblogwindow.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
 msgid "Show log window"
-msgstr "Показати вікно звіту"
+msgstr "Показувати вікно звіту"
 
 #: tfrmoptionslayout.cbpanelofoperations.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBPANELOFOPERATIONS.CAPTION"
@@ -4532,7 +4516,7 @@ msgstr "Показувати &командний рядок"
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
 msgid "Show &current directory"
-msgstr "Показати по&точний каталог"
+msgstr "Показувати по&точний каталог"
 
 #: tfrmoptionslayout.cbshowdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION"
@@ -4542,7 +4526,7 @@ msgstr "Показувати кнопки &дисків"
 #: tfrmoptionslayout.cbshowdrivefreespace.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
 msgid "Show free space label"
-msgstr "Показати мітки вільного простору"
+msgstr "Показувати індикатор вільного місця"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
 msgid "Show d&rives list button"
@@ -4556,7 +4540,7 @@ msgstr "Показувати кнопки &функціональних клав
 #: tfrmoptionslayout.cbshowmainmenu.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
 msgid "Show main menu"
-msgstr "Показати головне меню"
+msgstr "Показувати головне меню"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
@@ -4565,7 +4549,7 @@ msgstr "Показувати &панель кнопок"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
 msgid "Show short free space label"
-msgstr ""
+msgstr "Короткий індикатор вільного місця"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
@@ -4585,7 +4569,7 @@ msgstr "Показувати вкл&адки"
 #: tfrmoptionslayout.cbtermwindow.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
 msgid "Show terminal window"
-msgstr "Показати вікно терміналу"
+msgstr "Показувати вікно терміналу"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
@@ -5152,43 +5136,43 @@ msgstr "Пошук"
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
-msgstr ""
+msgstr "Aa"
 
 #: tfrmquicksearch.sbcasesensitive.hint
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Чутливість до регістру"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
-msgstr ""
+msgstr "D"
 
 #: tfrmquicksearch.sbdirectories.hint
 msgid "Directories"
-msgstr ""
+msgstr "Каталоги"
 
 #: tfrmquicksearch.sbfiles.caption
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: tfrmquicksearch.sbfiles.hint
 msgid "Files"
-msgstr ""
+msgstr "Файли"
 
 #: tfrmquicksearch.sbmatchbeginning.caption
 msgid "{"
-msgstr ""
+msgstr "{"
 
 #: tfrmquicksearch.sbmatchbeginning.hint
 msgid "Match Beginning"
-msgstr ""
+msgstr "Початок співпадіння"
 
 #: tfrmquicksearch.sbmatchending.caption
 msgid "}"
-msgstr ""
+msgstr "}"
 
 #: tfrmquicksearch.sbmatchending.hint
 msgid "Match Ending"
-msgstr ""
+msgstr "Кінець співпадіння"
 
 #: tfrmquicksearch.tglfilter.caption
 msgctxt "tfrmquicksearch.tglfilter.caption"
@@ -6014,15 +5998,14 @@ msgid "Select All"
 msgstr "Виділити &все"
 
 #: tfrmviewoperations.btnstartpause.caption
-#, fuzzy
 #| msgid "Start"
 msgctxt "tfrmviewoperations.btnstartpause.caption"
 msgid "&Start"
-msgstr "Старт"
+msgstr "С&тарт"
 
 #: tfrmviewoperations.btnstop.caption
 msgid "S&top"
-msgstr ""
+msgstr "Зупини&ти"
 
 #: tfrmviewoperations.caption
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
@@ -6041,58 +6024,58 @@ msgstr "Скасувати"
 
 #: tfrmviewoperations.mnunewqueue.caption
 msgid "New queue"
-msgstr ""
+msgstr "Нова черга"
 
 #: tfrmviewoperations.mnuoperationshowdetached.caption
 msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Показати в окремому вікні"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr ""
+msgstr "На початок черги"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
-msgstr ""
+msgstr "В кінець черги"
 
 #: tfrmviewoperations.mnuqueue.caption
 msgctxt "tfrmviewoperations.mnuqueue.caption"
 msgid "Queue"
-msgstr ""
+msgstr "Черга"
 
 #: tfrmviewoperations.mnuqueue0.caption
 msgid "Out of queue"
-msgstr ""
+msgstr "З черги"
 
 #: tfrmviewoperations.mnuqueue1.caption
 msgid "Queue 1"
-msgstr ""
+msgstr "Черга 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
 msgid "Queue 2"
-msgstr ""
+msgstr "Черга 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
 msgid "Queue 3"
-msgstr ""
+msgstr "Черга 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
 msgid "Queue 4"
-msgstr ""
+msgstr "Черга 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
 msgid "Queue 5"
-msgstr ""
+msgstr "Черга 5"
 
 #: tfrmviewoperations.mnuqueueshowdetached.caption
 msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Показати в окремому вікні"
 
 #: tfrmviewoperations.tbpauseall.caption
 msgid "&Pause all"
-msgstr ""
+msgstr "&Призупинити все"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -6106,7 +6089,7 @@ msgstr "Якщо файл існує"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"
-msgstr ""
+msgstr "Працювати у фоні (окреме з’єднання)"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -6196,7 +6179,6 @@ msgid "Copy (%d) %s"
 msgstr "Копіювати (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-#, fuzzy
 #| msgid "All operations is complete"
 msgid "All operations completed"
 msgstr "Всі операції завершено"
@@ -6305,23 +6287,21 @@ msgid "Move file(s)"
 msgstr "Переміщення файлу(ів)"
 
 #: ulng.rsdlgoppause
-#, fuzzy
 #| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
 msgid "Pau&se"
-msgstr "Пауза"
+msgstr "Пау&за"
 
 #: ulng.rsdlgopstart
-#, fuzzy
 #| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
-msgstr "Старт"
+msgstr "&Старт"
 
 #: ulng.rsdlgqueue
 msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
-msgstr ""
+msgstr "Черга"
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -6521,7 +6501,7 @@ msgstr "Помилка створення жорсткого посилання.
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
-msgstr ""
+msgstr "Вікно Копіювання/Переміщення"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -6930,7 +6910,7 @@ msgstr "Наступний том буде розпаковано"
 
 #: ulng.rsmsgnofiles
 msgid "No files"
-msgstr ""
+msgstr "Файли відсутні"
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
@@ -7003,7 +6983,7 @@ msgstr "Будь-ласка, перезапустіть Double Commander для 
 
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
-msgstr ""
+msgstr "Виділено: %s з %s, фалів: %d з %d, папок: %d з %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
@@ -7071,7 +7051,7 @@ msgstr "Перервано"
 
 #: ulng.rsopercalculatingchecksum
 msgid "Calculating check sum"
-msgstr ""
+msgstr "Розрахунок контрольної суми"
 
 #: ulng.rsopercalculatingchecksumin
 msgid "Calculating check sum in \"%s\""
@@ -7092,7 +7072,7 @@ msgstr ""
 
 #: ulng.rsopercombining
 msgid "Joining"
-msgstr ""
+msgstr "З’єднання"
 
 #: ulng.rsopercombiningfromto
 msgid "Joining files in \"%s\" to \"%s\""
@@ -7100,7 +7080,7 @@ msgstr ""
 
 #: ulng.rsopercopying
 msgid "Copying"
-msgstr ""
+msgstr "Копіювання"
 
 #: ulng.rsopercopyingfromto
 msgid "Copying from \"%s\" to \"%s\""
@@ -7112,7 +7092,7 @@ msgstr ""
 
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
-msgstr ""
+msgstr "Створення каталогу"
 
 #: ulng.rsopercreatingsomedirectory
 msgid "Creating directory \"%s\""
@@ -7133,7 +7113,7 @@ msgstr ""
 
 #: ulng.rsoperexecuting
 msgid "Executing"
-msgstr ""
+msgstr "Розпакування"
 
 #: ulng.rsoperexecutingsomething
 msgid "Executing \"%s\""
@@ -7141,7 +7121,7 @@ msgstr ""
 
 #: ulng.rsoperextracting
 msgid "Extracting"
-msgstr ""
+msgstr "Розпакування"
 
 #: ulng.rsoperextractingfromto
 msgid "Extracting from \"%s\" to \"%s\""
@@ -7153,7 +7133,7 @@ msgstr "Завершено"
 
 #: ulng.rsoperlisting
 msgid "Listing"
-msgstr ""
+msgstr "Створення списку"
 
 #: ulng.rsoperlistingin
 msgid "Listing \"%s\""
@@ -7161,7 +7141,7 @@ msgstr ""
 
 #: ulng.rsopermoving
 msgid "Moving"
-msgstr ""
+msgstr "Переміщення"
 
 #: ulng.rsopermovingfromto
 msgid "Moving from \"%s\" to \"%s\""
@@ -7177,7 +7157,7 @@ msgstr "Не запущено"
 
 #: ulng.rsoperpacking
 msgid "Packing"
-msgstr ""
+msgstr "Упакування"
 
 #: ulng.rsoperpackingfromto
 msgid "Packing from \"%s\" to \"%s\""
@@ -7206,7 +7186,7 @@ msgstr "Виконується"
 
 #: ulng.rsopersettingproperty
 msgid "Setting property"
-msgstr ""
+msgstr "Встановлення властивостей"
 
 #: ulng.rsopersettingpropertyin
 msgid "Setting property in \"%s\""
@@ -7218,7 +7198,7 @@ msgstr ""
 
 #: ulng.rsopersplitting
 msgid "Splitting"
-msgstr ""
+msgstr "Розрізання"
 
 #: ulng.rsopersplittingfromto
 msgid "Splitting \"%s\" to \"%s\""
@@ -7238,7 +7218,7 @@ msgstr "Зупиняється"
 
 #: ulng.rsopertesting
 msgid "Testing"
-msgstr ""
+msgstr "Тестування"
 
 #: ulng.rsopertestingin
 msgid "Testing in \"%s\""
@@ -7250,7 +7230,7 @@ msgstr ""
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying check sum"
-msgstr ""
+msgstr "Перевірка контрольної суми"
 
 #: ulng.rsoperverifyingchecksumin
 msgid "Verifying check sum in \"%s\""
@@ -7270,7 +7250,7 @@ msgstr "Очікування відповіді від користувача"
 
 #: ulng.rsoperwiping
 msgid "Wiping"
-msgstr ""
+msgstr "Стирання"
 
 #: ulng.rsoperwipingin
 msgid "Wiping in \"%s\""
@@ -7281,8 +7261,9 @@ msgid "Wiping \"%s\""
 msgstr ""
 
 #: ulng.rsoperworking
+#, fuzzy
 msgid "Working"
-msgstr ""
+msgstr "Опрацювання"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
@@ -7525,8 +7506,9 @@ msgid "Fonts"
 msgstr "Шрифти"
 
 #: ulng.rsoptionseditorhighlighters
+#, fuzzy
 msgid "Highlighters"
-msgstr ""
+msgstr "Маркери"
 
 #: ulng.rsoptionseditorhotkeys
 msgctxt "ulng.rsoptionseditorhotkeys"
@@ -7602,7 +7584,7 @@ msgstr "Ліва кнопка;Права кнопка;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr ""
+msgstr "з початку списку файлів; після каталогів (якщо каталоги сортуються перед файлами); за сортуванням; в кінці списку файлів"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -7645,8 +7627,9 @@ msgid "Top;Bottom;"
 msgstr "Зверху;Знизу"
 
 #: ulng.rsoptupdatedfilesposition
+#, fuzzy
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr ""
+msgstr "не змінювати положення; використовувати ті ж налаштування, як для нових файлів; сортувати по позиції"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
@@ -7760,12 +7743,12 @@ msgstr "Помилка створення симв. посилання."
 #: ulng.rssyndefaulttext
 msgctxt "ulng.rssyndefaulttext"
 msgid "Default text"
-msgstr ""
+msgstr "Текст за замовчуванням"
 
 #: ulng.rssynlangplaintext
 msgctxt "ulng.rssynlangplaintext"
 msgid "Plain text"
-msgstr ""
+msgstr "Простий текст"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
