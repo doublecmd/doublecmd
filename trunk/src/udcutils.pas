@@ -333,7 +333,7 @@ function RemoveQuotation(const Str: String): String;
    @param(sCommand Command)
    @param(Args List of arguments)
 }
-procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TOpenStringArray);
+procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray);
 {$ELSEIF DEFINED(MSWINDOWS)}
 {en
    Split command line to command and parameters
@@ -421,12 +421,12 @@ procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor)
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
 
-procedure AddString(var anArray: TOpenStringArray; const sToAdd: String);
+procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
 function Compare(const Array1, Array2: array of String): Boolean;
 {en
    Copies open array to dynamic array.
 }
-function CopyArray(const anArray: array of String): TOpenStringArray;
+function CopyArray(const anArray: array of String): TDynamicStringArray;
 function ContainsOneOf(const ArrayToSearch, StringsToSearch: array of String): Boolean;
 function Contains(const ArrayToSearch: array of String; const StringToSearch: String): Boolean;
 procedure ReplaceString(var anArray: array of String; const sToReplace: String; sReplaceWith: String);
@@ -1160,7 +1160,7 @@ begin
 end;
 
 // Helper for RemoveQuotation and SplitCmdLine.
-procedure RemoveQuotationOrSplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TOpenStringArray; bSplitArgs: Boolean);
+procedure RemoveQuotationOrSplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray; bSplitArgs: Boolean);
 var
   I : Integer;
   QuoteChar : Char;
@@ -1268,14 +1268,14 @@ begin
 end;
 {$ELSEIF DEFINED(UNIX)}
 var
-  Args: TOpenStringArray;
+  Args: TDynamicStringArray;
 begin
   RemoveQuotationOrSplitCmdLine(Str, Result, Args, False);
 end;
 {$ENDIF}
 
 {$IF DEFINED(UNIX)}
-procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TOpenStringArray);
+procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray);
 begin
   RemoveQuotationOrSplitCmdLine(sCmdLine, sCommand, Args, True);
 end;
@@ -1769,7 +1769,7 @@ begin
   {$ENDIF}
 end;
 
-procedure AddString(var anArray: TOpenStringArray; const sToAdd: String);
+procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
 var
   Len: Integer;
 begin
@@ -1796,7 +1796,7 @@ begin
   end;
 end;
 
-function CopyArray(const anArray: array of String): TOpenStringArray;
+function CopyArray(const anArray: array of String): TDynamicStringArray;
 var
   i: Integer;
 begin
@@ -1810,7 +1810,7 @@ var
   i: Integer;
 begin
   for i := Low(StringsToSearch) to High(StringsToSearch) do
-    if HasString(ArrayToSearch, StringsToSearch[i]) then
+    if Contains(ArrayToSearch, StringsToSearch[i]) then
       Exit(True);
   Result := False;
 end;

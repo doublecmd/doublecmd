@@ -29,7 +29,7 @@ uses
 type
   TLibHandle = PtrInt;
 
-  TOpenStringArray = array of String;
+  TDynamicStringArray = array of String;
 
   TFileAttrs = Cardinal;     // file attributes type regardless of system
 
