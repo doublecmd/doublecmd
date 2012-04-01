@@ -1031,7 +1031,6 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AutoSize = True
       BorderSpacing.Left = 3
       BorderSpacing.Right = 3
-      Caption = 'ToolBar1'
       EdgeBorders = [ebBottom]
       ParentShowHint = False
       ShowCaptions = True
@@ -1062,7 +1061,6 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         Left = 188
         Top = 0
         Width = 10
-        Caption = 'ToolButton3'
         Style = tbsSeparator
       end
     end
