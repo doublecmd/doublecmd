@@ -421,6 +421,8 @@ resourcestring
   rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used.';
   rsOptHotkeysShortCutUsedText2 = 'Change it to %s?';
   rsOptHotkeysUsedBy = 'used for %s in %s';
+  rsOptHotkeysAddHotkey = 'Add hotkey for %s';
+  rsOptHotkeysEditHotkey = 'Edit hotkey for %s';
   rsHotkeyCategoryMain = 'Main';
   rsHotkeyCategoryViewer = 'Viewer';
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
