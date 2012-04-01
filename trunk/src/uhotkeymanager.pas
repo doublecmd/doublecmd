@@ -48,6 +48,7 @@ type
     Shortcut: String;
     Command: String;
     Params: array of String;
+    function Clone: THotkey;
     function HasParam(const aParam: String): Boolean; overload;
     function HasParam(const aParams: array of String): Boolean; overload;
     function SameParams(const aParams: array of String): Boolean;
@@ -209,6 +210,14 @@ uses
 
 { THotkey }
 
+function THotkey.Clone: THotkey;
+begin
+  Result := THotkey.Create;
+  Result.Shortcut := Shortcut;
+  Result.Command := Command;
+  Result.Params := Copy(Params);
+end;
+
 function THotkey.HasParam(const aParams: array of String): Boolean;
 begin
   Result := ContainsOneOf(Params, aParams);
@@ -269,7 +278,7 @@ procedure THotkeys.AddIfNotExists(const ShortcutsWithParams: array of String; Co
 var
   s: String;
   ShortCut: String = '';
-  Params: array of String;
+  Params: array of String = nil;
 begin
   // Check if a different shortcut isn't already assigned to the command.
   if Assigned(FindByCommand(Command)) then
@@ -358,7 +367,7 @@ begin
     Result := Items[i];
     if (Result.ShortCut = Hotkey.Shortcut) and
        (Result.Command  = Hotkey.Command) and
-       (Result.Params   = Hotkey.Params) then
+       (Result.SameParams(Hotkey.Params)) then
       Exit;
   end;
   Result := nil;
@@ -769,7 +778,8 @@ var
   procedure LoadHotkey(Hotkeys: THotkeys; Node: TXmlNode);
   var
     Shortcut, Command, Param: String;
-    Controls, Params: array of String;
+    Params: array of String = nil;
+    Controls: array of String = nil;
     HMControl: THMControl;
     i: Integer;
   begin
