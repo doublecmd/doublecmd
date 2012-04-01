@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-03-25 12:05+0400\n"
+"PO-Revision-Date: 2012-04-01 18:48+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -268,7 +268,7 @@ msgstr "Закрыть"
 
 #: tfrmabout.btncopytoclipboard.caption
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Копировать"
 
 #: tfrmabout.caption
 msgctxt "TFRMABOUT.CAPTION"
@@ -623,7 +623,6 @@ msgid "Connect to:"
 msgstr "Соединиться с:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
-#, fuzzy
 #| msgid "Add To Queue 1"
 msgid "Add To Queue"
 msgstr "В очередь"
@@ -1621,7 +1620,6 @@ msgid "Click on Close when the temporary file can be deleted!"
 msgstr "Нажмите \"Закрыть\", когда временный файл можно будет удалить!"
 
 #: tfrmfileop.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -1629,15 +1627,15 @@ msgstr "Отмена"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
-msgstr ""
+msgstr "На панель"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
-msgstr ""
+msgstr "Показать все"
 
 #: tfrmfileop.lblcurrentoperation.caption
 msgid "Current operation:"
-msgstr ""
+msgstr "Текущая операция:"
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -1675,7 +1673,7 @@ msgstr "Свойства"
 #: tfrmfileproperties.cbsgid.caption
 msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
-msgstr ""
+msgstr "SGID"
 
 #: tfrmfileproperties.cbsticky.caption
 msgctxt "TFRMFILEPROPERTIES.CBSTICKY.CAPTION"
@@ -1685,7 +1683,7 @@ msgstr "Закрепляющий бит"
 #: tfrmfileproperties.cbsuid.caption
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
-msgstr ""
+msgstr "SUID"
 
 #: tfrmfileproperties.gbowner.caption
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -4061,18 +4059,17 @@ msgstr "Поиск файлов"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
-msgstr ""
+msgstr "Пользовательский интерфейс"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
-msgstr ""
+msgstr "Размер буфера для файловых операций (Кб):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress initially in"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
-#, fuzzy
 #| msgid "Number of wipe pass"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
 msgid "Number of wipe passes:"
@@ -4894,7 +4891,6 @@ msgid "characters"
 msgstr "символов"
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#, fuzzy
 #| msgid "Tabs position:"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Tabs position"
@@ -5164,7 +5160,7 @@ msgstr "&Найти..."
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
-msgstr ""
+msgstr "Аа"
 
 #: tfrmquicksearch.sbcasesensitive.hint
 msgid "Case Sensitive"
@@ -5188,7 +5184,7 @@ msgstr "Файлы"
 
 #: tfrmquicksearch.sbmatchbeginning.caption
 msgid "{"
-msgstr ""
+msgstr "{"
 
 #: tfrmquicksearch.sbmatchbeginning.hint
 msgid "Match Beginning"
@@ -5196,7 +5192,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbmatchending.caption
 msgid "}"
-msgstr ""
+msgstr "}"
 
 #: tfrmquicksearch.sbmatchending.hint
 msgid "Match Ending"
@@ -6026,7 +6022,6 @@ msgid "Select All"
 msgstr "Выделить &всё"
 
 #: tfrmviewoperations.btnstartpause.caption
-#, fuzzy
 #| msgid "Start"
 msgctxt "tfrmviewoperations.btnstartpause.caption"
 msgid "&Start"
@@ -6208,7 +6203,6 @@ msgid "Copy (%d) %s"
 msgstr "Копия (%d) %s"
 
 #: ulng.rsdlgallopcomplete
-#, fuzzy
 #| msgid "All operations is complete"
 msgid "All operations completed"
 msgstr "Все операции завершены"
@@ -6316,14 +6310,12 @@ msgid "Move file(s)"
 msgstr "Переместить файл(ы)"
 
 #: ulng.rsdlgoppause
-#, fuzzy
 #| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
 msgid "Pau&se"
 msgstr "Пауза"
 
 #: ulng.rsdlgopstart
-#, fuzzy
 #| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
