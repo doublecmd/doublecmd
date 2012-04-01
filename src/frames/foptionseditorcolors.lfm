@@ -894,7 +894,6 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       Width = 97
       BorderSpacing.Left = 6
       ItemHeight = 15
-      ItemIndex = 0
       Items.Strings = (
         'slsSolid'
         'slsDashed'
@@ -906,7 +905,6 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       ReadOnly = True
       Style = csOwnerDrawFixed
       TabOrder = 9
-      Text = 'slsSolid'
     end
     object FrameEdgesBox: TComboBox
       AnchorSideLeft.Control = FrameColorBox
@@ -918,7 +916,6 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       Width = 97
       BorderSpacing.Top = 3
       ItemHeight = 15
-      ItemIndex = 0
       Items.Strings = (
         'Around'
         'Bottom'
@@ -929,7 +926,6 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       ReadOnly = True
       Style = csOwnerDrawFixed
       TabOrder = 10
-      Text = 'Around'
     end
     object ColumnPosBevel: TPanel
       AnchorSideLeft.Control = ForeGroundUseDefaultCheckBox
@@ -1054,7 +1050,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       end
       object tbtnLocal: TToolButton
         Tag = 1
-        Left = 188
+        Left = 198
         Top = 0
         AutoSize = True
         Caption = 'Use local scheme settings'
@@ -1063,7 +1059,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         Style = tbsCheck
       end
       object ToolButton3: TToolButton
-        Left = 318
+        Left = 188
         Top = 0
         Width = 10
         Caption = 'ToolButton3'
