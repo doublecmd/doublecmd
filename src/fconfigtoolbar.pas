@@ -263,7 +263,7 @@ begin
   sHotKey := ktbBar.GetButtonX(IndexButton, MiskX);
   for i:=0 to FHotKeyList.Count-1 do
     begin
-      if THotkey(FHotKeyList.Objects[i]).Params = sHotKey then
+      if THotkey(FHotKeyList.Objects[i]).SameParams([sHotKey]) then
          Result := FHotKeyList.Strings[i];
     end;
 end;
@@ -575,7 +575,7 @@ var
   //< local function for add hot key,
   procedure AddHotKeyButton(Hotkeys: THotkeys);
   begin
-    Hotkeys.Add(sShortCut, cHotKeyCommand, sShortCut);
+    Hotkeys.Add(sShortCut, cHotKeyCommand, [sShortCut]);
     ktbBar.SetButtonX(LastToolButton, MiskX, edtHotKeys.Text);
   end;
 

@@ -4,8 +4,8 @@
     HotKey Manager.
     Allow to set it's own bindings to each TWinControl on form.
 
-    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-    Copyright (C) 2011  Przemyslaw Nagay (cobines@gmail.com)
+    Copyright (C) 2008      Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+    Copyright (C) 2011-2012 Przemyslaw Nagay (cobines@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,10 +42,15 @@ type
   THMFormInstance = specialize THMObjectInstance<TCustomForm>;
   THMControlInstance = specialize THMObjectInstance<TWinControl>;
 
+  { THotkey }
+
   THotkey = class
     Shortcut: String;
     Command: String;
-    Params: String;
+    Params: array of String;
+    function HasParam(const aParam: String): Boolean; overload;
+    function HasParam(const aParams: array of String): Boolean; overload;
+    function SameParams(const aParams: array of String): Boolean;
   end;
 
   TBaseHotkeysList = specialize TFPGObjectList<THotkey>;
@@ -73,17 +78,18 @@ type
     procedure DoOnChange(hotkey: THotkey; operation: THotkeyOperation);
   public
     constructor Create(AFreeObjects: Boolean = True); reintroduce;
-    function Add(Shortcut: String; Command, Params: String): THotkey; overload;
-    function AddIfNotExists(Shortcut: String; Command, Params: String): THotkey; overload;
+    function Add(Shortcut: String; Command: String; const Params: array of String): THotkey; overload;
+    function AddIfNotExists(Shortcut: String; Command: String; const Params: array of String): THotkey; overload;
     {en
        Adds multiple shortcuts to the same command.
        @param(ShortcutsWithParams
-              Array of shortcuts with their respective parameters:
-                [Shortcut1, Param1, Shortcut2, Param2, ...])
+              Array of shortcuts followed by any number of parameters.
+              Each shortcut+parameters needs to end with an empty string.
+                [Shortcut1, S1Param1, '', Shortcut2, S2Param1, S2Param2, '', ...])
        @param(Command
               Command to which the shortcuts should be added.)
     }
-    procedure AddIfNotExists(ShortcutsWithParams: array of String; Command: String);
+    procedure AddIfNotExists(const ShortcutsWithParams: array of String; Command: String);
     procedure Clear;
     procedure Delete(Shortcut: String); reintroduce;
     procedure Remove(var hotkey: THotkey); reintroduce;
@@ -198,8 +204,25 @@ type
 implementation
 
 uses
-  uKeyboard, uGlobs, uDebug, uOSUtils, uDCVersion, XMLRead, uFormCommands;
+  XMLRead, uKeyboard, uGlobs, uDebug, uOSUtils, uDCUtils, uDCVersion,
+  uFormCommands;
 
+{ THotkey }
+
+function THotkey.HasParam(const aParams: array of String): Boolean;
+begin
+  Result := ContainsOneOf(Params, aParams);
+end;
+
+function THotkey.HasParam(const aParam: String): Boolean;
+begin
+  Result := Contains(Params, aParam);
+end;
+
+function THotkey.SameParams(const aParams: array of String): Boolean;
+begin
+  Result := Compare(Params, aParams);
+end;
 
 { TFreeNotifier }
 
@@ -218,17 +241,17 @@ begin
   inherited Create(AFreeObjects);
 end;
 
-function THotkeys.Add(Shortcut: String; Command, Params: String): THotkey;
+function THotkeys.Add(Shortcut: String; Command: String; const Params: array of String): THotkey;
 begin
   Result          := THotkey.Create;
   Result.Shortcut := Shortcut;
   Result.Command  := Command;
-  Result.Params   := Params;
+  Result.Params   := CopyArray(Params);
   Add(Result);
   DoOnChange(Result, hopAdd);
 end;
 
-function THotkeys.AddIfNotExists(Shortcut: String; Command, Params: String): THotkey;
+function THotkeys.AddIfNotExists(Shortcut: String; Command: String; const Params: array of String): THotkey;
 var
   i: Integer;
 begin
@@ -242,33 +265,33 @@ begin
   Result := Add(Shortcut, Command, Params);
 end;
 
-procedure THotkeys.AddIfNotExists(ShortcutsWithParams: array of String; Command: String);
+procedure THotkeys.AddIfNotExists(const ShortcutsWithParams: array of String; Command: String);
 var
-  i, j: Integer;
-  AddShortcut: array of Boolean;
-  NrOfShortcuts: Integer;
+  s: String;
+  ShortCut: String = '';
+  Params: array of String;
 begin
-  Assert(Length(ShortcutsWithParams) mod 2 = 0);
+  // Check if a different shortcut isn't already assigned to the command.
+  if Assigned(FindByCommand(Command)) then
+    Exit;
 
-  NrOfShortcuts := Length(ShortcutsWithParams) div 2;
-  SetLength(AddShortcut, NrOfShortcuts);
-  for j := 0 to NrOfShortcuts - 1 do
-    AddShortcut[j] := True;
-
-  // Check if the shortcut isn't already assigned to a different command
-  // or if a different shortcut isn't already assigned to the command.
-  for i := 0 to Count - 1 do
+  for s in ShortcutsWithParams do
   begin
-    for j := 0 to NrOfShortcuts - 1 do
-      if Items[i].Shortcut = ShortcutsWithParams[j*2] then
-        AddShortcut[j] := False;
-    if Items[i].Command = Command then
-      Exit;
+    if s = '' then
+    begin
+      // Check if the shortcut isn't already assigned to a different command.
+      if not Assigned(Find(ShortCut)) then
+        Add(ShortCut, Command, Params);
+      ShortCut := '';
+      SetLength(Params, 0);
+    end
+    else if ShortCut = '' then
+      ShortCut := s
+    else
+    begin
+      AddString(Params, s);
+    end;
   end;
-
-  for j := 0 to NrOfShortcuts - 1 do
-    if AddShortcut[j] then
-      Add(ShortcutsWithParams[j*2], Command, ShortcutsWithParams[j*2 + 1]);
 end;
 
 procedure THotkeys.Clear;
@@ -694,8 +717,8 @@ var
 
         Config.SetAttr(HotkeyNode, 'Key', Hotkeys[i].Shortcut);
         Config.SetValue(HotkeyNode, 'Command', Hotkeys[i].Command);
-        if Hotkeys[i].Params <> EmptyStr then
-          Config.SetValue(HotkeyNode, 'Params', Hotkeys[i].Params);
+        for j := Low(Hotkeys[i].Params) to High(Hotkeys[i].Params) do
+          Config.AddValue(HotkeyNode, 'Param', Hotkeys[i].Params[j]);
 
         if ControlIndex >= 0 then
           AddControl(Form.Controls[ControlIndex].Name);
@@ -745,9 +768,10 @@ var
 
   procedure LoadHotkey(Hotkeys: THotkeys; Node: TXmlNode);
   var
-    Shortcut, Command, Params: String;
+    Shortcut, Command, Param: String;
+    Controls, Params: array of String;
     HMControl: THMControl;
-    IsFormHotkey: Boolean = True;
+    i: Integer;
   begin
     if (Config.TryGetAttr(Node, 'Key', Shortcut)) and
        (((FVersion <= 1) and Config.TryGetAttr(Node, 'Command', Command)) or
@@ -756,9 +780,11 @@ var
        (Command <> EmptyStr) then
     begin
       if FVersion <= 1 then
-        Params := Config.GetAttr(Node, 'Params', '')
-      else
-        Params := Config.GetValue(Node, 'Params', '');
+        Param := Config.GetAttr(Node, 'Params', '')
+      else if FVersion < 9 then
+        Param := Config.GetValue(Node, 'Params', '');
+      if (FVersion < 9) and (Param <> '') then
+        AddString(Params, Param);
 
       Shortcut := NormalizeModifiers(Shortcut);
 
@@ -766,15 +792,13 @@ var
       while Assigned(Node) do
       begin
         if Node.CompareName('Control') = 0 then
-        begin
-          IsFormHotkey := False;
-          HMControl := Form.Controls.FindOrCreate(Config.GetContent(Node));
-          HMControl.Hotkeys.Add(Shortcut, Command, Params);
-        end;
+          AddString(Controls, Config.GetContent(Node))
+        else if Node.CompareName('Param') = 0 then
+          AddString(Params, Config.GetContent(Node));
         Node := Node.NextSibling;
       end;
 
-      if IsFormHotkey then
+      if Length(Controls) = 0 then
       begin
         if (FVersion <= 3) and IsShortcutConflictingWithOS(Shortcut) then
         begin
@@ -783,6 +807,14 @@ var
         end
         else
           Hotkeys.Add(Shortcut, Command, Params);
+      end
+      else
+      begin
+        for i := Low(Controls) to High(Controls) do
+        begin
+          HMControl := Form.Controls.FindOrCreate(Controls[i]);
+          HMControl.Hotkeys.Add(Shortcut, Command, Params);
+        end;
       end;
     end;
   end;
@@ -830,7 +862,7 @@ var
   hotkeys:  THotkeys;
   form:     THMForm;
   control:  THMControl;
-  Command, Params, FormName, ControlName: String;
+  Command, Param, FormName, ControlName: String;
 
   procedure RemoveFrmPrexif(var s: String);
   begin
@@ -851,33 +883,31 @@ begin
     j := 0;
     while ini.ValueExists(section, 'Command' + IntToStr(j)) do
     begin
+      Command     := ini.ReadString(section, 'Command' + IntToStr(j), '');
+      Param       := ini.ReadString(section, 'Param' + IntToStr(j), '');
+      ControlName := ini.ReadString(section, 'Object' + IntToStr(j), '');
+      FormName    := ini.ReadString(section, 'Form' + IntToStr(j), '');
+
+      RemoveFrmPrexif(FormName);
+      RemoveFrmPrexif(ControlName);
+
+      form := FForms.FindOrCreate(FormName);
+
+      if IsShortcutConflictingWithOS(shortCut) then
+        ControlName := 'Files Panel';
+
+      // Old config had FormName=ControlName for main form.
+      if SameText(FormName, ControlName) then
       begin
-        Command     := ini.ReadString(section, 'Command' + IntToStr(j), '');
-        Params      := ini.ReadString(section, 'Param' + IntToStr(j), '');
-        ControlName := ini.ReadString(section, 'Object' + IntToStr(j), '');
-        FormName    := ini.ReadString(section, 'Form' + IntToStr(j), '');
-
-        RemoveFrmPrexif(FormName);
-        RemoveFrmPrexif(ControlName);
-
-        form := FForms.FindOrCreate(FormName);
-
-        if IsShortcutConflictingWithOS(shortCut) then
-          ControlName := 'Files Panel';
-
-        // Old config had FormName=ControlName for main form.
-        if SameText(FormName, ControlName) then
-        begin
-          hotkeys := form.Hotkeys;
-        end
-        else
-        begin
-          control := form.Controls.FindOrCreate(ControlName);
-          hotkeys := control.Hotkeys;
-        end;
-
-        hotkeys.Add(shortcut, Command, Params);
+        hotkeys := form.Hotkeys;
+      end
+      else
+      begin
+        control := form.Controls.FindOrCreate(ControlName);
+        hotkeys := control.Hotkeys;
       end;
+
+      hotkeys.Add(shortcut, Command, [Param]);
 
       j := j + 1;
     end;
