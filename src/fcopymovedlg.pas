@@ -124,8 +124,9 @@ end;
 procedure TfrmCopyDlg.cm_AddToQueue(const Params: array of String);
 var
   Value: Integer;
+  sQueueId: String;
 begin
-  if (Length(Params) > 0) and TryStrToInt(Params[0], Value) then
+  if GetParamValue(Params, 'queueid', sQueueId) and TryStrToInt(sQueueId, Value) then
     FQueueIdentifier := Value
   else
     FQueueIdentifier := SingleQueueId;
