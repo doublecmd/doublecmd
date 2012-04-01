@@ -17,14 +17,14 @@ object frmPackDlg: TfrmPackDlg
   Constraints.MinWidth = 482
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.30.4'
   object lblPrompt: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 5
-    Height = 14
+    Height = 16
     Top = 5
-    Width = 106
+    Width = 137
     Caption = 'Pack file(s) to the file:'
     ParentColor = False
     ShowAccelChar = False
@@ -35,7 +35,7 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideRight.Control = btnCancel
     Left = 304
     Height = 32
-    Top = 191
+    Top = 228
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 24
@@ -51,7 +51,7 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideRight.Control = btnHelp
     Left = 400
     Height = 32
-    Top = 191
+    Top = 228
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
@@ -67,7 +67,7 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideRight.Side = asrBottom
     Left = 496
     Height = 32
-    Top = 191
+    Top = 228
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.InnerBorder = 4
@@ -82,8 +82,8 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideRight.Side = asrBottom
     Left = 5
     Height = 21
-    Top = 19
-    Width = 340
+    Top = 21
+    Width = 342
     OnAcceptDirectory = edtPackCmdAcceptDirectory
     ShowHidden = False
     ButtonWidth = 23
@@ -98,10 +98,10 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideLeft.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 377
+    Left = 379
     Height = 100
     Top = 14
-    Width = 209
+    Width = 207
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
     AutoSize = True
@@ -129,15 +129,15 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = rgPacker
     AnchorSideRight.Side = asrBottom
-    Left = 417
-    Height = 21
+    Left = 431
+    Height = 29
     Top = 120
-    Width = 161
+    Width = 147
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
     Enabled = False
-    ItemHeight = 13
+    ItemHeight = 0
     OnChange = cbOtherPluginsChange
     ParentFont = False
     Style = csDropDownList
@@ -150,10 +150,10 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = rgPacker
     AnchorSideRight.Side = asrBottom
-    Left = 383
+    Left = 385
     Height = 32
-    Top = 147
-    Width = 197
+    Top = 155
+    Width = 195
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -165,12 +165,12 @@ object frmPackDlg: TfrmPackDlg
   end
   object cbOtherPlugins: TCheckBox
     AnchorSideLeft.Control = rgPacker
-    AnchorSideTop.Control = rgPacker
-    AnchorSideTop.Side = asrBottom
-    Left = 383
-    Height = 17
-    Top = 120
-    Width = 34
+    AnchorSideTop.Control = cbPackerList
+    AnchorSideTop.Side = asrCenter
+    Left = 385
+    Height = 22
+    Top = 123
+    Width = 46
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     Caption = '=>'
@@ -184,22 +184,22 @@ object frmPackDlg: TfrmPackDlg
     AnchorSideTop.Control = edtPackCmd
     AnchorSideTop.Side = asrBottom
     Left = 5
-    Height = 119
-    Top = 48
-    Width = 340
+    Height = 154
+    Top = 50
+    Width = 342
     AutoSize = True
     BorderSpacing.Top = 8
     BevelOuter = bvNone
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 119
-    ClientWidth = 340
+    ClientHeight = 154
+    ClientWidth = 342
     Constraints.MinWidth = 340
     TabOrder = 1
     object cbStoreDir: TCheckBox
       Left = 0
-      Height = 17
+      Height = 22
       Top = 0
-      Width = 260
+      Width = 342
       Caption = 'Also &pack path names (only recursed)'
       Checked = True
       State = cbChecked
@@ -207,51 +207,51 @@ object frmPackDlg: TfrmPackDlg
     end
     object cbMultivolume: TCheckBox
       Left = 0
-      Height = 17
-      Top = 17
-      Width = 260
+      Height = 22
+      Top = 22
+      Width = 342
       Caption = '&Multiple disk archive'
       TabOrder = 1
     end
     object cbMoveToArchive: TCheckBox
       Left = 0
-      Height = 17
-      Top = 34
-      Width = 260
+      Height = 22
+      Top = 44
+      Width = 342
       Caption = 'M&ove to archive'
       TabOrder = 2
     end
     object cbCreateSFX: TCheckBox
       Left = 0
-      Height = 17
-      Top = 51
-      Width = 260
+      Height = 22
+      Top = 66
+      Width = 342
       Caption = 'Create self e&xtracting archive'
       OnClick = cbCreateSFXClick
       TabOrder = 3
     end
     object cbEncrypt: TCheckBox
       Left = 0
-      Height = 17
-      Top = 68
-      Width = 260
+      Height = 22
+      Top = 88
+      Width = 342
       Caption = 'Encr&ypt'
       TabOrder = 4
     end
     object cbPutInTarFirst: TCheckBox
       Left = 0
-      Height = 17
-      Top = 85
-      Width = 260
+      Height = 22
+      Top = 110
+      Width = 342
       Caption = 'Put in the TAR archive first'
       OnChange = cbPutInTarFirstChange
       TabOrder = 5
     end
     object cbCreateSeparateArchives: TCheckBox
       Left = 0
-      Height = 17
-      Top = 102
-      Width = 260
+      Height = 22
+      Top = 132
+      Width = 342
       Caption = 'Create separate archives, o&ne per selected file/dir'
       OnChange = cbCreateSeparateArchivesChange
       TabOrder = 6
