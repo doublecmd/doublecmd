@@ -3929,14 +3929,6 @@ msgstr "Цвет текста"
 msgid "Text-mark"
 msgstr "Отметка"
 
-#: tfrmoptionseditorcolors.frameedgesbox.text
-msgid "Around"
-msgstr ""
-
-#: tfrmoptionseditorcolors.framestylebox.text
-msgid "slsSolid"
-msgstr ""
-
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
 msgstr "Использовать (и менять) глобальную схему"
@@ -4020,14 +4012,6 @@ msgstr "Выкл."
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "Вкл."
-
-#: tfrmoptionseditorcolors.toolbar1.caption
-msgid "ToolBar1"
-msgstr ""
-
-#: tfrmoptionseditorcolors.toolbutton3.caption
-msgid "ToolButton3"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"

@@ -3835,14 +3835,6 @@ msgstr "Kolor"
 msgid "Text-mark"
 msgstr "Zaznaczony tekst"
 
-#: tfrmoptionseditorcolors.frameedgesbox.text
-msgid "Around"
-msgstr "wokół"
-
-#: tfrmoptionseditorcolors.framestylebox.text
-msgid "slsSolid"
-msgstr ""
-
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
 msgstr "Używaj (i edytuj) globalny schemat kolorów"
@@ -3926,14 +3918,6 @@ msgstr "Wyłączony"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "Włączony"
-
-#: tfrmoptionseditorcolors.toolbar1.caption
-msgid "ToolBar1"
-msgstr "Pasek narzędzi 1"
-
-#: tfrmoptionseditorcolors.toolbutton3.caption
-msgid "ToolButton3"
-msgstr "Przycisk narzędzi 3"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"

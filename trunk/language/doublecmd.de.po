@@ -2157,7 +2157,7 @@ msgstr "OK"
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmlinker.caption
 msgctxt "TFRMLINKER.CAPTION"
@@ -4021,14 +4021,6 @@ msgstr "Vordergrund"
 msgid "Text-mark"
 msgstr "Textmarkierung"
 
-#: tfrmoptionseditorcolors.frameedgesbox.text
-msgid "Around"
-msgstr "Umgebung"
-
-#: tfrmoptionseditorcolors.framestylebox.text
-msgid "slsSolid"
-msgstr ""
-
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
 msgstr "Nutze (und bearbeite) allgemeine Schemeinstellungen"
@@ -4112,14 +4104,6 @@ msgstr "Aus"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "An"
-
-#: tfrmoptionseditorcolors.toolbar1.caption
-msgid "ToolBar1"
-msgstr ""
-
-#: tfrmoptionseditorcolors.toolbutton3.caption
-msgid "ToolButton3"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 #, fuzzy
