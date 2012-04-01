@@ -135,6 +135,13 @@ type
   end;
 
   function GetDefaultParam(const Params: array of String): String;
+  {en
+     Searches for parameters starting with "Key=" and sets Value to the
+     the rest of the parameter string (Key=Value).
+     If the key is not found it sets Value to empty string and returns @false.
+     @returns(@true if the key was found, @false if it was not found)
+  }
+  function GetParamValue(const Params: array of String; Key: String; out Value: String): Boolean;
 
 implementation
 
@@ -350,6 +357,21 @@ begin
     Result := Params[0]
   else
     Result := '';
+end;
+
+function GetParamValue(const Params: array of String; Key: String; out Value: String): Boolean;
+var
+  Param: String;
+begin
+  Key := Key + '=';
+  for Param in Params do
+    if StrBegins(Param, Key) then
+    begin
+      Value := Copy(Param, Length(Key) + 1, MaxInt);
+      Exit(True);
+    end;
+  Value := '';
+  Result := False;
 end;
 
 end.
