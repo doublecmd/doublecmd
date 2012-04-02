@@ -276,7 +276,7 @@ end;
 
 procedure TfrmTweakPlugin.FormCreate(Sender: TObject);
 begin
-  {$if (lcl_release) < 31}
+  {$if not declared(lcl_fullversion) or (lcl_fullversion < 093100)}
   nbTweakAll.ShowTabs := False;
   nbTweakAll.TabStop := True;
   {$endif}
