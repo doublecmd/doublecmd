@@ -79,7 +79,7 @@ type
 
   { TFileViewNotebook }
 
-  {$IF (lcl_release >= 31) and (lazRevision >= lazRevNewTabControl)}
+  {$IF (lcl_fullversion >= 093100) and (lazRevision >= lazRevNewTabControl)}
   TFileViewNotebook = class(TCustomTabControl)
   {$ELSE}
   TFileViewNotebook = class(TCustomNotebook)
