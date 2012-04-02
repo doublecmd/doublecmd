@@ -1340,19 +1340,26 @@ begin
 end;
 
 // Parameters:
+// trashcan=
+//   1/true            - delete to trash can
+//   0/false           - delete directly
+//   setting           - if gUseTrash then delete to trash, otherwise delete directly
+//   reversesetting    - if gUseTrash then delete directly, otherwise delete to trash
+//
+// Deprecated:
 // "recycle"           - delete to trash can
 // "norecycle"         - delete directly
 // "recyclesetting"    - if gUseTrash then delete to trash, otherwise delete directly
 // "recyclesettingrev" - if gUseTrash then delete directly, otherwise delete to trash
-// no parameter        - depends on gUseTrash
 procedure TMainCommands.cm_Delete(const Params: array of string);
 var
   theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
-  bRecycle: Boolean = False;
-  Param: String;
+  bRecycle: Boolean;
+  Param, ParamTrashCan: String;
+  BoolValue: Boolean;
 begin
   with frmMain.ActiveFrame do
   begin
@@ -1362,15 +1369,32 @@ begin
       Exit;
     end;
 
-    Param := GetDefaultParam(Params);
-    if (((gUseTrash = True) and ((Param = '') or (Param = 'recyclesetting'))) or
-        ((gUseTrash = False) and (Param = 'recyclesettingrev')) or
-        (Param = 'recycle')) and
-       FileSource.IsClass(TFileSystemFileSource) and
-       mbCheckTrash(CurrentPath) then
+    bRecycle := gUseTrash;
+
+    for Param in Params do
     begin
-      bRecycle := True;
+      if Param = 'recycle' then
+        bRecycle := True
+      else if Param = 'norecycle' then
+        bRecycle := False
+      else if Param = 'recyclesetting' then
+        bRecycle := gUseTrash
+      else if Param = 'recyclesettingrev' then
+        bRecycle := not gUseTrash
+      else if GetParamValue(Param, 'trashcan', ParamTrashCan) then
+      begin
+        if ParamTrashCan = 'setting' then
+          bRecycle := gUseTrash
+        else if ParamTrashCan = 'reversesetting' then
+          bRecycle := not gUseTrash
+        else if GetBoolValue(ParamTrashCan, BoolValue) then
+          bRecycle := BoolValue;
+      end;
     end;
+
+    if bRecycle then
+      bRecycle := FileSource.IsClass(TFileSystemFileSource) and
+                  mbCheckTrash(CurrentPath);
 
     // 12.05.2009
     // Showing delete dialog: to trash or to /dev/null :)

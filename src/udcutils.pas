@@ -429,7 +429,8 @@ function Compare(const Array1, Array2: array of String): Boolean;
 function CopyArray(const anArray: array of String): TDynamicStringArray;
 function ContainsOneOf(const ArrayToSearch, StringsToSearch: array of String): Boolean;
 function Contains(const ArrayToSearch: array of String; const StringToSearch: String): Boolean;
-procedure ReplaceString(var anArray: array of String; const sToReplace: String; sReplaceWith: String);
+procedure DeleteString(var anArray: TDynamicStringArray; const Index: Integer);
+procedure DeleteString(var anArray: TDynamicStringArray; const sToDelete: String);
 
 implementation
 
@@ -1825,13 +1826,27 @@ begin
   Result := False;
 end;
 
-procedure ReplaceString(var anArray: array of String; const sToReplace: String; sReplaceWith: String);
+procedure DeleteString(var anArray: TDynamicStringArray; const Index: Integer);
+var
+  Len: Integer;
+  i: Integer;
+begin
+  Len := Length(anArray);
+  for i := Index + 1 to Len - 1 do
+    anArray[i - 1] := anArray[i];
+  SetLength(anArray, Len - 1);
+end;
+
+procedure DeleteString(var anArray: TDynamicStringArray; const sToDelete: String);
 var
   i: Integer;
 begin
   for i := Low(anArray) to High(anArray) do
-    if anArray[i] = sToReplace then
-      anArray[i] := sReplaceWith;
+    if anArray[i] = sToDelete then
+    begin
+      DeleteString(anArray, i);
+      Exit;
+    end;
 end;
 
 end.
