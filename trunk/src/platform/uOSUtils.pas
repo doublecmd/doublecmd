@@ -538,7 +538,7 @@ function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String; bKeepTerm
 var
   Command : String;
   pid : LongInt;
-  Args : TOpenStringArray;
+  Args : TDynamicStringArray;
   WaitForPidThread: TWaitForPidThread;
 begin
   if bTerm then
@@ -1978,4 +1978,4 @@ begin
   inherited Create(rsMsgInvalidQuoting);
 end;
 
-end.
+end.
