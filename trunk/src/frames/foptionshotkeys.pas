@@ -108,7 +108,7 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
-    procedure AddDeleteWithShiftHotkey;
+    procedure AddDeleteWithShiftHotkey(UseTrash: Boolean);
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
   end;
@@ -759,81 +759,169 @@ begin
   FHotkeysCategories.Free;
 end;
 
-procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey;
+procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey(UseTrash: Boolean);
+  procedure ReverseShift(Hotkey: THotkey; out Shortcut: TShortCut; out TextShortcut: String);
+  var
+    ShiftState: TShiftState;
+  begin
+    Shortcut := TextToShortCutEx(Hotkey.Shortcut);
+    ShiftState := ShortcutToShiftEx(Shortcut);
+    if ssShift in ShiftState then
+      ShiftState := ShiftState - [ssShift]
+    else
+      ShiftState := ShiftState + [ssShift];
+    ShortCut := KeyToShortCutEx(Shortcut, ShiftState);
+    TextShortcut := ShortCutToTextEx(Shortcut);
+  end;
+  function ConfirmFix(Hotkey: THotkey; const Msg: String): Boolean;
+  begin
+    Result := QuestionDlg(rsOptHotkeysCannotSetShortcut, Msg,
+                          mtConfirmation, [mrYes, rsOptHotkeysFixParameter, 'isdefault', mrCancel], 0) = mrYes;
+  end;
+  function FixOverrides(Hotkey: THotkey; const OldTrashParam: String; NewTrashParam: Boolean; ShouldUseTrash: Boolean): Boolean;
+  begin
+    if Contains(Hotkey.Params, OldTrashParam) or NewTrashParam then
+    begin
+      Result := ConfirmFix(Hotkey, Format(rsOptHotkeysDeleteTrashCanOverrides, [Hotkey.Shortcut]));
+      if Result then
+      begin
+        DeleteString(Hotkey.Params, OldTrashParam);
+        if ShouldUseTrash then
+          SetValue(Hotkey.Params, 'trashcan', 'setting')
+        else
+          SetValue(Hotkey.Params, 'trashcan', 'reversesetting');
+      end;
+    end
+    else
+      Result := True;
+  end;
+  procedure FixReversedShortcut(
+    Hotkey: THotkey;
+    NonReversedHotkey: THotkey;
+    const ParamsToDelete: array of String;
+    const AllowedOldParam: String;
+    const NewTrashParam: String;
+    HasTrashCan: Boolean;
+    TrashStr: String);
+  var
+    sDelete: String;
+  begin
+    if ContainsOneOf(Hotkey.Params, ParamsToDelete) or
+       (HasTrashCan and (TrashStr <> NewTrashParam)) then
+      if not ConfirmFix(Hotkey, Format(rsOptHotkeysDeleteTrashCanParameterExists, [Hotkey.Shortcut, NonReversedHotkey.Shortcut])) then
+        Exit;
+
+    for sDelete in ParamsToDelete do
+      DeleteString(Hotkey.Params, sDelete);
+    if not Contains(Hotkey.Params, AllowedOldParam) then
+      SetValue(Hotkey.Params, 'trashcan', NewTrashParam);
+  end;
   procedure AddShiftShortcut(Hotkeys: THotkeys);
   var
     i, j: Integer;
     Shortcut: TShortCut;
-    ShiftState: TShiftState;
     TextShortcut: String;
     NewParams: array of String;
-    HasTrashCan: Boolean;
+    HasTrashCan, HasTrashBool, NormalTrashSetting: Boolean;
     TrashStr: String;
-    TrashBool: Boolean;
+    TrashBoolValue: Boolean;
+    CheckedShortcuts: TDynamicStringArray;
+    ReversedHotkey: THotkey;
+    CountBeforeAdded: Integer;
+    SetShortcut: Boolean;
   begin
-    for i := 0 to Hotkeys.Count - 1 do
+    CountBeforeAdded := Hotkeys.Count;
+    for i := 0 to CountBeforeAdded - 1 do
     begin
-      if Hotkeys[i].Command = 'cm_Delete' then
+      if (Hotkeys[i].Command = 'cm_Delete') and
+         not Contains(CheckedShortcuts, Hotkeys[i].Shortcut) then
       begin
-        // Reverse trashcan parameter.
-        NewParams := Copy(Hotkeys[i].Params);
-        HasTrashCan := GetParamValue(NewParams, 'trashcan', TrashStr);
-        if ContainsOneOf(NewParams, ['recycle', 'norecycle']) or
-           (HasTrashCan and GetBoolValue(TrashStr, TrashBool)) then
-        begin
-          MessageDlg(rsOptHotkeysCannotAddShortcut,
-                     Format(rsOptHotkeysDeleteShortcutWrongParams, [Hotkeys[i].Shortcut]),
-                     mtWarning, [mbOK], 0);
-          Exit;
-        end
-        else if Contains(NewParams, 'recyclesettingrev') then
-        begin
-          DeleteString(NewParams, 'recyclesettingrev');
-          TrashStr := 'setting';
-        end
-        else if Contains(NewParams, 'recyclesetting') then
-        begin
-          DeleteString(NewParams, 'recyclesetting');
-          TrashStr := 'reversesetting';
-        end
-        else if HasTrashCan and (TrashStr = 'reversesetting') then
-          TrashStr := 'setting'
-        else
-          TrashStr := 'reversesetting';
-        SetValue(NewParams, 'trashcan', TrashStr);
+        ReversedHotkey := nil;
+        SetShortcut := True;
+        ReverseShift(Hotkeys[i], Shortcut, TextShortcut);
+        AddString(CheckedShortcuts, TextShortcut);
 
-        Shortcut := TextToShortCutEx(Hotkeys[i].Shortcut);
-        ShiftState := ShortcutToShiftEx(Shortcut);
-        if ssShift in ShiftState then
-          ShiftState := ShiftState - [ssShift]
-        else
-          ShiftState := ShiftState + [ssShift];
-        ShortCut := KeyToShortCutEx(Shortcut, ShiftState);
-        TextShortcut := ShortCutToTextEx(Shortcut);
-
-        for j := 0 to Hotkeys.Count - 1 do
+        // Check if shortcut with reversed shift already exists.
+        for j := 0 to CountBeforeAdded - 1 do
         begin
           if Hotkeys[j].Shortcut = TextShortcut then
           begin
             if Hotkeys[j].Command <> Hotkeys[i].Command then
             begin
-              MessageDlg(rsOptHotkeysCannotAddShortcut,
-                         Format(rsOptHotkeysDeleteShortcutAlreadyAssigned, [TextShortcut]),
-                         mtWarning, [mbOK], 0);
+              if QuestionDlg(rsOptHotkeysCannotSetShortcut,
+                             Format(rsOptHotkeysShortcutForDeleteAlreadyAssigned,
+                              [Hotkeys[i].Shortcut, TextShortcut, Hotkeys[j].Command]),
+                             mtConfirmation, [mrYes, rsOptHotkeysChangeShortcut, 'isdefault', mrCancel], 0) = mrYes then
+              begin
+                Hotkeys[j].Command := Hotkeys[i].Command;
+              end
+              else
+                SetShortcut := False;
             end;
-            // Else already exists and we don't need to add it.
-            Exit;
+
+            ReversedHotkey := Hotkeys[j];
+            Break;
           end;
         end;
 
-        if QuestionDlg(rsOptHotkeysAddDeleteShortcut,
-                       Format(rsOptHotkeysAddDeleteShortcutLong, [TextShortcut]),
-                       mtConfirmation, [mrYes, rsOptHotkeysAddShortcutButton, 'isdefault', mrCancel], 0) = mrYes then
+        if not SetShortcut then
+          Continue;
+
+        // Fix parameters of original hotkey if needed.
+        HasTrashCan := GetParamValue(Hotkeys[i].Params, 'trashcan', TrashStr);
+        HasTrashBool := HasTrashCan and GetBoolValue(TrashStr, TrashBoolValue);
+        if not FixOverrides(Hotkeys[i], 'recycle', HasTrashBool and TrashBoolValue, UseTrash) then
+          Continue;
+        if not FixOverrides(Hotkeys[i], 'norecycle', HasTrashBool and not TrashBoolValue, not UseTrash) then
+          Continue;
+
+        // Reverse trash setting for reversed hotkey.
+        NewParams := Copy(Hotkeys[i].Params);
+        HasTrashCan := GetParamValue(NewParams, 'trashcan', TrashStr); // Could have been added above so check again
+        if Contains(NewParams, 'recyclesettingrev') then
         begin
+          DeleteString(NewParams, 'recyclesettingrev');
+          NormalTrashSetting := True;
+        end
+        else if Contains(NewParams, 'recyclesetting') then
+        begin
+          DeleteString(NewParams, 'recyclesetting');
+          NormalTrashSetting := False;
+        end
+        else if HasTrashCan and (TrashStr = 'reversesetting') then
+          NormalTrashSetting := True
+        else
+          NormalTrashSetting := False;
+
+        if Assigned(ReversedHotkey) then
+        begin
+          HasTrashCan := GetParamValue(ReversedHotkey.Params, 'trashcan', TrashStr);
+
+          if NormalTrashSetting then
+          begin
+            FixReversedShortcut(ReversedHotkey, Hotkeys[i],
+              ['recyclesettingrev', 'recycle', 'norecycle'],
+              'recyclesetting', 'setting', HasTrashCan, TrashStr);
+          end
+          else
+          begin
+            FixReversedShortcut(ReversedHotkey, Hotkeys[i],
+              ['recyclesetting', 'recycle', 'norecycle'],
+              'recyclesettingrev', 'reversesetting', HasTrashCan, TrashStr);
+          end;
+        end
+        else if QuestionDlg(rsOptHotkeysSetDeleteShortcut,
+                            Format(rsOptHotkeysAddDeleteShortcutLong, [TextShortcut]),
+                            mtConfirmation, [mrYes, rsOptHotkeysAddShortcutButton, 'isdefault', mrCancel], 0) = mrYes then
+        begin
+          if NormalTrashSetting then
+            TrashStr := 'setting'
+          else
+            TrashStr := 'reversesetting';
+          SetValue(NewParams, 'trashcan', TrashStr);
+
           Hotkeys.Add(TextShortcut, Hotkeys[i].Command, NewParams);
         end;
-
-        Exit;
       end;
     end;
   end;

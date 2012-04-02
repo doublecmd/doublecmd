@@ -431,6 +431,11 @@ function ContainsOneOf(const ArrayToSearch, StringsToSearch: array of String): B
 function Contains(const ArrayToSearch: array of String; const StringToSearch: String): Boolean;
 procedure DeleteString(var anArray: TDynamicStringArray; const Index: Integer);
 procedure DeleteString(var anArray: TDynamicStringArray; const sToDelete: String);
+{en
+   Replaces old value of Key or adds a new Key=NewValue string to the array.
+}
+procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
+procedure SetValue(var anArray: TDynamicStringArray; Key: String; NewValue: Boolean);
 
 implementation
 
@@ -1847,6 +1852,28 @@ begin
       DeleteString(anArray, i);
       Exit;
     end;
+end;
+
+procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
+var
+  i: Integer;
+begin
+  Key := Key + '=';
+  for i := Low(anArray) to High(anArray) do
+    if StrBegins(anArray[i], Key) then
+    begin
+      anArray[i] := Key + NewValue;
+      Exit;
+    end;
+  AddString(anArray, Key + NewValue);
+end;
+
+procedure SetValue(var anArray: TDynamicStringArray; Key: String; NewValue: Boolean);
+begin
+  if NewValue then
+    SetValue(anArray, Key, 'true')
+  else
+    SetValue(anArray, Key, 'false');
 end;
 
 end.
