@@ -2393,18 +2393,25 @@ end;
 
 procedure TMainCommands.cm_PanelsSplitterPerPos(const Params: array of string);
 var
-  i: Integer;
-  Param: String;
+  Split: Integer = -1;
+  Param, SplitPct: String;
 begin
   with frmMain do
   begin
-    Param := GetDefaultParam(Params);
-    if TryStrToInt(Param,i) then
+    for Param in Params do
+    begin
+      if GetParamValue(Param, 'splitpct', SplitPct) then
+        Split := StrToIntDef(SplitPct, Split)
+      else if Split = -1 then
+        Split := StrToIntDef(Param, Split); // deprecated
+    end;
+
+    if (Split >= 0) and (Split <= 100) then
       begin
         if not gHorizontalFilePanels then
-          pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * i div 100
+          pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * Split div 100
         else
-          pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * i div 100;
+          pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * Split div 100;
       end;
   end;
 end;

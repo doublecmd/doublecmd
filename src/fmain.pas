@@ -1412,7 +1412,7 @@ begin
   MainSplitterLeftMouseBtnDown:=false;
   MainSplitter.ParentColor:=true;
   // Set splitter to 50/50
-  Commands.cm_PanelsSplitterPerPos(['50']);
+  Commands.cm_PanelsSplitterPerPos(['splitpct=50']);
 end;
 
 procedure TfrmMain.MainSplitterMouseDown(Sender: TObject; Button: TMouseButton;
@@ -1783,7 +1783,7 @@ procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
 begin
   with (Sender as TMenuItem) do
   begin
-    Commands.cm_PanelsSplitterPerPos([IntToStr(Tag)]);
+    Commands.cm_PanelsSplitterPerPos(['splitpct=' + IntToStr(Tag)]);
   end;
 end;
 
