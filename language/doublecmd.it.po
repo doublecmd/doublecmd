@@ -7226,10 +7226,6 @@ msgstr "Testo"
 msgid "separate window;minimized separate window;operations panel"
 msgstr ""
 
-#: ulng.rsopthotkeysadddeleteshortcut
-msgid "Add shortcut to delete file"
-msgstr "Aggiungi scorciatoia per elimina file"
-
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "La scorciatoia %s per cm_Delete verrà registrata, può essere usata per invertire questo settaggio."
@@ -7242,21 +7238,25 @@ msgstr ""
 msgid "Add shortcut"
 msgstr "Aggiungi scorciatoia"
 
-#: ulng.rsopthotkeyscannotaddshortcut
-msgid "Cannot add shortcut"
-msgstr "Impossibile aggiungere scorciatoia"
+#: ulng.rsopthotkeyscannotsetshortcut
+msgid "Cannot set shortcut"
+msgstr ""
+
+#: ulng.rsopthotkeyschangeshortcut
+msgid "Change shortcut"
+msgstr ""
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Comando"
 
-#: ulng.rsopthotkeysdeleteshortcutalreadyassigned
-msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
-msgstr "La scorciatoia %s per cm_Delete verrà registrata, non può essere usata per invertire questo settaggio."
+#: ulng.rsopthotkeysdeletetrashcanoverrides
+msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgstr ""
 
-#: ulng.rsopthotkeysdeleteshortcutwrongparams
-msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
-msgstr "La scorciatoia corrente %s per cm_Delete ha parametri che non dipendono da questo settaggio, questa impostazione non avrà effetto"
+#: ulng.rsopthotkeysdeletetrashcanparameterexists
+msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgstr ""
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7264,6 +7264,10 @@ msgstr "Descrizione"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
+msgstr ""
+
+#: ulng.rsopthotkeysfixparameter
+msgid "Fix parameter"
 msgstr ""
 
 #: ulng.rsopthotkeyshotkey
@@ -7279,6 +7283,14 @@ msgstr "Tasti Veloci"
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
 msgstr "Parametri"
+
+#: ulng.rsopthotkeyssetdeleteshortcut
+msgid "Set shortcut to delete file"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr ""
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
