@@ -10,10 +10,14 @@ var
   cButtonSpace: Integer = 15;
 
 type
+
+  { TfrmMsg }
+
   TfrmMsg = class(TForm)
     lblMsg: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMsgShow(Sender: TObject);
   private
     { Private declarations }
@@ -30,6 +34,12 @@ type
 implementation
 
 {$R *.lfm}
+
+{$IF DEFINED(LCLGTK2)}
+uses
+  LCLType,
+  LCLVersion;
+{$ENDIF}
 
 procedure TfrmMsg.FormCreate(Sender: TObject);
 begin
@@ -61,6 +71,15 @@ begin
     iSelected:=Escape;
     Close;
   end;
+end;
+
+procedure TfrmMsg.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  {$IF DEFINED(LCLGTK2) and (lcl_fullversion < 093100)}
+  if Key = VK_RETURN then
+    // Lazarus issue 0021483. ControlKeyUp not called after Enter pressed.
+    Application.ControlKeyUp(ActiveControl, Key, Shift);
+  {$ENDIF}
 end;
 
 procedure TfrmMsg.frmMsgShow(Sender: TObject);

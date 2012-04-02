@@ -10,12 +10,14 @@ object frmMsg: TfrmMsg
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
+  OnKeyUp = FormKeyUp
   OnShow = frmMsgShow
+  LCLVersion = '0.9.30'
   object lblMsg: TLabel
     Left = 32
-    Height = 17
+    Height = 1
     Top = 16
-    Width = 41
+    Width = 1
     ParentColor = False
   end
 end
