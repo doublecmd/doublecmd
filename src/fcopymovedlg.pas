@@ -277,7 +277,7 @@ begin
 {$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
   begin
-    cm_AddToQueue('');
+    cm_AddToQueue([]);
   end;
 {$ENDIF}
 end;
@@ -405,4 +405,4 @@ end;
 initialization
   TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
 
-end.
+end.
