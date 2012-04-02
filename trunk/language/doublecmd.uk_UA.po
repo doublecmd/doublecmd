@@ -7362,10 +7362,6 @@ msgstr "Текст"
 msgid "separate window;minimized separate window;operations panel"
 msgstr ""
 
-#: ulng.rsopthotkeysadddeleteshortcut
-msgid "Add shortcut to delete file"
-msgstr "Додати гар.клавішу для видалення файлів"
-
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Буде зареєстровано гар.клавішу %s  для cm_Delete , таким чином вона буде використана для реверсінгу налаштування."
@@ -7378,21 +7374,25 @@ msgstr ""
 msgid "Add shortcut"
 msgstr "Додати гар.клавішу"
 
-#: ulng.rsopthotkeyscannotaddshortcut
-msgid "Cannot add shortcut"
-msgstr "Помилка додавання гар.клавіши"
+#: ulng.rsopthotkeyscannotsetshortcut
+msgid "Cannot set shortcut"
+msgstr ""
+
+#: ulng.rsopthotkeyschangeshortcut
+msgid "Change shortcut"
+msgstr ""
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Команди"
 
-#: ulng.rsopthotkeysdeleteshortcutalreadyassigned
-msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
-msgstr "Гаряча клавіша  %s для cm_Delete вже призначена, тому вона не може використовуватися, для реверсування налаштування."
+#: ulng.rsopthotkeysdeletetrashcanoverrides
+msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgstr ""
 
-#: ulng.rsopthotkeysdeleteshortcutwrongparams
-msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
-msgstr "Поточна гар.клавіша %s  для cm_Delete має параметри, які не залежать від цих налаштувань, тому налаштування не буде мати ніякого ефекту."
+#: ulng.rsopthotkeysdeletetrashcanparameterexists
+msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgstr ""
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7400,6 +7400,10 @@ msgstr "Опис"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
+msgstr ""
+
+#: ulng.rsopthotkeysfixparameter
+msgid "Fix parameter"
 msgstr ""
 
 #: ulng.rsopthotkeyshotkey
@@ -7415,6 +7419,14 @@ msgstr "Гарячі клавіші"
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
 msgstr "Параметри"
+
+#: ulng.rsopthotkeyssetdeleteshortcut
+msgid "Set shortcut to delete file"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr ""
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
