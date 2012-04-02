@@ -148,10 +148,6 @@ type
      it returns @true and sets Value appropriately. Otherwise returns @false.
   }
   function GetBoolValue(StrValue: string; out BoolValue: Boolean): Boolean;
-  {en
-     Replaces old value of Key or adds a new Key=NewValue string to the array.
-  }
-  procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
 
 implementation
 
@@ -418,20 +414,6 @@ begin
   end
   else
     Result := False;
-end;
-
-procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
-var
-  i: Integer;
-begin
-  Key := Key + '=';
-  for i := Low(anArray) to High(anArray) do
-    if StrBegins(anArray[i], Key) then
-    begin
-      anArray[i] := Key + NewValue;
-      Exit;
-    end;
-  AddString(anArray, Key + NewValue);
 end;
 
 end.

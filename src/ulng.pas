@@ -403,17 +403,21 @@ resourcestring
   rsOptExampleCursor = 'Cursor';
   rsOptExampleMarkCursor = 'Mark + Cursor';
   // Hotkeys
-  rsOptHotkeysAddDeleteShortcut = 'Add shortcut to delete file';
   rsOptHotkeysAddDeleteShortcutLong =
     'Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting.';
   rsOptHotkeysAddShortcutButton = 'Add shortcut';
-  rsOptHotkeysCannotAddShortcut = 'Cannot add shortcut';
-  rsOptHotkeysDeleteShortcutWrongParams =
-    'Current shortcut %s for cm_Delete has parameters that don''t depend on this setting, so the setting will have no effect.';
-  rsOptHotkeysDeleteShortcutAlreadyAssigned =
-    'Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting.';
+  rsOptHotkeysCannotSetShortcut = 'Cannot set shortcut';
+  rsOptHotkeysChangeShortcut = 'Change shortcut';
+  rsOptHotkeysDeleteTrashCanOverrides =
+    'Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?';
+  rsOptHotkeysDeleteTrashCanParameterExists =
+    'Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?';
+  rsOptHotkeysSetDeleteShortcut = 'Set shortcut to delete file';
+  rsOptHotkeysShortcutForDeleteAlreadyAssigned =
+    'For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?';
   rsOptHotkeysCommand = 'Command';
   rsOptHotkeysDescription = 'Description';
+  rsOptHotkeysFixParameter = 'Fix parameter';
   rsOptHotkeysHotkeys = 'Hotkeys';
   rsOptHotkeysHotkey = 'Hotkey';
   rsOptHotkeysParameters = 'Parameters';

@@ -98,7 +98,7 @@ begin
   begin
     HotkeysEditor := OptionsDialog.GetEditor(TfrmOptionsHotkeys);
     if Assigned(HotkeysEditor) then
-      (HotkeysEditor as TfrmOptionsHotkeys).AddDeleteWithShiftHotkey;
+      (HotkeysEditor as TfrmOptionsHotkeys).AddDeleteWithShiftHotkey(cbDeleteToTrash.Checked);
   end;
 end;
 
