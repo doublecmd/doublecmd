@@ -3,9 +3,8 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-31 22:53+0900\n"
-"PO-Revision-Date: 2012-03-11 02:34+0900\n"
-"Last-Translator: sheppaul <sheppaul@gmail.com>\n"
-"Lee, Cheon-Pung <salm2000@gmail.com>\n"
+"PO-Revision-Date: 2012-04-02 23:34+0900\n"
+"Last-Translator: sheppaul <sheppaul@gmail.com>", "Lee, Cheon-Pung <salm2000@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -15,12 +14,12 @@ msgstr ""
 #: dmhigh.rssyndefaulttext
 msgctxt "dmhigh.rssyndefaulttext"
 msgid "Default text"
-msgstr ""
+msgstr "기본 텍스트"
 
 #: dmhigh.rssynlangplaintext
 msgctxt "dmhigh.rssynlangplaintext"
 msgid "Plain text"
-msgstr ""
+msgstr "일반 텍스트"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -141,7 +140,7 @@ msgstr "사용자 글꼴과 색상 사용하기"
 #: tfcolumnssetconf.ctextlabel.caption
 msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
 msgid "Text Color:"
-msgstr "글꼴 색상:"
+msgstr "텍스트 색상:"
 
 #: tfcolumnssetconf.label3.caption
 msgid "Font:"
@@ -170,7 +169,7 @@ msgstr "커서 색상:"
 #: tfcolumnssetconf.lblcursortext.caption
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Text:"
-msgstr "커서 글꼴:"
+msgstr "커서 텍스트:"
 
 #: tfcolumnssetconf.lblmarkcolor.caption
 msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
@@ -273,7 +272,7 @@ msgstr "닫기 (&C)"
 
 #: tfrmabout.btncopytoclipboard.caption
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "클립보드에 복사"
 
 #: tfrmabout.caption
 msgctxt "TFRMABOUT.CAPTION"
@@ -630,7 +629,7 @@ msgstr "연결하기:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
 msgid "Add To Queue"
-msgstr ""
+msgstr "대기열에 추가하기"
 
 #: tfrmcopydlg.btncancel.caption
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1025,15 +1024,15 @@ msgstr "옵션(&O)"
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
-msgstr ""
+msgstr "이 컨트롤 동작만"
 
 #: tfrmedithotkey.lblhotkey.caption
 msgid "Hot key:"
-msgstr ""
+msgstr "단축키:"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "Parameters (each in a separate line):"
-msgstr ""
+msgstr "변수 (분리된 줄에 각각):"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -1113,32 +1112,32 @@ msgstr "다음 찾기"
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
 msgid "Mac (CR)"
-msgstr ""
+msgstr "맥 (CR)"
 
 #: tfrmeditor.acteditlineendcr.hint
 msgctxt "TFRMEDITOR.ACTEDITLINEENDCR.HINT"
 msgid "Mac (CR)"
-msgstr ""
+msgstr "맥 (CR)"
 
 #: tfrmeditor.acteditlineendcrlf.caption
 msgctxt "tfrmeditor.acteditlineendcrlf.caption"
 msgid "Windows (CRLF)"
-msgstr ""
+msgstr "윈도우 (CRLF)"
 
 #: tfrmeditor.acteditlineendcrlf.hint
 msgctxt "TFRMEDITOR.ACTEDITLINEENDCRLF.HINT"
 msgid "Windows (CRLF)"
-msgstr ""
+msgstr "윈도우 (CRLF)"
 
 #: tfrmeditor.acteditlineendlf.caption
 msgctxt "tfrmeditor.acteditlineendlf.caption"
 msgid "Unix (LF)"
-msgstr ""
+msgstr "유닉스 (LF)"
 
 #: tfrmeditor.acteditlineendlf.hint
 msgctxt "TFRMEDITOR.ACTEDITLINEENDLF.HINT"
 msgid "Unix (LF)"
-msgstr ""
+msgstr "유닉스 (LF)"
 
 #: tfrmeditor.acteditpaste.caption
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
@@ -1211,7 +1210,7 @@ msgstr "종료(&X)"
 
 #: tfrmeditor.actfileexit.hint
 msgid "Exit"
-msgstr ""
+msgstr "종료"
 
 #: tfrmeditor.actfilenew.caption
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
@@ -1222,7 +1221,7 @@ msgstr "새 파일(&N)"
 #, fuzzy
 msgctxt "TFRMEDITOR.ACTFILENEW.HINT"
 msgid "New"
-msgstr "새 파일(&N)"
+msgstr "새 파일"
 
 #: tfrmeditor.actfileopen.caption
 msgid "&Open"
@@ -1251,7 +1250,7 @@ msgstr "다른 이름으로 저장(&A)..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr ""
+msgstr "다른 이름으로 저장하기"
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1259,7 +1258,7 @@ msgstr "모두 저장(&V)"
 
 #: tfrmeditor.actsaveall.hint
 msgid "Save All"
-msgstr ""
+msgstr "전부 저장하기"
 
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
@@ -1305,7 +1304,7 @@ msgstr "구문강조(&H)"
 
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
-msgstr ""
+msgstr "줄의 끝"
 
 #: tfrmeditor.miseparator1.caption
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
@@ -1648,19 +1647,19 @@ msgstr "임시 파일을 삭제 가능할 때 닫기를 누르십시오!"
 #, fuzzy
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "취소"
+msgstr "취소(&C)"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
-msgstr ""
+msgstr "패널로(&T)"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
-msgstr ""
+msgstr "모두 보기(&V)"
 
 #: tfrmfileop.lblcurrentoperation.caption
 msgid "Current operation:"
-msgstr ""
+msgstr "현재 작업:"
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -2292,12 +2291,12 @@ msgstr "파일 내용 비교(&Y)"
 #: tfrmmain.actcomparedirectories.caption
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
 msgid "Compare Directories"
-msgstr ""
+msgstr "폴더 비교"
 
 #: tfrmmain.actcomparedirectories.hint
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
-msgstr ""
+msgstr "폴더 비교하기"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2448,7 +2447,7 @@ msgstr "왼쪽 드라이브 목록 열기"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
-msgstr "선택목록 클립보드에서 불러오기(&B)..."
+msgstr "선택목록 클립보드에서 불러오기(&B)"
 
 #: tfrmmain.actloadselectionfromfile.caption
 msgid "&Load Selection from File..."
@@ -2780,7 +2779,7 @@ msgstr "F10 종료"
 #: tfrmmain.btnf8.caption
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
 msgid "Delete F8"
-msgstr "지우기 F8"
+msgstr "F8 지우기"
 
 #: tfrmmain.btnf9.caption
 msgid "Terminal F9"
@@ -2865,7 +2864,7 @@ msgstr ".."
 #: tfrmmain.caption
 msgctxt "tfrmmain.caption"
 msgid "Double Commander"
-msgstr "Double Commander"
+msgstr "더블 커맨더"
 
 #: tfrmmain.lblcommandpath.caption
 msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
@@ -3789,7 +3788,7 @@ msgstr "항상 트레이 아이콘 보이기"
 #, fuzzy
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
-msgstr "최소화 때 시스템 트레이로 아이콘 옮기기(&V)"
+msgstr "최소화 할 때 시스템 트레이로 아이콘 옮기기"
 
 #: tfrmoptionsbehavior.cbonlyonce.caption
 #, fuzzy
@@ -3826,16 +3825,16 @@ msgstr "자동으로 열 채우기"
 #: tfrmoptionscolumnsview.gbshowgrid.caption
 #, fuzzy
 msgid "Show grid"
-msgstr "로그 창 보이기"
+msgstr "표시선 보이기"
 
 #: tfrmoptionscolumnsview.grpautosizecolumns.caption
 #, fuzzy
 msgid "Auto-size columns"
-msgstr "열 크기 자동 조정:"
+msgstr "열 크기 자동 조절"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
 msgid "Auto size column:"
-msgstr "열 크기 자동 조정:"
+msgstr "열 크기 자동 조절:"
 
 #: tfrmoptionsconfiguration.btnconfigapply.caption
 #, fuzzy
@@ -3861,7 +3860,7 @@ msgstr "폴더 히스토리"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
 msgid "File mask history"
-msgstr "파일 형식 히스토리"
+msgstr "파일 마스크 히스토리"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Save configuration"
@@ -3889,7 +3888,7 @@ msgstr "프로그램 폴더 (포터블 버전)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
 msgid "User home directory"
-msgstr "사용자 설정 폴더"
+msgstr "사용자 홈 폴더"
 
 #: tfrmoptionscustomcolumns.btncopycolumnsset.caption
 #, fuzzy
@@ -3928,65 +3927,65 @@ msgstr "파일 시스템별 열 설정"
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 #, fuzzy
 msgid "Show confirmation dialog after drop"
-msgstr "드래그&&드롭 작업 시 확인 대화상자 보이기"
+msgstr "드롭시 확인 대화상자 보이기"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show file system"
-msgstr ""
+msgstr "파일 시스템 표시하기"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
 msgid "Show free space"
-msgstr ""
+msgstr "여유 용량 표시하기"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
 msgid "Show label"
-msgstr ""
+msgstr "레이블 표시하기"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
-msgstr ""
+msgstr "드라이브 목록"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 #, fuzzy
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
-msgstr "배경 색상 2:"
+msgstr "배경 색상:"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSEDITORCOLORS.BACKGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Background"
-msgstr "배경 색상 2:"
+msgstr "배경 색상:"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 #, fuzzy
 msgid "Element Attributes"
-msgstr "속성"
+msgstr "요소 속성"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
 #, fuzzy
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
 msgid "Foreground"
-msgstr "찾았습니다"
+msgstr "전경"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSEDITORCOLORS.FOREGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Foreground"
-msgstr "찾았습니다"
+msgstr "전경"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
 #, fuzzy
 msgid "Text-mark"
-msgstr "텍스트"
+msgstr "텍스트 선택"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) global scheme settings"
-msgstr ""
+msgstr "일괄 설정(편집)하기"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
 msgid "Use local scheme settings"
-msgstr ""
+msgstr "개별 설정하기"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
 #, fuzzy
@@ -3996,18 +3995,18 @@ msgstr "굵게(&B)"
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTBOLDRADIOINVERT.CAPTION"
 msgid "Invert"
-msgstr ""
+msgstr "반전"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTBOLDRADIOOFF.CAPTION"
 msgid "Off"
-msgstr ""
+msgstr "해제"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTBOLDRADIOON.CAPTION"
 msgid "On"
-msgstr "열기"
+msgstr "사용"
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
 #, fuzzy
@@ -4017,18 +4016,18 @@ msgstr "기울임(&I)"
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTITALICRADIOINVERT.CAPTION"
 msgid "Invert"
-msgstr ""
+msgstr "반전"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTITALICRADIOOFF.CAPTION"
 msgid "Off"
-msgstr ""
+msgstr "해제"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTITALICRADIOON.CAPTION"
 msgid "On"
-msgstr "열기"
+msgstr "사용"
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
 #, fuzzy
@@ -4038,18 +4037,18 @@ msgstr "취소선(&S)"
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTSTRIKEOUTRADIOINVERT.CAPTION"
 msgid "Invert"
-msgstr ""
+msgstr "반전"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTSTRIKEOUTRADIOOFF.CAPTION"
 msgid "Off"
-msgstr ""
+msgstr "사용"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTSTRIKEOUTRADIOON.CAPTION"
 msgid "On"
-msgstr "열기"
+msgstr "사용"
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
 #, fuzzy
@@ -4059,18 +4058,18 @@ msgstr "밑줄(&U)"
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
 msgid "Invert"
-msgstr ""
+msgstr "반전"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
 msgid "Off"
-msgstr ""
+msgstr "해제"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
 #, fuzzy
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
-msgstr "열기"
+msgstr "사용"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 #, fuzzy
@@ -4108,7 +4107,7 @@ msgstr "파일 작업 오류 건너뛰기 및 로그 창에 기록하기"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
-msgstr ""
+msgstr "작업 실행하기"
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
 msgid "File search"
@@ -4116,15 +4115,15 @@ msgstr "파일 찾기"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
-msgstr ""
+msgstr "사용자 인터페이스"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
-msgstr ""
+msgstr "파일 작업용 버퍼 크기 (KB):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress initially in"
-msgstr ""
+msgstr "처음에 작업 진행을 보여주는 방법: "
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 #, fuzzy
@@ -4190,11 +4189,11 @@ msgstr ">>"
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 #, fuzzy
 msgid "Use Frame Cursor"
-msgstr "테두리 커서 사용"
+msgstr "커서 테두리 사용"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
 msgid "Use Gradient Indicator"
-msgstr ""
+msgstr "표시기에 그래디언트 효과(자연스러운 색상 변화) 사용하기"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 #, fuzzy
@@ -4204,7 +4203,7 @@ msgstr "선택 반전 사용"
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
 msgid "Drive Free Space Indicator"
-msgstr ""
+msgstr "드라이브 여유 공간 표시기"
 
 #: tfrmoptionsfilepanelscolors.gbexample.caption
 #, fuzzy
@@ -4215,7 +4214,7 @@ msgstr "예시"
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 #, fuzzy
 msgid "Background:"
-msgstr "배경 색상 2:"
+msgstr "배경 색상:"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
 #, fuzzy
@@ -4243,11 +4242,11 @@ msgstr "비활성 패널의 밝기 정도"
 #: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
 #, fuzzy
 msgid "Indicator Back Color:"
-msgstr "선택 색상:"
+msgstr "표시기 배경 색상:"
 
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
 msgid "Indicator Fore Color:"
-msgstr ""
+msgstr "표시기 전경 색상"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 #, fuzzy
@@ -4263,7 +4262,7 @@ msgstr "글꼴 색상:"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Don't load file list until a tab is activated"
-msgstr ""
+msgstr "탭 활성화시에만 파일을 불러오기"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
 msgid "Show square brackets around directories"
@@ -4271,7 +4270,7 @@ msgstr "폴더 이름 양 옆에 대괄호 [] 보이기"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
 msgid "Highlight new and updated files"
-msgstr ""
+msgstr "새파일/업데이트된 파일 강조하기"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #, fuzzy
@@ -4303,7 +4302,7 @@ msgstr "<스페이스바>로 파일 선택 시, 다음 파일로 이동 (<인서
 #: tfrmoptionsfilesviews.gbformatting.caption
 #, fuzzy
 msgid "Formatting"
-msgstr "정렬"
+msgstr "형식"
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
@@ -4312,7 +4311,7 @@ msgstr "정렬"
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 #, fuzzy
 msgid "Case sensitivity:"
-msgstr "대/소문자 구별(&A)"
+msgstr "대/소문자 구별"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgid "Date and time format:"
@@ -4320,20 +4319,20 @@ msgstr "날짜 및 시간 형식:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "Insert new files"
-msgstr ""
+msgstr "새 파일 삽입"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 #, fuzzy
 msgid "Sorting directories:"
-msgstr "하위 폴더 찾기(&B):"
+msgstr "폴더 정렬"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 msgid "Sort &method:"
-msgstr "정렬 방식(&M)"
+msgstr "정렬 방식"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "Move updated files"
-msgstr ""
+msgstr "갱신된 파일 이동"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 #, fuzzy
@@ -4368,7 +4367,7 @@ msgstr "템플릿..."
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
 #, fuzzy
 msgid "File types colors (sort by drag&&drop)"
-msgstr "파일 형식 색상"
+msgstr "파일 형식 색상 (드래그&&드롭으로 정렬)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 #, fuzzy
@@ -4444,7 +4443,7 @@ msgstr "메인 창 글꼴"
 #, fuzzy
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
 msgid "Viewer Book Font"
-msgstr "책 뷰어 폰트"
+msgstr "책 뷰어 글꼴"
 
 #: tfrmoptionsfonts.lblviewerfont.caption
 #, fuzzy
@@ -4454,16 +4453,16 @@ msgstr "뷰어 글꼴"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
 msgid "Add hotkey"
-msgstr ""
+msgstr "단축키 추가하기"
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
 msgid "Delete hotkey"
-msgstr ""
+msgstr "단축키 삭제하기"
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
 msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
 msgid "Edit hotkey"
-msgstr ""
+msgstr "단축키 편집하기"
 
 #: tfrmoptionshotkeys.lbfilter.caption
 #, fuzzy
@@ -4505,7 +4504,7 @@ msgstr "변수들"
 #, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
-msgstr "카운터 정의"
+msgstr "제어"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 #, fuzzy
@@ -4581,12 +4580,12 @@ msgstr "저장(&S):"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Left, Right arrows change directory (Lynx-like movement)"
-msgstr ""
+msgstr "좌우 화살표 키로 폴더 변경하기 (Lynx처럼 동작)"
 
 #: tfrmoptionskeyboard.gbtyping.caption
 #, fuzzy
 msgid "Typing"
-msgstr "형식"
+msgstr "입력"
 
 #: tfrmoptionskeyboard.lblalt.caption
 #, fuzzy
@@ -4628,7 +4627,7 @@ msgstr "평평한 버튼"
 #, fuzzy
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
 msgid "Show free space indicator on drive label"
-msgstr "드라이브 레이블에 여유 공간 표시 보이기"
+msgstr "드라이브 레이블에 여유 공간 표시기 보이기"
 
 #: tfrmoptionslayout.cblogwindow.caption
 #, fuzzy
@@ -4675,7 +4674,7 @@ msgstr "여유 공간 레이블 보이기"
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
 #, fuzzy
 msgid "Show d&rives list button"
-msgstr "드라이브 메뉴 버튼 보이기(&R)"
+msgstr "드라이브 목록 버튼 보이기(&R)"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
 #, fuzzy
@@ -4698,7 +4697,7 @@ msgstr "도구모음 보이기(&B)"
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
 #, fuzzy
 msgid "Show short free space label"
-msgstr "여유 공간 레이블 보이기"
+msgstr "짧은 여유 공간 레이블 보이기"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 #, fuzzy
@@ -4827,7 +4826,7 @@ msgstr "스크롤"
 #: tfrmoptionsmouse.gbselection.caption
 #, fuzzy
 msgid "Selection"
-msgstr "선택목록 저장(&S)"
+msgstr "선택"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "Mode:"
@@ -4841,7 +4840,7 @@ msgstr "지정 줄간격만큼"
 #: tfrmoptionsmouse.rbscrolllinebylinecursor.caption
 #, fuzzy
 msgid "Line by line with cursor movement"
-msgstr "커서 움직임과 함께 한줄씩"
+msgstr "커서 이동과 함께 한줄씩"
 
 #: tfrmoptionsmouse.rbscrollpagebypage.caption
 #, fuzzy
@@ -4968,12 +4967,12 @@ msgstr "옵션"
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
 #, fuzzy
 msgid "Exact name match"
-msgstr "일치하는 이름 찾기(&N):"
+msgstr "일치하는 이름 찾기"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchcase.caption
 #, fuzzy
 msgid "Search case"
-msgstr "다음 찾기"
+msgstr "대소문자 찾기"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchitems.caption
 #, fuzzy
@@ -5050,7 +5049,7 @@ msgstr "문자"
 #, fuzzy
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Tabs position"
-msgstr "탭 위치:"
+msgstr "탭 위치"
 
 #: tfrmoptionsterminal.lblruninterm.caption
 msgid "Run in terminal:"
@@ -5344,7 +5343,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbmatchbeginning.hint
 msgid "Match Beginning"
-msgstr ""
+msgstr "시작 일치하기"
 
 #: tfrmquicksearch.sbmatchending.caption
 msgid "}"
@@ -5352,7 +5351,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbmatchending.hint
 msgid "Match Ending"
-msgstr ""
+msgstr "끝 일치하기"
 
 #: tfrmquicksearch.tglfilter.caption
 #, fuzzy
@@ -5386,7 +5385,7 @@ msgstr "도움말(&H)"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "Select the characters to insert:"
-msgstr ""
+msgstr "삽입할 문자 선택하기:"
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -5449,7 +5448,7 @@ msgstr "읽기전용"
 
 #: tfrmsetfileproperties.chkrecursive.caption
 msgid "Including subfolders"
-msgstr ""
+msgstr "하위폴더 포함"
 
 #: tfrmsetfileproperties.chksystem.caption
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
@@ -5727,19 +5726,19 @@ msgstr "뷰어 정보..."
 
 #: tfrmviewer.actabout.hint
 msgid "Displays the About message"
-msgstr ""
+msgstr "About 메시지 보기"
 
 #: tfrmviewer.actcopyfile.caption
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"
-msgstr "파일 %s 복사"
+msgstr "파일 복사"
 
 #: tfrmviewer.actcopyfile.hint
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
-msgstr "파일 %s 복사"
+msgstr "파일 복사"
 
 #: tfrmviewer.actdeletefile.caption
 #, fuzzy
@@ -5762,7 +5761,7 @@ msgstr "다음(&N)"
 #: tfrmviewer.actloadnextfile.hint
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.HINT"
 msgid "Load Next File"
-msgstr ""
+msgstr "다음 파일 불러오기"
 
 #: tfrmviewer.actloadprevfile.caption
 #, fuzzy
@@ -5773,7 +5772,7 @@ msgstr "이전(&P)"
 #: tfrmviewer.actloadprevfile.hint
 #, fuzzy
 msgid "Load Previous File"
-msgstr "이전"
+msgstr "이전 파일 불러오기"
 
 #: tfrmviewer.actmirror.caption
 #, fuzzy
@@ -5807,43 +5806,43 @@ msgstr "다시 열기"
 
 #: tfrmviewer.actreload.hint
 msgid "Reload current file"
-msgstr ""
+msgstr "현재 파일 다시 열기"
 
 #: tfrmviewer.actrotate180.caption
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "Rotate 180"
-msgstr "회전하기"
+msgstr "180도 회전하기"
 
 #: tfrmviewer.actrotate180.hint
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180"
-msgstr "회전하기"
+msgstr "180도 회전하기"
 
 #: tfrmviewer.actrotate270.caption
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "Rotate 270"
-msgstr "회전하기"
+msgstr "270도 회전하기"
 
 #: tfrmviewer.actrotate270.hint
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate 270"
-msgstr "회전하기"
+msgstr "270도 회전하기"
 
 #: tfrmviewer.actrotate90.caption
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
 msgid "Rotate 90"
-msgstr "회전하기"
+msgstr "90도 회전하기"
 
 #: tfrmviewer.actrotate90.hint
 #, fuzzy
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate 90"
-msgstr "회전하기"
+msgstr "90도 회전하기"
 
 #: tfrmviewer.actsaveas.caption
 #, fuzzy
@@ -6217,11 +6216,11 @@ msgstr "전부 선택"
 #| msgid "Start"
 msgctxt "tfrmviewoperations.btnstartpause.caption"
 msgid "&Start"
-msgstr "시작"
+msgstr "시작(&S)"
 
 #: tfrmviewoperations.btnstop.caption
 msgid "S&top"
-msgstr ""
+msgstr "종료(&T)"
 
 #: tfrmviewoperations.caption
 #, fuzzy
@@ -6241,25 +6240,25 @@ msgstr "취소"
 
 #: tfrmviewoperations.mnunewqueue.caption
 msgid "New queue"
-msgstr ""
+msgstr "새 대기열"
 
 #: tfrmviewoperations.mnuoperationshowdetached.caption
 msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "분리된 창에서 보기"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr ""
+msgstr "대기열 맨 앞에 넣기"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
-msgstr ""
+msgstr "대기열 맨 뒤에 넣기"
 
 #: tfrmviewoperations.mnuqueue.caption
 msgctxt "tfrmviewoperations.mnuqueue.caption"
 msgid "Queue"
-msgstr ""
+msgstr "대기열"
 
 #: tfrmviewoperations.mnuqueue0.caption
 msgid "Out of queue"
@@ -6267,32 +6266,32 @@ msgstr ""
 
 #: tfrmviewoperations.mnuqueue1.caption
 msgid "Queue 1"
-msgstr ""
+msgstr "대기열 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
 msgid "Queue 2"
-msgstr ""
+msgstr "대기열 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
 msgid "Queue 3"
-msgstr ""
+msgstr "대기열 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
 msgid "Queue 4"
-msgstr ""
+msgstr "대기열 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
 msgid "Queue 5"
-msgstr ""
+msgstr "대기열 5"
 
 #: tfrmviewoperations.mnuqueueshowdetached.caption
 msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "분리된 창에서 보기"
 
 #: tfrmviewoperations.tbpauseall.caption
 msgid "&Pause all"
-msgstr ""
+msgstr "모두 일시정지(&P)"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -6306,7 +6305,7 @@ msgstr "파일이 존재할 때"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"
-msgstr ""
+msgstr "백그라운드로 동작하기 (연결 분리)"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -6316,16 +6315,16 @@ msgstr "파일이 존재할 때"
 #: ulng.rscancelfilter
 #, fuzzy
 msgid "Cancel Quick Filter"
-msgstr "빠른 필터"
+msgstr "빠른 필터 취소"
 
 #: ulng.rscanceloperation
 #, fuzzy
 msgid "Cancel Current Operation"
-msgstr "현재 작업"
+msgstr "현재 작업 취소"
 
 #: ulng.rscfgtoolbaraddbutton
 msgid "&Add button to end"
-msgstr "버튼을 끝에 추가(&T)"
+msgstr "버튼을 끝에 추가(&A)"
 
 #: ulng.rscfgtoolbarinsertbutton
 msgctxt "ulng.rscfgtoolbarinsertbutton"
@@ -6457,12 +6456,12 @@ msgstr "전부 덮어쓰기(&A)"
 #: ulng.rsdlgbuttonoverwriteolder
 #, fuzzy
 msgid "Overwrite All Ol&der"
-msgstr "전부 덮어쓰기(&A)"
+msgstr "옛파일 전부 덮기(&D)"
 
 #: ulng.rsdlgbuttonresume
 #, fuzzy
 msgid "&Resume"
-msgstr "리셋(&R)"
+msgstr "다시 시작(&R)"
 
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
@@ -6512,19 +6511,19 @@ msgstr "파일 이동"
 #| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
 msgid "Pau&se"
-msgstr "중지"
+msgstr "중지(&S)"
 
 #: ulng.rsdlgopstart
 #, fuzzy
 #| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
-msgstr "시작"
+msgstr "시작(&S)"
 
 #: ulng.rsdlgqueue
 msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
-msgstr ""
+msgstr "대기열"
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -6548,11 +6547,11 @@ msgstr "반복해서 파일 삭제"
 #: ulng.rsdrivenolabel
 #, fuzzy
 msgid "<no label>"
-msgstr "볼륨 레이블:"
+msgstr "<레이블 없음>"
 
 #: ulng.rsdrivenomedia
 msgid "<no media>"
-msgstr ""
+msgstr "<미디어 없음>"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -6591,7 +6590,7 @@ msgstr "바꾸기"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
-msgstr ""
+msgstr "필터"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
@@ -6670,7 +6669,7 @@ msgstr "코멘트"
 #: ulng.rsfunccompressedsize
 #, fuzzy
 msgid "Compressed size"
-msgstr "압축"
+msgstr "압축 크기"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
@@ -6727,12 +6726,12 @@ msgstr "하드 링크 생성 오류"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
-msgstr ""
+msgstr "복사/이동 대화상자"
 
 #: ulng.rshotkeycategorymain
 #, fuzzy
 msgid "Main"
-msgstr "칠하기"
+msgstr "메인"
 
 #: ulng.rshotkeycategoryviewer
 #, fuzzy
@@ -6786,7 +6785,7 @@ msgstr "마운트"
 #, fuzzy
 msgctxt "ulng.rsmnunew"
 msgid "New"
-msgstr "새 파일(&N)"
+msgstr "새 파일"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
@@ -6825,7 +6824,7 @@ msgstr "\"%s\"파일을 그 자신에게 복사/이동할 수 없습니다!"
 #: ulng.rsmsgcannotdeletedirectory
 #, fuzzy
 msgid "Cannot delete directory %s"
-msgstr "%s 폴더를 만들 수 없습니다!"
+msgstr "%s 폴더를 삭제할 수 없습니다!"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -6853,7 +6852,7 @@ msgstr "선택한 \"%s\"를 복사할까요?"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr ""
+msgstr "일부 복사된 파일을 삭제할까요?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
@@ -6966,7 +6965,7 @@ msgstr "지원되지 않는 기능!"
 #: ulng.rsmsgerrorincontextmenucommand
 #, fuzzy
 msgid "Error in context menu command"
-msgstr "컨텍스트 메뉴 보이기"
+msgstr "컨텍스트 메뉴 명령어 오류"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -7035,7 +7034,7 @@ msgstr "심링크 \"%s\"를 추적할까요?"
 #: ulng.rsmsginvalidcommandline
 #, fuzzy
 msgid "Error in command line"
-msgstr "명령행에 지정"
+msgstr "명령행 오류"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
@@ -7044,16 +7043,16 @@ msgstr "잘못된 파일명"
 #: ulng.rsmsginvalidpath
 #, fuzzy
 msgid "Invalid path"
-msgstr "잘못된 링크"
+msgstr "잘못된 경로"
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
-msgstr ""
+msgstr "경로 %s 는 금지된 문자를 포함하고 있습니다."
 
 #: ulng.rsmsginvalidquoting
 #, fuzzy
 msgid "Invalid quoting"
-msgstr "잘못된 링크"
+msgstr "잘못된 인용"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -7147,7 +7146,7 @@ msgstr "다음 볼륨의 압축을 풀었습니다"
 
 #: ulng.rsmsgnofiles
 msgid "No files"
-msgstr ""
+msgstr "파일이 없습니다."
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
@@ -7175,11 +7174,11 @@ msgstr "암호:"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr ""
+msgstr "암호가 다릅니다!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr "암호를 입력하시오:"
+msgstr "암호를 입력하세요:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -7188,7 +7187,7 @@ msgstr "암호 (방화벽):"
 #: ulng.rsmsgpasswordverify
 #, fuzzy
 msgid "Please re-enter the password for verification:"
-msgstr "암호를 입력하시오:"
+msgstr "암호를 확인하기 위해 다시 입력하세요:"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -7222,7 +7221,7 @@ msgstr "변경 사항을 적용하려면 더블 커맨더를 재실행해 주세
 #: ulng.rsmsgselectedinfo
 #, fuzzy
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
-msgstr "용량: %s / %s, 파일 : %d / %d"
+msgstr "용량: %s / %s, 파일 : %d / %d, 폴더: %d / %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
@@ -7290,81 +7289,81 @@ msgstr "취소됨"
 
 #: ulng.rsopercalculatingchecksum
 msgid "Calculating check sum"
-msgstr ""
+msgstr "체크섬 계산"
 
 #: ulng.rsopercalculatingchecksumin
 msgid "Calculating check sum in \"%s\""
-msgstr ""
+msgstr "\"%s\" 의 체크섬 계산"
 
 #: ulng.rsopercalculatingchecksumof
 msgid "Calculating check sum of \"%s\""
-msgstr ""
+msgstr "\"%s\" 의 체크섬 계산"
 
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
 msgid "Calculating"
-msgstr "계산중"
+msgstr "계산하기"
 
 #: ulng.rsopercalculatingstatisticsin
 msgid "Calculating \"%s\""
-msgstr ""
+msgstr "\"%s\" 계산하기"
 
 #: ulng.rsopercombining
 msgid "Joining"
-msgstr ""
+msgstr "합치기"
 
 #: ulng.rsopercombiningfromto
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 의 파일을 \"%s\"로 합치기"
 
 #: ulng.rsopercopying
 msgid "Copying"
-msgstr ""
+msgstr "복사하기"
 
 #: ulng.rsopercopyingfromto
 msgid "Copying from \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 에서 \"%s\" 로 복사하기"
 
 #: ulng.rsopercopyingsomethingto
 msgid "Copying \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" ygw \"%s\" 로 복사하기"
 
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
-msgstr ""
+msgstr "폴더 생성하기"
 
 #: ulng.rsopercreatingsomedirectory
 msgid "Creating directory \"%s\""
-msgstr ""
+msgstr "\"%s\" 폴더 생성하기"
 
 #: ulng.rsoperdeleting
 msgctxt "ulng.rsoperdeleting"
 msgid "Deleting"
-msgstr "삭제중"
+msgstr "삭제하기"
 
 #: ulng.rsoperdeletingin
 msgid "Deleting in \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 삭제하기"
 
 #: ulng.rsoperdeletingsomething
 msgid "Deleting \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 삭제하기"
 
 #: ulng.rsoperexecuting
 msgid "Executing"
-msgstr ""
+msgstr "실행하기"
 
 #: ulng.rsoperexecutingsomething
 msgid "Executing \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 실행하기"
 
 #: ulng.rsoperextracting
 msgid "Extracting"
-msgstr ""
+msgstr "압축 해제하기"
 
 #: ulng.rsoperextractingfromto
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 에서 \"%s\" 로 압축 해제하기"
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -7372,23 +7371,23 @@ msgstr "완료됨"
 
 #: ulng.rsoperlisting
 msgid "Listing"
-msgstr ""
+msgstr "목록 만들기"
 
 #: ulng.rsoperlistingin
 msgid "Listing \"%s\""
-msgstr ""
+msgstr "\"%s\" 의 목록 만들기"
 
 #: ulng.rsopermoving
 msgid "Moving"
-msgstr ""
+msgstr "이동하기"
 
 #: ulng.rsopermovingfromto
 msgid "Moving from \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 에서 \"%s\" 로 이동하기"
 
 #: ulng.rsopermovingsomethingto
 msgid "Moving \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 \"%s\" 로 이동하기"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7396,15 +7395,15 @@ msgstr "시작되지 않음"
 
 #: ulng.rsoperpacking
 msgid "Packing"
-msgstr ""
+msgstr "압축하기"
 
 #: ulng.rsoperpackingfromto
 msgid "Packing from \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 에서 \"%s\" 로 압축하기"
 
 #: ulng.rsoperpackingsomethingto
 msgid "Packing \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 \"%s\" 로 압축하기"
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7425,27 +7424,27 @@ msgstr "실행중"
 
 #: ulng.rsopersettingproperty
 msgid "Setting property"
-msgstr ""
+msgstr "속성 설정하기"
 
 #: ulng.rsopersettingpropertyin
 msgid "Setting property in \"%s\""
-msgstr ""
+msgstr "\"%s\" 에 있는 속성 설정하기"
 
 #: ulng.rsopersettingpropertyof
 msgid "Setting property of \"%s\""
-msgstr ""
+msgstr "\"%s\" 의 속성 설정하기"
 
 #: ulng.rsopersplitting
 msgid "Splitting"
-msgstr ""
+msgstr "분할하기"
 
 #: ulng.rsopersplittingfromto
 msgid "Splitting \"%s\" to \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 \"%s\" 로 분할하기"
 
 #: ulng.rsoperstarting
 msgid "Starting"
-msgstr "시작중"
+msgstr "시작하기"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
@@ -7453,31 +7452,31 @@ msgstr "정지됨"
 
 #: ulng.rsoperstopping
 msgid "Stopping"
-msgstr "정지중"
+msgstr "정지하기"
 
 #: ulng.rsopertesting
 msgid "Testing"
-msgstr ""
+msgstr "검사하기"
 
 #: ulng.rsopertestingin
 msgid "Testing in \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 검사하기"
 
 #: ulng.rsopertestingsomething
 msgid "Testing \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 검사하기"
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying check sum"
-msgstr ""
+msgstr "체크섬 검사하기"
 
 #: ulng.rsoperverifyingchecksumin
 msgid "Verifying check sum in \"%s\""
-msgstr ""
+msgstr "\"%s\" 에 있는 체크섬 검사하기"
 
 #: ulng.rsoperverifyingchecksumof
 msgid "Verifying check sum of \"%s\""
-msgstr ""
+msgstr "\"%s\" 의 체크섬 검사하기"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -7489,19 +7488,19 @@ msgstr "사용자 응답을 기다리는 중"
 
 #: ulng.rsoperwiping
 msgid "Wiping"
-msgstr ""
+msgstr "완전히 삭제하기"
 
 #: ulng.rsoperwipingin
 msgid "Wiping in \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 완전히 삭제하기"
 
 #: ulng.rsoperwipingsomething
 msgid "Wiping \"%s\""
-msgstr ""
+msgstr "\"%s\" 를 완전히 삭제하기"
 
 #: ulng.rsoperworking
 msgid "Working"
-msgstr ""
+msgstr "작업하기"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
@@ -7596,27 +7595,27 @@ msgstr "텍스트"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
-msgstr ""
+msgstr "분리된 창에;최소화된 분리된 창에;작업 패널에"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
+msgstr "이 설정을 뒤집어 사용할 수 있도록, cm_Delete의 바로가기 %s가 등록될 것입니다."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
-msgstr ""
+msgstr "%s 의 단축키 추가"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
-msgstr ""
+msgstr "바로가기 추가"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr ""
+msgstr "바로가기 설정 불가"
 
 #: ulng.rsopthotkeyschangeshortcut
 msgid "Change shortcut"
-msgstr ""
+msgstr "바로가기 변경하기"
 
 #: ulng.rsopthotkeyscommand
 #, fuzzy
@@ -7629,20 +7628,20 @@ msgstr ""
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr ""
+msgstr "cm_Delete의 바로가기 %s는 바로가기 %s와 일치하기 위해 매개변수를 바꿀 필요가 있습니다. 바꾸시겠습니까?"
 
 #: ulng.rsopthotkeysdescription
 #, fuzzy
 msgid "Description"
-msgstr "설명:"
+msgstr "설명"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
-msgstr ""
+msgstr "%의 단축키 편집"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
-msgstr ""
+msgstr "변수 고치기"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -7660,11 +7659,11 @@ msgstr "변수"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr ""
+msgstr "파일 삭제할 바로가기 설정"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
+msgstr "이 설정이 바로가기 %s와 동작하려면, 바로가기 %s 는 cm_Delete에 할당되야 하지만 이미 %s에 지정되어 있습니다. 바꾸시겠습니까?"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -7673,7 +7672,7 @@ msgstr "사용중인 바로가기"
 #: ulng.rsopthotkeysshortcutusedtext1
 #, fuzzy
 msgid "Shortcut %s is already used."
-msgstr "바로가기가 이미 사용중입니다. (%s -> %s)"
+msgstr "바로가기 %s 가 이미 사용중입니다."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
@@ -7681,7 +7680,7 @@ msgstr "%s로 바꿀까요?"
 
 #: ulng.rsopthotkeysusedby
 msgid "used for %s in %s"
-msgstr ""
+msgstr "사용중: %s / %s"
 
 #: ulng.rsoptionseditorarchivers
 #, fuzzy
@@ -7724,11 +7723,11 @@ msgstr "사용자 정의 열"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
-msgstr ""
+msgstr "드래그 & 드롭"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
-msgstr ""
+msgstr "드라이브 목록 버튼"
 
 #: ulng.rsoptionseditorfileoperations
 #, fuzzy
@@ -7745,7 +7744,7 @@ msgstr "파일 패널"
 #: ulng.rsoptionseditorfilesviews
 #, fuzzy
 msgid "Files views"
-msgstr "파일 형식"
+msgstr "파일 보기"
 
 #: ulng.rsoptionseditorfiletypes
 #, fuzzy
@@ -7768,7 +7767,7 @@ msgstr "글꼴"
 #: ulng.rsoptionseditorhighlighters
 #, fuzzy
 msgid "Highlighters"
-msgstr "강조"
+msgstr "강조 표시기"
 
 #: ulng.rsoptionseditorhotkeys
 #, fuzzy
@@ -7790,7 +7789,7 @@ msgstr "무시 목록"
 
 #: ulng.rsoptionseditorkeyboard
 msgid "Keys"
-msgstr ""
+msgstr "키"
 
 #: ulng.rsoptionseditorlanguage
 #, fuzzy
@@ -7819,7 +7818,7 @@ msgstr "기타"
 #: ulng.rsoptionseditormouse
 #, fuzzy
 msgid "Mouse"
-msgstr "이동"
+msgstr "마우스"
 
 #: ulng.rsoptionseditorplugins
 #, fuzzy
@@ -7837,7 +7836,7 @@ msgstr "빠른 찾기/필터"
 #, fuzzy
 msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
-msgstr "F9 명령프롬프트"
+msgstr "명령 프롬프트"
 
 #: ulng.rsoptionseditortools
 #, fuzzy
@@ -7857,11 +7856,11 @@ msgstr "왼쪽 버튼;오른쪽 버튼;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr ""
+msgstr "파일 목록의 맨 위에;폴더 뒤에 (폴더가 파일 앞쪽에 정렬된 경우);정렬된 위치에;파일 목록의 맨 아래에"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
-msgstr "%s 플러그인은 이미 다음 확장자와 연결되어 있습니다:"
+msgstr "플러그인 %s 는 이미 다음 확장자와 연결되어 있습니다:"
 
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
@@ -7885,11 +7884,11 @@ msgstr "등록"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
+msgstr "대소문자 구별하지 않기;로케일 설정에 따라서 (aAbBcC);처음은 대문자 그리고 소문자 (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
+msgstr "이름순으로 정렬하고 먼저 보여주기;파일처럼 정렬하고 먼저 보여주기;파일처럼 정렬하기"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
@@ -7901,7 +7900,7 @@ msgstr "위;아래;"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr ""
+msgstr "위치 변경하지 않기;새 파일처럼 동일한 설정 사용하기;정렬된 위치로"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
@@ -8016,13 +8015,13 @@ msgstr "심링크 생성 오류"
 #, fuzzy
 msgctxt "ulng.rssyndefaulttext"
 msgid "Default text"
-msgstr "기본값"
+msgstr "기본 텍스트"
 
 #: ulng.rssynlangplaintext
 #, fuzzy
 msgctxt "ulng.rssynlangplaintext"
 msgid "Plain text"
-msgstr "칠하기"
+msgstr "일반 텍스트"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
@@ -8055,7 +8054,7 @@ msgstr "년"
 
 #: ulng.rstooldiffer
 msgid "Differ"
-msgstr "파일비교"
+msgstr "파일 비교"
 
 #: ulng.rstooleditor
 msgctxt "ulng.rstooleditor"
@@ -8065,28 +8064,28 @@ msgstr "편집기"
 #: ulng.rstoolerroropeningdiffer
 #, fuzzy
 msgid "Error opening differ"
-msgstr "파일 닫기 오류"
+msgstr "파일 비교 열기 오류"
 
 #: ulng.rstoolerroropeningeditor
 #, fuzzy
 msgid "Error opening editor"
-msgstr "편집기로 열기"
+msgstr "편집기 열기 오류"
 
 #: ulng.rstoolerroropeningterminal
 #, fuzzy
 msgid "Error opening terminal"
-msgstr "파일 읽기 오류"
+msgstr "명령 프롬프트 열기 오류"
 
 #: ulng.rstoolerroropeningviewer
 #, fuzzy
 msgid "Error opening viewer"
-msgstr "파일 닫기 오류"
+msgstr "뷰어 열기 오류"
 
 #: ulng.rstoolterminal
 #, fuzzy
 msgctxt "ulng.rstoolterminal"
 msgid "Terminal"
-msgstr "F9 명령프롬프트"
+msgstr "명령 프롬프트"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
