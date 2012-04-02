@@ -77,7 +77,10 @@ implementation
 {$R *.lfm}
 
 uses
+  {$IF DEFINED(LCLGTK2)}
   LCLType,
+  LCLVersion,
+  {$ENDIF}
   uFileSourceOperationTypes;
 
 function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSourceExecuteOperationResult;
@@ -102,7 +105,7 @@ end;
 procedure TfrmPackInfoDlg.btnCloseKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2) and (lcl_fullversion < 093100)}
   if Key = VK_RETURN then
     // Lazarus issue 0021483. ControlKeyUp not called after Enter pressed.
     Application.ControlKeyUp(btnClose, Key, Shift);
