@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implements custom commands for a component
 
-   Copyright (C) 2011  Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2011-2012  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ unit uFormCommands;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, ActnList;
+  Classes, SysUtils, StringHashList, ActnList, uTypes;
 
 type
   TCommandFuncResult = (cfrSuccess, cfrDisabled, cfrNotFound);
@@ -142,6 +142,16 @@ type
      @returns(@true if the key was found, @false if it was not found)
   }
   function GetParamValue(const Params: array of String; Key: String; out Value: String): Boolean;
+  function GetParamValue(const Param: String; Key: String; out Value: String): Boolean;
+  {en
+     If StrValue matches any value that can be translated into boolean then
+     it returns @true and sets Value appropriately. Otherwise returns @false.
+  }
+  function GetBoolValue(StrValue: string; out BoolValue: Boolean): Boolean;
+  {en
+     Replaces old value of Key or adds a new Key=NewValue string to the array.
+  }
+  procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
 
 implementation
 
@@ -372,6 +382,56 @@ begin
     end;
   Value := '';
   Result := False;
+end;
+
+function GetParamValue(const Param: String; Key: String; out Value: String): Boolean;
+begin
+  Key := Key + '=';
+  if StrBegins(Param, Key) then
+  begin
+    Value := Copy(Param, Length(Key) + 1, MaxInt);
+    Exit(True);
+  end;
+  Value := '';
+  Result := False;
+end;
+
+function GetBoolValue(StrValue: string; out BoolValue: Boolean): Boolean;
+begin
+  StrValue := upcase(StrValue);
+  if (StrValue = 'TRUE') or
+     (StrValue = 'YES') or
+     (StrValue = 'ON') or
+     (StrValue = '1') then
+  begin
+    BoolValue := True;
+    Result := True;
+  end
+  else
+  if (StrValue = 'FALSE') or
+     (StrValue = 'NO') or
+     (StrValue = 'OFF') or
+     (StrValue = '0') then
+  begin
+    BoolValue := False;
+    Result := True;
+  end
+  else
+    Result := False;
+end;
+
+procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
+var
+  i: Integer;
+begin
+  Key := Key + '=';
+  for i := Low(anArray) to High(anArray) do
+    if StrBegins(anArray[i], Key) then
+    begin
+      anArray[i] := Key + NewValue;
+      Exit;
+    end;
+  AddString(anArray, Key + NewValue);
 end;
 
 end.

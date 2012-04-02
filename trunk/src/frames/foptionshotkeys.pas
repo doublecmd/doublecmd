@@ -767,13 +767,19 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey;
     ShiftState: TShiftState;
     TextShortcut: String;
     NewParams: array of String;
+    HasTrashCan: Boolean;
+    TrashStr: String;
+    TrashBool: Boolean;
   begin
     for i := 0 to Hotkeys.Count - 1 do
     begin
       if Hotkeys[i].Command = 'cm_Delete' then
       begin
+        // Reverse trashcan parameter.
         NewParams := Copy(Hotkeys[i].Params);
-        if ContainsOneOf(NewParams, ['recycle', 'norecycle']) then
+        HasTrashCan := GetParamValue(NewParams, 'trashcan', TrashStr);
+        if ContainsOneOf(NewParams, ['recycle', 'norecycle']) or
+           (HasTrashCan and GetBoolValue(TrashStr, TrashBool)) then
         begin
           MessageDlg(rsOptHotkeysCannotAddShortcut,
                      Format(rsOptHotkeysDeleteShortcutWrongParams, [Hotkeys[i].Shortcut]),
@@ -781,11 +787,20 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey;
           Exit;
         end
         else if Contains(NewParams, 'recyclesettingrev') then
-          ReplaceString(NewParams, 'recyclesettingrev', 'recyclesetting')
+        begin
+          DeleteString(NewParams, 'recyclesettingrev');
+          TrashStr := 'setting';
+        end
         else if Contains(NewParams, 'recyclesetting') then
-          ReplaceString(NewParams, 'recyclesetting', 'recyclesettingrev')
+        begin
+          DeleteString(NewParams, 'recyclesetting');
+          TrashStr := 'reversesetting';
+        end
+        else if HasTrashCan and (TrashStr = 'reversesetting') then
+          TrashStr := 'setting'
         else
-          AddString(NewParams, 'recyclesettingrev');
+          TrashStr := 'reversesetting';
+        SetValue(NewParams, 'trashcan', TrashStr);
 
         Shortcut := TextToShortCutEx(Hotkeys[i].Shortcut);
         ShiftState := ShortcutToShiftEx(Shortcut);

@@ -396,7 +396,7 @@ begin
       AddIfNotExists('F6','cm_Rename',[]);
       AddIfNotExists('F7','cm_MakeDir',[]);
       AddIfNotExists(['F8','',
-                      'Shift+F8','recyclesettingrev',''], 'cm_Delete');
+                      'Shift+F8','trashcan=reversesetting',''], 'cm_Delete');
       AddIfNotExists('F9','cm_RunTerm',[]);
       AddIfNotExists('Ctrl+7','cm_ShowCmdLineHistory',[]);
       AddIfNotExists('Ctrl+D','cm_DirHotList',[]);
@@ -455,7 +455,7 @@ begin
   with HMControl.Hotkeys do
     begin
       AddIfNotExists(['Del','',
-                      'Shift+Del','recyclesettingrev',''], 'cm_Delete');
+                      'Shift+Del','trashcan=reversesetting',''], 'cm_Delete');
       AddIfNotExists('Ctrl+A','cm_MarkMarkAll',[]);
       AddIfNotExists('Ctrl+C','cm_CopyToClipboard',[]);
       AddIfNotExists('Ctrl+V','cm_PasteFromClipboard',[]);

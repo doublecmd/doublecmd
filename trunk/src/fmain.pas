@@ -854,7 +854,7 @@ end;
 procedure TfrmMain.btnF8Click(Sender: TObject);
 begin
   if GetKeyShiftStateEx * KeyModifiersShortcut = [ssShift] then
-    Commands.cm_Delete(['recyclesettingrev'])
+    Commands.cm_Delete(['trashcan=reversesetting'])
   else
     Commands.cm_Delete([]);
 end;
@@ -4778,4 +4778,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
