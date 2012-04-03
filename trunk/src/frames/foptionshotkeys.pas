@@ -265,6 +265,7 @@ begin
   begin
     sCommand := stgCommands.Cells[stgCmdCommandIndex, aRow];
     FillHotkeyList(sCommand);
+    btnAddHotKey.Enabled := True;
   end;
 end;
 
@@ -283,7 +284,6 @@ var
   aEnabled: Boolean;
 begin
   aEnabled := aRow >= stgHotkeys.FixedRows;
-  btnAddHotKey.Enabled := aEnabled;
   btnDeleteHotKey.Enabled := aEnabled;
   btnEditHotkey.Enabled := aEnabled;
 end;
