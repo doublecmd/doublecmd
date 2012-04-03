@@ -66,6 +66,7 @@ type
     procedure PopFilter;
     procedure ClearFilter;
     procedure CancelFilter;
+    procedure ProcessParams(const Params: array of String);
   public
     OnChangeSearch: TOnChangeSearch;
     OnChangeFilter: TOnChangeFilter;
@@ -73,9 +74,8 @@ type
     OnHide: TOnHide;
     constructor Create(TheOwner: TWinControl); reintroduce;
     destructor Destroy; override;
-    procedure Initialize(SearchMode: TQuickSearchMode; Char: TUTF8Char = #0);
+    procedure Execute(SearchMode: TQuickSearchMode; const Params: array of String; Char: TUTF8Char = #0);
     procedure Finalize;
-    procedure ToggleOption(ParamOption: String);
     function CheckSearchOrFilter(var Key: Word): Boolean; overload;
     function CheckSearchOrFilter(var UTF8Key: TUTF8Char): Boolean; overload;
   end;
@@ -89,15 +89,36 @@ implementation
 
 uses
   uKeyboard,
-  uGlobs;
+  uGlobs,
+  uDCUtils,
+  uFormCommands;
 
 const
+{
+  Parameters:
+
+  "filter"           - set filtering (on/off/toggle)
+  "matchbeginning"   - set match beginning option (on/off/toggle)
+  "matchending"      - set match ending option (on/off/toggle)
+  "casesensitive"    - set case sensitive searching (on/off/toggle)
+  "files"            - set filtering files (on/off/toggle)
+  "directories"      - set filtering directories (on/off/toggle)
+  "filesdirectories" - toggle between files, directories and both (no value)
+  "text"="<...>"     - set <...> as new text to search/filter (string)
+
+  'toggle' switches between on and off
+}
   // parameters for quick search / filter actions
-  PARAMETER_TOGGLE_FILTER = 'togglefilter';
-  PARAMETER_MATCH_BEGINNING = 'matchbeginning';
-  PARAMETER_MATCH_ENDING = 'matchending';
-  PARAMETER_CASE_SENSITIVE = 'casesensitivity';
-  PARAMETER_FILES_DIRECTORIES = 'filesdirectories';
+  PARAMETER_FILTER                 = 'filter';
+  PARAMETER_MATCH_BEGINNING        = 'matchbeginning';
+  PARAMETER_MATCH_ENDING           = 'matchending';
+  PARAMETER_CASE_SENSITIVE         = 'casesensitive';
+  PARAMETER_FILES                  = 'files';
+  PARAMETER_DIRECTORIES            = 'directories';
+  PARAMETER_FILES_DIRECTORIES      = 'filesdirectories';
+  PARAMETER_TEXT                   = 'text';
+
+  TOGGLE_VALUE = 'toggle';
 
 {$R *.lfm}
 
@@ -113,6 +134,16 @@ begin
 
   if qsOptions1.SearchCase <> qsOptions2.SearchCase then
     Result := False;
+end;
+
+function GetBoolState(const Value: String; OldState: Boolean): Boolean;
+var
+  BoolValue: Boolean;
+begin
+  if Value = TOGGLE_VALUE then
+    Result := not OldState
+  else if not GetBoolValue(Value, Result) then
+    Result := OldState;
 end;
 
 { TfrmQuickSearch }
@@ -142,19 +173,25 @@ begin
   inherited Destroy;
 end;
 
-procedure TfrmQuickSearch.Initialize(SearchMode: TQuickSearchMode; Char: TUTF8Char = #0);
+procedure TfrmQuickSearch.Execute(SearchMode: TQuickSearchMode; const Params: array of String; Char: TUTF8Char = #0);
 begin
   tglFilter.Checked := SearchMode = qsFilter;
 
   Self.Visible := True;
-  edtSearch.SetFocus;
 
-  if Char = #0 then
-    edtSearch.SelectAll
-  else
+  if not edtSearch.Focused then
+  begin
+    edtSearch.SetFocus;
+    if Char = #0 then
+      edtSearch.SelectAll;
+  end;
+
+  if Char <> #0 then
     edtSearch.SelText := Char;
 
   Self.Active := True;
+
+  ProcessParams(Params);
 end;
 
 procedure TfrmQuickSearch.Finalize;
@@ -164,45 +201,66 @@ begin
   Self.Visible := False;
 end;
 
-procedure TfrmQuickSearch.ToggleOption(ParamOption: String);
+procedure TfrmQuickSearch.ProcessParams(const Params: array of String);
+var
+  Param: String;
+  Value: String;
 begin
-  ParamOption := LowerCase(ParamOption);
-
-  if ParamOption = PARAMETER_TOGGLE_FILTER then
+  for Param in Params do
   begin
-    tglFilter.Checked := not tglFilter.Checked;
-  end
-  else if ParamOption = PARAMETER_MATCH_BEGINNING then
-  begin
-    sbMatchBeginning.Down := not sbMatchBeginning.Down;
-
-    sbMatchBeginningClick(nil);
-  end
-  else if ParamOption = PARAMETER_MATCH_ENDING then
-  begin
-    sbMatchEnding.Down := not sbMatchEnding.Down;
-
-    sbMatchEndingClick(nil);
-  end
-  else if ParamOption = PARAMETER_CASE_SENSITIVE then
-  begin
-    sbCaseSensitive.Down := not sbCaseSensitive.Down;
-
-    sbCaseSensitiveClick(nil);
-  end
-  else if ParamOption = PARAMETER_FILES_DIRECTORIES then
-  begin
-    if sbFiles.Down and sbDirectories.Down then
-      sbDirectories.Down := False
-    else if sbFiles.Down then
+    if GetParamValue(Param, PARAMETER_FILTER, Value) then
     begin
-      sbDirectories.Down := True;
-      sbFiles.Down := False;
+      tglFilter.Checked := GetBoolState(Value, tglFilter.Checked);
     end
-    else if sbDirectories.Down then
-      sbFiles.Down := True;
+    else if GetParamValue(Param, PARAMETER_MATCH_BEGINNING, Value) then
+    begin
+      sbMatchBeginning.Down := GetBoolState(Value, sbMatchBeginning.Down);
 
-    sbFilesAndDirectoriesClick(nil);
+      sbMatchBeginningClick(nil);
+    end
+    else if GetParamValue(Param, PARAMETER_MATCH_ENDING, Value) then
+    begin
+      sbMatchEnding.Down := GetBoolState(Value, sbMatchEnding.Down);
+
+      sbMatchEndingClick(nil);
+    end
+    else if GetParamValue(Param, PARAMETER_CASE_SENSITIVE, Value) then
+    begin
+      sbCaseSensitive.Down := GetBoolState(Value, sbCaseSensitive.Down);
+
+      sbCaseSensitiveClick(nil);
+    end
+    else if GetParamValue(Param, PARAMETER_FILES, Value) then
+    begin
+      sbFiles.Down := GetBoolState(Value, sbFiles.Down);
+
+      sbFilesAndDirectoriesClick(nil);
+    end
+    else if GetParamValue(Param, PARAMETER_DIRECTORIES, Value) then
+    begin
+      sbDirectories.Down := GetBoolState(Value, sbDirectories.Down);
+
+      sbFilesAndDirectoriesClick(nil);
+    end
+    else if Param = PARAMETER_FILES_DIRECTORIES then
+    begin
+      if sbFiles.Down and sbDirectories.Down then
+        sbDirectories.Down := False
+      else if sbFiles.Down then
+      begin
+        sbDirectories.Down := True;
+        sbFiles.Down := False;
+      end
+      else if sbDirectories.Down then
+        sbFiles.Down := True;
+
+      sbFilesAndDirectoriesClick(nil);
+    end
+    else if GetParamValue(Param, PARAMETER_TEXT, Value) then
+    begin
+      edtSearch.Text := Value;
+      edtSearch.SelectAll;
+    end;
   end;
 end;
 
@@ -247,7 +305,7 @@ begin
               ktaQuickFilter:
                 SearchMode := qsFilter;
             end;
-            Self.Initialize(SearchMode, UTF8Char);
+            Self.Execute(SearchMode, [], UTF8Char);
           end;
         end;
 
@@ -286,7 +344,7 @@ begin
             SearchMode := qsFilter;
         end;
 
-        Self.Initialize(SearchMode, UTF8Key);
+        Self.Execute(SearchMode, [], UTF8Key);
         UTF8Key := '';
 
         Result := True;

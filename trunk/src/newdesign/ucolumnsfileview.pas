@@ -2166,7 +2166,7 @@ end;
 
 procedure TColumnsFileView.lblFilterClick(Sender: TObject);
 begin
-  quickSearch.Initialize(qsFilter);
+  quickSearch.Execute(qsFilter, []);
 end;
 
 procedure TColumnsFileView.ColumnsMenuClick(Sender: TObject);
@@ -2915,36 +2915,14 @@ begin
   RestoreSelection;
 end;
 
-{
-  Parameters:
-  "togglefilter"     - toggle between quick search and quick filter
-  "matchbeginning"   - toggle match beginning option
-  "matchending"      - toggle match ending option
-  "casesensitivity"  - toggle case sensitive searching
-  "filesdirectories" - toggle betwen files, directories and both
-}
 procedure TColumnsFileView.cm_QuickSearch(const Params: array of string);
 begin
-  if Length(Params) = 0 then
-    quickSearch.Initialize(qsSearch)
-  else
-    quickSearch.ToggleOption(Params[0]);
+  quickSearch.Execute(qsSearch, Params);
 end;
 
-{
-  Parameters:
-  "togglefilter"     - toggle between quick search and quick filter
-  "matchbeginning"   - toggle match beginning option
-  "matchending"      - toggle match ending option
-  "casesensitivity"  - toggle case sensitive searching
-  "filesdirectories" - toggle betwen files, directories and both
-}
 procedure TColumnsFileView.cm_QuickFilter(const Params: array of string);
 begin
-  if Length(Params) = 0 then
-    quickSearch.Initialize(qsFilter)
-  else
-    quickSearch.ToggleOption(Params[0]);
+  quickSearch.Execute(qsFilter, Params);
 end;
 
 procedure TColumnsFileView.cm_Open(const Params: array of string);
