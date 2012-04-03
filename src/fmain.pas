@@ -585,15 +585,19 @@ type
     }
     function CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
                        var SourceFiles: TFiles; TargetPath: String;
-                       bShowDialog: Boolean): Boolean; overload;
+                       bShowDialog: Boolean;
+                       QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean; overload;
     {en
        Returns @true if move operation has been successfully started.
     }
     function MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
                        var SourceFiles: TFiles; TargetPath: String;
-                       bShowDialog: Boolean): Boolean; overload;
-    function CopyFiles(sDestPath: String; bShowDialog: Boolean): Boolean; overload; //  this is for F5 and Shift+F5
-    function MoveFiles(sDestPath: String; bShowDialog: Boolean): Boolean; overload;
+                       bShowDialog: Boolean;
+                       QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean; overload;
+    function CopyFiles(sDestPath: String; bShowDialog: Boolean;
+                       QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean; overload; //  this is for F5 and Shift+F5
+    function MoveFiles(sDestPath: String; bShowDialog: Boolean;
+                       QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean; overload;
     procedure GetDestinationPathAndMask(SourceFiles: TFiles;
                                         TargetFileSource: IFileSource;
                                         EnteredPath: String; BaseDir: String;
@@ -2413,7 +2417,8 @@ end;
 
 function TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
                             var SourceFiles: TFiles; TargetPath: String;
-                            bShowDialog: Boolean): Boolean;
+                            bShowDialog: Boolean;
+                            QueueIdentifier: TOperationsManagerQueueIdentifier): Boolean;
 var
   sDestination: String;
   sDstMaskTemp: String;
@@ -2421,7 +2426,6 @@ var
   OperationType: TFileSourceOperationType;
   CopyDialog: TfrmCopyDlg = nil;
   FileSource: IFileSource;
-  QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
   OperationClass: TFileSourceOperationClass;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
 begin
@@ -2547,14 +2551,14 @@ end;
 
 function TfrmMain.MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
                             var SourceFiles: TFiles; TargetPath: String;
-                            bShowDialog: Boolean): Boolean;
+                            bShowDialog: Boolean;
+                            QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean;
 var
   sDestination: String;
   sDstMaskTemp: String;
   Operation: TFileSourceMoveOperation;
   bMove: Boolean;
   MoveDialog: TfrmCopyDlg = nil;
-  QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
 begin
   Result := False;
   try
@@ -2653,7 +2657,8 @@ begin
   end;
 end;
 
-function TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean): Boolean;
+function TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean;
+                            QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean;
 var
   SourceFiles: TFiles = nil;
 begin
@@ -2662,7 +2667,7 @@ begin
   begin
     try
       Result := CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
-                          SourceFiles, sDestPath, bShowDialog);
+                          SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
     finally
       if Assigned(SourceFiles) then
         FreeAndNil(SourceFiles);
@@ -2672,7 +2677,8 @@ begin
     Result := False;
 end;
 
-function TfrmMain.MoveFiles(sDestPath: String; bShowDialog: Boolean): Boolean;
+function TfrmMain.MoveFiles(sDestPath: String; bShowDialog: Boolean;
+                            QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean;
 var
   SourceFiles: TFiles = nil;
 begin
@@ -2681,7 +2687,7 @@ begin
   begin
     try
       Result := MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
-                          SourceFiles, sDestPath, bShowDialog);
+                          SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
     finally
       if Assigned(SourceFiles) then
         FreeAndNil(SourceFiles);
