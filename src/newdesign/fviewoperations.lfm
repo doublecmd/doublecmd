@@ -15,7 +15,7 @@ object frmViewOperations: TfrmViewOperations
   OnDestroy = FormDestroy
   Position = poScreenCenter
   SessionProperties = 'WindowState;Width;Top;Left;Height'
-  LCLVersion = '0.9.31'
+  LCLVersion = '0.9.30.1'
   object pnlHeader: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -39,24 +39,23 @@ object frmViewOperations: TfrmViewOperations
       Left = 0
       Height = 40
       Top = 0
-      Width = 100
+      Width = 91
       AutoSize = True
       BorderSpacing.Right = 50
       Caption = '&Pause all'
-      Constraints.MinHeight = 40
-      Constraints.MinWidth = 100
       OnChange = tbPauseAllChange
       TabOrder = 0
     end
     object btnStop: TBitBtn
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
-      Left = 150
+      Left = 141
       Height = 40
       Top = 0
       Width = 80
       AutoSize = True
       Caption = 'S&top'
+      Constraints.MinHeight = 40
       Constraints.MinWidth = 80
       Enabled = False
       NumGlyphs = 0
@@ -65,12 +64,13 @@ object frmViewOperations: TfrmViewOperations
     end
     object btnStartPause: TBitBtn
       AnchorSideBottom.Side = asrBottom
-      Left = 240
+      Left = 231
       Height = 40
       Top = 0
       Width = 80
       AutoSize = True
       Caption = '&Start'
+      Constraints.MinHeight = 40
       Constraints.MinWidth = 80
       Enabled = False
       NumGlyphs = 0
