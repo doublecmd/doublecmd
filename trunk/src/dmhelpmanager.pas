@@ -51,11 +51,18 @@ implementation
 {$R *.lfm}
 
 uses
+  {$IFDEF MSWindows}
+  LCLIntf,
+  {$ENDIF}
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils, StrUtils;
 
 { TdmHelpManager }
 
 procedure TdmHelpManager.DataModuleCreate(Sender: TObject);
+{$IFDEF MSWindows}
+var
+  ABrowser, AParams: String;
+{$ENDIF}
 begin
   if NumCountChars('.', gPOFileName) < 2 then
     gHelpLang:= 'en'
@@ -68,6 +75,15 @@ begin
 
   HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang;
   HTMLHelpDatabase.KeywordPrefix:= '/';
+
+  {$IFDEF MSWindows}
+  // Lazarus issue #0021637.
+  if FindDefaultBrowser(ABrowser, AParams) then
+  begin
+    HTMLBrowserHelpViewer.BrowserPath := ABrowser;
+    HTMLBrowserHelpViewer.BrowserParams := StringReplace(AParams, '%s', '"%s"', [rfReplaceAll]);
+  end;
+  {$ENDIF}
 end;
 
 end.
