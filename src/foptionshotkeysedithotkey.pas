@@ -87,7 +87,7 @@ implementation
 {$R *.lfm}
 
 uses
-  HelpIntfs, uKeyboard, uLng, uGlobs, uFormCommands;
+  HelpIntfs, LCLType, uKeyboard, uLng, uGlobs, uFormCommands;
 
 { TfrmEditHotkey }
 
@@ -252,14 +252,21 @@ end;
 procedure TfrmEditHotkey.edtHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   ShortCut: TShortCut;
+  sShortCut: String;
 begin
   ShortCut := KeyToShortCutEx(Key,GetKeyShiftStateEx);
-  edtHotKey.Text := ShortCutToTextEx(ShortCut);
-  Key := 0;
-  btnOK.Enabled := edtHotKey.Text <> '';
-  lblHotKeyConflict.Caption := '';
+  sShortCut := ShortCutToTextEx(ShortCut);
 
-  CheckHotKeyConflicts;
+  // Allow closing the dialog if Escape pressed twice.
+  if (ShortCut <> VK_ESCAPE) or (edtHotKey.Text <> sShortCut) then
+  begin
+    edtHotKey.Text := sShortCut;
+    Key := 0;
+    btnOK.Enabled := edtHotKey.Text <> '';
+    lblHotKeyConflict.Caption := '';
+
+    CheckHotKeyConflicts;
+  end;
 end;
 
 procedure TfrmEditHotkey.edtHotKeyKeyPress(Sender: TObject; var Key: char);
