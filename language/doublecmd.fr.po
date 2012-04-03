@@ -12,16 +12,6 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: BELGIUM\n"
 
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr ""
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr ""
-
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -1337,46 +1327,6 @@ msgstr "-"
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
-
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Annuler"
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr "Configuration de l'éditeur"
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr "&Gras"
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr "&Italique"
-
-#: tfrmeditorconf.cbstrikeout.caption
-#, fuzzy
-msgid "&StrikeOut"
-msgstr "&Barré"
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr "&Souligné"
-
-#: tfrmeditorconf.lbpredefined.caption
-#, fuzzy
-msgid "Predefined"
-msgstr "Prédéfini"
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
-msgstr "Exemple"
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"

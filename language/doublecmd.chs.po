@@ -11,16 +11,6 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr ""
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr ""
-
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -1317,44 +1307,6 @@ msgstr "-"
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
-
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "确定(&O)"
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr "编辑器配置"
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr "粗体(&B)"
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr "斜体(&I)"
-
-#: tfrmeditorconf.cbstrikeout.caption
-msgid "&StrikeOut"
-msgstr "删除线(&S)"
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr "下划线(&U)"
-
-#: tfrmeditorconf.lbpredefined.caption
-msgid "Predefined"
-msgstr "预定义"
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
-msgstr "样例"
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"

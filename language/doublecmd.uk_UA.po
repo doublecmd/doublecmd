@@ -11,16 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Ukrainian\n"
 
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr "Текст за замовчуванням"
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr "Звичайний текст"
-
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -1313,44 +1303,6 @@ msgstr "-"
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
-
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Скасувати"
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Так"
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr "Налаштування редактора"
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr "&Жирний"
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr "&Курсив"
-
-#: tfrmeditorconf.cbstrikeout.caption
-msgid "&StrikeOut"
-msgstr "&Закреслений"
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr "&Підкреслений"
-
-#: tfrmeditorconf.lbpredefined.caption
-msgid "Predefined"
-msgstr "Передвизначений"
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
-msgstr "Зразок"
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
