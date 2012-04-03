@@ -143,6 +143,7 @@ type
   }
   function GetParamValue(const Params: array of String; Key: String; out Value: String): Boolean;
   function GetParamValue(const Param: String; Key: String; out Value: String): Boolean;
+  function GetParamBoolValue(const Param: String; Key: String; out BoolValue: Boolean): Boolean;
   {en
      If StrValue matches any value that can be translated into boolean then
      it returns @true and sets Value appropriately. Otherwise returns @false.
@@ -390,6 +391,14 @@ begin
   end;
   Value := '';
   Result := False;
+end;
+
+function GetParamBoolValue(const Param: String; Key: String; out BoolValue: Boolean): Boolean;
+var
+  sValue: String;
+begin
+  Result := GetParamValue(Param, Key, sValue) and
+            GetBoolValue(sValue, BoolValue);
 end;
 
 function GetBoolValue(StrValue: string; out BoolValue: Boolean): Boolean;

@@ -1273,9 +1273,23 @@ begin
   frmMain.ActiveFrame.ExecuteCommand('cm_EditPath', Params);
 end;
 
+// Parameters:
+// confirmation=
+//   1/true            - show confirmation
+//   0/false           - don't show confirmation
 procedure TMainCommands.cm_Copy(const Params: array of string);
+var
+  Param: String;
+  bConfirmation, BoolValue: Boolean;
 begin
-  if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, True) then
+  bConfirmation := True;
+  for Param in Params do
+  begin
+    if GetParamBoolValue(Param, 'confirmation', BoolValue) then
+      bConfirmation := BoolValue;
+  end;
+
+  if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
@@ -1285,9 +1299,23 @@ begin
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
+// Parameters:
+// confirmation=
+//   1/true            - show confirmation
+//   0/false           - don't show confirmation
 procedure TMainCommands.cm_Rename(const Params: array of string);
+var
+  Param: String;
+  bConfirmation, BoolValue: Boolean;
 begin
-  if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, True) then
+  bConfirmation := True;
+  for Param in Params do
+  begin
+    if GetParamBoolValue(Param, 'confirmation', BoolValue) then
+      bConfirmation := BoolValue;
+  end;
+
+  if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
@@ -1345,6 +1373,9 @@ end;
 //   0/false           - delete directly
 //   setting           - if gUseTrash then delete to trash, otherwise delete directly
 //   reversesetting    - if gUseTrash then delete directly, otherwise delete to trash
+// confirmation=
+//   1/true            - show confirmation
+//   0/false           - don't show confirmation
 //
 // Deprecated:
 // "recycle"           - delete to trash can
@@ -1358,6 +1389,7 @@ var
   MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
   bRecycle: Boolean;
+  bConfirmation: Boolean;
   Param, ParamTrashCan: String;
   BoolValue: Boolean;
 begin
@@ -1370,6 +1402,7 @@ begin
     end;
 
     bRecycle := gUseTrash;
+    bConfirmation := True;
 
     for Param in Params do
     begin
@@ -1389,7 +1422,9 @@ begin
           bRecycle := not gUseTrash
         else if GetBoolValue(ParamTrashCan, BoolValue) then
           bRecycle := BoolValue;
-      end;
+      end
+      else if GetParamBoolValue(Param, 'confirmation', BoolValue) then
+        bConfirmation := BoolValue;
     end;
 
     if bRecycle then
@@ -1415,30 +1450,30 @@ begin
 
     if Assigned(theFilesToDelete) then
     try
-      if theFilesToDelete.Count = 0 then
-        Exit;
-
-      if QuestionDlg('', frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete),
-         mtConfirmation, [mrYes, mrNo], 0) <> mrYes then Exit;
-
-      Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
-
-      if Assigned(Operation) then
+      if (theFilesToDelete.Count > 0) and
+         ((not bConfirmation) or
+          (QuestionDlg('', frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete),
+           mtConfirmation, [mrYes, mrNo], 0) = mrYes)) then
       begin
-        // Special case for filesystem - 'recycle' parameter.
-        if Operation is TFileSystemDeleteOperation then
-          with Operation as TFileSystemDeleteOperation do
-          begin
-            // 30.04.2009 - передаем параметр корзины в поток.
-            Recycle := bRecycle;
-          end;
+        Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
 
-        // Start operation.
-        OperationsManager.AddOperation(Operation);
-      end
-      else
-      begin
-        msgWarning(rsMsgNotImplemented);
+        if Assigned(Operation) then
+        begin
+          // Special case for filesystem - 'recycle' parameter.
+          if Operation is TFileSystemDeleteOperation then
+            with Operation as TFileSystemDeleteOperation do
+            begin
+              // 30.04.2009 - передаем параметр корзины в поток.
+              Recycle := bRecycle;
+            end;
+
+          // Start operation.
+          OperationsManager.AddOperation(Operation);
+        end
+        else
+        begin
+          msgWarning(rsMsgNotImplemented);
+        end;
       end;
 
     finally
