@@ -2,23 +2,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-03-31 15:12+0100\n"
+"PO-Revision-Date: 2012-04-02 10:00+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: German\n"
-
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr "Standardtext"
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr "Reiner Text"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -1027,11 +1017,11 @@ msgstr "Nur für diese Steuerungs-Elemente"
 
 #: tfrmedithotkey.lblhotkey.caption
 msgid "Hot key:"
-msgstr ""
+msgstr "Tastaturkürzel"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "Parameters (each in a separate line):"
-msgstr ""
+msgstr "Parameter(jeder in einer eigenen Zeile):"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -1319,44 +1309,6 @@ msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Abbruch"
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr "Editor konfigurieren"
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr "&Fett"
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr "K&ursiv"
-
-#: tfrmeditorconf.cbstrikeout.caption
-msgid "&StrikeOut"
-msgstr "Durch&gestrichen"
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr "Un&terstrichen"
-
-#: tfrmeditorconf.lbpredefined.caption
-msgid "Predefined"
-msgstr "Vordefiniert"
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
-msgstr "Beispiel"
-
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -1627,15 +1579,15 @@ msgstr "Abbruch"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
-msgstr ""
+msgstr "&In Panel:"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
-msgstr ""
+msgstr "&Alle betrachten"
 
 #: tfrmfileop.lblcurrentoperation.caption
 msgid "Current operation:"
-msgstr ""
+msgstr "Aktuelle Operation:"
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -4088,7 +4040,7 @@ msgstr "An"
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
 msgid "Underline"
-msgstr ""
+msgstr "Unterstreichen"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
@@ -4146,7 +4098,7 @@ msgstr "Fehler bei Datei-Operationen ignorieren und sie im Log-Fenster anzeigen"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
-msgstr ""
+msgstr "Führe Operationen aus"
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
@@ -4155,15 +4107,15 @@ msgstr "Dateisuche"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
-msgstr ""
+msgstr "Nutzeroberfläche"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
-msgstr ""
+msgstr "Puffergröße für Dateioperationen (in KB)"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress initially in"
-msgstr ""
+msgstr "Zeige Operationsfortschritt von Anfang an"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 #, fuzzy
@@ -4472,15 +4424,15 @@ msgstr "Schriftart für Betrachter"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
 msgid "Add hotkey"
-msgstr ""
+msgstr "Tastaturkürzel hinzufügen"
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
 msgid "Delete hotkey"
-msgstr ""
+msgstr "Tastaturkürzel löschen"
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
 msgid "Edit hotkey"
-msgstr ""
+msgstr "Tastaturkürzel bearbeiten"
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
@@ -7202,11 +7154,11 @@ msgstr "Berechne Prüfsumme"
 
 #: ulng.rsopercalculatingchecksumin
 msgid "Calculating check sum in \"%s\""
-msgstr ""
+msgstr "Berechne Prüfsumme in \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
 msgid "Calculating check sum of \"%s\""
-msgstr ""
+msgstr "Berechne Prüfsumme von \"%s\""
 
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
@@ -7215,7 +7167,7 @@ msgstr "Berechne"
 
 #: ulng.rsopercalculatingstatisticsin
 msgid "Calculating \"%s\""
-msgstr ""
+msgstr "Berechne \"%s\""
 
 #: ulng.rsopercombining
 msgid "Joining"
@@ -7223,7 +7175,7 @@ msgstr "Verschmelze"
 
 #: ulng.rsopercombiningfromto
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr ""
+msgstr "Verschmelze Dateien in \"%s\" nach\"%s\""
 
 #: ulng.rsopercopying
 msgid "Copying"
@@ -7231,11 +7183,11 @@ msgstr "Kopiere"
 
 #: ulng.rsopercopyingfromto
 msgid "Copying from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Kopiere von \"%s\" nach \"%s\""
 
 #: ulng.rsopercopyingsomethingto
 msgid "Copying \"%s\" to \"%s\""
-msgstr ""
+msgstr "Kopiere \"%s\" nach \"%s\""
 
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
@@ -7243,7 +7195,7 @@ msgstr "Erstelle Verzeichnis"
 
 #: ulng.rsopercreatingsomedirectory
 msgid "Creating directory \"%s\""
-msgstr ""
+msgstr "Erstelle Verzeichnis \"%s\""
 
 #: ulng.rsoperdeleting
 msgctxt "ulng.rsoperdeleting"
@@ -7252,11 +7204,11 @@ msgstr "Lösche"
 
 #: ulng.rsoperdeletingin
 msgid "Deleting in \"%s\""
-msgstr ""
+msgstr "Lösche in \"%s\""
 
 #: ulng.rsoperdeletingsomething
 msgid "Deleting \"%s\""
-msgstr ""
+msgstr "Lösche \"%s\""
 
 #: ulng.rsoperexecuting
 msgid "Executing"
@@ -7264,7 +7216,7 @@ msgstr "Führe aus"
 
 #: ulng.rsoperexecutingsomething
 msgid "Executing \"%s\""
-msgstr ""
+msgstr "Führe \"%s\" aus"
 
 #: ulng.rsoperextracting
 msgid "Extracting"
@@ -7272,7 +7224,7 @@ msgstr "Entpacke"
 
 #: ulng.rsoperextractingfromto
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Entpacke von \"%s\" nach \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -7284,7 +7236,7 @@ msgstr "Liste auf"
 
 #: ulng.rsoperlistingin
 msgid "Listing \"%s\""
-msgstr ""
+msgstr "Liste \"s%\" auf"
 
 #: ulng.rsopermoving
 msgid "Moving"
@@ -7292,11 +7244,11 @@ msgstr "Verschiebe"
 
 #: ulng.rsopermovingfromto
 msgid "Moving from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Verschiebe von \"%s\" nach \"%s\""
 
 #: ulng.rsopermovingsomethingto
 msgid "Moving \"%s\" to \"%s\""
-msgstr ""
+msgstr "Verschiebe \"%s\" nach \"%s\""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7308,11 +7260,11 @@ msgstr "Packe"
 
 #: ulng.rsoperpackingfromto
 msgid "Packing from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Packe von \"%s\" nach \"%s\""
 
 #: ulng.rsoperpackingsomethingto
 msgid "Packing \"%s\" to \"%s\""
-msgstr ""
+msgstr "Packe \"%s\" nach \"%s\""
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7337,11 +7289,11 @@ msgstr "Stelle Eigenschaften ein"
 
 #: ulng.rsopersettingpropertyin
 msgid "Setting property in \"%s\""
-msgstr ""
+msgstr "Setze Eigenschaften in \"%s\""
 
 #: ulng.rsopersettingpropertyof
 msgid "Setting property of \"%s\""
-msgstr ""
+msgstr "Setze Eigenschaft von \"%s\""
 
 #: ulng.rsopersplitting
 msgid "Splitting"
@@ -7349,7 +7301,7 @@ msgstr "Teile"
 
 #: ulng.rsopersplittingfromto
 msgid "Splitting \"%s\" to \"%s\""
-msgstr ""
+msgstr "Teile \"%s\" nach \"%s\""
 
 #: ulng.rsoperstarting
 msgid "Starting"
@@ -7369,11 +7321,11 @@ msgstr "Test"
 
 #: ulng.rsopertestingin
 msgid "Testing in \"%s\""
-msgstr ""
+msgstr "Teste in \"%s\""
 
 #: ulng.rsopertestingsomething
 msgid "Testing \"%s\""
-msgstr ""
+msgstr "Teste \"%s\""
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying check sum"
@@ -7381,11 +7333,11 @@ msgstr "Verifiziere Prüfsumme"
 
 #: ulng.rsoperverifyingchecksumin
 msgid "Verifying check sum in \"%s\""
-msgstr ""
+msgstr "Verifiziere Prüfsumme in \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
 msgid "Verifying check sum of \"%s\""
-msgstr ""
+msgstr "Verifiziere Prüfsumme von \"%s\""
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -7401,11 +7353,11 @@ msgstr "Lösche sicher"
 
 #: ulng.rsoperwipingin
 msgid "Wiping in \"%s\""
-msgstr ""
+msgstr "Lösche sicher in \"%s\""
 
 #: ulng.rsoperwipingsomething
 msgid "Wiping \"%s\""
-msgstr ""
+msgstr "Lösche \"%s\" sicher"
 
 #: ulng.rsoperworking
 msgid "Working"
@@ -7506,7 +7458,7 @@ msgstr ""
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
-msgstr ""
+msgstr "eigenes Fenster;minimiertes eigenes Fenster;Operationsfenster"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -7514,7 +7466,7 @@ msgstr "Tastaturkürzel %s für cm_delete wird registriert, damit die Änderung 
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
-msgstr ""
+msgstr "Füge Tastaturkürzel für %s hinzu"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
@@ -7546,7 +7498,7 @@ msgstr "Beschreibung"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
-msgstr ""
+msgstr "Bearbeite Tastaturkürzle für %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
