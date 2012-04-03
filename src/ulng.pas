@@ -192,6 +192,7 @@ resourcestring
   rsMsgLogTest = 'Test file integrity %s';
 
   rsSearchResult = 'Search result';
+  rsShowHelpFor = 'Show help for %s';
 
   // Config toolbar dialog
   rsCfgToolBarAddButton = '&Add button to end';

@@ -38,12 +38,14 @@ type
   TfrmEditHotkey = class(TForm)
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
+    btnShowCommandHelp: TButton;
     cgHKControls: TCheckGroup;
     edtHotKey: TEdit;
     lblHotKey: TLabel;
     lblHotKeyConflict: TLabel;
     lblParameters: TLabel;
     edtParameters: TMemo;
+    procedure btnShowCommandHelpClick(Sender: TObject);
     procedure cgHKControlsItemClick(Sender: TObject; Index: integer);
     procedure edtHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtHotKeyKeyPress(Sender: TObject; var Key: char);
@@ -85,7 +87,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uKeyboard, uLng, uGlobs, uFormCommands;
+  HelpIntfs, uKeyboard, uLng, uGlobs, uFormCommands;
 
 { TfrmEditHotkey }
 
@@ -152,6 +154,11 @@ begin
     HMForm.Hotkeys.Add(sShortCut, FCommand, Params);
 
   Result := True;
+end;
+
+procedure TfrmEditHotkey.btnShowCommandHelpClick(Sender: TObject);
+begin
+  ShowHelpOrErrorForKeyword('', edtParameters.HelpKeyword);
 end;
 
 procedure TfrmEditHotkey.cgHKControlsItemClick(Sender: TObject; Index: integer);
@@ -363,6 +370,8 @@ end;
 procedure TfrmEditHotkey.SetCommand(NewCommand: String);
 begin
   FCommand := NewCommand;
+  btnShowCommandHelp.Caption := Format(rsShowHelpFor, [FCommand]);
+  edtParameters.HelpKeyword := '/cmds.html#' + FCommand;
 end;
 
 procedure TfrmEditHotkey.SetControls(NewControls: TDynamicStringArray);

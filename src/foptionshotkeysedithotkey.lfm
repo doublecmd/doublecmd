@@ -1,18 +1,18 @@
 object frmEditHotkey: TfrmEditHotkey
   Left = 337
-  Height = 386
+  Height = 450
   Top = 120
   Width = 464
   ActiveControl = edtHotKey
   BorderIcons = [biSystemMenu]
-  ClientHeight = 386
+  ClientHeight = 450
   ClientWidth = 464
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.1'
   object lblHotKey: TLabel
     AnchorSideLeft.Control = edtParameters
     AnchorSideTop.Control = Owner
@@ -76,18 +76,34 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = cgHKControls
+    AnchorSideBottom.Control = btnShowCommandHelp
     Left = 8
-    Height = 172
+    Height = 228
     Top = 90
     Width = 448
+    HelpType = htKeyword
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 8
     BorderSpacing.Right = 8
-    BorderSpacing.Bottom = 4
+    BorderSpacing.Bottom = 2
     ScrollBars = ssAutoBoth
     TabOrder = 1
     WordWrap = False
+  end
+  object btnShowCommandHelp: TButton
+    AnchorSideLeft.Control = edtParameters
+    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = cgHKControls
+    Left = 8
+    Height = 10
+    Top = 322
+    Width = 448
+    Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Top = 4
+    OnClick = btnShowCommandHelpClick
+    TabOrder = 2
   end
   object cgHKControls: TCheckGroup
     AnchorSideLeft.Control = edtParameters
@@ -96,12 +112,11 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideBottom.Control = btnOK
     Left = 8
     Height = 68
-    Top = 266
+    Top = 332
     Width = 448
     Anchors = [akLeft, akRight, akBottom]
     AutoFill = True
     AutoSize = True
-    BorderSpacing.Bottom = 6
     Caption = 'Only for these controls'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
@@ -112,7 +127,7 @@ object frmEditHotkey: TfrmEditHotkey
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     OnItemClick = cgHKControlsItemClick
-    TabOrder = 2
+    TabOrder = 3
     Visible = False
   end
   object btnOK: TBitBtn
@@ -121,10 +136,11 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideBottom.Side = asrBottom
     Left = 8
     Height = 40
-    Top = 340
+    Top = 404
     Width = 120
     Anchors = [akLeft, akBottom]
     AutoSize = True
+    BorderSpacing.Top = 4
     BorderSpacing.Bottom = 6
     Constraints.MinHeight = 40
     Constraints.MinWidth = 120
@@ -132,7 +148,7 @@ object frmEditHotkey: TfrmEditHotkey
     DefaultCaption = True
     Kind = bkOK
     ModalResult = 1
-    TabOrder = 3
+    TabOrder = 4
   end
   object btnCancel: TBitBtn
     AnchorSideRight.Control = edtParameters
@@ -141,7 +157,7 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideBottom.Side = asrBottom
     Left = 336
     Height = 40
-    Top = 340
+    Top = 404
     Width = 120
     Anchors = [akRight, akBottom]
     AutoSize = True
@@ -152,6 +168,6 @@ object frmEditHotkey: TfrmEditHotkey
     DefaultCaption = True
     Kind = bkCancel
     ModalResult = 2
-    TabOrder = 4
+    TabOrder = 5
   end
 end
