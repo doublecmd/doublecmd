@@ -227,6 +227,29 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation, uFindEx,
      uTypes, fViewOperations, uVfsModule, uMultiListFileSource, uExceptions;
 
+procedure ReadCopyRenameParams(
+  const Params: array of string;
+  out Confirmation, HasQueueId: Boolean;
+  out QueueIdentifier: TOperationsManagerQueueIdentifier);
+var
+  Param, sQueueId: String;
+  BoolValue: Boolean;
+  iQueueId: Integer;
+begin
+  Confirmation := True;
+  HasQueueId := False;
+  for Param in Params do
+  begin
+    if GetParamBoolValue(Param, 'confirmation', BoolValue) then
+      Confirmation := BoolValue
+    else if GetParamValue(Param, 'queueid', sQueueId) then
+    begin
+      HasQueueId := TryStrToInt(sQueueId, iQueueId);
+      if HasQueueId then
+        QueueIdentifier := iQueueId;
+    end;
+  end;
+end;
 { TMainCommands }
 
 constructor TMainCommands.Create(TheOwner: TComponent; ActionList: TActionList = nil);
@@ -1277,19 +1300,21 @@ end;
 // confirmation=
 //   1/true            - show confirmation
 //   0/false           - don't show confirmation
+// queueid=            - by default put to this queue
+//   <queue_identifier>
 procedure TMainCommands.cm_Copy(const Params: array of string);
 var
-  Param: String;
-  bConfirmation, BoolValue: Boolean;
+  bConfirmation, HasQueueId, CopyResult: Boolean;
+  QueueIdentifier: TOperationsManagerQueueIdentifier;
 begin
-  bConfirmation := True;
-  for Param in Params do
-  begin
-    if GetParamBoolValue(Param, 'confirmation', BoolValue) then
-      bConfirmation := BoolValue;
-  end;
+  ReadCopyRenameParams(Params, bConfirmation, HasQueueId, QueueIdentifier);
 
-  if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation) then
+  if HasQueueId then
+    CopyResult := frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation, QueueIdentifier)
+  else
+    CopyResult := frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation);
+
+  if CopyResult then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
@@ -1303,19 +1328,21 @@ end;
 // confirmation=
 //   1/true            - show confirmation
 //   0/false           - don't show confirmation
+// queueid=            - by default put to this queue
+//   <queue_identifier>
 procedure TMainCommands.cm_Rename(const Params: array of string);
 var
-  Param: String;
-  bConfirmation, BoolValue: Boolean;
+  bConfirmation, HasQueueId, MoveResult: Boolean;
+  QueueIdentifier: TOperationsManagerQueueIdentifier;
 begin
-  bConfirmation := True;
-  for Param in Params do
-  begin
-    if GetParamBoolValue(Param, 'confirmation', BoolValue) then
-      bConfirmation := BoolValue;
-  end;
+  ReadCopyRenameParams(Params, bConfirmation, HasQueueId, QueueIdentifier);
 
-  if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation) then
+  if HasQueueId then
+    MoveResult := frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation, QueueIdentifier)
+  else
+    MoveResult := frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation);
+
+  if MoveResult then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
