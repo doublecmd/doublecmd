@@ -11,16 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Hungarian\n"
 
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr ""
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr ""
-
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -1315,44 +1305,6 @@ msgstr ""
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr ""
-
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Mégsem"
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Oké"
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr "Szerkesztő beállítása"
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr "&Félkövér"
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr "&Dőlt"
-
-#: tfrmeditorconf.cbstrikeout.caption
-msgid "&StrikeOut"
-msgstr "Á&thúzott"
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr "&Aláhúzott"
-
-#: tfrmeditorconf.lbpredefined.caption
-msgid "Predefined"
-msgstr "Előre meghatározott"
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
-msgstr "Minta"
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"

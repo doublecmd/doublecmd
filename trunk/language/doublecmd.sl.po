@@ -15,16 +15,6 @@ msgstr ""
 "X-Poedit-Language: Slovenščina\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr ""
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr ""
-
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -1314,44 +1304,6 @@ msgstr "-"
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
-
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&V redu"
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr "Nastavitev urejevalnika"
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr "&Krepko"
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr "&Ležeče"
-
-#: tfrmeditorconf.cbstrikeout.caption
-msgid "&StrikeOut"
-msgstr "P&rečrtano"
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr "&Podčrtano"
-
-#: tfrmeditorconf.lbpredefined.caption
-msgid "Predefined"
-msgstr "Predhodno določeno"
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
-msgstr "Vzorec"
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"

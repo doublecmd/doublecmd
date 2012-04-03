@@ -11,16 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Czech\n"
 
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr ""
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr ""
-
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -1318,44 +1308,6 @@ msgstr "-"
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
-
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr "Konfigurace editoru"
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr "&Tučné"
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr "&Zkosené"
-
-#: tfrmeditorconf.cbstrikeout.caption
-msgid "&StrikeOut"
-msgstr "Přeš&krtnuté"
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr "&Podtržené"
-
-#: tfrmeditorconf.lbpredefined.caption
-msgid "Predefined"
-msgstr "Předvoleno"
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
-msgstr "Ukázka"
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"

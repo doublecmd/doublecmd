@@ -11,16 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 
-#: dmhigh.rssyndefaulttext
-msgctxt "dmhigh.rssyndefaulttext"
-msgid "Default text"
-msgstr ""
-
-#: dmhigh.rssynlangplaintext
-msgctxt "dmhigh.rssynlangplaintext"
-msgid "Plain text"
-msgstr ""
-
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -1309,44 +1299,6 @@ msgstr ""
 #: tfrmeditor.n5.caption
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
-msgstr ""
-
-#: tfrmeditorconf.btncancel.caption
-msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr ""
-
-#: tfrmeditorconf.btnok.caption
-msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr ""
-
-#: tfrmeditorconf.caption
-msgid "Editor configuration"
-msgstr ""
-
-#: tfrmeditorconf.cbbold.caption
-msgid "&Bold"
-msgstr ""
-
-#: tfrmeditorconf.cbitalic.caption
-msgid "&Italic"
-msgstr ""
-
-#: tfrmeditorconf.cbstrikeout.caption
-msgid "&StrikeOut"
-msgstr ""
-
-#: tfrmeditorconf.cbunderline.caption
-msgid "&Underline"
-msgstr ""
-
-#: tfrmeditorconf.lbpredefined.caption
-msgid "Predefined"
-msgstr ""
-
-#: tfrmeditorconf.lbsample.caption
-msgid "Sample"
 msgstr ""
 
 #: tfrmeditsearchreplace.btncancel.caption
