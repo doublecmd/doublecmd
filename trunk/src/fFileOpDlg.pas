@@ -651,10 +651,16 @@ procedure TfrmFileOp.NotifyEvents(Events: TOperationProgressWindowEvents);
 var
   Item: PEventsListItem;
   Event: TOperationProgressWindowEvent;
+  i: Integer;
 begin
   for Event in Events do
-    for Item in EventsListeners[Event] do
+  begin
+    for i := 0 to EventsListeners[Event].Count - 1 do
+    begin
+      Item := EventsListeners[Event].Items[i];
       Item^.EventFunction(FOperationHandle, Event);
+    end;
+  end;
 end;
 
 procedure TfrmFileOp.SetPauseGlyph;
@@ -1090,4 +1096,4 @@ initialization
 finalization
   Finalize;
 
-end.
+end.
