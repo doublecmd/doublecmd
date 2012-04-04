@@ -90,6 +90,8 @@ type
   TfrmViewOperations = class(TForm)
     btnStop: TBitBtn;
     btnStartPause: TBitBtn;
+    cbAlwaysOnTop: TCheckBox;
+    lblUseDragDrop: TLabel;
     mnuCancelQueue: TMenuItem;
     mnuNewQueue: TMenuItem;
     mnuCancelOperation: TMenuItem;
@@ -104,14 +106,16 @@ type
     mnuQueue0: TMenuItem;
     mnuQueue: TMenuItem;
     mnuQueueShowDetached: TMenuItem;
-    pmQueuePopup: TPopupMenu;
     pnlHeader: TPanel;
+    pmQueuePopup: TPopupMenu;
+    pnlTopHeader: TPanel;
     pmOperationPopup: TPopupMenu;
     tbPauseAll: TToggleBox;
     tvOperations: TTreeView;
     UpdateTimer: TTimer;
 
     procedure btnStopClick(Sender: TObject);
+    procedure cbAlwaysOnTopChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -652,6 +656,7 @@ end;
 procedure TfrmViewOperations.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self);
+  cbAlwaysOnTopChange(nil);
 
   FMenuOperation := InvalidOperationHandle;
   tvOperations.DoubleBuffered := True;
@@ -673,6 +678,20 @@ begin
   Item := GetFocusedItem;
   if Assigned(Item) then
     Item.Stop;
+end;
+
+procedure TfrmViewOperations.cbAlwaysOnTopChange(Sender: TObject);
+begin
+  if cbAlwaysOnTop.Checked then
+  begin
+    FormStyle := fsStayOnTop;
+    ShowInTaskBar := stDefault;
+  end
+  else
+  begin
+    FormStyle := fsNormal;
+    ShowInTaskBar := stAlways;
+  end;
 end;
 
 procedure TfrmViewOperations.FormClose(Sender: TObject; var CloseAction: TCloseAction);

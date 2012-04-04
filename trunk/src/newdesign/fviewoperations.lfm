@@ -8,74 +8,125 @@ object frmViewOperations: TfrmViewOperations
   ClientHeight = 353
   ClientWidth = 507
   Constraints.MinHeight = 100
-  Constraints.MinWidth = 200
-  FormStyle = fsStayOnTop
+  Constraints.MinWidth = 300
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  SessionProperties = 'WindowState;Width;Top;Left;Height'
+  SessionProperties = 'Height;Left;Top;Width;WindowState;cbAlwaysOnTop.Checked'
   LCLVersion = '0.9.30.1'
   object pnlHeader: TPanel
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 40
+    Height = 68
     Top = 0
     Width = 507
-    Anchors = [akTop, akLeft, akRight]
+    Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    ChildSizing.HorizontalSpacing = 10
-    ChildSizing.EnlargeVertical = crsHomogenousChildResize
-    ChildSizing.ShrinkVertical = crsHomogenousChildResize
-    ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ClientHeight = 40
+    ClientHeight = 68
     ClientWidth = 507
     TabOrder = 0
-    object tbPauseAll: TToggleBox
+    object pnlTopHeader: TPanel
+      AnchorSideLeft.Control = pnlHeader
+      AnchorSideTop.Control = pnlHeader
+      AnchorSideRight.Control = pnlHeader
+      AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 40
       Top = 0
-      Width = 91
+      Width = 507
+      Anchors = [akTop, akLeft, akRight]
       AutoSize = True
-      BorderSpacing.Right = 50
-      Caption = '&Pause all'
-      OnChange = tbPauseAllChange
+      BevelOuter = bvNone
+      ClientHeight = 40
+      ClientWidth = 507
       TabOrder = 0
+      object tbPauseAll: TToggleBox
+        AnchorSideLeft.Control = pnlTopHeader
+        AnchorSideTop.Control = pnlTopHeader
+        AnchorSideBottom.Control = pnlTopHeader
+        AnchorSideBottom.Side = asrBottom
+        Left = 0
+        Height = 40
+        Top = 0
+        Width = 91
+        Anchors = [akTop, akLeft, akBottom]
+        AutoSize = True
+        BorderSpacing.Right = 40
+        Caption = '&Pause all'
+        OnChange = tbPauseAllChange
+        TabOrder = 0
+      end
+      object btnStop: TBitBtn
+        AnchorSideLeft.Control = tbPauseAll
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlTopHeader
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 131
+        Height = 40
+        Top = 0
+        Width = 80
+        AutoSize = True
+        Caption = 'S&top'
+        Constraints.MinHeight = 40
+        Constraints.MinWidth = 80
+        Enabled = False
+        NumGlyphs = 0
+        OnClick = btnStopClick
+        TabOrder = 1
+      end
+      object btnStartPause: TBitBtn
+        AnchorSideLeft.Control = btnStop
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlTopHeader
+        AnchorSideBottom.Side = asrBottom
+        Left = 221
+        Height = 40
+        Top = 0
+        Width = 80
+        AutoSize = True
+        BorderSpacing.Left = 10
+        Caption = '&Start'
+        Constraints.MinHeight = 40
+        Constraints.MinWidth = 80
+        Enabled = False
+        NumGlyphs = 0
+        OnClick = btnStartPauseClick
+        TabOrder = 2
+      end
     end
-    object btnStop: TBitBtn
+    object lblUseDragDrop: TLabel
+      AnchorSideLeft.Control = pnlHeader
+      AnchorSideTop.Control = pnlTopHeader
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlHeader
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Side = asrBottom
-      Left = 141
-      Height = 40
-      Top = 0
-      Width = 80
-      AutoSize = True
-      Caption = 'S&top'
-      Constraints.MinHeight = 40
-      Constraints.MinWidth = 80
-      Enabled = False
-      NumGlyphs = 0
-      OnClick = btnStopClick
-      TabOrder = 1
+      Left = 10
+      Height = 22
+      Top = 43
+      Width = 487
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      BorderSpacing.Top = 3
+      BorderSpacing.Right = 10
+      BorderSpacing.Bottom = 3
+      Caption = 'Use "drag && drop" to move operations between queues'
+      ParentColor = False
     end
-    object btnStartPause: TBitBtn
-      AnchorSideBottom.Side = asrBottom
-      Left = 231
-      Height = 40
-      Top = 0
-      Width = 80
-      AutoSize = True
-      Caption = '&Start'
-      Constraints.MinHeight = 40
-      Constraints.MinWidth = 80
-      Enabled = False
-      NumGlyphs = 0
-      OnClick = btnStartPauseClick
-      TabOrder = 2
+    object cbAlwaysOnTop: TCheckBox
+      AnchorSideTop.Control = pnlTopHeader
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = pnlTopHeader
+      AnchorSideRight.Side = asrBottom
+      Left = 384
+      Height = 27
+      Top = 7
+      Width = 123
+      Anchors = [akTop, akRight]
+      Caption = 'Always on top'
+      OnChange = cbAlwaysOnTopChange
+      TabOrder = 1
     end
   end
   object tvOperations: TTreeView
@@ -87,8 +138,8 @@ object frmViewOperations: TfrmViewOperations
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 313
-    Top = 40
+    Height = 285
+    Top = 68
     Width = 507
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoExpand = True
