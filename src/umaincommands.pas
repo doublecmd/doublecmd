@@ -1304,18 +1304,15 @@ end;
 //   <queue_identifier>
 procedure TMainCommands.cm_Copy(const Params: array of string);
 var
-  bConfirmation, HasQueueId, CopyResult: Boolean;
+  bConfirmation, HasQueueId: Boolean;
   QueueIdentifier: TOperationsManagerQueueIdentifier;
 begin
   ReadCopyRenameParams(Params, bConfirmation, HasQueueId, QueueIdentifier);
 
   if HasQueueId then
-    CopyResult := frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation, QueueIdentifier)
+    frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation, QueueIdentifier)
   else
-    CopyResult := frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation);
-
-  if CopyResult then
-    frmMain.ActiveFrame.UnselectAllFiles;
+    frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation);
 end;
 
 procedure TMainCommands.cm_CopyNoAsk(const Params: array of string);
@@ -1332,18 +1329,15 @@ end;
 //   <queue_identifier>
 procedure TMainCommands.cm_Rename(const Params: array of string);
 var
-  bConfirmation, HasQueueId, MoveResult: Boolean;
+  bConfirmation, HasQueueId: Boolean;
   QueueIdentifier: TOperationsManagerQueueIdentifier;
 begin
   ReadCopyRenameParams(Params, bConfirmation, HasQueueId, QueueIdentifier);
 
   if HasQueueId then
-    MoveResult := frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation, QueueIdentifier)
+    frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation, QueueIdentifier)
   else
-    MoveResult := frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation);
-
-  if MoveResult then
-    frmMain.ActiveFrame.UnselectAllFiles;
+    frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, bConfirmation);
 end;
 
 procedure TMainCommands.cm_RenameNoAsk(const Params: array of string);
