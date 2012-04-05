@@ -58,10 +58,10 @@ type
     procedure FormShow(Sender: TObject);
   private
     FCommand: String;
-    FControls: TDynamicStringArray;
-    FShortcutsEditors: Integer;
+    FEditMode: Boolean;
     FForm: String;
     FForms, FFormsTranslated: TStringList;
+    FOldHotkey: THotkey;
     function ApplyHotkey: Boolean;
     procedure AddShortcutEditor;
     {en
@@ -120,66 +120,92 @@ begin
 end;
 
 function TfrmEditHotkey.ApplyHotkey: Boolean;
-var
-  i: Integer;
-  Shortcuts, Params: array of String;
-  HMForm: THMForm;
-  HMControl: THMControl;
-  hotkey: THotkey;
-  isFormHotkey: Boolean;
-begin
-  Result := False;
-
-  Shortcuts := GetShortcuts;
-  // check for invalid hotkey
-  if Length(Shortcuts) = 0 then
-    Exit;
-
-  Params := GetParameters;
-
-  if (lblHotKeyConflict.Caption <> EmptyStr) then
+  procedure UpdateHotkey(ShouldBePresent: Boolean;
+                         HotkeyOld, HotkeyNew: THotkey;
+                         Hotkeys: THotkeys);
+  var
+    hotkey: THotkey;
   begin
-    if (MessageDlg(rsOptHotkeysShortCutUsed,                                     // delete command on assigned shortcut
-                   Format(rsOptHotkeysShortCutUsedText1,                         // if another was applied
-                          [ShortcutsToText(Shortcuts)]) + LineEnding +
-                   Format(rsOptHotkeysShortCutUsedText2,
-                          [FCommand]),
-                   mtConfirmation, mbYesNo, 0) = mrYes) then
-      CheckHotKeyConflicts(true)
-    else
-      Exit;
-  end;
-
-  HMForm := HotMan.Forms.FindOrCreate(FForm);
-  isFormHotkey := true;
-  for i := 0 to cgHKControls.Items.Count - 1 do
-  begin
-    HMControl := THMControl(cgHKControls.Items.Objects[i]);
-    if not Assigned(HMControl) then
-      continue;
-
-    // delete previous hotkey if exists
-    hotkey := HMControl.Hotkeys.Find(Shortcuts);
-    if Assigned(hotkey) and (hotkey.Command = FCommand) then
-      HMControl.Hotkeys.Remove(hotkey);
-
-    // add new hotkey
-    if cgHKControls.Checked[i] then
+    if FEditMode then
     begin
-      isFormHotkey := false;
-      HMControl.Hotkeys.Add(Shortcuts, Params, FCommand);
+      hotkey := Hotkeys.Find(HotkeyOld.Shortcuts);
+      if Assigned(hotkey) and (hotkey.Command = FCommand) then
+      begin
+        if ShouldBePresent then
+        begin
+          hotkey.Assign(HotkeyNew);
+          Hotkeys.UpdateHotkey(hotkey);
+        end
+        else if hotkey.SameParams(HotkeyOld.Params) then
+          Hotkeys.Remove(hotkey);
+      end
+      else if ShouldBePresent then
+        Hotkeys.Add(HotkeyNew.Shortcuts, HotkeyNew.Params, HotkeyNew.Command);
+    end
+    else if ShouldBePresent then
+    begin
+      // Overwrite old hotkey in Add mode too.
+      hotkey := Hotkeys.Find(HotkeyNew.Shortcuts);
+      if Assigned(hotkey) and (hotkey.Command = FCommand) then
+      begin
+        hotkey.Assign(HotkeyNew);
+        Hotkeys.UpdateHotkey(hotkey);
+      end
+      else
+        Hotkeys.Add(HotkeyNew.Shortcuts, HotkeyNew.Params, HotkeyNew.Command);
     end;
   end;
 
-  // delete previous hotkey if exists
-  hotkey := HMForm.Hotkeys.Find(Shortcuts);
-  if Assigned(hotkey) and (hotkey.Command = FCommand) then
-    HMForm.Hotkeys.Remove(hotkey);
+var
+  i: Integer;
+  HMForm: THMForm;
+  HMControl: THMControl;
+  NewHotkey: THotkey;
+  IsFormHotkey: Boolean;
+begin
+  Result := False;
 
-  if isFormHotkey then
-    HMForm.Hotkeys.Add(Shortcuts, Params, FCommand);
+  NewHotkey := CloneNewHotkey;
+  try
+    // check for invalid hotkey
+    if Length(NewHotkey.Shortcuts) = 0 then
+      Exit;
 
-  Result := True;
+    if (lblHotKeyConflict.Caption <> EmptyStr) then
+    begin
+      if (MessageDlg(rsOptHotkeysShortCutUsed,                                     // delete command on assigned shortcut
+                     Format(rsOptHotkeysShortCutUsedText1,                         // if another was applied
+                            [ShortcutsToText(NewHotkey.Shortcuts)]) + LineEnding +
+                     Format(rsOptHotkeysShortCutUsedText2,
+                            [NewHotkey.Command]),
+                     mtConfirmation, mbYesNo, 0) = mrYes) then
+        CheckHotKeyConflicts(True)
+      else
+        Exit;
+    end;
+
+    HMForm := HotMan.Forms.FindOrCreate(FForm);
+    IsFormHotkey := True;
+    for i := 0 to cgHKControls.Items.Count - 1 do
+    begin
+      HMControl := THMControl(cgHKControls.Items.Objects[i]);
+      if Assigned(HMControl) then
+      begin
+        if cgHKControls.Checked[i] then
+          IsFormHotkey := False;
+
+        UpdateHotkey(cgHKControls.Checked[i],
+                     FOldHotkey, NewHotkey, HMControl.Hotkeys);
+      end;
+    end;
+
+    UpdateHotkey(IsFormHotkey,
+                 FOldHotkey, NewHotkey, HMForm.Hotkeys);
+
+    Result := True;
+  finally
+    NewHotkey.Free;
+  end;
 end;
 
 procedure TfrmEditHotkey.btnAddShortcutClick(Sender: TObject);
@@ -203,6 +229,9 @@ begin
 end;
 
 procedure TfrmEditHotkey.CheckHotKeyConflicts(DeleteConflicts: Boolean);
+var
+  ConflictsCount: Integer;
+
   procedure AddConflictHint(ACommand, AName: String);
   var
     s: String = '';
@@ -212,13 +241,30 @@ procedure TfrmEditHotkey.CheckHotKeyConflicts(DeleteConflicts: Boolean);
     lblHotKeyConflict.Hint := lblHotKeyConflict.Hint + s +
         Format(rsOptHotkeysUsedBy, [ACommand, AName]);
   end;
+
+  procedure CheckHotkey(Hotkeys: THotkeys; const AObjectName: String;
+                        const Shortcuts: TDynamicStringArray);
+  var
+    hotkey: THotkey;
+  begin
+    hotkey := Hotkeys.Find(Shortcuts);
+    if Assigned(hotkey) and (hotkey.Command <> FCommand) then
+    begin
+      Inc(ConflictsCount);
+
+      if DeleteConflicts then
+        Hotkeys.Remove(hotkey)
+      else
+        AddConflictHint(hotkey.Command, GetTranslatedControlName(AObjectName));
+    end;
+  end;
+
 var
   HMForm: THMForm;
   HMControl: THMControl;
+  i: Integer;
+  IsFormHotKey: Boolean;
   Shortcuts: TDynamicStringArray;
-  hotkey: THotkey;
-  i, count: Integer;
-  isFormHotKey: Boolean;
 begin
   lblHotKeyConflict.Caption := EmptyStr;
   lblHotKeyConflict.Hint := EmptyStr;
@@ -229,53 +275,30 @@ begin
 
   Shortcuts := GetShortcuts;
 
-  count := 0;
-  isFormHotKey := true;
+  ConflictsCount := 0;
+  IsFormHotKey := True;
   // search if any checked control has same hotkey assigned somewhere else
   for i := 0 to cgHKControls.Items.Count - 1 do
   begin
-    if not cgHKControls.Checked[i] then
-      continue;
-
-    isFormHotKey := false;
-
-    HMControl := THMControl(cgHKControls.Items.Objects[i]);
-    if not Assigned(HMControl) then
-      continue;
-
-    hotkey := HMControl.Hotkeys.Find(Shortcuts);
-    if Assigned(hotkey) and (hotkey.command <> FCommand) then
+    if cgHKControls.Checked[i] then
     begin
-      Inc(count);
-
-      if DeleteConflicts then
-        HMControl.Hotkeys.Remove(hotkey)
-      else
-        AddConflictHint(hotkey.Command, GetTranslatedControlName(HMControl.Name));
+      IsFormHotKey := False;
+      HMControl := THMControl(cgHKControls.Items.Objects[i]);
+      if Assigned(HMControl) then
+        CheckHotkey(HMControl.Hotkeys, HMControl.Name, Shortcuts);
     end;
   end;
 
-  if isFormHotKey then
-  begin
-    hotkey := HMForm.Hotkeys.Find(Shortcuts);
-    if Assigned(hotkey) and (hotkey.command <> FCommand) then
-    begin
-      Inc(count);
-
-      if DeleteConflicts then
-        HMForm.Hotkeys.Remove(hotkey)
-      else
-        AddConflictHint(hotkey.Command, GetTranslatedFormName(HMForm.Name));
-    end;
-  end;
+  if IsFormHotKey then
+    CheckHotkey(HMForm.Hotkeys, HMForm.Name, Shortcuts);
 
   // show full message if only one conflict, else show a generic message
-  if count = 1 then
+  if ConflictsCount = 1 then
     lblHotKeyConflict.Caption := lblHotKeyConflict.Hint
-  else if count > 1 then
+  else if ConflictsCount > 1 then
     lblHotKeyConflict.Caption := rsOptHotkeysShortCutUsed + ' [..]';
 
-  lblHotKeyConflict.Visible := count > 0;
+  lblHotKeyConflict.Visible := ConflictsCount > 0;
 end;
 
 function TfrmEditHotkey.CloneNewHotkey: THotkey;
@@ -291,6 +314,7 @@ begin
   inherited Destroy;
   FForms.Free;
   FFormsTranslated.Free;
+  FOldHotkey.Free;
 end;
 
 procedure TfrmEditHotkey.edtShortcutKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -347,7 +371,9 @@ function TfrmEditHotkey.Execute(
   Hotkey: THotkey;
   AControls: TDynamicStringArray): Boolean;
 begin
+  FEditMode := EditMode;
   FForm := Form;
+
   SetHotkey(Hotkey);
   SetCommand(Command);
   SetControls(AControls);
@@ -505,8 +531,6 @@ var
   sControl: String;
   i: Integer;
 begin
-  FControls := NewControls;
-
   FillHKControlList;
 
   // Mark controls to which hotkey applies.
@@ -514,7 +538,7 @@ begin
   begin
     cgHKControls.Checked[i] := False;
 
-    for sControl in FControls do
+    for sControl in NewControls do
       if cgHKControls.Items[i] = sControl then
       begin
         cgHKControls.Checked[i] := True;
@@ -525,8 +549,10 @@ end;
 
 procedure TfrmEditHotkey.SetHotkey(Hotkey: THotkey);
 begin
+  FreeAndNil(FOldHotkey);
   if Assigned(Hotkey) then
   begin
+    FOldHotkey := Hotkey.Clone;
     SetShortcuts(Hotkey.Shortcuts);
     SetParameters(Hotkey.Params);
   end
@@ -565,6 +591,16 @@ begin
       EditControl := pnlShortcuts.Controls[Index] as TEdit;
       EditControl.Text := Shortcut;
       Inc(Index);
+    end;
+  end
+  else
+  begin
+    while pnlShortcuts.ControlCount > 1 do
+      RemoveLastShortcutEditor;
+    if pnlShortcuts.ControlCount > 0 then
+    begin
+      EditControl := pnlShortcuts.Controls[0] as TEdit;
+      EditControl.Clear;
     end;
   end;
 end;

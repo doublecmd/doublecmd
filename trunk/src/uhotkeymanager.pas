@@ -48,6 +48,7 @@ type
     Shortcuts: array of String;
     Command: String;
     Params: array of String;
+    procedure Assign(Hotkey: THotkey);
     function Clone: THotkey;
     function HasParam(const aParam: String): Boolean; overload;
     function HasParam(const aParams: array of String): Boolean; overload;
@@ -70,7 +71,7 @@ type
     property OnFree: TNotifyEvent read FFreeEvent write FFreeEvent;
   end;
 
-  THotkeyOperation = (hopAdd, hopRemove, hopClear);
+  THotkeyOperation = (hopAdd, hopRemove, hopClear, hopUpdate);
   THotkeyEvent = procedure (hotkey: THotkey; operation: THotkeyOperation) of object;
 
   { THotkeys }
@@ -106,6 +107,11 @@ type
     function FindByBeginning(const Shortcuts: TDynamicStringArray; BothWays: Boolean): THotkey;
     function FindByCommand(Command: String): THotkey;
     function FindByContents(Hotkey: THotkey): THotkey;
+    {en
+       Should be called whenever a hotkey has shortcut updated to update the
+       shortcuts in ActionLists.
+    }
+    procedure UpdateHotkey(Hotkey: THotkey);
     property OnChange: THotkeyEvent read FOnChange write FOnChange;
   end;
 
@@ -154,7 +160,7 @@ type
     procedure OnActionListFree(Sender: TObject);
     procedure OnHotkeyEvent(hotkey: THotkey; operation: THotkeyOperation);
     procedure RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Boolean);
-    procedure SetActionShortcut(hotkey: THotkey);
+    procedure SetActionShortcut(hotkey: THotkey; OverridePrevious: Boolean);
   public
     Controls: THMControls;
     constructor Create(AName: String); override;
@@ -225,12 +231,17 @@ const
 
 { THotkey }
 
+procedure THotkey.Assign(Hotkey: THotkey);
+begin
+  Shortcuts := Copy(Hotkey.Shortcuts);
+  Params    := Copy(Hotkey.Params);
+  Command   := Hotkey.Command;
+end;
+
 function THotkey.Clone: THotkey;
 begin
   Result := THotkey.Create;
-  Result.Shortcuts := Copy(Shortcuts);
-  Result.Command := Command;
-  Result.Params := Copy(Params);
+  Result.Assign(Self);
 end;
 
 function THotkey.HasParam(const aParams: array of String): Boolean;
@@ -373,6 +384,11 @@ begin
   end;
 end;
 
+procedure THotkeys.UpdateHotkey(Hotkey: THotkey);
+begin
+  DoOnChange(Hotkey, hopUpdate);
+end;
+
 function THotkeys.Find(const Shortcuts: TDynamicStringArray): THotkey;
 var
   i: Integer;
@@ -459,7 +475,7 @@ begin
 
     // Initialize actionlist with shortcuts.
     for i := 0 to hotkeys.Count - 1 do
-      SetActionShortcut(hotkeys[i]);
+      SetActionShortcut(hotkeys[i], False);
   end;
 end;
 
@@ -490,11 +506,13 @@ procedure THMForm.OnHotkeyEvent(hotkey: THotkey; operation: THotkeyOperation);
 begin
   case operation of
     hopAdd:
-      SetActionShortcut(hotkey);
+      SetActionShortcut(hotkey, False);
     hopRemove:
       RemoveActionShortcut(hotkey, True);
     hopClear:
       RemoveActionShortcut(hotkey, False);
+    hopUpdate:
+      SetActionShortcut(hotkey, True);
   end;
 end;
 
@@ -531,7 +549,7 @@ begin
   end;
 end;
 
-procedure THMForm.SetActionShortcut(hotkey: THotkey);
+procedure THMForm.SetActionShortcut(hotkey: THotkey; OverridePrevious: Boolean);
 var
   action: TAction;
   i: Integer;
@@ -543,8 +561,7 @@ begin
     action := GetActionByCommand(FActionLists[i], hotkey.Command);
     if Assigned(action) then
     begin
-      // Don't override previous shortcut.
-      if action.Shortcut = VK_UNKNOWN then
+      if OverridePrevious or (action.Shortcut = VK_UNKNOWN) then
         action.ShortCut := shortcut;
     end;
   end;
