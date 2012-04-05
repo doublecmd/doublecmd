@@ -1010,18 +1010,26 @@ msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
 msgstr "Optionen"
 
+#: tfrmedithotkey.btnaddshortcut.hint
+msgid "Add new shortcut to sequence"
+msgstr ""
+
+#: tfrmedithotkey.btnremoveshortcut.hint
+msgid "Remove last shortcut from sequence"
+msgstr ""
+
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
 msgstr "Nur für diese Steuerungs-Elemente"
 
-#: tfrmedithotkey.lblhotkey.caption
-msgid "Hot key:"
-msgstr "Tastaturkürzel"
-
 #: tfrmedithotkey.lblparameters.caption
 msgid "Parameters (each in a separate line):"
 msgstr "Parameter(jeder in einer eigenen Zeile):"
+
+#: tfrmedithotkey.lblshortcuts.caption
+msgid "Shortcuts:"
+msgstr ""
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -3784,6 +3792,10 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
 msgstr "Immer Tray-Icon anzeigen (neben der Uhr)"
 
+#: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
+msgid "Automatically hide unmounted devices"
+msgstr ""
+
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
@@ -5213,10 +5225,13 @@ msgctxt "tfrmquicksearch.btncancel.caption"
 msgid "X"
 msgstr "X"
 
-#: tfrmquicksearch.lblsearch.caption
-msgctxt "tfrmquicksearch.lblsearch.caption"
-msgid "Search"
-msgstr "Suchen"
+#: tfrmquicksearch.btncancel.hint
+msgid "Close filter panel"
+msgstr ""
+
+#: tfrmquicksearch.edtsearch.hint
+msgid "Enter text to search for or filter by"
+msgstr ""
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
@@ -5263,10 +5278,9 @@ msgctxt "tfrmquicksearch.tglfilter.caption"
 msgid "Filter"
 msgstr ""
 
-#: tfrmquicksearch.tgloptions.caption
-msgctxt "tfrmquicksearch.tgloptions.caption"
-msgid "Options"
-msgstr "Optionen"
+#: tfrmquicksearch.tglfilter.hint
+msgid "Toggle between search or filter"
+msgstr ""
 
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
@@ -6108,6 +6122,14 @@ msgstr ""
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "Dateioperationen"
+
+#: tfrmviewoperations.cbalwaysontop.caption
+msgid "Always on top"
+msgstr ""
+
+#: tfrmviewoperations.lblusedragdrop.caption
+msgid "Use \"drag && drop\" to move operations between queues"
+msgstr ""
 
 #: tfrmviewoperations.mnucanceloperation.caption
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
@@ -7484,13 +7506,13 @@ msgstr "Verknüpfung ändern"
 msgid "Command"
 msgstr "Befehle"
 
-#: ulng.rsopthotkeysdeleteshortcutalreadyassigned
-msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
-msgstr "Tastaturkürzel %s für cm_Delete ist bereits zugeordnet, deshalb kann es nicht verwendet werden um die Einstellung zurückzusetzen."
+#: ulng.rsopthotkeysdeletetrashcanoverrides
+msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgstr ""
 
-#: ulng.rsopthotkeysdeleteshortcutwrongparams
-msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
-msgstr "Das aktuelle Tataturkürzel %s für cm_Delete hat Parameter die nicht von dieser Einstellung abhängig sind, deshalb wird diese Einstellung keinen Effekt haben."
+#: ulng.rsopthotkeysdeletetrashcanparameterexists
+msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgstr ""
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7525,6 +7547,10 @@ msgstr "Verknüpfung festlegen um Dateien zu löschen"
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Damit diese Einstellung mit Verknüpfung %s funktioniert, muss %s cm_Delete zugewiesen werden, aber ist %s zugewiesen. Soll dies geändert werden?"
+
+#: ulng.rsopthotkeysshortcutfordeleteissequence
+msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgstr ""
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -7800,6 +7826,10 @@ msgstr "Suchergebnis"
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Wähle ein Verzeichnis"
+
+#: ulng.rsshowhelpfor
+msgid "Show help for %s"
+msgstr ""
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
