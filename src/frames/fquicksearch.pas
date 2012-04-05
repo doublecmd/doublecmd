@@ -31,7 +31,6 @@ type
   TfrmQuickSearch = class(TFrame)
     btnCancel: TButton;
     edtSearch: TEdit;
-    lblSearch: TLabel;
     pnlOptions: TPanel;
     sbMatchBeginning: TSpeedButton;
     sbMatchEnding: TSpeedButton;
@@ -39,7 +38,6 @@ type
     sbFiles: TSpeedButton;
     sbDirectories: TSpeedButton;
     tglFilter: TToggleBox;
-    tglOptions: TToggleBox;
     procedure btnCancelClick(Sender: TObject);
     procedure edtSearchChange(Sender: TObject);
     procedure edtSearchKeyDown(Sender: TObject; var Key: Word;
@@ -50,7 +48,6 @@ type
     procedure sbMatchBeginningClick(Sender: TObject);
     procedure sbMatchEndingClick(Sender: TObject);
     procedure tglFilterChange(Sender: TObject);
-    procedure tglOptionsChange(Sender: TObject);
   private
     Options: TQuickSearchOptions;
     Mode: TQuickSearchMode;
@@ -361,8 +358,6 @@ begin
   sbCaseSensitive.Down := Options.SearchCase = qscSensitive;
   sbMatchBeginning.Down := qsmBeginning in Options.Match;
   sbMatchEnding.Down := qsmEnding in Options.Match;
-
-  pnlOptions.Visible := tglOptions.Checked;
 end;
 
 procedure TfrmQuickSearch.PushFilter;
@@ -580,11 +575,6 @@ begin
     ClearFilter;
 
   edtSearchChange(nil);
-end;
-
-procedure TfrmQuickSearch.tglOptionsChange(Sender: TObject);
-begin
-  pnlOptions.Visible := tglOptions.Checked;
 end;
 
 end.
