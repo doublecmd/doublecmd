@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-04-02 10:00+0100\n"
+"PO-Revision-Date: 2012-04-03 16:00+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -7474,23 +7474,23 @@ msgstr "Tastaturkürzel erstellen"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr ""
+msgstr "Kann die Verknüpfung nicht erstellen"
 
 #: ulng.rsopthotkeyschangeshortcut
 msgid "Change shortcut"
-msgstr ""
+msgstr "Verknüpfung ändern"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Befehle"
 
-#: ulng.rsopthotkeysdeletetrashcanoverrides
-msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr ""
+#: ulng.rsopthotkeysdeleteshortcutalreadyassigned
+msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
+msgstr "Tastaturkürzel %s für cm_Delete ist bereits zugeordnet, deshalb kann es nicht verwendet werden um die Einstellung zurückzusetzen."
 
-#: ulng.rsopthotkeysdeletetrashcanparameterexists
-msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr ""
+#: ulng.rsopthotkeysdeleteshortcutwrongparams
+msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
+msgstr "Das aktuelle Tataturkürzel %s für cm_Delete hat Parameter die nicht von dieser Einstellung abhängig sind, deshalb wird diese Einstellung keinen Effekt haben."
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7502,7 +7502,7 @@ msgstr "Bearbeite Tastaturkürzle für %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
-msgstr ""
+msgstr "Parameter wiederherstellen"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -7520,11 +7520,11 @@ msgstr "Parameter"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr ""
+msgstr "Verknüpfung festlegen um Dateien zu löschen"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
+msgstr "Damit diese Einstellung mit Verknüpfung %s funktioniert, muss %s cm_Delete zugewiesen werden, aber ist %s zugewiesen. Soll dies geändert werden?"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
