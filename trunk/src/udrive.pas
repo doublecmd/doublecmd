@@ -56,6 +56,7 @@ type
     IsMediaEjectable: Boolean; //<en Can eject media by a command.
     IsMediaRemovable: Boolean; //<en If the drive has removable media.
     IsMounted: Boolean;        //<en Is the drive mounted.
+    AutoMount: Boolean;        //<en Should the drive be automounted
   end;
   PDrive = ^TDrive;
 

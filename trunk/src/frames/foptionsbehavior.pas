@@ -38,6 +38,7 @@ type
     cbAlwaysShowTrayIcon: TCheckBox;
     cbMinimizeToTray: TCheckBox;
     cbOnlyOnce: TCheckBox;
+    cbBlacklistUnmountedDevices: TCheckBox;
     edtDrivesBlackList: TEdit;
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
@@ -83,6 +84,7 @@ begin
   cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
   cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
   edtDrivesBlackList.Text:= gDriveBlackList;
+  cbBlacklistUnmountedDevices.Checked:= gDriveBlackListUnmounted;
 end;
 
 function TfrmOptionsBehavior.Save: TOptionsEditorSaveFlags;
@@ -93,6 +95,7 @@ begin
   gMinimizeToTray:= cbMinimizeToTray.Checked;
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
   gDriveBlackList:= edtDrivesBlackList.Text;
+  gDriveBlackListUnmounted:= cbBlacklistUnmountedDevices.Checked;
 end;
 
 end.
