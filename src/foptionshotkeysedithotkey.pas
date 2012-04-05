@@ -53,6 +53,7 @@ type
     procedure cgHKControlsItemClick(Sender: TObject; Index: integer);
     procedure edtShortcutKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtShortcutKeyPress(Sender: TObject; var Key: char);
+    procedure edtShortcutKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -114,6 +115,7 @@ begin
     EditControl.Parent := pnlShortcuts;
     EditControl.OnKeyDown  := @edtShortcutKeyDown;
     EditControl.OnKeyPress := @edtShortcutKeyPress;
+    EditControl.OnKeyUp    := @edtShortcutKeyUp;
   end;
 end;
 
@@ -321,6 +323,21 @@ begin
   EditControl.Text := '';
   btnOK.Enabled := False;
   Key := #0;
+end;
+
+procedure TfrmEditHotkey.edtShortcutKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  ShortCut: TShortCut;
+  sShortCut: String;
+  EditControl: TEdit;
+begin
+  ShortCut := KeyToShortCutEx(Key, GetKeyShiftStateEx);
+  sShortCut := ShortCutToTextEx(ShortCut);
+  EditControl := Sender as TEdit;
+
+  // Select next shortcut editor.
+  if (ShortCut <> VK_ESCAPE) and (sShortCut <> '') and (EditControl.Text = sShortCut) then
+    pnlShortcuts.SelectNext(EditControl, True, True);
 end;
 
 function TfrmEditHotkey.Execute(
