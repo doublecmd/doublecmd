@@ -59,6 +59,7 @@ type
    // - arguments (instead of calling cm_... functions, in which case
    // parameters would have to be converted to and from strings).
    //
+   procedure DoOpenVirtualFileSystemList(Panel: TFileView);
    procedure DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
@@ -359,6 +360,17 @@ begin
   Notebook.ActiveView.Clone(NewPage);
   NewPage.MakeActive;
   NewPage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(NewPage.FileView.CurrentPath)));
+end;
+
+procedure TMainCommands.DoOpenVirtualFileSystemList(Panel: TFileView);
+var
+  FileSource: IFileSource;
+begin
+  if (gWFXPlugins.Count = 0) and (gVfsModuleList.Count = 0) then
+    Exit;
+  FileSource:= TVfsFileSource.Create(gWFXPlugins);
+  if Assigned(FileSource) then
+    Panel.AddFileSource(FileSource, FileSource.GetRootDir);
 end;
 
 procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
@@ -722,25 +734,8 @@ begin
 end;
 
 procedure TMainCommands.cm_OpenVirtualFileSystemList(const Params: array of string);
-var
-  FileSource: IFileSource;
-  Param: String;
 begin
-  Param := GetDefaultParam(Params);
-  with frmMain do
-  begin
-    if (gWFXPlugins.Count = 0) and (gVfsModuleList.Count = 0) then Exit;
-    FileSource:= TVfsFileSource.Create(gWFXPlugins);
-    if Assigned(FileSource) then
-    begin
-      if dskLeft.Name = Param then
-        FrameLeft.AddFileSource(FileSource, FileSource.GetRootDir)
-      else if dskRight.Name = Param then
-        FrameRight.AddFileSource(FileSource, FileSource.GetRootDir)
-      else
-        ActiveFrame.AddFileSource(FileSource, FileSource.GetRootDir)
-    end;
-  end;
+  DoOpenVirtualFileSystemList(frmMain.ActiveFrame);
 end;
 
 //------------------------------------------------------

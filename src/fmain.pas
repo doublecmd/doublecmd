@@ -1646,8 +1646,20 @@ begin
 end;
 
 procedure TfrmMain.btnVirtualDriveClick(Sender: TObject);
+var
+  Toolbar: TKASToolBar;
+  TargetPanel: TFileView;
 begin
-  Commands.cm_OpenVirtualFileSystemList([((Sender as TSpeedButton).Parent as TKASToolBar).Name]);
+  if gDriveBar1 and gDriveBar2 then
+  begin
+    if (Sender as TSpeedButton).Parent = dskLeft then
+      TargetPanel := FrameLeft
+    else
+      TargetPanel := FrameRight;
+  end
+  else
+    TargetPanel := ActiveFrame;
+  Commands.DoOpenVirtualFileSystemList(TargetPanel);
 end;
 
 procedure TfrmMain.MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
