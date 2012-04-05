@@ -60,6 +60,7 @@ type
    // parameters would have to be converted to and from strings).
    //
    procedure DoOpenVirtualFileSystemList(Panel: TFileView);
+   procedure DoPanelsSplitterPerPos(SplitPos: Integer);
    procedure DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
@@ -371,6 +372,20 @@ begin
   FileSource:= TVfsFileSource.Create(gWFXPlugins);
   if Assigned(FileSource) then
     Panel.AddFileSource(FileSource, FileSource.GetRootDir);
+end;
+
+procedure TMainCommands.DoPanelsSplitterPerPos(SplitPos: Integer);
+begin
+  with frmMain do
+  begin
+    if (SplitPos >= 0) and (SplitPos <= 100) then
+      begin
+        if not gHorizontalFilePanels then
+          pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * SplitPos div 100
+        else
+          pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * SplitPos div 100;
+      end;
+  end;
 end;
 
 procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
@@ -2447,24 +2462,14 @@ var
   Split: Integer = -1;
   Param, SplitPct: String;
 begin
-  with frmMain do
+  for Param in Params do
   begin
-    for Param in Params do
-    begin
-      if GetParamValue(Param, 'splitpct', SplitPct) then
-        Split := StrToIntDef(SplitPct, Split)
-      else if Split = -1 then
-        Split := StrToIntDef(Param, Split); // deprecated
-    end;
-
-    if (Split >= 0) and (Split <= 100) then
-      begin
-        if not gHorizontalFilePanels then
-          pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * Split div 100
-        else
-          pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * Split div 100;
-      end;
+    if GetParamValue(Param, 'splitpct', SplitPct) then
+      Split := StrToIntDef(SplitPct, Split)
+    else if Split = -1 then
+      Split := StrToIntDef(Param, Split); // deprecated
   end;
+  DoPanelsSplitterPerPos(Split);
 end;
 
 procedure TMainCommands.cm_EditComment(const Params: array of string);
