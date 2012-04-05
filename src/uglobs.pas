@@ -192,6 +192,7 @@ var
   gShortFileSizeFormat:Boolean;
   gDateTimeFormat : String;
   gDriveBlackList: String;
+  gDriveBlackListUnmounted: Boolean; // Automatically black list unmounted devices
   gListFilesInThread: Boolean;
   gLoadIconsSeparately: Boolean;
   gDelayLoadingTabs: Boolean;
@@ -733,6 +734,7 @@ begin
   gDelayLoadingTabs := True;
   gHighlightUpdatedFiles := True;
   gDriveBlackList := '';
+  gDriveBlackListUnmounted := False;
 
   { Tools page }
   SetDefaultExternalTool(gExternalTools[etViewer]);
@@ -1586,6 +1588,7 @@ begin
       gDelayLoadingTabs := GetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
       gHighlightUpdatedFiles := GetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
       gDriveBlackList := GetValue(Node, 'DriveBlackList', gDriveBlackList);
+      gDriveBlackListUnmounted := GetValue(Node, 'DriveBlackListUnmounted', gDriveBlackListUnmounted);
     end;
 
     { Tools page }
@@ -1940,6 +1943,7 @@ begin
     SetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
     SetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
     SetValue(Node, 'DriveBlackList', gDriveBlackList);
+    SetValue(Node, 'DriveBlackListUnmounted', gDriveBlackListUnmounted);
 
     { Tools page }
     SetExtTool(gConfig.FindNode(Root, 'Tools/Viewer', True), gExternalTools[etViewer]);
@@ -2189,4 +2193,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

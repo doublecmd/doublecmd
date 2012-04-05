@@ -3115,6 +3115,7 @@ end;
 procedure TfrmMain.UpdateDiskCount;
 var
   I: Integer;
+  Drive: PDrive;
 begin
   DrivesList.Free;
   DrivesList := TDriveWatcher.GetDrivesList;
@@ -3123,7 +3124,10 @@ begin
   { Delete drives that in drives black list }
   for I:= DrivesList.Count - 1 downto 0 do
     begin
-      if MatchesMaskList(DrivesList[I]^.Path, gDriveBlackList) then
+      Drive := DrivesList[I];
+      if (gDriveBlackListUnmounted and not Drive^.IsMounted) or
+         MatchesMaskList(Drive^.Path, gDriveBlackList) or
+         MatchesMaskList(Drive^.DeviceId, gDriveBlackList) then
         DrivesList.Remove(I);
     end;
 
@@ -4709,7 +4713,7 @@ procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive);
 var
   aFileView, OtherFileView: TFileView;
 begin
-  if IsAvailable(Drive, True) then
+  if IsAvailable(Drive, Drive^.AutoMount) then
   begin
     case aPanel of
       fpLeft:
@@ -4784,4 +4788,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+

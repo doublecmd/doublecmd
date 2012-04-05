@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Interface to UDisks service via DBUS.
 
-   Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2010-2012  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,6 +45,10 @@ type
     DeviceIsMediaAvailable,
     DriveIsMediaEjectable: Boolean;
     DeviceMountPaths: TStringArray;
+    DevicePresentationHide: Boolean;
+    DevicePresentationName: UTF8String;
+    DevicePresentationIconName: UTF8String;
+    DeviceAutomountHint: UTF8String;  // Whether automatically mount or not
     DriveConnectionInterface,
     DriveMedia: UTF8String; // Type of media currently in the drive.
     DriveMediaCompatibility: TStringArray; // Possible media types.
@@ -464,7 +468,11 @@ begin
       GetObjectProperty(ObjectPath, 'DeviceIsMounted', DeviceIsMounted) and
       GetObjectProperty(ObjectPath, 'DeviceIsRemovable', DeviceIsRemovable) and
       GetObjectProperty(ObjectPath, 'DeviceIsOpticalDisc', DeviceIsOpticalDisc) and
-      GetObjectProperty(ObjectPath, 'DeviceIsMediaAvailable', DeviceIsMediaAvailable);
+      GetObjectProperty(ObjectPath, 'DeviceIsMediaAvailable', DeviceIsMediaAvailable) and
+      GetObjectProperty(ObjectPath, 'DevicePresentationHide', DevicePresentationHide) and
+      GetObjectProperty(ObjectPath, 'DevicePresentationName', DevicePresentationName) and
+      GetObjectProperty(ObjectPath, 'DevicePresentationIconName', DevicePresentationIconName) and
+      GetObjectProperty(ObjectPath, 'DeviceAutomountHint', DeviceAutomountHint);
 
     if Result and DeviceIsPartition then
       Result := GetObjectProperty(ObjectPath, 'PartitionSlave', PartitionSlave, True);

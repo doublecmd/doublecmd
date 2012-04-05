@@ -314,21 +314,28 @@ begin
   with DeviceInfo do
   begin
     Drive^.DeviceId := DeviceFile;
+    Drive^.DisplayName := DevicePresentationName;
     if DeviceIsMounted and (Length(DeviceMountPaths) > 0) then
     begin
       Drive^.Path := DeviceMountPaths[0];
-      if Drive^.Path <> PathDelim then
-        Drive^.DisplayName := ExtractFileName(Drive^.Path)
-      else
-        Drive^.DisplayName := PathDelim;
+      if Drive^.DisplayName = EmptyStr then
+      begin
+        if Drive^.Path <> PathDelim then
+          Drive^.DisplayName := ExtractFileName(Drive^.Path)
+        else
+          Drive^.DisplayName := PathDelim;
+      end;
     end
     else
     begin
       Drive^.Path := EmptyStr;
-      if (IdLabel <> EmptyStr) then
-        Drive^.DisplayName := IdLabel
-      else
-        Drive^.DisplayName := ExtractFileName(DeviceFile);
+      if Drive^.DisplayName = EmptyStr then
+      begin
+        if (IdLabel <> EmptyStr) then
+          Drive^.DisplayName := IdLabel
+        else
+          Drive^.DisplayName := ExtractFileName(DeviceFile);
+      end;
     end;
     Drive^.DriveLabel := IdLabel;
     Drive^.FileSystem := IdType;
@@ -369,6 +376,7 @@ begin
     Drive^.IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
     Drive^.IsMediaRemovable := DeviceIsRemovable;
     Drive^.IsMounted := DeviceIsMounted;
+    Drive^.AutoMount := (DeviceAutomountHint = EmptyStr) or (DeviceAutomountHint = 'always');
   end;
 end;
 {$ENDIF}
@@ -434,6 +442,7 @@ begin
       IsMediaEjectable := False;
       IsMediaRemovable := False;
       IsMounted := True;
+      AutoMount := True;
 
       case WinDriveType of
         DRIVE_REMOVABLE:
@@ -587,6 +596,7 @@ begin
                 IsMediaEjectable:= False;
                 IsMediaRemovable:= False;
                 IsMounted:= True;
+                AutoMount:= True;
               end;
               Result.Add(Drive);
               //---------------------------------------------------------------
@@ -815,12 +825,19 @@ begin
               if CanAddDevice(DeviceFile, MountPoint) and
                  UDisksGetDeviceInfo(UDisksDeviceObject, UDisksDevices, UDisksDevice) then
               begin
-                UDisksDeviceToDrive(UDisksDevices, UDisksDevice, Drive);
-                Drive^.Path := MountPoint;
-                if MountPoint <> PathDelim then
-                  Drive^.DisplayName := ExtractFileName(MountPoint)
-                else
-                  Drive^.DisplayName := PathDelim;
+                if not UDisksDevice.DevicePresentationHide then
+                begin
+                  UDisksDeviceToDrive(UDisksDevices, UDisksDevice, Drive);
+                  Drive^.Path := MountPoint;
+                  Drive^.DisplayName := UDisksDevice.DevicePresentationName;
+                  if Drive^.DisplayName = EmptyStr then
+                  begin
+                    if MountPoint <> PathDelim then
+                      Drive^.DisplayName := ExtractFileName(MountPoint)
+                    else
+                      Drive^.DisplayName := PathDelim;
+                  end;
+                end;
               end
               // Even if mounted device is not listed by UDisks add it anyway the standard way.
               else if I = 2 then // MntEntFileList[2] = _PATH_MOUNTED
@@ -869,6 +886,7 @@ begin
                 // If drive from /etc/mtab then it is mounted
                 // else it will be checked via mtab below
                 IsMounted:= (MntEntFileList[I] = _PATH_MOUNTED);
+                AutoMount:= True;
               end;
             end
             // Mark drive as mounted if found in mtab.
@@ -913,7 +931,8 @@ begin
         // Add devices reported as "filesystem".
         if ((UDisksDevices[i].DeviceIsDrive and not UDisksDevices[i].DeviceIsPartitionTable) or
            (UDisksDevices[i].IdUsage = 'filesystem')) and
-           (StrBegins(UDisksDevices[i].DeviceFile, '/dev/loop') = False) then
+           (StrBegins(UDisksDevices[i].DeviceFile, '/dev/loop') = False) and
+           (not UDisksDevices[i].DevicePresentationHide) then
         begin
           if (AddedDevices.IndexOf(UDisksDevices[i].DeviceFile) < 0) and
              (not IsDeviceMountedAtRoot(UDisksDevices[i])) then
@@ -1028,6 +1047,7 @@ begin
       IsMediaEjectable := false;
       IsMediaRemovable := false;
       IsMounted := false;
+      AutoMount := true;
     end; { with }
 
     fstab := getfsent();
@@ -1083,6 +1103,7 @@ begin
       IsMediaEjectable := false;
       IsMediaRemovable := false;
       IsMounted := true;
+      AutoMount := true;
     end; { with }
   end; { for }
 end;
@@ -1243,4 +1264,4 @@ end;
 {$ENDIF}
 
 end.
-
+
