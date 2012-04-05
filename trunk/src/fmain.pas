@@ -1277,10 +1277,13 @@ begin
         ddoMove:
           if GetDragDropType = ddtInternal then
           begin
-            Self.MoveFiles(SourcePanel.FileSource,
-                           TargetPanel.FileSource,
-                           Files, TargetPath,
-                           gShowDialogOnDragDrop);
+            if Self.MoveFiles(SourcePanel.FileSource,
+                              TargetPanel.FileSource,
+                              Files, TargetPath,
+                              gShowDialogOnDragDrop) then
+            begin
+              SourcePanel.UnselectAllFiles;
+            end;
           end
           else
           begin
@@ -1293,10 +1296,13 @@ begin
         ddoCopy:
           if GetDragDropType = ddtInternal then
           begin
-            Self.CopyFiles(SourcePanel.FileSource,
-                           TargetPanel.FileSource,
-                           Files, TargetPath,
-                           gShowDialogOnDragDrop);
+            if Self.CopyFiles(SourcePanel.FileSource,
+                              TargetPanel.FileSource,
+                              Files, TargetPath,
+                              gShowDialogOnDragDrop) then
+            begin
+              SourcePanel.UnselectAllFiles;
+            end;
           end
           else
           begin
@@ -2668,6 +2674,9 @@ begin
     try
       Result := CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
                           SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
+      if Result then
+        ActiveFrame.UnselectAllFiles;
+
     finally
       if Assigned(SourceFiles) then
         FreeAndNil(SourceFiles);
@@ -2688,6 +2697,9 @@ begin
     try
       Result := MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
                           SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
+      if Result then
+        ActiveFrame.UnselectAllFiles;
+
     finally
       if Assigned(SourceFiles) then
         FreeAndNil(SourceFiles);
@@ -4788,4 +4800,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
