@@ -1011,18 +1011,26 @@ msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
 msgstr "옵션(&O)"
 
+#: tfrmedithotkey.btnaddshortcut.hint
+msgid "Add new shortcut to sequence"
+msgstr ""
+
+#: tfrmedithotkey.btnremoveshortcut.hint
+msgid "Remove last shortcut from sequence"
+msgstr ""
+
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
 msgstr "이 컨트롤 동작만"
 
-#: tfrmedithotkey.lblhotkey.caption
-msgid "Hot key:"
-msgstr "단축키:"
-
 #: tfrmedithotkey.lblparameters.caption
 msgid "Parameters (each in a separate line):"
 msgstr "변수 (분리된 줄에 각각):"
+
+#: tfrmedithotkey.lblshortcuts.caption
+msgid "Shortcuts:"
+msgstr ""
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -3735,6 +3743,10 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
 msgstr "항상 트레이 아이콘 보이기"
 
+#: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
+msgid "Automatically hide unmounted devices"
+msgstr ""
+
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
@@ -5255,11 +5267,13 @@ msgctxt "TFRMQUICKSEARCH.BTNCANCEL.CAPTION"
 msgid "X"
 msgstr ""
 
-#: tfrmquicksearch.lblsearch.caption
-#, fuzzy
-msgctxt "TFRMQUICKSEARCH.LBLSEARCH.CAPTION"
-msgid "Search"
-msgstr "찾기"
+#: tfrmquicksearch.btncancel.hint
+msgid "Close filter panel"
+msgstr ""
+
+#: tfrmquicksearch.edtsearch.hint
+msgid "Enter text to search for or filter by"
+msgstr ""
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
@@ -5310,11 +5324,9 @@ msgctxt "TFRMQUICKSEARCH.TGLFILTER.CAPTION"
 msgid "Filter"
 msgstr "필터"
 
-#: tfrmquicksearch.tgloptions.caption
-#, fuzzy
-msgctxt "TFRMQUICKSEARCH.TGLOPTIONS.CAPTION"
-msgid "Options"
-msgstr "옵션"
+#: tfrmquicksearch.tglfilter.hint
+msgid "Toggle between search or filter"
+msgstr ""
 
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 #, fuzzy
@@ -6178,6 +6190,14 @@ msgstr "종료(&T)"
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
 msgstr "파일 작업"
+
+#: tfrmviewoperations.cbalwaysontop.caption
+msgid "Always on top"
+msgstr ""
+
+#: tfrmviewoperations.lblusedragdrop.caption
+msgid "Use \"drag && drop\" to move operations between queues"
+msgstr ""
 
 #: tfrmviewoperations.mnucanceloperation.caption
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
@@ -7616,6 +7636,10 @@ msgstr "파일 삭제할 바로가기 설정"
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "이 설정이 바로가기 %s와 동작하려면, 바로가기 %s 는 cm_Delete에 할당되야 하지만 이미 %s에 지정되어 있습니다. 바꾸시겠습니까?"
 
+#: ulng.rsopthotkeysshortcutfordeleteissequence
+msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgstr ""
+
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
 msgstr "사용중인 바로가기"
@@ -7910,6 +7934,10 @@ msgstr "검색 결과"
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "폴더 선택"
+
+#: ulng.rsshowhelpfor
+msgid "Show help for %s"
+msgstr ""
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"

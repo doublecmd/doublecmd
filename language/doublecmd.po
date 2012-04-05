@@ -1002,17 +1002,25 @@ msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
 msgstr ""
 
+#: tfrmedithotkey.btnaddshortcut.hint
+msgid "Add new shortcut to sequence"
+msgstr ""
+
+#: tfrmedithotkey.btnremoveshortcut.hint
+msgid "Remove last shortcut from sequence"
+msgstr ""
+
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "TFRMEDITHOTKEY.CGHKCONTROLS.CAPTION"
 msgid "Only for these controls"
 msgstr ""
 
-#: tfrmedithotkey.lblhotkey.caption
-msgid "Hot key:"
-msgstr ""
-
 #: tfrmedithotkey.lblparameters.caption
 msgid "Parameters (each in a separate line):"
+msgstr ""
+
+#: tfrmedithotkey.lblshortcuts.caption
+msgid "Shortcuts:"
 msgstr ""
 
 #: tfrmeditor.actabout.caption
@@ -3596,6 +3604,10 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
 msgstr ""
 
+#: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
+msgid "Automatically hide unmounted devices"
+msgstr ""
+
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
@@ -4945,9 +4957,12 @@ msgctxt "TFRMQUICKSEARCH.BTNCANCEL.CAPTION"
 msgid "X"
 msgstr ""
 
-#: tfrmquicksearch.lblsearch.caption
-msgctxt "TFRMQUICKSEARCH.LBLSEARCH.CAPTION"
-msgid "Search"
+#: tfrmquicksearch.btncancel.hint
+msgid "Close filter panel"
+msgstr ""
+
+#: tfrmquicksearch.edtsearch.hint
+msgid "Enter text to search for or filter by"
 msgstr ""
 
 #: tfrmquicksearch.sbcasesensitive.caption
@@ -4995,9 +5010,8 @@ msgctxt "TFRMQUICKSEARCH.TGLFILTER.CAPTION"
 msgid "Filter"
 msgstr ""
 
-#: tfrmquicksearch.tgloptions.caption
-msgctxt "TFRMQUICKSEARCH.TGLOPTIONS.CAPTION"
-msgid "Options"
+#: tfrmquicksearch.tglfilter.hint
+msgid "Toggle between search or filter"
 msgstr ""
 
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
@@ -5823,6 +5837,14 @@ msgstr ""
 #: tfrmviewoperations.caption
 msgctxt "TFRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
+msgstr ""
+
+#: tfrmviewoperations.cbalwaysontop.caption
+msgid "Always on top"
+msgstr ""
+
+#: tfrmviewoperations.lblusedragdrop.caption
+msgid "Use \"drag && drop\" to move operations between queues"
 msgstr ""
 
 #: tfrmviewoperations.mnucanceloperation.caption
@@ -7232,6 +7254,10 @@ msgstr ""
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr ""
 
+#: ulng.rsopthotkeysshortcutfordeleteissequence
+msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgstr ""
+
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
 msgstr ""
@@ -7498,6 +7524,10 @@ msgstr ""
 
 #: ulng.rsselectdir
 msgid "Select a directory"
+msgstr ""
+
+#: ulng.rsshowhelpfor
+msgid "Show help for %s"
 msgstr ""
 
 #: ulng.rssizeunitbytes
