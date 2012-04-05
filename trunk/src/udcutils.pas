@@ -422,6 +422,23 @@ procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
 
 procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
+{en
+   Checks if the second array is the beginning of first.
+   If BothWays is @true then also checks the other way around,
+   if the first array is the beginning of second.
+   For Array1=[1,2]     Array2=[1,2] returns @true.
+   For Array1=[1,2,...] Array2=[1,2] returns @true.
+   For Array1=[1,3,...] Array2=[1,2] returns @false.
+   If BothWays = True then also
+   For Array1=[1] Array2=[1,2] returns @true.
+   For Array1=[1] Array2=[2] returns @false.
+}
+function ArrBegins(const Array1, Array2: array of String; BothWays: Boolean): Boolean;
+function ArrayToString(const anArray: TDynamicStringArray; const Separator: Char = ' '): String;
+{en
+   Compares length and contents of the arrays.
+   If lengths differ or individual elements differ returns @false, otherwise @true.
+}
 function Compare(const Array1, Array2: array of String): Boolean;
 {en
    Copies open array to dynamic array.
@@ -436,6 +453,7 @@ procedure DeleteString(var anArray: TDynamicStringArray; const sToDelete: String
 }
 procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
 procedure SetValue(var anArray: TDynamicStringArray; Key: String; NewValue: Boolean);
+function ShortcutsToText(const Shortcuts: TDynamicStringArray): String;
 
 implementation
 
@@ -1784,6 +1802,35 @@ begin
   anArray[Len] := sToAdd;
 end;
 
+function ArrBegins(const Array1, Array2: array of String; BothWays: Boolean): Boolean;
+var
+  Len1, Len2: Integer;
+  i: Integer;
+begin
+  Len1 := Length(Array1);
+  Len2 := Length(Array2);
+  if not BothWays and (Len1 < Len2) then
+    Result := False
+  else
+  begin
+    if Len1 > Len2 then
+      Len1 := Len2;
+    for i := 0 to Len1 - 1 do
+      if Array1[i] <> Array2[i] then
+        Exit(False);
+    Result := True;
+  end;
+end;
+
+function ArrayToString(const anArray: TDynamicStringArray; const Separator: Char): String;
+var
+  i: Integer;
+begin
+  Result := '';
+  for i := Low(anArray) to High(anArray) do
+    AddStrWithSep(Result, anArray[i], Separator);
+end;
+
 function Compare(const Array1, Array2: array of String): Boolean;
 var
   Len1, Len2: Integer;
@@ -1874,6 +1921,11 @@ begin
     SetValue(anArray, Key, 'true')
   else
     SetValue(anArray, Key, 'false');
+end;
+
+function ShortcutsToText(const Shortcuts: TDynamicStringArray): String;
+begin
+  Result := ArrayToString(Shortcuts, ' ');
 end;
 
 end.

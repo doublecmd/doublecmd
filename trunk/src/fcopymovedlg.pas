@@ -93,7 +93,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager;
+  fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, uDCUtils;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -362,7 +362,7 @@ begin
   Hotkey := HMForm.Hotkeys.FindByCommand('cm_AddToQueue');
 
   if Assigned(Hotkey) then
-    btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + Hotkey.Shortcut + ')';
+    btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
 end;
 
 procedure TfrmCopyDlg.FormDestroy(Sender: TObject);
@@ -405,4 +405,4 @@ end;
 initialization
   TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
 
-end.
+end.

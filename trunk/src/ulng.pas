@@ -416,6 +416,8 @@ resourcestring
   rsOptHotkeysSetDeleteShortcut = 'Set shortcut to delete file';
   rsOptHotkeysShortcutForDeleteAlreadyAssigned =
     'For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?';
+  rsOptHotkeysShortcutForDeleteIsSequence =
+    'Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work.';
   rsOptHotkeysCommand = 'Command';
   rsOptHotkeysDescription = 'Description';
   rsOptHotkeysFixParameter = 'Fix parameter';

@@ -79,7 +79,7 @@ type
     {en
        Return hotkeys assigned for command for the form and its controls.
     }
-    procedure GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: TStringList);
+    procedure GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: THotkeys);
     {en
        Fill hotkey grid with all hotkeys assigned to a command
     }
@@ -95,6 +95,7 @@ type
        Retrieves untranslated form name.
     }
     function GetSelectedForm: String;
+    procedure SelectHotkey(Hotkey: THotkey);
     procedure ShowEditHotkeyForm(EditMode: Boolean; aHotkeyRow: Integer);
     procedure ShowEditHotkeyForm(EditMode: Boolean;
                                  const AForm: String;
@@ -142,30 +143,28 @@ begin
   end;
 end;
 
-function StListToStr(separator:string; const lStList:TStringList; duplicates: boolean = true):string;
-//< convert stringlist to string
+// Converts hotkeys list to string.
+function HotkeysToString(const Hotkeys: THotkeys): String;
 var
-  sLast: String;
+  sCurrent: String;
   i: Integer;
+  sList: TStringList;
 begin
-  Result:='';
-  if lStList.Count>0 then
-  begin
-    if not duplicates then
-      lStList.Sort;
-
-    sLast := lStList[0];
-
-    Result:=lStList[0]+separator;
-    for i:=1 to lStList.Count-1 do
+  Result := '';
+  sList := TStringList.Create;
+  try
+    sList.CaseSensitive := True;
+    for i := 0 to Hotkeys.Count - 1 do
     begin
-      if not duplicates and (lStList[i] = sLast) then
-        continue;
-
-      sLast := lStList[i];
-
-      Result:=Result+lStList[i]+separator;
+      sCurrent := ShortcutsToText(Hotkeys[i].Shortcuts);
+      if sList.IndexOf(sCurrent) < 0 then
+      begin
+        sList.Add(sCurrent);
+        AddStrWithSep(Result, sCurrent, ';');
+      end;
     end;
+  finally
+    sList.Free;
   end;
 end;
 
@@ -183,36 +182,38 @@ end;
 procedure TfrmOptionsHotkeys.btnDeleteHotKeyClick(Sender: TObject);
 var
   i: Integer;
-  sShortCut: String;
   sCommand: String;
   HMForm: THMForm;
   HMControl: THMControl;
   hotkey: THotkey;
+  HotkeyItem: PHotkeyItem;
 begin
-  if lbxCategories.ItemIndex=-1 then Exit;
-  sShortCut := stgHotkeys.Cells[0, stgHotkeys.Row];
-  sCommand := GetSelectedCommand;
-  HMForm := HotMan.Forms.Find(GetSelectedForm);
-  if Assigned(HMForm) then
+  if stgHotkeys.Row >= stgHotkeys.FixedRows then
   begin
-    for i := 0 to HMForm.Controls.Count - 1 do
+    HotkeyItem := PHotkeyItem(stgHotkeys.Objects[0, stgHotkeys.Row]);
+    sCommand := GetSelectedCommand;
+    HMForm := HotMan.Forms.Find(GetSelectedForm);
+    if Assigned(HMForm) then
     begin
-      HMControl := HMForm.Controls[i];
-      if Assigned(HMControl) then
+      for i := 0 to HMForm.Controls.Count - 1 do
       begin
-        hotkey := HMControl.Hotkeys.Find(sShortCut);
-        if Assigned(hotkey) and (hotkey.Command = sCommand) then
-          HMControl.Hotkeys.Remove(hotkey);
+        HMControl := HMForm.Controls[i];
+        if Assigned(HMControl) then
+        begin
+          hotkey := HMControl.Hotkeys.FindByContents(HotkeyItem^.Hotkey);
+          if Assigned(hotkey) then
+            HMControl.Hotkeys.Remove(hotkey);
+        end;
       end;
+
+      hotkey := HMForm.Hotkeys.FindByContents(HotkeyItem^.Hotkey);
+      if Assigned(hotkey) then
+        HMForm.Hotkeys.Remove(hotkey);
+
+      // refresh lists
+      Self.UpdateHotkeys(HMForm);
+      Self.FillHotkeyList(sCommand);
     end;
-
-    hotkey := HMForm.Hotkeys.Find(sShortCut);
-    if Assigned(hotkey) and (hotkey.Command = sCommand) then
-      HMForm.Hotkeys.Remove(hotkey);
-
-    // refresh lists
-    Self.UpdateHotkeys(HMForm);
-    Self.FillHotkeyList(sCommand);
   end;
 end;
 
@@ -343,12 +344,15 @@ end;
 
 procedure TfrmOptionsHotkeys.UpdateHotkeysForCommand(HMForm: THMForm; RowNr: Integer);
 var
-  lslHotKeys: TStringList;
+  Hotkeys: THotkeys;
 begin
-  lslHotKeys:=TStringList.Create;
-  GetHotKeyList(HMForm, stgCommands.Cells[stgCmdCommandIndex,RowNr],lslHotKeys);
-  stgCommands.Cells[stgCmdHotkeysIndex,RowNr]:=StListToStr(';',lslHotKeys,false);
-  lslHotKeys.Free;
+  Hotkeys := THotkeys.Create(False);
+  try
+    GetHotKeyList(HMForm, stgCommands.Cells[stgCmdCommandIndex,RowNr], Hotkeys);
+    stgCommands.Cells[stgCmdHotkeysIndex, RowNr] := HotkeysToString(Hotkeys);
+  finally
+    Hotkeys.Free;
+  end;
 end;
 
 procedure TfrmOptionsHotkeys.FillSCFilesList;
@@ -368,7 +372,7 @@ begin
   FindCloseEx(SR);
 end;
 
-procedure TfrmOptionsHotkeys.GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: TStringList);
+procedure TfrmOptionsHotkeys.GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: THotkeys);
   procedure AddHotkeys(hotkeys: THotkeys);
   var
     i: Integer;
@@ -376,7 +380,7 @@ procedure TfrmOptionsHotkeys.GetHotKeyList(HMForm: THMForm; Command: String; Hot
     for i := 0 to hotkeys.Count - 1 do
     begin
       if hotkeys[i].Command = Command then
-        HotkeysList.AddObject(hotkeys[i].Shortcut, hotkeys[i]);
+        HotkeysList.Add(hotkeys[i]);
     end;
   end;
 var
@@ -397,14 +401,6 @@ begin
 end;
 
 procedure TfrmOptionsHotkeys.FillHotkeyList(sCommand: String);
-  function GatherParams(const Params: array of String): String;
-  var
-    i: Integer;
-  begin
-    Result := '';
-    for i := Low(Params) to High(Params) do
-      AddStrWithSep(Result, Params[i], ' ');
-  end;
   function SetObject(RowNr: Integer; AHotkey: THotkey): PHotkeyItem;
   var
     HotkeyItem: PHotkeyItem;
@@ -441,8 +437,8 @@ begin
         continue;
 
       stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
-      stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
-      stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := GatherParams(hotkey.Params);
+      stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := ShortcutsToText(hotkey.Shortcuts);
+      stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := ArrayToString(hotkey.Params);
       SetObject(stgHotkeys.RowCount - 1, hotkey);
     end;
 
@@ -460,7 +456,9 @@ begin
         found := false;
         for iGrid := stgHotkeys.FixedRows to stgHotkeys.RowCount - 1 do
         begin
-          if stgHotkeys.Cells[0, iGrid] = hotkey.ShortCut then
+          HotkeyItem := PHotkeyItem(stgHotkeys.Objects[0, iGrid]);
+          if HotkeyItem^.Hotkey.SameShortcuts(hotkey.Shortcuts) and
+             HotkeyItem^.Hotkey.SameParams(hotkey.Params) then
           begin
             stgHotkeys.Cells[2, iGrid] := stgHotkeys.Cells[2, iGrid] + HMControl.Name + ';';
             HotkeyItem := PHotkeyItem(stgHotkeys.Objects[0, iGrid]);
@@ -474,8 +472,8 @@ begin
         if not found then
         begin
           stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
-          stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
-          stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := GatherParams(hotkey.Params);
+          stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := ShortcutsToText(hotkey.Shortcuts);
+          stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := ArrayToString(hotkey.Params);
           stgHotkeys.Cells[2, stgHotkeys.RowCount - 1] := HMControl.Name + ';';
           HotkeyItem := SetObject(stgHotkeys.RowCount - 1, hotkey);
           AddString(HotkeyItem^.Controls, HMControl.Name);
@@ -498,7 +496,8 @@ end;
 procedure TfrmOptionsHotkeys.FillCommandList(Filter: String);
 //< fill stgCommands with commands and descriptions
 var
-  slTmp, slAllCommands, slDescriptions, slHotKey: TStringList;
+  slTmp: THotkeys;
+  slAllCommands, slDescriptions, slHotKey: TStringList;
   slFiltered: TStringList = nil;
   lstr:   String;
   i:      Integer;
@@ -538,7 +537,7 @@ begin
   slAllCommands  := TStringList.Create;
   slDescriptions := TStringList.Create;
   slHotKey       := TStringList.Create;
-  slTmp          := TStringList.Create;
+  slTmp          := THotkeys.Create(False);
   HMForm         := HotMan.Forms.Find(sForm);
 
   CommandsIntf.GetCommandsList(slAllCommands);
@@ -573,7 +572,7 @@ begin
     begin
       slTmp.Clear;
       GetHotKeyList(HMForm, slFiltered.Strings[i], slTmp);
-      slHotKey.Add(StListToStr(';', slTmp, false)); //add to hotkey list created string
+      slHotKey.Add(HotkeysToString(slTmp)); //add to hotkey list created string
     end
     else
       slHotKey.Add('');
@@ -706,6 +705,22 @@ begin
     gNameSCFile := lbSCFilesList.Items[lbSCFilesList.ItemIndex];
 end;
 
+procedure TfrmOptionsHotkeys.SelectHotkey(Hotkey: THotkey);
+var
+  HotkeyItem: PHotkeyItem;
+  i: Integer;
+begin
+  for i := stgHotkeys.FixedRows to stgHotkeys.RowCount - 1 do
+  begin
+    HotkeyItem := PHotkeyItem(stgHotkeys.Objects[0, i]);
+    if Assigned(HotkeyItem) and HotkeyItem^.Hotkey.SameAs(Hotkey) then
+    begin
+      stgHotkeys.Row := i;
+      Break;
+    end;
+  end;
+end;
+
 procedure TfrmOptionsHotkeys.ShowEditHotkeyForm(EditMode: Boolean; aHotkeyRow: Integer);
 var
   HotkeyItem: PHotkeyItem;
@@ -727,6 +742,7 @@ procedure TfrmOptionsHotkeys.ShowEditHotkeyForm(
   const AControls: TDynamicStringArray);
 var
   HMForm: THMForm;
+  Hotkey: THotkey = nil;
 begin
   if AForm <> EmptyStr then
   begin
@@ -741,8 +757,13 @@ begin
       Self.UpdateHotkeys(HMForm);
       Self.FillHotkeyList(ACommand);
 
-      // Select the new shortcut in the hotkeys table.
-      stgHotkeys.Row := stgHotkeys.Cols[0].IndexOf(FEditForm.NewShortcut);
+      Hotkey := FEditForm.CloneNewHotkey;
+      try
+        // Select the new shortcut in the hotkeys table.
+        SelectHotkey(Hotkey);
+      finally
+        Hotkey.Free;
+      end;
     end;
   end;
 end;
@@ -764,7 +785,7 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey(UseTrash: Boolean);
   var
     ShiftState: TShiftState;
   begin
-    Shortcut := TextToShortCutEx(Hotkey.Shortcut);
+    Shortcut := TextToShortCutEx(Hotkey.Shortcuts[0]);
     ShiftState := ShortcutToShiftEx(Shortcut);
     if ssShift in ShiftState then
       ShiftState := ShiftState - [ssShift]
@@ -782,7 +803,7 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey(UseTrash: Boolean);
   begin
     if Contains(Hotkey.Params, OldTrashParam) or NewTrashParam then
     begin
-      Result := ConfirmFix(Hotkey, Format(rsOptHotkeysDeleteTrashCanOverrides, [Hotkey.Shortcut]));
+      Result := ConfirmFix(Hotkey, Format(rsOptHotkeysDeleteTrashCanOverrides, [Hotkey.Shortcuts[0]]));
       if Result then
       begin
         DeleteString(Hotkey.Params, OldTrashParam);
@@ -808,7 +829,7 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey(UseTrash: Boolean);
   begin
     if ContainsOneOf(Hotkey.Params, ParamsToDelete) or
        (HasTrashCan and (TrashStr <> NewTrashParam)) then
-      if not ConfirmFix(Hotkey, Format(rsOptHotkeysDeleteTrashCanParameterExists, [Hotkey.Shortcut, NonReversedHotkey.Shortcut])) then
+      if not ConfirmFix(Hotkey, Format(rsOptHotkeysDeleteTrashCanParameterExists, [Hotkey.Shortcuts[0], NonReversedHotkey.Shortcuts[0]])) then
         Exit;
 
     for sDelete in ParamsToDelete do
@@ -834,93 +855,104 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey(UseTrash: Boolean);
     for i := 0 to CountBeforeAdded - 1 do
     begin
       if (Hotkeys[i].Command = 'cm_Delete') and
-         not Contains(CheckedShortcuts, Hotkeys[i].Shortcut) then
+         (Length(Hotkeys[i].Shortcuts) > 0) then
       begin
-        ReversedHotkey := nil;
-        SetShortcut := True;
-        ReverseShift(Hotkeys[i], Shortcut, TextShortcut);
-        AddString(CheckedShortcuts, TextShortcut);
-
-        // Check if shortcut with reversed shift already exists.
-        for j := 0 to CountBeforeAdded - 1 do
+        if Length(Hotkeys[i].Shortcuts) > 1 then
         begin
-          if Hotkeys[j].Shortcut = TextShortcut then
-          begin
-            if Hotkeys[j].Command <> Hotkeys[i].Command then
-            begin
-              if QuestionDlg(rsOptHotkeysCannotSetShortcut,
-                             Format(rsOptHotkeysShortcutForDeleteAlreadyAssigned,
-                              [Hotkeys[i].Shortcut, TextShortcut, Hotkeys[j].Command]),
-                             mtConfirmation, [mrYes, rsOptHotkeysChangeShortcut, 'isdefault', mrCancel], 0) = mrYes then
-              begin
-                Hotkeys[j].Command := Hotkeys[i].Command;
-              end
-              else
-                SetShortcut := False;
-            end;
-
-            ReversedHotkey := Hotkeys[j];
-            Break;
-          end;
+          MessageDlg(rsOptHotkeysCannotSetShortcut,
+                     Format(rsOptHotkeysShortcutForDeleteIsSequence, [ShortcutsToText(Hotkeys[i].Shortcuts)]),
+                            mtWarning, [mbOK], 0);
+          Continue;
         end;
 
-        if not SetShortcut then
-          Continue;
-
-        // Fix parameters of original hotkey if needed.
-        HasTrashCan := GetParamValue(Hotkeys[i].Params, 'trashcan', TrashStr);
-        HasTrashBool := HasTrashCan and GetBoolValue(TrashStr, TrashBoolValue);
-        if not FixOverrides(Hotkeys[i], 'recycle', HasTrashBool and TrashBoolValue, UseTrash) then
-          Continue;
-        if not FixOverrides(Hotkeys[i], 'norecycle', HasTrashBool and not TrashBoolValue, not UseTrash) then
-          Continue;
-
-        // Reverse trash setting for reversed hotkey.
-        NewParams := Copy(Hotkeys[i].Params);
-        HasTrashCan := GetParamValue(NewParams, 'trashcan', TrashStr); // Could have been added above so check again
-        if Contains(NewParams, 'recyclesettingrev') then
+        if not Contains(CheckedShortcuts, Hotkeys[i].Shortcuts[0]) then
         begin
-          DeleteString(NewParams, 'recyclesettingrev');
-          NormalTrashSetting := True;
-        end
-        else if Contains(NewParams, 'recyclesetting') then
-        begin
-          DeleteString(NewParams, 'recyclesetting');
-          NormalTrashSetting := False;
-        end
-        else if HasTrashCan and (TrashStr = 'reversesetting') then
-          NormalTrashSetting := True
-        else
-          NormalTrashSetting := False;
+          ReversedHotkey := nil;
+          SetShortcut := True;
+          ReverseShift(Hotkeys[i], Shortcut, TextShortcut);
+          AddString(CheckedShortcuts, TextShortcut);
 
-        if Assigned(ReversedHotkey) then
-        begin
-          HasTrashCan := GetParamValue(ReversedHotkey.Params, 'trashcan', TrashStr);
-
-          if NormalTrashSetting then
+          // Check if shortcut with reversed shift already exists.
+          for j := 0 to CountBeforeAdded - 1 do
           begin
-            FixReversedShortcut(ReversedHotkey, Hotkeys[i],
-              ['recyclesettingrev', 'recycle', 'norecycle'],
-              'recyclesetting', 'setting', HasTrashCan, TrashStr);
-          end
-          else
-          begin
-            FixReversedShortcut(ReversedHotkey, Hotkeys[i],
-              ['recyclesetting', 'recycle', 'norecycle'],
-              'recyclesettingrev', 'reversesetting', HasTrashCan, TrashStr);
+            if ArrBegins(Hotkeys[j].Shortcuts, [TextShortcut], False) then
+            begin
+              if Hotkeys[j].Command <> Hotkeys[i].Command then
+              begin
+                if QuestionDlg(rsOptHotkeysCannotSetShortcut,
+                               Format(rsOptHotkeysShortcutForDeleteAlreadyAssigned,
+                                [Hotkeys[i].Shortcuts[0], TextShortcut, Hotkeys[j].Command]),
+                               mtConfirmation, [mrYes, rsOptHotkeysChangeShortcut, 'isdefault', mrCancel], 0) = mrYes then
+                begin
+                  Hotkeys[j].Command := Hotkeys[i].Command;
+                end
+                else
+                  SetShortcut := False;
+              end;
+
+              ReversedHotkey := Hotkeys[j];
+              Break;
+            end;
           end;
-        end
-        else if QuestionDlg(rsOptHotkeysSetDeleteShortcut,
-                            Format(rsOptHotkeysAddDeleteShortcutLong, [TextShortcut]),
-                            mtConfirmation, [mrYes, rsOptHotkeysAddShortcutButton, 'isdefault', mrCancel], 0) = mrYes then
-        begin
-          if NormalTrashSetting then
-            TrashStr := 'setting'
-          else
-            TrashStr := 'reversesetting';
-          SetValue(NewParams, 'trashcan', TrashStr);
 
-          Hotkeys.Add(TextShortcut, Hotkeys[i].Command, NewParams);
+          if not SetShortcut then
+            Continue;
+
+          // Fix parameters of original hotkey if needed.
+          HasTrashCan := GetParamValue(Hotkeys[i].Params, 'trashcan', TrashStr);
+          HasTrashBool := HasTrashCan and GetBoolValue(TrashStr, TrashBoolValue);
+          if not FixOverrides(Hotkeys[i], 'recycle', HasTrashBool and TrashBoolValue, UseTrash) then
+            Continue;
+          if not FixOverrides(Hotkeys[i], 'norecycle', HasTrashBool and not TrashBoolValue, not UseTrash) then
+            Continue;
+
+          // Reverse trash setting for reversed hotkey.
+          NewParams := Copy(Hotkeys[i].Params);
+          HasTrashCan := GetParamValue(NewParams, 'trashcan', TrashStr); // Could have been added above so check again
+          if Contains(NewParams, 'recyclesettingrev') then
+          begin
+            DeleteString(NewParams, 'recyclesettingrev');
+            NormalTrashSetting := True;
+          end
+          else if Contains(NewParams, 'recyclesetting') then
+          begin
+            DeleteString(NewParams, 'recyclesetting');
+            NormalTrashSetting := False;
+          end
+          else if HasTrashCan and (TrashStr = 'reversesetting') then
+            NormalTrashSetting := True
+          else
+            NormalTrashSetting := False;
+
+          if Assigned(ReversedHotkey) then
+          begin
+            HasTrashCan := GetParamValue(ReversedHotkey.Params, 'trashcan', TrashStr);
+
+            if NormalTrashSetting then
+            begin
+              FixReversedShortcut(ReversedHotkey, Hotkeys[i],
+                ['recyclesettingrev', 'recycle', 'norecycle'],
+                'recyclesetting', 'setting', HasTrashCan, TrashStr);
+            end
+            else
+            begin
+              FixReversedShortcut(ReversedHotkey, Hotkeys[i],
+                ['recyclesetting', 'recycle', 'norecycle'],
+                'recyclesettingrev', 'reversesetting', HasTrashCan, TrashStr);
+            end;
+          end
+          else if QuestionDlg(rsOptHotkeysSetDeleteShortcut,
+                              Format(rsOptHotkeysAddDeleteShortcutLong, [TextShortcut]),
+                              mtConfirmation, [mrYes, rsOptHotkeysAddShortcutButton, 'isdefault', mrCancel], 0) = mrYes then
+          begin
+            if NormalTrashSetting then
+              TrashStr := 'setting'
+            else
+              TrashStr := 'reversesetting';
+            SetValue(NewParams, 'trashcan', TrashStr);
+
+            Hotkeys.Add([TextShortcut], NewParams, Hotkeys[i].Command);
+          end;
         end;
       end;
     end;

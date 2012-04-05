@@ -1,54 +1,57 @@
 object frmEditHotkey: TfrmEditHotkey
   Left = 337
-  Height = 450
+  Height = 465
   Top = 120
-  Width = 464
-  ActiveControl = edtHotKey
+  Width = 458
   BorderIcons = [biSystemMenu]
-  ClientHeight = 450
-  ClientWidth = 464
+  ClientHeight = 465
+  ClientWidth = 458
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.1'
-  object lblHotKey: TLabel
+  LCLVersion = '0.9.31'
+  object lblShortcuts: TLabel
     AnchorSideLeft.Control = edtParameters
     AnchorSideTop.Control = Owner
     Left = 8
     Height = 22
     Top = 6
-    Width = 55
+    Width = 69
     BorderSpacing.Top = 6
-    Caption = 'Hot key:'
+    Caption = 'Shortcuts:'
     ParentColor = False
   end
-  object edtHotKey: TEdit
+  object pnlShortcuts: TPanel
     AnchorSideLeft.Control = edtParameters
-    AnchorSideTop.Control = lblHotKey
+    AnchorSideTop.Control = btnAddShortcut
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtParameters
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 29
+    Height = 0
     Top = 28
-    Width = 448
+    Width = 442
     Anchors = [akTop, akLeft, akRight]
-    OnKeyDown = edtHotKeyKeyDown
-    OnKeyPress = edtHotKeyKeyPress
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
     TabOrder = 0
   end
   object lblHotKeyConflict: TLabel
     AnchorSideLeft.Control = edtParameters
-    AnchorSideTop.Control = edtHotKey
+    AnchorSideTop.Control = pnlShortcuts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtParameters
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 1
-    Top = 61
-    Width = 448
+    Top = 32
+    Width = 442
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 4
     BorderSpacing.Bottom = 4
@@ -64,7 +67,7 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 22
-    Top = 68
+    Top = 39
     Width = 247
     BorderSpacing.Top = 6
     Caption = 'Parameters (each in a separate line):'
@@ -78,9 +81,9 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnShowCommandHelp
     Left = 8
-    Height = 228
-    Top = 90
-    Width = 448
+    Height = 272
+    Top = 61
+    Width = 442
     HelpType = htKeyword
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 8
@@ -97,8 +100,8 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideBottom.Control = cgHKControls
     Left = 8
     Height = 10
-    Top = 322
-    Width = 448
+    Top = 337
+    Width = 442
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Top = 4
@@ -112,8 +115,8 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideBottom.Control = btnOK
     Left = 8
     Height = 68
-    Top = 332
-    Width = 448
+    Top = 347
+    Width = 442
     Anchors = [akLeft, akRight, akBottom]
     AutoFill = True
     AutoSize = True
@@ -136,7 +139,7 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideBottom.Side = asrBottom
     Left = 8
     Height = 40
-    Top = 404
+    Top = 419
     Width = 120
     Anchors = [akLeft, akBottom]
     AutoSize = True
@@ -155,9 +158,9 @@ object frmEditHotkey: TfrmEditHotkey
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 336
+    Left = 330
     Height = 40
-    Top = 404
+    Top = 419
     Width = 120
     Anchors = [akRight, akBottom]
     AutoSize = True
@@ -169,5 +172,34 @@ object frmEditHotkey: TfrmEditHotkey
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 5
+  end
+  object btnAddShortcut: TSpeedButton
+    AnchorSideTop.Control = btnRemoveShortcut
+    AnchorSideRight.Control = btnRemoveShortcut
+    Left = 406
+    Height = 22
+    Hint = 'Add new shortcut to sequence'
+    Top = 6
+    Width = 22
+    Anchors = [akTop, akRight]
+    NumGlyphs = 0
+    OnClick = btnAddShortcutClick
+    ShowHint = True
+    ParentShowHint = False
+  end
+  object btnRemoveShortcut: TSpeedButton
+    AnchorSideTop.Control = lblShortcuts
+    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Side = asrBottom
+    Left = 428
+    Height = 22
+    Hint = 'Remove last shortcut from sequence'
+    Top = 6
+    Width = 22
+    Anchors = [akTop, akRight]
+    NumGlyphs = 0
+    OnClick = btnRemoveShortcutClick
+    ShowHint = True
+    ParentShowHint = False
   end
 end
