@@ -3886,10 +3886,10 @@ begin
     Exit;
   end;
 
-  Node := GetNodeAt(ClientPoint.X, ClientPoint.Y);
-
   // Get the item over which there is something dragged.
-  AFile := GetNodeFile(Node);
+  Node := GetNodeAt(ClientPoint.X, ClientPoint.Y);
+  if Assigned(Node) then
+    AFile := GetNodeFile(Node);
 
   if Assigned(AFile) and
      (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) and
@@ -3907,7 +3907,7 @@ begin
 end;
 
 function TColumnsDrawTree.OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect;
-                              ScreenPoint: TPoint):Boolean;
+                                   ScreenPoint: TPoint):Boolean;
 var
   Files: TFiles;
   DropParams: TDropParams;
