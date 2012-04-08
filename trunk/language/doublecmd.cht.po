@@ -6136,6 +6136,10 @@ msgctxt "ulng.rscfgtoolbarinsertbutton"
 msgid "&Insert new button"
 msgstr "插入新按鈕 &I"
 
+#: ulng.rsclipboardcontainsinvalidtoolbardata
+msgid "Clipboard doesn't contain any valid toolbar data."
+msgstr ""
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "屬性"
@@ -7098,7 +7102,7 @@ msgstr "合併"
 
 #: ulng.rsopercombiningfromto
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr "合併檔案 \"%s\" 到 \"%s\"
+msgstr "合併檔案 \"%s\" 到 \"%s\""
 
 #: ulng.rsopercopying
 msgid "Copying"
