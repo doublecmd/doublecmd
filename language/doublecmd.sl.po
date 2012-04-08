@@ -5953,6 +5953,10 @@ msgctxt "ulng.rscfgtoolbarinsertbutton"
 msgid "&Insert new button"
 msgstr "Vstavi &nov gumb"
 
+#: ulng.rsclipboardcontainsinvalidtoolbardata
+msgid "Clipboard doesn't contain any valid toolbar data."
+msgstr ""
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Atrib"
