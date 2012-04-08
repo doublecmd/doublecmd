@@ -628,9 +628,6 @@ begin
   { Create default configuration files if need }
   if gpCfgDir <> gpGlobalCfgDir then
     begin
-      // toolbar file
-      if not mbFileExists(gpCfgDir + 'default.bar') then
-        CopyFile(gpGlobalCfgDir + 'default.bar', gpCfgDir + 'default.bar');
       // extension file
       if not mbFileExists(gpCfgDir + 'doublecmd.ext') then
         CopyFile(gpGlobalCfgDir + 'doublecmd.ext.example', gpCfgDir + 'doublecmd.ext.example');
@@ -2193,4 +2190,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

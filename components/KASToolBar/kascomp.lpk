@@ -30,31 +30,26 @@
     <License Value="GNU GPL 2
 "/>
     <Version Major="1" Minor="7"/>
-    <Files Count="5">
+    <Files Count="4">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASToolBar"/>
       </Item1>
       <Item2>
-        <Filename Value="kasbarmenu.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="KASBarMenu"/>
-      </Item2>
-      <Item3>
-        <Filename Value="kasbarfiles.pas"/>
-        <UnitName Value="KASBarFiles"/>
-      </Item3>
-      <Item4>
         <Filename Value="kasprogressbar.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASProgressBar"/>
-      </Item4>
-      <Item5>
+      </Item2>
+      <Item3>
         <Filename Value="kaspathedit.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASPathEdit"/>
-      </Item5>
+      </Item3>
+      <Item4>
+        <Filename Value="kastoolitems.pas"/>
+        <UnitName Value="KASToolItems"/>
+      </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
@@ -68,7 +63,7 @@
       </Item2>
     </RequiredPkgs>
     <UsageOptions>
-      <UnitPath Value="$(PkgOutDir)/"/>
+      <UnitPath Value="$(PkgOutDir)"/>
     </UsageOptions>
     <PublishOptions>
       <Version Value="2"/>

@@ -193,6 +193,7 @@ resourcestring
 
   rsSearchResult = 'Search result';
   rsShowHelpFor = 'Show help for %s';
+  rsClipboardContainsInvalidToolbarData = 'Clipboard doesn''t contain any valid toolbar data.';
 
   // Config toolbar dialog
   rsCfgToolBarAddButton = '&Add button to end';

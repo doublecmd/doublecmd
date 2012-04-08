@@ -35,7 +35,6 @@ object frmMain: TfrmMain
     OnDragDrop = MainToolBarDragDrop
     OnDragOver = MainToolBarDragOver
     OnMouseUp = MainToolBarMouseUp
-    OnToolButtonClick = MainToolBarToolButtonClick
     OnToolButtonMouseDown = MainToolBarToolButtonMouseDown
     OnToolButtonMouseUp = MainToolBarToolButtonMouseUp
     OnToolButtonDragDrop = MainToolBarToolButtonDragDrop
@@ -80,7 +79,7 @@ object frmMain: TfrmMain
         ShowCaptions = True
         TabOrder = 0
         OnResize = dskLeftResize
-        OnToolButtonClick = dskToolButtonClick
+        OnToolButtonClick = dskLeftToolButtonClick
         OnToolButtonMouseUp = dskToolButtonMouseUp
         OnToolButtonDragDrop = dskLeftRightToolButtonDragDrop
         RadioToolBar = True
@@ -112,7 +111,7 @@ object frmMain: TfrmMain
         ShowCaptions = True
         TabOrder = 0
         OnResize = dskRightResize
-        OnToolButtonClick = dskToolButtonClick
+        OnToolButtonClick = dskRightToolButtonClick
         OnToolButtonMouseUp = dskToolButtonMouseUp
         OnToolButtonDragDrop = dskLeftRightToolButtonDragDrop
         RadioToolBar = True
@@ -2189,7 +2188,6 @@ object frmMain: TfrmMain
     top = 104
   end
   object pmToolBar: TPopupMenu
-    Tag = -1
     OnPopup = pmToolBarPopup
     left = 48
     top = 152
@@ -2199,7 +2197,7 @@ object frmMain: TfrmMain
     end
     object tbDelete: TMenuItem
       Caption = 'Delete'
-      OnClick = DeleteClick
+      OnClick = tbDeleteClick
     end
     object tbChangeDir: TMenuItem
       Caption = 'CD'
@@ -2227,12 +2225,6 @@ object frmMain: TfrmMain
   end
   object pmDrivesMenu: TPopupMenu
     left = 56
-    top = 96
-  end
-  object pmButtonMenu: TKASBarMenu
-    OnLoadButtonGlyph = pmButtonMenuLoadButtonGlyph
-    OnMenuButtonClick = pmButtonMenuMenuButtonClick
-    left = 248
     top = 96
   end
   object pmColumnsMenu: TPopupMenu
