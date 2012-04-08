@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-04-01 18:48+0400\n"
+"PO-Revision-Date: 2012-04-08 15:51+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3448,10 +3448,9 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr "[MMM] Наименование месяца (краткий, т.е., \"янв\")"
 
 #: tfrmmultirename.mimonth3.caption
-#, fuzzy
 #| msgid "[MMMM] Month name (long, e.g. \"january\")"
 msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMM] Наименование месяца (полный, т.е., \"Январь\")"
+msgstr "[MMMM] Наименование месяца (полный, т.е., \"Январь\")"
 
 #: tfrmmultirename.miname.caption
 #| msgid "[N]ame"
@@ -3996,7 +3995,6 @@ msgid "Process comments with files/folders"
 msgstr "Обрабатывать комментарии с файлами/папками"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
-#, fuzzy
 #| msgid "Select only the file name when renaming (not the extension)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
 msgid "Select file name without extension when renaming"
@@ -4114,11 +4112,10 @@ msgid "Example"
 msgstr "Пример"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
-#, fuzzy
 #| msgid "BackGround:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
 msgid "Background:"
-msgstr "Фон &1"
+msgstr "Фон &1:"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
@@ -4621,18 +4618,16 @@ msgid "File operation log file"
 msgstr "Отчет о файловых операциях"
 
 #: tfrmoptionslog.gblogfileop.caption
-#, fuzzy
 #| msgid "Log operations:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION"
 msgid "Log operations"
-msgstr "Протоколируемые действия:"
+msgstr "Протоколируемые действия"
 
 #: tfrmoptionslog.gblogfilestatus.caption
-#, fuzzy
 #| msgid "Operation status:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
-msgstr "Протоколировать операции со статусом:"
+msgstr "Протоколировать операции со статусом"
 
 #: tfrmoptionsmisc.cbsavethumbnails.caption
 msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
@@ -4783,11 +4778,10 @@ msgid "Options"
 msgstr "Настройка"
 
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
-#, fuzzy
 #| msgid "Exact name match:"
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
 msgid "Exact name match"
-msgstr "Точное соответствие имени:"
+msgstr "Точное соответствие имени"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchcase.caption
 msgid "Search case"
@@ -4813,11 +4807,10 @@ msgid "&Confirm close all tabs"
 msgstr "Подтверждать закрытие всех вкладок"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
-#, fuzzy
 #| msgid "&Limit tab title length to:"
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
 msgid "&Limit tab title length to"
-msgstr "Ограничить размер заголовка до:"
+msgstr "Ограничить размер заголовка до"
 
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
@@ -6110,6 +6103,10 @@ msgstr "Добавить"
 msgctxt "ulng.rscfgtoolbarinsertbutton"
 msgid "&Insert new button"
 msgstr "Вставить"
+
+#: ulng.rsclipboardcontainsinvalidtoolbardata
+msgid "Clipboard doesn't contain any valid toolbar data."
+msgstr ""
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -7432,20 +7429,18 @@ msgid "Shortcut in use"
 msgstr "Горячая клавиша уже используется"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-#, fuzzy
 #| msgid "Shortcut %s is already used for %s."
 msgid "Shortcut %s is already used."
-msgstr "Горячая клавиша %s уже использована для %s."
+msgstr "Горячая клавиша %s уже используется."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
 msgstr "Изменить на %s?"
 
 #: ulng.rsopthotkeysusedby
-#, fuzzy
 #| msgid "used by"
 msgid "used for %s in %s"
-msgstr "используется"
+msgstr "используется для %s в %s"
 
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
