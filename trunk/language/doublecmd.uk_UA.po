@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-03-31 23:55+0300\n"
+"PO-Revision-Date: 2012-04-07 00:02+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1006,11 +1006,11 @@ msgstr "&Налаштування"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
-msgstr ""
+msgstr "Додати новий ярлик в послідовність"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr ""
+msgstr "Видалити останній ярлик з послідовності"
 
 #: tfrmedithotkey.cghkcontrols.caption
 #, fuzzy
@@ -1020,11 +1020,11 @@ msgstr "Тільки для цих елементів керування"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "Parameters (each in a separate line):"
-msgstr ""
+msgstr "Параметри (кожен в окремому рядку):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
-msgstr ""
+msgstr "Ярлики:"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -1585,15 +1585,15 @@ msgstr "&Скасувати"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
-msgstr ""
+msgstr "&На панель"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
-msgstr ""
+msgstr "Переглянути &все"
 
 #: tfrmfileop.lblcurrentoperation.caption
 msgid "Current operation:"
-msgstr ""
+msgstr "Поточна операція:"
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -3665,7 +3665,7 @@ msgstr "Завжди показувати іконку в треї"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
 msgid "Automatically hide unmounted devices"
-msgstr ""
+msgstr "Автоматично приховувати відмонтовані пристрої"
 
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
@@ -3983,7 +3983,7 @@ msgstr "Пропускати помилки при файлових операц
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
-msgstr ""
+msgstr "Виконання операцій"
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
@@ -3992,15 +3992,16 @@ msgstr "Пошук файлів"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
-msgstr ""
+msgstr "Інтерфейс користувача"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
-msgstr ""
+msgstr "Розмір буфера для операцій з файлами (в КB):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
+#, fuzzy
 msgid "Show operations progress initially in"
-msgstr ""
+msgstr "Показати прогрес операцій спочатку в"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 #, fuzzy
@@ -4305,15 +4306,15 @@ msgstr "Шрифт переглядача"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
 msgid "Add hotkey"
-msgstr ""
+msgstr "Додати гар.кл."
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
 msgid "Delete hotkey"
-msgstr ""
+msgstr "Видалити гар.кл."
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
 msgid "Edit hotkey"
-msgstr ""
+msgstr "Редагувати гар.кл."
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
@@ -4608,10 +4609,9 @@ msgid "Operation status"
 msgstr "Статус операції"
 
 #: tfrmoptionsmisc.cbsavethumbnails.caption
-#, fuzzy
 msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
 msgid "Save thumbnails in cache"
-msgstr "Зберегти мініатюри в кеші"
+msgstr "Зберігати мініатюри в кеші"
 
 #: tfrmoptionsmisc.cbshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
@@ -4763,7 +4763,6 @@ msgid "Exact name match"
 msgstr "Точне співпадіння імені"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchcase.caption
-#, fuzzy
 msgid "Search case"
 msgstr "Регістр при пошуку"
 
@@ -5095,11 +5094,11 @@ msgstr "X"
 
 #: tfrmquicksearch.btncancel.hint
 msgid "Close filter panel"
-msgstr ""
+msgstr "Закрити панель фільтрів"
 
 #: tfrmquicksearch.edtsearch.hint
 msgid "Enter text to search for or filter by"
-msgstr ""
+msgstr "Введіть текст для пошуку чи фільтрації"
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
@@ -5148,7 +5147,7 @@ msgstr "Фільтр"
 
 #: tfrmquicksearch.tglfilter.hint
 msgid "Toggle between search or filter"
-msgstr ""
+msgstr "Перемикання між режимами пошуку або фільтра"
 
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
@@ -5859,7 +5858,6 @@ msgid "&Image"
 msgstr "&Малюнок"
 
 #: tfrmviewer.milookbook.caption
-#, fuzzy
 msgid "Show as B&ook"
 msgstr "Показати як &книгу"
 
@@ -5980,11 +5978,11 @@ msgstr "Операції з файлами"
 
 #: tfrmviewoperations.cbalwaysontop.caption
 msgid "Always on top"
-msgstr ""
+msgstr "Завжди поверх інших вікон"
 
 #: tfrmviewoperations.lblusedragdrop.caption
 msgid "Use \"drag && drop\" to move operations between queues"
-msgstr ""
+msgstr "Використовуйте \"drag && drop\", щоб переміщувати операції між чергами"
 
 #: tfrmviewoperations.mnucanceloperation.caption
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
@@ -7033,11 +7031,11 @@ msgstr "Розрахунок контрольної суми"
 
 #: ulng.rsopercalculatingchecksumin
 msgid "Calculating check sum in \"%s\""
-msgstr ""
+msgstr "Розрахунок контрольної суми в \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
 msgid "Calculating check sum of \"%s\""
-msgstr ""
+msgstr "Розрахунок контрольної суми  \"%s\""
 
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
@@ -7046,7 +7044,7 @@ msgstr "Підрахунок"
 
 #: ulng.rsopercalculatingstatisticsin
 msgid "Calculating \"%s\""
-msgstr ""
+msgstr "Розрахунок  \"%s\""
 
 #: ulng.rsopercombining
 msgid "Joining"
@@ -7054,7 +7052,7 @@ msgstr "З’єднання"
 
 #: ulng.rsopercombiningfromto
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr ""
+msgstr "Додавання файлів in \"%s\" to \"%s\""
 
 #: ulng.rsopercopying
 msgid "Copying"
@@ -7062,11 +7060,11 @@ msgstr "Копіювання"
 
 #: ulng.rsopercopyingfromto
 msgid "Copying from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Копіювання з  \"%s\" до  \"%s\""
 
 #: ulng.rsopercopyingsomethingto
 msgid "Copying \"%s\" to \"%s\""
-msgstr ""
+msgstr "Копіювання  \"%s\" до  \"%s\""
 
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
@@ -7074,7 +7072,7 @@ msgstr "Створення каталогу"
 
 #: ulng.rsopercreatingsomedirectory
 msgid "Creating directory \"%s\""
-msgstr ""
+msgstr "Створення каталогу  \"%s\""
 
 #: ulng.rsoperdeleting
 msgctxt "ulng.rsoperdeleting"
@@ -7083,11 +7081,11 @@ msgstr "Видалення"
 
 #: ulng.rsoperdeletingin
 msgid "Deleting in \"%s\""
-msgstr ""
+msgstr "Видалення в \"%s\""
 
 #: ulng.rsoperdeletingsomething
 msgid "Deleting \"%s\""
-msgstr ""
+msgstr "Видалення \"%s\""
 
 #: ulng.rsoperexecuting
 msgid "Executing"
@@ -7095,7 +7093,7 @@ msgstr "Розпакування"
 
 #: ulng.rsoperexecutingsomething
 msgid "Executing \"%s\""
-msgstr ""
+msgstr "Виконання \"%s\""
 
 #: ulng.rsoperextracting
 msgid "Extracting"
@@ -7103,7 +7101,7 @@ msgstr "Розпакування"
 
 #: ulng.rsoperextractingfromto
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Видобування з \"%s\" до \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -7114,8 +7112,9 @@ msgid "Listing"
 msgstr "Створення списку"
 
 #: ulng.rsoperlistingin
+#, fuzzy
 msgid "Listing \"%s\""
-msgstr ""
+msgstr "Складання списку \"%s\""
 
 #: ulng.rsopermoving
 msgid "Moving"
@@ -7123,11 +7122,11 @@ msgstr "Переміщення"
 
 #: ulng.rsopermovingfromto
 msgid "Moving from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Переміщення з \"%s\" до \"%s\""
 
 #: ulng.rsopermovingsomethingto
 msgid "Moving \"%s\" to \"%s\""
-msgstr ""
+msgstr "Переміщення \"%s\" до \"%s\""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -7139,11 +7138,11 @@ msgstr "Упакування"
 
 #: ulng.rsoperpackingfromto
 msgid "Packing from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Упакування з \"%s\" до \"%s\""
 
 #: ulng.rsoperpackingsomethingto
 msgid "Packing \"%s\" to \"%s\""
-msgstr ""
+msgstr "Упакування \"%s\" до \"%s\""
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -7167,12 +7166,14 @@ msgid "Setting property"
 msgstr "Встановлення властивостей"
 
 #: ulng.rsopersettingpropertyin
+#, fuzzy
 msgid "Setting property in \"%s\""
-msgstr ""
+msgstr "Встановлення прав в \"%s\""
 
 #: ulng.rsopersettingpropertyof
+#, fuzzy
 msgid "Setting property of \"%s\""
-msgstr ""
+msgstr "Встановлення прав \"%s\""
 
 #: ulng.rsopersplitting
 msgid "Splitting"
@@ -7180,7 +7181,7 @@ msgstr "Розрізання"
 
 #: ulng.rsopersplittingfromto
 msgid "Splitting \"%s\" to \"%s\""
-msgstr ""
+msgstr "Розрізання \"%s\" до \"%s\""
 
 #: ulng.rsoperstarting
 msgid "Starting"
@@ -7200,11 +7201,11 @@ msgstr "Тестування"
 
 #: ulng.rsopertestingin
 msgid "Testing in \"%s\""
-msgstr ""
+msgstr "Тестування в \"%s\""
 
 #: ulng.rsopertestingsomething
 msgid "Testing \"%s\""
-msgstr ""
+msgstr "Тестування \"%s\""
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying check sum"
@@ -7212,11 +7213,11 @@ msgstr "Перевірка контрольної суми"
 
 #: ulng.rsoperverifyingchecksumin
 msgid "Verifying check sum in \"%s\""
-msgstr ""
+msgstr "Перевірка контрольної суми в \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
 msgid "Verifying check sum of \"%s\""
-msgstr ""
+msgstr "Перевірка контрольної суми \"%s\""
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -7232,11 +7233,11 @@ msgstr "Стирання"
 
 #: ulng.rsoperwipingin
 msgid "Wiping in \"%s\""
-msgstr ""
+msgstr "Стирання в \"%s\""
 
 #: ulng.rsoperwipingsomething
 msgid "Wiping \"%s\""
-msgstr ""
+msgstr "Стирання \"%s\""
 
 #: ulng.rsoperworking
 #, fuzzy
@@ -7338,7 +7339,7 @@ msgstr "Текст"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
-msgstr ""
+msgstr "в окремому вікні; мінімізувати в окремому вікні; панель операції"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -7346,31 +7347,35 @@ msgstr "Буде зареєстровано гар.клавішу %s  для cm_
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
-msgstr ""
+msgstr "Додати гар.кл. для %s"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
 msgstr "Додати гар.клавішу"
 
 #: ulng.rsopthotkeyscannotsetshortcut
+#, fuzzy
 msgid "Cannot set shortcut"
-msgstr ""
+msgstr "Не можливо встановити ярлик"
 
 #: ulng.rsopthotkeyschangeshortcut
+#, fuzzy
 msgid "Change shortcut"
-msgstr ""
+msgstr "Змінити якрлик"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Команди"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, fuzzy
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr ""
+msgstr "Ярлик %s для cm_Delete має параметр, який перекриває ці налаштування. Змінити цей параметр, щоб використовувати глобальні налаштування?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, fuzzy
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr ""
+msgstr "Параметр ярлика %s для cm_Delete повинен бути змінений відповідно до контекстного %s. Змінити його?"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7378,11 +7383,11 @@ msgstr "Опис"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
-msgstr ""
+msgstr "Змінити гар.клавішу для %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
-msgstr ""
+msgstr "Зафіксувати параметр"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -7399,16 +7404,19 @@ msgid "Parameters"
 msgstr "Параметри"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
+#, fuzzy
 msgid "Set shortcut to delete file"
-msgstr ""
+msgstr "Встановити ярлик для видалення файлу"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, fuzzy
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
+msgstr "Для цього налаштування роботи з ярликом %s, ярлику %s повинен бути присвоєний cm_Delete, але це вже присвоєно для %s. Змінити це?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
+#, fuzzy
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr ""
+msgstr "Ярлик %s для cm_Delete є ярликом послідовності для якого не може бути призначена гар.кл. з інв. Shift. Цей параметр не буде працювати."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -7500,9 +7508,8 @@ msgid "Fonts"
 msgstr "Шрифти"
 
 #: ulng.rsoptionseditorhighlighters
-#, fuzzy
 msgid "Highlighters"
-msgstr "Маркери"
+msgstr "Підсвітка"
 
 #: ulng.rsoptionseditorhotkeys
 msgctxt "ulng.rsoptionseditorhotkeys"
@@ -7685,7 +7692,7 @@ msgstr "Виберіть каталог"
 
 #: ulng.rsshowhelpfor
 msgid "Show help for %s"
-msgstr ""
+msgstr "Показати довідку для %s"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
