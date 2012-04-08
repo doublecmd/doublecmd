@@ -2,24 +2,22 @@
   This source is only used to compile and install the package.
  }
 
-unit KASComp; 
+unit KASComp;
 
 interface
 
 uses
-  KASToolBar, KASBarMenu, KASBarFiles, KASProgressBar, KASPathEdit, 
-  LazarusPackageIntf;
+  KASToolBar, KASProgressBar, KASPathEdit, KASToolItems, LazarusPackageIntf;
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-  RegisterUnit('KASToolBar', @KASToolBar.Register); 
-  RegisterUnit('KASBarMenu', @KASBarMenu.Register); 
-  RegisterUnit('KASProgressBar', @KASProgressBar.Register); 
-  RegisterUnit('KASPathEdit', @KASPathEdit.Register); 
-end; 
+  RegisterUnit('KASToolBar', @KASToolBar.Register);
+  RegisterUnit('KASProgressBar', @KASProgressBar.Register);
+  RegisterUnit('KASPathEdit', @KASPathEdit.Register);
+end;
 
 initialization
-  RegisterPackage('KASComp', @Register); 
+  RegisterPackage('KASComp', @Register);
 end.

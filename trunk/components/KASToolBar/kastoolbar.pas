@@ -6,6 +6,7 @@
    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
    
    contributors:
+     2012 Przemyslaw Nagay (cobines@gmail.com)
    
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -31,25 +32,36 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, ComCtrls,
-  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil, KASBarFiles;
+  Graphics, Dialogs, ExtCtrls, Buttons, FileUtil, Menus,
+  KASXmlConfig, KASToolItems;
 
 type
 
-  TOnToolButtonClick = procedure (Sender: TObject; NumberOfButton: Integer) of object;
-  TOnToolButtonMouseUpDown = procedure (Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer; NumberOfButton: Integer) of object;
+  TOnToolButtonClick = procedure (Sender: TObject) of object;
+  TOnToolButtonMouseUpDown = procedure (Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer) of object;
   TOnToolButtonMouseMove = procedure (Sender: TObject; Shift:TShiftState; X,Y:Integer; NumberOfButton: Integer) of object;
   TOnToolButtonDragOver = procedure(Sender, Source: TObject; X,Y: Integer;
                State: TDragState; var Accept: Boolean; NumberOfButton: Integer) of object;
-  TOnToolButtonDragDrop = procedure(Sender, Source: TObject; X,Y: Integer; NumberOfButton: Integer) of object;
-  TOnToolButtonEndDrag = procedure(Sender, Target: TObject; X,Y: Integer; NumberOfButton: Integer) of object;
-  TOnLoadButtonGlyph = function (sIconFileName: String; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
+  TOnToolButtonDragDrop = procedure(Sender, Source: TObject; X, Y: Integer) of object;
+  TOnToolButtonEndDrag = procedure(Sender, Target: TObject; X,Y: Integer) of object;
+  TOnLoadButtonGlyph = function (ToolItem: TKASToolItem; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
+  TOnToolItemExecute = procedure (ToolItem: TKASToolItem) of object;
+  TOnConfigLoadItem = function (Config: TXmlConfig; Node: TXmlNode): TKASToolItem of object;
+
+  TDynamicStringArray = array of String;
 
   { TKASToolButton }
 
   TKASToolButton = class(TSpeedButton)
+  strict private
+    FToolItem: TKASToolItem;
   protected
     procedure CalculatePreferredSize(var PreferredWidth,
       PreferredHeight: integer; WithThemeSpace: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce;
+    destructor Destroy; override;
+    property ToolItem: TKASToolItem read FToolItem;
   end;
 
   { TKASToolDivider }
@@ -73,7 +85,8 @@ type
     FRadioToolBar: Boolean;
     FShowDividerAsButton: Boolean;
     FFlat: Boolean;
-    FBarFile: TBarClass;
+    FToolPopupMenu: TPopupMenu;
+    FToolItemExecutors: TFPList;
     FOnToolButtonClick: TOnToolButtonClick;
     FOnToolButtonMouseDown: TOnToolButtonMouseUpDown;
     FOnToolButtonMouseUp: TOnToolButtonMouseUpDown;
@@ -82,22 +95,25 @@ type
     FOnToolButtonDragDrop: TOnToolButtonDragDrop;
     FOnToolButtonEndDrag: TOnToolButtonEndDrag;
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
+    FOnToolItemExecute: TOnToolItemExecute;
     FKASToolBarFlags: TToolBarFlags;
     FResizeButtonsNeeded: Boolean;
     procedure AssignToolButtonProperties(ToolButton: TKASToolButton);
+    procedure ClearExecutors;
+    function DoExecuteToolItem(Item: TKASToolItem): Boolean;
     function GetChangePath: String;
     function GetEnvVar: String;
     function LoadBtnIcon(IconPath: String): TBitMap;
     procedure DrawLinkIcon(Image: TBitMap);
-    function GetButton(Index: Integer): TSpeedButton;
-    function GetCommand(Index: Integer): String;
+    function GetButton(Index: Integer): TKASToolButton;
+    procedure InsertButton(InsertAt: Integer; ToolButton: TSpeedButton);
     procedure SetButtonHeight(const AValue: Integer);
     procedure SetButtonWidth(const AValue: Integer);
     procedure SetChangePath(const AValue: String);
-    procedure SetCommand(Index: Integer; const AValue: String);
     procedure SetEnvVar(const AValue: String);
     procedure SetFlat(const AValue: Boolean);
     procedure SetGlyphSize(const AValue: Integer);
+    procedure ShowMenu(ToolButton: TKASToolButton);
     procedure ToolButtonClick(Sender: TObject);
     procedure ToolButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
     procedure ToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
@@ -105,10 +121,11 @@ type
     procedure ToolButtonDragOver(Sender, Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
     procedure ToolButtonDragDrop(Sender, Source: TObject; X,Y: Integer);
     procedure ToolButtonEndDrag(Sender, Target: TObject; X, Y: Integer);
+    procedure ToolItemLoaded(Item: TKASToolItem);
+    procedure ToolMenuClicked(Sender: TObject);
     procedure UpdateButtonsTags;
+    procedure UpdateIcon(ToolButton: TKASToolButton);
   protected
-    { Protected declarations }
-    procedure InsertButton(InsertAt: Integer; ToolButton: TSpeedButton);
     procedure CalculatePreferredSize(var PreferredWidth,
         PreferredHeight: Integer; WithThemeSpace: Boolean); override;
     procedure ControlsAligned; override;
@@ -120,37 +137,28 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     
-    function AddDivider: Integer;
-    function AddButton(sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
-    function AddButton(sCaption, sCommand, sHint, sBitmap : String): Integer;
-    function AddButtonX(sCaption, CmdX, ParamX, PathX, MenuX, MiskX: String; Bitmap: TBitmap): Integer;
-    function AddButtonX(sCaption, CmdX, ParamX, PathX, MenuX, MiskX, ButtonX: String): Integer;
-
-    function InsertButton(InsertAt: Integer; sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
-    function InsertButton(InsertAt: Integer; sCaption, sCommand, sHint, sBitmap : String) : Integer;
-    function InsertButtonX(InsertAt: Integer; sCaption, CmdX, ParamX, PathX, MenuX, MiskX: String; Bitmap: TBitmap): Integer;
-    function InsertButtonX(InsertAt: Integer; sCaption, CmdX, ParamX, PathX, MenuX, MiskX, ButtonX: String): Integer;
-
+    function AddButton(Item: TKASToolItem): TKASToolButton;
+    procedure AddToolItemExecutor(ToolItemClass: TKASToolItemClass;
+                                  ExecuteFunction: TOnToolItemExecute);
     procedure Clear;
-    procedure RemoveButton(Index: Integer);
+    procedure ClickItem(ToolItemID: String); overload;
+    function InsertButton(InsertAt: Integer; Item: TKASToolItem): TKASToolButton;
+    function InsertButton(InsertAt: TKASToolButton; Item: TKASToolItem): TKASToolButton;
     procedure MoveButton(ButtonIndex, MovePosition: integer);
+    procedure RemoveButton(Index: Integer);
+    procedure RemoveButton(Button: TKASToolButton);
+    procedure RemoveToolItemExecutor(ExecuteFunction: TOnToolItemExecute);
     procedure UncheckAllButtons;
 
-    function GetButtonX(Index: Integer; What: TInfor): String;
-    procedure SetButtonX(Index: Integer; What: Tinfor; Value: String);
-
-    procedure LoadFromIniFile(IniFile: TIniFile);
-    procedure SaveToIniFile(IniFile: TIniFile);
-    procedure LoadFromFile(FileName: String);
-    procedure SaveToFile(FileName: String);
+    procedure LoadConfiguration(Config: TXmlConfig; RootNode: TXmlNode;
+                                Loader: TKASToolBarLoader);
+    procedure SaveConfiguration(Config: TXmlConfig; RootNode: TXmlNode);
 
     procedure BeginUpdate; override;
     procedure EndUpdate; override;
     procedure SetButtonSize(NewButtonWidth, NewButtonHeight: Integer);
 
-    property Buttons[Index: Integer]: TSpeedButton read GetButton;
-    property Commands[Index: Integer]: String read GetCommand write SetCommand;
-    property BarFile: TBarClass read FBarFile;
+    property Buttons[Index: Integer]: TKASToolButton read GetButton;
     property RowHeight: Integer read FRowHeight;
   published
     { Published declarations }
@@ -161,6 +169,7 @@ type
     property OnToolButtonDragDrop: TOnToolButtonDragDrop read FOnToolButtonDragDrop write FOnToolButtonDragDrop;
     property OnToolButtonEndDrag: TOnToolButtonEndDrag read FOnToolButtonEndDrag write FOnToolButtonEndDrag;
     property OnToolButtonDragOver: TOnToolButtonDragOver read FOnToolButtonDragOver write FOnToolButtonDragOver;
+    property OnToolItemExecute: TOnToolItemExecute read FOnToolItemExecute write FOnToolItemExecute;
     property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
     property Flat: Boolean read FFlat write SetFlat default False;
@@ -173,13 +182,50 @@ type
     property EnvVar: String read GetEnvVar write SetEnvVar;
   end;
 
-
 procedure Register;
 
 implementation
 
 uses
-  GraphType, Themes, types, math;
+  Themes, types, math, KASClassesEx;
+
+type
+  PToolItemExecutor = ^TToolItemExecutor;
+  TToolItemExecutor = record
+    ToolItemClass: TKASToolItemClass;
+    ToolItemExecute: TOnToolItemExecute;
+  end;
+
+procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
+var
+  Len: Integer;
+begin
+  Len := Length(anArray);
+  SetLength(anArray, Len + 1);
+  anArray[Len] := sToAdd;
+end;
+
+procedure SaveIfNotEmpty(Config: TXmlConfig; Node: TXmlNode; Name, Value: String);
+begin
+  if Value <> EmptyStr then
+    Config.AddValue(Node, Name, Value);
+end;
+
+procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char);
+begin
+  if Length(SourceString) > 0 then
+    SourceString := SourceString + Separator;
+  SourceString := SourceString + StringToAdd;
+end;
+
+function ArrayToString(const anArray: TDynamicStringArray; const Separator: Char): String;
+var
+  i: Integer;
+begin
+  Result := '';
+  for i := Low(anArray) to High(anArray) do
+    AddStrWithSep(Result, anArray[i], Separator);
+end;
 
 procedure Register;
 begin
@@ -200,6 +246,16 @@ begin
 
   UpdateButtonsTags;
   ResizeButtons;
+end;
+
+function TKASToolBar.InsertButton(InsertAt: TKASToolButton; Item: TKASToolItem): TKASToolButton;
+var
+  Index: Integer;
+begin
+  Index := ButtonList.IndexOf(InsertAt);
+  if Index < 0 then
+    Index := ButtonCount;
+  Result := InsertButton(Index, Item);
 end;
 
 procedure TKASToolBar.CalculatePreferredSize(var PreferredWidth,
@@ -361,31 +417,23 @@ begin
     EndUpdate;
     EnableAlign;
   end;
-
 end;
 
-function TKASToolBar.GetButtonX(Index: Integer; What: TInfor): String;
-begin
-  Result:= FBarFile.GetButtonX(Index, What);
-end;
-
-procedure TKASToolBar.SetButtonX(Index: Integer; What: TInfor; Value: String);
+procedure TKASToolBar.SaveConfiguration(Config: TXmlConfig; RootNode: TXmlNode);
 var
-  Bitmap: TBitmap;
+  Node: TXmlNode;
+  Item: TKASToolItem;
+  i:    Integer;
 begin
-  FBarFile.SetButtonX(Index, What, Value);
-  if What = ButtonX then
+  if ButtonCount > 0 then
+  begin
+    Node := Config.AddNode(RootNode, 'Row');
+    for i := 0 to ButtonCount - 1 do
     begin
-      if FBarFile.GetButtonX(Index, MenuX)= '-' then Value:= '-'; // To pass separator to FOnLoadButtonGlyph
-      if Assigned(FOnLoadButtonGlyph) then
-        Bitmap := FOnLoadButtonGlyph(Value, FGlyphSize, Color)
-      else
-        Bitmap := LoadBtnIcon(Value);
-      if FBarFile.GetButtonX(Index, CmdX)= 'cm_ShowButtonMenu' then DrawLinkIcon(Bitmap);
-      Buttons[Index].Glyph.Assign(Bitmap);
-      if Assigned(Bitmap) then
-        FreeAndNil(Bitmap);
+      Item := TKASToolButton(Buttons[i]).ToolItem;
+      Item.Save(Config, Node);
     end;
+  end;
 end;
 
 procedure TKASToolBar.DrawLinkIcon(Image: TBitMap);
@@ -395,10 +443,14 @@ var
 {$IFDEF LCLGTK2}
   bmTempIcon : TBitmap;
 {$ENDIF}
+  ToolItem: TKASNormalItem;
 begin
   if (Image = nil) or (FOnLoadButtonGlyph = nil) then Exit;
   sizeLink := FGlyphSize div 2;
-  bmLinkIcon:= FOnLoadButtonGlyph('emblem-symbolic-link', sizeLink, clBtnFace);
+  ToolItem := TKASNormalItem.Create;
+  ToolItem.Icon := 'emblem-symbolic-link';
+  bmLinkIcon:= FOnLoadButtonGlyph(ToolItem, sizeLink, clBtnFace);
+  ToolItem.Free;
   if Assigned(bmLinkIcon) then
   begin
 {$IFDEF LCLGTK2} // Under GTK2 can not draw over alpha transparent pixels
@@ -422,7 +474,7 @@ function TKASToolBar.LoadBtnIcon(IconPath: String): TBitMap;
 var
   picture: TPicture;
 begin
-  if (IconPath = '') or (not FileExists(IconPath)) then Exit(nil);
+  if (IconPath = '') or (not mbFileExists(IconPath)) then Exit(nil);
 
   Picture := TPicture.Create;
   try
@@ -431,6 +483,22 @@ begin
     Result.Assign(Picture.Bitmap);
   finally
     FreeAndNil(Picture);
+  end;
+end;
+
+procedure TKASToolBar.LoadConfiguration(Config: TXmlConfig; RootNode: TXmlNode;
+                                        Loader: TKASToolBarLoader);
+var
+  Node: TXmlNode;
+begin
+  Clear;
+  BeginUpdate;
+  try
+    Node := Config.FindNode(RootNode, 'Row', False);
+    if Assigned(Node) then
+      Loader.Load(Config, Node, @ToolItemLoaded);
+  finally
+    EndUpdate;
   end;
 end;
 
@@ -447,32 +515,23 @@ end;
 
 function TKASToolBar.GetChangePath: String;
 begin
-  Result:= FBarFile.ChangePath;
 end;
 
 function TKASToolBar.GetEnvVar: String;
 begin
-  Result:= FBarFile.EnvVar;
 end;
 
-function TKASToolBar.GetButton(Index: Integer): TSpeedButton;
+function TKASToolBar.GetButton(Index: Integer): TKASToolButton;
 begin
-  Result:= TSpeedButton(ButtonList.Items[Index]);
+  Result:= TKASToolButton(ButtonList.Items[Index]);
 end;
 
 procedure TKASToolBar.SetChangePath(const AValue: String);
 begin
-  FBarFile.ChangePath:= AValue;
-end;
-
-procedure TKASToolBar.SetCommand(Index: Integer; const AValue: String);
-begin
-  SetButtonX(Index, CmdX, AValue);
 end;
 
 procedure TKASToolBar.SetEnvVar(const AValue: String);
 begin
-  FBarFile.EnvVar:= AValue;
 end;
 
 procedure TKASToolBar.SetFlat(const AValue: Boolean);
@@ -481,7 +540,7 @@ var
 begin
   FFlat:= AValue;
   for I:= 0 to ButtonList.Count - 1 do
-    TSpeedButton(ButtonList.Items[I]).Flat:= FFlat;
+    TKASToolButton(ButtonList.Items[I]).Flat:= FFlat;
 end;
 
 procedure TKASToolBar.SetGlyphSize(const AValue: Integer);
@@ -492,82 +551,146 @@ begin
   FGlyphSize:= AValue;
 
   BeginUpdate;
-
-  for I:= 0 to ButtonList.Count - 1 do
-  begin
-    SetButtonX(I, ButtonX, GetButtonX(I, ButtonX));
+  try
+    for I := 0 to ButtonList.Count - 1 do
+      UpdateIcon(TKASToolButton(ButtonList[i]));
+  finally
+    EndUpdate;
   end;
+end;
 
-  EndUpdate;
+procedure TKASToolBar.ShowMenu(ToolButton: TKASToolButton);
+var
+  Depth: Integer = 0;
+  procedure MakeMenu(PopupMenu: TMenuItem; MenuItem: TKASMenuItem);
+  var
+    I: Integer;
+    Item: TKASToolItem;
+    PopupMenuItem: TMenuItem;
+    BitmapTmp: TBitmap = nil;
+    sText: String;
+  begin
+    if Depth < 10 then
+    begin
+      Inc(Depth);
+      for I := 0 to MenuItem.SubItems.Count - 1 do
+      begin
+        Item := MenuItem.SubItems.Items[I];
+        if Item is TKASSeparatorItem then
+        begin
+          PopupMenu.AddSeparator;
+        end
+        else
+        begin
+          PopupMenuItem := TMenuItem.Create(PopupMenu);
+          sText := Item.GetEffectiveText;
+          if sText = '' then
+            sText := Item.GetEffectiveHint;
+          PopupMenuItem.Caption := sText;
+
+          if Item is TKASNormalItem then
+          begin
+            if Assigned(FOnLoadButtonGlyph) then
+              BitmapTmp := FOnLoadButtonGlyph(Item, 16, clMenu);
+            if not Assigned(BitmapTmp) then
+              BitmapTmp := LoadBtnIcon(TKASNormalItem(Item).Icon);
+
+            PopupMenuItem.Bitmap := BitmapTmp;
+            FreeAndNil(BitmapTmp);
+          end;
+
+          PopupMenuItem.Tag := PtrInt(Item);
+          PopupMenuItem.OnClick := TNotifyEvent(@ToolMenuClicked);
+          PopupMenu.Add(PopupMenuItem);
+
+          if Item is TKASMenuItem then
+            MakeMenu(PopupMenuItem, TKASMenuItem(Item));
+        end;
+      end;
+    end;
+  end;
+var
+  Point: TPoint;
+begin
+  FToolPopupMenu.Free;
+  FToolPopupMenu := TPopupMenu.Create(Self);
+  MakeMenu(FToolPopupMenu.Items, ToolButton.ToolItem as TKASMenuItem);
+  Point.x := ToolButton.Left;
+  Point.y := ToolButton.Top + Self.Height;
+  Point := Self.ClientToScreen(Point);
+  FToolPopupMenu.PopUp(Point.x, Point.y);
 end;
 
 procedure TKASToolBar.ToolButtonClick(Sender: TObject);
 var
-  Button: TSpeedButton;
+  Button: TKASToolButton;
 begin
-  Button := Sender as TSpeedButton;
+  Button := Sender as TKASToolButton;
 
   // Do not allow depressing down buttons.
   if FRadioToolBar and not Button.Down then
     Button.Down := True;
 
-  if Assigned(FOnToolButtonClick) then
-     FOnToolButtonClick(Self, Button.Tag);
+  if Button.ToolItem is TKASMenuItem then
+  begin
+    ShowMenu(Button);
+  end
+  else if not DoExecuteToolItem(Button.ToolItem) and
+              Assigned(FOnToolButtonClick) then
+  begin
+    FOnToolButtonClick(Button);
+  end;
 end;
 
 procedure TKASToolBar.ToolButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
 begin
   if Assigned(FOnToolButtonMouseDown) then
-     FOnToolButtonMouseDown(Sender, Button, Shift, X,Y, (Sender as TSpeedButton).Tag);
+    FOnToolButtonMouseDown(Sender, Button, Shift, X,Y);
 end;
 
 procedure TKASToolBar.ToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
 begin
   if Assigned(FOnToolButtonMouseUp) then
-     FOnToolButtonMouseUp(Sender, Button, Shift, X,Y, (Sender as TSpeedButton).Tag);
+    FOnToolButtonMouseUp(Sender, Button, Shift, X,Y);
+end;
+
+procedure TKASToolBar.ToolItemLoaded(Item: TKASToolItem);
+begin
+  AddButton(Item);
+end;
+
+procedure TKASToolBar.ToolMenuClicked(Sender: TObject);
+begin
+  DoExecuteToolItem(TKASToolItem((Sender as TMenuItem).Tag));
 end;
 
 procedure TKASToolBar.ToolButtonMouseMove(Sender: TObject; Shift:TShiftState; X,Y:Integer);
 begin
   if Assigned(FOnToolButtonMouseMove) then
-     FOnToolButtonMouseMove(Sender, Shift, X,Y, (Sender as TSpeedButton).Tag);
+    FOnToolButtonMouseMove(Sender, Shift, X,Y, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonDragOver(Sender, Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
 begin
   if Assigned(FOnToolButtonDragOver) then
-     FOnToolButtonDragOver(Sender, Source, X,Y, State, Accept, (Sender as TSpeedButton).Tag);
+    FOnToolButtonDragOver(Sender, Source, X,Y, State, Accept, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonDragDrop(Sender, Source: TObject; X,Y: Integer);
 begin
   if Assigned(FOnToolButtonDragDrop) then
-     FOnToolButtonDragDrop(Sender, Source, X,Y, (Sender as TSpeedButton).Tag)
+    FOnToolButtonDragDrop(Sender, Source, X, Y);
 end;
 
 procedure TKASToolBar.ToolButtonEndDrag(Sender, Target: TObject; X, Y: Integer);
 begin
   if Assigned(FOnToolButtonEndDrag) then
-     FOnToolButtonEndDrag(Sender, Target, X,Y, (Sender as TSpeedButton).Tag)
+    FOnToolButtonEndDrag(Sender, Target, X, Y);
 end;
 
 procedure TKASToolBar.MoveButton(ButtonIndex, MovePosition: integer);
-var
-  NewPosition: integer;
 begin
-  if ButtonIndex > MovePosition then NewPosition:= MovePosition else NewPosition:= MovePosition + 1;
-  FBarFile.InsertButtonX(NewPosition, FBarFile.GetButtonX(ButtonIndex,ButtonX),
-                                      FBarFile.GetButtonX(ButtonIndex,CmdX),
-                                      FBarFile.GetButtonX(ButtonIndex,ParamX),
-                                      FBarFile.GetButtonX(ButtonIndex,PathX),
-                                      FBarFile.GetButtonX(ButtonIndex,MenuX),
-                                      FBarFile.GetButtonX(ButtonIndex,MiskX));
-  FBarFile.SetButtonX(NewPosition, IconicX, FBarFile.GetButtonX(ButtonIndex,IconicX)); // Because IconicX is not set in InsertButtonX
   ButtonList.Move(ButtonIndex, MovePosition);
-  if ButtonIndex > MovePosition then
-    FBarFile.RemoveButton(ButtonIndex + 1)
-  else
-    FBarFile.RemoveButton(ButtonIndex);
   UpdateButtonsTags;
   ResizeButtons;
 end;
@@ -577,7 +700,27 @@ var
   I: Integer;
 begin
   for I:= 0 to ButtonList.Count - 1 do
-    TSpeedButton(ButtonList.Items[I]).Tag:= I;
+    TKASToolButton(ButtonList.Items[I]).Tag:= I;
+end;
+
+procedure TKASToolBar.UpdateIcon(ToolButton: TKASToolButton);
+var
+  Bitmap: TBitmap = nil;
+begin
+  try
+    if Assigned(FOnLoadButtonGlyph) then
+      Bitmap := FOnLoadButtonGlyph(ToolButton.ToolItem, FGlyphSize, clBtnFace);
+
+    if not Assigned(Bitmap) and (ToolButton.ToolItem is TKASNormalItem) then
+      Bitmap := LoadBtnIcon(TKASNormalItem(ToolButton.ToolItem).Icon);
+
+    if (ToolButton.ToolItem is TKASMenuItem) and Assigned(Bitmap) then
+      DrawLinkIcon(Bitmap);
+
+    ToolButton.Glyph.Assign(Bitmap);
+  finally
+    Bitmap.Free;
+  end;
 end;
 
 procedure TKASToolBar.Clear;
@@ -586,19 +729,42 @@ var
 begin
   BeginUpdate;
 
-  for I:= ButtonList.Count - 1 downto 0 do
-    begin
-      TSpeedButton(ButtonList.Items[0]).Free;
-      ButtonList.Delete(0);
-    end;
-  FBarFile.DeleteAllButtons;
+  for I := 0 to ButtonList.Count - 1 do
+    TKASToolButton(ButtonList.Items[I]).Free;
+  ButtonList.Clear;
 
   EndUpdate;
 end;
 
-function TKASToolBar.GetCommand(Index: Integer): String;
+procedure TKASToolBar.ClearExecutors;
+var
+  I: Integer;
 begin
- Result:= GetButtonX(Index, CmdX);
+  for I := 0 to FToolItemExecutors.Count - 1 do
+    Dispose(PToolItemExecutor(FToolItemExecutors[I]));
+  FToolItemExecutors.Clear;
+end;
+
+procedure TKASToolBar.ClickItem(ToolItemID: String);
+var
+  I: Integer;
+  Button: TKASToolButton;
+  NormalItem: TKASNormalItem;
+begin
+  for I := 0 to ButtonList.Count - 1 do
+  begin
+    Button := TKASToolButton(ButtonList.Items[I]);
+    if Button.ToolItem is TKASNormalItem then
+    begin
+      NormalItem := TKASNormalItem(Button.ToolItem);
+      if NormalItem.ID = ToolItemID then
+      begin
+        Button.Click;
+        Break;
+      end;
+    end;
+    // TODO Handle TKASMenuItem
+  end;
 end;
 
 procedure TKASToolBar.SetButtonHeight(const AValue: Integer);
@@ -611,108 +777,61 @@ begin
   SetButtonSize(AValue, ButtonHeight);
 end;
 
-{
-function TKASToolBar.GetIconPath(Index: Integer): String;
-begin
-//  Result := FIconList[Index];
- Result := GetButtonX(Index,ButtonX);
-end;
-}
-
 constructor TKASToolBar.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
-  FBarFile:= TBarClass.Create;
   FGlyphSize:= 16; // by default
   FUpdateCount:= 0;
   FButtonWidth := 23;
   FButtonHeight := 22;
   FKASToolBarFlags := [];
+  FToolItemExecutors := TFPList.Create;
 end;
 
 destructor TKASToolBar.Destroy;
 begin
   Clear;
-
-  if Assigned(FBarFile) then
-    FreeAndNil(FBarFile);
-
   inherited Destroy;
+  ClearExecutors;
+  FToolItemExecutors.Free;
 end;
 
-procedure TKASToolBar.LoadFromIniFile(IniFile: TIniFile);
-var  
+function TKASToolBar.DoExecuteToolItem(Item: TKASToolItem): Boolean;
+var
   I: Integer;
-  sMenu, sHotKey: String;
+  Executor: PToolItemExecutor;
+  BestMatch: PToolItemExecutor = nil;
 begin
-  BeginUpdate;
-  try
-    Clear;
-    FBarFile.LoadFromIniFile(IniFile);
-    for I:= 0 to FBarFile.ButtonCount - 1 do
-      begin
-        sMenu:= FBarFile.GetButtonX(I, MenuX);
-        if (sMenu = '-') and not FShowDividerAsButton then
-          AddDivider
-        else
-          begin
-            sHotKey := FBarFile.GetButtonX(I, MiskX);
-            if sHotKey = '' then
-              AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu,
-                        FBarFile.GetButtonX(I, ButtonX))
-            else
-              AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu+' ('+sHotKey+')',
-                        FBarFile.GetButtonX(I, ButtonX));
-          end;
-      end;
-  finally
-    EndUpdate;
+  for I := 0 to FToolItemExecutors.Count - 1 do
+  begin
+    Executor := PToolItemExecutor(FToolItemExecutors[I]);
+    if Assigned(Executor^.ToolItemExecute) and
+       Item.InheritsFrom(Executor^.ToolItemClass) and
+       (not Assigned(BestMatch) or
+        (Executor^.ToolItemClass.InheritsFrom(BestMatch^.ToolItemClass))) then
+    begin
+      BestMatch := Executor;
+    end;
   end;
-end;
-
-procedure TKASToolBar.SaveToIniFile(IniFile: TIniFile);
-begin
-  FBarFile.SaveToIniFile(IniFile);
-end;
-
-procedure TKASToolBar.LoadFromFile(FileName: String);
-var
-  IniFile: TIniFile = nil;
-begin
-  try
-    IniFile:= TIniFile.Create(FileName);
-    LoadFromIniFile(IniFile);
-  finally
-    if Assigned(IniFile) then
-      FreeAndNil(IniFile);
-  end;
-end;
-
-procedure TKASToolBar.SaveToFile(FileName: String);
-var
-  IniFile: TIniFile = nil;
-begin
-  try
-    IniFile:= TIniFile.Create(FileName);
-    FBarFile.SaveToIniFile(IniFile);
-  finally
-    if Assigned(IniFile) then
-      FreeAndNil(IniFile);
-  end;
+  Result := Assigned(BestMatch);
+  if Result then
+    BestMatch^.ToolItemExecute(Item);
 end;
 
 procedure TKASToolBar.BeginUpdate;
 begin
   Inc(FUpdateCount);
   inherited BeginUpdate;
+  DisableAutoSizing;
 end;
 
 procedure TKASToolBar.EndUpdate;
 begin
+  EnableAutoSizing;
+  inherited EndUpdate;
   Dec(FUpdateCount);
   if (FUpdateCount = 0) and FResizeButtonsNeeded then
     ResizeButtons;
-  inherited EndUpdate;
 end;
 
 procedure TKASToolBar.SetButtonSize(NewButtonWidth, NewButtonHeight: Integer);
@@ -722,104 +841,89 @@ begin
   ResizeButtons;
 end;
 
-function TKASToolBar.AddDivider: Integer;
+function TKASToolBar.AddButton(Item: TKASToolItem): TKASToolButton;
+begin
+  Result := InsertButton(ButtonCount, Item);
+end;
+
+procedure TKASToolBar.AddToolItemExecutor(ToolItemClass: TKASToolItemClass; ExecuteFunction: TOnToolItemExecute);
 var
-  ToolDivider: TKASToolDivider;
+  Executor: PToolItemExecutor;
 begin
-  ToolDivider:= TKASToolDivider.Create(Self);
-  AssignToolButtonProperties(ToolDivider);
-
-  InsertButton(ButtonList.Count, ToolDivider);
-
-  Result:= ToolDivider.Tag;
+  New(Executor);
+  FToolItemExecutors.Add(Executor);
+  Executor^.ToolItemClass := ToolItemClass;
+  Executor^.ToolItemExecute := ExecuteFunction;
 end;
 
-function TKASToolBar.AddButton(sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
+function TKASToolBar.InsertButton(InsertAt: Integer; Item: TKASToolItem): TKASToolButton;
 begin
-  Result:= InsertButton(ButtonList.Count, sCaption, sCommand, sHint, Bitmap);
-end;
-
-function TKASToolBar.AddButton(sCaption, sCommand, sHint, sBitmap: String): Integer;
-begin
-  Result:= InsertButton(ButtonList.Count, sCaption, sCommand, sHint, sBitmap);
-end;
-
-function TKASToolBar.AddButtonX(sCaption, CmdX, ParamX, PathX, MenuX, MiskX: String; Bitmap: TBitmap): Integer;
-begin
-  Result:= InsertButton(ButtonList.Count, sCaption, CmdX, MenuX, Bitmap);
-  FBarFile.AddButtonX('', CmdX, ParamX, PathX, MenuX, MiskX);
-end;
-
-function TKASToolBar.AddButtonX(sCaption, CmdX, ParamX, PathX, MenuX, MiskX, ButtonX: String): Integer;
-begin
-  Result:= InsertButton(ButtonList.Count, sCaption, CmdX, MenuX, ButtonX);
-  FBarFile.AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX, MiskX);
-end;
-
-function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
-var
-  ToolButton: TKASToolButton;
-begin
-  ToolButton:= TKASToolButton.Create(Self);
-  ToolButton.ShowHint:= True;
-  ToolButton.Hint:= sHint;
-  ToolButton.Flat:= FFlat;
-  ToolButton.Caption:= sCaption;
-  AssignToolButtonProperties(ToolButton);
-
-  ToolButton.Glyph.Assign(Bitmap);
-
-  if FRadioToolBar then
+  if Assigned(Item) then
+  begin
+    if Item is TKASSeparatorItem then
     begin
-      ToolButton.GroupIndex:= 1;
-      ToolButton.AllowAllUp:= True;
+      Result := TKASToolDivider.Create(Self, Item);
+    end
+    else
+    begin
+      Result := TKASToolButton.Create(Self, Item);
+      Result.ShowHint := True;
+      Result.Caption  := Item.GetEffectiveText;
+      Result.Hint     := Item.GetEffectiveHint;
+      Result.Flat     := FFlat;
+      if FRadioToolBar then
+        begin
+          Result.GroupIndex := 1;
+          Result.AllowAllUp := True;
+        end;
     end;
+    Result.ShowCaption := ShowCaptions;
 
-  InsertButton(InsertAt, ToolButton);
-
-  Result:= ToolButton.Tag;
-end;
-
-function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, sCommand, sHint, sBitmap: String): Integer;
-var
-  Bitmap: TBitmap = nil;
-begin
-  if sHint = '-' then sBitmap:= sHint;  // To pass separator to FOnLoadButtonGlyph
-  if Assigned(FOnLoadButtonGlyph) then
-    Bitmap:= FOnLoadButtonGlyph(sBitmap, FGlyphSize, clBtnFace)
+    UpdateIcon(Result);
+    AssignToolButtonProperties(Result);
+    InsertButton(InsertAt, Result);
+  end
   else
-    Bitmap:= LoadBtnIcon(sBitmap);
-
-  if sCommand = 'cm_ShowButtonMenu' then DrawLinkIcon(Bitmap);
-  Result:= InsertButton(InsertAt, sCaption, sCommand, sHint, Bitmap);
-
-  if Assigned(Bitmap) then
-    FreeAndNil(Bitmap);
-end;
-
-function TKASToolBar.InsertButtonX(InsertAt: Integer; sCaption, CmdX, ParamX, PathX, MenuX, MiskX: String; Bitmap: TBitmap): Integer;
-begin
-  Result:= InsertButton(InsertAt, sCaption, CmdX, MenuX, Bitmap);
-  FBarFile.InsertButtonX(InsertAt, '', CmdX, ParamX, PathX, MenuX, MiskX);
-end;
-
-function TKASToolBar.InsertButtonX(InsertAt: Integer; sCaption, CmdX, ParamX, PathX, MenuX, MiskX, ButtonX: String): Integer;
-begin
-  Result:= InsertButton(InsertAt, sCaption, CmdX, MenuX, ButtonX);
-  FBarFile.InsertButtonX(InsertAt, ButtonX, CmdX, ParamX, PathX, MenuX, MiskX);
+    Result := nil;
 end;
 
 procedure TKASToolBar.RemoveButton(Index: Integer);
+var
+  Button: TKASToolButton;
 begin
-  try
-    TSpeedButton(ButtonList.Items[Index]).Visible:= False;
-    TSpeedButton(ButtonList.Items[Index]).Free;
-    ButtonList.Delete(Index);
-    UpdateButtonsTags;
-    FBarFile.RemoveButton(Index);
-    Resize;
-  finally
-    Repaint;
+  Button := TKASToolButton(ButtonList.Items[Index]);
+  ButtonList.Delete(Index);
+  Button.Free;
+  UpdateButtonsTags;
+  Resize;
+end;
+
+procedure TKASToolBar.RemoveButton(Button: TKASToolButton);
+var
+  I: Integer;
+begin
+  for I := 0 to ButtonList.Count - 1 do
+    if TKASToolButton(ButtonList[I]) = Button then
+    begin
+      RemoveButton(I);
+      Break;
+    end;
+end;
+
+procedure TKASToolBar.RemoveToolItemExecutor(ExecuteFunction: TOnToolItemExecute);
+var
+  Executor: PToolItemExecutor;
+  I: Integer;
+begin
+  for I := FToolItemExecutors.Count - 1 downto 0 do
+  begin
+    Executor := PToolItemExecutor(FToolItemExecutors[I]);
+    if (TMethod(Executor^.ToolItemExecute).Code = TMethod(ExecuteFunction).Code) and
+       (TMethod(Executor^.ToolItemExecute).Data = TMethod(ExecuteFunction).Data) then
+    begin
+      Dispose(Executor);
+      FToolItemExecutors.Delete(I);
+    end;
   end;
 end;
 
@@ -842,7 +946,7 @@ begin
   if Assigned(Parent) and (Parent is TKASToolBar) then
   begin
     ToolBar := TKASToolBar(Parent);
-    if ToolBar.ShowCaptions and ShowCaption and (Caption <> EmptyStr) then
+    if ShowCaption and (Caption <> EmptyStr) then
     begin
       // Size to extent of the icon + caption.
       // Minimum size is the ButtonWidth x RowHeight of the toolbar.
@@ -860,12 +964,25 @@ begin
     inherited;
 end;
 
+constructor TKASToolButton.Create(AOwner: TComponent; Item: TKASToolItem);
+begin
+  inherited Create(AOwner);
+  FToolItem := Item;
+end;
+
+destructor TKASToolButton.Destroy;
+begin
+  inherited Destroy;
+  FToolItem.Free;
+end;
+
 { TKASToolDivider }
 
 procedure TKASToolDivider.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: integer; WithThemeSpace: Boolean);
 begin
-  if Assigned(Parent) and (Parent is TKASToolBar) then
+  if Assigned(Parent) and (Parent is TKASToolBar) and
+     not TKASToolBar(Parent).FShowDividerAsButton then
   begin
     PreferredWidth  := 3;
     PreferredHeight := TKASToolBar(Parent).RowHeight;
@@ -879,15 +996,21 @@ var
   DividerRect: TRect;
   Details: TThemedElementDetails;
 begin
-  DividerRect:= ClientRect;
-  Details:= ThemeServices.GetElementDetails(ttbSeparatorNormal);
-  if (DividerRect.Right - DividerRect.Left) > 3 then
-    begin
-      DividerRect.Left:= (DividerRect.Left + DividerRect.Right) div 2 - 1;
-      DividerRect.Right:= DividerRect.Left + 3;
-    end;
-  ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
+  if Assigned(Parent) and (Parent is TKASToolBar) and
+     not TKASToolBar(Parent).FShowDividerAsButton then
+  begin
+    DividerRect:= ClientRect;
+    Details:= ThemeServices.GetElementDetails(ttbSeparatorNormal);
+    if (DividerRect.Right - DividerRect.Left) > 3 then
+      begin
+        DividerRect.Left:= (DividerRect.Left + DividerRect.Right) div 2 - 1;
+        DividerRect.Right:= DividerRect.Left + 3;
+      end;
+    ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
+  end
+  else
+    inherited Paint;
 end;
 
 end.
-
+

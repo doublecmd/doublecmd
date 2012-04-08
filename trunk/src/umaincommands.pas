@@ -45,8 +45,6 @@ type
                                           State: TFileSourceOperationState);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
                                         State: TFileSourceOperationState);
-   procedure GetCommandFromBar (const cFilename, cParam: string;
-                                var Com, Par, Pat:string);
 
   public
    constructor Create(TheOwner: TComponent; ActionList: TActionList = nil); reintroduce;
@@ -208,7 +206,7 @@ type
    procedure cm_CompareDirectories(const Params: array of string);
 
    // Internal commands
-   procedure cm_Int_RunCommandFromBarFile(const Params: array of string);
+   procedure cm_ExecuteToolbarItem(const Params: array of string);
   end;
 
 implementation
@@ -217,8 +215,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, fFileAssoc,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
-     uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
-     uClassesEx, uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
+     uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils,
+     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
@@ -226,7 +224,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation, uFindEx,
+     uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
      uTypes, fViewOperations, uVfsModule, uMultiListFileSource, uExceptions;
 
 procedure ReadCopyRenameParams(
@@ -263,7 +261,7 @@ end;
 
 function TMainCommands.CommandsFilter(Command: String): Boolean;
 begin
-  Result := Command = 'cm_Int_RunCommandFromBarFile';
+  Result := Command = 'cm_ExecuteToolbarItem';
 end;
 
 //------------------------------------------------------
@@ -639,6 +637,14 @@ begin
   FrmMain.NotActiveFrame.CurrentPath:= sDir;
 end;
 
+procedure TMainCommands.cm_ExecuteToolbarItem(const Params: array of string);
+var
+  ToolItemID: String;
+begin
+  if GetParamValue(Params, 'ToolItemID', ToolItemID) then
+    frmMain.MainToolBar.ClickItem(ToolItemID);
+end;
+
 procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
 var
   NewPage: TFileViewPage;
@@ -821,52 +827,13 @@ begin
 end;
 
 procedure TMainCommands.cm_OpenBar(const Params: array of string);
-var
-  sFileName: UTF8String;
-  IniFile: TIniFileEx = nil;
 begin
-  if Length(Params) > 0 then
-  begin
-    with frmMain do
-    try
-      if Pos(PathDelim, Params[0]) <> 0 then
-        sFileName:= GetCmdDirFromEnvVar(Params[0])
-      else
-        sFileName:= gpCfgDir + Params[0];
-      IniFile:= TIniFileEx.Create(sFileName);
-      MainToolBar.AutoSize:= False;
-      MainToolBar.LoadFromIniFile(IniFile);
-    finally
-      MainToolBar.AutoSize:= True;
-      FreeThenNil(IniFile);
-    end;
-  end;
+  // Deprecated.
 end;
 
 procedure TMainCommands.cm_ShowButtonMenu(const Params: array of string);
-var
-  Point: TPoint;
-  sFileName: UTF8String;
-  IniFile: TIniFileEx = nil;
 begin
-  if Length(Params) > 0 then
-  begin
-    with frmMain do
-    try
-      if Pos(PathDelim, Params[0]) <> 0 then
-        sFileName:= GetCmdDirFromEnvVar(Params[0])
-      else
-        sFileName:= gpCfgDir + Params[0];
-      IniFile:= TIniFileEx.Create(sFileName);
-      pmButtonMenu.LoadFromIniFile(IniFile);
-      Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
-      Point.Y:=Point.Y+MainToolbar.Height;
-      Point.X:=mouse.CursorPos.X-60;
-      pmButtonMenu.PopUp(Point.x,Point.Y);
-    finally
-      FreeThenNil(IniFile);
-    end;
-  end;
+  // Deprecated.
 end;
 
 procedure TMainCommands.cm_TransferLeft(const Params: array of string);
@@ -2783,47 +2750,6 @@ begin
     ActiveFrame.UpdateView;
     NotActiveFrame.UpdateView;
   end;
-end;
-
-procedure TMainCommands.cm_Int_RunCommandFromBarFile(const Params: array of string);
-var
-  SR : TSearchRecEx;
-  Res : Integer;
-  Param : String;
-  sCmd, sParam, sPath : String;
-begin
-  Param := GetDefaultParam(Params);
-  Res := FindFirstEx(gpCfgDir + '*.bar', faAnyFile, SR);
-  while Res = 0 do
-  begin
-    GetCommandFromBar (gpCfgDir + Sr.Name, Param, sCmd, sParam, sPath);
-    if sCmd = '' then
-      Res := FindNextEx(SR)
-    else
-      Res := -1;
-  end;
-  FindCloseEx(SR);
-  frmMain.ExecCmd(sCmd, sParam, sPath);
-end;
-
-procedure TMainCommands.GetCommandFromBar (const cFilename, cParam: string; var Com, Par, Pat:string);
-var
-  i, BtnCount: integer;
-  IniFile: TIniFileEx=nil;
-begin
-  Com :='';
-  IniFile:= TIniFileEx.Create(cFilename);
-  BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
-  for i := 1 to BtnCount do
-    begin
-       if IniFile.ReadString('Buttonbar', 'misk' + IntToStr(i), '') = cParam then
-         begin
-           Com := IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(i), '');
-           Par := IniFile.ReadString('Buttonbar', 'param' + IntToStr(i), '');
-           Pat := IniFile.ReadString('Buttonbar', 'path' + IntToStr(i), '');
-         end;
-    end;
-  FreeThenNil(IniFile);
 end;
 
 end.
