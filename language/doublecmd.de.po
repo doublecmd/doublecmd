@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-04-03 16:00+0100\n"
+"PO-Revision-Date: 2012-04-05 13:20+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1012,11 +1012,11 @@ msgstr "Optionen"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
-msgstr ""
+msgstr "Neue Verknüpfung zur Sequenz hinzufügen"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr ""
+msgstr "Letzte Verknüpfung aus der Sequenz entfernen"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
@@ -1029,7 +1029,7 @@ msgstr "Parameter(jeder in einer eigenen Zeile):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
-msgstr ""
+msgstr "Verknüpfungen:"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -3794,7 +3794,7 @@ msgstr "Immer Tray-Icon anzeigen (neben der Uhr)"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
 msgid "Automatically hide unmounted devices"
-msgstr ""
+msgstr "Automatisch Laufwerke ausblenden, die nicht mehr eingehangen sind (Linux: unmounted)"
 
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
@@ -5227,11 +5227,11 @@ msgstr "X"
 
 #: tfrmquicksearch.btncancel.hint
 msgid "Close filter panel"
-msgstr ""
+msgstr "Filter-Panel schließen"
 
 #: tfrmquicksearch.edtsearch.hint
 msgid "Enter text to search for or filter by"
-msgstr ""
+msgstr "Text eingeben, nach dem gesucht oder gefiltert werden soll"
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
@@ -5280,7 +5280,7 @@ msgstr ""
 
 #: tfrmquicksearch.tglfilter.hint
 msgid "Toggle between search or filter"
-msgstr ""
+msgstr "Umschalten zwischen Suchen und Filtern"
 
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
@@ -6125,11 +6125,11 @@ msgstr "Dateioperationen"
 
 #: tfrmviewoperations.cbalwaysontop.caption
 msgid "Always on top"
-msgstr ""
+msgstr "Immer im Vordergrund"
 
 #: tfrmviewoperations.lblusedragdrop.caption
 msgid "Use \"drag && drop\" to move operations between queues"
-msgstr ""
+msgstr "Nutze \"drag && drop\" um Operationen zwischen Warteschlangen zu verschieben"
 
 #: tfrmviewoperations.mnucanceloperation.caption
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
@@ -7508,11 +7508,11 @@ msgstr "Befehle"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr ""
+msgstr "Verknüpfung %s für cm_Delete hat Parameter, die diese Einstellung überschreiben. Soll dieser Parameter geändert werden, um die globale Einstellung zu verwenden?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr ""
+msgstr "Verknüpfung %s für cm_Delete muss einen Parameter geändert bekommen, um der Verknüpfung %s zu entsprechen. Soll der Parameter geändert werden?"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7550,7 +7550,7 @@ msgstr "Damit diese Einstellung mit Verknüpfung %s funktioniert, muss %s cm_Del
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr ""
+msgstr "Verknüpfung %s für cm_Delete ist eine Sequenz-Verknüpfung, für die ein Tastaturkürzel mit umgekehrter Umschalt-Taste nicht verwendet werden kann. Die Einstellung funktioniert wahrscheinlich so nicht."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -7829,7 +7829,7 @@ msgstr "Wähle ein Verzeichnis"
 
 #: ulng.rsshowhelpfor
 msgid "Show help for %s"
-msgstr ""
+msgstr "Zeige Hilfe zu %s"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
