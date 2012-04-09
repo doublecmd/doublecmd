@@ -26,7 +26,7 @@ unit uDateTimeUtils;
 interface
 
 uses
-  Classes, SysUtils, uTypes
+  Classes, SysUtils, DCBasicTypes
   {$IF DEFINED(MSWINDOWS)}
   , Windows
   {$ELSEIF DEFINED(UNIX)}
@@ -34,19 +34,19 @@ uses
   {$ENDIF}
   ;
 
-function FileTimeToDateTime(FileTime : uTypes.TFileTime) : TDateTime;
-function DateTimeToFileTime(DateTime : TDateTime) : uTypes.TFileTime;
+function FileTimeToDateTime(FileTime : DCBasicTypes.TFileTime) : TDateTime;
+function DateTimeToFileTime(DateTime : TDateTime) : DCBasicTypes.TFileTime;
 
 {en
    Converts system specific UTC time to local time.
 }
-function FileTimeToLocalFileTime(const FileTime: uTypes.TFileTime;
-                                 out LocalFileTime: uTypes.TFileTime): LongBool;
+function FileTimeToLocalFileTime(const FileTime: DCBasicTypes.TFileTime;
+                                 out LocalFileTime: DCBasicTypes.TFileTime): LongBool;
 {en
    Converts system specific local time to UTC time.
 }
-function LocalFileTimeToFileTime(const LocalFileTime: uTypes.TFileTime;
-                                 out FileTime: uTypes.TFileTime): LongBool;
+function LocalFileTimeToFileTime(const LocalFileTime: DCBasicTypes.TFileTime;
+                                 out FileTime: DCBasicTypes.TFileTime): LongBool;
 {en
    Converts Windows UTC file time to Windows local file time.
    @param(lpFileTime TWinFileTime structure containing the UTC-based file time)
@@ -117,72 +117,72 @@ const  { Short names of months. }
 const
   SecsPerHour = SecsPerMin * MinsPerHour;
 
-function AdjustUnixTime(const FileTime: uTypes.TFileTime;
-                        out AdjustedFileTime: uTypes.TFileTime;
+function AdjustUnixTime(const FileTime: DCBasicTypes.TFileTime;
+                        out AdjustedFileTime: DCBasicTypes.TFileTime;
                         AdjustValue: Int64): Boolean;
 begin
   if AdjustValue < 0 then
   begin
-    if FileTime < uTypes.TFileTime(-AdjustValue) then
+    if FileTime < DCBasicTypes.TFileTime(-AdjustValue) then
     begin
       AdjustedFileTime := 0;
       Result := False;
     end
     else
     begin
-      AdjustedFileTime := FileTime - uTypes.TFileTime(-AdjustValue);
+      AdjustedFileTime := FileTime - DCBasicTypes.TFileTime(-AdjustValue);
       Result := True;
     end;
   end
   else
   begin
-    if High(FileTime) - FileTime < uTypes.TFileTime(AdjustValue) then
+    if High(FileTime) - FileTime < DCBasicTypes.TFileTime(AdjustValue) then
     begin
       AdjustedFileTime := High(FileTime);
       Result := False;
     end
     else
     begin
-      AdjustedFileTime := FileTime + uTypes.TFileTime(AdjustValue);
+      AdjustedFileTime := FileTime + DCBasicTypes.TFileTime(AdjustValue);
       Result := True;
     end;
   end;
 end;
 
-function AdjustWinTime(const FileTime: uTypes.TWinFileTime;
-                       out AdjustedFileTime: uTypes.TWinFileTime;
+function AdjustWinTime(const FileTime: DCBasicTypes.TWinFileTime;
+                       out AdjustedFileTime: DCBasicTypes.TWinFileTime;
                        AdjustValue: Int64): Boolean;
 begin
   if AdjustValue < 0 then
   begin
-    if FileTime < uTypes.TWinFileTime(-AdjustValue) then
+    if FileTime < DCBasicTypes.TWinFileTime(-AdjustValue) then
     begin
       AdjustedFileTime := 0;
       Result := False;
     end
     else
     begin
-      AdjustedFileTime := FileTime - uTypes.TWinFileTime(-AdjustValue);
+      AdjustedFileTime := FileTime - DCBasicTypes.TWinFileTime(-AdjustValue);
       Result := True;
     end;
   end
   else
   begin
-    if High(FileTime) - FileTime < uTypes.TWinFileTime(AdjustValue) then
+    if High(FileTime) - FileTime < DCBasicTypes.TWinFileTime(AdjustValue) then
     begin
       AdjustedFileTime := High(FileTime);
       Result := False;
     end
     else
     begin
-      AdjustedFileTime := FileTime + uTypes.TWinFileTime(AdjustValue);
+      AdjustedFileTime := FileTime + DCBasicTypes.TWinFileTime(AdjustValue);
       Result := True;
     end;
   end;
 end;
 {$ENDIF}
 
-function FileTimeToDateTime(FileTime : uTypes.TFileTime) : TDateTime;
+function FileTimeToDateTime(FileTime : DCBasicTypes.TFileTime) : TDateTime;
 {$IF DEFINED(MSWINDOWS)}
 begin
   Result := WinFileTimeToDateTime(FileTime);
@@ -190,7 +190,7 @@ end;
 {$ELSEIF DEFINED(UNIX)}
 var
   Hrs, Mins, Secs : Word;
-  TodaysSecs : uTypes.TFileTime;
+  TodaysSecs : DCBasicTypes.TFileTime;
 begin
   FileTimeToLocalFileTime(FileTime, FileTime);
 
@@ -210,7 +210,7 @@ begin
 end;
 {$ENDIF}
 
-function DateTimeToFileTime(DateTime : TDateTime) : uTypes.TFileTime;
+function DateTimeToFileTime(DateTime : TDateTime) : DCBasicTypes.TFileTime;
 {$IF DEFINED(MSWINDOWS)}
 begin
   Result := DateTimeToWinFileTime(DateTime);
@@ -236,7 +236,7 @@ begin
   {$POP}
 
 {$IFDEF cpu32}
-  if BigTime > High(uTypes.TFileTime) then
+  if BigTime > High(DCBasicTypes.TFileTime) then
     raise EConvertError.CreateFmt(rsMsgErrDateNotSupported, [DateTimeToStr(DateTime)])
   else
 {$ENDIF}
@@ -248,8 +248,8 @@ begin
 end;
 {$ENDIF}
 
-function FileTimeToLocalFileTime(const FileTime: uTypes.TFileTime;
-                                 out LocalFileTime: uTypes.TFileTime): LongBool;
+function FileTimeToLocalFileTime(const FileTime: DCBasicTypes.TFileTime;
+                                 out LocalFileTime: DCBasicTypes.TFileTime): LongBool;
 {$IFDEF MSWINDOWS}
 begin
   Result := Windows.FileTimeToLocalFileTime(@Windows.FILETIME(FileTime), @Windows.FILETIME(LocalFileTime));
@@ -260,8 +260,8 @@ begin
 end;
 {$ENDIF}
 
-function LocalFileTimeToFileTime(const LocalFileTime: uTypes.TFileTime;
-                                 out FileTime: uTypes.TFileTime): LongBool;
+function LocalFileTimeToFileTime(const LocalFileTime: DCBasicTypes.TFileTime;
+                                 out FileTime: DCBasicTypes.TFileTime): LongBool;
 {$IFDEF MSWINDOWS}
 begin
   Result := Windows.LocalFileTimeToFileTime(@Windows.FILETIME(LocalFileTime), @Windows.FILETIME(FileTime));
@@ -414,4 +414,4 @@ begin
 end;
 
 end.
-
+

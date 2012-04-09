@@ -26,7 +26,7 @@ unit uSynEditFiler;
 interface
 
 uses
-  Classes, SysUtils, SynEditLines, FPCAdds, uClassesEx;
+  Classes, SysUtils, SynEditLines, FPCAdds, DCClassesUtf8;
 
 type
 
@@ -239,4 +239,4 @@ begin
 end;
 
 end.
-
+

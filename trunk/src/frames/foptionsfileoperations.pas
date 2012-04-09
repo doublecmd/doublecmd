@@ -71,7 +71,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uGlobs, uLng, fOptionsHotkeys;
+  DCStrUtils, uGlobs, uLng, fOptionsHotkeys;
 
 { TfrmOptionsFileOperations }
 
@@ -155,4 +155,4 @@ begin
 end;
 
 end.
-
+

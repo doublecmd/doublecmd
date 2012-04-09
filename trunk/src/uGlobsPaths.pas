@@ -16,7 +16,7 @@ procedure LoadPaths;
 implementation
 
 uses
-  SysUtils, FileUtil, uDebug, uOSUtils, uDCUtils;
+  SysUtils, FileUtil, uDebug, uOSUtils, DCOSUtils, DCStrUtils;
 
 function GetAppName : String;
 begin
@@ -57,4 +57,4 @@ begin
   mbSetEnvironmentVariable('COMMANDER_PATH', ExcludeTrailingBackslash(gpExePath));
 end;
 
-end.
+end.

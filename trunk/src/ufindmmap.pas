@@ -56,8 +56,9 @@ function FindMmap(const sFileName:String; const sFindData:String; bCase:Boolean;
                   Abort: TAbortFunction):Integer;
 
 implementation
+
 uses
-  uOSUtils;
+  DCOSUtils;
 
 function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchText: String;
                 bCaseSensitive: Boolean; bSearchBackwards: Boolean): Pointer;
@@ -179,4 +180,4 @@ begin
   end;
 end;
 
-end.
+end.

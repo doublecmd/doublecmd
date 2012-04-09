@@ -59,7 +59,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFileSystemUtil, uTrash;
+  DCOSUtils, uLng, uFileSystemUtil, uTrash;
 
 constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);

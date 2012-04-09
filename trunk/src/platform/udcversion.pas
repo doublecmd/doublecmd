@@ -55,7 +55,7 @@ implementation
 uses
   InterfaceBase
   {$IF DEFINED(UNIX)}
-  , uOSUtils, uDCUtils, uClassesEx
+  , DCOSUtils, uDCUtils, DCClassesUtf8
     {$IFDEF DARWIN}
     , MacOSAll
     {$ENDIF}

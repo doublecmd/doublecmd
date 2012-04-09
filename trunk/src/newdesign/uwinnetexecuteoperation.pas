@@ -38,7 +38,7 @@ type
 implementation
 
 uses
-  Windows, JwaWinNetWk, uDCUtils, uOSUtils;
+  Windows, JwaWinNetWk, DCStrUtils, DCOSUtils;
 
 constructor TWinNetExecuteOperation.Create(aTargetFileSource: IFileSource;
   var aExecutableFile: TFile; aCurrentPath, aVerb: UTF8String);

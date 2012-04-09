@@ -168,7 +168,7 @@ type
 implementation
 
 uses
-  uTypes, uGlobs, uDCUtils
+  DCBasicTypes, uGlobs, DCStrUtils, uDCUtils
   {$IFDEF fileSortingTime}
   , uDebug
   {$ENDIF}

@@ -5,7 +5,7 @@ unit uInfoToolTip;
 interface
 
 uses
-  Classes, SysUtils, fgl, uXmlConfig,
+  Classes, SysUtils, fgl, DCXmlConfig,
   uFile, uFileSource;
 
 type

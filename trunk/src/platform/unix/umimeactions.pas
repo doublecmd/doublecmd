@@ -68,7 +68,7 @@ function GetFileMimeType(const FileName: UTF8String): UTF8String;
 implementation
 
 uses
-  uClassesEx, uDCUtils, uIconTheme, uClipboard, uOSUtils;
+  DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard, DCOSUtils, uOSUtils;
 
 type
   TCDesktopFileEntry = record

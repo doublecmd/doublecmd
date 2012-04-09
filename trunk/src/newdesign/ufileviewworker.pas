@@ -227,7 +227,7 @@ implementation
 uses
   {$IFDEF timeFileView} uDebug, {$ENDIF}
   LCLProc,
-  uFileSourceOperationTypes, uOSUtils, uDCUtils, uExceptions,
+  uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
   uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
   uFileSourceOperationOptions;
@@ -921,4 +921,4 @@ begin
 end;
 
 end.
-
+

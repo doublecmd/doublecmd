@@ -28,7 +28,7 @@ unit uColorExt;
 interface
 
 uses
-  Classes, Graphics, uFile, uXmlConfig;
+  Classes, Graphics, uFile, DCXmlConfig;
 
 type
 

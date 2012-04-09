@@ -149,7 +149,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LCLType, HelpIntfs, uClassesEx, uOSForms, uPixMapManager, uLng,
+  LCLProc, LCLType, HelpIntfs, DCClassesUtf8, uOSForms, uPixMapManager, uLng,
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils, uHotkeyManager, uKeyboard, fMain;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;

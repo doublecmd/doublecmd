@@ -58,7 +58,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uGlobs, uLng;
+  DCStrUtils, uGlobs, uLng;
 
 { TfrmOptionsColumnsView }
 
@@ -98,4 +98,4 @@ begin
 end;
 
 end.
-
+

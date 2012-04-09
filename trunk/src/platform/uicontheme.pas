@@ -28,7 +28,7 @@ unit uIconTheme;
 interface
 
 uses
-  SysUtils, Classes, StringHashList, uClassesEx;
+  SysUtils, Classes, StringHashList, DCClassesUtf8;
 
 type
   TIconType = (itFixed, itScalable, itThreshold);
@@ -89,7 +89,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uDCUtils, uDebug, uFindEx, uTypes, uOSUtils
+  LCLProc, StrUtils, uDebug, uFindEx, DCOSUtils, DCStrUtils
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   , uUnixIconTheme
   {$ENDIF}

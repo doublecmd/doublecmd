@@ -143,7 +143,7 @@ const
 implementation
 
 uses
-  SysUtils, uLog, uClassesEx, uOSUtils;
+  SysUtils, uLog, DCClassesUtf8, DCOSUtils;
 
 constructor TExtAction.Create;
 begin

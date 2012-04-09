@@ -202,9 +202,10 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils,
+  uLng, uGlobs, uShowForm, uSearchTemplate, uDCUtils,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
-  uFileViewNotebook, uFileView, uColumnsFileView, uKeyboard;
+  uFileViewNotebook, uFileView, uColumnsFileView, uKeyboard,
+  DCOSUtils;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of Integer = (0, 1, 2, 3, 4, 5, 6);
@@ -1188,4 +1189,4 @@ end;
 finalization
   FreeAndNil(GfrmFindDlgInstance);
 
-end.
+end.

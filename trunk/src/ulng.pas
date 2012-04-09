@@ -524,7 +524,7 @@ implementation
 
 uses
   Classes, SysUtils, StrUtils, GetText, Translations, uGlobs, uGlobsPaths, uTranslator,
-  uDebug, uFileProcs, uDCUtils, uOSUtils;
+  uDebug, uFileProcs, DCOSUtils, DCStrUtils;
 
 function GetLanguageName(poFileName : String) : String;
 var
@@ -614,4 +614,4 @@ finalization
   if Assigned(LRSTranslator) then
     FreeAndNil(LRSTranslator);
 
-end.
+end.

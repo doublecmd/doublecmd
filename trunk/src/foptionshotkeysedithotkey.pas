@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons,
-  uHotkeyManager, uTypes;
+  uHotkeyManager, DCBasicTypes;
 
 type
 
@@ -97,7 +97,7 @@ implementation
 {$R *.lfm}
 
 uses
-  HelpIntfs, LCLType, uKeyboard, uLng, uGlobs, uFormCommands, uDCUtils,
+  HelpIntfs, LCLType, uKeyboard, uLng, uGlobs, uFormCommands, DCStrUtils,
   uPixMapManager;
 
 const

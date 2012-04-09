@@ -7,7 +7,7 @@ unit uMultiArchiveUtil;
 interface
 
 uses
-  Classes, SysUtils, uMultiArc, un_process, uFile, uTypes;
+  Classes, SysUtils, uMultiArc, un_process, uFile, DCBasicTypes;
 
 const
   MAF_UNIX_PATH        = 1; // Use Unix path delimiter (/)
@@ -81,8 +81,8 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils, uDateTimeUtils,
-  uDebug, uFileAttributes;
+  LCLProc, FileUtil, StrUtils, DCClassesUtf8, uDCUtils, DCOSUtils, uOSUtils,
+  uDateTimeUtils, uDebug, uFileAttributes;
 
 function GetUnixFileName(const Str: String): UTF8String;
 var

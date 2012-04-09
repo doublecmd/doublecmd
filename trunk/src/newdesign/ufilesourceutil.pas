@@ -36,7 +36,7 @@ implementation
 
 uses
   LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
-  uOSUtils, uShowMsg, uTypes, uLng, uDCUtils, uVfsModule,
+  uOSUtils, uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils,
   uFileSourceOperation,
   uFileSourceSetFilePropertyOperation,
   uFileSourceExecuteOperation,
@@ -317,4 +317,4 @@ begin
 end;
 
 end.
-
+

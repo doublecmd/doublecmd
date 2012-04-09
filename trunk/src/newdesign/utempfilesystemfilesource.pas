@@ -64,7 +64,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uFileProcs;
+  DCOSUtils, uOSUtils, DCStrUtils, uFileProcs;
 
 constructor TTempFileSystemFileSource.Create;
 begin
@@ -135,7 +135,7 @@ begin
   if IsPathAtRoot(sPath) then
     Result := ''
   else
-    Result := uDCUtils.GetParentDir(sPath);
+    Result := DCStrUtils.GetParentDir(sPath);
 end;
 
 function TTempFileSystemFileSource.GetRootDir(sPath: String): String;

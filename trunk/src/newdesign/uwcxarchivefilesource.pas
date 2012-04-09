@@ -6,7 +6,7 @@ unit uWcxArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, syncobjs, StringHashList, uOSUtils,
+  Classes, SysUtils, contnrs, syncobjs, StringHashList,
   WcxPlugin, uWCXmodule, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
@@ -143,7 +143,7 @@ type
 implementation
 
 uses
-  LCLProc, uDebug, uDCUtils, uGlobs,
+  LCLProc, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uOSUtils,
   uDateTimeUtils,
   FileUtil, uCryptProc,
   uWcxArchiveListOperation,
@@ -954,4 +954,4 @@ finalization
   FreeThenNil(WcxOperationsQueueLock);
 
 end.
-
+

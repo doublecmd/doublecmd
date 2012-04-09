@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, ExtCtrls, StdCtrls, Grids,
-  fOptionsFrame, fOptionsHotkeysEditHotkey, uHotkeyManager, uTypes;
+  fOptionsFrame, fOptionsHotkeysEditHotkey, uHotkeyManager, DCBasicTypes;
 
 type
 
@@ -120,7 +120,7 @@ implementation
 
 uses
   Forms, Controls, Dialogs, LCLProc, LCLVersion,
-  uFindEx, uGlobs, uGlobsPaths, uLng, uKeyboard, uFormCommands, uDCUtils;
+  uFindEx, uGlobs, uGlobsPaths, uLng, uKeyboard, uFormCommands, DCStrUtils;
 
 const
   stgCmdCommandIndex = 0;
@@ -975,4 +975,4 @@ begin
 end;
 
 end.
-
+

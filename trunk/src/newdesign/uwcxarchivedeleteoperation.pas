@@ -50,7 +50,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, uMasks,
+  DCOSUtils, DCStrUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, uMasks,
   FileUtil, LCLProc;
 
 // ----------------------------------------------------------------------------
@@ -305,4 +305,4 @@ begin
   WcxDeleteOperation := nil;
 end;
 
-end.
+end.

@@ -40,7 +40,7 @@ function GetCurrentIconTheme: String;
 implementation
 
 uses
-  DOM, XMLRead, IniFiles, uMyUnix, uOSUtils;
+  DOM, XMLRead, IniFiles, uMyUnix, DCOSUtils, uOSUtils;
 
 function GetKdeIconTheme: String;
 const

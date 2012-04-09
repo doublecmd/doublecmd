@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, Buttons,
-  EditBtn, uFileSourceSetFilePropertyOperation, uTypes, ZVDateTimePicker;
+  EditBtn, uFileSourceSetFilePropertyOperation, DCBasicTypes, ZVDateTimePicker;
 
 type
 
@@ -115,7 +115,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, uFileAttributes, uDCUtils, uFileProperty;
+  LCLType, uFileAttributes, DCStrUtils, uDCUtils, uFileProperty;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;
 begin

@@ -7,8 +7,8 @@ interface
 uses
   LMessages, Grids, uFileView, uFileSource, Graphics,
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
-  uFile, uDisplayFile, uFormCommands, uDragDropEx, uXmlConfig,
-  uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
+  uFile, uDisplayFile, uFormCommands, uDragDropEx, DCXmlConfig,
+  DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes, uFileViewHeader;
 
 type
@@ -809,4 +809,4 @@ begin
 end;
 
 end.
-
+

@@ -12,7 +12,7 @@ uses
   {$IF DEFINED(NIGHTLY_BUILD)}
   uOSUtils,
   {$ENDIF}
-  uDCUtils, uGlobsPaths, FileUtil;
+  DCStrUtils, uDCUtils, uGlobsPaths, FileUtil;
 
 procedure ProcessCommandLineParams;
 var
@@ -34,4 +34,4 @@ begin
 end;
 
 end.
-
+

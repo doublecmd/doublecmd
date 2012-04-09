@@ -21,7 +21,7 @@ type
 implementation
 
 uses
-  uFile, uFindEx, uOSUtils, uTypes, uFileSystemFileSource;
+  uFile, uFindEx, uOSUtils, uFileSystemFileSource;
 
 constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -70,4 +70,4 @@ begin
 end;
 
 end.
-
+

@@ -98,7 +98,7 @@ function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: 
 implementation
 
 uses
-  uShowMsg, uClassesEx;
+  uShowMsg, DCClassesUtf8;
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 var

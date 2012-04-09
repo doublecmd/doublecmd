@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uFile, uFileProperty;
+  uOSUtils, DCStrUtils, uFile, uFileProperty;
 
 constructor TMultiListListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -87,4 +87,4 @@ end;
 
 end.
 
-
+

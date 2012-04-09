@@ -94,7 +94,7 @@ type
 implementation
 
 uses
-  uDebug, uOSUtils, uLng, uFindEx, uClassesEx, uFileSystemUtil, LCLProc, uTypes;
+  uDebug, uLng, uFindEx, DCClassesUtf8, uFileSystemUtil, DCOSUtils;
 
 constructor TFileSystemWipeOperation.Create(aTargetFileSource: IFileSource;
                                             var theFilesToWipe: TFiles);
@@ -231,8 +231,8 @@ begin
       Exit;
     end;
 
+  fs := TFilestreamEx.Create(FileName, fmOpenReadWrite or fmShareExclusive);
   try
-    fs := TFilestreamEx.Create(FileName, fmOpenReadWrite or fmShareExclusive);
     for i := 1 to pass do
     begin
       //---------------Progress--------------
@@ -269,11 +269,11 @@ begin
       end;
     end;
     FileTruncate(fs.Handle, 0);
-    FreeThenNil(fs);
+    FreeAndNil(fs);
   except
     on E: Exception do
     begin
-      FreeThenNil(fs);
+      FreeAndNil(fs);
       ShowError(E.Message);
       Exit;
     end;
@@ -443,4 +443,4 @@ begin
 end;
 
 end.
-
+

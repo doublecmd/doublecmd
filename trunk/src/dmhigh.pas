@@ -76,8 +76,8 @@ implementation
 {$R *.lfm}
 
 uses
-  Graphics, SynEditTypes, uHighlighterProcs, uXMLConfig, uGlobsPaths,
-  uClassesEx, uOSUtils, uLng
+  Graphics, SynEditTypes, uHighlighterProcs, DCXmlConfig, uGlobsPaths,
+  DCClassesUtf8, DCOSUtils, uLng
 {$IF lcl_fullversion >= 093100}
   , SynHighlighterPo
 {$ENDIF}

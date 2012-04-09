@@ -5,7 +5,7 @@ unit uFileAttributes;
 interface
 
 uses
-  Classes, SysUtils, uTypes;
+  Classes, SysUtils, DCBasicTypes;
 
 const // Windows attributes
   FILE_ATTRIBUTE_ARCHIVE     = 32;
@@ -87,7 +87,7 @@ const // Unix attributes
 implementation
 
 uses
-  uDCUtils;
+  DCStrUtils;
 
 type
   TAttrStrToFileAttr = record
@@ -161,9 +161,7 @@ begin
     if sAttr[1] in ['0'..'7'] then
     begin
       // Octal representation.
-      {$PUSH}{$R-,Q-}
-      Exit(OctToDec(sAttr));
-      {$POP}
+      Exit(TFileAttrs(OctToDec(sAttr)));
     end
     else
     begin
@@ -233,4 +231,4 @@ begin
 end;
 
 end.
-
+

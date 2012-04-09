@@ -19,7 +19,7 @@ interface
 
 uses
   SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr,
-  uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls, uXmlConfig;
+  DCClassesUtf8, uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls, DCXmlConfig;
 
 type
 
@@ -218,7 +218,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, FileUtil, uDebug, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils,
+  LCLProc, FileUtil, uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
   fSelectTextRange, uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions;
 
 const
@@ -1192,4 +1192,4 @@ begin
 end;
 
 end.
-
+

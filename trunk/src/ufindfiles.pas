@@ -29,7 +29,7 @@ unit uFindFiles;
 interface
 
 uses
-  Classes, SysUtils, uTypes;
+  Classes, SysUtils, DCBasicTypes;
 
 type
   TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
@@ -310,4 +310,4 @@ begin
   end;
 end;
 
-end.
+end.

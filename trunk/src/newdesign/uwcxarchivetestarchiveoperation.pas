@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  FileUtil, uOSUtils, uDCUtils, uShowMsg, uFileSourceOperationUI,
+  FileUtil, DCOSUtils, DCStrUtils, uDCUtils, uShowMsg, uFileSourceOperationUI,
   uWCXmodule, uLng;
 
 // ----------------------------------------------------------------------------
@@ -352,4 +352,4 @@ begin
 end;
 
 end.
-
+

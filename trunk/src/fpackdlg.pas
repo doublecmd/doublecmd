@@ -93,7 +93,8 @@ implementation
 uses
   StrUtils, WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
   uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
-  uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks;
+  uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
+  DCStrUtils;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
                      const TargetFileSource: IArchiveFileSource;

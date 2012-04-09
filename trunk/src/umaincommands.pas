@@ -225,7 +225,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
-     uTypes, fViewOperations, uVfsModule, uMultiListFileSource, uExceptions;
+     fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
+     DCOSUtils, DCStrUtils, DCBasicTypes;
 
 procedure ReadCopyRenameParams(
   const Params: array of string;
@@ -2753,4 +2754,4 @@ begin
 end;
 
 end.
-
+

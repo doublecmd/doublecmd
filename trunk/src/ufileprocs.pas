@@ -59,8 +59,8 @@ function GetNextCopyName(FileName: UTF8String): UTF8String;
 implementation
 
 uses
-  LCLProc, Dialogs, SysUtils, uLng, uGlobs, uClassesEx, uDCUtils,
-  uOSUtils, uFileSystemFileSource, uFile, uFileSystemDeleteOperation,
+  LCLProc, Dialogs, SysUtils, uLng, uGlobs, DCClassesUtf8, DCStrUtils,
+  DCOSUtils, uFileSystemFileSource, uFile, uFileSystemDeleteOperation,
   uFileSourceOperationOptions;
 
 const

@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  LCLProc, uOSUtils, uDCUtils, uMultiArc, uFile;
+  LCLProc, uOSUtils, DCStrUtils, uMultiArc, uFile;
 
 constructor TMultiArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin

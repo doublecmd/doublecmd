@@ -51,7 +51,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDebug, uFindEx, uTypes, uGlobs, uGlobsPaths, uLng;
+  uDebug, uFindEx, uGlobs, uGlobsPaths, uLng;
 
 { TfrmOptionsLanguage }
 
@@ -110,4 +110,4 @@ begin
 end;
 
 end.
-
+

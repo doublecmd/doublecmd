@@ -25,10 +25,10 @@ unit uGlobs;
 interface
 
 uses
-  Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
+  Classes, Controls, Forms, uExts, uColorExt, Graphics, DCClassesUtf8, uMultiArc,
   uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
-  uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig,
-  uInfoToolTip, fQuickSearch, uTypes;
+  uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, DCXmlConfig,
+  uInfoToolTip, fQuickSearch, uTypes, uClassesEx;
 
 type
   { Log options }
@@ -358,7 +358,7 @@ implementation
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
-   uDefaultPlugins, Lua, uKeyboard
+   uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
    {$IF DEFINED(MSWINDOWS)}
     , win32proc
    {$ENDIF}
@@ -2190,4 +2190,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

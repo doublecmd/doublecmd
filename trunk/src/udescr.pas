@@ -27,7 +27,7 @@ unit uDescr;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx;
+  Classes, SysUtils, DCClassesUtf8;
 
 type
 
@@ -129,7 +129,7 @@ type
 implementation
 
 uses
-  LConvEncoding, uDebug, uOSUtils;
+  LConvEncoding, uDebug, DCOSUtils;
 
 { TDescription }
 
@@ -407,4 +407,4 @@ begin
 end;
 
 end.
-
+

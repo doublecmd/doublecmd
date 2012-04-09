@@ -27,7 +27,7 @@ unit uFormCommands;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, ActnList, uTypes;
+  Classes, SysUtils, StringHashList, ActnList;
 
 type
   TCommandFuncResult = (cfrSuccess, cfrDisabled, cfrNotFound);
@@ -153,7 +153,7 @@ type
 implementation
 
 uses
-  uDCUtils;
+  DCStrUtils;
 
 type
   TCommandsFormRec = record
@@ -426,4 +426,4 @@ begin
 end;
 
 end.
-
+

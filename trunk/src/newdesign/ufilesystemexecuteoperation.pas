@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  Forms, Controls, uOSUtils;
+  Forms, Controls, DCOSUtils, uOSUtils;
 
 constructor TFileSystemExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -81,4 +81,4 @@ begin
 end;
 
 end.
-
+

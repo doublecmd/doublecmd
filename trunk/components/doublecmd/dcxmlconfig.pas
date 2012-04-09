@@ -21,7 +21,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-unit KASXmlConfig;
+unit DCXmlConfig;
 
 {$mode objfpc}{$H+}
 
@@ -34,8 +34,6 @@ type
   // Define type aliases so we don't have to include DOM if we want to use config.
   TXmlNode = TDOMNode;
   TXmlPath = DOMString;
-
-  { TXmlConfig }
 
   TXmlConfig = class
   private
@@ -139,7 +137,7 @@ type
 implementation
 
 uses
-  LCLProc, KASClassesEx, URIParser;
+  LCLProc, DCOSUtils, DCClassesUtf8, URIParser;
 
 const
   BoolStrings: array[Boolean] of DOMString = ('False', 'True');
@@ -167,7 +165,7 @@ begin
   begin
     if (FFileName <> '') and SaveOnDestroy then
       Save;
-    FreeThenNil(FDoc);
+    FreeAndNil(FDoc);
   end;
 
   inherited Destroy;
@@ -175,7 +173,7 @@ end;
 
 procedure TXmlConfig.Clear;
 begin
-  FreeThenNil(FDoc);
+  FreeAndNil(FDoc);
   FDoc := TXMLDocument.Create;
   FDoc.AppendChild(FDoc.CreateElement(ApplicationName));
 end;

@@ -29,7 +29,7 @@ interface
 
 uses
   LCLType, Classes, Dialogs, dynlibs,
-  uWCXprototypes, WcxPlugin, Extension, uClassesEx, uTypes, uXmlConfig;
+  uWCXprototypes, WcxPlugin, Extension, DCClassesUtf8, DCBasicTypes, DCXmlConfig;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -168,7 +168,7 @@ Type
 implementation
 
 uses
-  SysUtils, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils,
+  SysUtils, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils, DCOSUtils,
   uDateTimeUtils, uDebug;
 
 const

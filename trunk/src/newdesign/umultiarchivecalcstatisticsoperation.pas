@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  uMultiArc, uDCUtils;
+  uMultiArc, DCStrUtils;
 
 constructor TMultiArchiveCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;

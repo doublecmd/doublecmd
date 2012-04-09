@@ -70,8 +70,8 @@ type
 implementation
 
 uses
-  LCLProc, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
-  uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, uOSUtils, uTarWriter;
+  LCLProc, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
+  uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils, uTarWriter;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetFileSource: IFileSource;

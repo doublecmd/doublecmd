@@ -57,7 +57,7 @@ uses
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uFileSystemWatcher, uDCUtils, uOSUtils, FileUtil
+   , uUDisks, uFileSystemWatcher, DCStrUtils, uOSUtils, FileUtil
    {$ENDIF}
    {$IFDEF DARWIN}
    , MacOSAll

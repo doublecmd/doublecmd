@@ -93,8 +93,8 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uMultiArc, uFileSourceOperationUI, fMultiArchiveCopyOperationOptions,
-  uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, uTypes, uShowMsg;
+  LCLProc, FileUtil, uOSUtils, DCOSUtils, DCStrUtils, uMultiArc, uFileSourceOperationUI, fMultiArchiveCopyOperationOptions,
+  uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, DCBasicTypes, uShowMsg;
 
 constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                                aTargetFileSource: IFileSource;
@@ -590,4 +590,4 @@ begin
 end;
 
 end.
-
+

@@ -63,8 +63,8 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uDCUtils, uWCXmodule, uLng, uShowMsg,
-  uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, uOSUtils, uTarWriter;
+  LCLProc, FileUtil, DCStrUtils, uWCXmodule, uLng, uShowMsg,
+  uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, DCOSUtils, uTarWriter;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks

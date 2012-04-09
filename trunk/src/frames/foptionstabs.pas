@@ -65,7 +65,7 @@ implementation
 
 uses
   ExtCtrls {Lazarus < 31552},
-  uDCUtils, uLng, uGlobs;
+  DCStrUtils, uLng, uGlobs;
 
 { TfrmOptionsTabs }
 
@@ -141,4 +141,4 @@ begin
 end;
 
 end.
-
+

@@ -53,7 +53,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uLng, uMultiArc, uMultiArchiveUtil, LCLProc;
+  uOSUtils, DCOSUtils, uLng, uMultiArc, uMultiArchiveUtil, LCLProc;
 
 constructor TMultiArchiveDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -233,4 +233,4 @@ begin
   end;
 end;
 
-end.
+end.

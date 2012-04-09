@@ -40,7 +40,7 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
-  uFileSource, fModView, uOSUtils, Types, uThumbnails, uFormCommands;
+  uFileSource, fModView, Types, uThumbnails, uFormCommands;
 
 type
 
@@ -313,8 +313,9 @@ implementation
 {$R *.lfm}
 
 uses
-  FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
-  uFindMmap, uDCUtils, LCLIntf, uDebug, uHotkeyManager, uConvEncoding;
+  FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, DCClassesUtf8,
+  uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager, uConvEncoding,
+  DCOSUtils, uOSUtils;
 
 const
   HotkeysCategory = 'Viewer';
@@ -2245,4 +2246,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmViewer, HotkeysCategory, @rsHotkeyCategoryViewer);
 
 end.
-
+

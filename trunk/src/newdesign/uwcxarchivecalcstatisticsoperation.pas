@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  uOSUtils, uWcxModule, uDCUtils;
+  DCOSUtils, uWcxModule, DCStrUtils;
 
 constructor TWcxArchiveCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;

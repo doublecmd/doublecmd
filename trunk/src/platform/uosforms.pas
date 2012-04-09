@@ -73,8 +73,9 @@ implementation
 uses
   ExtDlgs, LCLProc, uShellContextMenu
   {$IF DEFINED(MSWINDOWS)}
-  , Graphics, ComObj, fMain, uOSUtils, uFileSystemFileSource, uTotalCommander, InterfaceBase
-  , FileUtil, Windows, ShlObj, uShlObjAdditional, uWinNetFileSource, uVfsModule, uLng
+  , Graphics, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
+  , uTotalCommander, InterfaceBase, FileUtil, Windows, ShlObj, uShlObjAdditional
+  , uWinNetFileSource, uVfsModule, uLng
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties

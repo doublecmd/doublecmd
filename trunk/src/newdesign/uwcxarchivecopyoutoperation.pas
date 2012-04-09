@@ -90,9 +90,9 @@ type
 implementation
 
 uses
-  LCLProc, uMasks, FileUtil, contnrs, uOSUtils, uDCUtils, uShowMsg,
+  LCLProc, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils, uShowMsg,
   uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uWCXmodule,
-  uFileProcs, uLng, uDateTimeUtils, uTypes;
+  uFileProcs, uLng, uDateTimeUtils, DCBasicTypes;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -652,4 +652,4 @@ begin
 end;
 
 end.
-
+

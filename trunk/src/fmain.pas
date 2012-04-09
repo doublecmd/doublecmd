@@ -42,11 +42,11 @@ interface
 uses
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls,
-  KASToolBar, KASXmlConfig, uCmdBox, uFilePanelSelect, uBriefFileView,
+  KASToolBar, uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
-  uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
-  uXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
-  uOperationsPanel, KASToolItems, uKASToolItemsExtended, IniFiles
+  uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
+  DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
+  uOperationsPanel, KASToolItems, uKASToolItemsExtended
   {$IF DEFINED(LCLQT)}
   , Qt4, QtWidgets
   {$ELSEIF DEFINED(LCLGTK2)}
@@ -674,7 +674,7 @@ uses
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
-  XMLRead
+  XMLRead, DCOSUtils, DCStrUtils
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ENDIF}
@@ -1637,7 +1637,7 @@ begin
     MainToolBar.Clear;
     ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
     if Assigned(ToolBarNode) then
-      MainToolBar.LoadConfiguration(KASXmlConfig.TXmlConfig(gConfig), ToolBarNode, ToolBarLoader);
+      MainToolBar.LoadConfiguration(gConfig, ToolBarNode, ToolBarLoader);
   finally
     ToolBarLoader.Free;
     MainToolBar.EndUpdate;
@@ -4473,7 +4473,7 @@ var
 begin
   ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', True);
   gConfig.ClearNode(ToolBarNode);
-  MainToolBar.SaveConfiguration(KASXmlConfig.TXmlConfig(gConfig), ToolBarNode);
+  MainToolBar.SaveConfiguration(gConfig, ToolBarNode);
 end;
 
 function TfrmMain.IsCommandLineVisible: Boolean;
@@ -5005,4 +5005,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+

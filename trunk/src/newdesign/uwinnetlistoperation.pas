@@ -25,8 +25,8 @@ type
 implementation
 
 uses
-  LCLProc, uFile, Windows, JwaWinNetWk, uDCUtils, uShowMsg,
-  uOSUtils;
+  LCLProc, uFile, Windows, JwaWinNetWk, DCStrUtils, uShowMsg,
+  DCOSUtils, uOSUtils;
 
 type
   PNetResourceArray = ^TNetResource;

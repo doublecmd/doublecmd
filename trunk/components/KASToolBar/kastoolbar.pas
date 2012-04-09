@@ -33,7 +33,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, ComCtrls,
   Graphics, Dialogs, ExtCtrls, Buttons, FileUtil, Menus,
-  KASXmlConfig, KASToolItems;
+  DCXmlConfig, KASToolItems;
 
 type
 
@@ -187,7 +187,7 @@ procedure Register;
 implementation
 
 uses
-  Themes, types, math, KASClassesEx;
+  Themes, types, math, DCOSUtils;
 
 type
   PToolItemExecutor = ^TToolItemExecutor;

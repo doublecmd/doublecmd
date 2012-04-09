@@ -31,7 +31,7 @@ interface
 
 uses
   LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
-  Dialogs, Controls, ExtCtrls, uTypes, uFile, uFileProperty, uFileSource,
+  Dialogs, Controls, ExtCtrls, DCBasicTypes, uFile, uFileProperty, uFileSource,
   uFileSourceOperation, uFileSourceCalcStatisticsOperation;
 
 type
@@ -144,7 +144,7 @@ uses
   LCLType, FileUtil, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
   uDefaultFilePropertyFormatter, uMyUnix, uFileAttributes,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
-  uFileSourceOperationOptions, uKeyboard;
+  uFileSourceOperationOptions, uKeyboard, DCStrUtils;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin

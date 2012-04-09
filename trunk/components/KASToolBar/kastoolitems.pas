@@ -27,7 +27,7 @@ unit KASToolItems;
 interface
 
 uses
-  Classes, SysUtils, KASXmlConfig;
+  Classes, SysUtils, DCXmlConfig;
 
 type
   TDynamicStringArray = array of String;

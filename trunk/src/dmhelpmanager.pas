@@ -54,7 +54,7 @@ uses
   {$IFDEF MSWindows}
   LCLIntf,
   {$ENDIF}
-  uGlobsPaths, uGlobs, uDCUtils, uOSUtils, StrUtils;
+  uGlobsPaths, uGlobs, DCStrUtils, DCOSUtils, StrUtils;
 
 { TdmHelpManager }
 
@@ -87,4 +87,4 @@ begin
 end;
 
 end.
-
+

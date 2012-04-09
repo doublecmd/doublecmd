@@ -29,7 +29,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, SysUtils, uTypes, uFindFiles;
+  Classes, StdCtrls, SysUtils, uFindFiles, uFindEx;
 
 type
 
@@ -73,7 +73,8 @@ implementation
 
 uses
   LCLProc, uMasks, SynRegExpr, StrUtils, LConvEncoding,
-  uLng, uClassesEx, uFindMmap, uFindEx, uGlobs, uShowMsg, uOSUtils, uLog;
+  uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
+  uLog;
 
 { TFindThread }
 
