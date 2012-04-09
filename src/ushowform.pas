@@ -47,7 +47,7 @@ implementation
 uses
   SysUtils, Process, UTF8Process, Dialogs,
   uGlobs, uOSUtils, fEditor, fViewer, uDCUtils, uTempFileSystemFileSource, uLng,
-  uDebug;
+  uDebug, DCOSUtils;
 
 procedure RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String);
 var
@@ -196,4 +196,4 @@ begin
   end;
 end;
 
-end.
+end.

@@ -27,8 +27,8 @@ unit uKASToolItemsExtended;
 interface
 
 uses
-  Classes, SysUtils, KASToolItems, KASToolBar, IniFiles, KASXmlConfig,
-  uDrive, uClassesEx;
+  Classes, SysUtils, KASToolItems, KASToolBar, IniFiles, DCXmlConfig,
+  uDrive;
 
 type
   { TKASCommandItem }
@@ -86,6 +86,9 @@ type
   end;
 
 implementation
+
+uses
+  DCClassesUtf8;
 
 const
   CommandItemConfigNode = 'Command';

@@ -5,7 +5,7 @@ unit uFileProperty;
 interface
 
 uses
-  Classes, SysUtils, uTypes;
+  Classes, SysUtils, DCBasicTypes;
 
 type
 
@@ -385,7 +385,7 @@ type
 implementation
 
 uses
-  uOSUtils, uFileAttributes, uDefaultFilePropertyFormatter;
+  DCOSUtils, uFileAttributes, uDefaultFilePropertyFormatter;
 
 resourcestring
   rsSizeDescription = 'Size';

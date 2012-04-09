@@ -36,10 +36,9 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  Classes, SysUtils, uClassesEx,
+  Classes, SysUtils, DCClassesUtf8,
   uWdxPrototypes, WdxPlugin,
-  dynlibs, uDCUtils, uOSUtils,
-  uDetectStr, lua, LCLProc, uFile, uXmlConfig;
+  dynlibs, uDetectStr, lua, uFile, DCXmlConfig;
 
 type
 
@@ -258,7 +257,7 @@ type
 implementation
 
 uses
-  StrUtils, uGlobs, uGlobsPaths, FileUtil, uDebug;
+  StrUtils, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils, DCOSUtils;
 
 const
   WdxIniFileName = 'wdx.ini';
@@ -1163,4 +1162,4 @@ begin
 end;
 
 end.
-
+

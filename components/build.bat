@@ -10,6 +10,8 @@ pushd components
 lazbuild chsdet\chsdet.lpk %DC_ARCH%
 lazbuild CmdLine\cmdbox.lpk %DC_ARCH%
 lazbuild dcpcrypt\dcpcrypt.lpk %DC_ARCH%
+lazbuild doublecmd\doublecmd_common.lpk %DC_ARCH%
+lazbuild doublecmd\doublecmd_common_lcl.lpk %DC_ARCH%
 lazbuild KASToolBar\kascomp.lpk %DC_ARCH%
 lazbuild viewer\viewerpackage.lpk %DC_ARCH%
 lazbuild gifanim\pkg_gifanim.lpk %DC_ARCH%

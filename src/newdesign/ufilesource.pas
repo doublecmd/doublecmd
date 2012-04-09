@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, uDCUtils, syncobjs, LCLProc,
+  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -497,7 +497,7 @@ end;
 
 function TFileSource.GetParentDir(sPath : String): String;
 begin
-  Result := uDCUtils.GetParentDir(sPath);
+  Result := DCStrUtils.GetParentDir(sPath);
 end;
 
 function TFileSource.GetRootDir(sPath : String): String;
@@ -914,4 +914,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+

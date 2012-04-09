@@ -171,8 +171,8 @@ type
 implementation
 
 uses
-  uDebug, uOSUtils, uDCUtils, FileUtil, uFindEx, uClassesEx, uFileProcs, uLng,
-  uTypes, uFileSource, uFileSystemFileSource, uFileProperty, uDateTimeUtils;
+  uDebug, uOSUtils, DCOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
+  DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uDateTimeUtils;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
 var
@@ -1052,7 +1052,7 @@ begin
               CorrectedLink := GetAbsoluteFileName(aFile.Path, LinkTarget);
 
               // If the link was relative - make also the corrected link relative.
-              if uDCUtils.GetPathType(LinkTarget) = ptRelative then
+              if GetPathType(LinkTarget) = ptRelative then
                 LinkTarget := ExtractRelativepath(AbsoluteTargetFileName, CorrectedLink)
               else
                 LinkTarget := CorrectedLink;

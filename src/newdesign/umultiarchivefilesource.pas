@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, contnrs, StringHashList, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
-  uMultiArchiveUtil, uTypes;
+  uMultiArchiveUtil, DCBasicTypes;
 
 type
 
@@ -119,8 +119,8 @@ type
 implementation
 
 uses
-  uDebug, uGlobs, uFileAttributes,
-  FileUtil, uMasks, uDCUtils,
+  uDebug, uGlobs, uFileAttributes, DCOSUtils, DCStrUtils,
+  FileUtil, uMasks,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
   uMultiArchiveCopyOutOperation,
@@ -581,4 +581,4 @@ begin
 end;
 
 end.
-
+

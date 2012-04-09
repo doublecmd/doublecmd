@@ -139,7 +139,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uOSUtils, uDCUtils;
+  LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uDCUtils,
+  DCOSUtils, DCStrUtils;
 
 var
   frmFileAssoc: TfrmFileAssoc = nil;

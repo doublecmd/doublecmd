@@ -219,7 +219,7 @@ procedure endfsent(); cdecl; external libc name 'endfsent';
 implementation
 
 uses
-  URIParser, Unix, FileUtil, uClassesEx, uDCUtils, uOSUtils
+  URIParser, Unix, FileUtil, DCClassesUtf8, DCStrUtils, uDCUtils, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}

@@ -56,7 +56,8 @@ type
 implementation
 
 uses
-  LCLType, ShellCtrls, uDCUtils, uOSUtils, fMain, uFileSourceUtil;
+  LCLType, ShellCtrls, uDCUtils, DCOSUtils, DCStrUtils,
+  fMain, uFileSourceUtil;
 
 { TFileViewHeader }
 
@@ -316,4 +317,4 @@ begin
 end;
 
 end.
-
+

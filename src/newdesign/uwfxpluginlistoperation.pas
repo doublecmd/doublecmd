@@ -33,7 +33,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
+  uOSUtils, DCStrUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
 
 function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: UTF8String;
                                                 PercentDone: Integer): Integer;

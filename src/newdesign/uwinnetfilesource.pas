@@ -78,7 +78,7 @@ implementation
 
 uses
   LCLProc, uWinNetListOperation, uWinNetExecuteOperation,
-  Windows, JwaWinNetWk, uVfsModule, uShowMsg, uOSUtils, uDCUtils;
+  Windows, JwaWinNetWk, uVfsModule, uShowMsg, DCOSUtils, DCStrUtils;
 
 function TWinNetFileSource.GetParentDir(sPath: String): String;
 var
@@ -117,7 +117,7 @@ end;
 
 function TWinNetFileSource.IsPathAtRoot(Path: String): Boolean;
 begin
-  Result := (uDCUtils.GetParentDir(Path) = '');
+  Result := (DCStrUtils.GetParentDir(Path) = '');
 end;
 
 function TWinNetFileSource.GetRootDir(sPath: String): String;

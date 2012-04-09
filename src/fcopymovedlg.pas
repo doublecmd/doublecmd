@@ -93,7 +93,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, uDCUtils;
+  fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, DCStrUtils;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -405,4 +405,4 @@ end;
 initialization
   TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
 
-end.
+end.

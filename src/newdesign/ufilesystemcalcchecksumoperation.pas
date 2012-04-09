@@ -11,7 +11,7 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
-  uGlobs, uLog, uHash, uClassesEx;
+  uGlobs, uLog, uHash, DCClassesUtf8;
 
 type
 
@@ -52,10 +52,8 @@ type
 implementation
 
 uses
-  uDCUtils, uOSUtils, uLng,
-  uFileSystemUtil, LCLProc,
-  FileUtil, StrUtils,
-  uFileSystemFileSource;
+  LCLProc, StrUtils, FileUtil,
+  uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils;
 
 type
   TChecksumEntry = class

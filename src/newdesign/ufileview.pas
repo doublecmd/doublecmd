@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
-  uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, uXmlConfig,
-  uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
+  uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig,
+  DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList, uGlobs;
 
 type
@@ -475,7 +475,7 @@ implementation
 uses
   Dialogs, LCLProc, Forms, StrUtils, uMasks, fMaskInputDlg,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uDCUtils, uFileViewNotebook, uSearchTemplate, uOSUtils;
+  uFileViewNotebook, uSearchTemplate, uOSUtils, DCStrUtils;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -2486,4 +2486,4 @@ begin
 end;
 
 end.
-
+

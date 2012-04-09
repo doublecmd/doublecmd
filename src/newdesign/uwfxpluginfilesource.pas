@@ -153,7 +153,7 @@ threadvar
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog,
+  LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, DCStrUtils, uDCUtils, uLog,
   uDebug, uLng, uCryptProc, uFileAttributes, uConnectionManager, contnrs, syncobjs,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
@@ -1046,4 +1046,4 @@ finalization
   FreeThenNil(WfxOperationsQueue);
   FreeThenNil(WfxOperationsQueueLock);
 
-end.
+end.

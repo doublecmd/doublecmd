@@ -27,16 +27,20 @@ unit uFindEx;
 interface
 
 uses
-   SysUtils, uTypes
-   {$IFDEF UNIX}
-   , BaseUnix, uMasks
-   {$ENDIF};
+  SysUtils, DCBasicTypes
+  {$IFDEF UNIX}
+  , BaseUnix, uMasks
+  {$ENDIF}
+  {$IFDEF MSWINDOWS}
+  , Windows
+  {$ENDIF}
+  {$IFDEF DARWIN}
+  , MacOSAll
+  {$ENDIF}
+  ;
 
-const
-  faSpecial = faVolumeID or faDirectory;
-
-{$IFDEF UNIX}
 type
+{$IFDEF UNIX}
   TUnixFindData = record
     DirPtr: PDir;   //en> directory pointer for reading directory
     sPath: String;  //en> file name path
@@ -45,6 +49,32 @@ type
   end;
   PUnixFindData = ^TUnixFindData;
 {$ENDIF}
+
+  PSearchRecEx = ^TSearchRecEx;
+  TSearchRecEx = Record
+    Time : DCBasicTypes.TFileTime;  // modification time
+    Size : Int64;
+    Attr : TFileAttrs;
+    Name : UTF8String;
+    ExcludeAttr : TFileAttrs;
+{$ifdef unix}
+    FindHandle : Pointer;
+{$else unix}
+    FindHandle : THandle;
+{$endif unix}
+{$if defined(Win32) or defined(WinCE) or defined(Win64)}
+    FindData : Windows.TWin32FindDataW;
+{$endif}
+{$ifdef netware_clib}
+    FindData : TNetwareFindData;
+{$endif}
+{$ifdef netware_libc}
+    FindData : TNetwareLibcFindData;
+{$endif}
+{$ifdef MacOS}
+    FindData : TMacOSFindData;
+{$endif}
+  end;
 
 function FindFirstEx (const Path : UTF8String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
 function FindNextEx (var SearchRec : TSearchRecEx) : Longint;
@@ -56,10 +86,11 @@ implementation
 uses
   LCLProc, uDebug
   {$IFDEF UNIX}
-  , uMyUnix, Unix, FileUtil, uOSUtils
-  {$ELSE}
-  , Windows
+  , uMyUnix, Unix, FileUtil, DCOSUtils
   {$ENDIF};
+
+const
+  faSpecial = faVolumeID or faDirectory;
 
 function mbFindMatchingFile(var SearchRec: TSearchRecEx): Integer;
 {$IFDEF MSWINDOWS}
@@ -273,4 +304,4 @@ end;
 {$ENDIF}
 
 end.
-
+

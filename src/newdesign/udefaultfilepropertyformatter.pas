@@ -41,7 +41,7 @@ var
 implementation
 
 uses
-  uGlobs, uDCUtils, uTypes
+  uGlobs, uDCUtils, DCBasicTypes
 {$IFDEF UNIX}
   , BaseUnix, Unix
 {$ENDIF}
@@ -214,4 +214,4 @@ finalization
   MaxDetailsFilePropertyFormatter := nil;
 
 end.
-
+

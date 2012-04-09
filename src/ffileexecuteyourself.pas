@@ -57,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute, uOSUtils;
+  LCLProc, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute, DCOSUtils;
 
 function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
 var
@@ -133,4 +133,4 @@ begin
 end;
 
 end.
-
+

@@ -61,7 +61,7 @@ implementation
 uses
   LCLIntf, LCLType, Math,
   fViewOperations,
-  uDCUtils, uLng,
+  uDCUtils,
   uFileSourceOperationMisc;
 
 const

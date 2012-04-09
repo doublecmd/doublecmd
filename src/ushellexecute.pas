@@ -59,7 +59,7 @@ implementation
 
 uses
   Process, UTF8Process, uDCUtils, uShowForm, uGlobs, uOSUtils,
-  uFileSystemFileSource;
+  uFileSystemFileSource, DCOSUtils, DCStrUtils;
 
 function PrepareParameter(sParam: String;
                           leftPanel: TFileView;

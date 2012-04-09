@@ -65,8 +65,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, uLng, uOSUtils, uFileProcs, uOperationsManager,
-  uFileSourceSplitOperation, uShowMsg;
+  LCLProc, uLng, uFileProcs, uOperationsManager,
+  uFileSourceSplitOperation, uShowMsg, DCOSUtils;
 
 function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: UTF8String): Boolean;
 var

@@ -58,9 +58,9 @@ type
 implementation
 
 uses
-  LCLProc, Dialogs, IniFiles, Graphics, uTypes, uFindEx, uDCUtils,
+  LCLProc, Dialogs, IniFiles, Graphics, uFindEx, uDCUtils,
   uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager, uMyUnix,
-  fMain, fFileProperties
+  fMain, fFileProperties, DCOSUtils, DCStrUtils
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF DEFINED(LINUX)}

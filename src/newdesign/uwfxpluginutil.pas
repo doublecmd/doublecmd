@@ -81,8 +81,8 @@ type
 implementation
 
 uses
-  uFileProcs, uDCUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
-  uDateTimeUtils, uTypes;
+  uFileProcs, DCStrUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
+  uDateTimeUtils, DCBasicTypes;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 var

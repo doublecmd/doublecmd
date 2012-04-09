@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="doublecmd_common"/>
+    <Author Value="Alexander Koblov"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <IncludeAssertionCode Value="True"/>
+        </SyntaxOptions>
+      </Parsing>
+      <CodeGeneration>
+        <Checks>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+        </Checks>
+      </CodeGeneration>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Common units for Double Commander"/>
+    <License Value="GNU GPL 2"/>
+    <Version Minor="1"/>
+    <Files Count="4">
+      <Item1>
+        <Filename Value="dcclassesutf8.pas"/>
+        <UnitName Value="DCClassesUtf8"/>
+      </Item1>
+      <Item2>
+        <Filename Value="dcosutils.pas"/>
+        <UnitName Value="DCOSUtils"/>
+      </Item2>
+      <Item3>
+        <Filename Value="dcstrutils.pas"/>
+        <UnitName Value="DCStrUtils"/>
+      </Item3>
+      <Item4>
+        <Filename Value="dcbasictypes.pas"/>
+        <UnitName Value="DCBasicTypes"/>
+      </Item4>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

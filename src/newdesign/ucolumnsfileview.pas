@@ -15,8 +15,8 @@ uses
   uDisplayFile,
   uColumns,
   uFileSorting,
-  uXmlConfig,
-  uClassesEx,
+  DCXmlConfig,
+  DCClassesUtf8,
   uTypes,
   uFileViewWorker,
   fQuickSearch,
@@ -364,7 +364,7 @@ implementation
 
 uses
   LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, uOSUtils, math, fMain, fOptions,
+  uDCUtils, uOSUtils, math, fMain, fOptions, DCOSUtils, DCStrUtils,
   uInfoToolTip, dmCommonData,
   uFileSourceProperty,
   uFileSourceOperationTypes,
@@ -3952,4 +3952,4 @@ begin
 end;
 
 end.
-
+

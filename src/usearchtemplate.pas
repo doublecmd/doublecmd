@@ -27,7 +27,7 @@ unit uSearchTemplate;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, uFile, uXmlConfig, uFindFiles;
+  Classes, SysUtils, DCClassesUtf8, uFile, DCXmlConfig, uFindFiles;
 
 type
 
@@ -419,4 +419,4 @@ begin
 end;
 
 end.
-
+

@@ -46,7 +46,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Dialogs, uDCUtils, uGlobs, uLng;
+  Dialogs, DCStrUtils, uGlobs, uLng;
 
 procedure TfrmHotDir.LoadFromGlob;
 begin

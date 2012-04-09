@@ -61,7 +61,7 @@ procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType
 implementation
 
 uses
-  SysUtils, Forms, fMain, uDebug, uGlobs, uFileProcs, uOSUtils;
+  SysUtils, Forms, fMain, uDebug, uGlobs, uFileProcs, DCOSUtils;
 
 procedure ShowLogWindow(bShow: Boolean);
 begin
@@ -148,4 +148,4 @@ begin
   TThread.Synchronize(FThread, @LogWriteInTheThread);
 end;
 
-end.
+end.

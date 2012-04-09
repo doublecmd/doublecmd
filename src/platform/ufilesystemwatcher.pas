@@ -77,7 +77,7 @@ implementation
 uses
   LCLProc, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows, JwaWinNT, JwaWinBase, uDCUtils, uGlobs, uOSUtils
+  ,Windows, JwaWinNT, JwaWinBase, DCStrUtils, uGlobs, uOSUtils
   {$ELSEIF DEFINED(LINUX)}
   ,inotify, BaseUnix, FileUtil
   {$ELSEIF DEFINED(BSD)}

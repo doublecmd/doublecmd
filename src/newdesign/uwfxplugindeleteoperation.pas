@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, WfxPlugin;
+  DCOSUtils, uLng, WfxPlugin;
 
 constructor TWfxPluginDeleteOperation.Create(aTargetFileSource: IFileSource;
                                              var theFilesToDelete: TFiles);

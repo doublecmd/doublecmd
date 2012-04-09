@@ -33,7 +33,7 @@ interface
 
 uses
   SysUtils, Classes, WfxPlugin, uWFXprototypes,
-  dynlibs, uClassesEx, Extension, uTypes, uXmlConfig;
+  dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig;
 
 const
   WFX_SUCCESS      =  0;
@@ -190,8 +190,8 @@ type
 implementation
 
 uses
-  uLng, FileUtil, uGlobsPaths, uDCUtils, uOSUtils, uWfxPluginUtil,
-  fDialogBox, uDebug;
+  uLng, FileUtil, uGlobsPaths, uOSUtils, uWfxPluginUtil,
+  fDialogBox, uDebug, DCOSUtils, DCStrUtils;
 
 const
   WfxIniFileName = 'wfx.ini';

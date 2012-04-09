@@ -56,7 +56,7 @@ type
 implementation
 
 uses
-  uDCUtils, uLng;
+  DCStrUtils, uLng;
 
 constructor TFileSourceCreateDirectoryOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -112,4 +112,4 @@ begin
 end;
 
 end.
-
+

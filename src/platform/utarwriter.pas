@@ -30,7 +30,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uGlobs, uWcxModule, WcxPlugin, uClassesEx,
+  uGlobs, uWcxModule, WcxPlugin, DCClassesUtf8,
   uFile,
   uFileSource,
   uFileSourceOperationUI,
@@ -140,7 +140,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, FileUtil, uUsersGroups,
   {$ENDIF}
-  uLng, uDCUtils, uOSUtils;
+  uLng, DCStrUtils, DCOSUtils, uOSUtils;
 
 {$IF DEFINED(MSWINDOWS)}
 const
@@ -794,4 +794,4 @@ begin
 end;
 
 end.
-
+

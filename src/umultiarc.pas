@@ -27,7 +27,7 @@ unit uMultiArc;
 interface
 
 uses
-  Classes, SysUtils, uTypes;
+  Classes, SysUtils, DCBasicTypes;
 
 const
   MaxSignSize = 1024;
@@ -153,7 +153,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, Math, FileUtil, uClassesEx, uDCUtils, uOSUtils;
+  LCLProc, StrUtils, Math, FileUtil, DCClassesUtf8, uDCUtils, DCOSUtils;
 
 { TMultiArcList }
 

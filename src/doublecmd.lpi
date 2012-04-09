@@ -234,7 +234,7 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="10">
+    <RequiredPackages Count="12">
       <Item1>
         <PackageName Value="dcpcrypt"/>
       </Item1>
@@ -271,8 +271,16 @@
       <Item10>
         <PackageName Value="viewerpackage"/>
       </Item10>
+      <Item11>
+        <PackageName Value="doublecmd_common"/>
+        <MinVersion Minor="1" Valid="True"/>
+      </Item11>
+      <Item12>
+        <PackageName Value="doublecmd_common_lcl"/>
+        <MinVersion Minor="1" Valid="True"/>
+      </Item12>
     </RequiredPackages>
-    <Units Count="162">
+    <Units Count="163">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -484,6 +492,7 @@
         <Filename Value="fcolumnssetconf.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fColumnsSetConf"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fColumnsSetConf"/>
       </Unit27>
@@ -491,6 +500,7 @@
         <Filename Value="fhackform.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmHackForm"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fHackForm"/>
       </Unit28>
@@ -519,6 +529,7 @@
         <Filename Value="fdescredit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmDescrEdit"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fDescrEdit"/>
       </Unit32>
@@ -600,6 +611,7 @@
         <Filename Value="fchecksumcalc.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmCheckSumCalc"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fCheckSumCalc"/>
       </Unit46>
@@ -841,6 +853,7 @@
         <Filename Value="fattributesedit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmAttributesEdit"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fAttributesEdit"/>
       </Unit92>
@@ -905,6 +918,7 @@
         <Filename Value="newdesign\ffilesystemcopymoveoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FileSystemCopyMoveOperationOptionsUI"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fFileSystemCopyMoveOperationOptions"/>
       </Unit102>
@@ -920,6 +934,7 @@
         <Filename Value="newdesign\fwfxplugincopymoveoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="WfxPluginCopyMoveOperationOptionsUI"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fWfxPluginCopyMoveOperationOptions"/>
       </Unit104>
@@ -947,6 +962,7 @@
         <Filename Value="frames\foptionstooltips.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsToolTips"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsToolTips"/>
       </Unit109>
@@ -962,6 +978,7 @@
         <Filename Value="frames\foptionsplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsPlugins"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsPlugins"/>
       </Unit111>
@@ -969,6 +986,7 @@
         <Filename Value="frames\foptionsfiletypescolors.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsFileTypesColors"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFileTypesColors"/>
       </Unit112>
@@ -1006,6 +1024,7 @@
         <Filename Value="frames\foptionslanguage.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsLanguage"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsLanguage"/>
       </Unit119>
@@ -1013,6 +1032,7 @@
         <Filename Value="frames\foptionsbehavior.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsBehavior"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsBehavior"/>
       </Unit120>
@@ -1020,6 +1040,7 @@
         <Filename Value="frames\foptionstools.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsViewer"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsTools"/>
       </Unit121>
@@ -1027,6 +1048,7 @@
         <Filename Value="frames\foptionshotkeys.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsHotkeys"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsHotkeys"/>
       </Unit122>
@@ -1034,6 +1056,7 @@
         <Filename Value="frames\foptionslayout.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsLayout"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsLayout"/>
       </Unit123>
@@ -1041,6 +1064,7 @@
         <Filename Value="frames\foptionsfonts.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsFonts"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFonts"/>
       </Unit124>
@@ -1048,6 +1072,7 @@
         <Filename Value="frames\foptionsfileoperations.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsFileOperations"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFileOperations"/>
       </Unit125>
@@ -1055,6 +1080,7 @@
         <Filename Value="frames\foptionsquicksearchfilter.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsQuickSearchFilter"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsQuickSearchFilter"/>
       </Unit126>
@@ -1062,6 +1088,7 @@
         <Filename Value="frames\foptionstabs.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsTabs"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsTabs"/>
       </Unit127>
@@ -1069,6 +1096,7 @@
         <Filename Value="frames\foptionslog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsLog"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsLog"/>
       </Unit128>
@@ -1076,6 +1104,7 @@
         <Filename Value="frames\foptionsconfiguration.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsConfiguration"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsConfiguration"/>
       </Unit129>
@@ -1083,6 +1112,7 @@
         <Filename Value="frames\foptionscustomcolumns.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsCustomColumns"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsCustomColumns"/>
       </Unit130>
@@ -1090,6 +1120,7 @@
         <Filename Value="frames\foptionsmisc.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsMisc"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsMisc"/>
       </Unit131>
@@ -1097,6 +1128,7 @@
         <Filename Value="frames\foptionsautorefresh.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsAutoRefresh"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsAutoRefresh"/>
       </Unit132>
@@ -1104,6 +1136,7 @@
         <Filename Value="frames\foptionsicons.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsIcons"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsIcons"/>
       </Unit133>
@@ -1111,6 +1144,7 @@
         <Filename Value="frames\foptionsignorelist.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsIgnoreList"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsIgnoreList"/>
       </Unit134>
@@ -1118,6 +1152,7 @@
         <Filename Value="frames\foptionsarchivers.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsArchivers"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsArchivers"/>
       </Unit135>
@@ -1125,6 +1160,7 @@
         <Filename Value="fselecttextrange.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmSelectTextRange"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSelectTextRange"/>
       </Unit136>
@@ -1142,6 +1178,7 @@
         <Filename Value="frames\fquicksearch.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmQuickSearch"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fQuickSearch"/>
       </Unit139>
@@ -1154,6 +1191,7 @@
         <Filename Value="frames\foptionsfilepanelscolors.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsFilePanelsColors"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFilePanelsColors"/>
       </Unit141>
@@ -1161,6 +1199,7 @@
         <Filename Value="frames\foptionstoolbase.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsToolBase"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsToolBase"/>
       </Unit142>
@@ -1168,6 +1207,7 @@
         <Filename Value="frames\foptionsterminal.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsTerminal"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsTerminal"/>
       </Unit143>
@@ -1175,6 +1215,7 @@
         <Filename Value="frames\foptionsmouse.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsMouse"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsMouse"/>
       </Unit144>
@@ -1182,6 +1223,7 @@
         <Filename Value="frames\foptionskeyboard.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsKeyboard"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsKeyboard"/>
       </Unit145>
@@ -1189,6 +1231,7 @@
         <Filename Value="frames\foptionsdragdrop.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsDragDrop"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsDragDrop"/>
       </Unit146>
@@ -1196,6 +1239,7 @@
         <Filename Value="frames\foptionsfilesviews.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsFilesViews"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFilesViews"/>
       </Unit147>
@@ -1203,6 +1247,7 @@
         <Filename Value="frames\foptionscolumnsview.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsColumnsView"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsColumnsView"/>
       </Unit148>
@@ -1210,6 +1255,7 @@
         <Filename Value="frames\foptionsdriveslistbutton.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsDrivesListButton"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsDrivesListButton"/>
       </Unit149>
@@ -1247,13 +1293,16 @@
         <Filename Value="frames\foptionseditorcolors.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsEditorColors"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsEditorColors"/>
       </Unit156>
       <Unit157>
         <Filename Value="newdesign\fmultiarchivecopyoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="MultiArchiveCopyOperationOptionsUI"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
       </Unit157>
       <Unit158>
         <Filename Value="newdesign\fwcxarchivecopyoperationoptions.pas"/>
@@ -1277,9 +1326,15 @@
         <Filename Value="foptionshotkeysedithotkey.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmEditHotkey"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fOptionsHotkeysEditHotkey"/>
       </Unit161>
+      <Unit162>
+        <Filename Value="ukastoolitemsextended.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKASToolItemsExtended"/>
+      </Unit162>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

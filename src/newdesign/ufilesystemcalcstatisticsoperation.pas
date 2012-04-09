@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  uFileSourceOperationOptions, uOSUtils, uLng, uFindEx, uTypes,
+  uFileSourceOperationOptions, uOSUtils, uLng, uFindEx,
   uFileSystemFileSource;
 
 constructor TFileSystemCalcStatisticsOperation.Create(
@@ -197,4 +197,4 @@ begin
 end;
 
 end.
-
+

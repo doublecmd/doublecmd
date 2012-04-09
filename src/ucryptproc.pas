@@ -27,7 +27,7 @@ unit uCryptProc;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx;
+  Classes, SysUtils, DCClassesUtf8;
 
 type
 

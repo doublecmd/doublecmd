@@ -5,7 +5,7 @@ unit uFileSystemFileSource;
 interface
 
 uses
-  Classes, SysUtils, uDCUtils,
+  Classes, SysUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uLocalFileSource,
@@ -14,7 +14,9 @@ uses
   uFileProperty,
   uFile,
   uDescr,
-  uTypes
+  DCBasicTypes,
+  DCStrUtils,
+  uFindEx
   ;
 
 type
@@ -118,12 +120,12 @@ type
 implementation
 
 uses
-  uOSUtils, uDateTimeUtils, uGlobs,
+  uOSUtils, DCOSUtils, uDateTimeUtils, uGlobs,
 {$IFDEF MSWINDOWS}
   uMyWindows, Windows,
 {$ENDIF}
 {$IFDEF UNIX}
-  BaseUnix, uUsersGroups, FileUtil, uMyUnix, uFindEx,
+  BaseUnix, uUsersGroups, FileUtil, uMyUnix,
 {$ENDIF}
   uFileSystemListOperation,
   uFileSystemCopyOperation,
@@ -675,12 +677,12 @@ begin
   sPath := ExcludeTrailingPathDelimiter(Path);
   if (Pos('\\', sPath) = 1) and (NumCountChars(PathDelim, sPath) = 3) then
     Exit(True);
-  Result := (uDCUtils.GetParentDir(Path) = '');
+  Result := (DCStrUtils.GetParentDir(Path) = '');
 end;
 
 function TFileSystemFileSource.GetRootDir(sPath : String): String;
 begin
-  Result := uDCUtils.GetRootDir(sPath);
+  Result := DCStrUtils.GetRootDir(sPath);
 end;
 
 function TFileSystemFileSource.GetRootDir: String;
@@ -690,7 +692,7 @@ end;
 
 function TFileSystemFileSource.GetPathType(sPath : String): TPathType;
 begin
-  Result := uDCUtils.GetPathType(sPath);
+  Result := DCStrUtils.GetPathType(sPath);
 end;
 
 function TFileSystemFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
@@ -875,4 +877,4 @@ begin
 end;
 
 end.
-
+

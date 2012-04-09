@@ -29,8 +29,8 @@ unit uDsxModule;
 interface
 
 uses
-  Classes, SysUtils, dynlibs, LCLProc, DsxPlugin, uClassesEx, uDCUtils,
-  uOSUtils, uXmlConfig;
+  Classes, SysUtils, dynlibs, LCLProc, DsxPlugin, DCClassesUtf8, uDCUtils,
+  DCXmlConfig;
 
 type
 
@@ -107,7 +107,7 @@ type
 implementation
 
 uses
-  uDebug, uGlobs, uGlobsPaths;
+  DCOSUtils, uDebug, uGlobs, uGlobsPaths;
 
 const
   DsxIniFileName = 'dsx.ini';

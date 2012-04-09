@@ -91,7 +91,7 @@ implementation
 
 uses
   LCLProc, Dialogs, StrUtils, uLng, uGlobs, uDCUtils, uDebug, uShowMsg, uTypes,
-  fTweakPlugin, dmCommonData;
+  fTweakPlugin, dmCommonData, DCStrUtils;
 
 { TfrmOptionsPlugins }
 
@@ -638,4 +638,4 @@ begin
 end;
 
 end.
-
+

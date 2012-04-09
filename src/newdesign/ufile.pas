@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uFileProperty,
-  uTypes;
+  DCBasicTypes;
 
 type
 

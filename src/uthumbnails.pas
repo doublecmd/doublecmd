@@ -5,7 +5,7 @@ unit uThumbnails;
 interface
 
 uses
-  Classes, SysUtils, Graphics, fgl, uClassesEx, uFile;
+  Classes, SysUtils, Graphics, fgl, DCClassesUtf8, uFile;
 
 type
 
@@ -38,7 +38,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uDebug, uOSUtils, uFileProcs, uDCUtils, uReSample, uGlobsPaths,
+  LCLProc, FileUtil, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample, uGlobsPaths,
   uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource;
 
 const
@@ -293,4 +293,4 @@ begin
 end;
 
 end.
-
+

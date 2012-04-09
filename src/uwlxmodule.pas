@@ -35,7 +35,7 @@ interface
 
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uwlxprototypes, WLXPlugin,
-  uClassesEx, uDCUtils, LCLProc, LCLType, uXmlConfig
+  DCClassesUtf8, uDCUtils, LCLProc, LCLType, DCXmlConfig
   {$IFDEF LCLWIN32}
     , Windows
   {$ENDIF}
@@ -161,7 +161,7 @@ type
 implementation
 
 uses
-  FileUtil, uDebug, uOSUtils, uGlobsPaths, uGlobs;
+  FileUtil, uDebug, DCOSUtils, uOSUtils, uGlobsPaths, uGlobs;
 
 const
   WlxIniFileName = 'wlx.ini';

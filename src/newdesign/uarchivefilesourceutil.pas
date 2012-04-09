@@ -23,7 +23,7 @@ implementation
 uses
   uShowMsg,
   uLng,
-  uDCUtils,
+  DCStrUtils,
   uFileSourceProperty,
   uWcxArchiveFileSource,
   uMultiArchiveFileSource,
@@ -236,4 +236,4 @@ begin
 end;
 
 end.
-
+

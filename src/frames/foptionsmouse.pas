@@ -58,7 +58,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uGlobs, uLng;
+  DCStrUtils, uGlobs, uLng;
 
 { TfrmOptionsMouse }
 
@@ -112,4 +112,4 @@ begin
 end;
 
 end.
-
+

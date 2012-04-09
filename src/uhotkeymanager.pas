@@ -31,7 +31,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, LCLProc, LCLType, LCLIntf, Forms, ActnList,
-  uClassesEx, fgl, contnrs, uXmlConfig, uTypes;
+  DCClassesUtf8, fgl, contnrs, DCXmlConfig, DCBasicTypes;
 
 type
   generic THMObjectInstance<InstanceClass> = class
@@ -223,8 +223,8 @@ type
 implementation
 
 uses
-  XMLRead, uKeyboard, uGlobs, uDebug, uOSUtils, uDCUtils, uDCVersion,
-  uFormCommands;
+  XMLRead, uKeyboard, uGlobs, uDebug, uDCVersion, uFormCommands,
+  DCOSUtils, DCStrUtils;
 
 const
   MaxShortcutSequenceInterval = 1000; // in ms
@@ -1321,4 +1321,4 @@ begin
 end;
 
 end.
-
+

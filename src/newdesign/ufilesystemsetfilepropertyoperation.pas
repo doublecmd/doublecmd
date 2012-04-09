@@ -44,8 +44,8 @@ type
 implementation
 
 uses
-  uGlobs, uOSUtils, uDCUtils, uLng, uDateTimeUtils, uFileSystemUtil, uTypes,
-  uFileSourceOperationUI
+  uGlobs, uLng, uDateTimeUtils, uFileSystemUtil,
+  uFileSourceOperationUI, DCOSUtils, DCStrUtils, DCBasicTypes
   {$IF DEFINED(MSWINDOWS)}
     , Windows, ShellAPI, LCLProc
   {$ELSEIF DEFINED(UNIX)}
@@ -240,7 +240,7 @@ function TFileSystemSetFilePropertyOperation.RenameFile(const OldName: UTF8Strin
   var
     sQuestion: String;
   begin
-    if uOSUtils.FPS_ISDIR(Attrs) then
+    if DCOSUtils.FPS_ISDIR(Attrs) then
       sQuestion := rsMsgFolderExistsRwrt
     else
       sQuestion := rsMsgFileExistsRwrt;

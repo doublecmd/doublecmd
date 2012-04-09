@@ -16,7 +16,7 @@ function BinaryCompare(const sLeftFileName, sRightFileName: UTF8String; lsLeft, 
 implementation
 
 uses
-  SysUtils, uClassesEx;
+  SysUtils, DCClassesUtf8;
 
 function ConvertByte(b:Byte):Char;
 begin
@@ -156,4 +156,4 @@ begin
   end;
 end;
 
-end.
+end.

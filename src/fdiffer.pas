@@ -237,7 +237,7 @@ implementation
 
 uses
   LCLProc, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs, uShowMsg,
-  uBinaryCompare, uClassesEx, dmCommonData, uOSUtils;
+  uBinaryCompare, DCClassesUtf8, dmCommonData, DCOSUtils;
 
 {$R *.lfm}
 
@@ -981,4 +981,4 @@ begin
 end;
 
 end.
-
+

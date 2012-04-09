@@ -27,8 +27,6 @@ uses
 type
   TMaskCharType = (mcChar, mcAnyChar, mcAnyText);
 
-  TCharSet = set of Char;
-
   TMaskChar = record
     case CharType: TMaskCharType of
       mcChar: (CharValue: Char);

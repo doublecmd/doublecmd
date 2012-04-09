@@ -10,7 +10,7 @@ uses
   uFileSource,
   uFileSourceOperationUI,
   uFile,
-  uGlobs, uLog, uClassesEx;
+  uGlobs, uLog, DCClassesUtf8;
 
 type
 
@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, LCLProc;
+  uOSUtils, DCOSUtils, uLng, LCLProc;
 
 constructor TFileSystemSplitOperation.Create(aFileSource: IFileSource;
                                                var aSourceFile: TFile;

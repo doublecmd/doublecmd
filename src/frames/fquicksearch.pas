@@ -87,7 +87,6 @@ implementation
 uses
   uKeyboard,
   uGlobs,
-  uDCUtils,
   uFormCommands;
 
 const
@@ -134,8 +133,6 @@ begin
 end;
 
 function GetBoolState(const Value: String; OldState: Boolean): Boolean;
-var
-  BoolValue: Boolean;
 begin
   if Value = TOGGLE_VALUE then
     Result := not OldState
@@ -578,4 +575,4 @@ begin
 end;
 
 end.
-
+

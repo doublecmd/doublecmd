@@ -70,7 +70,7 @@ implementation
 
 uses
   Dialogs,
-  uGlobs, uDCUtils, uShowMsg, uLng,
+  uGlobs, uDCUtils, uShowMsg, uLng, DCStrUtils,
   uFileSourceOperation,
   uFileSystemFileSource,
   uArchiveFileSourceUtil,
@@ -299,4 +299,4 @@ begin
 end;
 
 end.
-
+

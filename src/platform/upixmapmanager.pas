@@ -45,10 +45,9 @@ interface
 }
 
 uses
-  Classes, SysUtils, Graphics, syncobjs, uOSUtils, uFileSorting, StringHashList,
+  Classes, SysUtils, Graphics, syncobjs, uFileSorting, StringHashList,
   uFile, uIconTheme, uDrive, uDisplayFile
   {$IF DEFINED(UNIX)}
-  , uClassesEx
     {$IF NOT DEFINED(DARWIN)}
     , contnrs
       {$IFDEF LCLGTK2}
@@ -297,14 +296,15 @@ implementation
 
 uses
   LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
-  uGlobs, uDCUtils, uFileSystemFileSource, uReSample, uDebug
+  uGlobs, DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
+  DCOSUtils
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
   {$ELSE}
-    , StrUtils, uTypes
+    , StrUtils, DCBasicTypes, DCClassesUtf8
   {$ENDIF}
   {$IFDEF DARWIN}
     , CocoaAll, MacOSAll

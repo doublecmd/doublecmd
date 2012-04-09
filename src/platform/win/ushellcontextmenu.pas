@@ -73,7 +73,7 @@ implementation
 
 uses
   LCLProc, Dialogs, uGlobs, uLng, uMyWindows, uShellExecute,
-  fMain, uDCUtils, uFormCommands, uOSUtils, uShowMsg;
+  fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg;
 
 const
   USER_CMD_ID = $1000;
