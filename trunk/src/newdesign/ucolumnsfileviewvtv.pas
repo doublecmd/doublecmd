@@ -376,7 +376,7 @@ implementation
 
 uses
   LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, uOSUtils, math, fMain,
+  uDCUtils, uOSUtils, DCStrUtils, DCOSUtils, math, fMain,
   uInfoToolTip, dmCommonData,
   uFileSourceProperty,
   uFileSourceOperationTypes,
@@ -885,7 +885,7 @@ begin
         if Assigned(SourcePanel) and Assigned(TargetPanel) then
         begin
           if AFile.FSFile.Name = '..' then
-            TargetDir := GetParentDir(TargetDir)
+            TargetDir := TargetPanel.FileSource.GetParentDir(TargetDir)
           else
             TargetDir := TargetDir + AFile.FSFile.Name + DirectorySeparator;
 
