@@ -924,7 +924,7 @@ begin
         if Assigned(SourcePanel) and Assigned(TargetPanel) then
         begin
           if AFile.FSFile.Name = '..' then
-            TargetDir := GetParentDir(TargetDir)
+            TargetDir := TargetPanel.FileSource.GetParentDir(TargetDir)
           else
             TargetDir := TargetDir + AFile.FSFile.Name + DirectorySeparator;
 
@@ -3952,4 +3952,4 @@ begin
 end;
 
 end.
-
+
