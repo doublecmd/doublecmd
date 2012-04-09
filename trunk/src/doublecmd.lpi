@@ -71,7 +71,7 @@
             <CustomOptions Value="-dHEAPTRC -dHEAPTRC_EXTRA"/>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
-              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <Command Value="$(LazarusDir)$MakeDir(tools)$MakeExe(svn2revisioninc) .. dcrevision.inc --c=dcRevision"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
@@ -115,7 +115,7 @@
             </ConfigFile>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
-              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <Command Value="$(LazarusDir)$MakeDir(tools)$MakeExe(svn2revisioninc) .. dcrevision.inc --c=dcRevision"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
@@ -159,7 +159,7 @@
             <CustomOptions Value="-dNIGHTLY_BUILD"/>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
-              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <Command Value="$(LazarusDir)$MakeDir(tools)$MakeExe(svn2revisioninc) .. dcrevision.inc --c=dcRevision"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
@@ -216,7 +216,7 @@
             <CustomOptions Value="-dNIGHTLY_BUILD"/>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
-              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <Command Value="$(LazarusDir)$MakeDir(tools)$MakeExe(svn2revisioninc) .. dcrevision.inc --c=dcRevision"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
