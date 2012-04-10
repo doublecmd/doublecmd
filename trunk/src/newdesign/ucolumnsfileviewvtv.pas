@@ -376,7 +376,7 @@ implementation
 
 uses
   LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, uOSUtils, DCStrUtils, DCOSUtils, math, fMain,
+  uDCUtils, uOSUtils, DCStrUtils, DCOSUtils, math, fMain, fOptions,
   uInfoToolTip, dmCommonData,
   uFileSourceProperty,
   uFileSourceOperationTypes,
@@ -385,7 +385,8 @@ uses
   uKeyboard,
   uFileSourceUtil,
   uFileFunctions,
-  uFormCommands
+  uFormCommands,
+  fOptionsCustomColumns
 {$IF DEFINED(LCLGTK)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime
@@ -2322,7 +2323,7 @@ begin
           end;
     1001: //All columns
           begin
-            frmMain.Commands.cm_Options(['TfrmOptionsCustomColumns']);
+            ShowOptions(TfrmOptionsCustomColumns);
           end;
   else
     begin

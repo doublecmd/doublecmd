@@ -82,8 +82,8 @@ type
     procedure SaveConfig;
   end;
 
-var
-  frmOptions: TfrmOptions = nil;
+  function ShowOptions(EditorClass: TOptionsEditorClass = nil): IOptionsDialog;
+  function ShowOptions(EditorClassName: String): IOptionsDialog;
 
 implementation
 
@@ -94,6 +94,35 @@ uses
 
 var
   LastOpenedEditor: TOptionsEditorClass = nil;
+  frmOptions: TfrmOptions = nil;
+
+function ShowOptions(EditorClass: TOptionsEditorClass): IOptionsDialog;
+begin
+  Result := ShowOptions(EditorClass.ClassName);
+end;
+
+function ShowOptions(EditorClassName: String): IOptionsDialog;
+begin
+  if Assigned(frmOptions) then
+    begin
+      if frmOptions.WindowState = wsMinimized then
+        frmOptions.WindowState:= wsNormal
+      else
+        frmOptions.BringToFront;
+
+      frmOptions.SelectEditor(EditorClassName);
+    end
+  else
+    begin
+      if EditorClassName = '' then
+        frmOptions := TfrmOptions.Create(Application)
+      else
+        frmOptions := TfrmOptions.Create(Application, EditorClassName);
+
+      frmOptions.Show;
+  end;
+  Result := frmOptions;
+end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -235,6 +264,8 @@ end;
 
 constructor TfrmOptions.Create(TheOwner: TComponent; EditorClassName: String);
 begin
+  if (EditorClassName = '') and Assigned(LastOpenedEditor) then
+    EditorClassName := LastOpenedEditor.ClassName;
   FOldEditor := nil;
   inherited Create(TheOwner);
   CreateOptionsEditorList;
