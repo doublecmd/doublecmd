@@ -262,11 +262,16 @@ var
   Command: String;
 begin
   List.Clear;
-  for Index := 0 to FMethods.Count - 1 do
-  begin
-    Command := FMethods.List[Index]^.Key;
-    if not (Assigned(FilterFunc) and FilterFunc(Command)) then
-      List.Add(Command);
+  List.BeginUpdate;
+  try
+    for Index := 0 to FMethods.Count - 1 do
+    begin
+      Command := FMethods.List[Index]^.Key;
+      if not (Assigned(FilterFunc) and FilterFunc(Command)) then
+        List.Add(Command);
+    end;
+  finally
+    List.EndUpdate;
   end;
 end;
 
@@ -426,4 +431,4 @@ begin
 end;
 
 end.
-
+
