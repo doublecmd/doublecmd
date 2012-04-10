@@ -29,7 +29,7 @@
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Minor="7"/>
+    <Version Major="1" Minor="8"/>
     <Files Count="4">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
