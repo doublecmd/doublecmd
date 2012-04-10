@@ -13,7 +13,7 @@ object frmEditHotkey: TfrmEditHotkey
   Position = poScreenCenter
   LCLVersion = '0.9.31'
   object lblShortcuts: TLabel
-    AnchorSideLeft.Control = edtParameters
+    AnchorSideLeft.Control = pnlShortcuts
     AnchorSideTop.Control = Owner
     Left = 8
     Height = 22
@@ -24,10 +24,10 @@ object frmEditHotkey: TfrmEditHotkey
     ParentColor = False
   end
   object pnlShortcuts: TPanel
-    AnchorSideLeft.Control = edtParameters
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = btnAddShortcut
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 0
@@ -35,6 +35,8 @@ object frmEditHotkey: TfrmEditHotkey
     Width = 442
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 8
     BevelOuter = bvNone
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
     ChildSizing.EnlargeVertical = crsHomogenousChildResize
@@ -43,10 +45,10 @@ object frmEditHotkey: TfrmEditHotkey
     TabOrder = 0
   end
   object lblHotKeyConflict: TLabel
-    AnchorSideLeft.Control = edtParameters
+    AnchorSideLeft.Control = pnlShortcuts
     AnchorSideTop.Control = pnlShortcuts
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Control = pnlShortcuts
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 1
@@ -62,7 +64,7 @@ object frmEditHotkey: TfrmEditHotkey
     WordWrap = True
   end
   object lblParameters: TLabel
-    AnchorSideLeft.Control = edtParameters
+    AnchorSideLeft.Control = pnlShortcuts
     AnchorSideTop.Control = lblHotKeyConflict
     AnchorSideTop.Side = asrBottom
     Left = 8
@@ -74,10 +76,10 @@ object frmEditHotkey: TfrmEditHotkey
     ParentColor = False
   end
   object edtParameters: TMemo
-    AnchorSideLeft.Control = Owner
+    AnchorSideLeft.Control = pnlShortcuts
     AnchorSideTop.Control = lblParameters
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
+    AnchorSideRight.Control = pnlShortcuts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnShowCommandHelp
     Left = 8
@@ -86,16 +88,14 @@ object frmEditHotkey: TfrmEditHotkey
     Width = 442
     HelpType = htKeyword
     Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Left = 8
-    BorderSpacing.Right = 8
     BorderSpacing.Bottom = 2
     ScrollBars = ssAutoBoth
     TabOrder = 1
     WordWrap = False
   end
   object btnShowCommandHelp: TButton
-    AnchorSideLeft.Control = edtParameters
-    AnchorSideRight.Control = edtParameters
+    AnchorSideLeft.Control = pnlShortcuts
+    AnchorSideRight.Control = pnlShortcuts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = cgHKControls
     Left = 8
@@ -109,8 +109,8 @@ object frmEditHotkey: TfrmEditHotkey
     TabOrder = 2
   end
   object cgHKControls: TCheckGroup
-    AnchorSideLeft.Control = edtParameters
-    AnchorSideRight.Control = edtParameters
+    AnchorSideLeft.Control = pnlShortcuts
+    AnchorSideRight.Control = pnlShortcuts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnOK
     Left = 8
@@ -134,7 +134,7 @@ object frmEditHotkey: TfrmEditHotkey
     Visible = False
   end
   object btnOK: TBitBtn
-    AnchorSideLeft.Control = edtParameters
+    AnchorSideLeft.Control = pnlShortcuts
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 8
@@ -154,7 +154,7 @@ object frmEditHotkey: TfrmEditHotkey
     TabOrder = 4
   end
   object btnCancel: TBitBtn
-    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Control = pnlShortcuts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
@@ -189,7 +189,7 @@ object frmEditHotkey: TfrmEditHotkey
   end
   object btnRemoveShortcut: TSpeedButton
     AnchorSideTop.Control = lblShortcuts
-    AnchorSideRight.Control = edtParameters
+    AnchorSideRight.Control = pnlShortcuts
     AnchorSideRight.Side = asrBottom
     Left = 428
     Height = 22

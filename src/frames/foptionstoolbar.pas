@@ -29,7 +29,9 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ComCtrls, ExtCtrls, Buttons, fOptionsFrame, KASToolBar, KASToolItems, uFormCommands;
+  ComCtrls, ExtCtrls, Buttons, fOptionsFrame, KASToolBar, KASToolItems,
+  uFormCommands, uHotkeyManager,
+  fOptionsHotkeysEditHotkey;
 
 type
 
@@ -37,15 +39,16 @@ type
 
   TfrmOptionsToolbar = class(TOptionsEditor)
     btnInsertButton: TButton;
-    btnClearHotKey: TButton;
     btnCloneButton: TButton;
     btnDeleteButton: TButton;
     btnOpenFile: TButton;
+    btnEditHotkey: TButton;
+    btnRemoveHotkey: TButton;
     cbInternalCommand: TComboBox;
     cbFlatButtons: TCheckBox;
-    edtHotKeys: TEdit;
     edtExternalParameters: TEdit;
     edtExternalCommand: TEdit;
+    lblHotkeyValue: TLabel;
     edtStartPath: TEdit;
     edtToolTip: TEdit;
     gbGroupBox: TGroupBox;
@@ -56,7 +59,7 @@ type
     lblBarSizeValue: TLabel;
     lblInternalCommand: TLabel;
     lblExternalCommand: TLabel;
-    lblHotKeys: TLabel;
+    lblHotkey: TLabel;
     lblIconFile: TLabel;
     lblIconSize: TLabel;
     lblIconSizeValue: TLabel;
@@ -74,8 +77,9 @@ type
     sboxToolbars: TScrollBox;
     trbBarSize: TTrackBar;
     trbIconSize: TTrackBar;
+    procedure btnEditHotkeyClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
-    procedure btnClearHotKeyClick(Sender: TObject);
+    procedure btnRemoveHotKeyClick(Sender: TObject);
     procedure btnCloneButtonClick(Sender: TObject);
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
@@ -103,12 +107,14 @@ type
     procedure trbIconSizeChange(Sender: TObject);
   private
     FCurrentButton: TKASToolButton;
+    FEditForm: TfrmEditHotkey;
     FFormCommands: IFormCommands;
+    FToolButtonMouseX, FToolButtonMouseY, FToolDragButtonNumber: Integer; // For dragging
     FUpdatingIconText: Boolean;
     FUpdatingButtonType: Boolean;
-    ToolButtonMouseX, ToolButtonMouseY, ToolDragButtonNumber: integer; // For dragging
     procedure ApplyEditControls;
     procedure LoadCurrentButton;
+    function MakeHotkey(NormalItem: TKASNormalItem): THotkey;
     procedure UpdateIcon(Icon: String);
   protected
     procedure Init; override;
@@ -126,8 +132,11 @@ implementation
 
 uses
   DCStrUtils, uGlobs, uLng, DCXmlConfig, uOSForms, uDCUtils, uPixMapManager,
-  uKASToolItemsExtended, uHotkeyManager,
+  uKASToolItemsExtended,
   fMain;
+
+const
+  cHotKeyCommand = 'cm_ExecuteToolbarItem';
 
 { TfrmOptionsToolbar }
 
@@ -149,6 +158,7 @@ begin
   FUpdatingButtonType := True;
   ParseLineToList(rsOptToolbarButtonType, rgToolItemType.Items);
   FUpdatingButtonType := False;
+  FToolDragButtonNumber := -1;
 end;
 
 procedure TfrmOptionsToolbar.Load;
@@ -208,7 +218,11 @@ begin
         edtIconFileName.Text := NormalItem.Icon;
         FUpdatingIconText := False;
         edtToolTip.Text := NormalItem.Hint;
-        edtHotKeys.Text := ShortcutsToText(NormalItem.Shortcuts);
+        if NormalItem.Shortcuts = nil then
+          lblHotkeyValue.Caption := rsOptHotkeysNoHotkey
+        else
+          lblHotkeyValue.Caption := ShortcutsToText(NormalItem.Shortcuts);
+        btnRemoveHotkey.Enabled := NormalItem.Shortcuts <> nil;
       end;
       if ToolItem is TKASCommandItem then
       begin
@@ -251,16 +265,24 @@ begin
     lblStartPath.Visible          := EnableProgram;
     edtStartPath.Visible          := EnableProgram;
     btnOpenFile.Visible           := EnableProgram;
-    lblHotKeys.Visible            := False;//EnableNormal;
-    edtHotKeys.Visible            := False;//EnableNormal;
-    btnClearHotKey.Visible        := False;//EnableNormal;
-    btnClearHotKey.Enabled        := Length(edtHotKeys.Text) <> 0;
+    lblHotkey.Visible             := EnableNormal;
+    lblHotkeyValue.Visible        := EnableNormal;
+    btnEditHotkey.Visible         := EnableNormal;
+    btnRemoveHotkey.Visible       := EnableNormal;
     btnCloneButton.Visible        := Assigned(FCurrentButton);
     btnDeleteButton.Visible       := Assigned(FCurrentButton);
     rgToolItemType.Visible        := Assigned(FCurrentButton);
   finally
     EnableAutoSizing;
   end;
+end;
+
+function TfrmOptionsToolbar.MakeHotkey(NormalItem: TKASNormalItem): THotkey;
+begin
+  Result := THotkey.Create;
+  Result.Command := cHotKeyCommand;
+  Result.Shortcuts := NormalItem.Shortcuts;
+  AddString(Result.Params, 'ToolItemID=' + NormalItem.ID);
 end;
 
 procedure TfrmOptionsToolbar.rgToolItemTypeSelectionChanged(Sender: TObject);
@@ -329,7 +351,6 @@ begin
       NormalItem := TKASNormalItem(ToolItem);
       NormalItem.Icon := edtIconFileName.Text;
       NormalItem.Hint := edtToolTip.Text;
-      //NormalItem.Shortcuts := edtHotKeys.Text;
     end;
     if ToolItem is TKASCommandItem then
     begin
@@ -355,26 +376,40 @@ begin
   FCurrentButton.Click;
 end;
 
-procedure TfrmOptionsToolbar.btnClearHotKeyClick(Sender: TObject);
+procedure TfrmOptionsToolbar.btnRemoveHotKeyClick(Sender: TObject);
+  procedure RemoveHotkey(Hotkeys: THotkeys; HotkeyToSearch: THotkey);
+  var
+    Hotkey: THotkey;
+  begin
+    Hotkey := Hotkeys.FindByContents(HotkeyToSearch);
+    Hotkeys.Remove(Hotkey);
+  end;
 var
   HMForm: THMForm;
   Hotkey: THotkey;
   ToolItem: TKASToolItem;
   NormalItem: TKASNormalItem;
+  I: Integer;
 begin
-  edtHotKeys.Text:= EmptyStr;
-  btnClearHotKey.Enabled:= False;
   ToolItem := FCurrentButton.ToolItem;
   if ToolItem is TKASNormalItem then
   begin
     NormalItem := TKASNormalItem(ToolItem);
-    HMForm := HotMan.Forms.Find('Main');
-    if Assigned(HMForm) then
-    begin
-      Hotkey := HMForm.Hotkeys.Find(NormalItem.Shortcuts);
-      HMForm.Hotkeys.Remove(Hotkey);
+    Hotkey := MakeHotkey(NormalItem);
+    try
+      HMForm := HotMan.Forms.Find('Main');
+      if Assigned(HMForm) then
+      begin
+        RemoveHotkey(HMForm.Hotkeys, Hotkey);
+        for I := 0 to HMForm.Controls.Count - 1 do
+          RemoveHotkey(HMForm.Controls[I].Hotkeys, Hotkey);
+      end;
+
+      NormalItem.Shortcuts := nil;
+    finally
+      Hotkey.Free;
     end;
-    NormalItem.Shortcuts := nil;
+    LoadCurrentButton;
   end;
 end;
 
@@ -407,6 +442,48 @@ begin
       if NextButton >= ktbBar.ButtonCount then
         NextButton := ktbBar.ButtonCount - 1;
       ktbBar.Buttons[NextButton].Click;
+    end;
+  end;
+end;
+
+procedure TfrmOptionsToolbar.btnEditHotkeyClick(Sender: TObject);
+var
+  HMForm: THMForm;
+  Hotkey: THotkey = nil;
+  ToolItem: TKASToolItem;
+  NormalItem: TKASNormalItem;
+  AControls: TDynamicStringArray = nil;
+  I: Integer;
+begin
+  if not Assigned(FEditForm) then
+    FEditForm := TfrmEditHotkey.Create(Self);
+
+  ToolItem := FCurrentButton.ToolItem;
+  if ToolItem is TKASNormalItem then
+  begin
+    NormalItem := TKASNormalItem(ToolItem);
+    try
+      Hotkey := MakeHotkey(NormalItem);
+      if Length(NormalItem.Shortcuts) > 0 then
+      begin
+        HMForm := HotMan.Forms.Find('Main');
+        if Assigned(HMForm) then
+        begin
+          for I := 0 to HMForm.Controls.Count - 1 do
+            if Assigned(HMForm.Controls[I].Hotkeys.FindByContents(Hotkey)) then
+              AddString(AControls, HMForm.Controls[I].Name);
+        end;
+      end;
+
+      if FEditForm.Execute(True, 'Main', cHotKeyCommand, Hotkey, AControls, [ehoHideParams]) then
+      begin
+        Hotkey.Free;
+        Hotkey := FEditForm.CloneNewHotkey;
+        NormalItem.Shortcuts := Hotkey.Shortcuts;
+        LoadCurrentButton;
+      end;
+    finally
+      Hotkey.Free;
     end;
   end;
 end;
@@ -515,11 +592,11 @@ end;
 procedure TfrmOptionsToolbar.ktbBarToolButtonDragOver(Sender, Source: TObject;
   X, Y: Integer; State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
 begin
-  if not (Source is TSpeedButton) then exit;
-  if (ToolDragButtonNumber <> (Sender as TSpeedButton).Tag) then
+  if not (Source is TKASToolButton) then exit;
+  if (FToolDragButtonNumber <> (Sender as TKASToolButton).Tag) then
     begin
-      ktbBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag);
-      ToolDragButtonNumber := (Sender as TSpeedButton).Tag;
+      ktbBar.MoveButton((Source as TKASToolButton).Tag, (Sender as TKASToolButton).Tag);
+      FToolDragButtonNumber := (Sender as TKASToolButton).Tag;
       Accept:=True;
     end;
 end;
@@ -530,18 +607,18 @@ procedure TfrmOptionsToolbar.ktbBarToolButtonMouseDown(Sender: TObject;
   NumberOfButton: Integer);
 begin
   ApplyEditControls;
-  ToolButtonMouseX:=X;
-  ToolButtonMouseY:=Y;
+  FToolButtonMouseX:=X;
+  FToolButtonMouseY:=Y;
 end;
 
 (* Start dragging only if mbLeft if pressed and mouse moved.*)
 procedure TfrmOptionsToolbar.ktbBarToolButtonMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
 begin
-  if (ssLeft in Shift) and (ToolDragButtonNumber = -1) then
-    if (abs(ToolButtonMouseX-X)>10) or (abs(ToolButtonMouseY-Y)>10) then
+  if (ssLeft in Shift) and (FToolDragButtonNumber = -1) then
+    if (abs(FToolButtonMouseX-X)>10) or (abs(FToolButtonMouseY-Y)>10) then
     begin
-      ToolDragButtonNumber:=NumberOfButton;
+      FToolDragButtonNumber:=NumberOfButton;
       ktbBar.Buttons[NumberOfButton].BeginDrag(false,5);
     end;
 end;
@@ -551,7 +628,7 @@ procedure TfrmOptionsToolbar.ktbBarToolButtonMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
   NumberOfButton: Integer);
 begin
-  ToolDragButtonNumber := -1;
+  FToolDragButtonNumber := -1;
 end;
 
 // Deselect any selected button
@@ -568,8 +645,6 @@ begin
 end;
 
 procedure TfrmOptionsToolbar.SelectButton(ButtonNumber: Integer);
-var
-  i: Integer;
 begin
   if (ButtonNumber >= 0) and (ButtonNumber < ktbBar.ButtonCount) then
   begin

@@ -135,14 +135,14 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlFullToolbarButtons
     Left = 6
-    Height = 87
+    Height = 86
     Top = 101
     Width = 838
     HorzScrollBar.Page = 834
-    VertScrollBar.Page = 83
+    VertScrollBar.Page = 82
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Around = 6
-    ClientHeight = 83
+    ClientHeight = 82
     ClientWidth = 834
     TabOrder = 1
     OnClick = sboxToolbarsClick
@@ -176,7 +176,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideBottom.Control = pnlEditToolbar
     Left = 6
     Height = 31
-    Top = 194
+    Top = 193
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
@@ -247,8 +247,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 340
-    Top = 227
+    Height = 341
+    Top = 226
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
@@ -256,7 +256,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 6
     BevelOuter = bvNone
-    ClientHeight = 340
+    ClientHeight = 341
     ClientWidth = 838
     TabOrder = 3
     object rgToolItemType: TRadioGroup
@@ -265,7 +265,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideBottom.Control = pnlEditToolbar
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 340
+      Height = 341
       Top = 0
       Width = 146
       Anchors = [akTop, akLeft, akBottom]
@@ -290,7 +290,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideRight.Control = pnlEditToolbar
       AnchorSideRight.Side = asrBottom
       Left = 152
-      Height = 340
+      Height = 341
       Top = 0
       Width = 680
       Anchors = [akTop, akLeft, akRight]
@@ -302,7 +302,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.VerticalSpacing = 10
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 340
+      ClientHeight = 341
       ClientWidth = 680
       TabOrder = 1
       object lblIconFile: TLabel
@@ -430,7 +430,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         ParentShowHint = False
         ScrollBars = ssAutoBoth
         ShowHint = True
-        TabOrder = 10
+        TabOrder = 4
         Visible = False
         WordWrap = False
       end
@@ -456,7 +456,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Width = 567
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
-        TabOrder = 4
+        TabOrder = 5
         Visible = False
       end
       object btnOpenFile: TButton
@@ -473,7 +473,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         BorderSpacing.InnerBorder = 4
         Caption = '>>'
         OnClick = btnOpenFileClick
-        TabOrder = 5
+        TabOrder = 6
         Visible = False
       end
       object lblExternalParameters: TLabel
@@ -499,7 +499,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Width = 599
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
-        TabOrder = 6
+        TabOrder = 7
         Visible = False
       end
       object lblStartPath: TLabel
@@ -525,51 +525,60 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Width = 599
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
-        TabOrder = 7
+        TabOrder = 8
         Visible = False
       end
-      object lblHotKeys: TLabel
+      object lblHotkey: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
         Height = 22
         Top = 308
         Width = 81
-        Caption = 'Hot Key:'
-        FocusControl = edtHotKeys
+        Caption = 'Hot key:'
         ParentColor = False
         Visible = False
       end
-      object edtHotKeys: TEdit
-        AnchorSideLeft.Control = lblHotKeys
+      object lblHotkeyValue: TLabel
+        AnchorSideLeft.Control = lblHotkey
         AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = lblHotKeys
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = btnClearHotKey
-        AnchorSideBottom.Side = asrBottom
+        AnchorSideTop.Control = lblHotkey
         Left = 81
-        Height = 29
-        Top = 305
-        Width = 567
-        Anchors = [akTop, akLeft, akRight]
-        ParentShowHint = False
-        TabOrder = 8
+        Height = 1
+        Top = 308
+        Width = 1
+        BorderSpacing.Right = 10
+        ParentColor = False
         Visible = False
       end
-      object btnClearHotKey: TButton
-        AnchorSideTop.Control = edtHotKeys
-        AnchorSideRight.Control = pnlEditControls
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = edtHotKeys
-        AnchorSideBottom.Side = asrBottom
-        Left = 648
-        Height = 29
-        Top = 305
-        Width = 32
-        Anchors = [akTop, akRight, akBottom]
-        Caption = 'X'
-        Font.Style = [fsBold]
-        ParentFont = False
+      object btnEditHotkey: TButton
+        AnchorSideLeft.Control = lblHotkeyValue
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblHotkey
+        AnchorSideTop.Side = asrCenter
+        Left = 92
+        Height = 31
+        Top = 304
+        Width = 102
+        AutoSize = True
+        Caption = 'Edit hotkey'
+        OnClick = btnEditHotkeyClick
         TabOrder = 9
+        Visible = False
+      end
+      object btnRemoveHotkey: TButton
+        AnchorSideLeft.Control = btnEditHotkey
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblHotkey
+        AnchorSideTop.Side = asrCenter
+        Left = 196
+        Height = 31
+        Top = 304
+        Width = 129
+        AutoSize = True
+        BorderSpacing.Left = 2
+        Caption = 'Remove hotkey'
+        OnClick = btnRemoveHotKeyClick
+        TabOrder = 10
         Visible = False
       end
     end

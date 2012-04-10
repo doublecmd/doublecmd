@@ -33,6 +33,9 @@ uses
 
 type
 
+  TEditHotkeyOption = (ehoHideParams);
+  TEditHotkeyOptions = set of TEditHotkeyOption;
+
   { TfrmEditHotkey }
 
   TfrmEditHotkey = class(TForm)
@@ -62,6 +65,7 @@ type
     FForm: String;
     FForms, FFormsTranslated: TStringList;
     FOldHotkey: THotkey;
+    FOptions: TEditHotkeyOptions;
     function ApplyHotkey: Boolean;
     procedure AddShortcutEditor;
     {en
@@ -88,7 +92,8 @@ type
                      Form: String;
                      Command: String;
                      Hotkey: THotkey;
-                     AControls: TDynamicStringArray): Boolean;
+                     AControls: TDynamicStringArray;
+                     Options: TEditHotkeyOptions = []): Boolean;
     function CloneNewHotkey: THotkey;
   end;
 
@@ -369,10 +374,12 @@ function TfrmEditHotkey.Execute(
   Form: String;
   Command: String;
   Hotkey: THotkey;
-  AControls: TDynamicStringArray): Boolean;
+  AControls: TDynamicStringArray;
+  Options: TEditHotkeyOptions = []): Boolean;
 begin
   FEditMode := EditMode;
   FForm := Form;
+  FOptions := Options;
 
   SetHotkey(Hotkey);
   SetCommand(Command);
@@ -382,6 +389,11 @@ begin
     Caption := Format(rsOptHotkeysEditHotkey, [Command])
   else
     Caption := Format(rsOptHotkeysAddHotkey, [Command]);
+
+  lblParameters.Visible := not (ehoHideParams in Options);
+  edtParameters.Visible := not (ehoHideParams in Options);
+  btnShowCommandHelp.Visible := not (ehoHideParams in Options);
+  btnOK.Enabled := True;
 
   if ShowModal = mrOK then
     Result := ApplyHotkey
