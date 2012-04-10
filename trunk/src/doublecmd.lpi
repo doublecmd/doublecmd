@@ -258,7 +258,7 @@
       </Item6>
       <Item7>
         <PackageName Value="KASComp"/>
-        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
+        <MinVersion Major="1" Minor="8" Valid="True"/>
       </Item7>
       <Item8>
         <PackageName Value="LCL"/>
