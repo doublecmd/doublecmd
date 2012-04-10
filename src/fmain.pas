@@ -553,6 +553,7 @@ type
     }
     procedure ConvertToolbarBarConfig(BarFileName: String);
     procedure ConvertIniToolbarItem(Loader: TKASToolBarIniLoader; var Item: TKASToolItem);
+    procedure CreateDefaultToolbar;
     procedure EditToolbarButton(Button: TKASToolButton);
     procedure ToolbarExecuteCommand(ToolItem: TKASToolItem);
     procedure ToolbarExecuteProgram(ToolItem: TKASToolItem);
@@ -740,6 +741,7 @@ begin
   Application.OnActivate := @AppActivate;
 
   ConvertToolbarBarConfig(gpCfgDir + 'default.bar');
+  CreateDefaultToolbar;
 
   //Caption of main window
   Self.Caption := GenerateTitle();
@@ -2187,6 +2189,45 @@ constructor TfrmMain.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FCommands := TMainCommands.Create(Self, actionLst);
+end;
+
+procedure TfrmMain.CreateDefaultToolbar;
+  procedure AddCommand(Command, Icon: String);
+  var
+    CommandItem: TKASCommandItem;
+  begin
+    CommandItem := TKASCommandItem.Create;
+    CommandItem.Icon := Icon;
+    CommandItem.Command := Command;
+    CommandItem.Hint := Commands.Commands.GetCommandCaption(Command, cctLong);
+    MainToolBar.AddButton(CommandItem);
+  end;
+  procedure AddSeparator;
+  begin
+    MainToolBar.AddButton(TKASSeparatorItem.Create);
+  end;
+var
+  MainToolBarNode: TXmlNode;
+begin
+  if MainToolBar.ButtonCount = 0 then
+  begin
+    MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
+    if not Assigned(MainToolBarNode) then
+    begin
+      AddCommand('cm_Refresh', 'view-refresh');
+      AddCommand('cm_RunTerm', 'utilities-terminal');
+      AddCommand('cm_MarkPlus', 'list-add');
+      AddCommand('cm_MarkMinus', 'list-remove');
+      AddSeparator;
+      AddCommand('cm_PackFiles', 'package-x-generic');
+      AddSeparator;
+      AddCommand('cm_Search', 'system-search');
+      AddSeparator;
+      AddCommand('cm_ViewHistoryPrev', 'go-previous');
+      AddCommand('cm_ViewHistoryNext', 'go-next');
+      SaveMainToolBar;
+    end;
+  end;
 end;
 
 Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti: String; Files: TFiles):String;
