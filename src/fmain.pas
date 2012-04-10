@@ -1001,9 +1001,10 @@ end;
 procedure TfrmMain.EditToolbarButton(Button: TKASToolButton);
 var
   Editor: TOptionsEditor;
+  Options: IOptionsDialog;
 begin
-  Commands.cm_Options(['TfrmOptionsToolbar']);
-  Editor := (frmOptions as IOptionsDialog).GetEditor(TfrmOptionsToolbar);
+  Options := ShowOptions(TfrmOptionsToolbar);
+  Editor := Options.GetEditor(TfrmOptionsToolbar);
   (Editor as TfrmOptionsToolbar).SelectButton(Button.Tag);
 end;
 

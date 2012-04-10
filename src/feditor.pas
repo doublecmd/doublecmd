@@ -198,7 +198,7 @@ implementation
 uses
   dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, SynEditLines, LCLType,
   LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobs, fOptions,
-  uOSUtils, uConvEncoding, uSynEditFiler;
+  uOSUtils, uConvEncoding, uSynEditFiler, fOptionsEditorColors;
 
 procedure ShowEditor(const sFileName:String);
 var
@@ -838,18 +838,7 @@ end;
 
 procedure TfrmEditor.actConfHighExecute(Sender: TObject);
 begin
-  if Assigned(frmOptions) then
-    begin
-      if frmOptions.WindowState = wsMinimized then
-        frmOptions.WindowState:= wsNormal
-      else
-        frmOptions.BringToFront;
-    end
-  else
-    begin
-      frmOptions := TfrmOptions.Create(Application, 'TfrmOptionsEditorColors');
-      frmOptions.Show;
-  end;
+  ShowOptions(TfrmOptionsEditorColors);
 end;
 
 procedure TfrmEditor.frmEditorClose(Sender: TObject;

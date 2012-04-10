@@ -373,7 +373,8 @@ uses
   uKeyboard,
   uFileSourceUtil,
   uFileFunctions,
-  uFormCommands
+  uFormCommands,
+  fOptionsCustomColumns
 {$IF DEFINED(LCLGTK)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime
@@ -2204,12 +2205,7 @@ begin
           end;
     1001: //All columns
           begin
-            frmOptions := TfrmOptions.Create(Application, 'TfrmOptionsCustomColumns');
-            try
-              frmOptions.ShowModal;
-            finally
-              frmOptions.Free;
-            end;
+            ShowOptions(TfrmOptionsCustomColumns);
           end;
   else
     begin
