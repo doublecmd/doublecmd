@@ -35,7 +35,11 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Controls, StdCtrls, ColorBox, uFile, uTypes;
+  Classes, SysUtils, Graphics, Controls, StdCtrls, ColorBox,
+  {$IF DEFINED(UNIX)}
+  DCBasicTypes,
+  {$ENDIF}
+  uFile, uTypes;
 
 const
 {$IF DEFINED(UNIX)}
