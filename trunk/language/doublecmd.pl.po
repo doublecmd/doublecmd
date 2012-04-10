@@ -460,127 +460,6 @@ msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
 msgstr "Sprawdź sumę kontrolną"
 
-#: tfrmconfigtoolbar.btnappendbutton.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
-msgid "&Insert new button"
-msgstr "Dodaj nowy przycisk"
-
-#: tfrmconfigtoolbar.btnappendmore.caption
-msgid "A&ppend >>"
-msgstr "Dołącz >>"
-
-#: tfrmconfigtoolbar.btncancel.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: tfrmconfigtoolbar.btnclearhotkey.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION"
-msgid "X"
-msgstr "X"
-
-#: tfrmconfigtoolbar.btnclonebutton.caption
-msgid "Clo&ne button"
-msgstr "Klonuj przycisk"
-
-#: tfrmconfigtoolbar.btndeletebutton.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
-msgid "&Delete"
-msgstr "Usuń"
-
-#: tfrmconfigtoolbar.btnhelp.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Pomoc"
-
-#: tfrmconfigtoolbar.btnok.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
-msgid "OK"
-msgstr "OK"
-
-#: tfrmconfigtoolbar.btnopenbarfile.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmconfigtoolbar.btnopenfile.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmconfigtoolbar.caption
-msgctxt "TFRMCONFIGTOOLBAR.CAPTION"
-msgid "Change button bar"
-msgstr "Konfiguracja panelu narzędzi "
-
-#: tfrmconfigtoolbar.cbflatbuttons.caption
-msgid "Flat b&uttons"
-msgstr "Płaskie przyciski"
-
-#: tfrmconfigtoolbar.cbisseparator.caption
-msgid "S&eparator"
-msgstr "S&eparator"
-
-#: tfrmconfigtoolbar.gbgroupbox.caption
-msgctxt "TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION"
-msgid "Appearance"
-msgstr "Wygląd"
-
-#: tfrmconfigtoolbar.lblbarsize.caption
-msgid "Ba&r size:"
-msgstr "Rozmiar paska:"
-
-#: tfrmconfigtoolbar.lblbarsizevalue.caption
-msgid "36"
-msgstr "36"
-
-#: tfrmconfigtoolbar.lblbuttonbar.caption
-msgid "&Button bar:"
-msgstr "Przycisk:"
-
-#: tfrmconfigtoolbar.lblcommand.caption
-msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
-msgid "&Command:"
-msgstr "Polecenie:"
-
-#: tfrmconfigtoolbar.lblhotkeys.caption
-msgctxt "TFRMCONFIGTOOLBAR.LBLHOTKEYS.CAPTION"
-msgid "Hot Key:"
-msgstr "Skróty klawiaturowe:"
-
-#: tfrmconfigtoolbar.lbliconfile.caption
-msgid "Icon &file:"
-msgstr "Plik ikony:"
-
-#: tfrmconfigtoolbar.lbliconsize.caption
-msgid "Ic&on size:"
-msgstr "Rozmiar ikon:"
-
-#: tfrmconfigtoolbar.lbliconsizevalue.caption
-msgid "32"
-msgstr "32"
-
-#: tfrmconfigtoolbar.lblparameters.caption
-msgid "&Parameters:"
-msgstr "Parametry:"
-
-#: tfrmconfigtoolbar.lblstartpath.caption
-msgid "&Start path:"
-msgstr "Katalog startowy:"
-
-#: tfrmconfigtoolbar.lbltooltip.caption
-msgid "&Tooltip:"
-msgstr "Opis:"
-
-#: tfrmconfigtoolbar.miaddsubbar.caption
-msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-msgid "S&ubbar >>"
-msgstr "Pasek podrzędny >>"
-
-#: tfrmconfigtoolbar.miaddsubmenu.caption
-msgid "Sub&menu >>"
-msgstr "Podmenu >>"
-
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
 msgid "Add"
@@ -3466,10 +3345,10 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
 
-#: tfrmoptions.caption
-msgctxt "tfrmoptions.caption"
+#: tfrmoptions.frmoptions.caption
+msgctxt "tfrmoptions.frmoptions.caption"
 msgid "Options"
-msgstr "Konfiguracja"
+msgstr "Opcje"
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
@@ -4765,6 +4644,122 @@ msgstr "Uruchamiaj w terminalu:"
 msgid "Run terminal:"
 msgstr "Uruchom terminal:"
 
+#: tfrmoptionstoolbar.btnclonebutton.caption
+#, fuzzy
+#| msgid "Clo&ne button"
+msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
+msgid "&Clone button"
+msgstr "Klonuj przycisk"
+
+#: tfrmoptionstoolbar.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
+msgid "&Delete"
+msgstr "Usuń"
+
+#: tfrmoptionstoolbar.btnedithotkey.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
+msgid "Edit hotkey"
+msgstr "Edytuj"
+
+#: tfrmoptionstoolbar.btninsertbutton.caption
+#, fuzzy
+#| msgid "&Insert new buttonX"
+msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
+msgid "&Insert new button"
+msgstr "Dodaj nowy przycisk"
+
+#: tfrmoptionstoolbar.btnopenfile.caption
+msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstoolbar.btnopenicon.caption
+msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstoolbar.btnremovehotkey.caption
+#, fuzzy
+#| msgid "X"
+msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
+msgid "Remove hotkey"
+msgstr "X"
+
+#: tfrmoptionstoolbar.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+msgid "Flat b&uttons"
+msgstr "Płaskie przyciski"
+
+#: tfrmoptionstoolbar.edtinternalparameters.hint
+msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
+msgstr ""
+
+#: tfrmoptionstoolbar.gbgroupbox.caption
+msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
+msgid "Appearance"
+msgstr "Wygląd"
+
+#: tfrmoptionstoolbar.lblbarsize.caption
+msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
+msgid "Ba&r size:"
+msgstr "Rozmiar paska:"
+
+#: tfrmoptionstoolbar.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblhotkey.caption
+msgid "Hot key:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lbliconfile.caption
+#, fuzzy
+#| msgid "Icon &file:"
+msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
+msgid "Icon:"
+msgstr "Plik ikony:"
+
+#: tfrmoptionstoolbar.lbliconsize.caption
+msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
+msgid "Ic&on size:"
+msgstr "Rozmiar ikon:"
+
+#: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblstartpath.caption
+#, fuzzy
+#| msgid "&Start path:"
+msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+msgid "Start path:"
+msgstr "Katalog startowy:"
+
+#: tfrmoptionstoolbar.lbltooltip.caption
+#, fuzzy
+#| msgid "&Tooltip:"
+msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
+msgid "Tooltip:"
+msgstr "Opis:"
+
+#: tfrmoptionstoolbar.rgtoolitemtype.caption
+msgid "Button type"
+msgstr ""
+
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
 msgid "Keep terminal window open after executing program"
@@ -5995,15 +5990,6 @@ msgstr "Anuluj szybki filtr"
 #: ulng.rscanceloperation
 msgid "Cancel Current Operation"
 msgstr "Anuluj bieżącą operację"
-
-#: ulng.rscfgtoolbaraddbutton
-msgid "&Add button to end"
-msgstr "Dod&aj przycisk na końcu"
-
-#: ulng.rscfgtoolbarinsertbutton
-msgctxt "ulng.rscfgtoolbarinsertbutton"
-msgid "&Insert new button"
-msgstr "Dodaj nowy przycisk"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
@@ -7304,6 +7290,10 @@ msgstr "Skrót"
 msgid "Hotkeys"
 msgstr "Skróty"
 
+#: ulng.rsopthotkeysnohotkey
+msgid "<none>"
+msgstr ""
+
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
@@ -7470,6 +7460,10 @@ msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr "Terminal"
 
+#: ulng.rsoptionseditortoolbar
+msgid "Toolbar"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
 msgid "Tools"
@@ -7527,6 +7521,10 @@ msgstr "Alfabetycznie, uwzględniając akcenty;Naturalne sortowanie: alfabetyczn
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
 msgstr "Góra;Dół;"
+
+#: ulng.rsopttoolbarbuttontype
+msgid "Separator;Internal command;External command;Menu"
+msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"

@@ -458,131 +458,6 @@ msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
 msgstr "Сверяване на проверочен сбор..."
 
-#: tfrmconfigtoolbar.btnappendbutton.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
-msgid "&Insert new button"
-msgstr ""
-
-#: tfrmconfigtoolbar.btnappendmore.caption
-msgid "A&ppend >>"
-msgstr ""
-
-#: tfrmconfigtoolbar.btncancel.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Отказ"
-
-#: tfrmconfigtoolbar.btnclearhotkey.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION"
-msgid "X"
-msgstr ""
-
-#: tfrmconfigtoolbar.btnclonebutton.caption
-msgid "Clo&ne button"
-msgstr ""
-
-#: tfrmconfigtoolbar.btndeletebutton.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
-msgid "&Delete"
-msgstr "Из&триване"
-
-#: tfrmconfigtoolbar.btnhelp.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Помо&щ"
-
-#: tfrmconfigtoolbar.btnok.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
-msgid "OK"
-msgstr "Добре"
-
-#: tfrmconfigtoolbar.btnopenbarfile.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmconfigtoolbar.btnopenfile.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmconfigtoolbar.caption
-msgctxt "TFRMCONFIGTOOLBAR.CAPTION"
-msgid "Change button bar"
-msgstr "Промяна на бутонната лента"
-
-#: tfrmconfigtoolbar.cbflatbuttons.caption
-msgid "Flat b&uttons"
-msgstr ""
-
-#: tfrmconfigtoolbar.cbisseparator.caption
-msgid "S&eparator"
-msgstr ""
-
-#: tfrmconfigtoolbar.gbgroupbox.caption
-msgctxt "TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION"
-msgid "Appearance"
-msgstr "Облик"
-
-#: tfrmconfigtoolbar.lblbarsize.caption
-msgid "Ba&r size:"
-msgstr ""
-
-#: tfrmconfigtoolbar.lblbarsizevalue.caption
-msgid "36"
-msgstr ""
-
-#: tfrmconfigtoolbar.lblbuttonbar.caption
-msgid "&Button bar:"
-msgstr "Лента с &бутони:"
-
-#: tfrmconfigtoolbar.lblcommand.caption
-msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
-msgid "&Command:"
-msgstr "&Заповед:"
-
-#: tfrmconfigtoolbar.lblhotkeys.caption
-msgctxt "TFRMCONFIGTOOLBAR.LBLHOTKEYS.CAPTION"
-msgid "Hot Key:"
-msgstr "Клавишно съчетание:"
-
-#: tfrmconfigtoolbar.lbliconfile.caption
-msgid "Icon &file:"
-msgstr "&Файл със значета:"
-
-#: tfrmconfigtoolbar.lbliconsize.caption
-msgid "Ic&on size:"
-msgstr ""
-
-#: tfrmconfigtoolbar.lbliconsizevalue.caption
-msgid "32"
-msgstr ""
-
-#: tfrmconfigtoolbar.lblparameters.caption
-msgid "&Parameters:"
-msgstr "&Ключове:"
-
-#: tfrmconfigtoolbar.lblstartpath.caption
-msgid "&Start path:"
-msgstr "&Пусков път:"
-
-#: tfrmconfigtoolbar.lbltooltip.caption
-msgid "&Tooltip:"
-msgstr "&Подсказка:"
-
-#: tfrmconfigtoolbar.miaddsubbar.caption
-#, fuzzy
-#| msgid "Add S&ubbar >>"
-msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-msgid "S&ubbar >>"
-msgstr "Добавяне на &подлента >>"
-
-#: tfrmconfigtoolbar.miaddsubmenu.caption
-#, fuzzy
-#| msgid "Add Sub&menu >>"
-msgid "Sub&menu >>"
-msgstr "Добавяне на &подизборник >>"
-
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
 msgid "Add"
@@ -3628,8 +3503,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Добре"
 
-#: tfrmoptions.caption
-msgctxt "tfrmoptions.caption"
+#: tfrmoptions.frmoptions.caption
+msgctxt "tfrmoptions.frmoptions.caption"
 msgid "Options"
 msgstr "Възможности"
 
@@ -4946,6 +4821,116 @@ msgstr ""
 msgid "Run terminal:"
 msgstr ""
 
+#: tfrmoptionstoolbar.btnclonebutton.caption
+msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
+msgid "&Clone button"
+msgstr ""
+
+#: tfrmoptionstoolbar.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
+msgid "&Delete"
+msgstr "Из&триване"
+
+#: tfrmoptionstoolbar.btnedithotkey.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
+msgid "Edit hotkey"
+msgstr "Обработка"
+
+#: tfrmoptionstoolbar.btninsertbutton.caption
+msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
+msgid "&Insert new button"
+msgstr ""
+
+#: tfrmoptionstoolbar.btnopenfile.caption
+msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstoolbar.btnopenicon.caption
+msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstoolbar.btnremovehotkey.caption
+msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
+msgid "Remove hotkey"
+msgstr ""
+
+#: tfrmoptionstoolbar.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+msgid "Flat b&uttons"
+msgstr ""
+
+#: tfrmoptionstoolbar.edtinternalparameters.hint
+msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
+msgstr ""
+
+#: tfrmoptionstoolbar.gbgroupbox.caption
+msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
+msgid "Appearance"
+msgstr "Облик"
+
+#: tfrmoptionstoolbar.lblbarsize.caption
+msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
+msgid "Ba&r size:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblhotkey.caption
+msgid "Hot key:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lbliconfile.caption
+#, fuzzy
+#| msgid "Icon &file:"
+msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
+msgid "Icon:"
+msgstr "&Файл със значета:"
+
+#: tfrmoptionstoolbar.lbliconsize.caption
+msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
+msgid "Ic&on size:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblstartpath.caption
+#, fuzzy
+#| msgid "&Start path:"
+msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+msgid "Start path:"
+msgstr "&Пусков път:"
+
+#: tfrmoptionstoolbar.lbltooltip.caption
+#, fuzzy
+#| msgid "&Tooltip:"
+msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
+msgid "Tooltip:"
+msgstr "&Подсказка:"
+
+#: tfrmoptionstoolbar.rgtoolitemtype.caption
+msgid "Button type"
+msgstr ""
+
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
 msgid "Keep terminal window open after executing program"
@@ -6189,15 +6174,6 @@ msgstr ""
 
 #: ulng.rscanceloperation
 msgid "Cancel Current Operation"
-msgstr ""
-
-#: ulng.rscfgtoolbaraddbutton
-msgid "&Add button to end"
-msgstr ""
-
-#: ulng.rscfgtoolbarinsertbutton
-msgctxt "ulng.rscfgtoolbarinsertbutton"
-msgid "&Insert new button"
 msgstr ""
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
@@ -7502,6 +7478,10 @@ msgstr ""
 msgid "Hotkeys"
 msgstr ""
 
+#: ulng.rsopthotkeysnohotkey
+msgid "<none>"
+msgstr ""
+
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
@@ -7668,6 +7648,10 @@ msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr ""
 
+#: ulng.rsoptionseditortoolbar
+msgid "Toolbar"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
 msgid "Tools"
@@ -7724,6 +7708,10 @@ msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
+msgstr ""
+
+#: ulng.rsopttoolbarbuttontype
+msgid "Separator;Internal command;External command;Menu"
 msgstr ""
 
 #: ulng.rsoptupdatedfilesposition

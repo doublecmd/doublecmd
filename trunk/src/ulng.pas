@@ -421,6 +421,7 @@ resourcestring
   rsOptHotkeysFixParameter = 'Fix parameter';
   rsOptHotkeysHotkeys = 'Hotkeys';
   rsOptHotkeysHotkey = 'Hotkey';
+  rsOptHotkeysNoHotkey = '<none>';
   rsOptHotkeysParameters = 'Parameters';
   rsOptHotkeysShortCutUsed = 'Shortcut in use';
   rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used.';

@@ -462,129 +462,6 @@ msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
 msgstr "CRC 체크섬 검사..."
 
-#: tfrmconfigtoolbar.btnappendbutton.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
-msgid "&Insert new button"
-msgstr "새 버튼 삽입(&I)"
-
-#: tfrmconfigtoolbar.btnappendmore.caption
-msgid "A&ppend >>"
-msgstr "덧붙이기(&A) >>"
-
-#: tfrmconfigtoolbar.btncancel.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "취소"
-
-#: tfrmconfigtoolbar.btnclearhotkey.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION"
-msgid "X"
-msgstr ""
-
-#: tfrmconfigtoolbar.btnclonebutton.caption
-msgid "Clo&ne button"
-msgstr "버튼복제(&N)"
-
-#: tfrmconfigtoolbar.btndeletebutton.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
-msgid "&Delete"
-msgstr "삭제하기(&D)"
-
-#: tfrmconfigtoolbar.btnhelp.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "도움말(&H)"
-
-#: tfrmconfigtoolbar.btnok.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
-msgid "OK"
-msgstr "확인"
-
-#: tfrmconfigtoolbar.btnopenbarfile.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmconfigtoolbar.btnopenfile.caption
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmconfigtoolbar.caption
-#, fuzzy
-msgctxt "TFRMCONFIGTOOLBAR.CAPTION"
-msgid "Change button bar"
-msgstr "도구모음 바꾸기"
-
-#: tfrmconfigtoolbar.cbflatbuttons.caption
-msgid "Flat b&uttons"
-msgstr "평평한 버튼(&U)"
-
-#: tfrmconfigtoolbar.cbisseparator.caption
-msgid "S&eparator"
-msgstr "분리자(&E)"
-
-#: tfrmconfigtoolbar.gbgroupbox.caption
-#, fuzzy
-msgid "Appearance"
-msgstr "외형"
-
-#: tfrmconfigtoolbar.lblbarsize.caption
-msgid "Ba&r size:"
-msgstr "바 크기"
-
-#: tfrmconfigtoolbar.lblbarsizevalue.caption
-msgid "36"
-msgstr ""
-
-#: tfrmconfigtoolbar.lblbuttonbar.caption
-msgid "&Button bar:"
-msgstr "도구모음(&B):"
-
-#: tfrmconfigtoolbar.lblcommand.caption
-msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
-msgid "&Command:"
-msgstr "명령(&C):"
-
-#: tfrmconfigtoolbar.lblhotkeys.caption
-msgctxt "TFRMCONFIGTOOLBAR.LBLHOTKEYS.CAPTION"
-msgid "Hot Key:"
-msgstr "단축키"
-
-#: tfrmconfigtoolbar.lbliconfile.caption
-msgid "Icon &file:"
-msgstr "아이콘 파일(&F):"
-
-#: tfrmconfigtoolbar.lbliconsize.caption
-msgid "Ic&on size:"
-msgstr "아이콘 크기(&O)"
-
-#: tfrmconfigtoolbar.lbliconsizevalue.caption
-msgid "32"
-msgstr ""
-
-#: tfrmconfigtoolbar.lblparameters.caption
-msgid "&Parameters:"
-msgstr "매개변수(&P):"
-
-#: tfrmconfigtoolbar.lblstartpath.caption
-msgid "&Start path:"
-msgstr "시작 경로(&S):"
-
-#: tfrmconfigtoolbar.lbltooltip.caption
-msgid "&Tooltip:"
-msgstr "풍선 도움말(&T):"
-
-#: tfrmconfigtoolbar.miaddsubbar.caption
-#, fuzzy
-msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-msgid "S&ubbar >>"
-msgstr "하위 바(&U) >>"
-
-#: tfrmconfigtoolbar.miaddsubmenu.caption
-msgid "Sub&menu >>"
-msgstr "하위 메뉴(&M) >>"
-
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
 msgid "Add"
@@ -3575,9 +3452,9 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "확인(&O)"
 
-#: tfrmoptions.caption
+#: tfrmoptions.frmoptions.caption
 #, fuzzy
-msgctxt "tfrmoptions.caption"
+msgctxt "tfrmoptions.frmoptions.caption"
 msgid "Options"
 msgstr "옵션"
 
@@ -5022,6 +4899,123 @@ msgstr "명령 프롬프트에서 실행:"
 msgid "Run terminal:"
 msgstr "명령 프롬프트 실행:"
 
+#: tfrmoptionstoolbar.btnclonebutton.caption
+#, fuzzy
+#| msgid "Clo&ne button"
+msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
+msgid "&Clone button"
+msgstr "버튼복제(&N)"
+
+#: tfrmoptionstoolbar.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
+msgid "&Delete"
+msgstr "삭제하기(&D)"
+
+#: tfrmoptionstoolbar.btnedithotkey.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
+msgid "Edit hotkey"
+msgstr "편집"
+
+#: tfrmoptionstoolbar.btninsertbutton.caption
+#, fuzzy
+#| msgid "&Insert new buttonX"
+msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
+msgid "&Insert new button"
+msgstr "새 버튼 삽입(&I)"
+
+#: tfrmoptionstoolbar.btnopenfile.caption
+#, fuzzy
+msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstoolbar.btnopenicon.caption
+#, fuzzy
+msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstoolbar.btnremovehotkey.caption
+msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
+msgid "Remove hotkey"
+msgstr ""
+
+#: tfrmoptionstoolbar.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+msgid "Flat b&uttons"
+msgstr "평평한 버튼(&U)"
+
+#: tfrmoptionstoolbar.edtinternalparameters.hint
+msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
+msgstr ""
+
+#: tfrmoptionstoolbar.gbgroupbox.caption
+#, fuzzy
+msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
+msgid "Appearance"
+msgstr "외형"
+
+#: tfrmoptionstoolbar.lblbarsize.caption
+msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
+msgid "Ba&r size:"
+msgstr "바 크기"
+
+#: tfrmoptionstoolbar.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblhotkey.caption
+msgid "Hot key:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lbliconfile.caption
+#, fuzzy
+#| msgid "Icon &file:"
+msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
+msgid "Icon:"
+msgstr "아이콘 파일(&F):"
+
+#: tfrmoptionstoolbar.lbliconsize.caption
+msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
+msgid "Ic&on size:"
+msgstr "아이콘 크기(&O)"
+
+#: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblstartpath.caption
+#, fuzzy
+#| msgid "&Start path:"
+msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+msgid "Start path:"
+msgstr "시작 경로(&S):"
+
+#: tfrmoptionstoolbar.lbltooltip.caption
+#, fuzzy
+#| msgid "&Tooltip:"
+msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
+msgid "Tooltip:"
+msgstr "풍선 도움말(&T):"
+
+#: tfrmoptionstoolbar.rgtoolitemtype.caption
+msgid "Button type"
+msgstr ""
+
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgid "Keep terminal window open after executing program"
 msgstr "프로그램 실행 후 명령 프롬프트 창 유지하기"
@@ -6292,15 +6286,6 @@ msgstr "빠른 필터 취소"
 #, fuzzy
 msgid "Cancel Current Operation"
 msgstr "현재 작업 취소"
-
-#: ulng.rscfgtoolbaraddbutton
-msgid "&Add button to end"
-msgstr "버튼을 끝에 추가(&A)"
-
-#: ulng.rscfgtoolbarinsertbutton
-msgctxt "ulng.rscfgtoolbarinsertbutton"
-msgid "&Insert new button"
-msgstr "새 버튼 삽입(&I)"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
@@ -7627,6 +7612,10 @@ msgstr "단축키"
 msgid "Hotkeys"
 msgstr "단축키"
 
+#: ulng.rsopthotkeysnohotkey
+msgid "<none>"
+msgstr ""
+
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
@@ -7817,6 +7806,10 @@ msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr "명령 프롬프트"
 
+#: ulng.rsoptionseditortoolbar
+msgid "Toolbar"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 #, fuzzy
 msgctxt "ulng.rsoptionseditortools"
@@ -7876,6 +7869,10 @@ msgstr "액센트를 고려하여 알파벳순으로;자연스럽게 정렬: 알
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
 msgstr "위;아래;"
+
+#: ulng.rsopttoolbarbuttontype
+msgid "Separator;Internal command;External command;Menu"
+msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
