@@ -195,10 +195,6 @@ resourcestring
   rsShowHelpFor = 'Show help for %s';
   rsClipboardContainsInvalidToolbarData = 'Clipboard doesn''t contain any valid toolbar data.';
 
-  // Config toolbar dialog
-  rsCfgToolBarAddButton = '&Add button to end';
-  rsCfgToolBarInsertButton = '&Insert new button';
-
   // File operations dialog
   rsDlgAllOpComplete = 'All operations completed';
   rsDlgAllOpProgress = 'Progress of all operations %d %%';
@@ -376,6 +372,7 @@ resourcestring
   rsOptionsEditorPlugins = 'Plugins';
   rsOptionsEditorQuickSearch = 'Quick search/filter';
   rsOptionsEditorTerminal = 'Terminal';
+  rsOptionsEditorToolbar = 'Toolbar';
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
   //-------------------------------
@@ -447,6 +444,8 @@ resourcestring
   rsOptNewFilesPosition = 'at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list';
   rsOptUpdatedFilesPosition = 'don''t change position;use the same setting as for new files;to sorted position';
   rsOptFileOperationsProgressKind = 'separate window;minimized separate window;operations panel';
+  // Toolbar
+  rsOptToolbarButtonType = 'Separator;Internal command;External command;Menu';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
@@ -614,4 +613,4 @@ finalization
   if Assigned(LRSTranslator) then
     FreeAndNil(LRSTranslator);
 
-end.
+end.

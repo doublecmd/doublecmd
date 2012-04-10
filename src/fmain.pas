@@ -674,7 +674,7 @@ uses
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
-  XMLRead, DCOSUtils, DCStrUtils
+  XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ENDIF}
@@ -997,8 +997,12 @@ begin
 end;
 
 procedure TfrmMain.EditToolbarButton(Button: TKASToolButton);
+var
+  Editor: TOptionsEditor;
 begin
-  //ShowConfigToolbar(Button);
+  Commands.cm_Options(['TfrmOptionsToolbar']);
+  Editor := (frmOptions as IOptionsDialog).GetEditor(TfrmOptionsToolbar);
+  (Editor as TfrmOptionsToolbar).SelectButton(Button.Tag);
 end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
@@ -5005,4 +5009,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+

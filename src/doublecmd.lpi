@@ -280,7 +280,7 @@
         <MinVersion Minor="1" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="163">
+    <Units Count="164">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1335,6 +1335,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uKASToolItemsExtended"/>
       </Unit162>
+      <Unit163>
+        <Filename Value="frames\foptionstoolbar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsToolbar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsToolbar"/>
+      </Unit163>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

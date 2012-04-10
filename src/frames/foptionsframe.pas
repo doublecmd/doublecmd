@@ -112,6 +112,7 @@ uses
   fOptionsQuickSearchFilter,
   fOptionsTabs,
   fOptionsTerminal,
+  fOptionsToolbar,
   fOptionsTools,
   fOptionsEditorColors,
   fOptionsToolTips;
@@ -253,6 +254,7 @@ begin
   Main.Add(TfrmOptionsPlugins);
   Layout := Main.Add(TfrmOptionsLayout);
   Layout.Add(TfrmOptionsDrivesListButton);
+  Main.Add(TfrmOptionsToolbar);
   Main.Add(TfrmOptionsFileOperations);
   Main.Add(TfrmOptionsTabs);
   Main.Add(TfrmOptionsLog);

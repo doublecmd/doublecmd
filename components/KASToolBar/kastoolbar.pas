@@ -124,7 +124,6 @@ type
     procedure ToolItemLoaded(Item: TKASToolItem);
     procedure ToolMenuClicked(Sender: TObject);
     procedure UpdateButtonsTags;
-    procedure UpdateIcon(ToolButton: TKASToolButton);
   protected
     procedure CalculatePreferredSize(var PreferredWidth,
         PreferredHeight: Integer; WithThemeSpace: Boolean); override;
@@ -149,6 +148,7 @@ type
     procedure RemoveButton(Button: TKASToolButton);
     procedure RemoveToolItemExecutor(ExecuteFunction: TOnToolItemExecute);
     procedure UncheckAllButtons;
+    procedure UpdateIcon(ToolButton: TKASToolButton);
 
     procedure LoadConfiguration(Config: TXmlConfig; RootNode: TXmlNode;
                                 Loader: TKASToolBarLoader);
