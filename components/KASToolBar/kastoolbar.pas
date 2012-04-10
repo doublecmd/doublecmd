@@ -870,13 +870,14 @@ begin
       Result.ShowHint := True;
       Result.Caption  := Item.GetEffectiveText;
       Result.Hint     := Item.GetEffectiveHint;
-      Result.Flat     := FFlat;
-      if FRadioToolBar then
-        begin
-          Result.GroupIndex := 1;
-          Result.AllowAllUp := True;
-        end;
     end;
+
+    Result.Flat := FFlat;
+    if FRadioToolBar then
+      begin
+        Result.GroupIndex := 1;
+        Result.AllowAllUp := True;
+      end;
     Result.ShowCaption := ShowCaptions;
 
     UpdateIcon(Result);
