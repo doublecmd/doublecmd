@@ -1,0 +1,582 @@
+inherited frmOptionsToolbar: TfrmOptionsToolbar
+  Height = 573
+  Width = 850
+  ClientHeight = 573
+  ClientWidth = 850
+  object gbGroupBox: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 95
+    Top = 0
+    Width = 838
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    Caption = 'Appearance'
+    ChildSizing.LeftRightSpacing = 8
+    ChildSizing.TopBottomSpacing = 4
+    ClientHeight = 73
+    ClientWidth = 834
+    TabOrder = 0
+    object lblBarSize: TLabel
+      AnchorSideLeft.Control = gbGroupBox
+      AnchorSideTop.Control = trbBarSize
+      AnchorSideTop.Side = asrCenter
+      Left = 8
+      Height = 22
+      Top = 8
+      Width = 58
+      Caption = 'Ba&r size:'
+      FocusControl = trbBarSize
+      ParentColor = False
+    end
+    object lblBarSizeValue: TLabel
+      AnchorSideLeft.Control = lblBarSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = trbBarSize
+      AnchorSideTop.Side = asrCenter
+      Left = 68
+      Height = 1
+      Top = 19
+      Width = 1
+      BorderSpacing.Left = 2
+      ParentColor = False
+    end
+    object trbBarSize: TTrackBar
+      AnchorSideLeft.Control = lblBarSizeValue
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbGroupBox
+      Left = 72
+      Height = 30
+      Top = 4
+      Width = 150
+      Frequency = 4
+      Max = 40
+      Min = 10
+      OnChange = trbBarSizeChange
+      Position = 18
+      ScalePos = trRight
+      BorderSpacing.Around = 3
+      Constraints.MinWidth = 40
+      TabOrder = 0
+    end
+    object lblIconSize: TLabel
+      AnchorSideLeft.Control = trbBarSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = trbIconSize
+      AnchorSideTop.Side = asrCenter
+      Left = 237
+      Height = 22
+      Top = 8
+      Width = 63
+      BorderSpacing.Left = 15
+      Caption = 'Ic&on size:'
+      FocusControl = trbIconSize
+      ParentColor = False
+    end
+    object lblIconSizeValue: TLabel
+      AnchorSideLeft.Control = lblIconSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = trbIconSize
+      AnchorSideTop.Side = asrCenter
+      Left = 302
+      Height = 1
+      Top = 19
+      Width = 1
+      BorderSpacing.Left = 2
+      ParentColor = False
+    end
+    object trbIconSize: TTrackBar
+      AnchorSideLeft.Control = lblIconSizeValue
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbGroupBox
+      AnchorSideBottom.Side = asrBottom
+      Left = 306
+      Height = 30
+      Top = 4
+      Width = 150
+      Frequency = 4
+      Max = 32
+      Min = 8
+      OnChange = trbIconSizeChange
+      Position = 16
+      ScalePos = trRight
+      BorderSpacing.Around = 3
+      Constraints.MinWidth = 40
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+    end
+    object cbFlatButtons: TCheckBox
+      AnchorSideLeft.Control = gbGroupBox
+      AnchorSideTop.Control = trbIconSize
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 27
+      Top = 42
+      Width = 111
+      BorderSpacing.Top = 8
+      Caption = 'Flat b&uttons'
+      Checked = True
+      OnChange = cbFlatButtonsChange
+      State = cbChecked
+      TabOrder = 2
+    end
+  end
+  object sboxToolbars: TScrollBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbGroupBox
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = pnlFullToolbarButtons
+    Left = 6
+    Height = 87
+    Top = 101
+    Width = 838
+    HorzScrollBar.Page = 834
+    VertScrollBar.Page = 83
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Around = 6
+    ClientHeight = 83
+    ClientWidth = 834
+    TabOrder = 1
+    OnClick = sboxToolbarsClick
+    object ktbBar: TKASToolBar
+      Left = 1
+      Height = 24
+      Top = 0
+      Width = 832
+      AutoSize = True
+      BorderSpacing.Left = 1
+      BorderSpacing.Right = 1
+      Constraints.MinHeight = 24
+      TabOrder = 0
+      OnClick = ktbBarClick
+      OnToolButtonClick = ktbBarToolButtonClick
+      OnToolButtonMouseDown = ktbBarToolButtonMouseDown
+      OnToolButtonMouseUp = ktbBarToolButtonMouseUp
+      OnToolButtonMouseMove = ktbBarToolButtonMouseMove
+      OnToolButtonDragDrop = ktbBarToolButtonDragDrop
+      OnToolButtonDragOver = ktbBarToolButtonDragOver
+      OnLoadButtonGlyph = ktbBarLoadButtonGlyph
+      RadioToolBar = True
+      GlyphSize = 16
+      ShowDividerAsButton = True
+    end
+  end
+  object pnlFullToolbarButtons: TPanel[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = pnlEditToolbar
+    Left = 6
+    Height = 31
+    Top = 194
+    Width = 838
+    Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 2
+    BevelOuter = bvNone
+    ClientHeight = 31
+    ClientWidth = 838
+    TabOrder = 2
+    object pnlToolbarButtons: TPanel
+      AnchorSideLeft.Control = pnlFullToolbarButtons
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = pnlFullToolbarButtons
+      AnchorSideBottom.Side = asrBottom
+      Left = 248
+      Height = 31
+      Top = 0
+      Width = 343
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.HorizontalSpacing = 8
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+      ChildSizing.ShrinkVertical = crsHomogenousChildResize
+      ChildSizing.Layout = cclTopToBottomThenLeftToRight
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 31
+      ClientWidth = 343
+      TabOrder = 0
+      object btnInsertButton: TButton
+        Left = 0
+        Height = 31
+        Top = 0
+        Width = 145
+        AutoSize = True
+        Caption = '&Insert new button'
+        OnClick = btnInsertButtonClick
+        TabOrder = 0
+      end
+      object btnCloneButton: TButton
+        Left = 153
+        Height = 31
+        Top = 0
+        Width = 113
+        AutoSize = True
+        Caption = '&Clone button'
+        OnClick = btnCloneButtonClick
+        TabOrder = 1
+      end
+      object btnDeleteButton: TButton
+        Left = 274
+        Height = 31
+        Top = 0
+        Width = 69
+        AutoSize = True
+        Caption = '&Delete'
+        OnClick = btnDeleteButtonClick
+        TabOrder = 2
+      end
+    end
+  end
+  object pnlEditToolbar: TPanel[3]
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 340
+    Top = 227
+    Width = 838
+    Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
+    BevelOuter = bvNone
+    ClientHeight = 340
+    ClientWidth = 838
+    TabOrder = 3
+    object rgToolItemType: TRadioGroup
+      AnchorSideLeft.Control = pnlEditToolbar
+      AnchorSideTop.Control = pnlEditToolbar
+      AnchorSideBottom.Control = pnlEditToolbar
+      AnchorSideBottom.Side = asrBottom
+      Left = 0
+      Height = 340
+      Top = 0
+      Width = 146
+      Anchors = [akTop, akLeft, akBottom]
+      AutoFill = True
+      AutoSize = True
+      Caption = 'Button type'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      OnSelectionChanged = rgToolItemTypeSelectionChanged
+      TabOrder = 0
+    end
+    object pnlEditControls: TPanel
+      AnchorSideLeft.Control = rgToolItemType
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlEditToolbar
+      AnchorSideRight.Control = pnlEditToolbar
+      AnchorSideRight.Side = asrBottom
+      Left = 152
+      Height = 340
+      Top = 0
+      Width = 680
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
+      BevelOuter = bvNone
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.VerticalSpacing = 10
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 340
+      ClientWidth = 680
+      TabOrder = 1
+      object lblIconFile: TLabel
+        Left = 0
+        Height = 22
+        Top = 6
+        Width = 81
+        Caption = 'Icon:'
+        ParentColor = False
+        Visible = False
+      end
+      object edtIconFileName: TEdit
+        AnchorSideLeft.Control = lblIconFile
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblIconFile
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnOpenIcon
+        Left = 81
+        Height = 29
+        Top = 3
+        Width = 567
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 259
+        OnChange = edtIconFileNameChange
+        TabOrder = 0
+        Visible = False
+      end
+      object btnOpenIcon: TButton
+        AnchorSideTop.Control = edtIconFileName
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtIconFileName
+        AnchorSideBottom.Side = asrBottom
+        Left = 648
+        Height = 29
+        Top = 3
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Caption = '>>'
+        OnClick = btnOpenIconClick
+        TabOrder = 1
+        Visible = False
+      end
+      object lblToolTip: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 22
+        Top = 38
+        Width = 81
+        Caption = 'Tooltip:'
+        ParentColor = False
+        Visible = False
+      end
+      object edtToolTip: TEdit
+        AnchorSideLeft.Control = lblToolTip
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblToolTip
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        Left = 81
+        Height = 29
+        Top = 35
+        Width = 599
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 259
+        TabOrder = 2
+        Visible = False
+      end
+      object lblInternalCommand: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 22
+        Top = 70
+        Width = 81
+        Caption = 'Command:'
+        ParentColor = False
+        Visible = False
+      end
+      object cbInternalCommand: TComboBox
+        AnchorSideLeft.Control = lblInternalCommand
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblInternalCommand
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        Left = 81
+        Height = 29
+        Top = 67
+        Width = 599
+        HelpType = htKeyword
+        Anchors = [akTop, akLeft, akRight]
+        DropDownCount = 20
+        ItemHeight = 21
+        OnSelect = cbInternalCommandSelect
+        Style = csDropDownList
+        TabOrder = 3
+        Visible = False
+      end
+      object lblInternalParameters: TLabel
+        Left = 0
+        Height = 100
+        Top = 102
+        Width = 81
+        Caption = 'Parameters:'
+        Constraints.MinHeight = 100
+        ParentColor = False
+        Visible = False
+      end
+      object edtInternalParameters: TMemo
+        AnchorSideLeft.Control = lblInternalParameters
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblInternalParameters
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = lblInternalParameters
+        AnchorSideBottom.Side = asrBottom
+        Left = 81
+        Height = 100
+        Hint = 'Enter command parameters, each in a separate line. Press F1 to see help on parameters.'
+        Top = 102
+        Width = 599
+        HelpType = htKeyword
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        ParentShowHint = False
+        ScrollBars = ssAutoBoth
+        ShowHint = True
+        TabOrder = 10
+        Visible = False
+        WordWrap = False
+      end
+      object lblExternalCommand: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 22
+        Top = 212
+        Width = 81
+        Caption = 'Command:'
+        ParentColor = False
+        Visible = False
+      end
+      object edtExternalCommand: TEdit
+        AnchorSideLeft.Control = lblExternalCommand
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblExternalCommand
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnOpenFile
+        Left = 81
+        Height = 29
+        Top = 209
+        Width = 567
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 259
+        TabOrder = 4
+        Visible = False
+      end
+      object btnOpenFile: TButton
+        AnchorSideTop.Control = edtExternalCommand
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtExternalCommand
+        AnchorSideBottom.Side = asrBottom
+        Left = 648
+        Height = 29
+        Top = 209
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnOpenFileClick
+        TabOrder = 5
+        Visible = False
+      end
+      object lblExternalParameters: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 22
+        Top = 244
+        Width = 81
+        Caption = 'Parameters:'
+        ParentColor = False
+        Visible = False
+      end
+      object edtExternalParameters: TEdit
+        AnchorSideLeft.Control = lblExternalParameters
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblExternalParameters
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        Left = 81
+        Height = 29
+        Top = 241
+        Width = 599
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 259
+        TabOrder = 6
+        Visible = False
+      end
+      object lblStartPath: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 22
+        Top = 276
+        Width = 81
+        Caption = 'Start path:'
+        ParentColor = False
+        Visible = False
+      end
+      object edtStartPath: TEdit
+        AnchorSideLeft.Control = lblStartPath
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblStartPath
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        Left = 81
+        Height = 29
+        Top = 273
+        Width = 599
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 259
+        TabOrder = 7
+        Visible = False
+      end
+      object lblHotKeys: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 22
+        Top = 308
+        Width = 81
+        Caption = 'Hot Key:'
+        FocusControl = edtHotKeys
+        ParentColor = False
+        Visible = False
+      end
+      object edtHotKeys: TEdit
+        AnchorSideLeft.Control = lblHotKeys
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblHotKeys
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnClearHotKey
+        AnchorSideBottom.Side = asrBottom
+        Left = 81
+        Height = 29
+        Top = 305
+        Width = 567
+        Anchors = [akTop, akLeft, akRight]
+        ParentShowHint = False
+        TabOrder = 8
+        Visible = False
+      end
+      object btnClearHotKey: TButton
+        AnchorSideTop.Control = edtHotKeys
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtHotKeys
+        AnchorSideBottom.Side = asrBottom
+        Left = 648
+        Height = 29
+        Top = 305
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Caption = 'X'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 9
+        Visible = False
+      end
+    end
+  end
+  object OpenDialog: TOpenDialog[4]
+    FilterIndex = 0
+    left = 16
+    top = 136
+  end
+end

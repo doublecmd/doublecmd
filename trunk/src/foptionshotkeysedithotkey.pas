@@ -440,19 +440,8 @@ begin
 end;
 
 function TfrmEditHotkey.GetParameters: TDynamicStringArray;
-var
-  Lines: Integer;
-  i: Integer;
 begin
-  Lines := edtParameters.Lines.Count;
-  if Lines > 0 then
-  begin
-    if edtParameters.Lines.Strings[Lines-1] = '' then
-      Dec(Lines);
-    SetLength(Result, Lines);
-    for i := 0 to Lines - 1 do
-      Result[i] := edtParameters.Lines.Strings[i];
-  end;
+  Result := GetArrayFromStrings(edtParameters.Lines);
 end;
 
 function TfrmEditHotkey.GetShortcuts: TDynamicStringArray;
@@ -564,12 +553,8 @@ begin
 end;
 
 procedure TfrmEditHotkey.SetParameters(const NewParameters: TDynamicStringArray);
-var
-  Param: String;
 begin
-  edtParameters.Clear;
-  for Param in NewParameters do
-    edtParameters.Lines.Add(Param);
+  SetStringsFromArray(edtParameters.Lines, NewParameters);
 end;
 
 procedure TfrmEditHotkey.SetShortcuts(const NewShortcuts: TDynamicStringArray);
