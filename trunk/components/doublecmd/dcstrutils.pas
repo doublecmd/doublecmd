@@ -722,14 +722,14 @@ end;
 
 procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char);
 begin
-  if Length(SourceString) > 0 then
+  if (Length(SourceString) > 0) and (Length(StringToAdd) > 0) then
     SourceString := SourceString + Separator;
   SourceString := SourceString + StringToAdd;
 end;
 
 procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: String);
 begin
-  if Length(SourceString) > 0 then
+  if (Length(SourceString) > 0) and (Length(StringToAdd) > 0) then
     SourceString := SourceString + Separator;
   SourceString := SourceString + StringToAdd;
 end;

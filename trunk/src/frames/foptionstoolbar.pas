@@ -30,7 +30,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ComCtrls, ExtCtrls, Buttons, fOptionsFrame, KASToolBar, KASToolItems,
-  uFormCommands, uHotkeyManager,
+  uFormCommands, uHotkeyManager, DCBasicTypes,
   fOptionsHotkeysEditHotkey;
 
 type
@@ -101,6 +101,7 @@ type
     procedure ktbBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
     procedure btnOpenIconClick(Sender: TObject);
+    function ktbBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
     procedure rgToolItemTypeSelectionChanged(Sender: TObject);
     procedure sboxToolbarsClick(Sender: TObject);
     procedure trbBarSizeChange(Sender: TObject);
@@ -113,8 +114,9 @@ type
     FUpdatingIconText: Boolean;
     FUpdatingButtonType: Boolean;
     procedure ApplyEditControls;
+    class function FindHotkey(NormalItem: TKASNormalItem; Hotkeys: THotkeys): THotkey;
+    class function FindHotkey(NormalItem: TKASNormalItem): THotkey;
     procedure LoadCurrentButton;
-    function MakeHotkey(NormalItem: TKASNormalItem): THotkey;
     procedure UpdateIcon(Icon: String);
   protected
     procedure Init; override;
@@ -122,6 +124,7 @@ type
     function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
+    class function GetShortcuts(NormalItem: TKASNormalItem): TDynamicStringArray;
     class function GetTitle: String; override;
     procedure SelectButton(ButtonNumber: Integer);
   end;
@@ -133,7 +136,7 @@ implementation
 uses
   LCLVersion,
   DCStrUtils, uGlobs, uLng, DCXmlConfig, uOSForms, uDCUtils, uPixMapManager,
-  uKASToolItemsExtended, DCBasicTypes,
+  uKASToolItemsExtended,
   fMain;
 
 const
@@ -144,6 +147,17 @@ const
 class function TfrmOptionsToolbar.GetIconIndex: Integer;
 begin
   Result := 32;
+end;
+
+class function TfrmOptionsToolbar.GetShortcuts(NormalItem: TKASNormalItem): TDynamicStringArray;
+var
+  Hotkey: THotkey;
+begin
+  Hotkey := FindHotkey(NormalItem);
+  if Assigned(Hotkey) then
+    Result := Hotkey.Shortcuts
+  else
+    Result := nil;
 end;
 
 class function TfrmOptionsToolbar.GetTitle: String;
@@ -204,6 +218,7 @@ var
   ProgramItem: TKASProgramItem;
   EnableNormal, EnableCommand, EnableProgram: Boolean;
   ButtonTypeIndex: Integer = -1;
+  ShortcutsHint: String;
 begin
   EnableNormal  := False;
   EnableCommand := False;
@@ -224,11 +239,12 @@ begin
         edtIconFileName.Text := NormalItem.Icon;
         FUpdatingIconText := False;
         edtToolTip.Text := NormalItem.Hint;
-        if NormalItem.Shortcuts = nil then
+        ShortcutsHint := NormalItem.GetShortcutsHint;
+        if ShortcutsHint = '' then
           lblHotkeyValue.Caption := rsOptHotkeysNoHotkey
         else
-          lblHotkeyValue.Caption := ShortcutsToText(NormalItem.Shortcuts);
-        btnRemoveHotkey.Enabled := NormalItem.Shortcuts <> nil;
+          lblHotkeyValue.Caption := ShortcutsHint;
+        btnRemoveHotkey.Enabled := ShortcutsHint <> '';
       end;
       if ToolItem is TKASCommandItem then
       begin
@@ -281,14 +297,6 @@ begin
   finally
     EnableAutoSizing;
   end;
-end;
-
-function TfrmOptionsToolbar.MakeHotkey(NormalItem: TKASNormalItem): THotkey;
-begin
-  Result := THotkey.Create;
-  Result.Command := cHotKeyCommand;
-  Result.Shortcuts := NormalItem.Shortcuts;
-  AddString(Result.Params, 'ToolItemID=' + NormalItem.ID);
 end;
 
 procedure TfrmOptionsToolbar.rgToolItemTypeSelectionChanged(Sender: TObject);
@@ -383,16 +391,15 @@ begin
 end;
 
 procedure TfrmOptionsToolbar.btnRemoveHotKeyClick(Sender: TObject);
-  procedure RemoveHotkey(Hotkeys: THotkeys; HotkeyToSearch: THotkey);
+  procedure RemoveHotkey(Hotkeys: THotkeys; NormalItem: TKASNormalItem);
   var
     Hotkey: THotkey;
   begin
-    Hotkey := Hotkeys.FindByContents(HotkeyToSearch);
+    Hotkey := FindHotkey(NormalItem, Hotkeys);
     Hotkeys.Remove(Hotkey);
   end;
 var
   HMForm: THMForm;
-  Hotkey: THotkey;
   ToolItem: TKASToolItem;
   NormalItem: TKASNormalItem;
   I: Integer;
@@ -401,19 +408,12 @@ begin
   if ToolItem is TKASNormalItem then
   begin
     NormalItem := TKASNormalItem(ToolItem);
-    Hotkey := MakeHotkey(NormalItem);
-    try
-      HMForm := HotMan.Forms.Find('Main');
-      if Assigned(HMForm) then
-      begin
-        RemoveHotkey(HMForm.Hotkeys, Hotkey);
-        for I := 0 to HMForm.Controls.Count - 1 do
-          RemoveHotkey(HMForm.Controls[I].Hotkeys, Hotkey);
-      end;
-
-      NormalItem.Shortcuts := nil;
-    finally
-      Hotkey.Free;
+    HMForm := HotMan.Forms.Find('Main');
+    if Assigned(HMForm) then
+    begin
+      RemoveHotkey(HMForm.Hotkeys, NormalItem);
+      for I := 0 to HMForm.Controls.Count - 1 do
+        RemoveHotkey(HMForm.Controls[I].Hotkeys, NormalItem);
     end;
     LoadCurrentButton;
   end;
@@ -455,7 +455,7 @@ end;
 procedure TfrmOptionsToolbar.btnEditHotkeyClick(Sender: TObject);
 var
   HMForm: THMForm;
-  Hotkey: THotkey = nil;
+  TemplateHotkey, Hotkey: THotkey;
   ToolItem: TKASToolItem;
   NormalItem: TKASNormalItem;
   AControls: TDynamicStringArray = nil;
@@ -468,28 +468,34 @@ begin
   if ToolItem is TKASNormalItem then
   begin
     NormalItem := TKASNormalItem(ToolItem);
+    TemplateHotkey := THotkey.Create;
     try
-      Hotkey := MakeHotkey(NormalItem);
-      if Length(NormalItem.Shortcuts) > 0 then
+      TemplateHotkey.Command := cHotKeyCommand;
+      SetValue(TemplateHotkey.Params, 'ToolItemID', NormalItem.ID);
+
+      HMForm := HotMan.Forms.Find('Main');
+      if Assigned(HMForm) then
       begin
-        HMForm := HotMan.Forms.Find('Main');
-        if Assigned(HMForm) then
+        Hotkey := FindHotkey(NormalItem, HMForm.Hotkeys);
+        if Assigned(Hotkey) then
+          TemplateHotkey.Shortcuts := Hotkey.Shortcuts;
+        for I := 0 to HMForm.Controls.Count - 1 do
         begin
-          for I := 0 to HMForm.Controls.Count - 1 do
-            if Assigned(HMForm.Controls[I].Hotkeys.FindByContents(Hotkey)) then
-              AddString(AControls, HMForm.Controls[I].Name);
+          Hotkey := FindHotkey(NormalItem, HMForm.Controls[I].Hotkeys);
+          if Assigned(Hotkey) then
+          begin
+            TemplateHotkey.Shortcuts := Hotkey.Shortcuts;
+            AddString(AControls, HMForm.Controls[I].Name);
+          end;
         end;
       end;
 
-      if FEditForm.Execute(True, 'Main', cHotKeyCommand, Hotkey, AControls, [ehoHideParams]) then
+      if FEditForm.Execute(True, 'Main', cHotKeyCommand, TemplateHotkey, AControls, [ehoHideParams]) then
       begin
-        Hotkey.Free;
-        Hotkey := FEditForm.CloneNewHotkey;
-        NormalItem.Shortcuts := Hotkey.Shortcuts;
         LoadCurrentButton;
       end;
     finally
-      Hotkey.Free;
+      TemplateHotkey.Free;
     end;
   end;
 end;
@@ -525,6 +531,45 @@ procedure TfrmOptionsToolbar.edtIconFileNameChange(Sender: TObject);
 begin
   if not FUpdatingIconText then
     UpdateIcon(edtIconFileName.Text);
+end;
+
+class function TfrmOptionsToolbar.FindHotkey(NormalItem: TKASNormalItem; Hotkeys: THotkeys): THotkey;
+var
+  i: Integer;
+  ToolItemID: String;
+begin
+  for i := 0 to Hotkeys.Count - 1 do
+  begin
+    Result := Hotkeys.Items[i];
+    if (Result.Command = cHotKeyCommand) and
+       (GetParamValue(Result.Params, 'ToolItemID', ToolItemID)) and
+       (ToolItemID = NormalItem.ID) then
+       Exit;
+  end;
+  Result := nil;
+end;
+
+class function TfrmOptionsToolbar.FindHotkey(NormalItem: TKASNormalItem): THotkey;
+var
+  HMForm: THMForm;
+  i: Integer;
+begin
+  HMForm := HotMan.Forms.Find('Main');
+  if Assigned(HMForm) then
+  begin
+    Result := FindHotkey(NormalItem, HMForm.Hotkeys);
+    if not Assigned(Result) then
+    begin
+      for i := 0 to HMForm.Controls.Count - 1 do
+      begin
+        Result := FindHotkey(NormalItem, HMForm.Controls[i].Hotkeys);
+        if Assigned(Result) then
+          Break;
+      end;
+    end;
+  end
+  else
+    Result := nil;
 end;
 
 procedure TfrmOptionsToolbar.trbBarSizeChange(Sender: TObject);
@@ -635,6 +680,11 @@ procedure TfrmOptionsToolbar.ktbBarToolButtonMouseUp(Sender: TObject;
   NumberOfButton: Integer);
 begin
   FToolDragButtonNumber := -1;
+end;
+
+function TfrmOptionsToolbar.ktbBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
+begin
+  Result := ShortcutsToText(GetShortcuts(ToolItem));
 end;
 
 // Deselect any selected button

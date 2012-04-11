@@ -157,13 +157,14 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       Constraints.MinHeight = 24
       TabOrder = 0
       OnClick = ktbBarClick
+      OnToolItemShortcutsHint = ktbBarToolItemShortcutsHint
+      OnLoadButtonGlyph = ktbBarLoadButtonGlyph
       OnToolButtonClick = ktbBarToolButtonClick
       OnToolButtonMouseDown = ktbBarToolButtonMouseDown
       OnToolButtonMouseUp = ktbBarToolButtonMouseUp
       OnToolButtonMouseMove = ktbBarToolButtonMouseMove
       OnToolButtonDragDrop = ktbBarToolButtonDragDrop
       OnToolButtonDragOver = ktbBarToolButtonDragOver
-      OnLoadButtonGlyph = ktbBarLoadButtonGlyph
       RadioToolBar = True
       GlyphSize = 16
       ShowDividerAsButton = True
