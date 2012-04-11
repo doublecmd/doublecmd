@@ -427,6 +427,7 @@ resourcestring
   rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used.';
   rsOptHotkeysShortCutUsedText2 = 'Change it to %s?';
   rsOptHotkeysUsedBy = 'used for %s in %s';
+  rsOptHotkeysUsedWithDifferentParams = 'used for this command but with different parameters';
   rsOptHotkeysAddHotkey = 'Add hotkey for %s';
   rsOptHotkeysEditHotkey = 'Edit hotkey for %s';
   rsHotkeyCategoryMain = 'Main';
