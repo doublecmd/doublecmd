@@ -33,7 +33,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, ComCtrls,
   Graphics, Dialogs, ExtCtrls, Buttons, FileUtil, Menus,
-  DCXmlConfig, KASToolItems;
+  DCXmlConfig, KASToolItems, DCBasicTypes;
 
 type
 
@@ -47,8 +47,6 @@ type
   TOnLoadButtonGlyph = function (ToolItem: TKASToolItem; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
   TOnToolItemExecute = procedure (ToolItem: TKASToolItem) of object;
   TOnConfigLoadItem = function (Config: TXmlConfig; Node: TXmlNode): TKASToolItem of object;
-
-  TDynamicStringArray = array of String;
 
   { TKASToolButton }
 
