@@ -236,31 +236,56 @@ end;
 procedure TfrmEditHotkey.CheckHotKeyConflicts(DeleteConflicts: Boolean);
 var
   ConflictsCount: Integer;
+  ShortConflicts, LongConflicts: String;
 
-  procedure AddConflictHint(ACommand, AName: String);
+  procedure AddCommandConflict(Hotkey: THotkey; const AName: String);
   var
-    s: String = '';
+    sConflict: String;
   begin
-    if lblHotKeyConflict.Hint <> '' then
-      s := LineEnding;
-    lblHotKeyConflict.Hint := lblHotKeyConflict.Hint + s +
-        Format(rsOptHotkeysUsedBy, [ACommand, AName]);
+    sConflict := Format(rsOptHotkeysUsedBy, [Hotkey.Command, AName]);
+    AddStrWithSep(ShortConflicts, sConflict, LineEnding);
+    AddStrWithSep(LongConflicts, sConflict, LineEnding);
   end;
 
-  procedure CheckHotkey(Hotkeys: THotkeys; const AObjectName: String;
-                        const Shortcuts: TDynamicStringArray);
+  procedure AddParamsConflict(Hotkey: THotkey);
   var
-    hotkey: THotkey;
+    sConflict: String;
+    Param: String;
   begin
-    hotkey := Hotkeys.Find(Shortcuts);
-    if Assigned(hotkey) and (hotkey.Command <> FCommand) then
+    sConflict := rsOptHotkeysUsedWithDifferentParams;
+    AddStrWithSep(ShortConflicts, sConflict, LineEnding);
+    if Length(Hotkey.Params) > 0 then
     begin
-      Inc(ConflictsCount);
+      sConflict := sConflict + ':';
+      for Param in Hotkey.Params do
+        AddStrWithSep(sConflict, ' ' + Param, LineEnding);
+    end;
+    AddStrWithSep(LongConflicts, sConflict, LineEnding);
+  end;
 
-      if DeleteConflicts then
-        Hotkeys.Remove(hotkey)
-      else
-        AddConflictHint(hotkey.Command, GetTranslatedControlName(AObjectName));
+  procedure CheckHotkey(Hotkeys: THotkeys; const AObjectName: String; HotkeyToSearch: THotkey);
+  var
+    Hotkey: THotkey;
+  begin
+    Hotkey := Hotkeys.Find(HotkeyToSearch.Shortcuts);
+    if Assigned(Hotkey) then
+    begin
+      if Hotkey.Command <> FCommand then
+      begin
+        Inc(ConflictsCount);
+        if DeleteConflicts then
+          Hotkeys.Remove(Hotkey)
+        else
+          AddCommandConflict(Hotkey, GetTranslatedControlName(AObjectName));
+      end
+      else if not Hotkey.SameParams(HotkeyToSearch.Params) then
+      begin
+        Inc(ConflictsCount);
+        if DeleteConflicts then
+          Hotkeys.Remove(Hotkey)
+        else
+          AddParamsConflict(Hotkey);
+      end;
     end;
   end;
 
@@ -269,7 +294,7 @@ var
   HMControl: THMControl;
   i: Integer;
   IsFormHotKey: Boolean;
-  Shortcuts: TDynamicStringArray;
+  Hotkey: THotkey;
 begin
   lblHotKeyConflict.Caption := EmptyStr;
   lblHotKeyConflict.Hint := EmptyStr;
@@ -278,32 +303,35 @@ begin
   if not Assigned(HMForm) then
     Exit;
 
-  Shortcuts := GetShortcuts;
-
-  ConflictsCount := 0;
-  IsFormHotKey := True;
-  // search if any checked control has same hotkey assigned somewhere else
-  for i := 0 to cgHKControls.Items.Count - 1 do
-  begin
-    if cgHKControls.Checked[i] then
+  Hotkey := CloneNewHotkey;
+  try
+    ConflictsCount := 0;
+    if Length(Hotkey.Shortcuts) > 0 then
     begin
-      IsFormHotKey := False;
-      HMControl := THMControl(cgHKControls.Items.Objects[i]);
-      if Assigned(HMControl) then
-        CheckHotkey(HMControl.Hotkeys, HMControl.Name, Shortcuts);
+      IsFormHotKey := True;
+      // search if any checked control has same hotkey assigned somewhere else
+      for i := 0 to cgHKControls.Items.Count - 1 do
+      begin
+        if cgHKControls.Checked[i] then
+        begin
+          IsFormHotKey := False;
+          HMControl := THMControl(cgHKControls.Items.Objects[i]);
+          if Assigned(HMControl) then
+            CheckHotkey(HMControl.Hotkeys, HMControl.Name, Hotkey);
+        end;
+      end;
+
+      if IsFormHotKey then
+        CheckHotkey(HMForm.Hotkeys, HMForm.Name, Hotkey);
+
+      lblHotKeyConflict.Caption := ShortConflicts;
+      lblHotKeyConflict.Hint := LongConflicts;
     end;
+
+    lblHotKeyConflict.Visible := ConflictsCount > 0;
+  finally
+    Hotkey.Free;
   end;
-
-  if IsFormHotKey then
-    CheckHotkey(HMForm.Hotkeys, HMForm.Name, Shortcuts);
-
-  // show full message if only one conflict, else show a generic message
-  if ConflictsCount = 1 then
-    lblHotKeyConflict.Caption := lblHotKeyConflict.Hint
-  else if ConflictsCount > 1 then
-    lblHotKeyConflict.Caption := rsOptHotkeysShortCutUsed + ' [..]';
-
-  lblHotKeyConflict.Visible := ConflictsCount > 0;
 end;
 
 function TfrmEditHotkey.CloneNewHotkey: THotkey;
@@ -394,6 +422,9 @@ begin
   edtParameters.Visible := not (ehoHideParams in Options);
   btnShowCommandHelp.Visible := not (ehoHideParams in Options);
   btnOK.Enabled := True;
+  lblHotKeyConflict.Caption := '';
+  lblHotKeyConflict.Hint    := '';
+  lblHotKeyConflict.Visible := False;
 
   if ShowModal = mrOK then
     Result := ApplyHotkey

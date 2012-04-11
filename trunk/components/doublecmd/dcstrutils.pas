@@ -225,6 +225,7 @@ function StrEnds(const StringToCheck, StringToMatch: String): Boolean;
    a separator before adding the string.
 }
 procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char = ' ');
+procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: String);
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
 
 {en
@@ -720,6 +721,13 @@ begin
 end;
 
 procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char);
+begin
+  if Length(SourceString) > 0 then
+    SourceString := SourceString + Separator;
+  SourceString := SourceString + StringToAdd;
+end;
+
+procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: String);
 begin
   if Length(SourceString) > 0 then
     SourceString := SourceString + Separator;
