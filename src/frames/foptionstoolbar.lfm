@@ -280,7 +280,6 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
-      OnSelectionChanged = rgToolItemTypeSelectionChanged
       TabOrder = 0
     end
     object pnlEditControls: TPanel

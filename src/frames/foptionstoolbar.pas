@@ -131,8 +131,9 @@ implementation
 {$R *.lfm}
 
 uses
+  LCLVersion,
   DCStrUtils, uGlobs, uLng, DCXmlConfig, uOSForms, uDCUtils, uPixMapManager,
-  uKASToolItemsExtended,
+  uKASToolItemsExtended, DCBasicTypes,
   fMain;
 
 const
@@ -159,6 +160,11 @@ begin
   ParseLineToList(rsOptToolbarButtonType, rgToolItemType.Items);
   FUpdatingButtonType := False;
   FToolDragButtonNumber := -1;
+  {$IF LCL_FULLVERSION >= 093100}
+  rgToolItemType.OnSelectionChanged := @rgToolItemTypeSelectionChanged;
+  {$ELSE}
+  rgToolItemType.OnClick := @rgToolItemTypeSelectionChanged;
+  {$ENDIF}
 end;
 
 procedure TfrmOptionsToolbar.Load;

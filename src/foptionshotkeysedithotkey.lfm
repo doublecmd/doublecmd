@@ -145,10 +145,10 @@ object frmEditHotkey: TfrmEditHotkey
     AutoSize = True
     BorderSpacing.Top = 4
     BorderSpacing.Bottom = 6
+    Caption = '&OK'
     Constraints.MinHeight = 40
     Constraints.MinWidth = 120
     Default = True
-    DefaultCaption = True
     Kind = bkOK
     ModalResult = 1
     TabOrder = 4
@@ -166,9 +166,9 @@ object frmEditHotkey: TfrmEditHotkey
     AutoSize = True
     BorderSpacing.Bottom = 6
     Cancel = True
+    Caption = '&Cancel'
     Constraints.MinHeight = 40
     Constraints.MinWidth = 120
-    DefaultCaption = True
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 5
