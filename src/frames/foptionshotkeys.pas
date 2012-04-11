@@ -65,6 +65,7 @@ type
     FHotkeysAutoColWidths: array of Integer;
     FHotkeysAutoGridWidth: Integer;
     FHotkeysCategories: TStringList; // Untranslated
+    FUpdatingShortcutsFiles: Boolean;
     procedure AutoSizeCommandsGrid;
     procedure AutoSizeHotkeysGrid;
     procedure ClearHotkeysGrid;
@@ -231,7 +232,7 @@ end;
 
 procedure TfrmOptionsHotkeys.lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
 begin
-  if lbSCFilesList.ItemIndex >= 0 then
+  if not FUpdatingShortcutsFiles and (lbSCFilesList.ItemIndex >= 0) then
   begin
     HotMan.Load(gpCfgDir + lbSCFilesList.Items[lbSCFilesList.ItemIndex]);
     FillCategoriesList;
@@ -360,6 +361,7 @@ var
   SR : TSearchRecEx;
   Res : Integer;
 begin
+  FUpdatingShortcutsFiles := True;
   lbSCFilesList.Items.Clear;
   Res := FindFirstEx(gpCfgDir + '*.scf', faAnyFile, SR);
   while Res = 0 do
@@ -370,6 +372,7 @@ begin
     Res := FindNextEx(SR);
   end;
   FindCloseEx(SR);
+  FUpdatingShortcutsFiles := False;
 end;
 
 procedure TfrmOptionsHotkeys.GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: THotkeys);
@@ -694,6 +697,7 @@ end;
 procedure TfrmOptionsHotkeys.Load;
 begin
   FillSCFilesList;
+  FillCategoriesList;
 end;
 
 function TfrmOptionsHotkeys.Save: TOptionsEditorSaveFlags;
@@ -975,4 +979,4 @@ begin
 end;
 
 end.
-
+
