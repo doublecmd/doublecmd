@@ -365,7 +365,7 @@ begin
   begin
     EditControl.Text := sShortCut;
     Key := 0;
-    btnOK.Enabled := sShortCut <> '';
+    btnOK.Enabled := GetShortcuts <> nil;
     lblHotKeyConflict.Caption := '';
 
     CheckHotKeyConflicts;
@@ -378,7 +378,7 @@ var
 begin
   EditControl := Sender as TEdit;
   EditControl.Text := '';
-  btnOK.Enabled := False;
+  btnOK.Enabled := GetShortcuts <> nil;
   Key := #0;
 end;
 
@@ -421,7 +421,7 @@ begin
   lblParameters.Visible := not (ehoHideParams in Options);
   edtParameters.Visible := not (ehoHideParams in Options);
   btnShowCommandHelp.Visible := not (ehoHideParams in Options);
-  btnOK.Enabled := True;
+  btnOK.Enabled := GetShortcuts <> nil;
   lblHotKeyConflict.Caption := '';
   lblHotKeyConflict.Hint    := '';
   lblHotKeyConflict.Visible := False;

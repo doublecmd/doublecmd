@@ -35,6 +35,13 @@ type
 
   TOnLoadToolItem = procedure (Item: TKASToolItem) of object;
 
+  {$interfaces corba}
+  IToolOwner = interface
+    ['{A7908D38-1E13-4E8D-8FA7-8830A2FF9290}']
+    function GetToolItemShortcutsHint(Item: TKASToolItem): String;
+  end;
+  {$interfaces default}
+
   { TKASToolBarLoader }
 
   TKASToolBarLoader = class
@@ -48,7 +55,10 @@ type
 
   TKASToolItem = class
   private
+    FToolOwner: IToolOwner;
     FUserData: Pointer;
+  protected
+    property ToolOwner: IToolOwner read FToolOwner;
   public
     procedure Assign(OtherItem: TKASToolItem); virtual;
     function Clone: TKASToolItem; virtual; abstract;
@@ -58,6 +68,7 @@ type
     procedure Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader); virtual; abstract;
     procedure Save(Config: TXmlConfig; Node: TXmlNode);
     procedure SaveContents(Config: TXmlConfig; Node: TXmlNode); virtual; abstract;
+    procedure SetToolOwner(AToolOwner: IToolOwner); virtual;
     property UserData: Pointer read FUserData write FUserData;
   end;
   TKASToolItemClass = class of TKASToolItem;
@@ -78,18 +89,18 @@ type
 
   TKASNormalItem = class(TKASToolItem)
   strict private
-    FID:  String;          // Unique identificator of the button
+    FID: String;            // Unique identificator of the button
     function GetID: String;
   public
     Icon: String;
     Text: String;
     Hint: String;
-    Shortcuts: TDynamicStringArray;
     procedure Assign(OtherItem: TKASToolItem); override;
     function Clone: TKASToolItem; override;
     function ConfigNodeName: String; override;
     function GetEffectiveHint: String; override;
     function GetEffectiveText: String; override;
+    function GetShortcutsHint: String;
     procedure Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader); override;
     procedure SaveContents(Config: TXmlConfig; Node: TXmlNode); override;
     property ID: String read GetID;
@@ -109,6 +120,7 @@ type
     function ConfigNodeName: String; override;
     procedure Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader); override;
     procedure SaveContents(Config: TXmlConfig; Node: TXmlNode); override;
+    procedure SetToolOwner(AToolOwner: IToolOwner); override;
     property SubItems: TKASToolBarItems read FItems;
   end;
 
@@ -149,30 +161,8 @@ const
 
 implementation
 
-procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
-var
-  Len: Integer;
-begin
-  Len := Length(anArray);
-  SetLength(anArray, Len + 1);
-  anArray[Len] := sToAdd;
-end;
-
-procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char);
-begin
-  if Length(SourceString) > 0 then
-    SourceString := SourceString + Separator;
-  SourceString := SourceString + StringToAdd;
-end;
-
-function ArrayToString(const anArray: TDynamicStringArray; const Separator: Char): String;
-var
-  i: Integer;
-begin
-  Result := '';
-  for i := Low(anArray) to High(anArray) do
-    AddStrWithSep(Result, anArray[i], Separator);
-end;
+uses
+  DCStrUtils;
 
 procedure SaveIfNotEmpty(Config: TXmlConfig; Node: TXmlNode; Name, Value: String);
 begin
@@ -191,6 +181,11 @@ procedure TKASToolItem.Save(Config: TXmlConfig; Node: TXmlNode);
 begin
   Node := Config.AddNode(Node, ConfigNodeName);
   SaveContents(Config, Node);
+end;
+
+procedure TKASToolItem.SetToolOwner(AToolOwner: IToolOwner);
+begin
+  FToolOwner := AToolOwner;
 end;
 
 { TKASToolBarSerializer }
@@ -271,6 +266,7 @@ end;
 procedure TKASMenuItem.Assign(OtherItem: TKASToolItem);
 var
   MenuItem: TKASMenuItem;
+  Item: TKASToolItem;
   I: Integer;
 begin
   inherited Assign(OtherItem);
@@ -279,7 +275,11 @@ begin
     MenuItem := TKASMenuItem(OtherItem);
     FItems.Clear;
     for I := 0 to MenuItem.SubItems.Count - 1 do
-      FItems.Add(MenuItem.SubItems.Items[I].Clone);
+    begin
+      Item := MenuItem.SubItems.Items[I].Clone;
+      Item.SetToolOwner(ToolOwner);
+      FItems.Add(Item);
+    end;
   end;
 end;
 
@@ -327,8 +327,18 @@ begin
   end;
 end;
 
+procedure TKASMenuItem.SetToolOwner(AToolOwner: IToolOwner);
+var
+  I: Integer;
+begin
+  inherited SetToolOwner(AToolOwner);
+  for I := 0 to SubItems.Count - 1 do
+    SubItems.Items[I].SetToolOwner(ToolOwner);
+end;
+
 procedure TKASMenuItem.ToolItemLoaded(Item: TKASToolItem);
 begin
+  Item.SetToolOwner(ToolOwner);
   SubItems.Add(Item);
 end;
 
@@ -380,11 +390,10 @@ begin
   if OtherItem is TKASNormalItem then
   begin
     // Don't copy ID.
-    NormalItem := TKASNormalItem(OtherItem);
-    Icon       := NormalItem.Icon;
-    Text       := NormalItem.Text;
-    Hint       := NormalItem.Hint;
-    Shortcuts  := Copy(NormalItem.Shortcuts);
+    NormalItem     := TKASNormalItem(OtherItem);
+    Icon           := NormalItem.Icon;
+    Text           := NormalItem.Text;
+    Hint           := NormalItem.Hint;
   end;
 end;
 
@@ -400,16 +409,13 @@ begin
 end;
 
 function TKASNormalItem.GetEffectiveHint: String;
+var
+  ShortcutsHint: String;
 begin
   Result := Hint;
-  if Length(Shortcuts) > 0 then
-  begin
-    if Result <> '' then
-      Result := Result + ' ('
-    else
-      Result := Result + '(';
-    Result := Result + ArrayToString(Shortcuts, ' ') + ')';
-  end;
+  ShortcutsHint := GetShortcutsHint;
+  if ShortcutsHint <> '' then
+    AddStrWithSep(Result, '(' + ShortcutsHint + ')', ' ');
 end;
 
 function TKASNormalItem.GetEffectiveText: String;
@@ -431,10 +437,17 @@ begin
   Result := FID;
 end;
 
+function TKASNormalItem.GetShortcutsHint: String;
+begin
+  if Assigned(FToolOwner) then
+    Result := FToolOwner.GetToolItemShortcutsHint(Self)
+  else
+    Result := '';
+end;
+
 procedure TKASNormalItem.Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader);
 begin
-  Shortcuts := nil;
-  Node      := Node.FirstChild;
+  Node := Node.FirstChild;
   while Assigned(Node) do
   begin
     if Node.CompareName('ID') = 0 then
@@ -444,23 +457,17 @@ begin
     else if Node.CompareName('Icon') = 0 then
       Icon    := Config.GetContent(Node)
     else if Node.CompareName('Hint') = 0 then
-      Hint := Config.GetContent(Node)
-    else if Node.CompareName('Shortcut') = 0 then
-      AddString(Shortcuts, Config.GetContent(Node));
+      Hint := Config.GetContent(Node);
     Node := Node.NextSibling;
   end;
 end;
 
 procedure TKASNormalItem.SaveContents(Config: TXmlConfig; Node: TXmlNode);
-var
-  AShortcut: String;
 begin
   Config.AddValue(Node, 'ID', ID);
   SaveIfNotEmpty(Config, Node, 'Text', Text);
   SaveIfNotEmpty(Config, Node, 'Icon', Icon);
   SaveIfNotEmpty(Config, Node, 'Hint', Hint);
-  for AShortcut in Shortcuts do
-    SaveIfNotEmpty(Config, Node, 'Shortcut', AShortcut);
 end;
 
 { TKASToolBarItems }

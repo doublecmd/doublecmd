@@ -388,6 +388,7 @@ type
     MainTrayIcon: TTrayIcon;
 
     procedure actExecute(Sender: TObject);
+    function MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
     procedure mnuAllOperPauseClick(Sender: TObject);
@@ -552,7 +553,7 @@ type
        Convert toolbar configuration from .bar file to global config.
     }
     procedure ConvertToolbarBarConfig(BarFileName: String);
-    procedure ConvertIniToolbarItem(Loader: TKASToolBarIniLoader; var Item: TKASToolItem);
+    procedure ConvertIniToolbarItem(Loader: TKASToolBarIniLoader; var Item: TKASToolItem; const Shortcut: String);
     procedure CreateDefaultToolbar;
     procedure EditToolbarButton(Button: TKASToolButton);
     procedure ToolbarExecuteCommand(ToolItem: TKASToolItem);
@@ -1132,6 +1133,11 @@ procedure TfrmMain.MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseB
 begin
   if Button = mbRight then
     MainToolBarMouseUp(Sender, Button, Shift, X, Y);
+end;
+
+function TfrmMain.MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
+begin
+  Result := ShortcutsToText(TfrmOptionsToolbar.GetShortcuts(ToolItem));
 end;
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);
@@ -2025,7 +2031,7 @@ begin
   end;
 end;
 
-procedure TfrmMain.ConvertIniToolbarItem(Loader: TKASToolBarIniLoader; var Item: TKASToolItem);
+procedure TfrmMain.ConvertIniToolbarItem(Loader: TKASToolBarIniLoader; var Item: TKASToolItem; const Shortcut: String);
   procedure ConvertHotkeys(CommandItem: TKASCommandItem; Hotkeys: THotkeys; SearchHotkey: THotkey);
   var
     Hotkey: THotkey;
@@ -2049,13 +2055,13 @@ begin
   begin
     CommandItem := TKASCommandItem(Item);
     // Convert toolbar hotkey to use ID as parameter.
-    if Length(CommandItem.Shortcuts) > 0 then
+    if Shortcut <> '' then
     begin
       Hotkey := THotkey.Create;
       try
         Hotkey.Command := 'cm_Int_RunCommandFromBarFile';
-        Hotkey.Shortcuts := CommandItem.Shortcuts;
-        Hotkey.Params := CommandItem.Shortcuts;
+        AddString(Hotkey.Shortcuts, Shortcut);
+        Hotkey.Params := Hotkey.Shortcuts;
         HMForm := HotMan.Forms.Find('Main');
         if Assigned(HMForm) then
           ConvertHotkeys(CommandItem, HMForm.Hotkeys, Hotkey);

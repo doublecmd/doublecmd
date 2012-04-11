@@ -36,7 +36,6 @@ uses
   DCXmlConfig, KASToolItems, DCBasicTypes;
 
 type
-
   TOnToolButtonClick = procedure (Sender: TObject) of object;
   TOnToolButtonMouseUpDown = procedure (Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer) of object;
   TOnToolButtonMouseMove = procedure (Sender: TObject; Shift:TShiftState; X,Y:Integer; NumberOfButton: Integer) of object;
@@ -47,6 +46,7 @@ type
   TOnLoadButtonGlyph = function (ToolItem: TKASToolItem; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
   TOnToolItemExecute = procedure (ToolItem: TKASToolItem) of object;
   TOnConfigLoadItem = function (Config: TXmlConfig; Node: TXmlNode): TKASToolItem of object;
+  TOnToolItemShortcutsHint = function (ToolItem: TKASNormalItem): String of object;
 
   { TKASToolButton }
 
@@ -73,7 +73,7 @@ type
 
   { TKASToolBar }
 
-  TKASToolBar = class(TToolBar)
+  TKASToolBar = class(TToolBar, IToolOwner)
   private
     FButtonHeight: Integer;
     FButtonWidth: Integer;
@@ -94,6 +94,7 @@ type
     FOnToolButtonEndDrag: TOnToolButtonEndDrag;
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
     FOnToolItemExecute: TOnToolItemExecute;
+    FOnToolItemShortcutsHint: TOnToolItemShortcutsHint;
     FKASToolBarFlags: TToolBarFlags;
     FResizeButtonsNeeded: Boolean;
     procedure AssignToolButtonProperties(ToolButton: TKASToolButton);
@@ -101,10 +102,11 @@ type
     function DoExecuteToolItem(Item: TKASToolItem): Boolean;
     function GetChangePath: String;
     function GetEnvVar: String;
+    function GetToolItemShortcutsHint(Item: TKASToolItem): String;
     function LoadBtnIcon(IconPath: String): TBitMap;
     procedure DrawLinkIcon(Image: TBitMap);
     function GetButton(Index: Integer): TKASToolButton;
-    procedure InsertButton(InsertAt: Integer; ToolButton: TSpeedButton);
+    procedure InsertButton(InsertAt: Integer; ToolButton: TKASToolButton);
     procedure SetButtonHeight(const AValue: Integer);
     procedure SetButtonWidth(const AValue: Integer);
     procedure SetChangePath(const AValue: String);
@@ -158,8 +160,9 @@ type
 
     property Buttons[Index: Integer]: TKASToolButton read GetButton;
     property RowHeight: Integer read FRowHeight;
+
   published
-    { Published declarations }
+    property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
     property OnToolButtonMouseDown: TOnToolButtonMouseUpDown read FOnToolButtonMouseDown write FOnToolButtonMouseDown;
     property OnToolButtonMouseUp: TOnToolButtonMouseUpDown read FOnToolButtonMouseUp write FOnToolButtonMouseUp;
@@ -168,7 +171,7 @@ type
     property OnToolButtonEndDrag: TOnToolButtonEndDrag read FOnToolButtonEndDrag write FOnToolButtonEndDrag;
     property OnToolButtonDragOver: TOnToolButtonDragOver read FOnToolButtonDragOver write FOnToolButtonDragOver;
     property OnToolItemExecute: TOnToolItemExecute read FOnToolItemExecute write FOnToolItemExecute;
-    property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
+    property OnToolItemShortcutsHint: TOnToolItemShortcutsHint read FOnToolItemShortcutsHint write FOnToolItemShortcutsHint;
     property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
     property Flat: Boolean read FFlat write SetFlat default False;
     property GlyphSize: Integer read FGlyphSize write SetGlyphSize;
@@ -194,35 +197,10 @@ type
     ToolItemExecute: TOnToolItemExecute;
   end;
 
-procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
-var
-  Len: Integer;
-begin
-  Len := Length(anArray);
-  SetLength(anArray, Len + 1);
-  anArray[Len] := sToAdd;
-end;
-
 procedure SaveIfNotEmpty(Config: TXmlConfig; Node: TXmlNode; Name, Value: String);
 begin
   if Value <> EmptyStr then
     Config.AddValue(Node, Name, Value);
-end;
-
-procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char);
-begin
-  if Length(SourceString) > 0 then
-    SourceString := SourceString + Separator;
-  SourceString := SourceString + StringToAdd;
-end;
-
-function ArrayToString(const anArray: TDynamicStringArray; const Separator: Char): String;
-var
-  i: Integer;
-begin
-  Result := '';
-  for i := Low(anArray) to High(anArray) do
-    AddStrWithSep(Result, anArray[i], Separator);
 end;
 
 procedure Register;
@@ -232,7 +210,7 @@ end;
 
 { TKASToolBar }
 
-procedure TKASToolBar.InsertButton(InsertAt: Integer; ToolButton: TSpeedButton);
+procedure TKASToolBar.InsertButton(InsertAt: Integer; ToolButton: TKASToolButton);
 begin
   if InsertAt < 0 then
     InsertAt:= 0;
@@ -517,6 +495,13 @@ end;
 
 function TKASToolBar.GetEnvVar: String;
 begin
+end;
+
+function TKASToolBar.GetToolItemShortcutsHint(Item: TKASToolItem): String;
+begin
+  Result := '';
+  if Assigned(FOnToolItemShortcutsHint) and (Item is TKASNormalItem) then
+    Result := FOnToolItemShortcutsHint(TKASNormalItem(Item));
 end;
 
 function TKASToolBar.GetButton(Index: Integer): TKASToolButton;
@@ -858,6 +843,7 @@ function TKASToolBar.InsertButton(InsertAt: Integer; Item: TKASToolItem): TKASTo
 begin
   if Assigned(Item) then
   begin
+    Item.SetToolOwner(Self);
     if Item is TKASSeparatorItem then
     begin
       Result := TKASToolDivider.Create(Self, Item);

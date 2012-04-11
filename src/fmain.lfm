@@ -35,13 +35,13 @@ object frmMain: TfrmMain
     OnDragDrop = MainToolBarDragDrop
     OnDragOver = MainToolBarDragOver
     OnMouseUp = MainToolBarMouseUp
+    OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
     OnToolButtonMouseDown = MainToolBarToolButtonMouseDown
     OnToolButtonMouseUp = MainToolBarToolButtonMouseUp
     OnToolButtonDragDrop = MainToolBarToolButtonDragDrop
     OnToolButtonDragOver = MainToolBarToolButtonDragOver
-    OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
+    OnToolItemShortcutsHint = MainToolBarToolItemShortcutsHint
     GlyphSize = 16
-    EnvVar = '%commander_path%'
   end
   object pnlDisk: TPanel
     AnchorSideTop.Control = MainToolBar

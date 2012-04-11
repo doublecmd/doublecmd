@@ -66,7 +66,7 @@ type
   end;
 
   TKASToolBarIniLoader = class;
-  TOnLoadIniItem = procedure (Loader: TKASToolBarIniLoader; var Item: TKASToolItem) of object;
+  TOnLoadIniItem = procedure (Loader: TKASToolBarIniLoader; var Item: TKASToolItem; const Shortcut: String) of object;
   TOnOpenIniFile = function (FileName: String): TIniFile of object;
 
   { TKASToolBarIniLoader }
@@ -88,21 +88,12 @@ type
 implementation
 
 uses
-  DCClassesUtf8;
+  DCClassesUtf8, DCStrUtils;
 
 const
   CommandItemConfigNode = 'Command';
   ProgramItemConfigNode = 'Program';
   DriveItemConfigNode   = 'Drive';
-
-procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
-var
-  Len: Integer;
-begin
-  Len := Length(anArray);
-  SetLength(anArray, Len + 1);
-  anArray[Len] := sToAdd;
-end;
 
 procedure SaveIfNotEmpty(Config: TXmlConfig; Node: TXmlNode; Name, Value: String);
 begin
@@ -293,8 +284,6 @@ begin
           CommandItem.Icon := Button;
           if Param <> EmptyStr then
             AddString(CommandItem.Params, Param);
-          if Misk <> EmptyStr then
-            AddString(CommandItem.Shortcuts, Misk);
           Item := CommandItem;
         end
         else
@@ -305,13 +294,11 @@ begin
           ProgramItem.Icon := Button;
           ProgramItem.Params := Param;
           ProgramItem.StartPath := Path;
-          if Misk <> EmptyStr then
-            AddString(CommandItem.Shortcuts, Misk);
           Item := ProgramItem;
         end;
 
         if Assigned(OnLoadIniItem) then
-          OnLoadIniItem(Self, Item);
+          OnLoadIniItem(Self, Item, Misk);
         if Assigned(ToolBar) then
           ToolBar.AddButton(Item);
         if Assigned(ToolItemMenu) then
