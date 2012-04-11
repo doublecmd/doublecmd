@@ -27,10 +27,9 @@ unit KASToolItems;
 interface
 
 uses
-  Classes, SysUtils, DCXmlConfig;
+  Classes, SysUtils, DCXmlConfig, DCBasicTypes;
 
 type
-  TDynamicStringArray = array of String;
   TKASToolBarItems = class;
   TKASToolItem = class;
 

@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, KASToolItems, KASToolBar, IniFiles, DCXmlConfig,
-  uDrive;
+  uDrive, DCBasicTypes;
 
 type
   { TKASCommandItem }
