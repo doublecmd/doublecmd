@@ -607,7 +607,7 @@ begin
   FToolPopupMenu := TPopupMenu.Create(Self);
   MakeMenu(FToolPopupMenu.Items, ToolButton.ToolItem as TKASMenuItem);
   Point.x := ToolButton.Left;
-  Point.y := ToolButton.Top + Self.Height;
+  Point.y := ToolButton.Top + ToolButton.Height;
   Point := Self.ClientToScreen(Point);
   FToolPopupMenu.PopUp(Point.x, Point.y);
 end;
