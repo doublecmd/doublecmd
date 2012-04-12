@@ -33,7 +33,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, ComCtrls,
   Graphics, Dialogs, ExtCtrls, Buttons, FileUtil, Menus,
-  DCXmlConfig, KASToolItems, DCBasicTypes;
+  DCXmlConfig, KASToolItems;
 
 type
   TOnToolButtonClick = procedure (Sender: TObject) of object;
@@ -48,17 +48,21 @@ type
   TOnConfigLoadItem = function (Config: TXmlConfig; Node: TXmlNode): TKASToolItem of object;
   TOnToolItemShortcutsHint = function (ToolItem: TKASNormalItem): String of object;
 
+  TKASToolBar = class;
+
   { TKASToolButton }
 
   TKASToolButton = class(TSpeedButton)
   strict private
     FToolItem: TKASToolItem;
+    function GetToolBar: TKASToolBar;
   protected
     procedure CalculatePreferredSize(var PreferredWidth,
       PreferredHeight: integer; WithThemeSpace: Boolean); override;
   public
     constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce;
     destructor Destroy; override;
+    property ToolBar: TKASToolBar read GetToolBar;
     property ToolItem: TKASToolItem read FToolItem;
   end;
 
@@ -77,14 +81,16 @@ type
   private
     FButtonHeight: Integer;
     FButtonWidth: Integer;
-    FRowHeight: Integer;
-    FUpdateCount: Integer;
+    FFlat: Boolean;
     FGlyphSize: Integer;
     FRadioToolBar: Boolean;
+    FRowHeight: Integer;
     FShowDividerAsButton: Boolean;
-    FFlat: Boolean;
-    FToolPopupMenu: TPopupMenu;
     FToolItemExecutors: TFPList;
+    FToolItems: TKASToolBarItems;
+    FToolPopupMenu: TPopupMenu;
+    FOwnsToolItems: Boolean;
+    FUpdateCount: Integer;
     FOnToolButtonClick: TOnToolButtonClick;
     FOnToolButtonMouseDown: TOnToolButtonMouseUpDown;
     FOnToolButtonMouseUp: TOnToolButtonMouseUpDown;
@@ -99,6 +105,7 @@ type
     FResizeButtonsNeeded: Boolean;
     procedure AssignToolButtonProperties(ToolButton: TKASToolButton);
     procedure ClearExecutors;
+    function CreateButton(Item: TKASToolItem): TKASToolButton;
     function DoExecuteToolItem(Item: TKASToolItem): Boolean;
     function GetChangePath: String;
     function GetEnvVar: String;
@@ -143,12 +150,13 @@ type
     procedure ClickItem(ToolItemID: String); overload;
     function InsertButton(InsertAt: Integer; Item: TKASToolItem): TKASToolButton;
     function InsertButton(InsertAt: TKASToolButton; Item: TKASToolItem): TKASToolButton;
-    procedure MoveButton(ButtonIndex, MovePosition: integer);
+    procedure MoveButton(ButtonIndex, MovePosition: Integer);
     procedure RemoveButton(Index: Integer);
     procedure RemoveButton(Button: TKASToolButton);
     procedure RemoveToolItemExecutor(ExecuteFunction: TOnToolItemExecute);
     procedure UncheckAllButtons;
     procedure UpdateIcon(ToolButton: TKASToolButton);
+    procedure UseItems(AItems: TKASToolBarItems);
 
     procedure LoadConfiguration(Config: TXmlConfig; RootNode: TXmlNode;
                                 Loader: TKASToolBarLoader);
@@ -217,8 +225,8 @@ begin
   if InsertAt > ButtonList.Count then
     InsertAt:= ButtonList.Count;
 
-  ToolButton.Parent:= Self;
   ButtonList.Insert(InsertAt, ToolButton);
+  FToolItems.Insert(InsertAt, ToolButton.ToolItem);
 
   UpdateButtonsTags;
   ResizeButtons;
@@ -614,14 +622,14 @@ begin
   if FRadioToolBar and not Button.Down then
     Button.Down := True;
 
-  if Button.ToolItem is TKASMenuItem then
+  if not DoExecuteToolItem(Button.ToolItem) then
   begin
-    ShowMenu(Button);
-  end
-  else if not DoExecuteToolItem(Button.ToolItem) and
-              Assigned(FOnToolButtonClick) then
-  begin
-    FOnToolButtonClick(Button);
+    if Assigned(FOnToolButtonClick) then
+      FOnToolButtonClick(Button)
+    else if Button.ToolItem is TKASMenuItem then
+    begin
+      ShowMenu(Button);
+    end;
   end;
 end;
 
@@ -671,9 +679,10 @@ begin
     FOnToolButtonEndDrag(Sender, Target, X, Y);
 end;
 
-procedure TKASToolBar.MoveButton(ButtonIndex, MovePosition: integer);
+procedure TKASToolBar.MoveButton(ButtonIndex, MovePosition: Integer);
 begin
   ButtonList.Move(ButtonIndex, MovePosition);
+  FToolItems.Move(ButtonIndex, MovePosition);
   UpdateButtonsTags;
   ResizeButtons;
 end;
@@ -706,6 +715,35 @@ begin
   end;
 end;
 
+procedure TKASToolBar.UseItems(AItems: TKASToolBarItems);
+var
+  i: Integer;
+  Button: TKASToolButton;
+begin
+  if Assigned(AItems) then
+  begin
+    BeginUpdate;
+
+    Clear;
+    if FOwnsToolItems then
+      FToolItems.Free;
+    FToolItems := AItems;
+    FOwnsToolItems := False;
+
+    // Insert the existing items as buttons.
+    for i := 0 to FToolItems.Count - 1 do
+    begin
+      Button := CreateButton(FToolItems.Items[i]);
+      if Assigned(Button) then
+        ButtonList.Insert(ButtonCount, Button);
+    end;
+    UpdateButtonsTags;
+    ResizeButtons;
+
+    EndUpdate;
+  end;
+end;
+
 procedure TKASToolBar.Clear;
 var
   I: Integer;
@@ -715,6 +753,8 @@ begin
   for I := 0 to ButtonList.Count - 1 do
     TKASToolButton(ButtonList.Items[I]).Free;
   ButtonList.Clear;
+  if Assigned(FToolItems) then
+    FToolItems.Clear;
 
   EndUpdate;
 end;
@@ -769,14 +809,56 @@ begin
   FButtonHeight := 22;
   FKASToolBarFlags := [];
   FToolItemExecutors := TFPList.Create;
+  FToolItems := TKASToolBarItems.Create;
+  FOwnsToolItems := True;
+end;
+
+function TKASToolBar.CreateButton(Item: TKASToolItem): TKASToolButton;
+begin
+  if Assigned(Item) then
+  begin
+    if FOwnsToolItems then
+      Item.SetToolOwner(Self);
+
+    if Item is TKASSeparatorItem then
+    begin
+      Result := TKASToolDivider.Create(Self, Item);
+    end
+    else
+    begin
+      Result := TKASToolButton.Create(Self, Item);
+      Result.ShowHint := True;
+      Result.Caption  := Item.GetEffectiveText;
+      Result.Hint     := Item.GetEffectiveHint;
+    end;
+
+    Result.Flat := FFlat;
+    if FRadioToolBar then
+      begin
+        Result.GroupIndex := 1;
+        Result.AllowAllUp := True;
+      end;
+
+    Result.ShowCaption := ShowCaptions;
+    UpdateIcon(Result);
+    AssignToolButtonProperties(Result);
+
+    Result.Parent := Self;
+  end
+  else
+    Result := nil;
 end;
 
 destructor TKASToolBar.Destroy;
 begin
+  if not FOwnsToolItems then
+    FToolItems := nil;  // Unassign before Clear so that items are not cleared.
   Clear;
   inherited Destroy;
   ClearExecutors;
   FToolItemExecutors.Free;
+  if FOwnsToolItems then
+    FToolItems.Free;
 end;
 
 function TKASToolBar.DoExecuteToolItem(Item: TKASToolItem): Boolean;
@@ -841,35 +923,9 @@ end;
 
 function TKASToolBar.InsertButton(InsertAt: Integer; Item: TKASToolItem): TKASToolButton;
 begin
-  if Assigned(Item) then
-  begin
-    Item.SetToolOwner(Self);
-    if Item is TKASSeparatorItem then
-    begin
-      Result := TKASToolDivider.Create(Self, Item);
-    end
-    else
-    begin
-      Result := TKASToolButton.Create(Self, Item);
-      Result.ShowHint := True;
-      Result.Caption  := Item.GetEffectiveText;
-      Result.Hint     := Item.GetEffectiveHint;
-    end;
-
-    Result.Flat := FFlat;
-    if FRadioToolBar then
-      begin
-        Result.GroupIndex := 1;
-        Result.AllowAllUp := True;
-      end;
-    Result.ShowCaption := ShowCaptions;
-
-    UpdateIcon(Result);
-    AssignToolButtonProperties(Result);
+  Result := CreateButton(Item);
+  if Assigned(Result) then
     InsertButton(InsertAt, Result);
-  end
-  else
-    Result := nil;
 end;
 
 procedure TKASToolBar.RemoveButton(Index: Integer);
@@ -879,6 +935,7 @@ begin
   Button := TKASToolButton(ButtonList.Items[Index]);
   ButtonList.Delete(Index);
   Button.Free;
+  FToolItems.Remove(Index);
   UpdateButtonsTags;
   Resize;
 end;
@@ -926,11 +983,9 @@ procedure TKASToolButton.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: integer; WithThemeSpace: Boolean);
 var
   TextSize: TSize;
-  ToolBar: TKASToolBar;
 begin
-  if Assigned(Parent) and (Parent is TKASToolBar) then
+  if Assigned(Parent) then
   begin
-    ToolBar := TKASToolBar(Parent);
     if ShowCaption and (Caption <> EmptyStr) then
     begin
       // Size to extent of the icon + caption.
@@ -958,7 +1013,11 @@ end;
 destructor TKASToolButton.Destroy;
 begin
   inherited Destroy;
-  FToolItem.Free;
+end;
+
+function TKASToolButton.GetToolBar: TKASToolBar;
+begin
+  Result := Parent as TKASToolBar;
 end;
 
 { TKASToolDivider }
