@@ -142,33 +142,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     VertScrollBar.Page = 82
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Around = 6
-    ClientHeight = 82
-    ClientWidth = 834
     TabOrder = 1
-    OnClick = sboxToolbarsClick
-    object ktbBar: TKASToolBar
-      Left = 1
-      Height = 24
-      Top = 0
-      Width = 832
-      AutoSize = True
-      BorderSpacing.Left = 1
-      BorderSpacing.Right = 1
-      Constraints.MinHeight = 24
-      TabOrder = 0
-      OnClick = ktbBarClick
-      OnToolItemShortcutsHint = ktbBarToolItemShortcutsHint
-      OnLoadButtonGlyph = ktbBarLoadButtonGlyph
-      OnToolButtonClick = ktbBarToolButtonClick
-      OnToolButtonMouseDown = ktbBarToolButtonMouseDown
-      OnToolButtonMouseUp = ktbBarToolButtonMouseUp
-      OnToolButtonMouseMove = ktbBarToolButtonMouseMove
-      OnToolButtonDragDrop = ktbBarToolButtonDragDrop
-      OnToolButtonDragOver = ktbBarToolButtonDragOver
-      RadioToolBar = True
-      GlyphSize = 16
-      ShowDividerAsButton = True
-    end
   end
   object pnlFullToolbarButtons: TPanel[2]
     AnchorSideLeft.Control = Owner

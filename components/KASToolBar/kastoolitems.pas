@@ -138,6 +138,7 @@ type
     function Add(Item: TKASToolItem): Integer;
     procedure Clear;
     function Insert(InsertAt: Integer; Item: TKASToolItem): Integer;
+    procedure Move(FromIndex, ToIndex: Integer);
     procedure Remove(Index: Integer);
     property Count: Integer read GetButtonCount;
     property Items[Index: Integer]: TKASToolItem read GetButton write SetButton; default;
@@ -488,6 +489,11 @@ function TKASToolBarItems.Insert(InsertAt: Integer; Item: TKASToolItem): Integer
 begin
   FButtons.Insert(InsertAt, Item);
   Result := InsertAt;
+end;
+
+procedure TKASToolBarItems.Move(FromIndex, ToIndex: Integer);
+begin
+  FButtons.Move(FromIndex, ToIndex);
 end;
 
 function TKASToolBarItems.Add(Item: TKASToolItem): Integer;
