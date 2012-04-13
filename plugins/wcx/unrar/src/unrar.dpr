@@ -22,6 +22,8 @@ exports
   { Extension API }
   ExtensionInitialize;
 
+{$R *.res}
+
 begin
   ModuleHandle := LoadLibrary(_unrar);
   if ModuleHandle = 0 then

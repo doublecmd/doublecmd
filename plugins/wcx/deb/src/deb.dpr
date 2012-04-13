@@ -16,5 +16,7 @@ exports
   SetChangeVolProc,
   SetProcessDataProc;
   
+{$R *.res}
+
 begin
 end.

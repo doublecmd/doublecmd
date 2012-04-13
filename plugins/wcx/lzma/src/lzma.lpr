@@ -17,6 +17,8 @@ exports
   PackFiles,
   GetPackerCaps;
 
+{$R *.res}
+
 begin
 end.
 

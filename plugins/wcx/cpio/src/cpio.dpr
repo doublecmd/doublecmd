@@ -31,5 +31,7 @@ exports
   SetProcessDataProc,
   CanYouHandleThisFile;
 
+{$R *.res}
+
 begin
 end.

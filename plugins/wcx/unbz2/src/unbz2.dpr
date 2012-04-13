@@ -4,6 +4,7 @@ uses
   bz2func in 'bz2func.pas';
 
 {$E wcx}
+{$R *.res}
 
 exports
   { Mandatory }

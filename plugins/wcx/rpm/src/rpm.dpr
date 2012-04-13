@@ -32,6 +32,8 @@ exports
   SetChangeVolProc,
   SetProcessDataProc;
   
+{$R *.res}
+
 begin
 {$IFNDEF WIN32}
 WriteLN('Rpm plugin is loaded');
