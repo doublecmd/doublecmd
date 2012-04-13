@@ -383,7 +383,10 @@ const
 type
   TAbCharSet = (csASCII, csANSI, csUTF8);
 
-function AbDetectCharSet(const aValue: RawByteString): TAbCharSet;
+// This function fails with some code pages and characters (eg. 936 and 图片) !
+// Don't use it when merging with Abbrevia.
+// Better to try to convert with MultiByteToWideChar (see AbZipTyp TryEncode and TryDecode).
+//function AbDetectCharSet(const aValue: RawByteString): TAbCharSet;
 {$IFDEF LINUX}
 function AbSysCharSetIsUTF8: Boolean;
 {$ENDIF}
@@ -1838,4 +1841,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.
