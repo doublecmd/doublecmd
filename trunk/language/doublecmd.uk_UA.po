@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-04-07 00:02+0300\n"
+"PO-Revision-Date: 2012-04-12 23:39+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4708,7 +4708,6 @@ msgid "characters"
 msgstr "символів"
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#, fuzzy
 #| msgid "Tabs position:"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Tabs position"
@@ -4723,7 +4722,6 @@ msgid "Run terminal:"
 msgstr "Запустити термінал"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
-#, fuzzy
 #| msgid "Clo&ne button"
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
 msgid "&Clone button"
@@ -4742,7 +4740,6 @@ msgid "Edit hotkey"
 msgstr "Редагувати"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
-#, fuzzy
 #| msgid "&Insert new buttonX"
 msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
 msgid "&Insert new button"
@@ -4759,11 +4756,10 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
-#, fuzzy
 #| msgid "X"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
 msgid "Remove hotkey"
-msgstr "X"
+msgstr "Видалити гар.кл."
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
@@ -4772,7 +4768,7 @@ msgstr "П&лоскі кнопки"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr ""
+msgstr "Введіть параметри команди, кожен в окремому рядку. Натисніть F1, щоб отримати довідку по параметрах."
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
@@ -4787,23 +4783,22 @@ msgstr "Розмір п&анелі:"
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
 msgid "Command:"
-msgstr ""
+msgstr "Команда:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Параметри:"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
-msgstr ""
+msgstr "Гаряча клавіша:"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
-#, fuzzy
 #| msgid "Icon &file:"
 msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
 msgid "Icon:"
-msgstr "&Файл іконки:"
+msgstr "Іконка:"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
 msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
@@ -4813,30 +4808,28 @@ msgstr "Р&озмір іконки:"
 #: tfrmoptionstoolbar.lblinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Command:"
-msgstr ""
+msgstr "Команда:"
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Параметри:"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
-#, fuzzy
 #| msgid "&Start path:"
 msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
 msgid "Start path:"
-msgstr "&Шлях запуску:"
+msgstr "Шлях запуску:"
 
 #: tfrmoptionstoolbar.lbltooltip.caption
-#, fuzzy
 #| msgid "&Tooltip:"
 msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
 msgid "Tooltip:"
-msgstr "Пі&дказка:"
+msgstr "Підказка:"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
-msgstr ""
+msgstr "Тип кнопки"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -6073,8 +6066,9 @@ msgid "Cancel Current Operation"
 msgstr "Скасувати поточну операцію"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
+#, fuzzy
 msgid "Clipboard doesn't contain any valid toolbar data."
-msgstr ""
+msgstr "Буфер обміну не містить допустимих даних панелі інструментів."
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -7341,14 +7335,12 @@ msgid "Add shortcut"
 msgstr "Додати гар.клавішу"
 
 #: ulng.rsopthotkeyscannotsetshortcut
-#, fuzzy
 msgid "Cannot set shortcut"
 msgstr "Не можливо встановити ярлик"
 
 #: ulng.rsopthotkeyschangeshortcut
-#, fuzzy
 msgid "Change shortcut"
-msgstr "Змінити якрлик"
+msgstr "Змінити ярлик"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
@@ -7386,8 +7378,9 @@ msgid "Hotkeys"
 msgstr "Гарячі клавіші"
 
 #: ulng.rsopthotkeysnohotkey
+#, fuzzy
 msgid "<none>"
-msgstr ""
+msgstr "<none>"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
@@ -7562,7 +7555,7 @@ msgstr "Термінал"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
-msgstr ""
+msgstr "Панель інструментів"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -7624,7 +7617,7 @@ msgstr "Зверху;Знизу"
 
 #: ulng.rsopttoolbarbuttontype
 msgid "Separator;Internal command;External command;Menu"
-msgstr ""
+msgstr "Роздільник;Внутрішні команди;Зовнішні команди;Меню"
 
 #: ulng.rsoptupdatedfilesposition
 #, fuzzy
