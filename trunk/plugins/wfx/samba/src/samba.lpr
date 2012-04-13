@@ -22,6 +22,8 @@ exports
   FsGetDefRootName,
   ExtensionInitialize;
 
+{$R *.res}
+
 begin
 end.
 

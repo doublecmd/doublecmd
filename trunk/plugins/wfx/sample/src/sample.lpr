@@ -14,9 +14,8 @@ uses
   WfxPlugin,
   SysUtils;
 
-
 {$E wfx}
-//{$R *.res}
+{$R *.res}
 
 var
   gPluginNr: integer;

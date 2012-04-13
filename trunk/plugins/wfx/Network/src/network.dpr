@@ -25,6 +25,8 @@ exports
   FsGetLocalName,
   FsGetDefRootName;
 
+{$R *.res}
+
 begin
 end.
 

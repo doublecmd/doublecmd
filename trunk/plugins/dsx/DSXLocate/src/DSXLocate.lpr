@@ -194,6 +194,9 @@ end;
 var
   Pr: TExProcess;
   x:  TX;
+
+{$R *.res}
+
 begin
   pr := TExProcess.Create('which locate');
   x  := Tx.Create;

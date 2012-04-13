@@ -22,5 +22,7 @@ exports
   ContentGetSupportedField,
   ContentGetValue;
   
+{$R *.res}
+
 begin
 end.

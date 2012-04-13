@@ -11,9 +11,9 @@
       <MainUnit Value="0"/>
     </General>
     <VersionInfo>
-      <Language Value=""/>
-      <CharSet Value=""/>
-      <StringTable ProductVersion=""/>
+      <UseVersionInfo Value="True"/>
+      <MinorVersionNr Value="1"/>
+      <StringTable FileDescription="MPlayer WLX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="default" Default="True"/>

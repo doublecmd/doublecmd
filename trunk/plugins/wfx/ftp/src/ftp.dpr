@@ -31,6 +31,8 @@ exports
   }
   ExtensionInitialize;
 
+{$R *.res}
+
 begin
 end.
 

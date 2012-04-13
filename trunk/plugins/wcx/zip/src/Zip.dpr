@@ -33,6 +33,8 @@ exports
   { Extension API }
   ExtensionInitialize;
 
+{$R *.res}
+
 begin
 {$IFDEF UNIX}
 WriteLN('Zip plugin is loaded');

@@ -322,6 +322,8 @@ exports
        ListCloseWindow,
        ListGetDetectString;
 
+{$R *.res}
+
 begin
 end.
 
