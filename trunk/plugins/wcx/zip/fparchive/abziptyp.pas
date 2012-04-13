@@ -1008,7 +1008,10 @@ begin
 end;         
 {============================================================================}
 {$IFDEF MSWINDOWS}
-function IsOEM(const aValue: RawByteString): Boolean;
+// This function fails with some code pages and characters (eg. 936 and 图片) !
+// Don't use when merging with Abbrevia.
+// Better to try to convert with MultiByteToWideChar (see TryDecode).
+{function IsOEM(const aValue: RawByteString): Boolean;
 const
   // Byte values of alpha-numeric characters in OEM and ANSI codepages.
   // Excludes NBSP, ordinal indicators, exponents, the florin symbol, and, for
@@ -1149,7 +1152,7 @@ begin
     end;
   if IsANSI then
     Result := False;
-end;
+end;}
 {============================================================================}
 function TryEncode(const aValue: UnicodeString; aCodePage: UINT; aAllowBestFit: Boolean;
   out aResult: AnsiString): Boolean;
@@ -1169,6 +1172,16 @@ begin
       Length(aResult), nil, @UsedDefault));
     Result := not UsedDefault;
   end;
+end;
+
+function TryDecode(const aValue: AnsiString; aCodePage: UINT;
+  out aResult: UnicodeString): Boolean;
+begin
+  SetLength(aResult, MultiByteToWideChar(aCodePage, MB_ERR_INVALID_CHARS,
+    LPCSTR(aValue), Length(aValue), nil, 0) * SizeOf(UnicodeChar));
+  SetLength(aResult, MultiByteToWideChar(aCodePage, MB_ERR_INVALID_CHARS,
+    LPCSTR(aValue), Length(aValue), PWideChar(aResult), Length(aResult)));
+  Result := Length(aResult) > 0;
 end;
 {$ENDIF MSWINDOWS}
 {============================================================================}
@@ -1744,7 +1757,7 @@ var
 begin
   FItemInfo.LoadFromStream( Stream );
 
-  if FItemInfo.IsUTF8 or (AbDetectCharSet(FItemInfo.FileName) = csUTF8) then
+  if FItemInfo.IsUTF8 then
     inherited SetFileName(FItemInfo.FileName)
   else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
      (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
@@ -1765,8 +1778,10 @@ begin
   begin
     SystemCode := TAbZipHostOs(Byte(VersionMadeBy shr 8));
     {$IF DEFINED(MSWINDOWS)}
-    if (GetACP <> GetOEMCP) and ((SystemCode = hosMSDOS) or IsOEM(FItemInfo.FileName)) then
+    if (GetACP <> GetOEMCP) and (SystemCode = hosMSDOS) then
       inherited SetFileName(AnsiToUtf8(AbStrOemToAnsi(FItemInfo.FileName)))
+    else if (GetACP <> GetOEMCP) and TryDecode(FItemInfo.FileName, CP_OEMCP, UnicodeName) then
+      inherited SetFileName(UTF8Encode(UnicodeName))
     else if (SystemCode = hosNTFS) or (SystemCode = hosMVS) then
       inherited SetFileName(AnsiToUtf8(FItemInfo.FileName))
     else
