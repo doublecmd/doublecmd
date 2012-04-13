@@ -1,0 +1,7876 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-01-17 23:08+0300\n"
+"PO-Revision-Date: 2012-04-13\n"
+"Last-Translator: Jordi Casas <jordi@refugi.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Catalan\n"
+
+#: tfcolumnssetconf.btnallback.caption
+msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
+msgid "All"
+msgstr "Tot"
+
+#: tfcolumnssetconf.btnallback2.caption
+msgctxt "TFCOLUMNSSETCONF.BTNALLBACK2.CAPTION"
+msgid "All"
+msgstr "Tot"
+
+#: tfcolumnssetconf.btnallcurcol.caption
+msgctxt "TFCOLUMNSSETCONF.BTNALLCURCOL.CAPTION"
+msgid "All"
+msgstr "Tot"
+
+#: tfcolumnssetconf.btnallcurtext.caption
+msgctxt "TFCOLUMNSSETCONF.BTNALLCURTEXT.CAPTION"
+msgid "All"
+msgstr "Tot"
+
+#: tfcolumnssetconf.btnallfont.caption
+msgctxt "TFCOLUMNSSETCONF.BTNALLFONT.CAPTION"
+msgid "All"
+msgstr "Tot"
+
+#: tfcolumnssetconf.btnallmarc.caption
+msgctxt "TFCOLUMNSSETCONF.BTNALLMARC.CAPTION"
+msgid "All"
+msgstr "Tot"
+
+#: tfcolumnssetconf.btnalltext.caption
+msgctxt "TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION"
+msgid "All"
+msgstr "Tot"
+
+#: tfcolumnssetconf.btnbackcolor.caption
+msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfcolumnssetconf.btnbackcolor2.caption
+msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfcolumnssetconf.btncancel.caption
+msgctxt "TFCOLUMNSSETCONF.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfcolumnssetconf.btncursorbordercolor.caption
+msgctxt "TFCOLUMNSSETCONF.BTNCURSORBORDERCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfcolumnssetconf.btncursorcolor.caption
+msgctxt "TFCOLUMNSSETCONF.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfcolumnssetconf.btncursortext.caption
+msgctxt "TFCOLUMNSSETCONF.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfcolumnssetconf.btnfontselect.caption
+msgctxt "TFCOLUMNSSETCONF.BTNFONTSELECT.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfcolumnssetconf.btnforecolor.caption
+msgctxt "TFCOLUMNSSETCONF.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfcolumnssetconf.btnmarkcolor.caption
+msgctxt "TFCOLUMNSSETCONF.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfcolumnssetconf.btnnext.caption
+msgid "->"
+msgstr ""
+
+#: tfcolumnssetconf.btnok.caption
+msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfcolumnssetconf.btnprev.caption
+msgid "<-"
+msgstr ""
+
+#: tfcolumnssetconf.caption
+msgid "Configure custom columns view"
+msgstr "Configurar vista de columnes a mida"
+
+#: tfcolumnssetconf.cbackgrndlabel.caption
+msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
+msgid "BackGround:"
+msgstr "Fons:"
+
+#: tfcolumnssetconf.cbcursorborder.caption
+#, fuzzy
+#| msgid "Cursor Límitr"
+msgid "Cursor border"
+msgstr "Límit del cursor"
+
+#: tfcolumnssetconf.cbovercolor.caption
+msgid "Allow Overcolor"
+msgstr "Permetre sobreexposició"
+
+#: tfcolumnssetconf.chkusecustomview.caption
+msgid "Use custom font and color"
+msgstr "Usar font i color personal"
+
+#: tfcolumnssetconf.ctextlabel.caption
+msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
+msgid "Text Color:"
+msgstr "Color de text:"
+
+#: tfcolumnssetconf.label3.caption
+msgid "Font:"
+msgstr "Font:"
+
+#: tfcolumnssetconf.label4.caption
+msgctxt "TFCOLUMNSSETCONF.LABEL4.CAPTION"
+msgid "Size:"
+msgstr "Mida:"
+
+#: tfcolumnssetconf.lblbackground2.caption
+msgctxt "TFCOLUMNSSETCONF.LBLBACKGROUND2.CAPTION"
+msgid "Background 2:"
+msgstr "Fons 2:"
+
+#: tfcolumnssetconf.lblconfigviewnr.caption
+msgid "Configure view nr:"
+msgstr "Configurar vista no.:"
+
+#: tfcolumnssetconf.lblcursorcolor.caption
+msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
+msgid "Cursor Color:"
+msgstr "Color de cursor:"
+
+#: tfcolumnssetconf.lblcursortext.caption
+msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
+msgid "Cursor Text:"
+msgstr "Text de cursor:"
+
+#: tfcolumnssetconf.lblmarkcolor.caption
+msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
+msgid "Mark Color:"
+msgstr "Color de la selecció:"
+
+#: tfcolumnssetconf.lblname.caption
+msgctxt "TFCOLUMNSSETCONF.LBLNAME.CAPTION"
+msgid "Name:"
+msgstr "Nom:"
+
+#: tfcolumnssetconf.lbnrofcolumnsset.caption
+msgctxt "TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION"
+msgid "0"
+msgstr "0"
+
+#: tfcolumnssetconf.miaddcolumn.caption
+msgid "Add column"
+msgstr "Afegir columna"
+
+#: tfcolumnssetconf.pnlcusthead.caption
+msgid "Customize column:"
+msgstr "Ajustar columna:"
+
+#: tfcolumnssetconf.pnlpreviewhead.caption
+msgctxt "TFCOLUMNSSETCONF.PNLPREVIEWHEAD.CAPTION"
+msgid "Preview"
+msgstr "Vista previa"
+
+#: tfcolumnssetconf.resback.caption
+msgctxt "TFCOLUMNSSETCONF.RESBACK.CAPTION"
+msgid "R"
+msgstr ""
+
+#: tfcolumnssetconf.resback2.caption
+msgctxt "TFCOLUMNSSETCONF.RESBACK2.CAPTION"
+msgid "R"
+msgstr ""
+
+#: tfcolumnssetconf.rescurcol.caption
+msgctxt "TFCOLUMNSSETCONF.RESCURCOL.CAPTION"
+msgid "R"
+msgstr ""
+
+#: tfcolumnssetconf.rescurtext.caption
+msgctxt "TFCOLUMNSSETCONF.RESCURTEXT.CAPTION"
+msgid "R"
+msgstr ""
+
+#: tfcolumnssetconf.resfont.caption
+msgctxt "TFCOLUMNSSETCONF.RESFONT.CAPTION"
+msgid "R"
+msgstr ""
+
+#: tfcolumnssetconf.resmark.caption
+msgctxt "TFCOLUMNSSETCONF.RESMARK.CAPTION"
+msgid "R"
+msgstr ""
+
+#: tfcolumnssetconf.restext.caption
+msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
+msgid "R"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
+msgid "Check free space"
+msgstr "Examinar espai lliure"
+
+#: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
+msgid "Correct links"
+msgstr "Corregir enllaços"
+
+#: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
+msgid "Drop readonly flag"
+msgstr "Treure marca de només-lectura"
+
+#: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
+msgid "Follow links"
+msgstr "Seguir enllaços"
+
+#: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
+msgid "When directory exists"
+msgstr "Quan la carpeta existeixi"
+
+#: tfilesystemcopymoveoperationoptionsui.lblfileexists.caption
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
+msgid "When file exists"
+msgstr "Quan l'arxiu existeixi"
+
+#: tfilesystemcopymoveoperationoptionsui.lblfiletype.caption
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
+msgid "Only type:"
+msgstr "Només del tipus:"
+
+#: tfrmabout.btnclose.caption
+msgctxt "tfrmabout.btnclose.caption"
+msgid "&Close"
+msgstr "&Tancar"
+
+#: tfrmabout.btncopytoclipboard.caption
+msgid "Copy to clipboard"
+msgstr ""
+
+#: tfrmabout.caption
+msgctxt "TFRMABOUT.CAPTION"
+msgid "About"
+msgstr "Quant a"
+
+#: tfrmabout.lblbuild.caption
+msgid "Build"
+msgstr "Fet"
+
+#: tfrmabout.lblfreepascalver.caption
+msgid "Free Pascal"
+msgstr ""
+
+#: tfrmabout.lblhomepage.caption
+msgid "Home Page:"
+msgstr "Pàgina Web:"
+
+#: tfrmabout.lblhomepageaddress.caption
+msgid "http://doublecmd.sourceforge.net"
+msgstr ""
+
+#: tfrmabout.lbllazarusver.caption
+msgid "Lazarus"
+msgstr "Lazarus"
+
+#: tfrmabout.lblrevision.caption
+msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
+msgid "Revision"
+msgstr "Revisió"
+
+#: tfrmabout.lbltitle.caption
+msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmabout.lblversion.caption
+msgid "Version"
+msgstr "Versió"
+
+#: tfrmattributesedit.btncancel.caption
+msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
+msgid "&Cancel"
+msgstr "&Cancel.lar"
+
+#: tfrmattributesedit.btnok.caption
+msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmattributesedit.btnreset.caption
+msgid "&Reset"
+msgstr "&Reiniciar"
+
+#: tfrmattributesedit.caption
+msgid "Choose attributes"
+msgstr "Escollir atributs"
+
+#: tfrmattributesedit.cbarchive.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
+msgid "Archive"
+msgstr "Arxiu"
+
+#: tfrmattributesedit.cbcompressed.caption
+msgid "Compressed"
+msgstr "Comprimit"
+
+#: tfrmattributesedit.cbdirectory.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
+msgid "Directory"
+msgstr "Carpeta"
+
+#: tfrmattributesedit.cbencrypted.caption
+msgid "Encrypted"
+msgstr "Encriptat"
+
+#: tfrmattributesedit.cbhidden.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
+msgid "Hidden"
+msgstr "Ocult"
+
+#: tfrmattributesedit.cbreadonly.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
+msgid "Read only"
+msgstr "Només lectura"
+
+#: tfrmattributesedit.cbsgid.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBSGID.CAPTION"
+msgid "SGID"
+msgstr "SGID"
+
+#: tfrmattributesedit.cbsparse.caption
+msgid "Sparse"
+msgstr "Escàs"
+
+#: tfrmattributesedit.cbsticky.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
+msgid "Sticky"
+msgstr "Enganxós"
+
+#: tfrmattributesedit.cbsuid.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBSUID.CAPTION"
+msgid "SUID"
+msgstr "SUID"
+
+#: tfrmattributesedit.cbsymlink.caption
+msgid "Symlink"
+msgstr "Enllaç Simbòlic"
+
+#: tfrmattributesedit.cbsystem.caption
+msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
+msgid "System"
+msgstr "Sistema"
+
+#: tfrmattributesedit.cbtemporary.caption
+msgid "Temporary"
+msgstr "Temporal"
+
+#: tfrmattributesedit.gbntfsattributes.caption
+msgid "NTFS attributes"
+msgstr "Atributs NTFS"
+
+#: tfrmattributesedit.gbwingeneral.caption
+msgid "General attributes"
+msgstr "Atributs generals"
+
+#: tfrmattributesedit.lblattrbitsstr.caption
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
+msgid "Bits:"
+msgstr "Bits:"
+
+#: tfrmattributesedit.lblattrgroupstr.caption
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Grup"
+
+#: tfrmattributesedit.lblattrotherstr.caption
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION"
+msgid "Other"
+msgstr "Altres"
+
+#: tfrmattributesedit.lblattrownerstr.caption
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTROWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Propietari"
+
+#: tfrmattributesedit.lblexec.caption
+msgctxt "TFRMATTRIBUTESEDIT.LBLEXEC.CAPTION"
+msgid "Execute"
+msgstr "Ejecució"
+
+#: tfrmattributesedit.lblread.caption
+msgctxt "TFRMATTRIBUTESEDIT.LBLREAD.CAPTION"
+msgid "Read"
+msgstr "Lectura"
+
+#: tfrmattributesedit.lbltextattrs.caption
+msgid "As text:"
+msgstr "Como a text:"
+
+#: tfrmattributesedit.lblwrite.caption
+msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
+msgid "Write"
+msgstr "Escriptura"
+
+#: tfrmchecksumcalc.btncancel.caption
+msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmchecksumcalc.btnok.caption
+msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmchecksumcalc.caption
+msgctxt "tfrmchecksumcalc.caption"
+msgid "Calculate check sum..."
+msgstr "Calcular suma de comprobació"
+
+#: tfrmchecksumcalc.cbseparatefile.caption
+msgid "Create separate checksum file for each file"
+msgstr "Crear un Arxiu por cada comprobació"
+
+#: tfrmchecksumcalc.lblsaveto.caption
+msgid "Save check sum file(s) to:"
+msgstr "Desar Arxiu de comprobació en:"
+
+#: tfrmchecksumverify.btnclose.caption
+msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Tancar"
+
+#: tfrmchecksumverify.caption
+msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr "Verificar comprobació..."
+
+#: tfrmconnectionmanager.btnadd.caption
+msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmconnectionmanager.btncancel.caption
+msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmconnectionmanager.btnconnect.caption
+msgid "Connect"
+msgstr "Connectar"
+
+#: tfrmconnectionmanager.btndelete.caption
+msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmconnectionmanager.btnedit.caption
+msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Editar"
+
+#: tfrmconnectionmanager.caption
+msgid "Connection manager"
+msgstr "Connexió"
+
+#: tfrmconnectionmanager.gbconnectto.caption
+msgid "Connect to:"
+msgstr "Connectar a:"
+
+#: tfrmcopydlg.btnaddtoqueue.caption
+msgid "Add To Queue"
+msgstr ""
+
+#: tfrmcopydlg.btncancel.caption
+msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmcopydlg.btncreatespecialqueue.caption
+msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
+msgid "..."
+msgstr ""
+
+#: tfrmcopydlg.btnoptions.caption
+msgid "O&ptions"
+msgstr "O&pcions"
+
+#: tfrmcopydlg.btnsaveoptions.caption
+msgid "Save these options as default"
+msgstr "Desar opcions per defecte"
+
+#: tfrmcopydlg.caption
+msgctxt "TFRMCOPYDLG.CAPTION"
+msgid "Copy file(s)"
+msgstr "Copiar Arxiu(s)"
+
+#: tfrmdescredit.btncancel.caption
+msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmdescredit.btnok.caption
+msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmdescredit.caption
+msgid "File/folder comment"
+msgstr "Comentari Arxiu/Carpeta"
+
+#: tfrmdescredit.lbleditcommentfor.caption
+msgid "Edit comment for:"
+msgstr "Editar comentari per:"
+
+#: tfrmdescredit.lblencoding.caption
+msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
+msgid "Encoding:"
+msgstr "Codificació:"
+
+#: tfrmdescredit.lblfilename.caption
+msgctxt "TFRMDESCREDIT.LBLFILENAME.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmdiffer.actabout.caption
+msgctxt "TFRMDIFFER.ACTABOUT.CAPTION"
+msgid "About"
+msgstr "Quant a"
+
+#: tfrmdiffer.actautocompare.caption
+msgid "Auto Compare"
+msgstr "Comparació auto."
+
+#: tfrmdiffer.actbinarycompare.caption
+msgid "Binary Mode"
+msgstr "Mode Binari"
+
+#: tfrmdiffer.actcancelcompare.caption
+msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmdiffer.actcancelcompare.hint
+msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmdiffer.actclose.caption
+msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
+msgid "Close"
+msgstr "Tancar"
+
+#: tfrmdiffer.actcopylefttoright.caption
+msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
+msgid "Copy Block Right"
+msgstr "Copiar bloc dret"
+
+#: tfrmdiffer.actcopylefttoright.hint
+msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
+msgid "Copy Block Right"
+msgstr "Copiar bloc dret"
+
+#: tfrmdiffer.actcopyrighttoleft.caption
+msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION"
+msgid "Copy Block Left"
+msgstr "Copiar bloc esquerra"
+
+#: tfrmdiffer.actcopyrighttoleft.hint
+msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
+msgid "Copy Block Left"
+msgstr "Copiar bloc esquerra"
+
+#: tfrmdiffer.acteditcopy.caption
+msgctxt "TFRMDIFFER.ACTEDITCOPY.CAPTION"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmdiffer.acteditcut.caption
+msgctxt "TFRMDIFFER.ACTEDITCUT.CAPTION"
+msgid "Cut"
+msgstr "Tallar"
+
+#: tfrmdiffer.acteditdelete.caption
+msgctxt "TFRMDIFFER.ACTEDITDELETE.CAPTION"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmdiffer.acteditpaste.caption
+msgctxt "TFRMDIFFER.ACTEDITPASTE.CAPTION"
+msgid "Paste"
+msgstr "Enganxar"
+
+#: tfrmdiffer.acteditredo.caption
+msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
+msgid "Redo"
+msgstr "Refer"
+
+#: tfrmdiffer.acteditselectall.caption
+msgid "Select &All"
+msgstr "Seleccionar &Tot"
+
+#: tfrmdiffer.acteditundo.caption
+msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
+msgid "Undo"
+msgstr "Desfer"
+
+#: tfrmdiffer.actfirstdiff.caption
+msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
+msgid "First Difference"
+msgstr "Primera diferència"
+
+#: tfrmdiffer.actfirstdiff.hint
+msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
+msgid "First Difference"
+msgstr "Primera diferència"
+
+#: tfrmdiffer.actignorecase.caption
+msgid "Ignore Case"
+msgstr "Ignorar maj./min."
+
+#: tfrmdiffer.actignorewhitespace.caption
+msgid "Ignore Blanks"
+msgstr "Ignorar espais blancs"
+
+#: tfrmdiffer.actkeepscrolling.caption
+msgid "Keep Scrolling"
+msgstr "Mantenir desplaçament"
+
+#: tfrmdiffer.actlastdiff.caption
+msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
+msgid "Last Difference"
+msgstr "Última diferència"
+
+#: tfrmdiffer.actlastdiff.hint
+msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
+msgid "Last Difference"
+msgstr "Última diferència"
+
+#: tfrmdiffer.actlinedifferences.caption
+msgid "Line Differences"
+msgstr "Diferències de línia"
+
+#: tfrmdiffer.actnextdiff.caption
+msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
+msgid "Next Difference"
+msgstr "Següent diferència"
+
+#: tfrmdiffer.actnextdiff.hint
+msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
+msgid "Next Difference"
+msgstr "Següent diferència"
+
+#: tfrmdiffer.actopenleft.caption
+msgid "Open Left..."
+msgstr "Obrir esquerra..."
+
+#: tfrmdiffer.actopenright.caption
+msgid "Open Right..."
+msgstr "Obrir dreta..."
+
+#: tfrmdiffer.actpaintbackground.caption
+msgid "Paint Background"
+msgstr "Dibuixar Fons"
+
+#: tfrmdiffer.actprevdiff.caption
+msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
+msgid "Previous Difference"
+msgstr "Diferència prèvia"
+
+#: tfrmdiffer.actprevdiff.hint
+msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
+msgid "Previous Difference"
+msgstr "Diferència prèvia"
+
+#: tfrmdiffer.actreload.caption
+msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr "Recarregar"
+
+#: tfrmdiffer.actreload.hint
+msgctxt "TFRMDIFFER.ACTRELOAD.HINT"
+msgid "Reload"
+msgstr "Recarregar"
+
+#: tfrmdiffer.actsave.caption
+msgctxt "TFRMDIFFER.ACTSAVE.CAPTION"
+msgid "Save"
+msgstr "Desar"
+
+#: tfrmdiffer.actsave.hint
+msgctxt "TFRMDIFFER.ACTSAVE.HINT"
+msgid "Save"
+msgstr "Desar"
+
+#: tfrmdiffer.actsaveas.caption
+msgctxt "TFRMDIFFER.ACTSAVEAS.CAPTION"
+msgid "Save as..."
+msgstr "Desar com..."
+
+#: tfrmdiffer.actsaveas.hint
+msgctxt "TFRMDIFFER.ACTSAVEAS.HINT"
+msgid "Save as..."
+msgstr "Desar com..."
+
+#: tfrmdiffer.actsaveleft.caption
+msgctxt "TFRMDIFFER.ACTSAVELEFT.CAPTION"
+msgid "Save Left"
+msgstr "Desar esquerra"
+
+#: tfrmdiffer.actsaveleft.hint
+msgctxt "TFRMDIFFER.ACTSAVELEFT.HINT"
+msgid "Save Left"
+msgstr "Desar esquerra"
+
+#: tfrmdiffer.actsaveleftas.caption
+msgctxt "TFRMDIFFER.ACTSAVELEFTAS.CAPTION"
+msgid "Save Left As..."
+msgstr "Desar esquerra com..."
+
+#: tfrmdiffer.actsaveleftas.hint
+msgctxt "TFRMDIFFER.ACTSAVELEFTAS.HINT"
+msgid "Save Left As..."
+msgstr "Desar esquerra com..."
+
+#: tfrmdiffer.actsaveright.caption
+msgctxt "TFRMDIFFER.ACTSAVERIGHT.CAPTION"
+msgid "Save Right"
+msgstr "Desar dreta"
+
+#: tfrmdiffer.actsaveright.hint
+msgctxt "TFRMDIFFER.ACTSAVERIGHT.HINT"
+msgid "Save Right"
+msgstr "Desar dreta"
+
+#: tfrmdiffer.actsaverightas.caption
+msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.CAPTION"
+msgid "Save Right As..."
+msgstr "Desar dreta com..."
+
+#: tfrmdiffer.actsaverightas.hint
+msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.HINT"
+msgid "Save Right As..."
+msgstr "Desar dreta com..."
+
+#: tfrmdiffer.actstartcompare.caption
+msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.CAPTION"
+msgid "Compare"
+msgstr "Comparar"
+
+#: tfrmdiffer.actstartcompare.hint
+msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.HINT"
+msgid "Compare"
+msgstr "Comparar"
+
+#: tfrmdiffer.btnleftencoding.hint
+msgctxt "TFRMDIFFER.BTNLEFTENCODING.HINT"
+msgid "Encoding"
+msgstr "Codificació"
+
+#: tfrmdiffer.btnrightencoding.hint
+msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
+msgid "Encoding"
+msgstr "Codificació"
+
+#: tfrmdiffer.caption
+msgctxt "tfrmdiffer.caption"
+msgid "Compare files"
+msgstr "Comparar Arxius"
+
+#: tfrmdiffer.midivider1.caption
+msgctxt "TFRMDIFFER.MIDIVIDER1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider10.caption
+msgctxt "TFRMDIFFER.MIDIVIDER10.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider2.caption
+msgctxt "TFRMDIFFER.MIDIVIDER2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider3.caption
+msgctxt "TFRMDIFFER.MIDIVIDER3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider4.caption
+msgctxt "TFRMDIFFER.MIDIVIDER4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider5.caption
+msgctxt "TFRMDIFFER.MIDIVIDER5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider6.caption
+msgctxt "TFRMDIFFER.MIDIVIDER6.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider7.caption
+msgctxt "TFRMDIFFER.MIDIVIDER7.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider8.caption
+msgctxt "TFRMDIFFER.MIDIVIDER8.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.midivider9.caption
+msgctxt "TFRMDIFFER.MIDIVIDER9.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.miencodingleft.caption
+msgid "Left"
+msgstr "esquerra"
+
+#: tfrmdiffer.miencodingright.caption
+msgid "Right"
+msgstr "dreta"
+
+#: tfrmdiffer.miseparator1.caption
+msgctxt "TFRMDIFFER.MISEPARATOR1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.miseparator2.caption
+msgctxt "TFRMDIFFER.MISEPARATOR2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmdiffer.mnuactions.caption
+msgid "&Actions"
+msgstr "&Accions"
+
+#: tfrmdiffer.mnuedit.caption
+msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
+msgid "Edit"
+msgstr "Editar"
+
+#: tfrmdiffer.mnuencoding.caption
+msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
+msgid "Encoding"
+msgstr "Codificació"
+
+#: tfrmdiffer.mnufile.caption
+msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
+msgid "File"
+msgstr "Arxiu"
+
+#: tfrmdiffer.mnuoptions.caption
+#, fuzzy
+#| msgid "Options"
+msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
+msgid "&Options"
+msgstr "&Opcions"
+
+#: tfrmedithotkey.btnaddshortcut.hint
+msgid "Add new shortcut to sequence"
+msgstr ""
+
+#: tfrmedithotkey.btncancel.caption
+msgctxt "tfrmedithotkey.btncancel.caption"
+msgid "&Cancel"
+msgstr "&Cancel.lar"
+
+#: tfrmedithotkey.btnok.caption
+msgctxt "tfrmedithotkey.btnok.caption"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmedithotkey.btnremoveshortcut.hint
+msgid "Remove last shortcut from sequence"
+msgstr ""
+
+#: tfrmedithotkey.cghkcontrols.caption
+msgid "Only for these controls"
+msgstr ""
+
+#: tfrmedithotkey.lblparameters.caption
+msgid "Parameters (each in a separate line):"
+msgstr ""
+
+#: tfrmedithotkey.lblshortcuts.caption
+msgid "Shortcuts:"
+msgstr ""
+
+#: tfrmeditor.actabout.caption
+msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
+msgid "About"
+msgstr "Quant a"
+
+#: tfrmeditor.actabout.hint
+msgctxt "tfrmeditor.actabout.hint"
+msgid "About"
+msgstr "Quant a"
+
+#: tfrmeditor.actconfhigh.caption
+msgid "&Configuration"
+msgstr "&Configuració"
+
+#: tfrmeditor.actconfhigh.hint
+msgctxt "tfrmeditor.actconfhigh.hint"
+msgid "Configuration"
+msgstr "Configuració"
+
+#: tfrmeditor.acteditcopy.caption
+msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmeditor.acteditcopy.hint
+msgctxt "tfrmeditor.acteditcopy.hint"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmeditor.acteditcut.caption
+msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
+msgid "Cut"
+msgstr "Tallar"
+
+#: tfrmeditor.acteditcut.hint
+msgctxt "tfrmeditor.acteditcut.hint"
+msgid "Cut"
+msgstr "Tallar"
+
+#: tfrmeditor.acteditdelete.caption
+msgctxt "TFRMEDITOR.ACTEDITDELETE.CAPTION"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmeditor.acteditdelete.hint
+msgctxt "tfrmeditor.acteditdelete.hint"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmeditor.acteditfind.caption
+msgid "&Find"
+msgstr "&Cercar"
+
+#: tfrmeditor.acteditfind.hint
+msgctxt "tfrmeditor.acteditfind.hint"
+msgid "Find"
+msgstr "Cercar"
+
+#: tfrmeditor.acteditfindnext.caption
+msgctxt "tfrmeditor.acteditfindnext.caption"
+msgid "Find next"
+msgstr "Cercar següent"
+
+#: tfrmeditor.acteditfindnext.hint
+msgctxt "tfrmeditor.acteditfindnext.hint"
+msgid "Find next"
+msgstr "Cercar següent"
+
+#: tfrmeditor.acteditlineendcr.caption
+msgctxt "tfrmeditor.acteditlineendcr.caption"
+msgid "Mac (CR)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendcr.hint
+msgctxt "tfrmeditor.acteditlineendcr.hint"
+msgid "Mac (CR)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendcrlf.caption
+msgctxt "tfrmeditor.acteditlineendcrlf.caption"
+msgid "Windows (CRLF)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendcrlf.hint
+msgctxt "tfrmeditor.acteditlineendcrlf.hint"
+msgid "Windows (CRLF)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendlf.caption
+msgctxt "tfrmeditor.acteditlineendlf.caption"
+msgid "Unix (LF)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendlf.hint
+msgctxt "tfrmeditor.acteditlineendlf.hint"
+msgid "Unix (LF)"
+msgstr ""
+
+#: tfrmeditor.acteditpaste.caption
+msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
+msgid "Paste"
+msgstr "Enganxar"
+
+#: tfrmeditor.acteditpaste.hint
+msgctxt "tfrmeditor.acteditpaste.hint"
+msgid "Paste"
+msgstr "Enganxar"
+
+#: tfrmeditor.acteditredo.caption
+msgctxt "TFRMEDITOR.ACTEDITREDO.CAPTION"
+msgid "Redo"
+msgstr "Refer"
+
+#: tfrmeditor.acteditredo.hint
+msgctxt "tfrmeditor.acteditredo.hint"
+msgid "Redo"
+msgstr "Refer"
+
+#: tfrmeditor.acteditrplc.caption
+msgid "&Replace"
+msgstr "&Reemplaçar"
+
+#: tfrmeditor.acteditrplc.hint
+msgctxt "tfrmeditor.acteditrplc.hint"
+msgid "Replace"
+msgstr "Reemplaçar"
+
+#: tfrmeditor.acteditselectall.caption
+msgid "Select&All"
+msgstr "Seleccionar &Tot"
+
+#: tfrmeditor.acteditselectall.hint
+msgctxt "tfrmeditor.acteditselectall.hint"
+msgid "Select All"
+msgstr "Seleccionar Tot"
+
+#: tfrmeditor.acteditundo.caption
+msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
+msgid "Undo"
+msgstr "Desfer"
+
+#: tfrmeditor.acteditundo.hint
+msgctxt "tfrmeditor.acteditundo.hint"
+msgid "Undo"
+msgstr "Desfer"
+
+#: tfrmeditor.actfileclose.caption
+msgctxt "TFRMEDITOR.ACTFILECLOSE.CAPTION"
+msgid "&Close"
+msgstr "Tancar"
+
+#: tfrmeditor.actfileclose.hint
+msgctxt "tfrmeditor.actfileclose.hint"
+msgid "Close"
+msgstr "Tancar"
+
+#: tfrmeditor.actfileexit.caption
+msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
+msgid "E&xit"
+msgstr "&Sortir"
+
+#: tfrmeditor.actfileexit.hint
+msgid "Exit"
+msgstr ""
+
+#: tfrmeditor.actfilenew.caption
+msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
+msgid "&New"
+msgstr "&Nou"
+
+#: tfrmeditor.actfilenew.hint
+msgctxt "tfrmeditor.actfilenew.hint"
+msgid "New"
+msgstr "Nou"
+
+#: tfrmeditor.actfileopen.caption
+msgid "&Open"
+msgstr "&Obrir"
+
+#: tfrmeditor.actfileopen.hint
+msgctxt "tfrmeditor.actfileopen.hint"
+msgid "Open"
+msgstr "Obrir"
+
+#: tfrmeditor.actfilesave.caption
+msgctxt "TFRMEDITOR.ACTFILESAVE.CAPTION"
+msgid "&Save"
+msgstr "&Desar"
+
+#: tfrmeditor.actfilesave.hint
+msgctxt "tfrmeditor.actfilesave.hint"
+msgid "Save"
+msgstr "Desar"
+
+#: tfrmeditor.actfilesaveas.caption
+msgid "Save &As.."
+msgstr "Desar &Com..."
+
+#: tfrmeditor.actfilesaveas.hint
+msgid "Save As"
+msgstr ""
+
+#: tfrmeditor.actsaveall.caption
+msgid "Sa&ve All"
+msgstr "De&sar-ho Tot"
+
+#: tfrmeditor.actsaveall.hint
+msgid "Save All"
+msgstr ""
+
+#: tfrmeditor.caption
+msgctxt "TFRMEDITOR.CAPTION"
+msgid "Editor"
+msgstr "Editor"
+
+#: tfrmeditor.help1.caption
+msgctxt "TFRMEDITOR.HELP1.CAPTION"
+msgid "&Help"
+msgstr "A&juda"
+
+#: tfrmeditor.midiv.caption
+msgctxt "TFRMEDITOR.MIDIV.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmeditor.miedit.caption
+msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
+msgid "&Edit"
+msgstr "&Editar"
+
+#: tfrmeditor.miencoding.caption
+msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
+msgid "En&coding"
+msgstr "&Codificació"
+
+#: tfrmeditor.miencodingin.caption
+msgid "Open as"
+msgstr "Obrir com"
+
+#: tfrmeditor.miencodingout.caption
+msgid "Save as"
+msgstr "Desar com"
+
+#: tfrmeditor.mifile.caption
+msgctxt "TFRMEDITOR.MIFILE.CAPTION"
+msgid "&File"
+msgstr "&Arxiu"
+
+#: tfrmeditor.mihighlight.caption
+msgid "Syntax highlight"
+msgstr "LLenguatge de codificació"
+
+#: tfrmeditor.milineendtype.caption
+msgid "End Of Line"
+msgstr ""
+
+#: tfrmeditor.miseparator1.caption
+msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmeditor.miseparator2.caption
+msgctxt "TFRMEDITOR.MISEPARATOR2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmeditor.n1.caption
+msgctxt "TFRMEDITOR.N1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmeditor.n3.caption
+msgctxt "TFRMEDITOR.N3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmeditor.n4.caption
+msgctxt "TFRMEDITOR.N4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmeditor.n5.caption
+msgctxt "tfrmeditor.n5.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmeditsearchreplace.btncancel.caption
+msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmeditsearchreplace.btnok.caption
+msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmeditsearchreplace.cbsearchcasesensitive.caption
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
+msgid "C&ase sensitivity"
+msgstr "Sensible a may./min."
+
+#: tfrmeditsearchreplace.cbsearchfromcursor.caption
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
+msgid "Search from &caret"
+msgstr "Cercar desde la posició actual"
+
+#: tfrmeditsearchreplace.cbsearchregexp.caption
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION"
+msgid "&Regular expressions"
+msgstr "Expresions &regulars"
+
+#: tfrmeditsearchreplace.cbsearchselectedonly.caption
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION"
+msgid "Selected &text only"
+msgstr "Només seleccionar &text"
+
+#: tfrmeditsearchreplace.cbsearchwholewords.caption
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION"
+msgid "&Whole words only"
+msgstr "Només paraules completes"
+
+#: tfrmeditsearchreplace.gbsearchoptions.caption
+msgctxt "TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION"
+msgid "Option"
+msgstr "Opció"
+
+#: tfrmeditsearchreplace.lblreplacewith.caption
+msgctxt "TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION"
+msgid "&Replace with:"
+msgstr "&Reemplaçar amb:"
+
+#: tfrmeditsearchreplace.lblsearchfor.caption
+msgctxt "TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION"
+msgid "&Search for:"
+msgstr "&Cercar:"
+
+#: tfrmeditsearchreplace.rgsearchdirection.caption
+msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
+msgid "Direction"
+msgstr "Direcció"
+
+#: tfrmextractdlg.btncancel.caption
+msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmextractdlg.btnhelp.caption
+msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr "A&juda"
+
+#: tfrmextractdlg.btnok.caption
+msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Acceptar"
+
+#: tfrmextractdlg.caption
+msgctxt "tfrmextractdlg.caption"
+msgid "Unpack files"
+msgstr "Descomprimir Arxius"
+
+#: tfrmextractdlg.cbextractpath.caption
+msgid "&Unpack path names if stored with files"
+msgstr "&Descomprimir carpetes si es guardaren"
+
+#: tfrmextractdlg.cbfilemask.text
+msgid "*.*"
+msgstr "*.*"
+
+#: tfrmextractdlg.cbinseparatefolder.caption
+msgid "Unpack each archive to a &separate subdir (name of the archive)"
+msgstr "Descomprimir cada Arxiu en una carpeta &separada"
+
+#: tfrmextractdlg.cboverwrite.caption
+msgid "&Overwrite existing files"
+msgstr "&Sobreescriure Arxius existents"
+
+#: tfrmextractdlg.lblextractto.caption
+#, fuzzy
+#| msgid "Unpack file to:"
+msgid "To the directory:"
+msgstr "A la carpeta:"
+
+#: tfrmextractdlg.lblfilemask.caption
+#, fuzzy
+#| msgid "&Files to unpack:"
+msgid "Extract files matching file mask:"
+msgstr "Extreure Arxius:"
+
+#: tfrmextractdlg.lblpassword.caption
+msgid "Password for encrypted files:"
+msgstr "Contrasenya:"
+
+#: tfrmfileassoc.btnaddact.caption
+msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmfileassoc.btnaddext.caption
+msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmfileassoc.btnaddnewtype.caption
+msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmfileassoc.btncancel.caption
+msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmfileassoc.btndownact.caption
+msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
+msgid "Down"
+msgstr "Avall"
+
+#: tfrmfileassoc.btnok.caption
+msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmfileassoc.btnremoveact.caption
+msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
+msgid "Remove"
+msgstr "Eliminar"
+
+#: tfrmfileassoc.btnremoveext.caption
+msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
+msgid "Remove"
+msgstr "Eliminar"
+
+#: tfrmfileassoc.btnremoveicon.caption
+msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
+msgid "X"
+msgstr ""
+
+#: tfrmfileassoc.btnremovetype.caption
+msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
+msgid "Remove"
+msgstr "Eliminar"
+
+#: tfrmfileassoc.btnrenametype.caption
+msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
+msgid "Rename"
+msgstr "Reanomenar"
+
+#: tfrmfileassoc.btnupact.caption
+msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
+msgid "Up"
+msgstr "Amunt"
+
+#: tfrmfileassoc.caption
+msgid "File associations"
+msgstr "Asociacions d'arxius"
+
+#: tfrmfileassoc.gbactions.caption
+msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
+msgid "Actions"
+msgstr "Accions"
+
+#: tfrmfileassoc.gbexts.caption
+msgid "Extensions"
+msgstr "Extensions"
+
+#: tfrmfileassoc.gbfiletypes.caption
+msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
+msgid "File types"
+msgstr "Tipus de Arxiu"
+
+#: tfrmfileassoc.gbicon.caption
+msgid "Icon"
+msgstr "Icon"
+
+#: tfrmfileassoc.lblaction.caption
+msgid "Action:"
+msgstr "Acció:"
+
+#: tfrmfileassoc.lblcommand.caption
+msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
+msgid "&Command:"
+msgstr "&Commanda:"
+
+#: tfrmfileassoc.miedit.caption
+msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
+msgid "Edit"
+msgstr "Editar"
+
+#: tfrmfileassoc.mieditor.caption
+msgid "Open in Editor"
+msgstr "Obrir en Editor"
+
+#: tfrmfileassoc.mifilename.caption
+msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
+msgid "File name"
+msgstr "Nom"
+
+#: tfrmfileassoc.mifilepath.caption
+msgid "File path"
+msgstr "Ruta de l'Arxiu"
+
+#: tfrmfileassoc.mifullpath.caption
+msgid "Full path"
+msgstr "Ruta completa"
+
+#: tfrmfileassoc.migetoutputfromcommand.caption
+msgid "Get output from command"
+msgstr "Obtindre sortida de commanda"
+
+#: tfrmfileassoc.miopen.caption
+msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
+msgid "Open"
+msgstr "Obrir"
+
+#: tfrmfileassoc.mishell.caption
+msgid "Run in terminal"
+msgstr "Executar en terminal"
+
+#: tfrmfileassoc.mivfs.caption
+msgid "Open in VFS"
+msgstr "Obrir en VFS"
+
+#: tfrmfileassoc.miview.caption
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
+msgid "View"
+msgstr "Veure"
+
+#: tfrmfileassoc.miviewer.caption
+msgid "Open in Viewer"
+msgstr "Obrir en Visor"
+
+#: tfrmfileexecuteyourself.btnclose.caption
+msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Tancar"
+
+#: tfrmfileexecuteyourself.caption
+msgctxt "tfrmfileexecuteyourself.caption"
+msgid "Wait..."
+msgstr "Esperar..."
+
+#: tfrmfileexecuteyourself.lblfilename.caption
+msgid "File name:"
+msgstr "Nom:"
+
+#: tfrmfileexecuteyourself.lblfrompath.caption
+msgctxt "TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION"
+msgid "From:"
+msgstr "De:"
+
+#: tfrmfileexecuteyourself.lblprompt.caption
+msgid "Click on Close when the temporary file can be deleted!"
+msgstr "¡Picar en Tancar cuando el Arxiu temporal se pueda borrar!"
+
+#: tfrmfileop.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
+msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
+msgid "&Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmfileop.btnminimizetopanel.caption
+msgid "&To panel"
+msgstr ""
+
+#: tfrmfileop.btnviewoperations.caption
+msgid "&View all"
+msgstr ""
+
+#: tfrmfileop.lblcurrentoperation.caption
+msgid "Current operation:"
+msgstr ""
+
+#: tfrmfileop.lblfrom.caption
+msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
+msgid "From:"
+msgstr "De:"
+
+#: tfrmfileop.lblto.caption
+msgid "To:"
+msgstr "Per:"
+
+#: tfrmfileproperties.btnall.caption
+msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
+msgid "&All"
+msgstr "&Tot"
+
+#: tfrmfileproperties.btnclose.caption
+msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
+msgid "Close"
+msgstr "Tancar"
+
+#: tfrmfileproperties.btnok.caption
+msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmfileproperties.btnskip.caption
+msgid "Skip"
+msgstr "Saltar"
+
+#: tfrmfileproperties.caption
+msgctxt "tfrmfileproperties.caption"
+msgid "Properties"
+msgstr "Propietats"
+
+#: tfrmfileproperties.cbsgid.caption
+msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
+msgid "SGID"
+msgstr "SGID"
+
+#: tfrmfileproperties.cbsticky.caption
+msgctxt "TFRMFILEPROPERTIES.CBSTICKY.CAPTION"
+msgid "Sticky"
+msgstr "Enganxós"
+
+#: tfrmfileproperties.cbsuid.caption
+msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
+msgid "SUID"
+msgstr "SUID"
+
+#: tfrmfileproperties.gbowner.caption
+msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+msgid "Owner"
+msgstr "Propietari"
+
+#: tfrmfileproperties.lblattrbitsstr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
+msgid "Bits:"
+msgstr "Bits:"
+
+#: tfrmfileproperties.lblattrgroupstr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Grup"
+
+#: tfrmfileproperties.lblattrotherstr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
+msgid "Other"
+msgstr "Altres"
+
+#: tfrmfileproperties.lblattrownerstr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Propietari"
+
+#: tfrmfileproperties.lblattrtext.caption
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION"
+msgid "-----------"
+msgstr "-----------"
+
+#: tfrmfileproperties.lblattrtextstr.caption
+#, fuzzy
+#| msgid "Representation in text:"
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
+msgid "Text:"
+msgstr "Text:"
+
+#: tfrmfileproperties.lblexec.caption
+msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
+msgid "Execute"
+msgstr "Executar"
+
+#: tfrmfileproperties.lblfile.caption
+msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
+msgid "File name"
+msgstr "Nom"
+
+#: tfrmfileproperties.lblfilename.caption
+msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblfilenamestr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
+msgid "Name:"
+msgstr "Nom:"
+
+#: tfrmfileproperties.lblfilestr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
+msgid "File name"
+msgstr "Nom"
+
+#: tfrmfileproperties.lblfolder.caption
+msgctxt "TFRMFILEPROPERTIES.LBLFOLDER.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblfolderstr.caption
+msgid "Path:"
+msgstr "Ruta:"
+
+#: tfrmfileproperties.lblgroupstr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Grup"
+
+#: tfrmfileproperties.lbllastaccess.caption
+msgctxt "TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lbllastaccessstr.caption
+msgid "Last access:"
+msgstr "Últim accès:"
+
+#: tfrmfileproperties.lbllastmodif.caption
+msgctxt "TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lbllastmodifstr.caption
+msgid "Last modification:"
+msgstr "Última modificació"
+
+#: tfrmfileproperties.lbllaststchange.caption
+msgctxt "TFRMFILEPROPERTIES.LBLLASTSTCHANGE.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lbllaststchangestr.caption
+msgid "Last status change:"
+msgstr "Últim canvi d'estat:"
+
+#: tfrmfileproperties.lbloctal.caption
+msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
+msgid "Octal:"
+msgstr ""
+
+#: tfrmfileproperties.lblownerstr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Propietari"
+
+#: tfrmfileproperties.lblread.caption
+msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
+msgid "Read"
+msgstr "Lectura"
+
+#: tfrmfileproperties.lblsize.caption
+msgctxt "TFRMFILEPROPERTIES.LBLSIZE.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblsizestr.caption
+msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
+msgid "Size:"
+msgstr "Mida:"
+
+#: tfrmfileproperties.lblsymlink.caption
+msgctxt "TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblsymlinkstr.caption
+#, fuzzy
+#| msgid "Symlink:"
+msgid "Symlink to:"
+msgstr "Enllaç simb.:"
+
+#: tfrmfileproperties.lbltype.caption
+msgctxt "TFRMFILEPROPERTIES.LBLTYPE.CAPTION"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lbltypestr.caption
+#, fuzzy
+msgid "Type:"
+msgstr "Tipus:"
+
+#: tfrmfileproperties.lblwrite.caption
+msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
+msgid "Write"
+msgstr "Escriptura"
+
+#: tfrmfileproperties.tsattributes.caption
+msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Atributs"
+
+#: tfrmfileproperties.tsproperties.caption
+msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
+msgid "Properties"
+msgstr "Propietats"
+
+#: tfrmfinddlg.btnaddattribute.caption
+msgid "&Add"
+msgstr "Afegir"
+
+#: tfrmfinddlg.btnattrshelp.caption
+msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
+msgid "&Help"
+msgstr "A&juda"
+
+#: tfrmfinddlg.btnclose.caption
+msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Tancar"
+
+#: tfrmfinddlg.btngotopath.caption
+msgid "&Go to file"
+msgstr "&Anar al Arxiu"
+
+#: tfrmfinddlg.btnnewsearch.caption
+msgid "&New search"
+msgstr "&Nova cerca"
+
+#: tfrmfinddlg.btnsavetemplate.caption
+msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
+msgid "Save"
+msgstr "Desar"
+
+#: tfrmfinddlg.btnsearchdelete.caption
+msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
+msgid "&Delete"
+msgstr "&Esborrar"
+
+#: tfrmfinddlg.btnsearchload.caption
+msgid "L&oad"
+msgstr "Carregar"
+
+#: tfrmfinddlg.btnsearchsave.caption
+msgid "S&ave"
+msgstr "Desar"
+
+#: tfrmfinddlg.btnstart.caption
+msgctxt "tfrmfinddlg.btnstart.caption"
+msgid "&Start"
+msgstr "Començar"
+
+#: tfrmfinddlg.btnstop.caption
+msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmfinddlg.btnview.caption
+msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
+msgid "&View"
+msgstr "&Veure"
+
+#: tfrmfinddlg.btnworkwithfound.caption
+msgid "Feed to &listbox"
+msgstr "Incloure a la llista"
+
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Cercar Arxius"
+
+#: tfrmfinddlg.cbcasesens.caption
+msgid "Case sens&itive"
+msgstr "Sensible a mays/mins"
+
+#: tfrmfinddlg.cbdatefrom.caption
+msgid "Date From:"
+msgstr "Data inicial:"
+
+#: tfrmfinddlg.cbdateto.caption
+msgid "Date To:"
+msgstr "Data final:"
+
+#: tfrmfinddlg.cbfilesizefrom.caption
+#, fuzzy
+#| msgid "File Size From:"
+msgid "Size from:"
+msgstr "Mida desde:"
+
+#: tfrmfinddlg.cbfilesizeto.caption
+#, fuzzy
+#| msgid "File Size To:"
+msgid "Size to:"
+msgstr "Mida fins:"
+
+#: tfrmfinddlg.cbfindtext.caption
+msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
+msgid "Find &text in file"
+msgstr "Cercar en Arxiu"
+
+#: tfrmfinddlg.cbnotcontainingtext.caption
+msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
+msgid "Find files N&OT containing the text"
+msgstr "Cercar Arxius que NO continguin el text"
+
+#: tfrmfinddlg.cbnotolderthan.caption
+msgid "Not older than:"
+msgstr "No més de:"
+
+#: tfrmfinddlg.cbpartialnamesearch.caption
+msgid "Search for part of file name "
+msgstr "Cercar parts del nom de l'Arxiu"
+
+#: tfrmfinddlg.cbregexp.caption
+msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
+msgid "&Regular expressions"
+msgstr "Expresions regulars"
+
+#: tfrmfinddlg.cbreplacetext.caption
+#, fuzzy
+#| msgid "Re&place text"
+msgid "Re&place by"
+msgstr "Reemplaçar text"
+
+#: tfrmfinddlg.cbtimefrom.caption
+msgid "Time from:"
+msgstr "Hora inicial:"
+
+#: tfrmfinddlg.cbtimeto.caption
+msgid "Time to:"
+msgstr "Hora final:"
+
+#: tfrmfinddlg.cbuseplugin.caption
+msgid "&Use search plugin:"
+msgstr "Usar complement de cerca:"
+
+#: tfrmfinddlg.cmbfindfilemask.text
+msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
+msgid "*"
+msgstr "*"
+
+#: tfrmfinddlg.cmbfollowsymlinks.caption
+msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
+msgid "Follow symlinks"
+msgstr "Seguir l'Enllaç Simbòlic"
+
+#: tfrmfinddlg.gbattributes.caption
+msgid "&Attributes"
+msgstr "Atributs"
+
+#: tfrmfinddlg.gbfinddata.caption
+msgid "Find Data"
+msgstr "Cercar dades"
+
+#: tfrmfinddlg.gbfindoptions.caption
+msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opcions"
+
+#: tfrmfinddlg.lblcurrent.caption
+msgid "Current"
+msgstr "Actual"
+
+#: tfrmfinddlg.lblencoding.caption
+msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
+msgid "Encoding:"
+msgstr "Codificació:"
+
+#: tfrmfinddlg.lblfindfilemask.caption
+msgid "&File mask"
+msgstr "Màscara d'Arxius"
+
+#: tfrmfinddlg.lblfindpathstart.caption
+msgid "&Directory"
+msgstr "Carpeta d'Arxiu"
+
+#: tfrmfinddlg.lblfound.caption
+msgid "Found"
+msgstr "Trobat"
+
+#: tfrmfinddlg.lblsearchdepth.caption
+msgid "Search su&bdirectories:"
+msgstr "Cercar subcarpetes:"
+
+#: tfrmfinddlg.lblstatus.caption
+msgid "Status"
+msgstr "Estat"
+
+#: tfrmfinddlg.lbltemplateheader.caption
+msgid "&Previous searches:"
+msgstr "Cerques previes:"
+
+#: tfrmfinddlg.miremovefromllist.caption
+msgid "Remove from list"
+msgstr "Eliminar de la lista"
+
+#: tfrmfinddlg.mishowallfound.caption
+msgid "Show all found items"
+msgstr "Mostrar Tots els ítems trobats"
+
+#: tfrmfinddlg.mishowinviewer.caption
+msgid "Show In Viewer"
+msgstr "Mostrar en Visor"
+
+#: tfrmfinddlg.tsadvanced.caption
+msgid "Advanced"
+msgstr "Avançat"
+
+#: tfrmfinddlg.tsloadsave.caption
+msgid "Load/Save"
+msgstr "Carregar/Desar"
+
+#: tfrmfinddlg.tsresults.caption
+msgid "Results"
+msgstr "Resultats"
+
+#: tfrmfinddlg.tsstandard.caption
+msgid "Standard"
+msgstr "Estàndar"
+
+#: tfrmfindview.btnclose.caption
+msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmfindview.btnfind.caption
+msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
+msgid "Find"
+msgstr "Cercar"
+
+#: tfrmfindview.caption
+msgctxt "TFRMFINDVIEW.CAPTION"
+msgid "Find"
+msgstr "Cercar"
+
+#: tfrmfindview.cbcasesens.caption
+msgid "Case sensitive"
+msgstr "Sensible majúscules/minúscules"
+
+#: tfrmhardlink.btncancel.caption
+msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmhardlink.btnok.caption
+msgctxt "TFRMHARDLINK.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmhardlink.caption
+#, fuzzy
+#| msgid "Create hardlink"
+msgid "Create hard link"
+msgstr "Crear Enllaç fort"
+
+#: tfrmhardlink.lblexistingfile.caption
+#, fuzzy
+#| msgid "Existing destination (where will link point)"
+msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
+msgid "Destination that the link will point to"
+msgstr "Ruta on s'enllaçarà"
+
+#: tfrmhardlink.lbllinktocreate.caption
+msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
+msgid "Link name"
+msgstr "Nom de l'Enllaç"
+
+#: tfrmhotdir.btnadd.caption
+msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmhotdir.btnaddman.caption
+msgid "Add manually"
+msgstr "Afegir manualment"
+
+#: tfrmhotdir.btncancel.caption
+msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmhotdir.btndelete.caption
+msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmhotdir.btnedit.caption
+msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Editar"
+
+#: tfrmhotdir.btnok.caption
+msgctxt "TFRMHOTDIR.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmhotdir.caption
+msgid "Directory Hotlist"
+msgstr "Carpetes freqüents"
+
+#: tfrmlinker.btnexit.caption
+#, fuzzy
+#| msgid "Exit"
+msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
+msgid "Cancel"
+msgstr "Sortir"
+
+#: tfrmlinker.btnok.caption
+msgctxt "TFRMLINKER.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Acceptar"
+
+#: tfrmlinker.btnsave.caption
+msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmlinker.caption
+msgctxt "tfrmlinker.caption"
+msgid "Linker"
+msgstr "Enllaçador"
+
+#: tfrmlinker.gbsaveto.caption
+msgid "Save to..."
+msgstr "Desar a..."
+
+#: tfrmlinker.grbxcontrol.caption
+msgid "Item"
+msgstr "Element"
+
+#: tfrmlinker.lblfilename.caption
+msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
+msgid "File name"
+msgstr "Nom"
+
+#: tfrmlinker.spbtndel.caption
+msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmlinker.spbtndel.hint
+msgctxt "TFRMLINKER.SPBTNDEL.HINT"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmlinker.spbtndown.caption
+msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
+msgid "Down"
+msgstr "Avall"
+
+#: tfrmlinker.spbtndown.hint
+msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
+msgid "Down"
+msgstr "Avall"
+
+#: tfrmlinker.spbtnup.caption
+msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
+msgid "Up"
+msgstr "Amunt"
+
+#: tfrmlinker.spbtnup.hint
+msgctxt "TFRMLINKER.SPBTNUP.HINT"
+msgid "Up"
+msgstr "Amunt"
+
+#: tfrmmain.actabout.caption
+#, fuzzy
+#| msgid "About"
+msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
+msgid "&About"
+msgstr "Quant a"
+
+#: tfrmmain.actaddfilenametocmdline.caption
+msgid "Add file name to command line"
+msgstr "Afegir nom d'Arxiu a la linia de commandes"
+
+#: tfrmmain.actaddpathandfilenametocmdline.caption
+msgid "Add path and file name to command line"
+msgstr "Afegir ruta i nom d'Arxiu a la linia de commandes"
+
+#: tfrmmain.actaddpathtocmdline.caption
+msgid "Copy path to command line"
+msgstr "Copiar ruta a linia de commandes"
+
+#: tfrmmain.actcalculatespace.caption
+#, fuzzy
+#| msgid "Calculate &Occupied Space..."
+msgid "Calculate &Occupied Space"
+msgstr "Calcular espai &ocupat"
+
+#: tfrmmain.actchangedir.caption
+msgid "Change directory"
+msgstr "Canviar de Carpeta"
+
+#: tfrmmain.actchangedirtoparent.caption
+msgid "Change Directory To Parent"
+msgstr "Canviar a la carpeta superior"
+
+#: tfrmmain.actchangedirtoroot.caption
+msgid "Change directory to root"
+msgstr "Canviar a la carpeta arrel"
+
+#: tfrmmain.actchecksumcalc.caption
+msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
+msgid "Calculate Check&sum..."
+msgstr "Calcular suma de comprovació"
+
+#: tfrmmain.actchecksumverify.caption
+msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
+msgid "&Verify Checksum..."
+msgstr "Verificar suma de comprovació"
+
+#: tfrmmain.actclearlogfile.caption
+msgid "Clear log file"
+msgstr "Esborrar Arxiu log"
+
+#: tfrmmain.actclearlogwindow.caption
+msgid "Clear log window"
+msgstr "Esborrar finestra log"
+
+#: tfrmmain.actcomparecontents.caption
+msgid "Compare by &Contents"
+msgstr "Comparar por &continguts"
+
+#: tfrmmain.actcomparedirectories.caption
+msgctxt "tfrmmain.actcomparedirectories.caption"
+msgid "Compare Directories"
+msgstr ""
+
+#: tfrmmain.actcomparedirectories.hint
+msgctxt "tfrmmain.actcomparedirectories.hint"
+msgid "Compare Directories"
+msgstr ""
+
+#: tfrmmain.actcontextmenu.caption
+msgid "Show context menu"
+msgstr "Mostrar menú contextual"
+
+#: tfrmmain.actcopy.caption
+msgid "Copy F5"
+msgstr "Copiar F5"
+
+#: tfrmmain.actcopyfullnamestoclip.caption
+msgid "Copy Filename(s) with Full &Path"
+msgstr "Copiar nom(s) d'Arxiu(s) amb ruta completa"
+
+#: tfrmmain.actcopynamestoclip.caption
+msgid "Copy &Filename(s) to Clipboard"
+msgstr "Copiar nom(s) d'Arxiu(s) al portapapers"
+
+#: tfrmmain.actcopynoask.caption
+msgid "Copy files without asking for confirmation"
+msgstr "Copiar Arxius sense demanar confirmació"
+
+#: tfrmmain.actcopysamepanel.caption
+msgid "Copy to same panel"
+msgstr "Copiar al mateix panel"
+
+#: tfrmmain.actcopytoclipboard.caption
+msgid "&Copy"
+msgstr "Copiar"
+
+#: tfrmmain.actcountdircontent.caption
+msgid "Sho&w Occupied Space"
+msgstr "Mostrar espai ocupat"
+
+#: tfrmmain.actcuttoclipboard.caption
+msgid "Cu&t"
+msgstr "Tallar"
+
+#: tfrmmain.actdelete.caption
+msgctxt "tfrmmain.actdelete.caption"
+msgid "Delete F8"
+msgstr "Esborrar F8"
+
+#: tfrmmain.actdirhistory.caption
+msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
+msgid "Directory history"
+msgstr "Història de carpetes"
+
+#: tfrmmain.actdirhotlist.caption
+#, fuzzy
+#| msgid "Directory &hotlist"
+msgid "Directory &Hotlist"
+msgstr "Marcadors"
+
+#: tfrmmain.actedit.caption
+msgid "Edit F4"
+msgstr "Editar F4"
+
+#: tfrmmain.acteditcomment.caption
+msgid "Edit Co&mment..."
+msgstr "Editar comentari..."
+
+#: tfrmmain.acteditnew.caption
+msgid "Edit new file"
+msgstr "Editar nou Arxiu"
+
+#: tfrmmain.acteditpath.caption
+msgid "Edit path field above file list"
+msgstr "Editar camp de ruta sobre la llista d'Arxius"
+
+#: tfrmmain.actexchange.caption
+msgid "Swap &Panels"
+msgstr "Intercanviar panells"
+
+#: tfrmmain.actexit.caption
+msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
+msgid "E&xit"
+msgstr "&Sortir"
+
+#: tfrmmain.actextractfiles.caption
+#, fuzzy
+#| msgid "Extract files..."
+msgid "&Extract Files..."
+msgstr "&Extreure..."
+
+#: tfrmmain.actfileassoc.caption
+#, fuzzy
+#| msgid "File &associations..."
+msgid "File &Associations..."
+msgstr "Asociacions d'Arxius..."
+
+#: tfrmmain.actfilelinker.caption
+#, fuzzy
+#| msgid "Link files"
+msgid "Com&bine Files..."
+msgstr "Com&binar..."
+
+#: tfrmmain.actfileproperties.caption
+#, fuzzy
+#| msgid "Show file properties"
+msgid "Show &File Properties"
+msgstr "Mostrar propietats"
+
+#: tfrmmain.actfilespliter.caption
+#, fuzzy
+#| msgid "Split file"
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
+msgid "Spl&it File..."
+msgstr "Dividir..."
+
+#: tfrmmain.actfocuscmdline.caption
+msgid "Focus command line"
+msgstr "Focus en linia de commandes"
+
+#: tfrmmain.actgotofirstfile.caption
+msgid "Place cursor on first file in list"
+msgstr "Col·locar el cursor sobre el primer Arxiu"
+
+#: tfrmmain.actgotolastfile.caption
+msgid "Place cursor on last file in list"
+msgstr "Col·locar el cursor sobre l'últim Arxiu"
+
+#: tfrmmain.acthardlink.caption
+#, fuzzy
+#| msgid "Create hard link..."
+msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
+msgid "Create &Hard Link..."
+msgstr "Crear Enllaç &fort..."
+
+#: tfrmmain.acthelpindex.caption
+msgid "&Contents"
+msgstr "Continguts"
+
+#: tfrmmain.acthorizontalfilepanels.caption
+msgid "&Horizontal Panels Mode"
+msgstr "Panells en horitzontal"
+
+#: tfrmmain.actkeyboard.caption
+msgid "&Keyboard"
+msgstr "Teclat"
+
+#: tfrmmain.actleftequalright.caption
+msgid "Left &= Right"
+msgstr "esquerra &= dreta"
+
+#: tfrmmain.actleftopendrives.caption
+msgid "Open left drive list"
+msgstr "Llista de discs oberts en l'esquerra"
+
+#: tfrmmain.actloadselectionfromclip.caption
+msgid "Load Selection from Clip&board"
+msgstr "Carregar selecció del portapapers"
+
+#: tfrmmain.actloadselectionfromfile.caption
+msgid "&Load Selection from File..."
+msgstr "Carregar se&lecció des d'Arxiu..."
+
+#: tfrmmain.actmakedir.caption
+msgid "MakeDir F7"
+msgstr "CrearDir F7"
+
+#: tfrmmain.actmarkcurrentextension.caption
+msgid "Select All with the Same E&xtension"
+msgstr "Seleccionar amb la mateixa extensió"
+
+#: tfrmmain.actmarkinvert.caption
+#, fuzzy
+#| msgid "Invert Selections"
+msgid "&Invert Selection"
+msgstr "&Invertir selecció"
+
+#: tfrmmain.actmarkmarkall.caption
+msgid "&Select All"
+msgstr "&Seleccionar Tot"
+
+#: tfrmmain.actmarkminus.caption
+#, fuzzy
+#| msgid "Unselect a group"
+msgid "Unselect a Gro&up..."
+msgstr "Deseleccionar gr&up..."
+
+#: tfrmmain.actmarkplus.caption
+#, fuzzy
+#| msgid "Select a group"
+msgid "Select a &Group..."
+msgstr "Seleccionar &grup..."
+
+#: tfrmmain.actmarkunmarkall.caption
+#, fuzzy
+#| msgid "Unselect All"
+msgid "&Unselect All"
+msgstr "&Deseleccionar Tot"
+
+#: tfrmmain.actminimize.caption
+msgid "Minimize window"
+msgstr "Minimitzar finestra"
+
+#: tfrmmain.actmultirename.caption
+#, fuzzy
+#| msgid "Multi Rename Tool"
+msgid "Multi &Rename Tool"
+msgstr "&Reanomenat múltiple"
+
+#: tfrmmain.actnetworkconnect.caption
+msgid "Network &Connect..."
+msgstr "&Connectant xarxa..."
+
+#: tfrmmain.actnetworkdisconnect.caption
+msgid "Network &Disconnect"
+msgstr "&Desconnectant xarxa..."
+
+#: tfrmmain.actnetworkquickconnect.caption
+msgid "Network &Quick Connect..."
+msgstr "Connexió &ràpida de xarxa..."
+
+#: tfrmmain.actnewtab.caption
+#, fuzzy
+#| msgid "&New tab"
+msgid "&New Tab"
+msgstr "&Nova pestanya"
+
+#: tfrmmain.actnexttab.caption
+msgid "Switch to Nex&t Tab"
+msgstr "Canviar a la swgüen&t pestanya"
+
+#: tfrmmain.actopen.caption
+msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
+msgid "Open"
+msgstr "Obrir"
+
+#: tfrmmain.actopenarchive.caption
+msgid "Try open archive"
+msgstr "Intentar obrir Arxiu"
+
+#: tfrmmain.actopenbar.caption
+msgid "Open bar file"
+msgstr "Obrir Arxiu de barra"
+
+#: tfrmmain.actopendirinnewtab.caption
+msgid "Open &Folder in a New Tab"
+msgstr "Obrir carpeta a nova pestanya"
+
+#: tfrmmain.actopenvirtualfilesystemlist.caption
+#, fuzzy
+#| msgid "Open VFS List"
+msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
+msgid "Open &VFS List"
+msgstr "Veure unitats de xarxa"
+
+#: tfrmmain.actoperationsviewer.caption
+msgid "Operations &Viewer"
+msgstr "&Visor d'operacions"
+
+#: tfrmmain.actoptions.caption
+#, fuzzy
+#| msgid "Options..."
+msgid "&Options..."
+msgstr "&Opcions..."
+
+#: tfrmmain.actpackfiles.caption
+#, fuzzy
+#| msgid "Pack files..."
+msgid "&Pack Files..."
+msgstr "Comprimir..."
+
+#: tfrmmain.actpanelssplitterperpos.caption
+msgid "Set splitter position"
+msgstr "Fixar posició de separació"
+
+#: tfrmmain.actpastefromclipboard.caption
+msgid "&Paste"
+msgstr "&Enganxar"
+
+#: tfrmmain.actprevtab.caption
+msgid "Switch to &Previous Tab"
+msgstr "Canviar a la pestanya &prèvia"
+
+#: tfrmmain.actquickfilter.caption
+msgid "Quick filter"
+msgstr "Filtre ràpid"
+
+#: tfrmmain.actquicksearch.caption
+msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
+msgid "Quick search"
+msgstr "Cerca ràpida"
+
+#: tfrmmain.actquickview.caption
+msgid "&Quick View Panel"
+msgstr "Panell de vista ràpida"
+
+#: tfrmmain.actrefresh.caption
+msgid "&Refresh"
+msgstr "&Actualitzar"
+
+#: tfrmmain.actremovealltabs.caption
+msgid "Remove &All Tabs"
+msgstr "Tancar tot&es les pestanyes"
+
+#: tfrmmain.actremovetab.caption
+#, fuzzy
+#| msgid "&Remove tab"
+msgid "&Remove Tab"
+msgstr "Tanca&r pestanya"
+
+#: tfrmmain.actrename.caption
+msgid "Move F6"
+msgstr "Moure F6"
+
+#: tfrmmain.actrenamenoask.caption
+msgid "Move/Rename files without asking for confirmation"
+msgstr "Moure/Eliminar sin confirmación"
+
+#: tfrmmain.actrenameonly.caption
+msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
+msgid "Rename"
+msgstr "Reanomenar"
+
+#: tfrmmain.actrenametab.caption
+msgid "Re&name Tab"
+msgstr "Re&anomenar pestanya"
+
+#: tfrmmain.actrestoreselection.caption
+msgid "&Restore Selection"
+msgstr "&Restaurar Selecció"
+
+#: tfrmmain.actreverseorder.caption
+#, fuzzy
+#| msgid "Reverse order"
+msgid "Re&verse Order"
+msgstr "Ordre in&vers"
+
+#: tfrmmain.actrightequalleft.caption
+msgid "Right &= Left"
+msgstr "Dret &= Esquerra"
+
+#: tfrmmain.actrightopendrives.caption
+msgid "Open right drive list"
+msgstr "Llista de discs oberts a la dreta"
+
+#: tfrmmain.actrunterm.caption
+#, fuzzy
+#| msgid "Run Term"
+msgid "Run &Terminal"
+msgstr "Terminal"
+
+#: tfrmmain.actsaveselection.caption
+msgid "Sa&ve Selection"
+msgstr "Desar selecció"
+
+#: tfrmmain.actsaveselectiontofile.caption
+msgid "Save S&election to File..."
+msgstr "Desar sel&ecció a Arxiu..."
+
+#: tfrmmain.actsearch.caption
+#, fuzzy
+#| msgid "&Search"
+msgid "&Search..."
+msgstr "&Cercar"
+
+#: tfrmmain.actsetfileproperties.caption
+msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
+msgid "Change &Attributes..."
+msgstr "Canviar atributs..."
+
+#: tfrmmain.actsettaboptiondirsinnewtab.caption
+msgid "Locked with Directories Opened in New &Tabs"
+msgstr "Bloquejar carpetes obertes a pestanyes noves"
+
+#: tfrmmain.actsettaboptionnormal.caption
+msgid "&Normal"
+msgstr ""
+
+#: tfrmmain.actsettaboptionpathlocked.caption
+msgid "&Locked"
+msgstr "B&loquejar"
+
+#: tfrmmain.actsettaboptionpathresets.caption
+msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
+msgid "Locked with &Directory Changes Allowed"
+msgstr "Bloquejar amb canvis de carpeta permessos"
+
+#: tfrmmain.actshowbuttonmenu.caption
+msgid "Show button menu"
+msgstr "Mostrar menú de botons"
+
+#: tfrmmain.actshowcmdlinehistory.caption
+msgid "Show command line history"
+msgstr "Històrial de linia de commandes"
+
+#: tfrmmain.actshowmainmenu.caption
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
+msgid "Menu F9"
+msgstr "Menú F9"
+
+#: tfrmmain.actshowsysfiles.caption
+#, fuzzy
+#| msgid "Show hidden/system files"
+msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
+msgid "Show &Hidden/System Files"
+msgstr "Mostrar Ocults/sistema"
+
+#: tfrmmain.actsortbyattr.caption
+#, fuzzy
+#| msgid "Sort by attrib"
+msgid "Sort by &Attributes"
+msgstr "Ordenar per atributs"
+
+#: tfrmmain.actsortbydate.caption
+#, fuzzy
+#| msgid "Sort by date"
+msgid "Sort by &Date"
+msgstr "Or&denar per data"
+
+#: tfrmmain.actsortbyext.caption
+#, fuzzy
+#| msgid "Sort by extension"
+msgid "Sort by &Extension"
+msgstr "Ordenar per extensió"
+
+#: tfrmmain.actsortbyname.caption
+#, fuzzy
+#| msgid "Sort by name"
+msgid "Sort by &Name"
+msgstr "Ordenar per nom"
+
+#: tfrmmain.actsortbysize.caption
+#, fuzzy
+#| msgid "Sort by size"
+msgid "Sort by &Size"
+msgstr "Ordenar per Mida"
+
+#: tfrmmain.actswitchignorelist.caption
+msgid "Enable/disable ignore list file to not show file names"
+msgstr "Habilitar/deshabilitar ignorar llista per no mostrar noms d'Arxiu"
+
+#: tfrmmain.actsymlink.caption
+#, fuzzy
+#| msgid "Create symbolic link..."
+msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
+msgid "Create Symbolic &Link..."
+msgstr "Crear e&nlaç Simbòlic..."
+
+#: tfrmmain.acttargetequalsource.caption
+msgid "Target &= Source"
+msgstr "Objectiu = Origen"
+
+#: tfrmmain.acttestarchive.caption
+msgid "&Test Archive(s)"
+msgstr "Comprovar Arxiu(s)"
+
+#: tfrmmain.acttransferleft.caption
+msgid "Transfer dir under cursor to left window"
+msgstr "Carpeta sota el cursor a l'esquerra"
+
+#: tfrmmain.acttransferright.caption
+msgid "Transfer dir under cursor to right window"
+msgstr "Carpeta sota el cursor a la dreta"
+
+#: tfrmmain.actunmarkcurrentextension.caption
+msgid "Unselect All with the Same Ex&tension"
+msgstr "Deseleccionar Tot amb la mateixa extensió"
+
+#: tfrmmain.actview.caption
+msgid "View F3"
+msgstr "Veure F3"
+
+#: tfrmmain.actviewhistory.caption
+msgid "Show history of visited paths for active view"
+msgstr "Mostrar hstòria de las direccions visitades per vista activa"
+
+#: tfrmmain.actviewhistorynext.caption
+msgid "Go to next entry in history"
+msgstr "Anar a l'entrada següent"
+
+#: tfrmmain.actviewhistoryprev.caption
+msgid "Go to previous entry in history"
+msgstr "Anar a la entrada prèvia"
+
+#: tfrmmain.actvisithomepage.caption
+msgid "&Visit Double Commander Website"
+msgstr "Visitar el lloc web de Double Commander"
+
+#: tfrmmain.actwipe.caption
+msgid "Wipe"
+msgstr "Destruir"
+
+#: tfrmmain.btnf10.caption
+msgid "Exit F10"
+msgstr "Sortir F10"
+
+#: tfrmmain.btnf8.caption
+msgctxt "tfrmmain.btnf8.caption"
+msgid "Delete F8"
+msgstr "Esborrar F8"
+
+#: tfrmmain.btnf9.caption
+msgid "Terminal F9"
+msgstr ""
+
+#: tfrmmain.btnleftdirectoryhotlist.caption
+msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
+msgid "*"
+msgstr "*"
+
+#: tfrmmain.btnleftdirectoryhotlist.hint
+msgid "Directory hotlist"
+msgstr ""
+
+#: tfrmmain.btnleftequalright.caption
+msgid "<"
+msgstr ""
+
+#: tfrmmain.btnleftequalright.hint
+msgid "Show current directory of the right panel in the left panel"
+msgstr "Mostrar carpeta actual del panell dret al esquerra"
+
+#: tfrmmain.btnlefthome.caption
+msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
+msgid "~"
+msgstr "~"
+
+#: tfrmmain.btnlefthome.hint
+msgid "Go to home directory"
+msgstr "Anar a la carpeta d'usuari"
+
+#: tfrmmain.btnleftroot.caption
+msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
+msgid "/"
+msgstr "/"
+
+#: tfrmmain.btnleftroot.hint
+msgid "Go to root directory"
+msgstr "Anar a la carpeta arrel"
+
+#: tfrmmain.btnleftup.caption
+msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
+msgid ".."
+msgstr ".."
+
+#: tfrmmain.btnleftup.hint
+msgid "Go to parent directory"
+msgstr "Anar a la carpeta superior"
+
+#: tfrmmain.btnrightdirectoryhotlist.caption
+msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
+msgid "*"
+msgstr "*"
+
+#: tfrmmain.btnrightequalleft.caption
+msgid ">"
+msgstr ""
+
+#: tfrmmain.btnrightequalleft.hint
+msgid "Show current directory of the left panel in the right panel"
+msgstr "Mostrar la carpeta actual del panell esquerra al dret"
+
+#: tfrmmain.btnrighthome.caption
+msgctxt "TFRMMAIN.BTNRIGHTHOME.CAPTION"
+msgid "~"
+msgstr "~"
+
+#: tfrmmain.btnrightroot.caption
+msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
+msgid "/"
+msgstr "/"
+
+#: tfrmmain.btnrightup.caption
+msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
+msgid ".."
+msgstr ".."
+
+#: tfrmmain.caption
+msgctxt "tfrmmain.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmain.lblcommandpath.caption
+msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
+msgid "Path"
+msgstr "Ruta"
+
+#: tfrmmain.menuitem2.caption
+msgctxt "TFRMMAIN.MENUITEM2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.mi2080.caption
+msgid "&20/80"
+msgstr ""
+
+#: tfrmmain.mi3070.caption
+msgid "&30/70"
+msgstr ""
+
+#: tfrmmain.mi4060.caption
+msgid "&40/60"
+msgstr ""
+
+#: tfrmmain.mi5050.caption
+msgid "&50/50"
+msgstr ""
+
+#: tfrmmain.mi6040.caption
+msgid "&60/40"
+msgstr ""
+
+#: tfrmmain.mi7030.caption
+msgid "&70/30"
+msgstr ""
+
+#: tfrmmain.mi8020.caption
+msgid "&80/20"
+msgstr ""
+
+#: tfrmmain.micancel.caption
+msgctxt "TFRMMAIN.MICANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmmain.micopy.caption
+msgid "Copy..."
+msgstr "Copiar..."
+
+#: tfrmmain.mihardlink.caption
+msgctxt "TFRMMAIN.MIHARDLINK.CAPTION"
+msgid "Create link..."
+msgstr "Crear Enllaç"
+
+#: tfrmmain.miline1.caption
+msgctxt "TFRMMAIN.MILINE1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline12.caption
+msgctxt "TFRMMAIN.MILINE12.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline13.caption
+msgctxt "TFRMMAIN.MILINE13.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline14.caption
+msgctxt "TFRMMAIN.MILINE14.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline15.caption
+msgctxt "TFRMMAIN.MILINE15.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline16.caption
+msgctxt "TFRMMAIN.MILINE16.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline17.caption
+msgctxt "TFRMMAIN.MILINE17.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline18.caption
+msgctxt "TFRMMAIN.MILINE18.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline19.caption
+msgctxt "TFRMMAIN.MILINE19.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline2.caption
+msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline20.caption
+msgctxt "TFRMMAIN.MILINE20.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline22.caption
+msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline24.caption
+msgctxt "TFRMMAIN.MILINE24.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline25.caption
+msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline3.caption
+msgctxt "TFRMMAIN.MILINE3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline32.caption
+msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline37.caption
+msgctxt "tfrmmain.miline37.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline4.caption
+msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline47.caption
+msgctxt "TFRMMAIN.MILINE47.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline5.caption
+msgctxt "TFRMMAIN.MILINE5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline6.caption
+msgctxt "TFRMMAIN.MILINE6.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline7.caption
+msgctxt "TFRMMAIN.MILINE7.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline8.caption
+msgctxt "TFRMMAIN.MILINE8.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline9.caption
+msgctxt "TFRMMAIN.MILINE9.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.milogclear.caption
+msgid "Clear"
+msgstr "Limpiar"
+
+#: tfrmmain.milogcopy.caption
+msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmmain.miloghide.caption
+msgid "Hide"
+msgstr "Ocultar"
+
+#: tfrmmain.milogselectall.caption
+msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Seleccionar Tot"
+
+#: tfrmmain.mimove.caption
+msgid "Move..."
+msgstr "Moure..."
+
+#: tfrmmain.misymlink.caption
+msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
+msgid "Create symlink..."
+msgstr "Crear Enllaç Simbòlic"
+
+#: tfrmmain.mitaboptions.caption
+msgid "Tab options"
+msgstr "Opcions de pestanya"
+
+#: tfrmmain.mitrayiconexit.caption
+msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
+msgid "E&xit"
+msgstr "&Sortir"
+
+#: tfrmmain.mitrayiconrestore.caption
+msgid "Restore"
+msgstr "Restaurar"
+
+#: tfrmmain.mnualloperpause.caption
+msgctxt "tfrmmain.mnualloperpause.caption"
+msgid "||"
+msgstr ""
+
+#: tfrmmain.mnualloperstart.caption
+msgctxt "tfrmmain.mnualloperstart.caption"
+msgid "Start"
+msgstr "Començar"
+
+#: tfrmmain.mnualloperstop.caption
+msgctxt "tfrmmain.mnualloperstop.caption"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmmain.mnucmd.caption
+msgid "&Commands"
+msgstr "&Commandes"
+
+#: tfrmmain.mnuconfig.caption
+msgid "C&onfiguration"
+msgstr "C&onfiguració"
+
+#: tfrmmain.mnufiles.caption
+#, fuzzy
+#| msgid "Files"
+msgid "&Files"
+msgstr "&Arxiu"
+
+#: tfrmmain.mnuhelp.caption
+msgctxt "TFRMMAIN.MNUHELP.CAPTION"
+msgid "&Help"
+msgstr "A&juda"
+
+#: tfrmmain.mnumark.caption
+msgid "&Mark"
+msgstr "&Seleccionar"
+
+#: tfrmmain.mnunetwork.caption
+msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
+msgid "Network"
+msgstr "Xarxa"
+
+#: tfrmmain.mnushow.caption
+msgid "&Show"
+msgstr "&Veure"
+
+#: tfrmmain.mnutaboptions.caption
+#, fuzzy
+#| msgid "Options"
+msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
+msgid "&Options"
+msgstr "Opcions"
+
+#: tfrmmain.mnutabs.caption
+msgid "&Tabs"
+msgstr "&Pestanyes"
+
+#: tfrmmain.tbchangedir.caption
+msgid "CD"
+msgstr ""
+
+#: tfrmmain.tbcopy.caption
+msgctxt "TFRMMAIN.TBCOPY.CAPTION"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmmain.tbcut.caption
+msgctxt "TFRMMAIN.TBCUT.CAPTION"
+msgid "Cut"
+msgstr "Tallar"
+
+#: tfrmmain.tbdelete.caption
+msgctxt "TFRMMAIN.TBDELETE.CAPTION"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmmain.tbedit.caption
+msgctxt "TFRMMAIN.TBEDIT.CAPTION"
+msgid "Edit"
+msgstr "Editar"
+
+#: tfrmmain.tbpaste.caption
+msgctxt "TFRMMAIN.TBPASTE.CAPTION"
+msgid "Paste"
+msgstr "Enganxar"
+
+#: tfrmmain.tbseparator.caption
+msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmaskinputdlg.btncancel.caption
+msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmmaskinputdlg.btndefinetemplate.caption
+msgid "Define..."
+msgstr "Definir..."
+
+#: tfrmmaskinputdlg.btnok.caption
+msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmmaskinputdlg.lblsearchtemplate.caption
+msgid "Or select predefined selection type:"
+msgstr "O esculli tipus de selecció predefinida:"
+
+#: tfrmmkdir.btncancel.caption
+msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmmkdir.btnok.caption
+msgctxt "TFRMMKDIR.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmmkdir.caption
+msgid "Create new directory"
+msgstr "Crear nova carpeta"
+
+#: tfrmmkdir.lblmakedir.caption
+msgid "Input new directory name:"
+msgstr "Nom de la nova carpeta:"
+
+#: tfrmmodview.btncancel.caption
+msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmmodview.btnok.caption
+msgid "Ok"
+msgstr "Acceptar"
+
+#: tfrmmodview.btnpath1.caption
+msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmmodview.btnpath2.caption
+msgctxt "TFRMMODVIEW.BTNPATH2.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmmodview.btnpath3.caption
+msgctxt "TFRMMODVIEW.BTNPATH3.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmmodview.btnpath4.caption
+msgctxt "TFRMMODVIEW.BTNPATH4.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmmodview.btnpath5.caption
+msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmmodview.btnproportion.caption
+msgid "Pr"
+msgstr ""
+
+#: tfrmmodview.caption
+msgctxt "tfrmmodview.caption"
+msgid "New Size"
+msgstr "Nova Mida"
+
+#: tfrmmodview.lblheight.caption
+msgid "Height :"
+msgstr "Alt :"
+
+#: tfrmmodview.lblpath1.caption
+msgctxt "TFRMMODVIEW.LBLPATH1.CAPTION"
+msgid "1"
+msgstr "1"
+
+#: tfrmmodview.lblpath2.caption
+msgid "2"
+msgstr ""
+
+#: tfrmmodview.lblpath3.caption
+msgid "3"
+msgstr ""
+
+#: tfrmmodview.lblpath4.caption
+msgid "4"
+msgstr ""
+
+#: tfrmmodview.lblpath5.caption
+msgid "5"
+msgstr ""
+
+#: tfrmmodview.lblquality.caption
+msgid "Quality of compress to Jpg"
+msgstr "Qualitat de compresió jpg"
+
+#: tfrmmodview.lblwidth.caption
+msgid "Width :"
+msgstr "Ample:"
+
+#: tfrmmodview.rbbmp.caption
+msgid "BMP"
+msgstr ""
+
+#: tfrmmodview.rbico.caption
+msgid "ICO"
+msgstr ""
+
+#: tfrmmodview.rbjpg.caption
+msgid "JPG"
+msgstr ""
+
+#: tfrmmodview.rbpng.caption
+msgid "PNG"
+msgstr ""
+
+#: tfrmmodview.rbpnm.caption
+msgid "PNM"
+msgstr ""
+
+#: tfrmmodview.teheight.text
+msgid "Height"
+msgstr "Alt"
+
+#: tfrmmodview.tequality.text
+msgid "80"
+msgstr ""
+
+#: tfrmmodview.tewidth.text
+msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
+msgid "Width"
+msgstr "Ample"
+
+#: tfrmmultirename.btnclose.caption
+msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Tancar"
+
+#: tfrmmultirename.btndeletepreset.caption
+msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
+msgid "&Delete"
+msgstr "&Esborrar"
+
+#: tfrmmultirename.btnextmenu.caption
+msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmmultirename.btnloadpreset.caption
+msgid "&Load"
+msgstr "Carregar"
+
+#: tfrmmultirename.btnnamemenu.caption
+msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfrmmultirename.btnrename.caption
+msgid "&Rename"
+msgstr "Reanomenar"
+
+#: tfrmmultirename.btnrestore.caption
+#, fuzzy
+#| msgid "Restore All"
+msgid "Reset all"
+msgstr "Restaurar"
+
+#: tfrmmultirename.btnsavepreset.caption
+msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
+msgid "&Save"
+msgstr "&Desar"
+
+#: tfrmmultirename.caption
+msgctxt "tfrmmultirename.caption"
+msgid "MultiRename"
+msgstr "Reanomenat múltiple"
+
+#: tfrmmultirename.cblog.caption
+#, fuzzy
+#| msgid "Log"
+msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
+msgid "Enable"
+msgstr "Registre"
+
+#: tfrmmultirename.cbregexp.caption
+msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
+msgid "Regular e&xpressions"
+msgstr "Expresions regulars"
+
+#: tfrmmultirename.cbusesubs.caption
+msgid "&Use substitution"
+msgstr "Substituir"
+
+#: tfrmmultirename.cmbxwidth.text
+msgid "01"
+msgstr "01"
+
+#: tfrmmultirename.edinterval.text
+msgctxt "TFRMMULTIRENAME.EDINTERVAL.TEXT"
+msgid "1"
+msgstr "1"
+
+#: tfrmmultirename.edpoc.text
+msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
+msgid "1"
+msgstr "1"
+
+#: tfrmmultirename.extension.caption
+#, fuzzy
+#| msgid "[E]xtension"
+msgid "[E] Extension"
+msgstr "[E]xtensió"
+
+#: tfrmmultirename.gbcounter.caption
+msgid "Counter"
+msgstr "Comptador"
+
+#: tfrmmultirename.gbfindreplace.caption
+msgid "Find && Replace"
+msgstr "Cercar i Reemplaçar"
+
+#: tfrmmultirename.gblog.caption
+msgid "Log Result"
+msgstr "Registre de resultat"
+
+#: tfrmmultirename.gbmaska.caption
+msgid "Mask"
+msgstr "Màscara"
+
+#: tfrmmultirename.gbpresets.caption
+msgid "Presets"
+msgstr "Configuració"
+
+#: tfrmmultirename.lbext.caption
+#, fuzzy
+#| msgid "Extension"
+msgid "&Extension"
+msgstr "Extensió"
+
+#: tfrmmultirename.lbfind.caption
+#, fuzzy
+#| msgid "Find..."
+msgid "&Find..."
+msgstr "Cercar..."
+
+#: tfrmmultirename.lbinterval.caption
+msgid "Interval"
+msgstr "Intervalo"
+
+#: tfrmmultirename.lbname.caption
+#, fuzzy
+#| msgid "File Name"
+msgid "File &Name"
+msgstr "Nom"
+
+#: tfrmmultirename.lbreplace.caption
+#, fuzzy
+#| msgid "Replace..."
+msgid "Re&place..."
+msgstr "Reemplaçar..."
+
+#: tfrmmultirename.lbstnb.caption
+msgid "Start Number"
+msgstr "Número inicial"
+
+#: tfrmmultirename.lbwidth.caption
+msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
+msgid "Width"
+msgstr "Anchura"
+
+#: tfrmmultirename.micounter.caption
+#, fuzzy
+#| msgid "[C]ounter"
+msgid "[C] Counter"
+msgstr "[C]omptador"
+
+#: tfrmmultirename.miday.caption
+#, fuzzy
+#| msgid "[D]ay"
+msgid "[D] Day"
+msgstr "[D]ia"
+
+#: tfrmmultirename.miday1.caption
+msgid "[DD] Day (2 digits)"
+msgstr ""
+
+#: tfrmmultirename.miday2.caption
+msgid "[DDD] Day of the week (short, e.g., \"mon\")"
+msgstr ""
+
+#: tfrmmultirename.miday3.caption
+msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
+msgstr ""
+
+#: tfrmmultirename.miextensionx.caption
+#, fuzzy
+#| msgid "[Ex]xtension"
+msgid "[Ex] Character at position x"
+msgstr "[Ex]xtensió"
+
+#: tfrmmultirename.miextensionxx.caption
+#, fuzzy
+#| msgid "[Ex:x]xtension"
+msgid "[Ex:y] Characters from position x to y"
+msgstr "[Ex:x]xtensió"
+
+#: tfrmmultirename.mihour.caption
+#, fuzzy
+#| msgid "[h]our"
+msgid "[h] Hour"
+msgstr "[H]ora"
+
+#: tfrmmultirename.mihour1.caption
+msgid "[hh] Hour (2 digits)"
+msgstr ""
+
+#: tfrmmultirename.miminute.caption
+#, fuzzy
+#| msgid "Mi[n]ute"
+msgid "[n] Minute"
+msgstr "[Mi]nut"
+
+#: tfrmmultirename.miminute1.caption
+msgid "[nn] Minute (2 digits)"
+msgstr ""
+
+#: tfrmmultirename.mimonth.caption
+#, fuzzy
+#| msgid "[M]onth"
+msgid "[M] Month"
+msgstr "[Mo]->Mes"
+
+#: tfrmmultirename.mimonth1.caption
+msgid "[MM] Month (2 digits)"
+msgstr ""
+
+#: tfrmmultirename.mimonth2.caption
+msgid "[MMM] Month name (short, e.g., \"jan\")"
+msgstr ""
+
+#: tfrmmultirename.mimonth3.caption
+msgid "[MMMM] Month name (long, e.g., \"january\")"
+msgstr ""
+
+#: tfrmmultirename.miname.caption
+#, fuzzy
+#| msgid "[N]ame"
+msgid "[N] Name"
+msgstr "[N]om"
+
+#: tfrmmultirename.minamex.caption
+#, fuzzy
+#| msgid "[Nx]ame"
+msgid "[Nx] Character at position x"
+msgstr "[Nx]om"
+
+#: tfrmmultirename.minamexx.caption
+#, fuzzy
+#| msgid "[Nx:x]ame"
+msgid "[Nx:y] Characters from position x to y"
+msgstr "[Nx:x]om"
+
+#: tfrmmultirename.minext.caption
+msgid "Time..."
+msgstr "Hora..."
+
+#: tfrmmultirename.minextextension.caption
+msgid "Extension..."
+msgstr "Extensión..."
+
+#: tfrmmultirename.minextname.caption
+msgid "Name..."
+msgstr "Nom..."
+
+#: tfrmmultirename.miplugin.caption
+msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
+msgid "Plugin"
+msgstr "Complement"
+
+#: tfrmmultirename.misecond.caption
+#, fuzzy
+#| msgid "[s]econd"
+msgid "[s] Second"
+msgstr "[S]egon"
+
+#: tfrmmultirename.misecond1.caption
+msgid "[ss] Second (2 digits)"
+msgstr ""
+
+#: tfrmmultirename.miyear.caption
+#, fuzzy
+#| msgid "[Y] Year"
+msgid "[Y] Year (2 digits)"
+msgstr "[Y]->Any"
+
+#: tfrmmultirename.miyear1.caption
+msgid "[YYYY] Year (4 digits)"
+msgstr ""
+
+#: tfrmmultirename.n1.caption
+msgctxt "TFRMMULTIRENAME.N1.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmultirename.n2.caption
+msgctxt "TFRMMULTIRENAME.N2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmultirename.n3.caption
+msgctxt "TFRMMULTIRENAME.N3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmultirename.n4.caption
+msgctxt "TFRMMULTIRENAME.N4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmultirename.n5.caption
+msgctxt "TFRMMULTIRENAME.N5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmultirename.stringgrid.columns[0].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[0].title.caption"
+msgid "Old File Name"
+msgstr "Nom antic"
+
+#: tfrmmultirename.stringgrid.columns[1].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[1].title.caption"
+msgid "New File Name"
+msgstr "Nom nou"
+
+#: tfrmmultirename.stringgrid.columns[2].title.caption
+msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
+msgid "File Path"
+msgstr "Ruta"
+
+#: tfrmoptions.btnapply.caption
+msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
+msgid "Apply"
+msgstr "Aplicar"
+
+#: tfrmoptions.btncancel.caption
+msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmoptions.btnok.caption
+msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmoptions.caption
+msgctxt "tfrmoptions.caption"
+msgid "Options"
+msgstr "Opcions"
+
+#: tfrmoptionsarchivers.btnautoconfig.caption
+msgctxt "tfrmoptionsarchivers.btnautoconfig.caption"
+msgid "Auto Configure"
+msgstr "Configuració auto."
+
+#: tfrmoptionsarchivers.btnmultiarcadd.caption
+msgctxt "tfrmoptionsarchivers.btnmultiarcadd.caption"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmoptionsarchivers.btnmultiarcapply.caption
+msgctxt "tfrmoptionsarchivers.btnmultiarcapply.caption"
+msgid "Apply"
+msgstr "Aplicar"
+
+#: tfrmoptionsarchivers.btnmultiarcdelete.caption
+msgctxt "tfrmoptionsarchivers.btnmultiarcdelete.caption"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmoptionsarchivers.btnmultiarcrename.caption
+msgctxt "tfrmoptionsarchivers.btnmultiarcrename.caption"
+msgid "Rename"
+msgstr "Reanomenar"
+
+#: tfrmoptionsarchivers.chkmultiarcdebug.caption
+msgctxt "tfrmoptionsarchivers.chkmultiarcdebug.caption"
+msgid "Debug mode"
+msgstr "Mode de depuració"
+
+#: tfrmoptionsarchivers.chkmultiarcenabled.caption
+msgctxt "tfrmoptionsarchivers.chkmultiarcenabled.caption"
+msgid "Enabled"
+msgstr "Habilitar"
+
+#: tfrmoptionsarchivers.chkmultiarcoutput.caption
+msgctxt "tfrmoptionsarchivers.chkmultiarcoutput.caption"
+msgid "Show console output"
+msgstr "Mostrar sortida de consola"
+
+#: tfrmoptionsarchivers.gbarchiveroptions.caption
+msgctxt "tfrmoptionsarchivers.gbarchiveroptions.caption"
+msgid "Options"
+msgstr "Opcions"
+
+#: tfrmoptionsarchivers.lblarchiveadd.caption
+msgctxt "tfrmoptionsarchivers.lblarchiveadd.caption"
+msgid "Add:"
+msgstr "Afegir:"
+
+#: tfrmoptionsarchivers.lblarchiveextension.caption
+msgctxt "tfrmoptionsarchivers.lblarchiveextension.caption"
+msgid "Extension:"
+msgstr "Extensió:"
+
+#: tfrmoptionsarchivers.lblarchiveextract.caption
+msgctxt "tfrmoptionsarchivers.lblarchiveextract.caption"
+msgid "Extract:"
+msgstr "Extreure:"
+
+#: tfrmoptionsarchivers.lblarchivelist.caption
+msgctxt "tfrmoptionsarchivers.lblarchivelist.caption"
+msgid "List:"
+msgstr "Llistar:"
+
+#: tfrmoptionsarchivers.lblarchivelistend.caption
+msgctxt "tfrmoptionsarchivers.lblarchivelistend.caption"
+msgid "Listing finish (optional):"
+msgstr "Acabar llistat (opcional):"
+
+#: tfrmoptionsarchivers.lblarchivelistformat.caption
+msgctxt "tfrmoptionsarchivers.lblarchivelistformat.caption"
+msgid "Listing format:"
+msgstr "Format de llista:"
+
+#: tfrmoptionsarchivers.lblarchiveliststart.caption
+msgctxt "tfrmoptionsarchivers.lblarchiveliststart.caption"
+msgid "Listing start (optional):"
+msgstr "Començar llistat (opcional):"
+
+#: tfrmoptionsarchivers.lblarchiver.caption
+msgctxt "tfrmoptionsarchivers.lblarchiver.caption"
+msgid "Archiver:"
+msgstr "Arxivador:"
+
+#: tfrmoptionsarchivers.lbldescription.caption
+msgctxt "tfrmoptionsarchivers.lbldescription.caption"
+msgid "Description:"
+msgstr "Descripció:"
+
+#: tfrmoptionsarchivers.tbarchiveradditional.caption
+msgctxt "tfrmoptionsarchivers.tbarchiveradditional.caption"
+msgid "Additional"
+msgstr "Addicional"
+
+#: tfrmoptionsarchivers.tbarchivergeneral.caption
+msgctxt "tfrmoptionsarchivers.tbarchivergeneral.caption"
+msgid "General"
+msgstr "General"
+
+#: tfrmoptionsautorefresh.cbwatchattributeschange.caption
+msgctxt "tfrmoptionsautorefresh.cbwatchattributeschange.caption"
+msgid "When &size, date or attributes change"
+msgstr "Quan canvia la mida, la data o els atributs"
+
+#: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
+msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
+msgid "For the following &paths and their subdirectories:"
+msgstr "Per les rutes següents i les seves subcarpetes:"
+
+#: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
+msgctxt "tfrmoptionsautorefresh.cbwatchfilenamechange.caption"
+msgid "When files are &created, deleted or renamed"
+msgstr "Quan es crean Arxius, s'esborren o es reanomenen"
+
+#: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
+msgctxt "tfrmoptionsautorefresh.cbwatchonlyforeground.caption"
+msgid "When application is in the &background"
+msgstr "Quan l'aplicació està en segon pla"
+
+#: tfrmoptionsautorefresh.gbautorefreshdisable.caption
+msgctxt "tfrmoptionsautorefresh.gbautorefreshdisable.caption"
+msgid "Disable auto-refresh"
+msgstr "Deshabilitar actualizació automàtica"
+
+#: tfrmoptionsautorefresh.gbautorefreshenable.caption
+msgctxt "tfrmoptionsautorefresh.gbautorefreshenable.caption"
+msgid "Refresh file list"
+msgstr "Actualitzar la lista d'Arxius"
+
+#: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
+msgctxt "tfrmoptionsbehavior.cbalwaysshowtrayicon.caption"
+msgid "Always show tray icon"
+msgstr "Icon sempre a safata"
+
+#: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
+msgid "Automatically hide unmounted devices"
+msgstr ""
+
+#: tfrmoptionsbehavior.cbminimizetotray.caption
+msgctxt "tfrmoptionsbehavior.cbminimizetotray.caption"
+msgid "Mo&ve icon to system tray when minimized"
+msgstr "Al minimitzar, icon a safata"
+
+#: tfrmoptionsbehavior.cbonlyonce.caption
+msgctxt "tfrmoptionsbehavior.cbonlyonce.caption"
+msgid "Allow only one copy of DC at a time"
+msgstr "Només una còpia de Double Commander oberta"
+
+#: tfrmoptionsbehavior.edtdrivesblacklist.hint
+msgid "Here you can enter one or more drives or mount points, separated by \";\"."
+msgstr ""
+
+#: tfrmoptionsbehavior.lbldrivesblacklist.caption
+msgid "Drives blacklist"
+msgstr ""
+
+#: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
+msgctxt "tfrmoptionscolumnsview.cbcuttexttocolwidth.caption"
+msgid "Cut text to column width"
+msgstr "Ajustar text a ample de columna"
+
+#: tfrmoptionscolumnsview.cbgridhorzline.caption
+msgctxt "tfrmoptionscolumnsview.cbgridhorzline.caption"
+msgid "Horizontal lines"
+msgstr "Línies horizontales"
+
+#: tfrmoptionscolumnsview.cbgridvertline.caption
+msgctxt "tfrmoptionscolumnsview.cbgridvertline.caption"
+msgid "Vertical lines"
+msgstr "Línies verticals"
+
+#: tfrmoptionscolumnsview.chkautofillcolumns.caption
+msgctxt "tfrmoptionscolumnsview.chkautofillcolumns.caption"
+msgid "Auto fill columns"
+msgstr "Omplerta automàtica de columnes"
+
+#: tfrmoptionscolumnsview.gbshowgrid.caption
+msgid "Show grid"
+msgstr ""
+
+#: tfrmoptionscolumnsview.grpautosizecolumns.caption
+msgid "Auto-size columns"
+msgstr ""
+
+#: tfrmoptionscolumnsview.lblautosizecolumn.caption
+msgctxt "tfrmoptionscolumnsview.lblautosizecolumn.caption"
+msgid "Auto size column:"
+msgstr "Mida automàtica de columna:"
+
+#: tfrmoptionsconfiguration.btnconfigapply.caption
+msgctxt "tfrmoptionsconfiguration.btnconfigapply.caption"
+msgid "Apply"
+msgstr "Aplicar"
+
+#: tfrmoptionsconfiguration.btnconfigedit.caption
+msgctxt "tfrmoptionsconfiguration.btnconfigedit.caption"
+msgid "Edit"
+msgstr "Editar"
+
+#: tfrmoptionsconfiguration.cbcmdlinehistory.caption
+msgctxt "tfrmoptionsconfiguration.cbcmdlinehistory.caption"
+msgid "Command line history"
+msgstr "Història de commandes"
+
+#: tfrmoptionsconfiguration.cbdirhistory.caption
+msgctxt "tfrmoptionsconfiguration.cbdirhistory.caption"
+msgid "Directory history"
+msgstr "Història de carpetes"
+
+#: tfrmoptionsconfiguration.cbfilemaskhistory.caption
+msgctxt "tfrmoptionsconfiguration.cbfilemaskhistory.caption"
+msgid "File mask history"
+msgstr "Història de màscares"
+
+#: tfrmoptionsconfiguration.chksaveconfiguration.caption
+msgctxt "tfrmoptionsconfiguration.chksaveconfiguration.caption"
+msgid "Save configuration"
+msgstr "Desar configuració"
+
+#: tfrmoptionsconfiguration.chksearchreplacehistory.caption
+msgctxt "tfrmoptionsconfiguration.chksearchreplacehistory.caption"
+msgid "Search/Replace history"
+msgstr "Història de Cercar/Reemplaçar"
+
+#: tfrmoptionsconfiguration.gblocconfigfiles.caption
+msgctxt "tfrmoptionsconfiguration.gblocconfigfiles.caption"
+msgid "Location of configuration files"
+msgstr "Situació dels Arxius de configuració"
+
+#: tfrmoptionsconfiguration.gbsaveonexit.caption
+msgctxt "tfrmoptionsconfiguration.gbsaveonexit.caption"
+msgid "Save on exit"
+msgstr "Desar al sortir"
+
+#: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
+msgctxt "tfrmoptionsconfiguration.lblcmdlineconfigdir.caption"
+msgid "Set on command line"
+msgstr "Fixar sobre linia de commandes"
+
+#: tfrmoptionsconfiguration.rbprogramdir.caption
+msgctxt "tfrmoptionsconfiguration.rbprogramdir.caption"
+msgid "Program directory (portable version)"
+msgstr "Carpeta del programa (versió portable)"
+
+#: tfrmoptionsconfiguration.rbuserhomedir.caption
+msgctxt "tfrmoptionsconfiguration.rbuserhomedir.caption"
+msgid "User home directory"
+msgstr "Carpeta d'usuari"
+
+#: tfrmoptionscustomcolumns.btncopycolumnsset.caption
+msgctxt "tfrmoptionscustomcolumns.btncopycolumnsset.caption"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmoptionscustomcolumns.btndelcolumnsset.caption
+msgctxt "tfrmoptionscustomcolumns.btndelcolumnsset.caption"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmoptionscustomcolumns.btneditcolumnsset.caption
+msgctxt "tfrmoptionscustomcolumns.btneditcolumnsset.caption"
+msgid "Edit"
+msgstr "Editar"
+
+#: tfrmoptionscustomcolumns.btnnewcolumnsset.caption
+msgctxt "tfrmoptionscustomcolumns.btnnewcolumnsset.caption"
+msgid "&New"
+msgstr "&Nou"
+
+#: tfrmoptionscustomcolumns.cbbfilesystem.text
+msgctxt "tfrmoptionscustomcolumns.cbbfilesystem.text"
+msgid "General"
+msgstr "General"
+
+#: tfrmoptionscustomcolumns.lblconfigcolumns.caption
+msgctxt "tfrmoptionscustomcolumns.lblconfigcolumns.caption"
+msgid "Configure columns for file system:"
+msgstr "Configurar columnes per sistema d'arxius:"
+
+#: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
+msgid "Show confirmation dialog after drop"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
+msgid "Show file system"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
+msgid "Show free space"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowlabel.caption
+msgid "Show label"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.gbdriveslist.caption
+msgid "Drives list"
+msgstr ""
+
+#: tfrmoptionseditorcolors.backgroundlabel.caption
+msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
+msgid "Background"
+msgstr ""
+
+#: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
+msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
+msgid "Background"
+msgstr ""
+
+#: tfrmoptionseditorcolors.bvlattributesection.caption
+msgid "Element Attributes"
+msgstr ""
+
+#: tfrmoptionseditorcolors.foregroundlabel.caption
+msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
+msgid "Foreground"
+msgstr ""
+
+#: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
+msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
+msgid "Foreground"
+msgstr ""
+
+#: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
+msgid "Text-mark"
+msgstr ""
+
+#: tfrmoptionseditorcolors.tbtnglobal.caption
+msgid "Use (and edit) global scheme settings"
+msgstr ""
+
+#: tfrmoptionseditorcolors.tbtnlocal.caption
+msgid "Use local scheme settings"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textboldcheckbox.caption
+msgid "Bold"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textboldradioinvert.caption
+msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
+msgid "Invert"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textboldradiooff.caption
+msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
+msgid "Off"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textboldradioon.caption
+msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
+msgid "On"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textitaliccheckbox.caption
+msgid "Italic"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textitalicradioinvert.caption
+msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
+msgid "Invert"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textitalicradiooff.caption
+msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
+msgid "Off"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textitalicradioon.caption
+msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
+msgid "On"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
+msgid "Strike Out"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
+msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
+msgid "Invert"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
+msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
+msgid "Off"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textstrikeoutradioon.caption
+msgctxt "tfrmoptionseditorcolors.textstrikeoutradioon.caption"
+msgid "On"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textunderlinecheckbox.caption
+msgid "Underline"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textunderlineradioinvert.caption
+msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
+msgid "Invert"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textunderlineradiooff.caption
+msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
+msgid "Off"
+msgstr ""
+
+#: tfrmoptionseditorcolors.textunderlineradioon.caption
+msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
+msgid "On"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeletetotrash.caption
+msgctxt "tfrmoptionsfileoperations.cbdeletetotrash.caption"
+msgid "Delete to recycle bin (Shift key reverses this setting)"
+msgstr "S'envia a la paperera (la tecla majúscula inverteix aquesta selecció)"
+
+#: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
+msgctxt "tfrmoptionsfileoperations.cbdropreadonlyflag.caption"
+msgid "Drop readonly flag"
+msgstr "Treure marca de només lectura"
+
+#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
+msgctxt "tfrmoptionsfileoperations.cbpartialnamesearch.caption"
+msgid "Search for part of file name"
+msgstr "Cercar part del nom de l'Arxiu"
+
+#: tfrmoptionsfileoperations.cbprocesscomments.caption
+msgctxt "tfrmoptionsfileoperations.cbprocesscomments.caption"
+msgid "Process comments with files/folders"
+msgstr "Processar comentaris amb Arxius/carpetes"
+
+#: tfrmoptionsfileoperations.cbrenameselonlyname.caption
+msgid "Select file name without extension when renaming"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
+msgctxt "tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption"
+msgid "Show tab select panel in copy/move dialog"
+msgstr "Mostrar la pestanya del panell seleccionat en el diàleg de copiar/moure"
+
+#: tfrmoptionsfileoperations.cbskipfileoperror.caption
+msgctxt "tfrmoptionsfileoperations.cbskipfileoperror.caption"
+msgid "Skip file operations errors and write them to log window"
+msgstr "Saltar errors d'operació amb Arxius i escriure'ls en una finestra de registre"
+
+#: tfrmoptionsfileoperations.gbexecutingoperations.caption
+msgid "Executing operations"
+msgstr ""
+
+#: tfrmoptionsfileoperations.gbfilesearch.caption
+msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
+msgid "File search"
+msgstr "Cerca d'Arxius"
+
+#: tfrmoptionsfileoperations.gbuserinterface.caption
+msgid "User interface"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblbuffersize.caption
+msgid "Buffer size for file operations (in KB):"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblprogresskind.caption
+msgid "Show operations progress initially in"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblwipepassnumber.caption
+msgid "Number of wipe passes:"
+msgstr ""
+
+#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
+msgctxt "tfrmoptionsfileoperations.rbusemmapinsearch.caption"
+msgid "Use memory mapping for search text in files"
+msgstr "Usar mapatge en memòria per cercar text en arxius"
+
+#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
+msgctxt "tfrmoptionsfileoperations.rbusestreaminsearch.caption"
+msgid "Use stream for search text in files"
+msgstr "Usar disc per cercar text en Arxius"
+
+#: tfrmoptionsfilepanelscolors.btnbackcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.btnbackcolor.caption"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.btnbackcolor2.caption
+msgctxt "tfrmoptionsfilepanelscolors.btnbackcolor2.caption"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.btncursorcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.btncursorcolor.caption"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.btncursortext.caption
+msgctxt "tfrmoptionsfilepanelscolors.btncursortext.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnforecolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.btnforecolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.btnindbackcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnindcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.btnindcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.btnmarkcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
+msgctxt "tfrmoptionsfilepanelscolors.cbbuseframecursor.caption"
+msgid "Use Frame Cursor"
+msgstr "Usar cursor emmarcat"
+
+#: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
+msgid "Use Gradient Indicator"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
+msgctxt "tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption"
+msgid "Use Inverted Selection"
+msgstr "Usar selecció invertida"
+
+#: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
+msgid "Drive Free Space Indicator"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.gbexample.caption
+msgctxt "tfrmoptionsfilepanelscolors.gbexample.caption"
+msgid "Example"
+msgstr "Exemple"
+
+#: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption"
+msgid "Background 2:"
+msgstr "Fons 2:"
+
+#: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblcursorcolor.caption"
+msgid "Cursor Color:"
+msgstr "Color de cursor:"
+
+#: tfrmoptionsfilepanelscolors.lblcursortext.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblcursortext.caption"
+msgid "Cursor Text:"
+msgstr "Text de cursor:"
+
+#: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption"
+msgid "Brightness level of inactive panel"
+msgstr "Nivell de brillantor del panell inactiu"
+
+#: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
+msgid "Indicator Back Color:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblindcolor.caption
+msgid "Indicator Fore Color:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblmarkcolor.caption"
+msgid "Mark Color:"
+msgstr "Color de la selecció:"
+
+#: tfrmoptionsfilepanelscolors.lbltextcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lbltextcolor.caption"
+msgid "Text Color:"
+msgstr "Color de text:"
+
+#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
+msgid "Don't load file list until a tab is activated"
+msgstr ""
+
+#: tfrmoptionsfilesviews.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviews.cbdirbrackets.caption"
+msgid "Show square brackets around directories"
+msgstr "Mostrar claudàtors quadrats per les carpetes"
+
+#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
+msgid "Highlight new and updated files"
+msgstr ""
+
+#: tfrmoptionsfilesviews.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviews.cblistfilesinthread.caption"
+msgid "Load file list in separate thread"
+msgstr "Carregar llista d'Arxius en procesos separats"
+
+#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviews.cbloadiconsseparately.caption"
+msgid "Load icons after file list"
+msgstr "Carregar els icons després de la llista d'Arxius"
+
+#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
+#, fuzzy
+#| msgid "Short Filesize format"
+msgctxt "tfrmoptionsfilesviews.cbshortfilesizeformat.caption"
+msgid "Short file size format"
+msgstr "Formato curt de Mida"
+
+#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
+#, fuzzy
+#| msgid "Show hidden/system files"
+msgctxt "tfrmoptionsfilesviews.cbshowsystemfiles.caption"
+msgid "Show system and hidden files"
+msgstr "Mostrar Ocults/sistema"
+
+#: tfrmoptionsfilesviews.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviews.cbspacemovesdown.caption"
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "Quan es seleccioni arxius amb la barra d'espai, pasar al següent Arxiu (com amb <INSERT>)"
+
+#: tfrmoptionsfilesviews.gbformatting.caption
+msgid "Formatting"
+msgstr ""
+
+#: tfrmoptionsfilesviews.gbsorting.caption
+msgctxt "tfrmoptionsfilesviews.gbsorting.caption"
+msgid "Sorting"
+msgstr "Ordenant"
+
+#: tfrmoptionsfilesviews.lblcasesensitivity.caption
+msgid "Case sensitivity:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lbldatetimeformat.caption
+msgctxt "tfrmoptionsfilesviews.lbldatetimeformat.caption"
+msgid "Date and time format:"
+msgstr "Formato de data y hora:"
+
+#: tfrmoptionsfilesviews.lblnewfilesposition.caption
+msgid "Insert new files"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblsortfoldermode.caption
+msgid "Sorting directories:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblsortmethod.caption
+msgctxt "tfrmoptionsfilesviews.lblsortmethod.caption"
+msgid "Sort &method:"
+msgstr "Métode d'ordenamient:"
+
+#: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
+msgid "Move updated files"
+msgstr ""
+
+#: tfrmoptionsfiletypescolors.btnaddcategory.caption
+msgctxt "tfrmoptionsfiletypescolors.btnaddcategory.caption"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmoptionsfiletypescolors.btnapplycategory.caption
+msgctxt "tfrmoptionsfiletypescolors.btnapplycategory.caption"
+msgid "Apply"
+msgstr "Aplicar"
+
+#: tfrmoptionsfiletypescolors.btncategorycolor.caption
+msgctxt "tfrmoptionsfiletypescolors.btncategorycolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfiletypescolors.btndeletecategory.caption
+msgctxt "tfrmoptionsfiletypescolors.btndeletecategory.caption"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmoptionsfiletypescolors.btnsearchtemplate.hint
+msgctxt "tfrmoptionsfiletypescolors.btnsearchtemplate.hint"
+msgid "Template..."
+msgstr "Plantilla..."
+
+#: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
+msgid "File types colors (sort by drag&&drop)"
+msgstr ""
+
+#: tfrmoptionsfiletypescolors.lblcategoryattr.caption
+msgctxt "tfrmoptionsfiletypescolors.lblcategoryattr.caption"
+msgid "Category attributes:"
+msgstr "Atributs de categoria:"
+
+#: tfrmoptionsfiletypescolors.lblcategorycolor.caption
+msgctxt "tfrmoptionsfiletypescolors.lblcategorycolor.caption"
+msgid "Category color:"
+msgstr "Color de categoría:"
+
+#: tfrmoptionsfiletypescolors.lblcategorymask.caption
+msgctxt "tfrmoptionsfiletypescolors.lblcategorymask.caption"
+msgid "Category mask:"
+msgstr "Màscara de categoria:"
+
+#: tfrmoptionsfiletypescolors.lblcategoryname.caption
+msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
+msgid "Category name:"
+msgstr "Nom de categoria:"
+
+#: tfrmoptionsfonts.btnseleditfnt.caption
+msgctxt "tfrmoptionsfonts.btnseleditfnt.caption"
+msgid "..."
+msgstr "..."
+
+#: tfrmoptionsfonts.btnsellogfnt.caption
+msgctxt "tfrmoptionsfonts.btnsellogfnt.caption"
+msgid "..."
+msgstr "..."
+
+#: tfrmoptionsfonts.btnselmainfnt.caption
+msgctxt "tfrmoptionsfonts.btnselmainfnt.caption"
+msgid "..."
+msgstr ""
+
+#: tfrmoptionsfonts.btnselviewerbookfnt.caption
+msgctxt "tfrmoptionsfonts.btnselviewerbookfnt.caption"
+msgid "..."
+msgstr ""
+
+#: tfrmoptionsfonts.btnselviewfnt.caption
+msgctxt "tfrmoptionsfonts.btnselviewfnt.caption"
+msgid "..."
+msgstr ""
+
+#: tfrmoptionsfonts.lbleditorfont.caption
+msgctxt "tfrmoptionsfonts.lbleditorfont.caption"
+msgid "Editor font"
+msgstr "Font del editor"
+
+#: tfrmoptionsfonts.lbllogfont.caption
+msgctxt "tfrmoptionsfonts.lbllogfont.caption"
+msgid "Log font"
+msgstr "Font de registre"
+
+#: tfrmoptionsfonts.lblmainfont.caption
+msgctxt "tfrmoptionsfonts.lblmainfont.caption"
+msgid "Main font"
+msgstr "Font principal"
+
+#: tfrmoptionsfonts.lblviewerbookfont.caption
+msgctxt "tfrmoptionsfonts.lblviewerbookfont.caption"
+msgid "Viewer Book Font"
+msgstr "Font de Vista de Llibre"
+
+#: tfrmoptionsfonts.lblviewerfont.caption
+msgctxt "tfrmoptionsfonts.lblviewerfont.caption"
+msgid "Viewer font"
+msgstr "Font del visor"
+
+#: tfrmoptionshotkeys.btnaddhotkey.caption
+msgid "Add hotkey"
+msgstr ""
+
+#: tfrmoptionshotkeys.btndeletehotkey.caption
+msgid "Delete hotkey"
+msgstr ""
+
+#: tfrmoptionshotkeys.btnedithotkey.caption
+msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
+msgid "Edit hotkey"
+msgstr ""
+
+#: tfrmoptionshotkeys.lbfilter.caption
+msgctxt "tfrmoptionshotkeys.lbfilter.caption"
+msgid "Filter"
+msgstr "Filtre"
+
+#: tfrmoptionshotkeys.lblcategories.caption
+msgctxt "tfrmoptionshotkeys.lblcategories.caption"
+msgid "Categories:"
+msgstr "Categoríes:"
+
+#: tfrmoptionshotkeys.lblcommands.caption
+msgctxt "tfrmoptionshotkeys.lblcommands.caption"
+msgid "Commands:"
+msgstr "Commandes:"
+
+#: tfrmoptionshotkeys.lblscfiles.caption
+msgctxt "tfrmoptionshotkeys.lblscfiles.caption"
+msgid "Shortcut files:"
+msgstr "Arxius d'acció ràpida:"
+
+#: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
+msgctxt "tfrmoptionshotkeys.stghotkeys.columns[0].title.caption"
+msgid "Hotkey"
+msgstr "Tecles ràpides"
+
+#: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
+msgctxt "tfrmoptionshotkeys.stghotkeys.columns[1].title.caption"
+msgid "Parameters"
+msgstr "Paràmetres"
+
+#: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
+msgid "Controls"
+msgstr ""
+
+#: tfrmoptionsicons.cbiconsshowoverlay.caption
+msgctxt "tfrmoptionsicons.cbiconsshowoverlay.caption"
+msgid "Show overlay i&cons, e.g. for links"
+msgstr "Mostrar icons superposats; per ex, per Enllaços"
+
+#: tfrmoptionsicons.cbiconssize.text
+msgctxt "tfrmoptionsicons.cbiconssize.text"
+msgid "16x16"
+msgstr "16x16"
+
+#: tfrmoptionsicons.gbiconssize.caption
+msgctxt "tfrmoptionsicons.gbiconssize.caption"
+msgid " Icon &size "
+msgstr "Mida d'Icon"
+
+#: tfrmoptionsicons.gbshowiconsmode.caption
+msgctxt "tfrmoptionsicons.gbshowiconsmode.caption"
+msgid " Show icons to the left of the filename "
+msgstr " Mostrar icons a l'esquerra del nom"
+
+#: tfrmoptionsicons.rbiconsshowall.caption
+msgctxt "tfrmoptionsicons.rbiconsshowall.caption"
+msgid "&All"
+msgstr "&Tot"
+
+#: tfrmoptionsicons.rbiconsshowallandexe.caption
+msgctxt "tfrmoptionsicons.rbiconsshowallandexe.caption"
+msgid "All associated + &EXE/LNK (slow)"
+msgstr "Tot lo asociado + &EXE/LNK (lento)"
+
+#: tfrmoptionsicons.rbiconsshownone.caption
+msgctxt "tfrmoptionsicons.rbiconsshownone.caption"
+msgid "&No icons"
+msgstr "Sense icons"
+
+#: tfrmoptionsicons.rbiconsshowstandard.caption
+msgctxt "tfrmoptionsicons.rbiconsshowstandard.caption"
+msgid "&Only standard icons"
+msgstr "Només icons estàndar"
+
+#: tfrmoptionsignorelist.btnaddsel.caption
+msgctxt "tfrmoptionsignorelist.btnaddsel.caption"
+msgid "&Add selected names"
+msgstr "Afegir noms seleccionats"
+
+#: tfrmoptionsignorelist.btnaddselwithpath.caption
+msgctxt "tfrmoptionsignorelist.btnaddselwithpath.caption"
+msgid "Add selected names with &full path"
+msgstr "Afegir noms seleccionats amb la ruta completa"
+
+#: tfrmoptionsignorelist.chkignoreenable.caption
+msgctxt "tfrmoptionsignorelist.chkignoreenable.caption"
+msgid "&Ignore (don't show) the following files and folders:"
+msgstr "&Ignorar (no mostrar) els següents Arxius i carpetes:"
+
+#: tfrmoptionsignorelist.lblsavein.caption
+msgctxt "tfrmoptionsignorelist.lblsavein.caption"
+msgid "&Save in:"
+msgstr "Desar en:"
+
+#: tfrmoptionskeyboard.cblynxlike.caption
+msgid "Left, Right arrows change directory (Lynx-like movement)"
+msgstr ""
+
+#: tfrmoptionskeyboard.gbtyping.caption
+msgid "Typing"
+msgstr ""
+
+#: tfrmoptionskeyboard.lblalt.caption
+#, fuzzy
+#| msgid "Al&t+Letters"
+msgctxt "tfrmoptionskeyboard.lblalt.caption"
+msgid "Alt+Letters"
+msgstr "Al&t+Lletres"
+
+#: tfrmoptionskeyboard.lblctrlalt.caption
+#, fuzzy
+#| msgid "&Ctrl+Alt+Letters"
+msgctxt "tfrmoptionskeyboard.lblctrlalt.caption"
+msgid "Ctrl+Alt+Letters"
+msgstr "&Ctrl+Alt+Lletres"
+
+#: tfrmoptionskeyboard.lblnomodifier.caption
+msgid "Letters"
+msgstr ""
+
+#: tfrmoptionslayout.cbflatdiskpanel.caption
+msgctxt "tfrmoptionslayout.cbflatdiskpanel.caption"
+msgid "Flat buttons"
+msgstr "Botons plans"
+
+#: tfrmoptionslayout.cbflatinterface.caption
+msgctxt "tfrmoptionslayout.cbflatinterface.caption"
+msgid "Flat interface"
+msgstr "Interficie plana"
+
+#: tfrmoptionslayout.cbflattoolbar.caption
+msgctxt "tfrmoptionslayout.cbflattoolbar.caption"
+msgid "Flat buttons"
+msgstr "Botons plans"
+
+#: tfrmoptionslayout.cbfreespaceind.caption
+msgctxt "tfrmoptionslayout.cbfreespaceind.caption"
+msgid "Show free space indicator on drive label"
+msgstr "Mostrar l'espai lliure a l'etiqueta del disc"
+
+#: tfrmoptionslayout.cblogwindow.caption
+msgctxt "tfrmoptionslayout.cblogwindow.caption"
+msgid "Show log window"
+msgstr "Finestra de registre"
+
+#: tfrmoptionslayout.cbpanelofoperations.caption
+msgctxt "tfrmoptionslayout.cbpanelofoperations.caption"
+msgid "Show panel of operation in background"
+msgstr "Panell d'operació en segon pla"
+
+#: tfrmoptionslayout.cbproginmenubar.caption
+msgctxt "tfrmoptionslayout.cbproginmenubar.caption"
+msgid "Show common progress in menu bar"
+msgstr "Progres en barra de menú"
+
+#: tfrmoptionslayout.cbshowcmdline.caption
+msgctxt "tfrmoptionslayout.cbshowcmdline.caption"
+msgid "Show command &line"
+msgstr "Mostrar &línia de commandes"
+
+#: tfrmoptionslayout.cbshowcurdir.caption
+msgctxt "tfrmoptionslayout.cbshowcurdir.caption"
+msgid "Show &current directory"
+msgstr "Mostrar carpeta actual"
+
+#: tfrmoptionslayout.cbshowdiskpanel.caption
+msgctxt "tfrmoptionslayout.cbshowdiskpanel.caption"
+msgid "Show &drive buttons"
+msgstr "Mostrar barra de &discs"
+
+#: tfrmoptionslayout.cbshowdrivefreespace.caption
+msgctxt "tfrmoptionslayout.cbshowdrivefreespace.caption"
+msgid "Show free space label"
+msgstr "Mostrar la etiqueta de espai lliure"
+
+#: tfrmoptionslayout.cbshowdriveslistbutton.caption
+msgid "Show d&rives list button"
+msgstr ""
+
+#: tfrmoptionslayout.cbshowkeyspanel.caption
+msgctxt "tfrmoptionslayout.cbshowkeyspanel.caption"
+msgid "Show &function key buttons"
+msgstr "Mostrar botons de tecla de &funció"
+
+#: tfrmoptionslayout.cbshowmainmenu.caption
+msgctxt "tfrmoptionslayout.cbshowmainmenu.caption"
+msgid "Show main menu"
+msgstr "Mostrar menú principal"
+
+#: tfrmoptionslayout.cbshowmaintoolbar.caption
+msgctxt "tfrmoptionslayout.cbshowmaintoolbar.caption"
+msgid "Show &button bar"
+msgstr "Mostrar barra de &botons"
+
+#: tfrmoptionslayout.cbshowshortdrivefreespace.caption
+msgid "Show short free space label"
+msgstr ""
+
+#: tfrmoptionslayout.cbshowstatusbar.caption
+msgctxt "tfrmoptionslayout.cbshowstatusbar.caption"
+msgid "Show &status bar"
+msgstr "Mostrar barra de e&stat"
+
+#: tfrmoptionslayout.cbshowtabheader.caption
+msgctxt "tfrmoptionslayout.cbshowtabheader.caption"
+msgid "Show &tabstop header"
+msgstr "Mostrar salts de tabulació"
+
+#: tfrmoptionslayout.cbshowtabs.caption
+msgctxt "tfrmoptionslayout.cbshowtabs.caption"
+msgid "Sho&w folder tabs"
+msgstr "Mostrar &pestanyes de carpetes"
+
+#: tfrmoptionslayout.cbtermwindow.caption
+msgctxt "tfrmoptionslayout.cbtermwindow.caption"
+msgid "Show terminal window"
+msgstr "Mostrar finestra de terminal"
+
+#: tfrmoptionslayout.cbtwodiskpanels.caption
+msgctxt "tfrmoptionslayout.cbtwodiskpanels.caption"
+msgid "Show two drive button bars (fixed width, above file windows)"
+msgstr "Barra de &botons de discs (anchura fixa, sobre llista d'arxius)"
+
+#: tfrmoptionslayout.gbscreenlayout.caption
+msgctxt "tfrmoptionslayout.gbscreenlayout.caption"
+msgid " Screen layout "
+msgstr " Apariència de pantalla"
+
+#: tfrmoptionslog.cblogarcop.caption
+msgctxt "tfrmoptionslog.cblogarcop.caption"
+msgid "Pack/Unpack"
+msgstr "Comprimir/Descomprimir"
+
+#: tfrmoptionslog.cblogcpmvln.caption
+msgctxt "tfrmoptionslog.cblogcpmvln.caption"
+msgid "Copy/Move/Create link/symlink"
+msgstr "Copiar/Moure/Crear Enllaç/enl. Simbòlic"
+
+#: tfrmoptionslog.cblogdelete.caption
+msgctxt "tfrmoptionslog.cblogdelete.caption"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmoptionslog.cblogdirop.caption
+msgctxt "tfrmoptionslog.cblogdirop.caption"
+msgid "Create/Delete directories"
+msgstr "Crear/Esborrar carpetes"
+
+#: tfrmoptionslog.cblogerrors.caption
+msgctxt "tfrmoptionslog.cblogerrors.caption"
+msgid "Log &errors"
+msgstr "Registrar &errors"
+
+#: tfrmoptionslog.cblogfile.caption
+msgctxt "tfrmoptionslog.cblogfile.caption"
+msgid "&Create a log file:"
+msgstr "Crear un Arxiu de registre:"
+
+#: tfrmoptionslog.cbloginfo.caption
+msgctxt "tfrmoptionslog.cbloginfo.caption"
+msgid "Log information messages"
+msgstr "Registrar missatges d'informació"
+
+#: tfrmoptionslog.cblogsuccess.caption
+msgctxt "tfrmoptionslog.cblogsuccess.caption"
+msgid "Log &successful operations"
+msgstr "Registrar operacions exito&ses"
+
+#: tfrmoptionslog.cblogvfs.caption
+msgctxt "tfrmoptionslog.cblogvfs.caption"
+msgid "File system plugins"
+msgstr "Complements de sistema d'Arxius"
+
+#: tfrmoptionslog.gblogfile.caption
+msgctxt "tfrmoptionslog.gblogfile.caption"
+msgid "File operation log file"
+msgstr "Registre de les operacions amb Arxius"
+
+#: tfrmoptionslog.gblogfileop.caption
+msgid "Log operations"
+msgstr ""
+
+#: tfrmoptionslog.gblogfilestatus.caption
+msgid "Operation status"
+msgstr ""
+
+#: tfrmoptionsmisc.cbsavethumbnails.caption
+#, fuzzy
+#| msgid "Save thubnails in cache"
+msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
+msgid "Save thumbnails in cache"
+msgstr "Desar miniatures en caché"
+
+#: tfrmoptionsmisc.cbshowwarningmessages.caption
+msgctxt "tfrmoptionsmisc.cbshowwarningmessages.caption"
+msgid "Show warning messages (\"OK\" button only)"
+msgstr "Mostrar missatges d'avís (només botó \"Acceptar\")"
+
+#: tfrmoptionsmouse.cbselectionbymouse.caption
+msgctxt "tfrmoptionsmouse.cbselectionbymouse.caption"
+msgid "Selection by mouse"
+msgstr "Selecció per ratolí"
+
+#: tfrmoptionsmouse.gbscrolling.caption
+msgctxt "tfrmoptionsmouse.gbscrolling.caption"
+msgid "Scrolling"
+msgstr "Desplaçament"
+
+#: tfrmoptionsmouse.gbselection.caption
+msgid "Selection"
+msgstr ""
+
+#: tfrmoptionsmouse.lblmousemode.caption
+msgctxt "tfrmoptionsmouse.lblmousemode.caption"
+msgid "Mode:"
+msgstr "Mode:"
+
+#: tfrmoptionsmouse.rbscrolllinebyline.caption
+msgctxt "tfrmoptionsmouse.rbscrolllinebyline.caption"
+msgid "Line by line"
+msgstr "Número de línies"
+
+#: tfrmoptionsmouse.rbscrolllinebylinecursor.caption
+msgctxt "tfrmoptionsmouse.rbscrolllinebylinecursor.caption"
+msgid "Line by line with cursor movement"
+msgstr "Linia a linia amb moviment de cursor"
+
+#: tfrmoptionsmouse.rbscrollpagebypage.caption
+msgctxt "tfrmoptionsmouse.rbscrollpagebypage.caption"
+msgid "Page by page"
+msgstr "Pàgina a pàgina"
+
+#: tfrmoptionsplugins.btnaddplugin.caption
+msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmoptionsplugins.btnconfigplugin.caption
+msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgid "Configure"
+msgstr "configurar"
+
+#: tfrmoptionsplugins.btnenableplugin.caption
+msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgid "Enable"
+msgstr "Registre"
+
+#: tfrmoptionsplugins.btnremoveplugin.caption
+msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgid "Remove"
+msgstr "Eliminar"
+
+#: tfrmoptionsplugins.btntweakplugin.caption
+msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgid "Tweak"
+msgstr "Trucar"
+
+#: tfrmoptionsplugins.lbldsxdescription.caption
+msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Permetre als complements de cerca el us d'algoritmes de cerca alternatius o eines externes (com \"locate\", etc.)"
+
+#: tfrmoptionsplugins.lblwcxdescription.caption
+msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgid "Packer plugins are used to work with archives."
+msgstr "Els complements de compresors són utilitzats per treballar amb Arxius."
+
+#: tfrmoptionsplugins.lblwdxdescription.caption
+msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Permetre als complements de contingut mostrar detalls extesos de l'Arxiu com les etiquetes mp3 o en llista d'Arxiu els atributs d'imatge, o usar-los amb les eines de cerca o de reanomenat múltiple"
+
+#: tfrmoptionsplugins.lblwfxdescription.caption
+msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Permetre als complements de sistema d'Arxius accedir a discs inaccesibles por el sistema operatiu o a aparells externs com palm/PocketPC."
+
+#: tfrmoptionsplugins.lblwlxdescription.caption
+msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Permetre als complements de visionat  mostrar fomats d'arxiu com imatges, fulles de càlcul, bases de dades, etc. en Veure (F3, Ctrl+A)"
+
+#: tfrmoptionsplugins.stgplugins.columns[0].title.caption
+msgctxt "tfrmoptionsplugins.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Actiu"
+
+#: tfrmoptionsplugins.stgplugins.columns[1].title.caption
+msgctxt "tfrmoptionsplugins.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Complement"
+
+#: tfrmoptionsplugins.stgplugins.columns[2].title.caption
+msgctxt "tfrmoptionsplugins.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Registrat per"
+
+#: tfrmoptionsplugins.stgplugins.columns[3].title.caption
+msgctxt "tfrmoptionsplugins.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Nom"
+
+#: tfrmoptionsplugins.tsdsx.caption
+msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
+msgid "Search plugins (.DSX)"
+msgstr "Complements de cerca (.DSX)"
+
+#: tfrmoptionsplugins.tswcx.caption
+msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
+msgid "Packer plugins (.WCX)"
+msgstr "Complements de compresors (.WCX)"
+
+#: tfrmoptionsplugins.tswdx.caption
+msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
+msgid "Content plugins (.WDX)"
+msgstr "Complements de contingut(.WDX)"
+
+#: tfrmoptionsplugins.tswfx.caption
+msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
+msgid "File system plugins (.WFX)"
+msgstr "Complements del sistema de Arxius (.WFX)"
+
+#: tfrmoptionsplugins.tswlx.caption
+msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
+msgid "Viewer plugins (.WLX)"
+msgstr "Complements de visionat (.WLX)"
+
+#: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
+msgctxt "tfrmoptionsquicksearchfilter.cbexactbeginning.caption"
+msgid "&Beginning (name must start with first typed character)"
+msgstr "&Començament (el nom ha de començar amb el primer caràcter)"
+
+#: tfrmoptionsquicksearchfilter.cbexactending.caption
+msgctxt "tfrmoptionsquicksearchfilter.cbexactending.caption"
+msgid "En&ding (last character before a typed dot . must match)"
+msgstr "Fi&nal (ha de coincidir el últim caràcter abans d'un punt . )"
+
+#: tfrmoptionsquicksearchfilter.cgpoptions.caption
+msgctxt "tfrmoptionsquicksearchfilter.cgpoptions.caption"
+msgid "Options"
+msgstr "Opcions"
+
+#: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
+msgid "Exact name match"
+msgstr ""
+
+#: tfrmoptionsquicksearchfilter.rgpsearchcase.caption
+msgid "Search case"
+msgstr ""
+
+#: tfrmoptionsquicksearchfilter.rgpsearchitems.caption
+msgid "Search for these items"
+msgstr ""
+
+#: tfrmoptionstabs.cbtabsactivateonclick.caption
+msgctxt "tfrmoptionstabs.cbtabsactivateonclick.caption"
+msgid "Activate target &panel when clicking on one of its Tabs"
+msgstr "Activar &panell cuando es clica en una de les seves pestanyes"
+
+#: tfrmoptionstabs.cbtabsalwaysvisible.caption
+msgctxt "tfrmoptionstabs.cbtabsalwaysvisible.caption"
+msgid "&Show tab header also when there is only one tab"
+msgstr "&Mostrar pestanyes també si nhi ha només una"
+
+#: tfrmoptionstabs.cbtabsconfirmcloseall.caption
+msgctxt "tfrmoptionstabs.cbtabsconfirmcloseall.caption"
+msgid "&Confirm close all tabs"
+msgstr "&Confirmar tancar totes les pestanyes"
+
+#: tfrmoptionstabs.cbtabslimitoption.caption
+msgid "&Limit tab title length to"
+msgstr ""
+
+#: tfrmoptionstabs.cbtabslockedasterisk.caption
+msgctxt "tfrmoptionstabs.cbtabslockedasterisk.caption"
+msgid "Show locked tabs &with an asterisk *"
+msgstr "Mostrar les pestanyes bloquejades amb un asterisc *"
+
+#: tfrmoptionstabs.cbtabsmultilines.caption
+msgctxt "tfrmoptionstabs.cbtabsmultilines.caption"
+msgid "&Tabs on multiple lines"
+msgstr "&Pestanyes en varies linies"
+
+#: tfrmoptionstabs.cbtabsopenforeground.caption
+msgctxt "tfrmoptionstabs.cbtabsopenforeground.caption"
+msgid "Ctrl+&Up opens new tab in foreground"
+msgstr "Ctrl+&Up obre una nova pestanya en primer pla"
+
+#: tfrmoptionstabs.cbtabsopennearcurrent.caption
+msgctxt "tfrmoptionstabs.cbtabsopennearcurrent.caption"
+msgid "Open &new tabs near current tab"
+msgstr "Obre una &nova pestanya al costat de l'actual"
+
+#: tfrmoptionstabs.cbtabsshowclosebutton.caption
+msgctxt "tfrmoptionstabs.cbtabsshowclosebutton.caption"
+msgid "Show tab close button"
+msgstr "Mostrar botó de tancament en pestanya"
+
+#: tfrmoptionstabs.gbtabs.caption
+msgctxt "tfrmoptionstabs.gbtabs.caption"
+msgid "Folder tabs headers"
+msgstr "Capçaleres de les pestanyes de carpeta"
+
+#: tfrmoptionstabs.lblchar.caption
+msgctxt "tfrmoptionstabs.lblchar.caption"
+msgid "characters"
+msgstr "caràcters"
+
+#: tfrmoptionstabs.lbltabsposition.caption
+msgid "Tabs position"
+msgstr ""
+
+#: tfrmoptionsterminal.lblruninterm.caption
+msgctxt "tfrmoptionsterminal.lblruninterm.caption"
+msgid "Run in terminal:"
+msgstr "Córrer en terminal:"
+
+#: tfrmoptionsterminal.lblrunterm.caption
+msgctxt "tfrmoptionsterminal.lblrunterm.caption"
+msgid "Run terminal:"
+msgstr "Terminal:"
+
+#: tfrmoptionstoolbar.btnclonebutton.caption
+msgid "&Clone button"
+msgstr ""
+
+#: tfrmoptionstoolbar.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
+msgid "&Delete"
+msgstr "&Esborrar"
+
+#: tfrmoptionstoolbar.btnedithotkey.caption
+msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
+msgid "Edit hotkey"
+msgstr ""
+
+#: tfrmoptionstoolbar.btninsertbutton.caption
+msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
+msgid "&Insert new button"
+msgstr "&Insertar nou botó"
+
+#: tfrmoptionstoolbar.btnopenfile.caption
+msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstoolbar.btnopenicon.caption
+msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstoolbar.btnremovehotkey.caption
+msgid "Remove hotkey"
+msgstr ""
+
+#: tfrmoptionstoolbar.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+msgid "Flat b&uttons"
+msgstr "Botons plans"
+
+#: tfrmoptionstoolbar.edtinternalparameters.hint
+msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
+msgstr ""
+
+#: tfrmoptionstoolbar.gbgroupbox.caption
+msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
+msgid "Appearance"
+msgstr "Apariència"
+
+#: tfrmoptionstoolbar.lblbarsize.caption
+msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
+msgid "Ba&r size:"
+msgstr "Mida de Ba&rra"
+
+#: tfrmoptionstoolbar.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblhotkey.caption
+msgid "Hot key:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lbliconfile.caption
+msgid "Icon:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lbliconsize.caption
+msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
+msgid "Ic&on size:"
+msgstr "Mida ic&on"
+
+#: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lblstartpath.caption
+msgid "Start path:"
+msgstr ""
+
+#: tfrmoptionstoolbar.lbltooltip.caption
+msgid "Tooltip:"
+msgstr ""
+
+#: tfrmoptionstoolbar.rgtoolitemtype.caption
+msgid "Button type"
+msgstr ""
+
+#: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
+msgctxt "tfrmoptionstoolbase.cbtoolskeepterminalopen.caption"
+msgid "Keep terminal window open after executing program"
+msgstr "Mantenir oberta la finestra del terminal després d'executar el programa"
+
+#: tfrmoptionstoolbase.cbtoolsruninterminal.caption
+msgctxt "tfrmoptionstoolbase.cbtoolsruninterminal.caption"
+msgid "Execute in terminal"
+msgstr "Executar en terminal"
+
+#: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
+msgctxt "tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption"
+msgid "Use external program"
+msgstr "Programa extern"
+
+#: tfrmoptionstoolbase.lbltoolsparameters.caption
+msgctxt "tfrmoptionstoolbase.lbltoolsparameters.caption"
+msgid "Additional parameters"
+msgstr "Paràmetres addicionals"
+
+#: tfrmoptionstoolbase.lbltoolspath.caption
+msgctxt "tfrmoptionstoolbase.lbltoolspath.caption"
+msgid "Path to program to execute"
+msgstr "Ruta del programa a executar"
+
+#: tfrmoptionstooltips.btnaddfields.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
+msgid "Add"
+msgstr "Afegir"
+
+#: tfrmoptionstooltips.btnapplyfields.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
+msgid "Apply"
+msgstr "Aplicar"
+
+#: tfrmoptionstooltips.btndeletefields.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmoptionstooltips.btnfieldslist.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstooltips.btnfieldssearchtemplate.hint
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "Plantilla..."
+
+#: tfrmoptionstooltips.gbcustomfields.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
+msgid "Custom fields by file type"
+msgstr "Camps d'usuari per tipus d'arxiu"
+
+#: tfrmoptionstooltips.gbshowtooltip.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
+msgid "Show tool tip"
+msgstr "Mostrar informació emergent"
+
+#: tfrmoptionstooltips.lblfieldslist.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
+msgid "Category hint:"
+msgstr "Atributs de categoria:"
+
+#: tfrmoptionstooltips.lblfieldsmask.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Màscara de categoria:"
+
+#: tfrmoptionstooltips.lblfieldsname.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
+msgid "Category name:"
+msgstr "Nom de categoria:"
+
+#: tfrmoptionstooltips.rbtooltipallfiles.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
+msgid "Show tool tip for all files in file panel"
+msgstr "Mostrar informació emergent per tots els Arxius del panell"
+
+#: tfrmoptionstooltips.rbtooltipnone.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
+msgid "Don't show"
+msgstr "No mostrar"
+
+#: tfrmoptionstooltips.rbtooltiponlylarge.caption
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
+msgid "Show tool tip for files in file panel if truncated"
+msgstr "Mostrar informació emergent per els Arxius si el panell es talla"
+
+#: tfrmoptionsviewer.btnbackviewercolor.caption
+msgctxt "tfrmoptionsviewer.btnbackviewercolor.caption"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionsviewer.btnfontviewercolor.caption
+msgctxt "tfrmoptionsviewer.btnfontviewercolor.caption"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionsviewer.gbviewerbookmode.caption
+msgctxt "tfrmoptionsviewer.gbviewerbookmode.caption"
+msgid "Viewer Book Mode"
+msgstr "Veure en mode llibre"
+
+#: tfrmoptionsviewer.gbviewerexample.caption
+msgctxt "tfrmoptionsviewer.gbviewerexample.caption"
+msgid "Example"
+msgstr "Exemple"
+
+#: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
+msgctxt "tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption"
+msgid "Background color in book viewer"
+msgstr "Color de segon pla en vista de llibre"
+
+#: tfrmoptionsviewer.lblfontcolorviewerbook.caption
+msgctxt "tfrmoptionsviewer.lblfontcolorviewerbook.caption"
+msgid "Font color in book viewer"
+msgstr "Color de Font en vista de llibre"
+
+#: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
+msgctxt "tfrmoptionsviewer.lblnumbercolumnsviewer.caption"
+msgid "Number of columns in book viewer"
+msgstr "Número de columnes en vista de llibre"
+
+#: tfrmpackdlg.btncancel.caption
+msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmpackdlg.btnconfig.caption
+msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
+msgid "&Configure"
+msgstr "&Configurar"
+
+#: tfrmpackdlg.btnhelp.caption
+msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr "Ajuda"
+
+#: tfrmpackdlg.btnok.caption
+msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Acceptar"
+
+#: tfrmpackdlg.caption
+msgctxt "tfrmpackdlg.caption"
+msgid "Pack files"
+msgstr "Comprimir"
+
+#: tfrmpackdlg.cbcreateseparatearchives.caption
+msgid "Create separate archives, o&ne per selected file/dir"
+msgstr "Crear Arxius separats, u&n per Arxiu/carpeta"
+
+#: tfrmpackdlg.cbcreatesfx.caption
+msgid "Create self e&xtracting archive"
+msgstr "Crear Arxiu autoe&xtraible"
+
+#: tfrmpackdlg.cbencrypt.caption
+msgid "Encr&ypt"
+msgstr "Encr&iptar"
+
+#: tfrmpackdlg.cbmovetoarchive.caption
+msgid "M&ove to archive"
+msgstr "Moure &original(s) a Arxiu Comprimit"
+
+#: tfrmpackdlg.cbmultivolume.caption
+msgid "&Multiple disk archive"
+msgstr "Arxiu de disc &múltiple"
+
+#: tfrmpackdlg.cbotherplugins.caption
+msgid "=>"
+msgstr "=>"
+
+#: tfrmpackdlg.cbputintarfirst.caption
+msgid "Put in the TAR archive first"
+msgstr "Pre-comprimir en TAR primer"
+
+#: tfrmpackdlg.cbstoredir.caption
+msgid "Also &pack path names (only recursed)"
+msgstr "Incluir noms de car&petes (només recursiu)"
+
+#: tfrmpackdlg.lblprompt.caption
+msgid "Pack file(s) to the file:"
+msgstr "Comprimir en el Arxiu:"
+
+#: tfrmpackdlg.rgpacker.caption
+msgid "Packer"
+msgstr "Compressor"
+
+#: tfrmpackinfodlg.btnclose.caption
+msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
+msgid "Close"
+msgstr "Tancar"
+
+#: tfrmpackinfodlg.btnunpackallandexec.caption
+msgid "Unpack &all and execute"
+msgstr "Descomprimir Tot i executar"
+
+#: tfrmpackinfodlg.btnunpackandexec.caption
+msgid "&Unpack and execute"
+msgstr "Descomprimir i executar"
+
+#: tfrmpackinfodlg.caption
+msgctxt "tfrmpackinfodlg.caption"
+msgid "Properties of packed file"
+msgstr "Propietats de l'arxiu Comprimit"
+
+#: tfrmpackinfodlg.lblattributes.caption
+msgid "Attributes:"
+msgstr "Atributs:"
+
+#: tfrmpackinfodlg.lblcompressionratio.caption
+msgid "Compression ratio:"
+msgstr "Rati de compressió:"
+
+#: tfrmpackinfodlg.lbldate.caption
+msgid "Date:"
+msgstr "Data:"
+
+#: tfrmpackinfodlg.lblmethod.caption
+msgid "Method:"
+msgstr "Mètode:"
+
+#: tfrmpackinfodlg.lbloriginalsize.caption
+msgid "Original size:"
+msgstr "Mida orginal:"
+
+#: tfrmpackinfodlg.lblpackedfile.caption
+msgid "File:"
+msgstr "Arxiu:"
+
+#: tfrmpackinfodlg.lblpackedsize.caption
+msgid "Packed size:"
+msgstr "Mida Comprimit:"
+
+#: tfrmpackinfodlg.lblpacker.caption
+msgid "Packer:"
+msgstr "Compressor:"
+
+#: tfrmpackinfodlg.lbltime.caption
+msgid "Time:"
+msgstr "Temps:"
+
+#: tfrmquicksearch.btncancel.caption
+msgctxt "tfrmquicksearch.btncancel.caption"
+msgid "X"
+msgstr ""
+
+#: tfrmquicksearch.btncancel.hint
+msgid "Close filter panel"
+msgstr ""
+
+#: tfrmquicksearch.edtsearch.hint
+msgid "Enter text to search for or filter by"
+msgstr ""
+
+#: tfrmquicksearch.sbcasesensitive.caption
+msgid "Aa"
+msgstr ""
+
+#: tfrmquicksearch.sbcasesensitive.hint
+msgid "Case Sensitive"
+msgstr ""
+
+#: tfrmquicksearch.sbdirectories.caption
+msgid "D"
+msgstr ""
+
+#: tfrmquicksearch.sbdirectories.hint
+msgid "Directories"
+msgstr ""
+
+#: tfrmquicksearch.sbfiles.caption
+msgid "F"
+msgstr ""
+
+#: tfrmquicksearch.sbfiles.hint
+msgid "Files"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchbeginning.caption
+msgid "{"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchbeginning.hint
+msgid "Match Beginning"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchending.caption
+msgid "}"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchending.hint
+msgid "Match Ending"
+msgstr ""
+
+#: tfrmquicksearch.tglfilter.caption
+msgctxt "tfrmquicksearch.tglfilter.caption"
+msgid "Filter"
+msgstr "Filtre"
+
+#: tfrmquicksearch.tglfilter.hint
+msgid "Toggle between search or filter"
+msgstr ""
+
+#: tfrmselecttextrange.btppanel.cancelbutton.caption
+msgctxt "tfrmselecttextrange.btppanel.cancelbutton.caption"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmselecttextrange.btppanel.closebutton.caption
+msgctxt "tfrmselecttextrange.btppanel.closebutton.caption"
+msgid "&Close"
+msgstr "&Tancar"
+
+#: tfrmselecttextrange.btppanel.helpbutton.caption
+msgctxt "tfrmselecttextrange.btppanel.helpbutton.caption"
+msgid "&Help"
+msgstr "A&juda"
+
+#: tfrmselecttextrange.lblselecttext.caption
+msgid "Select the characters to insert:"
+msgstr ""
+
+#: tfrmsetfileproperties.btncancel.caption
+msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmsetfileproperties.btnok.caption
+msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmsetfileproperties.caption
+msgctxt "tfrmsetfileproperties.caption"
+msgid "Change attributes"
+msgstr "Canviar atributs"
+
+#: tfrmsetfileproperties.cbsgid.caption
+msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
+msgid "SGID"
+msgstr "SGID"
+
+#: tfrmsetfileproperties.cbsticky.caption
+msgctxt "TFRMSETFILEPROPERTIES.CBSTICKY.CAPTION"
+msgid "Sticky"
+msgstr "Enganxós"
+
+#: tfrmsetfileproperties.cbsuid.caption
+msgctxt "TFRMSETFILEPROPERTIES.CBSUID.CAPTION"
+msgid "SUID"
+msgstr "SUID"
+
+#: tfrmsetfileproperties.chkarchive.caption
+msgctxt "TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION"
+msgid "Archive"
+msgstr "Arxiu"
+
+#: tfrmsetfileproperties.chkcreationtime.caption
+msgctxt "TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION"
+msgid "Created:"
+msgstr "Creat:"
+
+#: tfrmsetfileproperties.chkhidden.caption
+msgctxt "TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION"
+msgid "Hidden"
+msgstr "Ocult"
+
+#: tfrmsetfileproperties.chklastaccesstime.caption
+msgid "Accessed:"
+msgstr "Accedit:"
+
+#: tfrmsetfileproperties.chklastwritetime.caption
+msgid "Modified:"
+msgstr "Modificat:"
+
+#: tfrmsetfileproperties.chkreadonly.caption
+msgctxt "TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION"
+msgid "Read only"
+msgstr "Només lectura"
+
+#: tfrmsetfileproperties.chkrecursive.caption
+#, fuzzy
+#| msgid "Recursive"
+msgid "Including subfolders"
+msgstr "Incloent subcarpetes"
+
+#: tfrmsetfileproperties.chksystem.caption
+msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
+msgid "System"
+msgstr "Sistema"
+
+#: tfrmsetfileproperties.gbtimesamp.caption
+msgid "Timestamp properties"
+msgstr "Propietats de la data"
+
+#: tfrmsetfileproperties.gbunixattributes.caption
+msgctxt "TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Atributs"
+
+#: tfrmsetfileproperties.gbwinattributes.caption
+msgctxt "TFRMSETFILEPROPERTIES.GBWINATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Atributs"
+
+#: tfrmsetfileproperties.lblattrbitsstr.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
+msgid "Bits:"
+msgstr "Bits:"
+
+#: tfrmsetfileproperties.lblattrgroupstr.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Grup"
+
+#: tfrmsetfileproperties.lblattrinfo.caption
+msgid "(gray field means unchanged value)"
+msgstr "(camp gris significa valor sense canvi)"
+
+#: tfrmsetfileproperties.lblattrotherstr.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
+msgid "Other"
+msgstr "Altres"
+
+#: tfrmsetfileproperties.lblattrownerstr.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Propietari"
+
+#: tfrmsetfileproperties.lblattrtext.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION"
+msgid "-----------"
+msgstr "-----------"
+
+#: tfrmsetfileproperties.lblattrtextstr.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
+msgid "Text:"
+msgstr "Text:"
+
+#: tfrmsetfileproperties.lblexec.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
+msgid "Execute"
+msgstr "Execució"
+
+#: tfrmsetfileproperties.lbloctal.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLOCTAL.CAPTION"
+msgid "Octal:"
+msgstr ""
+
+#: tfrmsetfileproperties.lblread.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLREAD.CAPTION"
+msgid "Read"
+msgstr "Lectura"
+
+#: tfrmsetfileproperties.lblwrite.caption
+msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
+msgid "Write"
+msgstr "Escriptura"
+
+#: tfrmsplitter.btncancel.caption
+#, fuzzy
+#| msgid "Exit"
+msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Sortir"
+
+#: tfrmsplitter.btnftchoice.caption
+msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: tfrmsplitter.btnok.caption
+msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Acceptar"
+
+#: tfrmsplitter.caption
+msgctxt "tfrmsplitter.caption"
+msgid "Splitter"
+msgstr "Divisor"
+
+#: tfrmsplitter.cmbxsize.text
+msgid "1457664B - 3.5\""
+msgstr "1457664B - 3.5\""
+
+#: tfrmsplitter.grbxfile.caption
+msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
+msgid "File name"
+msgstr "Nom de Arxiu"
+
+#: tfrmsplitter.grbxsize.caption
+#, fuzzy
+#| msgid "File size"
+msgid "Size and number of parts"
+msgstr "Mida"
+
+#: tfrmsplitter.lbdirtarget.caption
+msgid "Directory target"
+msgstr "Ruta de desti"
+
+#: tfrmsplitter.lbfilesource.caption
+msgid "File source"
+msgstr "Arxiu Font"
+
+#: tfrmsplitter.lblnumberparts.caption
+msgid "Number of parts"
+msgstr "Número de parts"
+
+#: tfrmsplitter.rbtngigab.caption
+msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
+msgid "Gigabytes"
+msgstr ""
+
+#: tfrmsplitter.rbtnkilob.caption
+msgctxt "TFRMSPLITTER.RBTNKILOB.CAPTION"
+msgid "Kilobytes"
+msgstr ""
+
+#: tfrmsplitter.rbtnmegab.caption
+msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
+msgid "Megabytes"
+msgstr ""
+
+#: tfrmsymlink.btncancel.caption
+msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmsymlink.btnok.caption
+msgctxt "TFRMSYMLINK.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: tfrmsymlink.caption
+#, fuzzy
+#| msgid "Create symlink"
+msgid "Create symbolic link"
+msgstr "Crear Enllaç Simbòlic"
+
+#: tfrmsymlink.lblexistingfile.caption
+#, fuzzy
+#| msgid "Existing destination (where will link point)"
+msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
+msgid "Destination that the link will point to"
+msgstr "Destí (on s'enlaçarà)"
+
+#: tfrmsymlink.lbllinktocreate.caption
+msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
+msgid "Link name"
+msgstr "Nom de l'Enllaç"
+
+#: tfrmtweakplugin.btnadd.caption
+msgid "Add new"
+msgstr "Afegir nou"
+
+#: tfrmtweakplugin.btncancel.caption
+msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmtweakplugin.btnchange.caption
+msgid "Change"
+msgstr "Canviar"
+
+#: tfrmtweakplugin.btndefault.caption
+msgid "Default"
+msgstr "Per Defecte"
+
+#: tfrmtweakplugin.btnok.caption
+msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Acceptar"
+
+#: tfrmtweakplugin.btnremove.caption
+msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
+msgid "Remove"
+msgstr "Eliminar"
+
+#: tfrmtweakplugin.caption
+msgctxt "tfrmtweakplugin.caption"
+msgid "Tweak plugin"
+msgstr "Trucar complement"
+
+#: tfrmtweakplugin.cbpk_caps_by_content.caption
+msgid "Detect archive type by content"
+msgstr "Detectar tipus d'arxiu per contingut"
+
+#: tfrmtweakplugin.cbpk_caps_delete.caption
+msgid "Can delete files"
+msgstr "Pot esborrar Arxius"
+
+#: tfrmtweakplugin.cbpk_caps_encrypt.caption
+msgid "Supports encryption"
+msgstr "Suporta encriptat"
+
+#: tfrmtweakplugin.cbpk_caps_hide.caption
+msgid "Show as normal files (hide packer icon)"
+msgstr "Mostrar com Arxius normals (ocultar icon Comprimit)"
+
+#: tfrmtweakplugin.cbpk_caps_mempack.caption
+msgid "Supports packing in memory"
+msgstr "Suporta compresió en memòria"
+
+#: tfrmtweakplugin.cbpk_caps_modify.caption
+msgid "Can modify exisiting archives"
+msgstr "Pot modificar els Arxius existents"
+
+#: tfrmtweakplugin.cbpk_caps_multiple.caption
+msgid "Archive can contain multiple files"
+msgstr "L'Arxiu pot contenir múltiples Arxius"
+
+#: tfrmtweakplugin.cbpk_caps_new.caption
+msgid "Can create new archives"
+msgstr "Pot crear nous Arxius"
+
+#: tfrmtweakplugin.cbpk_caps_options.caption
+msgid "Supports the options dialogbox"
+msgstr "Suporta la finestra de diàleg amb opcions"
+
+#: tfrmtweakplugin.cbpk_caps_searchtext.caption
+msgid "Allow searching for text in archives"
+msgstr "Permet cercar text dins els arxius"
+
+#: tfrmtweakplugin.lbldescription.caption
+msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
+msgid "Description:"
+msgstr "Descripció:"
+
+#: tfrmtweakplugin.lbldetectstr.caption
+msgid "Detect string:"
+msgstr "Detectar cadena:"
+
+#: tfrmtweakplugin.lblextension.caption
+msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
+msgid "Extension:"
+msgstr "Extensió:"
+
+#: tfrmtweakplugin.lblflags.caption
+msgid "Flags:"
+msgstr "Banderes:"
+
+#: tfrmtweakplugin.lblname.caption
+msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
+msgid "Name:"
+msgstr "Nom:"
+
+#: tfrmtweakplugin.lblplugin.caption
+msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
+msgid "Plugin:"
+msgstr "Complement:"
+
+#: tfrmtweakplugin.lblplugin1.caption
+msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
+msgid "Plugin:"
+msgstr "Complement:"
+
+#: tfrmviewer.actabout.caption
+msgctxt "tfrmviewer.actabout.caption"
+msgid "About Viewer..."
+msgstr "Quant al visor..."
+
+#: tfrmviewer.actabout.hint
+msgid "Displays the About message"
+msgstr ""
+
+#: tfrmviewer.actcopyfile.caption
+msgctxt "tfrmviewer.actcopyfile.caption"
+msgid "Copy File"
+msgstr ""
+
+#: tfrmviewer.actcopyfile.hint
+msgctxt "tfrmviewer.actcopyfile.hint"
+msgid "Copy File"
+msgstr ""
+
+#: tfrmviewer.actdeletefile.caption
+msgctxt "tfrmviewer.actdeletefile.caption"
+msgid "Delete File"
+msgstr ""
+
+#: tfrmviewer.actdeletefile.hint
+msgctxt "tfrmviewer.actdeletefile.hint"
+msgid "Delete File"
+msgstr ""
+
+#: tfrmviewer.actloadnextfile.caption
+msgctxt "tfrmviewer.actloadnextfile.caption"
+msgid "&Next"
+msgstr "&Següent"
+
+#: tfrmviewer.actloadnextfile.hint
+msgid "Load Next File"
+msgstr ""
+
+#: tfrmviewer.actloadprevfile.caption
+msgctxt "tfrmviewer.actloadprevfile.caption"
+msgid "&Previous"
+msgstr "&Anterior"
+
+#: tfrmviewer.actloadprevfile.hint
+msgid "Load Previous File"
+msgstr ""
+
+#: tfrmviewer.actmirror.caption
+msgctxt "tfrmviewer.actmirror.caption"
+msgid "Mirror"
+msgstr "Mirall"
+
+#: tfrmviewer.actmirror.hint
+msgctxt "tfrmviewer.actmirror.hint"
+msgid "Mirror"
+msgstr "Espill"
+
+#: tfrmviewer.actmovefile.caption
+msgctxt "tfrmviewer.actmovefile.caption"
+msgid "Move File"
+msgstr ""
+
+#: tfrmviewer.actmovefile.hint
+msgctxt "tfrmviewer.actmovefile.hint"
+msgid "Move File"
+msgstr ""
+
+#: tfrmviewer.actreload.caption
+msgctxt "tfrmviewer.actreload.caption"
+msgid "Reload"
+msgstr "Recarregar"
+
+#: tfrmviewer.actreload.hint
+msgid "Reload current file"
+msgstr ""
+
+#: tfrmviewer.actrotate180.caption
+msgctxt "tfrmviewer.actrotate180.caption"
+msgid "Rotate 180"
+msgstr ""
+
+#: tfrmviewer.actrotate180.hint
+msgctxt "tfrmviewer.actrotate180.hint"
+msgid "Rotate 180"
+msgstr ""
+
+#: tfrmviewer.actrotate270.caption
+msgctxt "tfrmviewer.actrotate270.caption"
+msgid "Rotate 270"
+msgstr ""
+
+#: tfrmviewer.actrotate270.hint
+msgctxt "tfrmviewer.actrotate270.hint"
+msgid "Rotate 270"
+msgstr ""
+
+#: tfrmviewer.actrotate90.caption
+msgctxt "tfrmviewer.actrotate90.caption"
+msgid "Rotate 90"
+msgstr ""
+
+#: tfrmviewer.actrotate90.hint
+msgctxt "tfrmviewer.actrotate90.hint"
+msgid "Rotate 90"
+msgstr ""
+
+#: tfrmviewer.actsaveas.caption
+msgctxt "tfrmviewer.actsaveas.caption"
+msgid "Save As..."
+msgstr "Desar com..."
+
+#: tfrmviewer.actsaveas.hint
+msgid "Save File As..."
+msgstr ""
+
+#: tfrmviewer.actstretchimage.caption
+msgctxt "tfrmviewer.actstretchimage.caption"
+msgid "Stretch"
+msgstr "Aprimar"
+
+#: tfrmviewer.actstretchimage.hint
+msgid "Stretch Image"
+msgstr ""
+
+#: tfrmviewer.btn270.hint
+msgctxt "TFRMVIEWER.BTN270.HINT"
+msgid "- 90"
+msgstr ""
+
+#: tfrmviewer.btn90.hint
+msgctxt "TFRMVIEWER.BTN90.HINT"
+msgid "+ 90"
+msgstr ""
+
+#: tfrmviewer.btncopyfile.hint
+msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmviewer.btncopyfile1.hint
+msgctxt "TFRMVIEWER.BTNCOPYFILE1.HINT"
+msgid "Copy"
+msgstr "Copiar"
+
+#: tfrmviewer.btncuttuimage.hint
+msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"
+msgid "Crop"
+msgstr ""
+
+#: tfrmviewer.btndeletefile.hint
+msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmviewer.btndeletefile1.hint
+msgctxt "TFRMVIEWER.BTNDELETEFILE1.HINT"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: tfrmviewer.btnfullscreen.hint
+msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
+msgid "Full Screen"
+msgstr "Pantalla completa"
+
+#: tfrmviewer.btngifmove.caption
+msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
+msgid "||"
+msgstr ""
+
+#: tfrmviewer.btngiftobmp.caption
+msgid "S"
+msgstr ""
+
+#: tfrmviewer.btnhightlight.hint
+msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
+msgid "Highlight"
+msgstr "Realçar"
+
+#: tfrmviewer.btnmirror.hint
+msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
+msgid "Mirror"
+msgstr "Mirall"
+
+#: tfrmviewer.btnmovefile.hint
+msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
+msgid "Move"
+msgstr "Moure"
+
+#: tfrmviewer.btnmovefile1.hint
+msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
+msgid "Move"
+msgstr "Moure"
+
+#: tfrmviewer.btnnextgifframe.caption
+msgid "||>"
+msgstr ""
+
+#: tfrmviewer.btnpaint.hint
+msgctxt "TFRMVIEWER.BTNPAINT.HINT"
+msgid "Paint"
+msgstr "Dibuixar"
+
+#: tfrmviewer.btnprevgifframe.caption
+msgid "<||"
+msgstr ""
+
+#: tfrmviewer.btnredeye.hint
+msgid "Red Eyes"
+msgstr "Ulls Vermells"
+
+#: tfrmviewer.btnresize.hint
+msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
+msgid "Resize"
+msgstr "Canviar mida"
+
+#: tfrmviewer.btnundo.hint
+msgctxt "TFRMVIEWER.BTNUNDO.HINT"
+msgid "Undo"
+msgstr "Desfer"
+
+#: tfrmviewer.btnzoomin.hint
+msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
+msgid "Zoom In"
+msgstr "Apropar"
+
+#: tfrmviewer.btnzoomout.hint
+msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
+msgid "Zoom Out"
+msgstr "Allunyar"
+
+#: tfrmviewer.caption
+msgctxt "tfrmviewer.caption"
+msgid "Viewer"
+msgstr "Visor"
+
+#: tfrmviewer.cbslideshow.caption
+msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
+msgid "Slide Show"
+msgstr "Diapositives"
+
+#: tfrmviewer.comboboxpaint.text
+msgid "Pen"
+msgstr "Llapis"
+
+#: tfrmviewer.comboboxwidth.text
+msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
+msgid "1"
+msgstr "1"
+
+#: tfrmviewer.gboxhightlight.caption
+msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
+msgid "Highlight"
+msgstr "Destacar"
+
+#: tfrmviewer.gboxpaint.caption
+msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
+msgid "Paint"
+msgstr "Pintar"
+
+#: tfrmviewer.gboxslideshow.caption
+msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
+msgid "Slide Show"
+msgstr "Diapositives"
+
+#: tfrmviewer.gboxview.caption
+msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
+msgid "View"
+msgstr "Veure"
+
+#: tfrmviewer.lblhightlight.caption
+msgid "0x0"
+msgstr ""
+
+#: tfrmviewer.mi180.caption
+msgid "+ 180"
+msgstr ""
+
+#: tfrmviewer.mi270.caption
+msgctxt "TFRMVIEWER.MI270.CAPTION"
+msgid "- 90"
+msgstr ""
+
+#: tfrmviewer.mi90.caption
+msgctxt "TFRMVIEWER.MI90.CAPTION"
+msgid "+ 90"
+msgstr ""
+
+#: tfrmviewer.miabout.caption
+msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
+msgid "About"
+msgstr "Quant a"
+
+#: tfrmviewer.mibin.caption
+msgid "Show as &Bin"
+msgstr "Mostrar com &Binari"
+
+#: tfrmviewer.micopytoclipboard.caption
+msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
+msgid "Copy To Clipboard"
+msgstr "Copiar al portapapers"
+
+#: tfrmviewer.midiv1.caption
+msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmviewer.midiv2.caption
+msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmviewer.midiv3.caption
+msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmviewer.midiv4.caption
+msgctxt "TFRMVIEWER.MIDIV4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmviewer.midiv5.caption
+msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmviewer.miedit.caption
+msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
+msgid "&Edit"
+msgstr "&Editar"
+
+#: tfrmviewer.miencoding.caption
+msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
+msgid "En&coding"
+msgstr "&Codificació"
+
+#: tfrmviewer.miexit.caption
+msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
+msgid "E&xit"
+msgstr "&Sortir"
+
+#: tfrmviewer.mifile.caption
+msgctxt "TFRMVIEWER.MIFILE.CAPTION"
+msgid "&File"
+msgstr "&Arxiu"
+
+#: tfrmviewer.mifullscreen.caption
+msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
+msgid "Full Screen"
+msgstr "Pantalla completa"
+
+#: tfrmviewer.migraphics.caption
+msgid "Graphics"
+msgstr "Gràfics"
+
+#: tfrmviewer.mihex.caption
+msgid "Show as &Hex"
+msgstr "Mostrar com &Hex"
+
+#: tfrmviewer.miimage.caption
+msgid "&Image"
+msgstr "&Imatge"
+
+#: tfrmviewer.milookbook.caption
+msgid "Show as B&ook"
+msgstr "Veure com un llibre"
+
+#: tfrmviewer.mimirror.caption
+msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
+msgid "Mirror"
+msgstr "Espill"
+
+#: tfrmviewer.miplugins.caption
+msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
+msgid "Plugins"
+msgstr "Complements"
+
+#: tfrmviewer.mipreview.caption
+msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
+msgid "Preview"
+msgstr "Vista prèvia"
+
+#: tfrmviewer.miprint.caption
+msgid "Print..."
+msgstr "Imprimir..."
+
+#: tfrmviewer.mirotate.caption
+msgid "Rotate"
+msgstr "Rotar"
+
+#: tfrmviewer.misave.caption
+msgctxt "TFRMVIEWER.MISAVE.CAPTION"
+msgid "Save"
+msgstr "Desar"
+
+#: tfrmviewer.misaveas.caption
+msgctxt "tfrmviewer.misaveas.caption"
+msgid "Save As..."
+msgstr "Desar com..."
+
+#: tfrmviewer.miscreenshot.caption
+msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
+msgid "Screenshot"
+msgstr "Captura"
+
+#: tfrmviewer.misearch.caption
+msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
+msgid "Search"
+msgstr "Cercar"
+
+#: tfrmviewer.misearchnext.caption
+msgid "Search next"
+msgstr "Cercar següent"
+
+#: tfrmviewer.misearchprev.caption
+msgid "Search prev"
+msgstr "Cercar previ"
+
+#: tfrmviewer.miselectall.caption
+msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Seleccionar Tot"
+
+#: tfrmviewer.miseparator.caption
+msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmviewer.mistretch.caption
+msgctxt "tfrmviewer.mistretch.caption"
+msgid "Stretch"
+msgstr "Aprimar"
+
+#: tfrmviewer.mitext.caption
+msgid "Show as &Text"
+msgstr "Mostrar com &Text"
+
+#: tfrmviewer.miview.caption
+msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
+msgid "&View"
+msgstr "&Veure"
+
+#: tfrmviewer.miwraptext.caption
+msgid "Show as &Wrap text"
+msgstr "Ajustar linies"
+
+#: tfrmviewer.mizoomin.caption
+msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
+msgid "Zoom In"
+msgstr "Apropar"
+
+#: tfrmviewer.mizoomout.caption
+msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
+msgid "Zoom Out"
+msgstr "Allunyar"
+
+#: tfrmviewer.pmicopy.caption
+msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
+msgid "Copy To Clipboard"
+msgstr "Copiar al portapapers"
+
+#: tfrmviewer.pmiselectall.caption
+msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Seleccionar Tot"
+
+#: tfrmviewoperations.btnstartpause.caption
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
+msgstr "Començar"
+
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
+msgstr ""
+
+#: tfrmviewoperations.caption
+msgctxt "tfrmviewoperations.caption"
+msgid "File operations"
+msgstr "Operacions amb Arxius"
+
+#: tfrmviewoperations.cbalwaysontop.caption
+msgid "Always on top"
+msgstr ""
+
+#: tfrmviewoperations.lblusedragdrop.caption
+msgid "Use \"drag && drop\" to move operations between queues"
+msgstr ""
+
+#: tfrmviewoperations.mnucanceloperation.caption
+msgctxt "tfrmviewoperations.mnucanceloperation.caption"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmviewoperations.mnucancelqueue.caption
+#, fuzzy
+#| msgid "Cancel"
+msgctxt "tfrmviewoperations.mnucancelqueue.caption"
+msgid "Cancel"
+msgstr "Cancel.lar"
+
+#: tfrmviewoperations.mnunewqueue.caption
+msgid "New queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuoperationshowdetached.caption
+msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue.caption
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue1.caption
+msgid "Queue 1"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue2.caption
+msgid "Queue 2"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue3.caption
+msgid "Queue 3"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue4.caption
+msgid "Queue 4"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue5.caption
+msgid "Queue 5"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueueshowdetached.caption
+msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr ""
+
+#: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Quan l'arxiu existi"
+
+#: twcxarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Quan l'arxiu existi"
+
+#: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
+msgid "Work in background (separate connection)"
+msgstr ""
+
+#: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
+msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
+msgid "When file exists"
+msgstr "Quan l'arxiu existi"
+
+#: ulng.rscancelfilter
+msgid "Cancel Quick Filter"
+msgstr ""
+
+#: ulng.rscanceloperation
+msgid "Cancel Current Operation"
+msgstr ""
+
+#: ulng.rsclipboardcontainsinvalidtoolbardata
+msgid "Clipboard doesn't contain any valid toolbar data."
+msgstr ""
+
+#: ulng.rscolattr
+msgid "Attr"
+msgstr "Atrib"
+
+#: ulng.rscoldate
+msgid "Date"
+msgstr "Data"
+
+#: ulng.rscolext
+msgid "Ext"
+msgstr "Ext"
+
+#: ulng.rscolname
+msgctxt "ulng.rscolname"
+msgid "Name"
+msgstr "Nom"
+
+#: ulng.rscolsize
+msgctxt "ulng.rscolsize"
+msgid "Size"
+msgstr "Mida"
+
+#: ulng.rscomparediffs
+msgid "Number of changes:"
+msgstr "Número de canvis"
+
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr "Aliniar"
+
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr "Text"
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr "Config"
+
+#: ulng.rsconfcoldelete
+msgctxt "ulng.rsconfcoldelete"
+msgid "Delete"
+msgstr "Esborrar"
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr "Continguts de camps"
+
+#: ulng.rsconfcolmove
+msgctxt "ulng.rsconfcolmove"
+msgid "Move"
+msgstr "Moure"
+
+#: ulng.rsconfcolwidth
+msgctxt "ulng.rsconfcolwidth"
+msgid "Width"
+msgstr "Amplada"
+
+#: ulng.rsconfcustheader
+msgid "Customize column"
+msgstr "Columna personalitzada"
+
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr "Copiar (%d) %s"
+
+#: ulng.rsdlgallopcomplete
+#, fuzzy
+#| msgid "All operations is complete"
+msgid "All operations completed"
+msgstr "S'han completat totes les operacions"
+
+#: ulng.rsdlgallopprogress
+msgid "Progress of all operations %d %%"
+msgstr "Progrès de totes les operacions %d %%"
+
+#: ulng.rsdlgbuttonabort
+msgid "Ab&ort"
+msgstr "Ab&ortar"
+
+#: ulng.rsdlgbuttonall
+msgid "A&ll"
+msgstr "Tots"
+
+#: ulng.rsdlgbuttonappend
+msgid "A&ppend"
+msgstr "&Afegir"
+
+#: ulng.rsdlgbuttoncancel
+msgctxt "ulng.rsdlgbuttoncancel"
+msgid "&Cancel"
+msgstr "&Cancel.lar"
+
+#: ulng.rsdlgbuttoncopyinto
+msgid "Copy &Into"
+msgstr "Copiar dins"
+
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr "Copiar tot a dins"
+
+#: ulng.rsdlgbuttonno
+msgid "&No"
+msgstr "&No"
+
+#: ulng.rsdlgbuttonnone
+msgid "Non&e"
+msgstr "&Ningun"
+
+#: ulng.rsdlgbuttonok
+msgctxt "ulng.rsdlgbuttonok"
+msgid "&OK"
+msgstr "&Acceptar"
+
+#: ulng.rsdlgbuttonoverwrite
+msgid "&Overwrite"
+msgstr "Sobreescriure"
+
+#: ulng.rsdlgbuttonoverwriteall
+msgid "Overwrite &All"
+msgstr "Sobreescriure &Tot"
+
+#: ulng.rsdlgbuttonoverwriteolder
+msgid "Overwrite All Ol&der"
+msgstr ""
+
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
+#: ulng.rsdlgbuttonretry
+msgid "Re&try"
+msgstr "Reintentar"
+
+#: ulng.rsdlgbuttonskip
+msgid "&Skip"
+msgstr "&Saltar"
+
+#: ulng.rsdlgbuttonskipall
+msgid "S&kip All"
+msgstr "Saltar Tots"
+
+#: ulng.rsdlgbuttonyes
+msgid "&Yes"
+msgstr "&Sí"
+
+#: ulng.rsdlgcalcstatistics
+msgid "Calculate files and folders"
+msgstr "Calcular Arxius i carpetes"
+
+#: ulng.rsdlgchecksumcalc
+msgctxt "ulng.rsdlgchecksumcalc"
+msgid "Calculate check sum..."
+msgstr "Calcular suma de comprovació"
+
+#: ulng.rsdlgchecksumverify
+msgctxt "ulng.rsdlgchecksumverify"
+msgid "Verify check sum..."
+msgstr "Verificar suma de comprovació"
+
+#: ulng.rsdlgcp
+msgctxt "ulng.rsdlgcp"
+msgid "Copy file(s)"
+msgstr "Copiar Arxiu(s)"
+
+#: ulng.rsdlgdel
+msgid "Delete file(s)"
+msgstr "Esborrar Arxiu(s)"
+
+#: ulng.rsdlgmv
+msgid "Move file(s)"
+msgstr "Moure Arxiu(s)"
+
+#: ulng.rsdlgoppause
+#, fuzzy
+#| msgid "Pause"
+msgctxt "ulng.rsdlgoppause"
+msgid "Pau&se"
+msgstr "Pausa"
+
+#: ulng.rsdlgopstart
+#, fuzzy
+#| msgid "Start"
+msgctxt "ulng.rsdlgopstart"
+msgid "&Start"
+msgstr "Començar"
+
+#: ulng.rsdlgqueue
+msgctxt "ulng.rsdlgqueue"
+msgid "Queue"
+msgstr ""
+
+#: ulng.rsdlgspeed
+msgid "Speed %s/s"
+msgstr "Velocitat %s/s"
+
+#: ulng.rsdlgspeedtime
+#, fuzzy
+#| msgid "Speed %s/s, time remaining s%"
+msgid "Speed %s/s, time remaining %s"
+msgstr "Velocitat %s/s, temps restant %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "Dividir Arxiu"
+
+#: ulng.rsdlgwipe
+msgid "Wipe file(s)"
+msgstr "Destruir Arxiu(s)"
+
+#: ulng.rsdrivenolabel
+msgid "<no label>"
+msgstr ""
+
+#: ulng.rsdrivenomedia
+msgid "<no media>"
+msgstr ""
+
+#: ulng.rseditabouttext
+msgid "Internal Editor of Double Commander."
+msgstr "Editor intern de Double Commander."
+
+#: ulng.rseditnewfile
+msgid "new.txt"
+msgstr "nou.txt"
+
+#: ulng.rseditnewfilename
+msgid "Filename:"
+msgstr "Nom d'Arxiu:"
+
+#: ulng.rseditnewopen
+msgid "Open file"
+msgstr "Obrir Arxiu"
+
+#: ulng.rseditsearchback
+msgid "&Backward"
+msgstr "Enrera"
+
+#: ulng.rseditsearchcaption
+msgctxt "ulng.rseditsearchcaption"
+msgid "Search"
+msgstr "Cerca"
+
+#: ulng.rseditsearchfrw
+msgid "&Forward"
+msgstr "Endavant"
+
+#: ulng.rseditsearchreplace
+msgctxt "ulng.rseditsearchreplace"
+msgid "Replace"
+msgstr "Reemplaçar"
+
+#: ulng.rsfilterstatus
+msgid "FILTER"
+msgstr ""
+
+#: ulng.rsfinddefinetemplate
+msgid "Define template"
+msgstr "Definir plantilla"
+
+#: ulng.rsfinddepth
+msgid "%s level(s)"
+msgstr "%s nivell(s)"
+
+#: ulng.rsfinddepthall
+msgid "all (unlimited depth)"
+msgstr "Tot (profunditat sense límits)"
+
+#: ulng.rsfinddepthcurdir
+msgid "current dir only"
+msgstr "només carpeta actual"
+
+#: ulng.rsfinddirnoex
+msgid "Directory %s does not exist!"
+msgstr "¡La carpeta %s no existeix!"
+
+#: ulng.rsfindfound
+msgid "Found: %d"
+msgstr "Trobat: %d"
+
+#: ulng.rsfindsavetemplatecaption
+msgid "Save search template"
+msgstr "Desar platilla de cerca"
+
+#: ulng.rsfindsavetemplatetitle
+msgid "Template name:"
+msgstr "Nom de plantilla:"
+
+#: ulng.rsfindscanned
+msgid "Scanned: %d"
+msgstr "Trobats: %d"
+
+#: ulng.rsfindscanning
+msgid "Scanning"
+msgstr "Cercant"
+
+#: ulng.rsfindsearchfiles
+msgctxt "ulng.rsfindsearchfiles"
+msgid "Find files"
+msgstr "Cercar Arxius"
+
+#: ulng.rsfindwherebeg
+msgid "Begin at"
+msgstr "Començar en"
+
+#: ulng.rsfreemsg
+msgid "Free %s from %s bytes"
+msgstr " %s de %s bytes lliures"
+
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr "%s bytes lliures"
+
+#: ulng.rsfuncatime
+msgid "Access date/time"
+msgstr "Data/temps d'acces"
+
+#: ulng.rsfuncattr
+msgctxt "ulng.rsfuncattr"
+msgid "Attributes"
+msgstr "Atributs"
+
+#: ulng.rsfunccomment
+msgid "Comment"
+msgstr "Comentari"
+
+#: ulng.rsfunccompressedsize
+msgid "Compressed size"
+msgstr ""
+
+#: ulng.rsfuncctime
+msgid "Creation date/time"
+msgstr "data/temps de creació"
+
+#: ulng.rsfuncext
+msgid "Extension"
+msgstr "Extensió"
+
+#: ulng.rsfuncgroup
+msgctxt "ulng.rsfuncgroup"
+msgid "Group"
+msgstr "Grup"
+
+#: ulng.rsfunclinkto
+msgid "Link to"
+msgstr "Enllaçar a"
+
+#: ulng.rsfuncmtime
+msgid "Modification date/time"
+msgstr "Data/temps de modificació"
+
+#: ulng.rsfuncname
+msgctxt "ulng.rsfuncname"
+msgid "Name"
+msgstr "Nom"
+
+#: ulng.rsfuncnamenoext
+msgid "Name without extension"
+msgstr "Nom sense extensió"
+
+#: ulng.rsfuncowner
+msgctxt "ulng.rsfuncowner"
+msgid "Owner"
+msgstr "Propietari"
+
+#: ulng.rsfuncpath
+msgctxt "ulng.rsfuncpath"
+msgid "Path"
+msgstr "Ruta"
+
+#: ulng.rsfuncsize
+msgctxt "ulng.rsfuncsize"
+msgid "Size"
+msgstr "Mida"
+
+#: ulng.rsfunctype
+msgid "Type"
+msgstr "Tipus"
+
+#: ulng.rsharderrcreate
+msgid "Error creating hardlink."
+msgstr "Error creant l'Enllaç fort"
+
+#: ulng.rshotkeycategorycopymovedialog
+msgid "Copy/Move Dialog"
+msgstr ""
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "Visor"
+
+#: ulng.rslinkmsgok
+msgid "Linker complete"
+msgstr "Enllaçat complet"
+
+#: ulng.rsmarkminus
+msgid "Unselect mask"
+msgstr "Màscara a deseleccionar"
+
+#: ulng.rsmarkplus
+msgid "Select mask"
+msgstr "Màscara a seleccionar"
+
+#: ulng.rsmaskinput
+msgid "Input mask:"
+msgstr "Màscara d'entrada:"
+
+#: ulng.rsmenuconfigurecustomcolumns
+msgid "Configure custom columns"
+msgstr "Configurar columnes a mida"
+
+#: ulng.rsmenuconfigurethiscustomcolumn
+msgid "Configure this custom columns view"
+msgstr "Configurar aquesta vista de columnes a mida"
+
+#: ulng.rsmnuactions
+msgctxt "ulng.rsmnuactions"
+msgid "Actions"
+msgstr "Accions"
+
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr "Editar"
+
+#: ulng.rsmnueject
+msgid "Eject"
+msgstr "Explulsar"
+
+#: ulng.rsmnumount
+msgid "Mount"
+msgstr "Muntar"
+
+#: ulng.rsmnunew
+msgctxt "ulng.rsmnunew"
+msgid "New"
+msgstr "Nou"
+
+#: ulng.rsmnunomedia
+msgid "No media available"
+msgstr "No hi ha cap medi disponible"
+
+#: ulng.rsmnuopenwith
+msgid "Open with ..."
+msgstr "Obrir amb ..."
+
+#: ulng.rsmnusortby
+msgid "Sort by"
+msgstr "Ordenar"
+
+#: ulng.rsmnuumount
+msgid "Unmount"
+msgstr "Desmuntar"
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr "Veure"
+
+#: ulng.rsmsgaccount
+msgid "Account:"
+msgstr "Compte:"
+
+#: ulng.rsmsgarchivercustomparams
+msgid "Additional parameters for archiver command-line:"
+msgstr "Paràmetres adicionals par la linia de commandes:"
+
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr "No es pot copiar/moure un Arxiu \"%s\" dins d'ell mateix"
+
+#: ulng.rsmsgcannotdeletedirectory
+msgid "Cannot delete directory %s"
+msgstr ""
+
+#: ulng.rsmsgchdirfailed
+msgid "ChDir to [%s] failed!"
+msgstr "Impossible canviar a [%s]!"
+
+#: ulng.rsmsgcloseallinactivetabs
+msgid "Remove all inactive tabs?"
+msgstr "¿Tancar totes les pestanyes inactives?"
+
+#: ulng.rsmsgcloselockedtab
+msgid "This tab (%s) is locked! Close anyway?"
+msgstr "Aquesta pestanya (%s) està blocada! La tanco? "
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
+msgstr "Està segur d'eixir?"
+
+#: ulng.rsmsgcpfldr
+msgid "Copy %d selected files/directories?"
+msgstr "Copiar %d Arxius/carpetes seleccionats?"
+
+#: ulng.rsmsgcpsel
+msgid "Copy selected \"%s\"?"
+msgstr "Copiar  \"%s\"?"
+
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
+
+#: ulng.rsmsgdelfldr
+msgid "Delete %d selected files/directories?"
+msgstr "Esborrar %d Arxius/carpetes seleccionats?"
+
+#: ulng.rsmsgdelfldrt
+msgid "Delete %d selected files/directories into trash can?"
+msgstr "Enviar %d Arxius/carpetes seleccionats a la paperera?"
+
+#: ulng.rsmsgdelsel
+msgid "Delete selected \"%s\"?"
+msgstr "Esborrar \"%s\"?"
+
+#: ulng.rsmsgdelselt
+msgid "Delete selected \"%s\" into trash can?"
+msgstr "Enviar \"%s\" a la paperera?"
+
+#: ulng.rsmsgdeltotrashforce
+msgid "Can not delete \"%s\" to trash! Delete directly?"
+msgstr "No puc enviar \"%s\" a la paperera!¿Ho esborro directament?"
+
+#: ulng.rsmsgdisknotavail
+msgid "Disk is not available"
+msgstr "Disc no disponible"
+
+#: ulng.rsmsgenterfileext
+msgid "Enter file extension:"
+msgstr "Introdueix l'extensió de l'arxiu:"
+
+#: ulng.rsmsgentername
+msgid "Enter name:"
+msgstr "Introdueix el nom:"
+
+#: ulng.rsmsgerrbadarchive
+msgid "CRC error in archive data"
+msgstr "Error de CRC en les dades"
+
+#: ulng.rsmsgerrbaddata
+msgid "Data is bad"
+msgstr "Dades corruptes"
+
+#: ulng.rsmsgerrcannotconnect
+msgid "Can not connect to server: \"%s\""
+msgstr "No puc connectar amb el servidor: \"%s\""
+
+#: ulng.rsmsgerrcannotcopyfile
+msgid "Cannot copy file %s to %s"
+msgstr "No puc copiar l'Arxiu %s a %s"
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
+msgstr "Ja existeix una carpeta anomenada \"%s\"."
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
+msgstr "La data %s no es suporta"
+
+#: ulng.rsmsgerrdirexists
+msgid "Directory %s exists!"
+msgstr "La carpeta   %s   ja existeix!"
+
+#: ulng.rsmsgerreaborted
+msgid "Function aborted by user"
+msgstr "Función abortada per l'usuari"
+
+#: ulng.rsmsgerreclose
+msgid "Error closing file"
+msgstr "Error tancant l'Arxiu"
+
+#: ulng.rsmsgerrecreate
+msgid "Cannot create file"
+msgstr "Impossible crear l'Arxiu"
+
+#: ulng.rsmsgerrendarchive
+msgid "No more files in archive"
+msgstr "No hi ha més Arxius en l'Arxiu"
+
+#: ulng.rsmsgerreopen
+msgid "Cannot open existing file"
+msgstr "Impossible obrir l'Arxiu existent"
+
+#: ulng.rsmsgerreread
+msgid "Error reading from file"
+msgstr "Error llegint del Arxiu"
+
+#: ulng.rsmsgerrewrite
+msgid "Error writing to file"
+msgstr "Error escrivint en el Arxiu"
+
+#: ulng.rsmsgerrforcedir
+msgid "Can not create directory %s!"
+msgstr "No es pot crear la carpeta %s!"
+
+#: ulng.rsmsgerrinvalidlink
+msgid "Invalid link"
+msgstr "Enllaç no vàlid"
+
+#: ulng.rsmsgerrnofiles
+msgid "No files found"
+msgstr "No s'han trobat Arxius"
+
+#: ulng.rsmsgerrnomemory
+msgid "Not enough memory"
+msgstr "Memòria insuficient"
+
+#: ulng.rsmsgerrnotsupported
+msgid "Function not supported!"
+msgstr "Funció no suportada!"
+
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
+#: ulng.rsmsgerrregexpsyntax
+msgid "Syntax error in regular expression!"
+msgstr "Error de sintaxi en expresió regular!"
+
+#: ulng.rsmsgerrrename
+msgid "Cannot rename file %s to %s"
+msgstr "No es pot reanomenar l'Arxiu %s a %s"
+
+#: ulng.rsmsgerrsavefile
+msgid "Cannot save file"
+msgstr "No es pot desar l'Arxiu"
+
+#: ulng.rsmsgerrsetattribute
+msgid "Can not set attributes for \"%s\""
+msgstr "No es pot fixar atributs per \"%s"
+
+#: ulng.rsmsgerrsetdatetime
+msgid "Can not set date/time for \"%s\""
+msgstr "No es pot fixar data/temps per \"%s"
+
+#: ulng.rsmsgerrsmallbuf
+msgid "Buffer too small"
+msgstr "Buffer massa petit"
+
+#: ulng.rsmsgerrtoomanyfiles
+msgid "Too many files to pack"
+msgstr "Massa Arxius per comprimir!"
+
+#: ulng.rsmsgerrunknownformat
+msgid "Archive format unknown"
+msgstr "Format d'Arxiu desconegut"
+
+#: ulng.rsmsgfilechangedsave
+msgid "File %s changed, save?"
+msgstr "%s ha canviat, desar?"
+
+#: ulng.rsmsgfileexistsrwrt
+msgid "File %s exists, overwrite?"
+msgstr "%s existeix ¿sobreescriure"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr "Operacions d'Arxiu actives"
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr "Algunes operacions d'Arxiu no han acabat encara. Si tanca Double Commander pot perdre dades."
+
+#: ulng.rsmsgfilereadonly
+msgid "File %s is marked as read-only. Delete it?"
+msgstr "L'Arxiu %s s'ha marcat com de només lectura, l'esborro?"
+
+#: ulng.rsmsgfilesizetoobig
+msgid "The file size of \"%s\" is too big for destination file system!"
+msgstr "La Mida de l'Arxiu de \"%s\" és massa gran per al seu destí!"
+
+#: ulng.rsmsgfolderexistsrwrt
+msgid "Folder %s exists, overwrite?"
+msgstr "La carpeta %s existeix, la sobreescric?"
+
+#: ulng.rsmsgfollowsymlink
+msgid "Follow symlink \"%s\"?"
+msgstr "¿Segueixo l' Enllaç dur \"%s\"?"
+
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
+#: ulng.rsmsginvalidfilename
+msgid "Invalid filename"
+msgstr "Nom no vàlid"
+
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
+msgstr ""
+
+#: ulng.rsmsginvalidselection
+msgid "Invalid selection."
+msgstr "Selecció no vàlida"
+
+#: ulng.rsmsgloadingfilelist
+msgid "Loading file list..."
+msgstr "Carregant la llista d'Arxius ..."
+
+#: ulng.rsmsglogcopy
+msgid "Copy file %s"
+msgstr "Copiar Arxiu %s"
+
+#: ulng.rsmsglogdelete
+msgid "Delete file %s"
+msgstr "Esborrar Arxiu %s"
+
+#: ulng.rsmsglogerror
+msgid "Error: "
+msgstr "Error: "
+
+#: ulng.rsmsglogextract
+msgid "Extract file %s"
+msgstr "Extreure Arxiu %s"
+
+#: ulng.rsmsgloginfo
+msgid "Info: "
+msgstr "Informació: "
+
+#: ulng.rsmsgloglink
+msgid "Create link %s"
+msgstr "Crear Enllaç %s"
+
+#: ulng.rsmsglogmkdir
+msgid "Create directory %s"
+msgstr "Crear carpeta %s"
+
+#: ulng.rsmsglogmove
+msgid "Move file %s"
+msgstr "Moure Arxiu %s"
+
+#: ulng.rsmsglogpack
+msgid "Pack to file %s"
+msgstr "Comprimir en Arxiu %s"
+
+#: ulng.rsmsglogrmdir
+msgid "Remove directory %s"
+msgstr "Eliminar carpeta %s"
+
+#: ulng.rsmsglogsuccess
+msgid "Done: "
+msgstr "Fet: "
+
+#: ulng.rsmsglogsymlink
+msgid "Create symlink %s"
+msgstr "Crear Enllaç Simbòlic %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr "Examinar la integritat de l'Arxiu %s"
+
+#: ulng.rsmsgmanualaddhotdir
+msgid "Manually add hot path"
+msgstr "Afegir manualment una ruta calenta"
+
+#: ulng.rsmsgmanualedithotdir
+msgid "Manualy edit hot path"
+msgstr "Editar manualment una ruta calenta"
+
+#: ulng.rsmsgmanualhotdirquery
+msgid "Enter name and path (format name=path):"
+msgstr "Introdueixi nom i ruta (format nom=ruta):"
+
+#: ulng.rsmsgmasterpassword
+msgid "Master Password"
+msgstr "Contrasenya mestra"
+
+#: ulng.rsmsgmasterpasswordenter
+msgid "Please enter the master password:"
+msgstr "Per favor, introdueixi la contrasenya mestra:"
+
+#: ulng.rsmsgnewfile
+msgid "New file"
+msgstr "Nou Arxiu"
+
+#: ulng.rsmsgnextvolunpack
+msgid "Next volume will be unpacked"
+msgstr "Es descomprimirà el següent volum"
+
+#: ulng.rsmsgnofiles
+msgid "No files"
+msgstr ""
+
+#: ulng.rsmsgnofilesselected
+msgid "No files selected."
+msgstr "Ningun Arxiu seleccionat."
+
+#: ulng.rsmsgnofreespacecont
+msgid "No enough free space on target drive, Continue?"
+msgstr "Espai insuficient en disc de destí, Continuar?"
+
+#: ulng.rsmsgnofreespaceretry
+msgid "No enough free space on target drive, Retry?"
+msgstr "Espai insuficient en disc de destí, Reintentar?"
+
+#: ulng.rsmsgnotdelete
+msgid "Can not delete file %s"
+msgstr "Impossible esborrar %s"
+
+#: ulng.rsmsgnotimplemented
+msgid "Not implemented."
+msgstr "No implementat"
+
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr "Contrasenya:"
+
+#: ulng.rsmsgpassworddiff
+msgid "Passwords are different!"
+msgstr ""
+
+#: ulng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr "Per favor, introdueixi la contrasenya:"
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr "Contrasenya (Firewall):"
+
+#: ulng.rsmsgpasswordverify
+msgid "Please re-enter the password for verification:"
+msgstr ""
+
+#: ulng.rsmsgpopuphotadd
+msgid "&Add %s"
+msgstr "&Afegir %s"
+
+#: ulng.rsmsgpopuphotcnf
+msgctxt "ulng.rsmsgpopuphotcnf"
+msgid "&Configure"
+msgstr "&Configurar"
+
+#: ulng.rsmsgpopuphotdelete
+msgid "&Delete %s"
+msgstr "&Esborrar %s"
+
+#: ulng.rsmsgpresetalreadyexists
+msgid "Preset \"%s\" already exists. Overwrite?"
+msgstr "La configuració \"%s\" ja exiteix.¿Sobreescriure?"
+
+#: ulng.rsmsgrenfldr
+msgid "Rename/move %d selected files/directories?"
+msgstr "Reanomenar/moure %d Arxius/carpetes seleccionats?"
+
+#: ulng.rsmsgrensel
+msgid "Rename/move selected \"%s\"?"
+msgstr "Reanomenar/moure  \"%s\"?"
+
+#: ulng.rsmsgrestartforapplychanges
+msgid "Please, restart Double Commander in order to apply changes"
+msgstr "Per favor, reinicie Double Commander per aplicar canvis"
+
+#: ulng.rsmsgselectedinfo
+msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
+msgstr ""
+
+#: ulng.rsmsgselectonlychecksumfiles
+msgid "Please select only check sum files!"
+msgstr "Per favor, seleccioni només Arxius de comprovació"
+
+#: ulng.rsmsgsellocnextvol
+msgid "Please select location of next volume"
+msgstr "Esculli localització del següent volum"
+
+#: ulng.rsmsgsetvolumelabel
+msgid "Set volume label"
+msgstr "Posar etiqueta al volumen"
+
+#: ulng.rsmsgtabrenamecaption
+msgid "Rename tab"
+msgstr "Reanomenar pestanya"
+
+#: ulng.rsmsgtabrenameprompt
+msgid "New tab name:"
+msgstr "Nom de la nova pestanya:"
+
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr "Ruta cercada:"
+
+#: ulng.rsmsgtoomanyfilesselected
+msgid "Too many files selected."
+msgstr "Massa Arxius seleccionats."
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr "Nom d'usuari:"
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
+msgstr "Nom d'usuari (Firewall):"
+
+#: ulng.rsmsgvolumelabel
+msgid "Volume label:"
+msgstr "Etiqueta del Volum:"
+
+#: ulng.rsmsgvolumesizeenter
+msgid "Please enter the volume size:"
+msgstr "Per favor, introdueixi el nom del volum:"
+
+#: ulng.rsmsgwipefldr
+msgid "Wipe %d selected files/directories?"
+msgstr "Destrueixo %d Arxius/carpetes seleccionats?"
+
+#: ulng.rsmsgwipesel
+msgid "Wipe selected \"%s\"?"
+msgstr "Destrueixo \"%s\"?"
+
+#: ulng.rsmulrenfilenamestylelist
+#, fuzzy
+#| msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
+msgstr "Sense canvis;MAJÚSCULES;minúscules;Primera Majúscula;"
+
+#: ulng.rsoperaborted
+msgid "Aborted"
+msgstr "Interromput"
+
+#: ulng.rsopercalculatingchecksum
+msgid "Calculating check sum"
+msgstr ""
+
+#: ulng.rsopercalculatingchecksumin
+msgid "Calculating check sum in \"%s\""
+msgstr ""
+
+#: ulng.rsopercalculatingchecksumof
+msgid "Calculating check sum of \"%s\""
+msgstr ""
+
+#: ulng.rsopercalculatingstatictics
+msgctxt "ulng.rsopercalculatingstatictics"
+msgid "Calculating"
+msgstr "Calculant"
+
+#: ulng.rsopercalculatingstatisticsin
+msgid "Calculating \"%s\""
+msgstr ""
+
+#: ulng.rsopercombining
+msgid "Joining"
+msgstr ""
+
+#: ulng.rsopercombiningfromto
+msgid "Joining files in \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopercopying
+msgid "Copying"
+msgstr ""
+
+#: ulng.rsopercopyingfromto
+msgid "Copying from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopercopyingsomethingto
+msgid "Copying \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopercreatingdirectory
+msgid "Creating directory"
+msgstr ""
+
+#: ulng.rsopercreatingsomedirectory
+msgid "Creating directory \"%s\""
+msgstr ""
+
+#: ulng.rsoperdeleting
+msgctxt "ulng.rsoperdeleting"
+msgid "Deleting"
+msgstr "Esborrant"
+
+#: ulng.rsoperdeletingin
+msgid "Deleting in \"%s\""
+msgstr ""
+
+#: ulng.rsoperdeletingsomething
+msgid "Deleting \"%s\""
+msgstr ""
+
+#: ulng.rsoperexecuting
+msgid "Executing"
+msgstr ""
+
+#: ulng.rsoperexecutingsomething
+msgid "Executing \"%s\""
+msgstr ""
+
+#: ulng.rsoperextracting
+msgid "Extracting"
+msgstr ""
+
+#: ulng.rsoperextractingfromto
+msgid "Extracting from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsoperfinished
+msgid "Finished"
+msgstr "Finalitzat"
+
+#: ulng.rsoperlisting
+msgid "Listing"
+msgstr ""
+
+#: ulng.rsoperlistingin
+msgid "Listing \"%s\""
+msgstr ""
+
+#: ulng.rsopermoving
+msgid "Moving"
+msgstr ""
+
+#: ulng.rsopermovingfromto
+msgid "Moving from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopermovingsomethingto
+msgid "Moving \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsopernotstarted
+msgid "Not started"
+msgstr "No iniciat"
+
+#: ulng.rsoperpacking
+msgid "Packing"
+msgstr ""
+
+#: ulng.rsoperpackingfromto
+msgid "Packing from \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsoperpackingsomethingto
+msgid "Packing \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsoperpaused
+msgid "Paused"
+msgstr "Pausat"
+
+#: ulng.rsoperpausing
+msgid "Pausing"
+msgstr "Pausant"
+
+#: ulng.rsoperqueued
+msgctxt "ulng.rsoperqueued"
+msgid "Queued"
+msgstr "En cua"
+
+#: ulng.rsoperrunning
+msgid "Running"
+msgstr "Funcionant"
+
+#: ulng.rsopersettingproperty
+msgid "Setting property"
+msgstr ""
+
+#: ulng.rsopersettingpropertyin
+msgid "Setting property in \"%s\""
+msgstr ""
+
+#: ulng.rsopersettingpropertyof
+msgid "Setting property of \"%s\""
+msgstr ""
+
+#: ulng.rsopersplitting
+msgid "Splitting"
+msgstr ""
+
+#: ulng.rsopersplittingfromto
+msgid "Splitting \"%s\" to \"%s\""
+msgstr ""
+
+#: ulng.rsoperstarting
+msgid "Starting"
+msgstr "Iniciant"
+
+#: ulng.rsoperstopped
+msgid "Stopped"
+msgstr "Parat"
+
+#: ulng.rsoperstopping
+msgid "Stopping"
+msgstr "Parant"
+
+#: ulng.rsopertesting
+msgid "Testing"
+msgstr ""
+
+#: ulng.rsopertestingin
+msgid "Testing in \"%s\""
+msgstr ""
+
+#: ulng.rsopertestingsomething
+msgid "Testing \"%s\""
+msgstr ""
+
+#: ulng.rsoperverifyingchecksum
+msgid "Verifying check sum"
+msgstr ""
+
+#: ulng.rsoperverifyingchecksumin
+msgid "Verifying check sum in \"%s\""
+msgstr ""
+
+#: ulng.rsoperverifyingchecksumof
+msgid "Verifying check sum of \"%s\""
+msgstr ""
+
+#: ulng.rsoperwaitingforconnection
+msgid "Waiting for access to file source"
+msgstr "Esperant per accedir al Arxiu"
+
+#: ulng.rsoperwaitingforfeedback
+msgid "Waiting for user response"
+msgstr "Esperant per la resposta del usuario"
+
+#: ulng.rsoperwiping
+msgid "Wiping"
+msgstr ""
+
+#: ulng.rsoperwipingin
+msgid "Wiping in \"%s\""
+msgstr ""
+
+#: ulng.rsoperwipingsomething
+msgid "Wiping \"%s\""
+msgstr ""
+
+#: ulng.rsoperworking
+msgid "Working"
+msgstr ""
+
+#: ulng.rsoptarchivedelete
+msgctxt "ulng.rsoptarchivedelete"
+msgid "Delete:"
+msgstr "Esborrar"
+
+#: ulng.rsoptarchiveextractwithoutpath
+msgid "Extract without path:"
+msgstr "Extreure sense ruta:"
+
+#: ulng.rsoptarchiveformmode
+msgid "Format parsing mode:"
+msgstr "Format mode d'anàlisis"
+
+#: ulng.rsoptarchiveid
+msgctxt "ulng.rsoptarchiveid"
+msgid "ID:"
+msgstr ""
+
+#: ulng.rsoptarchiveidpos
+msgctxt "ulng.rsoptarchiveidpos"
+msgid "ID Position:"
+msgstr "Posició ID:"
+
+#: ulng.rsoptarchiveidseekrange
+msgctxt "ulng.rsoptarchiveidseekrange"
+msgid "ID Seek Range:"
+msgstr "Rang de cerca ID:"
+
+#: ulng.rsoptarchiveparam
+msgid "Parameter"
+msgstr "Paràmetre"
+
+#: ulng.rsoptarchivepasswordquery
+msgid "Password query string:"
+msgstr "Pregunta per la contrasenya:"
+
+#: ulng.rsoptarchiveselfextract
+msgctxt "ulng.rsoptarchiveselfextract"
+msgid "Create self extracting archive:"
+msgstr "Crear Arxiu autoextraible:"
+
+#: ulng.rsoptarchivetest
+msgctxt "ulng.rsoptarchivetest"
+msgid "Test:"
+msgstr "Prova:"
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
+msgstr "Nom del tipus d'Arxiu:"
+
+#: ulng.rsoptarchivevalue
+msgid "Value"
+msgstr "Valor"
+
+#: ulng.rsoptassocpluginwith
+msgid "Associate plugin \"%s\" with:"
+msgstr "Complement associat \"%s\" con:"
+
+#: ulng.rsoptautosizecolumn
+msgid "First;Last;"
+msgstr "Primer;Últim;"
+
+#: ulng.rsoptdisable
+msgid "Disable"
+msgstr "Deshabilitat"
+
+#: ulng.rsoptenable
+msgctxt "ulng.rsoptenable"
+msgid "Enable"
+msgstr "Registre"
+
+#: ulng.rsoptenterext
+msgid "Enter extension"
+msgstr "Introduir extensió"
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr "Cursor"
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr "Marca"
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr "Marca + Cursor"
+
+#: ulng.rsoptexampletext
+msgid "Text"
+msgstr "Text"
+
+#: ulng.rsoptfileoperationsprogresskind
+msgid "separate window;minimized separate window;operations panel"
+msgstr ""
+
+#: ulng.rsopthotkeysadddeleteshortcutlong
+msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgstr ""
+
+#: ulng.rsopthotkeysaddhotkey
+msgid "Add hotkey for %s"
+msgstr ""
+
+#: ulng.rsopthotkeysaddshortcutbutton
+msgid "Add shortcut"
+msgstr ""
+
+#: ulng.rsopthotkeyscannotsetshortcut
+msgid "Cannot set shortcut"
+msgstr ""
+
+#: ulng.rsopthotkeyschangeshortcut
+msgid "Change shortcut"
+msgstr ""
+
+#: ulng.rsopthotkeyscommand
+msgid "Command"
+msgstr ""
+
+#: ulng.rsopthotkeysdeletetrashcanoverrides
+msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgstr ""
+
+#: ulng.rsopthotkeysdeletetrashcanparameterexists
+msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgstr ""
+
+#: ulng.rsopthotkeysdescription
+msgid "Description"
+msgstr ""
+
+#: ulng.rsopthotkeysedithotkey
+msgid "Edit hotkey for %s"
+msgstr ""
+
+#: ulng.rsopthotkeysfixparameter
+msgid "Fix parameter"
+msgstr ""
+
+#: ulng.rsopthotkeyshotkey
+msgctxt "ulng.rsopthotkeyshotkey"
+msgid "Hotkey"
+msgstr "Tecles ràpides"
+
+#: ulng.rsopthotkeyshotkeys
+msgid "Hotkeys"
+msgstr "Tecles ràpides"
+
+#: ulng.rsopthotkeysnohotkey
+msgid "<none>"
+msgstr ""
+
+#: ulng.rsopthotkeysparameters
+msgctxt "ulng.rsopthotkeysparameters"
+msgid "Parameters"
+msgstr "Paràmetres"
+
+#: ulng.rsopthotkeyssetdeleteshortcut
+msgid "Set shortcut to delete file"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutfordeleteissequence
+msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutused
+msgid "Shortcut in use"
+msgstr "Dracera en us"
+
+#: ulng.rsopthotkeysshortcutusedtext1
+#, fuzzy
+#| msgid "Shortcut %s is already used for %s."
+msgid "Shortcut %s is already used."
+msgstr "La Dracera %s ja el fa servir "
+
+#: ulng.rsopthotkeysshortcutusedtext2
+msgid "Change it to %s?"
+msgstr "Canviar-lo a %s ?"
+
+#: ulng.rsopthotkeysusedby
+#, fuzzy
+#| msgid "used by"
+msgid "used for %s in %s"
+msgstr "Usat per %s %s"
+
+#: ulng.rsopthotkeysusedwithdifferentparams
+msgid "used for this command but with different parameters"
+msgstr ""
+
+#: ulng.rsoptionseditorarchivers
+msgctxt "ulng.rsoptionseditorarchivers"
+msgid "Archivers"
+msgstr "Compressors"
+
+#: ulng.rsoptionseditorautorefresh
+msgctxt "ulng.rsoptionseditorautorefresh"
+msgid "Auto refresh"
+msgstr "Actualitzar"
+
+#: ulng.rsoptionseditorbehavior
+msgctxt "ulng.rsoptionseditorbehavior"
+msgid "Behaviors"
+msgstr "Comportament"
+
+#: ulng.rsoptionseditorcolors
+msgctxt "ulng.rsoptionseditorcolors"
+msgid "Colors"
+msgstr "Colors"
+
+#: ulng.rsoptionseditorcolumnsview
+msgctxt "ulng.rsoptionseditorcolumnsview"
+msgid "Columns"
+msgstr "Columnes"
+
+#: ulng.rsoptionseditorconfiguration
+msgctxt "ulng.rsoptionseditorconfiguration"
+msgid "Configuration"
+msgstr "Configuració"
+
+#: ulng.rsoptionseditorcustomcolumns
+msgid "Custom columns"
+msgstr ""
+
+#: ulng.rsoptionseditordraganddrop
+msgid "Drag & drop"
+msgstr ""
+
+#: ulng.rsoptionseditordriveslistbutton
+msgid "Drives list button"
+msgstr ""
+
+#: ulng.rsoptionseditorfileoperations
+msgctxt "ulng.rsoptionseditorfileoperations"
+msgid "File operations"
+msgstr "Operacions amb Arxius"
+
+#: ulng.rsoptionseditorfilepanels
+msgctxt "ulng.rsoptionseditorfilepanels"
+msgid "File panels"
+msgstr "Panells d'Arxius"
+
+#: ulng.rsoptionseditorfilesviews
+msgid "Files views"
+msgstr ""
+
+#: ulng.rsoptionseditorfiletypes
+msgctxt "ulng.rsoptionseditorfiletypes"
+msgid "File types"
+msgstr "Tipus d'Arxius"
+
+#: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
+msgid "Folder tabs"
+msgstr "Pestanyes de carpeta"
+
+#: ulng.rsoptionseditorfonts
+msgctxt "ulng.rsoptionseditorfonts"
+msgid "Fonts"
+msgstr "Fonts"
+
+#: ulng.rsoptionseditorhighlighters
+msgid "Highlighters"
+msgstr ""
+
+#: ulng.rsoptionseditorhotkeys
+msgctxt "ulng.rsoptionseditorhotkeys"
+msgid "Hot keys"
+msgstr "Tecles ràpides"
+
+#: ulng.rsoptionseditoricons
+msgctxt "ulng.rsoptionseditoricons"
+msgid "Icons"
+msgstr "Icons"
+
+#: ulng.rsoptionseditorignorelist
+msgctxt "ulng.rsoptionseditorignorelist"
+msgid "Ignore list"
+msgstr "Ignorar llista"
+
+#: ulng.rsoptionseditorkeyboard
+msgid "Keys"
+msgstr ""
+
+#: ulng.rsoptionseditorlanguage
+msgctxt "ulng.rsoptionseditorlanguage"
+msgid "Language"
+msgstr "Idioma"
+
+#: ulng.rsoptionseditorlayout
+msgctxt "ulng.rsoptionseditorlayout"
+msgid "Layout"
+msgstr "Apariència"
+
+#: ulng.rsoptionseditorlog
+msgctxt "ulng.rsoptionseditorlog"
+msgid "Log"
+msgstr "Registre"
+
+#: ulng.rsoptionseditormiscellaneous
+msgctxt "ulng.rsoptionseditormiscellaneous"
+msgid "Miscellaneous"
+msgstr "Varis"
+
+#: ulng.rsoptionseditormouse
+msgid "Mouse"
+msgstr ""
+
+#: ulng.rsoptionseditorplugins
+msgctxt "ulng.rsoptionseditorplugins"
+msgid "Plugins"
+msgstr "Complements"
+
+#: ulng.rsoptionseditorquicksearch
+#, fuzzy
+#| msgid "Quick search"
+msgctxt "ulng.rsoptionseditorquicksearch"
+msgid "Quick search/filter"
+msgstr "Cerca ràpida"
+
+#: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
+msgid "Terminal"
+msgstr ""
+
+#: ulng.rsoptionseditortoolbar
+msgid "Toolbar"
+msgstr ""
+
+#: ulng.rsoptionseditortools
+msgctxt "ulng.rsoptionseditortools"
+msgid "Tools"
+msgstr "Eines"
+
+#: ulng.rsoptionseditortooltips
+msgctxt "ulng.rsoptionseditortooltips"
+msgid "Tooltips"
+msgstr "Informació emergent"
+
+#: ulng.rsoptmouseselectionbutton
+msgid "Left button;Right button;"
+msgstr "Botó esquerra; Botó dret;"
+
+#: ulng.rsoptnewfilesposition
+msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
+msgstr ""
+
+#: ulng.rsoptpluginalreadyassigned
+msgid "Plugin %s is already assigned for the following extensions:"
+msgstr "El complement %s s'ha assignat ja a la següent extensió:"
+
+#: ulng.rsoptpluginsactive
+msgctxt "ulng.rsoptpluginsactive"
+msgid "Active"
+msgstr "Actiu"
+
+#: ulng.rsoptpluginsfilename
+msgctxt "ulng.rsoptpluginsfilename"
+msgid "File name"
+msgstr "Ruta del complement"
+
+#: ulng.rsoptpluginsname
+msgctxt "ulng.rsoptpluginsname"
+msgid "Name"
+msgstr "Nom"
+
+#: ulng.rsoptpluginsregisteredfor
+msgctxt "ulng.rsoptpluginsregisteredfor"
+msgid "Registered for"
+msgstr "Registrat per"
+
+#: ulng.rsoptsortcasesens
+msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr ""
+
+#: ulng.rsoptsortfoldermode
+msgid "sort by name and show first;sort like files and show first;sort like files"
+msgstr ""
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr "Alfabèticament, considerant accents; Ordre natural: alfabètic i números"
+
+#: ulng.rsopttabsposition
+msgid "Top;Bottom;"
+msgstr "Amunt;Avall;"
+
+#: ulng.rsopttoolbarbuttontype
+msgid "Separator;Internal command;External command;Menu"
+msgstr ""
+
+#: ulng.rsoptupdatedfilesposition
+msgid "don't change position;use the same setting as for new files;to sorted position"
+msgstr ""
+
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr "No es pot canviar els drets d'accés per \"%s\""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
+msgstr "No es pot canviar el Propietari per \"%s\""
+
+#: ulng.rspropsfile
+msgctxt "ulng.rspropsfile"
+msgid "File"
+msgstr "Arxiu"
+
+#: ulng.rspropsfolder
+msgctxt "ulng.rspropsfolder"
+msgid "Directory"
+msgstr "Carpeta"
+
+#: ulng.rspropsnmdpipe
+msgid "Named pipe"
+msgstr "Pipe nom"
+
+#: ulng.rspropsno
+msgid "No"
+msgstr "No"
+
+#: ulng.rspropssocket
+msgid "Socket"
+msgstr "Socket"
+
+#: ulng.rspropsspblkdev
+msgid "Special block device"
+msgstr "Arxiu de blocs especial"
+
+#: ulng.rspropsspchrdev
+msgid "Special character device"
+msgstr "Arxiu de caràcter especial"
+
+#: ulng.rspropssymlink
+msgid "Symbolic link"
+msgstr "Enllaç Simbòlic"
+
+#: ulng.rspropsunknowntype
+msgid "Unknown type"
+msgstr "Tipus desconegut"
+
+#: ulng.rspropsyes
+msgid "Yes (%s)"
+msgstr "Sí"
+
+#: ulng.rssearchresult
+msgid "Search result"
+msgstr "Cercar resultat"
+
+#: ulng.rsselectdir
+msgid "Select a directory"
+msgstr "Escull una carpeta"
+
+#: ulng.rsshowhelpfor
+msgid "Show help for %s"
+msgstr ""
+
+#: ulng.rssizeunitbytes
+msgid "Bytes"
+msgstr ""
+
+#: ulng.rssizeunitgbytes
+msgctxt "ulng.rssizeunitgbytes"
+msgid "Gigabytes"
+msgstr ""
+
+#: ulng.rssizeunitkbytes
+msgctxt "ulng.rssizeunitkbytes"
+msgid "Kilobytes"
+msgstr ""
+
+#: ulng.rssizeunitmbytes
+msgctxt "ulng.rssizeunitmbytes"
+msgid "Megabytes"
+msgstr ""
+
+#: ulng.rssizeunittbytes
+msgid "Terabytes"
+msgstr ""
+
+#: ulng.rsspacemsg
+msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
+msgstr "Arxius: %d, Carpetas: %d, Mida: %s (%s bytes)"
+
+#: ulng.rsspliterrdirectory
+msgid "Unable to create target directory!"
+msgstr "No s'ha pogut crear carpeta al destí!"
+
+#: ulng.rsspliterrfilesize
+msgid "Incorrect file size format!"
+msgstr "Format de Mida incorrecte!"
+
+#: ulng.rsspliterrsplitfile
+msgid "Unable to split the file!"
+msgstr "Impossible dividir l'Arxiu!"
+
+#: ulng.rssplitmsgmanyparts
+msgid "The number of parts is more than 100! Continue?"
+msgstr "Escoltim, el nombre de parts es major de 100! ¿continuar?"
+
+#: ulng.rssplitseldir
+msgid "Select directory:"
+msgstr "Escull carpeta:"
+
+#: ulng.rssymerrcreate
+msgid "Error creating symlink."
+msgstr "Error creant l'Enllaç Simbòlic."
+
+#: ulng.rssyndefaulttext
+msgid "Default text"
+msgstr ""
+
+#: ulng.rssynlangplaintext
+msgid "Plain text"
+msgstr ""
+
+#: ulng.rstimeunitday
+msgctxt "ulng.rstimeunitday"
+msgid "Day(s)"
+msgstr "Dia(s)"
+
+#: ulng.rstimeunithour
+msgid "Hour(s)"
+msgstr "Hora(s)"
+
+#: ulng.rstimeunitminute
+msgid "Minute(s)"
+msgstr "Minut(s)"
+
+#: ulng.rstimeunitmonth
+msgid "Month(s)"
+msgstr "Mes(es)"
+
+#: ulng.rstimeunitsecond
+msgid "Second(s)"
+msgstr "Segon(s)"
+
+#: ulng.rstimeunitweek
+msgid "Week(s)"
+msgstr "Setmana(s)"
+
+#: ulng.rstimeunityear
+msgid "Year(s)"
+msgstr "Any(s)"
+
+#: ulng.rstooldiffer
+msgid "Differ"
+msgstr "Differ(comparador)"
+
+#: ulng.rstooleditor
+msgctxt "ulng.rstooleditor"
+msgid "Editor"
+msgstr "Editor"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr ""
+
+#: ulng.rstoolviewer
+msgctxt "ulng.rstoolviewer"
+msgid "Viewer"
+msgstr "Visor"
+
+#: ulng.rsunhandledexceptionmessage
+msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr "Per favor, informi d'aquest error al traçador de bugs amb una descripció del que estava fent: %sPresioni %s per continuar o %s per avortar el programa."
+
+#: ulng.rsvfsnetwork
+msgctxt "ulng.rsvfsnetwork"
+msgid "Network"
+msgstr "Xarxa"
+
+#: ulng.rsviewabouttext
+msgid "Internal Viewer of Double Commander."
+msgstr "Visor intern de Double Commander."
+
+#: ulng.rsviewencoding
+msgctxt "ulng.rsviewencoding"
+msgid "Encoding"
+msgstr "Codificació"
+
+#: ulng.rsviewnotfound
+msgid "%s not found!"
+msgstr "%s no trobat!"
+
