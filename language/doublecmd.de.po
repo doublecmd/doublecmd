@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-04-05 13:20+0100\n"
+"PO-Revision-Date: 2012-04-14 10:20+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -4857,7 +4857,7 @@ msgstr "Diesen Befehls-Interpreter benutzen:"
 #| msgid "Clo&ne button"
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
 msgid "&Clone button"
-msgstr "&Schalter klonen"
+msgstr "S&chalter klonen"
 
 #: tfrmoptionstoolbar.btndeletebutton.caption
 msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
@@ -4869,7 +4869,7 @@ msgstr "L&öschen"
 #| msgid "Edit"
 msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
 msgid "Edit hotkey"
-msgstr "Bearbeiten"
+msgstr "Tastaturkürzel bearbeiten"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
 #, fuzzy
@@ -4893,7 +4893,7 @@ msgstr ">>"
 #| msgid "X"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
 msgid "Remove hotkey"
-msgstr "X"
+msgstr "Tastaturkürzel entfernen"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
@@ -4902,7 +4902,7 @@ msgstr "&Flache Schalter"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr ""
+msgstr "Befehlsparameter eingeben, jeden in einer eigenen Zeile. [F1] drücken um Hilfe zu Parametern zu erhalten."
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
@@ -4917,16 +4917,16 @@ msgstr "Höhe de&r Leiste:"
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
 msgid "Command:"
-msgstr ""
+msgstr "Befehl:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parameter:"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
-msgstr ""
+msgstr "Tastaturkürzel:"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
 #, fuzzy
@@ -4943,12 +4943,12 @@ msgstr "Höhe der I&cons:"
 #: tfrmoptionstoolbar.lblinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Command:"
-msgstr ""
+msgstr "Befehl:"
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parameter:"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
 #, fuzzy
@@ -4966,7 +4966,7 @@ msgstr "&Tooltip"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
-msgstr ""
+msgstr "Schaltertyp"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -6219,7 +6219,7 @@ msgstr "Aktuellen Vorgang abbrechen"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
-msgstr ""
+msgstr "Die Zwischenablage enthält keine gültigen Daten für die Werkzeugleiste."
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -7524,7 +7524,7 @@ msgstr "Tastaturkürzel"
 
 #: ulng.rsopthotkeysnohotkey
 msgid "<none>"
-msgstr ""
+msgstr "<leer>"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
@@ -7700,7 +7700,7 @@ msgstr "Befehlszeilen-Interpreter"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
-msgstr ""
+msgstr "Werkzeugleiste"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -7762,7 +7762,7 @@ msgstr "Oben;Unten;"
 
 #: ulng.rsopttoolbarbuttontype
 msgid "Separator;Internal command;External command;Menu"
-msgstr ""
+msgstr "Trennendes Element;interner Befehl;externer Befehl;Menü"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
