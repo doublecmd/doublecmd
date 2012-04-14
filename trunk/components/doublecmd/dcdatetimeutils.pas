@@ -457,7 +457,7 @@ var
 begin
 {$IFDEF MSWINDOWS}
   // Convert local to universal TDateTime.
-  LocalWinFileTime := DateTimeToWinFileTime(Result);
+  LocalWinFileTime := DateTimeToWinFileTime(DateTime);
   if LocalFileTimeToFileTime(LocalWinFileTime, WinFileTime) then
     LocalWinFileTime := WinFileTime;
   DateTime := WinFileTimeToDateTime(LocalWinFileTime);
