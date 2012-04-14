@@ -95,7 +95,7 @@ type
     function GetActivePage: TFileViewPage;
     function GetActiveView: TFileView;
     function GetFileViewOnPage(Index: Integer): TFileView;
-    function GetPage(Index: Integer): TFileViewPage;
+    function GetPage(Index: Integer): TFileViewPage; reintroduce;
 
     procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure DragDropEvent(Sender, Source: TObject; X, Y: Integer);
@@ -111,8 +111,8 @@ type
                        NotebookSide: TFilePanelSelect); reintroduce;
 
     function AddPage(aCaption: String = ''): TFileViewPage;
-    function InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage;
-    procedure RemovePage(Index: Integer);
+    function InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage; reintroduce;
+    procedure RemovePage(Index: Integer); reintroduce;
     procedure RemovePage(var aPage: TFileViewPage);
     procedure DestroyAllPages;
     procedure ActivatePrevTab;
