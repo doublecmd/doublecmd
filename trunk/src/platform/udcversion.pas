@@ -122,7 +122,8 @@ begin
   Result := GetStringsFromFile(FileName, sl);
   if Result then
   try
-    str := sl.Strings[0];
+    if sl.Count > 0 then
+      str := sl.Strings[0];
   finally
     sl.Free;
   end;
@@ -136,14 +137,17 @@ begin
 
   if GetStringsFromFile('/etc/lsb-release', sl) then
   try
-    Result := sl.Values['DISTRIB_DESCRIPTION'];
+    if sl.Count > 0 then
+    begin
+      Result := sl.Values['DISTRIB_DESCRIPTION'];
 
-    if Result <> EmptyStr then
-      Result := TrimQuotes(Result)
-    else
-      Result := sl.Values['DISTRIB_ID'] +
-                sl.Values['DISTRIB_RELEASE'] +
-                sl.Values['DISTRIB_CODENAME'];
+      if Result <> EmptyStr then
+        Result := TrimQuotes(Result)
+      else
+        Result := sl.Values['DISTRIB_ID'] +
+                  sl.Values['DISTRIB_RELEASE'] +
+                  sl.Values['DISTRIB_CODENAME'];
+    end;
   finally
     sl.Free;
   end;
