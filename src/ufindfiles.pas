@@ -97,7 +97,7 @@ type
 implementation
 
 uses
-  DateUtils, uDateTimeUtils, strutils, uFileAttributes;
+  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes;
 
 const
   cKilo = 1024;
@@ -310,4 +310,4 @@ begin
   end;
 end;
 
-end.
+end.

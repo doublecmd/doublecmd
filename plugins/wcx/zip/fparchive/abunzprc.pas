@@ -36,9 +36,6 @@ unit AbUnzPrc;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
   AbArcTyp,
   AbZipTyp,
   AbUtils,
@@ -164,7 +161,8 @@ uses
   {$ENDIF}
   {$ENDIF}
   SysUtils,
-  uClassesEx;
+  DCOSUtils,
+  DCClassesUtf8;
 
 { -------------------------------------------------------------------------- }
 procedure AbReverseBits(var W : Word);

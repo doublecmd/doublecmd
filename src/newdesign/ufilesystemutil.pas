@@ -172,7 +172,7 @@ implementation
 
 uses
   uDebug, uOSUtils, DCOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
-  DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uDateTimeUtils;
+  DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, DCDateTimeUtils;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
 var

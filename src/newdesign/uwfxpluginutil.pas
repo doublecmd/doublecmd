@@ -82,7 +82,7 @@ implementation
 
 uses
   uFileProcs, DCStrUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
-  uDateTimeUtils, DCBasicTypes;
+  DCDateTimeUtils, DCBasicTypes;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 var

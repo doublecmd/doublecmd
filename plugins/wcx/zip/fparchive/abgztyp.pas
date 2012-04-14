@@ -289,7 +289,7 @@ function GZOsToStr(OS: Byte) : string;
 implementation
 
 uses
-  AbResString, uClassesEx, osConvEncoding;
+  AbResString, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 const
   { Header Signature Values}

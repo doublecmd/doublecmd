@@ -129,7 +129,7 @@ type
 implementation
 
 uses
-  AbConst, uClassesEx;
+  AbConst, DCOSUtils;
 
 { TAbCustomZipBrowser implementation ======================================= }
 

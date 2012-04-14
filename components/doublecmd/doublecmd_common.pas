@@ -7,7 +7,8 @@ unit doublecmd_common;
 interface
 
 uses
-  DCClassesUtf8, DCOSUtils, DCStrUtils, DCBasicTypes;
+  DCClassesUtf8, DCOSUtils, DCStrUtils, DCBasicTypes, DCFileAttributes, 
+  DCConvertEncoding, DCDateTimeUtils;
 
 implementation
 

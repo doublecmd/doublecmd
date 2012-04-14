@@ -41,14 +41,7 @@ var
 implementation
 
 uses
-  uGlobs, uDCUtils, DCBasicTypes
-{$IFDEF UNIX}
-  , BaseUnix, Unix
-{$ENDIF}
-{$IFDEF MSWINDOWS}
-  , Windows
-{$ENDIF}
-  , uFileAttributes;
+  uGlobs, uDCUtils, DCBasicTypes, DCFileAttributes, DCDateTimeUtils;
 
 function TDefaultFilePropertyFormatter.FormatFileName(
            FileProperty: TFileNameProperty): String;
@@ -153,34 +146,14 @@ function TMaxDetailsFilePropertyFormatter.FormatDateTime(
             FileProperty: TFileDateTimeProperty): String;
 var
   Bias: LongInt = 0;
-  Sign: String = '';
-{$IFDEF UNIX}
-  Tv: TTimeVal;
-  Tz: TTimeZone;
+  Sign: String;
 begin
-  // Get time zone difference.
-  fpGetTimeOfDay(@Tv, @Tz);
-  Bias := -Tz.tz_minuteswest; // make minutes east
-{$ELSE}
-  TimeZone: TTIMEZONEINFORMATION;
-begin
-  case GetTimeZoneInformation(TimeZone) of
-    TIME_ZONE_ID_INVALID:
-      begin
-        Result := DefaultFilePropertyFormatter.FormatDateTime(FileProperty);
-        Exit;
-      end;
-
-    TIME_ZONE_ID_UNKNOWN, TIME_ZONE_ID_STANDARD:
-      Bias := -(TimeZone.Bias + TimeZone.StandardBias);
-
-    TIME_ZONE_ID_DAYLIGHT:
-      Bias := -(TimeZone.Bias + TimeZone.DaylightBias);
-  end;
-{$ENDIF}
+  Bias := -GetTimeZoneBias;
 
   if Bias >= 0 then
-    Sign := '+';
+    Sign := '+'
+  else
+    Sign := '-';
 
   Result := SysUtils.FormatDateTime('ddd, dd mmmm yyyy hh:nn:ss', FileProperty.Value)
           + ' UT' + Sign
@@ -214,4 +187,4 @@ finalization
   MaxDetailsFilePropertyFormatter := nil;
 
 end.
-
+

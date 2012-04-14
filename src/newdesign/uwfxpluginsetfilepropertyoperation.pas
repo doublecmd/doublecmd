@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  DCBasicTypes, DCStrUtils, WfxPlugin, uWfxPluginUtil, uDateTimeUtils;
+  DCBasicTypes, DCStrUtils, WfxPlugin, uWfxPluginUtil, DCDateTimeUtils;
 
 constructor TWfxPluginSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Date and time functions.
 
-   Copyright (C) 2009-2011 Przemysław Nagay (cobines@gmail.com)
+   Copyright (C) 2009-2012 Przemysław Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,8 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-unit uDateTimeUtils;
+
+unit DCDateTimeUtils;
 
 {$mode objfpc}{$H+}
 
@@ -76,17 +77,23 @@ function WinFileTimeToDateTime(ft : TWinFileTime) : TDateTime;
 }
 function DateTimeToWinFileTime(dt : TDateTime) : TWinFileTime;
 
-{$IFDEF MSWINDOWS}
-function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime; inline; overload;
-
 function DosFileTimeToDateTime(const DosTime: TDosFileTime): TDateTime;
 function DateTimeToDosFileTime(const DateTime: TDateTime): TDosFileTime;
 
+{$IFDEF MSWINDOWS}
+function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime; inline; overload;
 function WinToDosTime(const WinTime: Windows.FILETIME; var DosTime: TDosFileTime): LongBool; overload;
 function DosToWinTime(const DosTime: TDosFileTime; var WinTime: Windows.FILETIME): LongBool; overload;
 function WinToDosTime(const WinTime: TWinFileTime; var DosTime: TDosFileTime): LongBool;
 function DosToWinTime(const DosTime: TDosFileTime; var WinTime: TWinFileTime): LongBool;
 {$ENDIF}
+
+function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
+function DateTimeToUnixFileTime(DateTime: TDateTime) : TUnixFileTime;
+function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
+function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
+
+function GetTimeZoneBias: LongInt;
 
 {en
    Converts a month short name to month number.
@@ -103,23 +110,28 @@ function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
 function YearShortToLong(Year: Word): Word;
 function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
 
+type
+  EDateOutOfRange = class(EConvertError)
+  private
+    FDateTime: TDateTime;
+  public
+    constructor Create(ADateTime: TDateTime);
+    property DateTime: TDateTime read FDateTime;
+  end;
+
 implementation
 
-{$IFDEF UNIX}
 uses
-  uLng;
-{$ENDIF}
+  DateUtils;
 
 const  { Short names of months. }
   ShortMonthNames: TMonthNameArray = ('Jan','Feb','Mar','Apr','May','Jun',
                                       'Jul','Aug','Sep','Oct','Nov','Dec');
-{$IFDEF UNIX}
-const
   SecsPerHour = SecsPerMin * MinsPerHour;
 
-function AdjustUnixTime(const FileTime: DCBasicTypes.TFileTime;
-                        out AdjustedFileTime: DCBasicTypes.TFileTime;
-                        AdjustValue: Int64): Boolean;
+function AdjustUnixFileTime(const FileTime: DCBasicTypes.TFileTime;
+                            out AdjustedFileTime: DCBasicTypes.TFileTime;
+                            AdjustValue: Int64): Boolean;
 begin
   if AdjustValue < 0 then
   begin
@@ -149,9 +161,9 @@ begin
   end;
 end;
 
-function AdjustWinTime(const FileTime: DCBasicTypes.TWinFileTime;
-                       out AdjustedFileTime: DCBasicTypes.TWinFileTime;
-                       AdjustValue: Int64): Boolean;
+function AdjustWinFileTime(const FileTime: TWinFileTime;
+                           out AdjustedFileTime: TWinFileTime;
+                           AdjustValue: Int64): Boolean;
 begin
   if AdjustValue < 0 then
   begin
@@ -180,7 +192,6 @@ begin
     end;
   end;
 end;
-{$ENDIF}
 
 function FileTimeToDateTime(FileTime : DCBasicTypes.TFileTime) : TDateTime;
 {$IF DEFINED(MSWINDOWS)}
@@ -224,7 +235,7 @@ begin
   Dt := Trunc(DateTime);
   Tm := DateTime - Dt;
   if Dt < UnixEpoch then
-    raise EConvertError.CreateFmt(rsMsgErrDateNotSupported, [DateTimeToStr(DateTime)])
+    raise EDateOutOfRange.Create(DateTime)
   else
     {$PUSH}{$Q-}
     BigTime := Trunc(Dt - UnixEpoch) * SecsPerDay;
@@ -237,7 +248,7 @@ begin
 
 {$IFDEF cpu32}
   if BigTime > High(DCBasicTypes.TFileTime) then
-    raise EConvertError.CreateFmt(rsMsgErrDateNotSupported, [DateTimeToStr(DateTime)])
+    raise EDateOutOfRange.Create(DateTime)
   else
 {$ENDIF}
   LocalFileTimeToFileTime(BigTime, Result);
@@ -256,7 +267,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := AdjustUnixTime(FileTime, LocalFileTime, Tzseconds);
+  Result := AdjustUnixFileTime(FileTime, LocalFileTime, Tzseconds);
 end;
 {$ENDIF}
 
@@ -268,7 +279,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := AdjustUnixTime(LocalFileTime, FileTime, -Tzseconds);
+  Result := AdjustUnixFileTime(LocalFileTime, FileTime, -Tzseconds);
 end;
 {$ENDIF}
 
@@ -280,7 +291,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := AdjustWinTime(FileTime, LocalFileTime, 10000000 * Int64(TZSeconds));
+  Result := AdjustWinFileTime(FileTime, LocalFileTime, 10000000 * Int64(TZSeconds));
 end;
 {$ENDIF}
 
@@ -292,7 +303,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := AdjustWinTime(LocalFileTime, FileTime, -10000000 * Int64(TZSeconds));
+  Result := AdjustWinFileTime(LocalFileTime, FileTime, -10000000 * Int64(TZSeconds));
 end;
 {$ENDIF}
 
@@ -308,36 +319,57 @@ begin
   WinLocalFileTimeToFileTime(Result, Result);
 end;
 
-{$IFDEF MSWINDOWS}
-function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime;
-begin
-  Result := WinFileTimeToDateTime(TWinFileTime(ft));
-end;
-
 function DosFileTimeToDateTime(const DosTime: TDosFileTime): TDateTime;
 var
-  Date, Time : Word;
+  Yr, Mo, Dy : Word;
+  Hr, Mn, S  : Word;
+  FileDate, FileTime : Word;
 begin
-  Date := LongWord(DosTime) shr 16;
-  Time := LongWord(DosTime) and $ffff;
-  Result := ComposeDateTime(EncodeDate((Date shr 9) + 1980,(Date shr 5) and 15, Date and 31),
-              EncodeTime(Time shr 11, (Time shr 5) and 63, (Time and 31) shl 1,0));
+  FileDate := LongRec(DosTime).Hi;
+  FileTime := LongRec(DosTime).Lo;
+
+  Yr := FileDate shr 9 + 1980;
+
+  Mo := FileDate shr 5 and 15;
+  if Mo < 1 then Mo := 1;
+  if Mo > 12 then Mo := 12;
+
+  Dy := FileDate and 31;
+  if Dy < 1 then Dy := 1;
+  if Dy > DaysInAMonth(Yr, Mo) then
+    Dy := DaysInAMonth(Yr, Mo);
+
+  Hr := FileTime shr 11;
+  if Hr > 23 then Hr := 23;
+
+  Mn := FileTime shr 5 and 63;
+  if Mn > 59 then Mn := 59;
+
+  S  := FileTime and 31 shl 1;
+  if S > 59 then S := 59;
+
+  Result := ComposeDateTime(EncodeDate(Yr, Mo, Dy),
+                            EncodeTime(Hr, Mn, S, 0));
 end;
 
 function DateTimeToDosFileTime(const DateTime: TDateTime): TDosFileTime;
 var
-  YY,MM,DD,H,m,s,msec : Word;
+  Yr, Mo, Dy : Word;
+  Hr, Mn, S, MS: Word;
 begin
-  Decodedate (DateTime,YY,MM,DD);
-  DecodeTime (DateTime,h,m,s,msec);
+  DecodeDate(DateTime, Yr, Mo, Dy);
+  if (Yr < 1980) or (Yr > 2107) then // outside DOS file date year range
+    Yr := 1980;
+  DecodeTime(DateTime, Hr, Mn, S, MS);
 
-  If (YY<1980) or (YY>2099) then
-    Result:=0
-  else
-  begin
-    Result := (s shr 1) or (m shl 5) or (h shl 11) or
-              (DD shl 16) or (MM shl 21) or (Word(YY-1980) shl 25);
-  end;
+  LongRec(Result).Lo := (S shr 1) or (Mn shl 5) or (Hr shl 11);
+  LongRec(Result).Hi := Dy or (Mo shl 5) or (Word(Yr - 1980) shl 9);
+end;
+
+{$IFDEF MSWINDOWS}
+function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime;
+begin
+  Result := WinFileTimeToDateTime(TWinFileTime(ft));
 end;
 
 function WinToDosTime(const WinTime: Windows.FILETIME; var DosTime: TDosFileTime): LongBool;
@@ -372,6 +404,114 @@ begin
             Windows.LocalFileTimeToFileTime(@lft, @Windows.FILETIME(WinTime));
 end;
 {$ENDIF}
+
+function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
+var
+  Hrs, Mins, Secs : Word;
+  TodaysSecs : LongInt;
+{$IFDEF MSWINDOWS}
+  LocalWinFileTime, WinFileTime: TWinFileTime;
+{$ENDIF}
+{$IFDEF UNIX}
+  LocalUnixTime: TUnixFileTime;
+{$ENDIF}
+begin
+{$IFDEF UNIX}
+  if FileTimeToLocalFileTime(UnixTime, LocalUnixTime) then
+    UnixTime := LocalUnixTime;
+{$ENDIF}
+
+  TodaysSecs := UnixTime mod SecsPerDay;
+  Hrs := TodaysSecs div SecsPerHour;
+  TodaysSecs := TodaysSecs - (Hrs * SecsPerHour);
+  Mins := TodaysSecs div SecsPerMin;
+  Secs := TodaysSecs - (Mins * SecsPerMin);
+
+  Result := UnixDateDelta + (UnixTime div SecsPerDay) +
+    EncodeTime(Hrs, Mins, Secs, 0);
+
+{$IFDEF MSWINDOWS}
+  // Convert universal to local TDateTime.
+  WinFileTime := DateTimeToWinFileTime(Result);
+  if FileTimeToLocalFileTime(WinFileTime, LocalWinFileTime) then
+    WinFileTime := LocalWinFileTime;
+  Result := WinFileTimeToDateTime(WinFileTime);
+{$ENDIF}
+end;
+
+function DateTimeToUnixFileTime(DateTime : TDateTime): TUnixFileTime;
+var
+  Hrs, Mins, Secs, MSecs : Word;
+  Dt, Tm : TDateTime;
+{$IFDEF MSWINDOWS}
+  LocalWinFileTime, WinFileTime: TWinFileTime;
+{$ENDIF}
+{$IFDEF UNIX}
+  UnixTime: TUnixFileTime;
+{$ENDIF}
+begin
+{$IFDEF MSWINDOWS}
+  // Convert local to universal TDateTime.
+  LocalWinFileTime := DateTimeToWinFileTime(Result);
+  if LocalFileTimeToFileTime(LocalWinFileTime, WinFileTime) then
+    LocalWinFileTime := WinFileTime;
+  DateTime := WinFileTimeToDateTime(LocalWinFileTime);
+{$ENDIF}
+
+  Dt := Trunc(DateTime);
+  Tm := DateTime - Dt;
+  if Dt < UnixDateDelta then
+    Result := 0
+  else
+    Result := Trunc(Dt - UnixDateDelta) * SecsPerDay;
+
+  DecodeTime(Tm, Hrs, Mins, Secs, MSecs);
+  Result := Result + (Hrs * SecsPerHour) + (Mins * SecsPerMin) + Secs;
+
+{$IFDEF UNIX}
+  if LocalFileTimeToFileTime(Result, UnixTime) then
+    Result := UnixTime;
+{$ENDIF}
+end;
+
+function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
+begin
+  Result := DateTimeToDosFileTime(UnixFileTimeToDateTime(UnixTime));
+end;
+
+function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
+var
+  ft: Windows.TFileTime;
+begin
+  ft.dwLowDateTime  := $D53E8000; // Unix epoch start
+  ft.dwHighDateTime := $019DB1DE;
+  if not AdjustWinFileTime(TWinFileTime(ft), Result, 10000000 * Int64(UnixTime)) then
+    Result := TWinFileTime(ft);
+end;
+
+function GetTimeZoneBias: LongInt;
+{$IF DEFINED(MSWINDOWS)}
+var
+  TZInfo: TTimeZoneInformation;
+{$ENDIF}
+begin
+  {$IF DEFINED(MSWINDOWS)}
+  case GetTimeZoneInformation(@TZInfo) of
+    TIME_ZONE_ID_UNKNOWN:
+      Result := TZInfo.Bias;
+    TIME_ZONE_ID_STANDARD:
+      Result := TZInfo.Bias + TZInfo.StandardBias;
+    TIME_ZONE_ID_DAYLIGHT:
+      Result := TZInfo.Bias + TZInfo.DaylightBias;
+    else
+      Result := 0;
+  end;
+  {$ELSEIF DEFINED(UNIX)}
+  Result := -Tzseconds div 60;
+  {$ELSE}
+  Result := 0;
+  {$ENDIF}
+end;
 
 function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
 var
@@ -413,5 +553,13 @@ begin
   end;
 end;
 
+{ EDateOutOfRange }
+
+constructor EDateOutOfRange.Create(ADateTime: TDateTime);
+begin
+  inherited Create(EmptyStr);
+  FDateTime := ADateTime;
+end;
+
 end.
-
+

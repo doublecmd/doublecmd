@@ -144,7 +144,7 @@ implementation
 
 uses
   LCLProc, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uOSUtils,
-  uDateTimeUtils,
+  DCDateTimeUtils,
   FileUtil, uCryptProc,
   uWcxArchiveListOperation,
   uWcxArchiveCopyInOperation,
@@ -954,4 +954,4 @@ finalization
   FreeThenNil(WcxOperationsQueueLock);
 
 end.
-
+

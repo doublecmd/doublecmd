@@ -39,7 +39,7 @@ unit AbZipTyp;
 interface
 
 uses
-  Classes, AbArcTyp, AbUtils, AbSpanSt, uClassesEx;
+  Classes, AbArcTyp, AbUtils, AbSpanSt;
 
 const
   { note  #$50 = 'P', #$4B = 'K'}
@@ -628,7 +628,9 @@ uses
   AbExcept,
   AbVMStrm,
   SysUtils,
-  osConvEncoding;
+  DCOSUtils,
+  DCClassesUtf8,
+  DCConvertEncoding;
 
 function MakeVersionMadeBy : Word;
 begin

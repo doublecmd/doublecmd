@@ -86,7 +86,7 @@ implementation
 uses
   LCLProc, uDebug
   {$IFDEF UNIX}
-  , uMyUnix, Unix, FileUtil, DCOSUtils
+  , uMyUnix, Unix, FileUtil, DCOSUtils, DCFileAttributes
   {$ENDIF};
 
 const
@@ -122,14 +122,11 @@ begin
       begin
         with UnixFindData^.StatRec do
         begin
-          WinAttr:= LinuxToWinAttr(PChar(SearchRec.Name), UnixFindData^.StatRec);
+          WinAttr:= UnixToWinFileAttr(SearchRec.Name, TFileAttrs(UnixFindData^.StatRec.st_mode));
           if (WinAttr and SearchRec.ExcludeAttr) <> 0 then Exit;
-{$PUSH}
-{$R-}
-          SearchRec.Size:= st_size;
-          SearchRec.Time:= st_mtime;
-          SearchRec.Attr:= st_mode;
-{$POP}
+          SearchRec.Size:= Int64(st_size);
+          SearchRec.Time:= DCBasicTypes.TFileTime(st_mtime);
+          SearchRec.Attr:= DCBasicTypes.TFileAttrs(st_mode);
         end;
         Result:= 0;
       end;

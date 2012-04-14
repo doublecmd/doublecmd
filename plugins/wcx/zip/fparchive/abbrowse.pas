@@ -220,7 +220,8 @@ uses
   AbTarTyp,
   AbGzTyp,
   AbBzip2Typ,
-  uClassesEx;
+  DCOSUtils,
+  DCClassesUtf8;
 
 { TAbBaseBrowser implementation ======================================= }
 

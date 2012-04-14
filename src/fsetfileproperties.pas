@@ -115,7 +115,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, uFileAttributes, DCStrUtils, uDCUtils, uFileProperty;
+  LCLType, DCFileAttributes, DCStrUtils, uDCUtils, uFileProperty;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;
 begin
@@ -353,4 +353,4 @@ begin
 end;
 
 end.
-
+

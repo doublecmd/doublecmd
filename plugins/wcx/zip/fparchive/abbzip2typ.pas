@@ -117,7 +117,7 @@ uses
 {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
 {$ENDIF}
-  StrUtils, SysUtils, uClassesEx,
+  StrUtils, SysUtils, DCOSUtils, DCClassesUtf8,
   AbBzip2;
 
 { ****************** Helper functions Not from Classes Above ***************** }

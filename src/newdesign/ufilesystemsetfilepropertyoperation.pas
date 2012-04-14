@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  uGlobs, uLng, uDateTimeUtils, uFileSystemUtil,
+  uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil,
   uFileSourceOperationUI, DCOSUtils, DCStrUtils, DCBasicTypes
   {$IF DEFINED(MSWINDOWS)}
     , Windows, ShellAPI, LCLProc
@@ -220,6 +220,18 @@ begin
     end;
 
   except
+    on e: EDateOutOfRange do
+    begin
+      if not gSkipFileOpError then
+        case AskQuestion(rsMsgLogError + Format(rsMsgErrDateNotSupported, [DateTimeToStr(e.DateTime)]), '',
+                         [fsourSkip, fsourAbort],
+                         fsourSkip, fsourAbort) of
+          fsourSkip:
+            Result := sfprSkipped;
+          fsourAbort:
+            RaiseAbortOperation;
+        end;
+    end;
     on e: EConvertError do
     begin
       if not gSkipFileOpError then

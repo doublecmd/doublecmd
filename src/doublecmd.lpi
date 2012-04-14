@@ -273,7 +273,7 @@
       </Item10>
       <Item11>
         <PackageName Value="doublecmd_common"/>
-        <MinVersion Minor="1" Valid="True"/>
+        <MinVersion Minor="2" Valid="True"/>
       </Item11>
       <Item12>
         <PackageName Value="doublecmd_common_lcl"/>

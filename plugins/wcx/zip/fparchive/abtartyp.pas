@@ -454,7 +454,7 @@ function VerifyTar(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-  uClassesEx, osConvEncoding;
+  DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Integer;

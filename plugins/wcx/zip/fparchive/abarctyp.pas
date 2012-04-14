@@ -577,7 +577,8 @@ uses
   AbDfBase,
   AbConst,
   AbResString,
-  uClassesEx;
+  DCOSUtils,
+  DCClassesUtf8;
 
 
 { TAbArchiveItem implementation ============================================ }

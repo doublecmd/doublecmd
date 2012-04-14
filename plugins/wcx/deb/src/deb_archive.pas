@@ -7,7 +7,7 @@ interface
 
 uses
   Classes,
-  WcxPlugin, uUnixTime,
+  WcxPlugin,
   deb_def, deb_io;
 
 const
@@ -40,7 +40,7 @@ procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc
 implementation
 
 uses
-  SysUtils;
+  SysUtils, DCDateTimeUtils, DCBasicTypes;
 
 function GetArchiveID(hArcData : THandle) : Integer;
 var
@@ -193,8 +193,8 @@ begin
               UnpVer   := 2;
               HostOS   := 0;
               FileCRC  := header.CRC;
-              FileAttr := $20;
-              FileTime := UnixTimeToDosTime(header.time, True);
+              FileAttr := faArchive;
+              FileTime := LongInt(UnixFileTimeToDosTime(TUnixFileTime(header.time)));
             end;{with}
             Result := E_SUCCESS;
             Break;
@@ -311,7 +311,7 @@ begin
           else if fgWriteError then Result := E_EWRITE
           else if fgReadError then Result := E_EREAD
           else Result := 0;
-          FileSetDate(tfilerec(targz_file).handle,UnixTimeToDosTime(head.time, True));
+          FileSetDate(tfilerec(targz_file).handle, LongInt(UnixFileTimeToDosTime(TUnixFileTime(head.time))));
           CloseFile(targz_file);
           Seek(arec^.handle_file, size_deb_signature);
           if result<>0 then

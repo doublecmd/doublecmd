@@ -13,7 +13,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="UnBZ2 WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander"/>
+      <StringTable FileDescription="UnBZ2 WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="default" Default="True"/>
@@ -38,7 +38,7 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\lib\unbz2.wcx" ApplyConventions="False"/>

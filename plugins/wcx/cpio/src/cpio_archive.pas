@@ -29,7 +29,7 @@ interface
 
 uses
   Classes,
-  WcxPlugin, uUnixTime,
+  WcxPlugin,
   cpio_def, cpio_io;
 
 const
@@ -64,7 +64,7 @@ function  CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall;
 implementation
 
 uses
-  SysUtils;
+  SysUtils, DCDateTimeUtils, DCBasicTypes;
 
 function GetArchiveID(hArcData : THandle) : Integer;
 var
@@ -183,8 +183,8 @@ begin
                 copy_str2buf(TStrBuf(FileName), header.filename);
                 PackSize := header.filesize;
                 UnpSize  := header.filesize;
-                FileAttr := header.mode;
-                FileTime := UnixTimeToDosTime(header.mtime, True);
+                FileAttr := LongInt(header.mode);
+                FileTime := LongInt(UnixFileTimeToDosTime(TUnixFileTime(header.mtime)));
               end;{with}
               Result := 0;
               Break;
@@ -322,7 +322,7 @@ begin
             end else
               if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
           end;
-          FileSetDate(tfilerec(cpio_file).handle,UnixTimeToDosTime(head.mtime, True));
+          FileSetDate(tfilerec(cpio_file).handle, LongInt(UnixFileTimeToDosTime(TUnixFileTime(head.mtime))));
           CloseFile(cpio_file);
           if result<>0 then
             Erase(cpio_file);

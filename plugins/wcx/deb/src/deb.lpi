@@ -30,6 +30,12 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="doublecmd_common"/>
+        <MinVersion Minor="2" Valid="True"/>
+      </Item1>
+    </RequiredPackages>
     <Units Count="1">
       <Unit0>
         <Filename Value="deb.dpr"/>
