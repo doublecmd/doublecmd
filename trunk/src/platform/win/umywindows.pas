@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ unit uMyWindows;
 interface
 
 uses
-  Classes, SysUtils, JwaWinBase, Windows;
+  Classes, SysUtils, JwaWinBase, JwaWinNT, Windows;
 
 type
   tagMENUITEMINFOW = record
@@ -135,6 +135,12 @@ function mbGetFileSystem(const sRootPath: String): String;
    @param(FileName The name of the file.)
 }
 function mbGetCompressedFileSize(const FileName: UTF8String): Int64;
+{en
+   This routine returns @true if the caller's
+   process is a member of the Administrators local group.
+   @returns(The function returns @true if caller has Administrators local group, @false otherwise)
+}
+function IsUserAdmin: LongBool;
 
 procedure InitErrorMode;
 
@@ -553,6 +559,29 @@ end;
 function mbGetCompressedFileSize(const FileName: UTF8String): Int64;
 begin
   Int64Rec(Result).Lo:= GetCompressedFileSizeW(PWideChar(UTF8Decode(FileName)), @Int64Rec(Result).Hi);
+end;
+
+function IsUserAdmin: LongBool;
+var
+  IdentifierAuthority: JwaWinNT.SID_IDENTIFIER_AUTHORITY = (Value: (0, 0, 0, 0, 0, 5)); // SECURITY_NT_AUTHORITY
+  AdministratorsGroup: JwaWinNT.PSID = nil;
+begin
+  Result:= JwaWinBase.AllocateAndInitializeSid(
+                                               @IdentifierAuthority,
+                                               2,
+                                               SECURITY_BUILTIN_DOMAIN_RID,
+                                               DOMAIN_ALIAS_RID_ADMINS,
+                                               0, 0, 0, 0, 0, 0,
+                                               AdministratorsGroup
+                                              );
+  if Result then
+  begin
+    if not JwaWinBase.CheckTokenMembership(0, AdministratorsGroup, Result) then
+    begin
+      Result:= False;
+    end;
+    JwaWinBase.FreeSid(AdministratorsGroup);
+  end;
 end;
 
 procedure InitErrorMode;

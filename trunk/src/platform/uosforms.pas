@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   , Graphics, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, InterfaceBase, FileUtil, Windows, ShlObj, uShlObjAdditional
-  , uWinNetFileSource, uVfsModule, uLng
+  , uWinNetFileSource, uVfsModule, uLng, uMyWindows
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties
@@ -111,6 +111,8 @@ begin
   CreateTotalCommanderWindow(MainForm.Handle);
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
+  if (Win32MajorVersion > 5) and IsUserAdmin then // if run under administrator
+    MainForm.Caption:= MainForm.Caption + ' - Administrator';
 end;
 {$ELSE}
 begin
