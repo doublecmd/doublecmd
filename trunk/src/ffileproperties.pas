@@ -142,7 +142,7 @@ implementation
 
 uses
   LCLType, FileUtil, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
-  uDefaultFilePropertyFormatter, uMyUnix, uFileAttributes,
+  uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
   uFileSourceOperationOptions, uKeyboard, DCStrUtils;
 
