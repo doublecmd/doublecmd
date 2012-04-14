@@ -27,7 +27,7 @@ unit uMyWindows;
 interface
 
 uses
-  Classes, SysUtils, JwaWinBase, JwaWinNT, Windows;
+  Classes, SysUtils, JwaWinBase, Windows;
 
 type
   tagMENUITEMINFOW = record
@@ -561,26 +561,66 @@ begin
   Int64Rec(Result).Lo:= GetCompressedFileSizeW(PWideChar(UTF8Decode(FileName)), @Int64Rec(Result).Hi);
 end;
 
+type
+  TOKEN_ELEVATION_TYPE = (
+                          TokenElevationTypeDefault:= 1, TokenElevationTypeFull,
+                          TokenElevationTypeLimited
+                         );
+
+  TOKEN_INFORMATION_CLASS = (
+                             TokenUser:= 1, TokenGroups, TokenPrivileges,
+                             TokenOwner, TokenPrimaryGroup, TokenDefaultDacl,
+                             TokenSource, TokenType, TokenImpersonationLevel,
+                             TokenStatistics, TokenRestrictedSids, TokenSessionId,
+                             TokenGroupsAndPrivileges, TokenSessionReference,
+                             TokenSandBoxInert, TokenAuditPolicy, TokenOrigin,
+                             TokenElevationType, TokenLinkedToken, TokenElevation,
+                             TokenHasRestrictions, TokenAccessInformation,
+                             TokenVirtualizationAllowed, TokenVirtualizationEnabled,
+                             TokenIntegrityLevel, TokenUIAccess, TokenMandatoryPolicy,
+                             TokenLogonSid, TokenIsAppContainer, TokenCapabilities,
+                             TokenAppContainerSid, TokenAppContainerNumber,
+                             TokenUserClaimAttributes, TokenDeviceClaimAttributes,
+                             TokenRestrictedUserClaimAttributes,
+                             TokenRestrictedDeviceClaimAttributes,
+                             TokenDeviceGroups, TokenRestrictedDeviceGroups,
+                             TokenSecurityAttributes, TokenIsRestricted,
+                             MaxTokenInfoClass
+                            );
+
+function GetTokenInformation(TokenHandle: HANDLE; TokenInformationClass: TOKEN_INFORMATION_CLASS;
+                             TokenInformation: Pointer; TokenInformationLength: DWORD;
+                             out ReturnLength: DWORD): BOOL; stdcall; external 'advapi32' name 'GetTokenInformation';
+
 function IsUserAdmin: LongBool;
 var
-  IdentifierAuthority: JwaWinNT.SID_IDENTIFIER_AUTHORITY = (Value: (0, 0, 0, 0, 0, 5)); // SECURITY_NT_AUTHORITY
-  AdministratorsGroup: JwaWinNT.PSID = nil;
+  ReturnLength: DWORD;
+  TokenHandle: HANDLE = INVALID_HANDLE_VALUE;
+  TokenInformation: array [0..1023] of Byte;
+  ElevationType: TOKEN_ELEVATION_TYPE absolute TokenInformation;
 begin
-  Result:= JwaWinBase.AllocateAndInitializeSid(
-                                               @IdentifierAuthority,
-                                               2,
-                                               SECURITY_BUILTIN_DOMAIN_RID,
-                                               DOMAIN_ALIAS_RID_ADMINS,
-                                               0, 0, 0, 0, 0, 0,
-                                               AdministratorsGroup
-                                              );
+  Result:= OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, TokenHandle);
+  if not Result then
+  begin
+    if GetLastError = ERROR_NO_TOKEN then
+      Result:= OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, TokenHandle);
+  end;
   if Result then
   begin
-    if not JwaWinBase.CheckTokenMembership(0, AdministratorsGroup, Result) then
+    Result:= GetTokenInformation(
+                                 TokenHandle, TokenElevationType,
+                                 @TokenInformation, SizeOf(TokenInformation),
+                                 ReturnLength
+                                );
+    CloseHandle(TokenHandle);
+    if Result then
     begin
-      Result:= False;
+      case ElevationType of
+        TokenElevationTypeDefault: Result:= False; // The token does not have a linked token. (UAC disabled)
+        TokenElevationTypeFull:    Result:= True;  // The token is an elevated token. (Administrator)
+        TokenElevationTypeLimited: Result:= False; // The token is a limited token. (User)
+      end;
     end;
-    JwaWinBase.FreeSid(AdministratorsGroup);
   end;
 end;
 
