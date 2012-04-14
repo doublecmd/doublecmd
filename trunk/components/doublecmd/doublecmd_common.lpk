@@ -30,8 +30,8 @@
     </CompilerOptions>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
-    <Version Minor="1"/>
-    <Files Count="4">
+    <Version Minor="2"/>
+    <Files Count="7">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
         <UnitName Value="DCClassesUtf8"/>
@@ -48,6 +48,18 @@
         <Filename Value="dcbasictypes.pas"/>
         <UnitName Value="DCBasicTypes"/>
       </Item4>
+      <Item5>
+        <Filename Value="dcfileattributes.pas"/>
+        <UnitName Value="DCFileAttributes"/>
+      </Item5>
+      <Item6>
+        <Filename Value="dcconvertencoding.pas"/>
+        <UnitName Value="DCConvertEncoding"/>
+      </Item6>
+      <Item7>
+        <Filename Value="dcdatetimeutils.pas"/>
+        <UnitName Value="DCDateTimeUtils"/>
+      </Item7>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>

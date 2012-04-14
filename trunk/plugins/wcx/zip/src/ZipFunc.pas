@@ -91,7 +91,7 @@ var
 implementation
 
 uses
-  SysUtils, ZipConfDlg, IniFiles, AbBrowse, osConvEncoding;
+  SysUtils, ZipConfDlg, IniFiles, AbBrowse, DCConvertEncoding;
 
 {$IFNDEF FPC} // for compiling under Delphi
 Const

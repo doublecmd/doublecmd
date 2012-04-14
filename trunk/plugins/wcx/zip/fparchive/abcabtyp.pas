@@ -185,7 +185,7 @@ function VerifyCab(Strm : TStream) : TAbArchiveType; overload;
 implementation
 
 uses
-  AbConst, AbExcept, uClassesEx;
+  AbConst, AbExcept, DCOSUtils;
 
 {$WARN UNIT_PLATFORM OFF}
 {$WARN SYMBOL_PLATFORM OFF}

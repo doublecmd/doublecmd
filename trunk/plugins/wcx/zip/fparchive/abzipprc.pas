@@ -62,7 +62,7 @@ uses
   AbSpanSt,
   AbVMStrm,                                                              {!!.01}
   SysUtils,
-  uClassesEx;
+  DCClassesUtf8;
 
 
 { ========================================================================== }

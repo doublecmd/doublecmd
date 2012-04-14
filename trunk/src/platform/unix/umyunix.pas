@@ -163,7 +163,6 @@ function fpCloseDir(__dirp: pDir): cInt; inline;
 {$ENDIF}
 function fpSystemStatus(Command: string): cint;
 
-function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 {en
@@ -281,19 +280,6 @@ begin
 end;
 
 {$ENDIF LINUX}
-
-function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
-begin
-  Result:= faArchive;
-  if fpS_ISDIR(srInfo.st_mode) then
-    Result:= Result or faDirectory;
-  if (pFileName[0]='.') and (not (pFileName[1] in [#0,'.']))  then
-    Result:= Result or faHidden;
-  if (srInfo.st_Mode and S_IWUSR) = 0 Then
-     Result:= Result or faReadOnly;
-  if fpS_ISSOCK(srInfo.st_mode) or fpS_ISBLK(srInfo.st_mode) or fpS_ISCHR(srInfo.st_mode) or fpS_ISFIFO(srInfo.st_mode) Then
-     Result:= Result or faSysFile;
-end;
 
 function GetDesktopEnvironment: Cardinal;
 var

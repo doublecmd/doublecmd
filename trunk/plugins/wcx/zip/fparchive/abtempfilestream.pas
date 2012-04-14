@@ -27,7 +27,7 @@ unit AbTempFileStream;
 
 interface
 
-uses SysUtils,Classes,uClassesEx;
+uses SysUtils,Classes,DCClassesUtf8;
 
 type
   TAbTempFileStream = class (TFileStreamEx)
@@ -41,7 +41,10 @@ type
   end;
 
 implementation
-uses AbUtils;
+
+uses
+  AbUtils,
+  DCOSUtils;
 
 { TAbTempFileStream }
 

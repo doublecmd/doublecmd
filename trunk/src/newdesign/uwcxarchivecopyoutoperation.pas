@@ -92,7 +92,7 @@ implementation
 uses
   LCLProc, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils, uShowMsg,
   uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uWCXmodule,
-  uFileProcs, uLng, uDateTimeUtils, DCBasicTypes;
+  uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -652,4 +652,4 @@ begin
 end;
 
 end.
-
+

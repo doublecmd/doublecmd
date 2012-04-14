@@ -108,7 +108,7 @@ uses
   AbConst,
   AbExcept,                                                            
   AbUtils,
-  uClassesEx;
+  DCOSUtils;
 
 const
   LastLRUValue = $7FFFFFFF;

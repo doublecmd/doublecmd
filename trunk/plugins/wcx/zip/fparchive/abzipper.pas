@@ -179,7 +179,7 @@ uses
   AbTarTyp,
   AbGzTyp,
   AbBzip2Typ,
-  uClassesEx;
+  DCOSUtils;
 
 { -------------------------------------------------------------------------- }
 constructor TAbCustomZipper.Create( AOwner : TComponent );

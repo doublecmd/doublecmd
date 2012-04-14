@@ -136,7 +136,7 @@ implementation
 
 uses
   {$IF DEFINED(MSWINDOWS)}
-  Windows, uFileAttributes,
+  Windows, DCFileAttributes,
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, FileUtil, uUsersGroups,
   {$ENDIF}
@@ -794,4 +794,4 @@ begin
 end;
 
 end.
-
+

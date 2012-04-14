@@ -169,7 +169,7 @@ implementation
 
 uses
   SysUtils, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils, DCOSUtils,
-  uDateTimeUtils, uDebug;
+  DCDateTimeUtils, uDebug;
 
 const
   WcxIniFileName = 'wcx.ini';

@@ -400,12 +400,12 @@ function UTF8ToString(const S: RawByteString): string;
 implementation
 
 uses
-  AbConst, uClassesEx
+  AbConst, DCOSUtils
 {$IFDEF MSWINDOWS}
   , AbExcept
 {$ENDIF}
 {$IFDEF UNIX}
-  , osConvEncoding
+  , DCConvertEncoding, DCClassesUtf8
 {$ENDIF}
   ;
 

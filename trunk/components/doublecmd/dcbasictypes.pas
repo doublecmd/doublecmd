@@ -48,6 +48,8 @@ type
   {$ENDIF}
 {$ENDIF}
 
+  TUnixFileTime = TFileTime;
+
   PFileTime = ^TFileTime;
   PWinFileTime = ^TWinFileTime;
 

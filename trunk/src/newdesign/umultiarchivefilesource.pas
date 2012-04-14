@@ -119,7 +119,7 @@ type
 implementation
 
 uses
-  uDebug, uGlobs, uFileAttributes, DCOSUtils, DCStrUtils,
+  uDebug, uGlobs, DCFileAttributes, DCOSUtils, DCStrUtils,
   FileUtil, uMasks,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
@@ -581,4 +581,4 @@ begin
 end;
 
 end.
-
+

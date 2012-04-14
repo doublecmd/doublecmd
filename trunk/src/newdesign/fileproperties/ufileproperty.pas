@@ -385,7 +385,7 @@ type
 implementation
 
 uses
-  DCOSUtils, uFileAttributes, uDefaultFilePropertyFormatter;
+  DCOSUtils, DCFileAttributes, uDefaultFilePropertyFormatter;
 
 resourcestring
   rsSizeDescription = 'Size';

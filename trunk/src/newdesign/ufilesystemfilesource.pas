@@ -120,7 +120,7 @@ type
 implementation
 
 uses
-  uOSUtils, DCOSUtils, uDateTimeUtils, uGlobs,
+  uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs,
 {$IFDEF MSWINDOWS}
   uMyWindows, Windows,
 {$ENDIF}
@@ -877,4 +877,4 @@ begin
 end;
 
 end.
-
+

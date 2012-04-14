@@ -118,7 +118,7 @@ type
 implementation
 
 uses
-  uClassesEx;
+  DCOSUtils, DCClassesUtf8;
 
 {!!.01 -- added}
 function TAbSpanStream.FixSpanNumber(ImageNumber: Integer): Integer;

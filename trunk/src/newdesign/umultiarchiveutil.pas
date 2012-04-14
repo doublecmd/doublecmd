@@ -82,7 +82,7 @@ implementation
 
 uses
   LCLProc, FileUtil, StrUtils, DCClassesUtf8, uDCUtils, DCOSUtils, uOSUtils,
-  uDateTimeUtils, uDebug, uFileAttributes;
+  DCDateTimeUtils, uDebug, DCFileAttributes;
 
 function GetUnixFileName(const Str: String): UTF8String;
 var
@@ -648,4 +648,4 @@ begin
 end;
 
 end.
-
+

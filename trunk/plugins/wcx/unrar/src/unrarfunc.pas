@@ -197,7 +197,8 @@ procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 implementation
 
 uses
-  DynLibs, osFileUtil, osConvEncoding;
+  DynLibs,
+  DCBasicTypes, DCDateTimeUtils, DCConvertEncoding, DCFileAttributes;
 
 type
   // From libunrar (dll.hpp)
@@ -304,7 +305,7 @@ begin
 {$ENDIF}
 end;
 
-function GetSystemSpecificFileTime(HostOS: RarHostSystem; FileTime: LongWord) : LongWord;
+function GetSystemSpecificFileTime(HostOS: RarHostSystem; FileTime: LongInt) : LongInt;
 var
   DateTime: TDateTime;
 begin
@@ -313,21 +314,21 @@ begin
 {$IFDEF MSWINDOWS}
   if (HostOS = HOST_UNIX) then
   begin
-    DateTime := OsUnixFileTimeToDateTime(Result);
-    Result   := OsDateTimeToDosFileTime(DateTime);
+    DateTime := UnixFileTimeToDateTime(Result);
+    Result   := LongInt(DateTimeToDosFileTime(DateTime));
   end;
 {$ENDIF}
 
 {$IFDEF UNIX}
   if HostOS in [HOST_MSDOS, HOST_WIN32] then
   begin
-    DateTime := OsDosFileTimeToDateTime(Result);
-    Result   := OsDateTimeToUnixFileTime(DateTime);
+    DateTime := DosFileTimeToDateTime(TDosFileTime(Result));
+    Result   := LongInt(DateTimeToUnixFileTime(DateTime));
   end;
 {$ENDIF}
 end;
 
-function GetSystemSpecificAttributes(HostOS: RarHostSystem; Attrs: LongWord): LongWord;
+function GetSystemSpecificAttributes(HostOS: RarHostSystem; Attrs: LongInt): LongInt;
 begin
   Result := Attrs;
 
@@ -336,12 +337,12 @@ begin
      // Ugly hack: $1FFFF is max value of attributes on Windows
      (Result > $1FFFF) then
   begin
-    Result := OsUnix2DosFileAttributes(Attrs);
+    Result := LongInt(UnixToWinFileAttr(TFileAttrs(Attrs)));
   end;
 {$ENDIF}
 {$IFDEF UNIX}
   if HostOS in [HOST_MSDOS, HOST_WIN32] then
-    Result := OsDOS2UnixFileAttributes(Result);
+    Result := LongInt(WinToUnixFileAttr(TFileAttrs(Result)));
 {$ENDIF}
 end;
 
