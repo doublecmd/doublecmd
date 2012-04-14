@@ -486,12 +486,11 @@ end;
 
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 var
-  ft: Windows.TFileTime;
+  WinFileTime: TWinFileTime;
 begin
-  ft.dwLowDateTime  := $D53E8000; // Unix epoch start
-  ft.dwHighDateTime := $019DB1DE;
-  if not AdjustWinFileTime(TWinFileTime(ft), Result, 10000000 * Int64(UnixTime)) then
-    Result := TWinFileTime(ft);
+  WinFileTime := $019DB1DED53E8000; // Unix epoch start
+  if not AdjustWinFileTime(WinFileTime, Result, 10000000 * Int64(UnixTime)) then
+    Result := WinFileTime;
 end;
 
 function GetTimeZoneBias: LongInt;
@@ -575,4 +574,4 @@ initialization
 {$ENDIF}
 
 end.
-
+

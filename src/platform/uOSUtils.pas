@@ -29,7 +29,7 @@ interface
 uses
     SysUtils, Classes, LCLType, uDrive, DCBasicTypes
     {$IF DEFINED(UNIX)}
-    , uFileAttributes
+    , DCFileAttributes
       {$IFDEF DARWIN}
       , MacOSAll
       {$ENDIF}

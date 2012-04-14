@@ -275,7 +275,7 @@ implementation
 
 {$IFDEF UNIX}
 uses
-  uFileAttributes;
+  DCFileAttributes;
 {$ENDIF}
 
 constructor TFile.Create(const APath: String);
