@@ -129,6 +129,11 @@ const  { Short names of months. }
                                       'Jul','Aug','Sep','Oct','Nov','Dec');
   SecsPerHour = SecsPerMin * MinsPerHour;
 
+{$IF DEFINED(MSWINDOWS)}
+var
+  WinTimeZoneBias: LongInt;
+{$ENDIF}
+
 function AdjustUnixFileTime(const FileTime: DCBasicTypes.TFileTime;
                             out AdjustedFileTime: DCBasicTypes.TFileTime;
                             AdjustValue: Int64): Boolean;
@@ -490,22 +495,9 @@ begin
 end;
 
 function GetTimeZoneBias: LongInt;
-{$IF DEFINED(MSWINDOWS)}
-var
-  TZInfo: TTimeZoneInformation;
-{$ENDIF}
 begin
   {$IF DEFINED(MSWINDOWS)}
-  case GetTimeZoneInformation(@TZInfo) of
-    TIME_ZONE_ID_UNKNOWN:
-      Result := TZInfo.Bias;
-    TIME_ZONE_ID_STANDARD:
-      Result := TZInfo.Bias + TZInfo.StandardBias;
-    TIME_ZONE_ID_DAYLIGHT:
-      Result := TZInfo.Bias + TZInfo.DaylightBias;
-    else
-      Result := 0;
-  end;
+  Result := WinTimeZoneBias;
   {$ELSEIF DEFINED(UNIX)}
   Result := -Tzseconds div 60;
   {$ELSE}
@@ -560,6 +552,27 @@ begin
   inherited Create(EmptyStr);
   FDateTime := ADateTime;
 end;
+
+{$IF DEFINED(MSWINDOWS)}
+procedure InitTimeZoneBias;
+var
+  TZInfo: TTimeZoneInformation;
+begin
+  case GetTimeZoneInformation(@TZInfo) of
+    TIME_ZONE_ID_UNKNOWN:
+      WinTimeZoneBias := TZInfo.Bias;
+    TIME_ZONE_ID_STANDARD:
+      WinTimeZoneBias := TZInfo.Bias + TZInfo.StandardBias;
+    TIME_ZONE_ID_DAYLIGHT:
+      WinTimeZoneBias := TZInfo.Bias + TZInfo.DaylightBias;
+    else
+      WinTimeZoneBias := 0;
+  end;
+end;
+
+initialization
+  InitTimeZoneBias;
+{$ENDIF}
 
 end.
 
