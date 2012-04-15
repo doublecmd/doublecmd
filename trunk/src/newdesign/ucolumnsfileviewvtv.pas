@@ -159,6 +159,7 @@ type
     tmClearGrid: TTimer;
 
     function GetColumnsClass: TPanelColumnsClass;
+    function GetVisibleFilesIndexes: TRange;
 
     {en
        Sets last active file by row nr in the grid.
@@ -1424,6 +1425,15 @@ begin
   end;
 end;
 
+function TColumnsFileViewVTV.GetVisibleFilesIndexes: TRange;
+begin
+  Result := dgPanel.GetVisibleIndexes;
+  if Result.First < 0 then
+    Result.First := 0;
+  if Result.Last >= FFiles.Count then
+    Result.Last := FFiles.Count - 1;
+end;
+
 procedure TColumnsFileViewVTV.SetRowCount(Count: Integer);
 begin
   FUpdatingGrid := True;
@@ -2669,7 +2679,7 @@ begin
      (dgPanel.VisibleCount = 0) then
     Exit;
 
-  VisibleFiles := dgPanel.GetVisibleIndexes;
+  VisibleFiles := GetVisibleFilesIndexes;
 
   if not gListFilesInThread then
   begin
