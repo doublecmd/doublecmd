@@ -74,6 +74,7 @@ var
   dst: TFileStreamEx = nil;
   iDstBeg:Integer; // in the append mode we store original size
   Buffer: PChar = nil;
+  CopyPropertiesOptions: TCopyAttributesOptions;
 begin
   Result:=False;
   if not mbFileExists(sSrc) then Exit;
@@ -109,7 +110,11 @@ begin
         src.ReadBuffer(Buffer^, src.Size+iDstBeg-dst.size);
         dst.WriteBuffer(Buffer^, src.Size+iDstBeg-dst.size);
       end;
-      Result := mbFileCopyAttr(sSrc, sDst, gDropReadOnlyFlag); // chmod, chgrp
+
+      CopyPropertiesOptions := CopyAttributesOptionCopyAll;
+      if gDropReadOnlyFlag then
+        Include(CopyPropertiesOptions, caoRemoveReadOnlyAttr);
+      Result := mbFileCopyAttr(sSrc, sDst, CopyPropertiesOptions) = []; // chmod, chgrp
 
     except
       on EStreamError do

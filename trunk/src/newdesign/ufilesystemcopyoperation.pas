@@ -12,7 +12,8 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFile,
-  uFileSystemUtil;
+  uFileSystemUtil,
+  DCOSUtils;
 
 type
 
@@ -26,8 +27,8 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
     // Options.
-    FDropReadOnlyAttribute: Boolean;
     FCheckFreeSpace: Boolean;
+    FCopyAttributesOptions: TCopyAttributesOptions;
     FSkipAllBigFiles: Boolean;
     FAutoRenameItSelf: Boolean;
     FSymLinkOption: TFileSourceOperationOptionSymLink;
@@ -49,8 +50,8 @@ type
 
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
-    property DropReadOnlyAttribute: Boolean read FDropReadOnlyAttribute write FDropReadOnlyAttribute;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
     property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
@@ -96,7 +97,15 @@ constructor TFileSystemCopyOperation.Create(aSourceFileSource: IFileSource;
                                             aTargetPath: String);
 begin
   // Here we can read global settings if there are any.
-  FDropReadOnlyAttribute := False;
+  FCopyAttributesOptions := [];
+  if gOperationOptionCopyAttributes then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyAttributes];
+  if gOperationOptionCopyTime then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
+  if gOperationOptionCopyOwnership then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
+  if gDropReadOnlyFlag then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoRemoveReadOnlyAttr];
   FSymLinkOption := gOperationOptionSymLinks;
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
@@ -151,8 +160,8 @@ begin
 
   FOperationHelper.RenameMask := RenameMask;
 //  FOperation.OnlyFilesMask := OnlyFilesMask;
-  FOperationHelper.DropReadOnlyAttribute := DropReadOnlyAttribute;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
+  FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;
   FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;
   FOperationHelper.AutoRenameItSelf := AutoRenameItSelf;
   FOperationHelper.CorrectSymLinks := CorrectSymLinks;

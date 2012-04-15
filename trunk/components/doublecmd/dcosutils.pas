@@ -39,8 +39,15 @@ type
     MappedFile : Pointer;
   end;
 
+  TCopyAttributesOption = (caoCopyAttributes,
+                           caoCopyTime,
+                           caoCopyOwnership,
+                           caoRemoveReadOnlyAttr);
+  TCopyAttributesOptions = set of TCopyAttributesOption;
+
 const
   faInvalidAttributes: TFileAttrs = TFileAttrs(-1);
+  CopyAttributesOptionCopyAll = [caoCopyAttributes, caoCopyTime, caoCopyOwnership];
 
 // From Lazarus LCL.
 // Once switched to Lazarus 1.0 we can use package LazUtils instead and remove those.
@@ -134,7 +141,13 @@ function mbFileExists(const FileName: UTF8String): Boolean;
 function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
 function mbFileGetAttr(const FileName: UTF8String): TFileAttrs;
 function mbFileSetAttr (const FileName: UTF8String; Attr: TFileAttrs) : LongInt;
-function mbFileCopyAttr(const sSrc, sDst: UTF8String; bDropReadOnlyFlag : Boolean): Boolean;
+{en
+   If any operation in Options is performed and does not succeed it is included
+   in the result set. If all performed operations succeed the function returns empty set.
+   For example for Options=[caoCopyTime, caoCopyOwnership] setting ownership
+   doesn't succeed then the function returns [caoCopyOwnership].
+}
+function mbFileCopyAttr(const sSrc, sDst: UTF8String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
 // Returns True on success.
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
@@ -369,26 +382,34 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCopyAttr(const sSrc, sDst: UTF8String; bDropReadOnlyFlag : Boolean): Boolean;
+function mbFileCopyAttr(const sSrc, sDst: UTF8String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
 {$IFDEF MSWINDOWS}
 var
   Attr : TFileAttrs;
   ModificationTime, CreationTime, LastAccessTime: DCBasicTypes.TFileTime;
 begin
-  Attr := mbFileGetAttr(sSrc);
-  if Attr <> faInvalidAttributes then
-  begin
-    if bDropReadOnlyFlag and ((Attr and faReadOnly) <> 0) then
-      Attr := (Attr and not faReadOnly);
-    Result := (mbFileSetAttr(sDst, Attr) = 0);
-  end
-  else
-    Result := False;
+  Result := [];
 
-  if mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) then
-    Result := mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime) and Result
-  else
-    Result := False;
+  if caoCopyAttributes in Options then
+  begin
+    Attr := mbFileGetAttr(sSrc);
+    if Attr <> faInvalidAttributes then
+    begin
+      if (caoRemoveReadOnlyAttr in Options) and ((Attr and faReadOnly) <> 0) then
+        Attr := (Attr and not faReadOnly);
+      if mbFileSetAttr(sDst, Attr) <> 0 then
+        Include(Result, caoCopyAttributes);
+    end
+    else
+      Include(Result, caoCopyAttributes);
+  end;
+
+  if caoCopyTime in Options then
+  begin
+    if not (mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) and
+            mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime)) then
+      Include(Result, caoCopyTime);
+  end;
 end;
 {$ELSE}  // *nix
 var
@@ -396,39 +417,52 @@ var
   utb : BaseUnix.TUTimBuf;
   mode : TMode;
 begin
-  Result := fpLStat(PChar(UTF8ToSys(sSrc)), StatInfo) >= 0;
-  if Result then
+  if fpLStat(PChar(UTF8ToSys(sSrc)), StatInfo) >= 0 then
   begin
+    Result := [];
     if FPS_ISLNK(StatInfo.st_mode) then
     begin
-      // Only group/owner can be set for links.
-      if fpLChown(PChar(UTF8ToSys(sDst)), StatInfo.st_uid, StatInfo.st_gid)=-1 then
+      if caoCopyOwnership in Options then
       begin
-        Result := False;
+        // Only group/owner can be set for links.
+        if fpLChown(PChar(UTF8ToSys(sDst)), StatInfo.st_uid, StatInfo.st_gid) = -1 then
+        begin
+          Include(Result, caoCopyOwnership);
+        end;
       end;
     end
     else
     begin
-    // file time
-      utb.actime  := StatInfo.st_atime;  // last access time
-      utb.modtime := StatInfo.st_mtime;  // last modification time
-      Result := (fputime(PChar(UTF8ToSys(sDst)), @utb) = 0) and Result;
-
-    // owner & group
-      if fpChown(PChar(UTF8ToSys(sDst)), StatInfo.st_uid, StatInfo.st_gid)=-1 then
+      if caoCopyTime in Options then
       begin
-        Result := False;
+        utb.actime  := StatInfo.st_atime;  // last access time
+        utb.modtime := StatInfo.st_mtime;  // last modification time
+        if fputime(PChar(UTF8ToSys(sDst)), @utb) <> 0 then
+          Include(Result, caoCopyTime);
       end;
-    // mode
-      mode := StatInfo.st_mode;
-      if bDropReadOnlyFlag then
-        mode := SetModeReadOnly(mode, False);
-      if fpChmod(PChar(UTF8ToSys(sDst)), mode) = -1 then
+
+      if caoCopyOwnership in Options then
       begin
-        Result := False;
+        if fpChown(PChar(UTF8ToSys(sDst)), StatInfo.st_uid, StatInfo.st_gid) = -1 then
+        begin
+          Include(Result, caoCopyOwnership);
+        end;
+      end;
+
+      if caoCopyAttributes in Options then
+      begin
+        mode := StatInfo.st_mode;
+        if caoDropReadOnlyAttr in Options then
+          mode := SetModeReadOnly(mode, False);
+        if fpChmod(PChar(UTF8ToSys(sDst)), mode) = -1 then
+        begin
+          Include(Result, caoCopyAttributes);
+        end;
       end;
     end;
-  end;
+  end
+  else
+    Result := Options;
 end;
 {$ENDIF}
 

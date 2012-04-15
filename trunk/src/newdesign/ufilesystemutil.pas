@@ -5,7 +5,7 @@ unit uFileSystemUtil;
 interface
 
 uses
-  Classes, SysUtils, uDescr, uLog, uGlobs,
+  Classes, SysUtils, uDescr, uLog, uGlobs, DCOSUtils,
   uFile,
   uFileSourceOperation,
   uFileSourceOperationOptions,
@@ -89,6 +89,8 @@ type
     property ItemsCount: Int64 read GetItemsCount;
   end;
 
+  { TFileSystemOperationHelper }
+
   TFileSystemOperationHelper = class
   private
     FOperationThread: TThread;
@@ -108,9 +110,10 @@ type
     FSkipAllBigFiles: Boolean;
     FSkipReadError: Boolean;
     FSkipWriteError: Boolean;
+    FSkipSetPropertiesError: Boolean;
     FAutoRenameItSelf: Boolean;
-    FDropReadOnlyAttribute: Boolean;
     FCorrectSymLinks: Boolean;
+    FCopyAttributesOptions: TCopyAttributesOptions;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
@@ -125,6 +128,7 @@ type
 
     function CopyFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
     function MoveFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
+    procedure CopyProperties(SourceFileName, TargetFileName: String);
 
     function ProcessNode(aFileTreeNode: TFileTreeNode; CurrentTargetPath: String): Boolean;
     function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
@@ -163,7 +167,7 @@ type
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
-    property DropReadOnlyAttribute: Boolean read FDropReadOnlyAttribute write FDropReadOnlyAttribute;
+    property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property RenameMask: String read FRenameMask write FRenameMask;
   end;
@@ -171,7 +175,7 @@ type
 implementation
 
 uses
-  uDebug, uOSUtils, DCOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
+  uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, DCDateTimeUtils;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
@@ -541,7 +545,7 @@ begin
   FSkipAllBigFiles := False;
   FSkipReadError := False;
   FSkipWriteError := False;
-  FDropReadOnlyAttribute := False;
+  FCopyAttributesOptions := CopyAttributesOptionCopyAll;
   FFileExistsOption := fsoofeNone;
   FDirExistsOption := fsoodeNone;
   FRootTargetPath := TargetPath;
@@ -845,10 +849,7 @@ begin
       end;
     end;
 
-    // Copy file attributes
-    // TODO: May be is better to show error dialog when can not copy
-    // attributes, with buttons like: Ignore, Ignore All, Cancel
-    mbFileCopyAttr(SourceFile.FullPath, TargetFileName, FDropReadOnlyAttribute);
+    CopyProperties(SourceFile.FullPath, TargetFileName);
 
   except
     on EFCreateError do
@@ -863,6 +864,35 @@ begin
       begin
         ShowError(rsMsgLogError + rsMsgErrEWrite + ': ' + TargetFileName);
       end;
+  end;
+end;
+
+procedure TFileSystemOperationHelper.CopyProperties(SourceFileName, TargetFileName: String);
+var
+  CopyAttrResult: TCopyAttributesOptions;
+  Msg: String = '';
+begin
+  CopyAttrResult := mbFileCopyAttr(SourceFileName, TargetFileName, FCopyAttributesOptions);
+  if (CopyAttrResult <> []) and not FSkipSetPropertiesError then
+  begin
+    if caoCopyAttributes in CopyAttrResult then
+      AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFileName]), LineEnding);
+    if caoCopyTime in CopyAttrResult then
+      AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFileName]), LineEnding);
+    if caoCopyOwnership in CopyAttrResult then
+      AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFileName]), LineEnding);
+
+    case AskQuestion(Msg, '',
+                     [fsourSkip, fsourSkipAll, fsourAbort],
+                     fsourSkip, fsourSkip) of
+      fsourAbort:
+        AbortOperation;
+      //fsourSkip: do nothing
+      fsourSkipAll:
+        begin
+          FSkipSetPropertiesError := True;
+        end;
+    end; // case
   end;
 end;
 
@@ -984,7 +1014,7 @@ begin
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
             // Copy attributes after copy/move directory contents, because this operation can change date/time
-            mbFileCopyAttr(aNode.TheFile.FullPath, AbsoluteTargetFileName, False);
+            CopyProperties(aNode.TheFile.FullPath, AbsoluteTargetFileName);
           end
           else
           begin
@@ -1060,7 +1090,7 @@ begin
 
             if CreateSymlink(LinkTarget, AbsoluteTargetFileName) then
             begin
-              mbFileCopyAttr(aFile.FullPath, AbsoluteTargetFileName, False);
+              CopyProperties(aFile.FullPath, AbsoluteTargetFileName);
             end
             else
             begin
