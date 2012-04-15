@@ -19,6 +19,9 @@ type
     cbCorrectLinks: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbFollowLinks: TCheckBox;
+    cbCopyAttributes: TCheckBox;
+    cbCopyTime: TCheckBox;
+    cbCopyOwnership: TCheckBox;
     cmbDirectoryExists: TComboBox;
     cmbFileExists: TComboBox;
     cmbFileType: TComboBox;
@@ -26,8 +29,10 @@ type
     lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
     lblFileType: TLabel;
+    pnlCopyAttributesTime: TPanel;
     pnlComboBoxes: TPanel;
     pnlCheckboxes: TPanel;
+    procedure cbCopyAttributesChange(Sender: TObject);
   private
     procedure SetOperationOptions(CopyOperation: TFileSystemCopyOperation); overload;
     procedure SetOperationOptions(MoveOperation: TFileSystemMoveOperation); overload;
@@ -50,9 +55,14 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uFileSourceOperationOptions;
+  uGlobs, uFileSourceOperationOptions, DCOSUtils;
 
 { TFileSystemCopyMoveOperationOptionsUI }
+
+procedure TFileSystemCopyMoveOperationOptionsUI.cbCopyAttributesChange(Sender: TObject);
+begin
+  cbDropReadOnlyFlag.Enabled := cbCopyAttributes.Checked;
+end;
 
 constructor TFileSystemCopyMoveOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
@@ -81,6 +91,9 @@ begin
       fsoodeSkip     : cmbDirectoryExists.ItemIndex := 2;
     end;
 
+  cbCopyAttributes.Checked   := gOperationOptionCopyAttributes;
+  cbCopyTime.Checked         := gOperationOptionCopyTime;
+  cbCopyOwnership.Checked    := gOperationOptionCopyOwnership;
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
 
   case gOperationOptionSymLinks of
@@ -113,7 +126,12 @@ begin
       1: gOperationOptionDirectoryExists := fsoodeCopyInto;
       2: gOperationOptionDirectoryExists := fsoodeSkip;
     end;
-  gDropReadOnlyFlag := (cbDropReadOnlyFlag.State = cbChecked);
+
+  gOperationOptionCopyAttributes := cbCopyAttributes.Checked;
+  gOperationOptionCopyTime       := cbCopyTime.Checked;
+  gOperationOptionCopyOwnership  := cbCopyOwnership.Checked;
+  gDropReadOnlyFlag              := cbDropReadOnlyFlag.Checked;
+
   case cbFollowLinks.State of
     cbChecked   : gOperationOptionSymLinks := fsooslFollow;
     cbUnchecked : gOperationOptionSymLinks := fsooslDontFollow;
@@ -132,6 +150,15 @@ begin
 end;
 
 procedure TFileSystemCopyMoveOperationOptionsUI.SetOperationOptions(CopyOperation: TFileSystemCopyOperation);
+  procedure SetCopyOption(var Options: TCopyAttributesOptions; Option: TCopyAttributesOption; IsSet: Boolean);
+  begin
+    if IsSet then
+      Options := Options + [Option]
+    else
+      Options := Options - [Option];
+  end;
+var
+  Options: TCopyAttributesOptions;
 begin
   with CopyOperation do
   begin
@@ -158,7 +185,12 @@ begin
       cbUnchecked: SymLinkOption := fsooslDontFollow;
       cbGrayed   : SymLinkOption := fsooslNone;
     end;
-    DropReadOnlyAttribute := (cbDropReadOnlyFlag.State = cbChecked);
+    Options := CopyAttributesOptions;
+    SetCopyOption(Options, caoCopyAttributes, cbCopyAttributes.Checked);
+    SetCopyOption(Options, caoCopyTime, cbCopyTime.Checked);
+    SetCopyOption(Options, caoCopyOwnership, cbCopyOwnership.Checked);
+    SetCopyOption(Options, caoRemoveReadOnlyAttr, cbDropReadOnlyFlag.Checked);
+    CopyAttributesOptions := Options;
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
   end;
@@ -196,7 +228,10 @@ end;
 constructor TFileSystemCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
-  cbDropReadOnlyFlag.Visible := True;
+  pnlCopyAttributesTime.Visible := True;
+  {$IFDEF MSWINDOWS}
+  cbCopyOwnership.Visible := False;
+  {$ENDIF}
   cbFollowLinks.Visible := True;
 end;
 

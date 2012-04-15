@@ -303,6 +303,9 @@ var
   gOperationOptionFileExists: TFileSourceOperationOptionFileExists;
   gOperationOptionDirectoryExists: TFileSourceOperationOptionDirectoryExists;
   gOperationOptionCheckFreeSpace: Boolean;
+  gOperationOptionCopyAttributes: Boolean;
+  gOperationOptionCopyTime: Boolean;
+  gOperationOptionCopyOwnership: Boolean;
 
   {Error file}
   gErrorFile: String;
@@ -820,6 +823,10 @@ begin
   gOperationOptionFileExists := fsoofeNone;
   gOperationOptionDirectoryExists := fsoodeNone;
   gOperationOptionCheckFreeSpace := True;
+  gOperationOptionCopyAttributes := True;
+  gOperationOptionCopyTime := True;
+  gOperationOptionCopyOwnership := True;
+
 
   { Tabs page }
   gDirTabOptions := [tb_always_visible,
@@ -1731,6 +1738,9 @@ begin
         gOperationOptionFileExists := TFileSourceOperationOptionFileExists(GetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists)));
         gOperationOptionDirectoryExists := TFileSourceOperationOptionDirectoryExists(GetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists)));
         gOperationOptionCheckFreeSpace := GetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
+        gOperationOptionCopyAttributes := GetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
+        gOperationOptionCopyTime := GetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);
+        gOperationOptionCopyOwnership := GetValue(SubNode, 'CopyOwnership', gOperationOptionCopyOwnership);
       end;
     end;
 
@@ -2046,6 +2056,9 @@ begin
     SetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists));
     SetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
     SetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
+    SetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
+    SetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);
+    SetValue(SubNode, 'CopyOwnership', gOperationOptionCopyOwnership);
 
     { Tabs page }
     Node := FindNode(Root, 'Tabs', True);
@@ -2190,4 +2203,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

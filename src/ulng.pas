@@ -108,6 +108,7 @@ resourcestring
   rsMsgNoFiles = 'No files';
   rsMsgErrSetAttribute = 'Can not set attributes for "%s"';
   rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
+  rsMsgErrSetOwnership = 'Can not set owner/group for "%s"';
   rsMsgErrDateNotSupported = 'Date %s is not supported';
   rsMsgErrSaveFile = 'Cannot save file';
   rsMsgErrCanNotConnect = 'Can not connect to server: "%s"';
