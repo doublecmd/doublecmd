@@ -903,7 +903,11 @@ begin
      (not mbRenameFile(SourceFile.FullPath, TargetFileName)) then
   begin
     if CopyFile(SourceFile, TargetFileName, Mode) then
+    begin
+      if FileIsReadOnly(SourceFile.Attributes) then
+        mbFileSetReadOnly(SourceFile.FullPath, False);
       Result := mbDeleteFile(SourceFile.FullPath)
+    end
     else
       Result := False;
   end
