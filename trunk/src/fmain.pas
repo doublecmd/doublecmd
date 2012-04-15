@@ -1027,30 +1027,30 @@ begin
   else
     if Sender is TKASToolButton and not Draging then
       begin
-        SelectedFiles := ActiveFrame.CloneSelectedFiles;
-        try
-          if SelectedFiles.Count > 0 then
-            begin
-              Param:= EmptyStr;
-              for I := 0 to SelectedFiles.Count - 1 do
+        ToolItem := TKASToolButton(Sender).ToolItem;
+        if ToolItem is TKASProgramItem then
+        begin
+          SelectedFiles := ActiveFrame.CloneSelectedFiles;
+          try
+            if SelectedFiles.Count > 0 then
               begin
-                // Workaround for not fully implemented TMultiListFileSource.
-                if ActiveFrame.FileSource.IsClass(TMultiListFileSource) then
-                  Param := Param + QuoteStr(SelectedFiles[I].FullPath) + ' '
-                else
-                  Param := Param + QuoteStr(ActiveFrame.CurrentAddress + SelectedFiles[I].FullPath) + ' ';
-              end;
+                Param:= EmptyStr;
+                for I := 0 to SelectedFiles.Count - 1 do
+                begin
+                  // Workaround for not fully implemented TMultiListFileSource.
+                  if ActiveFrame.FileSource.IsClass(TMultiListFileSource) then
+                    Param := Param + QuoteStr(SelectedFiles[I].FullPath) + ' '
+                  else
+                    Param := Param + QuoteStr(ActiveFrame.CurrentAddress + SelectedFiles[I].FullPath) + ' ';
+                end;
 
-              ToolItem := TKASToolButton(Sender).ToolItem;
-              if ToolItem is TKASProgramItem then
-              begin
                 ExecCmd(TKASProgramItem(ToolItem).Command,
                         Param,
                         TKASProgramItem(ToolItem).StartPath);
               end;
-            end;
-        finally
-          FreeAndNil(SelectedFiles);
+          finally
+            FreeAndNil(SelectedFiles);
+          end;
         end;
       end;
 end;
@@ -1109,11 +1109,17 @@ begin
     end
   else
     begin
-      aFile := ActiveFrame.CloneActiveFile;
-      try
-        Accept := Assigned(aFile) and aFile.IsNameValid and not Draging;
-      finally
-        FreeAndNil(aFile);
+      Accept := not Draging and
+                (Sender is TKASToolButton) and
+                (TKASToolButton(Sender).ToolItem is TKASProgramItem);
+      if Accept then
+      begin
+        aFile := ActiveFrame.CloneActiveFile;
+        try
+          Accept := Assigned(aFile) and aFile.IsNameValid;
+        finally
+          FreeAndNil(aFile);
+        end;
       end;
     end;
 end;
