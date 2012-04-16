@@ -260,22 +260,29 @@ begin
 end;
 
 function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
+var
+  AForm: TfrmFindDlg;
 begin
-  with TfrmFindDlg.Instance do
-  begin
-    // Prepare window for define search template
-    Caption := rsFindDefineTemplate;
-    edtFindPathStart.Enabled:= False;
-    edtFindPathStart.Text:= EmptyStr;
-    btnSaveTemplate.Visible:= True;
-    btnStart.Visible:= False;
-    btnSaveTemplate.Default:= True;
-    BorderIcons:= [biSystemMenu, biMaximize];
-    Result:= (ShowModal = mrOK);
-    if Result and (lbSearchTemplates.Count > 0) then
+  AForm := TfrmFindDlg.Create(nil);
+  try
+    with AForm do
     begin
-      TemplateName:= lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
+      // Prepare window for define search template
+      Caption := rsFindDefineTemplate;
+      edtFindPathStart.Enabled:= False;
+      edtFindPathStart.Text:= EmptyStr;
+      btnSaveTemplate.Visible:= True;
+      btnStart.Visible:= False;
+      btnSaveTemplate.Default:= True;
+      BorderIcons:= [biSystemMenu, biMaximize];
+      Result:= (ShowModal = mrOK);
+      if Result and (lbSearchTemplates.Count > 0) then
+      begin
+        TemplateName:= lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
+      end;
     end;
+  finally
+    AForm.Free;
   end;
 end;
 
