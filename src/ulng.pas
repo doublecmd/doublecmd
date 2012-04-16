@@ -300,6 +300,7 @@ resourcestring
   rsFindDepth = '%s level(s)';
   rsFindSaveTemplateCaption = 'Save search template';
   rsFindSaveTemplateTitle = 'Template name:';
+  rsSearchTemplateUnnamed = '<unnamed template>';
 
   rsTimeUnitSecond = 'Second(s)';
   rsTimeUnitMinute = 'Minute(s)';

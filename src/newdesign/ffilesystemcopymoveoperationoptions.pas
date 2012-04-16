@@ -5,16 +5,18 @@ unit fFileSystemCopyMoveOperationOptions;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls,
+  Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls, Buttons,
   uFileSourceOperationOptionsUI,
   uFileSystemCopyOperation,
-  uFileSystemMoveOperation;
+  uFileSystemMoveOperation,
+  uSearchTemplate;
 
 type
 
   { TFileSystemCopyMoveOperationOptionsUI }
 
   TFileSystemCopyMoveOperationOptionsUI = class(TFileSourceOperationOptionsUI)
+    btnSearchTemplate: TBitBtn;
     cbCheckFreeSpace: TCheckBox;
     cbCorrectLinks: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
@@ -22,22 +24,28 @@ type
     cbCopyAttributes: TCheckBox;
     cbCopyTime: TCheckBox;
     cbCopyOwnership: TCheckBox;
+    cbExcludeEmptyDirectories: TCheckBox;
     cmbDirectoryExists: TComboBox;
     cmbFileExists: TComboBox;
     cmbFileType: TComboBox;
+    gbFileTemplate: TGroupBox;
     grpOptions: TGroupBox;
+    lblTemplateName: TLabel;
     lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
     lblFileType: TLabel;
     pnlCopyAttributesTime: TPanel;
     pnlComboBoxes: TPanel;
     pnlCheckboxes: TPanel;
+    procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbCopyAttributesChange(Sender: TObject);
   private
+    FTemplate: TSearchTemplate;
     procedure SetOperationOptions(CopyOperation: TFileSystemCopyOperation); overload;
     procedure SetOperationOptions(MoveOperation: TFileSystemMoveOperation); overload;
   public
     constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
+    destructor Destroy; override;
     procedure SaveOptions; override;
     procedure SetOperationOptions(Operation: TObject); override;
   end;
@@ -55,9 +63,21 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uFileSourceOperationOptions, DCOSUtils;
+  uGlobs, uLng, uFileSourceOperationOptions, DCOSUtils,
+  fFindDlg;
 
 { TFileSystemCopyMoveOperationOptionsUI }
+
+procedure TFileSystemCopyMoveOperationOptionsUI.btnSearchTemplateClick(Sender: TObject);
+begin
+  if ShowUseTemplateDlg(FTemplate) and Assigned(FTemplate) then
+  begin
+    if FTemplate.TemplateName = '' then
+      lblTemplateName.Caption := rsSearchTemplateUnnamed
+    else
+      lblTemplateName.Caption := FTemplate.TemplateName;
+  end;
+end;
 
 procedure TFileSystemCopyMoveOperationOptionsUI.cbCopyAttributesChange(Sender: TObject);
 begin
@@ -104,6 +124,12 @@ begin
 
   cbCorrectLinks.Checked := gOperationOptionCorrectLinks;
   cbCheckFreeSpace.Checked := gOperationOptionCheckFreeSpace;
+end;
+
+destructor TFileSystemCopyMoveOperationOptionsUI.Destroy;
+begin
+  inherited Destroy;
+  FTemplate.Free;
 end;
 
 procedure TFileSystemCopyMoveOperationOptionsUI.SaveOptions;
@@ -193,6 +219,12 @@ begin
     CopyAttributesOptions := Options;
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
+    if Assigned(FTemplate) then
+    begin
+      SearchTemplate := FTemplate;
+      FTemplate := nil;
+    end;
+    RemoveEmptyTemplateDirectories := cbExcludeEmptyDirectories.Checked;
   end;
 end;
 
@@ -233,6 +265,7 @@ begin
   cbCopyOwnership.Visible := False;
   {$ENDIF}
   cbFollowLinks.Visible := True;
+  gbFileTemplate.Visible := True;
 end;
 
 end.

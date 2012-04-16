@@ -13,7 +13,8 @@ uses
   uFileSourceOperationOptionsUI,
   uFile,
   uFileSystemUtil,
-  DCOSUtils;
+  DCOSUtils,
+  uSearchTemplate;
 
 type
 
@@ -23,6 +24,8 @@ type
 
   private
     FOperationHelper: TFileSystemOperationHelper;
+    FRemoveEmptyTemplateDirectories: Boolean;
+    FSearchTemplate: TSearchTemplate;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
@@ -35,6 +38,7 @@ type
     FCorrectSymLinks: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
+    procedure SetSearchTemplate(AValue: TSearchTemplate);
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -58,6 +62,11 @@ type
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
+    property RemoveEmptyTemplateDirectories: Boolean read FRemoveEmptyTemplateDirectories write FRemoveEmptyTemplateDirectories;
+    {en
+       Operation takes ownership of assigned template and will free it.
+    }
+    property SearchTemplate: TSearchTemplate read FSearchTemplate write SetSearchTemplate;
   end;
 
   {
@@ -122,6 +131,7 @@ begin
   inherited Destroy;
   FreeAndNil(FSourceFilesTree);
   FreeAndNil(FOperationHelper);
+  FreeAndNil(FSearchTemplate);
 end;
 
 procedure TFileSystemCopyOperation.Initialize;
@@ -136,6 +146,8 @@ begin
                         @CheckOperationState);
   try
     TreeBuilder.SymLinkOption  := Self.SymLinkOption;
+    TreeBuilder.SearchTemplate := Self.SearchTemplate;
+    TreeBuilder.RemoveEmptyTemplateDirectories := Self.RemoveEmptyTemplateDirectories;
 
     TreeBuilder.BuildFromFiles(SourceFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
@@ -159,7 +171,6 @@ begin
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
-//  FOperation.OnlyFilesMask := OnlyFilesMask;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
   FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;
   FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;
@@ -174,6 +185,12 @@ end;
 procedure TFileSystemCopyOperation.MainExecute;
 begin
   FOperationHelper.ProcessTree(FSourceFilesTree);
+end;
+
+procedure TFileSystemCopyOperation.SetSearchTemplate(AValue: TSearchTemplate);
+begin
+  FSearchTemplate.Free;
+  FSearchTemplate := AValue;
 end;
 
 procedure TFileSystemCopyOperation.Finalize;
