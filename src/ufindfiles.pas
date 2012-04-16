@@ -80,6 +80,7 @@ type
 
   TFindFileChecks = record
     FilesMasks: String;
+    ExcludeFiles: String;
     RegExp: Boolean;
     DateTimeFrom,
     DateTimeTo : TDateTime;
@@ -91,6 +92,7 @@ type
   procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
                                            out FileChecks: TFindFileChecks);
 
+  function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String) : Boolean;
   function CheckFileTime(const FileChecks: TFindFileChecks; FT : TFileTime) : Boolean; inline;
   function CheckFileDateTime(const FileChecks: TFindFileChecks; DT : TDateTime) : Boolean;
   function CheckFileSize(const FileChecks: TFindFileChecks; FileSize : Int64) : Boolean;
@@ -99,7 +101,7 @@ type
 implementation
 
 uses
-  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes;
+  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, SynRegExpr, uMasks;
 
 const
   cKilo = 1024;
@@ -263,10 +265,28 @@ begin
     FileChecks.FilesMasks := '*' + SearchTemplate.FilesMasks + '*'
   else
     FileChecks.FilesMasks := SearchTemplate.FilesMasks;
+  FileChecks.ExcludeFiles := SearchTemplate.ExcludeFiles;
   FileChecks.RegExp := SearchTemplate.RegExp;
   DateTimeOptionsToChecks(SearchTemplate, FileChecks);
   FileSizeOptionsToChecks(SearchTemplate, FileChecks);
   AttrsPatternOptionsToChecks(SearchTemplate, FileChecks);
+end;
+
+function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String): Boolean;
+begin
+  with FileChecks do
+  begin
+    if RegExp then
+    begin
+      Result := ((FilesMasks = '') or ExecRegExpr(FilesMasks, FileName)) and
+                ((ExcludeFiles = '') or not ExecRegExpr(ExcludeFiles, FileName));
+    end
+    else
+    begin
+      Result := MatchesMaskList(FileName, FilesMasks) and
+                not MatchesMaskList(FileName, ExcludeFiles);
+    end;
+  end;
 end;
 
 function CheckFileTime(const FileChecks: TFindFileChecks; FT : TFileTime) : Boolean;
