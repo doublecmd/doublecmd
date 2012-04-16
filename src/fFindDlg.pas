@@ -65,21 +65,22 @@ type
     cbTimeTo: TCheckBox;
     cbPartialNameSearch: TCheckBox;
     cbFollowSymLinks: TCheckBox;
+    cbUsePlugin: TCheckBox;
     cmbExcludeDirectories: TComboBox;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
-    cbUsePlugin: TCheckBox;
-    cmbPlugin: TComboBox;
     cmbEncoding: TComboBox;
     cbSearchDepth: TComboBox;
     cbRegExp: TCheckBox;
+    cmbPlugin: TComboBox;
     cmbReplaceText: TComboBox;
     cmbFindText: TComboBox;
     cmbExcludeFiles: TComboBox;
     edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
     gbAttributes: TGroupBox;
-    gbFindOptions: TGroupBox;
+    gbDirectories: TGroupBox;
+    gbFiles: TGroupBox;
     lblExcludeDirectories: TLabel;
     lblCurrent: TLabel;
     lblExcludeFiles: TLabel;
@@ -94,6 +95,7 @@ type
     CheksPanel: TPanel;
     miShowAllFound: TMenuItem;
     miRemoveFromLlist: TMenuItem;
+    pnlDirectoriesDepth: TPanel;
     pnlLoadSaveBottomButtons: TPanel;
     pnlLoadSaveBottom: TPanel;
     pnlButtons: TPanel;
@@ -106,6 +108,7 @@ type
     seFileSizeTo: TSpinEdit;
     pnlFindFile: TPanel;
     pgcSearch: TPageControl;
+    tsPlugins: TTabSheet;
     tsResults: TTabSheet;
     tsLoadSave: TTabSheet;
     tsStandard: TTabSheet;
@@ -155,6 +158,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmFindDlgClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
+    procedure gbDirectoriesResize(Sender: TObject);
     procedure lbSearchTemplatesSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure lsFoundedFilesKeyDown(Sender: TObject;
@@ -162,6 +166,7 @@ type
     procedure miRemoveFromLlistClick(Sender: TObject);
     procedure miShowAllFoundClick(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
+    procedure pgcSearchChange(Sender: TObject);
     procedure seFileSizeFromChange(Sender: TObject);
     procedure seFileSizeToChange(Sender: TObject);
     procedure seNotOlderThanChange(Sender: TObject);
@@ -1000,7 +1005,7 @@ begin
         else
           Close;
       end;
-    VK_1..VK_4:
+    VK_1..VK_5:
       begin
         if Shift * KeyModifiersShortcut = [ssAlt] then
           begin
@@ -1067,6 +1072,11 @@ begin
   if pgcSearch.ActivePage = tsStandard then
     if cmbFindFileMask.CanFocus then
       cmbFindFileMask.SetFocus;
+end;
+
+procedure TfrmFindDlg.gbDirectoriesResize(Sender: TObject);
+begin
+  pnlDirectoriesDepth.Width := gbDirectories.Width div 3;
 end;
 
 procedure TfrmFindDlg.lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
@@ -1200,6 +1210,15 @@ begin
   else
     sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
   edtAttrib.Text := sAttr;
+end;
+
+procedure TfrmFindDlg.pgcSearchChange(Sender: TObject);
+begin
+  if (pgcSearch.ActivePage = tsStandard) and not cmbFindFileMask.Focused then
+  begin
+    if cmbFindFileMask.CanFocus then
+      cmbFindFileMask.SetFocus;
+  end;
 end;
 
 finalization
