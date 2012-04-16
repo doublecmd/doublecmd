@@ -10,7 +10,9 @@ uses
   uFileSourceOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
-  uFileSourceCopyOperation;
+  uFileSourceCopyOperation,
+  uSearchTemplate,
+  uFindFiles;
 
   procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
   function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
@@ -54,8 +56,12 @@ type
     FDirectoriesCount: Int64;
     FFilesSize: Int64;
     FExcludeRootDir: Boolean;
+    FFileTemplate: TSearchTemplate;
+    FRemoveEmptyTemplateDirectories: Boolean;
     FSymlinkOption: TFileSourceOperationOptionSymLink;
     FRecursive: Boolean;
+    FFileChecks: TFindFileChecks;
+    FRootDir: String;
 
     AskQuestion: TAskQuestionFunction;
     CheckOperationState: TCheckOperationStateFunction;
@@ -87,6 +93,11 @@ type
     property FilesCount: Int64 read FFilesCount;
     property DirectoriesCount: Int64 read FDirectoriesCount;
     property ItemsCount: Int64 read GetItemsCount;
+    property RemoveEmptyTemplateDirectories: Boolean read FRemoveEmptyTemplateDirectories write FRemoveEmptyTemplateDirectories;
+    {en
+       Does not take ownership of SearchTemplate and does not free it.
+    }
+    property SearchTemplate: TSearchTemplate read FFileTemplate write FFileTemplate;
   end;
 
   { TFileSystemOperationHelper }
@@ -342,6 +353,10 @@ begin
   FFilesSize := 0;
   FFilesCount := 0;
   FDirectoriesCount := 0;
+  FRootDir := Files.Path;
+
+  if Assigned(FFileTemplate) then
+    SearchTemplateToFindFileChecks(FFileTemplate.SearchRecord, FFileChecks);
 
   if ExcludeRootDir then
   begin
@@ -436,9 +451,17 @@ begin
   begin
     AddFilesInDirectory(aFile.FullPath + DirectorySeparator, AddedNode);
 
-    // Propagate flag to parent.
-    if (AddedNode.Data as TFileTreeNodeData).SubnodesHaveLinks then
-      (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
+    if Assigned(FFileTemplate) and FRemoveEmptyTemplateDirectories and
+       (AddedNode.SubNodesCount = 0) then
+    begin
+      CurrentNode.RemoveSubNode(AddedIndex);
+    end
+    else
+    begin
+      // Propagate flag to parent.
+      if (AddedNode.Data as TFileTreeNodeData).SubnodesHaveLinks then
+        (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
+    end;
   end;
 end;
 
@@ -479,7 +502,18 @@ begin
 end;
 
 procedure TFileSystemTreeBuilder.AddItem(aFile: TFile; CurrentNode: TFileTreeNode);
+var
+  Matches: Boolean;
 begin
+  if Assigned(FFileTemplate) then
+  begin
+    Matches := CheckFile(FFileTemplate.SearchRecord, FFileChecks, aFile);
+    if Matches and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
+      Matches := CheckDirectoryNameRelative(FFileChecks, aFile.FullPath, FRootDir);
+    if not Matches then
+      Exit;
+  end;
+
   if aFile.IsDirectory then
     AddDirectory(aFile, CurrentNode)
   else if aFile.IsLink then

@@ -32,7 +32,8 @@ interface
 uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker,
-  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles;
+  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
+  uSearchTemplate;
 
 type
 
@@ -50,6 +51,7 @@ type
     btnSearchLoad: TButton;
     btnSearchSave: TButton;
     btnStart: TButton;
+    btnUseTemplate: TButton;
     btnStop: TButton;
     btnView: TButton;
     btnWorkWithFound: TButton;
@@ -70,7 +72,7 @@ type
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
     cmbEncoding: TComboBox;
-    cbSearchDepth: TComboBox;
+    cmbSearchDepth: TComboBox;
     cbRegExp: TCheckBox;
     cmbPlugin: TComboBox;
     cmbReplaceText: TComboBox;
@@ -130,6 +132,7 @@ type
     procedure btnSearchDeleteClick(Sender: TObject);
     procedure btnSearchLoadClick(Sender: TObject);
     procedure btnSearchSaveClick(Sender: TObject);
+    procedure btnUseTemplateClick(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
     procedure cbPartialNameSearchChange(Sender: TObject);
@@ -182,6 +185,7 @@ type
     FFrmAttributesEdit: TfrmAttributesEdit;
     FLastLoadedTemplateName: UTF8String;
 
+    procedure DisableControlsForTemplate;
     procedure StopSearch;
     procedure AfterSearchStopped;
     procedure FillFindOptions(out FindOptions: TSearchTemplateRec);
@@ -202,6 +206,7 @@ var
 
 procedure ShowFindDlg(const sActPath: UTF8String);
 function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
+function ShowUseTemplateDlg(out Template: TSearchTemplate): Boolean;
 
 implementation
 
@@ -209,7 +214,7 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uSearchTemplate, uDCUtils,
+  uLng, uGlobs, uShowForm, uDCUtils,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
   uFileViewNotebook, uFileView, uColumnsFileView, uKeyboard,
   DCOSUtils;
@@ -259,11 +264,7 @@ begin
     // Prepare window for search files
     ClearFilter;
     Caption := rsFindSearchFiles;
-    edtFindPathStart.Enabled:= True;
     edtFindPathStart.Text := sActPath;
-    btnSaveTemplate.Visible:= False;
-    btnStart.Visible:= True;
-    BorderIcons:= [biSystemMenu, biMinimize, biMaximize];
     ShowOnTop;
   end;
 end;
@@ -278,18 +279,44 @@ begin
     begin
       // Prepare window for define search template
       Caption := rsFindDefineTemplate;
-      lblFindPathStart.Visible := False;
-      edtFindPathStart.Visible := False;
-      lblExcludeDirectories.Visible := False;
-      cmbExcludeDirectories.Visible := False;
-      btnSaveTemplate.Visible:= True;
-      btnStart.Visible:= False;
-      btnSaveTemplate.Default:= True;
-      BorderIcons:= [biSystemMenu, biMaximize];
+      AForm.DisableControlsForTemplate;
+      btnSaveTemplate.Visible := True;
+      btnSaveTemplate.Default := True;
       Result:= (ShowModal = mrOK);
       if Result and (lbSearchTemplates.Count > 0) then
       begin
         TemplateName:= lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
+      end;
+    end;
+  finally
+    AForm.Free;
+  end;
+end;
+
+function ShowUseTemplateDlg(out Template: TSearchTemplate): Boolean;
+var
+  AForm: TfrmFindDlg;
+begin
+  AForm := TfrmFindDlg.Create(nil);
+  try
+    with AForm do
+    begin
+      // Prepare window for define search template
+      Caption := rsFindDefineTemplate;
+      DisableControlsForTemplate;
+      btnUseTemplate.Visible := True;
+      btnUseTemplate.Default := True;
+      Result:= (ShowModal = mrOK);
+      if Result then
+      begin
+        Template:= TSearchTemplate.Create;
+        try
+          Template.TemplateName := AForm.FLastLoadedTemplateName;
+          AForm.FillFindOptions(Template.SearchRecord);
+        except
+          FreeAndNil(Template);
+          raise;
+        end;
       end;
     end;
   finally
@@ -331,11 +358,11 @@ begin
   cmbFileSizeUnit.Items.Add(rsSizeUnitTBytes);
 
   // fill search depth combobox
-  cbSearchDepth.Items.Add(rsFindDepthAll);
-  cbSearchDepth.Items.Add(rsFindDepthCurDir);
+  cmbSearchDepth.Items.Add(rsFindDepthAll);
+  cmbSearchDepth.Items.Add(rsFindDepthCurDir);
   for I:= 1 to 100 do
-    cbSearchDepth.Items.Add(Format(rsFindDepth, [IntToStr(I)]));
-  cbSearchDepth.ItemIndex:= 0;
+    cmbSearchDepth.Items.Add(Format(rsFindDepth, [IntToStr(I)]));
+  cmbSearchDepth.ItemIndex:= 0;
   // fill encoding combobox
   cmbEncoding.Clear;
   GetSupportedEncodings(cmbEncoding.Items);
@@ -395,6 +422,21 @@ begin
     end;
 end;
 
+procedure TfrmFindDlg.DisableControlsForTemplate;
+begin
+  lblFindPathStart.Visible := False;
+  edtFindPathStart.Visible := False;
+  cbFollowSymLinks.Visible := False;
+  cbPartialNameSearch.Visible := False;
+  cmbSearchDepth.Enabled := False;
+  btnStart.Visible := False;
+  btnStop.Visible := False;
+  btnNewSearch.Visible := False;
+  gbFindData.Visible := False;
+  tsPlugins.Visible := False;
+  tsResults.Visible := False;
+end;
+
 procedure TfrmFindDlg.cbFindTextChange(Sender: TObject);
 begin
   EnableControl(cmbFindText, cbFindText.Checked);
@@ -419,7 +461,7 @@ begin
   FLastLoadedTemplateName := '';
   cmbFindFileMask.Text:= '*';
   edtFindPathStart.Text:= '';
-  cbSearchDepth.ItemIndex := 0;
+  cmbSearchDepth.ItemIndex := 0;
   cbRegExp.Checked := False;
   cbPartialNameSearch.Checked := False;
   // attributes
@@ -475,10 +517,10 @@ begin
     cmbExcludeFiles.Text:= ExcludeFiles;
     if (StartPath <> '') then
       edtFindPathStart.Text:= StartPath;
-    if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cbSearchDepth.Items.Count) then
-      cbSearchDepth.ItemIndex:= SearchDepth + 1
+    if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cmbSearchDepth.Items.Count) then
+      cmbSearchDepth.ItemIndex:= SearchDepth + 1
     else
-      cbSearchDepth.ItemIndex:= 0;
+      cmbSearchDepth.ItemIndex:= 0;
     cbRegExp.Checked := RegExp;
     cbPartialNameSearch.Checked := IsPartialNameSearch;
     cbFollowSymLinks.Checked := FollowSymLinks;
@@ -640,7 +682,7 @@ begin
     ExcludeDirectories := cmbExcludeDirectories.Text;
     FilesMasks     := cmbFindFileMask.Text;
     ExcludeFiles   := cmbExcludeFiles.Text;
-    SearchDepth    := cbSearchDepth.ItemIndex - 1;
+    SearchDepth    := cmbSearchDepth.ItemIndex - 1;
     RegExp         := cbRegExp.Checked;
     IsPartialNameSearch := cbPartialNameSearch.Checked;
     FollowSymLinks := cbFollowSymLinks.Checked;
@@ -964,6 +1006,11 @@ end;
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   StopSearch;
+end;
+
+procedure TfrmFindDlg.btnUseTemplateClick(Sender: TObject);
+begin
+  ModalResult := mrOK;
 end;
 
 procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;

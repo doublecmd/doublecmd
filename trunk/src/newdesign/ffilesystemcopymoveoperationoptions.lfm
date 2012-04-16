@@ -96,19 +96,19 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     AnchorSideLeft.Control = pnlComboBoxes
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = pnlComboBoxes
-    Left = 257
+    Left = 259
     Height = 81
     Top = 0
     Width = 144
     AutoSize = True
-    BorderSpacing.Left = 8
+    BorderSpacing.Left = 10
     BevelOuter = bvNone
     BevelWidth = 8
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 81
     ClientWidth = 144
-    TabOrder = 1
+    TabOrder = 2
     object cbCheckFreeSpace: TCheckBox
       Left = 0
       Height = 27
@@ -140,7 +140,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     AnchorSideLeft.Control = pnlCheckboxes
     AnchorSideTop.Control = pnlCheckboxes
     AnchorSideTop.Side = asrBottom
-    Left = 257
+    Left = 259
     Height = 108
     Top = 81
     Width = 163
@@ -148,7 +148,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     BevelOuter = bvNone
     ClientHeight = 108
     ClientWidth = 163
-    TabOrder = 2
+    TabOrder = 3
     Visible = False
     object cbCopyAttributes: TCheckBox
       AnchorSideLeft.Control = pnlCopyAttributesTime
@@ -194,6 +194,105 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
       Width = 137
       Caption = 'Copy ownership'
       TabOrder = 3
+    end
+  end
+  object gbFileTemplate: TGroupBox[3]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = pnlComboBoxes
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 86
+    Top = 87
+    Width = 217
+    AutoSize = True
+    Caption = 'Use file template'
+    ClientHeight = 64
+    ClientWidth = 213
+    TabOrder = 1
+    Visible = False
+    object btnSearchTemplate: TBitBtn
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbFileTemplate
+      AnchorSideRight.Control = gbFileTemplate
+      AnchorSideRight.Side = asrBottom
+      Left = 176
+      Height = 32
+      Hint = 'Choose template...'
+      Top = 0
+      Width = 32
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 5
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000009700
+        00FF000000000000000000000000000000FF00000000000000FFC2B5B3E30000
+        00FF000000000000000000000000000000000000000000000000000000000000
+        0000970000FF00000000000000000000000000000000C5B8B570E3DBD9FF8975
+        7375000000000000000000000000000000000000000000000000000000000000
+        000000000000970000FF000000000000000000000000C2B4B26FE1D9D7FF8571
+        6E75000000000000000000000000000000000000000000000000000000000000
+        0000970000FF00000000000000000000000000000000B3A4A26FD6C9C7FF705E
+        5B75000000000000000000000000000000000000000000000000000000009700
+        00FF0000000000000000000000000000000000000000A798967DD9CBCAFF7362
+        6184000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000005B494812D4C6C5FFD1C2C1FE8F7E
+        7DFF5B4B4E160000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000C2B3B3C0EEE2E2FED5C8C7FFD6C9
+        C8FE746363C60000000000000000000000000000000000000000000000000000
+        00000000000000000000000000009D8B8B5CF9EEEFFFEDE1E0FFDED1D1FFEADE
+        DCFFB1A1A0FF645455630000000000000000000000000000000000000000D2C6
+        C36CEEE5E2C3BEADABB100000002D2C4C3FBFDF5F4FEE0D4D3FFDACCCBFFE8DD
+        DBFFD2C4C2FE796868FD61525509000000000000000000000000000000008B78
+        754B00000000000000007C6B6BFCF7ECECFFFEF6F4FFCFC2C0FFD4C7C7FFEDE3
+        E1FFCDBDBBFF998887FE605151BC00000000000000000000000000000000806F
+        6D350000000062514F4CCEBEBEFFFBF2F0FFFBF6F5FFC7B9B7FFD0C3C3FFF8F0
+        EFFFC7B7B4FFA69593FF665555FF5545464D000000000000000000000000D8CF
+        CE59D1C5C299978484FFF4EBEBFEFEFDFDFFF4EEEDFFC3B5B3FFD8CBC9FFFFFC
+        FCFFD8CBC9FFB2A1A0FF867474FE524343FA0000000200000000000000000000
+        00007767669CE0D3D1FFFFFEFEFFFFFFFFFFEFE7E6FFAF9E9BFFD6C6C4FFFCF7
+        F7FFD8CACAFFAE9D9EFF827173FF5B4A4EFF67595C9F00000000000000000000
+        00008E7F7ED8E2D7D6FFCCC2C2FFCDC6C6FFD0C9C9FFD7D1D2FFD6D1D2FFCEC6
+        C6FFCBC5C5FFC7C0C0FFC2B8B8FFA39698FF726468DC00000000000000000000
+        0000ACA2A3DEAC9C99FFC9BCBBFFDBCDCAFFF3E6E2FEFFFFFEFFF5EEECFFB9A7
+        A3FFF3EDEBFEF7F3F3FFA99998FFA49695FFB1A6A7E700000000000000000000
+        0000000000005F5054459C919391B7ADAFB4BBB2B2C3C0B5B6CFC0B6B7D2BBB2
+        B3D0BCB2B3C3BBB3B4B59D929592615156460000000000000000
+      }
+      OnClick = btnSearchTemplateClick
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+    end
+    object lblTemplateName: TLabel
+      AnchorSideLeft.Control = gbFileTemplate
+      AnchorSideTop.Control = btnSearchTemplate
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btnSearchTemplate
+      Left = 5
+      Height = 22
+      Top = 5
+      Width = 161
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 5
+      BorderSpacing.Right = 10
+      Caption = '<no template>'
+      ParentColor = False
+    end
+    object cbExcludeEmptyDirectories: TCheckBox
+      AnchorSideLeft.Control = gbFileTemplate
+      AnchorSideTop.Control = btnSearchTemplate
+      AnchorSideTop.Side = asrBottom
+      Left = 5
+      Height = 27
+      Top = 37
+      Width = 203
+      BorderSpacing.Left = 5
+      BorderSpacing.Top = 5
+      BorderSpacing.Right = 5
+      Caption = 'Exclude empty directories'
+      Checked = True
+      State = cbChecked
+      TabOrder = 1
     end
   end
 end
