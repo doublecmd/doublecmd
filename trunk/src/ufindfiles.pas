@@ -81,6 +81,7 @@ type
   TFindFileChecks = record
     FilesMasks: String;
     ExcludeFiles: String;
+    ExcludeDirectories: String;
     RegExp: Boolean;
     DateTimeFrom,
     DateTimeTo : TDateTime;
@@ -92,6 +93,8 @@ type
   procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
                                            out FileChecks: TFindFileChecks);
 
+  function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String) : Boolean;
+  function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String) : Boolean;
   function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String) : Boolean;
   function CheckFileTime(const FileChecks: TFindFileChecks; FT : TFileTime) : Boolean; inline;
   function CheckFileDateTime(const FileChecks: TFindFileChecks; DT : TDateTime) : Boolean;
@@ -101,7 +104,8 @@ type
 implementation
 
 uses
-  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, SynRegExpr, uMasks;
+  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, SynRegExpr, uMasks,
+  DCStrUtils;
 
 const
   cKilo = 1024;
@@ -266,10 +270,32 @@ begin
   else
     FileChecks.FilesMasks := SearchTemplate.FilesMasks;
   FileChecks.ExcludeFiles := SearchTemplate.ExcludeFiles;
+  FileChecks.ExcludeDirectories := SearchTemplate.ExcludeDirectories;
   FileChecks.RegExp := SearchTemplate.RegExp;
   DateTimeOptionsToChecks(SearchTemplate, FileChecks);
   FileSizeOptionsToChecks(SearchTemplate, FileChecks);
   AttrsPatternOptionsToChecks(SearchTemplate, FileChecks);
+end;
+
+function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String): Boolean;
+begin
+  with FileChecks do
+  begin
+    Result := not MatchesMaskList(DirectoryName, ExcludeDirectories);
+  end;
+end;
+
+function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String): Boolean;
+begin
+  Result := True;
+  with FileChecks do
+  begin
+    // Check if FullPath is a path relative to BasePath.
+    if GetPathType(ExcludeDirectories) = ptRelative then
+    begin
+      Result := ExcludeDirectories <> ExtractDirLevel(BasePath, FullPath);
+    end;
+  end;
 end;
 
 function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String): Boolean;

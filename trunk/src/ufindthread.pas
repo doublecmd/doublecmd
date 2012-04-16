@@ -73,7 +73,7 @@ type
 implementation
 
 uses
-  LCLProc, uMasks, SynRegExpr, StrUtils, LConvEncoding, DCStrUtils,
+  LCLProc, SynRegExpr, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog;
 
@@ -151,36 +151,17 @@ begin
 end;
 
 function TFindThread.CheckDirectory(const CurrentDir, FolderName : String): Boolean;
-var
-  UpperCaseFileName: String;
 begin
   if (FolderName = '.') or (FolderName = '..') then
     Result := False
   else
   begin
-    Result := True;
-
     with FSearchTemplate do
     begin
-      if RegExp then
-      begin
-        if (ExcludeDirectories <> '') and ExecRegExpr(ExcludeDirectories, FolderName) then
-          Exit(False);
-      end
-      else
-      begin
-        UpperCaseFileName := UTF8UpperCase(FolderName);
-        if MatchesMaskList(UpperCaseFileName, ExcludeDirectories) then
-          Exit(False);
-
-        // Check if FolderName is a path relative to StartPath.
-        if GetPathType(ExcludeDirectories) = ptRelative then
-        begin
-          if ExcludeDirectories = UTF8UpperCase(ExtractDirLevel(
-               FSearchTemplate.StartPath, CurrentDir + PathDelim + FolderName)) then
-            Exit(False);
-        end;
-      end;
+      Result := CheckDirectoryName(FFileChecks, UTF8UpperCase(FolderName)) and
+                CheckDirectoryNameRelative(FFileChecks,
+                  UTF8UpperCase(CurrentDir + PathDelim + FolderName),
+                  UTF8UpperCase(FSearchTemplate.StartPath));
     end;
   end;
 end;
