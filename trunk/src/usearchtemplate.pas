@@ -41,6 +41,7 @@ type
 
     constructor Create;
     destructor Destroy; override;
+    function Clone: TSearchTemplate;
     function CheckFile(const AFile: TFile): Boolean;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
   end;
@@ -96,24 +97,15 @@ function TSearchTemplate.CheckFile(const AFile: TFile): Boolean;
 var
   FileChecks: TFindFileChecks;
 begin
-  Result:= True;
   SearchTemplateToFindFileChecks(SearchRecord, FileChecks);
-  with SearchRecord do
-  begin
-    if (fpName in AFile.SupportedProperties) then
-      Result := CheckFileName(FileChecks, AFile.Name);
+  Result := uFindFiles.CheckFile(SearchRecord, FileChecks, AFile);
+end;
 
-    if Result and (fpModificationTime in AFile.SupportedProperties) then
-      if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
-        Result:= CheckFileDateTime(FileChecks, AFile.ModificationTime);
-
-    if Result and (fpSize in AFile.SupportedProperties) then
-      if (IsFileSizeFrom or IsFileSizeTo) then
-        Result:= CheckFileSize(FileChecks, AFile.Size);
-
-    if Result and (fpAttributes in AFile.SupportedProperties) then
-      Result:= CheckFileAttributes(FileChecks, AFile.Attributes);
-  end;
+function TSearchTemplate.Clone: TSearchTemplate;
+begin
+  Result := TSearchTemplate.Create;
+  Result.FTemplateName := FTemplateName;
+  Result.SearchRecord  := SearchRecord;
 end;
 
 { TSearchTemplateList }

@@ -29,7 +29,7 @@ unit uFindFiles;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes;
+  Classes, SysUtils, DCBasicTypes, uFile;
 
 type
   TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
@@ -100,12 +100,13 @@ type
   function CheckFileDateTime(const FileChecks: TFindFileChecks; DT : TDateTime) : Boolean;
   function CheckFileSize(const FileChecks: TFindFileChecks; FileSize : Int64) : Boolean;
   function CheckFileAttributes(const FileChecks: TFindFileChecks; Attrs : TFileAttrs) : Boolean;
+  function CheckFile(const SearchTemplate: TSearchTemplateRec; const FileChecks: TFindFileChecks; const AFile: TFile) : Boolean;
 
 implementation
 
 uses
   strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, SynRegExpr, uMasks,
-  DCStrUtils;
+  DCStrUtils, uFileProperty;
 
 const
   cKilo = 1024;
@@ -355,6 +356,36 @@ begin
       end;
     end;
     Result := False;
+  end;
+end;
+
+function CheckFile(const SearchTemplate: TSearchTemplateRec; const FileChecks: TFindFileChecks; const AFile: TFile): Boolean;
+var
+  IsDir: Boolean;
+begin
+  Result := True;
+  with SearchTemplate do
+  begin
+    IsDir := AFile.IsDirectory or AFile.IsLinkToDirectory;
+
+    if (fpName in AFile.SupportedProperties) then
+    begin
+      if IsDir then
+        Result := CheckDirectoryName(FileChecks, AFile.Name)
+      else
+        Result := CheckFileName(FileChecks, AFile.Name);
+    end;
+
+    if Result and (fpModificationTime in AFile.SupportedProperties) then
+      if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
+        Result:= CheckFileDateTime(FileChecks, AFile.ModificationTime);
+
+    if Result and not IsDir and (fpSize in AFile.SupportedProperties) then
+      if (IsFileSizeFrom or IsFileSizeTo) then
+        Result:= CheckFileSize(FileChecks, AFile.Size);
+
+    if Result and (fpAttributes in AFile.SupportedProperties) then
+      Result:= CheckFileAttributes(FileChecks, AFile.Attributes);
   end;
 end;
 
