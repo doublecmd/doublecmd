@@ -4235,8 +4235,13 @@ procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF
 var
   I: Integer;
 begin
-  WindowState:= lastWindowState;
-  BringToFront;
+  if HiddenToTray then
+    RestoreFromTray
+  else
+  begin
+    WindowState:= lastWindowState;
+    BringToFront;
+  end;
   for I:= 0 to ParamCount - 1 do
     DCDebug(Params[I]);
 end;
