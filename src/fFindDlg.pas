@@ -92,10 +92,8 @@ type
     miRemoveFromLlist: TMenuItem;
     pnlLoadSaveBottomButtons: TPanel;
     pnlLoadSaveBottom: TPanel;
-    pnlRightButtons: TPanel;
     pnlButtons: TPanel;
     pnlResultsBottomButtons: TPanel;
-    pnlMainButtons: TPanel;
     pnlResults: TPanel;
     pnlStatus: TPanel;
     pnlResultsBottom: TPanel;
@@ -257,8 +255,7 @@ begin
     btnSaveTemplate.Visible:= False;
     btnStart.Visible:= True;
     BorderIcons:= [biSystemMenu, biMinimize, biMaximize];
-    Show;
-    BringToFront;
+    ShowOnTop;
   end;
 end;
 
@@ -272,6 +269,7 @@ begin
     edtFindPathStart.Text:= EmptyStr;
     btnSaveTemplate.Visible:= True;
     btnStart.Visible:= False;
+    btnSaveTemplate.Default:= True;
     BorderIcons:= [biSystemMenu, biMaximize];
     Result:= (ShowModal = mrOK);
     if Result and (lbSearchTemplates.Count > 0) then
@@ -1189,4 +1187,4 @@ end;
 finalization
   FreeAndNil(GfrmFindDlgInstance);
 
-end.
+end.
