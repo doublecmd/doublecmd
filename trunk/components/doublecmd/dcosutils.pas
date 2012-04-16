@@ -452,7 +452,7 @@ begin
       if caoCopyAttributes in Options then
       begin
         mode := StatInfo.st_mode;
-        if caoDropReadOnlyAttr in Options then
+        if caoRemoveReadOnlyAttr in Options then
           mode := SetModeReadOnly(mode, False);
         if fpChmod(PChar(UTF8ToSys(sDst)), mode) = -1 then
         begin
