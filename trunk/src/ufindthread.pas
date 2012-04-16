@@ -311,27 +311,13 @@ begin
 end;
 
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
-var
-  UpperCaseFileName: String;
 begin
   Result := True;
 
   with FSearchTemplate do
   begin
-    // check regular expression
-    if RegExp then
-    begin
-      if ((FilesMasks <> '') and not ExecRegExpr(FilesMasks, sr.Name)) or
-         ((ExcludeFiles <> '') and ExecRegExpr(ExcludeFiles, sr.Name)) then
+    if not CheckFileName(FFileChecks, UTF8UpperCase(sr.Name)) then
       Exit(False);
-    end
-    else
-    begin
-      UpperCaseFileName := UTF8UpperCase(sr.Name);
-      if not MatchesMaskList(UpperCaseFileName, FilesMasks) or
-             MatchesMaskList(UpperCaseFileName, ExcludeFiles) then
-        Exit(False);
-    end;
 
     if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
         Result := CheckFileTime(FFileChecks, sr.Time);

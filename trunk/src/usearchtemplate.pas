@@ -72,7 +72,7 @@ function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 implementation
 
 uses
-  uMasks, uFileProperty;
+  uFileProperty;
 
 function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 begin
@@ -101,10 +101,7 @@ begin
   with SearchRecord do
   begin
     if (fpName in AFile.SupportedProperties) then
-    begin
-      Result:= MatchesMaskList(AFile.Name, FilesMasks) and
-               not MatchesMaskList(AFile.Name, ExcludeFiles);
-    end;
+      Result := CheckFileName(FileChecks, AFile.Name);
 
     if Result and (fpModificationTime in AFile.SupportedProperties) then
       if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
