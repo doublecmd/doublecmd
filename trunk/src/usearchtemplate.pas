@@ -101,7 +101,10 @@ begin
   with SearchRecord do
   begin
     if (fpName in AFile.SupportedProperties) then
-      Result:= MatchesMaskList(AFile.Name, FilesMasks);
+    begin
+      Result:= MatchesMaskList(AFile.Name, FilesMasks) and
+               not MatchesMaskList(AFile.Name, ExcludeFiles);
+    end;
 
     if Result and (fpModificationTime in AFile.SupportedProperties) then
       if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
@@ -255,7 +258,9 @@ begin
         begin
           SearchTemplate.TemplateName:= AConfig.GetValue(ANode, 'Name', '');
           StartPath:= AConfig.GetValue(ANode, 'StartPath', '');
+          ExcludeDirectories:= AConfig.GetValue(ANode, 'ExcludeDirectories', '');
           FilesMasks:= AConfig.GetValue(ANode, 'FilesMasks', '*');
+          ExcludeFiles:= AConfig.GetValue(ANode, 'ExcludeFiles', '');
           SearchDepth:= AConfig.GetValue(ANode, 'SearchDepth', -1);
           IsPartialNameSearch:= AConfig.GetValue(ANode, 'IsPartialNameSearch', True);
           RegExp:= AConfig.GetValue(ANode, 'RegExp', False);
@@ -373,7 +378,9 @@ begin
       SubNode := AConfig.AddNode(ANode, 'Template');
       AConfig.AddValue(SubNode, 'Name', Templates[I].TemplateName);
       AConfig.AddValue(SubNode, 'StartPath', StartPath);
+      AConfig.AddValue(SubNode, 'ExcludeDirectories', ExcludeDirectories);
       AConfig.AddValue(SubNode, 'FilesMasks', FilesMasks);
+      AConfig.AddValue(SubNode, 'ExcludeFiles', ExcludeFiles);
       AConfig.AddValue(SubNode, 'SearchDepth', SearchDepth);
       AConfig.AddValue(SubNode, 'IsPartialNameSearch', IsPartialNameSearch);
       AConfig.AddValue(SubNode, 'RegExp', RegExp);
@@ -419,4 +426,4 @@ begin
 end;
 
 end.
-
+

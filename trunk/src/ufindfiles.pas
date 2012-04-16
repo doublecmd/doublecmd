@@ -37,7 +37,9 @@ type
 
   TSearchTemplateRec = record
     StartPath: String;
+    ExcludeDirectories: String;
     FilesMasks: String;
+    ExcludeFiles: String;
     SearchDepth: Integer; // -1 = unlimited
     RegExp: Boolean;
     IsPartialNameSearch: Boolean;

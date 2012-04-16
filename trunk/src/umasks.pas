@@ -84,24 +84,34 @@ function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = Fals
 var
   AMask: TMask;
 begin
-  AMask := TMask.Create(Mask, CaseSensitive);
-  try
-    Result := AMask.Matches(FileName);
-  finally
-    AMask.Free;
-  end;
+  if Mask <> '' then
+  begin
+    AMask := TMask.Create(Mask, CaseSensitive);
+    try
+      Result := AMask.Matches(FileName);
+    finally
+      AMask.Free;
+    end;
+  end
+  else
+    Result := False;
 end;
 
 function MatchesMaskList(const FileName, Mask: String; Separator: Char): Boolean;
 var
   AMaskList: TMaskList;
 begin
-  AMaskList := TMaskList.Create(Mask, Separator);
-  try
-    Result := AMaskList.Matches(FileName);
-  finally
-    AMaskList.Free;
-  end;
+  if Mask <> '' then
+  begin
+    AMaskList := TMaskList.Create(Mask, Separator);
+    try
+      Result := AMaskList.Matches(FileName);
+    finally
+      AMaskList.Free;
+    end;
+  end
+  else
+    Result := False;
 end;
 
 { TMask }
@@ -317,4 +327,4 @@ begin
   end;
 end;
 
-end.
+end.

@@ -51,6 +51,7 @@ type
     FLinkTargets: TStringList;  // A list of encountered directories (for detecting cycles)
 
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
+    function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function FindInFile(const sFileName:UTF8String;
                         sData: String; bCase:Boolean): Boolean;
   protected
@@ -72,7 +73,7 @@ type
 implementation
 
 uses
-  LCLProc, uMasks, SynRegExpr, StrUtils, LConvEncoding,
+  LCLProc, uMasks, SynRegExpr, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog;
 
@@ -98,6 +99,8 @@ begin
     // MatchesMaskList work incorrect with non ASCII characters
     // since it uses UpCase function
     FilesMasks := UTF8UpperCase(FilesMasks);
+    ExcludeFiles := UTF8UpperCase(ExcludeFiles);
+    ExcludeDirectories := UTF8UpperCase(ExcludeDirectories);
 
     FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
     ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
@@ -129,8 +132,7 @@ begin
       while sTemp <> EmptyStr do
         begin
           sPath:= Copy2SymbDel(sTemp, ';');
-          if (Length(sPath) > 1) and (sPath[Length(sPath)] = PathDelim) then
-            Delete(sPath, Length(sPath), 1);
+          sPath := ExcludeBackPathDelimiter(sPath);
           WalkAdr(sPath);
         end;
     finally
@@ -146,6 +148,41 @@ end;
 procedure TFindThread.AddFile;
 begin
   FItems.Add(FFoundFile);
+end;
+
+function TFindThread.CheckDirectory(const CurrentDir, FolderName : String): Boolean;
+var
+  UpperCaseFileName: String;
+begin
+  if (FolderName = '.') or (FolderName = '..') then
+    Result := False
+  else
+  begin
+    Result := True;
+
+    with FSearchTemplate do
+    begin
+      if RegExp then
+      begin
+        if (ExcludeDirectories <> '') and ExecRegExpr(ExcludeDirectories, FolderName) then
+          Exit(False);
+      end
+      else
+      begin
+        UpperCaseFileName := UTF8UpperCase(FolderName);
+        if MatchesMaskList(UpperCaseFileName, ExcludeDirectories) then
+          Exit(False);
+
+        // Check if FolderName is a path relative to StartPath.
+        if GetPathType(ExcludeDirectories) = ptRelative then
+        begin
+          if ExcludeDirectories = UTF8UpperCase(ExtractDirLevel(
+               FSearchTemplate.StartPath, CurrentDir + PathDelim + FolderName)) then
+            Exit(False);
+        end;
+      end;
+    end;
+  end;
 end;
 
 procedure TFindThread.UpDateProgress;
@@ -274,18 +311,27 @@ begin
 end;
 
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
+var
+  UpperCaseFileName: String;
 begin
   Result := True;
 
   with FSearchTemplate do
   begin
     // check regular expression
-    if RegExp and not ExecRegExpr(FilesMasks, sr.Name) then
+    if RegExp then
+    begin
+      if ((FilesMasks <> '') and not ExecRegExpr(FilesMasks, sr.Name)) or
+         ((ExcludeFiles <> '') and ExecRegExpr(ExcludeFiles, sr.Name)) then
       Exit(False);
-
-    //DCDebug('File = ', sr.Name);
-    if (not RegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FFileChecks.FilesMasks)) then
-      Exit(False);
+    end
+    else
+    begin
+      UpperCaseFileName := UTF8UpperCase(sr.Name);
+      if not MatchesMaskList(UpperCaseFileName, FilesMasks) or
+             MatchesMaskList(UpperCaseFileName, ExcludeFiles) then
+        Exit(False);
+    end;
 
     if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
         Result := CheckFileTime(FFileChecks, sr.Time);
@@ -326,32 +372,32 @@ end;
 procedure TFindThread.WalkAdr(const sNewDir:String);
 var
   sr: TSearchRecEx;
-  Path,
-  LinkTarget: UTF8String;
-  IsLink: Boolean = False;
+  Path, SubPath: UTF8String;
+  IsLink: Boolean;
 begin
-  if not mbSetCurrentDir(sNewDir) then Exit;
+  if Terminated then
+    Exit;
 
   Inc(FCurrentDepth);
+  FCurrentDir := sNewDir;
 
   // Search all files to display statistics
   Path := sNewDir + PathDelim + '*';
 
   if FindFirstEx(Path, faAnyFile, sr) = 0 then
   repeat
-    if (sr.Name='.') or (sr.Name='..') then Continue;
-
-    FCurrentDir:= sNewDir;
-    Synchronize(@UpDateProgress);
-
-    if CheckFile(sNewDir, sr) then
+    if not FPS_ISDIR(sr.Attr) then
     begin
-      FFoundFile := sNewDir + PathDelim + sr.Name;
-      Synchronize(@AddFile);
-      FFilesFound := FFilesFound + 1;
+      if CheckFile(sNewDir, sr) then
+      begin
+        FFoundFile := sNewDir + PathDelim + sr.Name;
+        Synchronize(@AddFile);
+        Inc(FFilesFound);
+      end;
+
+      Inc(FFilesScanned);
+      Synchronize(@UpDateProgress);
     end;
-      
-    inc(FFilesScanned);
   until (FindNextEx(sr)<>0) or Terminated;
   FindCloseEx(sr);
   Synchronize(@UpDateProgress);
@@ -359,25 +405,26 @@ begin
   { Search in sub folders }
   if (not Terminated) and (FCurrentDepth < FSearchTemplate.SearchDepth) then
   begin
-    Path := sNewDir + PathDelim + '*';
-    //DCDebug('Search in sub folders = ', Path);
-    if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
+    if FindFirstEx(Path, faDirectory, sr) = 0 then
       repeat
-        IsLink:= FPS_ISLNK(sr.Attr);
-        if FSearchTemplate.FollowSymLinks and (IsLink = False) then
-          FLinkTargets.Add(sNewDir + PathDelim + sr.Name) // Add directory where we already searched
-        else if (FSearchTemplate.FollowSymLinks = False) and IsLink then
-          Continue
-        else if FSearchTemplate.FollowSymLinks and IsLink then
+        if CheckDirectory(sNewDir, sr.Name) then
+        begin
+          SubPath := sNewDir + PathDelim + sr.Name;
+          IsLink := FPS_ISLNK(sr.Attr);
+          if FSearchTemplate.FollowSymLinks then
           begin
-            LinkTarget:= ReadSymLink(sNewDir + PathDelim + sr.Name);
-            if FLinkTargets.IndexOf(LinkTarget) >= 0 then
-              Continue // Link already encountered - links form a cycle.
-            else
-              FLinkTargets.Add(LinkTarget); // Add link target where we already searched
-          end;
-        if ((sr.Name <> '.') and (sr.Name <> '..')) then
-          WalkAdr(sNewDir + PathDelim + sr.Name);
+            if IsLink then
+              SubPath := mbReadAllLinks(SubPath);
+            if FLinkTargets.IndexOf(SubPath) >= 0 then
+              Continue; // Link already encountered - links form a cycle.
+            // Add directory to already-searched list.
+            FLinkTargets.Add(SubPath);
+          end
+          else if IsLink then
+            Continue;
+
+          WalkAdr(SubPath);
+        end;
       until Terminated or (FindNextEx(sr) <> 0);
     FindCloseEx(sr);
   end;
