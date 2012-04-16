@@ -64,7 +64,8 @@ type
     cbTimeFrom: TCheckBox;
     cbTimeTo: TCheckBox;
     cbPartialNameSearch: TCheckBox;
-    cmbFollowSymLinks: TCheckBox;
+    cbFollowSymLinks: TCheckBox;
+    cmbExcludeDirectories: TComboBox;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
     cbUsePlugin: TCheckBox;
@@ -74,11 +75,14 @@ type
     cbRegExp: TCheckBox;
     cmbReplaceText: TComboBox;
     cmbFindText: TComboBox;
+    cmbExcludeFiles: TComboBox;
     edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
     gbAttributes: TGroupBox;
     gbFindOptions: TGroupBox;
+    lblExcludeDirectories: TLabel;
     lblCurrent: TLabel;
+    lblExcludeFiles: TLabel;
     lblFound: TLabel;
     lblStatus: TLabel;
     lblTemplateHeader: TLabel;
@@ -269,8 +273,10 @@ begin
     begin
       // Prepare window for define search template
       Caption := rsFindDefineTemplate;
-      edtFindPathStart.Enabled:= False;
-      edtFindPathStart.Text:= EmptyStr;
+      lblFindPathStart.Visible := False;
+      edtFindPathStart.Visible := False;
+      lblExcludeDirectories.Visible := False;
+      cmbExcludeDirectories.Visible := False;
       btnSaveTemplate.Visible:= True;
       btnStart.Visible:= False;
       btnSaveTemplate.Default:= True;
@@ -459,7 +465,9 @@ begin
   FLastLoadedTemplateName := SearchTemplate.TemplateName;
   with SearchTemplate.SearchRecord do
   begin
+    cmbExcludeDirectories.Text:= ExcludeDirectories;
     cmbFindFileMask.Text:= FilesMasks;
+    cmbExcludeFiles.Text:= ExcludeFiles;
     if (StartPath <> '') then
       edtFindPathStart.Text:= StartPath;
     if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cbSearchDepth.Items.Count) then
@@ -468,6 +476,7 @@ begin
       cbSearchDepth.ItemIndex:= 0;
     cbRegExp.Checked := RegExp;
     cbPartialNameSearch.Checked := IsPartialNameSearch;
+    cbFollowSymLinks.Checked := FollowSymLinks;
     // attributes
     edtAttrib.Text:= AttributesPattern;
     // file date/time
@@ -623,11 +632,13 @@ begin
   with FindOptions do
   begin
     StartPath      := edtFindPathStart.Text;
+    ExcludeDirectories := cmbExcludeDirectories.Text;
     FilesMasks     := cmbFindFileMask.Text;
+    ExcludeFiles   := cmbExcludeFiles.Text;
     SearchDepth    := cbSearchDepth.ItemIndex - 1;
     RegExp         := cbRegExp.Checked;
     IsPartialNameSearch := cbPartialNameSearch.Checked;
-    FollowSymLinks := cmbFollowSymLinks.Checked;
+    FollowSymLinks := cbFollowSymLinks.Checked;
 
     { File attributes }
     AttributesPattern := edtAttrib.Text;
