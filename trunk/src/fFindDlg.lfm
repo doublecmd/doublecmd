@@ -444,8 +444,8 @@ object frmFindDlg: TfrmFindDlg
         Caption = 'Advanced'
         ChildSizing.LeftRightSpacing = 3
         ChildSizing.TopBottomSpacing = 3
-        ClientHeight = 512
-        ClientWidth = 703
+        ClientHeight = 455
+        ClientWidth = 696
         ImageIndex = 1
         object cbDateFrom: TCheckBox
           AnchorSideLeft.Control = tsAdvanced
@@ -628,7 +628,7 @@ object frmFindDlg: TfrmFindDlg
           Left = 3
           Height = 65
           Top = 230
-          Width = 694
+          Width = 687
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           BorderSpacing.Left = 3
@@ -638,7 +638,7 @@ object frmFindDlg: TfrmFindDlg
           ChildSizing.LeftRightSpacing = 3
           ChildSizing.TopBottomSpacing = 6
           ClientHeight = 43
-          ClientWidth = 690
+          ClientWidth = 683
           Constraints.MinWidth = 100
           TabOrder = 16
           object edtAttrib: TEdit
@@ -647,7 +647,7 @@ object frmFindDlg: TfrmFindDlg
             Left = 3
             Height = 29
             Top = 4
-            Width = 566
+            Width = 559
             HelpType = htKeyword
             HelpKeyword = '/findfiles.html#attributes'
             Anchors = [akTop, akLeft, akRight]
@@ -662,7 +662,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideTop.Control = edtAttrib
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = btnAttrsHelp
-            Left = 572
+            Left = 565
             Height = 31
             Top = 3
             Width = 53
@@ -681,7 +681,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideRight.Control = gbAttributes
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Side = asrBottom
-            Left = 628
+            Left = 621
             Height = 33
             Top = 2
             Width = 59
@@ -704,7 +704,7 @@ object frmFindDlg: TfrmFindDlg
           Left = 6
           Height = 4
           Top = 223
-          Width = 691
+          Width = 684
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 12
@@ -1149,7 +1149,7 @@ object frmFindDlg: TfrmFindDlg
       ChildSizing.ControlsPerLine = 1
       ClientHeight = 449
       ClientWidth = 123
-      Constraints.MinWidth = 80
+      Constraints.MinWidth = 100
       TabOrder = 1
       object btnUseTemplate: TButton
         Left = 0
@@ -1159,69 +1159,80 @@ object frmFindDlg: TfrmFindDlg
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Use template'
-        OnClick = btnUseTemplateClick
+        ModalResult = 1
         TabOrder = 0
         Visible = False
       end
-      object btnStart: TButton
+      object btnSaveTemplate: TButton
+        AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 39
         Top = 45
         Width = 123
         AutoSize = True
         BorderSpacing.InnerBorder = 4
-        Caption = '&Start'
-        OnClick = btnStartClick
+        Caption = '&Save'
+        ModalResult = 1
+        OnClick = btnSearchSaveClick
         TabOrder = 1
+        Visible = False
       end
-      object btnStop: TButton
+      object btnStart: TButton
         Left = 0
         Height = 39
         Top = 90
         Width = 123
         AutoSize = True
         BorderSpacing.InnerBorder = 4
-        Caption = 'Cancel'
-        Enabled = False
-        OnClick = btnStopClick
+        Caption = '&Start'
+        OnClick = btnStartClick
         TabOrder = 2
       end
-      object btnClose: TButton
+      object btnStop: TButton
         Left = 0
         Height = 39
         Top = 135
         Width = 123
         AutoSize = True
         BorderSpacing.InnerBorder = 4
+        Caption = 'Cancel'
+        Enabled = False
+        OnClick = btnStopClick
+        TabOrder = 3
+      end
+      object btnClose: TButton
+        Left = 0
+        Height = 39
+        Top = 180
+        Width = 123
+        AutoSize = True
+        BorderSpacing.InnerBorder = 4
         Caption = '&Close'
         OnClick = btnCloseClick
-        TabOrder = 3
+        TabOrder = 4
       end
       object btnNewSearch: TButton
         Left = 0
         Height = 39
-        Top = 204
+        Top = 249
         Width = 123
         AutoSize = True
         BorderSpacing.Top = 30
         BorderSpacing.InnerBorder = 4
         Caption = '&New search'
         OnClick = btnNewSearchClick
-        TabOrder = 4
+        TabOrder = 5
       end
-      object btnSaveTemplate: TButton
-        AnchorSideBottom.Side = asrBottom
+      object btnLastSearch: TButton
         Left = 0
         Height = 39
-        Top = 249
+        Top = 294
         Width = 123
         AutoSize = True
         BorderSpacing.InnerBorder = 4
-        Caption = 'Save'
-        ModalResult = 1
-        OnClick = btnSearchSaveClick
-        TabOrder = 5
-        Visible = False
+        Caption = '&Last search'
+        OnClick = btnLastSearchClick
+        TabOrder = 6
       end
     end
   end
