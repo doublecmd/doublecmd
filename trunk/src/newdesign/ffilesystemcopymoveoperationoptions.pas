@@ -27,13 +27,11 @@ type
     cbExcludeEmptyDirectories: TCheckBox;
     cmbDirectoryExists: TComboBox;
     cmbFileExists: TComboBox;
-    cmbFileType: TComboBox;
     gbFileTemplate: TGroupBox;
     grpOptions: TGroupBox;
     lblTemplateName: TLabel;
     lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
-    lblFileType: TLabel;
     pnlCopyAttributesTime: TPanel;
     pnlComboBoxes: TPanel;
     pnlCheckboxes: TPanel;

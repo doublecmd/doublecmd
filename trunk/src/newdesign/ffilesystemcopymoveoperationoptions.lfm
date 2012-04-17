@@ -12,7 +12,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 0
-    Height = 87
+    Height = 58
     Top = 0
     Width = 249
     AutoSize = True
@@ -20,32 +20,13 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     ChildSizing.HorizontalSpacing = 5
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 2
-    ClientHeight = 87
+    ClientHeight = 58
     ClientWidth = 249
     TabOrder = 0
-    object lblFileType: TLabel
-      Left = 0
-      Height = 22
-      Top = 3
-      Width = 144
-      BorderSpacing.CellAlignVertical = ccaCenter
-      Caption = 'Only type:'
-      FocusControl = cmbFileType
-      ParentColor = False
-    end
-    object cmbFileType: TComboBox
-      Left = 149
-      Height = 29
-      Top = 0
-      Width = 100
-      Enabled = False
-      ItemHeight = 21
-      TabOrder = 0
-    end
     object lblFileExists: TLabel
       Left = 0
       Height = 22
-      Top = 32
+      Top = 3
       Width = 144
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When file exists'
@@ -55,7 +36,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     object cmbFileExists: TComboBox
       Left = 149
       Height = 29
-      Top = 29
+      Top = 0
       Width = 100
       ItemHeight = 21
       Items.Strings = (
@@ -64,12 +45,12 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
         'Skip'
       )
       Style = csDropDownList
-      TabOrder = 1
+      TabOrder = 0
     end
     object lblDirectoryExists: TLabel
       Left = 0
       Height = 22
-      Top = 61
+      Top = 32
       Width = 144
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When directory exists'
@@ -79,7 +60,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     object cmbDirectoryExists: TComboBox
       Left = 149
       Height = 29
-      Top = 58
+      Top = 29
       Width = 100
       ItemHeight = 21
       Items.Strings = (
@@ -89,7 +70,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
         'Skip'
       )
       Style = csDropDownList
-      TabOrder = 2
+      TabOrder = 1
     end
   end
   object pnlCheckboxes: TPanel[1]
@@ -202,7 +183,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     AnchorSideTop.Side = asrBottom
     Left = 0
     Height = 86
-    Top = 87
+    Top = 58
     Width = 217
     AutoSize = True
     Caption = 'Use file template'

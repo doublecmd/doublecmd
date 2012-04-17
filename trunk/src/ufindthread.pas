@@ -73,7 +73,7 @@ type
 implementation
 
 uses
-  LCLProc, SynRegExpr, StrUtils, LConvEncoding, DCStrUtils,
+  LCLProc, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog;
 
@@ -83,11 +83,7 @@ constructor TFindThread.Create(const AFindOptions: TSearchTemplateRec);
 begin
   inherited Create(True);
 
-  FFilesScanned:=0;
-  FFilesFound := 0;
-  FItems := nil;
   FLinkTargets := TStringList.Create;
-
   FSearchTemplate := AFindOptions;
 
   with FSearchTemplate do
