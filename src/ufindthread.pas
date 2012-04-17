@@ -117,8 +117,7 @@ end;
 
 procedure TFindThread.Execute;
 var
-  sTemp, sPath,
-  sCurrDir: UTF8String;
+  sTemp, sPath: UTF8String;
 begin
   FreeOnTerminate := True;
 
@@ -126,19 +125,13 @@ begin
     Assert(Assigned(FItems),'assert:FItems is empty');
     Synchronize(@UpDateProgress);
     FCurrentDepth:= -1;
-    sCurrDir:= mbGetCurrentDir;
-    try
-      sTemp:= FSearchTemplate.StartPath;
-      while sTemp <> EmptyStr do
-        begin
-          sPath:= Copy2SymbDel(sTemp, ';');
-          sPath := ExcludeBackPathDelimiter(sPath);
-          WalkAdr(sPath);
-        end;
-    finally
-      mbSetCurrentDir(sCurrDir);
-    end;  
-
+    sTemp:= FSearchTemplate.StartPath;
+    while sTemp <> EmptyStr do
+      begin
+        sPath:= Copy2SymbDel(sTemp, ';');
+        sPath := ExcludeBackPathDelimiter(sPath);
+        WalkAdr(sPath);
+      end;
   except
     on E:Exception do
       msgError(Self, E.Message);

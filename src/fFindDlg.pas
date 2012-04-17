@@ -334,7 +334,6 @@ procedure TfrmFindDlg.FormCreate(Sender: TObject);
 var
   I: Integer;
 begin
-  edtFindPathStart.Text:= mbGetCurrentDir;
   Height:= pnlFindFile.Height + 22;
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
