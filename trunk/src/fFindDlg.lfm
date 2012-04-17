@@ -824,8 +824,8 @@ object frmFindDlg: TfrmFindDlg
         Caption = 'Plugins'
         ChildSizing.LeftRightSpacing = 3
         ChildSizing.TopBottomSpacing = 3
-        ClientHeight = 512
-        ClientWidth = 703
+        ClientHeight = 455
+        ClientWidth = 696
         object cbUsePlugin: TCheckBox
           AnchorSideLeft.Control = tsPlugins
           AnchorSideTop.Control = cmbPlugin
@@ -847,7 +847,7 @@ object frmFindDlg: TfrmFindDlg
           Left = 160
           Height = 29
           Top = 10
-          Width = 540
+          Width = 533
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 3
           BorderSpacing.Top = 10
@@ -977,30 +977,30 @@ object frmFindDlg: TfrmFindDlg
         Caption = 'Results'
         ChildSizing.LeftRightSpacing = 3
         ChildSizing.TopBottomSpacing = 3
-        ClientHeight = 512
-        ClientWidth = 703
+        ClientHeight = 455
+        ClientWidth = 696
         object pnlResults: TPanel
           AnchorSideTop.Control = pnlFindFile
           Left = 3
-          Height = 506
+          Height = 449
           Top = 3
-          Width = 697
+          Width = 690
           Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 506
-          ClientWidth = 697
+          ClientHeight = 449
+          ClientWidth = 690
           FullRepaint = False
           TabOrder = 0
           object pnlStatus: TPanel
             Left = 0
-            Height = 50
+            Height = 8
             Top = 0
-            Width = 697
+            Width = 690
             Align = alTop
             AutoSize = True
             BevelOuter = bvNone
-            ClientHeight = 50
-            ClientWidth = 697
+            ClientHeight = 8
+            ClientWidth = 690
             FullRepaint = False
             TabOrder = 0
             object lblStatus: TLabel
@@ -1008,12 +1008,11 @@ object frmFindDlg: TfrmFindDlg
               AnchorSideTop.Control = lblCurrent
               AnchorSideTop.Side = asrBottom
               Left = 3
-              Height = 22
-              Top = 28
-              Width = 44
+              Height = 1
+              Top = 7
+              Width = 1
               BorderSpacing.Left = 3
               BorderSpacing.Top = 3
-              Caption = 'Status'
               ParentColor = False
               ParentFont = False
             end
@@ -1021,12 +1020,11 @@ object frmFindDlg: TfrmFindDlg
               AnchorSideLeft.Control = pnlStatus
               AnchorSideTop.Control = pnlStatus
               Left = 3
-              Height = 22
+              Height = 1
               Top = 3
-              Width = 51
+              Width = 1
               BorderSpacing.Left = 3
               BorderSpacing.Top = 3
-              Caption = 'Current'
               ParentColor = False
               ParentFont = False
             end
@@ -1035,22 +1033,21 @@ object frmFindDlg: TfrmFindDlg
               AnchorSideTop.Side = asrCenter
               AnchorSideRight.Control = pnlStatus
               AnchorSideRight.Side = asrBottom
-              Left = 650
-              Height = 22
-              Top = 28
-              Width = 44
+              Left = 686
+              Height = 1
+              Top = 7
+              Width = 1
               Anchors = [akTop, akRight]
               BorderSpacing.Right = 3
-              Caption = 'Found'
               ParentColor = False
               ParentFont = False
             end
           end
           object lsFoundedFiles: TListBox
             Left = 3
-            Height = 408
-            Top = 53
-            Width = 691
+            Height = 393
+            Top = 11
+            Width = 684
             Align = alClient
             BorderSpacing.Around = 3
             ItemHeight = 0
@@ -1063,17 +1060,17 @@ object frmFindDlg: TfrmFindDlg
           object pnlResultsBottom: TPanel
             Left = 3
             Height = 39
-            Top = 464
-            Width = 691
+            Top = 407
+            Width = 684
             Align = alBottom
             AutoSize = True
             BorderSpacing.Around = 3
             BevelOuter = bvNone
             ClientHeight = 39
-            ClientWidth = 691
+            ClientWidth = 684
             TabOrder = 2
             object pnlResultsBottomButtons: TPanel
-              Left = 393
+              Left = 386
               Height = 39
               Top = 0
               Width = 298
