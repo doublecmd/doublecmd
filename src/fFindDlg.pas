@@ -46,6 +46,7 @@ type
     btnClose: TButton;
     btnGoToPath: TButton;
     btnNewSearch: TButton;
+    btnLastSearch: TButton;
     btnSaveTemplate: TButton;
     btnSearchDelete: TButton;
     btnSearchLoad: TButton;
@@ -129,10 +130,10 @@ type
 
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
+    procedure btnLastSearchClick(Sender: TObject);
     procedure btnSearchDeleteClick(Sender: TObject);
     procedure btnSearchLoadClick(Sender: TObject);
     procedure btnSearchSaveClick(Sender: TObject);
-    procedure btnUseTemplateClick(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
     procedure cbPartialNameSearchChange(Sender: TObject);
@@ -185,6 +186,7 @@ type
     FSearchingActive: Boolean;
     FFrmAttributesEdit: TfrmAttributesEdit;
     FLastLoadedTemplateName: UTF8String;
+    FLastSearchTemplate: TSearchTemplate;
 
     procedure DisableControlsForTemplate;
     procedure StopSearch;
@@ -199,6 +201,7 @@ type
   public
     class function Instance: TfrmFindDlg;
   public
+    destructor Destroy; override;
     procedure ClearFilter;
 
     procedure ThreadTerminate(Sender:TObject);
@@ -425,6 +428,12 @@ begin
     end;
 end;
 
+destructor TfrmFindDlg.Destroy;
+begin
+  inherited Destroy;
+  FLastSearchTemplate.Free;
+end;
+
 procedure TfrmFindDlg.DisableControlsForTemplate;
 begin
   lblFindPathStart.Visible := False;
@@ -435,6 +444,7 @@ begin
   btnStart.Visible := False;
   btnStop.Visible := False;
   btnNewSearch.Visible := False;
+  btnLastSearch.Visible := False;
   gbFindData.Visible := False;
   tsPlugins.Visible := False;
   tsResults.Visible := False;
@@ -618,6 +628,16 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.btnLastSearchClick(Sender: TObject);
+begin
+  if Assigned(FLastSearchTemplate) then
+  begin
+    LoadTemplate(FLastSearchTemplate.SearchRecord);
+    pgcSearch.ActivePage := tsStandard;
+    cmbFindFileMask.SetFocus;
+  end;
+end;
+
 procedure TfrmFindDlg.FillFindOptions(out FindOptions: TSearchTemplateRec);
 begin
   with FindOptions do
@@ -776,7 +796,6 @@ var
   sTemp,
   sPath : UTF8String;
   sr: TDsxSearchRecord;
-  FindOptions: TSearchTemplateRec;
 begin
   sTemp:= edtFindPathStart.Text;
   repeat
@@ -818,13 +837,15 @@ begin
   btnClose.Enabled:= False;
   btnNewSearch.Enabled:= False;
 
-  FillFindOptions(FindOptions);
+  if not Assigned(FLastSearchTemplate) then
+    FLastSearchTemplate := TSearchTemplate.Create;
+  FillFindOptions(FLastSearchTemplate.SearchRecord);
   try
     if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex<>-1) then
       begin
         if DSXPlugins.LoadModule(cmbPlugin.ItemIndex) then
         begin
-          FindOptionsToDSXSearchRec(FindOptions, sr);
+          FindOptionsToDSXSearchRec(FLastSearchTemplate.SearchRecord, sr);
           DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
           DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
         end
@@ -833,7 +854,7 @@ begin
       end
     else
       begin
-        FFindThread := TFindThread.Create(FindOptions);
+        FFindThread := TFindThread.Create(FLastSearchTemplate.SearchRecord);
         with FFindThread do
         begin
           Items := FoundedStringCopy;
@@ -955,11 +976,6 @@ end;
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   StopSearch;
-end;
-
-procedure TfrmFindDlg.btnUseTemplateClick(Sender: TObject);
-begin
-  ModalResult := mrOK;
 end;
 
 procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;
