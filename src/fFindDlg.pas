@@ -334,14 +334,7 @@ procedure TfrmFindDlg.FormCreate(Sender: TObject);
 var
   I: Integer;
 begin
-  FLastLoadedTemplateName := '';
-  FFindThread:= nil;
-  FSearchingActive := False;
-  FFrmAttributesEdit := nil;
   edtFindPathStart.Text:= mbGetCurrentDir;
-  lblCurrent.Caption:= '';
-  lblStatus.Caption:= '';
-  lblFound.Caption:= '';
   Height:= pnlFindFile.Height + 22;
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
@@ -377,6 +370,7 @@ begin
   // gray disabled fields
   cbUsePluginChange(Sender);
   cbFindTextChange(Sender);
+  cbReplaceTextChange(Sender);
   cbNotOlderThanChange(Sender);
   cbFileSizeFromChange(Sender);
   cbFileSizeToChange(Sender);
@@ -388,7 +382,6 @@ begin
   cbDateTo.Checked:=False;
   cbTimeFrom.Checked:=False;
   cbTimeTo.Checked:=False;
-
 
 {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   btnStart.Default := True;
@@ -453,14 +446,12 @@ end;
 procedure TfrmFindDlg.cbFindTextChange(Sender: TObject);
 begin
   EnableControl(cmbFindText, cbFindText.Checked);
-  EnableControl(cmbReplaceText, cbFindText.Checked);
   EnableControl(cmbEncoding, cbFindText.Checked);
   EnableControl(cbCaseSens, cbFindText.Checked);
   EnableControl(cbReplaceText, cbFindText.Checked);
   EnableControl(cbNotContainingText, cbFindText.Checked);
   lblEncoding.Enabled:=cbFindText.Checked;
   cbReplaceText.Checked:= False;
-  cbReplaceTextChange(Sender);
 
   if cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText)then
   begin
