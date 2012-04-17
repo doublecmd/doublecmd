@@ -699,15 +699,9 @@ begin
 end;
 
 procedure TfrmOptionsToolbar.CloseToolbar(Index: Integer);
-var
-  ToolBar: TControl;
 begin
   if Index > 0 then
-  begin
-    ToolBar := sboxToolbars.Controls[Index];
-    sboxToolbars.RemoveControl(ToolBar);
-    RemoveComponent(ToolBar);
-  end;
+    sboxToolbars.Controls[Index].Free;
 end;
 
 procedure TfrmOptionsToolbar.cbFlatButtonsChange(Sender: TObject);
