@@ -162,6 +162,7 @@ type
     procedure frmFindDlgClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
     procedure gbDirectoriesResize(Sender: TObject);
+    procedure lbSearchTemplatesDblClick(Sender: TObject);
     procedure lbSearchTemplatesSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure lsFoundedFilesKeyDown(Sender: TObject;
@@ -191,8 +192,10 @@ type
     procedure FillFindOptions(out FindOptions: TSearchTemplateRec);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         out SRec: TDsxSearchRecord);
-    procedure OnAddAttribute(Sender: TObject);
     procedure FoundedStringCopyChanged(Sender: TObject);
+    procedure LoadTemplate(const Template: TSearchTemplateRec);
+    procedure LoadSelectedTemplate;
+    procedure OnAddAttribute(Sender: TObject);
   public
     class function Instance: TfrmFindDlg;
   public
@@ -492,11 +495,9 @@ begin
   seFileSizeTo.Value:= 10;
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
   // find/replace text
+  // do not clear search/replace text just clear checkbox
   cbFindText.Checked:= False;
-  //do not clear search text just clear checkbox
-//  cmbFindText.Text:= '';
   cbReplaceText.Checked:= False;
-//  cmbReplaceText.Text:= '';
   cbCaseSens.Checked:= False;
   cbNotContainingText.Checked:= False;
   cmbEncoding.ItemIndex := 0;
@@ -504,65 +505,8 @@ begin
 end;
 
 procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
-var
-  SearchTemplate: TSearchTemplate;
 begin
-  if lbSearchTemplates.ItemIndex < 0 then Exit;
-  SearchTemplate:= gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
-  FLastLoadedTemplateName := SearchTemplate.TemplateName;
-  with SearchTemplate.SearchRecord do
-  begin
-    cmbExcludeDirectories.Text:= ExcludeDirectories;
-    cmbFindFileMask.Text:= FilesMasks;
-    cmbExcludeFiles.Text:= ExcludeFiles;
-    if (StartPath <> '') then
-      edtFindPathStart.Text:= StartPath;
-    if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cmbSearchDepth.Items.Count) then
-      cmbSearchDepth.ItemIndex:= SearchDepth + 1
-    else
-      cmbSearchDepth.ItemIndex:= 0;
-    cbRegExp.Checked := RegExp;
-    cbPartialNameSearch.Checked := IsPartialNameSearch;
-    cbFollowSymLinks.Checked := FollowSymLinks;
-    // attributes
-    edtAttrib.Text:= AttributesPattern;
-    // file date/time
-    cbDateFrom.Checked:= IsDateFrom;
-    if IsDateFrom then
-      ZVDateFrom.Date:= DateTimeFrom;
-
-    cbDateTo.Checked:= IsDateTo;
-    if IsDateTo then
-      ZVDateTo.Date:= DateTimeTo;
-
-    cbTimeFrom.Checked:= IsTimeFrom;
-    if IsTimeFrom then
-      ZVTimeFrom.Time:= DateTimeFrom;
-
-    cbTimeTo.Checked:= IsTimeTo;
-    if IsTimeTo then
-      ZVTimeTo.Time:= DateTimeTo;
-
-    // not older then
-    cbNotOlderThan.Checked:= IsNotOlderThan;
-    seNotOlderThan.Value:= NotOlderThan;
-    cmbNotOlderThanUnit.ItemIndex := TimeUnitToComboIndex[NotOlderThanUnit];
-    // file size
-    cbFileSizeFrom.Checked:= IsFileSizeFrom;
-    cbFileSizeTo.Checked:= IsFileSizeTo;
-    seFileSizeFrom.Value:= FileSizeFrom;
-    seFileSizeTo.Value:= FileSizeTo;
-    cmbFileSizeUnit.ItemIndex := FileSizeUnitToComboIndex[FileSizeUnit];
-    // find/replace text
-    cbFindText.Checked:= IsFindText;
-    cmbFindText.Text:= FindText;
-    cbReplaceText.Checked:= IsReplaceText;
-    cmbReplaceText.Text:= ReplaceText;
-    cbCaseSens.Checked:= CaseSensitive;
-    cbNotContainingText.Checked:= NotContainingText;
-    cmbEncoding.Text:= TextEncoding;
-    cmbPlugin.Text:= SearchPlugin;
-  end;
+  LoadSelectedTemplate;
 end;
 
 procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
@@ -808,6 +752,11 @@ begin
   if not Assigned(GfrmFindDlgInstance) then
     GfrmFindDlgInstance := TfrmFindDlg.Create(nil);
   Result := GfrmFindDlgInstance;
+end;
+
+procedure TfrmFindDlg.lbSearchTemplatesDblClick(Sender: TObject);
+begin
+  LoadSelectedTemplate;
 end;
 
 procedure TfrmFindDlg.AfterSearchStopped;
@@ -1131,6 +1080,76 @@ begin
   if lbSearchTemplates.ItemIndex < 0 then Exit;
   with gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex].SearchRecord do
     lblSearchContents.Caption := '"' + FilesMasks + '" in "' + StartPath + '"';
+end;
+
+procedure TfrmFindDlg.LoadSelectedTemplate;
+var
+  SearchTemplate: TSearchTemplate;
+begin
+  if lbSearchTemplates.ItemIndex < 0 then Exit;
+  SearchTemplate:= gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
+  if Assigned(SearchTemplate) then
+  begin
+    FLastLoadedTemplateName := SearchTemplate.TemplateName;
+    LoadTemplate(SearchTemplate.SearchRecord);
+  end;
+end;
+
+procedure TfrmFindDlg.LoadTemplate(const Template: TSearchTemplateRec);
+begin
+  with Template do
+  begin
+    cmbExcludeDirectories.Text:= ExcludeDirectories;
+    cmbFindFileMask.Text:= FilesMasks;
+    cmbExcludeFiles.Text:= ExcludeFiles;
+    if (StartPath <> '') then
+      edtFindPathStart.Text:= StartPath;
+    if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cmbSearchDepth.Items.Count) then
+      cmbSearchDepth.ItemIndex:= SearchDepth + 1
+    else
+      cmbSearchDepth.ItemIndex:= 0;
+    cbRegExp.Checked := RegExp;
+    cbPartialNameSearch.Checked := IsPartialNameSearch;
+    cbFollowSymLinks.Checked := FollowSymLinks;
+    // attributes
+    edtAttrib.Text:= AttributesPattern;
+    // file date/time
+    cbDateFrom.Checked:= IsDateFrom;
+    if IsDateFrom then
+      ZVDateFrom.Date:= DateTimeFrom;
+
+    cbDateTo.Checked:= IsDateTo;
+    if IsDateTo then
+      ZVDateTo.Date:= DateTimeTo;
+
+    cbTimeFrom.Checked:= IsTimeFrom;
+    if IsTimeFrom then
+      ZVTimeFrom.Time:= DateTimeFrom;
+
+    cbTimeTo.Checked:= IsTimeTo;
+    if IsTimeTo then
+      ZVTimeTo.Time:= DateTimeTo;
+
+    // not older then
+    cbNotOlderThan.Checked:= IsNotOlderThan;
+    seNotOlderThan.Value:= NotOlderThan;
+    cmbNotOlderThanUnit.ItemIndex := TimeUnitToComboIndex[NotOlderThanUnit];
+    // file size
+    cbFileSizeFrom.Checked:= IsFileSizeFrom;
+    cbFileSizeTo.Checked:= IsFileSizeTo;
+    seFileSizeFrom.Value:= FileSizeFrom;
+    seFileSizeTo.Value:= FileSizeTo;
+    cmbFileSizeUnit.ItemIndex := FileSizeUnitToComboIndex[FileSizeUnit];
+    // find/replace text
+    cbFindText.Checked:= IsFindText;
+    cmbFindText.Text:= FindText;
+    cbReplaceText.Checked:= IsReplaceText;
+    cmbReplaceText.Text:= ReplaceText;
+    cbCaseSens.Checked:= CaseSensitive;
+    cbNotContainingText.Checked:= NotContainingText;
+    cmbEncoding.Text:= TextEncoding;
+    cmbPlugin.Text:= SearchPlugin;
+  end;
 end;
 
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);

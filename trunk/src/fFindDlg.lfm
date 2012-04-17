@@ -860,14 +860,14 @@ object frmFindDlg: TfrmFindDlg
         Caption = 'Load/Save'
         ChildSizing.LeftRightSpacing = 3
         ChildSizing.TopBottomSpacing = 3
-        ClientHeight = 512
-        ClientWidth = 703
+        ClientHeight = 455
+        ClientWidth = 696
         OnShow = tsLoadSaveShow
         object lblTemplateHeader: TLabel
           Left = 3
           Height = 22
           Top = 3
-          Width = 697
+          Width = 690
           Align = alTop
           BorderSpacing.Left = 3
           BorderSpacing.Top = 3
@@ -878,22 +878,23 @@ object frmFindDlg: TfrmFindDlg
         end
         object lbSearchTemplates: TListBox
           Left = 3
-          Height = 420
+          Height = 363
           Top = 25
-          Width = 697
+          Width = 690
           Align = alClient
           BorderSpacing.Left = 3
           BorderSpacing.Right = 3
           BorderSpacing.Bottom = 3
           ItemHeight = 0
+          OnDblClick = lbSearchTemplatesDblClick
           OnSelectionChange = lbSearchTemplatesSelectionChange
           TabOrder = 0
         end
         object lblSearchContents: TPanel
           Left = 3
           Height = 21
-          Top = 451
-          Width = 697
+          Top = 394
+          Width = 690
           Align = alBottom
           Alignment = taLeftJustify
           AutoSize = True
@@ -907,17 +908,17 @@ object frmFindDlg: TfrmFindDlg
         object pnlLoadSaveBottom: TPanel
           Left = 3
           Height = 31
-          Top = 478
-          Width = 697
+          Top = 421
+          Width = 690
           Align = alBottom
           AutoSize = True
           BorderSpacing.Around = 3
           BevelOuter = bvNone
           ClientHeight = 31
-          ClientWidth = 697
+          ClientWidth = 690
           TabOrder = 2
           object pnlLoadSaveBottomButtons: TPanel
-            Left = 466
+            Left = 459
             Height = 31
             Top = 0
             Width = 231
