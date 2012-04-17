@@ -139,6 +139,10 @@ type
     procedure Clear;
     function Insert(InsertAt: Integer; Item: TKASToolItem): Integer;
     procedure Move(FromIndex, ToIndex: Integer);
+    {en
+       Returns the item at Index, removes it from the list but does not free it like Remove.
+    }
+    function ReleaseItem(Index: Integer): TKASToolItem;
     procedure Remove(Index: Integer);
     property Count: Integer read GetButtonCount;
     property Items[Index: Integer]: TKASToolItem read GetButton write SetButton; default;
@@ -494,6 +498,12 @@ end;
 procedure TKASToolBarItems.Move(FromIndex, ToIndex: Integer);
 begin
   FButtons.Move(FromIndex, ToIndex);
+end;
+
+function TKASToolBarItems.ReleaseItem(Index: Integer): TKASToolItem;
+begin
+  Result := TKASToolItem(FButtons[Index]);
+  FButtons.Delete(Index);
 end;
 
 function TKASToolBarItems.Add(Item: TKASToolItem): Integer;

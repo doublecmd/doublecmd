@@ -53,7 +53,7 @@ type
   { TKASToolButton }
 
   TKASToolButton = class(TSpeedButton)
-  strict private
+  private
     FToolItem: TKASToolItem;
     function GetToolBar: TKASToolBar;
   protected
@@ -61,7 +61,6 @@ type
       PreferredHeight: integer; WithThemeSpace: Boolean); override;
   public
     constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce;
-    destructor Destroy; override;
     property ToolBar: TKASToolBar read GetToolBar;
     property ToolItem: TKASToolItem read FToolItem;
   end;
@@ -107,6 +106,7 @@ type
     procedure ClearExecutors;
     function CreateButton(Item: TKASToolItem): TKASToolButton;
     function DoExecuteToolItem(Item: TKASToolItem): Boolean;
+    function FindButton(Button: TKASToolButton): Integer;
     function GetChangePath: String;
     function GetEnvVar: String;
     function GetToolItemShortcutsHint(Item: TKASToolItem): String;
@@ -151,6 +151,7 @@ type
     function InsertButton(InsertAt: Integer; Item: TKASToolItem): TKASToolButton;
     function InsertButton(InsertAt: TKASToolButton; Item: TKASToolItem): TKASToolButton;
     procedure MoveButton(ButtonIndex, MovePosition: Integer);
+    procedure MoveButton(SourceButton: TKASToolButton; TargetToolBar: TKASToolBar; InsertAt: TKASToolButton);
     procedure RemoveButton(Index: Integer);
     procedure RemoveButton(Button: TKASToolButton);
     procedure RemoveToolItemExecutor(ExecuteFunction: TOnToolItemExecute);
@@ -687,6 +688,23 @@ begin
   ResizeButtons;
 end;
 
+procedure TKASToolBar.MoveButton(SourceButton: TKASToolButton; TargetToolBar: TKASToolBar; InsertAt: TKASToolButton);
+var
+  Index: Integer;
+  ToolItem: TKASToolItem;
+begin
+  Index := FindButton(SourceButton);
+  if (Index <> -1) and (FToolItems[Index] = SourceButton.ToolItem) then
+  begin
+    SourceButton.FToolItem := nil;
+    TargetToolBar.InsertButton(InsertAt, FToolItems.ReleaseItem(Index));
+    ButtonList.Delete(Index);
+    Application.ReleaseComponent(SourceButton); // Free later
+    UpdateButtonsTags;
+    Resize;
+  end;
+end;
+
 procedure TKASToolBar.UpdateButtonsTags;
 var
   I: Integer;
@@ -899,6 +917,16 @@ begin
     ResizeButtons;
 end;
 
+function TKASToolBar.FindButton(Button: TKASToolButton): Integer;
+var
+  I: Integer;
+begin
+  for I := 0 to ButtonList.Count - 1 do
+    if TKASToolButton(ButtonList[I]) = Button then
+      Exit(I);
+  Result := -1;
+end;
+
 procedure TKASToolBar.SetButtonSize(NewButtonWidth, NewButtonHeight: Integer);
 begin
   FButtonWidth  := NewButtonWidth;
@@ -942,14 +970,11 @@ end;
 
 procedure TKASToolBar.RemoveButton(Button: TKASToolButton);
 var
-  I: Integer;
+  Index: Integer;
 begin
-  for I := 0 to ButtonList.Count - 1 do
-    if TKASToolButton(ButtonList[I]) = Button then
-    begin
-      RemoveButton(I);
-      Break;
-    end;
+  Index := FindButton(Button);
+  if Index <> -1 then
+    RemoveButton(Index);
 end;
 
 procedure TKASToolBar.RemoveToolItemExecutor(ExecuteFunction: TOnToolItemExecute);
@@ -1008,11 +1033,6 @@ constructor TKASToolButton.Create(AOwner: TComponent; Item: TKASToolItem);
 begin
   inherited Create(AOwner);
   FToolItem := Item;
-end;
-
-destructor TKASToolButton.Destroy;
-begin
-  inherited Destroy;
 end;
 
 function TKASToolButton.GetToolBar: TKASToolBar;

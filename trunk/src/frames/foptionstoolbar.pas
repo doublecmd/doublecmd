@@ -85,6 +85,9 @@ type
     procedure cbInternalCommandSelect(Sender: TObject);
     procedure cbFlatButtonsChange(Sender: TObject);
     procedure edtIconFileNameChange(Sender: TObject);
+    procedure ToolbarDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure ToolbarDragDrop(Sender, Source: TObject; X, Y: Integer);
     function ToolbarLoadButtonGlyph(ToolItem: TKASToolItem; iIconSize: Integer;
       clBackColor: TColor): TBitmap;
     procedure ToolbarToolButtonClick(Sender: TObject);
@@ -458,6 +461,8 @@ begin
   Result.RadioToolBar            := True;
   Result.SetButtonSize(trbBarSize.Position * 2, trbBarSize.Position * 2);
   Result.ShowDividerAsButton     := True;
+  Result.OnDragOver              := @ToolbarDragOver;
+  Result.OnDragDrop              := @ToolbarDragDrop;
   Result.OnLoadButtonGlyph       := @ToolbarLoadButtonGlyph;
   Result.OnToolButtonClick       := @ToolbarToolButtonClick;
   Result.OnToolButtonMouseDown   := @ToolbarToolButtonMouseDown;
@@ -814,6 +819,26 @@ begin
   end;
 end;
 
+procedure TfrmOptionsToolbar.ToolbarDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  // Drag to a different toolbar.
+  Accept := (Source is TKASToolButton) and (TKASToolButton(Source).ToolBar <> Sender);
+end;
+
+procedure TfrmOptionsToolbar.ToolbarDragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  SourceButton: TKASToolButton;
+  TargetToolbar: TKASToolBar;
+begin
+  if Source is TKASToolButton then
+  begin
+    SourceButton  := Source as TKASToolButton;
+    TargetToolbar := Sender as TKASToolBar;
+    if SourceButton.ToolBar <> TargetToolBar then
+      SourceButton.ToolBar.MoveButton(SourceButton, TargetToolbar, nil);
+  end;
+end;
+
 function TfrmOptionsToolbar.ToolbarLoadButtonGlyph(ToolItem: TKASToolItem;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
@@ -855,11 +880,21 @@ begin
   LoadCurrentButton;
 end;
 
-(* Select button after it is dragged*)
 procedure TfrmOptionsToolbar.ToolbarToolButtonDragDrop(Sender, Source: TObject;
   X, Y: Integer);
+var
+  SourceButton, TargetButton: TKASToolButton;
 begin
-  ToolbarToolButtonClick(Sender);
+  if Source is TKASToolButton then
+  begin
+    SourceButton := Source as TKASToolButton;
+    TargetButton := Sender as TKASToolButton;
+    // Drop to a different toolbar.
+    if SourceButton.ToolBar <> TargetButton.ToolBar then
+    begin
+      SourceButton.ToolBar.MoveButton(SourceButton, TargetButton.ToolBar, TargetButton);
+    end;
+  end;
 end;
 
 (* Move button if it is dragged*)
@@ -872,7 +907,7 @@ begin
   begin
     SourceButton := Source as TKASToolButton;
     TargetButton := Sender as TKASToolButton;
-    // If moving on the same toolbar.
+    // Move on the same toolbar.
     if SourceButton.ToolBar = TargetButton.ToolBar then
     begin
       if FToolDragButtonNumber <> TargetButton.Tag then
