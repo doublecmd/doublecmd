@@ -288,6 +288,7 @@ begin
       AForm.DisableControlsForTemplate;
       btnSaveTemplate.Visible := True;
       btnSaveTemplate.Default := True;
+      BorderIcons := [biSystemMenu, biMaximize];
       Result:= (ShowModal = mrOK);
       if Result and (lbSearchTemplates.Count > 0) then
       begin
@@ -312,6 +313,7 @@ begin
       DisableControlsForTemplate;
       btnUseTemplate.Visible := True;
       btnUseTemplate.Default := True;
+      BorderIcons := [biSystemMenu, biMaximize];
       Result:= (ShowModal = mrOK);
       if Result then
       begin
@@ -438,8 +440,8 @@ begin
   btnNewSearch.Visible := False;
   btnLastSearch.Visible := False;
   gbFindData.Visible := False;
-  tsPlugins.Visible := False;
-  tsResults.Visible := False;
+  tsPlugins.TabVisible := False;
+  tsResults.TabVisible := False;
 end;
 
 procedure TfrmFindDlg.cbFindTextChange(Sender: TObject);
