@@ -1079,7 +1079,7 @@ procedure TfrmFindDlg.lbSearchTemplatesSelectionChange(Sender: TObject; User: bo
 begin
   if lbSearchTemplates.ItemIndex < 0 then Exit;
   with gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex].SearchRecord do
-    lblSearchContents.Caption := '"' + FilesMasks + '" in "' + StartPath + '"';
+    lblSearchContents.Caption := '"' + FilesMasks + '"';
 end;
 
 procedure TfrmFindDlg.LoadSelectedTemplate;
@@ -1102,8 +1102,6 @@ begin
     cmbExcludeDirectories.Text:= ExcludeDirectories;
     cmbFindFileMask.Text:= FilesMasks;
     cmbExcludeFiles.Text:= ExcludeFiles;
-    if (StartPath <> '') then
-      edtFindPathStart.Text:= StartPath;
     if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cmbSearchDepth.Items.Count) then
       cmbSearchDepth.ItemIndex:= SearchDepth + 1
     else
