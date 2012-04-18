@@ -155,7 +155,7 @@ begin
   FocusRectVisible := False;
   MouseWheelOption := mwGrid;
   Options := [goRowSelect, goThumbTracking];
-  ScrollBars := ssAutoVertical;
+  ScrollBars := ssNone;
   Visible := False;
 
   while Columns.Count < 5 do
