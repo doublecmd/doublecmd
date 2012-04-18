@@ -11,12 +11,17 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFile,
-  uFileSystemUtil;
+  uFileSystemUtil,
+  DCOSUtils;
 
 type
+
+  { TFileSystemMoveOperation }
+
   TFileSystemMoveOperation = class(TFileSourceMoveOperation)
 
   private
+    FCopyAttributesOptions: TCopyAttributesOptions;
     FOperationHelper: TFileSystemOperationHelper;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
@@ -44,6 +49,7 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
@@ -60,6 +66,13 @@ constructor TFileSystemMoveOperation.Create(aFileSource: IFileSource;
                                             aTargetPath: String);
 begin
   // Here we can read global settings if there are any.
+  FCopyAttributesOptions := [];
+  if gOperationOptionCopyAttributes then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyAttributes];
+  if gOperationOptionCopyTime then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
+  if gOperationOptionCopyOwnership then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
@@ -111,8 +124,8 @@ begin
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
-//  FOperation.OnlyFilesMask := OnlyFilesMask;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
+  FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;
   FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;
   FOperationHelper.CorrectSymLinks := CorrectSymLinks;
   FOperationHelper.FileExistsOption := FileExistsOption;

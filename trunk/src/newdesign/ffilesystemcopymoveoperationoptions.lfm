@@ -130,7 +130,6 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     ClientHeight = 108
     ClientWidth = 163
     TabOrder = 3
-    Visible = False
     object cbCopyAttributes: TCheckBox
       AnchorSideLeft.Control = pnlCopyAttributesTime
       AnchorSideTop.Control = pnlCopyAttributesTime
@@ -153,6 +152,7 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
       BorderSpacing.Left = 10
       Caption = 'Drop readonly flag'
       TabOrder = 1
+      Visible = False
     end
     object cbCopyTime: TCheckBox
       AnchorSideLeft.Control = pnlCopyAttributesTime
