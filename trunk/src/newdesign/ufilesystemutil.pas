@@ -906,27 +906,31 @@ var
   CopyAttrResult: TCopyAttributesOptions;
   Msg: String = '';
 begin
-  CopyAttrResult := mbFileCopyAttr(SourceFileName, TargetFileName, FCopyAttributesOptions);
-  if (CopyAttrResult <> []) and not FSkipSetPropertiesError then
+  if FCopyAttributesOptions <> [] then
   begin
-    if caoCopyAttributes in CopyAttrResult then
-      AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFileName]), LineEnding);
-    if caoCopyTime in CopyAttrResult then
-      AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFileName]), LineEnding);
-    if caoCopyOwnership in CopyAttrResult then
-      AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFileName]), LineEnding);
+    CopyAttrResult := mbFileCopyAttr(SourceFileName, TargetFileName, FCopyAttributesOptions);
+    if (CopyAttrResult <> []) and not FSkipSetPropertiesError then
+    begin
+      if caoCopyAttributes in CopyAttrResult then
+        AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFileName]), LineEnding);
+      if caoCopyTime in CopyAttrResult then
+        AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFileName]), LineEnding);
+      if caoCopyOwnership in CopyAttrResult then
+        AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFileName]), LineEnding);
 
-    case AskQuestion(Msg, '',
-                     [fsourSkip, fsourSkipAll, fsourAbort],
-                     fsourSkip, fsourSkip) of
-      fsourAbort:
-        AbortOperation;
-      //fsourSkip: do nothing
-      fsourSkipAll:
-        begin
+      case AskQuestion(Msg, '',
+                       [fsourSkip, fsourSkipAll, fsourIgnoreAll, fsourAbort],
+                       fsourSkip, fsourIgnoreAll) of
+        //fsourSkip: do nothing
+        fsourSkipAll:
+          // Don't set properties that failed to be set anymore.
+          FCopyAttributesOptions := FCopyAttributesOptions - CopyAttrResult;
+        fsourIgnoreAll:
           FSkipSetPropertiesError := True;
-        end;
-    end; // case
+        fsourAbort:
+          AbortOperation;
+      end;
+    end;
   end;
 end;
 

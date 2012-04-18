@@ -25,6 +25,7 @@ type
      fsourOverwriteOlder,
      fsourSkip,
      fsourSkipAll,
+     fsourIgnoreAll,
      fsourAll,
      fsourRetry,
      fsourAbort);
