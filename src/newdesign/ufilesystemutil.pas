@@ -111,6 +111,7 @@ type
     FRootTargetPath: String;
     FRenameMask: String;
     FRenameNameMask, FRenameExtMask: String;
+    FSetPropertyError: TFileSourceOperationOptionSetPropertyError;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FDescription: TDescription;
     FLogCaption: String;
@@ -121,7 +122,6 @@ type
     FSkipAllBigFiles: Boolean;
     FSkipReadError: Boolean;
     FSkipWriteError: Boolean;
-    FSkipSetPropertiesError: Boolean;
     FAutoRenameItSelf: Boolean;
     FCorrectSymLinks: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
@@ -176,6 +176,7 @@ type
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
     property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
@@ -582,6 +583,7 @@ begin
   FCopyAttributesOptions := CopyAttributesOptionCopyAll;
   FFileExistsOption := fsoofeNone;
   FDirExistsOption := fsoodeNone;
+  FSetPropertyError := fsoospeNone;
   FRootTargetPath := TargetPath;
   FRenameMask := '';
   FStatistics := StartingStatistics;
@@ -909,26 +911,36 @@ begin
   if FCopyAttributesOptions <> [] then
   begin
     CopyAttrResult := mbFileCopyAttr(SourceFileName, TargetFileName, FCopyAttributesOptions);
-    if (CopyAttrResult <> []) and not FSkipSetPropertiesError then
+    if CopyAttrResult <> [] then
     begin
-      if caoCopyAttributes in CopyAttrResult then
-        AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFileName]), LineEnding);
-      if caoCopyTime in CopyAttrResult then
-        AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFileName]), LineEnding);
-      if caoCopyOwnership in CopyAttrResult then
-        AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFileName]), LineEnding);
-
-      case AskQuestion(Msg, '',
-                       [fsourSkip, fsourSkipAll, fsourIgnoreAll, fsourAbort],
-                       fsourSkip, fsourIgnoreAll) of
-        //fsourSkip: do nothing
-        fsourSkipAll:
-          // Don't set properties that failed to be set anymore.
+      case FSetPropertyError of
+        fsoospeIgnoreErrors: ; // Do nothing
+        fsoospeDontSet:
           FCopyAttributesOptions := FCopyAttributesOptions - CopyAttrResult;
-        fsourIgnoreAll:
-          FSkipSetPropertiesError := True;
-        fsourAbort:
-          AbortOperation;
+        fsoospeNone:
+          begin
+            if caoCopyAttributes in CopyAttrResult then
+              AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFileName]), LineEnding);
+            if caoCopyTime in CopyAttrResult then
+              AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFileName]), LineEnding);
+            if caoCopyOwnership in CopyAttrResult then
+              AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFileName]), LineEnding);
+
+            case AskQuestion(Msg, '',
+                             [fsourSkip, fsourSkipAll, fsourIgnoreAll, fsourAbort],
+                             fsourSkip, fsourIgnoreAll) of
+              //fsourSkip: do nothing
+              fsourSkipAll:
+                // Don't set properties that failed to be set anymore.
+                FCopyAttributesOptions := FCopyAttributesOptions - CopyAttrResult;
+              fsourIgnoreAll:
+                FSetPropertyError := fsoospeIgnoreErrors;
+              fsourAbort:
+                AbortOperation;
+            end;
+          end
+        else
+          Assert(False, 'Invalid TFileSourceOperationOptionSetPropertyError value.');
       end;
     end;
   end;

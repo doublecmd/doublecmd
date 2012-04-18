@@ -27,8 +27,10 @@ type
     cbExcludeEmptyDirectories: TCheckBox;
     cmbDirectoryExists: TComboBox;
     cmbFileExists: TComboBox;
+    cmbSetPropertyError: TComboBox;
     gbFileTemplate: TGroupBox;
     grpOptions: TGroupBox;
+    lblSetPropertyError: TLabel;
     lblTemplateName: TLabel;
     lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
@@ -61,7 +63,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng, uFileSourceOperationOptions, DCOSUtils,
+  uGlobs, uLng, uFileSourceOperationOptions, DCOSUtils, DCStrUtils,
   fFindDlg;
 
 procedure SetCopyOption(var Options: TCopyAttributesOptions; Option: TCopyAttributesOption; IsSet: Boolean);
@@ -98,6 +100,8 @@ begin
   cbCopyOwnership.Visible := False;
   {$ENDIF}
 
+  ParseLineToList(rsFileOpSetPropertyErrorOptions, cmbSetPropertyError.Items);
+
   if not gOverwriteFolder then cmbDirectoryExists.Items.Delete(1);
 
   // Load default options.
@@ -120,6 +124,12 @@ begin
       fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 1;
       fsoodeSkip     : cmbDirectoryExists.ItemIndex := 2;
     end;
+
+  case gOperationOptionSetPropertyError of
+    fsoospeNone         : cmbSetPropertyError.ItemIndex := 0;
+    fsoospeDontSet      : cmbSetPropertyError.ItemIndex := 1;
+    fsoospeIgnoreErrors : cmbSetPropertyError.ItemIndex := 2;
+  end;
 
   cbCopyAttributes.Checked   := gOperationOptionCopyAttributes;
   cbCopyTime.Checked         := gOperationOptionCopyTime;
@@ -162,6 +172,11 @@ begin
       1: gOperationOptionDirectoryExists := fsoodeCopyInto;
       2: gOperationOptionDirectoryExists := fsoodeSkip;
     end;
+  case cmbSetPropertyError.ItemIndex of
+    0: gOperationOptionSetPropertyError := fsoospeNone;
+    1: gOperationOptionSetPropertyError := fsoospeDontSet;
+    2: gOperationOptionSetPropertyError := fsoospeIgnoreErrors;
+  end;
 
   gOperationOptionCopyAttributes := cbCopyAttributes.Checked;
   gOperationOptionCopyTime       := cbCopyTime.Checked;
@@ -209,6 +224,11 @@ begin
         1: DirExistsOption := fsoodeCopyInto;
         2: DirExistsOption := fsoodeSkip;
       end;
+    case cmbSetPropertyError.ItemIndex of
+      0: SetPropertyError := fsoospeNone;
+      1: SetPropertyError := fsoospeDontSet;
+      2: SetPropertyError := fsoospeIgnoreErrors;
+    end;
     case cbFollowLinks.State of
       cbChecked  : SymLinkOption := fsooslFollow;
       cbUnchecked: SymLinkOption := fsooslDontFollow;
@@ -255,6 +275,11 @@ begin
         1: DirExistsOption := fsoodeCopyInto;
         2: DirExistsOption := fsoodeSkip;
       end;
+    case cmbSetPropertyError.ItemIndex of
+      0: SetPropertyError := fsoospeNone;
+      1: SetPropertyError := fsoospeDontSet;
+      2: SetPropertyError := fsoospeIgnoreErrors;
+    end;
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
     Options := CopyAttributesOptions;

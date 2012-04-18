@@ -26,6 +26,7 @@ type
     FOperationHelper: TFileSystemOperationHelper;
     FRemoveEmptyTemplateDirectories: Boolean;
     FSearchTemplate: TSearchTemplate;
+    FSetPropertyError: TFileSourceOperationOptionSetPropertyError;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
@@ -62,6 +63,7 @@ type
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
+    property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
     property RemoveEmptyTemplateDirectories: Boolean read FRemoveEmptyTemplateDirectories write FRemoveEmptyTemplateDirectories;
     {en
        Operation takes ownership of assigned template and will free it.
@@ -118,6 +120,7 @@ begin
   FSymLinkOption := gOperationOptionSymLinks;
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
+  FSetPropertyError := gOperationOptionSetPropertyError;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
   FAutoRenameItSelf := False;
@@ -178,6 +181,7 @@ begin
   FOperationHelper.CorrectSymLinks := CorrectSymLinks;
   FOperationHelper.FileExistsOption := FileExistsOption;
   FOperationHelper.DirExistsOption := DirExistsOption;
+  FOperationHelper.SetPropertyError := SetPropertyError;
 
   FOperationHelper.Initialize;
 end;
