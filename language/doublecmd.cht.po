@@ -223,9 +223,25 @@ msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
 msgstr ""
 
+#: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
+msgid "Choose template..."
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "Check free space"
 msgstr "檢查可用空間"
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
+msgid "Copy attributes"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
+msgid "Copy ownership"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgid "Copy date/time"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 msgid "Correct links"
@@ -236,9 +252,21 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "丟棄唯讀標誌"
 
+#: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
+msgid "Exclude empty directories"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
 msgstr "同上連接"
+
+#: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
+msgid "What to do when cannot set file time, attributes, etc."
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
+msgid "Use file template"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 msgid "When directory exists"
@@ -249,10 +277,13 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "當檔案存在時"
 
-#: tfilesystemcopymoveoperationoptionsui.lblfiletype.caption
-msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "只有類型:"
+#: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
+msgid "When cannot set property"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
+msgid "<no template>"
+msgstr ""
 
 #: tfrmabout.btnclose.caption
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
@@ -889,6 +920,16 @@ msgstr "選項 &O"
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
 msgstr "新增新的快捷鏈序列"
+
+#: tfrmedithotkey.btncancel.caption
+msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
+msgid "&Cancel"
+msgstr "取消(&C)"
+
+#: tfrmedithotkey.btnok.caption
+msgctxt "TFRMEDITHOTKEY.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "確定(&O)"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
@@ -1707,13 +1748,20 @@ msgstr "關閉(&C)"
 msgid "&Go to file"
 msgstr "轉到檔案(&G)"
 
+#: tfrmfinddlg.btnlastsearch.caption
+msgctxt "tfrmfinddlg.btnlastsearch.caption"
+msgid "&Last search"
+msgstr ""
+
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
 msgstr "新的尋找 &N"
 
 #: tfrmfinddlg.btnsavetemplate.caption
+#, fuzzy
+#| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
-msgid "Save"
+msgid "&Save"
 msgstr "儲存"
 
 #: tfrmfinddlg.btnsearchdelete.caption
@@ -1738,6 +1786,10 @@ msgstr "開始(&S)"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
 msgstr "取消"
+
+#: tfrmfinddlg.btnusetemplate.caption
+msgid "Use template"
+msgstr ""
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -1780,6 +1832,12 @@ msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
 msgstr "在檔案中尋找"
 
+#: tfrmfinddlg.cbfollowsymlinks.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.cbfollowsymlinks.caption"
+msgid "Follow symlinks"
+msgstr "同上連接"
+
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
@@ -1794,8 +1852,10 @@ msgid "Search for part of file name "
 msgstr "尋找部分檔名"
 
 #: tfrmfinddlg.cbregexp.caption
+#, fuzzy
+#| msgid "&Regular expressions"
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
-msgid "&Regular expressions"
+msgid "&Regular expression"
 msgstr "正則表達式(&R)"
 
 #: tfrmfinddlg.cbreplacetext.caption
@@ -1815,57 +1875,67 @@ msgstr "結束時間"
 msgid "&Use search plugin:"
 msgstr "使用尋找插件:"
 
+#: tfrmfinddlg.cmbexcludedirectories.hint
+msgid "Enter directories names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbexcludefiles.hint
+msgid "Enter files names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbfindfilemask.hint
+msgid "Enter files names separated with \";\""
+msgstr ""
+
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: tfrmfinddlg.cmbfollowsymlinks.caption
-#, fuzzy
-msgid "Follow symlinks"
-msgstr "同上連接"
-
 #: tfrmfinddlg.gbattributes.caption
 msgid "&Attributes"
 msgstr "屬性 &A"
 
+#: tfrmfinddlg.gbdirectories.caption
+msgctxt "tfrmfinddlg.gbdirectories.caption"
+msgid "Directories"
+msgstr "目錄"
+
+#: tfrmfinddlg.gbfiles.caption
+msgctxt "tfrmfinddlg.gbfiles.caption"
+msgid "Files"
+msgstr "檔案"
+
 #: tfrmfinddlg.gbfinddata.caption
 msgid "Find Data"
 msgstr "尋找數據"
-
-#: tfrmfinddlg.gbfindoptions.caption
-msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
-msgid "Options"
-msgstr "選項"
-
-#: tfrmfinddlg.lblcurrent.caption
-msgid "Current"
-msgstr "當前"
 
 #: tfrmfinddlg.lblencoding.caption
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "編碼:"
 
+#: tfrmfinddlg.lblexcludedirectories.caption
+msgid "E&xclude subdirectories"
+msgstr ""
+
+#: tfrmfinddlg.lblexcludefiles.caption
+msgid "&Exclude files"
+msgstr ""
+
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
 msgstr "檔案名稱偽裝"
 
 #: tfrmfinddlg.lblfindpathstart.caption
-msgid "&Directory"
+#, fuzzy
+#| msgid "&Directory"
+msgid "&Start in directory"
 msgstr "檔案所在目錄"
-
-#: tfrmfinddlg.lblfound.caption
-msgid "Found"
-msgstr "找到"
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
 msgstr "尋找子目錄 &b："
-
-#: tfrmfinddlg.lblstatus.caption
-msgid "Status"
-msgstr "狀態"
 
 #: tfrmfinddlg.lbltemplateheader.caption
 msgid "&Previous searches:"
@@ -1890,6 +1960,11 @@ msgstr "高級"
 #: tfrmfinddlg.tsloadsave.caption
 msgid "Load/Save"
 msgstr "載入/儲存"
+
+#: tfrmfinddlg.tsplugins.caption
+msgctxt "tfrmfinddlg.tsplugins.caption"
+msgid "Plugins"
+msgstr "插件"
 
 #: tfrmfinddlg.tsresults.caption
 msgid "Results"
@@ -3433,8 +3508,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "確定(&O)"
 
-#: tfrmoptions.frmoptions.caption
-msgctxt "tfrmoptions.frmoptions.caption"
+#: tfrmoptions.caption
+msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "選項"
 
@@ -5148,6 +5223,7 @@ msgid "D"
 msgstr ""
 
 #: tfrmquicksearch.sbdirectories.hint
+msgctxt "tfrmquicksearch.sbdirectories.hint"
 msgid "Directories"
 msgstr "目錄"
 
@@ -5156,6 +5232,7 @@ msgid "F"
 msgstr ""
 
 #: tfrmquicksearch.sbfiles.hint
+msgctxt "tfrmquicksearch.sbfiles.hint"
 msgid "Files"
 msgstr "檔案"
 
@@ -6221,6 +6298,10 @@ msgstr "複製到 &I"
 msgid "Copy Into &All"
 msgstr ""
 
+#: ulng.rsdlgbuttonignoreall
+msgid "I&gnore All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "否(&N)"
@@ -6370,6 +6451,19 @@ msgstr "下一個(&F)"
 msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "替換"
+
+#: ulng.rsfileopdirectoryexistsoptions
+msgid "Ask;Overwrite;Copy into;Skip"
+msgstr ""
+
+#: ulng.rsfileopfileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
+#: ulng.rsfileopsetpropertyerroroptions
+msgctxt "ulng.rsfileopsetpropertyerroroptions"
+msgid "Ask;Don't set anymore;Ignore errors"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -6761,6 +6855,10 @@ msgstr "不能對 \"%s\" 設定屬性"
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
 msgstr "不能對 \"%s\" 設定日期及時間"
+
+#: ulng.rsmsgerrsetownership
+msgid "Can not set owner/group for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -7459,6 +7557,10 @@ msgstr "把它改成 %s?"
 msgid "used for %s in %s"
 msgstr ""
 
+#: ulng.rsopthotkeysusedwithdifferentparams
+msgid "used for this command but with different parameters"
+msgstr ""
+
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
@@ -7716,6 +7818,10 @@ msgstr "是 (%s)"
 #: ulng.rssearchresult
 msgid "Search result"
 msgstr "尋找結果"
+
+#: ulng.rssearchtemplateunnamed
+msgid "<unnamed template>"
+msgstr ""
 
 #: ulng.rsselectdir
 msgid "Select a directory"

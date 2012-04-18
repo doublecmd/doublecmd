@@ -224,9 +224,25 @@ msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
 msgstr "R"
 
+#: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
+msgid "Choose template..."
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "Check free space"
 msgstr "Preveri zasedenost prostora"
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
+msgid "Copy attributes"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
+msgid "Copy ownership"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgid "Copy date/time"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 msgid "Correct links"
@@ -237,9 +253,21 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Odstrani zastavico le za branje"
 
+#: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
+msgid "Exclude empty directories"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
 msgstr "Sledi povezavam"
+
+#: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
+msgid "What to do when cannot set file time, attributes, etc."
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
+msgid "Use file template"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 msgid "When directory exists"
@@ -250,10 +278,13 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Če datoteka že obstaja,"
 
-#: tfilesystemcopymoveoperationoptionsui.lblfiletype.caption
-msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "Le vrsto datotek:"
+#: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
+msgid "When cannot set property"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
+msgid "<no template>"
+msgstr ""
 
 #: tfrmabout.btnclose.caption
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
@@ -888,6 +919,16 @@ msgstr "&Možnosti"
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
 msgstr ""
+
+#: tfrmedithotkey.btncancel.caption
+msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
+msgid "&Cancel"
+msgstr "&Prekliči"
+
+#: tfrmedithotkey.btnok.caption
+msgctxt "TFRMEDITHOTKEY.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&V redu"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
@@ -1700,13 +1741,20 @@ msgstr "&Zapri"
 msgid "&Go to file"
 msgstr "&Skoči na datoteko"
 
+#: tfrmfinddlg.btnlastsearch.caption
+msgctxt "tfrmfinddlg.btnlastsearch.caption"
+msgid "&Last search"
+msgstr ""
+
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
 msgstr "&Novo iskanje"
 
 #: tfrmfinddlg.btnsavetemplate.caption
+#, fuzzy
+#| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
-msgid "Save"
+msgid "&Save"
 msgstr "Shrani"
 
 #: tfrmfinddlg.btnsearchdelete.caption
@@ -1731,6 +1779,10 @@ msgstr "&Začni"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
 msgstr "Prekliči"
+
+#: tfrmfinddlg.btnusetemplate.caption
+msgid "Use template"
+msgstr ""
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -1771,6 +1823,11 @@ msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
 msgstr "Najdi &besedilo"
 
+#: tfrmfinddlg.cbfollowsymlinks.caption
+msgctxt "tfrmfinddlg.cbfollowsymlinks.caption"
+msgid "Follow symlinks"
+msgstr "Sledi simbolnim povezavam"
+
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
@@ -1785,8 +1842,10 @@ msgid "Search for part of file name "
 msgstr "Poišči del imena datoteke"
 
 #: tfrmfinddlg.cbregexp.caption
+#, fuzzy
+#| msgid "&Regular expressions"
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
-msgid "&Regular expressions"
+msgid "&Regular expression"
 msgstr "&Logični izraz"
 
 #: tfrmfinddlg.cbreplacetext.caption
@@ -1805,58 +1864,67 @@ msgstr "Do ure:"
 msgid "&Use search plugin:"
 msgstr "Uporabi vstavek &iskanja:"
 
+#: tfrmfinddlg.cmbexcludedirectories.hint
+msgid "Enter directories names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbexcludefiles.hint
+msgid "Enter files names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbfindfilemask.hint
+msgid "Enter files names separated with \";\""
+msgstr ""
+
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: tfrmfinddlg.cmbfollowsymlinks.caption
-msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
-msgid "Follow symlinks"
-msgstr "Sledi simbolnim povezavam"
-
 #: tfrmfinddlg.gbattributes.caption
 msgid "&Attributes"
 msgstr "&Atributi"
 
+#: tfrmfinddlg.gbdirectories.caption
+msgctxt "tfrmfinddlg.gbdirectories.caption"
+msgid "Directories"
+msgstr "Upoštevaj mape"
+
+#: tfrmfinddlg.gbfiles.caption
+msgctxt "tfrmfinddlg.gbfiles.caption"
+msgid "Files"
+msgstr "Upoštevaj datoteke"
+
 #: tfrmfinddlg.gbfinddata.caption
 msgid "Find Data"
 msgstr "Najdi podatke"
-
-#: tfrmfinddlg.gbfindoptions.caption
-msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
-msgid "Options"
-msgstr "Možnosti"
-
-#: tfrmfinddlg.lblcurrent.caption
-msgid "Current"
-msgstr "Trenutno"
 
 #: tfrmfinddlg.lblencoding.caption
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Nabor znakov:"
 
+#: tfrmfinddlg.lblexcludedirectories.caption
+msgid "E&xclude subdirectories"
+msgstr ""
+
+#: tfrmfinddlg.lblexcludefiles.caption
+msgid "&Exclude files"
+msgstr ""
+
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
 msgstr "Poišči datoteke z &masko:"
 
 #: tfrmfinddlg.lblfindpathstart.caption
-msgid "&Directory"
+#, fuzzy
+#| msgid "&Directory"
+msgid "&Start in directory"
 msgstr "Poišči v &mapi:"
-
-#: tfrmfinddlg.lblfound.caption
-msgctxt "TFRMFINDDLG.LBLFOUND.CAPTION"
-msgid "Found"
-msgstr "Najdeno"
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
 msgstr "Poišči tudi po &podrejenih mapah:"
-
-#: tfrmfinddlg.lblstatus.caption
-msgid "Status"
-msgstr "Stanje"
 
 #: tfrmfinddlg.lbltemplateheader.caption
 msgid "&Previous searches:"
@@ -1881,6 +1949,11 @@ msgstr "Napredno"
 #: tfrmfinddlg.tsloadsave.caption
 msgid "Load/Save"
 msgstr "Naloži/Shrani"
+
+#: tfrmfinddlg.tsplugins.caption
+msgctxt "tfrmfinddlg.tsplugins.caption"
+msgid "Plugins"
+msgstr "Vstavki"
 
 #: tfrmfinddlg.tsresults.caption
 msgid "Results"
@@ -3346,8 +3419,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&V redu"
 
-#: tfrmoptions.frmoptions.caption
-msgctxt "tfrmoptions.frmoptions.caption"
+#: tfrmoptions.caption
+msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "Možnosti"
 
@@ -4980,6 +5053,7 @@ msgid "D"
 msgstr "M"
 
 #: tfrmquicksearch.sbdirectories.hint
+msgctxt "tfrmquicksearch.sbdirectories.hint"
 msgid "Directories"
 msgstr "Upoštevaj mape"
 
@@ -4988,6 +5062,7 @@ msgid "F"
 msgstr "D"
 
 #: tfrmquicksearch.sbfiles.hint
+msgctxt "tfrmquicksearch.sbfiles.hint"
 msgid "Files"
 msgstr "Upoštevaj datoteke"
 
@@ -6044,6 +6119,10 @@ msgstr "Kopiraj &v"
 msgid "Copy Into &All"
 msgstr "Kopiraj v &vse"
 
+#: ulng.rsdlgbuttonignoreall
+msgid "I&gnore All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&Ne"
@@ -6191,6 +6270,19 @@ msgstr "&Naprej"
 msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "Zamenjaj"
+
+#: ulng.rsfileopdirectoryexistsoptions
+msgid "Ask;Overwrite;Copy into;Skip"
+msgstr ""
+
+#: ulng.rsfileopfileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
+#: ulng.rsfileopsetpropertyerroroptions
+msgctxt "ulng.rsfileopsetpropertyerroroptions"
+msgid "Ask;Don't set anymore;Ignore errors"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -6582,6 +6674,10 @@ msgstr "Ni mogoče določiti atributov za \"%s\""
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
 msgstr "Datuma in časa za datoteko \"%s\" ni mogoče določiti."
+
+#: ulng.rsmsgerrsetownership
+msgid "Can not set owner/group for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -7276,6 +7372,10 @@ msgstr "Ali naj se zamenja v %s?"
 msgid "used for %s in %s"
 msgstr "uporabljeno za %s v %s"
 
+#: ulng.rsopthotkeysusedwithdifferentparams
+msgid "used for this command but with different parameters"
+msgstr ""
+
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
@@ -7531,6 +7631,10 @@ msgstr "Da (%s)"
 #: ulng.rssearchresult
 msgid "Search result"
 msgstr "Rezultati iskanja"
+
+#: ulng.rssearchtemplateunnamed
+msgid "<unnamed template>"
+msgstr ""
 
 #: ulng.rsselectdir
 msgid "Select a directory"

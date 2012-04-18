@@ -221,8 +221,24 @@ msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
 msgstr ""
 
+#: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
+msgid "Choose template..."
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "Check free space"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
+msgid "Copy attributes"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
+msgid "Copy ownership"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgid "Copy date/time"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
@@ -234,8 +250,20 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr ""
 
+#: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
+msgid "Exclude empty directories"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
+msgid "What to do when cannot set file time, attributes, etc."
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
+msgid "Use file template"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
@@ -247,9 +275,12 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr ""
 
-#: tfilesystemcopymoveoperationoptionsui.lblfiletype.caption
-msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
-msgid "Only type:"
+#: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
+msgid "When cannot set property"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
+msgid "<no template>"
 msgstr ""
 
 #: tfrmabout.btnclose.caption
@@ -884,6 +915,16 @@ msgstr ""
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
+msgstr ""
+
+#: tfrmedithotkey.btncancel.caption
+msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
+msgid "&Cancel"
+msgstr ""
+
+#: tfrmedithotkey.btnok.caption
+msgctxt "TFRMEDITHOTKEY.BTNOK.CAPTION"
+msgid "&OK"
 msgstr ""
 
 #: tfrmedithotkey.btnremoveshortcut.hint
@@ -1696,13 +1737,18 @@ msgstr ""
 msgid "&Go to file"
 msgstr ""
 
+#: tfrmfinddlg.btnlastsearch.caption
+msgctxt "TFRMFINDDLG.BTNLASTSEARCH.CAPTION"
+msgid "&Last search"
+msgstr ""
+
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
 msgstr ""
 
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
-msgid "Save"
+msgid "&Save"
 msgstr ""
 
 #: tfrmfinddlg.btnsearchdelete.caption
@@ -1726,6 +1772,10 @@ msgstr ""
 #: tfrmfinddlg.btnstop.caption
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
+msgstr ""
+
+#: tfrmfinddlg.btnusetemplate.caption
+msgid "Use template"
 msgstr ""
 
 #: tfrmfinddlg.btnview.caption
@@ -1767,6 +1817,11 @@ msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
 msgstr ""
 
+#: tfrmfinddlg.cbfollowsymlinks.caption
+msgctxt "TFRMFINDDLG.CBFOLLOWSYMLINKS.CAPTION"
+msgid "Follow symlinks"
+msgstr ""
+
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
@@ -1782,7 +1837,7 @@ msgstr ""
 
 #: tfrmfinddlg.cbregexp.caption
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
-msgid "&Regular expressions"
+msgid "&Regular expression"
 msgstr ""
 
 #: tfrmfinddlg.cbreplacetext.caption
@@ -1801,31 +1856,39 @@ msgstr ""
 msgid "&Use search plugin:"
 msgstr ""
 
+#: tfrmfinddlg.cmbexcludedirectories.hint
+msgid "Enter directories names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbexcludefiles.hint
+msgid "Enter files names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbfindfilemask.hint
+msgid "Enter files names separated with \";\""
+msgstr ""
+
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
-msgstr ""
-
-#: tfrmfinddlg.cmbfollowsymlinks.caption
-msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
-msgid "Follow symlinks"
 msgstr ""
 
 #: tfrmfinddlg.gbattributes.caption
 msgid "&Attributes"
 msgstr ""
 
+#: tfrmfinddlg.gbdirectories.caption
+msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
+msgid "Directories"
+msgstr ""
+
+#: tfrmfinddlg.gbfiles.caption
+msgctxt "TFRMFINDDLG.GBFILES.CAPTION"
+msgid "Files"
+msgstr ""
+
 #: tfrmfinddlg.gbfinddata.caption
 msgid "Find Data"
-msgstr ""
-
-#: tfrmfinddlg.gbfindoptions.caption
-msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
-msgid "Options"
-msgstr ""
-
-#: tfrmfinddlg.lblcurrent.caption
-msgid "Current"
 msgstr ""
 
 #: tfrmfinddlg.lblencoding.caption
@@ -1833,25 +1896,24 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr ""
 
+#: tfrmfinddlg.lblexcludedirectories.caption
+msgid "E&xclude subdirectories"
+msgstr ""
+
+#: tfrmfinddlg.lblexcludefiles.caption
+msgid "&Exclude files"
+msgstr ""
+
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
 msgstr ""
 
 #: tfrmfinddlg.lblfindpathstart.caption
-msgid "&Directory"
-msgstr ""
-
-#: tfrmfinddlg.lblfound.caption
-msgctxt "TFRMFINDDLG.LBLFOUND.CAPTION"
-msgid "Found"
+msgid "&Start in directory"
 msgstr ""
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
-msgstr ""
-
-#: tfrmfinddlg.lblstatus.caption
-msgid "Status"
 msgstr ""
 
 #: tfrmfinddlg.lbltemplateheader.caption
@@ -1876,6 +1938,11 @@ msgstr ""
 
 #: tfrmfinddlg.tsloadsave.caption
 msgid "Load/Save"
+msgstr ""
+
+#: tfrmfinddlg.tsplugins.caption
+msgctxt "TFRMFINDDLG.TSPLUGINS.CAPTION"
+msgid "Plugins"
 msgstr ""
 
 #: tfrmfinddlg.tsresults.caption
@@ -3344,8 +3411,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr ""
 
-#: tfrmoptions.frmoptions.caption
-msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
+#: tfrmoptions.caption
+msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr ""
 
@@ -4952,6 +5019,7 @@ msgid "D"
 msgstr ""
 
 #: tfrmquicksearch.sbdirectories.hint
+msgctxt "tfrmquicksearch.sbdirectories.hint"
 msgid "Directories"
 msgstr ""
 
@@ -4960,6 +5028,7 @@ msgid "F"
 msgstr ""
 
 #: tfrmquicksearch.sbfiles.hint
+msgctxt "tfrmquicksearch.sbfiles.hint"
 msgid "Files"
 msgstr ""
 
@@ -6015,6 +6084,10 @@ msgstr ""
 msgid "Copy Into &All"
 msgstr ""
 
+#: ulng.rsdlgbuttonignoreall
+msgid "I&gnore All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr ""
@@ -6159,6 +6232,19 @@ msgstr ""
 #: ulng.rseditsearchreplace
 msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
+msgstr ""
+
+#: ulng.rsfileopdirectoryexistsoptions
+msgid "Ask;Overwrite;Copy into;Skip"
+msgstr ""
+
+#: ulng.rsfileopfileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
+#: ulng.rsfileopsetpropertyerroroptions
+msgctxt "ulng.rsfileopsetpropertyerroroptions"
+msgid "Ask;Don't set anymore;Ignore errors"
 msgstr ""
 
 #: ulng.rsfilterstatus
@@ -6550,6 +6636,10 @@ msgstr ""
 
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetownership
+msgid "Can not set owner/group for \"%s\""
 msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
@@ -7247,6 +7337,10 @@ msgstr ""
 msgid "used for %s in %s"
 msgstr ""
 
+#: ulng.rsopthotkeysusedwithdifferentparams
+msgid "used for this command but with different parameters"
+msgstr ""
+
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
@@ -7501,6 +7595,10 @@ msgstr ""
 
 #: ulng.rssearchresult
 msgid "Search result"
+msgstr ""
+
+#: ulng.rssearchtemplateunnamed
+msgid "<unnamed template>"
 msgstr ""
 
 #: ulng.rsselectdir
