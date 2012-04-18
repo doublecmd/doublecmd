@@ -24,12 +24,12 @@ type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
                 mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
                 mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder, mmrSkip,
-                mmrSkipAll, mmrAll, mmrRetry, mmrAbort);
+                mmrSkipAll, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
                 msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder, msmbSkip,
-                msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
+                msmbSkipAll, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
 
 
   { TDialogMainThread }
@@ -496,6 +496,7 @@ begin
   cLngButton[msmbOverwriteOlder] := rsDlgButtonOverwriteOlder;
   cLngButton[msmbSkip]           := rsDlgButtonSkip;
   cLngButton[msmbSkipAll]        := rsDlgButtonSkipAll;
+  cLngButton[msmbIgnoreAll]      := rsDlgButtonIgnoreAll;
   cLngButton[msmbAll]            := rsDlgButtonAll;
   cLngButton[msmbRetry]          := rsDlgButtonRetry;
   cLngButton[msmbAbort]          := rsDlgButtonAbort;

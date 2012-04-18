@@ -173,6 +173,7 @@ resourcestring
   rsDlgButtonOverwriteOlder = 'Overwrite All Ol&der';
   rsDlgButtonSkip = '&Skip';
   rsDlgButtonSkipAll = 'S&kip All';
+  rsDlgButtonIgnoreAll = 'I&gnore All';
   rsDlgButtonAll = 'A&ll';
   rsDlgButtonRetry = 'Re&try';
   rsDlgButtonAbort = 'Ab&ort';
