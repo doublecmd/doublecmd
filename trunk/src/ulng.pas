@@ -214,6 +214,9 @@ resourcestring
   rsDlgSplit = 'Split';
   rsDlgWipe = 'Wipe file(s)';
 
+  // File operations
+  rsFileOpSetPropertyErrorOptions = 'Ask;Don''t set anymore;Ignore errors';
+
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   rsViewNotFound = '%s not found!';

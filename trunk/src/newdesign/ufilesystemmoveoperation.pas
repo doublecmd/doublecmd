@@ -23,6 +23,7 @@ type
   private
     FCopyAttributesOptions: TCopyAttributesOptions;
     FOperationHelper: TFileSystemOperationHelper;
+    FSetPropertyError: TFileSourceOperationOptionSetPropertyError;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
 
@@ -54,6 +55,7 @@ type
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
+    property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
   end;
 
 implementation
@@ -75,6 +77,7 @@ begin
     FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
+  FSetPropertyError := gOperationOptionSetPropertyError;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
   FCorrectSymlinks := gOperationOptionCorrectLinks;
@@ -130,6 +133,7 @@ begin
   FOperationHelper.CorrectSymLinks := CorrectSymLinks;
   FOperationHelper.FileExistsOption := FileExistsOption;
   FOperationHelper.DirExistsOption := DirExistsOption;
+  FOperationHelper.SetPropertyError := SetPropertyError;
   FOperationHelper.Initialize;
 end;
 

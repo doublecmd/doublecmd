@@ -9,6 +9,9 @@ uses
 
 type
 
+  TFileSourceOperationOptionGeneral =
+    (fsoogNone, fsoogYes, fsoogNo);
+
   TFileSourceOperationOptionSymLink =
     (fsooslNone, fsooslFollow, fsooslDontFollow);
 
@@ -18,8 +21,8 @@ type
   TFileSourceOperationOptionDirectoryExists =
     (fsoodeNone, fsoodeSkip, fsoodeDelete, fsoodeCopyInto);
 
-  TFileSourceOperationOptionGeneral =
-    (fsoogNone, fsoogYes, fsoogNo);
+  TFileSourceOperationOptionSetPropertyError =
+    (fsoospeNone, fsoospeDontSet, fsoospeIgnoreErrors);
 
 implementation
 
