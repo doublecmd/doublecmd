@@ -221,9 +221,25 @@ msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
 msgstr "R"
 
+#: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
+msgid "Choose template..."
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "Check free space"
 msgstr "Перевірити вільне місце"
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
+msgid "Copy attributes"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
+msgid "Copy ownership"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgid "Copy date/time"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 #, fuzzy
@@ -235,9 +251,21 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Скинути позначку \"Лише читання\""
 
+#: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
+msgid "Exclude empty directories"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
 msgstr "Перейти за посиланнями"
+
+#: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
+msgid "What to do when cannot set file time, attributes, etc."
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
+msgid "Use file template"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 msgid "When directory exists"
@@ -248,10 +276,13 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Якщо файл існує"
 
-#: tfilesystemcopymoveoperationoptionsui.lblfiletype.caption
-msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "Лише типу:"
+#: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
+msgid "When cannot set property"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
+msgid "<no template>"
+msgstr ""
 
 #: tfrmabout.btnclose.caption
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
@@ -886,6 +917,16 @@ msgstr "&Налаштування"
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
 msgstr "Додати новий ярлик в послідовність"
+
+#: tfrmedithotkey.btncancel.caption
+msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
+msgid "&Cancel"
+msgstr "&Скасувати"
+
+#: tfrmedithotkey.btnok.caption
+msgctxt "TFRMEDITHOTKEY.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Так"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
@@ -1699,13 +1740,20 @@ msgstr "&Закрити"
 msgid "&Go to file"
 msgstr "Пере&йти до файлу"
 
+#: tfrmfinddlg.btnlastsearch.caption
+msgctxt "tfrmfinddlg.btnlastsearch.caption"
+msgid "&Last search"
+msgstr ""
+
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
 msgstr "Н&овий пошук"
 
 #: tfrmfinddlg.btnsavetemplate.caption
+#, fuzzy
+#| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
-msgid "Save"
+msgid "&Save"
 msgstr "Зберегти"
 
 #: tfrmfinddlg.btnsearchdelete.caption
@@ -1730,6 +1778,10 @@ msgstr "&Старт"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
 msgstr "Скасувати"
+
+#: tfrmfinddlg.btnusetemplate.caption
+msgid "Use template"
+msgstr ""
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -1772,6 +1824,11 @@ msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
 msgstr "&Шукати текст у файлі"
 
+#: tfrmfinddlg.cbfollowsymlinks.caption
+msgctxt "tfrmfinddlg.cbfollowsymlinks.caption"
+msgid "Follow symlinks"
+msgstr "Перейти за посиланнями"
+
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
@@ -1786,8 +1843,10 @@ msgid "Search for part of file name "
 msgstr "Шукати по частині назви файлу"
 
 #: tfrmfinddlg.cbregexp.caption
+#, fuzzy
+#| msgid "&Regular expressions"
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
-msgid "&Regular expressions"
+msgid "&Regular expression"
 msgstr "&Регулярні вирази"
 
 #: tfrmfinddlg.cbreplacetext.caption
@@ -1806,58 +1865,67 @@ msgstr "Час до:"
 msgid "&Use search plugin:"
 msgstr "Використовувати пошуковий п&лагін"
 
+#: tfrmfinddlg.cmbexcludedirectories.hint
+msgid "Enter directories names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbexcludefiles.hint
+msgid "Enter files names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbfindfilemask.hint
+msgid "Enter files names separated with \";\""
+msgstr ""
+
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: tfrmfinddlg.cmbfollowsymlinks.caption
-msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
-msgid "Follow symlinks"
-msgstr "Перейти за посиланнями"
-
 #: tfrmfinddlg.gbattributes.caption
 msgid "&Attributes"
 msgstr "&Атрибути"
 
+#: tfrmfinddlg.gbdirectories.caption
+msgctxt "tfrmfinddlg.gbdirectories.caption"
+msgid "Directories"
+msgstr "Каталоги"
+
+#: tfrmfinddlg.gbfiles.caption
+msgctxt "tfrmfinddlg.gbfiles.caption"
+msgid "Files"
+msgstr "Файли"
+
 #: tfrmfinddlg.gbfinddata.caption
 msgid "Find Data"
 msgstr "Пошук даних з текстом"
-
-#: tfrmfinddlg.gbfindoptions.caption
-msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
-msgid "Options"
-msgstr "Налаштування"
-
-#: tfrmfinddlg.lblcurrent.caption
-msgid "Current"
-msgstr "Поточний"
 
 #: tfrmfinddlg.lblencoding.caption
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Кодування:"
 
+#: tfrmfinddlg.lblexcludedirectories.caption
+msgid "E&xclude subdirectories"
+msgstr ""
+
+#: tfrmfinddlg.lblexcludefiles.caption
+msgid "&Exclude files"
+msgstr ""
+
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
 msgstr "По &масці файлу"
 
 #: tfrmfinddlg.lblfindpathstart.caption
-msgid "&Directory"
+#, fuzzy
+#| msgid "&Directory"
+msgid "&Start in directory"
 msgstr "Шукати в &каталозі:"
-
-#: tfrmfinddlg.lblfound.caption
-msgctxt "TFRMFINDDLG.LBLFOUND.CAPTION"
-msgid "Found"
-msgstr "Знайдено"
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
 msgstr "Шукати в під&каталогах:"
-
-#: tfrmfinddlg.lblstatus.caption
-msgid "Status"
-msgstr "Статус"
 
 #: tfrmfinddlg.lbltemplateheader.caption
 msgid "&Previous searches:"
@@ -1882,6 +1950,11 @@ msgstr "Розширені"
 #: tfrmfinddlg.tsloadsave.caption
 msgid "Load/Save"
 msgstr "Завантажити/Зберегти"
+
+#: tfrmfinddlg.tsplugins.caption
+msgctxt "tfrmfinddlg.tsplugins.caption"
+msgid "Plugins"
+msgstr "Плагіни"
 
 #: tfrmfinddlg.tsresults.caption
 msgid "Results"
@@ -3402,8 +3475,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Так"
 
-#: tfrmoptions.frmoptions.caption
-msgctxt "tfrmoptions.frmoptions.caption"
+#: tfrmoptions.caption
+msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "Налаштування"
 
@@ -5102,6 +5175,7 @@ msgid "D"
 msgstr "D"
 
 #: tfrmquicksearch.sbdirectories.hint
+msgctxt "tfrmquicksearch.sbdirectories.hint"
 msgid "Directories"
 msgstr "Каталоги"
 
@@ -5110,6 +5184,7 @@ msgid "F"
 msgstr "F"
 
 #: tfrmquicksearch.sbfiles.hint
+msgctxt "tfrmquicksearch.sbfiles.hint"
 msgid "Files"
 msgstr "Файли"
 
@@ -6170,6 +6245,10 @@ msgstr "&Копіювати в"
 msgid "Copy Into &All"
 msgstr "Копіюв&ати у всі"
 
+#: ulng.rsdlgbuttonignoreall
+msgid "I&gnore All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&Ні"
@@ -6321,6 +6400,19 @@ msgstr "&Вперед"
 msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "Замінити"
+
+#: ulng.rsfileopdirectoryexistsoptions
+msgid "Ask;Overwrite;Copy into;Skip"
+msgstr ""
+
+#: ulng.rsfileopfileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
+#: ulng.rsfileopsetpropertyerroroptions
+msgctxt "ulng.rsfileopsetpropertyerroroptions"
+msgid "Ask;Don't set anymore;Ignore errors"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -6712,6 +6804,10 @@ msgstr "Неможливо встановити атрибути для \"%s\""
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
 msgstr "Неможливо встановити дату/час для \"%s\""
+
+#: ulng.rsmsgerrsetownership
+msgid "Can not set owner/group for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -7420,6 +7516,10 @@ msgstr "Змінити на %s?"
 msgid "used for %s in %s"
 msgstr "використовується для %s в %s"
 
+#: ulng.rsopthotkeysusedwithdifferentparams
+msgid "used for this command but with different parameters"
+msgstr ""
+
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
@@ -7677,6 +7777,10 @@ msgstr "Так (%s)"
 #: ulng.rssearchresult
 msgid "Search result"
 msgstr "Результати пошуку"
+
+#: ulng.rssearchtemplateunnamed
+msgid "<unnamed template>"
+msgstr ""
 
 #: ulng.rsselectdir
 msgid "Select a directory"

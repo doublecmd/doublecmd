@@ -224,9 +224,25 @@ msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
 msgstr "R"
 
+#: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
+msgid "Choose template..."
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "Check free space"
 msgstr "여유 용량 계산하기"
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
+msgid "Copy attributes"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
+msgid "Copy ownership"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgid "Copy date/time"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 msgid "Correct links"
@@ -237,9 +253,21 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "읽기전용 속성 제거하기"
 
+#: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
+msgid "Exclude empty directories"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
 msgstr "링크 따라가기"
+
+#: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
+msgid "What to do when cannot set file time, attributes, etc."
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
+msgid "Use file template"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 msgid "When directory exists"
@@ -250,10 +278,13 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "파일이 존재할 때"
 
-#: tfilesystemcopymoveoperationoptionsui.lblfiletype.caption
-msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "오직 이 형식만:"
+#: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
+msgid "When cannot set property"
+msgstr ""
+
+#: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
+msgid "<no template>"
+msgstr ""
 
 #: tfrmabout.btnclose.caption
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
@@ -891,6 +922,16 @@ msgstr "옵션(&O)"
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
 msgstr ""
+
+#: tfrmedithotkey.btncancel.caption
+msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
+msgid "&Cancel"
+msgstr "취소(&C)"
+
+#: tfrmedithotkey.btnok.caption
+msgctxt "TFRMEDITHOTKEY.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "확인(&O)"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
@@ -1725,13 +1766,20 @@ msgstr "닫기(&C)"
 msgid "&Go to file"
 msgstr "파일로 가기(&G)"
 
+#: tfrmfinddlg.btnlastsearch.caption
+msgctxt "tfrmfinddlg.btnlastsearch.caption"
+msgid "&Last search"
+msgstr ""
+
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
 msgstr "새 찾기(&N)"
 
 #: tfrmfinddlg.btnsavetemplate.caption
+#, fuzzy
+#| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
-msgid "Save"
+msgid "&Save"
 msgstr "저장하기(&A)"
 
 #: tfrmfinddlg.btnsearchdelete.caption
@@ -1756,6 +1804,10 @@ msgstr "시작(&S)"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
 msgstr "취소"
+
+#: tfrmfinddlg.btnusetemplate.caption
+msgid "Use template"
+msgstr ""
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -1801,6 +1853,11 @@ msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
 msgstr "파일에서 텍스트 찾기(&T)"
 
+#: tfrmfinddlg.cbfollowsymlinks.caption
+msgctxt "tfrmfinddlg.cbfollowsymlinks.caption"
+msgid "Follow symlinks"
+msgstr "심링크 따라가기"
+
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
@@ -1815,8 +1872,10 @@ msgid "Search for part of file name "
 msgstr "파일명의 일부도 검색"
 
 #: tfrmfinddlg.cbregexp.caption
+#, fuzzy
+#| msgid "&Regular expressions"
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
-msgid "&Regular expressions"
+msgid "&Regular expression"
 msgstr "정규 표현식(&R)"
 
 #: tfrmfinddlg.cbreplacetext.caption
@@ -1838,58 +1897,69 @@ msgstr "다음 시간까지:"
 msgid "&Use search plugin:"
 msgstr "검색 플러그인 이용(&U):"
 
+#: tfrmfinddlg.cmbexcludedirectories.hint
+msgid "Enter directories names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbexcludefiles.hint
+msgid "Enter files names that should be excluded from search separated with \";\""
+msgstr ""
+
+#: tfrmfinddlg.cmbfindfilemask.hint
+msgid "Enter files names separated with \";\""
+msgstr ""
+
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: tfrmfinddlg.cmbfollowsymlinks.caption
-msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
-msgid "Follow symlinks"
-msgstr "심링크 따라가기"
-
 #: tfrmfinddlg.gbattributes.caption
 msgid "&Attributes"
 msgstr "속성(&)"
 
+#: tfrmfinddlg.gbdirectories.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.gbdirectories.caption"
+msgid "Directories"
+msgstr "폴더"
+
+#: tfrmfinddlg.gbfiles.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.gbfiles.caption"
+msgid "Files"
+msgstr "파일(&F)"
+
 #: tfrmfinddlg.gbfinddata.caption
 msgid "Find Data"
 msgstr "문자열 검색"
-
-#: tfrmfinddlg.gbfindoptions.caption
-msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
-msgid "Options"
-msgstr "옵션"
-
-#: tfrmfinddlg.lblcurrent.caption
-msgid "Current"
-msgstr "현재"
 
 #: tfrmfinddlg.lblencoding.caption
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "인코딩:"
 
+#: tfrmfinddlg.lblexcludedirectories.caption
+msgid "E&xclude subdirectories"
+msgstr ""
+
+#: tfrmfinddlg.lblexcludefiles.caption
+msgid "&Exclude files"
+msgstr ""
+
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
 msgstr "찾을 파일(&F)"
 
 #: tfrmfinddlg.lblfindpathstart.caption
-msgid "&Directory"
+#, fuzzy
+#| msgid "&Directory"
+msgid "&Start in directory"
 msgstr "폴더(&D)"
-
-#: tfrmfinddlg.lblfound.caption
-msgctxt "TFRMFINDDLG.LBLFOUND.CAPTION"
-msgid "Found"
-msgstr "찾았습니다"
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
 msgstr "하위 폴더 찾기(&B):"
-
-#: tfrmfinddlg.lblstatus.caption
-msgid "Status"
-msgstr "상태"
 
 #: tfrmfinddlg.lbltemplateheader.caption
 msgid "&Previous searches:"
@@ -1914,6 +1984,12 @@ msgstr "고급"
 #: tfrmfinddlg.tsloadsave.caption
 msgid "Load/Save"
 msgstr "읽어오기/저장"
+
+#: tfrmfinddlg.tsplugins.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.tsplugins.caption"
+msgid "Plugins"
+msgstr "플러그인"
 
 #: tfrmfinddlg.tsresults.caption
 msgid "Results"
@@ -3452,9 +3528,9 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "확인(&O)"
 
-#: tfrmoptions.frmoptions.caption
+#: tfrmoptions.caption
 #, fuzzy
-msgctxt "tfrmoptions.frmoptions.caption"
+msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "옵션"
 
@@ -5284,6 +5360,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbdirectories.hint
 #, fuzzy
+msgctxt "tfrmquicksearch.sbdirectories.hint"
 msgid "Directories"
 msgstr "폴더"
 
@@ -5293,6 +5370,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbfiles.hint
 #, fuzzy
+msgctxt "tfrmquicksearch.sbfiles.hint"
 msgid "Files"
 msgstr "파일(&F)"
 
@@ -5930,6 +6008,7 @@ msgid "Zoom Out"
 msgstr "축소하기"
 
 #: tfrmviewer.caption
+#, fuzzy
 msgctxt "tfrmviewer.caption"
 msgid "Viewer"
 msgstr "뷰어"
@@ -6392,6 +6471,10 @@ msgstr "복사(&I)"
 msgid "Copy Into &All"
 msgstr "전부 복사(&A)"
 
+#: ulng.rsdlgbuttonignoreall
+msgid "I&gnore All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "아니오(&N)"
@@ -6547,6 +6630,19 @@ msgstr "앞으로(&F)"
 msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "바꾸기"
+
+#: ulng.rsfileopdirectoryexistsoptions
+msgid "Ask;Overwrite;Copy into;Skip"
+msgstr ""
+
+#: ulng.rsfileopfileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
+#: ulng.rsfileopsetpropertyerroroptions
+msgctxt "ulng.rsfileopsetpropertyerroroptions"
+msgid "Ask;Don't set anymore;Ignore errors"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -6946,6 +7042,10 @@ msgstr "\"%s\" 의 속성을 설정할 수 없습니다"
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
 msgstr "\"%s\" 의 날짜/시간을 설정할 수 없습니다"
+
+#: ulng.rsmsgerrsetownership
+msgid "Can not set owner/group for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -7650,6 +7750,10 @@ msgstr "%s로 바꿀까요?"
 msgid "used for %s in %s"
 msgstr "사용중: %s / %s"
 
+#: ulng.rsopthotkeysusedwithdifferentparams
+msgid "used for this command but with different parameters"
+msgstr ""
+
 #: ulng.rsoptionseditorarchivers
 #, fuzzy
 msgctxt "ulng.rsoptionseditorarchivers"
@@ -7931,6 +8035,10 @@ msgstr "예 (%s)"
 #: ulng.rssearchresult
 msgid "Search result"
 msgstr "검색 결과"
+
+#: ulng.rssearchtemplateunnamed
+msgid "<unnamed template>"
+msgstr ""
 
 #: ulng.rsselectdir
 msgid "Select a directory"
