@@ -39,11 +39,6 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
       Top = 0
       Width = 100
       ItemHeight = 21
-      Items.Strings = (
-        'Ask'
-        'Overwrite'
-        'Skip'
-      )
       Style = csDropDownList
       TabOrder = 0
     end
@@ -63,12 +58,6 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
       Top = 29
       Width = 100
       ItemHeight = 21
-      Items.Strings = (
-        'Ask'
-        'Overwrite'
-        'Copy into'
-        'Skip'
-      )
       Style = csDropDownList
       TabOrder = 1
     end

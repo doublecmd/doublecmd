@@ -100,6 +100,8 @@ begin
   cbCopyOwnership.Visible := False;
   {$ENDIF}
 
+  ParseLineToList(rsFileOpFileExistsOptions, cmbFileExists.Items);
+  ParseLineToList(rsFileOpDirectoryExistsOptions, cmbDirectoryExists.Items);
   ParseLineToList(rsFileOpSetPropertyErrorOptions, cmbSetPropertyError.Items);
 
   if not gOverwriteFolder then cmbDirectoryExists.Items.Delete(1);

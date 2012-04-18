@@ -215,6 +215,8 @@ resourcestring
   rsDlgWipe = 'Wipe file(s)';
 
   // File operations
+  rsFileOpFileExistsOptions = 'Ask;Overwrite;Skip';
+  rsFileOpDirectoryExistsOptions = 'Ask;Overwrite;Copy into;Skip';
   rsFileOpSetPropertyErrorOptions = 'Ask;Don''t set anymore;Ignore errors';
 
   // Viewer
