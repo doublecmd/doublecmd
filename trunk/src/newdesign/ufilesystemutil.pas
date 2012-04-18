@@ -120,6 +120,8 @@ type
     FRootDir: TFile;
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
+    FSkipOpenForReadingError: Boolean;
+    FSkipOpenForWritingError: Boolean;
     FSkipReadError: Boolean;
     FSkipWriteError: Boolean;
     FAutoRenameItSelf: Boolean;
@@ -678,6 +680,105 @@ var
   TotalBytesToRead: Int64 = 0;
   NewPos: Int64;
   DeleteFile: Boolean = False;
+
+  procedure OpenSourceFile;
+  var
+    bRetry: Boolean = True;
+  begin
+    while bRetry do
+    begin
+      bRetry := False;
+      SourceFileStream.Free; // In case stream was created but 'while' loop run again
+      try
+        SourceFileStream := TFileStreamEx.Create(SourceFile.FullPath, fmOpenRead or fmShareDenyNone);
+      except
+        on EFOpenError do
+          begin
+            if not FSkipOpenForReadingError then
+            begin
+              case AskQuestion(rsMsgErrEOpen + ': ' + SourceFile.FullPath, '',
+                               [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
+                               fsourRetry, fsourSkip) of
+                fsourRetry:
+                  bRetry := True;
+                fsourAbort:
+                  AbortOperation;
+                fsourSkip: ; // Do nothing
+                fsourSkipAll:
+                  FSkipOpenForReadingError := True;
+              end;
+            end;
+          end;
+      end;
+    end;
+    if not Assigned(SourceFileStream) and (log_errors in gLogOptions) then
+      logWrite(FOperationThread, rsMsgLogError + rsMsgErrEOpen + ': ' + SourceFile.FullPath, lmtError, True);
+  end;
+
+  procedure OpenTargetFile;
+    function GetMsgByMode: String;
+    begin
+      if Mode in [fsohcmAppend, fsohcmResume] then
+        Result := rsMsgErrEOpen
+      else
+        Result := rsMsgErrECreate;
+    end;
+    function HandleError: Boolean;
+    begin
+      Result := False;
+      if not FSkipOpenForWritingError then
+      begin
+        case AskQuestion(GetMsgByMode + ': ' + SourceFile.FullPath, '',
+                         [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
+                         fsourRetry, fsourSkip) of
+          fsourRetry:
+            Result := True;
+          fsourAbort:
+            AbortOperation;
+          fsourSkip: ; // Do nothing
+          fsourSkipAll:
+            FSkipOpenForWritingError := True;
+        end;
+      end;
+    end;
+  var
+    bRetry: Boolean = True;
+  begin
+    while bRetry do
+    begin
+      bRetry := False;
+      try
+        TargetFileStream.Free; // In case stream was created but 'while' loop run again
+        case Mode of
+        fsohcmAppend:
+          begin
+            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
+            TargetFileStream.Seek(0, soFromEnd); // seek to end
+            TotalBytesToRead := SourceFileStream.Size;
+          end;
+        fsohcmResume:
+          begin
+            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
+            NewPos := TargetFileStream.Seek(0, soFromEnd);
+            SourceFileStream.Seek(NewPos, soFromBeginning);
+            TotalBytesToRead := SourceFileStream.Size - NewPos;
+          end
+        else
+          begin
+            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmCreate);
+            TotalBytesToRead := SourceFileStream.Size;
+          end;
+        end;
+      except
+        on EFOpenError do
+          bRetry := HandleError;
+        on EFCreateError do
+          bRetry := HandleError;
+      end;
+    end;
+    if not Assigned(TargetFileStream) and (log_errors in gLogOptions) then
+      logWrite(FOperationThread, rsMsgLogError + GetMsgByMode + ': ' + TargetFileName, lmtError, True);
+  end;
 begin
   Result := False;
 
@@ -720,187 +821,157 @@ begin
   TargetFileStream := nil; // for safety exception handling
   try
     try
-      try
-        SourceFileStream := TFileStreamEx.Create(SourceFile.FullPath, fmOpenRead or fmShareDenyNone);
-        case Mode of
-        fsohcmAppend:
-          begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
-            TargetFileStream.Seek(0, soFromEnd); // seek to end
-            TotalBytesToRead := SourceFileStream.Size;
-          end;
-        fsohcmResume:
-          begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
-            NewPos := TargetFileStream.Seek(0, soFromEnd);
-            SourceFileStream.Seek(NewPos, soFromBeginning);
-            TotalBytesToRead := SourceFileStream.Size - NewPos;
-          end
-        else
-          begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmCreate);
-            TotalBytesToRead := SourceFileStream.Size;
-          end;
-        end;
+      OpenSourceFile;
+      if not Assigned(SourceFileStream) then
+        Exit;
 
-        while TotalBytesToRead > 0 do
-        begin
-          // Without the following line the reading is very slow
-          // if it tries to read past end of file.
-          if TotalBytesToRead < BytesToRead then
-            BytesToRead := TotalBytesToRead;
+      OpenTargetFile;
+      if not Assigned(TargetFileStream) then
+        Exit;
 
-          repeat
-            try
-              bRetryRead := False;
-              BytesRead := SourceFileStream.Read(FBuffer^, BytesToRead);
-
-              if (BytesRead = 0) then
-                Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
-
-              TotalBytesToRead := TotalBytesToRead - BytesRead;
-              BytesWritten := 0;
-
-              repeat
-                try
-                  bRetryWrite := False;
-                  BytesWrittenTry := TargetFileStream.Write((FBuffer + BytesWritten)^, BytesRead);
-                  BytesWritten := BytesWritten + BytesWrittenTry;
-                  if BytesWrittenTry = 0 then
-                  begin
-                    Raise EWriteError.Create(mbSysErrorMessage(GetLastOSError));
-                  end
-                  else if BytesWritten < BytesRead then
-                  begin
-                    bRetryWrite := True;   // repeat and try to write the rest
-                  end;
-                except
-                  on E: EWriteError do
-                    begin
-                      { Check disk free space }
-                      GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize);
-                      if BytesRead > iFreeDiskSize then
-                        begin
-                          case AskQuestion(rsMsgNoFreeSpaceRetry, '',
-                                           [fsourYes, fsourNo, fsourSkip],
-                                           fsourYes, fsourNo) of
-                            fsourYes:
-                              bRetryWrite := True;
-                            fsourNo:
-                              AbortOperation;
-                            fsourSkip:
-                              Exit;
-                          end; // case
-                        end
-                      else
-                        begin
-                          DeleteFile := FSkipWriteError and not (Mode in [fsohcmAppend, fsohcmResume]);
-                          if FSkipWriteError then Exit;
-                          case AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
-                                           E.Message,
-                                           [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
-                                           fsourRetry, fsourSkip) of
-                            fsourRetry:
-                              bRetryWrite := True;
-                            fsourAbort:
-                              AbortOperation;
-                            fsourSkip:
-                              Exit;
-                            fsourSkipAll:
-                              begin
-                                DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
-                                FSkipWriteError := True;
-                                Exit;
-                              end;
-                          end; // case
-                        end;
-
-                    end; // on do
-                end; // except
-              until not bRetryWrite;
-            except
-              on E: EReadError do
-                begin
-                  DeleteFile := FSkipReadError and not (Mode in [fsohcmAppend, fsohcmResume]);
-                  if FSkipReadError then Exit;
-                  case AskQuestion(rsMsgErrERead + ' ' + SourceFile.FullPath + ':',
-                                   E.Message,
-                                   [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
-                                   fsourRetry, fsourSkip) of
-                    fsourRetry:
-                      bRetryRead := True;
-                    fsourAbort:
-                      AbortOperation;
-                    fsourSkip:
-                      Exit;
-                    fsourSkipAll:
-                      begin
-                        DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
-                        FSkipReadError := True;
-                        Exit;
-                      end;
-                  end; // case
-                end;
-            end;
-          until not bRetryRead;
-
-          with FStatistics do
-          begin
-            CurrentFileDoneBytes := CurrentFileDoneBytes + BytesRead;
-            DoneBytes := DoneBytes + BytesRead;
-
-            UpdateStatistics(FStatistics);
-          end;
-
-          CheckOperationState; // check pause and stop
-        end;//while
-
-        Result:= True;
-
-      except
-        on EFileSourceOperationAborting do
-        begin
-          // Always delete file when user aborted operation.
-          DeleteFile := True;
-          raise;
-        end;
-      end;
-
-    finally
-      FreeAndNil(SourceFileStream);
-      if Assigned(TargetFileStream) then
+      while TotalBytesToRead > 0 do
       begin
-        FreeAndNil(TargetFileStream);
-        if TotalBytesToRead > 0 then
-        begin
-          // There was some error, because not all of the file has been copied.
-          // Ask if delete the not completed target file.
-          if DeleteFile or
-             (AskQuestion('', rsMsgDeletePartiallyCopied,
-                          [fsourYes, fsourNo], fsourYes, fsourNo) = fsourYes) then
-          begin
-            mbDeleteFile(TargetFileName);
+        // Without the following line the reading is very slow
+        // if it tries to read past end of file.
+        if TotalBytesToRead < BytesToRead then
+          BytesToRead := TotalBytesToRead;
+
+        repeat
+          try
+            bRetryRead := False;
+            BytesRead := SourceFileStream.Read(FBuffer^, BytesToRead);
+
+            if (BytesRead = 0) then
+              Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
+
+            TotalBytesToRead := TotalBytesToRead - BytesRead;
+            BytesWritten := 0;
+
+            repeat
+              try
+                bRetryWrite := False;
+                BytesWrittenTry := TargetFileStream.Write((FBuffer + BytesWritten)^, BytesRead);
+                BytesWritten := BytesWritten + BytesWrittenTry;
+                if BytesWrittenTry = 0 then
+                begin
+                  Raise EWriteError.Create(mbSysErrorMessage(GetLastOSError));
+                end
+                else if BytesWritten < BytesRead then
+                begin
+                  bRetryWrite := True;   // repeat and try to write the rest
+                end;
+              except
+                on E: EWriteError do
+                  begin
+                    { Check disk free space }
+                    GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize);
+                    if BytesRead > iFreeDiskSize then
+                      begin
+                        case AskQuestion(rsMsgNoFreeSpaceRetry, '',
+                                         [fsourYes, fsourNo, fsourSkip],
+                                         fsourYes, fsourNo) of
+                          fsourYes:
+                            bRetryWrite := True;
+                          fsourNo:
+                            AbortOperation;
+                          fsourSkip:
+                            Exit;
+                        end; // case
+                      end
+                    else
+                      begin
+                        DeleteFile := FSkipWriteError and not (Mode in [fsohcmAppend, fsohcmResume]);
+                        if FSkipWriteError then Exit;
+                        case AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
+                                         E.Message,
+                                         [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
+                                         fsourRetry, fsourSkip) of
+                          fsourRetry:
+                            bRetryWrite := True;
+                          fsourAbort:
+                            AbortOperation;
+                          fsourSkip:
+                            Exit;
+                          fsourSkipAll:
+                            begin
+                              DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
+                              FSkipWriteError := True;
+                              Exit;
+                            end;
+                        end; // case
+                      end;
+
+                  end; // on do
+              end; // except
+            until not bRetryWrite;
+          except
+            on E: EReadError do
+              begin
+                DeleteFile := FSkipReadError and not (Mode in [fsohcmAppend, fsohcmResume]);
+                if FSkipReadError then Exit;
+                case AskQuestion(rsMsgErrERead + ' ' + SourceFile.FullPath + ':',
+                                 E.Message,
+                                 [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
+                                 fsourRetry, fsourSkip) of
+                  fsourRetry:
+                    bRetryRead := True;
+                  fsourAbort:
+                    AbortOperation;
+                  fsourSkip:
+                    Exit;
+                  fsourSkipAll:
+                    begin
+                      DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
+                      FSkipReadError := True;
+                      Exit;
+                    end;
+                end; // case
+              end;
           end;
+        until not bRetryRead;
+
+        with FStatistics do
+        begin
+          CurrentFileDoneBytes := CurrentFileDoneBytes + BytesRead;
+          DoneBytes := DoneBytes + BytesRead;
+
+          UpdateStatistics(FStatistics);
         end;
+
+        CheckOperationState; // check pause and stop
+      end;//while
+
+      Result:= True;
+
+    except
+      on EFileSourceOperationAborting do
+      begin
+        // Always delete file when user aborted operation.
+        DeleteFile := True;
+        raise;
       end;
     end;
 
-    CopyProperties(SourceFile.FullPath, TargetFileName);
-
-  except
-    on EFCreateError do
+  finally
+    FreeAndNil(SourceFileStream);
+    if Assigned(TargetFileStream) then
+    begin
+      FreeAndNil(TargetFileStream);
+      if TotalBytesToRead > 0 then
       begin
-        ShowError(rsMsgLogError + rsMsgErrECreate + ': ' + TargetFileName);
+        // There was some error, because not all of the file has been copied.
+        // Ask if delete the not completed target file.
+        if DeleteFile or
+           (AskQuestion('', rsMsgDeletePartiallyCopied,
+                        [fsourYes, fsourNo], fsourYes, fsourNo) = fsourYes) then
+        begin
+          mbDeleteFile(TargetFileName);
+        end;
       end;
-    on EFOpenError do
-      begin
-        ShowError(rsMsgLogError + rsMsgErrEOpen + ': ' + SourceFile.FullPath);
-      end;
-    on EWriteError do
-      begin
-        ShowError(rsMsgLogError + rsMsgErrEWrite + ': ' + TargetFileName);
-      end;
+    end;
   end;
+
+  CopyProperties(SourceFile.FullPath, TargetFileName);
 end;
 
 procedure TFileSystemOperationHelper.CopyProperties(SourceFileName, TargetFileName: String);
