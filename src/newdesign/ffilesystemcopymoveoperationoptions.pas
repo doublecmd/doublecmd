@@ -64,6 +64,14 @@ uses
   uGlobs, uLng, uFileSourceOperationOptions, DCOSUtils,
   fFindDlg;
 
+procedure SetCopyOption(var Options: TCopyAttributesOptions; Option: TCopyAttributesOption; IsSet: Boolean);
+begin
+  if IsSet then
+    Options := Options + [Option]
+  else
+    Options := Options - [Option];
+end;
+
 { TFileSystemCopyMoveOperationOptionsUI }
 
 procedure TFileSystemCopyMoveOperationOptionsUI.btnSearchTemplateClick(Sender: TObject);
@@ -85,6 +93,10 @@ end;
 constructor TFileSystemCopyMoveOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
+
+  {$IFDEF MSWINDOWS}
+  cbCopyOwnership.Visible := False;
+  {$ENDIF}
 
   if not gOverwriteFolder then cmbDirectoryExists.Items.Delete(1);
 
@@ -174,13 +186,6 @@ begin
 end;
 
 procedure TFileSystemCopyMoveOperationOptionsUI.SetOperationOptions(CopyOperation: TFileSystemCopyOperation);
-  procedure SetCopyOption(var Options: TCopyAttributesOptions; Option: TCopyAttributesOption; IsSet: Boolean);
-  begin
-    if IsSet then
-      Options := Options + [Option]
-    else
-      Options := Options - [Option];
-  end;
 var
   Options: TCopyAttributesOptions;
 begin
@@ -227,6 +232,8 @@ begin
 end;
 
 procedure TFileSystemCopyMoveOperationOptionsUI.SetOperationOptions(MoveOperation: TFileSystemMoveOperation);
+var
+  Options: TCopyAttributesOptions;
 begin
   with MoveOperation do
   begin
@@ -250,6 +257,11 @@ begin
       end;
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
+    Options := CopyAttributesOptions;
+    SetCopyOption(Options, caoCopyAttributes, cbCopyAttributes.Checked);
+    SetCopyOption(Options, caoCopyTime, cbCopyTime.Checked);
+    SetCopyOption(Options, caoCopyOwnership, cbCopyOwnership.Checked);
+    CopyAttributesOptions := Options;
   end;
 end;
 
@@ -258,10 +270,7 @@ end;
 constructor TFileSystemCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
-  pnlCopyAttributesTime.Visible := True;
-  {$IFDEF MSWINDOWS}
-  cbCopyOwnership.Visible := False;
-  {$ENDIF}
+  cbDropReadOnlyFlag.Visible := True;
   cbFollowLinks.Visible := True;
   gbFileTemplate.Visible := True;
 end;
