@@ -918,22 +918,22 @@ object frmFindDlg: TfrmFindDlg
           ClientWidth = 690
           TabOrder = 2
           object pnlLoadSaveBottomButtons: TPanel
-            Left = 459
+            Left = 275
             Height = 31
             Top = 0
-            Width = 231
+            Width = 415
             Align = alRight
             AutoSize = True
             BevelOuter = bvNone
+            ChildSizing.Layout = cclTopToBottomThenLeftToRight
             ClientHeight = 31
-            ClientWidth = 231
+            ClientWidth = 415
             TabOrder = 0
             object btnSearchLoad: TButton
               Left = 0
               Height = 31
               Top = 0
               Width = 75
-              Align = alRight
               AutoSize = True
               BorderSpacing.Right = 3
               Caption = 'L&oad'
@@ -946,7 +946,6 @@ object frmFindDlg: TfrmFindDlg
               Height = 31
               Top = 0
               Width = 75
-              Align = alRight
               AutoSize = True
               BorderSpacing.Left = 3
               BorderSpacing.Right = 3
@@ -955,20 +954,34 @@ object frmFindDlg: TfrmFindDlg
               OnClick = btnSearchSaveClick
               TabOrder = 1
             end
-            object btnSearchDelete: TButton
-              AnchorSideLeft.Side = asrBottom
+            object btnSearchSaveWithStartingPath: TButton
               Left = 156
+              Height = 31
+              Hint = 'If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory.'
+              Top = 0
+              Width = 181
+              AutoSize = True
+              BorderSpacing.Left = 3
+              BorderSpacing.Right = 3
+              Caption = 'Save with starting path'
+              Constraints.MinWidth = 75
+              OnClick = btnSearchSaveWithStartingPathClick
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 2
+            end
+            object btnSearchDelete: TButton
+              Left = 340
               Height = 31
               Top = 0
               Width = 75
-              Align = alRight
               AutoSize = True
               BorderSpacing.Left = 3
               Caption = '&Delete'
               Constraints.MinHeight = 30
               Constraints.MinWidth = 75
               OnClick = btnSearchDeleteClick
-              TabOrder = 2
+              TabOrder = 3
             end
           end
         end

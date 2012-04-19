@@ -51,6 +51,7 @@ type
     btnSearchDelete: TButton;
     btnSearchLoad: TButton;
     btnSearchSave: TButton;
+    btnSearchSaveWithStartingPath: TButton;
     btnStart: TButton;
     btnUseTemplate: TButton;
     btnStop: TButton;
@@ -133,6 +134,7 @@ type
     procedure btnLastSearchClick(Sender: TObject);
     procedure btnSearchDeleteClick(Sender: TObject);
     procedure btnSearchLoadClick(Sender: TObject);
+    procedure btnSearchSaveWithStartingPathClick(Sender: TObject);
     procedure btnSearchSaveClick(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
@@ -197,6 +199,7 @@ type
     procedure FoundedStringCopyChanged(Sender: TObject);
     procedure LoadTemplate(const Template: TSearchTemplateRec);
     procedure LoadSelectedTemplate;
+    procedure SaveTemplate(SaveStartingPath: Boolean);
     procedure OnAddAttribute(Sender: TObject);
   public
     class function Instance: TfrmFindDlg;
@@ -514,6 +517,11 @@ begin
   LoadSelectedTemplate;
 end;
 
+procedure TfrmFindDlg.btnSearchSaveWithStartingPathClick(Sender: TObject);
+begin
+  SaveTemplate(True);
+end;
+
 procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
 begin
   if lbSearchTemplates.ItemIndex < 0 then Exit;
@@ -538,35 +546,8 @@ begin
 end;
 
 procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
-var
-  sName: UTF8String;
-  SearchTemplate: TSearchTemplate;
 begin
-  sName := FLastLoadedTemplateName;
-  if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
-  begin
-    ModalResult:= mrCancel;
-    Exit;
-  end;
-
-  SearchTemplate := gSearchTemplateList.TemplateByName[sName];
-  if Assigned(SearchTemplate) then
-  begin
-    // TODO: Ask for overwriting existing template.
-    FillFindOptions(SearchTemplate.SearchRecord, True);
-    Exit;
-  end;
-
-  SearchTemplate:= TSearchTemplate.Create;
-  try
-    SearchTemplate.TemplateName:= sName;
-    FillFindOptions(SearchTemplate.SearchRecord, True);
-    gSearchTemplateList.Add(SearchTemplate);
-  except
-    FreeAndNil(SearchTemplate);
-    raise;
-  end;
-  tsLoadSaveShow(nil);
+  SaveTemplate(False);
 end;
 
 procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
@@ -1091,9 +1072,18 @@ end;
 
 procedure TfrmFindDlg.lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
 begin
-  if lbSearchTemplates.ItemIndex < 0 then Exit;
-  with gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex].SearchRecord do
-    lblSearchContents.Caption := '"' + FilesMasks + '"';
+  if lbSearchTemplates.ItemIndex < 0 then
+    lblSearchContents.Caption := ''
+  else
+  begin
+    with gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex].SearchRecord do
+    begin
+      if StartPath <> '' then
+        lblSearchContents.Caption := '"' + FilesMasks + '" -> "' + StartPath + '"'
+      else
+        lblSearchContents.Caption := '"' + FilesMasks + '"';
+    end;
+  end;
 end;
 
 procedure TfrmFindDlg.LoadSelectedTemplate;
@@ -1113,6 +1103,8 @@ procedure TfrmFindDlg.LoadTemplate(const Template: TSearchTemplateRec);
 begin
   with Template do
   begin
+    if StartPath <> '' then
+      edtFindPathStart.Text:= StartPath;
     cmbExcludeDirectories.Text:= ExcludeDirectories;
     cmbFindFileMask.Text:= FilesMasks;
     cmbExcludeFiles.Text:= ExcludeFiles;
@@ -1254,12 +1246,12 @@ end;
 procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
 begin
   gSearchTemplateList.LoadToStringList(lbSearchTemplates.Items);
-  lblSearchContents.Caption:= '';
+  lbSearchTemplatesSelectionChange(nil, False);
 end;
 
 procedure TfrmFindDlg.ZVDateFromChange(Sender: TObject);
 begin
-    cbDateFrom.Checked:= True;
+  cbDateFrom.Checked:= True;
 end;
 
 procedure TfrmFindDlg.ZVDateToChange(Sender: TObject);
@@ -1297,6 +1289,38 @@ begin
     if cmbFindFileMask.CanFocus then
       cmbFindFileMask.SetFocus;
   end;
+end;
+
+procedure TfrmFindDlg.SaveTemplate(SaveStartingPath: Boolean);
+var
+  sName: UTF8String;
+  SearchTemplate: TSearchTemplate;
+begin
+  sName := FLastLoadedTemplateName;
+  if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
+  begin
+    ModalResult:= mrCancel;
+    Exit;
+  end;
+
+  SearchTemplate := gSearchTemplateList.TemplateByName[sName];
+  if Assigned(SearchTemplate) then
+  begin
+    // TODO: Ask for overwriting existing template.
+    FillFindOptions(SearchTemplate.SearchRecord, SaveStartingPath);
+    Exit;
+  end;
+
+  SearchTemplate:= TSearchTemplate.Create;
+  try
+    SearchTemplate.TemplateName:= sName;
+    FillFindOptions(SearchTemplate.SearchRecord, SaveStartingPath);
+    gSearchTemplateList.Add(SearchTemplate);
+  except
+    FreeAndNil(SearchTemplate);
+    raise;
+  end;
+  tsLoadSaveShow(nil);
 end;
 
 finalization
