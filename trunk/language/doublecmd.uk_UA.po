@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-04-12 23:39+0300\n"
+"PO-Revision-Date: 2012-04-18 23:05+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,7 @@ msgstr "R"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
-msgstr ""
+msgstr "Вибрати шаблон..."
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "Check free space"
@@ -231,15 +231,15 @@ msgstr "Перевірити вільне місце"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
 msgid "Copy attributes"
-msgstr ""
+msgstr "Копіювати атрибути"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
 msgid "Copy ownership"
-msgstr ""
+msgstr "Копіювати права"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy date/time"
-msgstr ""
+msgstr "Копіювати дату/час"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 #, fuzzy
@@ -253,19 +253,21 @@ msgstr "Скинути позначку \"Лише читання\""
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
 msgid "Exclude empty directories"
-msgstr ""
+msgstr "Виключити порожні каталоги"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
 msgstr "Перейти за посиланнями"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
+#, fuzzy
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr ""
+msgstr "Що робити, якщо неможливо встановити час файла, атрибути, тощо."
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
+#, fuzzy
 msgid "Use file template"
-msgstr ""
+msgstr "Використати файл шаблону"
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 msgid "When directory exists"
@@ -277,12 +279,13 @@ msgid "When file exists"
 msgstr "Якщо файл існує"
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
+#, fuzzy
 msgid "When cannot set property"
-msgstr ""
+msgstr "Коли не можливо встановити властивості"
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
 msgid "<no template>"
-msgstr ""
+msgstr "<no template>"
 
 #: tfrmabout.btnclose.caption
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
@@ -1743,18 +1746,17 @@ msgstr "Пере&йти до файлу"
 #: tfrmfinddlg.btnlastsearch.caption
 msgctxt "tfrmfinddlg.btnlastsearch.caption"
 msgid "&Last search"
-msgstr ""
+msgstr "Останній пошу&к"
 
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
 msgstr "Н&овий пошук"
 
 #: tfrmfinddlg.btnsavetemplate.caption
-#, fuzzy
 #| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
-msgstr "Зберегти"
+msgstr "Збере&гти"
 
 #: tfrmfinddlg.btnsearchdelete.caption
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
@@ -1781,7 +1783,7 @@ msgstr "Скасувати"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
-msgstr ""
+msgstr "Використати шаблон"
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -1867,15 +1869,15 @@ msgstr "Використовувати пошуковий п&лагін"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr ""
+msgstr "Введіть імена каталогів, які повинні бути виключені з пошуку, через \";\""
 
 #: tfrmfinddlg.cmbexcludefiles.hint
 msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr ""
+msgstr "Введіть імена файлів, які повинні бути виключені з пошуку, через \";\""
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
-msgstr ""
+msgstr "Введіть імена файлів, через \";\""
 
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
@@ -1907,11 +1909,11 @@ msgstr "Кодування:"
 
 #: tfrmfinddlg.lblexcludedirectories.caption
 msgid "E&xclude subdirectories"
-msgstr ""
+msgstr "Пр&опустити підкаталоги"
 
 #: tfrmfinddlg.lblexcludefiles.caption
 msgid "&Exclude files"
-msgstr ""
+msgstr "Проп&устити файли"
 
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
@@ -6247,7 +6249,7 @@ msgstr "Копіюв&ати у всі"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
-msgstr ""
+msgstr "Пропуст&ити все"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -6403,16 +6405,16 @@ msgstr "Замінити"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
-msgstr ""
+msgstr "Запитати;Замінити;Копіювати в; Пропустити"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Skip"
-msgstr ""
+msgstr "Запитати;Замінити;Пропустити"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
 msgid "Ask;Don't set anymore;Ignore errors"
-msgstr ""
+msgstr "Запитати;Не встановлювати більше;Ігнорувати помилки"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -6807,7 +6809,7 @@ msgstr "Неможливо встановити дату/час для \"%s\""
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
-msgstr ""
+msgstr "Не вдається встановити права/групу для \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -7517,8 +7519,9 @@ msgid "used for %s in %s"
 msgstr "використовується для %s в %s"
 
 #: ulng.rsopthotkeysusedwithdifferentparams
+#, fuzzy
 msgid "used for this command but with different parameters"
-msgstr ""
+msgstr "використовувати для цієї команди, але з різними параметрами"
 
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
@@ -7779,8 +7782,9 @@ msgid "Search result"
 msgstr "Результати пошуку"
 
 #: ulng.rssearchtemplateunnamed
+#, fuzzy
 msgid "<unnamed template>"
-msgstr ""
+msgstr "<безіменний шаблон>"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
