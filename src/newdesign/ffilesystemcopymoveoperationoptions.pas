@@ -34,7 +34,6 @@ type
     lblTemplateName: TLabel;
     lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
-    pnlCopyAttributesTime: TPanel;
     pnlComboBoxes: TPanel;
     pnlCheckboxes: TPanel;
     procedure btnSearchTemplateClick(Sender: TObject);

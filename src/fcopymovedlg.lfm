@@ -8,6 +8,7 @@ object frmCopyDlg: TfrmCopyDlg
   VertScrollBar.Page = 205
   VertScrollBar.Range = 186
   ActiveControl = edtDst
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Copy file(s)'
   ClientHeight = 263
   ClientWidth = 612
