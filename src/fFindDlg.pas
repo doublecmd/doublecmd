@@ -191,7 +191,7 @@ type
     procedure DisableControlsForTemplate;
     procedure StopSearch;
     procedure AfterSearchStopped;
-    procedure FillFindOptions(out FindOptions: TSearchTemplateRec);
+    procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: Boolean);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         out SRec: TDsxSearchRecord);
     procedure FoundedStringCopyChanged(Sender: TObject);
@@ -212,7 +212,7 @@ var
 
 procedure ShowFindDlg(const sActPath: UTF8String);
 function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
-function ShowUseTemplateDlg(out Template: TSearchTemplate): Boolean;
+function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
 
 implementation
 
@@ -300,7 +300,7 @@ begin
   end;
 end;
 
-function ShowUseTemplateDlg(out Template: TSearchTemplate): Boolean;
+function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
 var
   AForm: TfrmFindDlg;
 begin
@@ -314,13 +314,16 @@ begin
       btnUseTemplate.Visible := True;
       btnUseTemplate.Default := True;
       BorderIcons := [biSystemMenu, biMaximize];
+      if Assigned(Template) then
+        AForm.LoadTemplate(Template.SearchRecord);
       Result:= (ShowModal = mrOK);
       if Result then
       begin
-        Template:= TSearchTemplate.Create;
+        if not Assigned(Template) then
+          Template:= TSearchTemplate.Create;
         try
           Template.TemplateName := AForm.FLastLoadedTemplateName;
-          AForm.FillFindOptions(Template.SearchRecord);
+          AForm.FillFindOptions(Template.SearchRecord, False);
         except
           FreeAndNil(Template);
           raise;
@@ -550,14 +553,14 @@ begin
   if Assigned(SearchTemplate) then
   begin
     // TODO: Ask for overwriting existing template.
-    FillFindOptions(SearchTemplate.SearchRecord);
+    FillFindOptions(SearchTemplate.SearchRecord, True);
     Exit;
   end;
 
   SearchTemplate:= TSearchTemplate.Create;
   try
     SearchTemplate.TemplateName:= sName;
-    FillFindOptions(SearchTemplate.SearchRecord);
+    FillFindOptions(SearchTemplate.SearchRecord, True);
     gSearchTemplateList.Add(SearchTemplate);
   except
     FreeAndNil(SearchTemplate);
@@ -630,18 +633,21 @@ begin
   end;
 end;
 
-procedure TfrmFindDlg.FillFindOptions(out FindOptions: TSearchTemplateRec);
+procedure TfrmFindDlg.FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: Boolean);
 begin
   with FindOptions do
   begin
-    StartPath      := edtFindPathStart.Text;
-    ExcludeDirectories := cmbExcludeDirectories.Text;
-    FilesMasks     := cmbFindFileMask.Text;
-    ExcludeFiles   := cmbExcludeFiles.Text;
-    SearchDepth    := cmbSearchDepth.ItemIndex - 1;
-    RegExp         := cbRegExp.Checked;
+    if SetStartPath then
+      StartPath := edtFindPathStart.Text
+    else
+      StartPath := '';
+    ExcludeDirectories  := cmbExcludeDirectories.Text;
+    FilesMasks          := cmbFindFileMask.Text;
+    ExcludeFiles        := cmbExcludeFiles.Text;
+    SearchDepth         := cmbSearchDepth.ItemIndex - 1;
+    RegExp              := cbRegExp.Checked;
     IsPartialNameSearch := cbPartialNameSearch.Checked;
-    FollowSymLinks := cbFollowSymLinks.Checked;
+    FollowSymLinks      := cbFollowSymLinks.Checked;
 
     { File attributes }
     AttributesPattern := edtAttrib.Text;
@@ -831,7 +837,7 @@ begin
 
   if not Assigned(FLastSearchTemplate) then
     FLastSearchTemplate := TSearchTemplate.Create;
-  FillFindOptions(FLastSearchTemplate.SearchRecord);
+  FillFindOptions(FLastSearchTemplate.SearchRecord, False);
   try
     if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex<>-1) then
       begin
