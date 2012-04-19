@@ -12,7 +12,8 @@ uses
   uFileSourceOperationOptionsUI,
   uFile,
   uFileSystemUtil,
-  DCOSUtils;
+  DCOSUtils,
+  uSearchTemplate;
 
 type
 
@@ -23,6 +24,8 @@ type
   private
     FCopyAttributesOptions: TCopyAttributesOptions;
     FOperationHelper: TFileSystemOperationHelper;
+    FExcludeEmptyTemplateDirectories: Boolean;
+    FSearchTemplate: TSearchTemplate;
     FSetPropertyError: TFileSourceOperationOptionSetPropertyError;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
@@ -33,6 +36,7 @@ type
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
     FCorrectSymlinks: Boolean;
+    procedure SetSearchTemplate(AValue: TSearchTemplate);
 
   protected
 
@@ -56,6 +60,11 @@ type
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
+    property ExcludeEmptyTemplateDirectories: Boolean read FExcludeEmptyTemplateDirectories write FExcludeEmptyTemplateDirectories;
+    {en
+       Operation takes ownership of assigned template and will free it.
+    }
+    property SearchTemplate: TSearchTemplate read FSearchTemplate write SetSearchTemplate;
   end;
 
 implementation
@@ -81,6 +90,7 @@ begin
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
   FCorrectSymlinks := gOperationOptionCorrectLinks;
+  FExcludeEmptyTemplateDirectories := True;
 
   inherited Create(aFileSource, theSourceFiles, aTargetPath);
 end;
@@ -90,6 +100,7 @@ begin
   inherited Destroy;
   FreeAndNil(FSourceFilesTree);
   FreeAndNil(FOperationHelper);
+  FreeAndNil(FSearchTemplate);
 end;
 
 procedure TFileSystemMoveOperation.Initialize;
@@ -105,6 +116,9 @@ begin
   try
     // In move operation don't follow symlinks.
     TreeBuilder.SymLinkOption := fsooslDontFollow;
+    TreeBuilder.SearchTemplate := Self.SearchTemplate;
+    TreeBuilder.ExcludeEmptyTemplateDirectories := Self.ExcludeEmptyTemplateDirectories;
+
     TreeBuilder.BuildFromFiles(SourceFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
@@ -140,6 +154,12 @@ end;
 procedure TFileSystemMoveOperation.MainExecute;
 begin
   FOperationHelper.ProcessTree(FSourceFilesTree);
+end;
+
+procedure TFileSystemMoveOperation.SetSearchTemplate(AValue: TSearchTemplate);
+begin
+  FSearchTemplate.Free;
+  FSearchTemplate := AValue;
 end;
 
 procedure TFileSystemMoveOperation.Finalize;

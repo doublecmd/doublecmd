@@ -201,7 +201,6 @@ inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOpti
     ClientHeight = 64
     ClientWidth = 213
     TabOrder = 1
-    Visible = False
     object btnSearchTemplate: TBitBtn
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbFileTemplate
