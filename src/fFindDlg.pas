@@ -187,7 +187,7 @@ type
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
     FFrmAttributesEdit: TfrmAttributesEdit;
-    FLastLoadedTemplateName: UTF8String;
+    FLastTemplateName: UTF8String;
     FLastSearchTemplate: TSearchTemplate;
 
     procedure DisableControlsForTemplate;
@@ -200,6 +200,8 @@ type
     procedure LoadTemplate(const Template: TSearchTemplateRec);
     procedure LoadSelectedTemplate;
     procedure SaveTemplate(SaveStartingPath: Boolean);
+    procedure SelectTemplate(const ATemplateName: String);
+    procedure UpdateTemplatesList;
     procedure OnAddAttribute(Sender: TObject);
   public
     class function Instance: TfrmFindDlg;
@@ -325,7 +327,7 @@ begin
         if not Assigned(Template) then
           Template:= TSearchTemplate.Create;
         try
-          Template.TemplateName := AForm.FLastLoadedTemplateName;
+          Template.TemplateName := AForm.FLastTemplateName;
           AForm.FillFindOptions(Template.SearchRecord, False);
         except
           FreeAndNil(Template);
@@ -469,7 +471,7 @@ end;
 
 procedure TfrmFindDlg.ClearFilter;
 begin
-  FLastLoadedTemplateName := '';
+  FLastTemplateName := '';
   cmbFindFileMask.Text:= '*';
   edtFindPathStart.Text:= '';
   cmbSearchDepth.ItemIndex := 0;
@@ -526,7 +528,7 @@ procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
 begin
   if lbSearchTemplates.ItemIndex < 0 then Exit;
   gSearchTemplateList.DeleteTemplate(lbSearchTemplates.ItemIndex);
-  tsLoadSaveShow(nil);
+  UpdateTemplatesList;
 end;
 
 procedure TfrmFindDlg.btnAttrsHelpClick(Sender: TObject);
@@ -1094,7 +1096,7 @@ begin
   SearchTemplate:= gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
   if Assigned(SearchTemplate) then
   begin
-    FLastLoadedTemplateName := SearchTemplate.TemplateName;
+    FLastTemplateName := SearchTemplate.TemplateName;
     LoadTemplate(SearchTemplate.SearchRecord);
   end;
 end;
@@ -1238,6 +1240,18 @@ begin
   cbFileSizeTo.Checked:= (seFileSizeTo.Value > 0);
 end;
 
+procedure TfrmFindDlg.SelectTemplate(const ATemplateName: String);
+var
+  i: Integer;
+begin
+  for i := 0 to lbSearchTemplates.Count - 1 do
+    if lbSearchTemplates.Items[i] = ATemplateName then
+    begin
+      lbSearchTemplates.ItemIndex := i;
+      Break;
+    end;
+end;
+
 procedure TfrmFindDlg.seNotOlderThanChange(Sender: TObject);
 begin
   cbNotOlderThan.Checked:= (seNotOlderThan.Value > 0);
@@ -1245,8 +1259,19 @@ end;
 
 procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
 begin
+  UpdateTemplatesList;
+  if lbSearchTemplates.ItemIndex = -1 then
+    lbSearchTemplates.ItemIndex := 0;
+end;
+
+procedure TfrmFindDlg.UpdateTemplatesList;
+var
+  OldIndex: Integer;
+begin
+  OldIndex := lbSearchTemplates.ItemIndex;
   gSearchTemplateList.LoadToStringList(lbSearchTemplates.Items);
-  lbSearchTemplatesSelectionChange(nil, False);
+  if OldIndex <> -1 then
+    lbSearchTemplates.ItemIndex := OldIndex;
 end;
 
 procedure TfrmFindDlg.ZVDateFromChange(Sender: TObject);
@@ -1296,13 +1321,14 @@ var
   sName: UTF8String;
   SearchTemplate: TSearchTemplate;
 begin
-  sName := FLastLoadedTemplateName;
+  sName := FLastTemplateName;
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
   begin
     ModalResult:= mrCancel;
     Exit;
   end;
 
+  FLastTemplateName := sName;
   SearchTemplate := gSearchTemplateList.TemplateByName[sName];
   if Assigned(SearchTemplate) then
   begin
@@ -1320,7 +1346,8 @@ begin
     FreeAndNil(SearchTemplate);
     raise;
   end;
-  tsLoadSaveShow(nil);
+  UpdateTemplatesList;
+  SelectTemplate(FLastTemplateName);
 end;
 
 finalization
