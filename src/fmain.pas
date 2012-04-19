@@ -1005,8 +1005,11 @@ var
   Options: IOptionsDialog;
 begin
   Options := ShowOptions(TfrmOptionsToolbar);
-  Editor := Options.GetEditor(TfrmOptionsToolbar);
-  (Editor as TfrmOptionsToolbar).SelectButton(Button.Tag);
+  if Assigned(Button) then
+  begin
+    Editor := Options.GetEditor(TfrmOptionsToolbar);
+    (Editor as TfrmOptionsToolbar).SelectButton(Button.Tag);
+  end;
 end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
@@ -1756,27 +1759,19 @@ procedure TfrmMain.MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   Point : TPoint;
-  ToolButton: TKASToolButton;
 begin
-  if Sender is TKASToolButton then
-  begin
-    ToolButton := Sender as TKASToolButton;
-
-    case Button of
-      mbMiddle:
-        begin
-          EditToolbarButton(ToolButton);
-        end;
-
-      mbRight:
-        begin
-          Point.X := X;
-          Point.Y := Y;
-          Point := ToolButton.ClientToScreen(Point);
-          pmToolBar.Tag := PtrInt(ToolButton);
-          pmToolBar.PopUp(Point.X, Point.Y);
-        end;
-    end;
+  case Button of
+    mbRight:
+      begin
+        Point.X := X;
+        Point.Y := Y;
+        Point := (Sender as TControl).ClientToScreen(Point);
+        if Sender is TKASToolButton then
+          pmToolBar.Tag := PtrInt(Sender)
+        else
+          pmToolBar.Tag := 0;
+        pmToolBar.PopUp(Point.X, Point.Y);
+      end;
   end;
 end;
 
@@ -3016,7 +3011,8 @@ begin
   tbSeparator.Visible:= Assigned(Button);
   tbCut.Visible:= Assigned(Button);
   tbCopy.Visible:= Assigned(Button);
-  tbChangeDir.Visible:= false;
+  tbChangeDir.Visible:= False;
+  tbDelete.Visible:= Assigned(Button);
   if Assigned(Button) then
   begin
     ToolItem := Button.ToolItem;
