@@ -55,6 +55,7 @@ type
   private
     FFilesTree: TFileTree;
     FFilesCount: Int64;
+    FCurrentDepth: Integer;
     FDirectoriesCount: Int64;
     FFilesSize: Int64;
     FExcludeRootDir: Boolean;
@@ -358,6 +359,7 @@ begin
   FFilesSize := 0;
   FFilesCount := 0;
   FDirectoriesCount := 0;
+  FCurrentDepth := 0;
   FRootDir := Files.Path;
 
   if Assigned(FFileTemplate) then
@@ -456,7 +458,14 @@ begin
 
   if FRecursive then
   begin
-    AddFilesInDirectory(aFile.FullPath + DirectorySeparator, AddedNode);
+    if not Assigned(FFileTemplate) or
+       (FFileTemplate.SearchRecord.SearchDepth < 0) or
+       (FCurrentDepth <= FFileTemplate.SearchRecord.SearchDepth) then
+    begin
+      Inc(FCurrentDepth);
+      AddFilesInDirectory(aFile.FullPath + DirectorySeparator, AddedNode);
+      Dec(FCurrentDepth);
+    end;
 
     if Assigned(FFileTemplate) and FExcludeEmptyTemplateDirectories and
        (AddedNode.SubNodesCount = 0) then

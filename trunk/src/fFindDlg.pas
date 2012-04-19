@@ -442,7 +442,6 @@ begin
   edtFindPathStart.Visible := False;
   cbFollowSymLinks.Visible := False;
   cbPartialNameSearch.Visible := False;
-  cmbSearchDepth.Enabled := False;
   btnStart.Visible := False;
   btnStop.Visible := False;
   btnNewSearch.Visible := False;
