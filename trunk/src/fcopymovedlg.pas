@@ -350,6 +350,7 @@ begin
   begin
     FOperationOptionsUI := FOperationOptionsUIClass.Create(Self, FFileSource);
     FOperationOptionsUI.Parent := grpOptions;
+    FOperationOptionsUI.Align  := alClient;
   end
   else
     btnOptions.Visible := False;
@@ -405,4 +406,4 @@ end;
 initialization
   TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
 
-end.
+end.
