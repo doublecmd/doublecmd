@@ -29,6 +29,8 @@ type
   public
     // True if any of the subnodes (recursively) are links.
     SubnodesHaveLinks: Boolean;
+    // Whether directory or subdirectories have any elements that will not be copied/moved.
+    SubnodesHaveExclusions: Boolean;
   end;
 
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
@@ -57,7 +59,7 @@ type
     FFilesSize: Int64;
     FExcludeRootDir: Boolean;
     FFileTemplate: TSearchTemplate;
-    FRemoveEmptyTemplateDirectories: Boolean;
+    FExcludeEmptyTemplateDirectories: Boolean;
     FSymlinkOption: TFileSourceOperationOptionSymLink;
     FRecursive: Boolean;
     FFileChecks: TFindFileChecks;
@@ -93,7 +95,7 @@ type
     property FilesCount: Int64 read FFilesCount;
     property DirectoriesCount: Int64 read FDirectoriesCount;
     property ItemsCount: Int64 read GetItemsCount;
-    property RemoveEmptyTemplateDirectories: Boolean read FRemoveEmptyTemplateDirectories write FRemoveEmptyTemplateDirectories;
+    property ExcludeEmptyTemplateDirectories: Boolean read FExcludeEmptyTemplateDirectories write FExcludeEmptyTemplateDirectories;
     {en
        Does not take ownership of SearchTemplate and does not free it.
     }
@@ -443,10 +445,12 @@ procedure TFileSystemTreeBuilder.AddDirectory(aFile: TFile; CurrentNode: TFileTr
 var
   AddedNode: TFileTreeNode;
   AddedIndex: Integer;
+  NodeData: TFileTreeNodeData;
 begin
   AddedIndex := CurrentNode.AddSubNode(aFile);
   AddedNode := CurrentNode.SubNodes[AddedIndex];
-  AddedNode.Data := TFileTreeNodeData.Create;
+  NodeData := TFileTreeNodeData.Create;
+  AddedNode.Data := NodeData;
 
   Inc(FDirectoriesCount);
 
@@ -454,16 +458,19 @@ begin
   begin
     AddFilesInDirectory(aFile.FullPath + DirectorySeparator, AddedNode);
 
-    if Assigned(FFileTemplate) and FRemoveEmptyTemplateDirectories and
+    if Assigned(FFileTemplate) and FExcludeEmptyTemplateDirectories and
        (AddedNode.SubNodesCount = 0) then
     begin
       CurrentNode.RemoveSubNode(AddedIndex);
+      (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveExclusions := True;
     end
     else
     begin
-      // Propagate flag to parent.
-      if (AddedNode.Data as TFileTreeNodeData).SubnodesHaveLinks then
+      // Propagate flags to parent.
+      if NodeData.SubnodesHaveLinks then
         (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
+      if NodeData.SubnodesHaveExclusions then
+        (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveExclusions := True;
     end;
   end;
 end;
@@ -514,7 +521,10 @@ begin
     if Matches and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
       Matches := CheckDirectoryNameRelative(FFileChecks, aFile.FullPath, FRootDir);
     if not Matches then
+    begin
+      (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveExclusions := True;
       Exit;
+    end;
   end;
 
   if aFile.IsDirectory then
@@ -1105,8 +1115,12 @@ end;
 function TFileSystemOperationHelper.ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 var
   bRemoveDirectory: Boolean;
+  NodeData: TFileTreeNodeData;
 begin
-  bRemoveDirectory := (FMode = fsohmMove);
+  NodeData := aNode.Data as TFileTreeNodeData;
+
+  // If some files will not be moved then source directory cannot be deleted.
+  bRemoveDirectory := (FMode = fsohmMove) and (NodeData.SubnodesHaveExclusions = False);
 
   case TargetExists(aNode, AbsoluteTargetFileName) of
     fsoterSkip:
@@ -1119,11 +1133,11 @@ begin
       begin
         // Try moving whole directory tree. It can be done only if we don't have
         // to process each subnode: if there are no links, or they're not being
-        // processed and if the files are not being renamed.
+        // processed, if the files are not being renamed or excluded.
         if (FMode = fsohmMove) and
            (not FRenamingFiles) and
-           ((FCorrectSymlinks = False) or
-            ((aNode.Data as TFileTreeNodeData).SubnodesHaveLinks = False)) and
+           ((FCorrectSymlinks = False) or (NodeData.SubnodesHaveLinks = False)) and
+           (NodeData.SubnodesHaveExclusions = False) and
            mbRenameFile(aNode.TheFile.FullPath, AbsoluteTargetFileName) then
         begin
           // Success.

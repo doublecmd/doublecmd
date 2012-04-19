@@ -249,7 +249,7 @@ begin
       SearchTemplate := FTemplate;
       FTemplate := nil;
     end;
-    RemoveEmptyTemplateDirectories := cbExcludeEmptyDirectories.Checked;
+    ExcludeEmptyTemplateDirectories := cbExcludeEmptyDirectories.Checked;
   end;
 end;
 
@@ -289,6 +289,12 @@ begin
     SetCopyOption(Options, caoCopyTime, cbCopyTime.Checked);
     SetCopyOption(Options, caoCopyOwnership, cbCopyOwnership.Checked);
     CopyAttributesOptions := Options;
+    if Assigned(FTemplate) then
+    begin
+      SearchTemplate := FTemplate;
+      FTemplate := nil;
+    end;
+    ExcludeEmptyTemplateDirectories := cbExcludeEmptyDirectories.Checked;
   end;
 end;
 
@@ -299,7 +305,6 @@ begin
   inherited;
   cbDropReadOnlyFlag.Visible := True;
   cbFollowLinks.Visible := True;
-  gbFileTemplate.Visible := True;
 end;
 
 end.

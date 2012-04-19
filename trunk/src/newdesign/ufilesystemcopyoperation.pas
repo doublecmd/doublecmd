@@ -24,7 +24,7 @@ type
 
   private
     FOperationHelper: TFileSystemOperationHelper;
-    FRemoveEmptyTemplateDirectories: Boolean;
+    FExcludeEmptyTemplateDirectories: Boolean;
     FSearchTemplate: TSearchTemplate;
     FSetPropertyError: TFileSourceOperationOptionSetPropertyError;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
@@ -64,7 +64,7 @@ type
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
-    property RemoveEmptyTemplateDirectories: Boolean read FRemoveEmptyTemplateDirectories write FRemoveEmptyTemplateDirectories;
+    property ExcludeEmptyTemplateDirectories: Boolean read FExcludeEmptyTemplateDirectories write FExcludeEmptyTemplateDirectories;
     {en
        Operation takes ownership of assigned template and will free it.
     }
@@ -125,6 +125,7 @@ begin
   FSkipAllBigFiles := False;
   FAutoRenameItSelf := False;
   FCorrectSymLinks := gOperationOptionCorrectLinks;
+  FExcludeEmptyTemplateDirectories := True;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -150,7 +151,7 @@ begin
   try
     TreeBuilder.SymLinkOption  := Self.SymLinkOption;
     TreeBuilder.SearchTemplate := Self.SearchTemplate;
-    TreeBuilder.RemoveEmptyTemplateDirectories := Self.RemoveEmptyTemplateDirectories;
+    TreeBuilder.ExcludeEmptyTemplateDirectories := Self.ExcludeEmptyTemplateDirectories;
 
     TreeBuilder.BuildFromFiles(SourceFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
