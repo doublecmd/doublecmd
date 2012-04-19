@@ -447,6 +447,7 @@ begin
   btnStop.Visible := False;
   btnNewSearch.Visible := False;
   btnLastSearch.Visible := False;
+  btnSearchSaveWithStartingPath.Visible := False;
   gbFindData.Visible := False;
   tsPlugins.TabVisible := False;
   tsResults.TabVisible := False;
