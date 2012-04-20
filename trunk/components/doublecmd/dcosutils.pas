@@ -801,20 +801,22 @@ var
   Attr: Dword;
   wFileName: WideString;
 begin
-  Result:=False;
   wFileName:= UTF8Decode(FileName);
   Attr:= GetFileAttributesW(PWChar(wFileName));
   if Attr <> DWORD(-1) then
-    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0;
+    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0
+  else
+    Result:=False;
 end;
 {$ELSE}
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= False;
   // Can use fpStat, because link to an existing filename can be opened as if it were a real file.
   if fpStat(UTF8ToSys(FileName), Info) >= 0 then
-    Result:= fpS_ISREG(Info.st_mode);
+    Result:= fpS_ISREG(Info.st_mode)
+  else
+    Result:= False;
 end;
 {$ENDIF}
 
@@ -831,18 +833,15 @@ var
   dwDesiredAccess: DWORD;
   dwShareMode: DWORD = 0;
 begin
-  Result:= False;
   wFileName:= UTF8Decode(FileName);
   dwDesiredAccess := AccessMode[Mode and 3];
   if dwDesiredAccess = GENERIC_READ then
     dwShareMode := FILE_SHARE_READ;
   hFile:= CreateFileW(PWChar(wFileName), dwDesiredAccess, dwShareMode,
                       nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-  if hFile <> INVALID_HANDLE_VALUE then
-    begin
-      Result:= True;
-      FileClose(hFile);
-    end;
+  Result := hFile <> INVALID_HANDLE_VALUE;
+  if Result then
+    FileClose(hFile);
 end;
 {$ELSE}
 const
@@ -872,9 +871,10 @@ end;
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= faInvalidAttributes;
   if fpLStat(UTF8ToSys(FileName), @Info) >= 0 then
-    Result:= Info.st_mode;
+    Result:= Info.st_mode
+  else
+    Result:= faInvalidAttributes;
 end;
 {$ENDIF}
 
@@ -883,9 +883,10 @@ function mbFileSetAttr(const FileName: UTF8String; Attr: TFileAttrs): LongInt;
 var
   wFileName: WideString;
 begin
-  Result:= 0;
   wFileName:= UTF8Decode(FileName);
-  if not SetFileAttributesW(PWChar(wFileName), Attr) then
+  if SetFileAttributesW(PWChar(wFileName), Attr) then
+    Result:= 0
+  else
     Result:= GetLastError;
 end;
 {$ELSE}
@@ -1123,24 +1124,26 @@ var
   Attr:Dword;
   wDirectory: WideString;
 begin
-  Result:= False;
   wDirectory:= UTF8Decode(Directory);
   Attr:= GetFileAttributesW(PWChar(wDirectory));
   if Attr <> DWORD(-1) then
-    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0;
+    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0
+  else
+    Result:= False;
 end;
 {$ELSE}
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= False;
   // We can use fpStat here instead of fpLstat, so that True is returned
   // when target is a directory or a link to an existing directory.
   // Note that same behaviour would be achieved by passing paths
   // that end with path delimiter to fpLstat.
   // Paths with links can be used the same way as if they were real directories.
   if fpStat(UTF8ToSys(Directory), Info) >= 0 then
-    Result:= fpS_ISDIR(Info.st_mode);
+    Result:= fpS_ISDIR(Info.st_mode)
+  else
+    Result:= False;
 end;
 {$ENDIF}
 
