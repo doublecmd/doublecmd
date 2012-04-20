@@ -230,7 +230,7 @@ const
                 O_WrOnly,
                 O_RdWr);
 
-function fpLChown(path : pChar; owner : TUid; group : TGid): cInt; {$IFDEF FPC_USE_LIBC}cdecl; external libc name 'lchown';{$ENDIF}
+function fpLChown(path : pChar; owner : TUid; group : TGid): cInt; {$IFDEF FPC_USE_LIBC}cdecl; external 'c' name 'lchown';{$ENDIF}
 {$IFNDEF FPC_USE_LIBC}
 begin
   fpLChown:=do_syscall(syscall_nr_lchown,TSysParam(path),TSysParam(owner),TSysParam(group));
