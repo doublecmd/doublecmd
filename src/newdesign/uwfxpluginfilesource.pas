@@ -189,7 +189,7 @@ begin
     begin
       // Operation callback function not found, may be plugin call progress function
       // from non operation thread, call global progress function in this case
-      DCDebug('Warning UpdateProgressFunction does not found for thread ' + hexStr(GetCurrentThreadId, SizeOf(TThreadID)));
+      DCDebug('Warning UpdateProgressFunction does not found for thread ' + hexStr(Pointer(GetCurrentThreadId)));
       CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
       if Assigned(CallbackDataClass) and Assigned(CallbackDataClass.UpdateProgressFunction) then
         Result:= CallbackDataClass.UpdateProgressFunction(SourceName, TargetName, PercentDone)
