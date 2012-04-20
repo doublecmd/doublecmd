@@ -184,6 +184,9 @@ uses
   Windows, JwaWinNetWk;
 {$ENDIF}
 {$IF DEFINED(UNIX)}
+  {$IF DEFINED(DARWIN)}
+    {$DEFINE FPC_USE_LIBC}
+  {$ENDIF}
 uses
   {$IF NOT DEFINED(FPC_USE_LIBC)}
   SysCall,
