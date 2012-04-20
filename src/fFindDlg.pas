@@ -472,15 +472,19 @@ end;
 procedure TfrmFindDlg.ClearFilter;
 begin
   FLastTemplateName := '';
-  cmbFindFileMask.Text:= '*';
   edtFindPathStart.Text:= '';
+  edtFindPathStart.ShowHidden := gShowSystemFiles;
+  cmbExcludeDirectories.Text := '';
   cmbSearchDepth.ItemIndex := 0;
+  cmbFindFileMask.Text:= '*';
+  cmbExcludeFiles.Text := '';
+  cbPartialNameSearch.Checked:= gPartialNameSearch;
   cbRegExp.Checked := False;
-  cbPartialNameSearch.Checked := False;
+
   // attributes
   edtAttrib.Text:= '';
-  // file date/time
 
+  // file date/time
   ZVDateFrom.DateTime:=Now();
   ZVDateTo.DateTime:=Now();
   ZVTimeFrom.DateTime:=Now();
@@ -490,20 +494,18 @@ begin
   cbTimeFrom.Checked:=False;
   cbTimeTo.Checked:=False;
 
-  cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
-  edtFindPathStart.ShowHidden := gShowSystemFiles;
-  cbPartialNameSearch.Checked:= gPartialNameSearch;
-
   // not older then
   cbNotOlderThan.Checked:= False;
   seNotOlderThan.Value:= 1;
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
+
   // file size
   cbFileSizeFrom.Checked:= False;
   cbFileSizeTo.Checked:= False;
   seFileSizeFrom.Value:= 0;
   seFileSizeTo.Value:= 10;
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
+
   // find/replace text
   // do not clear search/replace text just clear checkbox
   cbFindText.Checked:= False;
@@ -511,6 +513,8 @@ begin
   cbCaseSens.Checked:= False;
   cbNotContainingText.Checked:= False;
   cmbEncoding.ItemIndex := 0;
+
+  // plugins
   cmbPlugin.Text:= '';
 end;
 
