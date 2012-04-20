@@ -35,6 +35,8 @@ type
   TXmlNode = TDOMNode;
   TXmlPath = DOMString;
 
+  { TXmlConfig }
+
   TXmlConfig = class
   private
     FFileName: UTF8String;
@@ -92,6 +94,11 @@ type
     procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Integer);
     procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Int64);
     procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Double);
+    procedure AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: String);
+    procedure AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Boolean);
+    procedure AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Integer);
+    procedure AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Int64);
+    procedure AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Double);
 
     // SetValue functions can only set values for unique paths.
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: UTF8String);
@@ -368,6 +375,36 @@ var
 begin
   Node := RootNode.AppendChild(FDoc.CreateElement(ValueName));
   Node.TextContent := UTF8ToUTF16(AValue);
+end;
+
+procedure TXmlConfig.AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Boolean);
+begin
+  if AValue <> DefaultValue then
+    AddValue(RootNode, ValueName, AValue);
+end;
+
+procedure TXmlConfig.AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Double);
+begin
+  if AValue <> DefaultValue then
+    AddValue(RootNode, ValueName, AValue);
+end;
+
+procedure TXmlConfig.AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Int64);
+begin
+  if AValue <> DefaultValue then
+    AddValue(RootNode, ValueName, AValue);
+end;
+
+procedure TXmlConfig.AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Integer);
+begin
+  if AValue <> DefaultValue then
+    AddValue(RootNode, ValueName, AValue);
+end;
+
+procedure TXmlConfig.AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: String);
+begin
+  if AValue <> DefaultValue then
+    AddValue(RootNode, ValueName, AValue);
 end;
 
 procedure TXmlConfig.AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Boolean);

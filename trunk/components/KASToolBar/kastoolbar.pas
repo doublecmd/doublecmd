@@ -206,12 +206,6 @@ type
     ToolItemExecute: TOnToolItemExecute;
   end;
 
-procedure SaveIfNotEmpty(Config: TXmlConfig; Node: TXmlNode; Name, Value: String);
-begin
-  if Value <> EmptyStr then
-    Config.AddValue(Node, Name, Value);
-end;
-
 procedure Register;
 begin
   RegisterComponents('KASComponents',[TKASToolBar]);

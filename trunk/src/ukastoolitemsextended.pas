@@ -95,12 +95,6 @@ const
   ProgramItemConfigNode = 'Program';
   DriveItemConfigNode   = 'Drive';
 
-procedure SaveIfNotEmpty(Config: TXmlConfig; Node: TXmlNode; Name, Value: String);
-begin
-  if Value <> EmptyStr then
-    Config.AddValue(Node, Name, Value);
-end;
-
 { TKASDriveItem }
 
 procedure TKASDriveItem.Assign(OtherItem: TKASToolItem);
@@ -174,7 +168,7 @@ begin
   inherited SaveContents(Config, Node);
   Config.AddValue(Node, 'Command', Command);
   for AParam in Params do
-    SaveIfNotEmpty(Config, Node, 'Param', AParam);
+    Config.AddValueDef(Node, 'Param', AParam, '');
 end;
 
 { TKASProgramItem }
@@ -223,9 +217,9 @@ end;
 procedure TKASProgramItem.SaveContents(Config: TXmlConfig; Node: TXmlNode);
 begin
   inherited SaveContents(Config, Node);
-  SaveIfNotEmpty(Config, Node, 'Command', Command);
-  SaveIfNotEmpty(Config, Node, 'Params', Params);
-  SaveIfNotEmpty(Config, Node, 'StartPath', StartPath);
+  Config.AddValueDef(Node, 'Command', Command, '');
+  Config.AddValueDef(Node, 'Params', Params, '');
+  Config.AddValueDef(Node, 'StartPath', StartPath, '');
 end;
 
 { TKASToolBarExtendedLoader }

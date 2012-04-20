@@ -169,12 +169,6 @@ implementation
 uses
   DCStrUtils;
 
-procedure SaveIfNotEmpty(Config: TXmlConfig; Node: TXmlNode; Name, Value: String);
-begin
-  if Value <> EmptyStr then
-    Config.AddValue(Node, Name, Value);
-end;
-
 { TKASToolItem }
 
 procedure TKASToolItem.Assign(OtherItem: TKASToolItem);
@@ -470,9 +464,9 @@ end;
 procedure TKASNormalItem.SaveContents(Config: TXmlConfig; Node: TXmlNode);
 begin
   Config.AddValue(Node, 'ID', ID);
-  SaveIfNotEmpty(Config, Node, 'Text', Text);
-  SaveIfNotEmpty(Config, Node, 'Icon', Icon);
-  SaveIfNotEmpty(Config, Node, 'Hint', Hint);
+  Config.AddValueDef(Node, 'Text', Text, '');
+  Config.AddValueDef(Node, 'Icon', Icon, '');
+  Config.AddValueDef(Node, 'Hint', Hint, '');
 end;
 
 { TKASToolBarItems }
