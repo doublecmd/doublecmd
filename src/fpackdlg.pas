@@ -363,17 +363,22 @@ procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
 var
   WcxFileSource: IWcxArchiveFileSource;
 begin
-  WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(FSourceFileSource, edtPackCmd.Text);
-  if Assigned(WcxFileSource) then // WCX plugin
-    try
-      WcxFileSource.WcxModule.VFSConfigure(Handle);
-    finally
-      WcxFileSource := nil; // free interface
-    end
-  else // MultiArc addon
-    begin
-      FCustomParams:= InputBox(Caption, rsMsgArchiverCustomParams, FCustomParams);
-    end;
+  try
+    WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(FSourceFileSource, edtPackCmd.Text);
+    if Assigned(WcxFileSource) then // WCX plugin
+      try
+        WcxFileSource.WcxModule.VFSConfigure(Handle);
+      finally
+        WcxFileSource := nil; // free interface
+      end
+    else // MultiArc addon
+      begin
+        FCustomParams:= InputBox(Caption, rsMsgArchiverCustomParams, FCustomParams);
+      end;
+  except
+    on e: Exception do
+      MessageDlg(e.Message, mtError, [mbOK], 0);
+  end;
 end;
 
 procedure TfrmPackDlg.cbCreateSeparateArchivesChange(Sender: TObject);
