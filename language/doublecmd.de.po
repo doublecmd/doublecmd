@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-04-14 10:20+0100\n"
+"PO-Revision-Date: 2012-04-20 10:20+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -222,7 +222,7 @@ msgstr "R"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
-msgstr ""
+msgstr "Vorlage wählen..."
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "Check free space"
@@ -230,15 +230,15 @@ msgstr "Prüfe freien Speicher"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
 msgid "Copy attributes"
-msgstr ""
+msgstr "Attribute kopieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
 msgid "Copy ownership"
-msgstr ""
+msgstr "Besitzer kopieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy date/time"
-msgstr ""
+msgstr "Datum/Zeit kopieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 msgid "Correct links"
@@ -251,7 +251,7 @@ msgstr "Schreibschutz-Attribut entfernen"
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
 msgid "Exclude empty directories"
-msgstr ""
+msgstr "Leere Verzeichnisse ignorieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
@@ -259,11 +259,11 @@ msgstr "Folge Verknüpfungen"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr ""
+msgstr "Was soll getan werden, wenn Dateieigenschaften nicht übernommen werden können"
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
-msgstr ""
+msgstr "Vorlage aus Datei übernehmen"
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 msgid "When directory exists"
@@ -276,11 +276,11 @@ msgstr "Wenn die Datei vorhanden ist"
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
 msgid "When cannot set property"
-msgstr ""
+msgstr "Wenn Eigenschaften nicht übernommen werden können"
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
 msgid "<no template>"
-msgstr ""
+msgstr "<Keine Vorlage>"
 
 #: tfrmabout.btnclose.caption
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
@@ -1746,7 +1746,7 @@ msgstr "&Gehe zu Datei"
 #: tfrmfinddlg.btnlastsearch.caption
 msgctxt "tfrmfinddlg.btnlastsearch.caption"
 msgid "&Last search"
-msgstr ""
+msgstr "&Letzte Suche"
 
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
@@ -1757,7 +1757,7 @@ msgstr "&Neue Suche"
 #| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
-msgstr "Speichern"
+msgstr "&Speichern"
 
 #: tfrmfinddlg.btnsearchdelete.caption
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
@@ -1784,7 +1784,7 @@ msgstr "Abbruch"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
-msgstr ""
+msgstr "Vorlage benutzen"
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -1874,11 +1874,11 @@ msgstr "Nutze Such-PlugIn"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr ""
+msgstr "Verzeichnisnamen eingeben, die von der Suche ausgeschlossen werden sollen (Namen mit \";\" trennen)"
 
 #: tfrmfinddlg.cmbexcludefiles.hint
 msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr ""
+msgstr "Dateinamen eingeben, die von der Suche ausgeschlossen werden sollen (Namen mit \";\" trennen)"
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
@@ -1914,11 +1914,11 @@ msgstr "Kodiere:"
 
 #: tfrmfinddlg.lblexcludedirectories.caption
 msgid "E&xclude subdirectories"
-msgstr ""
+msgstr "Unter&verzeichnisse ausschließen"
 
 #: tfrmfinddlg.lblexcludefiles.caption
 msgid "&Exclude files"
-msgstr ""
+msgstr "Dateien a&usschließen"
 
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
@@ -6399,7 +6399,7 @@ msgstr "&Alle bestehenden Verzeichnisse kopieren"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
-msgstr ""
+msgstr "Alle i&gnorieren"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -6553,11 +6553,11 @@ msgstr "Ersetzen"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
-msgstr ""
+msgstr "Fragen;Überschreiben;Hinein kopieren;Überspringen"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Skip"
-msgstr ""
+msgstr "Fragen;Überschreiben;Überspringen"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
@@ -6957,7 +6957,7 @@ msgstr "Kann Datum / Zeit für  \"%s\" nicht setzen"
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
-msgstr ""
+msgstr "Kann Besitzer/Gruppe für \"%s\" nicht erstellen"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -7662,7 +7662,7 @@ msgstr "Benutzt für %s in %s"
 
 #: ulng.rsopthotkeysusedwithdifferentparams
 msgid "used for this command but with different parameters"
-msgstr ""
+msgstr "für diesen Befehl genutzt, aber mit unterschiedlichen Parametern"
 
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
@@ -7925,7 +7925,7 @@ msgstr "Suchergebnis"
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
-msgstr ""
+msgstr "<unbenannte Vorlage>"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
