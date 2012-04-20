@@ -770,16 +770,17 @@ begin
   begin
     SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
-      ShowPackDlg(ActiveFrame.FileSource,
-                  nil, // No specific target (create new)
-                  SelectedFiles,
-                  NotActiveFrame.CurrentPath,
-                  PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
-                 );
-
+      if SelectedFiles.Count > 0 then
+        ShowPackDlg(ActiveFrame.FileSource,
+                    nil, // No specific target (create new)
+                    SelectedFiles,
+                    NotActiveFrame.CurrentPath,
+                    PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
+                   )
+      else
+        msgWarning(rsMsgNoFilesSelected);
     finally
-      if Assigned(SelectedFiles) then
-        FreeAndNil(SelectedFiles);
+      FreeAndNil(SelectedFiles);
     end;
   end;
 end;
