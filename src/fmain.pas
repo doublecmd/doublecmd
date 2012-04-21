@@ -46,7 +46,7 @@ uses
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
-  uOperationsPanel, KASToolItems, uKASToolItemsExtended
+  uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams
   {$IF DEFINED(LCLQT)}
   , Qt4, QtWidgets
   {$ELSEIF DEFINED(LCLGTK2)}
@@ -484,7 +484,7 @@ type
     procedure tbChangeDirClick(Sender: TObject);
     procedure tbCopyClick(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
-    procedure OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
+    procedure OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
     procedure tbPasteClick(Sender: TObject);
     procedure AllProgressOnUpdateTimer(Sender: TObject);
 {$IFDEF LCLQT}
@@ -623,6 +623,7 @@ type
     procedure UpdateWindowView;
     procedure MinimizeWindow;
     procedure LoadTabs;
+    procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure LoadWindowState;
     procedure SaveWindowState;
     procedure SaveMainToolBar;
@@ -4227,7 +4228,7 @@ begin
   EditToolbarButton(TKASToolButton(pmToolBar.Tag));
 end;
 
-procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
+procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
 var
   I: Integer;
 begin
@@ -4238,8 +4239,13 @@ begin
     WindowState:= lastWindowState;
     BringToFront;
   end;
-  for I:= 0 to ParamCount - 1 do
-    DCDebug(Params[I]);
+
+  LoadTabsCommandLine(Params);
+
+  if Params.ActiveRight then
+    SetActiveFrame(fpRight)
+  else
+    SetActiveFrame(fpLeft);
 end;
 
 procedure TfrmMain.tbPasteClick(Sender: TObject);
@@ -4459,12 +4465,68 @@ begin
     LoadTabsXml(nbRight);
   end;
 
+  LoadTabsCommandLine(CommandLineParams);
+
   if gDelayLoadingTabs then
   begin
     // Load only the current active tab of each notebook.
     FrameLeft.Flags  := FrameLeft.Flags  - [fvfDelayLoadingFiles];
     FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
   end;
+end;
+
+procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
+
+  procedure AddTab(ANoteBook: TFileViewNotebook; aPath: UTF8String);
+  var
+    Page: TFileViewPage;
+    AFileView: TFileView;
+    AFileViewFlags: TFileViewFlags;
+    aFileSource: IFileSource;
+  begin
+    Page := ANoteBook.AddPage(EmptyStr);
+    Page.UpdateCaption(GetLastDir(aPath));
+    aFileSource := TFileSystemFileSource.GetFileSource;
+    if gDelayLoadingTabs then
+      AFileViewFlags := [fvfDelayLoadingFiles]
+    else
+      AFileViewFlags := [];
+    AFileView := TColumnsFileView.Create(Page, aFileSource, aPath, AFileViewFlags);
+    AssignEvents(AFileView);
+    ANoteBook.PageIndex := ANoteBook.PageCount - 1;
+  end;
+
+begin
+  if Params.LeftPath[0] <> #0 then
+  begin
+    Params.LeftPath:= ReplaceEnvVars(ReplaceTilde(Params.LeftPath));
+    if not mbFileSystemEntryExists(Params.LeftPath) then
+      Params.LeftPath:= GetDeepestExistingPath(Params.LeftPath);
+    if Params.LeftPath[0] <> #0 then
+    begin
+      if Params.NewTab then
+        AddTab(nbLeft, Params.LeftPath)
+      else
+        FrameLeft.CurrentPath:= Params.LeftPath;
+    end;
+  end;
+  if Params.RightPath[0] <> #0 then
+  begin
+    Params.RightPath:= ReplaceEnvVars(ReplaceTilde(Params.RightPath));
+    if not mbFileSystemEntryExists(Params.RightPath) then
+      Params.RightPath:= GetDeepestExistingPath(Params.RightPath);
+    if Params.RightPath[0] <> #0 then
+    begin
+      if Params.NewTab then
+        AddTab(nbRight, Params.RightPath)
+      else
+        FrameRight.CurrentPath:= Params.RightPath;
+    end;
+  end;
+  if Params.ActiveRight then
+    PanelSelected:= fpRight
+  else
+    PanelSelected:= fpLeft;
 end;
 
 procedure TfrmMain.LoadWindowState;
@@ -5064,4 +5126,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
