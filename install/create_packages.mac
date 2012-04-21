@@ -33,6 +33,9 @@ if [ -z $CPU_TARGET ]; then
    export CPU_TARGET=$(fpc -iTP)
 fi
 
+# Set minimal Mac OS X target version
+export MACOSX_DEPLOYMENT_TARGET=10.5
+
 # Copy 7-Zip executable
 cp -a darwin/lib/$CPU_TARGET/7za             $BUILD_DC_TMP_DIR/
 
