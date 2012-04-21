@@ -1370,7 +1370,7 @@ begin
                               Files, TargetPath,
                               gShowDialogOnDragDrop) then
             begin
-              SourcePanel.UnselectAllFiles;
+              SourcePanel.MarkFiles(False);
             end;
           end
           else
@@ -1389,7 +1389,7 @@ begin
                               Files, TargetPath,
                               gShowDialogOnDragDrop) then
             begin
-              SourcePanel.UnselectAllFiles;
+              SourcePanel.MarkFiles(False);
             end;
           end
           else
@@ -2844,7 +2844,7 @@ begin
       Result := CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
                           SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
       if Result then
-        ActiveFrame.UnselectAllFiles;
+        ActiveFrame.MarkFiles(False);
 
     finally
       if Assigned(SourceFiles) then
@@ -2867,7 +2867,7 @@ begin
       Result := MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
                           SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
       if Result then
-        ActiveFrame.UnselectAllFiles;
+        ActiveFrame.MarkFiles(False);
 
     finally
       if Assigned(SourceFiles) then
@@ -5126,4 +5126,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+

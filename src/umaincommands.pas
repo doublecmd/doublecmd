@@ -1296,8 +1296,7 @@ end;
 
 procedure TMainCommands.cm_CopyNoAsk(const Params: array of string);
 begin
-  if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, False) then
-    frmMain.ActiveFrame.UnselectAllFiles;
+  frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, False);
 end;
 
 // Parameters:
@@ -1321,8 +1320,7 @@ end;
 
 procedure TMainCommands.cm_RenameNoAsk(const Params: array of string);
 begin
-  if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, False) then
-    frmMain.ActiveFrame.UnselectAllFiles;
+  frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, False);
 end;
 
 procedure TMainCommands.cm_MakeDir(const Params: array of string);
@@ -1845,62 +1843,62 @@ end;
 
 procedure TMainCommands.cm_MarkInvert(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkInvert', Params);
+  frmMain.ActiveFrame.InvertAll;
 end;
 
 procedure TMainCommands.cm_MarkMarkAll(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMarkAll', Params);
+  frmMain.ActiveFrame.MarkFiles(True);
 end;
 
 procedure TMainCommands.cm_MarkUnmarkAll(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkUnmarkAll', Params);
+  frmMain.ActiveFrame.MarkFiles(False);
 end;
 
 procedure TMainCommands.cm_MarkPlus(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkPlus', Params);
+  frmMain.ActiveFrame.MarkGroup(True);
 end;
 
 procedure TMainCommands.cm_MarkMinus(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMinus', Params);
+  frmMain.ActiveFrame.MarkGroup(False);
 end;
 
 procedure TMainCommands.cm_MarkCurrentExtension(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkCurrentExtension', Params);
+  frmMain.ActiveFrame.MarkCurrentExtension(True);
 end;
 
 procedure TMainCommands.cm_UnmarkCurrentExtension(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', Params);
+  frmMain.ActiveFrame.MarkCurrentExtension(False);
 end;
 
 procedure TMainCommands.cm_SaveSelection(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelection', Params);
+  frmMain.ActiveFrame.SaveSelection;
 end;
 
 procedure TMainCommands.cm_RestoreSelection(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_RestoreSelection', Params);
+  frmMain.ActiveFrame.RestoreSelection;
 end;
 
 procedure TMainCommands.cm_SaveSelectionToFile(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelectionToFile', Params);
+  frmMain.ActiveFrame.SaveSelectionToFile(GetDefaultParam(Params));
 end;
 
 procedure TMainCommands.cm_LoadSelectionFromFile(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromFile', Params);
+  frmMain.ActiveFrame.LoadSelectionFromFile(GetDefaultParam(Params));
 end;
 
 procedure TMainCommands.cm_LoadSelectionFromClip(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromClip', Params);
+  frmMain.ActiveFrame.LoadSelectionFromClipboard;
 end;
 
 //------------------------------------------------------

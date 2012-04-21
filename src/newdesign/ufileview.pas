@@ -44,7 +44,8 @@ type
                       fvrqMakeDisplayFileList);       // Filtered file list needs to be created
   TFileViewRequests = set of TFileViewRequest;
   TFileViewNotification = (fvnDisplayFileListChanged,     // Filtered file list was created (filter changed, show/hide hidden files option changed, etc.)
-                           fvnFileSourceFileListChanged); // File list was loaded from FileSource
+                           fvnFileSourceFileListChanged,  // File list was loaded from FileSource
+                           fvnSelectionChanged);          // Files were selected/deselected
   TFileViewNotifications = set of TFileViewNotification;
 
   {en
@@ -187,18 +188,7 @@ type
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
     function GetWorkersThread: TFunctionThread;
 
-    procedure SaveSelection; virtual;
-    procedure RestoreSelection; virtual;
-
-    procedure SelectFile(AFile: TDisplayFile); virtual;
-    procedure InvertFileSelection(AFile: TDisplayFile);
-    procedure InvertAll; virtual;
-    procedure MarkAllFiles(bMarked: Boolean);
-    procedure MarkGroup(const sMask: String; bSelect: Boolean);
-    function MarkMinus: Boolean; virtual;
-    function MarkPlus: Boolean; virtual;
-    function MarkShiftPlus: Boolean; virtual;
-    function MarkShiftMinus: Boolean; virtual;
+    procedure InvertFileSelection(AFile: TDisplayFile; bNotify: Boolean = True);
 
     function IsVisibleToUser: Boolean;
 
@@ -223,6 +213,7 @@ type
     }
     procedure BeforeMakeFileList; virtual;
     procedure ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False); virtual;
+    procedure DoSelectionChanged; virtual;
     procedure DoUpdateView; virtual;
     {en
        Returns current work type in progress.
@@ -277,7 +268,6 @@ type
     property WorkersThread: TFunctionThread read GetWorkersThread;
 
   public
-    procedure MarkFile(AFile: TDisplayFile; bMarked: Boolean);
     property  DisplayFiles: TDisplayFiles read FFiles;
 
   public
@@ -380,7 +370,17 @@ type
        (Usually it will be a different method of selecting than ActiveFile.)
     }
     function HasSelectedFiles: Boolean; virtual;
-    procedure UnselectAllFiles; virtual;
+    procedure InvertAll;
+    procedure LoadSelectionFromClipboard;
+    procedure LoadSelectionFromFile(const AFileName: String);
+    procedure MarkCurrentExtension(bSelect: Boolean);
+    procedure MarkFile(AFile: TDisplayFile; bSelect: Boolean; bNotify: Boolean = True);
+    procedure MarkFiles(bSelect: Boolean);
+    procedure MarkGroup(const sMask: String; bSelect: Boolean);
+    procedure MarkGroup(bSelect: Boolean);
+    procedure RestoreSelection;
+    procedure SaveSelection;
+    procedure SaveSelectionToFile(const AFileName: String);
 
     {en
        Handles drag&drop operations onto the file view.
@@ -473,9 +473,10 @@ type
 implementation
 
 uses
-  Dialogs, LCLProc, Forms, StrUtils, uMasks, fMaskInputDlg,
+  Clipbrd, Dialogs, LCLProc, Forms, StrUtils, dmCommonData,
+  fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uFileViewNotebook, uSearchTemplate, uOSUtils, DCStrUtils;
+  uFileViewNotebook, uSearchTemplate;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -1189,127 +1190,156 @@ begin
     end;
 end;
 
+procedure TFileView.SaveSelectionToFile(const AFileName: String);
+begin
+  with dmComData do
+  begin
+    SaveDialog.DefaultExt := '.txt';
+    SaveDialog.Filter     := '*.txt|*.txt';
+    SaveDialog.FileName   := AFileName;
+    if (AFileName <> EmptyStr) or SaveDialog.Execute then
+      try
+        SaveSelection;
+        FSavedSelection.SaveToFile(SaveDialog.FileName);
+      except
+        on E: Exception do
+          msgError(rsMsgErrSaveFile + '-' + E.Message);
+      end;
+  end;
+end;
+
 procedure TFileView.RestoreSelection;
 var
   I: Integer;
 begin
-  for I := 0 to FFiles.Count - 1 do
-    with FFiles[I] do
-    Selected:= (FSavedSelection.IndexOf(FSFile.Name) >= 0);
+  BeginUpdate;
+  try
+    for I := 0 to FFiles.Count - 1 do
+      with FFiles[I] do
+        Selected:= (FSavedSelection.IndexOf(FSFile.Name) >= 0);
+    Notify([fvnSelectionChanged]);
+  finally
+    EndUpdate;
+  end;
 end;
 
-procedure TFileView.SelectFile(AFile: TDisplayFile);
+procedure TFileView.InvertFileSelection(AFile: TDisplayFile; bNotify: Boolean = True);
 begin
-  InvertFileSelection(AFile);
-end;
-
-procedure TFileView.InvertFileSelection(AFile: TDisplayFile);
-begin
-  if Assigned(AFile) then
-    MarkFile(AFile, not AFile.Selected);
+  MarkFile(AFile, not AFile.Selected, bNotify);
 end;
 
 procedure TFileView.InvertAll;
 var
-  i:Integer;
+  i: Integer;
 begin
-  for i := 0 to FFiles.Count-1 do
-    InvertFileSelection(FFiles[i]);
+  BeginUpdate;
+  try
+    for i := 0 to FFiles.Count-1 do
+      InvertFileSelection(FFiles[i]);
+  finally
+    EndUpdate;
+  end;
 end;
 
-procedure TFileView.MarkFile(AFile: TDisplayFile; bMarked: Boolean);
+procedure TFileView.MarkFile(AFile: TDisplayFile; bSelect: Boolean; bNotify: Boolean = True);
 begin
-  if IsItemValid(AFile) then
-    AFile.Selected := bMarked;
+  // Don't check if valid when just unselecting.
+  if not bSelect then
+  begin
+    if not Assigned(AFile) then
+      Exit;
+  end
+  else if not IsItemValid(AFile) then
+    Exit;
+
+  AFile.Selected := bSelect;
+  if bNotify then
+    Notify([fvnSelectionChanged]);
 end;
 
-procedure TFileView.MarkAllFiles(bMarked: Boolean);
+procedure TFileView.MarkFiles(bSelect: Boolean);
 var
   i: Integer;
 begin
-  for i := 0 to FFiles.Count - 1 do
-    MarkFile(FFiles[i], bMarked);
+  BeginUpdate;
+  try
+    for i := 0 to FFiles.Count - 1 do
+      MarkFile(FFiles[i], bSelect);
+  finally
+    EndUpdate;
+  end;
 end;
 
 procedure TFileView.MarkGroup(const sMask: String; bSelect: Boolean);
 var
   I: Integer;
   SearchTemplate: TSearchTemplate = nil;
+  bSelected: Boolean = False;
 begin
-  if IsMaskSearchTemplate(sMask) then
-    begin
-      SearchTemplate:= gSearchTemplateList.TemplateByName[sMask];
-      if Assigned(SearchTemplate) then
-        for I := 0 to FFiles.Count - 1 do
-          begin
-            if FFiles[I].FSFile.Name = '..' then Continue;
-            if SearchTemplate.CheckFile(FFiles[I].FSFile) then
-              begin
-                FFiles[I].Selected := bSelect;
-              end;
-          end;
-    end
-  else
-    for I := 0 to FFiles.Count - 1 do
+  BeginUpdate;
+  try
+    if IsMaskSearchTemplate(sMask) then
       begin
-        if FFiles[I].FSFile.Name = '..' then Continue;
-        if MatchesMaskList(FFiles[I].FSFile.Name, sMask) then
-          begin
-            FFiles[I].Selected := bSelect;
-          end;
-      end;
-end;
+        SearchTemplate:= gSearchTemplateList.TemplateByName[sMask];
+        if Assigned(SearchTemplate) then
+          for I := 0 to FFiles.Count - 1 do
+            begin
+              if FFiles[I].FSFile.Name = '..' then Continue;
+              if SearchTemplate.CheckFile(FFiles[I].FSFile) then
+                begin
+                  FFiles[I].Selected := bSelect;
+                  bSelected := True;
+                end;
+            end;
+      end
+    else
+      for I := 0 to FFiles.Count - 1 do
+        begin
+          if FFiles[I].FSFile.Name = '..' then Continue;
+          if MatchesMaskList(FFiles[I].FSFile.Name, sMask) then
+            begin
+              FFiles[I].Selected := bSelect;
+              bSelected := True;
+            end;
+        end;
 
-function TFileView.MarkMinus: Boolean;
-var
-  s: String;
-begin
-  Result:= True;
-  if IsEmpty then Exit(False);
-  s := FLastMark;
-  if not ShowMaskInputDlg(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit(False);
-  FLastMark := s;
-  MarkGroup(s, False);
-end;
-
-function TFileView.MarkPlus: Boolean;
-var
-  s: String;
-begin
-  Result:= True;
-  if IsEmpty then Exit(False);
-  s := FLastMark;
-  if not ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit(False);
-  FLastMark := s;
-  MarkGroup(s, True);
-end;
-
-function TFileView.MarkShiftPlus: Boolean;
-var
-  sGroup: String;
-begin
-  Result:= IsActiveItemValid;
-  if Result then
-  begin
-    sGroup := GetActiveDisplayFile.FSFile.Extension;
-    if sGroup <> '' then
-      sGroup := '.' + sGroup;
-    MarkGroup('*' + sGroup, True);
+    if bSelected then
+      Notify([fvnSelectionChanged]);
+  finally
+    EndUpdate;
   end;
 end;
 
-function TFileView.MarkShiftMinus: Boolean;
+procedure TFileView.MarkGroup(bSelect: Boolean);
+var
+  s, ADlgTitle: String;
+begin
+  if not IsEmpty then
+  begin
+    if bSelect then
+      ADlgTitle := rsMarkPlus
+    else
+      ADlgTitle := rsMarkMinus;
+    s := FLastMark;
+    if ShowMaskInputDlg(ADlgTitle, rsMaskInput, glsMaskHistory, s) then
+    begin
+      FLastMark := s;
+      MarkGroup(s, bSelect);
+    end;
+  end;
+end;
+
+procedure TFileView.MarkCurrentExtension(bSelect: Boolean);
 var
   sGroup: String;
 begin
-  Result:= IsActiveItemValid;
-  if Result then
+  if IsActiveItemValid then
   begin
     sGroup := GetActiveDisplayFile.FSFile.Extension;
     if sGroup <> '' then
       sGroup := '.' + sGroup;
-    MarkGroup('*' + sGroup, False);
-   end;
+    MarkGroup('*' + sGroup, bSelect);
+  end;
 end;
 
 function TFileView.IsVisibleToUser: Boolean;
@@ -1451,6 +1481,11 @@ begin
   end;
 end;
 
+procedure TFileView.DoSelectionChanged;
+begin
+  // Empty.
+end;
+
 procedure TFileView.DoUpdateView;
 begin
   // Empty.
@@ -1543,14 +1578,6 @@ begin
       Exit(True);
   end;
   Result := False;
-end;
-
-procedure TFileView.UnselectAllFiles;
-var
-  i: Integer;
-begin
-  for i := 0 to FFiles.Count - 1 do
-    FFiles[i].Selected := False;
 end;
 
 function TFileView.IsActiveItemValid:Boolean;
@@ -1792,6 +1819,30 @@ begin
   if Assigned(FileSource) then
     FileSource.AddReloadEventListener(@ReloadEvent);
   // No automatic reload here.
+end;
+
+procedure TFileView.LoadSelectionFromClipboard;
+begin
+  FSavedSelection.Text:= Clipboard.AsText;
+  RestoreSelection;
+end;
+
+procedure TFileView.LoadSelectionFromFile(const AFileName: String);
+begin
+  with dmComData do
+  begin
+    OpenDialog.DefaultExt := '.txt';
+    OpenDialog.Filter     := '*.txt|*.txt';
+    OpenDialog.FileName   := AFileName;
+    if ((AFileName <> EmptyStr) and mbFileExists(AFileName)) or OpenDialog.Execute then
+      try
+        FSavedSelection.LoadFromFile(OpenDialog.FileName);
+        RestoreSelection;
+      except
+        on E: Exception do
+          msgError(rsMsgErrEOpen + '-' + E.Message);
+      end;
+  end;
 end;
 
 procedure TFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -2122,6 +2173,11 @@ begin
         FNotifications := FNotifications - [fvnDisplayFileListChanged];
         AfterMakeFileList;
         StartRecentlyUpdatedTimerIfNeeded;
+      end
+      else if fvnSelectionChanged in FNotifications then
+      begin
+        FNotifications := FNotifications - [fvnSelectionChanged];
+        DoSelectionChanged;
       end;
     end;
   finally
@@ -2486,4 +2542,4 @@ begin
 end;
 
 end.
-
+

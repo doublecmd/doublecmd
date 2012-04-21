@@ -170,23 +170,11 @@ type
     procedure SetRowCount(Count: Integer);
     procedure SetColumns;
     procedure RedrawGrid;
-    {en
-       Redraw row containing DisplayFile if it is visible.
-    }
-    procedure RedrawFile(DisplayFile: TDisplayFile); override;
 
     procedure MakeVisible(iRow: Integer);
     procedure MakeSelectedVisible;
-    procedure SelectFile(AFile: TDisplayFile); override;
     procedure SelectRange(iRow: PtrInt);
-    procedure InvertAll; override;
-    procedure MarkAll;
-    procedure UnMarkAll;
-    function MarkMinus: Boolean; override;
-    function MarkPlus: Boolean; override;
-    function MarkShiftPlus: Boolean; override;
-    function MarkShiftMinus: Boolean; override;
-    procedure RestoreSelection; override;
+    procedure DoSelectionChanged(RowNr: Integer);
 
     {en
        Updates GUI after the display file list has changed.
@@ -288,7 +276,12 @@ type
 
     procedure BeforeMakeFileList; override;
     procedure AfterMakeFileList; override;
+    procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
+    {en
+       Redraw row containing DisplayFile if it is visible.
+    }
+    procedure RedrawFile(DisplayFile: TDisplayFile); override;
     {en
        Changes drawing colors depending on if this panel is active.
     }
@@ -329,7 +322,6 @@ type
     procedure SetFocus; override;
 
     procedure SetActiveFile(aFilePath: String); override;
-    procedure UnselectAllFiles; override;
 
     procedure UpdateColumnsView;
 
@@ -337,18 +329,6 @@ type
                                   var DropParams: TDropParams); override;
 
   published  // commands
-    procedure cm_MarkInvert(const Params: array of string);
-    procedure cm_MarkMarkAll(const Params: array of string);
-    procedure cm_MarkUnmarkAll(const Params: array of string);
-    procedure cm_MarkPlus(const Params: array of string);
-    procedure cm_MarkMinus(const Params: array of string);
-    procedure cm_MarkCurrentExtension(const Params: array of string);
-    procedure cm_UnmarkCurrentExtension(const Params: array of string);
-    procedure cm_SaveSelection(const Params: array of string);
-    procedure cm_RestoreSelection(const Params: array of string);
-    procedure cm_SaveSelectionToFile(const Params: array of string);
-    procedure cm_LoadSelectionFromFile(const Params: array of string);
-    procedure cm_LoadSelectionFromClip(const Params: array of string);
     procedure cm_QuickSearch(const Params: array of string);
     procedure cm_QuickFilter(const Params: array of string);
     procedure cm_Open(const Params: array of string);
@@ -365,7 +345,7 @@ implementation
 uses
   LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
   uDCUtils, uOSUtils, math, fMain, fOptions, DCOSUtils, DCStrUtils,
-  uInfoToolTip, dmCommonData,
+  uInfoToolTip,
   uFileSourceProperty,
   uFileSourceOperationTypes,
   uFileSystemFileSource,
@@ -546,20 +526,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.SelectFile(AFile: TDisplayFile);
-begin
-  inherited SelectFile(AFile);
-  UpdateInfoPanel;
-end;
-
-procedure TColumnsFileView.InvertAll;
-begin
-  inherited InvertAll;
-
-  UpdateInfoPanel;
-  dgPanel.Invalidate;
-end;
-
 function TColumnsFileView.StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
 var
   fileNamesList: TStringList;
@@ -621,14 +587,17 @@ begin
       AToRow := Max(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
     end;
 
-  MarkAllFiles(False);
-  for ARow := AFromRow to AToRow do
-  begin
-    AFile := FFiles[ARow];
-    MarkFile(AFile, True);
+  BeginUpdate;
+  try
+    MarkFiles(False);
+    for ARow := AFromRow to AToRow do
+    begin
+      AFile := FFiles[ARow];
+      MarkFile(AFile, True);
+    end;
+  finally
+    EndUpdate;
   end;
-  UpdateInfoPanel;
-  dgPanel.Invalidate;
 end;
 
 procedure TColumnsFileView.dgPanelMouseDown(Sender: TObject;
@@ -679,9 +648,8 @@ begin
             dgPanel.SelectionStartIndex:=iRow;
             tmContextMenu.Enabled:= True; // start context menu timer
             FLastSelectionState:= not AFile.Selected;
-            MarkFile(AFile, FLastSelectionState);
-            UpdateInfoPanel;
-            dgPanel.Invalidate;
+            MarkFile(AFile, FLastSelectionState, False);
+            DoSelectionChanged(iRow);
             Exit;
           end;
         end;
@@ -700,20 +668,14 @@ begin
               if not HasSelectedFiles then
               begin
                 AFile := FFiles[dgPanel.Row - dgPanel.FixedRows]; // substract fixed rows (header)
-                if Assigned(AFile) then
-                  begin
-                    MarkFile(AFile, True);
-                    UpdateInfoPanel;
-                    dgPanel.Invalidate;
-                  end;
+                MarkFile(AFile, True, False);
               end;
               AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
               if Assigned(AFile) then
-                begin
-                  InvertFileSelection(AFile);
-                  UpdateInfoPanel;
-                  dgPanel.Invalidate;
-                end;
+              begin
+                InvertFileSelection(AFile, False);
+                DoSelectionChanged(iRow);
+              end;
             end
           else if ssShift in Shift then
             begin
@@ -723,11 +685,7 @@ begin
             begin
               AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
               if Assigned(AFile) and not AFile.Selected then
-                begin
-                  MarkAllFiles(False);
-                  UpdateInfoPanel;
-                  dgPanel.Invalidate;
-                end;
+                MarkFiles(False);
             end;
         end;//of mouse selection handler
       end;
@@ -781,15 +739,16 @@ begin
             SelEndIndex := dgPanel.SelectionStartIndex;
           end;
           dgPanel.Row:= iRow;
-          for i := SelStartIndex to SelEndIndex do begin
-            AFile := FFiles[i - dgPanel.FixedRows]; // substract fixed rows (header)
-            if Assigned(AFile) then
-              begin
-                MarkFile(AFile, FLastSelectionState);
-                dgPanel.InvalidateRow(i);
-              end;
+          BeginUpdate;
+          try
+            for i := SelStartIndex to SelEndIndex do
+            begin
+              AFile := FFiles[i - dgPanel.FixedRows]; // substract fixed rows (header)
+              MarkFile(AFile, FLastSelectionState);
+            end;
+          finally
+            EndUpdate;
           end;
-          UpdateInfoPanel;
         end;
     end;
 end;
@@ -1149,9 +1108,8 @@ begin
     if iRow >= dgPanel.FixedRows then
     begin
       AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
-      MarkFile(AFile, not FLastSelectionState);
-      UpdateInfoPanel;
-      dgPanel.InvalidateRow(iRow);
+      MarkFile(AFile, not FLastSelectionState, False);
+      DoSelectionChanged(iRow);
     end;
   end;
 
@@ -1550,66 +1508,6 @@ begin
     lblInfo.Caption := '';
 end;
 
-procedure TColumnsFileView.MarkAll;
-begin
-  MarkAllFiles(True);
-  UpdateInfoPanel;
-  dgPanel.Invalidate;
-end;
-
-function TColumnsFileView.MarkMinus: Boolean;
-begin
-  Result:= inherited MarkMinus;
-  if Result then
-  begin
-    UpdateInfoPanel;
-    dgPanel.Invalidate;
-  end;
-end;
-
-function TColumnsFileView.MarkPlus: Boolean;
-begin
-  Result:= inherited MarkPlus;
-  if Result then
-  begin
-    UpdateInfoPanel;
-    dgPanel.Invalidate;
-  end;
-end;
-
-function TColumnsFileView.MarkShiftPlus: Boolean;
-begin
-  Result:= inherited MarkShiftPlus;
-  if Result then
-  begin
-    UpdateInfoPanel;
-    dgPanel.Invalidate;
-  end;
-end;
-
-function TColumnsFileView.MarkShiftMinus: Boolean;
-begin
-  Result:= inherited MarkShiftMinus;
-  if Result then
-  begin
-    UpdateInfoPanel;
-    dgPanel.Invalidate;
-  end;
-end;
-
-procedure TColumnsFileView.RestoreSelection;
-begin
-  inherited RestoreSelection;
-  dgPanel.Invalidate;
-end;
-
-procedure TColumnsFileView.UnMarkAll;
-begin
-  MarkAllFiles(False);
-  UpdateInfoPanel;
-  dgPanel.Invalidate;
-end;
-
 procedure TColumnsFileView.edtRenameKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
 var
@@ -1832,11 +1730,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.UnselectAllFiles;
-begin
-  UnMarkAll;
-end;
-
 {$IF lcl_fullversion >= 093100}
 procedure TColumnsFileView.dgPanelBeforeSelection(Sender: TObject; aCol, aRow: Integer);
 begin
@@ -1966,8 +1859,10 @@ begin
         if not IsEmpty then
         begin
           if IsActiveItemValid then
-            SelectFile(GetActiveDisplayFile);
-          dgPanel.InvalidateRow(dgPanel.Row);
+          begin
+            InvertFileSelection(GetActiveDisplayFile, False);
+            DoSelectionChanged(dgPanel.Row);
+          end;
           if dgPanel.Row < dgPanel.RowCount-1 then
             dgPanel.Row := dgPanel.Row+1;
           MakeSelectedVisible;
@@ -1984,22 +1879,22 @@ begin
     VK_ADD:
       begin
         if Shift = [ssCtrl] then
-          MarkAll
+          MarkFiles(True)
         else if Shift = [] then
-          MarkPlus
+          MarkGroup(True)
         else if Shift = [ssShift] then
-          MarkShiftPlus;
+          MarkCurrentExtension(True);
         Key := 0;
       end;
 
     VK_SUBTRACT:
       begin
         if Shift = [ssCtrl] then
-          UnMarkAll
+          MarkFiles(False)
         else if Shift = [] then
-          MarkMinus
+          MarkGroup(False)
         else if Shift = [ssShift] then
-          MarkShiftMinus;
+          MarkCurrentExtension(False);
         Key := 0;
       end;
 
@@ -2043,9 +1938,8 @@ begin
         begin
           if IsActiveItemValid then
           begin
-            SelectFile(GetActiveDisplayFile);
-            if (dgPanel.Row = dgPanel.RowCount-1) or (dgPanel.Row = dgPanel.FixedRows) then
-              dgPanel.Invalidate;
+            InvertFileSelection(GetActiveDisplayFile, False);
+            DoSelectionChanged(dgPanel.Row);
             //Key := 0; // not needed!
           end;
         end
@@ -2063,27 +1957,25 @@ begin
       if Shift * KeyModifiersShortcut = [] then
       begin
         aFile := GetActiveDisplayFile;
-        if Assigned(aFile) then
+        if IsItemValid(aFile) then
         begin
-          if IsItemValid(aFile) then
+          if (aFile.FSFile.IsDirectory or
+             aFile.FSFile.IsLinkToDirectory) and
+             not aFile.Selected then
           begin
-            if (aFile.FSFile.IsDirectory or
-               aFile.FSFile.IsLinkToDirectory) and
-               not aFile.Selected then
-            begin
-              CalculateSpace(aFile);
-            end;
-
-            SelectFile(aFile);
+            CalculateSpace(aFile);
           end;
 
-          if gSpaceMovesDown then
-            dgPanel.Row := dgPanel.Row + 1;
-
-          dgPanel.Invalidate;
-          MakeSelectedVisible;
-          Key := 0;
+          InvertFileSelection(aFile, False);
+          DoSelectionChanged(-1);
         end;
+
+        if gSpaceMovesDown then
+          dgPanel.Row := dgPanel.Row + 1;
+
+        dgPanel.InvalidateRow(dgPanel.Row);
+        MakeSelectedVisible;
+        Key := 0;
       end;
 
     VK_BACK:
@@ -2818,97 +2710,17 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.cm_MarkInvert(const Params: array of string);
+procedure TColumnsFileView.DoSelectionChanged(RowNr: Integer);
 begin
-  InvertAll;
+  UpdateInfoPanel;
+  if RowNr >= 0 then
+    dgPanel.InvalidateRow(RowNr);
 end;
 
-procedure TColumnsFileView.cm_MarkMarkAll(const Params: array of string);
+procedure TColumnsFileView.DoSelectionChanged;
 begin
-  MarkAll;
-end;
-
-procedure TColumnsFileView.cm_MarkUnmarkAll(const Params: array of string);
-begin
-  UnMarkAll;
-end;
-
-procedure TColumnsFileView.cm_MarkPlus(const Params: array of string);
-begin
-  MarkPlus;
-end;
-
-procedure TColumnsFileView.cm_MarkMinus(const Params: array of string);
-begin
-  MarkMinus;
-end;
-
-procedure TColumnsFileView.cm_MarkCurrentExtension(const Params: array of string);
-begin
-  MarkShiftPlus;
-end;
-
-procedure TColumnsFileView.cm_UnmarkCurrentExtension(const Params: array of string);
-begin
-  MarkShiftMinus;
-end;
-
-procedure TColumnsFileView.cm_SaveSelection(const Params: array of string);
-begin
-  SaveSelection;
-end;
-
-procedure TColumnsFileView.cm_RestoreSelection(const Params: array of string);
-begin
-  RestoreSelection;
-end;
-
-procedure TColumnsFileView.cm_SaveSelectionToFile(const Params: array of string);
-var
-  Param: String;
-begin
-  with dmComData do
-  begin
-    Param := GetDefaultParam(Params);
-    SaveDialog.DefaultExt:= '.txt';
-    SaveDialog.Filter:= '*.txt|*.txt';
-    SaveDialog.FileName:= Param;
-    if (Param <> EmptyStr) or SaveDialog.Execute then
-      try
-        SaveSelection;
-        FSavedSelection.SaveToFile(SaveDialog.FileName);
-      except
-        on E: Exception do
-          msgError(rsMsgErrSaveFile + '-' + E.Message);
-      end;
-  end;
-end;
-
-procedure TColumnsFileView.cm_LoadSelectionFromFile(const Params: array of string);
-var
-  Param: String;
-begin
-  with dmComData do
-  begin
-    Param := GetDefaultParam(Params);
-    OpenDialog.DefaultExt:= '.txt';
-    OpenDialog.Filter:= '*.txt|*.txt';
-    OpenDialog.FileName:= Param;
-    if ((Param <> EmptyStr) and mbFileExists(Param)) or OpenDialog.Execute then
-      try
-        FSavedSelection.LoadFromFile(OpenDialog.FileName);
-        RestoreSelection;
-      except
-        on E: Exception do
-          msgError(rsMsgErrEOpen + '-' + E.Message);
-      end;
-  end;
-end;
-
-procedure TColumnsFileView.cm_LoadSelectionFromClip(const Params: array of string);
-begin
-  FSavedSelection.Text:= Clipboard.AsText;
-  RestoreSelection;
+  DoSelectionChanged(-1);
+  dgPanel.Invalidate;
 end;
 
 procedure TColumnsFileView.cm_QuickSearch(const Params: array of string);
