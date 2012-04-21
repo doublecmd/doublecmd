@@ -5,11 +5,11 @@ unit uUniqueInstance;
 interface
 
 uses
-  Classes, SysUtils, SimpleIPC;
+  Classes, SysUtils, SimpleIPC, uCmdLineParams;
 
 type
 
-  TOnUniqueInstanceMessage = procedure (Sender: TObject; Params: array of UTF8String; ParamCount: Integer) of object;
+  TOnUniqueInstanceMessage = procedure (Sender: TObject; Params: TCommandLineParams) of object;
 
   { TUniqueInstance }
 
@@ -38,7 +38,6 @@ type
 
     function IsRunInstance: Boolean;
     procedure SendParams;
-    procedure SendString(aStr: UTF8String);
 
     procedure RunListen;
     procedure StopListen;
@@ -67,9 +66,6 @@ uses
   {$ENDIF}
   StrUtils, FileUtil, uGlobs, uDebug;
 
-const
-  Separator = '|';
-
 {$IF DEFINED(UNIX)}
 type
   TUnixIPCServer = class(TSimpleIPCServer) end;
@@ -90,20 +86,13 @@ end;
 
 procedure TUniqueInstance.OnNative(Sender: TObject);
 var
-  sTemp: UTF8String;
-  sTempArray: array of UTF8String;
-  mtMsgCount: TMessageType;
-  I: Integer;
+  Params: TCommandLineParams;
 begin
   if Assigned(FOnMessage) then
     begin
-      mtMsgCount:= FServerIPC.MsgType;
-      sTemp:= FServerIPC.StringMessage;
-      SetLength(sTempArray, mtMsgCount);
-      for I:= 0 to mtMsgCount - 1 do
-        sTempArray[I] := Copy2SymbDel(sTemp, Separator);
-      FOnMessage(Self, sTempArray, mtMsgCount);
-      SetLength(sTempArray, 0);
+      FServerIPC.MsgData.Seek(0, soFromBeginning);
+      FServerIPC.MsgData.ReadBuffer(Params, FServerIPC.MsgType);
+      FOnMessage(Self, Params);
     end;
 end;
 
@@ -232,34 +221,21 @@ end;
 
 procedure TUniqueInstance.SendParams;
 var
- sTemp: UTF8String;
- I: Integer;
+  Stream: TMemoryStream = nil;
 begin
   CreateClient;
   FClientIPC.ServerID:= FInstanceName;
   if not FClientIPC.ServerRunning then
     Exit;
 
-  sTemp:= EmptyStr;
-  for I:= 1 to ParamCount do
-    sTemp:= sTemp + SysToUTF8(ParamStr(I)) + Separator;
+  Stream:= TMemoryStream.Create;
+  Stream.WriteBuffer(CommandLineParams, SizeOf(TCommandLineParams));
   try
     FClientIPC.Connect;
-    FClientIPC.SendStringMessage(ParamCount, sTemp);
+    Stream.Seek(0, soFromBeginning);
+    FClientIPC.SendMessage(SizeOf(TCommandLineParams), Stream);
   finally
-    FClientIPC.Disconnect;
-  end;
-end;
-
-procedure TUniqueInstance.SendString(aStr: UTF8String);
-begin
-  CreateClient;
-  FClientIPC.ServerID:= FInstanceName;
-  if not FClientIPC.ServerRunning then Exit;
-  try
-    FClientIPC.Connect;
-    FClientIPC.SendStringMessage(mtString, aStr + Separator);
-  finally
+    Stream.Free;
     FClientIPC.Disconnect;
   end;
 end;
