@@ -4,7 +4,7 @@
    Extended ProgressBar class
 
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2011-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    Windows 7 implementation based on "Windows 7 Component Library"
    by Daniel Wischnewski (http://www.gumpi.com/blog)
@@ -115,10 +115,12 @@ begin
   begin
     FTaskbarList := ITaskbarList(CreateComObject(CLSID_TaskbarList));
     if FTaskbarList <> nil then
-      begin
-        FTaskbarList.HrInit;
-        FTaskbarList.QueryInterface(CLSID_TaskbarList3, FTaskbarList3);
-      end;
+    try
+      FTaskbarList.HrInit;
+      FTaskbarList.QueryInterface(CLSID_TaskbarList3, FTaskbarList3);
+    except
+      FTaskbarList3:= nil;
+    end;
   end;
   {$ENDIF}
 
