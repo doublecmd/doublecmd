@@ -24,14 +24,14 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbVMStrm.pas 3.05                           *}
+{* ABBREVIA: AbVMStrm.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Virtual Memory Stream                       *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbVMStrm;
+
+{$I AbDefine.inc}
 
 interface
 
@@ -104,9 +104,11 @@ type
 implementation
 
 uses
+  {$IFDEF MSWINDOWS}
+  Windows, // Fix warning about unexpanded inline functions
+  {$ENDIF}
   SysUtils,
-  AbConst,
-  AbExcept,                                                            
+  AbExcept,
   AbUtils,
   DCOSUtils;
 
@@ -130,18 +132,10 @@ begin
     FillChar(vpData, AB_VMSPageSize, 0);
   end;
   vmsPageList.Insert(0, pointer(Page));
-  {from now on, there always will be at least one page}
-
   {prime the cache, from now on the cache will never be nil}
   vmsCachePage := Page;
-  {use all allowed pages}
+  {default to using all allowed pages}
   MaxMemToUse := AB_VMSMaxPages * AB_VMSPageSize;
-
-  vmsPosition := 0;
-  vmsSize := 0;
-
-  vmsSwapHandle := 0;
-  vmsSwapFileSize := 0;
 end;
 {--------}
 destructor TAbVirtualMemoryStream.Destroy;
@@ -219,7 +213,7 @@ begin
     soCurrent   : inc(vmsPosition, Offset);
     soEnd       : vmsPosition := vmsSize + Offset;
   else
-    raise EAbVMSInvalidOrigin.Create( Integer(Origin), 0 );
+    raise EAbVMSInvalidOrigin.Create( Integer(Origin));
   end;
   Result := vmsPosition;
 end;

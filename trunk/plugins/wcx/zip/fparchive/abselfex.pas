@@ -24,23 +24,20 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbSelfEx.pas 3.05                           *}
+{* ABBREVIA: AbSelfEx.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Component for building self-extracting zips *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbSelfEx;
+
+{$I AbDefine.inc}
 
 interface
 
 uses
-  SysUtils, Classes,
-{$IFDEF LINUX}
-  Libc, 
-{$ENDIF}
-  AbArcTyp, AbBase, AbExcept, AbUtils, AbZipTyp;
+  Classes,
+  AbBase;
 
 type
   TAbGetFileEvent = procedure(Sender : TObject; var aFilename : string;
@@ -87,7 +84,11 @@ type
 implementation
 
 uses
-  AbConst, uClassesEx;
+  SysUtils,
+{$IFDEF LibcAPI}
+  Libc,
+{$ENDIF}
+  AbExcept, AbZipTyp, DCOSUtils, DCClassesUtf8;
 
 { -------------------------------------------------------------------------- }
 function TAbMakeSelfExe.Execute : Boolean;
