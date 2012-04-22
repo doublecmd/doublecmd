@@ -59,7 +59,7 @@ uses
 { -------------------------------------------------------------------------- }
 function TAbBaseComponent.GetVersion : string;
 begin
-  Result := AbVersion;
+  Result := AbVersionS;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbBaseComponent.SetVersion(const Value : string);

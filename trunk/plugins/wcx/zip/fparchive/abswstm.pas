@@ -24,14 +24,14 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbSWStm.pas 3.05                            *}
+{* ABBREVIA: AbSWStm.pas                                 *}
 {*********************************************************}
 {* ABBREVIA: TabSlidingWindowStream class                *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-                 
 unit AbSWStm;    
+                 
+{$I AbDefine.inc}
                  
 {Notes: The TabSlidingWindowStream class provides a simple buffered
         stream for sliding window compression/decompression routines.
@@ -141,7 +141,7 @@ begin
   bsDirty := false;
   {$IFDEF DebugTrace}
   System.Assign(bsF, 'c:\SlideWin.LOG');
-  if mbFileExists('c:\SlideWin.LOG') then
+  if FileExists('c:\SlideWin.LOG') then
     System.Append(bsF)
   else           
     System.Rewrite(bsF);
