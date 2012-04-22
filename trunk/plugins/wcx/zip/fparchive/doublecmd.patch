@@ -221,6 +221,20 @@ Index: AbDfInW.pas
    end;
  
    {now read some more data from the stream}
+Index: AbDfStrm.pas
+===================================================================
+--- AbDfStrm.pas	(revision 512)
++++ AbDfStrm.pas	(working copy)
+@@ -230,7 +230,8 @@
+   {save the on progress handler}
+   if Assigned(aOnProgress) and (aStreamSize > 0) then begin
+     FOnProgress := aOnProgress;
+-    FStreamSize := aStreamSize;
++    //FStreamSize := aStreamSize;
++    FStreamSize := aStream.Size - aStream.Position;
+   end;
+ end;
+ {--------}
 Index: AbZBrows.pas
 ===================================================================
 --- AbZBrows.pas	(revision 512)
