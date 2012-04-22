@@ -3597,6 +3597,7 @@ begin
           if gConfig.TryGetAttr(ViewNode, 'Type', sViewType) then
           begin
             Page := ANoteBook.AddPage;
+            Page.LoadConfiguration(gConfig, TabNode);
             AFileView := CreateFileView(sViewType, Page, gConfig, ViewNode);
           end
           else
@@ -3609,6 +3610,7 @@ begin
           if sPath <> EmptyStr then
           begin
             Page := ANoteBook.AddPage;
+            Page.LoadConfiguration(gConfig, TabNode);
             AFileView := CreateFileView('columns', Page, gConfig, TabNode);
             AFileView.AddFileSource(TFileSystemFileSource.GetFileSource, sPath);
           end;
@@ -3624,10 +3626,8 @@ begin
           end
           else
           begin
-            Page.LockState := TTabLockState(gConfig.GetValue(TabNode, 'Options', Integer(tlsNormal)));
-            Page.LockPath := gConfig.GetValue(TabNode, 'LockPath', AFileView.CurrentPath);
-            Page.PermanentTitle := gConfig.GetValue(TabNode, 'Title', EmptyStr);
-
+            if (Page.LockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab]) and (Page.LockPath = '') then
+              Page.LockPath := AFileView.CurrentPath;
             // Assign events after loading file source.
             AssignEvents(AFileView);
           end;
@@ -3717,7 +3717,7 @@ begin
   RootNode := gConfig.FindNode(RootNode, TabsSection, True);
 
   gConfig.ClearNode(RootNode);
-  gConfig.SetValue(RootNode, 'ActiveTab', ANoteBook.PageIndex);
+  gConfig.AddValue(RootNode, 'ActiveTab', ANoteBook.PageIndex);
 
   for I:= 0 to ANoteBook.PageCount - 1 do
     begin
@@ -3725,12 +3725,7 @@ begin
       ViewNode := gConfig.AddNode(TabNode, 'FileView');
 
       Page := ANoteBook.Page[I];
-
-      gConfig.AddValueDef(TabNode, 'Title', Page.PermanentTitle, '');
-      gConfig.AddValue(TabNode, 'Options', Integer(Page.LockState));
-      if Page.LockState = tlsPathResets then // if locked tab with directory change
-        gConfig.AddValueDef(TabNode, 'LockPath', Page.LockPath, '');
-
+      Page.SaveConfiguration(gConfig, TabNode);
       Page.FileView.SaveConfiguration(gConfig, ViewNode);
     end;
 end;
