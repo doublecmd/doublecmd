@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbBrowse.pas 3.05                           *}
+{* ABBREVIA: AbBrowse.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Base Browser Component                      *}
 {*********************************************************}
@@ -36,16 +36,16 @@ unit AbBrowse;
 interface
 
 uses
-  SysUtils, Classes,
+  Classes,
   AbBase,
   AbUtils,
   AbArcTyp;
 
 type
-  TAbBaseMeterLink = class(TAbBaseComponent)
-  public
-    procedure DoProgress(Progress : Byte); virtual; abstract;
-    procedure Reset; virtual; abstract;
+  IAbProgressMeter = interface
+    ['{4B766704-FD20-40BF-BA40-2EC2DD77B178}']
+    procedure DoProgress(Progress : Byte);
+    procedure Reset;
   end;
 
   TAbBaseBrowser = class(TAbBaseComponent)
@@ -53,8 +53,8 @@ type
     FArchive : TAbArchive;
   protected {private}
     FSpanningThreshold : Longint;
-    FItemProgressMeter : TAbBaseMeterLink;
-    FArchiveProgressMeter : TAbBaseMeterLink;
+    FItemProgressMeter : IAbProgressMeter;
+    FArchiveProgressMeter : IAbProgressMeter;
     FBaseDirectory : string;
     FFileName : string;
     FLogFile : string;
@@ -74,11 +74,14 @@ type
 
   protected {private methods}
     function  GetCount : Integer;
+    function  GetItem(Value : Longint) : TAbArchiveItem;
     function  GetSpanned : Boolean;
     function  GetStatus : TAbArchiveStatus;
-    procedure ResetMeters; virtual;                                    {!!.04}
+    procedure ResetMeters; virtual;
+    procedure SetArchiveProgressMeter(const Value: IAbProgressMeter);
     procedure SetCompressionType(const Value: TAbArchiveType);
     procedure SetBaseDirectory(const Value : string);
+    procedure SetItemProgressMeter(const Value: IAbProgressMeter);
     procedure SetSpanningThreshold(Value : Longint);
     procedure SetLogFile(const Value : string);
     procedure SetLogging(Value : Boolean);
@@ -117,9 +120,9 @@ type
   protected {properties}
     property Archive : TAbArchive
       read FArchive;
-    property ArchiveProgressMeter : TAbBaseMeterLink
+    property ArchiveProgressMeter : IAbProgressMeter
       read  FArchiveProgressMeter
-      write FArchiveProgressMeter;
+      write SetArchiveProgressMeter;
     property BaseDirectory : string
       read  FBaseDirectory
       write SetBaseDirectory;
@@ -130,9 +133,9 @@ type
       read  FSpanningThreshold
       write SetSpanningThreshold
       default 0;
-    property ItemProgressMeter : TAbBaseMeterLink
+    property ItemProgressMeter : IAbProgressMeter
       read  FItemProgressMeter
-      write FItemProgressMeter;
+      write SetItemProgressMeter;
     property LogFile : string
       read  FLogFile
       write SetLogFile;
@@ -185,6 +188,8 @@ type
   public {properties}
     property Count : Integer
       read GetCount;
+    property Items[Index : Integer] : TAbArchiveItem
+      read GetItem; default;
     property Status : TAbArchiveStatus
       read GetStatus;
 
@@ -207,13 +212,15 @@ type
       write FOnLoad;
   end;
 
-function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
+function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType; overload;
+function AbDetermineArcType(aStream: TStream) : TAbArchiveType; overload;
 
 implementation
 
 uses
+  SysUtils,
   AbExcept,
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(ExtractCabSupport)}
   AbCabTyp,
 {$ENDIF}
   AbZipTyp,
@@ -239,7 +246,6 @@ end;
 { -------------------------------------------------------------------------- }
 destructor TAbBaseBrowser.Destroy;
 begin
- if Assigned(FArchive) then
   FArchive.Free;
   FArchive := nil;
   inherited Destroy;
@@ -359,6 +365,14 @@ begin
     Result := 0;
 end;
 { -------------------------------------------------------------------------- }
+function TAbBaseBrowser.GetItem(Value : Longint) : TAbArchiveItem;
+begin
+  if Assigned(FArchive) then
+    Result := FArchive.ItemList[Value]
+  else
+    raise EAbNoArchive.Create;
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbBaseBrowser.InitArchive;
 begin
   ResetMeters;
@@ -389,11 +403,12 @@ procedure TAbBaseBrowser.Notification(Component: TComponent;
                                       Operation: TOperation);
 begin
   inherited Notification(Component, Operation);
-  if (Operation = opRemove) then
-    if Component = FItemProgressMeter then
-      FItemProgressMeter := nil
-    else if Component = FArchiveProgressMeter then
-      FArchiveProgressMeter := nil
+  if (Operation = opRemove) then begin
+    if Assigned(ItemProgressMeter) and Component.IsImplementorOf(ItemProgressMeter) then
+      ItemProgressMeter := nil;
+    if Assigned(ArchiveProgressMeter) and Component.IsImplementorOf(ArchiveProgressMeter) then
+      ArchiveProgressMeter := nil;
+  end;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbBaseBrowser.OpenArchive(const aFileName : string);
@@ -485,6 +500,20 @@ begin
     raise EAbArchiveBusy.Create;
 end;
 { -------------------------------------------------------------------------- }
+procedure TAbBaseBrowser.SetArchiveProgressMeter(const Value: IAbProgressMeter);
+begin
+  ReferenceInterface(FArchiveProgressMeter, opRemove);
+  FArchiveProgressMeter := Value;
+  ReferenceInterface(FArchiveProgressMeter, opInsert);
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbBaseBrowser.SetItemProgressMeter(const Value: IAbProgressMeter);
+begin
+  ReferenceInterface(FItemProgressMeter, opRemove);
+  FItemProgressMeter := Value;
+  ReferenceInterface(FItemProgressMeter, opInsert);
+end;
+{ -------------------------------------------------------------------------- }
 function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
 var
   Ext : string;
@@ -502,7 +531,7 @@ begin
         Result := VerifyTar(FS);
       if Result = atUnknown then
         Result := VerifyGzip(FS);
-      {$IFDEF MSWINDOWS}
+      {$IF DEFINED(ExtractCabSupport)}
       if Result = atUnknown then
         Result := VerifyCab(FS);
       {$ENDIF}
@@ -530,10 +559,28 @@ begin
     else if (Ext = '.TBZ') then
       Result := atBzippedTar;
   end;
-{$IFNDEF MSWINDOWS}
+  {$IF NOT DEFINED(ExtractCabSupport)}
   if Result = atCab then
     Result := atUnknown;
-{$ENDIF}
+  {$ENDIF}
+end;
+{ -------------------------------------------------------------------------- }
+function AbDetermineArcType(aStream: TStream): TAbArchiveType;
+begin
+  { VerifyZip returns true for self-extracting zips too, so test those first }
+  Result := VerifySelfExtracting(aStream);
+  if Result = atUnknown then
+    Result := VerifyZip(aStream);
+  if Result = atUnknown then
+    Result := VerifyTar(aStream);
+  if Result = atUnknown then
+    Result := VerifyGzip(aStream);
+  if Result = atUnknown then
+    Result := VerifyBzip2(aStream);
+  {$IF DEFINED(ExtractCabSupport)}
+  if Result = atUnknown then
+    Result := VerifyCab(aStream);
+  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 

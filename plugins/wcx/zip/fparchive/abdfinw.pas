@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfInW.pas 3.05                            *}
+{* ABBREVIA: AbDfInW.pas                                 *}
 {*********************************************************}
 {* Deflate input sliding window unit                     *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbDfInW;
 interface
 
 uses
-  SysUtils,
   Classes,
   AbDfBase;
 
@@ -55,6 +54,9 @@ type
   end;
 
 type
+  PAbPointerList = ^TAbPointerList;
+  TAbPointerList = array[0..MaxInt div SizeOf(Pointer) - 1] of Pointer;
+
   TAbDfInputWindow = class
     private
       FAdvanceStart : boolean;
@@ -62,8 +64,8 @@ type
       FBufferEnd    : PAnsiChar;
       FBytesUsed    : longint;
       FChainLen     : integer;
-      FHashChains   : PPointerList;
-      FHashHeads    : PPointerList;
+      FHashChains   : PAbPointerList;
+      FHashHeads    : PAbPointerList;
       FHashIndex    : integer;
       FChecksum     : longint;
       FCurrent      : PAnsiChar;
@@ -113,6 +115,9 @@ type
   end;
 
 implementation
+
+uses
+  SysUtils;
 
 {Notes:
         Meaning of the internal pointers:
@@ -226,8 +231,8 @@ var
   i : integer;
   ByteCount : integer;
   Percent   : integer;
-  HashChains: PPointerList;
-  HashHeads : PPointerList;
+  HashChains: PAbPointerList;
+  HashHeads : PAbPointerList;
   HashInx   : integer;
   CurPos    : PAnsiChar;
 begin
@@ -340,16 +345,14 @@ function TAbDfInputWindow.FindLongestMatch(aAmpleLength : integer;
                                        var aMatch       : TAbDfMatch;
                                      const aPrevMatch   : TAbDfMatch)
                                                         : boolean;
-{$IFDEF CLR}
-{Note:  Delphi for .NET can't use ASM only the pascal code. }
- {$DEFINE UseGreedyPascal}
-{$ELSE}
 {Note: this routine implements a greedy algorithm and is by far the
        time sink for compression. There are two versions, one written
        in Pascal for understanding, one in assembler for speed.
        Activate one and only one of the following compiler defines.}
-{.$DEFINE UseGreedyAsm}
-{.$DEFINE UseGreedyPascal}
+{$IFDEF CPU386}
+  {$DEFINE UseGreedyAsm}
+{$ELSE}
+  {$DEFINE UseGreedyPascal}
 {$ENDIF}
 
 {Check to see that all is correct}
@@ -379,8 +382,8 @@ var
   Len        : longint;
   MatchStr   : PAnsiChar;
   CurrentCh  : PAnsiChar;
-  CurCh : char;
-  MaxCh : char;
+  CurCh      : AnsiChar;
+  MaxCh      : AnsiChar;
   {$ENDIF}
 begin
   {calculate the hash index for the current position; using the
@@ -698,7 +701,7 @@ procedure TAbDfInputWindow.iwSlide;
 var
   i : integer;
   ByteCount : PtrInt;
-  Buffer    : PAnsiChar;
+  Buffer    : PByte;
   ListItem  : PPointer;
 begin
   {move current valid data back to the start of the buffer}
