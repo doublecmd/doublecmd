@@ -24,14 +24,14 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbExcept.pas 3.05                           *}
+{* ABBREVIA: AbExcept.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Exception classes                           *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbExcept;
+
+{$I AbDefine.inc}
 
 interface
 
@@ -194,26 +194,6 @@ type
     constructor Create;
   end;
 
-  EAbTarBadFileName = class( EAbTarException )
-  public
-    constructor Create;
-  end;
-
-  EAbTarBadLinkName = class( EAbTarException )
-  public
-    constructor Create;
-  end;
-
-  EAbTarBadOp = class( EAbTarException )
-  public
-    constructor Create;
-  end;
-
-  EAbTarInvalid = class( EAbTarException )
-  public
-    constructor Create;
-  end;
-
   EAbGzipBadCRC = class( EAbGZipException )
   public
     constructor Create;
@@ -229,14 +209,29 @@ type
     constructor Create;
   end;
 
-  EAbVMSReadTooManyBytes = class( EAbZipException )
+  EAbTarInvalid = class( EAbTarException)
   public
-    constructor Create( Count : Integer; Dummy : Word );
+    constructor Create;
+  end;
+
+  EAbTarBadFileName = class( EAbTarException)
+  public
+    constructor Create;
+  end;
+
+  EAbTarBadLinkName = class( EAbTarException)
+  public
+    constructor Create;
+  end;
+
+  EAbTarBadOp = class( EAbTarException)
+  public
+    constructor Create;
   end;
 
   EAbVMSInvalidOrigin = class( EAbZipException )
   public
-    constructor Create( Value : Integer; Dummy : Word );
+    constructor Create( Value : Integer );
   end;
 
   EAbVMSErrorOpenSwap = class( EAbZipException )
@@ -261,12 +256,12 @@ type
 
   EAbVMSWriteTooManyBytes = class( EAbZipException )
   public
-    constructor Create( Count : Integer; Dummy : Word );
+    constructor Create( Count : Integer );
   end;
 
   EAbBBSReadTooManyBytes = class( EAbZipException )
   public
-    constructor Create(Count : Integer; Dummy : Word);
+    constructor Create(Count : Integer );
   end;
 
   EAbBBSSeekOutsideBuffer = class( EAbZipException )
@@ -281,7 +276,7 @@ type
 
   EAbBBSWriteTooManyBytes = class( EAbZipException )
   public
-    constructor Create(Count : Integer ; Dummy : Word);
+    constructor Create(Count : Integer );
   end;
 
   EAbSWSNotEndofStream = class( EAbZipException )
@@ -566,45 +561,13 @@ begin
   ErrorCode := AbReadError;
 end;
 
-constructor EAbTarBadFileName.Create;
-begin
-  inherited Create('Invalid file name (too long?)');
-  ErrorCode := 0;
-end;
-
-constructor EAbTarBadLinkName.Create;
-begin
-  inherited Create('Invalid link name (too long?)');
-  ErrorCode := 0;
-end;
-
-constructor EAbTarBadOp.Create;
-begin
-  inherited Create('Invalid operation requested');
-  ErrorCode := 0;
-end;
-
-constructor EAbTarInvalid.Create;
-begin
-  inherited Create('Invalid TAR file');
-  ErrorCode := 0;
-end;
-
-constructor EAbVMSReadTooManyBytes.Create( Count : Integer;
-                                           Dummy : Word );
-begin
-  inherited Create(Format(AbVMSReadTooManyBytesS, [Count]));
-  ErrorCode := AbVMSReadTooManyBytes;
-end;
-
-constructor EAbVMSInvalidOrigin.Create( Value : Integer;
-                                        Dummy : Word );
+constructor EAbVMSInvalidOrigin.Create( Value : Integer );
 begin
   inherited Create(Format(AbVMSInvalidOriginS, [Value]));
   ErrorCode := AbVMSInvalidOrigin;
 end;
 
-constructor EAbBBSReadTooManyBytes.Create(Count : Integer; Dummy : Word);
+constructor EAbBBSReadTooManyBytes.Create(Count : Integer );
 begin
   inherited Create(Format(AbBBSReadTooManyBytesS, [Count]));
   ErrorCode := AbBBSReadTooManyBytes;
@@ -622,7 +585,7 @@ begin
   ErrorCode := AbBBSInvalidOrigin;
 end;
 
-constructor EAbBBSWriteTooManyBytes.Create(Count : Integer; Dummy : Word);
+constructor EAbBBSWriteTooManyBytes.Create(Count : Integer);
 begin
   inherited Create(Format(AbBBSWriteTooManyBytesS, [Count]));
   ErrorCode := AbBBSWriteTooManyBytes;
@@ -652,8 +615,7 @@ begin
   ErrorCode := AbVMSWriteFail;
 end;
 
-constructor EAbVMSWriteTooManyBytes.Create( Count : Integer;
-                                            Dummy : Word );
+constructor EAbVMSWriteTooManyBytes.Create( Count : Integer );
 begin
   inherited Create(Format(AbVMSWriteTooManyBytesS, [Count]));
   ErrorCode := AbVMSWriteTooManyBytes;
@@ -834,6 +796,38 @@ begin
 
 end;
 
+{ EAbTarInvalid }
+
+constructor EAbTarInvalid.Create;
+begin
+  inherited Create(AbTarInvalidS);
+  ErrorCode := AbTarInvalid;
+end;
+
+{ EAbTarBadFileName }
+
+constructor EAbTarBadFileName.Create;
+begin
+  inherited Create(AbTarBadFileNameS);
+  ErrorCode := AbTarBadFileName;
+end;
+
+{ EAbTarBadLinkName }
+
+constructor EAbTarBadLinkName.Create;
+begin
+  inherited Create(AbTarBadLinkNameS);
+  ErrorCode := AbTarBadLinkName;
+end;
+
+{ EAbTarBadOp }
+
+constructor EAbTarBadOp.Create;
+begin
+  inherited Create(AbTarBadOpS);
+  ErrorCode := AbTarBadOp;
+end;
+
 { EAbSpanningNotSupported }
 
 constructor EAbSpanningNotSupported.Create;
@@ -847,7 +841,7 @@ end;
 constructor EAbFileTooLarge.Create;
 begin
   {TODO Create const and fix wording}
-  inherited Create('File size is too big for archive type'); 
+  inherited Create(AbFileSizeTooBigS);
 end;
 
 end.
