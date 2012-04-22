@@ -701,7 +701,7 @@ procedure TAbDfInputWindow.iwSlide;
 var
   i : integer;
   ByteCount : PtrInt;
-  Buffer    : PByte;
+  Buffer    : PAnsiChar;
   ListItem  : PPointer;
 begin
   {move current valid data back to the start of the buffer}
