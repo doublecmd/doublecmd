@@ -80,7 +80,7 @@ begin
   inherited Create;
 
   {allocate the translation arrays (the buffer *must* be zeroed)}
-  FBuffer := AllocMem(256 + 2 + 256 + 256);                    {!!.02}
+  FBuffer := AllocMem(256 + 2 + 256 + 256);
   FLenSymbols := PByteArray(FBuffer);
   FLongDistSymbols := PByteArray(FBuffer + 256);
   FMediumDistSymbols := PByteArray(FBuffer + 256 + 2);
