@@ -781,6 +781,7 @@ var
   sTemp,
   sPath : UTF8String;
   sr: TDsxSearchRecord;
+  SearchTemplate: TSearchTemplateRec;
 begin
   sTemp:= edtFindPathStart.Text;
   repeat
@@ -822,15 +823,19 @@ begin
   btnClose.Enabled:= False;
   btnNewSearch.Enabled:= False;
 
+  FillFindOptions(SearchTemplate, True);
+
   if not Assigned(FLastSearchTemplate) then
     FLastSearchTemplate := TSearchTemplate.Create;
-  FillFindOptions(FLastSearchTemplate.SearchRecord, False);
+  FLastSearchTemplate.SearchRecord := SearchTemplate;
+  FLastSearchTemplate.SearchRecord.StartPath := ''; // Don't remember starting path.
+
   try
     if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex<>-1) then
       begin
         if DSXPlugins.LoadModule(cmbPlugin.ItemIndex) then
         begin
-          FindOptionsToDSXSearchRec(FLastSearchTemplate.SearchRecord, sr);
+          FindOptionsToDSXSearchRec(SearchTemplate, sr);
           DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
           DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
         end
@@ -839,7 +844,7 @@ begin
       end
     else
       begin
-        FFindThread := TFindThread.Create(FLastSearchTemplate.SearchRecord);
+        FFindThread := TFindThread.Create(SearchTemplate);
         with FFindThread do
         begin
           Items := FoundedStringCopy;
