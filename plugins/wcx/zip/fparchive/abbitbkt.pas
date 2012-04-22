@@ -24,19 +24,20 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbBitBkt.pas 3.05                           *}
+{* ABBREVIA: AbBitBkt.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Bit bucket memory stream class              *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbBitBkt;
+
+{$I AbDefine.inc}
 
 interface
 
 uses
-  Classes;
+  Classes,
+  AbUtils;
 
 type
   TAbBitBucketStream = class(TStream)
@@ -61,7 +62,7 @@ type
 implementation
 
 uses
-  SysUtils, AbExcept;
+  Math, SysUtils, AbExcept;
 
 {Notes: The buffer is a circular queue without a head pointer; FTail
         is where data is next going to be written and it wraps
@@ -114,7 +115,7 @@ begin
   OutBuffer := @Buffer;
   {we cannot read more bytes than there is buffer}
   if (Count > FBufSize) then
-    raise EAbBBSReadTooManyBytes.Create(Count, 0);
+    raise EAbBBSReadTooManyBytes.Create(Count);
   {calculate the size of the chunks}
   if (FBufPosn <= FTail) then begin
     Chunk1Size := FTail - FBufPosn;
@@ -136,7 +137,7 @@ begin
   end;
   {we cannot read more bytes than there are available}
   if (Count > (Chunk1Size + Chunk2Size)) then
-    raise EAbBBSReadTooManyBytes.Create(Count, 0);
+    raise EAbBBSReadTooManyBytes.Create(Count);
   {perform the read}
   if (Chunk1Size > 0) then begin
     Move(FBuffer[FBufPosn], OutBuffer^, Chunk1Size);
@@ -154,14 +155,20 @@ end;
 {--------}
 function TAbBitBucketStream.Write(const Buffer; Count : Longint) : Longint;
 var
-  Chunk2Size : longint;
-  Chunk1Size : longint;
+  Chunk2Size : Int64;
+  Chunk1Size : Int64;
   InBuffer   : PByte;
+  Overage    : longint;
 begin
+  Result := Count;
   InBuffer := @Buffer;
   {we cannot write more bytes than there is buffer}
-  if (Count > FBufSize) then
-    raise EAbBBSWriteTooManyBytes.Create(Count, 0);
+  while Count > FBufSize do begin
+    Overage := Min(FBufSize, Count - FBufSize);
+    Write(InBuffer^, Overage);
+    Inc(PtrInt(InBuffer), Overage);
+    Dec(Count, Overage);
+  end;
   {calculate the size of the chunks}
   Chunk1Size := FBufSize - FTail;
   if (Chunk1Size > Count) then begin
@@ -186,21 +193,13 @@ begin
   inc(FSize, Count);
   FPosn := FSize;
   FBufPosn := FTail;
-  Result := Count;
 end;
 {--------}
 function TAbBitBucketStream.Seek(const Offset : Int64; Origin : TSeekOrigin): Int64;
 var
-  Posn : longint;
+  Posn : Int64;
   BytesBack : longint;
 begin
-{$IFDEF LINUX}
-{$IFDEF VER60}
-{Bug in Kylix 1 code analysis? Complains that Posn not initialized.}
-{All the other compilers complain that this assignment to Posn never used. }
-  Posn := 0;                                         {!!.03}
-{$ENDIF}
-{$ENDIF}
   {calculate the new position}
   case Origin of
     soBeginning :
