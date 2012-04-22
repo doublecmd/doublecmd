@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfDec.pas 3.05                            *}
+{* ABBREVIA: AbDfDec.pas                                 *}
 {*********************************************************}
 {* Deflate decoding unit                                 *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbDfDec;
 interface
 
 uses
-  SysUtils,
   Classes,
   AbDfBase;
 
@@ -46,6 +45,7 @@ function Inflate(aSource : TStream; aDest : TStream;
 implementation
 
 uses
+  SysUtils,
   AbDfStrm,
   AbDfHufD,
   AbDfOutW,
@@ -658,7 +658,6 @@ function Inflate(aSource : TStream; aDest : TStream;
 var
   Helper       : TAbDeflateHelper;
   InBitStrm    : TAbDfInBitStream;
-  DecryptStrm  : TAbDfDecryptStream;
   OutWindow    : TAbDfOutputWindow;
   Log          : TAbLogger;
   UseDeflate64 : boolean;
@@ -692,7 +691,6 @@ begin
   InBitStrm := nil;
   OutWindow := nil;
   Log := nil;
-  DecryptStrm := nil;                                          {!!.02}
 
   try {finally}
     try {except}
@@ -727,27 +725,9 @@ begin
         {$ENDIF}
       end;
 
-      {if a passphrase was specified, create a decryption stream
-       wrapping the source and a bit stream over that}
-      if (Helper.Passphrase <> '') then begin
-        {$IFDEF UseLogging}
-        Log.WriteLine('(passphrase is set: stream is encrypted)');
-        {$ENDIF}
-        DecryptStrm :=
-           TAbDfDecryptStream.Create(
-                       aSource, Helper.CheckValue, Helper.Passphrase);
-        if not DecryptStrm.IsValid then
-          raise EAbInflatePasswordError.Create(
-                  'Inflate: stream is encrypted but passphrase is wrong');
-        InBitStrm := TAbDfInBitStream.Create(DecryptStrm,
-                                             Helper.OnProgressStep,
-                                             Helper.StreamSize);
-      end
-      {otherwise, just create the input bit stream}
-      else
-        InBitStrm := TAbDfInBitStream.Create(aSource,
-                                             Helper.OnProgressStep,
-                                             Helper.StreamSize);
+      InBitStrm := TAbDfInBitStream.Create(aSource,
+                                           Helper.OnProgressStep,
+                                           Helper.StreamSize);
 
       {create the output sliding window}
       UseDeflate64 := (Helper.Options and dfc_UseDeflate64) <> 0;
@@ -821,7 +801,6 @@ begin
     Helper.Free;
     OutWindow.Free;
     InBitStrm.Free;
-    DecryptStrm.Free;                                          {!!.02}
     Log.Free;
   end;
 
