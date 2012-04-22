@@ -32,30 +32,31 @@ type
     FSettingCaption: Boolean;
     {$ENDIF}
     FOnActivate: TNotifyEvent;
+    FCurrentTitle: String;
+    FPermanentTitle: String;
 
-    {en
-       Shows or removes the '*' indicator of a locked tab.
-    }
-    procedure UpdateTabLockState;
+    procedure AssignPage(OtherPage: TFileViewPage);
+    procedure AssignProperties(OtherPage: TFileViewPage);
     {en
        Retrieves the file view on this page.
     }
     function GetFileView: TFileView;
     {en
-       Frees current file view and assigns a new one.
-    }
-    procedure SetFileView(aFileView: TFileView);
-    {en
        Retrieves notebook on which this page is.
     }
     function GetNotebook: TFileViewNotebook;
-
+    {en
+       Frees current file view and assigns a new one.
+    }
+    procedure SetFileView(aFileView: TFileView);
     procedure SetLockState(NewLockState: TTabLockState);
+    procedure SetPermanentTitle(AValue: String);
 
     procedure DoActivate;
 
-  {$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
   protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+  {$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
     procedure RealSetText(const AValue: TCaption); override;
   {$ENDIF}
 
@@ -67,12 +68,14 @@ type
     {$ENDIF}
     function IsActive: Boolean;
     procedure MakeActive;
-    procedure UpdateCaption(NewCaption: String);
+    procedure UpdateTitle;
 
     property LockState: TTabLockState read FLockState write SetLockState;
     property LockPath: String read FLockPath write FLockPath;
     property FileView: TFileView read GetFileView write SetFileView;
     property Notebook: TFileViewNotebook read GetNotebook;
+    property PermanentTitle: String read FPermanentTitle write SetPermanentTitle;
+    property CurrentTitle: String read FCurrentTitle;
     property OnActivate: TNotifyEvent read FOnActivate write FOnActivate;
 
   end;
@@ -110,8 +113,11 @@ type
     constructor Create(ParentControl: TWinControl;
                        NotebookSide: TFilePanelSelect); reintroduce;
 
-    function AddPage(aCaption: String = ''): TFileViewPage;
-    function InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage; reintroduce;
+    function AddPage: TFileViewPage;
+    function InsertPage(Index: Integer): TFileViewPage; reintroduce;
+    function NewEmptyPage: TFileViewPage;
+    function NewPage(CloneFromPage: TFileViewPage): TFileViewPage;
+    function NewPage(CloneFromView: TFileView): TFileViewPage;
     procedure RemovePage(Index: Integer); reintroduce;
     procedure RemovePage(var aPage: TFileViewPage);
     procedure DestroyAllPages;
@@ -137,6 +143,7 @@ implementation
 
 uses
   LCLProc,
+  DCStrUtils,
   uGlobs
   {$IF DEFINED(LCLGTK2)}
   , GTK2Globals // for DblClickTime
@@ -150,6 +157,21 @@ uses
   ;
 
 // -- TFileViewPage -----------------------------------------------------------
+
+procedure TFileViewPage.AssignPage(OtherPage: TFileViewPage);
+begin
+  AssignProperties(OtherPage);
+  SetFileView(nil); // Remove previous view.
+  OtherPage.FileView.Clone(Self);
+end;
+
+procedure TFileViewPage.AssignProperties(OtherPage: TFileViewPage);
+begin
+  FLockState      := OtherPage.FLockState;
+  FLockPath       := OtherPage.FLockPath;
+  FCurrentTitle   := OtherPage.FCurrentTitle;
+  FPermanentTitle := OtherPage.FPermanentTitle;
+end;
 
 constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
@@ -218,32 +240,42 @@ begin
   end;
 end;
 
-procedure TFileViewPage.UpdateCaption(NewCaption: String);
+procedure TFileViewPage.Notification(AComponent: TComponent; Operation: TOperation);
 begin
-  if NewCaption <> '' then
-  begin
-    if (tb_text_length_limit in gDirTabOptions) and (UTF8Length(NewCaption) > gDirTabLimit) then
-      Caption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '...'
-    else
-      Caption := NewCaption;
-
-    UpdateTabLockState;
-  end;
+  inherited Notification(AComponent, Operation);
+  if (Operation = opInsert) and (FileView = AComponent) then
+    UpdateTitle;
 end;
 
-procedure TFileViewPage.UpdateTabLockState;
+procedure TFileViewPage.UpdateTitle;
 var
   NewCaption: String;
 begin
-  if Caption[1] = '*' then
-    NewCaption := Copy(Caption, 2, Length(Caption) - 1)
-  else
-    NewCaption := Caption;
+  if Assigned(FileView) then
+  begin
+    if FPermanentTitle <> '' then
+    begin
+      NewCaption := FPermanentTitle;
+      FCurrentTitle := FPermanentTitle;
+    end
+    else
+    begin
+      NewCaption := FileView.CurrentPath;
+      if NewCaption <> '' then
+        NewCaption := GetLastDir(NewCaption);
 
-  if (FLockState <> tlsNormal) and (tb_show_asterisk_for_locked in gDirTabOptions) then
-    Caption := '*' + NewCaption
-  else
+      FCurrentTitle := NewCaption;
+
+      if (FLockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab]) and
+         (tb_show_asterisk_for_locked in gDirTabOptions) then
+        NewCaption := '*' + NewCaption;
+    end;
+
+    if (tb_text_length_limit in gDirTabOptions) and (UTF8Length(NewCaption) > gDirTabLimit) then
+      NewCaption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '...';
+
     Caption := NewCaption;
+  end;
 end;
 
 function TFileViewPage.GetFileView: TFileView;
@@ -279,10 +311,20 @@ end;
 
 procedure TFileViewPage.SetLockState(NewLockState: TTabLockState);
 begin
+  if FLockState = NewLockState then Exit;
   FLockState := NewLockState;
-  if NewLockState = tlsPathResets then
-    LockPath := FileView.CurrentPath;
-  UpdateTabLockState;
+  if NewLockState in [tlsPathLocked, tlsPathResets] then
+    LockPath := FileView.CurrentPath
+  else
+    LockPath := '';
+  UpdateTitle;
+end;
+
+procedure TFileViewPage.SetPermanentTitle(AValue: String);
+begin
+  if FPermanentTitle = AValue then Exit;
+  FPermanentTitle := AValue;
+  UpdateTitle;
 end;
 
 procedure TFileViewPage.DoActivate;
@@ -341,20 +383,46 @@ begin
   Result := TFileViewPage(CustomPage(Index));
 end;
 
-function TFileViewNotebook.AddPage(aCaption: String): TFileViewPage;
+function TFileViewNotebook.AddPage: TFileViewPage;
 begin
-  Result := InsertPage(PageCount, aCaption);
+  Result := InsertPage(PageCount);
 end;
 
-function TFileViewNotebook.InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage;
+function TFileViewNotebook.InsertPage(Index: Integer): TFileViewPage;
 begin
-  if aCaption = '' then
-    aCaption := IntToStr(Index);
-
-  Pages.Insert(Index, aCaption);
+  Pages.Insert(Index, '');
   Result := GetPage(Index);
-
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+end;
+
+function TFileViewNotebook.NewEmptyPage: TFileViewPage;
+begin
+  if tb_open_new_near_current in gDirTabOptions then
+    Result := InsertPage(PageIndex + 1)
+  else
+    Result := InsertPage(PageCount);
+end;
+
+function TFileViewNotebook.NewPage(CloneFromPage: TFileViewPage): TFileViewPage;
+begin
+  if Assigned(CloneFromPage) then
+  begin
+    Result := NewEmptyPage;
+    Result.AssignPage(CloneFromPage);
+  end
+  else
+    Result := nil;
+end;
+
+function TFileViewNotebook.NewPage(CloneFromView: TFileView): TFileViewPage;
+begin
+  if Assigned(CloneFromView) then
+  begin
+    Result := NewEmptyPage;
+    CloneFromView.Clone(Result);
+  end
+  else
+    Result := nil;
 end;
 
 procedure TFileViewNotebook.RemovePage(Index: Integer);
@@ -469,7 +537,7 @@ procedure TFileViewNotebook.DragDropEvent(Sender, Source: TObject; X, Y: Integer
 var
   SourceNotebook: TFileViewNotebook;
   ATabIndex: Integer;
-  NewPage, DraggedPage: TFileViewPage;
+  ANewPage, DraggedPage: TFileViewPage;
 begin
   if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
   begin
@@ -489,9 +557,9 @@ begin
       DraggedPage := SourceNotebook.Page[SourceNotebook.FDraggedPageIndex];
 
       // Create a clone of the page in the panel.
-      NewPage := InsertPage(ATabIndex, DraggedPage.Caption);
-      DraggedPage.FileView.Clone(NewPage);
-      NewPage.MakeActive;
+      ANewPage := InsertPage(ATabIndex);
+      ANewPage.AssignPage(DraggedPage);
+      ANewPage.MakeActive;
 
       if (ssShift in GetKeyShiftState) and (SourceNotebook.PageCount > 1) then
       begin

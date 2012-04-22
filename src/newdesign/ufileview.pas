@@ -152,6 +152,7 @@ type
     procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure UpdatedFilesTimerEvent(Sender: TObject);
     procedure UpdatePath(UpdateAddressToo: Boolean);
+    procedure UpdateTitle;
     procedure VisualizeFileUpdate(AFile: TDisplayFile);
     {en
        Assigns the built lists to the file view and displays new the file list.
@@ -275,6 +276,7 @@ type
                        AFileSource: IFileSource;
                        APath: String;
                        AFlags: TFileViewFlags = []); virtual reintroduce;
+    // Constructor for cloning.
     constructor Create(AOwner: TWinControl;
                        AFileView: TFileView;
                        AFlags: TFileViewFlags = []); virtual reintroduce;
@@ -510,6 +512,15 @@ begin
   FFlags := AFlags;
   CreateDefault(AOwner);
   LoadConfiguration(ASectionName, ATabIndex);
+
+  // Update view before making file source file list,
+  // so that file list isn't unnecessarily displayed twice.
+  UpdateView;
+
+  if FileSourcesCount > 0 then
+  begin
+    MakeFileSourceFileList;
+  end;
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);
@@ -546,8 +557,8 @@ begin
   inherited Create(AOwner);
   Parent := AOwner;
 
-  if AOwner is TFileViewPage then
-    (AOwner as TFileViewPage).OnActivate := @ActivateEvent;
+  if Parent is TFileViewPage then
+    (Parent as TFileViewPage).OnActivate := @ActivateEvent;
 end;
 
 destructor TFileView.Destroy;
@@ -1018,6 +1029,12 @@ procedure TFileView.UpdatePath(UpdateAddressToo: Boolean);
 begin
   // Maybe better to do via some notification like FileSourceHasChanged.
   UpdateView;
+end;
+
+procedure TFileView.UpdateTitle;
+begin
+  if Parent is TFileViewPage then
+    TFileViewPage(Parent).UpdateTitle;
 end;
 
 procedure TFileView.VisualizeFileUpdate(AFile: TDisplayFile);
@@ -1918,6 +1935,7 @@ begin
   end;
 
   EnableWatcher(IsFileSystemWatcher);
+  UpdateTitle;
 end;
 
 function TFileView.BeforeChangePath(NewFileSource: IFileSource; NewPath: String): Boolean;
@@ -1953,6 +1971,8 @@ begin
 
   if Assigned(OnAfterChangePath) then
     OnAfterChangePath(Self);
+
+  UpdateTitle;
 
   MakeFileSourceFileList;
 end;
