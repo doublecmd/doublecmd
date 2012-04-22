@@ -24,17 +24,20 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* Abbrevia: AbConst.pas 3.05                            *}
+{* Abbrevia: AbConst.pas                                 *}
 {*********************************************************}
 {* Abbrevia: Constants                                   *}
 {*********************************************************}
 
 unit AbConst;
 
+{$I AbDefine.inc}
+
 interface
 
 const
-  AbVersion = '3.05';
+  AbVersion = 5.0;
+  AbVersionS = '5.0';
   Ab_MessageLen = 255;
   Ab_CaptionLen = 80;
   AB_ZIPPATHDELIM = '/';
@@ -109,6 +112,11 @@ const
   AbGzipBadCRC                    = 201;
   AbGzipBadFileSize               = 202;
 
+  AbTarInvalid                    = 220;
+  AbTarBadFileName                = 221;
+  AbTarBadLinkName                = 222;
+  AbTarBadOp                      = 223;
+
 
 function AbStrRes(Index : Integer) : string;
 
@@ -124,7 +132,7 @@ type
   end;
 
 const
-  AbStrArray : array [0..62] of AbStrRec = (
+  AbStrArray : array [0..66] of AbStrRec = (
     (ID: AbZipVersionNeeded; Str: AbZipVersionNeededS),
     (ID: AbUnknownCompressionMethod; Str: AbUnknownCompressionMethodS),
     (ID: AbNoExtractionMethod; Str: AbNoExtractionMethodS),
@@ -192,7 +200,12 @@ const
 
     (ID: AbGzipInvalid; Str: AbGzipInvalidS),
     (ID: AbGzipBadCRC; Str: AbGzipBadCRCS),
-    (ID: AbGzipBadFileSize; Str: AbGzipBadFileSizeS)
+    (ID: AbGzipBadFileSize; Str: AbGzipBadFileSizeS),
+
+    (ID: AbTarInvalid; Str: AbTarInvalidS),
+    (ID: AbTarBadFileName; Str: AbTarBadFileNameS),
+    (ID: AbTarBadLinkName; Str: AbTarBadLinkNameS),
+    (ID: AbTarBadOp; Str: AbTarBadOpS)
   );
 
 function AbStrRes(Index : Integer) : string;

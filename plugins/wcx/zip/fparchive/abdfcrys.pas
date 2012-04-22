@@ -74,7 +74,7 @@ type
       constructor Create(aStream     : TStream;
                          aCheckValue : longint;
                    const aPassphrase : AnsiString);
-      destructor Destroy; override;                            {!!.02}
+      destructor Destroy; override;
 
       function IsValid : boolean;
 
@@ -584,7 +584,7 @@ begin
     FreeMem(FBuffer);
 
   {free the engine}
-  FEngine.Free;                                                {!!.02}
+  FEngine.Free;
 
   {destroy the ancestor}
   inherited Destroy;

@@ -25,11 +25,14 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* Abbrevia: AbResString.pas 3.05                        *}
+{* Abbrevia: AbResString.pas                             *}
 {*********************************************************}
 {* Abbrevia: Resource strings                            *}
 {*********************************************************}
+
 unit AbResString;
+
+{$I AbDefine.inc}
 
 interface
 
@@ -89,18 +92,23 @@ resourcestring
   AbInvalidCabTemplateS = 'Invalid cab file template';
   AbInvalidCabFileS = 'Invalid file - not a cabinet file';
 
-  AbMethod0S = 'Stored';
-  AbMethod1S = 'Shrunk';
-  AbMethod2S = 'Reduced';
-  AbMethod3S = 'Reduced';
-  AbMethod4S = 'Reduced';
-  AbMethod5S = 'Reduced';
-  AbMethod6S = 'Imploded';
-  AbMethod7S = 'Tokenized';
-  AbMethod8S = 'Deflated';
-  AbMethod9S = 'Enhanced Deflation';
-  AbMethod10S = 'DCL Imploded';
-  AbMethod11S = 'Best Method';
+  AbZipStored = 'Stored';
+  AbZipShrunk = 'Shrunk';
+  AbZipReduced = 'Reduced';
+  AbZipImploded = 'Imploded';
+  AbZipTokenized = 'Tokenized';
+  AbZipDeflated = 'Deflated';
+  AbZipDeflate64 = 'Enhanced Deflation';
+  AbZipDCLImploded = 'DCL Imploded';
+  AbZipBzip2 = 'Bzip2';
+  AbZipLZMA = 'LZMA';
+  AbZipIBMTerse = 'IBM Terse';
+  AbZipLZ77 = 'IBM LZ77';
+  AbZipJPEG = 'JPEG';
+  AbZipWavPack = 'WavPack';
+  AbZipPPMd = 'PPMd';
+  AbZipUnknown = 'Unknown (%d)';
+  AbZipBestMethod = 'Best Method';
 
   AbVersionFormatS = 'Version %s';
   AbCompressedSizeFormatS = 'Compressed Size: %d';
@@ -177,6 +185,8 @@ resourcestring
   AbPathHeadingS = 'Path';
   AbPartialHeadingS = 'Partial';
   AbExecutableHeadingS = 'Executable';
+  AbFileTypeHeadingS = 'Type';
+  AbLastModifiedHeadingS = 'Modified';
 
   AbCabMethod0S = 'None';
   AbCabMethod1S = 'MSZip';
@@ -192,6 +202,11 @@ resourcestring
   AbGzipInvalidS                   = 'Invalid Gzip';
   AbGzipBadCRCS                    = 'Bad CRC';
   AbGzipBadFileSizeS               = 'Bad File Size';
+
+  AbTarInvalidS                    = 'Invalid Tar';
+  AbTarBadFileNameS                = 'File name too long';
+  AbTarBadLinkNameS                = 'Symbolic link path too long';
+  AbTarBadOpS                      = 'Unsupported Operation';
 
   AbUnhandledEntityS             = 'Unhandled Entity';
 
@@ -219,7 +234,6 @@ resourcestring
   AbGzOsunknown     = 'unknown';
   AbGzOsUndefined   = 'ID undefined by gzip';
 
-{!!.03 - Moved from AbCompnd.inc }
 { Compound File specific error messages }
 resourcestring
   AbCmpndIndexOutOfBounds   = 'Index out of bounds';
@@ -228,7 +242,6 @@ resourcestring
   AbCmpndFileNotFound       = 'File/Directory not found';
   AbCmpndFolderNotEmpty     = 'Folder not empty';
   AbCmpndExceedsMaxFileSize = 'File size exceeds maximum allowable';
-{!!.03 - End Moved }
 
 
 
