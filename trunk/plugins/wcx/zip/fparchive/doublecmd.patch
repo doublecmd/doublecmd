@@ -1,3 +1,226 @@
+Index: AbBrowse.pas
+===================================================================
+--- AbBrowse.pas	(revision 512)
++++ AbBrowse.pas	(working copy)
+@@ -220,13 +220,15 @@
+ uses
+   SysUtils,
+   AbExcept,
+-{$IFDEF MSWINDOWS}
++{$IF DEFINED(ExtractCabSupport)}
+   AbCabTyp,
+ {$ENDIF}
+   AbZipTyp,
+   AbTarTyp,
+   AbGzTyp,
+-  AbBzip2Typ;
++  AbBzip2Typ,
++  DCOSUtils,
++  DCClassesUtf8;
+ 
+ { TAbBaseBrowser implementation ======================================= }
+ 
+@@ -515,68 +517,52 @@
+ function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
+ var
+   Ext : string;
+-  FS : TFileStream;
++  FS : TStream = nil;
+ begin
+   Result := AssertType;
+-  if Result = atUnknown then begin
++  { Guess archive type based on it's content }
++  if (Result = atUnknown) and mbFileExists(FN) and (AbFileGetSize(FN) > 0) then
++    try
++      FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);
++      Result := VerifyZip(FS);
++      if Result = atUnknown then
++        Result := VerifySelfExtracting(FS);
++      if Result = atUnknown then
++        Result := VerifyTar(FS);
++      if Result = atUnknown then
++        Result := VerifyGzip(FS);
++      {$IF DEFINED(ExtractCabSupport)}
++      if Result = atUnknown then
++        Result := VerifyCab(FS);
++      {$ENDIF}
++      if Result = atUnknown then
++        Result := VerifyBzip2(FS);
++    finally
++      if Assigned(FS) then
++        FreeAndNil(FS);
++    end
++  else if Result = atUnknown then begin
+     { Guess archive type based on it's extension }
+     Ext := UpperCase(ExtractFileExt(FN));
+     if (Ext = '.ZIP') or (Ext = '.JAR') then
+-      Result := atZip;
+-    if (Ext = '.EXE') then
+-      Result := atSelfExtZip;
+-    if (Ext = '.TAR') then
+-      Result := atTar;
+-    if (Ext = '.GZ') then
+-      Result := atGzip;
+-    if (Ext = '.TGZ') then
+-      Result := atGzippedTar;
+-    if (Ext = '.CAB') then
+-      Result := atCab;
+-    if (Ext = '.BZ2') then
+-      Result := atBzip2;
+-    if (Ext = '.TBZ') then
++      Result := atZip
++    else if (Ext = '.TAR') then
++      Result := atTar
++    else if (Ext = '.GZ') then
++      Result := atGzip
++    else if (Ext = '.TGZ') then
++      Result := atGzippedTar
++    else if (Ext = '.CAB') then
++      Result := atCab
++    else if (Ext = '.BZ2') then
++      Result := atBzip2
++    else if (Ext = '.TBZ') then
+       Result := atBzippedTar;
+   end;
+-  {$IFNDEF MSWINDOWS}
++  {$IF NOT DEFINED(ExtractCabSupport)}
+   if Result = atCab then
+     Result := atUnknown;
+   {$ENDIF}
+-  if FileExists(FN) and (AbFileGetSize(FN) > 0) then begin
+-    { If the file doesn't exist (or is empty) presume to make one, otherwise
+-      guess or verify the contents }
+-    FS := TFileStream.Create(FN, fmOpenRead or fmShareDenyNone);
+-    try
+-      if Result = atUnknown then
+-        Result := AbDetermineArcType(FS)
+-      else begin
+-        case Result of
+-          atZip : begin
+-            Result := VerifyZip(FS);
+-          end;
+-          atSelfExtZip : begin
+-            Result := VerifySelfExtracting(FS);
+-          end;
+-          atTar : begin
+-            Result := VerifyTar(FS);
+-          end;
+-          atGzip, atGzippedTar: begin
+-            Result := VerifyGzip(FS);
+-          end;
+-          {$IFDEF MSWINDOWS}
+-          atCab : begin
+-            Result := VerifyCab(FS);
+-          end;
+-          {$ENDIF}
+-          atBzip2, atBzippedTar: begin
+-            Result := VerifyBzip2(FS);
+-          end;
+-        end;
+-      end;
+-    finally
+-      FS.Free;
+-    end;
+-  end;
+ end;
+ { -------------------------------------------------------------------------- }
+ function AbDetermineArcType(aStream: TStream): TAbArchiveType;
+@@ -591,7 +577,7 @@
+     Result := VerifyGzip(aStream);
+   if Result = atUnknown then
+     Result := VerifyBzip2(aStream);
+-  {$IFDEF MSWINDOWS}
++  {$IF DEFINED(ExtractCabSupport)}
+   if Result = atUnknown then
+     Result := VerifyCab(aStream);
+   {$ENDIF}
+Index: AbDfInW.pas
+===================================================================
+--- AbDfInW.pas	(revision 512)
++++ AbDfInW.pas	(working copy)
+@@ -261,8 +261,7 @@
+     HashInx :=
+        ((HashInx shl c_HashShift) xor longint(CurPos[2])) and
+        c_HashMask;
+-    HashChains^[longint(CurPos) and FWinMask] :=
+-       HashHeads^[HashInx];
++    HashChains^[PtrUInt(CurPos) and FWinMask] := HashHeads^[HashInx];
+     HashHeads^[HashInx] := CurPos;
+     inc(CurPos);
+   end;
+@@ -367,7 +366,6 @@
+   {$ENDIF}
+ {$ENDIF}
+ type
+-  PLongint = ^longint;
+   PWord    = ^word;
+ var
+   MaxLen     : longint;
+@@ -406,7 +404,7 @@
+ 
+   {update the chain itself: set the entry for this position equal to
+    the previous string position}
+-  FHashChains^[longint(CurPos) and FWinMask] := PrevStrPos;
++  FHashChains^[PtrUInt(CurPos) and FWinMask] := PrevStrPos;
+ 
+   {calculate the maximum match we could do at this position}
+   MaxMatch := (FLookAheadEnd - CurPos);
+@@ -602,7 +600,7 @@
+       Break;
+ 
+     {otherwise move onto the next position}
+-    PrevStrPos := FHashChains^[longint(PrevStrPos) and FWinMask];
++    PrevStrPos := FHashChains^[PtrUInt(PrevStrPos) and FWinMask];
+   end;
+   {$ENDIF}
+ 
+@@ -700,13 +698,11 @@
+ end;
+ {--------}
+ procedure TAbDfInputWindow.iwSlide;
+-type
+-  PLongint = ^longint;
+ var
+   i : integer;
+-  ByteCount : integer;
+-  Buffer    : longint;
+-  ListItem  : PLongint;
++  ByteCount : PtrInt;
++  Buffer    : PByte;
++  ListItem  : PPointer;
+ begin
+   {move current valid data back to the start of the buffer}
+   ByteCount := FLookAheadEnd - FStart;
+@@ -719,22 +715,22 @@
+   dec(FLookAheadEnd, ByteCount);
+ 
+   {patch up the hash table: the head pointers}
+-  Buffer := longint(FBuffer);
+-  ListItem := PLongint(@FHashHeads^[0]);
++  Buffer := FBuffer;
++  ListItem := @FHashHeads^[0];
+   for i := 0 to pred(c_HashCount) do begin
+     dec(ListItem^, ByteCount);
+     if (ListItem^ < Buffer) then
+-      ListItem^ := 0;
+-    inc(PAnsiChar(ListItem), sizeof(pointer));
++      ListItem^ := nil;
++    inc(ListItem);
+   end;
+ 
+   {..the chain pointers}
+-  ListItem  := PLongint(@FHashChains^[0]);
++  ListItem  := @FHashChains^[0];
+   for i := 0 to pred(FWinSize) do begin
+     dec(ListItem^, ByteCount);
+     if (ListItem^ < Buffer) then
+-      ListItem^ := 0;
+-    inc(PAnsiChar(ListItem), sizeof(pointer));
++      ListItem^ := nil;
++    inc(ListItem);
+   end;
+ 
+   {now read some more data from the stream}
 Index: AbZBrows.pas
 ===================================================================
 --- AbZBrows.pas	(revision 512)
