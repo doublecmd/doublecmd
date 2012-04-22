@@ -1,3 +1,56 @@
+Index: AbBitBkt.pas
+===================================================================
+--- AbBitBkt.pas	(revision 512)
++++ AbBitBkt.pas	(working copy)
+@@ -47,7 +47,7 @@
+       FBufPosn : longint;
+       FPosn    : Int64;
+       FSize    : Int64;
+-      FTail    : longint;
++      FTail    : Int64;
+     protected
+     public
+       constructor Create(aBufSize : cardinal);
+@@ -108,8 +108,8 @@
+ {--------}
+ function TAbBitBucketStream.Read(var Buffer; Count : Longint) : Longint;
+ var
+-  Chunk2Size : longint;
+-  Chunk1Size : longint;
++  Chunk2Size : Int64;
++  Chunk1Size : Int64;
+   OutBuffer  : PByte;
+ begin
+   OutBuffer := @Buffer;
+@@ -146,7 +146,7 @@
+   end;
+   if (Chunk2Size > 0) then begin
+     {we've wrapped}
+-    Move(FBuffer[0], PByte(PtrInt(OutBuffer) + PtrInt(Chunk1Size))^, Chunk2Size);
++    Move(FBuffer[0], (OutBuffer + Chunk1Size)^, Chunk2Size);
+     FBufPosn := Chunk2Size;
+     inc(FPosn, Chunk2Size);
+   end;
+@@ -155,8 +155,8 @@
+ {--------}
+ function TAbBitBucketStream.Write(const Buffer; Count : Longint) : Longint;
+ var
+-  Chunk2Size : longint;
+-  Chunk1Size : longint;
++  Chunk2Size : Int64;
++  Chunk1Size : Int64;
+   InBuffer   : PByte;
+   Overage    : longint;
+ begin
+@@ -186,7 +186,7 @@
+   {if the second chunk size is not zero, write the second chunk; note
+    that we have wrapped}
+   if (Chunk2Size > 0) then begin
+-    Move(PByte(PtrInt(InBuffer) + PtrInt(Chunk1Size))^, FBuffer[0], Chunk2Size);
++    Move((InBuffer + Chunk1Size)^, FBuffer[0], Chunk2Size);
+     FTail := Chunk2Size;
+   end;
+   {the stream size and position have changed}
 Index: AbBrowse.pas
 ===================================================================
 --- AbBrowse.pas	(revision 512)
