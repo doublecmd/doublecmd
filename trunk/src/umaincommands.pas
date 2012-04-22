@@ -353,13 +353,8 @@ procedure TMainCommands.DoNewTab(Notebook: TFileViewNotebook);
 var
   NewPage: TFileViewPage;
 begin
-  if tb_open_new_near_current in gDirTabOptions then
-    NewPage := Notebook.InsertPage(Notebook.PageIndex + 1)
-  else
-    NewPage := Notebook.AddPage;
-  Notebook.ActiveView.Clone(NewPage);
+  NewPage := Notebook.NewPage(Notebook.ActiveView);
   NewPage.MakeActive;
-  NewPage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(NewPage.FileView.CurrentPath)));
 end;
 
 procedure TMainCommands.DoOpenVirtualFileSystemList(Panel: TFileView);
@@ -649,7 +644,6 @@ end;
 procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
 var
   NewPage: TFileViewPage;
-  NewPath: String;
   aFile: TFile;
 begin
   with FrmMain do
@@ -660,10 +654,8 @@ begin
       if aFile.IsNameValid and
          (aFile.IsDirectory or aFile.IsLinkToDirectory) then
       begin
-        NewPath := ActiveFrame.CurrentPath + aFile.Name;
-        NewPage := ActiveNotebook.AddPage;
-        ActiveFrame.Clone(NewPage);
-        NewPage.FileView.CurrentPath := NewPath;
+        NewPage := ActiveNotebook.NewPage(ActiveFrame);
+        NewPage.FileView.CurrentPath := aFile.FullPath;
         if tb_open_new_in_foreground in gDirTabOptions then
           NewPage.MakeActive;
       end;
@@ -679,8 +671,6 @@ begin
   begin
     NotActiveNotebook.ActivePage.FileView := nil;
     ActiveFrame.Clone(NotActiveNotebook.ActivePage);
-    NotActiveNotebook.ActivePage.UpdateCaption(GetLastDir(
-      ExcludeTrailingPathDelimiter(NotActiveNotebook.ActivePage.FileView.CurrentPath)));
   end;
 end;
 
@@ -690,7 +680,6 @@ begin
   begin
     LeftTabs.ActivePage.FileView := nil;
     FrameRight.Clone(LeftTabs.ActivePage);
-    LeftTabs.ActivePage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(LeftTabs.ActivePage.FileView.CurrentPath)));
 
     // Destroying active view may have caused losing focus. Restore it if needed.
     if SelectedPanel = fpLeft then
@@ -704,7 +693,6 @@ begin
   begin
     RightTabs.ActivePage.FileView := nil;
     FrameLeft.Clone(RightTabs.ActivePage);
-    RightTabs.ActivePage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(RightTabs.ActivePage.FileView.CurrentPath)));
 
     // Destroying active view may have caused losing focus. Restore it if needed.
     if SelectedPanel = fpRight then
@@ -924,16 +912,14 @@ end;
 procedure TMainCommands.cm_RenameTab(const Params: array of string);
 var
   sCaption: UTF8String;
+  Page: TFileViewPage;
 begin
   with frmMain do
   begin
-    sCaption:= ActiveNotebook.Page[ActiveNotebook.PageIndex].Caption;
-    if (Length(sCaption) > 0)  and (sCaption[1] = '*')  and
-       (ActiveNotebook.Page[ActiveNotebook.PageIndex].LockState <> tlsNormal) and
-       (tb_show_asterisk_for_locked in gDirTabOptions) then
-      UTF8Delete(sCaption, 1, 1);
+    Page := ActiveNotebook.ActivePage;
+    sCaption:= Page.CurrentTitle;
     if InputQuery(rsMsgTabRenameCaption, rsMsgTabRenamePrompt, sCaption) then
-      ActiveNotebook.Page[ActiveNotebook.PageIndex].UpdateCaption(sCaption);
+      Page.PermanentTitle := sCaption;
   end;
 end;
 

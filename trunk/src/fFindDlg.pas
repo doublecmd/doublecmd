@@ -893,15 +893,12 @@ begin
 
   // Add new tab for search results.
   Notebook := frmMain.ActiveNotebook;
-  if tb_open_new_near_current in gDirTabOptions then
-    NewPage := Notebook.InsertPage(Notebook.PageIndex + 1)
-  else
-    NewPage := Notebook.AddPage;
+  NewPage := Notebook.NewEmptyPage;
+  NewPage.PermanentTitle := rsSearchResult;
 
   // Hard-coded Columns file view for now (later user will be able to change default view).
   FileView := TColumnsFileView.Create(NewPage, SearchResultFS, SearchResultFS.GetRootDir);
   frmMain.AssignEvents(FileView);
-  NewPage.UpdateCaption(rsSearchResult);
   NewPage.MakeActive;
 
   Close;
