@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfStrm.pas 3.05                           *}
+{* ABBREVIA: AbDfStrm.pas                                *}
 {*********************************************************}
 {* Deflate streams unit for various streams              *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbDfStrm;
 interface
 
 uses
-  SysUtils,
   Classes,
   AbDfBase,
   AbDfInW,
@@ -203,6 +202,7 @@ type
 implementation
 
 uses
+  SysUtils,
   AbDfXlat;
 
 type
