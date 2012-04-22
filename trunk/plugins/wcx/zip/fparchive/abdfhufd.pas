@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfHufD.pas 3.05                           *}
+{* ABBREVIA: AbDfHufD.pas                                *}
 {*********************************************************}
 {* Deflate Huffman tree for decoder                      *}
 {*********************************************************}
@@ -82,8 +82,6 @@ number of extra bits that must be extracted from the input bit stream.
 interface
 
 uses
-  SysUtils,
-  Classes,
   AbDfBase;
 
 type
@@ -132,6 +130,9 @@ var
   AbStaticDistanceTree : TAbDfDecodeHuffmanTree;
 
 implementation
+
+uses
+  SysUtils;
 
 const
   PowerOfTwo : array [0..dfc_MaxCodeLength] of integer =
@@ -239,7 +240,9 @@ var
   CodeIncr    : integer;
   Decodes     : PAbDfLongintList;
   Encodes     : PAbDfLongintList;
+  {$IFDEF CPU386}
   DecodesEnd  : pointer;
+  {$ENDIF}
   TablePtr    : pointer;
 begin
   {count the number of instances of each code length and calculate the
@@ -258,10 +261,15 @@ begin
 
   {now we know the maximum code length we can allocate our decoder
    array}
+  {$IFNDEF CPU386}
+  DecoderLen := 0;
+  {$ENDIF}
   if (FUsage <> huEncoding) then begin
     DecoderLen := PowerOfTwo[FMaxCodeLen];
     GetMem(FDecodes, DecoderLen * sizeof(longint));
+    {$IFDEF CPU386}
     DecodesEnd := PAnsiChar(FDecodes) + (DecoderLen * sizeof(longint));
+    {$ENDIF}
     {$IFOPT C+}
     FillChar(FDecodes^, DecoderLen * sizeof(longint), $FF);
     FMask := not (DecoderLen - 1);
@@ -298,7 +306,7 @@ begin
     else begin
       {calculate *reversed* code}
       Code := NextCode[CodeLen];
-      {$IFDEF UseGreedyAsm}
+      {$IFDEF CPU386}
       asm
         push esi
         mov eax, Code
@@ -315,9 +323,7 @@ begin
         shr eax, cl
         mov Code, eax
       end;
-      {$ENDIF}
-
-      {$IFDEF UseGreedyPascal}
+      {$ELSE}
       CodeData:= Code;
       LongRec(Code).Bytes[1]:= ByteRevTable[LongRec(CodeData).Bytes[0]];
       LongRec(Code).Bytes[0]:= ByteRevTable[LongRec(CodeData).Bytes[1]];
@@ -360,7 +366,7 @@ begin
       code in the loop is the big time sink in this routine so it was
       best to replace it.}
       if (FUsage <> huEncoding) then begin
-        {$IFDEF UseGreedyAsm}
+        {$IFDEF CPU386}
         CodeIncr := PowerOfTwo[CodeLen] * sizeof(longint);
         asm
           push edi                { save edi}
@@ -379,9 +385,7 @@ begin
           jl @@1                  { ..go back for the next one}
           pop edi                 { retrieve edi}
         end;
-        {$ENDIF}
-
-        {$IFDEF UseGreedyPascal}
+        {$ELSE}
         CodeIncr := PowerOfTwo[CodeLen];
         while Code < DecoderLen do begin
           Decodes^[Code] := CodeData;
