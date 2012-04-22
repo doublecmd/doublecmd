@@ -1264,7 +1264,7 @@ end;
 procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
 begin
   UpdateTemplatesList;
-  if lbSearchTemplates.ItemIndex = -1 then
+  if (lbSearchTemplates.Count > 0) and (lbSearchTemplates.ItemIndex = -1) then
     lbSearchTemplates.ItemIndex := 0;
 end;
 
