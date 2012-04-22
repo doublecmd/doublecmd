@@ -20,11 +20,12 @@
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
+ *   Craig Peterson <capeterson@users.sourceforge.net>
  *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbZBrows.pas 3.05                           *}
+{* ABBREVIA: AbZBrows.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Zip file Browser Component                  *}
 {*********************************************************}
@@ -36,10 +37,8 @@ unit AbZBrows;
 interface
 
 uses
-  SysUtils, Classes,
-  AbBrowse,
-  AbBase, AbExcept, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp, AbBzip2Typ,
-  AbSpanSt;
+  Classes,
+  AbArcTyp, AbBrowse, AbSpanSt, AbZipTyp;
 
 type
   TAbCustomZipBrowser = class(TAbBaseBrowser)
@@ -47,7 +46,6 @@ type
     function GetTarAutoHandle: Boolean;
     procedure SetTarAutoHandle(const Value: Boolean);
   protected {private}
-    FSpanStream        : TAbSpanStream;
     FPassword          : AnsiString;
     FOnRequestLastDisk : TAbRequestDiskEvent;
     FOnRequestNthDisk  : TAbRequestNthDiskEvent;
@@ -56,16 +54,16 @@ type
 
   protected {methods}
     function  GetItem(Index : Integer) : TAbZipItem; virtual;
-    function  GetZipArchive : {TAbZipArchive} TAbArchive;
+    function  GetStream: TStream;
     function  GetZipfileComment : AnsiString;
     procedure InitArchive;
       override;
     procedure SetFileName(const aFileName : string);
       override;
+    procedure SetStream(aValue: TStream);
     procedure SetOnRequestLastDisk(Value : TAbRequestDiskEvent);
     procedure SetOnRequestNthDisk(Value : TAbRequestNthDiskEvent);
     procedure SetOnRequestBlankDisk(Value : TAbRequestDiskEvent);
-    procedure SetOnRequestImage(Value : TAbRequestImageEvent); override;
 
     procedure SetPassword(const Value : AnsiString);
     procedure SetZipfileComment(const Value : AnsiString);
@@ -94,8 +92,10 @@ type
   public {properties}
     property Items[Index : Integer] : TAbZipItem
       read  GetItem; default;
+    property Stream : TStream // This can be used instead of Filename
+      read GetStream write SetStream;
     property ZipArchive : {TAbZipArchive} TAbArchive
-      read GetZipArchive;
+      read FArchive;
     property ZipfileComment : AnsiString
       read GetZipfileComment
       write SetZipfileComment;
@@ -129,7 +129,7 @@ type
 implementation
 
 uses
-  AbConst, DCOSUtils;
+  SysUtils, AbBzip2Typ, AbExcept, AbGzTyp, AbTarTyp, AbUtils, DCOSUtils;
 
 { TAbCustomZipBrowser implementation ======================================= }
 
@@ -149,6 +149,14 @@ begin
   Result := TAbZipItem(ZipArchive.ItemList[Index]);
 end;
 { -------------------------------------------------------------------------- }
+function TAbCustomZipBrowser.GetStream: TStream;
+begin
+  if FArchive <> nil then
+    Result := FArchive.FStream
+  else
+    Result := nil
+end;
+{ -------------------------------------------------------------------------- }
 function TAbCustomZipBrowser.GetTarAutoHandle: Boolean;
 begin
   Result := False;
@@ -156,14 +164,6 @@ begin
     Result := TAbGzipArchive(FArchive).TarAutoHandle
   else if FArchive is TAbBzip2Archive then
     Result := TAbBzip2Archive(FArchive).TarAutoHandle;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbCustomZipBrowser.GetZipArchive : TAbArchive;
-begin
-  if Assigned(FArchive) then
-    Result := FArchive
-  else
-    Result := nil;
 end;
 { -------------------------------------------------------------------------- }
 function TAbCustomZipBrowser.GetZipfileComment : AnsiString;
@@ -211,7 +211,7 @@ begin
          ArcType := AbDetermineArcType(FileName, atUnknown);
 
       case ArcType of
-        atZip, atSpannedZip, atSelfExtZip : begin                        {!!.03}
+        atZip, atSpannedZip, atSelfExtZip : begin
           FArchive := TAbZipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
           InitArchive;
         end;
@@ -259,18 +259,59 @@ begin
   DoChange;
 end;
 { -------------------------------------------------------------------------- }
+procedure TAbCustomZipBrowser.SetStream(aValue: TStream);
+var
+  ArcType : TAbArchiveType;
+begin
+  FFileName := '';
+  try
+    if FArchive <> nil then
+      FArchive.Save;
+  except
+  end;
+  FreeAndNil(FArchive);
+
+  if aValue <> nil then begin
+    ArcType := ArchiveType;
+    if not ForceType then
+      ArcType := AbDetermineArcType(aValue);
+
+    case ArcType of
+      atZip, atSpannedZip, atSelfExtZip : begin
+        FArchive := TAbZipArchive.CreateFromStream(aValue, '');
+      end;
+
+      atTar : begin
+        FArchive := TAbTarArchive.CreateFromStream(aValue, '');
+      end;
+
+      atGZip, atGZippedTar : begin
+        FArchive := TAbGzipArchive.CreateFromStream(aValue, '');
+        TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbGzipArchive(FArchive).IsGzippedTar := (ArcType = atGZippedTar);
+      end;
+
+      atBzip2, atBzippedTar : begin
+        FArchive := TAbBzip2Archive.CreateFromStream(aValue, '');
+        TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbBzip2Archive(FArchive).IsBzippedTar := (ArcType = atBzippedTar);
+      end;
+
+      else
+        raise EAbUnhandledType.Create;
+    end {case};
+    InitArchive;
+    FArchive.Load;
+    FArchiveType := ArcType;
+  end;
+  DoChange;
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbCustomZipBrowser.SetOnRequestBlankDisk(Value : TAbRequestDiskEvent);
 begin
   FOnRequestBlankDisk := Value;
   if ZipArchive is TAbZipArchive then
     TAbZipArchive(ZipArchive).OnRequestBlankDisk := FOnRequestBlankDisk;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbCustomZipBrowser.SetOnRequestImage(Value : TAbRequestImageEvent);
-begin
-  inherited SetOnRequestImage(Value);
-  if (ZipArchive <> nil) and Assigned(FSpanStream) then
-      FSpanStream.OnRequestImage := FOnRequestImage;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipBrowser.SetOnRequestLastDisk(Value : TAbRequestDiskEvent);
