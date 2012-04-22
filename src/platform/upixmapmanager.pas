@@ -1010,7 +1010,7 @@ begin
   nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
   nRepresentations:= nImage.Representations;
   if AIconSize = 22 then AIconSize:= 32;
-  for I:= 0 to nRepresentations.Count - 1 do
+  for I:= nRepresentations.Count - 1 downto 0 do
   begin
     nImageRep:= NSImageRep(nRepresentations.objectAtIndex(I));
     if (AIconSize <> nImageRep.Size.Width) then
@@ -1929,4 +1929,4 @@ finalization
   end;
 
 end.
-
+
