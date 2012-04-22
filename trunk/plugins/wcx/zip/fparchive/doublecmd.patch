@@ -1,3 +1,25 @@
+Index: AbZBrows.pas
+===================================================================
+--- AbZBrows.pas	(revision 512)
++++ AbZBrows.pas	(working copy)
+@@ -129,7 +129,7 @@
+ implementation
+ 
+ uses
+-  SysUtils, AbBzip2Typ, AbExcept, AbGzTyp, AbTarTyp, AbUtils;
++  SysUtils, AbBzip2Typ, AbExcept, AbGzTyp, AbTarTyp, AbUtils, DCOSUtils;
+ 
+ { TAbCustomZipBrowser implementation ======================================= }
+ 
+@@ -205,7 +205,7 @@
+   FArchive := nil;
+ 
+   if FileName <> '' then begin
+-    if FileExists(FileName) then begin { open it }
++    if mbFileExists(FileName) then begin { open it }
+       ArcType := ArchiveType;
+       if not ForceType then
+          ArcType := AbDetermineArcType(FileName, atUnknown);
 Index: AbZipKit.pas
 ===================================================================
 --- AbZipKit.pas	(revision 512)
