@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552},
-  uFileView, uFilePanelSelect, uDCVersion, LCLVersion;
+  uFileView, uFilePanelSelect, uDCVersion, LCLVersion, DCXmlConfig;
 
 const
   lazRevNewTabControl = '31767';
@@ -69,6 +69,9 @@ type
     function IsActive: Boolean;
     procedure MakeActive;
     procedure UpdateTitle;
+
+    procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 
     property LockState: TTabLockState read FLockState write SetLockState;
     property LockPath: String read FLockPath write FLockPath;
@@ -226,6 +229,20 @@ begin
   Result := Assigned(Notebook) and (Notebook.PageIndex = PageIndex);
 end;
 
+procedure TFileViewPage.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+begin
+  FLockState := TTabLockState(AConfig.GetValue(ANode, 'Options', Integer(tlsNormal)));
+  FLockPath := AConfig.GetValue(ANode, 'LockPath', '');
+  FPermanentTitle := AConfig.GetValue(ANode, 'Title', '');
+end;
+
+procedure TFileViewPage.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+begin
+  AConfig.AddValueDef(ANode, 'Options', Integer(FLockState), Integer(tlsNormal));
+  AConfig.AddValueDef(ANode, 'LockPath', FLockPath, '');
+  AConfig.AddValueDef(ANode, 'Title', FPermanentTitle, '');
+end;
+
 procedure TFileViewPage.MakeActive;
 var
   aFileView: TFileView;
@@ -313,7 +330,7 @@ procedure TFileViewPage.SetLockState(NewLockState: TTabLockState);
 begin
   if FLockState = NewLockState then Exit;
   FLockState := NewLockState;
-  if NewLockState in [tlsPathLocked, tlsPathResets] then
+  if NewLockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab] then
     LockPath := FileView.CurrentPath
   else
     LockPath := '';
