@@ -55,7 +55,6 @@ type
     procedure DoActivate;
 
   protected
-    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   {$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
     procedure RealSetText(const AValue: TCaption); override;
   {$ENDIF}
@@ -255,13 +254,6 @@ begin
     if Assigned(aFileView) then
       aFileView.SetFocus;
   end;
-end;
-
-procedure TFileViewPage.Notification(AComponent: TComponent; Operation: TOperation);
-begin
-  inherited Notification(AComponent, Operation);
-  if (Operation = opInsert) and (FileView = AComponent) then
-    UpdateTitle;
 end;
 
 procedure TFileViewPage.UpdateTitle;
