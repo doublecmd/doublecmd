@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbZipKit.pas 3.05                           *}
+{* ABBREVIA: AbZipKit.pas                                *}
 {*********************************************************}
 {* ABBREVIA: TABZipKit component                         *}
 {*********************************************************}
@@ -36,8 +36,7 @@ unit AbZipKit;
 interface
 
 uses
-  Classes,
-  AbZipper, AbArcTyp, AbZipTyp;
+  Classes, AbZipper, AbArcTyp, AbZipTyp;
 
 type
   TAbCustomZipKit = class(TAbCustomZipper)
@@ -105,7 +104,7 @@ type
 
   TAbZipKit = class(TAbCustomZipKit)
   published
-    property ArchiveProgressMeter;                                     {!!.04}
+    property ArchiveProgressMeter;
     property ArchiveSaveProgressMeter;
     property AutoSave;
     property BaseDirectory;
@@ -120,7 +119,7 @@ type
     property LogFile;
     property Logging;
     property OnArchiveProgress;
-    property OnArchiveSaveProgress;                                    {!!.04}
+    property OnArchiveSaveProgress;
     property OnArchiveItemProgress;
     property OnChange;
     property OnConfirmOverwrite;
@@ -147,7 +146,8 @@ implementation
 
 uses
   AbExcept,
-  AbUnzPrc;
+  AbUnzPrc,
+  AbZBrows;
 
 { -------------------------------------------------------------------------- }
 constructor TAbCustomZipKit.Create( AOwner : TComponent );
