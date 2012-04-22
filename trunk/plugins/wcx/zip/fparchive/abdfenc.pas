@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfEnc.pas 3.05                            *}
+{* ABBREVIA: AbDfEnc.pas                                 *}
 {*********************************************************}
 {* Deflate encoding unit                                 *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbDfEnc;
 interface
 
 uses
-  SysUtils,
   Classes,
   AbDfBase;
 
@@ -798,7 +797,6 @@ function Deflate(aSource : TStream; aDest : TStream;
 var
   Helper   : TAbDeflateHelper;
   Log      : TAbLogger;
-  DestStrm : TStream;
   SourceStartPos : longint;
   DestStartPos   : longint;
 begin
@@ -816,7 +814,6 @@ begin
   {prepare for the try..finally}
   Helper := nil;
   Log := nil;
-  DestStrm := nil;
 
   try {finally}
     try {except}
@@ -866,29 +863,16 @@ begin
         {$ENDIF}
       end;
 
-      {if a passphrase was specified, create an encryption stream
-       wrapping the destination}
-      if (Helper.Passphrase <> '') then begin
-        {$IFDEF UseLogging}
-        Log.WriteLine('(passphrase is set: stream is encrypted)');
-        {$ENDIF}
-        DestStrm := TAbDfEncryptStream.Create(
-                         aDest, Helper.CheckValue, Helper.Passphrase);
-      end
-      {otherwise, just use the destination stream without wrapping}
-      else
-        DestStrm := aDest;
-
       {use the helper's options property to decide what to do}
       case (Helper.Options and $07) of
         dfc_CanUseStored :
-          Result := DeflateStored(aSource, DestStrm, Helper, Log);
+          Result := DeflateStored(aSource, aDest, Helper, Log);
         dfc_CanUseStatic :
-          Result := DeflateStaticDynamic(true, false, aSource, DestStrm, Helper, Log);
+          Result := DeflateStaticDynamic(true, false, aSource, aDest, Helper, Log);
         dfc_CanUseDynamic :
-          Result := DeflateStaticDynamic(false, false, aSource, DestStrm, Helper, Log);
+          Result := DeflateStaticDynamic(false, false, aSource, aDest, Helper, Log);
       else
-        Result := DeflateStaticDynamic(false, true, aSource, DestStrm, Helper, Log);
+        Result := DeflateStaticDynamic(false, true, aSource, aDest, Helper, Log);
       end;
 
       {save the uncompressed and compressed sizes}
@@ -907,8 +891,6 @@ begin
       end;
     end;
   finally
-    if (Helper.Passphrase <> '') then
-      DestStrm.Free;
     Helper.Free;
     Log.Free;
   end;
