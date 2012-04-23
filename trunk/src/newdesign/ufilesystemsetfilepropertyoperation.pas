@@ -273,7 +273,11 @@ function TFileSystemSetFilePropertyOperation.RenameFile(const OldName: UTF8Strin
     with FileOpStruct do
     begin
       Wnd   := GetForegroundWindow;
-      wFunc := FO_MOVE;
+      // Use rename operation when only file name case is changed
+      if UTF8LowerCase(OldName) = UTF8LowerCase(NewName) then
+        wFunc := FO_RENAME
+      else
+        wFunc := FO_MOVE;
       pFrom := PWideChar(wsFromName);
       pTo   := PWideChar(wsToName);
     end;
