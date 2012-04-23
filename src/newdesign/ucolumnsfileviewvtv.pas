@@ -11,6 +11,7 @@ uses
   uFile,
   uFileProperty,
   uFileView,
+  uFileViewWithPanels,
   uFileSource,
   uDisplayFile,
   uColumns,
@@ -19,7 +20,6 @@ uses
   DCClassesUtf8,
   uFileViewWorker,
   fQuickSearch,
-  uFileViewHeader,
   VirtualTrees;
 
 type
@@ -136,7 +136,7 @@ type
 
   { TColumnsFileViewVTV }
 
-  TColumnsFileViewVTV = class(TFileView)
+  TColumnsFileViewVTV = class(TFileViewWithPanels)
   private
     FColumnsSorting: TColumnsSortings;
     FFileNameColumn: Integer;
@@ -146,10 +146,7 @@ type
     FLastSelectionStartRow: Integer;
     FLastSelectionState: Boolean;
 
-    pnlFooter: TPanel;
-    lblInfo: TLabel;
     lblFilter: TLabel;
-    pnlHeader: TFileViewHeader;
     pmColumnsMenu: TPopupMenu;
     pmOperationsCancel: TPopupMenu;
     quickSearch: TfrmQuickSearch;
@@ -172,7 +169,6 @@ type
     function SetActiveFileNow(aFilePath: String): Boolean;
     function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
 
-    procedure UpdateInfoPanel;
     procedure SetRowCount(Count: Integer);
     procedure SetColumns;
     procedure RedrawGrid;
@@ -337,7 +333,6 @@ type
     procedure cm_QuickFilter(const Params: array of string);
     procedure cm_RenameOnly(const Params: array of string);
     procedure cm_ContextMenu(const Params: array of string);
-    procedure cm_EditPath(const Params: array of string);
     procedure cm_GoToFirstFile(const Params: array of string);
     procedure cm_GoToLastFile(const Params: array of string);
   end;
@@ -395,7 +390,6 @@ end;
 procedure TColumnsFileViewVTV.SetActive(bActive: Boolean);
 begin
   inherited SetActive(bActive);
-  pnlHeader.SetActive(bActive);
   dgPanel.Color := DimColor(gBackColor);
 end;
 
@@ -1217,7 +1211,6 @@ procedure TColumnsFileViewVTV.AfterChangePath;
 begin
   FLastActiveRow := -1;
   inherited AfterChangePath;
-  pnlHeader.UpdatePathLabel;
 end;
 
 procedure TColumnsFileViewVTV.ShowRenameFileEdit(AFile: TFile);
@@ -1529,72 +1522,6 @@ begin
     else
       raise;
   end;
-end;
-
-procedure TColumnsFileViewVTV.UpdateInfoPanel;
-var
-  i: Integer;
-  FilesInDir, FilesSelected, FolderInDir, FolderSelected: Integer;
-  SizeInDir, SizeSelected: Int64;
-  SizeProperty: TFileSizeProperty;
-begin
-  if GetCurrentWorkType = fvwtCreate then
-  begin
-    lblInfo.Caption := rsMsgLoadingFileList;
-  end
-  else if not Assigned(FAllDisplayFiles) or (FAllDisplayFiles.Count = 0) then
-  begin
-    lblInfo.Caption := rsMsgNoFiles;
-  end
-  else if Assigned(FileSource) then
-  begin
-    FilesInDir := 0;
-    FilesSelected := 0;
-    SizeInDir := 0;
-    SizeSelected := 0;
-    FolderInDir := 0;
-    FolderSelected := 0;
-
-    for i := 0 to FFiles.Count - 1 do
-    begin
-      with FFiles[i] do
-      begin
-        if FSFile.Name = '..' then Continue;
-        if FSFile.IsDirectory then
-          inc(FolderInDir)
-        else
-          inc(FilesInDir);
-        if Selected then
-        begin
-          if FSFile.IsDirectory then
-            inc(FolderSelected)
-          else
-            inc(FilesSelected);
-        end;
-
-        // Count size if Size property exists.
-        if fpSize in FSFile.AssignedProperties then
-        begin
-          SizeProperty := FSFile.SizeProperty;
-
-          if Selected then
-            SizeSelected := SizeSelected + SizeProperty.Value;
-
-          SizeInDir := SizeInDir + SizeProperty.Value;
-        end;
-      end;
-    end;
-
-    lblInfo.Caption := Format(rsMsgSelectedInfo,
-                              [cnvFormatFileSize(SizeSelected),
-                               cnvFormatFileSize(SizeInDir),
-                               FilesSelected,
-                               FilesInDir,
-                               FolderSelected,
-                               FolderInDir]);
-  end
-  else if not (csDestroying in ComponentState) then
-    lblInfo.Caption := '';
 end;
 
 procedure TColumnsFileViewVTV.edtRenameKeyDown(Sender: TObject; var Key: Word;
@@ -2277,25 +2204,9 @@ begin
 
   HotMan.Register(dgPanel, 'Files Panel');
 
-  pnlHeader:=TFileViewHeader.Create(Self, Self);
-
-  pnlFooter:=TPanel.Create(Self);
-  pnlFooter.Parent:=Self;
-  pnlFooter.Align:=alBottom;
-  pnlFooter.BevelInner:=bvNone;
-  pnlFooter.BevelOuter:=bvNone;
-  pnlFooter.AutoSize := True;
-
-  lblInfo:=TLabel.Create(pnlFooter);
-  lblInfo.Parent:=pnlFooter;
-  lblInfo.AutoSize:=False;
-  lblInfo.Height := lblInfo.Canvas.TextHeight('Wg');
-  lblInfo.Align := alClient;
-
-  lblFilter := TLabel.Create(pnlFooter);
-  lblFilter.Parent := pnlFooter;
-  lblFilter.Align := alRight;
-  lblFilter.Caption := EmptyStr;
+  lblFilter         := TLabel.Create(pnlFooter);
+  lblFilter.Parent  := pnlFooter;
+  lblFilter.Align   := alRight;
   lblFilter.Visible := False;
 
   edtRename:=TEdit.Create(dgPanel);
@@ -2319,12 +2230,6 @@ begin
   tmClearGrid.Enabled := False;
   tmClearGrid.Interval := 500;
   tmClearGrid.OnTimer := @tmClearGridTimer;
-
-  {$IFDEF LCLCARBON}
-  // Under Carbon AutoSize don't work without it
-  pnlHeader.ClientHeight:= 0;
-  pnlFooter.ClientHeight:= 0;
-  {$ENDIF}
 
   // ---
   dgPanel.OnUTF8KeyPress := @UTF8KeyPressEvent;
@@ -2405,7 +2310,6 @@ end;
 procedure TColumnsFileViewVTV.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
   inherited AddFileSource(aFileSource, aPath);
-  pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TColumnsFileViewVTV.RemoveCurrentFileSource;
@@ -2418,8 +2322,6 @@ begin
   inherited;
 
   SetActiveFile(FocusedFile);
-
-  pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TColumnsFileViewVTV.BeforeMakeFileList;
@@ -2633,10 +2535,7 @@ end;
 
 procedure TColumnsFileViewVTV.DoUpdateView;
 begin
-  pnlHeader.Visible := gCurDir;  // Current directory
-  pnlFooter.Visible := gStatusBar;  // Status bar
-  pnlHeader.UpdateAddressLabel;
-  pnlHeader.UpdatePathLabel;
+  inherited DoUpdateView;
   UpdateColumnsView;
 end;
 
@@ -2711,10 +2610,10 @@ begin
   end;
 end;
 
-procedure TColumnsFileViewVTV.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFileProperties);
+procedure TColumnsFileViewVTV.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
 begin
   MakeColumnsStrings(AFile);
-  RedrawFile(AFile);
+  inherited DoFileUpdated(AFile, UpdatedProperties);
 end;
 
 procedure TColumnsFileViewVTV.DoSelectionChanged(Node: PVirtualNode);
@@ -2752,7 +2651,7 @@ begin
         if aFile.IsNameValid then
           ShowRenameFileEdit(aFile)
         else
-          pnlHeader.ShowPathEdit;
+          ShowPathEdit;
       finally
         FreeAndNil(aFile);
       end;
@@ -2769,11 +2668,6 @@ begin
   Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
   Point := dgPanel.ClientToScreen(Point);
   frmMain.Commands.DoContextMenu(Self, Point.X, Point.Y, False);
-end;
-
-procedure TColumnsFileViewVTV.cm_EditPath(const Params: array of string);
-begin
-  pnlHeader.ShowPathEdit;
 end;
 
 procedure TColumnsFileViewVTV.cm_GoToFirstFile(const Params: array of string);

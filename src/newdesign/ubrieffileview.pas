@@ -9,7 +9,8 @@ uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFormCommands, uDragDropEx, DCXmlConfig,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes, uFileViewHeader;
+  uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes, uFileViewWithPanels,
+  uFileViewHeader;
 
 type
 
@@ -42,23 +43,18 @@ type
 
   { TBriefFileView }
 
-  TBriefFileView = class (TFileView)
+  TBriefFileView = class (TFileViewWithPanels)
     private
-      pnlHeader: TFileViewHeader;
       TabHeader: THeaderControl;
       dgPanel: TBriefDrawGrid;
 
       function GetVisibleFilesIndexes: TRange;
       procedure EnsureDisplayProperties;
-      procedure UpdateFile(const UpdatedFile: TDisplayFile;
-                           const UserData: Pointer);
       {en
          Redraw cell containing DisplayFile if it is visible.
       }
       procedure RedrawFile(DisplayFile: TDisplayFile);
       procedure MakeColumnsStrings(AFile: TDisplayFile);
-
-      function DimColor(AColor: TColor): TColor;
 
       procedure dgPanelEnter(Sender: TObject);
       procedure dgPanelExit(Sender: TObject);
@@ -73,6 +69,8 @@ type
       procedure AfterChangePath; override;
       function GetActiveDisplayFile: TDisplayFile; override;
       procedure Resize; override;
+      procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
+      procedure DoSelectionChanged; override;
       procedure DoUpdateView; override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
@@ -553,7 +551,7 @@ begin
           FileSource,
           WorkersThread,
           FilePropertiesNeeded,
-          @UpdateFile,
+          @PropertiesRetrieverOnUpdate,
           AFileList);
 
         AddWorker(Worker, False);
@@ -565,42 +563,6 @@ begin
         FreeAndNil(AFileList);
     end;
   end;
-end;
-
-procedure TBriefFileView.UpdateFile(const UpdatedFile: TDisplayFile;
-  const UserData: Pointer);
-var
-  propType: TFilePropertyType;
-  aFile: TFile;
-  OrigDisplayFile: TDisplayFile;
-begin
-  OrigDisplayFile := TDisplayFile(UserData);
-
-  if not IsReferenceValid(OrigDisplayFile) then
-    Exit; // File does not exist anymore (reference is invalid).
-
-  aFile := OrigDisplayFile.FSFile;
-
-{$IF (fpc_version>2) or ((fpc_version=2) and (fpc_release>4))}
-  // This is a bit faster.
-  for propType in UpdatedFile.FSFile.AssignedProperties - aFile.AssignedProperties do
-{$ELSE}
-  for propType := Low(TFilePropertyType) to High(TFilePropertyType) do
-    if (propType in UpdatedFile.FSFile.AssignedProperties) and
-       (not (propType in aFile.AssignedProperties)) then
-{$ENDIF}
-    begin
-      aFile.Properties[propType] := UpdatedFile.FSFile.ReleaseProperty(propType);
-    end;
-
-  if UpdatedFile.IconID <> -1 then
-    OrigDisplayFile.IconID := UpdatedFile.IconID;
-
-  if UpdatedFile.IconOverlayID <> -1 then
-    OrigDisplayFile.IconOverlayID := UpdatedFile.IconOverlayID;
-
-  MakeColumnsStrings(OrigDisplayFile);
-  RedrawFile(OrigDisplayFile);
 end;
 
 procedure TBriefFileView.RedrawFile(DisplayFile: TDisplayFile); {Done}
@@ -625,18 +587,9 @@ begin
   AFile.DisplayStrings.Add(FormatFileFunction('GETFILENAME', AFile.FSFile, FileSource));
 end;
 
-function TBriefFileView.DimColor(AColor: TColor): TColor;
-begin
-  if (not Active) and (gInactivePanelBrightness < 100) then
-    Result := ModColor(AColor, gInactivePanelBrightness)
-  else
-    Result := AColor;
-end;
-
 procedure TBriefFileView.dgPanelEnter(Sender: TObject);
 begin
   SetActive(True);
-  pnlHeader.SetActive(True);
 end;
 
 procedure TBriefFileView.dgPanelExit(Sender: TObject);
@@ -698,8 +651,6 @@ begin
   TabHeader.Sections.Add.Text:= rsColAttr;
   TabHeader.OnSectionClick:= @TabHeaderSectionClick;
 
-  pnlHeader:= TFileViewHeader.Create(Self, Self);
-
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgPanel.OnDblClick:=@dgPanelDblClick;
   dgPanel.OnEnter:=@dgPanelEnter;
@@ -725,8 +676,6 @@ begin
 //  FUpdatingGrid := False;
 
   inherited AfterChangePath;
-
-  pnlHeader.UpdatePathLabel;
 end;
 
 function TBriefFileView.GetActiveDisplayFile: TDisplayFile;
@@ -773,7 +722,6 @@ end;
 procedure TBriefFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
   inherited AddFileSource(aFileSource, aPath);
-  pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TBriefFileView.RemoveCurrentFileSource;
@@ -786,8 +734,6 @@ begin
   inherited RemoveCurrentFileSource;
 
   SetActiveFile(FocusedFile);
-
-  pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -808,5 +754,17 @@ begin
 
 end;
 
+procedure TBriefFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
+begin
+  MakeColumnsStrings(AFile);
+  inherited DoFileUpdated(AFile, UpdatedProperties);
+end;
+
+procedure TBriefFileView.DoSelectionChanged;
+begin
+  inherited DoSelectionChanged;
+  dgPanel.Invalidate;
+end;
+
 end.
-
+
