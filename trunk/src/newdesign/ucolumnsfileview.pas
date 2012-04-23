@@ -188,10 +188,6 @@ type
     procedure ClearAllColumnsStrings;
     procedure EachViewUpdateColumns(AFileView: TFileView; UserData: Pointer);
     procedure EnsureDisplayProperties;
-    procedure UpdateFile(const UpdatedFile: TDisplayFile;
-                         const UserData: Pointer);
-    procedure CalcSpaceUpdateFile(const UpdatedFile: TDisplayFile;
-                                  const UserData: Pointer);
 
     {en
        Prepares sortings for later use in Sort function.
@@ -214,12 +210,6 @@ type
        passed options
     }
     procedure SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions; SearchDirection: TQuickSearchDirection = qsdNone);
-
-    procedure CalculateSpaceOfAllDirectories;
-    procedure CalculateSpace(AFile: TDisplayFile);
-    procedure CalculateSpace(var AFileList: TFVWorkerFileList);
-
-    function DimColor(AColor: TColor): TColor;
 
     // -- Events --------------------------------------------------------------
 
@@ -276,6 +266,7 @@ type
 
     procedure BeforeMakeFileList; override;
     procedure AfterMakeFileList; override;
+    procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
     {en
@@ -331,8 +322,6 @@ type
   published  // commands
     procedure cm_QuickSearch(const Params: array of string);
     procedure cm_QuickFilter(const Params: array of string);
-    procedure cm_Open(const Params: array of string);
-    procedure cm_CountDirContent(const Params: array of string);
     procedure cm_RenameOnly(const Params: array of string);
     procedure cm_ContextMenu(const Params: array of string);
     procedure cm_EditPath(const Params: array of string);
@@ -1321,14 +1310,6 @@ begin
   finally
     dgPanel.Columns.EndUpdate;
   end;
-end;
-
-function TColumnsFileView.DimColor(AColor: TColor): TColor;
-begin
-  if (not Active) and (gInactivePanelBrightness < 100) then
-    Result := ModColor(AColor, gInactivePanelBrightness)
-  else
-    Result := AColor;
 end;
 
 procedure TColumnsFileView.edtRenameExit(Sender: TObject);
@@ -2457,7 +2438,7 @@ begin
           FileSource,
           WorkersThread,
           FilePropertiesNeeded,
-          @UpdateFile,
+          @PropertiesRetrieverOnUpdate,
           AFileList);
 
         AddWorker(Worker, False);
@@ -2470,57 +2451,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.UpdateFile(const UpdatedFile: TDisplayFile;
-                                      const UserData: Pointer);
-var
-  propType: TFilePropertyType;
-  aFile: TFile;
-  OrigDisplayFile: TDisplayFile;
-begin
-  OrigDisplayFile := TDisplayFile(UserData);
-
-  if not IsReferenceValid(OrigDisplayFile) then
-    Exit; // File does not exist anymore (reference is invalid).
-
-  aFile := OrigDisplayFile.FSFile;
-
-{$IF (fpc_version>2) or ((fpc_version=2) and (fpc_release>4))}
-  // This is a bit faster.
-  for propType in UpdatedFile.FSFile.AssignedProperties - aFile.AssignedProperties do
-{$ELSE}
-  for propType := Low(TFilePropertyType) to High(TFilePropertyType) do
-    if (propType in UpdatedFile.FSFile.AssignedProperties) and
-       (not (propType in aFile.AssignedProperties)) then
-{$ENDIF}
-    begin
-      aFile.Properties[propType] := UpdatedFile.FSFile.ReleaseProperty(propType);
-    end;
-
-  if UpdatedFile.IconID <> -1 then
-    OrigDisplayFile.IconID := UpdatedFile.IconID;
-
-  if UpdatedFile.IconOverlayID <> -1 then
-    OrigDisplayFile.IconOverlayID := UpdatedFile.IconOverlayID;
-
-  MakeColumnsStrings(OrigDisplayFile);
-  RedrawFile(OrigDisplayFile);
-end;
-
-procedure TColumnsFileView.CalcSpaceUpdateFile(const UpdatedFile: TDisplayFile;
-                                               const UserData: Pointer);
-var
-  OrigDisplayFile: TDisplayFile;
-begin
-  OrigDisplayFile := TDisplayFile(UserData);
-
-  if not IsReferenceValid(OrigDisplayFile) then
-    Exit; // File does not exist anymore (reference is invalid).
-
-  OrigDisplayFile.FSFile.Size := UpdatedFile.FSFile.Size;
-  MakeColumnsStrings(OrigDisplayFile);
-  RedrawFile(OrigDisplayFile);
-end;
-
 procedure TColumnsFileView.WorkerStarting(const Worker: TFileViewWorker);
 begin
   inherited;
@@ -2531,14 +2461,6 @@ end;
 procedure TColumnsFileView.WorkerFinished(const Worker: TFileViewWorker);
 begin
   inherited;
-  if Worker is TCalculateSpaceWorker then
-  begin
-    if TCalculateSpaceWorker(Worker).CompletedCalculations > 1 then
-    begin
-      SortAllDisplayFiles;
-      ReDisplayFileList;
-    end;
-  end;
   dgPanel.Cursor := crDefault;
   UpdateInfoPanel;
 end;
@@ -2588,73 +2510,6 @@ begin
     Result := ActiveColmSlave
   else
     Result := ColSet.GetColumnSet(ActiveColm);
-end;
-
-procedure TColumnsFileView.CalculateSpaceOfAllDirectories;
-var
-  i: Integer;
-  AFileList: TFVWorkerFileList;
-  AFile: TDisplayFile;
-begin
-  AFileList := TFVWorkerFileList.Create;
-  try
-    for i := 0 to FFiles.Count - 1 do
-    begin
-      AFile := FFiles[i];
-      if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
-      begin
-        AFileList.AddClone(AFile, AFile);
-      end;
-    end;
-
-    CalculateSpace(AFileList);
-
-  finally
-    FreeAndNil(AFileList);
-  end;
-end;
-
-procedure TColumnsFileView.CalculateSpace(AFile: TDisplayFile);
-var
-  AFileList: TFVWorkerFileList;
-begin
-  if GetCurrentWorkType = fvwtCreate then
-    Exit;
-
-  AFileList := TFVWorkerFileList.Create;
-  try
-    if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
-    begin
-      AFileList.AddClone(AFile, AFile);
-    end;
-
-    CalculateSpace(AFileList);
-
-  finally
-    FreeAndNil(AFileList);
-  end;
-end;
-
-procedure TColumnsFileView.CalculateSpace(var AFileList: TFVWorkerFileList);
-var
-  Worker: TFileViewWorker;
-begin
-  if GetCurrentWorkType = fvwtCreate then
-    Exit;
-
-  if AFileList.Count > 0 then
-  begin
-    Worker := TCalculateSpaceWorker.Create(
-      FileSource,
-      WorkersThread,
-      @CalcSpaceUpdateFile,
-      AFileList);
-
-    AddWorker(Worker);
-    WorkersThread.QueueFunction(@Worker.StartParam);
-  end
-  else
-    FreeAndNil(AFileList);
 end;
 
 procedure TColumnsFileView.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -2710,6 +2565,12 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
+begin
+  MakeColumnsStrings(AFile);
+  RedrawFile(AFile);
+end;
+
 procedure TColumnsFileView.DoSelectionChanged(RowNr: Integer);
 begin
   UpdateInfoPanel;
@@ -2731,16 +2592,6 @@ end;
 procedure TColumnsFileView.cm_QuickFilter(const Params: array of string);
 begin
   quickSearch.Execute(qsFilter, Params);
-end;
-
-procedure TColumnsFileView.cm_Open(const Params: array of string);
-begin
-  ChooseFile(GetActiveDisplayFile);
-end;
-
-procedure TColumnsFileView.cm_CountDirContent(const Params: array of string);
-begin
-  CalculateSpaceOfAllDirectories;
 end;
 
 procedure TColumnsFileView.cm_RenameOnly(const Params: array of string);

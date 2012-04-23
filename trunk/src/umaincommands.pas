@@ -740,7 +740,7 @@ end;
 
 procedure TMainCommands.cm_Open(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_Open', Params);
+  frmMain.ActiveFrame.OpenActiveFile;
 end;
 
 procedure TMainCommands.cm_OpenVirtualFileSystemList(const Params: array of string);
@@ -2236,7 +2236,7 @@ end;
 
 procedure TMainCommands.cm_CountDirContent(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CountDirContent', Params);
+  frmMain.ActiveFrame.CalculateSpaceOfAllDirectories;
 end;
 
 procedure TMainCommands.cm_SetFileProperties(const Params: array of string);

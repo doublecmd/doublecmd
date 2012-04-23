@@ -5,7 +5,7 @@ unit uFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
+  Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList, uGlobs;
@@ -183,16 +183,19 @@ type
 
     procedure AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
     procedure BeginUpdate;
+    procedure CalculateSpace(AFile: TDisplayFile);
+    procedure CalculateSpace(var AFileList: TFVWorkerFileList);
+    procedure CalculateSpaceOnUpdate(const UpdatedFile: TDisplayFile;
+                                     const UserData: Pointer);
     procedure EndUpdate;
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
     function GetWorkersThread: TFunctionThread;
-
     procedure InvertFileSelection(AFile: TDisplayFile; bNotify: Boolean = True);
-
     function IsVisibleToUser: Boolean;
-
+    procedure PropertiesRetrieverOnUpdate(const UpdatedFile: TDisplayFile;
+                                          const UserData: Pointer);
     {en
        This function should set active file by reference of TFile
        or at least by all the properties of the given TFile,
@@ -214,6 +217,8 @@ type
     }
     procedure BeforeMakeFileList; virtual;
     procedure ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False); virtual;
+    function DimColor(AColor: TColor): TColor;
+    procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); virtual;
     procedure DoSelectionChanged; virtual;
     procedure DoUpdateView; virtual;
     {en
@@ -351,6 +356,7 @@ type
     }
     procedure SetActiveFile(aFilePath: String); virtual; overload;
 
+    procedure CalculateSpaceOfAllDirectories;
     {en
        Changes the current path to a parent directory.
        @param(AllowChangingFileSource
@@ -380,6 +386,7 @@ type
     procedure MarkFiles(bSelect: Boolean);
     procedure MarkGroup(const sMask: String; bSelect: Boolean);
     procedure MarkGroup(bSelect: Boolean);
+    procedure OpenActiveFile;
     procedure RestoreSelection;
     procedure SaveSelection;
     procedure SaveSelectionToFile(const AFileName: String);
@@ -476,7 +483,7 @@ implementation
 
 uses
   Clipbrd, Dialogs, LCLProc, Forms, StrUtils, dmCommonData,
-  fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
+  fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate;
 
@@ -782,6 +789,19 @@ begin
   end;
 end;
 
+function TFileView.DimColor(AColor: TColor): TColor;
+begin
+  if (not Active) and (gInactivePanelBrightness < 100) then
+    Result := ModColor(AColor, gInactivePanelBrightness)
+  else
+    Result := AColor;
+end;
+
+procedure TFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
+begin
+  RedrawFile(AFile);
+end;
+
 function TFileView.FileListLoaded: Boolean;
 begin
   Result := Assigned(FAllDisplayFiles);
@@ -1075,6 +1095,77 @@ begin
   Inc(FUpdateCount);
 end;
 
+procedure TFileView.CalculateSpace(AFile: TDisplayFile);
+var
+  AFileList: TFVWorkerFileList;
+begin
+  AFileList := TFVWorkerFileList.Create;
+  try
+    if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
+      AFileList.AddClone(AFile, AFile);
+
+    CalculateSpace(AFileList);
+  finally
+    FreeAndNil(AFileList);
+  end;
+end;
+
+procedure TFileView.CalculateSpace(var AFileList: TFVWorkerFileList);
+var
+  Worker: TFileViewWorker;
+begin
+  if GetCurrentWorkType = fvwtCreate then
+    Exit;
+
+  if AFileList.Count > 0 then
+  begin
+    Worker := TCalculateSpaceWorker.Create(
+      FileSource,
+      WorkersThread,
+      @CalculateSpaceOnUpdate,
+      AFileList);
+
+    AddWorker(Worker);
+    WorkersThread.QueueFunction(@Worker.StartParam);
+  end
+  else
+    FreeAndNil(AFileList);
+end;
+
+procedure TFileView.CalculateSpaceOfAllDirectories;
+var
+  i: Integer;
+  AFileList: TFVWorkerFileList;
+  AFile: TDisplayFile;
+begin
+  AFileList := TFVWorkerFileList.Create;
+  try
+    for i := 0 to FFiles.Count - 1 do
+    begin
+      AFile := FFiles[i];
+      if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
+        AFileList.AddClone(AFile, AFile);
+    end;
+
+    CalculateSpace(AFileList);
+  finally
+    FreeAndNil(AFileList);
+  end;
+end;
+
+procedure TFileView.CalculateSpaceOnUpdate(const UpdatedFile: TDisplayFile; const UserData: Pointer);
+var
+  OrigDisplayFile: TDisplayFile;
+begin
+  OrigDisplayFile := TDisplayFile(UserData);
+
+  if not IsReferenceValid(OrigDisplayFile) then
+    Exit; // File does not exist anymore (reference is invalid).
+
+  OrigDisplayFile.FSFile.Size := UpdatedFile.FSFile.Size;
+  DoFileUpdated(OrigDisplayFile, [fpSize]);
+end;
+
 procedure TFileView.DoOnFileListChanged;
 begin
   if Assigned(OnFileListChanged) then
@@ -1365,6 +1456,40 @@ begin
     Result := TFileViewPage(NotebookPage).IsActive
   else
     Result := True;
+end;
+
+procedure TFileView.PropertiesRetrieverOnUpdate(const UpdatedFile: TDisplayFile; const UserData: Pointer);
+var
+  propType: TFilePropertyType;
+  aFile: TFile;
+  OrigDisplayFile: TDisplayFile;
+begin
+  OrigDisplayFile := TDisplayFile(UserData);
+
+  if not IsReferenceValid(OrigDisplayFile) then
+    Exit; // File does not exist anymore (reference is invalid).
+
+  aFile := OrigDisplayFile.FSFile;
+
+{$IF (fpc_version>2) or ((fpc_version=2) and (fpc_release>4))}
+  // This is a bit faster.
+  for propType in UpdatedFile.FSFile.AssignedProperties - aFile.AssignedProperties do
+{$ELSE}
+  for propType := Low(TFilePropertyType) to High(TFilePropertyType) do
+    if (propType in UpdatedFile.FSFile.AssignedProperties) and
+       (not (propType in aFile.AssignedProperties)) then
+{$ENDIF}
+    begin
+      aFile.Properties[propType] := UpdatedFile.FSFile.ReleaseProperty(propType);
+    end;
+
+  if UpdatedFile.IconID <> -1 then
+    OrigDisplayFile.IconID := UpdatedFile.IconID;
+
+  if UpdatedFile.IconOverlayID <> -1 then
+    OrigDisplayFile.IconOverlayID := UpdatedFile.IconOverlayID;
+
+  DoFileUpdated(OrigDisplayFile);
 end;
 
 procedure TFileView.SetActiveFile(const aFile: TFile);
@@ -2241,6 +2366,11 @@ begin
     HandleNotifications;
 end;
 
+procedure TFileView.OpenActiveFile;
+begin
+  ChooseFile(GetActiveDisplayFile);
+end;
+
 procedure TFileView.SetFileFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
 begin
   // do not reload if filter has not changed
@@ -2522,6 +2652,15 @@ begin
         Interval := MinimumReloadInterval;
       FReloadTimer.Interval := Interval;
       FReloadTimer.Enabled  := True;
+    end;
+  end;
+
+  if Worker is TCalculateSpaceWorker then
+  begin
+    if TCalculateSpaceWorker(Worker).CompletedCalculations > 1 then
+    begin
+      SortAllDisplayFiles;
+      ReDisplayFileList;
     end;
   end;
 end;
