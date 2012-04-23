@@ -1849,8 +1849,6 @@ procedure TColumnsFileViewVTV.dgPanelEnter(Sender: TObject);
 begin
   SetActive(True);
 
-  UpdateInfoPanel;
-
   if Assigned(OnActivate) then
     OnActivate(Self);
 end;
