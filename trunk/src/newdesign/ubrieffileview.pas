@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFormCommands, uDragDropEx, DCXmlConfig,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes, uFileViewWithPanels,
+  uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes, uOrderedFileView,
   uFileViewHeader;
 
 type
@@ -43,18 +43,13 @@ type
 
   { TBriefFileView }
 
-  TBriefFileView = class (TFileViewWithPanels)
+  TBriefFileView = class (TOrderedFileView)
     private
       TabHeader: THeaderControl;
       dgPanel: TBriefDrawGrid;
 
-      function GetVisibleFilesIndexes: TRange;
-      procedure EnsureDisplayProperties;
-      {en
-         Redraw cell containing DisplayFile if it is visible.
-      }
-      procedure RedrawFile(DisplayFile: TDisplayFile);
       procedure MakeColumnsStrings(AFile: TDisplayFile);
+      procedure SetFilesDisplayItems;
 
       procedure dgPanelEnter(Sender: TObject);
       procedure dgPanelExit(Sender: TObject);
@@ -67,17 +62,20 @@ type
       procedure BeforeMakeFileList; override;
       procedure AfterMakeFileList; override;
       procedure AfterChangePath; override;
-      function GetActiveDisplayFile: TDisplayFile; override;
+      function GetActiveFileIndex: PtrInt; override;
+      function GetVisibleFilesIndexes: TRange; override;
+      procedure RedrawFile(FileIndex: PtrInt); override;
+      procedure RedrawFile(DisplayFile: TDisplayFile); override;
+      procedure RedrawFiles; override;
       procedure Resize; override;
+      procedure SetActiveFile(FileIndex: PtrInt); override;
       procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
-      procedure DoSelectionChanged; override;
       procedure DoUpdateView; override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
-    procedure RemoveCurrentFileSource; override;
 
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
@@ -292,6 +290,7 @@ begin
           end;
       end;
   end;
+  BriefView.DoHandleKeyDown(Key, Shift);
   inherited KeyDown(Key, Shift);
 end;
 
@@ -467,6 +466,8 @@ begin
   begin
     AFile:= BriefView.FFiles[Idx];
     FileSourceDirectAccess:= fspDirectAccess in BriefView.FileSource.Properties;
+    if AFile.DisplayStrings.Count = 0 then
+      BriefView.MakeColumnsStrings(AFile);
 
     PrepareColors;
 
@@ -488,103 +489,32 @@ begin
     Result.First:= (LeftCol * VisibleRowCount - 1);
     Result.Last:=  (LeftCol + VisibleColCount) * VisibleRowCount - 1;
   end;
-
-  if Result.First < 0 then
-    Result.First:= 0;
-  if Result.Last >= FFiles.Count then
-    Result.Last:= FFiles.Count - 1;
 end;
 
-procedure TBriefFileView.EnsureDisplayProperties;
+procedure TBriefFileView.RedrawFile(DisplayFile: TDisplayFile);
 var
-  VisibleFiles: TRange;
-  i: Integer;
-  AFileList: TFVWorkerFileList;
-  Worker: TFileViewWorker;
-  AFile: TDisplayFile;
+  ACol, ARow: Integer;
 begin
-  if (csDestroying in ComponentState) or
-     (GetCurrentWorkType = fvwtCreate) then
-    Exit;
-
-  VisibleFiles := GetVisibleFilesIndexes;
-
-  if not gListFilesInThread then
-  begin
-    for i := VisibleFiles.First to VisibleFiles.Last do
-    begin
-      AFile := FFiles[i];
-      if AFile.FSFile.Name <> '..' then
-      begin
-        if AFile.IconID = -1 then
-          AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
-        {$IF DEFINED(MSWINDOWS)}
-        if gIconOverlays and (AFile.IconOverlayID < 0) then
-        begin
-          AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
-                                                                    fspDirectAccess in FileSource.Properties);
-        end;
-        {$ENDIF}
-        FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
-        MakeColumnsStrings(AFile);
-      end;
-    end;
-  end
-  else
-  begin
-    AFileList := TFVWorkerFileList.Create;
-    try
-      for i := VisibleFiles.First to VisibleFiles.Last do
-      begin
-        AFile := FFiles[i];
-        if (AFile.FSFile.Name <> '..') and
-           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
-           (AFile.IconID = -1) or (AFile.IconOverlayID = -1)) then
-        begin
-          AFileList.AddClone(AFile, AFile);
-        end;
-      end;
-
-      if AFileList.Count > 0 then
-      begin
-        Worker := TFilePropertiesRetriever.Create(
-          FileSource,
-          WorkersThread,
-          FilePropertiesNeeded,
-          @PropertiesRetrieverOnUpdate,
-          AFileList);
-
-        AddWorker(Worker, False);
-        WorkersThread.QueueFunction(@Worker.StartParam);
-      end;
-
-    finally
-      if Assigned(AFileList) then
-        FreeAndNil(AFileList);
-    end;
-  end;
+  dgPanel.IndexToCell(PtrInt(DisplayFile.DisplayItem), ACol, ARow);
+  dgPanel.InvalidateCell(ACol, ARow);
 end;
 
-procedure TBriefFileView.RedrawFile(DisplayFile: TDisplayFile); {Done}
-var
-  VisibleFiles: TRange;
-  I, ACol, ARow: Integer;
+procedure TBriefFileView.RedrawFiles;
 begin
-  VisibleFiles:= GetVisibleFilesIndexes;
-  for I:= VisibleFiles.First to VisibleFiles.Last do
-  begin
-    if FFiles[I] = DisplayFile then
-    begin
-      dgPanel.IndexToCell(I, ACol, ARow);
-      dgPanel.InvalidateCell(ACol, ARow);
-      Break;
-    end;
-  end;
+  dgPanel.Invalidate;
 end;
 
 procedure TBriefFileView.MakeColumnsStrings(AFile: TDisplayFile);
 begin
   AFile.DisplayStrings.Add(FormatFileFunction('GETFILENAME', AFile.FSFile, FileSource));
+end;
+
+procedure TBriefFileView.RedrawFile(FileIndex: PtrInt);
+var
+  ACol, ARow: Integer;
+begin
+  dgPanel.IndexToCell(FileIndex, ACol, ARow);
+  dgPanel.InvalidateCell(ACol, ARow);
 end;
 
 procedure TBriefFileView.dgPanelEnter(Sender: TObject);
@@ -666,28 +596,22 @@ procedure TBriefFileView.AfterMakeFileList;
 begin
   inherited AfterMakeFileList;
   dgPanel.CalculateColRowCount(0);
+  SetFilesDisplayItems;
   EnsureDisplayProperties;
 end;
 
 procedure TBriefFileView.AfterChangePath;
 begin
-//  FUpdatingGrid := True;
+//  FUpdatingActiveFile := True;
   dgPanel.Row := 0;
-//  FUpdatingGrid := False;
+//  FUpdatingActiveFile := False;
 
   inherited AfterChangePath;
 end;
 
-function TBriefFileView.GetActiveDisplayFile: TDisplayFile;
-var
-  Idx: Integer;
+function TBriefFileView.GetActiveFileIndex: PtrInt;
 begin
-  Result:= nil;
-  if not IsEmpty then
-  begin
-    Idx:= dgPanel.CellToIndex(dgPanel.Col, dgPanel.Row);
-    if (Idx >= 0) then Result:= FFiles[Idx]
-  end;
+  Result := dgPanel.CellToIndex(dgPanel.Col, dgPanel.Row);
 end;
 
 procedure TBriefFileView.Resize;
@@ -724,23 +648,28 @@ begin
   inherited AddFileSource(aFileSource, aPath);
 end;
 
-procedure TBriefFileView.RemoveCurrentFileSource;
-var
-  FocusedFile: String;
-begin
-  // Temporary. Do this by remembering the file name in a list?
-  FocusedFile := ExtractFileName(FileSource.CurrentAddress);
-
-  inherited RemoveCurrentFileSource;
-
-  SetActiveFile(FocusedFile);
-end;
-
 procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 begin
   inherited SaveConfiguration(AConfig, ANode);
 
   AConfig.SetAttr(ANode, 'Type', 'brief');
+end;
+
+procedure TBriefFileView.SetActiveFile(FileIndex: PtrInt);
+var
+  ACol, ARow: Integer;
+begin
+  dgPanel.IndexToCell(FileIndex, ACol, ARow);
+  dgPanel.Col := ACol;
+  dgPanel.Row := ARow;
+end;
+
+procedure TBriefFileView.SetFilesDisplayItems;
+var
+  i: Integer;
+begin
+  for i := 0 to FFiles.Count - 1 do
+    FFiles[i].DisplayItem := Pointer(i);
 end;
 
 procedure TBriefFileView.DoUpdateView;
@@ -758,12 +687,6 @@ procedure TBriefFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: T
 begin
   MakeColumnsStrings(AFile);
   inherited DoFileUpdated(AFile, UpdatedProperties);
-end;
-
-procedure TBriefFileView.DoSelectionChanged;
-begin
-  inherited DoSelectionChanged;
-  dgPanel.Invalidate;
 end;
 
 end.

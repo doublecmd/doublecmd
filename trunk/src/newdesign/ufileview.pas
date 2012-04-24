@@ -216,9 +216,12 @@ type
        Runs from GUI thread.
     }
     procedure BeforeMakeFileList; virtual;
+    function BeginDragExternal(DragFile: TDisplayFile; DragDropSource: uDragDropEx.TDragDropSource;
+                               MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
     procedure ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False); virtual;
     function DimColor(AColor: TColor): TColor;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); virtual;
+    procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); virtual;
     procedure DoSelectionChanged; virtual;
     procedure DoUpdateView; virtual;
     {en
@@ -230,7 +233,7 @@ type
     {en
        Returns True if there are no files shown in the panel.
     }
-    function IsEmpty: Boolean;
+    function IsEmpty: Boolean; inline;
     {en
        Returns True if item is not nil and not '..'.
        May be extended to include other conditions.
@@ -262,7 +265,7 @@ type
     {en
        Redraw DisplayFile if it is visible.
     }
-    procedure RedrawFile(DisplayFile: TDisplayFile); virtual;
+    procedure RedrawFile(DisplayFile: TDisplayFile); virtual; abstract;
     procedure WorkerStarting(const Worker: TFileViewWorker); virtual;
     procedure WorkerFinished(const Worker: TFileViewWorker); virtual;
 
@@ -482,10 +485,10 @@ type
 implementation
 
 uses
-  Clipbrd, Dialogs, LCLProc, Forms, StrUtils, dmCommonData,
+  Clipbrd, Dialogs, LCLProc, LCLType, Forms, StrUtils, dmCommonData,
   fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uFileViewNotebook, uSearchTemplate;
+  uFileViewNotebook, uSearchTemplate, uKeyboard;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -800,6 +803,69 @@ end;
 procedure TFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
 begin
   RedrawFile(AFile);
+end;
+
+procedure TFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+
+    VK_BACK:
+      begin
+        ChangePathToParent(True);
+        Key := 0;
+      end;
+
+    VK_MULTIPLY:
+    begin
+      InvertAll;
+      Key := 0;
+    end;
+
+    VK_ADD:
+      begin
+        if Shift = [ssCtrl] then
+          MarkFiles(True)
+        else if Shift = [] then
+          MarkGroup(True)
+        else if Shift = [ssShift] then
+          MarkCurrentExtension(True);
+        Key := 0;
+      end;
+
+    VK_SUBTRACT:
+      begin
+        if Shift = [ssCtrl] then
+          MarkFiles(False)
+        else if Shift = [] then
+          MarkGroup(False)
+        else if Shift = [ssShift] then
+          MarkCurrentExtension(False);
+        Key := 0;
+      end;
+
+    VK_RETURN, VK_SELECT:
+      begin
+        if (Shift * KeyModifiersShortcut = []) then
+        begin
+          // Only if there are items in the panel.
+          if not IsEmpty then
+          begin
+            ChooseFile(GetActiveDisplayFile);
+            Key := 0;
+          end;
+        end
+        // execute active file in terminal (Shift+Enter)
+        else if (Shift * KeyModifiersShortcut = [ssShift]) then
+        begin
+          if IsActiveItemValid then
+          begin
+            mbSetCurrentDir(CurrentPath);
+            ExecCmdFork(CurrentPath + GetActiveDisplayFile.FSFile.Name, True, gRunInTerm);
+            Key := 0;
+          end;
+        end;
+      end;
+  end;
 end;
 
 function TFileView.FileListLoaded: Boolean;
@@ -1594,6 +1660,44 @@ procedure TFileView.BeforeMakeFileList;
 begin
 end;
 
+function TFileView.BeginDragExternal(DragFile: TDisplayFile; DragDropSource: uDragDropEx.TDragDropSource; MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
+var
+  fileNamesList: TStringList;
+  i: Integer;
+begin
+  Result := False;
+
+  if Assigned(DragDropSource) then
+  begin
+    fileNamesList := TStringList.Create;
+    try
+      if IsItemValid(DragFile) = True then
+      begin
+        for i := 0 to FFiles.Count-1 do
+        begin
+          if FFiles[i].Selected then
+            fileNamesList.Add(FFiles[i].FSFile.FullPath);
+        end;
+
+        // If there were no files selected add the dragged file.
+        if fileNamesList.Count = 0 then
+          fileNamesList.Add(DragFile.FSFile.FullPath);
+
+        // Initiate external drag&drop operation.
+        Result := DragDropSource.DoDragDrop(fileNamesList, MouseButton, ScreenStartPoint);
+
+        // Refresh source file panel after drop to (possibly) another application
+        // (files could have been moved for example).
+        // 'draggedFileItem' is invalid after this.
+        Reload;
+      end;
+
+    finally
+      FreeAndNil(fileNamesList);
+    end;
+  end;
+end;
+
 procedure TFileView.ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False);
 var
   FSFile: TFile;
@@ -2178,9 +2282,13 @@ var
   NewPath: String = '';
   IsNewFileSource: Boolean;
   PrevIndex: Integer;
+  FocusedFile: String;
 begin
   if FileSourcesCount > 0 then
   begin
+    // TODO: Do this by remembering focused file name in a list?
+    FocusedFile := ExtractFileName(FileSource.CurrentAddress);
+
     PrevIndex := FHistory.CurrentFileSourceIndex - 1;
     if PrevIndex >= 0 then
     begin
@@ -2205,6 +2313,8 @@ begin
 
       AfterChangePath;
       EnableWatcher(True);
+
+      SetActiveFile(FocusedFile);
 
       {$IFDEF DEBUG_HISTORY}
       FHistory.DebugShow;
@@ -2620,11 +2730,6 @@ begin
   TFileListBuilder.MakeDisplayFileList(
     FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
   Notify([fvnDisplayFileListChanged]);
-end;
-
-procedure TFileView.RedrawFile(DisplayFile: TDisplayFile);
-begin
-  // Empty.
 end;
 
 procedure TFileView.WorkerStarting(const Worker: TFileViewWorker);

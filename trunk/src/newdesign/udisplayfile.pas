@@ -10,6 +10,8 @@ uses
 
 type
 
+  TDisplayItemPtr = Pointer;
+
   {en
      Describes the file displayed in the file view.
   }
@@ -20,6 +22,7 @@ type
 
   private
     FFSFile: TFile;          //<en reference to file source's file
+    FDisplayItem: TDisplayItemPtr; //<en Item that displays this file (for example Node in a tree).
 
     // Other properties.
     FSelected: Boolean;      //<en If is selected
@@ -61,6 +64,7 @@ type
     procedure CloneTo(AFile: TDisplayFile); virtual;
 
     property FSFile: TFile read FFSFile write FFSFile;
+    property DisplayItem: TDisplayItemPtr read FDisplayItem write FDisplayItem;
     property Selected: Boolean read FSelected write FSelected;
     property IconID: PtrInt read FIconID write FIconID;
     property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
@@ -68,6 +72,8 @@ type
     property RecentlyUpdatedPct: Integer read FRecentlyUpdatedPct write FRecentlyUpdatedPct;
 
   end;
+
+  { TDisplayFiles }
 
   TDisplayFiles = class
 
