@@ -33,15 +33,15 @@
 {* with Bzip2 files                                      *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbBzip2Typ;
+
+{$I AbDefine.inc}
 
 interface
 
 uses
   Classes,
-  AbArcTyp, AbExcept, AbTarTyp, AbUtils, AbVMStrm, AbBitBkt;
+  AbArcTyp, AbTarTyp, AbUtils;
 
 const
   { Default Stream Header for Bzip2s is 'BZhX', where X is the block size setting 1-9 in ASCII }
@@ -86,13 +86,13 @@ type
 
   protected
     { Inherited Abstract functions }
-    function CreateItem(const SourceFileName   : string;
-                        const ArchiveDirectory : string): TAbArchiveItem; override;
+    function CreateItem(const FileSpec : string): TAbArchiveItem; override;
     procedure ExtractItemAt(Index : Integer; const NewName : string); override;
     procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream); override;
     procedure LoadArchive; override;
     procedure SaveArchive; override;
     procedure TestItemAt(Index : Integer); override;
+    function GetSupportsEmptyFolders : Boolean; override;
 
   public {methods}
     constructor CreateFromStream(aStream : TStream; const aArchiveName : string); override;
@@ -117,8 +117,8 @@ uses
 {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
 {$ENDIF}
-  StrUtils, SysUtils, DCOSUtils, DCClassesUtf8,
-  AbBzip2;
+  StrUtils, SysUtils,
+  AbBzip2, AbExcept, AbVMStrm, AbBitBkt, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
@@ -160,7 +160,7 @@ begin
       end;
     end;
   except
-    on EFilerError do
+    on EReadError do
       Result := atUnknown;
   end;
   Strm.Position := CurPos; { Return to original position. }
@@ -193,29 +193,20 @@ begin
   FState    := gsBzip2;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBzip2Archive.CreateItem(const SourceFileName   : string;
-                                    const ArchiveDirectory : string): TAbArchiveItem;
-var
-  Bz2Item : TAbBzip2Item;
-  FullSourceFileName, FullArchiveFileName: String;
+function TAbBzip2Archive.CreateItem(const FileSpec: string): TAbArchiveItem;
 begin
   if IsBzippedTar and TarAutoHandle then begin
     SwapToTar;
-    Result := inherited CreateItem(SourceFileName, ArchiveDirectory);
+    Result := inherited CreateItem(FileSpec);
   end
   else begin
     SwapToBzip2;
-    Bz2Item := TAbBzip2Item.Create;
+    Result := TAbBzip2Item.Create;
     try
-      MakeFullNames(SourceFileName, ArchiveDirectory,
-                    FullSourceFileName, FullArchiveFileName);
-
-      Bz2Item.FileName := FullArchiveFileName;
-      Bz2Item.DiskFileName := FullSourceFileName;
-
-      Result := Bz2Item;
+      Result.DiskFileName := ExpandFileName(FileSpec);
+      Result.FileName := FixName(FileSpec);
     except
-      Result := nil;
+      Result.Free;
       raise;
     end;
   end;
@@ -275,6 +266,11 @@ begin
     { Index ignored as there's only one item in a Bz2 }
     DecompressToStream(aStream);
   end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbBzip2Archive.GetSupportsEmptyFolders : Boolean;
+begin
+  Result := IsBzippedTar and TarAutoHandle;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbBzip2Archive.LoadArchive;

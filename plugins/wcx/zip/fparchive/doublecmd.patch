@@ -187,6 +187,63 @@ Index: AbBrowse.pas
    if Result = atUnknown then
      Result := VerifyCab(aStream);
    {$ENDIF}
+Index: AbBzip2Typ.pas
+===================================================================
+--- AbBzip2Typ.pas	(revision 512)
++++ AbBzip2Typ.pas	(working copy)
+@@ -118,7 +118,7 @@
+   Windows, // Fix inline warnings
+ {$ENDIF}
+   StrUtils, SysUtils,
+-  AbBzip2, AbExcept, AbVMStrm, AbBitBkt;
++  AbBzip2, AbExcept, AbVMStrm, AbBitBkt, DCOSUtils, DCClassesUtf8;
+ 
+ { ****************** Helper functions Not from Classes Above ***************** }
+ function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
+@@ -223,7 +223,7 @@
+ procedure TAbBzip2Archive.ExtractItemAt(Index: Integer;
+   const NewName: string);
+ var
+-  OutStream : TFileStream;
++  OutStream : TStream;
+ begin
+   if IsBzippedTar and TarAutoHandle then begin
+     SwapToTar;
+@@ -231,7 +231,7 @@
+   end
+   else begin
+     SwapToBzip2;
+-    OutStream := TFileStream.Create(NewName, fmCreate or fmShareDenyNone);
++    OutStream := TFileStreamEx.Create(NewName, fmCreate or fmShareDenyNone);
+     try
+       try
+         ExtractItemToStreamAt(Index, OutStream);
+@@ -242,12 +242,12 @@
+     except
+       on E : EAbUserAbort do begin
+         FStatus := asInvalid;
+-        if FileExists(NewName) then
+-          DeleteFile(NewName);
++        if mbFileExists(NewName) then
++          mbDeleteFile(NewName);
+         raise;
+       end else begin
+-        if FileExists(NewName) then
+-          DeleteFile(NewName);
++        if mbFileExists(NewName) then
++          mbDeleteFile(NewName);
+         raise;
+       end;
+     end;
+@@ -347,7 +347,7 @@
+             if CurItem.Action = aaStreamAdd then
+               CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
+             else begin
+-              InputFileStream := TFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite );
++              InputFileStream := TFileStreamEx.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite );
+               try
+                 CompStream.CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
+               finally
 Index: AbDfInW.pas
 ===================================================================
 --- AbDfInW.pas	(revision 512)
