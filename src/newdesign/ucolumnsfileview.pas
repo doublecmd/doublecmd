@@ -11,7 +11,7 @@ uses
   uFile,
   uFileProperty,
   uFileView,
-  uFileViewWithPanels,
+  uOrderedFileView,
   uFileSource,
   uDisplayFile,
   uColumns,
@@ -19,8 +19,7 @@ uses
   DCXmlConfig,
   DCClassesUtf8,
   uTypes,
-  uFileViewWorker,
-  fQuickSearch;
+  uFileViewWorker;
 
 type
 
@@ -128,48 +127,28 @@ type
 
   { TColumnsFileView }
 
-  TColumnsFileView = class(TFileViewWithPanels)
+  TColumnsFileView = class(TOrderedFileView)
 
   private
     FColumnsSorting: TColumnsSortings;
     FFileNameColumn: Integer;
     FExtensionColumn: Integer;
-    FLastActiveRow: Integer;    //<en Last active row
-    FUpdatingGrid: Boolean;
-    FLastSelectionStartRow: Integer;
     FLastSelectionState: Boolean;
 
-    lblFilter: TLabel;
-    pmOperationsCancel: TPopupMenu;
     pmColumnsMenu: TPopupMenu;
-    quickSearch: TfrmQuickSearch;
     edtRename: TEdit;
     dgPanel: TDrawGridEx;
     tmContextMenu: TTimer;
     tmClearGrid: TTimer;
 
     function GetColumnsClass: TPanelColumnsClass;
-    function GetVisibleFilesIndexes: TRange;
-
-    {en
-       Sets last active file by row nr in the grid.
-    }
-    procedure SetLastActiveFile(RowNr: Integer);
-    {en
-       Sets a file as active if the file currently exists in the grid.
-       @returns(@true if the file was found and selected.)
-    }
-    function SetActiveFileNow(aFilePath: String): Boolean;
-    function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
 
     procedure SetRowCount(Count: Integer);
+    procedure SetFilesDisplayItems;
     procedure SetColumns;
-    procedure RedrawGrid;
 
     procedure MakeVisible(iRow: Integer);
-    procedure MakeSelectedVisible;
-    procedure SelectRange(iRow: PtrInt);
-    procedure DoSelectionChanged(RowNr: Integer);
+    procedure MakeActiveVisible;
 
     {en
        Updates GUI after the display file list has changed.
@@ -182,7 +161,6 @@ type
     procedure MakeColumnsStrings(AFile: TDisplayFile; ColumnsClass: TPanelColumnsClass);
     procedure ClearAllColumnsStrings;
     procedure EachViewUpdateColumns(AFileView: TFileView; UserData: Pointer);
-    procedure EnsureDisplayProperties;
 
     {en
        Prepares sortings for later use in Sort function.
@@ -200,22 +178,12 @@ type
     function GetFilePropertiesNeeded: TFilePropertiesTypes;
 
     procedure ShowRenameFileEdit(aFile: TFile);
-    {en
-       Search and position in a file that matches name taking into account
-       passed options
-    }
-    procedure SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions; SearchDirection: TQuickSearchDirection = qsdNone);
 
     // -- Events --------------------------------------------------------------
 
     procedure edtRenameExit(Sender: TObject);
 
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-
-    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
-    procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
-    procedure quickSearchExecute(Sender: TObject);
-    procedure quickSearchHide(Sender: TObject);
 
     procedure dgPanelEnter(Sender: TObject);
     procedure dgPanelExit(Sender: TObject);
@@ -250,9 +218,7 @@ type
     procedure dgPanelResize(Sender: TObject);
     procedure tmContextMenuTimer(Sender: TObject);
     procedure tmClearGridTimer(Sender: TObject);
-    procedure lblFilterClick(Sender: TObject);
     procedure ColumnsMenuClick(Sender: TObject);
-    procedure OperationsCancelClick(Sender: TObject);
 
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 
@@ -262,20 +228,20 @@ type
     procedure BeforeMakeFileList; override;
     procedure AfterMakeFileList; override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
-    procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
-    {en
-       Redraw row containing DisplayFile if it is visible.
-    }
+    function GetActiveFileIndex: PtrInt; override;
+    function GetVisibleFilesIndexes: TRange; override;
+    procedure RedrawFile(FileIndex: PtrInt); override;
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
+    procedure RedrawFiles; override;
     {en
        Changes drawing colors depending on if this panel is active.
     }
     procedure SetActive(bActive: Boolean); override;
+    procedure SetActiveFile(FileIndex: PtrInt); override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
 
     procedure AfterChangePath; override;
-    function GetActiveDisplayFile: TDisplayFile; override;
 
     procedure WorkerStarting(const Worker: TFileViewWorker); override;
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
@@ -297,7 +263,6 @@ type
     procedure CloneTo(FileView: TFileView); override;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
-    procedure RemoveCurrentFileSource; override;
 
     procedure LoadConfiguration(Section: String; TabIndex: Integer); override;
     procedure SaveConfiguration(Section: String; TabIndex: Integer); override;
@@ -307,27 +272,21 @@ type
     function Focused: Boolean; override;
     procedure SetFocus; override;
 
-    procedure SetActiveFile(aFilePath: String); override;
-
     procedure UpdateColumnsView;
 
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams); override;
 
   published  // commands
-    procedure cm_QuickSearch(const Params: array of string);
-    procedure cm_QuickFilter(const Params: array of string);
     procedure cm_RenameOnly(const Params: array of string);
     procedure cm_ContextMenu(const Params: array of string);
-    procedure cm_GoToFirstFile(const Params: array of string);
-    procedure cm_GoToLastFile(const Params: array of string);
   end;
 
 implementation
 
 uses
-  LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, uOSUtils, math, fMain, fOptions, DCOSUtils, DCStrUtils,
+  LCLProc, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
+  uDCUtils, math, fMain, fOptions, DCStrUtils,
   uInfoToolTip,
   uFileSourceProperty,
   uFileSourceOperationTypes,
@@ -347,10 +306,6 @@ uses
   , GTK2Globals  // for DblClickTime
 {$ENDIF}
   ;
-
-const
-  CANCEL_FILTER = 0;
-  CANCEL_OPERATION = 1;
 
 type
   TEachViewCallbackReason = (evcrUpdateColumns);
@@ -506,80 +461,6 @@ begin
   end;
 end;
 
-function TColumnsFileView.StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
-var
-  fileNamesList: TStringList;
-  draggedFileItem: TDisplayFile;
-  i: Integer;
-begin
-  Result := False;
-
-  if Assigned(dgPanel.DragDropSource) and (dgPanel.DragRowIndex >= dgPanel.FixedRows) then
-  begin
-    draggedFileItem := FFiles[dgPanel.DragRowIndex - dgPanel.FixedRows]; // substract fixed rows (header)
-
-    fileNamesList := TStringList.Create;
-    try
-      if IsItemValid(draggedFileItem) = True then
-      begin
-        for i := 0 to FFiles.Count-1 do
-        begin
-          if FFiles[i].Selected then
-            fileNamesList.Add(FFiles[i].FSFile.FullPath);
-        end;
-
-        // If there were no files selected add the dragged file.
-        if fileNamesList.Count = 0 then
-          fileNamesList.Add(draggedFileItem.FSFile.FullPath);
-
-        // Initiate external drag&drop operation.
-        Result := dgPanel.DragDropSource.DoDragDrop(fileNamesList, MouseButton, ScreenStartPoint);
-
-        // Refresh source file panel after drop to (possibly) another application
-        // (files could have been moved for example).
-        // 'draggedFileItem' is invalid after this.
-        Reload;
-      end;
-
-    finally
-      FreeAndNil(fileNamesList);
-    end;
-  end;
-end;
-
-procedure TColumnsFileView.SelectRange(iRow: PtrInt);
-var
-  ARow, AFromRow, AToRow: Integer;
-  AFile: TDisplayFile;
-begin
-  if iRow < 0 then
-    iRow:= dgPanel.Row;
-
-  if(FLastSelectionStartRow < 0) then
-    begin
-      AFromRow := Min(dgPanel.Row, iRow) - dgPanel.FixedRows;
-      AToRow := Max(dgPanel.Row, iRow) - dgPanel.FixedRows;
-      FLastSelectionStartRow := dgPanel.Row;
-    end
-  else
-    begin
-      AFromRow := Min(FLastSelectionStartRow, iRow) - dgPanel.FixedRows; // substract fixed rows (header)
-      AToRow := Max(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
-    end;
-
-  BeginUpdate;
-  try
-    MarkFiles(False);
-    for ARow := AFromRow to AToRow do
-    begin
-      AFile := FFiles[ARow];
-      MarkFile(AFile, True);
-    end;
-  finally
-    EndUpdate;
-  end;
-end;
-
 procedure TColumnsFileView.dgPanelMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
@@ -629,7 +510,7 @@ begin
             tmContextMenu.Enabled:= True; // start context menu timer
             FLastSelectionState:= not AFile.Selected;
             MarkFile(AFile, FLastSelectionState, False);
-            DoSelectionChanged(iRow);
+            DoSelectionChanged(iRow - dgPanel.FixedRows);
             Exit;
           end;
         end;
@@ -654,12 +535,12 @@ begin
               if Assigned(AFile) then
               begin
                 InvertFileSelection(AFile, False);
-                DoSelectionChanged(iRow);
+                DoSelectionChanged(iRow - dgPanel.FixedRows);
               end;
             end
           else if ssShift in Shift then
             begin
-              SelectRange(iRow);
+              SelectRange(iRow - dgPanel.FixedRows);
             end
           else if (gMouseSelectionButton = 0) then
             begin
@@ -1006,15 +887,16 @@ end;
 procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
 var
   aFile: TFile = nil;
+  FileIndex: Integer;
 begin
 {$IF lcl_fullversion >= 093100}
   dgPanel.Options := dgPanel.Options - [goDontScrollPartCell];
 {$ENDIF}
 
-  if (FLastActiveRow <> aRow) and (not FUpdatingGrid) then
+  FileIndex := aRow - dgPanel.FixedRows;
+  if (FLastActiveFileIndex <> FileIndex) and (not FUpdatingActiveFile) then
     begin
-      SetLastActiveFile(aRow);
-      FLastActiveRow:= aRow;
+      SetLastActiveFile(FileIndex);
 
       if Assigned(OnChangeActiveFile) then
       begin
@@ -1089,7 +971,7 @@ begin
     begin
       AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
       MarkFile(AFile, not FLastSelectionState, False);
-      DoSelectionChanged(iRow);
+      DoSelectionChanged(iRow - dgPanel.FixedRows);
     end;
   end;
 
@@ -1103,15 +985,15 @@ begin
   if IsEmpty then
   begin
     SetRowCount(0);
-    RedrawGrid;
+    RedrawFiles;
   end;
 end;
 
 procedure TColumnsFileView.AfterChangePath;
 begin
-  FUpdatingGrid := True;
+  FUpdatingActiveFile := True;
   dgPanel.Row := 0;
-  FUpdatingGrid := False;
+  FUpdatingActiveFile := False;
 
   inherited AfterChangePath;
 end;
@@ -1180,6 +1062,11 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.RedrawFile(FileIndex: PtrInt);
+begin
+  dgPanel.InvalidateRow(FileIndex + dgPanel.FixedRows);
+end;
+
 procedure TColumnsFileView.SetColumnsSorting(const ASortings: TFileSortings);
 
 var
@@ -1225,6 +1112,14 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.SetFilesDisplayItems;
+var
+  i: Integer;
+begin
+  for i := 0 to FFiles.Count - 1 do
+    FFiles[i].DisplayItem := Pointer(i + dgPanel.FixedRows);
+end;
+
 function TColumnsFileView.GetFilePropertiesNeeded: TFilePropertiesTypes;
 var
   i, j: Integer;
@@ -1267,9 +1162,9 @@ end;
 
 procedure TColumnsFileView.SetRowCount(Count: Integer);
 begin
-  FUpdatingGrid := True;
+  FUpdatingActiveFile := True;
   dgPanel.RowCount := dgPanel.FixedRows + Count;
-  FUpdatingGrid := False;
+  FUpdatingActiveFile := False;
 end;
 
 procedure TColumnsFileView.SetColumns;
@@ -1307,109 +1202,6 @@ begin
 
   // dgPanelEnter don't called automatically (bug?)
   dgPanelEnter(dgPanel);
-end;
-
-procedure TColumnsFileView.SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions; SearchDirection: TQuickSearchDirection);
-var
-  I, StartPos : Integer;
-  Result : Boolean;
-  sFileName,
-  sSearchName,
-  sSearchNameNoExt,
-  sSearchExt : UTF8String;
-
-  procedure CheckOutOfBounds(var RowIndex: Integer);
-  begin
-    if RowIndex < 0 then
-      RowIndex := Max(FFiles.Count - 1, 0);
-
-    if RowIndex >= FFiles.Count then
-      RowIndex := 0;
-  end;
-begin
-  if FFiles.Count = 0 then
-    Exit;
-
-  if SearchOptions.SearchCase = qscInsensitive then
-    sSearchName := UTF8LowerCase(SearchTerm)
-  else
-    sSearchName := SearchTerm;
-
-  if Pos('.', sSearchName) <> 0 then
-  begin
-    sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
-    sSearchExt := ExtractFileExt(sSearchName);
-    if not (qsmBeginning in SearchOptions.Match) then
-      sSearchNameNoExt := '*' + sSearchNameNoExt;
-    if not (qsmEnding in SearchOptions.Match) then
-      sSearchNameNoExt := sSearchNameNoExt + '*';
-    sSearchName := sSearchNameNoExt + sSearchExt + '*';
-  end
-  else
-  begin
-    if not (qsmBeginning in SearchOptions.Match) then
-      sSearchName := '*' + sSearchName;
-    sSearchName := sSearchName + '*';
-  end;
-
-  StartPos := dgPanel.Row - dgPanel.FixedRows; // start search from current cursor position
-  case SearchDirection of
-    qsdFirst:
-      StartPos := 0; // begin search from first file
-    qsdLast:
-      StartPos := FFiles.Count - 1; // begin search from last file
-    qsdNext:
-      StartPos := StartPos + 1; // begin search from next file
-    qsdPrevious:
-      StartPos := StartPos - 1; // begin search from previous file
-  end;
-
-  CheckOutOfBounds(StartPos);
-  I := StartPos;
-
-  try
-    repeat
-      Result := True;
-
-      sFileName := FFiles[I].FSFile.Name;
-
-      if SearchOptions.SearchCase = qscInsensitive then
-        sFileName := UTF8LowerCase(sFileName);
-
-      if (SearchOptions.Items = qsiFiles) and
-         (FFiles[I].FSFile.IsDirectory or
-          FFiles[I].FSFile.IsLinkToDirectory) then
-        Result := False;
-
-      if (SearchOptions.Items = qsiDirectories) and
-         not FFiles[I].FSFile.IsDirectory and
-         not FFiles[I].FSFile.IsLinkToDirectory then
-        Result := False;
-
-      if not MatchesMask(sFileName, sSearchName, SearchOptions.SearchCase = qscSensitive) then
-        Result := False;
-
-      if Result then
-      begin
-        dgPanel.Row := I + dgPanel.FixedRows;
-        MakeVisible(dgPanel.Row);
-        Exit;
-      end;
-
-      // check next file depending on search direction
-      if SearchDirection in [qsdNone, qsdFirst, qsdNext] then
-        Inc(I)
-      else
-        Dec(I);
-
-      CheckOutOfBounds(I);
-    until I = StartPos;
-
-  except
-    on EConvertError do; // bypass
-    else
-      raise;
-  end;
 end;
 
 procedure TColumnsFileView.edtRenameKeyDown(Sender: TObject; var Key: Word;
@@ -1517,40 +1309,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
-begin
-  SetActive(True);
-
-  SearchFile(ASearchText, ASearchOptions, ASearchDirection);
-end;
-
-procedure TColumnsFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
-begin
-  SetActive(True);
-
-  // position in file before filtering, otherwise position could be lost if
-  // current file is filtered out causing jumps
-  SearchFile(AFilterText, AFilterOptions);
-
-  SetFileFilter(AFilterText, AFilterOptions);
-
-  lblFilter.Caption := Format('(%s: %s)', [rsFilterStatus, AFilterText]);
-  lblFilter.Visible := Filtered;
-end;
-
-procedure TColumnsFileView.quickSearchExecute(Sender: TObject);
-begin
-  SetActive(True);
-
-  ChooseFile(GetActiveDisplayFile);
-end;
-
-procedure TColumnsFileView.quickSearchHide(Sender: TObject);
-begin
-  if Self.CanFocus then
-    dgPanel.SetFocus;
-end;
-
 procedure TColumnsFileView.MakeVisible(iRow:Integer);
 begin
   with dgPanel do
@@ -1567,71 +1325,15 @@ begin
   SetActive(False);
 end;
 
-procedure TColumnsFileView.MakeSelectedVisible;
+procedure TColumnsFileView.MakeActiveVisible;
 begin
   if dgPanel.Row>=0 then
     MakeVisible(dgPanel.Row);
 end;
 
-procedure TColumnsFileView.SetLastActiveFile(RowNr: Integer);
+procedure TColumnsFileView.SetActiveFile(FileIndex: PtrInt);
 begin
-  if (RowNr >= dgPanel.FixedRows) and (RowNr < dgPanel.RowCount) and
-     (RowNr - dgPanel.FixedRows < FFiles.Count) then
-  begin
-    LastActiveFile := FFiles[RowNr - dgPanel.FixedRows].FSFile.FullPath;
-  end;
-end;
-
-function TColumnsFileView.SetActiveFileNow(aFilePath: String): Boolean;
-var
-  i: Integer;
-begin
-  if aFilePath <> '' then // find correct cursor position in Panel (drawgrid)
-  begin
-    if FileSource.GetPathType(aFilePath) = ptAbsolute then
-    begin
-      for i := 0 to FFiles.Count - 1 do
-        if FFiles[i].FSFile.FullPath = aFilePath then
-        begin
-          FUpdatingGrid := True;
-          dgPanel.Row := i + dgPanel.FixedRows;
-          FUpdatingGrid := False;
-          SetLastActiveFile(dgPanel.Row);
-          Exit(True);
-        end;
-    end
-    else
-    begin
-      for i := 0 to FFiles.Count - 1 do
-        if FFiles[i].FSFile.Name = aFilePath then
-        begin
-          FUpdatingGrid := True;
-          dgPanel.Row := i + dgPanel.FixedRows;
-          FUpdatingGrid := False;
-          SetLastActiveFile(dgPanel.Row);
-          Exit(True);
-        end;
-    end;
-  end;
-  Result := False;
-end;
-
-procedure TColumnsFileView.SetActiveFile(aFilePath: String);
-begin
-  if GetCurrentWorkType = fvwtCreate then
-  begin
-    // File list is currently loading - remember requested file for later.
-    RequestedActiveFile := aFilePath;
-  end
-  else
-  begin
-    // First try to select the file in the current file list.
-    // If not found save it for later selection (possibly after reload).
-    if SetActiveFileNow(aFilePath) then
-      RequestedActiveFile := ''
-    else
-      RequestedActiveFile := aFilePath;
-  end;
+  dgPanel.Row := FileIndex + dgPanel.FixedRows;
 end;
 
 {$IF lcl_fullversion >= 093100}
@@ -1674,25 +1376,14 @@ begin
     OnActivate(Self);
 end;
 
-procedure TColumnsFileView.RedrawGrid;
+procedure TColumnsFileView.RedrawFile(DisplayFile: TDisplayFile);
 begin
-  dgPanel.Invalidate;
+  dgPanel.InvalidateRow(PtrInt(DisplayFile.DisplayItem));
 end;
 
-procedure TColumnsFileView.RedrawFile(DisplayFile: TDisplayFile);
-var
-  VisibleFiles: TRange;
-  i: Integer;
+procedure TColumnsFileView.RedrawFiles;
 begin
-  VisibleFiles := GetVisibleFilesIndexes;
-  for i := VisibleFiles.First to VisibleFiles.Last do
-  begin
-    if FFiles[i] = DisplayFile then
-    begin
-      dgPanel.InvalidateRow(i + dgPanel.FixedRows);
-      Break;
-    end;
-  end;
+  dgPanel.Invalidate;
 end;
 
 procedure TColumnsFileView.UpdateColumnsView;
@@ -1727,7 +1418,7 @@ procedure TColumnsFileView.dgPanelKeyUp(Sender: TObject; var Key: Word;
 begin
   case Key of
     VK_SHIFT: begin
-      FLastSelectionStartRow := -1;
+      FLastSelectionStartIndex := -1;
     end;
   end;
 end;
@@ -1743,12 +1434,7 @@ procedure TColumnsFileView.dgPanelKeyDown(Sender: TObject; var Key: Word;
 var
   ScreenPoint: TPoint;
   aFile: TDisplayFile;
-  mi: TMenuItem;
 begin
-  // check if ShiftState is equal to quick search / filter modes
-  if quickSearch.CheckSearchOrFilter(Key) then
-    Exit;
-
   case Key of
     VK_APPS:
       begin
@@ -1763,54 +1449,13 @@ begin
           if IsActiveItemValid then
           begin
             InvertFileSelection(GetActiveDisplayFile, False);
-            DoSelectionChanged(dgPanel.Row);
+            DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
           end;
           if dgPanel.Row < dgPanel.RowCount-1 then
             dgPanel.Row := dgPanel.Row+1;
-          MakeSelectedVisible;
+          MakeActiveVisible;
         end;
         Key := 0;
-      end;
-
-    VK_MULTIPLY:
-      begin
-        InvertAll;
-        Key := 0;
-      end;
-
-    VK_ADD:
-      begin
-        if Shift = [ssCtrl] then
-          MarkFiles(True)
-        else if Shift = [] then
-          MarkGroup(True)
-        else if Shift = [ssShift] then
-          MarkCurrentExtension(True);
-        Key := 0;
-      end;
-
-    VK_SUBTRACT:
-      begin
-        if Shift = [ssCtrl] then
-          MarkFiles(False)
-        else if Shift = [] then
-          MarkGroup(False)
-        else if Shift = [ssShift] then
-          MarkCurrentExtension(False);
-        Key := 0;
-      end;
-
-    VK_SHIFT:
-      begin
-        FLastSelectionStartRow:= dgPanel.Row;
-        Key := 0;
-      end;
-
-    VK_HOME, VK_END, VK_PRIOR, VK_NEXT:
-      if (ssShift in Shift) then
-      begin
-        Application.QueueAsyncCall(@SelectRange, -1);
-        //Key := 0; // not needed!
       end;
 
     // cursors keys in Lynx like mode
@@ -1841,7 +1486,7 @@ begin
           if IsActiveItemValid then
           begin
             InvertFileSelection(GetActiveDisplayFile, False);
-            DoSelectionChanged(dgPanel.Row);
+            DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
             //Key := 0; // not needed!
           end;
         end
@@ -1869,44 +1514,14 @@ begin
           end;
 
           InvertFileSelection(aFile, False);
-          DoSelectionChanged(-1);
         end;
 
         if gSpaceMovesDown then
           dgPanel.Row := dgPanel.Row + 1;
 
-        dgPanel.InvalidateRow(dgPanel.Row);
-        MakeSelectedVisible;
+        MakeActiveVisible;
+        DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
         Key := 0;
-      end;
-
-    VK_BACK:
-      begin
-        ChangePathToParent(True);
-        Key := 0;
-      end;
-
-    VK_RETURN, VK_SELECT:
-      begin
-        if (Shift * KeyModifiersShortcut = []) then
-        begin
-          // Only if there are items in the panel.
-          if not IsEmpty then
-          begin
-            ChooseFile(GetActiveDisplayFile);
-            Key := 0;
-          end;
-        end
-        // execute active file in terminal (Shift+Enter)
-        else if (Shift * KeyModifiersShortcut = [ssShift]) then
-        begin
-          if IsActiveItemValid then
-          begin
-            mbSetCurrentDir(CurrentPath);
-            ExecCmdFork(CurrentPath + GetActiveDisplayFile.FSFile.Name, True, gRunInTerm);
-            Key := 0;
-          end;
-        end;
       end;
 
     VK_MENU:  // Alt key
@@ -1922,52 +1537,14 @@ begin
         GetCursorPos(ScreenPoint);
         dgPanel.TransformDraggingToExternal(ScreenPoint);
       end;
-
-    VK_ESCAPE:
-      begin
-        if Filtered and (GetCurrentWorkType <> fvwtNone) then
-        begin
-          pmOperationsCancel.Items.Clear;
-
-          mi := TMenuItem.Create(pmOperationsCancel);
-          mi.Tag := CANCEL_FILTER;
-          mi.Caption := rsCancelFilter;
-          mi.OnClick := @OperationsCancelClick;
-          pmOperationsCancel.Items.Add(mi);
-
-          mi := TMenuItem.Create(pmOperationsCancel);
-          mi.Tag := CANCEL_OPERATION;
-          mi.Caption := rsCancelOperation;
-          mi.OnClick := @OperationsCancelClick;
-          pmOperationsCancel.Items.Add(mi);
-
-          pmOperationsCancel.PopUp;
-
-          Key := 0;
-        end
-        else if Filtered then
-        begin
-          quickSearch.Finalize;
-          Key := 0;
-        end
-        else if GetCurrentWorkType <> fvwtNone then
-        begin
-          StopWorkers;
-          Key := 0;
-        end;
-      end;
   end;
-end;
 
-procedure TColumnsFileView.lblFilterClick(Sender: TObject);
-begin
-  quickSearch.Execute(qsFilter, []);
+  DoHandleKeyDown(Key, Shift);
 end;
 
 procedure TColumnsFileView.ColumnsMenuClick(Sender: TObject);
 var
   frmColumnsSetConf: TfColumnsSetConf;
-  frmOptions: TfrmOptions = nil;
   Index: Integer;
   Msg: TEachViewCallbackMsg;
 begin
@@ -2005,21 +1582,8 @@ begin
     begin
       ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
       UpdateColumnsView;
-      RedrawGrid;
+      RedrawFiles;
     end;
-  end;
-end;
-
-procedure TColumnsFileView.OperationsCancelClick(Sender: TObject);
-begin
-  if not Assigned(Sender) or not (Sender is TMenuItem) then
-    Exit;
-
-  case (Sender as TMenuItem).Tag of
-    CANCEL_FILTER:
-      quickSearch.Finalize;
-    CANCEL_OPERATION:
-      StopWorkers;
   end;
 end;
 
@@ -2055,7 +1619,6 @@ begin
   inherited CreateDefault(AOwner);
   Align := alClient;
 
-  FLastSelectionStartRow := -1;
   FFileNameColumn := -1;
   FExtensionColumn := -1;
 
@@ -2065,22 +1628,11 @@ begin
 
   HotMan.Register(dgPanel, 'Files Panel');
 
-  lblFilter         := TLabel.Create(pnlFooter);
-  lblFilter.Parent  := pnlFooter;
-  lblFilter.Align   := alRight;
-  lblFilter.Visible := False;
-
   edtRename:=TEdit.Create(dgPanel);
   edtRename.Parent:=dgPanel;
   edtRename.Visible:=False;
   edtRename.TabStop:=False;
   edtRename.AutoSize:=False;
-
-  // now create search frame
-  quickSearch := TfrmQuickSearch.Create(Self);
-  quickSearch.Parent := Self;
-  quickSearch.Visible := False;
-  quickSearch.Align := alBottom;
 
   tmContextMenu:= TTimer.Create(Self);
   tmContextMenu.Enabled:= False;
@@ -2117,21 +1669,11 @@ begin
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
 
-  quickSearch.OnChangeSearch := @quickSearchChangeSearch;
-  quickSearch.OnChangeFilter := @quickSearchChangeFilter;
-  quickSearch.OnExecute := @quickSearchExecute;
-  quickSearch.OnHide := @quickSearchHide;
-
   edtRename.OnKeyDown := @edtRenameKeyDown;
   edtRename.OnExit := @edtRenameExit;
 
-  lblFilter.OnClick := @lblFilterClick;
-
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
-
-  pmOperationsCancel := TPopupMenu.Create(Self);
-  pmOperationsCancel.Parent := Self;
 end;
 
 destructor TColumnsFileView.Destroy;
@@ -2157,8 +1699,6 @@ begin
 
     with FileView as TColumnsFileView do
     begin
-      FLastSelectionStartRow := Self.FLastSelectionStartRow;
-
       FColumnsSorting := Self.FColumnsSorting.Clone;
 
       ActiveColm := Self.ActiveColm;
@@ -2172,21 +1712,9 @@ procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource; aPath: String
 begin
   inherited AddFileSource(aFileSource, aPath);
 
-  FUpdatingGrid := True;
+  FUpdatingActiveFile := True;
   dgPanel.Row := 0;
-  FUpdatingGrid := False;
-end;
-
-procedure TColumnsFileView.RemoveCurrentFileSource;
-var
-  FocusedFile: String;
-begin
-  // Temporary. Do this by remembering the file name in a list?
-  FocusedFile := ExtractFileName(FileSource.CurrentAddress);
-
-  inherited;
-
-  SetActiveFile(FocusedFile);
+  FUpdatingActiveFile := False;
 end;
 
 procedure TColumnsFileView.BeforeMakeFileList;
@@ -2216,7 +1744,8 @@ procedure TColumnsFileView.DisplayFileListHasChanged;
 begin
   // Update grid row count.
   SetRowCount(FFiles.Count);
-  RedrawGrid;
+  SetFilesDisplayItems;
+  RedrawFiles;
 
   if SetActiveFileNow(RequestedActiveFile) then
     RequestedActiveFile := ''
@@ -2269,79 +1798,7 @@ begin
     begin
       ColumnsView.ActiveColm := PMsg^.NewColumnsSetName;
       ColumnsView.UpdateColumnsView;
-      ColumnsView.RedrawGrid;
-    end;
-  end;
-end;
-
-procedure TColumnsFileView.EnsureDisplayProperties;
-var
-  VisibleFiles: TRange;
-  i: Integer;
-  AFileList: TFVWorkerFileList;
-  Worker: TFileViewWorker;
-  AFile: TDisplayFile;
-begin
-  if (csDestroying in ComponentState) or
-     (GetCurrentWorkType = fvwtCreate) then
-    Exit;
-
-  VisibleFiles := GetVisibleFilesIndexes;
-
-  if not gListFilesInThread then
-  begin
-    for i := VisibleFiles.First to VisibleFiles.Last do
-    begin
-      AFile := FFiles[i];
-      if AFile.FSFile.Name <> '..' then
-      begin
-        if AFile.IconID = -1 then
-          AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
-        {$IF DEFINED(MSWINDOWS)}
-        if gIconOverlays and (AFile.IconOverlayID < 0) then
-        begin
-          AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
-                                                                    fspDirectAccess in FileSource.Properties);
-        end;
-        {$ENDIF}
-        if FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) then
-        begin
-          FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
-          MakeColumnsStrings(AFile);
-        end;
-      end;
-    end;
-  end
-  else
-  begin
-    AFileList := TFVWorkerFileList.Create;
-    try
-      for i := VisibleFiles.First to VisibleFiles.Last do
-      begin
-        AFile := FFiles[i];
-        if (AFile.FSFile.Name <> '..') and
-           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
-           (AFile.IconID = -1) or (AFile.IconOverlayID = -1)) then
-        begin
-          AFileList.AddClone(AFile, AFile);
-        end;
-      end;
-
-      if AFileList.Count > 0 then
-      begin
-        Worker := TFilePropertiesRetriever.Create(
-          FileSource,
-          WorkersThread,
-          FilePropertiesNeeded,
-          @PropertiesRetrieverOnUpdate,
-          AFileList);
-
-        AddWorker(Worker, False);
-        WorkersThread.QueueFunction(@Worker.StartParam);
-      end;
-
-    finally
-      FreeAndNil(AFileList);
+      ColumnsView.RedrawFiles;
     end;
   end;
 end;
@@ -2366,22 +1823,9 @@ begin
   UpdateColumnsView;
 end;
 
-function TColumnsFileView.GetActiveDisplayFile: TDisplayFile;
-var
-  CurrentRow: Integer;
+function TColumnsFileView.GetActiveFileIndex: PtrInt;
 begin
-  if not IsEmpty then
-  begin
-    CurrentRow := dgPanel.Row;
-    if CurrentRow < dgPanel.FixedRows then
-      CurrentRow := dgPanel.FixedRows
-    else if CurrentRow > FFiles.Count then
-       CurrentRow := dgPanel.FixedRows;
-
-    Result := FFiles[CurrentRow - dgPanel.FixedRows]; // minus fixed header
-  end
-  else
-    Result := nil;  // No files in the panel.
+  Result := dgPanel.Row - dgPanel.FixedRows;
 end;
 
 function TColumnsFileView.GetVisibleFilesIndexes: TRange;
@@ -2389,11 +1833,6 @@ begin
   Result := dgPanel.GetVisibleRows;
   Dec(Result.First, dgPanel.FixedRows);
   Dec(Result.Last, dgPanel.FixedRows);
-
-  if Result.First < 0 then
-    Result.First := 0;
-  if Result.Last >= FFiles.Count then
-    Result.Last := FFiles.Count - 1;
 end;
 
 function TColumnsFileView.GetColumnsClass: TPanelColumnsClass;
@@ -2463,29 +1902,6 @@ begin
   inherited DoFileUpdated(AFile, UpdatedProperties);
 end;
 
-procedure TColumnsFileView.DoSelectionChanged(RowNr: Integer);
-begin
-  UpdateInfoPanel;
-  if RowNr >= 0 then
-    dgPanel.InvalidateRow(RowNr);
-end;
-
-procedure TColumnsFileView.DoSelectionChanged;
-begin
-  DoSelectionChanged(-1);
-  dgPanel.Invalidate;
-end;
-
-procedure TColumnsFileView.cm_QuickSearch(const Params: array of string);
-begin
-  quickSearch.Execute(qsSearch, Params);
-end;
-
-procedure TColumnsFileView.cm_QuickFilter(const Params: array of string);
-begin
-  quickSearch.Execute(qsFilter, Params);
-end;
-
 procedure TColumnsFileView.cm_RenameOnly(const Params: array of string);
 var
   aFile: TFile;
@@ -2515,16 +1931,6 @@ begin
   Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
   Point := dgPanel.ClientToScreen(Point);
   frmMain.Commands.DoContextMenu(Self, Point.X, Point.Y, False);
-end;
-
-procedure TColumnsFileView.cm_GoToFirstFile(const Params: array of string);
-begin
-  dgPanel.Row:= dgPanel.FixedRows;
-end;
-
-procedure TColumnsFileView.cm_GoToLastFile(const Params: array of string);
-begin
-  dgPanel.Row:= dgPanel.RowCount - 1;
 end;
 
 { TDrawGridEx }
@@ -3160,8 +2566,6 @@ begin
 end;
 
 procedure TDrawGridEx.TransformDraggingToExternal(ScreenPoint: TPoint);
-var
-  SourcePanel: TColumnsFileView;
 begin
   // Set flag temporarily before stopping internal dragging,
   // so that triggered events will know that dragging is transforming.
@@ -3180,12 +2584,15 @@ begin
   // Clear flag before starting external dragging.
   TransformDragging := False;
 
-  SourcePanel := (Parent as TColumnsFileView);
-
   // Start external dragging.
   // On Windows it does not return until dragging is finished.
 
-  SourcePanel.StartDragEx(LastMouseButton, ScreenPoint);
+  if DragRowIndex >= FixedRows then
+  begin
+    ColumnsView.BeginDragExternal(
+      ColumnsView.FFiles[DragRowIndex - FixedRows],
+      DragDropSource, LastMouseButton, ScreenPoint);
+  end;
 end;
 
 function TDrawGridEx.OnExDragEnter(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
