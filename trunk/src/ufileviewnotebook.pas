@@ -535,8 +535,8 @@ begin
   if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
   begin
     ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
-    Accept := (ATabIndex <> -1) and
-              ((Source <> Sender) or (ATabIndex <> FDraggedPageIndex));
+    Accept := (Source <> Sender) or
+              ((ATabIndex <> -1) and (ATabIndex <> FDraggedPageIndex));
   end
   else
     Accept := False;
@@ -551,19 +551,21 @@ begin
   if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
   begin
     ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
-    if ATabIndex = -1 then
-      Exit;
 
     if Source = Sender then
     begin
       // Move within the same panel.
-      Pages.Move(FDraggedPageIndex, ATabIndex);
+      if ATabIndex <> -1 then
+        Pages.Move(FDraggedPageIndex, ATabIndex);
     end
     else
     begin
       // Move page between panels.
       SourceNotebook := (Source as TFileViewNotebook);
       DraggedPage := SourceNotebook.Page[SourceNotebook.FDraggedPageIndex];
+
+      if ATabIndex = -1 then
+        ATabIndex := PageCount;
 
       // Create a clone of the page in the panel.
       ANewPage := InsertPage(ATabIndex);
