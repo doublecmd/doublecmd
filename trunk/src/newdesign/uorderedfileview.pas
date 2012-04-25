@@ -49,23 +49,26 @@ type
     procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
     procedure quickSearchExecute(Sender: TObject);
     procedure quickSearchHide(Sender: TObject);
-    function IsFileIndexInRange(FileIndex: PtrInt): Boolean;
 
   protected
     lblFilter: TLabel;
     quickSearch: TfrmQuickSearch;
     FLastActiveFileIndex: Integer;
     FLastSelectionStartIndex: Integer;
+    FLastSelectionState: Boolean;
     FUpdatingActiveFile: Boolean;
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
+    procedure DoFileIndexChanged(NewFileIndex: PtrInt);
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoSelectionChanged; override;
     procedure DoSelectionChanged(FileIndex: PtrInt);
     procedure EnsureDisplayProperties;
     function GetActiveDisplayFile: TDisplayFile; override;
     function GetActiveFileIndex: PtrInt; virtual; abstract;
+    function GetFileRect(FileIndex: PtrInt): TRect; virtual; abstract;
     function GetVisibleFilesIndexes: TRange; virtual; abstract;
+    function IsFileIndexInRange(FileIndex: PtrInt): Boolean;
     procedure RedrawFile(FileIndex: PtrInt); overload; virtual; abstract;
     procedure RedrawFiles; virtual; abstract;
     {en
@@ -178,6 +181,17 @@ begin
 
   pmOperationsCancel := TPopupMenu.Create(Self);
   pmOperationsCancel.Parent := Self;
+end;
+
+procedure TOrderedFileView.DoFileIndexChanged(NewFileIndex: PtrInt);
+begin
+  if (FLastActiveFileIndex <> NewFileIndex) and (not FUpdatingActiveFile) then
+  begin
+    SetLastActiveFile(NewFileIndex);
+
+    if Assigned(OnChangeActiveFile) then
+      OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
+  end;
 end;
 
 procedure TOrderedFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);

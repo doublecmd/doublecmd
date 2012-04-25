@@ -7,19 +7,17 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Grids,
   LMessages, LCLIntf, LCLType, Menus, LCLVersion,
-  uDragDropEx,
   uFile,
   uFileProperty,
   uFileView,
-  uOrderedFileView,
+  uFileViewWithMainCtrl,
   uFileSource,
   uDisplayFile,
   uColumns,
   uFileSorting,
   DCXmlConfig,
   DCClassesUtf8,
-  uTypes,
-  uFileViewWorker;
+  uTypes;
 
 type
 
@@ -47,52 +45,16 @@ type
 
   TDrawGridEx = class(TDrawGrid)
   private
-    // Used to register as a drag and drop source and target.
-    DragDropSource: uDragDropEx.TDragDropSource;
-    DragDropTarget: uDragDropEx.TDragDropTarget;
-
-    StartDrag: Boolean;
-    DragStartPoint: TPoint;
-    DragRowIndex,
-    DropRowIndex,
-    HintRowIndex: Integer;
-    LastMouseButton: TMouseButton; // Mouse button that initiated dragging
-    SelectionStartIndex: Cardinal;
-    FMouseDown: Boolean; // Used to check if button-up was received after button-down
-                         // or after dropping something after dragging with right mouse button
-
     ColumnsView: TColumnsFileView;
-
-    // Updates the drop row index, which is used to draw a rectangle
-    // on directories during drag&drop operations.
-    procedure ChangeDropRowIndex(NewIndex: Integer);
-
-    // Simulates releasing mouse button that started a dragging operation,
-    // but was released in another window or another application.
-    procedure ClearMouseButtonAfterDrag;
 
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
     procedure SetGridVertLine(const AValue: Boolean);
 
-    // If internal dragging is currently in effect, this function
-    // stops internal dragging and starts external.
-    procedure TransformDraggingToExternal(ScreenPoint: TPoint);
-
-    { Events for drag&drop from external applications }
-    function OnExDragBegin: Boolean;
-    function OnExDragEnd  : Boolean;
-    function OnExDragEnter(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
-    function OnExDragOver(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
-    function OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
-    function OnExDragLeave:Boolean;
-
   protected
-
-    procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
-    procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
 
     procedure InitializeWnd; override;
     procedure FinalizeWnd; override;
@@ -101,11 +63,6 @@ type
               aState: TGridDrawState); override;
 
   public
-{$IFDEF LCLGTK2}
-    fLastDoubleClickTime : TDateTime;
-
-    function TooManyDoubleClicks: Boolean;
-{$ENDIF}
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
 
     procedure UpdateView;
@@ -127,18 +84,16 @@ type
 
   { TColumnsFileView }
 
-  TColumnsFileView = class(TOrderedFileView)
+  TColumnsFileView = class(TFileViewWithMainCtrl)
 
   private
     FColumnsSorting: TColumnsSortings;
     FFileNameColumn: Integer;
     FExtensionColumn: Integer;
-    FLastSelectionState: Boolean;
 
     pmColumnsMenu: TPopupMenu;
     edtRename: TEdit;
     dgPanel: TDrawGridEx;
-    tmContextMenu: TTimer;
     tmClearGrid: TTimer;
 
     function GetColumnsClass: TPanelColumnsClass;
@@ -182,69 +137,43 @@ type
     // -- Events --------------------------------------------------------------
 
     procedure edtRenameExit(Sender: TObject);
-
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
-    procedure dgPanelEnter(Sender: TObject);
-    procedure dgPanelExit(Sender: TObject);
 {$IF lcl_fullversion >= 093100}
     procedure dgPanelBeforeSelection(Sender: TObject; aCol, aRow: Integer);
 {$ENDIF}
-    procedure dgPanelDblClick(Sender: TObject);
-    procedure dgPanelKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure dgPanelKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure dgPanelMouseLeave(Sender: TObject);
-    procedure dgPanelMouseDown(Sender: TObject; Button: TMouseButton;
-                                    Shift: TShiftState; X, Y: Integer);
-    procedure dgPanelMouseMove(Sender: TObject; Shift: TShiftState;
-                               X, Y: Integer);
-    procedure dgPanelMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
-    procedure dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
-                                               State: TDragState; var Accept: Boolean);
-    procedure dgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure dgPanelHeaderClick(Sender: TObject;IsColumn: Boolean; index: Integer);
     procedure dgPanelMouseWheelUp(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelMouseWheelDown(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
-    procedure dgPanelShowHint(Sender: TObject; HintInfo: PHintInfo);
     procedure dgPanelTopLeftChanged(Sender: TObject);
     procedure dgPanelResize(Sender: TObject);
-    procedure tmContextMenuTimer(Sender: TObject);
     procedure tmClearGridTimer(Sender: TObject);
     procedure ColumnsMenuClick(Sender: TObject);
-
-    procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
 
     procedure BeforeMakeFileList; override;
     procedure AfterMakeFileList; override;
+    procedure ClearAfterDragDrop; override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
+    procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
     procedure DoUpdateView; override;
     function GetActiveFileIndex: PtrInt; override;
+    function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; override;
+    function GetFileRect(FileIndex: PtrInt): TRect; override;
     function GetVisibleFilesIndexes: TRange; override;
     procedure RedrawFile(FileIndex: PtrInt); override;
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
     procedure RedrawFiles; override;
-    {en
-       Changes drawing colors depending on if this panel is active.
-    }
-    procedure SetActive(bActive: Boolean); override;
     procedure SetActiveFile(FileIndex: PtrInt); override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
 
     procedure AfterChangePath; override;
-
-    procedure WorkerStarting(const Worker: TFileViewWorker); override;
-    procedure WorkerFinished(const Worker: TFileViewWorker); override;
 
   public
     ActiveColm: String;
@@ -269,43 +198,25 @@ type
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
-    function Focused: Boolean; override;
-    procedure SetFocus; override;
-
     procedure UpdateColumnsView;
-
-    procedure DoDragDropOperation(Operation: TDragDropOperation;
-                                  var DropParams: TDropParams); override;
 
   published  // commands
     procedure cm_RenameOnly(const Params: array of string);
-    procedure cm_ContextMenu(const Params: array of string);
   end;
 
 implementation
 
 uses
   LCLProc, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, math, fMain, fOptions, DCStrUtils,
-  uInfoToolTip,
+  uDCUtils, math, fMain, fOptions,
   uFileSourceProperty,
   uFileSourceOperationTypes,
-  uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
   uFileSourceUtil,
   uFileFunctions,
   uFormCommands,
-  fOptionsCustomColumns
-{$IF DEFINED(LCLGTK)}
-  , GtkProc  // for ReleaseMouseCapture
-  , GTKGlobals  // for DblClickTime
-{$ENDIF}
-{$IF DEFINED(LCLGTK2)}
-  , Gtk2Proc  // for ReleaseMouseCapture
-  , GTK2Globals  // for DblClickTime
-{$ENDIF}
-  ;
+  fOptionsCustomColumns;
 
 type
   TEachViewCallbackReason = (evcrUpdateColumns);
@@ -315,24 +226,6 @@ type
     NewColumnsSetName: String; // If columns name renamed
   end;
   PEachViewCallbackMsg = ^TEachViewCallbackMsg;
-
-function TColumnsFileView.Focused: Boolean;
-begin
-  Result := Assigned(dgPanel) and dgPanel.Focused;
-end;
-
-procedure TColumnsFileView.SetFocus;
-begin
-  // CanFocus checks parent controls, but not parent form.
-  if GetParentForm(Self).CanFocus and dgPanel.CanFocus then
-    dgPanel.SetFocus;
-end;
-
-procedure TColumnsFileView.SetActive(bActive: Boolean);
-begin
-  inherited SetActive(bActive);
-  dgPanel.Color := DimColor(gBackColor);
-end;
 
 procedure TColumnsFileView.SetSorting(const NewSortings: TFileSortings);
 begin
@@ -461,370 +354,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.dgPanelMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-var
-  iRow, iCol : Integer;
-  AFile: TDisplayFile;
-begin
-  if (Y < dgPanel.GetHeaderHeight) then Exit; // if is header
-
-  SetFocus;
-
-  // history navigation for mice with extra buttons
-  case Button of
-    mbExtra1:
-      begin
-        GoToPrevHistory;
-        Exit;
-      end;
-    mbExtra2:
-      begin
-        GoToNextHistory;
-        Exit;
-      end;
-  end;
-
-  if IsEmpty then Exit;
-
-  if dgPanel.MouseOnGrid(X, Y) then
-  begin
-    dgPanel.MouseToCell(X, Y, iCol, iRow);
-
-    if iRow < dgPanel.FixedRows then  // clicked on header
-      Exit;
-
-    dgPanel.LastMouseButton:= Button;
-
-    case Button of
-      mbRight: begin
-        dgPanel.Row := iRow;
-
-        if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
-        begin
-          AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-
-          if Assigned(AFile) then
-          begin
-            dgPanel.SelectionStartIndex:=iRow;
-            tmContextMenu.Enabled:= True; // start context menu timer
-            FLastSelectionState:= not AFile.Selected;
-            MarkFile(AFile, FLastSelectionState, False);
-            DoSelectionChanged(iRow - dgPanel.FixedRows);
-            Exit;
-          end;
-        end;
-      end;
-
-      mbLeft: begin
-        if (dgPanel.Row < 0) or (dgPanel.Row >= dgPanel.RowCount) then
-          begin
-            dgPanel.Row := iRow;
-          end
-        else if gMouseSelectionEnabled then
-        begin
-          if ssCtrl in Shift then
-            begin
-              // if there is no selected files then select also previous file
-              if not HasSelectedFiles then
-              begin
-                AFile := FFiles[dgPanel.Row - dgPanel.FixedRows]; // substract fixed rows (header)
-                MarkFile(AFile, True, False);
-              end;
-              AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-              if Assigned(AFile) then
-              begin
-                InvertFileSelection(AFile, False);
-                DoSelectionChanged(iRow - dgPanel.FixedRows);
-              end;
-            end
-          else if ssShift in Shift then
-            begin
-              SelectRange(iRow - dgPanel.FixedRows);
-            end
-          else if (gMouseSelectionButton = 0) then
-            begin
-              AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-              if Assigned(AFile) and not AFile.Selected then
-                MarkFiles(False);
-            end;
-        end;//of mouse selection handler
-      end;
-    else
-      dgPanel.Row := iRow;
-      Exit;
-    end;
-  end
-  else // if mouse on empty space
-    begin
-      if (Button = mbRight) and (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
-        tmContextMenu.Enabled:= True; // start context menu timer
-    end;
-
-  { Dragging }
-
-  if (not dgPanel.Dragging)   and  // we could be in dragging mode already (started by a different button)
-     (dgPanel.MouseOnGrid(X, Y)) then // check if there is an item under the mouse cursor
-  begin
-    // indicate that drag start at next mouse move event
-    dgPanel.StartDrag:= True;
-    dgPanel.DragStartPoint.X := X;
-    dgPanel.DragStartPoint.Y := Y;
-    dgPanel.DragRowIndex := iRow;
-    uDragDropEx.TransformDragging := False;
-    uDragDropEx.AllowTransformToInternal := True;
-  end;
-end;
-
-procedure TColumnsFileView.dgPanelMouseMove(Sender: TObject;
-  Shift: TShiftState; X, Y: Integer);
-var
-  AFile: TDisplayFile;
-  iCol, iRow: Integer;
-  i, SelStartIndex, SelEndIndex: Cardinal;
-begin
-  // if right mouse button selection enabled
-  if dgPanel.FMouseDown and (dgPanel.LastMouseButton = mbRight) and
-     gMouseSelectionEnabled and (gMouseSelectionButton = 1) then
-    begin
-      dgPanel.MouseToCell(X, Y, iCol, iRow);
-      if iRow < dgPanel.FixedRows then Exit; // move on header
-      if dgPanel.Row <> iRow then // if new row index
-        begin
-          tmContextMenu.Enabled:= False; // stop context menu timer
-          if dgPanel.SelectionStartIndex < iRow then begin
-            SelStartIndex := dgPanel.SelectionStartIndex;
-            SelEndIndex := iRow;
-          end else begin
-            SelStartIndex := iRow;
-            SelEndIndex := dgPanel.SelectionStartIndex;
-          end;
-          dgPanel.Row:= iRow;
-          BeginUpdate;
-          try
-            for i := SelStartIndex to SelEndIndex do
-            begin
-              AFile := FFiles[i - dgPanel.FixedRows]; // substract fixed rows (header)
-              MarkFile(AFile, FLastSelectionState);
-            end;
-          finally
-            EndUpdate;
-          end;
-        end;
-    end;
-end;
-
-{ Show context or columns menu on right click }
-{ Is called manually from TDrawGridEx.MouseUp }
-procedure TColumnsFileView.dgPanelMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-var
-  I : Integer;
-  Point:TPoint;
-  MI:TMenuItem;
-  Background: Boolean;
-begin
-  if Button = mbRight then
-    begin
-      { If right click on header }
-      if (Y < dgPanel.GetHeaderHeight) then
-        begin
-          //Load Columns into menu
-          pmColumnsMenu.Items.Clear;
-          if ColSet.Items.Count>0 then
-            begin
-              For I:=0 to ColSet.Items.Count-1 do
-                begin
-                  MI:=TMenuItem.Create(pmColumnsMenu);
-                  MI.Tag:=I;
-                  MI.Caption:=ColSet.Items[I];
-                  MI.OnClick:=@ColumnsMenuClick;
-                  pmColumnsMenu.Items.Add(MI);
-                end;
-            end;
-
-         //-
-    	    MI:=TMenuItem.Create(pmColumnsMenu);
-    	    MI.Caption:='-';
-    	    pmColumnsMenu.Items.Add(MI);
-    	   //Configure this custom columns
-    	    MI:=TMenuItem.Create(pmColumnsMenu);
-    	    MI.Tag:=1000;
-    	    MI.Caption:=rsMenuConfigureThisCustomColumn;
-    	    MI.OnClick:=@ColumnsMenuClick;
-    	    pmColumnsMenu.Items.Add(MI);
-    	   //Configure custom columns
-    	    MI:=TMenuItem.Create(pmColumnsMenu);
-    	    MI.Tag:=1001;
-    	    MI.Caption:=rsMenuConfigureCustomColumns;
-    	    MI.OnClick:=@ColumnsMenuClick;
-    	    pmColumnsMenu.Items.Add(MI);
-
-          Point:=(Sender as TDrawGrid).ClientToScreen(Classes.Point(0,0));
-          Point.Y:=Point.Y+(Sender as TDrawGridEx).GetHeaderHeight;
-          Point.X:=Point.X+X-50;
-          pmColumnsMenu.PopUp(Point.X,Point.Y);
-        end
-
-      { If right click on file/directory }
-      else if ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
-        begin
-          Background:= not (Sender as TDrawGridEx).MouseOnGrid(X, Y);
-          frmMain.Commands.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
-        end
-      else if (gMouseSelectionEnabled and (gMouseSelectionButton = 1)) then
-        begin
-          tmContextMenu.Enabled:= False; // stop context menu timer
-        end;
-    end
-  { Open folder in new tab on middle click }
-  else if (Button = mbMiddle) and (Y > dgPanel.GetHeaderHeight) then
-    begin
-      frmMain.Commands.cm_OpenDirInNewTab([]);
-    end;
-end;
-
-procedure TColumnsFileView.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
-begin
-end;
-
-procedure TColumnsFileView.dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
-  State: TDragState; var Accept: Boolean);
-var
-  iRow, Dummy: Integer;
-  AFile: TDisplayFile = nil;
-  SourcePanel: TColumnsFileView = nil;
-  TargetPanel: TColumnsFileView = nil;
-  SourceDir, TargetDir: String;
-begin
-  Accept := False;
-
-  if (not (Source is TDrawGridEx)) or (not (Sender is TDrawGridEx)) then
-    Exit;
-
-  // Always allow dropping into an empty panel.
-  // And it is also allowed to drop onto header in case all visible items
-  // are directories and the user wants to drop into panel's current directory.
-  if IsEmpty or (Y < dgPanel.GetHeaderHeight) then
-  begin
-    dgPanel.ChangeDropRowIndex(-1);
-    Accept:= True;
-    Exit;
-  end;
-
-  SourcePanel := ((Source as TDrawGridEx).Parent) as TColumnsFileView;
-  TargetPanel := ((Sender as TDrawGridEx).Parent) as TColumnsFileView;
-
-  SourceDir := SourcePanel.CurrentPath;
-  TargetDir := TargetPanel.CurrentPath;
-
-  dgPanel.MouseToCell(X, Y, Dummy, iRow);
-
-  if iRow >= dgPanel.FixedRows then
-    AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-
-  if Assigned(AFile) and
-     (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) and
-     (dgPanel.MouseOnGrid(X, Y))
-  then
-    begin
-      if State = dsDragLeave then
-        // Mouse is leaving the control or drop will occur immediately.
-        // Don't draw DropRow rectangle.
-        dgPanel.ChangeDropRowIndex(-1)
-      else
-        dgPanel.ChangeDropRowIndex(iRow);
-
-      if Sender = Source then
-      begin
-        if not ((iRow = dgPanel.DragRowIndex) or (AFile.Selected = True)) then
-          Accept := True;
-      end
-      else
-      begin
-        if Assigned(SourcePanel) and Assigned(TargetPanel) then
-        begin
-          if AFile.FSFile.Name = '..' then
-            TargetDir := TargetPanel.FileSource.GetParentDir(TargetDir)
-          else
-            TargetDir := TargetDir + AFile.FSFile.Name + DirectorySeparator;
-
-          if SourceDir <> TargetDir then Accept := True;
-        end
-        else
-          Accept := True;
-      end;
-    end
-  else if (Sender <> Source) then
-    begin
-      dgPanel.ChangeDropRowIndex(-1);
-
-      if Assigned(SourcePanel) and Assigned(TargetPanel) then
-      begin
-        if SourcePanel.CurrentPath <> TargetPanel.CurrentPath then
-          Accept := True;
-      end
-      else
-        Accept := True;
-    end
-  else
-    begin
-      dgPanel.ChangeDropRowIndex(-1);
-    end;
-end;
-
-procedure TColumnsFileView.dgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
-var
-  SourcePanel: TColumnsFileView;
-  SourceFiles: TFiles;
-  DropParams: TDropParams;
-begin
-  if (Sender is TDrawGridEx) and (Source is TDrawGridEx) then
-  begin
-    SourcePanel := ((Source as TDrawGridEx).Parent) as TColumnsFileView;
-
-    // Get file names from source panel.
-    SourceFiles := SourcePanel.CloneSelectedFiles;
-    try
-      // Drop onto target panel.
-      with Sender as TDrawGridEx do
-      begin
-        DropParams := TDropParams.Create(
-          SourceFiles, // Will be freed automatically.
-          GetDropEffectByKeyAndMouse(GetKeyShiftState,
-                                    (Source as TDrawGridEx).LastMouseButton),
-          ClientToScreen(Classes.Point(X, Y)),
-          True,
-          SourcePanel,
-          Self, Self.CurrentPath);
-
-        frmMain.DropFiles(DropParams);
-        ChangeDropRowIndex(-1);
-      end;
-    except
-      FreeAndNil(SourceFiles);
-      raise;
-    end;
-  end;
-end;
-
-procedure TColumnsFileView.dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
-  procedure ClearDropNode(aFileView: TFileView);
-  begin
-    if aFileView is TColumnsFileView then
-      TColumnsFileView(aFileView).dgPanel.ChangeDropRowIndex(-1);
-  end;
-begin
-  // If cancelled by the user, DragManager does not send drag-leave event
-  // to the target, so we must clear the DropRow in both panels.
-
-  ClearDropNode(frmMain.FrameLeft);
-  ClearDropNode(frmMain.FrameRight);
-
-  if uDragDropEx.TransformDragging = False then
-    dgPanel.ClearMouseButtonAfterDrag;
-end;
-
 procedure TColumnsFileView.dgPanelHeaderClick(Sender: TObject;
   IsColumn: Boolean; Index: Integer);
 var
@@ -885,59 +414,11 @@ begin
 end;
 
 procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
-var
-  aFile: TFile = nil;
-  FileIndex: Integer;
 begin
 {$IF lcl_fullversion >= 093100}
   dgPanel.Options := dgPanel.Options - [goDontScrollPartCell];
 {$ENDIF}
-
-  FileIndex := aRow - dgPanel.FixedRows;
-  if (FLastActiveFileIndex <> FileIndex) and (not FUpdatingActiveFile) then
-    begin
-      SetLastActiveFile(FileIndex);
-
-      if Assigned(OnChangeActiveFile) then
-      begin
-        aFile := CloneActiveFile;
-        try
-          OnChangeActiveFile(Self, aFile);
-        finally
-          FreeAndNil(aFile);
-        end;
-      end;
-    end;
-end;
-
-procedure TColumnsFileView.dgPanelShowHint(Sender: TObject; HintInfo: PHintInfo);
-var
-  AFile: TDisplayFile;
-  sHint: UTF8String;
-begin
-  if HintInfo^.HintStr = EmptyStr then Exit; // don't show
-
-  with dgPanel do
-  begin
-    if not InRange(HintRowIndex - FixedRows, 0, FFiles.Count - 1) then
-      Exit;
-    AFile := FFiles[HintRowIndex - FixedRows];
-  end;
-
-  if not AFile.FSFile.IsDirectory then
-    begin
-      sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
-      with HintInfo^ do
-      if (sHint = EmptyStr) and (HintStr = #32) then  // no tooltip
-        HintStr:= EmptyStr
-      else if (sHint <> EmptyStr) then // has tooltip
-        begin
-          if HintStr = #32 then // without name
-            HintStr:= sHint
-          else
-            HintStr:= HintStr + LineEnding + sHint;
-        end;
-    end;
+  DoFileIndexChanged(aRow - dgPanel.FixedRows);
 end;
 
 procedure TColumnsFileView.dgPanelTopLeftChanged(Sender: TObject);
@@ -948,34 +429,6 @@ end;
 procedure TColumnsFileView.dgPanelResize(Sender: TObject);
 begin
   EnsureDisplayProperties;
-end;
-
-procedure TColumnsFileView.tmContextMenuTimer(Sender: TObject);
-var
-  AFile: TDisplayFile;
-  iRow, iCol: Integer;
-  MousePoint: TPoint;
-  Background: Boolean;
-begin
-  dgPanel.FMouseDown:= False;
-  tmContextMenu.Enabled:= False; // stop context menu timer
-  // show context menu
-  MousePoint:= dgPanel.ScreenToClient(Mouse.CursorPos);
-  Background:= not dgPanel.MouseOnGrid(MousePoint.x, MousePoint.y);
-
-  if not Background then
-  begin
-    // get current row
-    dgPanel.MouseToCell(MousePoint.x, MousePoint.y, iCol, iRow);
-    if iRow >= dgPanel.FixedRows then
-    begin
-      AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
-      MarkFile(AFile, not FLastSelectionState, False);
-      DoSelectionChanged(iRow - dgPanel.FixedRows);
-    end;
-  end;
-
-  frmMain.Commands.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
 end;
 
 procedure TColumnsFileView.tmClearGridTimer(Sender: TObject);
@@ -1160,6 +613,11 @@ begin
   end;
 end;
 
+function TColumnsFileView.GetFileRect(FileIndex: PtrInt): TRect;
+begin
+  Result := dgPanel.CellRect(0, FileIndex + dgPanel.FixedRows);
+end;
+
 procedure TColumnsFileView.SetRowCount(Count: Integer);
 begin
   FUpdatingActiveFile := True;
@@ -1200,8 +658,9 @@ procedure TColumnsFileView.edtRenameExit(Sender: TObject);
 begin
   edtRename.Visible := False;
 
-  // dgPanelEnter don't called automatically (bug?)
-  dgPanelEnter(dgPanel);
+  // OnEnter don't called automatically (bug?)
+  // TODO: Check on which widgetset/OS this is needed.
+  dgPanel.OnEnter(Self);
 end;
 
 procedure TColumnsFileView.edtRenameKeyDown(Sender: TObject; var Key: Word;
@@ -1320,11 +779,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.dgPanelExit(Sender: TObject);
-begin
-  SetActive(False);
-end;
-
 procedure TColumnsFileView.MakeActiveVisible;
 begin
   if dgPanel.Row>=0 then
@@ -1343,38 +797,6 @@ begin
     dgPanel.Options := dgPanel.Options + [goDontScrollPartCell];
 end;
 {$ENDIF}
-
-procedure TColumnsFileView.dgPanelDblClick(Sender: TObject);
-var
-  Point : TPoint;
-begin
-{$IFDEF LCLGTK2}
-  // Workaround for two doubleclicks being sent on GTK.
-  if dgPanel.TooManyDoubleClicks then Exit;
-{$ENDIF}
-
-  dgPanel.StartDrag:= False; // don't start drag on double click
-  Point:= dgPanel.ScreenToClient(Mouse.CursorPos);
-
-  // If on a file/directory then choose it.
-  if (Point.Y >=  dgPanel.GetHeaderHeight) and
-     (Point.Y <   dgPanel.GridHeight) then
-  begin
-    ChooseFile(GetActiveDisplayFile);
-  end;
-
-{$IFDEF LCLGTK2}
-  dgPanel.fLastDoubleClickTime := Now;
-{$ENDIF}
-end;
-
-procedure TColumnsFileView.dgPanelEnter(Sender: TObject);
-begin
-  SetActive(True);
-
-  if Assigned(OnActivate) then
-    OnActivate(Self);
-end;
 
 procedure TColumnsFileView.RedrawFile(DisplayFile: TDisplayFile);
 begin
@@ -1411,135 +833,6 @@ begin
   begin
     EnsureDisplayProperties;
   end;
-end;
-
-procedure TColumnsFileView.dgPanelKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  case Key of
-    VK_SHIFT: begin
-      FLastSelectionStartIndex := -1;
-    end;
-  end;
-end;
-
-procedure TColumnsFileView.dgPanelMouseLeave(Sender: TObject);
-begin
-  if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
-    dgPanel.FMouseDown:= False;
-end;
-
-procedure TColumnsFileView.dgPanelKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-var
-  ScreenPoint: TPoint;
-  aFile: TDisplayFile;
-begin
-  case Key of
-    VK_APPS:
-      begin
-        cm_ContextMenu([]);
-        Key := 0;
-      end;
-
-    VK_INSERT:
-      begin
-        if not IsEmpty then
-        begin
-          if IsActiveItemValid then
-          begin
-            InvertFileSelection(GetActiveDisplayFile, False);
-            DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
-          end;
-          if dgPanel.Row < dgPanel.RowCount-1 then
-            dgPanel.Row := dgPanel.Row+1;
-          MakeActiveVisible;
-        end;
-        Key := 0;
-      end;
-
-    // cursors keys in Lynx like mode
-    VK_LEFT:
-      if (Shift = []) then
-      begin
-        if gLynxLike then
-          ChangePathToParent(True)
-        else
-          dgPanel.ScrollHorizontally(False);
-        Key := 0;
-      end;
-
-    VK_RIGHT:
-      if (Shift = []) then
-      begin
-        if gLynxLike then
-          ChooseFile(GetActiveDisplayFile, True)
-        else
-          dgPanel.ScrollHorizontally(True);
-        Key := 0;
-      end;
-
-    VK_UP, VK_DOWN:
-      begin
-        if ssShift in Shift then
-        begin
-          if IsActiveItemValid then
-          begin
-            InvertFileSelection(GetActiveDisplayFile, False);
-            DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
-            //Key := 0; // not needed!
-          end;
-        end
-{$IFDEF LCLGTK2}
-        else
-        begin
-          if ((dgPanel.Row = dgPanel.RowCount-1) and (Key = VK_DOWN))
-          or ((dgPanel.Row = dgPanel.FixedRows) and (Key = VK_UP)) then
-            Key := 0;
-        end;
-{$ENDIF}
-      end;
-
-    VK_SPACE:
-      if Shift * KeyModifiersShortcut = [] then
-      begin
-        aFile := GetActiveDisplayFile;
-        if IsItemValid(aFile) then
-        begin
-          if (aFile.FSFile.IsDirectory or
-             aFile.FSFile.IsLinkToDirectory) and
-             not aFile.Selected then
-          begin
-            CalculateSpace(aFile);
-          end;
-
-          InvertFileSelection(aFile, False);
-        end;
-
-        if gSpaceMovesDown then
-          dgPanel.Row := dgPanel.Row + 1;
-
-        MakeActiveVisible;
-        DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
-        Key := 0;
-      end;
-
-    VK_MENU:  // Alt key
-      if dgPanel.Dragging then
-      begin
-        // Force transform to external dragging in anticipation of user
-        // pressing Alt+Tab to change active application window.
-
-        // Disable flag, so that dragging isn't immediately transformed
-        // back to internal before the other application window is shown.
-        uDragDropEx.AllowTransformToInternal := False;
-
-        GetCursorPos(ScreenPoint);
-        dgPanel.TransformDraggingToExternal(ScreenPoint);
-      end;
-  end;
-
-  DoHandleKeyDown(Key, Shift);
 end;
 
 procedure TColumnsFileView.ColumnsMenuClick(Sender: TObject);
@@ -1615,9 +908,7 @@ procedure TColumnsFileView.CreateDefault(AOwner: TWinControl);
 begin
   DCDebug('TColumnsFileView.Create components');
 
-  BorderStyle := bsNone; // Before Create or the window handle may be recreated
   inherited CreateDefault(AOwner);
-  Align := alClient;
 
   FFileNameColumn := -1;
   FExtensionColumn := -1;
@@ -1625,8 +916,7 @@ begin
   // -- other components
 
   dgPanel:=TDrawGridEx.Create(Self, Self);
-
-  HotMan.Register(dgPanel, 'Files Panel');
+  MainControl := dgPanel;
 
   edtRename:=TEdit.Create(dgPanel);
   edtRename.Parent:=dgPanel;
@@ -1634,30 +924,12 @@ begin
   edtRename.TabStop:=False;
   edtRename.AutoSize:=False;
 
-  tmContextMenu:= TTimer.Create(Self);
-  tmContextMenu.Enabled:= False;
-  tmContextMenu.Interval:= 500;
-  tmContextMenu.OnTimer:= @tmContextMenuTimer;
-
   tmClearGrid := TTimer.Create(Self);
   tmClearGrid.Enabled := False;
   tmClearGrid.Interval := 500;
   tmClearGrid.OnTimer := @tmClearGridTimer;
 
   // ---
-  dgPanel.OnUTF8KeyPress := @UTF8KeyPressEvent;
-  dgPanel.OnMouseLeave:= @dgPanelMouseLeave;
-  dgPanel.OnMouseDown := @dgPanelMouseDown;
-  dgPanel.OnStartDrag := @dgPanelStartDrag;
-  dgPanel.OnMouseMove:= @dgPanelMouseMove;
-  dgPanel.OnDragOver := @dgPanelDragOver;
-  dgPanel.OnDragDrop:= @dgPanelDragDrop;
-  dgPanel.OnEndDrag:= @dgPanelEndDrag;
-  dgPanel.OnDblClick:=@dgPanelDblClick;
-  dgPanel.OnEnter:=@dgPanelEnter;
-  dgPanel.OnExit:=@dgPanelExit;
-  dgPanel.OnKeyUp:=@dgPanelKeyUp;
-  dgPanel.OnKeyDown:=@dgPanelKeyDown;
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
   dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
@@ -1665,7 +937,6 @@ begin
 {$IF lcl_fullversion >= 093100}
   dgPanel.OnBeforeSelection:= @dgPanelBeforeSelection;
 {$ENDIF}
-  dgPanel.OnShowHint:= @dgPanelShowHint;
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
 
@@ -1678,11 +949,7 @@ end;
 
 destructor TColumnsFileView.Destroy;
 begin
-  if Assigned(HotMan) then
-    HotMan.UnRegister(dgPanel);
-
   inherited Destroy;
-
   FColumnsSorting.Free;
 end;
 
@@ -1729,6 +996,14 @@ begin
     // So, only clear the grid after the file list has been loading for some time.
     tmClearGrid.Enabled := True;
   end;
+end;
+
+procedure TColumnsFileView.ClearAfterDragDrop;
+begin
+  inherited ClearAfterDragDrop;
+
+  // reset TCustomGrid state
+  dgPanel.FGridState := gsNormal;
 end;
 
 procedure TColumnsFileView.AfterMakeFileList;
@@ -1803,20 +1078,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.WorkerStarting(const Worker: TFileViewWorker);
-begin
-  inherited;
-  dgPanel.Cursor := crHourGlass;
-  UpdateInfoPanel;
-end;
-
-procedure TColumnsFileView.WorkerFinished(const Worker: TFileViewWorker);
-begin
-  inherited;
-  dgPanel.Cursor := crDefault;
-  UpdateInfoPanel;
-end;
-
 procedure TColumnsFileView.DoUpdateView;
 begin
   inherited DoUpdateView;
@@ -1843,56 +1104,19 @@ begin
     Result := ColSet.GetColumnSet(ActiveColm);
 end;
 
-procedure TColumnsFileView.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
-begin
-  // check if ShiftState is equal to quick search / filter modes
-  if quickSearch.CheckSearchOrFilter(UTF8Key) then
-    Exit;
-end;
-
-procedure TColumnsFileView.DoDragDropOperation(Operation: TDragDropOperation;
-                                               var DropParams: TDropParams);
+function TColumnsFileView.GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt;
 var
-  AFile: TDisplayFile;
-  iCol, iRow: Integer;
-  ClientDropPoint: TPoint;
+  bTemp: Boolean;
+  iRow, iCol: LongInt;
 begin
-  try
-    with DropParams do
-    begin
-      if Files.Count > 0 then
-      begin
-        ClientDropPoint := dgPanel.ScreenToClient(ScreenDropPoint);
-        dgPanel.MouseToCell(ClientDropPoint.X, ClientDropPoint.Y, iCol, iRow);
-
-        // default to current active directory in the destination panel
-        TargetPath := Self.CurrentPath;
-
-        if (DropIntoDirectories = True) and
-           (iRow >= dgPanel.FixedRows) and
-           (dgPanel.MouseOnGrid(ClientDropPoint.X, ClientDropPoint.Y)) then
-        begin
-          AFile := FFiles[iRow - dgPanel.FixedRows];
-
-          // If dropped into a directory modify destination path accordingly.
-          if Assigned(AFile) and
-             (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
-          begin
-            if AFile.FSFile.Name = '..' then
-              // remove the last subdirectory in the path
-              TargetPath := GetParentDir(TargetPath)
-            else
-              TargetPath := TargetPath + AFile.FSFile.Name + DirectorySeparator;
-          end;
-        end;
-      end;
-    end;
-
-    // Execute the operation.
-    frmMain.DoDragDropOperation(Operation, DropParams);
-
-  finally
-    FreeAndNil(DropParams);
+  with dgPanel do
+  begin
+    bTemp:= AllowOutboundEvents;
+    AllowOutboundEvents:= False;
+    MouseToCell(X, Y, iCol, iRow);
+    AllowOutboundEvents:= bTemp;
+    Result:= iRow - FixedRows;
+    AtFileList := Y >= GetHeaderHeight;
   end;
 end;
 
@@ -1900,6 +1124,116 @@ procedure TColumnsFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties:
 begin
   MakeColumnsStrings(AFile);
   inherited DoFileUpdated(AFile, UpdatedProperties);
+end;
+
+procedure TColumnsFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
+var
+  AFile: TDisplayFile;
+begin
+  case Key of
+    VK_INSERT:
+      begin
+        if not IsEmpty then
+        begin
+          if IsActiveItemValid then
+          begin
+            InvertFileSelection(GetActiveDisplayFile, False);
+            DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
+          end;
+          if dgPanel.Row < dgPanel.RowCount-1 then
+            dgPanel.Row := dgPanel.Row + 1;
+          MakeActiveVisible;
+        end;
+        Key := 0;
+      end;
+
+    // cursors keys in Lynx like mode
+    VK_LEFT:
+      if (Shift = []) then
+      begin
+        if gLynxLike then
+          ChangePathToParent(True)
+        else
+          dgPanel.ScrollHorizontally(False);
+        Key := 0;
+      end;
+
+    VK_RIGHT:
+      if (Shift = []) then
+      begin
+        if gLynxLike then
+          ChooseFile(GetActiveDisplayFile, True)
+        else
+          dgPanel.ScrollHorizontally(True);
+        Key := 0;
+      end;
+
+    VK_UP, VK_DOWN:
+      begin
+        if ssShift in Shift then
+        begin
+          if IsActiveItemValid then
+          begin
+            InvertFileSelection(GetActiveDisplayFile, False);
+            DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
+            //Key := 0; // not needed!
+          end;
+        end
+{$IFDEF LCLGTK2}
+        else
+        begin
+          if ((dgPanel.Row = dgPanel.RowCount-1) and (Key = VK_DOWN))
+          or ((dgPanel.Row = dgPanel.FixedRows) and (Key = VK_UP)) then
+            Key := 0;
+        end;
+{$ENDIF}
+      end;
+
+    VK_SPACE:
+      if Shift * KeyModifiersShortcut = [] then
+      begin
+        aFile := GetActiveDisplayFile;
+        if IsItemValid(aFile) then
+        begin
+          if (aFile.FSFile.IsDirectory or
+             aFile.FSFile.IsLinkToDirectory) and
+             not aFile.Selected then
+          begin
+            CalculateSpace(aFile);
+          end;
+
+          InvertFileSelection(aFile, False);
+        end;
+
+        if gSpaceMovesDown then
+          dgPanel.Row := dgPanel.Row + 1;
+
+        MakeActiveVisible;
+        DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
+        Key := 0;
+      end;
+  end;
+
+  inherited DoHandleKeyDown(Key, Shift);
+end;
+
+procedure TColumnsFileView.DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer);
+var
+  aRect: TRect;
+  iCol: Integer;
+  AFile: TDisplayFile;
+begin
+  AFile := FFiles[FileIndex];
+  aRect:= dgPanel.CellRect(0, FileIndex + dgPanel.FixedRows);
+  iCol:= aRect.Right - aRect.Left - 8;
+  if gShowIcons <> sim_none then
+    Dec(iCol, gIconsSize);
+  if iCol < dgPanel.Canvas.TextWidth(AFile.FSFile.Name) then // with file name
+    dgPanel.Hint:= AFile.FSFile.Name
+  else if (stm_only_large_name in gShowToolTipMode) then // don't show
+    Exit
+  else if not AFile.FSFile.IsDirectory then // without name
+    dgPanel.Hint:= #32;
 end;
 
 procedure TColumnsFileView.cm_RenameOnly(const Params: array of string);
@@ -1921,33 +1255,10 @@ begin
     end;
 end;
 
-procedure TColumnsFileView.cm_ContextMenu(const Params: array of string);
-var
-  Rect: TRect;
-  Point: TPoint;
-begin
-  Rect := dgPanel.CellRect(0, dgPanel.Row);
-  Point.X := Rect.Left + ((Rect.Right - Rect.Left) div 2);
-  Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
-  Point := dgPanel.ClientToScreen(Point);
-  frmMain.Commands.DoContextMenu(Self, Point.X, Point.Y, False);
-end;
-
 { TDrawGridEx }
 
 constructor TDrawGridEx.Create(AOwner: TComponent; AParent: TWinControl);
 begin
-  // Initialize D&D before calling inherited create,
-  // because it will create the control and call InitializeWnd.
-  DragDropSource := nil;
-  DragDropTarget := nil;
-  TransformDragging := False;
-  FMouseDown := False;
-
-{$IFDEF LCLGTK2}
-  FLastDoubleClickTime := Now;
-{$ENDIF}
-
   inherited Create(AOwner);
 
   // Workaround for Lazarus issue 18832.
@@ -1961,10 +1272,6 @@ begin
 
   Self.Parent := AParent;
   ColumnsView := AParent as TColumnsFileView;
-
-  StartDrag := False;
-  DropRowIndex := -1;
-  HintRowIndex := -1;
 
   DoubleBuffered := True;
   Align := alClient;
@@ -2039,9 +1346,7 @@ var
   TempRowHeight: Integer;
 begin
   Flat := gInterfaceFlat;
-  Color := ColumnsView.DimColor(gBackColor);
   AutoFillColumns:= gAutoFillColumns;
-  ShowHint:= (gShowToolTipMode <> []);
   GridVertLine:= gGridVertLine;
   GridHorzLine:= gGridHorzLine;
 
@@ -2073,25 +1378,14 @@ end;
 
 procedure TDrawGridEx.InitializeWnd;
 begin
-  inherited;
-
-  // Register as drag&drop source and target.
-  DragDropSource := uDragDropEx.CreateDragDropSource(Self);
-  if Assigned(DragDropSource) then
-    DragDropSource.RegisterEvents(nil, nil, @OnExDragEnd);
-
-  DragDropTarget := uDragDropEx.CreateDragDropTarget(Self);
-  if Assigned(DragDropTarget) then
-    DragDropTarget.RegisterEvents(@OnExDragEnter,@OnExDragOver,
-                                  @OnExDrop,@OnExDragLeave);
+  inherited InitializeWnd;
+  ColumnsView.InitializeDragDropEx(Self);
 end;
 
 procedure TDrawGridEx.FinalizeWnd;
 begin
-  FreeAndNil(DragDropSource);
-  FreeAndNil(DragDropTarget);
-
-  inherited;
+  ColumnsView.FinalizeDragDropEx(Self);
+  inherited FinalizeWnd;
 end;
 
 procedure TDrawGridEx.DrawCell(aCol, aRow: Integer; aRect: TRect;
@@ -2342,7 +1636,7 @@ var
     end;
 
     // Draw drop selection.
-    if ARow = DropRowIndex then
+    if ARow - FixedRows = ColumnsView.FDropFileIndex then
     begin
       Canvas.Pen.Color := ColumnsSet.GetColumnTextColor(ACol);
       Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
@@ -2375,115 +1669,17 @@ begin
       DrawOtherCell;
   end;
 
-    DrawCellGrid(aCol,aRow,aRect,aState);
-    DrawLines;
-end;
-
-procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
-var
-  Point: TPoint;
-  AFile: TDisplayFile;
-  ExpectedButton: TShiftStateEnum;
-  iCol, iRow: Integer;
-  aRect: TRect;
-begin
-  inherited MouseMove(Shift, X, Y);
-
-  if FMouseDown and Self.Dragging then
-  begin
-    // If dragging has started then clear MouseDown flag.
-    if (Abs(DragStartPoint.X - X) > DragManager.DragThreshold) or
-       (Abs(DragStartPoint.Y - Y) > DragManager.DragThreshold) then
-    begin
-      FMouseDown := False;
-    end;
-  end;
-
-  // If dragging is currently in effect, the window has mouse capture and
-  // we can retrieve the window over which the mouse cursor currently is.
-  if Self.Dragging and uDragDropEx.IsExternalDraggingSupported then
-  begin
-    Point := Self.ClientToScreen(Classes.Point(X, Y));
-
-    // use specifically LCLIntf.WindowFromPoint to avoid confusion with Windows.WindowFromPoint
-    if LCLIntf.WindowFromPoint(Point) = 0 then
-    begin
-      // If result is 0 then the window belongs to another process
-      // and we transform intra-process dragging into inter-process dragging.
-
-      TransformDraggingToExternal(Point);
-    end;
-  end
-
-  else
-
-  // if we are about to start dragging
-  if StartDrag then
-    begin
-      StartDrag := False;
-
-      case LastMouseButton of
-        mbLeft   : ExpectedButton := ssLeft;
-        mbMiddle : ExpectedButton := ssMiddle;
-        mbRight  : ExpectedButton := ssRight;
-        else       Exit;
-      end;
-
-      // Make sure the same mouse button is still pressed.
-      if not (ExpectedButton in Shift) then
-      begin
-        ClearMouseButtonAfterDrag;
-      end
-      else if DragRowIndex >= FixedRows then
-      begin
-        AFile := (Parent as TColumnsFileView).FFiles[DragRowIndex - FixedRows]; // substract fixed rows (header)
-        // Check if valid item is being dragged.
-        if (Parent as TColumnsFileView).IsItemValid(AFile) then
-        begin
-          BeginDrag(False);
-        end;
-      end;
-    end;
-
-  // Show file info tooltip
-  if ShowHint then
-    begin
-      if MouseOnGrid(X, Y) then
-        begin
-          MouseToCell(X, Y, iCol, iRow);
-          if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
-            begin
-              HintRowIndex:= iRow;
-              Application.CancelHint;
-              Self.Hint:= EmptyStr; // don't show by default
-              with (Parent as TColumnsFileView) do
-                if InRange(HintRowIndex - FixedRows, 0, FFiles.Count - 1) then
-                begin
-                  AFile := FFiles[HintRowIndex - FixedRows];
-                  aRect:= CellRect(0, HintRowIndex);
-                  iCol:= aRect.Right - aRect.Left - 8;
-                  if gShowIcons <> sim_none then
-                    Dec(iCol, gIconsSize);
-                  if iCol < Self.Canvas.TextWidth(AFile.FSFile.Name) then // with file name
-                      Self.Hint:= AFile.FSFile.Name
-                  else if (stm_only_large_name in gShowToolTipMode) then // don't show
-                    Exit
-                  else if not AFile.FSFile.IsDirectory then // without name
-                    Self.Hint:= #32;
-                end;
-            end;
-        end
-      else
-        begin
-          HintRowIndex:= -1;
-          Application.CancelHint;
-          Self.Hint:= EmptyStr;
-        end;
-    end;
+  DrawCellGrid(aCol,aRow,aRect,aState);
+  DrawLines;
 end;
 
 procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
+var
+  I : Integer;
+  Point: TPoint;
+  MI: TMenuItem;
+  Background: Boolean;
 begin
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
@@ -2492,16 +1688,72 @@ begin
   if TooManyDoubleClicks then Exit;
 {$ENDIF}
 
-  StartDrag := False;
+  // Handle only if button-up was not lifted to finish drag&drop operation.
+  if not ColumnsView.FMainControlMouseDown then
+    Exit;
 
   inherited MouseUp(Button, Shift, X, Y);
 
-  // Call handler only if button-up was not lifted to finish drag&drop operation.
-  if FMouseDown then
-  begin
-    (Parent as TColumnsFileView).dgPanelMouseUp(Self, Button, Shift, X, Y);
-    FMouseDown := False;
-  end;
+  ColumnsView.FMainControlMouseDown := False;
+
+  if Button = mbRight then
+    begin
+      { If right click on header }
+      if (Y < GetHeaderHeight) then
+        begin
+          //Load Columns into menu
+          ColumnsView.pmColumnsMenu.Items.Clear;
+          if ColSet.Items.Count>0 then
+            begin
+              For I:=0 to ColSet.Items.Count-1 do
+                begin
+                  MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
+                  MI.Tag:=I;
+                  MI.Caption:=ColSet.Items[I];
+                  MI.OnClick:=@ColumnsView.ColumnsMenuClick;
+                  ColumnsView.pmColumnsMenu.Items.Add(MI);
+                end;
+            end;
+          //-
+          MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
+          MI.Caption:='-';
+          ColumnsView.pmColumnsMenu.Items.Add(MI);
+          //Configure this custom columns
+          MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
+          MI.Tag:=1000;
+          MI.Caption:=rsMenuConfigureThisCustomColumn;
+          MI.OnClick:=@ColumnsView.ColumnsMenuClick;
+          ColumnsView.pmColumnsMenu.Items.Add(MI);
+          //Configure custom columns
+          MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
+          MI.Tag:=1001;
+          MI.Caption:=rsMenuConfigureCustomColumns;
+          MI.OnClick:=@ColumnsView.ColumnsMenuClick;
+          ColumnsView.pmColumnsMenu.Items.Add(MI);
+
+          Point:=ClientToScreen(Classes.Point(0,0));
+          Point.Y:=Point.Y+GetHeaderHeight;
+          Point.X:=Point.X+X-50;
+          ColumnsView.pmColumnsMenu.PopUp(Point.X,Point.Y);
+        end
+
+      { If right click on file/directory }
+      else if ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
+        begin
+          Background:= not MouseOnGrid(X, Y);
+          Point := ClientToScreen(Classes.Point(X, Y));
+          frmMain.Commands.DoContextMenu(ColumnsView, Point.x, Point.y, Background);
+        end
+      else if (gMouseSelectionEnabled and (gMouseSelectionButton = 1)) then
+        begin
+          ColumnsView.tmContextMenu.Enabled:= False; // stop context menu timer
+        end;
+    end
+  { Open folder in new tab on middle click }
+  else if (Button = mbMiddle) and (Y > GetHeaderHeight) then
+    begin
+      frmMain.Commands.cm_OpenDirInNewTab([]);
+    end;
 end;
 
 procedure TDrawGridEx.MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
@@ -2513,15 +1765,9 @@ begin
   if TooManyDoubleClicks then Exit;
 {$ENDIF}
 
-  FMouseDown := True;
+  ColumnsView.FMainControlMouseDown := True;
 
-  if MouseOnGrid(X, Y) then
-    inherited MouseDown(Button, Shift, X, Y)
-  else
-    begin
-      if Assigned(OnMouseDown) then
-        OnMouseDown(Self, Button, Shift, X, Y);
-    end;
+  inherited MouseDown(Button, Shift, X, Y);
 end;
 
 function TDrawGridEx.MouseOnGrid(X, Y: LongInt): Boolean;
@@ -2545,192 +1791,6 @@ begin
     Result := Result + RowHeights[i];
   if Flat and (BorderStyle = bsSingle) then // TCustomGrid.GetBorderWidth
     Result := Result + 1;
-end;
-
-procedure TDrawGridEx.ChangeDropRowIndex(NewIndex: Integer);
-var
-  OldDropRowIndex: Integer;
-begin
-  if DropRowIndex <> NewIndex then
-  begin
-    OldDropRowIndex := DropRowIndex;
-
-    // Set new index before redrawing.
-    DropRowIndex := NewIndex;
-
-    if OldDropRowIndex >= 0 then // invalidate old row if need
-      InvalidateRow(OldDropRowIndex);
-    if NewIndex >= 0 then
-      InvalidateRow(NewIndex);
-  end;
-end;
-
-procedure TDrawGridEx.TransformDraggingToExternal(ScreenPoint: TPoint);
-begin
-  // Set flag temporarily before stopping internal dragging,
-  // so that triggered events will know that dragging is transforming.
-  TransformDragging := True;
-
-  // Stop internal dragging
-  DragManager.DragStop(False);
-
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-  // Under GTK, DragManager does not release it's mouse capture on
-  // DragStop(). We must release it here manually or LCL will get confused
-  // with who "owns" the capture after the GTK drag&drop finishes.
-  ReleaseMouseCapture;
-{$ENDIF}
-
-  // Clear flag before starting external dragging.
-  TransformDragging := False;
-
-  // Start external dragging.
-  // On Windows it does not return until dragging is finished.
-
-  if DragRowIndex >= FixedRows then
-  begin
-    ColumnsView.BeginDragExternal(
-      ColumnsView.FFiles[DragRowIndex - FixedRows],
-      DragDropSource, LastMouseButton, ScreenPoint);
-  end;
-end;
-
-function TDrawGridEx.OnExDragEnter(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
-begin
-  Result := True;
-end;
-
-function TDrawGridEx.OnExDragOver(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
-var
-  ClientPoint: TPoint;
-  Dummy, iRow: Integer;
-  AFile: TDisplayFile = nil;
-  TargetPanel: TColumnsFileView = nil;
-begin
-  Result := False;
-
-  ClientPoint := Self.ScreenToClient(ScreenPoint);
-
-  TargetPanel := (Self.Parent as TColumnsFileView);
-
-  // Allow dropping into empty panel or on the header.
-  if TargetPanel.IsEmpty or (ClientPoint.Y < GetHeaderHeight) then
-  begin
-    ChangeDropRowIndex(-1);
-    Result := True;
-    Exit;
-  end;
-
-  MouseToCell(ClientPoint.X, ClientPoint.Y, Dummy, iRow);
-
-  if iRow >= FixedRows then
-    // Get the item over which there is something dragged.
-    AFile := TargetPanel.FFiles[iRow - FixedRows]; // substract fixed rows (header)
-
-  if Assigned(AFile) and
-     (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) and
-     (MouseOnGrid(ClientPoint.X, ClientPoint.Y)) then
-    // It is a directory or link.
-    begin
-      ChangeDropRowIndex(iRow);
-      Result := True;
-    end
-  else
-    begin
-      ChangeDropRowIndex(-1);
-      Result := True;
-    end;
-end;
-
-function TDrawGridEx.OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect;
-                              ScreenPoint: TPoint):Boolean;
-var
-  Files: TFiles;
-  DropParams: TDropParams;
-  TargetFileView: TFileView;
-begin
-  if FileNamesList.Count > 0 then
-  begin
-    Files := TFileSystemFileSource.CreateFilesFromFileList(
-        ExtractFilePath(FileNamesList[0]), FileNamesList);
-    try
-      TargetFileView := Self.Parent as TFileView;
-
-      DropParams := TDropParams.Create(
-        Files, DropEffect, ScreenPoint, True,
-        nil, TargetFileView, TargetFileView.CurrentPath);
-
-      frmMain.DropFiles(DropParams);
-    except
-      FreeAndNil(Files);
-      raise;
-    end;
-  end;
-
-  ChangeDropRowIndex(-1);
-  Result := True;
-end;
-
-function TDrawGridEx.OnExDragLeave: Boolean;
-begin
-  ChangeDropRowIndex(-1);
-  Result := True;
-end;
-
-function TDrawGridEx.OnExDragBegin: Boolean;
-begin
-  Result := True;
-end;
-
-function TDrawGridEx.OnExDragEnd: Boolean;
-{$IF DEFINED(MSWINDOWS)}
-var
-  startPoint: TPoint;
-  currentPoint: TPoint;
-{$ENDIF}
-begin
-{$IF DEFINED(MSWINDOWS)}
-  // On windows dragging can be transformed back into internal.
-  // Check if drag was aborted due to mouse moving back into
-  // the application window or the user just cancelled it.
-  if (DragDropSource.GetLastStatus = DragDropAborted) and
-     TransformDragging then
-  begin
-    // Transform to internal dragging again.
-
-    // Save current mouse position.
-    GetCursorPos(currentPoint);
-
-    // Temporarily set cursor position to the point where the drag was started
-    // so that DragManager can properly read the control being dragged.
-    startPoint := ClientToScreen(Self.DragStartPoint);
-    SetCursorPos(startPoint.X,startPoint.Y);
-
-    // Begin internal dragging.
-    BeginDrag(True);
-
-    // Move cursor back.
-    SetCursorPos(currentPoint.X, currentPoint.Y);
-
-    // Clear flag.
-    TransformDragging := False;
-
-    Exit;
-  end;
-{$ENDIF}
-
-  ClearMouseButtonAfterDrag;
-
-  Result := True;
-end;
-
-procedure TDrawGridEx.ClearMouseButtonAfterDrag;
-begin
-  // Clear some control specific flags.
-  ControlState := ControlState - [csClicked, csLButtonDown];
-
-  // reset TCustomGrid state
-  FGridState := gsNormal;
 end;
 
 function TDrawGridEx.GetGridHorzLine: Boolean;
@@ -2758,13 +1818,6 @@ begin
   else
     Options := Options - [goVertLine];
 end;
-
-{$IFDEF LCLGTK2}
-function TDrawGridEx.TooManyDoubleClicks: Boolean;
-begin
-  Result := ((Now - fLastDoubleClickTime) <= ((1/86400)*(DblClickTime/1000)));
-end;
-{$ENDIF}
 
 function TDrawGridEx.GetVisibleRows: TRange;
 var

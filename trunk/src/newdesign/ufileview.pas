@@ -564,7 +564,9 @@ begin
   FReloadTimer.Enabled := False;
   FReloadTimer.OnTimer := @ReloadTimerEvent;
 
+  BorderStyle := bsNone; // Before Create or the window handle may be recreated
   inherited Create(AOwner);
+  Align := alClient;
   Parent := AOwner;
 
   if Parent is TFileViewPage then

@@ -7,9 +7,9 @@ interface
 uses
   LMessages, Grids, uFileView, uFileSource, Graphics,
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
-  uFile, uDisplayFile, uFormCommands, uDragDropEx, DCXmlConfig,
+  uFile, uDisplayFile, uFormCommands, DCXmlConfig,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes, uOrderedFileView,
+  uFunctionThread, uFileSystemWatcher, uTypes, uFileViewWithMainCtrl,
   uFileViewHeader;
 
 type
@@ -29,6 +29,8 @@ type
     procedure Resize; override;
     procedure RowHeightsChanged; override;
     procedure ColWidthsChanged;  override;
+    procedure FinalizeWnd; override;
+    procedure InitializeWnd; override;
     function MouseOnGrid(X, Y: LongInt): Boolean;
     function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
@@ -43,7 +45,7 @@ type
 
   { TBriefFileView }
 
-  TBriefFileView = class (TOrderedFileView)
+  TBriefFileView = class (TFileViewWithMainCtrl)
     private
       TabHeader: THeaderControl;
       dgPanel: TBriefDrawGrid;
@@ -51,9 +53,6 @@ type
       procedure MakeColumnsStrings(AFile: TDisplayFile);
       procedure SetFilesDisplayItems;
 
-      procedure dgPanelEnter(Sender: TObject);
-      procedure dgPanelExit(Sender: TObject);
-      procedure dgPanelDblClick(Sender: TObject);
       procedure dgPanelTopLeftChanged(Sender: TObject);
       procedure TabHeaderSectionClick(HeaderControl: TCustomHeaderControl;
                                       Section: THeaderSection);
@@ -62,7 +61,10 @@ type
       procedure BeforeMakeFileList; override;
       procedure AfterMakeFileList; override;
       procedure AfterChangePath; override;
+      procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
       function GetActiveFileIndex: PtrInt; override;
+      function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; override;
+      function GetFileRect(FileIndex: PtrInt): TRect; override;
       function GetVisibleFilesIndexes: TRange; override;
       procedure RedrawFile(FileIndex: PtrInt); override;
       procedure RedrawFile(DisplayFile: TDisplayFile); override;
@@ -78,39 +80,21 @@ type
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
 
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
-
-    {en
-       Handles drag&drop operations onto the file view.
-       Does any graphic work and executes operations with dropped files if allowed.
-       Handles freeing DropParams.
-    }
-    procedure DoDragDropOperation(Operation: TDragDropOperation;
-                                  var DropParams: TDropParams); override;
   end;
 
 implementation
 
 uses
   LCLIntf, LCLType, Forms,
-  LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
+  LCLProc, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
   uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
-  uInfoToolTip, dmCommonData,
+  dmCommonData,
   uFileSourceProperty,
   uFileSourceOperationTypes,
-  uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
   uFileSourceUtil,
-  uFileFunctions
-{$IF DEFINED(LCLGTK)}
-  , GtkProc  // for ReleaseMouseCapture
-  , GTKGlobals  // for DblClickTime
-{$ENDIF}
-{$IF DEFINED(LCLGTK2)}
-  , Gtk2Proc  // for ReleaseMouseCapture
-  , GTK2Globals  // for DblClickTime
-{$ENDIF}
-  ;
+  uFileFunctions;
 
 { TBriefDrawGrid }
 
@@ -157,6 +141,12 @@ begin
     end;
 end;
 
+procedure TBriefDrawGrid.InitializeWnd;
+begin
+  inherited InitializeWnd;
+  BriefView.InitializeDragDropEx(Self);
+end;
+
 procedure TBriefDrawGrid.UpdateView;
 
   function CalculateDefaultRowHeight: Integer;
@@ -193,8 +183,6 @@ var
   TempRowHeight: Integer;
 begin
   Flat := gInterfaceFlat;
-  Color := BriefView.DimColor(gBackColor);
-  ShowHint:= (gShowToolTipMode <> []);
 
   // Calculate row height.
   TempRowHeight := CalculateDefaultRowHeight;
@@ -290,7 +278,6 @@ begin
           end;
       end;
   end;
-  BriefView.DoHandleKeyDown(Key, Shift);
   inherited KeyDown(Key, Shift);
 end;
 
@@ -480,6 +467,12 @@ begin
   DrawLines;
 end;
 
+procedure TBriefDrawGrid.FinalizeWnd;
+begin
+  BriefView.FinalizeDragDropEx(Self);
+  inherited FinalizeWnd;
+end;
+
 { TBriefFileView }
 
 function TBriefFileView.GetVisibleFilesIndexes: TRange; {Done}
@@ -517,40 +510,6 @@ begin
   dgPanel.InvalidateCell(ACol, ARow);
 end;
 
-procedure TBriefFileView.dgPanelEnter(Sender: TObject);
-begin
-  SetActive(True);
-end;
-
-procedure TBriefFileView.dgPanelExit(Sender: TObject);
-begin
-  SetActive(False);
-end;
-
-procedure TBriefFileView.dgPanelDblClick(Sender: TObject);
-var
-  Point : TPoint;
-begin
-{$IFDEF LCLGTK2}
-  // Workaround for two doubleclicks being sent on GTK.
-//  if dgPanel.TooManyDoubleClicks then Exit;
-{$ENDIF}
-
-//  dgPanel.StartDrag:= False; // don't start drag on double click
-  Point:= dgPanel.ScreenToClient(Mouse.CursorPos);
-
-  // If on a file/directory then choose it.
-  if (Point.Y >=  0) and
-     (Point.Y <   dgPanel.GridHeight) then
-  begin
-    ChooseFile(GetActiveDisplayFile);
-  end;
-
-{$IFDEF LCLGTK2}
-//  dgPanel.fLastDoubleClickTime := Now;
-{$ENDIF}
-end;
-
 procedure TBriefFileView.dgPanelTopLeftChanged(Sender: TObject);
 begin
   EnsureDisplayProperties;
@@ -566,10 +525,7 @@ procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
   dgPanel:= TBriefDrawGrid.Create(Self, Self);
-
-  HotMan.Register(dgPanel, 'Files Panel');
-
-  Align:= alClient;
+  MainControl := dgPanel;
 
   TabHeader:= TBriefHeaderControl.Create(Self);
   TabHeader.Parent:= Self;
@@ -582,9 +538,6 @@ begin
   TabHeader.OnSectionClick:= @TabHeaderSectionClick;
 
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
-  dgPanel.OnDblClick:=@dgPanelDblClick;
-  dgPanel.OnEnter:=@dgPanelEnter;
-  dgPanel.OnExit:=@dgPanelExit;
 end;
 
 procedure TBriefFileView.BeforeMakeFileList;
@@ -614,6 +567,30 @@ begin
   Result := dgPanel.CellToIndex(dgPanel.Col, dgPanel.Row);
 end;
 
+function TBriefFileView.GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt;
+var
+  bTemp: Boolean;
+  iRow, iCol: LongInt;
+begin
+  with dgPanel do
+  begin
+    bTemp:= AllowOutboundEvents;
+    AllowOutboundEvents:= False;
+    MouseToCell(X, Y, iCol, iRow);
+    AllowOutboundEvents:= bTemp;
+    Result:= CellToIndex(iCol, iRow);
+    AtFileList := True; // Always at file list because header in dgPanel not used
+  end;
+end;
+
+function TBriefFileView.GetFileRect(FileIndex: PtrInt): TRect;
+var
+  ACol, ARow: Integer;
+begin
+  dgPanel.IndexToCell(FileIndex, ACol, ARow);
+  Result := dgPanel.CellRect(ACol, ARow);
+end;
+
 procedure TBriefFileView.Resize;
 var
   I: Integer;
@@ -637,9 +614,6 @@ end;
 
 destructor TBriefFileView.Destroy;
 begin
-  if Assigned(HotMan) then
-    HotMan.UnRegister(dgPanel);
-
   inherited Destroy;
 end;
 
@@ -677,16 +651,30 @@ begin
   dgPanel.UpdateView;
 end;
 
-procedure TBriefFileView.DoDragDropOperation(Operation: TDragDropOperation;
-  var DropParams: TDropParams);
-begin
-
-end;
-
 procedure TBriefFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
 begin
   MakeColumnsStrings(AFile);
   inherited DoFileUpdated(AFile, UpdatedProperties);
+end;
+
+procedure TBriefFileView.DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer);
+var
+  aRect: TRect;
+  ACol, ARow, iCol: Integer;
+  AFile: TDisplayFile;
+begin
+  AFile := FFiles[FileIndex];
+  dgPanel.IndexToCell(FileIndex, ACol, ARow);
+  aRect:= dgPanel.CellRect(ACol, ARow);
+  iCol:= aRect.Right - aRect.Left - 8;
+  if gShowIcons <> sim_none then
+    Dec(iCol, gIconsSize);
+  if iCol < dgPanel.Canvas.TextWidth(AFile.FSFile.Name) then // with file name
+    dgPanel.Hint:= AFile.FSFile.Name
+  else if (stm_only_large_name in gShowToolTipMode) then // don't show
+    Exit
+  else if not AFile.FSFile.IsDirectory then // without name
+    dgPanel.Hint:= #32;
 end;
 
 end.
