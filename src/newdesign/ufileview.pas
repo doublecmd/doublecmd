@@ -2620,7 +2620,9 @@ end;
 
 procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 begin
-  if IncludeTrailingPathDelimiter(EventData.Path) = CurrentPath then
+  if not (csDestroying in ComponentState) and
+     not FReloadNeeded and
+     (IncludeTrailingPathDelimiter(EventData.Path) = CurrentPath) then
   begin
     if GetCurrentWorkType = fvwtCreate then
     begin
