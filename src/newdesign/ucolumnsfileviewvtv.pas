@@ -520,6 +520,7 @@ begin
         UTF8Delete(s, UTF8Length(s), 1);
   end;
 
+  PaintInfo.TargetCanvas.Brush.Style := bsClear;
   PaintInfo.TargetCanvas.TextOut(aRect.Left + TitleX, iTextTop, s);
 end;
 
