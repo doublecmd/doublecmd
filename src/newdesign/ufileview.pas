@@ -119,7 +119,7 @@ type
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
     procedure ApplyPendingFilesChanges;
     procedure ClearPendingFilesChanges;
-    procedure ClearRecentlyUpdatedFiles;
+    procedure ClearRecentlyUpdatedFiles(ResetUpdatedPct: Boolean);
     procedure DoOnFileListChanged;
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
@@ -611,7 +611,7 @@ begin
   end;
 
   ClearPendingFilesChanges;
-  ClearRecentlyUpdatedFiles;
+  ClearRecentlyUpdatedFiles(False);
   RemoveAllFileSources;
 
   FreeAndNil(FFiles);
@@ -777,18 +777,23 @@ begin
   end;
 end;
 
-procedure TFileView.ClearRecentlyUpdatedFiles;
+procedure TFileView.ClearRecentlyUpdatedFiles(ResetUpdatedPct: Boolean);
 var
   i: Integer;
   AFile: TDisplayFile;
 begin
   if Assigned(FRecentlyUpdatedFilesTimer) then
-  begin
     FRecentlyUpdatedFilesTimer.Enabled := False;
-    for i := 0 to FRecentlyUpdatedFiles.Count - 1 do
+
+  if Assigned(FRecentlyUpdatedFiles) then
+  begin
+    if ResetUpdatedPct then
     begin
-      AFile := FRecentlyUpdatedFiles[i];
-      AFile.RecentlyUpdatedPct := 0;
+      for i := 0 to FRecentlyUpdatedFiles.Count - 1 do
+      begin
+        AFile := FRecentlyUpdatedFiles[i];
+        AFile.RecentlyUpdatedPct := 0;
+      end;
     end;
     FRecentlyUpdatedFiles.Clear;
   end;
@@ -1638,10 +1643,10 @@ begin
     // Clear files.
     if Assigned(FAllDisplayFiles) then
     begin
-      if Assigned(FRecentlyUpdatedFiles) then
-        FRecentlyUpdatedFiles.Clear;
+      ClearRecentlyUpdatedFiles(False);
       FFiles.Clear;
       FAllDisplayFiles.Clear; // Clear references to files from the source.
+      HashFileList;
     end;
 
     BeforeMakeFileList;
@@ -1873,7 +1878,7 @@ begin
   end;
 
   ClearPendingFilesChanges;
-  ClearRecentlyUpdatedFiles;
+  ClearRecentlyUpdatedFiles(True);
 
   if FReloadTimer.Enabled then
   begin
@@ -2498,6 +2503,8 @@ end;
 procedure TFileView.SetFilelist(var NewAllDisplayFiles: TDisplayFiles;
                                 var NewFilteredDisplayFiles: TDisplayFiles);
 begin
+  ClearRecentlyUpdatedFiles(False);
+
   FFiles.Free;
   FFiles := NewFilteredDisplayFiles;
   NewFilteredDisplayFiles := nil;
