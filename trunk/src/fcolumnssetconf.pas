@@ -306,6 +306,7 @@ begin
    btnAdd.Hide;
 
  try
+  FUpdating := True;
   case aCol of
     0: begin
          // Only show delete button if there is more than one column.
@@ -399,6 +400,7 @@ begin
        Editor.Tag:= aRow;
        Editor.Hint:= IntToStr(aCol);
      end;
+   FUpdating := False;
  end;
 end;
 
