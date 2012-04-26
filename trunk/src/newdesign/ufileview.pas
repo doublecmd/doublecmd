@@ -119,7 +119,7 @@ type
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
     procedure ApplyPendingFilesChanges;
     procedure ClearPendingFilesChanges;
-    procedure ClearRecentlyUpdatedFiles(ResetUpdatedPct: Boolean);
+    procedure ClearRecentlyUpdatedFiles;
     procedure DoOnFileListChanged;
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
@@ -611,7 +611,7 @@ begin
   end;
 
   ClearPendingFilesChanges;
-  ClearRecentlyUpdatedFiles(False);
+  ClearRecentlyUpdatedFiles;
   RemoveAllFileSources;
 
   FreeAndNil(FFiles);
@@ -777,26 +777,13 @@ begin
   end;
 end;
 
-procedure TFileView.ClearRecentlyUpdatedFiles(ResetUpdatedPct: Boolean);
-var
-  i: Integer;
-  AFile: TDisplayFile;
+procedure TFileView.ClearRecentlyUpdatedFiles;
 begin
   if Assigned(FRecentlyUpdatedFilesTimer) then
     FRecentlyUpdatedFilesTimer.Enabled := False;
 
   if Assigned(FRecentlyUpdatedFiles) then
-  begin
-    if ResetUpdatedPct then
-    begin
-      for i := 0 to FRecentlyUpdatedFiles.Count - 1 do
-      begin
-        AFile := FRecentlyUpdatedFiles[i];
-        AFile.RecentlyUpdatedPct := 0;
-      end;
-    end;
     FRecentlyUpdatedFiles.Clear;
-  end;
 end;
 
 function TFileView.DimColor(AColor: TColor): TColor;
@@ -1638,12 +1625,14 @@ begin
 
   AddWorker(Worker);
 
+  ClearPendingFilesChanges;
+
   if gListFilesInThread then
   begin
     // Clear files.
     if Assigned(FAllDisplayFiles) then
     begin
-      ClearRecentlyUpdatedFiles(False);
+      ClearRecentlyUpdatedFiles;
       FFiles.Clear;
       FAllDisplayFiles.Clear; // Clear references to files from the source.
       HashFileList;
@@ -1876,9 +1865,6 @@ begin
     if not Result then
       Exit;
   end;
-
-  ClearPendingFilesChanges;
-  ClearRecentlyUpdatedFiles(True);
 
   if FReloadTimer.Enabled then
   begin
@@ -2502,8 +2488,10 @@ end;
 
 procedure TFileView.SetFilelist(var NewAllDisplayFiles: TDisplayFiles;
                                 var NewFilteredDisplayFiles: TDisplayFiles);
+var
+  ARequests: TFileViewRequests;
 begin
-  ClearRecentlyUpdatedFiles(False);
+  ClearRecentlyUpdatedFiles;
 
   FFiles.Free;
   FFiles := NewFilteredDisplayFiles;
@@ -2518,7 +2506,12 @@ begin
 
   BeginUpdate;
   try
-    Request([fvrqHashFileList, fvrqApplyPendingFilesChanges]);
+    ARequests := [fvrqHashFileList];
+    if not FReloadNeeded then
+      Include(ARequests, fvrqApplyPendingFilesChanges)
+    else
+      ClearPendingFilesChanges;
+    Request(ARequests);
     Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
   finally
     EndUpdate;
