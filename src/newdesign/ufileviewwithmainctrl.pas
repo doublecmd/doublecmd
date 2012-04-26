@@ -39,11 +39,10 @@ type
 
   TFileViewWithMainCtrl = class(TOrderedFileView)
   private
-    FMainControl: TWinControl;
 {$IFDEF LCLGTK2}
     FLastDoubleClickTime : TDateTime;
-    function TooManyDoubleClicks: Boolean;
 {$ENDIF}
+    FMainControl: TWinControl;
 
     { Events for drag&drop from external applications }
     function OnExDragBegin: Boolean;
@@ -120,6 +119,10 @@ type
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
     property MainControl: TWinControl read FMainControl write SetMainControl;
 
+{$IFDEF LCLGTK2}
+    function TooManyDoubleClicks: Boolean;
+{$ENDIF}
+
   public
     destructor Destroy; override;
     procedure DoDragDropOperation(Operation: TDragDropOperation;
@@ -138,10 +141,7 @@ uses
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
 {$ENDIF}
-{$IFDEF MSWINDOWS}
-  LCLIntf,
-{$ENDIF}
-  Forms,
+  LCLIntf, Forms,
   fMain,
   uGlobs, uInfoToolTip, uDisplayFile, uFile, uFileSystemFileSource;
 
