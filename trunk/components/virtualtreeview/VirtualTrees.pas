@@ -21824,7 +21824,7 @@ var
 
 begin
   if Y < 0 then
-    Y := 0;
+    Exit(nil);
 
   AbsolutePos := Y;
   if Relative then

@@ -1,59 +1,3 @@
-Index: VTConfig.inc
-===================================================================
---- VTConfig.inc	(revision 2334)
-+++ VTConfig.inc	(working copy)
-@@ -22,7 +22,7 @@
- 
- 
- //Lazarus port options
--{$define EnableOLE}
-+{.$define EnableOLE}
- {.$define EnableNativeTVM}
- {.$define EnablePrint}
- {.$define EnableNCFunctions}
-@@ -42,5 +42,5 @@
- 
- //under linux the performance is poor with threading enabled
- {$ifdef Windows}
--  {$define EnableThreadSupport}
-+  {.$define EnableThreadSupport}
- {$endif}
-Index: virtualtreeview_package.lpk
-===================================================================
---- virtualtreeview_package.lpk	(revision 2334)
-+++ virtualtreeview_package.lpk	(working copy)
-@@ -1,10 +1,11 @@
- <?xml version="1.0"?>
- <CONFIG>
--  <Package Version="3">
-+  <Package Version="4">
-     <Name Value="virtualtreeview_package"/>
-+    <AddToProjectUsesSection Value="True"/>
-     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
-     <CompilerOptions>
--      <Version Value="10"/>
-+      <Version Value="11"/>
-       <SearchPaths>
-         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
-         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
-@@ -15,6 +16,17 @@
-           <UseAnsiStrings Value="False"/>
-         </SyntaxOptions>
-       </Parsing>
-+      <CodeGeneration>
-+        <Checks>
-+          <RangeChecks Value="True"/>
-+          <OverflowChecks Value="True"/>
-+        </Checks>
-+      </CodeGeneration>
-+      <Linking>
-+        <Debugging>
-+          <DebugInfoType Value="dsDwarf2Set"/>
-+        </Debugging>
-+      </Linking>
-       <Other>
-         <CompilerPath Value="$(CompPath)"/>
-       </Other>
 Index: VirtualTrees.pas
 ===================================================================
 --- VirtualTrees.pas	(revision 2334)
@@ -155,6 +99,15 @@ Index: VirtualTrees.pas
          DoFocusChange(FFocusedNode, FFocusedColumn);
        end;
      end;
+@@ -21820,7 +21824,7 @@
+ 
+ begin
+   if Y < 0 then
+-    Y := 0;
++    Exit(nil);
+ 
+   AbsolutePos := Y;
+   if Relative then
 @@ -26469,6 +26473,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
@@ -242,3 +195,59 @@ Index: VirtualTrees.pas
      if NewOffset <> FEffectiveOffsetX then
      begin
        if UseRightToLeftAlignment then
+Index: virtualtreeview_package.lpk
+===================================================================
+--- virtualtreeview_package.lpk	(revision 2334)
++++ virtualtreeview_package.lpk	(working copy)
+@@ -1,10 +1,11 @@
+ <?xml version="1.0"?>
+ <CONFIG>
+-  <Package Version="3">
++  <Package Version="4">
+     <Name Value="virtualtreeview_package"/>
++    <AddToProjectUsesSection Value="True"/>
+     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
+     <CompilerOptions>
+-      <Version Value="10"/>
++      <Version Value="11"/>
+       <SearchPaths>
+         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
+         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
+@@ -15,6 +16,17 @@
+           <UseAnsiStrings Value="False"/>
+         </SyntaxOptions>
+       </Parsing>
++      <CodeGeneration>
++        <Checks>
++          <RangeChecks Value="True"/>
++          <OverflowChecks Value="True"/>
++        </Checks>
++      </CodeGeneration>
++      <Linking>
++        <Debugging>
++          <DebugInfoType Value="dsDwarf2Set"/>
++        </Debugging>
++      </Linking>
+       <Other>
+         <CompilerPath Value="$(CompPath)"/>
+       </Other>
+Index: VTConfig.inc
+===================================================================
+--- VTConfig.inc	(revision 2334)
++++ VTConfig.inc	(working copy)
+@@ -22,7 +22,7 @@
+ 
+ 
+ //Lazarus port options
+-{$define EnableOLE}
++{.$define EnableOLE}
+ {.$define EnableNativeTVM}
+ {.$define EnablePrint}
+ {.$define EnableNCFunctions}
+@@ -42,5 +42,5 @@
+ 
+ //under linux the performance is poor with threading enabled
+ {$ifdef Windows}
+-  {$define EnableThreadSupport}
++  {.$define EnableThreadSupport}
+ {$endif}
