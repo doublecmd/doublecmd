@@ -20,25 +20,7 @@ uses
   uTypes;
 
 type
-
-  { Columns sorting }
-
-  PColumnsSorting = ^TColumnsSorting;
-  TColumnsSorting = record
-    Column : Integer;
-    SortDirection : TSortDirection;
-  end;
-
-  PFileListSorting = ^TColumnsSortings;
-  TColumnsSortings = class(TList)
-  public
-    Destructor Destroy; override;
-    function Clone: TColumnsSortings;
-    procedure AddSorting(iColumn : Integer; SortDirection : TSortDirection);
-    procedure Clear; override;
-    function GetSortingDirection(iColumn : Integer) : TSortDirection;
-  end;
-
+  TColumnsSortDirections = array of TSortDirection;
   TColumnsFileView = class;
 
   { TDrawGridEx }
@@ -87,7 +69,7 @@ type
   TColumnsFileView = class(TFileViewWithMainCtrl)
 
   private
-    FColumnsSorting: TColumnsSortings;
+    FColumnsSortDirections: TColumnsSortDirections;
     FFileNameColumn: Integer;
     FExtensionColumn: Integer;
 
@@ -118,14 +100,9 @@ type
     procedure EachViewUpdateColumns(AFileView: TFileView; UserData: Pointer);
 
     {en
-       Prepares sortings for later use in Sort function.
-       This function must be called from main thread.
+       Translates file sorting by functions to sorting directions of columns.
     }
-    function PrepareSortings: TFileSortings;
-    {en
-       Translates file sorting by functions to sorting by columns.
-    }
-    procedure SetColumnsSorting(const ASortings: TFileSortings);
+    procedure SetColumnsSortDirections;
 
     {en
        Checks which file properties are needed for displaying.
@@ -194,7 +171,6 @@ type
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
 
     procedure LoadConfiguration(Section: String; TabIndex: Integer); override;
-    procedure SaveConfiguration(Section: String; TabIndex: Integer); override;
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
@@ -229,8 +205,8 @@ type
 
 procedure TColumnsFileView.SetSorting(const NewSortings: TFileSortings);
 begin
-  SetColumnsSorting(NewSortings);
-  inherited SetSorting(PrepareSortings); // NewSortings
+  inherited SetSorting(NewSortings);
+  SetColumnsSortDirections;
   SortAllDisplayFiles;
   ReDisplayFileList;
 end;
@@ -243,13 +219,15 @@ var
   SortDirection: TSortDirection;
   i: Integer;
   sIndex: String;
+  NewSorting: TFileSortings = nil;
+  Column: TPanelColumn;
+  SortFunctions: TFileFunctions;
 begin
   sIndex := IntToStr(TabIndex);
 
   ActiveColm := gIni.ReadString(Section, sIndex + '_columnsset', 'Default');
 
   // Load sorting options.
-  FColumnsSorting.Clear;
   ColumnsClass := GetColumnsClass;
   SortCount := gIni.ReadInteger(Section, sIndex + '_sortcount', 0);
   for i := 0 to SortCount - 1 do
@@ -257,34 +235,16 @@ begin
     SortColumn := gIni.ReadInteger(Section, sIndex + '_sortcolumn' + IntToStr(i), -1);
     if (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
     begin
-      SortDirection := TSortDirection(gIni.ReadInteger(Section, sIndex + '_sortdirection' + IntToStr(i), Integer(sdNone)));
-      FColumnsSorting.AddSorting(SortColumn, SortDirection);
+      Column := ColumnsClass.GetColumnItem(SortColumn);
+      if Assigned(Column) then
+      begin
+        SortFunctions := Column.GetColumnFunctions;
+        SortDirection := TSortDirection(gIni.ReadInteger(Section, sIndex + '_sortdirection' + IntToStr(i), Integer(sdNone)));
+        AddSorting(NewSorting, SortFunctions, SortDirection);
+      end;
     end;
   end;
-  inherited SetSorting(PrepareSortings);
-end;
-
-procedure TColumnsFileView.SaveConfiguration(Section: String; TabIndex: Integer);
-var
-  SortingColumn: PColumnsSorting;
-  sIndex: String;
-  i: Integer;
-begin
-  sIndex := IntToStr(TabIndex);
-
-  gIni.WriteString(Section, sIndex + '_columnsset', ActiveColm);
-
-  // Save sorting options.
-  gIni.WriteInteger(Section, sIndex + '_sortcount', FColumnsSorting.Count);
-  for i := 0 to FColumnsSorting.Count - 1 do
-  begin
-    SortingColumn := PColumnsSorting(FColumnsSorting.Items[i]);
-
-    gIni.WriteInteger(Section, sIndex + '_sortcolumn' + IntToStr(i),
-                      SortingColumn^.Column);
-    gIni.WriteInteger(Section, sIndex + '_sortdirection' + IntToStr(i),
-                      Integer(SortingColumn^.SortDirection));
-  end;
+  inherited SetSorting(NewSorting);
 end;
 
 procedure TColumnsFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -293,6 +253,9 @@ var
   SortColumn: Integer;
   SortDirection: TSortDirection;
   ColumnsViewNode: TXmlNode;
+  NewSorting: TFileSortings = nil;
+  Column: TPanelColumn;
+  SortFunctions: TFileFunctions;
 begin
   inherited LoadConfiguration(AConfig, ANode);
 
@@ -304,7 +267,6 @@ begin
   ActiveColm := AConfig.GetValue(ANode, 'ColumnsSet', 'Default');
 
   // Load sorting options.
-  FColumnsSorting.Clear;
   ColumnsClass := GetColumnsClass;
   ANode := ANode.FindNode('Sorting');
   if Assigned(ANode) then
@@ -317,66 +279,71 @@ begin
         if AConfig.TryGetValue(ANode, 'Column', SortColumn) and
            (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
         begin
-          SortDirection := TSortDirection(AConfig.GetValue(ANode, 'Direction', Integer(sdNone)));
-          FColumnsSorting.AddSorting(SortColumn, SortDirection);
+          Column := ColumnsClass.GetColumnItem(SortColumn);
+          if Assigned(Column) then
+          begin
+            SortFunctions := Column.GetColumnFunctions;
+            SortDirection := TSortDirection(AConfig.GetValue(ANode, 'Direction', Integer(sdNone)));
+            AddSorting(NewSorting, SortFunctions, SortDirection);
+          end;
         end
         else
           DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;
-    inherited SetSorting(PrepareSortings);
+    inherited SetSorting(NewSorting);
   end;
 end;
 
 procedure TColumnsFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
-var
-  SortingColumn: PColumnsSorting;
-  i: Integer;
-  SubNode: TXmlNode;
 begin
   inherited SaveConfiguration(AConfig, ANode);
 
   AConfig.SetAttr(ANode, 'Type', 'columns');
+
   ANode := AConfig.FindNode(ANode, 'ColumnsView', True);
   AConfig.ClearNode(ANode);
 
   AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
-  ANode := AConfig.FindNode(ANode, 'Sorting', True);
-
-  // Save sorting options.
-  for i := 0 to FColumnsSorting.Count - 1 do
-  begin
-    SortingColumn := PColumnsSorting(FColumnsSorting.Items[i]);
-    SubNode := AConfig.AddNode(ANode, 'Sort');
-    AConfig.AddValue(SubNode, 'Column', SortingColumn^.Column);
-    AConfig.AddValue(SubNode, 'Direction', Integer(SortingColumn^.SortDirection));
-  end;
 end;
 
 procedure TColumnsFileView.dgPanelHeaderClick(Sender: TObject;
   IsColumn: Boolean; Index: Integer);
 var
   ShiftState : TShiftState;
-  SortingDirection : TSortDirection = sdAscending;
+  SortingDirection : TSortDirection;
+  ColumnsClass: TPanelColumnsClass;
+  Column: TPanelColumn;
+  NewSorting: TFileSortings;
+  SortFunctions: TFileFunctions;
 begin
   if not IsColumn then Exit;
 
-  ShiftState := GetKeyShiftState;
-  if not ((ssShift in ShiftState) or (ssCtrl in ShiftState)) then
+  ColumnsClass := GetColumnsClass;
+  Column := ColumnsClass.GetColumnItem(Index);
+  if Assigned(Column) then
   begin
-    SortingDirection := FColumnsSorting.GetSortingDirection(Index);
-    if SortingDirection = sdNone then
-      SortingDirection := sdAscending
+    NewSorting := Sorting;
+    SortFunctions := Column.GetColumnFunctions;
+    ShiftState := GetKeyShiftStateEx;
+    if [ssShift, ssCtrl] * ShiftState = [] then
+    begin
+      SortingDirection := GetSortDirection(NewSorting, SortFunctions);
+      if SortingDirection = sdNone then
+        SortingDirection := sdAscending
+      else
+        SortingDirection := ReverseSortDirection(SortingDirection);
+      NewSorting := nil;
+    end
     else
-      SortingDirection := ReverseSortDirection(SortingDirection);
-    FColumnsSorting.Clear;
-  end;
+    begin
+      SortingDirection := sdAscending;
+    end;
 
-  FColumnsSorting.AddSorting(Index, SortingDirection);
-  inherited SetSorting(PrepareSortings);
-  SortAllDisplayFiles;
-  ReDisplayFileList;
+    AddOrUpdateSorting(NewSorting, SortFunctions, SortingDirection);
+    SetSorting(NewSorting);
+  end;
 end;
 
 procedure TColumnsFileView.dgPanelMouseWheelUp(Sender: TObject;
@@ -489,43 +456,16 @@ begin
   end;
 end;
 
-function TColumnsFileView.PrepareSortings: TFileSortings;
-var
-  ColumnsClass: TPanelColumnsClass;
-  i: Integer;
-  pSortingColumn : PColumnsSorting;
-  Column: TPanelColumn;
-begin
-  Result := nil;
-
-  ColumnsClass := GetColumnsClass;
-  if ColumnsClass.ColumnsCount = 0 then
-    Exit;
-
-  for i := 0 to FColumnsSorting.Count - 1 do
-  begin
-    pSortingColumn := PColumnsSorting(FColumnsSorting[i]);
-
-    if (pSortingColumn^.Column >= 0) and
-       (pSortingColumn^.Column < ColumnsClass.ColumnsCount) then
-    begin
-      Column := ColumnsClass.GetColumnItem(pSortingColumn^.Column);
-      AddSorting(Result, Column.GetColumnFunctions, pSortingColumn^.SortDirection);
-    end;
-  end;
-end;
-
 procedure TColumnsFileView.RedrawFile(FileIndex: PtrInt);
 begin
   dgPanel.InvalidateRow(FileIndex + dgPanel.FixedRows);
 end;
 
-procedure TColumnsFileView.SetColumnsSorting(const ASortings: TFileSortings);
-
+procedure TColumnsFileView.SetColumnsSortDirections;
 var
   Columns: TPanelColumnsClass;
 
-  function AddColumnsSorting(ASortFunction: TFileFunction; ASortDirection: TSortDirection): Boolean;
+  function SetSortDirection(ASortFunction: TFileFunction; ASortDirection: TSortDirection; Overwrite: Boolean): Boolean;
   var
     k, l: Integer;
     ColumnFunctions: TFileFunctions;
@@ -536,8 +476,11 @@ var
       for l := 0 to Length(ColumnFunctions) - 1 do
         if ColumnFunctions[l] = ASortFunction then
         begin
-          FColumnsSorting.AddSorting(k, ASortDirection);
-          Exit(True);
+          if Overwrite or (FColumnsSortDirections[k] = sdNone) then
+          begin
+            FColumnsSortDirections[k] := ASortDirection;
+            Exit(True);
+          end;
         end;
     end;
     Result := False;
@@ -545,21 +488,33 @@ var
 
 var
   i, j: Integer;
+  ASortings: TFileSortings;
 begin
-  FColumnsSorting.Clear;
   Columns := GetColumnsClass;
+  ASortings := Sorting;
+
+  SetLength(FColumnsSortDirections, Columns.Count);
+  for i := 0 to Length(FColumnsSortDirections) - 1 do
+    FColumnsSortDirections[i] := sdNone;
+
   for i := 0 to Length(ASortings) - 1 do
   begin
     for j := 0 to Length(ASortings[i].SortFunctions) - 1 do
     begin
       // Search for the column containing the sort function and add sorting
       // by that column. If function is Name and it is not found try searching
-      // for NameNoExtension + Extension.
-      if (not AddColumnsSorting(ASortings[i].SortFunctions[j], ASortings[i].SortDirection)) and
-         (ASortings[i].SortFunctions[j] = fsfName) then
+      // for NameNoExtension + Extension and vice-versa.
+      if not SetSortDirection(ASortings[i].SortFunctions[j], ASortings[i].SortDirection, True) then
       begin
-        if AddColumnsSorting(fsfNameNoExtension, ASortings[i].SortDirection) then
-          AddColumnsSorting(fsfExtension, ASortings[i].SortDirection);
+        if ASortings[i].SortFunctions[j] = fsfName then
+        begin
+          SetSortDirection(fsfNameNoExtension, ASortings[i].SortDirection, False);
+          SetSortDirection(fsfExtension, ASortings[i].SortDirection, False);
+        end
+        else if ASortings[i].SortFunctions[j] in [fsfNameNoExtension, fsfExtension] then
+        begin
+          SetSortDirection(fsfName, ASortings[i].SortDirection, False);
+        end;
       end;
     end;
   end;
@@ -822,6 +777,7 @@ begin
   ActiveColm := ColumnsClass.Name;
 
   SetColumns;
+  SetColumnsSortDirections;
 
   dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder and not gUseFrameCursor;
   dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
@@ -882,7 +838,6 @@ end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
-  FColumnsSorting := TColumnsSortings.Create;
   ActiveColm := 'Default';
   inherited Create(AOwner, AFileSource, APath, AFlags);
 end;
@@ -894,13 +849,11 @@ end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
 begin
-  FColumnsSorting := TColumnsSortings.Create;
   inherited Create(AOwner, AConfig, ASectionName, ATabIndex, AFlags);
 end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
-  FColumnsSorting := TColumnsSortings.Create;
   inherited Create(AOwner, AConfig, ANode, AFlags);
 end;
 
@@ -950,7 +903,6 @@ end;
 destructor TColumnsFileView.Destroy;
 begin
   inherited Destroy;
-  FColumnsSorting.Free;
 end;
 
 function TColumnsFileView.Clone(NewParent: TWinControl): TColumnsFileView;
@@ -966,7 +918,7 @@ begin
 
     with FileView as TColumnsFileView do
     begin
-      FColumnsSorting := Self.FColumnsSorting.Clone;
+      FColumnsSortDirections := Self.FColumnsSortDirections;
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;    // set to nil because only used in preview?
@@ -1419,7 +1371,7 @@ var
     TitleX := 0;
     s      := ColumnsSet.GetColumnTitle(ACol);
 
-    SortingDirection := ColumnsView.FColumnsSorting.GetSortingDirection(ACol);
+    SortingDirection := ColumnsView.FColumnsSortDirections[ACol];
     if SortingDirection <> sdNone then
     begin
       TitleX := TitleX + gIconsSize;
@@ -1876,86 +1828,5 @@ begin
   end;
 end;
 
-// -- TColumnsSortings --------------------------------------------------------
-
-procedure TColumnsSortings.AddSorting(iColumn : Integer; SortDirection : TSortDirection);
-var
-  i : Integer;
-  pSortingColumn : PColumnsSorting;
-begin
-  i := Count - 1;
-  while i >= 0 do
-  begin
-    pSortingColumn := PColumnsSorting(Self[i]);
-    if pSortingColumn^.Column = iColumn then
-    begin
-      pSortingColumn^.SortDirection := ReverseSortDirection(pSortingColumn^.SortDirection);
-      Exit;
-    end;
-    dec(i);
-  end;
-
-  new(pSortingColumn);
-  pSortingColumn^.Column := iColumn;
-  pSortingColumn^.SortDirection := SortDirection;
-  Add(pSortingColumn);
-end;
-
-Destructor TColumnsSortings.Destroy;
-begin
-  Clear;
-  inherited;
-end;
-
-function TColumnsSortings.Clone: TColumnsSortings;
-var
-  i: Integer;
-  pSortingColumn : PColumnsSorting;
-begin
-  Result := TColumnsSortings.Create;
-
-  for i := 0 to Count - 1 do
-  begin
-    pSortingColumn := PColumnsSorting(Self[i]);
-    Result.AddSorting(pSortingColumn^.Column, pSortingColumn^.SortDirection);
-  end;
-end;
-
-procedure TColumnsSortings.Clear;
-var
-  i : Integer;
-  pSortingColumn : PColumnsSorting;
-begin
-  i := Count - 1;
-  while i >= 0 do
-  begin
-    pSortingColumn := PColumnsSorting(Self[i]);
-    dispose(pSortingColumn);
-    dec(i);
-  end;
-
-  Inherited Clear;
-end;
-
-function TColumnsSortings.GetSortingDirection(iColumn : Integer) : TSortDirection;
-var
-  i : Integer;
-  pSortingColumn : PColumnsSorting;
-begin
-  Result := sdNone;
-
-  i := Count - 1;
-  while i >= 0 do
-  begin
-    pSortingColumn := PColumnsSorting(Self[i]);
-    if pSortingColumn^.Column = iColumn then
-    begin
-      Result := pSortingColumn^.SortDirection;
-      break;
-    end;
-    dec(i);
-  end;
-end;
-
 end.
-
+

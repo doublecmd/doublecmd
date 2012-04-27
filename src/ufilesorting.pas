@@ -130,11 +130,18 @@ type
                            SortFunction: TFileFunction): Boolean;
   function GetSortDirection(FileSortings: TFileSortings;
                             SortFunction: TFileFunction): TSortDirection;
+  function GetSortDirection(FileSortings: TFileSortings;
+                            SortFunctions: TFileFunctions): TSortDirection;
   {en
      Adds a function to the given list of functions.
   }
   procedure AddSortFunction(var FileFunctions: TFileFunctions;
                             SortFunction: TFileFunction);
+  {en
+     Deletes a function from the given list of functions.
+  }
+  procedure DeleteSortFunction(var FileFunctions: TFileFunctions;
+                               SortFunction: TFileFunction);
 
   {en
      Adds sorting by functions with a given sorting direction to existing sorting.
@@ -142,6 +149,10 @@ type
   procedure AddSorting(var Sortings: TFileSortings;
                        SortFunctions: TFileFunctions;
                        SortDirection: TSortDirection);
+
+  procedure AddOrUpdateSorting(var Sortings: TFileSortings;
+                               SortFunctions: TFileFunctions;
+                               SortDirection: TSortDirection);
   {en
      Checks if there is a sorting by Name, NameNoExtension or Extension
      and adds such sortings if there isn't.
@@ -220,13 +231,35 @@ end;
 function GetSortDirection(FileSortings: TFileSortings;
                           SortFunction: TFileFunction): TSortDirection;
 var
-  i, j: Integer;
+  i: Integer;
 begin
   for i := 0 to Length(FileSortings) - 1 do
   begin
-    for j := 0 to Length(FileSortings[i].SortFunctions) - 1 do
+    if HasSortFunction(FileSortings[i].SortFunctions, SortFunction) then
+      Exit(FileSortings[i].SortDirection);
+  end;
+  Result := sdNone;
+end;
+
+function GetSortDirection(FileSortings: TFileSortings;
+                          SortFunctions: TFileFunctions): TSortDirection;
+var
+  i, j: Integer;
+  Found: Boolean;
+begin
+  for i := 0 to Length(FileSortings) - 1 do
+  begin
+    if Length(FileSortings[i].SortFunctions) = Length(SortFunctions) then
     begin
-      if FileSortings[i].SortFunctions[j] = SortFunction then
+      Found := True;
+      for j := 0 to Length(SortFunctions) - 1 do
+        if FileSortings[i].SortFunctions[j] <> SortFunctions[j] then
+        begin
+          Found := False;
+          Break;
+        end;
+
+      if Found then
         Exit(FileSortings[i].SortDirection);
     end;
   end;
@@ -240,25 +273,102 @@ begin
   FileFunctions[Length(FileFunctions) - 1] := SortFunction;
 end;
 
+procedure DeleteSorting(var FileSortings: TFileSortings; Index: Integer);
+var
+  Len: Integer;
+  i: Integer;
+begin
+  Len := Length(FileSortings);
+  for i := Index + 1 to Len - 1 do
+    FileSortings[i - 1] := FileSortings[i];
+  SetLength(FileSortings, Len - 1);
+end;
+
+procedure DeleteSortFunction(var FileFunctions: TFileFunctions;
+                             SortFunction: TFileFunction);
+var
+  Len: Integer;
+  i, j: Integer;
+begin
+  for i := Low(FileFunctions) to High(FileFunctions) do
+    if FileFunctions[i] = SortFunction then
+    begin
+      Len := Length(FileFunctions);
+      for j := i + 1 to Len - 1 do
+        FileFunctions[j - 1] := FileFunctions[j];
+      SetLength(FileFunctions, Len - 1);
+      Break;
+    end;
+end;
+
 procedure AddSorting(var Sortings: TFileSortings;
                      SortFunctions: TFileFunctions;
                      SortDirection: TSortDirection);
 var
   SortingIndex: Integer;
 begin
-  SortingIndex := Length(Sortings);
-  SetLength(Sortings, SortingIndex + 1);
-  Sortings[SortingIndex].SortFunctions := SortFunctions;
-  Sortings[SortingIndex].SortDirection := SortDirection;
+  if Length(SortFunctions) > 0 then
+  begin
+    SortingIndex := Length(Sortings);
+    SetLength(Sortings, SortingIndex + 1);
+    Sortings[SortingIndex].SortFunctions := SortFunctions;
+    Sortings[SortingIndex].SortDirection := SortDirection;
+  end;
 end;
 
 procedure AddSorting(var FileSortings: TFileSortings;
-                     SortFunction: TFileFunction; SortDirection: TSortDirection);
+                     SortFunction: TFileFunction;
+                     SortDirection: TSortDirection);
+var
+  SortFunctions: TFileFunctions = nil;
 begin
-  SetLength(FileSortings, Length(FileSortings) + 1);
-  SetLength(FileSortings[Length(FileSortings) - 1].SortFunctions, 0);
-  AddSortFunction(FileSortings[Length(FileSortings) - 1].SortFunctions, SortFunction);
-  FileSortings[Length(FileSortings) - 1].SortDirection := SortDirection;
+  AddSortFunction(SortFunctions, SortFunction);
+  AddSorting(FileSortings, SortFunctions, SortDirection);
+end;
+
+procedure AddOrUpdateSorting(var Sortings: TFileSortings;
+                             SortFunctions: TFileFunctions;
+                             SortDirection: TSortDirection);
+var
+  i, j: Integer;
+  RemainingFunctions: TFileFunctions;
+begin
+  if Length(SortFunctions) = 0 then
+    Exit;
+
+  RemainingFunctions := SortFunctions;
+
+  // Check if there is already sorting by the functions.
+  // If it is then reverse direction of sorting.
+  for i := Low(Sortings) to High(Sortings) do
+  begin
+    RemainingFunctions := SortFunctions;
+
+    for j := Low(SortFunctions) to High(SortFunctions) do
+    begin
+      if HasSortFunction(Sortings[i].SortFunctions, SortFunctions[j]) then
+        DeleteSortFunction(RemainingFunctions, SortFunctions[j]);
+    end;
+
+    if Length(RemainingFunctions) = 0 then
+    begin
+      // Sorting contains all functions - reverse direction.
+      Sortings[i].SortDirection := ReverseSortDirection(Sortings[i].SortDirection);
+      SortFunctions := nil;
+      Break;
+    end
+    else if Length(RemainingFunctions) < Length(SortFunctions) then
+    begin
+      // Sorting contains some but not all functions - delete this one and later add sorting with all functions.
+      Sortings[i].SortDirection := sdNone;
+    end;
+  end;
+
+  for i := High(Sortings) downto Low(Sortings) do
+    if Sortings[i].SortDirection = sdNone then
+      DeleteSorting(Sortings, i);
+
+  AddSorting(Sortings, SortFunctions, SortDirection);
 end;
 
 procedure AddSortingByNameIfNeeded(var FileSortings: TFileSortings);
