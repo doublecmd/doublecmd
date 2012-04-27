@@ -488,7 +488,7 @@ uses
   Clipbrd, Dialogs, LCLProc, LCLType, Forms, StrUtils, dmCommonData,
   fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uFileViewNotebook, uSearchTemplate, uKeyboard;
+  uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -1968,13 +1968,49 @@ end;
 procedure TFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   HistoryNode, EntryNode, FSNode, PathsNode: TXmlNode;
+  SortingsNode, SortingSubNode, SortFunctionNode: TXmlNode;
   sFSType, sPath: String;
   aFileSource: IFileSource = nil;
   ActiveFSIndex: Integer = -1;
   ActivePathIndex: Integer = -1;
+  NewSorting: TFileSortings = nil;
+  SortDirection: TSortDirection;
+  SortFunctions: TFileFunctions;
+  SortFunctionInt: Integer;
 begin
   RemoveAllFileSources;
 
+  // Sorting.
+  SortingsNode := AConfig.FindNode(ANode, 'Sortings');
+  if Assigned(SortingsNode) then
+  begin
+    SortingSubNode := SortingsNode.FirstChild;
+    while Assigned(SortingSubNode) do
+    begin
+      if SortingSubNode.CompareName('Sorting') = 0 then
+      begin
+        if AConfig.TryGetValue(SortingSubNode, 'Direction', Integer(SortDirection)) then
+        begin
+          SortFunctions := nil;
+          SortFunctionNode := SortingSubNode.FirstChild;
+          while Assigned(SortFunctionNode) do
+          begin
+            if SortFunctionNode.CompareName('Function') = 0 then
+            begin
+              if TryStrToInt(AConfig.GetContent(SortFunctionNode), SortFunctionInt) then
+                AddSortFunction(SortFunctions, TFileFunction(SortFunctionInt));
+            end;
+            SortFunctionNode := SortFunctionNode.NextSibling;
+          end;
+          AddSorting(NewSorting, SortFunctions, SortDirection);
+        end;
+      end;
+      SortingSubNode := SortingSubNode.NextSibling;
+    end;
+  end;
+  FSortings := NewSorting; // SetSorting not needed here, will be called in UpdateView
+
+  // History.
   HistoryNode := AConfig.FindNode(ANode, 'History');
   if Assigned(HistoryNode) then
   begin
@@ -2087,9 +2123,28 @@ end;
 procedure TFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   HistoryNode, EntryNode, FSNode, PathsNode, PathNode: TXmlNode;
+  SortingsNode, SortingSubNode: TXmlNode;
   i, j: Integer;
   PathIndex: Integer;
+  ASorting: TFileSortings;
 begin
+  AConfig.ClearNode(ANode);
+
+  // Sorting.
+  ASorting := Sorting;
+  if Length(ASorting) > 0 then
+  begin
+    SortingsNode := AConfig.FindNode(ANode, 'Sortings', True);
+    for i := Low(ASorting) to High(ASorting) do
+    begin
+      SortingSubNode := AConfig.AddNode(SortingsNode, 'Sorting');
+      AConfig.AddValue(SortingSubNode, 'Direction', Integer(ASorting[i].SortDirection));
+      for j := Low(ASorting[i].SortFunctions) to High(ASorting[i].SortFunctions) do
+        AConfig.AddValue(SortingSubNode, 'Function', Integer(ASorting[i].SortFunctions[j]));
+    end;
+  end;
+
+  // History.
   HistoryNode := AConfig.FindNode(ANode, 'History', True);
   AConfig.ClearNode(HistoryNode);
 
