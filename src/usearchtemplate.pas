@@ -36,13 +36,14 @@ type
   TSearchTemplate = class
   private
     FTemplateName: UTF8String;
+    FSearchRecord: TSearchTemplateRec;
+    FFileChecks: TFindFileChecks;
+    procedure MakeFileChecks;
+    procedure SetSearchRecord(const AValue: TSearchTemplateRec);
   public
-    SearchRecord: TSearchTemplateRec;
-
     constructor Create;
-    destructor Destroy; override;
-    function Clone: TSearchTemplate;
     function CheckFile(const AFile: TFile): Boolean;
+    property SearchRecord: TSearchTemplateRec read FSearchRecord write SetSearchRecord;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
   end;
 
@@ -72,9 +73,6 @@ function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 
 implementation
 
-uses
-  uFileProperty;
-
 function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 begin
   Result:= (Length(sMask) > 0) and (sMask[1] = cTemplateSign);
@@ -85,27 +83,23 @@ end;
 constructor TSearchTemplate.Create;
 begin
   inherited Create;
-  FillByte(SearchRecord, SizeOf(SearchRecord), 0);
+  FillByte(FSearchRecord, SizeOf(FSearchRecord), 0);
 end;
 
-destructor TSearchTemplate.Destroy;
+procedure TSearchTemplate.MakeFileChecks;
 begin
-  inherited Destroy;
+  SearchTemplateToFindFileChecks(FSearchRecord, FFileChecks);
+end;
+
+procedure TSearchTemplate.SetSearchRecord(const AValue: TSearchTemplateRec);
+begin
+  FSearchRecord := AValue;
+  MakeFileChecks;
 end;
 
 function TSearchTemplate.CheckFile(const AFile: TFile): Boolean;
-var
-  FileChecks: TFindFileChecks;
 begin
-  SearchTemplateToFindFileChecks(SearchRecord, FileChecks);
-  Result := uFindFiles.CheckFile(SearchRecord, FileChecks, AFile);
-end;
-
-function TSearchTemplate.Clone: TSearchTemplate;
-begin
-  Result := TSearchTemplate.Create;
-  Result.FTemplateName := FTemplateName;
-  Result.SearchRecord  := SearchRecord;
+  Result := uFindFiles.CheckFile(FSearchRecord, FFileChecks, AFile);
 end;
 
 { TSearchTemplateList }
@@ -180,7 +174,7 @@ begin
   for I:= 0 to iCount - 1 do
     begin
       SearchTemplate:= TSearchTemplate.Create;
-      with SearchTemplate.SearchRecord do
+      with SearchTemplate.FSearchRecord do
       begin
         sTemplate:= 'Template' + IntToStr(I+1);
         SearchTemplate.TemplateName:= IniFile.ReadString(cSection, sTemplate+'Name', '');
@@ -223,6 +217,7 @@ begin
         if IsReplaceText then
           ReplaceText:= IniFile.ReadString(cSection, sTemplate+'ReplaceData', '');
       end;
+      SearchTemplate.MakeFileChecks;
       Add(SearchTemplate);
     end;
 end;
@@ -243,7 +238,7 @@ begin
       if ANode.CompareName('Template') = 0 then
       begin
         SearchTemplate:= TSearchTemplate.Create;
-        with SearchTemplate.SearchRecord do
+        with SearchTemplate.FSearchRecord do
         begin
           SearchTemplate.TemplateName:= AConfig.GetValue(ANode, 'Name', '');
           StartPath:= AConfig.GetValue(ANode, 'StartPath', '');
@@ -294,6 +289,7 @@ begin
           TextEncoding:= AConfig.GetValue(ANode, 'TextEncoding', '');
           SearchPlugin:= AConfig.GetValue(ANode, 'SearchPlugin', '');
         end;
+        SearchTemplate.MakeFileChecks;
         Add(SearchTemplate);
       end;
       ANode := ANode.NextSibling;

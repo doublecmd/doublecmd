@@ -308,6 +308,7 @@ end;
 function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
 var
   AForm: TfrmFindDlg;
+  SearchRec: TSearchTemplateRec;
 begin
   AForm := TfrmFindDlg.Create(nil);
   try
@@ -328,7 +329,8 @@ begin
           Template:= TSearchTemplate.Create;
         try
           Template.TemplateName := AForm.FLastTemplateName;
-          AForm.FillFindOptions(Template.SearchRecord, False);
+          AForm.FillFindOptions(SearchRec, False);
+          Template.SearchRecord := SearchRec;
         except
           FreeAndNil(Template);
           raise;
@@ -781,7 +783,7 @@ var
   sTemp,
   sPath : UTF8String;
   sr: TDsxSearchRecord;
-  SearchTemplate: TSearchTemplateRec;
+  SearchTemplate, TmpTemplate: TSearchTemplateRec;
 begin
   sTemp:= edtFindPathStart.Text;
   repeat
@@ -827,8 +829,9 @@ begin
 
   if not Assigned(FLastSearchTemplate) then
     FLastSearchTemplate := TSearchTemplate.Create;
-  FLastSearchTemplate.SearchRecord := SearchTemplate;
-  FLastSearchTemplate.SearchRecord.StartPath := ''; // Don't remember starting path.
+  TmpTemplate := SearchTemplate;
+  TmpTemplate.StartPath := ''; // Don't remember starting path.
+  FLastSearchTemplate.SearchRecord := TmpTemplate;
 
   try
     if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex<>-1) then
@@ -1326,6 +1329,7 @@ procedure TfrmFindDlg.SaveTemplate(SaveStartingPath: Boolean);
 var
   sName: UTF8String;
   SearchTemplate: TSearchTemplate;
+  SearchRec: TSearchTemplateRec;
 begin
   sName := FLastTemplateName;
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
@@ -1339,14 +1343,16 @@ begin
   if Assigned(SearchTemplate) then
   begin
     // TODO: Ask for overwriting existing template.
-    FillFindOptions(SearchTemplate.SearchRecord, SaveStartingPath);
+    FillFindOptions(SearchRec, SaveStartingPath);
+    SearchTemplate.SearchRecord := SearchRec;
     Exit;
   end;
 
   SearchTemplate:= TSearchTemplate.Create;
   try
     SearchTemplate.TemplateName:= sName;
-    FillFindOptions(SearchTemplate.SearchRecord, SaveStartingPath);
+    FillFindOptions(SearchRec, SaveStartingPath);
+    SearchTemplate.SearchRecord := SearchRec;
     gSearchTemplateList.Add(SearchTemplate);
   except
     FreeAndNil(SearchTemplate);
