@@ -576,6 +576,112 @@ Index: AbZBrows.pas
        ArcType := ArchiveType;
        if not ForceType then
           ArcType := AbDetermineArcType(FileName, atUnknown);
+Index: AbZipper.pas
+===================================================================
+--- AbZipper.pas	(revision 512)
++++ AbZipper.pas	(working copy)
+@@ -173,7 +173,7 @@
+ implementation
+ 
+ uses
+-  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc;
++  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc, DCOSUtils;
+ 
+ { -------------------------------------------------------------------------- }
+ constructor TAbCustomZipper.Create( AOwner : TComponent );
+@@ -399,7 +399,7 @@
+   ArcType := ArchiveType;
+ 
+   if (FileName <> '') then
+-    if FileExists(FileName) then begin { open it }
++    if mbFileExists(FileName) then begin { open it }
+ 
+     if not ForceType then
+       ArcType := AbDetermineArcType(FileName, atUnknown);
+@@ -411,33 +411,33 @@
+         end;
+ 
+         atTar : begin
+-          FArchive := TAbTarArchive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
++          FArchive := TAbTarArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
+           inherited InitArchive;
+         end;
+ 
+         atGZip : begin
+-          FArchive := TAbGzipArchive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
++          FArchive := TAbGzipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
+           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbGzipArchive(FArchive).IsGzippedTar := False;
+           inherited InitArchive;
+         end;
+ 
+         atGZippedTar : begin
+-          FArchive := TAbGzipArchive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
++          FArchive := TAbGzipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
+           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbGzipArchive(FArchive).IsGzippedTar := True;
+           inherited InitArchive;
+         end;
+ 
+         atBzip2 : begin
+-          FArchive := TAbBzip2Archive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
++          FArchive := TAbBzip2Archive.Create(FileName, fmOpenRead or fmShareDenyNone);
+           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbBzip2Archive(FArchive).IsBzippedTar := False;
+           inherited InitArchive;
+         end;
+ 
+         atBzippedTar : begin
+-          FArchive := TAbBzip2Archive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
++          FArchive := TAbBzip2Archive.Create(FileName, fmOpenRead or fmShareDenyNone);
+           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbBzip2Archive(FArchive).IsBzippedTar := True;
+           inherited InitArchive;
+@@ -455,38 +455,38 @@
+ 
+       case ArcType of
+         atZip : begin                                                    
+-          FArchive := TAbZipArchive.Create(FileName, fmCreate);
++          FArchive := TAbZipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+           InitArchive;
+         end;
+ 
+         atTar : begin
+-          FArchive := TAbTarArchive.Create(FileName, fmCreate or fmShareDenyNone);
++          FArchive := TAbTarArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+           inherited InitArchive;
+         end;
+ 
+         atGZip : begin
+-          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyNone);
++          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbGzipArchive(FArchive).IsGzippedTar := False;
+           inherited InitArchive;
+         end;
+ 
+         atGZippedTar : begin
+-          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyNone);
++          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbGzipArchive(FArchive).IsGzippedTar := True;
+           inherited InitArchive;
+         end;
+ 
+         atBzip2 : begin
+-          FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyNone);
++          FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyWrite);
+           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbBzip2Archive(FArchive).IsBzippedTar := False;
+           inherited InitArchive;
+         end;
+ 
+         atBzippedTar : begin
+-          FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyNone);
++          FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyWrite);
+           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
+           TAbBzip2Archive(FArchive).IsBzippedTar := True;
+           inherited InitArchive;
 Index: AbZipPrc.pas
 ===================================================================
 --- AbZipPrc.pas	(revision 512)
