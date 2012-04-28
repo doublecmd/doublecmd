@@ -418,6 +418,7 @@ begin
             DisplayName := DriveLetter;
             DriveLabel := UTF8Encode(WideString(NetworkPath));
             DriveType := dtNetwork;
+            AutoMount := True;
           end;
         end;
         RegCloseKey(Key);
@@ -1264,4 +1265,4 @@ end;
 {$ENDIF}
 
 end.
-
+
