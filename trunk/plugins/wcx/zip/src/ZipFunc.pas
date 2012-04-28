@@ -31,8 +31,8 @@ interface
 
 uses 
   Classes,
-  WcxPlugin, AbZipKit, AbArcTyp, AbZipTyp, Extension,
-  AbExcept, AbUtils, AbConst;
+  WcxPlugin, AbArcTyp, AbZipTyp, Extension,
+  AbExcept, AbUtils, AbConst, ZipApp;
 
 type
 
@@ -297,8 +297,8 @@ begin
       HeaderData.PackSize     := CompressedSize;
       HeaderData.UnpSize      := UncompressedSize;
       HeaderData.FileCRC      := CRC32;
-      HeaderData.FileTime     := SystemSpecificLastModFileTime;
-      HeaderData.FileAttr     := SystemSpecificAttributes;
+ //     HeaderData.FileTime     := SystemSpecificLastModFileTime;
+      HeaderData.FileAttr     := NativeFileAttributes;
     end;
 
   Result := E_SUCCESS;
@@ -330,8 +330,8 @@ begin
       HeaderData.UnpSize      := Lo(UncompressedSize);
       HeaderData.UnpSizeHigh  := Hi(UncompressedSize);
       HeaderData.FileCRC      := CRC32;
-      HeaderData.FileTime     := SystemSpecificLastModFileTime;
-      HeaderData.FileAttr     := SystemSpecificAttributes;
+//      HeaderData.FileTime     := SystemSpecificLastModFileTime;
+      HeaderData.FileAttr     := NativeFileAttributes;
     end;
 
   Result := E_SUCCESS;
@@ -363,8 +363,8 @@ begin
       HeaderData.UnpSize      := Lo(UncompressedSize);
       HeaderData.UnpSizeHigh  := Hi(UncompressedSize);
       HeaderData.FileCRC      := CRC32;
-      HeaderData.FileTime     := SystemSpecificLastModFileTime;
-      HeaderData.FileAttr     := SystemSpecificAttributes;
+//      HeaderData.FileTime     := SystemSpecificLastModFileTime;
+      HeaderData.FileAttr     := NativeFileAttributes;
     end;
 
   Result := E_SUCCESS;
@@ -572,7 +572,7 @@ begin
       while True do
       begin
         FileName := AnsiString(AddList);
-        Arc.ZipArchive.AddEntry(FileName, FilePath);
+        Arc.AddEntry(FileName, FilePath);
         if (AddList + Length(FileName) + 1)^ = #0 then
           Break;
         Inc(AddList, Length(FileName) + 1);
@@ -647,7 +647,7 @@ begin
       while True do
       begin
         FileName := WideString(AddList);
-        Arc.ZipArchive.AddEntry(UTF8Encode(FileName), FilePath);
+        Arc.AddEntry(UTF8Encode(FileName), FilePath);
         if (AddList + Length(FileName) + 1)^ = #0 then
           Break;
         Inc(AddList, Length(FileName) + 1);
@@ -947,4 +947,4 @@ begin
 end;
 
 end.
-
+
