@@ -185,6 +185,7 @@ implementation
 uses
   LCLProc, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
   uDCUtils, math, fMain, fOptions,
+  uOrderedFileView,
   uFileSourceProperty,
   uFileSourceOperationTypes,
   fColumnsSetConf,
@@ -1067,7 +1068,7 @@ begin
     AllowOutboundEvents:= False;
     MouseToCell(X, Y, iCol, iRow);
     AllowOutboundEvents:= bTemp;
-    Result:= iRow - FixedRows;
+    Result:= IfThen(iRow < 0, InvalidFileIndex, iRow - FixedRows);
     AtFileList := Y >= GetHeaderHeight;
   end;
 end;
