@@ -576,3 +576,41 @@ Index: AbZBrows.pas
        ArcType := ArchiveType;
        if not ForceType then
           ArcType := AbDetermineArcType(FileName, atUnknown);
+Index: AbZipPrc.pas
+===================================================================
+--- AbZipPrc.pas	(revision 512)
++++ AbZipPrc.pas	(working copy)
+@@ -67,7 +67,9 @@
+   AbVMStrm,
+   AbDfBase,
+   AbDfEnc,
+-  AbSpanSt;
++  AbSpanSt,
++  DCOSUtils,
++  DCClassesUtf8;
+ 
+ 
+ { ========================================================================== }
+@@ -297,18 +299,18 @@
+   SaveDir : string;
+   AttrEx : TAbAttrExRec;
+ begin
+-  GetDir(0, SaveDir);
++  SaveDir:= mbGetCurrentDir;
+   try {SaveDir}
+     if (Sender.BaseDirectory <> '') then
+-      ChDir(Sender.BaseDirectory);
++      mbSetCurrentDir(Sender.BaseDirectory);
+     AbFileGetAttrEx(Item.DiskFileName, AttrEx);
+     if ((AttrEx.Attr and faDirectory) <> 0) then
+       UncompressedStream := TMemoryStream.Create
+     else
+       UncompressedStream :=
+-        TFileStream.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
++        TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+   finally {SaveDir}
+-    ChDir( SaveDir );
++    mbSetCurrentDir( SaveDir );
+   end; {SaveDir}
+   try {UncompressedStream}
+     {$IFDEF UNIX}
