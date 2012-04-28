@@ -24,27 +24,29 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbArcTyp.pas 3.05                           *}
+{* ABBREVIA: AbArcTyp.pas                                *}
 {*********************************************************}
 {* ABBREVIA: TABArchive, TABArchiveItem classes          *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbArcTyp;
+
+{$I AbDefine.inc}
 
 interface
 
 uses
+  {$IFDEF MSWINDOWS}
+  Windows,
+  {$ENDIF MSWINDOWS}
   Classes,
-  AbUtils,
-  SysUtils,
-  Types;
+  Types,
+  AbUtils;
 
 { ===== TAbArchiveItem ====================================================== }
 type
   TAbArchiveItem = class(TObject)
-  private
+  protected {private}
     NextItem          : TAbArchiveItem;
     FAction           : TAbArchiveAction;
     FCompressedSize   : Int64;
@@ -52,7 +54,6 @@ type
     FDiskFileName     : string;
     FExternalFileAttributes : LongWord;
     FFileName         : string;
-    FIsDirectory      : Boolean;
     FIsEncrypted      : Boolean;
     FLastModFileTime  : Word;
     FLastModFileDate  : Word;
@@ -65,44 +66,30 @@ type
     function GetDiskPath : string;
     function GetExternalFileAttributes : LongWord; virtual;
     function GetFileName : string; virtual;
-    function GetIsDirectory: Boolean;
+    function GetIsDirectory: Boolean; virtual;
     function GetIsEncrypted : Boolean; virtual;
-    function GetLastModDateTime : TDateTime; virtual;
     function GetLastModFileDate : Word; virtual;
     function GetLastModFileTime : Word; virtual;
-    { This depends on in what format the attributes are stored in the archive,
-      to which system they refer (MS-DOS, Unix, etc.) and what system
-      we're running on (compile time). }
-    function GetSystemSpecificAttributes : LongWord; virtual;
-    { This depends on in what format the date/time is stored in the archive
-      (Unix, MS-DOS, ...) and what system we're running on (compile time).
-      Returns MS-DOS local time on Windows, Unix UTC time on Unix. }
-    function GetSystemSpecificLastModFileTime : Longint; virtual;
+    function GetNativeFileAttributes : LongInt; virtual;
     function GetStoredPath : string;
     function GetUncompressedSize : Int64; virtual;
     procedure SetCompressedSize(const Value : Int64); virtual;
     procedure SetCRC32(const Value : Longint); virtual;
     procedure SetExternalFileAttributes( Value : LongWord ); virtual;
     procedure SetFileName(const Value : string); virtual;
-    procedure SetIsDirectory(const Value: Boolean);
     procedure SetIsEncrypted(Value : Boolean); virtual;
-    procedure SetLastModDateTime(const Value : TDateTime); virtual;
     procedure SetLastModFileDate(const Value : Word); virtual;
     procedure SetLastModFileTime(const Value : Word); virtual;
-    { Attempts to translate attributes across systems. }
-    procedure SetSystemSpecificAttributes(Value : LongWord); virtual;
-    { Expects MS-DOS local time on Windows, Unix UTC time on Unix. }
-    procedure SetSystemSpecificLastModFileTime(const Value: Longint); virtual;
     procedure SetUncompressedSize(const Value : Int64); virtual;
+    function GetLastModTimeAsDateTime: TDateTime; virtual;
+    procedure SetLastModTimeAsDateTime(const Value: TDateTime); virtual;
 
   public {methods}
-    constructor Create; virtual;
+    constructor Create;
     destructor Destroy; override;
     function MatchesDiskName(const FileMask : string) : Boolean;
-    function MatchesStoredName(const FileMask : string; Recursive : Boolean = False) : Boolean;
-    function MatchesStoredNameEx(const FileMask : string; Recursive : Boolean = False) : Boolean;
-    function MatchesPath(const Path : String; Recursive : Boolean = False) : Boolean;
-    function MatchesPathEx(const Paths : String; Recursive : Boolean = False) : Boolean;
+    function MatchesStoredName(const FileMask : string) : Boolean;
+    function MatchesStoredNameEx(const FileMask : string) : Boolean;
 
 
   public {properties}
@@ -127,26 +114,18 @@ type
       read GetFileName
       write SetFileName;
     property IsDirectory: Boolean
-      read GetIsDirectory
-      write SetIsDirectory;
+      read GetIsDirectory;
     property IsEncrypted : Boolean
       read GetIsEncrypted
       write SetIsEncrypted;
-    property LastModDateTime : TDateTime
-      read GetLastModDateTime
-      write SetLastModDateTime;
     property LastModFileDate : Word
       read GetLastModFileDate
       write SetLastModFileDate;
     property LastModFileTime : Word
       read GetLastModFileTime
       write SetLastModFileTime;
-    property SystemSpecificAttributes : LongWord
-      read GetSystemSpecificAttributes
-      write SetSystemSpecificAttributes;
-    property SystemSpecificLastModFileTime : Longint
-      read GetSystemSpecificLastModFileTime
-      write SetSystemSpecificLastModFileTime;
+    property NativeFileAttributes : LongInt
+      read GetNativeFileAttributes;
     property StoredPath : string
       read GetStoredPath;
     property Tagged : Boolean
@@ -155,11 +134,30 @@ type
     property UncompressedSize : Int64
       read GetUncompressedSize
       write SetUncompressedSize;
+
+    property LastModTimeAsDateTime : TDateTime
+      read GetLastModTimeAsDateTime
+      write SetLastModTimeAsDateTime;
+  end;
+
+
+{ ===== TAbArchiveListEnumerator ============================================ }
+type
+  TAbArchiveList = class;
+  TAbArchiveListEnumerator = class
+  private
+    FIndex: Integer;
+    FList: TAbArchiveList;
+  public
+    constructor Create(aList: TAbArchiveList);
+    function GetCurrent: TAbArchiveItem;
+    function MoveNext: Boolean;
+    property Current: TAbArchiveItem read GetCurrent;
   end;
 
 
 { ===== TAbArchiveList ====================================================== }
-type
+
   TAbArchiveList = class
   protected {private}
     FList     : TList;
@@ -177,6 +175,7 @@ type
     procedure Clear;
     procedure Delete(Index : Integer);
     function Find(const FN : string) : Integer;
+    function GetEnumerator: TAbArchiveListEnumerator;
     function IsActiveDupe(const FN : string) : Boolean;
   public {properties}
     property Count : Integer
@@ -297,7 +296,7 @@ type
   protected {event variables}
     FOnProcessItemFailure  : TAbArchiveItemFailureEvent;
     FOnArchiveProgress     : TAbArchiveProgressEvent;
-    FOnArchiveSaveProgress : TAbArchiveProgressEvent;                  {!!.04}
+    FOnArchiveSaveProgress : TAbArchiveProgressEvent;
     FOnArchiveItemProgress : TAbArchiveItemProgressEvent;
     FOnConfirmProcessItem  : TAbArchiveItemConfirmEvent;
     FOnConfirmOverwrite    : TAbConfirmOverwriteEvent;
@@ -317,29 +316,14 @@ type
     procedure GetFreshenTarget(Item : TAbArchiveItem);
     function  GetItemCount : Integer;
     procedure MakeLogEntry(const FN: string; LT : TAbLogType);
-    procedure MakeFullNames(const SourceFileName: String;
-                            const ArchiveDirectory: String;
-                            out   FullSourceFileName: String;
-                            out   FullArchiveFileName: String);
     procedure ReplaceAt(Index : Integer);
     procedure SaveIfNeeded(aItem : TAbArchiveItem);
     procedure SetBaseDirectory(Value : string);
     procedure SetLogFile(const Value : string);
     procedure SetLogging(Value : Boolean);
 
-   	class function SupportsEmptyFolder: Boolean; virtual;
-
   protected {abstract methods}
-    function CreateItem(const SourceFileName : string;
-                        const ArchiveDirectory : string): TAbArchiveItem;
-    {SourceFileName   - full or relative path to a file/dir on some file system
-                        If full path, BaseDirectory is used to determine relative path}
-    {ArchiveDirectory - path to a directory in the archive the file/dir will be in}
-    {Example:
-      FBaseDirectory      = /dir
-      SourceFileName      = /dir/subdir/file
-      ArchiveDirectory    = files/storage  (or files/storage/)
-      -> name in archive  = files/storage/subdir/file}
+    function CreateItem(const FileSpec : string): TAbArchiveItem;
       virtual; abstract;
     procedure ExtractItemAt(Index : Integer; const UseName : string);
       virtual; abstract;
@@ -349,14 +333,16 @@ type
       virtual; abstract;
     procedure SaveArchive;
       virtual; abstract;
+    procedure TestItemAt(Index : Integer);
+      virtual; abstract;
 
   protected {virtual methods}
     procedure DoProcessItemFailure(Item : TAbArchiveItem;
       ProcessType : TAbProcessType; ErrorClass : TAbErrorClass;
       ErrorCode : Integer);
       virtual;
-    procedure DoArchiveSaveProgress(Progress : Byte; var Abort : Boolean); {!!.04}
-      virtual;                                                             {!!.04}
+    procedure DoArchiveSaveProgress(Progress : Byte; var Abort : Boolean);
+      virtual;
     procedure DoArchiveProgress(Progress : Byte; var Abort : Boolean);
       virtual;
     procedure DoArchiveItemProgress(Item : TAbArchiveItem; Progress : Byte;
@@ -380,6 +366,8 @@ type
       virtual;
     function GetSpanningThreshold : Int64;
       virtual;
+    function GetSupportsEmptyFolders : Boolean;
+      virtual;
     procedure SetSpanningThreshold( Value : Int64 );
       virtual;
 
@@ -396,8 +384,6 @@ type
       override;
     procedure Add(aItem : TAbArchiveItem);
       virtual;
-    procedure AddEntry(const Path : String; const ArchiveDirectory : String);
-    procedure AddEntries(const Paths : String; const ArchiveDirectory : String);
     procedure AddFiles(const FileMask : string; SearchAttr : Integer);
     procedure AddFilesEx(const FileMask, ExclusionMask : string;
       SearchAttr : Integer);
@@ -405,10 +391,8 @@ type
     procedure ClearTags;
     procedure Delete(aItem : TAbArchiveItem);
     procedure DeleteAt(Index : Integer);
-    procedure DeleteFiles(const FileMask : string; Recursive : Boolean = False);
-    procedure DeleteFilesEx(const FileMask, ExclusionMask : string;
-      Recursive : Boolean = False);
-    procedure DeleteDirectoriesRecursively(const Paths : string);
+    procedure DeleteFiles(const FileMask : string);
+    procedure DeleteFilesEx(const FileMask, ExclusionMask : string);
     procedure DeleteTaggedItems;
     procedure Extract(aItem : TAbArchiveItem; const NewName : string);
     procedure ExtractAt(Index : Integer; const NewName : string);
@@ -429,8 +413,6 @@ type
     procedure Save;
       virtual;
     procedure TagItems(const FileMask : string);
-    procedure TestItemAt(Index : Integer);
-      virtual; abstract;
     procedure TestTaggedItems;
     procedure UnTagItems(const FileMask : string);
 
@@ -483,6 +465,8 @@ type
     property StoreOptions : TAbStoreOptions
       read FStoreOptions
       write FStoreOptions;
+    property SupportsEmptyFolders :  Boolean
+      read GetSupportsEmptyFolders;
     property TempDirectory : string
       read FTempDir
       write FTempDir;
@@ -494,9 +478,9 @@ type
     property OnArchiveProgress : TAbArchiveProgressEvent
       read FOnArchiveProgress
       write FOnArchiveProgress;
-    property OnArchiveSaveProgress : TAbArchiveProgressEvent           {!!.04}
-      read FOnArchiveSaveProgress                                      {!!.04}
-      write FOnArchiveSaveProgress;                                    {!!.04}
+    property OnArchiveSaveProgress : TAbArchiveProgressEvent
+      read FOnArchiveSaveProgress
+      write FOnArchiveSaveProgress;
     property OnArchiveItemProgress : TAbArchiveItemProgressEvent
       read FOnArchiveItemProgress
       write FOnArchiveItemProgress;
@@ -543,9 +527,13 @@ type
   protected {methods}
     procedure Changed; virtual;
   public {methods}
+    procedure Assign(aSource : TAbExtraField);
     procedure Clear;
+    procedure CloneFrom(aSource : TAbExtraField; aID : Word);
     procedure Delete(aID : Word);
     function Get(aID : Word; out aData : Pointer; out aDataSize : Word) : Boolean;
+    function GetStream(aID : Word; out aStream : TStream): Boolean;
+    function Has(aID : Word): Boolean;
     procedure LoadFromStream(aStream : TStream; aSize : Word);
     procedure Put(aID : Word; const aData; aDataSize : Word);
   public {properties}
@@ -573,6 +561,7 @@ implementation
 
 uses
   RTLConsts,
+  SysUtils,
   AbExcept,
   AbDfBase,
   AbConst,
@@ -592,7 +581,6 @@ begin
   FAction := aaNone;
   FLastModFileTime := 0;
   FLastModFileDate := 0;
-  FCRC32 := 0;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbArchiveItem.Destroy;
@@ -627,22 +615,12 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetIsDirectory: Boolean;
 begin
-  Result := FIsDirectory;
+  Result := False;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetIsEncrypted : Boolean;
 begin
   Result := FIsEncrypted;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetLastModDateTime : TDateTime;
-var
-  FileTime : Longint;
-begin
-  LongRec(FileTime).Hi := LastModFileDate;
-  LongRec(FileTime).Lo := LastModFileTime;
-
-  Result := FileDateToDateTime(FileTime);
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetLastModFileTime : Word;
@@ -655,15 +633,20 @@ begin
   Result := FLastModFileDate;
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetSystemSpecificAttributes : LongWord;
+function TAbArchiveItem.GetNativeFileAttributes : LongInt;
 begin
-  Result := GetExternalFileAttributes;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetSystemSpecificLastModFileTime : Longint;
-begin
-  LongRec(Result).Hi := LastModFileDate;
-  LongRec(Result).Lo := LastModFileTime;
+  {$IFDEF MSWINDOWS}
+  if IsDirectory then
+    Result := faDirectory
+  else
+    Result := 0;
+  {$ENDIF}
+  {$IFDEF UNIX}
+  if IsDirectory then
+    Result := AB_FPERMISSION_GENERIC or AB_FPERMISSION_OWNEREXECUTE
+  else
+    Result := AB_FPERMISSION_GENERIC;
+  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetStoredPath : string;
@@ -684,11 +667,10 @@ begin
   AbUnfixName(DiskName);
   Mask := FileMask;
   AbUnfixName(Mask);
-  Result := AbFileMatch(DiskName, Mask, False);
+  Result := AbFileMatch(DiskName, Mask);
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveItem.MatchesStoredName(const FileMask : string;
-                                          Recursive : Boolean) : Boolean;
+function TAbArchiveItem.MatchesStoredName(const FileMask : string) : Boolean;
 var
   Value : string;
   Drive, Dir, Name : string;
@@ -701,59 +683,24 @@ begin
   AbUnfixName(Name);
   if IsDirectory then
     Name := ExcludeTrailingPathDelimiter(Name);
-  Result := AbFileMatch(Name, Value, Recursive);
+  Result := AbFileMatch(Name, Value);
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveItem.MatchesStoredNameEx(const FileMask : string;
-                                            Recursive : Boolean) : Boolean;
+function TAbArchiveItem.MatchesStoredNameEx(const FileMask : string) : Boolean;
 var
-  Position: Integer;
-  Path: String;
+  I, J: Integer;
+  MaskPart: string;
 begin
   Result := True;
+  I := 1;
+  while I <= Length(FileMask) do begin
+    J := I;
+    while (I <= Length(FileMask)) and (FileMask[I] <> PathSep {';'}) do Inc(I);
+    MaskPart := Trim(Copy(FileMask, J, I - J));
+    if (I <= Length(FileMask)) and (FileMask[I] = PathSep {';'}) then Inc(I);
 
-  Position := 1;
-  while True do
-  begin
-    Path := AbExtractEntry(FileMask, Position);
-    if Path = '' then Break;
-    if MatchesStoredName(Trim(Path), Recursive) then Exit;
+    if MatchesStoredName(MaskPart) then Exit;
   end;
-
-  Result := False;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbArchiveItem.MatchesPath(const Path : String; Recursive : Boolean = False) : Boolean;
-var
-  Value : string;
-  Drive, Dir, Name : string;
-begin
-  Value := Path;
-  if (Value <> '') and (RightStr(Value, 1) <> AbPathDelim) then
-    Value := Value + AbPathDelim;
-  AbUnfixName(Value);
-  AbParseFileName(Path, Drive, Dir, Name);
-  Value := Dir + Name;
-  Name := FileName;
-  AbUnfixName(Name);
-  Result := AbDirMatch(Name, Value, Recursive);
-end;
-{ -------------------------------------------------------------------------- }
-function TAbArchiveItem.MatchesPathEx(const Paths : String; Recursive : Boolean = False) : Boolean;
-var
-  Position: Integer;
-  Path: String;
-begin
-  Result := True;
-
-  Position := 1;
-  while True do
-  begin
-    Path := AbExtractEntry(Paths, Position);
-    if Path = '' then Break;
-    if MatchesPath(Path, Recursive) then Exit;
-  end;
-
   Result := False;
 end;
 { -------------------------------------------------------------------------- }
@@ -777,24 +724,9 @@ begin
   FFileName := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetIsDirectory(const Value: Boolean);
-begin
-  FIsDirectory := Value;
-end;
-{ -------------------------------------------------------------------------- }
 procedure TAbArchiveItem.SetIsEncrypted(Value : Boolean);
 begin
   FIsEncrypted := Value;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetLastModDateTime(const Value : TDateTime);
-var
-  FileTime : Integer;
-begin
-  FileTime := DateTimeToFileDate(Value);
-
-  LastModFileTime := LongRec(FileTime).Lo;
-  LastModFileDate := LongRec(FileTime).Hi;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchiveItem.SetLastModFileDate(const Value : Word);
@@ -807,22 +739,45 @@ begin
   FLastModFileTime := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetSystemSpecificAttributes(Value : LongWord);
-begin
-  SetExternalFileAttributes(Value);
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetSystemSpecificLastModFileTime(const Value: Longint);
-begin
-  LastModFileDate := LongRec(Value).Hi;
-  LastModFileTime := LongRec(Value).Lo;
-end;
-{ -------------------------------------------------------------------------- }
 procedure TAbArchiveItem.SetUnCompressedSize(const Value : Int64);
 begin
-  if Value > High(LongWord) then
-    raise EAbFileTooLarge.Create;
   FUnCompressedSize := Value;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchiveItem.GetLastModTimeAsDateTime: TDateTime;
+begin
+  Result := AbDosFileDateToDateTime(LastModFileDate, LastModFileTime);
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbArchiveItem.SetLastModTimeAsDateTime(const Value: TDateTime);
+var
+  FileDate : Integer;
+begin
+  FileDate := AbDateTimeToDosFileDate(Value);
+  LastModFileTime := LongRec(FileDate).Lo;
+  LastModFileDate := LongRec(FileDate).Hi;
+end;
+{ -------------------------------------------------------------------------- }
+
+{ TAbArchiveEnumeratorList implementation ================================== }
+{ TAbArchiveEnumeratorList }
+constructor TAbArchiveListEnumerator.Create(aList: TAbArchiveList);
+begin
+  inherited Create;
+  FIndex := -1;
+  FList := aList;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchiveListEnumerator.GetCurrent: TAbArchiveItem;
+begin
+  Result := FList[FIndex];
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchiveListEnumerator.MoveNext: Boolean;
+begin
+  Result := FIndex < FList.Count - 1;
+  if Result then
+    Inc(FIndex);
 end;
 { -------------------------------------------------------------------------- }
 
@@ -944,6 +899,11 @@ begin
   Result := FList.Count;
 end;
 { -------------------------------------------------------------------------- }
+function TAbArchiveList.GetEnumerator: TAbArchiveListEnumerator;
+begin
+  Result := TAbArchiveListEnumerator.Create(Self);
+end;
+{ -------------------------------------------------------------------------- }
 function TAbArchiveList.IsActiveDupe(const FN : string) : Boolean;
 var
   Look : TAbArchiveItem;
@@ -1037,16 +997,9 @@ end;
 destructor TAbArchive.Destroy;
 begin
   FItemList.Free;
-  FItemList := nil;
-  if FOwnsStream then begin
-   if Assigned(FStream) then {!!.05 avoid A/V if Nil (Only occurs if exception is raised)}
-     FStream.Free;
-    FStream := nil;
-  end;
-  if Assigned(FLogStream) then begin
-    FLogStream.Free;
-    FLogStream := nil;
-  end;
+  if FOwnsStream then
+    FStream.Free;
+  FLogStream.Free;
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
@@ -1081,33 +1034,6 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.AddEntry(const Path : String; const ArchiveDirectory : String);
-var
-  Item : TAbArchiveItem;
-  FullSourceFileName, FullArchiveFileName : String;
-begin
-  MakeFullNames(Path, ArchiveDirectory, FullSourceFileName, FullArchiveFileName);
-
-  if (FullSourceFileName <> FArchiveName) then begin
-    Item := CreateItem(Path, ArchiveDirectory);
-    Add(Item);
-  end;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchive.AddEntries(const Paths : String; const ArchiveDirectory : String);
-var
-  Position: Integer;
-  Path: String;
-begin
-  Position := 1;
-  while True do
-  begin
-    Path := AbExtractEntry(Paths, Position);
-    if Path = '' then Break;
-    AddEntry(Path, ArchiveDirectory);
-  end;
-end;
-{ -------------------------------------------------------------------------- }
 procedure TAbArchive.AddFiles(const FileMask : string; SearchAttr : Integer);
   {Add files to the archive where the disk filespec matches}
 begin
@@ -1119,32 +1045,42 @@ procedure TAbArchive.AddFilesEx(const FileMask, ExclusionMask : string;
   {Add files matching Filemask except those matching ExclusionMask}
 var
   PathType : TAbPathType;
+  IsWild : Boolean;
   SaveDir : string;
   Mask : string;
   MaskF : string;
 
-  procedure CreateItems(Recursing : Boolean);
+  procedure CreateItems(Wild, Recursing : Boolean);
   var
     i : Integer;
     Files : TStrings;
     FilterList : TStringList;
+    Item : TAbArchiveItem;
   begin
     FilterList := TStringList.Create;
     try
       if (MaskF <> '') then
-        // Exclude directories here, mask should only exclude files.
-        AbFindFilesEx(MaskF, SearchAttr and not faDirectory, FilterList, Recursing);
+        AbFindFilesEx(MaskF, SearchAttr, FilterList, Recursing);
 
         Files := TStringList.Create;
         try
 
           AbFindFilesEx(Mask, SearchAttr, Files, Recursing);
-          if (Files.Count > 0) then begin
+          if (Files.Count > 0) then
             for i := 0 to pred(Files.Count) do
               if FilterList.IndexOf(Files[i]) < 0 then
-                AddEntry(Files[i], Files[i]);
-            FIsDirty := true;
-          end;
+                if not Wild then begin
+                  if (Files[i] <> FArchiveName) then begin
+                    Item := CreateItem(Files[i]);
+                    Add(Item);
+                  end;
+                end else begin
+                  if (AbAddBackSlash(FBaseDirectory) + Files[i]) <> FArchiveName
+                    then begin
+                      Item := CreateItem(Files[i]);
+                      Add(Item);
+                    end;
+                end;
         finally
           Files.Free;
         end;
@@ -1155,7 +1091,11 @@ var
   end;
 
 begin
+   if not SupportsEmptyFolders then
+    SearchAttr := SearchAttr and not faDirectory;
+
   CheckValid;
+  IsWild := (Pos('*', FileMask) > 0) or (Pos('?', FileMask) > 0);
   PathType := AbGetPathType(FileMask);
 
   Mask := FileMask;
@@ -1170,7 +1110,7 @@ begin
         if BaseDirectory <> '' then
           ChDir(BaseDirectory);
         try
-          CreateItems(soRecurse in StoreOptions);
+          CreateItems(IsWild, soRecurse in StoreOptions);
         finally
           if BaseDirectory <> '' then
             ChDir(SaveDir);
@@ -1178,7 +1118,7 @@ begin
       end;
     ptAbsolute :
       begin
-        CreateItems(soRecurse in StoreOptions);
+        CreateItems(IsWild, soRecurse in StoreOptions);
       end;
   end;
 end;
@@ -1190,7 +1130,7 @@ var
   Item : TAbArchiveItem;
   PT : TAbProcessType;                                               
 begin
-  Item := CreateItem('', NewName);
+  Item := CreateItem(NewName);
   CheckValid;
 
   PT := ptAdd;
@@ -1240,11 +1180,15 @@ function TAbArchive.ConfirmPath(Item : TAbArchiveItem; const NewName : string;
 var
   Path : string;
 begin
+  if Item.IsDirectory and not (ExtractOptions >= [eoRestorePath, eoCreateDirs]) then begin
+    Result := False;
+    Exit;
+  end;
   if (NewName = '') then begin
     UseName := Item.FileName;
+    AbUnfixName(UseName);
     if Item.IsDirectory then
       UseName := ExcludeTrailingPathDelimiter(UseName);
-    AbUnfixName(UseName);
     if (not (eoRestorePath in ExtractOptions)) then
       UseName := ExtractFileName(UseName);
   end
@@ -1254,14 +1198,14 @@ begin
     UseName := AbAddBackSlash(BaseDirectory) + UseName;
 
   Path := ExtractFileDir(UseName);
-  if (Path <> '') and not AbDirectoryExists(Path) then
+  if (Path <> '') and not mbDirectoryExists(Path) then
     if (eoCreateDirs in ExtractOptions) then
       AbCreateDirectory(Path)
     else
       raise EAbNoSuchDirectory.Create;
 
   Result := True;
-  if mbFileExists(UseName) then
+  if not Item.IsDirectory and mbFileExists(UseName) then
     DoConfirmOverwrite(UseName, Result);
 end;
 { -------------------------------------------------------------------------- }
@@ -1293,17 +1237,14 @@ begin
     Save;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.DeleteFiles(const FileMask : string; Recursive : Boolean);
+procedure TAbArchive.DeleteFiles(const FileMask : string);
   {delete all files from the archive that match the file mask}
-  {if Recursive=False only files from matching directory are deleted}
 begin
-  DeleteFilesEx(FileMask, '', Recursive);
+  DeleteFilesEx(FileMask, '');
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.DeleteFilesEx(const FileMask, ExclusionMask : string;
-                                   Recursive : Boolean);
+procedure TAbArchive.DeleteFilesEx(const FileMask, ExclusionMask : string);
   {Delete files matching Filemask except those matching ExclusionMask}
-  {if Recursive=False only files from matching directory are deleted}
 var
   i : Integer;
 begin
@@ -1311,24 +1252,9 @@ begin
   if Count > 0 then begin
     for i := pred(Count) downto 0 do begin
       with TAbArchiveItem(FItemList[i]) do
-        if MatchesStoredNameEx(FileMask, Recursive) then
-          if not MatchesStoredNameEx(ExclusionMask, Recursive) then
+        if MatchesStoredNameEx(FileMask) then
+          if not MatchesStoredNameEx(ExclusionMask) then
             DeleteAt(i);
-    end;
-  end;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchive.DeleteDirectoriesRecursively(const Paths : string);
-  {Delete directory entry and all file and directory entries matching the same path recursively}
-var
-  i : Integer;
-begin
-  CheckValid;
-  if Count > 0 then begin
-    for i := pred(Count) downto 0 do begin
-      with TAbArchiveItem(FItemList[i]) do
-        if MatchesPathEx(Paths, True) then
-          DeleteAt(i);
     end;
   end;
 end;
@@ -1356,14 +1282,12 @@ begin
     FOnProcessItemFailure(Self, Item, ProcessType, ErrorClass, ErrorCode);
 end;
 { -------------------------------------------------------------------------- }
-{!!.04 - Added }
 procedure TAbArchive.DoArchiveSaveProgress(Progress : Byte; var Abort : Boolean);
 begin
   Abort := False;
   if Assigned(FOnArchiveSaveProgress) then
     FOnArchiveSaveProgress(Self, Progress, Abort);
 end;
-{!!.04 - Added end }
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.DoArchiveProgress(Progress : Byte; var Abort : Boolean);
 begin
@@ -1564,21 +1488,21 @@ procedure TAbArchive.TestTaggedItems;
   {test all tagged items in the archive}
 var
   i : Integer;
-  Abort : Boolean;                                                       
+  Abort : Boolean;
 begin
   CheckValid;
   if Count > 0 then begin
     for i := 0 to pred(Count) do begin
       with TAbArchiveItem(FItemList[i]) do
         if Tagged then begin
-          FCurrentItem := FItemList[i];                              
+          FCurrentItem := FItemList[i];
           TestItemAt(i);
         end;
       DoArchiveProgress(AbPercentage(succ(i), Count), Abort);
       if Abort then
         raise EAbUserAbort.Create;
     end;
-    DoArchiveProgress(100, Abort);                                       
+    DoArchiveProgress(100, Abort);
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1607,7 +1531,7 @@ begin
       {Does the filename contain a drive or a leading backslash? }
       if not ((Pos(':', lValue) = 2) or (Pos(AbPathDelim, lValue) = 1)) then
         {If not, add the BaseDirectory to the filename.}
-        lValue := AbAddBackSlash(BaseDirectory) + lValue;                {!!.04}
+        lValue := AbAddBackSlash(BaseDirectory) + lValue;
     end;
     lValue := AbGetShortFileSpec(lValue);
   end;
@@ -1696,7 +1620,7 @@ begin
     for i := pred(Count) downto 0 do begin
       with TAbArchiveItem(FItemList[i]) do
         if MatchesStoredNameEx(FileMask) then
-          if not MatchesStoredNameEx(ExclusionMask) then                 
+          if not MatchesStoredNameEx(ExclusionMask) then
             FreshenAt(i);
     end;
   end;
@@ -1770,7 +1694,7 @@ begin
         AbFindFiles(Item.FileName, faAnyFile and not faDirectory, Files,
                      True);
         if Files.Count > 0 then begin
-          DName := AbAddBackSlash(BaseDirectory) + Files[0];           {!!.04}
+          DName := AbAddBackSlash(BaseDirectory) + Files[0];
           AbUnfixName(DName);
           Item.DiskFileName := DName;
         end
@@ -1786,7 +1710,7 @@ begin
   end
   else begin
     if (BaseDirectory <> '') then
-      DName := AbAddBackSlash(BaseDirectory) + Item.FileName           {!!.04}
+      DName := AbAddBackSlash(BaseDirectory) + Item.FileName
     else
       if AbGetPathType(Item.DiskFileName) = ptAbsolute then
         DName := Item.DiskFileName
@@ -1800,6 +1724,11 @@ end;
 function TAbArchive.GetSpanningThreshold : Int64;
 begin
   Result := FSpanningThreshold;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchive.GetSupportsEmptyFolders : Boolean;
+begin
+  Result := False;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchive.GetItemCount : Integer;
@@ -1833,45 +1762,6 @@ begin
     Buf := FN + LogTypeRes[LT] + DateTimeToStr(Now) + sLineBreak;
     FLogStream.Write(Buf[1], Length(Buf) * SizeOf(Char));
   end;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchive.MakeFullNames(const SourceFileName: String;
-                                   const ArchiveDirectory: String;
-                                   out   FullSourceFileName: String;
-                                   out   FullArchiveFileName: String);
-var
-  PathType : TAbPathType;
-  RelativeSourceFileName: String;
-begin
-  PathType := AbGetPathType(SourceFileName);
-  case PathType of
-    ptNone, ptRelative :
-      begin
-        if FBaseDirectory <> '' then
-          FullSourceFileName := AbAddBackSlash(FBaseDirectory) + SourceFileName
-        else
-          FullSourceFileName := SourceFileName;
-
-        RelativeSourceFileName := SourceFileName;
-      end;
-    ptAbsolute :
-      begin
-        FullSourceFileName := SourceFileName;
-
-        if FBaseDirectory <> '' then
-          RelativeSourceFileName := ExtractRelativepath(AbAddBackSlash(FBaseDirectory),
-                                                        SourceFileName)
-        else
-          RelativeSourceFileName := ExtractFileName(SourceFileName);
-      end;
-  end;
-
-  if ArchiveDirectory <> '' then
-    FullArchiveFileName := AbAddBackSlash(ArchiveDirectory) + RelativeSourceFileName
-  else
-    FullArchiveFileName := RelativeSourceFileName;
-
-  FullArchiveFileName := FixName(FullArchiveFileName);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.Move(aItem : TAbArchiveItem; const NewStoredPath : string);
@@ -1953,16 +1843,18 @@ procedure TAbArchive.Save;
 var
   Confirm : Boolean;
 begin
-  if FIsDirty and (Status <> asInvalid) then
-  begin
-    DoConfirmSave(Confirm);
-    if not Confirm then
-      Exit;
+  if Status = asInvalid then
+    Exit;
+  if (not FIsDirty) and (Count > 0) then
+    Exit;
 
-    SaveArchive;
-    FIsDirty := False;
-    DoSave;
-  end;
+  DoConfirmSave(Confirm);
+  if not Confirm then
+    Exit;
+
+  SaveArchive;
+  FIsDirty := False;
+  DoSave;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.SaveIfNeeded(aItem : TAbArchiveItem);
@@ -1977,7 +1869,7 @@ begin
     if Value[Length(Value)] = AbPathDelim then
       if (Length(Value) > 1) and (Value[Length(Value) - 1] <> ':') then
         System.Delete(Value, Length(Value), 1);
-  if (Length(Value) = 0) or AbDirectoryExists(Value) then
+  if (Length(Value) = 0) or mbDirectoryExists(Value) then
     FBaseDirectory := Value
   else
     raise EAbNoSuchDirectory.Create;
@@ -2005,7 +1897,7 @@ begin
       FLogStream := TFileStream.Create(FLogFile, fmCreate or fmOpenWrite);
       MakeLogEntry(FArchiveName, ltStart);
     except
-      raise EAbException.Create(AbLogCreateErrorS);                      {!!.02}
+      raise EAbException.Create(AbLogCreateErrorS);
     end;
   end;
 end;
@@ -2042,13 +1934,13 @@ begin
   raise EAbSpanningNotSupported.Create;
 end;
 { -------------------------------------------------------------------------- }
-class function TAbArchive.SupportsEmptyFolder: Boolean;
-begin
-	Result := False;
-end;
-{ -------------------------------------------------------------------------- }
 
 { TAbExtraField implementation ============================================= }
+procedure TAbExtraField.Assign(aSource : TAbExtraField);
+begin
+  SetBuffer(aSource.Buffer);
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbExtraField.Changed;
 begin
   // No-op
@@ -2058,6 +1950,16 @@ procedure TAbExtraField.Clear;
 begin
   FBuffer := nil;
   Changed;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbExtraField.CloneFrom(aSource : TAbExtraField; aID : Word);
+var
+  Data : Pointer;
+  DataSize : Word;
+begin
+  if aSource.Get(aID, Data, DataSize) then
+    Put(aID, Data, DataSize)
+  else Delete(aID);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbExtraField.Delete(aID : Word);
@@ -2153,6 +2055,26 @@ begin
     else
       Inc(i);
   raise EListError.CreateFmt(SListIndexError, [aIndex]);
+end;
+{ -------------------------------------------------------------------------- }
+function TAbExtraField.GetStream(aID : Word; out aStream : TStream): Boolean;
+var
+  Data: Pointer;
+  DataSize: Word;
+begin
+  Result := Get(aID, Data, DataSize);
+  if Result then begin
+    aStream := TMemoryStream.Create;
+    aStream.WriteBuffer(Data^, DataSize);
+    aStream.Position := 0;
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbExtraField.Has(aID : Word): Boolean;
+var
+  SubField : PAbExtraSubField;
+begin
+  Result := FindField(aID, SubField);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbExtraField.LoadFromStream(aStream : TStream; aSize : Word);

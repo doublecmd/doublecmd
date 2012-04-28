@@ -1,3 +1,124 @@
+Index: AbArcTyp.pas
+===================================================================
+--- AbArcTyp.pas	(revision 512)
++++ AbArcTyp.pas	(working copy)
+@@ -565,7 +565,9 @@
+   AbExcept,
+   AbDfBase,
+   AbConst,
+-  AbResString;
++  AbResString,
++  DCOSUtils,
++  DCClassesUtf8;
+ 
+ 
+ { TAbArchiveItem implementation ============================================ }
+@@ -980,7 +982,7 @@
+   {create an archive by opening a filestream on filename with the given mode}
+ begin
+   FOwnsStream := True;
+-  CreateFromStream(TFileStream.Create(FileName, Mode), FileName);
++  CreateFromStream(TFileStreamEx.Create(FileName, Mode), FileName);
+   FMode := Mode;
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -1196,14 +1198,14 @@
+     UseName := AbAddBackSlash(BaseDirectory) + UseName;
+ 
+   Path := ExtractFileDir(UseName);
+-  if (Path <> '') and not DirectoryExists(Path) then
++  if (Path <> '') and not mbDirectoryExists(Path) then
+     if (eoCreateDirs in ExtractOptions) then
+       AbCreateDirectory(Path)
+     else
+       raise EAbNoSuchDirectory.Create;
+ 
+   Result := True;
+-  if not Item.IsDirectory and FileExists(UseName) then
++  if not Item.IsDirectory and mbFileExists(UseName) then
+     DoConfirmOverwrite(UseName, Result);
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -1560,11 +1562,12 @@
+ begin
+   CheckValid;
+   Index := FindItem(aItem);
+-  if Index <> -1 then begin
++  if Index <> -1 then
++  begin
++    FreshenAt(Index);
+     {point existing item at the new file}
+     if AbGetPathType(aItem.DiskFileName) = ptAbsolute then
+       FItemList[Index].DiskFileName := aItem.DiskFileName;
+-    FreshenAt(Index);
+   end;
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -1625,7 +1628,7 @@
+ { -------------------------------------------------------------------------- }
+ function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
+ var
+-  FS : TFileStream;
++  FS : TFileStreamEx;
+   DateTime : LongInt;
+   FileTime : Word;
+   FileDate : Word;
+@@ -1636,8 +1639,8 @@
+   if BaseDirectory <> '' then
+     ChDir(BaseDirectory);
+   try
+-    FS := TFileStream.Create(Item.DiskFileName,
+-                              fmOpenRead or fmShareDenyWrite);
++    FS := TFileStreamEx.Create(Item.DiskFileName,
++                               fmOpenRead or fmShareDenyWrite);
+     try
+       DateTime := FileGetDate(FS.Handle);
+       FileTime := LongRec(DateTime).Lo;
+@@ -1807,11 +1810,12 @@
+ begin
+   CheckValid;
+   Index := FindItem(aItem);
+-  if Index <> -1 then begin
++  if Index <> -1 then
++  begin
++    ReplaceAt(Index);
+     {point existing item at the new file}
+     if AbGetPathType(aItem.DiskFileName) = ptAbsolute then
+       FItemList[Index].DiskFileName := aItem.DiskFileName;
+-    ReplaceAt(Index);
+   end;
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -1865,7 +1869,7 @@
+     if Value[Length(Value)] = AbPathDelim then
+       if (Length(Value) > 1) and (Value[Length(Value) - 1] <> ':') then
+         System.Delete(Value, Length(Value), 1);
+-  if (Length(Value) = 0) or DirectoryExists(Value) then
++  if (Length(Value) = 0) or mbDirectoryExists(Value) then
+     FBaseDirectory := Value
+   else
+     raise EAbNoSuchDirectory.Create;
+@@ -1973,7 +1977,7 @@
+   Len, Offset : Integer;
+ begin
+   Len := SizeOf(TAbExtraSubField) + aSubField.Len;
+-  Offset := PtrInt(aSubField) - PtrInt(Pointer(FBuffer));
++  Offset := Pointer(aSubField) - Pointer(FBuffer);
+   if Offset + Len < Length(FBuffer) then
+     Move(FBuffer[Offset + Len], aSubField^, Length(FBuffer) - Offset - Len);
+   SetLength(FBuffer, Length(FBuffer) - Len);
+@@ -2001,9 +2005,9 @@
+   end
+   else begin
+     BytesLeft := Length(FBuffer) -
+-      Integer(PtrInt(aCurField) - PtrInt(Pointer(FBuffer))) -
++      (Pointer(aCurField) - Pointer(FBuffer)) -
+       SizeOf(TAbExtraSubField) - aCurField.Len;
+-    aCurField := Pointer(PtrInt(aCurField) + aCurField.Len + SizeOf(TAbExtraSubField));
++    Inc(Pointer(aCurField), aCurField.Len + SizeOf(TAbExtraSubField));
+   end;
+   Result := (BytesLeft >= SizeOf(TAbExtraSubField));
+   if Result and (BytesLeft < SizeOf(TAbExtraSubField) + aCurField.Len) then
 Index: AbBitBkt.pas
 ===================================================================
 --- AbBitBkt.pas	(revision 512)
@@ -455,31 +576,3 @@ Index: AbZBrows.pas
        ArcType := ArchiveType;
        if not ForceType then
           ArcType := AbDetermineArcType(FileName, atUnknown);
-Index: AbZipKit.pas
-===================================================================
---- AbZipKit.pas	(revision 512)
-+++ AbZipKit.pas	(working copy)
-@@ -93,6 +93,8 @@
-       {extract all tagged items from the archive}
-     procedure ExtractToStream(const aFileName : string; ToStream : TStream);
-       {extract the specified item to TStream descendant}
-+    procedure TestItemAt(Index : Integer);
-+      {test specific item in the archive}
-     procedure TestTaggedItems;
-       {test all tagged items in the archive}
- 
-@@ -253,6 +255,14 @@
-     (ZipArchive as TAbZipArchive).PasswordRetries := Value;
- end;
- { -------------------------------------------------------------------------- }
-+procedure TAbCustomZipKit.TestItemAt(Index : Integer);
-+begin
-+  if (ZipArchive <> nil) then
-+    ZipArchive.TestItemAt(Index)
-+  else
-+    raise EAbNoArchive.Create;
-+end;
-+{ -------------------------------------------------------------------------- }
- procedure TAbCustomZipKit.TestTaggedItems;
-   {test all tagged items in the archive}
- begin

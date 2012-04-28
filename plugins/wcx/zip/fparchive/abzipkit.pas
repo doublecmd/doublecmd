@@ -93,8 +93,6 @@ type
       {extract all tagged items from the archive}
     procedure ExtractToStream(const aFileName : string; ToStream : TStream);
       {extract the specified item to TStream descendant}
-    procedure TestItemAt(Index : Integer);
-      {test specific item in the archive}
     procedure TestTaggedItems;
       {test all tagged items in the archive}
 
@@ -253,14 +251,6 @@ begin
   FPasswordRetries := Value;
   if (ZipArchive <> nil) then
     (ZipArchive as TAbZipArchive).PasswordRetries := Value;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbCustomZipKit.TestItemAt(Index : Integer);
-begin
-  if (ZipArchive <> nil) then
-    ZipArchive.TestItemAt(Index)
-  else
-    raise EAbNoArchive.Create;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipKit.TestTaggedItems;
