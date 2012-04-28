@@ -518,6 +518,29 @@ Index: AbSelfEx.pas
    try
      MakeSelfExtracting(FStubStream, FZipStream, FSelfStream);
      Result := True;
+Index: AbUnzPrc.pas
+===================================================================
+--- AbUnzPrc.pas	(revision 512)
++++ AbUnzPrc.pas	(working copy)
+@@ -153,7 +153,8 @@
+   AbSpanSt,
+   AbSWStm,
+   AbUnzOutStm,
+-  AbUtils;
++  AbUtils,
++  DCClassesUtf8;
+ 
+ { -------------------------------------------------------------------------- }
+ procedure AbReverseBits(var W : Word);
+@@ -1111,7 +1112,7 @@
+   else begin
+     InStream := ExtractPrep(ZipArchive, Item);
+     try
+-      OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyWrite);
++      OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite);
+       try
+         try    {OutStream}
+           DoExtract(ZipArchive, Item, InStream, OutStream);
 Index: AbVMStrm.pas
 ===================================================================
 --- AbVMStrm.pas	(revision 512)
