@@ -20,32 +20,26 @@
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
+ * Craig Peterson <capeterson@users.sourceforge.net>
  *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbUnzPrc.pas 3.05                           *}
+{* ABBREVIA: AbUnzPrc.pas                                *}
 {*********************************************************}
 {* ABBREVIA: UnZip procedures                            *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbUnzPrc;
+
+{$I AbDefine.inc}
 
 interface
 
 uses
+  Classes,
   AbArcTyp,
-  AbZipTyp,
-  AbUtils,
-  AbDfBase,
-  AbDfDec,
-  AbDfCryS,
-  AbZipCry,
-  AbSWStm,
-  AbSpanSt,
-  Classes;
+  AbZipTyp;
 
 type
   TAbUnzipHelper = class( TObject )
@@ -54,14 +48,9 @@ type
     FOutWriter : TStream;
     FOutStream : TStream;
     FUnCompressedSize : LongInt;
-    FCRC32 : LongInt;
-    FCompressedSize : LongInt;
     FCompressionMethod : TAbZipCompressionMethod;
-    FDecoder : TAbZDecoder;
     FDictionarySize : TAbZipDictionarySize;
     FShannonFanoTreeCount : Byte;
-    FOnProgress : TAbProgressEvent;
-    FCurrentProgress : Byte;
 
     FOutBuf : PAbByteArray;          {output buffer}
     FOutSent : LongInt;              {number of bytes sent to output buffer}
@@ -71,15 +60,12 @@ type
     FInBuf : TAbByteArray4K;
     FInPos : Integer;                {current position in input buffer}
     FInCnt : Integer;                {number of bytes in input buffer}
-    FInLeft : LongInt;               {bytes remaining in compressed input file}
-    FInEof  : Boolean;               {set when FInLeft = 0}
+    FInEof  : Boolean;               {set when stream read returns 0}
     FCurByte : Byte;                 {current input byte}
     FBitsLeft : Byte;                {bits left to process in FCurByte}
 
     FZStream : TStream;
   protected
-    procedure DoProgress( Progress : Byte; var Abort : Boolean );
-      virtual;
     procedure uzFlushOutBuf;
       {-Flushes the output buffer}
 
@@ -105,19 +91,12 @@ type
     procedure uzWriteByte(B : Byte);
       {write to output}
   public
-    constructor Create( var InputStream : TStream; OutputStream : TStream;
-                        aDecoder : TObject );
+    constructor Create( InputStream, OutputStream : TStream );
     destructor Destroy;
       override;
 
-    function Execute : LongInt;
-      {returns the CRC}
-    property OnProgress : TAbProgressEvent
-      read FOnProgress
-      write FOnProgress;
-    property CompressedSize : LongInt
-      read FCompressedSize
-      write FCompressedSize;
+    procedure Execute;
+
     property UnCompressedSize : LongInt
       read FUncompressedSize
       write FUncompressedSize;
@@ -149,19 +128,32 @@ type
 implementation
 
 uses
-  AbConst,
-  AbResString,
-  AbExcept,
-  AbTempFileStream,  
-  AbBitBkt,
-  {$IFNDEF NoQt}
-  {$IFDEF LINUX}
-  QControls,
-  QDialogs,
-  {$ENDIF}
+  {$IFDEF MSWINDOWS}
+  Windows,
   {$ENDIF}
   SysUtils,
-  DCOSUtils,
+  {$IFDEF UnzipBzip2Support}
+  AbBzip2,
+  {$ENDIF}
+  {$IFDEF UnzipLzmaSupport}
+  AbLzma,
+  {$ENDIF}
+  {$IFDEF UnzipPPMdSupport}
+  AbPPMd,
+  {$ENDIF}
+  {$IFDEF UnzipWavPackSupport}
+  AbWavPack,
+  {$ENDIF}
+  AbBitBkt,
+  AbConst,
+  AbDfBase,
+  AbDfCryS,
+  AbDfDec,
+  AbExcept,
+  AbSpanSt,
+  AbSWStm,
+  AbUnzOutStm,
+  AbUtils,
   DCClassesUtf8;
 
 { -------------------------------------------------------------------------- }
@@ -196,24 +188,17 @@ end;
 { TAbUnzipHelper implementation ============================================ }
 
 { -------------------------------------------------------------------------- }
-constructor TAbUnzipHelper.Create( var InputStream : TStream;
-                                   OutputStream : TStream;
-                                   aDecoder : TObject );
+constructor TAbUnzipHelper.Create( InputStream, OutputStream : TStream );
 begin
   inherited Create;
   FOutBuf := AllocMem( AbBufferSize );
   FOutPos := 0;                                                        
   FZStream := InputStream;
   FOutStream := OutputStream;
-  FDecoder := TAbZDecoder( aDecoder );
-  FCompressedSize := FZStream.Size;
   FUncompressedSize := 0;
   FDictionarySize := dsInvalid;
   FShannonFanoTreeCount := 0;
   FCompressionMethod := cmDeflated;
-  {starting value for output CRC}
-  FCRC32 := -1;
-  FCurrentProgress := 0;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbUnzipHelper.Destroy;
@@ -222,7 +207,7 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipHelper.Execute : LongInt;
+procedure TAbUnzipHelper.Execute;
 begin
   {parent class handles exceptions via OnExtractFailure}
   FBitsLeft := 0;
@@ -247,16 +232,10 @@ begin
   else
   {$ENDIF}
     FOutWriter := FOutStream;
-  FInLeft := FCompressedSize;
   FInPos := 1+SizeOf(FInBuf);
 
 {  GetMem( FInBuf, SizeOf(FInBuf^) );}
   try
-    if Assigned( FDecoder ) then begin
-      FDecoder.ReadEncryptionHeader;
-      Dec( FInLeft, 12 );
-    end;
-
     {uncompress it with the appropriate method}
     case FCompressionMethod of
       {$IFDEF UnzipShrinkSupport}
@@ -281,60 +260,25 @@ begin
     if (FOutWriter <> FOutStream) then
       FOutWriter.Free;
   end;
-  Result := not FCRC32;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbUnzipHelper.uzReadNextPrim;
-var
-  L : LongInt;
 begin
-  if (FInLeft = 0) then begin
-    {we're done}
-    FInEof := True;
-    FInPos := FInCnt+1;
-  end
-  else begin
-    if FInLeft > sizeof( FInBuf ) then
-      L := sizeof( FInBuf )
-    else
-      L := FInLeft;
-    FInCnt := FZStream.Read( FInBuf, L );
-    if (FInCnt = 0) then
-      raise EAbReadError.Create;
-    if FDecoder <> nil then
-      FDecoder.DecodeBuffer( FInBuf[1], FInCnt );
-
-    {decrement count of bytes left to go}
-    Dec(FInLeft, FInCnt);
-
-    {load first byte in buffer and set position counter}
-    FCurByte := FInBuf[1];
-    FInPos := 2;
-  end;
+  FInCnt := FZStream.Read( FInBuf, sizeof( FInBuf ) );
+  FInEof := FInCnt = 0;
+  {load first byte in buffer and set position counter}
+  FCurByte := FInBuf[1];
+  FInPos := 2;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbUnzipHelper.uzFlushOutBuf;
   {-flushes the output buffer}
-var
-  tempCRC : LongInt;
-  Abort : Boolean;
-  NewProgress : byte;
 begin
   if (FOutPos <> 0) then begin
     FOutWriter.Write( FOutBuf^, FOutPos );
-    inc( FOutSent, FOutPos );
-
-    tempCRC := FCRC32;
-    AbUpdateCRC( tempCRC, FOutBuf^, FOutPos );
+    Inc( FOutSent, FOutPos );
     FOutPos := 0;
-    FCRC32 := tempCRC;
   end;
-  Abort := False;
-  NewProgress := AbPercentage(FOutSent, FUncompressedSize);
-  if (NewProgress <> FCurrentProgress) then
-    DoProgress(NewProgress, Abort);
-  if Abort then
-    raise EAbUserAbort.Create;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbUnzipHelper.uzWriteByte(B : Byte);
@@ -345,15 +289,6 @@ begin
   if (FOutPos = AbBufferSize) or
      (LongInt(FOutPos) + FOutSent = FUncompressedSize) then
     uzFlushOutBuf;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbUnzipHelper.DoProgress(Progress : Byte; var Abort : Boolean);
-begin
-  if (not Assigned(FOnProgress)) or (Progress = FCurrentProgress) then
-    Exit
-  else
-    FCurrentProgress := Progress;
-  FOnProgress(Progress, Abort);
 end;
 { -------------------------------------------------------------------------- }
 function TAbUnzipHelper.uzReadBits(Bits : Byte) : Integer;
@@ -587,7 +522,7 @@ begin
     uzLoadTree(LengthTree^, 64);
     uzLoadTree(DistanceTree^, 64);
 
-    while (not FInEof) and (FOutSent + LongInt(FOutPos) < FUncompressedSize) do 
+    while (not FInEof) and (FOutSent + LongInt(FOutPos) < FUncompressedSize) do
       {is data literal?}
       if Boolean(uzReadBits(1)) then begin
         {if MinMatchLength = 3 then we have a Literal tree}
@@ -670,7 +605,7 @@ var
   end;
 
 begin
-  GetMem(Followers, SizeOf(Followers^));
+  GetMem(Followers, SizeOf(TAbFollowerSets));
   try
     Factor := Ord( FCompressionMethod ) - 1;
     FactorMask := FactorMasks[Factor];
@@ -920,7 +855,7 @@ procedure RequestPassword(Archive : TAbZipArchive; var Abort : Boolean);
 var
   APassPhrase : AnsiString;
 begin
-  APassPhrase := Archive.Password; {!!.05  SF.NET Bug 698162}
+  APassPhrase := Archive.Password;
   Abort := False;
   if Assigned(Archive.OnNeedPassword) then begin
     Archive.OnNeedPassword(Archive, APassPhrase);
@@ -950,463 +885,275 @@ end;
 
 
 { -------------------------------------------------------------------------- }
-function DoInflate(Archive : TAbZipArchive; Item : TAbZipItem; OutStream : TStream; TheCRC : LongInt) : LongInt;
+procedure DoInflate(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
 var
   Hlpr  : TAbDeflateHelper;
-  Tries : Integer;
-  Abort : Boolean;
 begin
   Hlpr := TAbDeflateHelper.Create;
-
-  if (OutStream is TAbBitBucketStream) then  { we're just validating the item }
-    Hlpr.Options := Hlpr.Options or dfc_TestOnly;
-
-  if Item.CompressionMethod = cmEnhancedDeflated then
-    Hlpr.Options := Hlpr.Options or dfc_UseDeflate64;
-
-  Hlpr.StreamSize := Item.CompressedSize;                                {!!.02}
-  Hlpr.OnProgressStep := Archive.DoInflateProgress;
-
-  Result := 0;
-
   try
-    if not (Item.IsEncrypted) then begin
-      { just inflate it }
-      Result := Inflate(Archive.FStream, OutStream, Hlpr);
-    end
-    else begin { it's encrypted }
-      Tries := 0;
-      Abort := False;
-      CheckPassword(Archive, Tries, Abort);
-      if Abort then
-        raise EAbUserAbort.Create;
+    if Item.CompressionMethod = cmEnhancedDeflated then
+      Hlpr.Options := Hlpr.Options or dfc_UseDeflate64;
 
-      Hlpr.CheckValue := TheCRC;
-      while True do begin
-        try
-          { attempt to inflate }
-          Hlpr.Passphrase := Archive.Password;
-          Result := Inflate(Archive.FStream, OutStream, Hlpr);
-          Break;
-        except
-          on E:EAbInflatePasswordError do begin { bad password? }
-            if (Tries >= Archive.PasswordRetries) then
-              raise EAbZipInvalidPassword.Create;
-            { request password }
-            RequestPassword(Archive, Abort);
-            if Abort then
-              raise EAbUserAbort.Create;
-            { increment tries }
-            Inc(Tries);
-          end;
-        end;
-      end;
+    Hlpr.StreamSize := Item.CompressedSize;
 
-    end; { if encrypted }
-
+    Inflate(InStream, OutStream, Hlpr);
   finally
     Hlpr.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }
-function DoExtractStored(Archive : TAbZipArchive; Item : TAbZipItem; OutStream : TStream; TheCRC : LongInt) : LongInt;
+procedure DoLegacyUnzip(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
 var
-  DataRead    : Int64;
-  CRC32       : LongInt;
-  Percent     : LongInt;
-  LastPercent : LongInt;
-
-  Tries : Integer;
-  Total       : Int64;
-  Remaining   : Int64;
-  SizeToRead  : Int64;
-  Abort       : Boolean;
-  Buffer      : array [0..1023] of byte;
-  DecryptStream : TAbDfDecryptStream;
-begin
-  { setup }
-  Total   := 0;
-  Remaining := Item.UncompressedSize;
-  Abort   := False;
-  CRC32   := -1;
-  Percent := 0;
-  LastPercent := 0;
-
-  SizeToRead := SizeOf(Buffer);
-  if SizeToRead > Remaining then
-    SizeToRead := Remaining;
-
-
-  { if Item is not encrypted }
-  if not Item.IsEncrypted then begin
-    try
-
-      { just extract it }
-
-      { get first bufferful }
-      DataRead := Archive.FStream.Read(Buffer, SizeToRead);
-      { while more data has been read and we're not told to bail }
-      while (DataRead > 0) and (Total < Item.UncompressedSize) and not Abort do begin
-        { report progress }
-        if Assigned(Archive.OnProgress) then begin
-          Total := Total + DataRead;
-          Remaining := Remaining - DataRead;
-          Percent := Round((100.0 * Total) / Item.UncompressedSize);
-          if (LastPercent <> Percent) then
-            Archive.OnProgress(Percent, Abort);
-          LastPercent := Percent;
-        end;
-
-        { update CRC }
-        AbUpdateCRCBuffer(CRC32, Buffer, DataRead);
-
-        { write data }
-        OutStream.WriteBuffer(Buffer, DataRead);
-
-        { get next bufferful }
-        SizeToRead := SizeOf(Buffer);
-        if SizeToRead > Remaining then
-          SizeToRead := Remaining;
-        DataRead := Archive.FStream.Read(Buffer, SizeToRead);
-      end;
-    except
-      on EAbUserAbort do
-        Abort := True;
-    end;
-
-  end
-  else begin
-    try
-      { need to decrypt }
-      Tries := 0;
-      Abort := False;
-
-      CheckPassword(Archive, Tries, Abort);
-      if Abort then
-        raise EAbUserAbort.Create;
-
-      { check for valid password }
-      DecryptStream := TAbDfDecryptStream.Create(Archive.FStream, TheCRC, Archive.Password);
-      try 
-        while not Abort and not DecryptStream.IsValid and (Tries < Archive.PasswordRetries) do begin
-          RequestPassword(Archive, Abort);
-          if Abort then
-            raise EAbUserAbort.Create;
-          DecryptStream.Free;
-          DecryptStream := TAbDfDecryptStream.Create(Archive.FStream, TheCRC, Archive.Password);
-          Inc(Tries);
-        end;
-        if (Tries > Archive.PasswordRetries) then
-          raise EAbZipInvalidPassword.Create;
-
-        { got good Password, so extract }
-        { get first bufferful (decrypting) }
-        {  DecryptStream.Position := 0;                            }{!!.01}{!!.02}
-        DataRead := DecryptStream.Read(Buffer, SizeToRead);
-        { while more data has been read and we're not told to bail }
-        while (DataRead > 0) and not Abort do begin
-          { report progress }
-          if Assigned(Archive.OnProgress) then begin
-            Total := Total + DataRead;
-            Remaining := Remaining - DataRead;                             {!!.01}
-            Percent := Round((100.0 * Total) / Item.UncompressedSize);
-            if (LastPercent <> Percent) then
-              Archive.OnProgress(Percent, Abort);
-            LastPercent := Percent;
-          end;
-
-          { update CRC }
-          AbUpdateCRCBuffer(CRC32, Buffer, DataRead);
-
-          { write data }
-          OutStream.WriteBuffer(Buffer, DataRead);
-
-          { get next bufferful (decrypting) }
-          SizeToRead := SizeOf(Buffer);
-          if SizeToRead > Remaining then
-            SizeToRead := Remaining;
-          DataRead := DecryptStream.Read(Buffer, SizeToRead);
-        end;
-      finally
-        DecryptStream.Free;
-      end;
-    except
-      on EAbUserAbort do
-        Abort := True;
-    end;
-  end;
-
-
-  { finish CRC calculation }
-  Result := not CRC32;
-
-  { show final progress increment }
-  if (Percent < 100) and Assigned(Archive.OnProgress) then
-    Archive.OnProgress(100, Abort);
-
-  { User wants to bail }
-  if Abort then begin
-    raise EAbUserAbort.Create;
-  end;
-end;
-{ -------------------------------------------------------------------------- }
-function DoOtherUnzip(Archive : TAbZipArchive; Item : TAbZipItem; OutStream : TStream; TheCRC : LongInt) : LongInt;
-var
-  Decoder    : TAbZDecoder;
   Helper     : TAbUnzipHelper;
-
 begin
-  Decoder := nil;
-  if Item.IsEncrypted then
-    Decoder := TAbZDecoder.Create(Archive.Password, Archive.FStream, TheCRC, True);
-
-  if Assigned(Decoder) then begin
-    Decoder.OnNeedPassword := Archive.OnNeedPassword;
-    Decoder.Password := Archive.Password;
-    Decoder.Retries := Archive.PasswordRetries;
-  end;
-
-  Helper := TAbUnzipHelper.Create(Archive.FStream, OutStream, Decoder);
+  Helper := TAbUnzipHelper.Create(InStream, OutStream);
   try {Helper}
     Helper.DictionarySize       := Item.DictionarySize;
-    Helper.CompressedSize       := Item.CompressedSize;
     Helper.UnCompressedSize     := Item.UncompressedSize;
     Helper.CompressionMethod    := Item.CompressionMethod;
     Helper.ShannonFanoTreeCount := Item.ShannonFanoTreeCount;
-    Helper.OnProgress           := Archive.OnProgress;
-    Result := Helper.Execute;
+    Helper.Execute;
   finally
     Helper.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure AbUnzipToStream( Sender : TObject; Item : TAbZipItem; OutStream : TStream);
+{$IFDEF UnzipBzip2Support}
+procedure DoExtractBzip2(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
+var
+  Bzip2Stream: TStream;
+begin
+  Bzip2Stream := TBZDecompressionStream.Create(InStream);
+  try
+    OutStream.CopyFrom(Bzip2Stream, Item.UncompressedSize);
+  finally
+    Bzip2Stream.Free;
+  end;
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
+{$IFDEF UnzipLzmaSupport}
+procedure DoExtractLzma(Archive : TAbZipArchive; Item : TAbZipItem;
+  InStream, OutStream : TStream);
+var
+  Header: packed record
+    MajorVer, MinorVer: Byte;
+    PropSize: Word;
+  end;
+  Properties: array of Byte;
+begin
+  InStream.ReadBuffer(Header, SizeOf(Header));
+  SetLength(Properties, Header.PropSize);
+  InStream.ReadBuffer(Properties[0], Header.PropSize);
+  LzmaDecodeStream(PByte(Properties), Header.PropSize, InStream, OutStream,
+    Item.UncompressedSize);
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
+function ExtractPrep(ZipArchive: TAbZipArchive; Item: TAbZipItem): TStream;
 var
   LFH         : TAbZipLocalFileHeader;
-  TheCRC      : LongInt;
-  OutCRC      : LongInt;
   Abort       : Boolean;
-  ZipArchive  : TAbZipArchive;
+  Tries       : Integer;
+  CheckValue  : LongInt;
+  DecryptStream: TAbDfDecryptStream;
+begin
+  { validate }
+  if (Lo(Item.VersionNeededToExtract) > Ab_ZipVersion) then
+    raise EAbZipVersion.Create;
 
-  procedure Validate;
-  begin
-    if not Assigned(OutStream) then
-      raise EAbBadStream.Create;
-    if (Lo(Item.VersionNeededToExtract) > Ab_ZipVersion) then
-      raise EAbZipVersion.Create;
-  end;
+  { seek to compressed file }
+  if ZipArchive.FStream is TAbSpanReadStream then
+    TAbSpanReadStream(ZipArchive.FStream).SeekImage(Item.DiskNumberStart,
+                                                    Item.RelativeOffset)
+  else
+    ZipArchive.FStream.Position := Item.RelativeOffset;
 
-  procedure CheckForSpanning;
-  begin
-    if ZipArchive.Spanned then begin                                 {!!.02}
-      if (ZipArchive.CurrentDisk <> Item.DiskNumberStart) then begin {!!.02}
-        ZipArchive.CurrentDisk := Item.DiskNumberStart;
-        if not (ZipArchive.FStream is TAbSpanStream) then
-          raise EAbZipBadSpanStream.Create;
-        if not TAbSpanStream(ZipArchive.FStream).SpanStreamInCharge then begin {!!.02}
-          ZipArchive.DoRequestNthImage(ZipArchive.CurrentDisk,
-            ZipArchive.FStream, Abort );
-          if Abort then
-            raise EAbUserAbort.Create;
-        end;                                                         {!!.02}
-      end;
-    end;                                                             {!!.02}
-  end;
-
-  procedure GetHeader;
-  begin
-    {get past the item's local file header}
-    ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
-
+  { get local header info for Item}
+  LFH := TAbZipLocalFileHeader.Create;
+  try
     { select appropriate CRC value based on General Purpose Bit Flag }
     { also get whether the file is stored, while we've got the local file header }
     LFH.LoadFromStream(ZipArchive.FStream);
     if (LFH.GeneralPurposeBitFlag and AbHasDataDescriptorFlag = AbHasDataDescriptorFlag) then
     { if bit 3 is set, then the data descriptor record is appended
       to the compressed data }
-      TheCRC := LFH.LastModFileTime shl $10
+      CheckValue := LFH.LastModFileTime shl $10
     else
-      TheCRC := Item.CRC32;
+      CheckValue := Item.CRC32;
+  finally
+    LFH.Free;
   end;
+
+  Result := TAbUnzipSubsetStream.Create(ZipArchive.FStream,
+    Item.CompressedSize);
+
+  { get decrypting stream }
+  if Item.IsEncrypted then begin
+    try
+      { need to decrypt }
+      Tries := 0;
+      Abort := False;
+      CheckPassword(ZipArchive, Tries, Abort);
+      while True do begin
+        if Abort then
+          raise EAbUserAbort.Create;
+        { check for valid password }
+        DecryptStream := TAbDfDecryptStream.Create(Result,
+          CheckValue, ZipArchive.Password);
+        if DecryptStream.IsValid then begin
+          DecryptStream.OwnsStream := True;
+          Result := DecryptStream;
+          Break;
+        end;
+        FreeAndNil(DecryptStream);
+        { prompt again }
+        Inc(Tries);
+        if (Tries > ZipArchive.PasswordRetries) then
+          raise EAbZipInvalidPassword.Create;
+        RequestPassword(ZipArchive, Abort);
+      end;
+    except
+      Result.Free;
+      raise;
+    end;
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+procedure DoExtract(aZipArchive: TAbZipArchive; aItem: TAbZipItem;
+  aInStream, aOutStream: TStream);
+var
+  OutStream : TAbUnzipOutputStream;
 begin
-  ZipArchive := Sender as TAbZipArchive;
-  LFH := TAbZipLocalFileHeader.Create;
+  if aItem.UncompressedSize = 0 then
+    Exit;
 
-  try     {LFH}
-    Validate;
-    CheckForSpanning;
-
-    { get local header info for Item}
-    GetHeader;
+  OutStream := TAbUnzipOutputStream.Create(aOutStream);
+  try
+    OutStream.UncompressedSize := aItem.UncompressedSize;
+    OutStream.OnProgress := aZipArchive.OnProgress;
 
     { determine storage type }
-    case LFH.CompressionMethod of
-     cmStored: begin
-      { unstore item }
-      OutCRC := DoExtractStored(ZipArchive, Item, OutStream, TheCRC);
-     end;
-     cmDeflated, cmEnhancedDeflated: begin
-      { inflate Item }
-      OutCRC := DoInflate(ZipArchive, Item, OutStream, TheCRC);
-     end;
-     else begin { Shrunk, Imploded, or Reduced }
-       OutCrc := DoOtherUnzip(ZipArchive, Item, OutStream, TheCrc);
-     end;
+    case aItem.CompressionMethod of
+      cmStored: begin
+        { unstore aItem }
+        OutStream.CopyFrom(aInStream, aItem.UncompressedSize);
+      end;
+      cmDeflated, cmEnhancedDeflated: begin
+        { inflate aItem }
+        DoInflate(aZipArchive, aItem, aInStream, OutStream);
+      end;
+      {$IFDEF UnzipBzip2Support}
+      cmBzip2: begin
+        DoExtractBzip2(aZipArchive, aItem, aInStream, OutStream);
+      end;
+      {$ENDIF}
+      {$IFDEF UnzipLzmaSupport}
+      cmLZMA: begin
+        DoExtractLzma(aZipArchive, aItem, aInStream, OutStream);
+      end;
+      {$ENDIF}
+      {$IFDEF UnzipPPMdSupport}
+      cmPPMd: begin
+        DecompressPPMd(aInStream, OutStream);
+      end;
+      {$ENDIF}
+      {$IFDEF UnzipWavPackSupport}
+      cmWavPack: begin
+        DecompressWavPack(aInStream, OutStream);
+      end;
+      {$ENDIF}
+      cmShrunk..cmImploded: begin
+        DoLegacyUnzip(aZipArchive, aItem, aInStream, OutStream);
+      end;
+      else
+        raise EAbZipInvalidMethod.Create;
     end;
 
     { check CRC }
-    if (OutCRC <> TheCRC) and (OutCRC <> Item.CRC32) then                {!!.01}
-      if Assigned(ZipArchive.OnProcessItemFailure) then                  {!!.01}
-        ZipArchive.OnProcessItemFailure(ZipArchive, Item, ptExtract,     {!!.01}
-          ecAbbrevia, AbZipBadCRC)                                       {!!.01}
-      else                                                               {!!.01}
-        raise EAbZipBadCRC.Create;                                       {!!.01}
+    if OutStream.CRC32 <> aItem.CRC32 then
+      if Assigned(aZipArchive.OnProcessItemFailure) then
+        aZipArchive.OnProcessItemFailure(aZipArchive, aItem, ptExtract,
+          ecAbbrevia, AbZipBadCRC)
+      else
+        raise EAbZipBadCRC.Create;
+  finally
+    OutStream.Free;
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+procedure AbUnzipToStream( Sender : TObject; Item : TAbZipItem; OutStream : TStream);
+var
+  ZipArchive : TAbZipArchive;
+  InStream : TStream;
+begin
+  ZipArchive := Sender as TAbZipArchive;
+  if not Assigned(OutStream) then
+    raise EAbBadStream.Create;
 
-{!!.01 -- removed}
-    { set spanning info }
-//    if ZipArchive.Spanned then
-//      ZipArchive.CurrentDisk := TAbSpanStream(ZipArchive.FStream).SpanNumber;
-{!!.01 -- end removed}
-
-  finally {LFH}
-    LFH.Free;
-  end;    {LFH}
+  InStream := ExtractPrep(ZipArchive, Item);
+  try
+    DoExtract(ZipArchive, Item, InStream, OutStream);
+  finally
+    InStream.Free
+  end;
 end;
 { -------------------------------------------------------------------------- }
 procedure AbUnzip(Sender : TObject; Item : TAbZipItem; const UseName : string);
-  {create the output filestream and pass it to AbUnzipToStream}
+  {create the output filestream and pass it to DoExtract}
 var
-  {$IFDEF AbUnZipClobber}
-  OutStream  : TFileStreamEx;
-  {$ENDIF}
-  MemoryStream   : TMemoryStream;
-  OutStream      : TFileStreamEx;
-  TempFileStream : TAbTempFileStream;
-  TempFileName   : String;
-(*  {$IFDEF AbUnZipMemory}
-  TempOut    : TMemoryStream;
-  OutStream  : TFileStream;
-  {$ENDIF}
-  {$IFDEF AbUnZipTempFile}
-  TempOut    : TAbTempFileStream;
-  TempFile   : String;
-  {$ENDIF}*)
+  InStream, OutStream : TStream;
   ZipArchive : TAbZipArchive;
 begin
   ZipArchive := TAbZipArchive(Sender);
 
-  try
-    if not Item.IsDirectory then begin
-
-      // The problem with Create the FileStream here is that overwrites the existing
-      // File which is no problem, unless the archive is password protected and
-      // then Password is found out to be wrong.   Ways to resolve:
-      // 1. extract to TMemoryStream then Write MemoryStream to Disk if everything is ok.
-      // 2. Move the password check up in the process (if possible)
-      // 3. Write to a Temp File if everything ok copy to new location.
-      // Given all the options that I have now, I am going to try option #1 for now,
-      // it may cause problems on memory overhead for some, but lets see if it does.
-      // It also may speed up this routine for many.
-      // NOTE: Instead of doing what I stated above, I added compiler define logic to allow you to chose for now.
-      {$IFDEF AbUnZipClobber}
-      OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite); {!!.01}
-      try    {OutStream}
-        AbUnZipToStream(Sender, Item, OutStream);
-      // Some Network Operating Systems cache the file and when we set attributes they are truncated
-        AbFlushOsBuffers(OutStream.Handle);
-      finally {OutStream}
-        OutStream.Free;
-      end;   {OutStream}
-      {$ENDIF}
-
-      // Unpack to memory for files less than 1MB
-      if Item.UncompressedSize < 1024 * 1024 then
-      begin
-    //  {$IFDEF AbUnZipMemory}
-        MemoryStream := TMemoryStream.Create;
-        try
-          MemoryStream.Size := Item.UncompressedSize;// This causes all the memory to allocated at once which is faster
-          MemoryStream.Position := 0;
-          AbUnZipToStream(Sender, Item, MemoryStream);
-          OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite); {!!.01}
-          try
-            // Copy Memory Stream To File Stream.
-            MemoryStream.SaveToStream(OutStream);
-            // Some Operating Systems cache the file and when we set attributes they are truncated
-            AbFlushOsBuffers(OutStream.Handle);
-          finally
-           OutStream.Free;
-          end;
-        finally
-          MemoryStream.Free;
-        end;
-    //  {$ENDIF}
-
-      end else begin  // for larger files copy through temp file
-
-        try
-      //  {$IFDEF AbUnZipTempFile}
-          TempFileStream := TAbTempFileStream.Create(false);
-          try
-            AbUnZipToStream(Sender, Item, TempFileStream);
-            TempFileName := TempFileStream.FileName;
-          finally
-            TempFileStream.Free;
-          end;
-
-          // Now copy the temp File to correct location
-          if not AbCopyFile(TempFileName, UseName, False) then
-            raise EAbException.CreateFmt(AbMoveFileErrorS, [TempFileName, UseName]); // TODO: Add Own Exception Class
-
-        finally
-          // Now Delete the Temp File
-          mbDeleteFile(TempFileName);
-        end;
+  if Item.IsDirectory then
+    AbCreateDirectory(UseName)
+  else begin
+    InStream := ExtractPrep(ZipArchive, Item);
+    try
+      OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite);
+      try
+        try    {OutStream}
+          DoExtract(ZipArchive, Item, InStream, OutStream);
+        finally {OutStream}
+          OutStream.Free;
+        end;   {OutStream}
+      except
+        if ExceptObject is EAbUserAbort then
+          ZipArchive.FStatus := asInvalid;
+        DeleteFile(UseName);
+        raise;
       end;
-    // {$ENDIF}
-    end;
-
-    // [ 880505 ]  Need to Set Attributes after File is closed {!!.05}
-    AbSetFileTime(UseName, Item.SystemSpecificLastModFileTime);
-    AbFileSetAttr(UseName, Item.SystemSpecificAttributes);
-
-  except
-    on E : EAbUserAbort do begin
-      ZipArchive.FStatus := asInvalid;
-      if mbFileExists(UseName) then
-        mbDeleteFile(UseName);
-      raise;
-    end else begin
-      if mbFileExists(UseName) then
-        mbDeleteFile(UseName);
-      raise;
+    finally
+      InStream.Free
     end;
   end;
+
+  AbSetFileTime(UseName, Item.LastModTimeAsDateTime);
+  AbSetFileAttr(UseName, Item.NativeFileAttributes);
 end;
 { -------------------------------------------------------------------------- }
 procedure AbTestZipItem(Sender : TObject; Item : TAbZipItem);
   {extract item to bit bucket and verify its local file header}
 var
   BitBucket  : TAbBitBucketStream;
+  FieldSize  : Word;
   LFH        : TAbZipLocalFileHeader;
+  Zip64Field : PZip64LocalHeaderRec;
   ZipArchive : TAbZipArchive;
-  Abort : Boolean;
 begin
   ZipArchive := TAbZipArchive(Sender);
 
   if (Lo(Item.VersionNeededToExtract) > Ab_ZipVersion) then
     raise EAbZipVersion.Create;
 
-  if ZipArchive.Spanned and (ZipArchive.CurrentDisk <> Item.DiskNumberStart) then
-  begin
-    ZipArchive.CurrentDisk := Item.DiskNumberStart;
-    if not (ZipArchive.FStream is TAbSpanStream) then                  {!!.04}
-      raise EAbZipBadSpanStream.Create;
-    ZipArchive.DoRequestNthImage(ZipArchive.CurrentDisk,
-      ZipArchive.FStream, Abort );
-    if Abort then
-      raise EAbUserAbort.Create;
-  end;
+  { seek to compressed file }
+  if ZipArchive.FStream is TAbSpanReadStream then
+    TAbSpanReadStream(ZipArchive.FStream).SeekImage(Item.DiskNumberStart,
+                                                    Item.RelativeOffset)
+  else
+    ZipArchive.FStream.Position := Item.RelativeOffset;
 
   BitBucket := nil;
   LFH := nil;
@@ -1429,15 +1176,19 @@ begin
       raise EAbZipInvalidLFH.Create;
     if (LFH.CRC32 <> Item.CRC32) then
       raise EAbZipInvalidLFH.Create;
-    if (LFH.CompressedSize <> Item.CompressedSize) then
-      raise EAbZipInvalidLFH.Create;
-    if (LFH.UncompressedSize <> Item.UncompressedSize) then
-      raise EAbZipInvalidLFH.Create;
+    if LFH.ExtraField.Get(Ab_Zip64SubfieldID, Pointer(Zip64Field), FieldSize) then begin
+      if (Zip64Field.CompressedSize <> Item.CompressedSize) then
+        raise EAbZipInvalidLFH.Create;
+      if (Zip64Field.UncompressedSize <> Item.UncompressedSize) then
+        raise EAbZipInvalidLFH.Create;
+    end
+    else begin
+      if (LFH.CompressedSize <> Item.CompressedSize) then
+        raise EAbZipInvalidLFH.Create;
+      if (LFH.UncompressedSize <> Item.UncompressedSize) then
+        raise EAbZipInvalidLFH.Create;
+    end;
     if (LFH.FileName <> Item.RawFileName) then
-      raise EAbZipInvalidLFH.Create;
-    if (Length(LFH.ExtraField.Buffer) <> Length(Item.ExtraField.Buffer)) or
-       ((Length(LFH.ExtraField.Buffer) <> 0) and
-       (not CompareMem(LFH.ExtraField.Buffer, Item.ExtraField.Buffer, Length(Item.ExtraField.Buffer)))) then
       raise EAbZipInvalidLFH.Create;
 
       {any CRC errors will raise exception during extraction}
