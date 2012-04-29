@@ -4188,8 +4188,6 @@ begin
 end;
 
 procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
-var
-  I: Integer;
 begin
   if HiddenToTray then
     RestoreFromTray
@@ -5080,4 +5078,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
