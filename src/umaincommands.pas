@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2219,18 +2219,17 @@ end;
 
 procedure TMainCommands.cm_RunTerm(const Params: array of string);
 begin
-  if not frmMain.edtCommand.Focused then
-    begin
-      mbSetCurrentDir(frmMain.ActiveFrame.CurrentPath);
-      try
-        ExecCmdFork(gRunTerm);
-      except
-        on e: EInvalidCommandLine do
-          MessageDlg(rsToolErrorOpeningTerminal,
+  with frmMain do
+  if not edtCommand.Focused then
+  try
+    mbSetCurrentDir(ActiveFrame.CurrentPath);
+    ExecCmdFork(PrepareParameter(gRunTerm, FrameLeft, FrameRight, ActiveFrame, []));
+  except
+    on e: EInvalidCommandLine do
+      MessageDlg(rsToolErrorOpeningTerminal,
             rsMsgInvalidCommandLine + ' (' + rsToolTerminal + '):' + LineEnding + e.Message,
             mtError, [mbOK], 0);
-      end;
-    end;
+  end;
 end;
 
 procedure TMainCommands.cm_CalculateSpace(const Params: array of string);
