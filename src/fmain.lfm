@@ -2177,6 +2177,12 @@ object frmMain: TfrmMain
       Hint = 'Compare Directories'
       OnExecute = actExecute
     end
+    object actShellExecute: TAction
+      Category = 'File'
+      Caption = 'Open'
+      Hint = 'Open using system associations'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 120

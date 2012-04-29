@@ -433,7 +433,7 @@ begin
     begin
 
     mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actOpen;
+    mi.Action := frmMain.actShellExecute;
     Self.Items.Add(mi);
 
     mi:=TMenuItem.Create(Self);

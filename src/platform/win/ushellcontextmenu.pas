@@ -172,7 +172,7 @@ var
   wsFileName: WideString;
   PathPIDL: PItemIDList = nil;
   pchEaten: ULONG;
-  dwAttributes: ULONG;
+  dwAttributes: ULONG = 0;
 begin
   Result:= nil;
 
@@ -298,7 +298,9 @@ end;
 destructor TShellContextMenu.Destroy;
 begin
   // Restore window procedure
+  {$PUSH}{$HINTS OFF}
   SetWindowLongPtr(FParent.Handle, GWL_WNDPROC, LONG_PTR(@OldWProc));
+  {$POP}
   // Free global variables
   ShellMenu2:= nil;
   ShellMenu3:= nil;
@@ -464,21 +466,6 @@ begin
                     frmMain.actRename.Execute;
                   bHandled := True;
                 end
-              else if SameText(sVerb, sCmdVerbOpen) then
-                begin
-                  if FFiles.Count = 1 then
-                    with FFiles[0] do
-                    begin
-                      if IsDirectory or IsLinkToDirectory then
-                        begin
-                          if Name = '..' then
-                            frmMain.ActiveFrame.ChangePathToParent(True)
-                          else
-                            frmMain.ActiveFrame.ChangePathToChild(FFiles[0]);
-                          bHandled := True;
-                        end; // is dir
-                    end; // with
-                end
               else if SameText(sVerb, sCmdVerbCut) then
                 begin
                   frmMain.actCutToClipboard.Execute;
@@ -508,7 +495,9 @@ begin
               begin
                 cbSize := SizeOf(cmici);
                 hwnd := FParent.Handle;
-                lpVerb := PChar(PtrUInt(cmd - 1));
+                {$PUSH}{$HINTS OFF}
+                lpVerb := PAnsiChar(PtrUInt(cmd - 1));
+                {$POP}
                 nShow := SW_NORMAL;
               end;
 
