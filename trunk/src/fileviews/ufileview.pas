@@ -48,6 +48,8 @@ type
                            fvnSelectionChanged,              // Files were selected/deselected
                            fvnVisibleFilePropertiesChanged); // Different files or their properties are now visible
   TFileViewNotifications = set of TFileViewNotification;
+  TFileViewApplyFilterResult = (fvaprRemoved, fvaprInserted,
+                                fvaprExisting, fvaprNotExisting);
 
   {en
      Base class for any view of a file or files.
@@ -118,6 +120,7 @@ type
 
     procedure AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
+    function ApplyFilter(ADisplayFile: TDisplayFile; NewFilesPosition: TNewFilesPosition): TFileViewApplyFilterResult;
     procedure ApplyPendingFilesChanges;
     procedure ClearPendingFilesChanges;
     procedure ClearRecentlyUpdatedFiles;
@@ -939,6 +942,7 @@ var
   ADisplayFile: TDisplayFile;
   OldIndex, NewIndex, FilteredFilesIndex: Integer;
   bFilter: Boolean;
+  ANotifications: TFileViewNotifications;
 begin
   OldIndex := FHashedNames.Find(OldFileName);
   NewIndex := FHashedNames.Find(NewFileName);
@@ -954,30 +958,21 @@ begin
       ADisplayFile.IconOverlayID := -1;
       ADisplayFile.DisplayStrings.Clear;
       ResortFile(ADisplayFile, FAllDisplayFiles);
-      bFilter := TFileListBuilder.MatchesFilter(ADisplayFile.FSFile, FileFilter, FFilterOptions);
-      FilteredFilesIndex := FFiles.Find(ADisplayFile);
-      if FilteredFilesIndex >= 0 then
-      begin
-        if not bFilter then
-        begin
-          if GetActiveDisplayFile = ADisplayFile then
-            RequestedActiveFile := ADisplayFile.FSFile.FullPath;
-          ResortFile(ADisplayFile, FFiles);
-          VisualizeFileUpdate(ADisplayFile);
-        end
-        else
-        begin
-          FFiles.Delete(FilteredFilesIndex);
-          if Assigned(FRecentlyUpdatedFiles) then
-            FRecentlyUpdatedFiles.Remove(ADisplayFile);
-        end;
-      end
-      else if not bFilter then
-      begin
-        InsertFile(ADisplayFile, FFiles, NewFilesPosition);
-        VisualizeFileUpdate(ADisplayFile);
+
+      ANotifications := [fvnFileSourceFileListChanged];
+      case ApplyFilter(ADisplayFile, NewFilesPosition) of
+        fvaprInserted, fvaprRemoved:
+          Include(ANotifications, fvnDisplayFileListChanged);
+        fvaprExisting:
+          begin
+            if GetActiveDisplayFile = ADisplayFile then
+              RequestedActiveFile := ADisplayFile.FSFile.FullPath;
+            ResortFile(ADisplayFile, FFiles);
+            VisualizeFileUpdate(ADisplayFile);
+            Include(ANotifications, fvnDisplayFileListChanged);
+          end;
       end;
-      Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
+      Notify(ANotifications);
     end
     else
     begin
@@ -1029,11 +1024,36 @@ var
   AFile: TFile;
   ADisplayFile: TDisplayFile;
   I: Integer;
+  ANotifications: TFileViewNotifications;
 
   procedure Resort;
   begin
     ResortFile(ADisplayFile, FAllDisplayFiles);
     ResortFile(ADisplayFile, FFiles);
+  end;
+
+  procedure Update;
+  begin
+    case UpdatedFilesPosition of
+      ufpNoChange: ; // Do nothing
+      ufpSameAsNewFiles:
+        if NewFilesPosition = nfpSortedPosition then
+          Resort
+        else
+        begin
+          FAllDisplayFiles.OwnsObjects := False;
+          FAllDisplayFiles.Remove(ADisplayFile); // Remove only temporarily
+          FAllDisplayFiles.OwnsObjects := True;
+          InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);
+          FFiles.Remove(ADisplayFile);
+          InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+        end;
+      ufpSortedPosition:
+        Resort;
+      else
+        raise Exception.Create('Unsupported UpdatedFilesPosition setting.');
+    end;
+    VisualizeFileUpdate(ADisplayFile);
   end;
 
 begin
@@ -1058,27 +1078,17 @@ begin
     end;
     ADisplayFile.DisplayStrings.Clear;
 
-    case UpdatedFilesPosition of
-      ufpNoChange: ; // Do nothing
-      ufpSameAsNewFiles:
-        if NewFilesPosition = nfpSortedPosition then
-          Resort
-        else
+    ANotifications := [fvnFileSourceFileListChanged];
+    case ApplyFilter(ADisplayFile, NewFilesPosition) of
+      fvaprInserted, fvaprRemoved:
+        Include(ANotifications, fvnDisplayFileListChanged);
+      fvaprExisting:
         begin
-          FAllDisplayFiles.OwnsObjects := False;
-          FAllDisplayFiles.Remove(ADisplayFile); // Remove only temporarily
-          FAllDisplayFiles.OwnsObjects := True;
-          InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);
-          FFiles.Remove(ADisplayFile);
-          InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+          Update;
+          Include(ANotifications, fvnDisplayFileListChanged);
         end;
-      ufpSortedPosition:
-        Resort;
-      else
-        raise Exception.Create('Unsupported UpdatedFilesPosition setting.');
     end;
-    VisualizeFileUpdate(ADisplayFile);
-    Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
+    Notify(ANotifications);
   end
   else
     AddFile(FileName, APath, NewFilesPosition, UpdatedFilesPosition);
@@ -1654,6 +1664,35 @@ end;
 
 procedure TFileView.AfterMakeFileList;
 begin
+end;
+
+function TFileView.ApplyFilter(ADisplayFile: TDisplayFile; NewFilesPosition: TNewFilesPosition): TFileViewApplyFilterResult;
+var
+  bFilterOut: Boolean;
+  FilteredFilesIndex: Integer;
+begin
+  bFilterOut := TFileListBuilder.MatchesFilter(ADisplayFile.FSFile, FileFilter, FFilterOptions);
+  FilteredFilesIndex := FFiles.Find(ADisplayFile);
+  if FilteredFilesIndex >= 0 then
+  begin
+    if bFilterOut then
+    begin
+      FFiles.Delete(FilteredFilesIndex);
+      if Assigned(FRecentlyUpdatedFiles) then
+        FRecentlyUpdatedFiles.Remove(ADisplayFile);
+      Result := fvaprRemoved;
+    end
+    else
+      Result := fvaprExisting;
+  end
+  else if not bFilterOut then
+  begin
+    InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+    VisualizeFileUpdate(ADisplayFile);
+    Result := fvaprInserted;
+  end
+  else
+    Result := fvaprNotExisting;
 end;
 
 procedure TFileView.BeforeMakeFileList;
