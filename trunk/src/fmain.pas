@@ -4347,11 +4347,7 @@ begin
           // Choose FileSource by path
           ChooseFileSource(ActiveFrame, sDir);
 
-          if not SameText(ActiveFrame.CurrentPath, sDir) then
-            begin
-              msgWarning(Format(rsMsgChDirFailed, [sDir]));
-            end
-          else
+          if SameText(ExcludeBackPathDelimiter(ActiveFrame.CurrentPath), sDir) then
             begin
               if gTermWindow and Assigned(Cons) then
                 Cons.Terminal.SetCurrentDir(sDir);
@@ -5083,4 +5079,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
