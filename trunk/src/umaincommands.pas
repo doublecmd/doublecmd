@@ -97,6 +97,7 @@ type
    procedure cm_TestArchive(const Params: array of string);
    procedure cm_OpenDirInNewTab(const Params: array of string);
    procedure cm_Open(const Params: array of string);
+   procedure cm_ShellExecute(const Params: array of string);
    procedure cm_OpenVirtualFileSystemList(const Params: array of string);
    procedure cm_TargetEqualSource(const Params: array of string);
    procedure cm_LeftEqualRight(const Params: array of string);
@@ -741,6 +742,29 @@ end;
 procedure TMainCommands.cm_Open(const Params: array of string);
 begin
   frmMain.ActiveFrame.OpenActiveFile;
+end;
+
+procedure TMainCommands.cm_ShellExecute(const Params: array of string);
+var
+  aFile: TFile;
+begin
+  if Length(Params) > 0 then
+    with frmMain do
+    ShellExecute(PrepareParameter(Params[0], FrameLeft, FrameRight, ActiveFrame, []))
+  else
+    with frmMain.ActiveFrame do
+    begin
+      aFile := CloneActiveFile;
+      if Assigned(aFile) then
+      try
+        if aFile.IsNameValid then
+        begin
+          ShellExecute(aFile.FullPath);
+        end;
+      finally
+        FreeAndNil(aFile);
+      end;
+  end;
 end;
 
 procedure TMainCommands.cm_OpenVirtualFileSystemList(const Params: array of string);

@@ -89,6 +89,7 @@ type
     actGoToFirstFile: TAction;
     actGoToLastFile: TAction;
     actCompareDirectories: TAction;
+    actShellExecute: TAction;
     actRenameTab: TAction;
     actOperationsViewer: TAction;
     actNetworkDisconnect: TAction;
