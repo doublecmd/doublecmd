@@ -1,4 +1,4 @@
-unit uMultiArchiveDeleteOperation;
+unit uMultiArchiveTestArchiveOperation;
 
 {$mode objfpc}{$H+}
 
@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uFileSourceOperation,
-  uFileSourceDeleteOperation,
+  uFileSourceTestArchiveOperation,
   uFileSource,
   uFileSourceOperationUI,
   uFile,
@@ -16,14 +16,14 @@ uses
 
 type
 
-  { TMultiArchiveDeleteOperation }
+  { TMultiArchiveTestArchiveOperation }
 
-  TMultiArchiveDeleteOperation = class(TFileSourceDeleteOperation)
+  TMultiArchiveTestArchiveOperation = class(TFileSourceTestArchiveOperation)
 
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
-    FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
-    FFullFilesTreeToDelete: TFiles;  // source files including all files/dirs in subdirectories
+    FStatistics: TFileSourceTestArchiveOperationStatistics; // local copy of statistics
+    FFullFilesTreeToTest: TFiles;  // source files including all files/dirs in subdirectories
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -55,22 +55,22 @@ implementation
 uses
   uOSUtils, DCOSUtils, uLng, uMultiArc, uMultiArchiveUtil, LCLProc;
 
-constructor TMultiArchiveDeleteOperation.Create(aTargetFileSource: IFileSource;
+constructor TMultiArchiveTestArchiveOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
-  FFullFilesTreeToDelete:= nil;
+  FFullFilesTreeToTest:= nil;
 
   inherited Create(aTargetFileSource, theFilesToDelete);
 end;
 
-destructor TMultiArchiveDeleteOperation.Destroy;
+destructor TMultiArchiveTestArchiveOperation.Destroy;
 begin
-  FreeThenNil(FFullFilesTreeToDelete);
+  FreeThenNil(FFullFilesTreeToTest);
   inherited Destroy;
 end;
 
-procedure TMultiArchiveDeleteOperation.Initialize;
+procedure TMultiArchiveTestArchiveOperation.Initialize;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
@@ -81,16 +81,17 @@ begin
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
+  FStatistics.ArchiveFile:= FMultiArchiveFileSource.ArchiveFileName;
 
   with FMultiArchiveFileSource do
-  FillAndCount('*.*', FilesToDelete,
+  FillAndCount('*.*', SourceFiles,
                True,
-               FFullFilesTreeToDelete,
+               FFullFilesTreeToTest,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)
 end;
 
-procedure TMultiArchiveDeleteOperation.MainExecute;
+procedure TMultiArchiveTestArchiveOperation.MainExecute;
 var
   I: Integer;
   MultiArcItem: TMultiArcItem;
@@ -99,13 +100,13 @@ var
   sCommandLine: UTF8String;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
-  sCommandLine:= MultiArcItem.FDelete;
+  sCommandLine:= MultiArcItem.FTest;
   // Get maximum acceptable command errorlevel
   FErrorLevel:= ExtractErrorLevel(sCommandLine);
-  if Pos('%F', sCommandLine) <> 0 then // delete file by file
-    for I:=0 to FFullFilesTreeToDelete.Count - 1 do
+  if Pos('%F', sCommandLine) <> 0 then // test file by file
+    for I:=0 to FFullFilesTreeToTest.Count - 1 do
     begin
-      aFile:= FFullFilesTreeToDelete[I];
+      aFile:= FFullFilesTreeToTest[I];
       UpdateProgress(aFile.FullPath, 0);
 
       sReadyCommand:= FormatArchiverCommand(
@@ -124,13 +125,13 @@ begin
       // Check for errors.
       CheckForErrors(aFile.FullPath , FExProcess.ExitStatus);
     end
-  else  // delete whole file list
+  else  // test whole file list
     begin
       sReadyCommand:= FormatArchiverCommand(
                                             MultiArcItem.FArchiver,
                                             sCommandLine,
                                             FMultiArchiveFileSource.ArchiveFileName,
-                                            FFullFilesTreeToDelete,
+                                            FFullFilesTreeToTest,
                                             EmptyStr,
                                             EmptyStr,
                                             FTempFile
@@ -145,7 +146,7 @@ begin
     end;
 end;
 
-procedure TMultiArchiveDeleteOperation.Finalize;
+procedure TMultiArchiveTestArchiveOperation.Finalize;
 begin
   FreeThenNil(FExProcess);
   with FMultiArchiveFileSource.MultiArcItem do
@@ -153,7 +154,7 @@ begin
     mbDeleteFile(FTempFile);
 end;
 
-procedure TMultiArchiveDeleteOperation.ShowError(sMessage: String; logOptions: TLogOptions);
+procedure TMultiArchiveTestArchiveOperation.ShowError(sMessage: String; logOptions: TLogOptions);
 begin
   if not gSkipFileOpError then
   begin
@@ -169,7 +170,7 @@ begin
   end;
 end;
 
-procedure TMultiArchiveDeleteOperation.LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+procedure TMultiArchiveTestArchiveOperation.LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 begin
   case logMsgType of
     lmtError:
@@ -186,14 +187,14 @@ begin
   end;
 end;
 
-procedure TMultiArchiveDeleteOperation.OnReadLn(str: string);
+procedure TMultiArchiveTestArchiveOperation.OnReadLn(str: string);
 begin
   with FMultiArchiveFileSource.MultiArcItem do
   if FOutput or FDebug then
     logWrite(Thread, str, lmtInfo, True, False);
 end;
 
-procedure TMultiArchiveDeleteOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
+procedure TMultiArchiveTestArchiveOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
 begin
   if ExitStatus > FErrorLevel then
     begin
@@ -208,7 +209,7 @@ begin
     end;
 end;
 
-procedure TMultiArchiveDeleteOperation.UpdateProgress(SourceName: UTF8String; IncSize: Int64);
+procedure TMultiArchiveTestArchiveOperation.UpdateProgress(SourceName: UTF8String; IncSize: Int64);
 begin
   with FStatistics do
   begin
@@ -220,8 +221,8 @@ begin
   end;
 end;
 
-procedure TMultiArchiveDeleteOperation.FileSourceOperationStateChangedNotify(
-  Operation: TFileSourceOperation; AState: TFileSourceOperationState);
+procedure TMultiArchiveTestArchiveOperation.FileSourceOperationStateChangedNotify
+  (Operation: TFileSourceOperation; AState: TFileSourceOperationState);
 begin
   case AState of
     fsosStarting:
@@ -233,4 +234,4 @@ begin
   end;
 end;
 
-end.
+end.

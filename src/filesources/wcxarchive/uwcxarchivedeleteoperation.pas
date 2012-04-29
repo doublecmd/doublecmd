@@ -305,4 +305,4 @@ begin
   WcxDeleteOperation := nil;
 end;
 
-end.
+end.
