@@ -32,7 +32,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls, Buttons,
-  fgl, uGlobs, fOptionsFrame;
+  StdCtrls, fgl, uGlobs, fOptionsFrame;
 
 type
 
@@ -49,6 +49,7 @@ type
   { TfrmOptions }
 
   TfrmOptions = class(TForm, IOptionsDialog)
+    lblEmptyEditor: TLabel;
     OptionsEditorsImageList: TImageList;
     Panel1: TPanel;
     Panel3: TPanel;
@@ -287,9 +288,9 @@ begin
       SelectedEditorView.Instance := CreateEditor(SelectedEditorView.EditorClass);
 
     if Assigned(SelectedEditorView.Instance) then
-      SelectedEditorView.Instance.Visible := True
-    else if Node.HasChildren then
-      Node.GetFirstChild.Selected := True;
+      SelectedEditorView.Instance.Visible := True;
+
+    lblEmptyEditor.Visible := not Assigned(SelectedEditorView.Instance);
 
     FOldEditor := SelectedEditorView;
     LastOpenedEditor := SelectedEditorView.EditorClass;
