@@ -442,6 +442,14 @@ var
       Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
       Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
     end;
+
+    // Draw drop selection.
+    if (BriefView.FDropFileIndex >= 0) and (Idx = BriefView.FDropFileIndex) then
+    begin
+      Canvas.Pen.Color := gForeColor;
+      Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
+      Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
+    end;
   end;
   //------------------------------------------------------
   //end of subprocedures
@@ -485,8 +493,18 @@ function TBriefFileView.GetVisibleFilesIndexes: TRange; {Done}
 begin
   with dgPanel do
   begin
-    Result.First:= (LeftCol * VisibleRowCount - 1);
-    Result.Last:=  (LeftCol + VisibleColCount) * VisibleRowCount - 1;
+    if (TopRow < 0) or (csLoading in ComponentState) then
+      begin
+        Result.First:= 0;
+        Result.Last:= -1;
+      end
+    else
+      begin
+        Result.First:= (LeftCol * VisibleRowCount - 1);
+        Result.Last:=  (LeftCol + VisibleColCount) * VisibleRowCount - 1;
+        if Result.First < 0 then Result.First:= 0;
+        if Result.Last >= FFiles.Count then Result.Last:= FFiles.Count - 1;
+      end;
   end;
 end;
 
