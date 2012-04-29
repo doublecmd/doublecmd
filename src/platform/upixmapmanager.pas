@@ -1853,7 +1853,7 @@ var
   Drive: TDrive = (DisplayName: ''; Path: ''; DriveLabel: ''; DeviceId: '';
                    DriveType: dtHardDisk; FileSystem: ''; IsMediaAvailable: True;
                    IsMediaEjectable: False; IsMediaRemovable: False;
-                   IsMounted: True);
+                   IsMounted: True; AutoMount: True);
 begin
   Result := GetBuiltInDriveIcon(@Drive, IconSize, clBackColor);
 end;

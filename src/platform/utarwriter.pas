@@ -457,9 +457,9 @@ begin
     // Header checksum
     CheckSum(TarHeader);
     // Copy file record
-    Move(HA, PByte(@FLongName + Offset)^, RECORDSIZE);
+    Move(HA, PByte(PAnsiChar(@FLongName) + Offset)^, RECORDSIZE);
     // Copy file name
-    StrMove(@FLongName + Offset + RECORDSIZE, PAnsiChar(ItemName), Length(ItemName));
+    StrMove(PAnsiChar(@FLongName) + Offset + RECORDSIZE, PAnsiChar(ItemName), Length(ItemName));
   end;
 end;
 
@@ -501,7 +501,7 @@ begin
         Result:= Result + RECORDSIZE * 2 + (NameLen div RECORDSIZE) * RECORDSIZE;
     end;
     // Copy file record
-    Move(HA, PByte(@FLongName + Result)^, RECORDSIZE);
+    Move(HA, PByte(PAnsiChar(@FLongName) + Result)^, RECORDSIZE);
     Result:= Result + RECORDSIZE;
   end;
 end;
@@ -617,7 +617,9 @@ begin
       InLen:= InLen - Taken;
     end;
     // Compress input buffer
+    {$PUSH}{$WARNINGS OFF}
     Result:= FWcxModule.PackToMem(FMemPack, PByte(PtrUInt(BufferIn) + OffSet), InLen, @Taken, FBufferOut, FBufferSize, @Written, @SeekBy);
+    {$POP}
 
     if not (Result in [MEMPACK_OK, MEMPACK_DONE]) then
     begin

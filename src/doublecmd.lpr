@@ -91,7 +91,7 @@ begin
   // If in future we move to a Unicode RTL this could be removed.
   Application.UpdateFormatSettings := False;
   {$ENDIF}
-  ThousandSeparator:= ' ';
+  DefaultFormatSettings.ThousandSeparator:= ' ';
   {$IFDEF UNIX}
   uMyUnix.FixDateTimeSeparators;
   {$ENDIF}

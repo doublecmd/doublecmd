@@ -652,7 +652,7 @@ begin
 
         ShowOperation(Item);
 
-        Thread.Resume;
+        Thread.Start;
 
       except
         Item.Free;
