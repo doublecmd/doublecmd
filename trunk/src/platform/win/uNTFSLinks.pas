@@ -86,7 +86,7 @@ function CreateSymLink(ATargetName, ALinkName: WideString): Boolean;
 }
 function CreateHardLink(AFileName, ALinkName: WideString): Boolean;
 
-function GetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): Boolean;
+function GetSymlinkInfo(const fn: WideString; out Target: WideString; out LinkType: TReparsePointType): Boolean;
 function DriveSupportsSymlinks(const fn: WideString): boolean;
 
 implementation
@@ -438,7 +438,7 @@ end;
 
 //-------------------------------------------------------------
 
-function GetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): Boolean;
+function GetSymlinkInfo(const fn: WideString; out Target: WideString; out LinkType: TReparsePointType): Boolean;
 var
   attr: DWORD;
   h: THandle;
