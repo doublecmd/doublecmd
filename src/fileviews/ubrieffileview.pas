@@ -35,6 +35,7 @@ type
     function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
@@ -60,6 +61,7 @@ type
       procedure CreateDefault(AOwner: TWinControl); override;
       procedure BeforeMakeFileList; override;
       procedure AfterMakeFileList; override;
+      procedure ClearAfterDragDrop; override;
       procedure AfterChangePath; override;
       procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
       function GetActiveFileIndex: PtrInt; override;
@@ -235,12 +237,63 @@ end;
 procedure TBriefDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
+{$IFDEF LCLGTK2}
+  // Workaround for two doubleclicks being sent on GTK.
+  // MouseDown event is sent just before doubleclick, so if we drop
+  // doubleclick events we have to also drop MouseDown events that precede them.
+  if TooManyDoubleClicks then Exit;
+{$ENDIF}
+
+  BriefView.FMainControlMouseDown := True;
+
   if MouseOnGrid(X, Y) then
     inherited MouseDown(Button, Shift, X, Y)
   else
     begin
       if Assigned(OnMouseDown) then
         OnMouseDown(Self, Button, Shift, X, Y);
+    end;
+end;
+
+procedure TBriefDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+var
+  BackgroundClick: Boolean;
+  Point: TPoint;
+begin
+{$IFDEF LCLGTK2}
+  // Workaround for two doubleclicks being sent on GTK.
+  // MouseUp event is sent just after doubleclick, so if we drop
+  // doubleclick events we have to also drop MouseUp events that follow them.
+  if TooManyDoubleClicks then Exit;
+{$ENDIF}
+
+  // Handle only if button-up was not lifted to finish drag&drop operation.
+  if not BriefView.FMainControlMouseDown then
+    Exit;
+
+  inherited MouseUp(Button, Shift, X, Y);
+
+  BriefView.FMainControlMouseDown := False;
+
+  if Button = mbRight then
+    begin
+      { If right click on file/directory }
+      if ((gMouseSelectionButton <> 1) or not gMouseSelectionEnabled) then
+        begin
+          BackgroundClick:= not MouseOnGrid(X, Y);
+          Point := ClientToScreen(Classes.Point(X, Y));
+          frmMain.Commands.DoContextMenu(BriefView, Point.x, Point.y, BackgroundClick);
+        end
+      else if (gMouseSelectionEnabled and (gMouseSelectionButton = 1)) then
+        begin
+          BriefView.tmContextMenu.Enabled:= False; // stop context menu timer
+        end;
+    end
+  { Open folder in new tab on middle click }
+  else if (Button = mbMiddle) then
+    begin
+      frmMain.Commands.cm_OpenDirInNewTab([]);
     end;
 end;
 
@@ -578,6 +631,14 @@ begin
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
+procedure TBriefFileView.ClearAfterDragDrop;
+begin
+  inherited ClearAfterDragDrop;
+
+  // reset TCustomGrid state
+  dgPanel.FGridState := gsNormal;
+end;
+
 procedure TBriefFileView.AfterChangePath;
 begin
 //  FUpdatingActiveFile := True;
@@ -629,6 +690,8 @@ begin
     for I:= 0 to TabHeader.Sections.Count - 1 do
       TabHeader.Sections[I].Width:= AWidth;
   end;
+
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 constructor TBriefFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
@@ -673,6 +736,7 @@ end;
 
 procedure TBriefFileView.DoUpdateView;
 begin
+  inherited DoUpdateView;
   dgPanel.UpdateView;
 end;
 
