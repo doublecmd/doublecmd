@@ -450,18 +450,24 @@ var
 begin
   Idx:= CellToIndex(aCol, aRow);
   if (Idx >= 0) and (BriefView.FFiles.Count > 0) then
-  begin
-    AFile:= BriefView.FFiles[Idx];
-    FileSourceDirectAccess:= fspDirectAccess in BriefView.FileSource.Properties;
-    if AFile.DisplayStrings.Count = 0 then
-      BriefView.MakeColumnsStrings(AFile);
+    begin
+      AFile:= BriefView.FFiles[Idx];
+      FileSourceDirectAccess:= fspDirectAccess in BriefView.FileSource.Properties;
+      if AFile.DisplayStrings.Count = 0 then
+        BriefView.MakeColumnsStrings(AFile);
 
-    PrepareColors;
+      PrepareColors;
 
-    iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
+      iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
 
-    DrawIconCell;
-  end;
+      DrawIconCell;
+    end
+  else
+    begin
+      // Draw background.
+      Canvas.Brush.Color := BriefView.DimColor(gBackColor);
+      Canvas.FillRect(aRect);
+    end;
 
   DrawCellGrid(aCol,aRow,aRect,aState);
   DrawLines;
@@ -530,6 +536,7 @@ begin
   TabHeader:= TBriefHeaderControl.Create(Self);
   TabHeader.Parent:= Self;
   TabHeader.Align:= alTop;
+  TabHeader.Top:= pnlHeader.Height;
   TabHeader.Sections.Add.Text:= rsColName;
   TabHeader.Sections.Add.Text:= rsColExt;
   TabHeader.Sections.Add.Text:= rsColSize;
