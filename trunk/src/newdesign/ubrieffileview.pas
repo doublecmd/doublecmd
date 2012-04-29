@@ -512,7 +512,7 @@ end;
 
 procedure TBriefFileView.dgPanelTopLeftChanged(Sender: TObject);
 begin
-  EnsureDisplayProperties;
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TBriefFileView.TabHeaderSectionClick(
@@ -550,7 +550,7 @@ begin
   inherited AfterMakeFileList;
   dgPanel.CalculateColRowCount(0);
   SetFilesDisplayItems;
-  EnsureDisplayProperties;
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TBriefFileView.AfterChangePath;
@@ -678,4 +678,4 @@ begin
 end;
 
 end.
-
+

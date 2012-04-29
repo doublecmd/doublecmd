@@ -43,9 +43,10 @@ type
                       fvrqHashFileList,               // Files names need rehashing due to file list changes
                       fvrqMakeDisplayFileList);       // Filtered file list needs to be created
   TFileViewRequests = set of TFileViewRequest;
-  TFileViewNotification = (fvnDisplayFileListChanged,     // Filtered file list was created (filter changed, show/hide hidden files option changed, etc.)
-                           fvnFileSourceFileListChanged,  // File list was loaded from FileSource
-                           fvnSelectionChanged);          // Files were selected/deselected
+  TFileViewNotification = (fvnDisplayFileListChanged,        // Filtered file list was created (filter changed, show/hide hidden files option changed, etc.)
+                           fvnFileSourceFileListChanged,     // File list was loaded from FileSource
+                           fvnSelectionChanged,              // Files were selected/deselected
+                           fvnVisibleFilePropertiesChanged); // Different files or their properties are now visible
   TFileViewNotifications = set of TFileViewNotification;
 
   {en
@@ -141,11 +142,9 @@ type
     }
     procedure HashFileList;
     procedure InsertFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles; NewFilesPosition: TNewFilesPosition);
-    procedure Notify(NewNotifications: TFileViewNotifications);
     procedure RemoveFile(ADisplayFile: TDisplayFile);
     procedure RemoveFile(const FileName: String);
     procedure RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
-    procedure Request(NewRequests: TFileViewRequests);
     procedure ResortFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles);
     procedure SetFlags(AValue: TFileViewFlags);
     procedure StartRecentlyUpdatedTimerIfNeeded;
@@ -188,14 +187,17 @@ type
     procedure CalculateSpaceOnUpdate(const UpdatedFile: TDisplayFile;
                                      const UserData: Pointer);
     procedure EndUpdate;
+    procedure EnsureDisplayProperties; virtual; abstract;
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
     function GetWorkersThread: TFunctionThread;
     procedure InvertFileSelection(AFile: TDisplayFile; bNotify: Boolean = True);
     function IsVisibleToUser: Boolean;
+    procedure Notify(NewNotifications: TFileViewNotifications);
     procedure PropertiesRetrieverOnUpdate(const UpdatedFile: TDisplayFile;
                                           const UserData: Pointer);
+    procedure Request(NewRequests: TFileViewRequests);
     {en
        This function should set active file by reference of TFile
        or at least by all the properties of the given TFile,
@@ -1240,10 +1242,12 @@ begin
      ((FRequests <> []) or (FNotifications <> [])) then
   begin
     BeginUpdate;
+    DisableAutoSizing;
     try
       HandleRequests;
       HandleNotifications;
     finally
+      EnableAutoSizing;
       EndUpdate;
     end;
   end;
@@ -2463,6 +2467,7 @@ end;
 procedure TFileView.HandleNotifications;
 begin
   BeginUpdate;
+  DisableAutoSizing;
   try
     while FNotifications <> [] do
     begin
@@ -2477,6 +2482,11 @@ begin
         AfterMakeFileList;
         StartRecentlyUpdatedTimerIfNeeded;
       end
+      else if fvnVisibleFilePropertiesChanged in FNotifications then
+      begin
+        FNotifications := FNotifications - [fvnVisibleFilePropertiesChanged];
+        EnsureDisplayProperties;
+      end
       else if fvnSelectionChanged in FNotifications then
       begin
         FNotifications := FNotifications - [fvnSelectionChanged];
@@ -2485,12 +2495,14 @@ begin
     end;
   finally
     EndUpdate;
+    EnableAutoSizing;
   end;
 end;
 
 procedure TFileView.HandleRequests;
 begin
   BeginUpdate;
+  DisableAutoSizing;
   try
     while FRequests <> [] do
     begin
@@ -2514,6 +2526,7 @@ begin
     end;
   finally
     EndUpdate;
+    EnableAutoSizing;
   end;
 end;
 
@@ -2865,4 +2878,4 @@ begin
 end;
 
 end.
-
+

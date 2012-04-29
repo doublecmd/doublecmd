@@ -560,12 +560,12 @@ end;
 procedure TColumnsFileViewVTV.dgPanelScroll(Sender: TBaseVirtualTree; DeltaX, DeltaY: Integer);
 begin
   if DeltaY <> 0 then
-    EnsureDisplayProperties;
+    Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TColumnsFileViewVTV.dgPanelResize(Sender: TObject);
 begin
-  EnsureDisplayProperties;
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TColumnsFileViewVTV.tmClearGridTimer(Sender: TObject);
@@ -940,7 +940,7 @@ begin
   FilePropertiesNeeded := GetFilePropertiesNeeded;
   if FilePropertiesNeeded >= OldFilePropertiesNeeded then
   begin
-    EnsureDisplayProperties;
+    Notify([fvnVisibleFilePropertiesChanged]);
   end;
 end;
 
@@ -1118,7 +1118,6 @@ begin
 
   tmClearGrid.Enabled := False;
   DisplayFileListHasChanged;
-  EnsureDisplayProperties; // After displaying.
 end;
 
 procedure TColumnsFileViewVTV.DisplayFileListHasChanged;
@@ -1170,6 +1169,7 @@ begin
       // dgPanel.OffsetX := 0;
     end;
 
+  Notify([fvnVisibleFilePropertiesChanged]);
   UpdateInfoPanel;
 end;
 
