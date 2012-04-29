@@ -86,7 +86,8 @@ type
 
   protected
     { Inherited Abstract functions }
-    function CreateItem(const FileSpec : string): TAbArchiveItem; override;
+    function CreateItem(const SourceFileName   : string;
+                        const ArchiveDirectory : string): TAbArchiveItem; override;
     procedure ExtractItemAt(Index : Integer; const NewName : string); override;
     procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream); override;
     procedure LoadArchive; override;
@@ -193,20 +194,29 @@ begin
   FState    := gsBzip2;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBzip2Archive.CreateItem(const FileSpec: string): TAbArchiveItem;
+function TAbBzip2Archive.CreateItem(const SourceFileName   : string;
+                                    const ArchiveDirectory : string): TAbArchiveItem;
+var
+  Bz2Item : TAbBzip2Item;
+  FullSourceFileName, FullArchiveFileName: String;
 begin
   if IsBzippedTar and TarAutoHandle then begin
     SwapToTar;
-    Result := inherited CreateItem(FileSpec);
+    Result := inherited CreateItem(SourceFileName, ArchiveDirectory);
   end
   else begin
     SwapToBzip2;
-    Result := TAbBzip2Item.Create;
+    Bz2Item := TAbBzip2Item.Create;
     try
-      Result.DiskFileName := ExpandFileName(FileSpec);
-      Result.FileName := FixName(FileSpec);
+      MakeFullNames(SourceFileName, ArchiveDirectory,
+                    FullSourceFileName, FullArchiveFileName);
+
+      Bz2Item.FileName := FullArchiveFileName;
+      Bz2Item.DiskFileName := FullSourceFileName;
+
+      Result := Bz2Item;
     except
-      Result.Free;
+      Result := nil;
       raise;
     end;
   end;

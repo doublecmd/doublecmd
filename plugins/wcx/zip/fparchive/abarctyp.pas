@@ -316,6 +316,10 @@ type
     procedure GetFreshenTarget(Item : TAbArchiveItem);
     function  GetItemCount : Integer;
     procedure MakeLogEntry(const FN: string; LT : TAbLogType);
+    procedure MakeFullNames(const SourceFileName: String;
+                            const ArchiveDirectory: String;
+                            out   FullSourceFileName: String;
+                            out   FullArchiveFileName: String);
     procedure ReplaceAt(Index : Integer);
     procedure SaveIfNeeded(aItem : TAbArchiveItem);
     procedure SetBaseDirectory(Value : string);
@@ -323,7 +327,16 @@ type
     procedure SetLogging(Value : Boolean);
 
   protected {abstract methods}
-    function CreateItem(const FileSpec : string): TAbArchiveItem;
+    function CreateItem(const SourceFileName : string;
+                        const ArchiveDirectory : string): TAbArchiveItem;
+    {SourceFileName   - full or relative path to a file/dir on some file system
+                        If full path, BaseDirectory is used to determine relative path}
+    {ArchiveDirectory - path to a directory in the archive the file/dir will be in}
+    {Example:
+      FBaseDirectory      = /dir
+      SourceFileName      = /dir/subdir/file
+      ArchiveDirectory    = files/storage  (or files/storage/)
+      -> name in archive  = files/storage/subdir/file}
       virtual; abstract;
     procedure ExtractItemAt(Index : Integer; const UseName : string);
       virtual; abstract;
@@ -384,6 +397,7 @@ type
       override;
     procedure Add(aItem : TAbArchiveItem);
       virtual;
+    procedure AddEntry(const Path : String; const ArchiveDirectory : String);
     procedure AddFiles(const FileMask : string; SearchAttr : Integer);
     procedure AddFilesEx(const FileMask, ExclusionMask : string;
       SearchAttr : Integer);
@@ -1034,6 +1048,19 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
+procedure TAbArchive.AddEntry(const Path : String; const ArchiveDirectory : String);
+var
+  Item : TAbArchiveItem;
+  FullSourceFileName, FullArchiveFileName : String;
+begin
+  MakeFullNames(Path, ArchiveDirectory, FullSourceFileName, FullArchiveFileName);
+
+  if (FullSourceFileName <> FArchiveName) then begin
+    Item := CreateItem(Path, ArchiveDirectory);
+    Add(Item);
+  end;
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbArchive.AddFiles(const FileMask : string; SearchAttr : Integer);
   {Add files to the archive where the disk filespec matches}
 begin
@@ -1045,17 +1072,15 @@ procedure TAbArchive.AddFilesEx(const FileMask, ExclusionMask : string;
   {Add files matching Filemask except those matching ExclusionMask}
 var
   PathType : TAbPathType;
-  IsWild : Boolean;
   SaveDir : string;
   Mask : string;
   MaskF : string;
 
-  procedure CreateItems(Wild, Recursing : Boolean);
+  procedure CreateItems(Recursing : Boolean);
   var
     i : Integer;
     Files : TStrings;
     FilterList : TStringList;
-    Item : TAbArchiveItem;
   begin
     FilterList := TStringList.Create;
     try
@@ -1066,21 +1091,12 @@ var
         try
 
           AbFindFilesEx(Mask, SearchAttr, Files, Recursing);
-          if (Files.Count > 0) then
+          if (Files.Count > 0) then begin
             for i := 0 to pred(Files.Count) do
               if FilterList.IndexOf(Files[i]) < 0 then
-                if not Wild then begin
-                  if (Files[i] <> FArchiveName) then begin
-                    Item := CreateItem(Files[i]);
-                    Add(Item);
-                  end;
-                end else begin
-                  if (AbAddBackSlash(FBaseDirectory) + Files[i]) <> FArchiveName
-                    then begin
-                      Item := CreateItem(Files[i]);
-                      Add(Item);
-                    end;
-                end;
+                AddEntry(Files[i], Files[i]);
+            FIsDirty := true;
+          end;
         finally
           Files.Free;
         end;
@@ -1095,7 +1111,6 @@ begin
     SearchAttr := SearchAttr and not faDirectory;
 
   CheckValid;
-  IsWild := (Pos('*', FileMask) > 0) or (Pos('?', FileMask) > 0);
   PathType := AbGetPathType(FileMask);
 
   Mask := FileMask;
@@ -1110,7 +1125,7 @@ begin
         if BaseDirectory <> '' then
           ChDir(BaseDirectory);
         try
-          CreateItems(IsWild, soRecurse in StoreOptions);
+          CreateItems(soRecurse in StoreOptions);
         finally
           if BaseDirectory <> '' then
             ChDir(SaveDir);
@@ -1118,7 +1133,7 @@ begin
       end;
     ptAbsolute :
       begin
-        CreateItems(IsWild, soRecurse in StoreOptions);
+        CreateItems(soRecurse in StoreOptions);
       end;
   end;
 end;
@@ -1130,7 +1145,7 @@ var
   Item : TAbArchiveItem;
   PT : TAbProcessType;                                               
 begin
-  Item := CreateItem(NewName);
+  Item := CreateItem('', NewName);
   CheckValid;
 
   PT := ptAdd;
@@ -1762,6 +1777,45 @@ begin
     Buf := FN + LogTypeRes[LT] + DateTimeToStr(Now) + sLineBreak;
     FLogStream.Write(Buf[1], Length(Buf) * SizeOf(Char));
   end;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbArchive.MakeFullNames(const SourceFileName: String;
+                                   const ArchiveDirectory: String;
+                                   out   FullSourceFileName: String;
+                                   out   FullArchiveFileName: String);
+var
+  PathType : TAbPathType;
+  RelativeSourceFileName: String;
+begin
+  PathType := AbGetPathType(SourceFileName);
+  case PathType of
+    ptNone, ptRelative :
+      begin
+        if FBaseDirectory <> '' then
+          FullSourceFileName := AbAddBackSlash(FBaseDirectory) + SourceFileName
+        else
+          FullSourceFileName := SourceFileName;
+
+        RelativeSourceFileName := SourceFileName;
+      end;
+    ptAbsolute :
+      begin
+        FullSourceFileName := SourceFileName;
+
+        if FBaseDirectory <> '' then
+          RelativeSourceFileName := ExtractRelativepath(AbAddBackSlash(FBaseDirectory),
+                                                        SourceFileName)
+        else
+          RelativeSourceFileName := ExtractFileName(SourceFileName);
+      end;
+  end;
+
+  if ArchiveDirectory <> '' then
+    FullArchiveFileName := AbAddBackSlash(ArchiveDirectory) + RelativeSourceFileName
+  else
+    FullArchiveFileName := RelativeSourceFileName;
+
+  FullArchiveFileName := FixName(FullArchiveFileName);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.Move(aItem : TAbArchiveItem; const NewStoredPath : string);

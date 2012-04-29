@@ -572,7 +572,7 @@ begin
       while True do
       begin
         FileName := AnsiString(AddList);
-        Arc.AddEntry(FileName, FilePath);
+        Arc.Archive.AddEntry(FileName, FilePath);
         if (AddList + Length(FileName) + 1)^ = #0 then
           Break;
         Inc(AddList, Length(FileName) + 1);
@@ -647,7 +647,7 @@ begin
       while True do
       begin
         FileName := WideString(AddList);
-        Arc.AddEntry(UTF8Encode(FileName), FilePath);
+        Arc.Archive.AddEntry(UTF8Encode(FileName), FilePath);
         if (AddList + Length(FileName) + 1)^ = #0 then
           Break;
         Inc(AddList, Length(FileName) + 1);

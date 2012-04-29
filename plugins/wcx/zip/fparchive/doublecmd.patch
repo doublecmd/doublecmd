@@ -2,7 +2,44 @@ Index: AbArcTyp.pas
 ===================================================================
 --- AbArcTyp.pas	(revision 512)
 +++ AbArcTyp.pas	(working copy)
-@@ -565,7 +565,9 @@
+@@ -316,6 +316,10 @@
+     procedure GetFreshenTarget(Item : TAbArchiveItem);
+     function  GetItemCount : Integer;
+     procedure MakeLogEntry(const FN: string; LT : TAbLogType);
++    procedure MakeFullNames(const SourceFileName: String;
++                            const ArchiveDirectory: String;
++                            out   FullSourceFileName: String;
++                            out   FullArchiveFileName: String);
+     procedure ReplaceAt(Index : Integer);
+     procedure SaveIfNeeded(aItem : TAbArchiveItem);
+     procedure SetBaseDirectory(Value : string);
+@@ -323,7 +327,16 @@
+     procedure SetLogging(Value : Boolean);
+ 
+   protected {abstract methods}
+-    function CreateItem(const FileSpec : string): TAbArchiveItem;
++    function CreateItem(const SourceFileName : string;
++                        const ArchiveDirectory : string): TAbArchiveItem;
++    {SourceFileName   - full or relative path to a file/dir on some file system
++                        If full path, BaseDirectory is used to determine relative path}
++    {ArchiveDirectory - path to a directory in the archive the file/dir will be in}
++    {Example:
++      FBaseDirectory      = /dir
++      SourceFileName      = /dir/subdir/file
++      ArchiveDirectory    = files/storage  (or files/storage/)
++      -> name in archive  = files/storage/subdir/file}
+       virtual; abstract;
+     procedure ExtractItemAt(Index : Integer; const UseName : string);
+       virtual; abstract;
+@@ -384,6 +397,7 @@
+       override;
+     procedure Add(aItem : TAbArchiveItem);
+       virtual;
++    procedure AddEntry(const Path : String; const ArchiveDirectory : String);
+     procedure AddFiles(const FileMask : string; SearchAttr : Integer);
+     procedure AddFilesEx(const FileMask, ExclusionMask : string;
+       SearchAttr : Integer);
+@@ -565,7 +579,9 @@
    AbExcept,
    AbDfBase,
    AbConst,
@@ -13,7 +50,7 @@ Index: AbArcTyp.pas
  
  
  { TAbArchiveItem implementation ============================================ }
-@@ -980,7 +982,7 @@
+@@ -980,7 +996,7 @@
    {create an archive by opening a filestream on filename with the given mode}
  begin
    FOwnsStream := True;
@@ -22,7 +59,107 @@ Index: AbArcTyp.pas
    FMode := Mode;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1196,14 +1198,14 @@
+@@ -1032,6 +1048,19 @@
+   end;
+ end;
+ { -------------------------------------------------------------------------- }
++procedure TAbArchive.AddEntry(const Path : String; const ArchiveDirectory : String);
++var
++  Item : TAbArchiveItem;
++  FullSourceFileName, FullArchiveFileName : String;
++begin
++  MakeFullNames(Path, ArchiveDirectory, FullSourceFileName, FullArchiveFileName);
++
++  if (FullSourceFileName <> FArchiveName) then begin
++    Item := CreateItem(Path, ArchiveDirectory);
++    Add(Item);
++  end;
++end;
++{ -------------------------------------------------------------------------- }
+ procedure TAbArchive.AddFiles(const FileMask : string; SearchAttr : Integer);
+   {Add files to the archive where the disk filespec matches}
+ begin
+@@ -1043,17 +1072,15 @@
+   {Add files matching Filemask except those matching ExclusionMask}
+ var
+   PathType : TAbPathType;
+-  IsWild : Boolean;
+   SaveDir : string;
+   Mask : string;
+   MaskF : string;
+ 
+-  procedure CreateItems(Wild, Recursing : Boolean);
++  procedure CreateItems(Recursing : Boolean);
+   var
+     i : Integer;
+     Files : TStrings;
+     FilterList : TStringList;
+-    Item : TAbArchiveItem;
+   begin
+     FilterList := TStringList.Create;
+     try
+@@ -1064,21 +1091,12 @@
+         try
+ 
+           AbFindFilesEx(Mask, SearchAttr, Files, Recursing);
+-          if (Files.Count > 0) then
++          if (Files.Count > 0) then begin
+             for i := 0 to pred(Files.Count) do
+               if FilterList.IndexOf(Files[i]) < 0 then
+-                if not Wild then begin
+-                  if (Files[i] <> FArchiveName) then begin
+-                    Item := CreateItem(Files[i]);
+-                    Add(Item);
+-                  end;
+-                end else begin
+-                  if (AbAddBackSlash(FBaseDirectory) + Files[i]) <> FArchiveName
+-                    then begin
+-                      Item := CreateItem(Files[i]);
+-                      Add(Item);
+-                    end;
+-                end;
++                AddEntry(Files[i], Files[i]);
++            FIsDirty := true;
++          end;
+         finally
+           Files.Free;
+         end;
+@@ -1093,7 +1111,6 @@
+     SearchAttr := SearchAttr and not faDirectory;
+ 
+   CheckValid;
+-  IsWild := (Pos('*', FileMask) > 0) or (Pos('?', FileMask) > 0);
+   PathType := AbGetPathType(FileMask);
+ 
+   Mask := FileMask;
+@@ -1108,7 +1125,7 @@
+         if BaseDirectory <> '' then
+           ChDir(BaseDirectory);
+         try
+-          CreateItems(IsWild, soRecurse in StoreOptions);
++          CreateItems(soRecurse in StoreOptions);
+         finally
+           if BaseDirectory <> '' then
+             ChDir(SaveDir);
+@@ -1116,7 +1133,7 @@
+       end;
+     ptAbsolute :
+       begin
+-        CreateItems(IsWild, soRecurse in StoreOptions);
++        CreateItems(soRecurse in StoreOptions);
+       end;
+   end;
+ end;
+@@ -1128,7 +1145,7 @@
+   Item : TAbArchiveItem;
+   PT : TAbProcessType;                                               
+ begin
+-  Item := CreateItem(NewName);
++  Item := CreateItem('', NewName);
+   CheckValid;
+ 
+   PT := ptAdd;
+@@ -1196,14 +1213,14 @@
      UseName := AbAddBackSlash(BaseDirectory) + UseName;
  
    Path := ExtractFileDir(UseName);
@@ -39,7 +176,7 @@ Index: AbArcTyp.pas
      DoConfirmOverwrite(UseName, Result);
  end;
  { -------------------------------------------------------------------------- }
-@@ -1560,11 +1562,12 @@
+@@ -1560,11 +1577,12 @@
  begin
    CheckValid;
    Index := FindItem(aItem);
@@ -54,7 +191,7 @@ Index: AbArcTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1625,7 +1628,7 @@
+@@ -1625,7 +1643,7 @@
  { -------------------------------------------------------------------------- }
  function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
  var
@@ -63,7 +200,7 @@ Index: AbArcTyp.pas
    DateTime : LongInt;
    FileTime : Word;
    FileDate : Word;
-@@ -1636,8 +1639,8 @@
+@@ -1636,8 +1654,8 @@
    if BaseDirectory <> '' then
      ChDir(BaseDirectory);
    try
@@ -74,7 +211,53 @@ Index: AbArcTyp.pas
      try
        DateTime := FileGetDate(FS.Handle);
        FileTime := LongRec(DateTime).Lo;
-@@ -1807,11 +1810,12 @@
+@@ -1761,6 +1779,45 @@
+   end;
+ end;
+ { -------------------------------------------------------------------------- }
++procedure TAbArchive.MakeFullNames(const SourceFileName: String;
++                                   const ArchiveDirectory: String;
++                                   out   FullSourceFileName: String;
++                                   out   FullArchiveFileName: String);
++var
++  PathType : TAbPathType;
++  RelativeSourceFileName: String;
++begin
++  PathType := AbGetPathType(SourceFileName);
++  case PathType of
++    ptNone, ptRelative :
++      begin
++        if FBaseDirectory <> '' then
++          FullSourceFileName := AbAddBackSlash(FBaseDirectory) + SourceFileName
++        else
++          FullSourceFileName := SourceFileName;
++
++        RelativeSourceFileName := SourceFileName;
++      end;
++    ptAbsolute :
++      begin
++        FullSourceFileName := SourceFileName;
++
++        if FBaseDirectory <> '' then
++          RelativeSourceFileName := ExtractRelativepath(AbAddBackSlash(FBaseDirectory),
++                                                        SourceFileName)
++        else
++          RelativeSourceFileName := ExtractFileName(SourceFileName);
++      end;
++  end;
++
++  if ArchiveDirectory <> '' then
++    FullArchiveFileName := AbAddBackSlash(ArchiveDirectory) + RelativeSourceFileName
++  else
++    FullArchiveFileName := RelativeSourceFileName;
++
++  FullArchiveFileName := FixName(FullArchiveFileName);
++end;
++{ -------------------------------------------------------------------------- }
+ procedure TAbArchive.Move(aItem : TAbArchiveItem; const NewStoredPath : string);
+ var
+   Confirm : Boolean;
+@@ -1807,11 +1864,12 @@
  begin
    CheckValid;
    Index := FindItem(aItem);
@@ -89,7 +272,7 @@ Index: AbArcTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1865,7 +1869,7 @@
+@@ -1865,7 +1923,7 @@
      if Value[Length(Value)] = AbPathDelim then
        if (Length(Value) > 1) and (Value[Length(Value) - 1] <> ':') then
          System.Delete(Value, Length(Value), 1);
@@ -98,7 +281,7 @@ Index: AbArcTyp.pas
      FBaseDirectory := Value
    else
      raise EAbNoSuchDirectory.Create;
-@@ -1973,7 +1977,7 @@
+@@ -1973,7 +2031,7 @@
    Len, Offset : Integer;
  begin
    Len := SizeOf(TAbExtraSubField) + aSubField.Len;
@@ -107,7 +290,7 @@ Index: AbArcTyp.pas
    if Offset + Len < Length(FBuffer) then
      Move(FBuffer[Offset + Len], aSubField^, Length(FBuffer) - Offset - Len);
    SetLength(FBuffer, Length(FBuffer) - Len);
-@@ -2001,9 +2005,9 @@
+@@ -2001,9 +2059,9 @@
    end
    else begin
      BytesLeft := Length(FBuffer) -
@@ -312,7 +495,17 @@ Index: AbBzip2Typ.pas
 ===================================================================
 --- AbBzip2Typ.pas	(revision 512)
 +++ AbBzip2Typ.pas	(working copy)
-@@ -118,7 +118,7 @@
+@@ -86,7 +86,8 @@
+ 
+   protected
+     { Inherited Abstract functions }
+-    function CreateItem(const FileSpec : string): TAbArchiveItem; override;
++    function CreateItem(const SourceFileName   : string;
++                        const ArchiveDirectory : string): TAbArchiveItem; override;
+     procedure ExtractItemAt(Index : Integer; const NewName : string); override;
+     procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream); override;
+     procedure LoadArchive; override;
+@@ -118,7 +119,7 @@
    Windows, // Fix inline warnings
  {$ENDIF}
    StrUtils, SysUtils,
@@ -321,7 +514,43 @@ Index: AbBzip2Typ.pas
  
  { ****************** Helper functions Not from Classes Above ***************** }
  function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
-@@ -223,7 +223,7 @@
+@@ -193,20 +194,29 @@
+   FState    := gsBzip2;
+ end;
+ { -------------------------------------------------------------------------- }
+-function TAbBzip2Archive.CreateItem(const FileSpec: string): TAbArchiveItem;
++function TAbBzip2Archive.CreateItem(const SourceFileName   : string;
++                                    const ArchiveDirectory : string): TAbArchiveItem;
++var
++  Bz2Item : TAbBzip2Item;
++  FullSourceFileName, FullArchiveFileName: String;
+ begin
+   if IsBzippedTar and TarAutoHandle then begin
+     SwapToTar;
+-    Result := inherited CreateItem(FileSpec);
++    Result := inherited CreateItem(SourceFileName, ArchiveDirectory);
+   end
+   else begin
+     SwapToBzip2;
+-    Result := TAbBzip2Item.Create;
++    Bz2Item := TAbBzip2Item.Create;
+     try
+-      Result.DiskFileName := ExpandFileName(FileSpec);
+-      Result.FileName := FixName(FileSpec);
++      MakeFullNames(SourceFileName, ArchiveDirectory,
++                    FullSourceFileName, FullArchiveFileName);
++
++      Bz2Item.FileName := FullArchiveFileName;
++      Bz2Item.DiskFileName := FullSourceFileName;
++
++      Result := Bz2Item;
+     except
+-      Result.Free;
++      Result := nil;
+       raise;
+     end;
+   end;
+@@ -223,7 +233,7 @@
  procedure TAbBzip2Archive.ExtractItemAt(Index: Integer;
    const NewName: string);
  var
@@ -330,7 +559,7 @@ Index: AbBzip2Typ.pas
  begin
    if IsBzippedTar and TarAutoHandle then begin
      SwapToTar;
-@@ -231,7 +231,7 @@
+@@ -231,7 +241,7 @@
    end
    else begin
      SwapToBzip2;
@@ -339,7 +568,7 @@ Index: AbBzip2Typ.pas
      try
        try
          ExtractItemToStreamAt(Index, OutStream);
-@@ -242,12 +242,12 @@
+@@ -242,12 +252,12 @@
      except
        on E : EAbUserAbort do begin
          FStatus := asInvalid;
@@ -356,7 +585,7 @@ Index: AbBzip2Typ.pas
          raise;
        end;
      end;
-@@ -347,7 +347,7 @@
+@@ -347,7 +357,7 @@
              if CurItem.Action = aaStreamAdd then
                CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
              else begin

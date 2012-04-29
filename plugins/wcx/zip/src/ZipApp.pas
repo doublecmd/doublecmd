@@ -56,7 +56,6 @@ type
 
   TAbZipKit = class(TAbCustomZipKit)
   public
-    procedure AddEntry(const Path : String; const ArchiveDirectory : String);
     {en
         Delete directory entry and all file and directory entries matching
         the same path recursively
@@ -123,17 +122,6 @@ begin
 end;
 
 { TAbZipKit }
-
-procedure TAbZipKit.AddEntry(const Path: String; const ArchiveDirectory: String);
-var
-  Item : TAbArchiveItem;
-begin
-  with TAbArchiveAccess(Archive) do
-  begin
-    Item := CreateItem(Path);
-    Add(Item);
-  end;
-end;
 
 procedure TAbZipKit.DeleteDirectoriesRecursively(const Paths: String);
 var
