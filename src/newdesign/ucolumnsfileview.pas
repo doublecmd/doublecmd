@@ -391,12 +391,12 @@ end;
 
 procedure TColumnsFileView.dgPanelTopLeftChanged(Sender: TObject);
 begin
-  EnsureDisplayProperties;
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TColumnsFileView.dgPanelResize(Sender: TObject);
 begin
-  EnsureDisplayProperties;
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TColumnsFileView.tmClearGridTimer(Sender: TObject);
@@ -788,7 +788,7 @@ begin
   FilePropertiesNeeded := GetFilePropertiesNeeded;
   if FilePropertiesNeeded >= OldFilePropertiesNeeded then
   begin
-    EnsureDisplayProperties;
+    Notify([fvnVisibleFilePropertiesChanged]);
   end;
 end;
 
@@ -965,7 +965,6 @@ begin
 
   tmClearGrid.Enabled := False;
   DisplayFileListHasChanged;
-  EnsureDisplayProperties; // After displaying.
 end;
 
 procedure TColumnsFileView.DisplayFileListHasChanged;
@@ -981,6 +980,7 @@ begin
     // Requested file was not found, restore position to last active file.
     SetActiveFileNow(LastActiveFile);
 
+  Notify([fvnVisibleFilePropertiesChanged]);
   UpdateInfoPanel;
 end;
 
@@ -1830,4 +1830,4 @@ begin
 end;
 
 end.
-
+

@@ -63,7 +63,7 @@ type
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoSelectionChanged; override;
     procedure DoSelectionChanged(FileIndex: PtrInt);
-    procedure EnsureDisplayProperties;
+    procedure EnsureDisplayProperties; override;
     function GetActiveDisplayFile: TDisplayFile; override;
     function GetActiveFileIndex: PtrInt; virtual; abstract;
     function GetFileRect(FileIndex: PtrInt): TRect; virtual; abstract;
