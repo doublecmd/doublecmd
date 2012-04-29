@@ -68,7 +68,6 @@ uses
   AbDfBase,
   AbDfEnc,
   AbSpanSt,
-  DCOSUtils,
   DCClassesUtf8;
 
 
@@ -296,22 +295,13 @@ procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
                  OutStream : TStream );
 var
   UncompressedStream : TStream;
-  SaveDir : string;
   AttrEx : TAbAttrExRec;
 begin
-  SaveDir:= mbGetCurrentDir;
-  try {SaveDir}
-    if (Sender.BaseDirectory <> '') then
-      mbSetCurrentDir(Sender.BaseDirectory);
-    AbFileGetAttrEx(Item.DiskFileName, AttrEx);
-    if ((AttrEx.Attr and faDirectory) <> 0) then
-      UncompressedStream := TMemoryStream.Create
-    else
-      UncompressedStream :=
-        TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
-  finally {SaveDir}
-    mbSetCurrentDir( SaveDir );
-  end; {SaveDir}
+  AbFileGetAttrEx(Item.DiskFileName, AttrEx);
+  if ((AttrEx.Attr and faDirectory) <> 0) then
+    UncompressedStream := TMemoryStream.Create
+  else
+    UncompressedStream := TFileStreamEx.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
   try {UncompressedStream}
     {$IFDEF UNIX}
     Item.ExternalFileAttributes := LongWord(AttrEx.Mode) shl 16 + LongWord(AttrEx.Attr);
