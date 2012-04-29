@@ -747,6 +747,64 @@ Index: AbSelfEx.pas
    try
      MakeSelfExtracting(FStubStream, FZipStream, FSelfStream);
      Result := True;
+Index: AbSpanSt.pas
+===================================================================
+--- AbSpanSt.pas	(revision 512)
++++ AbSpanSt.pas	(working copy)
+@@ -142,7 +142,7 @@
+ {$IFDEF MSWINDOWS}
+   Windows,
+ {$ENDIF}
+-  Math, RTLConsts, SysUtils, AbUtils, AbExcept;
++  Math, RTLConsts, SysUtils, AbUtils, AbExcept, DCOSUtils, DCClassesUtf8;
+ 
+ 
+ {============================================================================}
+@@ -181,7 +181,7 @@
+ begin
+   inherited Create(ArchiveName);
+   FCurrentImage := CurrentImage;
+-  FIsSplit := FileExists(GetImageName(1)) or not AbDriveIsRemovable(ArchiveName);
++  FIsSplit := mbFileExists(GetImageName(1)) or not AbDriveIsRemovable(ArchiveName);
+   FLastImage := CurrentImage;
+   FStream := Stream;
+ end;
+@@ -218,7 +218,7 @@
+   end
+   else
+     raise EAbUserAbort.Create;
+-  FStream := TFileStream.Create(ImageName, fmOpenRead or fmShareDenyWrite);
++  FStream := TFileStreamEx.Create(ImageName, fmOpenRead or fmShareDenyWrite);
+ end;
+ {------------------------------------------------------------------------------}
+ function TAbSpanReadStream.Read(var Buffer; Count: Longint): Longint;
+@@ -273,7 +273,7 @@
+ procedure TAbSpanReadStream.SetOnRequestImage(Value: TAbRequestImageEvent);
+ begin
+   FOnRequestImage := Value;
+-  FIsSplit := FileExists(GetImageName(1)) or not AbDriveIsRemovable(FArchiveName);
++  FIsSplit := mbFileExists(GetImageName(1)) or not AbDriveIsRemovable(FArchiveName);
+ end;
+ 
+ {============================================================================}
+@@ -302,7 +302,7 @@
+   FreeAndNil(FStream);
+   Inc(FCurrentImage);
+   if FThreshold > 0 then
+-    RenameFile(FArchiveName, GetImageName(FCurrentImage))
++    mbRenameFile(FArchiveName, GetImageName(FCurrentImage))
+   else begin
+     if Assigned(FOnRequestBlankDisk) then begin
+       Abort := False;
+@@ -316,7 +316,7 @@
+       raise EAbUserAbort.Create;
+     AbSetSpanVolumeLabel(AbDrive(FArchiveName), FCurrentImage);
+   end;
+-  FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
++  FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+   FImageSize := 0;
+ end;
+ {------------------------------------------------------------------------------}
 Index: AbUnzPrc.pas
 ===================================================================
 --- AbUnzPrc.pas	(revision 512)
