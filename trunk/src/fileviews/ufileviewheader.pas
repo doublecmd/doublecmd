@@ -43,7 +43,6 @@ type
     FSelectedSection: Integer;
     procedure UpdateState;
   protected
-    procedure Click; override;
     procedure MouseEnter; override;
     procedure MouseLeave; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
@@ -51,6 +50,8 @@ type
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
                       X, Y: Integer); override;
+  public
+    procedure Click; override;
   end;
 
 implementation

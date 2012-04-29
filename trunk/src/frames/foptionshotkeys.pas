@@ -855,6 +855,7 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey(UseTrash: Boolean);
     CountBeforeAdded: Integer;
     SetShortcut: Boolean;
   begin
+    SetLength(CheckedShortcuts, 0);
     CountBeforeAdded := Hotkeys.Count;
     for i := 0 to CountBeforeAdded - 1 do
     begin
