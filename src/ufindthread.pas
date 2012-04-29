@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -125,9 +125,11 @@ begin
     while sTemp <> EmptyStr do
       begin
         sPath:= Copy2SymbDel(sTemp, ';');
-        sPath := ExcludeBackPathDelimiter(sPath);
+        sPath:= ExcludeBackPathDelimiter(sPath);
         WalkAdr(sPath);
       end;
+    FCurrentDir:= rsOperFinished;
+    Synchronize(@UpDateProgress);
   except
     on E:Exception do
       msgError(Self, E.Message);
