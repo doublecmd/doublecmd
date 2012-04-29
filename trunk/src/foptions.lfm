@@ -66,6 +66,19 @@ object frmOptions: TfrmOptions
       Align = alClient
       BorderStyle = bsNone
       TabOrder = 1
+      object lblEmptyEditor: TLabel
+        AnchorSideLeft.Control = sboxOptionsEditor
+        AnchorSideTop.Control = sboxOptionsEditor
+        Left = 10
+        Height = 22
+        Top = 10
+        Width = 504
+        BorderSpacing.Left = 10
+        BorderSpacing.Top = 10
+        Caption = 'Please select one of the subpages, this page does not contain any settings.'
+        ParentColor = False
+        Visible = False
+      end
     end
   end
   object splOptionsSplitter: TSplitter
