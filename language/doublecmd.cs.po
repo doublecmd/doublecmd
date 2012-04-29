@@ -1778,6 +1778,14 @@ msgstr "&Načíst"
 msgid "S&ave"
 msgstr "&Uložit"
 
+#: tfrmfinddlg.btnsearchsavewithstartingpath.caption
+msgid "Save with starting path"
+msgstr ""
+
+#: tfrmfinddlg.btnsearchsavewithstartingpath.hint
+msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+msgstr ""
+
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
@@ -2554,6 +2562,15 @@ msgstr "&Uzamčeno"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Uzamčeno s povolenou změnou a&dresáře"
+
+#: tfrmmain.actshellexecute.caption
+msgctxt "tfrmmain.actshellexecute.caption"
+msgid "Open"
+msgstr "Otevřít"
+
+#: tfrmmain.actshellexecute.hint
+msgid "Open using system associations"
+msgstr ""
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"

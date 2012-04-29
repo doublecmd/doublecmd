@@ -1802,6 +1802,14 @@ msgstr "&Charger"
 msgid "S&ave"
 msgstr "&Enregistrer"
 
+#: tfrmfinddlg.btnsearchsavewithstartingpath.caption
+msgid "Save with starting path"
+msgstr ""
+
+#: tfrmfinddlg.btnsearchsavewithstartingpath.hint
+msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+msgstr ""
+
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
@@ -2567,6 +2575,15 @@ msgstr "&Verrouillé"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Verrouillé avec les changements de &dossiers autorisés"
+
+#: tfrmmain.actshellexecute.caption
+msgctxt "tfrmmain.actshellexecute.caption"
+msgid "Open"
+msgstr "Ouvrir"
+
+#: tfrmmain.actshellexecute.hint
+msgid "Open using system associations"
+msgstr ""
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"

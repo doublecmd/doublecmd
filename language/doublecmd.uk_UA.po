@@ -1771,6 +1771,14 @@ msgstr "Заван&тажити"
 msgid "S&ave"
 msgstr "Збере&гти"
 
+#: tfrmfinddlg.btnsearchsavewithstartingpath.caption
+msgid "Save with starting path"
+msgstr ""
+
+#: tfrmfinddlg.btnsearchsavewithstartingpath.hint
+msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+msgstr ""
+
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
@@ -2552,6 +2560,15 @@ msgstr "Заб&локувати"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
 msgstr "Заблоку&вати, але дозволити зміну каталогу"
+
+#: tfrmmain.actshellexecute.caption
+msgctxt "tfrmmain.actshellexecute.caption"
+msgid "Open"
+msgstr "Відкрити"
+
+#: tfrmmain.actshellexecute.hint
+msgid "Open using system associations"
+msgstr ""
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
