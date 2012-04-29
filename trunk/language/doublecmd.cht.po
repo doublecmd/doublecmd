@@ -1777,6 +1777,14 @@ msgstr "載入(&O)"
 msgid "S&ave"
 msgstr "儲存(&A)"
 
+#: tfrmfinddlg.btnsearchsavewithstartingpath.caption
+msgid "Save with starting path"
+msgstr ""
+
+#: tfrmfinddlg.btnsearchsavewithstartingpath.hint
+msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+msgstr ""
+
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
 msgid "&Start"
@@ -2554,6 +2562,15 @@ msgstr "已鎖定 &L"
 #: tfrmmain.actsettaboptionpathresets.caption
 msgid "Locked with &Directory Changes Allowed"
 msgstr "鎖定時仍可以改變目錄 &D"
+
+#: tfrmmain.actshellexecute.caption
+msgctxt "tfrmmain.actshellexecute.caption"
+msgid "Open"
+msgstr "打開"
+
+#: tfrmmain.actshellexecute.hint
+msgid "Open using system associations"
+msgstr ""
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
