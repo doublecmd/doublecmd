@@ -76,7 +76,11 @@ type
       procedure SetSorting(const NewSortings: TFileSortings); override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
+    constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
+
+    function Clone(NewParent: TWinControl): TBriefFileView; override;
+    procedure CloneTo(FileView: TFileView); override;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
 
@@ -687,9 +691,33 @@ begin
   inherited Create(AOwner, AConfig, ANode, AFlags);
 end;
 
+constructor TBriefFileView.Create(AOwner: TWinControl; AFileView: TFileView;
+  AFlags: TFileViewFlags);
+begin
+  inherited Create(AOwner, AFileView, AFlags);
+end;
+
 destructor TBriefFileView.Destroy;
 begin
   inherited Destroy;
+end;
+
+function TBriefFileView.Clone(NewParent: TWinControl): TBriefFileView;
+begin
+  Result := TBriefFileView.Create(NewParent, Self);
+end;
+
+procedure TBriefFileView.CloneTo(FileView: TFileView);
+begin
+  if Assigned(FileView) then
+  begin
+    inherited CloneTo(FileView);
+
+    with FileView as TBriefFileView do
+    begin
+      TabHeader.UpdateSorting(Self.Sorting);
+    end;
+  end;
 end;
 
 procedure TBriefFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
