@@ -651,7 +651,9 @@ begin
                                      IN_MODIFY or
                                      IN_ATTRIB or
                                      IN_CLOSE or
-                                     IN_OPEN)) <> 0 then
+                                     IN_OPEN or
+                                     IN_CLOSE_WRITE or
+                                     IN_CLOSE_NOWRITE)) <> 0 then
                 begin
                   EventType := fswFileChanged;
                 end
@@ -661,15 +663,14 @@ begin
                   EventType := fswFileCreated;
                 end
               else if (ev^.mask and (IN_DELETE or
-                                     IN_DELETE_SELF or
                                      IN_MOVED_FROM)) <> 0 then
                 begin
                   EventType := fswFileDeleted;
                 end
-              else if (ev^.mask and IN_MOVE_SELF) <> 0 then
+              else if (ev^.mask and (IN_DELETE_SELF or
+                                     IN_MOVE_SELF)) <> 0 then
                 begin
-                  EventType := fswFileRenamed;
-                  NewFileName := FileName;
+                  // Watched file/directory was deleted or moved.
                 end
               else
                 EventType := fswUnknownChange;
@@ -1274,7 +1275,7 @@ begin
   if wfFileNameChange in FWatchFilter then
     hNotifyFilter := hNotifyFilter or IN_CREATE or IN_DELETE or IN_DELETE_SELF or IN_MOVE or IN_MOVE_SELF;
   if wfAttributesChange in FWatchFilter then
-    hNotifyFilter := hNotifyFilter or IN_ATTRIB;
+    hNotifyFilter := hNotifyFilter or IN_ATTRIB or IN_MODIFY;
 
   FHandle := inotify_add_watch(FNotifyHandle, PChar(UTF8ToSys(FWatchPath)), hNotifyFilter);
   if FHandle < 0 then
