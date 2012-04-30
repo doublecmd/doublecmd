@@ -290,7 +290,7 @@ begin
   begin
     Result := ReadDirectoryChangesW(
                 Watch.Handle,
-                @Watch.FBuffer[0],
+                Watch.FBuffer,
                 VAR_READDIRECTORYCHANGESW_BUFFERSIZE,
                 gWatcherMode = fswmWholeDrive,
                 Watch.FNotifyFilter,
@@ -951,6 +951,8 @@ begin
   // Special check for network path
   if (Pos(PathDelim, aWatchPath) = 1) and (NumCountChars(PathDelim, aWatchPath) < 3) then
     Exit(False);
+  if (Length(aWatchPath) = 2) and (aWatchPath[2] = ':') then
+    aWatchPath := aWatchPath + PathDelim;
   if gWatcherMode = fswmWholeDrive then
   begin
     RegisteredPath := aWatchPath;
@@ -1247,7 +1249,7 @@ end;
 procedure TOSWatch.CreateHandle;
 {$IF DEFINED(MSWINDOWS)}
 begin
-  FHandle := CreateFileW(PWideChar(UTF8Decode(FWatchPath)),
+  FHandle := CreateFileW(PWideChar(UTF8Decode('\\?\' + FWatchPath)),
                FILE_LIST_DIRECTORY,
                CREATEFILEW_SHAREMODE,
                nil,
