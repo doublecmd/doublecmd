@@ -1297,14 +1297,13 @@ begin
               Exit;
             end
             else
-              // Original OnKeyDown of the control
-              OrigKeyDown(HMControlInstance.KeyDownProc);
+              Break;
           end;
         end;
       end;
 
       // Hotkey for the whole form
-      if HotKeyEvent(Form, HMForm.Hotkeys) then
+      if (Key <> VK_UNKNOWN) and HotKeyEvent(Form, HMForm.Hotkeys) then
       begin
         Key := VK_UNKNOWN;
         Exit;
@@ -1321,4 +1320,4 @@ begin
 end;
 
 end.
-
+
