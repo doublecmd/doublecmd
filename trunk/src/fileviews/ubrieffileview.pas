@@ -241,7 +241,7 @@ begin
   // Workaround for two doubleclicks being sent on GTK.
   // MouseDown event is sent just before doubleclick, so if we drop
   // doubleclick events we have to also drop MouseDown events that precede them.
-  if TooManyDoubleClicks then Exit;
+  if BriefView.TooManyDoubleClicks then Exit;
 {$ENDIF}
 
   BriefView.FMainControlMouseDown := True;
@@ -265,7 +265,7 @@ begin
   // Workaround for two doubleclicks being sent on GTK.
   // MouseUp event is sent just after doubleclick, so if we drop
   // doubleclick events we have to also drop MouseUp events that follow them.
-  if TooManyDoubleClicks then Exit;
+  if BriefView.TooManyDoubleClicks then Exit;
 {$ENDIF}
 
   // Handle only if button-up was not lifted to finish drag&drop operation.
