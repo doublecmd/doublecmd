@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls,
-  uPathLabel, uFileView, KASPathEdit;
+  uPathLabel, uFileView, KASPathEdit, uFileSorting;
 
 type
 
@@ -34,15 +34,18 @@ type
     procedure SetActive(bActive: Boolean);
   end;
 
-  { TBriefHeaderControl }
+  { TFileViewFixedHeader }
 
-  TBriefHeaderControl = class(THeaderControl)
+  TFileViewFixedHeader = class(THeaderControl)
   private
+    FFileView: TFileView;
     FDown: Boolean;
     FMouseInControl: Boolean;
     FSelectedSection: Integer;
+    FSorting: TFileSortings;
     procedure UpdateState;
   protected
+    procedure SectionClick(Section: THeaderSection); override;
     procedure MouseEnter; override;
     procedure MouseLeave; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
@@ -51,14 +54,22 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
                       X, Y: Integer); override;
   public
+    constructor Create(AOwner: TFileView; AParent: TWinControl); reintroduce;
+    destructor Destroy; override;
+
     procedure Click; override;
+    procedure UpdateHeader;
+    procedure UpdateSorting(Sorting: TFileSortings);
   end;
 
 implementation
 
 uses
-  LCLType, ShellCtrls, uDCUtils, DCOSUtils, DCStrUtils,
-  fMain, uFileSourceUtil;
+  LCLType, ShellCtrls, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
+  fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions;
+
+const
+  SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
 
 { TFileViewHeader }
 
@@ -226,9 +237,9 @@ begin
   FPathLabel.SetActive(bActive);
 end;
 
-{ TBriefHeaderControl }
+{ TFileViewFixedHeader }
 
-procedure TBriefHeaderControl.UpdateState;
+procedure TFileViewFixedHeader.UpdateState;
 var
   i, Index: Integer;
   MaxState: THeaderSectionState;
@@ -254,7 +265,37 @@ begin
       Sections[i].State := MaxState;
 end;
 
-procedure TBriefHeaderControl.Click;
+procedure TFileViewFixedHeader.SectionClick(Section: THeaderSection);
+var
+  SortingDirection : TSortDirection;
+  NewSorting: TFileSortings;
+  SortFunctions: TFileFunctions;
+begin
+  with FFileView do
+  begin
+    NewSorting := Sorting;
+    SortFunctions := FSorting[Section.Index].SortFunctions;
+    if [ssShift, ssCtrl] * GetKeyShiftStateEx = [] then
+      begin
+        SortingDirection := GetSortDirection(NewSorting, SortFunctions);
+        if SortingDirection = sdNone then
+          SortingDirection := sdAscending
+        else
+          SortingDirection := ReverseSortDirection(SortingDirection);
+        NewSorting := nil;
+      end
+    else
+      begin
+        SortingDirection := sdAscending;
+      end;
+
+    AddOrUpdateSorting(NewSorting, SortFunctions, SortingDirection);
+    FFileView.Sorting:= NewSorting;
+  end;
+  inherited SectionClick(Section);
+end;
+
+procedure TFileViewFixedHeader.Click;
 var
   Index: Integer;
 begin
@@ -267,7 +308,37 @@ begin
   end;
 end;
 
-procedure TBriefHeaderControl.MouseEnter;
+procedure TFileViewFixedHeader.UpdateHeader;
+var
+  I: Integer;
+begin
+  for I:= 0 to Sections.Count - 1 do
+  begin
+    Sections[I].ImageIndex:= SortingImageIndex[FSorting[I].SortDirection];
+  end;
+end;
+
+procedure TFileViewFixedHeader.UpdateSorting(Sorting: TFileSortings);
+var
+  I, J: Integer;
+begin
+  for I:= Low(FSorting) to High(FSorting) do
+  begin
+    FSorting[I].SortDirection:= sdNone;
+    for J:= Low(Sorting) to High(Sorting) do
+    begin
+      if (FSorting[I].SortFunctions[0] = Sorting[J].SortFunctions[0]) or
+         ((Sorting[J].SortFunctions[0] = fsfName) and (FSorting[I].SortFunctions[0] = fsfNameNoExtension))then
+      begin
+        FSorting[I].SortDirection:= Sorting[J].SortDirection;
+        Break;
+      end;
+    end;
+  end;
+  UpdateHeader;
+end;
+
+procedure TFileViewFixedHeader.MouseEnter;
 begin
   inherited MouseEnter;
   if not (csDesigning in ComponentState) then
@@ -277,7 +348,7 @@ begin
   end;
 end;
 
-procedure TBriefHeaderControl.MouseLeave;
+procedure TFileViewFixedHeader.MouseLeave;
 begin
   inherited MouseLeave;
   if not (csDesigning in ComponentState) then
@@ -288,7 +359,7 @@ begin
   end;
 end;
 
-procedure TBriefHeaderControl.MouseDown(Button: TMouseButton;
+procedure TFileViewFixedHeader.MouseDown(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if not (csDesigning in ComponentState) then
@@ -299,7 +370,7 @@ begin
   end;
 end;
 
-procedure TBriefHeaderControl.MouseMove(Shift: TShiftState; X, Y: Integer);
+procedure TFileViewFixedHeader.MouseMove(Shift: TShiftState; X, Y: Integer);
 begin
   if not (csDesigning in ComponentState) then
   begin
@@ -307,7 +378,7 @@ begin
   end;
 end;
 
-procedure TBriefHeaderControl.MouseUp(Button: TMouseButton; Shift: TShiftState;
+procedure TFileViewFixedHeader.MouseUp(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
   if not (csDesigning in ComponentState) then
@@ -315,6 +386,47 @@ begin
     FDown:= False;
     UpdateState;
   end;
+end;
+
+constructor TFileViewFixedHeader.Create(AOwner: TFileView; AParent: TWinControl);
+var
+  I: Integer;
+begin
+  inherited Create(AOwner);
+
+  FFileView:= AOwner;
+  Parent:= AParent;
+  Align:= alTop;
+
+  Sections.Add.Text:= rsColName;
+  Sections.Add.Text:= rsColExt;
+  Sections.Add.Text:= rsColSize;
+  Sections.Add.Text:= rsColDate;
+  Sections.Add.Text:= rsColAttr;
+
+  Images:= TImageList.CreateSize(gIconsSize, gIconsSize);
+  Images.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdAscending)), nil);
+  Images.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdDescending)), nil);
+
+  SetLength(FSorting, 5);
+  for I:= Low(FSorting) to High(FSorting) do
+  SetLength(FSorting[I].SortFunctions, 1);
+  FSorting[0].SortDirection:= sdNone;
+  FSorting[0].SortFunctions[0]:= fsfNameNoExtension;
+  FSorting[1].SortDirection:= sdNone;
+  FSorting[1].SortFunctions[0]:= fsfExtension;
+  FSorting[2].SortDirection:= sdNone;
+  FSorting[2].SortFunctions[0]:= fsfSize;
+  FSorting[3].SortDirection:= sdNone;
+  FSorting[3].SortFunctions[0]:= fsfModificationTime;
+  FSorting[4].SortDirection:= sdNone;
+  FSorting[4].SortFunctions[0]:= fsfAttr;
+end;
+
+destructor TFileViewFixedHeader.Destroy;
+begin
+  Images.Free;
+  inherited Destroy;
 end;
 
 end.
