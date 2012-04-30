@@ -1,63 +1,3 @@
-Index: VTConfig.inc
-===================================================================
---- VTConfig.inc	(revision 2334)
-+++ VTConfig.inc	(working copy)
-@@ -22,12 +22,16 @@
- 
- 
- //Lazarus port options
--{$define EnableOLE}
-+{.$define EnableOLE}
- {.$define EnableNativeTVM}
- {.$define EnablePrint}
- {.$define EnableNCFunctions}
- {$define EnableAdvancedGraphics}
--{$define EnableAlphaBlend}
-+
-+{$IFDEF CPU32}
-+  {$define EnableAlphaBlend}
-+{$ENDIF CPU32}
-+
- {.$define EnableAccessible}
- {$define ThemeSupport}
- {$if defined(LCLWin32) or defined(LCLWinCE)}
-@@ -42,5 +46,5 @@
- 
- //under linux the performance is poor with threading enabled
- {$ifdef Windows}
--  {$define EnableThreadSupport}
-+  {.$define EnableThreadSupport}
- {$endif}
-Index: units/win32/virtualpanningwindow.pas
-===================================================================
---- units/win32/virtualpanningwindow.pas	(revision 2334)
-+++ units/win32/virtualpanningwindow.pas	(working copy)
-@@ -38,12 +38,13 @@
- begin
-   if Msg = WM_PAINT then
-   begin
--    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
-+    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
-     if Assigned(PanningObject) then
-       PanningObject.HandlePaintMessage;
-+	Result := 0;
-   end
-   else
--    DefWindowProc(Window,Msg,WPara,LPara);
-+    Result := DefWindowProc(Window,Msg,WPara,LPara);
- end;
- 
- var
-@@ -87,8 +88,7 @@
-   with Position do
-     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
-       32, 32, OwnerHandle, 0, HInstance, nil);
--  //todo use SetWindowLongPtr later
--  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
-+  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
-   
-   FImage := TBitmap.Create;
- end;
 Index: VirtualTrees.pas
 ===================================================================
 --- VirtualTrees.pas	(revision 2334)
@@ -126,7 +66,27 @@ Index: VirtualTrees.pas
  
  //----------------------------------------------------------------------------------------------------------------------
  {$ifdef EnablePrint}
-@@ -13215,7 +13224,52 @@
+@@ -8530,7 +8539,6 @@
+   RequestedElements,
+   ActualElements: THeaderPaintElements;
+ 
+-  SavedDC: Integer;
+   Temp: TRect;
+   ColCaptionText: String;
+   ColImages: TCustomImageList;
+@@ -8865,9 +8873,9 @@
+ 
+               if ActualElements <> [] then
+               begin
+-                SavedDC := SaveDC(Handle);
++                FHeaderBitmap.Canvas.SaveHandleState;
+                 FHeader.Treeview.DoAdvancedHeaderDraw(PaintInfo, ActualElements);
+-                RestoreDC(Handle, SavedDC);
++                FHeaderBitmap.Canvas.RestoreHandleState;
+               end;
+             end
+             else // Let application draw the header.
+@@ -13215,7 +13223,52 @@
  // The returned value is the number of remaining entries in the array, so the caller can reallocate (shorten)
  // the selection array if needed or -1 if nothing needs to be changed.
  
@@ -179,7 +139,7 @@ Index: VirtualTrees.pas
          PUSH    EBX
          PUSH    EDI
          PUSH    ESI
-@@ -13257,6 +13311,7 @@
+@@ -13257,6 +13310,7 @@
          POP     EDI
          POP     EBX
  end;
@@ -187,7 +147,7 @@ Index: VirtualTrees.pas
  
  {$IMPLICITEXCEPTIONS ON}
  //----------------------------------------------------------------------------------------------------------------------
-@@ -13869,7 +13924,7 @@
+@@ -13869,7 +13923,7 @@
      FFocusedColumn := Value;
      if Assigned(FFocusedNode) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
      begin
@@ -196,7 +156,7 @@ Index: VirtualTrees.pas
          InvalidateNode(FFocusedNode);
      end;
  
-@@ -14686,7 +14741,7 @@
+@@ -14686,7 +14740,7 @@
    ShiftState: Integer;
    P: TPoint;
    Formats: TFormatArray;
@@ -205,7 +165,7 @@ Index: VirtualTrees.pas
  begin
    {$ifdef DEBUG_VTV}Logger.EnterMethod([lcDrag],'DoDragMsg');{$endif}
    S := ADragObject;
-@@ -14722,7 +14777,8 @@
+@@ -14722,7 +14776,8 @@
  
            // Allowed drop effects are simulated for VCL dd.
            Result := DROPEFFECT_MOVE or DROPEFFECT_COPY;
@@ -215,7 +175,7 @@ Index: VirtualTrees.pas
            FLastVCLDragTarget := FDropTargetNode;
            FVCLDragEffect := LongWord(Result);
            if (ADragMessage = dmDragLeave) and Assigned(FDropTargetNode) then
-@@ -15047,7 +15103,8 @@
+@@ -15047,7 +15102,8 @@
    LeaveStates := [tsHint];
    if [tsWheelPanning, tsWheelScrolling] * FStates = [] then
    begin
@@ -225,7 +185,7 @@ Index: VirtualTrees.pas
      LeaveStates := LeaveStates + [tsScrollPending, tsScrolling];
    end;
    DoStateChange([], LeaveStates);
-@@ -15672,7 +15729,7 @@
+@@ -15672,7 +15728,7 @@
                  if (Shift = [ssCtrlOS]) and not ActAsGrid then
                  begin
                    ScrollIntoView(Node, toCenterScrollIntoView in FOptions.SelectionOptions,
@@ -234,7 +194,7 @@ Index: VirtualTrees.pas
                    if (CharCode = VK_HOME) and not UseRightToLeftAlignment then
                      SetOffsetX(0)
                    else
-@@ -18437,7 +18494,7 @@
+@@ -18437,7 +18493,7 @@
  
  begin
    if Assigned(FOnDragDrop) then
@@ -243,7 +203,7 @@ Index: VirtualTrees.pas
  end;
  
  //----------------------------------------------------------------------------------------------------------------------
-@@ -18589,7 +18646,7 @@
+@@ -18589,7 +18645,7 @@
        InvalidateNode(FFocusedNode);
        if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
          ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
@@ -252,7 +212,7 @@ Index: VirtualTrees.pas
      end;
  
      // Reset range anchor if necessary.
-@@ -21122,7 +21179,7 @@
+@@ -21122,7 +21178,7 @@
        if NewNode or NewColumn then
        begin
          ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions,
@@ -261,7 +221,7 @@ Index: VirtualTrees.pas
          DoFocusChange(FFocusedNode, FFocusedColumn);
        end;
      end;
-@@ -21820,7 +21877,7 @@
+@@ -21820,7 +21876,7 @@
  
  begin
    if Y < 0 then
@@ -270,7 +230,7 @@ Index: VirtualTrees.pas
  
    AbsolutePos := Y;
    if Relative then
-@@ -26469,6 +26526,22 @@
+@@ -26469,6 +26525,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -293,7 +253,7 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns next node in tree, with regard to Node, which is visible.
-@@ -27087,6 +27160,22 @@
+@@ -27087,6 +27159,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -316,7 +276,7 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns the previous node in tree, with regard to Node, which is visible.
-@@ -29272,6 +29361,7 @@
+@@ -29272,6 +29360,7 @@
    HScrollBarVisible: Boolean;
    ScrolledVertically,
    ScrolledHorizontally: Boolean;
@@ -324,7 +284,7 @@ Index: VirtualTrees.pas
  
  begin
    //todo: minimize calls to ClientHeight and ClientWidth
-@@ -29316,7 +29406,13 @@
+@@ -29316,7 +29405,13 @@
          if Center then
            SetOffsetY(FOffsetY - R.Bottom + ClientHeight div 2)
          else
@@ -339,7 +299,7 @@ Index: VirtualTrees.pas
          // When scrolling up and the horizontal scroll appears because of the operation
          // then we have to move up the node the horizontal scrollbar's height too
          // in order to avoid that the scroll bar hides the node which we wanted to have in view.
-@@ -29370,10 +29466,13 @@
+@@ -29370,10 +29465,13 @@
    end
    else
    begin
@@ -389,39 +349,63 @@ Index: VTGraphics.pas
 +
  end.
  
-Index: virtualtreeview_package.lpk
+Index: units/win32/virtualpanningwindow.pas
 ===================================================================
---- virtualtreeview_package.lpk	(revision 2334)
-+++ virtualtreeview_package.lpk	(working copy)
-@@ -1,10 +1,11 @@
- <?xml version="1.0"?>
- <CONFIG>
--  <Package Version="3">
-+  <Package Version="4">
-     <Name Value="virtualtreeview_package"/>
-+    <AddToProjectUsesSection Value="True"/>
-     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
-     <CompilerOptions>
--      <Version Value="10"/>
-+      <Version Value="11"/>
-       <SearchPaths>
-         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
-         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
-@@ -15,6 +16,17 @@
-           <UseAnsiStrings Value="False"/>
-         </SyntaxOptions>
-       </Parsing>
-+      <CodeGeneration>
-+        <Checks>
-+          <RangeChecks Value="True"/>
-+          <OverflowChecks Value="True"/>
-+        </Checks>
-+      </CodeGeneration>
-+      <Linking>
-+        <Debugging>
-+          <DebugInfoType Value="dsDwarf2Set"/>
-+        </Debugging>
-+      </Linking>
-       <Other>
-         <CompilerPath Value="$(CompPath)"/>
-       </Other>
+--- units/win32/virtualpanningwindow.pas	(revision 2334)
++++ units/win32/virtualpanningwindow.pas	(working copy)
+@@ -38,12 +38,13 @@
+ begin
+   if Msg = WM_PAINT then
+   begin
+-    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
++    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
+     if Assigned(PanningObject) then
+       PanningObject.HandlePaintMessage;
++	Result := 0;
+   end
+   else
+-    DefWindowProc(Window,Msg,WPara,LPara);
++    Result := DefWindowProc(Window,Msg,WPara,LPara);
+ end;
+ 
+ var
+@@ -87,8 +88,7 @@
+   with Position do
+     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
+       32, 32, OwnerHandle, 0, HInstance, nil);
+-  //todo use SetWindowLongPtr later
+-  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
++  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
+   
+   FImage := TBitmap.Create;
+ end;
+Index: VTConfig.inc
+===================================================================
+--- VTConfig.inc	(revision 2334)
++++ VTConfig.inc	(working copy)
+@@ -22,12 +22,16 @@
+ 
+ 
+ //Lazarus port options
+-{$define EnableOLE}
++{.$define EnableOLE}
+ {.$define EnableNativeTVM}
+ {.$define EnablePrint}
+ {.$define EnableNCFunctions}
+ {$define EnableAdvancedGraphics}
+-{$define EnableAlphaBlend}
++
++{$IFDEF CPU32}
++  {$define EnableAlphaBlend}
++{$ENDIF CPU32}
++
+ {.$define EnableAccessible}
+ {$define ThemeSupport}
+ {$if defined(LCLWin32) or defined(LCLWinCE)}
+@@ -42,5 +46,5 @@
+ 
+ //under linux the performance is poor with threading enabled
+ {$ifdef Windows}
+-  {$define EnableThreadSupport}
++  {.$define EnableThreadSupport}
+ {$endif}
