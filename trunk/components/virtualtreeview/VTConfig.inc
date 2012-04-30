@@ -27,7 +27,11 @@
 {.$define EnablePrint}
 {.$define EnableNCFunctions}
 {$define EnableAdvancedGraphics}
-{$define EnableAlphaBlend}
+
+{$IFDEF CPU32}
+  {$define EnableAlphaBlend}
+{$ENDIF CPU32}
+
 {.$define EnableAccessible}
 {$define ThemeSupport}
 {$if defined(LCLWin32) or defined(LCLWinCE)}
