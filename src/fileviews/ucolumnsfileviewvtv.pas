@@ -774,15 +774,17 @@ begin
     for x:= 0 to ColumnsClass.ColumnsCount - 1 do
     begin
       col := dgPanel.Header.Columns.Add;
-      if not ((x = 0) and gAutoFillColumns and (gAutoSizeColumn = 0)) then
-        col.Options := col.Options + [coAutoSpring];
-      if gAutoFillColumns then
-        dgPanel.Header.AutoSizeIndex := gAutoSizeColumn;
-
       col.Width   := ColumnsClass.GetColumnWidth(x);
       //col.Text    := ColumnsClass.GetColumnTitle(x); // I think not needed, as we draw text ourselves.
       col.Margin  := 0;
       col.Spacing := 0;
+    end;
+    if gAutoFillColumns then
+    begin
+      if (gAutoSizeColumn = 0) then
+        dgPanel.Header.AutoSizeIndex := gAutoSizeColumn
+      else
+        dgPanel.Header.AutoSizeIndex := col.Index;
     end;
   finally
     dgPanel.Header.Columns.EndUpdate;
