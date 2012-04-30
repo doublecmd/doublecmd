@@ -617,7 +617,6 @@ type
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer): LongInt;
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
     procedure LoadTabsXml(ANoteBook: TFileViewNotebook);
-    procedure SaveTabsIni(ANoteBook: TFileViewNotebook);
     procedure SaveTabsXml(ANoteBook: TFileViewNotebook);
     function ExecCmd(Cmd: String; Param: String=''; StartPath: String='') : Boolean;
     procedure ToggleConsole;
@@ -3663,44 +3662,6 @@ begin
         ANoteBook.PageIndex := iActiveTab;
     end;
   end;
-end;
-
-procedure TfrmMain.SaveTabsIni(ANoteBook: TFileViewNotebook);
-var
-  I, Count: Integer;
-  sIndex,
-  TabsSection: String;
-  sPath : String;
-  Page: TFileViewPage;
-begin
-  if ANoteBook = nbLeft then
-    TabsSection := 'lefttabs'
-  else
-    TabsSection := 'righttabs';
-
-  // delete tabs section
-  gIni.EraseSection(TabsSection);
-  // get page count
-  Count:= ANoteBook.PageCount - 1;
-  for I:= 0 to Count do
-    begin
-      Page := ANoteBook.Page[I];
-
-      // get page index in string representation
-      sIndex:= IntToStr(I);
-
-      if Page.LockState = tlsPathResets then // if locked tab with directory change
-        sPath := Page.LockPath
-      else
-        sPath := Page.FileView.CurrentPath;
-
-      gIni.WriteString(TabsSection, sIndex + '_path', sPath);
-      gIni.WriteInteger(TabsSection, sIndex + '_options', Integer(Page.LockState));
-
-      Page.FileView.SaveConfiguration(TabsSection, I);
-    end;
-
-  gIni.WriteInteger(TabsSection, 'activetab', ANoteBook.PageIndex);
 end;
 
 procedure TfrmMain.SaveTabsXml(ANoteBook: TFileViewNotebook);
