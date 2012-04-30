@@ -72,6 +72,7 @@ type
       procedure Resize; override;
       procedure SetActiveFile(FileIndex: PtrInt); override;
       procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
+      procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
       procedure DoUpdateView; override;
       procedure SetSorting(const NewSortings: TFileSortings); override;
   public
@@ -774,6 +775,41 @@ procedure TBriefFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: T
 begin
   MakeColumnsStrings(AFile);
   inherited DoFileUpdated(AFile, UpdatedProperties);
+end;
+
+procedure TBriefFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
+var
+  Index,
+  aCol, aRow: Integer;
+  AFile: TDisplayFile;
+begin
+  case Key of
+    VK_INSERT:
+      begin
+        if not IsEmpty then
+        begin
+          Index:= GetActiveFileIndex;
+          if IsFileIndexInRange(Index) then
+          begin
+            AFile := FFiles[Index];
+            if IsItemValid(AFile) then
+            begin
+              InvertFileSelection(AFile, False);
+              DoSelectionChanged(Index);
+            end;
+            dgPanel.IndexToCell(Index + 1, aCol, aRow);
+            if not ((aCol < 0) and (aRow < 0)) then
+            begin
+              dgPanel.Col:= aCol;
+              dgPanel.Row:= aRow;
+            end;
+          end;
+        end;
+        Key := 0;
+      end;
+  end;
+
+  inherited DoHandleKeyDown(Key, Shift);
 end;
 
 procedure TBriefFileView.DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer);
