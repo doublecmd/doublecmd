@@ -38,12 +38,13 @@ var
 begin
   if Msg = WM_PAINT then
   begin
-    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
+    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
     if Assigned(PanningObject) then
       PanningObject.HandlePaintMessage;
+	Result := 0;
   end
   else
-    DefWindowProc(Window,Msg,WPara,LPara);
+    Result := DefWindowProc(Window,Msg,WPara,LPara);
 end;
 
 var
@@ -87,8 +88,7 @@ begin
   with Position do
     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
       32, 32, OwnerHandle, 0, HInstance, nil);
-  //todo use SetWindowLongPtr later
-  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
+  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
   
   FImage := TBitmap.Create;
 end;

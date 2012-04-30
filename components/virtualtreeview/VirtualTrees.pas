@@ -4898,7 +4898,7 @@ end;
 function HasMMX: Boolean;
 
 // Helper method to determine whether the current processor supports MMX.
-
+{$IFDEF CPU32}
 asm
         PUSH    EBX
         XOR     EAX, EAX     // Result := False
@@ -4927,6 +4927,12 @@ asm
 @1:
         POP     EBX
 end;
+{$ELSE}
+begin
+  //todo: should not all cpu64 have mmx?
+  Result := False;
+end;
+{$ENDIF}
 
 //----------------------------------------------------------------------------------------------------------------------
 {$ifdef EnablePrint}
@@ -13218,6 +13224,51 @@ function TBaseVirtualTree.PackArray(TheArray: TNodeArray; Count: Integer): Integ
 // The returned value is the number of remaining entries in the array, so the caller can reallocate (shorten)
 // the selection array if needed or -1 if nothing needs to be changed.
 
+{$IFDEF CPU64}
+label
+  PreScan, DoMainLoop, MainLoop, Skip, Finish;
+asm
+  push %rbx
+  push %rdi
+  push %rsi
+  mov %rdx, %rsi
+  mov $-1, %rdx
+  cmpq $0, %rcx
+  jz Finish
+  inc %rdx
+  mov %rsi, %rdi
+  movq $1, %rbx
+PreScan:
+  testq (%rsi), %rbx
+
+  jnz DoMainLoop
+  inc %rdx
+  add $8, %rsi
+  dec %rcx
+  jnz PreScan
+  jmp Finish
+DoMainLoop:
+  mov %rsi, %rdi
+MainLoop:
+  test (%rsi), %rbx
+  jne Skip
+  movq (%rsi), %r10
+  movq %r10, (%rdi)
+  inc %rdx
+  dec %rcx
+  jnz MainLoop
+  jmp Finish
+Skip:
+  add $8, %rsi
+  dec %rcx
+  jnz MainLoop
+Finish:
+  mov %rdx, %rax
+  pop %rsi
+  pop %rdi
+  pop %rbx
+end;
+{$ELSE}
 asm
         PUSH    EBX
         PUSH    EDI
@@ -13260,6 +13311,7 @@ asm
         POP     EDI
         POP     EBX
 end;
+{$ENDIF}
 
 {$IMPLICITEXCEPTIONS ON}
 //----------------------------------------------------------------------------------------------------------------------
@@ -14689,7 +14741,7 @@ var
   ShiftState: Integer;
   P: TPoint;
   Formats: TFormatArray;
-
+  _Result : DWORD;
 begin
   {$ifdef DEBUG_VTV}Logger.EnterMethod([lcDrag],'DoDragMsg');{$endif}
   S := ADragObject;
@@ -14725,7 +14777,8 @@ begin
 
           // Allowed drop effects are simulated for VCL dd.
           Result := DROPEFFECT_MOVE or DROPEFFECT_COPY;
-          DragOver(S, ShiftState, TDragState(ADragMessage), APosition, LongWord(Result));
+          DragOver(S, ShiftState, TDragState(ADragMessage), APosition, _Result);
+          Result := _Result;
           FLastVCLDragTarget := FDropTargetNode;
           FVCLDragEffect := LongWord(Result);
           if (ADragMessage = dmDragLeave) and Assigned(FDropTargetNode) then
