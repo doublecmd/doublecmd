@@ -48,15 +48,13 @@ type
 
   TBriefFileView = class (TFileViewWithMainCtrl)
     private
-      TabHeader: THeaderControl;
+      TabHeader: TFileViewFixedHeader;
       dgPanel: TBriefDrawGrid;
 
       procedure MakeColumnsStrings(AFile: TDisplayFile);
       procedure SetFilesDisplayItems;
 
       procedure dgPanelTopLeftChanged(Sender: TObject);
-      procedure TabHeaderSectionClick(HeaderControl: TCustomHeaderControl;
-                                      Section: THeaderSection);
    protected
       procedure CreateDefault(AOwner: TWinControl); override;
       procedure BeforeMakeFileList; override;
@@ -75,12 +73,14 @@ type
       procedure SetActiveFile(FileIndex: PtrInt); override;
       procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
       procedure DoUpdateView; override;
+      procedure SetSorting(const NewSortings: TFileSortings); override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
 
+    procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
   end;
 
@@ -592,28 +592,14 @@ begin
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
-procedure TBriefFileView.TabHeaderSectionClick(
-  HeaderControl: TCustomHeaderControl; Section: THeaderSection);
-begin
-
-end;
-
 procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
   dgPanel:= TBriefDrawGrid.Create(Self, Self);
   MainControl := dgPanel;
 
-  TabHeader:= TBriefHeaderControl.Create(Self);
-  TabHeader.Parent:= Self;
-  TabHeader.Align:= alTop;
+  TabHeader:= TFileViewFixedHeader.Create(Self, Self);
   TabHeader.Top:= pnlHeader.Height;
-  TabHeader.Sections.Add.Text:= rsColName;
-  TabHeader.Sections.Add.Text:= rsColExt;
-  TabHeader.Sections.Add.Text:= rsColSize;
-  TabHeader.Sections.Add.Text:= rsColDate;
-  TabHeader.Sections.Add.Text:= rsColAttr;
-  TabHeader.OnSectionClick:= @TabHeaderSectionClick;
 
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
 end;
@@ -642,6 +628,7 @@ end;
 procedure TBriefFileView.AfterChangePath;
 begin
 //  FUpdatingActiveFile := True;
+  dgPanel.Col := 0;
   dgPanel.Row := 0;
 //  FUpdatingActiveFile := False;
 
@@ -710,6 +697,12 @@ begin
   inherited AddFileSource(aFileSource, aPath);
 end;
 
+procedure TBriefFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+begin
+  inherited LoadConfiguration(AConfig, ANode);
+  TabHeader.UpdateSorting(Sorting);
+end;
+
 procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 begin
   inherited SaveConfiguration(AConfig, ANode);
@@ -737,7 +730,16 @@ end;
 procedure TBriefFileView.DoUpdateView;
 begin
   inherited DoUpdateView;
+  TabHeader.UpdateHeader;
   dgPanel.UpdateView;
+end;
+
+procedure TBriefFileView.SetSorting(const NewSortings: TFileSortings);
+begin
+  inherited SetSorting(NewSortings);
+  TabHeader.UpdateSorting(NewSortings);
+  SortAllDisplayFiles;
+  ReDisplayFileList;
 end;
 
 procedure TBriefFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
