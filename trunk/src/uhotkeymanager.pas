@@ -1267,7 +1267,8 @@ begin
      (not (((GetKeyTypingAction(ShiftEx) <> ktaNone)
 {$IFDEF MSWINDOWS}
       // Don't execute hotkeys with Ctrl+Alt = AltGr on Windows.
-      or ((ShiftEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
+      or (HasKeyboardAltGrKey and
+          (ShiftEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
           (gKeyTyping[ktmNone] <> ktaNone))
       // Don't execute hotkeys with AltGr on Windows.
       or (ShiftEx = [ssAltGr])

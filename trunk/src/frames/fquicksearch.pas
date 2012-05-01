@@ -279,8 +279,8 @@ begin
          (ModifierKeys * KeyModifiersShortcutNoText = SearchOrFilterModifiers))
 {$IFDEF MSWINDOWS}
       // Entering international characters with Ctrl+Alt on Windows.
-      or ((SearchOrFilterModifiers = []) and
-         (ModifierKeys * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]))
+      or (HasKeyboardAltGrKey and (SearchOrFilterModifiers = []) and
+          (ModifierKeys * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]))
 {$ENDIF}
       then
       begin
@@ -575,4 +575,4 @@ begin
 end;
 
 end.
-
+
