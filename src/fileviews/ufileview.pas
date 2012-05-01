@@ -304,6 +304,7 @@ type
                        AFlags: TFileViewFlags = []); virtual reintroduce;
 
     destructor Destroy; override;
+    procedure Clear;
 
     function Clone(NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
@@ -583,13 +584,10 @@ var
   i: Integer;
   DbgWorkersThread: TFunctionThread;
 begin
-  for i := 0 to FileSourcesCount - 1 do
-    FHistory.FileSource[i].RemoveReloadEventListener(@ReloadEvent);
+  Clear;
 
   if Assigned(FWorkersThread) then
   begin
-    StopWorkers;
-
     // Wait until all the workers finish.
     FWorkersThread.Finish;
     DCDebug('Waiting for workers thread ', hexStr(FWorkersThread));
@@ -615,19 +613,12 @@ begin
     FreeAndNil(FFileViewWorkers);
   end;
 
-  ClearPendingFilesChanges;
-  ClearRecentlyUpdatedFiles;
-  RemoveAllFileSources;
-
-  FreeAndNil(FFiles);
-  FreeAndNil(FAllDisplayFiles);
-  FreeAndNil(FHashedFiles);
-  FreeAndNil(FHashedNames);
-
   inherited Destroy;
 
+  FreeAndNil(FHashedFiles);
+  FreeAndNil(FHashedNames);
   FreeAndNil(FHistory);
-  FreeThenNil(FSavedSelection);
+  FreeAndNil(FSavedSelection);
   FPendingFilesChanges.Free;
   FRecentlyUpdatedFiles.Free;
 end;
@@ -872,6 +863,24 @@ begin
   Result := Assigned(FAllDisplayFiles);
 end;
 
+procedure TFileView.Clear;
+var
+  i: Integer;
+begin
+  StopWorkers;
+
+  for i := 0 to FHistory.Count - 1 do
+    FHistory.FileSource[i].RemoveReloadEventListener(@ReloadEvent);
+
+  ClearRecentlyUpdatedFiles;
+  ClearPendingFilesChanges;
+  RemoveAllFileSources;
+
+  FreeAndNil(FFiles);
+  FreeAndNil(FAllDisplayFiles);
+  HashFileList;
+end;
+
 function TFileView.GetNotebookPage: TCustomPage;
 begin
   if Parent is TCustomPage then
@@ -940,8 +949,7 @@ end;
 procedure TFileView.RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 var
   ADisplayFile: TDisplayFile;
-  OldIndex, NewIndex, FilteredFilesIndex: Integer;
-  bFilter: Boolean;
+  OldIndex, NewIndex: Integer;
   ANotifications: TFileViewNotifications;
 begin
   OldIndex := FHashedNames.Find(OldFileName);
@@ -1798,10 +1806,13 @@ begin
   // TBucketList seems to do fairly well without needing a proper hash table.
   FHashedFiles := TBucketList.Create(bl256);
   FHashedNames.Clear;
-  for i := 0 to FAllDisplayFiles.Count - 1 do
+  if Assigned(FAllDisplayFiles) then
   begin
-    FHashedFiles.Add(FAllDisplayFiles[i], nil);
-    FHashedNames.Add(FAllDisplayFiles[i].FSFile.Name, FAllDisplayFiles[i]);
+    for i := 0 to FAllDisplayFiles.Count - 1 do
+    begin
+      FHashedFiles.Add(FAllDisplayFiles[i], nil);
+      FHashedNames.Add(FAllDisplayFiles[i].FSFile.Name, FAllDisplayFiles[i]);
+    end;
   end;
 end;
 
