@@ -4886,7 +4886,11 @@ begin
 end;
 
 procedure TfrmMain.CloseNotebook(ANotebook: TFileViewNotebook);
+var
+  I: Integer;
 begin
+  for I := 0 to ANotebook.PageCount - 1 do
+    ANotebook.View[I].Clear;
   ANotebook.DestroyAllPages;
 end;
 
