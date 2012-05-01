@@ -122,6 +122,12 @@ const
   }
   procedure OnKeyboardLayoutChanged;
 
+{$IFDEF MSWINDOWS}
+var
+  // True, if the current keyboard layout's right Alt key is mapped as AltGr.
+  HasKeyboardAltGrKey : Boolean = False;
+{$ENDIF}
+
 implementation
 
 uses
@@ -172,12 +178,6 @@ var
   {$ELSEIF DEFINED(LCLQT)}
   XDisplay: PDisplay = nil;
   {$ENDIF}
-{$ENDIF}
-
-{$IFDEF MSWINDOWS}
-var
-  // True, if the current keyboard layout's right Alt key is mapped as AltGr.
-  HasKeyboardAltGrKey : Boolean = False;
 {$ENDIF}
 
 {$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}

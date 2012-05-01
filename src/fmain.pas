@@ -1466,7 +1466,8 @@ begin
 {$IFDEF MSWINDOWS}
        // Allow entering international characters with Ctrl+Alt on Windows,
        // if there is no action for Ctrl+Alt and command line typing has no modifiers.
-       or ((GetKeyShiftStateEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
+       or (HasKeyboardAltGrKey and
+           (GetKeyShiftStateEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
            (gKeyTyping[ktmCtrlAlt] = ktaNone))
 {$ENDIF}
       then
@@ -4248,7 +4249,8 @@ begin
 {$IFDEF MSWINDOWS}
       // Allow entering international characters with Ctrl+Alt on Windows,
       // if there is no action for Ctrl+Alt and command line typing has no modifiers.
-      or ((ShiftEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
+      or (HasKeyboardAltGrKey and
+          (ShiftEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
           (gKeyTyping[ktmCtrlAlt] = ktaNone) and
           (gKeyTyping[ktmNone] = ktaCommandLine))
 {$ENDIF}
