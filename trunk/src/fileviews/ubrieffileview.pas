@@ -62,6 +62,7 @@ type
       procedure ClearAfterDragDrop; override;
       procedure AfterChangePath; override;
       procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
+      procedure DoOnResize; override;
       function GetActiveFileIndex: PtrInt; override;
       function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; override;
       function GetFileRect(FileIndex: PtrInt): TRect; override;
@@ -69,7 +70,6 @@ type
       procedure RedrawFile(FileIndex: PtrInt); override;
       procedure RedrawFile(DisplayFile: TDisplayFile); override;
       procedure RedrawFiles; override;
-      procedure Resize; override;
       procedure SetActiveFile(FileIndex: PtrInt); override;
       procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
       procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
@@ -669,12 +669,12 @@ begin
   Result := dgPanel.CellRect(ACol, ARow);
 end;
 
-procedure TBriefFileView.Resize;
+procedure TBriefFileView.DoOnResize;
 var
   I: Integer;
   AWidth: Integer;
 begin
-  inherited Resize;
+  inherited DoOnResize;
 
   if Assigned(TabHeader) then
   begin
