@@ -26,7 +26,6 @@ type
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer);
   protected
     procedure UpdateView;
-    procedure Resize; override;
     procedure RowHeightsChanged; override;
     procedure ColWidthsChanged;  override;
     procedure FinalizeWnd; override;
@@ -34,6 +33,7 @@ type
     function MouseOnGrid(X, Y: LongInt): Boolean;
     function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+    procedure DoOnResize; override;
     procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
@@ -197,9 +197,9 @@ begin
     DefaultRowHeight := TempRowHeight;
 end;
 
-procedure TBriefDrawGrid.Resize;
+procedure TBriefDrawGrid.DoOnResize;
 begin
-  inherited Resize;
+  inherited DoOnResize;
   Application.QueueAsyncCall(@CalculateColRowCount, 0);
 end;
 
