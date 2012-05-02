@@ -434,14 +434,16 @@ var
   var
     TextColor: TColor = -1;
     BackgroundColor: TColor;
+    IsCursor: Boolean;
   //---------------------
   begin
     Canvas.Font.Name   := gFonts[dcfMain].Name;
     Canvas.Font.Size   := gFonts[dcfMain].Size;
     Canvas.Font.Style  := gFonts[dcfMain].Style;
 
+    IsCursor := (gdSelected in aState) and BriefView.Active and (not gUseFrameCursor);
     // Set up default background color first.
-    if (gdSelected in aState) and BriefView.Active and (not gUseFrameCursor) then
+    if IsCursor then
       BackgroundColor := gCursorColor
     else
       begin
@@ -461,34 +463,39 @@ var
       if gUseInvertedSelection then
         begin
           //------------------------------------------------------
-          if (gdSelected in aState) and BriefView.Active and (not gUseFrameCursor) then
+          if IsCursor then
             begin
-              Canvas.Font.Color := InvertColor(gCursorText);
+              TextColor := InvertColor(gCursorText);
             end
           else
             begin
               BackgroundColor := gMarkColor;
-              Canvas.Font.Color := TextColor;
+              TextColor := TextColor;
             end;
           //------------------------------------------------------
         end
       else
         begin
-          Canvas.Font.Color := gMarkColor;
+          TextColor := gMarkColor;
         end;
     end
-    else if (gdSelected in aState) and BriefView.Active and (not gUseFrameCursor) then
+    else if IsCursor then
       begin
-        Canvas.Font.Color := gCursorText;
-      end
-    else
-      begin
-        Canvas.Font.Color := TextColor;
+        TextColor := gCursorText;
       end;
 
+    BackgroundColor := BriefView.DimColor(BackgroundColor);
+
+    if AFile.RecentlyUpdatedPct <> 0 then
+    begin
+      TextColor := LightColor(TextColor, AFile.RecentlyUpdatedPct);
+      BackgroundColor := LightColor(BackgroundColor, AFile.RecentlyUpdatedPct);
+    end;
+
     // Draw background.
-    Canvas.Brush.Color := BriefView.DimColor(BackgroundColor);
+    Canvas.Brush.Color := BackgroundColor;
     Canvas.FillRect(aRect);
+    Canvas.Font.Color := TextColor;
   end;// of PrepareColors;
 
   procedure DrawLines;
