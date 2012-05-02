@@ -1214,6 +1214,8 @@ constructor TDrawGridEx.Create(AOwner: TComponent; AParent: TWinControl);
 begin
   inherited Create(AOwner);
 
+  ColumnsView := AParent as TColumnsFileView;
+
   // Workaround for Lazarus issue 18832.
   // Set Fixed... before setting ...Count.
   FixedRows := 0;
@@ -1223,9 +1225,6 @@ begin
   RowCount := 0;
   ColCount := 0;
 
-  Self.Parent := AParent;
-  ColumnsView := AParent as TColumnsFileView;
-
   DoubleBuffered := True;
   Align := alClient;
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect,
@@ -1234,6 +1233,7 @@ begin
   TitleStyle := tsStandard;
   TabStop := False;
 
+  Self.Parent := AParent;
   UpdateView;
 end;
 
