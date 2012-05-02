@@ -1426,11 +1426,12 @@ constructor TColumnsDrawTree.Create(AOwner: TComponent; AParent: TWinControl);
 begin
   inherited Create(AOwner);
 
-  Self.Parent := AParent;
   ColumnsView := AParent as TColumnsFileViewVTV;
 
   DragType := dtVCL;
   HintMode := hmHint;
+
+  Self.Parent := AParent;
 end;
 
 procedure TColumnsDrawTree.AfterConstruction;
