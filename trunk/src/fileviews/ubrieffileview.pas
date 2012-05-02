@@ -76,6 +76,7 @@ type
       procedure DoUpdateView; override;
       procedure SetSorting(const NewSortings: TFileSortings); override;
   public
+    constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
@@ -92,7 +93,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, Forms,
+  LCLIntf, LCLType, Forms, LCLVersion,
   LCLProc, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
   uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
   dmCommonData,
@@ -242,6 +243,11 @@ end;
 procedure TBriefDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
+{$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100)}
+  // Don't scroll partially visible cells on mouse click
+  Options:= Options + [goDontScrollPartCell];
+{$ENDIF}
+
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
   // MouseDown event is sent just before doubleclick, so if we drop
@@ -266,6 +272,11 @@ var
   BackgroundClick: Boolean;
   Point: TPoint;
 begin
+{$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100)}
+  // Don't scroll partially visible cells on mouse click
+  Options:= Options - [goDontScrollPartCell];
+{$ENDIF}
+
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
   // MouseUp event is sent just after doubleclick, so if we drop
@@ -776,6 +787,12 @@ begin
   TabHeader.UpdateSorting(NewSortings);
   SortAllDisplayFiles;
   ReDisplayFileList;
+end;
+
+constructor TBriefFileView.Create(AOwner: TWinControl;
+  AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags);
+begin
+  inherited Create(AOwner, AFileSource, APath, AFlags);
 end;
 
 procedure TBriefFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
