@@ -246,7 +246,7 @@ begin
     VK_HOME, VK_END, VK_PRIOR, VK_NEXT:
       if (ssShift in Shift) then
       begin
-        Application.QueueAsyncCall(@SelectRange, GetActiveFileIndex);
+        Application.QueueAsyncCall(@SelectRange, -1);
         //Key := 0; // not needed!
       end;
   end;
@@ -516,11 +516,14 @@ var
   AIndex, AFromIndex, AToIndex: Integer;
   AFile: TDisplayFile;
 begin
+  AIndex:= GetActiveFileIndex;
+  if FileIndex < 0 then FileIndex:= AIndex;
+
   if (FLastSelectionStartIndex < 0) then
     begin
-      AFromIndex := FileIndex;
-      AToIndex := FileIndex;
-      FLastSelectionStartIndex := FileIndex;
+      AFromIndex := Min(AIndex, FileIndex);
+      AToIndex := Max(AIndex, FileIndex);
+      FLastSelectionStartIndex := AIndex;
     end
   else
     begin
