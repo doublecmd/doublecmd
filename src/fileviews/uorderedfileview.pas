@@ -524,7 +524,7 @@ begin
     begin
       AFromIndex := FileIndex;
       AToIndex := FileIndex;
-      FLastSelectionStartIndex := AIndex;
+      FLastSelectionStartIndex := FileIndex;
     end
   else
     begin
