@@ -501,58 +501,78 @@ const
 
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
-  FFlags := AFlags;
-  CreateDefault(AOwner);
+  DisableAutoSizing;
+  try
+    FFlags := AFlags;
+    CreateDefault(AOwner);
 
-  FHistory.Add(AFileSource, aPath);
-  FileSource.AddReloadEventListener(@ReloadEvent);
+    FHistory.Add(AFileSource, aPath);
+    FileSource.AddReloadEventListener(@ReloadEvent);
 
-  // Update view before making file source file list,
-  // so that file list isn't unnecessarily displayed twice.
-  UpdateView;
-  MakeFileSourceFileList;
+    // Update view before making file source file list,
+    // so that file list isn't unnecessarily displayed twice.
+    UpdateView;
+    MakeFileSourceFileList;
+  finally
+    EnableAutoSizing;
+  end;
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []);
 begin
-  FFlags := AFlags;
-  CreateDefault(AOwner);
-  AFileView.CloneTo(Self);
-  if Assigned(FileSource) then
-    FileSource.AddReloadEventListener(@ReloadEvent);
-  UpdateView;
+  DisableAutoSizing;
+  try
+    FFlags := AFlags;
+    CreateDefault(AOwner);
+    AFileView.CloneTo(Self);
+    if Assigned(FileSource) then
+      FileSource.AddReloadEventListener(@ReloadEvent);
+    UpdateView;
+  finally
+    EnableAutoSizing;
+  end;
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
 begin
-  FFlags := AFlags;
-  CreateDefault(AOwner);
-  LoadConfiguration(ASectionName, ATabIndex);
+  DisableAutoSizing;
+  try
+    FFlags := AFlags;
+    CreateDefault(AOwner);
+    LoadConfiguration(ASectionName, ATabIndex);
 
-  // Update view before making file source file list,
-  // so that file list isn't unnecessarily displayed twice.
-  UpdateView;
+    // Update view before making file source file list,
+    // so that file list isn't unnecessarily displayed twice.
+    UpdateView;
 
-  if FileSourcesCount > 0 then
-  begin
-    MakeFileSourceFileList;
+    if FileSourcesCount > 0 then
+    begin
+      MakeFileSourceFileList;
+    end;
+  finally
+    EnableAutoSizing;
   end;
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
-  FFlags := AFlags;
-  CreateDefault(AOwner);
+  DisableAutoSizing;
+  try
+    FFlags := AFlags;
+    CreateDefault(AOwner);
 
-  LoadConfiguration(AConfig, ANode);
+    LoadConfiguration(AConfig, ANode);
 
-  // Update view before making file source file list,
-  // so that file list isn't unnecessarily displayed twice.
-  UpdateView;
+    // Update view before making file source file list,
+    // so that file list isn't unnecessarily displayed twice.
+    UpdateView;
 
-  if FileSourcesCount > 0 then
-  begin
-    MakeFileSourceFileList;
+    if FileSourcesCount > 0 then
+    begin
+      MakeFileSourceFileList;
+    end;
+  finally
+    EnableAutoSizing;
   end;
 end;
 
