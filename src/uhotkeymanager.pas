@@ -94,8 +94,13 @@ type
                  Shortcut2, '', S2ParamA, S2ParamB, '', ...])
        @param(Command
               Command to which the shortcuts should be added.)
+       @param(OldShortcuts, OldParams
+              Adds new shortcuts even if old shortcut exists.
+              If a different shortcuts exists however then doesn't add new one.)
     }
-    procedure AddIfNotExists(const ShortcutsWithParams: array of String; Command: String);
+    procedure AddIfNotExists(const ShortcutsWithParams: array of String; Command: String;
+                             const OldShortcuts, OldParams: array of String); overload;
+    procedure AddIfNotExists(const ShortcutsWithParams: array of String; Command: String); overload;
     procedure Clear; reintroduce;
     procedure Remove(var hotkey: THotkey); reintroduce;
     function Find(const Shortcuts: TDynamicStringArray): THotkey;
@@ -319,6 +324,12 @@ begin
 end;
 
 procedure THotkeys.AddIfNotExists(const ShortcutsWithParams: array of String; Command: String);
+begin
+  AddIfNotExists(ShortcutsWithParams, Command, [], []);
+end;
+
+procedure THotkeys.AddIfNotExists(const ShortcutsWithParams: array of String; Command: String;
+                                  const OldShortcuts, OldParams: array of String);
 var
   s: String;
   StartIndex: Integer;
@@ -336,13 +347,27 @@ var
       else
         Break;
     end;
-    Inc(StartIndex);
+    StartIndex := i + 1;
+  end;
+  function CheckIfOldOrEmpty: Boolean;
+  var
+    i: Integer;
+  begin
+    for i := 0 to Count - 1 do
+      if Items[i].Command = Command then
+      begin
+        if not (Items[i].SameShortcuts(OldShortcuts) and
+                Items[i].SameParams(OldParams)) then
+          Exit(False);
+      end;
+    Result := True;
   end;
 var
   Shortcuts, Params: array of String;
 begin
   // Check if a different shortcut isn't already assigned to the command.
-  if Assigned(FindByCommand(Command)) then
+  // If there is only the old shortcut then allow adding new one.
+  if not CheckIfOldOrEmpty then
     Exit;
 
   StartIndex := Low(ShortcutsWithParams);

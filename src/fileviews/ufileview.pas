@@ -825,34 +825,6 @@ begin
         Key := 0;
       end;
 
-    VK_MULTIPLY:
-    begin
-      InvertAll;
-      Key := 0;
-    end;
-
-    VK_ADD:
-      begin
-        if Shift = [ssCtrl] then
-          MarkFiles(True)
-        else if Shift = [] then
-          MarkGroup(True)
-        else if Shift = [ssShift] then
-          MarkCurrentExtension(True);
-        Key := 0;
-      end;
-
-    VK_SUBTRACT:
-      begin
-        if Shift = [ssCtrl] then
-          MarkFiles(False)
-        else if Shift = [] then
-          MarkGroup(False)
-        else if Shift = [ssShift] then
-          MarkCurrentExtension(False);
-        Key := 0;
-      end;
-
     VK_RETURN, VK_SELECT:
       begin
         if (Shift * KeyModifiersShortcut = []) then
