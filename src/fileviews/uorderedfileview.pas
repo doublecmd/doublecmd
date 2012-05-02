@@ -246,6 +246,8 @@ begin
     VK_HOME, VK_END, VK_PRIOR, VK_NEXT:
       if (ssShift in Shift) then
       begin
+        // SelectRange will be called after key press event
+        // when cursor will be in new position
         Application.QueueAsyncCall(@SelectRange, -1);
         //Key := 0; // not needed!
       end;
@@ -516,13 +518,12 @@ var
   AIndex, AFromIndex, AToIndex: Integer;
   AFile: TDisplayFile;
 begin
-  AIndex:= GetActiveFileIndex;
-  if FileIndex < 0 then FileIndex:= AIndex;
+  if FileIndex < 0 then FileIndex:= GetActiveFileIndex;
 
   if (FLastSelectionStartIndex < 0) then
     begin
-      AFromIndex := Min(AIndex, FileIndex);
-      AToIndex := Max(AIndex, FileIndex);
+      AFromIndex := FileIndex;
+      AToIndex := FileIndex;
       FLastSelectionStartIndex := AIndex;
     end
   else
