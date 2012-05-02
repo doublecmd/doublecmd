@@ -21,7 +21,7 @@ type
   TBriefDrawGrid = class(TDrawGrid)
   private
     BriefView: TBriefFileView;
-    procedure CalculateColRowCount(Data: PtrInt);
+    procedure CalculateColRowCount;
     function  CellToIndex(ACol, ARow: Integer): Integer;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer);
   protected
@@ -106,7 +106,7 @@ uses
 
 { TBriefDrawGrid }
 
-procedure TBriefDrawGrid.CalculateColRowCount(Data: PtrInt);
+procedure TBriefDrawGrid.CalculateColRowCount;
 var
   glw, bw: Integer;
 begin
@@ -201,19 +201,19 @@ end;
 procedure TBriefDrawGrid.DoOnResize;
 begin
   inherited DoOnResize;
-  Application.QueueAsyncCall(@CalculateColRowCount, 0);
+  CalculateColRowCount;
 end;
 
 procedure TBriefDrawGrid.RowHeightsChanged;
 begin
   inherited RowHeightsChanged;
-  Application.QueueAsyncCall(@CalculateColRowCount, 0);
+  CalculateColRowCount;
 end;
 
 procedure TBriefDrawGrid.ColWidthsChanged;
 begin
   inherited ColWidthsChanged;
-  Application.QueueAsyncCall(@CalculateColRowCount, 0);
+  CalculateColRowCount;
 end;
 
 function TBriefDrawGrid.MouseOnGrid(X, Y: LongInt): Boolean;
@@ -635,7 +635,7 @@ end;
 procedure TBriefFileView.AfterMakeFileList;
 begin
   inherited AfterMakeFileList;
-  dgPanel.CalculateColRowCount(0);
+  dgPanel.CalculateColRowCount;
   SetFilesDisplayItems;
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
