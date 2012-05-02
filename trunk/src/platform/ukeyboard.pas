@@ -17,7 +17,8 @@ uses
 type
   TMenuKeyCap = (mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
     mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
-    mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcWin);
+    mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcWin, mkcNumDivide, mkcNumMultiply,
+    mkcNumAdd, mkcNumSubstract);
 
 const
   SmkcBkSp = 'BkSp';
@@ -39,12 +40,16 @@ const
   SmkcCtrl = 'Ctrl+';
   SmkcAlt = 'Alt+';
   SmkcWin = 'WinKey+';
+  SmkcNumDivide = 'Num/';
+  SmkcNumMultiply = 'Num*';
+  SmkcNumAdd = 'Num+';
+  SmkcNumSubstract = 'Num-';
 
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
     SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight,
     SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt,
-    SmkcWin);
+    SmkcWin, SmkcNumDivide, SmkcNumMultiply, SmkcNumAdd, SmkcNumSubstract);
 
   // Modifiers that can be used for shortcuts (non-toggable).
   KeyModifiersShortcut = [ssShift, ssAlt, ssCtrl, ssMeta, ssSuper, ssHyper, ssAltGr];
@@ -243,6 +248,14 @@ begin
         VKToCharArray[Key] := Chr(Key - VK_A + Ord('A'));
       VK_NUMPAD0..VK_NUMPAD9:
         VKToCharArray[Key] := Chr(Key - VK_NUMPAD0 + Ord('0'));
+      VK_DIVIDE:
+        VKToCharArray[Key] := MenuKeyCaps[mkcNumDivide];
+      VK_MULTIPLY:
+        VKToCharArray[Key] := MenuKeyCaps[mkcNumMultiply];
+      VK_SUBTRACT:
+        VKToCharArray[Key] := MenuKeyCaps[mkcNumSubstract];
+      VK_ADD:
+        VKToCharArray[Key] := MenuKeyCaps[mkcNumAdd];
       VK_F1..VK_F24:
         VKToCharArray[Key] := 'F' + IntToStr(Key - VK_F1 + 1);
     else

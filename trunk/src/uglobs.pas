@@ -90,7 +90,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 11;
+  hkVersion     = 12;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -386,6 +386,8 @@ begin
 
   // Shortcuts that can conflict with default OS shortcuts for some controls
   // should be put only to Files Panel.
+  // Shortcuts Ctrl+Alt+<letter> should not be added as the combinations may be
+  // used to enter international characters on Windows (where Ctrl+Alt = AltGr).
   // For a list of such possible shortcuts see THotKeyManager.IsShortcutConflictingWithOS.
   // If adding multiple shortcuts for the same command use:
   //  AddIfNotExists([Shortcut1, Param1, Shortcut2, Param2, ...], Command);
@@ -462,7 +464,14 @@ begin
     begin
       AddIfNotExists(['Del','','',
                       'Shift+Del','','trashcan=reversesetting',''], 'cm_Delete');
-      AddIfNotExists(['Ctrl+A'],[],'cm_MarkMarkAll');
+      AddIfNotExists(['Ctrl+A','','',
+                      'Ctrl+Num+','',''],'cm_MarkMarkAll', ['Ctrl+A'], []);
+      AddIfNotExists(['Num+'],[],'cm_MarkPlus');
+      AddIfNotExists(['Shift+Num+'],[],'cm_MarkCurrentExtension');
+      AddIfNotExists(['Ctrl+Num-'],[],'cm_MarkUnmarkAll');
+      AddIfNotExists(['Num-'],[],'cm_MarkMinus');
+      AddIfNotExists(['Shift+Num-'],[],'cm_UnmarkCurrentExtension');
+      AddIfNotExists(['Num*'],[],'cm_MarkInvert');
       AddIfNotExists(['Ctrl+C'],[],'cm_CopyToClipboard');
       AddIfNotExists(['Ctrl+V'],[],'cm_PasteFromClipboard');
       AddIfNotExists(['Ctrl+X'],[],'cm_CutToClipboard');
