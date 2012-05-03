@@ -532,16 +532,7 @@ begin
       AToIndex := Max(FLastSelectionStartIndex, FileIndex);
     end;
 
-  BeginUpdate;
-  try
-    for AIndex := AFromIndex to AToIndex do
-    begin
-      AFile := FFiles[AIndex];
-      MarkFile(AFile, True);
-    end;
-  finally
-    EndUpdate;
-  end;
+  MarkFiles(AFromIndex, AToIndex, True);
 end;
 
 procedure TOrderedFileView.SetActiveFile(aFilePath: String);

@@ -681,14 +681,7 @@ begin
       end;
 
       SetActiveFile(FileIndex);
-
-      BeginUpdate;
-      try
-        for i := SelStartIndex to SelEndIndex do
-          MarkFile(FFiles[i], FLastSelectionState);
-      finally
-        EndUpdate;
-      end;
+      MarkFiles(SelStartIndex, SelEndIndex, FLastSelectionState);
     end;
   end;
 end;
