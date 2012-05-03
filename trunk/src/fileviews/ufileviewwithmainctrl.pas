@@ -70,6 +70,7 @@ type
     }
     FMainControlMouseDown: Boolean;
     FMouseSelectionStartIndex: Integer;
+    FMouseSelectionLastState: Boolean;
     FDragStartPoint: TPoint;
     FDragFileIndex: PtrInt;
     FDropFileIndex: PtrInt;
@@ -503,7 +504,6 @@ begin
   if IsFileIndexInRange(FileIndex) then
   begin
     AFile := FFiles[FileIndex];
-    FLastSelectionState:= not AFile.Selected;
     FMainControlLastMouseButton := Button;
 
     case Button of
@@ -514,10 +514,10 @@ begin
         if gMouseSelectionEnabled and (gMouseSelectionButton = 1) then
         begin
           FMouseSelectionStartIndex := FileIndex;
+          FMouseSelectionLastState := not AFile.Selected;
           tmContextMenu.Enabled:= True; // start context menu timer
-          MarkFile(AFile, FLastSelectionState, False);
+          MarkFile(AFile, FMouseSelectionLastState, False);
           DoSelectionChanged(FileIndex);
-          Exit;
         end;
       end;
 
@@ -525,6 +525,13 @@ begin
       begin
         if gMouseSelectionEnabled then
         begin
+          if not (ssShift in Shift) then
+          begin
+            FRangeSelectionStartIndex := FileIndex;
+            FRangeSelectionEndIndex   := FileIndex;
+            FRangeSelectionState      := not AFile.Selected;
+          end;
+
           if ssCtrl in Shift then
             begin
               // if there is no selected files then select also previous file
@@ -550,19 +557,20 @@ begin
       end;
     else
       SetActiveFile(FileIndex);
-      Exit;
     end;
 
     { Dragging }
 
-    if not MainControl.Dragging then  // we could be in dragging mode already (started by a different button)
+    // Check if not already dragging (started by a different button)
+    // and if the mouse button is not used for selection.
+    if not MainControl.Dragging and
+       not (gMouseSelectionEnabled and (Button = mbRight) and (gMouseSelectionButton = Integer(Button))) then
     begin
       // indicate that drag start at next mouse move event
       FStartDrag := True;
       FDragStartPoint.X := X;
       FDragStartPoint.Y := Y;
       FDragFileIndex := FileIndex;
-      FLastSelectionStartIndex := FileIndex;
       uDragDropEx.TransformDragging := False;
       uDragDropEx.AllowTransformToInternal := True;
     end;
@@ -587,7 +595,7 @@ var
   ExpectedButton: TShiftStateEnum;
   FileIndex: PtrInt;
   AtFileList: Boolean;
-  i, SelStartIndex, SelEndIndex: Integer;
+  SelStartIndex, SelEndIndex: Integer;
 begin
   if FMainControlMouseDown and MainControl.Dragging then
   begin
@@ -682,7 +690,7 @@ begin
       end;
 
       SetActiveFile(FileIndex);
-      MarkFiles(SelStartIndex, SelEndIndex, FLastSelectionState);
+      MarkFiles(SelStartIndex, SelEndIndex, FMouseSelectionLastState);
     end;
   end;
 end;
@@ -916,7 +924,7 @@ begin
   if not Background then
   begin
     AFile := FFiles[FileIndex];
-    MarkFile(AFile, not FLastSelectionState, False);
+    MarkFile(AFile, not FMouseSelectionLastState, False);
     DoSelectionChanged(FileIndex);
   end;
 
