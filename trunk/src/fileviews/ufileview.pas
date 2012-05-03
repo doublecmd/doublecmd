@@ -393,6 +393,7 @@ type
     procedure MarkCurrentExtension(bSelect: Boolean);
     procedure MarkFile(AFile: TDisplayFile; bSelect: Boolean; bNotify: Boolean = True);
     procedure MarkFiles(bSelect: Boolean);
+    procedure MarkFiles(FromIndex, ToIndex: PtrInt; bSelect: Boolean);
     procedure MarkGroup(const sMask: String; bSelect: Boolean);
     procedure MarkGroup(bSelect: Boolean);
     procedure OpenActiveFile;
@@ -1440,13 +1441,18 @@ begin
 end;
 
 procedure TFileView.MarkFiles(bSelect: Boolean);
+begin
+  MarkFiles(0, FFiles.Count - 1, bSelect);
+end;
+
+procedure TFileView.MarkFiles(FromIndex, ToIndex: PtrInt; bSelect: Boolean);
 var
-  i: Integer;
+  Index: PtrInt;
 begin
   BeginUpdate;
   try
-    for i := 0 to FFiles.Count - 1 do
-      MarkFile(FFiles[i], bSelect);
+    for Index := FromIndex to ToIndex do
+      MarkFile(FFiles[Index], bSelect);
   finally
     EndUpdate;
   end;
