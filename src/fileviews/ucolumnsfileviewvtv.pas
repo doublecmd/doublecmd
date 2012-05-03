@@ -47,10 +47,10 @@ type
     procedure SetAllRowsHeights(ARowHeight: Cardinal);
 
   protected
-
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    function DoKeyAction(var CharCode: Word; var Shift: TShiftState): Boolean; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+    procedure WMKeyDown(var Message: TLMKeyDown); message LM_KEYDOWN;
 
     procedure InitializeWnd; override;
     procedure FinalizeWnd; override;
@@ -1307,34 +1307,16 @@ begin
         Key := 0;
       end;
 
+{$IFDEF LCLGTK2}
+    // Workaround for GTK2 - up and down arrows moving through controls.
     VK_UP, VK_DOWN:
       begin
-        if ssShift in Shift then
-        begin
-          Node := dgPanel.FocusedNode;
-          aFile := dgPanel.GetNodeFile(Node);
-          if IsItemValid(aFile) then
-          begin
-            InvertFileSelection(aFile, False);
-            DoSelectionChanged(nil);
-            if (Node = dgPanel.GetFirstNoInit) or
-               (Node = dgPanel.GetLastNoInit) then
-            begin
-              dgPanel.InvalidateNode(Node);
-            end;
-            //Key := 0; // not needed!
-          end;
-        end
-{$IFDEF LCLGTK2}
-        else
-        begin
-          Node := dgPanel.FocusedNode;
-          if ((Node = dgPanel.GetLastNoInit) and (Key = VK_DOWN))
-          or ((Node = dgPanel.GetFirstNoInit) and (Key = VK_UP)) then
-            Key := 0;
-        end;
-{$ENDIF}
+        Node := dgPanel.FocusedNode;
+        if ((Node = dgPanel.GetLastNoInit) and (Key = VK_DOWN))
+        or ((Node = dgPanel.GetFirstNoInit) and (Key = VK_UP)) then
+          Key := 0;
       end;
+{$ENDIF}
 
     VK_SPACE:
       if Shift * KeyModifiersShortcut = [] then
@@ -1432,6 +1414,11 @@ begin
   HintMode := hmHint;
 
   Self.Parent := AParent;
+end;
+
+function TColumnsDrawTree.DoKeyAction(var CharCode: Word; var Shift: TShiftState): Boolean;
+begin
+  Result := CharCode in [VK_HOME, VK_END, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT];
 end;
 
 procedure TColumnsDrawTree.AfterConstruction;
@@ -1576,6 +1563,76 @@ begin
   finally
     EndUpdate;
   end;
+end;
+
+procedure TColumnsDrawTree.WMKeyDown(var Message: TLMKeyDown);
+var
+  Node, Temp, PrevNode: PVirtualNode;
+  Offset: Integer;
+  SavedKey: Word;
+  Shift: TShiftState;
+begin
+  Shift := KeyDataToShiftState(Message.KeyData);
+  PrevNode := FocusedNode;
+  SavedKey := Message.CharCode;
+
+  // Override scrolling with PageUp, PageDown because VirtualTreeView scrolls too much.
+  case SavedKey of
+    VK_PRIOR:
+      begin
+        Offset := 0;
+        // If there's no focused node then just take the very first one.
+        if FocusedNode = nil then
+          Node := GetFirstNoInit
+        else
+        begin
+          // Go up as many nodes as comprise together a size of ClientHeight.
+          Node := FocusedNode;
+          Temp := Node;
+          while Assigned(Temp) do
+          begin
+            Inc(Offset, NodeHeight[Temp]);
+            if Offset >= ClientHeight then
+              Break;
+            Node := Temp;
+            Temp := GetPreviousSiblingNoInit(Temp);
+          end;
+        end;
+        FocusedNode := Node;
+        Message.CharCode := 0;
+      end;
+
+    VK_NEXT:
+      begin
+        Offset := 0;
+        // If there's no focused node then just take the very last one.
+        if FocusedNode = nil then
+          Node := GetLastNoInit
+        else
+        begin
+          // Go down as many nodes as comprise together a size of ClientHeight.
+          Node := FocusedNode;
+          Temp := Node;
+          while Assigned(Temp) do
+          begin
+            Inc(Offset, NodeHeight[Temp]);
+            if Offset >= ClientHeight then
+              Break;
+            Node := Temp;
+            Temp := GetNextSiblingNoInit(Temp);
+          end;
+        end;
+        FocusedNode := Node;
+        //if OffsetY mod DefaultNodeHeight <> 0 then
+        //  OffsetY := OffsetY - ClientHeight mod DefaultNodeHeight;
+        Message.CharCode := 0;
+      end;
+  end;
+
+  inherited WMKeyDown(Message);
+
+  if (ssShift in Shift) and Assigned(PrevNode) then
+    ColumnsView.Selection(SavedKey, PrevNode^.Index, FocusedNode^.Index);
 end;
 
 procedure TColumnsDrawTree.InitializeWnd;
@@ -1939,69 +1996,6 @@ begin
   ColumnsView.FMainControlMouseDown := True;
 
   inherited MouseDown(Button, Shift, X, Y);
-end;
-
-procedure TColumnsDrawTree.KeyDown(var Key: Word; Shift: TShiftState);
-var
-  Node, Temp: PVirtualNode;
-  Offset: Integer;
-begin
-  // Override scrolling with PageUp, PageDown because VirtualTreeView scrolls too much.
-  case Key of
-    VK_PRIOR:
-      if Shift = [] then
-      begin
-        Offset := 0;
-        // If there's no focused node then just take the very first one.
-        if FocusedNode = nil then
-          Node := GetFirstNoInit
-        else
-        begin
-          // Go up as many nodes as comprise together a size of ClientHeight.
-          Node := FocusedNode;
-          Temp := Node;
-          while Assigned(Temp) do
-          begin
-            Inc(Offset, NodeHeight[Temp]);
-            if Offset >= ClientHeight then
-              Break;
-            Node := Temp;
-            Temp := GetPreviousSiblingNoInit(Temp);
-          end;
-        end;
-        FocusedNode := Node;
-        Key := 0;
-      end;
-
-    VK_NEXT:
-      if Shift = [] then
-      begin
-        Offset := 0;
-        // If there's no focused node then just take the very last one.
-        if FocusedNode = nil then
-          Node := GetLastNoInit
-        else
-        begin
-          // Go down as many nodes as comprise together a size of ClientHeight.
-          Node := FocusedNode;
-          Temp := Node;
-          while Assigned(Temp) do
-          begin
-            Inc(Offset, NodeHeight[Temp]);
-            if Offset >= ClientHeight then
-              Break;
-            Node := Temp;
-            Temp := GetNextSiblingNoInit(Temp);
-          end;
-        end;
-        FocusedNode := Node;
-        //if OffsetY mod DefaultNodeHeight <> 0 then
-        //  OffsetY := OffsetY - ClientHeight mod DefaultNodeHeight;
-        Key := 0;
-      end;
-  end;
-
-  inherited KeyDown(Key, Shift);
 end;
 
 function TColumnsDrawTree.MouseOnGrid(X, Y: LongInt): Boolean;

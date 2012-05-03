@@ -86,6 +86,7 @@ type
        @returns(@true if the file was found and selected.)
     }
     function SetActiveFileNow(aFilePath: String): Boolean;
+    procedure Selection(Key: Word; PrevIndex, CurIndex: PtrInt);
 
   public
     procedure CloneTo(AFileView: TFileView); override;
@@ -241,15 +242,6 @@ begin
       begin
         FLastSelectionStartIndex := GetActiveFileIndex;
         Key := 0;
-      end;
-
-    VK_HOME, VK_END, VK_PRIOR, VK_NEXT:
-      if (ssShift in Shift) then
-      begin
-        // SelectRange will be called after key press event
-        // when cursor will be in new position
-        Application.QueueAsyncCall(@SelectRange, -1);
-        //Key := 0; // not needed!
       end;
   end;
 
@@ -511,6 +503,57 @@ begin
     else
       raise;
   end;
+end;
+
+procedure TOrderedFileView.Selection(Key: Word; PrevIndex, CurIndex: PtrInt);
+var
+  FromIndex, ToIndex: Integer;
+  AFile: TDisplayFile;
+begin
+  // Key value doesn't neccessarily matter.
+  // It just needs to correspond to scroll positions (similar to TScrollCode).
+  AFile := FFiles[PrevIndex];
+  case Key of
+    VK_HOME:         // top to CurIndex
+      begin
+        FromIndex := 0;
+        ToIndex   := PrevIndex;
+      end;
+    VK_END:          // CurIndex to bottom
+      begin
+        FromIndex := PrevIndex;
+        ToIndex   := FFiles.Count - 1;
+      end;
+    VK_PRIOR, VK_UP, VK_LEFT:   // CurIndex+1 to PrevIndex
+      begin
+        ToIndex   := PrevIndex;
+        if ToIndex = 0 then
+          FromIndex := 0
+        else
+          FromIndex := CurIndex + 1;
+      end;
+    VK_NEXT, VK_DOWN, VK_RIGHT: // PrevIndex to CurIndex+1
+      begin
+        FromIndex := PrevIndex;
+        if FromIndex = FFiles.Count - 1 then
+          ToIndex := FromIndex
+        else
+          ToIndex := CurIndex - 1;
+      end;
+    else
+      Exit;
+  end;
+
+  if FromIndex = ToIndex then
+  begin
+    MarkFile(AFile, not AFile.Selected, False);
+    if (FromIndex = 0) or (FromIndex = FFiles.Count - 1) then
+      DoSelectionChanged(FromIndex)
+    else
+      DoSelectionChanged(-1);
+  end
+  else
+    MarkFiles(FromIndex, ToIndex, not AFile.Selected);
 end;
 
 procedure TOrderedFileView.SelectRange(FileIndex: PtrInt);
