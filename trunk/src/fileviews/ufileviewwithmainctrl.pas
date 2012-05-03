@@ -503,6 +503,7 @@ begin
   if IsFileIndexInRange(FileIndex) then
   begin
     AFile := FFiles[FileIndex];
+    FLastSelectionState:= not AFile.Selected;
     FMainControlLastMouseButton := Button;
 
     case Button of
@@ -514,7 +515,6 @@ begin
         begin
           FMouseSelectionStartIndex := FileIndex;
           tmContextMenu.Enabled:= True; // start context menu timer
-          FLastSelectionState:= not AFile.Selected;
           MarkFile(AFile, FLastSelectionState, False);
           DoSelectionChanged(FileIndex);
           Exit;
@@ -562,6 +562,7 @@ begin
       FDragStartPoint.X := X;
       FDragStartPoint.Y := Y;
       FDragFileIndex := FileIndex;
+      FLastSelectionStartIndex := FileIndex;
       uDragDropEx.TransformDragging := False;
       uDragDropEx.AllowTransformToInternal := True;
     end;

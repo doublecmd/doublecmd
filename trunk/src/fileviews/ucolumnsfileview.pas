@@ -35,6 +35,7 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
 
   protected
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
 
@@ -1121,26 +1122,13 @@ begin
         Key := 0;
       end;
 
-    VK_UP, VK_DOWN:
-      begin
-        if ssShift in Shift then
-        begin
-          if IsActiveItemValid then
-          begin
-            InvertFileSelection(GetActiveDisplayFile, False);
-            DoSelectionChanged(dgPanel.Row - dgPanel.FixedRows);
-            //Key := 0; // not needed!
-          end;
-        end
 {$IFDEF LCLGTK2}
-        else
-        begin
-          if ((dgPanel.Row = dgPanel.RowCount-1) and (Key = VK_DOWN))
-          or ((dgPanel.Row = dgPanel.FixedRows) and (Key = VK_UP)) then
-            Key := 0;
-        end;
+    // Workaround for GTK2 - up and down arrows moving through controls.
+    VK_UP, VK_DOWN:
+      if ((dgPanel.Row = dgPanel.RowCount-1) and (Key = VK_DOWN))
+      or ((dgPanel.Row = dgPanel.FixedRows) and (Key = VK_UP)) then
+        Key := 0;
 {$ENDIF}
-      end;
 
     VK_SPACE:
       if Shift * KeyModifiersShortcut = [] then
@@ -1803,6 +1791,20 @@ function TDrawGridEx.IsRowVisible(aRow: Integer): Boolean;
 begin
   with GCache.FullVisibleGrid do
     Result:= (Top<=aRow)and(aRow<=Bottom);
+end;
+
+procedure TDrawGridEx.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  PrevRow: Integer;
+  SavedKey: Word;
+begin
+  PrevRow := Row;
+  SavedKey := Key;
+
+  inherited KeyDown(Key, Shift);
+
+  if (ssShift in Shift) and (PrevRow >= FixedRows) then
+    ColumnsView.Selection(SavedKey, PrevRow - FixedRows, Row - FixedRows);
 end;
 
 procedure TDrawGridEx.ScrollHorizontally(ForwardDirection: Boolean);

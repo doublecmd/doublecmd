@@ -314,7 +314,13 @@ begin
 end;
 
 procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  PrevIndex: Integer;
+  SavedKey: Word;
 begin
+  PrevIndex := CellToIndex(Col, Row);
+  SavedKey := Key;
+
   case Key of
     VK_RIGHT:
       begin
@@ -348,6 +354,9 @@ begin
       end;
   end;
   inherited KeyDown(Key, Shift);
+
+  if ssShift in Shift then
+    BriefView.Selection(SavedKey, PrevIndex, CellToIndex(Col, Row));
 end;
 
 constructor TBriefDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);
