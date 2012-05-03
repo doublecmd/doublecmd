@@ -872,6 +872,8 @@ begin
   FOperationResult := E_SUCCESS;
   FProcessDataProc  := nil;
   FProcessDataProcW := nil;
+
+  TempDirectory := GetTempDir;
 end;
 
 procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
@@ -947,4 +949,4 @@ begin
 end;
 
 end.
-
+
