@@ -56,6 +56,9 @@ type
     FLastActiveFileIndex: Integer;
     FLastSelectionStartIndex: Integer;
     FLastSelectionState: Boolean;
+    FRangeSelectionStartIndex: Integer;
+    FRangeSelectionEndIndex: Integer;
+    FRangeSelectionState: Boolean;
     FUpdatingActiveFile: Boolean;
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
@@ -78,6 +81,7 @@ type
     procedure SearchFile(SearchTerm: UTF8String;
                          SearchOptions: TQuickSearchOptions;
                          SearchDirection: TQuickSearchDirection = qsdNone);
+    procedure Selection(Key: Word; PrevIndex, CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
     procedure SetLastActiveFile(FileIndex: PtrInt);
@@ -86,7 +90,6 @@ type
        @returns(@true if the file was found and selected.)
     }
     function SetActiveFileNow(aFilePath: String): Boolean;
-    procedure Selection(Key: Word; PrevIndex, CurIndex: PtrInt);
 
   public
     procedure CloneTo(AFileView: TFileView); override;
@@ -132,6 +135,7 @@ begin
     begin
       FLastActiveFileIndex := Self.FLastActiveFileIndex;
       FLastSelectionStartIndex := Self.FLastSelectionStartIndex;
+      FLastSelectionState := Self.FLastSelectionState;
     end;
   end;
 end;
@@ -164,6 +168,8 @@ begin
 
   FLastSelectionStartIndex := -1;
   FLastActiveFileIndex := -1;
+  FRangeSelectionStartIndex := -1;
+  FRangeSelectionEndIndex := -1;
 
   lblFilter         := TLabel.Create(pnlFooter);
   lblFilter.Parent  := pnlFooter;
@@ -557,25 +563,35 @@ begin
 end;
 
 procedure TOrderedFileView.SelectRange(FileIndex: PtrInt);
-var
-  AIndex, AFromIndex, AToIndex: Integer;
-  AFile: TDisplayFile;
 begin
-  if FileIndex < 0 then FileIndex:= GetActiveFileIndex;
-
-  if (FLastSelectionStartIndex < 0) then
+  if FileIndex < FRangeSelectionStartIndex then
     begin
-      AFromIndex := FileIndex;
-      AToIndex := FileIndex;
-      FLastSelectionStartIndex := FileIndex;
+      if FRangeSelectionEndIndex > FRangeSelectionStartIndex then
+        begin
+          MarkFiles(FRangeSelectionStartIndex + 1, FRangeSelectionEndIndex, not FRangeSelectionState);
+          FRangeSelectionEndIndex := FRangeSelectionStartIndex;
+        end;
+
+      if FileIndex > FRangeSelectionEndIndex then
+        MarkFiles(FRangeSelectionEndIndex, FileIndex - 1, not FRangeSelectionState)
+      else if FileIndex < FRangeSelectionEndIndex then
+        MarkFiles(FileIndex, FRangeSelectionEndIndex, FRangeSelectionState);
     end
   else
     begin
-      AFromIndex := Min(FLastSelectionStartIndex, FileIndex);
-      AToIndex := Max(FLastSelectionStartIndex, FileIndex);
+      if FRangeSelectionEndIndex < FRangeSelectionStartIndex then
+        begin
+          MarkFiles(FRangeSelectionEndIndex, FRangeSelectionStartIndex - 1, not FRangeSelectionState);
+          FRangeSelectionEndIndex := FRangeSelectionStartIndex;
+        end;
+
+      if FileIndex > FRangeSelectionEndIndex then
+        MarkFiles(FRangeSelectionEndIndex, FileIndex, FRangeSelectionState)
+      else if FileIndex < FRangeSelectionEndIndex then
+        MarkFiles(FileIndex + 1, FRangeSelectionEndIndex, not FRangeSelectionState);
     end;
 
-  MarkFiles(AFromIndex, AToIndex, True);
+  FRangeSelectionEndIndex := FileIndex;
 end;
 
 procedure TOrderedFileView.SetActiveFile(aFilePath: String);
