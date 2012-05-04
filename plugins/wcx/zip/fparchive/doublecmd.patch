@@ -2,7 +2,31 @@ Index: AbArcTyp.pas
 ===================================================================
 --- AbArcTyp.pas	(revision 512)
 +++ AbArcTyp.pas	(working copy)
-@@ -316,6 +316,10 @@
+@@ -70,7 +70,14 @@
+     function GetIsEncrypted : Boolean; virtual;
+     function GetLastModFileDate : Word; virtual;
+     function GetLastModFileTime : Word; virtual;
++    { This depends on in what format the attributes are stored in the archive,
++      to which system they refer (MS-DOS, Unix, etc.) and what system
++      we're running on (compile time). }
+     function GetNativeFileAttributes : LongInt; virtual;
++    { This depends on in what format the date/time is stored in the archive
++      (Unix, MS-DOS, ...) and what system we're running on (compile time).
++      Returns MS-DOS local time on Windows, Unix UTC time on Unix. }
++    function GetNativeLastModFileTime : Longint; virtual;
+     function GetStoredPath : string;
+     function GetUncompressedSize : Int64; virtual;
+     procedure SetCompressedSize(const Value : Int64); virtual;
+@@ -126,6 +133,8 @@
+       write SetLastModFileTime;
+     property NativeFileAttributes : LongInt
+       read GetNativeFileAttributes;
++    property NativeLastModFileTime : Longint
++      read GetNativeLastModFileTime;
+     property StoredPath : string
+       read GetStoredPath;
+     property Tagged : Boolean
+@@ -316,6 +325,10 @@
      procedure GetFreshenTarget(Item : TAbArchiveItem);
      function  GetItemCount : Integer;
      procedure MakeLogEntry(const FN: string; LT : TAbLogType);
@@ -13,7 +37,7 @@ Index: AbArcTyp.pas
      procedure ReplaceAt(Index : Integer);
      procedure SaveIfNeeded(aItem : TAbArchiveItem);
      procedure SetBaseDirectory(Value : string);
-@@ -323,7 +327,16 @@
+@@ -323,7 +336,16 @@
      procedure SetLogging(Value : Boolean);
  
    protected {abstract methods}
@@ -31,7 +55,7 @@ Index: AbArcTyp.pas
        virtual; abstract;
      procedure ExtractItemAt(Index : Integer; const UseName : string);
        virtual; abstract;
-@@ -384,6 +397,7 @@
+@@ -384,6 +406,7 @@
        override;
      procedure Add(aItem : TAbArchiveItem);
        virtual;
@@ -39,7 +63,7 @@ Index: AbArcTyp.pas
      procedure AddFiles(const FileMask : string; SearchAttr : Integer);
      procedure AddFilesEx(const FileMask, ExclusionMask : string;
        SearchAttr : Integer);
-@@ -565,7 +579,9 @@
+@@ -565,7 +588,9 @@
    AbExcept,
    AbDfBase,
    AbConst,
@@ -50,7 +74,20 @@ Index: AbArcTyp.pas
  
  
  { TAbArchiveItem implementation ============================================ }
-@@ -980,7 +996,7 @@
+@@ -647,6 +672,12 @@
+   {$ENDIF}
+ end;
+ { -------------------------------------------------------------------------- }
++function TAbArchiveItem.GetNativeLastModFileTime : Longint;
++begin
++  LongRec(Result).Hi := LastModFileDate;
++  LongRec(Result).Lo := LastModFileTime;
++end;
++{ -------------------------------------------------------------------------- }
+ function TAbArchiveItem.GetStoredPath : string;
+ begin
+   Result := ExtractFilePath(DiskFileName);
+@@ -980,7 +1011,7 @@
    {create an archive by opening a filestream on filename with the given mode}
  begin
    FOwnsStream := True;
@@ -59,7 +96,7 @@ Index: AbArcTyp.pas
    FMode := Mode;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1032,6 +1048,19 @@
+@@ -1032,6 +1063,19 @@
    end;
  end;
  { -------------------------------------------------------------------------- }
@@ -79,7 +116,7 @@ Index: AbArcTyp.pas
  procedure TAbArchive.AddFiles(const FileMask : string; SearchAttr : Integer);
    {Add files to the archive where the disk filespec matches}
  begin
-@@ -1043,17 +1072,15 @@
+@@ -1043,17 +1087,15 @@
    {Add files matching Filemask except those matching ExclusionMask}
  var
    PathType : TAbPathType;
@@ -98,7 +135,7 @@ Index: AbArcTyp.pas
    begin
      FilterList := TStringList.Create;
      try
-@@ -1064,21 +1091,12 @@
+@@ -1064,21 +1106,12 @@
          try
  
            AbFindFilesEx(Mask, SearchAttr, Files, Recursing);
@@ -124,7 +161,7 @@ Index: AbArcTyp.pas
          finally
            Files.Free;
          end;
-@@ -1093,7 +1111,6 @@
+@@ -1093,7 +1126,6 @@
      SearchAttr := SearchAttr and not faDirectory;
  
    CheckValid;
@@ -132,7 +169,7 @@ Index: AbArcTyp.pas
    PathType := AbGetPathType(FileMask);
  
    Mask := FileMask;
-@@ -1108,7 +1125,7 @@
+@@ -1108,7 +1140,7 @@
          if BaseDirectory <> '' then
            ChDir(BaseDirectory);
          try
@@ -141,7 +178,7 @@ Index: AbArcTyp.pas
          finally
            if BaseDirectory <> '' then
              ChDir(SaveDir);
-@@ -1116,7 +1133,7 @@
+@@ -1116,7 +1148,7 @@
        end;
      ptAbsolute :
        begin
@@ -150,7 +187,7 @@ Index: AbArcTyp.pas
        end;
    end;
  end;
-@@ -1128,7 +1145,7 @@
+@@ -1128,7 +1160,7 @@
    Item : TAbArchiveItem;
    PT : TAbProcessType;                                               
  begin
@@ -159,7 +196,7 @@ Index: AbArcTyp.pas
    CheckValid;
  
    PT := ptAdd;
-@@ -1196,14 +1213,14 @@
+@@ -1196,14 +1228,14 @@
      UseName := AbAddBackSlash(BaseDirectory) + UseName;
  
    Path := ExtractFileDir(UseName);
@@ -176,7 +213,7 @@ Index: AbArcTyp.pas
      DoConfirmOverwrite(UseName, Result);
  end;
  { -------------------------------------------------------------------------- }
-@@ -1560,11 +1577,12 @@
+@@ -1560,11 +1592,12 @@
  begin
    CheckValid;
    Index := FindItem(aItem);
@@ -191,7 +228,7 @@ Index: AbArcTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1625,7 +1643,7 @@
+@@ -1625,7 +1658,7 @@
  { -------------------------------------------------------------------------- }
  function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
  var
@@ -200,7 +237,7 @@ Index: AbArcTyp.pas
    DateTime : LongInt;
    FileTime : Word;
    FileDate : Word;
-@@ -1636,8 +1654,8 @@
+@@ -1636,8 +1669,8 @@
    if BaseDirectory <> '' then
      ChDir(BaseDirectory);
    try
@@ -211,7 +248,7 @@ Index: AbArcTyp.pas
      try
        DateTime := FileGetDate(FS.Handle);
        FileTime := LongRec(DateTime).Lo;
-@@ -1761,6 +1779,45 @@
+@@ -1761,6 +1794,45 @@
    end;
  end;
  { -------------------------------------------------------------------------- }
@@ -257,7 +294,7 @@ Index: AbArcTyp.pas
  procedure TAbArchive.Move(aItem : TAbArchiveItem; const NewStoredPath : string);
  var
    Confirm : Boolean;
-@@ -1807,11 +1864,12 @@
+@@ -1807,11 +1879,12 @@
  begin
    CheckValid;
    Index := FindItem(aItem);
@@ -272,7 +309,7 @@ Index: AbArcTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1865,7 +1923,7 @@
+@@ -1865,7 +1938,7 @@
      if Value[Length(Value)] = AbPathDelim then
        if (Length(Value) > 1) and (Value[Length(Value) - 1] <> ':') then
          System.Delete(Value, Length(Value), 1);
@@ -281,7 +318,7 @@ Index: AbArcTyp.pas
      FBaseDirectory := Value
    else
      raise EAbNoSuchDirectory.Create;
-@@ -1973,7 +2031,7 @@
+@@ -1973,7 +2046,7 @@
    Len, Offset : Integer;
  begin
    Len := SizeOf(TAbExtraSubField) + aSubField.Len;
@@ -290,7 +327,7 @@ Index: AbArcTyp.pas
    if Offset + Len < Length(FBuffer) then
      Move(FBuffer[Offset + Len], aSubField^, Length(FBuffer) - Offset - Len);
    SetLength(FBuffer, Length(FBuffer) - Len);
-@@ -2001,9 +2059,9 @@
+@@ -2001,9 +2074,9 @@
    end
    else begin
      BytesLeft := Length(FBuffer) -

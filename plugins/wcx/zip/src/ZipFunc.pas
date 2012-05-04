@@ -297,7 +297,7 @@ begin
       HeaderData.PackSize     := CompressedSize;
       HeaderData.UnpSize      := UncompressedSize;
       HeaderData.FileCRC      := CRC32;
- //     HeaderData.FileTime     := SystemSpecificLastModFileTime;
+      HeaderData.FileTime     := NativeLastModFileTime;
       HeaderData.FileAttr     := NativeFileAttributes;
     end;
 
@@ -330,7 +330,7 @@ begin
       HeaderData.UnpSize      := Lo(UncompressedSize);
       HeaderData.UnpSizeHigh  := Hi(UncompressedSize);
       HeaderData.FileCRC      := CRC32;
-//      HeaderData.FileTime     := SystemSpecificLastModFileTime;
+      HeaderData.FileTime     := NativeLastModFileTime;
       HeaderData.FileAttr     := NativeFileAttributes;
     end;
 
@@ -363,7 +363,7 @@ begin
       HeaderData.UnpSize      := Lo(UncompressedSize);
       HeaderData.UnpSizeHigh  := Hi(UncompressedSize);
       HeaderData.FileCRC      := CRC32;
-//      HeaderData.FileTime     := SystemSpecificLastModFileTime;
+      HeaderData.FileTime     := NativeLastModFileTime;
       HeaderData.FileAttr     := NativeFileAttributes;
     end;
 
@@ -949,4 +949,4 @@ begin
 end;
 
 end.
-
+
