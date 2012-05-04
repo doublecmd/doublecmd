@@ -103,7 +103,8 @@ uses
   fColumnsSetConf,
   uKeyboard,
   uFileSourceUtil,
-  uFileFunctions;
+  uFileFunctions,
+  uOrderedFileView;
 
 { TBriefDrawGrid }
 
@@ -321,7 +322,16 @@ begin
 end;
 
 procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  SavedKey: Word;
+  FileIndex: Integer;
 begin
+  SavedKey := Key;
+  // Set RangeSelecting before cursor is moved.
+  BriefView.FRangeSelecting :=
+    (ssShift in Shift) and
+    (SavedKey in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+
   case Key of
     VK_RIGHT:
       begin
@@ -355,6 +365,13 @@ begin
       end;
   end;
   inherited KeyDown(Key, Shift);
+
+  if ssShift in Shift then
+  begin
+    FileIndex := CellToIndex(Col, Row);
+    if FileIndex <> InvalidFileIndex then
+      BriefView.Selection(SavedKey, FileIndex);
+  end;
 end;
 
 constructor TBriefDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);

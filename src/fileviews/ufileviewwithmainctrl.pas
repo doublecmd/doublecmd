@@ -435,6 +435,7 @@ end;
 procedure TFileViewWithMainCtrl.MainControlExit(Sender: TObject);
 begin
   SetActive(False);
+  FRangeSelecting := False;
 end;
 
 procedure TFileViewWithMainCtrl.MainControlKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -469,12 +470,7 @@ end;
 
 procedure TFileViewWithMainCtrl.MainControlKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  case Key of
-    VK_SHIFT:
-      begin
-        FRangeSelectionStartIndex := -1;
-      end;
-  end;
+  FRangeSelecting := False;
 end;
 
 procedure TFileViewWithMainCtrl.MainControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -541,6 +537,7 @@ begin
             end
           else if ssShift in Shift then
             begin
+              FRangeSelecting := True;
               SelectRange(FileIndex);
             end
           else if (gMouseSelectionButton = 0) then
@@ -693,6 +690,7 @@ end;
 procedure TFileViewWithMainCtrl.MainControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   FStartDrag := False;
+  FRangeSelecting := False;
 
   // Handle only if button-up was not lifted to finish drag&drop operation.
   if not FMainControlMouseDown then

@@ -49,11 +49,13 @@ type
     procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
     procedure quickSearchExecute(Sender: TObject);
     procedure quickSearchHide(Sender: TObject);
+    procedure UpdateRangeSelectionState;
 
   protected
     lblFilter: TLabel;
     quickSearch: TfrmQuickSearch;
     FLastActiveFileIndex: Integer;
+    FRangeSelecting: Boolean;
     FRangeSelectionStartIndex: Integer;
     FRangeSelectionEndIndex: Integer;
     FRangeSelectionState: Boolean;
@@ -84,6 +86,7 @@ type
     procedure SearchFile(SearchTerm: UTF8String;
                          SearchOptions: TQuickSearchOptions;
                          SearchDirection: TQuickSearchDirection = qsdNone);
+    procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
     procedure SetLastActiveFile(FileIndex: PtrInt);
@@ -196,15 +199,20 @@ procedure TOrderedFileView.DoFileIndexChanged(NewFileIndex: PtrInt);
 begin
   if FLastActiveFileIndex <> NewFileIndex then
   begin
+    if not FRangeSelecting then
+    begin
+      // Set range selection starting point.
+      FRangeSelectionStartIndex := NewFileIndex;
+      FRangeSelectionEndIndex   := NewFileIndex;
+      UpdateRangeSelectionState;
+    end;
+
     if not FUpdatingActiveFile then
     begin
       SetLastActiveFile(NewFileIndex);
 
       if Assigned(OnChangeActiveFile) then
         OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
-
-      if (ssShift in GetKeyShiftState) and (NewFileIndex <> InvalidFileIndex) then
-        SelectRange(NewFileIndex);
     end;
   end;
 end;
@@ -212,7 +220,6 @@ end;
 procedure TOrderedFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
 var
   mi: TMenuItem;
-  FileIndex: PtrInt;
 begin
   // check if ShiftState is equal to quick search / filter modes
   if quickSearch.CheckSearchOrFilter(Key) then
@@ -252,19 +259,6 @@ begin
           Key := 0;
         end;
       end;
-
-    VK_SHIFT:
-      begin
-        if FRangeSelectionStartIndex = -1 then
-        begin
-          FileIndex := GetActiveFileIndex;
-          FRangeSelectionStartIndex := FileIndex;
-          FRangeSelectionEndIndex   := FileIndex;
-          FRangeSelectionState := (FileIndex <> InvalidFileIndex) and
-                                   not FFiles[FileIndex].Selected;
-        end;
-        // Key := 0; not needed
-      end;
   end;
 
   inherited DoHandleKeyDown(Key, Shift);
@@ -274,6 +268,7 @@ procedure TOrderedFileView.DoSelectionChanged;
 begin
   inherited DoSelectionChanged;
   RedrawFiles;
+  UpdateRangeSelectionState;
 end;
 
 procedure TOrderedFileView.DoSelectionChanged(FileIndex: PtrInt);
@@ -281,6 +276,7 @@ begin
   inherited DoSelectionChanged;
   if IsFileIndexInRange(FileIndex) then
     RedrawFile(FileIndex);
+  UpdateRangeSelectionState;
 end;
 
 procedure TOrderedFileView.EnsureDisplayProperties;
@@ -379,10 +375,7 @@ begin
   if FromIndex = ToIndex then
   begin
     MarkFile(FFiles[FromIndex], bSelect, False);
-    if (FromIndex = 0) or (FromIndex = FFiles.Count - 1) then
-      DoSelectionChanged(FromIndex)
-    else
-      DoSelectionChanged(-1);
+    DoSelectionChanged(FromIndex);
   end
   else
     MarkFiles(FromIndex, ToIndex, bSelect);
@@ -541,8 +534,38 @@ begin
   end;
 end;
 
+procedure TOrderedFileView.Selection(Key: Word; CurIndex: PtrInt);
+  procedure OneLess;
+  begin
+    if CurIndex > FRangeSelectionStartIndex then
+      Dec(CurIndex)
+    else if CurIndex < FRangeSelectionStartIndex then
+      Inc(CurIndex);
+  end;
+begin
+  // Key value doesn't neccessarily matter.
+  // It just needs to correspond to scroll positions (similar to TScrollCode).
+  case Key of
+    VK_HOME, VK_END: ;
+    VK_PRIOR, VK_UP, VK_LEFT:
+      if CurIndex > 0 then
+        OneLess;
+    VK_NEXT, VK_DOWN, VK_RIGHT:
+      if CurIndex < FFiles.Count - 1 then
+        OneLess;
+    else
+      Exit;
+  end;
+
+  SelectRange(CurIndex);
+end;
+
 procedure TOrderedFileView.SelectRange(FileIndex: PtrInt);
 begin
+  // Initially select file at starting point.
+  if FRangeSelectionStartIndex = FRangeSelectionEndIndex then
+    MarkFilesWithCheck(FRangeSelectionStartIndex, FRangeSelectionEndIndex, FRangeSelectionState);
+
   if FileIndex <> FRangeSelectionEndIndex then
     begin
       if FileIndex < FRangeSelectionStartIndex then
@@ -560,7 +583,7 @@ begin
             MarkFilesWithCheck(FRangeSelectionEndIndex, FileIndex - 1, not FRangeSelectionState)
           else if FileIndex < FRangeSelectionEndIndex then
             // Increase selection range.
-            MarkFilesWithCheck(FileIndex, FRangeSelectionEndIndex, FRangeSelectionState);
+            MarkFilesWithCheck(FileIndex, FRangeSelectionEndIndex - 1, FRangeSelectionState);
         end
       else
         begin
@@ -574,7 +597,7 @@ begin
 
           if FileIndex > FRangeSelectionEndIndex then
             // Increase selection range.
-            MarkFilesWithCheck(FRangeSelectionEndIndex, FileIndex, FRangeSelectionState)
+            MarkFilesWithCheck(FRangeSelectionEndIndex + 1, FileIndex, FRangeSelectionState)
           else if FileIndex < FRangeSelectionEndIndex then
             // Decrease selection range.
             MarkFilesWithCheck(FileIndex + 1, FRangeSelectionEndIndex, not FRangeSelectionState);
@@ -646,6 +669,32 @@ begin
   begin
     LastActiveFile := FFiles[FileIndex].FSFile.FullPath;
     FLastActiveFileIndex := FileIndex;
+  end;
+end;
+
+procedure TOrderedFileView.UpdateRangeSelectionState;
+var
+  NewSelectionState: Boolean;
+begin
+  if not FRangeSelecting then
+  begin
+    if FRangeSelectionStartIndex <> InvalidFileIndex then
+    begin
+      NewSelectionState := not FFiles[FRangeSelectionStartIndex].Selected;
+      if (FRangeSelectionState <> NewSelectionState) and
+         (FRangeSelectionStartIndex = FRangeSelectionEndIndex) then
+      begin
+        // Selection of starting point has changed.
+      end
+      else
+      begin
+        // Update was called but selection of starting point didn't change.
+        // That means some other file's selection changed - reset starting point.
+        FRangeSelectionStartIndex := GetActiveFileIndex;
+        FRangeSelectionEndIndex := FRangeSelectionStartIndex;
+      end;
+      FRangeSelectionState := NewSelectionState;
+    end;
   end;
 end;
 
