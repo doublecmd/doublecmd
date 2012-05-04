@@ -471,7 +471,10 @@ procedure TFileViewWithMainCtrl.MainControlKeyUp(Sender: TObject; var Key: Word;
 begin
   case Key of
     VK_SHIFT:
-      FLastSelectionStartIndex := -1;
+      begin
+        FLastSelectionStartIndex := -1;
+        FRangeSelectionStartIndex := -1;
+      end;
   end;
 end;
 
@@ -525,13 +528,6 @@ begin
       begin
         if gMouseSelectionEnabled then
         begin
-          if not (ssShift in Shift) then
-          begin
-            FRangeSelectionStartIndex := FileIndex;
-            FRangeSelectionEndIndex   := FileIndex;
-            FRangeSelectionState      := not AFile.Selected;
-          end;
-
           if ssCtrl in Shift then
             begin
               // if there is no selected files then select also previous file

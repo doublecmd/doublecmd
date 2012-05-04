@@ -204,6 +204,7 @@ end;
 procedure TOrderedFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
 var
   mi: TMenuItem;
+  FileIndex: PtrInt;
 begin
   // check if ShiftState is equal to quick search / filter modes
   if quickSearch.CheckSearchOrFilter(Key) then
@@ -246,8 +247,16 @@ begin
 
     VK_SHIFT:
       begin
-        FLastSelectionStartIndex := GetActiveFileIndex;
-        Key := 0;
+        FileIndex := GetActiveFileIndex;
+        FLastSelectionStartIndex := FileIndex;
+        if FRangeSelectionStartIndex = -1 then
+        begin
+          FRangeSelectionStartIndex := FileIndex;
+          FRangeSelectionEndIndex   := FileIndex;
+          FRangeSelectionState := (FileIndex <> InvalidFileIndex) and
+                                   not FFiles[FileIndex].Selected;
+        end;
+        // Key := 0; not needed
       end;
   end;
 
