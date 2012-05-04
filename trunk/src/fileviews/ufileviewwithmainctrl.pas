@@ -472,7 +472,6 @@ begin
   case Key of
     VK_SHIFT:
       begin
-        FLastSelectionStartIndex := -1;
         FRangeSelectionStartIndex := -1;
       end;
   end;

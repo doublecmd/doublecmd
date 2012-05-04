@@ -54,8 +54,6 @@ type
     lblFilter: TLabel;
     quickSearch: TfrmQuickSearch;
     FLastActiveFileIndex: Integer;
-    FLastSelectionStartIndex: Integer;
-    FLastSelectionState: Boolean;
     FRangeSelectionStartIndex: Integer;
     FRangeSelectionEndIndex: Integer;
     FRangeSelectionState: Boolean;
@@ -72,6 +70,11 @@ type
     function GetFileRect(FileIndex: PtrInt): TRect; virtual; abstract;
     function GetVisibleFilesIndexes: TRange; virtual; abstract;
     function IsFileIndexInRange(FileIndex: PtrInt): Boolean;
+    {en
+       If marking a single file only redraws that file.
+       Otherwise files are marked and full update is performed.
+    }
+    procedure MarkFilesWithCheck(FromIndex, ToIndex: PtrInt; bSelect: Boolean);
     procedure RedrawFile(FileIndex: PtrInt); overload; virtual; abstract;
     procedure RedrawFiles; virtual; abstract;
     {en
@@ -81,7 +84,6 @@ type
     procedure SearchFile(SearchTerm: UTF8String;
                          SearchOptions: TQuickSearchOptions;
                          SearchDirection: TQuickSearchDirection = qsdNone);
-    procedure Selection(Key: Word; PrevIndex, CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
     procedure SetLastActiveFile(FileIndex: PtrInt);
@@ -134,8 +136,9 @@ begin
     with AFileView as TOrderedFileView do
     begin
       FLastActiveFileIndex := Self.FLastActiveFileIndex;
-      FLastSelectionStartIndex := Self.FLastSelectionStartIndex;
-      FLastSelectionState := Self.FLastSelectionState;
+      FRangeSelectionStartIndex := Self.FRangeSelectionStartIndex;
+      FRangeSelectionEndIndex := Self.FRangeSelectionEndIndex;
+      FRangeSelectionState := Self.FRangeSelectionState;
     end;
   end;
 end;
@@ -166,7 +169,6 @@ procedure TOrderedFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
 
-  FLastSelectionStartIndex := -1;
   FLastActiveFileIndex := -1;
   FRangeSelectionStartIndex := -1;
   FRangeSelectionEndIndex := -1;
@@ -192,12 +194,18 @@ end;
 
 procedure TOrderedFileView.DoFileIndexChanged(NewFileIndex: PtrInt);
 begin
-  if (FLastActiveFileIndex <> NewFileIndex) and (not FUpdatingActiveFile) then
+  if FLastActiveFileIndex <> NewFileIndex then
   begin
-    SetLastActiveFile(NewFileIndex);
+    if not FUpdatingActiveFile then
+    begin
+      SetLastActiveFile(NewFileIndex);
 
-    if Assigned(OnChangeActiveFile) then
-      OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
+      if Assigned(OnChangeActiveFile) then
+        OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
+
+      if (ssShift in GetKeyShiftState) and (NewFileIndex <> InvalidFileIndex) then
+        SelectRange(NewFileIndex);
+    end;
   end;
 end;
 
@@ -247,10 +255,9 @@ begin
 
     VK_SHIFT:
       begin
-        FileIndex := GetActiveFileIndex;
-        FLastSelectionStartIndex := FileIndex;
         if FRangeSelectionStartIndex = -1 then
         begin
+          FileIndex := GetActiveFileIndex;
           FRangeSelectionStartIndex := FileIndex;
           FRangeSelectionEndIndex   := FileIndex;
           FRangeSelectionState := (FileIndex <> InvalidFileIndex) and
@@ -365,6 +372,20 @@ end;
 procedure TOrderedFileView.lblFilterClick(Sender: TObject);
 begin
   quickSearch.Execute(qsFilter, []);
+end;
+
+procedure TOrderedFileView.MarkFilesWithCheck(FromIndex, ToIndex: PtrInt; bSelect: Boolean);
+begin
+  if FromIndex = ToIndex then
+  begin
+    MarkFile(FFiles[FromIndex], bSelect, False);
+    if (FromIndex = 0) or (FromIndex = FFiles.Count - 1) then
+      DoSelectionChanged(FromIndex)
+    else
+      DoSelectionChanged(-1);
+  end
+  else
+    MarkFiles(FromIndex, ToIndex, bSelect);
 end;
 
 procedure TOrderedFileView.pmOperationsCancelClick(Sender: TObject);
@@ -520,87 +541,47 @@ begin
   end;
 end;
 
-procedure TOrderedFileView.Selection(Key: Word; PrevIndex, CurIndex: PtrInt);
-var
-  FromIndex, ToIndex: Integer;
-  AFile: TDisplayFile;
-begin
-  // Key value doesn't neccessarily matter.
-  // It just needs to correspond to scroll positions (similar to TScrollCode).
-  AFile := FFiles[PrevIndex];
-  case Key of
-    VK_HOME:         // top to CurIndex
-      begin
-        FromIndex := 0;
-        ToIndex   := PrevIndex;
-      end;
-    VK_END:          // CurIndex to bottom
-      begin
-        FromIndex := PrevIndex;
-        ToIndex   := FFiles.Count - 1;
-      end;
-    VK_PRIOR, VK_UP, VK_LEFT:   // CurIndex+1 to PrevIndex
-      begin
-        ToIndex   := PrevIndex;
-        if ToIndex = 0 then
-          FromIndex := 0
-        else
-          FromIndex := CurIndex + 1;
-      end;
-    VK_NEXT, VK_DOWN, VK_RIGHT: // PrevIndex to CurIndex+1
-      begin
-        FromIndex := PrevIndex;
-        if FromIndex = FFiles.Count - 1 then
-          ToIndex := FromIndex
-        else
-          ToIndex := CurIndex - 1;
-      end;
-    else
-      Exit;
-  end;
-
-  if FromIndex = ToIndex then
-  begin
-    MarkFile(AFile, not AFile.Selected, False);
-    if (FromIndex = 0) or (FromIndex = FFiles.Count - 1) then
-      DoSelectionChanged(FromIndex)
-    else
-      DoSelectionChanged(-1);
-  end
-  else
-    MarkFiles(FromIndex, ToIndex, not AFile.Selected);
-end;
-
 procedure TOrderedFileView.SelectRange(FileIndex: PtrInt);
 begin
-  if FileIndex < FRangeSelectionStartIndex then
+  if FileIndex <> FRangeSelectionEndIndex then
     begin
-      if FRangeSelectionEndIndex > FRangeSelectionStartIndex then
+      if FileIndex < FRangeSelectionStartIndex then
         begin
-          MarkFiles(FRangeSelectionStartIndex + 1, FRangeSelectionEndIndex, not FRangeSelectionState);
-          FRangeSelectionEndIndex := FRangeSelectionStartIndex;
+          // Focused file is before selection startpoint.
+          // If previously selection was from startpoint forwards deselect all files after startpoint.
+          if FRangeSelectionEndIndex > FRangeSelectionStartIndex then
+            begin
+              MarkFilesWithCheck(FRangeSelectionStartIndex + 1, FRangeSelectionEndIndex, not FRangeSelectionState);
+              FRangeSelectionEndIndex := FRangeSelectionStartIndex;
+            end;
+
+          if FileIndex > FRangeSelectionEndIndex then
+            // Decrease selection range.
+            MarkFilesWithCheck(FRangeSelectionEndIndex, FileIndex - 1, not FRangeSelectionState)
+          else if FileIndex < FRangeSelectionEndIndex then
+            // Increase selection range.
+            MarkFilesWithCheck(FileIndex, FRangeSelectionEndIndex, FRangeSelectionState);
+        end
+      else
+        begin
+          // Focused file is after selection startpoint.
+          // If previously selection was from startpoint backwards deselect all files before startpoint.
+          if FRangeSelectionEndIndex < FRangeSelectionStartIndex then
+            begin
+              MarkFilesWithCheck(FRangeSelectionEndIndex, FRangeSelectionStartIndex - 1, not FRangeSelectionState);
+              FRangeSelectionEndIndex := FRangeSelectionStartIndex;
+            end;
+
+          if FileIndex > FRangeSelectionEndIndex then
+            // Increase selection range.
+            MarkFilesWithCheck(FRangeSelectionEndIndex, FileIndex, FRangeSelectionState)
+          else if FileIndex < FRangeSelectionEndIndex then
+            // Decrease selection range.
+            MarkFilesWithCheck(FileIndex + 1, FRangeSelectionEndIndex, not FRangeSelectionState);
         end;
 
-      if FileIndex > FRangeSelectionEndIndex then
-        MarkFiles(FRangeSelectionEndIndex, FileIndex - 1, not FRangeSelectionState)
-      else if FileIndex < FRangeSelectionEndIndex then
-        MarkFiles(FileIndex, FRangeSelectionEndIndex, FRangeSelectionState);
-    end
-  else
-    begin
-      if FRangeSelectionEndIndex < FRangeSelectionStartIndex then
-        begin
-          MarkFiles(FRangeSelectionEndIndex, FRangeSelectionStartIndex - 1, not FRangeSelectionState);
-          FRangeSelectionEndIndex := FRangeSelectionStartIndex;
-        end;
-
-      if FileIndex > FRangeSelectionEndIndex then
-        MarkFiles(FRangeSelectionEndIndex, FileIndex, FRangeSelectionState)
-      else if FileIndex < FRangeSelectionEndIndex then
-        MarkFiles(FileIndex + 1, FRangeSelectionEndIndex, not FRangeSelectionState);
+      FRangeSelectionEndIndex := FileIndex;
     end;
-
-  FRangeSelectionEndIndex := FileIndex;
 end;
 
 procedure TOrderedFileView.SetActiveFile(aFilePath: String);
