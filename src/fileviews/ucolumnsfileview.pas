@@ -917,6 +917,7 @@ begin
   begin
     inherited CloneTo(FileView);
 
+    if FileView is TColumnsFileView then
     with FileView as TColumnsFileView do
     begin
       FColumnsSortDirections := Self.FColumnsSortDirections;
