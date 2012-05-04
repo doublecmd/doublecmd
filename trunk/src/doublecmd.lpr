@@ -89,7 +89,9 @@ begin
   // Disable because we set a few of our own format settings and we don't want
   // them to be changed. There's no way currently to react to Application.IntfSettingsChange.
   // If in future we move to a Unicode RTL this could be removed.
+  {$PUSH}{$WARN SYMBOL_PLATFORM OFF}
   Application.UpdateFormatSettings := False;
+  {$POP}
   {$ENDIF}
   DefaultFormatSettings.ThousandSeparator:= ' ';
   {$IFDEF UNIX}
