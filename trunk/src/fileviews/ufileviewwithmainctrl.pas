@@ -534,7 +534,7 @@ begin
               if not HasSelectedFiles then
               begin
                 APreviousFile := GetActiveDisplayFile;
-                if Assigned(APreviousFile) then
+                if Assigned(APreviousFile) and (APreviousFile <> AFile) then
                   MarkFile(APreviousFile, True, False);
               end;
               InvertFileSelection(AFile, False);
