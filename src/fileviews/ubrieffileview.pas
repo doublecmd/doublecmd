@@ -34,9 +34,10 @@ type
     function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     procedure DoOnResize; override;
+    procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
-    procedure KeyDown(var Key : Word; Shift : TShiftState); override;
+    procedure MoveSelection; override;
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
 
@@ -313,14 +314,14 @@ begin
     end;
 end;
 
-procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
-var
-  PrevIndex: Integer;
-  SavedKey: Word;
+procedure TBriefDrawGrid.MoveSelection;
 begin
-  PrevIndex := CellToIndex(Col, Row);
-  SavedKey := Key;
+  inherited MoveSelection;
+  BriefView.DoFileIndexChanged(CellToIndex(Col, Row));
+end;
 
+procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
+begin
   case Key of
     VK_RIGHT:
       begin
@@ -354,9 +355,6 @@ begin
       end;
   end;
   inherited KeyDown(Key, Shift);
-
-  if ssShift in Shift then
-    BriefView.Selection(SavedKey, PrevIndex, CellToIndex(Col, Row));
 end;
 
 constructor TBriefDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);

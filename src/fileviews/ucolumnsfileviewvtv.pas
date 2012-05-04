@@ -1567,17 +1567,11 @@ end;
 
 procedure TColumnsDrawTree.WMKeyDown(var Message: TLMKeyDown);
 var
-  Node, Temp, PrevNode: PVirtualNode;
+  Node, Temp: PVirtualNode;
   Offset: Integer;
-  SavedKey: Word;
-  Shift: TShiftState;
 begin
-  Shift := KeyDataToShiftState(Message.KeyData);
-  PrevNode := FocusedNode;
-  SavedKey := Message.CharCode;
-
   // Override scrolling with PageUp, PageDown because VirtualTreeView scrolls too much.
-  case SavedKey of
+  case Message.CharCode of
     VK_PRIOR:
       begin
         Offset := 0;
@@ -1630,9 +1624,6 @@ begin
   end;
 
   inherited WMKeyDown(Message);
-
-  if (ssShift in Shift) and Assigned(PrevNode) then
-    ColumnsView.Selection(SavedKey, PrevNode^.Index, FocusedNode^.Index);
 end;
 
 procedure TColumnsDrawTree.InitializeWnd;

@@ -35,7 +35,6 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
 
   protected
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
 
@@ -1791,20 +1790,6 @@ function TDrawGridEx.IsRowVisible(aRow: Integer): Boolean;
 begin
   with GCache.FullVisibleGrid do
     Result:= (Top<=aRow)and(aRow<=Bottom);
-end;
-
-procedure TDrawGridEx.KeyDown(var Key: Word; Shift: TShiftState);
-var
-  PrevRow: Integer;
-  SavedKey: Word;
-begin
-  PrevRow := Row;
-  SavedKey := Key;
-
-  inherited KeyDown(Key, Shift);
-
-  if (ssShift in Shift) and (PrevRow >= FixedRows) then
-    ColumnsView.Selection(SavedKey, PrevRow - FixedRows, Row - FixedRows);
 end;
 
 procedure TDrawGridEx.ScrollHorizontally(ForwardDirection: Boolean);
