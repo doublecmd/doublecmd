@@ -70,7 +70,14 @@ type
     function GetIsEncrypted : Boolean; virtual;
     function GetLastModFileDate : Word; virtual;
     function GetLastModFileTime : Word; virtual;
+    { This depends on in what format the attributes are stored in the archive,
+      to which system they refer (MS-DOS, Unix, etc.) and what system
+      we're running on (compile time). }
     function GetNativeFileAttributes : LongInt; virtual;
+    { This depends on in what format the date/time is stored in the archive
+      (Unix, MS-DOS, ...) and what system we're running on (compile time).
+      Returns MS-DOS local time on Windows, Unix UTC time on Unix. }
+    function GetNativeLastModFileTime : Longint; virtual;
     function GetStoredPath : string;
     function GetUncompressedSize : Int64; virtual;
     procedure SetCompressedSize(const Value : Int64); virtual;
@@ -126,6 +133,8 @@ type
       write SetLastModFileTime;
     property NativeFileAttributes : LongInt
       read GetNativeFileAttributes;
+    property NativeLastModFileTime : Longint
+      read GetNativeLastModFileTime;
     property StoredPath : string
       read GetStoredPath;
     property Tagged : Boolean
@@ -661,6 +670,12 @@ begin
   else
     Result := AB_FPERMISSION_GENERIC;
   {$ENDIF}
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchiveItem.GetNativeLastModFileTime : Longint;
+begin
+  LongRec(Result).Hi := LastModFileDate;
+  LongRec(Result).Lo := LastModFileTime;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetStoredPath : string;
