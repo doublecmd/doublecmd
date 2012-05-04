@@ -299,16 +299,14 @@ procedure TFileViewPage.SetFileView(aFileView: TFileView);
 var
   aComponent: TComponent;
 begin
-  while ComponentCount > 0 do
+  if ComponentCount > 0 then
   begin
     aComponent := Components[0];
-    RemoveComponent(aComponent);
     aComponent.Free;
   end;
 
   if Assigned(aFileView) then
   begin
-    InsertComponent(aFileView);
     aFileView.Parent := Self;
   end;
 end;

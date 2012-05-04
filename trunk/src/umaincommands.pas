@@ -139,6 +139,8 @@ type
    procedure cm_RenameNoAsk(const Params: array of string);
    procedure cm_View(const Params: array of string);
    procedure cm_QuickView(const Params: array of string);
+   procedure cm_BriefView(const Params: array of string);
+   procedure cm_ColumnsView(const Params: array of string);
    procedure cm_CopyNamesToClip(const Params: array of string);
    procedure cm_FocusCmdLine(const Params: array of string);
    procedure cm_FileAssoc(const Params: array of string);
@@ -216,8 +218,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, fFileAssoc,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
-     uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils,
-     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
+     uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
+     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uColumnsFileView,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
@@ -227,7 +229,11 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
-     DCOSUtils, DCStrUtils, DCBasicTypes;
+     DCOSUtils, DCStrUtils, DCBasicTypes
+     {$IFDEF COLUMNSFILEVIEW_VTV}
+     , uColumnsFileViewVtv
+     {$ENDIF}
+     ;
 
 procedure ReadCopyRenameParams(
   const Params: array of string;
@@ -1210,6 +1216,32 @@ begin
       begin
         QuickViewShow(NotActiveNotebook.ActivePage, ActiveFrame);
       end;
+  end;
+end;
+
+procedure TMainCommands.cm_BriefView(const Params: array of string);
+var
+  aFileView: TFileView;
+begin
+  with frmMain do
+  begin
+    aFileView:= TBriefFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    ActiveNotebook.ActivePage.FileView:= aFileView;
+  end;
+end;
+
+procedure TMainCommands.cm_ColumnsView(const Params: array of string);
+var
+  aFileView: TFileView;
+begin
+  with frmMain do
+  begin
+    {$IFDEF COLUMNSFILEVIEW_VTV}
+    aFileView:= TColumnsFileViewVTV.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    {$ELSE}
+    aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    {$ENDIF}
+    ActiveNotebook.ActivePage.FileView:= aFileView;
   end;
 end;
 

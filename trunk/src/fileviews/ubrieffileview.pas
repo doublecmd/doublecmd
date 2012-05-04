@@ -739,6 +739,7 @@ begin
   begin
     inherited CloneTo(FileView);
 
+    if FileView is TBriefFileView then
     with FileView as TBriefFileView do
     begin
       TabHeader.UpdateSorting(Self.Sorting);
