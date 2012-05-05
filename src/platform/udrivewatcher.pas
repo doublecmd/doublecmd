@@ -807,15 +807,13 @@ begin
                 DeviceFile := '/dev/' + ExtractFileName(UDisksDeviceObject);
               HandledByUDisks := True;
             end
-            else if StrBegins(DeviceFile, '/dev/mapper') then
-            begin
-              DeviceFile:= mbReadAllLinks(DeviceFile);
-              UDisksDeviceObject := UDisksGetDeviceObjectByDeviceFile(DeviceFile, UDisksDevices);
-              HandledByUDisks := True;
-            end
             else if StrBegins(DeviceFile, '/dev/') then
             begin
-              UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile);
+              DeviceFile := mbCheckReadLinks(DeviceFile);
+              if StrBegins(DeviceFile, '/dev/') then
+                UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile)
+              else
+                UDisksDeviceObject := UDisksGetDeviceObjectByDeviceFile(DeviceFile, UDisksDevices);
               HandledByUDisks := True;
             end
             else
@@ -850,6 +848,7 @@ begin
           // Add by entry in fstab/mtab.
           if not HandledByUDisks then
           begin
+            DeviceFile := mbCheckReadLinks(DeviceFile);
             if CanAddDevice(DeviceFile, MountPoint) then
             begin
               New(Drive);
@@ -1265,4 +1264,4 @@ end;
 {$ENDIF}
 
 end.
-
+
