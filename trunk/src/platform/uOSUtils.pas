@@ -107,12 +107,17 @@ function ReadSymLink(const LinkName : String) : String;
    Reads the concrete file's name that the link points to.
    If the link points to a link then it's resolved recursively
    until a valid file name that is not a link is found.
-   @param(LinkName Name of symbolic link (absolute path))
+   @param(PathToLink Name of symbolic link (absolute path))
    @returns(The absolute filename the symbolic link name is pointing to,
             or an empty string when the link is invalid or
             the file it points to does not exist.)
 }
 function mbReadAllLinks(const PathToLink : String) : String;
+{en
+   If PathToLink points to a link then it returns file that the link points to (recursively).
+   If PathToLink does not point to a link then PathToLink value is returned.
+}
+function mbCheckReadLinks(const PathToLink : String) : String;
 {en
    Get the user home directory
    @returns(The user home directory)
@@ -559,7 +564,16 @@ begin
   end;
 end;
 
-(* Return home directory*)
+function mbCheckReadLinks(const PathToLink : String): String;
+var
+  Attrs: TFileAttrs;
+begin
+  Attrs := mbFileGetAttr(PathToLink);
+  if (Attrs <> faInvalidAttributes) and FPS_ISLNK(Attrs) then
+    Result := mbReadAllLinks(PathToLink)
+  else
+    Result := PathToLink;
+end;
 
 function GetHomeDir : String;
 {$IFDEF MSWINDOWS}
