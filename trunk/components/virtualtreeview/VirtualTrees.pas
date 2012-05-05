@@ -17945,6 +17945,9 @@ begin
       if (ClientWidth + FEffectiveOffsetX < Integer(FRangeX)) and (X > ClientWidth - Integer(FDefaultNodeHeight)) then
         Include(Result, sdRight);
 
+      if hoVisible in FHeader.FOptions then
+        Dec(Y, FHeader.Height);
+
       if (Y < Integer(FDefaultNodeHeight)) and (FOffsetY <> 0) then
         Include(Result, sdUp);
       if (ClientHeight - FOffsetY < Integer(FRangeY)) and (Y > ClientHeight - Integer(FDefaultNodeHeight)) then
@@ -19451,6 +19454,8 @@ var
 
 begin
   GetCursorPos(P);
+  if hoVisible in FHeader.FOptions then
+    Dec(P.y, FHeader.Height);
   R := ClientRect;
   ClipRect := R;
   //todo: add MapWindowPoints to LCL??
