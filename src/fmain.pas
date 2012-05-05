@@ -1306,6 +1306,7 @@ begin
         GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
         Point, False,
         nil, TargetFileView,
+        TargetFileView.FileSource,
         TargetFileView.CurrentPath);
 
     DropFiles(DropParams);
@@ -1360,71 +1361,76 @@ begin
   try
     with DropParams do
     begin
-      case Operation of
+      if Assigned(TargetFileSource) then
+      begin
+        case Operation of
 
-        ddoMove:
-          if GetDragDropType = ddtInternal then
-          begin
-            if Self.MoveFiles(SourcePanel.FileSource,
-                              TargetPanel.FileSource,
-                              Files, TargetPath,
-                              gShowDialogOnDragDrop) then
+          ddoMove:
+            if GetDragDropType = ddtInternal then
             begin
-              SourcePanel.MarkFiles(False);
-            end;
-          end
-          else
-          begin
-            Self.MoveFiles(TFileSystemFileSource.GetFileSource,
-                           TargetPanel.FileSource,
-                           Files, TargetPath,
-                           gShowDialogOnDragDrop);
-          end;
-
-        ddoCopy:
-          if GetDragDropType = ddtInternal then
-          begin
-            if Self.CopyFiles(SourcePanel.FileSource,
-                              TargetPanel.FileSource,
-                              Files, TargetPath,
-                              gShowDialogOnDragDrop) then
-            begin
-              SourcePanel.MarkFiles(False);
-            end;
-          end
-          else
-          begin
-            Self.CopyFiles(TFileSystemFileSource.GetFileSource,
-                           TargetPanel.FileSource,
-                           Files, TargetPath,
-                           gShowDialogOnDragDrop);
-          end;
-
-        ddoSymLink, ddoHardLink:
-          begin
-            // Only for filesystem.
-            if  ((GetDragDropType = ddtExternal) or
-                (SourcePanel.FileSource.IsClass(TFileSystemFileSource)))
-            and (TargetPanel.FileSource.IsClass(TFileSystemFileSource)) then
-            begin
-              // TODO: process multiple files
-
-              SourceFileName := Files.Items[0].FullPath;
-              TargetFileName := TargetPath + ExtractFileName(SourceFileName);
-
-              if ((Operation = ddoSymLink) and
-                 ShowSymLinkForm(SourceFileName, TargetFileName, TargetPath))
-              or ((Operation = ddoHardLink) and
-                 ShowHardLinkForm(SourceFileName, TargetFileName, TargetPath))
-              then
-                TargetPanel.Reload;
+              if Self.MoveFiles(SourcePanel.FileSource,
+                                TargetFileSource,
+                                Files, TargetPath,
+                                gShowDialogOnDragDrop) then
+              begin
+                SourcePanel.MarkFiles(False);
+              end;
             end
             else
             begin
-              msgWarning(rsMsgErrNotSupported);
+              Self.MoveFiles(TFileSystemFileSource.GetFileSource,
+                             TargetFileSource,
+                             Files, TargetPath,
+                             gShowDialogOnDragDrop);
             end;
-          end;
-      end;
+
+          ddoCopy:
+            if GetDragDropType = ddtInternal then
+            begin
+              if Self.CopyFiles(SourcePanel.FileSource,
+                                TargetFileSource,
+                                Files, TargetPath,
+                                gShowDialogOnDragDrop) then
+              begin
+                SourcePanel.MarkFiles(False);
+              end;
+            end
+            else
+            begin
+              Self.CopyFiles(TFileSystemFileSource.GetFileSource,
+                             TargetFileSource,
+                             Files, TargetPath,
+                             gShowDialogOnDragDrop);
+            end;
+
+          ddoSymLink, ddoHardLink:
+            begin
+              // Only for filesystem.
+              if  ((GetDragDropType = ddtExternal) or
+                  (SourcePanel.FileSource.IsClass(TFileSystemFileSource)))
+              and (TargetFileSource.IsClass(TFileSystemFileSource)) then
+              begin
+                // TODO: process multiple files
+
+                SourceFileName := Files.Items[0].FullPath;
+                TargetFileName := TargetPath + ExtractFileName(SourceFileName);
+
+                if ((Operation = ddoSymLink) and
+                   ShowSymLinkForm(SourceFileName, TargetFileName, TargetPath))
+                or ((Operation = ddoHardLink) and
+                   ShowHardLinkForm(SourceFileName, TargetFileName, TargetPath))
+                then
+                  TargetFileSource.Reload(TargetPath);
+              end
+              else
+              begin
+                msgWarning(rsMsgErrNotSupported);
+              end;
+            end;
+        end;
+      end
+      else
+        msgWarning(rsMsgErrNotSupported);
     end;
 
   finally

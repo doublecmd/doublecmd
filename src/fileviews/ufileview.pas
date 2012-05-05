@@ -276,6 +276,7 @@ type
 
     property Active: Boolean read FActive write SetActive;
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
+    property History: TFileViewHistory read FHistory;
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
     property RequestedActiveFile: String read FRequestedActiveFile write FRequestedActiveFile;
     property SortingForSorter: TFileSortings read GetSortingForSorter;
@@ -472,6 +473,7 @@ type
     DropIntoDirectories: Boolean;
     SourcePanel: TFileView;
     TargetPanel: TFileView;
+    TargetFileSource: IFileSource;
     TargetPath: String;
 
     constructor Create(var aFiles: TFiles;
@@ -480,6 +482,7 @@ type
                        aDropIntoDirectories: Boolean;
                        aSourcePanel: TFileView;
                        aTargetPanel: TFileView;
+                       aTargetFileSource: IFileSource;
                        aTargetPath: String);
     destructor Destroy; override;
 
@@ -2899,6 +2902,7 @@ constructor TDropParams.Create(
                   aDropIntoDirectories: Boolean;
                   aSourcePanel: TFileView;
                   aTargetPanel: TFileView;
+                  aTargetFileSource: IFileSource;
                   aTargetPath: String);
 begin
   Files := aFiles;
@@ -2908,6 +2912,7 @@ begin
   DropIntoDirectories := aDropIntoDirectories;
   SourcePanel := aSourcePanel;
   TargetPanel := aTargetPanel;
+  TargetFileSource := aTargetFileSource;
   TargetPath := aTargetPath;
 end;
 

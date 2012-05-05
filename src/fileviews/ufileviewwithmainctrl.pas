@@ -200,6 +200,7 @@ var
   ClientDropPoint: TPoint;
   FileIndex: PtrInt;
   AtFileList: Boolean;
+  FileSourceIndex, PathIndex: Integer;
 begin
   try
     with DropParams do
@@ -216,13 +217,36 @@ begin
         begin
           AFile := FFiles[FileIndex];
 
-          // If dropped into a directory modify destination path accordingly.
+          // If dropped into a directory modify destination path and file source accordingly.
           if Assigned(AFile) and
              (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
           begin
             if AFile.FSFile.Name = '..' then
-              // remove the last subdirectory in the path
-              TargetPath := TargetPanel.FileSource.GetParentDir(TargetPath)
+            begin
+              if TargetFileSource.IsPathAtRoot(CurrentPath) then
+              begin
+                // Change to previous file source and last path.
+                FileSourceIndex := History.CurrentFileSourceIndex - 1;
+                if FileSourceIndex < 0 then
+                  TargetFileSource := nil // No parent file sources.
+                else
+                begin
+                  PathIndex := History.PathsCount[FileSourceIndex] - 1;
+                  if PathIndex < 0 then
+                    TargetFileSource := nil // No paths.
+                  else
+                  begin
+                    TargetFileSource := FileSources[FileSourceIndex];
+                    TargetPath := History.Path[FileSourceIndex, PathIndex];
+                  end;
+                end;
+              end
+              else
+              begin
+                // Remove the last subdirectory in the path.
+                TargetPath := TargetFileSource.GetParentDir(TargetPath);
+              end;
+            end
             else
               TargetPath := TargetPath + AFile.FSFile.Name + DirectorySeparator;
           end;
@@ -315,8 +339,8 @@ begin
                                  SourcePanel.FMainControlLastMouseButton),
       MainControl.ClientToScreen(Classes.Point(X, Y)),
       True,
-      SourcePanel,
-      Self, Self.CurrentPath);
+      SourcePanel, Self,
+      Self.FileSource, Self.CurrentPath);
 
     frmMain.DropFiles(DropParams);
     SetDropFileIndex(-1);
@@ -830,7 +854,7 @@ begin
     try
       DropParams := TDropParams.Create(
         AFiles, DropEffect, ScreenPoint, True,
-        nil, Self, Self.CurrentPath);
+        nil, Self, Self.FileSource, Self.CurrentPath);
 
       frmMain.DropFiles(DropParams);
     except
