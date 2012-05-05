@@ -1,3 +1,33 @@
+Index: VTConfig.inc
+===================================================================
+--- VTConfig.inc	(revision 2334)
++++ VTConfig.inc	(working copy)
+@@ -22,12 +22,16 @@
+ 
+ 
+ //Lazarus port options
+-{$define EnableOLE}
++{.$define EnableOLE}
+ {.$define EnableNativeTVM}
+ {.$define EnablePrint}
+ {.$define EnableNCFunctions}
+ {$define EnableAdvancedGraphics}
+-{$define EnableAlphaBlend}
++
++{$IFDEF CPU32}
++  {$define EnableAlphaBlend}
++{$ENDIF CPU32}
++
+ {.$define EnableAccessible}
+ {$define ThemeSupport}
+ {$if defined(LCLWin32) or defined(LCLWinCE)}
+@@ -42,5 +46,5 @@
+ 
+ //under linux the performance is poor with threading enabled
+ {$ifdef Windows}
+-  {$define EnableThreadSupport}
++  {.$define EnableThreadSupport}
+ {$endif}
 Index: VirtualTrees.pas
 ===================================================================
 --- VirtualTrees.pas	(revision 2334)
@@ -194,7 +224,17 @@ Index: VirtualTrees.pas
                    if (CharCode = VK_HOME) and not UseRightToLeftAlignment then
                      SetOffsetX(0)
                    else
-@@ -18437,7 +18493,7 @@
+@@ -17889,6 +17945,9 @@
+       if (ClientWidth + FEffectiveOffsetX < Integer(FRangeX)) and (X > ClientWidth - Integer(FDefaultNodeHeight)) then
+         Include(Result, sdRight);
+ 
++      if hoVisible in FHeader.FOptions then
++        Dec(Y, FHeader.Height);
++
+       if (Y < Integer(FDefaultNodeHeight)) and (FOffsetY <> 0) then
+         Include(Result, sdUp);
+       if (ClientHeight - FOffsetY < Integer(FRangeY)) and (Y > ClientHeight - Integer(FDefaultNodeHeight)) then
+@@ -18437,7 +18496,7 @@
  
  begin
    if Assigned(FOnDragDrop) then
@@ -203,7 +243,7 @@ Index: VirtualTrees.pas
  end;
  
  //----------------------------------------------------------------------------------------------------------------------
-@@ -18589,7 +18645,7 @@
+@@ -18589,7 +18648,7 @@
        InvalidateNode(FFocusedNode);
        if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
          ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
@@ -212,7 +252,16 @@ Index: VirtualTrees.pas
      end;
  
      // Reset range anchor if necessary.
-@@ -21122,7 +21178,7 @@
+@@ -19395,6 +19454,8 @@
+ 
+ begin
+   GetCursorPos(P);
++  if hoVisible in FHeader.FOptions then
++    Dec(P.y, FHeader.Height);
+   R := ClientRect;
+   ClipRect := R;
+   //todo: add MapWindowPoints to LCL??
+@@ -21122,7 +21183,7 @@
        if NewNode or NewColumn then
        begin
          ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions,
@@ -221,7 +270,7 @@ Index: VirtualTrees.pas
          DoFocusChange(FFocusedNode, FFocusedColumn);
        end;
      end;
-@@ -21820,7 +21876,7 @@
+@@ -21820,7 +21881,7 @@
  
  begin
    if Y < 0 then
@@ -230,7 +279,7 @@ Index: VirtualTrees.pas
  
    AbsolutePos := Y;
    if Relative then
-@@ -26469,6 +26525,22 @@
+@@ -26469,6 +26530,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -253,7 +302,7 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns next node in tree, with regard to Node, which is visible.
-@@ -27087,6 +27159,22 @@
+@@ -27087,6 +27164,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -276,7 +325,7 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns the previous node in tree, with regard to Node, which is visible.
-@@ -29272,6 +29360,7 @@
+@@ -29272,6 +29365,7 @@
    HScrollBarVisible: Boolean;
    ScrolledVertically,
    ScrolledHorizontally: Boolean;
@@ -284,7 +333,7 @@ Index: VirtualTrees.pas
  
  begin
    //todo: minimize calls to ClientHeight and ClientWidth
-@@ -29316,7 +29405,13 @@
+@@ -29316,7 +29410,13 @@
          if Center then
            SetOffsetY(FOffsetY - R.Bottom + ClientHeight div 2)
          else
@@ -299,7 +348,7 @@ Index: VirtualTrees.pas
          // When scrolling up and the horizontal scroll appears because of the operation
          // then we have to move up the node the horizontal scrollbar's height too
          // in order to avoid that the scroll bar hides the node which we wanted to have in view.
-@@ -29370,10 +29465,13 @@
+@@ -29370,10 +29470,13 @@
    end
    else
    begin
@@ -379,33 +428,3 @@ Index: units/win32/virtualpanningwindow.pas
    
    FImage := TBitmap.Create;
  end;
-Index: VTConfig.inc
-===================================================================
---- VTConfig.inc	(revision 2334)
-+++ VTConfig.inc	(working copy)
-@@ -22,12 +22,16 @@
- 
- 
- //Lazarus port options
--{$define EnableOLE}
-+{.$define EnableOLE}
- {.$define EnableNativeTVM}
- {.$define EnablePrint}
- {.$define EnableNCFunctions}
- {$define EnableAdvancedGraphics}
--{$define EnableAlphaBlend}
-+
-+{$IFDEF CPU32}
-+  {$define EnableAlphaBlend}
-+{$ENDIF CPU32}
-+
- {.$define EnableAccessible}
- {$define ThemeSupport}
- {$if defined(LCLWin32) or defined(LCLWinCE)}
-@@ -42,5 +46,5 @@
- 
- //under linux the performance is poor with threading enabled
- {$ifdef Windows}
--  {$define EnableThreadSupport}
-+  {.$define EnableThreadSupport}
- {$endif}
