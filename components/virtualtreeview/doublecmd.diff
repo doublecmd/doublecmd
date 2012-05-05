@@ -1,3 +1,65 @@
+Index: VTGraphics.pas
+===================================================================
+--- VTGraphics.pas	(revision 2334)
++++ VTGraphics.pas	(working copy)
+@@ -26,7 +26,27 @@
+ 
+ implementation
+ 
++{$IFDEF CPU32}
+ {$i vtgraphicsi.inc}
++{$ENDIF CPU32}
+ 
++{$IFDEF CPU64}
++
++procedure AlphaBlend(Source, Destination: HDC; const R: TRect; const Target: TPoint; Mode: TBlendMode; ConstantAlpha, Bias: Integer);
++begin
++end;
++
++function CalculateScanline(Bits: Pointer; Width, Height, Row: Integer): Pointer;
++begin
++  Result := nil;
++end;
++
++function GetBitmapBitsFromBitmap(Bitmap: HBITMAP): Pointer;
++begin
++  Result := nil;
++end;
++
++{$ENDIF CPU64}
++
+ end.
+ 
+Index: units/win32/virtualpanningwindow.pas
+===================================================================
+--- units/win32/virtualpanningwindow.pas	(revision 2334)
++++ units/win32/virtualpanningwindow.pas	(working copy)
+@@ -38,12 +38,13 @@
+ begin
+   if Msg = WM_PAINT then
+   begin
+-    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
++    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
+     if Assigned(PanningObject) then
+       PanningObject.HandlePaintMessage;
++	Result := 0;
+   end
+   else
+-    DefWindowProc(Window,Msg,WPara,LPara);
++    Result := DefWindowProc(Window,Msg,WPara,LPara);
+ end;
+ 
+ var
+@@ -87,8 +88,7 @@
+   with Position do
+     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
+       32, 32, OwnerHandle, 0, HInstance, nil);
+-  //todo use SetWindowLongPtr later
+-  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
++  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
+   
+   FImage := TBitmap.Create;
+ end;
 Index: VTConfig.inc
 ===================================================================
 --- VTConfig.inc	(revision 2334)
@@ -58,6 +120,22 @@ Index: VirtualTrees.pas
      procedure CMMouseLeave(var Message: TLMessage); message CM_MOUSELEAVE;
      procedure CMMouseWheel(var Message: TLMMouseEvent); message LM_MOUSEWHEEL;
      {$ifdef EnableNativeTVM}
+@@ -2493,7 +2494,6 @@
+     procedure WMGetObject(var Message: TLMessage);{ message WM_GETOBJECT;}
+     {$endif}
+     procedure WMHScroll(var Message: TLMHScroll); message LM_HSCROLL;
+-    procedure WMKeyDown(var Message: TLMKeyDown); message LM_KEYDOWN;
+     procedure WMKeyUp(var Message: TLMKeyUp); message LM_KEYUP;
+     procedure WMKillFocus(var Msg: TLMKillFocus); message LM_KILLFOCUS;
+     procedure WMLButtonDblClk(var Message: TLMLButtonDblClk); message LM_LBUTTONDBLCLK;
+@@ -2761,6 +2761,7 @@
+     procedure WndProc(var Message: TLMessage); override;
+     procedure WriteChunks(Stream: TStream; Node: PVirtualNode); virtual;
+     procedure WriteNode(Stream: TStream; Node: PVirtualNode); virtual;
++    procedure WMKeyDown(var Message: TLMKeyDown); message LM_KEYDOWN;
+ 
+     property Alignment: TAlignment read FAlignment write SetAlignment default taLeftJustify;
+     property AnimationDuration: Cardinal read FAnimationDuration write SetAnimationDuration default 200;
 @@ -3008,6 +3009,7 @@
      function GetNextNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
      function GetNextSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
@@ -191,7 +269,7 @@ Index: VirtualTrees.pas
    P: TPoint;
    Formats: TFormatArray;
 -
-+  _Result : DWORD;
++  Effect: LongWord;
  begin
    {$ifdef DEBUG_VTV}Logger.EnterMethod([lcDrag],'DoDragMsg');{$endif}
    S := ADragObject;
@@ -200,8 +278,8 @@ Index: VirtualTrees.pas
            // Allowed drop effects are simulated for VCL dd.
            Result := DROPEFFECT_MOVE or DROPEFFECT_COPY;
 -          DragOver(S, ShiftState, TDragState(ADragMessage), APosition, LongWord(Result));
-+          DragOver(S, ShiftState, TDragState(ADragMessage), APosition, _Result);
-+          Result := _Result;
++          DragOver(S, ShiftState, TDragState(ADragMessage), APosition, Effect);
++          Result := LRESULT(Effect);
            FLastVCLDragTarget := FDropTargetNode;
            FVCLDragEffect := LongWord(Result);
            if (ADragMessage = dmDragLeave) and Assigned(FDropTargetNode) then
@@ -366,65 +444,3 @@ Index: VirtualTrees.pas
      if NewOffset <> FEffectiveOffsetX then
      begin
        if UseRightToLeftAlignment then
-Index: VTGraphics.pas
-===================================================================
---- VTGraphics.pas	(revision 2334)
-+++ VTGraphics.pas	(working copy)
-@@ -26,7 +26,27 @@
- 
- implementation
- 
-+{$IFDEF CPU32}
- {$i vtgraphicsi.inc}
-+{$ENDIF CPU32}
- 
-+{$IFDEF CPU64}
-+
-+procedure AlphaBlend(Source, Destination: HDC; const R: TRect; const Target: TPoint; Mode: TBlendMode; ConstantAlpha, Bias: Integer);
-+begin
-+end;
-+
-+function CalculateScanline(Bits: Pointer; Width, Height, Row: Integer): Pointer;
-+begin
-+  Result := nil;
-+end;
-+
-+function GetBitmapBitsFromBitmap(Bitmap: HBITMAP): Pointer;
-+begin
-+  Result := nil;
-+end;
-+
-+{$ENDIF CPU64}
-+
- end.
- 
-Index: units/win32/virtualpanningwindow.pas
-===================================================================
---- units/win32/virtualpanningwindow.pas	(revision 2334)
-+++ units/win32/virtualpanningwindow.pas	(working copy)
-@@ -38,12 +38,13 @@
- begin
-   if Msg = WM_PAINT then
-   begin
--    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
-+    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
-     if Assigned(PanningObject) then
-       PanningObject.HandlePaintMessage;
-+	Result := 0;
-   end
-   else
--    DefWindowProc(Window,Msg,WPara,LPara);
-+    Result := DefWindowProc(Window,Msg,WPara,LPara);
- end;
- 
- var
-@@ -87,8 +88,7 @@
-   with Position do
-     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
-       32, 32, OwnerHandle, 0, HInstance, nil);
--  //todo use SetWindowLongPtr later
--  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
-+  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
-   
-   FImage := TBitmap.Create;
- end;

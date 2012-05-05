@@ -2494,7 +2494,6 @@ type
     procedure WMGetObject(var Message: TLMessage);{ message WM_GETOBJECT;}
     {$endif}
     procedure WMHScroll(var Message: TLMHScroll); message LM_HSCROLL;
-    procedure WMKeyDown(var Message: TLMKeyDown); message LM_KEYDOWN;
     procedure WMKeyUp(var Message: TLMKeyUp); message LM_KEYUP;
     procedure WMKillFocus(var Msg: TLMKillFocus); message LM_KILLFOCUS;
     procedure WMLButtonDblClk(var Message: TLMLButtonDblClk); message LM_LBUTTONDBLCLK;
@@ -2762,6 +2761,7 @@ type
     procedure WndProc(var Message: TLMessage); override;
     procedure WriteChunks(Stream: TStream; Node: PVirtualNode); virtual;
     procedure WriteNode(Stream: TStream; Node: PVirtualNode); virtual;
+    procedure WMKeyDown(var Message: TLMKeyDown); message LM_KEYDOWN;
 
     property Alignment: TAlignment read FAlignment write SetAlignment default taLeftJustify;
     property AnimationDuration: Cardinal read FAnimationDuration write SetAnimationDuration default 200;
@@ -14740,7 +14740,7 @@ var
   ShiftState: Integer;
   P: TPoint;
   Formats: TFormatArray;
-  _Result : DWORD;
+  Effect: LongWord;
 begin
   {$ifdef DEBUG_VTV}Logger.EnterMethod([lcDrag],'DoDragMsg');{$endif}
   S := ADragObject;
@@ -14776,8 +14776,8 @@ begin
 
           // Allowed drop effects are simulated for VCL dd.
           Result := DROPEFFECT_MOVE or DROPEFFECT_COPY;
-          DragOver(S, ShiftState, TDragState(ADragMessage), APosition, _Result);
-          Result := _Result;
+          DragOver(S, ShiftState, TDragState(ADragMessage), APosition, Effect);
+          Result := LRESULT(Effect);
           FLastVCLDragTarget := FDropTargetNode;
           FVCLDragEffect := LongWord(Result);
           if (ADragMessage = dmDragLeave) and Assigned(FDropTargetNode) then
