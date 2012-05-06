@@ -1,17 +1,7 @@
-
-
-{$ifndef HAS_GETDOUBLECLICKTIME}
-function GetDoubleClickTime: UINT;
+{$ifndef HAS_BITBLT}
+function BitBlt(DestDC: HDC; X, Y, Width, Height: Integer; SrcDC: HDC; XSrc,
+  YSrc: Integer; Rop: DWORD): Boolean;
 begin
-  //todo: see if gtk has a value. Use Windows default for now
-  Result := 500;
-end;
-{$endif}
-
-{$ifndef HAS_REDRAWWINDOW}
-function RedrawWindow(hWnd:THandle; lprcUpdate:PRECT; hrgnUpdate:HRGN; flags:LongWord):BOOLEAN;
-begin
-  //todo: see if there's a better way of doing this
-  Result := LCLIntf.InvalidateRect(hWnd, lprcUpdate, (RDW_ERASE and flags) > 0);
+  Result := LCLIntf.BitBlt(DestDC, X, Y, Width, Height, SrcDC, XSrc, YSrc, Rop);
 end;
 {$endif}

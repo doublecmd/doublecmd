@@ -36,14 +36,7 @@ begin
 end;
 {$endif}
 
-{$ifndef HAS_GETCURRENTOBJECT}
-function GetCurrentObject(hdc: HDC; uObjectType: UINT): HGDIOBJ;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end;
-{$endif}
-
-function GetDCEx(hWnd:THandle; hrgnClip:HRGN; flags:DWORD):HDC;
+function GetDCEx(hWnd:HWND; hrgnClip:HRGN; flags:DWORD):HDC;
 begin
   {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
 end;
@@ -63,13 +56,6 @@ begin
   {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
 end;
 
-{$if lcl_release < 29}
-function GetMapMode(DC: HDC): LongInt;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end;
-{$endif}
-
 function GetRandomRgn(DC: HDC; Rgn: HRGN; iNum: Integer): Integer; stdcall;
 begin
   {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
@@ -80,7 +66,7 @@ function GetTextExtentExPoint(DC: HDC; Str: PChar;
   Count, MaxWidth: Integer; MaxCount, PartialWidths: PInteger;
   var Size: TSize): BOOL;
 begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
+  Result := LCLIntf.GetTextExtentExPoint(DC, Str, Count, MaxWidth, MaxCount, PartialWidths, Size);
 end;
 {$endif}
 
@@ -92,26 +78,13 @@ end;
 {$endif}
 
 {$ifndef HAS_GETWINDOWDC}
-function GetWindowDC(hWnd:THandle):HDC;
+function GetWindowDC(hWnd:HWND):HDC;
 begin
   {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
 end;
 {$endif}
 
 function ImageList_DragShowNolock(fShow: Boolean): Boolean;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end;
-
-{$ifndef HAS_INVERTRECT}
-function InvertRect(DC: HDC; const lprc: TRect): Boolean;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end;
-{$endif}
-
-
-function MapWindowPoints(hWndFrom, hWndTo: HWND; var lpPoints; cPoints: UINT): Integer;
 begin
   {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
 end;
@@ -133,13 +106,6 @@ begin
   {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
 end;
 
-{$ifndef HAS_SCROLLWINDOW}
-function ScrollWindow(hWnd:THandle; XAmount, YAmount:longint;lpRect:PRECT; lpClipRect:PRECT):Boolean;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end;
-{$endif}
-
 {$ifndef HAS_SETBRUSHORGEX}
 function SetBrushOrgEx(DC:HDC; nXOrg, nYOrg:longint; lppt:PPOINT):Boolean;
 begin
@@ -147,25 +113,7 @@ begin
 end;
 {$endif}
 
-{$if lcl_release < 29}
-function SetMapMode(DC: HDC; fnMapMode: LongInt): LongInt;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end;
-{$endif}
-
-function SubtractRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): BOOLEAN;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end;
-
 function ToAscii(uVirtKey, uScanCode:LongWord; lpKeyState: System.PByte; lpChar: System.PWord; uFlags:LongWord):longint;
 begin
   {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
 end;
-
-function UpdateWindow(Handle: HWND): Boolean;
-begin
-  {$ifdef DEBUG_DELPHICOMPAT} Logger.SendCallStack('Dummy WinAPI Implementation'); {$endif}
-end; 
-

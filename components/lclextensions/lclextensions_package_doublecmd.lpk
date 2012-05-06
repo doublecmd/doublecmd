@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <CONFIG>
   <Package Version="4">
-    <Name Value="lclextensions_package"/>
+    <Name Value="lclextensions_package_doublecmd"/>
     <AddToProjectUsesSection Value="True"/>
     <Author Value="Luiz Americo Pereira Câmara"/>
     <CompilerOptions>

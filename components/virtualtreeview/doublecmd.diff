@@ -1,33 +1,3 @@
-Index: units/win32/virtualpanningwindow.pas
-===================================================================
---- units/win32/virtualpanningwindow.pas	(revision 2334)
-+++ units/win32/virtualpanningwindow.pas	(working copy)
-@@ -38,12 +38,13 @@
- begin
-   if Msg = WM_PAINT then
-   begin
--    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
-+    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
-     if Assigned(PanningObject) then
-       PanningObject.HandlePaintMessage;
-+	Result := 0;
-   end
-   else
--    DefWindowProc(Window,Msg,WPara,LPara);
-+    Result := DefWindowProc(Window,Msg,WPara,LPara);
- end;
- 
- var
-@@ -87,8 +88,7 @@
-   with Position do
-     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
-       32, 32, OwnerHandle, 0, HInstance, nil);
--  //todo use SetWindowLongPtr later
--  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
-+  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
-   
-   FImage := TBitmap.Create;
- end;
 Index: VTConfig.inc
 ===================================================================
 --- VTConfig.inc	(revision 2334)
@@ -104,6 +74,15 @@ Index: VirtualTrees.pas
      function CanShowDragImage: Boolean; virtual;
      procedure Change(Node: PVirtualNode); virtual;
      procedure ChangeScale(M, D: Integer); override;
+@@ -2745,7 +2746,7 @@
+     procedure StartWheelPanning(const Position: TPoint); virtual;
+     procedure StopWheelPanning; virtual;
+     procedure StructureChange(Node: PVirtualNode; Reason: TChangeReason); virtual;
+-    function SuggestDropEffect(Source: TObject; Shift: TShiftState; const Pt: TPoint; AllowedEffects: Integer): Integer; virtual;
++    function SuggestDropEffect(Source: TObject; Shift: TShiftState; const Pt: TPoint; AllowedEffects: LongWord): LongWord; virtual;
+     procedure ToggleSelection(StartNode, EndNode: PVirtualNode); virtual;
+     procedure UnselectNodes(StartNode, EndNode: PVirtualNode); virtual;
+     //lcl
 @@ -2761,6 +2762,7 @@
      procedure WndProc(var Message: TLMessage); override;
      procedure WriteChunks(Stream: TStream; Node: PVirtualNode); virtual;
@@ -112,7 +91,15 @@ Index: VirtualTrees.pas
  
      property Alignment: TAlignment read FAlignment write SetAlignment default taLeftJustify;
      property AnimationDuration: Cardinal read FAnimationDuration write SetAnimationDuration default 200;
-@@ -3008,6 +3010,7 @@
+@@ -2949,6 +2951,7 @@
+     procedure Clear; virtual;
+     procedure ClearChecked;
+     procedure ClearSelection;
++    procedure ClientToScreen(var ARect: TRect); overload;
+     function CopyTo(Source: PVirtualNode; Tree: TBaseVirtualTree; Mode: TVTNodeAttachMode;
+       ChildrenOnly: Boolean): PVirtualNode; overload;
+     function CopyTo(Source, Target: PVirtualNode; Mode: TVTNodeAttachMode;
+@@ -3008,6 +3011,7 @@
      function GetNextNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
      function GetNextSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
      function GetNextSibling(Node: PVirtualNode): PVirtualNode;
@@ -120,7 +107,7 @@ Index: VirtualTrees.pas
      function GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
      function GetNextVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
      function GetNextVisibleSibling(Node: PVirtualNode): PVirtualNode;
-@@ -3026,6 +3029,7 @@
+@@ -3026,6 +3030,7 @@
      function GetPreviousNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
      function GetPreviousSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
      function GetPreviousSibling(Node: PVirtualNode): PVirtualNode;
@@ -128,7 +115,15 @@ Index: VirtualTrees.pas
      function GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
      function GetPreviousVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
      function GetPreviousVisibleSibling(Node: PVirtualNode): PVirtualNode;
-@@ -4895,7 +4899,7 @@
+@@ -3070,6 +3075,7 @@
+     procedure ResetNode(Node: PVirtualNode); virtual;
+     procedure SaveToFile(const FileName: TFileName);
+     procedure SaveToStream(Stream: TStream; Node: PVirtualNode = nil); virtual;
++    procedure ScreenToClient(var ARect: TRect); overload;
+     function ScrollIntoView(Node: PVirtualNode; Center: Boolean; Horizontally: Boolean = False): Boolean; overload;
+     function ScrollIntoView(Column: TColumnIndex; Center: Boolean): Boolean; overload;
+     procedure SelectAll(VisibleOnly: Boolean);
+@@ -4895,7 +4901,7 @@
  function HasMMX: Boolean;
  
  // Helper method to determine whether the current processor supports MMX.
@@ -137,7 +132,7 @@ Index: VirtualTrees.pas
  asm
          PUSH    EBX
          XOR     EAX, EAX     // Result := False
-@@ -4924,6 +4928,12 @@
+@@ -4924,6 +4930,12 @@
  @1:
          POP     EBX
  end;
@@ -150,7 +145,25 @@ Index: VirtualTrees.pas
  
  //----------------------------------------------------------------------------------------------------------------------
  {$ifdef EnablePrint}
-@@ -8530,7 +8540,6 @@
+@@ -6053,7 +6065,7 @@
+   if Visible then
+   begin
+     // Create the minimum rectangle to be recaptured.
+-    MapWindowPoints(Tree.Handle, 0, R, 2);
++    Tree.ClientToScreen(R);
+     DragRect := GetDragImageRect;
+     IntersectRect(R, R, DragRect);
+ 
+@@ -6064,7 +6076,7 @@
+     PaintTarget.Y := R.Top - DragRect.Top;
+ 
+     // The source rectangle is determined by the offsets in the tree.
+-    MapWindowPoints(0, Tree.Handle, R, 2);
++    Tree.ScreenToClient(R);
+     OffsetRect(R, -Tree.FOffsetX, -Tree.FOffsetY);
+ 
+     // Finally let the tree paint the relevant part and upate the drag image on screen.
+@@ -8530,7 +8542,6 @@
    RequestedElements,
    ActualElements: THeaderPaintElements;
  
@@ -158,7 +171,7 @@ Index: VirtualTrees.pas
    Temp: TRect;
    ColCaptionText: String;
    ColImages: TCustomImageList;
-@@ -8865,9 +8874,9 @@
+@@ -8865,9 +8876,9 @@
  
                if ActualElements <> [] then
                begin
@@ -170,7 +183,20 @@ Index: VirtualTrees.pas
                end;
              end
              else // Let application draw the header.
-@@ -13215,7 +13224,52 @@
+@@ -10608,10 +10619,9 @@
+     // Current position of the owner in screen coordinates.
+     GetWindowRect(Treeview.Handle, RW);
+ 
+-    {$ifndef INCOMPLETE_WINAPI}
+     // Convert to client coordinates.
+-    MapWindowPoints(0, Treeview.Handle, RW, 2);
+-    {$endif}
++    Treeview.ScreenToClient(RW);
++
+     // Consider the header within this rectangle.
+     OffsetRect(R, RW.Left, RW.Top);
+     Result := PtInRect(R, P);
+@@ -13215,7 +13225,52 @@
  // The returned value is the number of remaining entries in the array, so the caller can reallocate (shorten)
  // the selection array if needed or -1 if nothing needs to be changed.
  
@@ -223,7 +249,7 @@ Index: VirtualTrees.pas
          PUSH    EBX
          PUSH    EDI
          PUSH    ESI
-@@ -13257,6 +13311,7 @@
+@@ -13257,6 +13312,7 @@
          POP     EDI
          POP     EBX
  end;
@@ -231,7 +257,7 @@ Index: VirtualTrees.pas
  
  {$IMPLICITEXCEPTIONS ON}
  //----------------------------------------------------------------------------------------------------------------------
-@@ -13869,7 +13924,7 @@
+@@ -13869,7 +13925,7 @@
      FFocusedColumn := Value;
      if Assigned(FFocusedNode) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
      begin
@@ -240,7 +266,7 @@ Index: VirtualTrees.pas
          InvalidateNode(FFocusedNode);
      end;
  
-@@ -14686,7 +14741,7 @@
+@@ -14686,7 +14742,7 @@
    ShiftState: Integer;
    P: TPoint;
    Formats: TFormatArray;
@@ -249,7 +275,7 @@ Index: VirtualTrees.pas
  begin
    {$ifdef DEBUG_VTV}Logger.EnterMethod([lcDrag],'DoDragMsg');{$endif}
    S := ADragObject;
-@@ -14722,7 +14777,8 @@
+@@ -14722,7 +14778,8 @@
  
            // Allowed drop effects are simulated for VCL dd.
            Result := DROPEFFECT_MOVE or DROPEFFECT_COPY;
@@ -259,7 +285,7 @@ Index: VirtualTrees.pas
            FLastVCLDragTarget := FDropTargetNode;
            FVCLDragEffect := LongWord(Result);
            if (ADragMessage = dmDragLeave) and Assigned(FDropTargetNode) then
-@@ -15047,7 +15103,8 @@
+@@ -15047,7 +15104,8 @@
    LeaveStates := [tsHint];
    if [tsWheelPanning, tsWheelScrolling] * FStates = [] then
    begin
@@ -269,7 +295,7 @@ Index: VirtualTrees.pas
      LeaveStates := LeaveStates + [tsScrollPending, tsScrolling];
    end;
    DoStateChange([], LeaveStates);
-@@ -15672,7 +15729,7 @@
+@@ -15672,7 +15730,7 @@
                  if (Shift = [ssCtrlOS]) and not ActAsGrid then
                  begin
                    ScrollIntoView(Node, toCenterScrollIntoView in FOptions.SelectionOptions,
@@ -278,7 +304,7 @@ Index: VirtualTrees.pas
                    if (CharCode = VK_HOME) and not UseRightToLeftAlignment then
                      SetOffsetX(0)
                    else
-@@ -17889,6 +17946,9 @@
+@@ -17889,6 +17947,9 @@
        if (ClientWidth + FEffectiveOffsetX < Integer(FRangeX)) and (X > ClientWidth - Integer(FDefaultNodeHeight)) then
          Include(Result, sdRight);
  
@@ -288,7 +314,7 @@ Index: VirtualTrees.pas
        if (Y < Integer(FDefaultNodeHeight)) and (FOffsetY <> 0) then
          Include(Result, sdUp);
        if (ClientHeight - FOffsetY < Integer(FRangeY)) and (Y > ClientHeight - Integer(FDefaultNodeHeight)) then
-@@ -18437,7 +18497,7 @@
+@@ -18437,7 +18498,7 @@
  
  begin
    if Assigned(FOnDragDrop) then
@@ -297,7 +323,7 @@ Index: VirtualTrees.pas
  end;
  
  //----------------------------------------------------------------------------------------------------------------------
-@@ -18589,7 +18649,7 @@
+@@ -18589,7 +18650,7 @@
        InvalidateNode(FFocusedNode);
        if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
          ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
@@ -306,7 +332,7 @@ Index: VirtualTrees.pas
      end;
  
      // Reset range anchor if necessary.
-@@ -19395,6 +19455,8 @@
+@@ -19395,17 +19456,16 @@
  
  begin
    GetCursorPos(P);
@@ -314,8 +340,12 @@ Index: VirtualTrees.pas
 +    Dec(P.y, FHeader.Height);
    R := ClientRect;
    ClipRect := R;
-   //todo: add MapWindowPoints to LCL??
-@@ -19405,7 +19467,7 @@
+-  //todo: add MapWindowPoints to LCL??
+-  {$ifndef INCOMPLETE_WINAPI}
+-  MapWindowPoints(Handle, 0, R, 2);
+-  {$endif}
++  ClientToScreen(R);
+   InRect := PtInRect(R, P);
    ClientP := ScreenToClient(P);
    Panning := [tsWheelPanning, tsWheelScrolling] * FStates <> [];
  
@@ -324,7 +354,16 @@ Index: VirtualTrees.pas
    begin
      DeltaX := 0;
      DeltaY := 0;
-@@ -21122,7 +21184,7 @@
+@@ -19849,7 +19909,7 @@
+ 
+ begin
+   //{$ifdef DEBUG_VTV}Logger.EnterMethod([lcDrag],'DragOver');{$endif}
+-  if not VTVDragManager.DropTargetHelperSupported and (Source is TBaseVirtualTree) then
++  if Assigned(FDragManager) and not VTVDragManager.DropTargetHelperSupported and (Source is TBaseVirtualTree) then
+   begin
+     Tree := Source as TBaseVirtualTree;
+     ScrollOptions := [suoUpdateNCArea];
+@@ -21122,7 +21182,7 @@
        if NewNode or NewColumn then
        begin
          ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions,
@@ -333,7 +372,7 @@ Index: VirtualTrees.pas
          DoFocusChange(FFocusedNode, FFocusedColumn);
        end;
      end;
-@@ -21820,7 +21882,7 @@
+@@ -21820,7 +21880,7 @@
  
  begin
    if Y < 0 then
@@ -342,7 +381,34 @@ Index: VirtualTrees.pas
  
    AbsolutePos := Y;
    if Relative then
-@@ -24358,6 +24420,12 @@
+@@ -23363,7 +23423,7 @@
+ //----------------------------------------------------------------------------------------------------------------------
+ 
+ function TBaseVirtualTree.SuggestDropEffect(Source: TObject; Shift: TShiftState; const Pt: TPoint;
+-  AllowedEffects: Integer): Integer;
++  AllowedEffects: LongWord): LongWord;
+ 
+ // determines the drop action to take if the drag'n drop operation ends on this tree
+ // Note: Source can be any Delphi object not just a virtual tree
+@@ -23757,7 +23817,7 @@
+ 
+     // Calculate the screen area not covered by the drag image and which needs an update.
+     DragRect := Tree.FDragImage.GetDragImageRect;
+-    MapWindowPoints(0, Handle, DragRect, 2);
++    ScreenToClient(DragRect);
+     DragRegion := CreateRectRgnIndirect(DragRect);
+ 
+     // Start with non-client area if requested.
+@@ -23768,7 +23828,7 @@
+       // Determine the outer rectangle of the entire tree window.
+       GetWindowRect(Handle, NCRect);
+       // Express the tree window rectangle in client coordinates (because RedrawWindow wants them so).
+-      MapWindowPoints(0, Handle, NCRect, 2);
++      ScreenToClient(NCRect);
+       NCRegion := CreateRectRgnIndirect(NCRect);
+       // Determine client rect in screen coordinates and create another region for it.
+       UpdateRegion := CreateRectRgnIndirect(ClientRect);
+@@ -24358,6 +24418,12 @@
    DoCanEdit(Node, Column, Result);
  end;
  
@@ -355,7 +421,22 @@ Index: VirtualTrees.pas
  //----------------------------------------------------------------------------------------------------------------------
  
  procedure TBaseVirtualTree.Clear;
-@@ -26469,6 +26537,22 @@
+@@ -24455,6 +24521,14 @@
+   end;
+ end;
+ 
++procedure TBaseVirtualTree.ClientToScreen(var ARect: TRect);
++var
++  P : TPoint;
++begin
++  P := ClientOrigin;
++  OffsetRect(ARect, P.x, P.y);
++end;
++
+ //----------------------------------------------------------------------------------------------------------------------
+ 
+ function TBaseVirtualTree.CopyTo(Source: PVirtualNode; Tree: TBaseVirtualTree; Mode: TVTNodeAttachMode;
+@@ -26469,6 +26543,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -378,7 +459,7 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns next node in tree, with regard to Node, which is visible.
-@@ -27087,6 +27171,22 @@
+@@ -27087,6 +27177,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -401,7 +482,22 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns the previous node in tree, with regard to Node, which is visible.
-@@ -29272,6 +29372,7 @@
+@@ -29256,6 +29362,14 @@
+   end;
+ end;
+ 
++procedure TBaseVirtualTree.ScreenToClient(var ARect: TRect);
++var
++  P : TPoint;
++begin
++  P := ClientOrigin;
++  OffsetRect(ARect, -P.x, -P.y);
++end;
++
+ //----------------------------------------------------------------------------------------------------------------------
+ 
+ function TBaseVirtualTree.ScrollIntoView(Node: PVirtualNode; Center: Boolean; Horizontally: Boolean = False): Boolean;
+@@ -29272,6 +29386,7 @@
    HScrollBarVisible: Boolean;
    ScrolledVertically,
    ScrolledHorizontally: Boolean;
@@ -409,7 +505,7 @@ Index: VirtualTrees.pas
  
  begin
    //todo: minimize calls to ClientHeight and ClientWidth
-@@ -29316,7 +29417,13 @@
+@@ -29316,7 +29431,13 @@
          if Center then
            SetOffsetY(FOffsetY - R.Bottom + ClientHeight div 2)
          else
@@ -424,7 +520,7 @@ Index: VirtualTrees.pas
          // When scrolling up and the horizontal scroll appears because of the operation
          // then we have to move up the node the horizontal scrollbar's height too
          // in order to avoid that the scroll bar hides the node which we wanted to have in view.
-@@ -29370,10 +29477,13 @@
+@@ -29370,10 +29491,13 @@
    end
    else
    begin
@@ -474,3 +570,89 @@ Index: VTGraphics.pas
 +
  end.
  
+Index: units/win32/virtualpanningwindow.pas
+===================================================================
+--- units/win32/virtualpanningwindow.pas	(revision 2334)
++++ units/win32/virtualpanningwindow.pas	(working copy)
+@@ -38,12 +38,13 @@
+ begin
+   if Msg = WM_PAINT then
+   begin
+-    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
++    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
+     if Assigned(PanningObject) then
+       PanningObject.HandlePaintMessage;
++	Result := 0;
+   end
+   else
+-    DefWindowProc(Window,Msg,WPara,LPara);
++    Result := DefWindowProc(Window,Msg,WPara,LPara);
+ end;
+ 
+ var
+@@ -87,8 +88,7 @@
+   with Position do
+     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
+       32, 32, OwnerHandle, 0, HInstance, nil);
+-  //todo use SetWindowLongPtr later
+-  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
++  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
+   
+   FImage := TBitmap.Create;
+ end;
+Index: units/qt/fakemmsystem.pas
+===================================================================
+--- units/qt/fakemmsystem.pas	(revision 2334)
++++ units/qt/fakemmsystem.pas	(working copy)
+@@ -15,6 +15,9 @@
+ 
+ implementation
+ 
++uses
++  LCLIntf;
++
+ function timeBeginPeriod(x1: DWord): DWord;
+ begin
+ 
+@@ -26,12 +29,8 @@
+ end;
+ 
+ function timeGetTime: DWORD;
+-var
+-  ATime: TSystemTime;
+ begin
+-  //todo: properly implement
+-  GetLocalTime(ATime);
+-  Result := ATime.MilliSecond;
++  Result := GetTickCount;
+ end;
+ 
+ end.
+Index: units/carbon/fakemmsystem.pas
+===================================================================
+--- units/carbon/fakemmsystem.pas	(revision 2334)
++++ units/carbon/fakemmsystem.pas	(working copy)
+@@ -15,6 +15,9 @@
+ 
+ implementation
+ 
++uses
++  LCLIntf;
++
+ function timeBeginPeriod(x1: DWord): DWord;
+ begin
+ 
+@@ -26,12 +29,8 @@
+ end;
+ 
+ function timeGetTime: DWORD;
+-var
+-  ATime: TSystemTime;
+ begin
+-  //todo: properly implement
+-  GetLocalTime(ATime);
+-  Result := ATime.MilliSecond;
++  Result := GetTickCount;
+ end;
+ 
+ end.

@@ -15,6 +15,9 @@ function timeGetTime: DWORD;
 
 implementation
 
+uses
+  LCLIntf;
+
 function timeBeginPeriod(x1: DWord): DWord;
 begin
 
@@ -26,12 +29,8 @@ begin
 end;
 
 function timeGetTime: DWORD;
-var
-  ATime: TSystemTime;
 begin
-  //todo: properly implement
-  GetLocalTime(ATime);
-  Result := ATime.MilliSecond;
+  Result := GetTickCount;
 end;
 
 end.

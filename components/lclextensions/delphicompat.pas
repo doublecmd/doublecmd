@@ -38,7 +38,7 @@ unit DelphiCompat;
 interface
 
 uses
-  LMessages, Types, LCLType, Classes, LCLVersion;
+  LMessages, Types, LCLType, Classes;
 
 const
   //Messages
@@ -68,28 +68,18 @@ type
   TWMMeasureItem = TLMMeasureItem;
   TWMDrawItem = TLMDrawItems;
   
-  //timer
-  TTimerNotify = procedure (TimerId: LongWord) of object;
-
 function BeginDeferWindowPos(nNumWindows: LongInt):THandle;
 function BitBlt(DestDC: HDC; X, Y, Width, Height: Integer; SrcDC: HDC; XSrc, YSrc: Integer; Rop: DWORD): Boolean;
-
-function CF_UNICODETEXT: TClipboardFormat;
 function CopyImage(hImage: THandle; uType:LongWord; cxDesired, cyDesired: LongInt; fuFlags:LongWord):THandle;
 
 function DeferWindowPos(hWinPosInfo, hWnd, hWndInsertAfter:THandle; x, y, cx, cy:longint; uFlags:LongWord):THandle;
-function DrawTextW(hDC: HDC; lpString: PWideChar; nCount: Integer; var lpRect: TRect; uFormat: LongWord): Integer;
 
 function EndDeferWindowPos(hWinPosInfo:THandle):Boolean;
-function ExtTextOutW(DC: HDC; X, Y: Integer; Options: LongInt; Rect: PRect;
-  Str: PWideChar; Count: LongInt; Dx: PInteger): Boolean;
 
 function GdiFlush: Boolean;
 function GetACP:LongWord;
 function GetBkColor(DC:HDC):COLORREF;
-function GetCurrentObject(hdc: HDC; uObjectType: UINT): HGDIOBJ;
-function GetDCEx(hWnd:THandle; hrgnClip:HRGN; flags:DWORD):HDC;
-function GetDoubleClickTime: UINT;
+function GetDCEx(hWnd:HWND; hrgnClip:HRGN; flags:DWORD):HDC;
 function GetKeyboardLayout(dwLayout:DWORD):THandle;
 function GetKeyboardState(lpKeyState:PBYTE):BOOLEAN;
 function GetLocaleInfo(Locale, LCType:LongWord; lpLCData:PChar; cchData:longint):longint;
@@ -98,41 +88,26 @@ function GetTextAlign(hDC:HDC): LongWord;
 function GetTextExtentExPoint(DC: HDC; Str: PChar;
   Count, MaxWidth: Integer; MaxCount, PartialWidths: PInteger;
   var Size: TSize): BOOL;
-function GetTextExtentExPointW(DC: HDC; Str: PWideChar; Count, MaxWidth: Integer;
-  MaxCount, PartialWidths: PInteger; var Size: TSize): BOOL;
 function GetTextExtentPoint32W(DC: HDC; Str: PWideChar; Count: Integer; out Size: TSize): Boolean;
-function GetTextExtentPointW(DC: HDC; Str: PWideChar; Count: Integer; out Size: TSize): Boolean;
-function GetWindowDC(hWnd:THandle):HDC;
+function GetWindowDC(hWnd:HWND):HDC;
 
 function ImageList_DragShowNolock(fShow: Boolean): Boolean;
-function InvertRect(DC: HDC; const lprc: TRECT): Boolean;
 
-function KillTimer(hWnd:THandle; nIDEvent: LongWord):Boolean;
-
-function MapWindowPoints(hWndFrom, hWndTo: HWND; var lpPoints; cPoints: UINT): Integer;
 function MultiByteToWideChar(CodePage, dwFlags:DWORD; lpMultiByteStr:PChar; cchMultiByte:longint; lpWideCharStr:PWideChar;cchWideChar:longint):longint;
 
 function OffsetRgn(hrgn:HRGN; nxOffset, nYOffset:longint):longint;
 
-function RedrawWindow(hWnd:THandle; lprcUpdate:PRECT; hrgnUpdate:HRGN; flags:LongWord): Boolean;
-
 function ScrollDC(DC:HDC; dx:longint; dy:longint; var lprcScroll:TRECT; var lprcClip:TRECT;hrgnUpdate:HRGN; lprcUpdate:PRECT):Boolean;
-function ScrollWindow(hWnd:THandle; XAmount, YAmount:longint;lpRect:PRECT; lpClipRect:PRECT):Boolean;
 function SetBrushOrgEx(DC:HDC; nXOrg, nYOrg:longint; lppt:PPOINT):Boolean;
-function SetTimer(hWnd:THandle; nIDEvent:LongWord; uElapse:LongWord; lpTimerFunc:TTimerNotify): LongWord;
-function SubtractRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): Boolean;
 
-function TextOutW(DC: HDC; X,Y : Integer; Str : PWideChar; Count: Integer) : Boolean;
 function ToAscii(uVirtKey, uScanCode:LongWord; lpKeyState: PByte; lpChar: PWord; uFlags:LongWord): LongInt;
-
-function UpdateWindow(Handle: HWND): Boolean;
 
 implementation
 
 
 uses
 {$i uses.inc}
-  maps, LCLProc, LCLMessageGlue, Controls
+  LCLProc, Controls
   {$ifdef DEBUG_DELPHICOMPAT}
   ,multiloglcl, filechannel
   {$endif}
@@ -151,18 +126,4 @@ var
 
 {$i delphicompat.inc}
 
-initialization
-  FTimerList := TTimerList.Create;
-  {$ifdef DEBUG_DELPHICOMPAT}
-  Logger := TLCLLogger.Create;
-  Logger.Channels.Add(TFileChannel.Create('delphicompat.log'));
-  Logger.ActivateClasses := [lcInfo,lcStack];
-  Logger.MaxStackCount := 3;
-  {$endif}
-
-finalization
-  FTimerList.Free;
-  {$ifdef DEBUG_DELPHICOMPAT}
-  Logger.Free;
-  {$endif}
 end.
