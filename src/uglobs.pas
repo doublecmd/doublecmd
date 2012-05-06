@@ -740,7 +740,9 @@ begin
   gDateTimeFormat := 'dd.mm.yy';
   gCutTextToColWidth := True;
   gShowSystemFiles := False;
-  gListFilesInThread := True;
+  // Under Mac OS X loading file list in separate thread are very very slow
+  // so disable and hide this option under Mac OS X Carbon
+  gListFilesInThread := {$IFDEF LCLCARBON}False{$ELSE}True{$ENDIF};
   gLoadIconsSeparately := True;
   gDelayLoadingTabs := True;
   gHighlightUpdatedFiles := True;
@@ -1231,7 +1233,11 @@ begin
   gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
   gSpaceMovesDown := gIni.ReadBool('Configuration', 'SpaceMovesDown', False);
 
+  {$IFNDEF LCLCARBON}
+  // Under Mac OS X loading file list in separate thread are very very slow
+  // so disable and hide this option under Mac OS X Carbon
   gListFilesInThread := gIni.ReadBool('Configuration', 'ListFilesInThread', gListFilesInThread);
+  {$ENDIF}
   gLoadIconsSeparately := gIni.ReadBool('Configuration', 'LoadIconsSeparately', gLoadIconsSeparately);
 
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
@@ -1408,7 +1414,11 @@ begin
   gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
   gIni.WriteBool('Configuration', 'SpaceMovesDown', gSpaceMovesDown);
 
+  {$IFNDEF LCLCARBON}
+  // Under Mac OS X loading file list in separate thread are very very slow
+  // so disable and hide this option under Mac OS X Carbon
   gIni.WriteBool('Configuration', 'ListFilesInThread', gListFilesInThread);
+  {$ENDIF}
   gIni.WriteBool('Configuration', 'LoadIconsSeparately', gLoadIconsSeparately);
 
   gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
@@ -1599,7 +1609,11 @@ begin
       gDateTimeFormat := GetValue(Node, 'DateTimeFormat', gDateTimeFormat);
       gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
+      {$IFNDEF LCLCARBON}
+      // Under Mac OS X loading file list in separate thread are very very slow
+      // so disable and hide this option under Mac OS X Carbon
       gListFilesInThread := GetValue(Node, 'ListFilesInThread', gListFilesInThread);
+      {$ENDIF}
       gLoadIconsSeparately := GetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
       gDelayLoadingTabs := GetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
       gHighlightUpdatedFiles := GetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
@@ -1958,7 +1972,11 @@ begin
     SetValue(Node, 'DateTimeFormat', gDateTimeFormat);
     SetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
     SetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
+    {$IFNDEF LCLCARBON}
+    // Under Mac OS X loading file list in separate thread are very very slow
+    // so disable and hide this option under Mac OS X Carbon
     SetValue(Node, 'ListFilesInThread', gListFilesInThread);
+    {$ENDIF}
     SetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
     SetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
     SetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
