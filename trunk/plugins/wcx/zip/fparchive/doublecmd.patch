@@ -842,6 +842,274 @@ Index: AbSpanSt.pas
    FImageSize := 0;
  end;
  {------------------------------------------------------------------------------}
+Index: AbTarTyp.pas
+===================================================================
+--- AbTarTyp.pas	(revision 512)
++++ AbTarTyp.pas	(working copy)
+@@ -320,6 +320,7 @@
+     function GetLastModFileTime : Word; override;
+     function GetLastModTimeAsDateTime: TDateTime; override;
+     function GetNativeFileAttributes : LongInt; override;
++    function GetNativeLastModFileTime: Longint; override;
+     function GetUncompressedSize : Int64; override;
+ 
+     procedure SetCompressedSize(const Value : Int64); override;       { Extended Headers }
+@@ -418,7 +419,8 @@
+     FArchReadOnly : Boolean;
+     FArchFormat: TAbTarHeaderFormat;
+   protected
+-    function CreateItem(const FileSpec : string): TAbArchiveItem;
++    function CreateItem(const SourceFileName   : string;
++                        const ArchiveDirectory : string): TAbArchiveItem;
+       override;
+     procedure ExtractItemAt(Index : Integer; const UseName : string);
+       override;
+@@ -457,7 +459,8 @@
+   {$IFDEF MSWINDOWS}
+   Windows, // Fix inline warnings
+   {$ENDIF MSWINDOWS}
+-  Math, RTLConsts, SysUtils, AbCharset, AbVMStrm, AbExcept;
++  Math, RTLConsts, SysUtils, AbVMStrm, AbExcept,
++  DCOSUtils, DCClassesUtf8, DCConvertEncoding;
+ 
+ { ****************** Helper functions Not from Classes Above ***************** }
+ function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
+@@ -678,6 +681,19 @@
+   Result := AbUnixTimeToLocalDateTime(FTarItem.ModTime);
+ end;
+ 
++function TAbTarItem.GetNativeLastModFileTime: Longint;
++{$IFDEF MSWINDOWS}
++var
++  DateTime: TDateTime;
++{$ENDIF}
++begin
++  Result   := Self.ModTime;
++
++{$IFDEF MSWINDOWS}
++  DateTime := AbUnixTimeToLocalDateTime(Result);
++  Result   := AbDateTimeToDosFileDate(DateTime);
++{$ENDIF}
++end;
+ function TAbTarItem.GetLinkName: string;
+ begin
+   Result := FTarItem.LinkName;
+@@ -819,7 +835,7 @@
+       RawFileName := PTarHeader.Name;
+   end; { End not FoundName }
+ 
+-  FTarItem.Name := AbRawBytesToString(RawFileName);
++  FTarItem.Name := CeRawToUtf8(RawFileName);
+ end;
+ 
+ { Extract the file name from the headers }
+@@ -876,7 +892,7 @@
+   if not FoundName then
+     RawLinkName := PHeader.LinkName;
+ 
+-  FTarItem.LinkName := AbRawBytesToString(RawLinkName);
++  FTarItem.LinkName := CeRawToUtf8(RawLinkName);
+ end;
+ 
+ { Return True if CheckSum passes out. }
+@@ -1017,8 +1033,8 @@
+   begin
+     ParseTarHeaders; { Update FTarItem values }
+     FFileName := FTarItem.Name; {FTarHeader.Name;}
+-    FDiskFileName := FileName;
+-    AbUnfixName(FDiskFileName);
++//  FDiskFileName := FileName;
++//  AbUnfixName(FDiskFileName);
+   end;
+   Action := aaNone;
+   Tagged := False;
+@@ -1333,7 +1349,7 @@
+          OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
+ 
+       Add headers to length of new Name Length, update name in file header, update name fields }
+-  RawFileName := AbStringToUnixBytes(Value);
++  RawFileName := CeUtf8ToSys(Value);
+   { In all cases zero out the name fields in the File Header. }
+   if Length(RawFileName) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
+     { Look for long name meta-data headers already in the archive. }
+@@ -1431,8 +1447,8 @@
+ 
+   { Update the inherited file names. }
+   FFileName := FTarItem.Name;
+-  DiskFileName := FFileName;
+-  AbUnfixName(FDiskFileName);
++//DiskFileName := FFileName;
++//AbUnfixName(FDiskFileName); // Don't override DiskFileName
+   FTarItem.Dirty := True;
+ end;
+ 
+@@ -1527,7 +1543,7 @@
+       if old was Long,
+          OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
+       STAR & PAX: And should not yet get here.}
+-  RawLinkName := AbStringToUnixBytes(Value);
++  RawLinkName := CeUtf8ToSys(Value);
+   if Length(RawLinkName) > AB_TAR_NAMESIZE then { Must be null terminated except at 100 char length }
+   begin
+     { Look for long name meta-data headers already in the archive. }
+@@ -1838,16 +1854,19 @@
+   FArchFormat := V7_FORMAT;  // Default for new archives
+ end;
+ 
+-function TAbTarArchive.CreateItem(const FileSpec: string): TAbArchiveItem;
++function TAbTarArchive.CreateItem(const SourceFileName   : string;
++                                  const ArchiveDirectory : string): TAbArchiveItem;
+ var
+   Item : TAbTarItem;
+-  S : String;
+   I: Integer;
++  FullSourceFileName, FullArchiveFileName: String;
+ begin
+   if FArchReadOnly then
+     raise EAbTarBadOp.Create; { Create Item Unsupported in this Archive }
+ 
+-  S := FixName(FileSpec);
++  MakeFullNames(SourceFileName, ArchiveDirectory,
++                FullSourceFileName, FullArchiveFileName);
++
+   Item := TAbTarItem.Create;
+   try
+   //  HeaderFormat = (UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT);
+@@ -1863,7 +1882,7 @@
+       Item.LinkFlag := AB_TAR_LF_NORMAL;
+       Item.Magic := AB_TAR_MAGIC_VAL+AB_TAR_MAGIC_VER;
+     end
+-    else if (FArchFormat = V7_FORMAT) and (Length(S) > 100) then
++    else if (FArchFormat = V7_FORMAT) and (Length(FullArchiveFileName) > 100) then
+       begin { Switch the rep over to GNU so it can have long file names. }
+       FArchFormat := OLDGNU_FORMAT;
+       Item.ArchiveFormat := OLDGNU_FORMAT;
+@@ -1882,9 +1901,10 @@
+ 
+     { Most others are initialized in the .Create }
+     Item.CRC32 := 0;
++
+     { Note this can raise exceptions for file name lengths. }
+-    Item.FileName := FixName(FileSpec);
+-    Item.DiskFileName := ExpandFileName(FileSpec);
++    Item.FileName := FullArchiveFileName;
++    Item.DiskFileName := FullSourceFileName;
+     Item.Action := aaNone;
+   finally
+     Result := Item;
+@@ -1894,7 +1914,7 @@
+ 
+ procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
+ var
+-  OutStream : TFileStream;
++  OutStream : TStream;
+   CurItem : TAbTarItem;
+ begin
+   { Check the index is not out of range. }
+@@ -1914,7 +1934,7 @@
+   if CurItem.IsDirectory then
+     AbCreateDirectory(UseName)
+   else begin
+-    OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
++    OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
+     try
+       try {OutStream}
+         ExtractItemToStreamAt(Index, OutStream);
+@@ -1924,7 +1944,7 @@
+     except
+       if ExceptObject is EAbUserAbort then
+         FStatus := asInvalid;
+-      DeleteFile(UseName);
++      mbDeleteFile(UseName);
+       raise;
+     end;
+   end;
+@@ -2060,7 +2080,7 @@
+     AbStripDrive( lValue );
+ 
+   { check for a leading slash }
+-  if lValue[1] = AbPathDelim then
++  if (Length(lValue) > 0) and (lValue[1] = AbPathDelim) then
+     System.Delete( lValue, 1, 1 );
+ 
+   if soStripPath in StoreOptions then
+@@ -2097,7 +2117,6 @@
+   i              : Integer;
+   NewStream      : TAbVirtualMemoryStream;
+   TempStream     : TStream;
+-  SaveDir        : string;
+   CurItem        : TAbTarItem;
+   AttrEx         : TAbAttrExRec;
+ begin
+@@ -2145,37 +2164,29 @@
+ 
+         aaAdd, aaFreshen, aaReplace: begin
+           try
+-            { it's coming from a file }
+-            GetDir(0, SaveDir);
+-            try {SaveDir}
+-              if (BaseDirectory <> '') then
+-                ChDir(BaseDirectory);
+-              { update metadata }
+-              AbFileGetAttrEx(CurItem.DiskFileName, AttrEx);
+-              CurItem.ExternalFileAttributes := AttrEx.Mode;
+-              CurItem.LastModTimeAsDateTime := AttrEx.Time;
+-              { TODO: uid, gid, uname, gname should be added here }
+-              { TODO: Add support for different types of files here }
+-              if (AttrEx.Mode and AB_FMODE_DIR) <> 0 then begin
+-                CurItem.LinkFlag := AB_TAR_LF_DIR;
+-                CurItem.UncompressedSize := 0;
++            { update metadata }
++            AbFileGetAttrEx(CurItem.DiskFileName, AttrEx);
++            CurItem.ExternalFileAttributes := AttrEx.Mode;
++            CurItem.LastModTimeAsDateTime := AttrEx.Time;
++            { TODO: uid, gid, uname, gname should be added here }
++            { TODO: Add support for different types of files here }
++            if (AttrEx.Mode and AB_FMODE_DIR) <> 0 then begin
++              CurItem.LinkFlag := AB_TAR_LF_DIR;
++              CurItem.UncompressedSize := 0;
++              CurItem.SaveTarHeaderToStream(NewStream);
++            end
++            else begin
++              TempStream := TFileStreamEx.Create(CurItem.DiskFileName,
++                fmOpenRead or fmShareDenyWrite );
++              try { TempStream }
++                CurItem.UncompressedSize := TempStream.Size;
++                CurItem.StreamPosition := NewStream.Position;{ Reset the Stream Pointer. }
+                 CurItem.SaveTarHeaderToStream(NewStream);
+-              end
+-              else begin
+-                TempStream := TFileStream.Create(CurItem.DiskFileName,
+-                  fmOpenRead or fmShareDenyWrite );
+-                try { TempStream }
+-                  CurItem.UncompressedSize := TempStream.Size;
+-                  CurItem.StreamPosition := NewStream.Position;{ Reset the Stream Pointer. }
+-                  CurItem.SaveTarHeaderToStream(NewStream);
+-                  OutTarHelp.WriteArchiveItemSize(TempStream, TempStream.Size);
+-                finally { TempStream }
+-                  TempStream.Free;
+-                end; { TempStream }
+-              end;
+-            finally {SaveDir}
+-              ChDir( SaveDir );
+-            end; {SaveDir}
++                OutTarHelp.WriteArchiveItemSize(TempStream, TempStream.Size);
++              finally { TempStream }
++                TempStream.Free;
++              end; { TempStream }
++            end;
+           except
+             ItemList[i].Action := aaDelete;
+             DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
+@@ -2200,7 +2211,7 @@
+     else begin
+       { need new stream to write }
+       FreeAndNil(FStream);
+-      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
++      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+       FStream.CopyFrom(NewStream, NewStream.Size);
+     end;
+
 Index: AbUnzPrc.pas
 ===================================================================
 --- AbUnzPrc.pas	(revision 512)
