@@ -2536,6 +2536,7 @@ type
     procedure BeginOperation;
     function CalculateSelectionRect(X, Y: Integer): Boolean; virtual;
     function CanAutoScroll: Boolean; virtual;
+    function CanScroll(const ClientMousePos: TPoint): Boolean; virtual;
     function CanShowDragImage: Boolean; virtual;
     procedure Change(Node: PVirtualNode); virtual;
     procedure ChangeScale(M, D: Integer); override;
@@ -19466,7 +19467,7 @@ begin
   ClientP := ScreenToClient(P);
   Panning := [tsWheelPanning, tsWheelScrolling] * FStates <> [];
 
-  if IsMouseSelecting or InRect or Panning then
+  if IsMouseSelecting or InRect or Panning or CanScroll(ClientP) then
   begin
     DeltaX := 0;
     DeltaY := 0;
@@ -24417,6 +24418,12 @@ function TBaseVirtualTree.CanEdit(Node: PVirtualNode; Column: TColumnIndex): Boo
 begin
   Result := (toEditable in FOptions.FMiscOptions) and Enabled and not (toReadOnly in FOptions.FMiscOptions);
   DoCanEdit(Node, Column, Result);
+end;
+
+function TBaseVirtualTree.CanScroll(const ClientMousePos: TPoint): Boolean;
+// Determines whether auto scrolling can occur based on current mouse cursor position.
+begin
+  Result := False;
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
