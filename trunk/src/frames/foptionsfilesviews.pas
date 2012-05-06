@@ -125,7 +125,13 @@ begin
   cbSpaceMovesDown.Checked := gSpaceMovesDown;
   cbDirBrackets.Checked := gDirBrackets;
   cbShowSystemFiles.Checked:= gShowSystemFiles;
+  {$IFDEF LCLCARBON}
+  // Under Mac OS X loading file list in separate thread are very very slow
+  // so disable and hide this option under Mac OS X Carbon
+  cbListFilesInThread.Visible:= False;
+  {$ELSE}
   cbListFilesInThread.Checked:= gListFilesInThread;
+  {$ENDIF}
   cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
   cbDelayLoadingTabs.Checked:= gDelayLoadingTabs;
   cbHighlightUpdatedFiles.Checked:= gHighlightUpdatedFiles;
@@ -179,4 +185,4 @@ begin
 end;
 
 end.
-
+
