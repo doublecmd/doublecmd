@@ -39,6 +39,8 @@ var
   CeUtf8ToSys: function (const Source: String): String;
   CeSysToUtf8: function (const Source: String): String;
 
+function CeRawToUtf8(const Source: String): String;
+
 {$IF DEFINED(MSWINDOWS)}
 function CeTryEncode(const aValue: UnicodeString; aCodePage: Cardinal;
                      aAllowBestFit: Boolean; out aResult: AnsiString): Boolean;
@@ -58,6 +60,69 @@ uses
   Windows
   {$ENDIF}
   ;
+
+function UTF8CharacterStrictLength(P: PAnsiChar): integer;
+begin
+  if p=nil then exit(0);
+  if ord(p^)<%10000000 then begin
+    // regular single byte character
+    exit(1);
+  end
+  else if ord(p^)<%11000000 then begin
+    // invalid single byte character
+    exit(0);
+  end
+  else if ((ord(p^) and %11100000) = %11000000) then begin
+    // should be 2 byte character
+    if (ord(p[1]) and %11000000) = %10000000 then
+      exit(2)
+    else
+      exit(0);
+  end
+  else if ((ord(p^) and %11110000) = %11100000) then begin
+    // should be 3 byte character
+    if ((ord(p[1]) and %11000000) = %10000000)
+    and ((ord(p[2]) and %11000000) = %10000000) then
+      exit(3)
+    else
+      exit(0);
+  end
+  else if ((ord(p^) and %11111000) = %11110000) then begin
+    // should be 4 byte character
+    if ((ord(p[1]) and %11000000) = %10000000)
+    and ((ord(p[2]) and %11000000) = %10000000)
+    and ((ord(p[3]) and %11000000) = %10000000) then
+      exit(4)
+    else
+      exit(0);
+  end else
+    exit(0);
+end;
+
+function CeRawToUtf8(const Source: String): String;
+var
+  P: PAnsiChar;
+  I, L: LongInt;
+begin
+  L:= Length(Source);
+  // Try UTF-8 (this includes ASCII)
+  P:= PAnsiChar(Source);
+  repeat
+    if Ord(P^) < 128 then begin
+      // ASCII
+      if (P^ = #0) and (P - PAnsiChar(Source) >= L) then begin
+        Result:= Source;
+        Exit;
+      end;
+      Inc(P);
+    end else begin
+      I:= UTF8CharacterStrictLength(P);
+      if I = 0 then Break;
+      Inc(P, I);
+    end;
+  until False;
+  Result:= CeSysToUtf8(Source);
+end;
 
 function Dummy(const Source: String): String;
 begin
