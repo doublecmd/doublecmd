@@ -48,6 +48,7 @@ function CeTryDecode(const aValue: AnsiString; aCodePage: Cardinal;
                      out aResult: UnicodeString): Boolean;
 {$ELSEIF DEFINED(UNIX)}
 var
+  SystemEncodingUtf8: Boolean = False;
   SystemLanguage, SystemEncoding: String;
 {$ENDIF}
 
@@ -330,6 +331,8 @@ begin
     WriteLn(Error)
   else
     begin
+      SystemEncodingUtf8:= (CompareText(SystemEncoding, 'UTF-8') = 0) or
+                           (CompareText(SystemEncoding, 'UTF8') = 0);
       if (SystemLanguage = 'be') or (SystemLanguage = 'ru') or
          (SystemLanguage = 'uk') then
       begin
@@ -348,7 +351,7 @@ begin
         CeAnsiToUtf8:= @Ansi2Utf8;
         CeUtf8ToAnsi:= @Utf82Ansi2;
       end;
-      if not ((SystemEncoding = 'UTF8') or (SystemEncoding = 'UTF-8')) then
+      if not SystemEncodingUtf8 then
       begin
         CeUtf8ToSys:= @UTF82Sys;
         CeSysToUtf8:= @Sys2UTF8;
