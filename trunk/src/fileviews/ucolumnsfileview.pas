@@ -37,6 +37,7 @@ type
   protected
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
 
     procedure InitializeWnd; override;
@@ -1710,6 +1711,28 @@ begin
   ColumnsView.FMainControlMouseDown := True;
 
   inherited MouseDown(Button, Shift, X, Y);
+end;
+
+procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
+  procedure Scroll(ScrollCode: SmallInt);
+  var
+    Msg: TLMVScroll;
+  begin
+    Msg.Msg := LM_VSCROLL;
+    Msg.ScrollCode := ScrollCode;
+    Msg.SmallPos := 1; // How many lines scroll
+    Msg.ScrollBar := Handle;
+    Dispatch(Msg);
+  end;
+begin
+  inherited MouseMove(Shift, X, Y);
+  if DragManager.IsDragging or ColumnsView.IsMouseSelecting then
+  begin
+    if Y < DefaultRowHeight then
+      Scroll(SB_LINEUP)
+    else if Y > ClientHeight - DefaultRowHeight then
+      Scroll(SB_LINEDOWN);
+  end;
 end;
 
 function TDrawGridEx.MouseOnGrid(X, Y: LongInt): Boolean;

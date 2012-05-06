@@ -93,6 +93,10 @@ type
     }
     function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; virtual; abstract;
     procedure InitializeDragDropEx(AControl: TWinControl);
+    {en
+       Returns @true if currently selecting with right mouse button.
+    }
+    function IsMouseSelecting: Boolean; inline;
     procedure MainControlDblClick(Sender: TObject);
     procedure MainControlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure MainControlDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
@@ -291,6 +295,11 @@ begin
   if Assigned(FDragDropTarget) then
     FDragDropTarget.RegisterEvents(@OnExDragEnter, @OnExDragOver,
                                    @OnExDrop, @OnExDragLeave);
+end;
+
+function TFileViewWithMainCtrl.IsMouseSelecting: Boolean;
+begin
+  Result := FMainControlMouseDown and (FMainControlLastMouseButton = mbRight);
 end;
 
 procedure TFileViewWithMainCtrl.MainControlDblClick(Sender: TObject);

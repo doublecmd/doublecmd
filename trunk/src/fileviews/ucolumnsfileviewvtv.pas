@@ -47,6 +47,8 @@ type
     procedure SetAllRowsHeights(ARowHeight: Cardinal);
 
   protected
+    function CanAutoScroll: Boolean; override;
+    function DetermineScrollDirections(X, Y: Integer): TScrollDirections; override;
     function DoKeyAction(var CharCode: Word; var Shift: TShiftState): Boolean; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
@@ -1417,6 +1419,11 @@ begin
   Self.Parent := AParent;
 end;
 
+function TColumnsDrawTree.DetermineScrollDirections(X, Y: Integer): TScrollDirections;
+begin
+  Result := inherited DetermineScrollDirections(X, Y) - [sdLeft, sdRight]; // Only scroll up, down.
+end;
+
 function TColumnsDrawTree.DoKeyAction(var CharCode: Word; var Shift: TShiftState): Boolean;
 begin
   Result := CharCode in [VK_HOME, VK_END, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT];
@@ -1445,8 +1452,23 @@ begin
   TextMargin := 0;
   Indent := 0;
   AnimationDuration := 0;
+  AutoScrollDelay := 500; // milliseconds
+  AutoScrollInterval := 100; // milliseconds
 
   UpdateView;
+end;
+
+function TColumnsDrawTree.CanAutoScroll: Boolean;
+begin
+  Result := inherited CanAutoScroll;
+  if Header.States = [] then
+  begin
+    with ColumnsView do
+    begin
+      if IsMouseSelecting then
+        Result := True;
+    end;
+  end;
 end;
 
 procedure TColumnsDrawTree.UpdateView;

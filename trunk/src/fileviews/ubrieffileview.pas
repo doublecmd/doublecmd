@@ -36,6 +36,7 @@ type
     procedure DoOnResize; override;
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MoveSelection; override;
   public
@@ -266,6 +267,28 @@ begin
       if Assigned(OnMouseDown) then
         OnMouseDown(Self, Button, Shift, X, Y);
     end;
+end;
+
+procedure TBriefDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);
+  procedure Scroll(ScrollCode: SmallInt);
+  var
+    Msg: TLMHScroll;
+  begin
+    Msg.Msg := LM_HSCROLL;
+    Msg.ScrollCode := ScrollCode;
+    Msg.SmallPos := 1; // How many lines scroll
+    Msg.ScrollBar := Handle;
+    Dispatch(Msg);
+  end;
+begin
+  inherited MouseMove(Shift, X, Y);
+  if DragManager.IsDragging or BriefView.IsMouseSelecting then
+  begin
+    if X < 25 then
+      Scroll(SB_LINEUP)
+    else if X > ClientWidth - 25 then
+      Scroll(SB_LINEDOWN);
+  end;
 end;
 
 procedure TBriefDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
