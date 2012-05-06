@@ -280,12 +280,12 @@ begin
   Result:= FileName;
   if HostOS in [HOST_MSDOS, HOST_WIN32] then
   begin
-    Result:= OEMToSys(Result);
+    Result:= CeOemToSys(Result);
   end;
   {$IFDEF MSWINDOWS}
   if HostOS in [HOST_UNIX, HOST_MACOS] then
   begin
-    Result:= UTF8ToAnsi(Result);
+    Result:= CeUTF8ToAnsi(Result);
   end;
   {$ENDIF}
 end;
@@ -296,11 +296,11 @@ begin
 {$IFDEF MSWINDOWS}
   if HostOS in [HOST_MSDOS, HOST_WIN32] then
   begin
-    Result:= SysToOEM(Result);
+    Result:= CeSysToOem(Result);
   end;
   if HostOS in [HOST_UNIX, HOST_MACOS] then
   begin
-    Result:= SysToOEM(Result);
+    Result:= CeSysToOem(Result);
   end;
 {$ENDIF}
 end;
