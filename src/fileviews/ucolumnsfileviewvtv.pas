@@ -48,6 +48,7 @@ type
 
   protected
     function CanAutoScroll: Boolean; override;
+    function CanScroll(const ClientMousePos: TPoint): Boolean; override;
     function DetermineScrollDirections(X, Y: Integer): TScrollDirections; override;
     function DoKeyAction(var CharCode: Word; var Shift: TShiftState): Boolean; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
@@ -1469,6 +1470,11 @@ begin
         Result := True;
     end;
   end;
+end;
+
+function TColumnsDrawTree.CanScroll(const ClientMousePos: TPoint): Boolean;
+begin
+  Result := ColumnsView.IsMouseSelecting;
 end;
 
 procedure TColumnsDrawTree.UpdateView;
