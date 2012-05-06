@@ -1071,3 +1071,224 @@ Index: AbZipPrc.pas
    try {UncompressedStream}
      {$IFDEF UNIX}
      Item.ExternalFileAttributes := LongWord(AttrEx.Mode) shl 16 + LongWord(AttrEx.Attr);
+Index: AbZipTyp.pas
+===================================================================
+--- AbZipTyp.pas	(revision 512)
++++ AbZipTyp.pas	(working copy)
+@@ -407,6 +407,7 @@
+     function  GetLastModFileDate : Word; override;
+     function  GetLastModFileTime : Word; override;
+     function  GetNativeFileAttributes : LongInt; override;
++    function  GetNativeLastModFileTime: Longint; override;
+     procedure SetCompressedSize( const Value : Int64 ); override;
+     procedure SetCRC32( const Value : Longint ); override;
+     procedure SetExternalFileAttributes( Value : LongWord ); override;
+@@ -530,8 +531,8 @@
+       override;
+     destructor Destroy;
+       override;
+-    function CreateItem(const FileName : string): TAbArchiveItem;
+-      override;
++    function CreateItem(const SourceFileName   : string;
++                        const ArchiveDirectory : string): TAbArchiveItem; override;
+ 
+   public {properties}
+     property CompressionMethodToUse : TAbZipSupportedMethod
+@@ -624,7 +625,10 @@
+   AbResString,
+   AbExcept,
+   AbVMStrm,
+-  SysUtils;
++  SysUtils,
++  DCOSUtils,
++  DCClassesUtf8,
++  DCConvertEncoding;
+ 
+ function VerifyZip(Strm : TStream) : TAbArchiveType;
+ { determine if stream appears to be in PkZip format }
+@@ -1407,6 +1411,22 @@
+   Result := FItemInfo.FileName;
+ end;
+ { -------------------------------------------------------------------------- }
++function TAbZipItem.GetNativeLastModFileTime: Longint;
++{$IFDEF UNIX}
++var
++  DateTime: TDateTime;
++{$ENDIF}
++begin
++  // Zip stores MS-DOS date/time.
++  LongRec(Result).Hi := LastModFileDate;
++  LongRec(Result).Lo := LastModFileTime;
++
++{$IFDEF UNIX}
++  DateTime := AbDosFileTimeToDateTime(Result);
++  Result   := AbDateTimeToUnixFileTime(DateTime);
++{$ENDIF}
++end;
++{ -------------------------------------------------------------------------- }
+ function TAbZipItem.GetShannonFanoTreeCount : Byte;
+ begin
+   Result := FItemInfo.ShannonFanoTreeCount;
+@@ -1428,37 +1448,50 @@
+   FieldStream: TStream;
+   InfoZipField: PInfoZipUnicodePathRec;
+   UnicodeName: UnicodeString;
+-  UTF8Name: AnsiString;
++  UTF8Name: UTF8String;
+   XceedField: PXceedUnicodePathRec;
++  SystemCode: TAbZipHostOs;
+ begin
+   FItemInfo.LoadFromStream( Stream );
+ 
+   { decode filename (ANSI/OEM/UTF-8) }
+-  if FItemInfo.IsUTF8 or (AbDetectCharSet(FItemInfo.FileName) = csUTF8) then
+-    FFileName := UTF8ToString(FItemInfo.FileName)
++  if FItemInfo.IsUTF8 then
++    FFileName := FItemInfo.FileName
+   else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
+      (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
+      (InfoZipField.Version = 1) and
+      (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
+     SetString(UTF8Name, InfoZipField.UnicodeName,
+       FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
+-    FFileName := UTF8ToString(UTF8Name);
++    FFileName := UTF8Name;
+   end
+   else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
+      (FieldSize > SizeOf(TXceedUnicodePathRec)) and
+      (XceedField.Signature = Ab_XceedUnicodePathSignature) and
+      (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
+     SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
+-    FFileName := string(UnicodeName);
++    FFileName := UTF8Encode(UnicodeName);
+   end
+-  {$IFDEF MSWINDOWS}
+-  else if (GetACP <> GetOEMCP) and ((HostOS = hosDOS) or AbIsOEM(FItemInfo.FileName)) then begin
+-    SetLength(FFileName, Length(FItemInfo.FileName));
+-    OemToCharBuff(PAnsiChar(FItemInfo.FileName), PChar(FFileName), Length(FFileName));
+-  end
+-  {$ENDIF}
+   else
+-    FFileName := string(FItemInfo.FileName);
++  begin
++    SystemCode := HostOS;
++    {$IF DEFINED(MSWINDOWS)}
++    if (GetACP <> GetOEMCP) and (SystemCode = hosDOS) then
++      FFileName := CeOemToUtf8(FItemInfo.FileName)
++    else if (GetACP <> GetOEMCP) and AbTryDecode(FItemInfo.FileName, CP_OEMCP, UnicodeName) then
++      FFileName := UTF8Encode(UnicodeName)
++    else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
++      FFileName := CeAnsiToUtf8(FItemInfo.FileName)
++    else
++    {$ELSEIF DEFINED(LINUX)}
++    if (SystemCode = hosMSDOS) then
++      FFileName := CeOemToUtf8(FItemInfo.FileName)
++    else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
++      FFileName := CeAnsiToUtf8(FItemInfo.FileName)
++    else
++    {$ENDIF}
++      FFileName := FItemInfo.FileName;
++  end;
+ 
+   { read ZIP64 extended header }
+   FUncompressedSize := FItemInfo.UncompressedSize;
+@@ -1586,7 +1619,7 @@
+   {$IFDEF MSWINDOWS}
+   AnsiName : AnsiString;
+   {$ENDIF}
+-  UTF8Name : AnsiString;
++  UTF8Name : UTF8String;
+   FieldSize : Word;
+   I : Integer;
+   InfoZipField : PInfoZipUnicodePathRec;
+@@ -1596,23 +1629,19 @@
+   {$IFDEF MSWINDOWS}
+   FItemInfo.IsUTF8 := False;
+   HostOS := hosDOS;
+-  if AbTryEncode(Value, CP_OEMCP, False, AnsiName) then
++  if AbTryEncode(UTF8Decode(Value), CP_OEMCP, False, AnsiName) then
+     {no-op}
+-  else if (GetACP <> GetOEMCP) and AbTryEncode(Value, CP_ACP, False, AnsiName) then
++  else if (GetACP <> GetOEMCP) and AbTryEncode(UTF8Decode(Value), CP_ACP, False, AnsiName) then
+     HostOS := hosWinNT
+-  else if AbTryEncode(Value, CP_OEMCP, True, AnsiName) then
+-    {no-op}
+-  else if (GetACP <> GetOEMCP) and AbTryEncode(Value, CP_ACP, True, AnsiName) then
+-    HostOS := hosWinNT
+   else
+     FItemInfo.IsUTF8 := True;
+   if FItemInfo.IsUTF8 then
+-    FItemInfo.FileName := Utf8Encode(Value)
++    FItemInfo.FileName := Value
+   else
+     FItemInfo.FileName := AnsiName;
+   {$ENDIF}
+   {$IFDEF UNIX}
+-  FItemInfo.FileName := AnsiString(Value);
++  FItemInfo.FileName := Value;
+   FItemInfo.IsUTF8 := AbSysCharSetIsUTF8;
+   {$ENDIF}
+ 
+@@ -1626,7 +1655,7 @@
+     end;
+ 
+   if UseExtraField then begin
+-    UTF8Name := AnsiToUTF8(Value);
++    UTF8Name := Value;
+     FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
+     GetMem(InfoZipField, FieldSize);
+     try
+@@ -1762,20 +1791,28 @@
+   inherited Destroy;
+ end;
+ { -------------------------------------------------------------------------- }
+-function TAbZipArchive.CreateItem( const FileName : string ): TAbArchiveItem;
++function TAbZipArchive.CreateItem(const SourceFileName   : string;
++                                  const ArchiveDirectory : string): TAbArchiveItem;
+ var
+-  FileSpec : string;
++  FullSourceFileName, FullArchiveFileName: string;
+ begin
+-  FileSpec := FileName;
+   Result := TAbZipItem.Create;
+   with TAbZipItem( Result ) do begin
+     CompressionMethod := cmDeflated;
+     GeneralPurposeBitFlag := 0;
+     CompressedSize := 0;
+     CRC32 := 0;
+-    DiskFileName := ExpandFileName(FileSpec);
+-    FileName := FixName(FileSpec);
+     RelativeOffset := 0;
++
++    MakeFullNames(SourceFileName, ArchiveDirectory,
++                  FullSourceFileName, FullArchiveFileName);
++
++    if mbDirectoryExists(FullSourceFileName) then begin
++      FullSourceFileName := IncludeTrailingPathDelimiter(FullSourceFileName);
++    end;
++
++    Result.FileName     := FullArchiveFileName;
++    Result.DiskFileName := FullSourceFileName;
+   end;
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -1930,8 +1967,8 @@
+     AbStripDots( lValue );
+ 
+   for i := 1 to Length( lValue ) do
+-    if lValue[i] = '\' then
+-      lValue[i] := '/';
++    if lValue[i] = AbDosPathDelim then
++      lValue[i] := AbUnixPathDelim;
+   Result := lValue;
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -1983,7 +2020,7 @@
+         FStatus := asInvalid; //TODO: Status updates are extremely inconsistent
+         raise EAbUserAbort.Create;
+       end;
+-      FStream := TFileStream.Create( ArchiveName, Mode );
++      FStream := TFileStreamEx.Create( ArchiveName, Mode );
+       TailPosition := FindCentralDirectoryTail( FStream );
+     end;
+   end;
