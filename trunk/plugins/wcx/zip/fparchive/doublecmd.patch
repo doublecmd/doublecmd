@@ -732,6 +732,186 @@ Index: AbDfStrm.pas
    end;
  end;
  {--------}
+Index: AbGzTyp.pas
+===================================================================
+--- AbGzTyp.pas	(revision 512)
++++ AbGzTyp.pas	(working copy)
+@@ -140,6 +140,7 @@
+     function GetLastModFileDate : Word; override;
+     function GetLastModFileTime : Word; override;
+     function GetLastModTimeAsDateTime: TDateTime; override;
++    function GetNativeLastModFileTime: Longint; override;
+ 
+     procedure SetExternalFileAttributes( Value : LongWord ); override;
+     procedure SetFileName(const Value : string); override;
+@@ -242,7 +243,8 @@
+     procedure SwapToTar;
+ 
+   protected
+-    function CreateItem(const FileSpec : string): TAbArchiveItem;
++    function CreateItem(const SourceFileName   : string;
++                        const ArchiveDirectory : string): TAbArchiveItem;
+       override;
+     procedure ExtractItemAt(Index : Integer; const UseName : string);
+       override;
+@@ -291,7 +293,8 @@
+   Windows,
+   {$ENDIF}
+   SysUtils,
+-  AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString, AbVMStrm;
++  AbBitBkt, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString,
++  AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
+ 
+ const
+   { Header Signature Values}
+@@ -708,6 +711,20 @@
+   Result := AbUnixTimeToLocalDateTime(FGZHeader.ModTime);
+ end;
+ 
++function TAbGzipItem.GetNativeLastModFileTime: Longint;
++{$IFDEF MSWINDOWS}
++var
++  DateTime: TDateTime;
++{$ENDIF}
++begin
++  Result   := FGZHeader.ModTime;
++
++{$IFDEF MSWINDOWS}
++  DateTime := AbUnixTimeToLocalDateTime(Result);
++  Result   := AbDateTimeToDosFileDate(DateTime);
++{$ENDIF}
++end;
++
+ procedure TAbGzipItem.LoadGzHeaderFromStream(AStream: TStream);
+ var
+   LenW : Word;
+@@ -731,7 +748,7 @@
+   { Get Filename, if any }
+   if HasFileName then begin
+     FRawFileName := ReadCStringInStream(AStream);
+-    FFileName := AbRawBytesToString(FRawFileName)
++    FFileName := CeRawToUtf8(FRawFileName)
+   end
+   else
+     FFileName := 'unknown';
+@@ -804,7 +821,7 @@
+ procedure TAbGzipItem.SetFileName(const Value: string);
+ begin
+   FFileName := Value;
+-  FRawFileName := AbStringToUnixBytes(Value);
++  FRawFileName := CeUtf8ToSys(Value);
+   if Value <> '' then
+     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FNAME
+   else
+@@ -886,25 +903,30 @@
+   FState := gsGzip;
+ end;
+ 
+-function TAbGzipArchive.CreateItem(const FileSpec: string): TAbArchiveItem;
++function TAbGzipArchive.CreateItem(const SourceFileName   : string;
++                                   const ArchiveDirectory : string): TAbArchiveItem;
+ var
+   GzItem : TAbGzipItem;
++  FullSourceFileName, FullArchiveFileName: String;
+ begin
+   if IsGZippedTar and TarAutoHandle then begin
+     SwapToTar;
+-    Result := inherited CreateItem(FileSpec);
++    Result := inherited CreateItem(SourceFileName, ArchiveDirectory);
+   end
+   else begin
+     SwapToGzip;
+     GzItem := TAbGzipItem.Create;
+     try
+-      GzItem.CompressedSize := 0;
+-      GzItem.CRC32 := 0;
+-      GzItem.DiskFileName := ExpandFileName(FileSpec);
+-      GzItem.FileName := FixName(FileSpec);
++      MakeFullNames(SourceFileName, ArchiveDirectory,
++                    FullSourceFileName, FullArchiveFileName);
++
++      GzItem.FileName := FullArchiveFileName;
++      GzItem.DiskFileName := FullSourceFileName;
++
+       Result := GzItem;
+     except
+       Result := nil;
++      raise;
+     end;
+   end;
+ end;
+@@ -921,7 +943,7 @@
+ procedure TAbGzipArchive.ExtractItemAt(Index: Integer;
+   const UseName: string);
+ var
+-  OutStream : TFileStream;
++  OutStream : TStream;
+   CurItem : TAbGzipItem;
+ begin
+   if IsGZippedTar and TarAutoHandle then begin
+@@ -934,7 +956,7 @@
+ 
+     CurItem := TAbGzipItem(ItemList[Index]);
+ 
+-    OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
++    OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
+     try
+       try {OutStream}
+         ExtractItemToStreamAt(Index, OutStream);
+@@ -946,12 +968,12 @@
+     except
+       on E : EAbUserAbort do begin
+         FStatus := asInvalid;
+-        if FileExists(UseName) then
+-          DeleteFile(UseName);
++        if mbFileExists(UseName) then
++          mbDeleteFile(UseName);
+         raise;
+       end else begin
+-        if FileExists(UseName) then
+-          DeleteFile(UseName);
++        if mbFileExists(UseName) then
++          mbDeleteFile(UseName);
+         raise;
+       end;
+     end;
+@@ -1089,7 +1111,6 @@
+   i                   : Integer;
+   NewStream           : TAbVirtualMemoryStream;
+   UncompressedStream  : TStream;
+-  SaveDir             : string;
+   CurItem             : TAbGzipItem;
+ begin
+   {prepare for the try..finally}
+@@ -1154,17 +1175,9 @@
+                   OutGzHelp.WriteArchiveTail;
+                 end
+                 else begin
+-                { it's coming from a file }
+-                  GetDir(0, SaveDir);
+-                  try {SaveDir}
+-                    if (BaseDirectory <> '') then
+-                      ChDir(BaseDirectory);
+-                    CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
+-                    UncompressedStream := TFileStream.Create(CurItem.DiskFileName,
++                  CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
++                  UncompressedStream := TFileStreamEx.Create(CurItem.DiskFileName,
+                       fmOpenRead or fmShareDenyWrite );
+-                  finally {SaveDir}
+-                    ChDir( SaveDir );
+-                  end; {SaveDir}
+ 
+                   try
+                     CurItem.UncompressedSize := UncompressedStream.Size;
+@@ -1197,7 +1210,7 @@
+       { need new stream to write }
+       FreeAndNil(FStream);
+       FGZStream := nil;
+-      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
++      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+       FGZStream := FStream;
+       FStream.CopyFrom(NewStream, NewStream.Size);
+     end;
 Index: AbSelfEx.pas
 ===================================================================
 --- AbSelfEx.pas	(revision 512)
