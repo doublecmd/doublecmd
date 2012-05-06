@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="3">
-    <Name Value="virtualtreeview_package"/>
+  <Package Version="4">
+    <Name Value="virtualtreeview_package_doublecmd"/>
+    <AddToProjectUsesSection Value="True"/>
     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
     <CompilerOptions>
-      <Version Value="10"/>
+      <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
@@ -15,6 +16,17 @@
           <UseAnsiStrings Value="False"/>
         </SyntaxOptions>
       </Parsing>
+      <CodeGeneration>
+        <Checks>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+        </Checks>
+      </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
       <Other>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
