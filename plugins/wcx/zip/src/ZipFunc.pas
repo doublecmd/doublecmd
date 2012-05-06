@@ -91,88 +91,7 @@ var
 implementation
 
 uses
-  SysUtils, ZipConfDlg, IniFiles, AbBrowse, DCConvertEncoding;
-
-{$IFNDEF FPC} // for compiling under Delphi
-Const
-  DirSeparators : set of char = ['/','\'];
-
-Procedure DoDirSeparators (Var FileName : String);
-
-VAr I : longint;
-
-begin
-  For I:=1 to Length(FileName) do
-    If FileName[I] in DirSeparators then
-      FileName[i]:=PathDelim;
-end;
-{$ENDIF}
-
-function ExtractOnlyFileName(const FileName: string): string;
-var
- iDotIndex,
- I: longint;
- sExt : String;
-begin
-  (* Find a dot index *)
-  I := Length(FileName);
-  while (I > 0) and not (FileName[I] in ['.', '/', '\', ':']) do Dec(I);
-  if (I > 0) and (FileName[I] = '.') then
-     begin
-       iDotIndex := I;
-       sExt := Copy(FileName, I, MaxInt);
-     end
-  else
-    begin
-     iDotIndex := MaxInt;
-     sExt := '';
-    end;
-  (* Find file name index *)
-  I := Length(FileName);
-  while (I > 0) and not (FileName[I] in ['/', '\', ':']) do Dec(I);
-  Result := Copy(FileName, I + 1, iDotIndex - I - 1);
-  if sExt = '.tgz' then
-    Result := Result + '.tar';
-end;
-
-{
-  Create file list like "filename1;filename2;filename3"
-  from file list like "filename1#0filename2#0filename3#0#0"
-}
-
-(*
-function MakeFileList(FileList : PAnsiChar) : UTF8String;
-var
-  FileName: AnsiString;
-begin
-  Result := '';
-  while True do
-  begin
-    FileName := AnsiString(FileList);
-    Result := Result + FileName;
-    if (FileList + Length(FileName) + 1)^ = #0 then
-      Break;
-    Result := Result + AbPathSep;
-    Inc(FileList, Length(FileName) + 1);
-  end;
-end;
-
-function MakeFileListW(FileList : PWideChar) : UTF8String;
-var
-  FileName: WideString;
-begin
-  Result := '';
-  while True do
-  begin
-    FileName := WideString(FileList);
-    Result := Result + UTF8Encode(FileName);
-    if (FileList + Length(FileName) + 1)^ = #0 then
-      Break;
-    Result := Result + AbPathSep;
-    Inc(FileList, Length(FileName) + 1);
-  end;
-end;
-*)
+  SysUtils, ZipConfDlg, IniFiles, AbBrowse, DCStrUtils, DCConvertEncoding;
 
 procedure StringToArrayW(src: WideString;
                          pDst: PWideChar;
@@ -832,7 +751,7 @@ end;
 function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall;
 begin
   try
-    Result:= (AbDetermineArcType(SysToUtf8(StrPas(FileName)), atUnknown) <> atUnknown);
+    Result:= (AbDetermineArcType(UTF8Encode(AnsiString(FileName)), atUnknown) <> atUnknown);
   except
     Result := False;
   end;
