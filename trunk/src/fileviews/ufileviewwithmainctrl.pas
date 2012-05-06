@@ -299,7 +299,8 @@ end;
 
 function TFileViewWithMainCtrl.IsMouseSelecting: Boolean;
 begin
-  Result := FMainControlMouseDown and (FMainControlLastMouseButton = mbRight);
+  Result := FMainControlMouseDown and (FMainControlLastMouseButton = mbRight) and
+            gMouseSelectionEnabled and (gMouseSelectionButton = 1);
 end;
 
 procedure TFileViewWithMainCtrl.MainControlDblClick(Sender: TObject);
@@ -549,6 +550,7 @@ begin
           tmContextMenu.Enabled:= True; // start context menu timer
           MarkFile(AFile, FMouseSelectionLastState, False);
           DoSelectionChanged(FileIndex);
+          SetCaptureControl(MainControl);
         end;
       end;
 
@@ -609,8 +611,6 @@ end;
 
 procedure TFileViewWithMainCtrl.MainControlMouseLeave(Sender: TObject);
 begin
-  if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
-    FMainControlMouseDown:= False;
 end;
 
 procedure TFileViewWithMainCtrl.MainControlMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -728,6 +728,9 @@ begin
   // Handle only if button-up was not lifted to finish drag&drop operation.
   if not FMainControlMouseDown then
     Exit;
+
+  if IsMouseSelecting and (GetCaptureControl = MainControl) then
+    SetCaptureControl(nil);
 
   FMainControlMouseDown := False;
 end;
