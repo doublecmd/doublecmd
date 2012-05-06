@@ -621,7 +621,6 @@ uses
   {$ENDIF}
   {$ENDIF}
   Math,
-  AbCharset,
   AbResString,
   AbExcept,
   AbVMStrm,
@@ -1478,7 +1477,7 @@ begin
     {$IF DEFINED(MSWINDOWS)}
     if (GetACP <> GetOEMCP) and (SystemCode = hosDOS) then
       FFileName := CeOemToUtf8(FItemInfo.FileName)
-    else if (GetACP <> GetOEMCP) and AbTryDecode(FItemInfo.FileName, CP_OEMCP, UnicodeName) then
+    else if (GetACP <> GetOEMCP) and CeTryDecode(FItemInfo.FileName, CP_OEMCP, UnicodeName) then
       FFileName := UTF8Encode(UnicodeName)
     else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
       FFileName := CeAnsiToUtf8(FItemInfo.FileName)
@@ -1629,9 +1628,9 @@ begin
   {$IFDEF MSWINDOWS}
   FItemInfo.IsUTF8 := False;
   HostOS := hosDOS;
-  if AbTryEncode(UTF8Decode(Value), CP_OEMCP, False, AnsiName) then
+  if CeTryEncode(UTF8Decode(Value), CP_OEMCP, False, AnsiName) then
     {no-op}
-  else if (GetACP <> GetOEMCP) and AbTryEncode(UTF8Decode(Value), CP_ACP, False, AnsiName) then
+  else if (GetACP <> GetOEMCP) and CeTryEncode(UTF8Decode(Value), CP_ACP, False, AnsiName) then
     HostOS := hosWinNT
   else
     FItemInfo.IsUTF8 := True;
@@ -1642,7 +1641,7 @@ begin
   {$ENDIF}
   {$IFDEF UNIX}
   FItemInfo.FileName := Value;
-  FItemInfo.IsUTF8 := AbSysCharSetIsUTF8;
+  FItemInfo.IsUTF8 := SystemEncodingUtf8;
   {$ENDIF}
 
   UseExtraField := False;
@@ -2339,7 +2338,7 @@ begin
         if FOwnsStream then begin
           {need new stream to write}
           FreeAndNil(FStream);
-          FStream := TFileStream.Create(FArchiveName,
+          FStream := TFileStreamEx.Create(FArchiveName,
             fmOpenReadWrite or fmShareDenyWrite);
         end;
         FStream.Size := 0;
