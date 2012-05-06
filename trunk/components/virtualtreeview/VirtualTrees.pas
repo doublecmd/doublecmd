@@ -2746,7 +2746,7 @@ type
     procedure StartWheelPanning(const Position: TPoint); virtual;
     procedure StopWheelPanning; virtual;
     procedure StructureChange(Node: PVirtualNode; Reason: TChangeReason); virtual;
-    function SuggestDropEffect(Source: TObject; Shift: TShiftState; const Pt: TPoint; AllowedEffects: Integer): Integer; virtual;
+    function SuggestDropEffect(Source: TObject; Shift: TShiftState; const Pt: TPoint; AllowedEffects: LongWord): LongWord; virtual;
     procedure ToggleSelection(StartNode, EndNode: PVirtualNode); virtual;
     procedure UnselectNodes(StartNode, EndNode: PVirtualNode); virtual;
     //lcl
@@ -2951,6 +2951,7 @@ type
     procedure Clear; virtual;
     procedure ClearChecked;
     procedure ClearSelection;
+    procedure ClientToScreen(var ARect: TRect); overload;
     function CopyTo(Source: PVirtualNode; Tree: TBaseVirtualTree; Mode: TVTNodeAttachMode;
       ChildrenOnly: Boolean): PVirtualNode; overload;
     function CopyTo(Source, Target: PVirtualNode; Mode: TVTNodeAttachMode;
@@ -3074,6 +3075,7 @@ type
     procedure ResetNode(Node: PVirtualNode); virtual;
     procedure SaveToFile(const FileName: TFileName);
     procedure SaveToStream(Stream: TStream; Node: PVirtualNode = nil); virtual;
+    procedure ScreenToClient(var ARect: TRect); overload;
     function ScrollIntoView(Node: PVirtualNode; Center: Boolean; Horizontally: Boolean = False): Boolean; overload;
     function ScrollIntoView(Column: TColumnIndex; Center: Boolean): Boolean; overload;
     procedure SelectAll(VisibleOnly: Boolean);
@@ -6063,7 +6065,7 @@ begin
   if Visible then
   begin
     // Create the minimum rectangle to be recaptured.
-    MapWindowPoints(Tree.Handle, 0, R, 2);
+    Tree.ClientToScreen(R);
     DragRect := GetDragImageRect;
     IntersectRect(R, R, DragRect);
 
@@ -6074,7 +6076,7 @@ begin
     PaintTarget.Y := R.Top - DragRect.Top;
 
     // The source rectangle is determined by the offsets in the tree.
-    MapWindowPoints(0, Tree.Handle, R, 2);
+    Tree.ScreenToClient(R);
     OffsetRect(R, -Tree.FOffsetX, -Tree.FOffsetY);
 
     // Finally let the tree paint the relevant part and upate the drag image on screen.
@@ -10617,10 +10619,9 @@ begin
     // Current position of the owner in screen coordinates.
     GetWindowRect(Treeview.Handle, RW);
 
-    {$ifndef INCOMPLETE_WINAPI}
     // Convert to client coordinates.
-    MapWindowPoints(0, Treeview.Handle, RW, 2);
-    {$endif}
+    Treeview.ScreenToClient(RW);
+
     // Consider the header within this rectangle.
     OffsetRect(R, RW.Left, RW.Top);
     Result := PtInRect(R, P);
@@ -19459,10 +19460,7 @@ begin
     Dec(P.y, FHeader.Height);
   R := ClientRect;
   ClipRect := R;
-  //todo: add MapWindowPoints to LCL??
-  {$ifndef INCOMPLETE_WINAPI}
-  MapWindowPoints(Handle, 0, R, 2);
-  {$endif}
+  ClientToScreen(R);
   InRect := PtInRect(R, P);
   ClientP := ScreenToClient(P);
   Panning := [tsWheelPanning, tsWheelScrolling] * FStates <> [];
@@ -19911,7 +19909,7 @@ var
 
 begin
   //{$ifdef DEBUG_VTV}Logger.EnterMethod([lcDrag],'DragOver');{$endif}
-  if not VTVDragManager.DropTargetHelperSupported and (Source is TBaseVirtualTree) then
+  if Assigned(FDragManager) and not VTVDragManager.DropTargetHelperSupported and (Source is TBaseVirtualTree) then
   begin
     Tree := Source as TBaseVirtualTree;
     ScrollOptions := [suoUpdateNCArea];
@@ -23425,7 +23423,7 @@ end;
 //----------------------------------------------------------------------------------------------------------------------
 
 function TBaseVirtualTree.SuggestDropEffect(Source: TObject; Shift: TShiftState; const Pt: TPoint;
-  AllowedEffects: Integer): Integer;
+  AllowedEffects: LongWord): LongWord;
 
 // determines the drop action to take if the drag'n drop operation ends on this tree
 // Note: Source can be any Delphi object not just a virtual tree
@@ -23819,7 +23817,7 @@ begin
 
     // Calculate the screen area not covered by the drag image and which needs an update.
     DragRect := Tree.FDragImage.GetDragImageRect;
-    MapWindowPoints(0, Handle, DragRect, 2);
+    ScreenToClient(DragRect);
     DragRegion := CreateRectRgnIndirect(DragRect);
 
     // Start with non-client area if requested.
@@ -23830,7 +23828,7 @@ begin
       // Determine the outer rectangle of the entire tree window.
       GetWindowRect(Handle, NCRect);
       // Express the tree window rectangle in client coordinates (because RedrawWindow wants them so).
-      MapWindowPoints(0, Handle, NCRect, 2);
+      ScreenToClient(NCRect);
       NCRegion := CreateRectRgnIndirect(NCRect);
       // Determine client rect in screen coordinates and create another region for it.
       UpdateRegion := CreateRectRgnIndirect(ClientRect);
@@ -24521,6 +24519,14 @@ begin
     InternalClearSelection;
     Change(nil);
   end;
+end;
+
+procedure TBaseVirtualTree.ClientToScreen(var ARect: TRect);
+var
+  P : TPoint;
+begin
+  P := ClientOrigin;
+  OffsetRect(ARect, P.x, P.y);
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -29354,6 +29360,14 @@ begin
     Stream.WriteBuffer(Count, SizeOf(Count));
     WriteNode(Stream, Node);
   end;
+end;
+
+procedure TBaseVirtualTree.ScreenToClient(var ARect: TRect);
+var
+  P : TPoint;
+begin
+  P := ClientOrigin;
+  OffsetRect(ARect, -P.x, -P.y);
 end;
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -31,13 +31,9 @@
 
 }
 
-{$define HAS_INVERTRECT}
-{$define HAS_DRAWTEXTW}
-{$define HAS_GETCURRENTOBJECT}
 {$define HAS_GETBKCOLOR}
 {$define HAS_GETTEXTEXTENTEXPOINT}
 {$define HAS_DRAWFRAMECONTROL}
-{$define HAS_SCROLLWINDOW}
 
 {$i ../generic/stubs.inc}
 {$i ../generic/independentfunctions.inc}
@@ -55,50 +51,12 @@ begin
   Result := LCLIntf.DrawFrameControl(DC, Rect, uType, uState);
 end;
 
-function DrawTextW(hDC: HDC; lpString: PWideChar; nCount: Integer; var lpRect: TRect; uFormat: LongWord): Integer;
-var
-  TempStr: UTF8String;
-  TempRect: TRect;
-  TextHeight: Integer;
-  TM: TTextMetric;
-begin
-  //Logger.Send('DrawTextW');
-  TempRect := lpRect;
-  //fix position under gtk (lcl bug 8565)
-  if (uFormat and DT_VCENTER) > 0 then
-  begin
-    GetTextMetrics(hDC, TM);
-    //gtk overestimate height
-    TextHeight := TM.tmHeight - 2;
-    TempRect.Top := (TempRect.Top + TempRect.Bottom - TextHeight) div 2;
-  end;
-  TempStr := UTF8Encode(WideString(lpString));
-  Result := DrawText(hDC, PChar(TempStr), GetUTF8ByteCount(TempStr, nCount),
-    TempRect, uFormat);
-  //Logger.Send('Rect',TempRect);
-end;
-
 function GetBkColor(DC:HDC):COLORREF;
 begin
   if GTKWidgetSet.IsValidDC(DC) then
     Result := TGtkDeviceContext(DC).CurrentBackColor.ColorRef
   else
     Result := CLR_INVALID;
-end;
-
-function GetCurrentObject(hdc: HDC; uObjectType: UINT): HGDIOBJ;
-begin
-  Result := 0;
-  if GTKWidgetSet.IsValidDC(hdc) then
-  with TGtkDeviceContext(hdc) do
-  begin
-    case uObjectType of
-      OBJ_BITMAP: Result := HGDIOBJ(CurrentBitmap);
-      OBJ_BRUSH: Result := HGDIOBJ(CurrentBrush);
-      OBJ_FONT: Result := HGDIOBJ(CurrentFont);
-      OBJ_PEN: Result := HGDIOBJ(CurrentPen);
-    end;
-  end;
 end;
 
 function GetTextExtentExPoint(DC: HDC; Str: PChar; Count, MaxWidth: Integer;
@@ -158,179 +116,3 @@ begin
     end;
   end;
 end;
-
-function InvertRect(DC: HDC; const lprc: TRect): Boolean;
-var
-  DCOrigin: TPoint;
-  Values: TGdkGCValues;
-begin
-  //todo: see the windows result when rect is invalid
-  Result := GTKWidgetSet.IsValidDC(DC) and (lprc.Bottom > lprc.Top)
-    and (lprc.Right > lprc.Left);
-  if Result then
-  begin
-    with TGtkDeviceContext(DC) do
-    begin
-      DCOrigin := Offset;
-      //todo: see if is necessary store old function
-      gdk_gc_get_values(GC, @Values);
-      gdk_gc_set_function(GC,GDK_INVERT);
-      gdk_draw_rectangle(Drawable,GC,1,
-        DCOrigin.X + lprc.Left, DCOrigin.Y + lprc.Top,
-        lprc.Right - lprc.Left, lprc.Bottom - lprc.Top);
-      gdk_gc_set_function(GC,Values.thefunction);
-    end;
-  end;
-end;
-
-function ScrollWindow(hWnd:THandle; XAmount, YAmount:longint;lpRect:PRECT; lpClipRect:PRECT):Boolean;
-begin
-  //gtk implementation does nothing if lpRect and lpClipRect are not nil
-  Result := LCLIntf.ScrollWindowEx(hWnd, XAmount, YAmount, nil, nil, 0, nil, SW_INVALIDATE);
-end;
-
-var
-  CachedUnicodeFormat: TClipboardFormat;
-  
-function CF_UNICODETEXT: TClipboardFormat;
-begin
-  //todo: see what mime type gtk expects for utf16
-  if CachedUnicodeFormat = 0 then
-    CachedUnicodeFormat:= gdk_atom_intern('text/utf16',GdkFalse);
-  Result := CachedUnicodeFormat;
-end;
-
-type
-  TTimerRecord = record
-    Control: TControl;
-    Notify: TTimerNotify;
-    Id: LongWord;
-    TimerHandle: guint;
-  end;
-  PTimerRecord = ^TTimerRecord;
-
-  { TTimerList }
-
-  TTimerList = class
-  private
-    FList: TMap;
-  public
-    constructor Create;
-    destructor Destroy; override;
-    function Add(hWnd: THandle; ID: LongWord; NotifyFunc: TTimerNotify; WinControl: TControl):PTimerRecord;
-    function GetTimerInfo(Handle: hWnd; idEvent:LongWord; out TimerInfo: TTimerRecord):Boolean;
-    function GetTimerInfoPtr(Handle: hWnd; idEvent:LongWord): PTimerRecord;
-  end;
-
-var
-  FTimerList: TTimerList;
-
-function MakeQWord(d1, d2: dword): QWord; inline;
-begin
-  Result:=(QWord(d2) shl 32) or d1;
-end;
-
-{ TTimerList }
-
-constructor TTimerList.Create;
-begin
-  //todo: see 64bit (itu16??)
-  FList:=TMap.Create(itu8,SizeOf(TTimerRecord));
-end;
-
-destructor TTimerList.Destroy;
-begin
-  FList.Destroy;
-  inherited Destroy;
-end;
-
-function TTimerList.Add(hWnd: THandle; ID: LongWord; NotifyFunc: TTimerNotify; WinControl: TControl):PTimerRecord;
-var
-  AID: QWord;
-  ATimerRec: TTimerRecord;
-begin
-  ATimerRec.Notify := NotifyFunc;
-  ATimerRec.Control := WinControl;
-  ATimerRec.Id := ID;
-  AId:=MakeQWord(hWnd,ID);
-  with FList do
-  begin
-    if HasId(AID) then
-      SetData(AID, ATimerRec)
-    else
-      Add(AID, ATimerRec);
-    Result := GetDataPtr(AID);
-  end;
-end;
-
-function TTimerList.GetTimerInfo(Handle: hWnd; idEvent: LongWord; out
-  TimerInfo: TTimerRecord): Boolean;
-begin
-  Result:= FList.GetData(MakeQWord(Handle,idEvent),TimerInfo);
-end;
-
-function TTimerList.GetTimerInfoPtr(Handle: hWnd; idEvent: LongWord
-  ): PTimerRecord;
-begin
-  Result := FList.GetDataPtr(MakeQWord(Handle,idEvent));
-end;
-
-function gtkTimerCB(Data: gPointer): {$IFDEF Gtk2}gBoolean{$ELSE}gint{$ENDIF}; cdecl;
-begin
-  Result := GdkFalse;  // assume: timer will stop
-  with PTimerRecord(Data)^ do
-  begin
-    //DebugLn('gtkTimerCalled for TimerHandle: %d',[TimerHandle]);
-    if TimerHandle <> 0 then
-    begin
-      if Notify <> nil then
-      begin
-        Notify(Id);
-        Result := GdkTrue;
-      end
-      else
-      begin
-        if Control <> nil then
-        begin
-          LCLSendTimerMsg(Control,Id,0);
-          Result := GdkTrue;
-        end;
-      end;
-    end;
-  end;
-end;
-
-function SetTimer(hWnd:THandle; nIDEvent:LongWord; uElapse:LongWord; lpTimerFunc:TTimerNotify):LongWord;
-var
-  TimerInfo: PTimerRecord;
-  Control: TControl;
-begin
-  //todo: properly set Result
-  //todo: make a custom GetLCLObject
-  if hWnd <> 0 then
-    Control := TControl(GetLCLObject(PGtkWidget(hWnd)))
-  else
-    Control := nil;
-  TimerInfo := FTimerList.Add(hWnd, nIDEvent, lpTimerFunc, Control);
-  TimerInfo^.TimerHandle := gtk_timeout_add(uElapse, @gtkTimerCB, TimerInfo);
-  //DebugLn('SetTimer HWnd: %d ID: %d TimerHandle: %d',[hWnd,nIDEvent,TimerInfo^.TimerHandle]);
-end;
-
-function KillTimer(hWnd:THandle; nIDEvent: LongWord):Boolean;
-var
-  TimerInfo: PTimerRecord;
-begin
-  TimerInfo := FTimerList.GetTimerInfoPtr(hWnd,nIDEvent);
-  if TimerInfo <> nil then
-  begin
-    //DebugLn('KillTimer HWnd: %d ID: %d TimerHandle: %d',[hWnd,nIDEvent,TimerInfo^.TimerHandle]);
-    gtk_timeout_remove(TimerInfo^.TimerHandle);
-    //next time gtkTimerCB be called the timeout will be destroied automatically
-    //todo: see if is really necessary to set TimerHandle to 0 and check in gtkTimerCB
-    TimerInfo^.TimerHandle := 0;
-  end;
-  //else
-  //  DebugLn('KillTimer Could not find the timer info of HWnd: %d ID: %d',[hWnd,nIDEvent]);
-end;
-
-

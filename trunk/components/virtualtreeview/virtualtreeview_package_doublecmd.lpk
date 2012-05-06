@@ -70,7 +70,7 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="lclextensions_package"/>
+        <PackageName Value="lclextensions_package_doublecmd"/>
       </Item1>
       <Item2>
         <PackageName Value="LCL"/>

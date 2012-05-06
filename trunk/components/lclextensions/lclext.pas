@@ -39,13 +39,7 @@ interface
 uses
   Classes, SysUtils, LCLType, Graphics;
 
-function CreateBitmapMask(BitmapDC: HDC; Width, Height: Integer; TransparentColor: TColor): HBITMAP;
-
 function DirectMaskBlt(DestDC: HDC; X, Y, Width, Height: Integer; SrcDC: HDC; XSrc, YSrc: Integer; Mask: HBITMAP): Boolean;
-
-function OptimalPixelFormat: TPixelFormat;
-
-function OSSupportsUTF16: Boolean;
 
 implementation
 
