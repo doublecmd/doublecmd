@@ -2198,8 +2198,10 @@ msgid "Show context menu"
 msgstr "Zobrazit kontextovou nabídku"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
-msgstr "Kopírovat F5"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
+msgstr "Kopírovat"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2231,9 +2233,11 @@ msgid "Cu&t"
 msgstr "Vyjmout"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
-msgstr "Vymazat F8"
+msgid "Delete"
+msgstr "Vymazat"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2246,8 +2250,10 @@ msgid "Directory &Hotlist"
 msgstr "&Rychlé adresáře"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
-msgstr "Uprav F4"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
+msgstr "Uprav"
 
 #: tfrmmain.acteditcomment.caption
 #| msgid "Edit comment..."
@@ -2347,8 +2353,10 @@ msgid "&Load Selection from File..."
 msgstr "&Načíst výběr ze souboru..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
-msgstr "Nový adr. F7"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
+msgstr "Nový adr."
 
 #: tfrmmain.actmarkcurrentextension.caption
 #| msgid "Select all with same extension"
@@ -2489,8 +2497,10 @@ msgid "&Remove Tab"
 msgstr "Odst&ranit záložku"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
-msgstr "Přesun F6"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
+msgstr "Přesun"
 
 #: tfrmmain.actrenamenoask.caption
 msgid "Move/Rename files without asking for confirmation"
@@ -2581,9 +2591,11 @@ msgid "Show command line history"
 msgstr "Zobrazit historii příkazového řádku"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
-msgstr "Nabídka F9"
+msgid "Menu"
+msgstr "Nabídka"
 
 #: tfrmmain.actshowsysfiles.caption
 #| msgid "Show hidden/system files"
@@ -2648,8 +2660,10 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Zrušit označení všech se stejnou &příponou"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
-msgstr "Zobraz F3"
+#, fuzzy
+#| msgid "View"
+msgid "View"
+msgstr "Zobraz"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -2673,17 +2687,23 @@ msgid "Wipe"
 msgstr "Otřete"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
-msgstr "Ukončit F10"
+#, fuzzy
+#| msgid "Exit"
+msgid "Exit"
+msgstr "Ukončit"
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
-msgstr "Vymazat F8"
+msgid "Delete"
+msgstr "Vymazat"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
-msgstr "Terminál F9"
+#, fuzzy
+#| msgid "Terminal"
+msgid "Terminal"
+msgstr "Terminál"
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -7963,4 +7983,4 @@ msgstr "Kódování"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nenalezeno!"
-
+

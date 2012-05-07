@@ -1201,7 +1201,7 @@ object frmMain: TfrmMain
       Height = 20
       Top = 0
       Width = 95
-      Caption = 'Delete F8'
+      Caption = 'Delete'
       Flat = True
       NumGlyphs = 0
       OnClick = btnF8Click
@@ -1212,7 +1212,7 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actRunTerm
-      Caption = 'Terminal F9'
+      Caption = 'Terminal'
       Flat = True
       NumGlyphs = 0
     end
@@ -1222,7 +1222,7 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actExit
-      Caption = 'Exit F10'
+      Caption = 'Exit'
       Flat = True
       NumGlyphs = 0
     end
@@ -1552,37 +1552,37 @@ object frmMain: TfrmMain
     end
     object actView: TAction
       Category = 'Classic'
-      Caption = 'View F3'
+      Caption = 'View'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actEdit: TAction
       Category = 'Classic'
-      Caption = 'Edit F4'
+      Caption = 'Edit'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCopy: TAction
       Category = 'Classic'
-      Caption = 'Copy F5'
+      Caption = 'Copy'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRename: TAction
       Category = 'Classic'
-      Caption = 'Move F6'
+      Caption = 'Move'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMakeDir: TAction
       Category = 'Classic'
-      Caption = 'MakeDir F7'
+      Caption = 'MakeDir'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDelete: TAction
       Category = 'Classic'
-      Caption = 'Delete F8'
+      Caption = 'Delete'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1613,7 +1613,7 @@ object frmMain: TfrmMain
     end
     object actShowMainMenu: TAction
       Category = 'Classic'
-      Caption = 'Menu F9'
+      Caption = 'Menu'
       HelpType = htKeyword
       OnExecute = actExecute
     end

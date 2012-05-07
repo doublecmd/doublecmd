@@ -2180,7 +2180,9 @@ msgid "Show context menu"
 msgstr "Pokaži vsebinski meni"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
 msgstr "F5 Kopiraj"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
@@ -2212,8 +2214,10 @@ msgid "Cu&t"
 msgstr "I&zreži"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
+msgid "Delete"
 msgstr "F8 Izbriši"
 
 #: tfrmmain.actdirhistory.caption
@@ -2226,7 +2230,9 @@ msgid "Directory &Hotlist"
 msgstr "Seznam &hitrih map"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
 msgstr "F4 Uredi"
 
 #: tfrmmain.acteditcomment.caption
@@ -2317,7 +2323,9 @@ msgid "&Load Selection from File..."
 msgstr "&Naloži izbor iz datoteke ..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
 msgstr "F7 Nova mapa"
 
 #: tfrmmain.actmarkcurrentextension.caption
@@ -2444,7 +2452,9 @@ msgid "&Remove Tab"
 msgstr "&Odstrani zavihek"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
 msgstr "F6 Premakni"
 
 #: tfrmmain.actrenamenoask.caption
@@ -2532,8 +2542,10 @@ msgid "Show command line history"
 msgstr "Pokaži zgodovino ukazne vrstice"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
+msgid "Menu"
 msgstr "F9 Meni"
 
 #: tfrmmain.actshowsysfiles.caption
@@ -2591,7 +2603,9 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Odstrani izbor vse&h datotek z enako pripono"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
+#, fuzzy
+#| msgid "View"
+msgid "View"
 msgstr "F3 Poglej"
 
 #: tfrmmain.actviewhistory.caption
@@ -2615,16 +2629,22 @@ msgid "Wipe"
 msgstr "Neobnovljivo izbriši"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
+#, fuzzy
+#| msgid "Exit"
+msgid "Exit"
 msgstr "F10 Končaj"
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
+msgid "Delete"
 msgstr "F8 Izbriši"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
+#, fuzzy
+#| msgid "Terminal"
+msgid "Terminal"
 msgstr "F9 Terminal"
 
 #: tfrmmain.btnleftdirectoryhotlist.caption

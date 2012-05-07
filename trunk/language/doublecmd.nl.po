@@ -2203,8 +2203,10 @@ msgid "Show context menu"
 msgstr "Toon context menu"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
-msgstr "Kopiëer F5"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
+msgstr "Kopiëer"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2235,9 +2237,11 @@ msgid "Cu&t"
 msgstr "Knippen"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
-msgstr "Verwijder F8"
+msgid "Delete"
+msgstr "Verwijder"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2251,8 +2255,10 @@ msgid "Directory &Hotlist"
 msgstr "Directory &hotlist"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
-msgstr "Edit F4"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
+msgstr "Edit"
 
 #: tfrmmain.acteditcomment.caption
 #, fuzzy
@@ -2362,8 +2368,10 @@ msgid "&Load Selection from File..."
 msgstr ""
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
-msgstr "Maak Map F7"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
+msgstr "Maak Map"
 
 #: tfrmmain.actmarkcurrentextension.caption
 #, fuzzy
@@ -2519,8 +2527,10 @@ msgid "&Remove Tab"
 msgstr "Verwijder tab"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
-msgstr "Verplaats F6"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
+msgstr "Verplaats"
 
 #: tfrmmain.actrenamenoask.caption
 msgid "Move/Rename files without asking for confirmation"
@@ -2615,9 +2625,11 @@ msgid "Show command line history"
 msgstr "Toon commandoregel historie"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
-msgstr "Menu F9"
+msgid "Menu"
+msgstr "Menu"
 
 #: tfrmmain.actshowsysfiles.caption
 #, fuzzy
@@ -2690,8 +2702,10 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Deselecteer alles met dezelfde toevoeging"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
-msgstr "Bekijk F3"
+#, fuzzy
+#| msgid "View"
+msgid "View"
+msgstr "Bekijk"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -2716,17 +2730,21 @@ msgid "Wipe"
 msgstr "Wissen"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
+msgid "Exit"
 msgstr ""
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
-msgstr "Verwijder F8"
+msgid "Delete"
+msgstr "Verwijder"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
-msgstr "Terminal F9"
+#, fuzzy
+#| msgid "Terminal"
+msgid "Terminal"
+msgstr "Terminal"
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -8032,4 +8050,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+

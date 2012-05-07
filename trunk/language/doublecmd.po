@@ -2170,7 +2170,7 @@ msgid "Show context menu"
 msgstr ""
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
+msgid "Copy"
 msgstr ""
 
 #: tfrmmain.actcopyfullnamestoclip.caption
@@ -2203,7 +2203,7 @@ msgstr ""
 
 #: tfrmmain.actdelete.caption
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
+msgid "Delete"
 msgstr ""
 
 #: tfrmmain.actdirhistory.caption
@@ -2216,7 +2216,7 @@ msgid "Directory &Hotlist"
 msgstr ""
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
+msgid "Edit"
 msgstr ""
 
 #: tfrmmain.acteditcomment.caption
@@ -2307,7 +2307,7 @@ msgid "&Load Selection from File..."
 msgstr ""
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
+msgid "MakeDir"
 msgstr ""
 
 #: tfrmmain.actmarkcurrentextension.caption
@@ -2434,7 +2434,7 @@ msgid "&Remove Tab"
 msgstr ""
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
+msgid "Move"
 msgstr ""
 
 #: tfrmmain.actrenamenoask.caption
@@ -2523,7 +2523,7 @@ msgstr ""
 
 #: tfrmmain.actshowmainmenu.caption
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
+msgid "Menu"
 msgstr ""
 
 #: tfrmmain.actshowsysfiles.caption
@@ -2581,7 +2581,7 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr ""
 
 #: tfrmmain.actview.caption
-msgid "View F3"
+msgid "View"
 msgstr ""
 
 #: tfrmmain.actviewhistory.caption
@@ -2605,16 +2605,16 @@ msgid "Wipe"
 msgstr ""
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
+msgid "Exit"
 msgstr ""
 
 #: tfrmmain.btnf8.caption
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
+msgid "Delete"
 msgstr ""
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
+msgid "Terminal"
 msgstr ""
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
@@ -7772,4 +7772,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+

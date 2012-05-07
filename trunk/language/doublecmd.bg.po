@@ -2201,8 +2201,10 @@ msgid "Show context menu"
 msgstr "Показване на изскачащ изборник"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
-msgstr "Презапис F5"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
+msgstr "Презапис"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2235,9 +2237,11 @@ msgid "Cu&t"
 msgstr "Изрязване"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
-msgstr "Итриване F8"
+msgid "Delete"
+msgstr "Итриване"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2251,8 +2255,10 @@ msgid "Directory &Hotlist"
 msgstr "&Бързодостъпни папки"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
-msgstr "Обработка F4"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
+msgstr "Обработка"
 
 #: tfrmmain.acteditcomment.caption
 #, fuzzy
@@ -2363,8 +2369,10 @@ msgid "&Load Selection from File..."
 msgstr "Зареждане на отбелязване от файл"
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
-msgstr "Нова папка F7"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
+msgstr "Нова папка"
 
 #: tfrmmain.actmarkcurrentextension.caption
 #, fuzzy
@@ -2526,8 +2534,10 @@ msgid "&Remove Tab"
 msgstr "Пре&махване на подпрозореца"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
-msgstr "Местене F6"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
+msgstr "Местене"
 
 #: tfrmmain.actrenamenoask.caption
 msgid "Move/Rename files without asking for confirmation"
@@ -2632,9 +2642,11 @@ msgid "Show command line history"
 msgstr "Показване на дневник на реда управление"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
-msgstr "Изборник F9"
+msgid "Menu"
+msgstr "Изборник"
 
 #: tfrmmain.actshowsysfiles.caption
 #, fuzzy
@@ -2709,8 +2721,10 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Снемане на избора на всички със същото разширение"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
-msgstr "Преглед F3"
+#, fuzzy
+#| msgid "View"
+msgid "View"
+msgstr "Преглед"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -2735,17 +2749,23 @@ msgid "Wipe"
 msgstr "Унищожаване"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
-msgstr "Изход F10"
+#, fuzzy
+#| msgid "Exit"
+msgid "Exit"
+msgstr "Изход"
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
-msgstr "Итриване F8"
+msgid "Delete"
+msgstr "Итриване"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
-msgstr "Терминал F9"
+#, fuzzy
+#| msgid "Terminal"
+msgid "Terminal"
+msgstr "Терминал"
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -8046,4 +8066,4 @@ msgstr "Знаков набор"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не е открит!"
-
+

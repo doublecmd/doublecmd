@@ -2223,8 +2223,10 @@ msgid "Show context menu"
 msgstr "컨텍스트 메뉴 보이기"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
-msgstr "F5 복사"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
+msgstr " 복사"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2256,9 +2258,11 @@ msgid "Cu&t"
 msgstr "잘라내기(&T)"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
-msgstr "F8 삭제"
+msgid "Delete"
+msgstr "삭제"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2271,8 +2275,10 @@ msgid "Directory &Hotlist"
 msgstr "폴더 즐겨찾기(&H)"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
-msgstr "F4 편집"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
+msgstr "편집"
 
 #: tfrmmain.acteditcomment.caption
 #, fuzzy
@@ -2374,8 +2380,10 @@ msgid "&Load Selection from File..."
 msgstr "선택목록 파일에서 불러오기(&L)..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
-msgstr "F7 폴더 생성"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
+msgstr "폴더 생성"
 
 #: tfrmmain.actmarkcurrentextension.caption
 #, fuzzy
@@ -2516,8 +2524,10 @@ msgid "&Remove Tab"
 msgstr "탭 제거(&R)"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
-msgstr "F6 이동"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
+msgstr "이동"
 
 #: tfrmmain.actrenamenoask.caption
 msgid "Move/Rename files without asking for confirmation"
@@ -2609,9 +2619,11 @@ msgid "Show command line history"
 msgstr "명령행 히스토리 보이기"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
-msgstr "F9 메뉴"
+msgid "Menu"
+msgstr "메뉴"
 
 #: tfrmmain.actshowsysfiles.caption
 #, fuzzy
@@ -2676,8 +2688,10 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "같은 확장자 모두 해제(&T)"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
-msgstr "F3 보기"
+#, fuzzy
+#| msgid "View"
+msgid "View"
+msgstr "보기"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -2702,17 +2716,23 @@ msgid "Wipe"
 msgstr "반복하여 지우기"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
-msgstr "F10 종료"
+#, fuzzy
+#| msgid "Exit"
+msgid "Exit"
+msgstr "종료"
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
-msgstr "F8 지우기"
+msgid "Delete"
+msgstr "지우기"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
-msgstr "F9 명령프롬프트"
+#, fuzzy
+#| msgid "Terminal"
+msgid "Terminal"
+msgstr "명령프롬프트"
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -8218,4 +8238,4 @@ msgstr "인코딩"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s 를 찾지 못했습니다!"
-
+
