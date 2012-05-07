@@ -699,6 +699,20 @@ var
   CloseQueryResult: Boolean = False;
 {$ENDIF}
 
+var
+  FunctionButtonsCaptions: array[0..7] of record
+                             ACaption: String;
+                             ACommand: String;
+                           end =
+     ((ACaption: ''; ACommand: 'cm_View'),
+      (ACaption: ''; ACommand: 'cm_Edit'),
+      (ACaption: ''; ACommand: 'cm_Copy'),
+      (ACaption: ''; ACommand: 'cm_Rename'),
+      (ACaption: ''; ACommand: 'cm_MakeDir'),
+      (ACaption: ''; ACommand: 'cm_Delete'),
+      (ACaption: ''; ACommand: 'cm_RunTerm'),
+      (ACaption: ''; ACommand: 'cm_Exit'));
+
 function HistoryIndexesToTag(aFileSourceIndex, aPathIndex: Integer): Longint;
 begin
   Result := (aFileSourceIndex << 16) or aPathIndex;
@@ -738,6 +752,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var
   slCommandHistory: TStringListEx;
   HMMainForm: THMForm;
+  I: Integer;
 begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
@@ -751,6 +766,9 @@ begin
   // The text would otherwise be briefly shown before the drive button was updated.
   btnLeftDrive.Caption := '';
   btnRightDrive.Caption := '';
+
+  for I := 0 to pnlKeys.ControlCount - 1 do
+    FunctionButtonsCaptions[I].ACaption := pnlKeys.Controls[I].Caption;
 
   InitPropStorage(Self);
 
@@ -3869,6 +3887,9 @@ procedure TfrmMain.UpdateWindowView;
 
 var
   I: Integer;
+  HMForm: THMForm;
+  FunButton: TSpeedButton;
+  Hotkey: THotkey;
 begin
   DisableAutoSizing;
   try
@@ -4016,9 +4037,21 @@ begin
     begin
       pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
       pnlKeys.Top:= Height * 2;
+      HMForm := HotMan.Forms.Find('Main');
       for I := 0 to pnlKeys.ControlCount - 1 do
+      begin
         if pnlKeys.Controls[I] is TSpeedButton then
-          (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
+        begin
+          FunButton := pnlKeys.Controls[I] as TSpeedButton;
+          FunButton.Flat := gInterfaceFlat;
+          if Assigned(HMForm) then
+          begin
+            Hotkey := HMForm.Hotkeys.FindByCommand(FunctionButtonsCaptions[I].ACommand);
+            if Assigned(Hotkey) then
+              FunButton.Caption := FunctionButtonsCaptions[I].ACaption + ' ' + ShortcutsToText(Hotkey.Shortcuts);
+          end;
+        end;
+      end;
     end;
 
     if FInitializedView then
@@ -5051,4 +5084,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+

@@ -2186,8 +2186,10 @@ msgid "Show context menu"
 msgstr "Показати контекстне меню"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
-msgstr "Копіювати F5"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
+msgstr "Копіювати"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2219,9 +2221,11 @@ msgid "Cu&t"
 msgstr "Ви&різати"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
-msgstr "Видалити F8"
+msgid "Delete"
+msgstr "Видалити"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2234,8 +2238,10 @@ msgid "Directory &Hotlist"
 msgstr "Особистий спис&ок каталогів"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
-msgstr "Редагувати F4"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
+msgstr "Редагувати"
 
 #: tfrmmain.acteditcomment.caption
 #| msgid "Edit comment..."
@@ -2337,8 +2343,10 @@ msgid "&Load Selection from File..."
 msgstr "Завантажити виділенння з ф&айлу..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
-msgstr "Каталог F7"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
+msgstr "Каталог"
 
 #: tfrmmain.actmarkcurrentextension.caption
 #| msgid "Select all with same extension"
@@ -2481,8 +2489,10 @@ msgid "&Remove Tab"
 msgstr "&Видалити вкладку"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
-msgstr "Перемістити F6"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
+msgstr "Перемістити"
 
 #: tfrmmain.actrenamenoask.caption
 msgid "Move/Rename files without asking for confirmation"
@@ -2579,9 +2589,11 @@ msgid "Show command line history"
 msgstr "Історія командного рядка"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
-msgstr "Меню F9"
+msgid "Menu"
+msgstr "Меню"
 
 #: tfrmmain.actshowsysfiles.caption
 #| msgid "Show hidden/system files"
@@ -2647,8 +2659,10 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Зняти виділення з усіх з таким &же розширенням"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
-msgstr "Перегляд F3"
+#, fuzzy
+#| msgid "View"
+msgid "View"
+msgstr "Перегляд"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -2672,17 +2686,23 @@ msgid "Wipe"
 msgstr "Стерти"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
-msgstr "Вихід F10"
+#, fuzzy
+#| msgid "Exit"
+msgid "Exit"
+msgstr "Вихід"
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
-msgstr "Видалити F8"
+msgid "Delete"
+msgstr "Видалити"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
-msgstr "Термінал F9"
+#, fuzzy
+#| msgid "Terminal"
+msgid "Terminal"
+msgstr "Термінал"
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -7957,4 +7977,4 @@ msgstr "Кодування"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не знайдено!"
-
+

@@ -2206,8 +2206,10 @@ msgid "Show context menu"
 msgstr "Mostrar menú contextual"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
-msgstr "Copiar F5"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
+msgstr "Copiar"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2238,9 +2240,11 @@ msgid "Cu&t"
 msgstr "Tallar"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "tfrmmain.actdelete.caption"
-msgid "Delete F8"
-msgstr "Esborrar F8"
+msgid "Delete"
+msgstr "Esborrar"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2254,8 +2258,10 @@ msgid "Directory &Hotlist"
 msgstr "Marcadors"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
-msgstr "Editar F4"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
+msgstr "Editar"
 
 #: tfrmmain.acteditcomment.caption
 msgid "Edit Co&mment..."
@@ -2357,8 +2363,10 @@ msgid "&Load Selection from File..."
 msgstr "Carregar se&lecció des d'Arxiu..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
-msgstr "CrearDir F7"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
+msgstr "CrearDir"
 
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
@@ -2504,8 +2512,10 @@ msgid "&Remove Tab"
 msgstr "Tanca&r pestanya"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
-msgstr "Moure F6"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
+msgstr "Moure"
 
 #: tfrmmain.actrenamenoask.caption
 msgid "Move/Rename files without asking for confirmation"
@@ -2598,9 +2608,11 @@ msgid "Show command line history"
 msgstr "Històrial de linia de commandes"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
-msgstr "Menú F9"
+msgid "Menu"
+msgstr "Menú"
 
 #: tfrmmain.actshowsysfiles.caption
 #, fuzzy
@@ -2671,8 +2683,10 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Deseleccionar Tot amb la mateixa extensió"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
-msgstr "Veure F3"
+#, fuzzy
+#| msgid "View"
+msgid "View"
+msgstr "Veure"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -2695,16 +2709,20 @@ msgid "Wipe"
 msgstr "Destruir"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
-msgstr "Sortir F10"
+#, fuzzy
+#| msgid "Exit"
+msgid "Exit"
+msgstr "Sortir"
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "tfrmmain.btnf8.caption"
-msgid "Delete F8"
-msgstr "Esborrar F8"
+msgid "Delete"
+msgstr "Esborrar"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
+msgid "Terminal"
 msgstr ""
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
@@ -7981,4 +7999,4 @@ msgstr "Codificació"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s no trobat!"
-
+

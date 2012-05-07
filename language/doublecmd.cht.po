@@ -2201,8 +2201,10 @@ msgid "Show context menu"
 msgstr "上下文目錄"
 
 #: tfrmmain.actcopy.caption
-msgid "Copy F5"
-msgstr "複製 F5"
+#, fuzzy
+#| msgid "Copy"
+msgid "Copy"
+msgstr "複製"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2234,9 +2236,11 @@ msgid "Cu&t"
 msgstr "剪下(&t)"
 
 #: tfrmmain.actdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-msgid "Delete F8"
-msgstr "刪除 F8"
+msgid "Delete"
+msgstr "刪除"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2249,8 +2253,10 @@ msgid "Directory &Hotlist"
 msgstr "常用目錄列表 &H"
 
 #: tfrmmain.actedit.caption
-msgid "Edit F4"
-msgstr "編輯 F4"
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit"
+msgstr "編輯"
 
 #: tfrmmain.acteditcomment.caption
 #| msgid "Edit comment..."
@@ -2350,8 +2356,10 @@ msgid "&Load Selection from File..."
 msgstr "從檔案中載入所選擇的資料 (&L)..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir F7"
-msgstr "建立目錄 F7"
+#, fuzzy
+#| msgid "MakeDir"
+msgid "MakeDir"
+msgstr "建立目錄"
 
 #: tfrmmain.actmarkcurrentextension.caption
 #, fuzzy
@@ -2491,8 +2499,10 @@ msgid "&Remove Tab"
 msgstr "關閉分頁 &R"
 
 #: tfrmmain.actrename.caption
-msgid "Move F6"
-msgstr "重新命名/移動 F6"
+#, fuzzy
+#| msgid "Move"
+msgid "Move"
+msgstr "重新命名/移動"
 
 #: tfrmmain.actrenamenoask.caption
 msgid "Move/Rename files without asking for confirmation"
@@ -2581,9 +2591,11 @@ msgid "Show command line history"
 msgstr "顯示歷史命令"
 
 #: tfrmmain.actshowmainmenu.caption
+#, fuzzy
+#| msgid "Menu"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
-msgid "Menu F9"
-msgstr "目錄 F9"
+msgid "Menu"
+msgstr "目錄"
 
 #: tfrmmain.actshowsysfiles.caption
 #| msgid "Show hidden/system files"
@@ -2649,8 +2661,10 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "取消選擇所有相同副檔名"
 
 #: tfrmmain.actview.caption
-msgid "View F3"
-msgstr "查看 F3"
+#, fuzzy
+#| msgid "View"
+msgid "View"
+msgstr "查看"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -2674,17 +2688,23 @@ msgid "Wipe"
 msgstr "擦去"
 
 #: tfrmmain.btnf10.caption
-msgid "Exit F10"
-msgstr "離開 F10"
+#, fuzzy
+#| msgid "Exit"
+msgid "Exit"
+msgstr "離開"
 
 #: tfrmmain.btnf8.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
-msgid "Delete F8"
-msgstr "刪除 F8"
+msgid "Delete"
+msgstr "刪除"
 
 #: tfrmmain.btnf9.caption
-msgid "Terminal F9"
-msgstr "命令列 F9"
+#, fuzzy
+#| msgid "Terminal"
+msgid "Terminal"
+msgstr "命令列"
 
 #: tfrmmain.btnleftdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -7994,4 +8014,4 @@ msgstr "編碼中"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s 沒有找到"
-
+
