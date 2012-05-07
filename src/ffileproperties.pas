@@ -260,6 +260,16 @@ end;
 function TfrmFileProperties.ChangeProperties: Boolean;
 begin
   Result:= True;
+  // First set owner/group because it clears SUID bit.
+  if bPerm then
+  begin
+    if fplchown(PChar(UTF8ToSys(FFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
+                StrToGID(cbxGroups.Text)) <> 0 then
+      begin
+        if MessageDlg(Caption, Format(rsPropsErrChOwn, [FFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
+          Exit(False);
+      end;
+  end;
   if not FFiles[iCurrent].IsLink then
   begin
     if fpchmod(PAnsiChar(UTF8ToSys(FFiles[iCurrent].FullPath)), GetModeFromForm) <> 0 then
@@ -268,13 +278,6 @@ begin
           Exit(False);
       end;
   end;
-  if not bPerm then Exit;
-  if fplchown(PChar(UTF8ToSys(FFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
-              StrToGID(cbxGroups.Text)) <> 0 then
-    begin
-      if MessageDlg(Caption, Format(rsPropsErrChOwn, [FFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
-        Exit(False);
-    end;
 end;
 
 function TfrmFileProperties.CheckIfChangedProperties: Boolean;
