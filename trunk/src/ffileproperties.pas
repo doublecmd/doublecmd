@@ -39,10 +39,10 @@ type
   { TfrmFileProperties }
 
   TfrmFileProperties = class(TForm)
-    btnAll: TBitBtn;
+    btnSetPropertiesToAllFiles: TBitBtn;
     btnClose: TBitBtn;
-    btnOK: TBitBtn;
-    btnSkip: TBitBtn;
+    btnSetProperties: TBitBtn;
+    btnSkipFile: TBitBtn;
     cbExecGroup: TCheckBox;
     cbExecOther: TCheckBox;
     cbExecOwner: TCheckBox;
@@ -96,14 +96,14 @@ type
     tmUpdateFolderSize: TTimer;
     tsProperties: TTabSheet;
     tsAttributes: TTabSheet;
-    procedure btnAllClick(Sender: TObject);
+    procedure btnSetPropertiesToAllFilesClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure cbChangeModeClick(Sender: TObject);
     procedure edtOctalKeyPress(Sender: TObject; var Key: char);
     procedure edtOctalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
-    procedure btnOKClick(Sender: TObject);
-    procedure btnSkipClick(Sender: TObject);
+    procedure btnSetPropertiesClick(Sender: TObject);
+    procedure btnSkipFileClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure tmUpdateFolderSizeTimer(Sender: TObject);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
@@ -228,7 +228,7 @@ begin
   end;
 end;
 
-procedure TfrmFileProperties.btnAllClick(Sender: TObject);
+procedure TfrmFileProperties.btnSetPropertiesToAllFilesClick(Sender: TObject);
 begin
   repeat
     if not ChangeProperties then Exit;
@@ -416,15 +416,15 @@ begin
   ShowFile(0);
 end;
 
-procedure TfrmFileProperties.btnOKClick(Sender: TObject);
+procedure TfrmFileProperties.btnSetPropertiesClick(Sender: TObject);
 begin
   if CheckIfChangedProperties then
     FChangedProperties := True;
   if not ChangeProperties then Exit;
-  btnSkipClick(Self);
+  btnSkipFileClick(Self);
 end;
 
-procedure TfrmFileProperties.btnSkipClick(Sender: TObject);
+procedure TfrmFileProperties.btnSkipFileClick(Sender: TObject);
 begin
   inc(iCurrent);
   if iCurrent >= FFiles.Count then
@@ -477,8 +477,8 @@ end;
 
 procedure TfrmFileProperties.AllowChange(Allow: Boolean);
 begin
-  btnAll.Enabled := Allow;
-  btnOK.Enabled := Allow;
+  btnSetPropertiesToAllFiles.Enabled := Allow;
+  btnSetProperties.Enabled := Allow;
 end;
 
 procedure TfrmFileProperties.StartCalcFolderSize;
