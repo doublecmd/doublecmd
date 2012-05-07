@@ -49,6 +49,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmCopyDlgShow(Sender: TObject);
+    procedure pnlOptionsResize(Sender: TObject);
 
   private
     FCommands: TFormCommands;
@@ -64,6 +65,7 @@ type
     procedure TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
                                     Shift: TShiftState; X, Y: Integer);
     procedure ShowOptions(bShow: Boolean);
+    procedure UpdateSize;
 
     property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
 
@@ -232,6 +234,11 @@ begin
   edtDst.SetFocus;
 end;
 
+procedure TfrmCopyDlg.pnlOptionsResize(Sender: TObject);
+begin
+  UpdateSize;
+end;
+
 procedure TfrmCopyDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -342,9 +349,6 @@ begin
                        pnlSelector.BorderSpacing.Top +
                        pnlSelector.BorderSpacing.Bottom);
 
-  // Set initial size.
-  Self.Height := pnlOptions.Top;
-
   // Operation options.
   if Assigned(FOperationOptionsUIClass) then
   begin
@@ -373,17 +377,17 @@ end;
 
 procedure TfrmCopyDlg.ShowOptions(bShow: Boolean);
 begin
-  if bShow then
-  begin
-    pnlOptions.Visible := True;
+  pnlOptions.Visible := bShow;
+  UpdateSize;
+end;
+
+procedure TfrmCopyDlg.UpdateSize;
+begin
+  if pnlOptions.Visible then
     Self.Height := pnlOptions.Top + pnlOptions.Height +
-                   pnlOptions.BorderSpacing.Top + pnlOptions.BorderSpacing.Bottom;
-  end
+                   pnlOptions.BorderSpacing.Top + pnlOptions.BorderSpacing.Bottom
   else
-  begin
-    pnlOptions.Visible := False;
     Self.Height := pnlOptions.Top;
-  end;
 end;
 
 {$IF FPC_FULLVERSION < 020501}

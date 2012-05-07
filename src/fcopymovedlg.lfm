@@ -252,6 +252,7 @@ object frmCopyDlg: TfrmCopyDlg
     ClientHeight = 103
     ClientWidth = 596
     TabOrder = 3
+    OnResize = pnlOptionsResize
     object grpOptions: TGroupBox
       AnchorSideLeft.Control = pnlOptions
       AnchorSideTop.Control = pnlOptions
