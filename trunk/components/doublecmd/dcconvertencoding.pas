@@ -278,25 +278,25 @@ end;
 function OEM2Sys(const Source: String): String;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingOEM, Encoding);
+  Iconvert(Source, Result, EncodingOEM, SystemEncoding);
 end;
 
 function Sys2OEM(const Source: String): String;
 begin
   Result:= Source;
-  Iconvert(Source, Result, Encoding, EncodingOEM);
+  Iconvert(Source, Result, SystemEncoding, EncodingOEM);
 end;
 
 function Ansi2Sys(const Source: String): String;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingANSI, Encoding);
+  Iconvert(Source, Result, EncodingANSI, SystemEncoding);
 end;
 
 function Sys2Ansi(const Source: String): String;
 begin
   Result:= Source;
-  Iconvert(Source, Result, Encoding, EncodingANSI);
+  Iconvert(Source, Result, SystemEncoding, EncodingANSI);
 end;
 
 function Ansi2Utf8(const Source: String): String;
@@ -349,7 +349,7 @@ begin
         CeAnsiToSys:=  @Ansi2Sys;
         CeSysToAnsi:=  @Sys2Ansi;
         CeAnsiToUtf8:= @Ansi2Utf8;
-        CeUtf8ToAnsi:= @Utf82Ansi2;
+        CeUtf8ToAnsi:= @Utf82Ansi;
       end;
       if not SystemEncodingUtf8 then
       begin
