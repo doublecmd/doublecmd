@@ -138,6 +138,8 @@ begin
 
   if gProcessComments then
     FDescription.Clear;
+
+  FEverythingOK := True;
 end;
 
 procedure TFileSystemWipeOperation.MainExecute;
