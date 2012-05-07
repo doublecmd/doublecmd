@@ -331,9 +331,9 @@ begin
 
     DesktopEntries := GetDesktopEntries(FileNames);
 
-    if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
+    Result := Assigned(DesktopEntries) and (DesktopEntries.Count > 0);
+    if Result then
     begin
-      Result := True;
       miOpenWith := TMenuItem.Create(Self);
       miOpenWith.Caption := rsMnuOpenWith;
       Self.Items.Add(miOpenWith);
