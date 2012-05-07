@@ -1541,7 +1541,7 @@ object frmEditor: TfrmEditor
       Hint = 'Exit'
       ImageIndex = 12
       OnExecute = actFileExitExecute
-      ShortCut = 16472
+      ShortCut = 32856
     end
     object actSaveAll: TAction
       Category = 'File'
