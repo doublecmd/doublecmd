@@ -451,9 +451,9 @@ begin
   FixedRows := 0;
   FixedCols := 0;
 
-  // Override default values to start with no columns and no rows.
-  RowCount := 0;
-  ColCount := 0;
+  // Override default values to start with one column and one rows.
+  RowCount := 1;
+  ColCount := 1;
 
   DefaultColWidth:= 200;
 
@@ -684,7 +684,7 @@ begin
     else
       begin
         Result.First:= (LeftCol * VisibleRowCount - 1);
-        Result.Last:=  (LeftCol + VisibleColCount) * VisibleRowCount - 1;
+        Result.Last:=  (LeftCol + VisibleColCount + 1) * VisibleRowCount - 1;
         if Result.First < 0 then Result.First:= 0;
         if Result.Last >= FFiles.Count then Result.Last:= FFiles.Count - 1;
       end;
