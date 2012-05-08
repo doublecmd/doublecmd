@@ -113,6 +113,7 @@ uses
 procedure TBriefDrawGrid.CalculateColRowCount;
 var
   glw, bw: Integer;
+  AIndex, ACol, ARow: Integer;
 begin
   if (csDesigning in ComponentState) then Exit;
 
@@ -123,10 +124,17 @@ begin
 
   if DefaultRowHeight > 0 then
   begin
+    // Save active file index
+    AIndex:= CellToIndex(Col, Row);
+
     RowCount := (Height - GetSystemMetrics(SM_CYHSCROLL) -
                  glw - (2 * bw)) div (DefaultRowHeight + glw);
     if RowCount > 0 then
     ColCount := (BriefView.FFiles.Count + RowCount - 1) div RowCount;
+
+    // Restore active file index
+    IndexToCell(AIndex, ACol, ARow);
+    MoveExtend(False, ACol, ARow);
   end;
   Invalidate;
 end;
@@ -242,6 +250,7 @@ procedure TBriefDrawGrid.DoOnResize;
 begin
   inherited DoOnResize;
   CalculateColRowCount;
+  CalculateColumnWidth;
 end;
 
 procedure TBriefDrawGrid.RowHeightsChanged;
