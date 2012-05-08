@@ -1759,9 +1759,9 @@ var
   procedure AddItem(const aFile: TFile);
   begin
     if not aFile.IsDirectory then
-      FilesToCompare.Add(aFile.Path + aFile.Name)
+      FilesToCompare.Add(aFile.FullPath)
     else
-      DirsToCompare.Add(aFile.Path + aFile.Name);
+      DirsToCompare.Add(aFile.FullPath);
   end;
 
   procedure RunExtDiffer(CompareList: TStringList);
@@ -1793,10 +1793,6 @@ var
   NotActiveSelectedFiles: TFiles = nil;
   Param: String;
 begin
-  //Maybe this will not be dependant on file view but file source.
-  //But will work only for non-virtual file sources.
-  //frmMain.ActiveFrame.ExecuteCommand('cm_CompareContents', param);
-
   with frmMain do
   begin
     // For now work only for filesystem.
@@ -1826,7 +1822,21 @@ begin
 
           if ActiveSelectedFiles.Count = 1 then
           begin
-            NotActiveSelectedFiles := NotActiveFrame.CloneSelectedFiles;
+            // If no files selected in the opposite panel then try to get file
+            // with the same name.
+            if not NotActiveFrame.HasSelectedFiles then
+            begin
+              for i := 0 to NotActiveFrame.DisplayFiles.Count - 1 do
+                if NotActiveFrame.DisplayFiles[i].FSFile.Name = ActiveSelectedFiles[0].Name then
+                begin
+                  NotActiveSelectedFiles := TFiles.Create(NotActiveFrame.CurrentPath);
+                  NotActiveSelectedFiles.Add(NotActiveFrame.DisplayFiles[i].FSFile.Clone);
+                  Break;
+                end;
+            end;
+
+            if not Assigned(NotActiveSelectedFiles) then
+              NotActiveSelectedFiles := NotActiveFrame.CloneSelectedFiles;
 
             if NotActiveSelectedFiles.Count = 1 then
             begin
