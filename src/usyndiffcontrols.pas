@@ -396,18 +396,20 @@ begin
     // next line rect
     rcLine.Top := rcLine.Bottom;
     Inc(rcLine.Bottom, LineHeight);
-    if iLine >= SynDiffEdit.DiffCount then Continue;
-    case SynDiffEdit.DiffKind[iLine] of
-      ckNone:
-          Continue;
-      ckAdd:
-          Canvas.Pen.Color := FColors.Added;
-      ckDelete:
-          Canvas.Pen.Color := FColors.Deleted;
-      ckModify:
-          Canvas.Pen.Color := FColors.Modified;
+    if (iLine >= 0) and (iLine < SynDiffEdit.DiffCount) then
+    begin
+      case SynDiffEdit.DiffKind[iLine] of
+        ckNone:
+            Continue;
+        ckAdd:
+            Canvas.Pen.Color := FColors.Added;
+        ckDelete:
+            Canvas.Pen.Color := FColors.Deleted;
+        ckModify:
+            Canvas.Pen.Color := FColors.Modified;
+      end;
+      Canvas.Line(rcLine.Left, rcLine.Top + 1, rcLine.Left, rcLine.Bottom - 1);
     end;
-    Canvas.Line(rcLine.Left, rcLine.Top + 1, rcLine.Left, rcLine.Bottom - 1);
   end;
 end;
 
