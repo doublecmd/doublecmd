@@ -1337,10 +1337,8 @@ begin
     DropFiles(DropParams);
 
   finally
-    if Assigned(Files) then
-      FreeAndNil(Files);
-    if Assigned(FileNamesList) then
-      FreeAndNil(FileNamesList);
+    FreeAndNil(Files);
+    FreeAndNil(FileNamesList);
   end;
 end;
 
@@ -1459,8 +1457,7 @@ begin
     end;
 
   finally
-    if Assigned(DropParams) then
-      FreeAndNil(DropParams);
+    FreeAndNil(DropParams);
   end;
 end;
 
@@ -1823,8 +1820,7 @@ begin
   except
   end;
 
-  if Assigned(Cons) then
-    Cons.Free;
+  FreeAndNil(Cons);
 
   Application.Terminate;
 end;
@@ -1898,8 +1894,7 @@ end;
 procedure TfrmMain.pmDropMenuClose(Sender: TObject);
 begin
   // Free drop parameters given to drop menu.
-  if Assigned(FDropParams) then
-    FreeAndNil(FDropParams);
+  FreeAndNil(FDropParams);
 end;
 
 procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
@@ -2749,10 +2744,8 @@ begin
       msgWarning(rsMsgNotImplemented);
 
   finally
-    if Assigned(SourceFiles) then
-      FreeAndNil(SourceFiles);
-    if Assigned(CopyDialog) then
-      FreeAndNil(CopyDialog);
+    FreeAndNil(SourceFiles);
+    FreeAndNil(CopyDialog);
   end;
 end;
 
@@ -2857,10 +2850,8 @@ begin
     end;
 
   finally
-    if Assigned(SourceFiles) then
-      FreeAndNil(SourceFiles);
-    if Assigned(MoveDialog) then
-      FreeAndNil(MoveDialog);
+    FreeAndNil(SourceFiles);
+    FreeAndNil(MoveDialog);
   end;
 end;
 
@@ -2879,8 +2870,7 @@ begin
         ActiveFrame.MarkFiles(False);
 
     finally
-      if Assigned(SourceFiles) then
-        FreeAndNil(SourceFiles);
+      FreeAndNil(SourceFiles);
     end;
   end
   else
@@ -2902,8 +2892,7 @@ begin
         ActiveFrame.MarkFiles(False);
 
     finally
-      if Assigned(SourceFiles) then
-        FreeAndNil(SourceFiles);
+      FreeAndNil(SourceFiles);
     end;
   end
   else
@@ -3789,8 +3778,7 @@ begin
         cmdConsole.Hide;
         FreeAndNil(cmdConsole);
       end;
-      if Assigned(Cons) then
-        FreeAndNil(Cons);
+      FreeAndNil(Cons);
     end;
 
   nbConsole.Visible:= gTermWindow;
@@ -4642,8 +4630,7 @@ begin
   DriveButton.Width := DriveButton.Glyph.Width
                      + DriveButton.Canvas.TextWidth(DriveButton.Caption) + 16;
 
-  if Assigned(BitmapTmp) then
-    FreeAndNil(BitmapTmp);
+  FreeAndNil(BitmapTmp);
 end;
 
 procedure TfrmMain.UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
