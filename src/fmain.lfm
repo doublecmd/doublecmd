@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.1'
+  LCLVersion = '0.9.30.4'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -529,28 +529,7 @@ object frmMain: TfrmMain
     TabOrder = 4
     TabStop = False
     Visible = False
-    Gutter.Width = 59
-    Gutter.MouseActions = <    
-      item
-        ClickCount = ccAny
-        ClickDir = cdDown
-        Command = emcOnMainGutterClick
-      end    
-      item
-        Button = mbRight
-        Command = emcContextMenu
-      end>
-    RightGutter.Width = 0
-    RightGutter.MouseActions = <    
-      item
-        ClickCount = ccAny
-        ClickDir = cdDown
-        Command = emcOnMainGutterClick
-      end    
-      item
-        Button = mbRight
-        Command = emcContextMenu
-      end>
+    Gutter.MouseActions = <>
     Keystrokes = <    
       item
         Command = ecUp
@@ -872,166 +851,14 @@ object frmMain: TfrmMain
         Command = ecMatchBracket
         ShortCut = 24642
       end>
-    MouseActions = <    
-      item
-        ShiftMask = [ssShift, ssAlt]
-        ClickDir = cdDown
-        Command = emcStartSelections
-        MoveCaret = True
-      end    
-      item
-        Shift = [ssShift]
-        ShiftMask = [ssShift, ssAlt]
-        ClickDir = cdDown
-        Command = emcStartSelections
-        MoveCaret = True
-        Option = 1
-      end    
-      item
-        Shift = [ssAlt]
-        ShiftMask = [ssShift, ssAlt]
-        ClickDir = cdDown
-        Command = emcStartColumnSelections
-        MoveCaret = True
-      end    
-      item
-        Shift = [ssShift, ssAlt]
-        ShiftMask = [ssShift, ssAlt]
-        ClickDir = cdDown
-        Command = emcStartColumnSelections
-        MoveCaret = True
-        Option = 1
-      end    
-      item
-        Button = mbRight
-        Command = emcContextMenu
-      end    
-      item
-        ClickCount = ccDouble
-        ClickDir = cdDown
-        Command = emcSelectWord
-        MoveCaret = True
-      end    
-      item
-        ClickCount = ccTriple
-        ClickDir = cdDown
-        Command = emcSelectLine
-        MoveCaret = True
-      end    
-      item
-        ClickCount = ccQuad
-        ClickDir = cdDown
-        Command = emcSelectPara
-        MoveCaret = True
-      end    
-      item
-        Button = mbMiddle
-        ClickDir = cdDown
-        Command = emcPasteSelection
-        MoveCaret = True
-      end    
-      item
-        Shift = [ssCtrl]
-        ShiftMask = [ssShift, ssAlt, ssCtrl]
-        Command = emcMouseLink
-      end>
-    MouseSelActions = <    
-      item
-        ClickDir = cdDown
-        Command = emcStartDragMove
-      end>
-    VisibleSpecialChars = [vscSpace, vscTabAtLast]
+    MouseActions = <>
+    MouseSelActions = <>
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
     BracketHighlightStyle = sbhsBoth
-    BracketMatchColor.Background = clNone
-    BracketMatchColor.Foreground = clNone
-    BracketMatchColor.Style = [fsBold]
-    FoldedCodeColor.Background = clNone
-    FoldedCodeColor.Foreground = clGray
-    FoldedCodeColor.FrameColor = clGray
-    MouseLinkColor.Background = clNone
-    MouseLinkColor.Foreground = clBlue
-    LineHighlightColor.Background = clNone
-    LineHighlightColor.Foreground = clNone
     OnSpecialLineColors = seLogWindowSpecialLineColors
-    inline SynGutterPartList1: TSynGutterPartList
-      object SynGutterMarks1: TSynGutterMarks
-        Width = 24
-        MouseActions = <>
-      end
-      object SynGutterLineNumber1: TSynGutterLineNumber
-        Width = 19
-        MouseActions = <>
-        MarkupInfo.Background = clBtnFace
-        MarkupInfo.Foreground = clNone
-        DigitCount = 2
-        ShowOnlyLineNumbersMultiplesOf = 1
-        ZeroStart = False
-        LeadingZeros = False
-      end
-      object SynGutterChanges1: TSynGutterChanges
-        Width = 4
-        MouseActions = <>
-        ModifiedColor = 59900
-        SavedColor = clGreen
-      end
-      object SynGutterSeparator1: TSynGutterSeparator
-        Width = 2
-        MouseActions = <>
-      end
-      object SynGutterCodeFolding1: TSynGutterCodeFolding
-        MouseActions = <        
-          item
-            Button = mbRight
-            Command = emcCodeFoldContextMenu
-          end        
-          item
-            ShiftMask = [ssShift]
-            Button = mbMiddle
-            ClickCount = ccAny
-            ClickDir = cdDown
-            Command = emcCodeFoldCollaps
-          end        
-          item
-            Shift = [ssShift]
-            ShiftMask = [ssShift]
-            Button = mbMiddle
-            ClickCount = ccAny
-            ClickDir = cdDown
-            Command = emcCodeFoldCollaps
-            Option = 1
-          end        
-          item
-            ClickCount = ccAny
-            ClickDir = cdDown
-            Command = emcNone
-          end>
-        MarkupInfo.Background = clNone
-        MarkupInfo.Foreground = clGray
-        MouseActionsExpanded = <        
-          item
-            ClickCount = ccAny
-            ClickDir = cdDown
-            Command = emcCodeFoldCollaps
-          end>
-        MouseActionsCollapsed = <        
-          item
-            Shift = [ssCtrl]
-            ShiftMask = [ssCtrl]
-            ClickCount = ccAny
-            ClickDir = cdDown
-            Command = emcCodeFoldExpand
-          end        
-          item
-            ShiftMask = [ssCtrl]
-            ClickCount = ccAny
-            ClickDir = cdDown
-            Command = emcCodeFoldExpand
-            Option = 1
-          end>
-      end
+    inline SynLeftGutterPartList1: TSynGutterPartList
     end
   end
   object pnlKeys: TPanel
@@ -1341,6 +1168,15 @@ object frmMain: TfrmMain
     end
     object mnuShow: TMenuItem
       Caption = '&Show'
+      object mnuBriefView: TMenuItem
+        Action = actBriefView
+      end
+      object mnuColumnsView: TMenuItem
+        Action = actColumnsView
+      end
+      object miLine33: TMenuItem
+        Caption = '-'
+      end
       object mnuQuickView: TMenuItem
         Action = actQuickView
       end
@@ -2093,6 +1929,18 @@ object frmMain: TfrmMain
       Category = 'Commands'
       Caption = 'Previous Command Line'
       Hint = 'Set command line to previous command in history'
+      OnExecute = actExecute
+    end
+    object actBriefView: TAction
+      Category = 'Show'
+      Caption = 'Brief'
+      Hint = 'Brief View'
+      OnExecute = actExecute
+    end
+    object actColumnsView: TAction
+      Category = 'Show'
+      Caption = 'Full'
+      Hint = 'Columns View'
       OnExecute = actExecute
     end
   end
