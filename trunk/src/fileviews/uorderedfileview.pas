@@ -283,9 +283,10 @@ procedure TOrderedFileView.EnsureDisplayProperties;
 var
   VisibleFiles: TRange;
   i: Integer;
-  AFileList: TFVWorkerFileList;
+  AFileList: TFVWorkerFileList = nil;
   Worker: TFileViewWorker;
   AFile: TDisplayFile;
+  HaveIcons: Boolean;
 begin
   if (csDestroying in ComponentState) or
      (GetCurrentWorkType = fvwtCreate) or
@@ -293,6 +294,7 @@ begin
     Exit;
 
   VisibleFiles := GetVisibleFilesIndexes;
+  HaveIcons := gShowIcons <> sim_none;
 
   if not gListFilesInThread then
   begin
@@ -301,7 +303,7 @@ begin
       AFile := FFiles[i];
       if AFile.FSFile.Name <> '..' then
       begin
-        if AFile.IconID < 0 then
+        if HaveIcons and (AFile.IconID < 0) then
           AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
         {$IF DEFINED(MSWINDOWS)}
         if gIconOverlays and (AFile.IconOverlayID < 0) then
@@ -317,24 +319,25 @@ begin
   end
   else
   begin
-    AFileList := TFVWorkerFileList.Create;
     try
       for i := VisibleFiles.First to VisibleFiles.Last do
       begin
         AFile := FFiles[i];
         if (AFile.FSFile.Name <> '..') and
-           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
-            (AFile.IconID < 0)
+           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded)
+            or (HaveIcons and (AFile.IconID < 0))
             {$IF DEFINED(MSWINDOWS)}
             or (gIconOverlays and (AFile.IconOverlayID < 0))
             {$ENDIF}
            ) then
         begin
+          if not Assigned(AFileList) then
+            AFileList := TFVWorkerFileList.Create;
           AFileList.AddClone(AFile, AFile);
         end;
       end;
 
-      if AFileList.Count > 0 then
+      if Assigned(AFileList) and (AFileList.Count > 0) then
       begin
         Worker := TFilePropertiesRetriever.Create(
           FileSource,

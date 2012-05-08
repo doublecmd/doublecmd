@@ -769,7 +769,9 @@ end;
 procedure TFilePropertiesRetriever.Execute;
 var
   i: Integer;
+  HaveIcons: Boolean;
 begin
+  HaveIcons := gShowIcons <> sim_none;
   for i := 0 to FFileList.Count - 1 do
   begin
     if Aborted then
@@ -782,7 +784,7 @@ begin
       if FFileSource.CanRetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded) then
         FFileSource.RetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded);
 
-      if FWorkingFile.IconID = -1 then
+      if HaveIcons and (FWorkingFile.IconID < 0) then
         FWorkingFile.IconID := PixMapManager.GetIconByFile(
             FWorkingFile.FSFile,
             fspDirectAccess in FFileSource.Properties,
