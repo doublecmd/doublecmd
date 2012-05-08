@@ -980,7 +980,7 @@ begin
 
     for I := ANotebook.PageCount - 1 downto 0 do
       if I <> ANotebook.PageIndex then
-        case RemovePage(ANotebook, I) of
+        case RemovePage(ANotebook, I, False) of
           1: Continue; // skip tab
           2: Break;    // cancel operation
         end;

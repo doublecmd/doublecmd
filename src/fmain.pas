@@ -614,7 +614,7 @@ type
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
     procedure AssignEvents(AFileView: TFileView);
-    function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer): LongInt;
+    function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True): LongInt;
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
     procedure LoadTabsXml(ANoteBook: TFileViewNotebook);
     procedure SaveTabsXml(ANoteBook: TFileViewNotebook);
@@ -3494,7 +3494,7 @@ begin
   end;
 end;
 
-function TfrmMain.RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer): LongInt;
+function TfrmMain.RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean): LongInt;
 begin
   Result:= -1;
   if (ANoteBook.PageCount > 1) and
@@ -3502,12 +3502,17 @@ begin
      (iPageIndex < ANoteBook.PageCount) then
   begin
     if ANoteBook.Page[iPageIndex].LockState <> tlsNormal then
-      case msgYesNoCancel(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption])) of
-        mmrNo:
-          Exit(1);
-        mmrCancel, mmrNone:
-          Exit(2);
-      end;
+    begin
+       if CloseLocked then
+         case msgYesNoCancel(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption])) of
+          mmrNo:
+            Exit(1);
+          mmrCancel, mmrNone:
+            Exit(2);
+         end
+       else
+         Exit(1);
+    end;
 
     ANoteBook.RemovePage(iPageIndex);
     Result:= 0;
@@ -5084,4 +5089,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
