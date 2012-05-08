@@ -1253,6 +1253,7 @@ begin
   begin
     aFileView:= TBriefFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
     ActiveNotebook.ActivePage.FileView:= aFileView;
+    ActiveFrame.SetFocus;
   end;
 end;
 
@@ -1268,6 +1269,7 @@ begin
     aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
     {$ENDIF}
     ActiveNotebook.ActivePage.FileView:= aFileView;
+    ActiveFrame.SetFocus;
   end;
 end;
 

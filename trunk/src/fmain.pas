@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2010 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -91,6 +91,8 @@ type
     actCompareDirectories: TAction;
     actCmdLineNext: TAction;
     actCmdLinePrev: TAction;
+    actBriefView: TAction;
+    actColumnsView: TAction;
     actShellExecute: TAction;
     actRenameTab: TAction;
     actOperationsViewer: TAction;
@@ -162,6 +164,9 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuColumnsView: TMenuItem;
+    mnuBriefView: TMenuItem;
+    miLine33: TMenuItem;
     mnuAllOperStart: TMenuItem;
     mnuAllOperStop: TMenuItem;
     mnuAllOperPause: TMenuItem;

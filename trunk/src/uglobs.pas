@@ -90,7 +90,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 12;
+  hkVersion     = 13;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -419,6 +419,8 @@ begin
       AddIfNotExists(['Ctrl+U'],[],'cm_Exchange');
       AddIfNotExists(['Ctrl+W'],[],'cm_RemoveTab');
       AddIfNotExists(['Ctrl+Z'],[],'cm_EditComment');
+      AddIfNotExists(['Ctrl+F1'],[],'cm_BriefView');
+      AddIfNotExists(['Ctrl+F2'],[],'cm_ColumnsView');
       AddIfNotExists(['Ctrl+F3'],[],'cm_SortByName');
       AddIfNotExists(['Ctrl+F4'],[],'cm_SortByExt');
       AddIfNotExists(['Ctrl+F5'],[],'cm_SortByDate');
