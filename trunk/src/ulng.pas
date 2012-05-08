@@ -440,6 +440,7 @@ resourcestring
   rsOptHotkeysEditHotkey = 'Edit hotkey for %s';
   rsHotkeyCategoryMain = 'Main';
   rsHotkeyCategoryViewer = 'Viewer';
+  rsHotkeyCategoryDiffer = 'Differ';
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
   // Plugins
   rsOptPluginsActive = 'Active';

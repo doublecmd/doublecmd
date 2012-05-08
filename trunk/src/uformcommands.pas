@@ -44,10 +44,7 @@ type
     2. Add private FCommands: TFormCommands that will implement the interface.
     3. Add property that will specify that FCommands implements the interface in place of the form.
        property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
-    4. Make sure a default constructor Create(TheOwner: TComponent) is present which
-       will create the FCommands on demand when it is needed to read the hotkeys
-       when the form is not currently created.
-    5. For FPC < 2.5.1 "implements" does not work correctly so the form must
+       For FPC < 2.5.1 "implements" does not work correctly so the form must
        implement the interface itself. For example see fViewer.
         {$IF FPC_FULLVERSION < 020501}
         // "implements" does not work in FPC < 2.5.1
@@ -55,6 +52,21 @@ type
         function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
         procedure GetCommandsList(List: TStrings);
         {$ENDIF}
+    4. Make sure a default constructor Create(TheOwner: TComponent) is present which
+       will create the FCommands on demand when it is needed to read the hotkeys
+       when the form is not currently created.
+    5. Register the form and action list in HotkeyManager somewhere in constructor:
+       const
+         HotkeysCategory = <unique_name>;
+         HMForm := HotMan.Register(Self, HotkeysCategory);
+         HMForm.RegisterActionList(actionList);
+       And unregister in destructor:
+         HotMan.UnRegister(Self);
+    6. Register form as commands form so that it is displayed in Options:
+       initialization
+         TFormCommands.RegisterCommandsForm(Tfrm..., HotkeysCategory, @rsHotkeyCategory...);
+
+
   *)
 
   { IFormCommands }

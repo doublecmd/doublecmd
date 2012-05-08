@@ -51,22 +51,22 @@ object frmDiffer: TfrmDiffer
     object btnLast: TToolButton
       Left = 153
       Top = 2
-      Action = actLastDiff
+      Action = actLastDifference
     end
     object btnNext: TToolButton
       Left = 109
       Top = 2
-      Action = actNextDiff
+      Action = actNextDifference
     end
     object btnPrev: TToolButton
       Left = 129
       Top = 2
-      Action = actPrevDiff
+      Action = actPrevDifference
     end
     object btnFirst: TToolButton
       Left = 173
       Top = 2
-      Action = actFirstDiff
+      Action = actFirstDifference
     end
     object Divider2: TToolButton
       Left = 105
@@ -522,7 +522,7 @@ object frmDiffer: TfrmDiffer
     left = 72
     top = 136
     object mnuFile: TMenuItem
-      Caption = 'File'
+      Caption = '&File'
       object miOpenLeft: TMenuItem
         Action = actOpenLeft
         Bitmap.Data = {
@@ -641,7 +641,6 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00A465341DA7693A9FA76A3ADEA56736F6A76939E5A76A3ABCA465
           3453A4653405FFFFFF00FFFFFF00FFFFFF00A4653479A4653410
         }
-        OnClick = actReloadExecute
       end
       object miDivider7: TMenuItem
         Caption = '-'
@@ -684,7 +683,6 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actSaveLeftExecute
       end
       object miSaveRight: TMenuItem
         Action = actSaveRight
@@ -724,7 +722,6 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actSaveRightExecute
       end
       object miSaveLeftAs: TMenuItem
         Action = actSaveLeftAs
@@ -809,8 +806,8 @@ object frmDiffer: TfrmDiffer
       object miDivider6: TMenuItem
         Caption = '-'
       end
-      object miClose: TMenuItem
-        Action = actClose
+      object miExit: TMenuItem
+        Action = actExit
         Bitmap.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -847,11 +844,10 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actCloseExecute
       end
     end
     object mnuEdit: TMenuItem
-      Caption = 'Edit'
+      Caption = '&Edit'
       object miEditUndo: TMenuItem
         Action = actEditUndo
         Bitmap.Data = {
@@ -1222,7 +1218,6 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF0004753BC504733A65FFFFFF00FFFFFF00FFFF
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actStartCompareExecute
       end
       object miCancelCompare: TMenuItem
         Action = actCancelCompare
@@ -1267,7 +1262,7 @@ object frmDiffer: TfrmDiffer
         Caption = '-'
       end
       object miNextDiff: TMenuItem
-        Action = actNextDiff
+        Action = actNextDifference
         Bitmap.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -1304,10 +1299,9 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF0004743AE804733AFF04733AFF04733AFF04733AFF0473
           3AFF04733AFF04743AE8FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actNextDiffExecute
       end
       object miPrevDiff: TMenuItem
-        Action = actPrevDiff
+        Action = actPrevDifference
         Bitmap.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -1344,13 +1338,12 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0004753B9D04753B9DFFFF
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actPrevDiffExecute
       end
       object miDivider2: TMenuItem
         Caption = '-'
       end
       object miFirstDiff: TMenuItem
-        Action = actFirstDiff
+        Action = actFirstDifference
         Bitmap.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -1387,10 +1380,9 @@ object frmDiffer: TfrmDiffer
           3AFF04733AFF04733AFF04733AFF04733AFF04733AFF04733AFF04733AFF0473
           3AFF04733AFF04733AFF04733AFF04733AFF04733AFF04733AFF
         }
-        OnClick = actFirstDiffExecute
       end
       object miLastDiff: TMenuItem
-        Action = actLastDiff
+        Action = actLastDifference
         Bitmap.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           200000000000000400006400000064000000000000000000000004733AFF0473
@@ -1427,7 +1419,6 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF0004743AE804733AFF04733AFF04733AFF04733AFF0473
           3AFF04733AFF04743AE8FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actLastDiffExecute
       end
       object miDivider5: TMenuItem
         Caption = '-'
@@ -1470,7 +1461,6 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF0004753BC504733A00FFFFFF00FFFFFF00FFFF
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0004733AFF04733AFF
         }
-        OnClick = actCopyLeftToRightExecute
       end
       object miCopyRightToLeft: TMenuItem
         Action = actCopyRightToLeft
@@ -1510,16 +1500,15 @@ object frmDiffer: TfrmDiffer
           3AFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000473
           3A0004753BC5FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
-        OnClick = actCopyRightToLeftExecute
       end
     end
     object mnuEncoding: TMenuItem
-      Caption = 'Encoding'
+      Caption = 'En&coding'
       object miEncodingLeft: TMenuItem
-        Caption = 'Left'
+        Caption = '&Left'
       end
       object miEncodingRight: TMenuItem
-        Caption = 'Right'
+        Caption = '&Right'
       end
     end
     object miAbout: TMenuItem
@@ -1548,29 +1537,29 @@ object frmDiffer: TfrmDiffer
       ImageIndex = 2
       OnExecute = actStartCompareExecute
     end
-    object actLastDiff: TAction
+    object actLastDifference: TAction
       Caption = 'Last Difference'
       Hint = 'Last Difference'
       ImageIndex = 3
-      OnExecute = actLastDiffExecute
+      OnExecute = actExecute
     end
-    object actNextDiff: TAction
+    object actNextDifference: TAction
       Caption = 'Next Difference'
       Hint = 'Next Difference'
       ImageIndex = 4
-      OnExecute = actNextDiffExecute
+      OnExecute = actExecute
     end
-    object actPrevDiff: TAction
+    object actPrevDifference: TAction
       Caption = 'Previous Difference'
       Hint = 'Previous Difference'
       ImageIndex = 5
-      OnExecute = actPrevDiffExecute
+      OnExecute = actExecute
     end
-    object actFirstDiff: TAction
+    object actFirstDifference: TAction
       Caption = 'First Difference'
       Hint = 'First Difference'
       ImageIndex = 6
-      OnExecute = actFirstDiffExecute
+      OnExecute = actExecute
     end
     object actIgnoreCase: TAction
       Category = 'Options'
@@ -1615,31 +1604,31 @@ object frmDiffer: TfrmDiffer
       Caption = 'Copy Block Right'
       Hint = 'Copy Block Right'
       ImageIndex = 21
-      OnExecute = actCopyLeftToRightExecute
+      OnExecute = actExecute
     end
     object actCopyRightToLeft: TAction
       Caption = 'Copy Block Left'
       Hint = 'Copy Block Left'
       ImageIndex = 20
-      OnExecute = actCopyRightToLeftExecute
+      OnExecute = actExecute
     end
     object actSaveLeft: TAction
       Caption = 'Save Left'
       Hint = 'Save Left'
       ImageIndex = 9
-      OnExecute = actSaveLeftExecute
+      OnExecute = actExecute
     end
     object actSaveRight: TAction
       Caption = 'Save Right'
       Hint = 'Save Right'
       ImageIndex = 9
-      OnExecute = actSaveRightExecute
+      OnExecute = actExecute
     end
     object actReload: TAction
-      Caption = 'Reload'
+      Caption = '&Reload'
       Hint = 'Reload'
       ImageIndex = 8
-      OnExecute = actReloadExecute
+      OnExecute = actExecute
     end
     object actOpenLeft: TAction
       Caption = 'Open Left...'
@@ -1651,10 +1640,10 @@ object frmDiffer: TfrmDiffer
       ImageIndex = 11
       OnExecute = actOpenRightExecute
     end
-    object actClose: TAction
-      Caption = 'Close'
+    object actExit: TAction
+      Caption = 'E&xit'
       ImageIndex = 12
-      OnExecute = actCloseExecute
+      OnExecute = actExecute
     end
     object actEditCut: TAction
       Category = 'Edit'
