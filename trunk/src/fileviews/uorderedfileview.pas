@@ -301,7 +301,7 @@ begin
       AFile := FFiles[i];
       if AFile.FSFile.Name <> '..' then
       begin
-        if AFile.IconID = -1 then
+        if AFile.IconID < 0 then
           AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
         {$IF DEFINED(MSWINDOWS)}
         if gIconOverlays and (AFile.IconOverlayID < 0) then
@@ -324,7 +324,11 @@ begin
         AFile := FFiles[i];
         if (AFile.FSFile.Name <> '..') and
            (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
-           (AFile.IconID = -1) or (AFile.IconOverlayID = -1)) then
+            (AFile.IconID < 0)
+            {$IF DEFINED(MSWINDOWS)}
+            or (gIconOverlays and (AFile.IconOverlayID < 0))
+            {$ENDIF}
+           ) then
         begin
           AFileList.AddClone(AFile, AFile);
         end;
