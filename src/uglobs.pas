@@ -90,7 +90,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 13;
+  hkVersion     = 14;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -386,11 +386,12 @@ begin
 
   // Shortcuts that can conflict with default OS shortcuts for some controls
   // should be put only to Files Panel.
-  // Shortcuts Ctrl+Alt+<letter> should not be added as the combinations may be
-  // used to enter international characters on Windows (where Ctrl+Alt = AltGr).
   // For a list of such possible shortcuts see THotKeyManager.IsShortcutConflictingWithOS.
   // If adding multiple shortcuts for the same command use:
   //  AddIfNotExists([Shortcut1, Param1, Shortcut2, Param2, ...], Command);
+  //
+  // Shortcuts Ctrl+Alt+<letter> should not be added as the combinations may be
+  // used to enter international characters on Windows (where Ctrl+Alt = AltGr).
 
   HMForm := HotMan.Forms.FindOrCreate('Main');
   with HMForm.Hotkeys do
@@ -488,6 +489,19 @@ begin
       AddIfNotExists(['F2'],[],'cm_Reload');
       AddIfNotExists(['N'],[],'cm_LoadNextFile');
       AddIfNotExists(['P'],[],'cm_LoadPrevFile');
+    end;
+
+  HMForm := HotMan.Forms.FindOrCreate('Differ');
+  with HMForm.Hotkeys do
+    begin
+      AddIfNotExists(['Ctrl+R'],[],'cm_Reload');
+      AddIfNotExists(['Alt+Down'],[],'cm_NextDifference');
+      AddIfNotExists(['Alt+Up'],[],'cm_PrevDifference');
+      AddIfNotExists(['Alt+Home'],[],'cm_FirstDifference');
+      AddIfNotExists(['Alt+End'],[],'cm_LastDifference');
+      AddIfNotExists(['Alt+X'],[],'cm_Exit');
+      AddIfNotExists(['Alt+Left'],[],'cm_CopyRightToLeft');
+      AddIfNotExists(['Alt+Right'],[],'cm_CopyLeftToRight');
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Copy/Move Dialog');

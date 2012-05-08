@@ -30,17 +30,17 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
-  uPariterControls, uDiff;
+  uPariterControls, uDiff, uFormCommands, uHotkeyManager;
 
 type
 
   { TfrmDiffer }
 
-  TfrmDiffer = class(TForm)
+  TfrmDiffer = class(TForm, IFormCommands)
     actBinaryCompare: TAction;
     actCopyLeftToRight: TAction;
     actCopyRightToLeft: TAction;
-    actClose: TAction;
+    actExit: TAction;
     actEditCut: TAction;
     actEditCopy: TAction;
     actEditDelete: TAction;
@@ -60,14 +60,14 @@ type
     actSaveLeft: TAction;
     actPaintBackground: TAction;
     actStartCompare: TAction;
-    actFirstDiff: TAction;
+    actFirstDifference: TAction;
     actIgnoreCase: TAction;
     actIgnoreWhiteSpace: TAction;
     actCancelCompare: TAction;
     actKeepScrolling: TAction;
-    actPrevDiff: TAction;
-    actLastDiff: TAction;
-    actNextDiff: TAction;
+    actPrevDifference: TAction;
+    actLastDifference: TAction;
+    actNextDifference: TAction;
     actSaveAs: TAction;
     actSave: TAction;
     ActionList: TActionList;
@@ -100,7 +100,7 @@ type
     miPasteContext: TMenuItem;
     miReload: TMenuItem;
     miDivider6: TMenuItem;
-    miClose: TMenuItem;
+    miExit: TMenuItem;
     miSaveRight: TMenuItem;
     miOpenRight: TMenuItem;
     miOpenLeft: TMenuItem;
@@ -166,9 +166,7 @@ type
     procedure actAboutExecute(Sender: TObject);
     procedure actBinaryCompareExecute(Sender: TObject);
     procedure actCancelCompareExecute(Sender: TObject);
-    procedure actCloseExecute(Sender: TObject);
-    procedure actCopyLeftToRightExecute(Sender: TObject);
-    procedure actCopyRightToLeftExecute(Sender: TObject);
+    procedure actExecute(Sender: TObject);
     procedure actEditCopyExecute(Sender: TObject);
     procedure actEditCutExecute(Sender: TObject);
     procedure actEditDeleteExecute(Sender: TObject);
@@ -176,22 +174,15 @@ type
     procedure actEditRedoExecute(Sender: TObject);
     procedure actEditSelectAllExecute(Sender: TObject);
     procedure actEditUndoExecute(Sender: TObject);
-    procedure actFirstDiffExecute(Sender: TObject);
     procedure actIgnoreCaseExecute(Sender: TObject);
-    procedure actLastDiffExecute(Sender: TObject);
     procedure actLineDifferencesExecute(Sender: TObject);
-    procedure actNextDiffExecute(Sender: TObject);
     procedure actOpenLeftExecute(Sender: TObject);
     procedure actOpenRightExecute(Sender: TObject);
     procedure actPaintBackgroundExecute(Sender: TObject);
-    procedure actPrevDiffExecute(Sender: TObject);
-    procedure actReloadExecute(Sender: TObject);
     procedure actSaveAsExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure actSaveLeftAsExecute(Sender: TObject);
-    procedure actSaveLeftExecute(Sender: TObject);
     procedure actSaveRightAsExecute(Sender: TObject);
-    procedure actSaveRightExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
     procedure actKeepScrollingExecute(Sender: TObject);
     procedure btnLeftEncodingClick(Sender: TObject);
@@ -213,6 +204,7 @@ type
     HashListRight: TList;
     EncodingList: TStringList;
     ScrollLock: LongInt;
+    FCommands: TFormCommands;
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
     procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
@@ -227,19 +219,42 @@ type
     procedure SynDiffEditEnter(Sender: TObject);
     procedure SynDiffEditLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
+
+    property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
   public
-    { public declarations }
+    constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
+    {$IF FPC_FULLVERSION < 020501}
+    // "implements" does not work in FPC < 2.5.1
+    function ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
+    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
+    procedure GetCommandsList(List: TStrings);
+    {$ENDIF}
+  published
+    procedure cm_CopyLeftToRight(const Params: array of string);
+    procedure cm_CopyRightToLeft(const Params: array of string);
+    procedure cm_Exit(const Params: array of string);
+    procedure cm_FirstDifference(const Params: array of string);
+    procedure cm_LastDifference(const Params: array of string);
+    procedure cm_NextDifference(const Params: array of string);
+    procedure cm_PrevDifference(const Params: array of string);
+    procedure cm_Reload(const Params: array of string);
+    procedure cm_SaveLeft(const Params: array of string);
+    procedure cm_SaveRight(const Params: array of string);
   end; 
 
 procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLProc, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs, uShowMsg,
   uBinaryCompare, DCClassesUtf8, dmCommonData, DCOSUtils;
 
-{$R *.lfm}
+const
+  HotkeysCategory = 'Differ';
 
 procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 begin
@@ -381,13 +396,6 @@ begin
   SynDiffHighlighterRight.UpdateColors;
 end;
 
-procedure TfrmDiffer.actReloadExecute(Sender: TObject);
-begin
-  OpenFileLeft(edtFileNameLeft.FileName);
-  OpenFileRight(edtFileNameRight.FileName);
-  if actAutoCompare.Checked then actStartCompare.Execute;
-end;
-
 procedure TfrmDiffer.actSaveAsExecute(Sender: TObject);
 begin
   if SynDiffEditActive = SynDiffEditLeft then
@@ -414,11 +422,6 @@ begin
   end;
 end;
 
-procedure TfrmDiffer.actSaveLeftExecute(Sender: TObject);
-begin
-  SaveToFile(SynDiffEditLeft, edtFileNameLeft.FileName);
-end;
-
 procedure TfrmDiffer.actSaveRightAsExecute(Sender: TObject);
 begin
   dmComData.SaveDialog.FileName:= edtFileNameRight.FileName;
@@ -427,11 +430,6 @@ begin
     SaveToFile(SynDiffEditLeft, dmComData.SaveDialog.FileName);
     edtFileNameRight.FileName:= dmComData.SaveDialog.FileName;
   end;
-end;
-
-procedure TfrmDiffer.actSaveRightExecute(Sender: TObject);
-begin
-  SaveToFile(SynDiffEditRight, edtFileNameRight.FileName);
 end;
 
 procedure TfrmDiffer.actBinaryCompareExecute(Sender: TObject);
@@ -480,35 +478,6 @@ begin
               'You can find it on: http://www.users.on.net/johnson/delphi/');
 end;
 
-procedure TfrmDiffer.actCloseExecute(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TfrmDiffer.actCopyLeftToRightExecute(Sender: TObject);
-var
-  I, iStart,
-  iFinish: Integer;
-begin
-  I := SynDiffEditLeft.CaretY - 1;
-  iStart:= SynDiffEditLeft.DiffBegin(I);
-  iFinish:= SynDiffEditLeft.DiffEnd(I);
-  for I:= iStart to iFinish do
-    SynDiffEditRight.Lines[I]:= SynDiffEditLeft.Lines[I];
-end;
-
-procedure TfrmDiffer.actCopyRightToLeftExecute(Sender: TObject);
-var
-  I, iStart,
-  iFinish: Integer;
-begin
-  I := SynDiffEditRight.CaretY - 1;
-  iStart:= SynDiffEditRight.DiffBegin(I);
-  iFinish:= SynDiffEditRight.DiffEnd(I);
-  for I:= iStart to iFinish do
-    SynDiffEditLeft.Lines[I]:= SynDiffEditRight.Lines[I];
-end;
-
 procedure TfrmDiffer.actEditCopyExecute(Sender: TObject);
 begin
   SynDiffEditActive.CopyToClipboard;
@@ -544,106 +513,13 @@ begin
   SynDiffEditActive.Undo;
 end;
 
-procedure TfrmDiffer.actNextDiffExecute(Sender: TObject);
+procedure TfrmDiffer.actExecute(Sender: TObject);
 var
-  Line: Integer;
-  Kind: TChangeKind;
+  cmd: string;
 begin
-  Line := SynDiffEditLeft.CaretY - 1;
-  if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
-  // Skip lines with current difference type
-  Kind := SynDiffEditLeft.DiffKind[Line];
-  while (Line < SynDiffEditLeft.Lines.Count - 1) and
-    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
-  if SynDiffEditLeft.DiffKind[Line] = ckNone then
-  begin
-    // Skip unmodified lines
-    Kind := ckNone;
-    while (Line < SynDiffEditLeft.Lines.Count - 1) and
-      (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
-  end;
-  Inc(Line);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
-  end;
-end;
-
-procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);
-var
-  Line: Integer;
-  Kind: TChangeKind;
-begin
-  Line := SynDiffEditLeft.CaretY - 1;
-  if Line = 0 then Exit;
-  // Skip lines with current difference type
-  Kind := SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  if SynDiffEditLeft.DiffKind[Line] = ckNone then
-  begin
-    // Skip unmodified lines
-    Kind := ckNone;
-    while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  end;
-  // Find top line of previous difference
-  Kind:= SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  if (Line <> 0) then Inc(Line, 2);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
-  end;
-end;
-
-procedure TfrmDiffer.actFirstDiffExecute(Sender: TObject);
-var
-  Line: Integer;
-  Kind: TChangeKind;
-begin
-  // Start at first line
-  Line := 0;
-  if Line = SynDiffEditLeft.Lines.Count then Exit;
-  // Skip unmodified lines
-  Kind := ckNone;
-  while (Line < SynDiffEditLeft.Lines.Count - 1) and
-    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
-  Inc(Line);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
-  end;
-end;
-
-procedure TfrmDiffer.actLastDiffExecute(Sender: TObject);
-var
-  Line: Integer;
-  Kind: TChangeKind;
-begin
-  Line := SynDiffEditLeft.Lines.Count - 1;
-  if Line = 0 then Exit;
-  // Skip unmodified lines
-  Kind := ckNone;
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  // Find top line of previous difference
-  Kind:= SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  if (Line <> 0) then Inc(Line, 2);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
-  end;
+  cmd := (Sender as TAction).Name;
+  cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
+  Commands.ExecuteCommand(cmd, []);
 end;
 
 procedure TfrmDiffer.actIgnoreCaseExecute(Sender: TObject);
@@ -768,6 +644,170 @@ begin
   StatusBar.Panels[2].Text := EmptyStr;
   StatusBar.Panels[3].Text := EmptyStr;
   actStartCompare.Enabled := True;
+end;
+
+procedure TfrmDiffer.cm_CopyLeftToRight(const Params: array of string);
+var
+  I, iStart,
+  iFinish: Integer;
+begin
+  I := SynDiffEditLeft.CaretY - 1;
+  iStart:= SynDiffEditLeft.DiffBegin(I);
+  iFinish:= SynDiffEditLeft.DiffEnd(I);
+  for I:= iStart to iFinish do
+    SynDiffEditRight.Lines[I]:= SynDiffEditLeft.Lines[I];
+end;
+
+procedure TfrmDiffer.cm_CopyRightToLeft(const Params: array of string);
+var
+  I, iStart,
+  iFinish: Integer;
+begin
+  I := SynDiffEditRight.CaretY - 1;
+  iStart:= SynDiffEditRight.DiffBegin(I);
+  iFinish:= SynDiffEditRight.DiffEnd(I);
+  for I:= iStart to iFinish do
+    SynDiffEditLeft.Lines[I]:= SynDiffEditRight.Lines[I];
+end;
+
+procedure TfrmDiffer.cm_Exit(const Params: array of string);
+begin
+  Close;
+end;
+
+procedure TfrmDiffer.cm_FirstDifference(const Params: array of string);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  // Start at first line
+  Line := 0;
+  if Line = SynDiffEditLeft.Lines.Count then Exit;
+  // Skip unmodified lines
+  Kind := ckNone;
+  while (Line < SynDiffEditLeft.Lines.Count - 1) and
+    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+  Inc(Line);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
+  end;
+end;
+
+procedure TfrmDiffer.cm_LastDifference(const Params: array of string);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  Line := SynDiffEditLeft.Lines.Count - 1;
+  if Line = 0 then Exit;
+  // Skip unmodified lines
+  Kind := ckNone;
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  // Find top line of previous difference
+  Kind:= SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if (Line <> 0) then Inc(Line, 2);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
+  end;
+end;
+
+procedure TfrmDiffer.cm_NextDifference(const Params: array of string);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  Line := SynDiffEditLeft.CaretY - 1;
+  if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
+  // Skip lines with current difference type
+  Kind := SynDiffEditLeft.DiffKind[Line];
+  while (Line < SynDiffEditLeft.Lines.Count - 1) and
+    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+  if SynDiffEditLeft.DiffKind[Line] = ckNone then
+  begin
+    // Skip unmodified lines
+    Kind := ckNone;
+    while (Line < SynDiffEditLeft.Lines.Count - 1) and
+      (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+  end;
+  Inc(Line);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
+  end;
+end;
+
+procedure TfrmDiffer.cm_PrevDifference(const Params: array of string);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  Line := SynDiffEditLeft.CaretY - 1;
+  if Line = 0 then Exit;
+  // Skip lines with current difference type
+  Kind := SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if SynDiffEditLeft.DiffKind[Line] = ckNone then
+  begin
+    // Skip unmodified lines
+    Kind := ckNone;
+    while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  end;
+  // Find top line of previous difference
+  Kind:= SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if (Line <> 0) then Inc(Line, 2);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
+  end;
+end;
+
+procedure TfrmDiffer.cm_Reload(const Params: array of string);
+begin
+  OpenFileLeft(edtFileNameLeft.FileName);
+  OpenFileRight(edtFileNameRight.FileName);
+  if actAutoCompare.Checked then actStartCompare.Execute;
+end;
+
+procedure TfrmDiffer.cm_SaveLeft(const Params: array of string);
+begin
+  SaveToFile(SynDiffEditLeft, edtFileNameLeft.FileName);
+end;
+
+procedure TfrmDiffer.cm_SaveRight(const Params: array of string);
+begin
+  SaveToFile(SynDiffEditRight, edtFileNameRight.FileName);
+end;
+
+constructor TfrmDiffer.Create(TheOwner: TComponent);
+var
+  HMForm: THMForm;
+begin
+  inherited Create(TheOwner);
+  FCommands := TFormCommands.Create(Self, actionList);
+  HMForm := HotMan.Register(Self, HotkeysCategory);
+  HMForm.RegisterActionList(actionList);
+end;
+
+destructor TfrmDiffer.Destroy;
+begin
+  HotMan.UnRegister(Self);
+  inherited Destroy;
 end;
 
 procedure TfrmDiffer.BuildHashList(bLeft, bRight: Boolean);
@@ -980,5 +1020,25 @@ begin
     end;
 end;
 
+{$IF FPC_FULLVERSION < 020501}
+function TfrmDiffer.ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
+begin
+  Result := FCommands.ExecuteCommand(Command, Params);
+end;
+
+function TfrmDiffer.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
+begin
+  Result := FCommands.GetCommandCaption(Command, CaptionType);
+end;
+
+procedure TfrmDiffer.GetCommandsList(List: TStrings);
+begin
+  FCommands.GetCommandsList(List);
+end;
+{$ENDIF}
+
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmDiffer, HotkeysCategory, @rsHotkeyCategoryDiffer);
+
 end.
-
+
