@@ -66,6 +66,7 @@ type
    procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    procedure DoShowMainMenu(bShow: Boolean);
+   procedure DoShowCmdLineHistory(bNextCmdLine: Boolean);
    //---------------------
 
  published
@@ -90,6 +91,8 @@ type
    procedure cm_AddPathToCmdLine(const Params: array of string);
    procedure cm_AddFilenameToCmdLine(const Params: array of string);
    procedure cm_AddPathAndFilenameToCmdLine(const Params: array of string);
+   procedure cm_CmdLineNext(const Params: array of string);
+   procedure cm_CmdLinePrev(const Params: array of string);
    procedure cm_ContextMenu(const Params: array of string);
    procedure cm_CopyFullNamesToClip(const Params: array of string);
    procedure cm_Exchange(const Params: array of string);
@@ -312,6 +315,29 @@ begin
   begin
     RemovePage(Notebook, PageIndex);
     ActiveFrame.SetFocus;
+  end;
+end;
+
+procedure TMainCommands.DoShowCmdLineHistory(bNextCmdLine: Boolean);
+begin
+  with frmMain do
+  begin
+    if edtCommand.Visible then
+    begin
+      if not (gCmdLine and frmMain.IsCommandLineVisible) then
+        pnlCommand.Show;
+      edtCommand.SetFocus;
+      if bNextCmdLine then
+      begin
+        if edtCommand.ItemIndex > 0 then
+          edtCommand.ItemIndex := edtCommand.ItemIndex - 1;
+      end
+      else
+      begin
+        if edtCommand.ItemIndex < edtCommand.Items.Count - 1 then
+          edtCommand.ItemIndex := edtCommand.ItemIndex + 1;
+      end;
+    end;
   end;
 end;
 
@@ -2688,6 +2714,16 @@ end;
 procedure TMainCommands.cm_ClearLogWindow(const Params: array of string);
 begin
   frmMain.seLogWindow.Lines.Clear;
+end;
+
+procedure TMainCommands.cm_CmdLineNext(const Params: array of string);
+begin
+  DoShowCmdLineHistory(True);
+end;
+
+procedure TMainCommands.cm_CmdLinePrev(const Params: array of string);
+begin
+  DoShowCmdLineHistory(False);
 end;
 
 procedure TMainCommands.cm_ClearLogFile(const Params: array of string);
