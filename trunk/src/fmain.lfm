@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.1'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -459,7 +459,7 @@ object frmMain: TfrmMain
         Left = 0
         Height = 22
         Top = 5
-        Width = 32
+        Width = 34
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -470,10 +470,10 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 36
+        Left = 38
         Height = 29
         Top = 2
-        Width = 722
+        Width = 720
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
         ItemHeight = 21
@@ -532,50 +532,24 @@ object frmMain: TfrmMain
     Gutter.Width = 59
     Gutter.MouseActions = <    
       item
-        Shift = []
-        ShiftMask = []
-        Button = mbLeft
         ClickCount = ccAny
         ClickDir = cdDown
-        Command = 13
-        MoveCaret = False
-        Option = 0
-        Priority = 0
+        Command = emcOnMainGutterClick
       end    
       item
-        Shift = []
-        ShiftMask = []
         Button = mbRight
-        ClickCount = ccSingle
-        ClickDir = cdUp
-        Command = 12
-        MoveCaret = False
-        Option = 0
-        Priority = 0
+        Command = emcContextMenu
       end>
     RightGutter.Width = 0
     RightGutter.MouseActions = <    
       item
-        Shift = []
-        ShiftMask = []
-        Button = mbLeft
         ClickCount = ccAny
         ClickDir = cdDown
-        Command = 13
-        MoveCaret = False
-        Option = 0
-        Priority = 0
+        Command = emcOnMainGutterClick
       end    
       item
-        Shift = []
-        ShiftMask = []
         Button = mbRight
-        ClickCount = ccSingle
-        ClickDir = cdUp
-        Command = 12
-        MoveCaret = False
-        Option = 0
-        Priority = 0
+        Command = emcContextMenu
       end>
     Keystrokes = <    
       item
@@ -900,135 +874,92 @@ object frmMain: TfrmMain
       end>
     MouseActions = <    
       item
-        Shift = []
         ShiftMask = [ssShift, ssAlt]
-        Button = mbLeft
-        ClickCount = ccSingle
         ClickDir = cdDown
-        Command = 1
+        Command = emcStartSelections
         MoveCaret = True
-        Option = 0
-        Priority = 0
       end    
       item
         Shift = [ssShift]
         ShiftMask = [ssShift, ssAlt]
-        Button = mbLeft
-        ClickCount = ccSingle
         ClickDir = cdDown
-        Command = 1
+        Command = emcStartSelections
         MoveCaret = True
         Option = 1
-        Priority = 0
       end    
       item
         Shift = [ssAlt]
         ShiftMask = [ssShift, ssAlt]
-        Button = mbLeft
-        ClickCount = ccSingle
         ClickDir = cdDown
-        Command = 3
+        Command = emcStartColumnSelections
         MoveCaret = True
-        Option = 0
-        Priority = 0
       end    
       item
         Shift = [ssShift, ssAlt]
         ShiftMask = [ssShift, ssAlt]
-        Button = mbLeft
-        ClickCount = ccSingle
         ClickDir = cdDown
-        Command = 3
+        Command = emcStartColumnSelections
         MoveCaret = True
         Option = 1
-        Priority = 0
       end    
       item
-        Shift = []
-        ShiftMask = []
         Button = mbRight
-        ClickCount = ccSingle
-        ClickDir = cdUp
-        Command = 12
-        MoveCaret = False
-        Option = 0
-        Priority = 0
+        Command = emcContextMenu
       end    
       item
-        Shift = []
-        ShiftMask = []
-        Button = mbLeft
         ClickCount = ccDouble
         ClickDir = cdDown
-        Command = 6
+        Command = emcSelectWord
         MoveCaret = True
-        Option = 0
-        Priority = 0
       end    
       item
-        Shift = []
-        ShiftMask = []
-        Button = mbLeft
         ClickCount = ccTriple
         ClickDir = cdDown
-        Command = 7
+        Command = emcSelectLine
         MoveCaret = True
-        Option = 0
-        Priority = 0
       end    
       item
-        Shift = []
-        ShiftMask = []
-        Button = mbLeft
         ClickCount = ccQuad
         ClickDir = cdDown
-        Command = 8
+        Command = emcSelectPara
         MoveCaret = True
-        Option = 0
-        Priority = 0
       end    
       item
-        Shift = []
-        ShiftMask = []
         Button = mbMiddle
-        ClickCount = ccSingle
         ClickDir = cdDown
-        Command = 10
+        Command = emcPasteSelection
         MoveCaret = True
-        Option = 0
-        Priority = 0
       end    
       item
         Shift = [ssCtrl]
         ShiftMask = [ssShift, ssAlt, ssCtrl]
-        Button = mbLeft
-        ClickCount = ccSingle
-        ClickDir = cdUp
-        Command = 11
-        MoveCaret = False
-        Option = 0
-        Priority = 0
+        Command = emcMouseLink
       end>
     MouseSelActions = <    
       item
-        Shift = []
-        ShiftMask = []
-        Button = mbLeft
-        ClickCount = ccSingle
         ClickDir = cdDown
-        Command = 9
-        MoveCaret = False
-        Option = 0
-        Priority = 0
+        Command = emcStartDragMove
       end>
+    VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
     BracketHighlightStyle = sbhsBoth
+    BracketMatchColor.Background = clNone
+    BracketMatchColor.Foreground = clNone
+    BracketMatchColor.Style = [fsBold]
+    FoldedCodeColor.Background = clNone
+    FoldedCodeColor.Foreground = clGray
+    FoldedCodeColor.FrameColor = clGray
+    MouseLinkColor.Background = clNone
+    MouseLinkColor.Foreground = clBlue
+    LineHighlightColor.Background = clNone
+    LineHighlightColor.Foreground = clNone
     OnSpecialLineColors = seLogWindowSpecialLineColors
     inline SynGutterPartList1: TSynGutterPartList
       object SynGutterMarks1: TSynGutterMarks
         Width = 24
+        MouseActions = <>
       end
       object SynGutterLineNumber1: TSynGutterLineNumber
         Width = 19
@@ -1042,35 +973,26 @@ object frmMain: TfrmMain
       end
       object SynGutterChanges1: TSynGutterChanges
         Width = 4
+        MouseActions = <>
         ModifiedColor = 59900
         SavedColor = clGreen
       end
       object SynGutterSeparator1: TSynGutterSeparator
         Width = 2
+        MouseActions = <>
       end
       object SynGutterCodeFolding1: TSynGutterCodeFolding
         MouseActions = <        
           item
-            Shift = []
-            ShiftMask = []
             Button = mbRight
-            ClickCount = ccSingle
-            ClickDir = cdUp
-            Command = 16
-            MoveCaret = False
-            Option = 0
-            Priority = 0
+            Command = emcCodeFoldContextMenu
           end        
           item
-            Shift = []
             ShiftMask = [ssShift]
             Button = mbMiddle
             ClickCount = ccAny
             ClickDir = cdDown
-            Command = 14
-            MoveCaret = False
-            Option = 0
-            Priority = 0
+            Command = emcCodeFoldCollaps
           end        
           item
             Shift = [ssShift]
@@ -1078,58 +1000,36 @@ object frmMain: TfrmMain
             Button = mbMiddle
             ClickCount = ccAny
             ClickDir = cdDown
-            Command = 14
-            MoveCaret = False
+            Command = emcCodeFoldCollaps
             Option = 1
-            Priority = 0
           end        
           item
-            Shift = []
-            ShiftMask = []
-            Button = mbLeft
             ClickCount = ccAny
             ClickDir = cdDown
-            Command = 0
-            MoveCaret = False
-            Option = 0
-            Priority = 0
+            Command = emcNone
           end>
         MarkupInfo.Background = clNone
         MarkupInfo.Foreground = clGray
         MouseActionsExpanded = <        
           item
-            Shift = []
-            ShiftMask = []
-            Button = mbLeft
             ClickCount = ccAny
             ClickDir = cdDown
-            Command = 14
-            MoveCaret = False
-            Option = 0
-            Priority = 0
+            Command = emcCodeFoldCollaps
           end>
         MouseActionsCollapsed = <        
           item
             Shift = [ssCtrl]
             ShiftMask = [ssCtrl]
-            Button = mbLeft
             ClickCount = ccAny
             ClickDir = cdDown
-            Command = 15
-            MoveCaret = False
-            Option = 0
-            Priority = 0
+            Command = emcCodeFoldExpand
           end        
           item
-            Shift = []
             ShiftMask = [ssCtrl]
-            Button = mbLeft
             ClickCount = ccAny
             ClickDir = cdDown
-            Command = 15
-            MoveCaret = False
+            Command = emcCodeFoldExpand
             Option = 1
-            Priority = 0
           end>
       end
     end
@@ -1155,72 +1055,72 @@ object frmMain: TfrmMain
       Left = 0
       Height = 20
       Top = 0
-      Width = 95
+      Width = 87
       Action = actView
       Flat = True
       NumGlyphs = 0
     end
     object btnF4: TSpeedButton
-      Left = 95
+      Left = 87
       Height = 20
       Top = 0
-      Width = 95
+      Width = 81
       Action = actEdit
       Flat = True
       NumGlyphs = 0
     end
     object btnF5: TSpeedButton
-      Left = 190
+      Left = 168
       Height = 20
       Top = 0
-      Width = 95
+      Width = 89
       Action = actCopy
       Flat = True
       NumGlyphs = 0
     end
     object btnF6: TSpeedButton
-      Left = 285
+      Left = 257
       Height = 20
       Top = 0
-      Width = 95
+      Width = 94
       Action = actRename
       Flat = True
       NumGlyphs = 0
     end
     object btnF7: TSpeedButton
-      Left = 380
+      Left = 351
       Height = 20
       Top = 0
-      Width = 95
+      Width = 116
       Action = actMakeDir
       Flat = True
       NumGlyphs = 0
     end
     object btnF8: TSpeedButton
-      Left = 475
+      Left = 467
       Height = 20
       Top = 0
-      Width = 95
+      Width = 101
       Caption = 'Delete'
       Flat = True
       NumGlyphs = 0
       OnClick = btnF8Click
     end
     object btnF9: TSpeedButton
-      Left = 570
+      Left = 568
       Height = 20
       Top = 0
-      Width = 95
+      Width = 117
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
       NumGlyphs = 0
     end
     object btnF10: TSpeedButton
-      Left = 665
+      Left = 685
       Height = 20
       Top = 0
-      Width = 95
+      Width = 75
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -2181,6 +2081,18 @@ object frmMain: TfrmMain
       Category = 'File'
       Caption = 'Open'
       Hint = 'Open using system associations'
+      OnExecute = actExecute
+    end
+    object actCmdLineNext: TAction
+      Category = 'Commands'
+      Caption = 'Next Command Line'
+      Hint = 'Set command line to next command in history'
+      OnExecute = actExecute
+    end
+    object actCmdLinePrev: TAction
+      Category = 'Commands'
+      Caption = 'Previous Command Line'
+      Hint = 'Set command line to previous command in history'
       OnExecute = actExecute
     end
   end
