@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-04-20 10:20+0100\n"
+"PO-Revision-Date: 2012-05-08 10:20+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1774,11 +1774,11 @@ msgstr "&Speichern"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
 msgid "Save with starting path"
-msgstr ""
+msgstr "Speichern mit Start-Pfad"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
 msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
-msgstr ""
+msgstr "Wenn der Start-Pfad mitgepeichert wird, wird er wiederhergestellt, wenn die Vorlage geladen wird. Nützlich, wenn eine Suche immer im gleichen Verzeichnis gestartet werden soll."
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -2641,7 +2641,7 @@ msgstr "Öffnen"
 
 #: tfrmmain.actshellexecute.hint
 msgid "Open using system associations"
-msgstr ""
+msgstr "Öffnen anhand der System-eigenen Dateiverknüpfungen (außerhalb von DoubleCommander)"
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
@@ -8118,4 +8118,4 @@ msgstr "Codierung"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nicht gefunden!"
-
+
