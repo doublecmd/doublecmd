@@ -303,15 +303,18 @@ begin
       AFile := FFiles[i];
       if AFile.FSFile.Name <> '..' then
       begin
-        if HaveIcons and (AFile.IconID < 0) then
-          AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
-        {$IF DEFINED(MSWINDOWS)}
-        if gIconOverlays and (AFile.IconOverlayID < 0) then
+        if HaveIcons then
         begin
-          AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
-                                                                    fspDirectAccess in FileSource.Properties);
+          if AFile.IconID < 0 then
+            AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
+          {$IF DEFINED(MSWINDOWS)}
+          if gIconOverlays and (AFile.IconOverlayID < 0) then
+          begin
+            AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
+                                                                      fspDirectAccess in FileSource.Properties);
+          end;
+          {$ENDIF}
         end;
-        {$ENDIF}
         if FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) then
           FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
       end;
@@ -324,11 +327,11 @@ begin
       begin
         AFile := FFiles[i];
         if (AFile.FSFile.Name <> '..') and
-           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded)
-            or (HaveIcons and (AFile.IconID < 0))
-            {$IF DEFINED(MSWINDOWS)}
-            or (gIconOverlays and (AFile.IconOverlayID < 0))
-            {$ENDIF}
+           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
+            (HaveIcons and ((AFile.IconID < 0)
+             {$IF DEFINED(MSWINDOWS)}
+             or (gIconOverlays and (AFile.IconOverlayID < 0))))
+             {$ENDIF}
            ) then
         begin
           if not Assigned(AFileList) then
