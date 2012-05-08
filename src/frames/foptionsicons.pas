@@ -80,6 +80,7 @@ end;
 procedure TfrmOptionsIcons.rbIconsShowNoneChange(Sender: TObject);
 begin
   cbIconsSize.Enabled := not rbIconsShowNone.Checked;
+  cbIconsShowOverlay.Enabled := not rbIconsShowNone.Checked;
 end;
 
 class function TfrmOptionsIcons.GetIconIndex: Integer;
@@ -140,4 +141,4 @@ begin
 end;
 
 end.
-
+
