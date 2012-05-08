@@ -22,6 +22,7 @@ type
   private
     BriefView: TBriefFileView;
     procedure CalculateColRowCount;
+    procedure CalculateColumnWidth;
     function  CellToIndex(ACol, ARow: Integer): Integer;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer);
   protected
@@ -130,6 +131,39 @@ begin
   Invalidate;
 end;
 
+procedure TBriefDrawGrid.CalculateColumnWidth;
+var
+  I, J, L, M: Integer;
+begin
+  if not Assigned(BriefView.FFiles) then Exit;
+  if BriefView.FFiles.Count < 2 then
+    DefaultColWidth:= ClientWidth div 3
+  else
+    begin
+      J:= 0;
+      M:= 0;
+      for I:= 0 to BriefView.FFiles.Count - 1 do
+      begin
+        L:= Length(BriefView.FFiles[I].FSFile.Name);
+        if L > M then
+        begin
+          M:= L;
+          J:= I;
+        end;
+      end;
+      Canvas.Font.Name   := gFonts[dcfMain].Name;
+      Canvas.Font.Size   := gFonts[dcfMain].Size;
+      Canvas.Font.Style  := gFonts[dcfMain].Style;
+      M:= Canvas.TextWidth(BriefView.FFiles[J].FSFile.Name + 'WWW');
+      if (gShowIcons = sim_none) then
+        M:= M + 2
+      else
+        M:= M + gIconsSize + 4;
+      if M > ClientWidth then M:= ClientWidth - 4;
+      DefaultColWidth:= M;
+    end;
+end;
+
 function TBriefDrawGrid.CellToIndex(ACol, ARow: Integer): Integer;
 begin
   if (ARow < 0) or (ARow >= RowCount) or (ACol <  0) or (ACol >= ColCount) then Exit(-1);
@@ -199,6 +233,9 @@ begin
   TempRowHeight := CalculateDefaultRowHeight;
   if TempRowHeight > 0 then
     DefaultRowHeight := TempRowHeight;
+
+  // Calculate column width
+  CalculateColumnWidth;
 end;
 
 procedure TBriefDrawGrid.DoOnResize;
@@ -348,6 +385,7 @@ procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
 var
   SavedKey: Word;
   FileIndex: Integer;
+  ACol, ARow: Integer;
 begin
   SavedKey := Key;
   // Set RangeSelecting before cursor is moved.
@@ -358,7 +396,12 @@ begin
   case Key of
     VK_RIGHT:
       begin
-        if (CellToIndex(Col + 1, Row) < 0) then Key:= 0;
+        if (CellToIndex(Col + 1, Row) < 0) then
+        begin
+          IndexToCell(BriefView.FFiles.Count - 1, ACol, ARow);
+          MoveExtend(False, ACol, ARow);
+          Key:= 0;
+        end;
       end;
     VK_UP, VK_DOWN:
       begin
@@ -475,10 +518,27 @@ var
 
       end;
 
-      s := AFile.FSFile.Name;
+      s := AFile.DisplayStrings[0];
 
-      while Canvas.TextWidth(s) - (aRect.Right - aRect.Left) - 4 > 0 do
-        Delete(s, Length(s), 1);
+      begin
+        Y:= (DefaultColWidth - 4 - Canvas.TextWidth('W'));
+        if (gShowIcons <> sim_none) then Y:= Y - gIconsSize;
+        if Canvas.TextWidth(s) - Y > 0 then
+        begin
+          repeat
+            IconID:= UTF8Length(s);
+            UTF8Delete(s, IconID, 1);
+          until (Canvas.TextWidth(s) - Y < 1) or (IconID = 0);
+          if (IconID > 0) then
+          begin
+            s:= UTF8Copy(s, 1, IconID - 3);
+            if gDirBrackets and (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
+              s:= s + '..]'
+            else
+              s:= s + '...';
+          end;
+        end;
+      end;
 
       if (gShowIcons <> sim_none) then
         Canvas.TextOut(aRect.Left + gIconsSize + 4, iTextTop, s)
@@ -646,7 +706,7 @@ end;
 
 procedure TBriefFileView.MakeColumnsStrings(AFile: TDisplayFile);
 begin
-  AFile.DisplayStrings.Add(FormatFileFunction('GETFILENAME', AFile.FSFile, FileSource));
+  AFile.DisplayStrings.Text:= FormatFileFunction('DC().GETFILENAME{}', AFile.FSFile, FileSource);
 end;
 
 procedure TBriefFileView.RedrawFile(FileIndex: PtrInt);
@@ -683,7 +743,15 @@ procedure TBriefFileView.AfterMakeFileList;
 begin
   inherited AfterMakeFileList;
   dgPanel.CalculateColRowCount;
+  dgPanel.CalculateColumnWidth;
   SetFilesDisplayItems;
+
+  if SetActiveFileNow(RequestedActiveFile) then
+    RequestedActiveFile := ''
+  else
+    // Requested file was not found, restore position to last active file.
+    SetActiveFileNow(LastActiveFile);
+
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
@@ -697,10 +765,9 @@ end;
 
 procedure TBriefFileView.AfterChangePath;
 begin
-//  FUpdatingActiveFile := True;
-  dgPanel.Col := 0;
-  dgPanel.Row := 0;
-//  FUpdatingActiveFile := False;
+  FUpdatingActiveFile := True;
+  dgPanel.MoveExtend(False, 0, 0);
+  FUpdatingActiveFile := False;
 
   inherited AfterChangePath;
 end;
@@ -790,6 +857,10 @@ end;
 procedure TBriefFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
   inherited AddFileSource(aFileSource, aPath);
+
+  FUpdatingActiveFile := True;
+  dgPanel.MoveExtend(False, 0, 0);
+  FUpdatingActiveFile := False;
 end;
 
 procedure TBriefFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
