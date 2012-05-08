@@ -784,18 +784,21 @@ begin
       if FFileSource.CanRetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded) then
         FFileSource.RetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded);
 
-      if HaveIcons and (FWorkingFile.IconID < 0) then
-        FWorkingFile.IconID := PixMapManager.GetIconByFile(
-            FWorkingFile.FSFile,
-            fspDirectAccess in FFileSource.Properties,
-            True);
+      if HaveIcons then
+      begin
+        if FWorkingFile.IconID < 0 then
+          FWorkingFile.IconID := PixMapManager.GetIconByFile(
+              FWorkingFile.FSFile,
+              fspDirectAccess in FFileSource.Properties,
+              True);
 
-      {$IF DEFINED(MSWINDOWS)}
-      if gIconOverlays and (FWorkingFile.IconOverlayID < 0) then
-        FWorkingFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(
-            FWorkingFile.FSFile,
-            fspDirectAccess in FFileSource.Properties);
-      {$ENDIF}
+        {$IF DEFINED(MSWINDOWS)}
+        if gIconOverlays and (FWorkingFile.IconOverlayID < 0) then
+          FWorkingFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(
+              FWorkingFile.FSFile,
+              fspDirectAccess in FFileSource.Properties);
+        {$ENDIF}
+      end;
 
       if Aborted then
         Exit;
