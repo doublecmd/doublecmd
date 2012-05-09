@@ -58,6 +58,9 @@ type
   TUpdatedFilesPosition = (ufpSameAsNewFiles, ufpSortedPosition, ufpNoChange);
   { How initially progress is shown for file operations }
   TFileOperationsProgressKind = (fopkSeparateWindow, fopkSeparateWindowMinimized, fopkOperationsPanel);
+  { Operations with confirmation }
+  TFileOperationsConfirmation = (focCopy, focMove, focDelete, focDeleteToTrash);
+  TFileOperationsConfirmations = set of TFileOperationsConfirmation;
 
   TExternalTool = (etViewer, etEditor, etDiffer);
   TExternalToolOptions = record
@@ -251,6 +254,7 @@ var
   gShowDialogOnDragDrop: Boolean;
   gOverwriteFolder: Boolean;
   gFileOperationsProgressKind: TFileOperationsProgressKind;
+  gFileOperationsConfirmations: TFileOperationsConfirmations;
 
   { Folder tabs page }
 
@@ -846,6 +850,8 @@ begin
   gShowDialogOnDragDrop := False;
   gOverwriteFolder := False;
   gFileOperationsProgressKind := fopkSeparateWindow;
+  gFileOperationsConfirmations := [focCopy, focMove, focDelete, focDeleteToTrash];
+
   // Operations options
   gOperationOptionSymLinks := fsooslNone;
   gOperationOptionCorrectLinks := False;
@@ -1771,6 +1777,7 @@ begin
       gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
       gOverwriteFolder := GetValue(Node, 'OverwriteFolder', gOverwriteFolder);
       gFileOperationsProgressKind := TFileOperationsProgressKind(GetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind)));
+      gFileOperationsConfirmations := TFileOperationsConfirmations(GetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations)));
       // Operations options
       SubNode := Node.FindNode('Options');
       if Assigned(SubNode) then
@@ -2096,6 +2103,7 @@ begin
     SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
     SetValue(Node, 'OverwriteFolder', gOverwriteFolder);
     SetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind));
+    SetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations));
     // Operations options
     SubNode := FindNode(Node, 'Options', True);
     SetValue(SubNode, 'Symlink', Integer(gOperationOptionSymLinks));

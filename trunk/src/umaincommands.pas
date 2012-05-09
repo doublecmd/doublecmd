@@ -240,14 +240,14 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
 
 procedure ReadCopyRenameParams(
   const Params: array of string;
-  out Confirmation, HasQueueId: Boolean;
+  var Confirmation: Boolean;
+  out HasQueueId: Boolean;
   out QueueIdentifier: TOperationsManagerQueueIdentifier);
 var
   Param, sQueueId: String;
   BoolValue: Boolean;
   iQueueId: Integer;
 begin
-  Confirmation := True;
   HasQueueId := False;
   for Param in Params do
   begin
@@ -1356,6 +1356,7 @@ var
   bConfirmation, HasQueueId: Boolean;
   QueueIdentifier: TOperationsManagerQueueIdentifier;
 begin
+  bConfirmation := focCopy in gFileOperationsConfirmations;
   ReadCopyRenameParams(Params, bConfirmation, HasQueueId, QueueIdentifier);
 
   if HasQueueId then
@@ -1380,6 +1381,7 @@ var
   bConfirmation, HasQueueId: Boolean;
   QueueIdentifier: TOperationsManagerQueueIdentifier;
 begin
+  bConfirmation := focMove in gFileOperationsConfirmations;
   ReadCopyRenameParams(Params, bConfirmation, HasQueueId, QueueIdentifier);
 
   if HasQueueId then
@@ -1457,7 +1459,7 @@ var
   MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
   bRecycle: Boolean;
-  bConfirmation: Boolean;
+  bConfirmation, HasConfirmationParam: Boolean;
   Param, ParamTrashCan: String;
   BoolValue: Boolean;
 begin
@@ -1470,7 +1472,7 @@ begin
     end;
 
     bRecycle := gUseTrash;
-    bConfirmation := True;
+    HasConfirmationParam := False;
 
     for Param in Params do
     begin
@@ -1492,12 +1494,23 @@ begin
           bRecycle := BoolValue;
       end
       else if GetParamBoolValue(Param, 'confirmation', BoolValue) then
+      begin
+        HasConfirmationParam := True;
         bConfirmation := BoolValue;
+      end;
     end;
 
     if bRecycle then
       bRecycle := FileSource.IsClass(TFileSystemFileSource) and
                   mbCheckTrash(CurrentPath);
+
+    if not HasConfirmationParam then
+    begin
+      if not bRecycle then
+        bConfirmation := focDelete in gFileOperationsConfirmations
+      else
+        bConfirmation := focDeleteToTrash in gFileOperationsConfirmations;
+    end;
 
     // 12.05.2009
     // Showing delete dialog: to trash or to /dev/null :)

@@ -27,7 +27,7 @@ unit fOptionsFileOperations;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Spin,
+  Classes, SysUtils, StdCtrls, Spin, ExtCtrls,
   fOptionsFrame;
 
 type
@@ -35,6 +35,7 @@ type
   { TfrmOptionsFileOperations }
 
   TfrmOptionsFileOperations = class(TOptionsEditor)
+    bvlConfirmations: TBevel;
     cbDeleteToTrash: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbPartialNameSearch: TCheckBox;
@@ -43,10 +44,15 @@ type
     cbShowCopyTabSelectPanel: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     cbProgressKind: TComboBox;
+    cbCopyConfirmation: TCheckBox;
+    cbMoveConfirmation: TCheckBox;
+    cbDeleteConfirmation: TCheckBox;
+    cbDeleteToTrashConfirmation: TCheckBox;
     edtBufferSize: TEdit;
     gbUserInterface: TGroupBox;
     gbFileSearch: TGroupBox;
     gbExecutingOperations: TGroupBox;
+    lblConfirmations: TLabel;
     lblBufferSize: TLabel;
     lblProgressKind: TLabel;
     lblWipePassNumber: TLabel;
@@ -123,6 +129,11 @@ begin
     fopkOperationsPanel:          cbProgressKind.ItemIndex := 2;
   end;
 
+  cbCopyConfirmation.Checked          := focCopy in gFileOperationsConfirmations;
+  cbMoveConfirmation.Checked          := focMove in gFileOperationsConfirmations;
+  cbDeleteConfirmation.Checked        := focDelete in gFileOperationsConfirmations;
+  cbDeleteToTrashConfirmation.Checked := focDeleteToTrash in gFileOperationsConfirmations;
+
   FLoading := False;
 end;
 
@@ -146,6 +157,16 @@ begin
     1: gFileOperationsProgressKind := fopkSeparateWindowMinimized;
     2: gFileOperationsProgressKind := fopkOperationsPanel;
   end;
+
+  gFileOperationsConfirmations := [];
+  if cbCopyConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focCopy);
+  if cbMoveConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focMove);
+  if cbDeleteConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focDelete);
+  if cbDeleteToTrashConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focDeleteToTrash);
 end;
 
 constructor TfrmOptionsFileOperations.Create(TheOwner: TComponent);
@@ -155,4 +176,4 @@ begin
 end;
 
 end.
-
+
