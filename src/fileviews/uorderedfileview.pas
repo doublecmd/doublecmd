@@ -330,9 +330,9 @@ begin
            (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
             (HaveIcons and ((AFile.IconID < 0)
              {$IF DEFINED(MSWINDOWS)}
-             or (gIconOverlays and (AFile.IconOverlayID < 0))))
+             or (gIconOverlays and (AFile.IconOverlayID < 0))
              {$ENDIF}
-           ) then
+           ))) then
         begin
           if not Assigned(AFileList) then
             AFileList := TFVWorkerFileList.Create;
