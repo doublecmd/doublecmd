@@ -798,10 +798,7 @@ begin
   InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
   // add to search text history
   if cbFindText.Checked then
-    begin
-      InsertFirstItem(cmbFindText.Text, cmbFindText);
-      glsSearchHistory.Insert(0, cmbFindText.Text);
-    end;
+    InsertFirstItem(cmbFindText.Text, cmbFindText);
   // add to replace text history
   if cbReplaceText.Checked then
     InsertFirstItem(cmbReplaceText.Text, cmbReplaceText);
@@ -1035,6 +1032,8 @@ procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   glsMaskHistory.Assign(cmbFindFileMask.Items);
+  glsReplaceHistory.Assign(cmbReplaceText.Items);
+  glsSearchHistory.Assign(cmbFindText.Items);
 
   if Assigned(FFrmAttributesEdit) then
   begin
