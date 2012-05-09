@@ -600,11 +600,6 @@ msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
 msgid "Cancel"
 msgstr "Abbruch"
 
-#: tfrmdiffer.actclose.caption
-msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
-msgid "Close"
-msgstr "Schliessen"
-
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
 msgid "Copy Block Right"
@@ -659,13 +654,20 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Rückgängig machen"
 
-#: tfrmdiffer.actfirstdiff.caption
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
+#: tfrmdiffer.actexit.caption
+#, fuzzy
+#| msgid "Exit"
+msgctxt "tfrmdiffer.actexit.caption"
+msgid "E&xit"
+msgstr "&Beenden"
+
+#: tfrmdiffer.actfirstdifference.caption
+msgctxt "tfrmdiffer.actfirstdifference.caption"
 msgid "First Difference"
 msgstr "Erster Unterschied"
 
-#: tfrmdiffer.actfirstdiff.hint
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
+#: tfrmdiffer.actfirstdifference.hint
+msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "Erster Unterschied"
 
@@ -681,13 +683,13 @@ msgstr "Leerzeichen ignorieren"
 msgid "Keep Scrolling"
 msgstr "Bildlauf fortsetzen"
 
-#: tfrmdiffer.actlastdiff.caption
-msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
+#: tfrmdiffer.actlastdifference.caption
+msgctxt "tfrmdiffer.actlastdifference.caption"
 msgid "Last Difference"
 msgstr "Letzter Unterschied"
 
-#: tfrmdiffer.actlastdiff.hint
-msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
+#: tfrmdiffer.actlastdifference.hint
+msgctxt "tfrmdiffer.actlastdifference.hint"
 msgid "Last Difference"
 msgstr "Letzter Unterschied"
 
@@ -695,13 +697,13 @@ msgstr "Letzter Unterschied"
 msgid "Line Differences"
 msgstr "Zeilenunterschied"
 
-#: tfrmdiffer.actnextdiff.caption
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
+#: tfrmdiffer.actnextdifference.caption
+msgctxt "tfrmdiffer.actnextdifference.caption"
 msgid "Next Difference"
 msgstr "Nächster Unterschied"
 
-#: tfrmdiffer.actnextdiff.hint
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
+#: tfrmdiffer.actnextdifference.hint
+msgctxt "tfrmdiffer.actnextdifference.hint"
 msgid "Next Difference"
 msgstr "Nächster Unterschied"
 
@@ -717,19 +719,21 @@ msgstr "Öffne rechts ..."
 msgid "Paint Background"
 msgstr "Hintergrund zeichnen"
 
-#: tfrmdiffer.actprevdiff.caption
-msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
+#: tfrmdiffer.actprevdifference.caption
+msgctxt "tfrmdiffer.actprevdifference.caption"
 msgid "Previous Difference"
 msgstr "Vorheriger Unterschied"
 
-#: tfrmdiffer.actprevdiff.hint
-msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
+#: tfrmdiffer.actprevdifference.hint
+msgctxt "tfrmdiffer.actprevdifference.hint"
 msgid "Previous Difference"
 msgstr "Vorheriger Unterschied"
 
 #: tfrmdiffer.actreload.caption
+#, fuzzy
+#| msgid "Reload"
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
-msgid "Reload"
+msgid "&Reload"
 msgstr "Neu laden"
 
 #: tfrmdiffer.actreload.hint
@@ -873,11 +877,15 @@ msgid "-"
 msgstr "-"
 
 #: tfrmdiffer.miencodingleft.caption
-msgid "Left"
+#, fuzzy
+#| msgid "Left"
+msgid "&Left"
 msgstr "Links"
 
 #: tfrmdiffer.miencodingright.caption
-msgid "Right"
+#, fuzzy
+#| msgid "Right"
+msgid "&Right"
 msgstr "Rechts"
 
 #: tfrmdiffer.miseparator1.caption
@@ -895,18 +903,24 @@ msgid "&Actions"
 msgstr "&Aktionen"
 
 #: tfrmdiffer.mnuedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Bea&rbeiten"
 
 #: tfrmdiffer.mnuencoding.caption
+#, fuzzy
+#| msgid "Encoding"
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
-msgid "Encoding"
+msgid "En&coding"
 msgstr "Codierung"
 
 #: tfrmdiffer.mnufile.caption
+#, fuzzy
+#| msgid "File"
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
-msgid "File"
+msgid "&File"
 msgstr "Datei"
 
 #: tfrmdiffer.mnuoptions.caption
@@ -1109,6 +1123,7 @@ msgid "E&xit"
 msgstr "En&de"
 
 #: tfrmeditor.actfileexit.hint
+msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
 msgstr "Programm beenden"
 
@@ -1522,24 +1537,22 @@ msgstr "Von:"
 msgid "To:"
 msgstr "Nach:"
 
-#: tfrmfileproperties.btnall.caption
-msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
-msgid "&All"
-msgstr "&Alle"
-
 #: tfrmfileproperties.btnclose.caption
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Schliessen"
 
-#: tfrmfileproperties.btnok.caption
-msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
+#: tfrmfileproperties.btnsetproperties.caption
+msgid "&Set properties"
+msgstr ""
 
-#: tfrmfileproperties.btnskip.caption
-msgid "Skip"
-msgstr "Überspringen"
+#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
+msgid "Set to &all selected files"
+msgstr ""
+
+#: tfrmfileproperties.btnskipfile.caption
+msgid "Ski&p this file"
+msgstr ""
 
 #: tfrmfileproperties.caption
 msgctxt "TFRMFILEPROPERTIES.CAPTION"
@@ -2143,6 +2156,14 @@ msgstr "Pfad und Dateiname in die Befehlszeile kopieren"
 msgid "Copy path to command line"
 msgstr "&Pfad in die Befehlszeile eintragen"
 
+#: tfrmmain.actbriefview.caption
+msgid "Brief"
+msgstr ""
+
+#: tfrmmain.actbriefview.hint
+msgid "Brief View"
+msgstr ""
+
 #: tfrmmain.actcalculatespace.caption
 #, fuzzy
 #| msgid "Calculate &Occupied Space..."
@@ -2183,6 +2204,30 @@ msgstr "Log-Datei leeren"
 msgid "Clear log window"
 msgstr "Log-Fenster leeren"
 
+#: tfrmmain.actcmdlinenext.caption
+msgid "Next Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlinenext.hint
+msgid "Set command line to next command in history"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.caption
+msgid "Previous Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.hint
+msgid "Set command line to previous command in history"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.caption
+msgid "Full"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.hint
+msgid "Columns View"
+msgstr ""
+
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
 msgstr "Anhand des Inhalts vergleichen"
@@ -2204,6 +2249,7 @@ msgstr "&Zeige Kontextmenü"
 #: tfrmmain.actcopy.caption
 #, fuzzy
 #| msgid "Copy"
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -2258,6 +2304,7 @@ msgstr "Verzeic&hnis-Favoriten"
 #: tfrmmain.actedit.caption
 #, fuzzy
 #| msgid "Edit"
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -2544,6 +2591,7 @@ msgstr "&Entferne Reiter"
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
+msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
 msgstr "Verschieben"
 
@@ -2733,6 +2781,7 @@ msgstr "Alle mit der gleichen E&ndung abwählen"
 #: tfrmmain.actview.caption
 #, fuzzy
 #| msgid "View"
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "Betrachten"
 
@@ -2761,6 +2810,7 @@ msgstr "Löschen"
 #: tfrmmain.btnf10.caption
 #, fuzzy
 #| msgid "Exit"
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Beenden"
 
@@ -2774,6 +2824,7 @@ msgstr "Löschen"
 #: tfrmmain.btnf9.caption
 #, fuzzy
 #| msgid "Terminal"
+msgctxt "tfrmmain.btnf9.caption"
 msgid "Terminal"
 msgstr "Konsolen-Fenster"
 
@@ -2983,6 +3034,11 @@ msgstr "-"
 
 #: tfrmmain.miline32.caption
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline33.caption
+msgctxt "tfrmmain.miline33.caption"
 msgid "-"
 msgstr "-"
 
@@ -3636,6 +3692,10 @@ msgstr "&OK"
 msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "Optionen"
+
+#: tfrmoptions.lblemptyeditor.caption
+msgid "Please select one of the subpages, this page does not contain any settings."
+msgstr ""
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
@@ -6737,6 +6797,11 @@ msgstr "Fehler beim Erstellen des Hardlink."
 msgid "Copy/Move Dialog"
 msgstr "Kopieren/Verschieben-Dialog"
 
+#: ulng.rshotkeycategorydiffer
+msgctxt "ulng.rshotkeycategorydiffer"
+msgid "Differ"
+msgstr "Vergleichsprogramm"
+
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Haupt-Fenster"
@@ -8063,6 +8128,7 @@ msgid "Year(s)"
 msgstr "Jahr(e)"
 
 #: ulng.rstooldiffer
+msgctxt "ulng.rstooldiffer"
 msgid "Differ"
 msgstr "Vergleichsprogramm"
 

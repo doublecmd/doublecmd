@@ -600,11 +600,6 @@ msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: tfrmdiffer.actclose.caption
-msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
-msgid "Close"
-msgstr "Закрыть"
-
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
 msgid "Copy Block Right"
@@ -659,13 +654,18 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Отменить"
 
-#: tfrmdiffer.actfirstdiff.caption
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
+#: tfrmdiffer.actexit.caption
+msgctxt "tfrmdiffer.actexit.caption"
+msgid "E&xit"
+msgstr "Выход"
+
+#: tfrmdiffer.actfirstdifference.caption
+msgctxt "tfrmdiffer.actfirstdifference.caption"
 msgid "First Difference"
 msgstr "Первое отличие"
 
-#: tfrmdiffer.actfirstdiff.hint
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
+#: tfrmdiffer.actfirstdifference.hint
+msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "Первое отличие"
 
@@ -681,13 +681,13 @@ msgstr "Не учитывать пробелы"
 msgid "Keep Scrolling"
 msgstr "Одновременная прокрутка"
 
-#: tfrmdiffer.actlastdiff.caption
-msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
+#: tfrmdiffer.actlastdifference.caption
+msgctxt "tfrmdiffer.actlastdifference.caption"
 msgid "Last Difference"
 msgstr "Последнее отличие"
 
-#: tfrmdiffer.actlastdiff.hint
-msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
+#: tfrmdiffer.actlastdifference.hint
+msgctxt "tfrmdiffer.actlastdifference.hint"
 msgid "Last Difference"
 msgstr "Последнее отличие"
 
@@ -695,13 +695,13 @@ msgstr "Последнее отличие"
 msgid "Line Differences"
 msgstr "Разница строк"
 
-#: tfrmdiffer.actnextdiff.caption
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
+#: tfrmdiffer.actnextdifference.caption
+msgctxt "tfrmdiffer.actnextdifference.caption"
 msgid "Next Difference"
 msgstr "Следующее отличие"
 
-#: tfrmdiffer.actnextdiff.hint
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
+#: tfrmdiffer.actnextdifference.hint
+msgctxt "tfrmdiffer.actnextdifference.hint"
 msgid "Next Difference"
 msgstr "Следующее отличие"
 
@@ -717,19 +717,21 @@ msgstr "Открыть справа..."
 msgid "Paint Background"
 msgstr "Подсвечивать фон"
 
-#: tfrmdiffer.actprevdiff.caption
-msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
+#: tfrmdiffer.actprevdifference.caption
+msgctxt "tfrmdiffer.actprevdifference.caption"
 msgid "Previous Difference"
 msgstr "Предыдущее отличие"
 
-#: tfrmdiffer.actprevdiff.hint
-msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
+#: tfrmdiffer.actprevdifference.hint
+msgctxt "tfrmdiffer.actprevdifference.hint"
 msgid "Previous Difference"
 msgstr "Предыдущее отличие"
 
 #: tfrmdiffer.actreload.caption
+#, fuzzy
+#| msgid "Reload"
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
-msgid "Reload"
+msgid "&Reload"
 msgstr "Перезагрузить"
 
 #: tfrmdiffer.actreload.hint
@@ -873,11 +875,15 @@ msgid "-"
 msgstr ""
 
 #: tfrmdiffer.miencodingleft.caption
-msgid "Left"
+#, fuzzy
+#| msgid "Left"
+msgid "&Left"
 msgstr "Слева"
 
 #: tfrmdiffer.miencodingright.caption
-msgid "Right"
+#, fuzzy
+#| msgid "Right"
+msgid "&Right"
 msgstr "Справа"
 
 #: tfrmdiffer.miseparator1.caption
@@ -895,18 +901,24 @@ msgid "&Actions"
 msgstr "Действия"
 
 #: tfrmdiffer.mnuedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Правка"
 
 #: tfrmdiffer.mnuencoding.caption
+#, fuzzy
+#| msgid "Encoding"
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
-msgid "Encoding"
+msgid "En&coding"
 msgstr "Кодировка"
 
 #: tfrmdiffer.mnufile.caption
+#, fuzzy
+#| msgid "File"
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
-msgid "File"
+msgid "&File"
 msgstr "Файл"
 
 #: tfrmdiffer.mnuoptions.caption
@@ -1107,6 +1119,7 @@ msgid "E&xit"
 msgstr "В&ыход"
 
 #: tfrmeditor.actfileexit.hint
+msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
 msgstr "Выход"
 
@@ -1525,24 +1538,22 @@ msgstr "Из:"
 msgid "To:"
 msgstr "в:"
 
-#: tfrmfileproperties.btnall.caption
-msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
-msgid "&All"
-msgstr "Все"
-
 #: tfrmfileproperties.btnclose.caption
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Закрыть"
 
-#: tfrmfileproperties.btnok.caption
-msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&ОК"
+#: tfrmfileproperties.btnsetproperties.caption
+msgid "&Set properties"
+msgstr ""
 
-#: tfrmfileproperties.btnskip.caption
-msgid "Skip"
-msgstr "Пропустить"
+#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
+msgid "Set to &all selected files"
+msgstr ""
+
+#: tfrmfileproperties.btnskipfile.caption
+msgid "Ski&p this file"
+msgstr ""
 
 #: tfrmfileproperties.caption
 msgctxt "TFRMFILEPROPERTIES.CAPTION"
@@ -2136,6 +2147,14 @@ msgstr "Добавить путь и имя файла в командную с�
 msgid "Copy path to command line"
 msgstr "Копировать путь в командную строку"
 
+#: tfrmmain.actbriefview.caption
+msgid "Brief"
+msgstr ""
+
+#: tfrmmain.actbriefview.hint
+msgid "Brief View"
+msgstr ""
+
 #: tfrmmain.actcalculatespace.caption
 #| msgid "Calculate &Occupied Space..."
 msgid "Calculate &Occupied Space"
@@ -2173,6 +2192,30 @@ msgstr "Очистить лог файл"
 msgid "Clear log window"
 msgstr "Очистить окно лога"
 
+#: tfrmmain.actcmdlinenext.caption
+msgid "Next Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlinenext.hint
+msgid "Set command line to next command in history"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.caption
+msgid "Previous Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.hint
+msgid "Set command line to previous command in history"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.caption
+msgid "Full"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.hint
+msgid "Columns View"
+msgstr ""
+
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
 msgstr "Сравнивать п&о содержимому"
@@ -2194,6 +2237,7 @@ msgstr "Показать контекстное меню"
 #: tfrmmain.actcopy.caption
 #, fuzzy
 #| msgid "Copy"
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Копировать"
 
@@ -2246,6 +2290,7 @@ msgstr "Личный спис&ок каталогов"
 #: tfrmmain.actedit.caption
 #, fuzzy
 #| msgid "Edit"
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr "Правка"
 
@@ -2500,6 +2545,7 @@ msgstr "Удалить вкладку"
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
+msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
 msgstr "Переместить"
 
@@ -2671,6 +2717,7 @@ msgstr "Снять выделение по расширению"
 #: tfrmmain.actview.caption
 #, fuzzy
 #| msgid "View"
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "Просмотр"
 
@@ -2698,6 +2745,7 @@ msgstr "Стереть"
 #: tfrmmain.btnf10.caption
 #, fuzzy
 #| msgid "Exit"
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Выход"
 
@@ -2711,6 +2759,7 @@ msgstr "Удалить"
 #: tfrmmain.btnf9.caption
 #, fuzzy
 #| msgid "Terminal"
+msgctxt "tfrmmain.btnf9.caption"
 msgid "Terminal"
 msgstr "Терминал"
 
@@ -2920,6 +2969,11 @@ msgstr ""
 
 #: tfrmmain.miline32.caption
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline33.caption
+msgctxt "tfrmmain.miline33.caption"
 msgid "-"
 msgstr ""
 
@@ -3550,6 +3604,10 @@ msgstr "&ОК"
 msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "Настройка"
+
+#: tfrmoptions.lblemptyeditor.caption
+msgid "Please select one of the subpages, this page does not contain any settings."
+msgstr ""
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
@@ -6608,6 +6666,11 @@ msgstr "Ошибка создания жёсткой ссылки."
 msgid "Copy/Move Dialog"
 msgstr ""
 
+#: ulng.rshotkeycategorydiffer
+msgctxt "ulng.rshotkeycategorydiffer"
+msgid "Differ"
+msgstr ""
+
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr ""
@@ -7929,6 +7992,7 @@ msgid "Year(s)"
 msgstr "Года (лет)"
 
 #: ulng.rstooldiffer
+msgctxt "ulng.rstooldiffer"
 msgid "Differ"
 msgstr ""
 

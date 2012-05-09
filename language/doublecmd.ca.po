@@ -601,11 +601,6 @@ msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
 msgid "Cancel"
 msgstr "Cancel.lar"
 
-#: tfrmdiffer.actclose.caption
-msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
-msgid "Close"
-msgstr "Tancar"
-
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
 msgid "Copy Block Right"
@@ -660,13 +655,18 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Desfer"
 
-#: tfrmdiffer.actfirstdiff.caption
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
+#: tfrmdiffer.actexit.caption
+msgctxt "tfrmdiffer.actexit.caption"
+msgid "E&xit"
+msgstr "&Sortir"
+
+#: tfrmdiffer.actfirstdifference.caption
+msgctxt "tfrmdiffer.actfirstdifference.caption"
 msgid "First Difference"
 msgstr "Primera diferència"
 
-#: tfrmdiffer.actfirstdiff.hint
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
+#: tfrmdiffer.actfirstdifference.hint
+msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "Primera diferència"
 
@@ -682,13 +682,13 @@ msgstr "Ignorar espais blancs"
 msgid "Keep Scrolling"
 msgstr "Mantenir desplaçament"
 
-#: tfrmdiffer.actlastdiff.caption
-msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
+#: tfrmdiffer.actlastdifference.caption
+msgctxt "tfrmdiffer.actlastdifference.caption"
 msgid "Last Difference"
 msgstr "Última diferència"
 
-#: tfrmdiffer.actlastdiff.hint
-msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
+#: tfrmdiffer.actlastdifference.hint
+msgctxt "tfrmdiffer.actlastdifference.hint"
 msgid "Last Difference"
 msgstr "Última diferència"
 
@@ -696,13 +696,13 @@ msgstr "Última diferència"
 msgid "Line Differences"
 msgstr "Diferències de línia"
 
-#: tfrmdiffer.actnextdiff.caption
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
+#: tfrmdiffer.actnextdifference.caption
+msgctxt "tfrmdiffer.actnextdifference.caption"
 msgid "Next Difference"
 msgstr "Següent diferència"
 
-#: tfrmdiffer.actnextdiff.hint
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
+#: tfrmdiffer.actnextdifference.hint
+msgctxt "tfrmdiffer.actnextdifference.hint"
 msgid "Next Difference"
 msgstr "Següent diferència"
 
@@ -718,19 +718,21 @@ msgstr "Obrir dreta..."
 msgid "Paint Background"
 msgstr "Dibuixar Fons"
 
-#: tfrmdiffer.actprevdiff.caption
-msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
+#: tfrmdiffer.actprevdifference.caption
+msgctxt "tfrmdiffer.actprevdifference.caption"
 msgid "Previous Difference"
 msgstr "Diferència prèvia"
 
-#: tfrmdiffer.actprevdiff.hint
-msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
+#: tfrmdiffer.actprevdifference.hint
+msgctxt "tfrmdiffer.actprevdifference.hint"
 msgid "Previous Difference"
 msgstr "Diferència prèvia"
 
 #: tfrmdiffer.actreload.caption
+#, fuzzy
+#| msgid "Reload"
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
-msgid "Reload"
+msgid "&Reload"
 msgstr "Recarregar"
 
 #: tfrmdiffer.actreload.hint
@@ -874,11 +876,15 @@ msgid "-"
 msgstr ""
 
 #: tfrmdiffer.miencodingleft.caption
-msgid "Left"
+#, fuzzy
+#| msgid "Left"
+msgid "&Left"
 msgstr "esquerra"
 
 #: tfrmdiffer.miencodingright.caption
-msgid "Right"
+#, fuzzy
+#| msgid "Right"
+msgid "&Right"
 msgstr "dreta"
 
 #: tfrmdiffer.miseparator1.caption
@@ -896,18 +902,24 @@ msgid "&Actions"
 msgstr "&Accions"
 
 #: tfrmdiffer.mnuedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Editar"
 
 #: tfrmdiffer.mnuencoding.caption
+#, fuzzy
+#| msgid "Encoding"
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
-msgid "Encoding"
+msgid "En&coding"
 msgstr "Codificació"
 
 #: tfrmdiffer.mnufile.caption
+#, fuzzy
+#| msgid "File"
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
-msgid "File"
+msgid "&File"
 msgstr "Arxiu"
 
 #: tfrmdiffer.mnuoptions.caption
@@ -1109,6 +1121,7 @@ msgid "E&xit"
 msgstr "&Sortir"
 
 #: tfrmeditor.actfileexit.hint
+msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
 msgstr ""
 
@@ -1530,24 +1543,22 @@ msgstr "De:"
 msgid "To:"
 msgstr "Per:"
 
-#: tfrmfileproperties.btnall.caption
-msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
-msgid "&All"
-msgstr "&Tot"
-
 #: tfrmfileproperties.btnclose.caption
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Tancar"
 
-#: tfrmfileproperties.btnok.caption
-msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Acceptar"
+#: tfrmfileproperties.btnsetproperties.caption
+msgid "&Set properties"
+msgstr ""
 
-#: tfrmfileproperties.btnskip.caption
-msgid "Skip"
-msgstr "Saltar"
+#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
+msgid "Set to &all selected files"
+msgstr ""
+
+#: tfrmfileproperties.btnskipfile.caption
+msgid "Ski&p this file"
+msgstr ""
 
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
@@ -2151,6 +2162,14 @@ msgstr "Afegir ruta i nom d'Arxiu a la linia de commandes"
 msgid "Copy path to command line"
 msgstr "Copiar ruta a linia de commandes"
 
+#: tfrmmain.actbriefview.caption
+msgid "Brief"
+msgstr ""
+
+#: tfrmmain.actbriefview.hint
+msgid "Brief View"
+msgstr ""
+
 #: tfrmmain.actcalculatespace.caption
 #, fuzzy
 #| msgid "Calculate &Occupied Space..."
@@ -2187,6 +2206,30 @@ msgstr "Esborrar Arxiu log"
 msgid "Clear log window"
 msgstr "Esborrar finestra log"
 
+#: tfrmmain.actcmdlinenext.caption
+msgid "Next Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlinenext.hint
+msgid "Set command line to next command in history"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.caption
+msgid "Previous Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.hint
+msgid "Set command line to previous command in history"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.caption
+msgid "Full"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.hint
+msgid "Columns View"
+msgstr ""
+
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
 msgstr "Comparar por &continguts"
@@ -2208,6 +2251,7 @@ msgstr "Mostrar menú contextual"
 #: tfrmmain.actcopy.caption
 #, fuzzy
 #| msgid "Copy"
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Copiar"
 
@@ -2260,6 +2304,7 @@ msgstr "Marcadors"
 #: tfrmmain.actedit.caption
 #, fuzzy
 #| msgid "Edit"
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr "Editar"
 
@@ -2514,6 +2559,7 @@ msgstr "Tanca&r pestanya"
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
+msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
 msgstr "Moure"
 
@@ -2685,6 +2731,7 @@ msgstr "Deseleccionar Tot amb la mateixa extensió"
 #: tfrmmain.actview.caption
 #, fuzzy
 #| msgid "View"
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "Veure"
 
@@ -2711,6 +2758,7 @@ msgstr "Destruir"
 #: tfrmmain.btnf10.caption
 #, fuzzy
 #| msgid "Exit"
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Sortir"
 
@@ -2722,6 +2770,7 @@ msgid "Delete"
 msgstr "Esborrar"
 
 #: tfrmmain.btnf9.caption
+msgctxt "tfrmmain.btnf9.caption"
 msgid "Terminal"
 msgstr ""
 
@@ -2931,6 +2980,11 @@ msgstr ""
 
 #: tfrmmain.miline32.caption
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline33.caption
+msgctxt "tfrmmain.miline33.caption"
 msgid "-"
 msgstr ""
 
@@ -3576,6 +3630,10 @@ msgstr "&Acceptar"
 msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "Opcions"
+
+#: tfrmoptions.lblemptyeditor.caption
+msgid "Please select one of the subpages, this page does not contain any settings."
+msgstr ""
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "tfrmoptionsarchivers.btnautoconfig.caption"
@@ -6624,6 +6682,11 @@ msgstr "Error creant l'Enllaç fort"
 msgid "Copy/Move Dialog"
 msgstr ""
 
+#: ulng.rshotkeycategorydiffer
+msgctxt "ulng.rshotkeycategorydiffer"
+msgid "Differ"
+msgstr "Differ(comparador)"
+
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr ""
@@ -7944,6 +8007,7 @@ msgid "Year(s)"
 msgstr "Any(s)"
 
 #: ulng.rstooldiffer
+msgctxt "ulng.rstooldiffer"
 msgid "Differ"
 msgstr "Differ(comparador)"
 
@@ -7999,4 +8063,4 @@ msgstr "Codificació"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s no trobat!"
-
+
