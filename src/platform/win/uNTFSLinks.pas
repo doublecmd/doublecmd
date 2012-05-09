@@ -51,12 +51,6 @@ type
 
 const
   FILE_DOES_NOT_EXIST = DWORD(-1);
-  FILE_ATTRIBUTE_DEVICE               = $00000040;
-  FILE_ATTRIBUTE_SPARSE_FILE          = $00000200;
-  FILE_ATTRIBUTE_REPARSE_POINT        = $00000400;
-  FILE_ATTRIBUTE_OFFLINE              = $00001000;
-  FILE_ATTRIBUTE_NOT_CONTENT_INDEXED  = $00002000;
-  FILE_ATTRIBUTE_ENCRYPTED            = $00004000;
   SReparsePointType: array[TReparsePointType] of PAnsiChar = (
     'Unknown point type',
     'Junction',
@@ -254,8 +248,6 @@ const
 
   // Define the access check value for any access
   FILE_ANY_ACCESS = 0;
-  FILE_READ_DATA = 1;
-  FILE_WRITE_DATA = 2;
 
   FSCTL_SET_REPARSE_POINT = (FILE_DEVICE_FILE_SYSTEM shl 16) or
     (FILE_ANY_ACCESS shl 14) or (41 shl 2) or (METHOD_BUFFERED);
@@ -271,20 +263,6 @@ const
 
   MAX_REPARSE_SIZE = 17000;
   MAX_NAME_LENGTH = 1024;
-
-
-  IO_REPARSE_TAG_RESERVED_ZERO  = $000000000;
-  IO_REPARSE_TAG_RESERVED_ONE   = $000000001;
-  IO_REPARSE_TAG_RESERVED_RANGE = $000000001;
-  IO_REPARSE_TAG_VALID_VALUES   = $0E000FFFF;
-  IO_REPARSE_TAG_HSM            = $0C0000004;
-  IO_REPARSE_TAG_NSS            = $080000005;
-  IO_REPARSE_TAG_NSSRECOVER     = $080000006;
-  IO_REPARSE_TAG_SIS            = $080000007;
-  IO_REPARSE_TAG_DFS            = $080000008;
-  IO_REPARSE_TAG_MOUNT_POINT    = $0A0000003;
-  IO_REPARSE_TAG_SYMBOLIC_LINK  = $0A000000C;
-
 
   FILE_SUPPORTS_REPARSE_POINTS = $00000080;
 
@@ -515,7 +493,7 @@ begin
         Result:= True;
       end;
 
-    IO_REPARSE_TAG_SYMBOLIC_LINK:
+    IO_REPARSE_TAG_SYMLINK:
       begin
         reparseData:= @reparseInfo.PathBuffer;
 
