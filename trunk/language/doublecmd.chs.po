@@ -601,11 +601,6 @@ msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
 msgid "Cancel"
 msgstr "取消"
 
-#: tfrmdiffer.actclose.caption
-msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
-msgid "Close"
-msgstr "关闭"
-
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
 msgid "Copy Block Right"
@@ -660,13 +655,20 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "撤销"
 
-#: tfrmdiffer.actfirstdiff.caption
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
+#: tfrmdiffer.actexit.caption
+#, fuzzy
+#| msgid "Exit"
+msgctxt "tfrmdiffer.actexit.caption"
+msgid "E&xit"
+msgstr "退出"
+
+#: tfrmdiffer.actfirstdifference.caption
+msgctxt "tfrmdiffer.actfirstdifference.caption"
 msgid "First Difference"
 msgstr ""
 
-#: tfrmdiffer.actfirstdiff.hint
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
+#: tfrmdiffer.actfirstdifference.hint
+msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr ""
 
@@ -682,13 +684,13 @@ msgstr ""
 msgid "Keep Scrolling"
 msgstr ""
 
-#: tfrmdiffer.actlastdiff.caption
-msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
+#: tfrmdiffer.actlastdifference.caption
+msgctxt "tfrmdiffer.actlastdifference.caption"
 msgid "Last Difference"
 msgstr ""
 
-#: tfrmdiffer.actlastdiff.hint
-msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
+#: tfrmdiffer.actlastdifference.hint
+msgctxt "tfrmdiffer.actlastdifference.hint"
 msgid "Last Difference"
 msgstr ""
 
@@ -696,13 +698,13 @@ msgstr ""
 msgid "Line Differences"
 msgstr ""
 
-#: tfrmdiffer.actnextdiff.caption
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
+#: tfrmdiffer.actnextdifference.caption
+msgctxt "tfrmdiffer.actnextdifference.caption"
 msgid "Next Difference"
 msgstr ""
 
-#: tfrmdiffer.actnextdiff.hint
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
+#: tfrmdiffer.actnextdifference.hint
+msgctxt "tfrmdiffer.actnextdifference.hint"
 msgid "Next Difference"
 msgstr ""
 
@@ -718,19 +720,19 @@ msgstr ""
 msgid "Paint Background"
 msgstr ""
 
-#: tfrmdiffer.actprevdiff.caption
-msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
+#: tfrmdiffer.actprevdifference.caption
+msgctxt "tfrmdiffer.actprevdifference.caption"
 msgid "Previous Difference"
 msgstr ""
 
-#: tfrmdiffer.actprevdiff.hint
-msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
+#: tfrmdiffer.actprevdifference.hint
+msgctxt "tfrmdiffer.actprevdifference.hint"
 msgid "Previous Difference"
 msgstr ""
 
 #: tfrmdiffer.actreload.caption
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
-msgid "Reload"
+msgid "&Reload"
 msgstr ""
 
 #: tfrmdiffer.actreload.hint
@@ -874,11 +876,11 @@ msgid "-"
 msgstr "-"
 
 #: tfrmdiffer.miencodingleft.caption
-msgid "Left"
+msgid "&Left"
 msgstr ""
 
 #: tfrmdiffer.miencodingright.caption
-msgid "Right"
+msgid "&Right"
 msgstr ""
 
 #: tfrmdiffer.miseparator1.caption
@@ -896,18 +898,22 @@ msgid "&Actions"
 msgstr ""
 
 #: tfrmdiffer.mnuedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "编辑"
 
 #: tfrmdiffer.mnuencoding.caption
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
-msgid "Encoding"
+msgid "En&coding"
 msgstr ""
 
 #: tfrmdiffer.mnufile.caption
+#, fuzzy
+#| msgid "File"
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
-msgid "File"
+msgid "&File"
 msgstr "文件"
 
 #: tfrmdiffer.mnuoptions.caption
@@ -1110,6 +1116,7 @@ msgid "E&xit"
 msgstr "退出(&X)"
 
 #: tfrmeditor.actfileexit.hint
+msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
 msgstr ""
 
@@ -1531,24 +1538,22 @@ msgstr "从："
 msgid "To:"
 msgstr "到"
 
-#: tfrmfileproperties.btnall.caption
-msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
-msgid "&All"
-msgstr "全部(&A)"
-
 #: tfrmfileproperties.btnclose.caption
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "关闭"
 
-#: tfrmfileproperties.btnok.caption
-msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "确定(&O)"
+#: tfrmfileproperties.btnsetproperties.caption
+msgid "&Set properties"
+msgstr ""
 
-#: tfrmfileproperties.btnskip.caption
-msgid "Skip"
-msgstr "跳过"
+#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
+msgid "Set to &all selected files"
+msgstr ""
+
+#: tfrmfileproperties.btnskipfile.caption
+msgid "Ski&p this file"
+msgstr ""
 
 #: tfrmfileproperties.caption
 msgctxt "TFRMFILEPROPERTIES.CAPTION"
@@ -2150,6 +2155,14 @@ msgstr "添加路径和文件名到命令行"
 msgid "Copy path to command line"
 msgstr "复制路径到命令行"
 
+#: tfrmmain.actbriefview.caption
+msgid "Brief"
+msgstr ""
+
+#: tfrmmain.actbriefview.hint
+msgid "Brief View"
+msgstr ""
+
 #: tfrmmain.actcalculatespace.caption
 #, fuzzy
 #| msgid "Calculate &Occupied Space..."
@@ -2190,6 +2203,30 @@ msgstr "清除日志文件"
 msgid "Clear log window"
 msgstr "清除日志窗口"
 
+#: tfrmmain.actcmdlinenext.caption
+msgid "Next Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlinenext.hint
+msgid "Set command line to next command in history"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.caption
+msgid "Previous Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.hint
+msgid "Set command line to previous command in history"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.caption
+msgid "Full"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.hint
+msgid "Columns View"
+msgstr ""
+
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
 msgstr "比较内容"
@@ -2211,6 +2248,7 @@ msgstr "上下文菜单"
 #: tfrmmain.actcopy.caption
 #, fuzzy
 #| msgid "Copy"
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "复制"
 
@@ -2265,6 +2303,7 @@ msgstr "常用目录列表"
 #: tfrmmain.actedit.caption
 #, fuzzy
 #| msgid "Edit"
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr "编辑"
 
@@ -2537,6 +2576,7 @@ msgstr "删除标签页"
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
+msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
 msgstr "改名"
 
@@ -2712,6 +2752,7 @@ msgstr "取消选择所有相同扩展"
 #: tfrmmain.actview.caption
 #, fuzzy
 #| msgid "View"
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "查看"
 
@@ -2738,6 +2779,7 @@ msgid "Wipe"
 msgstr "擦去"
 
 #: tfrmmain.btnf10.caption
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr ""
 
@@ -2751,6 +2793,7 @@ msgstr "删除"
 #: tfrmmain.btnf9.caption
 #, fuzzy
 #| msgid "Terminal"
+msgctxt "tfrmmain.btnf9.caption"
 msgid "Terminal"
 msgstr "终端"
 
@@ -2960,6 +3003,11 @@ msgstr "-"
 
 #: tfrmmain.miline32.caption
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline33.caption
+msgctxt "tfrmmain.miline33.caption"
 msgid "-"
 msgstr "-"
 
@@ -3613,6 +3661,10 @@ msgstr "确定(&O)"
 msgctxt "tfrmoptions.caption"
 msgid "Options"
 msgstr "选项"
+
+#: tfrmoptions.lblemptyeditor.caption
+msgid "Please select one of the subpages, this page does not contain any settings."
+msgstr ""
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
@@ -6693,6 +6745,11 @@ msgstr "创建硬链接出现错误."
 msgid "Copy/Move Dialog"
 msgstr ""
 
+#: ulng.rshotkeycategorydiffer
+msgctxt "ulng.rshotkeycategorydiffer"
+msgid "Differ"
+msgstr ""
+
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr ""
@@ -7784,7 +7841,7 @@ msgstr "快速搜索"
 #: ulng.rsoptionseditorterminal
 msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
-msgstr ""
+msgstr "终端"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
@@ -8013,6 +8070,7 @@ msgid "Year(s)"
 msgstr ""
 
 #: ulng.rstooldiffer
+msgctxt "ulng.rstooldiffer"
 msgid "Differ"
 msgstr ""
 
@@ -8040,7 +8098,7 @@ msgstr ""
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
 msgid "Terminal"
-msgstr ""
+msgstr "终端"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
@@ -8068,4 +8126,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+

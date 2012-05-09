@@ -599,11 +599,6 @@ msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
 msgid "Cancel"
 msgstr ""
 
-#: tfrmdiffer.actclose.caption
-msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
-msgid "Close"
-msgstr ""
-
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
 msgid "Copy Block Right"
@@ -658,13 +653,18 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr ""
 
-#: tfrmdiffer.actfirstdiff.caption
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
+#: tfrmdiffer.actexit.caption
+msgctxt "TFRMDIFFER.ACTEXIT.CAPTION"
+msgid "E&xit"
+msgstr ""
+
+#: tfrmdiffer.actfirstdifference.caption
+msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.CAPTION"
 msgid "First Difference"
 msgstr ""
 
-#: tfrmdiffer.actfirstdiff.hint
-msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
+#: tfrmdiffer.actfirstdifference.hint
+msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr ""
 
@@ -680,13 +680,13 @@ msgstr ""
 msgid "Keep Scrolling"
 msgstr ""
 
-#: tfrmdiffer.actlastdiff.caption
-msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
+#: tfrmdiffer.actlastdifference.caption
+msgctxt "TFRMDIFFER.ACTLASTDIFFERENCE.CAPTION"
 msgid "Last Difference"
 msgstr ""
 
-#: tfrmdiffer.actlastdiff.hint
-msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
+#: tfrmdiffer.actlastdifference.hint
+msgctxt "TFRMDIFFER.ACTLASTDIFFERENCE.HINT"
 msgid "Last Difference"
 msgstr ""
 
@@ -694,13 +694,13 @@ msgstr ""
 msgid "Line Differences"
 msgstr ""
 
-#: tfrmdiffer.actnextdiff.caption
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
+#: tfrmdiffer.actnextdifference.caption
+msgctxt "TFRMDIFFER.ACTNEXTDIFFERENCE.CAPTION"
 msgid "Next Difference"
 msgstr ""
 
-#: tfrmdiffer.actnextdiff.hint
-msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
+#: tfrmdiffer.actnextdifference.hint
+msgctxt "TFRMDIFFER.ACTNEXTDIFFERENCE.HINT"
 msgid "Next Difference"
 msgstr ""
 
@@ -716,19 +716,19 @@ msgstr ""
 msgid "Paint Background"
 msgstr ""
 
-#: tfrmdiffer.actprevdiff.caption
-msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
+#: tfrmdiffer.actprevdifference.caption
+msgctxt "TFRMDIFFER.ACTPREVDIFFERENCE.CAPTION"
 msgid "Previous Difference"
 msgstr ""
 
-#: tfrmdiffer.actprevdiff.hint
-msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
+#: tfrmdiffer.actprevdifference.hint
+msgctxt "TFRMDIFFER.ACTPREVDIFFERENCE.HINT"
 msgid "Previous Difference"
 msgstr ""
 
 #: tfrmdiffer.actreload.caption
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
-msgid "Reload"
+msgid "&Reload"
 msgstr ""
 
 #: tfrmdiffer.actreload.hint
@@ -872,11 +872,11 @@ msgid "-"
 msgstr ""
 
 #: tfrmdiffer.miencodingleft.caption
-msgid "Left"
+msgid "&Left"
 msgstr ""
 
 #: tfrmdiffer.miencodingright.caption
-msgid "Right"
+msgid "&Right"
 msgstr ""
 
 #: tfrmdiffer.miseparator1.caption
@@ -895,17 +895,17 @@ msgstr ""
 
 #: tfrmdiffer.mnuedit.caption
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr ""
 
 #: tfrmdiffer.mnuencoding.caption
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
-msgid "Encoding"
+msgid "En&coding"
 msgstr ""
 
 #: tfrmdiffer.mnufile.caption
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
-msgid "File"
+msgid "&File"
 msgstr ""
 
 #: tfrmdiffer.mnuoptions.caption
@@ -1106,6 +1106,7 @@ msgid "E&xit"
 msgstr ""
 
 #: tfrmeditor.actfileexit.hint
+msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
 msgstr ""
 
@@ -1521,23 +1522,21 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
-#: tfrmfileproperties.btnall.caption
-msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
-msgid "&All"
-msgstr ""
-
 #: tfrmfileproperties.btnclose.caption
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr ""
 
-#: tfrmfileproperties.btnok.caption
-msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
-msgid "&OK"
+#: tfrmfileproperties.btnsetproperties.caption
+msgid "&Set properties"
 msgstr ""
 
-#: tfrmfileproperties.btnskip.caption
-msgid "Skip"
+#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
+msgid "Set to &all selected files"
+msgstr ""
+
+#: tfrmfileproperties.btnskipfile.caption
+msgid "Ski&p this file"
 msgstr ""
 
 #: tfrmfileproperties.caption
@@ -2117,6 +2116,14 @@ msgstr ""
 msgid "Copy path to command line"
 msgstr ""
 
+#: tfrmmain.actbriefview.caption
+msgid "Brief"
+msgstr ""
+
+#: tfrmmain.actbriefview.hint
+msgid "Brief View"
+msgstr ""
+
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
 msgstr ""
@@ -2151,6 +2158,30 @@ msgstr ""
 msgid "Clear log window"
 msgstr ""
 
+#: tfrmmain.actcmdlinenext.caption
+msgid "Next Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlinenext.hint
+msgid "Set command line to next command in history"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.caption
+msgid "Previous Command Line"
+msgstr ""
+
+#: tfrmmain.actcmdlineprev.hint
+msgid "Set command line to previous command in history"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.caption
+msgid "Full"
+msgstr ""
+
+#: tfrmmain.actcolumnsview.hint
+msgid "Columns View"
+msgstr ""
+
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
 msgstr ""
@@ -2170,6 +2201,7 @@ msgid "Show context menu"
 msgstr ""
 
 #: tfrmmain.actcopy.caption
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr ""
 
@@ -2216,6 +2248,7 @@ msgid "Directory &Hotlist"
 msgstr ""
 
 #: tfrmmain.actedit.caption
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr ""
 
@@ -2434,6 +2467,7 @@ msgid "&Remove Tab"
 msgstr ""
 
 #: tfrmmain.actrename.caption
+msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
 msgstr ""
 
@@ -2581,6 +2615,7 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr ""
 
 #: tfrmmain.actview.caption
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr ""
 
@@ -2605,6 +2640,7 @@ msgid "Wipe"
 msgstr ""
 
 #: tfrmmain.btnf10.caption
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr ""
 
@@ -2614,6 +2650,7 @@ msgid "Delete"
 msgstr ""
 
 #: tfrmmain.btnf9.caption
+msgctxt "tfrmmain.btnf9.caption"
 msgid "Terminal"
 msgstr ""
 
@@ -2827,6 +2864,11 @@ msgstr ""
 
 #: tfrmmain.miline32.caption
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline33.caption
+msgctxt "TFRMMAIN.MILINE33.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -3431,6 +3473,10 @@ msgstr ""
 #: tfrmoptions.caption
 msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
+msgstr ""
+
+#: tfrmoptions.lblemptyeditor.caption
+msgid "Please select one of the subpages, this page does not contain any settings."
 msgstr ""
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
@@ -6402,6 +6448,11 @@ msgstr ""
 msgid "Copy/Move Dialog"
 msgstr ""
 
+#: ulng.rshotkeycategorydiffer
+msgctxt "ulng.rshotkeycategorydiffer"
+msgid "Differ"
+msgstr ""
+
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr ""
@@ -7717,6 +7768,7 @@ msgid "Year(s)"
 msgstr ""
 
 #: ulng.rstooldiffer
+msgctxt "ulng.rstooldiffer"
 msgid "Differ"
 msgstr ""
 
@@ -7772,4 +7824,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+
