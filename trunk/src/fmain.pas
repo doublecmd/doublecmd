@@ -42,7 +42,7 @@ interface
 uses
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls,
-  KASToolBar, uCmdBox, uFilePanelSelect, uBriefFileView,
+  KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
@@ -160,7 +160,7 @@ type
     btnRightDirectoryHotlist: TSpeedButton;
     dskLeft: TKASToolBar;
     dskRight: TKASToolBar;
-    edtCommand: TComboBox;
+    edtCommand: TComboBoxWithDelItems;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
@@ -4079,7 +4079,7 @@ begin
       ActiveFrame.SetFocus;
       Key:= 0;
     end
-  else if (edtCommand.DroppedDown) and (Key in [VK_RETURN, VK_SELECT, VK_ESCAPE]) then
+  else if edtCommand.DroppedDown and (Key in [VK_RETURN, VK_SELECT, VK_ESCAPE]) then
     begin
       edtCommand.DroppedDown := False;
       Key := 0;

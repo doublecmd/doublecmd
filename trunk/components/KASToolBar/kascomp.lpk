@@ -30,7 +30,7 @@
     <License Value="GNU GPL 2
 "/>
     <Version Major="1" Minor="8"/>
-    <Files Count="4">
+    <Files Count="5">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
@@ -50,6 +50,11 @@
         <Filename Value="kastoolitems.pas"/>
         <UnitName Value="KASToolItems"/>
       </Item4>
+      <Item5>
+        <Filename Value="kascombobox.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="KASComboBox"/>
+      </Item5>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="4">

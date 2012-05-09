@@ -464,7 +464,7 @@ object frmMain: TfrmMain
         ParentColor = False
         ShowAccelChar = False
       end
-      object edtCommand: TComboBox
+      object edtCommand: TComboBoxWithDelItems
         AnchorSideLeft.Control = lblCommandPath
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = pnlCmdLine
