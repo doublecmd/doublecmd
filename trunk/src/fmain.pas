@@ -4320,16 +4320,10 @@ var
 begin
   Result:= True;
 
-  iIndex := edtCommand.Items.IndexOf(sCmd);
-  if iIndex = -1 then
-  begin
-    edtCommand.Items.Insert(0,sCmd);
-    // only cMaxStringItems(see uGlobs.pas) is stored
-    if edtCommand.Items.Count>cMaxStringItems then
-      edtCommand.Items.Delete(edtCommand.Items.Count-1);
-  end
-  else
-    edtCommand.Items.Move(iIndex, 0); // Move to top.
+  InsertFirstItem(sCmd, edtCommand);
+  // only cMaxStringItems(see uGlobs.pas) is stored
+  if edtCommand.Items.Count>cMaxStringItems then
+    edtCommand.Items.Delete(edtCommand.Items.Count-1);
   edtCommand.DroppedDown:= False;
 
   sCmd:= ReplaceEnvVars(sCmd);
