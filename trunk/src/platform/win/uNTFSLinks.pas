@@ -88,13 +88,67 @@ implementation
 uses
   LCLProc, uDebug;
 
-//-------------------------------------------------------------
+const
+  FILE_DEVICE_FILE_SYSTEM = $0009;
+  // Define the method codes for how buffers are passed for I/O and FS controls
+  METHOD_BUFFERED = 0;
+  METHOD_IN_DIRECT = 1;
+  METHOD_OUT_DIRECT = 2;
+  METHOD_NEITHER = 3;
+
+  // Define the access check value for any access
+  FILE_ANY_ACCESS = 0;
+
+  FSCTL_SET_REPARSE_POINT = (FILE_DEVICE_FILE_SYSTEM shl 16) or
+    (FILE_ANY_ACCESS shl 14) or (41 shl 2) or (METHOD_BUFFERED);
+  FSCTL_GET_REPARSE_POINT = (FILE_DEVICE_FILE_SYSTEM shl 16) or
+    (FILE_ANY_ACCESS shl 14) or (42 shl 2) or (METHOD_BUFFERED);
+  FSCTL_DELETE_REPARSE_POINT = (FILE_DEVICE_FILE_SYSTEM shl 16) or
+    (FILE_ANY_ACCESS shl 14) or (43 shl 2) or (METHOD_BUFFERED);
+
+  FILE_FLAG_OPEN_REPARSE_POINT = $00200000;
+
+  MAX_REPARSE_SIZE = 17000;
+  MAX_NAME_LENGTH = 1024;
+
+  FILE_SUPPORTS_REPARSE_POINTS = $00000080;
 
 type
-  int64rec = packed record
-    lo: LongWord;
-    hi: LongInt;
+  {$packrecords c}
+  REPARSE_DATA_BUFFER = record
+    ReparseTag: DWORD;
+    ReparseDataLength: Word;
+    Reserved: Word;
+    SubstituteNameOffset: Word;
+    SubstituteNameLength: Word;
+    PrintNameOffset: Word;
+    PrintNameLength: Word;
+    PathBuffer: array[0..0] of WideChar;
   end;
+  {$packrecords default}
+  TReparseDataBuffer = REPARSE_DATA_BUFFER;
+  PReparseDataBuffer = ^TReparseDataBuffer;
+
+const
+  // Offset where PathBuffer starts.
+  REPARSE_DATA_BUFFER_HEADER_SIZE = 16;
+  // Size of data from SubstituteNameOffset to beginning of PathBuffer (not including).
+  REPARSE_DATA_BUFFER_DATA_HEADER_SIZE = 8;
+
+  SYMBOLIC_LINK_FLAG_FILE      = 0;
+  SYMBOLIC_LINK_FLAG_DIRECTORY = 1;
+  wsNativeFileNamePrefix : WideString = '\??\';
+
+type
+  TCreateSymbolicLinkW = function(
+    pwcSymlinkFileName,
+    pwcTargetFileName: PWideChar;
+    dwFlags: DWORD): BOOL; stdcall;
+
+  TCreateHardLinkW = function (
+    lpFileName,
+    lpExistingFileName: LPCWSTR;
+    lpSecurityAttributes: LPSECURITY_ATTRIBUTES): BOOL; stdcall;
 
 //-------------------------------------------------------------
 
@@ -102,14 +156,6 @@ function HasNewApi: Boolean;
 begin
   Result:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6);
 end;
-
-//-------------------------------------------------------------
-
-type
-  TCreateHardLinkW = function (
-    lpFileName,
-    lpExistingFileName: LPCWSTR;
-    lpSecurityAttributes: LPSECURITY_ATTRIBUTES): BOOL; stdcall;
 
 //-------------------------------------------------------------
 
@@ -238,80 +284,6 @@ end;
 
 //-------------------------------------------------------------
 
-const
-  FILE_DEVICE_FILE_SYSTEM = $0009;
-  // Define the method codes for how buffers are passed for I/O and FS controls
-  METHOD_BUFFERED = 0;
-  METHOD_IN_DIRECT = 1;
-  METHOD_OUT_DIRECT = 2;
-  METHOD_NEITHER = 3;
-
-  // Define the access check value for any access
-  FILE_ANY_ACCESS = 0;
-
-  FSCTL_SET_REPARSE_POINT = (FILE_DEVICE_FILE_SYSTEM shl 16) or
-    (FILE_ANY_ACCESS shl 14) or (41 shl 2) or (METHOD_BUFFERED);
-  FSCTL_GET_REPARSE_POINT = (FILE_DEVICE_FILE_SYSTEM shl 16) or
-    (FILE_ANY_ACCESS shl 14) or (42 shl 2) or (METHOD_BUFFERED);
-  FSCTL_DELETE_REPARSE_POINT = (FILE_DEVICE_FILE_SYSTEM shl 16) or
-    (FILE_ANY_ACCESS shl 14) or (43 shl 2) or (METHOD_BUFFERED);
-
-  FILE_FLAG_OPEN_REPARSE_POINT = $00200000;
-
-
-  REPARSE_MOUNTPOINT_HEADER_SIZE = 8;
-
-  MAX_REPARSE_SIZE = 17000;
-  MAX_NAME_LENGTH = 1024;
-
-  FILE_SUPPORTS_REPARSE_POINTS = $00000080;
-
-type
-  REPARSE_MOUNTPOINT_DATA_BUFFER = packed record
-    ReparseTag : DWORD;
-    ReparseDataLength : DWORD;
-    Reserved : Word;
-    ReparseTargetLength : Word;
-    ReparseTargetMaximumLength : Word;
-    Reserved1 : Word;
-    ReparseTarget : Array [0..0] of WChar;
-  end;
-  TReparseMountpointDataBuffer = REPARSE_MOUNTPOINT_DATA_BUFFER;
-  PReparseMountpointDataBuffer = ^TReparseMountpointDataBuffer;
-
-  REPARSE_DATA_BUFFER = packed record
-    ReparseTag: DWORD;
-    ReparseDataLength: Word;
-    Reserved: Word;
-    SubstituteNameOffset: Word;
-    SubstituteNameLength: Word;
-    PrintNameOffset: Word;
-    PrintNameLength: Word;
-    PathBuffer: array[0..0] of WideChar;
-  end;
-  TReparseDataBuffer = REPARSE_DATA_BUFFER;
-  PReparseDataBuffer = ^TReparseDataBuffer;
-
-const
-  SYMBOLIC_LINK_FLAG_FILE      = 0;
-  SYMBOLIC_LINK_FLAG_DIRECTORY = 1;
-  wsNativeFileNamePrefix : WideString = '\??\';
-
-type
-  TGetFinalPathNameByHandleW = function(
-    hFile: THandle;
-    pwcFilePath: PWideChar;
-    cchFilePath: DWORD;
-    dwFlags: DWORD): DWORD; stdcall;
-
-type
-  TCreateSymbolicLinkW = function(
-    pwcSymlinkFileName,
-    pwcTargetFileName: PWideChar;
-    dwFlags: DWORD): BOOL; stdcall;
-
-//-------------------------------------------------------------
-
 function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: WideString): boolean;
 var
   hLib: THandle;
@@ -339,8 +311,8 @@ end;
 function _CreateSymLink_Old(ATargetName, ALinkName: WideString): Boolean;
 var
   hLink : THandle;
-  pReparseInfo : PReparseMountPointDataBuffer;
-  BufSize : Integer;
+  pReparseInfo : PReparseDataBuffer;
+  BufSize, PathBufSize : Integer;
   pwcLinkFileName : PWideChar;
   wTargetNativeFileName : WideString;
   dwBytesReturned : DWORD;
@@ -371,27 +343,35 @@ begin
 
       //--------------------------------------------------------
       wTargetNativeFileName:= wsNativeFileNamePrefix + ATargetName;
-      BufSize:= (Length(wsNativeFileNamePrefix) + Length(ATargetName) + 1) * 2 + REPARSE_MOUNTPOINT_HEADER_SIZE + 12;
+      // PathBuffer stores SubstituteName with trailing zero and
+      // additional zero for empty PrintName.
+      PathBufSize := (Length(wTargetNativeFileName) + 2) * SizeOf(WideChar);
+      BufSize:= REPARSE_DATA_BUFFER_HEADER_SIZE + PathBufSize;
       GetMem(pReparseInfo, BufSize);
       FillChar(pReparseInfo^, BufSize, 0);
 
       with pReparseInfo^ do
       begin
-        Move(wTargetNativeFileName[1], ReparseTarget, (Length(wTargetNativeFileName) + 1) * 2);
+        Move(wTargetNativeFileName[1], PathBuffer, Length(wTargetNativeFileName) * SizeOf(WideChar));
         ReparseTag:= IO_REPARSE_TAG_MOUNT_POINT;
-        ReparseTargetLength:= Length(wTargetNativeFileName) * 2;
-        ReparseTargetMaximumLength:= ReparseTargetLength + 2;
-        ReparseDataLength:= ReparseTargetLength + 12;
+        SubstituteNameLength := Length(wTargetNativeFileName) * SizeOf(WideChar); // Length without trailing zero
+        PrintNameOffset := SubstituteNameOffset + SubstituteNameLength + SizeOf(WideChar);
+        ReparseDataLength:= PathBufSize + REPARSE_DATA_BUFFER_DATA_HEADER_SIZE;
       end;
       //--------------------------------------------------------
 
       dwBytesReturned := 0;
-      if not DeviceIoControl( hLink, FSCTL_SET_REPARSE_POINT, pReparseInfo,
-              pReparseInfo^.ReparseDataLength + REPARSE_MOUNTPOINT_HEADER_SIZE,
-              nil, 0, dwBytesReturned, nil ) then RaiseLastOSError;
+      if not DeviceIoControl( hLink, FSCTL_SET_REPARSE_POINT,
+              pReparseInfo, BufSize, nil, 0, dwBytesReturned, nil ) then
+        RaiseLastOSError;
 
     except
-      if bDirectoryCreated then RemoveDirectoryW(pwcLinkFileName);
+      if bDirectoryCreated and (hLink <> INVALID_HANDLE_VALUE) then
+      begin
+        Windows.CloseHandle(hLink);
+        hLink := INVALID_HANDLE_VALUE;
+        RemoveDirectoryW(pwcLinkFileName);
+      end;
       raise;
     end;
 
