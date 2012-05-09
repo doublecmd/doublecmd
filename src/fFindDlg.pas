@@ -31,7 +31,7 @@ interface
 
 uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
-  ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker,
+  ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker, KASComboBox,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
   uSearchTemplate;
 
@@ -70,16 +70,16 @@ type
     cbPartialNameSearch: TCheckBox;
     cbFollowSymLinks: TCheckBox;
     cbUsePlugin: TCheckBox;
-    cmbExcludeDirectories: TComboBox;
+    cmbExcludeDirectories: TComboBoxWithDelItems;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
     cmbEncoding: TComboBox;
     cmbSearchDepth: TComboBox;
     cbRegExp: TCheckBox;
     cmbPlugin: TComboBox;
-    cmbReplaceText: TComboBox;
-    cmbFindText: TComboBox;
-    cmbExcludeFiles: TComboBox;
+    cmbReplaceText: TComboBoxWithDelItems;
+    cmbFindText: TComboBoxWithDelItems;
+    cmbExcludeFiles: TComboBoxWithDelItems;
     edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
     gbAttributes: TGroupBox;
@@ -118,7 +118,7 @@ type
     tsStandard: TTabSheet;
     lblFindPathStart: TLabel;
     lblFindFileMask: TLabel;
-    cmbFindFileMask: TComboBox;
+    cmbFindFileMask: TComboBoxWithDelItems;
     gbFindData: TGroupBox;
     cbCaseSens: TCheckBox;
     tsAdvanced: TTabSheet;

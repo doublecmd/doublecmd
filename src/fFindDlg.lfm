@@ -117,7 +117,7 @@ object frmFindDlg: TfrmFindDlg
             FocusControl = cmbExcludeDirectories
             ParentColor = False
           end
-          object cmbExcludeDirectories: TComboBox
+          object cmbExcludeDirectories: TComboBoxWithDelItems
             AnchorSideLeft.Control = lblExcludeDirectories
             AnchorSideTop.Control = lblExcludeDirectories
             AnchorSideTop.Side = asrBottom
@@ -203,7 +203,7 @@ object frmFindDlg: TfrmFindDlg
             ParentColor = False
             ParentFont = False
           end
-          object cmbFindFileMask: TComboBox
+          object cmbFindFileMask: TComboBoxWithDelItems
             AnchorSideLeft.Control = gbFiles
             AnchorSideTop.Control = lblFindFileMask
             AnchorSideTop.Side = asrBottom
@@ -234,7 +234,7 @@ object frmFindDlg: TfrmFindDlg
             FocusControl = cmbExcludeFiles
             ParentColor = False
           end
-          object cmbExcludeFiles: TComboBox
+          object cmbExcludeFiles: TComboBoxWithDelItems
             AnchorSideLeft.Control = gbFiles
             AnchorSideTop.Control = lblExcludeFiles
             AnchorSideTop.Side = asrBottom
@@ -357,7 +357,7 @@ object frmFindDlg: TfrmFindDlg
             Style = csDropDownList
             TabOrder = 5
           end
-          object cmbFindText: TComboBox
+          object cmbFindText: TComboBoxWithDelItems
             AnchorSideLeft.Control = CheksPanel
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbFindData
@@ -373,7 +373,7 @@ object frmFindDlg: TfrmFindDlg
             ItemHeight = 21
             TabOrder = 1
           end
-          object cmbReplaceText: TComboBox
+          object cmbReplaceText: TComboBoxWithDelItems
             AnchorSideLeft.Control = cmbFindText
             AnchorSideTop.Control = cmbFindText
             AnchorSideTop.Side = asrBottom
