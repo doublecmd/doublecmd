@@ -306,7 +306,8 @@ begin
         if HaveIcons then
         begin
           if AFile.IconID < 0 then
-            AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
+            AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
+              fspDirectAccess in FileSource.Properties, True, gShowIcons, not gIconOverlays);
           {$IF DEFINED(MSWINDOWS)}
           if gIconOverlays and (AFile.IconOverlayID < 0) then
           begin

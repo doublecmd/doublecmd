@@ -652,7 +652,9 @@ begin
       begin
         AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
                                                     fspDirectAccess in aFileSource.Properties,
-                                                    not gLoadIconsSeparately);
+                                                    not gLoadIconsSeparately,
+                                                    gShowIcons,
+                                                    not gIconOverlays);
       end;
 
       aDisplayFiles.Add(AFile);
@@ -694,7 +696,9 @@ begin
           begin
             AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
                                                         fspDirectAccess in aFileSource.Properties,
-                                                        not gLoadIconsSeparately);
+                                                        not gLoadIconsSeparately,
+                                                        gShowIcons,
+                                                        not gIconOverlays);
           end;
 
           // New file.
@@ -790,7 +794,9 @@ begin
           FWorkingFile.IconID := PixMapManager.GetIconByFile(
               FWorkingFile.FSFile,
               fspDirectAccess in FFileSource.Properties,
-              True);
+              True,
+              gShowIcons,
+              not gIconOverlays);
 
         {$IF DEFINED(MSWINDOWS)}
         if gIconOverlays and (FWorkingFile.IconOverlayID < 0) then
