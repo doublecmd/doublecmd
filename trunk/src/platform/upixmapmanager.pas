@@ -46,7 +46,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, StringHashList,
-  uFile, uIconTheme, uDrive, uDisplayFile
+  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs
   {$IF DEFINED(UNIX)}
     {$IF NOT DEFINED(DARWIN)}
     , contnrs
@@ -260,8 +260,14 @@ type
               does not exist in FPixmapsList.
               If the icon already exists for the file the function returns
               its index regardless of LoadIcon parameter.)
+       @param(IconsMode
+              Whether to retrieve only standard icon, also from file resources, etc.)
+       @param(GetIconWithLink
+              If the file is a link and GetLinkIcon is @true it retrieves icon
+              with embedded link bitmap. If @false it only retrieves the file icon itself.)
     }
-    function GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean): PtrInt;
+    function GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
+                           IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
     {$IF DEFINED(MSWINDOWS)}
     {en
        Retrieves overlay icon index for a file.
@@ -296,7 +302,7 @@ implementation
 
 uses
   LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
-  uGlobs, DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
+  DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
   DCOSUtils
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
@@ -493,7 +499,7 @@ begin
             begin
               AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
               try
-                iIndex := GetIconByFile(AFile, True, True);
+                iIndex := GetIconByFile(AFile, True, True, sim_all_and_exe, False);
                 bmStandartBitmap := GetBitmap(iIndex);
               finally
                 FreeAndNil(AFile);
@@ -1533,7 +1539,8 @@ begin
   end;
 end;
 
-function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean): PtrInt;
+function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
+  IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
 var
   Ext: String;
 {$IFDEF MSWINDOWS}
@@ -1556,7 +1563,7 @@ begin
 
     if IsLinkToDirectory then
     begin
-      if not gIconOverlays then
+      if GetIconWithLink then
       begin
         if (LinkProperty = nil) or LinkProperty.IsValid then
           Result := FiDirLinkIconID
@@ -1569,13 +1576,13 @@ begin
     if IsDirectory or IsLinkToDirectory then
     begin
       {$IF DEFINED(MSWINDOWS)}
-      if (gShowIcons = sim_standart) or
+      if (IconsMode = sim_standart) or
          // Directory has special icon only if it has "read only" or "system" attributes
          // and contains desktop.ini file
          (not (DirectAccess and (IsSysFile or FileIsReadOnly(Attributes)) and mbFileExists(FullPath + '\desktop.ini'))) or
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-      if (gShowIcons = sim_all_and_exe) and
+      if (IconsMode = sim_all_and_exe) and
          (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
         begin
           if LoadIcon then
@@ -1586,7 +1593,7 @@ begin
         end
       else
       {$ELSEIF DEFINED(DARWIN)}
-      if (gShowIcons = sim_all_and_exe) and
+      if (IconsMode = sim_all_and_exe) and
          (DirectAccess and (ExtractFileExt(FullPath) = '.app')) then
         begin
           if LoadIcon then
@@ -1603,7 +1610,7 @@ begin
     end
     else // not directory
     begin
-      if IsLink and not gIconOverlays then
+      if IsLink and GetIconWithLink then
       begin
         if (LinkProperty = nil) or LinkProperty.IsValid then
           Exit(FiLinkIconID)
@@ -1617,7 +1624,7 @@ begin
       Ext := UTF8LowerCase(Extension);
 
       {$IF DEFINED(MSWINDOWS)}
-      if gShowIcons <> sim_all_and_exe then
+      if IconsMode <> sim_all_and_exe then
         begin
           if Ext = 'exe' then
             Exit(FiExeIconID)
@@ -1627,7 +1634,7 @@ begin
             Exit(FiDefaultIconID)
         end;
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-      if gShowIcons = sim_all_and_exe then
+      if IconsMode = sim_all_and_exe then
         begin
           if DirectAccess and (Ext = 'desktop') then
             begin
@@ -1646,7 +1653,7 @@ begin
         if Result >= 0 then
           Exit(PtrInt(PtrUInt(FExtList.List[Result]^.Data)));
 
-        if gShowIcons <= sim_standart then
+        if IconsMode <= sim_standart then
           Exit(FiDefaultIconID);
 
         {$IF DEFINED(UNIX)}
