@@ -98,6 +98,12 @@ const
   }
   function StrToFileAttr(sAttr: String): TFileAttrs;
   {en
+     Convert file attributes to string in the format of "attr1+attr2+attr3+".
+     @param(Attributes File attributes)
+     @returns(File attributes as string)
+  }
+  function FileAttrToStr(Attr: TFileAttrs): String;
+  {en
        Convert Windows file attributes from string to number
        @param(Attributes File attributes as string)
        @returns(File attributes as number)
@@ -248,6 +254,26 @@ begin
   Result := WinStrToFileAttr(sAttr);
 {$ELSEIF DEFINED(UNIX)}
   Result := UnixStrToFileAttr(sAttr);
+{$ENDIF}
+end;
+
+function FileAttrToStr(Attr: TFileAttrs): String;
+var
+  i: Integer;
+begin
+  Result := '';
+{$IF DEFINED(MSWINDOWS)}
+  for i := Low(WinAttrStrToFileAttr) to High(WinAttrStrToFileAttr) do
+  begin
+    if Attr and WinAttrStrToFileAttr[i].Attr <> 0 then
+      Result := Result + WinAttrStrToFileAttr[i].Str + '+';
+  end;
+{$ELSEIF DEFINED(UNIX)}
+  for i := Low(UnixAttrStrToFileAttr) to High(UnixAttrStrToFileAttr) do
+  begin
+    if Attr and UnixAttrStrToFileAttr[i].Attr <> 0 then
+      Result := Result + UnixAttrStrToFileAttr[i].Str + '+';
+  end;
 {$ENDIF}
 end;
 

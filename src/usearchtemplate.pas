@@ -73,6 +73,9 @@ function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 
 implementation
 
+uses
+ DCFileAttributes, DCBasicTypes;
+
 function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 begin
   Result:= (Length(sMask) > 0) and (sMask[1] = cTemplateSign);
@@ -167,6 +170,7 @@ var
   sTemplate: String;
   SearchTemplate: TSearchTemplate;
   FloatNotOlderThan: Double;
+  iAttr: LongInt;
 begin
   Clear;
 
@@ -180,7 +184,9 @@ begin
         SearchTemplate.TemplateName:= IniFile.ReadString(cSection, sTemplate+'Name', '');
         StartPath:= IniFile.ReadString(cSection, sTemplate+'StartPath', '');
         FilesMasks:= IniFile.ReadString(cSection, sTemplate+'FileMask', '*');
-        //Attributes:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
+        iAttr:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
+        if iAttr <> faAnyFile then
+          AttributesPattern := FileAttrToStr(TFileAttrs(iAttr));
         //AttributesPattern:= IniFile.ReadString(cSection, sTemplate+'AttribStr', '');
         // date/time
         CaseSensitive:= IniFile.ReadBool(cSection, sTemplate+'CaseSens', False);
