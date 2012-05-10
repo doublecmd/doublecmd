@@ -3835,8 +3835,11 @@ procedure TfrmMain.UpdateWindowView;
       else          NoteBook.TabPosition := tpTop;
     end;
 
-    for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
-      NoteBook.View[I].UpdateView;
+    if FInitializedView then
+    begin
+      for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
+        NoteBook.View[I].UpdateView;
+    end;
   end;
 
   procedure AnchorHorizontalBetween(AControl, ALeftSibling, ARightSibling: TControl);
@@ -4054,10 +4057,11 @@ begin
       end;
     end;
 
+    UpdateNoteBook(nbLeft);
+    UpdateNoteBook(nbRight);
+
     if FInitializedView then
     begin
-      UpdateNoteBook(nbLeft);
-      UpdateNoteBook(nbRight);
       UpdateSelectedDrives;
       UpdateFreeSpace(fpLeft);
       UpdateFreeSpace(fpRight);
