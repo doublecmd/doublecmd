@@ -55,6 +55,12 @@ type
     FilterOptions: TQuickSearchOptions;
     FilterText: String;
     Finalizing: Boolean;
+    FUpdateCount: Integer;
+    FNeedsChangeSearch: Boolean;
+    procedure BeginUpdate;
+    procedure CheckFilesOrDirectoriesDown;
+    procedure EndUpdate;
+    procedure DoOnChangeSearch;
     {en
        Loads control states from options values
     }
@@ -167,6 +173,24 @@ begin
   inherited Destroy;
 end;
 
+procedure TfrmQuickSearch.DoOnChangeSearch;
+begin
+  if FUpdateCount > 0 then
+    FNeedsChangeSearch := True
+  else
+  begin
+    case Self.Mode of
+      qsSearch:
+        if Assigned(Self.OnChangeSearch) then
+          Self.OnChangeSearch(Self, edtSearch.Text, Options);
+      qsFilter:
+        if Assigned(Self.OnChangeFilter) then
+          Self.OnChangeFilter(Self, edtSearch.Text, Options);
+    end;
+    FNeedsChangeSearch := False;
+  end;
+end;
+
 procedure TfrmQuickSearch.Execute(SearchMode: TQuickSearchMode; const Params: array of String; Char: TUTF8Char = #0);
 begin
   tglFilter.Checked := SearchMode = qsFilter;
@@ -200,61 +224,69 @@ var
   Param: String;
   Value: String;
 begin
-  for Param in Params do
-  begin
-    if GetParamValue(Param, PARAMETER_FILTER, Value) then
+  BeginUpdate;
+  try
+    for Param in Params do
     begin
-      tglFilter.Checked := GetBoolState(Value, tglFilter.Checked);
-    end
-    else if GetParamValue(Param, PARAMETER_MATCH_BEGINNING, Value) then
-    begin
-      sbMatchBeginning.Down := GetBoolState(Value, sbMatchBeginning.Down);
-
-      sbMatchBeginningClick(nil);
-    end
-    else if GetParamValue(Param, PARAMETER_MATCH_ENDING, Value) then
-    begin
-      sbMatchEnding.Down := GetBoolState(Value, sbMatchEnding.Down);
-
-      sbMatchEndingClick(nil);
-    end
-    else if GetParamValue(Param, PARAMETER_CASE_SENSITIVE, Value) then
-    begin
-      sbCaseSensitive.Down := GetBoolState(Value, sbCaseSensitive.Down);
-
-      sbCaseSensitiveClick(nil);
-    end
-    else if GetParamValue(Param, PARAMETER_FILES, Value) then
-    begin
-      sbFiles.Down := GetBoolState(Value, sbFiles.Down);
-
-      sbFilesAndDirectoriesClick(nil);
-    end
-    else if GetParamValue(Param, PARAMETER_DIRECTORIES, Value) then
-    begin
-      sbDirectories.Down := GetBoolState(Value, sbDirectories.Down);
-
-      sbFilesAndDirectoriesClick(nil);
-    end
-    else if Param = PARAMETER_FILES_DIRECTORIES then
-    begin
-      if sbFiles.Down and sbDirectories.Down then
-        sbDirectories.Down := False
-      else if sbFiles.Down then
+      if GetParamValue(Param, PARAMETER_FILTER, Value) then
       begin
-        sbDirectories.Down := True;
-        sbFiles.Down := False;
+        tglFilter.Checked := GetBoolState(Value, tglFilter.Checked);
       end
-      else if sbDirectories.Down then
-        sbFiles.Down := True;
+      else if GetParamValue(Param, PARAMETER_MATCH_BEGINNING, Value) then
+      begin
+        sbMatchBeginning.Down := GetBoolState(Value, sbMatchBeginning.Down);
 
-      sbFilesAndDirectoriesClick(nil);
-    end
-    else if GetParamValue(Param, PARAMETER_TEXT, Value) then
-    begin
-      edtSearch.Text := Value;
-      edtSearch.SelectAll;
+        sbMatchBeginningClick(nil);
+      end
+      else if GetParamValue(Param, PARAMETER_MATCH_ENDING, Value) then
+      begin
+        sbMatchEnding.Down := GetBoolState(Value, sbMatchEnding.Down);
+
+        sbMatchEndingClick(nil);
+      end
+      else if GetParamValue(Param, PARAMETER_CASE_SENSITIVE, Value) then
+      begin
+        sbCaseSensitive.Down := GetBoolState(Value, sbCaseSensitive.Down);
+
+        sbCaseSensitiveClick(nil);
+      end
+      else if GetParamValue(Param, PARAMETER_FILES, Value) then
+      begin
+        sbFiles.Down := GetBoolState(Value, sbFiles.Down);
+
+        sbFilesAndDirectoriesClick(nil);
+      end
+      else if GetParamValue(Param, PARAMETER_DIRECTORIES, Value) then
+      begin
+        sbDirectories.Down := GetBoolState(Value, sbDirectories.Down);
+
+        sbFilesAndDirectoriesClick(nil);
+      end
+      else if Param = PARAMETER_FILES_DIRECTORIES then
+      begin
+        if sbFiles.Down and sbDirectories.Down then
+          sbDirectories.Down := False
+        else if sbFiles.Down then
+        begin
+          sbDirectories.Down := True;
+          sbFiles.Down := False;
+        end
+        else if sbDirectories.Down then
+          sbFiles.Down := True;
+
+        sbFilesAndDirectoriesClick(nil);
+      end
+      else if GetParamValue(Param, PARAMETER_TEXT, Value) then
+      begin
+        edtSearch.Text := Value;
+        edtSearch.SelectAll;
+      end;
     end;
+
+    CheckFilesOrDirectoriesDown;
+
+  finally
+    EndUpdate;
   end;
 end;
 
@@ -398,16 +430,28 @@ begin
   {$ENDIF}
 end;
 
+procedure TfrmQuickSearch.CheckFilesOrDirectoriesDown;
+begin
+  if not (sbFiles.Down or sbDirectories.Down) then
+  begin
+    // unchecking both should not be possible, so recheck last unchecked
+    case Options.Items of
+      qsiFiles:
+        sbFiles.Down := True;
+      qsiDirectories:
+        sbDirectories.Down := True;
+    end;
+  end;
+end;
+
 procedure TfrmQuickSearch.edtSearchChange(Sender: TObject);
 begin
-  case Self.Mode of
-    qsSearch:
-      if Assigned(Self.OnChangeSearch) then
-        Self.OnChangeSearch(Self, edtSearch.Text, Options);
-    qsFilter:
-      if Assigned(Self.OnChangeFilter) then
-        Self.OnChangeFilter(Self, edtSearch.Text, Options);
-  end;
+  DoOnChangeSearch;
+end;
+
+procedure TfrmQuickSearch.BeginUpdate;
+begin
+  Inc(FUpdateCount);
 end;
 
 procedure TfrmQuickSearch.btnCancelClick(Sender: TObject);
@@ -482,6 +526,16 @@ begin
   end;
 end;
 
+procedure TfrmQuickSearch.EndUpdate;
+begin
+  Dec(FUpdateCount);
+  if FUpdateCount = 0 then
+  begin
+    if FNeedsChangeSearch then
+      DoOnChangeSearch;
+  end;
+end;
+
 procedure TfrmQuickSearch.FrameExit(Sender: TObject);
 begin
   if not Finalizing then
@@ -509,7 +563,7 @@ begin
   else
     Options.SearchCase := qscInsensitive;
 
-  edtSearchChange(nil);
+  DoOnChangeSearch;
 end;
 
 procedure TfrmQuickSearch.sbFilesAndDirectoriesClick(Sender: TObject);
@@ -520,20 +574,13 @@ begin
     Options.Items := qsiFiles
   else if sbDirectories.Down then
     Options.Items := qsiDirectories
-  else
+  else if FUpdateCount = 0 then
   begin
-    // unchecking both should not be possible, so recheck last unchecked
-    case Options.Items of
-      qsiFiles:
-        sbFiles.Down := True;
-      qsiDirectories:
-        sbDirectories.Down := True;
-    end;
-
+    CheckFilesOrDirectoriesDown;
     Exit;
   end;
 
-  edtSearchChange(nil);
+  DoOnChangeSearch;
 end;
 
 procedure TfrmQuickSearch.sbMatchBeginningClick(Sender: TObject);
@@ -543,7 +590,7 @@ begin
   else
     Exclude(Options.Match, qsmBeginning);
 
-  edtSearchChange(nil);
+  DoOnChangeSearch;
 end;
 
 procedure TfrmQuickSearch.sbMatchEndingClick(Sender: TObject);
@@ -553,7 +600,7 @@ begin
   else
     Exclude(Options.Match, qsmEnding);
 
-  edtSearchChange(nil);
+  DoOnChangeSearch;
 end;
 
 procedure TfrmQuickSearch.tglFilterChange(Sender: TObject);
@@ -571,7 +618,7 @@ begin
   else if Active then
     ClearFilter;
 
-  edtSearchChange(nil);
+  DoOnChangeSearch;
 end;
 
 end.
