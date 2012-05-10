@@ -177,9 +177,13 @@ begin
              end;
          end;
 
-     // get color by extension and attribute
-     if ((MaskItem.sExt     = '') or
-          MatchesMaskList(AFile.Name, MaskItem.sExt , ';')) and
+     // Get color by extension and attribute.
+     // If attributes field is empty then don't match directories.
+     if ((MaskItem.sExt = '') or
+          (((MaskItem.sModeStr <> '') or
+            not (AFile.IsDirectory or AFile.IsLinkToDirectory)) and
+           MatchesMaskList(AFile.Name, MaskItem.sExt, ';')))
+        and
         ((MaskItem.sModeStr = '') or
           not (fpAttributes in AFile.SupportedProperties) or
           MatchesMaskList(AFile.Properties[fpAttributes].AsString, MaskItem.sModeStr, ';')) then
@@ -350,4 +354,4 @@ begin
     end;
 end;
 
-end.
+end.
