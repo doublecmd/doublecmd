@@ -747,9 +747,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     {$ELSE}
     Result.OnPageChanged := @nbPageChanged;
     {$ENDIF}
-    {$IF DEFINED(LCLGTK2)}
     Result.OnDblClick := @pnlLeftRightDblClick;
-    {$ENDIF}
   end;
   function GenerateTitle():String;
   begin
@@ -3081,11 +3079,11 @@ end;
 procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
 var
   APanel: TPanel;
+  FileViewNotebook: TFileViewNotebook;
 {$IF DEFINED(LCLGTK2)}
   X, ArrowWidth: Integer;
   arrow_spacing: gint = 0;
   scroll_arrow_hlength: gint = 16;
-  FileViewNotebook: TFileViewNotebook;
 {$ENDIF}
 begin
   if Sender is TPanel then
@@ -3096,20 +3094,25 @@ begin
     else if APanel = pnlRight then
       Commands.DoNewTab(nbRight);
   end;
-{$IF DEFINED(LCLGTK2)}
   if Sender is TFileViewNotebook then
   begin
     FileViewNotebook:= Sender as TFileViewNotebook;
-    gtk_widget_style_get(PGtkWidget(FileViewNotebook.Handle),
-                         'arrow-spacing', @arrow_spacing,
-                         'scroll-arrow-hlength', @scroll_arrow_hlength,
-                         nil);
-    ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
-    X:= FileViewNotebook.ScreenToClient(Mouse.CursorPos).X;
-    if (X > ArrowWidth) and (X < FileViewNotebook.ClientWidth - ArrowWidth) then
-      Commands.DoNewTab(FileViewNotebook);
-  end;
+    if FileViewNotebook.DoubleClickPageIndex >= 0 then
+      Commands.DoRemoveTab(FileViewNotebook, FileViewNotebook.DoubleClickPageIndex)
+    else
+      begin
+{$IF DEFINED(LCLGTK2)}
+        gtk_widget_style_get(PGtkWidget(FileViewNotebook.Handle),
+                             'arrow-spacing', @arrow_spacing,
+                             'scroll-arrow-hlength', @scroll_arrow_hlength,
+                             nil);
+        ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
+        X:= FileViewNotebook.ScreenToClient(Mouse.CursorPos).X;
+        if (X > ArrowWidth) and (X < FileViewNotebook.ClientWidth - ArrowWidth) then
 {$ENDIF}
+          Commands.DoNewTab(FileViewNotebook);
+      end;
+  end;
 end;
 
 procedure TfrmMain.pnlNotebooksResize(Sender: TObject);
