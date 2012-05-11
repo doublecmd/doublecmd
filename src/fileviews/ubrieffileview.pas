@@ -403,6 +403,14 @@ begin
     (SavedKey in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
 
   case Key of
+    VK_LEFT:
+      begin
+        if (Col - 1 < 0) then
+        begin
+          MoveExtend(False, 0, 0);
+          Key:= 0;
+        end;
+      end;
     VK_RIGHT:
       begin
         if (CellToIndex(Col + 1, Row) < 0) then
