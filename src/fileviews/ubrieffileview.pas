@@ -741,6 +741,14 @@ begin
   TabHeader.Top:= pnlHeader.Height;
 
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
+
+  // By default always use some properties.
+  FilePropertiesNeeded := [fpName,
+                           fpSize,            // For info panel (total size, selected size)
+                           fpAttributes,      // For distinguishing directories
+                           fpLink,            // For distinguishing directories (link to dir) and link icons
+                           fpModificationTime // For selecting/coloring files (by SearchTemplate)
+                          ];
 end;
 
 procedure TBriefFileView.BeforeMakeFileList;
@@ -907,6 +915,7 @@ begin
   inherited DoUpdateView;
   TabHeader.UpdateHeader;
   dgPanel.UpdateView;
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TBriefFileView.SetSorting(const NewSortings: TFileSortings);
