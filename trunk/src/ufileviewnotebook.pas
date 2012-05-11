@@ -93,9 +93,8 @@ type
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
     FDraggedPageIndex: Integer;
-    {$IF DEFINED(LCLGTK2)}
     FLastMouseDownTime: TDateTime;
-    {$ENDIF}
+    FLastMouseDownPageIndex: Integer;
 
     function GetActivePage: TFileViewPage;
     function GetActiveView: TFileView;
@@ -128,6 +127,7 @@ type
 
     property ActivePage: TFileViewPage read GetActivePage;
     property ActiveView: TFileView read GetActiveView;
+    property DoubleClickPageIndex: Integer read FLastMouseDownPageIndex;
     property Page[Index: Integer]: TFileViewPage read GetPage;
     property View[Index: Integer]: TFileView read GetFileViewOnPage; default;
     property Side: TFilePanelSelect read FNotebookSide;
@@ -144,12 +144,10 @@ type
 implementation
 
 uses
+  LCLIntf,
   LCLProc,
   DCStrUtils,
   uGlobs
-  {$IF DEFINED(LCLGTK2)}
-  , GTK2Globals // for DblClickTime
-  {$ENDIF}
   {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
   , qt4, qtwidgets
   {$ENDIF}
@@ -494,18 +492,22 @@ begin
     FDraggedPageIndex := TabIndexAtClientPos(Classes.Point(X, Y));
     FStartDrag := (FDraggedPageIndex <> -1);
   end;
-  {$IF DEFINED(LCLGTK2)} // emulate double click under GTK2
-  if (Button = mbLeft) and Assigned(OnDblClick) and (FDraggedPageIndex < 0) then
+  // Emulate double click
+  if (Button = mbLeft) and Assigned(OnDblClick) then
     begin
-      if ((Now - FLastMouseDownTime) > ((1/86400)*(DblClickTime/1000))) then
-        FLastMouseDownTime:= Now
-      else
+      if ((Now - FLastMouseDownTime) > ((1/86400)*(GetDoubleClickTime/1000))) then
+        begin
+          FLastMouseDownTime:= Now;
+          FLastMouseDownPageIndex:= FDraggedPageIndex;
+        end
+      else if (FDraggedPageIndex = FLastMouseDownPageIndex) then
         begin
           OnDblClick(Self);
+          FStartDrag:= False;
           FLastMouseDownTime:= 0;
+          FLastMouseDownPageIndex:= -1;
         end;
     end;
-  {$ENDIF}
 end;
 
 procedure TFileViewNotebook.MouseMove(Shift: TShiftState; X, Y: Integer);
