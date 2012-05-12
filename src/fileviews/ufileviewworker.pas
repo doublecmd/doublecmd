@@ -42,6 +42,7 @@ type
     property Thread: TThread read FThread;
   public
     constructor Create(AThread: TThread); virtual;
+    destructor Destroy; override;
     procedure Abort; virtual;
     procedure Start;
     procedure StartParam(Params: Pointer);
@@ -282,6 +283,16 @@ begin
   FWorkType := fvwtNone;
 
   FThread := AThread;
+  writeln('created '+hexstr(self));
+end;
+
+destructor TFileViewWorker.Destroy;
+begin
+  writeln('destroying '+hexstr(self), ' Can:', CanBeDestroyed);
+  if not CanBeDestroyed then
+    FCanBeDestroyed:=FCanBeDestroyed;
+  inherited Destroy;
+  writeln('destroyed '+hexstr(self));
 end;
 
 procedure TFileViewWorker.Abort;
@@ -407,7 +418,7 @@ var
   AFile: TFile;
   i: Integer;
   HaveUpDir: Boolean = False;
-  FileSourceFiles: TFiles;
+  FileSourceFiles: TFiles = nil;
 begin
   try
     if Aborted then
