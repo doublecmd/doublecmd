@@ -109,7 +109,7 @@ type
     FLastMark: String;
     FLastLoadedFileSource: IFileSource;
     FLastLoadedPath: String;
-
+    FLoadingFileListLongTime: Boolean;
     FMethods: TFormCommands;
 
     FOnBeforeChangePath : TOnBeforeChangePath;
@@ -117,6 +117,7 @@ type
     FOnChangeActiveFile: TOnChangeActiveFile;
     FOnActivate : TOnActivate;
     FOnFileListChanged : TOnFileListChanged;
+    FLoadingFileListLongTimer: TTimer;
 
     procedure AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
@@ -150,6 +151,7 @@ type
     procedure RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure ResortFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles);
     procedure SetFlags(AValue: TFileViewFlags);
+    procedure SetLoadingFileListLongTime(AValue: Boolean);
     procedure StartRecentlyUpdatedTimerIfNeeded;
     procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure UpdatedFilesTimerEvent(Sender: TObject);
@@ -169,6 +171,7 @@ type
     procedure HandleFSWatcherEvent(const EventData: TFSWatcherEventData;
                                    NewFilesPosition: TNewFilesPosition;
                                    UpdatedFilesPosition: TUpdatedFilesPosition);
+    procedure LoadingFileListTimer(Sender: TObject);
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
     procedure ReloadTimerEvent(Sender: TObject);
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
@@ -233,6 +236,7 @@ type
        Handles keys when file list is being loaded.
     }
     procedure DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState); virtual;
+    procedure DoLoadingFileListLongTime; virtual;
     procedure DoSelectionChanged; virtual;
     procedure DoUpdateView; virtual;
     {en
@@ -278,6 +282,7 @@ type
        Redraw DisplayFile if it is visible.
     }
     procedure RedrawFile(DisplayFile: TDisplayFile); virtual; abstract;
+    procedure RedrawFiles; virtual; abstract;
     procedure WorkerStarting(const Worker: TFileViewWorker); virtual;
     procedure WorkerFinished(const Worker: TFileViewWorker); virtual;
 
@@ -600,6 +605,10 @@ begin
   FReloadTimer := TTimer.Create(Self);
   FReloadTimer.Enabled := False;
   FReloadTimer.OnTimer := @ReloadTimerEvent;
+  FLoadingFileListLongTimer := TTimer.Create(Self);
+  FLoadingFileListLongTimer.Enabled := False;
+  FLoadingFileListLongTimer.Interval := 2000;
+  FLoadingFileListLongTimer.OnTimer := @LoadingFileListTimer;
 
   BorderStyle := bsNone; // Before Create or the window handle may be recreated
   inherited Create(AOwner);
@@ -817,6 +826,8 @@ function TFileView.DimColor(AColor: TColor): TColor;
 begin
   if (not Active) and (gInactivePanelBrightness < 100) then
     Result := ModColor(AColor, gInactivePanelBrightness)
+  else if FLoadingFileListLongTime then
+    Result := DarkColor(AColor, 25)
   else
     Result := AColor;
 end;
@@ -870,6 +881,11 @@ begin
         Key := 0;
       end;
   end;
+end;
+
+procedure TFileView.DoLoadingFileListLongTime;
+begin
+  RedrawFiles;
 end;
 
 function TFileView.FileListLoaded: Boolean;
@@ -1343,6 +1359,16 @@ begin
     EnableWatcher(True);
 end;
 
+procedure TFileView.SetLoadingFileListLongTime(AValue: Boolean);
+begin
+  FLoadingFileListLongTimer.Enabled := False;
+  if FLoadingFileListLongTime <> AValue then
+  begin
+    FLoadingFileListLongTime := AValue;
+    DoLoadingFileListLongTime;
+  end;
+end;
+
 function TFileView.CloneActiveFile: TFile;
 var
   aFile: TDisplayFile;
@@ -1703,6 +1729,7 @@ end;
 
 procedure TFileView.AfterMakeFileList;
 begin
+  FLoadingFileListLongTimer.Enabled := False;
 end;
 
 function TFileView.ApplyFilter(ADisplayFile: TDisplayFile; NewFilesPosition: TNewFilesPosition): TFileViewApplyFilterResult;
@@ -1736,6 +1763,7 @@ end;
 
 procedure TFileView.BeforeMakeFileList;
 begin
+  FLoadingFileListLongTimer.Enabled := True;
 end;
 
 function TFileView.BeginDragExternal(DragFile: TDisplayFile; DragDropSource: uDragDropEx.TDragDropSource; MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
@@ -2043,6 +2071,7 @@ begin
       Inc(i);
     end;
   end;
+  SetLoadingFileListLongTime(False);
 end;
 
 procedure TFileView.LoadConfiguration(Section: String; TabIndex: Integer);
@@ -2184,6 +2213,11 @@ begin
   if Assigned(FileSource) then
     FileSource.AddReloadEventListener(@ReloadEvent);
   // No automatic reload here.
+end;
+
+procedure TFileView.LoadingFileListTimer(Sender: TObject);
+begin
+  SetLoadingFileListLongTime(True);
 end;
 
 procedure TFileView.LoadSelectionFromClipboard;
@@ -2923,6 +2957,8 @@ begin
       FReloadTimer.Interval := Interval;
       FReloadTimer.Enabled  := True;
     end;
+
+    SetLoadingFileListLongTime(False);
   end;
 
   if Worker is TCalculateSpaceWorker then

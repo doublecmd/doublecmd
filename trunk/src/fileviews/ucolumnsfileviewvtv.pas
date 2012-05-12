@@ -87,7 +87,6 @@ type
     pmColumnsMenu: TPopupMenu;
     edtRename: TEdit;
     dgPanel: TColumnsDrawTree;
-    tmClearGrid: TTimer;
 
     function GetColumnsClass: TPanelColumnsClass;
 
@@ -148,7 +147,6 @@ type
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelScroll(Sender: TBaseVirtualTree; DeltaX, DeltaY: Integer);
     procedure dgPanelResize(Sender: TObject);
-    procedure tmClearGridTimer(Sender: TObject);
     procedure ColumnsMenuClick(Sender: TObject);
 
   protected
@@ -573,17 +571,6 @@ end;
 procedure TColumnsFileViewVTV.dgPanelResize(Sender: TObject);
 begin
   Notify([fvnVisibleFilePropertiesChanged]);
-end;
-
-procedure TColumnsFileViewVTV.tmClearGridTimer(Sender: TObject);
-begin
-  tmClearGrid.Enabled := False;
-
-  if IsEmpty then
-  begin
-    SetRowCount(0);
-    RedrawFiles;
-  end;
 end;
 
 procedure TColumnsFileViewVTV.ShowRenameFileEdit(AFile: TFile);
@@ -1047,11 +1034,6 @@ begin
   edtRename.TabStop:=False;
   edtRename.AutoSize:=False;
 
-  tmClearGrid := TTimer.Create(Self);
-  tmClearGrid.Enabled := False;
-  tmClearGrid.Interval := 500;
-  tmClearGrid.OnTimer := @tmClearGridTimer;
-
   // ---
   dgPanel.OnDragOver := @dgPanelDragOver;
   dgPanel.OnDragDrop:= @dgPanelDragDrop;
@@ -1115,10 +1097,6 @@ begin
   begin
     // Display info that file list is being loaded.
     UpdateInfoPanel;
-
-    // If we cleared grid here there would be flickering if list operation is quickly completed.
-    // So, only clear the grid after the file list has been loading for some time.
-    tmClearGrid.Enabled := True;
   end;
 end;
 
@@ -1134,8 +1112,6 @@ end;
 procedure TColumnsFileViewVTV.AfterMakeFileList;
 begin
   inherited;
-
-  tmClearGrid.Enabled := False;
   DisplayFileListHasChanged;
 end;
 
