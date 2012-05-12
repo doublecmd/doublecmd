@@ -86,16 +86,18 @@ begin
     end;
 
     Handle := WfxFindFirst(FCurrentPath, FindData);
-    if Handle = wfxInvalidHandle then Exit;
-    repeat
-      if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
+    if Handle <> wfxInvalidHandle then
+    try
+      repeat
+        CheckOperationState;
+        if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
 
-      aFile := TWfxPluginFileSource.CreateFile(Path, FindData);
-      FFiles.Add(aFile);
-    until (not WfxFindNext(Handle, FindData));
-
-    FsFindClose(Handle);
-
+        aFile := TWfxPluginFileSource.CreateFile(Path, FindData);
+        FFiles.Add(aFile);
+      until (not WfxFindNext(Handle, FindData));
+    finally
+      FsFindClose(Handle);
+    end;
   end; // with
 end;
 

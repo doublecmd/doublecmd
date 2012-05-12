@@ -89,6 +89,7 @@ begin
     nFileList:= PNetResourceArray(lpBuffer);
     for I := 0 to dwCount - 1 do
     begin
+      CheckOperationState;
       aFile := TWinNetFileSource.CreateFile(Path);
       aFile.FullPath:= UTF8Encode(WideString(nFileList^.lpRemoteName));
       aFile.CommentProperty.Value:= UTF8Encode(WideString(nFileList^.lpComment));

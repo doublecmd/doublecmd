@@ -33,40 +33,44 @@ procedure TFileSystemListOperation.MainExecute;
 var
   AFile: TFile;
   sr: TSearchRecEx;
-  IsRootPath: Boolean;
+  IsRootPath, Found: Boolean;
 begin
   FFiles.Clear;
 
   IsRootPath := FileSource.IsPathAtRoot(Path);
 
-  if FindFirstEx(FFiles.Path + '*', faAnyFile, sr) <> 0 then
-  begin
-    { No files have been found. }
-    FindCloseEx(sr);
-
-    if not IsRootPath then
+  Found := FindFirstEx(FFiles.Path + '*', faAnyFile, sr) = 0;
+  try
+    if not Found then
     begin
-      AFile := TFileSystemFileSource.CreateFile(Path);
-      AFile.Name := '..';
-      AFile.Attributes := faFolder;
-      FFiles.Add(AFile);
+      { No files have been found. }
+
+      if not IsRootPath then
+      begin
+        AFile := TFileSystemFileSource.CreateFile(Path);
+        AFile.Name := '..';
+        AFile.Attributes := faFolder;
+        FFiles.Add(AFile);
+      end;
+    end
+    else
+    begin
+      repeat
+        CheckOperationState;
+
+        if sr.Name='.' then Continue;
+
+        // Don't include '..' in the root directory.
+        if (sr.Name='..') and IsRootPath then
+          Continue;
+
+        AFile := TFileSystemFileSource.CreateFile(Path, @sr);
+        FFiles.Add(AFile);
+      until FindNextEx(sr)<>0;
     end;
-
-    Exit;
+  finally
+    FindCloseEx(sr);
   end;
-
-  repeat
-    if sr.Name='.' then Continue;
-
-    // Don't include '..' in the root directory.
-    if (sr.Name='..') and IsRootPath then
-      Continue;
-
-    AFile := TFileSystemFileSource.CreateFile(Path, @sr);
-    FFiles.Add(AFile);
-
-  until FindNextEx(sr)<>0;
-  FindCloseEx(sr);
 end;
 
 end.

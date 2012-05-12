@@ -42,6 +42,7 @@ begin
   with FVfsFileSource do
   for I := 0 to VfsFileList.Count - 1 do
     begin
+      CheckOperationState;
       aFile := TVfsFileSource.CreateFile(Path);
       aFile.Name:= VfsFileList.Name[I];
       //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
@@ -49,6 +50,7 @@ begin
     end;
   for I:= 0 to gVfsModuleList.Count - 1 do
     begin
+      CheckOperationState;
       aFile := TVfsFileSource.CreateFile(Path);
       aFile.Name:= gVfsModuleList.Strings[I];
       //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));

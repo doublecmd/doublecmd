@@ -52,13 +52,15 @@ begin
   ArcFileList := FMultiArchiveFileSource.ArchiveFileList;
   for I := 0 to ArcFileList.Count - 1 do
     begin
+      CheckOperationState;
+
       CurrFileName := PathDelim + TArchiveItem(ArcFileList.Items[I]).FileName;
 
       if not IsInPath(Path, CurrFileName, False, False) then
         Continue;
 
       with FMultiArchiveFileSource.MultiArcItem do
-      aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]), FFormMode);
+        aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]), FFormMode);
       FFiles.Add(AFile);
     end;
 end;
