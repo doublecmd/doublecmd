@@ -420,6 +420,17 @@ begin
           Key:= 0;
         end;
       end;
+    VK_HOME:
+      begin
+        MoveExtend(False, 0, 0);
+        Key:= 0;
+      end;
+    VK_END:
+      begin
+        IndexToCell(BriefView.FFiles.Count - 1, ACol, ARow);
+        MoveExtend(False, ACol, ARow);
+        Key:= 0;
+      end;
     VK_UP, VK_DOWN:
       begin
         if (CellToIndex(Col, Row) >= BriefView.FFiles.Count - 1) and
