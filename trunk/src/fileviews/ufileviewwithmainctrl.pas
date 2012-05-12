@@ -167,6 +167,8 @@ var
   Rect: TRect;
   Point: TPoint;
 begin
+  if IsLoadingFileList then Exit;
+
   Rect := GetFileRect(GetActiveFileIndex);
   Point.X := Rect.Left + ((Rect.Right - Rect.Left) div 2);
   Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
@@ -309,6 +311,7 @@ var
   FileIndex : PtrInt;
   AtFileList: Boolean;
 begin
+  if IsLoadingFileList then Exit;
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
   if TooManyDoubleClicks then Exit;
@@ -476,6 +479,8 @@ procedure TFileViewWithMainCtrl.MainControlKeyDown(Sender: TObject; var Key: Wor
 var
   ScreenPoint: TPoint;
 begin
+  if IsLoadingFileList then Exit;
+
   case Key of
 
     VK_APPS:
@@ -532,6 +537,8 @@ begin
         Exit;
       end;
   end;
+
+  if IsLoadingFileList then Exit;
 
   if IsFileIndexInRange(FileIndex) then
   begin
@@ -722,6 +729,8 @@ end;
 
 procedure TFileViewWithMainCtrl.MainControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
+  if IsLoadingFileList then Exit;
+
   FStartDrag := False;
   FRangeSelecting := False;
 
@@ -764,6 +773,8 @@ end;
 
 procedure TFileViewWithMainCtrl.MainControlUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 begin
+  if IsLoadingFileList then Exit;
+
   // check if ShiftState is equal to quick search / filter modes
   if quickSearch.CheckSearchOrFilter(UTF8Key) then
     Exit;

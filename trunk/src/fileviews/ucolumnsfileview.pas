@@ -210,8 +210,6 @@ procedure TColumnsFileView.SetSorting(const NewSortings: TFileSortings);
 begin
   inherited SetSorting(NewSortings);
   SetColumnsSortDirections;
-  SortAllDisplayFiles;
-  ReDisplayFileList;
 end;
 
 procedure TColumnsFileView.LoadConfiguration(Section: String; TabIndex: Integer);
@@ -355,14 +353,17 @@ var
   I: Integer;
 begin
   Handled:= True;
-  case gScrollMode of
-  smLineByLine:
-    for I:= 1 to gWheelScrollLines do
-    dgPanel.Perform(LM_VSCROLL, SB_LINEUP, 0);
-  smPageByPage:
-    dgPanel.Perform(LM_VSCROLL, SB_PAGEUP, 0);
-  else
-    Handled:= False;
+  if not IsLoadingFileList then
+  begin
+    case gScrollMode of
+      smLineByLine:
+        for I:= 1 to gWheelScrollLines do
+          dgPanel.Perform(LM_VSCROLL, SB_LINEUP, 0);
+      smPageByPage:
+        dgPanel.Perform(LM_VSCROLL, SB_PAGEUP, 0);
+      else
+        Handled:= False;
+    end;
   end;
 end;
 
@@ -372,14 +373,17 @@ var
   I: Integer;
 begin
   Handled:= True;
-  case gScrollMode of
-  smLineByLine:
-    for I:= 1 to gWheelScrollLines do
-    dgPanel.Perform(LM_VSCROLL, SB_LINEDOWN, 0);
-  smPageByPage:
-    dgPanel.Perform(LM_VSCROLL, SB_PAGEDOWN, 0);
-  else
-    Handled:= False;
+  if not IsLoadingFileList then
+  begin
+    case gScrollMode of
+      smLineByLine:
+        for I:= 1 to gWheelScrollLines do
+          dgPanel.Perform(LM_VSCROLL, SB_LINEDOWN, 0);
+      smPageByPage:
+        dgPanel.Perform(LM_VSCROLL, SB_PAGEDOWN, 0);
+      else
+        Handled:= False;
+    end;
   end;
 end;
 
@@ -414,11 +418,14 @@ end;
 
 procedure TColumnsFileView.AfterChangePath;
 begin
-  FUpdatingActiveFile := True;
-  dgPanel.Row := 0;
-  FUpdatingActiveFile := False;
-
   inherited AfterChangePath;
+
+  if not IsLoadingFileList then
+  begin
+    FUpdatingActiveFile := True;
+    dgPanel.Row := 0;
+    FUpdatingActiveFile := False;
+  end;
 end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(aFile: TFile);
@@ -935,9 +942,12 @@ procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource; aPath: String
 begin
   inherited AddFileSource(aFileSource, aPath);
 
-  FUpdatingActiveFile := True;
-  dgPanel.Row := 0;
-  FUpdatingActiveFile := False;
+  if not IsLoadingFileList then
+  begin
+    FUpdatingActiveFile := True;
+    dgPanel.Row := 0;
+    FUpdatingActiveFile := False;
+  end;
 end;
 
 procedure TColumnsFileView.BeforeMakeFileList;
@@ -980,8 +990,16 @@ begin
   if SetActiveFileNow(RequestedActiveFile) then
     RequestedActiveFile := ''
   else
+  begin
     // Requested file was not found, restore position to last active file.
-    SetActiveFileNow(LastActiveFile);
+    if not SetActiveFileNow(LastActiveFile) then
+    begin
+      // Or set top position if no LastActiveFile.
+      FUpdatingActiveFile := True;
+      dgPanel.Row := 0;
+      FUpdatingActiveFile := False;
+    end;
+  end;
 
   Notify([fvnVisibleFilePropertiesChanged]);
   UpdateInfoPanel;
@@ -1183,7 +1201,8 @@ procedure TColumnsFileView.cm_RenameOnly(const Params: array of string);
 var
   aFile: TFile;
 begin
-  if (fsoSetFileProperty in FileSource.GetOperationsTypes) then
+  if not IsLoadingFileList and
+     (fsoSetFileProperty in FileSource.GetOperationsTypes) then
     begin
       aFile:= CloneActiveFile;
       if Assigned(aFile) then
@@ -1595,7 +1614,8 @@ begin
 
   if gdFixed in aState then
   begin
-    DrawFixed  // Draw column headers
+    DrawFixed;  // Draw column headers
+    DrawCellGrid(aCol,aRow,aRect,aState);
   end
   else if ColumnsView.FFiles.Count > 0 then
   begin
@@ -1610,10 +1630,15 @@ begin
       DrawIconCell  // Draw icon in the first column
     else
       DrawOtherCell;
-  end;
 
-  DrawCellGrid(aCol,aRow,aRect,aState);
-  DrawLines;
+    DrawCellGrid(aCol,aRow,aRect,aState);
+    DrawLines;
+  end
+  else
+  begin
+    Canvas.Brush.Color := Self.Color;
+    Canvas.FillRect(aRect);
+  end;
 end;
 
 procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
@@ -1624,6 +1649,7 @@ var
   MI: TMenuItem;
   Background: Boolean;
 begin
+  if ColumnsView.IsLoadingFileList then Exit;
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
   // MouseUp event is sent just after doubleclick, so if we drop
@@ -1701,6 +1727,7 @@ end;
 
 procedure TDrawGridEx.MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
 begin
+  if ColumnsView.IsLoadingFileList then Exit;
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
   // MouseDown event is sent just before doubleclick, so if we drop
@@ -1821,6 +1848,12 @@ procedure TDrawGridEx.KeyDown(var Key: Word; Shift: TShiftState);
 var
   SavedKey: Word;
 begin
+  if ColumnsView.IsLoadingFileList then
+  begin
+    ColumnsView.HandleKeyDownWhenLoading(Key, Shift);
+    Exit;
+  end;
+
   SavedKey := Key;
   // Set RangeSelecting before cursor is moved.
   ColumnsView.FRangeSelecting :=

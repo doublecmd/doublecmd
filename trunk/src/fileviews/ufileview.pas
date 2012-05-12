@@ -189,6 +189,7 @@ type
     procedure CalculateSpace(var AFileList: TFVWorkerFileList);
     procedure CalculateSpaceOnUpdate(const UpdatedFile: TDisplayFile;
                                      const UserData: Pointer);
+    procedure ClearFiles;
     procedure EndUpdate;
     procedure EnsureDisplayProperties; virtual; abstract;
     function GetCurrentPath: String; virtual;
@@ -196,6 +197,7 @@ type
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
     function GetWorkersThread: TFunctionThread;
     procedure InvertFileSelection(AFile: TDisplayFile; bNotify: Boolean = True);
+    function IsLoadingFileList: Boolean; inline;
     function IsVisibleToUser: Boolean;
     procedure Notify(NewNotifications: TFileViewNotifications);
     procedure PropertiesRetrieverOnUpdate(const UpdatedFile: TDisplayFile;
@@ -227,12 +229,17 @@ type
     function DimColor(AColor: TColor): TColor;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); virtual;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); virtual;
+    {en
+       Handles keys when file list is being loaded.
+    }
+    procedure DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState); virtual;
     procedure DoSelectionChanged; virtual;
     procedure DoUpdateView; virtual;
     {en
        Returns current work type in progress.
     }
     function GetCurrentWorkType: TFileViewWorkType;
+    procedure HandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState);
     function IsActiveItemValid: Boolean;
     function IsReferenceValid(aFile: TDisplayFile): Boolean;
     {en
@@ -854,6 +861,17 @@ begin
   end;
 end;
 
+procedure TFileView.DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_BACK:
+      begin
+        ChangePathToParent(True);
+        Key := 0;
+      end;
+  end;
+end;
+
 function TFileView.FileListLoaded: Boolean;
 begin
   Result := Assigned(FAllDisplayFiles);
@@ -875,6 +893,19 @@ begin
   FreeAndNil(FFiles);
   FreeAndNil(FAllDisplayFiles);
   HashFileList;
+end;
+
+procedure TFileView.ClearFiles;
+begin
+  if Assigned(FAllDisplayFiles) then
+  begin
+    ClearRecentlyUpdatedFiles;
+    ClearPendingFilesChanges;
+    FFiles.Clear;
+    FAllDisplayFiles.Clear; // Clear references to files from the source.
+    HashFileList;
+    Notify([fvnDisplayFileListChanged]);
+  end;
 end;
 
 function TFileView.GetNotebookPage: TCustomPage;
@@ -1214,6 +1245,8 @@ var
   AFileList: TFVWorkerFileList;
   AFile: TDisplayFile;
 begin
+  if IsLoadingFileList then Exit;
+
   AFileList := TFVWorkerFileList.Create;
   try
     for i := 0 to FFiles.Count - 1 do
@@ -1591,6 +1624,11 @@ end;
 procedure TFileView.SetSorting(const NewSortings: TFileSortings);
 begin
   FSortings := CloneSortings(NewSortings);
+  if not IsLoadingFileList then
+  begin
+    SortAllDisplayFiles;
+    ReDisplayFileList;
+  end;
 end;
 
 procedure TFileView.SortAllDisplayFiles;
@@ -1652,15 +1690,7 @@ begin
 
   if gListFilesInThread then
   begin
-    // Clear files.
-    if Assigned(FAllDisplayFiles) then
-    begin
-      ClearRecentlyUpdatedFiles;
-      FFiles.Clear;
-      FAllDisplayFiles.Clear; // Clear references to files from the source.
-      HashFileList;
-    end;
-
+    ClearRecentlyUpdatedFiles;
     BeforeMakeFileList;
     AThread.QueueFunction(@Worker.StartParam);
   end
@@ -1750,7 +1780,7 @@ procedure TFileView.ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = 
 var
   FSFile: TFile;
 begin
-  if Assigned(AFile) then
+  if Assigned(AFile) and not IsLoadingFileList then
   begin
     FSFile := AFile.FSFile.Clone;
     try
@@ -1898,6 +1928,11 @@ begin
     Result := True
   else
     Result := False;
+end;
+
+function TFileView.IsLoadingFileList: Boolean;
+begin
+  Result := GetCurrentWorkType = fvwtCreate;
 end;
 
 function TFileView.Reload(const PathsToReload: TPathsArray = nil): Boolean;
@@ -2721,6 +2756,13 @@ begin
     else
       Reload(EventData.Path);
   end;
+end;
+
+procedure TFileView.HandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState);
+begin
+  // Only allow some keys and always zero Key (handled).
+  DoHandleKeyDownWhenLoading(Key, Shift);
+  Key := 0;
 end;
 
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);

@@ -227,8 +227,6 @@ procedure TColumnsFileViewVTV.SetSorting(const NewSortings: TFileSortings);
 begin
   inherited SetSorting(NewSortings);
   SetColumnsSortDirections;
-  SortAllDisplayFiles;
-  ReDisplayFileList;
 end;
 
 procedure TColumnsFileViewVTV.LoadConfiguration(Section: String; TabIndex: Integer);
@@ -532,14 +530,17 @@ var
   I: Integer;
 begin
   Handled:= True;
-  case gScrollMode of
-  smLineByLine:
-    for I:= 1 to gWheelScrollLines do
-    dgPanel.Perform(LM_VSCROLL, SB_LINEUP, 0);
-  smPageByPage:
-    dgPanel.Perform(LM_VSCROLL, SB_PAGEUP, 0);
-  else
-    Handled:= False;
+  if not IsLoadingFileList then
+  begin
+    case gScrollMode of
+      smLineByLine:
+        for I:= 1 to gWheelScrollLines do
+          dgPanel.Perform(LM_VSCROLL, SB_LINEUP, 0);
+      smPageByPage:
+        dgPanel.Perform(LM_VSCROLL, SB_PAGEUP, 0);
+      else
+        Handled:= False;
+    end;
   end;
 end;
 
@@ -549,14 +550,17 @@ var
   I: Integer;
 begin
   Handled:= True;
-  case gScrollMode of
-  smLineByLine:
-    for I:= 1 to gWheelScrollLines do
-    dgPanel.Perform(LM_VSCROLL, SB_LINEDOWN, 0);
-  smPageByPage:
-    dgPanel.Perform(LM_VSCROLL, SB_PAGEDOWN, 0);
-  else
-    Handled:= False;
+  if not IsLoadingFileList then
+  begin
+    case gScrollMode of
+      smLineByLine:
+        for I:= 1 to gWheelScrollLines do
+          dgPanel.Perform(LM_VSCROLL, SB_LINEDOWN, 0);
+      smPageByPage:
+        dgPanel.Perform(LM_VSCROLL, SB_PAGEDOWN, 0);
+      else
+        Handled:= False;
+    end;
   end;
 end;
 
@@ -1148,6 +1152,7 @@ begin
   if SetActiveFileNow(RequestedActiveFile) then
     RequestedActiveFile := ''
   else
+  begin
     // Requested file was not found, restore position to last active file.
     if not SetActiveFileNow(LastActiveFile) then
     begin
@@ -1183,6 +1188,7 @@ begin
       // to the right edge of the column. So, we scroll back here.
       // dgPanel.OffsetX := 0;
     end;
+  end;
 
   Notify([fvnVisibleFilePropertiesChanged]);
   UpdateInfoPanel;
@@ -1400,7 +1406,8 @@ procedure TColumnsFileViewVTV.cm_RenameOnly(const Params: array of string);
 var
   aFile: TFile;
 begin
-  if (fsoSetFileProperty in FileSource.GetOperationsTypes) then
+  if not IsLoadingFileList and
+     (fsoSetFileProperty in FileSource.GetOperationsTypes) then
     begin
       aFile:= CloneActiveFile;
       if Assigned(aFile) then
@@ -1612,6 +1619,13 @@ var
 begin
   Shift := KeyDataToShiftState(Message.KeyData);
   SavedKey := Message.CharCode;
+
+  if ColumnsView.IsLoadingFileList then
+  begin
+    ColumnsView.HandleKeyDownWhenLoading(Message.CharCode, Shift);
+    Exit;
+  end;
+
   // Set RangeSelecting before cursor is moved.
   ColumnsView.FRangeSelecting :=
     (ssShift in Shift) and
@@ -1989,6 +2003,8 @@ var
   BackgroundClick: Boolean;
   Point: TPoint;
 begin
+  if ColumnsView.IsLoadingFileList then Exit;
+
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
   // MouseUp event is sent just after doubleclick, so if we drop
@@ -2027,6 +2043,8 @@ end;
 
 procedure TColumnsDrawTree.MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
 begin
+  if ColumnsView.IsLoadingFileList then Exit;
+
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
   // MouseDown event is sent just before doubleclick, so if we drop
