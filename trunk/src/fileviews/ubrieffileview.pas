@@ -862,8 +862,17 @@ end;
 
 constructor TBriefFileView.Create(AOwner: TWinControl; AFileView: TFileView;
   AFlags: TFileViewFlags);
+var
+  I: Integer;
 begin
   inherited Create(AOwner, AFileView, AFlags);
+
+  if (not (AFileView is TBriefFileView)) and Assigned(FAllDisplayFiles) then
+  begin
+    // Update display strings in case FileView type have changed.
+    for I := 0 to FAllDisplayFiles.Count - 1 do
+      MakeColumnsStrings(FAllDisplayFiles[I]);
+  end;
 end;
 
 destructor TBriefFileView.Destroy;
