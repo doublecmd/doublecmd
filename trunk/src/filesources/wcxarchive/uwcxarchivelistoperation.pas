@@ -52,6 +52,7 @@ begin
   ArcFileList := FWcxArchiveFileSource.ArchiveFileList;
   for I := 0 to ArcFileList.Count - 1 do
     begin
+      CheckOperationState;
       CurrFileName := PathDelim + TWCXHeader(ArcFileList.Items[I]).FileName;
 
       if not IsInPath(Path, CurrFileName, False, False) then

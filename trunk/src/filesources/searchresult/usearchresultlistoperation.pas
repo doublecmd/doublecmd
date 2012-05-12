@@ -41,6 +41,7 @@ procedure TSearchResultListOperation.MainExecute;
     begin
       for i := 0 to aNode.SubNodesCount - 1 do
       begin
+        CheckOperationState;
         FFiles.Add(aNode.SubNodes[i].TheFile.Clone);
         AddNode(aNode.SubNodes[i]);
       end;

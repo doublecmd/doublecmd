@@ -50,6 +50,7 @@ begin
   // Search for files in the given path.
   while (Path <> CurrentPath) and IsInPath(CurrentPath, Path, True, False) do
   begin
+    CheckOperationState;
     Found := False;
     for i := 0 to CurrentNode.SubNodesCount - 1 do
     begin
@@ -79,6 +80,7 @@ begin
   begin
     for i := 0 to CurrentNode.SubNodesCount - 1 do
     begin
+      CheckOperationState;
       AFile := CurrentNode.SubNodes[i].TheFile;
       FFiles.Add(AFile);
     end;
