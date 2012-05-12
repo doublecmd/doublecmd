@@ -757,9 +757,18 @@ end;
 
 procedure TColumnsFileViewVTV.SetRowCount(Count: Integer);
 begin
-  FUpdatingActiveFile := True;
-  dgPanel.RootNodeCount := Count;
-  FUpdatingActiveFile := False;
+  if Count <> dgPanel.RootNodeCount then
+  begin
+    FUpdatingActiveFile := True;
+    dgPanel.BeginUpdate;
+    // If new node count is less then first delete all nodes and then create
+    // new ones, because deleting only some nodes is much slower then deleting all.
+    if Count < dgPanel.RootNodeCount then
+      dgPanel.RootNodeCount := 0;
+    dgPanel.RootNodeCount := Count;
+    dgPanel.EndUpdate;
+    FUpdatingActiveFile := False;
+  end;
 end;
 
 procedure TColumnsFileViewVTV.SetColumns;
