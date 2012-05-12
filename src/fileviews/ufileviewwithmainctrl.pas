@@ -81,6 +81,7 @@ type
     procedure ClearAfterDragDrop; virtual;
     procedure CreateDefault(AOwner: TWinControl); override;
     procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); virtual; abstract;
+    procedure DoLoadingFileListLongTime; override;
     procedure DoUpdateView; override;
     procedure FinalizeDragDropEx(AControl: TWinControl);
     {en
@@ -266,6 +267,12 @@ begin
   finally
     FreeAndNil(DropParams);
   end;
+end;
+
+procedure TFileViewWithMainCtrl.DoLoadingFileListLongTime;
+begin
+  MainControl.Color := DimColor(gBackColor);
+  inherited DoLoadingFileListLongTime;
 end;
 
 procedure TFileViewWithMainCtrl.DoUpdateView;

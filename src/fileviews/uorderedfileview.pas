@@ -79,7 +79,6 @@ type
     }
     procedure MarkFilesWithCheck(FromIndex, ToIndex: PtrInt; bSelect: Boolean);
     procedure RedrawFile(FileIndex: PtrInt); overload; virtual; abstract;
-    procedure RedrawFiles; virtual; abstract;
     {en
        Search and position in a file that matches name taking into account
        passed options.
