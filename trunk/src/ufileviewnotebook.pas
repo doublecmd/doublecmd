@@ -148,6 +148,9 @@ uses
   LCLProc,
   DCStrUtils,
   uGlobs
+  {$IF DEFINED(LCLGTK2)}
+  , Glib2, Gtk2
+  {$ENDIF}
   {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
   , qt4, qtwidgets
   {$ENDIF}
@@ -484,6 +487,12 @@ begin
 end;
 
 procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+{$IF DEFINED(LCLGTK2)}
+var
+  ArrowWidth: Integer;
+  arrow_spacing: gint = 0;
+  scroll_arrow_hlength: gint = 16;
+{$ENDIF}
 begin
   inherited;
 
@@ -502,6 +511,14 @@ begin
         end
       else if (FDraggedPageIndex = FLastMouseDownPageIndex) then
         begin
+          {$IF DEFINED(LCLGTK2)}
+          gtk_widget_style_get(PGtkWidget(Self.Handle),
+                               'arrow-spacing', @arrow_spacing,
+                               'scroll-arrow-hlength', @scroll_arrow_hlength,
+                               nil);
+          ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
+          if (X > ArrowWidth) and (X < ClientWidth - ArrowWidth) then
+          {$ENDIF}
           OnDblClick(Self);
           FStartDrag:= False;
           FLastMouseDownTime:= 0;
