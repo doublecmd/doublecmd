@@ -279,19 +279,31 @@ end;
 
 function TBriefDrawGrid.DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean;
 begin
-  Result:= inherited DoMouseWheelDown(Shift, MousePos);
-  Result:= Perform(LM_HSCROLL, SB_PAGERIGHT, 0) = 0;
+  if not BriefView.IsLoadingFileList then
+  begin
+    Result:= inherited DoMouseWheelDown(Shift, MousePos);
+    Result:= Perform(LM_HSCROLL, SB_PAGERIGHT, 0) = 0;
+  end
+  else
+    Result := True; // Handled
 end;
 
 function TBriefDrawGrid.DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean;
 begin
-  Result:= inherited DoMouseWheelUp(Shift, MousePos);
-  Result:= Perform(LM_HSCROLL, SB_PAGELEFT, 0) = 0;
+  if not BriefView.IsLoadingFileList then
+  begin
+    Result:= inherited DoMouseWheelUp(Shift, MousePos);
+    Result:= Perform(LM_HSCROLL, SB_PAGELEFT, 0) = 0;
+  end
+  else
+    Result := True; // Handled
 end;
 
 procedure TBriefDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
+  if BriefView.IsLoadingFileList then Exit;
+
 {$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100)}
   // Don't scroll partially visible cells on mouse click
   Options:= Options + [goDontScrollPartCell];
@@ -343,6 +355,8 @@ var
   BackgroundClick: Boolean;
   Point: TPoint;
 begin
+  if BriefView.IsLoadingFileList then Exit;
+
 {$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100)}
   // Don't scroll partially visible cells on mouse click
   Options:= Options - [goDontScrollPartCell];
@@ -396,6 +410,12 @@ var
   FileIndex: Integer;
   ACol, ARow: Integer;
 begin
+  if BriefView.IsLoadingFileList then
+  begin
+    BriefView.HandleKeyDownWhenLoading(Key, Shift);
+    Exit;
+  end;
+
   SavedKey := Key;
   // Set RangeSelecting before cursor is moved.
   BriefView.FRangeSelecting :=
@@ -785,8 +805,16 @@ begin
   if SetActiveFileNow(RequestedActiveFile) then
     RequestedActiveFile := ''
   else
+  begin
     // Requested file was not found, restore position to last active file.
-    SetActiveFileNow(LastActiveFile);
+    if not SetActiveFileNow(LastActiveFile) then
+    begin
+      // Or set top position if no LastActiveFile.
+      FUpdatingActiveFile := True;
+      dgPanel.MoveExtend(False, 0, 0);
+      FUpdatingActiveFile := False;
+    end;
+  end;
 
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
@@ -801,11 +829,14 @@ end;
 
 procedure TBriefFileView.AfterChangePath;
 begin
-  FUpdatingActiveFile := True;
-  dgPanel.MoveExtend(False, 0, 0);
-  FUpdatingActiveFile := False;
-
   inherited AfterChangePath;
+
+  if not IsLoadingFileList then
+  begin
+    FUpdatingActiveFile := True;
+    dgPanel.MoveExtend(False, 0, 0);
+    FUpdatingActiveFile := False;
+  end;
 end;
 
 function TBriefFileView.GetActiveFileIndex: PtrInt;
@@ -903,9 +934,12 @@ procedure TBriefFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
   inherited AddFileSource(aFileSource, aPath);
 
-  FUpdatingActiveFile := True;
-  dgPanel.MoveExtend(False, 0, 0);
-  FUpdatingActiveFile := False;
+  if not IsLoadingFileList then
+  begin
+    FUpdatingActiveFile := True;
+    dgPanel.MoveExtend(False, 0, 0);
+    FUpdatingActiveFile := False;
+  end;
 end;
 
 procedure TBriefFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -950,8 +984,6 @@ procedure TBriefFileView.SetSorting(const NewSortings: TFileSortings);
 begin
   inherited SetSorting(NewSortings);
   TabHeader.UpdateSorting(NewSortings);
-  SortAllDisplayFiles;
-  ReDisplayFileList;
 end;
 
 constructor TBriefFileView.Create(AOwner: TWinControl;

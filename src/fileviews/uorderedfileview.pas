@@ -64,6 +64,7 @@ type
     procedure CreateDefault(AOwner: TWinControl); override;
     procedure DoFileIndexChanged(NewFileIndex: PtrInt);
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState); override;
     procedure DoSelectionChanged; override;
     procedure DoSelectionChanged(FileIndex: PtrInt);
     procedure EnsureDisplayProperties; override;
@@ -148,24 +149,26 @@ end;
 
 procedure TOrderedFileView.cm_GoToFirstFile(const Params: array of string);
 begin
-  if not IsEmpty then
+  if not (IsEmpty or IsLoadingFileList) then
     SetActiveFile(0);
 end;
 
 procedure TOrderedFileView.cm_GoToLastFile(const Params: array of string);
 begin
-  if not IsEmpty then
+  if not (IsEmpty or IsLoadingFileList) then
     SetActiveFile(FFiles.Count - 1);
 end;
 
 procedure TOrderedFileView.cm_QuickFilter(const Params: array of string);
 begin
-  quickSearch.Execute(qsFilter, Params);
+  if not IsLoadingFileList then
+    quickSearch.Execute(qsFilter, Params);
 end;
 
 procedure TOrderedFileView.cm_QuickSearch(const Params: array of string);
 begin
-  quickSearch.Execute(qsSearch, Params);
+  if not IsLoadingFileList then
+    quickSearch.Execute(qsSearch, Params);
 end;
 
 procedure TOrderedFileView.CreateDefault(AOwner: TWinControl);
@@ -262,6 +265,25 @@ begin
   end;
 
   inherited DoHandleKeyDown(Key, Shift);
+end;
+
+procedure TOrderedFileView.DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState);
+var
+  bClear: Boolean;
+begin
+  case Key of
+    VK_ESCAPE:
+      if GetCurrentWorkType <> fvwtNone then
+      begin
+        bClear := IsLoadingFileList;
+        StopWorkers;
+        if bClear then
+          ClearFiles;
+        Key := 0;
+      end;
+  end;
+
+  inherited DoHandleKeyDownWhenLoading(Key, Shift);
 end;
 
 procedure TOrderedFileView.DoSelectionChanged;
