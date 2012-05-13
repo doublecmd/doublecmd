@@ -1253,7 +1253,7 @@ Index: AbTarTyp.pas
    CurItem        : TAbTarItem;
    AttrEx         : TAbAttrExRec;
  begin
-@@ -2145,37 +2164,29 @@
+@@ -2145,37 +2164,30 @@
  
          aaAdd, aaFreshen, aaReplace: begin
            try
@@ -1272,7 +1272,8 @@ Index: AbTarTyp.pas
 -                CurItem.LinkFlag := AB_TAR_LF_DIR;
 -                CurItem.UncompressedSize := 0;
 +            { update metadata }
-+            AbFileGetAttrEx(CurItem.DiskFileName, AttrEx);
++            if not AbFileGetAttrEx(CurItem.DiskFileName, AttrEx) then
++              Raise EAbFileNotFound.Create;
 +            CurItem.ExternalFileAttributes := AttrEx.Mode;
 +            CurItem.LastModTimeAsDateTime := AttrEx.Time;
 +            { TODO: uid, gid, uname, gname should be added here }
@@ -1313,7 +1314,7 @@ Index: AbTarTyp.pas
            except
              ItemList[i].Action := aaDelete;
              DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
-@@ -2200,7 +2211,7 @@
+@@ -2200,7 +2212,7 @@
      else begin
        { need new stream to write }
        FreeAndNil(FStream);
