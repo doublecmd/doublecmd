@@ -60,6 +60,7 @@ uses
 {$ENDIF}
 {$IFDEF UNIX}
   DateUtils,
+  DCClassesUtf8,
 {$ENDIF}
   SysUtils,
   Classes;
