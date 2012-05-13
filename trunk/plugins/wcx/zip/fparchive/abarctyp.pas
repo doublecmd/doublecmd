@@ -1914,7 +1914,7 @@ var
 begin
   if Status = asInvalid then
     Exit;
-  if (not FIsDirty) and (Count > 0) then
+  if not FIsDirty then
     Exit;
 
   DoConfirmSave(Confirm);
