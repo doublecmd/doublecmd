@@ -915,7 +915,42 @@ Index: AbGzTyp.pas
    CurItem             : TAbGzipItem;
  begin
    {prepare for the try..finally}
-@@ -1154,17 +1175,9 @@
+@@ -1111,19 +1132,22 @@
+       if IsGzippedTar and TarAutoHandle then begin
+         SwapToTar;
+         inherited SaveArchive;
+-        if FGZItem.Count = 0 then begin
+-          CurItem := TAbGzipItem.Create;
+-          FGZItem.Add(CurItem);
++        if FTarStream.Size > 0 then
++        begin
++          if FGZItem.Count = 0 then begin
++            CurItem := TAbGzipItem.Create;
++            FGZItem.Add(CurItem);
++          end;
++          CurItem := FGZItem[0] as TAbGzipItem;
++          CurItem.Action := aaNone;
++          CurItem.LastModTimeAsDateTime := Now;
++          CurItem.SaveGzHeaderToStream(NewStream);
++          FTarStream.Position := 0;
++          OutGzHelp.WriteArchiveItem(FTarStream);
++          CurItem.CRC32 := OutGzHelp.CRC;
++          CurItem.UncompressedSize := OutGzHelp.FileSize;
++          OutGzHelp.WriteArchiveTail;
+         end;
+-        CurItem := FGZItem[0] as TAbGzipItem;
+-        CurItem.Action := aaNone;
+-        CurItem.LastModTimeAsDateTime := Now;
+-        CurItem.SaveGzHeaderToStream(NewStream);
+-        FTarStream.Position := 0;
+-        OutGzHelp.WriteArchiveItem(FTarStream);
+-        CurItem.CRC32 := OutGzHelp.CRC;
+-        CurItem.UncompressedSize := OutGzHelp.FileSize;
+-        OutGzHelp.WriteArchiveTail;
+       end
+       else begin
+         SwapToGzip;
+@@ -1154,17 +1178,9 @@
                    OutGzHelp.WriteArchiveTail;
                  end
                  else begin
@@ -935,7 +970,7 @@ Index: AbGzTyp.pas
  
                    try
                      CurItem.UncompressedSize := UncompressedStream.Size;
-@@ -1197,7 +1210,7 @@
+@@ -1197,7 +1213,7 @@
        { need new stream to write }
        FreeAndNil(FStream);
        FGZStream := nil;

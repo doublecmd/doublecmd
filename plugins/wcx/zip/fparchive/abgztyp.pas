@@ -1132,19 +1132,22 @@ begin
       if IsGzippedTar and TarAutoHandle then begin
         SwapToTar;
         inherited SaveArchive;
-        if FGZItem.Count = 0 then begin
-          CurItem := TAbGzipItem.Create;
-          FGZItem.Add(CurItem);
+        if FTarStream.Size > 0 then
+        begin
+          if FGZItem.Count = 0 then begin
+            CurItem := TAbGzipItem.Create;
+            FGZItem.Add(CurItem);
+          end;
+          CurItem := FGZItem[0] as TAbGzipItem;
+          CurItem.Action := aaNone;
+          CurItem.LastModTimeAsDateTime := Now;
+          CurItem.SaveGzHeaderToStream(NewStream);
+          FTarStream.Position := 0;
+          OutGzHelp.WriteArchiveItem(FTarStream);
+          CurItem.CRC32 := OutGzHelp.CRC;
+          CurItem.UncompressedSize := OutGzHelp.FileSize;
+          OutGzHelp.WriteArchiveTail;
         end;
-        CurItem := FGZItem[0] as TAbGzipItem;
-        CurItem.Action := aaNone;
-        CurItem.LastModTimeAsDateTime := Now;
-        CurItem.SaveGzHeaderToStream(NewStream);
-        FTarStream.Position := 0;
-        OutGzHelp.WriteArchiveItem(FTarStream);
-        CurItem.CRC32 := OutGzHelp.CRC;
-        CurItem.UncompressedSize := OutGzHelp.FileSize;
-        OutGzHelp.WriteArchiveTail;
       end
       else begin
         SwapToGzip;
