@@ -309,6 +309,15 @@ Index: AbArcTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
+@@ -1841,7 +1914,7 @@
+ begin
+   if Status = asInvalid then
+     Exit;
+-  if (not FIsDirty) and (Count > 0) then
++  if not FIsDirty then
+     Exit;
+ 
+   DoConfirmSave(Confirm);
 @@ -1865,7 +1938,7 @@
      if Value[Length(Value)] = AbPathDelim then
        if (Length(Value) > 1) and (Value[Length(Value) - 1] <> ':') then
