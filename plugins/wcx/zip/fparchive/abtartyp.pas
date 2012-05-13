@@ -2165,7 +2165,8 @@ begin
         aaAdd, aaFreshen, aaReplace: begin
           try
             { update metadata }
-            AbFileGetAttrEx(CurItem.DiskFileName, AttrEx);
+            if not AbFileGetAttrEx(CurItem.DiskFileName, AttrEx) then
+              Raise EAbFileNotFound.Create;
             CurItem.ExternalFileAttributes := AttrEx.Mode;
             CurItem.LastModTimeAsDateTime := AttrEx.Time;
             { TODO: uid, gid, uname, gname should be added here }
