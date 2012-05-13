@@ -1482,7 +1482,7 @@ begin
     else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
       FFileName := CeAnsiToUtf8(FItemInfo.FileName)
     else
-    {$ELSEIF DEFINED(LINUX)}
+    {$ELSEIF DEFINED(UNIX)}
     if (SystemCode = hosDOS) then
       FFileName := CeOemToUtf8(FItemInfo.FileName)
     else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
