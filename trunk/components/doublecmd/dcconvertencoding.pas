@@ -57,6 +57,9 @@ implementation
 uses
   {$IF DEFINED(UNIX)}
   iconvenc_dyn
+    {$IF DEFINED(DARWIN)}
+    , MacOSAll
+    {$ENDIF}
   {$ELSEIF DEFINED(MSWINDOWS)}
   Windows
   {$ENDIF}
@@ -231,7 +234,42 @@ end;
 
 {$ELSEIF DEFINED(UNIX)}
 
+const
+  EncodingUTF8 = 'UTF-8'; // UTF-8 Encoding
+
+var
+  EncodingOEM,           // OEM Encoding
+  EncodingANSI: String;  // ANSI Encoding
+
 function GetSystemEncoding(out Language, Encoding: String): Boolean;
+{$IF DEFINED(DARWIN)}
+var
+  LanguageCFArray: CFArrayRef = nil;
+  LanguageCFRef: CFStringRef = nil;
+begin
+  LanguageCFArray:= CFLocaleCopyPreferredLanguages;
+  try
+    Result:= CFArrayGetCount(LanguageCFArray) > 0;
+    if Result then
+    begin
+      LanguageCFRef:= CFArrayGetValueAtIndex(LanguageCFArray, 0);
+      SetLength(Language, MAX_PATH);
+      Result:= CFStringGetCString(LanguageCFRef,
+                                  PAnsiChar(Language),
+                                  MAX_PATH,
+                                  kCFStringEncodingUTF8
+                                  );
+      if Result then
+      begin
+        Encoding:= EncodingUTF8;
+        Language:= Copy(Language, 1, 2);
+      end;
+    end;
+  finally
+    CFRelease(LanguageCFArray);
+  end;
+end;
+{$ELSE}
 var
   I: Integer;
   Lang: String;
@@ -253,15 +291,9 @@ begin
   if (I > 0) then
     Encoding:= Copy(Lang, I + 1, Length(Lang) - I);
   if Length(Encoding) = 0 then
-    Encoding:= 'UTF-8';
+    Encoding:= EncodingUTF8;
 end;
-
-const
-  EncodingUTF8 = 'UTF-8'; // UTF-8 Encoding
-
-var
-  EncodingOEM,           // OEM Encoding
-  EncodingANSI: String;  // ANSI Encoding
+{$ENDIF}
 
 function Oem2Utf8(const Source: String): String;
 begin
@@ -331,8 +363,8 @@ begin
     WriteLn(Error)
   else
     begin
-      SystemEncodingUtf8:= (CompareText(SystemEncoding, 'UTF-8') = 0) or
-                           (CompareText(SystemEncoding, 'UTF8') = 0);
+      SystemEncodingUtf8:= (SysUtils.CompareText(SystemEncoding, 'UTF-8') = 0) or
+                           (SysUtils.CompareText(SystemEncoding, 'UTF8') = 0);
       if (SystemLanguage = 'be') or (SystemLanguage = 'ru') or
          (SystemLanguage = 'uk') then
       begin
