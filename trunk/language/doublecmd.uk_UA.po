@@ -4229,6 +4229,11 @@ msgstr "Сортування"
 msgid "Case sensitivity:"
 msgstr "Чутливість до регістру:"
 
+#: tfrmoptionsfilesviews.lbldatetimeexample.caption
+msgctxt "TFRMOPTIONSFILESVIEWS.lblDateTimeExample.CAPTION"
+msgid "Incorrect format"
+msgstr "Неправильний формат"
+
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "Date and time format:"
