@@ -1878,7 +1878,7 @@ Index: AbZipPrc.pas
  
  
  { ========================================================================== }
-@@ -294,22 +295,13 @@
+@@ -294,22 +295,14 @@
                   OutStream : TStream );
  var
    UncompressedStream : TStream;
@@ -1898,7 +1898,8 @@ Index: AbZipPrc.pas
 -  finally {SaveDir}
 -    ChDir( SaveDir );
 -  end; {SaveDir}
-+  AbFileGetAttrEx(Item.DiskFileName, AttrEx);
++  if not AbFileGetAttrEx(Item.DiskFileName, AttrEx) then
++    Raise EAbFileNotFound.Create;
 +  if ((AttrEx.Attr and faDirectory) <> 0) then
 +    UncompressedStream := TMemoryStream.Create
 +  else
