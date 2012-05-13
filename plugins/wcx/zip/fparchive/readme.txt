@@ -11,5 +11,10 @@ It includes several visual components that simplify displaying zip files.
 
 Some modifications done for Double Commander (see doublecmd.diff).
 
+NOTE:
 
+ Functions AbDetectCharSet and IsOEM from AbCharset unit fails with some code
+ pages and characters (eg. 936 and 图片) ! Don't use it when merging with Abbrevia.
+ Better to try to convert with MultiByteToWideChar (see DCConvertEncoding CeTryEncode
+ and CeTryDecode).
 

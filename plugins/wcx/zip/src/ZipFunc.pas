@@ -91,7 +91,7 @@ var
 implementation
 
 uses
-  SysUtils, ZipConfDlg, IniFiles, AbBrowse, DCStrUtils, DCConvertEncoding;
+  SysUtils, ZipConfDlg, IniFiles, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
 
 procedure StringToArrayW(src: WideString;
                          pDst: PWideChar;
@@ -751,7 +751,7 @@ end;
 function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall;
 begin
   try
-    Result:= (AbDetermineArcType(UTF8Encode(AnsiString(FileName)), atUnknown) <> atUnknown);
+    Result:= (AbDetermineArcType(SysToUTF8(AnsiString(FileName)), atUnknown) <> atUnknown);
   except
     Result := False;
   end;

@@ -1345,6 +1345,358 @@ Index: AbUnzPrc.pas
        try
          try    {OutStream}
            DoExtract(ZipArchive, Item, InStream, OutStream);
+Index: AbUtils.pas
+===================================================================
+--- AbUtils.pas	(revision 512)
++++ AbUtils.pas	(working copy)
+@@ -62,8 +62,7 @@
+   DateUtils,
+ {$ENDIF}
+   SysUtils,
+-  Classes,
+-  AbCharset;
++  Classes;
+ 
+ 
+ type
+@@ -114,6 +113,12 @@
+   {$ENDIF}
+ {$IFEND}
+ 
++{ Unicode backwards compatibility types }
++{$IF NOT DECLARED(RawByteString)}
++type
++  RawByteString = AnsiString;
++{$IFEND}
++
+ { System-encoded SBCS string (formerly AnsiString) }
+ type
+   AbSysString = {$IFDEF Posix}UTF8String{$ELSE}AnsiString{$ENDIF};
+@@ -364,8 +369,12 @@
+ uses
+   StrUtils,
+   AbConst,
+-  AbExcept;
++  AbExcept,
++  DCOSUtils,
++  DCStrUtils,
++  DCDateTimeUtils;
+ 
++(*
+ {$IF DEFINED(FPCUnixAPI)}
+ function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
+   external clib name 'mktemp';
+@@ -387,6 +396,7 @@
+ function nl_langinfo(__item: nl_item): PAnsiChar; cdecl;
+   external clib name 'nl_langinfo';
+ {$IFEND}
++*)
+ 
+ {===platform independent routines for platform dependent stuff=======}
+ function ExtractShortName(const SR : TSearchRec) : string;
+@@ -410,16 +420,16 @@
+ function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
+ {$IFDEF UNIX}
+ var
+-  DesStream, SrcStream: TFileStream;
++  DesStream, SrcStream: TFileStreamEx;
+ {$ENDIF}
+ begin
+ {$IFDEF UNIX}
+   Result := False;
+-  if not FailIfExists or not FileExists(Destination) then
++  if not FailIfExists or not mbFileExists(Destination) then
+     try
+-      SrcStream := TFileStream.Create(Source, fmOpenRead or fmShareDenyWrite);
++      SrcStream := TFileStreamEx.Create(Source, fmOpenRead or fmShareDenyWrite);
+       try
+-        DesStream := TFileStream.Create(Destination, fmCreate);
++        DesStream := TFileStreamEx.Create(Destination, fmCreate);
+         try
+           DesStream.CopyFrom(SrcStream, 0);
+           Result := True;
+@@ -434,7 +444,7 @@
+     end;
+ {$ENDIF UNIX}
+ {$IFDEF MSWINDOWS}
+-  Result := CopyFile(PChar(Source), PChar(Destination), FailIfExists);
++  Result := CopyFileW(PWideChar(UTF8Decode(Source)), PWideChar(UTF8Decode(Destination)), FailIfExists);
+ {$ENDIF MSWINDOWS}
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -447,7 +457,7 @@
+   i : Integer;
+   TempPath : string;
+ begin
+-  if DirectoryExists( Path ) then
++  if mbDirectoryExists( Path ) then
+     Exit;
+   {see how much of the path currently exists}
+   if Pos( '\\', Path ) > 0 then
+@@ -463,8 +473,9 @@
+     {get a temp path to try: drive:\path1}
+     TempPath := Copy( Path, 1, i );
+     {if it doesn't exist, create it}
+-    if not DirectoryExists( TempPath ) then
+-      MkDir( TempPath );
++    if not mbDirectoryExists( TempPath ) then
++      if mbCreateDir( TempPath ) = False then
++        Exit;
+     inc( iStartSlash );
+   until ( Length( TempPath ) = Length( Path ) );
+ end;
+@@ -476,44 +487,26 @@
+ { -------------------------------------------------------------------------- }
+ function AbGetTempDirectory : string;
+ begin
+-{$IFDEF MSWiNDOWS}
+-  SetLength(Result, MAX_PATH);
+-  SetLength(Result, GetTempPath(Length(Result),  PChar(Result)));
+-{$ENDIF}
+-{$IFDEF UNIX}
+-  Result := '/tmp/';
+-{$ENDIF}
++  Result:= SysToUTF8(GetTempDir);
+ end;
+ { -------------------------------------------------------------------------- }
+ function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
+ var
+-  TempPath : string;
+-{$IFDEF MSWINDOWS}
+-  FileNameZ : array [0..259] of char;
+-{$ENDIF}
+-{$IFDEF UNIX}
+-  hFile: Integer;
+-  FileName: AbSysString;
+-{$ENDIF}
++  hFile: System.THandle;
++  TempPath : UTF8String;
+ begin
+-  if DirectoryExists(Dir) then
+-    TempPath := Dir
++  if mbDirectoryExists(Dir) then
++    TempPath := IncludeTrailingPathDelimiter(Dir)
+   else
+     TempPath := AbGetTempDirectory;
+-{$IFDEF MSWINDOWS}
+-  GetTempFileName(PChar(TempPath), 'VMS', Word(not CreateIt), FileNameZ);
+-  Result := string(FileNameZ);
+-{$ENDIF}
+-{$IFDEF UNIX}
+-  FileName := AbSysString(TempPath) + 'VMSXXXXXX';
+-  mktemp(PAnsiChar(AbSysString(FileName)));
+-  Result := string(FileName);
++
++  Result := GetTempName(TempPath + 'VMS');
++
+   if CreateIt then begin
+-    hFile := FileCreate(Result);
+-    if hFile <> -1 then
++    hFile := mbFileCreate(Result);
++    if hFile <> feInvalidHandle then
+       FileClose(hFile);
+   end;
+-{$ENDIF}
+ end;
+ { -------------------------------------------------------------------------- }
+ function AbDrive(const ArchiveName : string) : Char;
+@@ -560,8 +553,8 @@
+ var
+   FreeAvailable, TotalSpace: Int64;
+ begin
+-  if GetDiskFreeSpaceEx(PChar(ExtractFilePath(ExpandFileName(ArchiveName))),
+-                        FreeAvailable, TotalSpace, nil) then
++  if GetDiskFreeSpaceExW(PWideChar(UTF8Decode(ExtractFilePath(ExpandFileName(ArchiveName)))),
++                         FreeAvailable, TotalSpace, nil) then
+     Result := FreeAvailable
+   else
+     Result := -1;
+@@ -574,7 +567,7 @@
+   if statfs(PAnsiChar(ExtractFilePath(ArchiveName)), FStats) = 0 then
+     Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize)
+   {$ELSEIF DEFINED(FPCUnixAPI)}
+-  if fpStatFS(PAnsiChar(ExtractFilePath(ArchiveName)), @FStats) = 0 then
++  if fpStatFS(PAnsiChar(UTF8ToSys(ExtractFilePath(ArchiveName))), @FStats) = 0 then
+     Result := Int64(FStats.bAvail) * Int64(FStats.bsize)
+   {$ELSEIF DEFINED(PosixAPI)}
+   if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
+@@ -591,8 +584,8 @@
+   DirMatch : Boolean;
+   MaskDir : string;
+ begin
+-  FileName := UpperCase( FileName );
+-  FileMask := UpperCase( FileMask );
++//FileName := UpperCase( FileName );
++//FileMask := UpperCase( FileMask );
+   MaskDir := ExtractFilePath( FileMask );
+   if MaskDir = '' then
+     DirMatch := True
+@@ -614,12 +607,12 @@
+   Found := FindFirst( FileMask, SearchAttr, SR );
+   if Found = 0 then begin
+     try
+-      NameMask := UpperCase(ExtractFileName(FileMask));
++      NameMask := ExtractFileName(FileMask);
+       while Found = 0 do begin
+         NewFile := ExtractFilePath( FileMask ) + SR.Name;
+         if (SR.Name <> AbThisDir) and
+            (SR.Name <> AbParentDir) and
+-           AbPatternMatch(UpperCase(SR.Name), 1, NameMask, 1) then
++           AbPatternMatch(SR.Name, 1, NameMask, 1) then
+           if (SR.Attr and faDirectory) <> 0 then
+             FileList.Add( NewFile + PathDelim )
+           else
+@@ -1002,18 +995,18 @@
+ function AbWriteVolumeLabel(const VolName : string;
+                                 Drive : Char) : Cardinal;
+ var
+-  Temp : string;
+-  Vol : array[0..11] of Char;
+-  Root : array[0..3] of Char;
++  Temp : WideString;
++  Vol : array[0..11] of WideChar;
++  Root : array[0..3] of WideChar;
+ begin
+-  Temp := VolName;
+-  StrCopy(Root, '%:' + AbPathDelim);
++  Temp := UTF8Decode(VolName);
++  StrPCopyW(Root, '%:' + AbPathDelim);
+   Root[0] := Drive;
+   if Length(Temp) > 11 then
+     SetLength(Temp, 11);
+-  StrPCopy(Vol, Temp);
++  StrPCopyW(Vol, Temp);
+ {$IFDEF MSWINDOWS}
+-  if Windows.SetVolumeLabel(Root, Vol) then
++  if Windows.SetVolumeLabelW(Root, Vol) then
+     Result := 0
+   else Result := GetLastError;
+ {$ENDIF MSWINDOWS}
+@@ -1166,12 +1159,7 @@
+ 
+ function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
+ begin
+-  {$IFDEF MSWINDOWS}
+-  Result := FileSetDate(aFileName, AbDateTimeToDosFileDate(aValue)) = 0;
+-  {$ENDIF}
+-  {$IFDEF UNIX}
+-  Result := FileSetDate(aFileName, AbLocalDateTimeToUnixTime(aValue)) = 0;
+-  {$ENDIF}
++  Result:= mbFileSetTime(aFileName, DateTimeToFileTime(aValue));
+ end;
+ 
+ { -------------------------------------------------------------------------- }
+@@ -1188,7 +1176,8 @@
+ { -------------------------------------------------------------------------- }
+ function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
+ begin
+-  {$WARN SYMBOL_PLATFORM OFF}
++  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
++  {$ELSE} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
+   Result := { default permissions }
+     AB_FPERMISSION_OWNERREAD or
+     AB_FPERMISSION_GROUPREAD or
+@@ -1201,12 +1190,14 @@
+     Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE
+   else
+     Result := Result or AB_FMODE_FILE;
+-  {$WARN SYMBOL_PLATFORM ON}
++  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
++  {$ELSE} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
+ end;
+ { -------------------------------------------------------------------------- }
+ function AbUnix2DosFileAttributes(Attr: LongInt): LongInt;
+ begin
+-  {$WARN SYMBOL_PLATFORM OFF}
++  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
++  {$ELSE} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
+   Result := 0;
+   case (Attr and $F000) of
+     AB_FMODE_FILE, AB_FMODE_FILE2: { standard file }
+@@ -1225,21 +1216,20 @@
+ 
+   if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
+     Result := Result or faReadOnly;
+-  {$WARN SYMBOL_PLATFORM ON}
++  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
++  {$ELSE} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
+ end;
+ { -------------------------------------------------------------------------- }
+ procedure AbSetFileAttr(const aFileName : string; aAttr: Integer);
+ begin
+-  {$WARN SYMBOL_PLATFORM OFF}
+   {$IFDEF MSWINDOWS}
+-  FileSetAttr(aFileName, aAttr);
++  mbFileSetAttr(aFileName, aAttr);
+   {$ENDIF}
+   {$IF DEFINED(LibcAPI) OR DEFINED(PosixAPI)}
+   chmod(PAnsiChar(AbSysString(aFileName)), aAttr);
+   {$ELSEIF DEFINED(FPCUnixAPI)}
+-  fpchmod(aFileName, aAttr);
++  mbFileSetAttr(aFileName, aAttr);
+   {$IFEND}
+-  {$WARN SYMBOL_PLATFORM ON}
+ end;
+ { -------------------------------------------------------------------------- }
+ function AbFileGetSize(const aFileName : string) : Int64;
+@@ -1256,8 +1246,8 @@
+ var
+ {$IFDEF MSWINDOWS}
+   FileDate: LongRec;
+-  FindData: TWin32FindData;
+-  LocalFileTime: TFileTime;
++  FindData: TWin32FindDataW;
++  LocalFileTime: Windows.TFileTime;
+ {$ENDIF}
+ {$IFDEF FPCUnixAPI}
+   StatBuf: stat;
+@@ -1274,9 +1264,9 @@
+   aAttr.Attr := -1;
+   aAttr.Mode := 0;
+ {$IFDEF MSWINDOWS}
+-  Result := GetFileAttributesEx(PChar(aFileName), GetFileExInfoStandard, @FindData);
++  Result := GetFileAttributesExW(PWideChar(UTF8Decode(aFileName)), GetFileExInfoStandard, @FindData);
+   if Result then begin
+-    if FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalFileTime) and
++    if Windows.FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalFileTime) and
+        FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
+       aAttr.Time := FileDateToDateTime(Integer(FileDate));
+     LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
+@@ -1287,7 +1277,7 @@
+ {$ENDIF}
+ {$IFDEF UNIX}
+   {$IFDEF FPCUnixAPI}
+-  Result := (FpStat(aFileName, StatBuf) = 0);
++  Result := (FpStat(UTF8ToSys(aFileName), StatBuf) = 0);
+   {$ENDIF}
+   {$IFDEF LibcAPI}
+   // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
+@@ -1313,10 +1303,10 @@
+ {-Get the volume label for the specified drive.}
+ {$IFDEF MSWINDOWS}
+ var
+-  Root : string;
++  Root : WideString;
+   Flags, MaxLength : DWORD;
+   NameSize : Integer;
+-  VolName : string;
++  VolName : WideString;
+ {$ENDIF}
+ begin
+ {$IFDEF MSWINDOWS}
+@@ -1326,10 +1316,10 @@
+ 
+   Result := '';
+ 
+-  if GetVolumeInformation(PChar(Root), PChar(VolName), Length(VolName),
++  if GetVolumeInformationW(PWideChar(Root), PWideChar(VolName), Length(VolName),
+     nil, MaxLength, Flags, nil, NameSize)
+   then
+-    Result := VolName;
++    Result := UTF8Encode(VolName);
+ {$ELSE}
+   Result := ''; //Stop Gap, spanning support needs to be rethought for Unix
+ {$ENDIF}
 Index: AbVMStrm.pas
 ===================================================================
 --- AbVMStrm.pas	(revision 512)
