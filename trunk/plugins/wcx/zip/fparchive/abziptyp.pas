@@ -633,6 +633,7 @@ function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
   Footer       : TAbZipEndOfCentralDirectoryRecord;
+  ZipSig       : Word;
   Sig          : LongInt;
   TailPosition : int64;
   StartPos     : int64;
@@ -641,20 +642,30 @@ begin
   Result := atUnknown;
   try
     Strm.Position := 0;
-    Strm.Read(Sig, SizeOf(Sig));
-    if (Sig = Ab_ZipSpannedSetSignature) then
-      Result := atSpannedZip
-    else begin
-      { attempt to find Central Directory Tail }
-      TailPosition := FindCentralDirectoryTail( Strm );
-      if TailPosition <> -1 then begin
-        { check Central Directory Signature }
-        Strm.ReadBuffer(Footer, SizeOf(Footer));
-        if Footer.Signature = Ab_ZipEndCentralDirectorySignature then
-          if Footer.DiskNumber = 0 then
-            Result := atZip
-          else
-            Result := atSpannedZip;
+    if (Strm.Read(ZipSig, SizeOf(ZipSig)) = SizeOf(ZipSig)) and
+       (ZipSig = Ab_GeneralZipSignature) then
+    begin
+      Strm.Position := 0;
+      if Strm.Read(Sig, SizeOf(Sig)) = SizeOf(Sig) then
+      begin
+        if (Sig = Ab_ZipSpannedSetSignature) then
+          Result := atSpannedZip
+        else begin
+          { attempt to find Central Directory Tail }
+          TailPosition := FindCentralDirectoryTail( Strm );
+          if TailPosition <> -1 then begin
+            { check Central Directory Signature }
+            if (Strm.Read(Footer, SizeOf(Footer)) = SizeOf(Footer)) and
+               (Footer.Signature = Ab_ZipEndCentralDirectorySignature) and
+               (Footer.CommentLength = Strm.Size - Strm.Position) then
+            begin
+              if Footer.DiskNumber = 0 then
+                Result := atZip
+              else
+                Result := atSpannedZip;
+            end;
+          end;
+        end;
       end;
     end;
   except
