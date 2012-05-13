@@ -27,7 +27,7 @@ unit fOptionsFilesViews;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls,
+  Classes, SysUtils, StdCtrls, Graphics,
   fOptionsFrame;
 
 type
@@ -60,11 +60,14 @@ type
     lblNewFilesPosition: TLabel;
     lblSortMethod: TLabel;
     procedure cbDateTimeFormatChange(Sender: TObject);
+  private
+    FIncorrectFormatMessage: string;
   protected
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
+    procedure AfterConstruction; override;
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
   end;
@@ -80,7 +83,16 @@ uses
 
 procedure TfrmOptionsFilesViews.cbDateTimeFormatChange(Sender: TObject);
 begin
-  lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
+  try
+    lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
+    lblDateTimeExample.Font.Color := clDefault;
+  except
+    on E: EConvertError do
+    begin
+      lblDateTimeExample.Caption:= FIncorrectFormatMessage;
+      lblDateTimeExample.Font.Color := clRed;
+    end;
+  end;
 end;
 
 procedure TfrmOptionsFilesViews.Init;
@@ -162,7 +174,9 @@ begin
     2: gUpdatedFilesPosition := ufpSortedPosition;
   end;
   gShortFileSizeFormat := cbShortFileSizeFormat.Checked;
-  gDateTimeFormat := cbDateTimeFormat.Text;
+
+  gDateTimeFormat := GetValidDateTimeFormat(cbDateTimeFormat.Text, gDateTimeFormat);
+
   gSpaceMovesDown := cbSpaceMovesDown.Checked;
   gDirBrackets := cbDirBrackets.Checked;
   gShowSystemFiles:= cbShowSystemFiles.Checked;
@@ -172,6 +186,13 @@ begin
   gHighlightUpdatedFiles := cbHighlightUpdatedFiles.Checked;
 
   Result := [];
+end;
+
+procedure TfrmOptionsFilesViews.AfterConstruction;
+begin
+  inherited AfterConstruction;
+  //save localized "Incorrect format" string
+  FIncorrectFormatMessage := lblDateTimeExample.Caption;
 end;
 
 class function TfrmOptionsFilesViews.GetIconIndex: Integer;

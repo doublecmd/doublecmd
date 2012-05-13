@@ -278,13 +278,14 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbFormatting
       AnchorSideRight.Side = asrBottom
-      Left = 617
-      Height = 1
-      Top = 20
-      Width = 1
+      Left = 522
+      Height = 14
+      Top = 9
+      Width = 96
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 6
+      Caption = 'Incorrect format'
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
@@ -297,21 +298,21 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 164
       Height = 29
       Top = 6
-      Width = 445
+      Width = 391
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 8
       BorderSpacing.Top = 6
       BorderSpacing.Right = 8
       ItemHeight = 21
       Items.Strings = (
-        'yyyy.mm.dd hh:mm:ss'
-        'yyyy.mm.dd hh:mm'
-        'yy.mm.dd hh:mm'
-        'dd.mm.yyyy hh:mm:ss'
-        'dd.mm.yyyy hh:mm'
-        'dd.mm.yy hh:mm'
-        'dd.mm.yyyy'
-        'dd.mm.yy'
+        'yyyy/mm/dd hh:mm:ss'
+        'yyyy/mm/dd hh:mm'
+        'yy/mm/dd hh:mm'
+        'dd/mm/yyyy hh:mm:ss'
+        'dd/mm/yyyy hh:mm'
+        'dd/mm/yy hh:mm'
+        'dd/mm/yyyy'
+        'dd/mm/yy'
       )
       OnChange = cbDateTimeFormatChange
       TabOrder = 0

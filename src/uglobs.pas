@@ -353,6 +353,7 @@ procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
 
 function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;
 function IsFileSystemWatcher: Boolean;
+function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
 
 const
   cMaxStringItems=50;
@@ -375,11 +376,23 @@ uses
 const
   TKeyTypingModifierToNodeName: array[TKeyTypingModifier] of String =
     ('NoModifier', 'Alt', 'CtrlAlt');
+  DefaultDateTimeFormat = 'dd/mm/yy';
 
 var
   // Double Commander version
   // loaded from configuration file
   gPreviousVersion: UTF8String = '';
+
+function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
+begin
+  try
+    SysUtils.FormatDateTime(aFormat, Now);
+    Result := aFormat;
+  except
+    on EConvertError do
+      Result := ADefaultFormat;
+  end;
+end;
 
 procedure LoadDefaultHotkeyBindings;
 var
@@ -757,7 +770,7 @@ begin
   gWheelScrollLines:= Mouse.WheelScrollLines;
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
-  gDateTimeFormat := 'dd.mm.yy';
+  gDateTimeFormat := DefaultDateTimeFormat;
   gCutTextToColWidth := True;
   gShowSystemFiles := False;
   // Under Mac OS X loading file list in separate thread are very very slow
@@ -1251,7 +1264,7 @@ begin
   gScrollMode := TScrollMode(gIni.ReadInteger('Configuration', 'ScrollMode', Integer(gScrollMode)));
   gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
   gAlwaysShowTrayIcon := gIni.ReadBool('Configuration', 'AlwaysShowTrayIcon', False);
-  gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
+  gDateTimeFormat := GetValidDateTimeFormat(gIni.ReadString('Configuration', 'DateTimeFormat', DefaultDateTimeFormat), DefaultDateTimeFormat);
   gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
   gSpaceMovesDown := gIni.ReadBool('Configuration', 'SpaceMovesDown', False);
 
@@ -1628,7 +1641,7 @@ begin
       gWheelScrollLines:= GetValue(Node, 'Mouse/WheelScrollLines', gWheelScrollLines);
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
-      gDateTimeFormat := GetValue(Node, 'DateTimeFormat', gDateTimeFormat);
+      gDateTimeFormat := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormat), DefaultDateTimeFormat);
       gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
       {$IFNDEF LCLCARBON}

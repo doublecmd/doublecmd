@@ -4087,6 +4087,10 @@ msgstr ""
 msgid "Case sensitivity:"
 msgstr ""
 
+#: tfrmoptionsfilesviews.lbldatetimeexample.caption
+msgid "Incorrect format"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgid "Date and time format:"
 msgstr ""
