@@ -1417,12 +1417,12 @@ var
 {$ENDIF}
 begin
   // Zip stores MS-DOS date/time.
+{$IFDEF UNIX}
+  DateTime := AbDosFileDateToDateTime(LastModFileDate, LastModFileTime);
+  Result   := AbLocalDateTimeToUnixTime(DateTime);
+{$ELSE}
   LongRec(Result).Hi := LastModFileDate;
   LongRec(Result).Lo := LastModFileTime;
-
-{$IFDEF UNIX}
-  DateTime := AbDosFileTimeToDateTime(Result);
-  Result   := AbDateTimeToUnixFileTime(DateTime);
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
@@ -1483,7 +1483,7 @@ begin
       FFileName := CeAnsiToUtf8(FItemInfo.FileName)
     else
     {$ELSEIF DEFINED(LINUX)}
-    if (SystemCode = hosMSDOS) then
+    if (SystemCode = hosDOS) then
       FFileName := CeOemToUtf8(FItemInfo.FileName)
     else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
       FFileName := CeAnsiToUtf8(FItemInfo.FileName)

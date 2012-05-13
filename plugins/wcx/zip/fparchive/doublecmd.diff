@@ -1321,7 +1321,7 @@ Index: AbTarTyp.pas
 +      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
        FStream.CopyFrom(NewStream, NewStream.Size);
      end;
-
+ 
 Index: AbUnzPrc.pas
 ===================================================================
 --- AbUnzPrc.pas	(revision 512)
@@ -1349,8 +1349,11 @@ Index: AbUtils.pas
 ===================================================================
 --- AbUtils.pas	(revision 512)
 +++ AbUtils.pas	(working copy)
-@@ -62,8 +62,7 @@
+@@ -60,10 +60,10 @@
+ {$ENDIF}
+ {$IFDEF UNIX}
    DateUtils,
++  DCClassesUtf8,
  {$ENDIF}
    SysUtils,
 -  Classes,
@@ -1359,7 +1362,7 @@ Index: AbUtils.pas
  
  
  type
-@@ -114,6 +113,12 @@
+@@ -114,6 +114,12 @@
    {$ENDIF}
  {$IFEND}
  
@@ -1372,7 +1375,7 @@ Index: AbUtils.pas
  { System-encoded SBCS string (formerly AnsiString) }
  type
    AbSysString = {$IFDEF Posix}UTF8String{$ELSE}AnsiString{$ENDIF};
-@@ -364,8 +369,12 @@
+@@ -364,8 +370,12 @@
  uses
    StrUtils,
    AbConst,
@@ -1386,7 +1389,7 @@ Index: AbUtils.pas
  {$IF DEFINED(FPCUnixAPI)}
  function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
    external clib name 'mktemp';
-@@ -387,6 +396,7 @@
+@@ -387,6 +397,7 @@
  function nl_langinfo(__item: nl_item): PAnsiChar; cdecl;
    external clib name 'nl_langinfo';
  {$IFEND}
@@ -1394,7 +1397,7 @@ Index: AbUtils.pas
  
  {===platform independent routines for platform dependent stuff=======}
  function ExtractShortName(const SR : TSearchRec) : string;
-@@ -410,16 +420,16 @@
+@@ -410,16 +421,16 @@
  function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
  {$IFDEF UNIX}
  var
@@ -1415,7 +1418,7 @@ Index: AbUtils.pas
          try
            DesStream.CopyFrom(SrcStream, 0);
            Result := True;
-@@ -434,7 +444,7 @@
+@@ -434,7 +445,7 @@
      end;
  {$ENDIF UNIX}
  {$IFDEF MSWINDOWS}
@@ -1424,7 +1427,7 @@ Index: AbUtils.pas
  {$ENDIF MSWINDOWS}
  end;
  { -------------------------------------------------------------------------- }
-@@ -447,7 +457,7 @@
+@@ -447,7 +458,7 @@
    i : Integer;
    TempPath : string;
  begin
@@ -1433,7 +1436,7 @@ Index: AbUtils.pas
      Exit;
    {see how much of the path currently exists}
    if Pos( '\\', Path ) > 0 then
-@@ -463,8 +473,9 @@
+@@ -463,8 +474,9 @@
      {get a temp path to try: drive:\path1}
      TempPath := Copy( Path, 1, i );
      {if it doesn't exist, create it}
@@ -1445,7 +1448,7 @@ Index: AbUtils.pas
      inc( iStartSlash );
    until ( Length( TempPath ) = Length( Path ) );
  end;
-@@ -476,44 +487,26 @@
+@@ -476,44 +488,26 @@
  { -------------------------------------------------------------------------- }
  function AbGetTempDirectory : string;
  begin
@@ -1500,7 +1503,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbDrive(const ArchiveName : string) : Char;
-@@ -560,8 +553,8 @@
+@@ -560,8 +554,8 @@
  var
    FreeAvailable, TotalSpace: Int64;
  begin
@@ -1511,7 +1514,7 @@ Index: AbUtils.pas
      Result := FreeAvailable
    else
      Result := -1;
-@@ -574,7 +567,7 @@
+@@ -574,7 +568,7 @@
    if statfs(PAnsiChar(ExtractFilePath(ArchiveName)), FStats) = 0 then
      Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize)
    {$ELSEIF DEFINED(FPCUnixAPI)}
@@ -1520,7 +1523,7 @@ Index: AbUtils.pas
      Result := Int64(FStats.bAvail) * Int64(FStats.bsize)
    {$ELSEIF DEFINED(PosixAPI)}
    if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
-@@ -591,8 +584,8 @@
+@@ -591,8 +585,8 @@
    DirMatch : Boolean;
    MaskDir : string;
  begin
@@ -1531,7 +1534,7 @@ Index: AbUtils.pas
    MaskDir := ExtractFilePath( FileMask );
    if MaskDir = '' then
      DirMatch := True
-@@ -614,12 +607,12 @@
+@@ -614,12 +608,12 @@
    Found := FindFirst( FileMask, SearchAttr, SR );
    if Found = 0 then begin
      try
@@ -1546,7 +1549,7 @@ Index: AbUtils.pas
            if (SR.Attr and faDirectory) <> 0 then
              FileList.Add( NewFile + PathDelim )
            else
-@@ -1002,18 +995,18 @@
+@@ -1002,18 +996,18 @@
  function AbWriteVolumeLabel(const VolName : string;
                                  Drive : Char) : Cardinal;
  var
@@ -1572,7 +1575,7 @@ Index: AbUtils.pas
      Result := 0
    else Result := GetLastError;
  {$ENDIF MSWINDOWS}
-@@ -1166,12 +1159,7 @@
+@@ -1166,12 +1160,7 @@
  
  function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
  begin
@@ -1586,7 +1589,7 @@ Index: AbUtils.pas
  end;
  
  { -------------------------------------------------------------------------- }
-@@ -1188,7 +1176,8 @@
+@@ -1188,7 +1177,8 @@
  { -------------------------------------------------------------------------- }
  function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
  begin
@@ -1596,7 +1599,7 @@ Index: AbUtils.pas
    Result := { default permissions }
      AB_FPERMISSION_OWNERREAD or
      AB_FPERMISSION_GROUPREAD or
-@@ -1201,12 +1190,14 @@
+@@ -1201,12 +1191,14 @@
      Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE
    else
      Result := Result or AB_FMODE_FILE;
@@ -1613,7 +1616,7 @@ Index: AbUtils.pas
    Result := 0;
    case (Attr and $F000) of
      AB_FMODE_FILE, AB_FMODE_FILE2: { standard file }
-@@ -1225,21 +1216,20 @@
+@@ -1225,21 +1217,20 @@
  
    if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
      Result := Result or faReadOnly;
@@ -1639,7 +1642,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbFileGetSize(const aFileName : string) : Int64;
-@@ -1256,8 +1246,8 @@
+@@ -1256,8 +1247,8 @@
  var
  {$IFDEF MSWINDOWS}
    FileDate: LongRec;
@@ -1650,7 +1653,7 @@ Index: AbUtils.pas
  {$ENDIF}
  {$IFDEF FPCUnixAPI}
    StatBuf: stat;
-@@ -1274,9 +1264,9 @@
+@@ -1274,9 +1265,9 @@
    aAttr.Attr := -1;
    aAttr.Mode := 0;
  {$IFDEF MSWINDOWS}
@@ -1662,7 +1665,7 @@ Index: AbUtils.pas
         FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
        aAttr.Time := FileDateToDateTime(Integer(FileDate));
      LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
-@@ -1287,7 +1277,7 @@
+@@ -1287,7 +1278,7 @@
  {$ENDIF}
  {$IFDEF UNIX}
    {$IFDEF FPCUnixAPI}
@@ -1671,7 +1674,7 @@ Index: AbUtils.pas
    {$ENDIF}
    {$IFDEF LibcAPI}
    // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
-@@ -1313,10 +1303,10 @@
+@@ -1313,10 +1304,10 @@
  {-Get the volume label for the specified drive.}
  {$IFDEF MSWINDOWS}
  var
@@ -1684,7 +1687,7 @@ Index: AbUtils.pas
  {$ENDIF}
  begin
  {$IFDEF MSWINDOWS}
-@@ -1326,10 +1316,10 @@
+@@ -1326,10 +1317,10 @@
  
    Result := '';
  
@@ -1953,12 +1956,12 @@ Index: AbZipTyp.pas
 +{$ENDIF}
 +begin
 +  // Zip stores MS-DOS date/time.
++{$IFDEF UNIX}
++  DateTime := AbDosFileDateToDateTime(LastModFileDate, LastModFileTime);
++  Result   := AbLocalDateTimeToUnixTime(DateTime);
++{$ELSE}
 +  LongRec(Result).Hi := LastModFileDate;
 +  LongRec(Result).Lo := LastModFileTime;
-+
-+{$IFDEF UNIX}
-+  DateTime := AbDosFileTimeToDateTime(Result);
-+  Result   := AbDateTimeToUnixFileTime(DateTime);
 +{$ENDIF}
 +end;
 +{ -------------------------------------------------------------------------- }
@@ -2017,7 +2020,7 @@ Index: AbZipTyp.pas
 +      FFileName := CeAnsiToUtf8(FItemInfo.FileName)
 +    else
 +    {$ELSEIF DEFINED(LINUX)}
-+    if (SystemCode = hosMSDOS) then
++    if (SystemCode = hosDOS) then
 +      FFileName := CeOemToUtf8(FItemInfo.FileName)
 +    else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
 +      FFileName := CeAnsiToUtf8(FItemInfo.FileName)
