@@ -297,7 +297,8 @@ var
   UncompressedStream : TStream;
   AttrEx : TAbAttrExRec;
 begin
-  AbFileGetAttrEx(Item.DiskFileName, AttrEx);
+  if not AbFileGetAttrEx(Item.DiskFileName, AttrEx) then
+    Raise EAbFileNotFound.Create;
   if ((AttrEx.Attr and faDirectory) <> 0) then
     UncompressedStream := TMemoryStream.Create
   else
