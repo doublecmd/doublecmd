@@ -192,6 +192,7 @@ type
     procedure CalculateSpace(var AFileList: TFVWorkerFileList);
     procedure CalculateSpaceOnUpdate(const UpdatedFile: TDisplayFile;
                                      const UserData: Pointer);
+    procedure CancelLastPathChange;
     procedure ClearFiles;
     procedure EndUpdate;
     procedure EnsureDisplayProperties; virtual; abstract;
@@ -1289,6 +1290,35 @@ begin
 
   OrigDisplayFile.FSFile.Size := UpdatedFile.FSFile.Size;
   DoFileUpdated(OrigDisplayFile, [fpSize]);
+end;
+
+procedure TFileView.CancelLastPathChange;
+var
+  FSIndex, PathIndex: Integer;
+begin
+  // Get previous entry in history.
+  FSIndex := FHistory.CurrentFileSourceIndex;
+  PathIndex := FHistory.CurrentPathIndex - 1;
+  while PathIndex < 0 do
+  begin
+    Dec(FSIndex);
+    if FSIndex < 0 then
+      Break;
+    PathIndex := FHistory.PathsCount[FSIndex] - 1;
+  end;
+
+  // Go to it if it is the same as last loaded file list.
+  if (FSIndex >= 0) and
+     FHistory.FileSource[FSIndex].Equals(FLastLoadedFileSource) and
+     (FHistory.Path[FSIndex, PathIndex] = FLastLoadedPath) then
+  begin
+    // Don't reload file list because we already have it.
+    Flags := Flags + [fvfDontLoadFiles];
+    GoToHistoryIndex(FSIndex, PathIndex);
+    Flags := Flags - [fvfDontLoadFiles];
+  end
+  else
+    ClearFiles;
 end;
 
 procedure TFileView.DoOnFileListChanged;
