@@ -686,7 +686,11 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function TVTDragManager.GiveFeedback(Effect: Integer): HResult;
+{$IF FPC_FULLVERSION < 020701}
+function TVTDragManager.GiveFeedback(Effect: Longint): HResult;
+{$ELSE}
+function TVTDragManager.GiveFeedback(Effect: LongWord): HResult;
+{$ENDIF}
 
 begin
   Result := DRAGDROP_S_USEDEFAULTCURSORS;
@@ -694,7 +698,11 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: Integer): HResult;
+{$IF FPC_FULLVERSION < 020701}
+function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: Longint): HResult;
+{$ELSE}
+function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: LongWord): HResult;
+{$ENDIF}
 
 var
   RButton,

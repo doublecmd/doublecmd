@@ -32,32 +32,8 @@ end;
 function GetTextExtentExPoint(DC: HDC; Str: PChar;
   Count, MaxWidth: Integer; MaxCount, PartialWidths: PInteger;
   var Size: TSize): BOOL;
-var
-  lbearing, rbearing, ascent, descent: LongInt;
-  IsDBCSFont: Boolean;
-  NewCount, Accumulator, i: Integer;
-  AStr: WideString;
 begin
-  //based in lcl code
-  Result := QtWidgetSet.IsValidDC(DC);
-  if Result then
-  with TQtDeviceContext(DC) do
-  begin
-    AStr := WideString(Str);
-    Ascent := Font.Metrics.ascent;
-    Descent := Font.Metrics.descent;
-    Size.cX := Font.Metrics.width(@AStr, Count);
-    Size.cY := Ascent + Descent;
-    if PartialWidths <> nil then
-    begin
-      Accumulator := 0;
-      for i:= 0 to Count - 1 do
-      begin
-        Inc(Accumulator, QFontMetrics_width(Font.Metrics.FHandle, PWideChar((Str+i))));
-        PartialWidths[i] := Accumulator;
-      end;
-    end;
-  end;
+  Result := QtWidgetSet.GetTextExtentExPoint(DC, Str, Count, MaxWidth, MaxCount, PartialWidths, Size);
 end;
 
 function GetTextAlign(hDC:HDC): LongWord;

@@ -134,6 +134,12 @@ begin
   Result := CommCtrl.ImageList_DragShowNolock(fShow);
 end;
 
+function MapWindowPoints(hWndFrom, hWndTo: HWND; var lpPoints; cPoints: UINT
+  ): Integer;
+begin
+  Result:=Windows.MapWindowPoints(hWndFrom,hWndTo,lpPoints,cPoints);
+end;
+
 function MultiByteToWideChar(CodePage, dwFlags: DWORD; lpMultiByteStr: PChar;
   cchMultiByte: longint; lpWideCharStr: PWideChar; cchWideChar: longint
   ): longint;

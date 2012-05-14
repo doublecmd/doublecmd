@@ -93,6 +93,7 @@ function GetWindowDC(hWnd:HWND):HDC;
 
 function ImageList_DragShowNolock(fShow: Boolean): Boolean;
 
+function MapWindowPoints(hWndFrom, hWndTo: HWND; var lpPoints; cPoints: UINT): Integer;
 function MultiByteToWideChar(CodePage, dwFlags:DWORD; lpMultiByteStr:PChar; cchMultiByte:longint; lpWideCharStr:PWideChar;cchWideChar:longint):longint;
 
 function OffsetRgn(hrgn:HRGN; nxOffset, nYOffset:longint):longint;
