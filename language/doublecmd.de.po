@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-05-08 10:20+0100\n"
+"PO-Revision-Date: 2012-05-13 10:20+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -734,7 +734,7 @@ msgstr "Vorheriger Unterschied"
 #| msgid "Reload"
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
 msgid "&Reload"
-msgstr "Neu laden"
+msgstr "&Neu laden"
 
 #: tfrmdiffer.actreload.hint
 msgctxt "TFRMDIFFER.ACTRELOAD.HINT"
@@ -880,13 +880,13 @@ msgstr "-"
 #, fuzzy
 #| msgid "Left"
 msgid "&Left"
-msgstr "Links"
+msgstr "&Links"
 
 #: tfrmdiffer.miencodingright.caption
 #, fuzzy
 #| msgid "Right"
 msgid "&Right"
-msgstr "Rechts"
+msgstr "&Rechts"
 
 #: tfrmdiffer.miseparator1.caption
 msgctxt "TFRMDIFFER.MISEPARATOR1.CAPTION"
@@ -914,14 +914,14 @@ msgstr "Bea&rbeiten"
 #| msgid "Encoding"
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
 msgid "En&coding"
-msgstr "Codierung"
+msgstr "&Codierung"
 
 #: tfrmdiffer.mnufile.caption
 #, fuzzy
 #| msgid "File"
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
 msgid "&File"
-msgstr "Datei"
+msgstr "&Datei"
 
 #: tfrmdiffer.mnuoptions.caption
 #, fuzzy
@@ -1544,15 +1544,15 @@ msgstr "Schliessen"
 
 #: tfrmfileproperties.btnsetproperties.caption
 msgid "&Set properties"
-msgstr ""
+msgstr "Eigen&schaften einstellen"
 
 #: tfrmfileproperties.btnsetpropertiestoallfiles.caption
 msgid "Set to &all selected files"
-msgstr ""
+msgstr "&Auf alle ausgewählten Dateien anwenden"
 
 #: tfrmfileproperties.btnskipfile.caption
 msgid "Ski&p this file"
-msgstr ""
+msgstr "Diese Datei übers&pringen"
 
 #: tfrmfileproperties.caption
 msgctxt "TFRMFILEPROPERTIES.CAPTION"
@@ -2158,11 +2158,11 @@ msgstr "&Pfad in die Befehlszeile eintragen"
 
 #: tfrmmain.actbriefview.caption
 msgid "Brief"
-msgstr ""
+msgstr "Verkürzt"
 
 #: tfrmmain.actbriefview.hint
 msgid "Brief View"
-msgstr ""
+msgstr "Verkürzte Ansicht"
 
 #: tfrmmain.actcalculatespace.caption
 #, fuzzy
@@ -2206,11 +2206,11 @@ msgstr "Log-Fenster leeren"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
-msgstr ""
+msgstr "Nächste Befehlszeile"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr ""
+msgstr "Stelle Befehlszeile auf den nächsten Befehl im Verlauf"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
@@ -3695,7 +3695,7 @@ msgstr "Optionen"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr ""
+msgstr "Bitte eine der Unterseiten auswählen, diese Seite hier enthält keine Einstellmöglichkeiten."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
