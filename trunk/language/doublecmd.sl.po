@@ -471,9 +471,9 @@ msgid "&OK"
 msgstr "&V redu"
 
 #: tfrmchecksumcalc.caption
-msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate check sum..."
-msgstr "Izračunaj nadzorno vsoto ..."
+msgstr "Izračunavanje nadzorne vsote ..."
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "Create separate checksum file for each file"
@@ -1172,7 +1172,7 @@ msgid "Save All"
 msgstr "Shrani vse"
 
 #: tfrmeditor.caption
-msgctxt "TFRMEDITOR.CAPTION"
+msgctxt "tfrmeditor.caption"
 msgid "Editor"
 msgstr "Urejevalnik"
 
@@ -3261,7 +3261,7 @@ msgid "&Save"
 msgstr "&Shrani"
 
 #: tfrmmultirename.caption
-msgctxt "TFRMMULTIRENAME.CAPTION"
+msgctxt "tfrmmultirename.caption"
 msgid "MultiRename"
 msgstr "Napredno preimenovanje"
 
@@ -3477,17 +3477,17 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmultirename.stringgrid.columns[0].title.caption
-msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TITLE.CAPTION"
+msgctxt "tfrmmultirename.stringgrid.columns[0].title.caption"
 msgid "Old File Name"
 msgstr "Staro ime datoteke"
 
 #: tfrmmultirename.stringgrid.columns[1].title.caption
-msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TITLE.CAPTION"
+msgctxt "tfrmmultirename.stringgrid.columns[1].title.caption"
 msgid "New File Name"
 msgstr "Novo ime datoteke"
 
 #: tfrmmultirename.stringgrid.columns[2].title.caption
-msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
+msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Pot datoteke"
 
@@ -3912,14 +3912,30 @@ msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "Vključeno"
 
+#: tfrmoptionsfileoperations.cbcopyconfirmation.caption
+msgid "Copy operation"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
+msgid "Delete operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "Izbriši v smeti (S sočasnim pritiskom tipke dvigalke, se izbriše trajno)"
+
+#: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
+msgid "Delete to trash operation"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Odstrani zastavico le za branje"
+
+#: tfrmoptionsfileoperations.cbmoveconfirmation.caption
+msgid "Move operation"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgid "Search for part of file name"
@@ -3946,6 +3962,7 @@ msgid "Executing operations"
 msgstr "Izvajanje opravil"
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
+msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
 msgid "File search"
 msgstr "Iskanje datotek"
 
@@ -3956,6 +3973,10 @@ msgstr "Uporabniški vmesnik"
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
 msgstr "Velikost medpomnilnika opravila (v KB):"
+
+#: tfrmoptionsfileoperations.lblconfirmations.caption
+msgid "Show confirmation window for:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress initially in"
@@ -4122,6 +4143,10 @@ msgstr "Razvrščanje"
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case sensitivity:"
 msgstr "Upoštevanje velikosti črk:"
+
+#: tfrmoptionsfilesviews.lbldatetimeexample.caption
+msgid "Incorrect format"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgid "Date and time format:"
@@ -5731,7 +5756,7 @@ msgid "Zoom Out"
 msgstr "Oddalji"
 
 #: tfrmviewer.caption
-msgctxt "TFRMVIEWER.CAPTION"
+msgctxt "tfrmviewer.caption"
 msgid "Viewer"
 msgstr "Pregledovalnik"
 

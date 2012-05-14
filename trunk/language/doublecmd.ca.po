@@ -471,7 +471,7 @@ msgstr "&Acceptar"
 #: tfrmchecksumcalc.caption
 msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate check sum..."
-msgstr "Calcular suma de comprobació"
+msgstr "Calcular suma de comprovació"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "Create separate checksum file for each file"
@@ -4047,15 +4047,31 @@ msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr ""
 
+#: tfrmoptionsfileoperations.cbcopyconfirmation.caption
+msgid "Copy operation"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
+msgid "Delete operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "tfrmoptionsfileoperations.cbdeletetotrash.caption"
 msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "S'envia a la paperera (la tecla majúscula inverteix aquesta selecció)"
 
+#: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
+msgid "Delete to trash operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "tfrmoptionsfileoperations.cbdropreadonlyflag.caption"
 msgid "Drop readonly flag"
 msgstr "Treure marca de només lectura"
+
+#: tfrmoptionsfileoperations.cbmoveconfirmation.caption
+msgid "Move operation"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgctxt "tfrmoptionsfileoperations.cbpartialnamesearch.caption"
@@ -4096,6 +4112,10 @@ msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblconfirmations.caption
+msgid "Show confirmation window for:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
@@ -4274,6 +4294,10 @@ msgstr "Ordenant"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case sensitivity:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lbldatetimeexample.caption
+msgid "Incorrect format"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
