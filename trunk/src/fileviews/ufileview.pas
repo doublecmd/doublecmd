@@ -1335,12 +1335,10 @@ begin
      ((FRequests <> []) or (FNotifications <> [])) then
   begin
     BeginUpdate;
-    DisableAutoSizing;
     try
       HandleRequests;
       HandleNotifications;
     finally
-      EnableAutoSizing;
       EndUpdate;
     end;
   end;
@@ -2617,7 +2615,6 @@ end;
 procedure TFileView.HandleNotifications;
 begin
   BeginUpdate;
-  DisableAutoSizing;
   try
     while FNotifications <> [] do
     begin
@@ -2645,14 +2642,12 @@ begin
     end;
   finally
     EndUpdate;
-    EnableAutoSizing;
   end;
 end;
 
 procedure TFileView.HandleRequests;
 begin
   BeginUpdate;
-  DisableAutoSizing;
   try
     while FRequests <> [] do
     begin
@@ -2676,7 +2671,6 @@ begin
     end;
   finally
     EndUpdate;
-    EnableAutoSizing;
   end;
 end;
 
