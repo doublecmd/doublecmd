@@ -53,6 +53,7 @@ type
     function DoKeyAction(var CharCode: Word; var Shift: TShiftState): Boolean; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+    procedure CMHintShow(var Message: TCMHintShow); message CM_HINTSHOW;
     procedure WMKeyDown(var Message: TLMKeyDown); message LM_KEYDOWN;
 
     procedure InitializeWnd; override;
@@ -133,9 +134,9 @@ type
     procedure dgPanelHeaderDrawQueryElements(Sender: TVTHeader; var PaintInfo: THeaderPaintInfo;
       var Elements: THeaderPaintElements);
     procedure dgPanelDragOver(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState; State: TDragState;
-      const Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
+      const Pt: TPoint; Mode: TDropMode; var Effect: LongWord; var Accept: Boolean);
     procedure dgPanelDragDrop(Sender: TBaseVirtualTree; Source: TObject;
-      Formats: TFormatArray; Shift: TShiftState; const Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+      Formats: TFormatArray; Shift: TShiftState; const Pt: TPoint; var Effect: LongWord; Mode: TDropMode);
     procedure dgPanelFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
     procedure dgPanelFocusChanging(Sender: TBaseVirtualTree; OldNode, NewNode: PVirtualNode; OldColumn,
       NewColumn: TColumnIndex; var Allowed: Boolean);
@@ -326,7 +327,7 @@ end;
 
 procedure TColumnsFileViewVTV.dgPanelDragOver(Sender: TBaseVirtualTree;
   Source: TObject; Shift: TShiftState; State: TDragState;
-  const Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
+  const Pt: TPoint; Mode: TDropMode; var Effect: LongWord; var Accept: Boolean);
 begin
   MainControlDragOver(Sender, Source, Pt.x, Pt.y, State, Accept);
 end;
@@ -334,7 +335,7 @@ end;
 procedure TColumnsFileViewVTV.dgPanelDragDrop(Sender: TBaseVirtualTree;
   Source: TObject;
   Formats: TFormatArray; Shift: TShiftState;
-  const Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+  const Pt: TPoint; var Effect: LongWord; Mode: TDropMode);
 begin
   MainControlDragDrop(Sender, Source, Pt.x, Pt.y);
 end;
@@ -1467,6 +1468,12 @@ end;
 function TColumnsDrawTree.CanScroll(const ClientMousePos: TPoint): Boolean;
 begin
   Result := ColumnsView.IsMouseSelecting;
+end;
+
+procedure TColumnsDrawTree.CMHintShow(var Message: TCMHintShow);
+begin
+  // Skip CMHintShow from VTV and do what TControl.CMHintShow does.
+  DoOnShowHint(Message.HintInfo);
 end;
 
 procedure TColumnsDrawTree.UpdateView;

@@ -755,7 +755,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function TVTDragManager.GiveFeedback(Effect: Integer): HResult;
+function TVTDragManager.GiveFeedback(Effect: LongWord): HResult;
 
 begin
   //Result := DRAGDROP_S_USEDEFAULTCURSORS;
@@ -763,7 +763,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: Integer): HResult;
+function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: LongWord): HResult;
 
 var
   RButton,

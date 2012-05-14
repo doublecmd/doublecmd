@@ -291,8 +291,8 @@ type
   IDropSource = interface(IUnknown)
     ['{00000121-0000-0000-C000-000000000046}']
     function QueryContinueDrag(fEscapePressed: BOOL;
-      grfKeyState: Longint):HResult;StdCall;
-    function GiveFeedback(dwEffect: Longint): HResult;StdCall;
+      grfKeyState: LongWord):HResult;StdCall;
+    function GiveFeedback(dwEffect: LongWord): HResult;StdCall;
   end;
   
   
@@ -332,10 +332,10 @@ type
 
   IDropTargetHelper = interface(IUnknown)
     [SID_IDropTargetHelper]
-    function DragEnter(hwndTarget: HWND; pDataObject: IDataObject; var ppt: TPoint; dwEffect: Integer): HRESULT; stdcall;
+    function DragEnter(hwndTarget: HWND; pDataObject: IDataObject; var ppt: TPoint; dwEffect: LongWord): HRESULT; stdcall;
     function DragLeave: HRESULT; stdcall;
-    function DragOver(var ppt: TPoint; dwEffect: Integer): HRESULT; stdcall;
-    function Drop(pDataObject: IDataObject; var ppt: TPoint; dwEffect: Integer): HRESULT; stdcall;
+    function DragOver(var ppt: TPoint; dwEffect: LongWord): HRESULT; stdcall;
+    function Drop(pDataObject: IDataObject; var ppt: TPoint; dwEffect: LongWord): HRESULT; stdcall;
     function Show(fShow: Boolean): HRESULT; stdcall;
   end;
 
@@ -434,8 +434,8 @@ type
     function DragOver(KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
     function Drop(const DataObject: IDataObject; KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
     procedure ForceDragLeave; stdcall;
-    function GiveFeedback(Effect: Integer): HResult; stdcall;
-    function QueryContinueDrag(EscapePressed: BOOL; KeyState: Integer): HResult; stdcall;
+    function GiveFeedback(Effect: LongWord): HResult; stdcall;
+    function QueryContinueDrag(EscapePressed: BOOL; KeyState: LongWord): HResult; stdcall;
   end;
   
   //Ole helper functions
@@ -1583,7 +1583,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function TVTDragManager.GiveFeedback(Effect: Integer): HResult;
+function TVTDragManager.GiveFeedback(Effect: LongWord): HResult;
 
 begin
   {$ifdef DEBUG_VTV}Logger.SendError([lcOle],'Ole function called in Linux');{$endif}
@@ -1593,7 +1593,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: Integer): HResult;
+function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: LongWord): HResult;
 
 var
   RButton,

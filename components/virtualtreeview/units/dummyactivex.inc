@@ -281,8 +281,8 @@ type
   IDropSource = interface(IUnknown)
     ['{00000121-0000-0000-C000-000000000046}']
     function QueryContinueDrag(fEscapePressed: BOOL;
-      grfKeyState: Longint):HResult;StdCall;
-    function GiveFeedback(dwEffect: Longint): HResult;StdCall;
+      grfKeyState: DWORD):HResult;StdCall;
+    function GiveFeedback(dwEffect: DWORD): HResult;StdCall;
   end;
 
 
