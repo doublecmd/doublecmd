@@ -268,16 +268,16 @@ end;
 
 procedure TOrderedFileView.DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState);
 var
-  bClear: Boolean;
+  bLoading: Boolean;
 begin
   case Key of
     VK_ESCAPE:
       if GetCurrentWorkType <> fvwtNone then
       begin
-        bClear := IsLoadingFileList;
+        bLoading := IsLoadingFileList;
         StopWorkers;
-        if bClear then
-          ClearFiles;
+        if bLoading then
+          CancelLastPathChange;
         Key := 0;
       end;
   end;
