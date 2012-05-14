@@ -4083,16 +4083,32 @@ msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "사용"
 
+#: tfrmoptionsfileoperations.cbcopyconfirmation.caption
+msgid "Copy operation"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
+msgid "Delete operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 #, fuzzy
 msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "삭제시 휴지통으로 (Shift 키는 이 설정을 반대로 함)"
+
+#: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
+msgid "Delete to trash operation"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "읽기전용 속성 제거하기"
+
+#: tfrmoptionsfileoperations.cbmoveconfirmation.caption
+msgid "Move operation"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgid "Search for part of file name"
@@ -4122,6 +4138,7 @@ msgid "Executing operations"
 msgstr "작업 실행하기"
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
+msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
 msgid "File search"
 msgstr "파일 찾기"
 
@@ -4132,6 +4149,10 @@ msgstr "사용자 인터페이스"
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
 msgstr "파일 작업용 버퍼 크기 (KB):"
+
+#: tfrmoptionsfileoperations.lblconfirmations.caption
+msgid "Show confirmation window for:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress initially in"
@@ -4324,6 +4345,10 @@ msgstr "정렬"
 #, fuzzy
 msgid "Case sensitivity:"
 msgstr "대/소문자 구별"
+
+#: tfrmoptionsfilesviews.lbldatetimeexample.caption
+msgid "Incorrect format"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgid "Date and time format:"

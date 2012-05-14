@@ -4024,16 +4024,32 @@ msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "開"
 
+#: tfrmoptionsfileoperations.cbcopyconfirmation.caption
+msgid "Copy operation"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
+msgid "Delete operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 #| msgid "&F8/Del deletes to recycle bin (Shift=directly)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
 msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "刪除到垃圾筒 (按住Shift為徹底刪除)"
 
+#: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
+msgid "Delete to trash operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "丟棄唯讀標誌"
+
+#: tfrmoptionsfileoperations.cbmoveconfirmation.caption
+msgid "Move operation"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
@@ -4077,6 +4093,10 @@ msgstr "使用者介面"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblconfirmations.caption
+msgid "Show confirmation window for:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
@@ -4257,6 +4277,10 @@ msgstr "正在排序"
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case sensitivity:"
 msgstr "大小寫："
+
+#: tfrmoptionsfilesviews.lbldatetimeexample.caption
+msgid "Incorrect format"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"

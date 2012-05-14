@@ -4021,15 +4021,31 @@ msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "On"
 msgstr "Вкл."
 
+#: tfrmoptionsfileoperations.cbcopyconfirmation.caption
+msgid "Copy operation"
+msgstr ""
+
+#: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
+msgid "Delete operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
 msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "F8/Del - удаление в Корзину (с Shift - око&нчательно)"
 
+#: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
+msgid "Delete to trash operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Сбросить флаг \"Только для чтения\""
+
+#: tfrmoptionsfileoperations.cbmoveconfirmation.caption
+msgid "Move operation"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
@@ -4073,6 +4089,10 @@ msgstr "Пользовательский интерфейс"
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "Buffer size for file operations (in KB):"
 msgstr "Размер буфера для файловых операций (Кб):"
+
+#: tfrmoptionsfileoperations.lblconfirmations.caption
+msgid "Show confirmation window for:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress initially in"
@@ -4251,6 +4271,10 @@ msgstr "Сортировка"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case sensitivity:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lbldatetimeexample.caption
+msgid "Incorrect format"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
