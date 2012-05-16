@@ -126,6 +126,7 @@ type
     procedure ClearPendingFilesChanges;
     procedure ClearRecentlyUpdatedFiles;
     procedure DoOnFileListChanged;
+    procedure EachViewDeactivate(AFileView: TFileView; UserData: Pointer);
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
     function GetNotebookPage: TCustomPage;
@@ -215,7 +216,7 @@ type
        same name in the panel and SetActiveFile(String) is not enough.
     }
     procedure SetActiveFile(const aFile: TFile); virtual; overload;
-    procedure SetActive(bActive: Boolean); virtual;
+    procedure SetActive(bActive: Boolean);
 
     {en
        Executed after file list has been retrieved.
@@ -231,6 +232,7 @@ type
                                MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
     procedure ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False); virtual;
     function DimColor(AColor: TColor): TColor;
+    procedure DoActiveChanged; virtual;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); virtual;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); virtual;
     {en
@@ -511,7 +513,8 @@ uses
   Clipbrd, Dialogs, LCLProc, LCLType, Forms, StrUtils, dmCommonData,
   fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions;
+  uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
+  fMain;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -831,6 +834,11 @@ begin
     Result := DarkColor(AColor, 25)
   else
     Result := AColor;
+end;
+
+procedure TFileView.DoActiveChanged;
+begin
+  // Empty.
 end;
 
 procedure TFileView.DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes);
@@ -1672,7 +1680,19 @@ end;
 
 procedure TFileView.SetActive(bActive: Boolean);
 begin
+  if FActive = bActive then Exit;
   FActive := bActive;
+
+  DoActiveChanged;
+
+  if bActive then
+  begin
+    // Deactivate all other views.
+    frmMain.ForEachView(@EachViewDeactivate, nil);
+
+    if Assigned(OnActivate) then
+      OnActivate(Self);
+  end;
 end;
 
 procedure TFileView.SetSorting(const NewSortings: TFileSortings);
@@ -1869,6 +1889,12 @@ end;
 procedure TFileView.DoUpdateView;
 begin
   // Empty.
+end;
+
+procedure TFileView.EachViewDeactivate(AFileView: TFileView; UserData: Pointer);
+begin
+  if AFileView <> Self then
+    AFileView.SetActive(False);
 end;
 
 function TFileView.GetCurrentWorkType: TFileViewWorkType;

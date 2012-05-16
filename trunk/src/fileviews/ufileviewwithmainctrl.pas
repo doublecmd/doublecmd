@@ -80,6 +80,10 @@ type
     // but was released in another window or another application.
     procedure ClearAfterDragDrop; virtual;
     procedure CreateDefault(AOwner: TWinControl); override;
+    {en
+       Changes drawing colors depending on if this panel is active.
+    }
+    procedure DoActiveChanged; override;
     procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); virtual; abstract;
     procedure DoLoadingFileListLongTime; override;
     procedure DoUpdateView; override;
@@ -112,10 +116,6 @@ type
     procedure MainControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure MainControlShowHint(Sender: TObject; HintInfo: PHintInfo);
     procedure MainControlUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-    {en
-       Changes drawing colors depending on if this panel is active.
-    }
-    procedure SetActive(bActive: Boolean); override;
     {en
        Updates the drop row index, which is used to draw a rectangle
        on directories during drag&drop operations.
@@ -199,6 +199,12 @@ begin
   if Assigned(HotMan) then
     HotMan.UnRegister(MainControl);
   inherited Destroy;
+end;
+
+procedure TFileViewWithMainCtrl.DoActiveChanged;
+begin
+  inherited DoActiveChanged;
+  MainControl.Color := DimColor(gBackColor);
 end;
 
 procedure TFileViewWithMainCtrl.DoDragDropOperation(Operation: TDragDropOperation; var DropParams: TDropParams);
@@ -472,13 +478,10 @@ end;
 procedure TFileViewWithMainCtrl.MainControlEnter(Sender: TObject);
 begin
   SetActive(True);
-  if Assigned(OnActivate) then
-    OnActivate(Self);
 end;
 
 procedure TFileViewWithMainCtrl.MainControlExit(Sender: TObject);
 begin
-  SetActive(False);
   FRangeSelecting := False;
 end;
 
@@ -895,12 +898,6 @@ begin
 
   SetDropFileIndex(-1);
   Result := True;
-end;
-
-procedure TFileViewWithMainCtrl.SetActive(bActive: Boolean);
-begin
-  inherited SetActive(bActive);
-  MainControl.Color := DimColor(gBackColor);
 end;
 
 procedure TFileViewWithMainCtrl.SetDropFileIndex(NewFileIndex: PtrInt);
