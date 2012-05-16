@@ -111,7 +111,9 @@ type
     FiSortDescID : PtrInt;
     {$IF DEFINED(MSWINDOWS)}
     FSysImgList : THandle;
-    {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+    {$ELSEIF DEFINED(DARWIN)}
+    FUseSystemTheme: Boolean;
+    {$ELSEIF DEFINED(UNIX)}
     {en
        Maps file extension to MIME icon name(s).
     }
@@ -1013,6 +1015,7 @@ var
   bmBitmap: TBitmap;
 begin
   Result:= -1;
+  if not FUseSystemTheme then Exit;
   nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
   nRepresentations:= nImage.Representations;
   if AIconSize = 22 then AIconSize:= 32;
@@ -1099,7 +1102,10 @@ end;
 {$ENDIF}
 
 constructor TPixMapManager.Create;
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(DARWIN)}
+var
+  systemVersion: SInt32;
+{$ELSEIF DEFINED(MSWINDOWS)}
 var
   FileInfo : TSHFileInfoW;
   iIconSize : Integer;
@@ -1109,7 +1115,10 @@ begin
   FPixmapsFileNames := TStringHashList.Create(True);
   FPixmapList := TFPList.Create;
 
-  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  {$IF DEFINED(DARWIN)}
+  FUseSystemTheme:= (Gestalt(gestaltSystemVersion, systemVersion) <> noErr);
+  if not FUseSystemTheme then FUseSystemTheme:= not (systemVersion < $1060);
+  {$ELSEIF DEFINED(UNIX)}
   FExtToMimeIconName := TFPDataHashTable.Create;
   {$ENDIF}
 
@@ -1936,4 +1945,4 @@ finalization
   end;
 
 end.
-
+
