@@ -44,9 +44,9 @@ type
 
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
+    procedure DoActiveChanged; override;
     procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
-    procedure SetActive(bActive: Boolean); override;
     procedure ShowPathEdit;
     procedure UpdateInfoPanel;
 
@@ -108,6 +108,12 @@ begin
   {$ENDIF}
 end;
 
+procedure TFileViewWithPanels.DoActiveChanged;
+begin
+  inherited DoActiveChanged;
+  pnlHeader.SetActive(Active);
+end;
+
 procedure TFileViewWithPanels.DoSelectionChanged;
 begin
   inherited DoSelectionChanged;
@@ -127,12 +133,6 @@ procedure TFileViewWithPanels.RemoveCurrentFileSource;
 begin
   inherited RemoveCurrentFileSource;
   pnlHeader.UpdateAddressLabel;
-end;
-
-procedure TFileViewWithPanels.SetActive(bActive: Boolean);
-begin
-  inherited SetActive(bActive);
-  pnlHeader.SetActive(bActive);
 end;
 
 procedure TFileViewWithPanels.ShowPathEdit;
