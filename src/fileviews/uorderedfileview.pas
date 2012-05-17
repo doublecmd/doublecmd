@@ -428,7 +428,7 @@ end;
 
 procedure TOrderedFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
 begin
-  SetActive(True);
+  Active := True;
 
   // position in file before filtering, otherwise position could be lost if
   // current file is filtered out causing jumps
@@ -442,13 +442,13 @@ end;
 
 procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
 begin
-  SetActive(True);
+  Active := True;
   SearchFile(ASearchText, ASearchOptions, ASearchDirection);
 end;
 
 procedure TOrderedFileView.quickSearchExecute(Sender: TObject);
 begin
-  SetActive(True);
+  Active := True;
   ChooseFile(GetActiveDisplayFile);
 end;
 

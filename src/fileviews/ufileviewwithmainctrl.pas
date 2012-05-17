@@ -477,7 +477,7 @@ end;
 
 procedure TFileViewWithMainCtrl.MainControlEnter(Sender: TObject);
 begin
-  SetActive(True);
+  Active := True;
 end;
 
 procedure TFileViewWithMainCtrl.MainControlExit(Sender: TObject);
