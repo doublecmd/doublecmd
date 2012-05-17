@@ -151,6 +151,8 @@ type
     procedure RemoveFile(const FileName: String);
     procedure RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure ResortFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles);
+    procedure SetActive(bActive: Boolean); inline; overload;
+    procedure SetActive(bActive, bNotify: Boolean); overload;
     procedure SetFlags(AValue: TFileViewFlags);
     procedure SetLoadingFileListLongTime(AValue: Boolean);
     procedure StartRecentlyUpdatedTimerIfNeeded;
@@ -216,7 +218,6 @@ type
        same name in the panel and SetActiveFile(String) is not enough.
     }
     procedure SetActiveFile(const aFile: TFile); virtual; overload;
-    procedure SetActive(bActive: Boolean);
 
     {en
        Executed after file list has been retrieved.
@@ -1678,14 +1679,14 @@ procedure TFileView.SetActiveFile(aFilePath: String);
 begin
 end;
 
-procedure TFileView.SetActive(bActive: Boolean);
+procedure TFileView.SetActive(bActive, bNotify: Boolean);
 begin
   if FActive = bActive then Exit;
   FActive := bActive;
 
   DoActiveChanged;
 
-  if bActive then
+  if bActive and bNotify then
   begin
     // Deactivate all other views.
     frmMain.ForEachView(@EachViewDeactivate, nil);
@@ -1693,6 +1694,11 @@ begin
     if Assigned(OnActivate) then
       OnActivate(Self);
   end;
+end;
+
+procedure TFileView.SetActive(bActive: Boolean);
+begin
+  SetActive(bActive, True);
 end;
 
 procedure TFileView.SetSorting(const NewSortings: TFileSortings);
@@ -1892,9 +1898,18 @@ begin
 end;
 
 procedure TFileView.EachViewDeactivate(AFileView: TFileView; UserData: Pointer);
+var
+  ThisFileViewPage, OtherFileViewPage: TFileViewPage;
 begin
   if AFileView <> Self then
-    AFileView.SetActive(False);
+  begin
+    ThisFileViewPage  := TFileViewPage(GetNotebookPage);
+    OtherFileViewPage := TFileViewPage(AFileView.GetNotebookPage);
+
+    // Pages on the same notebook set to active and others to not active.
+    if Assigned(ThisFileViewPage) and Assigned(OtherFileViewPage) then
+      AFileView.SetActive(ThisFileViewPage.Notebook = OtherFileViewPage.Notebook, False);
+  end;
 end;
 
 function TFileView.GetCurrentWorkType: TFileViewWorkType;
