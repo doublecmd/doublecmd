@@ -450,6 +450,11 @@ type
       write PutItem; default;
   end;
 
+ procedure UnixAttrsToTarAttrs(const UnixAttrs: LongWord;
+                               out Permissions: LongWord; out LinkFlag: AnsiChar);
+ procedure TarAttrsToUnixAttrs(const Permissions: LongWord; const LinkFlag: AnsiChar;
+                               out UnixAttrs: LongWord);
+
 function VerifyTar(Strm : TStream) : TAbArchiveType;
 
 
@@ -569,6 +574,57 @@ begin
              not (AB_TAR_RECORDSIZE - 1);
 end;
 
+procedure UnixAttrsToTarAttrs(const UnixAttrs: LongWord;
+                              out Permissions: LongWord; out LinkFlag: AnsiChar);
+begin
+  case (UnixAttrs and $F000) of
+    AB_FMODE_SOCKET:
+      ;
+    AB_FMODE_FILELINK:
+      LinkFlag := AB_TAR_LF_SYMLINK;
+    AB_FMODE_FILE2:
+      LinkFlag := AB_TAR_LF_NORMAL;
+    AB_FMODE_BLOCKSPECFILE:
+      LinkFlag := AB_TAR_LF_BLK;
+    AB_FMODE_DIR:
+      LinkFlag := AB_TAR_LF_DIR;
+    AB_FMODE_CHARSPECFILE:
+      LinkFlag := AB_TAR_LF_CHR;
+    AB_FMODE_FIFO:
+      LinkFlag := AB_TAR_LF_FIFO;
+    AB_FMODE_FILE:
+      LinkFlag := AB_TAR_LF_NORMAL;
+    else
+      LinkFlag := AB_TAR_LF_OLDNORMAL;
+  end;
+
+  Permissions := (UnixAttrs and $0FFF);
+end;
+{ -------------------------------------------------------------------------- }
+procedure TarAttrsToUnixAttrs(const Permissions: LongWord; const LinkFlag: AnsiChar;
+                              out UnixAttrs: LongWord);
+begin
+  case LinkFlag of
+    AB_TAR_LF_OLDNORMAL:
+      UnixAttrs := AB_FMODE_FILE;
+    AB_TAR_LF_NORMAL:
+      UnixAttrs := AB_FMODE_FILE2;
+    AB_TAR_LF_SYMLINK:
+      UnixAttrs := AB_FMODE_FILELINK;
+    AB_TAR_LF_BLK:
+      UnixAttrs := AB_FMODE_BLOCKSPECFILE;
+    AB_TAR_LF_DIR:
+      UnixAttrs := AB_FMODE_DIR;
+    AB_TAR_LF_CHR:
+      UnixAttrs := AB_FMODE_CHARSPECFILE;
+    AB_TAR_LF_FIFO:
+      UnixAttrs := AB_FMODE_FIFO;
+    else
+      UnixAttrs := AB_FMODE_FILE;
+  end;
+
+  UnixAttrs := UnixAttrs or (Permissions and $0FFF);
+end;
 
 { ****************************** TAbTarItem ********************************** }
 constructor TAbTarItem.Create;
@@ -635,7 +691,7 @@ end;
 
 function TAbTarItem.GetExternalFileAttributes: LongWord;
 begin
-  Result := FTarItem.Mode;
+  TarAttrsToUnixAttrs(FTarItem.Mode, FTarItem.LinkFlag, Result);
 end;
 
 function TAbTarItem.GetFileName: string;
@@ -1158,14 +1214,21 @@ procedure TAbTarItem.SetExternalFileAttributes(Value: LongWord);
 var
   S : AnsiString;
   I: Integer;
+  Permissions: LongWord;
+  ALinkFlag: AnsiChar;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
-  FTarItem.Mode := Value;
-  S := PadString(IntToOctal(Value), SizeOf(Arr8));
+
+  UnixAttrsToTarAttrs(Value, Permissions, ALinkFlag);
+
+  FTarItem.Mode := Permissions;
+  S := PadString(IntToOctal(Permissions), SizeOf(Arr8));
   for I := 0 to FTarHeaderList.Count - 1 do
     if TAbTarHeaderType(FTarHeaderTypeList.Items[I]) in [FILE_HEADER, META_DATA_HEADER] then
       Move(S[1], PAbTarHeaderRec(FTarHeaderList.Items[I]).Mode, Length(S));
+
+  Self.LinkFlag := ALinkFlag;    // also updates headers
   FTarItem.Dirty := True;
 end;
 
