@@ -5,12 +5,9 @@ unit uBriefFileView;
 interface
 
 uses
-  LMessages, Grids, uFileView, uFileSource, Graphics,
-  Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
-  uFile, uDisplayFile, uFormCommands, DCXmlConfig,
-  DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, uTypes, uFileViewWithMainCtrl,
-  uFileViewHeader;
+  Classes, SysUtils, Controls, LMessages, Grids, Graphics,
+  uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty, uTypes,
+  uFileViewWithMainCtrl, uFileViewHeader, uFileView, uFileSource;
 
 type
 
@@ -96,15 +93,10 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, Forms, LCLVersion,
-  LCLProc, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
-  dmCommonData,
+  LCLIntf, LCLType, LCLVersion, LCLProc, math,
+  uGlobs, uPixmapManager,
+  uDCUtils, fMain,
   uFileSourceProperty,
-  uFileSourceOperationTypes,
-  fColumnsSetConf,
-  uKeyboard,
-  uFileSourceUtil,
   uFileFunctions,
   uOrderedFileView;
 
