@@ -1120,7 +1120,19 @@ Index: AbTarTyp.pas
        override;
      procedure ExtractItemAt(Index : Integer; const UseName : string);
        override;
-@@ -457,7 +459,8 @@
+@@ -448,6 +450,11 @@
+       write PutItem; default;
+   end;
+ 
++ procedure UnixAttrsToTarAttrs(const UnixAttrs: LongWord;
++                               out Permissions: LongWord; out LinkFlag: AnsiChar);
++ procedure TarAttrsToUnixAttrs(const Permissions: LongWord; const LinkFlag: AnsiChar;
++                               out UnixAttrs: LongWord);
++
+ function VerifyTar(Strm : TStream) : TAbArchiveType;
+ 
+ 
+@@ -457,7 +464,8 @@
    {$IFDEF MSWINDOWS}
    Windows, // Fix inline warnings
    {$ENDIF MSWINDOWS}
@@ -1130,7 +1142,75 @@ Index: AbTarTyp.pas
  
  { ****************** Helper functions Not from Classes Above ***************** }
  function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
-@@ -678,6 +681,19 @@
+@@ -566,7 +574,58 @@
+              not (AB_TAR_RECORDSIZE - 1);
+ end;
+ 
++procedure UnixAttrsToTarAttrs(const UnixAttrs: LongWord;
++                              out Permissions: LongWord; out LinkFlag: AnsiChar);
++begin
++  case (UnixAttrs and $F000) of
++    AB_FMODE_SOCKET:
++      ;
++    AB_FMODE_FILELINK:
++      LinkFlag := AB_TAR_LF_SYMLINK;
++    AB_FMODE_FILE2:
++      LinkFlag := AB_TAR_LF_NORMAL;
++    AB_FMODE_BLOCKSPECFILE:
++      LinkFlag := AB_TAR_LF_BLK;
++    AB_FMODE_DIR:
++      LinkFlag := AB_TAR_LF_DIR;
++    AB_FMODE_CHARSPECFILE:
++      LinkFlag := AB_TAR_LF_CHR;
++    AB_FMODE_FIFO:
++      LinkFlag := AB_TAR_LF_FIFO;
++    AB_FMODE_FILE:
++      LinkFlag := AB_TAR_LF_NORMAL;
++    else
++      LinkFlag := AB_TAR_LF_OLDNORMAL;
++  end;
+ 
++  Permissions := (UnixAttrs and $0FFF);
++end;
++{ -------------------------------------------------------------------------- }
++procedure TarAttrsToUnixAttrs(const Permissions: LongWord; const LinkFlag: AnsiChar;
++                              out UnixAttrs: LongWord);
++begin
++  case LinkFlag of
++    AB_TAR_LF_OLDNORMAL:
++      UnixAttrs := AB_FMODE_FILE;
++    AB_TAR_LF_NORMAL:
++      UnixAttrs := AB_FMODE_FILE2;
++    AB_TAR_LF_SYMLINK:
++      UnixAttrs := AB_FMODE_FILELINK;
++    AB_TAR_LF_BLK:
++      UnixAttrs := AB_FMODE_BLOCKSPECFILE;
++    AB_TAR_LF_DIR:
++      UnixAttrs := AB_FMODE_DIR;
++    AB_TAR_LF_CHR:
++      UnixAttrs := AB_FMODE_CHARSPECFILE;
++    AB_TAR_LF_FIFO:
++      UnixAttrs := AB_FMODE_FIFO;
++    else
++      UnixAttrs := AB_FMODE_FILE;
++  end;
++
++  UnixAttrs := UnixAttrs or (Permissions and $0FFF);
++end;
++
+ { ****************************** TAbTarItem ********************************** }
+ constructor TAbTarItem.Create;
+ begin
+@@ -632,7 +691,7 @@
+ 
+ function TAbTarItem.GetExternalFileAttributes: LongWord;
+ begin
+-  Result := FTarItem.Mode;
++  TarAttrsToUnixAttrs(FTarItem.Mode, FTarItem.LinkFlag, Result);
+ end;
+ 
+ function TAbTarItem.GetFileName: string;
+@@ -678,6 +737,19 @@
    Result := AbUnixTimeToLocalDateTime(FTarItem.ModTime);
  end;
  
@@ -1150,7 +1230,7 @@ Index: AbTarTyp.pas
  function TAbTarItem.GetLinkName: string;
  begin
    Result := FTarItem.LinkName;
-@@ -819,7 +835,7 @@
+@@ -819,7 +891,7 @@
        RawFileName := PTarHeader.Name;
    end; { End not FoundName }
  
@@ -1159,7 +1239,7 @@ Index: AbTarTyp.pas
  end;
  
  { Extract the file name from the headers }
-@@ -876,7 +892,7 @@
+@@ -876,7 +948,7 @@
    if not FoundName then
      RawLinkName := PHeader.LinkName;
  
@@ -1168,7 +1248,7 @@ Index: AbTarTyp.pas
  end;
  
  { Return True if CheckSum passes out. }
-@@ -1017,8 +1033,8 @@
+@@ -1017,8 +1089,8 @@
    begin
      ParseTarHeaders; { Update FTarItem values }
      FFileName := FTarItem.Name; {FTarHeader.Name;}
@@ -1179,7 +1259,31 @@ Index: AbTarTyp.pas
    end;
    Action := aaNone;
    Tagged := False;
-@@ -1333,7 +1349,7 @@
+@@ -1142,14 +1214,21 @@
+ var
+   S : AnsiString;
+   I: Integer;
++  Permissions: LongWord;
++  ALinkFlag: AnsiChar;
+ begin
+   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
+     Exit;
+-  FTarItem.Mode := Value;
+-  S := PadString(IntToOctal(Value), SizeOf(Arr8));
++
++  UnixAttrsToTarAttrs(Value, Permissions, ALinkFlag);
++
++  FTarItem.Mode := Permissions;
++  S := PadString(IntToOctal(Permissions), SizeOf(Arr8));
+   for I := 0 to FTarHeaderList.Count - 1 do
+     if TAbTarHeaderType(FTarHeaderTypeList.Items[I]) in [FILE_HEADER, META_DATA_HEADER] then
+       Move(S[1], PAbTarHeaderRec(FTarHeaderList.Items[I]).Mode, Length(S));
++
++  Self.LinkFlag := ALinkFlag;    // also updates headers
+   FTarItem.Dirty := True;
+ end;
+ 
+@@ -1333,7 +1412,7 @@
           OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
  
        Add headers to length of new Name Length, update name in file header, update name fields }
@@ -1188,7 +1292,7 @@ Index: AbTarTyp.pas
    { In all cases zero out the name fields in the File Header. }
    if Length(RawFileName) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
      { Look for long name meta-data headers already in the archive. }
-@@ -1431,8 +1447,8 @@
+@@ -1431,8 +1510,8 @@
  
    { Update the inherited file names. }
    FFileName := FTarItem.Name;
@@ -1199,7 +1303,7 @@ Index: AbTarTyp.pas
    FTarItem.Dirty := True;
  end;
  
-@@ -1527,7 +1543,7 @@
+@@ -1527,7 +1606,7 @@
        if old was Long,
           OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
        STAR & PAX: And should not yet get here.}
@@ -1208,7 +1312,7 @@ Index: AbTarTyp.pas
    if Length(RawLinkName) > AB_TAR_NAMESIZE then { Must be null terminated except at 100 char length }
    begin
      { Look for long name meta-data headers already in the archive. }
-@@ -1838,16 +1854,19 @@
+@@ -1838,16 +1917,19 @@
    FArchFormat := V7_FORMAT;  // Default for new archives
  end;
  
@@ -1231,7 +1335,7 @@ Index: AbTarTyp.pas
    Item := TAbTarItem.Create;
    try
    //  HeaderFormat = (UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT);
-@@ -1863,7 +1882,7 @@
+@@ -1863,7 +1945,7 @@
        Item.LinkFlag := AB_TAR_LF_NORMAL;
        Item.Magic := AB_TAR_MAGIC_VAL+AB_TAR_MAGIC_VER;
      end
@@ -1240,7 +1344,7 @@ Index: AbTarTyp.pas
        begin { Switch the rep over to GNU so it can have long file names. }
        FArchFormat := OLDGNU_FORMAT;
        Item.ArchiveFormat := OLDGNU_FORMAT;
-@@ -1882,9 +1901,10 @@
+@@ -1882,9 +1964,10 @@
  
      { Most others are initialized in the .Create }
      Item.CRC32 := 0;
@@ -1253,7 +1357,7 @@ Index: AbTarTyp.pas
      Item.Action := aaNone;
    finally
      Result := Item;
-@@ -1894,7 +1914,7 @@
+@@ -1894,7 +1977,7 @@
  
  procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
  var
@@ -1262,7 +1366,7 @@ Index: AbTarTyp.pas
    CurItem : TAbTarItem;
  begin
    { Check the index is not out of range. }
-@@ -1914,7 +1934,7 @@
+@@ -1914,7 +1997,7 @@
    if CurItem.IsDirectory then
      AbCreateDirectory(UseName)
    else begin
@@ -1271,7 +1375,7 @@ Index: AbTarTyp.pas
      try
        try {OutStream}
          ExtractItemToStreamAt(Index, OutStream);
-@@ -1924,7 +1944,7 @@
+@@ -1924,7 +2007,7 @@
      except
        if ExceptObject is EAbUserAbort then
          FStatus := asInvalid;
@@ -1280,7 +1384,7 @@ Index: AbTarTyp.pas
        raise;
      end;
    end;
-@@ -2060,7 +2080,7 @@
+@@ -2060,7 +2143,7 @@
      AbStripDrive( lValue );
  
    { check for a leading slash }
@@ -1289,7 +1393,7 @@ Index: AbTarTyp.pas
      System.Delete( lValue, 1, 1 );
  
    if soStripPath in StoreOptions then
-@@ -2097,7 +2117,6 @@
+@@ -2097,7 +2180,6 @@
    i              : Integer;
    NewStream      : TAbVirtualMemoryStream;
    TempStream     : TStream;
@@ -1297,7 +1401,7 @@ Index: AbTarTyp.pas
    CurItem        : TAbTarItem;
    AttrEx         : TAbAttrExRec;
  begin
-@@ -2145,37 +2164,30 @@
+@@ -2145,37 +2227,30 @@
  
          aaAdd, aaFreshen, aaReplace: begin
            try
@@ -1358,7 +1462,7 @@ Index: AbTarTyp.pas
            except
              ItemList[i].Action := aaDelete;
              DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
-@@ -2200,7 +2212,7 @@
+@@ -2200,7 +2275,7 @@
      else begin
        { need new stream to write }
        FreeAndNil(FStream);
