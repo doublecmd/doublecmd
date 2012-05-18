@@ -5,7 +5,7 @@ unit uFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl,
+  Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl, LMessages,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList, uGlobs;
@@ -289,6 +289,8 @@ type
     procedure RedrawFiles; virtual; abstract;
     procedure WorkerStarting(const Worker: TFileViewWorker); virtual;
     procedure WorkerFinished(const Worker: TFileViewWorker); virtual;
+
+    procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
 
     property Active: Boolean read FActive write SetActive;
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
@@ -2900,6 +2902,11 @@ begin
         Reload(EventData.Path);
     end;
   end;
+end;
+
+procedure TFileView.WMEraseBkgnd(var Message: TLMEraseBkgnd);
+begin
+  Message.Result := 1;
 end;
 
 procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
