@@ -5,8 +5,9 @@ unit uFileViewNotebook;
 interface
 
 uses
-  Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552},
-  uFileView, uFilePanelSelect, uDCVersion, LCLVersion, DCXmlConfig;
+  Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552}, LMessages,
+  LCLType, LCLVersion,
+  uFileView, uFilePanelSelect, uDCVersion, DCXmlConfig;
 
 const
   lazRevNewTabControl = '31767';
@@ -55,9 +56,11 @@ type
     procedure DoActivate;
 
   protected
+    procedure PaintWindow(DC: HDC); override;
   {$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
     procedure RealSetText(const AValue: TCaption); override;
   {$ENDIF}
+    procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
 
   public
     constructor Create(TheOwner: TComponent); override;
@@ -109,11 +112,18 @@ type
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
 
   public
     constructor Create(ParentControl: TWinControl;
                        NotebookSide: TFilePanelSelect); reintroduce;
-
+    {$IFDEF MSWINDOWS}
+    {en
+       Removes the rectangle of the pages contents from erasing background to reduce flickering.
+       This is not needed on non-Windows because EraseBackground is not used there.
+    }
+    procedure EraseBackground(DC: HDC); override;
+    {$ENDIF}
     function AddPage: TFileViewPage;
     function InsertPage(Index: Integer): TFileViewPage; reintroduce;
     function NewEmptyPage: TFileViewPage;
@@ -155,7 +165,7 @@ uses
   , qt4, qtwidgets
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
-  , win32proc
+  , win32proc, Windows
   {$ENDIF}
   ;
 
@@ -257,6 +267,11 @@ begin
   end;
 end;
 
+procedure TFileViewPage.PaintWindow(DC: HDC);
+begin
+  // Don't paint anything.
+end;
+
 procedure TFileViewPage.UpdateTitle;
 var
   NewCaption: String;
@@ -286,6 +301,11 @@ begin
 
     Caption := NewCaption;
   end;
+end;
+
+procedure TFileViewPage.WMEraseBkgnd(var Message: TLMEraseBkgnd);
+begin
+  Message.Result := 1;
 end;
 
 function TFileViewPage.GetFileView: TFileView;
@@ -348,12 +368,22 @@ constructor TFileViewNotebook.Create(ParentControl: TWinControl;
 begin
   PageClass := TFileViewPage;
   inherited Create(ParentControl);
+  ControlStyle := ControlStyle + [csNoFocus];
 
   Parent := ParentControl;
   TabStop := False;
 
   FNotebookSide := NotebookSide;
   FStartDrag := False;
+
+  {$IFDEF MSWINDOWS}
+  // The pages contents are removed from drawing background in EraseBackground.
+  // But double buffering could be enabled to eliminate flickering of drawing
+  // the tabs buttons themselves. But currently there's a bug where the buffer
+  // bitmap is temporarily drawn in different position, probably at (0,0) and
+  // not where pages contents start (after applying TCM_ADJUSTRECT).
+  //DoubleBuffered := True;
+  {$ENDIF}
 
   OnDragOver := @DragOverEvent;
   OnDragDrop := @DragDropEvent;
@@ -464,6 +494,16 @@ begin
   aPage := nil;
 end;
 
+procedure TFileViewNotebook.WMEraseBkgnd(var Message: TLMEraseBkgnd);
+begin
+  inherited WMEraseBkgnd(Message);
+  // Always set as handled otherwise if not handled Windows will draw background
+  // with hbrBackground brush of the window class. This might cause flickering
+  // because later background will be again be erased but with TControl.Brush.
+  // This is not actually needed on non-Windows because WMEraseBkgnd is not used there.
+  Message.Result := 1;
+end;
+
 procedure TFileViewNotebook.DestroyAllPages;
 begin
   while PageCount > 0 do
@@ -558,6 +598,29 @@ begin
   else
     Accept := False;
 end;
+
+{$IFDEF MSWINDOWS}
+procedure TFileViewNotebook.EraseBackground(DC: HDC);
+var
+  ARect: TRect;
+  SaveIndex: Integer;
+  Clip: Integer;
+begin
+  if HandleAllocated and (DC <> 0) then
+  begin
+    ARect := Classes.Rect(0, 0, Width, Height);
+    Windows.TabCtrl_AdjustRect(Handle, False, ARect);
+    SaveIndex := SaveDC(DC);
+    Clip := ExcludeClipRect(DC, ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
+    if Clip <> NullRegion then
+    begin
+      ARect := Classes.Rect(0, 0, Width, Height);
+      FillRect(DC, ARect, HBRUSH(Brush.Reference.Handle));
+    end;
+    RestoreDC(DC, SaveIndex);
+  end;
+end;
+{$ENDIF}
 
 procedure TFileViewNotebook.DragDropEvent(Sender, Source: TObject; X, Y: Integer);
 var
