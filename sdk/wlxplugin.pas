@@ -7,11 +7,6 @@ unit WlxPlugin;
 
 interface
 
-{$IFDEF MSWINDOWS}
-uses
-  Windows;
-{$ENDIF}
-
 const
   lc_copy=1;
   lc_newparams=2;
