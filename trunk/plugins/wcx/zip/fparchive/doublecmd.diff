@@ -1366,25 +1366,46 @@ Index: AbTarTyp.pas
    CurItem : TAbTarItem;
  begin
    { Check the index is not out of range. }
-@@ -1914,7 +1997,7 @@
+@@ -1914,18 +1997,26 @@
    if CurItem.IsDirectory then
      AbCreateDirectory(UseName)
    else begin
 -    OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
-+    OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
-     try
-       try {OutStream}
-         ExtractItemToStreamAt(Index, OutStream);
-@@ -1924,7 +2007,7 @@
-     except
-       if ExceptObject is EAbUserAbort then
-         FStatus := asInvalid;
+-    try
+-      try {OutStream}
+-        ExtractItemToStreamAt(Index, OutStream);
+-      finally {OutStream}
+-        OutStream.Free;
+-      end; {OutStream}
+-    except
+-      if ExceptObject is EAbUserAbort then
+-        FStatus := asInvalid;
 -      DeleteFile(UseName);
-+      mbDeleteFile(UseName);
-       raise;
+-      raise;
++    case (CurItem.Mode and $F000) of
++      AB_FMODE_FILE, AB_FMODE_FILE2: begin
++        OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
++        try
++          try {OutStream}
++            ExtractItemToStreamAt(Index, OutStream);
++          finally {OutStream}
++            OutStream.Free;
++          end; {OutStream}
++        except
++          if ExceptObject is EAbUserAbort then
++            FStatus := asInvalid;
++          mbDeleteFile(UseName);
++          raise;
++        end;
++      end;
++
++      AB_FMODE_FILELINK: begin
++        AbCreateSymlink(CurItem.LinkName, UseName);
++      end;
      end;
    end;
-@@ -2060,7 +2143,7 @@
+   AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
+@@ -2060,7 +2151,7 @@
      AbStripDrive( lValue );
  
    { check for a leading slash }
@@ -1393,7 +1414,7 @@ Index: AbTarTyp.pas
      System.Delete( lValue, 1, 1 );
  
    if soStripPath in StoreOptions then
-@@ -2097,7 +2180,6 @@
+@@ -2097,7 +2188,6 @@
    i              : Integer;
    NewStream      : TAbVirtualMemoryStream;
    TempStream     : TStream;
@@ -1401,7 +1422,7 @@ Index: AbTarTyp.pas
    CurItem        : TAbTarItem;
    AttrEx         : TAbAttrExRec;
  begin
-@@ -2145,37 +2227,30 @@
+@@ -2145,24 +2235,27 @@
  
          aaAdd, aaFreshen, aaReplace: begin
            try
@@ -1418,51 +1439,51 @@ Index: AbTarTyp.pas
 -              { TODO: Add support for different types of files here }
 -              if (AttrEx.Mode and AB_FMODE_DIR) <> 0 then begin
 -                CurItem.LinkFlag := AB_TAR_LF_DIR;
--                CurItem.UncompressedSize := 0;
 +            { update metadata }
-+            if not AbFileGetAttrEx(CurItem.DiskFileName, AttrEx) then
++            if not AbFileGetAttrEx(CurItem.DiskFileName, AttrEx, False) then
 +              Raise EAbFileNotFound.Create;
 +            CurItem.ExternalFileAttributes := AttrEx.Mode;
 +            CurItem.LastModTimeAsDateTime := AttrEx.Time;
 +            { TODO: uid, gid, uname, gname should be added here }
 +            { TODO: Add support for different types of files here }
-+            if (AttrEx.Mode and AB_FMODE_DIR) <> 0 then begin
-+              CurItem.LinkFlag := AB_TAR_LF_DIR;
-+              CurItem.UncompressedSize := 0;
-+              CurItem.SaveTarHeaderToStream(NewStream);
-+            end
-+            else begin
-+              TempStream := TFileStreamEx.Create(CurItem.DiskFileName,
-+                fmOpenRead or fmShareDenyWrite );
-+              try { TempStream }
-+                CurItem.UncompressedSize := TempStream.Size;
-+                CurItem.StreamPosition := NewStream.Position;{ Reset the Stream Pointer. }
++            case (AttrEx.Mode and $F000) of
++              AB_FMODE_DIR: begin
+                 CurItem.UncompressedSize := 0;
                  CurItem.SaveTarHeaderToStream(NewStream);
 -              end
 -              else begin
 -                TempStream := TFileStream.Create(CurItem.DiskFileName,
--                  fmOpenRead or fmShareDenyWrite );
--                try { TempStream }
--                  CurItem.UncompressedSize := TempStream.Size;
--                  CurItem.StreamPosition := NewStream.Position;{ Reset the Stream Pointer. }
--                  CurItem.SaveTarHeaderToStream(NewStream);
--                  OutTarHelp.WriteArchiveItemSize(TempStream, TempStream.Size);
--                finally { TempStream }
--                  TempStream.Free;
--                end; { TempStream }
--              end;
++              end;
++
++              AB_FMODE_FILELINK: begin
++                CurItem.UncompressedSize := 0;
++                CurItem.LinkName := AbReadSymlink(CurItem.DiskFileName);
++                CurItem.SaveTarHeaderToStream(NewStream);
++              end;
++
++              AB_FMODE_FILE, AB_FMODE_FILE2: begin
++                TempStream := TFileStreamEx.Create(CurItem.DiskFileName,
+                   fmOpenRead or fmShareDenyWrite );
+                 try { TempStream }
+                   CurItem.UncompressedSize := TempStream.Size;
+@@ -2173,9 +2266,13 @@
+                   TempStream.Free;
+                 end; { TempStream }
+               end;
 -            finally {SaveDir}
 -              ChDir( SaveDir );
 -            end; {SaveDir}
-+                OutTarHelp.WriteArchiveItemSize(TempStream, TempStream.Size);
-+              finally { TempStream }
-+                TempStream.Free;
-+              end; { TempStream }
++
++              else begin
++                CurItem.UncompressedSize := AttrEx.Size;
++                CurItem.SaveTarHeaderToStream(NewStream);
++              end;
 +            end;
++
            except
              ItemList[i].Action := aaDelete;
              DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
-@@ -2200,7 +2275,7 @@
+@@ -2200,7 +2297,7 @@
      else begin
        { need new stream to write }
        FreeAndNil(FStream);
@@ -1524,7 +1545,30 @@ Index: AbUtils.pas
  { System-encoded SBCS string (formerly AnsiString) }
  type
    AbSysString = {$IFDEF Posix}UTF8String{$ELSE}AnsiString{$ENDIF};
-@@ -364,8 +370,12 @@
+@@ -198,8 +204,13 @@
+      because if you have a path x:\dir, and request x:\dir\sub1\sub2,
+      (/dir and /dir/sub1/sub2 on Unix) it fails.}
+ 
++  function AbCreateSymlink( const LinksPointsTo, LinkName : String ): Boolean;
++
+   function AbCreateTempFile(const Dir : string) : string;
+ 
++  function AbReadSymlink( const LinkFile : String ): String;
++    {Reads the name that a link points to.}
++
+   function AbGetTempDirectory : string;
+     {-Return the system temp directory}
+ 
+@@ -294,7 +305,7 @@
+     Mode: {$IFDEF UNIX}mode_t{$ELSE}Cardinal{$ENDIF};
+   end;
+ 
+-  function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
++  function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec; FollowLinks: Boolean = True) : Boolean;
+ 
+   function AbSwapLongEndianness(Value : LongInt): LongInt;
+ 
+@@ -364,8 +375,12 @@
  uses
    StrUtils,
    AbConst,
@@ -1538,7 +1582,7 @@ Index: AbUtils.pas
  {$IF DEFINED(FPCUnixAPI)}
  function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
    external clib name 'mktemp';
-@@ -387,6 +397,7 @@
+@@ -387,6 +402,7 @@
  function nl_langinfo(__item: nl_item): PAnsiChar; cdecl;
    external clib name 'nl_langinfo';
  {$IFEND}
@@ -1546,7 +1590,7 @@ Index: AbUtils.pas
  
  {===platform independent routines for platform dependent stuff=======}
  function ExtractShortName(const SR : TSearchRec) : string;
-@@ -410,16 +421,16 @@
+@@ -410,16 +426,16 @@
  function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
  {$IFDEF UNIX}
  var
@@ -1567,7 +1611,7 @@ Index: AbUtils.pas
          try
            DesStream.CopyFrom(SrcStream, 0);
            Result := True;
-@@ -434,7 +445,7 @@
+@@ -434,7 +450,7 @@
      end;
  {$ENDIF UNIX}
  {$IFDEF MSWINDOWS}
@@ -1576,7 +1620,7 @@ Index: AbUtils.pas
  {$ENDIF MSWINDOWS}
  end;
  { -------------------------------------------------------------------------- }
-@@ -447,7 +458,7 @@
+@@ -447,7 +463,7 @@
    i : Integer;
    TempPath : string;
  begin
@@ -1585,7 +1629,7 @@ Index: AbUtils.pas
      Exit;
    {see how much of the path currently exists}
    if Pos( '\\', Path ) > 0 then
-@@ -463,8 +474,9 @@
+@@ -463,57 +479,66 @@
      {get a temp path to try: drive:\path1}
      TempPath := Copy( Path, 1, i );
      {if it doesn't exist, create it}
@@ -1597,7 +1641,37 @@ Index: AbUtils.pas
      inc( iStartSlash );
    until ( Length( TempPath ) = Length( Path ) );
  end;
-@@ -476,44 +488,26 @@
++
++function AbCreateSymlink(const LinksPointsTo, LinkName: String): Boolean;
++begin
++{$IF DEFINED(MSWINDOWS)}
++  // TODO: Implement using uNTFSLinks.
++  Result := False;
++{$ELSEIF DEFINED(FPCUnixAPI)}
++  Result := (fpsymlink(PChar(UTF8ToSys(LinksPointsTo)),PChar(UTF8ToSys(LinkName)))=0);
++{$ELSE}
++  Result := False;
++{$ENDIF}
++end;
++
+ { -------------------------------------------------------------------------- }
+ function AbCreateTempFile(const Dir : string) : string;
+ begin
+   Result := AbGetTempFile(Dir, True);
+ end;
++
++function AbReadSymlink(const LinkFile: String): String;
++begin
++{$IF DEFINED(MSWINDOWS)}
++  // TODO: Implement using uNTFSLinks.
++  Result := '';
++{$ELSEIF DEFINED(FPCUnixAPI)}
++  Result := SysToUTF8(fpReadlink(UTF8ToSys(LinkFile)));
++{$ELSE}
++  Result := '';
++{$ENDIF}
++end;
++
  { -------------------------------------------------------------------------- }
  function AbGetTempDirectory : string;
  begin
@@ -1652,7 +1726,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbDrive(const ArchiveName : string) : Char;
-@@ -560,8 +554,8 @@
+@@ -560,8 +585,8 @@
  var
    FreeAvailable, TotalSpace: Int64;
  begin
@@ -1663,7 +1737,7 @@ Index: AbUtils.pas
      Result := FreeAvailable
    else
      Result := -1;
-@@ -574,7 +568,7 @@
+@@ -574,7 +599,7 @@
    if statfs(PAnsiChar(ExtractFilePath(ArchiveName)), FStats) = 0 then
      Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize)
    {$ELSEIF DEFINED(FPCUnixAPI)}
@@ -1672,7 +1746,7 @@ Index: AbUtils.pas
      Result := Int64(FStats.bAvail) * Int64(FStats.bsize)
    {$ELSEIF DEFINED(PosixAPI)}
    if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
-@@ -591,8 +585,8 @@
+@@ -591,8 +616,8 @@
    DirMatch : Boolean;
    MaskDir : string;
  begin
@@ -1683,7 +1757,7 @@ Index: AbUtils.pas
    MaskDir := ExtractFilePath( FileMask );
    if MaskDir = '' then
      DirMatch := True
-@@ -614,12 +608,12 @@
+@@ -614,12 +639,12 @@
    Found := FindFirst( FileMask, SearchAttr, SR );
    if Found = 0 then begin
      try
@@ -1698,7 +1772,7 @@ Index: AbUtils.pas
            if (SR.Attr and faDirectory) <> 0 then
              FileList.Add( NewFile + PathDelim )
            else
-@@ -1002,18 +996,18 @@
+@@ -1002,18 +1027,18 @@
  function AbWriteVolumeLabel(const VolName : string;
                                  Drive : Char) : Cardinal;
  var
@@ -1724,7 +1798,7 @@ Index: AbUtils.pas
      Result := 0
    else Result := GetLastError;
  {$ENDIF MSWINDOWS}
-@@ -1166,12 +1160,7 @@
+@@ -1166,12 +1191,7 @@
  
  function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
  begin
@@ -1738,7 +1812,7 @@ Index: AbUtils.pas
  end;
  
  { -------------------------------------------------------------------------- }
-@@ -1188,7 +1177,8 @@
+@@ -1188,7 +1208,8 @@
  { -------------------------------------------------------------------------- }
  function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
  begin
@@ -1748,7 +1822,7 @@ Index: AbUtils.pas
    Result := { default permissions }
      AB_FPERMISSION_OWNERREAD or
      AB_FPERMISSION_GROUPREAD or
-@@ -1201,12 +1191,14 @@
+@@ -1201,12 +1222,14 @@
      Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE
    else
      Result := Result or AB_FMODE_FILE;
@@ -1765,7 +1839,7 @@ Index: AbUtils.pas
    Result := 0;
    case (Attr and $F000) of
      AB_FMODE_FILE, AB_FMODE_FILE2: { standard file }
-@@ -1225,21 +1217,20 @@
+@@ -1225,21 +1248,20 @@
  
    if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
      Result := Result or faReadOnly;
@@ -1791,7 +1865,12 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbFileGetSize(const aFileName : string) : Int64;
-@@ -1256,8 +1247,8 @@
+@@ -1252,12 +1274,12 @@
+     Result := -1;
+ end;
+ { -------------------------------------------------------------------------- }
+-function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
++function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec; FollowLinks: Boolean = True) : Boolean;
  var
  {$IFDEF MSWINDOWS}
    FileDate: LongRec;
@@ -1802,7 +1881,7 @@ Index: AbUtils.pas
  {$ENDIF}
  {$IFDEF FPCUnixAPI}
    StatBuf: stat;
-@@ -1274,9 +1265,9 @@
+@@ -1274,9 +1296,9 @@
    aAttr.Attr := -1;
    aAttr.Mode := 0;
  {$IFDEF MSWINDOWS}
@@ -1814,16 +1893,19 @@ Index: AbUtils.pas
         FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
        aAttr.Time := FileDateToDateTime(Integer(FileDate));
      LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
-@@ -1287,7 +1278,7 @@
+@@ -1287,7 +1309,10 @@
  {$ENDIF}
  {$IFDEF UNIX}
    {$IFDEF FPCUnixAPI}
 -  Result := (FpStat(aFileName, StatBuf) = 0);
-+  Result := (FpStat(UTF8ToSys(aFileName), StatBuf) = 0);
++  if FollowLinks then
++    Result := (FpStat(UTF8ToSys(aFileName), StatBuf) = 0)
++  else
++    Result := (FpLStat(UTF8ToSys(aFileName), StatBuf) = 0);
    {$ENDIF}
    {$IFDEF LibcAPI}
    // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
-@@ -1313,10 +1304,10 @@
+@@ -1313,10 +1338,10 @@
  {-Get the volume label for the specified drive.}
  {$IFDEF MSWINDOWS}
  var
@@ -1836,7 +1918,7 @@ Index: AbUtils.pas
  {$ENDIF}
  begin
  {$IFDEF MSWINDOWS}
-@@ -1326,10 +1317,10 @@
+@@ -1326,10 +1351,10 @@
  
    Result := '';
  

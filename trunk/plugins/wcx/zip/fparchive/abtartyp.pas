@@ -1997,18 +1997,26 @@ begin
   if CurItem.IsDirectory then
     AbCreateDirectory(UseName)
   else begin
-    OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
-    try
-      try {OutStream}
-        ExtractItemToStreamAt(Index, OutStream);
-      finally {OutStream}
-        OutStream.Free;
-      end; {OutStream}
-    except
-      if ExceptObject is EAbUserAbort then
-        FStatus := asInvalid;
-      mbDeleteFile(UseName);
-      raise;
+    case (CurItem.Mode and $F000) of
+      AB_FMODE_FILE, AB_FMODE_FILE2: begin
+        OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
+        try
+          try {OutStream}
+            ExtractItemToStreamAt(Index, OutStream);
+          finally {OutStream}
+            OutStream.Free;
+          end; {OutStream}
+        except
+          if ExceptObject is EAbUserAbort then
+            FStatus := asInvalid;
+          mbDeleteFile(UseName);
+          raise;
+        end;
+      end;
+
+      AB_FMODE_FILELINK: begin
+        AbCreateSymlink(CurItem.LinkName, UseName);
+      end;
     end;
   end;
   AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
@@ -2228,29 +2236,43 @@ begin
         aaAdd, aaFreshen, aaReplace: begin
           try
             { update metadata }
-            if not AbFileGetAttrEx(CurItem.DiskFileName, AttrEx) then
+            if not AbFileGetAttrEx(CurItem.DiskFileName, AttrEx, False) then
               Raise EAbFileNotFound.Create;
             CurItem.ExternalFileAttributes := AttrEx.Mode;
             CurItem.LastModTimeAsDateTime := AttrEx.Time;
             { TODO: uid, gid, uname, gname should be added here }
             { TODO: Add support for different types of files here }
-            if (AttrEx.Mode and AB_FMODE_DIR) <> 0 then begin
-              CurItem.LinkFlag := AB_TAR_LF_DIR;
-              CurItem.UncompressedSize := 0;
-              CurItem.SaveTarHeaderToStream(NewStream);
-            end
-            else begin
-              TempStream := TFileStreamEx.Create(CurItem.DiskFileName,
-                fmOpenRead or fmShareDenyWrite );
-              try { TempStream }
-                CurItem.UncompressedSize := TempStream.Size;
-                CurItem.StreamPosition := NewStream.Position;{ Reset the Stream Pointer. }
+            case (AttrEx.Mode and $F000) of
+              AB_FMODE_DIR: begin
+                CurItem.UncompressedSize := 0;
                 CurItem.SaveTarHeaderToStream(NewStream);
-                OutTarHelp.WriteArchiveItemSize(TempStream, TempStream.Size);
-              finally { TempStream }
-                TempStream.Free;
-              end; { TempStream }
+              end;
+
+              AB_FMODE_FILELINK: begin
+                CurItem.UncompressedSize := 0;
+                CurItem.LinkName := AbReadSymlink(CurItem.DiskFileName);
+                CurItem.SaveTarHeaderToStream(NewStream);
+              end;
+
+              AB_FMODE_FILE, AB_FMODE_FILE2: begin
+                TempStream := TFileStreamEx.Create(CurItem.DiskFileName,
+                  fmOpenRead or fmShareDenyWrite );
+                try { TempStream }
+                  CurItem.UncompressedSize := TempStream.Size;
+                  CurItem.StreamPosition := NewStream.Position;{ Reset the Stream Pointer. }
+                  CurItem.SaveTarHeaderToStream(NewStream);
+                  OutTarHelp.WriteArchiveItemSize(TempStream, TempStream.Size);
+                finally { TempStream }
+                  TempStream.Free;
+                end; { TempStream }
+              end;
+
+              else begin
+                CurItem.UncompressedSize := AttrEx.Size;
+                CurItem.SaveTarHeaderToStream(NewStream);
+              end;
             end;
+
           except
             ItemList[i].Action := aaDelete;
             DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
