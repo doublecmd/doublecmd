@@ -72,7 +72,7 @@ type
     function GetActiveFileIndex: PtrInt; virtual; abstract;
     function GetFileRect(FileIndex: PtrInt): TRect; virtual; abstract;
     function GetVisibleFilesIndexes: TRange; virtual; abstract;
-    function IsFileIndexInRange(FileIndex: PtrInt): Boolean;
+    function IsFileIndexInRange(FileIndex: PtrInt): Boolean; inline;
     {en
        If marking a single file only redraws that file.
        Otherwise files are marked and full update is performed.
@@ -199,7 +199,7 @@ end;
 
 procedure TOrderedFileView.DoFileIndexChanged(NewFileIndex: PtrInt);
 begin
-  if FLastActiveFileIndex <> NewFileIndex then
+  if IsFileIndexInRange(NewFileIndex) and (FLastActiveFileIndex <> NewFileIndex) then
   begin
     if not FRangeSelecting then
     begin
@@ -710,7 +710,7 @@ var
 begin
   if not FRangeSelecting then
   begin
-    if FRangeSelectionStartIndex <> InvalidFileIndex then
+    if IsFileIndexInRange(FRangeSelectionStartIndex) then
     begin
       NewSelectionState := not FFiles[FRangeSelectionStartIndex].Selected;
       if (FRangeSelectionState <> NewSelectionState) and
