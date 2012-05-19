@@ -1309,7 +1309,16 @@ begin
     RowHeights[0] := TabHeaderHeight;
   end
   else
-    FixedRows := 0;
+  begin
+    if FixedRows > 0 then
+    begin
+      // First reduce number of rows so that the 0'th row, which will be changed
+      // to not-fixed, won't be counted as a row having a file.
+      if RowCount > 0 then
+        RowCount := RowCount - 1;
+      FixedRows := 0;
+    end;
+  end;
 
   FixedCols := 0;
 end;
