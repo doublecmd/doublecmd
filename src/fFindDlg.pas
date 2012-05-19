@@ -189,6 +189,7 @@ type
     FFrmAttributesEdit: TfrmAttributesEdit;
     FLastTemplateName: UTF8String;
     FLastSearchTemplate: TSearchTemplate;
+    FUpdating: Boolean;
 
     procedure DisableControlsForTemplate;
     procedure StopSearch;
@@ -410,7 +411,7 @@ procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
 begin
   EnableControl(cmbPlugin, cbUsePlugin.Checked);
 
-  if cmbPlugin.Enabled and cmbPlugin.CanFocus and (Sender = cbUsePlugin) then
+  if not FUpdating and cmbPlugin.Enabled and cmbPlugin.CanFocus and (Sender = cbUsePlugin) then
   begin
     cmbPlugin.SetFocus;
     cmbPlugin.SelectAll;
@@ -464,7 +465,7 @@ begin
   lblEncoding.Enabled:=cbFindText.Checked;
   cbReplaceText.Checked:= False;
 
-  if cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText)then
+  if not FUpdating and cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText) then
   begin
     cmbFindText.SetFocus;
     cmbFindText.SelectAll;
@@ -473,6 +474,8 @@ end;
 
 procedure TfrmFindDlg.ClearFilter;
 begin
+  FUpdating := True;
+
   FLastTemplateName := '';
   edtFindPathStart.Text:= '';
   edtFindPathStart.ShowHidden := gShowSystemFiles;
@@ -518,6 +521,8 @@ begin
 
   // plugins
   cmbPlugin.Text:= '';
+
+  FUpdating := False;
 end;
 
 procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
@@ -937,7 +942,7 @@ begin
   cbNotContainingText.Checked := False;
   cbNotContainingText.Enabled := (not cbReplaceText.Checked and cbFindText.Checked);
 
-  if cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
+  if not FUpdating and cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
   begin
     cmbReplaceText.SetFocus;
     cmbReplaceText.SelectAll;
@@ -1240,12 +1245,14 @@ end;
 
 procedure TfrmFindDlg.seFileSizeFromChange(Sender: TObject);
 begin
-  cbFileSizeFrom.Checked:= (seFileSizeFrom.Value > 0);
+  if not FUpdating then
+    cbFileSizeFrom.Checked:= (seFileSizeFrom.Value > 0);
 end;
 
 procedure TfrmFindDlg.seFileSizeToChange(Sender: TObject);
 begin
-  cbFileSizeTo.Checked:= (seFileSizeTo.Value > 0);
+  if not FUpdating then
+    cbFileSizeTo.Checked:= (seFileSizeTo.Value > 0);
 end;
 
 procedure TfrmFindDlg.SelectTemplate(const ATemplateName: String);
@@ -1262,7 +1269,8 @@ end;
 
 procedure TfrmFindDlg.seNotOlderThanChange(Sender: TObject);
 begin
-  cbNotOlderThan.Checked:= (seNotOlderThan.Value > 0);
+  if not FUpdating then
+    cbNotOlderThan.Checked:= (seNotOlderThan.Value > 0);
 end;
 
 procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
@@ -1284,21 +1292,25 @@ end;
 
 procedure TfrmFindDlg.ZVDateFromChange(Sender: TObject);
 begin
-  cbDateFrom.Checked:= True;
+  if not FUpdating then
+    cbDateFrom.Checked:= True;
 end;
 
 procedure TfrmFindDlg.ZVDateToChange(Sender: TObject);
 begin
-  cbDateTo.Checked:= True;
+  if not FUpdating then
+    cbDateTo.Checked:= True;
 end;
 
 procedure TfrmFindDlg.ZVTimeFromChange(Sender: TObject);
 begin
-  cbTimeFrom.Checked:= True;
+  if not FUpdating then
+    cbTimeFrom.Checked:= True;
 end;
 
 procedure TfrmFindDlg.ZVTimeToChange(Sender: TObject);
 begin
+  if not FUpdating then
     cbTimeTo.Checked:= True;
 end;
 
