@@ -279,7 +279,8 @@ var
 begin
   with Screen do
   begin
-    while (I < CustomFormCount) and ((CustomFormsZOrdered[I] is TModalForm) or not
+    while (I < CustomFormCount) and (((CustomFormsZOrdered[I] is TModalForm) and
+          ((CustomFormsZOrdered[I] as TModalForm).FParentWindow <> 0)) or not
           (fsModal in CustomFormsZOrdered[I].FormState)) do
       Inc(I);
     // If modal form exists then activate it
