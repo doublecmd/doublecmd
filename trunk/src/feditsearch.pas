@@ -60,13 +60,13 @@ unit fEditSearch;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Buttons;
+  Classes, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Buttons, uOSForms;
 
 type
 
   { TfrmEditSearchReplace }
 
-  TfrmEditSearchReplace = class(TForm)
+  TfrmEditSearchReplace = class(TModalForm)
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     cbSearchText: TComboBox;

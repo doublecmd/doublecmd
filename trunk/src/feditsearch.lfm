@@ -13,7 +13,6 @@ object frmEditSearchReplace: TfrmEditSearchReplace
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   Position = poOwnerFormCenter
-  ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'
   object lblSearchFor: TLabel
     AnchorSideLeft.Control = Owner
