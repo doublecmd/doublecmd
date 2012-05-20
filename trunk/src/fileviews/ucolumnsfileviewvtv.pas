@@ -99,10 +99,6 @@ type
     procedure DoSelectionChanged(Node: PVirtualNode); overload;
 
     {en
-       Updates GUI after the display file list has changed.
-    }
-    procedure DisplayFileListHasChanged;
-    {en
        Format and cache all columns strings for the file.
     }
     procedure MakeColumnsStrings(AFile: TDisplayFile);
@@ -154,8 +150,8 @@ type
     procedure CreateDefault(AOwner: TWinControl); override;
 
     procedure BeforeMakeFileList; override;
-    procedure AfterMakeFileList; override;
     procedure ClearAfterDragDrop; override;
+    procedure DisplayFileListChanged; override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
@@ -345,9 +341,7 @@ begin
   dgPanel.TreeOptions.AutoOptions := dgPanel.TreeOptions.AutoOptions - [toDisableAutoscrollOnFocus];
 
   if Assigned(Node) then
-    DoFileIndexChanged(Node^.Index)
-  else
-    LastActiveFile := '';
+    DoFileIndexChanged(Node^.Index);
 end;
 
 procedure TColumnsFileViewVTV.dgPanelFocusChanging(Sender: TBaseVirtualTree;
@@ -1110,13 +1104,7 @@ begin
     [tsLeftButtonDown, tsMiddleButtonDown, tsRightButtonDown, tsVCLDragging];
 end;
 
-procedure TColumnsFileViewVTV.AfterMakeFileList;
-begin
-  inherited;
-  DisplayFileListHasChanged;
-end;
-
-procedure TColumnsFileViewVTV.DisplayFileListHasChanged;
+procedure TColumnsFileViewVTV.DisplayFileListChanged;
 var
   AFocused: Boolean = False;
   Node: PVirtualNode;
@@ -1168,7 +1156,8 @@ begin
   end;
 
   Notify([fvnVisibleFilePropertiesChanged]);
-  UpdateInfoPanel;
+
+  inherited;
 end;
 
 procedure TColumnsFileViewVTV.MakeColumnsStrings(AFile: TDisplayFile);

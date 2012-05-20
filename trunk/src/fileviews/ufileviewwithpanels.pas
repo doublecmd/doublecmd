@@ -44,6 +44,7 @@ type
 
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
+    procedure DisplayFileListChanged; override;
     procedure DoActiveChanged; override;
     procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
@@ -106,6 +107,12 @@ begin
   pnlHeader.ClientHeight:= 0;
   pnlFooter.ClientHeight:= 0;
   {$ENDIF}
+end;
+
+procedure TFileViewWithPanels.DisplayFileListChanged;
+begin
+  inherited DisplayFileListChanged;
+  UpdateInfoPanel;
 end;
 
 procedure TFileViewWithPanels.DoActiveChanged;

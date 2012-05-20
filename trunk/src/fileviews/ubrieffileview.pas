@@ -58,11 +58,12 @@ type
    protected
       procedure CreateDefault(AOwner: TWinControl); override;
       procedure BeforeMakeFileList; override;
-      procedure AfterMakeFileList; override;
       procedure ClearAfterDragDrop; override;
       procedure AfterChangePath; override;
+      procedure DisplayFileListChanged; override;
       procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
       procedure DoOnResize; override;
+      procedure FileSourceFileListLoaded; override;
       function GetActiveFileIndex: PtrInt; override;
       function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; override;
       function GetFileRect(FileIndex: PtrInt): TRect; override;
@@ -762,6 +763,23 @@ begin
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
+procedure TBriefFileView.DisplayFileListChanged;
+begin
+  dgPanel.CalculateColRowCount;
+  dgPanel.CalculateColumnWidth;
+  SetFilesDisplayItems;
+
+  if SetActiveFileNow(RequestedActiveFile) then
+    RequestedActiveFile := ''
+  else
+    // Requested file was not found, restore position to last active file.
+    SetActiveFileNow(LastActiveFile);
+
+  Notify([fvnVisibleFilePropertiesChanged]);
+
+  inherited DisplayFileListChanged;
+end;
+
 procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
@@ -787,28 +805,13 @@ begin
   inherited BeforeMakeFileList;
 end;
 
-procedure TBriefFileView.AfterMakeFileList;
+procedure TBriefFileView.FileSourceFileListLoaded;
 begin
-  inherited AfterMakeFileList;
-  dgPanel.CalculateColRowCount;
-  dgPanel.CalculateColumnWidth;
-  SetFilesDisplayItems;
+  inherited;
 
-  if SetActiveFileNow(RequestedActiveFile) then
-    RequestedActiveFile := ''
-  else
-  begin
-    // Requested file was not found, restore position to last active file.
-    if not SetActiveFileNow(LastActiveFile) then
-    begin
-      // Or set top position if no LastActiveFile.
-      FUpdatingActiveFile := True;
-      dgPanel.MoveExtend(False, 0, 0);
-      FUpdatingActiveFile := False;
-    end;
-  end;
-
-  Notify([fvnVisibleFilePropertiesChanged]);
+  FUpdatingActiveFile := True;
+  dgPanel.MoveExtend(False, 0, 0);
+  FUpdatingActiveFile := False;
 end;
 
 procedure TBriefFileView.ClearAfterDragDrop;
