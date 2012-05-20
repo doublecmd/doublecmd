@@ -275,11 +275,17 @@ var
 {$IFDEF MSWINDOWS}
 procedure ActivateHandler(Self, Sender: TObject);
 var
-  ModalForm: TCustomForm;
+  I: Integer = 0;
 begin
-  ModalForm:= Screen.GetCurrentModalForm;
-  // If modal form exists then activate it
-  if (ModalForm <> nil) then ModalForm.BringToFront;
+  with Screen do
+  begin
+    while (I < CustomFormCount) and ((CustomFormsZOrdered[I] is TModalForm) or not
+          (fsModal in CustomFormsZOrdered[I].FormState)) do
+      Inc(I);
+    // If modal form exists then activate it
+    if (I >= 0) and (I < CustomFormCount) then
+      CustomFormsZOrdered[I].BringToFront;
+  end;
 end;
 {$ENDIF}
 
