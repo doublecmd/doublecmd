@@ -6,53 +6,52 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, uOSForms;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, ButtonPanel, uOSForms;
 
 type
 
   { TfrmModView }
 
   TfrmModView = class(TModalForm)
-    btnOk: TSpeedButton;
-    btnCancel: TSpeedButton;
     btnPath1: TSpeedButton;
+    btnPath2: TSpeedButton;
+    btnPath3: TSpeedButton;
+    btnPath4: TSpeedButton;
+    btnPath5: TSpeedButton;
+    btnProportion: TSpeedButton;
+    bplButtons: TButtonPanel;
+    lblHeight: TLabel;
     lblPath1: TLabel;
     lblPath2: TLabel;
     lblPath3: TLabel;
     lblPath4: TLabel;
     lblPath5: TLabel;
-    pnlButtons: TPanel;
-    rbPnm: TRadioButton;
-    rbIco: TRadioButton;
-    rbPng: TRadioButton;
-    rbBmp: TRadioButton;
-    rbJpg: TRadioButton;
-    rbPath5: TRadioButton;
-    rbPath4: TRadioButton;
-    rbPath3: TRadioButton;
-    rbPath2: TRadioButton;
-    rbPath1: TRadioButton;
-    btnPath2: TSpeedButton;
-    btnPath3: TSpeedButton;
-    btnPath4: TSpeedButton;
-    btnPath5: TSpeedButton;
-    tePath5: TEdit;
-    tePath4: TEdit;
-    tePath3: TEdit;
-    sddCopyMoveFile: TSelectDirectoryDialog;
-    tePath2: TEdit;
-    tePath1: TEdit;
-    pnlCopyMoveFile: TPanel;
-    teQuality: TEdit;
     lblQuality: TLabel;
-    pnlQuality: TPanel;
-    teWidth: TEdit;
-    teHeight: TEdit;
     lblWidth: TLabel;
-    lblHeight: TLabel;
+    pnlMain: TPanel;
+    pnlCopyMoveFile: TPanel;
+    pnlQuality: TPanel;
     pnlSize: TPanel;
-    btnProportion: TSpeedButton;
+    rbBmp: TRadioButton;
+    rbIco: TRadioButton;
+    rbJpg: TRadioButton;
+    rbPath1: TRadioButton;
+    rbPath2: TRadioButton;
+    rbPath3: TRadioButton;
+    rbPath4: TRadioButton;
+    rbPath5: TRadioButton;
+    rbPng: TRadioButton;
+    rbPnm: TRadioButton;
+    sddCopyMoveFile: TSelectDirectoryDialog;
     tbQuality: TTrackBar;
+    teHeight: TEdit;
+    tePath1: TEdit;
+    tePath2: TEdit;
+    tePath3: TEdit;
+    tePath4: TEdit;
+    tePath5: TEdit;
+    teQuality: TEdit;
+    teWidth: TEdit;
     procedure btnCancelClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
     procedure btnPathClick(Sender: TObject);

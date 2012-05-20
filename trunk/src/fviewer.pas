@@ -784,26 +784,22 @@ end;
 
 procedure TfrmViewer.miSaveAsClick(Sender: TObject);
 begin
-  if not Assigned(FModSizeDialog) then
-     FModSizeDialog:= TfrmModView.Create(Application);
-  FModSizeDialog.pnlSize.Visible:=false;
-  FModSizeDialog.pnlCopyMoveFile.Visible :=false;
-  FModSizeDialog.pnlQuality.Visible:=true;
-  FModSizeDialog.Caption:='Type of Image';
-  FModSizeDialog.Width:=190;
-  FModSizeDialog.Height:=170;
-  FModSizeDialog.ShowModal;
-  if FModSizeDialog.ModalResult=mrOk then
+  FModSizeDialog:= TfrmModView.Create(Application);
+  try
+    FModSizeDialog.pnlSize.Visible:=false;
+    FModSizeDialog.pnlCopyMoveFile.Visible :=false;
+    FModSizeDialog.pnlQuality.Visible:=true;
+    FModSizeDialog.Caption:='Type of Image';
+    if FModSizeDialog.ShowModal = mrOk then
     begin
-    if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
-      SaveImageAs(FModSizeDialog.sExt,false,StrToInt(FModSizeDialog.teQuality.Text))
-    else
-      begin
-        ShowMessage ('Bad Quality');
-        Exit;
-      end;
+      if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
+        SaveImageAs(FModSizeDialog.sExt,false,StrToInt(FModSizeDialog.teQuality.Text))
+      else
+        msgError('Bad Quality');
     end
-  else Exit;
+  finally
+    FreeAndNil(FModSizeDialog);
+  end;
 end;
 
 procedure TfrmViewer.miSaveClick(Sender: TObject);
@@ -1455,27 +1451,23 @@ end;
 
 procedure TfrmViewer.btnCopyMoveFileClick(Sender: TObject);
 begin
-  if not Assigned(FModSizeDialog) then
-     FModSizeDialog:= TfrmModView.Create(Application);
-  FModSizeDialog.pnlQuality.Visible:=false;
-  FModSizeDialog.pnlSize.Visible:=false;
-  FModSizeDialog.pnlCopyMoveFile.Visible := true;
-  if sender=btnMoveFile then FModSizeDialog.Caption:='Move File'
-                        else FModSizeDialog.Caption:='Copy File' ;
-  FModSizeDialog.Width:=400;
-  FModSizeDialog.Height:=200;
-  FModSizeDialog.ShowModal;
-  if FModSizeDialog.ModalResult = mrOk then
-    begin
-    if FModSizeDialog.Path='' then
-      begin
-        ShowMessage ('Bad parth :(');
-        Exit;
-      end
+  FModSizeDialog:= TfrmModView.Create(Application);
+  try
+    FModSizeDialog.pnlQuality.Visible:= False;
+    FModSizeDialog.pnlSize.Visible:= False;
+    FModSizeDialog.pnlCopyMoveFile.Visible:= True;
+    if Sender = btnMoveFile then
+      FModSizeDialog.Caption:= 'Move File'
     else
-      begin
-        CopyFile(FileList.Strings[iActiveFile],FModSizeDialog.Path+PathDelim+ExtractFileName(FileList.Strings[iActiveFile]));
-        if (sender=btnMoveFile) or (sender=btnMoveFile1) then
+      FModSizeDialog.Caption:= 'Copy File' ;
+    if FModSizeDialog.ShowModal = mrOk then
+    begin
+      if FModSizeDialog.Path = '' then
+        msgError(rsMsgInvalidPath)
+      else
+        begin
+          CopyFile(FileList.Strings[iActiveFile],FModSizeDialog.Path+PathDelim+ExtractFileName(FileList.Strings[iActiveFile]));
+          if (Sender = btnMoveFile) or (Sender = btnMoveFile1) then
           begin
             CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
             mbDeleteFile(FileList.Strings[iActiveFile]);
@@ -1484,10 +1476,11 @@ begin
             DrawPreview.Repaint;
             SplitterChangeBounds(Sender);
           end;
-      end;
-    end
-    else
-     Exit;
+        end;
+    end;
+  finally
+    FreeAndNil(FModSizeDialog);
+  end;
 end;
 
 procedure TfrmViewer.actExecute(Sender: TObject);
@@ -1584,22 +1577,22 @@ end;
 
 procedure TfrmViewer.btnResizeClick(Sender: TObject);
 begin
-  if not Assigned(FModSizeDialog) then
-     FModSizeDialog:= TfrmModView.Create(Application);
-  FModSizeDialog.pnlQuality.Visible:=false;
-  FModSizeDialog.pnlCopyMoveFile.Visible :=false;
-  FModSizeDialog.pnlSize.Visible:=true;
-  FModSizeDialog.teHeight.Text:= IntToStr(Image.Picture.Bitmap.Height);
-  FModSizeDialog.teWidth.Text := IntToStr(Image.Picture.Bitmap.Width);
-  FModSizeDialog.Caption:='New Size';
-  FModSizeDialog.Width:=190;
-  FModSizeDialog.Height:=100;
-  FModSizeDialog.ShowModal;
-  if FModSizeDialog.ModalResult = mrOk then
-    Res(StrToInt(FModSizeDialog.teWidth.Text), StrToInt(FModSizeDialog.teHeight.Text))
-  else
-    Exit;
-  AdjustImageSize;
+  FModSizeDialog:= TfrmModView.Create(Application);
+  try
+    FModSizeDialog.pnlQuality.Visible:=false;
+    FModSizeDialog.pnlCopyMoveFile.Visible :=false;
+    FModSizeDialog.pnlSize.Visible:=true;
+    FModSizeDialog.teHeight.Text:= IntToStr(Image.Picture.Bitmap.Height);
+    FModSizeDialog.teWidth.Text := IntToStr(Image.Picture.Bitmap.Width);
+    FModSizeDialog.Caption:= 'New Size';
+    if FModSizeDialog.ShowModal = mrOk then
+    begin
+      Res(StrToInt(FModSizeDialog.teWidth.Text), StrToInt(FModSizeDialog.teHeight.Text));
+      AdjustImageSize;
+    end;
+  finally
+    FreeAndNil(FModSizeDialog);
+  end;
 end;
 
 procedure TfrmViewer.btnUndoClick(Sender: TObject);
@@ -1613,8 +1606,6 @@ begin
      FreeAndNil(WlxPlugins);
   if Assigned(FFindDialog) then
      FreeAndNil(FFindDialog);
-  if Assigned(FModSizeDialog) then
-     FreeAndNil(FModSizeDialog);
   if Assigned(FBitmapList) then
      FreeAndNil(FBitmapList);
   HotMan.UnRegister(Self);
