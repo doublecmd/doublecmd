@@ -1058,12 +1058,13 @@ var
   pnm : TPortableAnyMapGraphic = nil;
   fsFileStream: TFileStreamEx = nil;
 begin
-  if not senderSave then
+  if senderSave then
+    sFileName:= FileList.Strings[iActiveFile]
+  else
     begin
-      if SavePictureDialog.Execute then sFileName:= ChangeFileExt(SavePictureDialog.FileName, sExt);
-    end
-   else
-     sFileName:= FileList.Strings[iActiveFile];
+      if not SavePictureDialog.Execute then Exit;
+      sFileName:= ChangeFileExt(SavePictureDialog.FileName, sExt);
+    end;
 
   try
     fsFileStream:= TFileStreamEx.Create(sFileName, fmCreate);
