@@ -44,7 +44,8 @@ type
                       fvrqMakeDisplayFileList);       // Filtered file list needs to be created
   TFileViewRequests = set of TFileViewRequest;
   TFileViewNotification = (fvnDisplayFileListChanged,        // Filtered file list was created (filter changed, show/hide hidden files option changed, etc.)
-                           fvnFileSourceFileListChanged,     // File list was loaded from FileSource
+                           fvnFileSourceFileListLoaded,      // File list was loaded from FileSource
+                           fvnFileSourceFileListUpdated,     // File list was updated (files added, removed or updated)
                            fvnSelectionChanged,              // Files were selected/deselected
                            fvnVisibleFilePropertiesChanged); // Different files or their properties are now visible
   TFileViewNotifications = set of TFileViewNotification;
@@ -197,8 +198,21 @@ type
                                      const UserData: Pointer);
     procedure CancelLastPathChange;
     procedure ClearFiles;
+    {en
+       Called when display file list (filtered list) has changed.
+    }
+    procedure DisplayFileListChanged; virtual;
     procedure EndUpdate;
     procedure EnsureDisplayProperties; virtual; abstract;
+    {en
+       Called after file list has been retrieved from file source.
+       Runs from GUI thread.
+    }
+    procedure FileSourceFileListLoaded; virtual;
+    {en
+       Called when files were added, removed or updated in the filesource file list.
+    }
+    procedure FileSourceFileListUpdated; virtual;
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
@@ -219,11 +233,6 @@ type
     }
     procedure SetActiveFile(const aFile: TFile); virtual; overload;
 
-    {en
-       Executed after file list has been retrieved.
-       Runs from GUI thread.
-    }
-    procedure AfterMakeFileList; virtual;
     {en
        Executed before file list has been retrieved.
        Runs from GUI thread.
@@ -705,7 +714,7 @@ begin
     if Assigned(Self.FAllDisplayFiles) then
     begin
       AFileView.FAllDisplayFiles := Self.FAllDisplayFiles.Clone(True);
-      AFileView.Notify([fvnFileSourceFileListChanged]);
+      AFileView.Notify([fvnFileSourceFileListLoaded]);
       AFileView.Request([fvrqHashFileList]);
     end;
 
@@ -839,6 +848,11 @@ begin
     Result := AColor;
 end;
 
+procedure TFileView.DisplayFileListChanged;
+begin
+  // Empty.
+end;
+
 procedure TFileView.DoActiveChanged;
 begin
   // Empty.
@@ -903,6 +917,16 @@ end;
 function TFileView.FileListLoaded: Boolean;
 begin
   Result := Assigned(FAllDisplayFiles);
+end;
+
+procedure TFileView.FileSourceFileListLoaded;
+begin
+  FLoadingFileListLongTimer.Enabled := False;
+end;
+
+procedure TFileView.FileSourceFileListUpdated;
+begin
+  // Empty.
 end;
 
 procedure TFileView.Clear;
@@ -972,10 +996,10 @@ begin
     begin
       InsertFile(ADisplayFile, FFiles, NewFilesPosition);
       VisualizeFileUpdate(ADisplayFile);
-      Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
+      Notify([fvnFileSourceFileListUpdated, fvnDisplayFileListChanged]);
     end
     else
-      Notify([fvnFileSourceFileListChanged]);
+      Notify([fvnFileSourceFileListUpdated]);
   end
   else
     UpdateFile(FileName, APath, NewFilesPosition, UpdatedFilesPosition);
@@ -998,7 +1022,7 @@ begin
   FAllDisplayFiles.Remove(ADisplayFile);
   if Assigned(FRecentlyUpdatedFiles) then
     FRecentlyUpdatedFiles.Remove(ADisplayFile);
-  Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
+  Notify([fvnFileSourceFileListUpdated, fvnDisplayFileListChanged]);
 end;
 
 procedure TFileView.RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
@@ -1022,7 +1046,7 @@ begin
       ADisplayFile.DisplayStrings.Clear;
       ResortFile(ADisplayFile, FAllDisplayFiles);
 
-      ANotifications := [fvnFileSourceFileListChanged];
+      ANotifications := [fvnFileSourceFileListUpdated];
       case ApplyFilter(ADisplayFile, NewFilesPosition) of
         fvaprInserted, fvaprRemoved:
           Include(ANotifications, fvnDisplayFileListChanged);
@@ -1141,7 +1165,7 @@ begin
     end;
     ADisplayFile.DisplayStrings.Clear;
 
-    ANotifications := [fvnFileSourceFileListChanged];
+    ANotifications := [fvnFileSourceFileListUpdated];
     case ApplyFilter(ADisplayFile, NewFilesPosition) of
       fvaprInserted, fvaprRemoved:
         Include(ANotifications, fvnDisplayFileListChanged);
@@ -1781,11 +1805,6 @@ begin
     BeforeMakeFileList;
     Worker.Start;
   end;
-end;
-
-procedure TFileView.AfterMakeFileList;
-begin
-  FLoadingFileListLongTimer.Enabled := False;
 end;
 
 function TFileView.ApplyFilter(ADisplayFile: TDisplayFile; NewFilesPosition: TNewFilesPosition): TFileViewApplyFilterResult;
@@ -2661,15 +2680,22 @@ begin
   try
     while FNotifications <> [] do
     begin
-      if fvnFileSourceFileListChanged in FNotifications then
+      if fvnFileSourceFileListLoaded in FNotifications then
       begin
-        FNotifications := FNotifications - [fvnFileSourceFileListChanged];
+        FNotifications := FNotifications - [fvnFileSourceFileListLoaded];
+        FileSourceFileListLoaded;
+        DoOnFileListChanged;
+      end
+      else if fvnFileSourceFileListUpdated in FNotifications then
+      begin
+        FNotifications := FNotifications - [fvnFileSourceFileListUpdated];
+        FileSourceFileListUpdated;
         DoOnFileListChanged;
       end
       else if fvnDisplayFileListChanged in FNotifications then
       begin
         FNotifications := FNotifications - [fvnDisplayFileListChanged];
-        AfterMakeFileList;
+        DisplayFileListChanged;
         StartRecentlyUpdatedTimerIfNeeded;
       end
       else if fvnVisibleFilePropertiesChanged in FNotifications then
@@ -2767,7 +2793,7 @@ begin
     else
       ClearPendingFilesChanges;
     Request(ARequests);
-    Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
+    Notify([fvnFileSourceFileListLoaded, fvnDisplayFileListChanged]);
   finally
     EndUpdate;
   end;

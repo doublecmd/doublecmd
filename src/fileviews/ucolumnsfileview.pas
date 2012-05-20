@@ -89,10 +89,6 @@ type
     procedure MakeActiveVisible;
 
     {en
-       Updates GUI after the display file list has changed.
-    }
-    procedure DisplayFileListHasChanged;
-    {en
        Format and cache all columns strings.
     }
     procedure MakeColumnsStrings(AFile: TDisplayFile);
@@ -134,12 +130,13 @@ type
     procedure CreateDefault(AOwner: TWinControl); override;
 
     procedure BeforeMakeFileList; override;
-    procedure AfterMakeFileList; override;
     procedure ClearAfterDragDrop; override;
+    procedure DisplayFileListChanged; override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
     procedure DoUpdateView; override;
+    procedure FileSourceFileListLoaded; override;
     function GetActiveFileIndex: PtrInt; override;
     function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; override;
     function GetFileRect(FileIndex: PtrInt): TRect; override;
@@ -950,13 +947,16 @@ begin
   dgPanel.FGridState := gsNormal;
 end;
 
-procedure TColumnsFileView.AfterMakeFileList;
+procedure TColumnsFileView.FileSourceFileListLoaded;
 begin
   inherited;
-  DisplayFileListHasChanged;
+
+  FUpdatingActiveFile := True;
+  dgPanel.Row := 0;
+  FUpdatingActiveFile := False;
 end;
 
-procedure TColumnsFileView.DisplayFileListHasChanged;
+procedure TColumnsFileView.DisplayFileListChanged;
 begin
   // Update grid row count.
   SetRowCount(FFiles.Count);
@@ -966,19 +966,12 @@ begin
   if SetActiveFileNow(RequestedActiveFile) then
     RequestedActiveFile := ''
   else
-  begin
     // Requested file was not found, restore position to last active file.
-    if not SetActiveFileNow(LastActiveFile) then
-    begin
-      // Or set top position if no LastActiveFile.
-      FUpdatingActiveFile := True;
-      dgPanel.Row := 0;
-      FUpdatingActiveFile := False;
-    end;
-  end;
+    SetActiveFileNow(LastActiveFile);
 
   Notify([fvnVisibleFilePropertiesChanged]);
-  UpdateInfoPanel;
+
+  inherited;
 end;
 
 procedure TColumnsFileView.MakeColumnsStrings(AFile: TDisplayFile);
