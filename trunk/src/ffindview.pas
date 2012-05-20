@@ -18,10 +18,10 @@ unit fFindView;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, uOSForms;
 
 type
-  TfrmFindView = class(TForm)
+  TfrmFindView = class(TModalForm)
     cbDataToFind: TComboBox;
     btnFind: TBitBtn;
     btnClose: TBitBtn;

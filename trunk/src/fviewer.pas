@@ -40,13 +40,13 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
-  uFileSource, fModView, Types, uThumbnails, uFormCommands;
+  uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms;
 
 type
 
   { TfrmViewer }
 
-  TfrmViewer = class(TForm, IFormCommands)
+  TfrmViewer = class(TAloneForm, IFormCommands)
     actAbout: TAction;
     actCopyFile: TAction;
     actDeleteFile: TAction;
@@ -2246,4 +2246,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmViewer, HotkeysCategory, @rsHotkeyCategoryViewer);
 
 end.
-
+
