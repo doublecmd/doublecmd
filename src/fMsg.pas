@@ -3,7 +3,7 @@ unit fMsg;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls;
+  SysUtils, Classes, Controls, Forms, StdCtrls, uOSForms;
 
 var
   cButtonWidth: Integer = 90;
@@ -13,7 +13,7 @@ type
 
   { TfrmMsg }
 
-  TfrmMsg = class(TForm)
+  TfrmMsg = class(TModalForm)
     lblMsg: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);

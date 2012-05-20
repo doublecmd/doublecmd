@@ -16,7 +16,6 @@ object frmFindView: TfrmFindView
   ClientWidth = 344
   OnShow = FormShow
   Position = poScreenCenter
-  ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
   object cbDataToFind: TComboBox
     AnchorSideLeft.Control = Owner

@@ -6,13 +6,13 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, uOSForms;
 
 type
 
   { TfrmModView }
 
-  TfrmModView = class(TForm)
+  TfrmModView = class(TModalForm)
     btnOk: TSpeedButton;
     btnCancel: TSpeedButton;
     btnPath1: TSpeedButton;
