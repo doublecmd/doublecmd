@@ -20,13 +20,13 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
-  ComCtrls, SynEditSearch, uDebug;
+  ComCtrls, SynEditSearch, uDebug, uOSForms;
 
 type
 
   { TfrmEditor }
 
-  TfrmEditor = class(TForm)
+  TfrmEditor = class(TAloneForm)
     actEditCut: TAction;
     actEditCopy: TAction;
     actEditSelectAll: TAction;
