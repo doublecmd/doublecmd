@@ -58,6 +58,7 @@ type
     function KeyPos(Key: char; out Position: TKeyPos): boolean;
     function GetKeyValue(const str: String; Key: TKeyPos): UTF8String;
     procedure OnReadLn(str: string);
+    procedure OnQueryString(str: string);
     function CheckOut(const SubStr, Str: string): boolean;
   public
     constructor Create(aMultiArcItem: TMultiArcItem; const anArchiveName: UTF8String);
@@ -82,7 +83,7 @@ implementation
 
 uses
   LCLProc, FileUtil, StrUtils, DCClassesUtf8, uDCUtils, DCOSUtils, uOSUtils,
-  DCDateTimeUtils, uDebug, DCFileAttributes;
+  DCDateTimeUtils, uDebug, uShowMsg, uLng, DCFileAttributes;
 
 function GetUnixFileName(const Str: String): UTF8String;
 var
@@ -239,6 +240,16 @@ begin
   end;
 end;
 
+procedure TOutputParser.OnQueryString(str: string);
+var
+  sPassword: UTF8String;
+  pcPassword: PAnsiChar;
+begin
+  ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, sPassword);
+  pcPassword:= PAnsiChar(UTF8ToConsole(sPassword + #13#10));
+  FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
+end;
+
 function TOutputParser.CheckOut(const SubStr, Str: string): boolean;
 begin
   if SubStr[1] = '^' then
@@ -312,6 +323,11 @@ begin
 
   FExProcess := TExProcess.Create(sCommandLine);
   FExProcess.OnReadLn := @OnReadLn;
+  if Length(FMultiArcItem.FPasswordQuery) <> 0 then
+  begin
+    FExProcess.QueryString:= UTF8ToConsole(FMultiArcItem.FPasswordQuery);
+    FExProcess.OnQueryString:= @OnQueryString;
+  end;
 end;
 
 function ExtractErrorLevel(var Command: UTF8String): LongInt;
