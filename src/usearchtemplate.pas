@@ -102,6 +102,10 @@ end;
 
 function TSearchTemplate.CheckFile(const AFile: TFile): Boolean;
 begin
+  // If template has IsNotOlderThan option then DateTime checks must be recalculated
+  // everytime because they depend on current time.
+  if FSearchRecord.IsNotOlderThan then
+    DateTimeOptionsToChecks(FSearchRecord, FFileChecks);
   Result := uFindFiles.CheckFile(FSearchRecord, FFileChecks, AFile);
 end;
 

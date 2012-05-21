@@ -92,6 +92,8 @@ type
 
   procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
                                            out FileChecks: TFindFileChecks);
+  procedure DateTimeOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
+                                    var FileChecks: TFindFileChecks);
 
   function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String) : Boolean;
   function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String) : Boolean;
