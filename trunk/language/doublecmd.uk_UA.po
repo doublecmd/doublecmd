@@ -545,7 +545,7 @@ msgstr "Налашт&увати"
 
 #: tfrmcopydlg.btnsaveoptions.caption
 msgid "Save these options as default"
-msgstr "Зберегти ці налаштування за замовчуванням"
+msgstr "Зберегти ці налаштування як типові"
 
 #: tfrmcopydlg.caption
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -3986,11 +3986,11 @@ msgstr "Увімк."
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Copy operation"
-msgstr ""
+msgstr "Операції копіювання"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
 msgid "Delete operation"
-msgstr ""
+msgstr "Операції видалення"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
@@ -3999,7 +3999,7 @@ msgstr "F8/Del - видалення в Кошик (з Shift - на&завжди)
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
 msgid "Delete to trash operation"
-msgstr ""
+msgstr "Операції видалення до кошика"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
@@ -4008,7 +4008,7 @@ msgstr "Скинути прапорець \"Лише читання\""
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
 msgid "Move operation"
-msgstr ""
+msgstr "Операції переміщення"
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
@@ -4056,7 +4056,7 @@ msgstr "Розмір буфера для операцій з файлами (в 
 
 #: tfrmoptionsfileoperations.lblconfirmations.caption
 msgid "Show confirmation window for:"
-msgstr ""
+msgstr "Показувати вікно підтвердження для:"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 #, fuzzy
@@ -4491,18 +4491,17 @@ msgstr "Введення"
 #: tfrmoptionskeyboard.lblalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
 msgid "Alt+Letters"
-msgstr "Alt+Буква"
+msgstr "Alt+Літери"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
 msgid "Ctrl+Alt+Letters"
-msgstr "Ctrl+Alt+Буква"
+msgstr "Ctrl+Alt+Літери"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
-#, fuzzy
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
 msgid "Letters"
-msgstr "Листи"
+msgstr "Літери"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -7964,7 +7963,7 @@ msgstr "Помилка створення симв. посилання."
 #: ulng.rssyndefaulttext
 msgctxt "ulng.rssyndefaulttext"
 msgid "Default text"
-msgstr "Текст за замовчуванням"
+msgstr "Типовий текст"
 
 #: ulng.rssynlangplaintext
 msgctxt "ulng.rssynlangplaintext"
