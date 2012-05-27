@@ -1056,8 +1056,6 @@ procedure TFileViewWithMainCtrl.edtRenameKeyDown(Sender: TObject;
 var
   NewFileName: String;
   OldFileNameAbsolute: String;
-  lenEdtText, lenEdtTextExt, i: Integer;
-  seperatorSet: set of AnsiChar;
   aFile: TFile = nil;
 begin
   case Key of
@@ -1097,56 +1095,6 @@ begin
         end;
       end;
 
-    VK_F2, VK_F6:
-        begin
-          Key := 0;
-          lenEdtText := UTF8Length(edtRename.Text);
-          lenEdtTextExt := UTF8Length(ExtractFileExt(edtRename.Text));
-          if (edtRename.SelLength = lenEdtText) then
-          begin
-            // Now all selected, change it to name-only.
-            edtRename.SelStart:= 0;
-            edtRename.SelLength:= lenEdtText - lenEdtTextExt;
-          end
-          else if (edtRename.SelStart = 0) and (edtRename.SelLength = lenEdtText - lenEdtTextExt) then
-          begin
-            // Now name-only selected, change it to ext-only.
-            edtRename.SelStart:= edtRename.SelLength + 1;
-            edtRename.SelLength:= lenEdtText - edtRename.SelStart;
-          end
-          else begin
-            // Partial selection cycle.
-            seperatorSet:= [' ', '-', '_', '.'];
-            i:= edtRename.SelStart + edtRename.SelLength;
-            while true do
-            begin
-              if (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i)] in seperatorSet)
-                  and not(edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
-              begin
-                edtRename.SelStart:= i;
-                Break;
-              end;
-              inc(i);
-              if i >= lenEdtText then
-              begin
-                edtRename.SelStart:= 0;
-                Break;
-              end;
-            end;
-            i:= edtRename.SelStart + 1;
-            while true do
-            begin
-              if (i >= lenEdtText)
-                  or (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
-              begin
-                edtRename.SelLength:= i - edtRename.SelStart;
-                Break;
-              end;
-              inc(i);
-            end;
-          end;
-        end;
-
 {$IFDEF LCLGTK2}
     // Workaround for GTK2 - up and down arrows moving through controls.
     VK_UP,
@@ -1171,21 +1119,76 @@ begin
 end;
 
 procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
+var
+  lenEdtText, lenEdtTextExt, i: Integer;
+  seperatorSet: set of AnsiChar;
 begin
-  edtRename.Hint := aFile.FullPath;
-  edtRename.Text := aFile.Name;
-  edtRename.Visible := True;
-  edtRename.SetFocus;
-  if gRenameSelOnlyName and (aFile.Extension <> EmptyStr) and (aFile.Name <> EmptyStr) then
+  if edtRename.Visible then
     begin
-      {$IFDEF LCLGTK2}
-      edtRename.SelStart:=1;
-      {$ENDIF}
-      edtRename.SelStart:=0;
-      edtRename.SelLength:= UTF8Length(aFile.Name) - UTF8Length(aFile.Extension) - 1;
+      lenEdtText := UTF8Length(edtRename.Text);
+      lenEdtTextExt := UTF8Length(ExtractFileExt(edtRename.Text));
+      if (edtRename.SelLength = lenEdtText) then
+        begin
+          // Now all selected, change it to name-only.
+          edtRename.SelStart:= 0;
+          edtRename.SelLength:= lenEdtText - lenEdtTextExt;
+        end
+      else if (edtRename.SelStart = 0) and (edtRename.SelLength = lenEdtText - lenEdtTextExt) then
+        begin
+          // Now name-only selected, change it to ext-only.
+          edtRename.SelStart:= edtRename.SelLength + 1;
+          edtRename.SelLength:= lenEdtText - edtRename.SelStart;
+        end
+      else
+        begin
+          // Partial selection cycle.
+          seperatorSet:= [' ', '-', '_', '.'];
+          i:= edtRename.SelStart + edtRename.SelLength;
+          while true do
+          begin
+            if (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i)] in seperatorSet)
+              and not(edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
+            begin
+              edtRename.SelStart:= i;
+              Break;
+            end;
+            inc(i);
+            if i >= lenEdtText then
+            begin
+              edtRename.SelStart:= 0;
+              Break;
+            end;
+          end;
+          i:= edtRename.SelStart + 1;
+          while true do
+          begin
+            if (i >= lenEdtText)
+                  or (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
+            begin
+              edtRename.SelLength:= i - edtRename.SelStart;
+              Break;
+            end;
+            inc(i);
+          end;
+        end;
     end
   else
-    edtRename.SelectAll;
+    begin
+      edtRename.Hint := aFile.FullPath;
+      edtRename.Text := aFile.Name;
+      edtRename.Visible := True;
+      edtRename.SetFocus;
+      if gRenameSelOnlyName and (aFile.Extension <> EmptyStr) and (aFile.Name <> EmptyStr) then
+        begin
+          {$IFDEF LCLGTK2}
+          edtRename.SelStart:=1;
+          {$ENDIF}
+          edtRename.SelStart:=0;
+          edtRename.SelLength:= UTF8Length(aFile.Name) - UTF8Length(aFile.Extension) - 1;
+        end
+      else
+        edtRename.SelectAll;
+    end;
 end;
 
 procedure TFileViewWithMainCtrl.WorkerStarting(const Worker: TFileViewWorker);
