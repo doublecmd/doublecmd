@@ -65,8 +65,8 @@ type
     procedure DoFileIndexChanged(NewFileIndex: PtrInt);
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState); override;
-    procedure DoSelectionChanged; override;
-    procedure DoSelectionChanged(FileIndex: PtrInt);
+    procedure DoSelectionChanged; override; overload;
+    procedure DoSelectionChanged(FileIndex: PtrInt); overload;
     procedure EnsureDisplayProperties; override;
     function GetActiveDisplayFile: TDisplayFile; override;
     function GetActiveFileIndex: PtrInt; virtual; abstract;

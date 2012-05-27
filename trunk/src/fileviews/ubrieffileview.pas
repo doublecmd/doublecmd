@@ -5,7 +5,7 @@ unit uBriefFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, LMessages, Grids, Graphics,
+  Classes, SysUtils, Controls, LMessages, Grids, Graphics, StdCtrls,
   uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty, uTypes,
   uFileViewWithMainCtrl, uFileViewHeader, uFileView, uFileSource;
 
@@ -50,11 +50,14 @@ type
     private
       TabHeader: TFileViewFixedHeader;
       dgPanel: TBriefDrawGrid;
+      lblDetails: TLabel;
 
       procedure MakeColumnsStrings(AFile: TDisplayFile);
       procedure SetFilesDisplayItems;
+      procedure UpdateFooterDetails;
 
       procedure dgPanelTopLeftChanged(Sender: TObject);
+      procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
    protected
       procedure CreateDefault(AOwner: TWinControl); override;
       procedure BeforeMakeFileList; override;
@@ -74,6 +77,7 @@ type
       procedure SetActiveFile(FileIndex: PtrInt); override;
       procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
       procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
+      procedure UpdateInfoPanel; override;
       procedure DoUpdateView; override;
       procedure SetSorting(const NewSortings: TFileSortings); override;
   public
@@ -97,9 +101,32 @@ uses
   LCLIntf, LCLType, LCLVersion, LCLProc, math,
   uGlobs, uPixmapManager,
   uDCUtils, fMain,
+  uFile,
   uFileSourceProperty,
   uFileFunctions,
   uOrderedFileView;
+
+function FitFileName(const AFileName: UTF8String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): UTF8String;
+var
+  Index: Integer;
+begin
+  Result:= AFileName;
+  if ACanvas.TextWidth(AFileName) - ATargetWidth > 0 then
+  begin
+    repeat
+      Index:= UTF8Length(Result);
+      UTF8Delete(Result, Index, 1);
+    until (ACanvas.TextWidth(Result) - ATargetWidth < 1) or (Index = 0);
+    if (Index > 0) then
+    begin
+      Result:= UTF8Copy(Result, 1, Index - 3);
+      if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
+        Result:= Result + '..]'
+      else
+        Result:= Result + '...';
+    end;
+  end;
+end;
 
 { TBriefDrawGrid }
 
@@ -560,26 +587,9 @@ var
       end;
 
       s := AFile.DisplayStrings[0];
-
-      begin
-        Y:= (DefaultColWidth - 4 - Canvas.TextWidth('W'));
-        if (gShowIcons <> sim_none) then Y:= Y - gIconsSize;
-        if Canvas.TextWidth(s) - Y > 0 then
-        begin
-          repeat
-            IconID:= UTF8Length(s);
-            UTF8Delete(s, IconID, 1);
-          until (Canvas.TextWidth(s) - Y < 1) or (IconID = 0);
-          if (IconID > 0) then
-          begin
-            s:= UTF8Copy(s, 1, IconID - 3);
-            if gDirBrackets and (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
-              s:= s + '..]'
-            else
-              s:= s + '...';
-          end;
-        end;
-      end;
+      Y:= (DefaultColWidth - 4 - Canvas.TextWidth('W'));
+      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize;
+      s:= FitFileName(s, Canvas, AFile.FSFile, Y);
 
       if (gShowIcons <> sim_none) then
         Canvas.TextOut(aRect.Left + gIconsSize + 4, iTextTop, s)
@@ -763,6 +773,12 @@ begin
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
+procedure TBriefFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
+begin
+  DoFileIndexChanged(dgPanel.CellToIndex(aCol, aRow));
+  UpdateFooterDetails;
+end;
+
 procedure TBriefFileView.DisplayFileListChanged;
 begin
   dgPanel.CalculateColRowCount;
@@ -789,6 +805,12 @@ begin
   TabHeader:= TFileViewFixedHeader.Create(Self, Self);
   TabHeader.Top:= pnlHeader.Height;
 
+  lblDetails:= TLabel.Create(pnlFooter);
+  lblDetails.Align:= alRight;
+  lblDetails.Alignment:= taRightJustify;
+  lblDetails.Parent:= pnlFooter;
+
+  dgPanel.OnSelection:= @dgPanelSelection;
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
 
   // By default always use some properties.
@@ -877,6 +899,7 @@ begin
       TabHeader.Sections[I].Width:= AWidth;
   end;
 
+  UpdateFooterDetails;
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
@@ -965,6 +988,40 @@ var
 begin
   for i := 0 to FFiles.Count - 1 do
     FFiles[i].DisplayItem := Pointer(i);
+end;
+
+procedure TBriefFileView.UpdateFooterDetails;
+var
+  AFile: TFile;
+  AFileName: UTF8String;
+begin
+  if FSelectedCount > 0 then
+    lblDetails.Caption:= EmptyStr
+  else
+    begin
+      AFile:= CloneActiveFile;
+      if Assigned(AFile) then
+      try
+        // Get details info about file
+        AFileName:= #32#32 +FormatFileFunction('DC().GETFILEEXT{}', AFile, FileSource);
+        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILESIZE{}', AFile, FileSource);
+        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILETIME{}', AFile, FileSource);
+        AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILEATTR{}', AFile, FileSource);
+        lblDetails.Caption:= AFileName;
+        // Get file name
+        AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
+        lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile, lblInfo.ClientWidth);
+      finally
+        AFile.Free;
+      end;
+    end;
+end;
+
+procedure TBriefFileView.UpdateInfoPanel;
+
+begin
+  inherited UpdateInfoPanel;
+  UpdateFooterDetails;
 end;
 
 procedure TBriefFileView.DoUpdateView;

@@ -38,6 +38,7 @@ type
 
   TFileViewWithPanels = class(TFileView)
   protected
+    FSelectedCount: Integer;
     lblInfo: TLabel;
     pnlHeader: TFileViewHeader;
     pnlFooter: TPanel;
@@ -49,7 +50,7 @@ type
     procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
     procedure ShowPathEdit;
-    procedure UpdateInfoPanel;
+    procedure UpdateInfoPanel; virtual;
 
   public
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
@@ -154,6 +155,7 @@ var
   SizeInDir, SizeSelected: Int64;
   SizeProperty: TFileSizeProperty;
 begin
+  FSelectedCount := 0;
   if GetCurrentWorkType = fvwtCreate then
   begin
     lblInfo.Caption := rsMsgLoadingFileList;
@@ -201,6 +203,7 @@ begin
       end;
     end;
 
+    FSelectedCount := FilesSelected + FolderSelected;
     lblInfo.Caption := Format(rsMsgSelectedInfo,
                               [cnvFormatFileSize(SizeSelected),
                                cnvFormatFileSize(SizeInDir),
