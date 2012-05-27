@@ -1072,33 +1072,33 @@ object frmFindDlg: TfrmFindDlg
           end
           object pnlResultsBottom: TPanel
             Left = 3
-            Height = 39
-            Top = 407
-            Width = 684
+            Height = 33
+            Top = 419
+            Width = 704
             Align = alBottom
             AutoSize = True
             BorderSpacing.Around = 3
             BevelOuter = bvNone
-            ClientHeight = 39
-            ClientWidth = 684
+            ClientHeight = 33
+            ClientWidth = 704
             TabOrder = 2
             object pnlResultsBottomButtons: TPanel
-              Left = 386
-              Height = 39
+              Left = 390
+              Height = 33
               Top = 0
-              Width = 298
+              Width = 314
               Align = alRight
               AutoSize = True
               BevelOuter = bvNone
-              ClientHeight = 39
-              ClientWidth = 298
+              ClientHeight = 33
+              ClientWidth = 314
               TabOrder = 0
               object btnWorkWithFound: TButton
                 AnchorSideLeft.Side = asrBottom
-                Left = 166
-                Height = 39
+                Left = 204
+                Height = 33
                 Top = 0
-                Width = 132
+                Width = 110
                 Align = alRight
                 AutoSize = True
                 BorderSpacing.InnerBorder = 4
@@ -1108,10 +1108,10 @@ object frmFindDlg: TfrmFindDlg
                 TabOrder = 0
               end
               object btnGoToPath: TButton
-                Left = 69
-                Height = 39
+                Left = 119
+                Height = 33
                 Top = 0
-                Width = 94
+                Width = 82
                 Align = alRight
                 AutoSize = True
                 BorderSpacing.Left = 3
@@ -1124,9 +1124,9 @@ object frmFindDlg: TfrmFindDlg
               end
               object btnView: TButton
                 Left = 0
-                Height = 39
+                Height = 33
                 Top = 0
-                Width = 66
+                Width = 59
                 Align = alRight
                 AutoSize = True
                 BorderSpacing.Right = 3
@@ -1134,6 +1134,20 @@ object frmFindDlg: TfrmFindDlg
                 Caption = '&View'
                 Constraints.MinWidth = 50
                 OnClick = btnViewClick
+                TabOrder = 3
+              end
+              object btnEdit: TButton
+                Left = 62
+                Height = 33
+                Top = 0
+                Width = 54
+                Align = alRight
+                AutoSize = True
+                BorderSpacing.Right = 3
+                BorderSpacing.InnerBorder = 4
+                Caption = '&Edit'
+                Constraints.MinWidth = 50
+                OnClick = btnEditClick
                 TabOrder = 2
               end
             end

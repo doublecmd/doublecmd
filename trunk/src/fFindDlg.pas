@@ -56,6 +56,7 @@ type
     btnUseTemplate: TButton;
     btnStop: TButton;
     btnView: TButton;
+    btnEdit: TButton;
     btnWorkWithFound: TButton;
     cbFindText: TCheckBox;
     cbNotContainingText: TCheckBox;
@@ -131,6 +132,7 @@ type
 
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
     procedure btnLastSearchClick(Sender: TObject);
     procedure btnSearchDeleteClick(Sender: TObject);
     procedure btnSearchLoadClick(Sender: TObject);
@@ -547,6 +549,12 @@ begin
   ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
 end;
 
+procedure TfrmFindDlg.btnEditClick(Sender: TObject);
+begin
+  if lsFoundedFiles.ItemIndex <> -1 then
+    ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+end;
+
 procedure TfrmFindDlg.btnAddAttributeClick(Sender: TObject);
 begin
   if not Assigned(FFrmAttributesEdit) then
@@ -611,6 +619,7 @@ procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
 begin
   if lsFoundedFiles.ItemIndex <> -1 then
   begin
+    StopSearch;
     frmMain.ActiveFrame.CurrentPath := ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
     frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
     Close;
@@ -1197,6 +1206,12 @@ begin
       VK_DELETE:
       begin
         miRemoveFromLlistClick(Sender);
+        Key := 0;
+      end;
+
+      VK_RETURN:
+      begin
+        btnGoToPathClick(Sender);
         Key := 0;
       end;
     end;
