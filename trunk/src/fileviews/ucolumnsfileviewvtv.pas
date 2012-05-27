@@ -5,7 +5,7 @@ unit uColumnsFileViewVtv;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Grids,
+  Classes, SysUtils, Graphics, Controls, Forms, ExtCtrls, Grids,
   LMessages, LCLIntf, LCLType, Menus, uTypes,
   uFile,
   uFileProperty,
@@ -190,14 +190,12 @@ type
 implementation
 
 uses
-  LCLProc, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
+  LCLProc, Clipbrd, uLng, uGlobs, uPixmapManager, uDebug,
   uDCUtils, math, fMain, fOptions,
   uOrderedFileView,
   uFileSourceProperty,
-  uFileSourceOperationTypes,
   fColumnsSetConf,
   uKeyboard,
-  uFileSourceUtil,
   uFileFunctions,
   uFormCommands,
   fOptionsCustomColumns;
