@@ -302,7 +302,7 @@ begin
   if not BriefView.IsLoadingFileList then
   begin
     Result:= inherited DoMouseWheelDown(Shift, MousePos);
-    Result:= Perform(LM_HSCROLL, SB_PAGERIGHT, 0) = 0;
+    Result:= Perform(LM_HSCROLL, SB_LINERIGHT, 0) = 0;
   end
   else
     Result := True; // Handled
@@ -313,7 +313,7 @@ begin
   if not BriefView.IsLoadingFileList then
   begin
     Result:= inherited DoMouseWheelUp(Shift, MousePos);
-    Result:= Perform(LM_HSCROLL, SB_PAGELEFT, 0) = 0;
+    Result:= Perform(LM_HSCROLL, SB_LINELEFT, 0) = 0;
   end
   else
     Result := True; // Handled
