@@ -1054,19 +1054,22 @@ procedure TBriefFileView.ShowRenameFileEdit(aFile: TFile);
 var
   ALeft, ATop, AWidth, AHeight: Integer;
 begin
-  edtRename.Font.Name  := gFonts[dcfMain].Name;
-  edtRename.Font.Size  := gFonts[dcfMain].Size;;
-  edtRename.Font.Style := gFonts[dcfMain].Style;
+  if not edtRename.Visible then
+  begin
+    edtRename.Font.Name  := gFonts[dcfMain].Name;
+    edtRename.Font.Size  := gFonts[dcfMain].Size;;
+    edtRename.Font.Style := gFonts[dcfMain].Style;
 
-  dgPanel.LeftCol:= dgPanel.Col;
-  ATop := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Top - 2;
-  ALeft := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Left;
-  if gShowIcons <> sim_none then
-    Inc(ALeft, gIconsSize + 2);
-  AWidth := dgPanel.ColWidths[dgPanel.Col] - ALeft;
-  AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
+    dgPanel.LeftCol:= dgPanel.Col;
+    ATop := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Top - 2;
+    ALeft := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Left;
+    if gShowIcons <> sim_none then
+      Inc(ALeft, gIconsSize + 2);
+    AWidth := dgPanel.ColWidths[dgPanel.Col] - ALeft;
+    AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
 
-  edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+    edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+  end;
 
   inherited ShowRenameFileEdit(AFile);
 end;

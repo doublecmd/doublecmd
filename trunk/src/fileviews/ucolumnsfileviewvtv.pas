@@ -566,21 +566,24 @@ var
 begin
   if FFileNameColumn <> -1 then
   begin
-    edtRename.Font.Name  := GetColumnsClass.GetColumnFontName(FFileNameColumn);
-    edtRename.Font.Size  := GetColumnsClass.GetColumnFontSize(FFileNameColumn);
-    edtRename.Font.Style := GetColumnsClass.GetColumnFontStyle(FFileNameColumn);
+    if not edtRename.Visible then
+    begin
+      edtRename.Font.Name  := GetColumnsClass.GetColumnFontName(FFileNameColumn);
+      edtRename.Font.Size  := GetColumnsClass.GetColumnFontSize(FFileNameColumn);
+      edtRename.Font.Style := GetColumnsClass.GetColumnFontStyle(FFileNameColumn);
 
-    aRect := dgPanel.GetDisplayRect(dgPanel.FocusedNode, FFileNameColumn, False);
-    ATop := aRect.Top - 2;
-    ALeft := aRect.Left;
-    if gShowIcons <> sim_none then
-      Inc(ALeft, gIconsSize + 2);
-    AWidth := aRect.Right - aRect.Left;
-    if Succ(FFileNameColumn) = FExtensionColumn then
-      Inc(AWidth, dgPanel.Header.Columns[FExtensionColumn].Width);
-    AHeight := dgPanel.FocusedNode^.NodeHeight + 4;
+      aRect := dgPanel.GetDisplayRect(dgPanel.FocusedNode, FFileNameColumn, False);
+      ATop := aRect.Top - 2;
+      ALeft := aRect.Left;
+      if gShowIcons <> sim_none then
+        Inc(ALeft, gIconsSize + 2);
+      AWidth := aRect.Right - aRect.Left;
+      if Succ(FFileNameColumn) = FExtensionColumn then
+        Inc(AWidth, dgPanel.Header.Columns[FExtensionColumn].Width);
+      AHeight := dgPanel.FocusedNode^.NodeHeight + 4;
 
-    edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+      edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+    end;
 
     inherited ShowRenameFileEdit(AFile);
   end;
