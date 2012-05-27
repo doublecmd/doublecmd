@@ -76,7 +76,6 @@ type
     FExtensionColumn: Integer;
 
     pmColumnsMenu: TPopupMenu;
-    edtRename: TEdit;
     dgPanel: TDrawGridEx;
 
     function GetColumnsClass: TPanelColumnsClass;
@@ -106,12 +105,7 @@ type
     }
     function GetFilePropertiesNeeded: TFilePropertiesTypes;
 
-    procedure ShowRenameFileEdit(aFile: TFile);
-
     // -- Events --------------------------------------------------------------
-
-    procedure edtRenameExit(Sender: TObject);
-    procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
 {$IF lcl_fullversion >= 093100}
     procedure dgPanelBeforeSelection(Sender: TObject; aCol, aRow: Integer);
@@ -146,6 +140,7 @@ type
     procedure RedrawFiles; override;
     procedure SetActiveFile(FileIndex: PtrInt); override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
+    procedure ShowRenameFileEdit(aFile: TFile); override;
 
     procedure AfterChangePath; override;
 
@@ -173,8 +168,6 @@ type
 
     procedure UpdateColumnsView;
 
-  published  // commands
-    procedure cm_RenameOnly(const Params: array of string);
   end;
 
 implementation
@@ -433,20 +426,7 @@ begin
 
     edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
 
-    edtRename.Hint := aFile.FullPath;
-    edtRename.Text := aFile.Name;
-    edtRename.Visible := True;
-    edtRename.SetFocus;
-    if gRenameSelOnlyName and (aFile.Extension <> EmptyStr) and (aFile.Name <> EmptyStr) then
-      begin
-        {$IFDEF LCLGTK2}
-        edtRename.SelStart:=1;
-        {$ENDIF}
-        edtRename.SelStart:=0;
-        edtRename.SelLength:= UTF8Length(aFile.Name) - UTF8Length(aFile.Extension) - 1;
-      end
-    else
-      edtRename.SelectAll;
+    inherited ShowRenameFileEdit(AFile);
   end;
 end;
 
@@ -603,120 +583,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.edtRenameExit(Sender: TObject);
-begin
-  edtRename.Visible := False;
-
-  // OnEnter don't called automatically (bug?)
-  // TODO: Check on which widgetset/OS this is needed.
-  dgPanel.OnEnter(Self);
-end;
-
-procedure TColumnsFileView.edtRenameKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-var
-  NewFileName: String;
-  OldFileNameAbsolute: String;
-  lenEdtText, lenEdtTextExt, i: Integer;
-  seperatorSet: set of AnsiChar;
-  aFile: TFile = nil;
-begin
-  case Key of
-    VK_ESCAPE:
-      begin
-        Key := 0;
-        edtRename.Visible:=False;
-        SetFocus;
-      end;
-
-    VK_RETURN,
-    VK_SELECT:
-      begin
-        Key := 0; // catch the enter
-
-        NewFileName         := edtRename.Text;
-        OldFileNameAbsolute := edtRename.Hint;
-
-        aFile := CloneActiveFile;
-        try
-          try
-            if RenameFile(FileSource, aFile, NewFileName, True) = True then
-            begin
-              edtRename.Visible:=False;
-              SetActiveFile(CurrentPath + NewFileName);
-              SetFocus;
-            end
-            else
-              msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
-
-          except
-            on e: EInvalidFileProperty do
-              msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [ExtractFileName(OldFileNameAbsolute), NewFileName, rsMsgInvalidFileName, e.Message]));
-          end;
-        finally
-          FreeAndNil(aFile);
-        end;
-      end;
-
-    VK_F2, VK_F6:
-        begin
-          Key := 0;
-          lenEdtText := UTF8Length(edtRename.Text);
-          lenEdtTextExt := UTF8Length(ExtractFileExt(edtRename.Text));
-          if (edtRename.SelLength = lenEdtText) then
-          begin
-            // Now all selected, change it to name-only.
-            edtRename.SelStart:= 0;
-            edtRename.SelLength:= lenEdtText - lenEdtTextExt;
-          end
-          else if (edtRename.SelStart = 0) and (edtRename.SelLength = lenEdtText - lenEdtTextExt) then
-          begin
-            // Now name-only selected, change it to ext-only.
-            edtRename.SelStart:= edtRename.SelLength + 1;
-            edtRename.SelLength:= lenEdtText - edtRename.SelStart;
-          end
-          else begin
-            // Partial selection cycle.
-            seperatorSet:= [' ', '-', '_', '.'];
-            i:= edtRename.SelStart + edtRename.SelLength;
-            while true do
-            begin
-              if (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i)] in seperatorSet)
-                  and not(edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
-              begin
-                edtRename.SelStart:= i;
-                Break;
-              end;
-              inc(i);
-              if i >= lenEdtText then
-              begin
-                edtRename.SelStart:= 0;
-                Break;
-              end;
-            end;
-            i:= edtRename.SelStart + 1;
-            while true do
-            begin
-              if (i >= lenEdtText)
-                  or (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
-              begin
-                edtRename.SelLength:= i - edtRename.SelStart;
-                Break;
-              end;
-              inc(i);
-            end;
-          end;
-        end;
-
-{$IFDEF LCLGTK2}
-    // Workaround for GTK2 - up and down arrows moving through controls.
-    VK_UP,
-    VK_DOWN:
-      Key := 0;
-{$ENDIF}
-  end;
-end;
-
 procedure TColumnsFileView.MakeVisible(iRow:Integer);
 begin
   with dgPanel do
@@ -865,12 +731,6 @@ begin
   dgPanel:=TDrawGridEx.Create(Self, Self);
   MainControl := dgPanel;
 
-  edtRename:=TEdit.Create(dgPanel);
-  edtRename.Parent:=dgPanel;
-  edtRename.Visible:=False;
-  edtRename.TabStop:=False;
-  edtRename.AutoSize:=False;
-
   // ---
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
   dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
@@ -881,9 +741,6 @@ begin
 {$ENDIF}
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
-
-  edtRename.OnKeyDown := @edtRenameKeyDown;
-  edtRename.OnExit := @edtRenameExit;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
@@ -1164,26 +1021,6 @@ begin
     Exit
   else if not AFile.FSFile.IsDirectory then // without name
     dgPanel.Hint:= #32;
-end;
-
-procedure TColumnsFileView.cm_RenameOnly(const Params: array of string);
-var
-  aFile: TFile;
-begin
-  if not IsLoadingFileList and
-     (fsoSetFileProperty in FileSource.GetOperationsTypes) then
-    begin
-      aFile:= CloneActiveFile;
-      if Assigned(aFile) then
-      try
-        if aFile.IsNameValid then
-          ShowRenameFileEdit(aFile)
-        else
-          ShowPathEdit;
-      finally
-        FreeAndNil(aFile);
-      end;
-    end;
 end;
 
 { TDrawGridEx }

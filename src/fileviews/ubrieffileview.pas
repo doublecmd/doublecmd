@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Controls, LMessages, Grids, Graphics, StdCtrls,
   uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty, uTypes,
-  uFileViewWithMainCtrl, uFileViewHeader, uFileView, uFileSource;
+  uFileViewWithMainCtrl, uFile, uFileViewHeader, uFileView, uFileSource;
 
 type
 
@@ -79,6 +79,7 @@ type
       procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
       procedure UpdateInfoPanel; override;
       procedure DoUpdateView; override;
+      procedure ShowRenameFileEdit(aFile: TFile); override;
       procedure SetSorting(const NewSortings: TFileSortings); override;
   public
     constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []); override;
@@ -101,7 +102,6 @@ uses
   LCLIntf, LCLType, LCLVersion, LCLProc, math,
   uGlobs, uPixmapManager,
   uDCUtils, fMain,
-  uFile,
   uFileSourceProperty,
   uFileFunctions,
   uOrderedFileView;
@@ -1048,6 +1048,27 @@ begin
   TabHeader.UpdateHeader;
   dgPanel.UpdateView;
   Notify([fvnVisibleFilePropertiesChanged]);
+end;
+
+procedure TBriefFileView.ShowRenameFileEdit(aFile: TFile);
+var
+  ALeft, ATop, AWidth, AHeight: Integer;
+begin
+  edtRename.Font.Name  := gFonts[dcfMain].Name;
+  edtRename.Font.Size  := gFonts[dcfMain].Size;;
+  edtRename.Font.Style := gFonts[dcfMain].Style;
+
+  dgPanel.LeftCol:= dgPanel.Col;
+  ATop := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Top - 2;
+  ALeft := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Left;
+  if gShowIcons <> sim_none then
+    Inc(ALeft, gIconsSize + 2);
+  AWidth := dgPanel.ColWidths[dgPanel.Col] - ALeft;
+  AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
+
+  edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+
+  inherited ShowRenameFileEdit(AFile);
 end;
 
 procedure TBriefFileView.SetSorting(const NewSortings: TFileSortings);
