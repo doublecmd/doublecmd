@@ -460,6 +460,24 @@ begin
           Key:= 0;
         end;
       end;
+    VK_PRIOR:
+      begin
+        FileIndex:= CellToIndex(Col, Row) - (VisibleRowCount - 1);
+        if FileIndex < 0 then
+          FileIndex:= 0;
+        IndexToCell(FileIndex, ACol, ARow);
+        MoveExtend(False, ACol, ARow);
+        Key:= 0;
+      end;
+    VK_NEXT:
+      begin
+        FileIndex:= CellToIndex(Col, Row) + (VisibleRowCount - 1);
+        if FileIndex >= BriefView.FFiles.Count then
+          FileIndex:= BriefView.FFiles.Count - 1;
+        IndexToCell(FileIndex, ACol, ARow);
+        MoveExtend(False, ACol, ARow);
+        Key:= 0;
+      end;
     VK_HOME:
       begin
         MoveExtend(False, 0, 0);
