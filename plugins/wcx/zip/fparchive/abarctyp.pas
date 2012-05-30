@@ -346,7 +346,9 @@ type
       SourceFileName      = /dir/subdir/file
       ArchiveDirectory    = files/storage  (or files/storage/)
       -> name in archive  = files/storage/subdir/file}
-      virtual; abstract;
+      virtual; abstract; overload;
+    function CreateItem(const FileSpec : string): TAbArchiveItem;
+      overload;
     procedure ExtractItemAt(Index : Integer; const UseName : string);
       virtual; abstract;
     procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
@@ -1087,15 +1089,17 @@ procedure TAbArchive.AddFilesEx(const FileMask, ExclusionMask : string;
   {Add files matching Filemask except those matching ExclusionMask}
 var
   PathType : TAbPathType;
+  IsWild : Boolean;
   SaveDir : string;
   Mask : string;
   MaskF : string;
 
-  procedure CreateItems(Recursing : Boolean);
+  procedure CreateItems(Wild, Recursing : Boolean);
   var
     i : Integer;
     Files : TStrings;
     FilterList : TStringList;
+    Item : TAbArchiveItem;
   begin
     FilterList := TStringList.Create;
     try
@@ -1106,12 +1110,21 @@ var
         try
 
           AbFindFilesEx(Mask, SearchAttr, Files, Recursing);
-          if (Files.Count > 0) then begin
+          if (Files.Count > 0) then
             for i := 0 to pred(Files.Count) do
               if FilterList.IndexOf(Files[i]) < 0 then
-                AddEntry(Files[i], Files[i]);
-            FIsDirty := true;
-          end;
+                if not Wild then begin
+                  if (Files[i] <> FArchiveName) then begin
+                    Item := CreateItem(Files[i]);
+                    Add(Item);
+                  end;
+                end else begin
+                  if (AbAddBackSlash(FBaseDirectory) + Files[i]) <> FArchiveName
+                    then begin
+                      Item := CreateItem(Files[i]);
+                      Add(Item);
+                    end;
+                end;
         finally
           Files.Free;
         end;
@@ -1126,6 +1139,7 @@ begin
     SearchAttr := SearchAttr and not faDirectory;
 
   CheckValid;
+  IsWild := (Pos('*', FileMask) > 0) or (Pos('?', FileMask) > 0);
   PathType := AbGetPathType(FileMask);
 
   Mask := FileMask;
@@ -1140,7 +1154,7 @@ begin
         if BaseDirectory <> '' then
           ChDir(BaseDirectory);
         try
-          CreateItems(soRecurse in StoreOptions);
+          CreateItems(IsWild, soRecurse in StoreOptions);
         finally
           if BaseDirectory <> '' then
             ChDir(SaveDir);
@@ -1148,7 +1162,7 @@ begin
       end;
     ptAbsolute :
       begin
-        CreateItems(soRecurse in StoreOptions);
+        CreateItems(IsWild, soRecurse in StoreOptions);
       end;
   end;
 end;
@@ -1160,7 +1174,7 @@ var
   Item : TAbArchiveItem;
   PT : TAbProcessType;                                               
 begin
-  Item := CreateItem('', NewName);
+  Item := CreateItem(NewName);
   CheckValid;
 
   PT := ptAdd;
@@ -2001,6 +2015,13 @@ procedure TAbArchive.DoSpanningMediaRequest(Sender: TObject;
   ImageNumber: Integer; var ImageName: string; var Abort: Boolean);
 begin
   raise EAbSpanningNotSupported.Create;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchive.CreateItem(const FileSpec : string): TAbArchiveItem;
+begin
+  // This function is used by Abbrevia. We don't use it but a dummy
+  // definition is needed for the code to compile successfully.
+  raise Exception.Create('');
 end;
 { -------------------------------------------------------------------------- }
 

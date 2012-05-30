@@ -37,11 +37,10 @@ Index: AbArcTyp.pas
      procedure ReplaceAt(Index : Integer);
      procedure SaveIfNeeded(aItem : TAbArchiveItem);
      procedure SetBaseDirectory(Value : string);
-@@ -323,7 +336,16 @@
+@@ -323,8 +336,19 @@
      procedure SetLogging(Value : Boolean);
  
    protected {abstract methods}
--    function CreateItem(const FileSpec : string): TAbArchiveItem;
 +    function CreateItem(const SourceFileName : string;
 +                        const ArchiveDirectory : string): TAbArchiveItem;
 +    {SourceFileName   - full or relative path to a file/dir on some file system
@@ -52,10 +51,14 @@ Index: AbArcTyp.pas
 +      SourceFileName      = /dir/subdir/file
 +      ArchiveDirectory    = files/storage  (or files/storage/)
 +      -> name in archive  = files/storage/subdir/file}
-       virtual; abstract;
++      virtual; abstract; overload;
+     function CreateItem(const FileSpec : string): TAbArchiveItem;
+-      virtual; abstract;
++      overload;
      procedure ExtractItemAt(Index : Integer; const UseName : string);
        virtual; abstract;
-@@ -384,6 +406,7 @@
+     procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
+@@ -384,6 +408,7 @@
        override;
      procedure Add(aItem : TAbArchiveItem);
        virtual;
@@ -63,7 +66,7 @@ Index: AbArcTyp.pas
      procedure AddFiles(const FileMask : string; SearchAttr : Integer);
      procedure AddFilesEx(const FileMask, ExclusionMask : string;
        SearchAttr : Integer);
-@@ -565,7 +588,9 @@
+@@ -565,7 +590,9 @@
    AbExcept,
    AbDfBase,
    AbConst,
@@ -74,7 +77,7 @@ Index: AbArcTyp.pas
  
  
  { TAbArchiveItem implementation ============================================ }
-@@ -647,6 +672,12 @@
+@@ -647,6 +674,12 @@
    {$ENDIF}
  end;
  { -------------------------------------------------------------------------- }
@@ -87,7 +90,7 @@ Index: AbArcTyp.pas
  function TAbArchiveItem.GetStoredPath : string;
  begin
    Result := ExtractFilePath(DiskFileName);
-@@ -980,7 +1011,7 @@
+@@ -980,7 +1013,7 @@
    {create an archive by opening a filestream on filename with the given mode}
  begin
    FOwnsStream := True;
@@ -96,7 +99,7 @@ Index: AbArcTyp.pas
    FMode := Mode;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1032,6 +1063,19 @@
+@@ -1032,6 +1065,19 @@
    end;
  end;
  { -------------------------------------------------------------------------- }
@@ -116,87 +119,7 @@ Index: AbArcTyp.pas
  procedure TAbArchive.AddFiles(const FileMask : string; SearchAttr : Integer);
    {Add files to the archive where the disk filespec matches}
  begin
-@@ -1043,17 +1087,15 @@
-   {Add files matching Filemask except those matching ExclusionMask}
- var
-   PathType : TAbPathType;
--  IsWild : Boolean;
-   SaveDir : string;
-   Mask : string;
-   MaskF : string;
- 
--  procedure CreateItems(Wild, Recursing : Boolean);
-+  procedure CreateItems(Recursing : Boolean);
-   var
-     i : Integer;
-     Files : TStrings;
-     FilterList : TStringList;
--    Item : TAbArchiveItem;
-   begin
-     FilterList := TStringList.Create;
-     try
-@@ -1064,21 +1106,12 @@
-         try
- 
-           AbFindFilesEx(Mask, SearchAttr, Files, Recursing);
--          if (Files.Count > 0) then
-+          if (Files.Count > 0) then begin
-             for i := 0 to pred(Files.Count) do
-               if FilterList.IndexOf(Files[i]) < 0 then
--                if not Wild then begin
--                  if (Files[i] <> FArchiveName) then begin
--                    Item := CreateItem(Files[i]);
--                    Add(Item);
--                  end;
--                end else begin
--                  if (AbAddBackSlash(FBaseDirectory) + Files[i]) <> FArchiveName
--                    then begin
--                      Item := CreateItem(Files[i]);
--                      Add(Item);
--                    end;
--                end;
-+                AddEntry(Files[i], Files[i]);
-+            FIsDirty := true;
-+          end;
-         finally
-           Files.Free;
-         end;
-@@ -1093,7 +1126,6 @@
-     SearchAttr := SearchAttr and not faDirectory;
- 
-   CheckValid;
--  IsWild := (Pos('*', FileMask) > 0) or (Pos('?', FileMask) > 0);
-   PathType := AbGetPathType(FileMask);
- 
-   Mask := FileMask;
-@@ -1108,7 +1140,7 @@
-         if BaseDirectory <> '' then
-           ChDir(BaseDirectory);
-         try
--          CreateItems(IsWild, soRecurse in StoreOptions);
-+          CreateItems(soRecurse in StoreOptions);
-         finally
-           if BaseDirectory <> '' then
-             ChDir(SaveDir);
-@@ -1116,7 +1148,7 @@
-       end;
-     ptAbsolute :
-       begin
--        CreateItems(IsWild, soRecurse in StoreOptions);
-+        CreateItems(soRecurse in StoreOptions);
-       end;
-   end;
- end;
-@@ -1128,7 +1160,7 @@
-   Item : TAbArchiveItem;
-   PT : TAbProcessType;                                               
- begin
--  Item := CreateItem(NewName);
-+  Item := CreateItem('', NewName);
-   CheckValid;
- 
-   PT := ptAdd;
-@@ -1196,14 +1228,14 @@
+@@ -1196,14 +1242,14 @@
      UseName := AbAddBackSlash(BaseDirectory) + UseName;
  
    Path := ExtractFileDir(UseName);
@@ -213,7 +136,7 @@ Index: AbArcTyp.pas
      DoConfirmOverwrite(UseName, Result);
  end;
  { -------------------------------------------------------------------------- }
-@@ -1560,11 +1592,12 @@
+@@ -1560,11 +1606,12 @@
  begin
    CheckValid;
    Index := FindItem(aItem);
@@ -228,7 +151,7 @@ Index: AbArcTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1625,7 +1658,7 @@
+@@ -1625,7 +1672,7 @@
  { -------------------------------------------------------------------------- }
  function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
  var
@@ -237,7 +160,7 @@ Index: AbArcTyp.pas
    DateTime : LongInt;
    FileTime : Word;
    FileDate : Word;
-@@ -1636,8 +1669,8 @@
+@@ -1636,8 +1683,8 @@
    if BaseDirectory <> '' then
      ChDir(BaseDirectory);
    try
@@ -248,7 +171,7 @@ Index: AbArcTyp.pas
      try
        DateTime := FileGetDate(FS.Handle);
        FileTime := LongRec(DateTime).Lo;
-@@ -1761,6 +1794,45 @@
+@@ -1761,6 +1808,45 @@
    end;
  end;
  { -------------------------------------------------------------------------- }
@@ -294,7 +217,7 @@ Index: AbArcTyp.pas
  procedure TAbArchive.Move(aItem : TAbArchiveItem; const NewStoredPath : string);
  var
    Confirm : Boolean;
-@@ -1807,11 +1879,12 @@
+@@ -1807,11 +1893,12 @@
  begin
    CheckValid;
    Index := FindItem(aItem);
@@ -309,7 +232,7 @@ Index: AbArcTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1841,7 +1914,7 @@
+@@ -1841,7 +1928,7 @@
  begin
    if Status = asInvalid then
      Exit;
@@ -318,7 +241,7 @@ Index: AbArcTyp.pas
      Exit;
  
    DoConfirmSave(Confirm);
-@@ -1865,7 +1938,7 @@
+@@ -1865,7 +1952,7 @@
      if Value[Length(Value)] = AbPathDelim then
        if (Length(Value) > 1) and (Value[Length(Value) - 1] <> ':') then
          System.Delete(Value, Length(Value), 1);
@@ -327,7 +250,21 @@ Index: AbArcTyp.pas
      FBaseDirectory := Value
    else
      raise EAbNoSuchDirectory.Create;
-@@ -1973,7 +2046,7 @@
+@@ -1930,6 +2017,13 @@
+   raise EAbSpanningNotSupported.Create;
+ end;
+ { -------------------------------------------------------------------------- }
++function TAbArchive.CreateItem(const FileSpec : string): TAbArchiveItem;
++begin
++  // This function is used by Abbrevia. We don't use it but a dummy
++  // definition is needed for the code to compile successfully.
++  raise Exception.Create('');
++end;
++{ -------------------------------------------------------------------------- }
+ 
+ { TAbExtraField implementation ============================================= }
+ procedure TAbExtraField.Assign(aSource : TAbExtraField);
+@@ -1973,7 +2067,7 @@
    Len, Offset : Integer;
  begin
    Len := SizeOf(TAbExtraSubField) + aSubField.Len;
@@ -336,7 +273,7 @@ Index: AbArcTyp.pas
    if Offset + Len < Length(FBuffer) then
      Move(FBuffer[Offset + Len], aSubField^, Length(FBuffer) - Offset - Len);
    SetLength(FBuffer, Length(FBuffer) - Len);
-@@ -2001,9 +2074,9 @@
+@@ -2001,9 +2095,9 @@
    end
    else begin
      BytesLeft := Length(FBuffer) -
