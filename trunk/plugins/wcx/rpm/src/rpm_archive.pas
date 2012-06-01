@@ -5,7 +5,7 @@
 //***************************************************************
 {
   Add some changes for Lazarus and Linux compability
-  Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
+  Copyright (C) 2007-2012  Koblov Alexander (Alexx2000@mail.ru)
 }
 //***************************************************************
 // This code based on Christian Ghisler (support@ghisler.com) sources
@@ -141,7 +141,7 @@ begin
               arec^.arch_len := FileSize(arec^.handle_file) - FilePos(arec^.handle_file);
           if not fgError then begin
             headerend:=FilePos(arec^.handle_file);
-            BlockRead(arec^.handle_file, arec^.datasig, 3);
+            BlockRead(arec^.handle_file, arec^.datasig, SizeOf(RPM_DataSig));
             Seek(arec^.handle_file, headerend);
           end;
         end;

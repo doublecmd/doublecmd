@@ -80,7 +80,7 @@ const
   RPMTAG_ARCHIVESIZE  = 1046;
 
 type
-  RPM_DataSig = array[0..3] of char;
+  RPM_DataSig = array[0..5] of char;
 
 type
   RPM_EntryInfo = record
