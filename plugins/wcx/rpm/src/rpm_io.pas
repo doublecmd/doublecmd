@@ -84,10 +84,12 @@ begin
     end;
   if fgFound then
     SetLength(tmp_str, i_char - 1);
-  if (datasig[0] = #31) and (datasig[1] = #139) then
+  if (datasig[0] = #031) and (datasig[1] = #139) then
     tmp_str := tmp_str + '.cpio.gz'
   else if (datasig[0]='B') and (datasig[1]='Z') and (datasig[2]='h') then
     tmp_str := tmp_str + '.cpio.bz2'
+  else if CompareByte(datasig, #253'7zXZ'#000, 6) = 0 then
+    tmp_str := tmp_str + '.cpio.xz'
   else
     tmp_str := tmp_str + '.cpio.lzma';
   Result := tmp_str;

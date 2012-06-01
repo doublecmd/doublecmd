@@ -5,7 +5,7 @@
 //***************************************************************
 {
   Add some changes for Lazarus and Linux compability
-  Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+  Copyright (C) 2007-2012  Koblov Alexander (Alexx2000@mail.ru)
 }
 //***************************************************************
 // This code based on Christian Ghisler (support@ghisler.com) sources
@@ -21,8 +21,6 @@ uses
   rpm_def in 'rpm_def.pas',
   rpm_archive in 'rpm_archive.pas';
 
-{$E wcx}
-
 exports
   CloseArchive,
   GetPackerCaps,
@@ -35,7 +33,7 @@ exports
 {$R *.res}
 
 begin
-{$IFNDEF WIN32}
-WriteLN('Rpm plugin is loaded');
+{$IFNDEF MSWINDOWS}
+  WriteLn('Rpm plugin is loaded');
 {$ENDIF}
 end.
