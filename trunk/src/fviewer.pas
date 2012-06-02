@@ -1710,9 +1710,7 @@ begin
     fsBitmap.Free;
   end;
   {$ENDIF}
-  Result:=(sExt='.bmp') or (sExt='.xpm') or (sExt='.png') or
-       (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or (sExt='.icns') or
-       (sExt='.ddw') or (sExt='.tga') or (sExt='.cur') or (sExt='.gif');
+  Result:= Image.Picture.FindGraphicClassWithFileExt(sExt, False) <> nil;
 end;
 
 // Adjust Image size (width and height) to sboxImage size
