@@ -977,7 +977,7 @@ begin
       // If there are operations waiting, take the first one and notify
       // that a connection is available.
       // Only check operation types for which there are reserved connections.
-      if Operation.ID in [fsoCopyIn, fsoCopyOut, fsoDelete, fsoTestArchive] then
+      if Operation.ID in [fsoCopyIn, fsoCopyOut, fsoDelete, fsoCopy, fsoMove] then
       begin
         Include(allowedIDs, Operation.ID);
         NotifyNextWaitingOperation(allowedIDs);
