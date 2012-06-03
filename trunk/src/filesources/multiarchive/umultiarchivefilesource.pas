@@ -279,6 +279,12 @@ begin
       on EConvertError do;
     end;
 
+    if AttributesProperty.IsLink and (Length(ArchiveItem.FileLink) > 0) then
+    begin
+      LinkProperty := TFileLinkProperty.Create;
+      LinkProperty.LinkTo := ArchiveItem.FileLink;
+    end;
+
     // Set name after assigning Attributes property, because it is used to get extension.
     Name := ExtractFileName(ArchiveItem.FileName);
     if ArchiveItem.FileExt <> EmptyStr then
@@ -308,7 +314,7 @@ end;
 
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := inherited GetSupportedFileProperties;
+  Result := inherited GetSupportedFileProperties + [fpLink];
 end;
 
 function TMultiArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;

@@ -73,7 +73,8 @@ type
 
   TArchiveItem = class
     FileName,
-    FileExt:  UTF8String;
+    FileExt,
+    FileLink:  UTF8String;
     PackSize,
     UnpSize: Int64;
     Year,
@@ -555,4 +556,4 @@ begin
 end;
 
 end.
-
+
