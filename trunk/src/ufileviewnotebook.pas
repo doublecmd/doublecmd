@@ -290,11 +290,11 @@ begin
         NewCaption := GetLastDir(NewCaption);
 
       FCurrentTitle := NewCaption;
-
-      if (FLockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab]) and
-         (tb_show_asterisk_for_locked in gDirTabOptions) then
-        NewCaption := '*' + NewCaption;
     end;
+
+    if (FLockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab]) and
+       (tb_show_asterisk_for_locked in gDirTabOptions) then
+      NewCaption := '*' + NewCaption;
 
     if (tb_text_length_limit in gDirTabOptions) and (UTF8Length(NewCaption) > gDirTabLimit) then
       NewCaption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '...';
@@ -342,9 +342,15 @@ begin
   if FLockState = NewLockState then Exit;
   FLockState := NewLockState;
   if NewLockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab] then
-    LockPath := FileView.CurrentPath
+    begin
+      LockPath := FileView.CurrentPath;
+      FPermanentTitle := GetLastDir(LockPath);
+    end
   else
-    LockPath := '';
+    begin
+      LockPath := '';
+      FPermanentTitle := '';
+    end;
   UpdateTitle;
 end;
 
