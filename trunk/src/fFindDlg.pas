@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -897,6 +897,8 @@ var
   NewPage: TFileViewPage;
   FileView: TFileView;
 begin
+  StopSearch;
+
   FileList := TFileTree.Create;
   for i := 0 to lsFoundedFiles.Items.Count - 1 do
   begin
@@ -1211,8 +1213,11 @@ begin
 
       VK_RETURN:
       begin
-        btnGoToPathClick(Sender);
-        Key := 0;
+        if not FSearchingActive then
+        begin
+          btnGoToPathClick(Sender);
+          Key := 0;
+        end;
       end;
     end;
   end;
