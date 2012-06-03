@@ -54,6 +54,7 @@ type
     FGetFileAttr: TGetFileAttr;
     FGetFileName: TGetFileName;
   protected
+    procedure SplitFileName;
     function FixPosition(const Str: String; Key: TKeyPos): LongInt;
     function KeyPos(Key: char; out Position: TKeyPos): boolean;
     function GetKeyValue(const str: String; Key: TKeyPos): UTF8String;
@@ -104,6 +105,18 @@ begin
 end;
 
 { TOutputParser }
+
+procedure TOutputParser.SplitFileName;
+var
+  Index: Integer;
+begin
+  Index:= Pos(' -> ', FArchiveItem.FileName);
+  if Index > 0 then
+  begin
+    FArchiveItem.FileLink:= Copy(FArchiveItem.FileName, Index + 4, MaxInt);
+    FArchiveItem.FileName:= Copy(FArchiveItem.FileName, 1, Index - 1);
+  end
+end;
 
 function TOutputParser.FixPosition(const Str: String; Key: TKeyPos): LongInt;
 var
@@ -228,6 +241,12 @@ begin
       DCDebug('Attributes: ', IntToStr(FArchiveItem.Attributes));
       DCDebug('-------------------------------------');
       {$ENDIF}
+      with FArchiveItem do
+      begin
+        if ((Attributes and S_IFLNK) <> 0) or
+           ((Attributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0) then
+          SplitFileName;
+      end;
       if Assigned(FOnGetArchiveItem) then
         FOnGetArchiveItem(FArchiveItem);
     end;
