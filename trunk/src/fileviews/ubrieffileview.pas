@@ -1047,6 +1047,7 @@ begin
   inherited DoUpdateView;
   TabHeader.UpdateHeader;
   dgPanel.UpdateView;
+  TabHeader.Height:= dgPanel.DefaultRowHeight;
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
