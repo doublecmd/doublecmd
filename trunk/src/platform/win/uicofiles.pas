@@ -612,35 +612,44 @@ end;
 function CreateIconFromHandle(IconHandle : HIcon) : TIcon;
 var 
   IcoFile : TIcoFile = nil;
-  memstream : TMemoryStream = nil;
-  IconData : TIconData;
-  I : Integer;
+  TempStream : TMemoryStream = nil;
+  ColorDepth : Integer = 32;
+  ActiveWindow: HWND;
+  DeviceContext: HDC;
 begin
-  Result := nil;
-  try
-    IcoFile := TIcoFile.Create(nil);
-    memstream := TMemoryStream.Create;
-    IcoFile.loadFromHandle(IconHandle);
-    if Length(IcoFile.Icons) > 0 then
-    begin
-      for I := Low(IcoFile.Icons) to High(IcoFile.Icons) do
-        if not IcoFile.IsValidAlpha(I) then
-          begin
-            IcoFile.saveTrueColorFrom32(I, IconData);
-            IcoFile.DestroyIconData(IcoFile.Icons[i]);
-            IcoFile.Icons[I] := IconData;
-          end;
-      IcoFile.saveToStream(memstream);
-      Result := TIcon.Create;
-      memstream.Position := 0;
-      Result.LoadFromStream(memstream);
-    end;
-  finally
-    if Assigned(IcoFile) then
-      IcoFile.Free;
-    if Assigned(memstream) then
-      memstream.Free;
+  Result := TIcon.Create;
+  ActiveWindow := GetActiveWindow;
+  DeviceContext := GetDC(ActiveWindow);
+  // Get display color depth
+  if (DeviceContext <> 0) then
+  begin
+    ColorDepth := GetDeviceCaps(DeviceContext, BITSPIXEL);
+    ReleaseDC(ActiveWindow, DeviceContext);
   end;
+  // Alpha channel can be used only with 24-32 bit color depth
+  // otherwise use standard method to get icon from handle
+  // because our method don't work in this case
+  if (ColorDepth < 24) then
+    Result.Handle:= IconHandle
+  else
+    begin
+      IcoFile := TIcoFile.Create(nil);
+      TempStream := TMemoryStream.Create;
+      try
+        IcoFile.loadFromHandle(IconHandle);
+        if Length(IcoFile.Icons) = 0 then
+          Result.Handle:= IconHandle
+        else
+          begin
+            IcoFile.saveToStream(TempStream);
+            TempStream.Seek(0, soBeginning);
+            Result.LoadFromStream(TempStream);
+          end;
+      finally
+        FreeAndNil(IcoFile);
+        FreeAndNil(TempStream);
+      end;
+    end;
 end;
 
 
