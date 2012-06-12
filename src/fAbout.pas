@@ -93,6 +93,7 @@ const
     'Martin Matusu (xmat@volny.cz) - chown, chgrp' + cIndention +
     'Radek Polak - some viewer fixes' + cIndention +
     'Dmytro Zheludko (doublecmd@zheludko.mail.ua)' + cIndention +
+    'Andryei Gudyak - main icon' + cIndention +
     'translators (see details in language files)  ' + LineEnding + LineEnding +
     'Double Commander uses icons from:' + LineEnding +
     '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)' + LineEnding +
