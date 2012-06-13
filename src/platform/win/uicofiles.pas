@@ -610,7 +610,9 @@ begin
 end;
 
 function CreateIconFromHandle(IconHandle : HIcon) : TIcon;
-var 
+var
+  I : Integer;
+  IconData : TIconData;
   IcoFile : TIcoFile = nil;
   TempStream : TMemoryStream = nil;
   ColorDepth : Integer = 32;
@@ -641,6 +643,17 @@ begin
           Result.Handle:= IconHandle
         else
           begin
+            for I := Low(IcoFile.Icons) to High(IcoFile.Icons) do
+            begin
+              // If icon has invalid alpha channel
+              // then display it as 24 bit icon
+              if not IcoFile.IsValidAlpha(I) then
+              begin
+                IcoFile.saveTrueColorFrom32(I, IconData);
+                IcoFile.DestroyIconData(IcoFile.Icons[I]);
+                IcoFile.Icons[I] := IconData;
+              end;
+            end;
             IcoFile.saveToStream(TempStream);
             TempStream.Seek(0, soBeginning);
             Result.LoadFromStream(TempStream);
