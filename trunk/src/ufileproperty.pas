@@ -402,6 +402,7 @@ end;
 
 function TFileProperty.Clone: TFileProperty;
 begin
+  Result:= nil;
   raise Exception.Create('Cannot create abstract class');
 end;
 
@@ -683,6 +684,7 @@ end;
 
 function TFileAttributesProperty.Clone: TFileAttributesProperty;
 begin
+  Result:= nil;
   raise Exception.Create('Cannot create abstract class');
 end;
 
@@ -760,6 +762,7 @@ end;
 
 class function TNtfsFileAttributesProperty.GetDescription: String;
 begin
+  Result:= EmptyStr;
 end;
 
 function TNtfsFileAttributesProperty.Format(Formatter: IFilePropertyFormatter): String;
@@ -792,18 +795,22 @@ end;
 
 function TUnixFileAttributesProperty.IsOwnerRead: Boolean;
 begin
+  Result:= False;
 end;
 
 function TUnixFileAttributesProperty.IsOwnerWrite: Boolean;
 begin
+  Result:= False;
 end;
 
 function TUnixFileAttributesProperty.IsOwnerExecute: Boolean;
 begin
+  Result:= False;
 end;
 
 class function TUnixFileAttributesProperty.GetDescription: String;
 begin
+  Result:= EmptyStr;
 end;
 
 function TUnixFileAttributesProperty.Format(Formatter: IFilePropertyFormatter): String;
