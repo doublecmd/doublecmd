@@ -1611,6 +1611,15 @@ msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Darstellung im Text"
 
+#: tfrmfileproperties.lblcontains.caption
+msgctxt "tfrmfileproperties.lblcontains.caption"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblcontainsstr.caption
+msgid "Contains:"
+msgstr ""
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
@@ -7994,6 +8003,10 @@ msgstr "Trennendes Element;interner Befehl;externer Befehl;Menü"
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "Position nicht verändern;die gleiche Einstellung wie für neue Dateien nutzen;an festgelegte Position"
+
+#: ulng.rspropscontains
+msgid "Files: %d, folders: %d"
+msgstr ""
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""

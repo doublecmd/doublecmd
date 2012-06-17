@@ -1,9 +1,3 @@
-# Slovenian translations for double-commander.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# This file is distributed under the same license as the double-commander package.
-#
-# Matej Urbančič <mateju@svn.gnome.org>, 2011 - 2012.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: double-commander 0.5.5 alpha\n"
@@ -1603,6 +1597,15 @@ msgstr "-----------"
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Besedilo:"
+
+#: tfrmfileproperties.lblcontains.caption
+msgctxt "tfrmfileproperties.lblcontains.caption"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblcontainsstr.caption
+msgid "Contains:"
+msgstr ""
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -7646,6 +7649,10 @@ msgstr "ločilnik;Notranji ukaz;Zunanji ukaz;Meni"
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "ne spremeni mesta;uporabi enake nastavitve kot za nove datoteke;na razvrščeno mesto"
 
+#: ulng.rspropscontains
+msgid "Files: %d, folders: %d"
+msgstr ""
+
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
 msgstr "Ni mogoče spremeniti dovoljenj dostopa za \"%s\""
@@ -7860,254 +7867,3 @@ msgstr "Nabor znakov"
 msgid "%s not found!"
 msgstr "%s ni mogoče najti!"
 
-#~ msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
-
-#~ msgid "Close"
-#~ msgstr "Zapri"
-#~ msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
-
-#~ msgid "First Difference"
-#~ msgstr "Prva razlika"
-#~ msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
-
-#~ msgid "Last Difference"
-#~ msgstr "Zadnja razlika"
-#~ msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
-
-#~ msgid "Next Difference"
-#~ msgstr "Naslednja razlika"
-#~ msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
-
-#~ msgid "Previous Difference"
-#~ msgstr "Predhodna razlika"
-#~ msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
-
-#~ msgid "Edit"
-#~ msgstr "Uredi"
-#~ msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
-
-#~ msgid "Encoding"
-#~ msgstr "Nabor znakov"
-#~ msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
-
-#~ msgid "File"
-#~ msgstr "Datoteka"
-#~ msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
-
-#~ msgid "&All"
-#~ msgstr "&Vse"
-#~ msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
-
-#~ msgid "&OK"
-#~ msgstr "&V redu"
-
-#~ msgid "Skip"
-#~ msgstr "Preskoči"
-
-#~ msgid "Copy F5"
-#~ msgstr "F5 Kopiraj"
-#~ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
-
-#~ msgid "Delete F8"
-#~ msgstr "F8 Izbriši"
-
-#~ msgid "Edit F4"
-#~ msgstr "F4 Uredi"
-
-#~ msgid "Move F6"
-#~ msgstr "F6 Premakni"
-
-#~ msgid "View F3"
-#~ msgstr "F3 Poglej"
-
-#~ msgid "Exit F10"
-#~ msgstr "F10 Končaj"
-#~ msgctxt "TFRMMAIN.BTNF8.CAPTION"
-
-#~ msgid "Delete F8"
-#~ msgstr "F8 Izbriši"
-
-#~ msgid "Terminal F9"
-#~ msgstr "F9 Terminal"
-#~ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
-
-#~ msgid "Only type:"
-#~ msgstr "Le vrsto datotek:"
-#~ msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
-
-#~ msgid "Save"
-#~ msgstr "Shrani"
-#~ msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
-
-#~ msgid "Options"
-#~ msgstr "Možnosti"
-
-#~ msgid "Current"
-#~ msgstr "Trenutno"
-
-#~ msgid "&Directory"
-#~ msgstr "Poišči v &mapi:"
-#~ msgctxt "TFRMFINDDLG.LBLFOUND.CAPTION"
-
-#~ msgid "Found"
-#~ msgstr "Najdeno"
-
-#~ msgid "Status"
-#~ msgstr "Stanje"
-#~ msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
-
-#~ msgid "Options"
-#~ msgstr "Možnosti"
-
-#~ msgid "A&ppend >>"
-#~ msgstr "&Pripni >>"
-#~ msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
-
-#~ msgid "Cancel"
-#~ msgstr "Prekliči"
-#~ msgctxt "TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION"
-
-#~ msgid "X"
-#~ msgstr "X"
-#~ msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
-
-#~ msgid "&Help"
-#~ msgstr "Pomo&č"
-#~ msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
-
-#~ msgid "OK"
-#~ msgstr "V redu"
-#~ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMCONFIGTOOLBAR.CAPTION"
-
-#~ msgid "Change button bar"
-#~ msgstr "Spremeni vrstico gumbov"
-
-#~ msgid "S&eparator"
-#~ msgstr "&Ločilnik"
-
-#~ msgid "36"
-#~ msgstr "36"
-#~ msgctxt "TFRMCONFIGTOOLBAR.LBLHOTKEYS.CAPTION"
-
-#~ msgid "Hot Key:"
-#~ msgstr "Hitra tipka:"
-
-#~ msgid "Icon &file:"
-#~ msgstr "&Datoteka ikone:"
-
-#~ msgid "32"
-#~ msgstr "32"
-#~ msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-
-#~ msgid "S&ubbar >>"
-#~ msgstr "Podrejena &vrstica >>"
-
-#~ msgid "Sub&menu >>"
-#~ msgstr "Podrejeni &meni >>"
-
-#~ msgid "&Add button to end"
-#~ msgstr "&Dodaj gumb na koncu vrste"
-#~ msgctxt "ulng.rscfgtoolbarinsertbutton"
-
-#~ msgid "&Insert new button"
-#~ msgstr "Vstavi &nov gumb"
-#~ msgctxt "dmhigh.rssyndefaulttext"
-
-#~ msgid "Default text"
-#~ msgstr "Privzeto besedilo"
-#~ msgctxt "dmhigh.rssynlangplaintext"
-
-#~ msgid "Plain text"
-#~ msgstr "Običajno besedilo"
-
-#~ msgid "Copy %s:"
-#~ msgstr "Kopiraj %s:"
-#~ msgctxt "tfrmeditor.actabout.hint"
-
-#~ msgid "About"
-#~ msgstr "O programu"
-#~ msgctxt "tfrmeditor.acteditcopy.hint"
-
-#~ msgid "Copy"
-#~ msgstr "Kopiraj"
-#~ msgctxt "tfrmeditor.acteditcut.hint"
-
-#~ msgid "Cut"
-#~ msgstr "Izreži"
-#~ msgctxt "tfrmeditor.acteditdelete.hint"
-
-#~ msgid "Delete"
-#~ msgstr "Izbriši"
-#~ msgctxt "tfrmeditor.acteditfindnext.hint"
-
-#~ msgid "Find next"
-#~ msgstr "Najdi naslednje"
-#~ msgctxt "tfrmeditor.acteditlineendcr.hint"
-
-#~ msgid "Mac (CR)"
-#~ msgstr "Mac (CR)"
-#~ msgctxt "tfrmeditor.acteditlineendcrlf.hint"
-
-#~ msgid "Windows (CRLF)"
-#~ msgstr "Windows (CRLF)"
-#~ msgctxt "tfrmeditor.acteditlineendlf.hint"
-
-#~ msgid "Unix (LF)"
-#~ msgstr "Unix (LF)"
-#~ msgctxt "tfrmeditor.acteditpaste.hint"
-
-#~ msgid "Paste"
-#~ msgstr "Prilepi"
-#~ msgctxt "tfrmeditor.acteditredo.hint"
-
-#~ msgid "Redo"
-#~ msgstr "Ponovno uveljavi"
-#~ msgctxt "tfrmeditor.acteditundo.hint"
-
-#~ msgid "Undo"
-#~ msgstr "Razveljavi"
-#~ msgctxt "tfrmeditor.actfileclose.hint"
-
-#~ msgid "Close"
-#~ msgstr "Zapri"
-#~ msgctxt "tfrmeditor.actfilesave.hint"
-
-#~ msgid "Save"
-#~ msgstr "Shrani"
-#~ msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
-
-#~ msgid "Cancel"
-#~ msgstr "Prekliči"
-#~ msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
-
-#~ msgid "&OK"
-#~ msgstr "&V redu"
-
-#~ msgid "Editor configuration"
-#~ msgstr "Nastavitev urejevalnika"
-
-#~ msgid "&Bold"
-#~ msgstr "&Krepko"
-
-#~ msgid "&Italic"
-#~ msgstr "&Ležeče"
-
-#~ msgid "&StrikeOut"
-#~ msgstr "P&rečrtano"
-
-#~ msgid "&Underline"
-#~ msgstr "&Podčrtano"
-
-#~ msgid "Predefined"
-#~ msgstr "Predhodno določeno"
-
-#~ msgid "Sample"
-#~ msgstr "Vzorec"

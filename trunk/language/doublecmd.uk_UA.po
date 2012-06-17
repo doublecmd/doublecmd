@@ -1607,6 +1607,15 @@ msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "У вигляді тексту:"
 
+#: tfrmfileproperties.lblcontains.caption
+msgctxt "tfrmfileproperties.lblcontains.caption"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblcontainsstr.caption
+msgid "Contains:"
+msgstr ""
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
@@ -7841,6 +7850,10 @@ msgstr "Роздільник;Внутрішні команди;Зовнішні 
 #, fuzzy
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "не змінювати положення; використовувати ті ж налаштування, як для нових файлів; сортувати по позиції"
+
+#: ulng.rspropscontains
+msgid "Files: %d, folders: %d"
+msgstr ""
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""

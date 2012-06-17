@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-04-29 14:41+0400\n"
+"PO-Revision-Date: 2012-06-17 22:59+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1609,6 +1609,15 @@ msgstr ""
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Текст:"
+
+#: tfrmfileproperties.lblcontains.caption
+msgctxt "tfrmfileproperties.lblcontains.caption"
+msgid "???"
+msgstr ""
+
+#: tfrmfileproperties.lblcontainsstr.caption
+msgid "Contains:"
+msgstr "Содержит:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -7858,6 +7867,10 @@ msgstr ""
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr ""
+
+#: ulng.rspropscontains
+msgid "Files: %d, folders: %d"
+msgstr "Файлов: %d, папок: %d"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
