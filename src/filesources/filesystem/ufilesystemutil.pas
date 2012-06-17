@@ -14,8 +14,7 @@ uses
   uSearchTemplate,
   uFindFiles;
 
-  procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
-  function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
+  function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
   procedure FillAndCount(Files: TFiles;
                          CountDirs: Boolean;
                          ExcludeRootDir: Boolean;
@@ -195,66 +194,13 @@ uses
   uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, DCDateTimeUtils;
 
-procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
-var
-  iPos: LongInt;
+function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
 begin
-  // Special case for mask that contains '*.*' ('*.*.old' for example)
-  iPos:= Pos('*.*', DestMask);
-  if (iPos = 0) then
-    DivFileName(DestMask, DestNameMask, DestExtMask)
+  // Only change name for files.
+  if aFile.IsDirectory or aFile.IsLink then
+    Result := aFile.Name
   else
-    begin
-      DestNameMask := Copy(DestMask, 1, iPos);
-      DestExtMask := Copy(DestMask, iPos + 1, MaxInt);
-    end;
-  // Treat empty mask as '*.*'.
-  if (DestNameMask = '') and (DestExtMask = '') then
-  begin
-    DestNameMask := '*';
-    DestExtMask  := '.*';
-  end;
-end;
-
-function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
-
-  function ApplyMask(const TargetString: String; Mask: String): String;
-  var
-    i:Integer;
-  begin
-    Result:='';
-    for i:=1 to Length(Mask) do
-    begin
-      if Mask[i]= '?' then
-        Result:=Result + TargetString[i]
-      else
-      if Mask[i]= '*' then
-        Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
-      else
-        Result:=Result + Mask[i];
-    end;
-  end;
-
-var
-  sDstExt: String;
-  sDstName: String;
-begin
-  if ((NameMask = '*') and (ExtMask = '.*')) or
-     // Only change name for files.
-     aFile.IsDirectory or aFile.IsLink then
-  begin
-    Result := aFile.Name;
-  end
-  else
-  begin
-    DivFileName(aFile.Name, sDstName, sDstExt);
-    sDstName := ApplyMask(sDstName, NameMask);
-    sDstExt  := ApplyMask(sDstExt, ExtMask);
-
-    Result := sDstName;
-    if sDstExt <> '.' then
-      Result := Result + sDstExt;
-  end;
+    Result := ApplyRenameMask(aFile.Name, NameMask, ExtMask);
 end;
 
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
