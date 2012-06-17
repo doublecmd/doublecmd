@@ -1133,9 +1133,10 @@ begin
     FixedRows := 1;
 
     TabHeaderHeight := Max(gIconsSize, CalculateTabHeaderHeight);
+    TabHeaderHeight := TabHeaderHeight + 2; // for borders
     if not gInterfaceFlat then
     begin
-      TabHeaderHeight := TabHeaderHeight + 2;
+      TabHeaderHeight := TabHeaderHeight + 2; // additional borders if not flat
     end;
     RowHeights[0] := TabHeaderHeight;
   end

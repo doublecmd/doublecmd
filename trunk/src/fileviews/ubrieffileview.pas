@@ -1043,11 +1043,39 @@ begin
 end;
 
 procedure TBriefFileView.DoUpdateView;
+
+  function CalculateTabHeaderHeight: Integer;
+  var
+    OldFont: TFont;
+  begin
+    with TabHeader do
+    begin
+      OldFont     := Canvas.Font;
+      Canvas.Font := Font;
+      Result      := Canvas.TextHeight('Wg');
+      Canvas.Font := OldFont;
+    end;
+  end;
+
+var
+  TabHeaderHeight: Integer;
 begin
   inherited DoUpdateView;
-  TabHeader.UpdateHeader;
   dgPanel.UpdateView;
-  TabHeader.Height:= dgPanel.DefaultRowHeight;
+  TabHeader.Visible := gTabHeader;
+  // Set rows of header.
+  if gTabHeader then
+  begin
+    TabHeader.UpdateHeader;
+
+    TabHeaderHeight := Max(gIconsSize, CalculateTabHeaderHeight);
+    TabHeaderHeight := TabHeaderHeight + 2; // for borders
+    if not gInterfaceFlat then
+    begin
+      TabHeaderHeight := TabHeaderHeight + 2; // additional borders if not flat
+    end;
+    TabHeader.Height := TabHeaderHeight;
+  end;
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
