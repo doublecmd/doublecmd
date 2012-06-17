@@ -1132,6 +1132,7 @@ msgid "E&xit"
 msgstr "&Koniec"
 
 #: tfrmeditor.actfileexit.hint
+msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
 msgstr ""
 
@@ -1630,6 +1631,15 @@ msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Textovo:"
 
+#: tfrmfileproperties.lblcontains.caption
+msgctxt "tfrmfileproperties.lblcontains.caption"
+msgid "???"
+msgstr "???"
+
+#: tfrmfileproperties.lblcontainsstr.caption
+msgid "Contains:"
+msgstr ""
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
@@ -1960,12 +1970,10 @@ msgstr ""
 msgid "&Exclude files"
 msgstr ""
 
-doplnené &
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
 msgstr "&Súborová maska"
 
-doplnené &
 #: tfrmfinddlg.lblfindpathstart.caption
 #, fuzzy
 #| msgid "&Directory"
@@ -2271,6 +2279,7 @@ msgstr "Zobraziť kontextové menu"
 #: tfrmmain.actcopy.caption
 #, fuzzy
 #| msgid "Copy F5"
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Kopírova"
 
@@ -2307,6 +2316,7 @@ msgstr "Vystrihnúť"
 #: tfrmmain.actdelete.caption
 #, fuzzy
 #| msgid "Delete F8"
+msgctxt "tfrmmain.actdelete.caption"
 msgid "Delete"
 msgstr "Vymazať"
 
@@ -2324,6 +2334,7 @@ msgstr "&Rýchle zložky"
 #: tfrmmain.actedit.caption
 #, fuzzy
 #| msgid "Edit F4"
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr "Editova"
 
@@ -2597,6 +2608,7 @@ msgstr "Vymazať záložku"
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move F6"
+msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
 msgstr "Presun"
 
@@ -2772,6 +2784,7 @@ msgstr "Zrušiť výber súborov s rovnakou príponou"
 #: tfrmmain.actview.caption
 #, fuzzy
 #| msgid "View F3"
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "Zobrazi"
 
@@ -2800,6 +2813,7 @@ msgstr "Bezpečne zmazať"
 #: tfrmmain.btnf10.caption
 #, fuzzy
 #| msgid "Exit F10"
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Koniec"
 
@@ -2811,6 +2825,7 @@ msgstr "Vymazať"
 #: tfrmmain.btnf9.caption
 #, fuzzy
 #| msgid "Terminal F9"
+msgctxt "tfrmmain.btnf9.caption"
 msgid "Terminal"
 msgstr "Terminál"
 
@@ -3135,7 +3150,6 @@ msgstr "&Príkazy"
 msgid "C&onfiguration"
 msgstr "&Konfigurácia"
 
- doplnené &
 #: tfrmmain.mnufiles.caption
 #, fuzzy
 #| msgid "Files"
@@ -3160,7 +3174,6 @@ msgstr "Sieť"
 msgid "&Show"
 msgstr "&Zobraziť"
 
- doplnené &
 #: tfrmmain.mnutaboptions.caption
 #, fuzzy
 #| msgid "Options"
@@ -7878,7 +7891,7 @@ msgstr "Rýchle hľadanie/filter"
 #: ulng.rsoptionseditorterminal
 msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
-msgstr ""
+msgstr "Terminál"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
@@ -7948,6 +7961,10 @@ msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
+msgstr ""
+
+#: ulng.rspropscontains
+msgid "Files: %d, folders: %d"
 msgstr ""
 
 #: ulng.rspropserrchmod
@@ -8133,7 +8150,7 @@ msgstr ""
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
 msgid "Terminal"
-msgstr ""
+msgstr "Terminál"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
