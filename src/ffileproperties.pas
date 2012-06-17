@@ -83,7 +83,9 @@ type
 
     lblRead: TLabel;
     lblSize: TLabel;
+    lblContains: TLabel;
     lblSizeStr: TLabel;
+    lblContainsStr: TLabel;
     lblSymlink: TLabel;
     lblAttrTextStr: TLabel;
     lblSymlinkStr: TLabel;
@@ -315,6 +317,8 @@ begin
       end;
     lblSize.Visible := hasSize;
     lblSizeStr.Visible := hasSize;
+    lblContains.Visible:= IsDirectory;
+    lblContainsStr.Visible:= IsDirectory;
 
     // Times
     lblLastAccess.Visible := fpLastAccessTime in SupportedProperties;
@@ -464,7 +468,10 @@ procedure TfrmFileProperties.tmUpdateFolderSizeTimer(Sender: TObject);
 begin
   if Assigned(FFileSourceCalcStatisticsOperation) then
     with FFileSourceCalcStatisticsOperation.RetrieveStatistics do
-    lblSize.Caption := Format('%s (%s)', [cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]);
+    begin
+      lblSize.Caption := Format('%s (%s)', [cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]);
+      lblContains.Caption := Format(rsPropsContains, [Files, Directories]);
+    end;
 end;
 
 procedure TfrmFileProperties.FileSourceOperationStateChangedNotify(
