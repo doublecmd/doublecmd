@@ -25,6 +25,8 @@ type
     FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
+    FRenamingFiles: Boolean;
+    FRenameNameMask, FRenameExtMask: String;
 
     // Options.
     FFileExistsOption: TFileSourceOperationOptionFileExists;
@@ -234,6 +236,9 @@ begin
   else
     WcxCopyOutOperationT := Self;
 
+  // Check rename mask
+  FRenamingFiles := (RenameMask <> '*.*') and (RenameMask <> '');
+  if FRenamingFiles then SplitFileMask(RenameMask, FRenameNameMask, FRenameExtMask);
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 end;
@@ -295,6 +300,14 @@ begin
           TargetFileName := TargetPath + ExtractFileName(Header.FileName)
         else
           TargetFileName := TargetPath + ExtractDirLevel(Files.Path, Header.FileName);
+
+        if FRenamingFiles then
+        begin
+          TargetFileName := ExtractFilePath(TargetFileName) +
+                            ApplyRenameMask(ExtractFileName(TargetFileName),
+                                            FRenameNameMask, FRenameExtMask);
+
+        end;
 
         with FStatistics do
         begin

@@ -187,6 +187,20 @@ function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 }
 procedure DivFileName(const sFileName:String; out n,e:String);
 {en
+   Split file mask on name mask and extension mask
+   @param(DestMask File mask)
+   @param(DestNameMask Name mask)
+   @param(DestExtMask Extension mask)
+}
+procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
+{en
+   Apply name and extension mask to the file name
+   @param(aFileName File name)
+   @param(NameMask Name mask)
+   @param(ExtMask Extension mask)
+}
+function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): String;
+{en
    Get count of character in string
    @param(Char Character)
    @param(S String)
@@ -618,6 +632,64 @@ begin
     end;
   e:='';
   n:=sFileName;
+end;
+
+procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
+var
+  iPos: LongInt;
+begin
+  // Special case for mask that contains '*.*' ('*.*.old' for example)
+  iPos:= Pos('*.*', DestMask);
+  if (iPos = 0) then
+    DivFileName(DestMask, DestNameMask, DestExtMask)
+  else
+    begin
+      DestNameMask := Copy(DestMask, 1, iPos);
+      DestExtMask := Copy(DestMask, iPos + 1, MaxInt);
+    end;
+  // Treat empty mask as '*.*'.
+  if (DestNameMask = '') and (DestExtMask = '') then
+  begin
+    DestNameMask := '*';
+    DestExtMask  := '.*';
+  end;
+end;
+
+function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): String;
+
+  function ApplyMask(const TargetString: String; Mask: String): String;
+  var
+    i:Integer;
+  begin
+    Result:='';
+    for i:=1 to Length(Mask) do
+    begin
+      if Mask[i]= '?' then
+        Result:=Result + TargetString[i]
+      else
+      if Mask[i]= '*' then
+        Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
+      else
+        Result:=Result + Mask[i];
+    end;
+  end;
+
+var
+  sDstExt: String;
+  sDstName: String;
+begin
+  if ((NameMask = '*') and (ExtMask = '.*')) then
+    Result := aFileName
+  else
+    begin
+      DivFileName(aFileName, sDstName, sDstExt);
+      sDstName := ApplyMask(sDstName, NameMask);
+      sDstExt  := ApplyMask(sDstExt, ExtMask);
+
+      Result := sDstName;
+      if sDstExt <> '.' then
+        Result := Result + sDstExt;
+    end;
 end;
 
 function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
