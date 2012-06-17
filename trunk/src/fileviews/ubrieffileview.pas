@@ -100,7 +100,7 @@ implementation
 
 uses
   LCLIntf, LCLType, LCLVersion, LCLProc, math,
-  uGlobs, uPixmapManager,
+  uGlobs, uPixmapManager, uKeyboard,
   uDCUtils, fMain,
   uFileSourceProperty,
   uFileFunctions,
@@ -1146,6 +1146,39 @@ begin
             begin
               dgPanel.Col:= aCol;
               dgPanel.Row:= aRow;
+            end;
+          end;
+        end;
+        Key := 0;
+      end;
+
+    VK_SPACE:
+      if Shift * KeyModifiersShortcut = [] then
+      begin
+        Index:= GetActiveFileIndex;
+        if IsFileIndexInRange(Index) then
+        begin
+          AFile := FFiles[Index];
+          if IsItemValid(aFile) then
+          begin
+            if (aFile.FSFile.IsDirectory or
+               aFile.FSFile.IsLinkToDirectory) and
+               not aFile.Selected then
+            begin
+              CalculateSpace(aFile);
+            end;
+
+            InvertFileSelection(aFile, False);
+            DoSelectionChanged(Index);
+
+            if gSpaceMovesDown then
+            begin
+              dgPanel.IndexToCell(Index + 1, aCol, aRow);
+              if not ((aCol < 0) and (aRow < 0)) then
+              begin
+                dgPanel.Col:= aCol;
+                dgPanel.Row:= aRow;
+              end;
             end;
           end;
         end;
