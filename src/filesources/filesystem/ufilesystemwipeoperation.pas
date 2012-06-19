@@ -12,7 +12,7 @@
    degauss of the disk, or by disintegrating, incinerating,
    pulverizing, shreding, or melting the disk.
 
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2012  Alexander Koblov (alexx2000@mail.ru)
 
    Based on:
 
@@ -182,28 +182,26 @@ end;
 //fill buffer with characters
 //0 = with 0, 1 = with 1 and 2 = random
 procedure TFileSystemWipeOperation.Fill(chr: Integer);
-var i: integer;
+var
+  I: Integer;
 begin
-   if chr=0 then
-   begin
-    for i := Low(buffer) to High(buffer) do
-      buffer[i] := 0;
-      exit;
-   end;
-
-   if chr=1 then
-   begin
-    for i := Low(buffer) to High(buffer) do
-      buffer[i] := 1;
-      exit;
-   end;
-
-   if chr=2 then
-   begin
-    for i := Low(buffer) to High(buffer) do
-      buffer[i] := Random(256);
-      exit;
-   end;
+  case chr of
+    0:
+      begin
+        for I := Low(buffer) to High(buffer) do
+          buffer[I] := $00;
+      end;
+    1:
+      begin
+        for I := Low(buffer) to High(buffer) do
+          buffer[I] := $FF;
+      end;
+    2:
+      begin
+        for I := Low(buffer) to High(buffer) do
+          buffer[I] := Random($100);
+      end;
+  end;
 end;
 
 procedure TFileSystemWipeOperation.SecureDelete(pass: Integer; FileName: String);
@@ -213,10 +211,9 @@ var
   fs: TFileStreamEx;
   sTempFileName: String; // renames file to delete
 begin
-  sTempFileName:= 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaa';
   if mbFileAccess(FileName, fmOpenWrite) then
     begin
-      sTempFileName:= ExtractFilePath(FileName) + sTempFileName;
+      sTempFileName:= GetTempName(ExtractFilePath(FileName)) + '.tmp';
       if mbRenameFile(FileName, sTempFileName) then
         begin
           FileName:= sTempFileName;
