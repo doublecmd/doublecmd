@@ -118,7 +118,6 @@ type
     procedure actEditDeleteExecute(Sender: TObject);
     procedure actEditRedoExecute(Sender: TObject);
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure EditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorReplaceText(Sender: TObject; const ASearch, AReplace: string;
        Line, Column: integer; var ReplaceAction: TSynReplaceAction);
     procedure actAboutExecute(Sender: TObject);
@@ -485,16 +484,11 @@ begin
          Key:=0;
        end;
      end;
-  end;
-end;
-
-procedure TfrmEditor.EditorKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key=27 then
-  begin
-    Key:=0;
-    Close;
+   VK_ESCAPE:
+     begin
+       Close;
+       Key:=0;
+     end;
   end;
 end;
 

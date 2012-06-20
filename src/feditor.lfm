@@ -93,7 +93,6 @@ object frmEditor: TfrmEditor
     TabOrder = 0
     OnKeyDown = EditorKeyDown
     OnKeyPress = EditorKeyPress
-    OnKeyUp = EditorKeyUp
     BookMarkOptions.Xoffset = 48
     Gutter.Width = 61
     Gutter.MouseActions = <    
