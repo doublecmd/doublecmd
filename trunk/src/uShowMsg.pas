@@ -302,12 +302,12 @@ end;
 
 function msgYesNoCancel(const sMsg: UTF8String):TMyMsgResult;
 begin
-  Result:= MsgBox(sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbNo);
+  Result:= MsgBox(sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbCancel);
 end;
 
 function msgYesNoCancel(Thread: TThread; const sMsg: UTF8String): TMyMsgResult;
 begin
-  Result:= MsgBox(Thread, sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbNo);
+  Result:= MsgBox(Thread, sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbCancel);
 end;
 
 procedure msgOK(const sMsg: UTF8String);
