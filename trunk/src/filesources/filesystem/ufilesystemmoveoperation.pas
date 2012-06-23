@@ -31,6 +31,7 @@ type
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
 
     // Options.
+    FReserveSpace,
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
@@ -54,6 +55,7 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property ReserveSpace: Boolean read FReserveSpace write FReserveSpace;
     property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
@@ -87,6 +89,7 @@ begin
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
   FSetPropertyError := gOperationOptionSetPropertyError;
+  FReserveSpace := gOperationOptionReserveSpace;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
   FCorrectSymlinks := gOperationOptionCorrectLinks;
@@ -141,6 +144,7 @@ begin
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
+  FOperationHelper.ReserveSpace :=  FReserveSpace;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
   FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;
   FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;
