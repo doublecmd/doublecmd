@@ -31,6 +31,7 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
     // Options.
+    FReserveSpace,
     FCheckFreeSpace: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
     FSkipAllBigFiles: Boolean;
@@ -56,6 +57,7 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property ReserveSpace: Boolean read FReserveSpace write FReserveSpace;
     property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
@@ -121,6 +123,7 @@ begin
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
   FSetPropertyError := gOperationOptionSetPropertyError;
+  FReserveSpace := gOperationOptionReserveSpace;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
   FAutoRenameItSelf := False;
@@ -175,6 +178,7 @@ begin
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
+  FOperationHelper.ReserveSpace :=  FReserveSpace;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
   FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;
   FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;

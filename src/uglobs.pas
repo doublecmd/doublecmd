@@ -307,6 +307,7 @@ var
   gOperationOptionFileExists: TFileSourceOperationOptionFileExists;
   gOperationOptionDirectoryExists: TFileSourceOperationOptionDirectoryExists;
   gOperationOptionSetPropertyError: TFileSourceOperationOptionSetPropertyError;
+  gOperationOptionReserveSpace: Boolean;
   gOperationOptionCheckFreeSpace: Boolean;
   gOperationOptionCopyAttributes: Boolean;
   gOperationOptionCopyTime: Boolean;
@@ -871,6 +872,7 @@ begin
   gOperationOptionFileExists := fsoofeNone;
   gOperationOptionDirectoryExists := fsoodeNone;
   gOperationOptionSetPropertyError := fsoospeNone;
+  gOperationOptionReserveSpace := False;
   gOperationOptionCheckFreeSpace := True;
   gOperationOptionCopyAttributes := True;
   gOperationOptionCopyTime := True;
@@ -1800,6 +1802,7 @@ begin
         gOperationOptionFileExists := TFileSourceOperationOptionFileExists(GetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists)));
         gOperationOptionDirectoryExists := TFileSourceOperationOptionDirectoryExists(GetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists)));
         gOperationOptionSetPropertyError := TFileSourceOperationOptionSetPropertyError(GetValue(SubNode, 'SetPropertyError', Integer(gOperationOptionSetPropertyError)));
+        gOperationOptionReserveSpace := GetValue(SubNode, 'ReserveSpace', gOperationOptionReserveSpace);
         gOperationOptionCheckFreeSpace := GetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
         gOperationOptionCopyAttributes := GetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
         gOperationOptionCopyTime := GetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);
@@ -2124,6 +2127,7 @@ begin
     SetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists));
     SetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
     SetValue(SubNode, 'SetPropertyError', Integer(gOperationOptionSetPropertyError));
+    SetValue(SubNode, 'ReserveSpace', gOperationOptionReserveSpace);
     SetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
     SetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
     SetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);

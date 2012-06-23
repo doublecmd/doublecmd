@@ -25,6 +25,7 @@ type
     cbCopyTime: TCheckBox;
     cbCopyOwnership: TCheckBox;
     cbExcludeEmptyDirectories: TCheckBox;
+    cbReserveSpace: TCheckBox;
     cmbDirectoryExists: TComboBox;
     cmbFileExists: TComboBox;
     cmbSetPropertyError: TComboBox;
@@ -38,6 +39,7 @@ type
     pnlCheckboxes: TPanel;
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbCopyAttributesChange(Sender: TObject);
+    procedure cbReserveSpaceChange(Sender: TObject);
   private
     FTemplate: TSearchTemplate;
     procedure SetOperationOptions(CopyOperation: TFileSystemCopyOperation); overload;
@@ -89,6 +91,18 @@ end;
 procedure TFileSystemCopyMoveOperationOptionsUI.cbCopyAttributesChange(Sender: TObject);
 begin
   cbDropReadOnlyFlag.Enabled := cbCopyAttributes.Checked;
+end;
+
+procedure TFileSystemCopyMoveOperationOptionsUI.cbReserveSpaceChange(Sender: TObject);
+begin
+  if (cbReserveSpace.Checked = False) then
+    cbCheckFreeSpace.Checked := Boolean(cbCheckFreeSpace.Tag)
+  else
+    begin
+      cbCheckFreeSpace.Tag := PtrInt(cbCheckFreeSpace.Checked);
+      cbCheckFreeSpace.Checked := cbReserveSpace.Checked;
+    end;
+  cbCheckFreeSpace.Enabled := not cbReserveSpace.Checked;
 end;
 
 constructor TFileSystemCopyMoveOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
@@ -144,6 +158,7 @@ begin
   end;
 
   cbCorrectLinks.Checked := gOperationOptionCorrectLinks;
+  cbReserveSpace.Checked := gOperationOptionReserveSpace;
   cbCheckFreeSpace.Checked := gOperationOptionCheckFreeSpace;
 end;
 
@@ -190,6 +205,7 @@ begin
     cbGrayed    : gOperationOptionSymLinks := fsooslNone;
   end;
   gOperationOptionCorrectLinks := cbCorrectLinks.Checked;
+  gOperationOptionReserveSpace := cbReserveSpace.Checked;
   gOperationOptionCheckFreeSpace := cbCheckFreeSpace.Checked;
 end;
 
@@ -243,6 +259,7 @@ begin
     CopyAttributesOptions := Options;
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
+    ReserveSpace := cbReserveSpace.Checked;
     if Assigned(FTemplate) then
     begin
       SearchTemplate := FTemplate;
@@ -283,6 +300,7 @@ begin
     end;
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
+    ReserveSpace := cbReserveSpace.Checked;
     Options := CopyAttributesOptions;
     SetCopyOption(Options, caoCopyAttributes, cbCopyAttributes.Checked);
     SetCopyOption(Options, caoCopyTime, cbCopyTime.Checked);

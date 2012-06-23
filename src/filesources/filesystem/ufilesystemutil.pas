@@ -120,6 +120,7 @@ type
     FRenamingFiles: Boolean;
     FRenamingRootDir: Boolean;
     FRootDir: TFile;
+    FReserveSpace,
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FSkipOpenForReadingError: Boolean;
@@ -180,6 +181,7 @@ type
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property ReserveSpace: Boolean read FReserveSpace write FReserveSpace;
     property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
@@ -732,6 +734,11 @@ var
           begin
             TargetFileStream := TFileStreamEx.Create(TargetFileName, fmCreate);
             TotalBytesToRead := SourceFileStream.Size;
+            if FReserveSpace then
+            begin
+              TargetFileStream.Size:= SourceFileStream.Size;
+              TargetFileStream.Seek(0, fsFromBeginning);
+            end;
           end;
         end;
       except
@@ -1340,7 +1347,7 @@ var
 
   function AllowAppendFile: Boolean;
   begin
-    Result := (not SourceFile.AttributesProperty.IsDirectory) and
+    Result := (not SourceFile.AttributesProperty.IsDirectory) and (not FReserveSpace) and
               ((not SourceFile.AttributesProperty.IsLink) or
                (IsLinkFollowed and (not aNode.SubNodes[0].TheFile.AttributesProperty.IsDirectory)));
   end;
