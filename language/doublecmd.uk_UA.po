@@ -259,6 +259,10 @@ msgstr "Виключити порожні каталоги"
 msgid "Follow links"
 msgstr "Перейти за посиланнями"
 
+#: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
+msgid "Reserve space"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 #, fuzzy
 msgid "What to do when cannot set file time, attributes, etc."

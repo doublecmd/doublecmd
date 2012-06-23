@@ -262,6 +262,10 @@ msgstr "Ne upoštevaj praznih map"
 msgid "Follow links"
 msgstr "Sledi povezavam"
 
+#: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
+msgid "Reserve space"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Kaj storiti, ko ni mogoče nastaviti časa datoteke, atributov ..."

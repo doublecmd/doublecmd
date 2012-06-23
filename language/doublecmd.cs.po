@@ -262,6 +262,10 @@ msgstr ""
 msgid "Follow links"
 msgstr "Následovat odkazy"
 
+#: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
+msgid "Reserve space"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr ""
