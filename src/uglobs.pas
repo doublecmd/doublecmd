@@ -854,7 +854,7 @@ begin
   gUseMmapInSearch := False;
   gPartialNameSearch := True;
   gWipePassNumber := 1;
-  gDropReadOnlyFlag := True;
+  gDropReadOnlyFlag := False;
   gProcessComments := True;
   gRenameSelOnlyName := False;
   gShowCopyTabSelectPanel := False;
