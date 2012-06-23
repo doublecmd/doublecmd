@@ -725,13 +725,15 @@ begin
   I := Length(FileName);
   while (I > 0) and (FileName[I] <> ExtensionSeparator) do
     Dec(I);
-  if I > 0 then
+  if I > 1 then
   begin
     aFileNameOnly := Copy(FileName, 1, I - 1);
     aExtension    := Copy(FileName, I + 1, MaxInt);
   end
   else
   begin
+    // For files that does not have '.' or that have only
+    // one '.' and beginning with '.' there is no extension.
     aFileNameOnly := FileName;
     aExtension := '';
   end;
@@ -741,10 +743,10 @@ procedure TFile.UpdateNameAndExtension(const FileName: string);
 begin
   // Cache Extension and NameNoExt.
 
-  if (FileName = '') or IsDirectory or IsLinkToDirectory or (FileName[1] = '.')
+  if (FileName = '') or IsDirectory or IsLinkToDirectory
   then
   begin
-    // For directories and files beginning with '.' there is no extension.
+    // For directories there is no extension.
     FExtension := '';
     FNameNoExt := FileName;
   end
