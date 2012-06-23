@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-06-17 22:59+0400\n"
+"PO-Revision-Date: 2012-06-23 18:16+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -256,6 +256,10 @@ msgstr "Исключить пустые каталоги"
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgid "Follow links"
 msgstr "Следовать ссылкам"
+
+#: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
+msgid "Reserve space"
+msgstr "Резервировать место"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."

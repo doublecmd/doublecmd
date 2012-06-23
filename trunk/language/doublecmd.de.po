@@ -257,6 +257,10 @@ msgstr "Leere Verzeichnisse ignorieren"
 msgid "Follow links"
 msgstr "Folge Verknüpfungen"
 
+#: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
+msgid "Reserve space"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Was soll getan werden, wenn Dateieigenschaften nicht übernommen werden können"

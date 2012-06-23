@@ -258,6 +258,10 @@ msgstr "Excluir directorios vacios"
 msgid "Follow links"
 msgstr "Seguir enlaces"
 
+#: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
+msgid "Reserve space"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Que hacer cuando no se puede configurar el tiempo, los atributos, etc."
