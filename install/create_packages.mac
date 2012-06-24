@@ -36,9 +36,6 @@ fi
 # Set minimal Mac OS X target version
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
-# Copy 7-Zip executable
-cp -a darwin/lib/$CPU_TARGET/7za             $BUILD_DC_TMP_DIR/
-
 # Copy libraries
 cp -a darwin/lib/$CPU_TARGET/*.dylib         $BUILD_DC_TMP_DIR/
 cp -a darwin/lib/$CPU_TARGET/$lcl/*.dylib    $BUILD_DC_TMP_DIR/
@@ -52,8 +49,6 @@ cd $BUILD_DC_TMP_DIR
 mkdir -p $BUILD_PACK_DIR
 install/darwin/install.sh $BUILD_PACK_DIR
 cd $BUILD_PACK_DIR
-sed -e 's/Archiver=7za/Archiver=%commander_path%\/7za/' -i '' doublecmd.app/Contents/MacOS/multiarc.ini
-sed -e 's/Extension=7z/Extension=7z,zip,tar,gz,bz2,tgz,tbz/' -i '' doublecmd.app/Contents/MacOS/multiarc.ini
 mv doublecmd.app 'Double Commander.app'
 hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
 
