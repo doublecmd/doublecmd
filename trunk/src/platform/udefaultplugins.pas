@@ -22,7 +22,6 @@ begin
   // Wcx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wcx' + PathDelim;
 
-  {$IF NOT DEFINED(DARWIN)}
   I:= gWCXPlugins.IndexOfName('zip');
   if I < 0 then
     gWCXPlugins.Add('zip', 607, Folder + 'zip' + PathDelim + 'zip.wcx')
@@ -62,7 +61,6 @@ begin
     gWCXPlugins.Add('tgz', 95, Folder + 'zip' + PathDelim + 'zip.wcx')
   else
     gWCXPlugins.Flags[I]:= 95;
-  {$ENDIF}
 
   I:= gWCXPlugins.IndexOfName('lzma');
   if I < 0 then
