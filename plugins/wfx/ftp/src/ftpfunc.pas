@@ -279,6 +279,8 @@ begin
             sTemp:= Connection.InitCommands;
             while sTemp <> EmptyStr do
               FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
+            if Length(Connection.Path) > 0 then
+              FtpSend.ChangeWorkingDir(Connection.Path);
             ActiveConnectionList.AddObject(ConnectionName, FtpSend);
             Result:= True;
           end
@@ -622,10 +624,14 @@ begin
       begin
         if RemoteName[1] <> '<' then // connection
           begin
-            if FtpConnect(RemoteName + 1, FtpSend) then
-              Result := FS_EXEC_SYMLINK
+            if not FtpConnect(RemoteName + 1, FtpSend) then
+              Result := FS_EXEC_OK
             else
-              Result := FS_EXEC_OK;
+              begin
+                sFileName:= SetDirSeparators(RemoteName + FtpSend.GetCurrentDir);
+                StrPLCopy(RemoteName, sFileName, MAX_PATH);
+                Result := FS_EXEC_SYMLINK;
+              end;
           end
         else  // special item
           begin
