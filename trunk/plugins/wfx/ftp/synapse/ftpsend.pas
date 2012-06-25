@@ -52,6 +52,9 @@ Used RFC: RFC-959, RFC-2228, RFC-2428
   {$MODE DELPHI}
 {$ENDIF}
 {$H+}
+{$TYPEINFO ON}// Borland changed defualt Visibility from Public to Published
+                // and it requires RTTI to be generated $M+
+{$M+}
 
 {$IFDEF UNICODE}
   {$WARN IMPLICIT_STRING_CAST OFF}
@@ -469,8 +472,10 @@ begin
   FFullResult := TStringList.Create;
   FDataStream := TMemoryStream.Create;
   FSock := TTCPBlockSocket.Create;
+  FSock.Owner := self;
   FSock.ConvertLineEnd := True;
   FDSock := TTCPBlockSocket.Create;
+  FDSock.Owner := self;
   FFtpList := TFTPList.Create;
   FTimeout := 300000;
   FTargetPort := cFtpProtocol;
@@ -850,7 +855,7 @@ begin
       s := '2'
     else
       s := '1';
-    if not(FForceOldPort) and ((FTPCommand('EPSV ' + s) div 100) = 2) then
+    if FSock.IP6used and not(FForceOldPort) and ((FTPCommand('EPSV ' + s) div 100) = 2) then
     begin
       ParseRemoteEPSV(FResultString);
     end
@@ -885,7 +890,7 @@ begin
     FDataIP := FDSock.GetLocalSinIP;
     FDataIP := FDSock.ResolveName(FDataIP);
     FDataPort := IntToStr(FDSock.GetLocalSinPort);
-    if not FForceOldPort then
+    if FSock.IP6used and (not FForceOldPort) then
     begin
       if IsIp6(FDataIP) then
         s := '2'
@@ -1111,7 +1116,7 @@ begin
   Result := False;
   if FileName = '' then
     Exit;
-  Result := InternalStor('APPE '+FileName, 0);
+  Result := InternalStor('APPE ' + FileName, 0);
 end;
 
 function TFTPSend.NoOp: Boolean;
@@ -1142,7 +1147,7 @@ begin
     s := Trim(SeparateRight(ResultString, ' '));
     s := Trim(SeparateLeft(s, ' '));
     {$IFDEF VER100}
-    Result := StrToIntDef(s, -1);
+      Result := StrToIntDef(s, -1);
     {$ELSE}
       Result := StrToInt64Def(s, -1);
     {$ENDIF}

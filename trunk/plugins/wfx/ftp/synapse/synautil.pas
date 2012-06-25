@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 004.014.001 |
+| Project : Ararat Synapse                                       | 004.015.000 |
 |==============================================================================|
 | Content: support procedures and functions                                    |
 |==============================================================================|
-| Copyright (c)1999-2010, Lukas Gebauer                                        |
+| Copyright (c)1999-2012, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,8 +33,9 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c) 1999-2010.               |
+| Portions created by Lukas Gebauer are Copyright (c) 1999-2012.               |
 | Portions created by Hernan Sanchez are Copyright (c) 2000.                   |
+| Portions created by Petr Fejfar are Copyright (c)2011-2012.                  |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
@@ -75,9 +76,9 @@ uses
   Windows,
 {$ELSE}
   {$IFDEF FPC}
-  UnixUtil, Unix, BaseUnix,
+    UnixUtil, Unix, BaseUnix,
   {$ELSE}
-  Libc,
+    Libc,
   {$ENDIF}
 {$ENDIF}
 {$IFDEF CIL}
@@ -324,9 +325,40 @@ function GetTempFile(const Dir, prefix: AnsiString): AnsiString;
  smaller, string is padded by Pad character.}
 function PadString(const Value: AnsiString; len: integer; Pad: AnsiChar): AnsiString;
 
+{:XOR each byte in the strings}
+function XorString(Indata1, Indata2: AnsiString): AnsiString;
+
 {:Read header from "Value" stringlist beginning at "Index" position. If header
  is Splitted into multiple lines, then this procedure de-split it into one line.}
 function NormalizeHeader(Value: TStrings; var Index: Integer): string;
+
+{pf}
+{:Search for one of line terminators CR, LF or NUL. Return position of the
+ line beginning and length of text.}
+procedure SearchForLineBreak(var APtr:PANSIChar; AEtx:PANSIChar; out ABol:PANSIChar; out ALength:integer);
+{:Skip both line terminators CR LF (if any). Move APtr position forward.}
+procedure SkipLineBreak(var APtr:PANSIChar; AEtx:PANSIChar);
+{:Skip all blank lines in a buffer starting at APtr and move APtr position forward.}
+procedure SkipNullLines                   (var APtr:PANSIChar; AEtx:PANSIChar);
+{:Copy all lines from a buffer starting at APtr to ALines until empty line
+ or end of the buffer is reached. Move APtr position forward).}
+procedure CopyLinesFromStreamUntilNullLine(var APtr:PANSIChar; AEtx:PANSIChar; ALines:TStrings);
+{:Copy all lines from a buffer starting at APtr to ALines until ABoundary
+ or end of the buffer is reached. Move APtr position forward).}
+procedure CopyLinesFromStreamUntilBoundary(var APtr:PANSIChar; AEtx:PANSIChar; ALines:TStrings; const ABoundary:ANSIString);
+{:Search ABoundary in a buffer starting at APtr.
+ Return beginning of the ABoundary. Move APtr forward behind a trailing CRLF if any).}
+function  SearchForBoundary               (var APtr:PANSIChar; AEtx:PANSIChar; const ABoundary:ANSIString): PANSIChar;
+{:Compare a text at position ABOL with ABoundary and return position behind the
+ match (including a trailing CRLF if any).}
+function  MatchBoundary                   (ABOL,AETX:PANSIChar; const ABoundary:ANSIString): PANSIChar;
+{:Compare a text at position ABOL with ABoundary + the last boundary suffix
+ and return position behind the match (including a trailing CRLF if any).}
+function  MatchLastBoundary               (ABOL,AETX:PANSIChar; const ABoundary:ANSIString): PANSIChar;
+{:Copy data from a buffer starting at position APtr and delimited by AEtx
+ position into ANSIString.}
+function  BuildStringFromBuffer           (AStx,AEtx:PANSIChar): ANSIString;
+{/pf}
 
 var
   {:can be used for your own months strings for @link(getmonthnumber)}
@@ -1781,6 +1813,18 @@ end;
 
 {==============================================================================}
 
+function XorString(Indata1, Indata2: AnsiString): AnsiString;
+var
+  i: integer;
+begin
+  Indata2 := PadString(Indata2, length(Indata1), #0);
+  Result := '';
+  for i := 1 to length(Indata1) do
+    Result := Result + AnsiChar(ord(Indata1[i]) xor ord(Indata2[i]));
+end;
+
+{==============================================================================}
+
 function NormalizeHeader(Value: TStrings; var Index: Integer): string;
 var
   s, t: string;
@@ -1807,6 +1851,207 @@ begin
     end;
   Result := TrimRight(s);
 end;
+
+{==============================================================================}
+
+{pf}
+procedure SearchForLineBreak(var APtr:PANSIChar; AEtx:PANSIChar; out ABol:PANSIChar; out ALength:integer);
+begin
+  ABol := APtr;
+  while (APtr<AEtx) and not (APtr^ in [#0,#10,#13]) do
+    inc(APtr);
+  ALength := APtr-ABol;
+end;
+{/pf}
+
+{pf}
+procedure SkipLineBreak(var APtr:PANSIChar; AEtx:PANSIChar);
+begin
+  if (APtr<AEtx) and (APtr^=#13) then
+    inc(APtr);
+  if (APtr<AEtx) and (APtr^=#10) then
+    inc(APtr);
+end;
+{/pf}
+
+{pf}
+procedure SkipNullLines(var APtr:PANSIChar; AEtx:PANSIChar);
+var
+  bol: PANSIChar;
+  lng: integer;
+begin
+  while (APtr<AEtx) do
+    begin
+      SearchForLineBreak(APtr,AEtx,bol,lng);
+      SkipLineBreak(APtr,AEtx);
+      if lng>0 then
+        begin
+          APtr := bol;
+          Break;
+        end;
+    end;
+end;
+{/pf}
+
+{pf}
+procedure CopyLinesFromStreamUntilNullLine(var APtr:PANSIChar; AEtx:PANSIChar; ALines:TStrings);
+var
+  bol: PANSIChar;
+  lng: integer;
+  s:   ANSIString;
+begin
+  // Copying until body separator will be reached
+  while (APtr<AEtx) and (APtr^<>#0) do
+    begin
+      SearchForLineBreak(APtr,AEtx,bol,lng);
+      SkipLineBreak(APtr,AEtx);
+      if lng=0 then
+        Break;
+      SetString(s,bol,lng);
+      ALines.Add(s);
+    end;
+end;
+{/pf}
+
+{pf}
+procedure CopyLinesFromStreamUntilBoundary(var APtr:PANSIChar; AEtx:PANSIChar; ALines:TStrings; const ABoundary:ANSIString);
+var
+  bol:      PANSIChar;
+  lng:      integer;
+  s:        ANSIString;
+  BackStop: ANSIString;
+  eob1:     PANSIChar;
+  eob2:     PANSIChar;
+begin
+  BackStop := '--'+ABoundary;
+  eob2     := nil;
+  // Copying until Boundary will be reached
+  while (APtr<AEtx) do
+    begin
+      SearchForLineBreak(APtr,AEtx,bol,lng);
+      SkipLineBreak(APtr,AEtx);
+      eob1 := MatchBoundary(bol,APtr,ABoundary);
+      if Assigned(eob1) then
+        eob2 := MatchLastBoundary(bol,AEtx,ABoundary);
+      if Assigned(eob2) then
+        begin
+          APtr := eob2;
+          Break;
+        end
+      else if Assigned(eob1) then
+        begin
+          APtr := eob1;
+          Break;
+        end
+      else
+        begin
+          SetString(s,bol,lng);
+          ALines.Add(s);
+        end;
+    end;
+end;
+{/pf}
+
+{pf}
+function SearchForBoundary(var APtr:PANSIChar; AEtx:PANSIChar; const ABoundary:ANSIString): PANSIChar;
+var
+  eob:  PANSIChar;
+  Step: integer;
+begin
+  Result := nil;
+  // Moving Aptr position forward until boundary will be reached
+  while (APtr<AEtx) do
+    begin
+      if strlcomp(APtr,#13#10'--',4)=0 then
+        begin
+          eob  := MatchBoundary(APtr,AEtx,ABoundary);
+          Step := 4;
+        end
+      else if strlcomp(APtr,'--',2)=0 then
+        begin
+          eob  := MatchBoundary(APtr,AEtx,ABoundary);
+          Step := 2;
+        end
+      else
+        begin
+          eob  := nil;
+          Step := 1;
+        end;
+      if Assigned(eob) then
+        begin
+          Result := APtr;  // boundary beginning
+          APtr   := eob;   // boundary end
+          exit;
+        end
+      else
+        inc(APtr,Step);
+    end;
+end;
+{/pf}
+
+{pf}
+function MatchBoundary(ABol,AEtx:PANSIChar; const ABoundary:ANSIString): PANSIChar;
+var
+  MatchPos:   PANSIChar;
+  Lng:        integer;
+begin
+  Result   := nil;
+  MatchPos := ABol;
+  Lng := length(ABoundary);
+  if (MatchPos+2+Lng)>AETX then
+    exit;
+  if strlcomp(MatchPos,#13#10,2)=0 then
+    inc(MatchPos,2);
+  if (MatchPos+2+Lng)>AETX then
+    exit;
+  if strlcomp(MatchPos,'--',2)<>0 then
+    exit;
+  inc(MatchPos,2);
+  if strlcomp(MatchPos,PANSIChar(ABoundary),Lng)<>0 then
+    exit;
+  inc(MatchPos,Lng);
+  if ((MatchPos+2)<=AEtx) and (strlcomp(MatchPos,#13#10,2)=0) then
+    inc(MatchPos,2);
+  Result := MatchPos;
+end;
+{/pf}
+
+{pf}
+function MatchLastBoundary(ABOL,AETX:PANSIChar; const ABoundary:ANSIString): PANSIChar;
+var
+  MatchPos: PANSIChar;
+begin
+  Result   := nil;
+  MatchPos := MatchBoundary(ABOL,AETX,ABoundary);
+  if not Assigned(MatchPos) then
+    exit;
+  if strlcomp(MatchPos,'--',2)<>0 then
+    exit;
+  inc(MatchPos,2);
+  if (MatchPos+2<=AEtx) and (strlcomp(MatchPos,#13#10,2)=0) then
+    inc(MatchPos,2);
+  Result := MatchPos;
+end;
+{/pf}
+
+{pf}
+function  BuildStringFromBuffer(AStx,AEtx:PANSIChar): ANSIString;
+var
+  lng: integer;
+begin
+  Lng := 0;
+  if Assigned(AStx) and Assigned(AEtx) then
+    begin
+      Lng := AEtx-AStx;
+      if Lng<0 then
+        Lng := 0;
+    end;
+  SetString(Result,AStx,lng);
+end;
+{/pf}
+
+
+
 
 {==============================================================================}
 var
