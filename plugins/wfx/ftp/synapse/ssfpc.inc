@@ -255,7 +255,7 @@ const
                            // Works under MAC OS X, but is undocumented,
                            // So FPC doesn't include it
   {$else}
-  MSG_NOSIGNAL  = sockets.MSG_NOSIGNAL; // Do not generate SIGPIPE.
+   MSG_NOSIGNAL  = sockets.MSG_NOSIGNAL; // Do not generate SIGPIPE.
   {$endif}
 
 const
@@ -673,6 +673,7 @@ var
   var
     a4: array [1..1] of in_addr;
     a6: array [1..1] of Tin6_addr;
+    he: THostEntry;
   begin
     Result := WSAEPROTONOSUPPORT;
     case f of
@@ -693,7 +694,10 @@ var
               Result := WSAHOST_NOT_FOUND;
               a4[1] := StrTonetAddr(IP);
               if a4[1].s_addr = INADDR_ANY then
-                Resolvename(ip, a4);
+                if GetHostByName(ip, he) then
+                  a4[1]:=HostToNet(he.Addr)
+                else
+                  Resolvename(ip, a4);
             end;
             if a4[1].s_addr <> INADDR_ANY then
             begin
@@ -722,7 +726,7 @@ var
               if IN6_IS_ADDR_UNSPECIFIED(@a6[1]) then
                 Resolvename6(ip, a6);
             end;
-            if IN6_IS_ADDR_UNSPECIFIED(@a6[1]) then
+            if not IN6_IS_ADDR_UNSPECIFIED(@a6[1]) then
             begin
               Sin.sin_family := AF_INET6;
               sin.sin6_addr := a6[1];
@@ -788,6 +792,7 @@ var
   x, n: integer;
   a4: array [1..255] of in_addr;
   a6: array [1..255] of Tin6_addr;
+  he: THostEntry;
 begin
   IPList.Clear;
   if (family = AF_INET) or (family = AF_UNSPEC) then
@@ -798,7 +803,13 @@ begin
     begin
       a4[1] := StrTonetAddr(name);
       if a4[1].s_addr = INADDR_ANY then
-        x := Resolvename(name, a4)
+        if GetHostByName(name, he) then
+        begin
+          a4[1]:=HostToNet(he.Addr);
+          x := 1;
+        end
+        else
+          x := Resolvename(name, a4)
       else
         x := 1;
       for n := 1  to x do

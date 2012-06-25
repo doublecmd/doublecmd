@@ -63,10 +63,10 @@ unit synsock;
   {$ELSE}
     {$IFDEF WINCE}
       {$I sswin32.inc}  //not complete yet!
-{$ELSE}
-  {$IFDEF FPC}
+    {$ELSE}
+      {$IFDEF FPC}
         {$I ssfpc.inc}
-  {$ELSE}
+      {$ELSE}
         {$I sslinux.inc}
       {$ENDIF}
     {$ENDIF}

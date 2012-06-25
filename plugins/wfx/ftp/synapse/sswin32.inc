@@ -283,11 +283,11 @@ const
   {$IFDEF WINCE}
     DLLStackName = 'ws2.dll';
   {$ELSE}
-  {$IFDEF WINSOCK1}
+    {$IFDEF WINSOCK1}
     DLLStackName = 'wsock32.dll';
-  {$ELSE}
+    {$ELSE}
     DLLStackName = 'ws2_32.dll';
-  {$ENDIF}
+    {$ENDIF}
   {$ENDIF}
   DLLwship6 = 'wship6.dll';
 
@@ -298,7 +298,7 @@ const
   c6AnyHost = '::0';
   c6Broadcast = 'ffff::1';
   cAnyPort = '0';
-  
+
 
 const
   FD_SETSIZE     =   64;
