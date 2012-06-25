@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ function ShowFtpConfDlg: Boolean;
 implementation
 
 uses
-  FtpFunc, FtpUtils;
+  FtpFunc, FtpUtils, blcksock, ssl_openssl_lib;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
@@ -81,8 +81,11 @@ begin
           SendDlgMsg(pDlg, 'edtInitCommands', DM_SETTEXT, Data, 0);
           Data:= PtrInt(gConnection.PassiveMode);
           SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, Data, 0);
+          Data:= PtrInt(gConnection.AutoTLS);
+          SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
         end;
       DN_CHANGE:
+        begin
         if DlgItemName = 'chkMasterPassword' then
           begin
             Data:= SendDlgMsg(pDlg, 'chkMasterPassword', DM_GETCHECK, 0, 0);
@@ -90,6 +93,26 @@ begin
             if not gConnection.MasterPassword then
               DeletePassword(gConnection.ConnectionName);
           end;
+        if DlgItemName = 'chkAutoTLS' then
+          begin
+            Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
+            gConnection.AutoTLS:= Boolean(Data);
+            if gConnection.AutoTLS then
+            begin
+              if not InitSSLInterface then
+              begin
+                MessageBox(PAnsiChar('OpenSSL library not found!' + LineEnding +
+                           'To use SSL connections, please install the OpenSSL ' +
+                           'libraries (' + DLLSSLName + ' and ' + DLLUtilName + ')!'),
+                           'OpenSSL', MB_OK or MB_ICONERROR
+                           );
+                gConnection.AutoTLS:= False;
+                Data:= PtrInt(gConnection.AutoTLS);
+                SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
+              end;
+            end;
+          end;
+        end;
       DN_CLICK:
         if DlgItemName = 'btnAnonymous' then
           begin
@@ -135,6 +158,8 @@ begin
             gConnection.InitCommands:= Text;
             Data:= SendDlgMsg(pDlg, 'chkPassiveMode', DM_GETCHECK, 0, 0);
             gConnection.PassiveMode:= Boolean(Data);
+            Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
+            gConnection.AutoTLS:= Boolean(Data);
             // close dialog
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end

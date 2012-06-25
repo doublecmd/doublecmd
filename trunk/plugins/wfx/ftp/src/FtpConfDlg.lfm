@@ -90,7 +90,7 @@ object DialogBox: TDialogBox
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    TabOrder = 3
+    TabOrder = 4
   end
   object btnAnonymous: TButton
     AnchorSideLeft.Control = edtHost
@@ -106,7 +106,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Top = 6
     Caption = 'Anonymous'
     OnClick = ButtonClick
-    TabOrder = 2
+    TabOrder = 3
   end
   object edtRemoteDir: TEdit
     AnchorSideLeft.Control = edtPassword
@@ -120,7 +120,7 @@ object DialogBox: TDialogBox
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    TabOrder = 7
+    TabOrder = 8
   end
   object lblRemoteDir: TLabel
     AnchorSideLeft.Control = Owner
@@ -145,7 +145,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Left = 12
     BorderSpacing.Top = 18
     Caption = 'Use passive mode for transfers (like a WWW brower)'
-    TabOrder = 9
+    TabOrder = 10
   end
   object btnCancel: TButton
     AnchorSideTop.Control = chkPassiveMode
@@ -162,7 +162,7 @@ object DialogBox: TDialogBox
     Caption = 'Cancel'
     ModalResult = 2
     OnClick = ButtonClick
-    TabOrder = 11
+    TabOrder = 12
   end
   object btnOK: TButton
     AnchorSideTop.Control = btnCancel
@@ -177,7 +177,7 @@ object DialogBox: TDialogBox
     Caption = '&OK'
     ModalResult = 1
     OnClick = ButtonClick
-    TabOrder = 10
+    TabOrder = 11
   end
   object edtPassword: TEdit
     AnchorSideLeft.Control = edtUserName
@@ -193,7 +193,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Top = 6
     EchoMode = emPassword
     PasswordChar = '*'
-    TabOrder = 4
+    TabOrder = 5
   end
   object lblPassword: TLabel
     AnchorSideLeft.Control = Owner
@@ -219,7 +219,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Top = 12
     Caption = 'Use master password to protect the password'
     OnChange = CheckBoxChange
-    TabOrder = 6
+    TabOrder = 7
   end
   object btnChangePassword: TButton
     AnchorSideLeft.Control = edtUserName
@@ -235,7 +235,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Top = 6
     Caption = 'Change password...'
     OnClick = ButtonClick
-    TabOrder = 5
+    TabOrder = 6
     Visible = False
   end
   object edtInitCommands: TEdit
@@ -250,7 +250,7 @@ object DialogBox: TDialogBox
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    TabOrder = 8
+    TabOrder = 9
   end
   object lblInitCommands: TLabel
     AnchorSideLeft.Control = Owner
@@ -263,5 +263,18 @@ object DialogBox: TDialogBox
     BorderSpacing.Left = 12
     Caption = 'Init commands:'
     ParentColor = False
+  end
+  object chkAutoTLS: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = btnAnonymous
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 17
+    Top = 70
+    Width = 58
+    BorderSpacing.Left = 12
+    Caption = 'SSL/TLS'
+    OnChange = CheckBoxChange
+    TabOrder = 2
   end
 end
