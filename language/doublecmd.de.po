@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-05-13 10:20+0100\n"
+"PO-Revision-Date: 2012-06-24 10:20+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -259,7 +259,7 @@ msgstr "Folge Verknüpfungen"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "Reserve space"
-msgstr ""
+msgstr "Speicherplatz reservieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
@@ -1622,7 +1622,7 @@ msgstr "???"
 
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
-msgstr ""
+msgstr "Enthält:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -4130,11 +4130,11 @@ msgstr "An"
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Copy operation"
-msgstr ""
+msgstr "Kopieren"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
 msgid "Delete operation"
-msgstr ""
+msgstr "Endgültiges Löschen"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 #, fuzzy
@@ -4145,7 +4145,7 @@ msgstr "&F8/Entf löscht in den Papierkorb (mit 'Umschalt'- Taste = endgültiges
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
 msgid "Delete to trash operation"
-msgstr ""
+msgstr "In den Papierkorb löschen"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
@@ -4154,7 +4154,7 @@ msgstr "Schreibschutz-Attribut entfernen"
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
 msgid "Move operation"
-msgstr ""
+msgstr "Verschieben"
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
@@ -4202,7 +4202,7 @@ msgstr "Puffergröße für Dateioperationen (in KB)"
 
 #: tfrmoptionsfileoperations.lblconfirmations.caption
 msgid "Show confirmation window for:"
-msgstr ""
+msgstr "Bestätigungsdialog zeigen für:"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress initially in"
@@ -4391,7 +4391,7 @@ msgstr "Schreibweise beachten:"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
 msgid "Incorrect format"
-msgstr ""
+msgstr "Falsches Format"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
@@ -8010,7 +8010,7 @@ msgstr "Position nicht verändern;die gleiche Einstellung wie für neue Dateien 
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
-msgstr ""
+msgstr "Dateien: %d, Verzeichnisse: %d"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""

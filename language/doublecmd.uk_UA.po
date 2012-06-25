@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-05-12 23:57+0300\n"
+"PO-Revision-Date: 2012-06-20 00:24+0300\n"
 "Last-Translator: Максим aka Ma$terok <m_shein@ukr.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1618,7 +1618,7 @@ msgstr "???"
 
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
-msgstr ""
+msgstr "Містить:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -2155,9 +2155,8 @@ msgid "Brief"
 msgstr "Короткий"
 
 #: tfrmmain.actbriefview.hint
-#, fuzzy
 msgid "Brief View"
-msgstr "Короткий вигляд"
+msgstr "Cтислий вигляд"
 
 #: tfrmmain.actcalculatespace.caption
 #| msgid "Calculate &Occupied Space..."
@@ -2219,9 +2218,8 @@ msgid "Full"
 msgstr "Повний"
 
 #: tfrmmain.actcolumnsview.hint
-#, fuzzy
 msgid "Columns View"
-msgstr "Вигляд колонок"
+msgstr "Набір колонок"
 
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
@@ -7857,7 +7855,7 @@ msgstr "не змінювати положення; використовуват
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
-msgstr ""
+msgstr "Файлів: %d, папок: %d"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
