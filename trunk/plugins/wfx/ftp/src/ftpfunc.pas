@@ -1,9 +1,9 @@
 {
    Double commander
    -------------------------------------------------------------------------
-   WFX plugin for working with File Transfer Protocol
+   Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -29,9 +29,6 @@ interface
 
 uses
   SysUtils, Classes,
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
   WfxPlugin, FtpSend, Extension;
 
 type
@@ -221,9 +218,9 @@ function ShowPasswordDialog(out Password: AnsiString): Boolean;
 begin
   SetLength(Password, MAX_PATH);
   Password[1] := #0;
-  Result := RequestProc(PluginNumber, RT_Password, nil, nil, PChar(Password), MAX_PATH);
+  Result := RequestProc(PluginNumber, RT_Password, nil, nil, PAnsiChar(Password), MAX_PATH);
   if Result then
-    Password:= PChar(Password) // truncate to #0
+    Password:= PAnsiChar(Password) // truncate to #0
   else
     Password := '';
 end;
@@ -236,56 +233,58 @@ var
 begin
   Result:= False;
   I:= ActiveConnectionList.IndexOf(ConnectionName);
-  if I < 0 then
-  begin
-    // find in exists connection list
-    I:= ConnectionList.IndexOf(ConnectionName);
-    if I >= 0 then
-    begin
-      Connection := TConnection(ConnectionList.Objects[I]);
-      FtpSend := TFTPSendEx.Create;
-      FtpSend.OnStatus:= FtpSend.FTPStatus;
-      FtpSend.TargetHost := Connection.Host;
-      FtpSend.PassiveMode:= Connection.PassiveMode;
-      if Connection.Port <> EmptyStr then
-        FtpSend.TargetPort := Connection.Port;
-      if Connection.UserName <> EmptyStr then
-        FtpSend.UserName := Connection.UserName;
-      if Connection.MasterPassword then
-         begin
-           if CryptFunc(FS_CRYPT_LOAD_PASSWORD, Connection.ConnectionName, Connection.Password) <> FS_FILE_OK then
-             Connection.Password:= EmptyStr;
-         end;
-      if Connection.Password = EmptyStr then // if no saved password then ask it
-        begin
-          if not ShowPasswordDialog(Connection.Password) then
-            begin
-              FreeAndNil(FtpSend);
-              Exit;
-            end;
-        end;
-      FtpSend.Password := Connection.Password;
-      // try to connect
-      if FtpSend.Login then
-        begin
-          LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + ConnectionName));
-          sTemp:= Connection.InitCommands;
-          while sTemp <> EmptyStr do
-            FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
-          ActiveConnectionList.AddObject(ConnectionName, FtpSend);
-          Result:= True;
-        end
-      else
-        begin
-          FreeAndNil(FtpSend);
-          Exit;
-        end;
-    end;
-  end
-  else
+  // If find active connection then use it
+  if I >= 0 then
     begin
       FtpSend:= TFTPSendEx(ActiveConnectionList.Objects[I]);
       Result:= True;
+    end
+  else
+    begin
+      // find in exists connection list
+      I:= ConnectionList.IndexOf(ConnectionName);
+      if I >= 0 then
+      begin
+        Connection := TConnection(ConnectionList.Objects[I]);
+        FtpSend := TFTPSendEx.Create;
+        FtpSend.OnStatus:= FtpSend.FTPStatus;
+        FtpSend.TargetHost := Connection.Host;
+        FtpSend.PassiveMode:= Connection.PassiveMode;
+        if Connection.Port <> EmptyStr then
+          FtpSend.TargetPort := Connection.Port;
+        if Connection.UserName <> EmptyStr then
+          FtpSend.UserName := Connection.UserName;
+        if Connection.MasterPassword then
+        begin
+          if CryptFunc(FS_CRYPT_LOAD_PASSWORD, Connection.ConnectionName, Connection.Password) <> FS_FILE_OK then
+            Connection.Password:= EmptyStr;
+        end;
+        if Connection.Password = EmptyStr then // if no saved password then ask it
+        begin
+          if not ShowPasswordDialog(Connection.Password) then
+          begin
+            FreeAndNil(FtpSend);
+            Exit;
+          end;
+        end;
+        FtpSend.Password := Connection.Password;
+        // try to connect
+        if FtpSend.Login then
+          begin
+            LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + ConnectionName));
+            sTemp:= Connection.InitCommands;
+            while sTemp <> EmptyStr do
+              FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
+            ActiveConnectionList.AddObject(ConnectionName, FtpSend);
+            Result:= True;
+          end
+        else
+          begin
+            RequestProc(PluginNumber, RT_MsgOK, nil, 'Can not connect to the server!', nil, MAX_PATH);
+            FreeAndNil(FtpSend);
+            Exit;
+          end;
+      end;
     end;
 end;
 
@@ -458,23 +457,13 @@ end;
 function GetConnectionByPath(const sPath: AnsiString; out FtpSend: TFTPSendEx;
   out RemotePath: AnsiString): Boolean;
 var
-  Index: Integer;
   sConnName: AnsiString;
 begin
   Result := False;
   if (ExtractFileDir(sPath) = PathDelim) then Exit;
   sConnName := ExtractConnectionName(sPath);
   RemotePath := ExtractRemoteFileName(sPath);
-  Index:= ActiveConnectionList.IndexOf(sConnName);
-  if Index >= 0 then
-    begin
-      FtpSend := TFTPSendEx(ActiveConnectionList.Objects[Index]);
-      Result := True;
-    end
-  else
-    begin
-      Result:= FtpConnect(sConnName, FtpSend);
-    end;
+  Result:= FtpConnect(sConnName, FtpSend);
 end;
 
 function LocalFindNext(Hdl: THandle; var FindData: TWin32FindData): Boolean;
@@ -558,6 +547,7 @@ begin
   ListRec.Path := Path;
   ListRec.Index := 0;
   ListRec.FtpList:= nil;
+  Result := wfxInvalidHandle;
 
   if Path = PathDelim then
     begin
@@ -566,39 +556,27 @@ begin
     end
   else
     begin
+      ListLock.Acquire;
       try
-        ListLock.Acquire;
-        if not GetConnectionByPath(IncludeTrailingPathDelimiter(Path), FtpSend, sPath) then
+        if GetConnectionByPath(IncludeTrailingPathDelimiter(Path), FtpSend, sPath) then
         begin
-          Result := THandle(-1);
-          Dispose(ListRec);
-          Exit;
-        end;
-        if FtpSend.List(sPath, False) then
+          // Get directory listing
+          if FtpSend.List(sPath, False) then
           begin
             if FtpSend.FtpList.Count > 0 then
-              begin
-                ListRec.FtpList:= TFTPListEx.Create;
-                ListRec.FtpList.Assign(FtpSend.FtpList); // save file list
-                Result := THandle(ListRec);
-                RemoteFindNext(Result, FindData);
-              end
-            else
-              begin
-                Result := THandle(-1);
-                Dispose(ListRec);
-                {$IFDEF MSWINDOWS}
-                SetLastError(ERROR_NO_MORE_FILES);
-                {$ENDIF}
-              end;
-          end
-        else
-          begin
-            Result := THandle(-1);
-            Dispose(ListRec);
+            begin
+              ListRec.FtpList:= TFTPListEx.Create;
+              // Save file list
+              ListRec.FtpList.Assign(FtpSend.FtpList);
+              Result := THandle(ListRec);
+              RemoteFindNext(Result, FindData);
+            end;
           end;
+        end;
       finally
         ListLock.Release;
+        if Result = wfxInvalidHandle then
+          Dispose(ListRec);
       end;
     end;
 end;
@@ -618,11 +596,11 @@ var
   ListRec: PListRec absolute Hdl;
 begin
   if Assigned(ListRec) then
-    begin
-      if Assigned(ListRec^.FtpList) then
-        FreeAndNil(ListRec^.FtpList);
-      Dispose(ListRec);
-    end;
+  begin
+    if Assigned(ListRec^.FtpList) then
+      FreeAndNil(ListRec^.FtpList);
+    Dispose(ListRec);
+  end;
   Result:= 0;
 end;
 
@@ -643,7 +621,7 @@ begin
             if FtpConnect(RemoteName + 1, FtpSend) then
               Result := FS_EXEC_SYMLINK
             else
-              Result := FS_EXEC_ERROR;
+              Result := FS_EXEC_OK;
           end
         else  // special item
           begin

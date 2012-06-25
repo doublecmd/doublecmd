@@ -13,15 +13,15 @@ object DialogBox: TDialogBox
   ClientWidth = 420
   OnShow = DialogBoxShow
   Position = poScreenCenter
-  LCLVersion = '0.9.30.1'
+  LCLVersion = '0.9.30.4'
   object lblName: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = edtName
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 16
-    Top = 16
-    Width = 115
+    Height = 14
+    Top = 15
+    Width = 88
     BorderSpacing.Left = 12
     Caption = 'Connection name:'
     ParentColor = False
@@ -31,8 +31,8 @@ object DialogBox: TDialogBox
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 145
-    Height = 25
+    Left = 118
+    Height = 21
     Top = 12
     Width = 260
     BorderSpacing.Left = 18
@@ -45,9 +45,9 @@ object DialogBox: TDialogBox
     AnchorSideTop.Control = edtHost
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 16
-    Top = 47
-    Width = 74
+    Height = 14
+    Top = 42
+    Width = 59
     BorderSpacing.Left = 12
     Caption = 'Host[:Port]:'
     ParentColor = False
@@ -58,9 +58,9 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtName
     AnchorSideRight.Side = asrBottom
-    Left = 145
-    Height = 25
-    Top = 43
+    Left = 118
+    Height = 21
+    Top = 39
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -71,9 +71,9 @@ object DialogBox: TDialogBox
     AnchorSideTop.Control = edtUserName
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 16
-    Top = 109
-    Width = 73
+    Height = 14
+    Top = 100
+    Width = 56
     BorderSpacing.Left = 12
     Caption = 'User name:'
     ParentColor = False
@@ -84,13 +84,13 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnAnonymous
     AnchorSideRight.Side = asrBottom
-    Left = 145
-    Height = 25
-    Top = 105
+    Left = 118
+    Height = 21
+    Top = 97
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    TabOrder = 2
+    TabOrder = 3
   end
   object btnAnonymous: TButton
     AnchorSideLeft.Control = edtHost
@@ -98,15 +98,15 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtHost
     AnchorSideRight.Side = asrBottom
-    Left = 145
+    Left = 118
     Height = 25
-    Top = 74
+    Top = 66
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'Anonymous'
     OnClick = ButtonClick
-    TabOrder = 3
+    TabOrder = 2
   end
   object edtRemoteDir: TEdit
     AnchorSideLeft.Control = edtPassword
@@ -114,22 +114,22 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtPassword
     AnchorSideRight.Side = asrBottom
-    Left = 145
-    Height = 25
-    Top = 198
+    Left = 118
+    Height = 21
+    Top = 176
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    TabOrder = 4
+    TabOrder = 7
   end
   object lblRemoteDir: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = edtRemoteDir
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 16
-    Top = 202
-    Width = 72
+    Height = 14
+    Top = 179
+    Width = 57
     BorderSpacing.Left = 12
     Caption = 'Remote dir:'
     ParentColor = False
@@ -139,13 +139,13 @@ object DialogBox: TDialogBox
     AnchorSideTop.Control = edtInitCommands
     AnchorSideTop.Side = asrBottom
     Left = 12
-    Height = 24
-    Top = 272
-    Width = 353
+    Height = 17
+    Top = 242
+    Width = 275
     BorderSpacing.Left = 12
     BorderSpacing.Top = 18
     Caption = 'Use passive mode for transfers (like a WWW brower)'
-    TabOrder = 5
+    TabOrder = 9
   end
   object btnCancel: TButton
     AnchorSideTop.Control = chkPassiveMode
@@ -153,31 +153,31 @@ object DialogBox: TDialogBox
     AnchorSideRight.Control = edtRemoteDir
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 330
+    Left = 303
     Height = 25
-    Top = 308
+    Top = 271
     Width = 75
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
     Caption = 'Cancel'
     ModalResult = 2
     OnClick = ButtonClick
-    TabOrder = 6
+    TabOrder = 11
   end
   object btnOK: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = btnCancel
     AnchorSideBottom.Side = asrBottom
-    Left = 243
+    Left = 216
     Height = 25
-    Top = 308
+    Top = 271
     Width = 75
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
     Caption = '&OK'
     ModalResult = 1
     OnClick = ButtonClick
-    TabOrder = 7
+    TabOrder = 10
   end
   object edtPassword: TEdit
     AnchorSideLeft.Control = edtUserName
@@ -185,24 +185,24 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtUserName
     AnchorSideRight.Side = asrBottom
-    Left = 145
-    Height = 25
-    Top = 136
+    Left = 118
+    Height = 21
+    Top = 124
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     EchoMode = emPassword
     PasswordChar = '*'
-    TabOrder = 8
+    TabOrder = 4
   end
   object lblPassword: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = edtPassword
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 16
-    Top = 140
-    Width = 64
+    Height = 14
+    Top = 127
+    Width = 51
     BorderSpacing.Left = 12
     Caption = 'Password:'
     ParentColor = False
@@ -212,14 +212,14 @@ object DialogBox: TDialogBox
     AnchorSideTop.Control = lblPassword
     AnchorSideTop.Side = asrBottom
     Left = 12
-    Height = 24
-    Top = 168
-    Width = 318
+    Height = 17
+    Top = 153
+    Width = 242
     BorderSpacing.Left = 12
     BorderSpacing.Top = 12
     Caption = 'Use master password to protect the password'
     OnChange = CheckBoxChange
-    TabOrder = 9
+    TabOrder = 6
   end
   object btnChangePassword: TButton
     AnchorSideLeft.Control = edtUserName
@@ -227,15 +227,15 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtUserName
     AnchorSideRight.Side = asrBottom
-    Left = 145
+    Left = 118
     Height = 25
-    Top = 136
+    Top = 124
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'Change password...'
     OnClick = ButtonClick
-    TabOrder = 10
+    TabOrder = 5
     Visible = False
   end
   object edtInitCommands: TEdit
@@ -244,24 +244,24 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtRemoteDir
     AnchorSideRight.Side = asrBottom
-    Left = 145
-    Height = 25
-    Top = 229
+    Left = 118
+    Height = 21
+    Top = 203
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    TabOrder = 11
+    TabOrder = 8
   end
   object lblInitCommands: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = edtInitCommands
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 16
-    Top = 233
-    Width = 96
+    Height = 14
+    Top = 206
+    Width = 74
     BorderSpacing.Left = 12
     Caption = 'Init commands:'
     ParentColor = False
   end
-end
+end
