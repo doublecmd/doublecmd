@@ -2125,7 +2125,6 @@ procedure TMainCommands.cm_SortByName(const Params: array of string);
 var
   FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfName);
   AddSortFunction(FileFunctions, fsfNameNoExtension);
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
