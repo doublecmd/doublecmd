@@ -175,6 +175,7 @@ type
 
     procedure DoWatcherEvent;
     function GetWatchersCount: Integer;
+    function GetWatchPath(var aWatchPath: UTF8String): Boolean;
     {$IF DEFINED(MSWINDOWS)}
     function IsPathObserved(Watch: TOSWatch; FileName: UTF8String): Boolean;
     {$ENDIF}
@@ -794,6 +795,24 @@ begin
   end; { try - finally }
 end;
 
+function TFileSystemWatcherImpl.GetWatchPath(var aWatchPath: UTF8String): Boolean;
+begin
+  Result := True;
+{$IFDEF UNIX}
+  if aWatchPath <> PathDelim then
+{$ENDIF}
+    aWatchPath := ExcludeTrailingPathDelimiter(aWatchPath);
+
+{$IFDEF MSWINDOWS}
+  // Special check for network path
+  if (Pos(PathDelim, aWatchPath) = 1) and (NumCountChars(PathDelim, aWatchPath) < 3) then
+    Exit(False);
+  // Special check for drive root
+  if (Length(aWatchPath) = 2) and (aWatchPath[2] = ':') then
+    aWatchPath := aWatchPath + PathDelim;
+{$ENDIF}
+end;
+
 {$IF DEFINED(MSWINDOWS)}
 function TFileSystemWatcherImpl.IsPathObserved(Watch: TOSWatch; FileName: UTF8String): Boolean;
 var
@@ -944,15 +963,9 @@ begin
   if (aWatchPath = '') or (aWatcherEvent = nil) then
     Exit(False);
 
-  if aWatchPath <> PathDelim then
-    aWatchPath := ExcludeTrailingPathDelimiter(aWatchPath);
+  if not GetWatchPath(aWatchPath) then Exit(False);
 
   {$IFDEF MSWINDOWS}
-  // Special check for network path
-  if (Pos(PathDelim, aWatchPath) = 1) and (NumCountChars(PathDelim, aWatchPath) < 3) then
-    Exit(False);
-  if (Length(aWatchPath) = 2) and (aWatchPath[2] = ':') then
-    aWatchPath := aWatchPath + PathDelim;
   if gWatcherMode = fswmWholeDrive then
   begin
     RegisteredPath := aWatchPath;
@@ -1027,15 +1040,12 @@ procedure TFileSystemWatcherImpl.RemoveWatch(aWatchPath: UTF8String;
 var
   i: Integer;
 begin
-{$IFDEF UNIX}
-  if aWatchPath <> PathDelim then
-{$ENDIF}
-{$IFDEF MSWINDOWS}
+  if not GetWatchPath(aWatchPath) then Exit;
+
+  {$IFDEF MSWINDOWS}
   if gWatcherMode = fswmWholeDrive then
-    aWatchPath := GetDriveOfPath(aWatchPath)
-  else
-{$ENDIF}
-    aWatchPath := ExcludeTrailingPathDelimiter(aWatchPath);
+    aWatchPath := GetDriveOfPath(aWatchPath);
+  {$ENDIF}
 
   FWatcherLock.Acquire;
   try
