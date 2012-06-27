@@ -72,6 +72,7 @@ type
     procedure Flush; override;
   public
     constructor Create(const FileName: string);
+    procedure Write(const S: string);
     procedure WriteLine(const S: string);
   end;
 
@@ -217,6 +218,25 @@ begin
   end;
 end;
 
+procedure TSynEditFileWriter.Write(const S: string);
+var
+  L: Cardinal;
+begin
+  L := Length(S);
+  repeat
+    if fBufPtr + L <= fBufSize then begin
+      if L > 0 then begin
+        Move(S[1], fBuffer[fBufPtr], L);
+        fBufPtr := fBufPtr + L;
+      end;
+      Exit;
+    end;
+    Flush;
+    if L > fBufSize then
+      SetBufferSize(L);
+  until FALSE;
+end;
+
 procedure TSynEditFileWriter.WriteLine(const S: string);
 var
   L: Cardinal;
@@ -239,4 +259,4 @@ begin
 end;
 
 end.
-
+
