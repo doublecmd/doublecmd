@@ -56,13 +56,14 @@ type
 
   TSynEditFileReader = class(TSynEditFiler)
   protected
+    fEOF: Boolean;
     fFilePos: TStreamSeekType;
     fFileSize: TStreamSeekType;
     procedure FillBuffer;
   public
     constructor Create(const aFileName: UTF8String);
-    function EOF: boolean;
     function ReadLine: string;
+    property EOF: Boolean read fEOF;
   end;
 
   { TSynEditFileWriter }
@@ -124,14 +125,10 @@ end;
 constructor TSynEditFileReader.Create(const aFileName: UTF8String);
 begin
   inherited Create;
+  fEOF := False;
   fFiler := TFileStreamEx.Create(aFileName, fmOpenRead or fmShareDenyNone);
   fFileSize := fFiler.Size;
   fFiler.Seek(0, soFromBeginning);
-end;
-
-function TSynEditFileReader.EOF: boolean;
-begin
-  Result := (fBuffer[fBufPtr] = #0) and (fFilePos >= fFileSize);
 end;
 
 procedure TSynEditFileReader.FillBuffer;
@@ -155,6 +152,11 @@ var
 begin
   Result := '';
   repeat
+    if (fBuffer[fBufPtr] = #0) and (fFilePos >= fFileSize) then begin
+      fEOF := True;
+      Result := EmptyStr;
+      Exit;
+    end;
     S := PChar(@fBuffer[fBufPtr]);
     if S[0] = #0 then begin
       FillBuffer;
@@ -180,13 +182,14 @@ begin
               FLineEndType := sfleLf;
             Inc(P);
             fBufPtr := P - fBuffer;
-            exit;
+            Exit;
           end;
         #0:
           if fFilePos >= fFileSize then begin
+            fEOF := True;
             fBufPtr := P - fBuffer;
             SetString(Result, S, P - S);
-            exit;
+            Exit;
           end;
       end;
       Inc(P);
