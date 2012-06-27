@@ -8,7 +8,7 @@ This form used SynEdit and his Highlighters
 
 contributors:
 
-Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2012 Alexander Koblov (Alexx2000@mail.ru)
 
 }
 
@@ -371,15 +371,40 @@ end;
 function TfrmEditor.SaveFile(const aFileName: UTF8String): Boolean;
 var
   I: Integer;
+  Encoding: String;
   Writer: TSynEditFileWriter;
 begin
   Result := False;
   try
     Writer := TSynEditFileWriter.Create(aFileName);
     try
+      Encoding := NormalizeEncoding(sEncodingOut);
       Writer.LineEndType := (Editor.Lines as TSynEditLines).FileWriteLineEndType;
-      for I := 0 to Editor.Lines.Count - 1 do
-        Writer.WriteLine(ConvertEncoding(Editor.Lines[I], EncodingUTF8, sEncodingOut));
+      // If file is empty and encoding UTF-8 with BOM then write only BOM
+      if (Editor.Lines.Count = 0) and (Encoding = EncodingUTF8BOM) then
+        Writer.Write(UTF8ToUTF8BOM(EmptyStr))
+      // If file has only one line then write it without line break
+      else if Editor.Lines.Count = 1 then
+        Writer.Write(ConvertEncoding(Editor.Lines[0], EncodingUTF8, sEncodingOut))
+      else if Editor.Lines.Count > 1 then
+        begin
+          Writer.WriteLine(ConvertEncoding(Editor.Lines[0], EncodingUTF8, sEncodingOut));
+          // Special case for UTF-8 and UTF-8 with BOM
+          if (Encoding = EncodingUTF8) or (Encoding = EncodingUTF8BOM) then
+            begin
+              for I := 1 to Editor.Lines.Count - 2 do
+                Writer.WriteLine(Editor.Lines[I]);
+              // Write last line without line break
+              Writer.Write(Editor.Lines[Editor.Lines.Count - 1]);
+            end
+          else
+            begin
+              for I := 1 to Editor.Lines.Count - 2 do
+                Writer.WriteLine(ConvertEncoding(Editor.Lines[I], EncodingUTF8, sEncodingOut));
+              // Write last line without line break
+              Writer.Write(ConvertEncoding(Editor.Lines[Editor.Lines.Count - 1], EncodingUTF8, sEncodingOut));
+            end;
+        end;
     finally
       Writer.Free;
     end;
