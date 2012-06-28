@@ -2248,7 +2248,21 @@ begin
       Exit;
     end;
 
-    ShowEditorByGlob(sNewFile);
+    aFile := TFileSystemFileSource.CreateFileFromFile(sNewFile);
+    try
+      // Try to find Edit command in doublecmd.ext
+      sNewFile := gExts.GetExtActionCmd(aFile, 'edit');
+      // If command not found then use default editor
+      if Length(sNewFile) = 0 then
+        ShowEditorByGlob(aFile.FullPath)
+      else
+        begin
+          sNewFile := PrepareParameter(sNewFile, aFile);
+          ProcessExtCommand(sNewFile, aFile.Path);
+        end;
+    finally
+      FreeAndNil(aFile);
+    end;
   end
   else
     msgWarning(rsMsgNotImplemented);
