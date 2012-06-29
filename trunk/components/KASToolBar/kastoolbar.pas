@@ -1042,7 +1042,7 @@ begin
   if Assigned(Parent) and (Parent is TKASToolBar) and
      not TKASToolBar(Parent).FShowDividerAsButton then
   begin
-    PreferredWidth  := 3;
+    PreferredWidth  := 5;
     PreferredHeight := TKASToolBar(Parent).RowHeight;
   end
   else
@@ -1059,11 +1059,14 @@ begin
   begin
     DividerRect:= ClientRect;
     Details:= ThemeServices.GetElementDetails(ttbSeparatorNormal);
-    if (DividerRect.Right - DividerRect.Left) > 3 then
-      begin
-        DividerRect.Left:= (DividerRect.Left + DividerRect.Right) div 2 - 1;
-        DividerRect.Right:= DividerRect.Left + 3;
-      end;
+    // Theme services have no strict rule to draw divider in the center,
+    // so we should calculate rectangle here
+    // on windows 7 divider can't be less than 4 pixels
+    if (DividerRect.Right - DividerRect.Left) > 5 then
+    begin
+      DividerRect.Left := (DividerRect.Left + DividerRect.Right) div 2 - 3;
+      DividerRect.Right := DividerRect.Left + 5;
+    end;
     ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
   end
   else
