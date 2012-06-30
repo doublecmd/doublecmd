@@ -1043,6 +1043,7 @@ begin
       FHashedNames.Add(NewFileName, ADisplayFile);
       ADisplayFile.IconID := -1;
       ADisplayFile.IconOverlayID := -1;
+      ADisplayFile.TextColor := clNone;
       ADisplayFile.DisplayStrings.Clear;
       ResortFile(ADisplayFile, FAllDisplayFiles);
 
@@ -1693,6 +1694,9 @@ begin
 
   if UpdatedFile.IconOverlayID <> -1 then
     OrigDisplayFile.IconOverlayID := UpdatedFile.IconOverlayID;
+
+  if UpdatedFile.TextColor <> clNone then
+    OrigDisplayFile.TextColor := UpdatedFile.TextColor;
 
   DoFileUpdated(OrigDisplayFile);
 end;

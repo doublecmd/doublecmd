@@ -226,7 +226,7 @@ implementation
 
 uses
   {$IFDEF timeFileView} uDebug, {$ENDIF}
-  LCLProc,
+  LCLProc, Graphics,
   uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
   uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
@@ -648,6 +648,9 @@ begin
     begin
       AFile := TDisplayFile.Create(aFileSourceFiles[i]);
 
+      if AFile.TextColor = clNone then
+        AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
+
       if gShowIcons <> sim_none then
       begin
         AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
@@ -691,6 +694,9 @@ begin
         else
         begin
           AFile := TDisplayFile.Create(aFileSourceFiles[i]);
+
+          if AFile.TextColor = clNone then
+            AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
 
           if gShowIcons <> sim_none then
           begin
@@ -787,6 +793,9 @@ begin
     try
       if FFileSource.CanRetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded) then
         FFileSource.RetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded);
+
+      if FWorkingFile.TextColor = clNone then
+        FWorkingFile.TextColor:= gColorExt.GetColorBy(FWorkingFile.FSFile);
 
       if HaveIcons then
       begin

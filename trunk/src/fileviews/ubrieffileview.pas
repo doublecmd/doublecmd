@@ -619,7 +619,7 @@ var
   procedure PrepareColors;
   //------------------------------------------------------
   var
-    TextColor: TColor = -1;
+    TextColor: TColor = clDefault;
     BackgroundColor: TColor;
     IsCursor: Boolean;
   //---------------------
@@ -642,8 +642,8 @@ var
       end;
 
     // Set text color.
-    TextColor := gColorExt.GetColorBy(AFile.FSFile);
-    if TextColor = -1 then TextColor := gForeColor;
+    TextColor := AFile.TextColor;
+    if TextColor = clDefault then TextColor := gForeColor;
 
     if AFile.Selected then
     begin

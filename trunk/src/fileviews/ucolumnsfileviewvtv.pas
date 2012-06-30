@@ -1647,7 +1647,7 @@ var
   procedure PrepareColors;
   //------------------------------------------------------
   var
-    TextColor: TColor = -1;
+    TextColor: TColor = clDefault;
     BackgroundColor: TColor;
     IsCursor: Boolean;
   //---------------------
@@ -1673,8 +1673,8 @@ var
 
     // Set text color.
     if ColumnsSet.GetColumnOvercolor(ACol) then
-      TextColor := gColorExt.GetColorBy(AFile.FSFile);
-    if TextColor = -1 then
+      TextColor := AFile.TextColor;
+    if TextColor = clDefault then
       TextColor := ColumnsSet.GetColumnTextColor(ACol);
 
     if AFile.Selected then
