@@ -1153,6 +1153,8 @@ begin
   end;
 
   FixedCols := 0;
+  // Set column number to zero, must be called after fixed columns change
+  MoveExtend(False, 0, Row);
 end;
 
 procedure TDrawGridEx.InitializeWnd;
