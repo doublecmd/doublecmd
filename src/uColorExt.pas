@@ -126,33 +126,33 @@ begin
 end;
 
 function TColorExt.GetColorByExt(const sExt: String): TColor;
-var I:integer;
+var
+  I: Integer;
 begin
- Result:= -1;
-// Result:= gForeColor; //$0000ff00;
- for I:=0 to lslist.Count-1 do
-   begin
-     if MatchesMaskList(sExt, TMaskItem(lslist[I]).sExt,';') then
-       begin
-         Result:= TMaskItem(lslist[I]).cColor;
-         Exit;
-       end;
-   end;
+  Result:= clDefault;
+  for I:=0 to lslist.Count-1 do
+  begin
+    if MatchesMaskList(sExt, TMaskItem(lslist[I]).sExt,';') then
+    begin
+      Result:= TMaskItem(lslist[I]).cColor;
+      Exit;
+    end;
+  end;
 end;
 
 function TColorExt.GetColorByAttr(const sModeStr: String): TColor;
-var I:Integer;
+var
+  I: Integer;
 begin
-  Result:= -1;
-// Result:= gForeColor; //$0000ff00;
- for I:=0 to lslist.Count-1 do
-   begin
-     if MatchesMaskList(sModeStr,TMAskItem(lslist[I]).sModeStr,';') then
-       begin
-         Result:=TMAskItem(lslist[I]).cColor;
-         exit;
-       end;
-   end;
+  Result:= clDefault;
+  for I:=0 to lslist.Count-1 do
+  begin
+    if MatchesMaskList(sModeStr,TMAskItem(lslist[I]).sModeStr,';') then
+    begin
+      Result:=TMAskItem(lslist[I]).cColor;
+      Exit;
+    end;
+  end;
 end;
 
 function TColorExt.GetColorBy(const AFile: TFile): TColor;
@@ -160,9 +160,9 @@ var
   I, J: Integer;
   MaskItem: TMaskItem;
 begin
- Result:= -1;//gForeColor; //$0000ff00;
- for I:= 0 to lslist.Count-1 do
-   begin
+  Result:= clDefault;
+  for I:= 0 to lslist.Count-1 do
+  begin
      MaskItem:= TMaskItem(lslist[I]);
      // get color by search template
      if MaskItem.sExt[1] = '>' then
@@ -191,8 +191,7 @@ begin
          Result:= MaskItem.cColor;
          Exit;
        end;
-   end;
-
+  end;
 end;
 
 (* Load colors of files from doublecmd.ini *)

@@ -5,7 +5,7 @@ unit uDisplayFile;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Graphics,
   uFile;
 
 type
@@ -28,6 +28,7 @@ type
     FSelected: Boolean;      //<en If is selected
     FIconID: PtrInt;         //<en Icon ID for PixmapManager
     FIconOverlayID: PtrInt;  //<en Overlay icon ID for PixmapManager
+    FTextColor: TColor;      //<en Text color in file list
     {en
        Used to indicate that the file has been recently updated.
        Value goes from 100 to 0. 0 - not recently updated, 100 - just updated.
@@ -68,6 +69,7 @@ type
     property Selected: Boolean read FSelected write FSelected;
     property IconID: PtrInt read FIconID write FIconID;
     property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
+    property TextColor: TColor read FTextColor write FTextColor;
     property DisplayStrings: TStringList read FDisplayStrings;
     property RecentlyUpdatedPct: Integer read FRecentlyUpdatedPct write FRecentlyUpdatedPct;
 
@@ -121,6 +123,7 @@ constructor TDisplayFile.Create(ReferenceFile: TFile);
 begin
   FIconID := -1;
   FIconOverlayID := -1;
+  FTextColor := clNone;
   FFSFile := ReferenceFile;
   FDisplayStrings := TStringList.Create;
 end;
@@ -157,6 +160,7 @@ begin
     AFile.FSelected := FSelected;
     AFile.FIconID := FIconID;
     AFile.FIconOverlayID := FIconOverlayID;
+    AFile.FTextColor := FTextColor;
 
     if Assigned(AFile.FFSFile) then
     begin

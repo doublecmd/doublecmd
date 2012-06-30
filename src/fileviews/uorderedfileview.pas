@@ -110,7 +110,7 @@ type
 implementation
 
 uses
-  LCLProc, LCLType, math, Forms,
+  LCLProc, LCLType, math, Forms, Graphics,
   DCStrUtils,
   uLng, uGlobs, uMasks,
   uFileSourceProperty,
@@ -322,6 +322,8 @@ begin
     for i := VisibleFiles.First to VisibleFiles.Last do
     begin
       AFile := FFiles[i];
+      if AFile.TextColor = clNone then
+        AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
       if AFile.FSFile.Name <> '..' then
       begin
         if HaveIcons then
@@ -348,6 +350,8 @@ begin
       for i := VisibleFiles.First to VisibleFiles.Last do
       begin
         AFile := FFiles[i];
+        if AFile.TextColor = clNone then
+          AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
         if (AFile.FSFile.Name <> '..') and
            (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
             (HaveIcons and ((AFile.IconID < 0)
