@@ -648,8 +648,7 @@ begin
     begin
       AFile := TDisplayFile.Create(aFileSourceFiles[i]);
 
-      if AFile.TextColor = clNone then
-        AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
+      AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
 
       if gShowIcons <> sim_none then
       begin
@@ -695,8 +694,7 @@ begin
         begin
           AFile := TDisplayFile.Create(aFileSourceFiles[i]);
 
-          if AFile.TextColor = clNone then
-            AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
+          AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
 
           if gShowIcons <> sim_none then
           begin
