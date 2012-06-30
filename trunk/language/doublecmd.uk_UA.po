@@ -261,7 +261,7 @@ msgstr "Перейти за посиланнями"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "Reserve space"
-msgstr ""
+msgstr "Зарезервувати місце"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 #, fuzzy
