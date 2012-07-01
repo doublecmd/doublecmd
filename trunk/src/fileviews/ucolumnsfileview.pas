@@ -1363,7 +1363,7 @@ var
     // Set text color.
     if ColumnsSet.GetColumnOvercolor(ACol) then
       TextColor := AFile.TextColor;
-    if TextColor = clDefault then
+    if (TextColor = clDefault) or (TextColor = clNone) then
       TextColor := ColumnsSet.GetColumnTextColor(ACol);
 
     if AFile.Selected then

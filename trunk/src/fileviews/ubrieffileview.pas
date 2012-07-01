@@ -643,7 +643,8 @@ var
 
     // Set text color.
     TextColor := AFile.TextColor;
-    if TextColor = clDefault then TextColor := gForeColor;
+    if (TextColor = clDefault) or (TextColor = clNone) then
+      TextColor := gForeColor;
 
     if AFile.Selected then
     begin
