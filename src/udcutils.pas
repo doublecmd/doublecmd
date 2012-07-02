@@ -468,26 +468,16 @@ end;
 function IsInPathList(sBasePathList: String; sPathToCheck: String;
                       ASeparator: AnsiChar = ';'): Boolean;
 var
-  I: Integer;
-  J: Integer = 1;
   sBasePath: String;
 begin
-  sBasePathList:= UTF8UpperCase(sBasePathList);
-  sPathToCheck:= UTF8UpperCase(sPathToCheck);
-  for I:= 1 to Length(sBasePathList) do
-  begin
-    if sBasePathList[I] = ASeparator then
-    begin
-      sBasePath:= Copy(sBasePathList, J, I - J);
-      if IsInPath(sBasePath, sPathToCheck, True, True) then
-        Exit(True);
-      J:= I + 1;
-    end;
-  end;
-  if J > 1 then
-    Result:= False
-  else
-    Result := IsInPath(sBasePathList, sPathToCheck, True, True);
+  sBasePathList := UTF8UpperCase(sBasePathList);
+  sPathToCheck := UTF8UpperCase(sPathToCheck);
+  repeat
+    sBasePath := Copy2SymbDel(sBasePathList, ASeparator);
+    if IsInPath(sBasePath, sPathToCheck, True, True) then
+      Exit(True);
+  until Length(sBasePathList) = 0;
+  Result := False
 end;
 
 procedure ChangeFileListRoot(sNewRootPath: String; Files: TFiles);
