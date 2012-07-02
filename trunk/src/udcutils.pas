@@ -103,6 +103,19 @@ function MatchesFileList(const Files: TFiles; FileName: String): Boolean;
 }
 function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
 {en
+  Checks if a file or directory belongs in the specified path list.
+  Only strings are compared, no file-system checks are done.
+
+  @param(sBasePathList
+         List of absolute paths where the path to check should be in.)
+  @param(sPathToCheck
+         Absolute path to file or directory to check.)
+  @return(@true if sPathToCheck points to a directory or file in sBasePathList.
+          @false otherwise.)
+}
+function IsInPathList(sBasePathList : String; sPathToCheck : String;
+                      ASeparator: AnsiChar = ';') : Boolean;
+{en
   Changes all the files' paths making them relative to 'sNewRootPath'.
   It is done by removing 'sNewRootPath' prefix from the paths and setting
   the general path (Files.Path) to sNewRootPath.
@@ -214,7 +227,7 @@ procedure EnableControl(Control:  TControl; Enabled: Boolean);
 implementation
 
 uses
-  LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
+  LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
   DCStrUtils, DCOSUtils;
 
 function GetCmdDirFromEnvVar(const sPath: String): String;
@@ -450,6 +463,31 @@ begin
       if MatchesMaskList(sFileName, sMask) then
         Exit(True);
     end;
+end;
+
+function IsInPathList(sBasePathList: String; sPathToCheck: String;
+                      ASeparator: AnsiChar = ';'): Boolean;
+var
+  I: Integer;
+  J: Integer = 1;
+  sBasePath: String;
+begin
+  sBasePathList:= UTF8UpperCase(sBasePathList);
+  sPathToCheck:= UTF8UpperCase(sPathToCheck);
+  for I:= 1 to Length(sBasePathList) do
+  begin
+    if sBasePathList[I] = ASeparator then
+    begin
+      sBasePath:= Copy(sBasePathList, J, I - J);
+      if IsInPath(sBasePath, sPathToCheck, True, True) then
+        Exit(True);
+      J:= I + 1;
+    end;
+  end;
+  if J > 1 then
+    Result:= False
+  else
+    Result := IsInPath(sBasePathList, sPathToCheck, True, True);
 end;
 
 procedure ChangeFileListRoot(sNewRootPath: String; Files: TFiles);

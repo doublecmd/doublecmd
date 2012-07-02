@@ -112,7 +112,7 @@ implementation
 uses
   LCLProc, LCLType, math, Forms, Graphics,
   DCStrUtils,
-  uLng, uGlobs, uMasks,
+  uLng, uGlobs, uMasks, uDCUtils,
   uFileSourceProperty,
   uPixMapManager,
   uFileViewWorker,
@@ -308,6 +308,7 @@ var
   Worker: TFileViewWorker;
   AFile: TDisplayFile;
   HaveIcons: Boolean;
+  DirectAccess: Boolean;
 begin
   if (csDestroying in ComponentState) or
      (GetCurrentWorkType = fvwtCreate) or
@@ -316,9 +317,14 @@ begin
 
   VisibleFiles := GetVisibleFilesIndexes;
   HaveIcons := gShowIcons <> sim_none;
+  DirectAccess := fspDirectAccess in FileSource.Properties;
 
   if not gListFilesInThread then
   begin
+    if HaveIcons and gIconsExclude and DirectAccess then
+    begin
+      DirectAccess := not IsInPathList(gIconsExcludeDirs, CurrentPath);
+    end;
     for i := VisibleFiles.First to VisibleFiles.Last do
     begin
       AFile := FFiles[i];
@@ -330,12 +336,12 @@ begin
         begin
           if AFile.IconID < 0 then
             AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
-              fspDirectAccess in FileSource.Properties, True, gShowIcons, not gIconOverlays);
+              DirectAccess, True, gShowIcons, not gIconOverlays);
           {$IF DEFINED(MSWINDOWS)}
           if gIconOverlays and (AFile.IconOverlayID < 0) then
           begin
             AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
-                                                                      fspDirectAccess in FileSource.Properties);
+                                                                      DirectAccess);
           end;
           {$ENDIF}
         end;

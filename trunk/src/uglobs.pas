@@ -234,6 +234,8 @@ var
   gIconOverlays : Boolean;
   gIconsSize,
   gIconsSizeNew : Integer;
+  gIconsExclude: Boolean;
+  gIconsExcludeDirs: String;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
 
   { Keys page }
@@ -925,6 +927,8 @@ begin
   gIconOverlays := False;
   gIconsSize := 16;
   gIconsSizeNew := gIconsSize;
+  gIconsExclude := False;
+  gIconsExcludeDirs := EmptyStr;
   gCustomDriveIcons := False;
 
   { Ignore list page }
@@ -1895,6 +1899,8 @@ begin
       gShowIcons := TShowIconsMode(GetValue(Node, 'ShowMode', Integer(gShowIcons)));
       gIconOverlays := GetValue(Node, 'ShowOverlays', gIconOverlays);
       gIconsSize := GetValue(Node, 'Size', gIconsSize);
+      gIconsExclude := GetValue(Node, 'Exclude', gIconsExclude);
+      gIconsExcludeDirs := GetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
       gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
     end;
 
@@ -2180,6 +2186,8 @@ begin
     SetValue(Node, 'ShowMode', Integer(gShowIconsNew));
     SetValue(Node, 'ShowOverlays', gIconOverlays);
     SetValue(Node, 'Size', gIconsSizeNew);
+    SetValue(Node, 'Exclude', gIconsExclude);
+    SetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
     SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
 
     { Ignore list page }

@@ -1,17 +1,19 @@
 inherited frmOptionsIcons: TfrmOptionsIcons
-  Height = 295
+  Height = 329
   Width = 478
-  ClientHeight = 295
+  ClientHeight = 329
   ClientWidth = 478
+  DesignLeft = 244
+  DesignTop = 121
   object gbIconsSize: TGroupBox[0]
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = gbShowIconsMode
+    AnchorSideTop.Control = gbDisableSpecialIcons
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 86
-    Top = 201
+    Height = 82
+    Top = 242
     Width = 466
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -27,12 +29,12 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
       Left = 10
-      Height = 29
-      Top = 18
+      Height = 21
+      Top = 22
       Width = 131
       BorderSpacing.Left = 10
       BorderSpacing.Right = 10
-      ItemHeight = 21
+      ItemHeight = 13
       ItemIndex = 0
       Items.Strings = (
         '16x16'
@@ -74,7 +76,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 189
+    Height = 145
     Top = 6
     Width = 466
     Anchors = [akTop, akLeft, akRight]
@@ -82,7 +84,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     BorderSpacing.Around = 6
     Caption = ' Show icons to the left of the filename '
     ChildSizing.TopBottomSpacing = 8
-    ClientHeight = 167
+    ClientHeight = 127
     ClientWidth = 462
     TabOrder = 1
     object rbIconsShowAll: TRadioButton
@@ -90,9 +92,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowAllAndExe
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 39
-      Width = 45
+      Height = 17
+      Top = 31
+      Width = 31
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = '&All'
@@ -105,9 +107,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowAll
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 70
-      Width = 161
+      Height = 17
+      Top = 54
+      Width = 115
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = '&Only standard icons'
@@ -118,9 +120,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowStandard
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 101
-      Width = 86
+      Height = 17
+      Top = 77
+      Width = 60
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = '&No icons'
@@ -131,9 +133,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideLeft.Control = gbShowIconsMode
       AnchorSideTop.Control = gbShowIconsMode
       Left = 10
-      Height = 25
+      Height = 17
       Top = 8
-      Width = 243
+      Width = 171
       BorderSpacing.Left = 10
       Caption = 'All associated + &EXE/LNK (slow)'
       TabOrder = 0
@@ -143,13 +145,60 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowNone
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 134
-      Width = 245
+      Height = 17
+      Top = 102
+      Width = 179
       BorderSpacing.Left = 10
       BorderSpacing.Top = 8
       Caption = 'Show overlay i&cons, e.g. for links'
       TabOrder = 4
+    end
+  end
+  object gbDisableSpecialIcons: TGroupBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbShowIconsMode
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 79
+    Top = 157
+    Width = 466
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Disable special icons'
+    ChildSizing.TopBottomSpacing = 8
+    ClientHeight = 61
+    ClientWidth = 462
+    TabOrder = 2
+    object edtIconsExcludeDirs: TEdit
+      AnchorSideLeft.Control = cbIconsExclude
+      AnchorSideTop.Control = cbIconsExclude
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbDisableSpecialIcons
+      AnchorSideRight.Side = asrBottom
+      Left = 30
+      Height = 21
+      Top = 25
+      Width = 424
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 20
+      BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 15
+      TabOrder = 0
+    end
+    object cbIconsExclude: TCheckBox
+      AnchorSideLeft.Control = gbDisableSpecialIcons
+      AnchorSideTop.Control = gbDisableSpecialIcons
+      Left = 10
+      Height = 17
+      Top = 8
+      Width = 250
+      BorderSpacing.Left = 10
+      Caption = 'For the following &paths and their subdirectories:'
+      OnChange = cbIconsExcludeChange
+      TabOrder = 1
     end
   end
 end
