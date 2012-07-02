@@ -4556,6 +4556,12 @@ msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr "제어"
 
+#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+#, fuzzy
+msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
+msgid "For the following &paths and their subdirectories:"
+msgstr "다음 경로와 하위폴더:"
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -4567,6 +4573,10 @@ msgstr "오버레이 아이콘 보이기(링크에 표시되는 것과 같은)(&
 msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
 msgstr "16x16"
+
+#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+msgid "Disable special icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
 #, fuzzy

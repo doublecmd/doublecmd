@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-06-23 18:16+0400\n"
+"PO-Revision-Date: 2012-07-03 00:12+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1816,7 +1816,7 @@ msgstr "Отмена"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
-msgstr ""
+msgstr "Использовать шаблон"
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -2162,7 +2162,7 @@ msgstr "Копировать путь в командную строку"
 
 #: tfrmmain.actbriefview.caption
 msgid "Brief"
-msgstr ""
+msgstr "Краткий"
 
 #: tfrmmain.actbriefview.hint
 msgid "Brief View"
@@ -2223,7 +2223,7 @@ msgstr ""
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
-msgstr ""
+msgstr "Подробный"
 
 #: tfrmmain.actcolumnsview.hint
 msgid "Columns View"
@@ -4174,7 +4174,7 @@ msgstr "Курсор-рамка"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
 msgid "Use Gradient Indicator"
-msgstr ""
+msgstr "Использовать градиентный индикатор"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
@@ -4460,6 +4460,11 @@ msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr ""
 
+#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
+msgid "For the following &paths and their subdirectories:"
+msgstr "Для следующих каталогов и их подкаталогов:"
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show overlay i&cons, e.g. for links"
@@ -4469,6 +4474,10 @@ msgstr "Показывать овер&лейные значки (наприме�
 msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
 msgstr ""
+
+#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+msgid "Disable special icons"
+msgstr "Отключить загрузку специальных иконок"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"

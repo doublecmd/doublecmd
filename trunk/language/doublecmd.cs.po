@@ -4457,6 +4457,11 @@ msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr "Ovládací prvky"
 
+#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
+msgid "For the following &paths and their subdirectories:"
+msgstr "Pro následující &cesty a jejich podadresáře:"
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show overlay i&cons, e.g. for links"
@@ -4466,6 +4471,10 @@ msgstr "Zobrazit překryvné i&kony, např. pro odkazy"
 msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
 msgstr "16x16"
+
+#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+msgid "Disable special icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"

@@ -4290,6 +4290,11 @@ msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr ""
 
+#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
+msgid "For the following &paths and their subdirectories:"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show overlay i&cons, e.g. for links"
@@ -4298,6 +4303,10 @@ msgstr ""
 #: tfrmoptionsicons.cbiconssize.text
 msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
+msgstr ""
+
+#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+msgid "Disable special icons"
 msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
