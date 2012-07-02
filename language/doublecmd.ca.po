@@ -4481,6 +4481,11 @@ msgstr "Paràmetres"
 msgid "Controls"
 msgstr ""
 
+#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
+msgid "For the following &paths and their subdirectories:"
+msgstr "Per les rutes següents i les seves subcarpetes:"
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "tfrmoptionsicons.cbiconsshowoverlay.caption"
 msgid "Show overlay i&cons, e.g. for links"
@@ -4490,6 +4495,10 @@ msgstr "Mostrar icons superposats; per ex, per Enllaços"
 msgctxt "tfrmoptionsicons.cbiconssize.text"
 msgid "16x16"
 msgstr "16x16"
+
+#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+msgid "Disable special icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "tfrmoptionsicons.gbiconssize.caption"
