@@ -36,14 +36,18 @@ type
   TfrmOptionsIcons = class(TOptionsEditor)
     cbIconsShowOverlay: TCheckBox;
     cbIconsSize: TComboBox;
+    cbIconsExclude: TCheckBox;
+    edtIconsExcludeDirs: TEdit;
     gbIconsSize: TGroupBox;
     gbShowIconsMode: TGroupBox;
+    gbDisableSpecialIcons: TGroupBox;
     imgIconExample: TImage;
     pnlIconExample: TPanel;
     rbIconsShowAll: TRadioButton;
     rbIconsShowAllAndExe: TRadioButton;
     rbIconsShowNone: TRadioButton;
     rbIconsShowStandard: TRadioButton;
+    procedure cbIconsExcludeChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
   public
@@ -77,10 +81,16 @@ begin
   FreeAndNil(bmpTemp);
 end;
 
+procedure TfrmOptionsIcons.cbIconsExcludeChange(Sender: TObject);
+begin
+  edtIconsExcludeDirs.Enabled:= cbIconsExclude.Checked;
+end;
+
 procedure TfrmOptionsIcons.rbIconsShowNoneChange(Sender: TObject);
 begin
   cbIconsSize.Enabled := not rbIconsShowNone.Checked;
   cbIconsShowOverlay.Enabled := not rbIconsShowNone.Checked;
+  gbDisableSpecialIcons.Enabled := not rbIconsShowNone.Checked;
 end;
 
 class function TfrmOptionsIcons.GetIconIndex: Integer;
@@ -102,6 +112,9 @@ begin
     sim_all_and_exe: rbIconsShowAllAndExe.Checked := True;
   end;
   cbIconsShowOverlay.Checked:= gIconOverlays;
+  cbIconsExclude.Checked:= gIconsExclude;
+  edtIconsExcludeDirs.Text:= gIconsExcludeDirs;
+  edtIconsExcludeDirs.Enabled:= gIconsExclude;
   cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
   cbIconsSizeChange(nil);
 end;
@@ -138,6 +151,8 @@ begin
   gIconsSizeNew := SelectedIconsSize;
   gShowIconsNew := SelectedShowIcons;
   gIconOverlays := cbIconsShowOverlay.Checked;
+  gIconsExclude := cbIconsExclude.Checked;
+  gIconsExcludeDirs := edtIconsExcludeDirs.Text;
 end;
 
 end.

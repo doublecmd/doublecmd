@@ -639,21 +639,29 @@ class procedure TFileListBuilder.MakeAllDisplayFileList(
 var
   i: PtrInt;
   AFile: TDisplayFile;
+  HaveIcons: Boolean;
+  DirectAccess: Boolean;
 begin
   aDisplayFiles.Clear;
 
   if Assigned(aFileSourceFiles) then
   begin
+    HaveIcons := gShowIcons <> sim_none;
+    DirectAccess := fspDirectAccess in aFileSource.Properties;
+    if HaveIcons and gIconsExclude and DirectAccess then
+    begin
+      DirectAccess := not IsInPathList(gIconsExcludeDirs, aFileSourceFiles.Path);
+    end;
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
       AFile := TDisplayFile.Create(aFileSourceFiles[i]);
 
       AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
 
-      if gShowIcons <> sim_none then
+      if HaveIcons then
       begin
         AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
-                                                    fspDirectAccess in aFileSource.Properties,
+                                                    DirectAccess,
                                                     not gLoadIconsSeparately,
                                                     gShowIcons,
                                                     not gIconOverlays);
@@ -676,9 +684,17 @@ var
   j: Integer;
   AFile: TDisplayFile;
   aNewFiles: TDisplayFiles;
+  HaveIcons: Boolean;
+  DirectAccess: Boolean;
 begin
   if Assigned(aFileSourceFiles) then
   begin
+    HaveIcons := gShowIcons <> sim_none;
+    DirectAccess := fspDirectAccess in aFileSource.Properties;
+    if HaveIcons and gIconsExclude and DirectAccess then
+    begin
+      DirectAccess := not IsInPathList(gIconsExcludeDirs, aFileSourceFiles.Path);
+    end;
     aNewFiles := TDisplayFiles.Create(False);
     try
       for i := 0 to aFileSourceFiles.Count - 1 do
@@ -696,10 +712,10 @@ begin
 
           AFile.TextColor:= gColorExt.GetColorBy(AFile.FSFile);
 
-          if gShowIcons <> sim_none then
+          if HaveIcons then
           begin
             AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
-                                                        fspDirectAccess in aFileSource.Properties,
+                                                        DirectAccess,
                                                         not gLoadIconsSeparately,
                                                         gShowIcons,
                                                         not gIconOverlays);
@@ -778,8 +794,14 @@ procedure TFilePropertiesRetriever.Execute;
 var
   i: Integer;
   HaveIcons: Boolean;
+  DirectAccess: Boolean;
 begin
   HaveIcons := gShowIcons <> sim_none;
+  DirectAccess := fspDirectAccess in FFileSource.Properties;
+  if HaveIcons and gIconsExclude and DirectAccess then
+  begin
+    DirectAccess := not IsInPathList(gIconsExcludeDirs, FFileList.Files[0].FSFile.Path);
+  end;
   for i := 0 to FFileList.Count - 1 do
   begin
     if Aborted then
@@ -800,7 +822,7 @@ begin
         if FWorkingFile.IconID < 0 then
           FWorkingFile.IconID := PixMapManager.GetIconByFile(
               FWorkingFile.FSFile,
-              fspDirectAccess in FFileSource.Properties,
+              DirectAccess,
               True,
               gShowIcons,
               not gIconOverlays);
@@ -809,7 +831,7 @@ begin
         if gIconOverlays and (FWorkingFile.IconOverlayID < 0) then
           FWorkingFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(
               FWorkingFile.FSFile,
-              fspDirectAccess in FFileSource.Properties);
+              DirectAccess);
         {$ENDIF}
       end;
 

@@ -2826,12 +2826,8 @@ begin
       // If current path is in exclude list then exit.
       if (watch_exclude_dirs in gWatchDirs) and (gWatchDirsExclude <> '') then
       begin
-        sWatchDirsExclude := gWatchDirsExclude;
-        repeat
-          sDrive := Copy2SymbDel(sWatchDirsExclude, ';');
-          if IsInPath(UTF8UpperCase(sDrive), UTF8UpperCase(CurrentPath), True, True) then
-            Exit;
-        until sWatchDirsExclude = '';
+        if IsInPathList(gWatchDirsExclude, CurrentPath) then
+          Exit;
       end;
 
       WatchFilter := [];
