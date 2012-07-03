@@ -99,6 +99,7 @@ end;
 
 procedure TFileSystemCalcChecksumOperation.Initialize;
 begin
+  FResult.Clear;
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
@@ -115,8 +116,6 @@ begin
 
   FBufferSize := gCopyBlockSize;
   GetMem(FBuffer, FBufferSize);
-
-  FResult.Clear;
 end;
 
 procedure TFileSystemCalcChecksumOperation.MainExecute;
@@ -216,8 +215,8 @@ begin
     for I := 0 to FCheckSumFile.Count - 1 do
     begin
       FileName := aFile.Path + Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt);
-      aFileToVerify := TFileSystemFileSource.CreateFileFromFile(FileName);
       try
+        aFileToVerify := TFileSystemFileSource.CreateFileFromFile(FileName);
         if not (aFileToVerify.IsDirectory or aFileToVerify.IsLinkToDirectory) then
         begin
           with FStatistics do
@@ -238,7 +237,9 @@ begin
       except
         on EFileNotFound do
           begin
-            // error - file not found
+            FResult.Add(Format(rsViewNotFound,
+                               [Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt) + ': '])
+                       );
           end
         else
           begin
