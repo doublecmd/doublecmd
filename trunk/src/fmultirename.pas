@@ -609,7 +609,7 @@ begin
         end;
       '=':
         begin
-          Result:= FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource);
+          Result:= FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource, True);
         end;
       else
       begin
@@ -1192,4 +1192,4 @@ begin
 end;
 
 end.
-
+
