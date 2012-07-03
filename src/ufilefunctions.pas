@@ -289,25 +289,40 @@ end;
 
 function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
 var
-  p: Integer;
+  P: Integer;
+  FunctionStr: String;
+  FileFunction: TFileFunction;
+  FilePropertiesNeeded: TFilePropertiesTypes;
 begin
   Result:= EmptyStr;
 
   while True do
   begin
-    p := pos('[', FuncS);
-    if p = 0 then
+    P := Pos('[', FuncS);
+    if P = 0 then
       Break
-    else if p > 1 then
-      Result:= Result + Copy(FuncS, 1, p - 1);
-    Delete(FuncS, 1, p);
+    else if P > 1 then
+      Result:= Result + Copy(FuncS, 1, P - 1);
+    Delete(FuncS, 1, P);
 
-    p := pos(']', FuncS);
-    if p = 0 then
+    P := Pos(']', FuncS);
+    if P = 0 then
       Break
-    else if p > 1 then
-      Result:= Result + FormatFileFunction(Copy(FuncS, 1, p - 1), AFile, AFileSource);
-    Delete(FuncS, 1, p);
+    else if P > 1 then
+      begin
+        FunctionStr := Copy(FuncS, 1, P - 1);
+        if UpCase(GetModType(FunctionStr)) = sFuncTypeDC then
+        begin
+          FileFunction:= TFileFunction(FileFunctionsStr.IndexOfName(
+                                       UpCase(GetModFunctionName(FunctionStr))));
+          FilePropertiesNeeded:= TFileFunctionToProperty[FileFunction];
+          // Retrieve additional properties if needed
+          if aFileSource.CanRetrieveProperties(AFile, FilePropertiesNeeded) then
+            aFileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+        end;
+        Result:= Result + FormatFileFunction(FunctionStr, AFile, AFileSource);
+      end;
+    Delete(FuncS, 1, P);
   end;
 
   if Length(FuncS) <> 0 then
