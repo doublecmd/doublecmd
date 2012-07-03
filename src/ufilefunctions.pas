@@ -87,7 +87,7 @@ type
                [fpCompressedSize],
                [] { invalid });
 
-  function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
+  function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource; RetrieveProperties: Boolean = False): string;
   function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
   function GetFileFunctionByName(FuncS: string): TFileFunction;
 
@@ -163,9 +163,11 @@ begin
   Result := Copy(S, 1, I - 1);
 end;
 
-function FormatFileFunction(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
+function FormatFileFunction(FuncS: String; AFile: TFile; const AFileSource: IFileSource; RetrieveProperties: Boolean = False): String;
 var
   AType, AName, AFunc, AParam: String;
+  FileFunction: TFileFunction;
+  FilePropertiesNeeded: TFilePropertiesTypes;
 begin
   Result := EmptyStr;
   //---------------------
@@ -178,7 +180,15 @@ begin
   //------------------------------------------------------
   if AType = sFuncTypeDC then
   begin
-    case TFileFunction(FileFunctionsStr.IndexOfName(AFunc)) of
+    FileFunction:= TFileFunction(FileFunctionsStr.IndexOfName(AFunc));
+    // Retrieve additional properties if needed
+    if RetrieveProperties then
+    begin
+      FilePropertiesNeeded:= TFileFunctionToProperty[FileFunction];
+      if aFileSource.CanRetrieveProperties(AFile, FilePropertiesNeeded) then
+        aFileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+    end;
+    case FileFunction of
       fsfName:
         begin
           // Show square brackets around directories
@@ -290,9 +300,6 @@ end;
 function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
 var
   P: Integer;
-  FunctionStr: String;
-  FileFunction: TFileFunction;
-  FilePropertiesNeeded: TFilePropertiesTypes;
 begin
   Result:= EmptyStr;
 
@@ -309,19 +316,7 @@ begin
     if P = 0 then
       Break
     else if P > 1 then
-      begin
-        FunctionStr := Copy(FuncS, 1, P - 1);
-        if UpCase(GetModType(FunctionStr)) = sFuncTypeDC then
-        begin
-          FileFunction:= TFileFunction(FileFunctionsStr.IndexOfName(
-                                       UpCase(GetModFunctionName(FunctionStr))));
-          FilePropertiesNeeded:= TFileFunctionToProperty[FileFunction];
-          // Retrieve additional properties if needed
-          if aFileSource.CanRetrieveProperties(AFile, FilePropertiesNeeded) then
-            aFileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
-        end;
-        Result:= Result + FormatFileFunction(FunctionStr, AFile, AFileSource);
-      end;
+      Result:= Result + FormatFileFunction(Copy(FuncS, 1, P - 1), AFile, AFileSource, True);
     Delete(FuncS, 1, P);
   end;
 
