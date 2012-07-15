@@ -60,6 +60,7 @@ type
     procedure BeginUpdate;
     procedure CheckFilesOrDirectoriesDown;
     procedure EndUpdate;
+    procedure DoHide;
     procedure DoOnChangeSearch;
     {en
        Loads control states from options values
@@ -428,6 +429,7 @@ begin
   // but only when a control from outside of frame gains focus.
   FrameExit(nil);
   {$ENDIF}
+  DoHide;
 end;
 
 procedure TfrmQuickSearch.CheckFilesOrDirectoriesDown;
@@ -514,7 +516,7 @@ begin
     begin
       Key := 0;
 
-      FrameExit(nil);
+      DoHide;
     end;
 
     VK_ESCAPE:
@@ -536,6 +538,12 @@ begin
   end;
 end;
 
+procedure TfrmQuickSearch.DoHide;
+begin
+  if Assigned(Self.OnHide) then
+    Self.OnHide(Self);
+end;
+
 procedure TfrmQuickSearch.FrameExit(Sender: TObject);
 begin
   if not Finalizing then
@@ -548,9 +556,6 @@ begin
       Self.Visible := not gQuickFilterAutoHide
     else
       Finalize;
-
-    if Assigned(Self.OnHide) then
-      Self.OnHide(Self);
 
     Finalizing := False;
   end;
