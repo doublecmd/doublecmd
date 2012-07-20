@@ -3983,6 +3983,7 @@ begin
       end;
     end;
 
+    // Drive free space indicator
     if gDriveInd then
     begin
       AnchorFreeSpace(pbxLeftDrive, pbxRightDrive, gDriveFreeSpace);
@@ -3995,15 +3996,18 @@ begin
       end;
     end;
 
-    if gPanelOfOp then
-    begin
-      FOperationsPanel := TOperationsPanel.Create(Self);
-      FOperationsPanel.Parent := PanelAllProgress;
-      FOperationsPanel.DoubleBuffered := True;
-      PanelAllProgress.OnResize := @FOperationsPanel.ParentResized;
-    end
+    // Operations panel and menu
+    if (gPanelOfOp = False) then
+      FreeAndNil(FOperationsPanel)
     else
-      FreeAndNil(FOperationsPanel);
+      begin
+        FOperationsPanel := TOperationsPanel.Create(Self);
+        FOperationsPanel.Parent := PanelAllProgress;
+        FOperationsPanel.DoubleBuffered := True;
+        PanelAllProgress.OnResize := @FOperationsPanel.ParentResized;
+      end;
+    PanelAllProgress.Visible := gPanelOfOp;
+    Timer.Enabled := gPanelOfOp or gProgInMenuBar;
 
     // Log window
     seLogWindow.Visible := gLogWindow;
@@ -4949,16 +4953,16 @@ begin
       if gPanelOfOp = True then
         FOperationsPanel.UpdateView;
 
-      if gProgInMenuBar = true then
+      if gProgInMenuBar = True then
         begin
-          AllProgressPoint:= Round(OperationsManager.AllProgressPoint*100);
-          mnuAllOperProgress.Caption:=IntToStr(AllProgressPoint)+' %'; // Show in menu line
+          AllProgressPoint:= Round(OperationsManager.AllProgressPoint * 100);
+          // Show in menu line
+          mnuAllOperProgress.Caption:=IntToStr(AllProgressPoint) + ' %';
           mnuAllOperProgress.Visible:= True;
           mnuAllOperPause.Visible:= True;
           mnuAllOperStart.Visible:= True;
         end;
     end;
-  PanelAllProgress.Visible := FOperationsPanel.Visible;
 end;
 
 procedure TfrmMain.SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
