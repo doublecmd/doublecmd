@@ -3175,6 +3175,7 @@ object frmMain: TfrmMain
     end
   end
   object Timer: TTimer
+    Enabled = False
     Interval = 100
     OnTimer = AllProgressOnUpdateTimer
     left = 96
