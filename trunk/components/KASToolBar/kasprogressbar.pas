@@ -112,15 +112,12 @@ begin
   FTaskBarEntryHandle := INVALID_HANDLE_VALUE;
   // Works only under Windows 7 and higher
   if CheckWin32Version(6, 1) then
-  begin
+  try
     FTaskbarList := ITaskbarList(CreateComObject(CLSID_TaskbarList));
-    if FTaskbarList <> nil then
-    try
-      FTaskbarList.HrInit;
-      FTaskbarList.QueryInterface(CLSID_TaskbarList3, FTaskbarList3);
-    except
-      FTaskbarList3:= nil;
-    end;
+    FTaskbarList.HrInit;
+    FTaskbarList.QueryInterface(CLSID_TaskbarList3, FTaskbarList3);
+  except
+    FTaskbarList3 := nil;
   end;
   {$ENDIF}
 
