@@ -51,6 +51,8 @@ type
                                         ErrorClass: TAbErrorClass; ErrorCode: Integer);
   public
     constructor Create(AOwner: TComponent); override;
+
+    function GetFileName(aFileIndex: Integer): String;
   end;
 
 {Mandatory functions}
@@ -87,6 +89,7 @@ var
   gStartupInfo: TExtensionStartupInfo;
   gCompressionMethodToUse : TAbZipSupportedMethod;
   gDeflationOption : TAbZipDeflationOption;
+  gTarAutoHandle : Boolean;
   
 implementation
 
@@ -126,7 +129,7 @@ begin
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
-    Arc.TarAutoHandle := True;
+    Arc.TarAutoHandle := gTarAutoHandle;
     Arc.OpenArchive(ArchiveData.ArcName);
     Arc.Tag := 0;
     Result := TArcHandle(Arc);
@@ -165,7 +168,7 @@ begin
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
-    Arc.TarAutoHandle := True;
+    Arc.TarAutoHandle := gTarAutoHandle;
     Arc.OpenArchive(UTF8Encode(WideString(ArchiveData.ArcName)));
     Arc.Tag := 0;
     Result := TArcHandle(Arc);
@@ -201,13 +204,7 @@ begin
   if Arc.Tag > Arc.Count - 1 then
     Exit(E_END_ARCHIVE);
 
-  sFileName := Arc.Items[Arc.Tag].FileName;
-
-  if (Arc.ArchiveType in [atGzip, atGzippedTar]) and (sFileName = 'unknown') then
-     sFileName := ExtractOnlyFileName(Arc.FileName);
-
-  DoDirSeparators(sFileName);
-  sFileName := ExcludeTrailingPathDelimiter(sFileName);
+  sFileName := Arc.GetFileName(Arc.Tag);
 
   StrPLCopy(HeaderData.FileName, sFileName, SizeOf(HeaderData.FileName) - 1);
 
@@ -232,13 +229,7 @@ begin
   if Arc.Tag > Arc.Count - 1 then
     Exit(E_END_ARCHIVE);
 
-  sFileName := Arc.Items[Arc.Tag].FileName;
-
-  if (Arc.ArchiveType in [atGzip, atGzippedTar]) and (sFileName = 'unknown') then
-     sFileName := ExtractOnlyFileName(Arc.FileName);
-
-  DoDirSeparators(sFileName);
-  sFileName := ExcludeTrailingPathDelimiter(sFileName);
+  sFileName := Arc.GetFileName(Arc.Tag);
 
   StrPLCopy(HeaderData.FileName, sFileName, SizeOf(HeaderData.FileName) - 1);
 
@@ -265,13 +256,7 @@ begin
   if Arc.Tag > Arc.Count - 1 then
     Exit(E_END_ARCHIVE);
 
-  sFileName := Arc.Items[Arc.Tag].FileName;
-
-  if (Arc.ArchiveType in [atGzip, atGzippedTar]) and (sFileName = 'unknown') then
-     sFileName := ExtractOnlyFileName(Arc.FileName);
-
-  DoDirSeparators(sFileName);
-  sFileName := ExcludeTrailingPathDelimiter(sFileName);
+  sFileName := Arc.GetFileName(Arc.Tag);
 
   StringToArrayW(UTF8Decode(sFileName), @HeaderData.FileName, SizeOf(HeaderData.FileName));
 
@@ -793,6 +778,22 @@ begin
   FProcessDataProcW := nil;
 
   TempDirectory := GetTempDir;
+end;
+
+function TAbZipKitEx.GetFileName(aFileIndex: Integer): String;
+begin
+  Result := Items[aFileIndex].FileName;
+  if (ArchiveType in [atGzip, atGzippedTar]) and (Result = 'unknown') then
+  begin
+    Result := ExtractOnlyFileName(FileName);
+    if (ArchiveType = atGzippedTar) then
+    begin
+      if (TarAutoHandle = False) and (ExtractOnlyFileExt(Result) <> 'tar') then
+        Result := Result + '.tar';
+    end;
+  end;
+  DoDirSeparators(Result);
+  Result := ExcludeTrailingPathDelimiter(Result);
 end;
 
 procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
