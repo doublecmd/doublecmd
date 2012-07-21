@@ -4332,7 +4332,8 @@ begin
             sDir:= GetHomeDir
           else
             begin
-              sDir:= Trim(RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd))));
+              sDir:= RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd)));
+              sDir:= NormalizePathDelimiters(Trim(sDir));
               sDir:= ReplaceTilde(IncludeTrailingBackslash(sDir));
               sDir:= GetAbsoluteFileName(ActiveFrame.CurrentPath, sDir);
             end;
