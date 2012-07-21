@@ -1,10 +1,10 @@
 {
    Double commander
    -------------------------------------------------------------------------
-   WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
+   WCX plugin for working with *.zip, *.gz, *.bz2, *.tar, *.tgz, *.tbz archives
 
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2012  Alexander Koblov (alexx2000@mail.ru)
 
 
    This program is free software; you can redistribute it and/or
@@ -71,6 +71,7 @@ begin
             doSuperFast:
               SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 3, 0);
           end; // case
+          SendDlgMsg(pDlg, 'chkTarAutoHandle', DM_SETCHECK, PtrInt(gTarAutoHandle), 0);
         end;
       DN_CLICK:
         if DlgItemName = 'btnOK' then
@@ -95,6 +96,7 @@ begin
               3:
                 gDeflationOption:= doSuperFast;
             end; // case
+            gTarAutoHandle:= Boolean(SendDlgMsg(pDlg, 'chkTarAutoHandle', DM_GETCHECK, 0, 0));
             SaveConfig;
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end
@@ -145,6 +147,7 @@ begin
   try
     gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 2));
     gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
+    gTarAutoHandle:= gIni.ReadBool('Configuration', 'TarAutoHandle', True);
   finally
     gIni.Free;
   end;
@@ -158,6 +161,7 @@ begin
   try
     gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
     gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
+    gIni.WriteBool('Configuration', 'TarAutoHandle', gTarAutoHandle);
   finally
     gIni.Free;
   end;
