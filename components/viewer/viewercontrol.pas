@@ -31,7 +31,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2011 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012 Alexander Koblov (Alexx2000@mail.ru)
 
 
    TODO:
@@ -2153,14 +2153,14 @@ function TViewerControl.DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): 
 begin
   Result := inherited;
   if not Result then
-    Scroll(3);
+    Result := Scroll(Mouse.WheelScrollLines);
 end;
 
 function TViewerControl.DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean;
 begin
   Result := inherited;
   if not Result then
-    Scroll(-3);
+    Result := Scroll(-Mouse.WheelScrollLines);
 end;
 
 function TViewerControl.XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
