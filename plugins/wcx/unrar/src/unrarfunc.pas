@@ -4,7 +4,7 @@
    WCX plugin for unpacking RAR archives
    This is simple wrapper for unrar.dll or libunrar.so
 
-   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -49,6 +49,8 @@ const
   UCM_CHANGEVOLUME    =  0;
   UCM_PROCESSDATA     =  1;
   UCM_NEEDPASSWORD    =  2;
+  UCM_CHANGEVOLUMEW   =  3;
+  UCM_NEEDPASSWORDW   =  4;
 
   // Main header flags.
   MHD_VOLUME         = $0001;
@@ -129,8 +131,14 @@ type
     CmtState: LongWord;
   end;
 
+  {$IFDEF MSWINDOWS}{$CALLING STDCALL}{$ELSE}{$CALLING CDECL}{$ENDIF}
+
+  TUnrarCallback = function(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;
+  TUnrarChangeVolProc = function(ArcName: PChar; Mode: Integer): Integer;
+  TUnrarProcessDataProc = function(BufAddr: Pointer; BufSize: Integer): Integer;
+
   RAROpenArchiveDataEx = packed record
-    ArcName: PChar;
+    ArcName: PAnsiChar;
     ArcNameW: PRarUnicodeChar;
     OpenMode: LongWord;
     OpenResult: LongWord;
@@ -139,14 +147,10 @@ type
     CmtSize: LongWord;
     CmtState: LongWord;
     Flags: LongWord;
-    Reserved: packed array [0..31] of LongWord;
+    Callback: TUnrarCallback;
+    UserData: PtrInt;
+    Reserved: packed array [0..27] of LongWord;
   end;
-
-  {$IFDEF MSWINDOWS}{$CALLING STDCALL}{$ELSE}{$CALLING CDECL}{$ENDIF}
-
-  TUnrarCallback = function(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;
-  TUnrarChangeVolProc = function(ArcName: PChar; Mode: Integer): Integer;
-  TUnrarProcessDataProc = function(BufAddr: Pointer; BufSize: Integer): Integer;
 
   TRAROpenArchive = function(var ArchiveData: RAROpenArchiveData) : TArcHandle;
   TRAROpenArchiveEx = function(var ArchiveData: RAROpenArchiveDataEx) : TArcHandle;
@@ -406,9 +410,9 @@ begin
     RarArchiveData.CmtBufSize := ArchiveData.CmtBufSize;
 
     Result := RAROpenArchive(RarArchiveData);
+    ArchiveData.OpenResult   := RarArchiveData.OpenResult;
     if Result <> 0 then
     begin
-      ArchiveData.OpenResult := RarArchiveData.OpenResult;
       ArchiveData.CmtSize    := RarArchiveData.CmtSize;
       ArchiveData.CmtState   := RarArchiveData.CmtState;
 
@@ -431,16 +435,15 @@ begin
   begin
     RarArcName := WideStringToRarUnicodeString(ArchiveData.ArcName);
 
-    RarArchiveData.ArcName    := nil;
+    FillChar(RarArchiveData, SizeOf(RAROpenArchiveDataEx), #0);
     RarArchiveData.ArcNameW   := PRarUnicodeChar(RarArcName);
     RarArchiveData.OpenMode   := ArchiveData.OpenMode;
-    RarArchiveData.CmtBuf     := nil;
-    RarArchiveData.CmtBufSize := 0;
+    RarArchiveData.Callback   := @UnrarCallback;
 
     Result := RAROpenArchiveEx(RarArchiveData);
+    ArchiveData.OpenResult   := RarArchiveData.OpenResult;
     if Result <> 0 then
     begin
-      ArchiveData.OpenResult := RarArchiveData.OpenResult;
       ArchiveData.CmtSize    := RarArchiveData.CmtSize;
       ArchiveData.CmtState   := RarArchiveData.CmtState;
 
