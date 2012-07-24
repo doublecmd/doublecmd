@@ -149,13 +149,19 @@ end;
 procedure TOrderedFileView.cm_GoToFirstFile(const Params: array of string);
 begin
   if not (IsEmpty or IsLoadingFileList) then
+  begin
+    SetFocus;
     SetActiveFile(0);
+  end;
 end;
 
 procedure TOrderedFileView.cm_GoToLastFile(const Params: array of string);
 begin
   if not (IsEmpty or IsLoadingFileList) then
+  begin
+    SetFocus;
     SetActiveFile(FFiles.Count - 1);
+  end;
 end;
 
 procedure TOrderedFileView.cm_QuickFilter(const Params: array of string);
