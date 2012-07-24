@@ -165,10 +165,11 @@ begin
 
   with gExternalTools[etViewer] do
   begin
+    sCmd := ReplaceEnvVars(Path);
     // TProcess arguments must be enclosed with double quotes and not escaped.
     if RunInTerminal then
     begin
-      sCmd := QuoteStr(Path);
+      sCmd := QuoteStr(sCmd);
       if Parameters <> EmptyStr then
         sCmd := sCmd + ' ' + Parameters;
       sCmd := sCmd + ' ' + QuoteStr(FFileList.Strings[0]);
@@ -176,7 +177,7 @@ begin
     end
     else
     begin
-      sCmd := '"' + Path + '"';
+      sCmd := '"' + sCmd + '"';
       if Parameters <> EmptyStr then
         sCmd := sCmd + ' ' + Parameters;
       sCmd := sCmd + ' "' + FFileList.Strings[0] + '"';
@@ -196,4 +197,4 @@ begin
   end;
 end;
 
-end.
+end.
