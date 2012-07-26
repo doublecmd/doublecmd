@@ -150,7 +150,7 @@ begin
   if IsNetworkPath(NewDir) then
     Result:= True
   else
-    Result:= inherited SetCurrentWorkingDirectory(NewDir);
+    Result:= mbSetCurrentDir(NewDir);
 end;
 
 constructor TWinNetFileSource.Create;
