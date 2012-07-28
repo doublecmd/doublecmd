@@ -87,7 +87,7 @@ type
 
     // Data captured from the file view before start.
     FFileSource: IFileSource;
-    FFileSourcesCount: Integer;
+    FFileSourceIndex: Integer;
     FFileFilter: String;
     FFilterOptions: TQuickSearchOptions;
     FCurrentPath: String;
@@ -118,7 +118,7 @@ type
 
   public
     constructor Create(AFileSource: IFileSource;
-                       AFileSourcesCount: Integer;
+                       AFileSourceIndex: Integer;
                        const AFileFilter: String;
                        const AFilterOptions: TQuickSearchOptions;
                        const ACurrentPath: String;
@@ -348,7 +348,7 @@ end;
 { TFileListBuilder }
 
 constructor TFileListBuilder.Create(AFileSource: IFileSource;
-                                    AFileSourcesCount: Integer;
+                                    AFileSourceIndex: Integer;
                                     const AFileFilter: String;
                                     const AFilterOptions: TQuickSearchOptions;
                                     const ACurrentPath: String;
@@ -371,7 +371,7 @@ begin
   FListOperationLock     := TCriticalSection.Create;
 
   FFileSource           := AFileSource;
-  FFileSourcesCount     := AFileSourcesCount;
+  FFileSourceIndex      := AFileSourceIndex;
   FFileFilter           := AFileFilter;
   FFilterOptions        := AFilterOptions;
   FCurrentPath          := ACurrentPath;
@@ -461,7 +461,7 @@ begin
       if (not HaveUpDir) and
          ((not FFileSource.IsPathAtRoot(FCurrentPath)) or
           // Add '..' to go to higher level file source, if there is more than one.
-          (FFileSourcesCount > 1)) then
+          (FFileSourceIndex > 0)) then
       begin
         AFile := FFileSource.CreateFileObject(FCurrentPath);
         AFile.Name := '..';

@@ -1783,7 +1783,7 @@ begin
 
   Worker := TFileListBuilder.Create(
     FileSource,
-    FileSourcesCount,
+    CurrentFileSourceIndex,
     FileFilter,
     FilterOptions,
     CurrentPath,
