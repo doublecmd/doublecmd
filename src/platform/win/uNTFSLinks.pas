@@ -337,7 +337,8 @@ begin
     hDevice:= CreateFileW(PWideChar(aSymlinkFileName),
                           0, FILE_SHARE_READ or FILE_SHARE_WRITE,
                           nil, OPEN_EXISTING, dwFlagsAndAttributes, 0);
-    if hDevice = INVALID_HANDLE_VALUE then Exit;
+    Result:= hDevice <> INVALID_HANDLE_VALUE;
+    if not Result then Exit;
     Result:= DeviceIoControl(hDevice,                  // handle to file or directory
                              FSCTL_GET_REPARSE_POINT,  // dwIoControlCode
                              nil,                      // input buffer
@@ -347,7 +348,9 @@ begin
                              lpBytesReturned,          // lpBytesReturned
                              nil);                     // OVERLAPPED structure
     CloseHandle(hDevice);
-    case lpOutBuffer.ReparseTag of
+    if Result then
+    begin
+      case lpOutBuffer.ReparseTag of
       IO_REPARSE_TAG_SYMLINK:
         with lpOutBuffer.SymbolicLinkReparseBuffer do
         begin
@@ -364,9 +367,10 @@ begin
           SetLength(aTargetFileName, SubstituteNameLength div SizeOf(WideChar));
           CopyMemory(PWideChar(aTargetFileName), pwcTargetFileName, SubstituteNameLength);
         end;
+      end;
+      if Pos(wsNativeFileNamePrefix, aTargetFileName) = 1 then
+        Delete(aTargetFileName, 1, Length(wsNativeFileNamePrefix));
     end;
-    if Pos(wsNativeFileNamePrefix, aTargetFileName) > 0 then
-      Delete(aTargetFileName, 1, Length(wsNativeFileNamePrefix));
   end;
 end;
 
