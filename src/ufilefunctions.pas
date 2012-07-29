@@ -165,6 +165,7 @@ end;
 
 function FormatFileFunction(FuncS: String; AFile: TFile; const AFileSource: IFileSource; RetrieveProperties: Boolean = False): String;
 var
+  AIndex: Integer;
   AType, AName, AFunc, AParam: String;
   FileFunction: TFileFunction;
   FilePropertiesNeeded: TFilePropertiesTypes;
@@ -180,7 +181,9 @@ begin
   //------------------------------------------------------
   if AType = sFuncTypeDC then
   begin
-    FileFunction:= TFileFunction(FileFunctionsStr.IndexOfName(AFunc));
+    AIndex:= FileFunctionsStr.IndexOfName(AFunc);
+    if AIndex < 0 then Exit;
+    FileFunction:= TFileFunction(AIndex);
     // Retrieve additional properties if needed
     if RetrieveProperties then
     begin
@@ -326,6 +329,7 @@ end;
 
 function GetFileFunctionByName(FuncS: String): TFileFunction;
 var
+  AIndex: Integer;
   AType, AFunc: String;
 begin
   AType := UpCase(GetModType(FuncS));
@@ -333,9 +337,11 @@ begin
 
   // Only internal DC functions.
   if AType = sFuncTypeDC then
-    Result := TFileFunction(FileFunctionsStr.IndexOfName(AFunc))
-  else
-    Result := fsfInvalid;
+  begin
+    AIndex := FileFunctionsStr.IndexOfName(AFunc);
+    if AIndex >= 0 then Exit(TFileFunction(AIndex));
+  end;
+  Result := fsfInvalid;
 end;
 
 procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent);
