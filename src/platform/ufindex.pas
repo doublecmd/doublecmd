@@ -85,6 +85,9 @@ implementation
 
 uses
   LCLProc, uDebug
+  {$IFDEF MSWINDOWS}
+  , uMyWindows
+  {$ENDIF}
   {$IFDEF UNIX}
   , uMyUnix, Unix, FileUtil, DCOSUtils, DCFileAttributes
   {$ENDIF};
@@ -99,6 +102,8 @@ begin
   begin
     while (FindData.dwFileAttributes and ExcludeAttr) <> 0 do
       if not FindNextFileW(FindHandle, FindData) then Exit(GetLastError);
+
+    FindData.dwFileAttributes:= ExtractFileAttributes(FindData);
 
     Time:= TWinFileTime(FindData.ftLastWriteTime);
     Size:= (Int64(FindData.nFileSizeHigh) shl 32) + FindData.nFileSizeLow;

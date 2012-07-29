@@ -141,6 +141,12 @@ function mbGetCompressedFileSize(const FileName: UTF8String): Int64;
    @returns(The function returns @true if caller has Administrators local group, @false otherwise)
 }
 function IsUserAdmin: LongBool;
+{en
+   Extract file attributes from find data record.
+   Removes reparse point attribute if a reparse point tag is not a name surrogate.
+   @param(FindData Find data record from FindFirstFile/FindNextFile function.)
+}
+function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD;
 
 procedure InitErrorMode;
 
@@ -622,6 +628,17 @@ begin
       end;
     end;
   end;
+end;
+
+function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD; inline;
+begin
+  // If a reparse point tag is not a name surrogate then remove reparse point attribute
+  // Fixes bug: http://doublecmd.sourceforge.net/mantisbt/view.php?id=531
+  if (FindData.dwFileAttributes and FILE_ATTRIBUTE_REPARSE_POINT <> 0) and
+     (FindData.dwReserved0 and $20000000 = 0) then
+    Result:= FindData.dwFileAttributes - FILE_ATTRIBUTE_REPARSE_POINT
+  else
+    Result:= FindData.dwFileAttributes;
 end;
 
 procedure InitErrorMode;

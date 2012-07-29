@@ -136,7 +136,7 @@ implementation
 
 uses
   {$IF DEFINED(MSWINDOWS)}
-  Windows, DCFileAttributes,
+  Windows, DCFileAttributes, uMyWindows,
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, FileUtil, uUsersGroups,
   {$ENDIF}
@@ -197,6 +197,7 @@ begin
   Handle := FindFirstFileW(PWideChar(UTF8Decode(FileName)), FileInfo);
   if Handle <> INVALID_HANDLE_VALUE then
     begin
+      FileInfo.dwFileAttributes:= ExtractFileAttributes(FileInfo);
       Windows.FindClose(Handle);
       Result:= True;
     end;
