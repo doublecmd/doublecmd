@@ -354,6 +354,7 @@ begin
   if FindHandle = INVALID_HANDLE_VALUE then
     raise EFileNotFound.Create(aFilePath);
   Windows.FindClose(FindHandle);
+  FindData.dwFileAttributes:= ExtractFileAttributes(FindData);
 
   Result := TFile.Create(ExtractFilePath(aFilePath));
   FillFromFindData(Result, aFilePath, @FindData);
@@ -451,6 +452,7 @@ begin
       if FindHandle = INVALID_HANDLE_VALUE then
         raise EFileNotFound.Create(sFullPath);
       Windows.FindClose(FindHandle);
+      FindData.dwFileAttributes:= ExtractFileAttributes(FindData);
 
       if not (fpAttributes in AProps) then
         AttributesProperty := TNtfsFileAttributesProperty.Create(
