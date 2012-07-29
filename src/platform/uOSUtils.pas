@@ -493,11 +493,10 @@ function ReadSymLink(const LinkName : String) : String;
 var
   wsLinkName,
   wsTarget: WideString;
-  LinkType: TReparsePointType;
 begin
   try
     wsLinkName:= UTF8Decode(LinkName);
-    if uNTFSLinks.GetSymlinkInfo(wsLinkName, wsTarget, LinkType) then
+    if uNTFSLinks.ReadSymLink(wsLinkName, wsTarget) then
       Result := UTF8Encode(wsTarget)
     else
       Result := '';
