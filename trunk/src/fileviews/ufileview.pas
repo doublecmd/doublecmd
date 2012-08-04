@@ -1711,10 +1711,11 @@ end;
 
 procedure TFileView.SetActive(bActive, bNotify: Boolean);
 begin
-  if FActive = bActive then Exit;
-  FActive := bActive;
-
-  DoActiveChanged;
+  if FActive <> bActive then
+  begin
+    FActive := bActive;
+    DoActiveChanged;
+  end;
 
   if bActive and bNotify then
   begin
