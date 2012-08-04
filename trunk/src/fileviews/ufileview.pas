@@ -2523,9 +2523,12 @@ begin
   begin
     if Assigned(FileSource) and IsNewFileSource then
       FileSource.RemoveReloadEventListener(@ReloadEvent);
+
     EnableWatcher(False);
 
     FHistory.Add(aFileSource, aPath);
+
+    AfterChangePath;
 
     if Assigned(FileSource) and IsNewFileSource then
     begin
@@ -2533,7 +2536,6 @@ begin
       FileSource.AddReloadEventListener(@ReloadEvent);
     end;
 
-    AfterChangePath;
     EnableWatcher(True);
 
     {$IFDEF DEBUG_HISTORY}
@@ -2567,9 +2569,12 @@ begin
     begin
       if IsNewFileSource then
         FileSource.RemoveReloadEventListener(@ReloadEvent);
+
       EnableWatcher(False);
 
       FHistory.DeleteFromCurrentFileSource;
+
+      AfterChangePath;
 
       if Assigned(FileSource) and IsNewFileSource then
       begin
@@ -2577,7 +2582,6 @@ begin
         FileSource.AddReloadEventListener(@ReloadEvent);
       end;
 
-      AfterChangePath;
       EnableWatcher(True);
 
       SetActiveFile(FocusedFile);
