@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File mask input dialog
 
-   Copyright (C) 2010 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2012 Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,6 +62,8 @@ uses
 
 function ShowMaskInputDlg(const sCaption, sPrompt: UTF8String;
                                 slValueList: TStringList; var sValue: UTF8String): Boolean;
+var
+  Index: Integer;
 begin
   Result:= False;
   with TfrmMaskInputDlg.Create(Application) do
@@ -69,7 +71,12 @@ begin
     Caption:= sCaption;
     lblPrompt.Caption:= sPrompt;
     cmbMask.Items.Assign(slValueList);
-    cmbMask.Text := sValue;
+    cmbMask.Text:= sValue;
+    if IsMaskSearchTemplate(sValue) then
+    begin
+      Index:= lbxSearchTemplate.Items.IndexOf(PAnsiChar(sValue) + 1);
+      if Index >= 0 then lbxSearchTemplate.ItemIndex:= Index;
+    end;
     if ShowModal = mrOK then
       begin
         if not IsMaskSearchTemplate(cmbMask.Text) then
@@ -111,6 +118,8 @@ procedure TfrmMaskInputDlg.btnDefineTemplateClick(Sender: TObject);
 var
   sTemplateName: UTF8String;
 begin
+  if lbxSearchTemplate.ItemIndex >= 0 then
+    sTemplateName:= lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
   if ShowDefineTemplateDlg(sTemplateName) then
   begin
     lbxSearchTemplate.ItemIndex:= lbxSearchTemplate.Items.Add(sTemplateName);

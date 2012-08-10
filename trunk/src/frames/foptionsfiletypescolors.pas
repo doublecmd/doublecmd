@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File types colors options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -113,9 +113,10 @@ end;
 
 procedure TfrmOptionsFileTypesColors.btnSearchTemplateClick(Sender: TObject);
 var
-  sMask: UTF8String = '';
+  sMask: UTF8String;
   bTemplate: Boolean;
 begin
+  sMask:= edtCategoryMask.Text;
   if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask) then
     begin
       bTemplate:= IsMaskSearchTemplate(sMask);

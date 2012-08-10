@@ -219,7 +219,7 @@ var
   FoundedStringCopy: TStringlist = nil;
 
 procedure ShowFindDlg(const sActPath: UTF8String);
-function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
+function ShowDefineTemplateDlg(var TemplateName: UTF8String): Boolean;
 function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
 
 implementation
@@ -283,8 +283,9 @@ begin
   end;
 end;
 
-function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
+function ShowDefineTemplateDlg(var TemplateName: UTF8String): Boolean;
 var
+  AIndex: Integer;
   AForm: TfrmFindDlg;
 begin
   AForm := TfrmFindDlg.Create(nil);
@@ -297,6 +298,16 @@ begin
       btnSaveTemplate.Visible := True;
       btnSaveTemplate.Default := True;
       BorderIcons := [biSystemMenu, biMaximize];
+      if Length(TemplateName) > 0 then
+      begin
+        UpdateTemplatesList;
+        AIndex:= lbSearchTemplates.Items.IndexOf(TemplateName);
+        if AIndex >= 0 then
+        begin
+          lbSearchTemplates.ItemIndex:= AIndex;
+          AForm.LoadSelectedTemplate;
+        end;
+      end;
       Result:= (ShowModal = mrOK);
       if Result and (lbSearchTemplates.Count > 0) then
       begin
