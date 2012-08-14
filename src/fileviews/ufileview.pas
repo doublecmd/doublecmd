@@ -1164,6 +1164,8 @@ begin
           Exit;
         end;
     end;
+    ADisplayFile.TextColor := clNone;
+    ADisplayFile.IconOverlayID := -1;
     ADisplayFile.DisplayStrings.Clear;
 
     ANotifications := [fvnFileSourceFileListUpdated];
