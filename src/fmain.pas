@@ -3249,6 +3249,8 @@ begin
           UpdateSelectedDrive(ANoteBook);
           UpdatePrompt;
         end;
+        // Update page hint
+        ANoteBook.Hint := FileView.CurrentPath;
       end;
 
       {if (fspDirectAccess in FileView.FileSource.GetProperties) then
