@@ -823,10 +823,21 @@ begin
   InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
   // add to search text history
   if cbFindText.Checked then
+  begin
     InsertFirstItem(cmbFindText.Text, cmbFindText);
+    // update search history, so it can be used in
+    // Viewer/Editor opened from find files dialog
+    gFirstTextSearch:= False;
+    glsSearchHistory.Assign(cmbFindText.Items);
+  end;
   // add to replace text history
   if cbReplaceText.Checked then
+  begin
     InsertFirstItem(cmbReplaceText.Text, cmbReplaceText);
+    // update replace history, so it can be used in
+    // Editor opened from find files dialog (issue 0000539)
+    glsReplaceHistory.Assign(cmbReplaceText.Items);
+  end;
 
   // Show search results page
   pgcSearch.ActivePageIndex:= pgcSearch.PageCount - 1;
@@ -1059,8 +1070,6 @@ procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   glsMaskHistory.Assign(cmbFindFileMask.Items);
-  glsReplaceHistory.Assign(cmbReplaceText.Items);
-  glsSearchHistory.Assign(cmbFindText.Items);
 
   if Assigned(FFrmAttributesEdit) then
   begin
