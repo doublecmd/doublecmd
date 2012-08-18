@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552}, LMessages,
-  LCLType, LCLVersion,
+  LCLType, LCLVersion, Forms,
   uFileView, uFilePanelSelect, uDCVersion, DCXmlConfig;
 
 const
@@ -96,6 +96,7 @@ type
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
     FDraggedPageIndex: Integer;
+    FHintPageIndex: Integer;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;
 
@@ -378,7 +379,9 @@ begin
 
   Parent := ParentControl;
   TabStop := False;
+  ShowHint := True;
 
+  FHintPageIndex := -1;
   FNotebookSide := NotebookSide;
   FStartDrag := False;
 
@@ -574,8 +577,24 @@ begin
 end;
 
 procedure TFileViewNotebook.MouseMove(Shift: TShiftState; X, Y: Integer);
+var
+  ATabIndex: Integer;
 begin
   inherited;
+
+  if ShowHint then
+  begin
+    ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    if (ATabIndex <> FHintPageIndex) then
+    begin
+      FHintPageIndex := ATabIndex;
+      Application.CancelHint;
+      if (ATabIndex <> PageIndex) and (Length(Page[ATabIndex].LockPath) <> 0) then
+        Hint := Page[ATabIndex].LockPath
+      else
+        Hint := View[ATabIndex].CurrentPath;
+    end;
+  end;
 
   if FStartDrag then
   begin
