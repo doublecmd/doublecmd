@@ -67,7 +67,7 @@ begin
   end;
   // try to open by system
   mbSetCurrentDir(CurrentPath);
-  case ShellExecute(RelativePath) of
+  case ShellExecute(AbsolutePath) of
   True:
     FExecuteOperationResult:= fseorSuccess;
   False:
