@@ -585,7 +585,7 @@ begin
   if ShowHint then
   begin
     ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
-    if (ATabIndex <> FHintPageIndex) then
+    if (ATabIndex >= 0) and (ATabIndex <> FHintPageIndex) then
     begin
       FHintPageIndex := ATabIndex;
       Application.CancelHint;
