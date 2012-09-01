@@ -135,8 +135,6 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 35
-    ClientWidth = 686
     Items.Strings = (
       'Hide filter panel when not focused'
     )

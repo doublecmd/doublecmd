@@ -11,6 +11,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
     Top = 0
     Width = 680
     Align = alTop
+    AutoSize = True
     BevelOuter = bvNone
     ChildSizing.HorizontalSpacing = 3
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
@@ -399,7 +400,6 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       Lines.Strings = (
         'ColorPreview'
       )
-      VisibleSpecialChars = [vscSpace, vscTabAtLast]
       BracketHighlightStyle = sbhsBoth
       BracketMatchColor.Background = clNone
       BracketMatchColor.Foreground = clNone
