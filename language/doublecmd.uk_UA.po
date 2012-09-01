@@ -952,7 +952,9 @@ msgid "Only for these controls"
 msgstr "Тільки для цих елементів керування"
 
 #: tfrmedithotkey.lblparameters.caption
-msgid "Parameters (each in a separate line):"
+#, fuzzy
+#| msgid "Parameters (each in a separate line):"
+msgid "&Parameters (each in a separate line):"
 msgstr "Параметри (кожен в окремому рядку):"
 
 #: tfrmedithotkey.lblshortcuts.caption
@@ -3555,13 +3557,17 @@ msgid "File Path"
 msgstr "Шлях до файлу"
 
 #: tfrmoptions.btnapply.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
-msgid "Apply"
+msgid "&Apply"
 msgstr "Застосувати"
 
 #: tfrmoptions.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmoptions.btnok.caption
@@ -3580,43 +3586,59 @@ msgid "Please select one of the subpages, this page does not contain any setting
 msgstr "Виберіть іншу сторінку, ця сторінка не містить налаштувань."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
+#, fuzzy
+#| msgid "Auto Configure"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
-msgid "Auto Configure"
+msgid "A&uto Configure"
 msgstr "Автоналаштування"
 
 #: tfrmoptionsarchivers.btnmultiarcadd.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Додати"
 
 #: tfrmoptionsarchivers.btnmultiarcapply.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCAPPLY.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Застосувати"
 
 #: tfrmoptionsarchivers.btnmultiarcdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION"
-msgid "Delete"
+msgid "D&elete"
 msgstr "Видалити"
 
 #: tfrmoptionsarchivers.btnmultiarcrename.caption
+#, fuzzy
+#| msgid "Rename"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
-msgid "Rename"
+msgid "&Rename"
 msgstr "Перейменувати"
 
 #: tfrmoptionsarchivers.chkmultiarcdebug.caption
+#, fuzzy
+#| msgid "Debug mode"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
-msgid "Debug mode"
+msgid "De&bug mode"
 msgstr "Режим налагодження"
 
 #: tfrmoptionsarchivers.chkmultiarcenabled.caption
+#, fuzzy
+#| msgid "Enabled"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION"
-msgid "Enabled"
+msgid "E&nabled"
 msgstr "Ввімкнено"
 
 #: tfrmoptionsarchivers.chkmultiarcoutput.caption
+#, fuzzy
+#| msgid "Show console output"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
-msgid "Show console output"
+msgid "S&how console output"
 msgstr "Показати вивід на консоль"
 
 #: tfrmoptionsarchivers.gbarchiveroptions.caption
@@ -3625,48 +3647,66 @@ msgid "Options"
 msgstr "Налаштування"
 
 #: tfrmoptionsarchivers.lblarchiveadd.caption
+#, fuzzy
+#| msgid "Add:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
-msgid "Add:"
+msgid "Add&ing:"
 msgstr "Додати:"
 
 #: tfrmoptionsarchivers.lblarchiveextension.caption
+#, fuzzy
+#| msgid "Extension:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION"
-msgid "Extension:"
+msgid "E&xtension:"
 msgstr "Розширення:"
 
 #: tfrmoptionsarchivers.lblarchiveextract.caption
+#, fuzzy
+#| msgid "Extract:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION"
-msgid "Extract:"
+msgid "Ex&tract:"
 msgstr "Розпакувати:"
 
 #: tfrmoptionsarchivers.lblarchivelist.caption
+#, fuzzy
+#| msgid "List:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION"
-msgid "List:"
+msgid "&List:"
 msgstr "Список:"
 
 #: tfrmoptionsarchivers.lblarchivelistend.caption
+#, fuzzy
+#| msgid "Listing finish (optional):"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION"
-msgid "Listing finish (optional):"
+msgid "Listing &finish (optional):"
 msgstr "Кінець списку (за бажанням)"
 
 #: tfrmoptionsarchivers.lblarchivelistformat.caption
+#, fuzzy
+#| msgid "Listing format:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION"
-msgid "Listing format:"
+msgid "Listing for&mat:"
 msgstr "Формат списку:"
 
 #: tfrmoptionsarchivers.lblarchiveliststart.caption
+#, fuzzy
+#| msgid "Listing start (optional):"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION"
-msgid "Listing start (optional):"
+msgid "Listin&g start (optional):"
 msgstr "Початок списку (за бажанням)"
 
 #: tfrmoptionsarchivers.lblarchiver.caption
+#, fuzzy
+#| msgid "Archiver:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION"
-msgid "Archiver:"
+msgid "Arc&hiver:"
 msgstr "Архіватор:"
 
 #: tfrmoptionsarchivers.lbldescription.caption
+#, fuzzy
+#| msgid "Description:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION"
-msgid "Description:"
+msgid "De&scription:"
 msgstr "Опис:"
 
 #: tfrmoptionsarchivers.tbarchiveradditional.caption
@@ -3690,8 +3730,10 @@ msgid "For the following &paths and their subdirectories:"
 msgstr "Для наступних шляхів і їх підкаталогів:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
+#, fuzzy
+#| msgid "When files are &created, deleted or renamed"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
-msgid "When files are &created, deleted or renamed"
+msgid "When &files are created, deleted or renamed"
 msgstr "&Оновлювати при створенні, копіюванні чи видаленні файлів"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
@@ -3710,12 +3752,16 @@ msgid "Refresh file list"
 msgstr "Оновлення списку файлів"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
+#, fuzzy
+#| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
-msgid "Always show tray icon"
+msgid "Al&ways show tray icon"
 msgstr "Завжди показувати іконку в треї"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
-msgid "Automatically hide unmounted devices"
+#, fuzzy
+#| msgid "Automatically hide unmounted devices"
+msgid "Automatically &hide unmounted devices"
 msgstr "Автоматично приховувати відмонтовані пристрої"
 
 #: tfrmoptionsbehavior.cbminimizetotray.caption
@@ -3724,8 +3770,10 @@ msgid "Mo&ve icon to system tray when minimized"
 msgstr "Перемістити іконку в системний трей при згортанні"
 
 #: tfrmoptionsbehavior.cbonlyonce.caption
+#, fuzzy
+#| msgid "Allow only one copy of DC at a time"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
-msgid "Allow only one copy of DC at a time"
+msgid "A&llow only one copy of DC at a time"
 msgstr "Не запускати більше однієї копії DC"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
@@ -3733,27 +3781,37 @@ msgid "Here you can enter one or more drives or mount points, separated by \";\"
 msgstr "Тут ви можете ввести один або декілька дисків, розділених \";\"."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
-msgid "Drives blacklist"
+#, fuzzy
+#| msgid "Drives blacklist"
+msgid "Drives &blacklist"
 msgstr "Чорний список дисків"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
+#, fuzzy
+#| msgid "Cut text to column width"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
-msgid "Cut text to column width"
+msgid "Cut &text to column width"
 msgstr "Обрізати текст до ширини колонки"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
+#, fuzzy
+#| msgid "Horizontal lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
-msgid "Horizontal lines"
+msgid "&Horizontal lines"
 msgstr "Горизонтальні лінії"
 
 #: tfrmoptionscolumnsview.cbgridvertline.caption
+#, fuzzy
+#| msgid "Vertical lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDVERTLINE.CAPTION"
-msgid "Vertical lines"
+msgid "&Vertical lines"
 msgstr "Вертикальні лінії"
 
 #: tfrmoptionscolumnsview.chkautofillcolumns.caption
+#, fuzzy
+#| msgid "Auto fill columns"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION"
-msgid "Auto fill columns"
+msgid "A&uto fill columns"
 msgstr "Розтягувати колонки на ширину панелі"
 
 #: tfrmoptionscolumnsview.gbshowgrid.caption
@@ -3765,43 +3823,59 @@ msgid "Auto-size columns"
 msgstr "Автоматична зміна розмірів колонок"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
+#, fuzzy
+#| msgid "Auto size column:"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
-msgid "Auto size column:"
+msgid "Auto si&ze column:"
 msgstr "Пристосовувати розмір:"
 
 #: tfrmoptionsconfiguration.btnconfigapply.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Застосувати"
 
 #: tfrmoptionsconfiguration.btnconfigedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Редагувати"
 
 #: tfrmoptionsconfiguration.cbcmdlinehistory.caption
+#, fuzzy
+#| msgid "Command line history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBCMDLINEHISTORY.CAPTION"
-msgid "Command line history"
+msgid "Co&mmand line history"
 msgstr "Історія командного рядка"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
+#, fuzzy
+#| msgid "Directory history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION"
-msgid "Directory history"
+msgid "&Directory history"
 msgstr "Історія каталогів"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
+#, fuzzy
+#| msgid "File mask history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
-msgid "File mask history"
+msgid "&File mask history"
 msgstr "Історія масок файлів"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
+#, fuzzy
+#| msgid "Save configuration"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
-msgid "Save configuration"
+msgid "Sa&ve configuration"
 msgstr "Зберегти налаштування"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
+#, fuzzy
+#| msgid "Search/Replace history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
-msgid "Search/Replace history"
+msgid "Searc&h/Replace history"
 msgstr "Історія пошуку/заміни"
 
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
@@ -3821,28 +3895,38 @@ msgid "Set on command line"
 msgstr "Встановити в командному рядку"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
+#, fuzzy
+#| msgid "Program directory (portable version)"
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
-msgid "Program directory (portable version)"
+msgid "P&rogram directory (portable version)"
 msgstr "Каталог програми (для переносної версії)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
+#, fuzzy
+#| msgid "User home directory"
 msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
-msgid "User home directory"
+msgid "&User home directory"
 msgstr "Домашній каталог користувача"
 
 #: tfrmoptionscustomcolumns.btncopycolumnsset.caption
+#, fuzzy
+#| msgid "Copy"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
-msgid "Copy"
+msgid "C&opy"
 msgstr "Копіювати"
 
 #: tfrmoptionscustomcolumns.btndelcolumnsset.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "Видалити"
 
 #: tfrmoptionscustomcolumns.btneditcolumnsset.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Редагувати"
 
 #: tfrmoptionscustomcolumns.btnnewcolumnsset.caption
@@ -3856,24 +3940,34 @@ msgid "General"
 msgstr "Основні"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
+#, fuzzy
+#| msgid "Configure columns for file system:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
-msgid "Configure columns for file system:"
+msgid "Con&figure columns for file system:"
 msgstr "Налаштувати колонки для файлової системи:"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
-msgid "Show confirmation dialog after drop"
+#, fuzzy
+#| msgid "Show confirmation dialog after drop"
+msgid "&Show confirmation dialog after drop"
 msgstr "Показувати діалог підтвердження при перетягуванні"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
-msgid "Show file system"
+#, fuzzy
+#| msgid "Show file system"
+msgid "Show &file system"
 msgstr "Показувати файлову систему"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
-msgid "Show free space"
+#, fuzzy
+#| msgid "Show free space"
+msgid "Show fr&ee space"
 msgstr "Показувати вільне місце"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
-msgid "Show label"
+#, fuzzy
+#| msgid "Show label"
+msgid "Show &label"
 msgstr "Показувати мітки"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
@@ -3881,13 +3975,17 @@ msgid "Drives list"
 msgstr "Список дисків"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
+#, fuzzy
+#| msgid "Background"
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
-msgid "Background"
+msgid "Bac&kground"
 msgstr "Фон"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
+#, fuzzy
+#| msgid "Background"
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
-msgid "Background"
+msgid "Bac&kground"
 msgstr "Фон"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
@@ -3895,157 +3993,216 @@ msgid "Element Attributes"
 msgstr "Атрибути елементу"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
+#, fuzzy
+#| msgid "Foreground"
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
-msgid "Foreground"
+msgid "Fo&reground"
 msgstr "Передній план"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
+#, fuzzy
+#| msgid "Foreground"
 msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
-msgid "Foreground"
+msgid "Fo&reground"
 msgstr "Передній план"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
 #, fuzzy
-msgid "Text-mark"
+#| msgid "Text-mark"
+msgid "&Text-mark"
 msgstr "Текстова мітка"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
-msgid "Use (and edit) global scheme settings"
+#, fuzzy
+#| msgid "Use (and edit) global scheme settings"
+msgid "Use (and edit) &global scheme settings"
 msgstr "Використовувати (і редагувати) глобальні налаштування схеми"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
-msgid "Use local scheme settings"
+#, fuzzy
+#| msgid "Use local scheme settings"
+msgid "Use &local scheme settings"
 msgstr "Використовувати локальні параметри схеми"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
-msgid "Bold"
+#, fuzzy
+#| msgid "Bold"
+msgid "&Bold"
 msgstr "Bold"
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Увімк."
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
-msgid "Italic"
+#, fuzzy
+#| msgid "Italic"
+msgid "&Italic"
 msgstr "Italic"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Увімк."
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
 #, fuzzy
-msgid "Strike Out"
+#| msgid "Strike Out"
+msgid "&Strike Out"
 msgstr "Закреслений"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Увімк."
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
 #, fuzzy
-msgid "Underline"
+#| msgid "Underline"
+msgid "&Underline"
 msgstr "Підкреслений"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Інвертувати"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Вимк"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Увімк."
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
-msgid "Copy operation"
+#, fuzzy
+#| msgid "Copy operation"
+msgid "Cop&y operation"
 msgstr "Операції копіювання"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
-msgid "Delete operation"
+#, fuzzy
+#| msgid "Delete operation"
+msgid "&Delete operation"
 msgstr "Операції видалення"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
+#, fuzzy
+#| msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
-msgid "Delete to recycle bin (Shift key reverses this setting)"
+msgid "Dele&te to recycle bin (Shift key reverses this setting)"
 msgstr "F8/Del - видалення в Кошик (з Shift - на&завжди)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
-msgid "Delete to trash operation"
+#, fuzzy
+#| msgid "Delete to trash operation"
+msgid "D&elete to trash operation"
 msgstr "Операції видалення до кошика"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
+#, fuzzy
+#| msgid "Drop readonly flag"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
+msgid "D&rop readonly flag"
 msgstr "Скинути прапорець \"Лише читання\""
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
-msgid "Move operation"
+#, fuzzy
+#| msgid "Move operation"
+msgid "&Move operation"
 msgstr "Операції переміщення"
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
+#, fuzzy
+#| msgid "Search for part of file name"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
-msgid "Search for part of file name"
+msgid "&Search for part of file name"
 msgstr "Шукати по частині назви файлу"
 
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
+#, fuzzy
+#| msgid "Process comments with files/folders"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
-msgid "Process comments with files/folders"
+msgid "&Process comments with files/folders"
 msgstr "Опрацьовувати коментарі з файлами/каталогами"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 #, fuzzy
-#| msgid "Select only the file name when renaming (not the extension)"
+#| msgid "Select file name without extension when renaming"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
-msgid "Select file name without extension when renaming"
+msgid "Select &file name without extension when renaming"
 msgstr "При перейменуванні виділяти лише ім'я файлу (без розширення)"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
+#, fuzzy
+#| msgid "Show tab select panel in copy/move dialog"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
-msgid "Show tab select panel in copy/move dialog"
+msgid "Sho&w tab select panel in copy/move dialog"
 msgstr "Показувати панель вибору вкладок при перейменування/переміщенні"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
+#, fuzzy
+#| msgid "Skip file operations errors and write them to log window"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
-msgid "Skip file operations errors and write them to log window"
+msgid "S&kip file operations errors and write them to log window"
 msgstr "Пропускати помилки при файлових операціях і заносити їх у звіт"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
@@ -4062,7 +4219,9 @@ msgid "User interface"
 msgstr "Інтерфейс користувача"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
-msgid "Buffer size for file operations (in KB):"
+#, fuzzy
+#| msgid "Buffer size for file operations (in KB):"
+msgid "&Buffer size for file operations (in KB):"
 msgstr "Розмір буфера для операцій з файлами (в КB):"
 
 #: tfrmoptionsfileoperations.lblconfirmations.caption
@@ -4071,24 +4230,29 @@ msgstr "Показувати вікно підтвердження для:"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 #, fuzzy
-msgid "Show operations progress initially in"
+#| msgid "Show operations progress initially in"
+msgid "Show operations progress &initially in"
 msgstr "Показати прогрес операцій спочатку в"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 #, fuzzy
-#| msgid "Number of wipe pass"
+#| msgid "Number of wipe passes:"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
-msgid "Number of wipe passes:"
+msgid "&Number of wipe passes:"
 msgstr "Кіл-ть проходів стирання:"
 
 #: tfrmoptionsfileoperations.rbusemmapinsearch.caption
+#, fuzzy
+#| msgid "Use memory mapping for search text in files"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
-msgid "Use memory mapping for search text in files"
+msgid "Use memory mapping for search te&xt in files"
 msgstr "Використати відображення в пам'ять при пошуку тексту у файлах"
 
 #: tfrmoptionsfileoperations.rbusestreaminsearch.caption
+#, fuzzy
+#| msgid "Use stream for search text in files"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
-msgid "Use stream for search text in files"
+msgid "&Use stream for search text in files"
 msgstr "Використати потік при пошуку тексту в файлах"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
@@ -4132,17 +4296,23 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
+#, fuzzy
+#| msgid "Use Frame Cursor"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
-msgid "Use Frame Cursor"
+msgid "Use &Frame Cursor"
 msgstr "Використовувати курсор-рамку"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use Gradient Indicator"
+#, fuzzy
+#| msgid "Use Gradient Indicator"
+msgid "Use &Gradient Indicator"
 msgstr "Використовувати градієнтну заливку індикатора"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
+#, fuzzy
+#| msgid "Use Inverted Selection"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
-msgid "Use Inverted Selection"
+msgid "U&se Inverted Selection"
 msgstr "Використовувати інверсне виділення"
 
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
@@ -4156,86 +4326,118 @@ msgid "Example"
 msgstr "Приклад"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
-#| msgid "BackGround:"
+#, fuzzy
+#| msgid "Background:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
-msgid "Background:"
+msgid "Bac&kground:"
 msgstr "Фон:"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
+#, fuzzy
+#| msgid "Background 2:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
-msgid "Background 2:"
+msgid "Backg&round 2:"
 msgstr "Фон 2:"
 
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
+#, fuzzy
+#| msgid "Cursor Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
+msgid "C&ursor Color:"
 msgstr "Колір курсора"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
+#, fuzzy
+#| msgid "Cursor Text:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
+msgid "Cursor Te&xt:"
 msgstr "Текст &під курсором"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
+#, fuzzy
+#| msgid "Brightness level of inactive panel"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
-msgid "Brightness level of inactive panel"
+msgid "&Brightness level of inactive panel"
 msgstr "Рівень яскравості неактивної панелі"
 
 #: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "Indicator Back Color:"
+#, fuzzy
+#| msgid "Indicator Back Color:"
+msgid "In&dicator Back Color:"
 msgstr "Колір вільного місця:"
 
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "Indicator Fore Color:"
+#, fuzzy
+#| msgid "Indicator Fore Color:"
+msgid "&Indicator Fore Color:"
 msgstr "Колір заповнення:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
+#, fuzzy
+#| msgid "Mark Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
+msgid "&Mark Color:"
 msgstr "Виділення"
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
+#, fuzzy
+#| msgid "Text Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
-msgid "Text Color:"
+msgid "T&ext Color:"
 msgstr "Колір тексту:"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 #, fuzzy
-msgid "Don't load file list until a tab is activated"
+#| msgid "Don't load file list until a tab is activated"
+msgid "Do&n't load file list until a tab is activated"
 msgstr "Не завантажувати список файлів доки вкладка не активна"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
+#, fuzzy
+#| msgid "Show square brackets around directories"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
-msgid "Show square brackets around directories"
+msgid "S&how square brackets around directories"
 msgstr "Показувати квадратні дужки навколо каталогів"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Highlight new and updated files"
+#, fuzzy
+#| msgid "Highlight new and updated files"
+msgid "Hi&ghlight new and updated files"
 msgstr "Виділяти нові та оновлені файли"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
+#, fuzzy
+#| msgid "Load file list in separate thread"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load file list in separate thread"
+msgid "Load &file list in separate thread"
 msgstr "Завантажувати список файлів в окремому потоці"
 
 #: tfrmoptionsfilesviews.cbloadiconsseparately.caption
+#, fuzzy
+#| msgid "Load icons after file list"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons after file list"
+msgid "Load icons af&ter file list"
 msgstr "Завантажувати іконки після списку"
 
 #: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
+#, fuzzy
+#| msgid "Short file size format"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file size format"
+msgid "Short file si&ze format"
 msgstr "Короткий розмір файлу"
 
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
+#, fuzzy
+#| msgid "Show system and hidden files"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show system and hidden files"
+msgid "Show s&ystem and hidden files"
 msgstr "Показувати системні та приховані файли"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
+#, fuzzy
+#| msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
-msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "При виділенні файлів пробілом переміщувати курсор на наступний файл (як в <INSERT>)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
@@ -4248,7 +4450,9 @@ msgid "Sorting"
 msgstr "Сортування"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
-msgid "Case sensitivity:"
+#, fuzzy
+#| msgid "Case sensitivity:"
+msgid "Case s&ensitivity:"
 msgstr "Чутливість до регістру:"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
@@ -4257,35 +4461,49 @@ msgid "Incorrect format"
 msgstr "Неправильний формат"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
+#, fuzzy
+#| msgid "Date and time format:"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
-msgid "Date and time format:"
+msgid "&Date and time format:"
 msgstr "Формат дати і часу:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "Insert new files"
+#, fuzzy
+#| msgid "Insert new files"
+msgid "&Insert new files"
 msgstr "Вставити нові файли"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
-msgid "Sorting directories:"
+#, fuzzy
+#| msgid "Sorting directories:"
+msgid "So&rting directories:"
 msgstr "Сортування каталогів:"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
+#, fuzzy
+#| msgid "Sort &method:"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
-msgid "Sort &method:"
+msgid "&Sort method:"
 msgstr "&Метод сортування:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "Move updated files"
+#, fuzzy
+#| msgid "Move updated files"
+msgid "&Move updated files"
 msgstr "Перемістити оновлені файли"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Додати"
 
 #: tfrmoptionsfiletypescolors.btnapplycategory.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Застосувати"
 
 #: tfrmoptionsfiletypescolors.btncategorycolor.caption
@@ -4294,8 +4512,10 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
-msgid "Delete"
+msgid "D&elete"
 msgstr "Видалити"
 
 #: tfrmoptionsfiletypescolors.btnsearchtemplate.hint
@@ -4311,23 +4531,31 @@ msgid "File types colors (sort by drag&&drop)"
 msgstr "Кольори за типом файлу (сортувати перетягуванням)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
+#, fuzzy
+#| msgid "Category attributes:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
-msgid "Category attributes:"
+msgid "Category a&ttributes:"
 msgstr "Атрибути категорії:"
 
 #: tfrmoptionsfiletypescolors.lblcategorycolor.caption
+#, fuzzy
+#| msgid "Category color:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION"
-msgid "Category color:"
+msgid "Category co&lor:"
 msgstr "Колір категорії:"
 
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
+#, fuzzy
+#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
+msgid "Category &mask:"
 msgstr "Маска категорії:"
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
+#, fuzzy
+#| msgid "Category name:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
+msgid "Category &name:"
 msgstr "Назва категорії:"
 
 #: tfrmoptionsfonts.btnseleditfnt.caption
@@ -4356,61 +4584,85 @@ msgid "..."
 msgstr "..."
 
 #: tfrmoptionsfonts.lbleditorfont.caption
+#, fuzzy
+#| msgid "Editor font"
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
-msgid "Editor font"
+msgid "&Editor font"
 msgstr "Шрифт редактора"
 
 #: tfrmoptionsfonts.lbllogfont.caption
+#, fuzzy
+#| msgid "Log font"
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
-msgid "Log font"
+msgid "&Log font"
 msgstr "Шрифт логу"
 
 #: tfrmoptionsfonts.lblmainfont.caption
+#, fuzzy
+#| msgid "Main font"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
-msgid "Main font"
+msgid "Main &font"
 msgstr "Основний шрифт"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
+#, fuzzy
+#| msgid "Viewer Book Font"
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
-msgid "Viewer Book Font"
+msgid "Viewer&Book Font"
 msgstr "Шрифт переглядача книг"
 
 #: tfrmoptionsfonts.lblviewerfont.caption
+#, fuzzy
+#| msgid "Viewer font"
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
-msgid "Viewer font"
+msgid "&Viewer font"
 msgstr "Шрифт переглядача"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
-msgid "Add hotkey"
+#, fuzzy
+#| msgid "Add hotkey"
+msgid "Add &hotkey"
 msgstr "Додати гар.кл."
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
-msgid "Delete hotkey"
+#, fuzzy
+#| msgid "Delete hotkey"
+msgid "&Delete hotkey"
 msgstr "Видалити гар.кл."
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
+#, fuzzy
+#| msgid "Edit hotkey"
 msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
-msgid "Edit hotkey"
+msgid "&Edit hotkey"
 msgstr "Редагувати гар.кл."
 
 #: tfrmoptionshotkeys.lbfilter.caption
+#, fuzzy
+#| msgid "Filter"
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
-msgid "Filter"
+msgid "&Filter"
 msgstr "Фільтр"
 
 #: tfrmoptionshotkeys.lblcategories.caption
+#, fuzzy
+#| msgid "Categories:"
 msgctxt "tfrmoptionshotkeys.lblcategories.caption"
-msgid "Categories:"
+msgid "C&ategories:"
 msgstr "Категорії:"
 
 #: tfrmoptionshotkeys.lblcommands.caption
+#, fuzzy
+#| msgid "Commands:"
 msgctxt "tfrmoptionshotkeys.lblcommands.caption"
-msgid "Commands:"
+msgid "Co&mmands:"
 msgstr "Команди:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
+#, fuzzy
+#| msgid "Shortcut files:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
-msgid "Shortcut files:"
+msgid "&Shortcut files:"
 msgstr "Ярлики"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
@@ -4430,14 +4682,16 @@ msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr "Елементи керування"
 
-#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+#: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
 msgstr "Для наступних шляхів і їх підкаталогів:"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
+#, fuzzy
+#| msgid "Show overlay i&cons, e.g. for links"
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
-msgid "Show overlay i&cons, e.g. for links"
+msgid "Show o&verlay icons, e.g. for links"
 msgstr "Показувати оверлейні &іконки (наприклад для ярликів)"
 
 #: tfrmoptionsicons.cbiconssize.text
@@ -4445,13 +4699,15 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
 msgstr "16x16"
 
-#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+#: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Вимкнути спеціальні іконки"
 
 #: tfrmoptionsicons.gbiconssize.caption
+#, fuzzy
+#| msgid " Icon &size "
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
-msgid " Icon &size "
+msgid " Icon size "
 msgstr "Розмір &іконок"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
@@ -4460,8 +4716,10 @@ msgid " Show icons to the left of the filename "
 msgstr " Показ іконок зв’язаних з типом файлу "
 
 #: tfrmoptionsicons.rbiconsshowall.caption
+#, fuzzy
+#| msgid "&All"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
-msgid "&All"
+msgid "A&ll"
 msgstr "&Усі"
 
 #: tfrmoptionsicons.rbiconsshowallandexe.caption
@@ -4475,13 +4733,17 @@ msgid "&No icons"
 msgstr "&Без іконок"
 
 #: tfrmoptionsicons.rbiconsshowstandard.caption
+#, fuzzy
+#| msgid "&Only standard icons"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION"
-msgid "&Only standard icons"
+msgid "Only &standard icons"
 msgstr "Лише &стандартні іконки"
 
 #: tfrmoptionsignorelist.btnaddsel.caption
+#, fuzzy
+#| msgid "&Add selected names"
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION"
-msgid "&Add selected names"
+msgid "A&dd selected names"
 msgstr "&Додати виділені імена"
 
 #: tfrmoptionsignorelist.btnaddselwithpath.caption
@@ -4500,7 +4762,9 @@ msgid "&Save in:"
 msgstr "&Зберегти в:"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
-msgid "Left, Right arrows change directory (Lynx-like movement)"
+#, fuzzy
+#| msgid "Left, Right arrows change directory (Lynx-like movement)"
+msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
 msgstr "Зміна каталогу стрілками Вліво, Вправо (Навігація в стилі Lynx)"
 
 #: tfrmoptionskeyboard.gbtyping.caption
@@ -4509,43 +4773,59 @@ msgid "Typing"
 msgstr "Введення"
 
 #: tfrmoptionskeyboard.lblalt.caption
+#, fuzzy
+#| msgid "Alt+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+Letters"
+msgid "Alt+L&etters"
 msgstr "Alt+Літери"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
+#, fuzzy
+#| msgid "Ctrl+Alt+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Letters"
+msgid "Ctrl+Alt+Le&tters"
 msgstr "Ctrl+Alt+Літери"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
+#, fuzzy
+#| msgid "Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "Letters"
+msgid "&Letters"
 msgstr "Літери"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
+#, fuzzy
+#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
-msgid "Flat buttons"
+msgid "&Flat buttons"
 msgstr "Плоскі кнопки"
 
 #: tfrmoptionslayout.cbflatinterface.caption
+#, fuzzy
+#| msgid "Flat interface"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
-msgid "Flat interface"
+msgid "Flat i&nterface"
 msgstr "Плоский інтерфейс"
 
 #: tfrmoptionslayout.cbflattoolbar.caption
+#, fuzzy
+#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION"
-msgid "Flat buttons"
+msgid "Flat b&uttons"
 msgstr "Плоскі кнопки"
 
 #: tfrmoptionslayout.cbfreespaceind.caption
+#, fuzzy
+#| msgid "Show free space indicator on drive label"
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
-msgid "Show free space indicator on drive label"
+msgid "Show fr&ee space indicator on drive label"
 msgstr "Показувати індикатор вільного місця на панелі дисків"
 
 #: tfrmoptionslayout.cblogwindow.caption
+#, fuzzy
+#| msgid "Show log window"
 msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
-msgid "Show log window"
+msgid "Show lo&g window"
 msgstr "Показувати вікно звіту"
 
 #: tfrmoptionslayout.cbpanelofoperations.caption
@@ -4559,13 +4839,17 @@ msgid "Show common progress in menu bar"
 msgstr "Показувати загальний прогрес в рядку меню"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
+#, fuzzy
+#| msgid "Show command &line"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
-msgid "Show command &line"
+msgid "Show command l&ine"
 msgstr "Показувати &командний рядок"
 
 #: tfrmoptionslayout.cbshowcurdir.caption
+#, fuzzy
+#| msgid "Show &current directory"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
-msgid "Show &current directory"
+msgid "Show current director&y"
 msgstr "Показувати по&точний каталог"
 
 #: tfrmoptionslayout.cbshowdiskpanel.caption
@@ -4574,22 +4858,30 @@ msgid "Show &drive buttons"
 msgstr "Показувати кнопки &дисків"
 
 #: tfrmoptionslayout.cbshowdrivefreespace.caption
+#, fuzzy
+#| msgid "Show free space label"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
-msgid "Show free space label"
+msgid "Show free s&pace label"
 msgstr "Показувати індикатор вільного місця"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
-msgid "Show d&rives list button"
+#, fuzzy
+#| msgid "Show d&rives list button"
+msgid "Show drives list bu&tton"
 msgstr "Показувати кнопки мен&ю дисків"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
+#, fuzzy
+#| msgid "Show &function key buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
-msgid "Show &function key buttons"
+msgid "Show function &key buttons"
 msgstr "Показувати кнопки &функціональних клавіш"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
+#, fuzzy
+#| msgid "Show main menu"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
-msgid "Show main menu"
+msgid "Show &main menu"
 msgstr "Показувати головне меню"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
@@ -4598,7 +4890,9 @@ msgid "Show &button bar"
 msgstr "Показувати &панель кнопок"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
-msgid "Show short free space label"
+#, fuzzy
+#| msgid "Show short free space label"
+msgid "Show short free space &label"
 msgstr "Короткий індикатор вільного місця"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
@@ -4607,8 +4901,10 @@ msgid "Show &status bar"
 msgstr "Показувати рядок стану"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
+#, fuzzy
+#| msgid "Show &tabstop header"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
-msgid "Show &tabstop header"
+msgid "S&how tabstop header"
 msgstr "Показувати &заголовки табуляторів"
 
 #: tfrmoptionslayout.cbshowtabs.caption
@@ -4617,13 +4913,17 @@ msgid "Sho&w folder tabs"
 msgstr "Показувати вкл&адки"
 
 #: tfrmoptionslayout.cbtermwindow.caption
+#, fuzzy
+#| msgid "Show terminal window"
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
-msgid "Show terminal window"
+msgid "Show te&rminal window"
 msgstr "Показувати вікно терміналу"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
+#, fuzzy
+#| msgid "Show two drive button bars (fixed width, above file windows)"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
-msgid "Show two drive button bars (fixed width, above file windows)"
+msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Показувати д&ві панелі кнопок дисків (фіксована довжина, над файловими панелями)"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
@@ -4632,23 +4932,31 @@ msgid " Screen layout "
 msgstr " Компоненти основного вікна "
 
 #: tfrmoptionslog.cblogarcop.caption
+#, fuzzy
+#| msgid "Pack/Unpack"
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
-msgid "Pack/Unpack"
+msgid "&Pack/Unpack"
 msgstr "Запакувати/Розпакувати"
 
 #: tfrmoptionslog.cblogcpmvln.caption
+#, fuzzy
+#| msgid "Copy/Move/Create link/symlink"
 msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
-msgid "Copy/Move/Create link/symlink"
+msgid "Cop&y/Move/Create link/symlink"
 msgstr "Копіювання/Переміщення/Створення посилань"
 
 #: tfrmoptionslog.cblogdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSLOG.CBLOGDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "Видалити"
 
 #: tfrmoptionslog.cblogdirop.caption
+#, fuzzy
+#| msgid "Create/Delete directories"
 msgctxt "TFRMOPTIONSLOG.CBLOGDIROP.CAPTION"
-msgid "Create/Delete directories"
+msgid "Crea&te/Delete directories"
 msgstr "Створення/Видалення каталогів"
 
 #: tfrmoptionslog.cblogerrors.caption
@@ -4657,13 +4965,17 @@ msgid "Log &errors"
 msgstr "Звіт &помилок"
 
 #: tfrmoptionslog.cblogfile.caption
+#, fuzzy
+#| msgid "&Create a log file:"
 msgctxt "TFRMOPTIONSLOG.CBLOGFILE.CAPTION"
-msgid "&Create a log file:"
+msgid "C&reate a log file:"
 msgstr "&Створити файл звіту:"
 
 #: tfrmoptionslog.cbloginfo.caption
+#, fuzzy
+#| msgid "Log information messages"
 msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
-msgid "Log information messages"
+msgid "Log &information messages"
 msgstr "Звіт інформаційних повідомлень"
 
 #: tfrmoptionslog.cblogsuccess.caption
@@ -4672,8 +4984,10 @@ msgid "Log &successful operations"
 msgstr "Звіт про ус&пішні операції"
 
 #: tfrmoptionslog.cblogvfs.caption
+#, fuzzy
+#| msgid "File system plugins"
 msgctxt "TFRMOPTIONSLOG.CBLOGVFS.CAPTION"
-msgid "File system plugins"
+msgid "&File system plugins"
 msgstr "Плагіни файлової системи"
 
 #: tfrmoptionslog.gblogfile.caption
@@ -4694,17 +5008,23 @@ msgid "Operation status"
 msgstr "Статус операції"
 
 #: tfrmoptionsmisc.cbsavethumbnails.caption
+#, fuzzy
+#| msgid "Save thumbnails in cache"
 msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
-msgid "Save thumbnails in cache"
+msgid "&Save thumbnails in cache"
 msgstr "Зберігати мініатюри в кеші"
 
 #: tfrmoptionsmisc.cbshowwarningmessages.caption
+#, fuzzy
+#| msgid "Show warning messages (\"OK\" button only)"
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
-msgid "Show warning messages (\"OK\" button only)"
+msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Показувати попередження (лише кнопка \"OK\")"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
-msgid "Selection by mouse"
+#, fuzzy
+#| msgid "Selection by mouse"
+msgid "&Selection by mouse"
 msgstr "Виділення мишкою"
 
 #: tfrmoptionsmouse.gbscrolling.caption
@@ -4716,69 +5036,97 @@ msgid "Selection"
 msgstr "Виділення"
 
 #: tfrmoptionsmouse.lblmousemode.caption
-msgid "Mode:"
+#, fuzzy
+#| msgid "Mode:"
+msgid "&Mode:"
 msgstr "Режим:"
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
-msgid "Line by line"
+#, fuzzy
+#| msgid "Line by line"
+msgid "&Line by line"
 msgstr "Через рядків"
 
 #: tfrmoptionsmouse.rbscrolllinebylinecursor.caption
-msgid "Line by line with cursor movement"
+#, fuzzy
+#| msgid "Line by line with cursor movement"
+msgid "Line by line &with cursor movement"
 msgstr "Рядок за рядком з рухом курсора"
 
 #: tfrmoptionsmouse.rbscrollpagebypage.caption
-msgid "Page by page"
+#, fuzzy
+#| msgid "Page by page"
+msgid "&Page by page"
 msgstr "Посторінково"
 
 #: tfrmoptionsplugins.btnaddplugin.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Додати"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
+#, fuzzy
+#| msgid "Configure"
 msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
-msgid "Configure"
+msgid "Con&figure"
 msgstr "Налаштувати"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
+#, fuzzy
+#| msgid "Enable"
 msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
-msgid "Enable"
+msgid "E&nable"
 msgstr "Увімкнути"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
-msgid "Remove"
+msgid "&Remove"
 msgstr "Видалити"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
+#, fuzzy
+#| msgid "Tweak"
 msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
-msgid "Tweak"
+msgid "&Tweak"
 msgstr "Параметри"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
+#, fuzzy
+#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Пошукові плагіни дозволяють використовувати альтернативні алгоритми пошуку або зовнішні засоби (такі як \"locate\", та інші)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
+#, fuzzy
+#| msgid "Packer plugins are used to work with archives."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
-msgid "Packer plugins are used to work with archives."
+msgid "Pack&er plugins are used to work with archives"
 msgstr "Архіваторні плагіни дозволяють працювати з архівами"
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
+#, fuzzy
+#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Інформаційні плагіни дозволяють відображати розширені відомості про файли, такі як mp3 теги або атрибути зображення, або використовувати їх для пошуку або у інструменті масового перейменування."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
+#, fuzzy
+#| msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
-msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "Плагіни файлових систем дозволяють звертатися до дисків, недоступних з ОС або до зовнішніх пристроїв, напр. Palm/PocketPC, тощо."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
+#, fuzzy
+#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Плагіни перегляду дозволяють відобразити різні формати файлів, такі як: зображення, бази даних, таблиці та інші у Переглядачі (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
@@ -4802,28 +5150,38 @@ msgid "File name"
 msgstr "Ім'я файлу"
 
 #: tfrmoptionsplugins.tsdsx.caption
+#, fuzzy
+#| msgid "Search plugins (.DSX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
-msgid "Search plugins (.DSX)"
+msgid "&Search plugins (.DSX)"
 msgstr "Пошукові плагіни (.DSX)"
 
 #: tfrmoptionsplugins.tswcx.caption
+#, fuzzy
+#| msgid "Packer plugins (.WCX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
-msgid "Packer plugins (.WCX)"
+msgid "Pac&ker plugins (.WCX)"
 msgstr "Архіваторні плагіни (.WCX)"
 
 #: tfrmoptionsplugins.tswdx.caption
+#, fuzzy
+#| msgid "Content plugins (.WDX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
-msgid "Content plugins (.WDX)"
+msgid "Content pl&ugins (.WDX)"
 msgstr "Контентні плагіни (.WDX)"
 
 #: tfrmoptionsplugins.tswfx.caption
+#, fuzzy
+#| msgid "File system plugins (.WFX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
-msgid "File system plugins (.WFX)"
+msgid "F&ile system plugins (.WFX)"
 msgstr "Плагіни файлової системи (.WFX)"
 
 #: tfrmoptionsplugins.tswlx.caption
+#, fuzzy
+#| msgid "Viewer plugins (.WLX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
-msgid "Viewer plugins (.WLX)"
+msgid "&Viewer plugins (.WLX)"
 msgstr "Плагіни перегляду (.WLX)"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
@@ -4867,8 +5225,10 @@ msgid "&Show tab header also when there is only one tab"
 msgstr "Показувати заголовок вкладки, нав&іть якщо вона одна"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
+#, fuzzy
+#| msgid "&Confirm close all tabs"
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
-msgid "&Confirm close all tabs"
+msgid "Con&firm close all tabs"
 msgstr "Підтверд&жувати закриття всіх вкладок"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
@@ -4898,8 +5258,10 @@ msgid "Open &new tabs near current tab"
 msgstr "Відкривати &нову вкладку поряд з поточною"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
+#, fuzzy
+#| msgid "Show tab close button"
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
-msgid "Show tab close button"
+msgid "Show ta&b close button"
 msgstr "Показувати кнопку закриття вкладки"
 
 #: tfrmoptionstabs.gbtabs.caption
@@ -4913,23 +5275,29 @@ msgid "characters"
 msgstr "символів"
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#| msgid "Tabs position:"
+#, fuzzy
+#| msgid "Tabs position"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
-msgid "Tabs position"
+msgid "Ta&bs position"
 msgstr "Положення вкладок"
 
 #: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in terminal:"
+#, fuzzy
+#| msgid "Run in terminal:"
+msgid "Run in &terminal:"
 msgstr "Запустити у терміналі:"
 
 #: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run terminal:"
+#, fuzzy
+#| msgid "Run terminal:"
+msgid "Run t&erminal:"
 msgstr "Запустити термінал"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
-#| msgid "Clo&ne button"
+#, fuzzy
+#| msgid "&Clone button"
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
-msgid "&Clone button"
+msgid "C&lone button"
 msgstr "&Клонувати кнопку"
 
 #: tfrmoptionstoolbar.btndeletebutton.caption
@@ -4939,9 +5307,9 @@ msgstr "Ви&далити кнопку"
 
 #: tfrmoptionstoolbar.btnedithotkey.caption
 #, fuzzy
-#| msgid "Edit"
+#| msgid "Edit hotkey"
 msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
-msgid "Edit hotkey"
+msgid "Edit hot&key"
 msgstr "Редагувати"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
@@ -4961,14 +5329,17 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
-#| msgid "X"
+#, fuzzy
+#| msgid "Remove hotkey"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
-msgid "Remove hotkey"
+msgid "Remove hotke&y"
 msgstr "Видалити гар.кл."
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
+#, fuzzy
+#| msgid "Flat b&uttons"
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
-msgid "Flat b&uttons"
+msgid "&Flat buttons"
 msgstr "П&лоскі кнопки"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
@@ -4981,18 +5352,24 @@ msgid "Appearance"
 msgstr "Вигляд кнопок"
 
 #: tfrmoptionstoolbar.lblbarsize.caption
+#, fuzzy
+#| msgid "Ba&r size:"
 msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
-msgid "Ba&r size:"
+msgid "&Bar size:"
 msgstr "Розмір п&анелі:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
+#, fuzzy
+#| msgid "Command:"
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Command:"
+msgid "Comman&d:"
 msgstr "Команда:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
+#, fuzzy
+#| msgid "Parameters:"
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
-msgid "Parameters:"
+msgid "Parameter&s:"
 msgstr "Параметри:"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
@@ -5000,36 +5377,45 @@ msgid "Hot key:"
 msgstr "Гаряча клавіша:"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
-#| msgid "Icon &file:"
+#, fuzzy
+#| msgid "Icon:"
 msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
-msgid "Icon:"
+msgid "Ico&n:"
 msgstr "Іконка:"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
+#, fuzzy
+#| msgid "Ic&on size:"
 msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
-msgid "Ic&on size:"
+msgid "Icon si&ze:"
 msgstr "Р&озмір іконки:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
+#, fuzzy
+#| msgid "Command:"
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
-msgid "Command:"
+msgid "Co&mmand:"
 msgstr "Команда:"
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
+#, fuzzy
+#| msgid "Parameters:"
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
-msgid "Parameters:"
+msgid "&Parameters:"
 msgstr "Параметри:"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
-#| msgid "&Start path:"
+#, fuzzy
+#| msgid "Start path:"
 msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
-msgid "Start path:"
+msgid "Start pat&h:"
 msgstr "Шлях запуску:"
 
 #: tfrmoptionstoolbar.lbltooltip.caption
-#| msgid "&Tooltip:"
+#, fuzzy
+#| msgid "Tooltip:"
 msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
-msgid "Tooltip:"
+msgid "&Tooltip:"
 msgstr "Підказка:"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
@@ -5037,43 +5423,59 @@ msgid "Button type"
 msgstr "Тип кнопки"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
+#, fuzzy
+#| msgid "Keep terminal window open after executing program"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
-msgid "Keep terminal window open after executing program"
+msgid "&Keep terminal window open after executing program"
 msgstr "Тримати вікно терміналу відкритим після виконання програми"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
+#, fuzzy
+#| msgid "Execute in terminal"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION"
-msgid "Execute in terminal"
+msgid "&Execute in terminal"
 msgstr "Виконати у терміналі"
 
 #: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
+#, fuzzy
+#| msgid "Use external program"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
-msgid "Use external program"
+msgid "&Use external program"
 msgstr "Використовувати зовнішню програму"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
+#, fuzzy
+#| msgid "Additional parameters"
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION"
-msgid "Additional parameters"
+msgid "A&dditional parameters"
 msgstr "Додаткові параметри"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
+#, fuzzy
+#| msgid "Path to program to execute"
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION"
-msgid "Path to program to execute"
+msgid "&Path to program to execute"
 msgstr "Шлях до зовнішньої програми"
 
 #: tfrmoptionstooltips.btnaddfields.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Додати"
 
 #: tfrmoptionstooltips.btnapplyfields.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Застосувати"
 
 #: tfrmoptionstooltips.btndeletefields.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
-msgid "Delete"
+msgid "D&elete"
 msgstr "Видалити"
 
 #: tfrmoptionstooltips.btnfieldslist.caption
@@ -5098,33 +5500,44 @@ msgstr "Показати спливаючі підказки"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 #, fuzzy
+#| msgid "Category hint:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
-msgid "Category hint:"
+msgid "Category &hint:"
 msgstr "Підказка категорії:"
 
 #: tfrmoptionstooltips.lblfieldsmask.caption
+#, fuzzy
+#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
-msgid "Category mask:"
+msgid "Category &mask:"
 msgstr "Маска категорії:"
 
 #: tfrmoptionstooltips.lblfieldsname.caption
+#, fuzzy
+#| msgid "Category name:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
-msgid "Category name:"
+msgid "Category &name:"
 msgstr "Назва категорії:"
 
 #: tfrmoptionstooltips.rbtooltipallfiles.caption
+#, fuzzy
+#| msgid "Show tool tip for all files in file panel"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Show tool tip for all files in file panel"
+msgid "Sho&w tool tip for all files in file panel"
 msgstr "Показувати підказки для всіх файлів на панелі файлів"
 
 #: tfrmoptionstooltips.rbtooltipnone.caption
+#, fuzzy
+#| msgid "Don't show"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't show"
+msgid "Don't &show"
 msgstr "Не показувати"
 
 #: tfrmoptionstooltips.rbtooltiponlylarge.caption
+#, fuzzy
+#| msgid "Show tool tip for files in file panel if truncated"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show tool tip for files in file panel if truncated"
+msgid "Show &tool tip for files in file panel if truncated"
 msgstr "Показувати підказки для файлів з іменами які не поміщаються на панель"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
@@ -5148,18 +5561,24 @@ msgid "Example"
 msgstr "Приклад"
 
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
+#, fuzzy
+#| msgid "Background color in book viewer"
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
-msgid "Background color in book viewer"
+msgid "&Background color in book viewer"
 msgstr "Колір фону в переглядачі книг"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
+#, fuzzy
+#| msgid "Font color in book viewer"
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"
-msgid "Font color in book viewer"
+msgid "&Font color in book viewer"
 msgstr "Колір шрифту в переглядачі книг"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
+#, fuzzy
+#| msgid "Number of columns in book viewer"
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
-msgid "Number of columns in book viewer"
+msgid "&Number of columns in book viewer"
 msgstr "К-сть стовпців у переглядачі книг"
 
 #: tfrmpackdlg.btncancel.caption
@@ -5586,30 +6005,42 @@ msgid "Link name"
 msgstr "Ім'я посилання"
 
 #: tfrmtweakplugin.btnadd.caption
-msgid "Add new"
+#, fuzzy
+#| msgid "Add new"
+msgid "A&dd new"
 msgstr "Додати новий"
 
 #: tfrmtweakplugin.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmtweakplugin.btnchange.caption
-msgid "Change"
+#, fuzzy
+#| msgid "Change"
+msgid "C&hange"
 msgstr "Змінити"
 
 #: tfrmtweakplugin.btndefault.caption
-msgid "Default"
+#, fuzzy
+#| msgid "Default"
+msgid "De&fault"
 msgstr "Типовий"
 
 #: tfrmtweakplugin.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "Так"
 
 #: tfrmtweakplugin.btnremove.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
-msgid "Remove"
+msgid "&Remove"
 msgstr "Видалити"
 
 #: tfrmtweakplugin.caption
@@ -5618,57 +6049,83 @@ msgid "Tweak plugin"
 msgstr "Параметри плагіну"
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
-msgid "Detect archive type by content"
+#, fuzzy
+#| msgid "Detect archive type by content"
+msgid "De&tect archive type by content"
 msgstr "Визначати тип архіву за вмістом"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
-msgid "Can delete files"
+#, fuzzy
+#| msgid "Can delete files"
+msgid "Can de&lete files"
 msgstr "Може видаляти файли"
 
 #: tfrmtweakplugin.cbpk_caps_encrypt.caption
-msgid "Supports encryption"
+#, fuzzy
+#| msgid "Supports encryption"
+msgid "Supports e&ncryption"
 msgstr "Підтримує шифрування"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
-msgid "Show as normal files (hide packer icon)"
+#, fuzzy
+#| msgid "Show as normal files (hide packer icon)"
+msgid "Sho&w as normal files (hide packer icon)"
 msgstr "Показувати як нормальні файли (сховати іконку архіву)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
-msgid "Supports packing in memory"
+#, fuzzy
+#| msgid "Supports packing in memory"
+msgid "Supports pac&king in memory"
 msgstr "Підтримує стиснення в пам'яті"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-msgid "Can modify exisiting archives"
+#, fuzzy
+#| msgid "Can modify exisiting archives"
+msgid "Can &modify exisiting archives"
 msgstr "Може змінювати існуючі архіви"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption
-msgid "Archive can contain multiple files"
+#, fuzzy
+#| msgid "Archive can contain multiple files"
+msgid "&Archive can contain multiple files"
 msgstr "Архів може містити декілька файлів"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
-msgid "Can create new archives"
+#, fuzzy
+#| msgid "Can create new archives"
+msgid "Can create new archi&ves"
 msgstr "Може створювати нові архіви"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
-msgid "Supports the options dialogbox"
+#, fuzzy
+#| msgid "Supports the options dialogbox"
+msgid "S&upports the options dialogbox"
 msgstr "Підтримує діалогове вікно з налаштуваннями"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
-msgid "Allow searching for text in archives"
+#, fuzzy
+#| msgid "Allow searching for text in archives"
+msgid "Allow searchin&g for text in archives"
 msgstr "Дозволити шукати текст у архівах"
 
 #: tfrmtweakplugin.lbldescription.caption
+#, fuzzy
+#| msgid "Description:"
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
-msgid "Description:"
+msgid "&Description:"
 msgstr "Опис:"
 
 #: tfrmtweakplugin.lbldetectstr.caption
-msgid "Detect string:"
+#, fuzzy
+#| msgid "Detect string:"
+msgid "D&etect string:"
 msgstr "Визначення рядка:"
 
 #: tfrmtweakplugin.lblextension.caption
+#, fuzzy
+#| msgid "Extension:"
 msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
-msgid "Extension:"
+msgid "&Extension:"
 msgstr "Розширення:"
 
 #: tfrmtweakplugin.lblflags.caption
@@ -5676,18 +6133,24 @@ msgid "Flags:"
 msgstr "Позначки:"
 
 #: tfrmtweakplugin.lblname.caption
+#, fuzzy
+#| msgid "Name:"
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
-msgid "Name:"
+msgid "&Name:"
 msgstr "Ім'я"
 
 #: tfrmtweakplugin.lblplugin.caption
+#, fuzzy
+#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
-msgid "Plugin:"
+msgid "&Plugin:"
 msgstr "Плагін:"
 
 #: tfrmtweakplugin.lblplugin1.caption
+#, fuzzy
+#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
-msgid "Plugin:"
+msgid "&Plugin:"
 msgstr "Плагін:"
 
 #: tfrmviewer.actabout.caption
@@ -7805,6 +8268,10 @@ msgctxt "ulng.rsoptionseditortooltips"
 msgid "Tooltips"
 msgstr "Підказки"
 
+#: ulng.rsoptletters
+msgid "None;Command Line;Quick Search;Quick Filter"
+msgstr ""
+
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
 msgstr "Ліва кнопка;Права кнопка;"
@@ -7837,6 +8304,18 @@ msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Асоціації з"
 
+#: ulng.rsoptsearchcase
+msgid "&Sensitive;&Insensitive"
+msgstr ""
+
+#: ulng.rsoptsearchitems
+msgid "&Files;Di&rectories;Files a&nd Directories"
+msgstr ""
+
+#: ulng.rsoptsearchopt
+msgid "&Hide filter panel when not focused"
+msgstr ""
+
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
 msgstr "не чутливі до регістру; залежно від налаштувань локалі (aAbBcC); спочатку верхній а потім нижній регістр (ABCabc)"
@@ -7854,7 +8333,9 @@ msgid "Top;Bottom;"
 msgstr "Зверху;Знизу"
 
 #: ulng.rsopttoolbarbuttontype
-msgid "Separator;Internal command;External command;Menu"
+#, fuzzy
+#| msgid "Separator;Internal command;External command;Menu"
+msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "Роздільник;Внутрішні команди;Зовнішні команди;Меню"
 
 #: ulng.rsoptupdatedfilesposition
@@ -7930,7 +8411,9 @@ msgid "Select a directory"
 msgstr "Виберіть каталог"
 
 #: ulng.rsshowhelpfor
-msgid "Show help for %s"
+#, fuzzy
+#| msgid "Show help for %s"
+msgid "&Show help for %s"
 msgstr "Показати довідку для %s"
 
 #: ulng.rssizeunitbytes
