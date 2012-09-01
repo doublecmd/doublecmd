@@ -3,6 +3,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
   Width = 759
   ClientHeight = 356
   ClientWidth = 759
+  DesignTop = 20
   object gbFileTypesColors: TGroupBox[0]
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
@@ -24,40 +25,44 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = edtCategoryName
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 14
-      Top = 140
-      Width = 79
-      Caption = 'Category name:'
+      Height = 13
+      Top = 142
+      Width = 77
+      Caption = 'Category &name:'
+      FocusControl = edtCategoryName
       ParentColor = False
     end
     object lblCategoryMask: TLabel
       AnchorSideTop.Control = edtCategoryMask
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 14
-      Top = 169
-      Width = 77
-      Caption = 'Category mask:'
+      Height = 13
+      Top = 173
+      Width = 76
+      Caption = 'Category &mask:'
+      FocusControl = edtCategoryMask
       ParentColor = False
     end
     object lblCategoryColor: TLabel
       AnchorSideTop.Control = cbCategoryColor
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 14
-      Top = 228
-      Width = 76
-      Caption = 'Category color:'
+      Height = 13
+      Top = 236
+      Width = 75
+      Caption = 'Category co&lor:'
+      FocusControl = cbCategoryColor
       ParentColor = False
     end
     object lblCategoryAttr: TLabel
       AnchorSideTop.Control = edtCategoryAttr
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 14
-      Top = 198
-      Width = 100
-      Caption = 'Category attributes:'
+      Height = 13
+      Top = 204
+      Width = 97
+      Caption = 'Category a&ttributes:'
+      FocusControl = edtCategoryAttr
       ParentColor = False
     end
     object edtCategoryName: TEdit
@@ -66,7 +71,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Control = lbCategories
       AnchorSideRight.Side = asrBottom
       Left = 174
-      Height = 21
+      Height = 23
       Top = 137
       Width = 557
       Anchors = [akTop, akLeft, akRight]
@@ -78,8 +83,8 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSearchTemplate
       Left = 174
-      Height = 21
-      Top = 166
+      Height = 23
+      Top = 168
       Width = 528
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
@@ -91,8 +96,8 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnCategoryColor
       Left = 174
-      Height = 22
-      Top = 224
+      Height = 25
+      Top = 230
       Width = 523
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
@@ -107,14 +112,13 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Control = btnDeleteCategory
       Left = 389
       Height = 32
-      Top = 258
+      Top = 267
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 6
       BorderSpacing.Top = 12
       BorderSpacing.Right = 6
-      Caption = 'Add'
-      NumGlyphs = 0
+      Caption = 'A&dd'
       OnClick = btnAddCategoryClick
       TabOrder = 7
     end
@@ -124,13 +128,12 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Control = btnApplyCategory
       Left = 505
       Height = 32
-      Top = 258
+      Top = 267
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 12
       BorderSpacing.Right = 6
-      Caption = 'Delete'
-      NumGlyphs = 0
+      Caption = 'D&elete'
       OnClick = btnDeleteCategoryClick
       TabOrder = 8
     end
@@ -142,8 +145,8 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideBottom.Control = cbCategoryColor
       AnchorSideBottom.Side = asrBottom
       Left = 703
-      Height = 22
-      Top = 224
+      Height = 25
+      Top = 230
       Width = 28
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.InnerBorder = 4
@@ -168,8 +171,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       OnDragDrop = lbCategoriesDragDrop
       OnDragOver = lbCategoriesDragOver
       OnDrawItem = lbCategoriesDrawItem
+      ScrollWidth = 717
       Style = lbOwnerDrawFixed
       TabOrder = 0
+      TopIndex = -1
     end
     object btnApplyCategory: TBitBtn
       AnchorSideTop.Control = cbCategoryColor
@@ -178,12 +183,11 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Side = asrBottom
       Left = 621
       Height = 32
-      Top = 258
+      Top = 267
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 12
-      Caption = 'Apply'
-      NumGlyphs = 0
+      Caption = 'A&pply'
       OnClick = btnApplyCategoryClick
       TabOrder = 9
     end
@@ -193,8 +197,8 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Control = lbCategories
       AnchorSideRight.Side = asrBottom
       Left = 174
-      Height = 21
-      Top = 195
+      Height = 23
+      Top = 199
       Width = 557
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
@@ -207,9 +211,9 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideBottom.Control = edtCategoryMask
       AnchorSideBottom.Side = asrBottom
       Left = 708
-      Height = 21
+      Height = 23
       Hint = 'Template...'
-      Top = 166
+      Top = 168
       Width = 23
       Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {

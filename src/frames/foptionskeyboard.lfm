@@ -5,13 +5,14 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 223
   ClientWidth = 429
+  DesignTop = 20
   object gbTyping: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 132
+    Height = 103
     Top = 6
     Width = 417
     Anchors = [akTop, akLeft, akRight]
@@ -22,15 +23,16 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     ChildSizing.VerticalSpacing = 12
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 110
+    ClientHeight = 85
     ClientWidth = 413
     TabOrder = 0
     object lblNoModifier: TLabel
       Left = 8
-      Height = 22
+      Height = 13
       Top = 8
-      Width = 106
-      Caption = 'Letters'
+      Width = 84
+      Caption = '&Letters'
+      FocusControl = cbNoModifier
       ParentColor = False
     end
     object cbNoModifier: TComboBox
@@ -40,13 +42,13 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbTyping
       AnchorSideRight.Side = asrBottom
-      Left = 124
-      Height = 29
-      Top = 5
-      Width = 281
+      Left = 102
+      Height = 24
+      Top = 2
+      Width = 303
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 0
       Items.Strings = (
         'None'
         'Command Line'
@@ -58,18 +60,20 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     end
     object lblAlt: TLabel
       Left = 8
-      Height = 22
-      Top = 42
-      Width = 106
-      Caption = 'Alt+Letters'
+      Height = 13
+      Top = 33
+      Width = 84
+      Caption = 'Alt+L&etters'
+      FocusControl = cbAlt
       ParentColor = False
     end
     object lblCtrlAlt: TLabel
       Left = 8
-      Height = 22
-      Top = 76
-      Width = 106
-      Caption = 'Ctrl+Alt+Letters'
+      Height = 13
+      Top = 58
+      Width = 84
+      Caption = 'Ctrl+Alt+Le&tters'
+      FocusControl = cbCtrlAlt
       ParentColor = False
     end
     object cbAlt: TComboBox
@@ -79,13 +83,13 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbTyping
       AnchorSideRight.Side = asrBottom
-      Left = 124
-      Height = 29
-      Top = 39
-      Width = 281
+      Left = 102
+      Height = 25
+      Top = 27
+      Width = 303
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 0
       Style = csDropDownList
       TabOrder = 1
     end
@@ -96,13 +100,13 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbTyping
       AnchorSideRight.Side = asrBottom
-      Left = 124
-      Height = 29
-      Top = 73
-      Width = 281
+      Left = 102
+      Height = 25
+      Top = 52
+      Width = 303
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 0
       Style = csDropDownList
       TabOrder = 2
     end
@@ -113,11 +117,11 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 25
-    Top = 146
-    Width = 409
+    Height = 20
+    Top = 117
+    Width = 302
     BorderSpacing.Top = 8
-    Caption = 'Left, Right arrows change directory (Lynx-like movement)'
+    Caption = 'Le&ft, Right arrows change directory (Lynx-like movement)'
     TabOrder = 1
   end
 end

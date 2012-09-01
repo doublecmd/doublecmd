@@ -3,14 +3,16 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
   Width = 730
   ClientHeight = 372
   ClientWidth = 730
+  DesignTop = 20
   object lblConfigColumns: TLabel[0]
     AnchorSideTop.Control = cbbFileSystem
     AnchorSideTop.Side = asrCenter
     Left = 7
-    Height = 22
-    Top = 3
-    Width = 229
-    Caption = 'Configure columns for file system:'
+    Height = 13
+    Top = 6
+    Width = 167
+    Caption = 'Con&figure columns for file system:'
+    FocusControl = cbbFileSystem
     ParentColor = False
   end
   object cbbFileSystem: TComboBox[1]
@@ -18,14 +20,14 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
     AnchorSideLeft.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 240
-    Height = 29
+    Left = 178
+    Height = 24
     Top = 0
-    Width = 484
+    Width = 546
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 4
     BorderSpacing.Right = 6
-    ItemHeight = 21
+    ItemHeight = 0
     ItemIndex = 0
     Items.Strings = (
       'General'
@@ -42,8 +44,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlButtons
     Left = 6
-    Height = 279
-    Top = 35
+    Height = 284
+    Top = 30
     Width = 718
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -52,7 +54,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
     BorderSpacing.Bottom = 6
     ItemHeight = 0
     OnDblClick = btnEditColumnsSetClick
+    ScrollWidth = 716
     TabOrder = 1
+    TopIndex = -1
   end
   object pnlButtons: TPanel[3]
     AnchorSideRight.Control = Owner
@@ -88,7 +92,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       Top = 7
       Width = 116
       BorderSpacing.Left = 6
-      Caption = 'Edit'
+      Caption = '&Edit'
       OnClick = btnEditColumnsSetClick
       TabOrder = 1
     end
@@ -100,7 +104,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       Width = 112
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
-      Caption = 'Delete'
+      Caption = '&Delete'
       OnClick = btnDelColumnsSetClick
       TabOrder = 2
     end
@@ -113,7 +117,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       Width = 111
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
-      Caption = 'Copy'
+      Caption = 'C&opy'
       OnClick = btnCopyColumnsSetClick
       TabOrder = 3
     end

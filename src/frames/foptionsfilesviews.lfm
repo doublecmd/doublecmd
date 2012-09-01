@@ -9,7 +9,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 200
+    Height = 151
     Top = 6
     Width = 628
     Anchors = [akTop, akLeft, akRight]
@@ -21,16 +21,17 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.HorizontalSpacing = 6
     ChildSizing.VerticalSpacing = 12
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 178
+    ClientHeight = 133
     ClientWidth = 624
     TabOrder = 0
     object lblSortMethod: TLabel
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 22
+      Height = 13
       Top = 8
-      Width = 130
-      Caption = 'Sort &method:'
+      Width = 91
+      Caption = '&Sort method:'
+      FocusControl = cbSortMethod
       ParentColor = False
     end
     object cbSortMethod: TComboBox
@@ -40,13 +41,13 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 152
-      Height = 29
-      Top = 5
-      Width = 460
+      Left = 113
+      Height = 21
+      Top = 4
+      Width = 499
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 13
       Items.Strings = (
         'Alphabetical, considering accents'
         'Natural sorting: alphabetical and numbers'
@@ -56,10 +57,11 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     end
     object lblCaseSensitivity: TLabel
       Left = 12
-      Height = 22
-      Top = 42
-      Width = 130
-      Caption = 'Case sensitivity:'
+      Height = 13
+      Top = 33
+      Width = 91
+      Caption = 'Case s&ensitivity:'
+      FocusControl = cbCaseSensitivity
       ParentColor = False
     end
     object cbCaseSensitivity: TComboBox
@@ -69,13 +71,13 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 152
-      Height = 29
-      Top = 39
-      Width = 460
+      Left = 113
+      Height = 21
+      Top = 29
+      Width = 499
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 13
       Items.Strings = (
         'not case sensitive'
         'according to locale settings (aAbBcC)'
@@ -86,10 +88,11 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     end
     object lblSortFolderMode: TLabel
       Left = 12
-      Height = 22
-      Top = 76
-      Width = 130
-      Caption = 'Sorting directories:'
+      Height = 13
+      Top = 58
+      Width = 91
+      Caption = 'So&rting directories:'
+      FocusControl = cbSortFolderMode
       ParentColor = False
     end
     object cbSortFolderMode: TComboBox
@@ -99,13 +102,13 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 152
-      Height = 29
-      Top = 73
-      Width = 460
+      Left = 113
+      Height = 21
+      Top = 54
+      Width = 499
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 13
       Items.Strings = (
         'sort by name and show first'
         'sort like files and show first'
@@ -116,10 +119,11 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     end
     object lblNewFilesPosition: TLabel
       Left = 12
-      Height = 22
-      Top = 110
-      Width = 130
-      Caption = 'Insert new files'
+      Height = 13
+      Top = 83
+      Width = 91
+      Caption = '&Insert new files'
+      FocusControl = cbNewFilesPosition
       ParentColor = False
     end
     object cbNewFilesPosition: TComboBox
@@ -129,22 +133,23 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 152
-      Height = 29
-      Top = 107
-      Width = 460
+      Left = 113
+      Height = 21
+      Top = 79
+      Width = 499
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 13
       Style = csDropDownList
       TabOrder = 3
     end
     object lblUpdatedFilesPosition: TLabel
       Left = 12
-      Height = 22
-      Top = 144
-      Width = 130
-      Caption = 'Move updated files'
+      Height = 13
+      Top = 108
+      Width = 91
+      Caption = '&Move updated files'
+      FocusControl = cbUpdatedFilesPosition
       ParentColor = False
     end
     object cbUpdatedFilesPosition: TComboBox
@@ -154,13 +159,13 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 152
-      Height = 29
-      Top = 141
-      Width = 460
+      Left = 113
+      Height = 21
+      Top = 104
+      Width = 499
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 21
+      ItemHeight = 13
       Style = csDropDownList
       TabOrder = 4
     end
@@ -172,8 +177,8 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 247
-    Top = 317
+    Height = 173
+    Top = 268
     Width = 628
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -183,63 +188,63 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 225
+    ClientHeight = 155
     ClientWidth = 624
-    TabOrder = 1
+    TabOrder = 2
     object cbSpaceMovesDown: TCheckBox
       Left = 6
-      Height = 27
+      Height = 17
       Top = 6
-      Width = 589
-      Caption = 'When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)'
+      Width = 424
+      Caption = '&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)'
       TabOrder = 0
     end
     object cbDirBrackets: TCheckBox
       Left = 6
-      Height = 27
-      Top = 37
-      Width = 589
-      Caption = 'Show square brackets around directories'
+      Height = 17
+      Top = 27
+      Width = 424
+      Caption = 'S&how square brackets around directories'
       TabOrder = 1
     end
     object cbShowSystemFiles: TCheckBox
       Left = 6
-      Height = 27
-      Top = 68
-      Width = 589
-      Caption = 'Show system and hidden files'
+      Height = 17
+      Top = 48
+      Width = 424
+      Caption = 'Show s&ystem and hidden files'
       TabOrder = 2
     end
     object cbListFilesInThread: TCheckBox
       Left = 6
-      Height = 27
-      Top = 99
-      Width = 589
-      Caption = 'Load file list in separate thread'
+      Height = 17
+      Top = 69
+      Width = 424
+      Caption = 'Load &file list in separate thread'
       TabOrder = 3
     end
     object cbLoadIconsSeparately: TCheckBox
       Left = 6
-      Height = 27
-      Top = 130
-      Width = 589
-      Caption = 'Load icons after file list'
+      Height = 17
+      Top = 90
+      Width = 424
+      Caption = 'Load icons af&ter file list'
       TabOrder = 4
     end
     object cbDelayLoadingTabs: TCheckBox
       Left = 6
-      Height = 27
-      Top = 161
-      Width = 589
-      Caption = 'Don''t load file list until a tab is activated'
+      Height = 17
+      Top = 111
+      Width = 424
+      Caption = 'Do&n''t load file list until a tab is activated'
       TabOrder = 5
     end
     object cbHighlightUpdatedFiles: TCheckBox
       Left = 6
-      Height = 27
-      Top = 192
-      Width = 589
-      Caption = 'Highlight new and updated files'
+      Height = 17
+      Top = 132
+      Width = 424
+      Caption = 'Hi&ghlight new and updated files'
       TabOrder = 6
     end
   end
@@ -251,26 +256,27 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 99
-    Top = 212
+    Top = 163
     Width = 628
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 6
     Caption = 'Formatting'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 77
+    ClientHeight = 81
     ClientWidth = 624
-    TabOrder = 2
+    TabOrder = 1
     object lblDateTimeFormat: TLabel
       AnchorSideLeft.Control = gbFormatting
       AnchorSideTop.Control = cbDateTimeFormat
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 22
-      Top = 9
-      Width = 148
+      Height = 13
+      Top = 10
+      Width = 106
       BorderSpacing.Left = 8
-      Caption = 'Date and time format:'
+      Caption = '&Date and time format:'
+      FocusControl = cbDateTimeFormat
       ParentColor = False
     end
     object lblDateTimeExample: TLabel
@@ -278,10 +284,10 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbFormatting
       AnchorSideRight.Side = asrBottom
-      Left = 522
-      Height = 14
-      Top = 9
-      Width = 96
+      Left = 523
+      Height = 13
+      Top = 10
+      Width = 95
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 6
@@ -295,15 +301,15 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbFormatting
       AnchorSideRight.Control = lblDateTimeExample
-      Left = 164
-      Height = 29
+      Left = 122
+      Height = 21
       Top = 6
-      Width = 391
+      Width = 393
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 8
       BorderSpacing.Top = 6
       BorderSpacing.Right = 8
-      ItemHeight = 21
+      ItemHeight = 13
       Items.Strings = (
         'yyyy/mm/dd hh:mm:ss'
         'yyyy/mm/dd hh:mm'
@@ -322,11 +328,11 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Control = cbDateTimeFormat
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 27
-      Top = 41
-      Width = 169
+      Height = 17
+      Top = 33
+      Width = 117
       BorderSpacing.Top = 6
-      Caption = 'Short file size format'
+      Caption = 'Short file si&ze format'
       TabOrder = 1
     end
   end

@@ -1,7 +1,7 @@
 inherited frmOptionsIcons: TfrmOptionsIcons
-  Height = 329
+  Height = 389
   Width = 478
-  ClientHeight = 329
+  ClientHeight = 389
   ClientWidth = 478
   DesignLeft = 244
   DesignTop = 121
@@ -18,11 +18,11 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
-    Caption = ' Icon &size '
+    Caption = ' Icon size '
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 64
     ClientWidth = 462
-    TabOrder = 0
+    TabOrder = 2
     object cbIconsSize: TComboBox
       AnchorSideLeft.Control = gbIconsSize
       AnchorSideTop.Control = pnlIconExample
@@ -86,7 +86,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 127
     ClientWidth = 462
-    TabOrder = 1
+    TabOrder = 0
     object rbIconsShowAll: TRadioButton
       AnchorSideLeft.Control = gbShowIconsMode
       AnchorSideTop.Control = rbIconsShowAllAndExe
@@ -94,12 +94,12 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 31
-      Width = 31
+      Width = 29
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
-      Caption = '&All'
+      Caption = 'A&ll'
       Checked = True
-      TabOrder = 3
+      TabOrder = 1
       TabStop = True
     end
     object rbIconsShowStandard: TRadioButton
@@ -109,11 +109,11 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 54
-      Width = 115
+      Width = 113
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
-      Caption = '&Only standard icons'
-      TabOrder = 1
+      Caption = 'Only &standard icons'
+      TabOrder = 2
     end
     object rbIconsShowNone: TRadioButton
       AnchorSideLeft.Control = gbShowIconsMode
@@ -122,12 +122,12 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 77
-      Width = 60
+      Width = 58
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = '&No icons'
       OnChange = rbIconsShowNoneChange
-      TabOrder = 2
+      TabOrder = 3
     end
     object rbIconsShowAllAndExe: TRadioButton
       AnchorSideLeft.Control = gbShowIconsMode
@@ -135,7 +135,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 8
-      Width = 171
+      Width = 169
       BorderSpacing.Left = 10
       Caption = 'All associated + &EXE/LNK (slow)'
       TabOrder = 0
@@ -147,10 +147,10 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 102
-      Width = 179
+      Width = 177
       BorderSpacing.Left = 10
       BorderSpacing.Top = 8
-      Caption = 'Show overlay i&cons, e.g. for links'
+      Caption = 'Show o&verlay icons, e.g. for links'
       TabOrder = 4
     end
   end
@@ -171,7 +171,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 61
     ClientWidth = 462
-    TabOrder = 2
+    TabOrder = 1
     object edtIconsExcludeDirs: TEdit
       AnchorSideLeft.Control = cbIconsExclude
       AnchorSideTop.Control = cbIconsExclude
@@ -186,7 +186,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       BorderSpacing.Left = 20
       BorderSpacing.Right = 8
       BorderSpacing.Bottom = 15
-      TabOrder = 0
+      TabOrder = 1
     end
     object cbIconsExclude: TCheckBox
       AnchorSideLeft.Control = gbDisableSpecialIcons
@@ -194,11 +194,11 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 8
-      Width = 250
+      Width = 248
       BorderSpacing.Left = 10
       Caption = 'For the following &paths and their subdirectories:'
       OnChange = cbIconsExcludeChange
-      TabOrder = 1
+      TabOrder = 0
     end
   end
 end

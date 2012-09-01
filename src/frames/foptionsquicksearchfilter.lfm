@@ -5,6 +5,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 354
   ClientWidth = 702
+  DesignTop = 27
   object gbExactNameMatch: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -12,7 +13,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 84
+    Height = 81
     Top = 6
     Width = 690
     Anchors = [akTop, akLeft, akRight]
@@ -20,16 +21,16 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     Caption = 'Exact name match'
     ChildSizing.TopBottomSpacing = 4
     ChildSizing.VerticalSpacing = 4
-    ClientHeight = 62
+    ClientHeight = 58
     ClientWidth = 686
     TabOrder = 0
     object cbExactBeginning: TCheckBox
       AnchorSideLeft.Control = gbExactNameMatch
       AnchorSideTop.Control = gbExactNameMatch
       Left = 10
-      Height = 25
+      Height = 23
       Top = 6
-      Width = 392
+      Width = 376
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = '&Beginning (name must start with first typed character)'
@@ -42,9 +43,9 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
       AnchorSideBottom.Control = gbExactNameMatch
       AnchorSideBottom.Side = asrBottom
       Left = 10
-      Height = 21
-      Top = 35
-      Width = 399
+      Height = 19
+      Top = 33
+      Width = 382
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Bottom = 6
       Caption = 'En&ding (last character before a typed dot . must match)'
@@ -58,8 +59,8 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 109
-    Top = 90
+    Height = 104
+    Top = 87
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -73,7 +74,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 87
+    ClientHeight = 81
     ClientWidth = 686
     Items.Strings = (
       'Files'
@@ -89,8 +90,8 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 84
-    Top = 199
+    Height = 81
+    Top = 191
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -104,7 +105,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 62
+    ClientHeight = 58
     ClientWidth = 686
     Items.Strings = (
       'Sensitive'
@@ -119,8 +120,8 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 59
-    Top = 283
+    Height = 58
+    Top = 272
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -134,6 +135,8 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
+    ClientHeight = 35
+    ClientWidth = 686
     Items.Strings = (
       'Hide filter panel when not focused'
     )

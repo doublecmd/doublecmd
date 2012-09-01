@@ -41,6 +41,7 @@ type
     rgpSearchCase: TRadioGroup;
     rgpSearchItems: TRadioGroup;
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -53,7 +54,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng, fQuickSearch;
+  DCStrUtils, uGlobs, uLng, fQuickSearch;
 
 const
   OPTION_AUTOHIDE_POSITION = 0;
@@ -68,6 +69,14 @@ end;
 class function TfrmOptionsQuickSearchFilter.GetTitle: String;
 begin
   Result := rsOptionsEditorQuickSearch;
+end;
+
+procedure TfrmOptionsQuickSearchFilter.Init;
+begin
+  // Copy localized strings to each combo box.
+  ParseLineToList(rsOptSearchItems, rgpSearchItems.Items);
+  ParseLineToList(rsOptSearchCase, rgpSearchCase.Items);
+  ParseLineToList(rsOptSearchOpt, cgpOptions.Items);
 end;
 
 procedure TfrmOptionsQuickSearchFilter.Load;

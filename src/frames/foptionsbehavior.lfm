@@ -11,14 +11,14 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 130
+    Height = 93
     Top = 6
     Width = 654
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 105
+    ClientHeight = 75
     ClientWidth = 650
     TabOrder = 0
     object cbOnlyOnce: TCheckBox
@@ -27,12 +27,12 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideRight.Control = gbMisc1
       AnchorSideRight.Side = asrBottom
       Left = 8
-      Height = 27
+      Height = 17
       Top = 6
       Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
-      Caption = 'Allow only one copy of DC at a time'
+      Caption = 'A&llow only one copy of DC at a time'
       TabOrder = 0
     end
     object cbMinimizeToTray: TCheckBox
@@ -42,8 +42,8 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideRight.Control = gbMisc1
       AnchorSideRight.Side = asrBottom
       Left = 8
-      Height = 27
-      Top = 39
+      Height = 17
+      Top = 29
       Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -57,12 +57,12 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideRight.Control = gbMisc1
       AnchorSideRight.Side = asrBottom
       Left = 8
-      Height = 27
-      Top = 72
+      Height = 17
+      Top = 52
       Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
-      Caption = 'Always show tray icon'
+      Caption = 'Al&ways show tray icon'
       OnChange = cbAlwaysShowTrayIconChange
       TabOrder = 2
     end
@@ -74,24 +74,25 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 121
-    Top = 136
+    Height = 85
+    Top = 99
     Width = 654
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    ClientHeight = 96
+    ClientHeight = 67
     ClientWidth = 650
     TabOrder = 1
     object lblDrivesBlackList: TLabel
       AnchorSideLeft.Control = gbMisc2
       AnchorSideTop.Control = gbMisc2
       Left = 8
-      Height = 22
+      Height = 13
       Top = 2
-      Width = 115
+      Width = 70
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
-      Caption = 'Drives blacklist'
+      Caption = 'Drives &blacklist'
+      FocusControl = edtDrivesBlackList
       ParentColor = False
     end
     object edtDrivesBlackList: TEdit
@@ -101,9 +102,9 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideRight.Control = gbMisc2
       AnchorSideRight.Side = asrBottom
       Left = 8
-      Height = 31
+      Height = 21
       Hint = 'Here you can enter one or more drives or mount points, separated by ";".'
-      Top = 30
+      Top = 21
       Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -122,7 +123,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Top = 65
       Width = 314
       BorderSpacing.Bottom = 4
-      Caption = 'Automatically hide unmounted devices'
+      Caption = 'Automatically &hide unmounted devices'
       TabOrder = 1
     end
   end

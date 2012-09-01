@@ -107,9 +107,9 @@ object frmOptions: TfrmOptions
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
       Caption = '&OK'
+      Default = True
       Kind = bkOK
       ModalResult = 1
-      NumGlyphs = 0
       OnClick = btnOKClick
       TabOrder = 0
     end
@@ -123,10 +123,9 @@ object frmOptions: TfrmOptions
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
       Cancel = True
-      Caption = 'Cancel'
+      Caption = '&Cancel'
       Kind = bkCancel
       ModalResult = 2
-      NumGlyphs = 0
       OnClick = btnCancelClick
       TabOrder = 1
     end
@@ -140,8 +139,7 @@ object frmOptions: TfrmOptions
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
-      Caption = 'Apply'
-      NumGlyphs = 0
+      Caption = '&Apply'
       OnClick = btnApplyClick
       TabOrder = 2
     end

@@ -3,6 +3,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
   Width = 604
   ClientHeight = 376
   ClientWidth = 604
+  DesignTop = 27
   object pcPluginsTypes: TPageControl[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -14,11 +15,11 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     ActivePage = tsWCX
     Align = alTop
     TabIndex = 0
-    TabOrder = 0
+    TabOrder = 6
     OnChange = pcPluginsTypesChange
     object tsWCX: TTabSheet
-      Caption = 'Packer plugins (.WCX)'
-      ClientHeight = 56
+      Caption = 'Pac&ker plugins (.WCX)'
+      ClientHeight = 58
       ClientWidth = 596
       OnShow = tsWCXShow
       object lblWCXDescription: TLabel
@@ -27,20 +28,21 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsWCX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 16
+        Height = 13
         Top = 12
         Width = 576
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'Packer plugins are used to work with archives.'
+        Caption = 'Pack&er plugins are used to work with archives'
+        FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
       end
     end
     object tsWFX: TTabSheet
-      Caption = 'File system plugins (.WFX)'
+      Caption = 'F&ile system plugins (.WFX)'
       ClientHeight = 58
       ClientWidth = 596
       OnShow = tsWFXShow
@@ -49,22 +51,23 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsWFX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 14
+        Height = 13
         Top = 12
         Width = 576
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
+        Caption = 'Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
+        FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
       end
     end
     object tsWDX: TTabSheet
-      Caption = 'Content plugins (.WDX)'
-      ClientHeight = 58
-      ClientWidth = 596
+      Caption = 'Content pl&ugins (.WDX)'
+      ClientHeight = 45
+      ClientWidth = 598
       OnShow = tsWDXShow
       object lblWDXDescription: TLabel
         AnchorSideLeft.Control = tsWDX
@@ -72,22 +75,23 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsWDX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 27
+        Height = 40
         Top = 12
-        Width = 576
+        Width = 578
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
+        Caption = 'Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
+        FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
       end
     end
     object tsDSX: TTabSheet
-      Caption = 'Search plugins (.DSX)'
-      ClientHeight = 58
-      ClientWidth = 596
+      Caption = '&Search plugins (.DSX)'
+      ClientHeight = 45
+      ClientWidth = 598
       OnShow = tsDSXShow
       object lblDSXDescription: TLabel
         AnchorSideLeft.Control = tsDSX
@@ -95,22 +99,23 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsDSX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 14
+        Height = 40
         Top = 12
-        Width = 576
+        Width = 578
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'Search plugins allow to use alternative search algorithms or external tools (like "locate", etc.)'
+        Caption = 'Searc&h plugins allow to use alternative search algorithms or external tools (like "locate", etc.)'
+        FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
       end
     end
     object tsWLX: TTabSheet
-      Caption = 'Viewer plugins (.WLX)'
-      ClientHeight = 58
-      ClientWidth = 596
+      Caption = '&Viewer plugins (.WLX)'
+      ClientHeight = 45
+      ClientWidth = 598
       OnShow = tsWLXShow
       object lblWLXDescription: TLabel
         AnchorSideLeft.Control = tsWLX
@@ -118,14 +123,15 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsWLX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 14
+        Height = 40
         Top = 12
-        Width = 576
+        Width = 578
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)'
+        Caption = 'Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)'
+        FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
       end
@@ -173,7 +179,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     FixedCols = 0
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
     RowCount = 1
-    TabOrder = 1
+    TabOrder = 0
     TitleStyle = tsNative
     OnBeforeSelection = stgPluginsBeforeSelection
     ColWidths = (
@@ -194,7 +200,8 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 8
-    Caption = 'Add'
+    Cancel = True
+    Caption = 'A&dd'
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
       2000000000000004000064000000640000000000000000000000000000000000
@@ -231,8 +238,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
       81FF818181FF818181FF818181FF818181FF818181FF818181FF818181FF7C8C
       8CFF729F9FFF6AAEAFFF36E4ED8A09F3FF4502F3FF0F00000000
     }
-    NumGlyphs = 0
-    TabOrder = 2
+    TabOrder = 1
   end
   object btnEnablePlugin: TBitBtn[3]
     AnchorSideRight.Control = btnRemovePlugin
@@ -245,10 +251,9 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 8
-    Caption = 'Enable'
-    NumGlyphs = 0
+    Caption = 'E&nable'
     OnClick = btnEnablePluginClick
-    TabOrder = 3
+    TabOrder = 2
   end
   object btnRemovePlugin: TBitBtn[4]
     AnchorSideRight.Control = btnTweakPlugin
@@ -261,7 +266,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 8
-    Caption = 'Remove'
+    Caption = '&Remove'
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
       2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -298,9 +303,8 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
       7CDA004A7BE300487847FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
-    NumGlyphs = 0
     OnClick = btnRemovePluginClick
-    TabOrder = 4
+    TabOrder = 3
   end
   object btnTweakPlugin: TBitBtn[5]
     AnchorSideRight.Control = btnConfigPlugin
@@ -313,7 +317,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 8
-    Caption = 'Tweak'
+    Caption = '&Tweak'
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
       2000000000000004000064000000640000000000000000000000000000000000
@@ -350,9 +354,8 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
       99AC818181FF818181FF818181FF818181FF818181FF818181FF818181FF8181
       81FF818181FF818181FF818181FF818181FF8181815600000000
     }
-    NumGlyphs = 0
     OnClick = btnTweakPluginClick
-    TabOrder = 5
+    TabOrder = 4
   end
   object btnConfigPlugin: TBitBtn[6]
     AnchorSideRight.Control = stgPlugins
@@ -366,9 +369,8 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 8
-    Caption = 'Configure'
-    NumGlyphs = 0
+    Caption = 'Con&figure'
     OnClick = btnConfigPluginClick
-    TabOrder = 6
+    TabOrder = 5
   end
 end

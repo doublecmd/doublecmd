@@ -5,32 +5,35 @@ inherited frmOptionsFonts: TfrmOptionsFonts
   ClientWidth = 703
   object lblMainFont: TLabel[0]
     Left = 6
-    Height = 22
+    Height = 13
     Top = 8
-    Width = 66
-    Caption = 'Main font'
+    Width = 45
+    Caption = 'Main &font'
+    FocusControl = edtMainFont
     ParentColor = False
   end
   object lblEditorFont: TLabel[1]
     AnchorSideTop.Control = edtMainFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 22
-    Top = 75
-    Width = 72
+    Height = 13
+    Top = 58
+    Width = 51
     BorderSpacing.Top = 10
-    Caption = 'Editor font'
+    Caption = '&Editor font'
+    FocusControl = edtEditorFont
     ParentColor = False
   end
   object lblViewerFont: TLabel[2]
     AnchorSideTop.Control = edtEditorFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 22
-    Top = 142
-    Width = 77
+    Height = 13
+    Top = 108
+    Width = 55
     BorderSpacing.Top = 10
-    Caption = 'Viewer font'
+    Caption = '&Viewer font'
+    FocusControl = edtViewerFont
     ParentColor = False
   end
   object btnSelMainFnt: TButton[3]
@@ -40,22 +43,22 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtMainFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 29
-    Top = 36
+    Height = 21
+    Top = 27
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 8
     Caption = '...'
     OnClick = btnSelMainFntClick
-    TabOrder = 0
+    TabOrder = 2
   end
   object edtMainFontSize: TSpinEdit[4]
     AnchorSideTop.Control = edtMainFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelMainFnt
     Left = 596
-    Height = 29
-    Top = 36
+    Height = 21
+    Top = 27
     Width = 55
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
@@ -71,14 +74,14 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtMainFontSize
     Left = 6
-    Height = 29
-    Top = 36
+    Height = 21
+    Top = 27
     Width = 586
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
     OnExit = edtMainFontExit
-    TabOrder = 2
+    TabOrder = 0
   end
   object btnSelEditFnt: TButton[6]
     AnchorSideTop.Control = edtEditorFontSize
@@ -87,14 +90,14 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtEditorFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 29
-    Top = 103
+    Height = 21
+    Top = 77
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.InnerBorder = 4
     Caption = '...'
     OnClick = btnSelEditFntClick
-    TabOrder = 3
+    TabOrder = 5
   end
   object edtEditorFont: TEdit[7]
     AnchorSideLeft.Control = lblEditorFont
@@ -102,29 +105,29 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtEditorFontSize
     Left = 6
-    Height = 29
-    Top = 103
+    Height = 21
+    Top = 77
     Width = 586
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
     OnExit = edtEditorFontExit
-    TabOrder = 4
+    TabOrder = 3
   end
   object edtEditorFontSize: TSpinEdit[8]
     AnchorSideTop.Control = edtEditorFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelEditFnt
     Left = 596
-    Height = 29
-    Top = 103
+    Height = 21
+    Top = 77
     Width = 55
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
     MaxValue = 25
     MinValue = 6
     OnChange = edtEditorFontSizeChange
-    TabOrder = 5
+    TabOrder = 4
     Value = 14
   end
   object btnSelViewFnt: TButton[9]
@@ -134,14 +137,14 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtViewerFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 29
-    Top = 170
+    Height = 21
+    Top = 127
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.InnerBorder = 4
     Caption = '...'
     OnClick = btnSelViewFntClick
-    TabOrder = 6
+    TabOrder = 8
   end
   object edtViewerFont: TEdit[10]
     AnchorSideLeft.Control = lblViewerFont
@@ -149,29 +152,29 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtViewerFontSize
     Left = 6
-    Height = 29
-    Top = 170
+    Height = 21
+    Top = 127
     Width = 585
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
     OnExit = edtViewerFontExit
-    TabOrder = 7
+    TabOrder = 6
   end
   object edtViewerFontSize: TSpinEdit[11]
     AnchorSideTop.Control = edtViewerFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelViewFnt
     Left = 595
-    Height = 29
-    Top = 170
+    Height = 21
+    Top = 127
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
     MaxValue = 25
     MinValue = 6
     OnChange = edtViewerFontSizeChange
-    TabOrder = 8
+    TabOrder = 7
     Value = 14
   end
   object lblLogFont: TLabel[12]
@@ -179,11 +182,12 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtViewerBookFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 22
-    Top = 276
-    Width = 56
+    Height = 13
+    Top = 208
+    Width = 40
     BorderSpacing.Top = 10
-    Caption = 'Log font'
+    Caption = '&Log font'
+    FocusControl = edtLogFont
     ParentColor = False
   end
   object edtLogFont: TEdit[13]
@@ -192,14 +196,14 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtLogFontSize
     Left = 6
-    Height = 29
-    Top = 304
+    Height = 21
+    Top = 227
     Width = 585
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
     OnExit = edtLogFontExit
-    TabOrder = 9
+    TabOrder = 12
   end
   object btnSelLogFnt: TButton[14]
     AnchorSideTop.Control = edtLogFontSize
@@ -208,29 +212,29 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtLogFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 29
-    Top = 304
+    Height = 21
+    Top = 227
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.InnerBorder = 4
     Caption = '...'
     OnClick = btnSelLogFntClick
-    TabOrder = 10
+    TabOrder = 14
   end
   object edtLogFontSize: TSpinEdit[15]
     AnchorSideTop.Control = edtLogFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelLogFnt
     Left = 595
-    Height = 29
-    Top = 304
+    Height = 21
+    Top = 227
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
     MaxValue = 25
     MinValue = 6
     OnChange = edtLogFontSizeChange
-    TabOrder = 11
+    TabOrder = 13
     Value = 14
   end
   object lblViewerBookFont: TLabel[16]
@@ -238,11 +242,12 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtViewerFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 22
-    Top = 209
-    Width = 118
+    Height = 13
+    Top = 158
+    Width = 80
     BorderSpacing.Top = 10
-    Caption = 'Viewer Book Font'
+    Caption = 'Viewer&Book Font'
+    FocusControl = edtViewerBookFont
     ParentColor = False
   end
   object edtViewerBookFont: TEdit[17]
@@ -251,28 +256,28 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtViewerBookFontSize
     Left = 6
-    Height = 29
-    Top = 237
+    Height = 21
+    Top = 177
     Width = 585
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
     OnExit = edtViewerBookFontExit
-    TabOrder = 12
+    TabOrder = 9
   end
   object edtViewerBookFontSize: TSpinEdit[18]
     AnchorSideTop.Control = edtViewerBookFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelViewerBookFnt
     Left = 595
-    Height = 29
-    Top = 237
+    Height = 21
+    Top = 177
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
     MinValue = 6
     OnChange = edtViewerBookFontSizeChange
-    TabOrder = 13
+    TabOrder = 10
     Value = 18
   end
   object btnSelViewerBookFnt: TButton[19]
@@ -282,13 +287,13 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtViewerBookFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 29
-    Top = 237
+    Height = 21
+    Top = 177
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     Caption = '...'
     OnClick = btnSelViewerBookFntClick
-    TabOrder = 14
+    TabOrder = 11
   end
   object dlgFnt: TFontDialog[20]
     MinFontSize = 0

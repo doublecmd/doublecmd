@@ -5,7 +5,7 @@ inherited frmOptionsDrivesListButton: TfrmOptionsDrivesListButton
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 113
+    Height = 85
     Top = 6
     Width = 308
     Anchors = [akTop, akLeft, akRight]
@@ -17,32 +17,32 @@ inherited frmOptionsDrivesListButton: TfrmOptionsDrivesListButton
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 91
+    ClientHeight = 67
     ClientWidth = 304
     TabOrder = 0
     object cbShowLabel: TCheckBox
       Left = 10
-      Height = 25
+      Height = 17
       Top = 4
-      Width = 141
-      Caption = 'Show label'
+      Width = 98
+      Caption = 'Show &label'
       TabOrder = 0
     end
     object cbShowFileSystem: TCheckBox
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 33
-      Width = 141
-      Caption = 'Show file system'
+      Height = 17
+      Top = 25
+      Width = 98
+      Caption = 'Show &file system'
       TabOrder = 1
     end
     object cbShowFreeSpace: TCheckBox
       Left = 10
-      Height = 25
-      Top = 62
-      Width = 141
-      Caption = 'Show free space'
+      Height = 17
+      Top = 46
+      Width = 98
+      Caption = 'Show fr&ee space'
       TabOrder = 2
     end
   end

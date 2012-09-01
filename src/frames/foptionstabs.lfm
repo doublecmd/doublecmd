@@ -3,13 +3,14 @@ inherited frmOptionsTabs: TfrmOptionsTabs
   Width = 673
   ClientHeight = 369
   ClientWidth = 673
+  DesignTop = 27
   object gbTabs: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 342
+    Height = 258
     Top = 6
     Width = 661
     Anchors = [akTop, akLeft, akRight]
@@ -20,7 +21,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
     BorderSpacing.Bottom = 6
     Caption = 'Folder tabs headers'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 320
+    ClientHeight = 240
     ClientWidth = 657
     TabOrder = 0
     object lblChar: TLabel
@@ -28,10 +29,10 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edtTabsLimitLength
       AnchorSideTop.Side = asrCenter
-      Left = 280
-      Height = 22
-      Top = 69
-      Width = 70
+      Left = 223
+      Height = 13
+      Top = 54
+      Width = 51
       BorderSpacing.Left = 6
       Caption = 'characters'
       ParentColor = False
@@ -41,20 +42,21 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       AnchorSideTop.Control = cmbTabsPosition
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 22
-      Top = 288
-      Width = 91
+      Height = 13
+      Top = 217
+      Width = 63
       BorderSpacing.Top = 14
-      Caption = 'Tabs position'
+      Caption = 'Ta&bs position'
+      FocusControl = cmbTabsPosition
       ParentColor = False
     end
     object cbTabsAlwaysVisible: TCheckBox
       AnchorSideLeft.Control = gbTabs
       AnchorSideTop.Control = gbTabs
       Left = 12
-      Height = 25
+      Height = 17
       Top = 6
-      Width = 355
+      Width = 253
       BorderSpacing.Left = 12
       BorderSpacing.Top = 6
       Caption = '&Show tab header also when there is only one tab'
@@ -65,9 +67,9 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       AnchorSideTop.Control = cbTabsAlwaysVisible
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 37
-      Width = 177
+      Height = 17
+      Top = 29
+      Width = 119
       BorderSpacing.Top = 6
       Caption = '&Tabs on multiple lines'
       TabOrder = 1
@@ -77,9 +79,9 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       AnchorSideTop.Control = cbTabsMultiLines
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 68
-      Width = 182
+      Height = 17
+      Top = 52
+      Width = 125
       BorderSpacing.Top = 6
       Caption = '&Limit tab title length to'
       TabOrder = 2
@@ -89,9 +91,9 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbTabsLimitOption
       AnchorSideTop.Side = asrCenter
-      Left = 194
-      Height = 29
-      Top = 66
+      Left = 137
+      Height = 21
+      Top = 50
       Width = 80
       TabOrder = 3
     end
@@ -100,92 +102,92 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       AnchorSideTop.Control = cbTabsConfirmCloseAll
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 130
-      Width = 277
+      Height = 17
+      Top = 98
+      Width = 198
       BorderSpacing.Top = 6
       Caption = 'Ctrl+&Up opens new tab in foreground'
-      TabOrder = 4
+      TabOrder = 5
     end
     object cbTabsConfirmCloseAll: TCheckBox
       AnchorSideLeft.Control = cbTabsLimitOption
       AnchorSideTop.Control = cbTabsLimitOption
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 99
-      Width = 172
+      Height = 17
+      Top = 75
+      Width = 119
       BorderSpacing.Top = 6
-      Caption = '&Confirm close all tabs'
-      TabOrder = 5
+      Caption = 'Con&firm close all tabs'
+      TabOrder = 4
     end
     object cbTabsLockedAsterisk: TCheckBox
       AnchorSideLeft.Control = cbTabsShowCloseButton
       AnchorSideTop.Control = cbTabsShowCloseButton
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 223
-      Width = 269
+      Height = 17
+      Top = 167
+      Width = 188
       BorderSpacing.Top = 6
       Caption = 'Show locked tabs &with an asterisk *'
-      TabOrder = 6
+      TabOrder = 8
     end
     object cbTabsActivateOnClick: TCheckBox
       AnchorSideLeft.Control = cbTabsLockedAsterisk
       AnchorSideTop.Control = cbTabsLockedAsterisk
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 254
-      Width = 385
+      Height = 17
+      Top = 190
+      Width = 274
       BorderSpacing.Top = 6
       Caption = 'Activate target &panel when clicking on one of its Tabs'
-      TabOrder = 7
+      TabOrder = 9
     end
     object cbTabsShowCloseButton: TCheckBox
       AnchorSideLeft.Control = cbTabsOpenNearCurrent
       AnchorSideTop.Control = cbTabsOpenNearCurrent
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 192
-      Width = 178
+      Height = 17
+      Top = 144
+      Width = 125
       BorderSpacing.Top = 6
-      Caption = 'Show tab close button'
-      TabOrder = 8
+      Caption = 'Show ta&b close button'
+      TabOrder = 7
     end
     object cmbTabsPosition: TComboBox
       AnchorSideLeft.Control = lblTabsPosition
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbTabsActivateOnClick
       AnchorSideTop.Side = asrBottom
-      Left = 109
-      Height = 29
-      Top = 285
+      Left = 81
+      Height = 21
+      Top = 213
       Width = 100
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       BorderSpacing.Bottom = 6
-      ItemHeight = 21
+      ItemHeight = 13
       Items.Strings = (
         'Top'
         'Bottom'
       )
       Style = csDropDownList
-      TabOrder = 9
+      TabOrder = 10
     end
     object cbTabsOpenNearCurrent: TCheckBox
       AnchorSideLeft.Control = cbTabsOpenForeground
       AnchorSideTop.Control = cbTabsOpenForeground
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 161
-      Width = 241
+      Height = 17
+      Top = 121
+      Width = 173
       BorderSpacing.Top = 6
       Caption = 'Open &new tabs near current tab'
-      TabOrder = 10
+      TabOrder = 6
     end
   end
 end

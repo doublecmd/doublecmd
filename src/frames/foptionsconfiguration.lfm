@@ -5,13 +5,14 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 339
   ClientWidth = 594
+  DesignTop = 27
   object gbLocConfigFiles: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 114
+    Height = 85
     Top = 6
     Width = 582
     Anchors = [akTop, akLeft, akRight]
@@ -22,34 +23,34 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     ChildSizing.VerticalSpacing = 5
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 92
+    ClientHeight = 67
     ClientWidth = 578
     TabOrder = 0
     object rbProgramDir: TRadioButton
       Left = 10
-      Height = 25
+      Height = 17
       Top = 5
-      Width = 268
+      Width = 193
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
-      Caption = 'Program directory (portable version)'
+      Caption = 'P&rogram directory (portable version)'
       Checked = True
       TabOrder = 0
       TabStop = True
     end
     object rbUserHomeDir: TRadioButton
       Left = 10
-      Height = 25
-      Top = 35
-      Width = 162
+      Height = 17
+      Top = 27
+      Width = 115
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
-      Caption = 'User home directory'
+      Caption = '&User home directory'
       TabOrder = 1
     end
     object lblCmdLineConfigDir: TLabel
       Left = 10
-      Height = 22
-      Top = 65
-      Width = 144
+      Height = 13
+      Top = 49
+      Width = 98
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Set on command line'
       ParentColor = False
@@ -63,76 +64,76 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 165
-    Top = 162
+    Height = 121
+    Top = 133
     Width = 582
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Save on exit'
     ChildSizing.TopBottomSpacing = 5
-    ClientHeight = 143
+    ClientHeight = 103
     ClientWidth = 578
-    TabOrder = 1
+    TabOrder = 3
     object cbDirHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
       AnchorSideTop.Control = chkSearchReplaceHistory
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 59
-      Width = 136
+      Height = 17
+      Top = 43
+      Width = 98
       BorderSpacing.Top = 2
-      Caption = 'Directory history'
-      TabOrder = 0
+      Caption = '&Directory history'
+      TabOrder = 2
     end
     object cbCmdLineHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
       AnchorSideTop.Control = cbDirHistory
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 86
-      Width = 175
+      Height = 17
+      Top = 62
+      Width = 120
       BorderSpacing.Top = 2
-      Caption = 'Command line history'
-      TabOrder = 1
+      Caption = 'Co&mmand line history'
+      TabOrder = 3
     end
     object cbFileMaskHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
       AnchorSideTop.Control = cbCmdLineHistory
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 113
-      Width = 141
+      Height = 17
+      Top = 81
+      Width = 97
       BorderSpacing.Top = 2
-      Caption = 'File mask history'
-      TabOrder = 2
+      Caption = '&File mask history'
+      TabOrder = 4
     end
     object chkSaveConfiguration: TCheckBox
       AnchorSideLeft.Control = gbSaveOnExit
       AnchorSideTop.Control = gbSaveOnExit
       Left = 10
-      Height = 25
+      Height = 17
       Top = 5
-      Width = 153
+      Width = 108
       BorderSpacing.Left = 10
-      Caption = 'Save configuration'
+      Caption = 'Sa&ve configuration'
       OnChange = chkSaveConfigurationChange
-      TabOrder = 3
+      TabOrder = 0
     end
     object chkSearchReplaceHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
       AnchorSideTop.Control = chkSaveConfiguration
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 32
-      Width = 184
+      Height = 17
+      Top = 24
+      Width = 129
       BorderSpacing.Top = 2
-      Caption = 'Search/Replace history'
-      TabOrder = 4
+      Caption = 'Searc&h/Replace history'
+      TabOrder = 1
     end
   end
   object btnConfigEdit: TBitBtn[2]
@@ -141,14 +142,13 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideTop.Side = asrBottom
     Left = 10
     Height = 30
-    Top = 126
+    Top = 97
     Width = 116
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
-    Caption = 'Edit'
-    NumGlyphs = 0
+    Caption = '&Edit'
     OnClick = btnConfigEditClick
-    TabOrder = 2
+    TabOrder = 1
   end
   object btnConfigApply: TBitBtn[3]
     AnchorSideLeft.Control = btnConfigEdit
@@ -157,14 +157,13 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideTop.Side = asrBottom
     Left = 136
     Height = 30
-    Top = 126
+    Top = 97
     Width = 116
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
-    Caption = 'Apply'
+    Caption = 'A&pply'
     Enabled = False
-    NumGlyphs = 0
     OnClick = btnConfigApplyClick
-    TabOrder = 3
+    TabOrder = 2
   end
 end
