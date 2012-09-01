@@ -957,7 +957,7 @@ msgid "Only for these controls"
 msgstr "Tylko dla tych kontrolek"
 
 #: tfrmedithotkey.lblparameters.caption
-msgid "Parameters (each in a separate line):"
+msgid "&Parameters (each in a separate line):"
 msgstr ""
 
 #: tfrmedithotkey.lblshortcuts.caption
@@ -3509,13 +3509,17 @@ msgid "File Path"
 msgstr "Ścieżka"
 
 #: tfrmoptions.btnapply.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
-msgid "Apply"
+msgid "&Apply"
 msgstr "Zastosuj"
 
 #: tfrmoptions.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Anuluj"
 
 #: tfrmoptions.btnok.caption
@@ -3533,43 +3537,59 @@ msgid "Please select one of the subpages, this page does not contain any setting
 msgstr ""
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
+#, fuzzy
+#| msgid "Auto Configure"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
-msgid "Auto Configure"
+msgid "A&uto Configure"
 msgstr "Autokonfiguracja"
 
 #: tfrmoptionsarchivers.btnmultiarcadd.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Dodaj"
 
 #: tfrmoptionsarchivers.btnmultiarcapply.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCAPPLY.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Zastosuj"
 
 #: tfrmoptionsarchivers.btnmultiarcdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION"
-msgid "Delete"
+msgid "D&elete"
 msgstr "Usuń"
 
 #: tfrmoptionsarchivers.btnmultiarcrename.caption
+#, fuzzy
+#| msgid "Rename"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
-msgid "Rename"
+msgid "&Rename"
 msgstr "Zmień nazwę"
 
 #: tfrmoptionsarchivers.chkmultiarcdebug.caption
+#, fuzzy
+#| msgid "Debug mode"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
-msgid "Debug mode"
+msgid "De&bug mode"
 msgstr "Tryb debugowania"
 
 #: tfrmoptionsarchivers.chkmultiarcenabled.caption
+#, fuzzy
+#| msgid "Enabled"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION"
-msgid "Enabled"
+msgid "E&nabled"
 msgstr "Włączone"
 
 #: tfrmoptionsarchivers.chkmultiarcoutput.caption
+#, fuzzy
+#| msgid "Show console output"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
-msgid "Show console output"
+msgid "S&how console output"
 msgstr "Pokaż wyjście konsoli"
 
 #: tfrmoptionsarchivers.gbarchiveroptions.caption
@@ -3578,48 +3598,66 @@ msgid "Options"
 msgstr "Konfiguracja"
 
 #: tfrmoptionsarchivers.lblarchiveadd.caption
+#, fuzzy
+#| msgid "Add:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
-msgid "Add:"
+msgid "Add&ing:"
 msgstr "Dodaj:"
 
 #: tfrmoptionsarchivers.lblarchiveextension.caption
+#, fuzzy
+#| msgid "Extension:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION"
-msgid "Extension:"
+msgid "E&xtension:"
 msgstr "Rozszerzenia:"
 
 #: tfrmoptionsarchivers.lblarchiveextract.caption
+#, fuzzy
+#| msgid "Extract:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION"
-msgid "Extract:"
+msgid "Ex&tract:"
 msgstr "Wypakuj:"
 
 #: tfrmoptionsarchivers.lblarchivelist.caption
+#, fuzzy
+#| msgid "List:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION"
-msgid "List:"
+msgid "&List:"
 msgstr "Listuj:"
 
 #: tfrmoptionsarchivers.lblarchivelistend.caption
+#, fuzzy
+#| msgid "Listing finish (optional):"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION"
-msgid "Listing finish (optional):"
+msgid "Listing &finish (optional):"
 msgstr "Koniec listingu (opcjonalnie)"
 
 #: tfrmoptionsarchivers.lblarchivelistformat.caption
+#, fuzzy
+#| msgid "Listing format:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION"
-msgid "Listing format:"
+msgid "Listing for&mat:"
 msgstr "Format listingu:"
 
 #: tfrmoptionsarchivers.lblarchiveliststart.caption
+#, fuzzy
+#| msgid "Listing start (optional):"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION"
-msgid "Listing start (optional):"
+msgid "Listin&g start (optional):"
 msgstr "Początek listingu (opcjonalnie):"
 
 #: tfrmoptionsarchivers.lblarchiver.caption
+#, fuzzy
+#| msgid "Archiver:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION"
-msgid "Archiver:"
+msgid "Arc&hiver:"
 msgstr "Archiwizer:"
 
 #: tfrmoptionsarchivers.lbldescription.caption
+#, fuzzy
+#| msgid "Description:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION"
-msgid "Description:"
+msgid "De&scription:"
 msgstr "Opis:"
 
 #: tfrmoptionsarchivers.tbarchiveradditional.caption
@@ -3643,8 +3681,10 @@ msgid "For the following &paths and their subdirectories:"
 msgstr "Dla następujących ścieżek i ich podkatalogów:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
+#, fuzzy
+#| msgid "When files are &created, deleted or renamed"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
-msgid "When files are &created, deleted or renamed"
+msgid "When &files are created, deleted or renamed"
 msgstr "Po &utworzeniu pliku, skasowaniu i zmianie nazwy"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
@@ -3663,12 +3703,14 @@ msgid "Refresh file list"
 msgstr "Odśwież listę plików"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
+#, fuzzy
+#| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
-msgid "Always show tray icon"
+msgid "Al&ways show tray icon"
 msgstr "Ikona zawsze widoczna na pasku"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
-msgid "Automatically hide unmounted devices"
+msgid "Automatically &hide unmounted devices"
 msgstr ""
 
 #: tfrmoptionsbehavior.cbminimizetotray.caption
@@ -3677,8 +3719,10 @@ msgid "Mo&ve icon to system tray when minimized"
 msgstr "Pokazuj ikonę na pasku gdy zminimalizowany"
 
 #: tfrmoptionsbehavior.cbonlyonce.caption
+#, fuzzy
+#| msgid "Allow only one copy of DC at a time"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
-msgid "Allow only one copy of DC at a time"
+msgid "A&llow only one copy of DC at a time"
 msgstr "Zezwalaj na tylko jedną kopię DC"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
@@ -3686,27 +3730,37 @@ msgid "Here you can enter one or more drives or mount points, separated by \";\"
 msgstr "Tu można wpisać jeden lub więcej dysków oddzielonych średnikiem \";\"."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
-msgid "Drives blacklist"
+#, fuzzy
+#| msgid "Drives blacklist"
+msgid "Drives &blacklist"
 msgstr "Czarna lista napędów"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
+#, fuzzy
+#| msgid "Cut text to column width"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
-msgid "Cut text to column width"
+msgid "Cut &text to column width"
 msgstr "Obetnij tekst do szerokości kolumny"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
+#, fuzzy
+#| msgid "Horizontal lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
-msgid "Horizontal lines"
+msgid "&Horizontal lines"
 msgstr "Linie poziome"
 
 #: tfrmoptionscolumnsview.cbgridvertline.caption
+#, fuzzy
+#| msgid "Vertical lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDVERTLINE.CAPTION"
-msgid "Vertical lines"
+msgid "&Vertical lines"
 msgstr "Linie pionowe"
 
 #: tfrmoptionscolumnsview.chkautofillcolumns.caption
+#, fuzzy
+#| msgid "Auto fill columns"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION"
-msgid "Auto fill columns"
+msgid "A&uto fill columns"
 msgstr "Automatycznie wypełniaj kolumny"
 
 #: tfrmoptionscolumnsview.gbshowgrid.caption
@@ -3718,43 +3772,59 @@ msgid "Auto-size columns"
 msgstr "Autorozmiar kolumn"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
+#, fuzzy
+#| msgid "Auto size column:"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
-msgid "Auto size column:"
+msgid "Auto si&ze column:"
 msgstr "Autorozmiar kolumn:"
 
 #: tfrmoptionsconfiguration.btnconfigapply.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Zastosuj"
 
 #: tfrmoptionsconfiguration.btnconfigedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Edytuj"
 
 #: tfrmoptionsconfiguration.cbcmdlinehistory.caption
+#, fuzzy
+#| msgid "Command line history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBCMDLINEHISTORY.CAPTION"
-msgid "Command line history"
+msgid "Co&mmand line history"
 msgstr "Historia linii komend"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
+#, fuzzy
+#| msgid "Directory history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION"
-msgid "Directory history"
+msgid "&Directory history"
 msgstr "Historia katalogów"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
+#, fuzzy
+#| msgid "File mask history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
-msgid "File mask history"
+msgid "&File mask history"
 msgstr "Historia wzorców"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
+#, fuzzy
+#| msgid "Save configuration"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
-msgid "Save configuration"
+msgid "Sa&ve configuration"
 msgstr "Zapisz konfigurację"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
+#, fuzzy
+#| msgid "Search/Replace history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
-msgid "Search/Replace history"
+msgid "Searc&h/Replace history"
 msgstr "Historia znajdź/zamień"
 
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
@@ -3773,28 +3843,38 @@ msgid "Set on command line"
 msgstr "Ustaw w linii komend"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
+#, fuzzy
+#| msgid "Program directory (portable version)"
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
-msgid "Program directory (portable version)"
+msgid "P&rogram directory (portable version)"
 msgstr "Katalog programu"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
+#, fuzzy
+#| msgid "User home directory"
 msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
-msgid "User home directory"
+msgid "&User home directory"
 msgstr "Katalog domowy użytkownika"
 
 #: tfrmoptionscustomcolumns.btncopycolumnsset.caption
+#, fuzzy
+#| msgid "Copy"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
-msgid "Copy"
+msgid "C&opy"
 msgstr "Kopiuj"
 
 #: tfrmoptionscustomcolumns.btndelcolumnsset.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "Usuń"
 
 #: tfrmoptionscustomcolumns.btneditcolumnsset.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Edytuj"
 
 #: tfrmoptionscustomcolumns.btnnewcolumnsset.caption
@@ -3808,24 +3888,34 @@ msgid "General"
 msgstr "Ogólne"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
+#, fuzzy
+#| msgid "Configure columns for file system:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
-msgid "Configure columns for file system:"
+msgid "Con&figure columns for file system:"
 msgstr "Konfiguracja kolumn dla systemu plików:"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
-msgid "Show confirmation dialog after drop"
+#, fuzzy
+#| msgid "Show confirmation dialog after drop"
+msgid "&Show confirmation dialog after drop"
 msgstr "Pokaż okno dialogowe po upuszczeniu"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
-msgid "Show file system"
+#, fuzzy
+#| msgid "Show file system"
+msgid "Show &file system"
 msgstr "Pokaż system plików"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
-msgid "Show free space"
+#, fuzzy
+#| msgid "Show free space"
+msgid "Show fr&ee space"
 msgstr "Pokaż wolne miejsce"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
-msgid "Show label"
+#, fuzzy
+#| msgid "Show label"
+msgid "Show &label"
 msgstr "Pokaż nazwę"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
@@ -3833,13 +3923,17 @@ msgid "Drives list"
 msgstr "Lista urządzeń"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
+#, fuzzy
+#| msgid "Background"
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
-msgid "Background"
+msgid "Bac&kground"
 msgstr "Tło"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
+#, fuzzy
+#| msgid "Background"
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
-msgid "Background"
+msgid "Bac&kground"
 msgstr "Tło"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
@@ -3847,154 +3941,206 @@ msgid "Element Attributes"
 msgstr "Atrybuty jednostki"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
+#, fuzzy
+#| msgid "Foreground"
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
-msgid "Foreground"
+msgid "Fo&reground"
 msgstr "Kolor"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
+#, fuzzy
+#| msgid "Foreground"
 msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
-msgid "Foreground"
+msgid "Fo&reground"
 msgstr "Kolor"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
-msgid "Text-mark"
+#, fuzzy
+#| msgid "Text-mark"
+msgid "&Text-mark"
 msgstr "Zaznaczony tekst"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
-msgid "Use (and edit) global scheme settings"
+#, fuzzy
+#| msgid "Use (and edit) global scheme settings"
+msgid "Use (and edit) &global scheme settings"
 msgstr "Używaj (i edytuj) globalny schemat kolorów"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
-msgid "Use local scheme settings"
+#, fuzzy
+#| msgid "Use local scheme settings"
+msgid "Use &local scheme settings"
 msgstr "Używaj własny schemat kolorów"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
-msgid "Bold"
+msgid "&Bold"
 msgstr ""
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Odwróć"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Wyłączony"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Włączony"
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
-msgid "Italic"
+#, fuzzy
+#| msgid "Italic"
+msgid "&Italic"
 msgstr "Kursywa"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Odwróć"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Wyłączony"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Włączony"
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
-msgid "Strike Out"
+#, fuzzy
+#| msgid "Strike Out"
+msgid "&Strike Out"
 msgstr "Przekreślony"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Odwróć"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Wyłączony"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Włączony"
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
-msgid "Underline"
+#, fuzzy
+#| msgid "Underline"
+msgid "&Underline"
 msgstr "Podkreślony"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
+#, fuzzy
+#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
-msgid "Invert"
+msgid "In&vert"
 msgstr "Odwróć"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
+#, fuzzy
+#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
-msgid "Off"
+msgid "O&ff"
 msgstr "Wyłączony"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
+#, fuzzy
+#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
-msgid "On"
+msgid "O&n"
 msgstr "Włączony"
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
-msgid "Copy operation"
+msgid "Cop&y operation"
 msgstr ""
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
-msgid "Delete operation"
+msgid "&Delete operation"
 msgstr ""
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
+#, fuzzy
+#| msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
-msgid "Delete to recycle bin (Shift key reverses this setting)"
+msgid "Dele&te to recycle bin (Shift key reverses this setting)"
 msgstr "Usuń do kosza (z Shiftem - usuwa bezpowrotnie)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
-msgid "Delete to trash operation"
+msgid "D&elete to trash operation"
 msgstr ""
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
+#, fuzzy
+#| msgid "Drop readonly flag"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
+msgid "D&rop readonly flag"
 msgstr "Zdejmij flagę \"Tylko do odczytu\""
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
-msgid "Move operation"
+msgid "&Move operation"
 msgstr ""
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
+#, fuzzy
+#| msgid "Search for part of file name"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
-msgid "Search for part of file name"
+msgid "&Search for part of file name"
 msgstr "Szukaj części nazwy pliku"
 
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
+#, fuzzy
+#| msgid "Process comments with files/folders"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
-msgid "Process comments with files/folders"
+msgid "&Process comments with files/folders"
 msgstr "Komentarze do plików/katalogów"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 #, fuzzy
-#| msgid "Select only the file name when renaming (not the extension)"
+#| msgid "Select file name without extension when renaming"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
-msgid "Select file name without extension when renaming"
+msgid "Select &file name without extension when renaming"
 msgstr "Przy zmianie nazwy edytuj tylko nazwę (bez rozszerzenia)"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
+#, fuzzy
+#| msgid "Show tab select panel in copy/move dialog"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
-msgid "Show tab select panel in copy/move dialog"
+msgid "Sho&w tab select panel in copy/move dialog"
 msgstr "Pokaż pasek postępu podczas kopiowania/przenoszenia"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
+#, fuzzy
+#| msgid "Skip file operations errors and write them to log window"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
-msgid "Skip file operations errors and write them to log window"
+msgid "S&kip file operations errors and write them to log window"
 msgstr "Komunikaty o błędach przy operacjach na plikach pokazuj tylko w oknie logów"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
@@ -4011,7 +4157,7 @@ msgid "User interface"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
-msgid "Buffer size for file operations (in KB):"
+msgid "&Buffer size for file operations (in KB):"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblconfirmations.caption
@@ -4019,22 +4165,28 @@ msgid "Show confirmation window for:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
-msgid "Show operations progress initially in"
+msgid "Show operations progress &initially in"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
+#, fuzzy
+#| msgid "Number of wipe passes:"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
-msgid "Number of wipe passes:"
+msgid "&Number of wipe passes:"
 msgstr "Liczba przebiegów zacierania:"
 
 #: tfrmoptionsfileoperations.rbusemmapinsearch.caption
+#, fuzzy
+#| msgid "Use memory mapping for search text in files"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
-msgid "Use memory mapping for search text in files"
+msgid "Use memory mapping for search te&xt in files"
 msgstr "Przy poszukiwaniu ciągu znaków korzystaj z mapowania pamięci"
 
 #: tfrmoptionsfileoperations.rbusestreaminsearch.caption
+#, fuzzy
+#| msgid "Use stream for search text in files"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
-msgid "Use stream for search text in files"
+msgid "&Use stream for search text in files"
 msgstr "Przy poszukiwaniu ciągu znaków korzystaj z funkcji potokowej (stream)"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
@@ -4078,17 +4230,23 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
+#, fuzzy
+#| msgid "Use Frame Cursor"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
-msgid "Use Frame Cursor"
+msgid "Use &Frame Cursor"
 msgstr "Używaj kursora jako ramki"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use Gradient Indicator"
+#, fuzzy
+#| msgid "Use Gradient Indicator"
+msgid "Use &Gradient Indicator"
 msgstr "Używaj zmiany kolorów jako wskaźnika"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
+#, fuzzy
+#| msgid "Use Inverted Selection"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
-msgid "Use Inverted Selection"
+msgid "U&se Inverted Selection"
 msgstr "Używaj odwrotnej selekcji"
 
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
@@ -4102,84 +4260,116 @@ msgid "Example"
 msgstr "Przykład"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
+#, fuzzy
+#| msgid "Background:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
-msgid "Background:"
+msgid "Bac&kground:"
 msgstr "Tło:"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
+#, fuzzy
+#| msgid "Background 2:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
-msgid "Background 2:"
+msgid "Backg&round 2:"
 msgstr "Tło 2:"
 
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
+#, fuzzy
+#| msgid "Cursor Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
+msgid "C&ursor Color:"
 msgstr "Kolor kursora:"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
+#, fuzzy
+#| msgid "Cursor Text:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
+msgid "Cursor Te&xt:"
 msgstr "Tekst pod kursorem:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
+#, fuzzy
+#| msgid "Brightness level of inactive panel"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
-msgid "Brightness level of inactive panel"
+msgid "&Brightness level of inactive panel"
 msgstr "Przyciemnienie nieaktywnego panelu"
 
 #: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "Indicator Back Color:"
+#, fuzzy
+#| msgid "Indicator Back Color:"
+msgid "In&dicator Back Color:"
 msgstr "Kolor tła wskaźnika:"
 
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "Indicator Fore Color:"
+#, fuzzy
+#| msgid "Indicator Fore Color:"
+msgid "&Indicator Fore Color:"
 msgstr "Kolor wskaźnika:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
+#, fuzzy
+#| msgid "Mark Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
+msgid "&Mark Color:"
 msgstr "Kolor zaznaczania:"
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
+#, fuzzy
+#| msgid "Text Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
-msgid "Text Color:"
+msgid "T&ext Color:"
 msgstr "Kolor tekstu:"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Don't load file list until a tab is activated"
+#, fuzzy
+#| msgid "Don't load file list until a tab is activated"
+msgid "Do&n't load file list until a tab is activated"
 msgstr "Nie ładuj listy plików aż zakładka zostanie wybrana"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
+#, fuzzy
+#| msgid "Show square brackets around directories"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
-msgid "Show square brackets around directories"
+msgid "S&how square brackets around directories"
 msgstr "Pokazuj nazwy katalogów w nawiasach kwadratowych"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Highlight new and updated files"
+msgid "Hi&ghlight new and updated files"
 msgstr ""
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
+#, fuzzy
+#| msgid "Load file list in separate thread"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load file list in separate thread"
+msgid "Load &file list in separate thread"
 msgstr "Wczytuj listę plików w oddzielnym wątku"
 
 #: tfrmoptionsfilesviews.cbloadiconsseparately.caption
+#, fuzzy
+#| msgid "Load icons after file list"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons after file list"
+msgid "Load icons af&ter file list"
 msgstr "Wczytuj najpierw listę plików, potem ikony"
 
 #: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
+#, fuzzy
+#| msgid "Short file size format"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file size format"
+msgid "Short file si&ze format"
 msgstr "Skrócona forma wielkości pliku"
 
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
+#, fuzzy
+#| msgid "Show system and hidden files"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show system and hidden files"
+msgid "Show s&ystem and hidden files"
 msgstr "Pokaż pliki ukryte/systemowe"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
+#, fuzzy
+#| msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
-msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Klawisz <spacja> przenosi do następnego pliku (tak jak <INSERT>)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
@@ -4192,7 +4382,9 @@ msgid "Sorting"
 msgstr "Sortowanie"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
-msgid "Case sensitivity:"
+#, fuzzy
+#| msgid "Case sensitivity:"
+msgid "Case s&ensitivity:"
 msgstr "Pisownia wielkich liter:"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
@@ -4200,35 +4392,45 @@ msgid "Incorrect format"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
+#, fuzzy
+#| msgid "Date and time format:"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
-msgid "Date and time format:"
+msgid "&Date and time format:"
 msgstr "Format daty i czasu:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "Insert new files"
+msgid "&Insert new files"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
-msgid "Sorting directories:"
+#, fuzzy
+#| msgid "Sorting directories:"
+msgid "So&rting directories:"
 msgstr "Sortowanie katalogów:"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
+#, fuzzy
+#| msgid "Sort &method:"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
-msgid "Sort &method:"
+msgid "&Sort method:"
 msgstr "&Metoda sortowania:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "Move updated files"
+msgid "&Move updated files"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Dodaj"
 
 #: tfrmoptionsfiletypescolors.btnapplycategory.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Zastosuj"
 
 #: tfrmoptionsfiletypescolors.btncategorycolor.caption
@@ -4237,8 +4439,10 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
-msgid "Delete"
+msgid "D&elete"
 msgstr "Usuń"
 
 #: tfrmoptionsfiletypescolors.btnsearchtemplate.hint
@@ -4253,23 +4457,31 @@ msgid "File types colors (sort by drag&&drop)"
 msgstr "Kolor typu plików (sortuj przez \"przeciągnij i upuść\")"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
+#, fuzzy
+#| msgid "Category attributes:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
-msgid "Category attributes:"
+msgid "Category a&ttributes:"
 msgstr "Atrybuty kategorii:"
 
 #: tfrmoptionsfiletypescolors.lblcategorycolor.caption
+#, fuzzy
+#| msgid "Category color:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION"
-msgid "Category color:"
+msgid "Category co&lor:"
 msgstr "Kolor kategorii:"
 
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
+#, fuzzy
+#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
+msgid "Category &mask:"
 msgstr "Maska kategorii:"
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
+#, fuzzy
+#| msgid "Category name:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
+msgid "Category &name:"
 msgstr "Nazwa kategorii:"
 
 #: tfrmoptionsfonts.btnseleditfnt.caption
@@ -4298,61 +4510,79 @@ msgid "..."
 msgstr "..."
 
 #: tfrmoptionsfonts.lbleditorfont.caption
+#, fuzzy
+#| msgid "Editor font"
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
-msgid "Editor font"
+msgid "&Editor font"
 msgstr "Czcionka edytora"
 
 #: tfrmoptionsfonts.lbllogfont.caption
+#, fuzzy
+#| msgid "Log font"
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
-msgid "Log font"
+msgid "&Log font"
 msgstr "Czcionka logów"
 
 #: tfrmoptionsfonts.lblmainfont.caption
+#, fuzzy
+#| msgid "Main font"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
-msgid "Main font"
+msgid "Main &font"
 msgstr "Czcionka podstawowa"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
+#, fuzzy
+#| msgid "Viewer Book Font"
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
-msgid "Viewer Book Font"
+msgid "Viewer&Book Font"
 msgstr "Czcionka przeglądarki książek"
 
 #: tfrmoptionsfonts.lblviewerfont.caption
+#, fuzzy
+#| msgid "Viewer font"
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
-msgid "Viewer font"
+msgid "&Viewer font"
 msgstr "Czcionka podglądu"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
-msgid "Add hotkey"
+msgid "Add &hotkey"
 msgstr ""
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
-msgid "Delete hotkey"
+msgid "&Delete hotkey"
 msgstr ""
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
 msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
-msgid "Edit hotkey"
+msgid "&Edit hotkey"
 msgstr ""
 
 #: tfrmoptionshotkeys.lbfilter.caption
+#, fuzzy
+#| msgid "Filter"
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
-msgid "Filter"
+msgid "&Filter"
 msgstr "Filtr"
 
 #: tfrmoptionshotkeys.lblcategories.caption
+#, fuzzy
+#| msgid "Categories:"
 msgctxt "tfrmoptionshotkeys.lblcategories.caption"
-msgid "Categories:"
+msgid "C&ategories:"
 msgstr "Kategorie:"
 
 #: tfrmoptionshotkeys.lblcommands.caption
+#, fuzzy
+#| msgid "Commands:"
 msgctxt "tfrmoptionshotkeys.lblcommands.caption"
-msgid "Commands:"
+msgid "Co&mmands:"
 msgstr "Polecenia:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
+#, fuzzy
+#| msgid "Shortcut files:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
-msgid "Shortcut files:"
+msgid "&Shortcut files:"
 msgstr "Pliki skrótów:"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
@@ -4370,14 +4600,16 @@ msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr "Kontrolki"
 
-#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+#: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
 msgstr "Dla następujących ścieżek i ich podkatalogów:"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
+#, fuzzy
+#| msgid "Show overlay i&cons, e.g. for links"
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
-msgid "Show overlay i&cons, e.g. for links"
+msgid "Show o&verlay icons, e.g. for links"
 msgstr "Pokazuj ikony nakładkowo (np dla linków symbolicznych)"
 
 #: tfrmoptionsicons.cbiconssize.text
@@ -4385,13 +4617,15 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
 msgstr "16x16"
 
-#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+#: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
+#, fuzzy
+#| msgid " Icon &size "
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
-msgid " Icon &size "
+msgid " Icon size "
 msgstr " Rozmiar ikon"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
@@ -4400,8 +4634,10 @@ msgid " Show icons to the left of the filename "
 msgstr " Pokazuj ikony po lewej stronie nazwy pliku"
 
 #: tfrmoptionsicons.rbiconsshowall.caption
+#, fuzzy
+#| msgid "&All"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
-msgid "&All"
+msgid "A&ll"
 msgstr "&Wszystko"
 
 #: tfrmoptionsicons.rbiconsshowallandexe.caption
@@ -4415,13 +4651,17 @@ msgid "&No icons"
 msgstr "Bez ikon"
 
 #: tfrmoptionsicons.rbiconsshowstandard.caption
+#, fuzzy
+#| msgid "&Only standard icons"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION"
-msgid "&Only standard icons"
+msgid "Only &standard icons"
 msgstr "Tylko standardowe ikony"
 
 #: tfrmoptionsignorelist.btnaddsel.caption
+#, fuzzy
+#| msgid "&Add selected names"
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION"
-msgid "&Add selected names"
+msgid "A&dd selected names"
 msgstr "Dodaj wybrane nazwy"
 
 #: tfrmoptionsignorelist.btnaddselwithpath.caption
@@ -4440,7 +4680,9 @@ msgid "&Save in:"
 msgstr "&Zapisz w:"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
-msgid "Left, Right arrows change directory (Lynx-like movement)"
+#, fuzzy
+#| msgid "Left, Right arrows change directory (Lynx-like movement)"
+msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
 msgstr "Strzałki w prawo, lewo zmieniają katalog (nawigacja w stylu Lynksa)"
 
 #: tfrmoptionskeyboard.gbtyping.caption
@@ -4448,43 +4690,59 @@ msgid "Typing"
 msgstr "Pisanie"
 
 #: tfrmoptionskeyboard.lblalt.caption
+#, fuzzy
+#| msgid "Alt+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+Letters"
+msgid "Alt+L&etters"
 msgstr "Alt+Litery"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
+#, fuzzy
+#| msgid "Ctrl+Alt+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Letters"
+msgid "Ctrl+Alt+Le&tters"
 msgstr "Ctrl+Alt+Litery"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
+#, fuzzy
+#| msgid "Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "Letters"
+msgid "&Letters"
 msgstr "Litery"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
+#, fuzzy
+#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
-msgid "Flat buttons"
+msgid "&Flat buttons"
 msgstr "Płaskie przyciski"
 
 #: tfrmoptionslayout.cbflatinterface.caption
+#, fuzzy
+#| msgid "Flat interface"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
-msgid "Flat interface"
+msgid "Flat i&nterface"
 msgstr "Płaski wygląd"
 
 #: tfrmoptionslayout.cbflattoolbar.caption
+#, fuzzy
+#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION"
-msgid "Flat buttons"
+msgid "Flat b&uttons"
 msgstr "Płaskie przyciski"
 
 #: tfrmoptionslayout.cbfreespaceind.caption
+#, fuzzy
+#| msgid "Show free space indicator on drive label"
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
-msgid "Show free space indicator on drive label"
+msgid "Show fr&ee space indicator on drive label"
 msgstr "Pokaż pasek wolnego miejsca przy etykiecie napędu"
 
 #: tfrmoptionslayout.cblogwindow.caption
+#, fuzzy
+#| msgid "Show log window"
 msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
-msgid "Show log window"
+msgid "Show lo&g window"
 msgstr "Pokaż okno logów"
 
 #: tfrmoptionslayout.cbpanelofoperations.caption
@@ -4498,13 +4756,17 @@ msgid "Show common progress in menu bar"
 msgstr "Pokazuj postęp ogólny na pasku menu"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
+#, fuzzy
+#| msgid "Show command &line"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
-msgid "Show command &line"
+msgid "Show command l&ine"
 msgstr "Pokaż &linie poleceń"
 
 #: tfrmoptionslayout.cbshowcurdir.caption
+#, fuzzy
+#| msgid "Show &current directory"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
-msgid "Show &current directory"
+msgid "Show current director&y"
 msgstr "Pokaż nazwę &bieżącego katalogu"
 
 #: tfrmoptionslayout.cbshowdiskpanel.caption
@@ -4513,22 +4775,30 @@ msgid "Show &drive buttons"
 msgstr "Pokaż przyciski &dysków"
 
 #: tfrmoptionslayout.cbshowdrivefreespace.caption
+#, fuzzy
+#| msgid "Show free space label"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
-msgid "Show free space label"
+msgid "Show free s&pace label"
 msgstr "Pokaż wolne miejsce na dysku"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
-msgid "Show d&rives list button"
+#, fuzzy
+#| msgid "Show d&rives list button"
+msgid "Show drives list bu&tton"
 msgstr "Pokaż p&rzycisk listy dysków"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
+#, fuzzy
+#| msgid "Show &function key buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
-msgid "Show &function key buttons"
+msgid "Show function &key buttons"
 msgstr "Pokaż przyciski klawiszy &funkcyjnych"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
+#, fuzzy
+#| msgid "Show main menu"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
-msgid "Show main menu"
+msgid "Show &main menu"
 msgstr "Pokaż główne menu"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
@@ -4537,7 +4807,9 @@ msgid "Show &button bar"
 msgstr "Pokaż pasek &przycisków"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
-msgid "Show short free space label"
+#, fuzzy
+#| msgid "Show short free space label"
+msgid "Show short free space &label"
 msgstr "Pokaż mały opis wolnego miejsca"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
@@ -4546,8 +4818,10 @@ msgid "Show &status bar"
 msgstr "Pokaż pasek &stanu"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
+#, fuzzy
+#| msgid "Show &tabstop header"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
-msgid "Show &tabstop header"
+msgid "S&how tabstop header"
 msgstr "Pokaż nagłówki &kolumn"
 
 #: tfrmoptionslayout.cbshowtabs.caption
@@ -4556,13 +4830,17 @@ msgid "Sho&w folder tabs"
 msgstr "Pokaż &karty katalogów"
 
 #: tfrmoptionslayout.cbtermwindow.caption
+#, fuzzy
+#| msgid "Show terminal window"
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
-msgid "Show terminal window"
+msgid "Show te&rminal window"
 msgstr "Pokaż okno terminala"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
+#, fuzzy
+#| msgid "Show two drive button bars (fixed width, above file windows)"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
-msgid "Show two drive button bars (fixed width, above file windows)"
+msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Pokazuj dwa paski napędów (zmienna szerokość, nad oknami plików)"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
@@ -4571,23 +4849,31 @@ msgid " Screen layout "
 msgstr " Wygląd ekranu głównego"
 
 #: tfrmoptionslog.cblogarcop.caption
+#, fuzzy
+#| msgid "Pack/Unpack"
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
-msgid "Pack/Unpack"
+msgid "&Pack/Unpack"
 msgstr "Pakowanie / Rozpakowanie"
 
 #: tfrmoptionslog.cblogcpmvln.caption
+#, fuzzy
+#| msgid "Copy/Move/Create link/symlink"
 msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
-msgid "Copy/Move/Create link/symlink"
+msgid "Cop&y/Move/Create link/symlink"
 msgstr "Kopiowanie / Przenoszenie / Tworzenie dowiązań"
 
 #: tfrmoptionslog.cblogdelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSLOG.CBLOGDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "Usuwanie"
 
 #: tfrmoptionslog.cblogdirop.caption
+#, fuzzy
+#| msgid "Create/Delete directories"
 msgctxt "TFRMOPTIONSLOG.CBLOGDIROP.CAPTION"
-msgid "Create/Delete directories"
+msgid "Crea&te/Delete directories"
 msgstr "Tworzenie / Usuwanie katalogów"
 
 #: tfrmoptionslog.cblogerrors.caption
@@ -4596,13 +4882,17 @@ msgid "Log &errors"
 msgstr "Błędy"
 
 #: tfrmoptionslog.cblogfile.caption
+#, fuzzy
+#| msgid "&Create a log file:"
 msgctxt "TFRMOPTIONSLOG.CBLOGFILE.CAPTION"
-msgid "&Create a log file:"
+msgid "C&reate a log file:"
 msgstr "&Utwórz plik z logami:"
 
 #: tfrmoptionslog.cbloginfo.caption
+#, fuzzy
+#| msgid "Log information messages"
 msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
-msgid "Log information messages"
+msgid "Log &information messages"
 msgstr "Wyświetlanie komunikatów"
 
 #: tfrmoptionslog.cblogsuccess.caption
@@ -4611,8 +4901,10 @@ msgid "Log &successful operations"
 msgstr "Informacje o zakończonej operacji"
 
 #: tfrmoptionslog.cblogvfs.caption
+#, fuzzy
+#| msgid "File system plugins"
 msgctxt "TFRMOPTIONSLOG.CBLOGVFS.CAPTION"
-msgid "File system plugins"
+msgid "&File system plugins"
 msgstr "Wtyczki systemów plików"
 
 #: tfrmoptionslog.gblogfile.caption
@@ -4631,17 +4923,23 @@ msgid "Operation status"
 msgstr "Status operacji"
 
 #: tfrmoptionsmisc.cbsavethumbnails.caption
+#, fuzzy
+#| msgid "Save thumbnails in cache"
 msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
-msgid "Save thumbnails in cache"
+msgid "&Save thumbnails in cache"
 msgstr "Zapisz miniatury w pamięci cache"
 
 #: tfrmoptionsmisc.cbshowwarningmessages.caption
+#, fuzzy
+#| msgid "Show warning messages (\"OK\" button only)"
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
-msgid "Show warning messages (\"OK\" button only)"
+msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Pokaż komunikaty o błędach (z przyciskiem \"ОК\")"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
-msgid "Selection by mouse"
+#, fuzzy
+#| msgid "Selection by mouse"
+msgid "&Selection by mouse"
 msgstr "Zaznaczanie myszą"
 
 #: tfrmoptionsmouse.gbscrolling.caption
@@ -4653,69 +4951,97 @@ msgid "Selection"
 msgstr "Wybór"
 
 #: tfrmoptionsmouse.lblmousemode.caption
-msgid "Mode:"
+#, fuzzy
+#| msgid "Mode:"
+msgid "&Mode:"
 msgstr "Tryb:"
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
-msgid "Line by line"
+#, fuzzy
+#| msgid "Line by line"
+msgid "&Line by line"
 msgstr "Ilość wierszy:"
 
 #: tfrmoptionsmouse.rbscrolllinebylinecursor.caption
-msgid "Line by line with cursor movement"
+#, fuzzy
+#| msgid "Line by line with cursor movement"
+msgid "Line by line &with cursor movement"
 msgstr "Co jeden wiersz z przesuwaniem kursora"
 
 #: tfrmoptionsmouse.rbscrollpagebypage.caption
-msgid "Page by page"
+#, fuzzy
+#| msgid "Page by page"
+msgid "&Page by page"
 msgstr "Całymi stronami"
 
 #: tfrmoptionsplugins.btnaddplugin.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Dodaj"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
+#, fuzzy
+#| msgid "Configure"
 msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
-msgid "Configure"
+msgid "Con&figure"
 msgstr "Konfiguruj"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
+#, fuzzy
+#| msgid "Enable"
 msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
-msgid "Enable"
+msgid "E&nable"
 msgstr "Włącz"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
-msgid "Remove"
+msgid "&Remove"
 msgstr "Usuń"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
+#, fuzzy
+#| msgid "Tweak"
 msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
-msgid "Tweak"
+msgid "&Tweak"
 msgstr "Dostosuj"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
+#, fuzzy
+#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Zezwalaj na szukanie wtyczek wg alternatwnych algorytmów i narzędzi zewnętrznych (np. \"locate\")"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
+#, fuzzy
+#| msgid "Packer plugins are used to work with archives."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
-msgid "Packer plugins are used to work with archives."
+msgid "Pack&er plugins are used to work with archives"
 msgstr "Obsługa archiwów z użyciem wtyczek."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
+#, fuzzy
+#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Wtyczki pozwalające wyświetlać dodatkowe informacje o plikach (np. tagi mp3, atrybuty grafiki) w panelach oraz przy szukaniu i zamianie."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
+#, fuzzy
+#| msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
-msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "Wtyczki obsługujące niedostępne dla systemu dyski i urządzenia zewnętrzne (np. Palm/PocketPC)"
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
+#, fuzzy
+#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Wtyczki pozwalające wyświetlić za pomocą przeglądarki (listera, komendą F3) pliki takie jak np. grafika, bazy danych akusze kalkulacyjne"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
@@ -4739,28 +5065,38 @@ msgid "File name"
 msgstr "Nazwa pliku"
 
 #: tfrmoptionsplugins.tsdsx.caption
+#, fuzzy
+#| msgid "Search plugins (.DSX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
-msgid "Search plugins (.DSX)"
+msgid "&Search plugins (.DSX)"
 msgstr "Wtyczki wyszukiwania (.DSX)"
 
 #: tfrmoptionsplugins.tswcx.caption
+#, fuzzy
+#| msgid "Packer plugins (.WCX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
-msgid "Packer plugins (.WCX)"
+msgid "Pac&ker plugins (.WCX)"
 msgstr "Wtyczki pakera (.WCX)"
 
 #: tfrmoptionsplugins.tswdx.caption
+#, fuzzy
+#| msgid "Content plugins (.WDX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
-msgid "Content plugins (.WDX)"
+msgid "Content pl&ugins (.WDX)"
 msgstr "Wtyczki zawartości (.WDX)"
 
 #: tfrmoptionsplugins.tswfx.caption
+#, fuzzy
+#| msgid "File system plugins (.WFX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
-msgid "File system plugins (.WFX)"
+msgid "F&ile system plugins (.WFX)"
 msgstr "Wtyczki systemu plików (.WFX)"
 
 #: tfrmoptionsplugins.tswlx.caption
+#, fuzzy
+#| msgid "Viewer plugins (.WLX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
-msgid "Viewer plugins (.WLX)"
+msgid "&Viewer plugins (.WLX)"
 msgstr "Wtyczki przeglądarki (listera) (.WLX)"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
@@ -4802,8 +5138,10 @@ msgid "&Show tab header also when there is only one tab"
 msgstr "Nagłówek karty widoczny nawet przy jednej karcie"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
+#, fuzzy
+#| msgid "&Confirm close all tabs"
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
-msgid "&Confirm close all tabs"
+msgid "Con&firm close all tabs"
 msgstr "Potwierdzanie zamykania wszystkich kart"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
@@ -4832,8 +5170,10 @@ msgid "Open &new tabs near current tab"
 msgstr "Otwieraj &nowe karty obok bieżącej"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
+#, fuzzy
+#| msgid "Show tab close button"
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
-msgid "Show tab close button"
+msgid "Show ta&b close button"
 msgstr "Pokaż przycisk zamykania karty"
 
 #: tfrmoptionstabs.gbtabs.caption
@@ -4847,23 +5187,29 @@ msgid "characters"
 msgstr "znaków"
 
 #: tfrmoptionstabs.lbltabsposition.caption
+#, fuzzy
+#| msgid "Tabs position"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
-msgid "Tabs position"
+msgid "Ta&bs position"
 msgstr "Pozycja kart"
 
 #: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in terminal:"
+#, fuzzy
+#| msgid "Run in terminal:"
+msgid "Run in &terminal:"
 msgstr "Uruchamiaj w terminalu:"
 
 #: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run terminal:"
+#, fuzzy
+#| msgid "Run terminal:"
+msgid "Run t&erminal:"
 msgstr "Uruchom terminal:"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 #, fuzzy
-#| msgid "Clo&ne button"
+#| msgid "&Clone button"
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
-msgid "&Clone button"
+msgid "C&lone button"
 msgstr "Klonuj przycisk"
 
 #: tfrmoptionstoolbar.btndeletebutton.caption
@@ -4873,9 +5219,9 @@ msgstr "Usuń"
 
 #: tfrmoptionstoolbar.btnedithotkey.caption
 #, fuzzy
-#| msgid "Edit"
+#| msgid "Edit hotkey"
 msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
-msgid "Edit hotkey"
+msgid "Edit hot&key"
 msgstr "Edytuj"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
@@ -4897,14 +5243,16 @@ msgstr ">>"
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
 #, fuzzy
-#| msgid "X"
+#| msgid "Remove hotkey"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
-msgid "Remove hotkey"
+msgid "Remove hotke&y"
 msgstr "X"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
+#, fuzzy
+#| msgid "Flat b&uttons"
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
-msgid "Flat b&uttons"
+msgid "&Flat buttons"
 msgstr "Płaskie przyciski"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
@@ -4917,18 +5265,20 @@ msgid "Appearance"
 msgstr "Wygląd"
 
 #: tfrmoptionstoolbar.lblbarsize.caption
+#, fuzzy
+#| msgid "Ba&r size:"
 msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
-msgid "Ba&r size:"
+msgid "&Bar size:"
 msgstr "Rozmiar paska:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Command:"
+msgid "Comman&d:"
 msgstr ""
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
-msgid "Parameters:"
+msgid "Parameter&s:"
 msgstr ""
 
 #: tfrmoptionstoolbar.lblhotkey.caption
@@ -4937,38 +5287,40 @@ msgstr ""
 
 #: tfrmoptionstoolbar.lbliconfile.caption
 #, fuzzy
-#| msgid "Icon &file:"
+#| msgid "Icon:"
 msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
-msgid "Icon:"
+msgid "Ico&n:"
 msgstr "Plik ikony:"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
+#, fuzzy
+#| msgid "Ic&on size:"
 msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
-msgid "Ic&on size:"
+msgid "Icon si&ze:"
 msgstr "Rozmiar ikon:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
-msgid "Command:"
+msgid "Co&mmand:"
 msgstr ""
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
-msgid "Parameters:"
+msgid "&Parameters:"
 msgstr ""
 
 #: tfrmoptionstoolbar.lblstartpath.caption
 #, fuzzy
-#| msgid "&Start path:"
+#| msgid "Start path:"
 msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
-msgid "Start path:"
+msgid "Start pat&h:"
 msgstr "Katalog startowy:"
 
 #: tfrmoptionstoolbar.lbltooltip.caption
 #, fuzzy
-#| msgid "&Tooltip:"
+#| msgid "Tooltip:"
 msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
-msgid "Tooltip:"
+msgid "&Tooltip:"
 msgstr "Opis:"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
@@ -4976,43 +5328,59 @@ msgid "Button type"
 msgstr ""
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
+#, fuzzy
+#| msgid "Keep terminal window open after executing program"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
-msgid "Keep terminal window open after executing program"
+msgid "&Keep terminal window open after executing program"
 msgstr "Zachowaj otwarty terminal po wykonaniu programu"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
+#, fuzzy
+#| msgid "Execute in terminal"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION"
-msgid "Execute in terminal"
+msgid "&Execute in terminal"
 msgstr "Wykonaj w terminalu"
 
 #: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
+#, fuzzy
+#| msgid "Use external program"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
-msgid "Use external program"
+msgid "&Use external program"
 msgstr "Użyj zewnętrznego programu"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
+#, fuzzy
+#| msgid "Additional parameters"
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION"
-msgid "Additional parameters"
+msgid "A&dditional parameters"
 msgstr "Dodatkowe parametry"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
+#, fuzzy
+#| msgid "Path to program to execute"
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION"
-msgid "Path to program to execute"
+msgid "&Path to program to execute"
 msgstr "Ścieżka programu do wykonania"
 
 #: tfrmoptionstooltips.btnaddfields.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Dodaj"
 
 #: tfrmoptionstooltips.btnapplyfields.caption
+#, fuzzy
+#| msgid "Apply"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
-msgid "Apply"
+msgid "A&pply"
 msgstr "Zastosuj"
 
 #: tfrmoptionstooltips.btndeletefields.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
-msgid "Delete"
+msgid "D&elete"
 msgstr "Usuń"
 
 #: tfrmoptionstooltips.btnfieldslist.caption
@@ -5036,33 +5404,45 @@ msgid "Show tool tip"
 msgstr "Pokaż podpowiedzi"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
+#, fuzzy
+#| msgid "Category hint:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
-msgid "Category hint:"
+msgid "Category &hint:"
 msgstr "Wskazówka kategorii:"
 
 #: tfrmoptionstooltips.lblfieldsmask.caption
+#, fuzzy
+#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
-msgid "Category mask:"
+msgid "Category &mask:"
 msgstr "Wzorzec typu:"
 
 #: tfrmoptionstooltips.lblfieldsname.caption
+#, fuzzy
+#| msgid "Category name:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
-msgid "Category name:"
+msgid "Category &name:"
 msgstr "Nazwa kategorii:"
 
 #: tfrmoptionstooltips.rbtooltipallfiles.caption
+#, fuzzy
+#| msgid "Show tool tip for all files in file panel"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Show tool tip for all files in file panel"
+msgid "Sho&w tool tip for all files in file panel"
 msgstr "Pokazuj podpowiedzi dla wszystkich plików w panelu"
 
 #: tfrmoptionstooltips.rbtooltipnone.caption
+#, fuzzy
+#| msgid "Don't show"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't show"
+msgid "Don't &show"
 msgstr "Nie pokazuj"
 
 #: tfrmoptionstooltips.rbtooltiponlylarge.caption
+#, fuzzy
+#| msgid "Show tool tip for files in file panel if truncated"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show tool tip for files in file panel if truncated"
+msgid "Show &tool tip for files in file panel if truncated"
 msgstr "Pokazuj podpowiedzi dla plików jeśli panel plików nie jest widoczny w całości"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
@@ -5086,18 +5466,24 @@ msgid "Example"
 msgstr "Przykład"
 
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
+#, fuzzy
+#| msgid "Background color in book viewer"
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
-msgid "Background color in book viewer"
+msgid "&Background color in book viewer"
 msgstr "Kolor tła w przeglądarce książek"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
+#, fuzzy
+#| msgid "Font color in book viewer"
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"
-msgid "Font color in book viewer"
+msgid "&Font color in book viewer"
 msgstr "Kolor czcionki w przeglądarce książek"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
+#, fuzzy
+#| msgid "Number of columns in book viewer"
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
-msgid "Number of columns in book viewer"
+msgid "&Number of columns in book viewer"
 msgstr "Liczba kolumn w przeglądarce książek"
 
 #: tfrmpackdlg.btncancel.caption
@@ -5522,30 +5908,42 @@ msgid "Link name"
 msgstr "Nazwa linku"
 
 #: tfrmtweakplugin.btnadd.caption
-msgid "Add new"
+#, fuzzy
+#| msgid "Add new"
+msgid "A&dd new"
 msgstr "Dodaj"
 
 #: tfrmtweakplugin.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Porzuć"
 
 #: tfrmtweakplugin.btnchange.caption
-msgid "Change"
+#, fuzzy
+#| msgid "Change"
+msgid "C&hange"
 msgstr "Zmień"
 
 #: tfrmtweakplugin.btndefault.caption
-msgid "Default"
+#, fuzzy
+#| msgid "Default"
+msgid "De&fault"
 msgstr "Domyślny"
 
 #: tfrmtweakplugin.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "OK"
 
 #: tfrmtweakplugin.btnremove.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
-msgid "Remove"
+msgid "&Remove"
 msgstr "Usuń"
 
 #: tfrmtweakplugin.caption
@@ -5554,57 +5952,83 @@ msgid "Tweak plugin"
 msgstr "Ustawienia wtyczki"
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
-msgid "Detect archive type by content"
+#, fuzzy
+#| msgid "Detect archive type by content"
+msgid "De&tect archive type by content"
 msgstr "Wykryj typ archiwum wg zawartości"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
-msgid "Can delete files"
+#, fuzzy
+#| msgid "Can delete files"
+msgid "Can de&lete files"
 msgstr "Możliwość usunięcia pliku z archiwum"
 
 #: tfrmtweakplugin.cbpk_caps_encrypt.caption
-msgid "Supports encryption"
+#, fuzzy
+#| msgid "Supports encryption"
+msgid "Supports e&ncryption"
 msgstr "Wsparcie szyfrowania"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
-msgid "Show as normal files (hide packer icon)"
+#, fuzzy
+#| msgid "Show as normal files (hide packer icon)"
+msgid "Sho&w as normal files (hide packer icon)"
 msgstr "Pokazuj jako zwykły plik (nie pokazuj ikony archiwum)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
-msgid "Supports packing in memory"
+#, fuzzy
+#| msgid "Supports packing in memory"
+msgid "Supports pac&king in memory"
 msgstr "Wsparcie pakowania w pamięci"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-msgid "Can modify exisiting archives"
+#, fuzzy
+#| msgid "Can modify exisiting archives"
+msgid "Can &modify exisiting archives"
 msgstr "Dozwól na modyfikację archiwum"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption
-msgid "Archive can contain multiple files"
+#, fuzzy
+#| msgid "Archive can contain multiple files"
+msgid "&Archive can contain multiple files"
 msgstr "Archiwum może zawierać kilka plików"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
-msgid "Can create new archives"
+#, fuzzy
+#| msgid "Can create new archives"
+msgid "Can create new archi&ves"
 msgstr "Może tworzyc nowe archiwum"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
-msgid "Supports the options dialogbox"
+#, fuzzy
+#| msgid "Supports the options dialogbox"
+msgid "S&upports the options dialogbox"
 msgstr "Z oknem dialogowym"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
-msgid "Allow searching for text in archives"
+#, fuzzy
+#| msgid "Allow searching for text in archives"
+msgid "Allow searchin&g for text in archives"
 msgstr "Pozwala przeszukiwać archiwa"
 
 #: tfrmtweakplugin.lbldescription.caption
+#, fuzzy
+#| msgid "Description:"
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
-msgid "Description:"
+msgid "&Description:"
 msgstr "Opis:"
 
 #: tfrmtweakplugin.lbldetectstr.caption
-msgid "Detect string:"
+#, fuzzy
+#| msgid "Detect string:"
+msgid "D&etect string:"
 msgstr "Wykryj łańcuch (string):"
 
 #: tfrmtweakplugin.lblextension.caption
+#, fuzzy
+#| msgid "Extension:"
 msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
-msgid "Extension:"
+msgid "&Extension:"
 msgstr "Rozszerzenie:"
 
 #: tfrmtweakplugin.lblflags.caption
@@ -5612,18 +6036,24 @@ msgid "Flags:"
 msgstr "Flagi:"
 
 #: tfrmtweakplugin.lblname.caption
+#, fuzzy
+#| msgid "Name:"
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
-msgid "Name:"
+msgid "&Name:"
 msgstr "Nazwa:"
 
 #: tfrmtweakplugin.lblplugin.caption
+#, fuzzy
+#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
-msgid "Plugin:"
+msgid "&Plugin:"
 msgstr "Wtyczki:"
 
 #: tfrmtweakplugin.lblplugin1.caption
+#, fuzzy
+#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
-msgid "Plugin:"
+msgid "&Plugin:"
 msgstr "Wtyczki:"
 
 #: tfrmviewer.actabout.caption
@@ -7721,6 +8151,10 @@ msgctxt "ulng.rsoptionseditortooltips"
 msgid "Tooltips"
 msgstr "Podpowiedzi"
 
+#: ulng.rsoptletters
+msgid "None;Command Line;Quick Search;Quick Filter"
+msgstr ""
+
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
 msgstr "Lewy klawisz;Prawy klawisz;"
@@ -7753,6 +8187,18 @@ msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Skojarzenia"
 
+#: ulng.rsoptsearchcase
+msgid "&Sensitive;&Insensitive"
+msgstr ""
+
+#: ulng.rsoptsearchitems
+msgid "&Files;Di&rectories;Files a&nd Directories"
+msgstr ""
+
+#: ulng.rsoptsearchopt
+msgid "&Hide filter panel when not focused"
+msgstr ""
+
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
 msgstr "nie uwzględnia wielkości liter; według ustawień lokalnych (aAbBcC); napierw wielkie, potem małe litery (ABCabc)"
@@ -7770,7 +8216,7 @@ msgid "Top;Bottom;"
 msgstr "Góra;Dół;"
 
 #: ulng.rsopttoolbarbuttontype
-msgid "Separator;Internal command;External command;Menu"
+msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
@@ -7844,7 +8290,7 @@ msgid "Select a directory"
 msgstr "Wybierz katalog"
 
 #: ulng.rsshowhelpfor
-msgid "Show help for %s"
+msgid "&Show help for %s"
 msgstr ""
 
 #: ulng.rssizeunitbytes

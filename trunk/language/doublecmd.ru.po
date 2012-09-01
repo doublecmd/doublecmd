@@ -946,20 +946,20 @@ msgstr "&ОК"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr ""
+msgstr "Удалить последнее сочетание клавиш из последовательности"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
-msgstr ""
+msgstr "Только для этих элементов"
 
 #: tfrmedithotkey.lblparameters.caption
-msgid "Parameters (each in a separate line):"
-msgstr ""
+msgid "&Parameters (each in a separate line):"
+msgstr "Только для этих элементов"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
-msgstr ""
+msgstr "Сочетание клавиш"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -2166,7 +2166,7 @@ msgstr "Краткий"
 
 #: tfrmmain.actbriefview.hint
 msgid "Brief View"
-msgstr ""
+msgstr "Краткий вид"
 
 #: tfrmmain.actcalculatespace.caption
 #| msgid "Calculate &Occupied Space..."
@@ -2207,19 +2207,19 @@ msgstr "Очистить окно лога"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
-msgstr ""
+msgstr "Следующая командная строка"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr ""
+msgstr "Выбрать следующую команду в истории командной строки"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
-msgstr ""
+msgstr "Предыдущая командная строка"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr ""
+msgstr "Выбрать предыдущую команду в истории командной строки"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
@@ -2227,7 +2227,7 @@ msgstr "Подробный"
 
 #: tfrmmain.actcolumnsview.hint
 msgid "Columns View"
-msgstr ""
+msgstr "Колоночный вид"
 
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
@@ -2647,7 +2647,7 @@ msgstr "Открыть"
 
 #: tfrmmain.actshellexecute.hint
 msgid "Open using system associations"
-msgstr ""
+msgstr "Открыть, используя системные ассоциации"
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
@@ -3333,6 +3333,7 @@ msgid "..."
 msgstr ""
 
 #: tfrmmultirename.btnrename.caption
+msgctxt "tfrmmultirename.btnrename.caption"
 msgid "&Rename"
 msgstr "Переименовать"
 
@@ -3600,13 +3601,13 @@ msgstr "Путь файла"
 
 #: tfrmoptions.btnapply.caption
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
-msgid "Apply"
-msgstr "Применить"
+msgid "&Apply"
+msgstr "&Применить"
 
 #: tfrmoptions.btncancel.caption
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Отмена"
+msgid "&Cancel"
+msgstr "О&тмена"
 
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
@@ -3620,47 +3621,47 @@ msgstr "Настройка"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr ""
+msgstr "Выберите одну из подстраниц, эта страница не содержит никаких настроек"
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
-msgid "Auto Configure"
-msgstr "Автонастройка"
+msgid "A&uto Configure"
+msgstr "&Автонастройка"
 
 #: tfrmoptionsarchivers.btnmultiarcadd.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION"
-msgid "Add"
-msgstr "Добавить"
+msgid "A&dd"
+msgstr "&Добавить"
 
 #: tfrmoptionsarchivers.btnmultiarcapply.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCAPPLY.CAPTION"
-msgid "Apply"
-msgstr "Применить"
+msgid "A&pply"
+msgstr "П&рименить"
 
 #: tfrmoptionsarchivers.btnmultiarcdelete.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION"
-msgid "Delete"
-msgstr "Удалить"
+msgid "D&elete"
+msgstr "&Удалить"
 
 #: tfrmoptionsarchivers.btnmultiarcrename.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
-msgid "Rename"
-msgstr "Переименовать"
+msgid "&Rename"
+msgstr "П&ереименовать"
 
 #: tfrmoptionsarchivers.chkmultiarcdebug.caption
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
-msgid "Debug mode"
-msgstr "Режим отладки"
+msgid "De&bug mode"
+msgstr "Ре&жим отладки"
 
 #: tfrmoptionsarchivers.chkmultiarcenabled.caption
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION"
-msgid "Enabled"
-msgstr "Включен"
+msgid "E&nabled"
+msgstr "В&ключен"
 
 #: tfrmoptionsarchivers.chkmultiarcoutput.caption
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
-msgid "Show console output"
-msgstr "Показывать консольный вывод"
+msgid "S&how console output"
+msgstr "Пока&зывать консольный вывод"
 
 #: tfrmoptionsarchivers.gbarchiveroptions.caption
 msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
@@ -3669,48 +3670,48 @@ msgstr "Настройка"
 
 #: tfrmoptionsarchivers.lblarchiveadd.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
-msgid "Add:"
-msgstr "Добавить:"
+msgid "Add&ing:"
+msgstr "До&бавить:"
 
 #: tfrmoptionsarchivers.lblarchiveextension.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION"
-msgid "Extension:"
-msgstr "Расширение:"
+msgid "E&xtension:"
+msgstr "Рас&ширение:"
 
 #: tfrmoptionsarchivers.lblarchiveextract.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION"
-msgid "Extract:"
-msgstr "Извлечь:"
+msgid "Ex&tract:"
+msgstr "И&звлечь:"
 
 #: tfrmoptionsarchivers.lblarchivelist.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION"
-msgid "List:"
-msgstr "Список:"
+msgid "&List:"
+msgstr "Сп&исок:"
 
 #: tfrmoptionsarchivers.lblarchivelistend.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION"
-msgid "Listing finish (optional):"
-msgstr "Конец списка (необязательный):"
+msgid "Listing &finish (optional):"
+msgstr "Коне&ц списка (необязательный):"
 
 #: tfrmoptionsarchivers.lblarchivelistformat.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION"
-msgid "Listing format:"
-msgstr "Формат списка:"
+msgid "Listing for&mat:"
+msgstr "Фор&мат списка:"
 
 #: tfrmoptionsarchivers.lblarchiveliststart.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION"
-msgid "Listing start (optional):"
-msgstr "Начало списка (необязательный):"
+msgid "Listin&g start (optional):"
+msgstr "На&чало списка (необязательный):"
 
 #: tfrmoptionsarchivers.lblarchiver.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION"
-msgid "Archiver:"
-msgstr "Архиватор:"
+msgid "Arc&hiver:"
+msgstr "Ар&хиватор:"
 
 #: tfrmoptionsarchivers.lbldescription.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION"
-msgid "Description:"
-msgstr "Описание:"
+msgid "De&scription:"
+msgstr "Оп&исание:"
 
 #: tfrmoptionsarchivers.tbarchiveradditional.caption
 msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION"
@@ -3725,17 +3726,17 @@ msgstr "Основные"
 #: tfrmoptionsautorefresh.cbwatchattributeschange.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION"
 msgid "When &size, date or attributes change"
-msgstr "Обновлять при изменении &размера, даты или атрибутов"
+msgstr "При изменении &размера, даты или атрибутов"
 
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHEXCLUDEDIRS.CAPTION"
 msgid "For the following &paths and their subdirectories:"
-msgstr "Для следующих каталогов и их подкаталогов:"
+msgstr "&Для следующих каталогов и их подкаталогов:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
-msgid "When files are &created, deleted or renamed"
-msgstr "Обновлять при &создании, удалении и переименовании файлов"
+msgid "When &files are created, deleted or renamed"
+msgstr "При &создании, удалении и переименовании файлов"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHONLYFOREGROUND.CAPTION"
@@ -3753,51 +3754,53 @@ msgid "Refresh file list"
 msgstr "Обновлять список файлов"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
+#, fuzzy
+#| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
-msgid "Always show tray icon"
-msgstr "Всегда показывать иконку в трее"
+msgid "Al&ways show tray icon"
+msgstr "Вс&егда показывать иконку в трее"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
-msgid "Automatically hide unmounted devices"
-msgstr ""
+msgid "Automatically &hide unmounted devices"
+msgstr "С&крывать отмонтированные устройства"
 
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
-msgstr "Сворачивать в системный трей"
+msgstr "С&ворачивать в системный трей"
 
 #: tfrmoptionsbehavior.cbonlyonce.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
-msgid "Allow only one copy of DC at a time"
-msgstr "Не запускать более одной копии DC"
+msgid "A&llow only one copy of DC at a time"
+msgstr "&Не запускать более одной копии DC"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
+msgstr "Введите один или несколько дисков, точек монтирования, разделяемые \";\""
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
-msgid "Drives blacklist"
-msgstr ""
+msgid "Drives &blacklist"
+msgstr "&Черный список дисков"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
-msgid "Cut text to column width"
-msgstr "Обрезать текст по ширине колонки"
+msgid "Cut &text to column width"
+msgstr "Обр&езать текст по ширине колонки"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
-msgid "Horizontal lines"
-msgstr "Горизонтальные линии"
+msgid "&Horizontal lines"
+msgstr "&Горизонтальные линии"
 
 #: tfrmoptionscolumnsview.cbgridvertline.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDVERTLINE.CAPTION"
-msgid "Vertical lines"
-msgstr "Вертикальные линии"
+msgid "&Vertical lines"
+msgstr "&Вертикальные линии"
 
 #: tfrmoptionscolumnsview.chkautofillcolumns.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION"
-msgid "Auto fill columns"
-msgstr "Растягивать колонки на всю ширину панели"
+msgid "A&uto fill columns"
+msgstr "&Растягивать колонки на всю ширину панели"
 
 #: tfrmoptionscolumnsview.gbshowgrid.caption
 msgid "Show grid"
@@ -3809,43 +3812,43 @@ msgstr ""
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
-msgid "Auto size column:"
-msgstr "Изменять размер колонки:"
+msgid "Auto si&ze column:"
+msgstr "И&зменять размер колонки:"
 
 #: tfrmoptionsconfiguration.btnconfigapply.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION"
-msgid "Apply"
-msgstr "Применить"
+msgid "A&pply"
+msgstr "П&рименить"
 
 #: tfrmoptionsconfiguration.btnconfigedit.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGEDIT.CAPTION"
-msgid "Edit"
-msgstr "Редактировать"
+msgid "&Edit"
+msgstr "Р&едактировать"
 
 #: tfrmoptionsconfiguration.cbcmdlinehistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CBCMDLINEHISTORY.CAPTION"
-msgid "Command line history"
-msgstr "История командной строки"
+msgid "Co&mmand line history"
+msgstr "&История командной строки"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION"
-msgid "Directory history"
-msgstr "История каталогов"
+msgid "&Directory history"
+msgstr "И&стория каталогов"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
-msgid "File mask history"
-msgstr "История масок файлов"
+msgid "&File mask history"
+msgstr "История &масок файлов"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
-msgid "Save configuration"
-msgstr "Сохранять конфигурацию"
+msgid "Sa&ve configuration"
+msgstr "Со&хранять конфигурацию"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
-msgid "Search/Replace history"
-msgstr "История поиска/замены"
+msgid "Searc&h/Replace history"
+msgstr "Истори&я поиска/замены"
 
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION"
@@ -3864,28 +3867,28 @@ msgstr "Задано через командную строку"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
-msgid "Program directory (portable version)"
-msgstr "Каталог программы (portable version)"
+msgid "P&rogram directory (portable version)"
+msgstr "&Каталог программы (portable version)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
-msgid "User home directory"
-msgstr "Домашний каталог пользователя"
+msgid "&User home directory"
+msgstr "&Домашний каталог пользователя"
 
 #: tfrmoptionscustomcolumns.btncopycolumnsset.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
-msgid "Copy"
+msgid "C&opy"
 msgstr "&Копировать"
 
 #: tfrmoptionscustomcolumns.btndelcolumnsset.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
-msgid "Delete"
-msgstr "Удалить"
+msgid "&Delete"
+msgstr "&Удалить"
 
 #: tfrmoptionscustomcolumns.btneditcolumnsset.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
-msgid "Edit"
-msgstr "Редактировать"
+msgid "&Edit"
+msgstr "&Редактировать"
 
 #: tfrmoptionscustomcolumns.btnnewcolumnsset.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
@@ -3899,24 +3902,24 @@ msgstr "Основные"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
-msgid "Configure columns for file system:"
-msgstr "Настроить колонки для файловой системы:"
+msgid "Con&figure columns for file system:"
+msgstr "&Настроить колонки для файловой системы:"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
-msgid "Show confirmation dialog after drop"
-msgstr ""
+msgid "&Show confirmation dialog after drop"
+msgstr "По&казать диалог подтверждения после окончания перетаскивания"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
-msgid "Show file system"
-msgstr ""
+msgid "Show &file system"
+msgstr "Тип &файловой системы"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
-msgid "Show free space"
-msgstr ""
+msgid "Show fr&ee space"
+msgstr "&Свободное место"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
-msgid "Show label"
-msgstr ""
+msgid "Show &label"
+msgstr "&Метка"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
@@ -3924,13 +3927,13 @@ msgstr ""
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
-msgid "Background"
-msgstr "Фон"
+msgid "Bac&kground"
+msgstr "Фо&н"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
-msgid "Background"
-msgstr "Фон"
+msgid "Bac&kground"
+msgstr "Фо&н"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
@@ -3938,157 +3941,156 @@ msgstr "Атрибуты элементов"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
-msgid "Foreground"
-msgstr "Цвет текста"
+msgid "Fo&reground"
+msgstr "&Цвет текста"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
-msgid "Foreground"
-msgstr "Цвет текста"
+msgid "Fo&reground"
+msgstr "&Цвет текста"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
-msgid "Text-mark"
-msgstr "Отметка"
+msgid "&Text-mark"
+msgstr "О&тметка"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
-msgid "Use (and edit) global scheme settings"
-msgstr "Использовать (и менять) глобальную схему"
+msgid "Use (and edit) &global scheme settings"
+msgstr "Использовать (и менять) &глобальную схему"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
-msgid "Use local scheme settings"
-msgstr "Использовать локальную схему"
+msgid "Use &local scheme settings"
+msgstr "Использовать &локальную схему"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
-msgid "Bold"
-msgstr "Жирный"
+msgid "&Bold"
+msgstr "&Жирный"
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
-msgid "Invert"
-msgstr "Обратить"
+msgid "In&vert"
+msgstr "О&братить"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
-msgid "Off"
-msgstr "Выкл."
+msgid "O&ff"
+msgstr "В&ыкл."
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
-msgid "On"
-msgstr "Вкл."
+msgid "O&n"
+msgstr "&Вкл."
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
-msgid "Italic"
-msgstr "Курсив"
+msgid "&Italic"
+msgstr "К&урсив"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
-msgid "Invert"
-msgstr "Обратить"
+msgid "In&vert"
+msgstr "О&братить"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
-msgid "Off"
-msgstr "Выкл."
+msgid "O&ff"
+msgstr "В&ыкл."
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
-msgid "On"
-msgstr "Вкл."
+msgid "O&n"
+msgstr "&Вкл."
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
-msgid "Strike Out"
-msgstr "Зачёркнутый"
+msgid "&Strike Out"
+msgstr "&Зачёркнутый"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
-msgid "Invert"
-msgstr "Обратить"
+msgid "In&vert"
+msgstr "О&братить"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
-msgid "Off"
-msgstr "Выкл."
+msgid "O&ff"
+msgstr "В&ыкл."
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioon.caption"
-msgid "On"
-msgstr "Вкл."
+msgid "O&n"
+msgstr "&Вкл."
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
-msgid "Underline"
-msgstr "Подчёркнутый"
+msgid "&Underline"
+msgstr "По&дчёркнутый"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
-msgid "Invert"
-msgstr "Обратить"
+msgid "In&vert"
+msgstr "О&братить"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
-msgid "Off"
-msgstr "Выкл."
+msgid "O&ff"
+msgstr "В&ыкл."
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
-msgid "On"
-msgstr "Вкл."
+msgid "O&n"
+msgstr "&Вкл."
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
-msgid "Copy operation"
-msgstr ""
+msgid "Cop&y operation"
+msgstr "&Копирования"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
-msgid "Delete operation"
-msgstr ""
+msgid "&Delete operation"
+msgstr "&Удаления"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
-msgid "Delete to recycle bin (Shift key reverses this setting)"
-msgstr "F8/Del - удаление в Корзину (с Shift - око&нчательно)"
+msgid "Dele&te to recycle bin (Shift key reverses this setting)"
+msgstr "Уд&аление в Корзину (с Shift - око&нчательно)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
-msgid "Delete to trash operation"
-msgstr ""
+msgid "D&elete to trash operation"
+msgstr "У&даления в корзину"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
-msgstr "Сбросить флаг \"Только для чтения\""
+msgid "D&rop readonly flag"
+msgstr "&Сбросить флаг \"Только для чтения\""
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
-msgid "Move operation"
-msgstr ""
+msgid "&Move operation"
+msgstr "П&еремещения"
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
-msgid "Search for part of file name"
-msgstr "Поиск по части имени"
+msgid "&Search for part of file name"
+msgstr "По&иск по части имени"
 
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
-msgid "Process comments with files/folders"
-msgstr "Обрабатывать комментарии с файлами/папками"
+msgid "&Process comments with files/folders"
+msgstr "О&брабатывать комментарии с файлами/папками"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
-#| msgid "Select only the file name when renaming (not the extension)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
-msgid "Select file name without extension when renaming"
-msgstr "При переименовании выделять имя файла без расширения"
+msgid "Select &file name without extension when renaming"
+msgstr "П&ри переименовании выделять имя файла без расширения"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
-msgid "Show tab select panel in copy/move dialog"
-msgstr "Показывать панель выбора вкладок в диалоге копирования/перемещения"
+msgid "Sho&w tab select panel in copy/move dialog"
+msgstr "Показ&ывать панель выбора вкладок в диалоге копирования/перемещения"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
-msgid "Skip file operations errors and write them to log window"
-msgstr "Пропускать ошибки при файловых операциях и выводить их в окно лога"
+msgid "S&kip file operations errors and write them to log window"
+msgstr "Пропускать о&шибки при файловых операциях и выводить их в окно лога"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
-msgstr ""
+msgstr "Операции исполнения"
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
@@ -4100,86 +4102,85 @@ msgid "User interface"
 msgstr "Пользовательский интерфейс"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
-msgid "Buffer size for file operations (in KB):"
-msgstr "Размер буфера для файловых операций (Кб):"
+msgid "&Buffer size for file operations (in KB):"
+msgstr "Ра&змер буфера для файловых операций (Кб):"
 
 #: tfrmoptionsfileoperations.lblconfirmations.caption
 msgid "Show confirmation window for:"
-msgstr ""
+msgstr "Показывать окно подтверждения для следующих операций:"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
-msgid "Show operations progress initially in"
-msgstr ""
+msgid "Show operations progress &initially in"
+msgstr "Показыват&ь прогресс операций в"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
-#| msgid "Number of wipe pass"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
-msgid "Number of wipe passes:"
-msgstr "Число перезаписей при стирании (Wipe):"
+msgid "&Number of wipe passes:"
+msgstr "Число перезаписе&й при стирании (Wipe):"
 
 #: tfrmoptionsfileoperations.rbusemmapinsearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
-msgid "Use memory mapping for search text in files"
-msgstr "Использовать отображение в память, при поиске текста в файлах"
+msgid "Use memory mapping for search te&xt in files"
+msgstr "Использовать отобра&жение в память, при поиске текста в файлах"
 
 #: tfrmoptionsfileoperations.rbusestreaminsearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
-msgid "Use stream for search text in files"
-msgstr "Использовать поток, при поиске текста в файлах"
+msgid "&Use stream for search text in files"
+msgstr "Использовать поток, при поиске текста в &файлах"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor2.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btncursorcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btncursortext.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORTEXT.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnforecolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnindcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
-msgid "Use Frame Cursor"
-msgstr "Курсор-рамка"
+msgid "Use &Frame Cursor"
+msgstr "К&урсор-рамка"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use Gradient Indicator"
-msgstr "Использовать градиентный индикатор"
+msgid "Use &Gradient Indicator"
+msgstr "Использовать &градиентный индикатор"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
-msgid "Use Inverted Selection"
-msgstr "Инверсное выделение"
+msgid "U&se Inverted Selection"
+msgstr "Инверсное в&ыделение"
 
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
@@ -4192,86 +4193,84 @@ msgid "Example"
 msgstr "Пример"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
-#| msgid "BackGround:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
-msgid "Background:"
-msgstr "Фон &1:"
+msgid "Bac&kground:"
+msgstr "&Фон 1:"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
-msgid "Background 2:"
-msgstr "Фон &2"
+msgid "Backg&round 2:"
+msgstr "Фо&н 2"
 
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
+msgid "C&ursor Color:"
 msgstr "&Курсор"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Текст &под курсором"
+msgid "Cursor Te&xt:"
+msgstr "Т&екст под курсором"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
-msgid "Brightness level of inactive panel"
-msgstr "Уровень яркости неактивной панели"
+msgid "&Brightness level of inactive panel"
+msgstr "Уровень &яркости неактивной панели"
 
 #: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "Indicator Back Color:"
-msgstr ""
+msgid "In&dicator Back Color:"
+msgstr "Цвет фона &индикатора"
 
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "Indicator Fore Color:"
-msgstr ""
+msgid "&Indicator Fore Color:"
+msgstr "&Цвет индикатора"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
+msgid "&Mark Color:"
 msgstr "&Выделение"
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
-msgid "Text Color:"
+msgid "T&ext Color:"
 msgstr "&Текст:"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Don't load file list until a tab is activated"
-msgstr ""
+msgid "Do&n't load file list until a tab is activated"
+msgstr "&Не загружать список файлов, пока вкладка активируется"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
-msgid "Show square brackets around directories"
-msgstr "Показывать квадратные скобки вокруг имён папок"
+msgid "S&how square brackets around directories"
+msgstr "Показыват&ь квадратные скобки вокруг имён папок"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Highlight new and updated files"
-msgstr "Подсвечивать новые и измененные файлы"
+msgid "Hi&ghlight new and updated files"
+msgstr "По&дсвечивать новые и измененные файлы"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load file list in separate thread"
-msgstr "Загружать список файлов в отдельном потоке"
+msgid "Load &file list in separate thread"
+msgstr "Загру&жать список файлов в отдельном потоке"
 
 #: tfrmoptionsfilesviews.cbloadiconsseparately.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons after file list"
-msgstr "Загружать иконки после списка файлов"
+msgid "Load icons af&ter file list"
+msgstr "За&гружать иконки после списка файлов"
 
 #: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file size format"
-msgstr "Короткий размер файла"
+msgid "Short file si&ze format"
+msgstr "Короткий ра&змер файла"
 
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show system and hidden files"
-msgstr "&Показывать системные файлы"
+msgid "Show s&ystem and hidden files"
+msgstr "Показывать систе&мные файлы"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
-msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "При выделении файлов Пробелом перемещать курсор на следующий файл"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "При в&ыделении файлов пробелом перемещать курсор на следующий файл"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -4283,54 +4282,54 @@ msgid "Sorting"
 msgstr "Сортировка"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
-msgid "Case sensitivity:"
-msgstr ""
+msgid "Case s&ensitivity:"
+msgstr "&Чувствительность к регистру"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
 msgid "Incorrect format"
-msgstr ""
+msgstr "Неверный формат"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
-msgid "Date and time format:"
-msgstr "Формат даты и времени:"
+msgid "&Date and time format:"
+msgstr "&Формат даты и времени:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "Insert new files"
-msgstr ""
+msgid "&Insert new files"
+msgstr "&Вставлять новые файлы"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
-msgid "Sorting directories:"
-msgstr "Сортировка каталогов:"
+msgid "So&rting directories:"
+msgstr "Со&ртировка каталогов:"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
-msgid "Sort &method:"
+msgid "&Sort method:"
 msgstr "Метод &сортировки:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "Move updated files"
-msgstr ""
+msgid "&Move updated files"
+msgstr "П&еремещать измененные файлы"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
-msgid "Add"
-msgstr "Добавить"
+msgid "A&dd"
+msgstr "&Добавить"
 
 #: tfrmoptionsfiletypescolors.btnapplycategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
-msgstr "Применить"
+msgid "A&pply"
+msgstr "П&рименить"
 
 #: tfrmoptionsfiletypescolors.btncategorycolor.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
-msgid "Delete"
-msgstr "Удалить"
+msgid "D&elete"
+msgstr "&Удалить"
 
 #: tfrmoptionsfiletypescolors.btnsearchtemplate.hint
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT"
@@ -4344,23 +4343,23 @@ msgstr "Цвета по типу (сортировка перетаскиван�
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
-msgid "Category attributes:"
-msgstr "Атрибуты"
+msgid "Category a&ttributes:"
+msgstr "&Атрибуты"
 
 #: tfrmoptionsfiletypescolors.lblcategorycolor.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION"
-msgid "Category color:"
-msgstr "Цвет:"
+msgid "Category co&lor:"
+msgstr "&Цвет:"
 
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
-msgstr "Маска:"
+msgid "Category &mask:"
+msgstr "&Маска:"
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
-msgstr "Наименование:"
+msgid "Category &name:"
+msgstr "&Наименование:"
 
 #: tfrmoptionsfonts.btnseleditfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION"
@@ -4389,61 +4388,61 @@ msgstr ""
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
-msgid "Editor font"
-msgstr "Редактора"
+msgid "&Editor font"
+msgstr "&Редактора"
 
 #: tfrmoptionsfonts.lbllogfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
-msgid "Log font"
-msgstr "Окно лога"
+msgid "&Log font"
+msgstr "Протоко&ла"
 
 #: tfrmoptionsfonts.lblmainfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
-msgid "Main font"
-msgstr "Главный"
+msgid "Main &font"
+msgstr "О&сновной"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
-msgid "Viewer Book Font"
-msgstr "Просмотрщика (режим \"Книга\")"
+msgid "Viewer&Book Font"
+msgstr "Просмотрщика (режим \"&Книга\")"
 
 #: tfrmoptionsfonts.lblviewerfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
-msgid "Viewer font"
-msgstr "Просмотрщика"
+msgid "&Viewer font"
+msgstr "Прос&мотрщика"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
-msgid "Add hotkey"
-msgstr ""
+msgid "Add &hotkey"
+msgstr "&Добавить"
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
-msgid "Delete hotkey"
-msgstr ""
+msgid "&Delete hotkey"
+msgstr "&Удалить"
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
 msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
-msgid "Edit hotkey"
-msgstr ""
+msgid "&Edit hotkey"
+msgstr "&Редактировать"
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
-msgid "Filter"
-msgstr "Фильтр"
+msgid "&Filter"
+msgstr "&Фильтр"
 
 #: tfrmoptionshotkeys.lblcategories.caption
 msgctxt "tfrmoptionshotkeys.lblcategories.caption"
-msgid "Categories:"
-msgstr "Категории:"
+msgid "C&ategories:"
+msgstr "К&атегории:"
 
 #: tfrmoptionshotkeys.lblcommands.caption
 msgctxt "tfrmoptionshotkeys.lblcommands.caption"
-msgid "Commands:"
-msgstr "Команды:"
+msgid "Co&mmands:"
+msgstr "Ко&манды:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
-msgid "Shortcut files:"
-msgstr "Набор горячих клавиш:"
+msgid "&Shortcut files:"
+msgstr "&Набор горячих клавиш:"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
@@ -4460,14 +4459,14 @@ msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr ""
 
-#: TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION
+#: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
 msgstr "Для следующих каталогов и их подкаталогов:"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
-msgid "Show overlay i&cons, e.g. for links"
+msgid "Show o&verlay icons, e.g. for links"
 msgstr "Показывать овер&лейные значки (например, для ярлыков)"
 
 #: tfrmoptionsicons.cbiconssize.text
@@ -4475,14 +4474,14 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
 msgstr ""
 
-#: TFRMOPTIONSICONS.GBDISABLESPECIALICONS.CAPTION
+#: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Отключить загрузку специальных иконок"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
-msgid " Icon &size "
-msgstr " &Размер значков "
+msgid " Icon size "
+msgstr " Размер значков "
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -4491,8 +4490,8 @@ msgstr " Показ значков, связанных с типом файло�
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
-msgid "&All"
-msgstr "Все"
+msgid "A&ll"
+msgstr "&Все"
 
 #: tfrmoptionsicons.rbiconsshowallandexe.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALLANDEXE.CAPTION"
@@ -4506,18 +4505,18 @@ msgstr "&Не показывать значки"
 
 #: tfrmoptionsicons.rbiconsshowstandard.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION"
-msgid "&Only standard icons"
+msgid "Only &standard icons"
 msgstr "Только &стандартные"
 
 #: tfrmoptionsignorelist.btnaddsel.caption
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION"
-msgid "&Add selected names"
+msgid "A&dd selected names"
 msgstr "&Добавить все выделенные"
 
 #: tfrmoptionsignorelist.btnaddselwithpath.caption
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSELWITHPATH.CAPTION"
 msgid "Add selected names with &full path"
-msgstr "Добавить все выделенные с &путями"
+msgstr "До&бавить все выделенные с путями"
 
 #: tfrmoptionsignorelist.chkignoreenable.caption
 msgctxt "TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION"
@@ -4530,8 +4529,8 @@ msgid "&Save in:"
 msgstr "&Сохранить в:"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
-msgid "Left, Right arrows change directory (Lynx-like movement)"
-msgstr ""
+msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
+msgstr "П&равая и левая стрелки изменяют каталог (Lynx-поведение)"
 
 #: tfrmoptionskeyboard.gbtyping.caption
 msgid "Typing"
@@ -4539,63 +4538,63 @@ msgstr ""
 
 #: tfrmoptionskeyboard.lblalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+Letters"
-msgstr "Al&t+Буква"
+msgid "Alt+L&etters"
+msgstr "Alt+Б&уква"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Letters"
-msgstr "&Ctrl+Alt+Буква"
+msgid "Ctrl+Alt+Le&tters"
+msgstr "Ctrl+Alt+Бу&ква"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "Letters"
-msgstr ""
+msgid "&Letters"
+msgstr "&Буквы"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
-msgid "Flat buttons"
-msgstr "Плоские"
+msgid "&Flat buttons"
+msgstr "П&лоские"
 
 #: tfrmoptionslayout.cbflatinterface.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
-msgid "Flat interface"
-msgstr "Плоский интерфейс"
+msgid "Flat i&nterface"
+msgstr "Плоский инт&ерфейс"
 
 #: tfrmoptionslayout.cbflattoolbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION"
-msgid "Flat buttons"
-msgstr "Плоские"
+msgid "Flat b&uttons"
+msgstr "Пло&ские"
 
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
-msgid "Show free space indicator on drive label"
-msgstr "Индикатор свободного места на диске"
+msgid "Show fr&ee space indicator on drive label"
+msgstr "&Индикатор свободного места на диске"
 
 #: tfrmoptionslayout.cblogwindow.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
-msgid "Show log window"
-msgstr "Окно лога"
+msgid "Show lo&g window"
+msgstr "Окно протокола"
 
 #: tfrmoptionslayout.cbpanelofoperations.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBPANELOFOPERATIONS.CAPTION"
 msgid "Show panel of operation in background"
-msgstr "Панель фоновых операций"
+msgstr "Панель фонов&ых операций"
 
 #: tfrmoptionslayout.cbproginmenubar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBPROGINMENUBAR.CAPTION"
 msgid "Show common progress in menu bar"
-msgstr "Общий прогресс в меню"
+msgstr "Об&щий прогресс в меню"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
-msgid "Show command &line"
-msgstr "&Командная строка"
+msgid "Show command l&ine"
+msgstr "Ко&мандная строка"
 
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
-msgid "Show &current directory"
-msgstr "Имя &текущего каталога"
+msgid "Show current director&y"
+msgstr "Имя тек&ущего каталога"
 
 #: tfrmoptionslayout.cbshowdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION"
@@ -4604,55 +4603,55 @@ msgstr "Кнопки &дисков"
 
 #: tfrmoptionslayout.cbshowdrivefreespace.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
-msgid "Show free space label"
-msgstr "Строка свободного места на диске"
+msgid "Show free s&pace label"
+msgstr "Строка сво&бодного места на диске"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
-msgid "Show d&rives list button"
-msgstr ""
+msgid "Show drives list bu&tton"
+msgstr "К&нопка списка дисков"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
-msgid "Show &function key buttons"
+msgid "Show function &key buttons"
 msgstr "Кнопки &функциональных клавиш"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
-msgid "Show main menu"
-msgstr "Главное меню"
+msgid "Show &main menu"
+msgstr "&Главное меню"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
 msgid "Show &button bar"
-msgstr "&Панель инструментов"
+msgstr "П&анель инструментов"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
-msgid "Show short free space label"
-msgstr ""
+msgid "Show short free space &label"
+msgstr "К&ратко"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
 msgid "Show &status bar"
-msgstr "&Строка состояния"
+msgstr "Строка состо&яния"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
-msgid "Show &tabstop header"
+msgid "S&how tabstop header"
 msgstr "&Заголовки табуляторов"
 
 #: tfrmoptionslayout.cbshowtabs.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABS.CAPTION"
 msgid "Sho&w folder tabs"
-msgstr "Вкл&адки папок"
+msgstr "В&кладки папок"
 
 #: tfrmoptionslayout.cbtermwindow.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
-msgid "Show terminal window"
-msgstr "Консоль"
+msgid "Show te&rminal window"
+msgstr "Консол&ь"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
-msgid "Show two drive button bars (fixed width, above file windows)"
+msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Д&ве панели кнопок дисков (над файловыми панелями)"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
@@ -4662,48 +4661,48 @@ msgstr " Компоненты основного окна "
 
 #: tfrmoptionslog.cblogarcop.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
-msgid "Pack/Unpack"
-msgstr "Упаковка / Распаковка"
+msgid "&Pack/Unpack"
+msgstr "Уп&аковка / Распаковка"
 
 #: tfrmoptionslog.cblogcpmvln.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
-msgid "Copy/Move/Create link/symlink"
-msgstr "Копирование / Перемещение / Создание ссылок"
+msgid "Cop&y/Move/Create link/symlink"
+msgstr "&Копирование / Перемещение / Создание ссылок"
 
 #: tfrmoptionslog.cblogdelete.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGDELETE.CAPTION"
-msgid "Delete"
-msgstr "Удалить"
+msgid "&Delete"
+msgstr "&Удалить"
 
 #: tfrmoptionslog.cblogdirop.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGDIROP.CAPTION"
-msgid "Create/Delete directories"
-msgstr "Создание / Удаление каталогов"
+msgid "Crea&te/Delete directories"
+msgstr "Со&здание / Удаление каталогов"
 
 #: tfrmoptionslog.cblogerrors.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGERRORS.CAPTION"
 msgid "Log &errors"
-msgstr "Ошибки"
+msgstr "О&шибки"
 
 #: tfrmoptionslog.cblogfile.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGFILE.CAPTION"
-msgid "&Create a log file:"
-msgstr "Создать файл отчета:"
+msgid "C&reate a log file:"
+msgstr "Соз&дать файл отчета:"
 
 #: tfrmoptionslog.cbloginfo.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
-msgid "Log information messages"
-msgstr "Информационные сообщения"
+msgid "Log &information messages"
+msgstr "&Информационные сообщения"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
 msgid "Log &successful operations"
-msgstr "Успешные операции"
+msgstr "У&спешные операции"
 
 #: tfrmoptionslog.cblogvfs.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGVFS.CAPTION"
-msgid "File system plugins"
-msgstr "Плагины файловой системы"
+msgid "&File system plugins"
+msgstr "П&лагины файловой системы"
 
 #: tfrmoptionslog.gblogfile.caption
 msgctxt "TFRMOPTIONSLOG.GBLOGFILE.CAPTION"
@@ -4711,7 +4710,6 @@ msgid "File operation log file"
 msgstr "Отчет о файловых операциях"
 
 #: tfrmoptionslog.gblogfileop.caption
-#| msgid "Log operations:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION"
 msgid "Log operations"
 msgstr "Протоколируемые действия"
@@ -4724,17 +4722,17 @@ msgstr "Протоколировать операции со статусом"
 
 #: tfrmoptionsmisc.cbsavethumbnails.caption
 msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
-msgid "Save thumbnails in cache"
-msgstr "Сохранять эскизы в кэш"
+msgid "&Save thumbnails in cache"
+msgstr "&Сохранять эскизы в кэш"
 
 #: tfrmoptionsmisc.cbshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
-msgid "Show warning messages (\"OK\" button only)"
-msgstr "Показывать не критические сообщения об ошибках (с одной кнопкой \"ОК\")"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr "По&казывать не критические сообщения об ошибках (с одной кнопкой \"ОК\")"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
-msgid "Selection by mouse"
-msgstr ""
+msgid "&Selection by mouse"
+msgstr "&Выбор с помощью мыши"
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"
@@ -4742,73 +4740,73 @@ msgstr "Прокрутка"
 
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
-msgstr ""
+msgstr "Выбор"
 
 #: tfrmoptionsmouse.lblmousemode.caption
-msgid "Mode:"
-msgstr ""
+msgid "&Mode:"
+msgstr "Р&ежим"
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
-msgid "Line by line"
-msgstr ""
+msgid "&Line by line"
+msgstr "По&строчно"
 
 #: tfrmoptionsmouse.rbscrolllinebylinecursor.caption
-msgid "Line by line with cursor movement"
-msgstr ""
+msgid "Line by line &with cursor movement"
+msgstr "Построчно с &движением курсора"
 
 #: tfrmoptionsmouse.rbscrollpagebypage.caption
-msgid "Page by page"
-msgstr ""
+msgid "&Page by page"
+msgstr "Пост&ранично"
 
 #: tfrmoptionsplugins.btnaddplugin.caption
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
-msgid "Add"
-msgstr "Добавить"
+msgid "A&dd"
+msgstr "&Добавить"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
 msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
-msgid "Configure"
-msgstr "Настроить"
+msgid "Con&figure"
+msgstr "&Настроить"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
 msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
-msgid "Enable"
-msgstr "Включить"
+msgid "E&nable"
+msgstr "&Включить"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
 msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
-msgid "Remove"
-msgstr "Удалить"
+msgid "&Remove"
+msgstr "&Удалить"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
 msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
-msgid "Tweak"
-msgstr "Параметры"
+msgid "&Tweak"
+msgstr "Параметр&ы"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Позволяют использовать в поиске альтернативные алгоритмы или внешние инструменты (например \"locate\", и т.п.)"
+msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Поз&воляют использовать в поиске альтернативные алгоритмы или внешние инструменты (например \"locate\", и т.п.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
-msgid "Packer plugins are used to work with archives."
-msgstr "Позволяют работать с архивами."
+msgid "Pack&er plugins are used to work with archives"
+msgstr "Позволяют р&аботать с архивами."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Позволяют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
+msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Позвол&яют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
-msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Позволяют обращаться к дискам, недоступным из ОС или к внешним устройствам, типа Palm/PocketPC, и т.д."
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Позволя&ют обращаться к дискам, недоступным из ОС или к внешним устройствам, типа Palm/PocketPC, и т.д."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Позволяют отображать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
+msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Позволяют ото&бражать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -4832,38 +4830,38 @@ msgstr "Имя файла"
 
 #: tfrmoptionsplugins.tsdsx.caption
 msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
-msgid "Search plugins (.DSX)"
-msgstr "Поисковые плагины (.DSX)"
+msgid "&Search plugins (.DSX)"
+msgstr "По&исковые плагины (.DSX)"
 
 #: tfrmoptionsplugins.tswcx.caption
 msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
-msgid "Packer plugins (.WCX)"
-msgstr "Архиваторные плагины (.WCX)"
+msgid "Pac&ker plugins (.WCX)"
+msgstr "Ар&хиваторные плагины (.WCX)"
 
 #: tfrmoptionsplugins.tswdx.caption
 msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
-msgid "Content plugins (.WDX)"
-msgstr "Контентные плагины (.WDX)"
+msgid "Content pl&ugins (.WDX)"
+msgstr "&Контентные плагины (.WDX)"
 
 #: tfrmoptionsplugins.tswfx.caption
 msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
-msgid "File system plugins (.WFX)"
-msgstr "Плагины файловой системы (.WFX)"
+msgid "F&ile system plugins (.WFX)"
+msgstr "П&лагины файловой системы (.WFX)"
 
 #: tfrmoptionsplugins.tswlx.caption
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
-msgid "Viewer plugins (.WLX)"
-msgstr "Плагины просмотрщика (.WLX)"
+msgid "&Viewer plugins (.WLX)"
+msgstr "Пла&гины просмотрщика (.WLX)"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
 msgid "&Beginning (name must start with first typed character)"
-msgstr "Начало (имя должно начинаться с набранных символов)"
+msgstr "&Начало (имя должно начинаться с набранных символов)"
 
 #: tfrmoptionsquicksearchfilter.cbexactending.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTENDING.CAPTION"
 msgid "En&ding (last character before a typed dot . must match)"
-msgstr "Конец (последние символы до набранной точки '.' должны совпадать)"
+msgstr "&Конец (последние символы до набранной точки '.' должны совпадать)"
 
 #: tfrmoptionsquicksearchfilter.cgpoptions.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
@@ -4878,37 +4876,37 @@ msgstr "Точное соответствие имени"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchcase.caption
 msgid "Search case"
-msgstr ""
+msgstr "Поисковый регистр"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchitems.caption
 msgid "Search for these items"
-msgstr ""
+msgstr "Искать"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr "&Делать панель активной при щелчке по одной из её вкладок"
+msgstr "Делат&ь панель активной при щелчке по одной из её вкладок"
 
 #: tfrmoptionstabs.cbtabsalwaysvisible.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
 msgid "&Show tab header also when there is only one tab"
-msgstr "Показывать заголовок вкладки, даже если она одна"
+msgstr "Показ&ывать заголовок вкладки, даже если она одна"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
-msgid "&Confirm close all tabs"
-msgstr "Подтверждать закрытие всех вкладок"
+msgid "Con&firm close all tabs"
+msgstr "По&дтверждать закрытие всех вкладок"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 #| msgid "&Limit tab title length to:"
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
 msgid "&Limit tab title length to"
-msgstr "Ограничить размер заголовка до"
+msgstr "Ог&раничить размер заголовка до"
 
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
 msgid "Show locked tabs &with an asterisk *"
-msgstr "Отмечать заблокированные вкладки звёздочкой *"
+msgstr "Отмечать за&блокированные вкладки звёздочкой *"
 
 #: tfrmoptionstabs.cbtabsmultilines.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSMULTILINES.CAPTION"
@@ -4918,22 +4916,22 @@ msgstr "Размещать вкладки в несколько рядов"
 #: tfrmoptionstabs.cbtabsopenforeground.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSOPENFOREGROUND.CAPTION"
 msgid "Ctrl+&Up opens new tab in foreground"
-msgstr "Ctrl+вверх делает новую вкладку активной"
+msgstr "Ctrl+вверх делает &новую вкладку активной"
 
 #: tfrmoptionstabs.cbtabsopennearcurrent.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION"
 msgid "Open &new tabs near current tab"
-msgstr "Открывать новую вкладку р&ядом с текущей"
+msgstr "От&крывать новую вкладку рядом с текущей"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
-msgid "Show tab close button"
-msgstr "Кнопка закрытия вкладки"
+msgid "Show ta&b close button"
+msgstr "Кнопка &закрытия вкладки"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"
-msgstr "Заголовки вкладок"
+msgstr "За&головки вкладок"
 
 #: tfrmoptionstabs.lblchar.caption
 msgctxt "TFRMOPTIONSTABS.LBLCHAR.CAPTION"
@@ -4941,44 +4939,39 @@ msgid "characters"
 msgstr "символов"
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#| msgid "Tabs position:"
+#, fuzzy
+#| msgid "&Tabs position"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
-msgid "Tabs position"
-msgstr "Положение вкладок:"
+msgid "Ta&bs position"
+msgstr "Положение &вкладок:"
 
 #: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in terminal:"
-msgstr ""
+msgid "Run in &terminal:"
+msgstr "Запуск в т&ерминале"
 
 #: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run terminal:"
-msgstr ""
+msgid "Run t&erminal:"
+msgstr "Запуск &терминала"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
-#, fuzzy
-#| msgid "Clo&ne button"
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
-msgid "&Clone button"
-msgstr "Дублировать"
+msgid "C&lone button"
+msgstr "&Дублировать"
 
 #: tfrmoptionstoolbar.btndeletebutton.caption
 msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
 msgid "&Delete"
-msgstr "Удалить"
+msgstr "&Удалить"
 
 #: tfrmoptionstoolbar.btnedithotkey.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
-msgid "Edit hotkey"
-msgstr "Редактировать"
+msgid "Edit hot&key"
+msgstr "&Редактировать"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
-#, fuzzy
-#| msgid "&Insert new buttonX"
 msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
 msgid "&Insert new button"
-msgstr "Вставить"
+msgstr "&Вставить"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
@@ -4992,19 +4985,19 @@ msgstr ""
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
 #, fuzzy
-#| msgid "X"
+#| msgid "Remove hotkey"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
-msgid "Remove hotkey"
-msgstr "X"
+msgid "Remove hotke&y"
+msgstr "&Х"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
-msgid "Flat b&uttons"
-msgstr "Плоские кнопки"
+msgid "&Flat buttons"
+msgstr "&Плоские кнопки"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr ""
+msgstr "Параметры команды находятся каждая на отдельной строке. F1 - помощь"
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
@@ -5013,102 +5006,96 @@ msgstr "Вид кнопок"
 
 #: tfrmoptionstoolbar.lblbarsize.caption
 msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
-msgid "Ba&r size:"
-msgstr "Размер панели:"
+msgid "&Bar size:"
+msgstr "Р&азмер панели:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Command:"
-msgstr ""
+msgid "Comman&d:"
+msgstr "Команда"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
-msgid "Parameters:"
-msgstr ""
+msgid "Parameter&s:"
+msgstr "Параметры"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
-msgstr ""
+msgstr "Горячая клавиша"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
-#, fuzzy
-#| msgid "Icon &file:"
 msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
-msgid "Icon:"
+msgid "Ico&n:"
 msgstr "&Файл значка:"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
 msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
-msgid "Ic&on size:"
-msgstr "Размер значков:"
+msgid "Icon si&ze:"
+msgstr "Ра&змер значков:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
-msgid "Command:"
-msgstr ""
+msgid "Co&mmand:"
+msgstr "Кома&нда"
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
-msgid "Parameters:"
-msgstr ""
+msgid "&Parameters:"
+msgstr "Пара&метры"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
-#, fuzzy
-#| msgid "&Start path:"
 msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
-msgid "Start path:"
-msgstr "Путь запуска:"
+msgid "Start pat&h:"
+msgstr "П&уть запуска:"
 
 #: tfrmoptionstoolbar.lbltooltip.caption
-#, fuzzy
-#| msgid "&Tooltip:"
 msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
-msgid "Tooltip:"
-msgstr "Подсказка:"
+msgid "&Tooltip:"
+msgstr "Подс&казка:"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
-msgstr ""
+msgstr "Тип кнопки"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
-msgid "Keep terminal window open after executing program"
-msgstr "Не закрывать окно терминала после запуска программы"
+msgid "&Keep terminal window open after executing program"
+msgstr "&Не закрывать окно терминала после запуска программы"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION"
-msgid "Execute in terminal"
-msgstr "Запускать в терминале"
+msgid "&Execute in terminal"
+msgstr "&Запускать в терминале"
 
 #: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
-msgid "Use external program"
-msgstr "Использовать внешнюю программу"
+msgid "&Use external program"
+msgstr "&Использовать внешнюю программу"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION"
-msgid "Additional parameters"
-msgstr "Дополнительные параметры"
+msgid "A&dditional parameters"
+msgstr "&Дополнительные параметры"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION"
-msgid "Path to program to execute"
-msgstr "Путь к программе"
+msgid "&Path to program to execute"
+msgstr "П&уть к программе"
 
 #: tfrmoptionstooltips.btnaddfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
-msgid "Add"
-msgstr "Добавить"
+msgid "A&dd"
+msgstr "&Добавить"
 
 #: tfrmoptionstooltips.btnapplyfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
-msgid "Apply"
-msgstr "Применить"
+msgid "A&pply"
+msgstr "П&рименить"
 
 #: tfrmoptionstooltips.btndeletefields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
-msgid "Delete"
-msgstr "Удалить"
+msgid "D&elete"
+msgstr "&Удалить"
 
 #: tfrmoptionstooltips.btnfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
@@ -5132,33 +5119,33 @@ msgstr "Показывать всплывающие подсказки"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
-msgid "Category hint:"
-msgstr "Подсказка:"
+msgid "Category &hint:"
+msgstr "Под&сказка:"
 
 #: tfrmoptionstooltips.lblfieldsmask.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
-msgid "Category mask:"
-msgstr "Маска:"
+msgid "Category &mask:"
+msgstr "&Маска:"
 
 #: tfrmoptionstooltips.lblfieldsname.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
-msgid "Category name:"
-msgstr "Наименование:"
+msgid "Category &name:"
+msgstr "&Наименование:"
 
 #: tfrmoptionstooltips.rbtooltipallfiles.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Show tool tip for all files in file panel"
-msgstr "Для всех файлов в файловой панели"
+msgid "Sho&w tool tip for all files in file panel"
+msgstr "Д&ля всех файлов в файловой панели"
 
 #: tfrmoptionstooltips.rbtooltipnone.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't show"
-msgstr "Не показывать"
+msgid "Don't &show"
+msgstr "Н&е показывать"
 
 #: tfrmoptionstooltips.rbtooltiponlylarge.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show tool tip for files in file panel if truncated"
-msgstr "Для файлов с именами не помещающимися на панели"
+msgid "Show &tool tip for files in file panel if truncated"
+msgstr "Дл&я файлов с именами не помещающимися на панели"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -5182,18 +5169,18 @@ msgstr "Пример"
 
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
-msgid "Background color in book viewer"
-msgstr "Цвет в фона      "
+msgid "&Background color in book viewer"
+msgstr "&Цвет в фона      "
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"
-msgid "Font color in book viewer"
-msgstr "Шрифт"
+msgid "&Font color in book viewer"
+msgstr "&Шрифт"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
-msgid "Number of columns in book viewer"
-msgstr "Кол-во колонок"
+msgid "&Number of columns in book viewer"
+msgstr "&Кол-во колонок"
 
 #: tfrmpackdlg.btncancel.caption
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
@@ -5621,31 +5608,31 @@ msgid "Link name"
 msgstr "Имя ссылки"
 
 #: tfrmtweakplugin.btnadd.caption
-msgid "Add new"
-msgstr "Добавить"
+msgid "A&dd new"
+msgstr "&Добавить"
 
 #: tfrmtweakplugin.btncancel.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Отмена"
+msgid "&Cancel"
+msgstr "О&тмена"
 
 #: tfrmtweakplugin.btnchange.caption
-msgid "Change"
-msgstr "Изменить"
+msgid "C&hange"
+msgstr "&Изменить"
 
 #: tfrmtweakplugin.btndefault.caption
-msgid "Default"
-msgstr "По умолчанию"
+msgid "De&fault"
+msgstr "По умол&чанию"
 
 #: tfrmtweakplugin.btnok.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
-msgid "OK"
-msgstr "ОК"
+msgid "&OK"
+msgstr "&ОК"
 
 #: tfrmtweakplugin.btnremove.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
-msgid "Remove"
-msgstr "Удалить"
+msgid "&Remove"
+msgstr "&Удалить"
 
 #: tfrmtweakplugin.caption
 msgctxt "TFRMTWEAKPLUGIN.CAPTION"
@@ -5653,58 +5640,60 @@ msgid "Tweak plugin"
 msgstr "Настройка плагина"
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
-msgid "Detect archive type by content"
-msgstr "Определяет тип архива по содержимому"
+msgid "De&tect archive type by content"
+msgstr "Определяет тип ар&хива по содержимому"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
-msgid "Can delete files"
-msgstr "Может удалять из архива"
+msgid "Can de&lete files"
+msgstr "Мо&жет удалять из архива"
 
 #: tfrmtweakplugin.cbpk_caps_encrypt.caption
-msgid "Supports encryption"
-msgstr "Поддерживает шифрование"
+msgid "Supports e&ncryption"
+msgstr "Поддерживает &шифрование"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
-msgid "Show as normal files (hide packer icon)"
-msgstr "Запрещен вызов по Enter, но разрешен по Ctrl+PgDn"
+#, fuzzy
+#| msgid "Show as normal files (hide packer icon)"
+msgid "Sho&w as normal files (hide packer icon)"
+msgstr "Пока&зывать как нормальные файлы (скрывать иконку архива)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
-msgid "Supports packing in memory"
-msgstr "Поддерживает упаковку в памяти"
+msgid "Supports pac&king in memory"
+msgstr "Поддерживает упа&ковку в памяти"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-msgid "Can modify exisiting archives"
-msgstr "Может модифицировать архивы"
+msgid "Can &modify exisiting archives"
+msgstr "Может &модифицировать архивы"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption
-msgid "Archive can contain multiple files"
-msgstr "Архив может содержать несколько файлов"
+msgid "&Archive can contain multiple files"
+msgstr "&Архив может содержать несколько файлов"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
-msgid "Can create new archives"
-msgstr "Может создавать архивы"
+msgid "Can create new archi&ves"
+msgstr "Может &создавать архивы"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
-msgid "Supports the options dialogbox"
-msgstr "Имеет диалог настроек"
+msgid "S&upports the options dialogbox"
+msgstr "Им&еет диалог настроек"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
-msgid "Allow searching for text in archives"
-msgstr "Позволяет искать в архивах"
+msgid "Allow searchin&g for text in archives"
+msgstr "Поз&воляет искать в архивах"
 
 #: tfrmtweakplugin.lbldescription.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
-msgid "Description:"
-msgstr "Описание:"
+msgid "&Description:"
+msgstr "Опис&ание:"
 
 #: tfrmtweakplugin.lbldetectstr.caption
-msgid "Detect string:"
-msgstr "Детект строка:"
+msgid "D&etect string:"
+msgstr "Дете&кт строка:"
 
 #: tfrmtweakplugin.lblextension.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
-msgid "Extension:"
-msgstr "Расширение:"
+msgid "&Extension:"
+msgstr "&Расширение:"
 
 #: tfrmtweakplugin.lblflags.caption
 msgid "Flags:"
@@ -5712,18 +5701,18 @@ msgstr "Флаги:"
 
 #: tfrmtweakplugin.lblname.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
-msgid "Name:"
-msgstr "Имя:"
+msgid "&Name:"
+msgstr "&Имя:"
 
 #: tfrmtweakplugin.lblplugin.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
-msgid "Plugin:"
-msgstr "Плагин:"
+msgid "&Plugin:"
+msgstr "&Плагин:"
 
 #: tfrmtweakplugin.lblplugin1.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
-msgid "Plugin:"
-msgstr "Плагин:"
+msgid "&Plugin:"
+msgstr "&Плагин:"
 
 #: tfrmviewer.actabout.caption
 msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
@@ -6390,6 +6379,7 @@ msgid "Ab&ort"
 msgstr "Прервать"
 
 #: ulng.rsdlgbuttonall
+msgctxt "ulng.rsdlgbuttonall"
 msgid "A&ll"
 msgstr "Все"
 
@@ -7580,7 +7570,7 @@ msgstr "Текст"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
-msgstr ""
+msgstr "отдельное окно;минимизировать отдельное окно;панель операций"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -7588,19 +7578,19 @@ msgstr ""
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
-msgstr ""
+msgstr "Добавить горячую клавишу для %s"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
-msgstr ""
+msgstr "Добавить сочетание"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr ""
+msgstr "Невозможно установить сочетание"
 
 #: ulng.rsopthotkeyschangeshortcut
 msgid "Change shortcut"
-msgstr ""
+msgstr "Изменить сочетание"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
@@ -7620,7 +7610,7 @@ msgstr "Описание"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
-msgstr ""
+msgstr "Редактировать горячую клавишу для %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
@@ -7646,7 +7636,7 @@ msgstr "Параметры"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr ""
+msgstr "Установить сочетание для удаления файла"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
@@ -7710,15 +7700,15 @@ msgstr "Конфигурация"
 
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
-msgstr ""
+msgstr "Настраиваемые столбцы"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
-msgstr ""
+msgstr "Перетаскивание"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
-msgstr ""
+msgstr "Кнопка списка дисков"
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -7732,7 +7722,7 @@ msgstr "Файловые панели"
 
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
-msgstr ""
+msgstr "Просмотр файлов"
 
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
@@ -7813,7 +7803,7 @@ msgstr "Терминал"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
-msgstr ""
+msgstr "Панель инструментов"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -7825,13 +7815,17 @@ msgctxt "ulng.rsoptionseditortooltips"
 msgid "Tooltips"
 msgstr "Подсказки"
 
+#: ulng.rsoptletters
+msgid "None;Command Line;Quick Search;Quick Filter"
+msgstr "Нет;Командная строка;Быстрый поиск;Быстрый фильтр"
+
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
 msgstr "Левая клавиша;Правая клавиша;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr ""
+msgstr "сверху списка файлов;после каталогов (если каталоги отсортированы перед файлами);в отсортированной позиции;внизу списка файлов"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -7857,13 +7851,25 @@ msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Ассоциация"
 
+#: ulng.rsoptsearchcase
+msgid "&Sensitive;&Insensitive"
+msgstr "&Чувствителен;Н&е чувствителен"
+
+#: ulng.rsoptsearchitems
+msgid "&Files;Di&rectories;Files a&nd Directories"
+msgstr "&Файлы;Катало&ги;Ф&айлы и каталоги"
+
+#: ulng.rsoptsearchopt
+msgid "&Hide filter panel when not focused"
+msgstr "Ск&рывать панель фильтра, когда она не в фокусе"
+
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
+msgstr "не чувствителен к регистру;соответственно локальным установкам (аАбБгГ);сначала верхний регистр, потом нижний (АБВабв)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
+msgstr "сортировать по имени и показывать первым;сортировать как файлы и показывать первым;сортировать как файлы"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
@@ -7874,12 +7880,12 @@ msgid "Top;Bottom;"
 msgstr "Вверху;Внизу;"
 
 #: ulng.rsopttoolbarbuttontype
-msgid "Separator;Internal command;External command;Menu"
-msgstr ""
+msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
+msgstr "Разд&елитель;Внутрення&я команда;Вне&шняя команда;Мен&ю"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr ""
+msgstr "не менять позицию;использовать те же установки, как для новых файлов;в отсортированной позиции"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -7948,8 +7954,8 @@ msgid "Select a directory"
 msgstr "Выберите каталог"
 
 #: ulng.rsshowhelpfor
-msgid "Show help for %s"
-msgstr ""
+msgid "&Show help for %s"
+msgstr "Показать помощ&ь для %s"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
