@@ -6,10 +6,11 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
   object lblRunInTerm: TLabel[0]
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 22
+    Height = 13
     Top = 11
-    Width = 110
-    Caption = 'Run in terminal:'
+    Width = 75
+    Caption = 'Run in &terminal:'
+    FocusControl = edtRunInTerm
     ParentColor = False
   end
   object edtRunInTerm: TEdit[1]
@@ -17,10 +18,10 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     AnchorSideLeft.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 124
-    Height = 29
+    Left = 89
+    Height = 21
     Top = 8
-    Width = 385
+    Width = 420
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Right = 10
@@ -29,10 +30,11 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
   object lblRunTerm: TLabel[2]
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 22
-    Top = 46
-    Width = 93
-    Caption = 'Run terminal:'
+    Height = 13
+    Top = 40
+    Width = 64
+    Caption = 'Run t&erminal:'
+    FocusControl = edtRunTerm
     ParentColor = False
   end
   object edtRunTerm: TEdit[3]
@@ -41,10 +43,10 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtRunInTerm
     AnchorSideRight.Side = asrBottom
-    Left = 124
-    Height = 29
-    Top = 43
-    Width = 385
+    Left = 89
+    Height = 21
+    Top = 35
+    Width = 420
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     TabOrder = 1

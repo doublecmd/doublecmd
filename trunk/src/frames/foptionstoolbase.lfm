@@ -10,8 +10,8 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideRight.Control = fneToolsPath
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 29
-    Top = 139
+    Height = 21
+    Top = 105
     Width = 554
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 4
@@ -23,15 +23,15 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Control = lblToolsPath
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 29
-    Top = 74
+    Height = 21
+    Top = 57
     Width = 554
     OnAcceptFileName = fneToolsPathAcceptFileName
     DialogOptions = []
     FilterIndex = 0
     HideDirectories = False
     ButtonWidth = 23
-    NumGlyphs = 0
+    NumGlyphs = 1
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 4
     MaxLength = 0
@@ -43,11 +43,12 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Control = cbToolsUseExternalProgram
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 22
-    Top = 48
-    Width = 182
+    Height = 13
+    Top = 40
+    Width = 133
     BorderSpacing.Top = 15
-    Caption = 'Path to program to execute'
+    Caption = '&Path to program to execute'
+    FocusControl = fneToolsPath
     ParentColor = False
   end
   object lblToolsParameters: TLabel[3]
@@ -55,11 +56,12 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Control = fneToolsPath
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 22
-    Top = 113
-    Width = 150
+    Height = 13
+    Top = 88
+    Width = 105
     BorderSpacing.Top = 10
-    Caption = 'Additional parameters'
+    Caption = 'A&dditional parameters'
+    FocusControl = edtToolsParameters
     ParentColor = False
   end
   object cbToolsKeepTerminalOpen: TCheckBox[4]
@@ -67,12 +69,12 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Control = cbToolsRunInTerminal
     AnchorSideTop.Side = asrBottom
     Left = 23
-    Height = 25
-    Top = 207
-    Width = 381
+    Height = 17
+    Top = 157
+    Width = 269
     BorderSpacing.Left = 15
     BorderSpacing.Top = 2
-    Caption = 'Keep terminal window open after executing program'
+    Caption = '&Keep terminal window open after executing program'
     OnChange = cbToolsKeepTerminalOpenChange
     TabOrder = 4
   end
@@ -81,21 +83,21 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Control = edtToolsParameters
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 25
-    Top = 180
-    Width = 158
+    Height = 17
+    Top = 138
+    Width = 109
     BorderSpacing.Top = 12
-    Caption = 'Execute in terminal'
+    Caption = '&Execute in terminal'
     OnChange = cbToolsRunInTerminalChange
     TabOrder = 3
   end
   object cbToolsUseExternalProgram: TCheckBox[6]
     Left = 8
-    Height = 25
+    Height = 17
     Top = 8
-    Width = 171
+    Width = 122
     BorderSpacing.Top = 12
-    Caption = 'Use external program'
+    Caption = '&Use external program'
     OnChange = cbToolsUseExternalProgramChange
     TabOrder = 0
   end

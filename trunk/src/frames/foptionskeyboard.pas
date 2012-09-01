@@ -57,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  DCStrUtils, uGlobs, uLng;
 
 const
   KeyAction_None        = 0;
@@ -70,6 +70,7 @@ const
 procedure TfrmOptionsKeyboard.Init;
 begin
   // Copy localized strings to each combo box.
+  ParseLineToList(rsOptLetters, cbNoModifier.Items);
   cbAlt.Items.Assign(cbNoModifier.Items);
   cbCtrlAlt.Items.Assign(cbNoModifier.Items);
 end;

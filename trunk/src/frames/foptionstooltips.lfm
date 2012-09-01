@@ -4,12 +4,13 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
   AutoSize = True
   ClientHeight = 501
   ClientWidth = 599
+  DesignTop = 27
   object gbCustomFields: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 347
+    Height = 345
     Top = 6
     Width = 587
     Anchors = [akTop, akLeft, akRight]
@@ -17,7 +18,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     BorderSpacing.Around = 6
     Caption = 'Custom fields by file type'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 325
+    ClientHeight = 322
     ClientWidth = 583
     TabOrder = 0
     object btnAddFields: TBitBtn
@@ -25,29 +26,27 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideRight.Control = btnDeleteFields
       Left = 233
       Height = 32
-      Top = 287
+      Top = 284
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
-      Caption = 'Add'
-      NumGlyphs = 0
+      Caption = 'A&dd'
       OnClick = btnAddFieldsClick
-      TabOrder = 0
+      TabOrder = 2
     end
     object btnDeleteFields: TBitBtn
       AnchorSideTop.Control = btnApplyFields
       AnchorSideRight.Control = btnApplyFields
       Left = 349
       Height = 32
-      Top = 287
+      Top = 284
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
-      Caption = 'Delete'
+      Caption = 'D&elete'
       Enabled = False
-      NumGlyphs = 0
       OnClick = btnDeleteFieldsClick
-      TabOrder = 1
+      TabOrder = 3
     end
     object lsbCustomFields: TListBox
       AnchorSideTop.Control = gbCustomFields
@@ -62,7 +61,9 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       BorderSpacing.Right = 8
       ItemHeight = 0
       OnSelectionChange = lsbCustomFieldsSelectionChange
-      TabOrder = 2
+      ScrollWidth = 561
+      TabOrder = 0
+      TopIndex = -1
     end
     object btnApplyFields: TBitBtn
       AnchorSideTop.Control = pnlEdit
@@ -71,14 +72,13 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideRight.Side = asrBottom
       Left = 465
       Height = 32
-      Top = 287
+      Top = 284
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 12
-      Caption = 'Apply'
-      NumGlyphs = 0
+      Caption = 'A&pply'
       OnClick = btnApplyFieldsClick
-      TabOrder = 3
+      TabOrder = 4
     end
     object pnlEdit: TPanel
       AnchorSideLeft.Control = lsbCustomFields
@@ -87,7 +87,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideRight.Control = lsbCustomFields
       AnchorSideRight.Side = asrBottom
       Left = 12
-      Height = 121
+      Height = 118
       Top = 154
       Width = 563
       Anchors = [akTop, akLeft, akRight]
@@ -95,45 +95,48 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       BorderSpacing.Top = 6
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 6
-      ClientHeight = 121
+      ClientHeight = 118
       ClientWidth = 563
       Enabled = False
-      TabOrder = 4
+      TabOrder = 1
       object lblFieldsName: TLabel
         AnchorSideTop.Control = edtFieldsName
         AnchorSideTop.Side = asrCenter
         Left = 1
-        Height = 22
-        Top = 15
-        Width = 105
-        Caption = 'Category name:'
+        Height = 18
+        Top = 17
+        Width = 102
+        Caption = 'Category &name:'
+        FocusControl = edtFieldsName
         ParentColor = False
       end
       object lblFieldsMask: TLabel
         AnchorSideTop.Control = edtFieldsMask
         AnchorSideTop.Side = asrCenter
         Left = 1
-        Height = 22
-        Top = 52
-        Width = 103
-        Caption = 'Category mask:'
+        Height = 18
+        Top = 53
+        Width = 100
+        Caption = 'Category &mask:'
+        FocusControl = edtFieldsMask
         ParentColor = False
       end
       object lblFieldsList: TLabel
         AnchorSideTop.Control = edtFieldsList
         AnchorSideTop.Side = asrCenter
         Left = 1
-        Height = 22
+        Height = 18
         Top = 89
-        Width = 94
-        Caption = 'Category hint:'
+        Width = 93
+        Caption = 'Category &hint:'
+        FocusControl = edtFieldsList
         ParentColor = False
       end
       object edtFieldsName: TEdit
         AnchorSideTop.Control = pnlEdit
         AnchorSideRight.Side = asrBottom
         Left = 151
-        Height = 29
+        Height = 28
         Top = 12
         Width = 412
         Anchors = [akTop, akLeft, akRight]
@@ -146,8 +149,8 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = btnFieldsSearchTemplate
         Left = 151
-        Height = 29
-        Top = 49
+        Height = 28
+        Top = 48
         Width = 383
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 8
@@ -160,13 +163,13 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = btnFieldsList
         Left = 151
-        Height = 29
-        Top = 86
+        Height = 28
+        Top = 84
         Width = 378
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 8
         BorderSpacing.Right = 6
-        TabOrder = 2
+        TabOrder = 3
       end
       object btnFieldsSearchTemplate: TBitBtn
         AnchorSideTop.Control = edtFieldsMask
@@ -175,9 +178,9 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         AnchorSideBottom.Control = edtFieldsMask
         AnchorSideBottom.Side = asrBottom
         Left = 540
-        Height = 29
+        Height = 28
         Hint = 'Template...'
-        Top = 49
+        Top = 48
         Width = 23
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -220,7 +223,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         OnClick = btnFieldsSearchTemplateClick
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 3
+        TabOrder = 2
       end
       object btnFieldsList: TButton
         AnchorSideLeft.Side = asrBottom
@@ -230,8 +233,8 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         AnchorSideBottom.Control = edtFieldsList
         AnchorSideBottom.Side = asrBottom
         Left = 535
-        Height = 29
-        Top = 86
+        Height = 28
+        Top = 84
         Width = 28
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -248,8 +251,8 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 113
-    Top = 359
+    Height = 108
+    Top = 357
     Width = 587
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -257,7 +260,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     Caption = 'Show tool tip'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 91
+    ClientHeight = 85
     ClientWidth = 583
     TabOrder = 1
     object rbToolTipAllFiles: TRadioButton
@@ -265,35 +268,35 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideTop.Control = rbToolTipNone
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 33
-      Width = 274
+      Height = 23
+      Top = 31
+      Width = 267
       BorderSpacing.Top = 2
-      Caption = 'Show tool tip for all files in file panel'
-      TabOrder = 0
+      Caption = 'Sho&w tool tip for all files in file panel'
+      TabOrder = 1
     end
     object rbToolTipOnlyLarge: TRadioButton
       AnchorSideLeft.Control = gbShowToolTip
       AnchorSideTop.Control = rbToolTipAllFiles
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 60
-      Width = 336
+      Height = 23
+      Top = 56
+      Width = 326
       BorderSpacing.Top = 2
-      Caption = 'Show tool tip for files in file panel if truncated'
-      TabOrder = 1
+      Caption = 'Show &tool tip for files in file panel if truncated'
+      TabOrder = 2
     end
     object rbToolTipNone: TRadioButton
       AnchorSideLeft.Control = gbShowToolTip
       AnchorSideTop.Control = gbShowToolTip
       Left = 12
-      Height = 25
+      Height = 23
       Top = 6
-      Width = 102
-      Caption = 'Don''t show'
+      Width = 97
+      Caption = 'Don''t &show'
       Checked = True
-      TabOrder = 2
+      TabOrder = 0
       TabStop = True
     end
   end

@@ -3,40 +3,44 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
   Width = 808
   ClientHeight = 513
   ClientWidth = 808
+  DesignTop = 20
   object lblCategories: TLabel[0]
     AnchorSideLeft.Control = lbxCategories
     AnchorSideTop.Control = Owner
     Left = 317
-    Height = 22
+    Height = 13
     Top = 6
-    Width = 75
+    Width = 55
     BorderSpacing.Top = 6
-    Caption = 'Categories:'
+    Caption = 'C&ategories:'
+    FocusControl = lbxCategories
     ParentColor = False
   end
   object lblCommands: TLabel[1]
     AnchorSideLeft.Control = lbSCFilesList
     AnchorSideTop.Control = edtFilter
     Left = 6
-    Height = 22
-    Top = 88
-    Width = 81
+    Height = 13
+    Top = 79
+    Width = 57
     BorderSpacing.Top = 6
-    Caption = 'Commands:'
+    Caption = 'Co&mmands:'
+    FocusControl = stgCommands
     ParentColor = False
   end
   object lbFilter: TLabel[2]
     AnchorSideTop.Control = edtFilter
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = edtFilter
-    Left = 660
-    Height = 22
-    Top = 85
-    Width = 35
+    Left = 670
+    Height = 13
+    Top = 78
+    Width = 25
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 4
     BorderSpacing.Right = 4
-    Caption = 'Filter'
+    Caption = '&Filter'
+    FocusControl = edtFilter
     ParentColor = False
   end
   object lbxCategories: TListBox[3]
@@ -48,14 +52,16 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Side = asrBottom
     Left = 317
     Height = 50
-    Top = 28
+    Top = 19
     Width = 485
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     ItemHeight = 0
     OnSelectionChange = lbxCategoriesSelectionChange
+    ScrollWidth = 483
     TabOrder = 1
+    TopIndex = -1
   end
   object edtFilter: TEdit[4]
     AnchorSideTop.Control = lbxCategories
@@ -63,8 +69,8 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Control = stgCommands
     AnchorSideRight.Side = asrBottom
     Left = 699
-    Height = 29
-    Top = 82
+    Height = 23
+    Top = 73
     Width = 103
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 4
@@ -79,8 +85,8 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 253
-    Top = 115
+    Height = 268
+    Top = 100
     Width = 796
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 6
@@ -107,7 +113,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     Left = 6
     Height = 137
     Top = 372
-    Width = 662
+    Width = 700
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 4
     BorderSpacing.Right = 8
@@ -150,10 +156,10 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = stgHotkeys
     AnchorSideBottom.Side = asrBottom
-    Left = 676
+    Left = 714
     Height = 137
     Top = 372
-    Width = 126
+    Width = 88
     Anchors = [akTop, akRight, akBottom]
     AutoSize = True
     BevelOuter = bvNone
@@ -165,17 +171,17 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 137
-    ClientWidth = 126
+    ClientWidth = 88
     TabOrder = 5
     object btnAddHotKey: TButton
       AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 42
       Top = 0
-      Width = 126
+      Width = 88
       AutoSize = True
       BorderSpacing.InnerBorder = 4
-      Caption = 'Add hotkey'
+      Caption = 'Add &hotkey'
       Enabled = False
       OnClick = btnAddHotKeyClick
       TabOrder = 0
@@ -184,10 +190,10 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
       Left = 0
       Height = 42
       Top = 48
-      Width = 126
+      Width = 88
       AutoSize = True
       BorderSpacing.InnerBorder = 4
-      Caption = 'Edit hotkey'
+      Caption = '&Edit hotkey'
       Enabled = False
       OnClick = btnEditHotkeyClick
       TabOrder = 1
@@ -197,10 +203,10 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
       Left = 0
       Height = 41
       Top = 96
-      Width = 126
+      Width = 88
       AutoSize = True
       BorderSpacing.InnerBorder = 4
-      Caption = 'Delete hotkey'
+      Caption = '&Delete hotkey'
       Enabled = False
       OnClick = btnDeleteHotKeyClick
       TabOrder = 2
@@ -212,22 +218,25 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 50
-    Top = 28
+    Top = 19
     Width = 305
     BorderSpacing.Left = 6
     ItemHeight = 0
     OnSelectionChange = lbSCFilesListSelectionChange
+    ScrollWidth = 303
     TabOrder = 0
+    TopIndex = -1
   end
   object lblSCFiles: TLabel[9]
     AnchorSideLeft.Control = lbSCFilesList
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 22
+    Height = 13
     Top = 6
-    Width = 94
+    Width = 68
     BorderSpacing.Top = 6
-    Caption = 'Shortcut files:'
+    Caption = '&Shortcut files:'
+    FocusControl = lbSCFilesList
     ParentColor = False
   end
 end

@@ -3,6 +3,7 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
   Width = 659
   ClientHeight = 344
   ClientWidth = 659
+  DesignTop = 20
   object grpAutosizeColumns: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbShowGrid
@@ -11,21 +12,21 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 105
-    Top = 102
+    Top = 82
     Width = 647
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 6
     Caption = 'Auto-size columns'
-    ClientHeight = 83
+    ClientHeight = 87
     ClientWidth = 643
-    TabOrder = 0
+    TabOrder = 1
     object chkAutoFillColumns: TCheckBox
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 25
+      Height = 17
       Top = 8
-      Width = 141
-      Caption = 'Auto fill columns'
+      Width = 95
+      Caption = 'A&uto fill columns'
       TabOrder = 0
     end
     object lblAutoSizeColumn: TLabel
@@ -33,10 +34,11 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
       AnchorSideTop.Control = cmbAutoSizeColumn
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 22
-      Top = 46
-      Width = 120
-      Caption = 'Auto size column:'
+      Height = 13
+      Top = 39
+      Width = 84
+      Caption = 'Auto si&ze column:'
+      FocusControl = cmbAutoSizeColumn
       ParentColor = False
     end
     object cmbAutoSizeColumn: TComboBox
@@ -46,15 +48,15 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = grpAutosizeColumns
       AnchorSideRight.Side = asrBottom
-      Left = 140
-      Height = 29
-      Top = 43
-      Width = 493
+      Left = 104
+      Height = 21
+      Top = 35
+      Width = 529
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 12
       BorderSpacing.Top = 10
       BorderSpacing.Right = 10
-      ItemHeight = 21
+      ItemHeight = 13
       Items.Strings = (
         'First'
         'Last'
@@ -69,7 +71,7 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 90
+    Height = 70
     Top = 6
     Width = 647
     Anchors = [akTop, akLeft, akRight]
@@ -78,17 +80,17 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     Caption = 'Show grid'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 68
+    ClientHeight = 52
     ClientWidth = 643
-    TabOrder = 1
+    TabOrder = 0
     object cbGridVertLine: TCheckBox
       AnchorSideLeft.Control = gbShowGrid
       AnchorSideTop.Control = gbShowGrid
       Left = 12
-      Height = 25
+      Height = 17
       Top = 6
-      Width = 114
-      Caption = 'Vertical lines'
+      Width = 77
+      Caption = '&Vertical lines'
       TabOrder = 0
     end
     object cbGridHorzLine: TCheckBox
@@ -96,11 +98,11 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
       AnchorSideTop.Control = cbGridVertLine
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 37
-      Width = 132
+      Height = 17
+      Top = 29
+      Width = 90
       BorderSpacing.Top = 6
-      Caption = 'Horizontal lines'
+      Caption = '&Horizontal lines'
       TabOrder = 1
     end
   end
@@ -111,8 +113,8 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 59
-    Top = 213
+    Height = 47
+    Top = 193
     Width = 647
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -121,15 +123,15 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     ChildSizing.TopBottomSpacing = 6
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 37
+    ClientHeight = 29
     ClientWidth = 643
     TabOrder = 2
     object cbCutTextToColWidth: TCheckBox
       Left = 6
-      Height = 25
+      Height = 17
       Top = 6
-      Width = 193
-      Caption = 'Cut text to column width'
+      Width = 136
+      Caption = 'Cut &text to column width'
       TabOrder = 0
     end
   end

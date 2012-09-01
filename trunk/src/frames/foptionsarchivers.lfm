@@ -3,6 +3,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
   Width = 901
   ClientHeight = 642
   ClientWidth = 901
+  DesignTop = 27
   object lbxMultiArc: TListBox[0]
     Left = 0
     Height = 642
@@ -11,7 +12,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
     Align = alLeft
     ItemHeight = 0
     OnSelectionChange = lbxMultiArcSelectionChange
+    ScrollWidth = 53
     TabOrder = 0
+    TopIndex = -1
   end
   object splMultiArc: TSplitter[1]
     Left = 55
@@ -46,19 +49,20 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
       TabOrder = 0
       object tbArchiverGeneral: TTabSheet
         Caption = 'General'
-        ClientHeight = 558
-        ClientWidth = 833
+        ClientHeight = 553
+        ClientWidth = 835
         object lblDescription: TLabel
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
+          Height = 18
           Top = 10
-          Width = 809
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 10
           BorderSpacing.Right = 10
-          Caption = 'Description:'
+          Caption = 'De&scription:'
+          FocusControl = edtDescription
           ParentColor = False
         end
         object edtDescription: TEdit
@@ -68,9 +72,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 32
-          Width = 809
+          Height = 28
+          Top = 28
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 0
         end
@@ -79,14 +83,15 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 63
-          Width = 809
+          Height = 18
+          Top = 58
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
-          Caption = 'Archiver:'
+          Caption = 'Arc&hiver:'
+          FocusControl = fneArchiver
           ParentColor = False
         end
         object lblArchiveExtension: TLabel
@@ -94,14 +99,15 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 116
-          Width = 809
+          Height = 18
+          Top = 106
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
-          Caption = 'Extension:'
+          Caption = 'E&xtension:'
+          FocusControl = edtArchiveExtension
           ParentColor = False
         end
         object edtArchiveExtension: TEdit
@@ -111,25 +117,26 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 138
-          Width = 809
+          Height = 28
+          Top = 124
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 1
+          TabOrder = 2
         end
         object lblArchiveList: TLabel
           AnchorSideTop.Control = edtArchiveExtension
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 169
-          Width = 809
+          Height = 18
+          Top = 154
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
-          Caption = 'List:'
+          Caption = '&List:'
+          FocusControl = edtArchiveList
           ParentColor = False
         end
         object edtArchiveList: TEdit
@@ -139,25 +146,26 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 191
-          Width = 809
+          Height = 28
+          Top = 172
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 2
+          TabOrder = 3
         end
         object lblArchiveExtract: TLabel
           AnchorSideTop.Control = memArchiveListFormat
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 410
-          Width = 809
+          Height = 18
+          Top = 376
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
-          Caption = 'Extract:'
+          Caption = 'Ex&tract:'
+          FocusControl = edtArchiveExtract
           ParentColor = False
         end
         object edtArchiveExtract: TEdit
@@ -167,25 +175,26 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 432
-          Width = 809
+          Height = 28
+          Top = 394
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 3
+          TabOrder = 7
         end
         object lblArchiveAdd: TLabel
           AnchorSideTop.Control = edtArchiveExtract
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 463
-          Width = 809
+          Height = 18
+          Top = 424
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
-          Caption = 'Add:'
+          Caption = 'Add&ing:'
+          FocusControl = edtArchiveAdd
           ParentColor = False
         end
         object edtArchiveAdd: TEdit
@@ -195,25 +204,26 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 485
-          Width = 809
+          Height = 28
+          Top = 442
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 4
+          TabOrder = 8
         end
         object lblArchiveListFormat: TLabel
           AnchorSideTop.Control = edtArchiveListEnd
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 326
-          Width = 809
+          Height = 18
+          Top = 296
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
-          Caption = 'Listing format:'
+          Caption = 'Listing for&mat:'
+          FocusControl = memArchiveListFormat
           ParentColor = False
         end
         object memArchiveListFormat: TMemo
@@ -222,8 +232,8 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 60
-          Top = 348
-          Width = 809
+          Top = 314
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Right = 10
@@ -231,7 +241,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             ''
           )
           ScrollBars = ssAutoBoth
-          TabOrder = 5
+          TabOrder = 6
           WordWrap = False
         end
         object fneArchiver: TFileNameEdit
@@ -240,17 +250,17 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 85
-          Width = 787
+          Height = 28
+          Top = 76
+          Width = 789
           DialogOptions = []
           FilterIndex = 0
           HideDirectories = False
           ButtonWidth = 23
-          NumGlyphs = 0
+          NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
           MaxLength = 0
-          TabOrder = 6
+          TabOrder = 1
         end
         object lblArchiveListStart: TLabel
           AnchorSideLeft.Control = lblDescription
@@ -259,12 +269,13 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 222
-          Width = 809
+          Height = 18
+          Top = 202
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
-          Caption = 'Listing start (optional):'
+          Caption = 'Listin&g start (optional):'
+          FocusControl = edtArchiveListStart
           ParentColor = False
         end
         object edtArchiveListStart: TEdit
@@ -274,11 +285,11 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 244
-          Width = 809
+          Height = 28
+          Top = 220
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 7
+          TabOrder = 4
         end
         object lblArchiveListEnd: TLabel
           AnchorSideLeft.Control = lblDescription
@@ -287,11 +298,12 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 22
-          Top = 273
-          Width = 809
+          Height = 18
+          Top = 248
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
-          Caption = 'Listing finish (optional):'
+          Caption = 'Listing &finish (optional):'
+          FocusControl = edtArchiveListEnd
           ParentColor = False
         end
         object edtArchiveListEnd: TEdit
@@ -301,11 +313,11 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 29
-          Top = 295
-          Width = 809
+          Height = 28
+          Top = 266
+          Width = 811
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 8
+          TabOrder = 5
         end
       end
       object tbArchiverAdditional: TTabSheet
@@ -314,14 +326,14 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         Caption = 'Additional'
         ChildSizing.LeftRightSpacing = 10
         ChildSizing.TopBottomSpacing = 10
-        ClientHeight = 387
-        ClientWidth = 633
+        ClientHeight = 553
+        ClientWidth = 835
         OnShow = tbArchiverAdditionalShow
         object stgArchiverCommands: TStringGrid
           Left = 10
-          Height = 314
+          Height = 469
           Top = 10
-          Width = 613
+          Width = 815
           Align = alClient
           AutoFillColumns = True
           ColCount = 2
@@ -332,14 +344,14 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           OnPrepareCanvas = stgArchiverCommandsPrepareCanvas
           ColWidths = (
             64
-            549
+            749
           )
         end
         object gbArchiverOptions: TGroupBox
           Left = 10
-          Height = 51
-          Top = 326
-          Width = 613
+          Height = 62
+          Top = 481
+          Width = 815
           Align = alBottom
           Anchors = [akLeft, akRight]
           AutoSize = True
@@ -347,16 +359,16 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Caption = 'Options'
           ChildSizing.LeftRightSpacing = 10
           ChildSizing.TopBottomSpacing = 8
-          ClientHeight = 29
-          ClientWidth = 609
+          ClientHeight = 39
+          ClientWidth = 811
           TabOrder = 1
           object chkMultiArcOutput: TCheckBox
             AnchorSideTop.Control = gbArchiverOptions
             Left = 10
-            Height = 17
+            Height = 23
             Top = 8
-            Width = 118
-            Caption = 'Show console output'
+            Width = 162
+            Caption = 'S&how console output'
             TabOrder = 0
           end
           object chkMultiArcDebug: TCheckBox
@@ -364,12 +376,12 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = gbArchiverOptions
             AnchorSideRight.Side = asrBottom
-            Left = 521
-            Height = 17
+            Left = 697
+            Height = 23
             Top = 8
-            Width = 78
+            Width = 104
             Anchors = [akTop, akRight]
-            Caption = 'Debug mode'
+            Caption = 'De&bug mode'
             TabOrder = 1
           end
         end
@@ -396,9 +408,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         Width = 100
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 10
-        Caption = 'Apply'
+        Caption = 'A&pply'
         OnClick = btnMultiArcApplyClick
-        TabOrder = 0
+        TabOrder = 5
       end
       object btnMultiArcRename: TBitBtn
         AnchorSideTop.Control = btnMultiArcApply
@@ -410,9 +422,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         Width = 100
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 6
-        Caption = 'Rename'
+        Caption = '&Rename'
         OnClick = btnMultiArcRenameClick
-        TabOrder = 1
+        TabOrder = 4
       end
       object btnMultiArcDelete: TBitBtn
         AnchorSideTop.Control = btnMultiArcApply
@@ -424,9 +436,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         Width = 100
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 6
-        Caption = 'Delete'
+        Caption = 'D&elete'
         OnClick = btnMultiArcDeleteClick
-        TabOrder = 2
+        TabOrder = 3
       end
       object btnMultiArcAdd: TBitBtn
         AnchorSideTop.Control = btnMultiArcApply
@@ -438,9 +450,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         Width = 100
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 6
-        Caption = 'Add'
+        Caption = 'A&dd'
         OnClick = btnMultiArcAddClick
-        TabOrder = 3
+        TabOrder = 2
       end
       object chkMultiArcEnabled: TCheckBox
         AnchorSideLeft.Control = pnlMultiArcButtons
@@ -448,15 +460,15 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnAutoConfig
         Left = 10
-        Height = 25
-        Top = 13
+        Height = 23
+        Top = 14
         Width = 260
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Right = 6
-        Caption = 'Enabled'
+        Caption = 'E&nabled'
         OnChange = chkMultiArcEnabledChange
-        TabOrder = 4
+        TabOrder = 0
       end
       object btnAutoConfig: TBitBtn
         AnchorSideTop.Control = btnMultiArcApply
@@ -467,9 +479,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         Width = 131
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 6
-        Caption = 'Auto Configure'
+        Caption = 'A&uto Configure'
         OnClick = btnAutoConfigClick
-        TabOrder = 5
+        TabOrder = 1
       end
     end
   end

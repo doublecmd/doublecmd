@@ -194,7 +194,7 @@ resourcestring
   rsMsgLogTest = 'Test file integrity %s';
 
   rsSearchResult = 'Search result';
-  rsShowHelpFor = 'Show help for %s';
+  rsShowHelpFor = '&Show help for %s';
   rsClipboardContainsInvalidToolbarData = 'Clipboard doesn''t contain any valid toolbar data.';
 
   // File operations dialog
@@ -456,8 +456,16 @@ resourcestring
   rsOptNewFilesPosition = 'at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list';
   rsOptUpdatedFilesPosition = 'don''t change position;use the same setting as for new files;to sorted position';
   rsOptFileOperationsProgressKind = 'separate window;minimized separate window;operations panel';
+  // Keyboard
+  rsOptLetters = 'None;Command Line;Quick Search;Quick Filter';
+
+  // Quick Search/Filter
+  rsOptSearchItems = '&Files;Di&rectories;Files a&nd Directories';
+  rsOptSearchCase = '&Sensitive;&Insensitive';
+  rsOptSearchOpt = '&Hide filter panel when not focused';
+
   // Toolbar
-  rsOptToolbarButtonType = 'Separator;Internal command;External command;Menu';
+  rsOptToolbarButtonType = 'S&eparator;Inte&rnal command;E&xternal command;Men&u';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
