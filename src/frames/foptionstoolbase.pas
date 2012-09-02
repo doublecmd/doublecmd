@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Base options page for external tools (Viewer, Editor, Differ)
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -104,7 +104,12 @@ end;
 
 procedure TfrmOptionsToolBase.fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
 begin
-  Value:= SetCmdDirAsEnvVar(Value);
+  Value := SetCmdDirAsEnvVar(Value);
+{$IF DEFINED(LCLCARBON)}
+  // OnChange don't called under Carbon when choose file name
+  // from open dialog so assign path in this event.
+  FExternalToolOptions.Path := Value;
+{$ENDIF}
 end;
 
 procedure TfrmOptionsToolBase.fneToolsPathChange(Sender: TObject);
@@ -143,4 +148,4 @@ begin
 end;
 
 end.
-
+
