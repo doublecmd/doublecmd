@@ -1101,16 +1101,15 @@ var
   wNewDir: WideString;
   NetResource: TNetResourceW;
 begin
-  wNewDir:= UTF8Decode(NewDir);
+  wNewDir:= UTF8Decode(ExcludeTrailingBackslash(NewDir));
   if Pos('\\', wNewDir) = 1 then
     begin
-      wNewDir:= ExcludeTrailingBackslash(wNewDir);
       FillChar(NetResource, SizeOf(NetResource), #0);
       NetResource.dwType:= RESOURCETYPE_ANY;
       NetResource.lpRemoteName:= PWideChar(wNewDir);
       WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
     end;
-  Result:= SetCurrentDirectoryW(PWChar(wNewDir));
+  Result:= SetCurrentDirectoryW(PWideChar(wNewDir));
 end;
 {$ELSE}
 begin
