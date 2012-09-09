@@ -22,32 +22,32 @@ object frmExtractDlg: TfrmExtractDlg
   OnCreate = FormCreate
   Position = poScreenCenter
   SessionProperties = 'cbOverwrite.Checked'
-  LCLVersion = '0.9.29'
+  LCLVersion = '1.0.1.3'
   object pnlLabels: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = cbFileMask
     AnchorSideBottom.Control = edtPassword
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 118
+    Height = 130
     Top = 5
-    Width = 152
+    Width = 167
     Anchors = [akTop, akLeft, akBottom]
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 118
-    ClientWidth = 152
+    ClientHeight = 130
+    ClientWidth = 167
     ParentColor = False
     TabOrder = 9
     object lblFileMask: TLabel
       AnchorSideLeft.Control = pnlLabels
       AnchorSideTop.Control = pnlLabels
       Left = 0
-      Height = 14
+      Height = 16
       Top = 3
-      Width = 152
+      Width = 167
       BorderSpacing.Top = 3
-      Caption = 'Extract files matching file mask:'
+      Caption = '&Extract files matching file mask:'
       FocusControl = cbFileMask
       ParentColor = False
     end
@@ -56,12 +56,12 @@ object frmExtractDlg: TfrmExtractDlg
       AnchorSideBottom.Control = pnlLabels
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 14
-      Top = 101
-      Width = 142
+      Height = 16
+      Top = 111
+      Width = 152
       Anchors = [akLeft, akBottom]
       BorderSpacing.Bottom = 3
-      Caption = 'Password for encrypted files:'
+      Caption = '&Password for encrypted files:'
       FocusControl = edtPassword
       ParentColor = False
     end
@@ -69,11 +69,11 @@ object frmExtractDlg: TfrmExtractDlg
       AnchorSideTop.Control = lblFileMask
       AnchorSideTop.Side = asrBottom
       Left = 0
-      Height = 14
-      Top = 25
-      Width = 82
+      Height = 16
+      Top = 27
+      Width = 88
       BorderSpacing.Top = 8
-      Caption = 'To the directory:'
+      Caption = 'To the &directory:'
       FocusControl = edtExtractTo
       ParentColor = False
     end
@@ -84,17 +84,17 @@ object frmExtractDlg: TfrmExtractDlg
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 163
-    Height = 21
+    Left = 178
+    Height = 23
     Top = 5
-    Width = 329
+    Width = 314
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 5
     BorderSpacing.Top = 2
     BorderSpacing.Right = 36
-    ItemHeight = 13
+    ItemHeight = 15
     ParentFont = False
-    TabOrder = 8
+    TabOrder = 0
     Text = '*.*'
   end
   object cbExtractPath: TCheckBox
@@ -102,27 +102,27 @@ object frmExtractDlg: TfrmExtractDlg
     AnchorSideTop.Control = cbInSeparateFolder
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 17
-    Top = 68
-    Width = 200
+    Height = 19
+    Top = 74
+    Width = 221
     Caption = '&Unpack path names if stored with files'
     Checked = True
     OnChange = cbExtractPathChange
     State = cbChecked
-    TabOrder = 2
+    TabOrder = 3
   end
   object cbOverwrite: TCheckBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = cbExtractPath
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 17
-    Top = 85
-    Width = 128
-    Caption = '&Overwrite existing files'
+    Height = 19
+    Top = 93
+    Width = 138
+    Caption = 'O&verwrite existing files'
     Checked = True
     State = cbChecked
-    TabOrder = 3
+    TabOrder = 4
   end
   object btnOK: TButton
     AnchorSideTop.Control = edtPassword
@@ -130,31 +130,31 @@ object frmExtractDlg: TfrmExtractDlg
     AnchorSideRight.Control = btnCancel
     Left = 249
     Height = 32
-    Top = 129
+    Top = 141
     Width = 85
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
-    Caption = 'OK'
+    Caption = '&OK'
     Default = True
     ModalResult = 1
-    TabOrder = 5
+    TabOrder = 6
   end
   object btnCancel: TButton
     AnchorSideTop.Control = btnOK
     AnchorSideRight.Control = btnHelp
     Left = 340
     Height = 32
-    Top = 129
+    Top = 141
     Width = 85
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     ModalResult = 2
-    TabOrder = 6
+    TabOrder = 7
   end
   object btnHelp: TButton
     AnchorSideTop.Control = btnCancel
@@ -162,25 +162,25 @@ object frmExtractDlg: TfrmExtractDlg
     AnchorSideRight.Side = asrBottom
     Left = 431
     Height = 32
-    Top = 129
+    Top = 141
     Width = 85
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
     BorderSpacing.InnerBorder = 4
-    Caption = 'Help'
-    TabOrder = 7
+    Caption = '&Help'
+    TabOrder = 8
   end
   object cbInSeparateFolder: TCheckBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = edtExtractTo
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 17
-    Top = 51
-    Width = 324
+    Height = 19
+    Top = 55
+    Width = 351
     BorderSpacing.Top = 2
     Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
-    TabOrder = 1
+    TabOrder = 2
   end
   object edtExtractTo: TDirectoryEdit
     AnchorSideLeft.Control = cbFileMask
@@ -188,17 +188,17 @@ object frmExtractDlg: TfrmExtractDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = cbFileMask
     AnchorSideRight.Side = asrBottom
-    Left = 163
-    Height = 21
-    Top = 28
-    Width = 329
+    Left = 178
+    Height = 23
+    Top = 30
+    Width = 314
     ShowHidden = False
     ButtonWidth = 23
     NumGlyphs = 1
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 2
     MaxLength = 0
-    TabOrder = 0
+    TabOrder = 1
   end
   object edtPassword: TEdit
     AnchorSideLeft.Control = cbFileMask
@@ -206,14 +206,14 @@ object frmExtractDlg: TfrmExtractDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtExtractTo
     AnchorSideRight.Side = asrBottom
-    Left = 163
-    Height = 21
-    Top = 102
-    Width = 329
+    Left = 178
+    Height = 23
+    Top = 112
+    Width = 314
     Anchors = [akTop, akLeft, akRight]
     EchoMode = emPassword
     Enabled = False
     PasswordChar = '*'
-    TabOrder = 4
+    TabOrder = 5
   end
 end
