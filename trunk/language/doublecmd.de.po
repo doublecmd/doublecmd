@@ -1085,6 +1085,7 @@ msgid "Delete"
 msgstr "&Löschen"
 
 #: tfrmeditor.acteditfind.caption
+msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find"
 msgstr "&Suchen"
 
@@ -1374,18 +1375,24 @@ msgid "Direction"
 msgstr "Richtung"
 
 #: tfrmextractdlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Abbruch"
 
 #: tfrmextractdlg.btnhelp.caption
+#, fuzzy
+#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "Hilfe"
 
 #: tfrmextractdlg.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "OK"
 
 #: tfrmextractdlg.caption
@@ -1406,23 +1413,27 @@ msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Jedes Archiv in separaten Ordner entpacken (mit Namen des Archivs)"
 
 #: tfrmextractdlg.cboverwrite.caption
-msgid "&Overwrite existing files"
+#, fuzzy
+#| msgid "&Overwrite existing files"
+msgid "O&verwrite existing files"
 msgstr "&Bestehende Datei(en) überschreiben"
 
 #: tfrmextractdlg.lblextractto.caption
 #, fuzzy
-#| msgid "Unpack file to:"
-msgid "To the directory:"
+#| msgid "To the directory:"
+msgid "To the &directory:"
 msgstr "Entpacke Datei(en) nach:"
 
 #: tfrmextractdlg.lblfilemask.caption
 #, fuzzy
-#| msgid "&Files to unpack:"
-msgid "Extract files matching file mask:"
+#| msgid "Extract files matching file mask:"
+msgid "&Extract files matching file mask:"
 msgstr "Entpacken von &Dateien anhand von Vorgaben:"
 
 #: tfrmextractdlg.lblpassword.caption
-msgid "Password for encrypted files:"
+#, fuzzy
+#| msgid "Password for encrypted files:"
+msgid "&Password for encrypted files:"
 msgstr "Passwort für verschlüsselte Dateien"
 
 #: tfrmfileassoc.btnaddact.caption
@@ -1850,6 +1861,7 @@ msgid "Properties"
 msgstr "Eigenschaften"
 
 #: tfrmfinddlg.btnaddattribute.caption
+msgctxt "tfrmfinddlg.btnaddattribute.caption"
 msgid "&Add"
 msgstr "&Hinzufügen"
 

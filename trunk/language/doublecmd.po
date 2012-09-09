@@ -1293,17 +1293,17 @@ msgstr ""
 
 #: tfrmextractdlg.btncancel.caption
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmextractdlg.btnhelp.caption
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr ""
 
 #: tfrmextractdlg.btnok.caption
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr ""
 
 #: tfrmextractdlg.caption
@@ -1324,19 +1324,19 @@ msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr ""
 
 #: tfrmextractdlg.cboverwrite.caption
-msgid "&Overwrite existing files"
+msgid "O&verwrite existing files"
 msgstr ""
 
 #: tfrmextractdlg.lblextractto.caption
-msgid "To the directory:"
+msgid "To the &directory:"
 msgstr ""
 
 #: tfrmextractdlg.lblfilemask.caption
-msgid "Extract files matching file mask:"
+msgid "&Extract files matching file mask:"
 msgstr ""
 
 #: tfrmextractdlg.lblpassword.caption
-msgid "Password for encrypted files:"
+msgid "&Password for encrypted files:"
 msgstr ""
 
 #: tfrmfileassoc.btnaddact.caption
