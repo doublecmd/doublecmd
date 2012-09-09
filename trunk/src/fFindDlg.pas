@@ -81,11 +81,11 @@ type
     cmbReplaceText: TComboBoxWithDelItems;
     cmbFindText: TComboBoxWithDelItems;
     cmbExcludeFiles: TComboBoxWithDelItems;
-    edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
-    gbAttributes: TGroupBox;
+    edtFindPathStart: TDirectoryEdit;
     gbDirectories: TGroupBox;
     gbFiles: TGroupBox;
+    lblAttributes: TLabel;
     lblExcludeDirectories: TLabel;
     lblCurrent: TLabel;
     lblExcludeFiles: TLabel;

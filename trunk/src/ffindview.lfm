@@ -1,4 +1,4 @@
-object frmFindView: TfrmFindView
+inherited frmFindView: TfrmFindView
   Left = 365
   Height = 104
   Top = 311
@@ -8,7 +8,6 @@ object frmFindView: TfrmFindView
   VertScrollBar.Page = 96
   VertScrollBar.Range = 90
   ActiveControl = cbDataToFind
-  AutoScroll = False
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Find'
@@ -16,24 +15,24 @@ object frmFindView: TfrmFindView
   ClientWidth = 344
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.27'
-  object cbDataToFind: TComboBox
+  object cbDataToFind: TComboBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 30
+    Height = 28
     Top = 12
     Width = 328
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 8
     BorderSpacing.Top = 12
     BorderSpacing.Right = 8
+    ItemHeight = 0
     OnKeyUp = cbDataToFindKeyUp
     TabOrder = 0
   end
-  object btnFind: TBitBtn
+  object btnFind: TBitBtn[1]
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnClose
     AnchorSideBottom.Control = Owner
@@ -45,13 +44,12 @@ object frmFindView: TfrmFindView
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 4
-    Caption = 'Find'
+    Caption = '&Find'
     Default = True
-    NumGlyphs = 0
     OnClick = btnFindClick
-    TabOrder = 1
+    TabOrder = 2
   end
-  object btnClose: TBitBtn
+  object btnClose: TBitBtn[2]
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
@@ -63,22 +61,21 @@ object frmFindView: TfrmFindView
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 4
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     Kind = bkCancel
     ModalResult = 2
-    NumGlyphs = 0
-    TabOrder = 2
+    TabOrder = 3
   end
-  object cbCaseSens: TCheckBox
+  object cbCaseSens: TCheckBox[3]
     AnchorSideLeft.Control = cbDataToFind
     AnchorSideTop.Control = cbDataToFind
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 22
-    Top = 48
-    Width = 121
+    Height = 23
+    Top = 46
+    Width = 115
     BorderSpacing.Top = 6
-    Caption = 'Case sensitive'
-    TabOrder = 3
+    Caption = 'C&ase sensitive'
+    TabOrder = 1
   end
 end

@@ -9,7 +9,7 @@ object frmHotDir: TfrmHotDir
   ClientWidth = 437
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '0.9.27'
+  LCLVersion = '1.1'
   object lsHotDir: TListBox
     AnchorSideRight.Control = btnOK
     Left = 12
@@ -22,6 +22,7 @@ object frmHotDir: TfrmHotDir
     OnMouseMove = lsHotDirMouseMove
     OnMouseDown = lsHotDirMouseDown
     OnMouseUp = lsHotDirMouseUp
+    ScrollWidth = 263
     TabOrder = 0
     TopIndex = -1
   end
@@ -37,7 +38,6 @@ object frmHotDir: TfrmHotDir
     Caption = '&OK'
     Kind = bkOK
     ModalResult = 1
-    NumGlyphs = 0
     OnClick = btnOKClick
     TabOrder = 1
   end
@@ -54,11 +54,10 @@ object frmHotDir: TfrmHotDir
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     Kind = bkCancel
     ModalResult = 2
-    NumGlyphs = 0
-    TabOrder = 2
+    TabOrder = 4
   end
   object btnADD: TBitBtn
     AnchorSideTop.Control = btnOK
@@ -72,10 +71,9 @@ object frmHotDir: TfrmHotDir
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
-    Caption = 'Add'
-    NumGlyphs = 0
+    Caption = '&Add'
     OnClick = btnADDClick
-    TabOrder = 3
+    TabOrder = 2
   end
   object btnDelete: TBitBtn
     AnchorSideTop.Control = btnADD
@@ -89,10 +87,9 @@ object frmHotDir: TfrmHotDir
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
-    Caption = 'Delete'
-    NumGlyphs = 0
+    Caption = '&Delete'
     OnClick = btnDeleteClick
-    TabOrder = 6
+    TabOrder = 3
   end
   object btnAddMan: TBitBtn
     AnchorSideRight.Control = Owner
@@ -103,10 +100,9 @@ object frmHotDir: TfrmHotDir
     Width = 142
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
-    Caption = 'Add manually'
-    NumGlyphs = 0
+    Caption = 'Add &manually'
     OnClick = btnAddManClick
-    TabOrder = 4
+    TabOrder = 5
   end
   object btnEdit: TBitBtn
     AnchorSideRight.Control = Owner
@@ -117,9 +113,8 @@ object frmHotDir: TfrmHotDir
     Width = 142
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
-    Caption = 'Edit'
-    NumGlyphs = 0
+    Caption = '&Edit'
     OnClick = btnEditClick
-    TabOrder = 5
+    TabOrder = 6
   end
 end

@@ -1,6 +1,6 @@
-object frmEditSearchReplace: TfrmEditSearchReplace
+inherited frmEditSearchReplace: TfrmEditSearchReplace
   Left = 526
-  Height = 222
+  Height = 278
   Top = 190
   Width = 409
   ActiveControl = cbSearchText
@@ -8,61 +8,62 @@ object frmEditSearchReplace: TfrmEditSearchReplace
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 222
+  ClientHeight = 278
   ClientWidth = 409
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '0.9.29'
-  object lblSearchFor: TLabel
+  object lblSearchFor: TLabel[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = cbSearchText
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 14
-    Top = 15
-    Width = 55
+    Height = 18
+    Top = 17
+    Width = 72
     BorderSpacing.Left = 12
     Caption = '&Search for:'
+    FocusControl = cbSearchText
     ParentColor = False
   end
-  object lblReplaceWith: TLabel
+  object lblReplaceWith: TLabel[1]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = cbReplaceText
     AnchorSideTop.Side = asrCenter
     Left = 12
-    Height = 14
-    Top = 42
-    Width = 66
+    Height = 18
+    Top = 51
+    Width = 89
     BorderSpacing.Left = 12
     Caption = '&Replace with:'
+    FocusControl = cbReplaceText
     ParentColor = False
   end
-  object cbSearchText: TComboBox
+  object cbSearchText: TComboBox[2]
     AnchorSideLeft.Control = lblSearchFor
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 73
-    Height = 21
+    Left = 90
+    Height = 28
     Top = 12
-    Width = 328
+    Width = 311
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 12
     BorderSpacing.Right = 8
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 0
   end
-  object gbSearchOptions: TGroupBox
+  object gbSearchOptions: TGroupBox[3]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = cbReplaceText
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnOK
     Left = 12
-    Height = 113
-    Top = 72
+    Height = 148
+    Top = 86
     Width = 197
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -70,16 +71,16 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     BorderSpacing.Top = 12
     BorderSpacing.Right = 6
     Caption = 'Option'
-    ClientHeight = 95
+    ClientHeight = 125
     ClientWidth = 193
     TabOrder = 2
     object cbSearchCaseSensitive: TCheckBox
       AnchorSideLeft.Control = gbSearchOptions
       AnchorSideTop.Control = gbSearchOptions
       Left = 8
-      Height = 17
+      Height = 23
       Top = 2
-      Width = 93
+      Width = 123
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = 'C&ase sensitivity'
@@ -90,9 +91,9 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       AnchorSideTop.Control = cbSearchCaseSensitive
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 17
-      Top = 21
-      Width = 103
+      Height = 23
+      Top = 27
+      Width = 143
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = '&Whole words only'
@@ -103,9 +104,9 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       AnchorSideTop.Control = cbSearchWholeWords
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 17
-      Top = 40
-      Width = 105
+      Height = 23
+      Top = 52
+      Width = 145
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = 'Selected &text only'
@@ -116,12 +117,12 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       AnchorSideTop.Control = cbSearchSelectedOnly
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 17
-      Top = 59
-      Width = 104
+      Height = 23
+      Top = 77
+      Width = 139
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
-      Caption = 'Search from &caret'
+      Caption = 'S&earch from caret'
       TabOrder = 3
     end
     object cbSearchRegExp: TCheckBox
@@ -129,16 +130,16 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       AnchorSideTop.Control = cbSearchFromCursor
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 17
-      Top = 78
-      Width = 115
+      Height = 23
+      Top = 102
+      Width = 155
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = '&Regular expressions'
       TabOrder = 4
     end
   end
-  object rgSearchDirection: TRadioGroup
+  object rgSearchDirection: TRadioGroup[4]
     AnchorSideLeft.Control = gbSearchOptions
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = cbReplaceText
@@ -147,7 +148,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     AnchorSideRight.Side = asrBottom
     Left = 215
     Height = 88
-    Top = 72
+    Top = 86
     Width = 186
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -163,7 +164,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 70
+    ClientHeight = 65
     ClientWidth = 182
     Items.Strings = (
       '&Forward'
@@ -171,25 +172,25 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     )
     TabOrder = 3
   end
-  object cbReplaceText: TComboBox
+  object cbReplaceText: TComboBox[5]
     AnchorSideLeft.Control = lblReplaceWith
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = cbSearchText
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 84
-    Height = 21
-    Top = 39
-    Width = 317
+    Left = 107
+    Height = 28
+    Top = 46
+    Width = 294
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 1
   end
-  object btnOK: TBitBtn
+  object btnOK: TBitBtn[6]
     AnchorSideTop.Control = gbSearchOptions
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
@@ -197,7 +198,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     AnchorSideBottom.Side = asrBottom
     Left = 215
     Height = 31
-    Top = 185
+    Top = 234
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
@@ -206,11 +207,10 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     Default = True
     Kind = bkOK
     ModalResult = 1
-    NumGlyphs = 0
     OnClick = btnOKClick
     TabOrder = 4
   end
-  object btnCancel: TBitBtn
+  object btnCancel: TBitBtn[7]
     AnchorSideTop.Control = gbSearchOptions
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
@@ -219,16 +219,15 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     AnchorSideBottom.Side = asrBottom
     Left = 311
     Height = 31
-    Top = 185
+    Top = 234
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 4
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     Kind = bkCancel
     ModalResult = 2
-    NumGlyphs = 0
     TabOrder = 5
   end
 end

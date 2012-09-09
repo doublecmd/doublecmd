@@ -10,16 +10,16 @@ object frmPackInfoDlg: TfrmPackInfoDlg
   ClientHeight = 400
   ClientWidth = 284
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '1.1'
   object pnlInfo: TPanel
     Left = 0
-    Height = 329
+    Height = 313
     Top = 0
     Width = 284
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 329
+    ClientHeight = 313
     ClientWidth = 284
     TabOrder = 0
     object pnlInfoFile: TPanel
@@ -28,7 +28,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       AnchorSideRight.Control = pnlInfo
       AnchorSideRight.Side = asrBottom
       Left = 15
-      Height = 31
+      Height = 38
       Top = 0
       Width = 254
       Anchors = [akTop, akLeft, akRight]
@@ -36,7 +36,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       BorderSpacing.Left = 15
       BorderSpacing.Right = 15
       BevelOuter = bvNone
-      ClientHeight = 31
+      ClientHeight = 38
       ClientWidth = 254
       TabOrder = 1
       object lblPackedFile: TLabel
@@ -44,11 +44,12 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         AnchorSideTop.Control = edtPackedFile
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 14
-        Top = 13
-        Width = 21
+        Height = 18
+        Top = 15
+        Width = 28
         BorderSpacing.Top = 10
         Caption = 'File:'
+        FocusControl = edtPackedFile
         ParentColor = False
       end
       object edtPackedFile: TEdit
@@ -57,10 +58,10 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         AnchorSideTop.Control = pnlInfoFile
         AnchorSideRight.Control = pnlInfoFile
         AnchorSideRight.Side = asrBottom
-        Left = 36
-        Height = 21
+        Left = 43
+        Height = 28
         Top = 10
-        Width = 218
+        Width = 211
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 15
         BorderSpacing.Top = 10
@@ -81,7 +82,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       AnchorSideRight.Side = asrBottom
       Left = 15
       Height = 9
-      Top = 41
+      Top = 48
       Width = 254
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 15
@@ -96,8 +97,8 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       AnchorSideRight.Control = pnlInfo
       AnchorSideRight.Side = asrBottom
       Left = 15
-      Height = 147
-      Top = 50
+      Height = 179
+      Top = 57
       Width = 254
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
@@ -112,134 +113,134 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       ChildSizing.ShrinkVertical = crsHomogenousChildResize
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 2
-      ClientHeight = 147
+      ClientHeight = 179
       ClientWidth = 254
       TabOrder = 0
       object lblPacker: TLabel
         Left = 0
-        Height = 14
+        Height = 18
         Top = 0
-        Width = 157
+        Width = 173
         Caption = 'Packer:'
         ParentColor = False
       end
       object lblPackedPacker: TLabel
-        Left = 187
-        Height = 14
+        Left = 203
+        Height = 18
         Top = 0
-        Width = 67
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
       object lblOriginalSize: TLabel
         Left = 0
-        Height = 14
-        Top = 19
-        Width = 157
+        Height = 18
+        Top = 23
+        Width = 173
         Caption = 'Original size:'
         ParentColor = False
       end
       object lblPackedOrgSize: TLabel
-        Left = 187
-        Height = 14
-        Top = 19
-        Width = 67
+        Left = 203
+        Height = 18
+        Top = 23
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
       object lblPackedSize: TLabel
         Left = 0
-        Height = 14
-        Top = 38
-        Width = 157
+        Height = 18
+        Top = 46
+        Width = 173
         Caption = 'Packed size:'
         ParentColor = False
       end
       object lblPackedPackedSize: TLabel
-        Left = 187
-        Height = 14
-        Top = 38
-        Width = 67
+        Left = 203
+        Height = 18
+        Top = 46
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
       object lblCompressionRatio: TLabel
         Left = 0
-        Height = 14
-        Top = 57
-        Width = 157
+        Height = 18
+        Top = 69
+        Width = 173
         Caption = 'Compression ratio:'
         ParentColor = False
       end
       object lblPackedCompression: TLabel
-        Left = 187
-        Height = 14
-        Top = 57
-        Width = 67
+        Left = 203
+        Height = 18
+        Top = 69
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
       object lblMethod: TLabel
         Left = 0
-        Height = 14
-        Top = 76
-        Width = 157
+        Height = 18
+        Top = 92
+        Width = 173
         Caption = 'Method:'
         ParentColor = False
       end
       object lblPackedMethod: TLabel
-        Left = 187
-        Height = 14
-        Top = 76
-        Width = 67
+        Left = 203
+        Height = 18
+        Top = 92
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
       object lblDate: TLabel
         Left = 0
-        Height = 14
-        Top = 95
-        Width = 157
+        Height = 18
+        Top = 115
+        Width = 173
         Caption = 'Date:'
         ParentColor = False
       end
       object lblPackedDate: TLabel
-        Left = 187
-        Height = 14
-        Top = 95
-        Width = 67
+        Left = 203
+        Height = 18
+        Top = 115
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
       object lblTime: TLabel
         Left = 0
-        Height = 14
-        Top = 114
-        Width = 157
+        Height = 18
+        Top = 138
+        Width = 173
         Caption = 'Time:'
         ParentColor = False
       end
       object lblPackedTime: TLabel
-        Left = 187
-        Height = 14
-        Top = 114
-        Width = 67
+        Left = 203
+        Height = 18
+        Top = 138
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
       object lblAttributes: TLabel
         Left = 0
-        Height = 14
-        Top = 133
-        Width = 157
+        Height = 18
+        Top = 161
+        Width = 173
         Caption = 'Attributes:'
         ParentColor = False
       end
       object lblPackedAttr: TLabel
-        Left = 187
-        Height = 14
-        Top = 133
-        Width = 67
+        Left = 203
+        Height = 18
+        Top = 161
+        Width = 51
         ParentColor = False
         ShowAccelChar = False
       end
@@ -250,7 +251,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         AnchorSideBottom.Control = lblDate
         Left = 0
         Height = 4
-        Top = 86
+        Top = 106
         Width = 254
         Anchors = [akLeft, akRight, akBottom]
         BorderSpacing.Bottom = 4
@@ -260,14 +261,14 @@ object frmPackInfoDlg: TfrmPackInfoDlg
   end
   object pnlButtons: TPanel
     Left = 0
-    Height = 56
-    Top = 344
+    Height = 72
+    Top = 328
     Width = 284
     Align = alBottom
     AutoSize = True
     BorderSpacing.Top = 15
     BevelOuter = bvNone
-    ClientHeight = 56
+    ClientHeight = 72
     ClientWidth = 284
     TabOrder = 1
     object btnClose: TButton
@@ -276,14 +277,14 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       AnchorSideBottom.Control = btnUnpackAndExec
       AnchorSideBottom.Side = asrBottom
       Left = 10
-      Height = 23
+      Height = 31
       Top = 0
-      Width = 52
+      Width = 48
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BorderSpacing.Left = 10
       Cancel = True
-      Caption = 'Close'
+      Caption = '&Close'
       Default = True
       ModalResult = 2
       OnKeyUp = btnCloseKeyUp
@@ -295,10 +296,10 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       AnchorSideRight.Control = pnlButtons
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = btnUnpackAllAndExec
-      Left = 66
-      Height = 23
+      Left = 62
+      Height = 31
       Top = 0
-      Width = 208
+      Width = 212
       Anchors = [akLeft, akRight, akBottom]
       AutoSize = True
       BorderSpacing.Left = 4
@@ -315,8 +316,8 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       AnchorSideBottom.Control = pnlButtons
       AnchorSideBottom.Side = asrBottom
       Left = 10
-      Height = 23
-      Top = 27
+      Height = 31
+      Top = 35
       Width = 264
       Anchors = [akLeft, akRight, akBottom]
       AutoSize = True

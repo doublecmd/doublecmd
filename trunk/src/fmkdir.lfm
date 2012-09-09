@@ -15,23 +15,24 @@ object frmMkDir: TfrmMkDir
   KeyPreview = True
   OnKeyPress = FormKeyPress
   Position = poScreenCenter
-  LCLVersion = '0.9.30.2'
+  LCLVersion = '1.1'
   object lblMakeDir: TLabel
     Left = 6
-    Height = 14
+    Height = 18
     Top = 3
     Width = 338
     Align = alTop
     BorderSpacing.Left = 6
     BorderSpacing.Top = 3
     BorderSpacing.Right = 6
-    Caption = 'Input new directory name:'
+    Caption = '&Input new directory name:'
+    FocusControl = cbMkDir
     ParentColor = False
   end
   object cbMkDir: TComboBox
     Left = 6
-    Height = 21
-    Top = 17
+    Height = 28
+    Top = 21
     Width = 338
     Align = alTop
     AutoComplete = True
@@ -40,13 +41,13 @@ object frmMkDir: TfrmMkDir
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 3
     DropDownCount = 5
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 0
   end
   object pnlBottom: TPanel
     Left = 6
-    Height = 30
-    Top = 44
+    Height = 36
+    Top = 55
     Width = 338
     Align = alTop
     AutoSize = True
@@ -55,25 +56,25 @@ object frmMkDir: TfrmMkDir
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 3
     BevelOuter = bvNone
-    ClientHeight = 30
+    ClientHeight = 36
     ClientWidth = 338
     TabOrder = 1
     object pnlButtons: TPanel
-      Left = 191
-      Height = 30
+      Left = 192
+      Height = 36
       Top = 0
-      Width = 147
+      Width = 146
       Align = alRight
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 30
-      ClientWidth = 147
+      ClientHeight = 36
+      ClientWidth = 146
       TabOrder = 0
       object btnOK: TBitBtn
         Left = 0
-        Height = 30
+        Height = 36
         Top = 0
-        Width = 63
+        Width = 59
         Align = alRight
         AutoSize = True
         BorderSpacing.Right = 3
@@ -83,23 +84,21 @@ object frmMkDir: TfrmMkDir
         Default = True
         Kind = bkOK
         ModalResult = 1
-        NumGlyphs = 0
         TabOrder = 0
       end
       object btnCancel: TBitBtn
-        Left = 66
-        Height = 30
+        Left = 62
+        Height = 36
         Top = 0
-        Width = 81
+        Width = 84
         Align = alRight
         AutoSize = True
         BorderSpacing.InnerBorder = 2
         Cancel = True
-        Caption = 'Cancel'
+        Caption = '&Cancel'
         Constraints.MinWidth = 50
         Kind = bkCancel
         ModalResult = 2
-        NumGlyphs = 0
         TabOrder = 1
       end
     end
