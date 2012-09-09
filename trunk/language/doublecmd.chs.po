@@ -226,40 +226,42 @@ msgid "Choose template..."
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
-msgid "Check free space"
+msgid "C&heck free space"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
-msgid "Copy attributes"
+msgid "Cop&y attributes"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
-msgid "Copy ownership"
+msgid "Copy o&wnership"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
-msgid "Copy date/time"
+msgid "Copy d&ate/time"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
-msgid "Correct links"
+msgid "Correct lin&ks"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
+#, fuzzy
+#| msgid "Drop readonly flag"
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
+msgid "Drop readonly fla&g"
 msgstr "丢弃只读标志"
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
-msgid "Exclude empty directories"
+msgid "E&xclude empty directories"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
-msgid "Follow links"
+msgid "Fo&llow links"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
-msgid "Reserve space"
+msgid "&Reserve space"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
@@ -271,16 +273,16 @@ msgid "Use file template"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
-msgid "When directory exists"
+msgid "When dir&ectory exists"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
-msgid "When file exists"
+msgid "When &file exists"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
-msgid "When cannot set property"
+msgid "When ca&nnot set property"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
@@ -355,30 +357,32 @@ msgstr ""
 
 #: tfrmattributesedit.cbarchive.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
-msgid "Archive"
+msgid "&Archive"
 msgstr ""
 
 #: tfrmattributesedit.cbcompressed.caption
-msgid "Compressed"
+msgid "Co&mpressed"
 msgstr ""
 
 #: tfrmattributesedit.cbdirectory.caption
+#, fuzzy
+#| msgid "Directory"
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
-msgid "Directory"
+msgid "&Directory"
 msgstr "目录"
 
 #: tfrmattributesedit.cbencrypted.caption
-msgid "Encrypted"
+msgid "&Encrypted"
 msgstr ""
 
 #: tfrmattributesedit.cbhidden.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
-msgid "Hidden"
+msgid "&Hidden"
 msgstr ""
 
 #: tfrmattributesedit.cbreadonly.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
-msgid "Read only"
+msgid "Read o&nly"
 msgstr ""
 
 #: tfrmattributesedit.cbsgid.caption
@@ -387,7 +391,7 @@ msgid "SGID"
 msgstr "SGID"
 
 #: tfrmattributesedit.cbsparse.caption
-msgid "Sparse"
+msgid "S&parse"
 msgstr ""
 
 #: tfrmattributesedit.cbsticky.caption
@@ -401,16 +405,16 @@ msgid "SUID"
 msgstr "SUID"
 
 #: tfrmattributesedit.cbsymlink.caption
-msgid "Symlink"
+msgid "&Symlink"
 msgstr ""
 
 #: tfrmattributesedit.cbsystem.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
-msgid "System"
+msgid "S&ystem"
 msgstr ""
 
 #: tfrmattributesedit.cbtemporary.caption
-msgid "Temporary"
+msgid "&Temporary"
 msgstr ""
 
 #: tfrmattributesedit.gbntfsattributes.caption
@@ -452,7 +456,7 @@ msgid "Read"
 msgstr "读"
 
 #: tfrmattributesedit.lbltextattrs.caption
-msgid "As text:"
+msgid "As te&xt:"
 msgstr ""
 
 #: tfrmattributesedit.lblwrite.caption
@@ -461,8 +465,10 @@ msgid "Write"
 msgstr "写"
 
 #: tfrmchecksumcalc.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmchecksumcalc.btnok.caption
@@ -477,12 +483,14 @@ msgstr "产生校验..."
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
-#| msgid "Create separate MD5 files for each file"
-msgid "Create separate checksum file for each file"
+#| msgid "Create separate checksum file for each file"
+msgid "C&reate separate checksum file for each file"
 msgstr "为每个文件分别创建MD5/SHA1文件"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-msgid "Save check sum file(s) to:"
+#, fuzzy
+#| msgid "Save check sum file(s) to:"
+msgid "&Save check sum file(s) to:"
 msgstr "保存校验数据到文件："
 
 #: tfrmchecksumverify.btnclose.caption
@@ -496,27 +504,35 @@ msgid "Verify check sum..."
 msgstr "验证校验..."
 
 #: tfrmconnectionmanager.btnadd.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "添加"
 
 #: tfrmconnectionmanager.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmconnectionmanager.btnconnect.caption
-msgid "Connect"
+msgid "C&onnect"
 msgstr ""
 
 #: tfrmconnectionmanager.btndelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "删除"
 
 #: tfrmconnectionmanager.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "编辑"
 
 #: tfrmconnectionmanager.caption
@@ -528,12 +544,14 @@ msgid "Connect to:"
 msgstr ""
 
 #: tfrmcopydlg.btnaddtoqueue.caption
-msgid "Add To Queue"
+msgid "A&dd To Queue"
 msgstr ""
 
 #: tfrmcopydlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmcopydlg.btncreatespecialqueue.caption
@@ -546,7 +564,7 @@ msgid "O&ptions"
 msgstr ""
 
 #: tfrmcopydlg.btnsaveoptions.caption
-msgid "Save these options as default"
+msgid "Sa&ve these options as default"
 msgstr ""
 
 #: tfrmcopydlg.caption
@@ -555,8 +573,10 @@ msgid "Copy file(s)"
 msgstr "复制文件"
 
 #: tfrmdescredit.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmdescredit.btnok.caption
@@ -569,12 +589,16 @@ msgid "File/folder comment"
 msgstr "文件/文件夹注释"
 
 #: tfrmdescredit.lbleditcommentfor.caption
-msgid "Edit comment for:"
+#, fuzzy
+#| msgid "Edit comment for:"
+msgid "E&dit comment for:"
 msgstr "编辑注释:"
 
 #: tfrmdescredit.lblencoding.caption
+#, fuzzy
+#| msgid "Encoding:"
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
-msgid "Encoding:"
+msgid "&Encoding:"
 msgstr "编码:"
 
 #: tfrmdescredit.lblfilename.caption
@@ -1008,6 +1032,7 @@ msgid "Delete"
 msgstr "删除"
 
 #: tfrmeditor.acteditfind.caption
+msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find"
 msgstr "查找(&F)"
 
@@ -1246,8 +1271,10 @@ msgid "-"
 msgstr "-"
 
 #: tfrmeditsearchreplace.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmeditsearchreplace.btnok.caption
@@ -1261,8 +1288,10 @@ msgid "C&ase sensitivity"
 msgstr "大小写敏感(&A)"
 
 #: tfrmeditsearchreplace.cbsearchfromcursor.caption
+#, fuzzy
+#| msgid "Search from &caret"
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
-msgid "Search from &caret"
+msgid "S&earch from caret"
 msgstr "从托字符找起(&C)"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
@@ -1301,16 +1330,22 @@ msgid "Direction"
 msgstr "方向"
 
 #: tfrmextractdlg.btncancel.caption
+#, fuzzy
+#| msgid "&Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "取消"
 
 #: tfrmextractdlg.btnhelp.caption
+#, fuzzy
+#| msgid "&Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "帮助"
 
 #: tfrmextractdlg.btnok.caption
+#, fuzzy
+#| msgid "&OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "确定"
@@ -1333,18 +1368,20 @@ msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "解包每个文件到子目录(名称用包文件名)"
 
 #: tfrmextractdlg.cboverwrite.caption
+#, fuzzy
+#| msgid "O&verwrite existing files"
 msgid "&Overwrite existing files"
 msgstr "覆盖已存在文件(&O)"
 
 #: tfrmextractdlg.lblextractto.caption
 #, fuzzy
-#| msgid "Unpack file to:"
+#| msgid "To the &directory:"
 msgid "To the directory:"
 msgstr "解包到"
 
 #: tfrmextractdlg.lblfilemask.caption
 #, fuzzy
-#| msgid "&Files to unpack:"
+#| msgid "&Extract files matching file mask:"
 msgid "Extract files matching file mask:"
 msgstr "解包(&F)"
 
@@ -1358,23 +1395,31 @@ msgid "Add"
 msgstr "添加"
 
 #: tfrmfileassoc.btnaddext.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
-msgid "Add"
+msgid "&Add"
 msgstr "添加"
 
 #: tfrmfileassoc.btnaddnewtype.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "添加"
 
 #: tfrmfileassoc.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmfileassoc.btndownact.caption
+#, fuzzy
+#| msgid "Down"
 msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "Down"
+msgid "&Down"
 msgstr "向下"
 
 #: tfrmfileassoc.btnok.caption
@@ -1383,13 +1428,17 @@ msgid "&OK"
 msgstr "确定(&O)"
 
 #: tfrmfileassoc.btnremoveact.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
-msgid "Remove"
+msgid "Remo&ve"
 msgstr "移除"
 
 #: tfrmfileassoc.btnremoveext.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
-msgid "Remove"
+msgid "Re&move"
 msgstr "移除"
 
 #: tfrmfileassoc.btnremoveicon.caption
@@ -1398,18 +1447,24 @@ msgid "X"
 msgstr ""
 
 #: tfrmfileassoc.btnremovetype.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
-msgid "Remove"
+msgid "&Remove"
 msgstr "移除"
 
 #: tfrmfileassoc.btnrenametype.caption
+#, fuzzy
+#| msgid "Rename"
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
-msgid "Rename"
+msgid "R&ename"
 msgstr "改名"
 
 #: tfrmfileassoc.btnupact.caption
+#, fuzzy
+#| msgid "Up"
 msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
-msgid "Up"
+msgid "&Up"
 msgstr "向上"
 
 #: tfrmfileassoc.caption
@@ -1543,8 +1598,10 @@ msgid "To:"
 msgstr "到"
 
 #: tfrmfileproperties.btnclose.caption
+#, fuzzy
+#| msgid "Close"
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr "关闭"
 
 #: tfrmfileproperties.btnsetproperties.caption
@@ -1660,8 +1717,10 @@ msgid "Path:"
 msgstr "路径:"
 
 #: tfrmfileproperties.lblgroupstr.caption
+#, fuzzy
+#| msgid "Group"
 msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
-msgid "Group"
+msgid "&Group"
 msgstr "组"
 
 #: tfrmfileproperties.lbllastaccess.caption
@@ -1697,8 +1756,10 @@ msgid "Octal:"
 msgstr "八进制："
 
 #: tfrmfileproperties.lblownerstr.caption
+#, fuzzy
+#| msgid "Owner"
 msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
-msgid "Owner"
+msgid "O&wner"
 msgstr "所有者"
 
 #: tfrmfileproperties.lblread.caption
@@ -1753,8 +1814,9 @@ msgid "Properties"
 msgstr "属性"
 
 #: tfrmfinddlg.btnaddattribute.caption
+msgctxt "tfrmfinddlg.btnaddattribute.caption"
 msgid "&Add"
-msgstr ""
+msgstr "添加"
 
 #: tfrmfinddlg.btnattrshelp.caption
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
@@ -1765,6 +1827,13 @@ msgstr "帮助(&H)"
 msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
 msgid "&Close"
 msgstr "关闭(&C)"
+
+#: tfrmfinddlg.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmfinddlg.btnedit.caption"
+msgid "&Edit"
+msgstr "编辑"
 
 #: tfrmfinddlg.btngotopath.caption
 msgid "&Go to file"
@@ -1798,11 +1867,11 @@ msgid "S&ave"
 msgstr "保存(&A)"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
-msgid "Save with starting path"
+msgid "Sa&ve with \"Start in directory\""
 msgstr ""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr ""
 
 #: tfrmfinddlg.btnstart.caption
@@ -1811,8 +1880,10 @@ msgid "&Start"
 msgstr "开始(&S)"
 
 #: tfrmfinddlg.btnstop.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "Cancel"
+msgid "C&ancel"
 msgstr "取消"
 
 #: tfrmfinddlg.btnusetemplate.caption
@@ -1838,23 +1909,27 @@ msgid "Case sens&itive"
 msgstr "区分大小写"
 
 #: tfrmfinddlg.cbdatefrom.caption
-msgid "Date From:"
+#, fuzzy
+#| msgid "Date From:"
+msgid "&Date from:"
 msgstr "开始日期:"
 
 #: tfrmfinddlg.cbdateto.caption
-msgid "Date To:"
+#, fuzzy
+#| msgid "Date To:"
+msgid "Dat&e to:"
 msgstr "结束日期:"
 
 #: tfrmfinddlg.cbfilesizefrom.caption
 #, fuzzy
-#| msgid "File Size From:"
-msgid "Size from:"
+#| msgid "Size from:"
+msgid "S&ize from:"
 msgstr "最小:"
 
 #: tfrmfinddlg.cbfilesizeto.caption
 #, fuzzy
-#| msgid "File Size To:"
-msgid "Size to:"
+#| msgid "Size to:"
+msgid "Si&ze to:"
 msgstr "最大:"
 
 #: tfrmfinddlg.cbfindtext.caption
@@ -1864,7 +1939,7 @@ msgstr "在文件中查找"
 
 #: tfrmfinddlg.cbfollowsymlinks.caption
 msgctxt "tfrmfinddlg.cbfollowsymlinks.caption"
-msgid "Follow symlinks"
+msgid "Follow s&ymlinks"
 msgstr ""
 
 #: tfrmfinddlg.cbnotcontainingtext.caption
@@ -1873,11 +1948,13 @@ msgid "Find files N&OT containing the text"
 msgstr "查找不包含这些文本的文件"
 
 #: tfrmfinddlg.cbnotolderthan.caption
-msgid "Not older than:"
+#, fuzzy
+#| msgid "Not older than:"
+msgid "N&ot older than:"
 msgstr "不早于:"
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
-msgid "Search for part of file name "
+msgid "Searc&h for part of file name"
 msgstr ""
 
 #: tfrmfinddlg.cbregexp.caption
@@ -1894,11 +1971,15 @@ msgid "Re&place by"
 msgstr "替换文本"
 
 #: tfrmfinddlg.cbtimefrom.caption
-msgid "Time from:"
+#, fuzzy
+#| msgid "Time from:"
+msgid "&Time from:"
 msgstr "开始时间:"
 
 #: tfrmfinddlg.cbtimeto.caption
-msgid "Time to:"
+#, fuzzy
+#| msgid "Time to:"
+msgid "Ti&me to:"
 msgstr "结束时间"
 
 #: tfrmfinddlg.cbuseplugin.caption
@@ -1922,10 +2003,6 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: tfrmfinddlg.gbattributes.caption
-msgid "&Attributes"
-msgstr ""
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
 msgid "Directories"
@@ -1940,9 +2017,15 @@ msgstr ""
 msgid "Find Data"
 msgstr "查找数据"
 
+#: tfrmfinddlg.lblattributes.caption
+msgid "Attri&butes"
+msgstr ""
+
 #: tfrmfinddlg.lblencoding.caption
+#, fuzzy
+#| msgid "Encoding:"
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
-msgid "Encoding:"
+msgid "Encodin&g:"
 msgstr "编码:"
 
 #: tfrmfinddlg.lblexcludedirectories.caption
@@ -1959,8 +2042,8 @@ msgstr "文件名掩码"
 
 #: tfrmfinddlg.lblfindpathstart.caption
 #, fuzzy
-#| msgid "&Directory"
-msgid "&Start in directory"
+#| msgid "&Start in directory"
+msgid "Start in &directory"
 msgstr "文件所在目录"
 
 #: tfrmfinddlg.lblsearchdepth.caption
@@ -2005,13 +2088,17 @@ msgid "Standard"
 msgstr "标准"
 
 #: tfrmfindview.btnclose.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmfindview.btnfind.caption
+#, fuzzy
+#| msgid "Find"
 msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
-msgid "Find"
+msgid "&Find"
 msgstr "查找"
 
 #: tfrmfindview.caption
@@ -2020,12 +2107,14 @@ msgid "Find"
 msgstr "查找"
 
 #: tfrmfindview.cbcasesens.caption
-msgid "Case sensitive"
+msgid "C&ase sensitive"
 msgstr ""
 
 #: tfrmhardlink.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmhardlink.btnok.caption
@@ -2041,38 +2130,50 @@ msgstr "创建硬链接"
 
 #: tfrmhardlink.lblexistingfile.caption
 #, fuzzy
-#| msgid "Existing destination (where will link point)"
+#| msgid "Destination that the link will point to"
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Destination that the link will point to"
+msgid "&Destination that the link will point to"
 msgstr "目标已存在(链接点所在)"
 
 #: tfrmhardlink.lbllinktocreate.caption
+#, fuzzy
+#| msgid "Link name"
 msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
-msgid "Link name"
+msgid "&Link name"
 msgstr "链接名"
 
 #: tfrmhotdir.btnadd.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
-msgid "Add"
+msgid "&Add"
 msgstr "添加"
 
 #: tfrmhotdir.btnaddman.caption
-msgid "Add manually"
+#, fuzzy
+#| msgid "Add manually"
+msgid "Add &manually"
 msgstr "手动添加"
 
 #: tfrmhotdir.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmhotdir.btndelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "删除"
 
 #: tfrmhotdir.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "编辑"
 
 #: tfrmhotdir.btnok.caption
@@ -2086,14 +2187,16 @@ msgstr "常用目录列表"
 
 #: tfrmlinker.btnexit.caption
 #, fuzzy
-#| msgid "Exit"
+#| msgid "Cancel"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "退出"
 
 #: tfrmlinker.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "确定"
 
 #: tfrmlinker.btnsave.caption
@@ -2115,13 +2218,17 @@ msgid "Item"
 msgstr "条目"
 
 #: tfrmlinker.lblfilename.caption
+#, fuzzy
+#| msgid "File name"
 msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
-msgid "File name"
+msgid "&File name"
 msgstr "文件名"
 
 #: tfrmlinker.spbtndel.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "删除"
 
 #: tfrmlinker.spbtndel.hint
@@ -2130,8 +2237,10 @@ msgid "Delete"
 msgstr "删除"
 
 #: tfrmlinker.spbtndown.caption
+#, fuzzy
+#| msgid "Down"
 msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
-msgid "Down"
+msgid "Do&wn"
 msgstr "下"
 
 #: tfrmlinker.spbtndown.hint
@@ -2140,8 +2249,10 @@ msgid "Down"
 msgstr "下"
 
 #: tfrmlinker.spbtnup.caption
+#, fuzzy
+#| msgid "Up"
 msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
-msgid "Up"
+msgid "&Up"
 msgstr "上"
 
 #: tfrmlinker.spbtnup.hint
@@ -3199,12 +3310,14 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmaskinputdlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmmaskinputdlg.btndefinetemplate.caption
-msgid "Define..."
+msgid "&Define..."
 msgstr ""
 
 #: tfrmmaskinputdlg.btnok.caption
@@ -3213,12 +3326,14 @@ msgid "&OK"
 msgstr "确定(&O)"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
-msgid "Or select predefined selection type:"
+msgid "O&r select predefined selection type:"
 msgstr ""
 
 #: tfrmmkdir.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmmkdir.btnok.caption
@@ -3231,7 +3346,9 @@ msgid "Create new directory"
 msgstr "创建新目录"
 
 #: tfrmmkdir.lblmakedir.caption
-msgid "Input new directory name:"
+#, fuzzy
+#| msgid "Input new directory name:"
+msgid "&Input new directory name:"
 msgstr "熟路新目录名:"
 
 #: tfrmmodview.btncancel.caption
@@ -3370,13 +3487,14 @@ msgid "..."
 msgstr "..."
 
 #: tfrmmultirename.btnrename.caption
+msgctxt "tfrmmultirename.btnrename.caption"
 msgid "&Rename"
 msgstr ""
 
 #: tfrmmultirename.btnrestore.caption
 #, fuzzy
-#| msgid "Restore All"
-msgid "Reset all"
+#| msgid "Reset all"
+msgid "Reset &all"
 msgstr "全部回滚"
 
 #: tfrmmultirename.btnsavepreset.caption
@@ -3391,9 +3509,9 @@ msgstr "多文件改名"
 
 #: tfrmmultirename.cblog.caption
 #, fuzzy
-#| msgid "Log"
+#| msgid "Enable"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Enable"
+msgid "Ena&ble"
 msgstr "日志"
 
 #: tfrmmultirename.cbregexp.caption
@@ -3462,7 +3580,9 @@ msgid "&Find..."
 msgstr "查找..."
 
 #: tfrmmultirename.lbinterval.caption
-msgid "Interval"
+#, fuzzy
+#| msgid "Interval"
+msgid "&Interval"
 msgstr "间隔"
 
 #: tfrmmultirename.lbname.caption
@@ -3478,12 +3598,16 @@ msgid "Re&place..."
 msgstr "替换..."
 
 #: tfrmmultirename.lbstnb.caption
-msgid "Start Number"
+#, fuzzy
+#| msgid "Start Number"
+msgid "S&tart Number"
 msgstr "起始数"
 
 #: tfrmmultirename.lbwidth.caption
+#, fuzzy
+#| msgid "Width"
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
-msgid "Width"
+msgid "&Width"
 msgstr "宽度"
 
 #: tfrmmultirename.micounter.caption
@@ -5257,7 +5381,7 @@ msgstr ""
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
 msgid "&Flat buttons"
-msgstr ""
+msgstr "扁平按钮"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -5463,23 +5587,31 @@ msgid "&Number of columns in book viewer"
 msgstr ""
 
 #: tfrmpackdlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmpackdlg.btnconfig.caption
+#, fuzzy
+#| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
-msgid "&Configure"
+msgid "Con&figure"
 msgstr "配置(&C)"
 
 #: tfrmpackdlg.btnhelp.caption
+#, fuzzy
+#| msgid "Help"
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "帮助"
 
 #: tfrmpackdlg.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "确定"
 
 #: tfrmpackdlg.caption
@@ -5488,7 +5620,9 @@ msgid "Pack files"
 msgstr "打包文件"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
-msgid "Create separate archives, o&ne per selected file/dir"
+#, fuzzy
+#| msgid "Create separate archives, o&ne per selected file/dir"
+msgid "C&reate separate archives, one per selected file/dir"
 msgstr "为选择的每个文件/目录创建单独的包文件"
 
 #: tfrmpackdlg.cbcreatesfx.caption
@@ -5500,7 +5634,9 @@ msgid "Encr&ypt"
 msgstr "加密(&Y)"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
-msgid "M&ove to archive"
+#, fuzzy
+#| msgid "M&ove to archive"
+msgid "Mo&ve to archive"
 msgstr "移动到文件包(&O)"
 
 #: tfrmpackdlg.cbmultivolume.caption
@@ -5512,7 +5648,7 @@ msgid "=>"
 msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
-msgid "Put in the TAR archive first"
+msgid "P&ut in the TAR archive first"
 msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
@@ -5528,8 +5664,10 @@ msgid "Packer"
 msgstr "打包程序"
 
 #: tfrmpackinfodlg.btnclose.caption
+#, fuzzy
+#| msgid "Close"
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr "关闭"
 
 #: tfrmpackinfodlg.btnunpackallandexec.caption
@@ -5660,13 +5798,20 @@ msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
 msgid "&Help"
 msgstr "帮助(&H)"
 
+#: tfrmselecttextrange.btppanel.okbutton.caption
+msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
+msgid "&OK"
+msgstr "确定(&O)"
+
 #: tfrmselecttextrange.lblselecttext.caption
-msgid "Select the characters to insert:"
+msgid "&Select the characters to insert:"
 msgstr ""
 
 #: tfrmsetfileproperties.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmsetfileproperties.btnok.caption
@@ -5801,9 +5946,9 @@ msgstr "写"
 
 #: tfrmsplitter.btncancel.caption
 #, fuzzy
-#| msgid "Exit"
+#| msgid "Cancel"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "退出"
 
 #: tfrmsplitter.btnftchoice.caption
@@ -5812,8 +5957,10 @@ msgid "..."
 msgstr "..."
 
 #: tfrmsplitter.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "确定"
 
 #: tfrmsplitter.caption
@@ -5837,35 +5984,41 @@ msgid "Size and number of parts"
 msgstr "文件大小"
 
 #: tfrmsplitter.lbdirtarget.caption
-msgid "Directory target"
+#, fuzzy
+#| msgid "Directory target"
+msgid "Directory &target"
 msgstr "目标目录"
 
 #: tfrmsplitter.lbfilesource.caption
-msgid "File source"
+#, fuzzy
+#| msgid "File source"
+msgid "File &source"
 msgstr "源文件"
 
 #: tfrmsplitter.lblnumberparts.caption
-msgid "Number of parts"
+msgid "&Number of parts"
 msgstr ""
 
 #: tfrmsplitter.rbtngigab.caption
 msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
-msgid "Gigabytes"
+msgid "&Gigabytes"
 msgstr ""
 
 #: tfrmsplitter.rbtnkilob.caption
 msgctxt "TFRMSPLITTER.RBTNKILOB.CAPTION"
-msgid "Kilobytes"
+msgid "&Kilobytes"
 msgstr ""
 
 #: tfrmsplitter.rbtnmegab.caption
 msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
-msgid "Megabytes"
+msgid "&Megabytes"
 msgstr ""
 
 #: tfrmsymlink.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmsymlink.btnok.caption
@@ -5881,14 +6034,16 @@ msgstr "创建符号链接"
 
 #: tfrmsymlink.lblexistingfile.caption
 #, fuzzy
-#| msgid "Existing destination (where will link point)"
+#| msgid "Destination that the link will point to"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Destination that the link will point to"
+msgid "&Destination that the link will point to"
 msgstr "目标已存在(链接点所在)"
 
 #: tfrmsymlink.lbllinktocreate.caption
+#, fuzzy
+#| msgid "Link name"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
-msgid "Link name"
+msgid "&Link name"
 msgstr "链接名"
 
 #: tfrmtweakplugin.btnadd.caption
@@ -6702,6 +6857,7 @@ msgid "Ab&ort"
 msgstr ""
 
 #: ulng.rsdlgbuttonall
+msgctxt "ulng.rsdlgbuttonall"
 msgid "A&ll"
 msgstr "全部"
 

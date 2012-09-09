@@ -226,40 +226,40 @@ msgid "Choose template..."
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
-msgid "Check free space"
+msgid "C&heck free space"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
-msgid "Copy attributes"
+msgid "Cop&y attributes"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
-msgid "Copy ownership"
+msgid "Copy o&wnership"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
-msgid "Copy date/time"
+msgid "Copy d&ate/time"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
-msgid "Correct links"
+msgid "Correct lin&ks"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
+msgid "Drop readonly fla&g"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
-msgid "Exclude empty directories"
+msgid "E&xclude empty directories"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
-msgid "Follow links"
+msgid "Fo&llow links"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
-msgid "Reserve space"
+msgid "&Reserve space"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
@@ -271,16 +271,16 @@ msgid "Use file template"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
-msgid "When directory exists"
+msgid "When dir&ectory exists"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
-msgid "When file exists"
+msgid "When &file exists"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
-msgid "When cannot set property"
+msgid "When ca&nnot set property"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
@@ -355,30 +355,30 @@ msgstr ""
 
 #: tfrmattributesedit.cbarchive.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
-msgid "Archive"
+msgid "&Archive"
 msgstr ""
 
 #: tfrmattributesedit.cbcompressed.caption
-msgid "Compressed"
+msgid "Co&mpressed"
 msgstr ""
 
 #: tfrmattributesedit.cbdirectory.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
-msgid "Directory"
+msgid "&Directory"
 msgstr ""
 
 #: tfrmattributesedit.cbencrypted.caption
-msgid "Encrypted"
+msgid "&Encrypted"
 msgstr ""
 
 #: tfrmattributesedit.cbhidden.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
-msgid "Hidden"
+msgid "&Hidden"
 msgstr ""
 
 #: tfrmattributesedit.cbreadonly.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
-msgid "Read only"
+msgid "Read o&nly"
 msgstr ""
 
 #: tfrmattributesedit.cbsgid.caption
@@ -387,7 +387,7 @@ msgid "SGID"
 msgstr ""
 
 #: tfrmattributesedit.cbsparse.caption
-msgid "Sparse"
+msgid "S&parse"
 msgstr ""
 
 #: tfrmattributesedit.cbsticky.caption
@@ -401,16 +401,16 @@ msgid "SUID"
 msgstr ""
 
 #: tfrmattributesedit.cbsymlink.caption
-msgid "Symlink"
+msgid "&Symlink"
 msgstr ""
 
 #: tfrmattributesedit.cbsystem.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
-msgid "System"
+msgid "S&ystem"
 msgstr ""
 
 #: tfrmattributesedit.cbtemporary.caption
-msgid "Temporary"
+msgid "&Temporary"
 msgstr ""
 
 #: tfrmattributesedit.gbntfsattributes.caption
@@ -452,7 +452,7 @@ msgid "Read"
 msgstr ""
 
 #: tfrmattributesedit.lbltextattrs.caption
-msgid "As text:"
+msgid "As te&xt:"
 msgstr ""
 
 #: tfrmattributesedit.lblwrite.caption
@@ -462,7 +462,7 @@ msgstr ""
 
 #: tfrmchecksumcalc.btncancel.caption
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmchecksumcalc.btnok.caption
@@ -476,11 +476,11 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
-msgid "Create separate checksum file for each file"
+msgid "C&reate separate checksum file for each file"
 msgstr ""
 
 #: tfrmchecksumcalc.lblsaveto.caption
-msgid "Save check sum file(s) to:"
+msgid "&Save check sum file(s) to:"
 msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
@@ -495,26 +495,26 @@ msgstr ""
 
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr ""
 
 #: tfrmconnectionmanager.btncancel.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmconnectionmanager.btnconnect.caption
-msgid "Connect"
+msgid "C&onnect"
 msgstr ""
 
 #: tfrmconnectionmanager.btndelete.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr ""
 
 #: tfrmconnectionmanager.btnedit.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr ""
 
 #: tfrmconnectionmanager.caption
@@ -526,12 +526,12 @@ msgid "Connect to:"
 msgstr ""
 
 #: tfrmcopydlg.btnaddtoqueue.caption
-msgid "Add To Queue"
+msgid "A&dd To Queue"
 msgstr ""
 
 #: tfrmcopydlg.btncancel.caption
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmcopydlg.btncreatespecialqueue.caption
@@ -544,7 +544,7 @@ msgid "O&ptions"
 msgstr ""
 
 #: tfrmcopydlg.btnsaveoptions.caption
-msgid "Save these options as default"
+msgid "Sa&ve these options as default"
 msgstr ""
 
 #: tfrmcopydlg.caption
@@ -554,7 +554,7 @@ msgstr ""
 
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmdescredit.btnok.caption
@@ -567,12 +567,12 @@ msgid "File/folder comment"
 msgstr ""
 
 #: tfrmdescredit.lbleditcommentfor.caption
-msgid "Edit comment for:"
+msgid "E&dit comment for:"
 msgstr ""
 
 #: tfrmdescredit.lblencoding.caption
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
-msgid "Encoding:"
+msgid "&Encoding:"
 msgstr ""
 
 #: tfrmdescredit.lblfilename.caption
@@ -998,6 +998,7 @@ msgid "Delete"
 msgstr ""
 
 #: tfrmeditor.acteditfind.caption
+msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find"
 msgstr ""
 
@@ -1237,7 +1238,7 @@ msgstr ""
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmeditsearchreplace.btnok.caption
@@ -1252,7 +1253,7 @@ msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchfromcursor.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
-msgid "Search from &caret"
+msgid "S&earch from caret"
 msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
@@ -1345,22 +1346,22 @@ msgstr ""
 
 #: tfrmfileassoc.btnaddext.caption
 msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
-msgid "Add"
+msgid "&Add"
 msgstr ""
 
 #: tfrmfileassoc.btnaddnewtype.caption
 msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr ""
 
 #: tfrmfileassoc.btncancel.caption
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmfileassoc.btndownact.caption
 msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "Down"
+msgid "&Down"
 msgstr ""
 
 #: tfrmfileassoc.btnok.caption
@@ -1370,12 +1371,12 @@ msgstr ""
 
 #: tfrmfileassoc.btnremoveact.caption
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
-msgid "Remove"
+msgid "Remo&ve"
 msgstr ""
 
 #: tfrmfileassoc.btnremoveext.caption
 msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
-msgid "Remove"
+msgid "Re&move"
 msgstr ""
 
 #: tfrmfileassoc.btnremoveicon.caption
@@ -1385,17 +1386,17 @@ msgstr ""
 
 #: tfrmfileassoc.btnremovetype.caption
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
-msgid "Remove"
+msgid "&Remove"
 msgstr ""
 
 #: tfrmfileassoc.btnrenametype.caption
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
-msgid "Rename"
+msgid "R&ename"
 msgstr ""
 
 #: tfrmfileassoc.btnupact.caption
 msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
-msgid "Up"
+msgid "&Up"
 msgstr ""
 
 #: tfrmfileassoc.caption
@@ -1528,7 +1529,7 @@ msgstr ""
 
 #: tfrmfileproperties.btnclose.caption
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr ""
 
 #: tfrmfileproperties.btnsetproperties.caption
@@ -1643,7 +1644,7 @@ msgstr ""
 
 #: tfrmfileproperties.lblgroupstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
-msgid "Group"
+msgid "&Group"
 msgstr ""
 
 #: tfrmfileproperties.lbllastaccess.caption
@@ -1680,7 +1681,7 @@ msgstr ""
 
 #: tfrmfileproperties.lblownerstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
-msgid "Owner"
+msgid "O&wner"
 msgstr ""
 
 #: tfrmfileproperties.lblread.caption
@@ -1732,6 +1733,7 @@ msgid "Properties"
 msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
+msgctxt "tfrmfinddlg.btnaddattribute.caption"
 msgid "&Add"
 msgstr ""
 
@@ -1743,6 +1745,11 @@ msgstr ""
 #: tfrmfinddlg.btnclose.caption
 msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
 msgid "&Close"
+msgstr ""
+
+#: tfrmfinddlg.btnedit.caption
+msgctxt "TFRMFINDDLG.BTNEDIT.CAPTION"
+msgid "&Edit"
 msgstr ""
 
 #: tfrmfinddlg.btngotopath.caption
@@ -1777,11 +1784,11 @@ msgid "S&ave"
 msgstr ""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
-msgid "Save with starting path"
+msgid "Sa&ve with \"Start in directory\""
 msgstr ""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr ""
 
 #: tfrmfinddlg.btnstart.caption
@@ -1791,7 +1798,7 @@ msgstr ""
 
 #: tfrmfinddlg.btnstop.caption
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "Cancel"
+msgid "C&ancel"
 msgstr ""
 
 #: tfrmfinddlg.btnusetemplate.caption
@@ -1817,19 +1824,19 @@ msgid "Case sens&itive"
 msgstr ""
 
 #: tfrmfinddlg.cbdatefrom.caption
-msgid "Date From:"
+msgid "&Date from:"
 msgstr ""
 
 #: tfrmfinddlg.cbdateto.caption
-msgid "Date To:"
+msgid "Dat&e to:"
 msgstr ""
 
 #: tfrmfinddlg.cbfilesizefrom.caption
-msgid "Size from:"
+msgid "S&ize from:"
 msgstr ""
 
 #: tfrmfinddlg.cbfilesizeto.caption
-msgid "Size to:"
+msgid "Si&ze to:"
 msgstr ""
 
 #: tfrmfinddlg.cbfindtext.caption
@@ -1839,7 +1846,7 @@ msgstr ""
 
 #: tfrmfinddlg.cbfollowsymlinks.caption
 msgctxt "TFRMFINDDLG.CBFOLLOWSYMLINKS.CAPTION"
-msgid "Follow symlinks"
+msgid "Follow s&ymlinks"
 msgstr ""
 
 #: tfrmfinddlg.cbnotcontainingtext.caption
@@ -1848,11 +1855,11 @@ msgid "Find files N&OT containing the text"
 msgstr ""
 
 #: tfrmfinddlg.cbnotolderthan.caption
-msgid "Not older than:"
+msgid "N&ot older than:"
 msgstr ""
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
-msgid "Search for part of file name "
+msgid "Searc&h for part of file name"
 msgstr ""
 
 #: tfrmfinddlg.cbregexp.caption
@@ -1865,11 +1872,11 @@ msgid "Re&place by"
 msgstr ""
 
 #: tfrmfinddlg.cbtimefrom.caption
-msgid "Time from:"
+msgid "&Time from:"
 msgstr ""
 
 #: tfrmfinddlg.cbtimeto.caption
-msgid "Time to:"
+msgid "Ti&me to:"
 msgstr ""
 
 #: tfrmfinddlg.cbuseplugin.caption
@@ -1893,10 +1900,6 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
 
-#: tfrmfinddlg.gbattributes.caption
-msgid "&Attributes"
-msgstr ""
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
 msgid "Directories"
@@ -1911,9 +1914,14 @@ msgstr ""
 msgid "Find Data"
 msgstr ""
 
+#: tfrmfinddlg.lblattributes.caption
+msgctxt "TFRMFINDDLG.LBLATTRIBUTES.CAPTION"
+msgid "Attri&butes"
+msgstr ""
+
 #: tfrmfinddlg.lblencoding.caption
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
-msgid "Encoding:"
+msgid "Encodin&g:"
 msgstr ""
 
 #: tfrmfinddlg.lblexcludedirectories.caption
@@ -1929,7 +1937,7 @@ msgid "&File mask"
 msgstr ""
 
 #: tfrmfinddlg.lblfindpathstart.caption
-msgid "&Start in directory"
+msgid "Start in &directory"
 msgstr ""
 
 #: tfrmfinddlg.lblsearchdepth.caption
@@ -1975,12 +1983,12 @@ msgstr ""
 
 #: tfrmfindview.btnclose.caption
 msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmfindview.btnfind.caption
 msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
-msgid "Find"
+msgid "&Find"
 msgstr ""
 
 #: tfrmfindview.caption
@@ -1989,12 +1997,12 @@ msgid "Find"
 msgstr ""
 
 #: tfrmfindview.cbcasesens.caption
-msgid "Case sensitive"
+msgid "C&ase sensitive"
 msgstr ""
 
 #: tfrmhardlink.btncancel.caption
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmhardlink.btnok.caption
@@ -2008,36 +2016,36 @@ msgstr ""
 
 #: tfrmhardlink.lblexistingfile.caption
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Destination that the link will point to"
+msgid "&Destination that the link will point to"
 msgstr ""
 
 #: tfrmhardlink.lbllinktocreate.caption
 msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
-msgid "Link name"
+msgid "&Link name"
 msgstr ""
 
 #: tfrmhotdir.btnadd.caption
 msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
-msgid "Add"
+msgid "&Add"
 msgstr ""
 
 #: tfrmhotdir.btnaddman.caption
-msgid "Add manually"
+msgid "Add &manually"
 msgstr ""
 
 #: tfrmhotdir.btncancel.caption
 msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmhotdir.btndelete.caption
 msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr ""
 
 #: tfrmhotdir.btnedit.caption
 msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr ""
 
 #: tfrmhotdir.btnok.caption
@@ -2051,12 +2059,12 @@ msgstr ""
 
 #: tfrmlinker.btnexit.caption
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmlinker.btnok.caption
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr ""
 
 #: tfrmlinker.btnsave.caption
@@ -2079,12 +2087,12 @@ msgstr ""
 
 #: tfrmlinker.lblfilename.caption
 msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
-msgid "File name"
+msgid "&File name"
 msgstr ""
 
 #: tfrmlinker.spbtndel.caption
 msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr ""
 
 #: tfrmlinker.spbtndel.hint
@@ -2094,7 +2102,7 @@ msgstr ""
 
 #: tfrmlinker.spbtndown.caption
 msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
-msgid "Down"
+msgid "Do&wn"
 msgstr ""
 
 #: tfrmlinker.spbtndown.hint
@@ -2104,7 +2112,7 @@ msgstr ""
 
 #: tfrmlinker.spbtnup.caption
 msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
-msgid "Up"
+msgid "&Up"
 msgstr ""
 
 #: tfrmlinker.spbtnup.hint
@@ -3055,11 +3063,11 @@ msgstr ""
 
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmmaskinputdlg.btndefinetemplate.caption
-msgid "Define..."
+msgid "&Define..."
 msgstr ""
 
 #: tfrmmaskinputdlg.btnok.caption
@@ -3068,12 +3076,12 @@ msgid "&OK"
 msgstr ""
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
-msgid "Or select predefined selection type:"
+msgid "O&r select predefined selection type:"
 msgstr ""
 
 #: tfrmmkdir.btncancel.caption
 msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmmkdir.btnok.caption
@@ -3086,7 +3094,7 @@ msgid "Create new directory"
 msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
-msgid "Input new directory name:"
+msgid "&Input new directory name:"
 msgstr ""
 
 #: tfrmmodview.btncancel.caption
@@ -3230,7 +3238,7 @@ msgid "&Rename"
 msgstr ""
 
 #: tfrmmultirename.btnrestore.caption
-msgid "Reset all"
+msgid "Reset &all"
 msgstr ""
 
 #: tfrmmultirename.btnsavepreset.caption
@@ -3245,7 +3253,7 @@ msgstr ""
 
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Enable"
+msgid "Ena&ble"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -3304,7 +3312,7 @@ msgid "&Find..."
 msgstr ""
 
 #: tfrmmultirename.lbinterval.caption
-msgid "Interval"
+msgid "&Interval"
 msgstr ""
 
 #: tfrmmultirename.lbname.caption
@@ -3316,12 +3324,12 @@ msgid "Re&place..."
 msgstr ""
 
 #: tfrmmultirename.lbstnb.caption
-msgid "Start Number"
+msgid "S&tart Number"
 msgstr ""
 
 #: tfrmmultirename.lbwidth.caption
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
-msgid "Width"
+msgid "&Width"
 msgstr ""
 
 #: tfrmmultirename.micounter.caption
@@ -4988,22 +4996,22 @@ msgstr ""
 
 #: tfrmpackdlg.btncancel.caption
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
-msgid "&Configure"
+msgid "Con&figure"
 msgstr ""
 
 #: tfrmpackdlg.btnhelp.caption
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr ""
 
 #: tfrmpackdlg.btnok.caption
 msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr ""
 
 #: tfrmpackdlg.caption
@@ -5012,7 +5020,7 @@ msgid "Pack files"
 msgstr ""
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
-msgid "Create separate archives, o&ne per selected file/dir"
+msgid "C&reate separate archives, one per selected file/dir"
 msgstr ""
 
 #: tfrmpackdlg.cbcreatesfx.caption
@@ -5024,7 +5032,7 @@ msgid "Encr&ypt"
 msgstr ""
 
 #: tfrmpackdlg.cbmovetoarchive.caption
-msgid "M&ove to archive"
+msgid "Mo&ve to archive"
 msgstr ""
 
 #: tfrmpackdlg.cbmultivolume.caption
@@ -5036,7 +5044,7 @@ msgid "=>"
 msgstr ""
 
 #: tfrmpackdlg.cbputintarfirst.caption
-msgid "Put in the TAR archive first"
+msgid "P&ut in the TAR archive first"
 msgstr ""
 
 #: tfrmpackdlg.cbstoredir.caption
@@ -5053,7 +5061,7 @@ msgstr ""
 
 #: tfrmpackinfodlg.btnclose.caption
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr ""
 
 #: tfrmpackinfodlg.btnunpackallandexec.caption
@@ -5184,13 +5192,18 @@ msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
 msgid "&Help"
 msgstr ""
 
+#: tfrmselecttextrange.btppanel.okbutton.caption
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+msgid "&OK"
+msgstr ""
+
 #: tfrmselecttextrange.lblselecttext.caption
-msgid "Select the characters to insert:"
+msgid "&Select the characters to insert:"
 msgstr ""
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmsetfileproperties.btnok.caption
@@ -5325,7 +5338,7 @@ msgstr ""
 
 #: tfrmsplitter.btncancel.caption
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmsplitter.btnftchoice.caption
@@ -5335,7 +5348,7 @@ msgstr ""
 
 #: tfrmsplitter.btnok.caption
 msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr ""
 
 #: tfrmsplitter.caption
@@ -5357,35 +5370,35 @@ msgid "Size and number of parts"
 msgstr ""
 
 #: tfrmsplitter.lbdirtarget.caption
-msgid "Directory target"
+msgid "Directory &target"
 msgstr ""
 
 #: tfrmsplitter.lbfilesource.caption
-msgid "File source"
+msgid "File &source"
 msgstr ""
 
 #: tfrmsplitter.lblnumberparts.caption
-msgid "Number of parts"
+msgid "&Number of parts"
 msgstr ""
 
 #: tfrmsplitter.rbtngigab.caption
 msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
-msgid "Gigabytes"
+msgid "&Gigabytes"
 msgstr ""
 
 #: tfrmsplitter.rbtnkilob.caption
 msgctxt "TFRMSPLITTER.RBTNKILOB.CAPTION"
-msgid "Kilobytes"
+msgid "&Kilobytes"
 msgstr ""
 
 #: tfrmsplitter.rbtnmegab.caption
 msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
-msgid "Megabytes"
+msgid "&Megabytes"
 msgstr ""
 
 #: tfrmsymlink.btncancel.caption
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr ""
 
 #: tfrmsymlink.btnok.caption
@@ -5399,12 +5412,12 @@ msgstr ""
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Destination that the link will point to"
+msgid "&Destination that the link will point to"
 msgstr ""
 
 #: tfrmsymlink.lbllinktocreate.caption
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
-msgid "Link name"
+msgid "&Link name"
 msgstr ""
 
 #: tfrmtweakplugin.btnadd.caption
