@@ -1382,23 +1382,23 @@ msgstr "Smer"
 
 #: tfrmextractdlg.btncancel.caption
 #, fuzzy
-#| msgid "&Cancel"
+#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Zrušiť"
 
 #: tfrmextractdlg.btnhelp.caption
 #, fuzzy
-#| msgid "&Help"
+#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "Pomoc"
 
 #: tfrmextractdlg.btnok.caption
 #, fuzzy
-#| msgid "&OK"
+#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "OK"
 
 #: tfrmextractdlg.caption
@@ -1420,26 +1420,26 @@ msgstr "Rozbaliť do oddelených po&dzložiek (podľa názvu archívu)"
 
 #: tfrmextractdlg.cboverwrite.caption
 #, fuzzy
-#| msgid "O&verwrite existing files"
-msgid "&Overwrite existing files"
+#| msgid "&Overwrite existing files"
+msgid "O&verwrite existing files"
 msgstr "&Prepísať existujúca súbory"
 
 #: tfrmextractdlg.lblextractto.caption
 #, fuzzy
-#| msgid "To the &directory:"
-msgid "To the directory:"
+#| msgid "To the directory:"
+msgid "To the &directory:"
 msgstr "Rozbaliť súbory do:"
 
 #: tfrmextractdlg.lblfilemask.caption
 #, fuzzy
-#| msgid "&Extract files matching file mask:"
-msgid "Extract files matching file mask:"
+#| msgid "Extract files matching file mask:"
+msgid "&Extract files matching file mask:"
 msgstr "&Súbory na rozbalenie:"
 
 #: tfrmextractdlg.lblpassword.caption
 #, fuzzy
-#| msgid "&Password for encrypted files:"
-msgid "Password for encrypted files:"
+#| msgid "Password for encrypted files:"
+msgid "&Password for encrypted files:"
 msgstr "Heslo pre šifrované súbory:"
 
 #: tfrmfileassoc.btnaddact.caption

@@ -1381,23 +1381,23 @@ msgstr "Напрямок"
 
 #: tfrmextractdlg.btncancel.caption
 #, fuzzy
-#| msgid "&Cancel"
+#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmextractdlg.btnhelp.caption
 #, fuzzy
-#| msgid "&Help"
+#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "Допомога"
 
 #: tfrmextractdlg.btnok.caption
 #, fuzzy
-#| msgid "&OK"
+#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "Так"
 
 #: tfrmextractdlg.caption
@@ -1419,26 +1419,26 @@ msgstr "Розпакувати кожен архів в &окремий ката
 
 #: tfrmextractdlg.cboverwrite.caption
 #, fuzzy
-#| msgid "O&verwrite existing files"
-msgid "&Overwrite existing files"
+#| msgid "&Overwrite existing files"
+msgid "O&verwrite existing files"
 msgstr "&Заміняти існуючі файли"
 
 #: tfrmextractdlg.lblextractto.caption
 #, fuzzy
-#| msgid "To the &directory:"
-msgid "To the directory:"
+#| msgid "To the directory:"
+msgid "To the &directory:"
 msgstr "В каталог:"
 
 #: tfrmextractdlg.lblfilemask.caption
 #, fuzzy
-#| msgid "&Extract files matching file mask:"
-msgid "Extract files matching file mask:"
+#| msgid "Extract files matching file mask:"
+msgid "&Extract files matching file mask:"
 msgstr "Розпакувати файли по масці:"
 
 #: tfrmextractdlg.lblpassword.caption
 #, fuzzy
-#| msgid "&Password for encrypted files:"
-msgid "Password for encrypted files:"
+#| msgid "Password for encrypted files:"
+msgid "&Password for encrypted files:"
 msgstr "Пароль для зашифрованих файлів:"
 
 #: tfrmfileassoc.btnaddact.caption

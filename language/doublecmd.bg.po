@@ -1351,23 +1351,23 @@ msgstr "Подока"
 
 #: tfrmextractdlg.btncancel.caption
 #, fuzzy
-#| msgid "&Cancel"
+#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Отказ"
 
 #: tfrmextractdlg.btnhelp.caption
 #, fuzzy
-#| msgid "&Help"
+#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "Помощ"
 
 #: tfrmextractdlg.btnok.caption
 #, fuzzy
-#| msgid "&OK"
+#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "Добре"
 
 #: tfrmextractdlg.caption
@@ -1389,24 +1389,24 @@ msgstr "Разгъване на всяка сбивка в отделна пап
 
 #: tfrmextractdlg.cboverwrite.caption
 #, fuzzy
-#| msgid "O&verwrite existing files"
-msgid "&Overwrite existing files"
+#| msgid "&Overwrite existing files"
+msgid "O&verwrite existing files"
 msgstr "&Замяна на съществуващите файлове"
 
 #: tfrmextractdlg.lblextractto.caption
 #, fuzzy
-#| msgid "To the &directory:"
-msgid "To the directory:"
+#| msgid "To the directory:"
+msgid "To the &directory:"
 msgstr "Извличане на файл в:"
 
 #: tfrmextractdlg.lblfilemask.caption
 #, fuzzy
-#| msgid "&Extract files matching file mask:"
-msgid "Extract files matching file mask:"
+#| msgid "Extract files matching file mask:"
+msgid "&Extract files matching file mask:"
 msgstr "&Файлове за разгъване:"
 
 #: tfrmextractdlg.lblpassword.caption
-msgid "Password for encrypted files:"
+msgid "&Password for encrypted files:"
 msgstr ""
 
 #: tfrmfileassoc.btnaddact.caption

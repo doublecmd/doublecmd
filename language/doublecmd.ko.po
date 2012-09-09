@@ -1391,23 +1391,23 @@ msgstr "방향"
 
 #: tfrmextractdlg.btncancel.caption
 #, fuzzy
-#| msgid "&Cancel"
+#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "취소"
 
 #: tfrmextractdlg.btnhelp.caption
 #, fuzzy
-#| msgid "&Help"
+#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "도움말"
 
 #: tfrmextractdlg.btnok.caption
 #, fuzzy
-#| msgid "&OK"
+#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "확인"
 
 #: tfrmextractdlg.caption
@@ -1430,26 +1430,26 @@ msgstr "파일명으로 폴더를 만들어 각각 압축 파일 풀기(&S)"
 
 #: tfrmextractdlg.cboverwrite.caption
 #, fuzzy
-#| msgid "O&verwrite existing files"
-msgid "&Overwrite existing files"
+#| msgid "&Overwrite existing files"
+msgid "O&verwrite existing files"
 msgstr "기존 파일 덮어쓰기(&O)"
 
 #: tfrmextractdlg.lblextractto.caption
 #, fuzzy
-#| msgid "To the &directory:"
-msgid "To the directory:"
+#| msgid "To the directory:"
+msgid "To the &directory:"
 msgstr "압축 해제할 폴더:"
 
 #: tfrmextractdlg.lblfilemask.caption
 #, fuzzy
-#| msgid "&Extract files matching file mask:"
-msgid "Extract files matching file mask:"
+#| msgid "Extract files matching file mask:"
+msgid "&Extract files matching file mask:"
 msgstr "압축 해제할 파일(&F):"
 
 #: tfrmextractdlg.lblpassword.caption
 #, fuzzy
-#| msgid "&Password for encrypted files:"
-msgid "Password for encrypted files:"
+#| msgid "Password for encrypted files:"
+msgid "&Password for encrypted files:"
 msgstr "암호화 파일의 비밀번호:"
 
 #: tfrmfileassoc.btnaddact.caption

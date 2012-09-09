@@ -1372,23 +1372,23 @@ msgstr "Direcció"
 
 #: tfrmextractdlg.btncancel.caption
 #, fuzzy
-#| msgid "&Cancel"
+#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Cancel.lar"
 
 #: tfrmextractdlg.btnhelp.caption
 #, fuzzy
-#| msgid "&Help"
+#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "A&juda"
 
 #: tfrmextractdlg.btnok.caption
 #, fuzzy
-#| msgid "&OK"
+#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "Acceptar"
 
 #: tfrmextractdlg.caption
@@ -1410,26 +1410,26 @@ msgstr "Descomprimir cada Arxiu en una carpeta &separada"
 
 #: tfrmextractdlg.cboverwrite.caption
 #, fuzzy
-#| msgid "O&verwrite existing files"
-msgid "&Overwrite existing files"
+#| msgid "&Overwrite existing files"
+msgid "O&verwrite existing files"
 msgstr "&Sobreescriure Arxius existents"
 
 #: tfrmextractdlg.lblextractto.caption
 #, fuzzy
-#| msgid "To the &directory:"
-msgid "To the directory:"
+#| msgid "To the directory:"
+msgid "To the &directory:"
 msgstr "A la carpeta:"
 
 #: tfrmextractdlg.lblfilemask.caption
 #, fuzzy
-#| msgid "&Extract files matching file mask:"
-msgid "Extract files matching file mask:"
+#| msgid "Extract files matching file mask:"
+msgid "&Extract files matching file mask:"
 msgstr "Extreure Arxius:"
 
 #: tfrmextractdlg.lblpassword.caption
 #, fuzzy
-#| msgid "&Password for encrypted files:"
-msgid "Password for encrypted files:"
+#| msgid "Password for encrypted files:"
+msgid "&Password for encrypted files:"
 msgstr "Contrasenya:"
 
 #: tfrmfileassoc.btnaddact.caption
