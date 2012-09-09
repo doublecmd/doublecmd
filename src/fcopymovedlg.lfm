@@ -18,7 +18,7 @@ object frmCopyDlg: TfrmCopyDlg
   OnKeyDown = FormKeyDown
   OnShow = frmCopyDlgShow
   Position = poScreenCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.1'
   object lblCopySrc: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -42,7 +42,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 29
+    Height = 28
     Top = 34
     Width = 596
     Anchors = [akTop, akLeft, akRight]
@@ -61,7 +61,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 38
-    Top = 71
+    Top = 70
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 8
@@ -75,19 +75,19 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = edtDst
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 35
-    Top = 113
+    Height = 36
+    Top = 112
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
     BevelOuter = bvNone
-    ClientHeight = 35
+    ClientHeight = 36
     ClientWidth = 596
     TabOrder = 2
     object btnOptions: TButton
       Left = 0
-      Height = 35
+      Height = 36
       Top = 0
       Width = 100
       Align = alLeft
@@ -99,14 +99,14 @@ object frmCopyDlg: TfrmCopyDlg
       TabOrder = 0
     end
     object btnAddToQueue: TBitBtn
-      Left = 212
-      Height = 35
+      Left = 251
+      Height = 36
       Top = 0
-      Width = 144
+      Width = 128
       Align = alRight
       AutoSize = True
       BorderSpacing.InnerBorder = 2
-      Caption = 'Add To Queue'
+      Caption = 'A&dd To Queue'
       Constraints.MinHeight = 34
       Constraints.MinWidth = 88
       Glyph.Data = {
@@ -146,16 +146,15 @@ object frmCopyDlg: TfrmCopyDlg
         0000000000000000000000000000000000000000000000000000
       }
       ModalResult = 1
-      NumGlyphs = 0
       OnClick = btnAddToQueueClick
       OnMouseUp = btnAddToQueueMouseUp
       TabOrder = 1
     end
     object btnCreateSpecialQueue: TButton
-      Left = 356
-      Height = 35
+      Left = 379
+      Height = 36
       Top = 0
-      Width = 38
+      Width = 25
       Align = alRight
       AutoSize = True
       BorderSpacing.Right = 12
@@ -164,26 +163,25 @@ object frmCopyDlg: TfrmCopyDlg
       Visible = False
     end
     object btnCancel: TBitBtn
-      Left = 406
-      Height = 35
+      Left = 416
+      Height = 36
       Top = 0
-      Width = 94
+      Width = 84
       Align = alRight
       AutoSize = True
       BorderSpacing.Left = 12
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
       Cancel = True
-      Caption = 'Cancel'
+      Caption = '&Cancel'
       Kind = bkCancel
       ModalResult = 2
-      NumGlyphs = 0
       OnMouseUp = btnCancelMouseUp
       TabOrder = 3
     end
     object btnOK: TBitBtn
       Left = 508
-      Height = 35
+      Height = 36
       Top = 0
       Width = 88
       Align = alRight
@@ -229,7 +227,6 @@ object frmCopyDlg: TfrmCopyDlg
         0000000000000000000000000000000000000000000000000000
       }
       ModalResult = 1
-      NumGlyphs = 0
       OnClick = btnOKClick
       OnMouseUp = btnOKMouseUp
       TabOrder = 4
@@ -242,14 +239,14 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = edtDst
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 103
+    Height = 43
     Top = 152
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
     BevelOuter = bvNone
-    ClientHeight = 103
+    ClientHeight = 43
     ClientWidth = 596
     TabOrder = 3
     OnResize = pnlOptionsResize
@@ -259,7 +256,7 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideRight.Control = pnlOptions
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 64
+      Height = 4
       Top = 0
       Width = 596
       Anchors = [akTop, akLeft, akRight]
@@ -271,13 +268,13 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = grpOptions
       AnchorSideTop.Side = asrBottom
-      Left = 186
+      Left = 197
       Height = 31
-      Top = 72
-      Width = 224
+      Top = 12
+      Width = 203
       AutoSize = True
       BorderSpacing.Top = 8
-      Caption = 'Save these options as default'
+      Caption = 'Sa&ve these options as default'
       OnClick = btnSaveOptionsClick
       TabOrder = 1
     end

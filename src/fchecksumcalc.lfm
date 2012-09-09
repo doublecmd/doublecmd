@@ -15,17 +15,18 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'cbSeparateFile.Checked;cmbHashAlgorithm.ItemIndex'
-  LCLVersion = '0.9.29'
+  LCLVersion = '1.1'
   object lblSaveTo: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 10
-    Height = 14
+    Height = 18
     Top = 8
-    Width = 124
+    Width = 166
     BorderSpacing.Left = 10
     BorderSpacing.Top = 8
-    Caption = 'Save check sum file(s) to:'
+    Caption = '&Save check sum file(s) to:'
+    FocusControl = edtSaveTo
     ParentColor = False
   end
   object edtSaveTo: TEdit
@@ -35,8 +36,8 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 21
-    Top = 28
+    Height = 28
+    Top = 32
     Width = 440
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 10
@@ -49,11 +50,11 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideTop.Control = edtSaveTo
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 17
-    Top = 55
-    Width = 223
+    Height = 23
+    Top = 66
+    Width = 302
     BorderSpacing.Top = 6
-    Caption = 'Create separate checksum file for each file'
+    Caption = 'C&reate separate checksum file for each file'
     OnChange = cbSeparateFileChange
     TabOrder = 1
   end
@@ -72,7 +73,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Default = True
     Kind = bkOK
     ModalResult = 1
-    TabOrder = 2
+    TabOrder = 3
   end
   object btnCancel: TBitBtn
     AnchorSideRight.Control = edtSaveTo
@@ -86,23 +87,23 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 10
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     Kind = bkCancel
     ModalResult = 2
-    TabOrder = 3
+    TabOrder = 4
   end
   object cmbHashAlgorithm: TComboBox
     AnchorSideLeft.Control = cbSeparateFile
     AnchorSideTop.Control = cbSeparateFile
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 21
-    Top = 78
+    Height = 30
+    Top = 95
     Width = 132
     BorderSpacing.Top = 6
-    ItemHeight = 13
+    ItemHeight = 0
     OnChange = cmbHashAlgorithmChange
     Style = csDropDownList
-    TabOrder = 4
+    TabOrder = 2
   end
 end

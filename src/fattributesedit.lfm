@@ -12,10 +12,10 @@ object frmAttributesEdit: TfrmAttributesEdit
   FormStyle = fsStayOnTop
   Position = poOwnerFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.29'
+  LCLVersion = '1.1'
   object pnlTopAttrs: TPanel
     Left = 0
-    Height = 21
+    Height = 23
     Top = 5
     Width = 329
     Align = alTop
@@ -27,28 +27,28 @@ object frmAttributesEdit: TfrmAttributesEdit
     ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
     ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
     ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ClientHeight = 21
+    ClientHeight = 23
     ClientWidth = 329
-    TabOrder = 3
+    TabOrder = 0
     object cbSymlink: TCheckBox
-      Left = 64
-      Height = 21
+      Left = 58
+      Height = 23
       Top = 0
-      Width = 67
+      Width = 72
       AllowGrayed = True
-      Caption = 'Symlink'
+      Caption = '&Symlink'
       OnChange = cbAttrCheckBoxChanged
       OnClick = cbAttrCheckBoxClicked
       State = cbGrayed
       TabOrder = 0
     end
     object cbDirectory: TCheckBox
-      Left = 195
-      Height = 21
+      Left = 188
+      Height = 23
       Top = 0
-      Width = 72
+      Width = 84
       AllowGrayed = True
-      Caption = 'Directory'
+      Caption = '&Directory'
       OnChange = cbAttrCheckBoxChanged
       OnClick = cbAttrCheckBoxClicked
       State = cbGrayed
@@ -57,16 +57,16 @@ object frmAttributesEdit: TfrmAttributesEdit
   end
   object pnlUnixAttrs: TPanel
     Left = 10
-    Height = 188
-    Top = 26
+    Height = 181
+    Top = 28
     Width = 309
     Align = alClient
     BorderSpacing.Left = 10
     BorderSpacing.Right = 10
     BevelOuter = bvNone
-    ClientHeight = 188
+    ClientHeight = 181
     ClientWidth = 309
-    TabOrder = 0
+    TabOrder = 1
     Visible = False
     object lblAttrOwnerStr: TLabel
       AnchorSideTop.Control = cbReadOwner
@@ -74,7 +74,7 @@ object frmAttributesEdit: TfrmAttributesEdit
       Left = 8
       Height = 18
       Top = 33
-      Width = 36
+      Width = 46
       Caption = 'Owner'
       ParentColor = False
     end
@@ -83,7 +83,7 @@ object frmAttributesEdit: TfrmAttributesEdit
       Left = 176
       Height = 18
       Top = 8
-      Width = 30
+      Width = 38
       BorderSpacing.Top = 8
       Caption = 'Write'
       ParentColor = False
@@ -93,7 +93,7 @@ object frmAttributesEdit: TfrmAttributesEdit
       Left = 104
       Height = 18
       Top = 8
-      Width = 30
+      Width = 32
       BorderSpacing.Top = 8
       Caption = 'Read'
       ParentColor = False
@@ -103,7 +103,7 @@ object frmAttributesEdit: TfrmAttributesEdit
       Left = 240
       Height = 18
       Top = 8
-      Width = 45
+      Width = 53
       BorderSpacing.Top = 8
       Caption = 'Execute'
       ParentColor = False
@@ -113,8 +113,8 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 18
-      Top = 60
-      Width = 34
+      Top = 59
+      Width = 41
       Caption = 'Group'
       ParentColor = False
     end
@@ -123,8 +123,8 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 18
-      Top = 87
-      Width = 31
+      Top = 85
+      Width = 40
       Caption = 'Other'
       ParentColor = False
     end
@@ -133,8 +133,8 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 18
-      Top = 114
-      Width = 25
+      Top = 112
+      Width = 29
       Caption = 'Bits:'
       ParentColor = False
     end
@@ -142,9 +142,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = lblRead
       AnchorSideTop.Side = asrBottom
       Left = 112
-      Height = 21
+      Height = 20
       Top = 32
-      Width = 24
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -156,9 +156,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = lblWrite
       AnchorSideTop.Side = asrBottom
       Left = 184
-      Height = 21
+      Height = 20
       Top = 32
-      Width = 24
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -170,9 +170,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = lblExec
       AnchorSideTop.Side = asrBottom
       Left = 256
-      Height = 21
+      Height = 20
       Top = 32
-      Width = 24
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -184,9 +184,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbReadOwner
       AnchorSideTop.Side = asrBottom
       Left = 112
-      Height = 21
-      Top = 59
-      Width = 24
+      Height = 20
+      Top = 58
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -198,9 +198,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbWriteOwner
       AnchorSideTop.Side = asrBottom
       Left = 184
-      Height = 21
-      Top = 59
-      Width = 24
+      Height = 20
+      Top = 58
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -212,9 +212,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbExecOwner
       AnchorSideTop.Side = asrBottom
       Left = 256
-      Height = 21
-      Top = 59
-      Width = 24
+      Height = 20
+      Top = 58
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -226,9 +226,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbReadGroup
       AnchorSideTop.Side = asrBottom
       Left = 112
-      Height = 21
-      Top = 86
-      Width = 24
+      Height = 20
+      Top = 84
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -240,9 +240,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbWriteGroup
       AnchorSideTop.Side = asrBottom
       Left = 184
-      Height = 21
-      Top = 86
-      Width = 24
+      Height = 20
+      Top = 84
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -254,9 +254,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbReadGroup
       AnchorSideTop.Side = asrBottom
       Left = 256
-      Height = 21
-      Top = 86
-      Width = 24
+      Height = 20
+      Top = 84
+      Width = 20
       AllowGrayed = True
       BorderSpacing.Top = 6
       OnChange = cbAttrCheckBoxChanged
@@ -268,9 +268,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbReadOther
       AnchorSideTop.Side = asrBottom
       Left = 112
-      Height = 21
-      Top = 113
-      Width = 50
+      Height = 23
+      Top = 110
+      Width = 57
       AllowGrayed = True
       BorderSpacing.Top = 6
       Caption = 'SUID'
@@ -283,9 +283,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbWriteOther
       AnchorSideTop.Side = asrBottom
       Left = 184
-      Height = 21
-      Top = 113
-      Width = 50
+      Height = 23
+      Top = 110
+      Width = 58
       AllowGrayed = True
       BorderSpacing.Top = 6
       Caption = 'SGID'
@@ -298,9 +298,9 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Control = cbExecOther
       AnchorSideTop.Side = asrBottom
       Left = 256
-      Height = 21
-      Top = 113
-      Width = 56
+      Height = 23
+      Top = 110
+      Width = 61
       AllowGrayed = True
       BorderSpacing.Top = 6
       Caption = 'Sticky'
@@ -312,8 +312,8 @@ object frmAttributesEdit: TfrmAttributesEdit
   end
   object pnlWinAttrs: TPanel
     Left = 10
-    Height = 188
-    Top = 26
+    Height = 181
+    Top = 28
     Width = 309
     Align = alClient
     AutoSize = True
@@ -326,13 +326,13 @@ object frmAttributesEdit: TfrmAttributesEdit
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.ShrinkVertical = crsHomogenousChildResize
     ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ClientHeight = 188
+    ClientHeight = 181
     ClientWidth = 309
-    TabOrder = 1
+    TabOrder = 2
     Visible = False
     object gbWinGeneral: TGroupBox
       Left = 0
-      Height = 188
+      Height = 181
       Top = 0
       Width = 150
       AutoSize = True
@@ -344,53 +344,53 @@ object frmAttributesEdit: TfrmAttributesEdit
       ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
       ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ClientHeight = 170
+      ClientHeight = 158
       ClientWidth = 146
       Constraints.MinWidth = 150
       TabOrder = 0
       object cbArchive: TCheckBox
-        Left = 34
-        Height = 21
-        Top = 16
-        Width = 78
+        Left = 30
+        Height = 23
+        Top = 12
+        Width = 86
         AllowGrayed = True
-        Caption = 'Archive'
+        Caption = '&Archive'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
         TabOrder = 0
       end
       object cbReadOnly: TCheckBox
-        Left = 34
-        Height = 21
-        Top = 53
-        Width = 78
+        Left = 30
+        Height = 23
+        Top = 47
+        Width = 86
         AllowGrayed = True
-        Caption = 'Read only'
+        Caption = 'Read o&nly'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
         TabOrder = 1
       end
       object cbHidden: TCheckBox
-        Left = 34
-        Height = 21
-        Top = 90
-        Width = 78
+        Left = 30
+        Height = 23
+        Top = 82
+        Width = 86
         AllowGrayed = True
-        Caption = 'Hidden'
+        Caption = '&Hidden'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
         TabOrder = 2
       end
       object cbSystem: TCheckBox
-        Left = 34
-        Height = 21
-        Top = 127
-        Width = 78
+        Left = 30
+        Height = 23
+        Top = 117
+        Width = 86
         AllowGrayed = True
-        Caption = 'System'
+        Caption = 'S&ystem'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
@@ -399,7 +399,7 @@ object frmAttributesEdit: TfrmAttributesEdit
     end
     object gbNtfsAttributes: TGroupBox
       Left = 160
-      Height = 188
+      Height = 181
       Top = 0
       Width = 150
       AutoSize = True
@@ -411,53 +411,53 @@ object frmAttributesEdit: TfrmAttributesEdit
       ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
       ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ClientHeight = 170
+      ClientHeight = 158
       ClientWidth = 146
       Constraints.MinWidth = 150
       TabOrder = 1
       object cbCompressed: TCheckBox
-        Left = 26
-        Height = 21
-        Top = 16
-        Width = 94
+        Left = 22
+        Height = 23
+        Top = 12
+        Width = 103
         AllowGrayed = True
-        Caption = 'Compressed'
+        Caption = 'Co&mpressed'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
         TabOrder = 0
       end
       object cbEncrypted: TCheckBox
-        Left = 26
-        Height = 21
-        Top = 53
-        Width = 94
+        Left = 22
+        Height = 23
+        Top = 47
+        Width = 103
         AllowGrayed = True
-        Caption = 'Encrypted'
+        Caption = '&Encrypted'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
         TabOrder = 1
       end
       object cbTemporary: TCheckBox
-        Left = 26
-        Height = 21
-        Top = 90
-        Width = 94
+        Left = 22
+        Height = 23
+        Top = 82
+        Width = 103
         AllowGrayed = True
-        Caption = 'Temporary'
+        Caption = '&Temporary'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
         TabOrder = 2
       end
       object cbSparse: TCheckBox
-        Left = 26
-        Height = 21
-        Top = 127
-        Width = 94
+        Left = 22
+        Height = 23
+        Top = 117
+        Width = 103
         AllowGrayed = True
-        Caption = 'Sparse'
+        Caption = 'S&parse'
         OnChange = cbAttrCheckBoxChanged
         OnClick = cbAttrCheckBoxClicked
         State = cbGrayed
@@ -467,8 +467,8 @@ object frmAttributesEdit: TfrmAttributesEdit
   end
   object pnlTextAttrs: TPanel
     Left = 10
-    Height = 25
-    Top = 219
+    Height = 28
+    Top = 214
     Width = 309
     Align = alBottom
     AutoSize = True
@@ -476,18 +476,19 @@ object frmAttributesEdit: TfrmAttributesEdit
     BorderSpacing.Top = 5
     BorderSpacing.Right = 10
     BevelOuter = bvNone
-    ClientHeight = 25
+    ClientHeight = 28
     ClientWidth = 309
-    TabOrder = 4
+    TabOrder = 3
     object lblTextAttrs: TLabel
       AnchorSideLeft.Control = pnlTextAttrs
       AnchorSideTop.Control = pnlTextAttrs
       AnchorSideTop.Side = asrCenter
       Left = 0
       Height = 18
-      Top = 3
-      Width = 41
-      Caption = 'As text:'
+      Top = 5
+      Width = 53
+      Caption = 'As te&xt:'
+      FocusControl = edtTextAttrs
       ParentColor = False
     end
     object edtTextAttrs: TEdit
@@ -496,10 +497,10 @@ object frmAttributesEdit: TfrmAttributesEdit
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = pnlTextAttrs
       AnchorSideRight.Side = asrBottom
-      Left = 51
-      Height = 25
+      Left = 63
+      Height = 28
       Top = 0
-      Width = 258
+      Width = 246
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       ReadOnly = True
@@ -508,8 +509,8 @@ object frmAttributesEdit: TfrmAttributesEdit
   end
   object pnlButtons: TPanel
     Left = 5
-    Height = 30
-    Top = 249
+    Height = 32
+    Top = 247
     Width = 319
     Align = alBottom
     AutoSize = True
@@ -521,21 +522,21 @@ object frmAttributesEdit: TfrmAttributesEdit
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.ShrinkVertical = crsHomogenousChildResize
     ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ClientHeight = 30
+    ClientHeight = 32
     ClientWidth = 319
-    TabOrder = 2
+    TabOrder = 4
     object btnReset: TButton
       Left = 0
-      Height = 30
+      Height = 32
       Top = 0
-      Width = 91
+      Width = 87
       Caption = '&Reset'
       OnClick = btnResetClick
       TabOrder = 0
     end
     object btnOk: TBitBtn
-      Left = 101
-      Height = 30
+      Left = 97
+      Height = 32
       Top = 0
       Width = 94
       Caption = '&OK'
@@ -546,10 +547,10 @@ object frmAttributesEdit: TfrmAttributesEdit
       TabOrder = 1
     end
     object btnCancel: TBitBtn
-      Left = 205
-      Height = 30
+      Left = 201
+      Height = 32
       Top = 0
-      Width = 114
+      Width = 118
       Caption = '&Cancel'
       Constraints.MinHeight = 30
       Kind = bkCancel

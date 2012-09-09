@@ -14,16 +14,16 @@ object frmViewOperations: TfrmViewOperations
   OnDestroy = FormDestroy
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState;cbAlwaysOnTop.Checked'
-  LCLVersion = '0.9.30.1'
+  LCLVersion = '1.1'
   object pnlHeader: TPanel
     Left = 0
-    Height = 68
+    Height = 64
     Top = 0
     Width = 507
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 68
+    ClientHeight = 64
     ClientWidth = 507
     TabOrder = 0
     object pnlTopHeader: TPanel
@@ -49,7 +49,7 @@ object frmViewOperations: TfrmViewOperations
         Left = 0
         Height = 40
         Top = 0
-        Width = 91
+        Width = 70
         Anchors = [akTop, akLeft, akBottom]
         AutoSize = True
         BorderSpacing.Right = 40
@@ -63,7 +63,7 @@ object frmViewOperations: TfrmViewOperations
         AnchorSideTop.Control = pnlTopHeader
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 131
+        Left = 110
         Height = 40
         Top = 0
         Width = 80
@@ -72,7 +72,6 @@ object frmViewOperations: TfrmViewOperations
         Constraints.MinHeight = 40
         Constraints.MinWidth = 80
         Enabled = False
-        NumGlyphs = 0
         OnClick = btnStopClick
         TabOrder = 1
       end
@@ -81,7 +80,7 @@ object frmViewOperations: TfrmViewOperations
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = pnlTopHeader
         AnchorSideBottom.Side = asrBottom
-        Left = 221
+        Left = 200
         Height = 40
         Top = 0
         Width = 80
@@ -91,7 +90,6 @@ object frmViewOperations: TfrmViewOperations
         Constraints.MinHeight = 40
         Constraints.MinWidth = 80
         Enabled = False
-        NumGlyphs = 0
         OnClick = btnStartPauseClick
         TabOrder = 2
       end
@@ -103,7 +101,7 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideRight.Control = pnlHeader
       AnchorSideRight.Side = asrBottom
       Left = 10
-      Height = 22
+      Height = 18
       Top = 43
       Width = 487
       Anchors = [akTop, akLeft, akRight]
@@ -111,7 +109,8 @@ object frmViewOperations: TfrmViewOperations
       BorderSpacing.Top = 3
       BorderSpacing.Right = 10
       BorderSpacing.Bottom = 3
-      Caption = 'Use "drag && drop" to move operations between queues'
+      Caption = '&Use "drag && drop" to move operations between queues'
+      FocusControl = tvOperations
       ParentColor = False
     end
     object cbAlwaysOnTop: TCheckBox
@@ -119,10 +118,10 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = pnlTopHeader
       AnchorSideRight.Side = asrBottom
-      Left = 384
-      Height = 27
-      Top = 7
-      Width = 123
+      Left = 391
+      Height = 23
+      Top = 9
+      Width = 116
       Anchors = [akTop, akRight]
       Caption = 'Always on top'
       OnChange = cbAlwaysOnTopChange
@@ -138,8 +137,8 @@ object frmViewOperations: TfrmViewOperations
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 285
-    Top = 68
+    Height = 289
+    Top = 64
     Width = 507
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoExpand = True

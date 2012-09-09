@@ -8,7 +8,7 @@ object frmConnectionManager: TfrmConnectionManager
   ClientWidth = 431
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '1.1'
   object gbConnectTo: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -26,16 +26,16 @@ object frmConnectionManager: TfrmConnectionManager
     Caption = 'Connect to:'
     ChildSizing.LeftRightSpacing = 4
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 342
+    ClientHeight = 337
     ClientWidth = 277
     TabOrder = 0
     object tvConnections: TTreeView
       Left = 4
-      Height = 334
+      Height = 329
       Top = 4
       Width = 269
       Align = alClient
-      DefaultItemHeight = 22
+      DefaultItemHeight = 24
       ReadOnly = True
       StateImages = ImageList
       TabOrder = 0
@@ -52,7 +52,7 @@ object frmConnectionManager: TfrmConnectionManager
     Width = 120
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
-    Caption = 'Connect'
+    Caption = 'C&onnect'
     Enabled = False
     OnClick = btnConnectClick
     TabOrder = 1
@@ -69,7 +69,7 @@ object frmConnectionManager: TfrmConnectionManager
     Width = 120
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 18
-    Caption = 'Add'
+    Caption = 'A&dd'
     Enabled = False
     OnClick = btnAddClick
     TabOrder = 2
@@ -86,7 +86,7 @@ object frmConnectionManager: TfrmConnectionManager
     Width = 120
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    Caption = 'Edit'
+    Caption = '&Edit'
     Enabled = False
     OnClick = btnEditClick
     TabOrder = 3
@@ -103,7 +103,7 @@ object frmConnectionManager: TfrmConnectionManager
     Width = 120
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    Caption = 'Delete'
+    Caption = '&Delete'
     Enabled = False
     OnClick = btnDeleteClick
     TabOrder = 4
@@ -121,7 +121,7 @@ object frmConnectionManager: TfrmConnectionManager
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 5

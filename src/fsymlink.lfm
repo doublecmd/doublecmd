@@ -17,17 +17,17 @@ object frmSymLink: TfrmSymLink
   KeyPreview = True
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.1'
   object lblExistingFile: TLabel
     AnchorSideLeft.Control = edtExistingFile
     AnchorSideTop.Control = edtLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 22
-    Top = 69
-    Width = 247
+    Height = 18
+    Top = 64
+    Width = 243
     BorderSpacing.Top = 6
-    Caption = 'Destination that the link will point to'
+    Caption = '&Destination that the link will point to'
     FocusControl = edtExistingFile
     ParentColor = False
   end
@@ -35,11 +35,11 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = edtLinkToCreate
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 22
+    Height = 18
     Top = 6
-    Width = 72
+    Width = 64
     BorderSpacing.Top = 6
-    Caption = 'Link name'
+    Caption = '&Link name'
     FocusControl = edtLinkToCreate
     ParentColor = False
   end
@@ -50,8 +50,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 29
-    Top = 97
+    Height = 28
+    Top = 88
     Width = 590
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -67,8 +67,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 29
-    Top = 34
+    Height = 28
+    Top = 30
     Width = 590
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -83,7 +83,7 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = btnCancel
     Left = 390
     Height = 35
-    Top = 138
+    Top = 128
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -96,7 +96,6 @@ object frmSymLink: TfrmSymLink
     Default = True
     Kind = bkOK
     ModalResult = 1
-    NumGlyphs = 0
     OnClick = btnOKClick
     OnMouseUp = btnOKMouseUp
     TabOrder = 2
@@ -107,8 +106,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = edtExistingFile
     AnchorSideRight.Side = asrBottom
     Left = 496
-    Height = 35
-    Top = 138
+    Height = 36
+    Top = 128
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -116,11 +115,10 @@ object frmSymLink: TfrmSymLink
     BorderSpacing.Bottom = 6
     BorderSpacing.InnerBorder = 2
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     Constraints.MinWidth = 100
     Kind = bkCancel
     ModalResult = 2
-    NumGlyphs = 0
     OnMouseUp = btnCancelMouseUp
     TabOrder = 3
   end

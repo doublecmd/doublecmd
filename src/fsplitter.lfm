@@ -1,6 +1,6 @@
 object frmSplitter: TfrmSplitter
   Left = 283
-  Height = 240
+  Height = 293
   Top = 122
   Width = 399
   HorzScrollBar.Page = 464
@@ -13,17 +13,17 @@ object frmSplitter: TfrmSplitter
   Caption = 'Splitter'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 240
+  ClientHeight = 293
   ClientWidth = 399
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '1.1'
   object grbxFile: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = btnCancel
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 118
+    Height = 143
     Top = 6
     Width = 385
     Anchors = [akTop, akLeft, akRight]
@@ -33,26 +33,28 @@ object frmSplitter: TfrmSplitter
     Caption = 'File name'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 100
+    ClientHeight = 120
     ClientWidth = 381
     TabOrder = 0
     object lbFileSource: TLabel
       Left = 10
-      Height = 14
+      Height = 18
       Top = 4
-      Width = 52
-      Caption = 'File source'
+      Width = 72
+      Caption = 'File &source'
+      FocusControl = edFileSource
       ParentColor = False
     end
     object lbDirTarget: TLabel
       AnchorSideTop.Control = edFileSource
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 14
-      Top = 55
-      Width = 78
+      Height = 18
+      Top = 66
+      Width = 107
       BorderSpacing.Top = 12
-      Caption = 'Directory target'
+      Caption = 'Directory &target'
+      FocusControl = edDirTarget
       ParentColor = False
     end
     object edFileSource: TEdit
@@ -60,8 +62,8 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
       Left = 10
-      Height = 21
-      Top = 22
+      Height = 28
+      Top = 26
       Width = 360
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
@@ -73,8 +75,8 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnFTChoice
       Left = 10
-      Height = 21
-      Top = 73
+      Height = 28
+      Top = 88
       Width = 330
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
@@ -88,7 +90,7 @@ object frmSplitter: TfrmSplitter
       AnchorSideRight.Side = asrBottom
       Left = 346
       Height = 23
-      Top = 73
+      Top = 88
       Width = 24
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 4
@@ -102,8 +104,8 @@ object frmSplitter: TfrmSplitter
     AnchorSideTop.Control = grbxFile
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 103
-    Top = 130
+    Height = 128
+    Top = 155
     Width = 300
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -112,7 +114,7 @@ object frmSplitter: TfrmSplitter
     Caption = 'Size and number of parts'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 85
+    ClientHeight = 105
     ClientWidth = 296
     Constraints.MinWidth = 300
     TabOrder = 1
@@ -121,11 +123,11 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = grbxSize
       AnchorSideRight.Side = asrBottom
       Left = 6
-      Height = 21
+      Height = 28
       Top = 6
       Width = 276
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 13
+      ItemHeight = 0
       ItemIndex = 0
       Items.Strings = (
         '1457664B - 3.5"'
@@ -145,11 +147,12 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = cmbxSize
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 17
-      Top = 33
-      Width = 61
+      Height = 23
+      Top = 40
+      Width = 84
       BorderSpacing.Top = 6
-      Caption = 'Kilobytes'
+      Caption = '&Kilobytes'
+      Checked = True
       OnChange = rbtnKiloBChange
       TabOrder = 1
     end
@@ -157,12 +160,12 @@ object frmSplitter: TfrmSplitter
       AnchorSideLeft.Control = rbtnKiloB
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = rbtnKiloB
-      Left = 69
-      Height = 17
-      Top = 33
-      Width = 71
+      Left = 92
+      Height = 23
+      Top = 40
+      Width = 94
       BorderSpacing.Left = 2
-      Caption = 'Megabytes'
+      Caption = '&Megabytes'
       OnChange = rbtnKiloBChange
       TabOrder = 2
     end
@@ -170,12 +173,12 @@ object frmSplitter: TfrmSplitter
       AnchorSideLeft.Control = rbtnMegaB
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = rbtnMegaB
-      Left = 142
-      Height = 17
-      Top = 33
-      Width = 66
+      Left = 188
+      Height = 23
+      Top = 40
+      Width = 87
       BorderSpacing.Left = 2
-      Caption = 'Gigabytes'
+      Caption = '&Gigabytes'
       OnChange = rbtnKiloBChange
       TabOrder = 3
     end
@@ -184,9 +187,9 @@ object frmSplitter: TfrmSplitter
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = rbtnMegaB
       AnchorSideTop.Side = asrBottom
-      Left = 89
-      Height = 21
-      Top = 58
+      Left = 117
+      Height = 28
+      Top = 71
       Width = 72
       BorderSpacing.Left = 4
       BorderSpacing.Top = 8
@@ -199,10 +202,11 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = teNumberParts
       AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 14
-      Top = 61
-      Width = 79
-      Caption = 'Number of parts'
+      Height = 18
+      Top = 76
+      Width = 107
+      Caption = '&Number of parts'
+      FocusControl = teNumberParts
       ParentColor = False
     end
   end
@@ -212,11 +216,11 @@ object frmSplitter: TfrmSplitter
     AnchorSideBottom.Control = btnCancel
     Left = 316
     Height = 32
-    Top = 163
+    Top = 213
     Width = 75
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 6
-    Caption = 'OK'
+    Caption = '&OK'
     Default = True
     ModalResult = 1
     TabOrder = 2
@@ -229,12 +233,12 @@ object frmSplitter: TfrmSplitter
     AnchorSideBottom.Side = asrBottom
     Left = 316
     Height = 32
-    Top = 201
+    Top = 251
     Width = 75
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 10
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     ModalResult = 2
     TabOrder = 3
   end

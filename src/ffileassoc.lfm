@@ -13,16 +13,16 @@ object frmFileAssoc: TfrmFileAssoc
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.1'
   object pnlButtonPanel: TPanel
     Left = 0
-    Height = 47
-    Top = 538
+    Height = 48
+    Top = 537
     Width = 568
     Align = alBottom
     AutoSize = True
     BevelInner = bvLowered
-    ClientHeight = 47
+    ClientHeight = 48
     ClientWidth = 568
     TabOrder = 1
     object btnOK: TBitBtn
@@ -41,7 +41,6 @@ object frmFileAssoc: TfrmFileAssoc
       Constraints.MinWidth = 100
       Kind = bkOK
       ModalResult = 1
-      NumGlyphs = 0
       OnClick = btnOKClick
       TabOrder = 0
     end
@@ -50,7 +49,7 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideRight.Control = pnlButtonPanel
       AnchorSideRight.Side = asrBottom
       Left = 454
-      Height = 31
+      Height = 32
       Top = 8
       Width = 100
       Anchors = [akTop, akRight]
@@ -59,24 +58,23 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Right = 12
       BorderSpacing.Bottom = 6
       Cancel = True
-      Caption = 'Cancel'
+      Caption = '&Cancel'
       Constraints.MinWidth = 100
       Kind = bkCancel
       ModalResult = 2
-      NumGlyphs = 0
       OnClick = btnCancelClick
       TabOrder = 1
     end
   end
   object pnlSettings: TPanel
     Left = 0
-    Height = 533
+    Height = 532
     Top = 0
     Width = 568
     Align = alClient
     BorderSpacing.Bottom = 5
     BevelOuter = bvNone
-    ClientHeight = 533
+    ClientHeight = 532
     ClientWidth = 568
     TabOrder = 0
     OnResize = pnlSettingsResize
@@ -89,7 +87,7 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideBottom.Control = pnlSettings
       AnchorSideBottom.Side = asrBottom
       Left = 270
-      Height = 521
+      Height = 520
       Top = 6
       Width = 288
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -97,10 +95,10 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Right = 4
       BorderSpacing.Around = 6
       BevelOuter = bvNone
-      ClientHeight = 521
+      ClientHeight = 520
       ClientWidth = 288
       Constraints.MinWidth = 200
-      TabOrder = 0
+      TabOrder = 1
       OnResize = pnlRightSettingsResize
       object gbActions: TGroupBox
         AnchorSideLeft.Control = pnlRightSettings
@@ -110,48 +108,50 @@ object frmFileAssoc: TfrmFileAssoc
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = gbIcon
         Left = 0
-        Height = 307
+        Height = 305
         Top = 144
         Width = 288
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 4
         BorderSpacing.Bottom = 4
         Caption = 'Actions'
-        ClientHeight = 285
+        ClientHeight = 282
         ClientWidth = 284
-        TabOrder = 0
+        TabOrder = 1
         object lbActions: TListBox
           Left = 6
-          Height = 153
+          Height = 160
           Top = 6
-          Width = 182
+          Width = 201
           Align = alClient
           BorderSpacing.Around = 6
           ItemHeight = 0
           OnSelectionChange = lbActionsSelectionChange
+          ScrollWidth = 199
           TabOrder = 0
+          TopIndex = -1
         end
         object pnlActsButtons: TPanel
-          Left = 194
-          Height = 153
+          Left = 213
+          Height = 160
           Top = 6
-          Width = 84
+          Width = 65
           Align = alRight
           AutoSize = True
           BorderSpacing.Around = 6
           BevelOuter = bvNone
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ClientHeight = 153
-          ClientWidth = 84
+          ClientHeight = 160
+          ClientWidth = 65
           TabOrder = 1
           object btnUpAct: TButton
             Left = 0
             Height = 35
             Top = 0
-            Width = 84
+            Width = 65
             AutoSize = True
             BorderSpacing.InnerBorder = 2
-            Caption = 'Up'
+            Caption = '&Up'
             OnClick = btnUpActClick
             TabOrder = 0
           end
@@ -159,10 +159,10 @@ object frmFileAssoc: TfrmFileAssoc
             Left = 0
             Height = 35
             Top = 35
-            Width = 84
+            Width = 65
             AutoSize = True
             BorderSpacing.InnerBorder = 2
-            Caption = 'Down'
+            Caption = '&Down'
             OnClick = btnDownActClick
             TabOrder = 1
           end
@@ -170,7 +170,7 @@ object frmFileAssoc: TfrmFileAssoc
             Left = 0
             Height = 35
             Top = 70
-            Width = 84
+            Width = 65
             AutoSize = True
             BorderSpacing.InnerBorder = 2
             Caption = 'Add'
@@ -181,23 +181,23 @@ object frmFileAssoc: TfrmFileAssoc
             Left = 0
             Height = 35
             Top = 105
-            Width = 84
+            Width = 65
             AutoSize = True
             BorderSpacing.InnerBorder = 2
-            Caption = 'Remove'
+            Caption = 'Remo&ve'
             OnClick = btnRemoveActClick
             TabOrder = 3
           end
         end
         object pnlActsEdits: TPanel
           Left = 0
-          Height = 120
-          Top = 165
+          Height = 110
+          Top = 172
           Width = 284
           Align = alBottom
           AutoSize = True
           BevelOuter = bvNone
-          ClientHeight = 120
+          ClientHeight = 110
           ClientWidth = 284
           TabOrder = 2
           object lblCommand: TLabel
@@ -205,11 +205,12 @@ object frmFileAssoc: TfrmFileAssoc
             AnchorSideTop.Control = edbAction
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 22
-            Top = 57
-            Width = 74
+            Height = 18
+            Top = 52
+            Width = 67
             BorderSpacing.Top = 6
             Caption = '&Command:'
+            FocusControl = fneCommand
             ParentColor = False
           end
           object btnCommands: TSpeedButton
@@ -220,10 +221,10 @@ object frmFileAssoc: TfrmFileAssoc
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Control = fneCommand
             AnchorSideBottom.Side = asrBottom
-            Left = 255
-            Height = 29
-            Top = 85
-            Width = 23
+            Left = 258
+            Height = 28
+            Top = 76
+            Width = 20
             Anchors = [akTop, akRight, akBottom]
             AutoSize = True
             BorderSpacing.Left = 24
@@ -264,18 +265,18 @@ object frmFileAssoc: TfrmFileAssoc
               0000000000000000000000000000000000000000000000000000000000000000
               0000000000000000000000000000000000000000000000000000
             }
-            NumGlyphs = 0
             OnClick = btnCommandsClick
           end
           object lblAction: TLabel
             AnchorSideLeft.Control = pnlActsEdits
             AnchorSideTop.Control = pnlActsEdits
             Left = 6
-            Height = 22
+            Height = 18
             Top = 0
-            Width = 47
+            Width = 46
             BorderSpacing.Left = 6
             Caption = 'Action:'
+            FocusControl = edbAction
             ParentColor = False
           end
           object fneCommand: TFileNameEdit
@@ -286,9 +287,9 @@ object frmFileAssoc: TfrmFileAssoc
             AnchorSideBottom.Control = pnlActsEdits
             AnchorSideBottom.Side = asrBottom
             Left = 6
-            Height = 29
-            Top = 85
-            Width = 225
+            Height = 28
+            Top = 76
+            Width = 228
             OnAcceptFileName = fneCommandAcceptFileName
             DialogOptions = []
             FilterIndex = 0
@@ -309,9 +310,9 @@ object frmFileAssoc: TfrmFileAssoc
             AnchorSideRight.Control = fneCommand
             AnchorSideRight.Side = asrBottom
             Left = 6
-            Height = 29
-            Top = 22
-            Width = 225
+            Height = 28
+            Top = 18
+            Width = 228
             Anchors = [akTop, akLeft, akRight]
             ButtonWidth = 23
             CharCase = ecNormal
@@ -366,15 +367,15 @@ object frmFileAssoc: TfrmFileAssoc
         AnchorSideBottom.Control = pnlRightSettings
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 66
-        Top = 455
+        Height = 67
+        Top = 453
         Width = 288
         Anchors = [akLeft, akRight, akBottom]
         AutoSize = True
         Caption = 'Icon'
         ClientHeight = 44
         ClientWidth = 284
-        TabOrder = 1
+        TabOrder = 2
         object sbtnIcon: TSpeedButton
           AnchorSideLeft.Control = gbIcon
           AnchorSideTop.Control = gbIcon
@@ -385,7 +386,6 @@ object frmFileAssoc: TfrmFileAssoc
           BorderSpacing.Left = 6
           BorderSpacing.Top = 2
           BorderSpacing.Bottom = 4
-          NumGlyphs = 0
           OnClick = sbtnIconClick
         end
         object btnRemoveIcon: TSpeedButton
@@ -395,14 +395,13 @@ object frmFileAssoc: TfrmFileAssoc
           AnchorSideBottom.Control = edtIconFileName
           AnchorSideBottom.Side = asrBottom
           Left = 255
-          Height = 29
+          Height = 28
           Top = 7
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.Right = 6
           Caption = 'X'
           Font.Style = [fsBold]
-          NumGlyphs = 0
           OnClick = btnRemoveIconClick
           ParentFont = False
         end
@@ -413,7 +412,7 @@ object frmFileAssoc: TfrmFileAssoc
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnRemoveIcon
           Left = 48
-          Height = 29
+          Height = 28
           Top = 7
           Width = 207
           Anchors = [akTop, akLeft, akRight]
@@ -434,41 +433,43 @@ object frmFileAssoc: TfrmFileAssoc
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.InnerBorder = 20
         Caption = 'Extensions'
-        ClientHeight = 118
+        ClientHeight = 117
         ClientWidth = 284
-        TabOrder = 2
+        TabOrder = 0
         object lbExts: TListBox
           Left = 6
-          Height = 106
+          Height = 105
           Top = 6
-          Width = 182
+          Width = 201
           Align = alClient
           BorderSpacing.Around = 6
           ItemHeight = 0
           OnSelectionChange = lbExtsSelectionChange
+          ScrollWidth = 199
           TabOrder = 0
+          TopIndex = -1
         end
         object pnlExtsButtons: TPanel
-          Left = 194
-          Height = 106
+          Left = 213
+          Height = 105
           Top = 6
-          Width = 84
+          Width = 65
           Align = alRight
           AutoSize = True
           BorderSpacing.Around = 6
           BevelOuter = bvNone
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ClientHeight = 106
-          ClientWidth = 84
+          ClientHeight = 105
+          ClientWidth = 65
           TabOrder = 1
           object btnAddExt: TButton
             Left = 0
             Height = 35
             Top = 0
-            Width = 84
+            Width = 65
             AutoSize = True
             BorderSpacing.InnerBorder = 2
-            Caption = 'Add'
+            Caption = '&Add'
             OnClick = btnAddExtClick
             TabOrder = 0
           end
@@ -476,10 +477,10 @@ object frmFileAssoc: TfrmFileAssoc
             Left = 0
             Height = 35
             Top = 35
-            Width = 84
+            Width = 65
             AutoSize = True
             BorderSpacing.InnerBorder = 2
-            Caption = 'Remove'
+            Caption = 'Re&move'
             OnClick = btnRemoveExtClick
             TabOrder = 1
           end
@@ -492,24 +493,24 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideBottom.Control = pnlSettings
       AnchorSideBottom.Side = asrBottom
       Left = 10
-      Height = 521
+      Height = 520
       Top = 6
       Width = 250
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 4
       BorderSpacing.Around = 6
       BevelOuter = bvNone
-      ClientHeight = 521
+      ClientHeight = 520
       ClientWidth = 250
-      TabOrder = 1
+      TabOrder = 0
       object gbFileTypes: TGroupBox
         Left = 0
-        Height = 521
+        Height = 520
         Top = 0
         Width = 250
         Align = alClient
         Caption = 'File types'
-        ClientHeight = 499
+        ClientHeight = 497
         ClientWidth = 246
         TabOrder = 0
         object lbFileTypes: TListBox
@@ -519,7 +520,7 @@ object frmFileAssoc: TfrmFileAssoc
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnAddNewType
           Left = 6
-          Height = 409
+          Height = 407
           Top = 6
           Width = 234
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -527,8 +528,10 @@ object frmFileAssoc: TfrmFileAssoc
           ItemHeight = 20
           OnDrawItem = lbFileTypesDrawItem
           OnSelectionChange = lbFileTypesSelectionChange
+          ScrollWidth = 232
           Style = lbOwnerDrawFixed
           TabOrder = 0
+          TopIndex = -1
         end
         object btnAddNewType: TButton
           AnchorSideLeft.Control = gbFileTypes
@@ -539,7 +542,7 @@ object frmFileAssoc: TfrmFileAssoc
           AnchorSideBottom.Control = btnRemoveType
           Left = 6
           Height = 35
-          Top = 421
+          Top = 419
           Width = 234
           Anchors = [akLeft, akRight, akBottom]
           AutoSize = True
@@ -547,7 +550,7 @@ object frmFileAssoc: TfrmFileAssoc
           BorderSpacing.Right = 6
           BorderSpacing.Bottom = 2
           BorderSpacing.InnerBorder = 2
-          Caption = 'Add'
+          Caption = 'A&dd'
           OnClick = btnAddNewTypeClick
           TabOrder = 1
         end
@@ -555,12 +558,12 @@ object frmFileAssoc: TfrmFileAssoc
           AnchorSideLeft.Control = btnAddNewType
           Left = 6
           Height = 35
-          Top = 458
-          Width = 84
+          Top = 456
+          Width = 65
           Anchors = [akLeft, akBottom]
           AutoSize = True
           BorderSpacing.InnerBorder = 2
-          Caption = 'Remove'
+          Caption = '&Remove'
           OnClick = btnRemoveTypeClick
           OnResize = btnRemoveTypeResize
           TabOrder = 2
@@ -568,14 +571,14 @@ object frmFileAssoc: TfrmFileAssoc
         object btnRenameType: TButton
           AnchorSideRight.Control = btnAddNewType
           AnchorSideRight.Side = asrBottom
-          Left = 154
+          Left = 175
           Height = 35
-          Top = 458
-          Width = 86
+          Top = 456
+          Width = 65
           Anchors = [akRight, akBottom]
           AutoSize = True
           BorderSpacing.InnerBorder = 2
-          Caption = 'Rename'
+          Caption = 'R&ename'
           OnClick = btnRenameTypeClick
           OnResize = btnRenameTypeResize
           TabOrder = 3
