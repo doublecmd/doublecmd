@@ -226,41 +226,58 @@ msgid "Choose template..."
 msgstr "Вибрати шаблон..."
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
-msgid "Check free space"
+#, fuzzy
+#| msgid "Check free space"
+msgid "C&heck free space"
 msgstr "Перевірити вільне місце"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
-msgid "Copy attributes"
+#, fuzzy
+#| msgid "Copy attributes"
+msgid "Cop&y attributes"
 msgstr "Копіювати атрибути"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
-msgid "Copy ownership"
+#, fuzzy
+#| msgid "Copy ownership"
+msgid "Copy o&wnership"
 msgstr "Копіювати права"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
-msgid "Copy date/time"
+#, fuzzy
+#| msgid "Copy date/time"
+msgid "Copy d&ate/time"
 msgstr "Копіювати дату/час"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 #, fuzzy
-msgid "Correct links"
+#| msgid "Correct links"
+msgid "Correct lin&ks"
 msgstr "Правильні посилання"
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
+#, fuzzy
+#| msgid "Drop readonly flag"
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
+msgid "Drop readonly fla&g"
 msgstr "Скинути позначку \"Лише читання\""
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
-msgid "Exclude empty directories"
+#, fuzzy
+#| msgid "Exclude empty directories"
+msgid "E&xclude empty directories"
 msgstr "Виключити порожні каталоги"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
-msgid "Follow links"
+#, fuzzy
+#| msgid "Follow links"
+msgid "Fo&llow links"
 msgstr "Перейти за посиланнями"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
-msgid "Reserve space"
+#, fuzzy
+#| msgid "Reserve space"
+msgid "&Reserve space"
 msgstr "Зарезервувати місце"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
@@ -273,17 +290,22 @@ msgid "Use file template"
 msgstr "Використати файл шаблону"
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
-msgid "When directory exists"
+#, fuzzy
+#| msgid "When directory exists"
+msgid "When dir&ectory exists"
 msgstr "Якщо каталог існує"
 
 #: tfilesystemcopymoveoperationoptionsui.lblfileexists.caption
+#, fuzzy
+#| msgid "When file exists"
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
-msgid "When file exists"
+msgid "When &file exists"
 msgstr "Якщо файл існує"
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
 #, fuzzy
-msgid "When cannot set property"
+#| msgid "When cannot set property"
+msgid "When ca&nnot set property"
 msgstr "Коли не можливо встановити властивості"
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
@@ -357,31 +379,43 @@ msgid "Choose attributes"
 msgstr "Вибрати атрибути"
 
 #: tfrmattributesedit.cbarchive.caption
+#, fuzzy
+#| msgid "Archive"
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
-msgid "Archive"
+msgid "&Archive"
 msgstr "Архівний"
 
 #: tfrmattributesedit.cbcompressed.caption
-msgid "Compressed"
+#, fuzzy
+#| msgid "Compressed"
+msgid "Co&mpressed"
 msgstr "Стиснутий"
 
 #: tfrmattributesedit.cbdirectory.caption
+#, fuzzy
+#| msgid "Directory"
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
-msgid "Directory"
+msgid "&Directory"
 msgstr "Каталог"
 
 #: tfrmattributesedit.cbencrypted.caption
-msgid "Encrypted"
+#, fuzzy
+#| msgid "Encrypted"
+msgid "&Encrypted"
 msgstr "Зашифрований"
 
 #: tfrmattributesedit.cbhidden.caption
+#, fuzzy
+#| msgid "Hidden"
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
-msgid "Hidden"
+msgid "&Hidden"
 msgstr "Прихований"
 
 #: tfrmattributesedit.cbreadonly.caption
+#, fuzzy
+#| msgid "Read only"
 msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
-msgid "Read only"
+msgid "Read o&nly"
 msgstr "Лише читання"
 
 #: tfrmattributesedit.cbsgid.caption
@@ -390,7 +424,9 @@ msgid "SGID"
 msgstr "SGID"
 
 #: tfrmattributesedit.cbsparse.caption
-msgid "Sparse"
+#, fuzzy
+#| msgid "Sparse"
+msgid "S&parse"
 msgstr "Розріджений"
 
 #: tfrmattributesedit.cbsticky.caption
@@ -404,16 +440,22 @@ msgid "SUID"
 msgstr "SUID"
 
 #: tfrmattributesedit.cbsymlink.caption
-msgid "Symlink"
+#, fuzzy
+#| msgid "Symlink"
+msgid "&Symlink"
 msgstr "Симв. посилання"
 
 #: tfrmattributesedit.cbsystem.caption
+#, fuzzy
+#| msgid "System"
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
-msgid "System"
+msgid "S&ystem"
 msgstr "Системний"
 
 #: tfrmattributesedit.cbtemporary.caption
-msgid "Temporary"
+#, fuzzy
+#| msgid "Temporary"
+msgid "&Temporary"
 msgstr "Тимчасовий"
 
 #: tfrmattributesedit.gbntfsattributes.caption
@@ -455,7 +497,9 @@ msgid "Read"
 msgstr "Читання"
 
 #: tfrmattributesedit.lbltextattrs.caption
-msgid "As text:"
+#, fuzzy
+#| msgid "As text:"
+msgid "As te&xt:"
 msgstr "Як текст:"
 
 #: tfrmattributesedit.lblwrite.caption
@@ -464,8 +508,10 @@ msgid "Write"
 msgstr "Запис"
 
 #: tfrmchecksumcalc.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmchecksumcalc.btnok.caption
@@ -479,11 +525,15 @@ msgid "Calculate check sum..."
 msgstr "Розрахувати контрольну суму..."
 
 #: tfrmchecksumcalc.cbseparatefile.caption
-msgid "Create separate checksum file for each file"
+#, fuzzy
+#| msgid "Create separate checksum file for each file"
+msgid "C&reate separate checksum file for each file"
 msgstr "Для кожного файлу створити свій контрольний файл"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-msgid "Save check sum file(s) to:"
+#, fuzzy
+#| msgid "Save check sum file(s) to:"
+msgid "&Save check sum file(s) to:"
 msgstr "Зберегти файл(и) контрольних сум як:"
 
 #: tfrmchecksumverify.btnclose.caption
@@ -497,27 +547,37 @@ msgid "Verify check sum..."
 msgstr "Перевірити контрольну суму..."
 
 #: tfrmconnectionmanager.btnadd.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Додати"
 
 #: tfrmconnectionmanager.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmconnectionmanager.btnconnect.caption
-msgid "Connect"
+#, fuzzy
+#| msgid "Connect"
+msgid "C&onnect"
 msgstr "З'єднати"
 
 #: tfrmconnectionmanager.btndelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "Видалити"
 
 #: tfrmconnectionmanager.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Редагувати"
 
 #: tfrmconnectionmanager.caption
@@ -529,12 +589,16 @@ msgid "Connect to:"
 msgstr "З'єднатися з:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
-msgid "Add To Queue"
+#, fuzzy
+#| msgid "Add To Queue"
+msgid "A&dd To Queue"
 msgstr "Додати в чергу"
 
 #: tfrmcopydlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmcopydlg.btncreatespecialqueue.caption
@@ -547,7 +611,9 @@ msgid "O&ptions"
 msgstr "Налашт&увати"
 
 #: tfrmcopydlg.btnsaveoptions.caption
-msgid "Save these options as default"
+#, fuzzy
+#| msgid "Save these options as default"
+msgid "Sa&ve these options as default"
 msgstr "Зберегти ці налаштування як типові"
 
 #: tfrmcopydlg.caption
@@ -556,8 +622,10 @@ msgid "Copy file(s)"
 msgstr "Копіювати файл(и)"
 
 #: tfrmdescredit.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmdescredit.btnok.caption
@@ -570,12 +638,16 @@ msgid "File/folder comment"
 msgstr "Коментар файлу/каталогу"
 
 #: tfrmdescredit.lbleditcommentfor.caption
-msgid "Edit comment for:"
+#, fuzzy
+#| msgid "Edit comment for:"
+msgid "E&dit comment for:"
 msgstr "Редагувати коментар для:"
 
 #: tfrmdescredit.lblencoding.caption
+#, fuzzy
+#| msgid "Encoding:"
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
-msgid "Encoding:"
+msgid "&Encoding:"
 msgstr "Кодування:"
 
 #: tfrmdescredit.lblfilename.caption
@@ -1010,6 +1082,7 @@ msgid "Delete"
 msgstr "Видалити"
 
 #: tfrmeditor.acteditfind.caption
+msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find"
 msgstr "З&найти"
 
@@ -1248,8 +1321,10 @@ msgid "-"
 msgstr "-"
 
 #: tfrmeditsearchreplace.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmeditsearchreplace.btnok.caption
@@ -1263,8 +1338,10 @@ msgid "C&ase sensitivity"
 msgstr "&Чутливість до регістру"
 
 #: tfrmeditsearchreplace.cbsearchfromcursor.caption
+#, fuzzy
+#| msgid "Search from &caret"
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
-msgid "Search from &caret"
+msgid "S&earch from caret"
 msgstr "Шукати від &курсора"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
@@ -1303,16 +1380,22 @@ msgid "Direction"
 msgstr "Напрямок"
 
 #: tfrmextractdlg.btncancel.caption
+#, fuzzy
+#| msgid "&Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Скасувати"
 
 #: tfrmextractdlg.btnhelp.caption
+#, fuzzy
+#| msgid "&Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "Допомога"
 
 #: tfrmextractdlg.btnok.caption
+#, fuzzy
+#| msgid "&OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Так"
@@ -1335,18 +1418,26 @@ msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Розпакувати кожен архів в &окремий каталог (з іменем архіву)"
 
 #: tfrmextractdlg.cboverwrite.caption
+#, fuzzy
+#| msgid "O&verwrite existing files"
 msgid "&Overwrite existing files"
 msgstr "&Заміняти існуючі файли"
 
 #: tfrmextractdlg.lblextractto.caption
+#, fuzzy
+#| msgid "To the &directory:"
 msgid "To the directory:"
 msgstr "В каталог:"
 
 #: tfrmextractdlg.lblfilemask.caption
+#, fuzzy
+#| msgid "&Extract files matching file mask:"
 msgid "Extract files matching file mask:"
 msgstr "Розпакувати файли по масці:"
 
 #: tfrmextractdlg.lblpassword.caption
+#, fuzzy
+#| msgid "&Password for encrypted files:"
 msgid "Password for encrypted files:"
 msgstr "Пароль для зашифрованих файлів:"
 
@@ -1356,23 +1447,31 @@ msgid "Add"
 msgstr "Додати"
 
 #: tfrmfileassoc.btnaddext.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
-msgid "Add"
+msgid "&Add"
 msgstr "Додати"
 
 #: tfrmfileassoc.btnaddnewtype.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
-msgid "Add"
+msgid "A&dd"
 msgstr "Додати"
 
 #: tfrmfileassoc.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmfileassoc.btndownact.caption
+#, fuzzy
+#| msgid "Down"
 msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "Down"
+msgid "&Down"
 msgstr "Вниз"
 
 #: tfrmfileassoc.btnok.caption
@@ -1381,13 +1480,17 @@ msgid "&OK"
 msgstr "&Так"
 
 #: tfrmfileassoc.btnremoveact.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
-msgid "Remove"
+msgid "Remo&ve"
 msgstr "Видалити"
 
 #: tfrmfileassoc.btnremoveext.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
-msgid "Remove"
+msgid "Re&move"
 msgstr "Видалити"
 
 #: tfrmfileassoc.btnremoveicon.caption
@@ -1396,18 +1499,24 @@ msgid "X"
 msgstr "X"
 
 #: tfrmfileassoc.btnremovetype.caption
+#, fuzzy
+#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
-msgid "Remove"
+msgid "&Remove"
 msgstr "Видалити"
 
 #: tfrmfileassoc.btnrenametype.caption
+#, fuzzy
+#| msgid "Rename"
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
-msgid "Rename"
+msgid "R&ename"
 msgstr "Перейменувати"
 
 #: tfrmfileassoc.btnupact.caption
+#, fuzzy
+#| msgid "Up"
 msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
-msgid "Up"
+msgid "&Up"
 msgstr "Вгору"
 
 #: tfrmfileassoc.caption
@@ -1540,8 +1649,10 @@ msgid "To:"
 msgstr "В"
 
 #: tfrmfileproperties.btnclose.caption
+#, fuzzy
+#| msgid "Close"
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr "Закрити"
 
 #: tfrmfileproperties.btnsetproperties.caption
@@ -1656,8 +1767,10 @@ msgid "Path:"
 msgstr "Шлях:"
 
 #: tfrmfileproperties.lblgroupstr.caption
+#, fuzzy
+#| msgid "Group"
 msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
-msgid "Group"
+msgid "&Group"
 msgstr "Група"
 
 #: tfrmfileproperties.lbllastaccess.caption
@@ -1693,8 +1806,10 @@ msgid "Octal:"
 msgstr "Вісімковий"
 
 #: tfrmfileproperties.lblownerstr.caption
+#, fuzzy
+#| msgid "Owner"
 msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
-msgid "Owner"
+msgid "O&wner"
 msgstr "Власник"
 
 #: tfrmfileproperties.lblread.caption
@@ -1746,6 +1861,7 @@ msgid "Properties"
 msgstr "Властивості"
 
 #: tfrmfinddlg.btnaddattribute.caption
+msgctxt "tfrmfinddlg.btnaddattribute.caption"
 msgid "&Add"
 msgstr "&Додати"
 
@@ -1758,6 +1874,11 @@ msgstr "Допомо&га"
 msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
 msgid "&Close"
 msgstr "&Закрити"
+
+#: tfrmfinddlg.btnedit.caption
+msgctxt "tfrmfinddlg.btnedit.caption"
+msgid "&Edit"
+msgstr "Р&едагувати"
 
 #: tfrmfinddlg.btngotopath.caption
 msgid "&Go to file"
@@ -1793,11 +1914,14 @@ msgstr "Збере&гти"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
 #, fuzzy
-msgid "Save with starting path"
+#| msgid "Save with starting path"
+msgid "Sa&ve with \"Start in directory\""
 msgstr "Зберегти шлях запуску"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+#, fuzzy
+#| msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
+msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "Якщо шлях запуску збережено, то його буде відновлено при завантаженні шаблону. Використовуйте його, якщо ви хочете виправити пошук в певній директорії."
 
 #: tfrmfinddlg.btnstart.caption
@@ -1806,8 +1930,10 @@ msgid "&Start"
 msgstr "&Старт"
 
 #: tfrmfinddlg.btnstop.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "Cancel"
+msgid "C&ancel"
 msgstr "Скасувати"
 
 #: tfrmfinddlg.btnusetemplate.caption
@@ -1833,21 +1959,27 @@ msgid "Case sens&itive"
 msgstr "З врахуванням регістру"
 
 #: tfrmfinddlg.cbdatefrom.caption
-msgid "Date From:"
+#, fuzzy
+#| msgid "Date From:"
+msgid "&Date from:"
 msgstr "Дата від:"
 
 #: tfrmfinddlg.cbdateto.caption
-msgid "Date To:"
+#, fuzzy
+#| msgid "Date To:"
+msgid "Dat&e to:"
 msgstr "Дата до:"
 
 #: tfrmfinddlg.cbfilesizefrom.caption
 #, fuzzy
-msgid "Size from:"
+#| msgid "Size from:"
+msgid "S&ize from:"
 msgstr "Розмір від:"
 
 #: tfrmfinddlg.cbfilesizeto.caption
 #, fuzzy
-msgid "Size to:"
+#| msgid "Size to:"
+msgid "Si&ze to:"
 msgstr "Розмір до:"
 
 #: tfrmfinddlg.cbfindtext.caption
@@ -1856,8 +1988,10 @@ msgid "Find &text in file"
 msgstr "&Шукати текст у файлі"
 
 #: tfrmfinddlg.cbfollowsymlinks.caption
+#, fuzzy
+#| msgid "Follow symlinks"
 msgctxt "tfrmfinddlg.cbfollowsymlinks.caption"
-msgid "Follow symlinks"
+msgid "Follow s&ymlinks"
 msgstr "Перейти за посиланнями"
 
 #: tfrmfinddlg.cbnotcontainingtext.caption
@@ -1866,11 +2000,15 @@ msgid "Find files N&OT containing the text"
 msgstr "Шукати файли, що &НЕ містять текст"
 
 #: tfrmfinddlg.cbnotolderthan.caption
-msgid "Not older than:"
+#, fuzzy
+#| msgid "Not older than:"
+msgid "N&ot older than:"
 msgstr "Не старші ніж:"
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
-msgid "Search for part of file name "
+#, fuzzy
+#| msgid "Search for part of file name "
+msgid "Searc&h for part of file name"
 msgstr "Шукати по частині назви файлу"
 
 #: tfrmfinddlg.cbregexp.caption
@@ -1885,11 +2023,15 @@ msgid "Re&place by"
 msgstr "За&мінити на"
 
 #: tfrmfinddlg.cbtimefrom.caption
-msgid "Time from:"
+#, fuzzy
+#| msgid "Time from:"
+msgid "&Time from:"
 msgstr "Час від:"
 
 #: tfrmfinddlg.cbtimeto.caption
-msgid "Time to:"
+#, fuzzy
+#| msgid "Time to:"
+msgid "Ti&me to:"
 msgstr "Час до:"
 
 #: tfrmfinddlg.cbuseplugin.caption
@@ -1913,10 +2055,6 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: tfrmfinddlg.gbattributes.caption
-msgid "&Attributes"
-msgstr "&Атрибути"
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
 msgid "Directories"
@@ -1931,9 +2069,15 @@ msgstr "Файли"
 msgid "Find Data"
 msgstr "Пошук даних з текстом"
 
+#: tfrmfinddlg.lblattributes.caption
+msgid "Attri&butes"
+msgstr ""
+
 #: tfrmfinddlg.lblencoding.caption
+#, fuzzy
+#| msgid "Encoding:"
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
-msgid "Encoding:"
+msgid "Encodin&g:"
 msgstr "Кодування:"
 
 #: tfrmfinddlg.lblexcludedirectories.caption
@@ -1949,8 +2093,9 @@ msgid "&File mask"
 msgstr "По &масці файлу"
 
 #: tfrmfinddlg.lblfindpathstart.caption
-#| msgid "&Directory"
-msgid "&Start in directory"
+#, fuzzy
+#| msgid "&Start in directory"
+msgid "Start in &directory"
 msgstr "Шукати в &каталозі:"
 
 #: tfrmfinddlg.lblsearchdepth.caption
@@ -1995,13 +2140,17 @@ msgid "Standard"
 msgstr "Стандартні"
 
 #: tfrmfindview.btnclose.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmfindview.btnfind.caption
+#, fuzzy
+#| msgid "Find"
 msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
-msgid "Find"
+msgid "&Find"
 msgstr "Знайти"
 
 #: tfrmfindview.caption
@@ -2010,12 +2159,16 @@ msgid "Find"
 msgstr "Знайти"
 
 #: tfrmfindview.cbcasesens.caption
-msgid "Case sensitive"
+#, fuzzy
+#| msgid "Case sensitive"
+msgid "C&ase sensitive"
 msgstr "З урахуванням регістру"
 
 #: tfrmhardlink.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmhardlink.btnok.caption
@@ -2028,37 +2181,51 @@ msgid "Create hard link"
 msgstr "Створити жорстке посилання"
 
 #: tfrmhardlink.lblexistingfile.caption
+#, fuzzy
+#| msgid "Destination that the link will point to"
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Destination that the link will point to"
+msgid "&Destination that the link will point to"
 msgstr "Об’єкт на який вказуватиме посилання"
 
 #: tfrmhardlink.lbllinktocreate.caption
+#, fuzzy
+#| msgid "Link name"
 msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
-msgid "Link name"
+msgid "&Link name"
 msgstr "Ім'я посилання"
 
 #: tfrmhotdir.btnadd.caption
+#, fuzzy
+#| msgid "Add"
 msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
-msgid "Add"
+msgid "&Add"
 msgstr "Додати"
 
 #: tfrmhotdir.btnaddman.caption
-msgid "Add manually"
+#, fuzzy
+#| msgid "Add manually"
+msgid "Add &manually"
 msgstr "Додати вручну"
 
 #: tfrmhotdir.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmhotdir.btndelete.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "Видалити"
 
 #: tfrmhotdir.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
 msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Редагувати"
 
 #: tfrmhotdir.btnok.caption
@@ -2071,13 +2238,17 @@ msgid "Directory Hotlist"
 msgstr "Вибрані каталоги"
 
 #: tfrmlinker.btnexit.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmlinker.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "Так"
 
 #: tfrmlinker.btnsave.caption
@@ -2099,13 +2270,17 @@ msgid "Item"
 msgstr "Елемент"
 
 #: tfrmlinker.lblfilename.caption
+#, fuzzy
+#| msgid "File name"
 msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
-msgid "File name"
+msgid "&File name"
 msgstr "Ім'я файлу"
 
 #: tfrmlinker.spbtndel.caption
+#, fuzzy
+#| msgid "Delete"
 msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
-msgid "Delete"
+msgid "&Delete"
 msgstr "Видалити"
 
 #: tfrmlinker.spbtndel.hint
@@ -2114,8 +2289,10 @@ msgid "Delete"
 msgstr "Видалити"
 
 #: tfrmlinker.spbtndown.caption
+#, fuzzy
+#| msgid "Down"
 msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
-msgid "Down"
+msgid "Do&wn"
 msgstr "Вниз"
 
 #: tfrmlinker.spbtndown.hint
@@ -2124,8 +2301,10 @@ msgid "Down"
 msgstr "Вниз"
 
 #: tfrmlinker.spbtnup.caption
+#, fuzzy
+#| msgid "Up"
 msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
-msgid "Up"
+msgid "&Up"
 msgstr "Вгору"
 
 #: tfrmlinker.spbtnup.hint
@@ -3139,12 +3318,16 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmaskinputdlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmmaskinputdlg.btndefinetemplate.caption
-msgid "Define..."
+#, fuzzy
+#| msgid "Define..."
+msgid "&Define..."
 msgstr "Визначити..."
 
 #: tfrmmaskinputdlg.btnok.caption
@@ -3153,12 +3336,16 @@ msgid "&OK"
 msgstr "&Так"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
-msgid "Or select predefined selection type:"
+#, fuzzy
+#| msgid "Or select predefined selection type:"
+msgid "O&r select predefined selection type:"
 msgstr "Або виберіть тип виділення за шаблоном:"
 
 #: tfrmmkdir.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmmkdir.btnok.caption
@@ -3171,7 +3358,9 @@ msgid "Create new directory"
 msgstr "Створити новий каталог"
 
 #: tfrmmkdir.lblmakedir.caption
-msgid "Input new directory name:"
+#, fuzzy
+#| msgid "Input new directory name:"
+msgid "&Input new directory name:"
 msgstr "Введіть ім'я каталогу:"
 
 #: tfrmmodview.btncancel.caption
@@ -3308,11 +3497,14 @@ msgid "..."
 msgstr "..."
 
 #: tfrmmultirename.btnrename.caption
+msgctxt "tfrmmultirename.btnrename.caption"
 msgid "&Rename"
 msgstr "&Перейменувати"
 
 #: tfrmmultirename.btnrestore.caption
-msgid "Reset all"
+#, fuzzy
+#| msgid "Reset all"
+msgid "Reset &all"
 msgstr "Відновити все"
 
 #: tfrmmultirename.btnsavepreset.caption
@@ -3326,8 +3518,10 @@ msgid "MultiRename"
 msgstr "Групове перейменування"
 
 #: tfrmmultirename.cblog.caption
+#, fuzzy
+#| msgid "Enable"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Enable"
+msgid "Ena&ble"
 msgstr "Ввімкнено"
 
 #: tfrmmultirename.cbregexp.caption
@@ -3386,7 +3580,9 @@ msgid "&Find..."
 msgstr "Зна&йти..."
 
 #: tfrmmultirename.lbinterval.caption
-msgid "Interval"
+#, fuzzy
+#| msgid "Interval"
+msgid "&Interval"
 msgstr "Інтервал"
 
 #: tfrmmultirename.lbname.caption
@@ -3398,12 +3594,16 @@ msgid "Re&place..."
 msgstr "Заміни&ти..."
 
 #: tfrmmultirename.lbstnb.caption
-msgid "Start Number"
+#, fuzzy
+#| msgid "Start Number"
+msgid "S&tart Number"
 msgstr "Початкове значення"
 
 #: tfrmmultirename.lbwidth.caption
+#, fuzzy
+#| msgid "Width"
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
-msgid "Width"
+msgid "&Width"
 msgstr "Ширина"
 
 #: tfrmmultirename.micounter.caption
@@ -5359,23 +5559,31 @@ msgid "&Number of columns in book viewer"
 msgstr "К-сть стовпців у переглядачі к&ниг"
 
 #: tfrmpackdlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmpackdlg.btnconfig.caption
+#, fuzzy
+#| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
-msgid "&Configure"
+msgid "Con&figure"
 msgstr "&Налаштувати"
 
 #: tfrmpackdlg.btnhelp.caption
+#, fuzzy
+#| msgid "Help"
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "Help"
+msgid "&Help"
 msgstr "Допомога"
 
 #: tfrmpackdlg.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "Так"
 
 #: tfrmpackdlg.caption
@@ -5384,7 +5592,9 @@ msgid "Pack files"
 msgstr "Упакування файлів"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
-msgid "Create separate archives, o&ne per selected file/dir"
+#, fuzzy
+#| msgid "Create separate archives, o&ne per selected file/dir"
+msgid "C&reate separate archives, one per selected file/dir"
 msgstr "Окремі архіви для кожн&ого вибраного файлу/каталогу"
 
 #: tfrmpackdlg.cbcreatesfx.caption
@@ -5396,7 +5606,9 @@ msgid "Encr&ypt"
 msgstr "&Шифрувати"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
-msgid "M&ove to archive"
+#, fuzzy
+#| msgid "M&ove to archive"
+msgid "Mo&ve to archive"
 msgstr "Ви&далити вхідні файли після упаковки"
 
 #: tfrmpackdlg.cbmultivolume.caption
@@ -5408,7 +5620,9 @@ msgid "=>"
 msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
-msgid "Put in the TAR archive first"
+#, fuzzy
+#| msgid "Put in the TAR archive first"
+msgid "P&ut in the TAR archive first"
 msgstr "Спершу помістити в TAR архів"
 
 #: tfrmpackdlg.cbstoredir.caption
@@ -5424,8 +5638,10 @@ msgid "Packer"
 msgstr "Пакувальник"
 
 #: tfrmpackinfodlg.btnclose.caption
+#, fuzzy
+#| msgid "Close"
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr "Закрити"
 
 #: tfrmpackinfodlg.btnunpackallandexec.caption
@@ -5556,13 +5772,22 @@ msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
 msgid "&Help"
 msgstr "&Допомога"
 
+#: tfrmselecttextrange.btppanel.okbutton.caption
+msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
+msgid "&OK"
+msgstr "&Так"
+
 #: tfrmselecttextrange.lblselecttext.caption
-msgid "Select the characters to insert:"
+#, fuzzy
+#| msgid "Select the characters to insert:"
+msgid "&Select the characters to insert:"
 msgstr "Виберіть символи для вставки:"
 
 #: tfrmsetfileproperties.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmsetfileproperties.btnok.caption
@@ -5698,8 +5923,10 @@ msgid "Write"
 msgstr "Запис"
 
 #: tfrmsplitter.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmsplitter.btnftchoice.caption
@@ -5708,8 +5935,10 @@ msgid "..."
 msgstr "..."
 
 #: tfrmsplitter.btnok.caption
+#, fuzzy
+#| msgid "OK"
 msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "OK"
+msgid "&OK"
 msgstr "Так"
 
 #: tfrmsplitter.caption
@@ -5731,35 +5960,49 @@ msgid "Size and number of parts"
 msgstr "Розмір і кількість частин"
 
 #: tfrmsplitter.lbdirtarget.caption
-msgid "Directory target"
+#, fuzzy
+#| msgid "Directory target"
+msgid "Directory &target"
 msgstr "Каталог призначення"
 
 #: tfrmsplitter.lbfilesource.caption
-msgid "File source"
+#, fuzzy
+#| msgid "File source"
+msgid "File &source"
 msgstr "Вхідний файл"
 
 #: tfrmsplitter.lblnumberparts.caption
-msgid "Number of parts"
+#, fuzzy
+#| msgid "Number of parts"
+msgid "&Number of parts"
 msgstr "Кількість частин"
 
 #: tfrmsplitter.rbtngigab.caption
+#, fuzzy
+#| msgid "Gigabytes"
 msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
-msgid "Gigabytes"
+msgid "&Gigabytes"
 msgstr "Гігабайти"
 
 #: tfrmsplitter.rbtnkilob.caption
+#, fuzzy
+#| msgid "Kilobytes"
 msgctxt "TFRMSPLITTER.RBTNKILOB.CAPTION"
-msgid "Kilobytes"
+msgid "&Kilobytes"
 msgstr "Кілобайти"
 
 #: tfrmsplitter.rbtnmegab.caption
+#, fuzzy
+#| msgid "Megabytes"
 msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
-msgid "Megabytes"
+msgid "&Megabytes"
 msgstr "Мегабайти"
 
 #: tfrmsymlink.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "Скасувати"
 
 #: tfrmsymlink.btnok.caption
@@ -5772,13 +6015,17 @@ msgid "Create symbolic link"
 msgstr "Створити симв. посилання"
 
 #: tfrmsymlink.lblexistingfile.caption
+#, fuzzy
+#| msgid "Destination that the link will point to"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Destination that the link will point to"
+msgid "&Destination that the link will point to"
 msgstr "Місце, на яке вказуватиме посилання"
 
 #: tfrmsymlink.lbllinktocreate.caption
+#, fuzzy
+#| msgid "Link name"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
-msgid "Link name"
+msgid "&Link name"
 msgstr "Ім'я посилання"
 
 #: tfrmtweakplugin.btnadd.caption
@@ -6574,6 +6821,7 @@ msgid "Ab&ort"
 msgstr "П&ерервати"
 
 #: ulng.rsdlgbuttonall
+msgctxt "ulng.rsdlgbuttonall"
 msgid "A&ll"
 msgstr "В&се"
 
