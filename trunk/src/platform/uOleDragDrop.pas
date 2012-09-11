@@ -135,11 +135,19 @@ type
 
     constructor Create;
 
+    {$IF FPC_FULLVERSION < 020601}
     function QueryContinueDrag(fEscapePressed: BOOL;
       grfKeyState: longint): HResult; stdcall;
+    {$ELSE}
+    function QueryContinueDrag(fEscapePressed: BOOL;
+      grfKeyState: DWORD): HResult; stdcall;
+    {$ENDIF}
 
+    {$IF FPC_FULLVERSION < 020601}
     function GiveFeedback(dwEffect: longint): HResult; stdcall;
-
+    {$ELSE}
+    function GiveFeedback(dwEffect: DWORD): HResult; stdcall;
+    {$ENDIF}
   end;
 
 
@@ -1268,9 +1276,13 @@ QueryContinueDrag определяет необходимые действия.
 
 }
 
+{$IF FPC_FULLVERSION < 020601}
 function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL;
   grfKeyState: longint): HResult;
-
+{$ELSE}
+function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL;
+  grfKeyState: DWORD): HResult;
+{$ENDIF}
 var
   Point:TPoint;
 
@@ -1335,7 +1347,11 @@ begin
 
 end;
 
+{$IF FPC_FULLVERSION < 020601}
 function TFileDropSource.GiveFeedback(dwEffect: longint): HResult;
+{$ELSE}
+function TFileDropSource.GiveFeedback(dwEffect: DWORD): HResult;
+{$ENDIF}
 
 begin
 

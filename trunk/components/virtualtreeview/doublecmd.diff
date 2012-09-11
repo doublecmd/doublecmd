@@ -1,3 +1,173 @@
+Index: VTGraphics.pas
+===================================================================
+--- VTGraphics.pas	(revision 2433)
++++ VTGraphics.pas	(working copy)
+@@ -26,7 +26,27 @@
+ 
+ implementation
+ 
++{$IFDEF CPU32}
+ {$i vtgraphicsi.inc}
++{$ENDIF CPU32}
+ 
++{$IFDEF CPU64}
++
++procedure AlphaBlend(Source, Destination: HDC; const R: TRect; const Target: TPoint; Mode: TBlendMode; ConstantAlpha, Bias: Integer);
++begin
++end;
++
++function CalculateScanline(Bits: Pointer; Width, Height, Row: Integer): Pointer;
++begin
++  Result := nil;
++end;
++
++function GetBitmapBitsFromBitmap(Bitmap: HBITMAP): Pointer;
++begin
++  Result := nil;
++end;
++
++{$ENDIF CPU64}
++
+ end.
+ 
+Index: include/intf/win32/vtvdragmanager.inc
+===================================================================
+--- include/intf/win32/vtvdragmanager.inc	(revision 2433)
++++ include/intf/win32/vtvdragmanager.inc	(working copy)
+@@ -686,7 +686,7 @@
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+ 
+-{$IF FPC_FULLVERSION < 020701}
++{$IF FPC_FULLVERSION < 020601}
+ function TVTDragManager.GiveFeedback(Effect: Longint): HResult;
+ {$ELSE}
+ function TVTDragManager.GiveFeedback(Effect: LongWord): HResult;
+@@ -698,7 +698,7 @@
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+ 
+-{$IF FPC_FULLVERSION < 020701}
++{$IF FPC_FULLVERSION < 020601}
+ function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: Longint): HResult;
+ {$ELSE}
+ function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: LongWord): HResult;
+Index: VTConfig.inc
+===================================================================
+--- VTConfig.inc	(revision 2433)
++++ VTConfig.inc	(working copy)
+@@ -22,12 +22,16 @@
+ 
+ 
+ //Lazarus port options
+-{$define EnableOLE}
++{.$define EnableOLE}
+ {.$define EnableNativeTVM}
+ {.$define EnablePrint}
+ {.$define EnableNCFunctions}
+ {$define EnableAdvancedGraphics}
+-{$define EnableAlphaBlend}
++
++{$IFDEF CPU32}
++  {$define EnableAlphaBlend}
++{$ENDIF CPU32}
++
+ {.$define EnableAccessible}
+ {$define ThemeSupport}
+ {$if defined(LCLWin32) or defined(LCLWinCE)}
+@@ -42,5 +46,5 @@
+ 
+ //under linux the performance is poor with threading enabled
+ {$ifdef Windows}
+-  {$define EnableThreadSupport}
++  {.$define EnableThreadSupport}
+ {$endif}
+Index: units/win32/virtualpanningwindow.pas
+===================================================================
+--- units/win32/virtualpanningwindow.pas	(revision 2433)
++++ units/win32/virtualpanningwindow.pas	(working copy)
+@@ -38,12 +38,13 @@
+ begin
+   if Msg = WM_PAINT then
+   begin
+-    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
++    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
+     if Assigned(PanningObject) then
+       PanningObject.HandlePaintMessage;
++	Result := 0;
+   end
+   else
+-    DefWindowProc(Window,Msg,WPara,LPara);
++    Result := DefWindowProc(Window,Msg,WPara,LPara);
+ end;
+ 
+ var
+@@ -87,8 +88,7 @@
+   with Position do
+     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
+       32, 32, OwnerHandle, 0, HInstance, nil);
+-  //todo use SetWindowLongPtr later
+-  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
++  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
+   
+   FImage := TBitmap.Create;
+ end;
+Index: units/qt/fakemmsystem.pas
+===================================================================
+--- units/qt/fakemmsystem.pas	(revision 2433)
++++ units/qt/fakemmsystem.pas	(working copy)
+@@ -15,6 +15,9 @@
+ 
+ implementation
+ 
++uses
++  LCLIntf;
++
+ function timeBeginPeriod(x1: DWord): DWord;
+ begin
+ 
+@@ -26,12 +29,8 @@
+ end;
+ 
+ function timeGetTime: DWORD;
+-var
+-  ATime: TSystemTime;
+ begin
+-  //todo: properly implement
+-  GetLocalTime(ATime);
+-  Result := ATime.MilliSecond;
++  Result := GetTickCount;
+ end;
+ 
+ end.
+Index: units/carbon/fakemmsystem.pas
+===================================================================
+--- units/carbon/fakemmsystem.pas	(revision 2433)
++++ units/carbon/fakemmsystem.pas	(working copy)
+@@ -15,6 +15,9 @@
+ 
+ implementation
+ 
++uses
++  LCLIntf;
++
+ function timeBeginPeriod(x1: DWord): DWord;
+ begin
+ 
+@@ -26,12 +29,8 @@
+ end;
+ 
+ function timeGetTime: DWORD;
+-var
+-  ATime: TSystemTime;
+ begin
+-  //todo: properly implement
+-  GetLocalTime(ATime);
+-  Result := ATime.MilliSecond;
++  Result := GetTickCount;
+ end;
+ 
+ end.
 Index: VirtualTrees.pas
 ===================================================================
 --- VirtualTrees.pas	(revision 2433)
@@ -10,6 +180,15 @@ Index: VirtualTrees.pas
      toAutoChangeScale,          // Change default node height automatically if the system's font scale is set to big fonts.
      toAutoFreeOnCollapse,       // Frees any child node after a node has been collapsed (HasChildren flag stays there).
      toDisableAutoscrollOnEdit,  // Do not center a node horizontally when it is edited.
+@@ -1046,7 +1047,7 @@
+     function DragOver(KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
+     function Drop(const DataObject: IDataObject; KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
+     procedure ForceDragLeave; stdcall;
+-    {$IF (FPC_FULLVERSION < 020701) and DEFINED(LCLWin32)}
++    {$IF (FPC_FULLVERSION < 020601) and DEFINED(LCLWin32)}
+     function GiveFeedback(Effect: Longint): HResult; stdcall;
+     function QueryContinueDrag(EscapePressed: BOOL; KeyState: Longint): HResult; stdcall;
+     {$ELSE}
 @@ -2018,7 +2019,7 @@
      var Allowed: Boolean) of object;
    TVTDragOverEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState; State: TDragState;
@@ -309,151 +488,3 @@ Index: VirtualTrees.pas
      if NewOffset <> FEffectiveOffsetX then
      begin
        if UseRightToLeftAlignment then
-Index: VTGraphics.pas
-===================================================================
---- VTGraphics.pas	(revision 2433)
-+++ VTGraphics.pas	(working copy)
-@@ -26,7 +26,27 @@
- 
- implementation
- 
-+{$IFDEF CPU32}
- {$i vtgraphicsi.inc}
-+{$ENDIF CPU32}
- 
-+{$IFDEF CPU64}
-+
-+procedure AlphaBlend(Source, Destination: HDC; const R: TRect; const Target: TPoint; Mode: TBlendMode; ConstantAlpha, Bias: Integer);
-+begin
-+end;
-+
-+function CalculateScanline(Bits: Pointer; Width, Height, Row: Integer): Pointer;
-+begin
-+  Result := nil;
-+end;
-+
-+function GetBitmapBitsFromBitmap(Bitmap: HBITMAP): Pointer;
-+begin
-+  Result := nil;
-+end;
-+
-+{$ENDIF CPU64}
-+
- end.
- 
-Index: VTConfig.inc
-===================================================================
---- VTConfig.inc	(revision 2433)
-+++ VTConfig.inc	(working copy)
-@@ -22,12 +22,16 @@
- 
- 
- //Lazarus port options
--{$define EnableOLE}
-+{.$define EnableOLE}
- {.$define EnableNativeTVM}
- {.$define EnablePrint}
- {.$define EnableNCFunctions}
- {$define EnableAdvancedGraphics}
--{$define EnableAlphaBlend}
-+
-+{$IFDEF CPU32}
-+  {$define EnableAlphaBlend}
-+{$ENDIF CPU32}
-+
- {.$define EnableAccessible}
- {$define ThemeSupport}
- {$if defined(LCLWin32) or defined(LCLWinCE)}
-@@ -42,5 +46,5 @@
- 
- //under linux the performance is poor with threading enabled
- {$ifdef Windows}
--  {$define EnableThreadSupport}
-+  {.$define EnableThreadSupport}
- {$endif}
-Index: units/qt/fakemmsystem.pas
-===================================================================
---- units/qt/fakemmsystem.pas	(revision 2433)
-+++ units/qt/fakemmsystem.pas	(working copy)
-@@ -15,6 +15,9 @@
- 
- implementation
- 
-+uses
-+  LCLIntf;
-+
- function timeBeginPeriod(x1: DWord): DWord;
- begin
- 
-@@ -26,12 +29,8 @@
- end;
- 
- function timeGetTime: DWORD;
--var
--  ATime: TSystemTime;
- begin
--  //todo: properly implement
--  GetLocalTime(ATime);
--  Result := ATime.MilliSecond;
-+  Result := GetTickCount;
- end;
- 
- end.
-Index: units/carbon/fakemmsystem.pas
-===================================================================
---- units/carbon/fakemmsystem.pas	(revision 2433)
-+++ units/carbon/fakemmsystem.pas	(working copy)
-@@ -15,6 +15,9 @@
- 
- implementation
- 
-+uses
-+  LCLIntf;
-+
- function timeBeginPeriod(x1: DWord): DWord;
- begin
- 
-@@ -26,12 +29,8 @@
- end;
- 
- function timeGetTime: DWORD;
--var
--  ATime: TSystemTime;
- begin
--  //todo: properly implement
--  GetLocalTime(ATime);
--  Result := ATime.MilliSecond;
-+  Result := GetTickCount;
- end;
- 
- end.
-Index: units/win32/virtualpanningwindow.pas
-===================================================================
---- units/win32/virtualpanningwindow.pas	(revision 2433)
-+++ units/win32/virtualpanningwindow.pas	(working copy)
-@@ -38,12 +38,13 @@
- begin
-   if Msg = WM_PAINT then
-   begin
--    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
-+    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
-     if Assigned(PanningObject) then
-       PanningObject.HandlePaintMessage;
-+	Result := 0;
-   end
-   else
--    DefWindowProc(Window,Msg,WPara,LPara);
-+    Result := DefWindowProc(Window,Msg,WPara,LPara);
- end;
- 
- var
-@@ -87,8 +88,7 @@
-   with Position do
-     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
-       32, 32, OwnerHandle, 0, HInstance, nil);
--  //todo use SetWindowLongPtr later
--  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
-+  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
-   
-   FImage := TBitmap.Create;
- end;

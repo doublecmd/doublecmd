@@ -1047,7 +1047,7 @@ type
     function DragOver(KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
     function Drop(const DataObject: IDataObject; KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
     procedure ForceDragLeave; stdcall;
-    {$IF (FPC_FULLVERSION < 020701) and DEFINED(LCLWin32)}
+    {$IF (FPC_FULLVERSION < 020601) and DEFINED(LCLWin32)}
     function GiveFeedback(Effect: Longint): HResult; stdcall;
     function QueryContinueDrag(EscapePressed: BOOL; KeyState: Longint): HResult; stdcall;
     {$ELSE}
