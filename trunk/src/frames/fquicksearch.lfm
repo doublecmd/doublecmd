@@ -4,7 +4,6 @@ object frmQuickSearch: TfrmQuickSearch
   Top = 0
   Width = 436
   AutoSize = True
-  BorderSpacing.Top = 4
   ClientHeight = 43
   ClientWidth = 436
   OnExit = FrameExit
