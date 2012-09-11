@@ -686,7 +686,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-{$IF FPC_FULLVERSION < 020701}
+{$IF FPC_FULLVERSION < 020601}
 function TVTDragManager.GiveFeedback(Effect: Longint): HResult;
 {$ELSE}
 function TVTDragManager.GiveFeedback(Effect: LongWord): HResult;
@@ -698,7 +698,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-{$IF FPC_FULLVERSION < 020701}
+{$IF FPC_FULLVERSION < 020601}
 function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: Longint): HResult;
 {$ELSE}
 function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: LongWord): HResult;
