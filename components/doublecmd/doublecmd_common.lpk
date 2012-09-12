@@ -69,6 +69,7 @@
       </Item1>
     </RequiredPkgs>
     <UsageOptions>
+      <CustomOptions Value="-fPIC"/>
       <UnitPath Value="$(PkgOutDir)"/>
     </UsageOptions>
     <PublishOptions>
