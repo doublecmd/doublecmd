@@ -6,12 +6,13 @@ rm -f units/x86_64-linux-gtk2/*
 rm -f units/x86_64-linux-qt/*
 
 # Clean up components output directories
+rm -rf components/chsdet/lib/*
 rm -rf components/CmdLine/lib/*
+rm -rf components/dcpcrypt/lib/*
+rm -rf components/doublecmd/lib/*
+rm -rf components/gifanim/lib/*
 rm -rf components/KASToolBar/lib/*
 rm -rf components/viewer/lib/*
-rm -rf components/chsdet/lib/*
-rm -rf components/dcpcrypt/lib/*
-rm -rf components/gifanim/lib/*
 rm -rf components/ZVDateTimeCtrls/lib/*
 
 # Clean up all temporary files

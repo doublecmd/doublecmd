@@ -54,6 +54,7 @@
 @del /Q /S components\chsdet\lib\*.*
 @del /Q /S components\CmdLine\lib\*.*
 @del /Q /S components\dcpcrypt\lib\*.*
+@del /Q /S components\doublecmd\lib\*.*
 @del /Q /S components\gifanim\lib\*.*
 @del /Q /S components\KASToolBar\lib\*.*
 @del /Q /S components\viewer\lib\*.*
