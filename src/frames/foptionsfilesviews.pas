@@ -27,7 +27,7 @@ unit fOptionsFilesViews;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Graphics,
+  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls,
   fOptionsFrame;
 
 type
@@ -42,23 +42,25 @@ type
     cbLoadIconsSeparately: TCheckBox;
     cbDelayLoadingTabs: TCheckBox;
     cbUpdatedFilesPosition: TComboBox;
-    cbShortFileSizeFormat: TCheckBox;
     cbShowSystemFiles: TCheckBox;
     cbNewFilesPosition: TComboBox;
     cbSortMethod: TComboBox;
     cbSpaceMovesDown: TCheckBox;
     cbCaseSensitivity: TComboBox;
     cbSortFolderMode: TComboBox;
+    cbFileSizeFormat: TComboBox;
     gbFormatting: TGroupBox;
     gbSorting: TGroupBox;
     gbMisc: TGroupBox;
+    lblDateTimeExample: TLabel;
     lblUpdatedFilesPosition: TLabel;
     lblSortFolderMode: TLabel;
     lblCaseSensitivity: TLabel;
-    lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
     lblNewFilesPosition: TLabel;
     lblSortMethod: TLabel;
+    lblFileSizeFormat: TLabel;
+    pnlDateTime: TPanel;
     procedure cbDateTimeFormatChange(Sender: TObject);
   private
     FIncorrectFormatMessage: string;
@@ -102,6 +104,7 @@ begin
   ParseLineToList(rsOptSortFolderMode, cbSortFolderMode.Items);
   ParseLineToList(rsOptNewFilesPosition, cbNewFilesPosition.Items);
   ParseLineToList(rsOptUpdatedFilesPosition, cbUpdatedFilesPosition.Items);
+  ParseLineToList(rsOptFileSizeFormat, cbFileSizeFormat.Items);
 end;
 
 procedure TfrmOptionsFilesViews.Load;
@@ -131,7 +134,7 @@ begin
     ufpSameAsNewFiles: cbUpdatedFilesPosition.ItemIndex := 1;
     ufpSortedPosition: cbUpdatedFilesPosition.ItemIndex := 2;
   end;
-  cbShortFileSizeFormat.Checked :=gShortFileSizeFormat;
+  cbFileSizeFormat.ItemIndex := Ord(gFileSizeFormat);
   cbDateTimeFormat.Text := gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
   cbSpaceMovesDown.Checked := gSpaceMovesDown;
@@ -173,7 +176,7 @@ begin
     1: gUpdatedFilesPosition := ufpSameAsNewFiles;
     2: gUpdatedFilesPosition := ufpSortedPosition;
   end;
-  gShortFileSizeFormat := cbShortFileSizeFormat.Checked;
+  gFileSizeFormat := TFileSizeFormat(cbFileSizeFormat.ItemIndex);
 
   gDateTimeFormat := GetValidDateTimeFormat(cbDateTimeFormat.Text, gDateTimeFormat);
 

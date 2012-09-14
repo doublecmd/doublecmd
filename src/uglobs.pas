@@ -192,7 +192,7 @@ var
   gWheelScrollLines: Integer;
   gAlwaysShowTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
-  gShortFileSizeFormat:Boolean;
+  gFileSizeFormat: TFileSizeFormat;
   gDateTimeFormat : String;
   gDriveBlackList: String;
   gDriveBlackListUnmounted: Boolean; // Automatically black list unmounted devices
@@ -764,7 +764,7 @@ begin
   gSortFolderMode := sfmSortNameShowFirst;
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
-  gShortFileSizeFormat := True;
+  gFileSizeFormat := fsfFloat;
   gMinimizeToTray := False;
   gAlwaysShowTrayIcon := False;
   gMouseSelectionEnabled := True;
@@ -1266,7 +1266,7 @@ begin
   else
     gSortCaseSensitivity := cstLocale;
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
-  gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
+  gFileSizeFormat := TFileSizeFormat(gIni.ReadInteger('Configuration', 'FileSizeFormat', Ord(fsfFloat)));
   gScrollMode := TScrollMode(gIni.ReadInteger('Configuration', 'ScrollMode', Integer(gScrollMode)));
   gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
   gAlwaysShowTrayIcon := gIni.ReadBool('Configuration', 'AlwaysShowTrayIcon', False);
@@ -1447,7 +1447,7 @@ begin
     gIni.WriteBool('Configuration', 'CaseSensitiveSort', True);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
 
-  gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
+  gIni.WriteInteger('Configuration', 'FileSizeFormat', Ord(gFileSizeFormat));
   gIni.WriteInteger('Configuration', 'ScrollMode', Integer(gScrollMode));
   gIni.WriteBool('Configuration', 'MinimizeToTray', gMinimizeToTray);
   gIni.WriteBool('Configuration', 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
@@ -1638,7 +1638,7 @@ begin
           gSortCaseSensitivity := cstLocale;
         gSortNatural := GetValue(Node, 'SortNatural', gSortNatural);
       end;
-      gShortFileSizeFormat := GetValue(Node, 'ShortFileSizeFormat', gShortFileSizeFormat);
+      gFileSizeFormat := TFileSizeFormat(GetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat)));
       gMinimizeToTray := GetValue(Node, 'MinimizeToTray', gMinimizeToTray);
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
@@ -2004,7 +2004,7 @@ begin
     SetValue(Node, 'RunTerminal', gRunTerm);
     SetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
     SetValue(Node, 'LynxLike', gLynxLike);
-    SetValue(Node, 'ShortFileSizeFormat', gShortFileSizeFormat);
+    SetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat));
     SetValue(Node, 'MinimizeToTray', gMinimizeToTray);
     SetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
     SubNode := FindNode(Node, 'Mouse', True);

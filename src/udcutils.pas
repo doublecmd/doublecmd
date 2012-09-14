@@ -73,7 +73,8 @@ function mbExpandFileName(const sFileName: UTF8String): UTF8String;
                       otherwise long format (bytes) is used.)
    @returns(File size in string representation)
 }
-function cnvFormatFileSize(iSize: Int64; ShortFormat: Boolean): String;
+function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat): String;
+function cnvFormatFileSize(iSize: Int64; FSF: Boolean): String;
 function cnvFormatFileSize(iSize: Int64): String; inline;
 {en
    Minimize file path
@@ -292,11 +293,12 @@ begin
     Result:= ExpandFileName(Result);
 end;
 
-function cnvFormatFileSize(iSize: Int64; ShortFormat: Boolean): String;
+function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat): String;
 var
   d: Double;
 begin
-  if ShortFormat then
+  case FSF of
+  fsfFloat:
   begin
     if iSize div (1024*1024*1024) > 0 then
     begin
@@ -314,17 +316,35 @@ begin
     end
     else
       Result:=IntToStr(iSize);
-  end
-  else
+  end;
+  fsfB:
   begin
     d:=iSize;
     Result:=Format('%8.0n',[d]);
   end;
+  fsfK:
+  begin
+    Result:=FloatToStrF((iSize*10 div 1024)/10, ffFixed, 15, 1)+' K'
+  end;
+  fsfM:
+  begin
+    Result:=FloatToStrF((iSize*10 div (1024*1024))/10, ffFixed, 15, 1)+' M'
+  end;
+  fsfG:
+  begin
+    Result:=FloatToStrF((iSize*16 div (1024*1024*1024))/16, ffFixed, 15, 1)+' G'
+  end;
+  end;
+end;
+
+function cnvFormatFileSize(iSize: Int64; FSF: Boolean): String;
+begin
+  Result := cnvFormatFileSize(iSize, fsfFloat);
 end;
 
 function cnvFormatFileSize(iSize: Int64): String;
 begin
-  Result := cnvFormatFileSize(iSize, gShortFileSizeFormat);
+  Result := cnvFormatFileSize(iSize, gFileSizeFormat);
 end;
 
 {
