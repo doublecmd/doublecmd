@@ -105,7 +105,8 @@ const
   //       to Keyboard/Typing.
   // 5   - changed Behaviours/SortCaseSensitive to FilesViews/Sorting/CaseSensitivity
   //       changed Behaviours/SortNatural to FilesViews/Sorting/NaturalSorting
-  ConfigVersion = 5;
+  // 6   - changed Behaviours/ShortFileSizeFormat to Behaviours/FileSizeFormat
+  ConfigVersion = 6;
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
@@ -1266,7 +1267,15 @@ begin
   else
     gSortCaseSensitivity := cstLocale;
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
-  gFileSizeFormat := TFileSizeFormat(gIni.ReadInteger('Configuration', 'FileSizeFormat', Ord(fsfFloat)));
+  if gIni.ValueExists('Configuration', 'ShortFileSizeFormat') then
+  begin
+    if gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True) then
+      gFileSizeFormat := fsfFloat
+    else
+      gFileSizeFormat := fsfB;
+  end
+  else
+    gFileSizeFormat := TFileSizeFormat(gIni.ReadInteger('Configuration', 'FileSizeFormat', Ord(fsfFloat)));
   gScrollMode := TScrollMode(gIni.ReadInteger('Configuration', 'ScrollMode', Integer(gScrollMode)));
   gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
   gAlwaysShowTrayIcon := gIni.ReadBool('Configuration', 'AlwaysShowTrayIcon', False);
@@ -1638,7 +1647,17 @@ begin
           gSortCaseSensitivity := cstLocale;
         gSortNatural := GetValue(Node, 'SortNatural', gSortNatural);
       end;
-      gFileSizeFormat := TFileSizeFormat(GetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat)));
+      if LoadedConfigVersion < 6 then
+      begin
+        if GetValue(Node, 'ShortFileSizeFormat', True) then
+          gFileSizeFormat := fsfFloat
+        else
+          gFileSizeFormat := fsfB;
+      end
+      else
+      begin
+        gFileSizeFormat := TFileSizeFormat(GetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat)));
+      end;
       gMinimizeToTray := GetValue(Node, 'MinimizeToTray', gMinimizeToTray);
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
