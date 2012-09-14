@@ -4737,13 +4737,6 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
 msgstr "Icons nach Da&teiliste laden"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file si&ze format"
-msgstr "Kurzes Dateigr&össenformat"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4783,6 +4776,10 @@ msgstr "Falsches Format"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "&Date and time format:"
 msgstr "&Datums- und Zeitformat"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
@@ -8377,6 +8374,10 @@ msgstr ""
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
 msgstr "eigenes Fenster;minimiertes eigenes Fenster;Operationsfenster"
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
+msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."

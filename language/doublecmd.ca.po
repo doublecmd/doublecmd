@@ -4567,13 +4567,6 @@ msgctxt "tfrmoptionsfilesviews.cbloadiconsseparately.caption"
 msgid "Load icons af&ter file list"
 msgstr "Carregar els icons després de la llista d'Arxius"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgctxt "tfrmoptionsfilesviews.cbshortfilesizeformat.caption"
-msgid "Short file si&ze format"
-msgstr "Formato curt de Mida"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4611,6 +4604,10 @@ msgstr ""
 msgctxt "tfrmoptionsfilesviews.lbldatetimeformat.caption"
 msgid "&Date and time format:"
 msgstr "Formato de data y hora:"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files"
@@ -8141,6 +8138,10 @@ msgstr "Text"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
+msgstr ""
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
 msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong

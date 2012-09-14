@@ -4590,13 +4590,6 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
 msgstr "在檔案清單後載入圖示"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file si&ze format"
-msgstr "短檔案大小格式"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4637,6 +4630,10 @@ msgstr ""
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "&Date and time format:"
 msgstr "日期時間格式:"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
@@ -8203,6 +8200,10 @@ msgstr "文字"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
+msgstr ""
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
 msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong

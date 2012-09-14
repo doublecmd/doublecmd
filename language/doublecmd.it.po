@@ -4457,12 +4457,6 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
 msgstr "Carica icone dopo lista file"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgid "Short file si&ze format"
-msgstr "Formato dimensione file corto"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4499,6 +4493,10 @@ msgstr ""
 #| msgid "Date and time format:"
 msgid "&Date and time format:"
 msgstr "Formato Data e ora:"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files"
@@ -8042,6 +8040,10 @@ msgstr "Testo"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
+msgstr ""
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
 msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong

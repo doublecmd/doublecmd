@@ -4153,11 +4153,6 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
 msgstr "За&гружать иконки после списка файлов"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file si&ze format"
-msgstr "Короткий ра&змер файла"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 msgid "Show s&ystem and hidden files"
 msgstr "Показывать систе&мные файлы"
@@ -4188,6 +4183,10 @@ msgstr "Неверный формат"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "&Date and time format:"
 msgstr "&Формат даты и времени:"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr "Формат ра&змера файла:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files"
@@ -7455,6 +7454,10 @@ msgstr "Текст"
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
 msgstr "отдельное окно;минимизировать отдельное окно;панель операций"
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
+msgstr "плавающий;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."

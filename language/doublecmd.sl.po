@@ -4510,12 +4510,6 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
 msgstr "Naloži ikone za seznamom datotek"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgid "Short file si&ze format"
-msgstr "Uporabi kratko obliko zapisa velikosti datotek"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4552,6 +4546,10 @@ msgstr "Napačen zapis"
 #| msgid "Date and time format:"
 msgid "&Date and time format:"
 msgstr "Zapis datuma in časa"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
@@ -8098,6 +8096,10 @@ msgstr "Besedilo"
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
 msgstr "ločenem oknu;pomanjšanem ločenem oknu;oknu opravil"
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
+msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
