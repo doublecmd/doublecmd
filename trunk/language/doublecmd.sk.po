@@ -4624,13 +4624,6 @@ msgctxt "tfrmoptionsfilesviews.cbloadiconsseparately.caption"
 msgid "Load icons af&ter file list"
 msgstr "Nahrať ikony po zozname súborov"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgctxt "tfrmoptionsfilesviews.cbshortfilesizeformat.caption"
-msgid "Short file si&ze format"
-msgstr "Krátký formát veľkosti súborov"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4668,6 +4661,10 @@ msgstr ""
 msgctxt "tfrmoptionsfilesviews.lbldatetimeformat.caption"
 msgid "&Date and time format:"
 msgstr "Formát dátumu a času:"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files"
@@ -8212,6 +8209,10 @@ msgstr "Text"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
+msgstr ""
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
 msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong

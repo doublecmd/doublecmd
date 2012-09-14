@@ -4641,12 +4641,6 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
 msgstr "파일 목록 읽은 후에 아이콘 읽어오기"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgid "Short file si&ze format"
-msgstr "짧은 파일 크기 형식"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4684,6 +4678,10 @@ msgstr ""
 #| msgid "Date and time format:"
 msgid "&Date and time format:"
 msgstr "날짜 및 시간 형식:"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
@@ -8356,6 +8354,10 @@ msgstr "텍스트"
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
 msgstr "분리된 창에;최소화된 분리된 창에;작업 패널에"
+
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
+msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
