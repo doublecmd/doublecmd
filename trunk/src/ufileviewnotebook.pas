@@ -300,7 +300,7 @@ begin
     if (tb_text_length_limit in gDirTabOptions) and (UTF8Length(NewCaption) > gDirTabLimit) then
       NewCaption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '...';
 
-    Caption := NewCaption;
+    Caption := StringReplace(NewCaption, '&', '&&', [rfReplaceAll]);
   end;
 end;
 
