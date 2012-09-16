@@ -1944,11 +1944,6 @@ msgstr "&Veure"
 msgid "Feed to &listbox"
 msgstr "Incloure a la llista"
 
-#: tfrmfinddlg.caption
-msgctxt "tfrmfinddlg.caption"
-msgid "Find files"
-msgstr "Cercar Arxius"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Sensible a mays/mins"
@@ -2019,6 +2014,10 @@ msgstr "Expresions regulars"
 msgid "Re&place by"
 msgstr "Reemplaçar text"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2051,6 +2050,11 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Cercar Arxius"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"

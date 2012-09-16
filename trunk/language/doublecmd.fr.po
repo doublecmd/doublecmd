@@ -1960,12 +1960,6 @@ msgstr "&Vue"
 msgid "Feed to &listbox"
 msgstr "Flux dans un &onglet"
 
-#: tfrmfinddlg.caption
-#, fuzzy
-msgctxt "TFRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Rechercher les fichiers"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Sensible à la &casse"
@@ -2034,6 +2028,10 @@ msgstr "Expressions &régulières"
 msgid "Re&place by"
 msgstr "Rem&placer par"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2066,6 +2064,12 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#, fuzzy
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Rechercher les fichiers"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"

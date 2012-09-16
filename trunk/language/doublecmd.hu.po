@@ -1896,11 +1896,6 @@ msgstr "&Nézőke"
 msgid "Feed to &listbox"
 msgstr "&Ablakba"
 
-#: tfrmfinddlg.caption
-msgctxt "TFRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Fájlok keresése"
-
 #: tfrmfinddlg.cbcasesens.caption
 #, fuzzy
 #| msgid "Case sensitive"
@@ -1973,6 +1968,10 @@ msgstr "&Reguláris kifejezések"
 msgid "Re&place by"
 msgstr "Szöveg helyettesítése"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2007,6 +2006,11 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Fájlok keresése"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"

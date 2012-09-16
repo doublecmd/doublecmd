@@ -1832,11 +1832,6 @@ msgstr "П&росмотр"
 msgid "Feed to &listbox"
 msgstr "Фай&лы на панель"
 
-#: tfrmfinddlg.caption
-msgctxt "TFRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Поиск файлов"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "С &учетом регистра"
@@ -1889,6 +1884,10 @@ msgstr "&Регулярное выражение"
 msgid "Re&place by"
 msgstr "З&аменить текст"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr "&Выбранные файлы и каталоги"
+
 #: tfrmfinddlg.cbtimefrom.caption
 msgid "&Time from:"
 msgstr "&Время от:"
@@ -1917,6 +1916,11 @@ msgstr "Введите имена файлов, разделённых симв�
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Поиск файлов"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"

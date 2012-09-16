@@ -1916,11 +1916,6 @@ msgstr "&Преглед"
 msgid "Feed to &listbox"
 msgstr "Вкарване във файловия &списък"
 
-#: tfrmfinddlg.caption
-msgctxt "TFRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Търсене на файлове"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Отчитане на глАВноСТта"
@@ -1989,6 +1984,10 @@ msgstr "&Обичайни изрази"
 msgid "Re&place by"
 msgstr "Замяна на текст"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2021,6 +2020,11 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Търсене на файлове"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
