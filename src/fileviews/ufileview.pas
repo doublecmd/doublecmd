@@ -526,7 +526,7 @@ uses
   fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
-  fMain;
+  fMain, uSearchResultFileSource;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -2529,6 +2529,16 @@ begin
 
     EnableWatcher(False);
 
+    // Workaround for Search Result File Source
+    if FileSource is TSearchResultFileSource then
+    begin
+      FHistory.Clear;
+      if NotebookPage is TFileViewPage then
+      begin
+        (NotebookPage as TFileViewPage).PermanentTitle:= EmptyStr;
+      end;
+    end;
+
     FHistory.Add(aFileSource, aPath);
 
     AfterChangePath;
@@ -2561,38 +2571,56 @@ begin
     FocusedFile := ExtractFileName(FileSource.CurrentAddress);
 
     PrevIndex := FHistory.CurrentFileSourceIndex - 1;
-    if PrevIndex >= 0 then
-    begin
-      NewFileSource := FHistory.FileSource[PrevIndex];
-      NewPath := FHistory.Path[PrevIndex, FHistory.PathsCount[PrevIndex] - 1];
-    end;
-    IsNewFileSource := not NewFileSource.Equals(FileSource);
-
-    if BeforeChangePath(NewFileSource, NewPath) then
-    begin
-      if IsNewFileSource then
-        FileSource.RemoveReloadEventListener(@ReloadEvent);
-
-      EnableWatcher(False);
-
-      FHistory.DeleteFromCurrentFileSource;
-
-      AfterChangePath;
-
-      if Assigned(FileSource) and IsNewFileSource then
+    if PrevIndex < 0 then
       begin
-        UpdatePath(True);
-        FileSource.AddReloadEventListener(@ReloadEvent);
+        FileSource.RemoveReloadEventListener(@ReloadEvent);
+        EnableWatcher(False);
+
+        // Workaround for Search Result File Source
+        if FileSource is TSearchResultFileSource then
+        begin
+          if NotebookPage is TFileViewPage then
+          begin
+            (NotebookPage as TFileViewPage).PermanentTitle:= EmptyStr;
+          end;
+        end;
+
+        FHistory.Clear;
+        AfterChangePath;
+      end
+    else
+      begin
+        NewFileSource := FHistory.FileSource[PrevIndex];
+        NewPath := FHistory.Path[PrevIndex, FHistory.PathsCount[PrevIndex] - 1];
+
+        if BeforeChangePath(NewFileSource, NewPath) then
+        begin
+          IsNewFileSource := not NewFileSource.Equals(FileSource);
+
+          if IsNewFileSource then
+            FileSource.RemoveReloadEventListener(@ReloadEvent);
+
+          EnableWatcher(False);
+
+          FHistory.DeleteFromCurrentFileSource;
+
+          AfterChangePath;
+
+          if Assigned(FileSource) and IsNewFileSource then
+          begin
+            UpdatePath(True);
+            FileSource.AddReloadEventListener(@ReloadEvent);
+          end;
+
+          EnableWatcher(True);
+
+          SetActiveFile(FocusedFile);
+
+          {$IFDEF DEBUG_HISTORY}
+          FHistory.DebugShow;
+          {$ENDIF}
+        end;
       end;
-
-      EnableWatcher(True);
-
-      SetActiveFile(FocusedFile);
-
-      {$IFDEF DEBUG_HISTORY}
-      FHistory.DebugShow;
-      {$ENDIF}
-    end;
   end;
 end;
 

@@ -76,7 +76,8 @@ end;
 procedure TFileViewWithPanels.AfterChangePath;
 begin
   inherited AfterChangePath;
-  pnlHeader.UpdatePathLabel;
+  if FileSourcesCount > 0 then
+    pnlHeader.UpdatePathLabel;
 end;
 
 procedure TFileViewWithPanels.cm_EditPath(const Params: array of string);
@@ -140,7 +141,8 @@ end;
 procedure TFileViewWithPanels.RemoveCurrentFileSource;
 begin
   inherited RemoveCurrentFileSource;
-  pnlHeader.UpdateAddressLabel;
+  if FileSourcesCount > 0 then
+    pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TFileViewWithPanels.ShowPathEdit;
