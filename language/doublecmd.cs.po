@@ -1943,11 +1943,6 @@ msgstr "&Zobrazit"
 msgid "Feed to &listbox"
 msgstr "Výsledek do &okna"
 
-#: tfrmfinddlg.caption
-msgctxt "TFRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Hledat soubory"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Rozlišovat velikost"
@@ -2017,6 +2012,10 @@ msgstr "&Regulární výrazy"
 msgid "Re&place by"
 msgstr "Nahradit pomocí"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2049,6 +2048,11 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Hledat soubory"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"

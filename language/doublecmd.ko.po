@@ -1961,12 +1961,6 @@ msgstr "보기(&V)"
 msgid "Feed to &listbox"
 msgstr "목록상자에 입력(&L)"
 
-#: tfrmfinddlg.caption
-#, fuzzy
-msgctxt "TFRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "파일 찾기"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "대소문자 구별(&I)"
@@ -2036,6 +2030,10 @@ msgstr "정규 표현식(&R)"
 msgid "Re&place by"
 msgstr "텍스트 바꾸기(&P)"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2068,6 +2066,12 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#, fuzzy
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "파일 찾기"
 
 #: tfrmfinddlg.gbdirectories.caption
 #, fuzzy

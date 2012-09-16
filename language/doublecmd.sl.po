@@ -1940,11 +1940,6 @@ msgstr "&Pogled"
 msgid "Feed to &listbox"
 msgstr "Izpiši v &seznam"
 
-#: tfrmfinddlg.caption
-msgctxt "TFRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Najdi datoteke"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Upoštevaj &velikost črk"
@@ -2011,6 +2006,10 @@ msgstr "&Logični izraz"
 msgid "Re&place by"
 msgstr "&Zamenjaj besedilo z"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2043,6 +2042,11 @@ msgstr "Vpis imen datotek, ločenih z \";\""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Najdi datoteke"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
