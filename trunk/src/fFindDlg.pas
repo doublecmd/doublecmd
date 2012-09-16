@@ -33,7 +33,7 @@ uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker, KASComboBox,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
-  uSearchTemplate;
+  uSearchTemplate, uFileView;
 
 type
 
@@ -71,6 +71,7 @@ type
     cbPartialNameSearch: TCheckBox;
     cbFollowSymLinks: TCheckBox;
     cbUsePlugin: TCheckBox;
+    cbSelectedFiles: TCheckBox;
     cmbExcludeDirectories: TComboBoxWithDelItems;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
@@ -142,6 +143,7 @@ type
     procedure cbDateToChange(Sender: TObject);
     procedure cbPartialNameSearchChange(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
+    procedure cbSelectedFilesChange(Sender: TObject);
     procedure cmbEncodingSelect(Sender: TObject);
     procedure cbFindTextChange(Sender: TObject);
     procedure cbUsePluginChange(Sender: TObject);
@@ -185,6 +187,9 @@ type
     procedure ZVTimeFromChange(Sender: TObject);
     procedure ZVTimeToChange(Sender: TObject);
   private
+    FFileView: TFileView;
+    FSelectedFiles: TStringList;
+
     FFindThread:TFindThread;
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
@@ -218,7 +223,7 @@ type
 var
   FoundedStringCopy: TStringlist = nil;
 
-procedure ShowFindDlg(const sActPath: UTF8String);
+procedure ShowFindDlg(FileView: TFileView);
 function ShowDefineTemplateDlg(var TemplateName: UTF8String): Boolean;
 function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
 
@@ -230,7 +235,7 @@ uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
   uLng, uGlobs, uShowForm, uDCUtils,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
-  uFileViewNotebook, uFileView, uColumnsFileView, uKeyboard,
+  uFileViewNotebook, uColumnsFileView, uKeyboard,
   DCOSUtils;
 
 const
@@ -271,14 +276,15 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure ShowFindDlg(const sActPath: UTF8String);
+procedure ShowFindDlg(FileView: TFileView);
 begin
   with TfrmFindDlg.Instance do
   begin
     // Prepare window for search files
     ClearFilter;
+    FFileView := FileView;
     Caption := rsFindSearchFiles;
-    edtFindPathStart.Text := sActPath;
+    edtFindPathStart.Text := FileView.CurrentPath;
     ShowOnTop;
   end;
 end;
@@ -417,6 +423,8 @@ begin
   edtFindPathStart.ShowHidden := gShowSystemFiles;
   cbPartialNameSearch.Checked:= gPartialNameSearch;
 
+  FSelectedFiles := TStringList.Create;
+
   InitPropStorage(Self);
 end;
 
@@ -449,6 +457,7 @@ end;
 destructor TfrmFindDlg.Destroy;
 begin
   inherited Destroy;
+  FSelectedFiles.Free;
   FLastSearchTemplate.Free;
 end;
 
@@ -600,6 +609,11 @@ end;
 procedure TfrmFindDlg.cbRegExpChange(Sender: TObject);
 begin
   if cbRegExp.Checked then cbPartialNameSearch.Checked:=False;
+end;
+
+procedure TfrmFindDlg.cbSelectedFilesChange(Sender: TObject);
+begin
+  edtFindPathStart.Enabled := not cbSelectedFiles.Checked;
 end;
 
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
@@ -805,8 +819,8 @@ end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
-  sTemp,
-  sPath : UTF8String;
+  I: Integer;
+  sTemp, sPath : UTF8String;
   sr: TDsxSearchRecord;
   SearchTemplate, TmpTemplate: TSearchTemplateRec;
 begin
@@ -837,6 +851,28 @@ begin
     // update replace history, so it can be used in
     // Editor opened from find files dialog (issue 0000539)
     glsReplaceHistory.Assign(cmbReplaceText.Items);
+  end;
+
+  FSelectedFiles.Clear;
+  if cbSelectedFiles.Checked then
+  begin
+    FFileView.DisplayFiles.LockList;
+    try
+      for I := 0 to FFileView.DisplayFiles.Count - 1 do begin
+        if FFileView.DisplayFiles[I].Selected then begin
+          sTemp := FFileView.DisplayFiles[I].FSFile.FullPath;
+          FSelectedFiles.Add(sTemp);
+        end;
+      end;
+    finally
+      FFileView.DisplayFiles.UnlockList;
+    end;
+    if FSelectedFiles.Count = 0 then
+    begin
+      ShowMessage(rsMsgNoFilesSelected);
+      cbSelectedFiles.Checked:= False;
+      Exit;
+    end;
   end;
 
   // Show search results page
@@ -880,7 +916,7 @@ begin
       end
     else
       begin
-        FFindThread := TFindThread.Create(SearchTemplate);
+        FFindThread := TFindThread.Create(SearchTemplate, FSelectedFiles);
         with FFindThread do
         begin
           Items := FoundedStringCopy;
@@ -1109,6 +1145,9 @@ begin
   if pgcSearch.ActivePage = tsStandard then
     if cmbFindFileMask.CanFocus then
       cmbFindFileMask.SetFocus;
+
+  cbSelectedFiles.Checked := FFileView.HasSelectedFiles;
+  cbSelectedFiles.Enabled := cbSelectedFiles.Checked;
 end;
 
 procedure TfrmFindDlg.gbDirectoriesResize(Sender: TObject);

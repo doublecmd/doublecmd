@@ -82,6 +82,7 @@ type
   private
     FList: TFPList;
     FOwnsObjects: Boolean;
+    FLock: TRTLCriticalSection;
 
   protected
     function GetCount: Integer;
@@ -109,6 +110,15 @@ type
     procedure Delete(Index: Integer);
     function Find(AFile: TDisplayFile): Integer;
     procedure Remove(AFile: TDisplayFile);
+
+    {en
+       Locks the list for exclusive access.
+    }
+    procedure LockList;
+    {en
+       Unlocks the list after it was locked.
+    }
+    procedure UnlockList;
 
     property Count: Integer read GetCount write SetCount;
     property Items[Index: Integer]: TDisplayFile read Get write Put; default;
@@ -176,13 +186,20 @@ begin
   inherited Create;
   FOwnsObjects := AOwnsObjects;
   FList := TFPList.Create;
+  InitCriticalSection(FLock);
 end;
 
 destructor TDisplayFiles.Destroy;
 begin
-  Clear;
-  FreeAndNil(FList);
-  inherited;
+  LockList;
+  try
+    Clear;
+    FreeAndNil(FList);
+    inherited Destroy;
+  finally
+    UnlockList;
+    DoneCriticalSection(FLock);
+  end;
 end;
 
 function TDisplayFiles.Clone(CloneFSFiles: Boolean): TDisplayFiles;
@@ -252,6 +269,16 @@ begin
   i := Find(AFile);
   if i >= 0 then
     Delete(i);
+end;
+
+procedure TDisplayFiles.LockList;
+begin
+  System.EnterCriticalSection(FLock);
+end;
+
+procedure TDisplayFiles.UnlockList;
+begin
+  System.LeaveCriticalSection(FLock);
 end;
 
 function TDisplayFiles.Get(Index: Integer): TDisplayFile;

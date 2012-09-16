@@ -2007,7 +2007,7 @@ end;
 
 procedure TMainCommands.cm_Search(const Params: array of string);
 begin
-  ShowFindDlg(frmMain.ActiveFrame.CurrentPath);
+  ShowFindDlg(frmMain.ActiveFrame);
 end;
 
 

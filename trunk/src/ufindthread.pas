@@ -47,6 +47,7 @@ type
     FFoundFile:String;
     FCurrentDepth: Integer;
     FSearchTemplate: TSearchTemplateRec;
+    FSelectedFiles: TStringList;
     FFileChecks: TFindFileChecks;
     FLinkTargets: TStringList;  // A list of encountered directories (for detecting cycles)
 
@@ -57,10 +58,11 @@ type
   protected
     procedure Execute; override;
   public
-    constructor Create(const AFindOptions: TSearchTemplateRec);
+    constructor Create(const AFindOptions: TSearchTemplateRec; SelectedFiles: TStringList);
     destructor Destroy; override;
     procedure AddFile;
-    procedure WalkAdr(const sNewDir:String);
+    procedure DoFile(const sNewDir: String; const sr : TSearchRecEx);
+    procedure WalkAdr(const sNewDir: String);
     procedure UpDateProgress;
     function IsAborting: Boolean;
 
@@ -79,12 +81,13 @@ uses
 
 { TFindThread }
 
-constructor TFindThread.Create(const AFindOptions: TSearchTemplateRec);
+constructor TFindThread.Create(const AFindOptions: TSearchTemplateRec; SelectedFiles: TStringList);
 begin
   inherited Create(True);
 
   FLinkTargets := TStringList.Create;
   FSearchTemplate := AFindOptions;
+  FSelectedFiles := SelectedFiles;
 
   with FSearchTemplate do
   begin
@@ -113,21 +116,39 @@ end;
 
 procedure TFindThread.Execute;
 var
+  I: Integer;
+  sr: TSearchRecEx;
   sTemp, sPath: UTF8String;
 begin
   FreeOnTerminate := True;
 
   try
-    Assert(Assigned(FItems),'assert:FItems is empty');
+    Assert(Assigned(FItems), 'Assert: FItems is empty');
     Synchronize(@UpDateProgress);
     FCurrentDepth:= -1;
-    sTemp:= FSearchTemplate.StartPath;
-    while sTemp <> EmptyStr do
+    if FSelectedFiles.Count = 0 then
+    begin
+      sTemp:= FSearchTemplate.StartPath;
+      while sTemp <> EmptyStr do
       begin
         sPath:= Copy2SymbDel(sTemp, ';');
         sPath:= ExcludeBackPathDelimiter(sPath);
         WalkAdr(sPath);
       end;
+    end else
+    begin
+      for I := 0 to FSelectedFiles.Count - 1 do
+      begin
+        if FindFirstEx(FSelectedFiles[I], faAnyFile, sr) = 0 then
+        begin
+          if FPS_ISDIR(sr.Attr) then
+            WalkAdr(FSelectedFiles[I])
+          else
+            DoFile(ExtractFileDir(FSelectedFiles[I]), sr);
+        end;
+        FindCloseEx(sr);
+      end;
+    end;
     FCurrentDir:= rsOperFinished;
     Synchronize(@UpDateProgress);
   except
@@ -327,6 +348,19 @@ begin
    end;
 end;
 
+procedure TFindThread.DoFile(const sNewDir: String; const sr : TSearchRecEx);
+begin
+  if CheckFile(sNewDir, sr) then
+  begin
+    FFoundFile := sNewDir + PathDelim + sr.Name;
+    Synchronize(@AddFile);
+    Inc(FFilesFound);
+  end;
+
+  Inc(FFilesScanned);
+  Synchronize(@UpDateProgress);
+end;
+
 procedure TFindThread.WalkAdr(const sNewDir:String);
 var
   sr: TSearchRecEx;
@@ -345,18 +379,8 @@ begin
   if FindFirstEx(Path, faAnyFile, sr) = 0 then
   repeat
     if not FPS_ISDIR(sr.Attr) then
-    begin
-      if CheckFile(sNewDir, sr) then
-      begin
-        FFoundFile := sNewDir + PathDelim + sr.Name;
-        Synchronize(@AddFile);
-        Inc(FFilesFound);
-      end;
-
-      Inc(FFilesScanned);
-      Synchronize(@UpDateProgress);
-    end;
-  until (FindNextEx(sr)<>0) or Terminated;
+      DoFile(sNewDir, sr)
+  until (FindNextEx(sr) <> 0) or Terminated;
   FindCloseEx(sr);
   Synchronize(@UpDateProgress);
 
@@ -364,26 +388,26 @@ begin
   if (not Terminated) and (FCurrentDepth < FSearchTemplate.SearchDepth) then
   begin
     if FindFirstEx(Path, faDirectory, sr) = 0 then
-      repeat
-        if CheckDirectory(sNewDir, sr.Name) then
+    repeat
+      if FPS_ISDIR(sr.Attr) and CheckDirectory(sNewDir, sr.Name) then
+      begin
+        SubPath := sNewDir + PathDelim + sr.Name;
+        IsLink := FPS_ISLNK(sr.Attr);
+        if FSearchTemplate.FollowSymLinks then
         begin
-          SubPath := sNewDir + PathDelim + sr.Name;
-          IsLink := FPS_ISLNK(sr.Attr);
-          if FSearchTemplate.FollowSymLinks then
-          begin
-            if IsLink then
-              SubPath := mbReadAllLinks(SubPath);
-            if FLinkTargets.IndexOf(SubPath) >= 0 then
-              Continue; // Link already encountered - links form a cycle.
-            // Add directory to already-searched list.
-            FLinkTargets.Add(SubPath);
-          end
-          else if IsLink then
-            Continue;
+          if IsLink then
+            SubPath := mbReadAllLinks(SubPath);
+          if FLinkTargets.IndexOf(SubPath) >= 0 then
+            Continue; // Link already encountered - links form a cycle.
+          // Add directory to already-searched list.
+          FLinkTargets.Add(SubPath);
+        end
+        else if IsLink then
+          Continue;
 
-          WalkAdr(SubPath);
-        end;
-      until Terminated or (FindNextEx(sr) <> 0);
+        WalkAdr(SubPath);
+      end;
+    until Terminated or (FindNextEx(sr) <> 0);
     FindCloseEx(sr);
   end;
 
