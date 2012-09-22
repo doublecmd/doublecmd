@@ -167,6 +167,7 @@ begin
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
   AutoSize:= True;
+  DoubleBuffered:= True;
 
   FAddressLabel := TPathLabel.Create(Self, False);
   FAddressLabel.Parent := Self;
