@@ -1101,7 +1101,8 @@ var
   wNewDir: WideString;
   NetResource: TNetResourceW;
 begin
-  wNewDir:= UTF8Decode(ExcludeTrailingBackslash(NewDir));
+  // MSDN says that the final character must be a backslash ('\').
+  wNewDir:= UTF8Decode(IncludeTrailingBackslash(NewDir));
   if Pos('\\', wNewDir) = 1 then
     begin
       FillChar(NetResource, SizeOf(NetResource), #0);
