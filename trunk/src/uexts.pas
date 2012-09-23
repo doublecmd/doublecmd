@@ -143,7 +143,7 @@ const
 implementation
 
 uses
-  SysUtils, uLog, DCClassesUtf8, DCOSUtils;
+  SysUtils, uLog, DCClassesUtf8, DCOSUtils, uDebug;
 
 constructor TExtAction.Create;
 begin
@@ -397,7 +397,12 @@ begin
         extFile.Add(''); // add empty line
       end;
   end;
-  extFile.SaveToFile(sName);
+  try
+    extFile.SaveToFile(sName);
+  except
+    on e: EStreamError do
+      DCDebug(Format('Error saving file associations to "%s": %s', [sName, e.Message]));
+  end;
   extFile.Free;
 end;
 

@@ -1242,13 +1242,18 @@ begin
 
   if gSaveCmdLineHistory then
     begin
-      try
-        slCommandHistory:= TStringListEx.Create;
-        slCommandHistory.Assign(edtCommand.Items);
-        slCommandHistory.SaveToFile(gpCfgDir + cHistoryFile);
-      finally
-        FreeThenNil(slCommandHistory);
-      end;
+      if mbFileAccess(gpCfgDir + cHistoryFile, fmOpenWrite) then
+      begin
+        try
+          slCommandHistory:= TStringListEx.Create;
+          slCommandHistory.Assign(edtCommand.Items);
+          slCommandHistory.SaveToFile(gpCfgDir + cHistoryFile);
+        finally
+          FreeThenNil(slCommandHistory);
+        end;
+      end
+      else
+        DebugLn('Not saving history - no write access to "', gpCfgDir + cHistoryFile, '"');
     end;
 
   if gSaveConfiguration then
