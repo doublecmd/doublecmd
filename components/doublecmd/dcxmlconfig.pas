@@ -154,14 +154,11 @@ const
 
 constructor TXmlConfig.Create;
 begin
-  FDoc := nil;
-  FFileName := '';
   Clear;
 end;
 
 constructor TXmlConfig.Create(const AFileName: UTF8String; AutoLoad: Boolean);
 begin
-  FDoc := nil;
   FFileName := AFileName;
   if not (AutoLoad and LoadBypassingErrors) then
     Clear;
