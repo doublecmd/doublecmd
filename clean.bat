@@ -2,10 +2,16 @@
 @del /Q /S units\*.*
 @del /Q src\*.*~
 @del /Q src\*.~*
+@del /Q doublecmd.dbg
+@del /Q doublecmd.zdli
 @del /Q doublecmd*.exe
+@del /Q doublecmd*.old
 
 @echo Remove generated help files
 @del /Q doc\en\dev-help\*.*
+
+@echo Clean up tools output directories
+@del /Q src\extractdwrflnfo.exe
 
 @echo Clean up plugins output directories
 @del /Q /S plugins\dsx\DSXLocate\lib\*.*
