@@ -1132,11 +1132,11 @@ object frmMain: TfrmMain
       object miLine15: TMenuItem
         Caption = '-'
       end
-      object mnuRemoveTab: TMenuItem
-        Action = actRemoveTab
+      object mnuCloseTab: TMenuItem
+        Action = actCloseTab
       end
-      object mnuRemoveAllTabs: TMenuItem
-        Action = actRemoveAllTabs
+      object mnuCloseAllTabs: TMenuItem
+        Action = actCloseAllTabs
       end
       object miLine16: TMenuItem
         Caption = '-'
@@ -1756,15 +1756,15 @@ object frmMain: TfrmMain
       Caption = 'Open &Folder in a New Tab'
       OnExecute = actExecute
     end
-    object actRemoveTab: TAction
+    object actCloseTab: TAction
       Category = 'Tabs'
-      Caption = '&Remove Tab'
+      Caption = '&Close Tab'
       HelpType = htKeyword
       OnExecute = actExecute
     end
-    object actRemoveAllTabs: TAction
+    object actCloseAllTabs: TAction
       Category = 'Tabs'
-      Caption = 'Remove &All Tabs'
+      Caption = 'Close &All Tabs'
       OnExecute = actExecute
     end
     object actSetTabOptionNormal: TAction
@@ -3091,12 +3091,12 @@ object frmMain: TfrmMain
     object miLine14: TMenuItem
       Caption = '-'
     end
-    object miRemoveTab: TMenuItem
-      Action = actRemoveTab
+    object miCloseTab: TMenuItem
+      Action = actCloseTab
       OnClick = mnuTabMenuClick
     end
-    object miRemoveAllTabs: TMenuItem
-      Action = actRemoveAllTabs
+    object miCloseAllTabs: TMenuItem
+      Action = actCloseAllTabs
       OnClick = mnuTabMenuClick
     end
     object miLine19: TMenuItem

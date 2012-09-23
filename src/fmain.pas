@@ -126,7 +126,7 @@ type
     actKeyboard: TAction;
     actPrevTab: TAction;
     actNextTab: TAction;
-    actRemoveAllTabs: TAction;
+    actCloseAllTabs: TAction;
     actSetTabOptionNormal: TAction;
     actSetTabOptionPathLocked: TAction;
     actSetTabOptionPathResets: TAction;
@@ -146,7 +146,7 @@ type
     actLeftOpenDrives: TAction;
     actOpenVirtualFileSystemList: TAction;
     actPackFiles: TAction;
-    actRemoveTab: TAction;
+    actCloseTab: TAction;
     actNewTab: TAction;
     btnF10: TSpeedButton;
     btnF3: TSpeedButton;
@@ -239,13 +239,13 @@ type
     miLine16: TMenuItem;
     mnuTabOptionPathLocked: TMenuItem;
     mnuTabOptionPathResets: TMenuItem;
-    mnuRemoveAllTabs: TMenuItem;
-    mnuRemoveTab: TMenuItem;
+    mnuCloseAllTabs: TMenuItem;
+    mnuCloseTab: TMenuItem;
     miLine15: TMenuItem;
     mnuOpenDirInNewTab: TMenuItem;
     mnuNewTab: TMenuItem;
-    miRemoveAllTabs: TMenuItem;
-    miRemoveTab: TMenuItem;
+    miCloseAllTabs: TMenuItem;
+    miCloseTab: TMenuItem;
     miNewTab: TMenuItem;
     miEditComment: TMenuItem;
     mnuMarkCurrentExtension: TMenuItem;
@@ -1919,8 +1919,8 @@ begin
 
   // pmTabMenu.Tag stores tab page nr where the menu was activated.
 
-  if MenuItem = miRemoveTab then
-    Commands.DoRemoveTab(NoteBook, pmTabMenu.Tag)
+  if MenuItem = miCloseTab then
+    Commands.DoCloseTab(NoteBook, pmTabMenu.Tag)
   else if MenuItem = miTabOptionNormal then
     NoteBook.Page[pmTabMenu.Tag].LockState := tlsNormal
   else if MenuItem = miTabOptionPathLocked then
@@ -2014,7 +2014,7 @@ begin
         TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
         if TabNr <> -1 then
         begin
-          Commands.DoRemoveTab(NoteBook, TabNr);
+          Commands.DoCloseTab(NoteBook, TabNr);
         end;
       end;
 
@@ -3100,7 +3100,7 @@ begin
     if FileViewNotebook.DoubleClickPageIndex < 0 then
       Commands.DoNewTab(FileViewNotebook)
     else
-      Commands.DoRemoveTab(FileViewNotebook, FileViewNotebook.DoubleClickPageIndex);
+      Commands.DoCloseTab(FileViewNotebook, FileViewNotebook.DoubleClickPageIndex);
   end;
 end;
 

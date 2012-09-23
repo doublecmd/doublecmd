@@ -867,7 +867,13 @@ var
     if Value <> '' then
       AddString(Arr, Value);
   end;
-  procedure LoadHotkey(Hotkeys: THotkeys; Node: TXmlNode);
+  procedure LoadHotkey(FormName: String; Hotkeys: THotkeys; Node: TXmlNode);
+  const
+    RenamedCommandsMain: array [0..1] of
+      record OldName, NewName: String; SinceVersion: Integer end =
+        ( (OldName: 'cm_RemoveTab'; NewName: 'cm_CloseTab'; SinceVersion: 14),
+          (OldName: 'cm_RemoveAllTabs'; NewName: 'cm_CloseAllTabs'; SinceVersion: 14)
+        );
   var
     Shortcut, Command, Param: String;
     Shortcuts: array of String = nil;
@@ -882,7 +888,7 @@ var
     if FVersion <= 1 then
       Command := Config.GetAttr(Node, 'Command', '')
     else
-      Command := Config.GetValue(Node, 'Command', ''); // Leave only this
+      Command := Config.GetValue(Node, 'Command', ''); // Leave only this or move this to the loop "while Assigned(Node) do" below
     if FVersion <= 1 then
       Param := Config.GetAttr(Node, 'Params', '')
     else if FVersion < 9 then
@@ -912,25 +918,39 @@ var
       Node := Node.NextSibling;
     end;
 
-    if Length(Shortcuts) > 0 then
+    if Command <> EmptyStr then
     begin
-      if Length(Controls) = 0 then
+      // Rename commands that have changed names.
+      if FormName = 'Main' then
       begin
-        // This "if" block may also be deleted after 0.5.5 release.
-        if (FVersion <= 3) and IsShortcutConflictingWithOS(Shortcuts[0]) then
+        for i := Low(RenamedCommandsMain) to High(RenamedCommandsMain) do
         begin
-          HMControl := Form.Controls.FindOrCreate('Files Panel');
-          HMControl.Hotkeys.AddIfNotExists(Shortcuts, Params, Command);
+          if (FVersion <= RenamedCommandsMain[i].SinceVersion) and
+             (Command = RenamedCommandsMain[i].OldName) then
+            Command := RenamedCommandsMain[i].NewName;
+        end;
+      end;
+
+      if Length(Shortcuts) > 0 then
+      begin
+        if Length(Controls) = 0 then
+        begin
+          // This "if" block may also be deleted after 0.5.5 release.
+          if (FVersion <= 3) and IsShortcutConflictingWithOS(Shortcuts[0]) then
+          begin
+            HMControl := Form.Controls.FindOrCreate('Files Panel');
+            HMControl.Hotkeys.AddIfNotExists(Shortcuts, Params, Command);
+          end
+          else
+            Hotkeys.Add(Shortcuts, Params, Command); // Leave only this
         end
         else
-          Hotkeys.Add(Shortcuts, Params, Command); // Leave only this
-      end
-      else
-      begin
-        for i := Low(Controls) to High(Controls) do
         begin
-          HMControl := Form.Controls.FindOrCreate(Controls[i]);
-          HMControl.Hotkeys.Add(Shortcuts, Params, Command);
+          for i := Low(Controls) to High(Controls) do
+          begin
+            HMControl := Form.Controls.FindOrCreate(Controls[i]);
+            HMControl.Hotkeys.Add(Shortcuts, Params, Command);
+          end;
         end;
       end;
     end;
@@ -959,7 +979,7 @@ begin
         while Assigned(HotkeyNode) do
         begin
           if HotkeyNode.CompareName('Hotkey') = 0 then
-            LoadHotkey(Form.Hotkeys, HotkeyNode);
+            LoadHotkey(Form.Name, Form.Hotkeys, HotkeyNode);
           HotkeyNode := HotkeyNode.NextSibling;
         end;
       end;

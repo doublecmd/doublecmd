@@ -93,7 +93,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 14;
+  hkVersion     = 15;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:

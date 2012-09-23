@@ -59,7 +59,7 @@ type
    //
    procedure DoOpenVirtualFileSystemList(Panel: TFileView);
    procedure DoPanelsSplitterPerPos(SplitPos: Integer);
-   procedure DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
+   procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
@@ -122,8 +122,8 @@ type
    procedure cm_Exit(const Params: array of string);
    procedure cm_NewTab(const Params: array of string);
    procedure cm_RenameTab(const Params: array of string);
-   procedure cm_RemoveTab(const Params: array of string);
-   procedure cm_RemoveAllTabs(const Params: array of string);
+   procedure cm_CloseTab(const Params: array of string);
+   procedure cm_CloseAllTabs(const Params: array of string);
    procedure cm_NextTab(const Params: array of string);
    procedure cm_PrevTab(const Params: array of string);
    procedure cm_SetTabOptionNormal(const Params: array of string);
@@ -309,7 +309,7 @@ end;
 
 //------------------------------------------------------
 
-procedure TMainCommands.DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
+procedure TMainCommands.DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
 begin
   with frmMain do
   begin
@@ -979,13 +979,13 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_RemoveTab(const Params: array of string);
+procedure TMainCommands.cm_CloseTab(const Params: array of string);
 begin
   with frmMain do
-    DoRemoveTab(ActiveNotebook, ActiveNotebook.PageIndex);
+    DoCloseTab(ActiveNotebook, ActiveNotebook.PageIndex);
 end;
 
-procedure TMainCommands.cm_RemoveAllTabs(const Params: array of string);
+procedure TMainCommands.cm_CloseAllTabs(const Params: array of string);
 var
   I: Integer;
   ANotebook: TFileViewNotebook;
