@@ -766,7 +766,7 @@ var
 begin
   try
     try
-      Config := TXmlConfig.Create(FileName);
+      Config := TXmlConfig.Create(FileName, True);
       Load(Config, Config.RootNode);
     except
       on EXMLReadError do

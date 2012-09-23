@@ -565,6 +565,7 @@ begin
       if e.Message <> EmptyStr then
         ErrMsg := ErrMsg + ': ' + e.Message;
       DebugLn(ErrMsg);
+      Result := False;
     end;
   end;
 end;
