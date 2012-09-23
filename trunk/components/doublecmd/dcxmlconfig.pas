@@ -41,14 +41,13 @@ type
   private
     FFileName: UTF8String;
     FDoc: TXMLDocument;
-    FSaveOnDestroy: Boolean;
 
     function GetRootNode: TXmlNode;
     procedure SplitPathToNodeAndAttr(const Path: DOMString; out NodePath: DOMString; out AttrName: DOMString);
 
   public
     constructor Create; virtual;
-    constructor Create(const AFileName: UTF8String); virtual;
+    constructor Create(const AFileName: UTF8String; AutoLoad: Boolean = False); virtual;
     destructor Destroy; override;
 
     procedure Clear;
@@ -59,6 +58,7 @@ type
     procedure ClearNode(const Node: TDOMNode);
     function FindNode(const RootNode: TDOMNode; const Path: DOMString; bCreate: Boolean = False): TDOMNode;
     function GetContent(const Node: TDOMNode): UTF8String;
+    function IsEmpty: Boolean;
     procedure SetContent(const Node: TDOMNode; const AValue: UTF8String);
 
     // ------------------------------------------------------------------------
@@ -129,6 +129,7 @@ type
     procedure WriteToStream(AStream: TStream);
 
     function Load: Boolean;
+    function LoadBypassingErrors: Boolean;
     function Save: Boolean;
 
     {en
@@ -138,8 +139,10 @@ type
 
     property FileName: UTF8String read FFileName write FFileName;
     property RootNode: TXmlNode read GetRootNode;
-    property SaveOnDestroy: Boolean read FSaveOnDestroy write FSaveOnDestroy;
   end;
+
+  EFileEmpty = class(EFilerError);
+  EFileNotFound = class(EFilerError);
 
 implementation
 
@@ -153,28 +156,20 @@ constructor TXmlConfig.Create;
 begin
   FDoc := nil;
   FFileName := '';
-  SaveOnDestroy := False;
   Clear;
 end;
 
-constructor TXmlConfig.Create(const AFileName: UTF8String);
+constructor TXmlConfig.Create(const AFileName: UTF8String; AutoLoad: Boolean);
 begin
   FDoc := nil;
   FFileName := AFileName;
-  SaveOnDestroy := False;
-  if not Load then
+  if not (AutoLoad and LoadBypassingErrors) then
     Clear;
 end;
 
 destructor TXmlConfig.Destroy;
 begin
-  if Assigned(FDoc) then
-  begin
-    if (FFileName <> '') and SaveOnDestroy then
-      Save;
-    FreeAndNil(FDoc);
-  end;
-
+  FreeAndNil(FDoc);
   inherited Destroy;
 end;
 
@@ -290,6 +285,11 @@ begin
     Result := UTF16ToUTF8(Node.TextContent)
   else
     Result := ADefault;
+end;
+
+function TXmlConfig.IsEmpty: Boolean;
+begin
+  Result := RootNode.ChildNodes.Count = 0;
 end;
 
 function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Boolean): Boolean;
@@ -499,6 +499,8 @@ var
 begin
   FileStream := TFileStreamEx.Create(AFilename, fmOpenRead or fmShareDenyWrite);
   try
+    if FileStream.Size = 0 then
+      raise EFileEmpty.Create('');
     ReadXMLFile(TmpDoc, FileStream, FilenameToURI(AFilename));
     FDoc.Free;
     FDoc := TmpDoc;
@@ -511,6 +513,8 @@ procedure TXmlConfig.ReadFromStream(AStream: TStream);
 var
   TmpDoc: TXMLDocument;
 begin
+  if AStream.Size = 0 then
+    raise EFileEmpty.Create('');
   ReadXMLFile(TmpDoc, AStream);
   FDoc.Free;
   FDoc := TmpDoc;
@@ -540,18 +544,30 @@ begin
   if FFileName = '' then
     Exit;
 
-  if mbFileExists(FileName) and mbFileAccess(FileName, fmOpenRead) then
-    try
-      ReadFromFile(FileName);
-      Result := True;
-    except
-      on e: EStreamError do
-      begin
-        Debugln('Error loading configuration file ', FileName, ': ' + e.Message);
-      end;
-    end
-  else
-    Debugln('Cannot read configuration file: ', FileName);
+  if not mbFileExists(FileName) then
+    raise EFileNotFound.Create('');
+  if not mbFileAccess(FileName, fmOpenRead) then
+    raise EFOpenError.Create(SysErrorMessage(GetLastOSError));
+
+  ReadFromFile(FileName);
+  Result := True;
+end;
+
+function TXmlConfig.LoadBypassingErrors: Boolean;
+var
+  ErrMsg: String;
+begin
+  try
+    Result := Load;
+  except
+    on e: Exception do
+    begin
+      ErrMsg := 'Error loading configuration file ' + FileName;
+      if e.Message <> EmptyStr then
+        ErrMsg := ErrMsg + ': ' + e.Message;
+      DebugLn(ErrMsg);
+    end;
+  end;
 end;
 
 function TXmlConfig.Save: Boolean;

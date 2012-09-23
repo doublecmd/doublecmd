@@ -123,6 +123,8 @@ resourcestring
   rsMsgInvalidCommandLine = 'Error in command line';
   rsMsgInvalidQuoting = 'Invalid quoting';
   rsMsgErrorInContextMenuCommand = 'Error in context menu command';
+  rsMsgErrorLoadingConfiguration = 'Error when loading configuration';
+  rsMsgInvalidFormatOfConfigurationFile = 'Invalid format of configuration file';
 
   // for context menu
   rsMnuActions = 'Actions';
@@ -177,6 +179,9 @@ resourcestring
   rsDlgButtonAll = 'A&ll';
   rsDlgButtonRetry = 'Re&try';
   rsDlgButtonAbort = 'Ab&ort';
+
+  rsDlgButtonContinue = '&Continue';
+  rsDlgButtonExitProgram = 'E&xit program';
 
   // Log file
   rsMsgLogSuccess = 'Done: ';

@@ -750,7 +750,7 @@ var
   Config: TXmlConfig = nil;
 begin
   try
-    Config := TXmlConfig.Create(FileName);
+    Config := TXmlConfig.Create(FileName, True);
     Config.SetAttr(Config.RootNode, 'DCVersion', dcVersion);
     Save(Config, Config.RootNode);
     Config.Save;

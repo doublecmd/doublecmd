@@ -339,6 +339,7 @@ var
 
   gUseShellForFileOperations: Boolean;
 
+function LoadConfig: Boolean;
 function InitGlobs: Boolean;
 function LoadGlobs: Boolean;
 procedure SaveGlobs;
@@ -369,7 +370,8 @@ var
 implementation
 
 uses
-   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
+   LCLProc, Dialogs, SysUtils, XMLRead,
+   uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
    {$IF DEFINED(MSWINDOWS)}
@@ -382,10 +384,70 @@ const
     ('NoModifier', 'Alt', 'CtrlAlt');
   DefaultDateTimeFormat = 'dd/mm/yy';
 
+type
+  TLoadConfigProc = function(var ErrorMessage: String): Boolean;
+
 var
   // Double Commander version
   // loaded from configuration file
   gPreviousVersion: UTF8String = '';
+
+function LoadConfigCheckErrors(LoadConfigProc: TLoadConfigProc;
+                               ConfigFileName: String;
+                               var ErrorMessage: String): Boolean;
+  procedure AddMsg(Msg, eMsg: String);
+  begin
+    AddStrWithSep(ErrorMessage, Msg + ':', LineEnding + LineEnding);
+    AddStrWithSep(ErrorMessage, ConfigFileName, LineEnding);
+    if eMsg <> EmptyStr then
+      AddStrWithSep(ErrorMessage, eMsg, LineEnding);
+  end;
+begin
+  Result := False;
+  try
+    Result := LoadConfigProc(ErrorMessage);
+  except
+    // If the file does not exist or is empty,
+    // simply default configuration is applied.
+    on EFileNotFound do
+      Result := True;
+    on EFileEmpty do
+      Result := True;
+    on e: EFOpenError do
+      AddMsg(rsMsgErrEOpen, e.Message);
+    on e: EStreamError do
+      AddMsg(rsMsgErrERead, e.Message);
+    on e: EXMLReadError do
+      AddMsg(rsMsgInvalidFormatOfConfigurationFile, e.Message);
+  end;
+end;
+
+function AskUserOnError(var ErrorMessage: String): Boolean;
+begin
+  // Show error messages.
+  if ErrorMessage <> EmptyStr then
+  begin
+    Result := QuestionDlg(Application.Title + ' - ' + rsMsgErrorLoadingConfiguration,
+                          ErrorMessage, mtWarning,
+                          [1, rsDlgButtonContinue, 'isdefault',
+                           2, rsDlgButtonExitProgram], 0) = 1;
+    // Reset error message.
+    ErrorMessage := '';
+  end
+  else
+    Result := True;
+end;
+
+function LoadGlobalConfig(var ErrorMessage: String): Boolean;
+begin
+  Result := gConfig.Load;
+end;
+
+function LoadHotManConfig(var ErrorMessage: String): Boolean;
+begin
+  HotMan.Load(gpCfgDir + gNameSCFile);
+  Result := True;
+end;
 
 function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
 begin
@@ -990,18 +1052,20 @@ begin
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
 end;
 
-function OpenConfig: Boolean;
+function OpenConfig(var ErrorMessage: String): Boolean;
 begin
   if Assigned(gConfig) then
     Exit(True);
 
   // Check global directory for XML config.
-  if not Assigned(gConfig) and (gpCmdLineCfgDir = EmptyStr) and
+  if (gpCmdLineCfgDir = EmptyStr) and
      mbFileExists(gpGlobalCfgDir + 'doublecmd.xml') then
   begin
+    gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
+    gUseConfigInProgramDir := True;
     if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead) then
     begin
-      gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
+      LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage);
       gUseConfigInProgramDir := gConfig.GetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', False);
       if not gUseConfigInProgramDir then
       begin
@@ -1015,22 +1079,32 @@ begin
       end;
     end
     else
-      // File is not readable - print warning and continue below to check config in user directory.
-      DCDebug('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.xml' +
-              ' exists but is not readable.');
+    begin
+      // Configuration file is not readable.
+      AddStrWithSep(ErrorMessage,
+          'Config file "' + gpGlobalCfgDir + 'doublecmd.xml' +
+          '" exists but is not readable.',
+          LineEnding);
+      Exit(False);
+    end;
   end;
 
   // Check user directory for XML config.
   if not Assigned(gConfig) and mbFileExists(gpCfgDir + 'doublecmd.xml') then
   begin
+    gConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
+    gUseConfigInProgramDir := False;
     if mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenRead) then
     begin
-      gConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
-      gUseConfigInProgramDir := False;
+      LoadConfigCheckErrors(@LoadGlobalConfig, gpCfgDir + 'doublecmd.xml', ErrorMessage);
     end
     else
     begin
-      DCDebug('Error: Cannot read config file ' + gpGlobalCfgDir + 'doublecmd.xml.');
+      // Configuration file is not readable.
+      AddStrWithSep(ErrorMessage,
+          'Config file "' + gpCfgDir + 'doublecmd.xml' +
+          '" exists but is not readable.',
+          LineEnding);
       Exit(False);
     end;
   end;
@@ -1055,8 +1129,8 @@ begin
 	      end
         else
 	      begin
-          DCDebug('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.ini' +
-                  ' is not accessible for writing. Configuration will not be saved.');
+          DCDebug('Warning: Config file "' + gpGlobalCfgDir + 'doublecmd.ini' +
+                  '" is not accessible for writing. Configuration will not be saved.');
 	      end;
 	    end;
     end;
@@ -1070,6 +1144,7 @@ begin
 
     if Assigned(gIni) then
     begin
+      DebugLn('Converted old configuration from ' + gIni.FileName);
       if gUseConfigInProgramDir then
         gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml')
       else
@@ -1093,11 +1168,9 @@ begin
   if mbFileExists(gpCfgDir + 'doublecmd.xml') and
      (not mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenWrite)) then
   begin
-    DCDebug('Warning: Config file ' + gpCfgDir + 'doublecmd.xml' +
-            ' is not accessible for writing. Configuration will not be saved.');
-  end
-  else
-    gConfig.SaveOnDestroy := True;
+    DCDebug('Warning: Config file "' + gpCfgDir + 'doublecmd.xml' +
+            '" is not accessible for writing. Configuration will not be saved.');
+  end;
 
   if not mbDirectoryExists(gpCfgDir) then
     mbForceDirectory(gpCfgDir);
@@ -1106,12 +1179,15 @@ begin
 end;
 
 function LoadGlobs: Boolean;
+var
+  ErrorMessage: String = '';
 begin
   Result := False;
-  if not OpenConfig then
+  if not OpenConfig(ErrorMessage) then
     Exit;
 
-  DCDebug('Loading configuration...');
+  DCDebug('Loading configuration from ', gpCfgDir);
+
   SetDefaultConfigGlobs;
   if Assigned(gIni) then
     LoadIniConfig
@@ -1148,7 +1224,7 @@ begin
   if mbFileExists(gpCfgDir + 'shortcuts.ini') and
      not mbFileExists(gpCfgDir + gNameSCFile) then
        mbRenameFile(gpCfgDir + 'shortcuts.ini', gpCfgDir + gNameSCFile);
-  HotMan.Load(gpCfgDir + gNameSCFile);
+  LoadConfigCheckErrors(@LoadHotManConfig, gpCfgDir + gNameSCFile, ErrorMessage);
 
   { MultiArc addons }
   if mbFileExists(gpCfgDir + 'multiarc.ini') then
@@ -1157,8 +1233,10 @@ begin
   { Localization }
   DoLoadLng;
   msgLoadLng;
+
   FillFileFuncList;
-  Result := True;
+
+  Result := AskUserOnError(ErrorMessage);
 end;
 
 procedure SaveGlobs;
@@ -1189,7 +1267,7 @@ begin
         gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
       end;
 
-      TmpConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
+      TmpConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml', True);
       try
         TmpConfig.SetValue(TmpConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDirNew);
         TmpConfig.Save;
@@ -2265,23 +2343,35 @@ begin
   gWLXPlugins.Save(gConfig, Node);
 end;
 
+function LoadConfig: Boolean;
+var
+  ErrorMessage: String = '';
+begin
+  Result := LoadConfigCheckErrors(@LoadGlobalConfig, gConfig.FileName, ErrorMessage);
+  if not Result then
+    Result := AskUserOnError(ErrorMessage);
+end;
+
 function InitGlobs: Boolean;
+var
+  ErrorMessage: String = '';
 begin
   CreateGlobs;
-  if not OpenConfig then
-    Exit(False);
-  SetDefaultNonConfigGlobs;
-  if not LoadGlobs then
-    Exit(False);
-
-  // If a new config was created and the file doesn't yet exist then save it.
-  if not mbFileExists(gpCfgDir + 'doublecmd.xml') then
+  if not OpenConfig(ErrorMessage) then
   begin
-    SaveXmlConfig;
-    gConfig.Save;
+    if not AskUserOnError(ErrorMessage) then
+      Exit(False);
   end;
 
-  Result := True;
+  SetDefaultNonConfigGlobs;
+
+  if not LoadGlobs then
+  begin
+    if not AskUserOnError(ErrorMessage) then
+      Exit(False);
+  end;
+
+  Result := AskUserOnError(ErrorMessage);
 end;
 
 function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;

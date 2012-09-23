@@ -63,16 +63,23 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng;
+  Forms, uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng;
 
 { TfrmOptionsConfiguration }
 
 procedure TfrmOptionsConfiguration.btnConfigApplyClick(Sender: TObject);
 begin
-  gConfig.Load; // force reloading config from file
-  LoadGlobs;
-  OptionsDialog.LoadSettings;
-  btnConfigApply.Enabled:= False;
+  if LoadConfig then // force reloading config from file
+  begin
+    LoadGlobs;
+    OptionsDialog.LoadSettings;
+    btnConfigApply.Enabled:= False;
+  end
+  else
+  begin
+    gSaveConfiguration := False;
+    Application.Terminate;
+  end;
 end;
 
 procedure TfrmOptionsConfiguration.btnConfigEditClick(Sender: TObject);
