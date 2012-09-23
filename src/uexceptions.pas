@@ -69,7 +69,8 @@ procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText:
 var
   f: System.Text;
 begin
-  if (aFileName <> EmptyStr) and not mbDirectoryExists(aFileName) then
+  if (aFileName <> EmptyStr) and not mbDirectoryExists(aFileName) and
+     mbFileAccess(aFileName, fmOpenWrite) then
   begin
     AssignFile(f, aFileName);
     if not mbFileExists(aFileName) then

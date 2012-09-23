@@ -37,6 +37,7 @@ type
   private
     FMasterKey,
     FMasterKeyHash: AnsiString;
+    FInitialized: Boolean;
   public
     constructor Create(const AFileName: String; Mode: Word); override;
     destructor Destroy; override;
@@ -66,7 +67,8 @@ var
 implementation
 
 uses
-  LCLProc, LCLType, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng, uDebug;
+  LCLProc, LCLType, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng, uDebug,
+  DCOSUtils;
 
 type
   TBlowFishKeyRec = record
@@ -134,11 +136,15 @@ constructor TPasswordStore.Create(const AFileName: String; Mode: Word);
 begin
   inherited Create(AFileName, Mode);
   FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
+  // In case exception happens when opening file use this flag to
+  // allow WriteString in Destroy only when Create has been successful.
+  FInitialized := True;
 end;
 
 destructor TPasswordStore.Destroy;
 begin
-  WriteString('General', 'MasterKey', FMasterKeyHash);
+  if FInitialized and not ReadOnly then
+    WriteString('General', 'MasterKey', FMasterKeyHash);
   inherited Destroy;
 end;
 
@@ -211,9 +217,17 @@ begin
 end;
 
 procedure InitPasswordStore;
+var
+  AFileName: String;
+  Mode: Word;
 begin
+  AFileName := gpCfgDir + 'pwd.ini';
   try
-    PasswordStore:= TPasswordStore.Create(gpCfgDir + 'pwd.ini', fmOpenReadWrite);
+    if mbFileAccess(AFileName, fmOpenReadWrite) then
+      Mode := fmOpenReadWrite
+    else
+      Mode := fmOpenRead;
+    PasswordStore:= TPasswordStore.Create(AFileName, Mode);
   except
     DCDebug('Can not create secure password store!');
   end;
@@ -230,4 +244,4 @@ finalization
   FreeThenNil(PasswordStore);
 
 end.
-
+

@@ -72,6 +72,7 @@ type
   TIniFileEx = class(TIniFile)
   private
     FIniFileStream: TFileStreamEx;
+    FReadOnly: Boolean;
     function GetFileName: UTF8String;
     procedure SetFileName(const AValue: UTF8String);
   public
@@ -80,6 +81,7 @@ type
     destructor Destroy; override;
     procedure UpdateFile; override;
     property FileName: UTF8String read GetFileName write SetFileName;
+    property ReadOnly: Boolean read FReadOnly;
   end;
 
 implementation
@@ -163,19 +165,22 @@ end;
 
 procedure TStringListEx.SaveToFile(const FileName: String);
 var
-  fsFileStream: TFileStreamEx;
+  fsFileStream: TFileStreamEx = nil;
 begin
-  if mbFileExists(FileName) then
-    begin
-      fsFileStream:= TFileStreamEx.Create(FileName, fmOpenWrite or fmShareDenyNone);
-      fsFileStream.Position:= 0;
-      fsFileStream.Size:= 0;
-    end
-  else
-    fsFileStream:= TFileStreamEx.Create(FileName, fmCreate);
+  try
+    if mbFileExists(FileName) then
+      begin
+        fsFileStream:= TFileStreamEx.Create(FileName, fmOpenWrite or fmShareDenyNone);
+        fsFileStream.Position:= 0;
+        fsFileStream.Size:= 0;
+      end
+    else
+      fsFileStream:= TFileStreamEx.Create(FileName, fmCreate);
 
-  SaveToStream(fsFileStream);
-  fsFileStream.Free;
+    SaveToStream(fsFileStream);
+  finally
+    fsFileStream.Free;
+  end;
 end;
 
 { TIniFileEx }
@@ -192,6 +197,7 @@ end;
 
 constructor TIniFileEx.Create(const AFileName: String; Mode: Word);
 begin
+  FReadOnly := Mode = fmOpenRead;
   if mbFileExists(AFileName) then
     FIniFileStream:= TFileStreamEx.Create(AFileName, Mode or fmShareDenyNone)
   else
@@ -202,18 +208,22 @@ end;
 
 constructor TIniFileEx.Create(const AFileName: string; AEscapeLineFeeds: Boolean);
 begin
-{$PUSH}{$HINTS OFF}
-  Create(AFileName, fmOpenReadWrite);
-{$POP}
+  if mbFileAccess(AFileName, fmOpenReadWrite) then
+    Create(AFileName, fmOpenReadWrite)
+  else
+    Create(AFileName, fmOpenRead);
 end;
 
 procedure TIniFileEx.UpdateFile;
 begin
-  Stream.Position:=0;
-  Stream.Size:= 0;
-  FileName:= EmptyStr;
-  inherited UpdateFile;
-  FileName:= FIniFileStream.FileName;
+  if not ReadOnly then
+  begin
+    Stream.Position:=0;
+    Stream.Size:= 0;
+    FileName:= EmptyStr;
+    inherited UpdateFile;
+    FileName:= FIniFileStream.FileName;
+  end;
 end; 
 
 destructor TIniFileEx.Destroy;
