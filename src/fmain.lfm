@@ -1904,7 +1904,7 @@ object frmMain: TfrmMain
     end
     object actRenameTab: TAction
       Category = 'Tabs'
-      Caption = 'Re&name Tab'
+      Caption = '&Rename Tab'
       OnExecute = actExecute
     end
     object actCompareDirectories: TAction
