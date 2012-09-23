@@ -2051,7 +2051,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "尋找檔案"
@@ -2377,6 +2377,20 @@ msgstr "清除記錄檔案"
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr "清除記錄視窗"
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "移除所有非作用中分頁"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "關閉分頁 &R"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2710,16 +2724,6 @@ msgstr "快速檢視面版 &Q"
 msgid "&Refresh"
 msgstr "更新(&R)"
 
-#: tfrmmain.actremovealltabs.caption
-#| msgid "Remove &all tabs"
-msgid "Remove &All Tabs"
-msgstr "移除所有非作用中分頁"
-
-#: tfrmmain.actremovetab.caption
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "關閉分頁 &R"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2737,7 +2741,9 @@ msgid "Rename"
 msgstr "重新命名"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "重新命名分頁 &n"
 
 #: tfrmmain.actrestoreselection.caption
@@ -7024,12 +7030,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "取消(&C)"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "複製到 &I"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7575,6 +7589,10 @@ msgstr "不支持的功能!"
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "正則表達式語法錯誤!"
@@ -7650,6 +7668,10 @@ msgstr ""
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "無效的檔案名稱"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

@@ -2021,7 +2021,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Търсене на файлове"
@@ -2350,6 +2350,20 @@ msgstr "Изчистване на дневника"
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr "Изчистване на прозореца на дневника"
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Премахване на вси&чки подпрозорци"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "Пре&махване на подпрозореца"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2716,18 +2730,6 @@ msgstr "Крило за бърз преглед"
 msgid "&Refresh"
 msgstr "О&пресняване"
 
-#: tfrmmain.actremovealltabs.caption
-#, fuzzy
-#| msgid "Remove &all tabs"
-msgid "Remove &All Tabs"
-msgstr "Премахване на вси&чки подпрозорци"
-
-#: tfrmmain.actremovetab.caption
-#, fuzzy
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "Пре&махване на подпрозореца"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2745,7 +2747,7 @@ msgid "Rename"
 msgstr "Преименуване"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
@@ -6965,12 +6967,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Отказ"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr ""
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7518,6 +7528,10 @@ msgstr "Действието не се поддържа!"
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr ""
@@ -7592,6 +7606,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
+msgstr ""
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
 msgstr ""
 
 #: ulng.rsmsginvalidpath

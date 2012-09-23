@@ -2067,7 +2067,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 #, fuzzy
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
@@ -2396,6 +2396,20 @@ msgstr "로그 파일 비우기"
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr "로그 창 비우기"
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "모든 탭 제거(&A)"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "탭 제거(&R)"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2732,16 +2746,6 @@ msgstr "미리 보기(&Q)"
 msgid "&Refresh"
 msgstr "새로 고침(&R)"
 
-#: tfrmmain.actremovealltabs.caption
-#, fuzzy
-msgid "Remove &All Tabs"
-msgstr "모든 탭 제거(&A)"
-
-#: tfrmmain.actremovetab.caption
-#, fuzzy
-msgid "&Remove Tab"
-msgstr "탭 제거(&R)"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2759,7 +2763,9 @@ msgid "Rename"
 msgstr "이름 바꾸기"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "탭이름 변경(&N)"
 
 #: tfrmmain.actrestoreselection.caption
@@ -7160,6 +7166,10 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "취소(&C)"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "복사(&I)"
@@ -7167,6 +7177,10 @@ msgstr "복사(&I)"
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
 msgstr "전부 복사(&A)"
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
+msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -7725,6 +7739,10 @@ msgstr "지원되지 않는 기능!"
 msgid "Error in context menu command"
 msgstr "컨텍스트 메뉴 명령어 오류"
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "정규 표현식 구문 오류!"
@@ -7801,6 +7819,10 @@ msgstr "명령행 오류"
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "잘못된 파일명"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 #, fuzzy

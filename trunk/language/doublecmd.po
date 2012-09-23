@@ -1899,7 +1899,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr ""
@@ -2181,6 +2181,16 @@ msgstr ""
 
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
+msgstr ""
+
+#: tfrmmain.actclosealltabs.caption
+msgctxt "TFRMMAIN.ACTCLOSEALLTABS.CAPTION"
+msgid "Close &All Tabs"
+msgstr ""
+
+#: tfrmmain.actclosetab.caption
+msgctxt "TFRMMAIN.ACTCLOSETAB.CAPTION"
+msgid "&Close Tab"
 msgstr ""
 
 #: tfrmmain.actcmdlinenext.caption
@@ -2483,14 +2493,6 @@ msgstr ""
 msgid "&Refresh"
 msgstr ""
 
-#: tfrmmain.actremovealltabs.caption
-msgid "Remove &All Tabs"
-msgstr ""
-
-#: tfrmmain.actremovetab.caption
-msgid "&Remove Tab"
-msgstr ""
-
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2506,7 +2508,7 @@ msgid "Rename"
 msgstr ""
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
@@ -6206,12 +6208,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr ""
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr ""
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -6753,6 +6763,10 @@ msgstr ""
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr ""
@@ -6827,6 +6841,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
+msgstr ""
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
 msgstr ""
 
 #: ulng.rsmsginvalidpath

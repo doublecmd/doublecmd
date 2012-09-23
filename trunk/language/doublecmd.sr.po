@@ -2042,7 +2042,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Pronađi fajlove"
@@ -2363,6 +2363,20 @@ msgstr "Isprazni fajl za logovanje"
 msgid "Clear log window"
 msgstr "Isprazni prozor za logovanje"
 
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Ukloni &Sve Tabove"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "&Ukloni Tab"
+
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
 msgstr ""
@@ -2671,14 +2685,6 @@ msgstr "&Brzi Pregled Radne Površine"
 msgid "&Refresh"
 msgstr "&Osveži"
 
-#: tfrmmain.actremovealltabs.caption
-msgid "Remove &All Tabs"
-msgstr "Ukloni &Sve Tabove"
-
-#: tfrmmain.actremovetab.caption
-msgid "&Remove Tab"
-msgstr "&Ukloni Tab"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move F6"
@@ -2696,7 +2702,9 @@ msgid "Rename"
 msgstr "Preimenuj"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "Preime&nuj Tab"
 
 #: tfrmmain.actrestoreselection.caption
@@ -6504,12 +6512,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "Odus&tani"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "Kop&iraj U"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7053,6 +7069,10 @@ msgstr "Funkcija nije podržana!"
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Sintaksna greška u regularnom izrazu!"
@@ -7128,6 +7148,10 @@ msgstr ""
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Nevalidan naziv fajla"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
