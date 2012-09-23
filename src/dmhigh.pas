@@ -322,7 +322,7 @@ begin
   try
     Result:= True;
     try
-      Config:= TXmlConfig.Create(FileName);
+      Config:= TXmlConfig.Create(FileName, True);
       Root := Config.FindNode(Config.RootNode, 'Highlighters');
       if Assigned(Root) then
       begin
