@@ -2054,7 +2054,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Пошук файлів"
@@ -2377,6 +2377,20 @@ msgstr "Очистити файл звіту"
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr "Очистити вікно звіту"
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Вид&алити всі вкладки"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "&Видалити вкладку"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2711,16 +2725,6 @@ msgstr "&Панель швидкого перегляду"
 msgid "&Refresh"
 msgstr "&Оновити"
 
-#: tfrmmain.actremovealltabs.caption
-#| msgid "Remove &all tabs"
-msgid "Remove &All Tabs"
-msgstr "Вид&алити всі вкладки"
-
-#: tfrmmain.actremovetab.caption
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "&Видалити вкладку"
-
 #: tfrmmain.actrename.caption
 #| msgid "Move"
 msgctxt "tfrmmain.actrename.caption"
@@ -2737,7 +2741,9 @@ msgid "Rename"
 msgstr "Перейменувати"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "Перей&менувати вкладку"
 
 #: tfrmmain.actrestoreselection.caption
@@ -6836,6 +6842,10 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Скасувати"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "&Копіювати в"
@@ -6843,6 +6853,10 @@ msgstr "&Копіювати в"
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
 msgstr "Копіюв&ати у всі"
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
+msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -7389,6 +7403,10 @@ msgstr "Функція не підтримується!"
 msgid "Error in context menu command"
 msgstr "Помилка в команді контекстного меню"
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Синтаксична помилка в регулярному виразі!"
@@ -7464,6 +7482,10 @@ msgstr "Помилка в командному рядку"
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Некоректне ім'я файлу"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

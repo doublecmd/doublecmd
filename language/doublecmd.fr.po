@@ -2065,7 +2065,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 #, fuzzy
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
@@ -2398,6 +2398,20 @@ msgstr "Effacer le fichier journal"
 msgid "Clear log window"
 msgstr "Effacer la fenêtre du journal"
 
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Fermer &tous les onglets"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "&Fermer l'onglet"
+
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
 msgstr ""
@@ -2716,14 +2730,6 @@ msgstr "&Panneau de visualisation rapide"
 msgid "&Refresh"
 msgstr "&Rafraichir"
 
-#: tfrmmain.actremovealltabs.caption
-msgid "Remove &All Tabs"
-msgstr "Fermer &tous les onglets"
-
-#: tfrmmain.actremovetab.caption
-msgid "&Remove Tab"
-msgstr "&Fermer l'onglet"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2741,7 +2747,9 @@ msgid "Rename"
 msgstr "Renommer"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "Re&nommer l'onglet"
 
 #: tfrmmain.actrestoreselection.caption
@@ -6982,12 +6990,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Annuler"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "Copier &dans"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7569,6 +7585,10 @@ msgstr "Fonction non supportée !"
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Erreur de syntaxe dans l'expression régulière !"
@@ -7646,6 +7666,10 @@ msgstr ""
 #, fuzzy
 msgid "Invalid filename"
 msgstr "Nom de fichier incorrect"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

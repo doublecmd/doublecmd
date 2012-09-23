@@ -2049,7 +2049,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Hledat soubory"
@@ -2374,6 +2374,20 @@ msgstr "Vyčistit soubor záznamu"
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr "Vymazat okno záznamu"
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Odstr&anit všechny záložky"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "Odst&ranit záložku"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2708,16 +2722,6 @@ msgstr "&Panel rychlého prohlížení"
 msgid "&Refresh"
 msgstr "&Obnovit"
 
-#: tfrmmain.actremovealltabs.caption
-#| msgid "Remove &all tabs"
-msgid "Remove &All Tabs"
-msgstr "Odstr&anit všechny záložky"
-
-#: tfrmmain.actremovetab.caption
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "Odst&ranit záložku"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2735,7 +2739,9 @@ msgid "Rename"
 msgstr "Přejmenovat"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "Přejme&novat záložku"
 
 #: tfrmmain.actrestoreselection.caption
@@ -6986,12 +6992,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Zrušit"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "Kopírovat &do"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7538,6 +7552,10 @@ msgstr "Funkce není podporována!"
 msgid "Error in context menu command"
 msgstr "Chyba v příkazu kontextové nabídky"
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Chyba syntaxe v regulárním výrazu!"
@@ -7613,6 +7631,10 @@ msgstr "Chyba v příkazovém řádku"
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Nesprávné jméno souboru"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

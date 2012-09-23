@@ -2043,7 +2043,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Najdi datoteke"
@@ -2364,6 +2364,20 @@ msgstr "Počisti dnevniško datoteko"
 msgid "Clear log window"
 msgstr "Počisti dnevniško okno"
 
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Odstrani &vse zavihke"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "&Odstrani zavihek"
+
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
 msgstr "Naslednji ukaz"
@@ -2664,14 +2678,6 @@ msgstr "Okno &hitrega pogleda"
 msgid "&Refresh"
 msgstr "&Osveži"
 
-#: tfrmmain.actremovealltabs.caption
-msgid "Remove &All Tabs"
-msgstr "Odstrani &vse zavihke"
-
-#: tfrmmain.actremovetab.caption
-msgid "&Remove Tab"
-msgstr "&Odstrani zavihek"
-
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2687,7 +2693,9 @@ msgid "Rename"
 msgstr "Preimenuj"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "Pr&eimenuj zavihek"
 
 #: tfrmmain.actrestoreselection.caption
@@ -6927,6 +6935,10 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Prekliči"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "Kopiraj &v"
@@ -6934,6 +6946,10 @@ msgstr "Kopiraj &v"
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
 msgstr "Kopiraj v &vse"
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
+msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -7474,6 +7490,10 @@ msgstr "Funkcija ni podprta!"
 msgid "Error in context menu command"
 msgstr "Napaka v ukazu vsebinskega menija"
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Napaka skladnje logičnega izraza!"
@@ -7549,6 +7569,10 @@ msgstr "Napaka v ukazni vrstici"
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Neveljavno ime datoteke"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

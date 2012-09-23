@@ -2059,7 +2059,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Suche Datei(en)"
@@ -2389,6 +2389,20 @@ msgstr "Log-Datei leeren"
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr "Log-Fenster leeren"
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Alle Reiter ent&fernen"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "&Entferne Reiter"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2762,18 +2776,6 @@ msgstr "S&chnellbetrachter-Panel"
 msgid "&Refresh"
 msgstr "A&ktualisieren"
 
-#: tfrmmain.actremovealltabs.caption
-#, fuzzy
-#| msgid "Remove &all tabs"
-msgid "Remove &All Tabs"
-msgstr "Alle Reiter ent&fernen"
-
-#: tfrmmain.actremovetab.caption
-#, fuzzy
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "&Entferne Reiter"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2791,7 +2793,9 @@ msgid "Rename"
 msgstr "Umbenennen"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "Reiter umbe&nennen"
 
 #: tfrmmain.actrestoreselection.caption
@@ -7197,6 +7201,10 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "Abbru&ch"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "Zunächst nur d&ieses Verzeichnis kopieren"
@@ -7204,6 +7212,10 @@ msgstr "Zunächst nur d&ieses Verzeichnis kopieren"
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
 msgstr "&Alle bestehenden Verzeichnisse kopieren"
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
+msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -7748,6 +7760,10 @@ msgstr "Funktion wird nicht unterstützt!"
 msgid "Error in context menu command"
 msgstr "Fehler im Befehl des Kontextmenü"
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Syntax-fehler im regulären Ausdruck!"
@@ -7823,6 +7839,10 @@ msgstr "Fehler in der Befehlszeile"
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Ungültiger Dateiname"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

@@ -2007,7 +2007,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Fájlok keresése"
@@ -2337,6 +2337,20 @@ msgstr ""
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr ""
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Összes fül bezárása"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "Fül bezárása"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2691,18 +2705,6 @@ msgstr ""
 msgid "&Refresh"
 msgstr "&Frissítés"
 
-#: tfrmmain.actremovealltabs.caption
-#, fuzzy
-#| msgid "Remove &all tabs"
-msgid "Remove &All Tabs"
-msgstr "Összes fül bezárása"
-
-#: tfrmmain.actremovetab.caption
-#, fuzzy
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "Fül bezárása"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2720,7 +2722,7 @@ msgid "Rename"
 msgstr "Átnevezés"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
@@ -6849,12 +6851,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Mégsem"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr ""
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7401,6 +7411,10 @@ msgstr "A művelet nem támogatott!"
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Szintaktikai hiba a reguláris kifejezésben!"
@@ -7476,6 +7490,10 @@ msgstr ""
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Érvénytelen fájlnév"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

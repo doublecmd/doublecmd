@@ -2068,7 +2068,7 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+#: tfrmfinddlg.frmfinddlg.caption
 msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
 msgid "Find files"
 msgstr "Buscar archivos"
@@ -2394,6 +2394,20 @@ msgstr "Borrar archivo log"
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
 msgstr "Borrar ventana log"
+
+#: tfrmmain.actclosealltabs.caption
+#, fuzzy
+#| msgid "Remove &All Tabs"
+msgctxt "tfrmmain.actclosealltabs.caption"
+msgid "Close &All Tabs"
+msgstr "Cerrar tod&as las pestañas"
+
+#: tfrmmain.actclosetab.caption
+#, fuzzy
+#| msgid "&Remove Tab"
+msgctxt "tfrmmain.actclosetab.caption"
+msgid "&Close Tab"
+msgstr "Cerra&r pestaña"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2735,16 +2749,6 @@ msgstr "Panel de vista rápida"
 msgid "&Refresh"
 msgstr "&Actualizar"
 
-#: tfrmmain.actremovealltabs.caption
-msgid "Remove &All Tabs"
-msgstr "Cerrar tod&as las pestañas"
-
-#: tfrmmain.actremovetab.caption
-#, fuzzy
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "Cerra&r pestaña"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2762,7 +2766,9 @@ msgid "Rename"
 msgstr "Renombrar"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "Re&nombrar pestaña"
 
 #: tfrmmain.actrestoreselection.caption
@@ -7104,12 +7110,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Cancelar"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "Copiar en"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7657,6 +7671,10 @@ msgstr "Función no soportada!"
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Error de sintaxis en expresión regular!"
@@ -7732,6 +7750,10 @@ msgstr ""
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Nombre no válido"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
