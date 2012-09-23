@@ -499,6 +499,8 @@ begin
     if FileStream.Size = 0 then
       raise EFileEmpty.Create('');
     ReadXMLFile(TmpDoc, FileStream, FilenameToURI(AFilename));
+    if TmpDoc.DocumentElement.NodeName <> ApplicationName then
+      raise EXMLReadError.Create('Root element is not <' + ApplicationName + '>.');
     FDoc.Free;
     FDoc := TmpDoc;
   finally
