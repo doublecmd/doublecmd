@@ -5,7 +5,7 @@
 # Set Double Commander version
 DC_VER=0.5.5
 # Set Ubuntu series
-DISTRO=( lucid maverick natty oneiric precise )
+DISTRO=( precise )
 
 # Temp directory
 DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
@@ -63,6 +63,50 @@ update_doublecmd()
   done
 }
 
+update_doublecmd_svn()
+{
+  # Export from SVN
+  svn export ../../ $DC_SOURCE_DIR
+
+  # Save revision number
+  mkdir $DC_SOURCE_DIR/.svn
+  cp -a ../../.svn/entries $DC_SOURCE_DIR/.svn/
+
+  # Remove help files
+  rm -rf $DC_SOURCE_DIR/doc/en
+  rm -rf $DC_SOURCE_DIR/doc/ru
+  rm -rf $DC_SOURCE_DIR/doc/uk
+
+  # Prepare debian directory
+  mkdir -p $DC_SOURCE_DIR/debian
+  cp -r $DC_SOURCE_DIR/install/linux/deb/doublecmd/* $DC_SOURCE_DIR/debian
+  echo '3.0 (native)' > $DC_SOURCE_DIR/debian/source/format
+
+  # Create source package for each distro
+  for DIST in "${DISTRO[@]}"
+  do
+    # Update changelog file
+    pushd $DC_SOURCE_DIR/debian
+    dch -m -D $DIST -v $DC_VER-$DC_REVISION~$DIST "Update to revision $DC_REVISION"
+    popd
+
+    # Create archive with source code
+    pushd $DC_SOURCE_DIR
+    debuild -S -sa
+    popd
+  done
+
+  # Upload archives to PPA
+  cd $DC_TEMP_DIR
+  dput -U ppa:alexx2000/doublecmd-svn $(ls -xrt --file-type *.changes)
+
+  # Clean
+  rm -rf $DC_TEMP_DIR
+
+  # Exit
+  exit 0
+}
+
 update_doublecmd_help()
 {
   # Export from SVN
@@ -107,6 +151,7 @@ update_all()
 
 case $1 in
   doublecmd-help)  update_doublecmd_help;;
+   doublecmd-svn)  update_doublecmd_svn;;
        doublecmd)  update_doublecmd;;
                *)  update_all;;
 esac
