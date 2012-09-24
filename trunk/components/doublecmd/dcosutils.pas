@@ -838,7 +838,7 @@ begin
   if dwDesiredAccess = GENERIC_READ then
     dwShareMode := FILE_SHARE_READ;
   hFile:= CreateFileW(PWChar(wFileName), dwDesiredAccess, dwShareMode,
-                      nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+                      nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
   Result := hFile <> INVALID_HANDLE_VALUE;
   if Result then
     FileClose(hFile);
