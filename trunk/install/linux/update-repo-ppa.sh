@@ -80,7 +80,7 @@ update_doublecmd_svn()
   # Prepare debian directory
   mkdir -p $DC_SOURCE_DIR/debian
   cp -r $DC_SOURCE_DIR/install/linux/deb/doublecmd/* $DC_SOURCE_DIR/debian
-  echo '3.0 (native)' > $DC_SOURCE_DIR/debian/source/format
+  echo '1.0' > $DC_SOURCE_DIR/debian/source/format
 
   # Create source package for each distro
   for DIST in "${DISTRO[@]}"
