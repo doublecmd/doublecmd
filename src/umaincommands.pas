@@ -394,8 +394,6 @@ procedure TMainCommands.DoOpenVirtualFileSystemList(Panel: TFileView);
 var
   FileSource: IFileSource;
 begin
-  if (gWFXPlugins.Count = 0) and (gVfsModuleList.Count = 0) then
-    Exit;
   FileSource:= TVfsFileSource.Create(gWFXPlugins);
   if Assigned(FileSource) then
     Panel.AddFileSource(FileSource, FileSource.GetRootDir);
