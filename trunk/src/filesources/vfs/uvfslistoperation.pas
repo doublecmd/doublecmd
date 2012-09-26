@@ -43,10 +43,13 @@ begin
   for I := 0 to VfsFileList.Count - 1 do
     begin
       CheckOperationState;
-      aFile := TVfsFileSource.CreateFile(Path);
-      aFile.Name:= VfsFileList.Name[I];
-      //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
-      FFiles.Add(aFile);
+      if VfsFileList.Enabled[I] then
+      begin
+        aFile := TVfsFileSource.CreateFile(Path);
+        aFile.Name:= VfsFileList.Name[I];
+        //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
+        FFiles.Add(aFile);
+      end;
     end;
   for I:= 0 to gVfsModuleList.Count - 1 do
     begin
