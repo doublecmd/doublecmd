@@ -84,7 +84,7 @@ var
   I: Integer;
   SelectedFiles: TFiles;
 begin
-  SelectedFiles := frmMain.ActiveFrame.CloneSelectedFiles;
+  SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
   try
     for I:= 0 to SelectedFiles.Count - 1 do
       if bWithFullPath then

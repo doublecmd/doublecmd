@@ -367,6 +367,14 @@ type
        Caller is responsible for freeing the list.
     }
     function CloneSelectedFiles: TFiles;
+    {en
+       A list of files selected by the user
+       (this should be a subset of displayed files list returned by Files).
+       If there are no selected files then the active file pointed to by the cursor
+       is added to the list as the only file.
+       Caller is responsible for freeing the list.
+    }
+    function CloneSelectedOrActiveFiles: TFiles;
 
     {en
        Retrieves files from file source again and displays the new list of files.
@@ -1462,7 +1470,6 @@ end;
 function TFileView.CloneSelectedFiles: TFiles;
 var
   i: Integer;
-  aFile: TDisplayFile;
 begin
   Result := TFiles.Create(CurrentPath);
 
@@ -1471,6 +1478,13 @@ begin
     if FFiles[i].Selected then
       Result.Add(FFiles[i].FSFile.Clone);
   end;
+end;
+
+function TFileView.CloneSelectedOrActiveFiles: TFiles;
+var
+  aFile: TDisplayFile;
+begin
+  Result := CloneSelectedFiles;
 
   // If no files are selected, add currently active file if it is valid.
   if (Result.Count = 0) then

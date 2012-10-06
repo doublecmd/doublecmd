@@ -273,8 +273,8 @@ var
 
 begin
   try
-    leftFiles := leftPanel.CloneSelectedFiles;
-    rightFiles := rightPanel.CloneSelectedFiles;
+    leftFiles := leftPanel.CloneSelectedOrActiveFiles;
+    rightFiles := rightPanel.CloneSelectedOrActiveFiles;
 
     if activePanel = leftPanel then
     begin

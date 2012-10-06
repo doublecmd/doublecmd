@@ -370,7 +370,7 @@ begin
   SourcePanel := ((Source as TWinControl).Parent) as TFileViewWithMainCtrl;
 
   // Get file names from source panel.
-  SourceFiles := SourcePanel.CloneSelectedFiles;
+  SourceFiles := SourcePanel.CloneSelectedOrActiveFiles;
   try
     // Drop onto target panel.
     DropParams := TDropParams.Create(

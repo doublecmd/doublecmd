@@ -348,7 +348,7 @@ var
   SelectedFiles: TFiles = nil;
   PathToAdd: String;
 begin
-  SelectedFiles := FileView.CloneSelectedFiles;
+  SelectedFiles := FileView.CloneSelectedOrActiveFiles;
   try
     if SelectedFiles.Count > 0 then
     begin
@@ -440,7 +440,7 @@ begin
       end
     else
       begin
-        aFiles:= Panel.CloneSelectedFiles;
+        aFiles:= Panel.CloneSelectedOrActiveFiles;
       end;
 
     if Assigned(aFiles) then
@@ -759,7 +759,7 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       TestArchive(ActiveFrame, SelectedFiles);
     finally
@@ -810,7 +810,7 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       if SelectedFiles.Count > 0 then
         ShowPackDlg(ActiveFrame.FileSource,
@@ -834,7 +834,7 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     if Assigned(SelectedFiles) then
     try
       if SelectedFiles.Count > 0 then
@@ -924,7 +924,7 @@ begin
 
     // ------------------------------------------------------
 
-    theFilesToWipe := CloneSelectedFiles; // free at Thread end by thread
+    theFilesToWipe := CloneSelectedOrActiveFiles; // free at Thread end by thread
 
     if Assigned(theFilesToWipe) then
     try
@@ -1066,7 +1066,7 @@ var
 begin
   with frmMain do
   try
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     ActiveFile := ActiveFrame.CloneActiveFile;
 
     // Enter directories using View command.
@@ -1283,7 +1283,7 @@ begin
     // If files are links to local files
     if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
       begin
-        SelectedFiles := ActiveFrame.CloneSelectedFiles;
+        SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
         for I := 0 to SelectedFiles.Count - 1 do
           begin
             aFile := SelectedFiles[I];
@@ -1298,7 +1298,7 @@ begin
       end
     else
       begin
-        SelectedFiles := ActiveFrame.CloneSelectedFiles;
+        SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
       end;
 
     try
@@ -1525,7 +1525,7 @@ begin
 
     // ------------------------------------------------------
 
-    theFilesToDelete := CloneSelectedFiles; // free at Thread end by thread
+    theFilesToDelete := CloneSelectedOrActiveFiles; // free at Thread end by thread
 
     if Assigned(theFilesToDelete) then
     try
@@ -1585,7 +1585,7 @@ begin
       // Do command on TempFileSource and later delete it (or leave cached on disk?)
     end;
 
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       if SelectedFiles.Count = 0 then
       begin
@@ -1653,7 +1653,7 @@ begin
       // Do command on TempFileSource and later delete it (or leave cached on disk?)
     end;
 
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       if SelectedFiles.Count = 0 then
       begin
@@ -1829,7 +1829,7 @@ begin
         end;
 
         try
-          ActiveSelectedFiles := ActiveFrame.CloneSelectedFiles;
+          ActiveSelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
 
           if ActiveSelectedFiles.Count = 1 then
           begin
@@ -1847,7 +1847,7 @@ begin
             end;
 
             if not Assigned(NotActiveSelectedFiles) then
-              NotActiveSelectedFiles := NotActiveFrame.CloneSelectedFiles;
+              NotActiveSelectedFiles := NotActiveFrame.CloneSelectedOrActiveFiles;
 
             if NotActiveSelectedFiles.Count = 1 then
             begin
@@ -2026,7 +2026,7 @@ begin
       // Or create a symlink in temp filesystem and CopyIn to target file source.
     end;
 
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       if SelectedFiles.Count > 1 then
         msgWarning(rsMsgTooManyFilesSelected)
@@ -2076,7 +2076,7 @@ begin
       Exit;
     end;
 
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       if SelectedFiles.Count > 1 then
         msgWarning(rsMsgTooManyFilesSelected)
@@ -2171,7 +2171,7 @@ begin
         Exit;
       end;
 
-    aFiles:= ActiveFrame.CloneSelectedFiles;
+    aFiles:= ActiveFrame.CloneSelectedOrActiveFiles;
     if Assigned(aFiles) then
       try
         if aFiles.Count > 0 then
@@ -2339,7 +2339,7 @@ begin
         Exit;
       end;
 
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
       Operation.AddStateChangedListener([fsosStopped], @OnCalcStatisticsStateChanged);
@@ -2371,7 +2371,7 @@ begin
         Exit;
       end;
 
-    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     ActiveFile := ActiveFrame.CloneActiveFile;
     if Assigned(ActiveFile) then
       begin
@@ -2418,7 +2418,7 @@ begin
   begin
     if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
       begin
-        SelectedFiles := ActiveFrame.CloneSelectedFiles;
+        SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
         if Assigned(SelectedFiles) then
         try
           if SelectedFiles.Count > 0 then
@@ -2466,7 +2466,7 @@ begin
       end;
 
     try
-      aSelectedFiles := CloneSelectedFiles;
+      aSelectedFiles := CloneSelectedOrActiveFiles;
 
       for I := 0 to aSelectedFiles.Count - 1 do
         begin
@@ -2586,7 +2586,7 @@ begin
   begin
     sl := TStringList.Create;
     try
-      theSelectedFiles := CloneSelectedFiles;
+      theSelectedFiles := CloneSelectedOrActiveFiles;
 
       for i := 0 to theSelectedFiles.Count - 1 do
         sl.Add(CurrentPath + theSelectedFiles[i].Name);
