@@ -1057,7 +1057,7 @@ begin
         ToolItem := TKASToolButton(Sender).ToolItem;
         if ToolItem is TKASProgramItem then
         begin
-          SelectedFiles := ActiveFrame.CloneSelectedFiles;
+          SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
           try
             if SelectedFiles.Count > 0 then
               begin
@@ -2863,7 +2863,7 @@ function TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean;
 var
   SourceFiles: TFiles = nil;
 begin
-  SourceFiles := ActiveFrame.CloneSelectedFiles;
+  SourceFiles := ActiveFrame.CloneSelectedOrActiveFiles;
   if Assigned(SourceFiles) then
   begin
     try
@@ -2885,7 +2885,7 @@ function TfrmMain.MoveFiles(sDestPath: String; bShowDialog: Boolean;
 var
   SourceFiles: TFiles = nil;
 begin
-  SourceFiles := ActiveFrame.CloneSelectedFiles;
+  SourceFiles := ActiveFrame.CloneSelectedOrActiveFiles;
   if Assigned(SourceFiles) then
   begin
     try
