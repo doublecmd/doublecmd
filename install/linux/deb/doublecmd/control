@@ -6,18 +6,16 @@ Build-Depends: libbz2-dev,
                libdbus-1-dev,
                libglib2.0-dev,
                libgtk2.0-dev,
-               libncurses5-dev,
-               libncursesw5-dev,
                debhelper (>= 5),
                libqt4pas-dev (>= 2.1),
-               fpc (>= 2.4.0),
-               fp-utils (>= 2.4.0),
-               lcl (>= 0.9.29),
-               lcl-qt4 (>= 0.9.29),
-               lcl-gtk2 (>= 0.9.29),
-               lcl-units (>= 0.9.29),
-               lcl-utils (>= 0.9.29),
-               lazarus-src (>= 0.9.29)
+               fpc (>= 2.6.0),
+               fp-utils (>= 2.6.0),
+               lcl (>= 1.0.1),
+               lcl-qt4 (>= 1.0.1),
+               lcl-gtk2 (>= 1.0.1),
+               lcl-units (>= 1.0.1),
+               lcl-utils (>= 1.0.1),
+               lazarus-src (>= 1.0.1)
 Standards-Version: 3.9.2
 Homepage: http://doublecmd.sourceforge.net/
 
