@@ -187,9 +187,7 @@ type
     procedure ZVTimeFromChange(Sender: TObject);
     procedure ZVTimeToChange(Sender: TObject);
   private
-    FFileView: TFileView;
     FSelectedFiles: TStringList;
-
     FFindThread:TFindThread;
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
@@ -214,6 +212,7 @@ type
   public
     class function Instance: TfrmFindDlg;
   public
+    constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure ClearFilter;
 
@@ -223,6 +222,14 @@ type
 var
   FoundedStringCopy: TStringlist = nil;
 
+{en
+   Shows the find files dialog.
+   Cannot store FileView reference as it might get destroyed while Find Dialog is running.
+   We can store FileSource though, if needed in future (as it is reference counted).
+   @param(FileView
+          For which file view the find dialog is executed,
+          to get file source, current path and a list of selected files.)
+}
 procedure ShowFindDlg(FileView: TFileView);
 function ShowDefineTemplateDlg(var TemplateName: UTF8String): Boolean;
 function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
@@ -277,14 +284,34 @@ begin
 end;
 
 procedure ShowFindDlg(FileView: TFileView);
+var
+  ASelectedFiles: TFiles = nil;
+  I: Integer;
 begin
+  if not Assigned(FileView) then
+    raise Exception.Create('ShowFindDlg: FileView=nil');
+
   with TfrmFindDlg.Instance do
   begin
     // Prepare window for search files
     ClearFilter;
-    FFileView := FileView;
     Caption := rsFindSearchFiles;
     edtFindPathStart.Text := FileView.CurrentPath;
+
+    // Get paths of selected files, if any.
+    FSelectedFiles.Clear;
+    ASelectedFiles := FileView.CloneSelectedFiles;
+    if Assigned(ASelectedFiles) then
+    try
+      if ASelectedFiles.Count > 0 then
+      begin
+        for I := 0 to ASelectedFiles.Count - 1 do
+          FSelectedFiles.Add(ASelectedFiles[I].FullPath);
+      end;
+    finally
+      FreeAndNil(ASelectedFiles);
+    end;
+
     ShowOnTop;
   end;
 end;
@@ -423,8 +450,6 @@ begin
   edtFindPathStart.ShowHidden := gShowSystemFiles;
   cbPartialNameSearch.Checked:= gPartialNameSearch;
 
-  FSelectedFiles := TStringList.Create;
-
   InitPropStorage(Self);
 end;
 
@@ -454,6 +479,12 @@ begin
     end;
 end;
 
+constructor TfrmFindDlg.Create(TheOwner: TComponent);
+begin
+  FSelectedFiles := TStringList.Create;
+  inherited Create(TheOwner);
+end;
+
 destructor TfrmFindDlg.Destroy;
 begin
   inherited Destroy;
@@ -466,6 +497,7 @@ begin
   lblFindPathStart.Visible := False;
   edtFindPathStart.Visible := False;
   cbFollowSymLinks.Visible := False;
+  cbSelectedFiles.Visible := False;
   cbPartialNameSearch.Visible := False;
   btnStart.Visible := False;
   btnStop.Visible := False;
@@ -819,10 +851,10 @@ end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
-  I: Integer;
   sTemp, sPath : UTF8String;
   sr: TDsxSearchRecord;
   SearchTemplate, TmpTemplate: TSearchTemplateRec;
+  PassedSelectedFiles: TStringList = nil;
 begin
   sTemp:= edtFindPathStart.Text;
   repeat
@@ -853,26 +885,11 @@ begin
     glsReplaceHistory.Assign(cmbReplaceText.Items);
   end;
 
-  FSelectedFiles.Clear;
-  if cbSelectedFiles.Checked then
+  if cbSelectedFiles.Checked and (FSelectedFiles.Count = 0) then
   begin
-    FFileView.DisplayFiles.LockList;
-    try
-      for I := 0 to FFileView.DisplayFiles.Count - 1 do begin
-        if FFileView.DisplayFiles[I].Selected then begin
-          sTemp := FFileView.DisplayFiles[I].FSFile.FullPath;
-          FSelectedFiles.Add(sTemp);
-        end;
-      end;
-    finally
-      FFileView.DisplayFiles.UnlockList;
-    end;
-    if FSelectedFiles.Count = 0 then
-    begin
-      ShowMessage(rsMsgNoFilesSelected);
-      cbSelectedFiles.Checked:= False;
-      Exit;
-    end;
+    ShowMessage(rsMsgNoFilesSelected);
+    cbSelectedFiles.Checked:= False;
+    Exit;
   end;
 
   // Show search results page
@@ -916,7 +933,9 @@ begin
       end
     else
       begin
-        FFindThread := TFindThread.Create(SearchTemplate, FSelectedFiles);
+        if cbSelectedFiles.Checked then
+          PassedSelectedFiles := FSelectedFiles;
+        FFindThread := TFindThread.Create(SearchTemplate, PassedSelectedFiles);
         with FFindThread do
         begin
           Items := FoundedStringCopy;
@@ -1146,7 +1165,7 @@ begin
     if cmbFindFileMask.CanFocus then
       cmbFindFileMask.SetFocus;
 
-  cbSelectedFiles.Checked := FFileView.HasSelectedFiles;
+  cbSelectedFiles.Checked := FSelectedFiles.Count > 0;
   cbSelectedFiles.Enabled := cbSelectedFiles.Checked;
 end;
 
