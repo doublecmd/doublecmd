@@ -126,8 +126,9 @@ begin
     Assert(Assigned(FItems), 'Assert: FItems is empty');
     Synchronize(@UpDateProgress);
     FCurrentDepth:= -1;
-    if FSelectedFiles.Count = 0 then
+    if not Assigned(FSelectedFiles) or (FSelectedFiles.Count = 0) then
     begin
+      // Normal search (all directories).
       sTemp:= FSearchTemplate.StartPath;
       while sTemp <> EmptyStr do
       begin
@@ -135,8 +136,10 @@ begin
         sPath:= ExcludeBackPathDelimiter(sPath);
         WalkAdr(sPath);
       end;
-    end else
+    end
+    else
     begin
+      // Search only selected directories.
       for I := 0 to FSelectedFiles.Count - 1 do
       begin
         if FindFirstEx(FSelectedFiles[I], faAnyFile, sr) = 0 then
