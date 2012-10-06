@@ -1,0 +1,18 @@
+#! /bin/sh
+
+set -e
+
+# Load debconf
+. /usr/share/debconf/confmodule
+
+CFG_DIR='/etc/lazarus'
+
+if test -e "${CFG_DIR}" && ! test -L "${CFG_DIR}"
+then
+	db_input high lcl-utils${PACKAGESUFFIX}/rename_cfg || test $? -eq 30
+	db_go
+fi
+
+# Debhelper code
+#DEBHELPER#
+

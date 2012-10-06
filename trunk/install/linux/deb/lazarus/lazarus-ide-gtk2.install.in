@@ -1,1 +1,1 @@
-/usr/lib/lazarus/%{lazarusversion}/lazarus-gtk2
+/usr/lib/lazarus/${VERSION}/lazarus-gtk2

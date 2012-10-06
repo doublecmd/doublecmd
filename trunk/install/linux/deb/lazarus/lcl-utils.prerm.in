@@ -5,7 +5,7 @@ set -e
 LAZARUS_DIR=/usr/lib/lazarus/${VERSION}
 
 # Remove alternatives
-update-alternatives --remove lazarus-${VERSION} ${LAZARUS_DIR}/lazarus-gtk2
+update-alternatives --remove lazarus ${LAZARUS_DIR}
 
 # Debhelper code
 #DEBHELPER#

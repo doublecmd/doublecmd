@@ -1,0 +1,5 @@
+debian/tmp/usr/man/man1/lazbuild-${VERSION}.1
+debian/tmp/usr/man/man1/lazres-${VERSION}.1
+debian/tmp/usr/man/man1/lrstolfm-${VERSION}.1
+debian/tmp/usr/man/man1/svn2revisioninc-${VERSION}.1
+debian/tmp/usr/man/man1/updatepofiles-${VERSION}.1

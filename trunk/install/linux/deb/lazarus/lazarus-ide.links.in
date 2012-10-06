@@ -1,2 +1,2 @@
-/usr/lib/lazarus/%{lazarusversion}/startlazarus /usr/bin/startlazarus
-/usr/lib/lazarus/%{lazarusversion}/startlazarus /usr/bin/lazarus-ide
+/usr/lib/lazarus/${VERSION}/startlazarus /usr/bin/startlazarus-${VERSION}
+/usr/lib/lazarus/${VERSION}/startlazarus /usr/bin/lazarus-ide-${VERSION}

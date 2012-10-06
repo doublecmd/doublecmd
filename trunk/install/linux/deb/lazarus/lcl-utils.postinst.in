@@ -1,0 +1,36 @@
+#! /bin/sh
+
+set -e
+
+# Load debconf
+. /usr/share/debconf/confmodule
+
+LAZARUS_DIR=/usr/lib/lazarus/${VERSION}
+MAN_DIR=/usr/share/man/man1
+CFG_DIR='/etc/lazarus'
+
+if test -e "${CFG_DIR}" && ! test -L "${CFG_DIR}"
+then
+	db_get lcl-utils${PACKAGESUFFIX}/rename_cfg
+	if test "${RET}" = "true"
+	then
+		mv "${CFG_DIR}" "${CFG_DIR}.bak"
+	fi
+fi
+# Add alternatives
+update-alternatives \
+	--install /usr/lib/lazarus/default lazarus ${LAZARUS_DIR} ${PRIORITY} \
+	--slave "${CFG_DIR}" lazarus.cfg /etc/lazarus-${VERSION} \
+    --slave /usr/bin/lazbuild lazbuild ${LAZARUS_DIR}/lazbuild \
+    --slave ${MAN_DIR}/lazbuild.1.gz lazbuild.1.gz ${MAN_DIR}/lazbuild-${VERSION}.1.gz \
+	--slave /usr/bin/lazres lazres ${LAZARUS_DIR}/tools/lazres \
+	--slave ${MAN_DIR}/lazre.1.gzs lazres.1.gz ${MAN_DIR}/lazres-${VERSION}.1.gz \
+	--slave /usr/bin/lrstolfm lrstolfm ${LAZARUS_DIR}/tools/lrstolfm \
+	--slave ${MAN_DIR}/lrstolfm.1.gz lrstolfm.1.gz ${MAN_DIR}/lrstolfm-${VERSION}.1.gz \
+	--slave /usr/bin/svn2revisioninc svn2revisioninc ${LAZARUS_DIR}/tools/svn2revisioninc \
+	--slave ${MAN_DIR}/svn2revisioninc.1.gz svn2revisioninc.1.gz ${MAN_DIR}/svn2revisioninc-${VERSION}.1.gz \
+	--slave /usr/bin/updatepofiles updatepofiles ${LAZARUS_DIR}/tools/updatepofiles \
+	--slave ${MAN_DIR}/updatepofiles.1.gz updatepofiles.1.gz ${MAN_DIR}/updatepofiles-${VERSION}.1.gz
+
+# Debhelper code
+#DEBHELPER#

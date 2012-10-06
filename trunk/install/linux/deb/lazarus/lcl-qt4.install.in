@@ -1,1 +1,1 @@
-/usr/lib/lazarus/%{lazarusversion}/lcl/units/*/qt
+/usr/lib/lazarus/${VERSION}/lcl/units/*/qt

@@ -2,11 +2,11 @@
 
 set -e
 
-LAZARUS_DIR=/usr/lib/lazarus/%{lazarusversion}
+LAZARUS_DIR=/usr/lib/lazarus/${VERSION}
 
-# add alternative
+# Add alternatives
 update-alternatives \
-    --install ${LAZARUS_DIR}/lazarus lazarus ${LAZARUS_DIR}/lazarus-gtk2 20 \
+    --install ${LAZARUS_DIR}/lazarus lazarus-${VERSION} ${LAZARUS_DIR}/lazarus-gtk2 ${PRIORITY}
 
 # Debhelper code
 #DEBHELPER#

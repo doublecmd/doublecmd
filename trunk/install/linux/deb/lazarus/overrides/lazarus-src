@@ -1,2 +1,0 @@
-# Lazarus needs to have the architecture independent file in /usr/lib.
-lazarus-src binary: image-file-in-usr-lib
