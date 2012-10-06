@@ -1,1 +1,1 @@
-/usr/lib/lazarus/%{lazarusversion}/lcl/units/*/nogui
+/usr/lib/lazarus/${VERSION}/lcl/units/*/nogui

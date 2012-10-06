@@ -1,0 +1,14 @@
+#! /bin/sh
+
+set -e
+
+LAZARUS_DIR=/usr/lib/lazarus/${VERSION}
+
+# Add alternatives
+update-alternatives \
+	--install /usr/bin/lazarus-ide lazarus-ide ${LAZARUS_DIR}/startlazarus ${PRIORITY} \
+    --slave /usr/bin/startlazarus startlazarus ${LAZARUS_DIR}/startlazarus \
+	--slave /usr/share/pixmaps/lazarus.xpm lazarus.xpm /usr/share/pixmaps/lazarus-${VERSION}.xpm
+
+# Debhelper code
+#DEBHELPER#

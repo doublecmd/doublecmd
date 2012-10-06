@@ -1,38 +1,246 @@
-lazarus (0.9.30.3-34210M~lucid) lucid; urgency=low
+lazarus (1.0.1-38415P~precise) precise; urgency=low
 
-  * Snapshot of the Lazarus fixes SVN branch.
+   * Non-maintainer upload.
 
- -- Alexander Koblov <Alexx2000@mail.ru>  Thu, 15 Dec 2011 20:09:45 +0400
+ -- Alexander Koblov <Alexx2000@mail.ru>  Sat, 06 Oct 2012 15:11:40 +0400
 
-lazarus (0.9.30.1-30490M~lucid) lucid; urgency=low
+lazarus (1.0.1-3) unstable; urgency=low
 
-  * Snapshot of the Lazarus fixes SVN branch.
+   * Release 1.0.
 
- -- Alexander Koblov <Alexx2000@mail.ru>  Wed, 27 Apr 2011 19:10:48 +0400
+ -- Mattias Gaertner <mattias@freepascal.org>  Thu, 28 Jul 2012 09:00:12 +0200
 
-lazarus (0.9.30.1+svn29726.01-0) lucid; urgency=low
+lazarus (1.0.1-2) unstable; urgency=low
 
-  * Snapshot of the Lazarus fixes SVN branch.
+   * Release candidate 2 building.
 
- -- Alexander Koblov <Alexx2000@mail.ru>  Fri, 04 Mar 2011 20:14:32 +0300
+ -- Mattias Gaertner <mattias@freepascal.org>  Thu, 21 Jul 2012 19:00:12 +0200
 
-lazarus (0.9.29+svn29610.01-0) lucid; urgency=low
+lazarus (1.0.1-1) unstable; urgency=low
 
-  * Snapshot of the Lazarus fixes SVN branch.
+   * Release candidate 1 building.
 
- -- Alexander Koblov <Alexx2000@mail.ru>  Sun, 20 Feb 2011 14:34:31 +0300
+ -- Mattias Gaertner <mattias@freepascal.org>  Thu, 12 Jul 2012 20:12:12 +0200
 
-lazarus (0.9.29+svn29112.01-0) natty; urgency=low
+lazarus (0.9.31-0) unstable; urgency=low
 
-  * Snapshot of the Lazarus fixes SVN branch.
+  * Snapshot building.
 
- -- Matthias Klumpp <matthias@nlinux.org>  Sun, 11 Apr 2010 14:15:12 +0200
+ -- Vincent Snijders <vincents@freepascal.org>  Sun, 15 Jun 2012 20:12:12 +0200
+
+lazarus (0.9.30.4-2) unstable; urgency=low
+
+  * Package  LCL Qt widget set units. (Closes: Bug#627345)
+  * Added new packages (rx, externhelp, images). (Closes: UpstreamBug#19216)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Fri, 15 Jun 2012 20:06:00 +0200
+
+lazarus (0.9.30.4-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Add armhf to architecture lists (Closes: #675894)
+
+ -- Peter Michael Green <plugwash@p10link.net>  Sun, 10 Jun 2012 07:49:14 +0000
+
+lazarus (0.9.30.4-1) unstable; urgency=low
+
+  * Checked conformance to policy 3.9.3 and updated standard version.
+  * Override lintian warnings about spell errors false detections.
+  * New upstream release few fixes and no new features officially supporting
+    FPC 2.6.0.
+    - The detailed list of changes can be found here:
+      http://wiki.lazarus.freepascal.org/Lazarus_0.9.30_fixes_branch#Fixes_for_0.9.30.3
+  * LCL changes:
+  	- Added csCaptureMouse to TScrollBox for compatibility with Delphi.
+    - GTK2:
+        + Fixed issue with GetWindowRect.
+        + Fixed various odd behaviour related to different window managers.
+  * IDE changes:
+    - Fixed issue with trimming trailing spaces.
+  * Debugger / Editor changes:
+    - Few fixes in debugger and code tool including memory leaks
+    - Focus on editor after hitting a breakpoint.
+  * Components changes:
+    - TAChart: Few fixes in TAChart component
+    - SynEdit: Fixed synchronized mode
+    - CodeTool: Fix writing and reading streamed properties.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Tue, 20 Mar 2012 17:52:45 +0100
+
+lazarus (0.9.30.2-3) unstable; urgency=low
+
+  * Set priority according to version in lcl-utils and lazarus-ide-gtk so that
+    newer version is automatically selected. (Closes: Bug#656913)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Tue, 15 Feb 2012 18:49:00 +0100
+
+lazarus (0.9.30.2-2) unstable; urgency=low
+
+  * Set priority according to version so that newer version is automatically
+    selected. (Closes: Bug#656913)
+  * Fix target specific compiler flags causing FPC-2.6.0 to abort compilation.
+    (Closes: Bug#656251)
+  * Fix hang on IDE and LCL applications on startup when using glib >= 2.31.
+    (Closes: Bug#659209)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Tue, 09 Feb 2012 16:28:00 +0100
+
+lazarus (0.9.30.2-1) unstable; urgency=low
+
+  * New upstream release many fixes and new features.
+    - The detailed list of changes can be found here:
+      http://wiki.lazarus.freepascal.org/Lazarus_0.9.30_fixes_branch#Fixes_for_0.9.30.1
+  * LCL changes:
+    - Many fixes for Qt widgetset
+  * IDE changes:
+  * Debugger / Editor changes:
+    - Many fixes in debugger and code tool
+  * Componenets changes:
+    - Many fixes in TAChart componenet
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Tue, 23 Nov 2011 16:05:00 +0100
+
+lazarus (0.9.30-3) unstable; urgency=low
+
+  * Enable IDE to rebuild itself when needed. (Closes: Upstream Bug#19074)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 06 Jun 2011 23:41:00 +0200
+
+lazarus (0.9.30-2) unstable; urgency=low
+
+  * Added lclbase.lpk to lcl-units package. (Closes: Upstream Bug#18656)
+  * Fixed issue preventing using ~ in Debian version. (Closes: Bug#622665)
+  * Checked conformance to policy 3.9.2 and updated standard version.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Tue, 31 May 2011 10:02:00 +0200
+
+lazarus (0.9.30-1) unstable; urgency=low
+
+  * New upstream release many fixes and new features.
+    - The detailed list of changes can be found here:
+      http://wiki.lazarus.freepascal.org/Lazarus_0.9.30_release_notes
+  * LCL changes:
+    - Windows CE: support for clipboard and keypad devices
+    - GTK2 and GTK1 interfaces are now separated.
+    - GTK1 is no longer maintained by Lazarus team, but patches are accepted.
+    - fpGUI: LCL interface now supports all components on the standard page.
+    - QT support for Haiku
+    - Layout and autosizing is now more consistent across widgetsets,
+      overhead was reduced, improved cross platform layouts and complex forms.
+    - Added gif reader
+    - TLazIntfImage: New function AlphaBlend, which can alpha blend an intfimage
+      into another, using a separate intfimage as the alpha channel.
+    - Unit chart and its component TBarChar are deprecated in favor of new
+      package TAChartLazarusPkg.
+  * IDE:
+    - Support of FPC resources: {$R *.lfm} instead of {$i unit1.lrs}.
+    - The Delphi converter has improved a lot.
+    - Build modes, build macros and conditionals now allows different sets of
+      compiler options for projects and packages.
+    - Editor improvements:
+      + Hiding (Folding) of comments in Pascal source.
+      + Allow Multiple Source-Editor Windows
+      + Allow several Views of the same Source
+      + User-defined color-schemes.
+      + Identifier-completion pop-up is now resizable
+    - Project compiler options can now be saved as default for new projects.
+    - When opening a project only those forms are opened that were open when
+      project was closed.
+    - Various designer usability improvements:
+      + arrow and tab keys switching between components
+      + resize/move cancellation using ESC key
+      + save/restore of the form window state in the project session
+      + skip snapping when Alt key is pressed
+    - When creating a new project the default unit output directory is now
+      lib/$(TargetCPU)-$(TargetOS). Target file name is project1. This has no
+      impact on old projects.
+    - IDE now preserves the line endings of source files (it uses the line
+      ending of the first line, it does not preserve mixed line endings).
+    - You can now quickly switch between several versions / branches of packages
+      by defining the preferred package file name for each dependency.
+    - You can now use the IDE directive %H- to hide individual hints, notes and
+      warnings.
+    - The IDE can be made dockable. Install either the package AnchorDockingDsgn
+      or EasyDockMgrDsgn.
+    - The ToDo list was moved to a separate package: todolistlaz.lpk.
+    - Czech translation added
+  * Debugger / Editor:
+    - Inserted/Deleted lines during a debug session are now tracked. Breakpoints
+      and Execution-line are adjusted.
+    - Step out command implementation (by Flavio)
+    - Show execution point command
+    - Single Instruction step (over/into)
+    - UI Improvements: Toolbars for Watches, Breakpoints, Disassembler
+    - Watches: Enabled display formats (mem-dump, Hex, Default, ..)
+    - Disassembler added navigation: jump to address / return to execution point
+    - Improved reaction speed: It is possible to continue stepping without
+      having to wait for all watches, locals, ... to be evaluated
+  * Components:
+    - IDE got some options to become easier for students and pupils and there is
+      a new package EducationLaz adding options to hide complex parts of the IDE
+    - New AggPas (Anti Grain Geometry for Object Pascal) package, now supporting
+      FPImage and LCL. AggPas highlights: Subpixel rendering, 8-bit alpha
+      channel, paths, platform independent rendering using pure pascal
+    - TAChart update, including: stacked and rotated series, 3 new types of
+      series, axis transformations, interactive tools, 6 new demos and other
+      improvements
+  * Added metapackges in order to ease upgrading and fixed dependcy rules.
+    (Closes: Bug#620108)
+  * Test for dh_input exit status 30 as this is a normal exit status which just
+    informs that the question was not displayed because of its priority.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Fri, 05 Apr 2011 19:20:00 +0200
+
+lazarus (0.9.28.2-13) unstable; urgency=low
+
+  * Added support for multiple version coexistence in the same system. This will
+    allow installing multiple versions of Lazarus in the same system and choose
+    a default using update-alternatives.
+  * Included *.lfm files into the binary packages as these are used by the
+    compiler at the link stage.
+  * Factorized code in code tools FindXXXXNode functions.
+  * Included *.lpk files in the binary packages and mark them as manually
+    compiled to avoid recompiling them when used.
+  * Added build dependency constraint on FPC version to be 2.4.0 as it won't
+    build using other FPC versions.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 08 Mar 2011 19:14:00 +0100
+
+lazarus (0.9.28.2-12) unstable; urgency=low
+
+  * Fixed a bug causing safe-upgrade to fail because lazarus-ide-qt4 is
+    installed to fix dependencies of lazarus-ide and that Qt based IDE is not
+    packaged. The lazarus-ide-qt4 now installs the GTK based IDE by depending
+    on lazarus-ide-gtk until Qt IDE gets packaged. (Closes: Bug#594611)
+  * Removed lintian warning by adding lcl-gtk2 as first alternative for
+    lcl-units dependency list.
+  * Bumped standard version to 3.9.1.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 30 Aug 2010 13:32:00 +0100
+
+lazarus (0.9.28.2-11) unstable; urgency=low
+
+  * Fixed scrolling window under GTK implementing ScrollBy method.
+  * Changed new release scanning to be uscan based.
+  * Fixed dependency issue : lcl-units depends on lcl-gtk but was providing it
+    causing lcl-gtk2 not being installed. (Closes: Bug#580557, Bug#579128)
+  * Fixed logic bug in code tools when adding published field of a class.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sun, 20 Jun 2010 16:53:00 +0100
+
+lazarus (0.9.28.2-10) unstable; urgency=low
+
+  * Fixed memory leak in GTK based lazarus IDE binary  (Closes: Bug#571997)
+  * Fixed crach by avoiding trapping some FPU exceptions which occurs in linked
+    C code. (Closes: Bug#571998) 
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 09 Apr 2010 00:23:00 +0100
 
 lazarus (0.9.28.2-9) unstable; urgency=low
 
   * Bumped standard version.
   * Split lazarus-ide package into the following packages in order to reduce
-    its size and afford more widgetsets support. (Closes:Bug#553519)
+    its size and afford more widgetsets support. (Closes: Bug#553519)
       + lazarus-ide-gtk2 : contains IDE linked to GTK+2 backend
       + lazarus-ide-qt4  : contains IDE linked to Qt4 backend
       + lazarus-ide : contains lazarus launcher and depending on either above
@@ -45,7 +253,7 @@ lazarus (0.9.28.2-9) unstable; urgency=low
       + lcl-qt4 : contains Qt4 backend based LCL interface units
       + lcl : metapackage depending on lcl-units and lcl-utils.
   * Fixed help for FPC identifiers applying a ptch from upstream and filled
-    correct FPC source directory. (Closes:Bug#507523)
+    correct FPC source directory. (Closes: Bug#507523)
 
  -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 15 Mar 2010 20:02:00 +0100
 

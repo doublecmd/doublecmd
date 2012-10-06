@@ -33,24 +33,3 @@ without need of any user's pre-configuration.
 +    </LCLUnits>
 +  </Databases>
 +</CONFIG>
-
---- lazarus-0.9.28.2.orig/tools/install/linux/environmentoptions.xml
-+++ lazarus-0.9.28.2/tools/install/linux/environmentoptions.xml
-@@ -5,7 +5,7 @@
-     <Debugger Class="TGDBMIDebugger"/>
-     <DebuggerFilename Value="/usr/bin/gdb">
-     </DebuggerFilename>
--    <LazarusDirectory Value="__LAZARUSDIR__">
-+    <LazarusDirectory Value="/usr/lib/lazarus/%LazarusVersion%">
-       <History Count="1">
-         <Item1 Value="/usr/lib/lazarus/"/>
-       </History>
-@@ -17,7 +17,7 @@
-         <Item3 Value="/opt/fpc/fpc"/>
-       </History>
-     </CompilerFilename>
--    <FPCSourceDirectory Value="__FPCSRCDIR__">
-+    <FPCSourceDirectory Value="/usr/share/fpcsrc/$(FPCVER)/">
-       <History Count="2">
-         <Item1 Value="/usr/share/fpcsrc/"/>
-         <Item2 Value="/usr/share/fpcsrc/$(FPCVER)/"/>

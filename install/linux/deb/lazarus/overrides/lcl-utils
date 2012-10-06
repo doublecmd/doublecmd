@@ -1,4 +1,6 @@
-# The Free Pascal Compiler does not properly support linking. Please
-# see BTS #472304. The zlib functionality is provided without a proper 
-# way to turn it off. 
-lcl-utils: embedded-zlib
+# False spell error detectios
+lcl-utils: spelling-error-in-binary */lazbuild tAHt that
+lcl-utils: spelling-error-in-binary */lazbuild Childs Children
+lcl-utils: spelling-error-in-binary */lazbuild allows to allows one to
+lcl-utils: spelling-error-in-binary */tools/lazres Childs Children
+lcl-utils: spelling-error-in-binary */tools/lrstolfm Childs Children

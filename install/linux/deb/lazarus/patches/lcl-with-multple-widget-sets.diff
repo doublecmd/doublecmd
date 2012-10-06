@@ -1,0 +1,14 @@
+This patch enable building all linux supported LCL widget sets.
+
+diff --git a/lcl/Makefile.fpc b/lcl/Makefile.fpc
+index ecd40c3..dd35600 100644
+--- a/lcl/Makefile.fpc
++++ b/lcl/Makefile.fpc
+@@ -152,6 +152,7 @@ cleanintf:
+ 	$(MAKE) -C interfaces clean
+ 
+ all: lclbase compiled intf
++	for WS in gtk2 nogui qt ; do ${MAKE} intf LCL_PLATFORM=$${WS} ; done
+ 
+ cleanlaz: cleanall
+ cleanall: clean

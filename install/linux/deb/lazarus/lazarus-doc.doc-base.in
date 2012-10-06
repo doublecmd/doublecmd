@@ -1,4 +1,4 @@
-Document: lazarus-doc
+Document: lazarus-doc${PACKAGESUFFIX}
 Title: Lazarus Components Library (LCL) Documentation
 Author: Michael van Canneyt
 Abstract: Documentation for the Lazarus Components Library (LCL).
@@ -6,5 +6,5 @@ Abstract: Documentation for the Lazarus Components Library (LCL).
 Section: Programming
 
 Format: html
-Files: /usr/share/doc/lazarus/*
-Index: /usr/share/doc/lazarus/%{lazarusversion}/index.html
+Files: /usr/share/doc/lazarus/${VERSION}/*
+Index: /usr/share/doc/lazarus/${VERSION}/index.html

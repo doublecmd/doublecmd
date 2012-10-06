@@ -1,4 +1,3 @@
-# The Free Pascal Compiler does not properly support linking. Please
-# see BTS #472304. The zlib functionality is provided without a proper 
-# way to turn it off. 
-lazarus-ide: embedded-zlib
+# False spell error detectios
+lazarus-ide: spelling-error-in-binary */startlazarus Childs Children
+lazarus-ide: spelling-error-in-binary */startlazarus allows to allows one to

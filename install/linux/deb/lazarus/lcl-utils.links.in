@@ -1,5 +1,5 @@
-/usr/lib/lazarus/%{lazarusversion}/lazbuild /usr/bin/lazbuild
-/usr/lib/lazarus/%{lazarusversion}/tools/lazres /usr/bin/lazres
-/usr/lib/lazarus/%{lazarusversion}/tools/lrstolfm /usr/bin/lrstolfm
-/usr/lib/lazarus/%{lazarusversion}/tools/svn2revisioninc /usr/bin/svn2revisioninc
-/usr/lib/lazarus/%{lazarusversion}/tools/updatepofiles /usr/bin/updatepofiles
+/usr/lib/lazarus/${VERSION}/lazbuild /usr/bin/lazbuild-${VERSION}
+/usr/lib/lazarus/${VERSION}/tools/lazres /usr/bin/lazres-${VERSION}
+/usr/lib/lazarus/${VERSION}/tools/lrstolfm /usr/bin/lrstolfm-${VERSION}
+/usr/lib/lazarus/${VERSION}/tools/svn2revisioninc /usr/bin/svn2revisioninc-${VERSION}
+/usr/lib/lazarus/${VERSION}/tools/updatepofiles /usr/bin/updatepofiles-${VERSION}
