@@ -590,10 +590,17 @@ begin
 end;
 
 procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
+var
+  OldIndex: Integer;
 begin
-  if lbSearchTemplates.ItemIndex < 0 then Exit;
-  gSearchTemplateList.DeleteTemplate(lbSearchTemplates.ItemIndex);
-  UpdateTemplatesList;
+  OldIndex := lbSearchTemplates.ItemIndex;
+  if OldIndex < 0 then Exit;
+  gSearchTemplateList.DeleteTemplate(OldIndex);
+  lbSearchTemplates.Items.Delete(OldIndex);
+  if OldIndex < lbSearchTemplates.Count then
+    lbSearchTemplates.ItemIndex := OldIndex
+  else if lbSearchTemplates.Count > 0 then
+    lbSearchTemplates.ItemIndex := lbSearchTemplates.Count - 1;
 end;
 
 procedure TfrmFindDlg.btnAttrsHelpClick(Sender: TObject);
