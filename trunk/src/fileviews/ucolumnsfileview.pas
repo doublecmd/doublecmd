@@ -58,6 +58,10 @@ type
 
     // Adapted from TCustomGrid.GetVisibleGrid only for visible rows.
     function GetVisibleRows: TRange;
+    {en
+       Retrieves first and last fully visible row number.
+    }
+    function GetFullVisibleRows: TRange;
 
     function IsRowVisible(aRow: Integer): Boolean;
     procedure ScrollHorizontally(ForwardDirection: Boolean);
@@ -585,13 +589,16 @@ begin
 end;
 
 procedure TColumnsFileView.MakeVisible(iRow:Integer);
+var
+  AVisibleRows: TRange;
 begin
   with dgPanel do
   begin
-    if iRow<TopRow then
-      TopRow:=iRow;
-    if iRow>TopRow+VisibleRowCount then
-      TopRow:=iRow-VisibleRowCount;
+    AVisibleRows := GetFullVisibleRows;
+    if iRow < AVisibleRows.First then
+      TopRow := AVisibleRows.First;
+    if iRow > AVisibleRows.Last then
+      TopRow := iRow - (AVisibleRows.Last - AVisibleRows.First);
   end;
 end;
 
@@ -604,6 +611,7 @@ end;
 procedure TColumnsFileView.SetActiveFile(FileIndex: PtrInt);
 begin
   dgPanel.Row := FileIndex + dgPanel.FixedRows;
+  MakeVisible(dgPanel.Row);
 end;
 
 {$IF lcl_fullversion >= 093100}
@@ -823,9 +831,10 @@ begin
 
   if SetActiveFileNow(RequestedActiveFile) then
     RequestedActiveFile := ''
-  else
-    // Requested file was not found, restore position to last active file.
-    SetActiveFileNow(LastActiveFile);
+  // Requested file was not found, restore position to last active file.
+  else if not SetActiveFileNow(LastActiveFile) then
+  // Make sure at least that the previously active file is still visible after displaying file list.
+    MakeActiveVisible;
 
   Notify([fvnVisibleFilePropertiesChanged]);
 
@@ -1167,6 +1176,12 @@ procedure TDrawGridEx.FinalizeWnd;
 begin
   ColumnsView.FinalizeDragDropEx(Self);
   inherited FinalizeWnd;
+end;
+
+function TDrawGridEx.GetFullVisibleRows: TRange;
+begin
+  Result.First := GCache.FullVisibleGrid.Top;
+  Result.Last  := GCache.FullVisibleGrid.Bottom;
 end;
 
 procedure TDrawGridEx.DrawCell(aCol, aRow: Integer; aRect: TRect;
