@@ -111,6 +111,7 @@ begin
       begin
         FilePath:= WideString(ParentPath.lpRemoteName);
         Result := IncludeFrontPathDelimiter(UTF8Encode(FilePath));
+        Result := IncludeTrailingPathDelimiter(Result);
       end;
   end;
 end;
