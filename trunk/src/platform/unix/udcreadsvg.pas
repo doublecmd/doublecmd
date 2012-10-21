@@ -178,7 +178,7 @@ end;
 
 const
   cairolib   = 'libcairo.so.2';
-  rsvglib    = 'librsvg-2.so';
+  rsvglib    = 'librsvg-2.so.2';
   gobjectlib = 'libgobject-2.0.so.0';
 
 var
