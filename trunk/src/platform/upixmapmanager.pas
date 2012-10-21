@@ -49,7 +49,7 @@ uses
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs
   {$IF DEFINED(UNIX)}
     {$IF NOT DEFINED(DARWIN)}
-    , contnrs
+    , contnrs, uDCReadSVG
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
