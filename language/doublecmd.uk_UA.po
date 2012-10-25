@@ -7019,8 +7019,10 @@ msgid "Ask;Overwrite;Copy into;Skip"
 msgstr "Запитати;Замінити;Копіювати в; Пропустити"
 
 #: ulng.rsfileopfileexistsoptions
-msgid "Ask;Overwrite;Skip"
-msgstr "Запитати;Замінити;Пропустити"
+#, fuzzy
+#| msgid "Ask;Overwrite;Skip"
+msgid "Ask;Overwrite;Overwrite Older;Skip"
+msgstr "Запитати;Замінити;Замінити старі;Пропустити"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"

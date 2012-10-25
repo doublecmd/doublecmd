@@ -6465,8 +6465,8 @@ msgid "Ask;Overwrite;Copy into;Skip"
 msgstr "Спрашивать;Перезаписывать;Копировать в;Пропускать"
 
 #: ulng.rsfileopfileexistsoptions
-msgid "Ask;Overwrite;Skip"
-msgstr "Спрашивать;Перезаписывать;Пропускать"
+msgid "Ask;Overwrite;Overwrite Older;Skip"
+msgstr "Спрашивать;Перезаписывать;Перезаписывать более старые;Пропускать"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"

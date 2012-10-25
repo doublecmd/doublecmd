@@ -6379,7 +6379,7 @@ msgid "Ask;Overwrite;Copy into;Skip"
 msgstr ""
 
 #: ulng.rsfileopfileexistsoptions
-msgid "Ask;Overwrite;Skip"
+msgid "Ask;Overwrite;Overwrite Older;Skip"
 msgstr ""
 
 #: ulng.rsfileopsetpropertyerroroptions
