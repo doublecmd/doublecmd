@@ -7376,8 +7376,10 @@ msgid "Ask;Overwrite;Copy into;Skip"
 msgstr "Fragen;Überschreiben;Hinein kopieren;Überspringen"
 
 #: ulng.rsfileopfileexistsoptions
-msgid "Ask;Overwrite;Skip"
-msgstr "Fragen;Überschreiben;Überspringen"
+#, fuzzy
+#| msgid "Ask;Overwrite;Skip"
+msgid "Ask;Overwrite;Overwrite Older;Skip"
+msgstr "Fragen;Überschreiben;Overwrite Older;Überspringen"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"

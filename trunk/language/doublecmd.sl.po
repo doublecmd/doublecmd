@@ -7106,8 +7106,10 @@ msgid "Ask;Overwrite;Copy into;Skip"
 msgstr "Vprašaj;Prepiši;Kopiraj v;Preskoči"
 
 #: ulng.rsfileopfileexistsoptions
-msgid "Ask;Overwrite;Skip"
-msgstr "Vprašaj;Prepiši;Preskoči"
+#, fuzzy
+#| msgid "Ask;Overwrite;Skip"
+msgid "Ask;Overwrite;Overwrite Older;Skip"
+msgstr "Vprašaj;Prepiši;Overwrite Older;Preskoči"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
