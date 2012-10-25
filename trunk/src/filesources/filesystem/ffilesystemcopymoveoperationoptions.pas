@@ -121,9 +121,10 @@ begin
 
   // Load default options.
   case gOperationOptionFileExists of
-    fsoofeNone     : cmbFileExists.ItemIndex := 0;
-    fsoofeOverwrite: cmbFileExists.ItemIndex := 1;
-    fsoofeSkip     : cmbFileExists.ItemIndex := 2;
+    fsoofeNone          : cmbFileExists.ItemIndex := 0;
+    fsoofeOverwrite     : cmbFileExists.ItemIndex := 1;
+    fsoofeOverwriteOlder: cmbFileExists.ItemIndex := 2;
+    fsoofeSkip          : cmbFileExists.ItemIndex := 3;
   end;
 
   if gOverwriteFolder then
@@ -173,7 +174,8 @@ begin
   case cmbFileExists.ItemIndex of
     0: gOperationOptionFileExists := fsoofeNone;
     1: gOperationOptionFileExists := fsoofeOverwrite;
-    2: gOperationOptionFileExists := fsoofeSkip;
+    2: gOperationOptionFileExists := fsoofeOverwriteOlder;
+    3: gOperationOptionFileExists := fsoofeSkip;
   end;
   if gOverwriteFolder then
     case cmbDirectoryExists.ItemIndex of
@@ -226,7 +228,8 @@ begin
     case cmbFileExists.ItemIndex of
       0: FileExistsOption := fsoofeNone;
       1: FileExistsOption := fsoofeOverwrite;
-      2: FileExistsOption := fsoofeSkip;
+      2: FileExistsOption := fsoofeOverwriteOlder;
+      3: FileExistsOption := fsoofeSkip;
     end;
     if gOverwriteFolder then
       case cmbDirectoryExists.ItemIndex of
@@ -278,7 +281,8 @@ begin
     case cmbFileExists.ItemIndex of
       0: FileExistsOption := fsoofeNone;
       1: FileExistsOption := fsoofeOverwrite;
-      2: FileExistsOption := fsoofeSkip;
+      2: FileExistsOption := fsoofeOverwriteOlder;
+      3: FileExistsOption := fsoofeSkip;
     end;
     if gOverwriteFolder then
       case cmbDirectoryExists.ItemIndex of
