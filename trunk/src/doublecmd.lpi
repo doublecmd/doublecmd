@@ -30,7 +30,7 @@
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Debug + HeapTrc">
         <CompilerOptions>
-          <Version Value="9"/>
+          <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -59,7 +59,7 @@
           </CodeGeneration>
           <Linking>
             <Debugging>
-              <GenerateDebugInfo Value="True"/>
+              <DebugInfoType Value="dsStabs"/>
               <UseHeaptrc Value="True"/>
             </Debugging>
           </Linking>
@@ -79,7 +79,7 @@
       </Item2>
       <Item3 Name="NoDebug Full Optimizations">
         <CompilerOptions>
-          <Version Value="9"/>
+          <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -105,6 +105,7 @@
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <GenerateDebugInfo Value="False"/>
               <UseLineInfoUnit Value="False"/>
             </Debugging>
           </Linking>
@@ -123,7 +124,7 @@
       </Item3>
       <Item4 Name="Nightly">
         <CompilerOptions>
-          <Version Value="9"/>
+          <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -150,8 +151,8 @@
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseLineInfoUnit Value="False"/>
-              <GenerateDwarf Value="True"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
           </Linking>
@@ -167,7 +168,7 @@
       </Item4>
       <Item5 Name="Beta">
         <CompilerOptions>
-          <Version Value="9"/>
+          <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -179,6 +180,11 @@
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
+          <Conditionals Value="if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
+begin
+  UnitPath += '$(FallbackOutputRoot)/LazControls/lib/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
+  UnitPath += '$(FallbackOutputRoot)/SynEdit/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
+end;"/>
           <Parsing>
             <SyntaxOptions>
               <IncludeAssertionCode Value="True"/>
@@ -195,8 +201,8 @@
           </CodeGeneration>
           <Linking>
             <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseLineInfoUnit Value="False"/>
-              <GenerateDwarf Value="True"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <Options>
@@ -1051,6 +1057,7 @@
       <Unit109>
         <Filename Value="fileviews\ufileviewwithmainctrl.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewWithMainCtrl"/>
       </Unit109>
       <Unit110>
         <Filename Value="filesources\uarchivefilesource.pas"/>
@@ -1059,10 +1066,12 @@
       <Unit111>
         <Filename Value="filesources\uarchivefilesourceutil.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uArchiveFileSourceUtil"/>
       </Unit111>
       <Unit112>
         <Filename Value="filesources\ufilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSource"/>
       </Unit112>
       <Unit113>
         <Filename Value="filesources\ufilesourcecalcchecksumoperation.pas"/>
@@ -1403,10 +1412,12 @@
       <Unit196>
         <Filename Value="fileviews\ubrieffileview.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uBriefFileView"/>
       </Unit196>
       <Unit197>
         <Filename Value="fileviews\ucolumnsfileview.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uColumnsFileView"/>
       </Unit197>
       <Unit198>
         <Filename Value="fileviews\ucolumnsfileviewvtv.pas"/>
@@ -1415,6 +1426,7 @@
       <Unit199>
         <Filename Value="fileviews\ufileview.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileView"/>
       </Unit199>
       <Unit200>
         <Filename Value="fileviews\ufileviewheader.pas"/>
@@ -1439,7 +1451,7 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\doublecmd"/>
@@ -1472,7 +1484,7 @@ end;"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <GenerateDebugInfo Value="True"/>
+        <DebugInfoType Value="dsStabs"/>
       </Debugging>
     </Linking>
     <Other>
