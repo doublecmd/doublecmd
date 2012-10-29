@@ -1,0 +1,180 @@
+Index: gifanim.pas
+===================================================================
+--- gifanim.pas	(revision none)
++++ gifanim.pas	(working copy)
+@@ -26,7 +26,7 @@
+ 
+ uses
+   Classes, LCLProc, Lresources, SysUtils, Controls, Graphics, ExtCtrls,
+-  IntfGraphics, FPimage, Contnrs, GraphType, dialogs;
++  IntfGraphics, FPimage, Contnrs, GraphType, dialogs, types;
+ 
+ const
+ 
+@@ -193,7 +193,7 @@
+     procedure DoAutoSize; override;
+     procedure DoStartAnim;
+     procedure DoStopAnim;
+-    class function GetControlClassDefaultSize: TPoint; override;
++    class function GetControlClassDefaultSize: TSize; override;
+     procedure GifChanged;
+     procedure LoadFromFile(const Filename: string); virtual;
+     procedure Paint; override;
+@@ -203,6 +203,8 @@
+     { Public declarations }
+     constructor Create(AOwner: TComponent); override;
+     destructor Destroy; override;
++    procedure NextFrame;
++    procedure PriorFrame;
+     property Empty: boolean Read FEmpty;
+     property GifBitmaps: TGifList Read FGifBitmaps;
+     property GifIndex: integer Read FCurrentImage;
+@@ -268,7 +270,7 @@
+   inherited Create(AOwner);
+   ControlStyle := [csCaptureMouse, csClickEvents, csDoubleClicks];
+   AutoSize     := True;
+-  SetInitialBounds(0, 0, GetControlClassDefaultSize.X, GetControlClassDefaultSize.Y);
++  SetInitialBounds(0, 0, GetControlClassDefaultSize.CX, GetControlClassDefaultSize.CY);
+   FEmpty      := True;
+   FCurrentImage := 0;
+   CurrentView := TBitmap.Create;
+@@ -295,6 +297,59 @@
+   CurrentView.Free;
+ end;
+ 
++procedure TGifAnim.NextFrame;
++begin
++  if (not FEmpty) and Visible and (not FAnimate) then
++  begin
++    if FCurrentImage >= GifBitmaps.Count - 1 then
++      FCurrentImage := 0
++    else
++      Inc(FCurrentImage);
++    if Assigned(FOnFrameChanged) then
++      FOnFrameChanged(Self);
++    Paint;
++  end;
++end;
++
++procedure TGifAnim.PriorFrame;
++var
++  DesiredImage: Integer;
++begin
++  if (not FEmpty) and Visible and (not FAnimate) then
++  begin
++    if FCurrentImage = 0 then
++      DesiredImage:= GifBitmaps.Count - 1
++    else
++      DesiredImage:= FCurrentImage - 1;
++    // For proper display repaint image from first frame to desired frame
++    FCurrentImage:= 0;
++    while FCurrentImage < DesiredImage do
++    begin
++      with GifBitmaps.Items[FCurrentImage] do
++        begin
++          BufferImg.Canvas.Brush.Color := (Self.Color);
++          if FCurrentImage = 0 then
++            BufferImg.Canvas.FillRect(Rect(0, 0, Width, Height));
++          if Delay <> 0 then
++            FWait.Interval := Delay * 10;
++          BufferImg.Canvas.Draw(PosX, PosY, Bitmap);
++          case Method of
++            //0 : Not specified...
++            //1 : No change Background
++            2: BufferImg.Canvas.FillRect(
++                Rect(PosX, PosY, Bitmap.Width + PosX, Bitmap.Height + PosY));
++
++            3: BufferImg.Canvas.FillRect(Rect(0, 0, Width, Height));
++          end;
++        end;
++      Inc(FCurrentImage);
++    end;
++    if Assigned(FOnFrameChanged) then
++      FOnFrameChanged(Self);
++    Paint;
++  end;
++end;
++
+ function TGifAnim.LoadFromLazarusResource(const ResName: String): boolean;
+ var
+   GifLoader: TGifLoader;
+@@ -340,12 +395,13 @@
+ begin
+   if (not Empty) and Visible then
+   begin
+-    if FCurrentImage > GifBitmaps.Count - 1 then
+-      FCurrentImage := 0;
+-    if assigned(FOnFrameChanged) then
+-      FOnFrameChanged(self);
++    if FCurrentImage >= GifBitmaps.Count - 1 then
++      FCurrentImage := 0
++    else
++      Inc(FCurrentImage);
++    if Assigned(FOnFrameChanged) then
++      FOnFrameChanged(Self);
+     Paint;
+-    Inc(FCurrentImage);
+   end;
+ end;
+ 
+@@ -368,7 +424,6 @@
+ var
+   fn: string;
+ begin
+-
+   if (FFileName = AValue) then
+     exit;
+   FFileName := AValue;
+@@ -441,10 +496,10 @@
+   end;
+ end;
+ 
+-class function TGifAnim.GetControlClassDefaultSize: TPoint;
++class function TGifAnim.GetControlClassDefaultSize: TSize;
+ begin
+-  Result.X := 90;
+-  Result.Y := 90;
++  Result.CX := 90;
++  Result.CY := 90;
+ end;
+ 
+ procedure TGifAnim.GifChanged;
+
+Index: pkg_gifanim.lpk
+===================================================================
+--- pkg_gifanim.lpk	(revision none)
++++ pkg_gifanim.lpk	(working copy)
+@@ -1,15 +1,21 @@
+ <?xml version="1.0"?>
+ <CONFIG>
+-  <Package Version="3">
++  <Package Version="4">
+     <PathDelim Value="\"/>
+     <Name Value="pkg_gifanim"/>
++    <AddToProjectUsesSection Value="True"/>
+     <Author Value="Laurent Jacques"/>
+     <CompilerOptions>
+-      <Version Value="8"/>
++      <Version Value="11"/>
+       <PathDelim Value="\"/>
+       <SearchPaths>
+-        <OtherUnitFiles Value="$(LazarusDir)\ide\"/>
++        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+       </SearchPaths>
++      <Conditionals Value="if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
++begin
++  UnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
++  UsageUnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
++end;"/>
+       <Other>
+         <CompilerPath Value="$(CompPath)"/>
+       </Other>
+@@ -41,7 +47,7 @@
+       </Item2>
+     </RequiredPkgs>
+     <UsageOptions>
+-      <UnitPath Value="$(PkgOutDir)\"/>
++      <UnitPath Value="$(PkgOutDir)"/>
+     </UsageOptions>
+     <PublishOptions>
+       <Version Value="2"/>

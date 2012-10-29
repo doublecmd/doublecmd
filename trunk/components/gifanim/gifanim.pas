@@ -193,9 +193,7 @@ type
     procedure DoAutoSize; override;
     procedure DoStartAnim;
     procedure DoStopAnim;
-    {
     class function GetControlClassDefaultSize: TSize; override;
-    }
     procedure GifChanged;
     procedure LoadFromFile(const Filename: string); virtual;
     procedure Paint; override;
@@ -272,7 +270,7 @@ begin
   inherited Create(AOwner);
   ControlStyle := [csCaptureMouse, csClickEvents, csDoubleClicks];
   AutoSize     := True;
-  SetInitialBounds(0, 0, 90{GetControlClassDefaultSize.CX}, 90{GetControlClassDefaultSize.CY});
+  SetInitialBounds(0, 0, GetControlClassDefaultSize.CX, GetControlClassDefaultSize.CY);
   FEmpty      := True;
   FCurrentImage := 0;
   CurrentView := TBitmap.Create;
@@ -498,13 +496,11 @@ begin
   end;
 end;
 
-{
 class function TGifAnim.GetControlClassDefaultSize: TSize;
 begin
   Result.CX := 90;
   Result.CY := 90;
 end;
-}
 
 procedure TGifAnim.GifChanged;
 begin
