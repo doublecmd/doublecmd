@@ -1,6 +1,0 @@
-?package(lazarus-ide${PACKAGESUFFIX}):needs="X11"\
-  	title="Lazarus IDE"\
-	section="Applications/Programming"\
-	hints="Programming,Delphi"\
-	icon="/usr/share/pixmaps/lazarus-${VERSION}.xpm"\
-	command="/usr/bin/lazarus-ide-${VERSION}"
