@@ -1,16 +1,21 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="3">
+  <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="pkg_gifanim"/>
+    <AddToProjectUsesSection Value="True"/>
     <Author Value="Laurent Jacques"/>
     <CompilerOptions>
-      <Version Value="8"/>
+      <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="$(LazarusDir)\ide\"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Conditionals Value="if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
+begin
+  UnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
+  UsageUnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
+end;"/>
       <Other>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
@@ -42,7 +47,7 @@
       </Item2>
     </RequiredPkgs>
     <UsageOptions>
-      <UnitPath Value="$(PkgOutDir)\"/>
+      <UnitPath Value="$(PkgOutDir)"/>
     </UsageOptions>
     <PublishOptions>
       <Version Value="2"/>

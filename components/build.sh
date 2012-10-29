@@ -4,6 +4,15 @@
 # This script run from main build.sh script
 # If you run it direct, set up $lazbuild first
 
+# Rebuild widget dependent packages
+if [ -d /usr/lib/lazarus/default ]
+  then
+  $lazbuild /usr/lib/lazarus/default/components/lazcontrols/lazcontrols.lpk $DC_ARCH -B
+  $lazbuild /usr/lib/lazarus/default/components/synedit/synedit.lpk $DC_ARCH -B
+  $lazbuild /usr/lib/lazarus/default/ideintf/ideintf.lpk $DC_ARCH -B
+fi
+
+# Build components
 basedir=$(pwd)
 cd components
 $lazbuild chsdet/chsdet.lpk $DC_ARCH
