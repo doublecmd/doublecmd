@@ -260,11 +260,16 @@ begin
   // execute it by 'open -a' command (see 'man open' for details)
   if StrEnds(Command, '.app') then
   begin
-    SetLength(Args, Length(Args) + 2);
-    for pid := High(Args) downto Low(Args) + 2 do
-      Args[pid]:= Args[pid - 2];
+    SetLength(Args, Length(Args) + 3);
+    for pid := High(Args) downto Low(Args) + 3 do
+      Args[pid]:= Args[pid - 3];
     Args[0] := '-a';
     Args[1] := Command;
+    // Passing arguments to the application only supported starting with Mac OS X 10.6
+    if (Gestalt(gestaltSystemVersion, pid) = noErr) and (pid >= $1060) then
+      Args[2] := '--args'
+    else
+      SetLength(Args, 2);
     Command := 'open';
   end;
   {$ENDIF}
