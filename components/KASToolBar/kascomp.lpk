@@ -56,23 +56,19 @@
       </Item5>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="doublecmd_common"/>
-        <MinVersion Minor="1" Valid="True"/>
+        <MinVersion Minor="3" Valid="True"/>
       </Item1>
       <Item2>
-        <PackageName Value="doublecmd_common_lcl"/>
-        <MinVersion Minor="1" Valid="True"/>
-      </Item2>
-      <Item3>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item3>
-      <Item4>
+      </Item2>
+      <Item3>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
