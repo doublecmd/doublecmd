@@ -240,7 +240,7 @@ end;"/>
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="12">
+    <RequiredPackages Count="11">
       <Item1>
         <PackageName Value="dcpcrypt"/>
       </Item1>
@@ -279,12 +279,8 @@ end;"/>
       </Item10>
       <Item11>
         <PackageName Value="doublecmd_common"/>
-        <MinVersion Minor="2" Valid="True"/>
+        <MinVersion Minor="3" Valid="True"/>
       </Item11>
-      <Item12>
-        <PackageName Value="doublecmd_common_lcl"/>
-        <MinVersion Minor="1" Valid="True"/>
-      </Item12>
     </RequiredPackages>
     <Units Count="205">
       <Unit0>
@@ -1088,6 +1084,7 @@ end;"/>
       <Unit116>
         <Filename Value="filesources\ufilesourcecopyoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCopyOperation"/>
       </Unit116>
       <Unit117>
         <Filename Value="filesources\ufilesourcecreatedirectoryoperation.pas"/>
@@ -1096,6 +1093,7 @@ end;"/>
       <Unit118>
         <Filename Value="filesources\ufilesourcedeleteoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceDeleteOperation"/>
       </Unit118>
       <Unit119>
         <Filename Value="filesources\ufilesourceexecuteoperation.pas"/>
@@ -1112,6 +1110,7 @@ end;"/>
       <Unit122>
         <Filename Value="filesources\ufilesourceoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperation"/>
       </Unit122>
       <Unit123>
         <Filename Value="filesources\ufilesourceoperationmessageboxesui.pas"/>
@@ -1128,6 +1127,9 @@ end;"/>
       <Unit126>
         <Filename Value="filesources\ufilesourceoperationoptionsui.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="FileSourceOperationOptionsUI"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
       </Unit126>
       <Unit127>
         <Filename Value="filesources\ufilesourceoperationtypes.pas"/>
@@ -1180,7 +1182,9 @@ end;"/>
       <Unit139>
         <Filename Value="filesources\filesystem\ffilesystemcopymoveoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="FileSystemCopyMoveOperationOptionsUI"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
       </Unit139>
       <Unit140>
         <Filename Value="filesources\filesystem\ufilesystemcalcchecksumoperation.pas"/>
@@ -1213,10 +1217,12 @@ end;"/>
       <Unit147>
         <Filename Value="filesources\filesystem\ufilesystemfilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemFileSource"/>
       </Unit147>
       <Unit148>
         <Filename Value="filesources\filesystem\ufilesystemlistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemListOperation"/>
       </Unit148>
       <Unit149>
         <Filename Value="filesources\filesystem\ufilesystemmoveoperation.pas"/>
@@ -1241,7 +1247,9 @@ end;"/>
       <Unit154>
         <Filename Value="filesources\multiarchive\fmultiarchivecopyoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="MultiArchiveCopyOperationOptionsUI"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
       </Unit154>
       <Unit155>
         <Filename Value="filesources\multiarchive\umultiarchivecalcstatisticsoperation.pas"/>
@@ -1270,6 +1278,7 @@ end;"/>
       <Unit161>
         <Filename Value="filesources\multiarchive\umultiarchivelistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiArchiveListOperation"/>
       </Unit161>
       <Unit162>
         <Filename Value="filesources\multiarchive\umultiarchivetestarchiveoperation.pas"/>
@@ -1286,6 +1295,7 @@ end;"/>
       <Unit165>
         <Filename Value="filesources\multilist\umultilistlistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiListListOperation"/>
       </Unit165>
       <Unit166>
         <Filename Value="filesources\searchresult\usearchresultfilesource.pas"/>
@@ -1294,6 +1304,7 @@ end;"/>
       <Unit167>
         <Filename Value="filesources\searchresult\usearchresultlistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uSearchResultListOperation"/>
       </Unit167>
       <Unit168>
         <Filename Value="filesources\tempfilesystem\utempfilesystemfilesource.pas"/>
@@ -1310,11 +1321,14 @@ end;"/>
       <Unit171>
         <Filename Value="filesources\vfs\uvfslistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uVfsListOperation"/>
       </Unit171>
       <Unit172>
         <Filename Value="filesources\wcxarchive\fwcxarchivecopyoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="WcxArchiveCopyOperationOptionsUI"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
       </Unit172>
       <Unit173>
         <Filename Value="filesources\wcxarchive\uwcxarchivecalcstatisticsoperation.pas"/>
@@ -1327,6 +1341,7 @@ end;"/>
       <Unit175>
         <Filename Value="filesources\wcxarchive\uwcxarchivecopyoutoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveCopyOutOperation"/>
       </Unit175>
       <Unit176>
         <Filename Value="filesources\wcxarchive\uwcxarchivedeleteoperation.pas"/>
@@ -1343,6 +1358,7 @@ end;"/>
       <Unit179>
         <Filename Value="filesources\wcxarchive\uwcxarchivelistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveListOperation"/>
       </Unit179>
       <Unit180>
         <Filename Value="filesources\wcxarchive\uwcxarchivetestarchiveoperation.pas"/>
@@ -1351,7 +1367,9 @@ end;"/>
       <Unit181>
         <Filename Value="filesources\wfxplugin\fwfxplugincopymoveoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="WfxPluginCopyMoveOperationOptionsUI"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
       </Unit181>
       <Unit182>
         <Filename Value="filesources\wfxplugin\uwfxplugincopyinoperation.pas"/>
@@ -1384,6 +1402,7 @@ end;"/>
       <Unit189>
         <Filename Value="filesources\wfxplugin\uwfxpluginlistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWfxPluginListOperation"/>
       </Unit189>
       <Unit190>
         <Filename Value="filesources\wfxplugin\uwfxpluginmoveoperation.pas"/>
@@ -1408,6 +1427,7 @@ end;"/>
       <Unit195>
         <Filename Value="filesources\winnet\uwinnetlistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWinNetListOperation"/>
       </Unit195>
       <Unit196>
         <Filename Value="fileviews\ubrieffileview.pas"/>
@@ -1422,6 +1442,7 @@ end;"/>
       <Unit198>
         <Filename Value="fileviews\ucolumnsfileviewvtv.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uColumnsFileViewVtv"/>
       </Unit198>
       <Unit199>
         <Filename Value="fileviews\ufileview.pas"/>
@@ -1431,22 +1452,27 @@ end;"/>
       <Unit200>
         <Filename Value="fileviews\ufileviewheader.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewHeader"/>
       </Unit200>
       <Unit201>
         <Filename Value="fileviews\ufileviewhistory.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewHistory"/>
       </Unit201>
       <Unit202>
         <Filename Value="fileviews\ufileviewwithpanels.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewWithPanels"/>
       </Unit202>
       <Unit203>
         <Filename Value="fileviews\ufileviewworker.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewWorker"/>
       </Unit203>
       <Unit204>
         <Filename Value="fileviews\uorderedfileview.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uOrderedFileView"/>
       </Unit204>
     </Units>
   </ProjectOptions>

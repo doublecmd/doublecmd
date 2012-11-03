@@ -147,7 +147,7 @@ type
 implementation
 
 uses
-  LCLProc, DCOSUtils, DCClassesUtf8, URIParser;
+  LazUTF8, LazLogger, DCOSUtils, DCClassesUtf8, URIParser;
 
 const
   BoolStrings: array[Boolean] of DOMString = ('False', 'True');
@@ -564,7 +564,7 @@ begin
       ErrMsg := 'Error loading configuration file ' + FileName;
       if e.Message <> EmptyStr then
         ErrMsg := ErrMsg + ': ' + e.Message;
-      DebugLn(ErrMsg);
+      DebugLogger.DebugLn(ErrMsg);
       Result := False;
     end;
   end;
@@ -588,7 +588,7 @@ begin
       if not mbRenameFile(sTmpConfigFileName, FileName) then
       begin
         mbDeleteFile(sTmpConfigFileName);
-        Debugln('Cannot save configuration file ', FileName);
+        DebugLogger.Debugln('Cannot save configuration file ', FileName);
       end
       else
         Result := True;
@@ -596,13 +596,13 @@ begin
       on e: EStreamError do
       begin
         mbDeleteFile(sTmpConfigFileName);
-        Debugln('Error saving configuration file ', FileName, ': ' + e.Message);
+        DebugLogger.Debugln('Error saving configuration file ', FileName, ': ' + e.Message);
       end;
     end;
   end
   else
   begin
-    Debugln('Cannot save configuration file ', FileName, ' - check permissions');
+    DebugLogger.Debugln('Cannot save configuration file ', FileName, ' - check permissions');
   end;
 end;
 

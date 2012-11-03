@@ -31,8 +31,8 @@
     </CompilerOptions>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
-    <Version Minor="2"/>
-    <Files Count="7">
+    <Version Minor="3"/>
+    <Files Count="8">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
         <UnitName Value="DCClassesUtf8"/>
@@ -61,12 +61,19 @@
         <Filename Value="dcdatetimeutils.pas"/>
         <UnitName Value="DCDateTimeUtils"/>
       </Item7>
+      <Item8>
+        <Filename Value="dcxmlconfig.pas"/>
+        <UnitName Value="DCXmlConfig"/>
+      </Item8>
     </Files>
-    <RequiredPkgs Count="1">
+    <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LazUtils"/>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <CustomOptions Value="-fPIC"/>
