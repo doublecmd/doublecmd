@@ -103,6 +103,7 @@ type
     FKASToolBarFlags: TToolBarFlags;
     FResizeButtonsNeeded: Boolean;
     procedure AssignToolButtonProperties(ToolButton: TKASToolButton);
+    function CheckMenuItemClick(ToolItem: TKASToolItem; ToolItemID: String): Boolean;
     procedure ClearExecutors;
     function CreateButton(Item: TKASToolItem): TKASToolButton;
     function DoExecuteToolItem(Item: TKASToolItem): Boolean;
@@ -756,6 +757,31 @@ begin
   end;
 end;
 
+function TKASToolBar.CheckMenuItemClick(ToolItem: TKASToolItem; ToolItemID: String): Boolean;
+var
+  I: Integer;
+  MenuItem: TKASMenuItem;
+  NormalItem: TKASNormalItem;
+begin
+  if ToolItem is TKASMenuItem then
+  begin
+    MenuItem := TKASMenuItem(ToolItem);
+    for I := 0 to MenuItem.SubItems.Count - 1 do
+    begin
+      if MenuItem.SubItems[I] is TKASNormalItem then
+      begin
+        NormalItem := TKASNormalItem(MenuItem.SubItems[I]);
+        if NormalItem.ID = ToolItemID then
+        begin
+          DoExecuteToolItem(NormalItem);
+          Exit(True);
+        end;
+      end;
+    end;
+  end;
+  Result := False;
+end;
+
 procedure TKASToolBar.Clear;
 var
   I: Integer;
@@ -797,8 +823,10 @@ begin
         Button.Click;
         Break;
       end;
+
+      if CheckMenuItemClick(Button.ToolItem, ToolItemID) then
+        Break;
     end;
-    // TODO Handle TKASMenuItem
   end;
 end;
 
