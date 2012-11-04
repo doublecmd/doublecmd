@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of multi archiver support
 
-   Copyright (C) 2010-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -294,46 +294,48 @@ var
   Section: UTF8String;
   MultiArcItem: TMultiArcItem;
 begin
-  mbDeleteFile(FileName + '.bak');
-  mbRenameFile(FileName, FileName + '.bak');
   try
-    IniFile:= TIniFileEx.Create(FileName);
-    for I:= 0 to FList.Count - 1 do
-    begin
-      Section:= FList.Strings[I];
-      MultiArcItem:= TMultiArcItem(FList.Objects[I]);
-      with MultiArcItem do
+    IniFile:= TIniFileEx.Create(FileName, fmOpenWrite);
+    try
+      for I:= 0 to FList.Count - 1 do
       begin
-        IniFile.WriteString(Section, 'Archiver', FArchiver);
-        IniFile.WriteString(Section, 'Description', FDescription);
-        IniFile.WriteString(Section, 'ID', FID);
-        IniFile.WriteString(Section, 'IDPos', FIDPos);
-        IniFile.WriteString(Section, 'IDSeekRange', FIDSeekRange);
-        IniFile.WriteString(Section, 'Extension', FExtension);
-        IniFile.WriteString(Section, 'Start', FStart);
-        IniFile.WriteString(Section, 'End', FEnd);
-        for J:= 0 to FFormat.Count - 1 do
+        Section:= FList.Strings[I];
+        MultiArcItem:= TMultiArcItem(FList.Objects[I]);
+        with MultiArcItem do
         begin
-          IniFile.WriteString(Section, 'Format' + IntToStr(J), FFormat[J]);
+          IniFile.WriteString(Section, 'Archiver', FArchiver);
+          IniFile.WriteString(Section, 'Description', FDescription);
+          IniFile.WriteString(Section, 'ID', FID);
+          IniFile.WriteString(Section, 'IDPos', FIDPos);
+          IniFile.WriteString(Section, 'IDSeekRange', FIDSeekRange);
+          IniFile.WriteString(Section, 'Extension', FExtension);
+          IniFile.WriteString(Section, 'Start', FStart);
+          IniFile.WriteString(Section, 'End', FEnd);
+          for J:= 0 to FFormat.Count - 1 do
+          begin
+            IniFile.WriteString(Section, 'Format' + IntToStr(J), FFormat[J]);
+          end;
+          IniFile.WriteString(Section, 'List', FList);
+          IniFile.WriteString(Section, 'Extract', FExtract);
+          IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
+          IniFile.WriteString(Section, 'Test', FTest);
+          IniFile.WriteString(Section, 'Delete', FDelete);
+          IniFile.WriteString(Section, 'Add', FAdd);
+          IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
+          IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
+          // optional
+          IniFile.WriteInteger(Section, 'FormMode', FFormMode);
+          IniFile.WriteBool(Section, 'Enabled', FEnabled);
+          IniFile.WriteBool(Section, 'Output', FOutput);
+          IniFile.WriteBool(Section, 'Debug', FDebug);
         end;
-        IniFile.WriteString(Section, 'List', FList);
-        IniFile.WriteString(Section, 'Extract', FExtract);
-        IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
-        IniFile.WriteString(Section, 'Test', FTest);
-        IniFile.WriteString(Section, 'Delete', FDelete);
-        IniFile.WriteString(Section, 'Add', FAdd);
-        IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
-        IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
-        // optional
-        IniFile.WriteInteger(Section, 'FormMode', FFormMode);
-        IniFile.WriteBool(Section, 'Enabled', FEnabled);
-        IniFile.WriteBool(Section, 'Output', FOutput);
-        IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
+      IniFile.WriteBool('MultiArc', 'FirstTime', False);
+    finally
+      IniFile.Free;
     end;
-    IniFile.WriteBool('MultiArc', 'FirstTime', False);
-  finally
-    FreeThenNil(IniFile);
+  except
+
   end;
 end;
 
