@@ -297,6 +297,7 @@ begin
   try
     IniFile:= TIniFileEx.Create(FileName, fmOpenWrite);
     try
+      IniFile.Clear;
       for I:= 0 to FList.Count - 1 do
       begin
         Section:= FList.Strings[I];
