@@ -6,6 +6,7 @@ object frmQuickSearch: TfrmQuickSearch
   AutoSize = True
   ClientHeight = 43
   ClientWidth = 436
+  LCLVersion = '1.0.1.3'
   OnExit = FrameExit
   TabOrder = 0
   DesignLeft = 134

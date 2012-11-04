@@ -1,4 +1,4 @@
-object frmViewer: TfrmViewer
+inherited frmViewer: TfrmViewer
   Left = 292
   Height = 480
   Top = 46
@@ -59,8 +59,7 @@ object frmViewer: TfrmViewer
   Position = poDefault
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.30.3'
-  object pnlLister: TPanel
+  object pnlLister: TPanel[0]
     Left = 179
     Height = 437
     Top = 0
@@ -71,7 +70,7 @@ object frmViewer: TfrmViewer
     Visible = False
     OnResize = pnlListerResize
   end
-  object Status: TStatusBar
+  object Status: TStatusBar[1]
     Left = 0
     Height = 23
     Top = 437
@@ -94,7 +93,7 @@ object frmViewer: TfrmViewer
       end>
     SimplePanel = False
   end
-  object pnlText: TPanel
+  object pnlText: TPanel[2]
     Left = 179
     Height = 437
     Top = 0
@@ -118,7 +117,7 @@ object frmViewer: TfrmViewer
       Font.Color = clWindowText
     end
   end
-  object pnlImage: TPanel
+  object pnlImage: TPanel[3]
     Left = 179
     Height = 437
     Top = 0
@@ -1564,7 +1563,7 @@ object frmViewer: TfrmViewer
       end
     end
   end
-  object Splitter: TSplitter
+  object Splitter: TSplitter[4]
     Left = 170
     Height = 437
     Top = 0
@@ -1574,7 +1573,7 @@ object frmViewer: TfrmViewer
     OnChangeBounds = SplitterChangeBounds
     Visible = False
   end
-  object pnlPreview: TPanel
+  object pnlPreview: TPanel[5]
     Left = 0
     Height = 437
     Top = 0
@@ -2082,7 +2081,7 @@ object frmViewer: TfrmViewer
       )
     end
   end
-  object MainMenu: TMainMenu
+  object MainMenu: TMainMenu[6]
     ParentBidiMode = False
     left = 80
     top = 64
@@ -2274,7 +2273,7 @@ object frmViewer: TfrmViewer
       end
     end
   end
-  object pmEditMenu: TPopupMenu
+  object pmEditMenu: TPopupMenu[7]
     left = 152
     top = 64
     object pmiCopy: TMenuItem
@@ -2289,18 +2288,18 @@ object frmViewer: TfrmViewer
       OnClick = miSelectAllClick
     end
   end
-  object SavePictureDialog: TSavePictureDialog
+  object SavePictureDialog: TSavePictureDialog[8]
     left = 304
     top = 64
   end
-  object TimerViewer: TTimer
+  object TimerViewer: TTimer[9]
     Enabled = False
     Interval = 10
     OnTimer = TimerViewerTimer
     left = 224
     top = 64
   end
-  object actionList: TActionList
+  object actionList: TActionList[10]
     left = 376
     top = 64
     object actAbout: TAction

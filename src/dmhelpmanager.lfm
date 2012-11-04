@@ -1,5 +1,6 @@
 object dmHelpManager: TdmHelpManager
   OnCreate = DataModuleCreate
+  OldCreateOrder = False
   Height = 300
   HorizontalOffset = 369
   VerticalOffset = 200

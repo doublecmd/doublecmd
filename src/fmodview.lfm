@@ -1,4 +1,4 @@
-object frmModView: TfrmModView
+inherited frmModView: TfrmModView
   Left = 395
   Height = 319
   Top = 104
@@ -14,7 +14,7 @@ object frmModView: TfrmModView
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   Position = poOwnerFormCenter
-  object bplButtons: TButtonPanel
+  object bplButtons: TButtonPanel[0]
     Left = 10
     Height = 34
     Top = 279
@@ -32,7 +32,7 @@ object frmModView: TfrmModView
     TabOrder = 0
     ShowButtons = [pbOK, pbCancel]
   end
-  object pnlMain: TPanel
+  object pnlMain: TPanel[1]
     Left = 10
     Height = 267
     Top = 6
@@ -515,7 +515,7 @@ object frmModView: TfrmModView
       end
     end
   end
-  object sddCopyMoveFile: TSelectDirectoryDialog
+  object sddCopyMoveFile: TSelectDirectoryDialog[2]
     left = 288
     top = 40
   end

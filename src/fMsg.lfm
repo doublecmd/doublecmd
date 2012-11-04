@@ -1,4 +1,4 @@
-object frmMsg: TfrmMsg
+inherited frmMsg: TfrmMsg
   Left = 270
   Height = 254
   Top = 149
@@ -12,8 +12,7 @@ object frmMsg: TfrmMsg
   OnKeyPress = FormKeyPress
   OnKeyUp = FormKeyUp
   OnShow = frmMsgShow
-  LCLVersion = '0.9.30'
-  object lblMsg: TLabel
+  object lblMsg: TLabel[0]
     Left = 32
     Height = 1
     Top = 16

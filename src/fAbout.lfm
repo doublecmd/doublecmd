@@ -11,7 +11,7 @@ object frmAbout: TfrmAbout
   OnKeyDown = FormKeyDown
   OnShow = frmAboutShow
   Position = poScreenCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.0.1.3'
   object pnlText: TPanel
     AnchorSideLeft.Control = pnlInfo
     AnchorSideLeft.Side = asrBottom

@@ -1,4 +1,5 @@
 object dmComData: TdmComData
+  OldCreateOrder = False
   Height = 300
   HorizontalOffset = 294
   VerticalOffset = 172
