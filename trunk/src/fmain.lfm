@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.30.4'
+  LCLVersion = '1.0.1.3'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -529,7 +529,10 @@ object frmMain: TfrmMain
     TabOrder = 4
     TabStop = False
     Visible = False
+    Gutter.Width = 0
     Gutter.MouseActions = <>
+    RightGutter.Width = 0
+    RightGutter.MouseActions = <>
     Keystrokes = <    
       item
         Command = ecUp
@@ -853,10 +856,21 @@ object frmMain: TfrmMain
       end>
     MouseActions = <>
     MouseSelActions = <>
+    VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
     BracketHighlightStyle = sbhsBoth
+    BracketMatchColor.Background = clNone
+    BracketMatchColor.Foreground = clNone
+    BracketMatchColor.Style = [fsBold]
+    FoldedCodeColor.Background = clNone
+    FoldedCodeColor.Foreground = clGray
+    FoldedCodeColor.FrameColor = clGray
+    MouseLinkColor.Background = clNone
+    MouseLinkColor.Foreground = clBlue
+    LineHighlightColor.Background = clNone
+    LineHighlightColor.Foreground = clNone
     OnSpecialLineColors = seLogWindowSpecialLineColors
     inline SynLeftGutterPartList1: TSynGutterPartList
     end

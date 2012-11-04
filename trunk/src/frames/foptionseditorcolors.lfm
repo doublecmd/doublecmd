@@ -75,7 +75,9 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       TabStop = False
       BookMarkOptions.Xoffset = 30
       Gutter.Width = 59
+      Gutter.MouseActions = <>
       RightGutter.Width = 0
+      RightGutter.MouseActions = <>
       Keystrokes = <      
         item
           Command = ecUp
@@ -397,9 +399,12 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
           Command = ecMatchBracket
           ShortCut = 24642
         end>
+      MouseActions = <>
+      MouseSelActions = <>
       Lines.Strings = (
         'ColorPreview'
       )
+      VisibleSpecialChars = [vscSpace, vscTabAtLast]
       BracketHighlightStyle = sbhsBoth
       BracketMatchColor.Background = clNone
       BracketMatchColor.Foreground = clNone
@@ -414,9 +419,11 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       inline TSynGutterPartList
         object TSynGutterMarks
           Width = 24
+          MouseActions = <>
         end
         object TSynGutterLineNumber
           Width = 19
+          MouseActions = <>
           MarkupInfo.Background = clBtnFace
           MarkupInfo.Foreground = clNone
           DigitCount = 2
@@ -426,15 +433,20 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         end
         object TSynGutterChanges
           Width = 4
+          MouseActions = <>
           ModifiedColor = 59900
           SavedColor = clGreen
         end
         object TSynGutterSeparator
           Width = 2
+          MouseActions = <>
         end
         object TSynGutterCodeFolding
+          MouseActions = <>
           MarkupInfo.Background = clNone
           MarkupInfo.Foreground = clGray
+          MouseActionsExpanded = <>
+          MouseActionsCollapsed = <>
         end
       end
     end

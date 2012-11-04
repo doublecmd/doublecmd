@@ -13,7 +13,7 @@ object frmOptions: TfrmOptions
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.30'
+  LCLVersion = '1.0.1.3'
   object tvTreeView: TTreeView
     Left = 0
     Height = 160

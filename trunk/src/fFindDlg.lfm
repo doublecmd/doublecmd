@@ -18,7 +18,7 @@ object frmFindDlg: TfrmFindDlg
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.30.4'
+  LCLVersion = '1.0.1.3'
   object pnlFindFile: TPanel
     Left = 3
     Height = 391

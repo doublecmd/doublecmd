@@ -14,7 +14,7 @@ object frmDiffer: TfrmDiffer
   SessionProperties = 'actAutoCompare.Checked;actIgnoreCase.Checked;actIgnoreWhiteSpace.Checked;actKeepScrolling.Checked;actLineDifferences.Checked;actPaintBackground.Checked;Height;Left;Top;Width;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.29'
+  LCLVersion = '1.0.1.3'
   object ToolBar: TToolBar
     Left = 0
     Height = 22
