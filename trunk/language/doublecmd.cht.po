@@ -1945,6 +1945,11 @@ msgstr "檢視(&V)"
 msgid "Feed to &listbox"
 msgstr "發給列表框(&L)"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "尋找檔案"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "區分大小寫"
@@ -2050,11 +2055,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "尋找檔案"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3368,15 +3368,6 @@ msgstr "建立新目錄"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "輸入新目錄名:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "確定"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

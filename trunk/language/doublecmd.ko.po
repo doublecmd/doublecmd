@@ -1961,6 +1961,12 @@ msgstr "보기(&V)"
 msgid "Feed to &listbox"
 msgstr "목록상자에 입력(&L)"
 
+#: tfrmfinddlg.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "파일 찾기"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "대소문자 구별(&I)"
@@ -2066,12 +2072,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-#, fuzzy
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "파일 찾기"
 
 #: tfrmfinddlg.gbdirectories.caption
 #, fuzzy
@@ -3396,15 +3396,6 @@ msgstr "새 폴더 만들기"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "새 폴더 이름 입력:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "취소"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "확인"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

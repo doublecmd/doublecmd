@@ -1935,6 +1935,11 @@ msgstr "&Mostra"
 msgid "Feed to &listbox"
 msgstr "Da Feed a lista"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Trova file"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Sens&ibile Maiusc./minusc."
@@ -2039,11 +2044,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Trova file"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3316,15 +3316,6 @@ msgstr "Crea nuova cartella"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Inserisci nuovo nome cartella:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Annulla"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "Ok"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

@@ -1943,6 +1943,11 @@ msgstr "&Zobrazit"
 msgid "Feed to &listbox"
 msgstr "Výsledek do &okna"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Hledat soubory"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Rozlišovat velikost"
@@ -2048,11 +2053,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Hledat soubory"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3367,15 +3367,6 @@ msgstr "Vytvořit nový adresář"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Zadejte nový název adresáře:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "Ok"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
