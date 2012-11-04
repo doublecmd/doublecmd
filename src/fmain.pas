@@ -1821,6 +1821,8 @@ begin
     SaveWindowState;
     SaveGlobs;
   except
+    on E: Exception do
+      DebugLn('Cannot save main configuration: ', e.Message);
   end;
 
   FreeAndNil(Cons);
