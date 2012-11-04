@@ -1814,6 +1814,11 @@ msgstr ""
 msgid "Feed to &listbox"
 msgstr ""
 
+#: tfrmfinddlg.caption
+msgctxt "TFRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr ""
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr ""
@@ -1897,11 +1902,6 @@ msgstr ""
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
-msgstr ""
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
 msgstr ""
 
 #: tfrmfinddlg.gbdirectories.caption
@@ -3101,15 +3101,6 @@ msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
-msgstr ""
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr ""
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
 msgstr ""
 
 #: tfrmmodview.btnpath1.caption

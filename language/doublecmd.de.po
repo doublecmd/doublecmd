@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-09-09 16:14+0100\n"
+"PO-Revision-Date: 2012-11-03 16:14+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1952,6 +1952,11 @@ msgstr "&Betrachten"
 msgid "Feed to &listbox"
 msgstr "Füge in &Listbox ein"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Suche Datei(en)"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Gross- / Kleinschreibung beachten"
@@ -2024,7 +2029,7 @@ msgstr "Ersetze Text"
 
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and &files"
-msgstr ""
+msgstr "Ausgew&ählte Verzeichnisse und Dateien"
 
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
@@ -2058,11 +2063,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Suche Datei(en)"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -2796,7 +2796,7 @@ msgstr "Umbenennen"
 #, fuzzy
 #| msgid "Re&name Tab"
 msgid "&Rename Tab"
-msgstr "Reiter umbe&nennen"
+msgstr "&Reiter umbenennen"
 
 #: tfrmmain.actrestoreselection.caption
 #, fuzzy
@@ -3451,15 +3451,6 @@ msgstr "Neues Verzeichnis anlegen"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Namen für neues Verze&ichnis eingeben"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Abbruch"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr ""
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
@@ -4787,7 +4778,7 @@ msgstr "&Datums- und Zeitformat"
 
 #: tfrmoptionsfilesviews.lblfilesizeformat.caption
 msgid "File si&ze format:"
-msgstr ""
+msgstr "Dateigr&öße-Format"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
@@ -7203,7 +7194,7 @@ msgstr "Abbru&ch"
 
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
-msgstr ""
+msgstr "Fortset&zen"
 
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
@@ -7215,7 +7206,7 @@ msgstr "&Alle bestehenden Verzeichnisse kopieren"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
-msgstr ""
+msgstr "&Programm beenden"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -7379,7 +7370,7 @@ msgstr "Fragen;Überschreiben;Hinein kopieren;Überspringen"
 #, fuzzy
 #| msgid "Ask;Overwrite;Skip"
 msgid "Ask;Overwrite;Overwrite Older;Skip"
-msgstr "Fragen;Überschreiben;Overwrite Older;Überspringen"
+msgstr "Fragen;Überschreiben;Ältere überschreiben;Überspringen"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
@@ -7764,7 +7755,7 @@ msgstr "Fehler im Befehl des Kontextmenü"
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
-msgstr ""
+msgstr "Fehler beim Laden der Konfiguration"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -7844,7 +7835,7 @@ msgstr "Ungültiger Dateiname"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
-msgstr ""
+msgstr "Ungültiges Format der Konfigurationsdatei"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

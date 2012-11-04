@@ -1940,6 +1940,11 @@ msgstr "&Pogled"
 msgid "Feed to &listbox"
 msgstr "Izpiši v &seznam"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Najdi datoteke"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Upoštevaj &velikost črk"
@@ -2042,11 +2047,6 @@ msgstr "Vpis imen datotek, ločenih z \";\""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Najdi datoteke"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -3299,15 +3299,6 @@ msgstr "Ustvari novo mapo"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Vpis imena nove mape:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "V redu"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

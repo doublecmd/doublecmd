@@ -1916,6 +1916,11 @@ msgstr "&Преглед"
 msgid "Feed to &listbox"
 msgstr "Вкарване във файловия &списък"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Търсене на файлове"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Отчитане на глАВноСТта"
@@ -2020,11 +2025,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Търсене на файлове"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3394,15 +3394,6 @@ msgstr "Създаване на нова папка"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Напишете името на новата папка:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Отказ"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr ""
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

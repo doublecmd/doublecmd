@@ -1961,6 +1961,11 @@ msgstr "&Ver"
 msgid "Feed to &listbox"
 msgstr "Incluir en la lista"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Buscar archivos"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Sensible a mays/mins"
@@ -2067,11 +2072,6 @@ msgstr "Introducir los archivos separdos por \";\""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Buscar archivos"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3400,15 +3400,6 @@ msgstr "Crear nueva carpeta"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Nombre de la nueva carpeta:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "Aceptar"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

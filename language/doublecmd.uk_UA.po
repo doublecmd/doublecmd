@@ -1949,6 +1949,11 @@ msgstr "&Перегляд"
 msgid "Feed to &listbox"
 msgstr "Фай&ли на панель"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Пошук файлів"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "З врахуванням регістру"
@@ -2053,11 +2058,6 @@ msgstr "Введіть імена файлів, через \";\""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Пошук файлів"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3372,15 +3372,6 @@ msgstr "Створити новий каталог"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Введіть ім'я каталогу:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Скасувати"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "Так"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

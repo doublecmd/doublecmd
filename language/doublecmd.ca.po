@@ -1944,6 +1944,11 @@ msgstr "&Veure"
 msgid "Feed to &listbox"
 msgstr "Incloure a la llista"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Cercar Arxius"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Sensible a mays/mins"
@@ -2050,11 +2055,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Cercar Arxius"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3383,15 +3383,6 @@ msgstr "Crear nova carpeta"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Nom de la nova carpeta:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Cancel.lar"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "Acceptar"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"

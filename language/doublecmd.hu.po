@@ -1896,6 +1896,11 @@ msgstr "&Nézőke"
 msgid "Feed to &listbox"
 msgstr "&Ablakba"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "Fájlok keresése"
+
 #: tfrmfinddlg.cbcasesens.caption
 #, fuzzy
 #| msgid "Case sensitive"
@@ -2006,11 +2011,6 @@ msgstr ""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Fájlok keresése"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -3353,15 +3353,6 @@ msgstr "Új könyvtár létrehozása"
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
 msgstr "Adja meg az új könyvtárnevet:"
-
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Mégsem"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr ""
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
