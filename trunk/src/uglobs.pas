@@ -422,6 +422,80 @@ begin
   end;
 end;
 
+type
+  TSaveCfgProc = procedure;
+
+procedure SaveWithCheck(SaveProc: TSaveCfgProc; CfgDescription: String; var ErrMsg: String);
+begin
+  try
+    SaveProc;
+  except
+    on E: EStreamError do
+      ErrMsg := ErrMsg + 'Cannot save ' + CfgDescription + ': ' + e.Message;
+  end;
+end;
+
+procedure SaveCfgExts;
+begin
+  gExts.SaveToFile(gpCfgDir + 'doublecmd.ext');
+end;
+
+procedure SaveCfgDirHistory;
+begin
+  if gSaveDirHistory then
+    glsDirHistory.SaveToFile(gpCfgDir + 'dirhistory.txt');
+end;
+
+procedure SaveCfgFileMaskHistory;
+begin
+  if gSaveFileMaskHistory then
+    glsMaskHistory.SaveToFile(gpCfgDir + 'maskhistory.txt');
+end;
+
+procedure SaveCfgSearchHistory;
+begin
+  if gSaveSearchReplaceHistory then
+    glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
+end;
+
+procedure SaveCfgReplaceHistory;
+begin
+  if gSaveSearchReplaceHistory then
+    glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
+end;
+
+procedure SaveCfgIgnoreList;
+var
+  FileName: UTF8String;
+begin
+  if gIgnoreListFileEnabled then
+  begin
+    FileName:= ReplaceEnvVars(gIgnoreListFile);
+    mbForceDirectory(ExtractFileDir(FileName));
+    glsIgnoreList.SaveToFile(FileName);
+  end;
+end;
+
+procedure SaveCfgMultiArcList;
+begin
+  gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
+end;
+
+procedure SaveCfgHotkeys;
+begin
+  HotMan.Save(gpCfgDir + gNameSCFile);
+end;
+
+procedure SaveCfgMainConfig;
+begin
+  if Assigned(gIni) then
+    SaveIniConfig;
+  SaveXmlConfig;
+
+  // Force saving config to file.
+  gConfig.Save;
+end;
+
 function AskUserOnError(var ErrorMessage: String): Boolean;
 begin
   // Show error messages.
@@ -1243,7 +1317,7 @@ procedure SaveGlobs;
 var
   TmpConfig: TXmlConfig;
   Ini: TIniFileEx = nil;
-  FileName: UTF8String;
+  ErrMsg: String = '';
 begin
   if (gUseConfigInProgramDirNew <> gUseConfigInProgramDir) and
      (gpCmdLineCfgDir = EmptyStr) then
@@ -1281,38 +1355,23 @@ begin
       gConfig.FileName := gpCfgDir + 'doublecmd.xml';
     end;
 
+  if not mbFileExists(gpCfgDir + gNameSCFile) then
+    gNameSCFile := 'shortcuts.scf';
+
   if mbFileAccess(gpCfgDir, fmOpenWrite or fmShareDenyNone) then
   begin
-    gExts.SaveToFile(gpCfgDir + 'doublecmd.ext');
+    SaveWithCheck(@SaveCfgExts, 'extensions configuration', ErrMsg);
+    SaveWithCheck(@SaveCfgDirHistory, 'dir history', ErrMsg);
+    SaveWithCheck(@SaveCfgFileMaskHistory, 'mask history', ErrMsg);
+    SaveWithCheck(@SaveCfgSearchHistory, 'search history', ErrMsg);
+    SaveWithCheck(@SaveCfgReplaceHistory, 'replace history', ErrMsg);
+    SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
+    SaveWithCheck(@SaveCfgMultiArcList, 'multi arc list', ErrMsg);
+    SaveWithCheck(@SaveCfgHotkeys, 'hotkeys', ErrMsg);
+    SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
 
-    if gSaveDirHistory then
-      glsDirHistory.SaveToFile(gpCfgDir + 'dirhistory.txt');
-    if gSaveFileMaskHistory then
-      glsMaskHistory.SaveToFile(gpCfgDir + 'maskhistory.txt');
-    if gSaveSearchReplaceHistory then
-    begin
-      glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
-      glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
-    end;
-    if gIgnoreListFileEnabled then
-    begin
-      FileName:= ReplaceEnvVars(gIgnoreListFile);
-      mbForceDirectory(ExtractFileDir(FileName));
-      glsIgnoreList.SaveToFile(FileName);
-    end;
-    gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
-
-    { Hotkeys }
-    if not mbFileExists(gpCfgDir + gNameSCFile) then
-      gNameSCFile := 'shortcuts.scf';
-    HotMan.Save(gpCfgDir + gNameSCFile);
-
-    if Assigned(gIni) then
-      SaveIniConfig;
-    SaveXmlConfig;
-
-    // Force saving config to file.
-    gConfig.Save;
+    if ErrMsg <> EmptyStr then
+      DebugLn(ErrMsg);
   end
   else
     DebugLn('Not saving configuration - no write access to ', gpCfgDir);
