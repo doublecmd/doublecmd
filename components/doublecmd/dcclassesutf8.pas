@@ -66,7 +66,8 @@ type
 
   THackIniFile = class
   private
-    FFileName: UTF8String;
+    FFileName: String;
+    FSectionList: TIniFileSectionList;
   end;
 
   TIniFileEx = class(TIniFile)
@@ -80,6 +81,8 @@ type
     constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); override;
     destructor Destroy; override;
     procedure UpdateFile; override;
+  public
+    procedure Clear;
     property FileName: UTF8String read GetFileName write SetFileName;
     property ReadOnly: Boolean read FReadOnly;
   end;
@@ -224,7 +227,12 @@ begin
     inherited UpdateFile;
     FileName:= FIniFileStream.FileName;
   end;
-end; 
+end;
+
+procedure TIniFileEx.Clear;
+begin
+  THackIniFile(Self).FSectionList.Clear;
+end;
 
 destructor TIniFileEx.Destroy;
 begin
