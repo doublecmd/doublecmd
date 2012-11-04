@@ -70,7 +70,7 @@ var
   f: System.Text;
 begin
   if (aFileName <> EmptyStr) and not mbDirectoryExists(aFileName) and
-     mbFileAccess(aFileName, fmOpenWrite) then
+     mbFileAccess(aFileName, fmOpenWrite or fmShareDenyNone) then
   begin
     AssignFile(f, aFileName);
     if not mbFileExists(aFileName) then

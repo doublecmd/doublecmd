@@ -116,7 +116,7 @@ procedure UnMapFile(var FileMapRec : TFileMapRec);
 function ConsoleToUTF8(const Str: AnsiString): UTF8String;
 
 { File handling functions}
-function mbFileOpen(const FileName: UTF8String; Mode: Longint): System.THandle;
+function mbFileOpen(const FileName: UTF8String; Mode: Word): System.THandle;
 function mbFileCreate(const FileName: UTF8String): System.THandle; overload;
 function mbFileCreate(const FileName: UTF8String; ShareMode: Longint): System.THandle; overload;
 function mbFileCreate(const FileName: UTF8String; ShareMode: Longint; Rights: Longint): System.THandle; overload;
@@ -138,7 +138,7 @@ function mbFileSetTime(const FileName: UTF8String;
    because there may still exist a directory or link by that name.
 }
 function mbFileExists(const FileName: UTF8String): Boolean;
-function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
+function mbFileAccess(const FileName: UTF8String; Mode: Word): Boolean;
 function mbFileGetAttr(const FileName: UTF8String): TFileAttrs;
 function mbFileSetAttr (const FileName: UTF8String; Attr: TFileAttrs) : LongInt;
 {en
@@ -613,7 +613,7 @@ begin
   {$ENDIF}
 end;
 
-function mbFileOpen(const FileName: UTF8String; Mode: Longint): System.THandle;
+function mbFileOpen(const FileName: UTF8String; Mode: Word): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= CreateFileW(PWideChar(UTF8Decode(FileName)), AccessModes[Mode and 3],
@@ -820,7 +820,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
+function mbFileAccess(const FileName: UTF8String; Mode: Word): Boolean;
 {$IFDEF MSWINDOWS}
 const
   AccessMode: array[0..2] of DWORD  = (
@@ -835,8 +835,9 @@ var
 begin
   wFileName:= UTF8Decode(FileName);
   dwDesiredAccess := AccessMode[Mode and 3];
-  if dwDesiredAccess = GENERIC_READ then
-    dwShareMode := FILE_SHARE_READ;
+  if Mode = fmOpenRead then // If checking Read mode no sharing mode given
+    Mode := Mode or fmShareDenyNone;
+  dwShareMode := ShareModes[(Mode and $F0) shr 4];
   hFile:= CreateFileW(PWChar(wFileName), dwDesiredAccess, dwShareMode,
                       nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
   Result := hFile <> INVALID_HANDLE_VALUE;

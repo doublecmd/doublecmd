@@ -1242,7 +1242,7 @@ begin
 
   if gSaveCmdLineHistory then
     begin
-      if mbFileAccess(gpCfgDir + cHistoryFile, fmOpenWrite) then
+      if mbFileAccess(gpCfgDir + cHistoryFile, fmOpenWrite or fmShareDenyWrite) then
       begin
         try
           slCommandHistory:= TStringListEx.Create;

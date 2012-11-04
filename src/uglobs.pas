@@ -1063,7 +1063,7 @@ begin
   begin
     gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
     gUseConfigInProgramDir := True;
-    if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead) then
+    if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead or fmShareDenyWrite) then
     begin
       LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage);
       gUseConfigInProgramDir := gConfig.GetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', False);
@@ -1094,7 +1094,7 @@ begin
   begin
     gConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
     gUseConfigInProgramDir := False;
-    if mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenRead) then
+    if mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenRead or fmShareDenyWrite) then
     begin
       LoadConfigCheckErrors(@LoadGlobalConfig, gpCfgDir + 'doublecmd.xml', ErrorMessage);
     end
@@ -1114,18 +1114,18 @@ begin
     // Open INI config if present.
 
     // Check global directory for INI config.
-    if not Assigned(gIni) and mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead) then
+    if not Assigned(gIni) and mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite) then
     begin
-      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead);
+      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite);
       gUseConfigInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', False);
       if not gUseConfigInProgramDir then
         FreeAndNil(gIni)
       else
       begin
-	      if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite) then
+	      if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite or fmShareDenyWrite) then
 	      begin
 	        FreeAndNil(gIni);
-          gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
+          gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite or fmShareDenyWrite);
 	      end
         else
 	      begin
@@ -1136,9 +1136,9 @@ begin
     end;
 
     // Check user directory for INI config.
-    if not Assigned(gIni) and mbFileAccess(gpCfgDir + 'doublecmd.ini', fmOpenRead) then
+    if not Assigned(gIni) and mbFileAccess(gpCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite) then
     begin
-      gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+      gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite);
       gUseConfigInProgramDir := False;
     end;
 
@@ -1166,7 +1166,7 @@ begin
     gpCfgDir := gpGlobalCfgDir;
 
   if mbFileExists(gpCfgDir + 'doublecmd.xml') and
-     (not mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenWrite)) then
+     (not mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenWrite or fmShareDenyWrite)) then
   begin
     DCDebug('Warning: Config file "' + gpCfgDir + 'doublecmd.xml' +
             '" is not accessible for writing. Configuration will not be saved.');
@@ -1267,7 +1267,7 @@ begin
         gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
       end;
 
-      if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenWrite) then
+      if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenWrite or fmShareDenyWrite) then
       begin
         TmpConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml', True);
         try
@@ -1281,7 +1281,7 @@ begin
       gConfig.FileName := gpCfgDir + 'doublecmd.xml';
     end;
 
-  if mbFileAccess(gpCfgDir, fmOpenWrite) then
+  if mbFileAccess(gpCfgDir, fmOpenWrite or fmShareDenyNone) then
   begin
     gExts.SaveToFile(gpCfgDir + 'doublecmd.ext');
 

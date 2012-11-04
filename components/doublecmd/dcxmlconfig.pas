@@ -545,7 +545,7 @@ begin
 
   if not mbFileExists(FileName) then
     raise EFileNotFound.Create('');
-  if not mbFileAccess(FileName, fmOpenRead) then
+  if not mbFileAccess(FileName, fmOpenRead or fmShareDenyWrite) then
     raise EFOpenError.Create(SysErrorMessage(GetLastOSError));
 
   ReadFromFile(FileName);
@@ -580,7 +580,7 @@ begin
     Exit;
 
   // Write to temporary file and if successfully written rename to proper name.
-  if (not mbFileExists(FileName)) or mbFileAccess(FileName, fmOpenWrite) then
+  if (not mbFileExists(FileName)) or mbFileAccess(FileName, fmOpenWrite or fmShareDenyWrite) then
   begin
     sTmpConfigFileName := GetTempName(FileName);
     try
