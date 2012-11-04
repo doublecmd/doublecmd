@@ -173,7 +173,7 @@ begin
   try
     if mbFileExists(FileName) then
       begin
-        fsFileStream:= TFileStreamEx.Create(FileName, fmOpenWrite or fmShareDenyNone);
+        fsFileStream:= TFileStreamEx.Create(FileName, fmOpenWrite or fmShareDenyWrite);
         fsFileStream.Position:= 0;
         fsFileStream.Size:= 0;
       end
@@ -200,21 +200,29 @@ end;
 
 constructor TIniFileEx.Create(const AFileName: String; Mode: Word);
 begin
-  FReadOnly := Mode = fmOpenRead;
+  FReadOnly := ((Mode and $03) = fmOpenRead);
+
   if mbFileExists(AFileName) then
-    FIniFileStream:= TFileStreamEx.Create(AFileName, Mode or fmShareDenyNone)
+  begin
+    if (Mode and $F0) = 0 then
+      Mode := Mode or fmShareDenyWrite;
+  end
   else
-    FIniFileStream:= TFileStreamEx.Create(AFileName, fmCreate);
+  begin
+    Mode := fmCreate;
+  end;
+
+  FIniFileStream:= TFileStreamEx.Create(AFileName, Mode);
   inherited Create(FIniFileStream);
   FileName:= AFileName;
 end;
 
 constructor TIniFileEx.Create(const AFileName: string; AEscapeLineFeeds: Boolean);
 begin
-  if mbFileAccess(AFileName, fmOpenReadWrite) then
-    Create(AFileName, fmOpenReadWrite)
+  if mbFileAccess(AFileName, fmOpenReadWrite or fmShareDenyWrite) then
+    Create(AFileName, fmOpenReadWrite or fmShareDenyWrite)
   else
-    Create(AFileName, fmOpenRead);
+    Create(AFileName, fmOpenRead or fmShareDenyNone);
 end;
 
 procedure TIniFileEx.UpdateFile;

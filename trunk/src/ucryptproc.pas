@@ -223,10 +223,10 @@ var
 begin
   AFileName := gpCfgDir + 'pwd.ini';
   try
-    if mbFileAccess(AFileName, fmOpenReadWrite) then
-      Mode := fmOpenReadWrite
+    if mbFileAccess(AFileName, fmOpenReadWrite or fmShareDenyWrite) then
+      Mode := fmOpenReadWrite or fmShareDenyWrite
     else
-      Mode := fmOpenRead;
+      Mode := fmOpenRead or fmShareDenyWrite;
     PasswordStore:= TPasswordStore.Create(AFileName, Mode);
   except
     DCDebug('Can not create secure password store!');
