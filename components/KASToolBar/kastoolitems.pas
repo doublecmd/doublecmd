@@ -38,6 +38,7 @@ type
   {$interfaces corba}
   IToolOwner = interface
     ['{A7908D38-1E13-4E8D-8FA7-8830A2FF9290}']
+    function ExecuteToolItem(Item: TKASToolItem): Boolean;
     function GetToolItemShortcutsHint(Item: TKASToolItem): String;
   end;
   {$interfaces default}
@@ -61,6 +62,7 @@ type
     property ToolOwner: IToolOwner read FToolOwner;
   public
     procedure Assign(OtherItem: TKASToolItem); virtual;
+    function CheckExecute(ToolItemID: String): Boolean; virtual;
     function Clone: TKASToolItem; virtual; abstract;
     function ConfigNodeName: String; virtual; abstract;
     function GetEffectiveHint: String; virtual; abstract;
@@ -96,6 +98,7 @@ type
     Text: String;
     Hint: String;
     procedure Assign(OtherItem: TKASToolItem); override;
+    function CheckExecute(ToolItemID: String): Boolean; override;
     function Clone: TKASToolItem; override;
     function ConfigNodeName: String; override;
     function GetEffectiveHint: String; override;
@@ -116,6 +119,7 @@ type
     constructor Create; reintroduce;
     destructor Destroy; override;
     procedure Assign(OtherItem: TKASToolItem); override;
+    function CheckExecute(ToolItemID: String): Boolean; override;
     function Clone: TKASToolItem; override;
     function ConfigNodeName: String; override;
     procedure Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader); override;
@@ -174,6 +178,11 @@ uses
 procedure TKASToolItem.Assign(OtherItem: TKASToolItem);
 begin
   FUserData := OtherItem.FUserData;
+end;
+
+function TKASToolItem.CheckExecute(ToolItemID: String): Boolean;
+begin
+  Result := False;
 end;
 
 procedure TKASToolItem.Save(Config: TXmlConfig; Node: TXmlNode);
@@ -278,6 +287,21 @@ begin
       Item := MenuItem.SubItems.Items[I].Clone;
       Item.SetToolOwner(ToolOwner);
       FItems.Add(Item);
+    end;
+  end;
+end;
+
+function TKASMenuItem.CheckExecute(ToolItemID: String): Boolean;
+var
+  I: Integer;
+begin
+  Result := inherited CheckExecute(ToolItemID);
+  if not Result then
+  begin
+    for I := 0 to SubItems.Count - 1 do
+    begin
+      if SubItems[I].CheckExecute(ToolItemID) then
+        Exit(True);
     end;
   end;
 end;
@@ -394,6 +418,13 @@ begin
     Text           := NormalItem.Text;
     Hint           := NormalItem.Hint;
   end;
+end;
+
+function TKASNormalItem.CheckExecute(ToolItemID: String): Boolean;
+begin
+  Result := (ID = ToolItemID);
+  if Result and Assigned(FToolOwner) then
+    FToolOwner.ExecuteToolItem(Self);
 end;
 
 function TKASNormalItem.Clone: TKASToolItem;

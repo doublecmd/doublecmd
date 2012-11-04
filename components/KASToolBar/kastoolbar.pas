@@ -103,10 +103,9 @@ type
     FKASToolBarFlags: TToolBarFlags;
     FResizeButtonsNeeded: Boolean;
     procedure AssignToolButtonProperties(ToolButton: TKASToolButton);
-    function CheckMenuItemClick(ToolItem: TKASToolItem; ToolItemID: String): Boolean;
     procedure ClearExecutors;
     function CreateButton(Item: TKASToolItem): TKASToolButton;
-    function DoExecuteToolItem(Item: TKASToolItem): Boolean;
+    function ExecuteToolItem(Item: TKASToolItem): Boolean;
     function FindButton(Button: TKASToolButton): Integer;
     function GetChangePath: String;
     function GetEnvVar: String;
@@ -618,7 +617,7 @@ begin
   if FRadioToolBar and not Button.Down then
     Button.Down := True;
 
-  if not DoExecuteToolItem(Button.ToolItem) then
+  if not ExecuteToolItem(Button.ToolItem) then
   begin
     if Assigned(FOnToolButtonClick) then
       FOnToolButtonClick(Button)
@@ -648,7 +647,7 @@ end;
 
 procedure TKASToolBar.ToolMenuClicked(Sender: TObject);
 begin
-  DoExecuteToolItem(TKASToolItem((Sender as TMenuItem).Tag));
+  ExecuteToolItem(TKASToolItem((Sender as TMenuItem).Tag));
 end;
 
 procedure TKASToolBar.ToolButtonMouseMove(Sender: TObject; Shift:TShiftState; X,Y:Integer);
@@ -757,31 +756,6 @@ begin
   end;
 end;
 
-function TKASToolBar.CheckMenuItemClick(ToolItem: TKASToolItem; ToolItemID: String): Boolean;
-var
-  I: Integer;
-  MenuItem: TKASMenuItem;
-  NormalItem: TKASNormalItem;
-begin
-  if ToolItem is TKASMenuItem then
-  begin
-    MenuItem := TKASMenuItem(ToolItem);
-    for I := 0 to MenuItem.SubItems.Count - 1 do
-    begin
-      if MenuItem.SubItems[I] is TKASNormalItem then
-      begin
-        NormalItem := TKASNormalItem(MenuItem.SubItems[I]);
-        if NormalItem.ID = ToolItemID then
-        begin
-          DoExecuteToolItem(NormalItem);
-          Exit(True);
-        end;
-      end;
-    end;
-  end;
-  Result := False;
-end;
-
 procedure TKASToolBar.Clear;
 var
   I: Integer;
@@ -824,7 +798,7 @@ begin
         Break;
       end;
 
-      if CheckMenuItemClick(Button.ToolItem, ToolItemID) then
+      if Button.ToolItem.CheckExecute(ToolItemID) then
         Break;
     end;
   end;
@@ -901,7 +875,7 @@ begin
     FToolItems.Free;
 end;
 
-function TKASToolBar.DoExecuteToolItem(Item: TKASToolItem): Boolean;
+function TKASToolBar.ExecuteToolItem(Item: TKASToolItem): Boolean;
 var
   I: Integer;
   Executor: PToolItemExecutor;
