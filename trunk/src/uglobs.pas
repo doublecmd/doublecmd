@@ -517,9 +517,21 @@ begin
   Result := gConfig.Load;
 end;
 
+function LoadExtsConfig(var ErrorMessage: String): Boolean;
+begin
+  gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
+  Result := True;
+end;
+
 function LoadHotManConfig(var ErrorMessage: String): Boolean;
 begin
   HotMan.Load(gpCfgDir + gNameSCFile);
+  Result := True;
+end;
+
+function LoadMultiArcConfig(var ErrorMessage: String): Boolean;
+begin
+  gMultiArcList.LoadFromFile(gpCfgDir + 'multiarc.ini');
   Result := True;
 end;
 
@@ -1282,8 +1294,9 @@ begin
 
   CopySettingsFiles;
 
+  { Internal associations }
   if mbFileExists(gpCfgDir + 'doublecmd.ext') then
-    gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
+    LoadConfigCheckErrors(@LoadExtsConfig, gpCfgDir + 'doublecmd.ext', ErrorMessage);
 
   LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt', cMaxStringItems);
   LoadStringsFromFile(glsMaskHistory, gpCfgDir + 'maskhistory.txt', cMaxStringItems);
@@ -1302,7 +1315,7 @@ begin
 
   { MultiArc addons }
   if mbFileExists(gpCfgDir + 'multiarc.ini') then
-    gMultiArcList.LoadFromFile(gpCfgDir + 'multiarc.ini');
+    LoadConfigCheckErrors(@LoadMultiArcConfig, gpCfgDir + 'multiarc.ini', ErrorMessage);
 
   { Localization }
   DoLoadLng;

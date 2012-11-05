@@ -233,8 +233,8 @@ var
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
+  IniFile:= TIniFileEx.Create(FileName, fmOpenRead);
   try
-    IniFile:= TIniFileEx.Create(FileName, fmOpenRead);
     Sections:= TStringList.Create;
     IniFile.ReadSections(Sections);
     for I:= 0 to Sections.Count - 1 do
@@ -294,49 +294,45 @@ var
   Section: UTF8String;
   MultiArcItem: TMultiArcItem;
 begin
+  IniFile:= TIniFileEx.Create(FileName, fmOpenWrite);
   try
-    IniFile:= TIniFileEx.Create(FileName, fmOpenWrite);
-    try
-      IniFile.Clear;
-      for I:= 0 to FList.Count - 1 do
+    IniFile.Clear;
+    for I:= 0 to FList.Count - 1 do
+    begin
+      Section:= FList.Strings[I];
+      MultiArcItem:= TMultiArcItem(FList.Objects[I]);
+      with MultiArcItem do
       begin
-        Section:= FList.Strings[I];
-        MultiArcItem:= TMultiArcItem(FList.Objects[I]);
-        with MultiArcItem do
+        IniFile.WriteString(Section, 'Archiver', FArchiver);
+        IniFile.WriteString(Section, 'Description', FDescription);
+        IniFile.WriteString(Section, 'ID', FID);
+        IniFile.WriteString(Section, 'IDPos', FIDPos);
+        IniFile.WriteString(Section, 'IDSeekRange', FIDSeekRange);
+        IniFile.WriteString(Section, 'Extension', FExtension);
+        IniFile.WriteString(Section, 'Start', FStart);
+        IniFile.WriteString(Section, 'End', FEnd);
+        for J:= 0 to FFormat.Count - 1 do
         begin
-          IniFile.WriteString(Section, 'Archiver', FArchiver);
-          IniFile.WriteString(Section, 'Description', FDescription);
-          IniFile.WriteString(Section, 'ID', FID);
-          IniFile.WriteString(Section, 'IDPos', FIDPos);
-          IniFile.WriteString(Section, 'IDSeekRange', FIDSeekRange);
-          IniFile.WriteString(Section, 'Extension', FExtension);
-          IniFile.WriteString(Section, 'Start', FStart);
-          IniFile.WriteString(Section, 'End', FEnd);
-          for J:= 0 to FFormat.Count - 1 do
-          begin
-            IniFile.WriteString(Section, 'Format' + IntToStr(J), FFormat[J]);
-          end;
-          IniFile.WriteString(Section, 'List', FList);
-          IniFile.WriteString(Section, 'Extract', FExtract);
-          IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
-          IniFile.WriteString(Section, 'Test', FTest);
-          IniFile.WriteString(Section, 'Delete', FDelete);
-          IniFile.WriteString(Section, 'Add', FAdd);
-          IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
-          IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
-          // optional
-          IniFile.WriteInteger(Section, 'FormMode', FFormMode);
-          IniFile.WriteBool(Section, 'Enabled', FEnabled);
-          IniFile.WriteBool(Section, 'Output', FOutput);
-          IniFile.WriteBool(Section, 'Debug', FDebug);
+          IniFile.WriteString(Section, 'Format' + IntToStr(J), FFormat[J]);
         end;
+        IniFile.WriteString(Section, 'List', FList);
+        IniFile.WriteString(Section, 'Extract', FExtract);
+        IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
+        IniFile.WriteString(Section, 'Test', FTest);
+        IniFile.WriteString(Section, 'Delete', FDelete);
+        IniFile.WriteString(Section, 'Add', FAdd);
+        IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
+        IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
+        // optional
+        IniFile.WriteInteger(Section, 'FormMode', FFormMode);
+        IniFile.WriteBool(Section, 'Enabled', FEnabled);
+        IniFile.WriteBool(Section, 'Output', FOutput);
+        IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
-      IniFile.WriteBool('MultiArc', 'FirstTime', False);
-    finally
-      IniFile.Free;
     end;
-  except
-
+    IniFile.WriteBool('MultiArc', 'FirstTime', False);
+  finally
+    IniFile.Free;
   end;
 end;
 
