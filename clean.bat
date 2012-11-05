@@ -11,7 +11,8 @@
 @del /Q doc\en\dev-help\*.*
 
 @echo Clean up tools output directories
-@del /Q src\extractdwrflnfo.exe
+@del /Q /S tools\lib\*.*
+@del /Q tools\extractdwrflnfo.exe
 
 @echo Clean up plugins output directories
 @del /Q /S plugins\dsx\DSXLocate\lib\*.*

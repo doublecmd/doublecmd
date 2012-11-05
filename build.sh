@@ -44,11 +44,11 @@ build_beta()
   $lazbuild src/doublecmd.lpi --bm=beta $DC_ARCH
   
   # Build Dwarf LineInfo Extractor
-  fpc src/extractdwrflnfo.lpr
+  $lazbuild tools/extractdwrflnfo.lpi
   
   # Extract debug line info
-  chmod a+x src/extractdwrflnfo
-  src/extractdwrflnfo doublecmd.dbg
+  chmod a+x tools/extractdwrflnfo
+  tools/extractdwrflnfo doublecmd.dbg
   
   # Strip debug info
   strip --strip-all doublecmd

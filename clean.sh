@@ -23,7 +23,7 @@ find plugins -iname '*.w?x' -delete
 find plugins -iname '*.dsx' -delete
 find plugins -iname '*.or'  -delete
 rm -f src/doublecmd.res doublecmd doublecmd.zdli doublecmd.dbg
-rm -f src/extractdwrflnfo
+rm -f tools/extractdwrflnfo
 rm -f plugins/wcx/zip/lib/ZipConfDlg.lfm
 rm -f plugins/wcx/zip/lib/abresstring.rst
 rm -f plugins/wfx/ftp/lib/FtpConfDlg.lfm
