@@ -2,9 +2,8 @@
 
 rem the next two line must be changed before run on your computer
 set lazpath=D:\Alexx\Prog\FreePascal\Lazarus
-set fpcpath=%lazpath%\fpc\2.6.0\bin\x86_64-win64
 
-set PATH=%lazpath%;%fpcpath%;%PATH%
+set PATH=%lazpath%;%PATH%
 
 rem You can execute this script with different parameters:
 rem components - compiling components needed for DC
@@ -57,10 +56,10 @@ GOTO:EOF
   lazbuild src\doublecmd.lpi --bm=beta %DC_ARCH%
 
   rem Build Dwarf LineInfo Extractor
-  fpc src\extractdwrflnfo.lpr
+  lazbuild tools\extractdwrflnfo.lpi
 
   rem Extract debug line info
-  src\extractdwrflnfo doublecmd.dbg
+  tools\extractdwrflnfo doublecmd.dbg
 GOTO:EOF
 
 :all
