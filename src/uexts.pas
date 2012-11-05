@@ -170,68 +170,71 @@ var
   I, iIndex: Integer;
 begin
   extFile:= TStringListEx.Create;
-  extFile.LoadFromFile(sName);
-  extcmd:=nil;
-  for I:= 0 to extFile.Count - 1 do
-  begin
-    sLine:= extFile.Strings[I];
-    sLine:= Trim(sLine);
-    if (sLine='') or (sLine[1]='#') then Continue;
-//    writeln(sLine);
-    if sLine[1]='[' then
+  try
+    extFile.LoadFromFile(sName);
+    extcmd:=nil;
+    for I:= 0 to extFile.Count - 1 do
     begin
-      extCmd:= TExtAction.Create;
-      FExtList.Add(extcmd);
-
-      iIndex:=pos(']', sLine);
-      if iIndex>0 then
-        sLine:=Copy(sLine,1,iIndex)
-      else
-        logWrite('] not found in line '+sLine);
-{      add | for easy searching in two and more extensions
-       now I can search for example |pas| or |z|
-}
-      extCmd.SectionName:=LowerCase(sLine);
-
-      // fill extensions list
-      s := LowerCase(sLine);
-      Delete(s, 1, 1); // Delete '['
-      Delete(s, Length(s), 1); // Delete ']'
-      s := s + '|';
-      while Pos('|', s) <> 0 do
-        begin
-          iIndex := Pos('|',s);
-          sExt := Copy(s,1,iIndex-1);
-          Delete(s, 1, iIndex);
-          extCmd.Extensions.Add(sExt);
-        end;
-    end // end if.. '['
-    else
-    begin // this must be a command
-      if not assigned(extCmd) then
+      sLine:= extFile.Strings[I];
+      sLine:= Trim(sLine);
+      if (sLine='') or (sLine[1]='#') then Continue;
+  //    writeln(sLine);
+      if sLine[1]='[' then
       begin
-        logWrite('Command '+sLine+' have not defined extension - ignored.');
-        Continue;
-      end;
+        extCmd:= TExtAction.Create;
+        FExtList.Add(extcmd);
 
-      // now set command to lowercase
-      s := sLine;
-      for iIndex:=1 to Length(s) do
+        iIndex:=pos(']', sLine);
+        if iIndex>0 then
+          sLine:=Copy(sLine,1,iIndex)
+        else
+          logWrite('] not found in line '+sLine);
+  {      add | for easy searching in two and more extensions
+         now I can search for example |pas| or |z|
+  }
+        extCmd.SectionName:=LowerCase(sLine);
+
+        // fill extensions list
+        s := LowerCase(sLine);
+        Delete(s, 1, 1); // Delete '['
+        Delete(s, Length(s), 1); // Delete ']'
+        s := s + '|';
+        while Pos('|', s) <> 0 do
+          begin
+            iIndex := Pos('|',s);
+            sExt := Copy(s,1,iIndex-1);
+            Delete(s, 1, iIndex);
+            extCmd.Extensions.Add(sExt);
+          end;
+      end // end if.. '['
+      else
+      begin // this must be a command
+        if not assigned(extCmd) then
         begin
-          if s[iIndex]='=' then Break;
-          s[iIndex]:= LowerCase(s[iIndex]);
+          logWrite('Command '+sLine+' have not defined extension - ignored.');
+          Continue;
         end;
 
-      // DCDebug(sLine);
-      if Pos('name', s) = 1 then // File type name
-        extCmd.Name := Copy(sLine, iIndex + 1, Length(sLine))
-      else if Pos('icon', s) = 1 then // File type icon
-        extCmd.Icon := Copy(sLine, iIndex + 1, Length(sLine))
-      else // action
-        extCmd.Actions.Add(sLine);
+        // now set command to lowercase
+        s := sLine;
+        for iIndex:=1 to Length(s) do
+          begin
+            if s[iIndex]='=' then Break;
+            s[iIndex]:= LowerCase(s[iIndex]);
+          end;
+
+        // DCDebug(sLine);
+        if Pos('name', s) = 1 then // File type name
+          extCmd.Name := Copy(sLine, iIndex + 1, Length(sLine))
+        else if Pos('icon', s) = 1 then // File type icon
+          extCmd.Icon := Copy(sLine, iIndex + 1, Length(sLine))
+        else // action
+          extCmd.Actions.Add(sLine);
+      end;
     end;
+  finally
+    extFile.Free;
   end;
-  extFile.Free;
 end;
 
 function TExts.GetNewSectionName(Index: Integer): String;
