@@ -1,9 +1,15 @@
+# Slovenian translations for double-commander.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# This file is distributed under the same license as the double-commander package.
+#
+# Matej Urbančič <mateju@svn.gnome.org>, 2011 - 2012.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: double-commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2012-05-15 11:02+0100\n"
+"PO-Revision-Date: 2012-11-04 21:05+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -230,57 +236,49 @@ msgid "Choose template..."
 msgstr "Izbor predloge ..."
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
-#, fuzzy
 #| msgid "Check free space"
 msgid "C&heck free space"
-msgstr "Preveri zasedenost prostora"
+msgstr "Preveri &zasedenost prostora"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
-#, fuzzy
 #| msgid "Copy attributes"
 msgid "Cop&y attributes"
-msgstr "Kopiraj atribute"
+msgstr "&Kopiraj atribute"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
-#, fuzzy
 #| msgid "Copy ownership"
 msgid "Copy o&wnership"
-msgstr "Kopiraj lastništvo"
+msgstr "Kopiraj &lastništvo"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
-#, fuzzy
 #| msgid "Copy date/time"
 msgid "Copy d&ate/time"
-msgstr "Kopiraj datum in čas"
+msgstr "Kopiraj &datum in čas"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
-#, fuzzy
 #| msgid "Correct links"
 msgid "Correct lin&ks"
-msgstr "Popravi povezave"
+msgstr "Popravi &povezave"
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
-#, fuzzy
 #| msgid "Drop readonly flag"
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly fla&g"
-msgstr "Odstrani zastavico le za branje"
+msgstr "Odstrani zastavico le za &branje"
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
-#, fuzzy
 #| msgid "Exclude empty directories"
 msgid "E&xclude empty directories"
-msgstr "Ne upoštevaj praznih map"
+msgstr "Ne &upoštevaj praznih map"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
-#, fuzzy
 #| msgid "Follow links"
 msgid "Fo&llow links"
-msgstr "Sledi povezavam"
+msgstr "Sledi &povezavam"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "&Reserve space"
-msgstr ""
+msgstr "&Zadrži prostor"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
@@ -291,23 +289,20 @@ msgid "Use file template"
 msgstr "Uporabi predlogo datotek"
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
-#, fuzzy
 #| msgid "When directory exists"
 msgid "When dir&ectory exists"
-msgstr "Če mapa že obstaja,"
+msgstr "Če mapa že obstaja"
 
 #: tfilesystemcopymoveoperationoptionsui.lblfileexists.caption
-#, fuzzy
 #| msgid "When file exists"
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When &file exists"
-msgstr "Če datoteka že obstaja,"
+msgstr "Če datoteka že obstaj"
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
-#, fuzzy
 #| msgid "When cannot set property"
 msgid "When ca&nnot set property"
-msgstr "Ko lastnosti ni mogoče nastaviti"
+msgstr "Ko &lastnosti ni mogoče nastaviti"
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
 msgid "<no template>"
@@ -380,44 +375,36 @@ msgid "Choose attributes"
 msgstr "Izbor atributov"
 
 #: tfrmattributesedit.cbarchive.caption
-#, fuzzy
 #| msgid "Archive"
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
 msgid "&Archive"
-msgstr "Arhiv"
+msgstr "&Arhiv"
 
 #: tfrmattributesedit.cbcompressed.caption
-#, fuzzy
 #| msgid "Compressed"
 msgid "Co&mpressed"
-msgstr "Stisnjeno"
+msgstr "&Stisnjeno"
 
 #: tfrmattributesedit.cbdirectory.caption
-#, fuzzy
-#| msgid "Directory"
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
 msgid "&Directory"
-msgstr "Mapa"
+msgstr "&Mapa"
 
 #: tfrmattributesedit.cbencrypted.caption
-#, fuzzy
-#| msgid "Encrypted"
 msgid "&Encrypted"
-msgstr "Šifrirano"
+msgstr "&Šifrirano"
 
 #: tfrmattributesedit.cbhidden.caption
-#, fuzzy
 #| msgid "Hidden"
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
 msgid "&Hidden"
-msgstr "Skrito"
+msgstr "&Skrito"
 
 #: tfrmattributesedit.cbreadonly.caption
-#, fuzzy
 #| msgid "Read only"
 msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
 msgid "Read o&nly"
-msgstr "Le za branje"
+msgstr "Le za &branje"
 
 #: tfrmattributesedit.cbsgid.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSGID.CAPTION"
@@ -425,10 +412,9 @@ msgid "SGID"
 msgstr "SGID"
 
 #: tfrmattributesedit.cbsparse.caption
-#, fuzzy
 #| msgid "Sparse"
 msgid "S&parse"
-msgstr "Redko"
+msgstr "&Redko"
 
 #: tfrmattributesedit.cbsticky.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
@@ -441,23 +427,19 @@ msgid "SUID"
 msgstr "SUID"
 
 #: tfrmattributesedit.cbsymlink.caption
-#, fuzzy
 #| msgid "Symlink"
 msgid "&Symlink"
-msgstr "Simbolna povezava"
+msgstr "&Simbolna povezava"
 
 #: tfrmattributesedit.cbsystem.caption
-#, fuzzy
-#| msgid "System"
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
 msgid "S&ystem"
-msgstr "Sistem"
+msgstr "S&istem"
 
 #: tfrmattributesedit.cbtemporary.caption
-#, fuzzy
 #| msgid "Temporary"
 msgid "&Temporary"
-msgstr "Začasno"
+msgstr "&Začasno"
 
 #: tfrmattributesedit.gbntfsattributes.caption
 msgid "NTFS attributes"
@@ -498,10 +480,8 @@ msgid "Read"
 msgstr "Preberi"
 
 #: tfrmattributesedit.lbltextattrs.caption
-#, fuzzy
-#| msgid "As text:"
 msgid "As te&xt:"
-msgstr "Kot besedilo:"
+msgstr "Kot &besedilo:"
 
 #: tfrmattributesedit.lblwrite.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
@@ -509,11 +489,9 @@ msgid "Write"
 msgstr "Zapiši"
 
 #: tfrmchecksumcalc.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmchecksumcalc.btnok.caption
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
@@ -526,16 +504,12 @@ msgid "Calculate check sum..."
 msgstr "Izračunaj nadzorno vsoto ..."
 
 #: tfrmchecksumcalc.cbseparatefile.caption
-#, fuzzy
-#| msgid "Create separate checksum file for each file"
 msgid "C&reate separate checksum file for each file"
-msgstr "Ustvari ločeno datoteko nadzorne vsote za vsako datoteko"
+msgstr "&Ustvari ločeno datoteko nadzorne vsote za vsako datoteko"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-#, fuzzy
-#| msgid "Save check sum file(s) to:"
 msgid "&Save check sum file(s) to:"
-msgstr "Shrani datoteke nadzornih vsot v:"
+msgstr "&Shrani datoteke nadzornih vsot v:"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -548,38 +522,28 @@ msgid "Verify check sum..."
 msgstr "Preveri nadzorne vsote ..."
 
 #: tfrmconnectionmanager.btnadd.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
 msgid "A&dd"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmconnectionmanager.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmconnectionmanager.btnconnect.caption
-#, fuzzy
-#| msgid "Connect"
 msgid "C&onnect"
-msgstr "Poveži"
+msgstr "&Povezava"
 
 #: tfrmconnectionmanager.btndelete.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
 msgid "&Delete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmconnectionmanager.btnedit.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
 msgid "&Edit"
-msgstr "Uredi"
+msgstr "&Uredi"
 
 #: tfrmconnectionmanager.caption
 msgid "Connection manager"
@@ -590,17 +554,13 @@ msgid "Connect to:"
 msgstr "Povezava s strežnikom:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
-#, fuzzy
-#| msgid "Add To Queue"
 msgid "A&dd To Queue"
-msgstr "Dodaj v vrsto"
+msgstr "&Dodaj v vrsto"
 
 #: tfrmcopydlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmcopydlg.btncreatespecialqueue.caption
 msgctxt "TFRMCOPYDLG.BTNCREATESPECIALQUEUE.CAPTION"
@@ -612,10 +572,8 @@ msgid "O&ptions"
 msgstr "&Možnosti"
 
 #: tfrmcopydlg.btnsaveoptions.caption
-#, fuzzy
-#| msgid "Save these options as default"
 msgid "Sa&ve these options as default"
-msgstr "Shrani trenutne možnosti kot privzete"
+msgstr "&Shrani trenutne možnosti kot privzete"
 
 #: tfrmcopydlg.caption
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -623,11 +581,9 @@ msgid "Copy file(s)"
 msgstr "Kopiraj datoteke"
 
 #: tfrmdescredit.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmdescredit.btnok.caption
 msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
@@ -639,17 +595,13 @@ msgid "File/folder comment"
 msgstr "Opomba datoteke ali mape"
 
 #: tfrmdescredit.lbleditcommentfor.caption
-#, fuzzy
-#| msgid "Edit comment for:"
 msgid "E&dit comment for:"
-msgstr "Uredi opombo za:"
+msgstr "&Uredi opombo za:"
 
 #: tfrmdescredit.lblencoding.caption
-#, fuzzy
-#| msgid "Encoding:"
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "&Encoding:"
-msgstr "Nabor znakov:"
+msgstr "&Kodiranje"
 
 #: tfrmdescredit.lblfilename.caption
 msgctxt "TFRMDESCREDIT.LBLFILENAME.CAPTION"
@@ -1017,10 +969,8 @@ msgid "Only for these controls"
 msgstr "Le za navedene tipke"
 
 #: tfrmedithotkey.lblparameters.caption
-#, fuzzy
-#| msgid "Parameters (each in a separate line):"
 msgid "&Parameters (each in a separate line):"
-msgstr "Parametri (vsak v svoji vrstici):"
+msgstr "&Parametri (vsak ločeno v svoji vrstici):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
@@ -1315,11 +1265,9 @@ msgid "-"
 msgstr "-"
 
 #: tfrmeditsearchreplace.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmeditsearchreplace.btnok.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
@@ -1332,11 +1280,9 @@ msgid "C&ase sensitivity"
 msgstr "Upoštevanje &velikosti črk"
 
 #: tfrmeditsearchreplace.cbsearchfromcursor.caption
-#, fuzzy
-#| msgid "Search from &caret"
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
 msgid "S&earch from caret"
-msgstr "Išči od kazalke naprej"
+msgstr "Išči od &kazalke naprej"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION"
@@ -1374,25 +1320,19 @@ msgid "Direction"
 msgstr "Smer"
 
 #: tfrmextractdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmextractdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "&Help"
-msgstr "Pomoč"
+msgstr "Pomo&č"
 
 #: tfrmextractdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
@@ -1412,28 +1352,20 @@ msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Odpakiraj vsak arhiv v &ločeno podrejeno mapo (z imenom vsakega arhiva)"
 
 #: tfrmextractdlg.cboverwrite.caption
-#, fuzzy
-#| msgid "&Overwrite existing files"
 msgid "O&verwrite existing files"
 msgstr "&Prepiši obstoječe datoteke"
 
 #: tfrmextractdlg.lblextractto.caption
-#, fuzzy
-#| msgid "To the directory:"
 msgid "To the &directory:"
-msgstr "V mapo:"
+msgstr "V &mapo:"
 
 #: tfrmextractdlg.lblfilemask.caption
-#, fuzzy
-#| msgid "Extract files matching file mask:"
 msgid "&Extract files matching file mask:"
-msgstr "Odpakiraj datoteke, ki so skladne z masko:"
+msgstr "&Odpakiraj datoteke, ki so skladne z masko:"
 
 #: tfrmextractdlg.lblpassword.caption
-#, fuzzy
-#| msgid "Password for encrypted files:"
 msgid "&Password for encrypted files:"
-msgstr "Geslo šifriranih datotek:"
+msgstr "&Geslo šifriranih datotek:"
 
 #: tfrmfileassoc.btnaddact.caption
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
@@ -1441,32 +1373,24 @@ msgid "Add"
 msgstr "Dodaj"
 
 #: tfrmfileassoc.btnaddext.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
 msgid "&Add"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmfileassoc.btnaddnewtype.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
 msgid "A&dd"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmfileassoc.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmfileassoc.btndownact.caption
-#, fuzzy
-#| msgid "Down"
 msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "&Down"
-msgstr "Navzdol"
+msgstr "&Dol"
 
 #: tfrmfileassoc.btnok.caption
 msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
@@ -1474,18 +1398,14 @@ msgid "&OK"
 msgstr "&V redu"
 
 #: tfrmfileassoc.btnremoveact.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
 msgid "Remo&ve"
-msgstr "Odstrani"
+msgstr "O&dstrani"
 
 #: tfrmfileassoc.btnremoveext.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
 msgid "Re&move"
-msgstr "Odstrani"
+msgstr "&Odstrani"
 
 #: tfrmfileassoc.btnremoveicon.caption
 msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
@@ -1493,25 +1413,19 @@ msgid "X"
 msgstr "X"
 
 #: tfrmfileassoc.btnremovetype.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "&Remove"
-msgstr "Odstrani"
+msgstr "&Odstrani"
 
 #: tfrmfileassoc.btnrenametype.caption
-#, fuzzy
-#| msgid "Rename"
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "R&ename"
-msgstr "Preimenuj"
+msgstr "&Preimenuj"
 
 #: tfrmfileassoc.btnupact.caption
-#, fuzzy
-#| msgid "Up"
 msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
 msgid "&Up"
-msgstr "Navzgor"
+msgstr "&Gor"
 
 #: tfrmfileassoc.caption
 msgid "File associations"
@@ -1642,11 +1556,9 @@ msgid "To:"
 msgstr "Za:"
 
 #: tfrmfileproperties.btnclose.caption
-#, fuzzy
-#| msgid "Close"
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "Zapri"
+msgstr "&Zapri"
 
 #: tfrmfileproperties.btnsetproperties.caption
 msgid "&Set properties"
@@ -1722,7 +1634,7 @@ msgstr "???"
 
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
-msgstr ""
+msgstr "Vsebuje:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1759,11 +1671,9 @@ msgid "Path:"
 msgstr "Pot:"
 
 #: tfrmfileproperties.lblgroupstr.caption
-#, fuzzy
-#| msgid "Group"
 msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
 msgid "&Group"
-msgstr "Skupina"
+msgstr "&Skupina"
 
 #: tfrmfileproperties.lbllastaccess.caption
 msgctxt "TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION"
@@ -1798,11 +1708,9 @@ msgid "Octal:"
 msgstr "Osmiško:"
 
 #: tfrmfileproperties.lblownerstr.caption
-#, fuzzy
-#| msgid "Owner"
 msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
 msgid "O&wner"
-msgstr "Lastnik"
+msgstr "&Lastnik"
 
 #: tfrmfileproperties.lblread.caption
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
@@ -1870,7 +1778,7 @@ msgstr "&Zapri"
 #: tfrmfinddlg.btnedit.caption
 msgctxt "tfrmfinddlg.btnedit.caption"
 msgid "&Edit"
-msgstr "&&Uredi"
+msgstr "&Uredi"
 
 #: tfrmfinddlg.btngotopath.caption
 msgid "&Go to file"
@@ -1904,16 +1812,14 @@ msgid "S&ave"
 msgstr "&Shrani"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
-#, fuzzy
 #| msgid "Save with starting path"
 msgid "Sa&ve with \"Start in directory\""
-msgstr "Shrani začetno pot"
+msgstr "Sh&rani z možnostjo \"Začni v mapi\""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-#, fuzzy
 #| msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr "Če je začetna shranjena, bo obnovljena med nalaganjem predloge. Možnost je uporabna pri iskanju v določeni mapi."
+msgstr "V kolikor je možnost \"Začni v mapi\" shranjena, bo mesto obnovljeno med nalaganjem predloge. Možnost je uporabna pri iskanju v določeni mapi."
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -1921,11 +1827,10 @@ msgid "&Start"
 msgstr "&Začni"
 
 #: tfrmfinddlg.btnstop.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "C&ancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
@@ -1940,38 +1845,27 @@ msgstr "&Pogled"
 msgid "Feed to &listbox"
 msgstr "Izpiši v &seznam"
 
-#: tfrmfinddlg.caption
-msgctxt "tfrmfinddlg.caption"
-msgid "Find files"
-msgstr "Najdi datoteke"
-
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Upoštevaj &velikost črk"
 
 #: tfrmfinddlg.cbdatefrom.caption
-#, fuzzy
 #| msgid "Date From:"
 msgid "&Date from:"
-msgstr "Od datuma:"
+msgstr "&Od datuma:"
 
 #: tfrmfinddlg.cbdateto.caption
-#, fuzzy
 #| msgid "Date To:"
 msgid "Dat&e to:"
-msgstr "Do datuma:"
+msgstr "&Do datuma:"
 
 #: tfrmfinddlg.cbfilesizefrom.caption
-#, fuzzy
-#| msgid "Size from:"
 msgid "S&ize from:"
-msgstr "Od velikosti:"
+msgstr "&Od velikosti:"
 
 #: tfrmfinddlg.cbfilesizeto.caption
-#, fuzzy
-#| msgid "Size to:"
 msgid "Si&ze to:"
-msgstr "Do velikosti:"
+msgstr "&Do velikosti:"
 
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
@@ -1979,11 +1873,9 @@ msgid "Find &text in file"
 msgstr "Najdi &besedilo"
 
 #: tfrmfinddlg.cbfollowsymlinks.caption
-#, fuzzy
-#| msgid "Follow symlinks"
 msgctxt "TFRMFINDDLG.CBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow s&ymlinks"
-msgstr "Sledi simbolnim povezavam"
+msgstr "Sledi &simbolnim povezavam"
 
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
@@ -1991,16 +1883,12 @@ msgid "Find files N&OT containing the text"
 msgstr "Najdi datoteke, ki &ne vsebujejo besedila"
 
 #: tfrmfinddlg.cbnotolderthan.caption
-#, fuzzy
-#| msgid "Not older than:"
 msgid "N&ot older than:"
-msgstr "Ni starejše kot:"
+msgstr "Ni &starejše kot:"
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
-#, fuzzy
-#| msgid "Search for part of file name "
 msgid "Searc&h for part of file name"
-msgstr "Poišči del imena datoteke"
+msgstr "Poišči &del imena datoteke"
 
 #: tfrmfinddlg.cbregexp.caption
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
@@ -2013,19 +1901,15 @@ msgstr "&Zamenjaj besedilo z"
 
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and &files"
-msgstr ""
+msgstr "Izbrane &datoteke in mape"
 
 #: tfrmfinddlg.cbtimefrom.caption
-#, fuzzy
-#| msgid "Time from:"
 msgid "&Time from:"
-msgstr "Od ure:"
+msgstr "&Od časa:"
 
 #: tfrmfinddlg.cbtimeto.caption
-#, fuzzy
-#| msgid "Time to:"
 msgid "Ti&me to:"
-msgstr "Do ure:"
+msgstr "&do časa:"
 
 #: tfrmfinddlg.cbuseplugin.caption
 msgid "&Use search plugin:"
@@ -2048,6 +1932,11 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
+#: tfrmfinddlg.frmfinddlg.caption
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "&Najdi datoteke"
+
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
 msgid "Directories"
@@ -2064,14 +1953,12 @@ msgstr "Najdi podatke"
 
 #: tfrmfinddlg.lblattributes.caption
 msgid "Attri&butes"
-msgstr ""
+msgstr "&Atributi"
 
 #: tfrmfinddlg.lblencoding.caption
-#, fuzzy
-#| msgid "Encoding:"
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encodin&g:"
-msgstr "Nabor znakov:"
+msgstr "&Kodiranje:"
 
 #: tfrmfinddlg.lblexcludedirectories.caption
 msgid "E&xclude subdirectories"
@@ -2086,8 +1973,6 @@ msgid "&File mask"
 msgstr "Poišči datoteke z &masko:"
 
 #: tfrmfinddlg.lblfindpathstart.caption
-#, fuzzy
-#| msgid "&Start in directory"
 msgid "Start in &directory"
 msgstr "Začni v &mapi"
 
@@ -2133,18 +2018,14 @@ msgid "Standard"
 msgstr "Običajno"
 
 #: tfrmfindview.btnclose.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmfindview.btnfind.caption
-#, fuzzy
-#| msgid "Find"
 msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
 msgid "&Find"
-msgstr "Najdi"
+msgstr "&Najdi"
 
 #: tfrmfindview.caption
 msgctxt "TFRMFINDVIEW.CAPTION"
@@ -2152,17 +2033,13 @@ msgid "Find"
 msgstr "Najdi"
 
 #: tfrmfindview.cbcasesens.caption
-#, fuzzy
-#| msgid "Case sensitive"
 msgid "C&ase sensitive"
-msgstr "Razlikovanje velikosti črk"
+msgstr "&Razlikovanje velikosti črk"
 
 #: tfrmhardlink.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmhardlink.btnok.caption
 msgctxt "TFRMHARDLINK.BTNOK.CAPTION"
@@ -2174,52 +2051,38 @@ msgid "Create hard link"
 msgstr "Ustvari trdo povezavo"
 
 #: tfrmhardlink.lblexistingfile.caption
-#, fuzzy
-#| msgid "Destination that the link will point to"
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"
-msgstr "Pot do ciljnega mesta za povezavo"
+msgstr "&Cilj, do katerega kaže povezava"
 
 #: tfrmhardlink.lbllinktocreate.caption
-#, fuzzy
-#| msgid "Link name"
 msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
-msgstr "Ime povezave"
+msgstr "Ime &povezave"
 
 #: tfrmhotdir.btnadd.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
 msgid "&Add"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmhotdir.btnaddman.caption
-#, fuzzy
-#| msgid "Add manually"
 msgid "Add &manually"
-msgstr "Ročno dodajanje"
+msgstr "&Ročno dodajanje"
 
 #: tfrmhotdir.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmhotdir.btndelete.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
 msgid "&Delete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmhotdir.btnedit.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
 msgid "&Edit"
-msgstr "Uredi"
+msgstr "&Uredi"
 
 #: tfrmhotdir.btnok.caption
 msgctxt "TFRMHOTDIR.BTNOK.CAPTION"
@@ -2231,18 +2094,14 @@ msgid "Directory Hotlist"
 msgstr "Seznam hitrih map"
 
 #: tfrmlinker.btnexit.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmlinker.btnok.caption
-#, fuzzy
-#| msgid "OK"
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
@@ -2263,18 +2122,14 @@ msgid "Item"
 msgstr "Predmet"
 
 #: tfrmlinker.lblfilename.caption
-#, fuzzy
-#| msgid "File name"
 msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
 msgid "&File name"
-msgstr "Ime datoteke"
+msgstr "&Ime datoteke"
 
 #: tfrmlinker.spbtndel.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
 msgid "&Delete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmlinker.spbtndel.hint
 msgctxt "TFRMLINKER.SPBTNDEL.HINT"
@@ -2282,11 +2137,10 @@ msgid "Delete"
 msgstr "Izbriši"
 
 #: tfrmlinker.spbtndown.caption
-#, fuzzy
 #| msgid "Down"
 msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
 msgid "Do&wn"
-msgstr "Navzdol"
+msgstr "&Dol"
 
 #: tfrmlinker.spbtndown.hint
 msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
@@ -2294,11 +2148,9 @@ msgid "Down"
 msgstr "Navzdol"
 
 #: tfrmlinker.spbtnup.caption
-#, fuzzy
-#| msgid "Up"
 msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
 msgid "&Up"
-msgstr "Navzgor"
+msgstr "&Gor"
 
 #: tfrmlinker.spbtnup.hint
 msgctxt "TFRMLINKER.SPBTNUP.HINT"
@@ -2312,15 +2164,15 @@ msgstr "&O programu"
 
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
-msgstr "Dodaj ime datoteke v ukazno vrstico"
+msgstr "Doda ime datoteke v ukazno vrstico"
 
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
-msgstr "Dodaj pot in ime datoteke v ukazno vrstico"
+msgstr "Doda pot in ime datoteke v ukazno vrstico"
 
 #: tfrmmain.actaddpathtocmdline.caption
 msgid "Copy path to command line"
-msgstr "Kopiraj pot v ukazno vrstico"
+msgstr "Kopira pot v ukazno vrstico"
 
 #: tfrmmain.actbriefview.caption
 msgid "Brief"
@@ -2365,18 +2217,14 @@ msgid "Clear log window"
 msgstr "Počisti dnevniško okno"
 
 #: tfrmmain.actclosealltabs.caption
-#, fuzzy
-#| msgid "Remove &All Tabs"
 msgctxt "tfrmmain.actclosealltabs.caption"
 msgid "Close &All Tabs"
-msgstr "Odstrani &vse zavihke"
+msgstr "Zapri &vse zavihke"
 
 #: tfrmmain.actclosetab.caption
-#, fuzzy
-#| msgid "&Remove Tab"
 msgctxt "tfrmmain.actclosetab.caption"
 msgid "&Close Tab"
-msgstr "&Odstrani zavihek"
+msgstr "&Zapri zavihek"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2693,7 +2541,6 @@ msgid "Rename"
 msgstr "Preimenuj"
 
 #: tfrmmain.actrenametab.caption
-#, fuzzy
 #| msgid "Re&name Tab"
 msgid "&Rename Tab"
 msgstr "Pr&eimenuj zavihek"
@@ -3255,17 +3102,13 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmaskinputdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmmaskinputdlg.btndefinetemplate.caption
-#, fuzzy
-#| msgid "Define..."
 msgid "&Define..."
-msgstr "Določi ..."
+msgstr "&Določi ..."
 
 #: tfrmmaskinputdlg.btnok.caption
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -3273,17 +3116,13 @@ msgid "&OK"
 msgstr "&V redu"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
-#, fuzzy
-#| msgid "Or select predefined selection type:"
 msgid "O&r select predefined selection type:"
-msgstr "Shranjene maske izbire:"
+msgstr "Ali pa izberi &shranjeno masko izbire:"
 
 #: tfrmmkdir.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmmkdir.btnok.caption
 msgctxt "TFRMMKDIR.BTNOK.CAPTION"
@@ -3295,10 +3134,17 @@ msgid "Create new directory"
 msgstr "Ustvari novo mapo"
 
 #: tfrmmkdir.lblmakedir.caption
-#, fuzzy
-#| msgid "Input new directory name:"
 msgid "&Input new directory name:"
-msgstr "Vpis imena nove mape:"
+msgstr "Vpis imena &nove mape:"
+
+#: tfrmmodview.btncancel.caption
+msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: tfrmmodview.btnok.caption
+msgid "Ok"
+msgstr "V redu"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
@@ -3432,10 +3278,8 @@ msgid "&Rename"
 msgstr "&Preimenuj"
 
 #: tfrmmultirename.btnrestore.caption
-#, fuzzy
-#| msgid "Reset all"
 msgid "Reset &all"
-msgstr "Ponastavi vse"
+msgstr "Ponastavi &vse"
 
 #: tfrmmultirename.btnsavepreset.caption
 msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
@@ -3448,11 +3292,10 @@ msgid "MultiRename"
 msgstr "Napredno preimenovanje"
 
 #: tfrmmultirename.cblog.caption
-#, fuzzy
 #| msgid "Enable"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Ena&ble"
-msgstr "Omogoči"
+msgstr "&Omogoči"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -3510,10 +3353,8 @@ msgid "&Find..."
 msgstr "&Najdi ..."
 
 #: tfrmmultirename.lbinterval.caption
-#, fuzzy
-#| msgid "Interval"
 msgid "&Interval"
-msgstr "Korak"
+msgstr "&Razmik"
 
 #: tfrmmultirename.lbname.caption
 msgid "File &Name"
@@ -3524,17 +3365,13 @@ msgid "Re&place..."
 msgstr "&Zamenjaj ..."
 
 #: tfrmmultirename.lbstnb.caption
-#, fuzzy
-#| msgid "Start Number"
 msgid "S&tart Number"
-msgstr "Začetna vrednost"
+msgstr "&Začetna vrednost"
 
 #: tfrmmultirename.lbwidth.caption
-#, fuzzy
-#| msgid "Width"
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "&Width"
-msgstr "Širina"
+msgstr "&Širina"
 
 #: tfrmmultirename.micounter.caption
 msgid "[C] Counter"
@@ -3682,18 +3519,14 @@ msgid "File Path"
 msgstr "Pot datoteke"
 
 #: tfrmoptions.btnapply.caption
-#, fuzzy
-#| msgid "Apply"
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "&Apply"
-msgstr "Uveljavi"
+msgstr "&Uveljavi"
 
 #: tfrmoptions.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
@@ -3710,60 +3543,44 @@ msgid "Please select one of the subpages, this page does not contain any setting
 msgstr "Nastavitve sklopa so urejene na straneh podrejenih kategorij."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
-#, fuzzy
-#| msgid "Auto Configure"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
 msgid "A&uto Configure"
-msgstr "Samodejna nastavitev"
+msgstr "&Samodejno nastavi"
 
 #: tfrmoptionsarchivers.btnmultiarcadd.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION"
 msgid "A&dd"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmoptionsarchivers.btnmultiarcapply.caption
-#, fuzzy
-#| msgid "Apply"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCAPPLY.CAPTION"
 msgid "A&pply"
-msgstr "Uveljavi"
+msgstr "&Uveljavi"
 
 #: tfrmoptionsarchivers.btnmultiarcdelete.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION"
 msgid "D&elete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmoptionsarchivers.btnmultiarcrename.caption
-#, fuzzy
-#| msgid "Rename"
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
 msgid "&Rename"
-msgstr "Preimenuj"
+msgstr "&Preimenuj"
 
 #: tfrmoptionsarchivers.chkmultiarcdebug.caption
-#, fuzzy
-#| msgid "Debug mode"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
 msgid "De&bug mode"
-msgstr "Razhroščevalni način"
+msgstr "Način &razhroščevanja"
 
 #: tfrmoptionsarchivers.chkmultiarcenabled.caption
-#, fuzzy
-#| msgid "Enabled"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION"
 msgid "E&nabled"
-msgstr "Omogočeno"
+msgstr "O&mogočeno"
 
 #: tfrmoptionsarchivers.chkmultiarcoutput.caption
-#, fuzzy
-#| msgid "Show console output"
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
 msgid "S&how console output"
-msgstr "Pokaži odvod konzole"
+msgstr "Pokaži &odvod konzole"
 
 #: tfrmoptionsarchivers.gbarchiveroptions.caption
 msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
@@ -3771,67 +3588,49 @@ msgid "Options"
 msgstr "Možnosti"
 
 #: tfrmoptionsarchivers.lblarchiveadd.caption
-#, fuzzy
-#| msgid "Add:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
 msgid "Add&ing:"
-msgstr "Dodaj:"
+msgstr "Doda&janje:"
 
 #: tfrmoptionsarchivers.lblarchiveextension.caption
-#, fuzzy
-#| msgid "Extension:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "E&xtension:"
-msgstr "Pripona:"
+msgstr "&Razširitev:"
 
 #: tfrmoptionsarchivers.lblarchiveextract.caption
-#, fuzzy
-#| msgid "Extract:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION"
 msgid "Ex&tract:"
-msgstr "Odpakiraj:"
+msgstr "Raz&širi:"
 
 #: tfrmoptionsarchivers.lblarchivelist.caption
-#, fuzzy
-#| msgid "List:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION"
 msgid "&List:"
-msgstr "Seznam:"
+msgstr "&Seznam:"
 
 #: tfrmoptionsarchivers.lblarchivelistend.caption
-#, fuzzy
-#| msgid "Listing finish (optional):"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION"
 msgid "Listing &finish (optional):"
-msgstr "Konec seznama (izbirno):"
+msgstr "&Konec seznama (izbirno):"
 
 #: tfrmoptionsarchivers.lblarchivelistformat.caption
-#, fuzzy
-#| msgid "Listing format:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION"
 msgid "Listing for&mat:"
-msgstr "Zapis seznama:"
+msgstr "&Oblika seznama:"
 
 #: tfrmoptionsarchivers.lblarchiveliststart.caption
-#, fuzzy
-#| msgid "Listing start (optional):"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION"
 msgid "Listin&g start (optional):"
-msgstr "Začetek seznama (izbirno):"
+msgstr "&Začetek seznama (izbirno):"
 
 #: tfrmoptionsarchivers.lblarchiver.caption
-#, fuzzy
-#| msgid "Archiver:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION"
 msgid "Arc&hiver:"
-msgstr "Pakirnik:"
+msgstr "Ar&hivirnik:"
 
 #: tfrmoptionsarchivers.lbldescription.caption
-#, fuzzy
-#| msgid "Description:"
 msgctxt "TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION"
 msgid "De&scription:"
-msgstr "Opis:"
+msgstr "&Opis:"
 
 #: tfrmoptionsarchivers.tbarchiveradditional.caption
 msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION"
@@ -3846,47 +3645,41 @@ msgstr "Splošno"
 #: tfrmoptionsautorefresh.cbwatchattributeschange.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION"
 msgid "When &size, date or attributes change"
-msgstr "Če se spremeni &velikost, datum ali atributi"
+msgstr "če se spremeni &velikost, datum ali atributi."
 
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHEXCLUDEDIRS.CAPTION"
 msgid "For the following &paths and their subdirectories:"
-msgstr "Za naslednje &poti in podrejene mape:"
+msgstr "za naslednje &poti in podrejene mape:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
-#, fuzzy
-#| msgid "When files are &created, deleted or renamed"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
 msgid "When &files are created, deleted or renamed"
-msgstr "Če je datoteka ustvarjena, izbrisana ali preimenovana"
+msgstr "Ko je datoteka &ustvarjena, izbrisana ali preimenovana"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHONLYFOREGROUND.CAPTION"
 msgid "When application is in the &background"
-msgstr "Če je program zagnan v &ozadju"
+msgstr "če je program zagnan v &ozadju."
 
 #: tfrmoptionsautorefresh.gbautorefreshdisable.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHDISABLE.CAPTION"
 msgid "Disable auto-refresh"
-msgstr "Onemogoči samodejno osveževanje"
+msgstr "Onemogoči samodejno osveževanje:"
 
 #: tfrmoptionsautorefresh.gbautorefreshenable.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHENABLE.CAPTION"
 msgid "Refresh file list"
-msgstr "Osveži seznam datotek"
+msgstr "Osveži seznam datotek:"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
-#, fuzzy
-#| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Al&ways show tray icon"
-msgstr "Vedno pokaži ikono v sistemski vrstici"
+msgstr "Vedno &pokaži ikono v sistemski vrstici"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
-#, fuzzy
-#| msgid "Automatically hide unmounted devices"
 msgid "Automatically &hide unmounted devices"
-msgstr "Samodejno skrij odklopljene naprave"
+msgstr "Samodejno &skrij odklopljene naprave"
 
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
@@ -3894,45 +3687,33 @@ msgid "Mo&ve icon to system tray when minimized"
 msgstr "Pri pomanjšanju okna programa pokaži ikono v sistemski vrstici"
 
 #: tfrmoptionsbehavior.cbonlyonce.caption
-#, fuzzy
-#| msgid "Allow only one copy of DC at a time"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "A&llow only one copy of DC at a time"
-msgstr "Dovoli le en zagnan primerek programa"
+msgstr "Dovoli le &en zagnan primerek programa"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "Več pogonov ali priklopnih točk je mogoča vpisati ločeno s podpičjem \";\"."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
-#, fuzzy
-#| msgid "Drives blacklist"
 msgid "Drives &blacklist"
-msgstr "Črni seznam pogonov"
+msgstr "Črni seznam &pogonov"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
-#, fuzzy
-#| msgid "Cut text to column width"
 msgid "Cut &text to column width"
-msgstr "Okrajšaj besedilo na širino stolpca"
+msgstr "&Okrajšaj besedilo na širino stolpca"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
-#, fuzzy
-#| msgid "Horizontal lines"
 msgid "&Horizontal lines"
-msgstr "Vodoravne črte"
+msgstr "&Vodoravne črte"
 
 #: tfrmoptionscolumnsview.cbgridvertline.caption
-#, fuzzy
-#| msgid "Vertical lines"
 msgid "&Vertical lines"
-msgstr "Navpične črte"
+msgstr "&Navpične črte"
 
 #: tfrmoptionscolumnsview.chkautofillcolumns.caption
-#, fuzzy
-#| msgid "Auto fill columns"
 msgid "A&uto fill columns"
-msgstr "Samodejno zapolni stolpce"
+msgstr "Samodejno &zapolni stolpce"
 
 #: tfrmoptionscolumnsview.gbshowgrid.caption
 msgid "Show grid"
@@ -3943,100 +3724,74 @@ msgid "Auto-size columns"
 msgstr "Samodejno prilagodi velikost stolpcev"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
-#, fuzzy
-#| msgid "Auto size column:"
 msgid "Auto si&ze column:"
-msgstr "Samodejno prilagodi velikost:"
+msgstr "Samodejno prilagodi &Velikost:"
 
 #: tfrmoptionsconfiguration.btnconfigapply.caption
-#, fuzzy
-#| msgid "Apply"
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION"
 msgid "A&pply"
-msgstr "Uveljavi"
+msgstr "&Uveljavi"
 
 #: tfrmoptionsconfiguration.btnconfigedit.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGEDIT.CAPTION"
 msgid "&Edit"
-msgstr "Uredi"
+msgstr "&Uredi"
 
 #: tfrmoptionsconfiguration.cbcmdlinehistory.caption
-#, fuzzy
-#| msgid "Command line history"
 msgid "Co&mmand line history"
-msgstr "Zgodovina ukazne vrstice"
+msgstr "Zgodovina &ukazne vrstice"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
-#, fuzzy
-#| msgid "Directory history"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION"
 msgid "&Directory history"
-msgstr "Zgodovina mape"
+msgstr "Zgodovina &map"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
-#, fuzzy
-#| msgid "File mask history"
 msgid "&File mask history"
-msgstr "Zgodovina mask imen datotek"
+msgstr "Zgodovina mask &imen datotek"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
-#, fuzzy
-#| msgid "Save configuration"
 msgid "Sa&ve configuration"
-msgstr "Shrani nastavitve"
+msgstr "Shra&ni nastavitve"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
-#, fuzzy
-#| msgid "Search/Replace history"
 msgid "Searc&h/Replace history"
-msgstr "Zgodovina iskanja in zamenjave"
+msgstr "Zgodovina iskanj in zamenjav"
 
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgid "Location of configuration files"
-msgstr "Mesto nastavitvenih datotek"
+msgstr "Privzeto mesto nastavitvenih datotek je:"
 
 #: tfrmoptionsconfiguration.gbsaveonexit.caption
 msgid "Save on exit"
-msgstr "Shrani ob končanju"
+msgstr "Pred končanjem programa shrani:"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Nastavi v ukazni vrstici"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
-#, fuzzy
-#| msgid "Program directory (portable version)"
 msgid "P&rogram directory (portable version)"
-msgstr "Mapa programa (prenosna različica)"
+msgstr "Mapa &programa (prenosna različica)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
-#, fuzzy
-#| msgid "User home directory"
 msgid "&User home directory"
-msgstr "Domača mapa uporabnika"
+msgstr "Domača mapa &uporabnika"
 
 #: tfrmoptionscustomcolumns.btncopycolumnsset.caption
-#, fuzzy
-#| msgid "Copy"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "C&opy"
-msgstr "Kopiraj"
+msgstr "K&opiraj"
 
 #: tfrmoptionscustomcolumns.btndelcolumnsset.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
 msgid "&Delete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmoptionscustomcolumns.btneditcolumnsset.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "&Edit"
-msgstr "Uredi"
+msgstr "&Uredi"
 
 #: tfrmoptionscustomcolumns.btnnewcolumnsset.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
@@ -4049,263 +3804,185 @@ msgid "General"
 msgstr "Splošno"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#, fuzzy
-#| msgid "Configure columns for file system:"
 msgid "Con&figure columns for file system:"
-msgstr "Nastavi stolpce za datotečni sistem:"
+msgstr "Nastavi &stolpce za datotečni sistem:"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
-#, fuzzy
-#| msgid "Show confirmation dialog after drop"
 msgid "&Show confirmation dialog after drop"
-msgstr "Pokaži potrditveno okno po sprostitvi datotek"
+msgstr "Pokaži &potrditveno okno po spuščanju datotek"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
-#, fuzzy
-#| msgid "Show file system"
 msgid "Show &file system"
-msgstr "Pokaži datotečni sistem"
+msgstr "Pokaži &datotečni sistem"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
-#, fuzzy
-#| msgid "Show free space"
 msgid "Show fr&ee space"
-msgstr "Pokaži zasedenost prostora"
+msgstr "Pokaži &zasedenost prostora"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
-#, fuzzy
-#| msgid "Show label"
 msgid "Show &label"
-msgstr "Pokaži oznako"
+msgstr "Pokaži &oznako"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
 msgstr "Seznam pogonov"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
-#, fuzzy
-#| msgid "Background"
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
-msgstr "Ozadje"
+msgstr "O&zadje"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
-#, fuzzy
-#| msgid "Background"
 msgctxt "TFRMOPTIONSEDITORCOLORS.BACKGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Bac&kground"
-msgstr "Ozadje"
+msgstr "O&zadje"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
 msgstr "Atributi predmeta"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
-#, fuzzy
-#| msgid "Foreground"
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
 msgid "Fo&reground"
-msgstr "Ospredje"
+msgstr "Pi&sava"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
-#, fuzzy
-#| msgid "Foreground"
 msgctxt "TFRMOPTIONSEDITORCOLORS.FOREGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Fo&reground"
-msgstr "Pisava"
+msgstr "Pi&sava"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
-#, fuzzy
-#| msgid "Text-mark"
 msgid "&Text-mark"
-msgstr "Označba besedila"
+msgstr "&Označba besedila"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
-#, fuzzy
-#| msgid "Use (and edit) global scheme settings"
 msgid "Use (and edit) &global scheme settings"
-msgstr "Uporabi (in uredi) splošne nastavitve sheme"
+msgstr "Uporabi (in uredi) nastavitve &splošne sheme"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
-#, fuzzy
-#| msgid "Use local scheme settings"
 msgid "Use &local scheme settings"
-msgstr "Uporabi nastavitve krajevne sheme"
+msgstr "Uporabi nastavitve &krajevne sheme"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
-#, fuzzy
-#| msgid "Bold"
 msgid "&Bold"
-msgstr "Krepko"
+msgstr "&Krepko"
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTBOLDRADIOINVERT.CAPTION"
 msgid "In&vert"
-msgstr "Preobrni"
+msgstr "O&brni"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTBOLDRADIOOFF.CAPTION"
 msgid "O&ff"
-msgstr "Izklopljeno"
+msgstr "O&nemogočeno"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTBOLDRADIOON.CAPTION"
 msgid "O&n"
-msgstr "Vklopljeno"
+msgstr "&Omogočeno"
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
-#, fuzzy
-#| msgid "Italic"
 msgid "&Italic"
-msgstr "Ležeče"
+msgstr "&Ležeče"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTITALICRADIOINVERT.CAPTION"
 msgid "In&vert"
-msgstr "Preobrni"
+msgstr "O&brni"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTITALICRADIOOFF.CAPTION"
 msgid "O&ff"
-msgstr "Izklopljeno"
+msgstr "O&nemogočeno"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTITALICRADIOON.CAPTION"
 msgid "O&n"
-msgstr "Vklopljeno"
+msgstr "&Omogočeno"
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
-#, fuzzy
-#| msgid "Strike Out"
 msgid "&Strike Out"
-msgstr "Prečrtano"
+msgstr "&Prečrtano"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTSTRIKEOUTRADIOINVERT.CAPTION"
 msgid "In&vert"
-msgstr "Preobrni"
+msgstr "O&brni"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTSTRIKEOUTRADIOOFF.CAPTION"
 msgid "O&ff"
-msgstr "Izklopljeno"
+msgstr "O&nemogočeno"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "TFRMOPTIONSEDITORCOLORS.TEXTSTRIKEOUTRADIOON.CAPTION"
 msgid "O&n"
-msgstr "Vklopljeno"
+msgstr "&Omogočeno"
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
-#, fuzzy
-#| msgid "Underline"
 msgid "&Underline"
-msgstr "Podčrtano"
+msgstr "&Podčrtano"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
 msgid "In&vert"
-msgstr "Preobrni"
+msgstr "O&brni"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
 msgid "O&ff"
-msgstr "Izključeno"
+msgstr "O&nemogočeno"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
-msgstr "Vključeno"
+msgstr "&Omogočeno"
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
-#, fuzzy
-#| msgid "Copy operation"
 msgid "Cop&y operation"
-msgstr "Opravila kopiranja"
+msgstr "Opravila &kopiranja"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
-#, fuzzy
-#| msgid "Delete operation"
 msgid "&Delete operation"
-msgstr "Opravila brisanja"
+msgstr "Opravila &brisanja"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
-#, fuzzy
-#| msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
-msgstr "Izbriši v smeti (S sočasnim pritiskom tipke dvigalke, se izbriše trajno)"
+msgstr "Izbriši v &smeti (S sočasnim pritiskom dvigalke, se izbriše trajno)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
-#, fuzzy
-#| msgid "Delete to trash operation"
 msgid "D&elete to trash operation"
-msgstr "Opravila premikanja v smeti"
+msgstr "Opravila brisanja v smeti"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
-#, fuzzy
-#| msgid "Drop readonly flag"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "D&rop readonly flag"
-msgstr "Odstrani zastavico le za branje"
+msgstr "Odstrani &zastavico le za branje"
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
-#, fuzzy
-#| msgid "Move operation"
 msgid "&Move operation"
-msgstr "Opravila premikanja"
+msgstr "Opravila &premikanja"
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-#, fuzzy
-#| msgid "Search for part of file name"
 msgid "&Search for part of file name"
-msgstr "Iskanje dela imena datoteke"
+msgstr "&Poišči del imena datoteke"
 
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
-#, fuzzy
-#| msgid "Process comments with files/folders"
 msgid "&Process comments with files/folders"
-msgstr "Obravnavaj opombe skupaj z datotekami in mapami"
+msgstr "&Obravnavaj opombe skupaj z datotekami in mapami"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
-#, fuzzy
-#| msgid "Select file name without extension when renaming"
 msgid "Select &file name without extension when renaming"
-msgstr "Med preimenovanjem izberi le ime datoteke brez pripone"
+msgstr "Med preimenovanjem izberi le &ime datoteke brez pripone"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
-#, fuzzy
-#| msgid "Show tab select panel in copy/move dialog"
 msgid "Sho&w tab select panel in copy/move dialog"
-msgstr "Pokaži polje izbire zavihka v pogovornem oknu kopiranja in premikanja"
+msgstr "Pokaži polje izbire &zavihka v pogovornem oknu kopiranja in premikanja"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
-#, fuzzy
-#| msgid "Skip file operations errors and write them to log window"
 msgid "S&kip file operations errors and write them to log window"
-msgstr "Preskoči napake datotečnih opravil in jih zapiši v dnevnik"
+msgstr "&Preskoči napake datotečnih opravil in jih zapiši v dnevnik"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -4321,38 +3998,28 @@ msgid "User interface"
 msgstr "Uporabniški vmesnik"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
-#, fuzzy
-#| msgid "Buffer size for file operations (in KB):"
 msgid "&Buffer size for file operations (in KB):"
-msgstr "Velikost medpomnilnika opravila (v KB):"
+msgstr "Velikost &medpomnilnika opravila (v KB):"
 
 #: tfrmoptionsfileoperations.lblconfirmations.caption
 msgid "Show confirmation window for:"
 msgstr "Zahtevaj potrdila za:"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
-#, fuzzy
-#| msgid "Show operations progress initially in"
 msgid "Show operations progress &initially in"
-msgstr "Pokaži splošni napredek dejavnosti v"
+msgstr "Pokaži splošni napredek &dejavnosti v"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
-#, fuzzy
-#| msgid "Number of wipe passes:"
 msgid "&Number of wipe passes:"
-msgstr "Število prehodov neobnovljivega brisanja:"
+msgstr "Število prehodov &neobnovljivega brisanja:"
 
 #: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-#, fuzzy
-#| msgid "Use memory mapping for search text in files"
 msgid "Use memory mapping for search te&xt in files"
-msgstr "Uporabi preslikavo pomnilnika za iskanje besedila v datotekah"
+msgstr "Uporabi preslikavo pomnilnika za iskanje &besedila v datotekah"
 
 #: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-#, fuzzy
-#| msgid "Use stream for search text in files"
 msgid "&Use stream for search text in files"
-msgstr "Uporabi pretok za iskanje besedila v datotekah"
+msgstr "&Uporabi pretok za iskanje besedila v datotekah"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -4395,22 +4062,16 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
-#, fuzzy
-#| msgid "Use Frame Cursor"
 msgid "Use &Frame Cursor"
-msgstr "Uporabi kazalko z okvirjem"
+msgstr "Uporabi kazalko z &okvirjem"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-#, fuzzy
-#| msgid "Use Gradient Indicator"
 msgid "Use &Gradient Indicator"
-msgstr "Uporabi kazalnik preliva"
+msgstr "Uporabi kazalnik &preliva"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
-#, fuzzy
-#| msgid "Use Inverted Selection"
 msgid "U&se Inverted Selection"
-msgstr "Uporabi obrnjen izbor"
+msgstr "Uporabi &obrnjen izbor"
 
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
@@ -4423,108 +4084,76 @@ msgid "Example"
 msgstr "Primer"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
-#, fuzzy
-#| msgid "Background:"
 msgid "Bac&kground:"
-msgstr "Ozadje:"
+msgstr "O&zadje:"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
-#, fuzzy
-#| msgid "Background 2:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
 msgid "Backg&round 2:"
-msgstr "Ozadje 2:"
+msgstr "&Drugo o&zadje:"
 
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
-#, fuzzy
-#| msgid "Cursor Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
 msgid "C&ursor Color:"
-msgstr "Barva kazalke:"
+msgstr "Barva &kazalke:"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
-#, fuzzy
-#| msgid "Cursor Text:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Te&xt:"
-msgstr "Besedilo kazalke:"
+msgstr "Besedilo ka&zalke:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-#, fuzzy
-#| msgid "Brightness level of inactive panel"
 msgid "&Brightness level of inactive panel"
-msgstr "Raven svetlosti nedejavnega okna"
+msgstr "Raven &svetlosti nedejavnega okna"
 
 #: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-#, fuzzy
-#| msgid "Indicator Back Color:"
 msgid "In&dicator Back Color:"
-msgstr "Barva ozadja kazalnika:"
+msgstr "Barva &ozadja v bralnem pregledovalniku"
 
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
-#, fuzzy
-#| msgid "Indicator Fore Color:"
 msgid "&Indicator Fore Color:"
-msgstr "Barva pisave kazalnika:"
+msgstr "Barva &pisave kazalnika:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
-#, fuzzy
-#| msgid "Mark Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
 msgid "&Mark Color:"
-msgstr "barva oznake:"
+msgstr "Barva &oznake:"
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
-#, fuzzy
-#| msgid "Text Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
-msgstr "Barva besedila:"
+msgstr "Barva &besedila:"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-#, fuzzy
-#| msgid "Don't load file list until a tab is activated"
 msgid "Do&n't load file list until a tab is activated"
-msgstr "Ne naloži datoteke, dokler zavihek ni omogočen"
+msgstr "&Ne naloži datoteke, dokler zavihek ni omogočen"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
-#, fuzzy
-#| msgid "Show square brackets around directories"
 msgid "S&how square brackets around directories"
-msgstr "Izpiši oglate oklepaje okoli imena mape v seznamu okna"
+msgstr "&Izpiši oglate oklepaje okoli imena mape v seznamu okna"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-#, fuzzy
-#| msgid "Highlight new and updated files"
 msgid "Hi&ghlight new and updated files"
-msgstr "Poudari nove in posodobljene datoteke"
+msgstr "&Poudari nove in posodobljene datoteke"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
-#, fuzzy
-#| msgid "Load file list in separate thread"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"
-msgstr "Naloži seznam datotek v ločeni niti"
+msgstr "Naloži &seznam datotek v ločeni niti"
 
 #: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-#, fuzzy
-#| msgid "Load icons after file list"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
-msgstr "Naloži ikone za seznamom datotek"
+msgstr "Naloži ikone &za seznamom datotek"
 
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-#, fuzzy
-#| msgid "Show system and hidden files"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show s&ystem and hidden files"
-msgstr "Pokaže skrite in sistemske datoteke"
+msgstr "Pokaže skrite in &sistemske datoteke"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
-#, fuzzy
-#| msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Med izbiranjem datotek s preslednico, se premakni na naslednjo datoteko (kot z vstavljalko)"
+msgstr "&Med izbiranjem datotek s preslednico, se premakni na naslednjo datoteko v seznamu (kot z vstavljalko)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -4535,62 +4164,46 @@ msgid "Sorting"
 msgstr "Razvrščanje"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
-#, fuzzy
-#| msgid "Case sensitivity:"
 msgid "Case s&ensitivity:"
-msgstr "Upoštevanje velikosti črk:"
+msgstr "Razlikovanje velikosti &črk:"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
 msgid "Incorrect format"
 msgstr "Napačen zapis"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
-#, fuzzy
-#| msgid "Date and time format:"
 msgid "&Date and time format:"
-msgstr "Zapis datuma in časa"
+msgstr "&Zapis datuma in časa:"
 
 #: tfrmoptionsfilesviews.lblfilesizeformat.caption
 msgid "File si&ze format:"
-msgstr ""
+msgstr "Zapis velikosti datoteke:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-#, fuzzy
-#| msgid "Insert new files"
 msgid "&Insert new files"
-msgstr "Vstavi nove datoteke"
+msgstr "Vstavi &nove datoteke"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
-#, fuzzy
-#| msgid "Sorting directories:"
 msgid "So&rting directories:"
 msgstr "Razvrščanje map:"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
-#, fuzzy
-#| msgid "Sort &method:"
 msgid "&Sort method:"
 msgstr "&Način razvrščanja:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-#, fuzzy
-#| msgid "Move updated files"
 msgid "&Move updated files"
-msgstr "Premakni posodobljene datoteke"
+msgstr "&Premakni posodobljene datoteke"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmoptionsfiletypescolors.btnapplycategory.caption
-#, fuzzy
-#| msgid "Apply"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
-msgstr "Uveljavi"
+msgstr "&Uveljavi"
 
 #: tfrmoptionsfiletypescolors.btncategorycolor.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
@@ -4598,11 +4211,9 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmoptionsfiletypescolors.btnsearchtemplate.hint
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT"
@@ -4614,30 +4225,22 @@ msgid "File types colors (sort by drag&&drop)"
 msgstr "Barve vrst datotek (razvrščanje z vlečenjem)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
-#, fuzzy
-#| msgid "Category attributes:"
 msgid "Category a&ttributes:"
-msgstr "Atributi kategorije:"
+msgstr "&Atributi kategorije:"
 
 #: tfrmoptionsfiletypescolors.lblcategorycolor.caption
-#, fuzzy
-#| msgid "Category color:"
 msgid "Category co&lor:"
-msgstr "Barva kategorije:"
+msgstr "&Barva kategorije:"
 
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
-#, fuzzy
-#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION"
 msgid "Category &mask:"
-msgstr "Maska kategorije:"
+msgstr "&Maska kategorije:"
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
-#, fuzzy
-#| msgid "Category name:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category &name:"
-msgstr "Ime kategorije:"
+msgstr "&Ime kategorije:"
 
 #: tfrmoptionsfonts.btnseleditfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION"
@@ -4665,86 +4268,62 @@ msgid "..."
 msgstr "..."
 
 #: tfrmoptionsfonts.lbleditorfont.caption
-#, fuzzy
-#| msgid "Editor font"
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
 msgid "&Editor font"
-msgstr "Pisava urejevalnika"
+msgstr "Pisava &urejevalnika"
 
 #: tfrmoptionsfonts.lbllogfont.caption
-#, fuzzy
-#| msgid "Log font"
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
 msgid "&Log font"
-msgstr "Pisava dnevnika"
+msgstr "Pisava &dnevnika"
 
 #: tfrmoptionsfonts.lblmainfont.caption
-#, fuzzy
-#| msgid "Main font"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
 msgid "Main &font"
-msgstr "Glavna pisava"
+msgstr "&Glavna pisava"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
-#, fuzzy
-#| msgid "Viewer Book Font"
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
 msgid "Viewer&Book Font"
-msgstr "Pisava bralnega pregledovalnika"
+msgstr "Pisava &bralnega pregledovalnika"
 
 #: tfrmoptionsfonts.lblviewerfont.caption
-#, fuzzy
-#| msgid "Viewer font"
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
 msgid "&Viewer font"
-msgstr "Pisava pregledovalnika"
+msgstr "Pisava &pregledovalnika"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
-#, fuzzy
-#| msgid "Add hotkey"
 msgid "Add &hotkey"
-msgstr "Dodaj hitro tipko"
+msgstr "&Dodaj hitro tipko"
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
-#, fuzzy
-#| msgid "Delete hotkey"
 msgid "&Delete hotkey"
-msgstr "Izbriši hitro tipko"
+msgstr "&Izbriši hitro tipko"
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
-#, fuzzy
-#| msgid "Edit hotkey"
 msgctxt "TFRMOPTIONSHOTKEYS.BTNEDITHOTKEY.CAPTION"
 msgid "&Edit hotkey"
-msgstr "Uredi hitro tipko"
+msgstr "Uredi &hitro tipko"
 
 #: tfrmoptionshotkeys.lbfilter.caption
-#, fuzzy
-#| msgid "Filter"
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
 msgid "&Filter"
-msgstr "Filter"
+msgstr "&Filter"
 
 #: tfrmoptionshotkeys.lblcategories.caption
-#, fuzzy
-#| msgid "Categories:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLCATEGORIES.CAPTION"
 msgid "C&ategories:"
-msgstr "Kategorije:"
+msgstr "&Kategorije:"
 
 #: tfrmoptionshotkeys.lblcommands.caption
-#, fuzzy
-#| msgid "Commands:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLCOMMANDS.CAPTION"
 msgid "Co&mmands:"
-msgstr "Ukazi:"
+msgstr "&Ukazi:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
-#, fuzzy
-#| msgid "Shortcut files:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "&Shortcut files:"
-msgstr "Datoteke tipkovnih bližnjic:"
+msgstr "Datoteke &tipkovnih bližnjic:"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
@@ -4764,11 +4343,9 @@ msgstr "Tipke"
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
-msgstr "Za naslednje &poti in podrejene mape:"
+msgstr "Za navedene &poti in podrejene mape:"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
-#, fuzzy
-#| msgid "Show overlay i&cons, e.g. for links"
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Pokaži prekrivne i&kone za npr. povezave"
@@ -4780,23 +4357,19 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
-msgstr ""
+msgstr "Onemogoči posebne ikone"
 
 #: tfrmoptionsicons.gbiconssize.caption
-#, fuzzy
-#| msgid " Icon &size "
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
 msgid " Icon size "
-msgstr "Velikost &ikon"
+msgstr "Velikost ikon"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
 msgid " Show icons to the left of the filename "
-msgstr "Pokaži ikone na levo od imena datoteke"
+msgstr "Pokaži ikone na levi od imena datoteke"
 
 #: tfrmoptionsicons.rbiconsshowall.caption
-#, fuzzy
-#| msgid "&All"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
 msgid "A&ll"
 msgstr "&Vse"
@@ -4812,15 +4385,11 @@ msgid "&No icons"
 msgstr "Brez &ikon"
 
 #: tfrmoptionsicons.rbiconsshowstandard.caption
-#, fuzzy
-#| msgid "&Only standard icons"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION"
 msgid "Only &standard icons"
 msgstr "Le &običajne ikone"
 
 #: tfrmoptionsignorelist.btnaddsel.caption
-#, fuzzy
-#| msgid "&Add selected names"
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION"
 msgid "A&dd selected names"
 msgstr "&Dodaj izbrana imena"
@@ -4841,70 +4410,52 @@ msgid "&Save in:"
 msgstr "&Shrani v:"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
-#, fuzzy
-#| msgid "Left, Right arrows change directory (Lynx-like movement)"
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
-msgstr "Tipki levo in desno zamenjata mapo (način Lynx)"
+msgstr "&Tipki levo in desno zamenjata mapo (način Lynx)"
 
 #: tfrmoptionskeyboard.gbtyping.caption
 msgid "Typing"
 msgstr "Dejanja pritiskov tip na tipkovnici"
 
 #: tfrmoptionskeyboard.lblalt.caption
-#, fuzzy
-#| msgid "Alt+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
 msgid "Alt+L&etters"
-msgstr "ALT+Črka"
+msgstr "Alt+Č&rke"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
-#, fuzzy
-#| msgid "Ctrl+Alt+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
 msgid "Ctrl+Alt+Le&tters"
-msgstr "CTRL+ALT+Črka"
+msgstr "Ctrl+Alt+Čr&ke"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
-#, fuzzy
-#| msgid "Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
 msgid "&Letters"
-msgstr "Črke"
+msgstr "&Črke"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
-#, fuzzy
-#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
 msgid "&Flat buttons"
-msgstr "Ploski gumbi"
+msgstr "&Ploski gumbi"
 
 #: tfrmoptionslayout.cbflatinterface.caption
-#, fuzzy
-#| msgid "Flat interface"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
 msgid "Flat i&nterface"
-msgstr "Ploski videz vmesnika"
+msgstr "&Ploski vmesnik"
 
 #: tfrmoptionslayout.cbflattoolbar.caption
-#, fuzzy
-#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION"
 msgid "Flat b&uttons"
-msgstr "Ploski gumbi"
+msgstr "Ploski &gumbi"
 
 #: tfrmoptionslayout.cbfreespaceind.caption
-#, fuzzy
-#| msgid "Show free space indicator on drive label"
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
 msgid "Show fr&ee space indicator on drive label"
-msgstr "Pokaži zasedenost prostora ob oznaki pogona"
+msgstr "Pokaži &zasedenost prostora ob oznaki pogona"
 
 #: tfrmoptionslayout.cblogwindow.caption
-#, fuzzy
-#| msgid "Show log window"
 msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
 msgid "Show lo&g window"
-msgstr "Pokaži okno beleženja"
+msgstr "Pokaži okno &dnevniškega izpisa"
 
 #: tfrmoptionslayout.cbpanelofoperations.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBPANELOFOPERATIONS.CAPTION"
@@ -4917,15 +4468,11 @@ msgid "Show common progress in menu bar"
 msgstr "Pokaži splošni napredek dejavnosti v menijski vrstici"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
-#, fuzzy
-#| msgid "Show command &line"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
 msgid "Show command l&ine"
 msgstr "Pokaži &ukazno vrstico"
 
 #: tfrmoptionslayout.cbshowcurdir.caption
-#, fuzzy
-#| msgid "Show &current directory"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
 msgid "Show current director&y"
 msgstr "Pokaži &trenutno mapo"
@@ -4936,31 +4483,23 @@ msgid "Show &drive buttons"
 msgstr "Pokaže gumbe &pogonov"
 
 #: tfrmoptionslayout.cbshowdrivefreespace.caption
-#, fuzzy
-#| msgid "Show free space label"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
 msgid "Show free s&pace label"
-msgstr "Pokaži vrednost zasedenosti prostora"
+msgstr "Pokaži vrednost &zasedenosti prostora"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
-#, fuzzy
-#| msgid "Show d&rives list button"
 msgid "Show drives list bu&tton"
 msgstr "Pokaži gumb seznama &pogonov"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
-#, fuzzy
-#| msgid "Show &function key buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
 msgid "Show function &key buttons"
 msgstr "Pokaži &funkcijske gumbe"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
-#, fuzzy
-#| msgid "Show main menu"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
 msgid "Show &main menu"
-msgstr "Pokaži glavni meni"
+msgstr "Pokaži &glavni meni"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
@@ -4968,10 +4507,8 @@ msgid "Show &button bar"
 msgstr "Pokaži vrstico &gumbov"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
-#, fuzzy
-#| msgid "Show short free space label"
 msgid "Show short free space &label"
-msgstr "Pokaži kratko oznako zasedenosti prostora"
+msgstr "Pokaži kratko oznako &zasedenosti prostora"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
@@ -4979,11 +4516,9 @@ msgid "Show &status bar"
 msgstr "Pokaži vrstico &stanja"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
-#, fuzzy
-#| msgid "Show &tabstop header"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
 msgid "S&how tabstop header"
-msgstr "Pokaži glavo &stolpcev okna"
+msgstr "Pokaži glave &stolpcev"
 
 #: tfrmoptionslayout.cbshowtabs.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABS.CAPTION"
@@ -4991,18 +4526,14 @@ msgid "Sho&w folder tabs"
 msgstr "Pokaži z&avihke map"
 
 #: tfrmoptionslayout.cbtermwindow.caption
-#, fuzzy
-#| msgid "Show terminal window"
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
 msgid "Show te&rminal window"
-msgstr "Pokaži okno terminala"
+msgstr "Pokaži okno &terminala"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
-#, fuzzy
-#| msgid "Show two drive button bars (fixed width, above file windows)"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
-msgstr "Pokaži dve orodni vrstici gumbov pogonov (določene širine nad okni)"
+msgstr "Pokaži dve orodni vrstici gumbov pogonov (&določene širine nad okni)"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
@@ -5010,32 +4541,24 @@ msgid " Screen layout "
 msgstr "Zaslonska razporeditev"
 
 #: tfrmoptionslog.cblogarcop.caption
-#, fuzzy
-#| msgid "Pack/Unpack"
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
 msgid "&Pack/Unpack"
-msgstr "Zapakiraj/Odpakiraj"
+msgstr "&Zapakiraj/Odpakiraj"
 
 #: tfrmoptionslog.cblogcpmvln.caption
-#, fuzzy
-#| msgid "Copy/Move/Create link/symlink"
 msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
 msgid "Cop&y/Move/Create link/symlink"
-msgstr "Kopiraj/Premakni/Ustvari povezavo/Simbolna povezava"
+msgstr "Ko&piraj/Premakni/Ustvari povezavo/Ustvari simbolno povezavo"
 
 #: tfrmoptionslog.cblogdelete.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMOPTIONSLOG.CBLOGDELETE.CAPTION"
 msgid "&Delete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmoptionslog.cblogdirop.caption
-#, fuzzy
-#| msgid "Create/Delete directories"
 msgctxt "TFRMOPTIONSLOG.CBLOGDIROP.CAPTION"
 msgid "Crea&te/Delete directories"
-msgstr "Ustvarjanje/Brisanje map"
+msgstr "Us&tvari/Izbriši mape"
 
 #: tfrmoptionslog.cblogerrors.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGERRORS.CAPTION"
@@ -5043,18 +4566,14 @@ msgid "Log &errors"
 msgstr "Beleži &napake opravil"
 
 #: tfrmoptionslog.cblogfile.caption
-#, fuzzy
-#| msgid "&Create a log file:"
 msgctxt "TFRMOPTIONSLOG.CBLOGFILE.CAPTION"
 msgid "C&reate a log file:"
-msgstr "&Ustvari &dnevniško datoteko:"
+msgstr "Ustvari &dnevniško datoteko:"
 
 #: tfrmoptionslog.cbloginfo.caption
-#, fuzzy
-#| msgid "Log information messages"
 msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
 msgid "Log &information messages"
-msgstr "Beleži sporočila podrobnosti"
+msgstr "&Beleži sporočila podrobnosti"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
@@ -5062,11 +4581,9 @@ msgid "Log &successful operations"
 msgstr "Beleži &uspešno končana opravila"
 
 #: tfrmoptionslog.cblogvfs.caption
-#, fuzzy
-#| msgid "File system plugins"
 msgctxt "TFRMOPTIONSLOG.CBLOGVFS.CAPTION"
 msgid "&File system plugins"
-msgstr "Sistemsko datotečni vstavki"
+msgstr "&Sistemsko-datotečni vstavki"
 
 #: tfrmoptionslog.gblogfile.caption
 msgctxt "TFRMOPTIONSLOG.GBLOGFILE.CAPTION"
@@ -5082,22 +4599,16 @@ msgid "Operation status"
 msgstr "Stanje opravila"
 
 #: tfrmoptionsmisc.cbsavethumbnails.caption
-#, fuzzy
-#| msgid "Save thumbnails in cache"
 msgid "&Save thumbnails in cache"
-msgstr "Shrani sličice v predpomnilniku"
+msgstr "&Shrani sličice v predpomnilniku"
 
 #: tfrmoptionsmisc.cbshowwarningmessages.caption
-#, fuzzy
-#| msgid "Show warning messages (\"OK\" button only)"
 msgid "Show &warning messages (\"OK\" button only)"
-msgstr "Pokaži opozorilna sporočila (le z gumbom \"V redu\")"
+msgstr "Pokaži &opozorilna sporočila (le z gumbom \"V redu\")"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
-#, fuzzy
-#| msgid "Selection by mouse"
 msgid "&Selection by mouse"
-msgstr "Izbiranje datotek z miško"
+msgstr "&Izbiranje datotek z miško"
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"
@@ -5108,98 +4619,70 @@ msgid "Selection"
 msgstr "Izbor"
 
 #: tfrmoptionsmouse.lblmousemode.caption
-#, fuzzy
-#| msgid "Mode:"
 msgid "&Mode:"
-msgstr "Način:"
+msgstr "&Način:"
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
-#, fuzzy
-#| msgid "Line by line"
 msgid "&Line by line"
-msgstr "Premakni za več vrstic:"
+msgstr "&Vrstica po vrstico"
 
 #: tfrmoptionsmouse.rbscrolllinebylinecursor.caption
-#, fuzzy
-#| msgid "Line by line with cursor movement"
 msgid "Line by line &with cursor movement"
-msgstr "Premik kazalke vrstico po vrstico"
+msgstr "Premik kazalke &vrstico po vrstico"
 
 #: tfrmoptionsmouse.rbscrollpagebypage.caption
-#, fuzzy
-#| msgid "Page by page"
 msgid "&Page by page"
-msgstr "Stran po stran"
+msgstr "&Stran po stran"
 
 #: tfrmoptionsplugins.btnaddplugin.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
 msgid "A&dd"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
-#, fuzzy
-#| msgid "Configure"
 msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
 msgid "Con&figure"
-msgstr "Nastavitve"
+msgstr "&Nastavitve"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
-#, fuzzy
-#| msgid "Enable"
 msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
 msgid "E&nable"
-msgstr "Omogoči"
+msgstr "&Omogoči"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
 msgid "&Remove"
-msgstr "Odstrani"
+msgstr "&Odstrani"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
-#, fuzzy
-#| msgid "Tweak"
 msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
 msgid "&Tweak"
-msgstr "Prilagodi"
+msgstr "&Prilagodi"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
-#, fuzzy
-#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Vstavki iskalnikov omogočajo uporabo dodatnih načinov iskanja oziroma uporabo zunanjih orodij (ukaz \"locate\" in podobno)"
+msgstr "Vstavki &iskalnikov omogočajo uporabo dodatnih načinov iskanja oziroma uporabo zunanjih orodij (ukaz \"locate\" in podobno)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
-#, fuzzy
-#| msgid "Packer plugins are used to work with archives."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
 msgid "Pack&er plugins are used to work with archives"
-msgstr "Vstavki pakirnikov so uporabljeni za delo z arhivi."
+msgstr "Vstavki &pakirnikov so uporabljeni za delo z arhivi."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
-#, fuzzy
-#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
 msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Vsebinski vstavki omogočajo prikaz razširjenih podrobnosti datotek, kot so podatkovne oznake datotek mp3 ali pa podatki slik in jih je mogoče uporabiti pri iskanju in pri uporabi na primer naprednega preimenovanja."
+msgstr "Vsebinski vsta&vki omogočajo prikaz razširjenih podrobnosti datotek, kot so podatkovne oznake datotek mp3 ali pa podatki slik in jih je mogoče uporabiti pri iskanju in pri uporabi na primer naprednega preimenovanja."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
-#, fuzzy
-#| msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Sistemsko datotečni vstavki omogočajo dostop do naprav kot so dlančniki in PocketPC."
+msgstr "Sistemsko-datotečni vstavki omogočajo dostop do naprav, kot so dlančniki in PocketPC."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
-#, fuzzy
-#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Vstavki pregledovalnikov omogočajo prikaz različnih datotek dokumentov, kot so slike, preglednice, podatkovne zbirke in podobno (F3, Ctrl+Q)."
+msgstr "Vstavki &pregledovalnikov omogočajo prikaz različnih datotek dokumentov, kot so slike, preglednice, podatkovne zbirke in podobno (F3, Ctrl+Q)."
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -5222,49 +4705,39 @@ msgid "File name"
 msgstr "Ime datoteke"
 
 #: tfrmoptionsplugins.tsdsx.caption
-#, fuzzy
-#| msgid "Search plugins (.DSX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "&Search plugins (.DSX)"
-msgstr "Vstavki iskanja (.dsx)"
+msgstr "Vstavki &iskanja (.dsx)"
 
 #: tfrmoptionsplugins.tswcx.caption
-#, fuzzy
-#| msgid "Packer plugins (.WCX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Pac&ker plugins (.WCX)"
-msgstr "Vstavki stiskanja (.wcx)"
+msgstr "Vstavki &pakiranja (.wcx)"
 
 #: tfrmoptionsplugins.tswdx.caption
-#, fuzzy
-#| msgid "Content plugins (.WDX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content pl&ugins (.WDX)"
-msgstr "Vsebinski vstavki (.wdx)"
+msgstr "&Vsebinski vstavki (.wdx)"
 
 #: tfrmoptionsplugins.tswfx.caption
-#, fuzzy
-#| msgid "File system plugins (.WFX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "F&ile system plugins (.WFX)"
-msgstr "Sistemsko datotečni vstavki (.wfx)"
+msgstr "Sistemsko-&datotečni vstavki (.wfx)"
 
 #: tfrmoptionsplugins.tswlx.caption
-#, fuzzy
-#| msgid "Viewer plugins (.WLX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "&Viewer plugins (.WLX)"
-msgstr "Vstavki pregledovanja (.wlx)"
+msgstr "Vstavki &pregledovanja (.wlx)"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
 msgid "&Beginning (name must start with first typed character)"
-msgstr "&Začetek (ime se mora začeti s prvim vpisanim znakom)"
+msgstr "na &začetku (ime se mora začeti s prvim vpisanim znakom)."
 
 #: tfrmoptionsquicksearchfilter.cbexactending.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTENDING.CAPTION"
 msgid "En&ding (last character before a typed dot . must match)"
-msgstr "&Konec (ime se mora končati s prvim vpisanim znakom pred piko (.) in pripono)"
+msgstr "na &koncu (ime se mora končati s prvim vpisanim znakom pred piko (.) in pripono)."
 
 #: tfrmoptionsquicksearchfilter.cgpoptions.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
@@ -5273,11 +4746,11 @@ msgstr "Možnosti"
 
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
 msgid "Exact name match"
-msgstr "Natančno skladno ime datoteke"
+msgstr "Natančno ujemanje imena datoteke:"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchcase.caption
 msgid "Search case"
-msgstr "Upoštevanje velikosti črk med iskanjem"
+msgstr "Upoštevanje velikosti črk med iskanjem je:"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchitems.caption
 msgid "Search for these items"
@@ -5294,8 +4767,6 @@ msgid "&Show tab header also when there is only one tab"
 msgstr "Pokaži &glavo zavihka tudi, ko je odprt le en zavihek"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
-#, fuzzy
-#| msgid "&Confirm close all tabs"
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
 msgid "Con&firm close all tabs"
 msgstr "&Potrdi zapiranje vseh zavihkov"
@@ -5326,11 +4797,9 @@ msgid "Open &new tabs near current tab"
 msgstr "Odpri &nov zavihek ob trenutnem"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
-#, fuzzy
-#| msgid "Show tab close button"
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show ta&b close button"
-msgstr "Pokaži gumb za zapiranje zavihka"
+msgstr "Pokaži gumb za &zapiranje zavihka"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -5340,32 +4809,24 @@ msgstr "Glave zavihkov map"
 #: tfrmoptionstabs.lblchar.caption
 msgctxt "TFRMOPTIONSTABS.LBLCHAR.CAPTION"
 msgid "characters"
-msgstr "znaki"
+msgstr "znakov."
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#, fuzzy
-#| msgid "Tabs position"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
-msgstr "Položaj zavihkov"
+msgstr "Položaj &zavihkov"
 
 #: tfrmoptionsterminal.lblruninterm.caption
-#, fuzzy
-#| msgid "Run in terminal:"
 msgid "Run in &terminal:"
-msgstr "Zaženi v terminalu:"
+msgstr "Zaženi v &terminalu:"
 
 #: tfrmoptionsterminal.lblrunterm.caption
-#, fuzzy
-#| msgid "Run terminal:"
 msgid "Run t&erminal:"
-msgstr "Zaženi terminal:"
+msgstr "Odpri &terminal:"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
-#, fuzzy
-#| msgid "&Clone button"
 msgid "C&lone button"
-msgstr "&Podvoji gumb"
+msgstr "Gumb za &kloniranje"
 
 #: tfrmoptionstoolbar.btndeletebutton.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -5373,11 +4834,9 @@ msgid "&Delete"
 msgstr "&Izbriši"
 
 #: tfrmoptionstoolbar.btnedithotkey.caption
-#, fuzzy
-#| msgid "Edit hotkey"
 msgctxt "TFRMOPTIONSTOOLBAR.BTNEDITHOTKEY.CAPTION"
 msgid "Edit hot&key"
-msgstr "Uredi hitro tipko"
+msgstr "Uredi hitro &tipko"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNINSERTBUTTON.CAPTION"
@@ -5395,18 +4854,14 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
-#, fuzzy
-#| msgid "Remove hotkey"
 msgctxt "TFRMOPTIONSTOOLBAR.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
-msgstr "Odstrani hitro tipko"
+msgstr "Odstrani &hitre tipke"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
-#, fuzzy
-#| msgid "Flat b&uttons"
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
 msgid "&Flat buttons"
-msgstr "Ploski &gumbi"
+msgstr "&Ploski gumbi"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -5417,121 +4872,87 @@ msgid "Appearance"
 msgstr "Videz"
 
 #: tfrmoptionstoolbar.lblbarsize.caption
-#, fuzzy
-#| msgid "Ba&r size:"
 msgid "&Bar size:"
-msgstr "Velikost &vrstice"
+msgstr "Velikost orodne &vrstice:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-#, fuzzy
-#| msgid "Command:"
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
 msgid "Comman&d:"
-msgstr "Ukaz:"
+msgstr "&Ukaz:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
-#, fuzzy
-#| msgid "Parameters:"
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALPARAMETERS.CAPTION"
 msgid "Parameter&s:"
-msgstr "Parametri:"
+msgstr "Parametr&i:"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
 msgstr "Hitra tipka:"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
-#, fuzzy
-#| msgid "Icon:"
 msgid "Ico&n:"
-msgstr "Ikona:"
+msgstr "Iko&na:"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
-#, fuzzy
-#| msgid "Ic&on size:"
 msgid "Icon si&ze:"
-msgstr "Velikost &ikone:"
+msgstr "Veli&kost ikone:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
-#, fuzzy
-#| msgid "Command:"
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
-msgstr "Ukaz:"
+msgstr "&Ukaz:"
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
-#, fuzzy
-#| msgid "Parameters:"
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
 msgid "&Parameters:"
-msgstr "Parametri:"
+msgstr "&Parametri:"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
-#, fuzzy
-#| msgid "Start path:"
 msgid "Start pat&h:"
-msgstr "Začetna pot:"
+msgstr "Začetna &pot:"
 
 #: tfrmoptionstoolbar.lbltooltip.caption
-#, fuzzy
-#| msgid "Tooltip:"
 msgid "&Tooltip:"
-msgstr "Orodni namig:"
+msgstr "&Orodni namig:"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "Vrsta gumba"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
-#, fuzzy
-#| msgid "Keep terminal window open after executing program"
 msgid "&Keep terminal window open after executing program"
-msgstr "Ohrani okno terminala odprto po izvedbi programa"
+msgstr "Ohrani okno terminala &odprto po končani izvedbi programa"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
-#, fuzzy
-#| msgid "Execute in terminal"
 msgid "&Execute in terminal"
-msgstr "Izvedi v terminalu"
+msgstr "Izvedi v &terminalu"
 
 #: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
-#, fuzzy
-#| msgid "Use external program"
 msgid "&Use external program"
-msgstr "Uporabi zunanji program"
+msgstr "Uporabi &zunanji program"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
-#, fuzzy
-#| msgid "Additional parameters"
 msgid "A&dditional parameters"
-msgstr "Dodatni parametri"
+msgstr "&Dodatni parametri"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
-#, fuzzy
-#| msgid "Path to program to execute"
 msgid "&Path to program to execute"
-msgstr "Pot do programa"
+msgstr "&Pot do programa za izvedbo"
 
 #: tfrmoptionstooltips.btnaddfields.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
 msgid "A&dd"
-msgstr "Dodaj"
+msgstr "&Dodaj"
 
 #: tfrmoptionstooltips.btnapplyfields.caption
-#, fuzzy
-#| msgid "Apply"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
 msgid "A&pply"
-msgstr "Uveljavi"
+msgstr "&Uveljavi"
 
 #: tfrmoptionstooltips.btndeletefields.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
 msgid "D&elete"
-msgstr "Izbriši"
+msgstr "&Izbriši"
 
 #: tfrmoptionstooltips.btnfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
@@ -5551,49 +4972,37 @@ msgstr "Polja po meri glede na vrsto datoteke"
 #: tfrmoptionstooltips.gbshowtooltip.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
 msgid "Show tool tip"
-msgstr "Pokaži orodne namige"
+msgstr "Prikaz orodnih namigov"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
-#, fuzzy
-#| msgid "Category hint:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
 msgid "Category &hint:"
-msgstr "Namig kategorije:"
+msgstr "&Namig kategorije:"
 
 #: tfrmoptionstooltips.lblfieldsmask.caption
-#, fuzzy
-#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
 msgid "Category &mask:"
-msgstr "Maska kategorije:"
+msgstr "&Maska kategorije:"
 
 #: tfrmoptionstooltips.lblfieldsname.caption
-#, fuzzy
-#| msgid "Category name:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
-msgstr "Ime kategorije:"
+msgstr "Ime &kategorije:"
 
 #: tfrmoptionstooltips.rbtooltipallfiles.caption
-#, fuzzy
-#| msgid "Show tool tip for all files in file panel"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
 msgid "Sho&w tool tip for all files in file panel"
-msgstr "Pokaži orodne namige za vse datoteke okna"
+msgstr "Pokaži &orodne namige za vse datoteke v oknu"
 
 #: tfrmoptionstooltips.rbtooltipnone.caption
-#, fuzzy
-#| msgid "Don't show"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
 msgid "Don't &show"
-msgstr "Ne pokaži"
+msgstr "&Ne pokaži"
 
 #: tfrmoptionstooltips.rbtooltiponlylarge.caption
-#, fuzzy
-#| msgid "Show tool tip for files in file panel if truncated"
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
 msgid "Show &tool tip for files in file panel if truncated"
-msgstr "Pokaži predolge orodne namige v oknu datotek"
+msgstr "Pokaži orodne &namige za datoteke v oknu, če je vrednost prirezana"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -5615,50 +5024,43 @@ msgid "Example"
 msgstr "Primer"
 
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
-#, fuzzy
 #| msgid "Background color in book viewer"
 msgid "&Background color in book viewer"
-msgstr "Barva ozadja v bralnem pregledovalniku"
+msgstr "Barva &ozadja v bralnem pregledovalniku"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
-#, fuzzy
 #| msgid "Font color in book viewer"
 msgid "&Font color in book viewer"
-msgstr "Barva pisave v bralnem pregledovalniku"
+msgstr "&Barva pisave v bralnem pregledovalniku"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
-#, fuzzy
 #| msgid "Number of columns in book viewer"
 msgid "&Number of columns in book viewer"
-msgstr "Število stolpcev v bralnem pregledovalniku"
+msgstr "&Število stolpcev v bralnem pregledovalniku"
 
 #: tfrmpackdlg.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmpackdlg.btnconfig.caption
-#, fuzzy
 #| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "&Nastavitve"
 
 #: tfrmpackdlg.btnhelp.caption
-#, fuzzy
 #| msgid "Help"
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
 msgid "&Help"
-msgstr "Pomoč"
+msgstr "Pomo&č"
 
 #: tfrmpackdlg.btnok.caption
-#, fuzzy
 #| msgid "OK"
 msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"
@@ -5666,10 +5068,9 @@ msgid "Pack files"
 msgstr "Zapakiraj datoteke"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
-#, fuzzy
 #| msgid "Create separate archives, o&ne per selected file/dir"
 msgid "C&reate separate archives, one per selected file/dir"
-msgstr "Ustvari ločen arhiv za vsako izbrano datoteko oziroma mapo"
+msgstr "&Ustvari ločen arhiv za vsako izbrano datoteko oziroma mapo"
 
 #: tfrmpackdlg.cbcreatesfx.caption
 msgid "Create self e&xtracting archive"
@@ -5680,7 +5081,6 @@ msgid "Encr&ypt"
 msgstr "&Šifriraj arhiv z geslom"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
-#, fuzzy
 #| msgid "M&ove to archive"
 msgid "Mo&ve to archive"
 msgstr "Pre&makni v arhiv"
@@ -5694,10 +5094,9 @@ msgid "=>"
 msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
-#, fuzzy
 #| msgid "Put in the TAR archive first"
 msgid "P&ut in the TAR archive first"
-msgstr "Najprej vstavi v arhiv TAR"
+msgstr "Najprej &vstavi v arhiv TAR"
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"
@@ -5712,11 +5111,10 @@ msgid "Packer"
 msgstr "Pakirnik"
 
 #: tfrmpackinfodlg.btnclose.caption
-#, fuzzy
 #| msgid "Close"
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "Zapri"
+msgstr "&Zapri"
 
 #: tfrmpackinfodlg.btnunpackallandexec.caption
 msgid "Unpack &all and execute"
@@ -5849,20 +5247,18 @@ msgstr "Pomo&č"
 #: tfrmselecttextrange.btppanel.okbutton.caption
 msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
 msgid "&OK"
-msgstr "&V redu"
+msgstr "V &redu"
 
 #: tfrmselecttextrange.lblselecttext.caption
-#, fuzzy
 #| msgid "Select the characters to insert:"
 msgid "&Select the characters to insert:"
-msgstr "Izbor znakov za ustavljanje:"
+msgstr "Izbor znakov za &vstavljanje:"
 
 #: tfrmsetfileproperties.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmsetfileproperties.btnok.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
@@ -5995,11 +5391,10 @@ msgid "Write"
 msgstr "Zapiši"
 
 #: tfrmsplitter.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmsplitter.btnftchoice.caption
 msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
@@ -6007,11 +5402,10 @@ msgid "..."
 msgstr "..."
 
 #: tfrmsplitter.btnok.caption
-#, fuzzy
 #| msgid "OK"
 msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmsplitter.caption
 msgctxt "TFRMSPLITTER.CAPTION"
@@ -6032,50 +5426,43 @@ msgid "Size and number of parts"
 msgstr "Velikost in število delov"
 
 #: tfrmsplitter.lbdirtarget.caption
-#, fuzzy
 #| msgid "Directory target"
 msgid "Directory &target"
-msgstr "Ciljna mapa"
+msgstr "&Ciljna mapa"
 
 #: tfrmsplitter.lbfilesource.caption
-#, fuzzy
 #| msgid "File source"
 msgid "File &source"
-msgstr "Vir datoteke"
+msgstr "&Vir datoteke"
 
 #: tfrmsplitter.lblnumberparts.caption
-#, fuzzy
 #| msgid "Number of parts"
 msgid "&Number of parts"
-msgstr "Število delov"
+msgstr "&Število delov"
 
 #: tfrmsplitter.rbtngigab.caption
-#, fuzzy
 #| msgid "Gigabytes"
 msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
 msgid "&Gigabytes"
-msgstr "Gigabajti"
+msgstr "&Gigabajti"
 
 #: tfrmsplitter.rbtnkilob.caption
-#, fuzzy
 #| msgid "Kilobytes"
 msgctxt "TFRMSPLITTER.RBTNKILOB.CAPTION"
 msgid "&Kilobytes"
-msgstr "Kilobajti"
+msgstr "&Kilobajti"
 
 #: tfrmsplitter.rbtnmegab.caption
-#, fuzzy
 #| msgid "Megabytes"
 msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
 msgid "&Megabytes"
-msgstr "Megabajti"
+msgstr "&Megabajti"
 
 #: tfrmsymlink.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmsymlink.btnok.caption
 msgctxt "TFRMSYMLINK.BTNOK.CAPTION"
@@ -6087,57 +5474,43 @@ msgid "Create symbolic link"
 msgstr "Ustvarjanje simbolne povezave"
 
 #: tfrmsymlink.lblexistingfile.caption
-#, fuzzy
 #| msgid "Destination that the link will point to"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"
-msgstr "Pot do ciljnega mesta za povezavo"
+msgstr "Pot do &ciljnega mesta za povezavo"
 
 #: tfrmsymlink.lbllinktocreate.caption
-#, fuzzy
 #| msgid "Link name"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
-msgstr "Ime datoteke povezave"
+msgstr "Ime &povezave"
 
 #: tfrmtweakplugin.btnadd.caption
-#, fuzzy
-#| msgid "Add new"
 msgid "A&dd new"
-msgstr "Dodaj novo"
+msgstr "Dodaj n&ovo"
 
 #: tfrmtweakplugin.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmtweakplugin.btnchange.caption
-#, fuzzy
-#| msgid "Change"
 msgid "C&hange"
-msgstr "Spremeni"
+msgstr "S&premeni"
 
 #: tfrmtweakplugin.btndefault.caption
-#, fuzzy
-#| msgid "Default"
 msgid "De&fault"
-msgstr "Privzeto"
+msgstr "Pri&vzeto"
 
 #: tfrmtweakplugin.btnok.caption
-#, fuzzy
-#| msgid "OK"
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmtweakplugin.btnremove.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "&Remove"
-msgstr "Odstrani"
+msgstr "&Odstrani"
 
 #: tfrmtweakplugin.caption
 msgctxt "TFRMTWEAKPLUGIN.CAPTION"
@@ -6145,109 +5518,77 @@ msgid "Tweak plugin"
 msgstr "Prilagodi vstavek"
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
-#, fuzzy
-#| msgid "Detect archive type by content"
 msgid "De&tect archive type by content"
-msgstr "Določi vrsto arhiva po vsebini"
+msgstr "Določi vrsto arhiva po &vsebini"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
-#, fuzzy
-#| msgid "Can delete files"
 msgid "Can de&lete files"
-msgstr "Ni mogoče izbrisati datotek"
+msgstr "Dovoljeno je &izbrisati datoteke"
 
 #: tfrmtweakplugin.cbpk_caps_encrypt.caption
-#, fuzzy
-#| msgid "Supports encryption"
 msgid "Supports e&ncryption"
-msgstr "Podpira šifriranje"
+msgstr "Podpira &šifriranje"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
-#, fuzzy
-#| msgid "Show as normal files (hide packer icon)"
 msgid "Sho&w as normal files (hide packer icon)"
-msgstr "Pokaži kot običajne datoteke (skrij ikono arhiva)"
+msgstr "Pokaži kot &običajne datoteke (skrij ikono arhiva)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
-#, fuzzy
-#| msgid "Supports packing in memory"
 msgid "Supports pac&king in memory"
-msgstr "Podpira pakiranje datotek v pomnilniku"
+msgstr "Podpira pakiranje datotek v &pomnilniku"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-#, fuzzy
-#| msgid "Can modify exisiting archives"
 msgid "Can &modify exisiting archives"
-msgstr "Dovoljeno je spreminjati obstoječe arhive"
+msgstr "Dovoljeno je spreminjati &obstoječe arhive"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption
-#, fuzzy
-#| msgid "Archive can contain multiple files"
 msgid "&Archive can contain multiple files"
-msgstr "Arhiv lahko vsebuje več datotek"
+msgstr "Arhiv lahko vsebuje &več datotek"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
-#, fuzzy
-#| msgid "Can create new archives"
 msgid "Can create new archi&ves"
-msgstr "Dovoljeno je ustvariti nove arhive"
+msgstr "Dovoljeno je ustvariti nove ar&hive"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
-#, fuzzy
-#| msgid "Supports the options dialogbox"
 msgid "S&upports the options dialogbox"
-msgstr "Podpira pogovorno okno možnosti"
+msgstr "Podpira &pogovorno okno možnosti"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
-#, fuzzy
-#| msgid "Allow searching for text in archives"
 msgid "Allow searchin&g for text in archives"
-msgstr "Dovoli iskanje besedila v arhivih"
+msgstr "Dovoli iskanje &besedila v arhivih"
 
 #: tfrmtweakplugin.lbldescription.caption
-#, fuzzy
-#| msgid "Description:"
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
 msgid "&Description:"
-msgstr "Opis:"
+msgstr "&Opis:"
 
 #: tfrmtweakplugin.lbldetectstr.caption
-#, fuzzy
-#| msgid "Detect string:"
 msgid "D&etect string:"
-msgstr "Zaznava niza:"
+msgstr "Zaznava &nizov:"
 
 #: tfrmtweakplugin.lblextension.caption
-#, fuzzy
-#| msgid "Extension:"
 msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
 msgid "&Extension:"
-msgstr "Pripona:"
+msgstr "Ra&zširitev:"
 
 #: tfrmtweakplugin.lblflags.caption
 msgid "Flags:"
 msgstr "Zastavice:"
 
 #: tfrmtweakplugin.lblname.caption
-#, fuzzy
-#| msgid "Name:"
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
 msgid "&Name:"
-msgstr "Ime:"
+msgstr "&Ime:"
 
 #: tfrmtweakplugin.lblplugin.caption
-#, fuzzy
-#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "&Plugin:"
-msgstr "Vstavek:"
+msgstr "&Vstavek:"
 
 #: tfrmtweakplugin.lblplugin1.caption
-#, fuzzy
-#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "&Plugin:"
-msgstr "Vstavek:"
+msgstr "&Vstavek:"
 
 #: tfrmviewer.actabout.caption
 msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
@@ -6928,7 +6269,7 @@ msgstr "&Prekliči"
 
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
-msgstr ""
+msgstr "&Nadaljuj"
 
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
@@ -6940,7 +6281,7 @@ msgstr "Kopiraj v &vse"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
-msgstr ""
+msgstr "&končaj program"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -7097,10 +6438,9 @@ msgid "Ask;Overwrite;Copy into;Skip"
 msgstr "Vprašaj;Prepiši;Kopiraj v;Preskoči"
 
 #: ulng.rsfileopfileexistsoptions
-#, fuzzy
 #| msgid "Ask;Overwrite;Skip"
 msgid "Ask;Overwrite;Overwrite Older;Skip"
-msgstr "Vprašaj;Prepiši;Overwrite Older;Preskoči"
+msgstr "Vprašaj;Prepiši;Prepiši starejše;Preskoči"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
@@ -7312,7 +6652,7 @@ msgstr "Nosilec ni na voljo"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
-msgstr "Odpri z ..."
+msgstr "Odpri s programom ..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -7365,7 +6705,7 @@ msgstr "Ali naj se kopira %d izbranih datotek ali map?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
-msgstr "Ali naj se kopira \"%s\"?"
+msgstr "Ali naj se \"%s\" kopira v:"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
@@ -7485,7 +6825,7 @@ msgstr "Napaka v ukazu vsebinskega menija"
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
-msgstr ""
+msgstr "Napaka med nalaganjem nastavitev"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -7565,7 +6905,7 @@ msgstr "Neveljavno ime datoteke"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
-msgstr ""
+msgstr "Neveljaven zapis nastavitvene datoteke"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
@@ -7792,9 +7132,10 @@ msgstr "Oznaka dela arhiva:"
 msgid "Please enter the volume size:"
 msgstr "Velikost dela arhiva:"
 
+# This should be multiple plural !!!!
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
-msgstr "Ali naj se neobnovljivo izbriše %d izbranih datotek oziroma map?"
+msgstr "Ali naj se izbrane datoteke oziroma mape neobnovljivo izbrišejo (%d)?"
 
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
@@ -8120,7 +7461,7 @@ msgstr "ločenem oknu;pomanjšanem ločenem oknu;oknu opravil"
 
 #: ulng.rsoptfilesizeformat
 msgid "float;B;K;M;G"
-msgstr ""
+msgstr "plavajoče;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -8128,7 +7469,7 @@ msgstr "Bližnjica %s za ukaz cm_Delete bo vpisana, zato jo bo mogoče uporabiti
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
-msgstr "Dodaj hitro tipko za \"%s\""
+msgstr "Dodaj hitro tipko za %s"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
@@ -8162,7 +7503,7 @@ msgstr "Opis"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
-msgstr "Uredi hitro tipko za  \"%s\""
+msgstr "Uredi hitro tipko za  %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
@@ -8366,7 +7707,7 @@ msgstr "Orodni namigi"
 
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
-msgstr ""
+msgstr "Brez;Ukazna vrstica;Hitro iskanje;Hitri filter"
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
@@ -8402,15 +7743,15 @@ msgstr "Vpisano za"
 
 #: ulng.rsoptsearchcase
 msgid "&Sensitive;&Insensitive"
-msgstr ""
+msgstr "&Občutljivo;&Neobčutljivo"
 
 #: ulng.rsoptsearchitems
 msgid "&Files;Di&rectories;Files a&nd Directories"
-msgstr ""
+msgstr "&Datoteke;&Mape;Datoteke &in Mape"
 
 #: ulng.rsoptsearchopt
 msgid "&Hide filter panel when not focused"
-msgstr ""
+msgstr "&Skrij filter, ko okno ni v žarišču"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -8426,13 +7767,12 @@ msgstr "abecedno, upoštevajoč znakovne naglase;naravno, številčno in abecedn
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
-msgstr "Zgoraj;Spodaj;"
+msgstr "zgoraj;spodaj;"
 
 #: ulng.rsopttoolbarbuttontype
-#, fuzzy
 #| msgid "Separator;Internal command;External command;Menu"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
-msgstr "ločilnik;Notranji ukaz;Zunanji ukaz;Meni"
+msgstr "&Ločilnik;&Notranji ukaz;&Zunanji ukaz;&Meni"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
@@ -8440,7 +7780,7 @@ msgstr "ne spremeni mesta;uporabi enake nastavitve kot za nove datoteke;na razvr
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
-msgstr ""
+msgstr "Datoteke: %d; Mape: %d"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
@@ -8505,10 +7845,9 @@ msgid "Select a directory"
 msgstr "Izbor mape"
 
 #: ulng.rsshowhelpfor
-#, fuzzy
 #| msgid "Show help for %s"
 msgid "&Show help for %s"
-msgstr "Pokaži pomoč za %s"
+msgstr "&Pokaži pomoč za %s"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
