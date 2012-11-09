@@ -29,6 +29,9 @@
     Oct 2009, by cobines
       Now can extract from ELF32, ELF64, PE regardless of base platform (Linux and Win).
       Fixed reading .debug_line section from PE files (now long section name is used).
+
+    Nov 2012, by alexx2000
+      Now can extract from Mach-O binary (Mac OS X, Intel 32 and 64 bit).
 }
 
 {$mode delphi}
@@ -84,6 +87,8 @@ const
   // while an exception is being processed (don't know why).
   DwarfDebugLine: shortstring = '.debug_line';
   DwarfZDebugLine: shortstring = '.zdebug_line';
+  DwarfDarwinDebugLine: shortstring = '__debug_line';
+  DwarfDarwinSegmentName: shortstring = '__DWARF';
 
 type
   TCheckResult = (header_not_found, header_invalid, no_debug_info, found_debug_info);
@@ -214,6 +219,126 @@ type
   end;
 
   {$packrecords default}
+
+const
+  (* Constant for the magic field of the TMacho32Header (32-bit architectures) *)
+  MH_MAGIC      = $feedface;  (* the mach magic number *)
+  MH_CIGAM      = $cefaedfe;  (* NXSwapInt(MH_MAGIC) *)
+  (* Constant for the magic field of the TMacho64Header (64-bit architectures) *)
+  MH_MAGIC_64   = $feedfacf;  (* the 64-bit mach magic number *)
+  MH_CIGAM_64   = $cffaedfe;  (* NXSwapInt(MH_MAGIC_64) *)
+  (* Constants for the cmd field of all load commands, the type *)
+  LC_SEGMENT    = $00000001;  (* segment of this file to be mapped *)
+  LC_SEGMENT_64 = $00000019;  (* 64-bit segment of this file to be mapped *)
+
+type
+  {
+   The 32-bit mach header appears at the very beginning of the object file for
+   32-bit architectures.
+  }
+  TMacho32Header = packed record
+    magic:      longword;  (* mach magic number identifier *)
+    cputype:    longint;   (* cpu specifier *)
+    cpusubtype: longint;   (* machine specifier *)
+    filetype:   longword;  (* type of file *)
+    ncmds:      longword;  (* number of load commands *)
+    sizeofcmds: longword;  (* the size of all the load commands *)
+    flags:      longword;  (* flags *)
+  end;
+
+  {
+   The 64-bit mach header appears at the very beginning of object files for
+   64-bit architectures.
+  }
+  TMacho64Header = packed record
+    magic:      longword;  (* mach magic number identifier *)
+    cputype:    longint;   (* cpu specifier *)
+    cpusubtype: longint;   (* machine specifier *)
+    filetype:   longword;  (* type of file *)
+    ncmds:      longword;  (* number of load commands *)
+    sizeofcmds: longword;  (* the size of all the load commands *)
+    flags:      longword;  (* flags *)
+    reserved:   longword;  (* reserved *)
+  end;
+
+  {
+   The load commands directly follow the mach_header.
+  }
+  TMachoLoadCommand = packed record
+    cmd:        longword;  (* type of load command *)
+    cmdsize:    longword;  (* total size of command in bytes *)
+  end;
+
+  {
+   The segment load command indicates that a part of this file is to be
+   mapped into the task's address space.
+  }
+  TMacho32SegmentCommand = packed record  (* for 32-bit architectures *)
+    cmd:        longword;		  (* LC_SEGMENT *)
+    cmdsize:    longword;	          (* includes sizeof section structs *)
+    segname:    array[0..15] of ansichar; (* segment name *)
+    vmaddr:     longword;		  (* memory address of this segment *)
+    vmsize:     longword;		  (* memory size of this segment *)
+    fileoff:    longword;	          (* file offset of this segment *)
+    filesize:   longword;	          (* amount to map from the file *)
+    maxprot:    longint;	          (* maximum VM protection *)
+    initprot:   longint;	          (* initial VM protection *)
+    nsects:     longword;		  (* number of sections in segment *)
+    flags:      longword;		  (* flags *)
+  end;
+
+  {
+   The 64-bit segment load command indicates that a part of this file is to be
+   mapped into a 64-bit task's address space.
+  }
+  TMacho64SegmentCommand = packed record  (* for 64-bit architectures *)
+    cmd:        longword;		  (* LC_SEGMENT_64 *)
+    cmdsize:    longword;	          (* includes sizeof section_64 structs *)
+    segname:    array[0..15] of ansichar; (* segment name *)
+    vmaddr:     qword;		          (* memory address of this segment *)
+    vmsize:     qword;		          (* memory size of this segment *)
+    fileoff:    qword;	                  (* file offset of this segment *)
+    filesize:   qword;	                  (* amount to map from the file *)
+    maxprot:    longint;	          (* maximum VM protection *)
+    initprot:   longint;	          (* initial VM protection *)
+    nsects:     longword;		  (* number of sections in segment *)
+    flags:      longword;		  (* flags *)
+  end;
+
+  {
+   The 32-bit segment section header.
+  }
+  TMacho32SegmentSection = packed record  (* for 32-bit architectures *)
+    sectname:   array[0..15] of ansichar; (* name of this section *)
+    segname:    array[0..15] of ansichar; (* segment this section goes in *)
+    addr:       longword;		  (* memory address of this section *)
+    size:       longword;		  (* size in bytes of this section *)
+    offset:     longword;		  (* file offset of this section *)
+    align:      longword;		  (* section alignment (power of 2) *)
+    reloff:     longword;		  (* file offset of relocation entries *)
+    nreloc:     longword;		  (* number of relocation entries *)
+    flags:      longword;		  (* flags (section type and attributes)*)
+    reserved1:  longword;	          (* reserved (for offset or index) *)
+    reserved2:  longword;	          (* reserved (for count or sizeof) *)
+  end;
+
+  {
+   The 64-bit segment section header.
+  }
+  TMacho64SegmentSection = packed record  (* for 64-bit architectures *)
+    sectname:   array[0..15] of ansichar; (* name of this section *)
+    segname:    array[0..15] of ansichar; (* segment this section goes in *)
+    addr:       qword;		          (* memory address of this section *)
+    size:       qword;		          (* size in bytes of this section *)
+    offset:     longword;		  (* file offset of this section *)
+    align:      longword;		  (* section alignment (power of 2) *)
+    reloff:     longword;		  (* file offset of relocation entries *)
+    nreloc:     longword;		  (* number of relocation entries *)
+    flags:      longword;		  (* flags (section type and attributes)*)
+    reserved1:  longword;	          (* reserved (for offset or index) *)
+    reserved2:  longword;              	  (* reserved (for count or sizeof) *)
+    reserved3:  longword;	          (* reserved *)
+  end;
 
 type
   tdosheader = packed record
@@ -501,6 +626,154 @@ begin
   end;
 end;
 
+function ExtractMacho32(
+  f: TFileStream;
+  out DwarfLineInfoSize: QWord;
+  out DwarfLineInfoOffset: Int64;
+  out Imagebase: QWord;
+  out IsCompressed: Boolean): boolean;
+var
+  I, J : Integer;
+  header : TMacho32Header;
+  load_command : TMachoLoadCommand;
+  segment_header : TMacho32SegmentCommand;
+  section_header : TMacho32SegmentSection;
+begin
+  DwarfLineInfoOffset := 0;
+  DwarfLineInfoSize := 0;
+  Imagebase:= 0;
+  IsCompressed := False;
+  Result := False;
+
+  if (f.read(header, sizeof(header)) <> sizeof(header)) then begin
+    ExtractDwarfLineInfoError:='Could not read the Mach-O header!';
+    Exit(false);
+  end;
+
+  for I:= 1 to header.ncmds do begin
+    if (f.Read(load_command, sizeof(load_command)) <> sizeof(load_command)) then begin
+      ExtractDwarfLineInfoError:='Could not read next segment header';
+      Exit(false);
+    end;
+
+    if (load_command.cmd <> LC_SEGMENT) then
+      f.Seek(load_command.cmdsize - sizeof(load_command), soFromCurrent)
+    else begin
+      f.Seek(-sizeof(load_command), soFromCurrent);
+      if (f.Read(segment_header, sizeof(segment_header)) <> sizeof(segment_header)) then begin
+        ExtractDwarfLineInfoError:='Could not read segment name';
+        Exit(false);
+      end;
+
+      if segment_header.segname <> DwarfDarwinSegmentName then
+        f.Seek(load_command.cmdsize - sizeof(segment_header), soFromCurrent)
+      else begin
+        for J:= 0 to segment_header.nsects - 1 do begin
+          if (f.Read(section_header, sizeof(section_header)) <> sizeof(section_header)) then begin
+            ExtractDwarfLineInfoError:='Could not read next section header';
+            Exit(false);
+          end;
+
+          DEBUG_WRITELN('Section ', I, ': ', section_header.sectname, ', offset ', IntToStr(section_header.offset), ', size ', IntToStr(section_header.size));
+
+          if section_header.sectname = DwarfDarwinDebugLine then begin
+            DEBUG_WRITELN(section_header.sectname + ' section found');
+            DwarfLineInfoOffset := section_header.offset;
+            DwarfLineInfoSize := section_header.size;
+            { more checks }
+            DEBUG_WRITELN(' offset ', DwarfLineInfoOffset, ',  size ', DwarfLineInfoSize);
+            Result := (DwarfLineInfoOffset >= 0) and (DwarfLineInfoSize > 0);
+            Break;
+          end
+          else if section_header.sectname = DwarfZDebugLine then begin
+            DEBUG_WRITELN(section_header.sectname + ' section found');
+            DwarfLineInfoOffset := section_header.offset;
+            DEBUG_WRITELN(' offset ', DwarfLineInfoOffset);
+            IsCompressed:= true;
+            Result := (DwarfLineInfoOffset >= 0);
+            Break;
+          end;
+        end;
+        Break;
+      end;
+    end;
+  end;
+end;
+
+function ExtractMacho64(
+  f: TFileStream;
+  out DwarfLineInfoSize: QWord;
+  out DwarfLineInfoOffset: Int64;
+  out Imagebase: QWord;
+  out IsCompressed: Boolean): boolean;
+var
+  I, J : Integer;
+  header : TMacho64Header;
+  load_command : TMachoLoadCommand;
+  segment_header : TMacho64SegmentCommand;
+  section_header : TMacho64SegmentSection;
+begin
+  DwarfLineInfoOffset := 0;
+  DwarfLineInfoSize := 0;
+  Imagebase:= 0;
+  IsCompressed := False;
+  Result := False;
+
+  if (f.read(header, sizeof(header)) <> sizeof(header)) then begin
+    ExtractDwarfLineInfoError:='Could not read the Mach-O header!';
+    Exit(false);
+  end;
+
+  for I:= 1 to header.ncmds do begin
+    if (f.Read(load_command, sizeof(load_command)) <> sizeof(load_command)) then begin
+      ExtractDwarfLineInfoError:='Could not read next segment header';
+      Exit(false);
+    end;
+
+    if (load_command.cmd <> LC_SEGMENT_64) then
+      f.Seek(load_command.cmdsize - sizeof(load_command), soFromCurrent)
+    else begin
+      f.Seek(-sizeof(load_command), soFromCurrent);
+      if (f.Read(segment_header, sizeof(segment_header)) <> sizeof(segment_header)) then begin
+        ExtractDwarfLineInfoError:='Could not read segment name';
+        Exit(false);
+      end;
+
+      if segment_header.segname <> DwarfDarwinSegmentName then
+        f.Seek(load_command.cmdsize - sizeof(segment_header), soFromCurrent)
+      else begin
+        for J:= 0 to segment_header.nsects - 1 do begin
+          if (f.Read(section_header, sizeof(section_header)) <> sizeof(section_header)) then begin
+            ExtractDwarfLineInfoError:='Could not read next section header';
+            Exit(false);
+          end;
+
+          DEBUG_WRITELN('Section ', I, ': ', section_header.sectname, ', offset ', IntToStr(section_header.offset), ', size ', IntToStr(section_header.size));
+
+          if section_header.sectname = DwarfDarwinDebugLine then begin
+            DEBUG_WRITELN(section_header.sectname + ' section found');
+            DwarfLineInfoOffset := section_header.offset;
+            DwarfLineInfoSize := section_header.size;
+            { more checks }
+            DEBUG_WRITELN(' offset ', DwarfLineInfoOffset, ',  size ', DwarfLineInfoSize);
+            Result := (DwarfLineInfoOffset >= 0) and (DwarfLineInfoSize > 0);
+            Break;
+          end
+          else if section_header.sectname = DwarfZDebugLine then begin
+            DEBUG_WRITELN(section_header.sectname + ' section found');
+            DwarfLineInfoOffset := section_header.offset;
+            DEBUG_WRITELN(' offset ', DwarfLineInfoOffset);
+            IsCompressed:= true;
+            Result := (DwarfLineInfoOffset >= 0);
+            Break;
+          end;
+        end;
+        Break;
+      end;
+    end;
+  end;
+end;
+
 function CheckWindowsExe(
   f: TFileStream;
   out DwarfLineInfoSize: QWord;
@@ -677,6 +950,54 @@ begin
   end;
 end;
 
+function CheckDarwinMacho(
+  f: TFileStream;
+  out DwarfLineInfoSize: QWord;
+  out DwarfLineInfoOffset: Int64;
+  out Imagebase: QWord;
+  out IsCompressed: Boolean): TCheckResult;
+var
+  fileIdentBuf : LongWord;
+begin
+  if f.Size >= SizeOf(LongWord) then
+  begin
+    if (f.read(fileIdentBuf, SizeOf(LongWord)) <> SizeOf(LongWord)) then begin
+      Exit(header_not_found);
+    end;
+
+    f.Seek(0, soBeginning);
+
+    case fileIdentBuf of
+      MH_MAGIC,
+      MH_CIGAM:
+        begin
+          DEBUG_WRITELN('Found Unix Mach-O 32-bit header.');
+
+          if ExtractMacho32(f, DwarfLineInfoSize, DwarfLineInfoOffset, Imagebase, IsCompressed) then
+            Result := found_debug_info
+           else
+            Result := no_debug_info;
+        end;
+      MH_MAGIC_64,
+      MH_CIGAM_64:
+        begin
+          DEBUG_WRITELN('Found Unix Mach-O 64-bit header.');
+
+          if ExtractMacho64(f, DwarfLineInfoSize, DwarfLineInfoOffset, Imagebase, IsCompressed) then
+            Result := found_debug_info
+           else
+            Result := no_debug_info;
+        end;
+      else
+        begin
+          Exit(header_not_found);
+        end;
+    end;
+
+    Imagebase:= 0;
+  end;
+end;
+
 function ExtractDwarfLineInfo(
   ExeFileName: ansistring;
   out _dlnfo: pointer;
@@ -704,6 +1025,13 @@ begin
     begin
       f.Seek(0, soBeginning);
       CheckResult := CheckUnixElf(f, DwarfSize, DwarfOffset, Imagebase, IsCompressed);
+    end;
+
+    { Check for Darwin Mach-O. }
+    if CheckResult = header_not_found then
+    begin
+      f.Seek(0, soBeginning);
+      CheckResult := CheckDarwinMacho(f, DwarfSize, DwarfOffset, Imagebase, IsCompressed);
     end;
 
     if CheckResult = found_debug_info then begin
