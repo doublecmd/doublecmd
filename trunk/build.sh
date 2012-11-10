@@ -48,10 +48,13 @@ build_beta()
   
   # Extract debug line info
   chmod a+x tools/extractdwrflnfo
+  if [ -f doublecmd.dSYM/Contents/Resources/DWARF/doublecmd ]; then
+    mv -f doublecmd.dSYM/Contents/Resources/DWARF/doublecmd $(pwd)/doublecmd.dbg
+  fi
   tools/extractdwrflnfo doublecmd.dbg
   
   # Strip debug info
-  strip --strip-all doublecmd
+  strip doublecmd
 }
 
 build_all()
