@@ -23,11 +23,7 @@ uses
   Forms,
   LCLVersion,
   {$IF DEFINED(NIGHTLY_BUILD)}
-  {$IF NOT DEFINED(DARWIN)}
   un_lineinfo,
-  {$ELSE}
-  lnfodwrf,
-  {$ENDIF}
   {$ENDIF}
   uGlobsPaths,
   uGlobs,
@@ -62,7 +58,7 @@ var
 begin
   DCDebug('Starting Double Commander');
 
-  {$IF DEFINED(NIGHTLY_BUILD) AND NOT DEFINED(DARWIN)}
+  {$IF DEFINED(NIGHTLY_BUILD)}
   InitLineInfo;
   {$ENDIF}
 
