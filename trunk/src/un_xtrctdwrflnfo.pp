@@ -89,6 +89,7 @@ const
   DwarfZDebugLine: shortstring = '.zdebug_line';
   DwarfDarwinDebugLine: shortstring = '__debug_line';
   DwarfDarwinSegmentName: shortstring = '__DWARF';
+  TextDarwinSegmentName: shortstring = '__TEXT';
 
 type
   TCheckResult = (header_not_found, header_invalid, no_debug_info, found_debug_info);
@@ -665,8 +666,11 @@ begin
         Exit(false);
       end;
 
-      if segment_header.segname <> DwarfDarwinSegmentName then
-        f.Seek(load_command.cmdsize - sizeof(segment_header), soFromCurrent)
+      if segment_header.segname <> DwarfDarwinSegmentName then begin
+        f.Seek(load_command.cmdsize - sizeof(segment_header), soFromCurrent);
+        if segment_header.segname = TextDarwinSegmentName then
+          Imagebase:= segment_header.vmaddr;
+      end
       else begin
         for J:= 0 to segment_header.nsects - 1 do begin
           if (f.Read(section_header, sizeof(section_header)) <> sizeof(section_header)) then begin
@@ -739,8 +743,11 @@ begin
         Exit(false);
       end;
 
-      if segment_header.segname <> DwarfDarwinSegmentName then
-        f.Seek(load_command.cmdsize - sizeof(segment_header), soFromCurrent)
+      if segment_header.segname <> DwarfDarwinSegmentName then begin
+        f.Seek(load_command.cmdsize - sizeof(segment_header), soFromCurrent);
+        if segment_header.segname = TextDarwinSegmentName then
+          Imagebase:= segment_header.vmaddr;
+      end
       else begin
         for J:= 0 to segment_header.nsects - 1 do begin
           if (f.Read(section_header, sizeof(section_header)) <> sizeof(section_header)) then begin
@@ -971,7 +978,7 @@ begin
       MH_MAGIC,
       MH_CIGAM:
         begin
-          DEBUG_WRITELN('Found Unix Mach-O 32-bit header.');
+          DEBUG_WRITELN('Found Darwin Mach-O 32-bit header.');
 
           if ExtractMacho32(f, DwarfLineInfoSize, DwarfLineInfoOffset, Imagebase, IsCompressed) then
             Result := found_debug_info
@@ -981,7 +988,7 @@ begin
       MH_MAGIC_64,
       MH_CIGAM_64:
         begin
-          DEBUG_WRITELN('Found Unix Mach-O 64-bit header.');
+          DEBUG_WRITELN('Found Darwin Mach-O 64-bit header.');
 
           if ExtractMacho64(f, DwarfLineInfoSize, DwarfLineInfoOffset, Imagebase, IsCompressed) then
             Result := found_debug_info
@@ -993,8 +1000,6 @@ begin
           Exit(header_not_found);
         end;
     end;
-
-    Imagebase:= 0;
   end;
 end;
 

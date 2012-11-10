@@ -255,8 +255,10 @@ begin
   dladdr(addr, @dlinfo);
   baseaddr:= dlinfo.dli_fbase;
   filename:= String(dlinfo.dli_fname);
+  {$if not defined(darwin)}
   if ExtractFileName(filename) = ExtractFileName(ParamStr(0))
     then baseaddr:= nil;
+  {$endif}
 end;
 {$else}
 var
