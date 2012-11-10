@@ -108,6 +108,7 @@ type
     }
     function IsMouseSelecting: Boolean; inline;
     procedure MainControlDblClick(Sender: TObject);
+    procedure MainControlQuadClick(Sender: TObject);
     procedure MainControlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure MainControlDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure MainControlEndDrag(Sender, Target: TObject; X, Y: Integer);
@@ -768,6 +769,11 @@ begin
   FMainControlMouseDown := False;
 end;
 
+procedure TFileViewWithMainCtrl.MainControlQuadClick(Sender: TObject);
+begin
+  MainControlDblClick(Sender);
+end;
+
 procedure TFileViewWithMainCtrl.MainControlShowHint(Sender: TObject; HintInfo: PHintInfo);
 var
   AFile: TDisplayFile;
@@ -964,6 +970,8 @@ begin
   if FMainControl = AValue then Exit;
   FMainControl := AValue;
 
+  FMainControl.ControlStyle   := FMainControl.ControlStyle + [csQuadClicks];
+
   FMainControl.OnEnter        := @MainControlEnter;
   FMainControl.OnExit         := @MainControlExit;
   FMainControl.OnKeyDown      := @MainControlKeyDown;
@@ -972,6 +980,7 @@ begin
   FMainControl.OnUTF8KeyPress := @MainControlUTF8KeyPress;
 
   TControlHandlersHack(FMainControl).OnDblClick   := @MainControlDblClick;
+  TControlHandlersHack(FMainControl).OnQuadClick  := @MainControlQuadClick;
   TControlHandlersHack(FMainControl).OnDragDrop   := @MainControlDragDrop;
   TControlHandlersHack(FMainControl).OnDragOver   := @MainControlDragOver;
   TControlHandlersHack(FMainControl).OnEndDrag    := @MainControlEndDrag;
