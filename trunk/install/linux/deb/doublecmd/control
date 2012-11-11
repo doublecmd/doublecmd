@@ -16,7 +16,7 @@ Build-Depends: libbz2-dev,
                lcl-units (>= 1.0.1),
                lcl-utils (>= 1.0.1),
                lazarus-src (>= 1.0.1)
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Homepage: http://doublecmd.sourceforge.net/
 
 Package: doublecmd-gtk
