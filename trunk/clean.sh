@@ -32,7 +32,3 @@ rm -f plugins/wfx/samba/lib/smbauthdlg.lfm
 # Remove debug files
 rm -f  doublecmd.zdli doublecmd.dbg
 rm -rf doublecmd.dSYM
-
-# Restore dcrevision.inc
-echo "// Created by Svn2RevisionInc\r" >  src/dcrevision.inc
-echo "const dcRevision = 'Unknown';\r" >> src/dcrevision.inc

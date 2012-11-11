@@ -20,14 +20,20 @@ DC_REVISION=$(svnversion -n ../../)
 rm -rf $DC_TEMP_DIR
 mkdir -p $DC_TEMP_DIR
 
+update_revision()
+{
+  # Update dcrevision.inc
+  echo "// Created by Svn2RevisionInc"      >  $DC_SOURCE_DIR/src/dcrevision.inc
+  echo "const dcRevision = '$DC_REVISION';" >> $DC_SOURCE_DIR/src/dcrevision.inc
+}
+
 update_doublecmd()
 {
   # Export from SVN
   svn export ../../ $DC_SOURCE_DIR
 
   # Save revision number
-  mkdir $DC_SOURCE_DIR/.svn
-  cp -a ../../.svn/entries $DC_SOURCE_DIR/.svn/
+  update_revision
 
   # Remove help files
   rm -rf $DC_SOURCE_DIR/doc/en
@@ -69,8 +75,7 @@ update_doublecmd_svn()
   svn export ../../ $DC_SOURCE_DIR
 
   # Save revision number
-  mkdir $DC_SOURCE_DIR/.svn
-  cp -a ../../.svn/entries $DC_SOURCE_DIR/.svn/
+  update_revision
 
   # Remove help files
   rm -rf $DC_SOURCE_DIR/doc/en
