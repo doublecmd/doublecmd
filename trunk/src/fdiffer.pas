@@ -192,6 +192,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
   private
     Diff: TDiff;
@@ -250,8 +251,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs, uShowMsg,
-  uBinaryCompare, DCClassesUtf8, dmCommonData, DCOSUtils;
+  LCLType, LCLProc, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
+  uShowMsg, uBinaryCompare, DCClassesUtf8, dmCommonData, DCOSUtils;
 
 const
   HotkeysCategory = 'Differ';
@@ -614,6 +615,15 @@ begin
   FreeThenNil(Diff);
   FreeThenNil(HashListLeft);
   FreeThenNil(HashListRight);
+end;
+
+procedure TfrmDiffer.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+  begin
+    Key:= 0;
+    Close;
+  end;
 end;
 
 procedure TfrmDiffer.FormResize(Sender: TObject);

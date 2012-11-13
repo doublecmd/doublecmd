@@ -10,6 +10,7 @@ object frmDiffer: TfrmDiffer
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   OnResize = FormResize
   SessionProperties = 'actAutoCompare.Checked;actIgnoreCase.Checked;actIgnoreWhiteSpace.Checked;actKeepScrolling.Checked;actLineDifferences.Checked;actPaintBackground.Checked;Height;Left;Top;Width;WindowState'
   ShowHint = True
