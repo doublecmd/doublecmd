@@ -848,11 +848,15 @@ var
   iniDesktop: TIniFileEx = nil;
   sIconName: UTF8String;
 begin
-  iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
   try
-    sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
-  finally
-    FreeAndNil(iniDesktop);
+    iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
+    try
+      sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
+    finally
+      FreeAndNil(iniDesktop);
+    end;
+  except
+    Exit(iDefaultIcon);
   end;
 
   {
@@ -1592,7 +1596,7 @@ begin
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (IconsMode = sim_all_and_exe) and
-         (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
+         (DirectAccess and mbFileAccess(Path + Name + '/.directory', fmOpenRead)) then
         begin
           if LoadIcon then
             Result := GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID)
