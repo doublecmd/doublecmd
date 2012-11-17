@@ -101,8 +101,15 @@ begin
   lblInfo          := TLabel.Create(pnlFooter);
   lblInfo.Parent   := pnlFooter;
   lblInfo.AutoSize := False;
-  lblInfo.Height   := lblInfo.Canvas.TextHeight('Wg');
   lblInfo.Align    := alClient;
+
+  {$IF DEFINED(LCLGTK2)}
+  // Workaround: "Layout and line"
+  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=573
+  pnlFooter.Visible := False;
+  {$ELSE}
+  lblInfo.Height    := lblInfo.Canvas.TextHeight('Wg');
+  {$ENDIF}
 
   {$IFDEF LCLCARBON}
   // Under Carbon AutoSize don't work without it
