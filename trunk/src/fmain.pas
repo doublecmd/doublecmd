@@ -775,6 +775,13 @@ begin
   for I := 0 to pnlKeys.ControlCount - 1 do
     FunctionButtonsCaptions[I].ACaption := pnlKeys.Controls[I].Caption;
 
+  {$IF DEFINED(LCLGTK2)}
+  // Workaround: "Layout and line"
+  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=573
+  pnlLeftTools.Visible := False;
+  pnlRightTools.Visible := False;
+  {$ENDIF}
+
   InitPropStorage(Self);
 
   PanelSelected:=fpLeft;
