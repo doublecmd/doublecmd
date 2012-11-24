@@ -10,7 +10,7 @@ URL:		http://doublecmd.sourceforge.net
 Source0:	%{doublecmd}-%{version}.tar.gz
 License:	GPL
 Group:		Applications/File
-BuildRequires:	fpc >= 2.4.0 fpc-src glib2-devel libQt4Pas5-devel >= 2.1 lazarus >= 0.9.29
+BuildRequires:	fpc >= 2.6.0 fpc-src glib2-devel libQt4Pas5-devel >= 2.1 lazarus >= 1.0.0
 %if 0%{?mandriva_version}
 BuildRequires:  libncurses-devel libdbus-1-devel libbzip2-devel
 %endif
