@@ -3474,6 +3474,58 @@ msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr ""
 
+#: tfrmopenwith.caption
+msgid "Choose an application"
+msgstr ""
+
+#: tfrmopenwith.chkcustomcommand.caption
+msgid "Custom command"
+msgstr ""
+
+#: tfrmopenwith.chksaveassociation.caption
+msgid "Save association"
+msgstr ""
+
+#: tfrmopenwith.chkuseasdefault.caption
+msgid "Set selected application as default action"
+msgstr ""
+
+#: tfrmopenwith.lblmimetype.caption
+msgid "File type to be opened: %s"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.caption
+msgid "Multiple file names"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.hint
+msgid "%F"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.caption
+msgid "Multiple URIs"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.hint
+msgid "%U"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.caption
+msgid "Single file name"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.hint
+msgid "%f"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.caption
+msgid "Single URI"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.hint
+msgid "%u"
+msgstr ""
+
 #: tfrmoptions.btnapply.caption
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "&Apply"
@@ -6582,7 +6634,11 @@ msgid "No media available"
 msgstr ""
 
 #: ulng.rsmnuopenwith
-msgid "Open with ..."
+msgid "Open with"
+msgstr ""
+
+#: ulng.rsmnuopenwithother
+msgid "Other..."
 msgstr ""
 
 #: ulng.rsmnusortby
@@ -6764,6 +6820,10 @@ msgstr ""
 
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
+msgstr ""
+
+#: ulng.rsmsgerrsaveassociation
+msgid "Can not save association!"
 msgstr ""
 
 #: ulng.rsmsgerrsavefile
@@ -7924,4 +7984,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+

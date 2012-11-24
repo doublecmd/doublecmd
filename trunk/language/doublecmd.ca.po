@@ -3797,6 +3797,58 @@ msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Ruta"
 
+#: tfrmopenwith.caption
+msgid "Choose an application"
+msgstr ""
+
+#: tfrmopenwith.chkcustomcommand.caption
+msgid "Custom command"
+msgstr ""
+
+#: tfrmopenwith.chksaveassociation.caption
+msgid "Save association"
+msgstr ""
+
+#: tfrmopenwith.chkuseasdefault.caption
+msgid "Set selected application as default action"
+msgstr ""
+
+#: tfrmopenwith.lblmimetype.caption
+msgid "File type to be opened: %s"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.caption
+msgid "Multiple file names"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.hint
+msgid "%F"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.caption
+msgid "Multiple URIs"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.hint
+msgid "%U"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.caption
+msgid "Single file name"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.hint
+msgid "%f"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.caption
+msgid "Single URI"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.hint
+msgid "%u"
+msgstr ""
+
 #: tfrmoptions.btnapply.caption
 #, fuzzy
 #| msgid "Apply"
@@ -7348,8 +7400,14 @@ msgid "No media available"
 msgstr "No hi ha cap medi disponible"
 
 #: ulng.rsmnuopenwith
-msgid "Open with ..."
+#, fuzzy
+#| msgid "Open with ..."
+msgid "Open with"
 msgstr "Obrir amb ..."
+
+#: ulng.rsmnuopenwithother
+msgid "Other..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -7531,6 +7589,10 @@ msgstr "Error de sintaxi en expresió regular!"
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
 msgstr "No es pot reanomenar l'Arxiu %s a %s"
+
+#: ulng.rsmsgerrsaveassociation
+msgid "Can not save association!"
+msgstr ""
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -8695,4 +8757,4 @@ msgstr "Codificació"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s no trobat!"
-
+
