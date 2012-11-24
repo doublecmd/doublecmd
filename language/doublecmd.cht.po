@@ -227,7 +227,6 @@ msgstr ""
 msgid "Choose template..."
 msgstr "選擇範本..."
 
-
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 #| msgid "Check free space"
 msgid "C&heck free space"
@@ -245,12 +244,10 @@ msgstr "複製擁有者 (&w)"
 msgid "Copy d&ate/time"
 msgstr "複製日期/時間 (&a)"
 
-
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 #| msgid "Correct links"
 msgid "Correct lin&ks"
 msgstr "正確連接 (&k)"
-
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
 #| msgid "Drop readonly flag"
@@ -267,7 +264,6 @@ msgstr "包含空白資料夾 (&x)"
 msgid "Fo&llow links"
 msgstr "同上連接 (&l)"
 
-
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "&Reserve space"
 msgstr "預留空間 (&R)"
@@ -279,8 +275,6 @@ msgstr "當不能設定檔案時間、屬性等要如何處理"
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
 msgstr "使用檔案範本"
-
-
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 #| msgid "When directory exists"
@@ -383,9 +377,6 @@ msgstr "縮壓比 (&m)"
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
 msgid "&Directory"
 msgstr "資料夾 (&D)"
-
-
-
 
 #: tfrmattributesedit.cbencrypted.caption
 #, fuzzy
@@ -2019,6 +2010,10 @@ msgstr "正則表達式 (&R)"
 msgid "Re&place by"
 msgstr "由...取代 (&p)"
 
+#: tfrmfinddlg.cbselectedfiles.caption
+msgid "Selected directories and &files"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -2374,6 +2369,14 @@ msgstr "清除記錄檔案"
 msgid "Clear log window"
 msgstr "清除記錄視窗"
 
+#: tfrmmain.actclosealltabs.caption
+msgid "Close &All Tabs"
+msgstr ""
+
+#: tfrmmain.actclosetab.caption
+msgid "&Close Tab"
+msgstr ""
+
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
 msgstr "下一個指令"
@@ -2706,16 +2709,6 @@ msgstr "快速檢視面版 (&Q)"
 msgid "&Refresh"
 msgstr "更新 (&R)"
 
-#: tfrmmain.actremovealltabs.caption
-#| msgid "Remove &all tabs"
-msgid "Remove &All Tabs"
-msgstr "移除所有非作用中分頁 (&A)"
-
-#: tfrmmain.actremovetab.caption
-#| msgid "&Remove tab"
-msgid "&Remove Tab"
-msgstr "關閉分頁 (&R)"
-
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2733,7 +2726,9 @@ msgid "Rename"
 msgstr "重新命名"
 
 #: tfrmmain.actrenametab.caption
-msgid "Re&name Tab"
+#, fuzzy
+#| msgid "Re&name Tab"
+msgid "&Rename Tab"
 msgstr "重新命名分頁 (&n)"
 
 #: tfrmmain.actrestoreselection.caption
@@ -3359,15 +3354,6 @@ msgstr "建立新資料夾"
 msgid "&Input new directory name:"
 msgstr "輸入新資料夾名 (&I):"
 
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "確定"
-
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
 msgid "..."
@@ -3773,6 +3759,58 @@ msgstr "新檔名"
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "檔案路徑"
+
+#: tfrmopenwith.caption
+msgid "Choose an application"
+msgstr ""
+
+#: tfrmopenwith.chkcustomcommand.caption
+msgid "Custom command"
+msgstr ""
+
+#: tfrmopenwith.chksaveassociation.caption
+msgid "Save association"
+msgstr ""
+
+#: tfrmopenwith.chkuseasdefault.caption
+msgid "Set selected application as default action"
+msgstr ""
+
+#: tfrmopenwith.lblmimetype.caption
+msgid "File type to be opened: %s"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.caption
+msgid "Multiple file names"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.hint
+msgid "%F"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.caption
+msgid "Multiple URIs"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.hint
+msgid "%U"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.caption
+msgid "Single file name"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.hint
+msgid "%f"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.caption
+msgid "Single URI"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.hint
+msgid "%u"
+msgstr ""
 
 #: tfrmoptions.btnapply.caption
 #, fuzzy
@@ -4590,13 +4628,6 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
 msgstr "在檔案清單後載入圖示"
 
-#: tfrmoptionsfilesviews.cbshortfilesizeformat.caption
-#, fuzzy
-#| msgid "Short file size format"
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file si&ze format"
-msgstr "短檔案大小格式"
-
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 #, fuzzy
 #| msgid "Show system and hidden files"
@@ -4637,6 +4668,10 @@ msgstr ""
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "&Date and time format:"
 msgstr "日期時間格式:"
+
+#: tfrmoptionsfilesviews.lblfilesizeformat.caption
+msgid "File si&ze format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
@@ -7023,12 +7058,20 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "取消 (&C)"
 
+#: ulng.rsdlgbuttoncontinue
+msgid "&Continue"
+msgstr ""
+
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "複製到 &I"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
+msgstr ""
+
+#: ulng.rsdlgbuttonexitprogram
+msgid "E&xit program"
 msgstr ""
 
 #: ulng.rsdlgbuttonignoreall
@@ -7190,7 +7233,7 @@ msgid "Ask;Overwrite;Copy into;Skip"
 msgstr ""
 
 #: ulng.rsfileopfileexistsoptions
-msgid "Ask;Overwrite;Skip"
+msgid "Ask;Overwrite;Overwrite Older;Skip"
 msgstr ""
 
 #: ulng.rsfileopsetpropertyerroroptions
@@ -7401,8 +7444,14 @@ msgid "No media available"
 msgstr "沒有可用的媒體"
 
 #: ulng.rsmnuopenwith
-msgid "Open with ..."
+#, fuzzy
+#| msgid "Open with ..."
+msgid "Open with"
 msgstr "打開..."
+
+#: ulng.rsmnuopenwithother
+msgid "Other..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -7574,6 +7623,10 @@ msgstr "不支持的功能!"
 msgid "Error in context menu command"
 msgstr ""
 
+#: ulng.rsmsgerrorloadingconfiguration
+msgid "Error when loading configuration"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "正則表達式語法錯誤!"
@@ -7581,6 +7634,10 @@ msgstr "正則表達式語法錯誤!"
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
 msgstr "不能重命名檔案 %s 為 %s"
+
+#: ulng.rsmsgerrsaveassociation
+msgid "Can not save association!"
+msgstr ""
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -7649,6 +7706,10 @@ msgstr ""
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "無效的檔案名稱"
+
+#: ulng.rsmsginvalidformatofconfigurationfile
+msgid "Invalid format of configuration file"
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
@@ -8205,6 +8266,10 @@ msgstr "文字"
 msgid "separate window;minimized separate window;operations panel"
 msgstr "分隔視窗;最小分隔視窗;操作面板"
 
+#: ulng.rsoptfilesizeformat
+msgid "float;B;K;M;G"
+msgstr ""
+
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr ""
@@ -8735,6 +8800,5 @@ msgstr "編碼中"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
-msgstr "%s 沒有找到"
-msgstr "%s 沒有找到"
-
+msgstr "%s 沒有找到%s 沒有找到"
+

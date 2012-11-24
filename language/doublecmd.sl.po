@@ -1,9 +1,3 @@
-# Slovenian translations for double-commander.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# This file is distributed under the same license as the double-commander package.
-#
-# Matej Urbančič <mateju@svn.gnome.org>, 2011 - 2012.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: double-commander 0.5.5 alpha\n"
@@ -1845,6 +1839,11 @@ msgstr "&Pogled"
 msgid "Feed to &listbox"
 msgstr "Izpiši v &seznam"
 
+#: tfrmfinddlg.caption
+msgctxt "tfrmfinddlg.caption"
+msgid "Find files"
+msgstr "&Najdi datoteke"
+
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
 msgstr "Upoštevaj &velikost črk"
@@ -1931,11 +1930,6 @@ msgstr "Vpis imen datotek, ločenih z \";\""
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
-
-#: tfrmfinddlg.frmfinddlg.caption
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "&Najdi datoteke"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -3137,15 +3131,6 @@ msgstr "Ustvari novo mapo"
 msgid "&Input new directory name:"
 msgstr "Vpis imena &nove mape:"
 
-#: tfrmmodview.btncancel.caption
-msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: tfrmmodview.btnok.caption
-msgid "Ok"
-msgstr "V redu"
-
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
 msgid "..."
@@ -3517,6 +3502,58 @@ msgstr "Novo ime datoteke"
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr "Pot datoteke"
+
+#: tfrmopenwith.caption
+msgid "Choose an application"
+msgstr ""
+
+#: tfrmopenwith.chkcustomcommand.caption
+msgid "Custom command"
+msgstr ""
+
+#: tfrmopenwith.chksaveassociation.caption
+msgid "Save association"
+msgstr ""
+
+#: tfrmopenwith.chkuseasdefault.caption
+msgid "Set selected application as default action"
+msgstr ""
+
+#: tfrmopenwith.lblmimetype.caption
+msgid "File type to be opened: %s"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.caption
+msgid "Multiple file names"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.hint
+msgid "%F"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.caption
+msgid "Multiple URIs"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.hint
+msgid "%U"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.caption
+msgid "Single file name"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.hint
+msgid "%f"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.caption
+msgid "Single URI"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.hint
+msgid "%u"
+msgstr ""
 
 #: tfrmoptions.btnapply.caption
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
@@ -6651,8 +6688,14 @@ msgid "No media available"
 msgstr "Nosilec ni na voljo"
 
 #: ulng.rsmnuopenwith
-msgid "Open with ..."
+#, fuzzy
+#| msgid "Open with ..."
+msgid "Open with"
 msgstr "Odpri s programom ..."
+
+#: ulng.rsmnuopenwithother
+msgid "Other..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -6834,6 +6877,10 @@ msgstr "Napaka skladnje logičnega izraza!"
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
 msgstr "Ni mogoče preimenovati datoteke %s v %s"
+
+#: ulng.rsmsgerrsaveassociation
+msgid "Can not save association!"
+msgstr ""
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -7132,7 +7179,6 @@ msgstr "Oznaka dela arhiva:"
 msgid "Please enter the volume size:"
 msgstr "Velikost dela arhiva:"
 
-# This should be multiple plural !!!!
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
 msgstr "Ali naj se izbrane datoteke oziroma mape neobnovljivo izbrišejo (%d)?"
@@ -7996,4 +8042,4 @@ msgstr "Nabor znakov"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s ni mogoče najti!"
-
+

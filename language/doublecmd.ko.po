@@ -3795,6 +3795,58 @@ msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "파일 경로"
 
+#: tfrmopenwith.caption
+msgid "Choose an application"
+msgstr ""
+
+#: tfrmopenwith.chkcustomcommand.caption
+msgid "Custom command"
+msgstr ""
+
+#: tfrmopenwith.chksaveassociation.caption
+msgid "Save association"
+msgstr ""
+
+#: tfrmopenwith.chkuseasdefault.caption
+msgid "Set selected application as default action"
+msgstr ""
+
+#: tfrmopenwith.lblmimetype.caption
+msgid "File type to be opened: %s"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.caption
+msgid "Multiple file names"
+msgstr ""
+
+#: tfrmopenwith.milistoffiles.hint
+msgid "%F"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.caption
+msgid "Multiple URIs"
+msgstr ""
+
+#: tfrmopenwith.milistofurls.hint
+msgid "%U"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.caption
+msgid "Single file name"
+msgstr ""
+
+#: tfrmopenwith.misinglefilename.hint
+msgid "%f"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.caption
+msgid "Single URI"
+msgstr ""
+
+#: tfrmopenwith.misingleurl.hint
+msgid "%u"
+msgstr ""
+
 #: tfrmoptions.btnapply.caption
 #, fuzzy
 #| msgid "Apply"
@@ -7555,8 +7607,14 @@ msgid "No media available"
 msgstr "매체가 없습니다"
 
 #: ulng.rsmnuopenwith
-msgid "Open with ..."
+#, fuzzy
+#| msgid "Open with ..."
+msgid "Open with"
 msgstr "...로 열기"
+
+#: ulng.rsmnuopenwithother
+msgid "Other..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -7741,6 +7799,10 @@ msgstr "정규 표현식 구문 오류!"
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
 msgstr "파일명을 변경할 수 없습니다. (%s -> %s)"
+
+#: ulng.rsmsgerrsaveassociation
+msgid "Can not save association!"
+msgstr ""
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -8941,4 +9003,4 @@ msgstr "인코딩"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s 를 찾지 못했습니다!"
-
+
