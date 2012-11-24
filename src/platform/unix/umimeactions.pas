@@ -8,7 +8,7 @@
     (http://www.freedesktop.org/wiki/Specifications/mime-actions-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
-    Copyright (C) 2011  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2011-2012  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ type
     ExecWithParams: String; // with %F, %U etc.
     Exec: String;           // % params resolved
     IconName: String;
+    Categories: String;
     Terminal: Boolean;
     Hidden: Boolean;
   end;
@@ -64,11 +65,28 @@ function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
    Returns a file MIME type.
 }
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
+{en
+   Get desktop entry by desktop file name.
+}
+function GetDesktopEntry(const FileName: UTF8String): PDesktopFileEntry;
+{en
+   Adds a new action for given mimetype.
+   @param(MimeType File mime type)
+   @param(DesktopEntry Desktop file name or user command)
+   @param(DefaultAction Set as default action for this mime type)
+   @returns(The function returns @true if successful, @false otherwise)
+}
+function AddDesktopEntry(const MimeType, DesktopEntry: UTF8String;
+                                   DefaultAction: Boolean): Boolean;
+
+function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
+                                   const fileList: TStringList): String;
 
 implementation
 
 uses
-  DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard, DCOSUtils, uOSUtils;
+  DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard, DCOSUtils,
+  uOSUtils, uKeyFile;
 
 type
   TCDesktopFileEntry = record
@@ -85,6 +103,7 @@ const
 
 procedure mime_type_init; cdecl; external libmime;
 procedure mime_type_finalize; cdecl; external libmime;
+procedure mime_type_add_action(mimeType, DesktopFileId: PChar; CustomDesktop: PPChar); cdecl; external libmime;
 function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdecl; external libmime;
 function mime_type_get_by_file(filepath: PChar; stat: Pointer; basename: PChar): PChar; cdecl; external libmime;
 function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external libmime;
@@ -416,6 +435,84 @@ begin
   // This string should not be freed.
   mimeType := mime_type_get_by_file(PChar(FileName), nil, nil);
   Result:= StrPas(mimeType);
+end;
+
+function GetDesktopEntry(const FileName: UTF8String): PDesktopFileEntry;
+var
+  DesktopEntryFile: TKeyFile;
+begin
+  try
+    DesktopEntryFile:= TKeyFile.Create(FileName, fmOpenRead);
+    try
+      New(Result);
+      with Result^, DesktopEntryFile do
+      begin
+        DesktopFilePath := ExtractFileName(FileName);
+        DisplayName     := ReadLocaleString(DESKTOP_GROUP, DESKTOP_KEY_NAME, EmptyStr);
+        Comment         := ReadLocaleString(DESKTOP_GROUP, DESKTOP_KEY_COMMENT, EmptyStr);
+        ExecWithParams  := ReadString(DESKTOP_GROUP, DESKTOP_KEY_EXEC, EmptyStr);
+        IconName        := ReadString(DESKTOP_GROUP, DESKTOP_KEY_ICON, EmptyStr);
+        Categories      := ReadString(DESKTOP_GROUP, DESKTOP_KEY_CATEGORIES, EmptyStr);
+        Terminal        := ReadBool(DESKTOP_GROUP, DESKTOP_KEY_TERMINAL, False);
+        Hidden          := ReadBool(DESKTOP_GROUP, DESKTOP_KEY_NO_DISPLAY, False);
+        {
+          Some icon names in .desktop files are specified with an extension,
+          even though it is not allowed by the standard unless an absolute path
+          to the icon is supplied. We delete this extension here.
+        }
+        if GetPathType(IconName) = ptNone then
+          IconName := TIconTheme.CutTrailingExtension(IconName);
+      end;
+    finally
+      DesktopEntryFile.Free;
+    end;
+  except
+    Result:= nil;
+  end;
+end;
+
+function AddDesktopEntry(const MimeType, DesktopEntry: UTF8String; DefaultAction: Boolean): Boolean;
+var
+  CustomFile: UTF8String;
+  DesktopFile: TIniFileEx;
+  MimeTypeValue: UTF8String;
+  CustomDesktop: PAnsiChar = nil;
+  MimeApps: UTF8String = '/.local/share/applications/mimeapps.list';
+begin
+  Result:= True;
+  CustomFile:= DesktopEntry;
+  if (DefaultAction = False) or (StrEnds(DesktopEntry, '.desktop') = False) then
+  begin
+    // Create new desktop entry file for user command
+    mime_type_add_action(PAnsiChar(MimeType), PAnsiChar(DesktopEntry), @CustomDesktop);
+    Result:= Assigned(CustomDesktop);
+    if Result then
+    begin
+      CustomFile:= StrPas(CustomDesktop);
+      g_free(CustomDesktop);
+    end;
+  end;
+  // Set as default action if needed
+  if DefaultAction and Result then
+  begin
+    CustomFile:= CustomFile + ';';
+    MimeApps:= GetHomeDir + MimeApps;
+    try
+      DesktopFile:= TIniFileEx.Create(MimeApps, fmOpenReadWrite);
+      try
+        // Read current actions of this mime type
+        MimeTypeValue:= DesktopFile.ReadString('Added Associations', MimeType, EmptyStr);
+        // Remove chosen action if it exists
+        MimeTypeValue:= StringReplace(MimeTypeValue, CustomFile, EmptyStr, [rfReplaceAll]);
+        // Set chosen action as default
+        DesktopFile.WriteString('Added Associations', MimeType, CustomFile + MimeTypeValue);
+      finally
+        DesktopFile.Free;
+      end;
+    except
+      Result:= False;
+    end;
+  end;
 end;
 
 initialization
