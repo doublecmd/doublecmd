@@ -1,0 +1,217 @@
+object frmOpenWith: TfrmOpenWith
+  Left = 470
+  Height = 474
+  Top = 167
+  Width = 410
+  Caption = 'Choose an application'
+  ClientHeight = 474
+  ClientWidth = 410
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.0.2.0'
+  object lblMimeType: TLabel
+    Left = 6
+    Height = 16
+    Top = 6
+    Width = 404
+    Align = alTop
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    Caption = 'File type to be opened: %s'
+    ParentColor = False
+  end
+  object pnlOpenWith: TPanel
+    Left = 0
+    Height = 37
+    Top = 341
+    Width = 410
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 37
+    ClientWidth = 410
+    Color = clForm
+    Enabled = False
+    ParentColor = False
+    TabOrder = 0
+    object fneCommand: TFileNameEdit
+      AnchorSideLeft.Control = pnlOpenWith
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = btnCommands
+      AnchorSideBottom.Side = asrBottom
+      Left = 6
+      Height = 25
+      Top = 7
+      Width = 354
+      DialogOptions = []
+      FilterIndex = 0
+      HideDirectories = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      BorderSpacing.Bottom = 6
+      MaxLength = 0
+      TabOrder = 0
+    end
+    object btnCommands: TSpeedButton
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = fneCommand
+      AnchorSideRight.Control = pnlOpenWith
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = fneCommand
+      AnchorSideBottom.Side = asrBottom
+      Left = 384
+      Height = 25
+      Top = 7
+      Width = 20
+      Anchors = [akTop, akRight, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 24
+      BorderSpacing.Right = 6
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
+        34CC000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+        34FF000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
+        34FF000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
+        34FF000000000000000000000000000000000000000000000000000000000000
+        0000A46534CCA46534FFA46534FFA46534FFA46534FFD9AD86FFD9AD86FFA465
+        34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
+        0000A46534FFE5CCB4FFDBB795FFDBB694FFDAB492FFDAB390FFD9AD86FFD8AA
+        83FFD7A87FFFD7A67DFFE0BE9FFFA46534FF0000000000000000000000000000
+        0000A46534FFE8D3C0FFE7D1BBFFE7D1BCFFE6CEB7FFE6CEB7FFE6CEB7FFE6CE
+        B7FFE6CDB6FFE6CCB5FFE6CCB6FFA46534FF0000000000000000000000000000
+        0000A46534CCA46534FFA46534FFA46534FFA46534FFE6CEB7FFE6CEB7FFA465
+        34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
+        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+        34FF000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+        34FF000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+        34FF000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
+        34CC000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000
+      }
+      NumGlyphs = 0
+      OnClick = btnCommandsClick
+      PopupMenu = pmFieldCodes
+    end
+  end
+  object ButtonPanel: TButtonPanel
+    Left = 6
+    Height = 40
+    Top = 428
+    Width = 398
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object tvApplications: TTreeView
+    Left = 0
+    Height = 291
+    Top = 28
+    Width = 410
+    Align = alClient
+    BorderSpacing.Top = 6
+    DefaultItemHeight = 18
+    Images = ImageList
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    TabOrder = 2
+    OnDeletion = tvApplicationsDeletion
+    OnSelectionChanged = tvApplicationsSelectionChanged
+    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+  end
+  object chkUseAsDefault: TCheckBox
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 22
+    Top = 400
+    Width = 404
+    Align = alBottom
+    BorderSpacing.Left = 6
+    Caption = 'Set selected application as default action'
+    Enabled = False
+    TabOrder = 3
+  end
+  object chkCustomCommand: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 22
+    Top = 319
+    Width = 398
+    Align = alBottom
+    Anchors = [akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    Caption = 'Custom command'
+    OnChange = chkCustomCommandChange
+    TabOrder = 4
+  end
+  object chkSaveAssociation: TCheckBox
+    Left = 6
+    Height = 22
+    Top = 378
+    Width = 404
+    Align = alBottom
+    BorderSpacing.Left = 6
+    Caption = 'Save association'
+    OnChange = chkSaveAssociationChange
+    TabOrder = 5
+  end
+  object ImageList: TImageList
+    left = 208
+    top = 136
+  end
+  object pmFieldCodes: TPopupMenu
+    left = 123
+    top = 135
+    object miSingleFileName: TMenuItem
+      Caption = 'Single file name'
+      Hint = '%f'
+      OnClick = miFieldCodeClick
+    end
+    object miListOfFiles: TMenuItem
+      Caption = 'Multiple file names'
+      Hint = '%F'
+      OnClick = miFieldCodeClick
+    end
+    object miSingleURL: TMenuItem
+      Caption = 'Single URI'
+      Hint = '%u'
+      OnClick = miFieldCodeClick
+    end
+    object miListOfURLs: TMenuItem
+      Caption = 'Multiple URIs'
+      Hint = '%U'
+      OnClick = miFieldCodeClick
+    end
+  end
+end
