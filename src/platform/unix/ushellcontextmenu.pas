@@ -47,6 +47,7 @@ type
     procedure DriveMountSelect(Sender: TObject);
     procedure DriveUnmountSelect(Sender: TObject);
     procedure DriveEjectSelect(Sender: TObject);
+    procedure OpenWithOtherSelect(Sender: TObject);
     procedure OpenWithMenuItemSelect(Sender: TObject);
     function FillOpenWithSubMenu: Boolean;
   public
@@ -64,7 +65,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF DEFINED(LINUX)}
-  , uMimeActions
+  , uMimeActions, fOpenWith
   {$ENDIF}
   ;
 
@@ -231,6 +232,19 @@ begin
   EjectDrive(@FDrive);
 end;
 
+procedure TShellContextMenu.OpenWithOtherSelect(Sender: TObject);
+var
+  I: LongInt;
+  FileNames: TStringList;
+begin
+{$IF DEFINED(LINUX)}
+  FileNames := TStringList.Create;
+  for I := 0 to FFiles.Count - 1 do
+    FileNames.Add(FFiles[I].FullPath);
+  ShowOpenWithDlg(FileNames);
+{$ENDIF}
+end;
+
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
 var
   ExecCmd: String;
@@ -356,7 +370,13 @@ begin
         mi.OnClick := Self.OpenWithMenuItemSelect;
         miOpenWith.Add(mi);
       end;
+      miOpenWith.AddSeparator;
     end;
+
+    mi := TMenuItem.Create(miOpenWith);
+    mi.Caption := rsMnuOpenWithOther;
+    mi.OnClick := Self.OpenWithOtherSelect;
+    miOpenWith.Add(mi);
 
   finally
     FreeAndNil(FileNames);

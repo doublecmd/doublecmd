@@ -282,7 +282,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="205">
+    <Units Count="207">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1474,6 +1474,19 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOrderedFileView"/>
       </Unit204>
+      <Unit205>
+        <Filename Value="fopenwith.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOpenWith"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fOpenWith"/>
+      </Unit205>
+      <Unit206>
+        <Filename Value="platform\unix\ukeyfile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKeyFile"/>
+      </Unit206>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
