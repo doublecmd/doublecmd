@@ -338,20 +338,20 @@ var
   DesktopEntries: TList = nil;
   bmpTemp: TBitmap = nil;
 begin
+  Result := True;
   FileNames := TStringList.Create;
   try
+    miOpenWith := TMenuItem.Create(Self);
+    miOpenWith.Caption := rsMnuOpenWith;
+    Self.Items.Add(miOpenWith);
+
     for i := 0 to FFiles.Count - 1 do
       FileNames.Add(FFiles[i].FullPath);
 
     DesktopEntries := GetDesktopEntries(FileNames);
 
-    Result := Assigned(DesktopEntries) and (DesktopEntries.Count > 0);
-    if Result then
+    if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
     begin
-      miOpenWith := TMenuItem.Create(Self);
-      miOpenWith.Caption := rsMnuOpenWith;
-      Self.Items.Add(miOpenWith);
-
       for i := 0 to DesktopEntries.Count - 1 do
       begin
         mi := TMenuItem.Create(miOpenWith);
