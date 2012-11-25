@@ -60,6 +60,7 @@ begin
 
   {$IF DEFINED(NIGHTLY_BUILD)}
   InitLineInfo;
+  AddLineInfoPath(ExtractFileDir(ParamStr(0)));
   {$ENDIF}
 
   {$IFDEF HEAPTRC}
