@@ -97,6 +97,7 @@ type
     miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
+    pnlFolder: TPanel;
     pnlPreview: TPanel;
     pnlEditFile: TPanel;
     PanelEditImage: TPanel;
@@ -315,7 +316,7 @@ implementation
 uses
   FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, DCClassesUtf8,
   uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager, uConvEncoding,
-  DCOSUtils, uOSUtils;
+  DCBasicTypes, DCOSUtils, uOSUtils;
 
 const
   HotkeysCategory = 'Viewer';
@@ -387,8 +388,11 @@ end;
 procedure TfrmViewer.LoadFile(const aFileName: UTF8String);
 var
   i: Integer;
+  dwFileAttributes: TFileAttrs;
 begin
-  if not mbFileExists(aFileName) then
+  dwFileAttributes := mbFileGetAttr(aFileName);
+
+  if dwFileAttributes = faInvalidAttributes then
   begin
     ShowMessage(rsMsgErrNoFiles);
     Exit;
@@ -401,30 +405,37 @@ begin
   for i := 0 to Status.Panels.Count - 1 do
     Status.Panels[i].Text := '';
 
-  Screen.Cursor:=crHourGlass;
+  Screen.Cursor:= crHourGlass;
   try
-    bPlugin:= CheckPlugins(aFileName);
-    if bPlugin then
+    if FPS_ISDIR(dwFileAttributes) then
       begin
-        Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
-        ActivatePanel(pnlLister);
-      end
-    else if CheckGraphics(aFileName) then
-      begin
-        LoadGraphics(aFileName);
-        ActivatePanel(pnlImage);
+        ActivatePanel(pnlFolder);
+        pnlFolder.Caption:= rsPropsFolder + ': ' + aFileName;
       end
     else
       begin
-        ViewerControl.FileName := aFileName;     //handled by miProcess.Click
-        ActivatePanel(pnlText);
-//        miProcess.Click;
-      end;
+        bPlugin:= CheckPlugins(aFileName);
+        if bPlugin then
+          begin
+            Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
+            ActivatePanel(pnlLister);
+          end
+        else if CheckGraphics(aFileName) then
+          begin
+            LoadGraphics(aFileName);
+            ActivatePanel(pnlImage);
+          end
+        else
+          begin
+            ViewerControl.FileName := aFileName;
+            ActivatePanel(pnlText);
+          end;
 
-    Status.Panels[sbpFileName].Text:=aFileName;
-    Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
+        Status.Panels[sbpFileName].Text:= aFileName;
+        Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
+      end;
   finally
-    Screen.Cursor:=crDefault;
+    Screen.Cursor:= crDefault;
   end;
 end;
 
@@ -2063,6 +2074,7 @@ end;
 
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
 begin
+  pnlFolder.Hide;
   pnlLister.Hide;
   pnlImage.Hide;
   pnlText.Hide;
