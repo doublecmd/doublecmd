@@ -59,9 +59,18 @@ inherited frmViewer: TfrmViewer
   Position = poDefault
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
-  object pnlLister: TPanel[0]
+  object pnlFolder: TPanel[0]
     Left = 179
-    Height = 437
+    Height = 441
+    Top = 0
+    Width = 461
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 6
+  end
+  object pnlLister: TPanel[1]
+    Left = 179
+    Height = 441
     Top = 0
     Width = 461
     Align = alClient
