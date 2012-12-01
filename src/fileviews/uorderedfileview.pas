@@ -116,6 +116,7 @@ uses
   uFileSourceProperty,
   uPixMapManager,
   uFileViewWorker,
+  uFileSource,
   uFile;
 
 const
@@ -352,7 +353,11 @@ begin
           {$ENDIF}
         end;
         if FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) then
+        try
           FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
+        except
+          on EFileNotFound do;
+        end;
       end;
     end;
   end
