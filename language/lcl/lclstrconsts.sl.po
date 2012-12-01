@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: double-commander - lclstrconsts\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-04-24 14:12+0100\n"
+"PO-Revision-Date: 2012-11-24 12:48+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
+"Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
-"X-Poedit-Language: Slovenian\n"
-"X-Poedit-Country: SLOVENIA\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 msgid "Browser %s%s%s not executable."
@@ -38,8 +38,12 @@ msgid "Unable to find a HTML browser."
 msgstr "Ni mogoče najti brskalnika HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "Ni mogoče najti brskalnika HTML. %s Opredeliti je treba okoljske spremenljivke -> Možnosti -> Pomoč -> Možnosti pomoči"
+msgid ""
+"No HTML Browser found.%sPlease define one in Environment -> Options -> Help -"
+"> Help Options"
+msgstr ""
+"Ni mogoče najti brskalnika HTML. %s Opredeliti je treba okoljske "
+"spremenljivke -> Možnosti -> Pomoč -> Možnosti pomoči"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -62,9 +66,8 @@ msgid "Accept"
 msgstr "Sprejmi"
 
 #: lclstrconsts.ifsvk_apps
-#, fuzzy
 msgid "application key"
-msgstr "Šifrirni ključ: "
+msgstr "ključ programa"
 
 #: lclstrconsts.ifsvk_back
 msgid "Backspace"
@@ -85,9 +88,8 @@ msgid "Clear"
 msgstr "Počisti"
 
 #: lclstrconsts.ifsvk_control
-#, fuzzy
 msgid "Control"
-msgstr "Nadzor"
+msgstr "Tipka"
 
 #: lclstrconsts.ifsvk_convert
 msgid "Convert"
@@ -106,7 +108,7 @@ msgstr "Navzdol"
 #: lclstrconsts.ifsvk_end
 msgctxt "lclstrconsts.ifsvk_end"
 msgid "End"
-msgstr "End"
+msgstr "Konec"
 
 #: lclstrconsts.ifsvk_escape
 msgid "Escape"
@@ -130,10 +132,9 @@ msgid "Help"
 msgstr "Pomoč"
 
 #: lclstrconsts.ifsvk_home
-#, fuzzy
 msgctxt "lclstrconsts.ifsvk_home"
 msgid "Home"
-msgstr "Dom"
+msgstr "Domov"
 
 #: lclstrconsts.ifsvk_insert
 msgctxt "lclstrconsts.ifsvk_insert"
@@ -171,15 +172,13 @@ msgid "Menu"
 msgstr "Meni"
 
 #: lclstrconsts.ifsvk_modechange
-#, fuzzy
 msgid "Mode Change"
-msgstr "Spremeni način urejanja"
+msgstr "Sprememba načina"
 
 #: lclstrconsts.ifsvk_next
-#, fuzzy
 msgctxt "lclstrconsts.ifsvk_next"
 msgid "Next"
-msgstr "Naprej"
+msgstr "Naslednji"
 
 #: lclstrconsts.ifsvk_nonconvert
 msgid "Nonconvert"
@@ -202,10 +201,9 @@ msgid "Print"
 msgstr "Natisni"
 
 #: lclstrconsts.ifsvk_prior
-#, fuzzy
 msgctxt "lclstrconsts.ifsvk_prior"
 msgid "Prior"
-msgstr "Pred"
+msgstr "Predhodni"
 
 #: lclstrconsts.ifsvk_rbutton
 msgid "Mouse Button Right"
@@ -341,7 +339,7 @@ msgstr "Senca gumba"
 
 #: lclstrconsts.rsbtntextcolorcaption
 msgid "Button Text"
-msgstr "Besedilne gumba"
+msgstr "Besedilo gumba"
 
 #: lclstrconsts.rscalculator
 msgid "Calculator"
@@ -369,9 +367,10 @@ msgid "Case sensitive"
 msgstr "Razlikovanje velikosti črk"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
-#, fuzzy
 msgid "Control of class '%s' can't have control of class '%s' as a child"
-msgstr "Nadzorno okno '%s' je brez nadrejenega okna"
+msgstr ""
+"Predmet razreda '%s' ne more imet hkrati tudi podrejenega predmeta razreda "
+"'%s'."
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
@@ -532,28 +531,24 @@ msgid "Find more"
 msgstr "Najdi več"
 
 #: lclstrconsts.rsfirstrecordhint
-#, fuzzy
 msgid "First"
-msgstr "Prva"
+msgstr "Prvi"
 
 #: lclstrconsts.rsfixedcolstoobig
-#, fuzzy
 msgid "FixedCols can't be >= ColCount"
-msgstr "Dodanih je lahko %d izbranih datotek (%s)"
+msgstr "Predmet stalnega števila stolpcev ne more bi >= števcu stolpcev"
 
 #: lclstrconsts.rsfixedrowstoobig
-#, fuzzy
 msgid "FixedRows can't be >= RowCount"
-msgstr "Dodanih je lahko %d izbranih datotek (%s)"
+msgstr "Predmet stalnega števila vrstic ne more bi >= števca vrstic"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
 msgstr "Obrazec"
 
 #: lclstrconsts.rsformstreamingerror
-#, fuzzy
 msgid "Form streaming \"%s\" error: %s"
-msgstr "Napaka med odpiranjem podatkovne zbirke"
+msgstr "Napaka pretakanja obrazca \"%s\": %s"
 
 #: lclstrconsts.rsforward
 #, fuzzy
@@ -567,29 +562,33 @@ msgstr "Fuksija"
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
 msgstr ""
+"--gdk-debug flags     Prikaži posebna sporočila sledenja in razhroščevanja "
+"GDK."
 
 #: lclstrconsts.rsgdkoptionnodebug
 msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
 msgstr ""
+"--gdk-no-debug flags  Skrij posebna sporočila sledenja in razhroščevanja GDK."
 
 #: lclstrconsts.rsgif
-#, fuzzy
 msgid "Graphics Interchange Format"
-msgstr "Menjalni JPEG zapis "
+msgstr "Slikovni zapis GIF"
 
 #: lclstrconsts.rsgoptionfatalwarnings
-msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
+msgid ""
+"--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt "
+"the application."
 msgstr ""
+"--g-fatal-warnings    Opozorila in napake s strani Gtk+/GDK zaustavijo "
+"delovanje programa."
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
-#, fuzzy
 msgid "Gradient Active Caption"
-msgstr "Dostopen naziv razpredelnice"
+msgstr "Preliv naziva dejavnega okna"
 
 #: lclstrconsts.rsgradientinactivecaptioncolorcaption
-#, fuzzy
 msgid "Gradient Inactive Caption"
-msgstr "Dostopen naziv razpredelnice"
+msgstr "Preliv naziva nedejavnega okna"
 
 #: lclstrconsts.rsgraphic
 msgid "Graphic"
@@ -612,13 +611,14 @@ msgid "Grid file doesn't exists"
 msgstr "Datoteka mreže ne obstaja."
 
 #: lclstrconsts.rsgridindexoutofrange
-#, fuzzy
 msgid "Grid index out of range."
-msgstr "Indeks matrike je izven veljavnega obsega"
+msgstr "Določilo mreže je izven veljavnega obsega."
 
 #: lclstrconsts.rsgroupindexcannotbelessthanprevious
 msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "Vrednost predmeta GroupIndex ne more biti manjše od predhodne vrednosti istega predmeta"
+msgstr ""
+"Vrednost predmeta GroupIndex ne more biti manjše od predhodne vrednosti "
+"istega predmeta"
 
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
@@ -629,50 +629,71 @@ msgid "History:"
 msgstr "Zgodovina:"
 
 #: lclstrconsts.rsgtkoptionclass
-msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
+msgid ""
+"--class classname     Following Xt conventions, the class of a program is "
+"the program name with the initial character capitalized. For example, the "
+"classname for gimp is \"Gimp\". If --class is specified, the class of the "
+"program will be set to \"classname\"."
 msgstr ""
 
 #: lclstrconsts.rsgtkoptiondebug
 msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
 msgstr ""
+"--gtk-debug flags     Omogoči posebna sporočila sledenja in razhroščevanja "
+"Gtk+."
 
 #: lclstrconsts.rsgtkoptiondisplay
-msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
+msgid ""
+"--display h:s:d       Connect to the specified X server, where \"h\" is the "
+"hostname, \"s\" is the server number (usually 0), and \"d\" is the display "
+"number (typically omitted). If --display is not specified, the DISPLAY "
+"environment variable is used."
 msgstr ""
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
-msgstr ""
+msgstr "--gtk-module modul    Naloži določen modul ob zagonu."
 
 #: lclstrconsts.rsgtkoptionname
-msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
+msgid ""
+"--name programe       Set program name to \"progname\". If not specified, "
+"program name will be set to ParamStrUTF8(0)."
 msgstr ""
+"--name imeprograma       Nastavi ime programa na \"imeprograma\". V kolikor "
+"to ime ni navedeno, je ime določeno kot ParamStrUTF8(0)."
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
 msgstr ""
+"--gtk-no-debug flags  Onemogoči posebna sporočila sledenja in razhroščevanja "
+"Gtk+."
 
 #: lclstrconsts.rsgtkoptionnotransient
 msgid "--lcl-no-transient    Do not set transient order for modal forms"
 msgstr ""
+"--lcl-no-transient : ne nastavi razvrstitve pogovornih oken modalnih obrazcev"
 
 #: lclstrconsts.rsgtkoptionnoxshm
 msgid "--no-xshm             Disable use of the X Shared Memory Extension."
 msgstr ""
+"--no-xshm             Onemogoči uporabo razširitve souporabe pomnilnika X."
 
 #: lclstrconsts.rsgtkoptionsync
-msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
+msgid ""
+"--sync                Call XSynchronize (display, True) after the Xserver "
+"connection has been established. This makes debugging X protocol errors "
+"easier, because X request buffering will be disabled and X errors will be "
+"received immediately after the protocol request that generated the error has "
+"been processed by the X server."
 msgstr ""
 
 #: lclstrconsts.rshelpalreadyregistered
-#, fuzzy
 msgid "%s: Already registered"
-msgstr "Vpisano za"
+msgstr "%s: že vpisano"
 
 #: lclstrconsts.rshelpcontextnotfound
-#, fuzzy
 msgid "Help Context not found"
-msgstr "<b>Pomoči za %s ni mogoče najti</b>"
+msgstr "Pomoči vsebine ni mogoče najti"
 
 #: lclstrconsts.rshelpdatabasenotfound
 msgid "Help Database not found"
@@ -683,38 +704,35 @@ msgid "Help Error"
 msgstr "Napaka prikazovanja pomoči"
 
 #: lclstrconsts.rshelphelpcontextnotfound
-#, fuzzy
 msgid "Help context %s not found."
-msgstr "<b>Pomoči za %s ni mogoče najti</b>"
+msgstr "Pomoči vsebine %s ni mogoče najti."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-#, fuzzy
 msgid "Help context %s not found in Database %s%s%s."
-msgstr "Odjemalca ni mogoče najti v podatkovni zbirki Kerberos"
+msgstr "Pomoči vsebine %s v podatkovni zbirki %s%s%s ni mogoče najti."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
-msgstr "Podatkovni zbirki %s%s%s ni mogoče pripisati pregledovalnika za pomoč vrste %s"
+msgstr ""
+"Podatkovni zbirki %s%s%s ni mogoče pripisati pregledovalnika za pomoč vrste "
+"%s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-#, fuzzy
 msgid "Help Database %s%s%s not found"
-msgstr "Podatkovne zbirke pomoči ni mogoče najti"
+msgstr "Podatkovne zbirke %s%s%s ni mogoče najti."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-#, fuzzy
 msgid "Help keyword %s%s%s not found."
-msgstr "<b>Pomoči za %s ni mogoče najti</b>"
+msgstr "Ključne besede pomoči %s%s%s ni mogoče najti."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-#, fuzzy
 msgid "Help keyword %s%s%s not found in Database %s%s%s."
-msgstr "Odjemalca ni mogoče najti v podatkovni zbirki Kerberos"
+msgstr ""
+"Ključne besede pomoči %s%s%s v podatkovni zbirki %s%s%s ni mogoče najti."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-#, fuzzy
 msgid "Help node %s%s%s has no Help Database"
-msgstr "Ta podatkovna zbirka še nima razpredelnic."
+msgstr "Vozlišče pomoči %s%s%s je brez pripadajoče podatkovne zbirke pomoči"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
 msgid "No help found for line %d, column %d of %s."
@@ -729,9 +747,8 @@ msgid "Help not found"
 msgstr "Pomoči ni mogoče najti"
 
 #: lclstrconsts.rshelpnotregistered
-#, fuzzy
 msgid "%s: Not registered"
-msgstr "ni vpisano"
+msgstr "%s: ni vpisano"
 
 #: lclstrconsts.rshelpselectorerror
 msgid "Help Selector Error"
@@ -808,9 +825,8 @@ msgid "Inactive Caption"
 msgstr "Nedejaven napis"
 
 #: lclstrconsts.rsindexoutofbounds
-#, fuzzy
 msgid "%s Index %d out of bounds 0 .. %d"
-msgstr "Številka predmeta v seznamu je izven meja.\n"
+msgstr "%s. Določilo %d je izven veljavnih meja 0 - %d"
 
 #: lclstrconsts.rsindexoutofrange
 msgid "Index Out of range Cell[Col=%d Row=%d]"
@@ -838,9 +854,8 @@ msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "Neveljaven datum: %s. Vrednost mora biti med %s in %s"
 
 #: lclstrconsts.rsinvalidformobjectstream
-#, fuzzy
 msgid "invalid Form object stream"
-msgstr "Predmet ni pretok"
+msgstr "Neveljaven pretok obrazca predmeta"
 
 #: lclstrconsts.rsinvalidpropertyvalue
 msgid "Invalid property value"
@@ -851,16 +866,14 @@ msgid "Invalid stream format"
 msgstr "Neveljaven zapis pretoka"
 
 #: lclstrconsts.rsisalreadyassociatedwith
-#, fuzzy
 msgid "%s is already associated with %s"
-msgstr "Storitev že teče!"
+msgstr "Pripona %s je že programsko povezana z programom %s"
 
 #: lclstrconsts.rsjpeg
 msgid "Joint Picture Expert Group"
-msgstr ""
+msgstr "Slikovni zapis JPEG"
 
 #: lclstrconsts.rslastrecordhint
-#, fuzzy
 msgid "Last"
 msgstr "Zadnji"
 
@@ -869,9 +882,8 @@ msgid "Lime"
 msgstr "Rumeno-zelena"
 
 #: lclstrconsts.rslistindexexceedsbounds
-#, fuzzy
 msgid "List index exceeds bounds (%d)"
-msgstr "Številka predmeta v seznamu je izven meja.\n"
+msgstr "Določilo seznama presega dovoljene meje (%d)"
 
 #: lclstrconsts.rslistmustbeempty
 msgid "List must be empty"
@@ -943,9 +955,8 @@ msgid "Yes to &All"
 msgstr "Da za &vse"
 
 #: lclstrconsts.rsmedgraycolorcaption
-#, fuzzy
 msgid "Medium Gray"
-msgstr "Srednje siva"
+msgstr "Svetlosiva"
 
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
@@ -965,9 +976,8 @@ msgid "Menu Text"
 msgstr "Besedilo menija"
 
 #: lclstrconsts.rsmodified
-#, fuzzy
 msgid "  modified "
-msgstr "Spremenjeno"
+msgstr "  spremenjeno"
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
@@ -1003,22 +1013,22 @@ msgid "Navy"
 msgstr "Mornarsko modra"
 
 #: lclstrconsts.rsnextrecordhint
-#, fuzzy
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
-msgstr "Naprej"
+msgstr "Naslednji"
 
 #: lclstrconsts.rsnonecolorcaption
 msgid "None"
 msgstr "Brez"
 
 #: lclstrconsts.rsnotavalidgridfile
-#, fuzzy
 msgid "Not a valid grid file"
-msgstr "Neveljavna OPML datoteka"
+msgstr "Neveljavna datoteka mreže"
 
 #: lclstrconsts.rsnowidgetset
-msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
+msgid ""
+"No widgetset object. Please check if the unit \"interfaces\" was added to "
+"the programs uses clause."
 msgstr ""
 
 #: lclstrconsts.rsolivecolorcaption
@@ -1026,41 +1036,40 @@ msgid "Olive"
 msgstr "Olivna"
 
 #: lclstrconsts.rspickdate
-#, fuzzy
 msgid "Select a date"
-msgstr "Izberi datum"
+msgstr "Izbor datuma"
 
 #: lclstrconsts.rspixmap
 msgid "Pixmap"
 msgstr "Sličica"
 
 #: lclstrconsts.rsportablebitmap
-#, fuzzy
 msgid "Portable BitMap"
-msgstr "Prenosni predvajalniki"
+msgstr "Portable BitMap"
 
 #: lclstrconsts.rsportablegraymap
-#, fuzzy
 msgid "Portable GrayMap"
-msgstr "Prenosni predvajalniki"
+msgstr "Portable GrayMap"
 
 #: lclstrconsts.rsportablenetworkgraphic
-#, fuzzy
 msgid "Portable Network Graphic"
-msgstr "Slika in besedilo"
+msgstr "Portable Network Graphic"
 
 #: lclstrconsts.rsportablepixmap
-#, fuzzy
 msgid "Portable PixMap"
-msgstr "Širina sličice"
+msgstr "Portable PixMap"
 
 #: lclstrconsts.rspostrecordhint
 msgid "Post"
 msgstr "Po"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgid ""
+"%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the "
+"program."
 msgstr ""
+"%s%sPritisnite gumb V redu, če želite napako prezreti in posledično morda "
+"izgubiti podatke..%sPritisnite gumb Prekliči za uničenje programa."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1068,110 +1077,184 @@ msgid "Prior"
 msgstr "Pred"
 
 #: lclstrconsts.rspropertydoesnotexist
-#, fuzzy
 msgid "Property %s does not exist"
-msgstr "Program '%s' ne obstaja"
+msgstr "Lastnost %s ne obstaja"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
 msgstr "Škrlatna"
 
 #: lclstrconsts.rsqtoptiondograb
-msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
+msgid ""
+"-dograb (only under X11), running under a debugger can cause an implicit -"
+"nograb, use -dograb to override. Need QT_DEBUG."
 msgstr ""
+"-dograb : (le v okolju X11), zagon z razhroščevanjem lahko povroči izrecno "
+"uporabo atributa -nograb. Z uporabo -dograb se možnost prepiše. Možnost "
+"zahteva nameščen paket QT_DEBUG."
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
-msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
+#, fuzzy
+msgid ""
+"-graphicssystem param, sets the backend to be used for on-screen widgets and "
+"QPixmaps. Available options are native, raster and opengl. OpenGL is still "
+"unstable."
 msgstr ""
+"-graphicssystem param : nastavi, sets the backend to be used for on-screen "
+"widgets and QPixmaps. Available options are native, raster and opengl. "
+"OpenGL is still unstable."
 
 #: lclstrconsts.rsqtoptionnograb
-msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
+msgid ""
+"-nograb, tells Qt that it must never grab the mouse or the keyboard. Need "
+"QT_DEBUG."
 msgstr ""
+"-nograb : pove Qt, da ne sme prevzeti nadzora nad miško ali tipkovnico; "
+"zahteva QT_DEBUG."
 
 #: lclstrconsts.rsqtoptionreverse
 msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
 msgstr ""
+"-reverse : nastavi usmerjenost pisave programa na obratno vrednost Qt::"
+"RightToLeft."
 
 #: lclstrconsts.rsqtoptionsession
 msgid "-session session, restores the application from an earlier session."
-msgstr ""
+msgstr "-session <seja> : obnovi program predhodne seje."
 
 #: lclstrconsts.rsqtoptionstyle
-msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
+#, fuzzy
+msgid ""
+"-style style or -style=style, sets the application GUI style. Possible "
+"values are motif, windows, and platinum. If you compiled Qt with additional "
+"styles or have additional styles as plugins these will be available to the -"
+"style  command line option. NOTE: Not all styles are available on all "
+"platforms. If style param does not exist Qt will start an application with "
+"default common style (windows)."
 msgstr ""
+"-style <slog> ali -style=<slog> : nastavi sets the application GUI style. "
+"Possible values are motif, windows, and platinum. If you compiled Qt with "
+"additional styles or have additional styles as plugins these will be "
+"available to the -style  command line option. NOTE: Not all styles are "
+"available on all platforms. If style param does not exist Qt will start an "
+"application with default common style (windows)."
 
 #: lclstrconsts.rsqtoptionstylesheet
-msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
+msgid ""
+"-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style "
+"Sheet. The value must be a path to a file that contains the Style Sheet. "
+"Note: Relative URLs in the Style Sheet file are relative to the Style Sheet "
+"file's path."
 msgstr ""
+"-stylesheet <slogovna predloga> ali pa -stylesheet=<slogovna predloga> : "
+"nastavi slogovno predlogo programa. Vrednost mora biti pot do datoteke s "
+"predlogo. Opomba: relativni naslovi URL v datoteki predloge so relativni na "
+"pot datoteke predloge."
 
 #: lclstrconsts.rsqtoptionsync
 msgid "-sync (only under X11), switches to synchronous mode for debugging."
-msgstr ""
+msgstr "-sync (le pod X11) : preklopi na usklajevalni način za razhroščevanje."
 
 #: lclstrconsts.rsqtoptionwidgetcount
-msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
+msgid ""
+"-widgetcount, prints debug message at the end about number of widgets left "
+"undestroyed and maximum number of widgets existed at the same time."
 msgstr ""
+"-widgetcount : na koncu odvoda izpiše sporočilo razhroščevanja o številu "
+"neuničenih gradnikov in največje število sočasno zagnanih gradnikov."
 
 #: lclstrconsts.rsqtoptionx11bgcolor
-msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
+msgid ""
+"-bg or -background color, sets the default background color and an "
+"application palette (light and dark shades are calculated)."
 msgstr ""
+"-bg ali -background <barva> : nastavi privzeto barvo ozadja in paleto "
+"programa (na osnovi barve so preračunane svetlejšie in temnejši odtenki)."
 
 #: lclstrconsts.rsqtoptionx11btncolor
-#, fuzzy
 msgid "-btn or -button color, sets the default button color."
-msgstr "Določi privzeto barvo robov gumba"
+msgstr "-btn ali -button <barva> : nastavi privzeto barvno gumba."
 
 #: lclstrconsts.rsqtoptionx11cmap
-msgid "-cmap, causes the application to install a private color map on an 8-bit display."
-msgstr ""
+msgid ""
+"-cmap, causes the application to install a private color map on an 8-bit "
+"display."
+msgstr "-cmap : vsili namestitev zasebne barvne palete na 8-bitnih zaslonih."
 
 #: lclstrconsts.rsqtoptionx11display
-#, fuzzy
 msgid "-display display, sets the X display (default is $DISPLAY)."
-msgstr "Ali naj je gradnik privzeti gradnik"
+msgstr "-display <zaslon> : nastavi zaslon X (default is $DISPLAY)."
 
 #: lclstrconsts.rsqtoptionx11fgcolor
 msgid "-fg or -foreground color, sets the default foreground color."
-msgstr ""
+msgstr "-fg ali -foreground <barva> : nastavi privzeto barvo pisave."
 
 #: lclstrconsts.rsqtoptionx11font
-msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
+msgid ""
+"-fn or -font font, defines the application font. The font should be "
+"specified using an X logical font description."
 msgstr ""
+"-fn ali -font <pisava> : določa pisavo programa. Ta mora biti naveden kot "
+"logični opis pisave za X."
 
 #: lclstrconsts.rsqtoptionx11geometry
-msgid "-geometry geometry, sets the client geometry of the first window that is shown."
+msgid ""
+"-geometry geometry, sets the client geometry of the first window that is "
+"shown."
 msgstr ""
+"-geometry <geometrija> : nastavi geometrijo okna odjemalca prvega "
+"prikazanega okna."
 
 #: lclstrconsts.rsqtoptionx11im
-msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
+msgid ""
+"-im, sets the input method server (equivalent to setting the XMODIFIERS "
+"environment variable)."
 msgstr ""
+"-im : nastavi strežnik načina vhoda (možnost je enaka nastavitve okoljske "
+"spremenljivke XMODIFIERS)."
 
 #: lclstrconsts.rsqtoptionx11inputstyle
-msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
+msgid ""
+"-inputstyle, defines how the input is inserted into the given widget, e.g. "
+"onTheSpot makes the input appear directly in the widget, while overTheSpot "
+"makes the input appear in a box floating over the widget and is not inserted "
+"until the editing is done."
 msgstr ""
 
 #: lclstrconsts.rsqtoptionx11name
-#, fuzzy
 msgid "-name name, sets the application name."
-msgstr "Enoznačno ime programa"
+msgstr "-name <ime> : nastavi ime programa."
 
 #: lclstrconsts.rsqtoptionx11ncols
-msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
+msgid ""
+"-ncols count, limits the number of colors allocated in the color cube on an "
+"8-bit display, if the application is using the QApplication::ManyColor color "
+"specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 "
+"levels of red, 6 of green, and 6 of blue); for other values, a cube "
+"approximately proportional to a 2x3x1 cube is used."
 msgstr ""
+"-ncols <števec> : omeji število barv, ki so dodeljene barvni kocki 8-bitnega "
+"zaslona, kadar program uporablja določilo QApplication::ManyColor. Če je "
+"števec enak 216, je uporabljena barvna kocka 6x6x6 (to je 6 ravni rdeče, 6 "
+"zelene in 6 modre); za druge vrednosti je uporabljena kocka približnih "
+"vrednosti razmerja 2x3x1."
 
 #: lclstrconsts.rsqtoptionx11title
-#, fuzzy
 msgid "-title title, sets the application title."
-msgstr "Določi veljavnost dostopnosti programa"
+msgstr "-title <naziv> : nastavi naziv programa"
 
 #: lclstrconsts.rsqtoptionx11visual
-msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
+msgid ""
+"-visual TrueColor, forces the application to use a TrueColor visual on an 8-"
+"bit display."
 msgstr ""
+"-visual <TrueColor>  : vsili uporabo predočenja TrueColor tudi na 8-bitnih "
+"zaslonih."
 
 #: lclstrconsts.rsrasterimageendupdate
-#, fuzzy
 msgid "Endupdate while no update in progress"
-msgstr "Napaka med zaganjanjem %s%s%s:%s%s"
+msgstr ""
+"Prejeta je zahteva konca posodobitve, čeprav posodobitev sploh ni zagnana"
 
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
@@ -1180,6 +1263,8 @@ msgstr "Ni mogoče shraniti slike med izvajanjem posodabljanja"
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
 msgstr ""
+"Ni mogoče začeti posodabljanja vseh predmetov, ko je v teku posodabljanje "
+"platna. "
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
@@ -1239,9 +1324,8 @@ msgid "Text"
 msgstr "Besedilo"
 
 #: lclstrconsts.rstiff
-#, fuzzy
 msgid "Tagged Image File Format"
-msgstr "Neprepoznana vrsta slikovne datoteke"
+msgstr "Tagged Image File Format"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1270,22 +1354,30 @@ msgstr "Nepodprta oblika odložišča: %s"
 #: lclstrconsts.rswarningunreleaseddcsdump
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr ""
+" Opozorilo: obstaja neobljavljenih primerkov programa DCs; sledi podroben "
+"izpis dnevnika:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr ""
+" Opozorilo: obstaja %d neobjavljenih predmetov GDIObjects; sledi podroben "
+"izpis dnevnika:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr ""
+" Opozorilo: obstaja %d preostalih sporočil v vrsti, ki bodo nemudoma "
+"sproščena"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
-msgstr ""
+msgstr " Opozorilo: obstaja %d predmetov TimerInfo, ki bodo nemudoma sproščeni"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
-msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
+msgid ""
+" WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr ""
+" Opozorilo: obstaja %s neodstranjenih povezav sporočil LM_PAINT/LM_GtkPAINT."
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
@@ -1321,60 +1413,51 @@ msgstr "Rumena"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
-msgstr ""
+msgstr "Onemogočenega ali nevidnega okna ni mogoče postaviti v žarišče"
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "Podvojen meni"
 
 #: lclstrconsts.sinvalidactioncreation
-#, fuzzy
 msgid "Invalid action creation"
-msgstr "Datum in čas ustvarjanja"
+msgstr "Neveljavno ustvarjanje dejanja"
 
 #: lclstrconsts.sinvalidactionenumeration
-#, fuzzy
 msgid "Invalid action enumeration"
-msgstr "Spominska igra štetja"
+msgstr "Neveljavno oštevilčenje dejanja"
 
 #: lclstrconsts.sinvalidactionregistration
-#, fuzzy
 msgid "Invalid action registration"
-msgstr "Način šifriranja vpisa"
+msgstr "Neveljaven vpis dejanja"
 
 #: lclstrconsts.sinvalidactionunregistration
-#, fuzzy
 msgid "Invalid action unregistration"
-msgstr "Razveljavi zadnje dejanje"
+msgstr "Neveljavno izpisovanje dejanja"
 
 #: lclstrconsts.sinvalidcharset
 msgid "The char set in mask \"%s\" is not valid!"
 msgstr "Znakovni nabor v maski \"%s\" ni veljaven!"
 
 #: lclstrconsts.sinvalidimagesize
-#, fuzzy
 msgid "Invalid image size"
 msgstr "Neveljavna velikost slike"
 
 #: lclstrconsts.sinvalidindex
-#, fuzzy
 msgid "Invalid ImageList Index"
-msgstr "Neveljavno kazalo vmesnika"
+msgstr "Neveljavno kazalo seznama slik"
 
 #: lclstrconsts.smenuindexerror
-#, fuzzy
 msgid "Menu index out of range"
-msgstr "Indeks matrike je izven veljavnega obsega"
+msgstr "Kazalo menija je izven veljavnega obsega"
 
 #: lclstrconsts.smenuitemisnil
-#, fuzzy
 msgid "MenuItem is nil"
-msgstr "Doslednost je moč"
+msgstr "Predmet menija je prazno polje"
 
 #: lclstrconsts.smenunotfound
-#, fuzzy
 msgid "Sub-menu is not in menu"
-msgstr "%s: %s ni oblike mbox ."
+msgstr "Podrejeni meni ni meni"
 
 #: lclstrconsts.smkcalt
 msgid "Alt+"
@@ -1460,19 +1543,16 @@ msgid "Up"
 msgstr "Gor"
 
 #: lclstrconsts.snomdiform
-#, fuzzy
 msgid "No MDI form present."
-msgstr "Ni več polj v obrazcu."
+msgstr "Ni veljavne oblike MDI."
 
 #: lclstrconsts.snotimers
-#, fuzzy
 msgid "No timers available"
-msgstr "Na voljo ni nobenega namiga."
+msgstr "Na voljo ni nobenega časomera."
 
 #: lclstrconsts.sparexpected
-#, fuzzy
 msgid "Wrong token type: %s expected"
-msgstr "Neznana vrsta žetona: pričakovana je vrsta %s; vrnjena pa je %s"
+msgstr "Neznana vrsta žetona: pričakovana je vrsta %s"
 
 #: lclstrconsts.sparinvalidfloat
 msgid "Invalid floating point number: %s"
@@ -1501,4 +1581,3 @@ msgstr "Napačen simbol žetona: pričakovan je %s, prejet pa %s"
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Neznana vrsta žetona: pričakovana je vrsta %s; vrnjena pa je %s"
-
