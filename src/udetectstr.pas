@@ -261,6 +261,8 @@ procedure TParserControl.processstring;
      insert(BooleanToStr(fforce),fmathstring,i);
    end;
  //---------------------
+ fmathstring:= StringReplace(fmathstring, 'MULTIMEDIA', 'true', [rfReplaceAll]);
+ //---------------------
  numlen:=1;
  while numlen < length(fmathstring) do
  if (fmathstring[numlen]='!') and (fmathstring[numlen+1]<>'=') then
@@ -324,7 +326,7 @@ procedure TParserControl.processstring;
 function TParserControl.isdigit(c:UTF8String):boolean;
  begin
  result:=false;
- if pos(c,'=#!&<>|()')<=0 then
+ if pos(c,'=#!&<>|() ')<=0 then
    result:=true;
  end;
 
