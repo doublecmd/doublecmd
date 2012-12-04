@@ -84,6 +84,7 @@ type
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FHashedNames: TStringHashList;
     FPendingFilesChanges: TFPList;
+    FPendingFilesTimer: TTimer;
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
     FReloadTimer: TTimer;
@@ -95,6 +96,8 @@ type
     FRecentlyUpdatedFilesTimer: TTimer;
     FRequests: TFileViewRequests;
     FUpdateCount: Integer;           //<en Nr of times BeginUpdate was called without corresponding EndUpdate
+    FWatcherEventLastTime: TDateTime;
+    FWatcherEventsApplied: Integer;  //<en How many filesystem watcher events have been applied immediately before postponing them
 
     FActive: Boolean;             //<en Is this view active
     FLastActiveFile: String;      //<en Last active file (cursor)
@@ -123,7 +126,8 @@ type
     procedure AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
     function ApplyFilter(ADisplayFile: TDisplayFile; NewFilesPosition: TNewFilesPosition): TFileViewApplyFilterResult;
-    procedure ApplyPendingFilesChanges;
+    procedure ApplyPendingFilesChanges(NewFilesPosition: TNewFilesPosition;
+                                       UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure ClearPendingFilesChanges;
     procedure ClearRecentlyUpdatedFiles;
     procedure DoOnFileListChanged;
@@ -157,9 +161,11 @@ type
     procedure SetFlags(AValue: TFileViewFlags);
     procedure SetLoadingFileListLongTime(AValue: Boolean);
     procedure StartRecentlyUpdatedTimerIfNeeded;
+    procedure StartUpdatePendingTimer;
     procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure UpdatedFilesTimerEvent(Sender: TObject);
     procedure UpdatePath(UpdateAddressToo: Boolean);
+    procedure UpdatePendingTimerEvent(Sender: TObject);
     procedure UpdateTitle;
     procedure VisualizeFileUpdate(AFile: TDisplayFile);
     {en
@@ -538,6 +544,7 @@ uses
 
 const
   MinimumReloadInterval  = 1000; // 1 second
+  UpdateFilelistInterval =  500;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
@@ -683,8 +690,8 @@ begin
   FreeAndNil(FHashedNames);
   FreeAndNil(FHistory);
   FreeAndNil(FSavedSelection);
-  FPendingFilesChanges.Free;
-  FRecentlyUpdatedFiles.Free;
+  FreeAndNil(FPendingFilesChanges);
+  FreeAndNil(FRecentlyUpdatedFiles);
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -794,7 +801,8 @@ begin
   end;
 end;
 
-procedure TFileView.ApplyPendingFilesChanges;
+procedure TFileView.ApplyPendingFilesChanges(NewFilesPosition: TNewFilesPosition;
+                                             UpdatedFilesPosition: TUpdatedFilesPosition);
 var
   i: Integer;
   pEvent: PFSWatcherEventData;
@@ -811,7 +819,11 @@ begin
           pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
           // Insert new files at sorted position since the filelist hasn't been
           // shown to the user yet, so no need to use user setting.
-          HandleFSWatcherEvent(pEvent^, nfpSortedPosition, ufpSortedPosition);
+          HandleFSWatcherEvent(pEvent^, NewFilesPosition, UpdatedFilesPosition);
+
+          // HandleFSWatcherEvent might call Reload which clears FPendingFilesChanges, so check for it.
+          if not Assigned(FPendingFilesChanges) then
+            Break;
         end;
       end;
       ClearPendingFilesChanges;
@@ -826,6 +838,9 @@ var
   pEvent: PFSWatcherEventData;
   i: Integer;
 begin
+  if Assigned(FPendingFilesTimer) then
+    FPendingFilesTimer.Enabled := False;
+
   if Assigned(FPendingFilesChanges) then
   begin
     for i := 0 to FPendingFilesChanges.Count - 1 do
@@ -1115,6 +1130,18 @@ begin
   end;
 end;
 
+procedure TFileView.StartUpdatePendingTimer;
+begin
+  if not Assigned(FPendingFilesTimer) then
+  begin
+    FPendingFilesTimer := TTimer.Create(Self);
+    FPendingFilesTimer.Interval := UpdateFilelistInterval;
+    FPendingFilesTimer.OnTimer := @UpdatePendingTimerEvent;
+  end;
+
+  FPendingFilesTimer.Enabled := True;
+end;
+
 procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 var
   AFile: TFile;
@@ -1219,6 +1246,12 @@ procedure TFileView.UpdatePath(UpdateAddressToo: Boolean);
 begin
   // Maybe better to do via some notification like FileSourceHasChanged.
   UpdateView;
+end;
+
+procedure TFileView.UpdatePendingTimerEvent(Sender: TObject);
+begin
+  FPendingFilesTimer.Enabled := False;
+  ApplyPendingFilesChanges(gNewFilesPosition, gUpdatedFilesPosition);
 end;
 
 procedure TFileView.UpdateTitle;
@@ -2783,7 +2816,7 @@ begin
       else if fvrqApplyPendingFilesChanges in FRequests then
       begin
         FRequests := FRequests - [fvrqApplyPendingFilesChanges];
-        ApplyPendingFilesChanges;
+        ApplyPendingFilesChanges(nfpSortedPosition, ufpSortedPosition);
       end
       else if fvrqMakeDisplayFileList in FRequests then
       begin
@@ -2956,6 +2989,9 @@ begin
 end;
 
 procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
+var
+  CurrentTime: TDateTime;
+  AddToPending: Boolean;
 begin
   if not (csDestroying in ComponentState) and
      not FReloadNeeded and
@@ -2972,9 +3008,31 @@ begin
     else
     begin
       if FileListLoaded then
-        HandleFSWatcherEvent(EventData, gNewFilesPosition, gUpdatedFilesPosition)
-      else
-        Reload(EventData.Path);
+      begin
+        AddToPending := Assigned(FPendingFilesTimer) and FPendingFilesTimer.Enabled;
+        if not AddToPending then
+        begin
+          CurrentTime := SysUtils.Now;
+          if DateTimeToTimeStamp(CurrentTime - FWatcherEventLastTime).Time > UpdateFilelistInterval then
+            FWatcherEventsApplied := 0;
+
+          FWatcherEventLastTime := CurrentTime;
+          if FWatcherEventsApplied < 5 then
+          begin
+            Inc(FWatcherEventsApplied);
+            HandleFSWatcherEvent(EventData, gNewFilesPosition, gUpdatedFilesPosition);
+          end
+          else
+            AddToPending := True;
+        end;
+
+        if AddToPending then
+        begin
+          AddEventToPendingFilesChanges(EventData);
+          StartUpdatePendingTimer;
+        end;
+      end
+      // else filelist not loaded and not even started loading - discard the event
     end;
   end;
 end;
