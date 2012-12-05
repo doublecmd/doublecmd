@@ -1099,19 +1099,22 @@ end;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wNewDir: WideString;
+  wsNewDir: WideString;
   NetResource: TNetResourceW;
 begin
+  // Function WNetAddConnection2W works very slow
+  // when the final character is a backslash ('\')
+  wsNewDir:= UTF8Decode(ExcludeTrailingPathDelimiter(NewDir));
+  if Pos('\\', wsNewDir) = 1 then
+  begin
+    FillChar(NetResource, SizeOf(NetResource), #0);
+    NetResource.dwType:= RESOURCETYPE_ANY;
+    NetResource.lpRemoteName:= PWideChar(wsNewDir);
+    WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
+  end;
   // MSDN says that the final character must be a backslash ('\').
-  wNewDir:= UTF8Decode(IncludeTrailingBackslash(NewDir));
-  if Pos('\\', wNewDir) = 1 then
-    begin
-      FillChar(NetResource, SizeOf(NetResource), #0);
-      NetResource.dwType:= RESOURCETYPE_ANY;
-      NetResource.lpRemoteName:= PWideChar(wNewDir);
-      WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
-    end;
-  Result:= SetCurrentDirectoryW(PWideChar(wNewDir));
+  wsNewDir:= wsNewDir + DirectorySeparator;
+  Result:= SetCurrentDirectoryW(PWideChar(wsNewDir));
 end;
 {$ELSE}
 begin
