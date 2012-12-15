@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -167,17 +167,12 @@ end;
 
 function TFindThread.CheckDirectory(const CurrentDir, FolderName : String): Boolean;
 begin
-  if (FolderName = '.') or (FolderName = '..') then
-    Result := False
-  else
+  with FSearchTemplate do
   begin
-    with FSearchTemplate do
-    begin
-      Result := CheckDirectoryName(FFileChecks, UTF8UpperCase(FolderName)) and
-                CheckDirectoryNameRelative(FFileChecks,
-                  UTF8UpperCase(CurrentDir + PathDelim + FolderName),
-                  UTF8UpperCase(FSearchTemplate.StartPath));
-    end;
+    Result := CheckDirectoryName(FFileChecks, UTF8UpperCase(FolderName)) and
+              CheckDirectoryNameRelative(FFileChecks,
+                UTF8UpperCase(CurrentDir + PathDelim + FolderName),
+                UTF8UpperCase(FSearchTemplate.StartPath));
   end;
 end;
 
@@ -383,36 +378,33 @@ begin
   repeat
     if not FPS_ISDIR(sr.Attr) then
       DoFile(sNewDir, sr)
+    else if (sr.Name <> '.') and (sr.Name <> '..') then
+      begin
+        DoFile(sNewDir, sr);
+        // Search in sub folders
+        if (FCurrentDepth < FSearchTemplate.SearchDepth) and CheckDirectory(sNewDir, sr.Name) then
+        begin
+          SubPath := sNewDir + PathDelim + sr.Name;
+          IsLink := FPS_ISLNK(sr.Attr);
+          if FSearchTemplate.FollowSymLinks then
+          begin
+            if IsLink then
+              SubPath := mbReadAllLinks(SubPath);
+            if FLinkTargets.IndexOf(SubPath) >= 0 then
+              Continue; // Link already encountered - links form a cycle.
+            // Add directory to already-searched list.
+            FLinkTargets.Add(SubPath);
+          end
+          else if IsLink then
+            Continue;
+
+          WalkAdr(SubPath);
+          FCurrentDir := sNewDir;
+        end;
+      end;
   until (FindNextEx(sr) <> 0) or Terminated;
   FindCloseEx(sr);
   Synchronize(@UpDateProgress);
-
-  { Search in sub folders }
-  if (not Terminated) and (FCurrentDepth < FSearchTemplate.SearchDepth) then
-  begin
-    if FindFirstEx(Path, faDirectory, sr) = 0 then
-    repeat
-      if FPS_ISDIR(sr.Attr) and CheckDirectory(sNewDir, sr.Name) then
-      begin
-        SubPath := sNewDir + PathDelim + sr.Name;
-        IsLink := FPS_ISLNK(sr.Attr);
-        if FSearchTemplate.FollowSymLinks then
-        begin
-          if IsLink then
-            SubPath := mbReadAllLinks(SubPath);
-          if FLinkTargets.IndexOf(SubPath) >= 0 then
-            Continue; // Link already encountered - links form a cycle.
-          // Add directory to already-searched list.
-          FLinkTargets.Add(SubPath);
-        end
-        else if IsLink then
-          Continue;
-
-        WalkAdr(SubPath);
-      end;
-    until Terminated or (FindNextEx(sr) <> 0);
-    FindCloseEx(sr);
-  end;
 
   Dec(FCurrentDepth);
 end;
