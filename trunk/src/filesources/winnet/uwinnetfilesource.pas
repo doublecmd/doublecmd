@@ -282,7 +282,7 @@ end;
 
 function TWinNetFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
 begin
-  if IsNetworkPath(theFiles.Path) then
+  if (NumCountChars(PathDelim, ExcludeTrailingPathDelimiter(theFiles.Path)) < 2) then
     Result:= nil
   else
     Result:= inherited CreateCalcStatisticsOperation(theFiles);
