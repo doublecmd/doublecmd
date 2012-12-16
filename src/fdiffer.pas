@@ -1002,7 +1002,7 @@ procedure TfrmDiffer.SynDiffEditLeftStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
   if (actKeepScrolling.Checked) and (ScrollLock = 0) and
-     ((scTopLine in Changes) or (scLeftChar in Changes) or (scCaretY in Changes)) then
+     ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
       while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
@@ -1017,7 +1017,7 @@ procedure TfrmDiffer.SynDiffEditRightStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
   if (actKeepScrolling.Checked) and (ScrollLock = 0) and
-     ((scTopLine in Changes) or (scLeftChar in Changes) or (scCaretY in Changes)) then
+     ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
       while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
