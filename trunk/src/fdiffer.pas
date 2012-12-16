@@ -1008,7 +1008,6 @@ begin
       while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
       SynDiffEditRight.TopLine:= SynDiffEditLeft.TopLine;
       SynDiffEditRight.LeftChar:= SynDiffEditLeft.LeftChar;
-      SynDiffEditRight.CaretY:= SynDiffEditLeft.CaretY;
     finally
       Dec(ScrollLock);
     end;
@@ -1024,7 +1023,6 @@ begin
       while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
       SynDiffEditLeft.TopLine:= SynDiffEditRight.TopLine;
       SynDiffEditLeft.LeftChar:= SynDiffEditRight.LeftChar;
-      SynDiffEditLeft.CaretY:= SynDiffEditRight.CaretY;
     finally
       Dec(ScrollLock);
     end;
