@@ -2342,8 +2342,13 @@ begin
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
       Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
-      Operation.AddStateChangedListener([fsosStopped], @OnCalcStatisticsStateChanged);
-      OperationsManager.AddOperation(Operation);
+      if not Assigned(Operation) then
+        msgWarning(rsMsgErrNotSupported)
+      else
+        begin
+          Operation.AddStateChangedListener([fsosStopped], @OnCalcStatisticsStateChanged);
+          OperationsManager.AddOperation(Operation);
+        end;
     finally
       if Assigned(SelectedFiles) then
         FreeAndNil(SelectedFiles);
