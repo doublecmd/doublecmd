@@ -41,6 +41,8 @@ type
 
    // Filters out commands.
    function CommandsFilter(Command: String): Boolean;
+   procedure OnCopyOutStateChanged(Operation: TFileSourceOperation;
+                                   State: TFileSourceOperationState);
    procedure OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
                                           State: TFileSourceOperationState);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
@@ -232,7 +234,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
-     DCOSUtils, DCStrUtils, DCBasicTypes
+     DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -276,6 +278,63 @@ begin
 end;
 
 //------------------------------------------------------
+
+procedure TMainCommands.OnCopyOutStateChanged(Operation: TFileSourceOperation;
+                                              State: TFileSourceOperationState);
+var
+  I: Integer;
+  aFile: TFile;
+  sViewCmd: String;
+  aFileList: TStringList;
+  aFileSource: ITempFileSystemFileSource;
+  aCopyOutOperation: TFileSourceCopyOutOperation;
+begin
+  if (State = fsosStopped) and (Operation.Result = fsorFinished) then
+  begin
+    aFileList := TStringList.Create;
+    try
+      aCopyOutOperation := Operation as TFileSourceCopyOutOperation;
+      aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
+      ChangeFileListRoot(aFileSource.FileSystemRoot, aCopyOutOperation.SourceFiles);
+
+      try
+        for I := 0 to aCopyOutOperation.SourceFiles.Count - 1 do
+        begin
+          aFile := aCopyOutOperation.SourceFiles[I];
+
+          if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+          begin
+            // Try to find 'view' command in internal associations
+            sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
+
+            if Length(sViewCmd) = 0 then
+              aFileList.Add(aFile.FullPath)
+            else
+              begin
+                sViewCmd := PrepareParameter(sViewCmd, aFile);
+                ProcessExtCommand(sViewCmd, aCopyOutOperation.SourceFiles.Path);
+                // TODO:
+                // If TempFileSource is used, create a wait thread that will
+                // keep the TempFileSource alive until the command is finished.
+              end;
+          end; // if selected
+        end; // for
+
+        // if aFileList has files then view it
+        if aFileList.Count > 0 then
+          ShowViewerByGlobList(aFileList, aFileSource);
+      except
+        on e: EInvalidCommandLine do
+          MessageDlg(rsToolErrorOpeningViewer,
+            rsMsgInvalidCommandLine + ' (' + rsToolViewer + '):' + LineEnding + e.Message,
+            mtError, [mbOK], 0);
+      end;
+
+    finally
+      FreeAndNil(aFileList);
+    end;
+  end;
+end;
 
 procedure TMainCommands.OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
                                              State: TFileSourceOperationState);
@@ -1062,7 +1121,6 @@ var
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation;
   aFileSource: IFileSource;
-  UI: TFileSourceOperationMessageBoxesUI = nil;
 begin
   with frmMain do
   try
@@ -1115,25 +1173,14 @@ begin
 
       if Assigned(Operation) then
       begin
-        // Call directly - not through operations manager.
-        UI := TFileSourceOperationMessageBoxesUI.Create;
-        try
-          Operation.AddUserInterface(UI);
-          Operation.Execute;
-          if Operation.Result = fsorAborted then Exit;
-        finally
-          FreeAndNil(Operation);
-          FreeAndNil(UI);
-        end;
-
-        aFileSource := TempFileSource;
-        ChangeFileListRoot(TempFileSource.FileSystemRoot, SelectedFiles);
+        Operation.AddStateChangedListener([fsosStopped], @OnCopyOutStateChanged);
+        OperationsManager.AddOperation(Operation);
       end
       else
       begin
         msgWarning(rsMsgErrNotSupported);
-        Exit;
       end;
+      Exit;
     end;
 
     try
@@ -1144,23 +1191,15 @@ begin
 
         if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
         begin
-          if (log_info in gLogOptions) then
-            logWrite('View.Add: ' + aFile.FullPath, lmtInfo);
-
-          //now test if exists View command in doublecmd.ext :)
+          // Try to find 'view' command in internal associations
           sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
 
-          if (sViewCmd<>'') then
+          if Length(sViewCmd) = 0 then
+            sl.Add(aFile.FullPath)
+          else
             begin
               sViewCmd := PrepareParameter(sViewCmd, aFile);
               ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
-              // TODO:
-              // If TempFileSource is used, create a wait thread that will
-              // keep the TempFileSource alive until the command is finished.
-            end
-          else
-            begin
-              sl.Add(aFile.FullPath);
             end;
         end; // if selected
       end; // for

@@ -51,7 +51,6 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
-    property SourceFiles: TFiles read FSourceFiles;
     property TargetPath: String read FTargetPath;
 
   public
@@ -75,6 +74,9 @@ type
 
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
+
+    property SourceFiles: TFiles read FSourceFiles;
+    property TargetFileSource: IFileSource read FTargetFileSource;
 
     property RenameMask: String read FRenameMask write FRenameMask;
   end;
