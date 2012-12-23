@@ -1412,10 +1412,10 @@ begin
           FreeThenNil(Icon);
           DestroyIcon(hicn);
         end
-    end;
-{$ELSE}
-  Result:= nil;
+    end
+  else
 {$ENDIF}
+  Result:= nil;
 end;
 
 function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
@@ -1949,4 +1949,4 @@ finalization
   end;
 
 end.
-
+
