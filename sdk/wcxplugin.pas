@@ -135,11 +135,11 @@ type
   THeaderDataEx=packed record
     ArcName:array [0..1023] of char;
     FileName:array [0..1023] of char;
-    Flags,
+    Flags:longint;
     PackSize,
     PackSizeHigh,
     UnpSize,
-    UnpSizeHigh,
+    UnpSizeHigh:longword;
     HostOS,
     FileCRC,
     FileTime,
@@ -157,11 +157,11 @@ type
   THeaderDataExW=packed record
     ArcName:array [0..1023] of widechar;
     FileName:array [0..1023] of widechar;
-    Flags,
+    Flags:longint;
     PackSize,
     PackSizeHigh,
     UnpSize,
-    UnpSizeHigh,
+    UnpSizeHigh:longword;
     HostOS,
     FileCRC,
     FileTime,
