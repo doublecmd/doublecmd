@@ -745,7 +745,7 @@ end;
 
 constructor TWCXHeader.Create(const Data: PHeaderDataEx);
 
-  function Combine64(High, Low: Longint): Int64;
+  function Combine64(High, Low: LongWord): Int64;
   begin
     Result := Int64(High) shl (SizeOf(Int64) shl 2);
     Result := Result + Int64(Low);
@@ -770,7 +770,7 @@ end;
 
 constructor TWCXHeader.Create(const Data: PHeaderDataExW);
 
-  function Combine64(High, Low: Longint): Int64;
+  function Combine64(High, Low: LongWord): Int64;
   begin
     Result := Int64(High) shl (SizeOf(Int64) shl 2);
     Result := Result + Int64(Low);
