@@ -63,7 +63,7 @@ uses
   SysUtils, Classes, Controls, StdCtrls, fgl;
 
 const
-  MaxMemSize = $1000000; // 16 Mb
+  MaxMemSize = $400000; // 4 Mb
 
 type
   TViewerMode = (vmBin, vmHex, vmText, vmWrap, vmBook);
