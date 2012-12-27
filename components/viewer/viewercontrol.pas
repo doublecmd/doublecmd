@@ -31,13 +31,13 @@
 
    contributors:
 
-   Copyright (C) 2006-2012 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012 Alexander Koblov (alexx2000@mail.ru)
 
 
    TODO:
    a) File mapping blocks writing into file by other processes.
       Either:
-      - Open small text files by reading them all into memory.
+      + Open small text files by reading them all into memory (done).
       - Change file mapping to custom loading/caching portions of file in memory
         and only reading from file when neccessary.
 
@@ -61,6 +61,9 @@ interface
 
 uses
   SysUtils, Classes, Controls, StdCtrls, fgl;
+
+const
+  MaxMemSize = $1000000; // 16 Mb
 
 type
   TViewerMode = (vmBin, vmHex, vmText, vmWrap, vmBook);
@@ -1189,6 +1192,15 @@ begin
 end;
 
 function TViewerControl.MapFile(const sFileName: UTF8String): Boolean;
+
+  function ReadFile: Boolean; inline;
+  begin
+    FMappedFile := GetMem(FFileSize);
+    Result := (FileRead(FFileHandle, FMappedFile^, FFileSize) = FFileSize);
+    FileClose(FFileHandle);
+    FFileHandle := 0;
+  end;
+
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -1210,6 +1222,12 @@ begin
 
   FFileSize := GetFileSize(FFileHandle, nil);
 
+  if (FFileSize < MaxMemSize) then
+  begin
+    Result := ReadFile;
+    Exit;
+  end;
+
   FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
 
   if FMappingHandle <> 0 then
@@ -1228,15 +1246,17 @@ end;
 var
   StatBuf: Stat;
 begin
-  Result:=False;
+  Result := False;
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
-  FFileHandle:=fpOpen(PChar(sFileName), O_RDONLY);
+
+  FFileHandle := fpOpen(PChar(sFileName), O_RDONLY);
   if FFileHandle = feInvalidHandle then
   begin
     FFileHandle := 0;
     Exit;
   end;
+
   if fpFStat(FFileHandle, StatBuf) <> 0 then
   begin
     fpClose(FFileHandle);
@@ -1245,22 +1265,39 @@ begin
   end;
 
   FFileSize := StatBuf.st_size;
+
+  if (FFileSize < MaxMemSize) then
+  begin
+    Result := ReadFile;
+    Exit;
+  end;
+
   FMappedFile := fpmmap(nil, FFileSize, PROT_READ, MAP_PRIVATE{SHARED}, FFileHandle, 0);
   if FMappedFile = MAP_FAILED then
   begin
-    FMappedFile:=nil;
+    FMappedFile:= nil;
     fpClose(FFileHandle);
     FFileHandle := 0;
     Exit;
   end;
 
-  Result:=True;
+  Result:= True;
 end;
 {$ENDIF}
 
 procedure TViewerControl.UnMapFile;
 begin
+  if (FFileSize < MaxMemSize) then
+  begin
+    if Assigned(FMappedFile) then
+    begin
+      FreeMem(FMappedFile);
+      FMappedFile := nil;
+    end;
+  end;
+
 {$IFDEF MSWINDOWS}
+
   if Assigned(FMappedFile) then
   begin
     UnmapViewOfFile(FMappedFile);
