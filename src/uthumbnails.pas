@@ -5,13 +5,13 @@ unit uThumbnails;
 interface
 
 uses
-  Classes, SysUtils, Graphics, fgl, DCClassesUtf8, uFile;
+  Classes, SysUtils, Graphics, Types, fgl, DCClassesUtf8, uFile;
 
 type
 
   { TCreatePreviewHandler }
 
-  TCreatePreviewHandler = function(const aFileName: UTF8String; aSize: LongWord): TBitmap;
+  TCreatePreviewHandler = function(const aFileName: UTF8String; aSize: TSize): TBitmap;
 
   { TBitmapList }
 
@@ -21,8 +21,7 @@ type
 
   TThumbnailManager = class
   private
-    FWidth,
-    FHeight: LongInt;
+    FSize: TSize;
     FThumbPath: UTF8String;
     FBackColor: TColor;
     FProviderList: array of TCreatePreviewHandler; static;
@@ -43,7 +42,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, Math, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
+  LCLProc, FileUtil, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
   uGlobsPaths, uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource;
 
 const
@@ -71,17 +70,17 @@ begin
     // Width and height of thumb
     if  Graphic.Width > Graphic.Height then
       begin
-        x:= FWidth;
+        x:= FSize.cx;
         y:= x * Graphic.Height div Graphic.Width;
-        if y > FHeight then
+        if y > FSize.cy then
           begin
-            y:= FHeight;
+            y:= FSize.cy;
             x:= y * Graphic.Width div Graphic.Height;
           end;
       end
     else
       begin
-        y:= FHeight;
+        y:= FSize.cy;
         x:= y * Graphic.Width div Graphic.Height;
       end;
     bmpTemp:= TBitMap.Create;
@@ -102,14 +101,14 @@ var
   tFile: THandle;
 begin
   Result:= TBitmap.Create;
-  ARect:= Rect(0, 0, FWidth, FHeight);
+  ARect:= Rect(0, 0, FSize.cx, FSize.cy);
   with Result do
   begin
-    SetSize(FWidth, FHeight);
+    SetSize(FSize.cx, FSize.cy);
     Canvas.Brush.Color:= clWhite;
     Canvas.FillRect(ARect);
     Canvas.Font.Color:= clBlack;
-    Canvas.Font.Size := FHeight div 16;
+    Canvas.Font.Size := FSize.cy div 16;
     tFile:= mbFileOpen(sFileName, fmOpenRead or fmShareDenyNone);
     if (tFile <> feInvalidHandle) then
     begin
@@ -140,7 +139,7 @@ begin
     if not Result then Exit;
     Result:= (aFile.Size = FileStream.ReadQWord) and (QWord(aFile.ModificationTime) = FileStream.ReadQWord);
     if not Result then Exit;
-    Result:= (FWidth = FileStream.ReadWord) and (FHeight = FileStream.ReadWord);
+    Result:= (FSize.cx = FileStream.ReadWord) and (FSize.cy = FileStream.ReadWord);
   except
     Result:= False;
   end;
@@ -160,8 +159,8 @@ begin
     FileStream.WriteAnsiString(FilenameToURI(aFile.FullPath));
     FileStream.WriteQWord(aFile.Size);
     FileStream.WriteQWord(QWord(aFile.ModificationTime));
-    FileStream.WriteWord(FWidth);
-    FileStream.WriteWord(FHeight);
+    FileStream.WriteWord(FSize.cx);
+    FileStream.WriteWord(FSize.cy);
     // Write original file size
     FileStream.WriteDWord(iEnd);
   except
@@ -171,8 +170,8 @@ end;
 
 constructor TThumbnailManager.Create(aWidth, aHeight: LongInt; BackColor: TColor);
 begin
-  FWidth:= aWidth;
-  FHeight:= aHeight;
+  FSize.cx:= aWidth;
+  FSize.cy:= aHeight;
   FBackColor:= BackColor;
   FThumbPath:= gpCacheDir + PathDelim + 'thumbnails';
   // If directory not exists then create it
@@ -243,7 +242,7 @@ begin
       else
         for I:= Low(FProviderList) to High(FProviderList) do
         begin
-          Result:= FProviderList[I](sFullPathToFile, Max(FWidth, FHeight));
+          Result:= FProviderList[I](sFullPathToFile, FSize);
           if Assigned(Result) then Break;
         end;
       // Save created thumb to cache
