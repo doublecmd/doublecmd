@@ -140,12 +140,13 @@ begin
   if Failed(Status) then
   begin
     Status:= GetThumbnailOld(aFileName, aSize, Bitmap);
-    if Succeeded(Status) then
-    begin
-      Result:= Graphics.TBitmap.Create;
-      Result.Handle:= Bitmap;
-      DeleteObject(Bitmap);
-    end;
+  end;
+
+  if Succeeded(Status) then
+  begin
+    Result:= Graphics.TBitmap.Create;
+    Result.Handle:= Bitmap;
+    DeleteObject(Bitmap);
   end;
 end;
 
