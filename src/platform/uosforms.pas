@@ -101,6 +101,7 @@ uses
   , Menus, Graphics, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, InterfaceBase, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, LMessages, WSForms, LCLIntf
+  , uThumbnailProvider
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties
