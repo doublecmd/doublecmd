@@ -144,7 +144,6 @@ begin
   begin
     Result:= Graphics.TBitmap.Create;
     Result.Handle:= Bitmap;
-    DeleteObject(Bitmap);
   end;
 end;
 

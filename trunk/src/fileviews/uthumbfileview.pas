@@ -301,7 +301,7 @@ var
       PixMapManager.DrawBitmapOverlay(AFile,
                                       FileSourceDirectAccess,
                                       Canvas,
-                                      aRect.Left + 1,
+                                      aRect.Left + 2,
                                       iTextTop - gIconsSize
                                       );
     end;
@@ -312,8 +312,7 @@ var
 
     Canvas.TextOut(aRect.Left + 2, iTextTop, s);
     Canvas.Pen.Color:= InvertColor(gBackColor);
-    Canvas.Brush.Style:= bsClear;
-    Canvas.Rectangle(aRect.Left + 2, aRect.Top + 2, aRect.Right - 2, aRect.Bottom - Canvas.TextHeight('Pp'));
+    Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp'));
   end; //of DrawIconCell
 
   //------------------------------------------------------
