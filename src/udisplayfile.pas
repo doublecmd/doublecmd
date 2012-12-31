@@ -25,6 +25,7 @@ type
     FDisplayItem: TDisplayItemPtr; //<en Item that displays this file (for example Node in a tree).
 
     // Other properties.
+    FTag: PtrInt;            //<en File view related info
     FSelected: Boolean;      //<en If is selected
     FIconID: PtrInt;         //<en Icon ID for PixmapManager
     FIconOverlayID: PtrInt;  //<en Overlay icon ID for PixmapManager
@@ -72,6 +73,7 @@ type
     property TextColor: TColor read FTextColor write FTextColor;
     property DisplayStrings: TStringList read FDisplayStrings;
     property RecentlyUpdatedPct: Integer read FRecentlyUpdatedPct write FRecentlyUpdatedPct;
+    property Tag: PtrInt read FTag write FTag;
 
   end;
 
@@ -121,6 +123,7 @@ implementation
 
 constructor TDisplayFile.Create(ReferenceFile: TFile);
 begin
+  FTag := -1;
   FIconID := -1;
   FIconOverlayID := -1;
   FTextColor := clNone;
@@ -157,6 +160,7 @@ procedure TDisplayFile.CloneTo(AFile: TDisplayFile);
 begin
   if Assigned(AFile) then
   begin
+    AFile.FTag := FTag;
     AFile.FSelected := FSelected;
     AFile.FIconID := FIconID;
     AFile.FIconOverlayID := FIconOverlayID;
