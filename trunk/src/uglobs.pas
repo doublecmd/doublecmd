@@ -289,6 +289,8 @@ var
   gShowWarningMessages,
   gDirBrackets: Boolean;
   gShowToolTipMode: TShowToolTipMode;
+  gThumbWidth,
+  gThumbHeight: Integer;
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
   gWatchDirsExclude: String;
@@ -1064,6 +1066,8 @@ begin
   gSpaceMovesDown := False;
   gDirBrackets := True;
   gShowToolTipMode := [stm_show_for_all];
+  gThumbWidth:= 128;
+  gThumbHeight:= 128;
 
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];

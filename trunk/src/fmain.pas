@@ -681,7 +681,7 @@ uses
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
-  uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
+  uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
   XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar
@@ -3478,6 +3478,8 @@ begin
     {$ENDIF}
   else if sType = 'brief' then
     Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
+  else if sType = 'thumbnails' then
+    Result := TThumbFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else
     raise Exception.Create('Invalid file view type');
 end;
