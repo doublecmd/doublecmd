@@ -115,8 +115,6 @@ function GetThumbnailNew(const aFileName: UTF8String; aSize: TSize; out Bitmap: 
 var
   ShellItemImage: IShellItemImageFactory;
 begin
-  Result := E_FAIL;
-  CoInitializeEx(nil, COINIT_APARTMENTTHREADED or COINIT_DISABLE_OLE1DDE);
   Result:= SHCreateItemFromParsingName(PWideChar(UTF8Decode(aFileName)), nil,
                                        IShellItemImageFactory, ShellItemImage);
   if Succeeded(Result) then
