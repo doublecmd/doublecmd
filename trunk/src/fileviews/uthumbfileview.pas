@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Controls, Grids, DCXmlConfig, uFileSource, uOrderedFileView,
-  uDisplayFile, uFileViewWorker, uThumbnails, uFileView, uTypes, uFileViewWithGrid;
+  uDisplayFile, uFileViewWorker, uThumbnails, uFileView, uTypes, uFileViewWithGrid,
+  uFile;
 
 type
 
@@ -75,6 +76,7 @@ type
     procedure EnsureDisplayProperties; override;
     function GetFileViewGridClass: TFileViewGridClass; override;
     function GetVisibleFilesIndexes: TRange; override;
+    procedure ShowRenameFileEdit(aFile: TFile); override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
@@ -542,6 +544,32 @@ begin
         if Result.Last >= FFiles.Count then Result.Last:= FFiles.Count - 1;
       end;
   end;
+end;
+
+procedure TThumbFileView.ShowRenameFileEdit(aFile: TFile);
+var
+  ARect: TRect;
+  ALeft, ATop, AWidth, AHeight: Integer;
+begin
+  if not edtRename.Visible then
+  begin
+    edtRename.Font.Name  := gFonts[dcfMain].Name;
+    edtRename.Font.Size  := gFonts[dcfMain].Size;;
+    edtRename.Font.Style := gFonts[dcfMain].Style;
+
+    with dgPanel do
+    begin
+      ARect := CellRect(Col, Row);
+      ATop := ARect.Bottom - Canvas.TextHeight('Wg') - 4;
+      ALeft := ARect.Left;
+      AWidth := ARect.Right - ALeft;
+      AHeight := ARect.Bottom - ATop;
+    end;
+
+    edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+  end;
+
+  inherited ShowRenameFileEdit(AFile);
 end;
 
 constructor TThumbFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
