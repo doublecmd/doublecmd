@@ -2954,6 +2954,14 @@ msgstr "Ziel = &Quelle"
 msgid "&Test Archive(s)"
 msgstr "Archiv(e) testen"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Bewege markierten &Ordner in das linke Fenster"
@@ -8998,4 +9006,4 @@ msgstr "Codierung"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nicht gefunden!"
-
+

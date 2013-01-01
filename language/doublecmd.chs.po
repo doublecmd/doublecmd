@@ -2865,6 +2865,14 @@ msgstr "目标 &= 源"
 msgid "&Test Archive(s)"
 msgstr ""
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "传输当前行到左窗口"
@@ -8658,4 +8666,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+

@@ -2900,6 +2900,14 @@ msgstr "대상 &= 원본"
 msgid "&Test Archive(s)"
 msgstr "압축파일 검사(&T)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "커서가 위치한 폴더를 왼쪽 창으로 전송"
@@ -9003,4 +9011,4 @@ msgstr "인코딩"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s 를 찾지 못했습니다!"
-
+

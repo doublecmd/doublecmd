@@ -2656,6 +2656,14 @@ msgstr "&Две одинаковых панели"
 msgid "&Test Archive(s)"
 msgstr "Про&тестировать архив(ы)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr "Эскизы"
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr "Просмотр эскизов"
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Открыть каталог под курсором на левой панели"
@@ -8070,4 +8078,4 @@ msgstr "Кодировка"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не найден!"
-
+

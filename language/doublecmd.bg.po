@@ -2904,6 +2904,14 @@ msgstr "Цел &= източник"
 msgid "&Test Archive(s)"
 msgstr "Проверка на архив(и)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Прехвърляне на папката под показалеца в левия прозорец"
@@ -8749,4 +8757,4 @@ msgstr "Знаков набор"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не е открит!"
-
+
