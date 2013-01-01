@@ -146,6 +146,7 @@ type
    procedure cm_QuickView(const Params: array of string);
    procedure cm_BriefView(const Params: array of string);
    procedure cm_ColumnsView(const Params: array of string);
+   procedure cm_ThumbnailsView(const Params: array of string);
    procedure cm_CopyNamesToClip(const Params: array of string);
    procedure cm_FocusCmdLine(const Params: array of string);
    procedure cm_FileAssoc(const Params: array of string);
@@ -230,7 +231,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
-     uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
+     uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil, uThumbFileView,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
@@ -1305,6 +1306,18 @@ begin
     {$ELSE}
     aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
     {$ENDIF}
+    ActiveNotebook.ActivePage.FileView:= aFileView;
+    ActiveFrame.SetFocus;
+  end;
+end;
+
+procedure TMainCommands.cm_ThumbnailsView(const Params: array of string);
+var
+  aFileView: TFileView;
+begin
+  with frmMain do
+  begin
+    aFileView:= TThumbFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
     ActiveNotebook.ActivePage.FileView:= aFileView;
     ActiveFrame.SetFocus;
   end;

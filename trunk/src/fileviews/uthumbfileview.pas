@@ -5,7 +5,7 @@ unit uThumbFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, Grids, DCXmlConfig, uFileSource, uBriefFileView,
+  Classes, SysUtils, Controls, Grids, DCXmlConfig, uFileSource, uOrderedFileView,
   uDisplayFile, uFileViewWorker, uThumbnails, uFileView, uTypes, uFileViewWithGrid;
 
 type
@@ -49,6 +49,8 @@ type
   private
     FThumbView: TThumbFileView;
   protected
+    procedure KeyDown(var Key : Word; Shift : TShiftState); override;
+  protected
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
     procedure CalculateColumnWidth; override;
@@ -74,6 +76,8 @@ type
     function GetFileViewGridClass: TFileViewGridClass; override;
     function GetVisibleFilesIndexes: TRange; override;
   public
+    constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
+    constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
     function Clone(NewParent: TWinControl): TThumbFileView; override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
@@ -83,7 +87,7 @@ implementation
 
 uses
   LCLIntf, LCLType, Graphics, Math, uFileSourceProperty, uGlobs,
-  uPixMapManager, uDCUtils;
+  uPixMapManager;
 
 { TFileThumbnailsRetriever }
 
@@ -97,10 +101,7 @@ procedure TFileThumbnailsRetriever.Execute;
 var
   I: Integer;
   Bitmap: TBitmap;
-  DirectAccess: Boolean;
 begin
-  DirectAccess := fspDirectAccess in FFileSource.Properties;
-
   for I := 0 to FFileList.Count - 1 do
   begin
     if Aborted then
@@ -153,6 +154,79 @@ begin
 end;
 
 { TThumbDrawGrid }
+
+procedure TThumbDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  SavedKey: Word;
+  FileIndex: Integer;
+  ACol, ARow: Integer;
+begin
+  if FThumbView.IsLoadingFileList then
+  begin
+    FThumbView.HandleKeyDownWhenLoading(Key, Shift);
+    Exit;
+  end;
+
+  SavedKey := Key;
+  // Set RangeSelecting before cursor is moved.
+  FThumbView.FRangeSelecting :=
+    (ssShift in Shift) and
+    (SavedKey in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+
+  case Key of
+    VK_LEFT:
+      begin
+        if (Col - 1 < 0) and (Row > 0) then
+        begin
+          MoveExtend(False, ColCount - 1, Row - 1);
+          Key:= 0;
+        end;
+      end;
+    VK_RIGHT:
+      begin
+        if (CellToIndex(Col + 1, Row) < 0) then
+        begin
+          if (Row + 1 < RowCount) then
+            MoveExtend(False, 0, Row + 1)
+          else
+            begin
+              IndexToCell(FThumbView.FFiles.Count - 1, ACol, ARow);
+              MoveExtend(False, ACol, ARow);
+            end;
+          Key:= 0;
+        end;
+      end;
+    VK_HOME:
+      begin
+        MoveExtend(False, 0, 0);
+        Key:= 0;
+      end;
+    VK_END:
+      begin
+        IndexToCell(FThumbView.FFiles.Count - 1, ACol, ARow);
+        MoveExtend(False, ACol, ARow);
+        Key:= 0;
+      end;
+    VK_DOWN:
+      begin
+        if (CellToIndex(Col, Row + 1) < 0) then
+          begin
+            IndexToCell(FThumbView.FFiles.Count - 1, ACol, ARow);
+            MoveExtend(False, ACol, ARow);
+            Key:= 0;
+          end
+      end;
+  end;
+  inherited KeyDown(Key, Shift);
+
+  if ssShift in Shift then
+  begin
+    FileIndex := CellToIndex(Col, Row);
+    if FileIndex <> InvalidFileIndex then
+      FThumbView.Selection(SavedKey, FileIndex);
+  end;
+end;
+
 
 procedure TThumbDrawGrid.UpdateView;
 
@@ -255,7 +329,6 @@ var
   Idx: Integer;
   //shared variables
   s:   string;
-  Bitmap: TBitmap;
   iTextTop: Integer;
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
@@ -268,7 +341,7 @@ var
   var
     X, Y: Integer;
     IconID: PtrInt;
-    bmp: TBitmap;
+    Bitmap: TBitmap;
   begin
     IconID := AFile.Tag;
 
@@ -366,7 +439,9 @@ begin
   inherited CreateDefault(AOwner);
 
   FBitmapList:= TBitmapList.Create(True);
-  FThumbnailManager:= TThumbnailManager.Create(128, 128, clWhite);
+  FThumbnailManager:= TThumbnailManager.Create(gThumbWidth, gThumbHeight, clWhite);
+
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TThumbFileView.AfterChangePath;
@@ -383,62 +458,63 @@ var
   AFileList: TFVWorkerFileList = nil;
   Worker: TFileViewWorker;
   AFile: TDisplayFile;
-  DirectAccess: Boolean;
 begin
   if (csDestroying in ComponentState) or
      (GetCurrentWorkType = fvwtCreate) or
      IsEmpty then
     Exit;
 
-  VisibleFiles := GetVisibleFilesIndexes;
-  DirectAccess := fspDirectAccess in FileSource.Properties;
-
-  if not gListFilesInThread then
+  if fspDirectAccess in FileSource.Properties then
   begin
-    for i := VisibleFiles.First to VisibleFiles.Last do
+    VisibleFiles := GetVisibleFilesIndexes;
+
+    if not gListFilesInThread then
     begin
-      AFile := FFiles[i];
-
-      if (AFile.Tag < 0) and (AFile.FSFile.IsDirectory = False) then
-      begin
-        Bitmap:= FThumbnailManager.CreatePreview(AFile.FSFile);
-        if Assigned(Bitmap) then
-        begin
-          AFile.Tag := FBitmapList.Add(Bitmap);
-        end;
-      end;
-    end;
-  end
-  else
-  begin
-    try
       for i := VisibleFiles.First to VisibleFiles.Last do
       begin
         AFile := FFiles[i];
+
         if (AFile.Tag < 0) and (AFile.FSFile.IsDirectory = False) then
         begin
-          if not Assigned(AFileList) then
-            AFileList := TFVWorkerFileList.Create;
-          AFileList.AddClone(AFile, AFile);
+          Bitmap:= FThumbnailManager.CreatePreview(AFile.FSFile);
+          if Assigned(Bitmap) then
+          begin
+            AFile.Tag := FBitmapList.Add(Bitmap);
+          end;
         end;
       end;
+    end
+    else
+    begin
+      try
+        for i := VisibleFiles.First to VisibleFiles.Last do
+        begin
+          AFile := FFiles[i];
+          if (AFile.Tag < 0) and (AFile.FSFile.IsDirectory = False) then
+          begin
+            if not Assigned(AFileList) then
+              AFileList := TFVWorkerFileList.Create;
+            AFileList.AddClone(AFile, AFile);
+          end;
+        end;
 
-      if Assigned(AFileList) and (AFileList.Count > 0) then
-      begin
-        Worker := TFileThumbnailsRetriever.Create(
-          FileSource,
-          WorkersThread,
-          FBitmapList,
-          @ThumbnailsRetrieverOnUpdate,
-          FThumbnailManager,
-          AFileList);
+        if Assigned(AFileList) and (AFileList.Count > 0) then
+        begin
+          Worker := TFileThumbnailsRetriever.Create(
+            FileSource,
+            WorkersThread,
+            FBitmapList,
+            @ThumbnailsRetrieverOnUpdate,
+            FThumbnailManager,
+            AFileList);
 
-        AddWorker(Worker, True);
-        WorkersThread.QueueFunction(@Worker.StartParam);
+          AddWorker(Worker, True);
+          WorkersThread.QueueFunction(@Worker.StartParam);
+        end;
+
+      finally
+        AFileList.Free;
       end;
-
-    finally
-      AFileList.Free;
     end;
   end;
   inherited EnsureDisplayProperties;
@@ -465,6 +541,27 @@ begin
         if Result.First < 0 then Result.First:= 0;
         if Result.Last >= FFiles.Count then Result.Last:= FFiles.Count - 1;
       end;
+  end;
+end;
+
+constructor TThumbFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
+  ANode: TXmlNode; AFlags: TFileViewFlags);
+begin
+  inherited Create(AOwner, AConfig, ANode, AFlags);
+end;
+
+constructor TThumbFileView.Create(AOwner: TWinControl; AFileView: TFileView;
+  AFlags: TFileViewFlags);
+var
+  I: Integer;
+begin
+  inherited Create(AOwner, AFileView, AFlags);
+
+  if Assigned(FAllDisplayFiles) then
+  begin
+    // Clear thumbnail image index
+    for I := 0 to FAllDisplayFiles.Count - 1 do
+      FAllDisplayFiles[I].Tag:= -1;
   end;
 end;
 
