@@ -93,7 +93,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 15;
+  hkVersion     = 16;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -605,6 +605,7 @@ begin
       AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
       AddIfNotExists(['Ctrl+Shift+H'],[],'cm_HorizontalFilePanels');
       AddIfNotExists(['Ctrl+Shift+X'],[],'cm_CopyNamesToClip');
+      AddIfNotExists(['Ctrl+Shift+F1'],[],'cm_ThumbnailsView');
       AddIfNotExists(['Ctrl+Shift+Enter'],[],'cm_AddPathAndFilenameToCmdLine');
       AddIfNotExists(['Ctrl+Shift+Tab'],[],'cm_PrevTab');
       AddIfNotExists(['Ctrl+Tab'],[],'cm_NextTab');
