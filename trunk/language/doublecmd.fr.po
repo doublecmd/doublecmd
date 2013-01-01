@@ -2874,6 +2874,14 @@ msgstr "Cible &= Source"
 msgid "&Test Archive(s)"
 msgstr "&Tester une(des) archive(s)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 #, fuzzy
 msgid "Transfer dir under cursor to left window"
@@ -8836,4 +8844,4 @@ msgstr "Encodage"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s introuvable !"
-
+

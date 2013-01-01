@@ -2860,6 +2860,14 @@ msgstr "目標 (&=) 源"
 msgid "&Test Archive(s)"
 msgstr "壓縮測試 (&T)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "傳輸當前行到左視窗"
@@ -8801,4 +8809,4 @@ msgstr "編碼中"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s 沒有找到%s 沒有找到"
-
+

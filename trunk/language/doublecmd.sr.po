@@ -2827,6 +2827,14 @@ msgstr "Odredište &= Izvor"
 msgid "&Test Archive(s)"
 msgstr "&Testiraj Arhivu(e)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Prebaci dir ispod kursora u levi prozor"
@@ -8293,4 +8301,4 @@ msgstr "Enkodiranje"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nije pronađen!"
-
+

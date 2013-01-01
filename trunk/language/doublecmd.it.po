@@ -2825,6 +2825,14 @@ msgstr "Destinazione &= Sorgente"
 msgid "&Test Archive(s)"
 msgstr "&Verifica Archivio"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Trasferisci cartella evidenziata dal cursore nella finestra sinistra"
@@ -8658,4 +8666,4 @@ msgstr "Codifica"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s non trovato!"
-
+

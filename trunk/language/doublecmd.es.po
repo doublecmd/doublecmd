@@ -2911,6 +2911,14 @@ msgstr "Objetivo &= Origen"
 msgid "&Test Archive(s)"
 msgstr "Comprobar archivo(s)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Carpeta bajo el cursor en la izquierda"
@@ -8905,4 +8913,4 @@ msgstr "Codificación"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s no encontrado!"
-
+

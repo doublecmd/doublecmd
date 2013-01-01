@@ -2853,6 +2853,14 @@ msgstr "Doel &= Bron"
 msgid "&Test Archive(s)"
 msgstr ""
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Verplaats dir onder de cursor naar linker paneel"
@@ -8612,4 +8620,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+

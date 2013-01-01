@@ -2829,6 +2829,14 @@ msgstr "Wyrównaj zawartości okien"
 msgid "&Test Archive(s)"
 msgstr "Testuj ar&chiwum"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Otwórz ten katalog w lewym oknie"
@@ -8758,4 +8766,4 @@ msgstr "Kodowanie"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nie znaleziony!"
-
+

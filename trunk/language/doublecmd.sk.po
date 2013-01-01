@@ -2930,6 +2930,14 @@ msgstr "Cieľ &= Zdroj"
 msgid "&Test Archive(s)"
 msgstr "Testovať archív(y)"
 
+#: tfrmmain.actthumbnailsview.caption
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmmain.actthumbnailsview.hint
+msgid "Thumbnails View"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Preniesť zložku pod kurzorom do ľavého okna"
@@ -8828,4 +8836,4 @@ msgstr "Kódovanie"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nebol nájdený!"
-
+
