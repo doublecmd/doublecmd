@@ -93,6 +93,7 @@ type
     actCmdLinePrev: TAction;
     actBriefView: TAction;
     actColumnsView: TAction;
+    actThumbnailsView: TAction;
     actShellExecute: TAction;
     actRenameTab: TAction;
     actOperationsViewer: TAction;
@@ -164,6 +165,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuThumbnailsView: TMenuItem;
     mnuColumnsView: TMenuItem;
     mnuBriefView: TMenuItem;
     miLine33: TMenuItem;

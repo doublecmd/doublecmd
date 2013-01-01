@@ -1188,6 +1188,9 @@ object frmMain: TfrmMain
       object mnuColumnsView: TMenuItem
         Action = actColumnsView
       end
+      object mnuThumbnailsView: TMenuItem
+        Action = actThumbnailsView
+      end
       object miLine33: TMenuItem
         Caption = '-'
       end
@@ -1955,6 +1958,12 @@ object frmMain: TfrmMain
       Category = 'Show'
       Caption = 'Full'
       Hint = 'Columns View'
+      OnExecute = actExecute
+    end
+    object actThumbnailsView: TAction
+      Category = 'Show'
+      Caption = 'Thumbnails'
+      Hint = 'Thumbnails View'
       OnExecute = actExecute
     end
   end
