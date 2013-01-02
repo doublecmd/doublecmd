@@ -49,6 +49,7 @@ type
   TThumbDrawGrid = class(TFileViewGrid)
   private
     FThumbView: TThumbFileView;
+    FUpdateColCount: Integer;
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
   protected
@@ -268,28 +269,44 @@ var
   glw, bw: Integer;
   AIndex, ACol, ARow: Integer;
 begin
-  if (csDesigning in ComponentState) then Exit;
+  if (csDesigning in ComponentState) or (FUpdateColCount > 0) then Exit;
 
   if not Assigned(FFileView.DisplayFiles) then Exit;
 
   glw := Max(GridLineWidth, 1);
   bw  := Max(BorderWidth, 1);
 
-  if DefaultRowHeight > 0 then
-  begin
-    // Save active file index
-    AIndex:= CellToIndex(Col, Row);
+  BeginUpdate;
+  Inc(FUpdateColCount);
+  try
+    if DefaultColWidth > 0 then
+    begin
+      // Save active file index
+      AIndex:= CellToIndex(Col, Row);
 
-    ColCount := (Width - GetSystemMetrics(SM_CXVSCROLL) -
-                 glw - (2 * bw)) div (DefaultColWidth + glw);
-    if ColCount > 0 then
-    RowCount := (FFileView.DisplayFiles.Count + ColCount - 1) div ColCount;
+      ColCount := (Width - GetSystemMetrics(SM_CXVSCROLL) -
+                   glw - (2 * bw)) div (DefaultColWidth + glw);
+      if ColCount > 0 then
+      begin
+        RowCount := (FFileView.DisplayFiles.Count + ColCount - 1) div ColCount;
+        if ColCount > 0 then
+        begin
+          ARow := (Width - GetSystemMetrics(SM_CXVSCROLL) -
+                   glw - (2 * bw)) div ColCount - glw;
+          // Update columns widths
+          for ACol := 0 to ColCount - 1 do
+            ColWidths[ACol]:= ARow;
+        end;
+      end;
 
-    // Restore active file index
-    IndexToCell(AIndex, ACol, ARow);
-    MoveExtend(False, ACol, ARow);
+      // Restore active file index
+      IndexToCell(AIndex, ACol, ARow);
+      MoveExtend(False, ACol, ARow);
+    end;
+  finally
+    EndUpdate(True);
+    Dec(FUpdateColCount);
   end;
-  Invalidate;
 end;
 
 procedure TThumbDrawGrid.CalculateColumnWidth;
