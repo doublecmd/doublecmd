@@ -247,7 +247,7 @@ procedure TThumbDrawGrid.UpdateView;
     Canvas.Font.Style := gFonts[dcfMain].Style;
     Canvas.Font.Size  := gFonts[dcfMain].Size;
 
-    Result := gThumbHeight + Canvas.GetTextHeight('Wg') + 4;
+    Result := gThumbHeight + Canvas.GetTextHeight('Wg') + 6;
 
     // Restore old font.
     Canvas.Font := OldFont;
@@ -394,17 +394,17 @@ var
                                       FileSourceDirectAccess,
                                       Canvas,
                                       aRect.Left + 2,
-                                      iTextTop - gIconsSize
+                                      iTextTop - gIconsSize - 2
                                       );
     end;
 
     s := AFile.DisplayStrings[0];
-    Y:= (DefaultColWidth - 4 - Canvas.TextWidth('W'));
+    Y:= (ColWidths[ACol] - 4 - Canvas.TextWidth('W'));
     s:= FitFileName(s, Canvas, AFile.FSFile, Y);
 
     Canvas.TextOut(aRect.Left + 2, iTextTop, s);
     Canvas.Pen.Color:= InvertColor(gBackColor);
-    Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp'));
+    Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp') - 1);
   end; //of DrawIconCell
 
   //------------------------------------------------------
