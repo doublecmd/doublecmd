@@ -174,7 +174,7 @@ begin
   // Set RangeSelecting before cursor is moved.
   FThumbView.FRangeSelecting :=
     (ssShift in Shift) and
-    (SavedKey in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+    (SavedKey in [VK_LEFT, VK_RIGHT, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
 
   case Key of
     VK_LEFT:
@@ -220,6 +220,7 @@ begin
           end
       end;
   end;
+
   inherited KeyDown(Key, Shift);
 
   if ssShift in Shift then

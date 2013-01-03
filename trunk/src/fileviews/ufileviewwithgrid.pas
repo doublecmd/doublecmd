@@ -25,6 +25,7 @@ type
     procedure InitializeWnd; override;
     function MouseOnGrid(X, Y: LongInt): Boolean;
     procedure DoOnResize; override;
+    procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure TopLeftChanged; override;
@@ -139,6 +140,20 @@ begin
   inherited DoOnResize;
   CalculateColRowCount;
   CalculateColumnWidth;
+end;
+
+procedure TFileViewGrid.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+{$IFDEF LCLGTK2}
+  // Workaround for GTK2 - up and down arrows moving through controls.
+  if Key in [VK_UP, VK_DOWN] then
+  begin
+    if ((Row = RowCount-1) and (Key = VK_DOWN))
+    or ((Row = FixedRows) and (Key = VK_UP)) then
+      Key := 0;
+  end;
+{$ENDIF}
+  inherited KeyDown(Key, Shift);
 end;
 
 procedure TFileViewGrid.RowHeightsChanged;
