@@ -182,8 +182,7 @@ begin
   inherited CreateDefault(AOwner);
 
   FLastActiveFileIndex := -1;
-  FRangeSelectionStartIndex := -1;
-  FRangeSelectionEndIndex := -1;
+  FRangeSelectionState := True;
 
   lblFilter         := TLabel.Create(pnlFooter);
   lblFilter.Parent  := pnlFooter;
