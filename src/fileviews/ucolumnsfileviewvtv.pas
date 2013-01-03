@@ -1150,17 +1150,6 @@ begin
         Key := 0;
       end;
 
-{$IFDEF LCLGTK2}
-    // Workaround for GTK2 - up and down arrows moving through controls.
-    VK_UP, VK_DOWN:
-      begin
-        Node := dgPanel.FocusedNode;
-        if ((Node = dgPanel.GetLastNoInit) and (Key = VK_DOWN))
-        or ((Node = dgPanel.GetFirstNoInit) and (Key = VK_UP)) then
-          Key := 0;
-      end;
-{$ENDIF}
-
     VK_SPACE:
       if Shift * KeyModifiersShortcut = [] then
       begin
@@ -1439,7 +1428,7 @@ begin
   // Set RangeSelecting before cursor is moved.
   ColumnsView.FRangeSelecting :=
     (ssShift in Shift) and
-    (SavedKey in [VK_UP, VK_DOWN, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+    (SavedKey in [VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
 
   // Override scrolling with PageUp, PageDown because VirtualTreeView scrolls too much.
   case SavedKey of
@@ -1492,6 +1481,17 @@ begin
         //  OffsetY := OffsetY - ClientHeight mod DefaultNodeHeight;
         Message.CharCode := 0;
       end;
+
+{$IFDEF LCLGTK2}
+    // Workaround for GTK2 - up and down arrows moving through controls.
+    VK_UP, VK_DOWN:
+      begin
+        Node := FocusedNode;
+        if ((Node = GetLastNoInit) and (Key = VK_DOWN))
+        or ((Node = GetFirstNoInit) and (Key = VK_UP)) then
+          Message.CharCode := 0;
+      end;
+{$ENDIF}
   end;
 
   inherited WMKeyDown(Message);

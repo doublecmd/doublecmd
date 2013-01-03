@@ -978,14 +978,6 @@ begin
         Key := 0;
       end;
 
-{$IFDEF LCLGTK2}
-    // Workaround for GTK2 - up and down arrows moving through controls.
-    VK_UP, VK_DOWN:
-      if ((dgPanel.Row = dgPanel.RowCount-1) and (Key = VK_DOWN))
-      or ((dgPanel.Row = dgPanel.FixedRows) and (Key = VK_UP)) then
-        Key := 0;
-{$ENDIF}
-
     VK_SPACE:
       if Shift * KeyModifiersShortcut = [] then
       begin
@@ -1692,7 +1684,17 @@ begin
   // Set RangeSelecting before cursor is moved.
   ColumnsView.FRangeSelecting :=
     (ssShift in Shift) and
-    (SavedKey in [VK_UP, VK_DOWN, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+    (SavedKey in [VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+
+  {$IFDEF LCLGTK2}
+  // Workaround for GTK2 - up and down arrows moving through controls.
+  if Key in [VK_UP, VK_DOWN] then
+  begin
+    if ((Row = RowCount-1) and (Key = VK_DOWN))
+    or ((Row = FixedRows) and (Key = VK_UP)) then
+      Key := 0;
+  end;
+  {$ENDIF}
 
   inherited KeyDown(Key, Shift);
 
