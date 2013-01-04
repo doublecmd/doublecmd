@@ -60,6 +60,7 @@ type
     FRangeSelectionEndIndex: Integer;
     FRangeSelectionState: Boolean;
     FUpdatingActiveFile: Boolean;
+    procedure InvertActiveFile;
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
     procedure DoFileIndexChanged(NewFileIndex: PtrInt);
@@ -228,31 +229,12 @@ end;
 procedure TOrderedFileView.DoHandleKeyDown(var Key: Word; Shift: TShiftState);
 var
   mi: TMenuItem;
-  Index: PtrInt;
 begin
   // check if ShiftState is equal to quick search / filter modes
   if quickSearch.CheckSearchOrFilter(Key) then
     Exit;
 
   case Key of
-    VK_UP, VK_DOWN:
-      begin
-        if ssShift in Shift then
-        begin
-          if IsActiveItemValid then
-          begin
-            Index:= GetActiveFileIndex;
-            if IsFileIndexInRange(Index) then
-            begin
-              InvertFileSelection(FFiles[Index], False);
-              if (Index = 0) or (Index = FFiles.Count - 1) then
-                RedrawFile(Index);
-            end;
-            UpdateRangeSelectionState;
-          end;
-        end
-      end;
-
     VK_ESCAPE:
       begin
         if Filtered and (GetCurrentWorkType <> fvwtNone) then
@@ -617,10 +599,10 @@ begin
   // It just needs to correspond to scroll positions (similar to TScrollCode).
   case Key of
     VK_HOME, VK_END: ;
-    VK_PRIOR, VK_LEFT:
+    VK_PRIOR, VK_UP, VK_LEFT:
       if CurIndex > 0 then
         OneLess;
-    VK_NEXT, VK_RIGHT:
+    VK_NEXT, VK_DOWN, VK_RIGHT:
       if CurIndex < FFiles.Count - 1 then
         OneLess;
     else
@@ -765,6 +747,23 @@ begin
       end;
       FRangeSelectionState := NewSelectionState;
     end;
+  end;
+end;
+
+procedure TOrderedFileView.InvertActiveFile;
+var
+  Index: PtrInt;
+begin
+  if IsActiveItemValid then
+  begin
+    Index:= GetActiveFileIndex;
+    if IsFileIndexInRange(Index) then
+    begin
+      InvertFileSelection(FFiles[Index], False);
+      if (Index = 0) or (Index = FFiles.Count - 1) then
+        RedrawFile(Index);
+    end;
+    UpdateRangeSelectionState;
   end;
 end;
 

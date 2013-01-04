@@ -1685,6 +1685,9 @@ begin
   ColumnsView.FRangeSelecting :=
     (ssShift in Shift) and
     (SavedKey in [VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+  // Special case for selection with shift key (works like VK_INSERT)
+  if (SavedKey in [VK_UP, VK_DOWN]) and (ssShift in Shift) then
+    ColumnsView.InvertActiveFile;
 
   {$IFDEF LCLGTK2}
   // Workaround for GTK2 - up and down arrows moving through controls.
@@ -1698,7 +1701,7 @@ begin
 
   inherited KeyDown(Key, Shift);
 
-  if (ssShift in Shift) and (Row >= FixedRows) then
+  if (ColumnsView.FRangeSelecting) and (Row >= FixedRows) then
     ColumnsView.Selection(SavedKey, Row - FixedRows);
 end;
 

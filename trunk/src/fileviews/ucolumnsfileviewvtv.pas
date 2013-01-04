@@ -1429,6 +1429,9 @@ begin
   ColumnsView.FRangeSelecting :=
     (ssShift in Shift) and
     (SavedKey in [VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+  // Special case for selection with shift key (works like VK_INSERT)
+  if (SavedKey in [VK_UP, VK_DOWN]) and (ssShift in Shift) then
+    ColumnsView.InvertActiveFile;
 
   // Override scrolling with PageUp, PageDown because VirtualTreeView scrolls too much.
   case SavedKey of
@@ -1496,7 +1499,7 @@ begin
 
   inherited WMKeyDown(Message);
 
-  if (ssShift in Shift) and Assigned(FocusedNode) then
+  if (ColumnsView.FRangeSelecting) and Assigned(FocusedNode) then
     ColumnsView.Selection(SavedKey, FocusedNode^.Index);
 end;
 
