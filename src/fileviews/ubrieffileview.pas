@@ -205,6 +205,9 @@ begin
   FBriefView.FRangeSelecting :=
     (ssShift in Shift) and
     (SavedKey in [VK_LEFT, VK_RIGHT, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+  // Special case for selection with shift key (works like VK_INSERT)
+  if (SavedKey in [VK_UP, VK_DOWN]) and (ssShift in Shift) then
+    FBriefView.InvertActiveFile;
 
   case Key of
     VK_LEFT:
@@ -283,7 +286,7 @@ begin
 
   inherited KeyDown(Key, Shift);
 
-  if ssShift in Shift then
+  if FBriefView.FRangeSelecting then
   begin
     FileIndex := CellToIndex(Col, Row);
     if FileIndex <> InvalidFileIndex then

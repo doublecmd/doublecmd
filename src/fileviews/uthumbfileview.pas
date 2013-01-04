@@ -174,7 +174,10 @@ begin
   // Set RangeSelecting before cursor is moved.
   FThumbView.FRangeSelecting :=
     (ssShift in Shift) and
-    (SavedKey in [VK_LEFT, VK_RIGHT, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+    (SavedKey in [VK_UP, VK_DOWN, VK_HOME, VK_END, VK_PRIOR, VK_NEXT]);
+  // Special case for selection with shift key (works like VK_INSERT)
+  if (SavedKey in [VK_LEFT, VK_RIGHT]) and (ssShift in Shift) then
+    FThumbView.InvertActiveFile;
 
   case Key of
     VK_LEFT:
@@ -223,7 +226,7 @@ begin
 
   inherited KeyDown(Key, Shift);
 
-  if ssShift in Shift then
+  if FThumbView.FRangeSelecting then
   begin
     FileIndex := CellToIndex(Col, Row);
     if FileIndex <> InvalidFileIndex then
