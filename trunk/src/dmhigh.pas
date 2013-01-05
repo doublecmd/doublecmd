@@ -112,7 +112,7 @@ var
 begin
   SynHighlighterList:= TStringList.Create;
   SynHighlighterHashList:= TStringHashList.Create(True);
-{$PUSH}{$WARNINGS OFF}
+{$PUSH}{$HINTS OFF}{$WARNINGS OFF}
   SynPlainTextHighlighter:= TSynPlainTextHighlighter.Create(Self);
 {$POP}
 {$IF lcl_fullversion >= 093100}

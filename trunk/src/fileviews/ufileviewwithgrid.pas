@@ -5,8 +5,8 @@ unit uFileViewWithGrid;
 interface
 
 uses
-  Classes, SysUtils, Controls, LMessages, Grids, Graphics, StdCtrls,
-  uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty, uTypes,
+  Classes, SysUtils, Controls, Grids, Graphics, StdCtrls,
+  uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty,
   uFileViewWithMainCtrl, uFile, uFileViewHeader, uFileView, uFileSource;
 
 type
@@ -101,9 +101,7 @@ uses
   LCLIntf, LCLType, LCLVersion, LCLProc, math,
   uGlobs, uPixmapManager, uKeyboard,
   uDCUtils, fMain,
-  uFileSourceProperty,
-  uFileFunctions,
-  uOrderedFileView;
+  uFileFunctions;
 
 function FitFileName(const AFileName: UTF8String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): UTF8String;
 var

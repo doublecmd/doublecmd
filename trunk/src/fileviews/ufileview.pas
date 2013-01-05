@@ -536,7 +536,7 @@ type
 implementation
 
 uses
-  Clipbrd, Dialogs, LCLProc, LCLType, Forms, StrUtils, dmCommonData,
+  Clipbrd, Dialogs, LCLProc, LCLType, Forms, dmCommonData,
   fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
@@ -2892,7 +2892,6 @@ end;
 
 procedure TFileView.EnableWatcher(Enable: Boolean);
 var
-  sDrive, sWatchDirsExclude: String;
   WatchFilter: TFSWatchFilter;
 begin
   if Enable then
