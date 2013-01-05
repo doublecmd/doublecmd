@@ -5,9 +5,9 @@ unit uBriefFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, LMessages, Grids, Graphics, StdCtrls,
-  uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty, uTypes,
-  uFileViewWithGrid, uFile, uFileViewHeader, uFileView, uFileSource;
+  Classes, SysUtils, Controls, LMessages, Grids, Graphics,
+  uDisplayFile, DCXmlConfig, uTypes, uFileViewWithGrid, uFile,
+  uFileSource;
 
 type
 
@@ -49,11 +49,9 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LCLVersion, LCLProc, math,
-  uGlobs, uPixmapManager, uKeyboard,
-  uDCUtils, fMain,
+  LCLIntf, LCLType, LCLVersion, LCLProc, Math,
+  uGlobs, uPixmapManager, uKeyboard, fMain,
   uFileSourceProperty,
-  uFileFunctions,
   uOrderedFileView;
 
 { TBriefDrawGrid }
