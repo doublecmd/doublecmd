@@ -779,6 +779,10 @@ var
   AFile: TDisplayFile;
   sHint: UTF8String;
 begin
+  // Rewrite HintStr because when MainControl.Hint is empty
+  // it would contain parent hint that is not correct behavior
+  HintInfo^.HintStr:= MainControl.Hint;
+
   if (HintInfo^.HintStr = EmptyStr) or not IsFileIndexInRange(FHintFileIndex) then
     Exit; // don't show
 
