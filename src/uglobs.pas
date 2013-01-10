@@ -411,9 +411,9 @@ begin
   except
     // If the file does not exist or is empty,
     // simply default configuration is applied.
-    on EFileNotFound do
+    on EXmlConfigNotFound do
       Result := True;
-    on EFileEmpty do
+    on EXmlConfigEmpty do
       Result := True;
     on e: EFOpenError do
       AddMsg(rsMsgErrEOpen, e.Message);

@@ -141,8 +141,8 @@ type
     property RootNode: TXmlNode read GetRootNode;
   end;
 
-  EFileEmpty = class(EFilerError);
-  EFileNotFound = class(EFilerError);
+  EXmlConfigEmpty = class(EFilerError);
+  EXmlConfigNotFound = class(EFilerError);
 
 implementation
 
@@ -497,7 +497,7 @@ begin
   FileStream := TFileStreamEx.Create(AFilename, fmOpenRead or fmShareDenyWrite);
   try
     if FileStream.Size = 0 then
-      raise EFileEmpty.Create('');
+      raise EXmlConfigEmpty.Create('');
     ReadXMLFile(TmpDoc, FileStream, FilenameToURI(AFilename));
     if TmpDoc.DocumentElement.NodeName <> ApplicationName then
       raise EXMLReadError.Create('Root element is not <' + ApplicationName + '>.');
@@ -513,7 +513,7 @@ var
   TmpDoc: TXMLDocument;
 begin
   if AStream.Size = 0 then
-    raise EFileEmpty.Create('');
+    raise EXmlConfigEmpty.Create('');
   ReadXMLFile(TmpDoc, AStream);
   FDoc.Free;
   FDoc := TmpDoc;
@@ -544,7 +544,7 @@ begin
     Exit;
 
   if not mbFileExists(FileName) then
-    raise EFileNotFound.Create('');
+    raise EXmlConfigNotFound.Create('');
   if not mbFileAccess(FileName, fmOpenRead or fmShareDenyWrite) then
     raise EFOpenError.Create(SysErrorMessage(GetLastOSError));
 
