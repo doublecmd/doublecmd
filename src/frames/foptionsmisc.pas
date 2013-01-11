@@ -27,16 +27,24 @@ unit fOptionsMisc;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, fOptionsFrame;
+  Classes, SysUtils, StdCtrls, Spin, DividerBevel, fOptionsFrame;
 
 type
 
   { TfrmOptionsMisc }
 
   TfrmOptionsMisc = class(TOptionsEditor)
-    cbSaveThumbnails: TCheckBox;
-    cbShowWarningMessages: TCheckBox;
+    btnThumbCompactCache: TButton;
+    chkThumbSave: TCheckBox;
+    chkShowWarningMessages: TCheckBox;
+    dblThumbnails: TDividerBevel;
     gbExtended: TGroupBox;
+    lblThumbPixels: TLabel;
+    lblThumbSize: TLabel;
+    lblThumbSeparator: TLabel;
+    speThumbWidth: TSpinEdit;
+    speThumbHeight: TSpinEdit;
+    procedure btnThumbCompactCacheClick(Sender: TObject);
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -50,7 +58,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  uGlobs, uLng, uThumbnails;
 
 { TfrmOptionsMisc }
 
@@ -64,18 +72,27 @@ begin
   Result := rsOptionsEditorMiscellaneous;
 end;
 
+procedure TfrmOptionsMisc.btnThumbCompactCacheClick(Sender: TObject);
+begin
+  TThumbnailManager.CompactCache;
+end;
+
 procedure TfrmOptionsMisc.Load;
 begin
-  cbShowWarningMessages.Checked := gShowWarningMessages;
-  cbSaveThumbnails.Checked      := gSaveThumb;
+  chkShowWarningMessages.Checked := gShowWarningMessages;
+  chkThumbSave.Checked           := gThumbSave;
+  speThumbWidth.Value            := gThumbSize.cx;
+  speThumbHeight.Value           := gThumbSize.cy;
 end;
 
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 
-  gShowWarningMessages := cbShowWarningMessages.Checked;
-  gSaveThumb           := cbSaveThumbnails.Checked;
+  gShowWarningMessages := chkShowWarningMessages.Checked;
+  gThumbSave           := chkThumbSave.Checked;
+  gThumbSize.cx        := speThumbWidth.Value;
+  gThumbSize.cy        := speThumbHeight.Value;
 end;
 
 end.

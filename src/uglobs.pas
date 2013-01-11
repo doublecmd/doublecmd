@@ -10,7 +10,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2012 Alexander Koblov (alexx2000@mail.ru)
    
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
    
@@ -25,8 +25,8 @@ unit uGlobs;
 interface
 
 uses
-  Classes, Controls, Forms, uExts, uColorExt, Graphics, DCClassesUtf8, uMultiArc,
-  uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
+  Classes, Controls, Forms, Types, uExts, uColorExt, Graphics, DCClassesUtf8,
+  uMultiArc, uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, DCXmlConfig,
   uInfoToolTip, fQuickSearch, uTypes, uClassesEx;
 
@@ -106,7 +106,8 @@ const
   // 5   - changed Behaviours/SortCaseSensitive to FilesViews/Sorting/CaseSensitivity
   //       changed Behaviours/SortNatural to FilesViews/Sorting/NaturalSorting
   // 6   - changed Behaviours/ShortFileSizeFormat to Behaviours/FileSizeFormat
-  ConfigVersion = 6;
+  // 7   - changed Viewer/SaveThumbnails to Thumbnails/Save
+  ConfigVersion = 7;
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
@@ -289,8 +290,8 @@ var
   gShowWarningMessages,
   gDirBrackets: Boolean;
   gShowToolTipMode: TShowToolTipMode;
-  gThumbWidth,
-  gThumbHeight: Integer;
+  gThumbSize: TSize;
+  gThumbSave: Boolean;
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
   gWatchDirsExclude: String;
@@ -323,8 +324,7 @@ var
 
   {Viewer}
   gPreviewVisible,
-  gImageStretch,
-  gSaveThumb: Boolean;
+  gImageStretch: Boolean;
   gCopyMovePath1,
   gCopyMovePath2,
   gCopyMovePath3,
@@ -1067,8 +1067,9 @@ begin
   gSpaceMovesDown := False;
   gDirBrackets := True;
   gShowToolTipMode := [stm_show_for_all];
-  gThumbWidth:= 128;
-  gThumbHeight:= 128;
+  gThumbSave := True;
+  gThumbSize.cx := 128;
+  gThumbSize.cy := 128;
 
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];
@@ -1092,7 +1093,6 @@ begin
   {Viewer}
   gImageStretch := False;
   gPreviewVisible := False;
-  gSaveThumb := True;
   gCopyMovePath1 := '';
   gCopyMovePath2 := '';
   gCopyMovePath3 := '';
@@ -2066,6 +2066,15 @@ begin
       gDirBrackets := GetValue(Node, 'DirBrackets', gDirBrackets);
     end;
 
+    { Thumbnails }
+    Node := Root.FindNode('Thumbnails');
+    if Assigned(Node) then
+    begin
+      gThumbSave := GetAttr(Node, 'Save', gThumbSave);
+      gThumbSize.cx := GetValue(Node, 'Width', gThumbSize.cx);
+      gThumbSize.cy := GetValue(Node, 'Height', gThumbSize.cy);
+    end;
+
     { Auto refresh page }
     Node := Root.FindNode('AutoRefresh');
     if Assigned(Node) then
@@ -2098,13 +2107,12 @@ begin
     { Directories HotList }
     LoadDirHotList(gConfig, Root);
 
-    {Viewer}
+    { Viewer }
     Node := Root.FindNode('Viewer');
     if Assigned(Node) then
     begin
       gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
-      gSaveThumb := GetValue(Node, 'SaveThumbnails', gSaveThumb);
       gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
       gCopyMovePath2 := GetValue(Node, 'CopyMovePath2', gCopyMovePath2);
       gCopyMovePath3 := GetValue(Node, 'CopyMovePath3', gCopyMovePath3);
@@ -2118,6 +2126,10 @@ begin
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
       gBookFontColor := GetValue(Node, 'FontColor', gBookFontColor);
       gTextPosition := GetValue(Node, 'TextPosition',  gTextPosition);
+      if LoadedConfigVersion < 7 then
+      begin
+        gThumbSave := GetValue(Node, 'SaveThumbnails', gThumbSave);
+      end;
     end;
     { - Other - }
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
@@ -2358,6 +2370,12 @@ begin
     SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
     SetValue(Node, 'DirBrackets', gDirBrackets);
 
+    { Thumbnails }
+    Node := FindNode(Root, 'Thumbnails', True);
+    SetAttr(Node, 'Save', gThumbSave);
+    SetValue(Node, 'Width', gThumbSize.cx);
+    SetValue(Node, 'Height', gThumbSize.cy);
+
     { Auto refresh page }
     Node := FindNode(Root, 'AutoRefresh', True);
     SetValue(Node, 'Options', Integer(gWatchDirs));
@@ -2388,10 +2406,9 @@ begin
       SetAttr(SubNode, 'Path', glsHotDir.ValueFromIndex[I]);
     end;
 
-    {Viewer}
+    { Viewer }
     Node := FindNode(Root, 'Viewer',True);
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
-    SetValue(Node, 'SaveThumbnails', gSaveThumb);
     SetValue(Node, 'ImageStretch',gImageStretch);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
     SetValue(Node, 'CopyMovePath2', gCopyMovePath2);
