@@ -251,7 +251,7 @@ procedure TThumbDrawGrid.UpdateView;
     Canvas.Font.Style := gFonts[dcfMain].Style;
     Canvas.Font.Size  := gFonts[dcfMain].Size;
 
-    Result := gThumbHeight + Canvas.GetTextHeight('Wg') + 6;
+    Result := gThumbSize.cy + Canvas.GetTextHeight('Wg') + 6;
 
     // Restore old font.
     Canvas.Font := OldFont;
@@ -315,7 +315,7 @@ end;
 
 procedure TThumbDrawGrid.CalculateColumnWidth;
 begin
-  DefaultColWidth:= gThumbWidth + 4;
+  DefaultColWidth:= gThumbSize.cx + 4;
 end;
 
 function TThumbDrawGrid.CellToIndex(ACol, ARow: Integer): Integer;
@@ -462,7 +462,7 @@ begin
   inherited CreateDefault(AOwner);
 
   FBitmapList:= TBitmapList.Create(True);
-  FThumbnailManager:= TThumbnailManager.Create(gThumbWidth, gThumbHeight, clWhite);
+  FThumbnailManager:= TThumbnailManager.Create(gThumbSize.cx, gThumbSize.cy, clWhite);
 
   Notify([fvnVisibleFilePropertiesChanged]);
 end;

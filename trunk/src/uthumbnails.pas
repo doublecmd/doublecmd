@@ -31,11 +31,14 @@ type
     function CreatePreviewText(const sFileName: UTF8String): TBitmap;
     function ReadMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
     function WriteMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
+    class function ReadFileName(const aThumb: UTF8String; out aFileName: UTF8String): Boolean;
   public
     constructor Create(aWidth, aHeight: LongInt; BackColor: TColor);
     function CreatePreview(const aFile: TFile): TBitmap;
     function CreatePreview(const FullPathToFile: UTF8String): TBitmap;
     function RemovePreview(const FullPathToFile: UTF8String): Boolean;
+  public
+    class procedure CompactCache;
     class procedure RegisterProvider(Provider: TCreatePreviewHandler);
   end;
 
@@ -168,6 +171,30 @@ begin
   end;
 end;
 
+class function TThumbnailManager.ReadFileName(const aThumb: UTF8String;
+                                              out  aFileName: UTF8String): Boolean;
+var
+  fsFileStream: TFileStreamEx;
+begin
+  try
+    fsFileStream:= TFileStreamEx.Create(aThumb, fmOpenRead or fmShareDenyNone);
+    try
+      // Read metadata position from last 4 byte of file
+      fsFileStream.Seek(-4, soEnd);
+      fsFileStream.Seek(fsFileStream.ReadDWord, soBeginning);
+      // Check signature
+      if (fsFileStream.ReadQWord <> NtoBE(ThumbSign)) then
+        Exit(False);
+      // Read source file name
+      Result:= URIToFilename(fsFileStream.ReadAnsiString, aFileName);
+    finally
+      fsFileStream.Free;
+    end;
+  except
+    Result:= False;
+  end;
+end;
+
 constructor TThumbnailManager.Create(aWidth, aHeight: LongInt; BackColor: TColor);
 begin
   FSize.cx:= aWidth;
@@ -246,7 +273,7 @@ begin
           if Assigned(Result) then Break;
         end;
       // Save created thumb to cache
-      if gSaveThumb and Assigned(Result) then
+      if gThumbSave and Assigned(Result) then
       begin
         Picture.Bitmap.Assign(Result);
         sExt:= GetPreviewFileExt(sExt);
@@ -282,6 +309,23 @@ begin
   finally
     FreeAndNil(AFile);
   end;
+end;
+
+class procedure TThumbnailManager.CompactCache;
+var
+  I: Integer;
+  aFileName: UTF8String;
+  aFileList: TStringList;
+begin
+  aFileList:= FindAllFiles(gpCacheDir + PathDelim + 'thumbnails');
+  for I:= 0 to Pred(aFileList.Count) do
+  begin
+    if not (ReadFileName(aFileList[I], aFileName) and mbFileExists(aFileName)) then
+    begin
+      mbDeleteFile(aFileList[I]);
+    end;
+  end;
+  aFileList.Free;
 end;
 
 class procedure TThumbnailManager.RegisterProvider(Provider: TCreatePreviewHandler);
