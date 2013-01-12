@@ -53,6 +53,7 @@ type
     FUpdateColCount: Integer;
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
   protected
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
@@ -90,7 +91,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, Graphics, Math, uFileSourceProperty, uGlobs,
+  LCLIntf, LCLType, LMessages, Graphics, Math, uFileSourceProperty, uGlobs,
   uPixMapManager;
 
 { TFileThumbnailsRetriever }
@@ -235,6 +236,36 @@ begin
   end;
 end;
 
+procedure TThumbDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);
+const
+  LastPos: Integer = 0;
+
+  procedure Scroll(ScrollCode: SmallInt);
+  var
+    Msg: TLMVScroll;
+  begin
+    Msg.Msg := LM_VSCROLL;
+    Msg.ScrollCode := ScrollCode;
+    Msg.SmallPos := 1; // How many lines scroll
+    Msg.ScrollBar := Handle;
+    Dispatch(Msg);
+  end;
+
+begin
+  inherited MouseMove(Shift, X, Y);
+  if DragManager.IsDragging or FThumbView.IsMouseSelecting then
+  begin
+    // Scroll at each 8 pixel mouse move
+    if (Abs(LastPos - Y) > 8) then
+    begin
+      LastPos:= Y;
+      if Y < DefaultRowHeight div 3 then
+        Scroll(SB_LINEUP)
+      else if Y > ClientHeight - DefaultRowHeight div 3 then
+        Scroll(SB_LINEDOWN);
+    end;
+  end;
+end;
 
 procedure TThumbDrawGrid.UpdateView;
 var
