@@ -743,32 +743,21 @@ end;
 procedure TfrmViewer.CreatePreview(FullPathToFile: String; index: integer; delete: Boolean = false);
 var
   bmpThumb : TBitmap = nil;
-  x, y, z: Integer;
-  aRect: TRect;
 begin
   if pnlPreview.Visible or delete then
     begin
-      x:= DrawPreview.DefaultColWidth;
-      y:= DrawPreview.DefaultRowHeight - 30;
       if not Assigned(FThumbnailManager) then
-        FThumbnailManager:= TThumbnailManager.Create(x, y, DrawPreview.Canvas.Brush.Color);
+        FThumbnailManager:= TThumbnailManager.Create(DrawPreview.Canvas.Brush.Color);
       if delete then
         begin
           FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need
           if pnlPreview.Visible then FBitmapList.Delete(index);
-          Exit;
         end
-        else
+      else
         begin
           bmpThumb:= FThumbnailManager.CreatePreview(FullPathToFile);
-          y:= index div DrawPreview.ColCount;
-          x:= index - y * DrawPreview.ColCount;
-          aRect:= DrawPreview.CellRect(x, y);
-          z:= ((aRect.Right - aRect.Left) div 2) - (bmpThumb.Width div 2);
           // Insert to the BitmapList
           FBitmapList.Insert(index, bmpThumb);
-          // Draw thumbnail at center
-          DrawPreview.Canvas.Draw(aRect.Left + z, aRect.Top + 5, bmpThumb);
         end;
     end;
 end;
@@ -817,10 +806,15 @@ procedure TfrmViewer.miSaveClick(Sender: TObject);
 var
   sExt: String;
 begin
-  CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
-  sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
-  SaveImageAs(sExt, true, 80);
-  CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
+  DrawPreview.BeginUpdate;
+  try
+    CreatePreview(FileList.Strings[iActiveFile], iActiveFile, True);
+    sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
+    SaveImageAs(sExt, True, 80);
+    CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
+  finally
+    DrawPreview.EndUpdate;
+  end;
 end;
 
 procedure TfrmViewer.miFullScreenClick(Sender: TObject);
@@ -1205,10 +1199,11 @@ end;
 procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
-  i,z,t: Integer;
+  i,z,t, X, Y: Integer;
   sExt, sName, shortName: UTF8String;
   bmpThumb: TBitmap;
 begin
+  aRect:= Classes.Rect(aRect.Left + 2, aRect.Top + 2, aRect.Right - 2, aRect.Bottom - 2);
   i:= (aRow * DrawPreview.ColCount) + aCol; // Calculate FileList index
   if (i >= 0) and (i < FileList.Count) then
     begin
@@ -1218,15 +1213,17 @@ begin
       if (i >= 0) and (i < FBitmapList.Count) then
         begin
           bmpThumb:= FBitmapList[i];
-          z:= ((aRect.Right - aRect.Left) div 2) - (bmpThumb.Width div 2);
+          z:= DrawPreview.Canvas.TextHeight('Pp') + 4;
+          X:= aRect.Left + (aRect.Right - aRect.Left - bmpThumb.Width) div 2;
+          Y:= aRect.Top + (aRect.Bottom - aRect.Top - bmpThumb.Height - z) div 2;
           // Draw thumbnail at center
-          DrawPreview.Canvas.Draw(aRect.Left + z, aRect.Top + 5, bmpThumb);
+          DrawPreview.Canvas.Draw(X, Y, bmpThumb);
         end;
       z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
       if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
           t:= (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
-          DrawPreview.Canvas.TextOut(aRect.Left+z+t, aRect.Top+120, sName+sExt);
+          DrawPreview.Canvas.TextOut(aRect.Left+z+t, aRect.Top + gThumbSize.cy + 2, sName+sExt);
         end
       else
         begin
@@ -1237,7 +1234,7 @@ begin
               shortName:= shortName + sName[t];
               Inc(t);
             end;
-          DrawPreview.Canvas.TextOut(aRect.Left+z, aRect.Top+120, shortName+'...'+sExt);
+          DrawPreview.Canvas.TextOut(aRect.Left+z, aRect.Top + gThumbSize.cy + 2, shortName+'...'+sExt);
         end;
     end;
 end;
@@ -1431,6 +1428,9 @@ begin
   ComboBoxPaint.Text := gImagePaintMode;
   ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
   ColorBoxPaint.Selected := gImagePaintColor;
+
+  DrawPreview.DefaultColWidth := gThumbSize.cx + 4;
+  DrawPreview.DefaultRowHeight := gThumbSize.cy + DrawPreview.Canvas.TextHeight('Pp') + 6;
 
   MakeTextEncodingsMenu;
 

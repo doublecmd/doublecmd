@@ -462,7 +462,7 @@ begin
   inherited CreateDefault(AOwner);
 
   FBitmapList:= TBitmapList.Create(True);
-  FThumbnailManager:= TThumbnailManager.Create(gThumbSize.cx, gThumbSize.cy, clWhite);
+  FThumbnailManager:= TThumbnailManager.Create(gBackColor);
 
   Notify([fvnVisibleFilePropertiesChanged]);
 end;

@@ -21,7 +21,6 @@ type
 
   TThumbnailManager = class
   private
-    FSize: TSize;
     FThumbPath: UTF8String;
     FBackColor: TColor;
     FProviderList: array of TCreatePreviewHandler; static;
@@ -33,7 +32,7 @@ type
     function WriteMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
     class function ReadFileName(const aThumb: UTF8String; out aFileName: UTF8String): Boolean;
   public
-    constructor Create(aWidth, aHeight: LongInt; BackColor: TColor);
+    constructor Create(BackColor: TColor);
     function CreatePreview(const aFile: TFile): TBitmap;
     function CreatePreview(const FullPathToFile: UTF8String): TBitmap;
     function RemovePreview(const FullPathToFile: UTF8String): Boolean;
@@ -73,17 +72,17 @@ begin
     // Width and height of thumb
     if  Graphic.Width > Graphic.Height then
       begin
-        x:= FSize.cx;
+        x:= gThumbSize.cx;
         y:= x * Graphic.Height div Graphic.Width;
-        if y > FSize.cy then
+        if y > gThumbSize.cy then
           begin
-            y:= FSize.cy;
+            y:= gThumbSize.cy;
             x:= y * Graphic.Width div Graphic.Height;
           end;
       end
     else
       begin
-        y:= FSize.cy;
+        y:= gThumbSize.cy;
         x:= y * Graphic.Width div Graphic.Height;
       end;
     bmpTemp:= TBitMap.Create;
@@ -104,14 +103,14 @@ var
   tFile: THandle;
 begin
   Result:= TBitmap.Create;
-  ARect:= Rect(0, 0, FSize.cx, FSize.cy);
+  ARect:= Rect(0, 0, gThumbSize.cx, gThumbSize.cy);
   with Result do
   begin
-    SetSize(FSize.cx, FSize.cy);
+    SetSize(gThumbSize.cx, gThumbSize.cy);
     Canvas.Brush.Color:= clWhite;
     Canvas.FillRect(ARect);
     Canvas.Font.Color:= clBlack;
-    Canvas.Font.Size := FSize.cy div 16;
+    Canvas.Font.Size := gThumbSize.cy div 16;
     tFile:= mbFileOpen(sFileName, fmOpenRead or fmShareDenyNone);
     if (tFile <> feInvalidHandle) then
     begin
@@ -142,7 +141,7 @@ begin
     if not Result then Exit;
     Result:= (aFile.Size = FileStream.ReadQWord) and (QWord(aFile.ModificationTime) = FileStream.ReadQWord);
     if not Result then Exit;
-    Result:= (FSize.cx = FileStream.ReadWord) and (FSize.cy = FileStream.ReadWord);
+    Result:= (gThumbSize.cx = FileStream.ReadWord) and (gThumbSize.cy = FileStream.ReadWord);
   except
     Result:= False;
   end;
@@ -162,8 +161,8 @@ begin
     FileStream.WriteAnsiString(FilenameToURI(aFile.FullPath));
     FileStream.WriteQWord(aFile.Size);
     FileStream.WriteQWord(QWord(aFile.ModificationTime));
-    FileStream.WriteWord(FSize.cx);
-    FileStream.WriteWord(FSize.cy);
+    FileStream.WriteWord(gThumbSize.cx);
+    FileStream.WriteWord(gThumbSize.cy);
     // Write original file size
     FileStream.WriteDWord(iEnd);
   except
@@ -195,10 +194,8 @@ begin
   end;
 end;
 
-constructor TThumbnailManager.Create(aWidth, aHeight: LongInt; BackColor: TColor);
+constructor TThumbnailManager.Create(BackColor: TColor);
 begin
-  FSize.cx:= aWidth;
-  FSize.cy:= aHeight;
   FBackColor:= BackColor;
   FThumbPath:= gpCacheDir + PathDelim + 'thumbnails';
   // If directory not exists then create it
@@ -269,7 +266,7 @@ begin
       else
         for I:= Low(FProviderList) to High(FProviderList) do
         begin
-          Result:= FProviderList[I](sFullPathToFile, FSize);
+          Result:= FProviderList[I](sFullPathToFile, gThumbSize);
           if Assigned(Result) then Break;
         end;
       // Save created thumb to cache
