@@ -241,6 +241,7 @@ type
     bQuickView,
     MDFlag,
     ImgEdit: Boolean;
+    FThumbSize: TSize;
     FFindDialog:TfrmFindView;
     FFileSource: IFileSource;
     FLastSearchPos: PtrInt;
@@ -1223,7 +1224,7 @@ begin
       if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
           t:= (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
-          DrawPreview.Canvas.TextOut(aRect.Left+z+t, aRect.Top + gThumbSize.cy + 2, sName+sExt);
+          DrawPreview.Canvas.TextOut(aRect.Left+z+t, aRect.Top + FThumbSize.cy + 2, sName+sExt);
         end
       else
         begin
@@ -1234,7 +1235,7 @@ begin
               shortName:= shortName + sName[t];
               Inc(t);
             end;
-          DrawPreview.Canvas.TextOut(aRect.Left+z, aRect.Top + gThumbSize.cy + 2, shortName+'...'+sExt);
+          DrawPreview.Canvas.TextOut(aRect.Left+z, aRect.Top + FThumbSize.cy + 2, shortName+'...'+sExt);
         end;
     end;
 end;
@@ -1429,8 +1430,9 @@ begin
   ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
   ColorBoxPaint.Selected := gImagePaintColor;
 
-  DrawPreview.DefaultColWidth := gThumbSize.cx + 4;
-  DrawPreview.DefaultRowHeight := gThumbSize.cy + DrawPreview.Canvas.TextHeight('Pp') + 6;
+  FThumbSize := gThumbSize;
+  DrawPreview.DefaultColWidth := FThumbSize.cx + 4;
+  DrawPreview.DefaultRowHeight := FThumbSize.cy + DrawPreview.Canvas.TextHeight('Pp') + 6;
 
   MakeTextEncodingsMenu;
 
