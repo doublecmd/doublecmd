@@ -5,7 +5,7 @@ unit uThumbFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, Grids, DCXmlConfig, uFileSource, uOrderedFileView,
+  Classes, SysUtils, Controls, Grids, Types, DCXmlConfig, uFileSource, uOrderedFileView,
   uDisplayFile, uFileViewWorker, uThumbnails, uFileView, uTypes, uFileViewWithGrid,
   uFile;
 
@@ -48,6 +48,7 @@ type
 
   TThumbDrawGrid = class(TFileViewGrid)
   private
+    FThumbSize: TSize;
     FThumbView: TThumbFileView;
     FUpdateColCount: Integer;
   protected
@@ -236,6 +237,8 @@ end;
 
 
 procedure TThumbDrawGrid.UpdateView;
+var
+  I: Integer;
 
   function CalculateDefaultRowHeight: Integer;
   var
@@ -266,6 +269,20 @@ begin
 
   // Calculate column width
   CalculateColumnWidth;
+
+  // Refresh thumbnails
+  if (FThumbSize.cx <> gThumbSize.cx) or (FThumbSize.cy <> gThumbSize.cy) then
+  begin
+    FThumbSize:= gThumbSize;
+    FThumbView.FBitmapList.Clear;
+    if Assigned(FThumbView.FAllDisplayFiles) then
+    begin
+      // Clear thumbnail image index
+      for I := 0 to FThumbView.FAllDisplayFiles.Count - 1 do
+        FThumbView.FAllDisplayFiles[I].Tag:= -1;
+    end;
+    FThumbView.Notify([fvnVisibleFilePropertiesChanged]);
+  end;
 end;
 
 procedure TThumbDrawGrid.CalculateColRowCount;
@@ -301,11 +318,10 @@ begin
           for ACol := 0 to ColCount - 1 do
             ColWidths[ACol]:= ARow;
         end;
+        // Restore active file index
+        IndexToCell(AIndex, ACol, ARow);
+        MoveExtend(False, ACol, ARow);
       end;
-
-      // Restore active file index
-      IndexToCell(AIndex, ACol, ARow);
-      MoveExtend(False, ACol, ARow);
     end;
   finally
     EndUpdate(True);
@@ -342,6 +358,7 @@ end;
 
 constructor TThumbDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);
 begin
+  FThumbSize:= gThumbSize;
   FThumbView:= AParent as TThumbFileView;
   inherited Create(AOwner, AParent);
 end;
