@@ -2854,6 +2854,7 @@ msgid "&Test Archive(s)"
 msgstr ""
 
 #: tfrmmain.actthumbnailsview.caption
+msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
 msgstr ""
 
@@ -5084,17 +5085,39 @@ msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
 msgstr "Bewerkingsstatus:"
 
-#: tfrmoptionsmisc.cbsavethumbnails.caption
-msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
+#: tfrmoptionsmisc.btnthumbcompactcache.caption
+msgid "&Remove thumbnails for no longer existing files"
+msgstr ""
+
+#: tfrmoptionsmisc.chkshowwarningmessages.caption
+#, fuzzy
+#| msgid "Show warning messages (\"OK\" button only)"
+msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr "Toon waarshuwingen (\"OK\" knop alleen)"
+
+#: tfrmoptionsmisc.chkthumbsave.caption
+msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
 msgstr ""
 
-#: tfrmoptionsmisc.cbshowwarningmessages.caption
-#, fuzzy
-#| msgid "Show warning messages (\"OK\" button only)"
-msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
-msgid "Show &warning messages (\"OK\" button only)"
-msgstr "Toon waarshuwingen (\"OK\" knop alleen)"
+#: tfrmoptionsmisc.dblthumbnails.caption
+msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbpixels.caption
+msgid "pixels"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbseparator.caption
+msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
+msgid "X"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbsize.caption
+msgid "&Thumbnail size:"
+msgstr ""
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"

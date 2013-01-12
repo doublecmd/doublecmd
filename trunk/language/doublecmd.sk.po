@@ -2931,6 +2931,7 @@ msgid "&Test Archive(s)"
 msgstr "Testovať archív(y)"
 
 #: tfrmmain.actthumbnailsview.caption
+msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
 msgstr ""
 
@@ -5233,19 +5234,41 @@ msgstr ""
 msgid "Operation status"
 msgstr ""
 
-#: tfrmoptionsmisc.cbsavethumbnails.caption
+#: tfrmoptionsmisc.btnthumbcompactcache.caption
+msgid "&Remove thumbnails for no longer existing files"
+msgstr ""
+
+#: tfrmoptionsmisc.chkshowwarningmessages.caption
+#, fuzzy
+#| msgid "Show warning messages (\"OK\" button only)"
+msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr "Zobraziť varovné správy (len tlačítko \"OK\")"
+
+#: tfrmoptionsmisc.chkthumbsave.caption
 #, fuzzy
 #| msgid "Save thumbnails in cache"
-msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
+msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
 msgstr "Uložiť náhľady do cache"
 
-#: tfrmoptionsmisc.cbshowwarningmessages.caption
-#, fuzzy
-#| msgid "Show warning messages (\"OK\" button only)"
-msgctxt "tfrmoptionsmisc.cbshowwarningmessages.caption"
-msgid "Show &warning messages (\"OK\" button only)"
-msgstr "Zobraziť varovné správy (len tlačítko \"OK\")"
+#: tfrmoptionsmisc.dblthumbnails.caption
+msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbpixels.caption
+msgid "pixels"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbseparator.caption
+msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
+msgid "X"
+msgstr "X"
+
+#: tfrmoptionsmisc.lblthumbsize.caption
+msgid "&Thumbnail size:"
+msgstr ""
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 #, fuzzy

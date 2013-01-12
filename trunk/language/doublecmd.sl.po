@@ -2633,6 +2633,7 @@ msgid "&Test Archive(s)"
 msgstr "Preizkusi &celovitost arhivov"
 
 #: tfrmmain.actthumbnailsview.caption
+msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
 msgstr ""
 
@@ -4617,13 +4618,37 @@ msgstr "Beleži opravila"
 msgid "Operation status"
 msgstr "Stanje opravila"
 
-#: tfrmoptionsmisc.cbsavethumbnails.caption
+#: tfrmoptionsmisc.btnthumbcompactcache.caption
+msgid "&Remove thumbnails for no longer existing files"
+msgstr ""
+
+#: tfrmoptionsmisc.chkshowwarningmessages.caption
+msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr "Pokaži &opozorilna sporočila (le z gumbom \"V redu\")"
+
+#: tfrmoptionsmisc.chkthumbsave.caption
+msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
 msgstr "&Shrani sličice v predpomnilniku"
 
-#: tfrmoptionsmisc.cbshowwarningmessages.caption
-msgid "Show &warning messages (\"OK\" button only)"
-msgstr "Pokaži &opozorilna sporočila (le z gumbom \"V redu\")"
+#: tfrmoptionsmisc.dblthumbnails.caption
+msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbpixels.caption
+msgid "pixels"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbseparator.caption
+msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
+msgid "X"
+msgstr "X"
+
+#: tfrmoptionsmisc.lblthumbsize.caption
+msgid "&Thumbnail size:"
+msgstr ""
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"

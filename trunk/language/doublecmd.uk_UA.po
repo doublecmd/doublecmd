@@ -2796,6 +2796,7 @@ msgid "&Test Archive(s)"
 msgstr "Перевіри&ти архів(и)"
 
 #: tfrmmain.actthumbnailsview.caption
+msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
 msgstr ""
 
@@ -5001,17 +5002,37 @@ msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
 msgstr "Статус операції"
 
-#: tfrmoptionsmisc.cbsavethumbnails.caption
-#| msgid "Save thumbnails in cache"
-msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
+#: tfrmoptionsmisc.btnthumbcompactcache.caption
+msgid "&Remove thumbnails for no longer existing files"
+msgstr ""
+
+#: tfrmoptionsmisc.chkshowwarningmessages.caption
+msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr "Показу&вати попередження (лише кнопка \"OK\")"
+
+#: tfrmoptionsmisc.chkthumbsave.caption
+msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
 msgstr "Зберігати мініат&юри в кеші"
 
-#: tfrmoptionsmisc.cbshowwarningmessages.caption
-#| msgid "Show warning messages (\"OK\" button only)"
-msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
-msgid "Show &warning messages (\"OK\" button only)"
-msgstr "Показу&вати попередження (лише кнопка \"OK\")"
+#: tfrmoptionsmisc.dblthumbnails.caption
+msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbpixels.caption
+msgid "pixels"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbseparator.caption
+msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
+msgid "X"
+msgstr "X"
+
+#: tfrmoptionsmisc.lblthumbsize.caption
+msgid "&Thumbnail size:"
+msgstr ""
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 #| msgid "Selection by mouse"
