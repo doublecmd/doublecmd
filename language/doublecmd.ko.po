@@ -2901,6 +2901,7 @@ msgid "&Test Archive(s)"
 msgstr "압축파일 검사(&T)"
 
 #: tfrmmain.actthumbnailsview.caption
+msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
 msgstr ""
 
@@ -5303,18 +5304,41 @@ msgstr "작업 로그:"
 msgid "Operation status"
 msgstr "작업 상태:"
 
-#: tfrmoptionsmisc.cbsavethumbnails.caption
+#: tfrmoptionsmisc.btnthumbcompactcache.caption
+msgid "&Remove thumbnails for no longer existing files"
+msgstr ""
+
+#: tfrmoptionsmisc.chkshowwarningmessages.caption
+#, fuzzy
+#| msgid "Show warning messages (\"OK\" button only)"
+msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr "경고 메시지 보이기 (\"확인\" 버튼만)"
+
+#: tfrmoptionsmisc.chkthumbsave.caption
 #, fuzzy
 #| msgid "Save thumbnails in cache"
-msgctxt "tfrmoptionsmisc.cbsavethumbnails.caption"
+msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
 msgstr "썸네일을 캐쉬에 저장하기"
 
-#: tfrmoptionsmisc.cbshowwarningmessages.caption
-#, fuzzy
-#| msgid "Show warning messages (\"OK\" button only)"
-msgid "Show &warning messages (\"OK\" button only)"
-msgstr "경고 메시지 보이기 (\"확인\" 버튼만)"
+#: tfrmoptionsmisc.dblthumbnails.caption
+msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbpixels.caption
+msgid "pixels"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbseparator.caption
+msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
+msgid "X"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbsize.caption
+msgid "&Thumbnail size:"
+msgstr ""
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 #, fuzzy

@@ -1065,6 +1065,7 @@ msgid "Delete"
 msgstr "Slet"
 
 #: tfrmeditor.acteditfind.caption
+msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find"
 msgstr "S&øg..."
 
@@ -1177,6 +1178,7 @@ msgid "E&xit"
 msgstr "&Afslut"
 
 #: tfrmeditor.actfileexit.hint
+msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
 msgstr ""
 
@@ -1846,6 +1848,7 @@ msgid "Properties"
 msgstr "Egenskaber"
 
 #: tfrmfinddlg.btnaddattribute.caption
+msgctxt "tfrmfinddlg.btnaddattribute.caption"
 msgid "&Add"
 msgstr "Tilføj"
 
@@ -2407,6 +2410,7 @@ msgstr "Vis kontekstmenu"
 #: tfrmmain.actcopy.caption
 #, fuzzy
 #| msgid "Copy F5"
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Kopier F5"
 
@@ -2441,6 +2445,7 @@ msgstr "Klip"
 #: tfrmmain.actdelete.caption
 #, fuzzy
 #| msgid "Delete F8"
+msgctxt "tfrmmain.actdelete.caption"
 msgid "Delete"
 msgstr "Slet F8"
 
@@ -2456,6 +2461,7 @@ msgstr "Favorit&mapper"
 #: tfrmmain.actedit.caption
 #, fuzzy
 #| msgid "Edit F4"
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr "Rediger F4"
 
@@ -2670,6 +2676,7 @@ msgstr "&Opdatér vindue"
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move F6"
+msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
 msgstr "Flyt F6"
 
@@ -2809,6 +2816,7 @@ msgid "&Test Archive(s)"
 msgstr "Ko&ntroller arkiv(er)"
 
 #: tfrmmain.actthumbnailsview.caption
+msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
 msgstr ""
 
@@ -2831,6 +2839,7 @@ msgstr "F&ravælg alle af samme type"
 #: tfrmmain.actview.caption
 #, fuzzy
 #| msgid "View F3"
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "Vis F3"
 
@@ -2857,6 +2866,7 @@ msgstr "Sikker sletning"
 #: tfrmmain.btnf10.caption
 #, fuzzy
 #| msgid "Exit F10"
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Afslut F10"
 
@@ -2868,6 +2878,7 @@ msgstr "Slet"
 #: tfrmmain.btnf9.caption
 #, fuzzy
 #| msgid "Terminal F9"
+msgctxt "tfrmmain.btnf9.caption"
 msgid "Terminal"
 msgstr "Terminal F9"
 
@@ -3773,7 +3784,7 @@ msgstr ""
 #: tfrmoptionsarchivers.btnmultiarcadd.caption
 msgctxt "tfrmoptionsarchivers.btnmultiarcadd.caption"
 msgid "A&dd"
-msgstr ""
+msgstr "Tilføj"
 
 #: tfrmoptionsarchivers.btnmultiarcapply.caption
 msgctxt "tfrmoptionsarchivers.btnmultiarcapply.caption"
@@ -4401,7 +4412,7 @@ msgstr ""
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "tfrmoptionsfiletypescolors.btnaddcategory.caption"
 msgid "A&dd"
-msgstr ""
+msgstr "Tilføj"
 
 #: tfrmoptionsfiletypescolors.btnapplycategory.caption
 msgctxt "tfrmoptionsfiletypescolors.btnapplycategory.caption"
@@ -4436,10 +4447,12 @@ msgid "Category co&lor:"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
+msgctxt "tfrmoptionsfiletypescolors.lblcategorymask.caption"
 msgid "Category &mask:"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
+msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
 msgid "Category &name:"
 msgstr ""
 
@@ -4764,12 +4777,36 @@ msgstr ""
 msgid "Operation status"
 msgstr ""
 
-#: tfrmoptionsmisc.cbsavethumbnails.caption
+#: tfrmoptionsmisc.btnthumbcompactcache.caption
+msgid "&Remove thumbnails for no longer existing files"
+msgstr ""
+
+#: tfrmoptionsmisc.chkshowwarningmessages.caption
+msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr ""
+
+#: tfrmoptionsmisc.chkthumbsave.caption
+msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
 msgstr ""
 
-#: tfrmoptionsmisc.cbshowwarningmessages.caption
-msgid "Show &warning messages (\"OK\" button only)"
+#: tfrmoptionsmisc.dblthumbnails.caption
+msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbpixels.caption
+msgid "pixels"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbseparator.caption
+msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
+msgid "X"
+msgstr "X"
+
+#: tfrmoptionsmisc.lblthumbsize.caption
+msgid "&Thumbnail size:"
 msgstr ""
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
@@ -7992,7 +8029,7 @@ msgstr "Hurtig søgning/filtrering"
 #: ulng.rsoptionseditorterminal
 msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal F9"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
@@ -8269,7 +8306,7 @@ msgstr ""
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal F9"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"

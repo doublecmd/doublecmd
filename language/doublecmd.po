@@ -2630,6 +2630,7 @@ msgid "&Test Archive(s)"
 msgstr ""
 
 #: tfrmmain.actthumbnailsview.caption
+msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
 msgstr ""
 
@@ -4614,12 +4615,36 @@ msgstr ""
 msgid "Operation status"
 msgstr ""
 
-#: tfrmoptionsmisc.cbsavethumbnails.caption
+#: tfrmoptionsmisc.btnthumbcompactcache.caption
+msgid "&Remove thumbnails for no longer existing files"
+msgstr ""
+
+#: tfrmoptionsmisc.chkshowwarningmessages.caption
+msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
+msgid "Show &warning messages (\"OK\" button only)"
+msgstr ""
+
+#: tfrmoptionsmisc.chkthumbsave.caption
+msgctxt "TFRMOPTIONSMISC.CHKTHUMBSAVE.CAPTION"
 msgid "&Save thumbnails in cache"
 msgstr ""
 
-#: tfrmoptionsmisc.cbshowwarningmessages.caption
-msgid "Show &warning messages (\"OK\" button only)"
+#: tfrmoptionsmisc.dblthumbnails.caption
+msgctxt "TFRMOPTIONSMISC.DBLTHUMBNAILS.CAPTION"
+msgid "Thumbnails"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbpixels.caption
+msgid "pixels"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbseparator.caption
+msgctxt "TFRMOPTIONSMISC.LBLTHUMBSEPARATOR.CAPTION"
+msgid "X"
+msgstr ""
+
+#: tfrmoptionsmisc.lblthumbsize.caption
+msgid "&Thumbnail size:"
 msgstr ""
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
