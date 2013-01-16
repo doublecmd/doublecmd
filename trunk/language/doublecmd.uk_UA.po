@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-11-14 00:41+0300\n"
+"PO-Revision-Date: 2013-01-14 22:25+0300\n"
 "Last-Translator: Максим aka Ma$terok <m_shein@ukr.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -246,10 +246,9 @@ msgid "Copy d&ate/time"
 msgstr "Копіювати &дату/час"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
-#, fuzzy
 #| msgid "Correct links"
 msgid "Correct lin&ks"
-msgstr "Правильні посилання"
+msgstr "Правил&ьні посилання"
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
 #| msgid "Drop readonly flag"
@@ -263,10 +262,9 @@ msgid "E&xclude empty directories"
 msgstr "Викл&ючити порожні каталоги"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
-#, fuzzy
 #| msgid "Follow links"
 msgid "Fo&llow links"
-msgstr "Перейти за посиланнями"
+msgstr "Перейти за поси&ланнями"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 #| msgid "Reserve space"
@@ -422,10 +420,9 @@ msgid "SUID"
 msgstr "SUID"
 
 #: tfrmattributesedit.cbsymlink.caption
-#, fuzzy
 #| msgid "Symlink"
 msgid "&Symlink"
-msgstr "Симв. посилання"
+msgstr "&Симв. посилання"
 
 #: tfrmattributesedit.cbsystem.caption
 #| msgid "System"
@@ -503,16 +500,14 @@ msgid "Calculate check sum..."
 msgstr "Розрахувати контрольну суму..."
 
 #: tfrmchecksumcalc.cbseparatefile.caption
-#, fuzzy
 #| msgid "Create separate checksum file for each file"
 msgid "C&reate separate checksum file for each file"
-msgstr "Для кожного файлу створити свій контрольний файл"
+msgstr "Для кожного файлу ство&рити свій контрольний файл"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-#, fuzzy
 #| msgid "Save check sum file(s) to:"
 msgid "&Save check sum file(s) to:"
-msgstr "Зберегти файл(и) контрольних сум як:"
+msgstr "Зберегти файл(и) контрольних сум &як:"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -2798,11 +2793,11 @@ msgstr "Перевіри&ти архів(и)"
 #: tfrmmain.actthumbnailsview.caption
 msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
-msgstr ""
+msgstr "Мініатюри"
 
 #: tfrmmain.actthumbnailsview.hint
 msgid "Thumbnails View"
-msgstr ""
+msgstr "Перегляд мініатюр"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
@@ -3666,55 +3661,63 @@ msgstr "Шлях до файлу"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
-msgstr ""
+msgstr "Вибір програми"
 
 #: tfrmopenwith.chkcustomcommand.caption
 msgid "Custom command"
-msgstr ""
+msgstr "Власна команда"
 
 #: tfrmopenwith.chksaveassociation.caption
 msgid "Save association"
-msgstr ""
+msgstr "Зберегти асоціації"
 
 #: tfrmopenwith.chkuseasdefault.caption
 msgid "Set selected application as default action"
-msgstr ""
+msgstr "Встановити обрану програму як типову дію"
 
 #: tfrmopenwith.lblmimetype.caption
 msgid "File type to be opened: %s"
-msgstr ""
+msgstr "Відкривати тип файлу: %s"
 
 #: tfrmopenwith.milistoffiles.caption
+#, fuzzy
 msgid "Multiple file names"
-msgstr ""
+msgstr "Кілька імен файлів"
 
 #: tfrmopenwith.milistoffiles.hint
+#, fuzzy
 msgid "%F"
-msgstr ""
+msgstr "%F"
 
 #: tfrmopenwith.milistofurls.caption
+#, fuzzy
 msgid "Multiple URIs"
-msgstr ""
+msgstr "Кілька посилань"
 
 #: tfrmopenwith.milistofurls.hint
+#, fuzzy
 msgid "%U"
-msgstr ""
+msgstr "%U"
 
 #: tfrmopenwith.misinglefilename.caption
+#, fuzzy
 msgid "Single file name"
-msgstr ""
+msgstr "Одиночне ім’я"
 
 #: tfrmopenwith.misinglefilename.hint
+#, fuzzy
 msgid "%f"
-msgstr ""
+msgstr "%f"
 
 #: tfrmopenwith.misingleurl.caption
+#, fuzzy
 msgid "Single URI"
-msgstr ""
+msgstr "Одиночне посилання"
 
 #: tfrmopenwith.misingleurl.hint
+#, fuzzy
 msgid "%u"
-msgstr ""
+msgstr "%u"
 
 #: tfrmoptions.btnapply.caption
 #| msgid "Apply"
@@ -4115,10 +4118,9 @@ msgid "Fo&reground"
 msgstr "&Передній план"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
-#, fuzzy
 #| msgid "Text-mark"
 msgid "&Text-mark"
-msgstr "Текстова мітка"
+msgstr "&Текстова мітка"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 #| msgid "Use (and edit) global scheme settings"
@@ -5004,7 +5006,7 @@ msgstr "Статус операції"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
-msgstr ""
+msgstr "Видалити мініат&юри для не існуючих файлів"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -5019,11 +5021,11 @@ msgstr "Зберігати мініат&юри в кеші"
 #: tfrmoptionsmisc.dblthumbnails.caption
 msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
-msgstr ""
+msgstr "Мініатюри"
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
-msgstr ""
+msgstr "пікселів"
 
 #: tfrmoptionsmisc.lblthumbseparator.caption
 msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
@@ -5032,7 +5034,7 @@ msgstr "X"
 
 #: tfrmoptionsmisc.lblthumbsize.caption
 msgid "&Thumbnail size:"
-msgstr ""
+msgstr "Розмір мініа&тюр:"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 #| msgid "Selection by mouse"
@@ -5568,7 +5570,6 @@ msgid "Pack files"
 msgstr "Упакування файлів"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
-#, fuzzy
 #| msgid "Create separate archives, o&ne per selected file/dir"
 msgid "C&reate separate archives, one per selected file/dir"
 msgstr "Окремі архіви для кожн&ого вибраного файлу/каталогу"
@@ -5582,10 +5583,9 @@ msgid "Encr&ypt"
 msgstr "&Шифрувати"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
-#, fuzzy
 #| msgid "M&ove to archive"
 msgid "Mo&ve to archive"
-msgstr "Ви&далити вхідні файли після упаковки"
+msgstr "Перем&істити в архів"
 
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
@@ -5986,11 +5986,10 @@ msgid "&Destination that the link will point to"
 msgstr "Місце, на яке вказуватиме посилання"
 
 #: tfrmsymlink.lbllinktocreate.caption
-#, fuzzy
 #| msgid "Link name"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
-msgstr "Ім'я посилання"
+msgstr "Ім'я поси&лання"
 
 #: tfrmtweakplugin.btnadd.caption
 #| msgid "Add new"
@@ -7187,14 +7186,13 @@ msgid "No media available"
 msgstr "Немає доступних носіїв"
 
 #: ulng.rsmnuopenwith
-#, fuzzy
 #| msgid "Open with ..."
 msgid "Open with"
 msgstr "Відкрити з допомогою..."
 
 #: ulng.rsmnuopenwithother
 msgid "Other..."
-msgstr ""
+msgstr "Інше..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -7379,7 +7377,7 @@ msgstr "Неможливо перейменувати файл з %s в %s"
 
 #: ulng.rsmsgerrsaveassociation
 msgid "Can not save association!"
-msgstr ""
+msgstr "Не вдається зберегти асоціацію!"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -8404,10 +8402,9 @@ msgid "Select a directory"
 msgstr "Виберіть каталог"
 
 #: ulng.rsshowhelpfor
-#, fuzzy
 #| msgid "Show help for %s"
 msgid "&Show help for %s"
-msgstr "Показати довідку для %s"
+msgstr "Пока&зати довідку для %s"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
