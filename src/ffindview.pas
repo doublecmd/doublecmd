@@ -52,6 +52,7 @@ begin
         cbDataToFind.Text:= cbDataToFind.Items[0];
     end;
   cbDataToFind.SelectAll;
+  cbDataToFind.SetFocus;
 end;
 
 procedure TfrmFindView.btnFindClick(Sender: TObject);
