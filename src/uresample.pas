@@ -7,7 +7,7 @@
 // Date:	19-DEC-2009
 // Target:	Free Pascal 2.2.4, Lazarus 0.9.29
 // Author(s):	anme: Anders Melander, anders@melander.dk
-// 	            Alexx2000: Alexander Koblov, Alexx2000@mail.ru
+// 				Alexx2000: Alexander Koblov, Alexx2000@mail.ru
 // Copyright	(c) 1997,98 by Anders Melander
 // Copyright	(c) 2009 by Alexander Koblov
 // Formatting:	2 space indent, 8 space tabs, 80 columns.
@@ -389,8 +389,8 @@ begin
     if Src.RawImage.Description.AlphaPrec = 0 then // if bitmap has not alpha channel
       SrcIntfImage := CreateAlphaFromMask(Src)
     else
-      SrcIntfImage := Src.CreateIntfImage;
-    DstIntfImage := Dst.CreateIntfImage;
+      SrcIntfImage := TLazIntfImage.Create(Src.RawImage, False);
+    DstIntfImage := TLazIntfImage.Create(Dst.RawImage, False);
     ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(DstWidth, DstHeight);
     DstIntfImage.DataDescription := ImgFormatDescription;
 {++++++++++++++++++++}
