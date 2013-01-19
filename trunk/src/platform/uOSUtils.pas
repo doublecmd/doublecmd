@@ -368,8 +368,10 @@ begin
       DesktopEnv:= GetDesktopEnvironment;
       if (DesktopEnv = DE_KDE) and (FindDefaultExecutablePath('kioclient') <> EmptyStr) then
         sCmdLine:= 'kioclient exec ' + QuoteStr(URL) // Under KDE use "kioclient" to open files
+      else if (DesktopEnv = DE_XFCE) and (FindDefaultExecutablePath('exo-open') <> EmptyStr) then
+        sCmdLine:= 'exo-open ' + QuoteStr(URL) // Under Xfce use "exo-open" to open files
       else if HasGio then
-        Result:= GioOpen(URL) // Under GNOME, Xfce, Unity and LXDE use "GIO" to open files
+        Result:= GioOpen(URL) // Under GNOME, Unity and LXDE use "GIO" to open files
       else
         begin
           if GetPathType(URL) = ptAbsolute then

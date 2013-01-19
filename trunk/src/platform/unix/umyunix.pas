@@ -292,6 +292,8 @@ begin
     Exit(DE_GNOME);
   if GetEnvironmentVariable('_LXSESSION_PID') <> '' then
     Exit(DE_LXDE);
+  if fpSystemStatus('pgrep xfce4-session > /dev/null') = 0 then
+    Exit(DE_XFCE);
   DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
   DesktopSession:= LowerCase(DesktopSession);
   if Pos('kde', DesktopSession) <> 0 then
