@@ -21,13 +21,16 @@ type
 
   TThumbnailManager = class
   private
-    FThumbPath: UTF8String;
+    FBitmap: TBitmap;
     FBackColor: TColor;
+    FFileName: UTF8String;
+    FThumbPath: UTF8String;
     FProviderList: array of TCreatePreviewHandler; static;
+  private
+    procedure DoCreatePreviewText;
     function GetPreviewFileExt(const sFileExt: UTF8String): UTF8String;
     function GetPreviewFileName(const sFileName: UTF8String): UTF8String;
     function CreatePreviewImage(const Graphic: TGraphic): TBitmap;
-    function CreatePreviewText(const sFileName: UTF8String): TBitmap;
     function ReadMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
     function WriteMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
     class function ReadFileName(const aThumb: UTF8String; out aFileName: UTF8String): Boolean;
@@ -44,7 +47,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
+  LCLProc, FileUtil, Forms, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
   uGlobsPaths, uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource;
 
 const
@@ -95,23 +98,22 @@ begin
   end;
 end;
 
-function TThumbnailManager.CreatePreviewText(const sFileName: UTF8String): TBitmap;
+procedure TThumbnailManager.DoCreatePreviewText;
 var
   x: LongInt;
   ARect: TRect;
   sStr: String;
   tFile: THandle;
 begin
-  Result:= TBitmap.Create;
-  ARect:= Rect(0, 0, gThumbSize.cx, gThumbSize.cy);
-  with Result do
+  FBitmap:= TBitmap.Create;
+  with FBitmap do
   begin
     SetSize(gThumbSize.cx, gThumbSize.cy);
     Canvas.Brush.Color:= clWhite;
-    Canvas.FillRect(ARect);
+    Canvas.FillRect(Canvas.ClipRect);
     Canvas.Font.Color:= clBlack;
     Canvas.Font.Size := gThumbSize.cy div 16;
-    tFile:= mbFileOpen(sFileName, fmOpenRead or fmShareDenyNone);
+    tFile:= mbFileOpen(FFileName, fmOpenRead or fmShareDenyNone);
     if (tFile <> feInvalidHandle) then
     begin
       for x:= 0 to 8 do
@@ -121,6 +123,7 @@ begin
       end;
       FileClose(tFile);
     end;
+    Application.ProcessMessages;
   end;
 end;
 
@@ -249,9 +252,17 @@ begin
       if GetGraphicClassForFileExtension(sExt) <> nil then
         begin
           fsFileStream:= TFileStreamEx.Create(sFullPathToFile, fmOpenRead or fmShareDenyNone);
+          with Picture do
           try
-            Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
-            Result:= CreatePreviewImage(Picture.Graphic);
+            LoadFromStreamWithFileExt(fsFileStream, sExt);
+            if (Graphic.Width > gThumbSize.cx) or (Graphic.Height > gThumbSize.cy) then
+              Result:= CreatePreviewImage(Graphic)
+            else
+              begin
+                Result:= TBitmap.Create;
+                Result.Assign(Graphic);
+                Exit; // No need to save in cache
+              end;
           finally
             FreeAndNil(fsFileStream);
           end
@@ -259,8 +270,11 @@ begin
       // Create thumb for text files
       else if (mbFileAccess(sFullPathToFile, fmOpenRead)) and (FileIsText(sFullPathToFile)) then
         begin
-          Result:= CreatePreviewText(sFullPathToFile);
-          Exit; // No need to save in cache
+          FFileName:= sFullPathToFile;
+          // Some widgetsets can not draw from background
+          // thread so call draw text function from main thread
+          TThread.Synchronize(nil, @DoCreatePreviewText);
+          Exit(FBitmap); // No need to save in cache
         end
       // Try to create thumnail using providers
       else
@@ -332,4 +346,4 @@ begin
 end;
 
 end.
-
+
