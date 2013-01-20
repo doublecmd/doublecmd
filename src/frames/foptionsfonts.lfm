@@ -62,7 +62,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Width = 55
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
-    MaxValue = 25
+    MaxValue = 99
     MinValue = 6
     OnChange = edtMainFontSizeChange
     TabOrder = 1
@@ -124,7 +124,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Width = 55
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
-    MaxValue = 25
+    MaxValue = 99
     MinValue = 6
     OnChange = edtEditorFontSizeChange
     TabOrder = 4
@@ -171,7 +171,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
-    MaxValue = 25
+    MaxValue = 99
     MinValue = 6
     OnChange = edtViewerFontSizeChange
     TabOrder = 7
@@ -231,7 +231,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
-    MaxValue = 25
+    MaxValue = 99
     MinValue = 6
     OnChange = edtLogFontSizeChange
     TabOrder = 13
@@ -275,6 +275,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
+    MaxValue = 99
     MinValue = 6
     OnChange = edtViewerBookFontSizeChange
     TabOrder = 10
