@@ -16,11 +16,7 @@ type
     edtLinkToCreate: TEdit;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
-    procedure btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure btnOKClick(Sender: TObject);
-    procedure btnOKMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure FormShow(Sender: TObject);
 
   private
@@ -88,27 +84,6 @@ begin
       // Standart error modal dialog
       MsgError(rsSymErrCreate);
     end;
-end;
-
-procedure TfrmSymLink.btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-    ModalResult := btnCancel.ModalResult;
-{$ENDIF}
-end;
-
-procedure TfrmSymLink.btnOKMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-  begin
-    ModalResult := btnOK.ModalResult;
-    btnOKClick(Sender);
-  end;
-{$ENDIF}
 end;
 
 procedure TfrmSymLink.FormShow(Sender: TObject);

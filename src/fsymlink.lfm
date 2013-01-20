@@ -17,15 +17,15 @@ object frmSymLink: TfrmSymLink
   KeyPreview = True
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  LCLVersion = '1.0.4.0'
   object lblExistingFile: TLabel
     AnchorSideLeft.Control = edtExistingFile
     AnchorSideTop.Control = edtLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 18
-    Top = 64
-    Width = 243
+    Height = 16
+    Top = 59
+    Width = 240
     BorderSpacing.Top = 6
     Caption = '&Destination that the link will point to'
     FocusControl = edtExistingFile
@@ -35,9 +35,9 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = edtLinkToCreate
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 18
+    Height = 16
     Top = 6
-    Width = 64
+    Width = 69
     BorderSpacing.Top = 6
     Caption = '&Link name'
     FocusControl = edtLinkToCreate
@@ -50,8 +50,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 28
-    Top = 88
+    Height = 25
+    Top = 81
     Width = 590
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -67,8 +67,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 28
-    Top = 30
+    Height = 25
+    Top = 28
     Width = 590
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -82,8 +82,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
     Left = 390
-    Height = 35
-    Top = 128
+    Height = 36
+    Top = 118
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -97,7 +97,6 @@ object frmSymLink: TfrmSymLink
     Kind = bkOK
     ModalResult = 1
     OnClick = btnOKClick
-    OnMouseUp = btnOKMouseUp
     TabOrder = 2
   end
   object btnCancel: TBitBtn
@@ -107,7 +106,7 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Side = asrBottom
     Left = 496
     Height = 36
-    Top = 128
+    Top = 118
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -119,7 +118,6 @@ object frmSymLink: TfrmSymLink
     Constraints.MinWidth = 100
     Kind = bkCancel
     ModalResult = 2
-    OnMouseUp = btnCancelMouseUp
     TabOrder = 3
   end
 end

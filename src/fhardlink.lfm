@@ -13,15 +13,15 @@ object frmHardLink: TfrmHardLink
   KeyPreview = True
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  LCLVersion = '1.0.4.0'
   object lblExistingFile: TLabel
     AnchorSideLeft.Control = edtExistingFile
     AnchorSideTop.Control = edtLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 18
-    Top = 64
-    Width = 243
+    Height = 16
+    Top = 59
+    Width = 240
     BorderSpacing.Top = 6
     Caption = '&Destination that the link will point to'
     FocusControl = edtExistingFile
@@ -31,9 +31,9 @@ object frmHardLink: TfrmHardLink
     AnchorSideLeft.Control = edtLinkToCreate
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 18
+    Height = 16
     Top = 6
-    Width = 64
+    Width = 69
     BorderSpacing.Top = 6
     Caption = '&Link name'
     FocusControl = edtLinkToCreate
@@ -46,8 +46,8 @@ object frmHardLink: TfrmHardLink
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 28
-    Top = 88
+    Height = 25
+    Top = 81
     Width = 500
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -63,8 +63,8 @@ object frmHardLink: TfrmHardLink
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 28
-    Top = 30
+    Height = 25
+    Top = 28
     Width = 500
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -78,8 +78,8 @@ object frmHardLink: TfrmHardLink
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
     Left = 300
-    Height = 35
-    Top = 128
+    Height = 36
+    Top = 118
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -93,7 +93,6 @@ object frmHardLink: TfrmHardLink
     Kind = bkOK
     ModalResult = 1
     OnClick = btnOKClick
-    OnMouseUp = btnOKMouseUp
     TabOrder = 2
   end
   object btnCancel: TBitBtn
@@ -103,7 +102,7 @@ object frmHardLink: TfrmHardLink
     AnchorSideRight.Side = asrBottom
     Left = 406
     Height = 36
-    Top = 128
+    Top = 118
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -115,7 +114,6 @@ object frmHardLink: TfrmHardLink
     Constraints.MinWidth = 100
     Kind = bkCancel
     ModalResult = 2
-    OnMouseUp = btnCancelMouseUp
     TabOrder = 3
   end
 end
