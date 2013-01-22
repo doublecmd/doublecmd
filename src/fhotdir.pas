@@ -114,7 +114,8 @@ begin
   if SelectDirectory(rsSelectDir, '', sPath, False) then
     begin
       sName:= StringReplace(GetLastDir(sPath), '&', '&&', [rfReplaceAll]);
-      lsHotDir.ItemIndex:= lsHotDir.Items.Add(sName + '=' + IncludeTrailingPathDelimiter(sPath));
+      if InputQuery('', rsMsgTitleNewEntryHotDir, sName) then
+        lsHotDir.ItemIndex:= lsHotDir.Items.Add(sName + '=' + IncludeTrailingPathDelimiter(sPath));
     end;
   btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
   btnEdit.Enabled:= (lsHotDir.Items.Count > 0);

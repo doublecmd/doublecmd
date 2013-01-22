@@ -2297,7 +2297,8 @@ var
   sName: UTF8String;
 begin
   sName:= StringReplace(GetLastDir(ActiveFrame.CurrentPath), '&', '&&', [rfReplaceAll]);
-  glsHotDir.Add(sName + '=' + ActiveFrame.CurrentPath);
+  if InputQuery('Double Commander', rsMsgTitleNewEntryHotDir, sName) then
+    glsHotDir.Add(sName + '=' + ActiveFrame.CurrentPath);
 end;
 
 procedure TfrmMain.miHotDeleteClick(Sender: TObject);
