@@ -18,7 +18,7 @@ unit fMultiRename;
 interface
 
 uses
-  SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr,
+  SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr, Controls, LCLType,
   DCClassesUtf8, uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls, DCXmlConfig;
 
 type
@@ -117,6 +117,13 @@ type
     procedure btnDeletePresetClick(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure cmbNameStyleChange(Sender: TObject);
+    procedure StringGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure StringGridMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure StringGridMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure StringGridSelection(Sender: TObject; aCol, aRow: Integer);
     procedure StringGridTopLeftChanged(Sender: TObject);
     procedure edPocChange(Sender: TObject);
     procedure edIntervalChange(Sender: TObject);
@@ -159,6 +166,8 @@ type
     FFileSource: IFileSource;
     FFiles: TFiles;
     FPresets: TStringHashList; // of PMultiRenamePreset
+    FSourceRow: Integer;
+    FMoveRow : Boolean;
 
     {Handles a single formatting string}
     function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
@@ -243,6 +252,8 @@ begin
   FFileSource := aFileSource;
   FFiles := aFiles;
   aFiles := nil;
+  FSourceRow := -1;
+  FMoveRow := False;
   inherited Create(TheOwner);
 end;
 
@@ -436,6 +447,73 @@ end;
 procedure TfrmMultiRename.cmbNameStyleChange(Sender: TObject);
 begin
   StringGridTopLeftChanged(StringGrid);
+end;
+
+procedure TfrmMultiRename.StringGridKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  tmpFile: TFile;
+  DestRow: Integer;
+begin
+
+  DestRow := StringGrid.Row;
+
+  if (Shift = [ssShift]) then
+  begin
+    case Key of
+      VK_UP: begin DestRow := StringGrid.Row - 1; end;
+      VK_DOWN: begin DestRow := StringGrid.Row + 1 end;
+    end;
+
+    if (DestRow <> StringGrid.Row) and (0 < DestRow) and (DestRow < StringGrid.RowCount) then
+      begin
+        tmpFile := FFiles.Items[DestRow - 1];
+        FFiles.Items[DestRow - 1] := FFiles.Items[StringGrid.Row - 1];
+        FFiles.Items[StringGrid.Row - 1] := tmpFile;
+
+        StringGridTopLeftChanged(StringGrid);
+      end;
+  end;
+end;
+
+procedure TfrmMultiRename.StringGridMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  SourceCol: Integer;
+begin
+  if(Button = mbLeft) then
+  begin
+    StringGrid.MouseToCell(X, Y, SourceCol, FSourceRow);
+    if (FSourceRow > 0) then
+    begin
+      FMoveRow := True;
+    end;
+  end;
+end;
+
+procedure TfrmMultiRename.StringGridMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if Button = mbLeft then
+  begin
+    FMoveRow := False;
+  end;
+end;
+
+procedure TfrmMultiRename.StringGridSelection(Sender: TObject; aCol,
+  aRow: Integer);
+var
+  tmpFile: TFile;
+begin
+  if FMoveRow and (aRow <> FSourceRow)then
+    begin
+      tmpFile := FFiles.Items[aRow-1];
+      FFiles.Items[aRow-1] := FFiles.Items[FSourceRow-1];
+      FFiles.Items[FSourceRow-1] := tmpFile;
+
+      FSourceRow := aRow;
+      StringGridTopLeftChanged(StringGrid);
+    end;
 end;
 
 procedure TfrmMultiRename.StringGridTopLeftChanged(Sender: TObject);
