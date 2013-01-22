@@ -8040,6 +8040,10 @@ msgstr "Nombre de la nueva pestaña:"
 msgid "Target path:"
 msgstr "Ruta buscada:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Demasiados archivos seleccionados."

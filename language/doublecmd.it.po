@@ -7805,6 +7805,10 @@ msgstr "Nuovo nome pannello:"
 msgid "Target path:"
 msgstr "Percorso destinazione:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Troppi file selezionati."

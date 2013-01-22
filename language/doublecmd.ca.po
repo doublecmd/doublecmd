@@ -7898,6 +7898,10 @@ msgstr "Nom de la nova pestanya:"
 msgid "Target path:"
 msgstr "Ruta cercada:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Massa Arxius seleccionats."

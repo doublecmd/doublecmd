@@ -7135,6 +7135,10 @@ msgstr "Novo ime zavihka:"
 msgid "Target path:"
 msgstr "Ciljna pot:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Izbranih je preveč datotek."

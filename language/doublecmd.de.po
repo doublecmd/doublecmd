@@ -8131,6 +8131,10 @@ msgstr "Neuer Reiter-Name"
 msgid "Target path:"
 msgstr "Zielpfad"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Zuviele Dateien ausgewählt."

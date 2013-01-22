@@ -8116,6 +8116,10 @@ msgstr "새 탭 이름:"
 msgid "Target path:"
 msgstr "대상 경로:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "너무 많은 파일을 선택했습니다."

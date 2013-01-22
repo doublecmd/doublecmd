@@ -7446,6 +7446,10 @@ msgstr "Nyt navn:"
 msgid "Target path:"
 msgstr "Sti:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "For mange valgte filer."

@@ -7921,6 +7921,10 @@ msgstr "Jméno nové záložky:"
 msgid "Target path:"
 msgstr "Cílová cesta:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Vybráno příliš mnoho souborů."
