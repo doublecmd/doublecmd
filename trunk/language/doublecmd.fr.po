@@ -7966,6 +7966,10 @@ msgstr "Nom du nouvel onglet :"
 msgid "Target path:"
 msgstr "Chemin du dossier cible :"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Trop de fichier sélectionnés."

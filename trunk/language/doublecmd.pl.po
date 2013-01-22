@@ -7905,6 +7905,10 @@ msgstr "Nowa nazwa karty:"
 msgid "Target path:"
 msgstr "Ścieżka docelowa:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Wybrano zbyt dużo plików"

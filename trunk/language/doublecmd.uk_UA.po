@@ -7652,6 +7652,10 @@ msgstr "Нове ім’я вкладки"
 msgid "Target path:"
 msgstr "Шлях призначення:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Виділено надто багато файлів."

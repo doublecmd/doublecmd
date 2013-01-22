@@ -7943,6 +7943,10 @@ msgstr "新分頁名稱:"
 msgid "Target path:"
 msgstr "目標路徑:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "選擇了太多檔案."

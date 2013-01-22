@@ -7440,6 +7440,10 @@ msgstr "Naziv novog taba:"
 msgid "Target path:"
 msgstr "Odredišna putanja:"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Previše fajlova izabrano."

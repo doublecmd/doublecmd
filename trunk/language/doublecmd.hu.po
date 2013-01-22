@@ -7798,6 +7798,10 @@ msgstr "Fül új neve :"
 msgid "Target path:"
 msgstr "Cél útvonal :"
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Túl sok fájl van kijelölve."

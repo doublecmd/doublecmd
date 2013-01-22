@@ -7132,6 +7132,10 @@ msgstr ""
 msgid "Target path:"
 msgstr ""
 
+#: ulng.rsmsgtitlenewentryhotdir
+msgid "New title for menu entry:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr ""
