@@ -135,6 +135,10 @@ var
 
 implementation
 
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$DEFINE X11}
+{$ENDIF}
+
 uses
   LCLProc, LCLIntf
 {$IF DEFINED(MSWINDOWS)}
@@ -149,7 +153,7 @@ uses
   , Gdk2, GLib2, Gtk2Extra
   , Gtk2Proc
 {$ENDIF}
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
   , qt4, qtwidgets
   , XLib, X
   , xutil, KeySym
@@ -174,7 +178,7 @@ const
     (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt),
     (Shift: ssSuper; Shortcut: scWin;   Text: mkcWin));
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(X11)}
 var
   {$IF DEFINED(LCLGTK)}
   XDisplay: PDisplay = nil;
@@ -194,7 +198,7 @@ var
   {$ENDIF}
 {$ENDIF}
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
 type
   TKeyboardLayoutChangedHook = class
   private
@@ -263,7 +267,7 @@ begin
     end;
 end;
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
 {en
    Retrieves the character and respective modifiers state
    for the given keysym and given level.
@@ -370,7 +374,7 @@ begin
     Include(Result,ssAltGr);
 {$ENDIF}
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
   // QtGroupSwitchModifier is only recognized on X11.
   if (QApplication_keyboardModifiers and QtGroupSwitchModifier) > 0 then
     Include(Result,ssAltGr);
@@ -526,7 +530,7 @@ var
   KeyInfo: TVKeyInfo;
 {$ENDIF}
   ShiftedChar: Boolean;
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
   KeyChar:TUTF8Char;
   KeySym: TKeySym;
   TempShiftState: TShiftState;
@@ -552,7 +556,7 @@ begin
 
   Result := KeyInfo.KeyChar[ShiftStateToXModifierLevel(ShiftState)];
 
-{$ELSEIF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$ELSEIF DEFINED(X11) and DEFINED(LCLQT)}
 
   // For QT we'll use Xlib to get text for a key.
 
@@ -646,14 +650,14 @@ end;
 function VirtualKeyToText(Key: Byte; ShiftState: TShiftState): string;
 var
   Name: string;
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
   KeyChar: TUTF8Char;
   KeySym: TKeySym;
   TempShiftState: TShiftState;
 {$ENDIF}
 begin
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
   // Overwrite behaviour for some keys in QT.
   KeySym := 0;
   case Key of
@@ -906,7 +910,7 @@ begin
 end;
 {$ENDIF}
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
 procedure UpdateModifiersMasks;
 var
   Map: PXModifierKeymap;
@@ -969,13 +973,13 @@ begin
 {$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   UpdateGtkAltGrVirtualKeyCode;
 {$ENDIF}
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
   UpdateModifiersMasks;
 {$ENDIF}
   CacheVKToChar;
 end;
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
 constructor TKeyboardLayoutChangedHook.Create(QObject: QObjectH);
 begin
   EventHook := QObject_hook_create(QObject);
@@ -1045,7 +1049,7 @@ end;
 
 procedure UnhookKeyboardLayoutChanged;
 begin
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
 
   if Assigned(KeyboardLayoutChangedHook) then
     FreeAndNil(KeyboardLayoutChangedHook);
@@ -1079,7 +1083,7 @@ begin
   // On Unix (X server) the event for changing keyboard layout
   // is sent twice (on QT, GTK1 and GTK2).
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
 
   KeyboardLayoutChangedHook := KeyboardLayoutChangedHook.Create(
                                TQtWidget(Application.MainForm.Handle).TheObject);
@@ -1118,7 +1122,7 @@ begin
   UnhookKeyboardLayoutChanged;
 end;
 
-{$IF DEFINED(UNIX)}
+{$IF DEFINED(X11)}
 initialization
   // Get connection to X server.
   {$IF DEFINED(LCLGTK)}
@@ -1130,7 +1134,7 @@ initialization
   {$ENDIF}
 {$ENDIF}
 
-{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{$IF DEFINED(X11) and DEFINED(LCLQT)}
 finalization
   XCloseDisplay(XDisplay);
 {$ENDIF}
