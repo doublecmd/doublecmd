@@ -23,14 +23,20 @@ svn export ../ $BUILD_DC_TMP_DIR
 mkdir $BUILD_DC_TMP_DIR/.svn
 cp -a ../.svn/entries $BUILD_DC_TMP_DIR/.svn/
 
-# Set widgetset
-if [ -z $lcl ]; then
-   export lcl=carbon
-fi
-
 # Set processor architecture
 if [ -z $CPU_TARGET ]; then
-   export CPU_TARGET=$(fpc -iTP)
+  export CPU_TARGET=$(fpc -iTP)
+fi
+
+# Set widgetset
+if [ -z $lcl ]; then
+  # Use Qt4 when build 64 bit
+  if [ "$CPU_TARGET" = "x86_64" ]
+    then
+      export lcl=qt
+    else
+      export lcl=carbon
+  fi
 fi
 
 # Set minimal Mac OS X target version
@@ -49,6 +55,9 @@ cd $BUILD_DC_TMP_DIR
 mkdir -p $BUILD_PACK_DIR
 install/darwin/install.sh $BUILD_PACK_DIR
 cd $BUILD_PACK_DIR
+if [ "$lcl" = "qt" ]; then
+  macdeployqt doublecmd.app
+fi
 mv doublecmd.app 'Double Commander.app'
 hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
 
