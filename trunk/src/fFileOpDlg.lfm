@@ -161,7 +161,7 @@ object frmFileOp: TfrmFileOp
       ClientHeight = 35
       ClientWidth = 516
       TabOrder = 5
-      object btnMinimizeToPanel: TButton
+      object btnMinimizeToPanel: TBitBtn
         Left = 0
         Height = 35
         Top = 0
@@ -173,7 +173,7 @@ object frmFileOp: TfrmFileOp
         OnClick = btnMinimizeToPanelClick
         TabOrder = 0
       end
-      object btnViewOperations: TButton
+      object btnViewOperations: TBitBtn
         Left = 87
         Height = 35
         Top = 0
