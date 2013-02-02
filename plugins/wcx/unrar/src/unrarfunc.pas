@@ -30,7 +30,7 @@ unit UnRARFunc;
 interface
 
 uses
-  WcxPlugin, Extension;
+  DynLibs, WcxPlugin, Extension;
 
 const
   {$IF DEFINED(MSWINDOWS)}
@@ -181,7 +181,7 @@ var
   RARSetPassword : TRARSetPassword = nil;
   RARGetDllVersion : TRARGetDllVersion = nil;
 
-  ModuleHandle : THandle = 0;
+  ModuleHandle : TLibHandle = NilHandle;
 
 function OpenArchive(var ArchiveData: TOpenArchiveData) : TArcHandle;dcpcall;
 function OpenArchiveW(var ArchiveData: tOpenArchiveDataW) : TArcHandle;dcpcall;
@@ -201,7 +201,6 @@ procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 implementation
 
 uses
-  DynLibs,
   DCBasicTypes, DCDateTimeUtils, DCConvertEncoding, DCFileAttributes;
 
 type
