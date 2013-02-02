@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -58,9 +58,6 @@ uses
    {$ENDIF}
    {$IFDEF LINUX}
    , uUDisks, uFileSystemWatcher, DCStrUtils, uOSUtils, FileUtil
-   {$ENDIF}
-   {$IFDEF DARWIN}
-   , MacOSAll
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
@@ -489,123 +486,6 @@ begin
     end;
   end;
 end;
-{$ELSEIF DEFINED(DARWIN)}
-var
-  Drive : PDrive;
-  osResult: OSStatus;
-  volumeIndex: ItemCount;
-  actualVolume: FSVolumeRefNum;
-  volumeName: HFSUniStr255;
-  volumeInfo: FSVolumeInfo;
-  volumeParms: GetVolParmsInfoBuffer;
-  pb: HParamBlockRec;
-  volNameAsCFString: CFStringRef;
-  volNameAsCString: array[0..255] of char;
-begin
-  Result := TDrivesList.Create;
-  osResult:= noErr;
-  // Iterate across all mounted volumes using FSGetVolumeInfo. This will return nsvErr
-  // (no such volume) when volumeIndex becomes greater than the number of mounted volumes.
-  volumeIndex:= 1;
-  while (osResult = noErr) or (osResult <> nsvErr) do
-    begin
-      FillByte(volumeInfo, SizeOf(volumeInfo), 0);
-
-      // We're mostly interested in the volume reference number (actualVolume)
-      osResult:= FSGetVolumeInfo(kFSInvalidVolumeRefNum,
-                                 volumeIndex,
-                                 @actualVolume,
-                                 kFSVolInfoFSInfo,
-                                 @volumeInfo,
-                                 @volumeName,
-                                 nil);
-
-      if (osResult = noErr) then
-        begin
-          // Use the volume reference number to retrieve the volume parameters. See the documentation
-          // on PBHGetVolParmsSync for other possible ways to specify a volume.
-          pb.ioNamePtr := nil;
-          pb.ioVRefNum := actualVolume;
-          pb.ioBuffer := @volumeParms;
-          pb.ioReqCount := SizeOf(volumeParms);
-
-          // A version 4 GetVolParmsInfoBuffer contains the BSD node name in the vMDeviceID field.
-          // It is actually a char * value. This is mentioned in the header CoreServices/CarbonCore/Files.h.
-          osResult := PBHGetVolParmsSync(@pb);
-          if (osResult <> noErr) then
-            begin
-              WriteLn(stderr, 'PBHGetVolParmsSync returned %d\n', osResult);
-            end
-          else
-            begin
-              // The following code is just to convert the volume name from a HFSUniCharStr to
-              // a plain C string so we can use it. It'd be preferable to
-              // use CoreFoundation to work with the volume name in its Unicode form.
-
-              volNameAsCFString := CFStringCreateWithCharacters(kCFAllocatorDefault,
-                                                                volumeName.unicode,
-                                                                volumeName.length);
-
-              // If the conversion to a C string fails, then skip this volume.
-              if (not CFStringGetCString(volNameAsCFString,
-                                         volNameAsCString,
-                                         SizeOf(volNameAsCString),
-                                         kCFStringEncodingUTF8)) then
-                begin
-                  CFRelease(volNameAsCFString);
-                  Inc(volumeIndex);
-                  Continue;
-                end;
-
-              CFRelease(volNameAsCFString);
-
-              //---------------------------------------------------------------
-              New(Drive);
-              with Drive^ do
-              begin
-                // The volume is local if vMServerAdr is 0. Network volumes won't have a BSD node name.
-                if (volumeParms.vMServerAdr = 0) then
-                  begin
-                    DriveType:= dtHardDisk;
-                    WriteLn(Format('Volume "%s" (vRefNum %d), BSD node /dev/%s',
-                        [volNameAsCString, actualVolume, PChar(volumeParms.vMDeviceID)]));
-                  end
-                else
-                  begin
-                    DriveType:= dtNetwork;
-                    WriteLn(Format('Volume "%s" (vRefNum %d)', [volNameAsCString, actualVolume]));
-                  end;
-                DeviceId:= EmptyStr;
-                DisplayName:= volNameAsCString;
-                Path:= '/Volumes/' + volNameAsCString;
-                DriveLabel:= volNameAsCString;
-                case volumeInfo.filesystemID of
-                  18771: FileSystem := 'FAT';
-                  else
-                  case volumeInfo.signature of
-                    $4147: FileSystem := 'ISO9660';
-                    $4242: FileSystem := 'HighSierra';
-                    $4244: FileSystem := 'HFS'; // kHFSSigWord
-                    $482B: FileSystem := 'HFS+'; // kHFSPlusSigWord
-                    $4A48: FileSystem := 'AudioCD';
-                    $4B48: FileSystem := 'UFS';
-                    $4E4A: FileSystem := 'NFS';
-                    $D2D7: FileSystem := 'MFS'; // old flat file system
-                  end;
-                end;
-                IsMediaAvailable:= True;
-                IsMediaEjectable:= False;
-                IsMediaRemovable:= False;
-                IsMounted:= True;
-                AutoMount:= True;
-              end;
-              Result.Add(Drive);
-              //---------------------------------------------------------------
-              end;
-          Inc(volumeIndex);
-        end;
-    end; // while
-end;
 {$ELSEIF DEFINED(LINUX)}
   function CheckMountEntry(MountEntry: PMountEntry): Boolean;
   begin
@@ -974,6 +854,18 @@ end;
       Result := dtNetwork
     else if FSType = 'cifs' then
       Result := dtNetwork
+{$IF DEFINED(DARWIN)}
+    else if FSType = 'hfs' then
+      Result := dtHardDisk
+    else if FSType = 'ntfs' then
+      Result := dtHardDisk
+    else if FSType = 'msdos' then
+      Result := dtHardDisk
+    else if FSType = 'cd9660' then
+      Result := dtOptical
+    else if FSType = 'cddafs' then
+      Result := dtOptical
+{$ENDIF}
     // using device name
     else if AnsiStartsStr('/dev/ad', DeviceId) then
       Result := dtHardDisk
@@ -1022,8 +914,8 @@ begin
   begin
     dtype := GetDriveTypeFromDeviceOrFSType(fstab^.fs_spec, fstab^.fs_vfstype);
 
-    // only add known drive types
-    if dtype = dtUnknown then
+    // only add known drive types and skip root directory
+    if (dtype = dtUnknown) or (fstab^.fs_file = PathDelim) then
     begin
       fstab := getfsent();
       Continue;
@@ -1035,10 +927,7 @@ begin
     with drive^ do
     begin
       Path := SysToUTF8(fstab^.fs_file);
-      if Path = '/' then
-        DisplayName := Path
-      else
-        DisplayName := ExtractFileName(Path);
+      DisplayName := ExtractFileName(Path);
       DriveLabel := EmptyStr;
       FileSystem := fstab^.fs_vfstype;
       DeviceId := fstab^.fs_spec;
@@ -1079,10 +968,17 @@ begin
     if found then
       continue;
 
-    dtype := GetDriveTypeFromDeviceOrFSType(fs.mnfromname, fs.fstypename);
+    dtype := GetDriveTypeFromDeviceOrFSType(
+                                            {$IF DEFINED(DARWIN)}
+                                            fs.mntfromname
+                                            {$ELSE}
+                                            fs.mnfromname
+                                            {$ENDIF},
+                                            fs.fstypename
+                                            );
 
-    // only add known drive types
-    if dtype = dtUnknown then
+    // only add known drive types and skip root directory
+    if (dtype = dtUnknown) or (fs.mountpoint = PathDelim) then
       Continue;
 
     New(drive);
@@ -1091,13 +987,10 @@ begin
     with drive^ do
     begin
       Path := SysToUTF8(fs.mountpoint);
-      if Path = '/' then
-        DisplayName := Path
-      else
-        DisplayName := ExtractFileName(Path);
+      DisplayName := ExtractFileName(Path);
       DriveLabel := EmptyStr;
       FileSystem := fs.fstypename;
-      DeviceId := fs.mnfromname;
+      DeviceId := {$IF DEFINED(DARWIN)}fs.mntfromname{$ELSE}fs.mnfromname{$ENDIF};
       DriveType := dtype;
       IsMediaAvailable := true;
       IsMediaEjectable := false;

@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2013  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -190,7 +190,7 @@ function MountDrive(Drive: PDrive): Boolean;
 function UnmountDrive(Drive: PDrive): Boolean;
 function EjectDrive(Drive: PDrive): Boolean;
 
-{$IF DEFINED(BSD) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(BSD)}
 const
   MNT_WAIT = 1; // synchronously wait for I/O to complete
   MNT_NOWAIT = 2; // start all I/O, but do not wait for it
@@ -210,7 +210,11 @@ type
   PFSTab = ^TFSTab;
   PStatFS = ^TStatFS;
 
+{$IF DEFINED(DARWIN)}
+function getfsstat(buf: pstatfs; bufsize: cint; flags: cint): cint; cdecl; external libc name 'getfsstat';
+{$ELSE}
 function getfsstat(struct_statfs: PStatFS; const buffsize: int64; const int_flags: integer): integer;
+{$ENDIF}
 function getfsent(): PFSTab; cdecl; external libc name 'getfsent';
 procedure endfsent(); cdecl; external libc name 'endfsent';
 {$ENDIF}
