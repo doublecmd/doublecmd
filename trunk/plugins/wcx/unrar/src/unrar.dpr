@@ -26,9 +26,9 @@ exports
 
 begin
   ModuleHandle := LoadLibrary(_unrar);
-  if ModuleHandle = 0 then
+  if ModuleHandle = NilHandle then
     ModuleHandle := LoadLibrary(GetEnvironmentVariable('COMMANDER_PATH') + PathDelim + _unrar);
-  if ModuleHandle > 0 then
+  if ModuleHandle <> NilHandle then
     begin
       RAROpenArchive := TRAROpenArchive(GetProcAddress(ModuleHandle, 'RAROpenArchive'));
       RAROpenArchiveEx := TRAROpenArchiveEx(GetProcAddress(ModuleHandle, 'RAROpenArchiveEx'));
