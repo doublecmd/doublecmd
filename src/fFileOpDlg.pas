@@ -56,8 +56,8 @@ type
   TfrmFileOp = class(TForm)
     btnCancel: TBitBtn;
     btnPauseStart: TBitBtn;
-    btnViewOperations: TButton;
-    btnMinimizeToPanel: TButton;
+    btnViewOperations: TBitBtn;
+    btnMinimizeToPanel: TBitBtn;
     lblCurrentOperationText: TLabel;
     lblEstimated: TLabel;
     lblFileNameFrom: TLabel;
@@ -1096,4 +1096,4 @@ initialization
 finalization
   Finalize;
 
-end.
+end.
