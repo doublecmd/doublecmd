@@ -256,9 +256,9 @@ type
     ActivePlugin:Integer;
     //---------------------
     function CheckPlugins(const sFileName: UTF8String; Force: boolean=false):boolean;
-    Function CheckGraphics(const sFileName:String):Boolean;
+    function CheckGraphics(const sFileName:String):Boolean;
+    function LoadGraphics(const sFileName:String): Boolean;
     procedure AdjustImageSize;
-    procedure LoadGraphics(const sFileName:String);
     procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
     procedure MakeTextEncodingsMenu;
     procedure ActivatePanel(Panel: TPanel);
@@ -402,6 +402,12 @@ begin
   FLastSearchPos := -1;
   Caption := aFileName;
 
+  if bQuickView then
+  begin
+    iActiveFile := 0;
+    FileList.Text := aFileName;
+  end;
+
   // Clear text on status bar.
   for i := 0 to Status.Panels.Count - 1 do
     Status.Panels[i].Text := '';
@@ -415,17 +421,10 @@ begin
       end
     else
       begin
-        bPlugin:= CheckPlugins(aFileName);
-        if bPlugin then
-          begin
-            Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
-            ActivatePanel(pnlLister);
-          end
-        else if CheckGraphics(aFileName) then
-          begin
-            LoadGraphics(aFileName);
-            ActivatePanel(pnlImage);
-          end
+        if CheckPlugins(aFileName) then
+          ActivatePanel(pnlLister)
+        else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
+          ActivatePanel(pnlImage)
         else
           begin
             ViewerControl.FileName := aFileName;
@@ -433,7 +432,6 @@ begin
           end;
 
         Status.Panels[sbpFileName].Text:= aFileName;
-        Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
       end;
   finally
     Screen.Cursor:= crDefault;
@@ -1674,8 +1672,13 @@ begin
   if CheckGraphics(FileList.Strings[iActiveFile]) then
     begin
       ViewerControl.FileName := ''; // unload current file if any is loaded
-      LoadGraphics(FileList.Strings[iActiveFile]);
-      ActivatePanel(pnlImage);
+      if LoadGraphics(FileList.Strings[iActiveFile]) then
+        ActivatePanel(pnlImage)
+      else
+        begin
+          ViewerControl.FileName := FileList.Strings[iActiveFile];
+          ActivatePanel(pnlText);
+        end;
     end;
 end;
 
@@ -1883,7 +1886,7 @@ begin
   ImgEdit:= True;
 end;
 
-procedure TfrmViewer.LoadGraphics(const sFileName:String);
+function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
 var
   sExt: String;
   fsFileStream: TFileStreamEx = nil;
@@ -1910,16 +1913,13 @@ begin
           btnGifToBmp.Visible:=false;
           btnNextGifFrame.Visible:=false;
           btnPrevGifFrame.Visible:=false;
-        except
+        finally
           FreeAndNil(fsFileStream);
-          ReopenAsTextIfNeeded; // open as text
-          Exit;
         end;
         miStretch.Checked:= not miStretch.Checked;
         miStretchClick(nil);
-      finally
-        if Assigned(fsFileStream) then
-          FreeAndNil(fsFileStream);
+      except
+        Exit(False);
       end;
     end
   else
@@ -1942,8 +1942,7 @@ begin
         btnNextGifFrame.Visible:=true;
         btnPrevGifFrame.Visible:=true;
       except
-        ReopenAsTextIfNeeded; // open as text
-        Exit;
+        Exit(False);
       end;
     end;
   ImgEdit:= False;
@@ -2096,6 +2095,7 @@ begin
 
   if Panel = pnlLister then
   begin
+    Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
   end
   else if Panel = pnlText then
   begin

@@ -391,11 +391,10 @@ begin
   Result:= False;
   Picture := TPicture.Create;
   try
-    Picture.LoadFromFile(AIconFileName);
-    //Picture.Graphic.Transparent := True;
-
     ABitmap := Graphics.TBitmap.Create;
     try
+      Picture.LoadFromFile(AIconFileName);
+      //Picture.Graphic.Transparent := True;
       ABitmap.Assign(Picture.Bitmap);
 
       // if unsupported BitsPerPixel then exit
@@ -491,28 +490,28 @@ begin
         end
         else // Try loading the standard way.
         {$ELSE}
-        if not LoadBitmapFromFile(sFileName, bmStandartBitmap) then
-          Exit;
+          LoadBitmapFromFile(sFileName, bmStandartBitmap);
         {$ENDIF}
-      end
-      else // get file icon by ext
-        begin
-          if mbFileSystemEntryExists(sFileName) then
-            begin
-              AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
-              try
-                iIndex := GetIconByFile(AFile, True, True, sim_all_and_exe, False);
-                bmStandartBitmap := GetBitmap(iIndex);
-              finally
-                FreeAndNil(AFile);
-              end;
-            end
-          else  // file not found
-            begin
-              Exit(nil);
-            end;
-        end;
+      end;
     end;
+
+  if not Assigned(bmStandartBitmap) then // get file icon by ext
+  begin
+    if mbFileSystemEntryExists(sFileName) then
+      begin
+        AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
+        try
+          iIndex := GetIconByFile(AFile, True, True, sim_all_and_exe, False);
+          bmStandartBitmap := GetBitmap(iIndex);
+        finally
+          FreeAndNil(AFile);
+        end;
+      end
+    else  // file not found
+      begin
+        bmStandartBitmap := GetBitmap(FiDefaultIconID);
+      end;
+  end;
 
   if Stretch and Assigned(bmStandartBitmap) then
     Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
