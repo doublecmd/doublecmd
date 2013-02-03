@@ -511,8 +511,6 @@ begin
 
   FBitmapList:= TBitmapList.Create(True);
   FThumbnailManager:= TThumbnailManager.Create(gBackColor);
-
-  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 procedure TThumbFileView.AfterChangePath;
@@ -659,6 +657,8 @@ begin
     // Clear thumbnail image index
     for I := 0 to FAllDisplayFiles.Count - 1 do
       FAllDisplayFiles[I].Tag:= -1;
+    // Load thumbnails
+    Notify([fvnVisibleFilePropertiesChanged]);
   end;
 end;
 
