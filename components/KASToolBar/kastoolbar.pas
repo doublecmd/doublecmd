@@ -33,7 +33,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, ComCtrls,
   Graphics, Dialogs, ExtCtrls, Buttons, FileUtil, Menus,
-  DCXmlConfig, KASToolItems;
+  DCXmlConfig, KASToolItems, LCLVersion;
 
 type
   TOnToolButtonClick = procedure (Sender: TObject) of object;
@@ -89,7 +89,9 @@ type
     FToolItems: TKASToolBarItems;
     FToolPopupMenu: TPopupMenu;
     FOwnsToolItems: Boolean;
+{$if lcl_fullversion < 1010000}
     FUpdateCount: Integer;
+{$endif}
     FOnToolButtonClick: TOnToolButtonClick;
     FOnToolButtonMouseDown: TOnToolButtonMouseUpDown;
     FOnToolButtonMouseUp: TOnToolButtonMouseUpDown;
@@ -899,7 +901,9 @@ end;
 
 procedure TKASToolBar.BeginUpdate;
 begin
+{$if lcl_fullversion < 1010000}
   Inc(FUpdateCount);
+{$endif}
   inherited BeginUpdate;
   DisableAutoSizing;
 end;
@@ -908,7 +912,9 @@ procedure TKASToolBar.EndUpdate;
 begin
   EnableAutoSizing;
   inherited EndUpdate;
+{$if lcl_fullversion < 1010000}
   Dec(FUpdateCount);
+{$endif}
   if (FUpdateCount = 0) and FResizeButtonsNeeded then
     ResizeButtons;
 end;
