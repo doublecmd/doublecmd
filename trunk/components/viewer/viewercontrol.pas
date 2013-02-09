@@ -31,7 +31,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2012 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2013 Alexander Koblov (alexx2000@mail.ru)
 
 
    TODO:
@@ -1450,7 +1450,17 @@ begin
   if FUpdateScrollBarPos then
   begin
     if FScrollBarHorz.Position <> FHScrollBarPosition then
+    begin
+      // Workaround for bug: http://bugs.freepascal.org/view.php?id=23815
+      {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 1010000)}
+      FScrollBarHorz.OnScroll := nil;
       FScrollBarHorz.Position := FHScrollBarPosition;
+      Application.ProcessMessages; // Skip message
+      FScrollBarHorz.OnScroll := @ScrollBarHorzScroll;
+      {$ELSE}
+      FScrollBarHorz.Position := FHScrollBarPosition;
+      {$ENDIF}
+    end;
   end;
   // else the scrollbar position will be updated in ScrollBarVertScroll
   Invalidate;
@@ -1496,7 +1506,17 @@ begin
   if FUpdateScrollBarPos then
   begin
     if FScrollBarVert.Position <> FScrollBarPosition then
+    begin
+      // Workaround for bug: http://bugs.freepascal.org/view.php?id=23815
+      {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 1010000)}
+      FScrollBarVert.OnScroll := nil;
       FScrollBarVert.Position := FScrollBarPosition;
+      Application.ProcessMessages; // Skip message
+      FScrollBarVert.OnScroll := @ScrollBarVertScroll;
+      {$ELSE}
+      FScrollBarVert.Position := FScrollBarPosition;
+      {$ENDIF}
+    end;
   end;
   // else the scrollbar position will be updated in ScrollBarVertScroll
 end;
