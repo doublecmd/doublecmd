@@ -733,27 +733,32 @@ begin
 end;
 
 procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
+
+  procedure OpenTab(const aFullPath: string);
+  var
+    NewPage: TFileViewPage;
+  begin
+    NewPage := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
+    NewPage.FileView.CurrentPath := aFullPath;
+    if tb_open_new_in_foreground in gDirTabOptions then
+      NewPage.MakeActive;
+  end;
+
 var
-  NewPage: TFileViewPage;
   aFile: TFile;
 begin
-  with FrmMain do
-  begin
-    aFile := ActiveFrame.CloneActiveFile;
-    if Assigned(aFile) then
-    try
-      if aFile.IsNameValid and
-         (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-      begin
-        NewPage := ActiveNotebook.NewPage(ActiveFrame);
-        NewPage.FileView.CurrentPath := aFile.FullPath;
-        if tb_open_new_in_foreground in gDirTabOptions then
-          NewPage.MakeActive;
-      end;
-    finally
-      FreeAndNil(aFile);
-    end;
-  end;
+  aFile := FrmMain.ActiveFrame.CloneActiveFile;
+  if Assigned(aFile) then
+  try
+    if aFile.IsNameValid and (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+      OpenTab(aFile.FullPath)
+    else
+      OpenTab(FrmMain.ActiveFrame.CurrentPath);
+  finally
+    FreeAndNil(aFile);
+  end
+  else
+    OpenTab(FrmMain.ActiveFrame.CurrentPath);
 end;
 
 procedure TMainCommands.cm_TargetEqualSource(const Params: array of string);
