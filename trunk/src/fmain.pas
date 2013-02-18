@@ -162,6 +162,7 @@ type
     dskLeft: TKASToolBar;
     dskRight: TKASToolBar;
     edtCommand: TComboBoxWithDelItems;
+    imgLstActions: TImageList;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
@@ -534,6 +535,7 @@ type
 
     procedure CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
+    procedure LoadActionIcons;
     procedure TypeInCommandLine(Str: String);
     procedure AddVirtualDriveButton(dskPanel: TKASToolBar);
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
@@ -2239,6 +2241,48 @@ constructor TfrmMain.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FCommands := TMainCommands.Create(Self, actionLst);
+
+  LoadActionIcons();
+end;
+
+procedure TfrmMain.LoadActionIcons();
+var
+  I: Integer;
+  imgIndex: Integer;
+  iconsDir: String;
+  fileName: String;
+  iconImg: TPicture;
+  actionName: TComponentName;
+begin
+  // Temporarily while feature is not implemented
+  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=11
+  iconsDir := gpPixmapPath + PathDelim + 'dctheme\16x16\actions';
+  if not mbDirectoryExists(iconsDir) then Exit;
+
+  iconImg := TPicture.Create;
+
+  actionLst.Images := imgLstActions;
+  pmTabMenu.Images := imgLstActions;
+  mnuMain.Images := imgLstActions;
+
+  for I:= 0 to actionLst.ActionCount - 1 do
+  begin
+    actionName := UTF8LowerCase(actionLst.Actions[I].Name);
+    fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
+    if mbFileExists(fileName) then
+    try
+      iconImg.LoadFromFile(fileName);
+      imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
+      if imgIndex >= 0 then
+      begin
+         TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
+      end;
+    except
+      // Skip
+    end;
+  end;
+
+  FreeAndNil(iconImg);
 end;
 
 procedure TfrmMain.CreateDefaultToolbar;

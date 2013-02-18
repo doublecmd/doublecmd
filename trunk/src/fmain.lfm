@@ -3201,7 +3201,11 @@ object frmMain: TfrmMain
     Enabled = False
     Interval = 100
     OnTimer = AllProgressOnUpdateTimer
-    left = 96
-    top = 13
+    left = 704
+    top = 152
+  end
+  object imgLstActions: TImageList
+    left = 24
+    top = 216
   end
 end
