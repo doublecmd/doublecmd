@@ -98,6 +98,7 @@ const
     'Double Commander uses icons from:' + LineEnding +
     '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)' + LineEnding +
     '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)' + LineEnding +
+    '- Farm-Fresh Web Icons (http://www.fatcow.com/free-icons)' + LineEnding +
     '- Oxygen icon theme (http://oxygen-icons.org)' + LineEnding + LineEnding +
     'Big thanks to Lazarus and Free Pascal Team!';
 
