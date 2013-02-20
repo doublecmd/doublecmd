@@ -94,7 +94,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 31
-      Width = 29
+      Width = 31
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = 'A&ll'
@@ -109,7 +109,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 54
-      Width = 113
+      Width = 115
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = 'Only &standard icons'
@@ -122,7 +122,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 77
-      Width = 58
+      Width = 60
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = '&No icons'
@@ -135,7 +135,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 8
-      Width = 169
+      Width = 171
       BorderSpacing.Left = 10
       Caption = 'All associated + &EXE/LNK (slow)'
       TabOrder = 0
@@ -147,7 +147,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 102
-      Width = 177
+      Width = 179
       BorderSpacing.Left = 10
       BorderSpacing.Top = 8
       Caption = 'Show o&verlay icons, e.g. for links'
@@ -194,11 +194,63 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 17
       Top = 8
-      Width = 248
+      Width = 250
       BorderSpacing.Left = 10
       Caption = 'For the following &paths and their subdirectories:'
       OnChange = cbIconsExcludeChange
       TabOrder = 0
+    end
+  end
+  object gbIconsInMenus: TGroupBox[3]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbIconsSize
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 55
+    Top = 330
+    Width = 466
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Icons in menus'
+    ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 8
+    ClientHeight = 37
+    ClientWidth = 462
+    TabOrder = 3
+    object cbIconsInMenus: TCheckBox
+      AnchorSideLeft.Control = gbIconsInMenus
+      AnchorSideTop.Control = cbIconsInMenusSize
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 17
+      Top = 10
+      Width = 172
+      Caption = 'Show icons for actions in &menus'
+      TabOrder = 0
+    end
+    object cbIconsInMenusSize: TComboBox
+      AnchorSideTop.Control = gbIconsInMenus
+      AnchorSideRight.Control = gbIconsInMenus
+      AnchorSideRight.Side = asrBottom
+      Left = 321
+      Height = 21
+      Top = 8
+      Width = 131
+      Anchors = [akTop, akRight]
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        '16x16'
+        '22x22'
+        '32x32'
+      )
+      OnChange = cbIconsSizeChange
+      Style = csDropDownList
+      TabOrder = 1
+      Text = '16x16'
     end
   end
 end
