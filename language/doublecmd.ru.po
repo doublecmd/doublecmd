@@ -2,13 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-07-03 00:12+0400\n"
+"PO-Revision-Date: 2013-02-20 19:20+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Russian\n"
+"Language: ru\n"
+"X-Generator: Poedit 1.5.5\n"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -263,7 +264,8 @@ msgstr "Р&езервировать место"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr "Что делать, когда не удается установить время файла, его атрибуты и т.д."
+msgstr ""
+"Что делать, когда не удается установить время файла, его атрибуты и т.д."
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
@@ -1806,8 +1808,12 @@ msgid "Sa&ve with \"Start in directory\""
 msgstr "Сох&ранить с \"Начинать с каталога\""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr "При нажатии сохраняется значение \"Начинать с каталога\". Используйте, если хотите начинать поиск только с определенного каталога"
+msgid ""
+"If saved then \"Start in directory\" will be restored when loading template. "
+"Use it if you want to fix searching to a certain directory"
+msgstr ""
+"При нажатии сохраняется значение \"Начинать с каталога\". Используйте, если "
+"хотите начинать поиск только с определенного каталога"
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -1906,12 +1912,19 @@ msgid "&Use search plugin:"
 msgstr "&Использовать поисковый плагин:"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
-msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr "Введите имена каталогов, которые должны быть исключены из поиска, разделённых символом \";\""
+msgid ""
+"Enter directories names that should be excluded from search separated with "
+"\";\""
+msgstr ""
+"Введите имена каталогов, которые должны быть исключены из поиска, "
+"разделённых символом \";\""
 
 #: tfrmfinddlg.cmbexcludefiles.hint
-msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr "Введите имена файлов, которые должны быть исключены из поиска, разделённых символом \";\""
+msgid ""
+"Enter files names that should be excluded from search separated with \";\""
+msgstr ""
+"Введите имена файлов, которые должны быть исключены из поиска, разделённых "
+"символом \";\""
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
@@ -3579,7 +3592,8 @@ msgid "Options"
 msgstr "Настройка"
 
 #: tfrmoptions.lblemptyeditor.caption
-msgid "Please select one of the subpages, this page does not contain any settings."
+msgid ""
+"Please select one of the subpages, this page does not contain any settings."
 msgstr "Выберите одну из подстраниц, эта страница не содержит никаких настроек"
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
@@ -3734,8 +3748,10 @@ msgid "A&llow only one copy of DC at a time"
 msgstr "&Не запускать более одной копии DC"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
-msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr "Введите один или несколько дисков, точек монтирования, разделяемые \";\""
+msgid ""
+"Here you can enter one or more drives or mount points, separated by \";\"."
+msgstr ""
+"Введите один или несколько дисков, точек монтирования, разделяемые \";\""
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -4223,7 +4239,9 @@ msgstr "Показывать систе&мные файлы"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgid ""
+"&When selecting files with <SPACEBAR>, move down to next file (as with "
+"<INSERT>)"
 msgstr "При в&ыделении файлов пробелом перемещать курсор на следующий файл"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
@@ -4422,6 +4440,15 @@ msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
 msgstr "Для следующих &каталогов и их подкаталогов:"
 
+#: tfrmoptionsicons.cbiconsinmenus.caption
+msgid "Show icons for actions in &menus"
+msgstr "Показывать значки для &команд в меню"
+
+#: tfrmoptionsicons.cbiconsinmenussize.text
+msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
+msgid "16x16"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
@@ -4435,6 +4462,10 @@ msgstr ""
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Отключить загрузку специальных иконок"
+
+#: tfrmoptionsicons.gbiconsinmenus.caption
+msgid "Icons in menus"
+msgstr "Значки в меню"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
@@ -4685,7 +4716,8 @@ msgstr "&Удалить эскизы для отсутствующих файл�
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"
-msgstr "По&казывать не критические сообщения об ошибках (с одной кнопкой \"ОК\")"
+msgstr ""
+"По&казывать не критические сообщения об ошибках (с одной кнопкой \"ОК\")"
 
 #: tfrmoptionsmisc.chkthumbsave.caption
 msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
@@ -4765,8 +4797,12 @@ msgstr "Параметр&ы"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Поз&воляют использовать в поиске альтернативные алгоритмы или внешние инструменты (например \"locate\", и т.п.)"
+msgid ""
+"Searc&h plugins allow to use alternative search algorithms or external tools "
+"(like \"locate\", etc.)"
+msgstr ""
+"Поз&воляют использовать в поиске альтернативные алгоритмы или внешние "
+"инструменты (например \"locate\", и т.п.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
@@ -4775,18 +4811,30 @@ msgstr "Позволяют р&аботать с архивами."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Позвол&яют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
+msgid ""
+"Content plu&gins allow to display extended file details like mp3 tags or "
+"image attributes in file lists, or use them in search and multi-rename tool"
+msgstr ""
+"Позвол&яют использовать расширенные сведения о файлах (теги mp3, атрибуты "
+"изображений и т.д.) в панелях или при поиске/переименовании."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
-msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Позволя&ют обращаться к дискам, недоступным из ОС или к внешним устройствам, типа Palm/PocketPC, и т.д."
+msgid ""
+"Fi&le system plugins allow access to disks inaccessible by operating system "
+"or to external devices like Palm/PocketPC."
+msgstr ""
+"Позволя&ют обращаться к дискам, недоступным из ОС или к внешним устройствам, "
+"типа Palm/PocketPC, и т.д."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Позволяют ото&бражать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
+msgid ""
+"Vie&wer plugins allow to display file formats like images, spreadsheets, "
+"databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr ""
+"Позволяют ото&бражать во внутреннем просмотрщике (F3, Ctrl+Q) файлы "
+"различных форматов, таких как рисунки, таблицы, базы данных и т.д."
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -4976,7 +5024,9 @@ msgid "&Flat buttons"
 msgstr "&Плоские кнопки"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
-msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
+msgid ""
+"Enter command parameters, each in a separate line. Press F1 to see help on "
+"parameters."
 msgstr "Параметры команды находятся каждая на отдельной строке. F1 - помощь"
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
@@ -6984,8 +7034,12 @@ msgid "File operations active"
 msgstr "Активные файловые операции"
 
 #: ulng.rsmsgfileoperationsactivelong
-msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
-msgstr "Некоторые операции еще не завершены. Закрытие Double Commander может привести к потере данных."
+msgid ""
+"Some file operations have not yet finished. Closing Double Commander may "
+"result in data loss."
+msgstr ""
+"Некоторые операции еще не завершены. Закрытие Double Commander может "
+"привести к потере данных."
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -7254,7 +7308,9 @@ msgstr "Стереть выбранный \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
-msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
+msgid ""
+"No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word "
+"Uppercase;"
 msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С прописной;Каждое Слово С Прописной;"
 
 #: ulng.rsoperaborted
@@ -7576,7 +7632,9 @@ msgid "float;B;K;M;G"
 msgstr "плавающий;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgid ""
+"Shortcut %s for cm_Delete will be registered, so it can be used to reverse "
+"this setting."
 msgstr ""
 
 #: ulng.rsopthotkeysaddhotkey
@@ -7600,11 +7658,15 @@ msgid "Command"
 msgstr "Команда"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
-msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgid ""
+"Shortcut %s for cm_Delete has a parameter that overrides this setting. Do "
+"you want to change this parameter to use the global setting?"
 msgstr ""
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
-msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgid ""
+"Shortcut %s for cm_Delete needs to have a parameter changed to match "
+"shortcut %s. Do you want to change it?"
 msgstr ""
 
 #: ulng.rsopthotkeysdescription
@@ -7642,11 +7704,15 @@ msgid "Set shortcut to delete file"
 msgstr "Установить сочетание для удаления файла"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgid ""
+"For this setting to work with shortcut %s, shortcut %s must be assigned to "
+"cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr ""
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
-msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgid ""
+"Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with "
+"reversed Shift cannot be assigned. This setting might not work."
 msgstr ""
 
 #: ulng.rsopthotkeysshortcutused
@@ -7825,8 +7891,12 @@ msgid "Left button;Right button;"
 msgstr "Левая клавиша;Правая клавиша;"
 
 #: ulng.rsoptnewfilesposition
-msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr "сверху списка файлов;после каталогов (если каталоги отсортированы перед файлами);в отсортированной позиции;внизу списка файлов"
+msgid ""
+"at the top of the file list;after directories (if directories are sorted "
+"before files);at sorted position;at the bottom of the file list"
+msgstr ""
+"сверху списка файлов;после каталогов (если каталоги отсортированы перед "
+"файлами);в отсортированной позиции;внизу списка файлов"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -7865,16 +7935,26 @@ msgid "&Hide filter panel when not focused"
 msgstr "Ск&рывать панель фильтра, когда она не в фокусе"
 
 #: ulng.rsoptsortcasesens
-msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr "не чувствителен к регистру;соответственно локальным установкам (аАбБгГ);сначала верхний регистр, потом нижний (АБВабв)"
+msgid ""
+"not case sensitive;according to locale settings (aAbBcC);first upper then "
+"lower case (ABCabc)"
+msgstr ""
+"не чувствителен к регистру;соответственно локальным установкам (аАбБгГ);"
+"сначала верхний регистр, потом нижний (АБВабв)"
 
 #: ulng.rsoptsortfoldermode
-msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr "сортировать по имени и показывать первым;сортировать как файлы и показывать первым;сортировать как файлы"
+msgid ""
+"sort by name and show first;sort like files and show first;sort like files"
+msgstr ""
+"сортировать по имени и показывать первым;сортировать как файлы и показывать "
+"первым;сортировать как файлы"
 
 #: ulng.rsoptsortmethod
-msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr "Алфавитная, с учётом особенностей языка;Естественная сортировка: алфавитно-числовая"
+msgid ""
+"Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr ""
+"Алфавитная, с учётом особенностей языка;Естественная сортировка: алфавитно-"
+"числовая"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -7885,8 +7965,12 @@ msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "Разд&елитель;Внутрення&я команда;Вне&шняя команда;Мен&ю"
 
 #: ulng.rsoptupdatedfilesposition
-msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr "не менять позицию;использовать те же установки, как для новых файлов;в отсортированной позиции"
+msgid ""
+"don't change position;use the same setting as for new files;to sorted "
+"position"
+msgstr ""
+"не менять позицию;использовать те же установки, как для новых файлов;в "
+"отсортированной позиции"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -8085,8 +8169,14 @@ msgid "Viewer"
 msgstr "Внутренняя программа просмотра"
 
 #: ulng.rsunhandledexceptionmessage
-msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Пожалуйста сообщите о данной ошибке на багтрекер с описанием того что вы делали и следующим файлом:%sНажмите %s для продолжения работы или %s для выхода из программы."
+msgid ""
+"Please report this error to the bug tracker with a description of what you "
+"were doing and the following file:%sPress %s to continue or %s to abort the "
+"program."
+msgstr ""
+"Пожалуйста сообщите о данной ошибке на багтрекер с описанием того что вы "
+"делали и следующим файлом:%sНажмите %s для продолжения работы или %s для "
+"выхода из программы."
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
@@ -8105,4 +8195,3 @@ msgstr "Кодировка"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не найден!"
-

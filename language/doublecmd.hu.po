@@ -4819,6 +4819,15 @@ msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
 msgstr "&Az alábbi útvonalakhoz és alkönyvtáraikhoz :"
 
+#: tfrmoptionsicons.cbiconsinmenus.caption
+msgid "Show icons for actions in &menus"
+msgstr ""
+
+#: tfrmoptionsicons.cbiconsinmenussize.text
+msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
+msgid "16x16"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
@@ -4832,6 +4841,10 @@ msgstr ""
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Speciális ikonok kikapcsolása"
+
+#: tfrmoptionsicons.gbiconsinmenus.caption
+msgid "Icons in menus"
+msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
