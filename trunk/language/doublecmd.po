@@ -4362,6 +4362,15 @@ msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
 msgstr ""
 
+#: tfrmoptionsicons.cbiconsinmenus.caption
+msgid "Show icons for actions in &menus"
+msgstr ""
+
+#: tfrmoptionsicons.cbiconsinmenussize.text
+msgctxt "TFRMOPTIONSICONS.CBICONSINMENUSSIZE.TEXT"
+msgid "16x16"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
@@ -4374,6 +4383,10 @@ msgstr ""
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
+msgstr ""
+
+#: tfrmoptionsicons.gbiconsinmenus.caption
+msgid "Icons in menus"
 msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
