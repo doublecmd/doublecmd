@@ -37,10 +37,13 @@ type
     cbIconsShowOverlay: TCheckBox;
     cbIconsSize: TComboBox;
     cbIconsExclude: TCheckBox;
+    cbIconsInMenusSize: TComboBox;
+    cbIconsInMenus: TCheckBox;
     edtIconsExcludeDirs: TEdit;
     gbIconsSize: TGroupBox;
     gbShowIconsMode: TGroupBox;
     gbDisableSpecialIcons: TGroupBox;
+    gbIconsInMenus: TGroupBox;
     imgIconExample: TImage;
     pnlIconExample: TPanel;
     rbIconsShowAll: TRadioButton;
@@ -113,9 +116,11 @@ begin
   end;
   cbIconsShowOverlay.Checked:= gIconOverlays;
   cbIconsExclude.Checked:= gIconsExclude;
+  cbIconsInMenus.Checked := gIconsInMenus;
   edtIconsExcludeDirs.Text:= gIconsExcludeDirs;
   edtIconsExcludeDirs.Enabled:= gIconsExclude;
   cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
+  cbIconsInMenusSize.Text := IntToStr(gIconsInMenusSizeNew) + 'x' + IntToStr(gIconsInMenusSizeNew);
   cbIconsSizeChange(nil);
 end;
 
@@ -142,8 +147,15 @@ begin
   else SelectedIconsSize := gIconsSizeNew;
   end;
 
+  case cbIconsInMenusSize.ItemIndex of
+    0: gIconsInMenusSizeNew := 16;
+    1: gIconsInMenusSizeNew := 22;
+    2: gIconsInMenusSizeNew := 32;
+  end;
+
   if (gIconsSizeNew <> SelectedIconsSize) or
-     (gShowIconsNew <> SelectedShowIcons) then
+     (gShowIconsNew <> SelectedShowIcons) or
+     (gIconsInMenusSizeNew <> gIconsInMenusSize) then
   begin
     Include(Result, oesfNeedsRestart);
   end;
@@ -153,6 +165,7 @@ begin
   gIconOverlays := cbIconsShowOverlay.Checked;
   gIconsExclude := cbIconsExclude.Checked;
   gIconsExcludeDirs := edtIconsExcludeDirs.Text;
+  gIconsInMenus := cbIconsInMenus.Checked;
 end;
 
 end.

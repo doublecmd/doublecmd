@@ -141,7 +141,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLVersion, Toolwin,
+  LCLProc, LCLVersion, Toolwin,
   DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils, uPixMapManager,
   uKASToolItemsExtended,
   fMain;
@@ -678,6 +678,7 @@ begin
   Command := cbInternalCommand.Items[cbInternalCommand.ItemIndex];
   edtToolTip.Text := FFormCommands.GetCommandCaption(Command, cctLong);
   edtInternalParameters.HelpKeyword := '/cmds.html#' + Command;
+  edtIconFileName.Text := UTF8LowerCase(Command);
 end;
 
 procedure TfrmOptionsToolbar.CloseToolbarsBelowCurrentButton;

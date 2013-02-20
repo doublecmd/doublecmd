@@ -239,6 +239,9 @@ var
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
+  gIconsInMenus: Boolean;
+  gIconsInMenusSize,
+  gIconsInMenusSizeNew: Integer;
 
   { Keys page }
   gKeyTyping: array[TKeyTypingModifier] of TKeyTypingAction;
@@ -1085,6 +1088,9 @@ begin
   gIconsExclude := False;
   gIconsExcludeDirs := EmptyStr;
   gCustomDriveIcons := False;
+  gIconsInMenus := False;
+  gIconsInMenusSize := 16;
+  gIconsInMenusSizeNew := gIconsInMenusSize;
 
   { Ignore list page }
   gIgnoreListFileEnabled := False;
@@ -1296,6 +1302,7 @@ begin
   // Set secondary variables for options that need restart.
   gShowIconsNew := gShowIcons;
   gIconsSizeNew := gIconsSize;
+  gIconsInMenusSizeNew := gIconsInMenusSize;
 
   CopySettingsFiles;
 
@@ -2094,6 +2101,8 @@ begin
       gIconsExclude := GetValue(Node, 'Exclude', gIconsExclude);
       gIconsExcludeDirs := GetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
       gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
+      gIconsInMenus := GetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
+      gIconsInMenusSize := GetValue(Node, 'ShowInMenus/Size', gIconsInMenusSize);
     end;
 
     { Ignore list page }
@@ -2390,6 +2399,8 @@ begin
     SetValue(Node, 'Exclude', gIconsExclude);
     SetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
     SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
+    SetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
+    SetValue(Node, 'ShowInMenus/Size', gIconsInMenusSizeNew);
 
     { Ignore list page }
     Node := FindNode(Root, 'IgnoreList', True);
