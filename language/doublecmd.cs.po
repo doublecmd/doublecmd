@@ -7741,6 +7741,14 @@ msgstr "Neplatná cesta"
 msgid "Path %s contains forbidden characters."
 msgstr "Cesta %s obsahuje nepovolené znaky."
 
+#: ulng.rsmsginvalidplugin
+msgid "This is not a valid plugin!"
+msgstr ""
+
+#: ulng.rsmsginvalidpluginarchitecture
+msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
+msgstr ""
+
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
 msgstr "Neplatná citace"

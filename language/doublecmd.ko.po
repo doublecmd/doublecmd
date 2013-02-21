@@ -7932,6 +7932,14 @@ msgstr "잘못된 경로"
 msgid "Path %s contains forbidden characters."
 msgstr "경로 %s 는 금지된 문자를 포함하고 있습니다."
 
+#: ulng.rsmsginvalidplugin
+msgid "This is not a valid plugin!"
+msgstr ""
+
+#: ulng.rsmsginvalidpluginarchitecture
+msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
+msgstr ""
+
 #: ulng.rsmsginvalidquoting
 #, fuzzy
 msgid "Invalid quoting"

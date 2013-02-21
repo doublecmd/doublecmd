@@ -7951,6 +7951,14 @@ msgstr "Ungültiger Pfad"
 msgid "Path %s contains forbidden characters."
 msgstr "Pfad %s enthält ungültige Zeichen."
 
+#: ulng.rsmsginvalidplugin
+msgid "This is not a valid plugin!"
+msgstr ""
+
+#: ulng.rsmsginvalidpluginarchitecture
+msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
+msgstr ""
+
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
 msgstr "Ungültiges Zitat"
