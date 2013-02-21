@@ -7618,6 +7618,14 @@ msgstr "Érvénytelen útvonal"
 msgid "Path %s contains forbidden characters."
 msgstr "Az útvonal (%s) tiltott karaktereket tartalmaz"
 
+#: ulng.rsmsginvalidplugin
+msgid "This is not a valid plugin!"
+msgstr ""
+
+#: ulng.rsmsginvalidpluginarchitecture
+msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
+msgstr ""
+
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
 msgstr "Érvénytelen idézet"

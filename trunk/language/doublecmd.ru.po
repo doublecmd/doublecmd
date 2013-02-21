@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-02-20 19:20+0400\n"
+"PO-Revision-Date: 2013-02-21 21:44+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -7076,6 +7076,18 @@ msgstr "Некорректный путь"
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
 msgstr "Путь %s содержит запрещенные симаолы"
+
+#: ulng.rsmsginvalidplugin
+msgid "This is not a valid plugin!"
+msgstr "Этот файл не является корректным плагином!"
+
+#: ulng.rsmsginvalidpluginarchitecture
+msgid ""
+"This plugin is built for Double Commander for %s.%sIt can not work with "
+"Double Commander for %s!"
+msgstr ""
+"Этот плагин собран для Double Commander для %s.%sОн не может работать с "
+"Double Commander для %s!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
