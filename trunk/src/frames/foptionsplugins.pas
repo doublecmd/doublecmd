@@ -272,21 +272,31 @@ end;
 procedure TfrmOptionsPlugins.btnDSXAddClick(Sender: TObject);
 var
   I, J: Integer;
+  sFileName,
   sPluginName : String;
 begin
   dmComData.OpenDialog.Filter := 'Search plugins (*.dsx)|*.dsx';
   if dmComData.OpenDialog.Execute then
-    begin
-      sPluginName := ExtractFileName(dmComData.OpenDialog.FileName);
-      Delete(sPluginName,length(sPluginName)-4,4);
-      I:= tmpDSXPlugins.Add(sPluginName,dmComData.OpenDialog.FileName,'');
+  begin
+    sFileName := dmComData.OpenDialog.FileName;
+    if not CheckPlugin(sFileName) then Exit;
 
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount - stgPlugins.FixedRows;
-      stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
-      stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
+    sPluginName := ExtractOnlyFileName(sFileName);
+    I:= tmpDSXPlugins.Add(sPluginName, sFileName, EmptyStr);
+
+    if not tmpDSXPlugins.LoadModule(sPluginName) then
+    begin
+      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+      tmpDSXPlugins.DeleteItem(I);
+      Exit;
     end;
+
+    stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+    J:= stgPlugins.RowCount - stgPlugins.FixedRows;
+    stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
+    stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
+    stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
+  end;
 end;
 
 procedure TfrmOptionsPlugins.tsDSXShow(Sender: TObject);
