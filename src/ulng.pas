@@ -120,6 +120,8 @@ resourcestring
   rsMsgCanNotCopyMoveItSelf = 'You can not copy/move a file "%s" to itself!';
   rsMsgTabRenameCaption = 'Rename tab';
   rsMsgTabRenamePrompt = 'New tab name:';
+  rsMsgInvalidPlugin = 'This is not a valid plugin!';
+  rsMsgInvalidPluginArchitecture = 'This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!';
   rsMsgErrCreateFileDirectoryExists = 'There already exists a directory named "%s".';
   rsMsgDeletePartiallyCopied = 'Delete the partially copied file ?';
   rsMsgInvalidCommandLine = 'Error in command line';

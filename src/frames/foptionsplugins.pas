@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugins options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2013 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -90,8 +90,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, Dialogs, StrUtils, uLng, uGlobs, uDCUtils, uDebug, uShowMsg, uTypes,
-  fTweakPlugin, dmCommonData, DCStrUtils;
+  LCLProc, Forms, Dialogs, StrUtils, uLng, uGlobs, uDCUtils, uDebug, uShowMsg,
+  uTypes, fTweakPlugin, dmCommonData, DCStrUtils, uDefaultPlugins;
 
 { TfrmOptionsPlugins }
 
@@ -310,62 +310,67 @@ var
   sExt : String;
   sExts : String;
   sExtsTemp : String;
+  sFileName : String;
   sPluginName : String;
   sAlreadyAssignedExts : String;
   WCXmodule : TWCXmodule;
 begin
-  dmComData.OpenDialog.Filter := 'Archive plugins (*.wcx)|*.wcx';
+  dmComData.OpenDialog.Filter := Format('Archive plugins (%s)|%s', [WcxMask, WcxMask]);
   if dmComData.OpenDialog.Execute then
-    begin
-      WCXmodule := TWCXmodule.Create;
-      try
-        if WCXmodule.LoadModule(dmComData.OpenDialog.FileName) then
-          begin
-            iFlags := WCXmodule.GetPluginCapabilities;
-            WCXModule.UnloadModule;
-          end
-        else
-          iFlags := 0;
+  begin
+    sFileName := dmComData.OpenDialog.FileName;
+    if not CheckPlugin(sFileName) then Exit;
 
-        sPluginName := SetCmdDirAsEnvVar(dmComData.OpenDialog.FileName);
-        if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [dmComData.OpenDialog.FileName]), sExts) then
-          begin
-            sExtsTemp := sExts;
-            sExts := '';
-            sAlreadyAssignedExts := '';
-            sExt:= Copy2SpaceDel(sExtsTemp);
-            repeat
-              iPluginIndex:= tmpWCXPlugins.Find(sPluginName, sExt);
-              if iPluginIndex <> -1 then
-                begin
-                  AddStrWithSep(sAlreadyAssignedExts, sExt);
-                end
-              else
-                begin
-                  tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
-                  AddStrWithSep(sExts, sExt);
-                end;
-              sExt:= Copy2SpaceDel(sExtsTemp);
-            until sExt = '';
-
-            if sAlreadyAssignedExts <> '' then
-              MessageDlg(Format(rsOptPluginAlreadyAssigned, [dmComData.OpenDialog.FileName]) +
-                         LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
-
-            if sExts <> '' then
-              begin
-                stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
-                J:= stgPlugins.RowCount-1;
-                stgPlugins.Cells[0, J]:= '+'; // Enabled
-                stgPlugins.Cells[1, J]:= ExtractOnlyFileName(dmComData.OpenDialog.FileName);
-                stgPlugins.Cells[2, J]:= sExts;
-                stgPlugins.Cells[3, J]:= sPluginName;
-              end;
-          end;
-      finally
-        WCXmodule.Free;
+    WCXmodule := TWCXmodule.Create;
+    try
+      if not WCXmodule.LoadModule(sFileName) then
+      begin
+        MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+        Exit;
       end;
+
+      iFlags := WCXmodule.GetPluginCapabilities;
+      WCXModule.UnloadModule;
+
+      sPluginName := SetCmdDirAsEnvVar(sFileName);
+      if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [sFileName]), sExts) then
+      begin
+        sExtsTemp := sExts;
+        sExts := '';
+        sAlreadyAssignedExts := '';
+        sExt:= Copy2SpaceDel(sExtsTemp);
+        repeat
+          iPluginIndex:= tmpWCXPlugins.Find(sPluginName, sExt);
+          if iPluginIndex <> -1 then
+            begin
+              AddStrWithSep(sAlreadyAssignedExts, sExt);
+            end
+          else
+            begin
+              tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
+              AddStrWithSep(sExts, sExt);
+            end;
+          sExt:= Copy2SpaceDel(sExtsTemp);
+        until sExt = '';
+
+        if sAlreadyAssignedExts <> '' then
+          MessageDlg(Format(rsOptPluginAlreadyAssigned, [sFileName]) +
+                     LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
+
+        if sExts <> '' then
+        begin
+          stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
+          J:= stgPlugins.RowCount - 1;
+          stgPlugins.Cells[0, J]:= '+'; // Enabled
+          stgPlugins.Cells[1, J]:= ExtractOnlyFileName(sFileName);
+          stgPlugins.Cells[2, J]:= sExts;
+          stgPlugins.Cells[3, J]:= sPluginName;
+        end;
+      end;
+    finally
+      WCXmodule.Free;
     end;
+  end;
 end;
 
 procedure TfrmOptionsPlugins.tsWCXShow(Sender: TObject);
@@ -423,23 +428,32 @@ end;
 procedure TfrmOptionsPlugins.btnWDXAddClick(Sender: TObject);
 var
   I, J: Integer;
+  sFileName,
   sPluginName : String;
 begin
-  dmComData.OpenDialog.Filter := 'Content plugins (*.wdx; *.lua)|*.wdx;*.lua';
+  dmComData.OpenDialog.Filter := Format('Content plugins (%s;*.lua)|%s;*.lua', [WdxMask, WdxMask]);
   if dmComData.OpenDialog.Execute then
+  begin
+    sFileName := dmComData.OpenDialog.FileName;
+    if not (StrEnds(sFileName, '.lua') or CheckPlugin(sFileName)) then Exit;
+
+    sPluginName := ExtractOnlyFileName(sFileName);
+    I:= tmpWDXPlugins.Add(sPluginName, sFileName, EmptyStr);
+
+    if not tmpWDXPlugins.LoadModule(sPluginName) then
     begin
-      sPluginName := ExtractOnlyFileName(dmComData.OpenDialog.FileName);
-      I:= tmpWDXPlugins.Add(sPluginName, dmComData.OpenDialog.FileName, '');
-
-      tmpWDXPlugins.LoadModule(sPluginName);
-      tmpWDXPlugins.GetWdxModule(sPluginName).DetectStr:=tmpWDXPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
-      stgPlugins.Cells[1, J]:= tmpWDXPlugins.GetWdxModule(I).Name;
-      stgPlugins.Cells[2, J]:= tmpWDXPlugins.GetWdxModule(I).DetectStr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(I).FileName);
+      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+      tmpWDXPlugins.DeleteItem(I);
+      Exit;
     end;
+    tmpWDXPlugins.GetWdxModule(sPluginName).DetectStr:= tmpWDXPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
+
+    stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+    J:= stgPlugins.RowCount - 1;
+    stgPlugins.Cells[1, J]:= tmpWDXPlugins.GetWdxModule(I).Name;
+    stgPlugins.Cells[2, J]:= tmpWDXPlugins.GetWdxModule(I).DetectStr;
+    stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(I).FileName);
+  end;
 end;
 
 procedure TfrmOptionsPlugins.tsWDXShow(Sender: TObject);
@@ -461,48 +475,52 @@ procedure TfrmOptionsPlugins.btnWFXAddClick(Sender: TObject);
 var
   I, J: Integer;
   WfxModule : TWFXmodule;
+  sFileName,
   sPluginName,
   sRootName: UTF8String;
 begin
-  dmComData.OpenDialog.Filter := 'File system plugins (*.wfx)|*.wfx';
+  dmComData.OpenDialog.Filter := Format('File system plugins (%s)|%s', [WfxMask, WfxMask]);
   if dmComData.OpenDialog.Execute then
   begin
+    sFileName:= dmComData.OpenDialog.FileName;
     DCDebug('Dialog executed');
-    WfxModule := TWfxModule.Create;
-    DCDebug('TWFXmodule created');
-    if WfxModule.LoadModule(dmComData.OpenDialog.FileName) then
-     begin
-       DCDebug('WFXModule Loaded');
-       sRootName:= WfxModule.VFSRootName;
-       if sRootName <> EmptyStr then
-        sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(dmComData.OpenDialog.FileName)
-       else
-         begin
-           DCDebug('WFX alternate name');
-           sRootName:= ExtractFileName(dmComData.OpenDialog.FileName);
-           sRootName:= Copy(sRootName, 1, Pos('.', sRootName) - 1);
-           sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(dmComData.OpenDialog.FileName)
-         end;
-     end
-    else
-    begin
-      DCDebug('Module not loaded');
-      sPluginName := ExtractFileName(dmComData.OpenDialog.FileName) +'=' + SetCmdDirAsEnvVar(dmComData.OpenDialog.FileName);
-    end;
+    if not CheckPlugin(sFileName) then Exit;
 
-  DCDebug('WFX sPluginName='+sPluginName);
-  I:= tmpWFXPlugins.AddObject(sPluginName, TObject(True));
-  stgPlugins.RowCount:= tmpWFXPlugins.Count + 1;
-  J:= stgPlugins.RowCount-1;
-  stgPlugins.Cells[0, J]:= '+';
-  stgPlugins.Cells[1, J]:= tmpWFXPlugins.Name[I];
-  stgPlugins.Cells[2, J]:= EmptyStr;
-  stgPlugins.Cells[3, J]:= tmpWFXPlugins.FileName[I];
-  DCDebug('WFX Item Added');
-  WFXModule.UnloadModule;
-  DCDebug('WFX Module Unloaded');
-  WFXmodule.Free;
-  DCDebug('WFX Freed');
+    WfxModule:= TWfxModule.Create;
+    DCDebug('TWFXmodule created');
+    try
+      if not WfxModule.LoadModule(sFileName) then
+      begin
+        DCDebug('Module not loaded');
+        MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+        Exit;
+      end;
+
+      DCDebug('WFXModule Loaded');
+      sRootName:= WfxModule.VFSRootName;
+      if Length(sRootName) = 0 then
+      begin
+        DCDebug('WFX alternate name');
+        sRootName:= ExtractOnlyFileName(sFileName);
+      end;
+      sPluginName:= sRootName + '=' + SetCmdDirAsEnvVar(sFileName);
+
+      WFXModule.UnloadModule;
+      DCDebug('WFX Module Unloaded');
+
+      DCDebug('WFX sPluginName=' + sPluginName);
+      I:= tmpWFXPlugins.AddObject(sPluginName, TObject(True));
+      stgPlugins.RowCount:= tmpWFXPlugins.Count + 1;
+      J:= stgPlugins.RowCount - 1;
+      stgPlugins.Cells[0, J]:= '+';
+      stgPlugins.Cells[1, J]:= tmpWFXPlugins.Name[I];
+      stgPlugins.Cells[2, J]:= EmptyStr;
+      stgPlugins.Cells[3, J]:= tmpWFXPlugins.FileName[I];
+      DCDebug('WFX Item Added');
+    finally
+      WFXmodule.Free;
+      DCDebug('WFX Freed');
+    end;
   end;
 end;
 
@@ -536,23 +554,32 @@ end;
 procedure TfrmOptionsPlugins.btnWLXAddClick(Sender: TObject);
 var
   I, J: Integer;
+  sFileName,
   sPluginName : String;
 begin
-  dmComData.OpenDialog.Filter := 'Viewer plugins (*.wlx)|*.wlx';
+  dmComData.OpenDialog.Filter:= Format('Viewer plugins (%s)|%s', [WlxMask, WlxMask]);
   if dmComData.OpenDialog.Execute then
+  begin
+    sFileName := dmComData.OpenDialog.FileName;
+    if not CheckPlugin(sFileName) then Exit;
+
+    sPluginName := ExtractOnlyFileName(sFileName);
+    I:= tmpWLXPlugins.Add(sPluginName, sFileName, EmptyStr);
+
+    if not tmpWLXPlugins.LoadModule(sPluginName) then
     begin
-      sPluginName := ExtractOnlyFileName(dmComData.OpenDialog.FileName);
-      I:= tmpWLXPlugins.Add(sPluginName,dmComData.OpenDialog.FileName,'');
-
-      tmpWLXPlugins.LoadModule(sPluginName);
-      tmpWLXPlugins.GetWlxModule(sPluginName).DetectStr:=tmpWLXPlugins.GetWlxModule(sPluginName).CallListGetDetectString;
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
-      stgPlugins.Cells[1, J]:= tmpWLXPlugins.GetWlxModule(I).Name;
-      stgPlugins.Cells[2, J]:= tmpWLXPlugins.GetWlxModule(I).DetectStr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(I).FileName);
+      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+      tmpWLXPlugins.DeleteItem(I);
+      Exit;
     end;
+    tmpWLXPlugins.GetWlxModule(sPluginName).DetectStr:= tmpWLXPlugins.GetWlxModule(sPluginName).CallListGetDetectString;
+
+    stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+    J:= stgPlugins.RowCount - 1;
+    stgPlugins.Cells[1, J]:= tmpWLXPlugins.GetWlxModule(I).Name;
+    stgPlugins.Cells[2, J]:= tmpWLXPlugins.GetWlxModule(I).DetectStr;
+    stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(I).FileName);
+  end;
 end;
 
 procedure TfrmOptionsPlugins.tsWLXShow(Sender: TObject);
@@ -638,4 +665,4 @@ begin
 end;
 
 end.
-
+
