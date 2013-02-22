@@ -58,6 +58,9 @@ var
 begin
   DCDebug('Starting Double Commander');
 
+  // Initialize random number generator
+  Randomize;
+
   {$IF DEFINED(NIGHTLY_BUILD)}
   InitLineInfo;
   AddLineInfoPath(ExtractFileDir(ParamStr(0)));
