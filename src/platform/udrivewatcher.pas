@@ -861,10 +861,18 @@ end;
       Result := dtHardDisk
     else if FSType = 'msdos' then
       Result := dtHardDisk
+    else if FSType = 'exfat' then
+      Result := dtHardDisk
+    else if FSType = 'udf' then
+      Result := dtOptical
     else if FSType = 'cd9660' then
       Result := dtOptical
     else if FSType = 'cddafs' then
       Result := dtOptical
+    else if FSType = 'afpfs' then
+      Result := dtNetwork
+    else if FSType = 'webdav' then
+      Result := dtNetwork
 {$ENDIF}
     // using device name
     else if AnsiStartsStr('/dev/ad', DeviceId) then
