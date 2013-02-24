@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-02-21 21:44+0400\n"
+"PO-Revision-Date: 2013-02-24 17:02+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,7 @@ msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
-msgstr ""
+msgstr "Выбрать шаблон..."
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 msgid "C&heck free space"
@@ -315,7 +315,7 @@ msgstr "Домашняя страница:"
 
 #: tfrmabout.lblhomepageaddress.caption
 msgid "http://doublecmd.sourceforge.net"
-msgstr ""
+msgstr "http://doublecmd.sourceforge.net"
 
 #: tfrmabout.lbllazarusver.caption
 msgid "Lazarus"
@@ -329,7 +329,7 @@ msgstr "Ревизия"
 #: tfrmabout.lbltitle.caption
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
 msgid "Double Commander"
-msgstr ""
+msgstr "Double Commander"
 
 #: tfrmabout.lblversion.caption
 msgid "Version"
@@ -537,7 +537,7 @@ msgstr "О&тмена"
 #: tfrmcopydlg.btncreatespecialqueue.caption
 msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
@@ -1252,7 +1252,6 @@ msgid "C&ase sensitivity"
 msgstr "&Учитывать регистр"
 
 #: tfrmeditsearchreplace.cbsearchfromcursor.caption
-#, fuzzy
 #| msgid "Search &from caret"
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
 msgid "S&earch from caret"
@@ -1294,21 +1293,18 @@ msgid "Direction"
 msgstr "Направление"
 
 #: tfrmextractdlg.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "О&тмена"
 
 #: tfrmextractdlg.btnhelp.caption
-#, fuzzy
 #| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "&Help"
 msgstr "Помощ&ь"
 
 #: tfrmextractdlg.btnok.caption
-#, fuzzy
 #| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "&OK"
@@ -1332,25 +1328,21 @@ msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Распаковать каждый &архив в отдельный каталог (с именем архива)"
 
 #: tfrmextractdlg.cboverwrite.caption
-#, fuzzy
 #| msgid "&Overwrite existing files"
 msgid "O&verwrite existing files"
 msgstr "&Заменять существующие файлы"
 
 #: tfrmextractdlg.lblextractto.caption
-#, fuzzy
 #| msgid "To the directory:"
 msgid "To the &directory:"
 msgstr "В &каталог:"
 
 #: tfrmextractdlg.lblfilemask.caption
-#, fuzzy
 #| msgid "Extract files matching file mask:"
 msgid "&Extract files matching file mask:"
 msgstr "&Распаковать файлы согласно маске:"
 
 #: tfrmextractdlg.lblpassword.caption
-#, fuzzy
 #| msgid "Password for encrypted files:"
 msgid "&Password for encrypted files:"
 msgstr "&Пароль (для зашифрованных файлов):"
@@ -2204,18 +2196,16 @@ msgid "Clear log window"
 msgstr "Очистить окно протокола"
 
 #: tfrmmain.actclosealltabs.caption
-#, fuzzy
 #| msgid "Remove &All Tabs"
 msgctxt "tfrmmain.actclosealltabs.caption"
 msgid "Close &All Tabs"
-msgstr "Удалить &все вкладки"
+msgstr "Закрыть &все вкладки"
 
 #: tfrmmain.actclosetab.caption
-#, fuzzy
 #| msgid "&Remove Tab"
 msgctxt "tfrmmain.actclosetab.caption"
 msgid "&Close Tab"
-msgstr "&Удалить вкладку"
+msgstr "&Закрыть вкладку"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
@@ -2534,7 +2524,6 @@ msgid "Rename"
 msgstr "Переименовать"
 
 #: tfrmmain.actrenametab.caption
-#, fuzzy
 #| msgid "Re&name Tab"
 msgid "&Rename Tab"
 msgstr "Переи&меновать вкладку"
@@ -2793,7 +2782,7 @@ msgstr ""
 #: tfrmmain.caption
 msgctxt "tfrmmain.caption"
 msgid "Double Commander"
-msgstr ""
+msgstr "Double Commander"
 
 #: tfrmmain.lblcommandpath.caption
 msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
@@ -3215,15 +3204,15 @@ msgstr "ICO"
 
 #: tfrmmodview.rbjpg.caption
 msgid "JPG"
-msgstr ""
+msgstr "JPG"
 
 #: tfrmmodview.rbpng.caption
 msgid "PNG"
-msgstr ""
+msgstr "PNG"
 
 #: tfrmmodview.rbpnm.caption
 msgid "PNM"
-msgstr ""
+msgstr "PNM"
 
 #: tfrmmodview.teheight.text
 msgid "Height"
@@ -3533,7 +3522,7 @@ msgstr ""
 
 #: tfrmopenwith.milistoffiles.hint
 msgid "%F"
-msgstr ""
+msgstr "%F"
 
 #: tfrmopenwith.milistofurls.caption
 msgid "Multiple URIs"
@@ -3541,7 +3530,7 @@ msgstr ""
 
 #: tfrmopenwith.milistofurls.hint
 msgid "%U"
-msgstr ""
+msgstr "%U"
 
 #: tfrmopenwith.misinglefilename.caption
 msgid "Single file name"
@@ -3549,7 +3538,7 @@ msgstr ""
 
 #: tfrmopenwith.misinglefilename.hint
 msgid "%f"
-msgstr ""
+msgstr "%f"
 
 #: tfrmopenwith.misingleurl.caption
 msgid "Single URI"
@@ -3557,7 +3546,7 @@ msgstr ""
 
 #: tfrmopenwith.misingleurl.hint
 msgid "%u"
-msgstr ""
+msgstr "%u"
 
 #: tfrmoptions.btnapply.caption
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
@@ -3714,7 +3703,6 @@ msgid "Refresh file list"
 msgstr "Обновлять список файлов"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
-#, fuzzy
 #| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Al&ways show tray icon"
@@ -3883,7 +3871,7 @@ msgstr "&Метка"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
-msgstr ""
+msgstr "Список дисков"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -4430,7 +4418,7 @@ msgstr "Показывать значки для &команд в меню"
 #: tfrmoptionsicons.cbiconsinmenussize.text
 msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
 msgid "16x16"
-msgstr ""
+msgstr "16x16"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -4440,7 +4428,7 @@ msgstr "Показывать овер&лейные значки (наприме�
 #: tfrmoptionsicons.cbiconssize.text
 msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
 msgid "16x16"
-msgstr ""
+msgstr "16x16"
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
@@ -4698,7 +4686,7 @@ msgstr "&Удалить эскизы для отсутствующих файл�
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
-msgstr ""
+msgstr "При смене диска всегда пере&ходить в корневой каталог"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -4937,7 +4925,6 @@ msgid "characters"
 msgstr "символов"
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#, fuzzy
 #| msgid "&Tabs position"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
@@ -5982,7 +5969,7 @@ msgstr "Просмотреть"
 
 #: tfrmviewer.lblhightlight.caption
 msgid "0x0"
-msgstr ""
+msgstr "0x0"
 
 #: tfrmviewer.mi180.caption
 msgid "+ 180"
@@ -6388,7 +6375,7 @@ msgstr "О&тмена"
 
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
-msgstr ""
+msgstr "&Продолжить"
 
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
@@ -6400,7 +6387,7 @@ msgstr "К&опировать в (для всех)"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
-msgstr ""
+msgstr "&Выйти из программы"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -6767,14 +6754,13 @@ msgid "No media available"
 msgstr "Недоступно устройство"
 
 #: ulng.rsmnuopenwith
-#, fuzzy
 #| msgid "Open with ..."
 msgid "Open with"
-msgstr "Открыть с помощью..."
+msgstr "Открыть с помощью"
 
 #: ulng.rsmnuopenwithother
 msgid "Other..."
-msgstr ""
+msgstr "Другое..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -6959,7 +6945,7 @@ msgstr "Невозможно переименовать файл %s в %s"
 
 #: ulng.rsmsgerrsaveassociation
 msgid "Can not save association!"
-msgstr ""
+msgstr "Не могу сохранить ассоциацию!"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -7031,7 +7017,7 @@ msgstr "Некорректное имя файла"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
-msgstr ""
+msgstr "Неверный формат файла конфигурации"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
@@ -7252,7 +7238,7 @@ msgstr "Выделено слишком много файлов"
 
 #: ulng.rsmsgurl
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: ulng.rsmsgusername
 msgid "User name:"
@@ -8131,4 +8117,3 @@ msgstr "Кодировка"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не найден!"
-
