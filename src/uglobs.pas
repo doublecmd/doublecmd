@@ -291,7 +291,8 @@ var
   gGridVertLine,
   gGridHorzLine,
   gShowWarningMessages,
-  gDirBrackets: Boolean;
+  gDirBrackets,
+  gGoToRoot: Boolean;
   gShowToolTipMode: TShowToolTipMode;
   gThumbSize: TSize;
   gThumbSave: Boolean;
@@ -1114,6 +1115,7 @@ begin
   gViewerMode:= 0;
 
   { - Other - }
+  gGoToRoot := False;
   gLuaLib := LuaDLL;
   gNameSCFile := 'shortcuts.scf';
   gLastUsedPacker := 'zip';
@@ -1806,6 +1808,7 @@ begin
     Node := Root.FindNode('Behaviours');
     if Assigned(Node) then
     begin
+      gGoToRoot := GetValue(Node, 'GoToRoot', gGoToRoot);
       gRunInTerm := GetValue(Node, 'RunInTerminal', gRunInTerm);
       gRunTerm := GetValue(Node, 'RunTerminal', gRunTerm);
       gOnlyOneAppInstance := GetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
@@ -2204,6 +2207,7 @@ begin
     { Behaviours page }
     Node := FindNode(Root, 'Behaviours', True);
     ClearNode(Node);
+    SetValue(Node, 'GoToRoot', gGoToRoot);
     SetValue(Node, 'RunInTerminal', gRunInTerm);
     SetValue(Node, 'RunTerminal', gRunTerm);
     SetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
