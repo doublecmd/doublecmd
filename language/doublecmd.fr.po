@@ -5160,6 +5160,10 @@ msgstr ""
 msgid "&Remove thumbnails for no longer existing files"
 msgstr ""
 
+#: tfrmoptionsmisc.chkgotoroot.caption
+msgid "Always &go to the root of a drive when changing drives"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
 #| msgid "Show warning messages (\"OK\" button only)"
@@ -8892,4 +8896,4 @@ msgstr "Encodage"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s introuvable !"
-
+
