@@ -500,7 +500,9 @@ end;
          (mnt_dir = '/') or
          (mnt_dir = 'none') or
          (mnt_dir = '/proc') or
-         (mnt_dir = '/dev/pts') then Exit;
+         (StrBegins(mnt_dir, '/dev/')) or
+         (StrBegins(mnt_dir, '/sys/')) or
+         (StrBegins(mnt_dir, '/proc/')) then Exit;
 
       // check file system type
       if (mnt_type = 'ignore') or
@@ -521,6 +523,10 @@ end;
          (mnt_type = 'fuse.truecrypt') or
          (mnt_type = 'nfsd') or
          (mnt_type = 'usbfs') or
+         (mnt_type = 'mqueue') or
+         (mnt_type = 'configfs') or
+         (mnt_type = 'hugetlbfs') or
+         (mnt_type = 'selinuxfs') or
          (mnt_type = 'rpc_pipefs') then Exit;
     end;
     Result:= True;
@@ -1165,4 +1171,4 @@ end;
 {$ENDIF}
 
 end.
-
+
