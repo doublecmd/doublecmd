@@ -5094,7 +5094,7 @@ begin
     // and that path is not already opened in this panel.
     if OtherFileView.FileSource.IsClass(TFileSystemFileSource) and
        mbCompareFileNames(OtherFileView.FileSource.GetRootDir(OtherFileView.CurrentPath), Drive^.Path) and
-       not mbCompareFileNames(OtherFileView.CurrentPath, aFileView.CurrentPath) then
+       not mbCompareFileNames(OtherFileView.CurrentPath, aFileView.CurrentPath) and not gGoToRoot then
     begin
       SetFileSystemPath(aFileView, OtherFileView.CurrentPath);
     end

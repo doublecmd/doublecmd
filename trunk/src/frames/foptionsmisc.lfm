@@ -11,7 +11,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 161
+    Height = 183
     Top = 6
     Width = 707
     Anchors = [akTop, akLeft, akRight]
@@ -19,45 +19,48 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     BorderSpacing.Around = 6
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 143
+    ClientHeight = 179
     ClientWidth = 703
     TabOrder = 0
     object chkShowWarningMessages: TCheckBox
       Left = 12
-      Height = 19
+      Height = 22
       Top = 6
-      Width = 251
+      Width = 308
       Caption = 'Show &warning messages ("OK" button only)'
       TabOrder = 0
     end
     object chkThumbSave: TCheckBox
+      AnchorSideTop.Control = dblThumbnails
+      AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 19
-      Top = 58
-      Width = 154
+      Height = 22
+      Top = 87
+      Width = 191
+      BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
-      TabOrder = 1
+      TabOrder = 2
     end
     object lblThumbSize: TLabel
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
       Left = 12
       Height = 16
-      Top = 86
-      Width = 84
+      Top = 119
+      Width = 104
       Caption = '&Thumbnail size:'
       FocusControl = speThumbWidth
       ParentColor = False
     end
     object dblThumbnails: TDividerBevel
       AnchorSideLeft.Control = gbExtended
-      AnchorSideTop.Control = chkShowWarningMessages
+      AnchorSideTop.Control = chkGoToRoot
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = gbExtended
       AnchorSideRight.Side = asrBottom
       Left = 12
       Height = 17
-      Top = 37
+      Top = 66
       Width = 679
       Caption = 'Thumbnails'
       Anchors = [akTop, akLeft, akRight]
@@ -69,29 +72,29 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = chkThumbSave
       AnchorSideTop.Side = asrBottom
-      Left = 102
-      Height = 23
-      Top = 83
+      Left = 122
+      Height = 25
+      Top = 115
       Width = 50
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 2
+      TabOrder = 3
       Value = 16
     end
     object speThumbHeight: TSpinEdit
       AnchorSideLeft.Control = lblThumbSeparator
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
-      Left = 172
-      Height = 23
-      Top = 83
+      Left = 194
+      Height = 25
+      Top = 115
       Width = 50
       BorderSpacing.Left = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 3
+      TabOrder = 4
       Value = 16
     end
     object lblThumbSeparator: TLabel
@@ -99,10 +102,10 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
-      Left = 158
+      Left = 178
       Height = 16
-      Top = 86
-      Width = 8
+      Top = 119
+      Width = 10
       BorderSpacing.Left = 6
       Caption = 'X'
       ParentColor = False
@@ -112,10 +115,10 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
-      Left = 228
+      Left = 250
       Height = 16
-      Top = 86
-      Width = 30
+      Top = 119
+      Width = 40
       BorderSpacing.Left = 6
       Caption = 'pixels'
       ParentColor = False
@@ -124,14 +127,25 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 112
-      Width = 271
+      Height = 27
+      Top = 146
+      Width = 316
       AutoSize = True
       BorderSpacing.Top = 6
       Caption = '&Remove thumbnails for no longer existing files'
       OnClick = btnThumbCompactCacheClick
-      TabOrder = 4
+      TabOrder = 5
+    end
+    object chkGoToRoot: TCheckBox
+      AnchorSideTop.Control = chkShowWarningMessages
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 22
+      Top = 32
+      Width = 375
+      BorderSpacing.Top = 4
+      Caption = 'Always &go to the root of a drive when changing drives'
+      TabOrder = 1
     end
   end
 end

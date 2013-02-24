@@ -35,6 +35,7 @@ type
 
   TfrmOptionsMisc = class(TOptionsEditor)
     btnThumbCompactCache: TButton;
+    chkGoToRoot: TCheckBox;
     chkThumbSave: TCheckBox;
     chkShowWarningMessages: TCheckBox;
     dblThumbnails: TDividerBevel;
@@ -83,16 +84,17 @@ begin
   chkThumbSave.Checked           := gThumbSave;
   speThumbWidth.Value            := gThumbSize.cx;
   speThumbHeight.Value           := gThumbSize.cy;
+  chkGoToRoot.Checked            := gGoToRoot;
 end;
 
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
-
   gShowWarningMessages := chkShowWarningMessages.Checked;
   gThumbSave           := chkThumbSave.Checked;
   gThumbSize.cx        := speThumbWidth.Value;
   gThumbSize.cy        := speThumbHeight.Value;
+  gGoToRoot            := chkGoToRoot.Checked;
 end;
 
 end.
