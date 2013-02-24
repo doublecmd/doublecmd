@@ -942,7 +942,7 @@ begin
     begin
       Path := SysToUTF8(fstab^.fs_file);
       DisplayName := ExtractFileName(Path);
-      DriveLabel := EmptyStr;
+      DriveLabel := Path;
       FileSystem := fstab^.fs_vfstype;
       DeviceId := fstab^.fs_spec;
       DriveType := dtype;
@@ -1002,7 +1002,7 @@ begin
     begin
       Path := SysToUTF8(fs.mountpoint);
       DisplayName := ExtractFileName(Path);
-      DriveLabel := EmptyStr;
+      DriveLabel := Path;
       FileSystem := fs.fstypename;
       DeviceId := {$IF DEFINED(DARWIN)}fs.mntfromname{$ELSE}fs.mnfromname{$ENDIF};
       DriveType := dtype;
