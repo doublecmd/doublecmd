@@ -5021,6 +5021,10 @@ msgstr "Статус операції"
 msgid "&Remove thumbnails for no longer existing files"
 msgstr "Видалити мініат&юри для не існуючих файлів"
 
+#: tfrmoptionsmisc.chkgotoroot.caption
+msgid "Always &go to the root of a drive when changing drives"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"
@@ -8578,4 +8582,4 @@ msgstr "Кодування"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не знайдено!"
-
+

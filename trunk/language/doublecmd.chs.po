@@ -5142,6 +5142,10 @@ msgstr "操作状态"
 msgid "&Remove thumbnails for no longer existing files"
 msgstr ""
 
+#: tfrmoptionsmisc.chkgotoroot.caption
+msgid "Always &go to the root of a drive when changing drives"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
 #| msgid "Show warning messages (\"OK\" button only)"
@@ -8714,4 +8718,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+
