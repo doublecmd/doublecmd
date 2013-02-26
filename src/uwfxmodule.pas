@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual File System - class for manage WFX plugins (Version 1.3)
  
-   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
  
    Callback functions based on:
      Total Commander filesystem plugins debugger
@@ -54,6 +54,9 @@ type
     Reserved1 : LongWord;
     FileName : UTF8String;
     AlternateFileName : UTF8String;
+    case Boolean of
+    True:  ( FindDataA: TWin32FindData;  );
+    False: ( FindDataW: TWin32FindDataW; );
   end;
 
   { TWFXModule }
@@ -217,59 +220,47 @@ end;
 
 { TWfxFindData }
 
-function LoadWfxFindData(const FindData: TWin32FindData): TWfxFindData; overload;
+procedure ConvertFindData(var FindData: TWfxFindData; AnsiData: Boolean);
 begin
-  with Result do
+  with FindData do
   begin
-    FileAttributes:= FindData.dwFileAttributes;
-    CreationTime:= WfxFileTimeToDateTime(FindData.ftCreationTime);
-    LastAccessTime:= WfxFileTimeToDateTime(FindData.ftLastAccessTime);
-    LastWriteTime:= WfxFileTimeToDateTime(FindData.ftLastWriteTime);
-    Int64Rec(FileSize).Lo:= FindData.nFileSizeLow;
-    Int64Rec(FileSize).Hi:= FindData.nFileSizeHigh;
-    Reserved0:= FindData.dwReserved0;
-    Reserved1:= FindData.dwReserved1;
-    FileName:= SysToUTF8(FindData.cFileName);
-    AlternateFileName:= SysToUTF8(FindData.cAlternateFileName);
-  end;
-end;
-
-function LoadWfxFindData(const FindData: TWin32FindDataW): TWfxFindData; overload;
-begin
-  with Result do
-  begin
-    FileAttributes:= FindData.dwFileAttributes;
-    CreationTime:= WfxFileTimeToDateTime(FindData.ftCreationTime);
-    LastAccessTime:= WfxFileTimeToDateTime(FindData.ftLastAccessTime);
-    LastWriteTime:= WfxFileTimeToDateTime(FindData.ftLastWriteTime);
-    Int64Rec(FileSize).Lo:= FindData.nFileSizeLow;
-    Int64Rec(FileSize).Hi:= FindData.nFileSizeHigh;
-    Reserved0:= FindData.dwReserved0;
-    Reserved1:= FindData.dwReserved1;
-    FileName:= UTF8Encode(WideString(FindData.cFileName));
-    AlternateFileName:= UTF8Encode(WideString(FindData.cAlternateFileName));
+    // Convert file attributes
+    FileAttributes:= FindDataW.dwFileAttributes;
+    CreationTime:= WfxFileTimeToDateTime(FindDataW.ftCreationTime);
+    LastAccessTime:= WfxFileTimeToDateTime(FindDataW.ftLastAccessTime);
+    LastWriteTime:= WfxFileTimeToDateTime(FindDataW.ftLastWriteTime);
+    Int64Rec(FileSize).Lo:= FindDataW.nFileSizeLow;
+    Int64Rec(FileSize).Hi:= FindDataW.nFileSizeHigh;
+    Reserved0:= FindDataW.dwReserved0;
+    Reserved1:= FindDataW.dwReserved1;
+    // Convert file name
+    if AnsiData then
+      begin
+        FileName:= SysToUTF8(FindDataA.cFileName);
+        AlternateFileName:= SysToUTF8(FindDataA.cAlternateFileName);
+      end
+    else
+      begin
+        FileName:= UTF8Encode(WideString(FindDataW.cFileName));
+        AlternateFileName:= UTF8Encode(WideString(FindDataW.cAlternateFileName));
+      end;
   end;
 end;
 
 { TWFXModule }
 
 function TWFXModule.WfxFindFirst(Path: UTF8String; var FindData: TWfxFindData): THandle;
-var
-  FindDataA: TWin32FindData;
-  FindDataW: TWin32FindDataW;
 begin
   try
     if Assigned(FsFindFirstW) then
       begin
-        Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindDataW);
-        if Result <> wfxInvalidHandle then
-          FindData:= LoadWfxFindData(FindDataW);
+        Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindData.FindDataW);
+        if Result <> wfxInvalidHandle then ConvertFindData(FindData, False);
       end
     else if Assigned(FsFindFirst) then
       begin
-        Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindDataA);
-        if Result <> wfxInvalidHandle then
-          FindData:= LoadWfxFindData(FindDataA);
+        Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindData.FindDataA);
+        if Result <> wfxInvalidHandle then ConvertFindData(FindData, True);
       end;
   except
     on E: Exception do
@@ -281,21 +272,16 @@ begin
 end;
 
 function TWFXModule.WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
-var
-  FindDataA: TWin32FindData;
-  FindDataW: TWin32FindDataW;
 begin
   if Assigned(FsFindFirstW) then
     begin
-      Result:= FsFindNextW(Hdl, FindDataW);
-      if Result then
-        FindData:= LoadWfxFindData(FindDataW);
+      Result:= FsFindNextW(Hdl, FindData.FindDataW);
+      if Result then ConvertFindData(FindData, False);
     end
   else if Assigned(FsFindFirst) then
     begin
-      Result:= FsFindNext(Hdl, FindDataA);
-      if Result then
-        FindData:= LoadWfxFindData(FindDataA);
+      Result:= FsFindNext(Hdl, FindData.FindDataA);
+      if Result then ConvertFindData(FindData, True);
     end;
 end;
 
