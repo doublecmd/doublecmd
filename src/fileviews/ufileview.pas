@@ -540,7 +540,7 @@ uses
   fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
-  fMain, uSearchResultFileSource;
+  fMain, uSearchResultFileSource, uFileSourceProperty;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -1815,7 +1815,7 @@ begin
 
   StopWorkers;
 
-  if gListFilesInThread then
+  if gListFilesInThread and not (fspListInMainThread in FileSource.GetProperties) then
     AThread := GetWorkersThread;
 
   if FileSource.Equals(FLastLoadedFileSource) and
@@ -1848,7 +1848,7 @@ begin
 
   ClearPendingFilesChanges;
 
-  if gListFilesInThread then
+  if gListFilesInThread and not (fspListInMainThread in FileSource.GetProperties) then
   begin
     ClearRecentlyUpdatedFiles;
     BeforeMakeFileList;

@@ -40,7 +40,11 @@ type
        Set, if the file source uses TFileSourceConnection objects
        for access by operations.
     }
-    fspUsesConnections
+    fspUsesConnections,
+    {en
+       Set, if the file source supports file listing in main thread only.
+    }
+    fspListInMainThread
 
   );
 
