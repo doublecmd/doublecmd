@@ -32,7 +32,6 @@
 
 @del /Q /S plugins\wfx\ftp\lib\*.*
 @del /Q /S plugins\wfx\gvfs\lib\*.*
-@del /Q /S plugins\wfx\Network\lib\*.*
 @del /Q /S plugins\wfx\samba\lib\*.*
 @del /Q /S plugins\wfx\sample\lib\*.*
 
