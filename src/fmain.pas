@@ -2267,32 +2267,33 @@ begin
     if not mbDirectoryExists(iconsDir) then Exit;
 
     iconImg := TPicture.Create;
+    try
+      imgLstActions.Width := gIconsInMenusSize;
+      imgLstActions.Height := gIconsInMenusSize;
 
-    imgLstActions.Width := gIconsInMenusSize;
-    imgLstActions.Height := gIconsInMenusSize;
+      actionLst.Images := imgLstActions;
+      pmTabMenu.Images := imgLstActions;
+      mnuMain.Images := imgLstActions;
 
-    actionLst.Images := imgLstActions;
-    pmTabMenu.Images := imgLstActions;
-    mnuMain.Images := imgLstActions;
-
-    for I:= 0 to actionLst.ActionCount - 1 do
-    begin
-      actionName := UTF8LowerCase(actionLst.Actions[I].Name);
-      fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
-      if mbFileExists(fileName) then
-      try
-        iconImg.LoadFromFile(fileName);
-        imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
-        if imgIndex >= 0 then
-        begin
-           TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
+      for I:= 0 to actionLst.ActionCount - 1 do
+      begin
+        actionName := UTF8LowerCase(actionLst.Actions[I].Name);
+        fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
+        if mbFileExists(fileName) then
+        try
+          iconImg.LoadFromFile(fileName);
+          imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
+          if imgIndex >= 0 then
+          begin
+             TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
+          end;
+        except
+          // Skip
         end;
-      except
-        // Skip
       end;
+    finally
+      FreeAndNil(iconImg);
     end;
-
-    FreeAndNil(iconImg);
   end;
 end;
 
@@ -3270,6 +3271,8 @@ function TfrmMain.FileViewBeforeChangePath(FileView: TFileView; NewFileSource: I
 var
   ANoteBook: TFileViewNotebook;
   Page, NewPage: TFileViewPage;
+  PageAlreadyExists: Boolean = False;
+  i: Integer;
 begin
   Result:= True;
   if FileView.NotebookPage is TFileViewPage then
@@ -3288,9 +3291,22 @@ begin
           begin
             ANoteBook := Page.Notebook;
 
-            // Open in a new page, cloned view.
-            NewPage := ANotebook.NewPage(Page.FileView);
-            NewPage.FileView.AddFileSource(NewFileSource, NewPath);
+            { TODO -oVG : add option to turn on/off this feature }
+            for i := 0 to ANotebook.PageCount - 1 do
+            begin
+              NewPage := ANotebook.Page[i];
+              PageAlreadyExists := Assigned(NewPage.FileView) and
+                mbCompareFileNames(NewPage.FileView.CurrentPath, NewPath);
+              if PageAlreadyExists then
+                Break;
+            end;
+
+            if not PageAlreadyExists then
+            begin
+              // Open in a new page, cloned view.
+              NewPage := ANotebook.NewPage(Page.FileView);
+              NewPage.FileView.AddFileSource(NewFileSource, NewPath);
+            end;
             NewPage.MakeActive;
           end;
         end;
