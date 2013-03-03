@@ -118,7 +118,7 @@ type
     {en
        This event is used to wait for an available connection to TFileSource.
     }
-    FConnectionAvailableEvent: PRTLEvent;
+    FConnectionAvailableEvent: TSimpleEvent;
 
     {en
        A list of listeners of state-changed event.
@@ -189,11 +189,6 @@ type
     }
     FFileSource: IInterface;
 
-    {en
-       File source connection.
-    }
-    FConnection: TObject;
-
     // This function is called from main thread.
 {$IFDEF fsoSynchronizeEvents}
     procedure CallEventsListeners;
@@ -227,12 +222,12 @@ type
     }
     procedure DoUnPause;
 
-    procedure DoWaitForConnection;
+    function DoWaitForConnection: TWaitResult;
 
     {en
        Pauses the operation until it is notified that a connection is available.
     }
-    procedure WaitForConnection;
+    function WaitForConnection: TWaitResult;
 
     {en
        Reloads any file sources changed by the operation.
@@ -240,6 +235,12 @@ type
     procedure ReloadFileSources;
 
   protected
+
+    {en
+       File source connection.
+    }
+    FConnection: TObject;
+
     {en
        If @true a connection is requested from file source before the operation
        starts. By default this is @true if file source has fspUsesConnections
@@ -247,6 +248,21 @@ type
        in the operation's constructor.
     }
     FNeedsConnection: Boolean;
+
+    {en
+       If @true then file source should create a new connection on
+       request. By default this is @false, but this variable can be changed on
+       a per-operation basis.
+    }
+    FWantsNewConnection: Boolean;
+
+    {en
+       Sets the time to wait while trying to request a connection before
+       terminating the attempt. The default value is INFINITE, but this variable
+       can be changed on a per-operation basis.
+    }
+    FConnectionTimeout: Cardinal;
+
     {en
        So that when operation runs another operation the inner operation can
        access some inheritable properties, like user interface.
@@ -445,7 +461,7 @@ begin
   FDesiredState := fsosRunning;  // set for auto-start unless prevented by PreventStart
   FOperationResult := fsorFinished;
   FPauseEvent := RTLEventCreate;
-  FConnectionAvailableEvent := RTLEventCreate;
+  FConnectionAvailableEvent := TSimpleEvent.Create;
   FStateLock := TCriticalSection.Create;
   FEventsLock := TCriticalSection.Create;
 
@@ -464,6 +480,8 @@ begin
 
   FFileSource := aFileSource;
 
+  FWantsNewConnection := False;
+  FConnectionTimeout := SyncObjs.INFINITE;
   FNeedsConnection := (fspUsesConnections in (FileSource as IFileSource).Properties);
 
   inherited Create;
@@ -490,14 +508,14 @@ begin
   // Just to be sure - set all events when we're destroying the object
   // in case the thread is still waiting (this should normally not happen).
   RTLeventSetEvent(FPauseEvent);
-  RTLeventSetEvent(FConnectionAvailableEvent);
+  FConnectionAvailableEvent.SetEvent;
 {$IFNDEF fsoSynchronizeEvents}
   RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
 {$ENDIF}
   RTLeventSetEvent(FUserInterfaceAssignedEvent);
 
   RTLeventdestroy(FPauseEvent);
-  RTLeventdestroy(FConnectionAvailableEvent);
+  FreeAndNil(FConnectionAvailableEvent);
 {$IFNDEF fsoSynchronizeEvents}
   RTLeventdestroy(FNoEventsListenersCallsScheduledEvent);
 {$ENDIF}
@@ -546,7 +564,8 @@ begin
 
           UpdateState(fsosWaitingForConnection);
 
-          DoWaitForConnection;
+          if DoWaitForConnection = wrTimeout then
+            break;
 
           // Allow pausing and aborting the operation.
           CheckOperationState;
@@ -681,17 +700,17 @@ begin
   RTLeventSetEvent(FPauseEvent);
 end;
 
-procedure TFileSourceOperation.DoWaitForConnection;
+function TFileSourceOperation.DoWaitForConnection: TWaitResult;
 begin
-  RTLeventResetEvent(FConnectionAvailableEvent);
-  RTLeventWaitFor(FConnectionAvailableEvent); // wait indefinitely
+  FConnectionAvailableEvent.ResetEvent;
+  Result:= FConnectionAvailableEvent.WaitFor(FConnectionTimeout);
 end;
 
-procedure TFileSourceOperation.WaitForConnection;
+function TFileSourceOperation.WaitForConnection: TWaitResult;
 begin
   UpdateState(fsosWaitingForConnection);
 
-  DoWaitForConnection;
+  Result:= DoWaitForConnection;
 
   UpdateStartTime(SysUtils.Now);
   UpdateState(fsosRunning);
@@ -699,7 +718,7 @@ end;
 
 procedure TFileSourceOperation.ConnectionAvailableNotify;
 begin
-  RTLeventSetEvent(FConnectionAvailableEvent);
+  FConnectionAvailableEvent.SetEvent;
 end;
 
 function TFileSourceOperation.GetConnection: TObject;
