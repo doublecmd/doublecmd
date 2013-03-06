@@ -988,6 +988,7 @@ end;
 function TfrmViewer.CheckPlugins(const sFileName: UTF8String; Force:boolean=false):boolean;
 var
   I: Integer;
+  WlxModule: TWlxModule;
 begin
   I:= 0;
 //  DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
@@ -995,21 +996,28 @@ begin
    if WlxPlugins.GetWLxModule(I).FileParamVSDetectStr(sFileName) then
      begin
        Result:= True;
-       DCDebug('I = '+IntToStr(I));
+       DCDebug('I = ' + IntToStr(I));
        {$PUSH}{$R-}
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
        {$POP}
-       WlxPlugins.LoadModule(I);
-       DCDebug('WlxModule.Name = ', WlxPlugins.GetWLxModule(I).Name);
-       if WlxPlugins.GetWLxModule(I).CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
-         begin
-           WlxPlugins.GetWLxModule(I).UnloadModule;
-           Inc(I);
-           Continue;
-         end;
+       if not WlxPlugins.LoadModule(I) then
+       begin
+         Inc(I);
+         Continue;
+       end;
+       WlxModule:= WlxPlugins.GetWlxModule(I);
+       DCDebug('WlxModule.Name = ', WlxModule.Name);
+       if WlxModule.CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
+       begin
+         WlxModule.UnloadModule;
+         Inc(I);
+         Continue;
+       end;
        ActivePlugin:= I;
-       WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(pnlLister.ClientRect);
-       miPrint.Enabled:= WlxPlugins.GetWlxModule(ActivePlugin).CanPrint;
+       WlxModule.ResizeWindow(pnlLister.ClientRect);
+       miPrint.Enabled:= WlxModule.CanPrint;
+       // Set focus to plugin window
+       if not bQuickView then LCLIntf.SetFocus(WlxModule.PluginWindow);
        Exit;
      end
    else  I:= I + 1;
