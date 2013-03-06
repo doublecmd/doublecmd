@@ -313,30 +313,32 @@ end;
 
 procedure TWLXModule.CallListCloseWindow;
 begin
-  if not Assigned(ListCloseWindow) then Exit;
 //  DCDebug('Try to call ListCloseWindow');
   try
-    ListCloseWindow(FPluginWindow);
+    if Assigned(ListCloseWindow) then
+      ListCloseWindow(FPluginWindow)
+{$IF DEFINED(LCLWIN32)}
+    else
+      DestroyWindow(FPluginWindow)
+{$ENDIF}
   finally
-    FPluginWindow:=0;
+    FPluginWindow:= 0;
   end;
 //  DCDebug('Call ListCloseWindow success');
 end;
 
-function TWLXModule.CallListGetDetectString: string;
-var pc:Pchar;
+function TWLXModule.CallListGetDetectString: String;
 begin
-//DCDebug('GetDetectstr Entered');
-  if assigned(ListGetDetectString) then
+//  DCDebug('GetDetectstr Entered');
+  if Assigned(ListGetDetectString) then
    begin
-     GetMem(pc,MAX_PATH);
-     ListGetDetectString(pc,MAX_PATH);
-     Result:=StrPas(pc);
-     FreeMem(pc);
+     SetLength(Result, MAX_PATH); Result[1]:= #0;
+     ListGetDetectString(PAnsiChar(Result), MAX_PATH);
+     Result:= PAnsiChar(Result);
    end
   else
-    Result:='';
-//DCDebug('GetDetectStr Leaved');
+    Result:= EmptyStr;
+//  DCDebug('GetDetectStr Leaved');
 end;
 
 function TWLXModule.CallListSearchText(SearchString: string;
