@@ -993,50 +993,47 @@ var
 begin
   I:= 0;
 //  DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
-  while (I < WlxPlugins.Count) do
-   if WlxPlugins.GetWLxModule(I).FileParamVSDetectStr(sFileName) then
-     begin
-       DCDebug('I = ' + IntToStr(I));
-       {$PUSH}{$R-}
-       if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
-       {$POP}
-       if not WlxPlugins.LoadModule(I) then
-       begin
-         Inc(I);
-         Continue;
-       end;
-       WlxModule:= WlxPlugins.GetWlxModule(I);
-       DCDebug('WlxModule.Name = ', WlxModule.Name);
-       if not bQuickView then
-       begin
-         // Save window style
-         ListerStyle:= LCLIntf.GetWindowLong(pnlLister.Handle, GWL_STYLE);
-         // Set window style to WS_POPUP so GetParent returns NULL (needs by plugins)
-         LCLIntf.SetWindowLong(pnlLister.Handle, GWL_STYLE, ListerStyle or WS_POPUP);
-       end;
-       DCDebug('Lister parent: ' + IntToStr(LCLIntf.GetParent(pnlLister.Handle)));
-       if WlxModule.CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
-       begin
-         WlxModule.UnloadModule;
-         Inc(I);
-         Continue;
-       end;
-       ActivePlugin:= I;
-       if not bQuickView then
-       begin
-         // Restore window style
-         LCLIntf.SetWindowLong(pnlLister.Handle, GWL_STYLE, ListerStyle);
-         // Set focus to plugin window
-         LCLIntf.SetFocus(WlxModule.PluginWindow);
-       end;
-       WlxModule.ResizeWindow(pnlLister.ClientRect);
-       miPrint.Enabled:= WlxModule.CanPrint;
-       Exit(True);
-     end
-   else  I:= I + 1;
- // Plugin not found
- ActivePlugin:= -1;
- Result:= False;
+  if not bQuickView then
+  begin
+    // Save window style
+    ListerStyle:= LCLIntf.GetWindowLong(pnlLister.Handle, GWL_STYLE);
+    // Set window style to WS_POPUP so GetParent returns NULL (needs by plugins)
+    LCLIntf.SetWindowLong(pnlLister.Handle, GWL_STYLE, ListerStyle or WS_POPUP);
+  end;
+  DCDebug('Lister parent: ' + IntToStr(LCLIntf.GetParent(pnlLister.Handle)));
+  try
+    for I:= 0 to WlxPlugins.Count - 1 do
+    if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName) then
+    begin
+      DCDebug('I = ' + IntToStr(I));
+      {$PUSH}{$R-}
+      if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
+      {$POP}
+      if not WlxPlugins.LoadModule(I) then Continue;
+      WlxModule:= WlxPlugins.GetWlxModule(I);
+      DCDebug('WlxModule.Name = ', WlxModule.Name);
+      if WlxModule.CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
+      begin
+        WlxModule.UnloadModule;
+        Continue;
+      end;
+      ActivePlugin:= I;
+      WlxModule.ResizeWindow(pnlLister.ClientRect);
+      miPrint.Enabled:= WlxModule.CanPrint;
+      Exit(True);
+    end;
+  finally
+    if not bQuickView then
+    begin
+      // Restore window style
+      LCLIntf.SetWindowLong(pnlLister.Handle, GWL_STYLE, ListerStyle);
+      // Set focus to plugin window
+      if Result then LCLIntf.SetFocus(WlxModule.PluginWindow);
+    end;
+  end;
+  // Plugin not found
+  ActivePlugin:= -1;
+  Result:= False;
 end;
 
 procedure TfrmViewer.ExitPluginMode;

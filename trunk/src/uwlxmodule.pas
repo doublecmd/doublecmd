@@ -156,7 +156,7 @@ type
         property Count:integer read GetCount;
       end;
 
-  Function WlxPrepareContainer(Ahandle:THandle; revert:boolean=false):boolean;
+  Function WlxPrepareContainer(Ahandle: HWND; revert:boolean=false):boolean;
 
 implementation
 
@@ -166,7 +166,7 @@ uses
 const
   WlxIniFileName = 'wlx.ini';
 
-function WlxPrepareContainer(Ahandle: THandle; revert:boolean=false): boolean;
+function WlxPrepareContainer(Ahandle: HWND; revert:boolean=false): boolean;
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   var lst:PGList;
 {$ENDIF}
