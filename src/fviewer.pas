@@ -180,6 +180,7 @@ type
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure GifAnimMouseEnter(Sender: TObject);
     procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -501,6 +502,17 @@ end;
 procedure TfrmViewer.FormResize(Sender: TObject);
 begin
   if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
+end;
+
+procedure TfrmViewer.FormShow(Sender: TObject);
+begin
+{$IF DEFINED(LCLGTK2)}
+  if not pnlPreview.Visible then
+  begin
+    pnlPreview.Visible:= True;
+    pnlPreview.Visible:= False;
+  end;
+{$ENDIF}
 end;
 
 procedure TfrmViewer.GifAnimMouseEnter(Sender: TObject);

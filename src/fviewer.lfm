@@ -57,6 +57,7 @@ inherited frmViewer: TfrmViewer
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
   OnResize = FormResize
+  OnShow = FormShow
   Position = poDefault
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
@@ -68,6 +69,7 @@ inherited frmViewer: TfrmViewer
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 6
+    Visible = False
   end
   object Status: TStatusBar[1]
     Left = 0
