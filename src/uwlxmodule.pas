@@ -106,6 +106,7 @@ type
     //---------------------
     function FileParamVSDetectStr(AFileName: String): Boolean;
     //---------------------
+    procedure SetFocus;
     procedure ResizeWindow(aRect: TRect);
     //---------------------
     property IsLoaded: Boolean read GIsLoaded;
@@ -152,8 +153,6 @@ type
     property Count: Integer read GetCount;
   end;
 
-function WlxPrepareContainer(Ahandle: HWND; revert: Boolean = False): Boolean;
-
 implementation
 
 uses
@@ -162,42 +161,18 @@ uses
 const
   WlxIniFileName = 'wlx.ini';
 
-function WlxPrepareContainer(Ahandle: HWND; revert: Boolean = False): Boolean;
+procedure WlxPrepareContainer(var ParentWin: HWND);
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
 var
   lst: PGList;
 {$ENDIF}
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-  if not revert then
-  begin
-    //Hide controls from our gtk container
-    lst := gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
-    if lst <> nil then
-    begin
-      gtk_widget_hide(PGtkWidget(lst^.Data));
-      Result := True;
-    end
-    else
-      Result := False;
-    Exit;
-  end
-  else
-  begin
-    //Show controls from our gtk container
-    lst := gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
-    if lst <> nil then
-    begin
-      gtk_widget_show(PGtkWidget(lst^.Data));
-      Result := True;
-    end
-    else
-      Result := False;
-    Exit;
-  end;
+  lst := gtk_container_children(GTK_CONTAINER(PGtkWidget(ParentWin)));
+  if lst <> nil then ParentWin := HWND(lst^.Data);
+{$ELSEIF DEFINED(LCLQT)}
+  ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
 {$ENDIF}
-  Result := True;
-
 end;
 
 { TWlxModule }
@@ -285,9 +260,7 @@ end;
 
 function TWlxModule.CallListLoad(ParentWin: HWND; FileToLoad: String; ShowFlags: Integer): HWND;
 begin
-  {$IFDEF LCLQT}
-  ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
-  {$ENDIF}
+  WlxPrepareContainer(ParentWin);
 
   if Assigned(ListLoadW) then
     FPluginWindow := ListLoadW(ParentWin, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
@@ -301,9 +274,7 @@ end;
 
 function TWlxModule.CallListLoadNext(ParentWin: HWND; FileToLoad: String; ShowFlags: Integer): Integer;
 begin
-  {$IFDEF LCLQT}
-  ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
-  {$ENDIF}
+  WlxPrepareContainer(ParentWin);
 
   if Assigned(ListLoadNextW) then
     Result := ListLoadNextW(ParentWin, FPluginWindow, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
@@ -381,6 +352,17 @@ begin
   Result := FParser.TestFileResult(AFileName);
 end;
 
+procedure TWlxModule.SetFocus;
+begin
+  {$IF DEFINED(LCLWIN32)}
+  Windows.SetFocus(FPluginWindow);
+  {$ELSEIF DEFINED(LCLQT)}
+  QWidget_setFocus(QWidgetH(FPluginWindow));
+  {$ELSEIF DEFINED(LCLGTK2)}
+  gtk_widget_grab_focus(PGtkWidget(FPluginWindow));
+  {$ENDIF}
+end;
+
 procedure TWlxModule.ResizeWindow(aRect: TRect);
 begin
   //ToDo: Implement for other widgetsets
@@ -398,7 +380,8 @@ begin
   end;
 end;
 
-function TWlxModule.CallListPrint(FileToPrint, DefPrinter: String; PrintFlags: Integer; var Margins: trect): Integer;
+function TWlxModule.CallListPrint(FileToPrint, DefPrinter: String;
+  PrintFlags: Integer; var Margins: trect): Integer;
 begin
   if Assigned(ListPrintW) then
     Result := ListPrintW(FPluginWindow, PWideChar(UTF8Decode(FileToPrint)),

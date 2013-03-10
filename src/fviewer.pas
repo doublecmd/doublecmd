@@ -110,7 +110,6 @@ type
     miEncoding: TMenuItem;
     miPlugins: TMenuItem;
     miSeparator: TMenuItem;
-    pnlLister: TPanel;
     pmEditMenu: TPopupMenu;
     SavePictureDialog: TSavePictureDialog;
     sboxImage: TScrollBox;
@@ -180,6 +179,7 @@ type
     procedure DrawPreviewTopleftChanged(Sender: TObject);
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormResize(Sender: TObject);
     procedure GifAnimMouseEnter(Sender: TObject);
     procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -201,7 +201,6 @@ type
     procedure miZoomClick(Sender: TObject);
     procedure PanelEditImageMouseEnter(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
-    procedure pnlListerResize(Sender: TObject);
     procedure sboxImageMouseEnter(Sender: TObject);
     procedure sboxImageMouseLeave(Sender: TObject);
     procedure sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -255,6 +254,7 @@ type
     WlxPlugins:TWLXModuleList;
     ActivePlugin:Integer;
     //---------------------
+    function GetListerRect: TRect;
     function CheckPlugins(const sFileName: UTF8String; Force: boolean=false):boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
@@ -422,7 +422,7 @@ begin
     else
       begin
         if CheckPlugins(aFileName) then
-          ActivatePanel(pnlLister)
+          ActivatePanel(nil)
         else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
           ActivatePanel(pnlImage)
         else
@@ -442,7 +442,7 @@ procedure TfrmViewer.LoadNextFile(const aFileName: UTF8String);
 begin
   if bPlugin then
     begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, aFileName, 0) <> LISTPLUGIN_ERROR then
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, aFileName, 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
   ExitPluginMode;
@@ -496,6 +496,11 @@ begin
           Key := #0;
         end;
     end;
+end;
+
+procedure TfrmViewer.FormResize(Sender: TObject);
+begin
+  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
 end;
 
 procedure TfrmViewer.GifAnimMouseEnter(Sender: TObject);
@@ -779,6 +784,7 @@ begin
      DrawPreview.FixedCols:= 0;
      DrawPreview.Refresh;
    end;
+  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
 end;
 
 procedure TfrmViewer.miSaveAsClick(Sender: TObject);
@@ -818,7 +824,7 @@ end;
 
 procedure TfrmViewer.miFullScreenClick(Sender: TObject);
 begin
-  miFullScreen.Checked:=not(miFullScreen.Checked);
+  miFullScreen.Checked:= not (miFullScreen.Checked);
   if miFullScreen.Checked then
     begin
       WindowState:= wsMaximized;
@@ -988,48 +994,27 @@ end;
 function TfrmViewer.CheckPlugins(const sFileName: UTF8String; Force:boolean=false):boolean;
 var
   I: Integer;
-  ListerStyle: PtrInt;
   WlxModule: TWlxModule;
 begin
-  I:= 0;
 //  DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
-  if not bQuickView then
+  for I:= 0 to WlxPlugins.Count - 1 do
+  if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName) then
   begin
-    // Save window style
-    ListerStyle:= LCLIntf.GetWindowLong(pnlLister.Handle, GWL_STYLE);
-    // Set window style to WS_POPUP so GetParent returns NULL (needs by plugins)
-    LCLIntf.SetWindowLong(pnlLister.Handle, GWL_STYLE, ListerStyle or WS_POPUP);
-  end;
-  DCDebug('Lister parent: ' + IntToStr(LCLIntf.GetParent(pnlLister.Handle)));
-  try
-    for I:= 0 to WlxPlugins.Count - 1 do
-    if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName) then
+    DCDebug('I = ' + IntToStr(I));
+    if not WlxPlugins.LoadModule(I) then Continue;
+    WlxModule:= WlxPlugins.GetWlxModule(I);
+    DCDebug('WlxModule.Name = ', WlxModule.Name);
+    if WlxModule.CallListLoad(Self.Handle, sFileName, {TODO: showFlags}0) = 0 then
     begin
-      DCDebug('I = ' + IntToStr(I));
-      {$PUSH}{$R-}
-      if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
-      {$POP}
-      if not WlxPlugins.LoadModule(I) then Continue;
-      WlxModule:= WlxPlugins.GetWlxModule(I);
-      DCDebug('WlxModule.Name = ', WlxModule.Name);
-      if WlxModule.CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
-      begin
-        WlxModule.UnloadModule;
-        Continue;
-      end;
-      ActivePlugin:= I;
-      WlxModule.ResizeWindow(pnlLister.ClientRect);
-      miPrint.Enabled:= WlxModule.CanPrint;
-      Exit(True);
+      WlxModule.UnloadModule;
+      Continue;
     end;
-  finally
-    if not bQuickView then
-    begin
-      // Restore window style
-      LCLIntf.SetWindowLong(pnlLister.Handle, GWL_STYLE, ListerStyle);
-      // Set focus to plugin window
-      if Result then LCLIntf.SetFocus(WlxModule.PluginWindow);
-    end;
+    ActivePlugin:= I;
+    WlxModule.ResizeWindow(GetListerRect);
+    miPrint.Enabled:= WlxModule.CanPrint;
+    // Set focus to plugin window
+    if not bQuickView then WlxModule.SetFocus;
+    Exit(True);
   end;
   // Plugin not found
   ActivePlugin:= -1;
@@ -1038,14 +1023,13 @@ end;
 
 procedure TfrmViewer.ExitPluginMode;
 begin
-  {$PUSH}{$R-}
-  WlxPrepareContainer(pnlLister.Handle,true);
-  {$POP}
   if (WlxPlugins.Count > 0) and (ActivePlugin >= 0) then
-    begin
-      WlxPlugins.GetWLxModule(ActivePlugin).CallListCloseWindow;
-      WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
-    end;
+  begin
+    WlxPlugins.GetWlxModule(ActivePlugin).CallListCloseWindow;
+    WlxPlugins.GetWlxModule(ActivePlugin).UnloadModule;
+  end;
+  bPlugin:= False;
+  ActivePlugin:= -1;
   miPrint.Enabled:= False;
 end;
 
@@ -1053,10 +1037,7 @@ procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
   bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
   if bPlugin then
-  begin
-    Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
-    ActivatePanel(pnlLister);
-  end
+    ActivatePanel(nil)
   else
     ViewerControl.FileName := FileList.Strings[iActiveFile];
 end;
@@ -1066,10 +1047,10 @@ var
   aRect: TRect;
 begin
   if bPlugin then
-    begin
-      aRect:= pnlLister.ClientRect;
-      WlxPlugins.GetWlxModule(ActivePlugin).CallListPrint(FileList[iActiveFile], EmptyStr, 0, aRect);
-    end;
+  begin
+    aRect:= GetListerRect;
+    WlxPlugins.GetWlxModule(ActivePlugin).CallListPrint(FileList[iActiveFile], EmptyStr, 0, aRect);
+  end;
 end;
 
 procedure TfrmViewer.SaveImageAs(var sExt: String; senderSave: boolean; Quality: integer);
@@ -1170,12 +1151,6 @@ begin
   if bImage then AdjustImageSize;
 end;
 
-procedure TfrmViewer.pnlListerResize(Sender: TObject);
-begin
-  if bPlugin then
-    WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(pnlLister.ClientRect);
-end;
-
 procedure TfrmViewer.sboxImageMouseEnter(Sender: TObject);
 begin
   if miFullScreen.Checked then TimerViewer.Enabled:=true;
@@ -1206,12 +1181,13 @@ end;
 procedure TfrmViewer.SplitterChangeBounds(Sender: TObject);
 begin
   if DrawPreview.Width div (DrawPreview.DefaultColWidth+6)>0 then
-     DrawPreview.ColCount:=DrawPreview.Width div (DrawPreview.DefaultColWidth+6);
-  if FileList.Count mod DrawPreview.ColCount >0 then
-     DrawPreview.RowCount:=FileList.Count div DrawPreview.ColCount +1
-  else DrawPreview.RowCount:=FileList.Count div DrawPreview.ColCount;
+    DrawPreview.ColCount:= DrawPreview.Width div (DrawPreview.DefaultColWidth + 6);
+  if FileList.Count mod DrawPreview.ColCount > 0 then
+    DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount + 1
+  else
+    DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount;
+  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
 end;
-
 
 procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
@@ -1258,21 +1234,17 @@ end;
 
 procedure TfrmViewer.DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
 var
-  i : integer;
+  I: Integer;
 begin
-  gboxHightlight.Visible:=false;
-  gboxPaint.Visible:=false;
-  i:= DrawPreview.Row*DrawPreview.ColCount+DrawPreview.Col;
-  if i<Filelist.Count then
-    begin
-      LoadFile(i);
-    end;
+  gboxHightlight.Visible:= False;
+  gboxPaint.Visible:= False;
+  I:= DrawPreview.Row * DrawPreview.ColCount + DrawPreview.Col;
+  if I < Filelist.Count then LoadNextFile(FileList.Strings[I]);
 end;
-
 
 procedure TfrmViewer.DrawPreviewTopleftChanged(Sender: TObject);
 begin
-  DrawPreview.LeftCol:=0;
+  DrawPreview.LeftCol:= 0;
 end;
 
 procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
@@ -1884,6 +1856,16 @@ begin
   CreateTmp;
 end;
 
+function TfrmViewer.GetListerRect: TRect;
+begin
+  Result:= ClientRect;
+  Dec(Result.Bottom, Status.Height);
+  if Splitter.Visible then
+  begin
+    Inc(Result.Left, Splitter.Left + Splitter.Width);
+  end;
+end;
+
 procedure TfrmViewer.miScreenShotClick(Sender: TObject);
 var
   ScreenDC: HDC;
@@ -2094,24 +2076,23 @@ end;
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
 begin
   pnlFolder.Hide;
-  pnlLister.Hide;
   pnlImage.Hide;
   pnlText.Hide;
 
-  Panel.Visible := True;
+  if Assigned(Panel) then Panel.Visible := True;
 
   bAnimation         := (GifAnim.Visible);
   bImage             := (Panel = pnlImage) and (bAnimation = False);
-  bPlugin            := (Panel = pnlLister);
-  miPlugins.Checked  := (Panel = pnlLister);
+  bPlugin            := (Panel = nil);
+  miPlugins.Checked  := (Panel = nil);
   miGraphics.Checked := (Panel = pnlImage);
   miEncoding.Visible := (Panel = pnlText);
-  miEdit.Visible     := (Panel = pnlText) or (Panel = pnlLister);
+  miEdit.Visible     := (Panel = pnlText) or (Panel = nil);
   miImage.Visible    := bImage;
   miSave.Visible     := bImage;
   miSaveAs.Visible   := bImage;
 
-  if Panel = pnlLister then
+  if Panel = nil then
   begin
     Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
   end
@@ -2176,7 +2157,7 @@ begin
 
   if bPlugin then
     begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
   ExitPluginMode;
@@ -2203,7 +2184,7 @@ begin
 
   if bPlugin then
     begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
   if pnlPreview.Visible then
