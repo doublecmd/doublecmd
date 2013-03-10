@@ -288,8 +288,11 @@ begin
     if Assigned(ListCloseWindow) then
       ListCloseWindow(FPluginWindow)
 {$IF DEFINED(LCLWIN32)}
-    else
-      DestroyWindow(FPluginWindow)
+    else DestroyWindow(FPluginWindow)
+{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+    else gtk_widget_destroy(PGtkWidget(FPluginWindow));
+{$ELSEIF DEFINED(LCLQT)}
+    else QWidget_Destroy(QWidgetH(FPluginWindow));
 {$ENDIF}
   finally
     FPluginWindow := 0;
