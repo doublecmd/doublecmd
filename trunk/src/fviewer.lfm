@@ -56,6 +56,7 @@ inherited frmViewer: TfrmViewer
   OnDestroy = FormDestroy
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
+  OnResize = FormResize
   Position = poDefault
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
@@ -67,17 +68,6 @@ inherited frmViewer: TfrmViewer
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 6
-  end
-  object pnlLister: TPanel[1]
-    Left = 179
-    Height = 441
-    Top = 0
-    Width = 461
-    Align = alClient
-    BevelOuter = bvNone
-    TabOrder = 1
-    Visible = False
-    OnResize = pnlListerResize
   end
   object Status: TStatusBar[1]
     Left = 0
