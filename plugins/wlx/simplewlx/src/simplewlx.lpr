@@ -59,12 +59,9 @@ end;
 
 
 function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; dcpcall;
-var GFix,GButton1,Gbutton2:PGtkWidget;
-
-   lst:PGlist;
+var
+  GFix, GButton1, Gbutton2: PGtkWidget;
 begin
-  lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AWidget)));
-  if lst=nil then exit;
 //     gFix:=gtk_fixed_new;
      gFix:=gtk_vbox_new(true,5);
      gtk_container_add(GTK_CONTAINER(PGtkWidget(ParentWin)),gFix);
@@ -95,7 +92,7 @@ begin
        AddControl(GFix);
      end;
 
-Result:=integer(GFix);
+Result:= thandle(GFix);
 end;
 
 procedure ListCloseWindow(ListWin:thandle); dcpcall;
@@ -117,7 +114,7 @@ begin
        end;
 
      //Free list if it has zero items
-     If List.Count=0 then  List.Free;
+     If List.Count=0 then  FreeAndNil(List);
    end;
 
 end;
