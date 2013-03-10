@@ -34,7 +34,7 @@ uses
   Classes, SysUtils, dynlibs, uDetectStr, uWlxPrototypes, WlxPlugin,
   DCClassesUtf8, uDCUtils, LCLProc, LCLType, DCXmlConfig
   {$IFDEF LCLWIN32}
-  , Windows
+  , Windows, fgl
   {$ENDIF}
   {$IFDEF LCLGTK}
   , gtk, glib, gdk, gtkproc
@@ -161,6 +161,28 @@ uses
 const
   WlxIniFileName = 'wlx.ini';
 
+{$IF DEFINED(LCLWIN32)}
+type
+  TWindowProcMap = specialize TFPGMap<HWND, WNDPROC>;
+var
+  WindowProcMap: TWindowProcMap;
+
+function PluginProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+var
+  WindowProc: WNDPROC;
+begin
+  if Msg = WM_KEYDOWN then
+  begin
+    PostMessage(GetParent(hWnd), Msg, wParam, lParam);
+  end;
+  WindowProc := WindowProcMap.KeyData[hWnd];
+  if Assigned(WindowProc) then
+    Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
+  else
+    Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+end;
+{$ENDIF}
+
 procedure WlxPrepareContainer(var ParentWin: HWND);
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
@@ -266,6 +288,11 @@ begin
   else
     Exit(wlxInvalidHandle);
 
+{$IF DEFINED(LCLWIN32)}
+  // Subclass plugin window to catch some hotkeys like 'n' or 'p'.
+  WindowProcMap.Add(FPluginWindow, WNDPROC(SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc))));
+{$ENDIF}
+
   Result := FPluginWindow;
 end;
 
@@ -295,6 +322,9 @@ begin
     else QWidget_Destroy(QWidgetH(FPluginWindow));
 {$ENDIF}
   finally
+{$IF DEFINED(LCLWIN32)}
+    WindowProcMap.Remove(FPluginWindow);
+{$ENDIF}
     FPluginWindow := 0;
   end;
   //  DCDebug('Call ListCloseWindow success');
@@ -648,5 +678,12 @@ begin
   if tmp > -1 then
     Result := TWlxModule(Flist.Objects[tmp]);
 end;
+
+{$IF DEFINED(LCLWIN32)}
+initialization
+  WindowProcMap := TWindowProcMap.Create;
+finalization
+  WindowProcMap.Free;
+{$ENDIF}
 
 end.
