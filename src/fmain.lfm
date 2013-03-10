@@ -2018,14 +2018,17 @@ object frmMain: TfrmMain
     object mnuContextOpen: TMenuItem
       Action = actOpen
     end
-    object mnuContextLine1: TMenuItem
-      Caption = '-'
-    end
     object mnuContextView: TMenuItem
       Action = actView
     end
+    object mnuContextLine1: TMenuItem
+      Caption = '-'
+    end
     object mnuContextCopy: TMenuItem
       Action = actCopy
+    end
+    object mnuContextRenameOnly: TMenuItem
+      Action = actRenameOnly
     end
     object mnuContextDelete: TMenuItem
       Action = actDelete

@@ -166,6 +166,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuContextRenameOnly: TMenuItem;
     mnuContextCopy: TMenuItem;
     mnuContextOpen: TMenuItem;
     mnuContextLine1: TMenuItem;
