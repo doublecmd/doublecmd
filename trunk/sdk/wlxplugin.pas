@@ -41,7 +41,7 @@ type
   THandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
 
 const
-  wlxInvalidHandle: THandle = THandle(-1);
+  wlxInvalidHandle: THandle = THandle(0);
 
 type
   tListDefaultParamStruct=record
