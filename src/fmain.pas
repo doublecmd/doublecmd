@@ -166,6 +166,13 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuContextCopy: TMenuItem;
+    mnuContextOpen: TMenuItem;
+    mnuContextLine1: TMenuItem;
+    mnuContextLine2: TMenuItem;
+    mnuContextFileProperties: TMenuItem;
+    mnuContextDelete: TMenuItem;
+    mnuContextView: TMenuItem;
     mnuThumbnailsView: TMenuItem;
     mnuColumnsView: TMenuItem;
     mnuBriefView: TMenuItem;
@@ -277,7 +284,7 @@ type
     MainToolBar: TKASToolBar;
     mnuOpenVFSList: TMenuItem;
     mnuExtractFiles: TMenuItem;
-    pmDrivesMenu: TPopupMenu;
+    pmContextMenu: TPopupMenu;
     pmSplitterPercent: TPopupMenu;
     pnlCommand: TPanel;
     pnlKeys: TPanel;
