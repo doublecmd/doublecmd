@@ -37,10 +37,10 @@ uses
   , Windows
   {$ENDIF}
   {$IFDEF LCLGTK}
-  , gtk, glib, gdk
+  , gtk, glib, gdk, gtkproc
   {$ENDIF}
   {$IFDEF LCLGTK2}
-  , gtk2, glib2
+  , gtk2, glib2, gtk2proc
   {$ENDIF}
   {$IFDEF LCLQT}
   , qt4, qtwidgets
@@ -162,14 +162,9 @@ const
   WlxIniFileName = 'wlx.ini';
 
 procedure WlxPrepareContainer(var ParentWin: HWND);
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-var
-  lst: PGList;
-{$ENDIF}
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-  lst := gtk_container_children(GTK_CONTAINER(PGtkWidget(ParentWin)));
-  if lst <> nil then ParentWin := HWND(lst^.Data);
+  ParentWin := HWND(GetFixedWidget(Pointer(ParentWin)));
 {$ELSEIF DEFINED(LCLQT)}
   ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
 {$ENDIF}
@@ -232,6 +227,7 @@ end;
 
 procedure TWlxModule.UnloadModule;
 begin
+{$IF NOT DEFINED(LCLQT)}
 {$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
@@ -256,6 +252,7 @@ begin
   ListSearchTextW := nil;
   ListPrintW := nil;
   ListGetPreviewBitmapW := nil;
+{$ENDIF}
 end;
 
 function TWlxModule.CallListLoad(ParentWin: HWND; FileToLoad: String; ShowFlags: Integer): HWND;
