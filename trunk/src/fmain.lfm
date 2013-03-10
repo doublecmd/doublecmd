@@ -2012,9 +2012,30 @@ object frmMain: TfrmMain
       OnClick = tbPasteClick
     end
   end
-  object pmDrivesMenu: TPopupMenu
+  object pmContextMenu: TPopupMenu
     left = 56
     top = 96
+    object mnuContextOpen: TMenuItem
+      Action = actOpen
+    end
+    object mnuContextLine1: TMenuItem
+      Caption = '-'
+    end
+    object mnuContextView: TMenuItem
+      Action = actView
+    end
+    object mnuContextCopy: TMenuItem
+      Action = actCopy
+    end
+    object mnuContextDelete: TMenuItem
+      Action = actDelete
+    end
+    object mnuContextLine2: TMenuItem
+      Caption = '-'
+    end
+    object mnuContextFileProperties: TMenuItem
+      Action = actFileProperties
+    end
   end
   object pmColumnsMenu: TPopupMenu
     left = 344

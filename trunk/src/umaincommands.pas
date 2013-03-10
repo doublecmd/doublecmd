@@ -479,12 +479,11 @@ var
   aFiles: TFiles = nil;
   sPath, sName: UTF8String;
 begin
-  // Temporarily work for Filesystem only.
   with frmMain do
   begin
     if not (fspDirectAccess in Panel.FileSource.Properties) then
     begin
-      msgWarning(rsMsgErrNotSupported);
+      if not Background then pmContextMenu.PopUp(X, Y);
       Exit;
     end;
 
