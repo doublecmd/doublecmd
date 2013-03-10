@@ -157,42 +157,43 @@ begin
   if pr.Running then
     pr.Terminate(0);
   pr.Free;
+{$IF DEFINED(LCLQT)}
+  QWidget_Destroy(QWidgetH(hWidget));
+{$ELSE}
+  gtk_widget_destroy(PGtkWidget(hWidget));
+{$ENDIF}
   inherited destroy;
 end;
 
 procedure TMPlayer.SetParentWidget(AWidget: THandle);
 {$IFDEF LCLQT}
 begin
-  xid:= QWidget_winId(QWidgetH(AWidget));
-  hWidget:= AWidget;
+  hWidget:= THandle(QWidget_create(QWidgetH(AWidget)));
+  QWidget_show(QWidgetH(hWidget));
+  xid:= QWidget_winId(QWidgetH(hWidget));
 end;
 {$ELSE}
 var
    widget,
-   mySocket:PGtkWidget;	//the socket
-   lst:PGlist;
+   mySocket: PGtkWidget;	//the socket
 begin
-  lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AWidget)));
-  if lst=nil then exit;
-  widget := PGtkWidget(lst^.data);
-  //gtk_vbox_new(FALSE,0);
-   mySocket := gtk_socket_new();
-  gtk_container_add (GTK_CONTAINER(widget), mySocket);
+  widget := PGtkWidget(AWidget);
+  mySocket := gtk_socket_new;
+
+  gtk_container_add(GTK_CONTAINER(widget), mySocket);
 
   gtk_widget_show(mySocket);
   gtk_widget_show(widget);
 
-//*****
-  //gtk_container_add (GTK_CONTAINER (PGtkWidget(Awidget)), widget);
   gtk_widget_realize(mySocket);
-  //gtk_widget_hide(PGtkWidget(AWidget));
+
 {$IFDEF LCLGTK}
-  xid:=(PGdkWindowPrivate(widget^.window))^.xwindow;
+  xid:= (PGdkWindowPrivate(mySocket^.window))^.xwindow;
 {$ENDIF}
 {$IFDEF LCLGTK2}
-  xid:=GDK_WINDOW_XID(widget^.window);
+  xid:= GDK_WINDOW_XID(mySocket^.window);
 {$ENDIF}
-  hWidget:= THandle(widget);
+  hWidget:= THandle(mySocket);
 end;
 {$ENDIF}
 
@@ -202,6 +203,7 @@ begin
    pr:=TProcess.Create(nil);
    pr.Options := Pr.Options + [poWaitOnExit,poNoConsole{,poUsePipes}]; //mplayer stops if poUsePipes used.
    pr.CommandLine:=pmplayer+fileName+' -wid '+IntToStr(xid);
+   WriteLn(pr.CommandLine);
    pr.Execute;
 end;
 
@@ -307,14 +309,14 @@ begin
        end;
 
      //Free list if it has zero items
-     If List.Count=0 then  List.Free;
+     If List.Count=0 then  FreeAndNil(List);
    end;
 
 end;
 
 procedure ListGetDetectString(DetectString:pchar;maxlen:integer); dcpcall;
 begin
- StrLCopy (DetectString, 'EXT="AVI"|EXT="MKV"|EXT="FLV"|EXT="MPG"|EXT="MPEG"|EXT="MP4"|EXT=VOB', maxlen);
+  StrLCopy(DetectString, '(EXT="AVI")|(EXT="MKV")|(EXT="FLV")|(EXT="MPG")|(EXT="MPEG")|(EXT="MP4")|(EXT="VOB")', maxlen);
 end;
 
 exports
