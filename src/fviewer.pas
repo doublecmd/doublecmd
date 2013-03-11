@@ -383,6 +383,7 @@ begin
   FreeThenNil(FileList);
   FreeThenNil(FThumbnailManager);
   inherited Destroy;
+  FreeAndNil(WlxPlugins);
   FFileSource := nil; // If this is temp file source, the files will be deleted.
   tmp_all.Free;
 end;
@@ -1038,7 +1039,6 @@ begin
   if (WlxPlugins.Count > 0) and (ActivePlugin >= 0) then
   begin
     WlxPlugins.GetWlxModule(ActivePlugin).CallListCloseWindow;
-    WlxPlugins.GetWlxModule(ActivePlugin).UnloadModule;
   end;
   bPlugin:= False;
   ActivePlugin:= -1;
@@ -1616,12 +1616,8 @@ end;
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
-  if Assigned(WlxPlugins) then
-     FreeAndNil(WlxPlugins);
-  if Assigned(FFindDialog) then
-     FreeAndNil(FFindDialog);
-  if Assigned(FBitmapList) then
-     FreeAndNil(FBitmapList);
+  FreeAndNil(FFindDialog);
+  FreeAndNil(FBitmapList);
   HotMan.UnRegister(Self);
 end;
 
