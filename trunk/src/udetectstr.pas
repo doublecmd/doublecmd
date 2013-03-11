@@ -254,14 +254,11 @@ procedure TParserControl.processstring;
      insert('#',fmathstring,i);
    end;
  //---------------------
- while pos('FORCE',fmathstring)>0 do
-   begin
-     i:=pos('FORCE',fmathstring);
-     delete(fmathstring,i,length('FORCE'));
-     insert(BooleanToStr(fforce),fmathstring,i);
-   end;
+ fmathstring:= StringReplace(fmathstring, 'FORCE', BooleanToStr(fforce),
+                             [rfReplaceAll, rfIgnoreCase]);
  //---------------------
- fmathstring:= StringReplace(fmathstring, 'MULTIMEDIA', 'true', [rfReplaceAll]);
+ fmathstring:= StringReplace(fmathstring, 'MULTIMEDIA', 'true',
+                             [rfReplaceAll, rfIgnoreCase]);
  //---------------------
  numlen:=1;
  while numlen < length(fmathstring) do
