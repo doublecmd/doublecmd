@@ -256,7 +256,7 @@ type
     ActivePlugin:Integer;
     //---------------------
     function GetListerRect: TRect;
-    function CheckPlugins(const sFileName: UTF8String; Force: boolean=false):boolean;
+    function CheckPlugins(const sFileName: UTF8String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
     procedure AdjustImageSize;
@@ -1003,14 +1003,14 @@ begin
   EndY:=0;
 end;
 
-function TfrmViewer.CheckPlugins(const sFileName: UTF8String; Force:boolean=false):boolean;
+function TfrmViewer.CheckPlugins(const sFileName: UTF8String; bForce: Boolean = False): Boolean;
 var
   I: Integer;
   WlxModule: TWlxModule;
 begin
 //  DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   for I:= 0 to WlxPlugins.Count - 1 do
-  if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName) then
+  if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName, bForce) then
   begin
     DCDebug('I = ' + IntToStr(I));
     if not WlxPlugins.LoadModule(I) then Continue;

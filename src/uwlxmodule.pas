@@ -75,7 +75,6 @@ type
     ListGetPreviewBitmapW: TListGetPreviewBitmapW;
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
-    FForce: Boolean;
     FParser: TParserControl;
     FPluginWindow: HWND;
     function GetCanPrint: Boolean;
@@ -104,14 +103,13 @@ type
     function CallListSearchText(SearchString: String; SearchParameter: Integer): Integer;
     function CallListSendCommand(Command, Parameter: Integer): Integer;
     //---------------------
-    function FileParamVSDetectStr(AFileName: String): Boolean;
+    function FileParamVSDetectStr(AFileName: String; bForce: Boolean): Boolean;
     //---------------------
     procedure SetFocus;
     procedure ResizeWindow(aRect: TRect);
     //---------------------
     property IsLoaded: Boolean read GIsLoaded;
     property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
-    property Force: Boolean read FForce write FForce;
     property PluginWindow: HWND read FPluginWindow;
     property CanPrint: Boolean read GetCanPrint;
   end;
@@ -374,8 +372,9 @@ begin
     Result := LISTPLUGIN_ERROR;
 end;
 
-function TWlxModule.FileParamVSDetectStr(AFileName: String): Boolean;
+function TWlxModule.FileParamVSDetectStr(AFileName: String; bForce: Boolean): Boolean;
 begin
+  FParser.IsForce:= bForce;
   FParser.DetectStr := Self.DetectStr;
   DCDebug('DetectStr = ' + FParser.DetectStr);
   DCDebug('AFileName = ' + AFileName);
