@@ -242,6 +242,8 @@ begin
   ListSearchTextW := TListSearchTextW(GetProcAddress(FModuleHandle, 'ListSearchTextW'));
   ListPrintW := TListPrintW(GetProcAddress(FModuleHandle, 'ListPrintW'));
   ListGetPreviewBitmapW := TListGetPreviewBitmapW(GetProcAddress(FModuleHandle, 'ListGetPreviewBitmapW'));
+  // ListSetDefaultParams must be called immediately after loading the DLL, before ListLoad.
+  CallListSetDefaultParams;
   // DCDebug('WLXM LoadModule Leaved');
 end;
 
