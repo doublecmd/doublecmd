@@ -247,42 +247,44 @@ begin
           FreeAndNil(fsFileStream);
         end;
       end;
-      // Create thumb if not exist
-      sExt:= ExtractOnlyFileExt(sFullPathToFile);
-      if GetGraphicClassForFileExtension(sExt) <> nil then
-        begin
-          fsFileStream:= TFileStreamEx.Create(sFullPathToFile, fmOpenRead or fmShareDenyNone);
-          with Picture do
-          try
-            LoadFromStreamWithFileExt(fsFileStream, sExt);
-            if (Graphic.Width > gThumbSize.cx) or (Graphic.Height > gThumbSize.cy) then
-              Result:= CreatePreviewImage(Graphic)
-            else
-              begin
-                Result:= TBitmap.Create;
-                Result.Assign(Graphic);
-                Exit; // No need to save in cache
-              end;
-          finally
-            FreeAndNil(fsFileStream);
-          end
-        end
-      // Create thumb for text files
-      else if (mbFileAccess(sFullPathToFile, fmOpenRead)) and (FileIsText(sFullPathToFile)) then
-        begin
-          FFileName:= sFullPathToFile;
-          // Some widgetsets can not draw from background
-          // thread so call draw text function from main thread
-          TThread.Synchronize(nil, @DoCreatePreviewText);
-          Exit(FBitmap); // No need to save in cache
-        end
       // Try to create thumnail using providers
-      else
-        for I:= Low(FProviderList) to High(FProviderList) do
-        begin
-          Result:= FProviderList[I](sFullPathToFile, gThumbSize);
-          if Assigned(Result) then Break;
-        end;
+      for I:= Low(FProviderList) to High(FProviderList) do
+      begin
+        Result:= FProviderList[I](sFullPathToFile, gThumbSize);
+        if Assigned(Result) then Break;
+      end;
+      if not Assigned(Result) then
+      begin
+        sExt:= ExtractOnlyFileExt(sFullPathToFile);
+        // Create thumb for image files
+        if GetGraphicClassForFileExtension(sExt) <> nil then
+          begin
+            fsFileStream:= TFileStreamEx.Create(sFullPathToFile, fmOpenRead or fmShareDenyNone);
+            with Picture do
+            try
+              LoadFromStreamWithFileExt(fsFileStream, sExt);
+              if (Graphic.Width > gThumbSize.cx) or (Graphic.Height > gThumbSize.cy) then
+                Result:= CreatePreviewImage(Graphic)
+              else
+                begin
+                  Result:= TBitmap.Create;
+                  Result.Assign(Graphic);
+                  Exit; // No need to save in cache
+                end;
+            finally
+              FreeAndNil(fsFileStream);
+            end
+          end
+        // Create thumb for text files
+        else if (mbFileAccess(sFullPathToFile, fmOpenRead)) and (FileIsText(sFullPathToFile)) then
+          begin
+            FFileName:= sFullPathToFile;
+            // Some widgetsets can not draw from background
+            // thread so call draw text function from main thread
+            TThread.Synchronize(nil, @DoCreatePreviewText);
+            Exit(FBitmap); // No need to save in cache
+          end;
+      end;
       // Save created thumb to cache
       if gThumbSave and Assigned(Result) then
       begin
@@ -346,4 +348,4 @@ begin
 end;
 
 end.
-
+
