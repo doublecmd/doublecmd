@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Windows thumbnail provider
 
-   Copyright (C) 2012 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2013 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -77,7 +77,7 @@ var
   Status: HRESULT;
   dwRecClrDepth: DWORD;
   dwAttributes: ULONG = 0;
-  dwFlags: DWORD = IEIFLAG_SCREEN or IEIFLAG_QUALITY;
+  dwFlags: DWORD = IEIFLAG_SCREEN or IEIFLAG_QUALITY or IEIFLAG_ORIGSIZE;
 begin
   Result:= E_FAIL;
 
