@@ -104,7 +104,7 @@ uses
   , uThumbnailProvider
   {$ENDIF}
   {$IFDEF UNIX}
-  , BaseUnix, fFileProperties
+  , BaseUnix, fFileProperties, uMagickWand
   {$ENDIF};
 
 {$IF DEFINED(LCLWIN32)}
