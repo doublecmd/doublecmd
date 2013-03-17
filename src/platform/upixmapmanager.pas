@@ -315,7 +315,7 @@ uses
     , StrUtils, DCBasicTypes, DCClassesUtf8
   {$ENDIF}
   {$IFDEF DARWIN}
-    , CocoaAll, MacOSAll
+    , CocoaAll, MacOSAll, uClassesEx
   {$ENDIF}
   ;
 
@@ -1013,7 +1013,7 @@ var
   nData: NSData;
   nRepresentations: NSArray;
   nImageRep: NSImageRep;
-  WorkStream: TMemoryStream;
+  WorkStream: TBlobStream;
   tfBitmap: TTiffImage;
   bmBitmap: TBitmap;
 begin
@@ -1031,10 +1031,8 @@ begin
   if nImage.Representations.Count = 0 then Exit;
   nData:= nImage.TIFFRepresentation;
   tfBitmap:= TTiffImage.Create;
-  WorkStream := TMemoryStream.Create;
+  WorkStream:= TBlobStream.Create(nData.Bytes, nData.Length);
   try
-    WorkStream.Write(nData.Bytes^, nData.Length);
-    WorkStream.Position := 0;
     tfBitmap.LoadFromStream(WorkStream);
     bmBitmap:= TBitmap.Create;
     try
@@ -1045,7 +1043,7 @@ begin
     end;
   finally
     tfBitmap.Free;
-    WorkStream.free;
+    WorkStream.Free;
   end;
 end;
 {$ENDIF}
@@ -1948,4 +1946,4 @@ finalization
   end;
 
 end.
-
+

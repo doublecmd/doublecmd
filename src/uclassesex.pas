@@ -31,6 +31,14 @@ uses
   Classes, SysUtils, IniPropStorage;
 
 type
+
+  { TBlobStream }
+
+  TBlobStream = class(TCustomMemoryStream)
+  public
+    constructor Create(Ptr: Pointer; ASize: PtrInt);
+  end;
+
   { TIniPropStorageEx }
 
   TIniPropStorageEx = class(TCustomIniPropStorage)
@@ -52,6 +60,14 @@ implementation
 
 uses
   Forms, DCStrUtils, DCClassesUtf8;
+
+{ TBlobStream }
+
+constructor TBlobStream.Create(Ptr: Pointer; ASize: PtrInt);
+begin
+  inherited Create;
+  SetPointer(Ptr, ASize);
+end;
 
 { TIniPropStorageEx }
 
@@ -116,4 +132,4 @@ begin
     Result := Ident;
 end;
 
-end.
+end.
