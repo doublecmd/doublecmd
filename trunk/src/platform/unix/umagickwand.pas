@@ -30,7 +30,7 @@ implementation
 
 uses
   LCLIntf, Classes, SysUtils, GraphType, DynLibs, FileUtil, Types, Graphics,
-  CTypes, uThumbnails, uDebug;
+  CTypes, uThumbnails, uDebug, uClassesEx;
 
 const
   MagickFalse = 0;
@@ -46,7 +46,6 @@ type
   PExceptionType = ^ExceptionType;
 
 type
-  TBlobStream = class(TCustomMemoryStream) end;
   TRawAccess = class(TPortableNetworkGraphic) end;
 
 {$PACKENUM 4}
@@ -170,8 +169,7 @@ begin
         Memory:= MagickGetImageBlob(Wand, @MemorySize);
         if Assigned(Memory) then
         try
-          BlobStream:= TBlobStream.Create;
-          BlobStream.SetPointer(Memory, MemorySize);
+          BlobStream:= TBlobStream.Create(Memory, MemorySize);
           Bitmap:= TPortableNetworkGraphic.Create;
           try
             Bitmap.LoadFromStream(BlobStream);
