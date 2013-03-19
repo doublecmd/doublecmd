@@ -118,7 +118,6 @@ var
   Width, Height: culong;
   BlobStream: TBlobStream;
   Status: MagickBooleanType;
-  ThumbWidth, ThumbHeight: culong;
   Bitmap: TPortableNetworkGraphic;
 begin
   Result:= nil;
@@ -141,25 +140,10 @@ begin
 
         if (Width > aSize.cx) or (Height > aSize.cy) then
         begin
-          // Calculate width and height of thumb
-          if Width > Height then
-            begin
-              ThumbWidth:= aSize.cx;
-              ThumbHeight:= ThumbWidth * Height div Width;
-              if ThumbHeight > aSize.cy then
-                begin
-                  ThumbHeight:= aSize.cy;
-                  ThumbWidth:= ThumbHeight * Width div Height;
-                end;
-            end
-          else
-            begin
-              ThumbHeight:= aSize.cy;
-              ThumbWidth:= ThumbHeight * Width div Height;
-            end;
-
+          // Calculate aspect width and height of thumb
+          aSize:= TThumbnailManager.GetPreviewScaleSize(Width, Height);
           // Create image thumbnail
-          Status:= MagickResizeImage(Wand, ThumbWidth, ThumbHeight, LanczosFilter, 1.0);
+          Status:= MagickResizeImage(Wand, aSize.cx, aSize.cy, LanczosFilter, 1.0);
           if (Status = MagickFalse) then RaiseWandException(Wand);
         end;
 
@@ -250,4 +234,4 @@ initialization
 finalization
   Finalize;
 
-end.
+end.

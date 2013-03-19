@@ -42,6 +42,7 @@ type
   public
     class procedure CompactCache;
     class procedure RegisterProvider(Provider: TCreatePreviewHandler);
+    class function GetPreviewScaleSize(aWidth, aHeight: Integer): TSize;
   end;
 
 implementation
@@ -68,30 +69,16 @@ end;
 
 function TThumbnailManager.CreatePreviewImage(const Graphic: TGraphic): TBitmap;
 var
-  x, y: LongInt;
+  aSize: TSize;
   bmpTemp: TBitmap = nil;
 begin
   try
-    // Width and height of thumb
-    if  Graphic.Width > Graphic.Height then
-      begin
-        x:= gThumbSize.cx;
-        y:= x * Graphic.Height div Graphic.Width;
-        if y > gThumbSize.cy then
-          begin
-            y:= gThumbSize.cy;
-            x:= y * Graphic.Width div Graphic.Height;
-          end;
-      end
-    else
-      begin
-        y:= gThumbSize.cy;
-        x:= y * Graphic.Width div Graphic.Height;
-      end;
+    // Calculate aspect width and height of thumb
+    aSize:= GetPreviewScaleSize(Graphic.Width, Graphic.Height);
     bmpTemp:= TBitMap.Create;
     bmpTemp.Assign(Graphic);
     Result:= TBitMap.Create;
-    Result.SetSize(x, y);
+    Result.SetSize(aSize.cx, aSize.cy);
     Stretch(bmpTemp, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
   finally
     FreeThenNil(bmpTemp);
@@ -345,6 +332,25 @@ class procedure TThumbnailManager.RegisterProvider(Provider: TCreatePreviewHandl
 begin
   SetLength(FProviderList, Length(FProviderList) + 1);
   FProviderList[High(FProviderList)]:= Provider;
+end;
+
+class function TThumbnailManager.GetPreviewScaleSize(aWidth, aHeight: Integer): TSize;
+begin
+  if aWidth > aHeight then
+    begin
+      Result.cx:= gThumbSize.cx;
+      Result.cy:= Result.cx * aHeight div aWidth;
+      if Result.cy > gThumbSize.cy then
+      begin
+        Result.cy:= gThumbSize.cy;
+        Result.cx:= Result.cy * aWidth div aHeight;
+      end;
+    end
+  else
+    begin
+      Result.cy:= gThumbSize.cy;
+      Result.cx:= Result.cy * aWidth div aHeight;
+    end;
 end;
 
 end.
