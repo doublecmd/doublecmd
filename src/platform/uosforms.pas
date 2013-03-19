@@ -104,7 +104,10 @@ uses
   , uThumbnailProvider
   {$ENDIF}
   {$IFDEF UNIX}
-  , BaseUnix, fFileProperties, uMagickWand
+  , BaseUnix, fFileProperties, uJpegThumb
+    {$IF NOT DEFINED(DARWIN)}
+    , uMagickWand
+    {$ENDIF}
   {$ENDIF};
 
 {$IF DEFINED(LCLWIN32)}
