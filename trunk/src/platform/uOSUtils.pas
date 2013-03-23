@@ -319,10 +319,17 @@ end;
 
 function ShellExecute(URL: UTF8String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
+var
+  Return: HINST;
+  wsFileName: WideString;
 begin
-  Result:= ExecCmdFork(Format('"%s"', [URL]));
-  if Result = False then
-      Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + URL);
+  URL:= NormalizePathDelimiters(URL);
+  wsFileName:= UTF8Decode(QuoteDouble(URL));
+  Return:= ShellExecuteW(0, nil, PWideChar(wsFileName), nil, nil, SW_SHOWNORMAL);
+  if Return = SE_ERR_NOASSOC then
+    Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + URL)
+  else
+    Result:= Return > 32;
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var
