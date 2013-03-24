@@ -189,8 +189,11 @@ end;
 procedure Initialize;
 var
   Version: Integer;
-  LibraryName: AnsiString;
+  LibraryName: AnsiString = 'libMagickWand-6.Q16.so.1';
 begin
+  MagickWand:= LoadLibrary(LibraryName);
+
+  if (MagickWand = NilHandle) then
   for Version:= 7 downto 3 do
   begin
     LibraryName:= Format(libMagickWand, [Version]);
@@ -234,4 +237,4 @@ initialization
 finalization
   Finalize;
 
-end.
+end.
