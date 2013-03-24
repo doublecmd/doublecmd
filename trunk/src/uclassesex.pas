@@ -110,6 +110,9 @@ begin
         Top:= mTop + pHeight;
       if (Left > (mLeft + mWidth - pWidth)) or ((Left + Width - pWidth) < mLeft) then
         Left:= mLeft + pWidth;
+
+      // Workaround for bug: http://bugs.freepascal.org/view.php?id=18514
+      if WindowState = wsMinimized then WindowState:= wsNormal;
     end;
 end;
 
