@@ -51,16 +51,24 @@ begin
     try
       FileStream:= TFileStreamEx.Create(aFileName, fmOpenRead or fmShareDenyNone);
       LazIntfImage:= TLazIntfImage.Create(aSize.cx, aSize.cy, [riqfRGB]);
-      Bitmap:= TBitmap.Create;
       try
         FPReaderJPEG.ImageRead(FileStream, LazIntfImage);
         LazIntfImage.GetRawImage(RawImage, True);
-        Bitmap.LoadFromRawImage(RawImage, True);
-        aSize:= TThumbnailManager.GetPreviewScaleSize(Bitmap.Width, Bitmap.Height);
-        Result.SetSize(aSize.cx, aSize.cy);
-        Stretch(Bitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+        if not ((LazIntfImage.Width > aSize.cx) or (LazIntfImage.Height > aSize.cy)) then
+          Result.LoadFromRawImage(RawImage, True)
+        else
+          begin
+            Bitmap:= TBitmap.Create;
+            try
+              Bitmap.LoadFromRawImage(RawImage, True);
+              aSize:= TThumbnailManager.GetPreviewScaleSize(Bitmap.Width, Bitmap.Height);
+              Result.SetSize(aSize.cx, aSize.cy);
+              Stretch(Bitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+            finally
+              Bitmap.Free;
+            end;
+          end;
       finally
-        Bitmap.Free;
         FPReaderJPEG.Free;
         LazIntfImage.Free;
         FileStream.Free;
