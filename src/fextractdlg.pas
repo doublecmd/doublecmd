@@ -36,17 +36,19 @@ type
   { TfrmExtractDlg }
 
   TfrmExtractDlg = class(TForm)
+    cbExtractPath: TCheckBox;
+    cbInSeparateFolder: TCheckBox;
+    cbOverwrite: TCheckBox;
     edtPassword: TEdit;
     edtExtractTo: TDirectoryEdit;
+    lblExtractTo: TLabel;
     lblPassword: TLabel;
     cbFileMask: TComboBox;
-    cbExtractPath: TCheckBox;
-    cbOverwrite: TCheckBox;
-    cbInSeparateFolder: TCheckBox;
     btnOK: TButton;
     btnCancel: TButton;
     btnHelp: TButton;
     lblFileMask: TLabel;
+    pnlCheckBoxes: TPanel;
     pnlLabels: TPanel;
     procedure cbExtractPathChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
