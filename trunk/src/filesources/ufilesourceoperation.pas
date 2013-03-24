@@ -427,6 +427,7 @@ type
     property StartTime: TDateTime read FStartTime;
     property Result: TFileSourceOperationResult read FOperationResult;
     property FileSource: IInterface read FFileSource;
+    property WantsNewConnection: Boolean read FWantsNewConnection write FWantsNewConnection;
   end;
 
   EFileSourceOperationAborting = class(Exception)
