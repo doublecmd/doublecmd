@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # This file is distributed under the same license as the double-commander package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2011 - 2012.
+# Matej Urbančič <mateju@svn.gnome.org>, 2011 - 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: double-commander - lclstrconsts\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-11-24 12:48+0100\n"
+"PO-Revision-Date: 2013-03-24 14:34+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -119,7 +119,6 @@ msgid "Execute"
 msgstr "Izvedi"
 
 #: lclstrconsts.ifsvk_final
-#, fuzzy
 msgid "Final"
 msgstr "Končna različica"
 
@@ -551,7 +550,6 @@ msgid "Form streaming \"%s\" error: %s"
 msgstr "Napaka pretakanja obrazca \"%s\": %s"
 
 #: lclstrconsts.rsforward
-#, fuzzy
 msgid "Forward"
 msgstr "Posreduj"
 
@@ -635,12 +633,16 @@ msgid ""
 "classname for gimp is \"Gimp\". If --class is specified, the class of the "
 "program will be set to \"classname\"."
 msgstr ""
+"--class Imerazreda     Po določilih Xt je razred programa ime programa z "
+"veliko začetnico. \"Gimp\" (pisan z veliko) je na primer ime razreda "
+"programa gimp. Če je navedena zastavica --class, bo razred programa "
+"nastavljen na \"Imerazreda\"."
 
 #: lclstrconsts.rsgtkoptiondebug
 msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
 msgstr ""
-"--gtk-debug flags     Omogoči posebna sporočila sledenja in razhroščevanja "
-"Gtk+."
+"--gtk-debug zastavice     Omogoči posebna sporočila sledenja in "
+"razhroščevanja Gtk+."
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid ""
@@ -649,6 +651,10 @@ msgid ""
 "number (typically omitted). If --display is not specified, the DISPLAY "
 "environment variable is used."
 msgstr ""
+"--display h:s:d       Povezava z določenim strežnikom X, kjer je \"h\" ime "
+"gostitelja, \"s\" številka strežnika (običajno 0) in \"d\" številka zaslona "
+"(ta je običajno izpuščena). Če zastavica --display ni določena, je "
+"uporabljena spremenljivka okolja DISPLAY."
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
@@ -686,6 +692,11 @@ msgid ""
 "received immediately after the protocol request that generated the error has "
 "been processed by the X server."
 msgstr ""
+"--sync                Zastavica izvede priklic programa XSynchronize "
+"(zaslon, PRAV) po vzpostavitvi povezave s strežnikom Xserver. S tem postane "
+"razhroščevanje protokolov X enostavnejše, saj je medpomnjenje zahtev "
+"strežnika X onemogočeno. Napake strežnika X so prejete ob dogodku ali "
+"zahtevi protokola, ki je napako sprožilo."
 
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
@@ -1030,6 +1041,8 @@ msgid ""
 "No widgetset object. Please check if the unit \"interfaces\" was added to "
 "the programs uses clause."
 msgstr ""
+"Ni naveden predmet nabora gradnikov. Preveriti je treba ali so enote "
+"\"vmesnikov\" dodane zahtevam programa."
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
@@ -1094,15 +1107,15 @@ msgstr ""
 "zahteva nameščen paket QT_DEBUG."
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
-#, fuzzy
 msgid ""
 "-graphicssystem param, sets the backend to be used for on-screen widgets and "
 "QPixmaps. Available options are native, raster and opengl. OpenGL is still "
 "unstable."
 msgstr ""
-"-graphicssystem param : nastavi, sets the backend to be used for on-screen "
-"widgets and QPixmaps. Available options are native, raster and opengl. "
-"OpenGL is still unstable."
+"-graphicssystem parameter : nastavi ozadnji program za uporabo z zaslonskimi "
+"gradniki in predmeti QPixmaps. Na voljo so možnosti native (programsko), "
+"raster (rastersko) in opengl (OpenGL). OpenGL je še vedno v razvoju in ni "
+"povsem stabilen."
 
 #: lclstrconsts.rsqtoptionnograb
 msgid ""
@@ -1123,7 +1136,6 @@ msgid "-session session, restores the application from an earlier session."
 msgstr "-session <seja> : obnovi program predhodne seje."
 
 #: lclstrconsts.rsqtoptionstyle
-#, fuzzy
 msgid ""
 "-style style or -style=style, sets the application GUI style. Possible "
 "values are motif, windows, and platinum. If you compiled Qt with additional "
@@ -1132,12 +1144,11 @@ msgid ""
 "platforms. If style param does not exist Qt will start an application with "
 "default common style (windows)."
 msgstr ""
-"-style <slog> ali -style=<slog> : nastavi sets the application GUI style. "
-"Possible values are motif, windows, and platinum. If you compiled Qt with "
-"additional styles or have additional styles as plugins these will be "
-"available to the -style  command line option. NOTE: Not all styles are "
-"available on all platforms. If style param does not exist Qt will start an "
-"application with default common style (windows)."
+"-style <slog> ali -style=<slog> nastavi slog uporabniškega vmesnika "
+"programa. Mogoče vrednosti so motif, windows in platinum. Pri izgradnji s Qt "
+"so na voljo tudi drugi slogi ali slogi kot vstavki. OPOMBA: vsi slogi niso "
+"na voljo v vseh okoljih. Kadar parametri sloga niso poseben določeni, se "
+"program zažene v slogu oken (Windows)."
 
 #: lclstrconsts.rsqtoptionstylesheet
 msgid ""
