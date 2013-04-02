@@ -763,7 +763,7 @@ end;
 function TPluginWDX.CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String;
 var
   Rez: Integer;
-  Buf: array[0..2 * 1024] of char;
+  Buf: array[0..2 * 1024] of Byte;
   fnval: Integer absolute buf;
   fnval64: Int64 absolute buf;
   ffval: Double absolute buf;
@@ -806,8 +806,8 @@ begin
 
     ft_multiplechoice,
     ft_string,
-    ft_fulltext: Result := SysToUTF8(StrPas(Buf));
-    ft_stringw: Result := UTF8Encode(WideString(Buf));
+    ft_fulltext: Result := SysToUTF8(AnsiString(PAnsiChar(@Buf[0])));
+    ft_stringw: Result := UTF8Encode(WideString(PWideChar(@Buf[0])));
       //TODO: FT_DELAYED,ft_ondemand
     else
       Result := '';
@@ -1162,4 +1162,4 @@ begin
 end;
 
 end.
-
+
