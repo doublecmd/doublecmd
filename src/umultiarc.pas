@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of multi archiver support
 
-   Copyright (C) 2010-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2013  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -367,11 +367,11 @@ begin
   FSignature:= AValue;
   FSignatureList.Clean;
   if AValue = EmptyStr then Exit;
-  I:= 0;
   Value:= AValue;
   repeat
+    I:= 0;
     New(Signature);
-    Sign:= Copy2SymbDel(Value, ',');
+    Sign:= Trim(Copy2SymbDel(Value, ','));
     try
       while (Sign <> EmptyStr) and (I < MaxSignSize) do
       begin
