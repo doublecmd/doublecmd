@@ -131,6 +131,15 @@ begin
       stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, string('+'), string('-'));
       tmpWFXPlugins.Enabled[stgPlugins.Row - stgPlugins.FixedRows]:= bEnabled;
       btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
+    begin
+      with tmpWLXPlugins.GetWlxModule(stgPlugins.Row - stgPlugins.FixedRows) do
+      begin
+        Enabled:= not Enabled;
+        stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(Enabled, string('+'), string('-'));
+        btnEnablePlugin.Caption:= IfThen(Enabled, rsOptDisable, rsOptEnable);
+      end;
     end;
 end;
 
@@ -586,6 +595,7 @@ begin
 
     stgPlugins.RowCount:= stgPlugins.RowCount + 1;
     J:= stgPlugins.RowCount - 1;
+    stgPlugins.Cells[0, J]:= '+';
     stgPlugins.Cells[1, J]:= tmpWLXPlugins.GetWlxModule(I).Name;
     stgPlugins.Cells[2, J]:= tmpWLXPlugins.GetWlxModule(I).DetectStr;
     stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(I).FileName);
@@ -600,6 +610,7 @@ begin
   stgPlugins.RowCount:= tmpWLXPlugins.Count + stgPlugins.FixedRows;
   for i:=0 to tmpWLXPlugins.Count-1 do
     begin
+    stgPlugins.Cells[0, I + stgPlugins.FixedRows]:= IfThen(tmpWLXPlugins.GetWlxModule(i).Enabled, '+', '-');
     stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpWLXPlugins.GetWlxModule(i).Name;
     stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpWLXPlugins.GetWlxModule(i).DetectStr;
     stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(i).FileName);
