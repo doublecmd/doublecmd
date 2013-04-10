@@ -84,6 +84,7 @@ type
     FileName: String;
     DetectStr: String;
     pShowFlags: Integer;
+    Enabled: Boolean;
     //---------------------
     constructor Create;
     destructor Destroy; override;
@@ -204,6 +205,7 @@ end;
 
 constructor TWlxModule.Create;
 begin
+  Enabled := True;
   FParser := TParserControl.Create;
 end;
 
@@ -376,6 +378,7 @@ end;
 
 function TWlxModule.FileParamVSDetectStr(AFileName: String; bForce: Boolean): Boolean;
 begin
+  if not Enabled then Exit(False);
   FParser.IsForce:= bForce;
   FParser.DetectStr := Self.DetectStr;
   DCDebug('DetectStr = ' + FParser.DetectStr);
@@ -533,6 +536,7 @@ begin
           AWlxModule.Name := AName;
           AWlxModule.FileName := GetCmdDirFromEnvVar(APath);
           AWlxModule.DetectStr := AConfig.GetValue(ANode, 'DetectString', '');
+          AWlxModule.Enabled:= AConfig.GetAttr(ANode, 'Enabled', True);
         end
         else
           DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
@@ -570,6 +574,7 @@ begin
   for i := 0 to Flist.Count - 1 do
   begin
     SubNode := AConfig.AddNode(ANode, 'WlxPlugin');
+    AConfig.SetAttr(SubNode, 'Enabled', TWlxModule(Flist.Objects[I]).Enabled);
     AConfig.AddValue(SubNode, 'Name', TWlxModule(Flist.Objects[I]).Name);
     AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TWlxModule(Flist.Objects[I]).FileName));
     AConfig.AddValue(SubNode, 'DetectString', TWlxModule(Flist.Objects[I]).DetectStr);
@@ -620,13 +625,16 @@ end;
 
 procedure TWLXModuleList.Assign(OtherList: TWLXModuleList);
 var
-  i: Integer;
+  I, J: Integer;
 begin
   Clear;
-  for i := 0 to OtherList.Flist.Count - 1 do
+  for I := 0 to OtherList.Flist.Count - 1 do
   begin
     with TWlxModule(OtherList.Flist.Objects[I]) do
-      Add(Name, FileName, DetectStr);
+    begin
+      J:= Add(Name, FileName, DetectStr);
+      GetWlxModule(J).Enabled:= Enabled;
+    end;
   end;
 end;
 
