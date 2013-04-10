@@ -695,7 +695,7 @@ var
       Result := False;
       if not FSkipOpenForWritingError then
       begin
-        case AskQuestion(GetMsgByMode + ': ' + SourceFile.FullPath, '',
+        case AskQuestion(GetMsgByMode + ': ' + TargetFileName, '',
                          [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
                          fsourRetry, fsourSkip) of
           fsourRetry:
