@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, ComCtrls, StdCtrls, Grids, Buttons,
-  fOptionsFrame, uDSXModule, uWCXModule, uWDXModule, uWFXmodule, uWLXModule;
+  fOptionsFrame, uDSXModule, uWCXModule, uWDXModule, uWFXmodule, uWLXModule, Controls;
 
 type
 
@@ -63,11 +63,19 @@ type
     procedure btnWFXAddClick(Sender: TObject);
     procedure btnWLXAddClick(Sender: TObject);
     procedure btnWCXAddClick(Sender: TObject);
+    procedure stgPluginsMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure stgPluginsMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure stgPluginsSelection(Sender: TObject; aCol, aRow: Integer);
     procedure tsDSXShow(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tsWDXShow(Sender: TObject);
     procedure tsWFXShow(Sender: TObject);
     procedure tsWLXShow(Sender: TObject);
+  private
+    FMoveRow: Boolean;
+    FSourceRow: Integer;
   protected
     procedure Init; override;
     procedure Done; override;
@@ -389,6 +397,68 @@ begin
     finally
       WCXmodule.Free;
     end;
+  end;
+end;
+
+procedure TfrmOptionsPlugins.stgPluginsMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  SourceCol: Integer;
+begin
+  if (Button = mbLeft) then
+  begin
+    stgPlugins.MouseToCell(X, Y, SourceCol, FSourceRow);
+    if (FSourceRow > 0) then
+    begin
+      FMoveRow := True;
+    end;
+  end;
+end;
+
+procedure TfrmOptionsPlugins.stgPluginsMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if (Button = mbLeft) then
+  begin
+    FMoveRow := False;
+  end;
+end;
+
+procedure TfrmOptionsPlugins.stgPluginsSelection(Sender: TObject; aCol, aRow: Integer);
+begin
+  if FMoveRow and (aRow <> FSourceRow) then
+  with stgPlugins do
+  begin
+    if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
+      begin
+        tmpDSXPlugins.Exchange(FSourceRow - FixedRows, aRow - FixedRows);
+        FSourceRow := aRow;
+        tsDSXShow(stgPlugins);
+      end
+    else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
+      begin
+        tmpWCXPlugins.Exchange(FSourceRow - FixedRows, aRow - FixedRows);
+        FSourceRow := aRow;
+        tsWCXShow(stgPlugins);
+      end
+    else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
+      begin
+        tmpWDXPlugins.Exchange(FSourceRow - FixedRows, aRow - FixedRows);
+        FSourceRow := aRow;
+        tsWDXShow(stgPlugins);
+      end
+    else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+      begin
+        tmpWFXPlugins.Exchange(FSourceRow - FixedRows, aRow - FixedRows);
+        FSourceRow := aRow;
+        tsWFXShow(stgPlugins);
+      end
+    else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
+      begin
+        tmpWLXPlugins.Exchange(FSourceRow - FixedRows, aRow - FixedRows);
+        FSourceRow := aRow;
+        tsWLXShow(stgPlugins);
+      end;
   end;
 end;
 

@@ -127,6 +127,7 @@ type
     destructor Destroy; override;
     //---------------------
     procedure Clear;
+    procedure Exchange(Index1, Index2: Integer);
     procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(Ini: TIniFileEx); overload;
@@ -491,6 +492,11 @@ begin
   end;
 end;
 
+procedure TWLXModuleList.Exchange(Index1, Index2: Integer);
+begin
+  FList.Exchange(Index1, Index2);
+end;
+
 procedure TWLXModuleList.Load(Ini: TIniFileEx);
 var
   xCount, I: Integer;
@@ -674,7 +680,7 @@ begin
   Result := GetWlxModule(Index).LoadModule;
 end;
 
-function TWLXModuleList.GetWLxModule(Index: Integer): TWlxModule;
+function TWLXModuleList.GetWlxModule(Index: Integer): TWlxModule;
 begin
   Result := TWlxModule(Flist.Objects[Index]);
 end;

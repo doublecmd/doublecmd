@@ -232,6 +232,7 @@ type
     //---------------------
     procedure Assign(Source: TWDXModuleList);
     procedure Clear;
+    procedure Exchange(Index1, Index2: Integer);
     procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(Ini: TIniFileEx); overload;
@@ -307,6 +308,11 @@ begin
   for i := 0 to Flist.Count - 1 do
     TWDXModule(Flist.Objects[i]).Free;
   Flist.Clear;
+end;
+
+procedure TWDXModuleList.Exchange(Index1, Index2: Integer);
+begin
+  FList.Exchange(Index1, Index2);
 end;
 
 procedure TWDXModuleList.Load(Ini: TIniFileEx);

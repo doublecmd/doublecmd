@@ -80,6 +80,7 @@ type
     destructor Destroy; override;
     //---------------------
     procedure Clear;
+    procedure Exchange(Index1, Index2: Integer);
     procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(Ini: TIniFileEx); overload;
@@ -225,6 +226,11 @@ begin
     TDSXModule(Flist.Objects[0]).Free;
     Flist.Delete(0);
   end;
+end;
+
+procedure TDSXModuleList.Exchange(Index1, Index2: Integer);
+begin
+  FList.Exchange(Index1, Index2);
 end;
 
 procedure TDSXModuleList.Load(Ini: TIniFileEx);
