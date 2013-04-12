@@ -177,11 +177,14 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         Width = 164
       end>
     FixedCols = 0
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
     RowCount = 1
     TabOrder = 0
     TitleStyle = tsNative
     OnBeforeSelection = stgPluginsBeforeSelection
+    OnMouseDown = stgPluginsMouseDown
+    OnMouseUp = stgPluginsMouseUp
+    OnSelection = stgPluginsSelection
     ColWidths = (
       70
       183
