@@ -75,7 +75,7 @@ function GetPluginBinaryType(const FileName: UTF8String): TBinaryType;
 implementation
 
 uses
-  Forms, Dialogs, DCOSUtils, DCStrUtils, uGlobs, uLng;
+  Forms, Dialogs, DCOSUtils, DCStrUtils, DCClassesUtf8, uGlobs, uLng;
 
 procedure UpdatePlugins;
 var
@@ -198,10 +198,10 @@ end;
 
 function GetPluginBinaryType(const FileName: UTF8String): TBinaryType;
 var
-  fsFileStream: TFileStream;
+  fsFileStream: TFileStreamEx;
 begin
   try
-    fsFileStream:= TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
+    fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
     try
       // Check Windows executable
       if fsFileStream.ReadWord = $5A4D then // 'MZ'
