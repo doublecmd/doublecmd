@@ -517,35 +517,16 @@ end;
 function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
 var
   Ext : string;
-  FS : TStream = nil;
+  FS : TStream;
 begin
   Result := AssertType;
-  { Guess archive type based on it's content }
-  if (Result = atUnknown) and mbFileExists(FN) and (AbFileGetSize(FN) > 0) then
-    try
-      FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);
-      Result := VerifyZip(FS);
-      if Result = atUnknown then
-        Result := VerifySelfExtracting(FS);
-      if Result = atUnknown then
-        Result := VerifyTar(FS);
-      if Result = atUnknown then
-        Result := VerifyGzip(FS);
-      {$IF DEFINED(ExtractCabSupport)}
-      if Result = atUnknown then
-        Result := VerifyCab(FS);
-      {$ENDIF}
-      if Result = atUnknown then
-        Result := VerifyBzip2(FS);
-    finally
-      if Assigned(FS) then
-        FreeAndNil(FS);
-    end
-  else if Result = atUnknown then begin
+  if Result = atUnknown then begin
     { Guess archive type based on it's extension }
     Ext := UpperCase(ExtractFileExt(FN));
     if (Ext = '.ZIP') or (Ext = '.JAR') then
       Result := atZip
+    else if (Ext = '.EXE') then
+      Result := atSelfExtZip
     else if (Ext = '.TAR') then
       Result := atTar
     else if (Ext = '.GZ') then
@@ -563,16 +544,56 @@ begin
   if Result = atCab then
     Result := atUnknown;
   {$ENDIF}
+  if mbFileExists(FN) and (AbFileGetSize(FN) > 0) then begin
+    { If the file doesn't exist (or is empty) presume to make one, otherwise
+      guess or verify the contents }
+    try  
+      FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);
+      try
+        if Result <> atUnknown then begin
+          case Result of
+            atZip : begin
+              Result := VerifyZip(FS);
+            end;
+            atSelfExtZip : begin
+              Result := VerifySelfExtracting(FS);
+            end;
+            atTar : begin
+              Result := VerifyTar(FS);
+            end;
+            atGzip, atGzippedTar: begin
+              Result := VerifyGzip(FS);
+            end;
+            {$IF DEFINED(ExtractCabSupport)}
+            atCab : begin
+              Result := VerifyCab(FS);
+            end;
+            {$ENDIF}
+            atBzip2, atBzippedTar: begin
+              Result := VerifyBzip2(FS);
+            end;
+          end;
+        end;
+        if Result = atUnknown then
+          Result := AbDetermineArcType(FS)
+      finally
+        FS.Free;
+      end;
+    except
+      // Skip
+    end;
+  end;
 end;
 { -------------------------------------------------------------------------- }
 function AbDetermineArcType(aStream: TStream): TAbArchiveType;
 begin
   { VerifyZip returns true for self-extracting zips too, so test those first }
   Result := VerifySelfExtracting(aStream);
-  if Result = atUnknown then
-    Result := VerifyZip(aStream);
+  { VerifyZip returns true for example when ZIP file is stored in a TAR archive, so test it first }
   if Result = atUnknown then
     Result := VerifyTar(aStream);
+  if Result = atUnknown then
+    Result := VerifyZip(aStream);
   if Result = atUnknown then
     Result := VerifyGzip(aStream);
   if Result = atUnknown then
