@@ -633,7 +633,6 @@ function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
   Footer       : TAbZipEndOfCentralDirectoryRecord;
-  ZipSig       : Word;
   Sig          : LongInt;
   TailPosition : int64;
   StartPos     : int64;
@@ -642,22 +641,23 @@ begin
   Result := atUnknown;
   try
     Strm.Position := 0;
-    if (Strm.Read(ZipSig, SizeOf(ZipSig)) = SizeOf(ZipSig)) and
-       (ZipSig = Ab_GeneralZipSignature) then
+    if Strm.Read(Sig, SizeOf(Sig)) = SizeOf(Sig) then
     begin
-      Strm.Position := 0;
-      if Strm.Read(Sig, SizeOf(Sig)) = SizeOf(Sig) then
-      begin
-        if (Sig = Ab_ZipSpannedSetSignature) then
-          Result := atSpannedZip
-        else begin
-          { attempt to find Central Directory Tail }
-          TailPosition := FindCentralDirectoryTail( Strm );
-          if TailPosition <> -1 then begin
-            { check Central Directory Signature }
-            if (Strm.Read(Footer, SizeOf(Footer)) = SizeOf(Footer)) and
-               (Footer.Signature = Ab_ZipEndCentralDirectorySignature) and
-               (Footer.CommentLength = Strm.Size - Strm.Position) then
+      if (Sig = Ab_ZipSpannedSetSignature) then
+        Result := atSpannedZip
+      else begin
+        { attempt to find Central Directory Tail }
+        TailPosition := FindCentralDirectoryTail( Strm );
+        if TailPosition <> -1 then begin
+          { check Central Directory Signature }
+          if (Strm.Read(Footer, SizeOf(Footer)) = SizeOf(Footer)) and
+             (Footer.Signature = Ab_ZipEndCentralDirectorySignature) then
+          begin
+            { check Central Directory Offset }
+            if (Footer.DirectoryOffset = High(LongWord)) or
+               ((Strm.Seek(Footer.DirectoryOffset, soBeginning) = Footer.DirectoryOffset) and
+               (Strm.Read(Sig, SizeOf(Sig)) = SizeOf(Sig)) and
+               (Sig = Ab_ZipCentralDirectoryFileHeaderSignature)) then
             begin
               if Footer.DiskNumber = 0 then
                 Result := atZip
@@ -747,15 +747,13 @@ function FindCentralDirectoryTail(aStream : TStream) : Int64;
   leaves stream positioned at start of structure or at original
   position if not found }
 const
-  StartBufSize = 512;
-  MaxBufSize = 64 * 1024;
+  MaxBufSize = 256 * 1024;
 var
   StartPos  : Int64;
   TailRec   : TAbZipEndOfCentralDirectoryRecord;
   Buffer    : PAnsiChar;
   Offset    : Int64;
   TestPos   : PAnsiChar;
-  Done      : boolean;
   BytesRead : Int64;
   BufSize   : Int64;
   CommentLen: integer;
@@ -781,64 +779,48 @@ begin
    stream; we need to search for the tail signature}
 
   {get a buffer}
-  BufSize := StartBufSize;
+  BufSize := Min(MaxBufSize, aStream.Size);
   GetMem(Buffer, BufSize);
   try
 
     {start out searching backwards}
     Offset := -BufSize;
 
-    {while there is still data to search ...}
-    Done := false;
-    while not Done do begin
+    {seek to the search position}
+    Result := aStream.Seek(Offset, soEnd);
+    if (Result < 0) then begin
+      Result := aStream.Seek(0, soBeginning);
+    end;
 
-      {seek to the search position}
-      Result := aStream.Seek(Offset, soEnd);
-      if (Result <= 0) then begin
-        Result := aStream.Seek(0, soBeginning);
-        Done := true;
-      end;
+    {read a buffer full}
+    BytesRead := aStream.Read(Buffer^, BufSize);
 
-      {read a buffer full}
-      BytesRead := aStream.Read(Buffer^, BufSize);
+    if BytesRead < sizeOf(TailRec) then begin
+      Result := -1;
+      Exit;
+    end;
 
-      if BytesRead < sizeOf(TailRec) then begin
-        Result := -1;
+    {search backwards through the buffer looking for the signature}
+    TestPos := Buffer + BytesRead - sizeof(TailRec);
+    while (TestPos <> Buffer) and
+          (PLongint(TestPos)^ <> Ab_ZipEndCentralDirectorySignature) do
+      dec(TestPos);
+
+    {if we found the signature...}
+    if (PLongint(TestPos)^ = Ab_ZipEndCentralDirectorySignature) then begin
+
+      {get the tail record at this position}
+      Move(TestPos^, TailRec, sizeof(TailRec));
+
+      {if it's as valid a tail as we can check here...}
+      CommentLen := -Offset - (TestPos - Buffer + sizeof(TailRec));
+      if (TailRec.CommentLength <= CommentLen) then begin
+
+        {calculate its position and exit}
+        Result := Result + (TestPos - Buffer);
+        aStream.Seek(Result, soBeginning);
         Exit;
       end;
-
-      {search backwards through the buffer looking for the signature}
-      TestPos := Buffer + BytesRead - sizeof(TailRec);
-      while (TestPos <> Buffer) and
-            (PLongint(TestPos)^ <> Ab_ZipEndCentralDirectorySignature) do
-        dec(TestPos);
-
-      {if we found the signature...}
-      if (PLongint(TestPos)^ = Ab_ZipEndCentralDirectorySignature) then begin
-
-        {get the tail record at this position}
-        Move(TestPos^, TailRec, sizeof(TailRec));
-
-        {if it's as valid a tail as we can check here...}
-        CommentLen := -Offset - (TestPos - Buffer + sizeof(TailRec));
-        if (TailRec.CommentLength <= CommentLen) then begin
-
-          {calculate its position and exit}
-          Result := Result + (TestPos - Buffer);
-          aStream.Seek(Result, soBeginning);
-          Exit;
-        end;
-      end;
-
-      {otherwise move back one step, doubling the buffer}
-      if (BufSize < MaxBufSize) then begin
-        FreeMem(Buffer);
-        BufSize := BufSize * 2;
-        if BufSize > MaxBufSize then
-          BufSize := MaxBufSize;
-        GetMem(Buffer, BufSize);
-      end;
-      dec(Offset, BufSize - SizeOf(TailRec));
     end;
 
     {if we reach this point, the CD tail is not present}
