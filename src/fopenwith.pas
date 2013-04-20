@@ -142,8 +142,8 @@ end;
 
 procedure TfrmOpenWith.OKButtonClick(Sender: TObject);
 var
-  DesktopFile: PDesktopFileEntry;
   DesktopEntry: TDesktopFileEntry;
+  DesktopFile: PDesktopFileEntry = nil;
 begin
   if chkCustomCommand.Checked then
     begin
