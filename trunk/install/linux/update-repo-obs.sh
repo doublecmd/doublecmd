@@ -86,6 +86,17 @@ update_doublecmd()
   popd
 }
 
+update_doublecmd_svn()
+{
+  trap "stty echo; echo; exit" INT TERM EXIT
+  read -s -p "Enter password: " PASSWORD; echo
+  echo "Update Double Commander (Qt)"
+  curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-qt?cmd=runservice
+  echo "Update Double Commander (Gtk)"
+  curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-gtk?cmd=runservice
+  exit 0
+}
+
 update_doublecmd_help()
 {
   # Export from SVN
@@ -130,6 +141,7 @@ update_all()
 
 case $1 in
   doublecmd-help)  update_doublecmd_help;;
+   doublecmd-svn)  update_doublecmd_svn;;
        doublecmd)  update_doublecmd;;
                *)  update_all;;
 esac
