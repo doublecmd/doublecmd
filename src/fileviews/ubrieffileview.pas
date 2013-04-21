@@ -104,7 +104,7 @@ end;
 
 procedure TBriefDrawGrid.CalculateColRowCount;
 var
-  glw, bw: Integer;
+  glw, bw, ARowCount: Integer;
   AIndex, ACol, ARow: Integer;
 begin
   if (csDesigning in ComponentState) then Exit;
@@ -119,11 +119,12 @@ begin
     // Save active file index
     AIndex:= CellToIndex(Col, Row);
 
-    RowCount := (Height - GetSystemMetrics(SM_CYHSCROLL) -
-                 glw - (2 * bw)) div (DefaultRowHeight + glw);
-    if RowCount > 0 then
+    ARowCount := (Height - GetSystemMetrics(SM_CYHSCROLL) -
+                  glw - (2 * bw)) div (DefaultRowHeight + glw);
+    if ARowCount > 0 then
     begin
-      ColCount := (FBriefView.FFiles.Count + RowCount - 1) div RowCount;
+      RowCount := ARowCount;
+      ColCount := (FBriefView.FFiles.Count + ARowCount - 1) div ARowCount;
       // Restore active file index
       IndexToCell(AIndex, ACol, ARow);
       MoveExtend(False, ACol, ARow);
