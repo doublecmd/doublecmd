@@ -69,16 +69,16 @@ procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText:
 var
   f: System.Text;
 begin
-  if (aFileName <> EmptyStr) and not mbDirectoryExists(aFileName) and
-     mbFileAccess(aFileName, fmOpenWrite or fmShareDenyNone) then
+  if (aFileName <> EmptyStr) and not mbDirectoryExists(aFileName) then
   begin
-    AssignFile(f, aFileName);
+    AssignFile(f, UTF8ToSys(aFileName));
+    {$PUSH}{$I-}
     if not mbFileExists(aFileName) then
       Rewrite(f)
-    else
+    else if mbFileAccess(aFileName, fmOpenWrite or fmShareDenyNone) then
       Append(f);
-
-    if TextRec(f).mode <> fmClosed then
+    {$POP}
+    if (TextRec(f).mode <> fmClosed) and (IOResult = 0) then
     begin
       WriteLn(f, '--------------- ',
                  FormatDateTime('dd-mm-yyyy, hh:nn:ss', SysUtils.Now),
