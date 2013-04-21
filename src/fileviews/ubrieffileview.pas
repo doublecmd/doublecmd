@@ -114,7 +114,7 @@ begin
   glw := Max(GridLineWidth, 1);
   bw  := Max(BorderWidth, 1);
 
-  if DefaultRowHeight > 0 then
+  if (Height > 0) and (DefaultRowHeight > 0) then
   begin
     // Save active file index
     AIndex:= CellToIndex(Col, Row);
@@ -122,11 +122,12 @@ begin
     RowCount := (Height - GetSystemMetrics(SM_CYHSCROLL) -
                  glw - (2 * bw)) div (DefaultRowHeight + glw);
     if RowCount > 0 then
-    ColCount := (FBriefView.FFiles.Count + RowCount - 1) div RowCount;
-
-    // Restore active file index
-    IndexToCell(AIndex, ACol, ARow);
-    MoveExtend(False, ACol, ARow);
+    begin
+      ColCount := (FBriefView.FFiles.Count + RowCount - 1) div RowCount;
+      // Restore active file index
+      IndexToCell(AIndex, ACol, ARow);
+      MoveExtend(False, ACol, ARow);
+    end;
   end;
   Invalidate;
 end;
