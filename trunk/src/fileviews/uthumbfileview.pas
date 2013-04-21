@@ -318,7 +318,7 @@ end;
 
 procedure TThumbDrawGrid.CalculateColRowCount;
 var
-  glw, bw: Integer;
+  glw, bw, AColCount: Integer;
   AIndex, ACol, ARow: Integer;
 begin
   if (csDesigning in ComponentState) or (FUpdateColCount > 0) then Exit;
@@ -331,16 +331,17 @@ begin
   BeginUpdate;
   Inc(FUpdateColCount);
   try
-    if DefaultColWidth > 0 then
+    if (Width > 0) and (DefaultColWidth > 0) then
     begin
       // Save active file index
       AIndex:= CellToIndex(Col, Row);
 
-      ColCount := (Width - GetSystemMetrics(SM_CXVSCROLL) -
-                   glw - (2 * bw)) div (DefaultColWidth + glw);
-      if ColCount > 0 then
+      AColCount := (Width - GetSystemMetrics(SM_CXVSCROLL) -
+                    glw - (2 * bw)) div (DefaultColWidth + glw);
+      if AColCount > 0 then
       begin
-        RowCount := (FFileView.DisplayFiles.Count + ColCount - 1) div ColCount;
+        ColCount := AColCount;
+        RowCount := (FFileView.DisplayFiles.Count + AColCount - 1) div AColCount;
         if ColCount > 0 then
         begin
           ARow := (Width - GetSystemMetrics(SM_CXVSCROLL) -
