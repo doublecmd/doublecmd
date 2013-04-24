@@ -228,7 +228,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uColumnsFileView,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
-     uFileSystemDeleteOperation, uFileSourceExecuteOperation,
+     uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil, uThumbFileView,
@@ -738,7 +738,11 @@ procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
     NewPage: TFileViewPage;
   begin
     NewPage := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
-    NewPage.FileView.CurrentPath := aFullPath;
+    // Workaround for Search Result File Source
+    if NewPage.FileView.FileSource is TSearchResultFileSource then
+      SetFileSystemPath(NewPage.FileView, aFullPath)
+    else
+      NewPage.FileView.CurrentPath := aFullPath;
     if tb_open_new_in_foreground in gDirTabOptions then
       NewPage.MakeActive;
   end;
