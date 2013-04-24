@@ -29,6 +29,8 @@ function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean = Fal
 
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 
+procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
+
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 
@@ -267,6 +269,34 @@ begin
   end;
 end;
 
+procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
+var
+  i: Integer;
+begin
+  // Search for filesystem file source in this view, and remove others.
+  with aFileView do
+  begin
+    for i := FileSourcesCount - 1 downto 0 do
+    begin
+      // Search FileSource with same class name, we can not use "is"
+      // operator because it also works for descendant classes
+      if TFileSystemFileSource.ClassNameIs(FileSources[i].ClassName) then
+      begin
+        CurrentPath := aPath;
+        Break;
+      end
+      else
+        RemoveCurrentFileSource;
+    end;
+
+    if FileSourcesCount = 0 then
+    begin
+      // If not found, get a new filesystem file source.
+      AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
+    end;
+  end;
+end;
+
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 var
@@ -317,4 +347,3 @@ begin
 end;
 
 end.
-

@@ -564,7 +564,6 @@ type
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure UpdateSelectedDrives;
-    procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
@@ -5065,34 +5064,6 @@ begin
           mnuAllOperStart.Visible:= True;
         end;
     end;
-end;
-
-procedure TfrmMain.SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
-var
-  i: Integer;
-begin
-  // Search for filesystem file source in this view, and remove others.
-  with aFileView do
-  begin
-    for i := FileSourcesCount - 1 downto 0 do
-    begin
-      // Search FileSource with same class name, we can not use "is"
-      // operator because it also works for descendant classes
-      if TFileSystemFileSource.ClassNameIs(FileSources[i].ClassName) then
-      begin
-        CurrentPath := aPath;
-        Break;
-      end
-      else
-        RemoveCurrentFileSource;
-    end;
-
-    if FileSourcesCount = 0 then
-    begin
-      // If not found, get a new filesystem file source.
-      AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
-    end;
-  end;
 end;
 
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
