@@ -2554,7 +2554,11 @@ begin
   if Assigned(aFile) and aFile.IsNameValid and
      (aFile.IsDirectory or aFile.IsLinkToDirectory) then
   begin
-    CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
+    // Workaround for Search Result File Source
+    if FileSource is TSearchResultFileSource then
+      SetFileSystemPath(Self, aFile.FullPath)
+    else
+      CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
   end;
 end;
 
