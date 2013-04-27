@@ -807,7 +807,7 @@ begin
 
     if (I < 0) or (I >= Count) then
       comboBox.Items.Insert(0, sLine)
-    else
+    else if (I > 0) then
       begin
         comboBox.Items.Move(I, 0);
         // Reset selected item (and combobox text), because Move has destroyed it.
