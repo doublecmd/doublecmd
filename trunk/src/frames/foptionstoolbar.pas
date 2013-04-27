@@ -475,7 +475,7 @@ begin
   Result.EdgeInner   := esNone;
   Result.EdgeOuter   := esNone;
   Result.EdgeBorders := [];
-  Result.Top := MaxInt; // So that it is put under all existing toolbars (because of Align=alTop).
+  Result.Top := MaxSmallInt; // So that it is put under all existing toolbars (because of Align=alTop).
 
   Result.UseItems(Items);
   Result.Parent := sboxToolbars;
