@@ -624,7 +624,12 @@ type
     procedure GetDestinationPathAndMask(SourceFiles: TFiles;
                                         TargetFileSource: IFileSource;
                                         EnteredPath: String; BaseDir: String;
-                                        out DestPath, DestMask: String);
+                                        out DestPath, DestMask: String); overload;
+    procedure GetDestinationPathAndMask(SourceFiles: TFiles;
+                                        SourceFileSource: IFileSource;
+                                        var TargetFileSource: IFileSource;
+                                        EnteredPath: String; BaseDir: String;
+                                        out DestPath, DestMask: String); overload;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure SetActiveFrame(FileView: TFileView);
     procedure UpdateDiskCount;
@@ -2166,7 +2171,7 @@ begin
   end;
 end;
 
-Function TfrmMain.ActiveFrame: TFileView;
+function TfrmMain.ActiveFrame: TFileView;
 begin
   case PanelSelected of
     fpLeft:
@@ -2178,7 +2183,7 @@ begin
   end;
 end;
 
-Function TfrmMain.NotActiveFrame: TFileView;
+function TfrmMain.NotActiveFrame: TFileView;
 begin
   case PanelSelected of
     fpRight:
@@ -2343,7 +2348,7 @@ begin
   end;
 end;
 
-Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti: String; Files: TFiles):String;
+function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti: String; Files: TFiles): String;
 begin
   if Files.Count = 0 then
     raise Exception.Create(rsMsgNoFilesSelected);
@@ -2768,8 +2773,15 @@ begin
 
         sDestination := CopyDialog.edtDst.Text;
 
-        GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
+        GetDestinationPathAndMask(SourceFiles, SourceFileSource,
+                                  TargetFileSource, sDestination,
                                   SourceFiles.Path, TargetPath, sDstMaskTemp);
+
+        if (TargetFileSource = nil) or (Length(TargetPath) = 0) then
+        begin
+          MessageDlg(rsMsgInvalidPath, rsMsgErrNotSupported, mtWarning, [mbOK], 0);
+          Continue;
+        end;
 
         if HasPathInvalidCharacters(TargetPath) then
           MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [TargetPath]),
@@ -2886,8 +2898,15 @@ begin
 
         sDestination := MoveDialog.edtDst.Text;
 
-        GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
+        GetDestinationPathAndMask(SourceFiles, SourceFileSource,
+                                  TargetFileSource, sDestination,
                                   SourceFiles.Path, TargetPath, sDstMaskTemp);
+
+        if (TargetFileSource = nil) or (Length(TargetPath) = 0) then
+        begin
+          MessageDlg(EmptyStr, rsMsgInvalidPath, mtWarning, [mbOK], 0);
+          Continue;
+        end;
 
         if HasPathInvalidCharacters(TargetPath) then
           MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [TargetPath]),
@@ -2998,6 +3017,8 @@ begin
   AbsolutePath := NormalizePathDelimiters(AbsolutePath);  // normalize path delimiters
   AbsolutePath := ExpandAbsolutePath(AbsolutePath);
 
+  if Length(AbsolutePath) = 0 then Exit;
+
   // If the entered path ends with a path delimiter
   // treat it as a path to a not yet existing directory
   // which should be created.
@@ -3026,6 +3047,45 @@ begin
     // To remove extension '*.' can be used.
     else if DestMask = '*' then
       DestMask := '*.*';
+  end;
+end;
+
+procedure TfrmMain.GetDestinationPathAndMask(SourceFiles: TFiles;
+  SourceFileSource: IFileSource; var TargetFileSource: IFileSource;
+  EnteredPath: String; BaseDir: String; out DestPath, DestMask: String);
+var
+  FileSourceIndex, PathIndex: Integer;
+begin
+  // If it is a file source root and we trying to copy/move to parent directory
+  if StrBegins(EnteredPath, '..') and SourceFileSource.IsPathAtRoot(SourceFiles.Path) then
+  begin
+    // Change to previous file source and last path.
+    FileSourceIndex := ActiveFrame.CurrentFileSourceIndex - 1;
+    if FileSourceIndex < 0 then
+      TargetFileSource := nil // No parent file sources.
+    else
+    begin
+      PathIndex := ActiveFrame.PathsCount[FileSourceIndex] - 1;
+      if PathIndex < 0 then
+        TargetFileSource := nil // No paths.
+      else
+      begin
+        TargetFileSource := ActiveFrame.FileSources[FileSourceIndex];
+        // Determine destination type
+        if (Length(EnteredPath) = 2) or (EnteredPath[Length(EnteredPath)] = PathDelim) then
+          EnteredPath:= EmptyStr // Destination is a directory
+        else
+          EnteredPath:= ExtractFileName(EnteredPath); // Destination is a file name or mask
+        // Combine destination path
+        EnteredPath := ActiveFrame.Path[FileSourceIndex, PathIndex] + EnteredPath;
+      end;
+    end;
+  end;
+  // Target file source is valid
+  if Assigned(TargetFileSource) then
+  begin
+    GetDestinationPathAndMask(SourceFiles, TargetFileSource,
+                              EnteredPath, BaseDir, DestPath, DestMask);
   end;
 end;
 
