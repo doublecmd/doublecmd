@@ -521,13 +521,14 @@ end;
 
 function LoadHistoryConfig(var ErrorMessage: String): Boolean;
 var
+  Root: TXmlNode;
   History: TXmlConfig;
 
   procedure LoadHistory(const NodeName: UTF8String; HistoryList: TStrings);
   var
     Node: TXmlNode;
   begin
-    Node := History.FindNode(History.RootNode, NodeName);
+    Node := History.FindNode(Root, NodeName);
     if Assigned(Node) then
     begin
       HistoryList.Clear;
@@ -547,12 +548,16 @@ begin
   Result:= False;
   History:= TXmlConfig.Create(gpCfgDir + 'history.xml', True);
   try
-    LoadHistory('Navigation', glsDirHistory);
-    LoadHistory('FileMask', glsMaskHistory);
-    LoadHistory('SearchText', glsSearchHistory);
-    LoadHistory('ReplaceText', glsReplaceHistory);
-    LoadHistory('SearchExcludeFiles', glsSearchExcludeFiles);
-    LoadHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
+    Root:= History.FindNode(History.RootNode, 'History');
+    if Assigned(Root) then
+    begin
+      LoadHistory('Navigation', glsDirHistory);
+      LoadHistory('FileMask', glsMaskHistory);
+      LoadHistory('SearchText', glsSearchHistory);
+      LoadHistory('ReplaceText', glsReplaceHistory);
+      LoadHistory('SearchExcludeFiles', glsSearchExcludeFiles);
+      LoadHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
+    end;
     Result:= True;
   finally
     History.Free;
@@ -561,6 +566,7 @@ end;
 
 procedure SaveHistoryConfig;
 var
+  Root: TXmlNode;
   History: TXmlConfig;
 
   procedure SaveHistory(const NodeName: UTF8String; HistoryList: TStrings);
@@ -568,21 +574,19 @@ var
     I: Integer;
     Node, SubNode: TXmlNode;
   begin
-    Node := History.FindNode(History.RootNode, NodeName, True);
-    if Assigned(Node) then
+    Node := History.FindNode(Root, NodeName, True);
+    History.ClearNode(Node);
+    for I:= 0 to HistoryList.Count - 1 do
     begin
-      History.ClearNode(Node);
-      for I:= 0 to HistoryList.Count - 1 do
-      begin
-        SubNode := History.AddNode(Node, 'Item');
-        History.SetContent(SubNode, HistoryList[I]);
-      end;
+      SubNode := History.AddNode(Node, 'Item');
+      History.SetContent(SubNode, HistoryList[I]);
     end;
   end;
 
 begin
   History:= TXmlConfig.Create(gpCfgDir + 'history.xml');
   try
+    Root:= History.FindNode(History.RootNode, 'History', True);
     if gSaveDirHistory then SaveHistory('Navigation', glsDirHistory);
     if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
     if gSaveSearchReplaceHistory then
