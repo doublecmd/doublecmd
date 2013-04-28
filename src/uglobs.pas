@@ -186,6 +186,8 @@ var
   glsMaskHistory : TStringListEx;
   glsSearchHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
+  glsSearchExcludeFiles: TStringList;
+  glsSearchExcludeDirectories: TStringList;
   glsIgnoreList : TStringListEx;
   gOnlyOneAppInstance,
   gCutTextToColWidth : Boolean;
@@ -446,30 +448,6 @@ begin
   gExts.SaveToFile(gpCfgDir + 'doublecmd.ext');
 end;
 
-procedure SaveCfgDirHistory;
-begin
-  if gSaveDirHistory then
-    glsDirHistory.SaveToFile(gpCfgDir + 'dirhistory.txt');
-end;
-
-procedure SaveCfgFileMaskHistory;
-begin
-  if gSaveFileMaskHistory then
-    glsMaskHistory.SaveToFile(gpCfgDir + 'maskhistory.txt');
-end;
-
-procedure SaveCfgSearchHistory;
-begin
-  if gSaveSearchReplaceHistory then
-    glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
-end;
-
-procedure SaveCfgReplaceHistory;
-begin
-  if gSaveSearchReplaceHistory then
-    glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
-end;
-
 procedure SaveCfgIgnoreList;
 var
   FileName: UTF8String;
@@ -539,6 +517,85 @@ function LoadMultiArcConfig(var ErrorMessage: String): Boolean;
 begin
   gMultiArcList.LoadFromFile(gpCfgDir + 'multiarc.ini');
   Result := True;
+end;
+
+function LoadHistoryConfig(var ErrorMessage: String): Boolean;
+var
+  History: TXmlConfig;
+
+  procedure LoadHistory(const NodeName: UTF8String; HistoryList: TStrings);
+  var
+    Node: TXmlNode;
+  begin
+    Node := History.FindNode(History.RootNode, NodeName);
+    if Assigned(Node) then
+    begin
+      HistoryList.Clear;
+      Node := Node.FirstChild;
+      while Assigned(Node) do
+      begin
+        if Node.CompareName('Item') = 0 then
+        begin
+          HistoryList.Add(History.GetContent(Node));
+        end;
+        Node := Node.NextSibling;
+      end;
+    end;
+  end;
+
+begin
+  Result:= False;
+  History:= TXmlConfig.Create(gpCfgDir + 'history.xml', True);
+  try
+    LoadHistory('Navigation', glsDirHistory);
+    LoadHistory('FileMask', glsMaskHistory);
+    LoadHistory('SearchText', glsSearchHistory);
+    LoadHistory('ReplaceText', glsReplaceHistory);
+    LoadHistory('SearchExcludeFiles', glsSearchExcludeFiles);
+    LoadHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
+    Result:= True;
+  finally
+    History.Free;
+  end;
+end;
+
+procedure SaveHistoryConfig;
+var
+  History: TXmlConfig;
+
+  procedure SaveHistory(const NodeName: UTF8String; HistoryList: TStrings);
+  var
+    I: Integer;
+    Node, SubNode: TXmlNode;
+  begin
+    Node := History.FindNode(History.RootNode, NodeName, True);
+    if Assigned(Node) then
+    begin
+      History.ClearNode(Node);
+      for I:= 0 to HistoryList.Count - 1 do
+      begin
+        SubNode := History.AddNode(Node, 'Item');
+        History.SetContent(SubNode, HistoryList[I]);
+      end;
+    end;
+  end;
+
+begin
+  History:= TXmlConfig.Create(gpCfgDir + 'history.xml');
+  try
+    if gSaveDirHistory then SaveHistory('Navigation', glsDirHistory);
+    if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
+    if gSaveSearchReplaceHistory then
+    begin
+      SaveHistory('SearchText', glsSearchHistory);
+      SaveHistory('ReplaceText', glsReplaceHistory);
+    end;
+    SaveHistory('SearchExcludeFiles', glsSearchExcludeFiles);
+    SaveHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
+    History.Save;
+  finally
+    History.Free;
+  end;
 end;
 
 function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
@@ -857,6 +914,8 @@ begin
   glsSearchHistory := TStringListEx.Create;
   glsReplaceHistory := TStringListEx.Create;
   glsIgnoreList := TStringListEx.Create;
+  glsSearchExcludeFiles:= TStringList.Create;
+  glsSearchExcludeDirectories:= TStringList.Create;
   gSearchTemplateList := TSearchTemplateList.Create;
   gDSXPlugins := TDSXModuleList.Create;
   gWCXPlugins := TWCXModuleList.Create;
@@ -878,6 +937,8 @@ begin
   FreeThenNil(glsSearchHistory);
   FreeThenNil(glsReplaceHistory);
   FreeThenNil(glsIgnoreList);
+  FreeThenNil(glsSearchExcludeFiles);
+  FreeThenNil(glsSearchExcludeDirectories);
   FreeThenNil(gExts);
   FreeThenNil(gIni);
   FreeThenNil(gConfig);
@@ -1312,10 +1373,26 @@ begin
   if mbFileExists(gpCfgDir + 'doublecmd.ext') then
     LoadConfigCheckErrors(@LoadExtsConfig, gpCfgDir + 'doublecmd.ext', ErrorMessage);
 
-  LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt', cMaxStringItems);
-  LoadStringsFromFile(glsMaskHistory, gpCfgDir + 'maskhistory.txt', cMaxStringItems);
-  LoadStringsFromFile(glsSearchHistory, gpCfgDir + 'searchhistory.txt', cMaxStringItems);
-  LoadStringsFromFile(glsReplaceHistory, gpCfgDir + 'replacehistory.txt', cMaxStringItems);
+  if mbFileExists(gpCfgDir + 'dirhistory.txt') then
+  begin
+    LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt', cMaxStringItems);
+    mbRenameFile(gpCfgDir + 'dirhistory.txt', gpCfgDir + 'dirhistory.txt.obsolete');
+  end;
+  if mbFileExists(gpCfgDir + 'maskhistory.txt') then
+  begin
+    LoadStringsFromFile(glsMaskHistory, gpCfgDir + 'maskhistory.txt', cMaxStringItems);
+    mbRenameFile(gpCfgDir + 'maskhistory.txt', gpCfgDir + 'maskhistory.txt.obsolete');
+  end;
+  if mbFileExists(gpCfgDir + 'searchhistory.txt') then
+  begin
+    LoadStringsFromFile(glsSearchHistory, gpCfgDir + 'searchhistory.txt', cMaxStringItems);
+    mbRenameFile(gpCfgDir + 'searchhistory.txt', gpCfgDir + 'searchhistory.txt.obsolete');
+  end;
+  if mbFileExists(gpCfgDir + 'replacehistory.txt') then
+  begin
+    LoadStringsFromFile(glsReplaceHistory, gpCfgDir + 'replacehistory.txt', cMaxStringItems);
+    mbRenameFile(gpCfgDir + 'replacehistory.txt', gpCfgDir + 'replacehistory.txt.obsolete');
+  end;
   LoadStringsFromFile(glsIgnoreList, ReplaceEnvVars(gIgnoreListFile));
 
   { Hotkeys }
@@ -1330,6 +1407,10 @@ begin
   { MultiArc addons }
   if mbFileExists(gpCfgDir + 'multiarc.ini') then
     LoadConfigCheckErrors(@LoadMultiArcConfig, gpCfgDir + 'multiarc.ini', ErrorMessage);
+
+  { Various history }
+  if mbFileExists(gpCfgDir + 'history.xml') then
+    LoadConfigCheckErrors(@LoadHistoryConfig, gpCfgDir + 'history.xml', ErrorMessage);
 
   { Localization }
   DoLoadLng;
@@ -1388,14 +1469,11 @@ begin
   if mbFileAccess(gpCfgDir, fmOpenWrite or fmShareDenyNone) then
   begin
     SaveWithCheck(@SaveCfgExts, 'extensions configuration', ErrMsg);
-    SaveWithCheck(@SaveCfgDirHistory, 'dir history', ErrMsg);
-    SaveWithCheck(@SaveCfgFileMaskHistory, 'mask history', ErrMsg);
-    SaveWithCheck(@SaveCfgSearchHistory, 'search history', ErrMsg);
-    SaveWithCheck(@SaveCfgReplaceHistory, 'replace history', ErrMsg);
     SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
     SaveWithCheck(@SaveCfgMultiArcList, 'multi arc list', ErrMsg);
     SaveWithCheck(@SaveCfgHotkeys, 'hotkeys', ErrMsg);
     SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
+    SaveWithCheck(@SaveHistoryConfig, 'various history', ErrMsg);
 
     if ErrMsg <> EmptyStr then
       DebugLn(ErrMsg);

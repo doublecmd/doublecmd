@@ -874,6 +874,10 @@ begin
   until sTemp = EmptyStr;
   // add to find mask history
   InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
+  // add to exclude directories history
+  InsertFirstItem(cmbExcludeDirectories.Text, cmbExcludeDirectories);
+  // add to exclude files history
+  InsertFirstItem(cmbExcludeFiles.Text, cmbExcludeFiles);
   // add to search text history
   if cbFindText.Checked then
   begin
@@ -1132,6 +1136,8 @@ procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   glsMaskHistory.Assign(cmbFindFileMask.Items);
+  glsSearchExcludeFiles.Assign(cmbExcludeFiles.Items);
+  glsSearchExcludeDirectories.Assign(cmbExcludeDirectories.Items);
 
   if Assigned(FFrmAttributesEdit) then
   begin
@@ -1158,6 +1164,8 @@ begin
         cmbFindText.Text:= glsSearchHistory[0];
     end;
   cmbReplaceText.Items.Assign(glsReplaceHistory);
+  cmbExcludeFiles.Items.Assign(glsSearchExcludeFiles);
+  cmbExcludeDirectories.Items.Assign(glsSearchExcludeDirectories);
 
   cbFindText.Checked := False;
 
