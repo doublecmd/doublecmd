@@ -946,7 +946,10 @@ procedure TFileViewWithMainCtrl.SetFocus;
 begin
   // CanFocus checks parent controls, but not parent form.
   if GetParentForm(Self).CanFocus and MainControl.CanFocus then
+  begin
+    inherited SetFocus;
     MainControl.SetFocus;
+  end;
 end;
 
 procedure TFileViewWithMainCtrl.cm_RenameOnly(const Params: array of string);
