@@ -109,6 +109,8 @@ begin
     begin
       FViewer.LoadNextFile(aFileName);
     end;
+  // Viewer can steal focus, so restore it
+  if not FFileView.Focused then FFileView.SetFocus;
 end;
 
 procedure TQuickViewPanel.FileViewChangeActiveFile(Sender: TFileView; const aFile: TFile);
