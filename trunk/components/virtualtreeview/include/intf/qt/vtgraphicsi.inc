@@ -1,6 +1,8 @@
 uses
   qt4, qtobjects;
 
+{$ASMMODE INTEL}
+
 procedure AlphaBlendLineConstant(Source, Destination: Pointer; Count: Integer; ConstantAlpha, Bias: Integer);
 
 // Blends a line of Count pixels from Source to Destination using a constant alpha value.
@@ -8,13 +10,106 @@ procedure AlphaBlendLineConstant(Source, Destination: Pointer; Count: Integer; C
 // ConstantAlpha must be in the range 0..255 where 0 means totally transparent (destination pixel only)
 // and 255 totally opaque (source pixel only).
 // Bias is an additional value which gets added to every component and must be in the range -128..127
-//
+
+asm
+
+{$ifdef CPU64}
+//windows
+// RCX contains Source
+// RDX contains Destination
+// R8D contains Count
+// R9D contains ConstantAlpha
+// Bias is on the stack
+
+//non windows
+// RDI contains Source
+// RSI contains Destination
+// EDX contains Count
+// ECX contains ConstantAlpha
+// R8D contains Bias
+
+        //.NOFRAME
+
+        // Load XMM3 with the constant alpha value (replicate it for every component).
+        // Expand it to word size.
+        {$ifdef windows}
+        MOVD        XMM3, R9D  // ConstantAlpha
+        {$else}
+        MOVD        XMM3, ECX  // ConstantAlpha
+        {$endif}
+        PUNPCKLWD   XMM3, XMM3
+        PUNPCKLDQ   XMM3, XMM3
+
+        // Load XMM5 with the bias value.
+        {$ifdef windows}
+        MOVD        XMM5, [Bias]
+        {$else}
+        MOVD        XMM5, R8D  //Bias
+        {$endif}
+        PUNPCKLWD   XMM5, XMM5
+        PUNPCKLDQ   XMM5, XMM5
+
+        // Load XMM4 with 128 to allow for saturated biasing.
+        MOV         R10D, 128
+        MOVD        XMM4, R10D
+        PUNPCKLWD   XMM4, XMM4
+        PUNPCKLDQ   XMM4, XMM4
+
+@1:     // The pixel loop calculates an entire pixel in one run.
+        // Note: The pixel byte values are expanded into the higher bytes of a word due
+        //       to the way unpacking works. We compensate for this with an extra shift.
+        {$ifdef windows}
+        MOVD        XMM1, DWORD PTR [RCX]   // data is unaligned
+        MOVD        XMM2, DWORD PTR [RDX]   // data is unaligned
+        {$else}
+        MOVD        XMM1, DWORD PTR [RDI]   // data is unaligned
+        MOVD        XMM2, DWORD PTR [RSI]   // data is unaligned
+        {$endif}
+        PXOR        XMM0, XMM0    // clear source pixel register for unpacking
+        PUNPCKLBW   XMM0, XMM1{[RCX]}    // unpack source pixel byte values into words
+        PSRLW       XMM0, 8       // move higher bytes to lower bytes
+        PXOR        XMM1, XMM1    // clear target pixel register for unpacking
+        PUNPCKLBW   XMM1, XMM2{[RDX]}    // unpack target pixel byte values into words
+        MOVQ        XMM2, XMM1    // make a copy of the shifted values, we need them again
+        PSRLW       XMM1, 8       // move higher bytes to lower bytes
+
+        // calculation is: target = (alpha * (source - target) + 256 * target) / 256
+        PSUBW       XMM0, XMM1    // source - target
+        PMULLW      XMM0, XMM3    // alpha * (source - target)
+        PADDW       XMM0, XMM2    // add target (in shifted form)
+        PSRLW       XMM0, 8       // divide by 256
+
+        // Bias is accounted for by conversion of range 0..255 to -128..127,
+        // doing a saturated add and convert back to 0..255.
+        PSUBW     XMM0, XMM4
+        PADDSW    XMM0, XMM5
+        PADDW     XMM0, XMM4
+        PACKUSWB  XMM0, XMM0      // convert words to bytes with saturation
+        {$ifdef windows}
+        MOVD      DWORD PTR [RDX], XMM0     // store the result
+        {$else}
+        MOVD      DWORD PTR [RSI], XMM0     // store the result
+        {$endif}
+@3:
+        {$ifdef windows}
+        ADD       RCX, 4
+        ADD       RDX, 4
+        DEC       R8D
+        {$else}
+        ADD       RDI, 4
+        ADD       RSI, 4
+        DEC       EDX
+        {$endif}
+        JNZ       @1
+
+
+{$else}
 // EAX contains Source
 // EDX contains Destination
 // ECX contains Count
 // ConstantAlpha and Bias are on the stack
 
-asm
+
         PUSH    ESI                    // save used registers
         PUSH    EDI
 
@@ -71,6 +166,7 @@ asm
         JNZ     @1
         POP     EDI
         POP     ESI
+{$endif}
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -80,13 +176,100 @@ procedure AlphaBlendLinePerPixel(Source, Destination: Pointer; Count, Bias: Inte
 // Blends a line of Count pixels from Source to Destination using the alpha value of the source pixels.
 // The layout of a pixel must be BGRA.
 // Bias is an additional value which gets added to every component and must be in the range -128..127
-//
+
+asm
+
+{$ifdef CPU64}
+//windows
+// RCX contains Source
+// RDX contains Destination
+// R8D contains Count
+// R9D contains Bias
+
+//non windows
+// RDI contains Source
+// RSI contains Destination
+// EDX contains Count
+// ECX contains Bias
+
+        //.NOFRAME
+
+        // Load XMM5 with the bias value.
+        {$ifdef windows}
+        MOVD        XMM5, R9D   // Bias
+        {$else}
+        MOVD        XMM5, ECX   // Bias
+        {$endif}
+        PUNPCKLWD   XMM5, XMM5
+        PUNPCKLDQ   XMM5, XMM5
+
+        // Load XMM4 with 128 to allow for saturated biasing.
+        MOV         R10D, 128
+        MOVD        XMM4, R10D
+        PUNPCKLWD   XMM4, XMM4
+        PUNPCKLDQ   XMM4, XMM4
+
+@1:     // The pixel loop calculates an entire pixel in one run.
+        // Note: The pixel byte values are expanded into the higher bytes of a word due
+        //       to the way unpacking works. We compensate for this with an extra shift.
+        {$ifdef windows}
+        MOVD        XMM1, DWORD PTR [RCX]   // data is unaligned
+        MOVD        XMM2, DWORD PTR [RDX]   // data is unaligned
+        {$else}
+        MOVD        XMM1, DWORD PTR [RDI]   // data is unaligned
+        MOVD        XMM2, DWORD PTR [RSI]   // data is unaligned
+        {$endif}
+        PXOR        XMM0, XMM0    // clear source pixel register for unpacking
+        PUNPCKLBW   XMM0, XMM1{[RCX]}    // unpack source pixel byte values into words
+        PSRLW       XMM0, 8       // move higher bytes to lower bytes
+        PXOR        XMM1, XMM1    // clear target pixel register for unpacking
+        PUNPCKLBW   XMM1, XMM2{[RDX]}    // unpack target pixel byte values into words
+        MOVQ        XMM2, XMM1    // make a copy of the shifted values, we need them again
+        PSRLW       XMM1, 8       // move higher bytes to lower bytes
+
+        // Load XMM3 with the source alpha value (replicate it for every component).
+        // Expand it to word size.
+        MOVQ        XMM3, XMM0
+        PUNPCKHWD   XMM3, XMM3
+        PUNPCKHDQ   XMM3, XMM3
+
+        // calculation is: target = (alpha * (source - target) + 256 * target) / 256
+        PSUBW       XMM0, XMM1    // source - target
+        PMULLW      XMM0, XMM3    // alpha * (source - target)
+        PADDW       XMM0, XMM2    // add target (in shifted form)
+        PSRLW       XMM0, 8       // divide by 256
+
+        // Bias is accounted for by conversion of range 0..255 to -128..127,
+        // doing a saturated add and convert back to 0..255.
+        PSUBW       XMM0, XMM4
+        PADDSW      XMM0, XMM5
+        PADDW       XMM0, XMM4
+        PACKUSWB    XMM0, XMM0    // convert words to bytes with saturation
+        {$ifdef windows}
+        MOVD        DWORD PTR [RDX], XMM0   // store the result
+        {$else}
+        MOVD        DWORD PTR [RSI], XMM0   // store the result
+        {$endif}
+@3:
+        {$ifdef windows}
+        ADD         RCX, 4
+        ADD         RDX, 4
+        DEC         R8D
+        {$else}
+        ADD         RDI, 4
+        ADD         RSI, 4
+        DEC         EDX
+        {$endif}
+        JNZ         @1
+
+
+{$else}
+
 // EAX contains Source
 // EDX contains Destination
 // ECX contains Count
 // Bias is on the stack
 
-asm
         PUSH    ESI                    // save used registers
         PUSH    EDI
 
@@ -101,7 +284,7 @@ asm
 
         // Load MM4 with 128 to allow for saturated biasing.
         MOV     EAX, 128
-        DB      $0F, $6E, $E0          /// MOVD      MM4, EAX
+        DB      $0F, $6E, AlphaBlendLineConstant$E0          /// MOVD      MM4, EAX
         DB      $0F, $61, $E4          /// PUNPCKLWD MM4, MM4
         DB      $0F, $62, $E4          /// PUNPCKLDQ MM4, MM4
 
@@ -142,6 +325,7 @@ asm
         JNZ     @1
         POP     EDI
         POP     ESI
+{$endif}
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -152,13 +336,115 @@ procedure AlphaBlendLineMaster(Source, Destination: Pointer; Count: Integer; Con
 // The layout of a pixel must be BGRA.
 // ConstantAlpha must be in the range 0..255.
 // Bias is an additional value which gets added to every component and must be in the range -128..127
-//
+
+asm
+
+{$ifdef CPU64}
+//windows
+// RCX contains Source
+// RDX contains Destination
+// R8D contains Count
+// R9D contains ConstantAlpha
+// Bias is on the stack
+
+//non windows
+// RDI contains Source
+// RSI contains Destination
+// EDX contains Count
+// ECX contains ConstantAlpha
+// R8D contains Bias
+
+        //.SAVENV XMM6  //todo see how implement in fpc
+
+        // Load XMM3 with the constant alpha value (replicate it for every component).
+        // Expand it to word size.
+        {$ifdef windows}
+        MOVD        XMM3, R9D    // ConstantAlpha
+        {$else}
+        MOVD        XMM3, ECX    // ConstantAlpha
+        {$endif}
+        PUNPCKLWD   XMM3, XMM3
+        PUNPCKLDQ   XMM3, XMM3
+
+        // Load XMM5 with the bias value.
+        {$ifdef windows}
+        MOV         R10D, [Bias]
+        MOVD        XMM5, R10D
+        {$else}
+        MOVD        XMM5, R8D
+        {$endif}
+        PUNPCKLWD   XMM5, XMM5
+        PUNPCKLDQ   XMM5, XMM5
+
+        // Load XMM4 with 128 to allow for saturated biasing.
+        MOV         R10D, 128
+        MOVD        XMM4, R10D
+        PUNPCKLWD   XMM4, XMM4
+        PUNPCKLDQ   XMM4, XMM4
+
+@1:     // The pixel loop calculates an entire pixel in one run.
+        // Note: The pixel byte values are expanded into the higher bytes of a word due
+        //       to the way unpacking works. We compensate for this with an extra shift.
+        {$ifdef windows}
+        MOVD        XMM1, DWORD PTR [RCX]   // data is unaligned
+        MOVD        XMM2, DWORD PTR [RDX]   // data is unaligned
+        {$else}
+        MOVD        XMM1, DWORD PTR [RDI]   // data is unaligned
+        MOVD        XMM2, DWORD PTR [RSI]   // data is unaligned
+        {$endif}
+        PXOR        XMM0, XMM0    // clear source pixel register for unpacking
+        PUNPCKLBW   XMM0, XMM1{[RCX]}     // unpack source pixel byte values into words
+        PSRLW       XMM0, 8       // move higher bytes to lower bytes
+        PXOR        XMM1, XMM1    // clear target pixel register for unpacking
+        PUNPCKLBW   XMM1, XMM2{[RCX]}     // unpack target pixel byte values into words
+        MOVQ        XMM2, XMM1    // make a copy of the shifted values, we need them again
+        PSRLW       XMM1, 8       // move higher bytes to lower bytes
+
+        // Load XMM6 with the source alpha value (replicate it for every component).
+        // Expand it to word size.
+        MOVQ        XMM6, XMM0
+        PUNPCKHWD   XMM6, XMM6
+        PUNPCKHDQ   XMM6, XMM6
+        PMULLW      XMM6, XMM3    // source alpha * master alpha
+        PSRLW       XMM6, 8       // divide by 256
+
+        // calculation is: target = (alpha * master alpha * (source - target) + 256 * target) / 256
+        PSUBW       XMM0, XMM1    // source - target
+        PMULLW      XMM0, XMM6    // alpha * (source - target)
+        PADDW       XMM0, XMM2    // add target (in shifted form)
+        PSRLW       XMM0, 8       // divide by 256
+
+        // Bias is accounted for by conversion of range 0..255 to -128..127,
+        // doing a saturated add and convert back to 0..255.
+        PSUBW       XMM0, XMM4
+        PADDSW      XMM0, XMM5
+        PADDW       XMM0, XMM4
+        PACKUSWB    XMM0, XMM0    // convert words to bytes with saturation
+        {$ifdef windows}
+        MOVD        DWORD PTR [RDX], XMM0   // store the result
+        {$else}
+        MOVD        DWORD PTR [RSI], XMM0   // store the result
+        {$endif}
+@3:
+        {$ifdef windows}
+        ADD         RCX, 4
+        ADD         RDX, 4
+        DEC         R8D
+        {$else}
+        ADD         RDI, 4
+        ADD         RSI, 4
+        DEC         EDX
+        {$endif}
+        JNZ         @1
+
+{$else}
+
 // EAX contains Source
 // EDX contains Destination
 // ECX contains Count
 // ConstantAlpha and Bias are on the stack
 
-asm
+
         PUSH    ESI                    // save used registers
         PUSH    EDI
 
@@ -223,6 +509,7 @@ asm
         JNZ     @1
         POP     EDI
         POP     ESI
+{$endif}
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -232,13 +519,94 @@ procedure AlphaBlendLineMasterAndColor(Destination: Pointer; Count: Integer; Con
 // Blends a line of Count pixels in Destination against the given color using a constant alpha value.
 // The layout of a pixel must be BGRA and Color must be rrggbb00 (as stored by a COLORREF).
 // ConstantAlpha must be in the range 0..255.
-//
+
+asm
+
+{$ifdef CPU64}
+//windows
+// RCX contains Destination
+// EDX contains Count
+// R8D contains ConstantAlpha
+// R9D contains Color
+
+//non windows
+// RDI contains Destination
+// ESI contains Count
+// EDX contains ConstantAlpha
+// ECX contains Color
+
+        //.NOFRAME
+
+        // The used formula is: target = (alpha * color + (256 - alpha) * target) / 256.
+        // alpha * color (factor 1) and 256 - alpha (factor 2) are constant values which can be calculated in advance.
+        // The remaining calculation is therefore: target = (F1 + F2 * target) / 256
+
+        // Load XMM3 with the constant alpha value (replicate it for every component).
+        // Expand it to word size. (Every calculation here works on word sized operands.)
+        {$ifdef windows}
+        MOVD        XMM3, R8D   // ConstantAlpha
+        {$else}
+        MOVD        XMM3, EDX   // ConstantAlpha
+        {$endif}
+        PUNPCKLWD   XMM3, XMM3
+        PUNPCKLDQ   XMM3, XMM3
+
+        // Calculate factor 2.
+        MOV         R10D, $100
+        MOVD        XMM2, R10D
+        PUNPCKLWD   XMM2, XMM2
+        PUNPCKLDQ   XMM2, XMM2
+        PSUBW       XMM2, XMM3             // XMM2 contains now: 255 - alpha = F2
+
+        // Now calculate factor 1. Alpha is still in XMM3, but the r and b components of Color must be swapped.
+        {$ifdef windows}
+        BSWAP       R9D  // Color
+        ROR         R9D, 8
+        MOVD        XMM1, R9D              // Load the color and convert to word sized values.
+        {$else}
+        BSWAP       ECX  // Color
+        ROR         ECX, 8
+        MOVD        XMM1, ECX              // Load the color and convert to word sized values.
+        {$endif}
+        PXOR        XMM4, XMM4
+        PUNPCKLBW   XMM1, XMM4
+        PMULLW      XMM1, XMM3             // XMM1 contains now: color * alpha = F1
+
+@1:     // The pixel loop calculates an entire pixel in one run.
+        {$ifdef windows}
+        MOVD        XMM0, DWORD PTR [RCX]
+        {$else}
+        MOVD        XMM0, DWORD PTR [RDI]
+        {$endif}
+        PUNPCKLBW   XMM0, XMM4
+
+        PMULLW      XMM0, XMM2             // calculate F1 + F2 * target
+        PADDW       XMM0, XMM1
+        PSRLW       XMM0, 8                // divide by 256
+
+        PACKUSWB    XMM0, XMM0             // convert words to bytes with saturation
+        {$ifdef windows}
+        MOVD        DWORD PTR [RCX], XMM0            // store the result
+
+        ADD         RCX, 4
+        DEC         EDX
+        {$else}
+        MOVD        DWORD PTR [RDI], XMM0            // store the result
+
+        ADD         RDI, 4
+        DEC         ESI
+        {$endif}
+        JNZ         @1
+
+
+{$else}
+
 // EAX contains Destination
 // EDX contains Count
 // ECX contains ConstantAlpha
 // Color is passed on the stack
 
-asm
+
         // The used formula is: target = (alpha * color + (256 - alpha) * target) / 256.
         // alpha * color (factor 1) and 256 - alpha (factor 2) are constant values which can be calculated in advance.
         // The remaining calculation is therefore: target = (F1 + F2 * target) / 256
@@ -279,6 +647,7 @@ asm
         ADD     EAX, 4
         DEC     EDX
         JNZ     @1
+{$endif}
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -287,9 +656,17 @@ procedure EMMS;
 
 // Reset MMX state to use the FPU for other tasks again.
 
+{$ifdef CPU64}
+  inline;
+  begin
+  end;
+
+{$else}
+
 asm
         DB      $0F, $77               /// EMMS
 end;
+{$endif}
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -386,6 +763,11 @@ var
 begin
   if not IsRectEmpty(R) then
   begin
+    {$ifdef CPU64}
+    //avoid MasterAlpha due to incomplete AlphaBlendLineMaster. See comment in procedure
+    if Mode = bmMasterAlpha then
+      Mode := bmConstantAlpha;
+    {$endif}
     // Note: it is tempting to optimize the special cases for constant alpha 0 and 255 by just ignoring soure
     //       (alpha = 0) or simply do a blit (alpha = 255). But this does not take the bias into account.
     case Mode of

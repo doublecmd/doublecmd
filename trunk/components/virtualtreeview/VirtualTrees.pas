@@ -289,14 +289,14 @@ unit VirtualTrees;
 // For full document history see help file.
 //
 // Credits for their valuable assistance and code donations go to:
-//   Freddy Ertl, Marian Aldenh�vel, Thomas Bogenrieder, Jim Kuenemann, Werner Lehmann, Jens Treichler,
-//   Paul Gallagher (IBO tree), Ondrej Kelle, Ronaldo Melo Ferraz, Heri Bender, Roland Bed�rftig (BCB)
+//   Freddy Ertl, Marian Aldenh?vel, Thomas Bogenrieder, Jim Kuenemann, Werner Lehmann, Jens Treichler,
+//   Paul Gallagher (IBO tree), Ondrej Kelle, Ronaldo Melo Ferraz, Heri Bender, Roland Bed?rftig (BCB)
 //   Anthony Mills, Alexander Egorushkin (BCB), Mathias Torell (BCB), Frank van den Bergh, Vadim Sedulin, Peter Evans,
 //   Milan Vandrovec (BCB), Steve Moss, Joe White, David Clark, Anders Thomsen, Igor Afanasyev, Eugene Programmer,
 //   Corbin Dunn, Richard Pringle, Uli Gerhardt, Azza, Igor Savkic, Daniel Bauten, Timo Tegtmeier, Dmitry Zegebart,
 //   Andreas Hausladen
 // Beta testers:
-//   Freddy Ertl, Hans-J�rgen Schnorrenberg, Werner Lehmann, Jim Kueneman, Vadim Sedulin, Moritz Franckenstein,
+//   Freddy Ertl, Hans-J?rgen Schnorrenberg, Werner Lehmann, Jim Kueneman, Vadim Sedulin, Moritz Franckenstein,
 //   Wim van der Vegt, Franc v/d Westelaken
 // Indirect contribution (via publicly accessible work of those persons):
 //   Alex Denissov, Hiroyuki Hori (MMXAsm expert)
@@ -310,7 +310,7 @@ unit VirtualTrees;
 // Accessability implementation:
 //   Marco Zehe (with help from Sebastian Modersohn)
 // LCL Port:
-//   Luiz Am�rico Pereira C�mara
+//   Luiz Am?rico Pereira C?mara
 //----------------------------------------------------------------------------------------------------------------------
 
 interface
@@ -332,7 +332,6 @@ uses
   LclExt,
   {$endif}
   virtualpanningwindow,
-  LCLVersion,
   VTGraphics, //alpha blend functions
   {$ifdef DEBUG_VTV}
   vtlogger,
@@ -363,7 +362,9 @@ const
     {$define ContextMenuBeforeMouseUp}
   {$endif}
 
-  VTVersion = '4.8.7';
+  VTMajorVersion = 4;
+  VTMinorVersion = 8;
+  VTReleaseVersion = 7;
   VTTreeStreamVersion = 2;
   VTHeaderStreamVersion = 6;    // The header needs an own stream version to indicate changes only relevant to the header.
 
@@ -411,7 +412,6 @@ const
   // as this is more economical.
   ExpandTimer = 1;
   EditTimer = 2;
-  HeaderTimer = 3;
   ScrollTimer = 4;
   ChangeTimer = 5;
   StructureChangeTimer = 6;
@@ -2417,8 +2417,11 @@ type
     //lcl
     procedure LoadPanningCursors;
     function MakeNewNode: PVirtualNode;
-    function PackArrayPascal(TheArray: TNodeArray; Count: Integer): Integer;
+    {$ifdef PACKARRAYPASCAL}
+    function PackArray(const TheArray: TNodeArray; Count: Integer): Integer;
+    {$else}
     function PackArray(TheArray: TNodeArray; Count: Integer): Integer;
+    {$endif}
     procedure PrepareBitmaps(NeedButtons, NeedLines: Boolean);
     procedure SetAlignment(const Value: TAlignment);
     procedure SetAnimationDuration(const Value: Cardinal);
@@ -3930,7 +3933,7 @@ const
 
   // Do not modify the copyright in any way! Usage of this unit is prohibited without the copyright notice
   // in the compiled binary file.
-  Copyright: string = 'Virtual Treeview � 1999, 2010 Mike Lischke';
+  Copyright: string = 'Virtual Treeview ? 1999, 2010 Mike Lischke';
 
 var
   //Workaround to LCL bug 8553
@@ -4899,11 +4902,19 @@ begin
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
+{$ifdef CPU64}
+
+function HasMMX: Boolean;
+begin
+  Result := True;
+end;
+
+{$else}
 
 function HasMMX: Boolean;
 
 // Helper method to determine whether the current processor supports MMX.
-{$IFDEF CPU32}
+
 asm
         PUSH    EBX
         XOR     EAX, EAX     // Result := False
@@ -4932,13 +4943,7 @@ asm
 @1:
         POP     EBX
 end;
-{$ELSE}
-begin
-  //todo: should not all cpu64 have mmx?
-  Result := False;
-end;
-{$ENDIF}
-
+{$endif}
 //----------------------------------------------------------------------------------------------------------------------
 {$ifdef EnablePrint}
 procedure PrtStretchDrawDIB(Canvas: TCanvas; DestRect: TRect; ABitmap: TBitmap);
@@ -5006,6 +5011,7 @@ begin
   CF_VTREFERENCE := ClipboardRegisterFormat(CFSTR_VTREFERENCE);
 
   UtilityImages := TBitmap.Create;
+  UtilityImages.Transparent := True;
   UtilityImages.LoadFromLazarusResource('VT_UTILITIES');
 
   // Specify an useful timer resolution for timeGetTime.
@@ -5569,7 +5575,6 @@ begin
       else
       begin
         //todo remove this define as soon as 0.9.30 is released to avoid future problems
-        {$if lcl_release >= 29}
         if Column <= NoColumn then
         begin
           BidiMode := Tree.BidiMode;
@@ -5580,7 +5585,6 @@ begin
           BidiMode := Tree.Header.Columns[Column].BidiMode;
           Alignment := Tree.Header.Columns[Column].Alignment;
         end;
-        {$endif}
         //select font according to the type of hint
         if (Node = nil) or (Tree.FHintMode <> hmToolTip) then
           Canvas.Font := Screen.HintFont
@@ -9710,18 +9714,15 @@ begin
   Result := False;
   with Message do
   begin
-    //lclheader
-    P := Point(XPos, YPos - Treeview.FHeader.Height);
+    P := Point(XPos, YPos);
     if hsColumnWidthTrackPending in FStates then
     begin
-      KillTimer(Treeview.Handle, HeaderTimer);
       FStates := FStates - [hsColumnWidthTrackPending] + [hsColumnWidthTracking];
       HandleHeaderMouseMove := True;
       Result := 0;
     end
     else if hsHeightTrackPending in FStates then
     begin
-      KillTimer(Treeview.Handle, HeaderTimer);
       FStates := FStates - [hsHeightTrackPending] + [hsHeightTracking];
       HandleHeaderMouseMove := True;
       Result := 0;
@@ -9739,6 +9740,9 @@ begin
       end
       else if hsHeightTracking in FStates then
       begin
+        //lclheader
+        //fixes setting height
+        Dec(P.Y, FHeight);
         if DoHeightTracking(P, GetShiftState) then
           SetHeight(Integer(FHeight) + P.Y);
         HandleHeaderMouseMove := True;
@@ -9757,7 +9761,6 @@ begin
             begin
               {$ifdef DEBUG_VTV}Logger.Send([lcDrag], 'HandleHeaderMouseMove - DragIndex: %d - DownIndex: %d',
                 [FColumns.FDragIndex, FColumns.FDownIndex]);{$endif}
-              KillTimer(Treeview.Handle, HeaderTimer);
               I := FColumns.FDownIndex;
               FColumns.FDownIndex := NoColumn;
               FColumns.FHoverIndex := NoColumn;
@@ -9774,7 +9777,7 @@ begin
         else
           if hsDragging in FStates then
           begin
-            DragTo(Treeview.ClientToScreen(Point(XPos, YPos)));
+            DragTo(Treeview.ClientToScreen(P));
             HandleHeaderMouseMove := True;
             Result := 0;
           end;
@@ -10003,7 +10006,6 @@ begin
             if Assigned(Menu) then
             begin
               KillTimer(Treeview.Handle, ScrollTimer);
-              KillTimer(Treeview.Handle, HeaderTimer);
               FColumns.FHoverIndex := NoColumn;
               Treeview.DoStateChange([], [tsScrollPending, tsScrolling]);
               Menu.PopupComponent := Treeview;
@@ -10111,6 +10113,15 @@ begin
                               hsHeightTracking, hsHeightTrackPending];
       end;
     // hovering, mouse leave detection
+    CM_MOUSELEAVE:
+      with FColumns do
+      begin
+        if FHoverIndex > NoColumn then
+          Invalidate(Items[FHoverIndex]);
+        FHoverIndex := NoColumn;
+        FClickIndex := NoColumn;
+        FDownIndex := NoColumn;
+      end;
     //todo: see the difference to below
     LM_MOUSEMOVE:
       with TLMMouseMove(Message), FColumns do
@@ -10124,14 +10135,9 @@ begin
         if IsInHeader then
         begin
           Treeview.DoHeaderMouseMove(GetShiftState, P.X, P.Y);
-          if ((AdjustHoverColumn(P)) or ((FDownIndex >= 0) and (FHoverIndex <> FDownIndex))) then
+          if ((AdjustHoverColumn(P)) or ((FDownIndex > NoColumn) and (FHoverIndex <> FDownIndex))) then
           begin
-            // We need a mouse leave detection from here for the non client area. The best solution available would be the
-            // TrackMouseEvent API. Unfortunately, it leaves Win95 totally and WinNT4 for non-client stuff out and
-            // currently I cannot ignore these systems. Hence I go the only other reliable way and use a timer
-            // (although, I don't like it...).
-            KillTimer(Treeview.Handle, HeaderTimer);
-            SetTimer(Treeview.Handle, HeaderTimer, 50, nil);
+            Invalidate(nil);
             // todo: under lcl, the hint is show even if HintMouseMessage is not implemented
             // Is it necessary here?
             // use Delphi's internal hint handling for header hints too
@@ -10143,6 +10149,14 @@ begin
               Application.HintMouseMessage(Treeview, Message);
             end;
           end;
+        end
+        else
+        begin
+          if FHoverIndex > NoColumn then
+            Invalidate(Items[FHoverIndex]);
+          FHoverIndex := NoColumn;
+          FClickIndex := NoColumn;
+          FDownIndex := NoColumn;
         end;
         //Adjust Cursor
         if not (csDesigning in FOwner.ComponentState) and (FStates = []) then
@@ -10172,27 +10186,6 @@ begin
         begin
           Message.Result := 1;
           HandleMessage := True;
-        end;
-      end;
-
-    LM_TIMER:
-      if TLMTimer(Message).TimerID = HeaderTimer then
-      begin
-        // determine current mouse position to check if it left the window
-        GetCursorPos(P);
-        P := Treeview.ScreenToClient(P);
-        with FColumns do
-        begin
-          if not InHeader(P) or ((FDownIndex > NoColumn) and (FHoverIndex <> FDownIndex)) then
-          begin
-            KillTimer(Treeview.Handle, HeaderTimer);
-            FHoverIndex := NoColumn;
-            FClickIndex := NoColumn;
-            FDownIndex := NoColumn;
-            Result := True;
-            Message.Result := 0;
-            Invalidate(nil);
-          end;
         end;
       end;
     LM_KEYDOWN,
@@ -11365,8 +11358,7 @@ begin
   if HandleAllocated then
     DestroyWindowHandle;
   }
-  FHeader.Free;
-  FHeader := nil;
+  FreeAndNil(FHeader);
 
   if FCheckImages <> FCustomCheckImages then
     FCheckImages.Free;
@@ -11658,7 +11650,6 @@ begin
       ctRadioButton:
         if Value = csCheckedNormal then
         begin
-          Value := csCheckedNormal;
           // Make sure only this node is checked.
           Run := Parent.FirstChild;
           while Assigned(Run) do
@@ -13162,27 +13153,42 @@ begin
   end;
 end;
 
-function TBaseVirtualTree.PackArrayPascal(TheArray: TNodeArray; Count: Integer): Integer;
+{$ifdef PACKARRAYPASCAL}
+
+function TBaseVirtualTree.PackArray(const TheArray: TNodeArray; Count: Integer): Integer;
 var
-  i, l: Integer;
+  Source, Dest: ^PVirtualNode;
+  ConstOne: PtrInt;
 begin
-  //todo_lcl Remove l var and use Result instead. See the differences
-  Result := -1;
-
-  if Count = 0 then
-    Exit;
-
-  l := 0;
-  for i := 0 to Count - 1 do begin
-    if vsSelected in TheArray[i]^.States then begin
-      TheArray[l] := TheArray[i];
-      Inc(l);
-    end;
+  Source := Pointer(TheArray);
+  ConstOne := 1;
+  Result := 0;
+  // Do the fastest scan possible to find the first entry
+  while (Count <> 0) and {not Odd(NativeInt(Source^))} (PtrInt(Source^) and ConstOne = 0) do
+  begin
+    Inc(Result);
+    Inc(Source);
+    Dec(Count);
   end;
 
-  Result := l;     // return length
+  if Count <> 0 then
+  begin
+    Dest := Source;
+    repeat
+      // Skip odd entries
+      if {not Odd(NativeInt(Source^))} PtrInt(Source^) and ConstOne = 0 then
+      begin
+        Dest^ := Source^;
+        Inc(Result);
+        Inc(Dest);
+      end;
+      Inc(Source); // Point to the next entry
+      Dec(Count);
+    until Count = 0;
+  end;
 end;
 
+{$else}
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -13200,51 +13206,6 @@ function TBaseVirtualTree.PackArray(TheArray: TNodeArray; Count: Integer): Integ
 // The returned value is the number of remaining entries in the array, so the caller can reallocate (shorten)
 // the selection array if needed or -1 if nothing needs to be changed.
 
-{$IFDEF CPU64}
-label
-  PreScan, DoMainLoop, MainLoop, Skip, Finish;
-asm
-  push %rbx
-  push %rdi
-  push %rsi
-  mov %rdx, %rsi
-  mov $-1, %rdx
-  cmpq $0, %rcx
-  jz Finish
-  inc %rdx
-  mov %rsi, %rdi
-  movq $1, %rbx
-PreScan:
-  testq (%rsi), %rbx
-
-  jnz DoMainLoop
-  inc %rdx
-  add $8, %rsi
-  dec %rcx
-  jnz PreScan
-  jmp Finish
-DoMainLoop:
-  mov %rsi, %rdi
-MainLoop:
-  test (%rsi), %rbx
-  jne Skip
-  movq (%rsi), %r10
-  movq %r10, (%rdi)
-  inc %rdx
-  dec %rcx
-  jnz MainLoop
-  jmp Finish
-Skip:
-  add $8, %rsi
-  dec %rcx
-  jnz MainLoop
-Finish:
-  mov %rdx, %rax
-  pop %rsi
-  pop %rdi
-  pop %rbx
-end;
-{$ELSE}
 asm
         PUSH    EBX
         PUSH    EDI
@@ -13287,9 +13248,10 @@ asm
         POP     EDI
         POP     EBX
 end;
-{$ENDIF}
 
 {$IMPLICITEXCEPTIONS ON}
+
+{$endif}
 //----------------------------------------------------------------------------------------------------------------------
 
 procedure TBaseVirtualTree.PrepareBitmaps(NeedButtons, NeedLines: Boolean);
@@ -15326,7 +15288,6 @@ begin
   // Clear any transient state.
   KillTimer(Handle, ExpandTimer);
   KillTimer(Handle, EditTimer);
-  KillTimer(Handle, HeaderTimer);
   KillTimer(Handle, ScrollTimer);
   KillTimer(Handle, SearchTimer);
   FSearchBuffer := '';
@@ -16200,7 +16161,6 @@ begin
   // Don't let any timer continue if the tree is no longer the active control (except change timers).
   KillTimer(Handle, ExpandTimer);
   KillTimer(Handle, EditTimer);
-  KillTimer(Handle, HeaderTimer);
   KillTimer(Handle, ScrollTimer);
   KillTimer(Handle, SearchTimer);
   FSearchBuffer := '';
@@ -16252,8 +16212,10 @@ begin
 
   // get information about the hit
   GetHitTestInfoAt(Message.XPos, Message.YPos, True, HitInfo);
+  {$ifdef DEBUG_VTV}
   if HitInfo.HitNode <> nil then
-    {$ifdef DEBUG_VTV}Logger.Send([lcPaintHeader, lcMouseEvent],'WMLButtonDown - HitNode.Index', HitInfo.HitNode^.Index);{$endif}
+    Logger.Send([lcPaintHeader, lcMouseEvent],'WMLButtonDown - HitNode.Index', HitInfo.HitNode^.Index);
+  {$endif}
   HandleMouseDown(Message, HitInfo);
   {$ifdef DEBUG_VTV}Logger.ExitMethod([lcMessages],'WMLButtonDown');{$endif}
 end;
@@ -16484,15 +16446,11 @@ begin
   if tsVCLDragging in FStates then
     ImageList_DragShowNolock(False);
   {$endif}
-  //todo: workaround to bug 18211. Remove when fixed.
-  {$ifndef LCLCarbon}
+
   if csPaintCopy in ControlState then
     FUpdateRect := ClientRect
   else
     FUpdateRect := Message.PaintStruct^.rcPaint;
-  {$else}
-  FUpdateRect := ClientRect;
-  {$endif}
 
   {$ifdef DEBUG_VTV}Logger.Send([lcPaint],'FUpdateRect', FUpdateRect);{$endif}
 
@@ -20318,7 +20276,7 @@ begin
   else
   begin
     FCheckImages := TBitmap.Create;
-    FCheckImages.TransparentColor := clDefault;
+    FCheckImages.Transparent := True;
     FCheckImages.LoadFromLazarusResource(CheckImagesStrings[FCheckImageKind]);
   end;
 end;
@@ -22062,7 +22020,6 @@ begin
     // Stop timers
     KillTimer(Handle, ExpandTimer);
     KillTimer(Handle, EditTimer);
-    KillTimer(Handle, HeaderTimer);
     KillTimer(Handle, ScrollTimer);
     KillTimer(Handle, SearchTimer);
     FSearchBuffer := '';
@@ -22194,14 +22151,11 @@ begin
           PopupMenu := nil
         else
           // Check for components linked to the header.
-          if Assigned(FHeader) then
-          begin
-            if AComponent = FHeader.FImages then
-              FHeader.Images := nil
-            else
-              if AComponent = FHeader.PopupMenu then
-                FHeader.PopupMenu := nil;
-          end;
+          if AComponent = FHeader.FImages then
+            FHeader.Images := nil
+          else
+            if AComponent = FHeader.PopupMenu then
+              FHeader.PopupMenu := nil;
   end;
   inherited;
 end;
@@ -23881,19 +23835,17 @@ begin
     if not (csDesigning in ComponentState) and
        ((Message.Msg = LM_LBUTTONDOWN) or (Message.Msg = LM_LBUTTONDBLCLK)) then
     begin
-      //lclheader
-      //when FHeader.FStates = [] it comes until here unlike Delphi (uses NC messages)
-      //skip this code when is clicked inside the header
-      if (DragMode = dmAutomatic) and (DragKind = dkDrag) and
-        not FHeader.InHeader(SmallPointToPoint(TLMMouse(Message).Pos)) then
+      Handled := (DragMode = dmAutomatic) and (DragKind = dkDrag);
+      if Handled then
       begin
-        if IsControlMouseMsg(TLMMouse(Message)) then
-          Handled := True;
-        if not Handled then
+        if not IsControlMouseMsg(TLMMouse(Message)) then
         begin
+          //lclheader
+          //let the header handle the message here
+          //otherwise no header click event will be fired
+          FHeader.HandleMessage(Message);
           ControlState := ControlState + [csLButtonDown];
           Dispatch(Message);  // overrides TControl's BeginDrag
-          Handled := True;
         end;
       end;
     end;
@@ -23902,12 +23854,7 @@ begin
       Handled := FHeader.HandleMessage(Message);
 
     if not Handled then
-    begin
-      //lcl: probably not necessary
-      //if (Message.Msg in [WM_NCLBUTTONDOWN, WM_NCRBUTTONDOWN, WM_NCMBUTTONDOWN]) and not Focused and CanFocus then
-      //  SetFocus;
       inherited;
-    end;
   end;
 end;
 
@@ -24297,7 +24244,6 @@ begin
       KillTimer(Handle, StructureChangeTimer);
       KillTimer(Handle, ExpandTimer);
       KillTimer(Handle, EditTimer);
-      KillTimer(Handle, HeaderTimer);
       KillTimer(Handle, ScrollTimer);
       KillTimer(Handle, SearchTimer);
       FSearchBuffer := '';
@@ -28935,6 +28881,9 @@ begin
     with TreeRect do
     begin
       PaintRect := TreeRect;
+      //lclheader
+      if hoVisible in FHeader.Options then
+        OffsetRect(PaintRect, 0, -FHeader.Height);
       if Left < 0 then
       begin
         PaintTarget.X := -Left;
@@ -28944,7 +28893,7 @@ begin
         PaintTarget.X := 0;
       if Top < 0 then
       begin
-        PaintTarget.Y := -Top;
+        PaintTarget.Y := -PaintRect.Top;
         PaintRect.Top := 0;
       end
       else
@@ -31796,7 +31745,7 @@ function TCustomVirtualStringTree.ContentToHTML(Source: TVSTTextSourceType; cons
 
 // Renders the current tree content (depending on Source) as HTML text encoded in UTF-8.
 // If Caption is not empty then it is used to create and fill the header for the table built here.
-// Based on ideas and code from Frank van den Bergh and Andreas H�rstemeier.
+// Based on ideas and code from Frank van den Bergh and Andreas H?rstemeier.
 
 var
   Buffer: TBufferedUTF8String;
@@ -32210,7 +32159,7 @@ end;
 function TCustomVirtualStringTree.ContentToRTF(Source: TVSTTextSourceType): AnsiString;
 
 // Renders the current tree content (depending on Source) as RTF (rich text).
-// Based on ideas and code from Frank van den Bergh and Andreas H�rstemeier.
+// Based on ideas and code from Frank van den Bergh and Andreas H?rstemeier.
 
 var
   Fonts: TStringList;

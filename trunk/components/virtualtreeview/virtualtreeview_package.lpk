@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="3">
+  <Package Version="4">
     <Name Value="virtualtreeview_package"/>
-    <Author Value="Mike Lischke (LCL Port: Luiz AmÃ©rico)"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
     <CompilerOptions>
-      <Version Value="10"/>
+      <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
@@ -23,7 +24,7 @@
 "/>
     <License Value=" Mozilla Public License 1.1 (MPL 1.1) or GNU Lesser General Public License
 "/>
-    <Version Major="4" Minor="8" Release="7" Build="1"/>
+    <Version Major="4" Minor="8" Release="7" Build="3"/>
     <Files Count="7">
       <Item1>
         <Filename Value="virtualtrees.lrs"/>
@@ -59,6 +60,7 @@
     <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="lclextensions_package"/>
+        <MinVersion Minor="5" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="LCL"/>

@@ -27,11 +27,7 @@
 {.$define EnablePrint}
 {.$define EnableNCFunctions}
 {$define EnableAdvancedGraphics}
-
-{$IFDEF CPU32}
-  {$define EnableAlphaBlend}
-{$ENDIF CPU32}
-
+{$define EnableAlphaBlend}
 {.$define EnableAccessible}
 {$define ThemeSupport}
 {$if defined(LCLWin32) or defined(LCLWinCE)}
@@ -47,4 +43,7 @@
 //under linux the performance is poor with threading enabled
 {$ifdef Windows}
   {.$define EnableThreadSupport}
+{$endif}
+{$ifdef CPU64}
+  {$define PACKARRAYPASCAL}
 {$endif}

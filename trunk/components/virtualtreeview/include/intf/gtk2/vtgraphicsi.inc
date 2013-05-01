@@ -1,6 +1,11 @@
 uses
-  gtk2def, gdk2, GTK2Proc, Cairo;
+  gtk2def, gdk2, GTK2Proc, Cairo, LCLVersion;
 
+{$MACRO ON}
+
+{$if lcl_fullversion > 1000000}
+{$define TGtk2DeviceContext:=TGtkDeviceContext}
+{$endif}
 
 function gdk_cairo_create(drawable: PGdkDrawable): Pcairo_t cdecl external gdklib;
 
