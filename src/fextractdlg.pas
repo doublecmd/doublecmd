@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File unpacking window
 
-   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -169,9 +169,9 @@ begin
                 // Short pause, so that all operations are not spawned at once.
                 Sleep(100);
               except
-                on e: EFileSourceException do
+                on E: Exception do
                 begin
-                  MessageDlg(e.Message, mtError, [mbOK], 0);
+                  MessageDlg(E.Message, mtError, [mbOK], 0);
                 end;
               end;
             end; // for
@@ -301,4 +301,4 @@ begin
 end;
 
 end.
-
+
