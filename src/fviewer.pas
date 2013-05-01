@@ -316,9 +316,9 @@ implementation
 {$R *.lfm}
 
 uses
-  FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, DCClassesUtf8,
-  uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager, uConvEncoding,
-  DCBasicTypes, DCOSUtils, uOSUtils;
+  FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
+  DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
+  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils;
 
 const
   HotkeysCategory = 'Viewer';
@@ -1011,9 +1011,11 @@ end;
 function TfrmViewer.CheckPlugins(const sFileName: UTF8String; bForce: Boolean = False): Boolean;
 var
   I: Integer;
+  ShowFlags: Integer;
   WlxModule: TWlxModule;
 begin
-//  DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
+  ShowFlags:= IfThen(bForce, lcp_forceshow, 0);
+  // DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   for I:= 0 to WlxPlugins.Count - 1 do
   if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName, bForce) then
   begin
@@ -1021,7 +1023,7 @@ begin
     if not WlxPlugins.LoadModule(I) then Continue;
     WlxModule:= WlxPlugins.GetWlxModule(I);
     DCDebug('WlxModule.Name = ', WlxModule.Name);
-    if WlxModule.CallListLoad(Self.Handle, sFileName, {TODO: showFlags}0) = 0 then
+    if WlxModule.CallListLoad(Self.Handle, sFileName, ShowFlags) = 0 then
     begin
       WlxModule.UnloadModule;
       Continue;
