@@ -443,9 +443,13 @@ end;
 procedure TfrmViewer.LoadNextFile(const aFileName: UTF8String);
 begin
   if bPlugin then
+    with WlxPlugins.GetWlxModule(ActivePlugin) do
     begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, aFileName, 0) <> LISTPLUGIN_ERROR then
-        Exit;
+      if FileParamVSDetectStr(aFileName, False) then
+      begin
+        if CallListLoadNext(Self.Handle, aFileName, 0) <> LISTPLUGIN_ERROR then
+          Exit;
+      end;
     end;
   ExitPluginMode;
   LoadFile(aFileName);
