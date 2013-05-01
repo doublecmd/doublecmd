@@ -38,7 +38,7 @@ var
 begin
   if Msg = WM_PAINT then
   begin
-    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
+    PanningObject:=TVirtualPanningWindow(GetWindowLongPtrW(Window,GWL_USERDATA));
     if Assigned(PanningObject) then
       PanningObject.HandlePaintMessage;
 	Result := 0;

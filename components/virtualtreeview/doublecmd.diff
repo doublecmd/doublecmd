@@ -1,62 +1,8 @@
-Index: VTGraphics.pas
-===================================================================
---- VTGraphics.pas	(revision 2433)
-+++ VTGraphics.pas	(working copy)
-@@ -26,7 +26,27 @@
- 
- implementation
- 
-+{$IFDEF CPU32}
- {$i vtgraphicsi.inc}
-+{$ENDIF CPU32}
- 
-+{$IFDEF CPU64}
-+
-+procedure AlphaBlend(Source, Destination: HDC; const R: TRect; const Target: TPoint; Mode: TBlendMode; ConstantAlpha, Bias: Integer);
-+begin
-+end;
-+
-+function CalculateScanline(Bits: Pointer; Width, Height, Row: Integer): Pointer;
-+begin
-+  Result := nil;
-+end;
-+
-+function GetBitmapBitsFromBitmap(Bitmap: HBITMAP): Pointer;
-+begin
-+  Result := nil;
-+end;
-+
-+{$ENDIF CPU64}
-+
- end.
- 
-Index: include/intf/win32/vtvdragmanager.inc
-===================================================================
---- include/intf/win32/vtvdragmanager.inc	(revision 2433)
-+++ include/intf/win32/vtvdragmanager.inc	(working copy)
-@@ -686,7 +686,7 @@
- 
- //----------------------------------------------------------------------------------------------------------------------
- 
--{$IF FPC_FULLVERSION < 020701}
-+{$IF FPC_FULLVERSION < 020601}
- function TVTDragManager.GiveFeedback(Effect: Longint): HResult;
- {$ELSE}
- function TVTDragManager.GiveFeedback(Effect: LongWord): HResult;
-@@ -698,7 +698,7 @@
- 
- //----------------------------------------------------------------------------------------------------------------------
- 
--{$IF FPC_FULLVERSION < 020701}
-+{$IF FPC_FULLVERSION < 020601}
- function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: Longint): HResult;
- {$ELSE}
- function TVTDragManager.QueryContinueDrag(EscapePressed: BOOL; KeyState: LongWord): HResult;
 Index: VTConfig.inc
 ===================================================================
---- VTConfig.inc	(revision 2433)
+--- VTConfig.inc	(revision 2731)
 +++ VTConfig.inc	(working copy)
-@@ -22,12 +22,16 @@
+@@ -22,7 +22,7 @@
  
  
  //Lazarus port options
@@ -65,84 +11,246 @@ Index: VTConfig.inc
  {.$define EnableNativeTVM}
  {.$define EnablePrint}
  {.$define EnableNCFunctions}
- {$define EnableAdvancedGraphics}
--{$define EnableAlphaBlend}
-+
-+{$IFDEF CPU32}
-+  {$define EnableAlphaBlend}
-+{$ENDIF CPU32}
-+
- {.$define EnableAccessible}
- {$define ThemeSupport}
- {$if defined(LCLWin32) or defined(LCLWinCE)}
-@@ -42,5 +46,5 @@
+@@ -42,7 +42,7 @@
  
  //under linux the performance is poor with threading enabled
  {$ifdef Windows}
 -  {$define EnableThreadSupport}
 +  {.$define EnableThreadSupport}
  {$endif}
-Index: units/win32/virtualpanningwindow.pas
+ {$ifdef CPU64}
+   {$define PACKARRAYPASCAL}
+Index: VirtualTrees.pas
 ===================================================================
---- units/win32/virtualpanningwindow.pas	(revision 2433)
-+++ units/win32/virtualpanningwindow.pas	(working copy)
-@@ -38,12 +38,13 @@
- begin
-   if Msg = WM_PAINT then
+--- VirtualTrees.pas	(revision 2731)
++++ VirtualTrees.pas	(working copy)
+@@ -745,6 +745,7 @@
+     toAutoHideButtons,          // Node buttons are hidden when there are child nodes, but all are invisible.
+     toAutoDeleteMovedNodes,     // Delete nodes which where moved in a drag operation (if not directed otherwise).
+     toDisableAutoscrollOnFocus, // Disable scrolling a node or column into view if it gets focused.
++    toDisableAutoscrollHorizontal, // Only autoscroll on focus vertically never horizontally
+     toAutoChangeScale,          // Change default node height automatically if the system's font scale is set to big fonts.
+     toAutoFreeOnCollapse,       // Frees any child node after a node has been collapsed (HasChildren flag stays there).
+     toDisableAutoscrollOnEdit,  // Do not center a node horizontally when it is edited.
+@@ -2018,7 +2019,7 @@
+     var Allowed: Boolean) of object;
+   TVTDragOverEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState; State: TDragState;
+     const Pt: TPoint; Mode: TDropMode; var Effect: LongWord; var Accept: Boolean) of object;
+-  TVTDragDropEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; DataObject: IDataObject;
++  TVTDragDropEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; {DataObject: IDataObject;}
+     Formats: TFormatArray; Shift: TShiftState; const Pt: TPoint; var Effect: LongWord; Mode: TDropMode) of object;
+   TVTRenderOLEDataEvent = procedure(Sender: TBaseVirtualTree; const FormatEtcIn: TFormatEtc; out Medium: TStgMedium;
+     ForClipboard: Boolean; var Result: HRESULT) of object;
+@@ -2543,6 +2544,7 @@
+     procedure BeginOperation;
+     function CalculateSelectionRect(X, Y: Integer): Boolean; virtual;
+     function CanAutoScroll: Boolean; virtual;
++    function CanScroll(const ClientMousePos: TPoint): Boolean; virtual;
+     function CanShowDragImage: Boolean; virtual;
+     procedure Change(Node: PVirtualNode); virtual;
+     procedure ChangeScale(M, D: Integer); override;
+@@ -3015,6 +3017,7 @@
+     function GetNextNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetNextSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetNextSibling(Node: PVirtualNode): PVirtualNode;
++    function GetNextSiblingNoInit(Node: PVirtualNode): PVirtualNode;
+     function GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetNextVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetNextVisibleSibling(Node: PVirtualNode): PVirtualNode;
+@@ -3033,6 +3036,7 @@
+     function GetPreviousNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetPreviousSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetPreviousSibling(Node: PVirtualNode): PVirtualNode;
++    function GetPreviousSiblingNoInit(Node: PVirtualNode): PVirtualNode;
+     function GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetPreviousVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetPreviousVisibleSibling(Node: PVirtualNode): PVirtualNode;
+@@ -13858,7 +13862,7 @@
+     FFocusedColumn := Value;
+     if Assigned(FFocusedNode) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
+     begin
+-      if ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions, True) then
++      if ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions, not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions)) then
+         InvalidateNode(FFocusedNode);
+     end;
+ 
+@@ -15036,7 +15040,8 @@
+   LeaveStates := [tsHint];
+   if [tsWheelPanning, tsWheelScrolling] * FStates = [] then
    begin
--    PanningObject:=TVirtualPanningWindow(GetWindowLong(Window,GWL_USERDATA));
-+    PanningObject:=TVirtualPanningWindow(GetWindowLongPtr(Window,GWL_USERDATA));
-     if Assigned(PanningObject) then
-       PanningObject.HandlePaintMessage;
-+	Result := 0;
+-    KillTimer(Handle, ScrollTimer);
++    if HandleAllocated then
++      KillTimer(Handle, ScrollTimer);
+     LeaveStates := LeaveStates + [tsScrollPending, tsScrolling];
+   end;
+   DoStateChange([], LeaveStates);
+@@ -15660,7 +15665,7 @@
+                 if (Shift = [ssCtrlOS]) and not ActAsGrid then
+                 begin
+                   ScrollIntoView(Node, toCenterScrollIntoView in FOptions.SelectionOptions,
+-                    not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions));
++                    not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
+                   if (CharCode = VK_HOME) and not UseRightToLeftAlignment then
+                     SetOffsetX(0)
+                   else
+@@ -17879,7 +17884,7 @@
+       if hoVisible in FHeader.FOptions then
+         Dec(Y, FHeader.Height);
+ 
+-      if (Y > 0) and (Y < Integer(FDefaultNodeHeight)) and (FOffsetY <> 0) then
++      if (Y < Integer(FDefaultNodeHeight)) and (FOffsetY <> 0) then
+         Include(Result, sdUp);
+ 
+       //todo: probably the code below is bug due to poor timeGetTime implementation
+@@ -18424,7 +18429,7 @@
+ 
+ begin
+   if Assigned(FOnDragDrop) then
+-    FOnDragDrop(Self, Source, DataObject, Formats, Shift, Pt, Effect, Mode);
++    FOnDragDrop(Self, Source, {DataObject, }Formats, Shift, Pt, Effect, Mode);
+ end;
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+@@ -18576,7 +18581,7 @@
+       InvalidateNode(FFocusedNode);
+       if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
+         ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
+-          (MouseButtonDown * FStates = []), True);
++          (MouseButtonDown * FStates = []), not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
+     end;
+ 
+     // Reset range anchor if necessary.
+@@ -19392,7 +19397,7 @@
+   ClientP := ScreenToClient(P);
+   Panning := [tsWheelPanning, tsWheelScrolling] * FStates <> [];
+ 
+-  if IsMouseSelecting or InRect or Panning then
++  if IsMouseSelecting or InRect or Panning or CanScroll(ClientP) then
+   begin
+     DeltaX := 0;
+     DeltaY := 0;
+@@ -21111,7 +21116,7 @@
+       if NewNode or NewColumn then
+       begin
+         ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions,
+-                       not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions));
++                       not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
+         DoFocusChange(FFocusedNode, FFocusedColumn);
+       end;
+     end;
+@@ -21809,7 +21814,7 @@
+ 
+ begin
+   if Y < 0 then
+-    Y := 0;
++    Exit(nil);
+ 
+   AbsolutePos := Y;
+   if Relative then
+@@ -24335,6 +24340,12 @@
+   DoCanEdit(Node, Column, Result);
+ end;
+ 
++function TBaseVirtualTree.CanScroll(const ClientMousePos: TPoint): Boolean;
++// Determines whether auto scrolling can occur based on current mouse cursor position.
++begin
++  Result := False;
++end;
++
+ //----------------------------------------------------------------------------------------------------------------------
+ 
+ procedure TBaseVirtualTree.Clear;
+@@ -26446,6 +26457,22 @@
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+ 
++function TBaseVirtualTree.GetNextSiblingNoInit(Node: PVirtualNode): PVirtualNode;
++
++// Returns the next sibling of Node performing no initialization.
++
++begin
++  Result := Node;
++  if Assigned(Result) then
++  begin
++    Assert(Result <> FRoot, 'Node must not be the hidden root node.');
++
++    Result := Result.NextSibling;
++  end;
++end;
++
++//----------------------------------------------------------------------------------------------------------------------
++
+ function TBaseVirtualTree.GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+ 
+ // Returns next node in tree, with regard to Node, which is visible.
+@@ -27064,6 +27091,22 @@
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+ 
++function TBaseVirtualTree.GetPreviousSiblingNoInit(Node: PVirtualNode): PVirtualNode;
++
++// Get next sibling of Node, performes no initialization.
++
++begin
++  Result := Node;
++  if Assigned(Result) then
++  begin
++    Assert(Result <> FRoot, 'Node must not be the hidden root node.');
++
++    Result := Result.PrevSibling;
++  end;
++end;
++
++//----------------------------------------------------------------------------------------------------------------------
++
+ function TBaseVirtualTree.GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+ 
+ // Returns the previous node in tree, with regard to Node, which is visible.
+@@ -29252,6 +29295,7 @@
+   HScrollBarVisible: Boolean;
+   ScrolledVertically,
+   ScrolledHorizontally: Boolean;
++  OffY, OffYM: Integer;
+ 
+ begin
+   //todo: minimize calls to ClientHeight and ClientWidth
+@@ -29296,7 +29340,14 @@
+         if Center then
+           SetOffsetY(FOffsetY - R.Bottom + ClientHeight div 2)
+         else
+-          SetOffsetY(FOffsetY - R.Bottom + ClientHeight);
++        begin
++          // Leave additional space at the bottom to have scrollrect start with full row.
++          OffY  := FOffsetY - R.Bottom + ClientHeight;
++          OffYM := OffY mod DefaultNodeHeight;
++          if OffYM <> 0 then
++            OffY := OffY - (DefaultNodeHeight + OffYM);
++          SetOffsetY(OffY);
++        end;
+         // When scrolling up and the horizontal scroll appears because of the operation
+         // then we have to move up the node the horizontal scrollbar's height too
+         // in order to avoid that the scroll bar hides the node which we wanted to have in view.
+@@ -29350,10 +29401,13 @@
    end
    else
--    DefWindowProc(Window,Msg,WPara,LPara);
-+    Result := DefWindowProc(Window,Msg,WPara,LPara);
- end;
- 
- var
-@@ -87,8 +88,7 @@
-   with Position do
-     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
-       32, 32, OwnerHandle, 0, HInstance, nil);
--  //todo use SetWindowLongPtr later
--  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
-+  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
-   
-   FImage := TBitmap.Create;
- end;
-Index: units/qt/fakemmsystem.pas
-===================================================================
---- units/qt/fakemmsystem.pas	(revision 2433)
-+++ units/qt/fakemmsystem.pas	(working copy)
-@@ -15,6 +15,9 @@
- 
- implementation
- 
-+uses
-+  LCLIntf;
-+
- function timeBeginPeriod(x1: DWord): DWord;
- begin
- 
-@@ -26,12 +29,8 @@
- end;
- 
- function timeGetTime: DWORD;
--var
--  ATime: TSystemTime;
- begin
--  //todo: properly implement
--  GetLocalTime(ATime);
--  Result := ATime.MilliSecond;
-+  Result := GetTickCount;
- end;
- 
- end.
+   begin
+-    if ColumnRight > ClientWidth then
+-      NewOffset := FEffectiveOffsetX + (ColumnRight - ClientWidth)
+-    else if ColumnLeft < Header.Columns.GetVisibleFixedWidth then
+-      NewOffset := FEffectiveOffsetX - (Header.Columns.GetVisibleFixedWidth - ColumnLeft);
++    if FHeader.Columns.Count > 1 then
++    begin
++      if ColumnRight > ClientWidth then
++        NewOffset := FEffectiveOffsetX + (ColumnRight - ClientWidth)
++      else if ColumnLeft < Header.Columns.GetVisibleFixedWidth then
++        NewOffset := FEffectiveOffsetX - (Header.Columns.GetVisibleFixedWidth - ColumnLeft);
++    end;
+     if NewOffset <> FEffectiveOffsetX then
+     begin
+       if UseRightToLeftAlignment then
 Index: units/carbon/fakemmsystem.pas
 ===================================================================
---- units/carbon/fakemmsystem.pas	(revision 2433)
+--- units/carbon/fakemmsystem.pas	(revision 2731)
 +++ units/carbon/fakemmsystem.pas	(working copy)
 @@ -15,6 +15,9 @@
  
@@ -168,323 +276,57 @@ Index: units/carbon/fakemmsystem.pas
  end;
  
  end.
-Index: VirtualTrees.pas
+Index: units/qt/fakemmsystem.pas
 ===================================================================
---- VirtualTrees.pas	(revision 2433)
-+++ VirtualTrees.pas	(working copy)
-@@ -745,6 +745,7 @@
-     toAutoHideButtons,          // Node buttons are hidden when there are child nodes, but all are invisible.
-     toAutoDeleteMovedNodes,     // Delete nodes which where moved in a drag operation (if not directed otherwise).
-     toDisableAutoscrollOnFocus, // Disable scrolling a node or column into view if it gets focused.
-+    toDisableAutoscrollHorizontal, // Only autoscroll on focus vertically never horizontally
-     toAutoChangeScale,          // Change default node height automatically if the system's font scale is set to big fonts.
-     toAutoFreeOnCollapse,       // Frees any child node after a node has been collapsed (HasChildren flag stays there).
-     toDisableAutoscrollOnEdit,  // Do not center a node horizontally when it is edited.
-@@ -1046,7 +1047,7 @@
-     function DragOver(KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
-     function Drop(const DataObject: IDataObject; KeyState: LongWord; Pt: TPoint; var Effect: LongWord): HResult; stdcall;
-     procedure ForceDragLeave; stdcall;
--    {$IF (FPC_FULLVERSION < 020701) and DEFINED(LCLWin32)}
-+    {$IF (FPC_FULLVERSION < 020601) and DEFINED(LCLWin32)}
-     function GiveFeedback(Effect: Longint): HResult; stdcall;
-     function QueryContinueDrag(EscapePressed: BOOL; KeyState: Longint): HResult; stdcall;
-     {$ELSE}
-@@ -2018,7 +2019,7 @@
-     var Allowed: Boolean) of object;
-   TVTDragOverEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState; State: TDragState;
-     const Pt: TPoint; Mode: TDropMode; var Effect: LongWord; var Accept: Boolean) of object;
--  TVTDragDropEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; DataObject: IDataObject;
-+  TVTDragDropEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; {DataObject: IDataObject;}
-     Formats: TFormatArray; Shift: TShiftState; const Pt: TPoint; var Effect: LongWord; Mode: TDropMode) of object;
-   TVTRenderOLEDataEvent = procedure(Sender: TBaseVirtualTree; const FormatEtcIn: TFormatEtc; out Medium: TStgMedium;
-     ForClipboard: Boolean; var Result: HRESULT) of object;
-@@ -2540,6 +2541,7 @@
-     procedure BeginOperation;
-     function CalculateSelectionRect(X, Y: Integer): Boolean; virtual;
-     function CanAutoScroll: Boolean; virtual;
-+    function CanScroll(const ClientMousePos: TPoint): Boolean; virtual;
-     function CanShowDragImage: Boolean; virtual;
-     procedure Change(Node: PVirtualNode); virtual;
-     procedure ChangeScale(M, D: Integer); override;
-@@ -3012,6 +3014,7 @@
-     function GetNextNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
-     function GetNextSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
-     function GetNextSibling(Node: PVirtualNode): PVirtualNode;
-+    function GetNextSiblingNoInit(Node: PVirtualNode): PVirtualNode;
-     function GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
-     function GetNextVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
-     function GetNextVisibleSibling(Node: PVirtualNode): PVirtualNode;
-@@ -3030,6 +3033,7 @@
-     function GetPreviousNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
-     function GetPreviousSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
-     function GetPreviousSibling(Node: PVirtualNode): PVirtualNode;
-+    function GetPreviousSiblingNoInit(Node: PVirtualNode): PVirtualNode;
-     function GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
-     function GetPreviousVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
-     function GetPreviousVisibleSibling(Node: PVirtualNode): PVirtualNode;
-@@ -4899,7 +4903,7 @@
- function HasMMX: Boolean;
+--- units/qt/fakemmsystem.pas	(revision 2731)
++++ units/qt/fakemmsystem.pas	(working copy)
+@@ -15,6 +15,9 @@
  
- // Helper method to determine whether the current processor supports MMX.
--
-+{$IFDEF CPU32}
- asm
-         PUSH    EBX
-         XOR     EAX, EAX     // Result := False
-@@ -4928,6 +4932,12 @@
- @1:
-         POP     EBX
- end;
-+{$ELSE}
-+begin
-+  //todo: should not all cpu64 have mmx?
-+  Result := False;
-+end;
-+{$ENDIF}
+ implementation
  
- //----------------------------------------------------------------------------------------------------------------------
- {$ifdef EnablePrint}
-@@ -13190,7 +13200,52 @@
- // The returned value is the number of remaining entries in the array, so the caller can reallocate (shorten)
- // the selection array if needed or -1 if nothing needs to be changed.
- 
-+{$IFDEF CPU64}
-+label
-+  PreScan, DoMainLoop, MainLoop, Skip, Finish;
- asm
-+  push %rbx
-+  push %rdi
-+  push %rsi
-+  mov %rdx, %rsi
-+  mov $-1, %rdx
-+  cmpq $0, %rcx
-+  jz Finish
-+  inc %rdx
-+  mov %rsi, %rdi
-+  movq $1, %rbx
-+PreScan:
-+  testq (%rsi), %rbx
++uses
++  LCLIntf;
 +
-+  jnz DoMainLoop
-+  inc %rdx
-+  add $8, %rsi
-+  dec %rcx
-+  jnz PreScan
-+  jmp Finish
-+DoMainLoop:
-+  mov %rsi, %rdi
-+MainLoop:
-+  test (%rsi), %rbx
-+  jne Skip
-+  movq (%rsi), %r10
-+  movq %r10, (%rdi)
-+  inc %rdx
-+  dec %rcx
-+  jnz MainLoop
-+  jmp Finish
-+Skip:
-+  add $8, %rsi
-+  dec %rcx
-+  jnz MainLoop
-+Finish:
-+  mov %rdx, %rax
-+  pop %rsi
-+  pop %rdi
-+  pop %rbx
-+end;
-+{$ELSE}
-+asm
-         PUSH    EBX
-         PUSH    EDI
-         PUSH    ESI
-@@ -13232,6 +13287,7 @@
-         POP     EDI
-         POP     EBX
- end;
-+{$ENDIF}
- 
- {$IMPLICITEXCEPTIONS ON}
- //----------------------------------------------------------------------------------------------------------------------
-@@ -13844,7 +13900,7 @@
-     FFocusedColumn := Value;
-     if Assigned(FFocusedNode) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
-     begin
--      if ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions, True) then
-+      if ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions, not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions)) then
-         InvalidateNode(FFocusedNode);
-     end;
- 
-@@ -15022,7 +15078,8 @@
-   LeaveStates := [tsHint];
-   if [tsWheelPanning, tsWheelScrolling] * FStates = [] then
-   begin
--    KillTimer(Handle, ScrollTimer);
-+    if HandleAllocated then
-+      KillTimer(Handle, ScrollTimer);
-     LeaveStates := LeaveStates + [tsScrollPending, tsScrolling];
-   end;
-   DoStateChange([], LeaveStates);
-@@ -15647,7 +15704,7 @@
-                 if (Shift = [ssCtrlOS]) and not ActAsGrid then
-                 begin
-                   ScrollIntoView(Node, toCenterScrollIntoView in FOptions.SelectionOptions,
--                    not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions));
-+                    not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
-                   if (CharCode = VK_HOME) and not UseRightToLeftAlignment then
-                     SetOffsetX(0)
-                   else
-@@ -17869,7 +17926,7 @@
-       if hoVisible in FHeader.FOptions then
-         Dec(Y, FHeader.Height);
- 
--      if (Y > 0) and (Y < Integer(FDefaultNodeHeight)) and (FOffsetY <> 0) then
-+      if (Y < Integer(FDefaultNodeHeight)) and (FOffsetY <> 0) then
-         Include(Result, sdUp);
- 
-       //todo: probably the code below is bug due to poor timeGetTime implementation
-@@ -18414,7 +18471,7 @@
- 
+ function timeBeginPeriod(x1: DWord): DWord;
  begin
-   if Assigned(FOnDragDrop) then
--    FOnDragDrop(Self, Source, DataObject, Formats, Shift, Pt, Effect, Mode);
-+    FOnDragDrop(Self, Source, {DataObject, }Formats, Shift, Pt, Effect, Mode);
+ 
+@@ -26,12 +29,8 @@
  end;
  
- //----------------------------------------------------------------------------------------------------------------------
-@@ -18566,7 +18623,7 @@
-       InvalidateNode(FFocusedNode);
-       if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
-         ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
--          (MouseButtonDown * FStates = []), True);
-+          (MouseButtonDown * FStates = []), not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
-     end;
- 
-     // Reset range anchor if necessary.
-@@ -19382,7 +19439,7 @@
-   ClientP := ScreenToClient(P);
-   Panning := [tsWheelPanning, tsWheelScrolling] * FStates <> [];
- 
--  if IsMouseSelecting or InRect or Panning then
-+  if IsMouseSelecting or InRect or Panning or CanScroll(ClientP) then
-   begin
-     DeltaX := 0;
-     DeltaY := 0;
-@@ -21101,7 +21158,7 @@
-       if NewNode or NewColumn then
-       begin
-         ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions,
--                       not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions));
-+                       not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
-         DoFocusChange(FFocusedNode, FFocusedColumn);
-       end;
-     end;
-@@ -21799,7 +21856,7 @@
- 
+ function timeGetTime: DWORD;
+-var
+-  ATime: TSystemTime;
  begin
-   if Y < 0 then
--    Y := 0;
-+    Exit(nil);
- 
-   AbsolutePos := Y;
-   if Relative then
-@@ -24337,6 +24394,12 @@
-   DoCanEdit(Node, Column, Result);
+-  //todo: properly implement
+-  GetLocalTime(ATime);
+-  Result := ATime.MilliSecond;
++  Result := GetTickCount;
  end;
  
-+function TBaseVirtualTree.CanScroll(const ClientMousePos: TPoint): Boolean;
-+// Determines whether auto scrolling can occur based on current mouse cursor position.
-+begin
-+  Result := False;
-+end;
-+
- //----------------------------------------------------------------------------------------------------------------------
- 
- procedure TBaseVirtualTree.Clear;
-@@ -26448,6 +26511,22 @@
- 
- //----------------------------------------------------------------------------------------------------------------------
- 
-+function TBaseVirtualTree.GetNextSiblingNoInit(Node: PVirtualNode): PVirtualNode;
-+
-+// Returns the next sibling of Node performing no initialization.
-+
-+begin
-+  Result := Node;
-+  if Assigned(Result) then
-+  begin
-+    Assert(Result <> FRoot, 'Node must not be the hidden root node.');
-+
-+    Result := Result.NextSibling;
-+  end;
-+end;
-+
-+//----------------------------------------------------------------------------------------------------------------------
-+
- function TBaseVirtualTree.GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
- 
- // Returns next node in tree, with regard to Node, which is visible.
-@@ -27066,6 +27145,22 @@
- 
- //----------------------------------------------------------------------------------------------------------------------
- 
-+function TBaseVirtualTree.GetPreviousSiblingNoInit(Node: PVirtualNode): PVirtualNode;
-+
-+// Get next sibling of Node, performes no initialization.
-+
-+begin
-+  Result := Node;
-+  if Assigned(Result) then
-+  begin
-+    Assert(Result <> FRoot, 'Node must not be the hidden root node.');
-+
-+    Result := Result.PrevSibling;
-+  end;
-+end;
-+
-+//----------------------------------------------------------------------------------------------------------------------
-+
- function TBaseVirtualTree.GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
- 
- // Returns the previous node in tree, with regard to Node, which is visible.
-@@ -29251,6 +29346,7 @@
-   HScrollBarVisible: Boolean;
-   ScrolledVertically,
-   ScrolledHorizontally: Boolean;
-+  OffY, OffYM: Integer;
- 
- begin
-   //todo: minimize calls to ClientHeight and ClientWidth
-@@ -29295,7 +29391,14 @@
-         if Center then
-           SetOffsetY(FOffsetY - R.Bottom + ClientHeight div 2)
-         else
--          SetOffsetY(FOffsetY - R.Bottom + ClientHeight);
-+        begin
-+          // Leave additional space at the bottom to have scrollrect start with full row.
-+          OffY  := FOffsetY - R.Bottom + ClientHeight;
-+          OffYM := OffY mod DefaultNodeHeight;
-+          if OffYM <> 0 then
-+            OffY := OffY - (DefaultNodeHeight + OffYM);
-+          SetOffsetY(OffY);
-+        end;
-         // When scrolling up and the horizontal scroll appears because of the operation
-         // then we have to move up the node the horizontal scrollbar's height too
-         // in order to avoid that the scroll bar hides the node which we wanted to have in view.
-@@ -29349,10 +29452,13 @@
+ end.
+Index: units/win32/virtualpanningwindow.pas
+===================================================================
+--- units/win32/virtualpanningwindow.pas	(revision 2731)
++++ units/win32/virtualpanningwindow.pas	(working copy)
+@@ -41,9 +41,10 @@
+     PanningObject:=TVirtualPanningWindow(GetWindowLongPtrW(Window,GWL_USERDATA));
+     if Assigned(PanningObject) then
+       PanningObject.HandlePaintMessage;
++	Result := 0;
    end
    else
-   begin
--    if ColumnRight > ClientWidth then
--      NewOffset := FEffectiveOffsetX + (ColumnRight - ClientWidth)
--    else if ColumnLeft < Header.Columns.GetVisibleFixedWidth then
--      NewOffset := FEffectiveOffsetX - (Header.Columns.GetVisibleFixedWidth - ColumnLeft);
-+    if FHeader.Columns.Count > 1 then
-+    begin
-+      if ColumnRight > ClientWidth then
-+        NewOffset := FEffectiveOffsetX + (ColumnRight - ClientWidth)
-+      else if ColumnLeft < Header.Columns.GetVisibleFixedWidth then
-+        NewOffset := FEffectiveOffsetX - (Header.Columns.GetVisibleFixedWidth - ColumnLeft);
-+    end;
-     if NewOffset <> FEffectiveOffsetX then
-     begin
-       if UseRightToLeftAlignment then
+-    DefWindowProc(Window,Msg,WPara,LPara);
++    Result := DefWindowProc(Window,Msg,WPara,LPara);
+ end;
+ 
+ var
+@@ -87,8 +88,7 @@
+   with Position do
+     FHandle := CreateWindowEx(WS_EX_TOOLWINDOW, PanningWindowClass.lpszClassName, nil, WS_POPUP, X - 16, Y - 16,
+       32, 32, OwnerHandle, 0, HInstance, nil);
+-  //todo use SetWindowLongPtr later
+-  SetWindowLong(FHandle,GWL_USERDATA,PtrInt(Self));
++  SetWindowLongPtr(FHandle,GWL_USERDATA,LONG_PTR(Self));
+   
+   FImage := TBitmap.Create;
+ end;
