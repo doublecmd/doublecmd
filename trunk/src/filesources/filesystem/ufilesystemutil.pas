@@ -1138,7 +1138,11 @@ begin
   end;
 
   if bRemoveDirectory and Result then
+  begin
+    if FileIsReadOnly(aNode.TheFile.Attributes) then
+      mbFileSetReadOnly(aNode.TheFile.FullPath, False);
     mbRemoveDir(aNode.TheFile.FullPath);
+  end;
 end;
 
 function TFileSystemOperationHelper.ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
