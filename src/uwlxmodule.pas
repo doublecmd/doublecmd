@@ -169,15 +169,15 @@ var
 
 function PluginProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 var
-  WindowProc: WNDPROC;
+  Index: Integer;
 begin
   if Msg = WM_KEYDOWN then
   begin
     PostMessage(GetParent(hWnd), Msg, wParam, lParam);
   end;
-  WindowProc := WindowProcMap.KeyData[hWnd];
-  if Assigned(WindowProc) then
-    Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
+  Index := WindowProcMap.IndexOf(hWnd);
+  if (Index >= 0) then
+    Result := CallWindowProc(WindowProcMap.Data[Index], hWnd, Msg, wParam, lParam)
   else
     Result := DefWindowProc(hWnd, Msg, wParam, lParam);
 end;
@@ -315,6 +315,9 @@ procedure TWlxModule.CallListCloseWindow;
 begin
   //  DCDebug('Try to call ListCloseWindow');
   try
+{$IF DEFINED(LCLWIN32)}
+    SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(WindowProcMap.KeyData[FPluginWindow]));
+{$ENDIF}
     if Assigned(ListCloseWindow) then
       ListCloseWindow(FPluginWindow)
 {$IF DEFINED(LCLWIN32)}
