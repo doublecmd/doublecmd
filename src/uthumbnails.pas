@@ -263,7 +263,7 @@ begin
             end
           end
         // Create thumb for text files
-        else if (mbFileAccess(sFullPathToFile, fmOpenRead)) and (FileIsText(sFullPathToFile)) then
+        else if (mbFileExists(sFullPathToFile)) and (FileIsText(sFullPathToFile)) then
           begin
             FFileName:= sFullPathToFile;
             // Some widgetsets can not draw from background
@@ -354,4 +354,4 @@ begin
 end;
 
 end.
-
+
