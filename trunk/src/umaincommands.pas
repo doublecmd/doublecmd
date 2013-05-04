@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2013  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -464,12 +464,15 @@ begin
   with frmMain do
   begin
     if (SplitPos >= 0) and (SplitPos <= 100) then
-      begin
-        if not gHorizontalFilePanels then
-          pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * SplitPos div 100
-        else
-          pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * SplitPos div 100;
-      end;
+    begin
+      // Calculate panel width
+      if not gHorizontalFilePanels then
+        pnlLeft.Width:= (pnlNoteBooks.Width - MainSplitter.Width) * SplitPos div 100
+      else
+        pnlLeft.Height:= (pnlNoteBooks.Height - MainSplitter.Height) * SplitPos div 100;
+      // Update splitter position
+      MainSplitterPos:= SplitPos;
+    end;
   end;
 end;
 
