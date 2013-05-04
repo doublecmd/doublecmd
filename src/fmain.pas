@@ -513,6 +513,7 @@ type
 {$ENDIF}
   private
     { Private declarations }
+    FMainSplitterPos: Double;
     PanelSelected: TFilePanelSelect;
     DrivesList : TDrivesList;
     MainSplitterHintWnd: THintWindow;
@@ -543,6 +544,7 @@ type
 
     procedure CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
+    procedure SetMainSplitterPos(AValue: Double);
     procedure UpdateActionIcons;
     procedure TypeInCommandLine(Str: String);
     procedure AddVirtualDriveButton(dskPanel: TKASToolBar);
@@ -682,6 +684,7 @@ type
     property SelectedPanel: TFilePanelSelect read PanelSelected;
     property LeftTabs: TFileViewNotebook read nbLeft;
     property RightTabs: TFileViewNotebook read nbRight;
+    property MainSplitterPos: Double read FMainSplitterPos write SetMainSplitterPos;
   end;
 
 var
@@ -1617,13 +1620,16 @@ begin
         MainSplitterHintWnd.Color := Application.HintColor;
       end;
 
-      // calculate persent
+      // calculate percent
       if not gHorizontalFilePanels then
-        sHint:= FloatToStrF(MainSplitter.Left*100 / (pnlNotebooks.Width-MainSplitter.Width), ffFixed, 15, 1) + '%'
+        FMainSplitterPos:= MainSplitter.Left * 100 / (pnlNotebooks.Width-MainSplitter.Width)
       else
-        sHint:= FloatToStrF(MainSplitter.Top*100 / (pnlNotebooks.Height-MainSplitter.Height), ffFixed, 15, 1) + '%';
+        FMainSplitterPos:= MainSplitter.Top * 100 / (pnlNotebooks.Height-MainSplitter.Height);
 
-      //calculate hint position
+      // generate hint text
+      sHint:= FloatToStrF(FMainSplitterPos, ffFixed, 15, 1) + '%';
+
+      // calculate hint position
       Rect:= MainSplitterHintWnd.CalcHintRect(200, sHint, nil);
       APoint:= Mouse.CursorPos;
       with Rect do
@@ -1634,7 +1640,7 @@ begin
         Top:= APoint.Y + 12;
       end;
 
-      //show hint
+      // show hint
       MainSplitterHintWnd.ActivateHint(Rect, sHint);
     end;
   end;
@@ -2079,7 +2085,7 @@ begin
   end;
 end;
 
-procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
+procedure TfrmMain.NotebookCloseTabClicked(Sender: TObject);
 begin
   with (Sender As TFileViewPage) do
   if PageIndex <> -1 then
@@ -2251,6 +2257,7 @@ end;
 
 constructor TfrmMain.Create(TheOwner: TComponent);
 begin
+  FMainSplitterPos := 50.0;
   inherited Create(TheOwner);
   FCommands := TMainCommands.Create(Self, actionLst);
 end;
@@ -3245,9 +3252,9 @@ begin
   begin
     FResizingFilePanels := True;
     if not gHorizontalFilePanels then
-      pnlLeft.Width := (pnlNotebooks.Width - MainSplitter.Width) div 2
+      pnlLeft.Width := Round(Double(pnlNotebooks.Width - MainSplitter.Width) * FMainSplitterPos / 100.0)
     else
-      pnlLeft.Height := (pnlNotebooks.Height - MainSplitter.Height) div 2;
+      pnlLeft.Height := Round(Double(pnlNotebooks.Height - MainSplitter.Height) * FMainSplitterPos / 100.0);
     FResizingFilePanels := False;
   end;
 end;
@@ -4545,6 +4552,12 @@ begin
     end;
 end;
 
+procedure TfrmMain.SetMainSplitterPos(AValue: Double);
+begin
+  if (AValue >= 0) and (AValue <= 100) then
+    FMainSplitterPos:= AValue;
+end;
+
 procedure TfrmMain.TypeInCommandLine(Str: String);
 begin
   Commands.cm_FocusCmdLine([]);
@@ -4655,6 +4668,7 @@ begin
     ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position');
     if Assigned(ANode) then
     begin
+      MainSplitterPos := gConfig.GetValue(ANode, 'Splitter', 50.0);
       Left := gConfig.GetValue(ANode, 'Left', 80);
       Top := gConfig.GetValue(ANode, 'Top', 48);
       Width := gConfig.GetValue(ANode, 'Width', 800);
@@ -4693,6 +4707,7 @@ begin
     gConfig.SetValue(ANode, 'Height', Height);
   end;
   gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
+  gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
 end;
 
 procedure TfrmMain.SaveMainToolBar;
