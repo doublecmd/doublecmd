@@ -219,12 +219,9 @@ begin
   else
     begin
       btnAddExt.Enabled:= True;
-      if lbExts.Items.Count > 0 then
-        begin
-          btnAddAct.Enabled:= True;
-          sbtnIcon.Enabled:= True;
-          btnRemoveIcon.Enabled:= True;
-        end;
+      btnAddAct.Enabled:= (lbExts.Items.Count > 0);
+      sbtnIcon.Enabled:= btnAddAct.Enabled;
+      btnRemoveIcon.Enabled:= btnAddAct.Enabled;
     end;
 
   if (lbExts.Items.Count = 0) or (lbExts.ItemIndex = -1) then
@@ -283,12 +280,21 @@ begin
   begin
     iIndex := ItemIndex;
     if iIndex < 0 then Exit;
-    ItemIndex := iIndex - 1;
     FreeIcon(iIndex);
     Items.Delete(iIndex);
+    Exts.DeleteItem(iIndex);
+    if Items.Count = 0 then
+    begin
+      lbExts.Clear;
+      lbActions.Clear;
+    end
+    else begin
+      if iIndex = 0 then
+        ItemIndex := 0
+      else
+        ItemIndex := iIndex - 1;
+    end
   end;
-  // remove file type from TExts object
-  Exts.DeleteItem(iIndex);
   UpdateEnabledButtons;
 end;
 
@@ -365,7 +371,7 @@ begin
       end ;
 
     iTextTop := MR.Top + (gIconsSize div 2) - (Canvas.TextHeight(Items[Index]) div 2);
-    if Assigned(Items.Objects[Index]) then
+    if (Canvas.Locked = False) and (Assigned(Items.Objects[Index])) then
       Canvas.Draw(MR.Left + 2, MR.Top + 1, TBitmap(Items.Objects[Index]));
     Canvas.TextOut(MR.Left + gIconsSize + 6, iTextTop, Items[Index]);
   end;
@@ -523,12 +529,15 @@ begin
   with lbExts do
   begin
     I := ItemIndex;
-    if I = - 1 then exit;
+    if I < 0 then Exit;
     Items.Delete(I);
-    if I = 0 then
-      ItemIndex := 0
-    else
-      ItemIndex := I - 1;
+    if Items.Count > 0 then
+    begin
+      if I = 0 then
+        ItemIndex := 0
+      else
+        ItemIndex := I - 1;
+    end;
   end;
   // remove extension from TExts object
   Exts.Items[lbFileTypes.ItemIndex].Extensions.Delete(I);
@@ -641,18 +650,22 @@ begin
   with lbActions do
   begin
     I := ItemIndex;
-    if I = - 1 then exit;
+    if I < 0 then Exit;
     Items.Delete(I);
-    if I = 0 then
-      ItemIndex := I
-    else
-      ItemIndex := I - 1;
   end;
   // remove action from TExts object
   with lbFileTypes do
   begin
     Exts.Items[ItemIndex].Actions.Delete(I);
     Exts.Items[ItemIndex].IsChanged:= True;
+  end;
+  // update action index
+  if lbActions.Count > 0 then
+  begin
+    if I = 0 then
+      lbActions.ItemIndex := I
+    else
+      lbActions.ItemIndex := I - 1;
   end;
   UpdateEnabledButtons;
 end;
@@ -680,10 +693,15 @@ procedure TfrmFileAssoc.FreeIcon(iIndex: Integer);
 begin
   with lbFileTypes do
   begin
-    if Assigned(Items.Objects[iIndex]) then
-    begin
-      Items.Objects[iIndex].Free;
-      Items.Objects[iIndex] := nil;
+    Canvas.Lock;
+    try
+      if Assigned(Items.Objects[iIndex]) then
+      begin
+        Items.Objects[iIndex].Free;
+        Items.Objects[iIndex] := nil;
+      end;
+    finally
+      Canvas.Unlock;
     end;
   end;
 end;
@@ -749,4 +767,4 @@ begin
 end;
 
 end.
-
+
