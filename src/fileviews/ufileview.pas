@@ -107,7 +107,6 @@ type
        in the list on next reload.
     }
     FRequestedActiveFile: String;
-    FFileFilter: String;
     FFilterOptions: TQuickSearchOptions;
     FWatchPath: String;
     FLastMark: String;
@@ -187,6 +186,7 @@ type
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
 
   protected
+    FFileFilter: String;
     FAllDisplayFiles: TDisplayFiles;    //<en List of all files that can be displayed
     FFiles: TDisplayFiles;              //<en List of displayed files (filtered)
     FSavedSelection: TStringListEx;
