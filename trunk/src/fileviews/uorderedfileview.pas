@@ -128,6 +128,11 @@ const
 
 procedure TOrderedFileView.AfterChangePath;
 begin
+  if Filtered then
+  begin
+    FFileFilter:= EmptyStr;
+    quickSearch.Finalize;
+  end;
   FLastActiveFileIndex := -1;
   inherited AfterChangePath;
 end;
