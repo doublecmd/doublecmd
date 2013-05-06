@@ -54,9 +54,6 @@ uses
   {$ENDIF}
   ;
 
-const
-  cHistoryFile='cmdhistory.txt';
-
 type
 
   TForEachViewFunction = procedure (AFileView: TFileView; UserData: Pointer) of object;
@@ -774,7 +771,6 @@ procedure TfrmMain.FormCreate(Sender: TObject);
   end;
 
 var
-  slCommandHistory: TStringListEx;
   HMMainForm: THMForm;
   I: Integer;
 begin
@@ -823,17 +819,8 @@ begin
 
   MainFormCreate(Self);
 
-  if mbFileExists(gpCfgDir + cHistoryFile) then
-    begin
-      slCommandHistory:= TStringListEx.Create;
-      try
-        slCommandHistory.LoadFromFile(gpCfgDir + cHistoryFile);
-        edtCommand.Items.Assign(slCommandHistory);
-        edtCommand.Text := '';
-      finally
-        FreeAndNil(slCommandHistory);
-      end;
-    end;
+  // Load command line history
+  edtCommand.Items.Assign(glsCmdLineHistory);
 
   // Initialize actions.
   actShowSysFiles.Checked := uGlobs.gShowSystemFiles;
@@ -1247,8 +1234,6 @@ begin
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
-var
-  slCommandHistory: TStringListEx;
 begin
   DCDebug('Destroying main form');
 
@@ -1265,22 +1250,6 @@ begin
   // Close all tabs.
   CloseNotebook(LeftTabs);
   CloseNotebook(RightTabs);
-
-  if gSaveCmdLineHistory then
-    begin
-      if mbFileAccess(gpCfgDir + cHistoryFile, fmOpenWrite or fmShareDenyWrite) then
-      begin
-        try
-          slCommandHistory:= TStringListEx.Create;
-          slCommandHistory.Assign(edtCommand.Items);
-          slCommandHistory.SaveToFile(gpCfgDir + cHistoryFile);
-        finally
-          FreeThenNil(slCommandHistory);
-        end;
-      end
-      else
-        DebugLn('Not saving history - no write access to "', gpCfgDir + cHistoryFile, '"');
-    end;
 
   if gSaveConfiguration then
     begin
@@ -1847,6 +1816,8 @@ begin
   try
     if Assigned(gIni) then
       uGlobs.ConvertIniToXml;
+    if gSaveCmdLineHistory then
+      glsCmdLineHistory.Assign(edtCommand.Items);
     SaveWindowState;
     SaveGlobs;
   except

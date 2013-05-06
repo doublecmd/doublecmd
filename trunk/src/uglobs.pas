@@ -183,6 +183,7 @@ var
   
   glsHotDir:TStringListEx;
   glsDirHistory:TStringListEx;
+  glsCmdLineHistory: TStringListEx;
   glsMaskHistory : TStringListEx;
   glsSearchHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
@@ -538,6 +539,7 @@ var
         if Node.CompareName('Item') = 0 then
         begin
           HistoryList.Add(History.GetContent(Node));
+          if HistoryList.Count >= cMaxStringItems then Break;
         end;
         Node := Node.NextSibling;
       end;
@@ -552,6 +554,7 @@ begin
     if Assigned(Root) then
     begin
       LoadHistory('Navigation', glsDirHistory);
+      LoadHistory('CommandLine', glsCmdLineHistory);
       LoadHistory('FileMask', glsMaskHistory);
       LoadHistory('SearchText', glsSearchHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
@@ -580,6 +583,7 @@ var
     begin
       SubNode := History.AddNode(Node, 'Item');
       History.SetContent(SubNode, HistoryList[I]);
+      if I >= cMaxStringItems then Break;
     end;
   end;
 
@@ -588,14 +592,15 @@ begin
   try
     Root:= History.FindNode(History.RootNode, 'History', True);
     if gSaveDirHistory then SaveHistory('Navigation', glsDirHistory);
+    if gSaveCmdLineHistory then SaveHistory('CommandLine', glsCmdLineHistory);
     if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
     if gSaveSearchReplaceHistory then
     begin
       SaveHistory('SearchText', glsSearchHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
+      SaveHistory('SearchExcludeFiles', glsSearchExcludeFiles);
+      SaveHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
     end;
-    SaveHistory('SearchExcludeFiles', glsSearchExcludeFiles);
-    SaveHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
     History.Save;
   finally
     History.Free;
@@ -914,6 +919,7 @@ begin
   gFileInfoToolTip := TFileInfoToolTip.Create;
   glsHotDir := TStringListEx.Create;
   glsDirHistory := TStringListEx.Create;
+  glsCmdLineHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
   glsSearchHistory := TStringListEx.Create;
   glsReplaceHistory := TStringListEx.Create;
@@ -936,6 +942,7 @@ begin
   FreeThenNil(gColorExt);
   FreeThenNil(gFileInfoToolTip);
   FreeThenNil(glsDirHistory);
+  FreeThenNil(glsCmdLineHistory);
   FreeThenNil(glsHotDir);
   FreeThenNil(glsMaskHistory);
   FreeThenNil(glsSearchHistory);
@@ -1381,6 +1388,11 @@ begin
   begin
     LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt', cMaxStringItems);
     mbRenameFile(gpCfgDir + 'dirhistory.txt', gpCfgDir + 'dirhistory.txt.obsolete');
+  end;
+  if mbFileExists(gpCfgDir + 'cmdhistory.txt') then
+  begin
+    LoadStringsFromFile(glsCmdLineHistory, gpCfgDir + 'cmdhistory.txt', cMaxStringItems);
+    mbRenameFile(gpCfgDir + 'cmdhistory.txt', gpCfgDir + 'cmdhistory.txt.obsolete');
   end;
   if mbFileExists(gpCfgDir + 'maskhistory.txt') then
   begin
