@@ -116,6 +116,33 @@ const
   cGiga = 1024 * cMega;
   cTera = 1024 * cGiga;
 
+procedure FileMaskOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
+                                  var FileChecks: TFindFileChecks);
+var
+  iMask: Integer;
+  sMask, sTemp: String;
+begin
+  FileChecks.FilesMasks := SearchTemplate.FilesMasks;
+  if SearchTemplate.IsPartialNameSearch then
+  begin
+    while (Length(FileChecks.FilesMasks) > 0) do
+    begin
+      sMask:= Copy2SymbDel(FileChecks.FilesMasks, ';');
+      iMask:= Length(sMask);
+      if (iMask > 0) then
+      begin
+        if sMask[iMask] <> '*' then sMask:= sMask + '*';
+        if sMask[1] <> '*' then sMask:= '*' + sMask;
+      end;
+      sTemp:= sTemp + sMask + ';';
+    end;
+    if (Length(sTemp) = 0) then
+      FileChecks.FilesMasks := AllFilesMask
+    else
+      FileChecks.FilesMasks := Copy(sTemp, 1, Length(sTemp) - 1);
+  end;
+end;
+
 procedure DateTimeOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
                                   var FileChecks: TFindFileChecks);
 begin
@@ -268,13 +295,10 @@ end;
 procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
                                          out FileChecks: TFindFileChecks);
 begin
-  if SearchTemplate.IsPartialNameSearch then
-    FileChecks.FilesMasks := '*' + SearchTemplate.FilesMasks + '*'
-  else
-    FileChecks.FilesMasks := SearchTemplate.FilesMasks;
   FileChecks.ExcludeFiles := SearchTemplate.ExcludeFiles;
   FileChecks.ExcludeDirectories := SearchTemplate.ExcludeDirectories;
   FileChecks.RegExp := SearchTemplate.RegExp;
+  FileMaskOptionsToChecks(SearchTemplate, FileChecks);
   DateTimeOptionsToChecks(SearchTemplate, FileChecks);
   FileSizeOptionsToChecks(SearchTemplate, FileChecks);
   AttrsPatternOptionsToChecks(SearchTemplate, FileChecks);
