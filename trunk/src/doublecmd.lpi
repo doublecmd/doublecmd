@@ -212,6 +212,10 @@ end;"/>
             </Options>
           </Linking>
           <Other>
+            <Verbosity>
+              <ShowNotes Value="False"/>
+              <ShowHints Value="False"/>
+            </Verbosity>
             <CompilerMessages>
               <UseMsgFile Value="True"/>
             </CompilerMessages>
