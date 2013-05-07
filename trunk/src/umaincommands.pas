@@ -490,7 +490,17 @@ begin
       Exit;
     end;
 
-    if Background then
+    if not Panel.HasSelectedFiles then
+    begin
+      aFile:= Panel.CloneActiveFile;
+      if Assigned(aFile) then
+      begin
+        sName:= aFile.Name;
+        FreeAndNil(aFile);
+      end;
+    end;
+
+    if (Background = True) or (sName = '..') then
       begin
         sName:= ExcludeTrailingPathDelimiter(Panel.CurrentPath);
         sPath:= ExtractFilePath(sName);
