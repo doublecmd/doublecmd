@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  Forms, Controls, DCOSUtils, uOSUtils;
+  Forms, Controls, DCOSUtils, uOSUtils, uOSForms, uShellContextMenu, uExceptions;
 
 constructor TFileSystemExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -58,7 +58,27 @@ begin
 end;
 
 procedure TFileSystemExecuteOperation.MainExecute;
+var
+  aFiles: TFiles;
 begin
+  if Verb = 'properties' then
+  begin
+    FExecuteOperationResult:= fseorSuccess;
+    aFiles:= TFiles.Create(ExecutableFile.Path);
+    try
+      aFiles.Add(ExecutableFile.Clone);
+      try
+        Screen.Cursor:= crDefault;
+        ShowFilePropertiesDialog(FFileSystemFileSource, aFiles);
+      except
+        on E: EContextMenuException do
+          ShowException(E);
+      end;
+    finally
+      FreeAndNil(aFiles);
+    end;
+    Exit;
+  end;
   // if file is link to folder then return fseorSymLink
   if FileIsLinkToFolder(AbsolutePath, FResultString) then
   begin
