@@ -1277,7 +1277,7 @@ end;
 
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);
 begin
-  miShowInViewer.Click;
+  if not FSearchingActive then btnGoToPathClick(Sender);
 end;
 
 procedure TfrmFindDlg.lsFoundedFilesKeyDown(Sender: TObject;
