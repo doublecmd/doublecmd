@@ -115,8 +115,10 @@ begin
   ProcessCommandLineParams; // before load paths
   LoadPaths; // before loading config
 
+  {$IF NOT DEFINED(DARWIN)}
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
+  {$ENDIF}
   if InitGlobs then
     if IsInstanceAllowed then
      begin
