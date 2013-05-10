@@ -1220,11 +1220,7 @@ begin
     if Button.Caption = '/' then
       CurrentPath := FileSource.GetRootDir(CurrentPath)
     else if Button.Caption = '..' then
-      begin
-        aFile := ExtractFileName(ExcludeTrailingPathDelimiter(CurrentPath));
-        CurrentPath := FileSource.GetParentDir(CurrentPath);
-        SetActiveFile(aFile);
-      end
+      ChangePathToParent(True)
     else if Button.Caption = '~' then
       SetFileSystemPath(FileView, GetHomeDir);
   end;
