@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-11-03 16:14+0100\n"
+"PO-Revision-Date: 2013-05-07 16:14+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2057,7 +2057,7 @@ msgstr "Dateinamen eingeben, die von der Suche ausgeschlossen werden sollen (Nam
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
-msgstr ""
+msgstr "Dateinamen durch \";\" getrennt eingeben"
 
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
@@ -2414,19 +2414,19 @@ msgstr "Stelle Befehlszeile auf den nächsten Befehl im Verlauf"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
-msgstr ""
+msgstr "Vorher eingegebener Befehl"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr ""
+msgstr "Nutze die Befehlszeile mit dem zuletzt eingegebenen Befehl"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
-msgstr ""
+msgstr "Vollständig"
 
 #: tfrmmain.actcolumnsview.hint
 msgid "Columns View"
-msgstr ""
+msgstr "Spaltenansicht"
 
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
@@ -2957,11 +2957,11 @@ msgstr "Archiv(e) testen"
 #: tfrmmain.actthumbnailsview.caption
 msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
-msgstr ""
+msgstr "Vorschaubilder"
 
 #: tfrmmain.actthumbnailsview.hint
 msgid "Thumbnails View"
-msgstr ""
+msgstr "Ansicht "Vorschaubilder""
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
@@ -3882,27 +3882,27 @@ msgstr "Dateipfad"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
-msgstr ""
+msgstr "Anwendung auswählen"
 
 #: tfrmopenwith.chkcustomcommand.caption
 msgid "Custom command"
-msgstr ""
+msgstr "Angepasster Befehl"
 
 #: tfrmopenwith.chksaveassociation.caption
 msgid "Save association"
-msgstr ""
+msgstr "Verknüpfung speichern"
 
 #: tfrmopenwith.chkuseasdefault.caption
 msgid "Set selected application as default action"
-msgstr ""
+msgstr "Gewählte Aktion als Standard festlegen"
 
 #: tfrmopenwith.lblmimetype.caption
 msgid "File type to be opened: %s"
-msgstr ""
+msgstr "Dateityp zum Öffnen: %s"
 
 #: tfrmopenwith.milistoffiles.caption
 msgid "Multiple file names"
-msgstr ""
+msgstr "Mehrere Dateinamen"
 
 #: tfrmopenwith.milistoffiles.hint
 msgid "%F"
@@ -3910,7 +3910,7 @@ msgstr ""
 
 #: tfrmopenwith.milistofurls.caption
 msgid "Multiple URIs"
-msgstr ""
+msgstr "Mehrere URL"
 
 #: tfrmopenwith.milistofurls.hint
 msgid "%U"
@@ -3918,7 +3918,7 @@ msgstr ""
 
 #: tfrmopenwith.misinglefilename.caption
 msgid "Single file name"
-msgstr ""
+msgstr "Einzelner Dateiname"
 
 #: tfrmopenwith.misinglefilename.hint
 msgid "%f"
@@ -3926,7 +3926,7 @@ msgstr ""
 
 #: tfrmopenwith.misingleurl.caption
 msgid "Single URI"
-msgstr ""
+msgstr "Einzelne URL"
 
 #: tfrmopenwith.misingleurl.hint
 msgid "%u"
@@ -5059,7 +5059,7 @@ msgstr "Für die &folgenden Pfade und Unterverzeichnisse:"
 
 #: tfrmoptionsicons.cbiconsinmenus.caption
 msgid "Show icons for actions in &menus"
-msgstr ""
+msgstr "Icons für Aktionen in Menüs anzeigen"
 
 #: tfrmoptionsicons.cbiconsinmenussize.text
 msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
@@ -5084,7 +5084,7 @@ msgstr "Keine speziellen Symbole"
 
 #: tfrmoptionsicons.gbiconsinmenus.caption
 msgid "Icons in menus"
-msgstr ""
+msgstr "Icons in Menüs"
 
 #: tfrmoptionsicons.gbiconssize.caption
 #, fuzzy
@@ -5392,11 +5392,11 @@ msgstr "Fortschritt des Vorgangs:"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
-msgstr ""
+msgstr "Vo&rschaubilder für gelöschte Dateien entfernen"
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
-msgstr ""
+msgstr "Beim Wechsel des Laufwerkes immer zur &obersten Ebenen des Laufwerkes wechseln"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
@@ -5415,11 +5415,11 @@ msgstr "&Speichern von Bildvorschauen im Cache"
 #: tfrmoptionsmisc.dblthumbnails.caption
 msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
-msgstr ""
+msgstr "Vorschaubilder"
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
-msgstr ""
+msgstr "Pixel"
 
 #: tfrmoptionsmisc.lblthumbseparator.caption
 msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
@@ -5428,7 +5428,7 @@ msgstr "X"
 
 #: tfrmoptionsmisc.lblthumbsize.caption
 msgid "&Thumbnail size:"
-msgstr ""
+msgstr "&Größe der Vorschaubilder"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 #, fuzzy
@@ -7475,7 +7475,7 @@ msgstr "Fragen;Überschreiben;Ältere überschreiben;Überspringen"
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
 msgid "Ask;Don't set anymore;Ignore errors"
-msgstr ""
+msgstr "Fragen;Niemals setzen;Fehler ignorieren"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -7686,7 +7686,7 @@ msgstr "Öffnen mit..."
 
 #: ulng.rsmnuopenwithother
 msgid "Other..."
-msgstr ""
+msgstr "Andere..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -7873,7 +7873,7 @@ msgstr "Kann Datei %s nicht zu %s umbenennen"
 
 #: ulng.rsmsgerrsaveassociation
 msgid "Can not save association!"
-msgstr ""
+msgstr "Kann Verknüpfung nicht festlegen"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -7957,11 +7957,11 @@ msgstr "Pfad %s enthält ungültige Zeichen."
 
 #: ulng.rsmsginvalidplugin
 msgid "This is not a valid plugin!"
-msgstr ""
+msgstr "Dies sit kein akzeptables Plugin"
 
 #: ulng.rsmsginvalidpluginarchitecture
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr ""
+msgstr "Dieses Plugin wurde für Double Commander für %s erstellt. Es kann nicht für %s verwendet werden!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -8158,7 +8158,7 @@ msgstr "Zielpfad"
 
 #: ulng.rsmsgtitlenewentryhotdir
 msgid "New title for menu entry:"
-msgstr ""
+msgstr "Neuer Titel für den Menüeintrag:"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -8811,7 +8811,7 @@ msgstr "&Dateien;Ve&rzeichnisse;Dateien u&nd Verzeichnisse"
 
 #: ulng.rsoptsearchopt
 msgid "&Hide filter panel when not focused"
-msgstr ""
+msgstr "Verstecke Filterpanel wenn es nicht ausgewä&hlt ist"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -9058,4 +9058,4 @@ msgstr "Codierung"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nicht gefunden!"
-
+
