@@ -1376,9 +1376,9 @@ begin
   { Finally we need to stuff the file type Header. }
   { Note: Value.length > AB_TAR_NAMESIZE(100) }
   if LinkFlag = AB_TAR_LF_LONGNAME then
-    Move(Value[1], PHeader.Name, AB_TAR_NAMESIZE)
+    Move(Value[1], PTarHeader.Name, AB_TAR_NAMESIZE)
   else
-    Move(Value[1], PHeader.LinkName, AB_TAR_NAMESIZE);
+    Move(Value[1], PTarHeader.LinkName, AB_TAR_NAMESIZE);
 end;
 
 procedure TAbTarItem.SetFileName(const Value: string);
