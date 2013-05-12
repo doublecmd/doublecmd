@@ -34,7 +34,7 @@ uses
   Classes, SysUtils, dynlibs, uDetectStr, uWlxPrototypes, WlxPlugin,
   DCClassesUtf8, uDCUtils, LCLProc, LCLType, DCXmlConfig
   {$IFDEF LCLWIN32}
-  , Windows, fgl
+  , Windows
   {$ENDIF}
   {$IFDEF LCLGTK}
   , gtk, glib, gdk, gtkproc
@@ -162,22 +162,20 @@ const
   WlxIniFileName = 'wlx.ini';
 
 {$IF DEFINED(LCLWIN32)}
-type
-  TWindowProcMap = specialize TFPGMap<HWND, WNDPROC>;
 var
-  WindowProcMap: TWindowProcMap;
+  WindowProcAtom: PWideChar;
 
 function PluginProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 var
-  Index: Integer;
+  WindowProc: WNDPROC;
 begin
   if Msg = WM_KEYDOWN then
   begin
     PostMessage(GetParent(hWnd), Msg, wParam, lParam);
   end;
-  Index := WindowProcMap.IndexOf(hWnd);
-  if (Index >= 0) then
-    Result := CallWindowProc(WindowProcMap.Data[Index], hWnd, Msg, wParam, lParam)
+  WindowProc := WNDPROC(GetPropW(hWnd, WindowProcAtom));
+  if Assigned(WindowProc) then
+    Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
   else
     Result := DefWindowProc(hWnd, Msg, wParam, lParam);
 end;
@@ -212,8 +210,10 @@ end;
 
 destructor TWlxModule.Destroy;
 begin
+{$IF NOT DEFINED(LCLWIN32)}
   if GIsLoaded then
     UnloadModule;
+{$ENDIF}
   if Assigned(FParser) then
     FParser.Free;
 
@@ -293,7 +293,8 @@ begin
 
 {$IF DEFINED(LCLWIN32)}
   // Subclass plugin window to catch some hotkeys like 'n' or 'p'.
-  WindowProcMap.Add(FPluginWindow, WNDPROC(SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc))));
+  Result := SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc));
+  Windows.SetPropW(FPluginWindow, WindowProcAtom, Result);
 {$ENDIF}
 
   Result := FPluginWindow;
@@ -316,7 +317,7 @@ begin
   //  DCDebug('Try to call ListCloseWindow');
   try
 {$IF DEFINED(LCLWIN32)}
-    SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(WindowProcMap.KeyData[FPluginWindow]));
+    SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, RemovePropW(FPluginWindow, WindowProcAtom));
 {$ENDIF}
     if Assigned(ListCloseWindow) then
       ListCloseWindow(FPluginWindow)
@@ -328,9 +329,6 @@ begin
     else QWidget_Destroy(QWidgetH(FPluginWindow));
 {$ENDIF}
   finally
-{$IF DEFINED(LCLWIN32)}
-    WindowProcMap.Remove(FPluginWindow);
-{$ENDIF}
     FPluginWindow := 0;
   end;
   //  DCDebug('Call ListCloseWindow success');
@@ -697,11 +695,11 @@ begin
     Result := TWlxModule(Flist.Objects[tmp]);
 end;
 
-{$IF DEFINED(LCLWIN32)}
+{$IF DEFINED(LCLWIN32)}{$WARNINGS OFF}
 initialization
-  WindowProcMap := TWindowProcMap.Create;
+  WindowProcAtom := Pointer(GlobalAddAtomW('Double Commander'));
 finalization
-  WindowProcMap.Free;
+  Windows.GlobalDeleteAtom(ATOM(WindowProcAtom));
 {$ENDIF}
 
 end.
