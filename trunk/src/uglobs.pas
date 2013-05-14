@@ -764,12 +764,16 @@ begin
   Result:= TIniPropStorageEx.Create(Owner);
   Result.IniFileName:= gpCfgDir + 'session.ini';
   if Owner is TCustomForm then
-    with Owner as TCustomForm do
-    begin
+  with Owner as TCustomForm do
+  begin
+    if (Monitor = nil) then
+      Result.IniSection:= ClassName
+    else begin
       sWidth:= IntToStr(Monitor.Width);
       sHeight:= IntToStr(Monitor.Height);
       Result.IniSection:= ClassName + '(' + sWidth + 'x' + sHeight + ')';
     end;
+  end;
 end;
 
 procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
