@@ -1213,6 +1213,7 @@ end;"/>
       <Unit145>
         <Filename Value="filesources\filesystem\ufilesystemdeleteoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemDeleteOperation"/>
       </Unit145>
       <Unit146>
         <Filename Value="filesources\filesystem\ufilesystemexecuteoperation.pas"/>
@@ -1295,6 +1296,7 @@ end;"/>
       <Unit164>
         <Filename Value="filesources\multilist\umultilistfilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiListFileSource"/>
       </Unit164>
       <Unit165>
         <Filename Value="filesources\multilist\umultilistlistoperation.pas"/>
@@ -1304,6 +1306,7 @@ end;"/>
       <Unit166>
         <Filename Value="filesources\searchresult\usearchresultfilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uSearchResultFileSource"/>
       </Unit166>
       <Unit167>
         <Filename Value="filesources\searchresult\usearchresultlistoperation.pas"/>
@@ -1527,7 +1530,7 @@ end;"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <DebugInfoType Value="dsStabs"/>
+        <DebugInfoType Value="dsDwarf2Set"/>
       </Debugging>
     </Linking>
     <Other>
