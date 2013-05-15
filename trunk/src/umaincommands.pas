@@ -1525,6 +1525,7 @@ end;
 // "recyclesettingrev" - if gUseTrash then delete directly, otherwise delete to trash
 procedure TMainCommands.cm_Delete(const Params: array of string);
 var
+  I: Integer;
   theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
@@ -1607,6 +1608,20 @@ begin
           (QuestionDlg('', frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete),
            mtConfirmation, [mrYes, mrNo], 0) = mrYes)) then
       begin
+        if FileSource.IsClass(TFileSystemFileSource) and
+           frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+        begin
+          for I:= 0 to theFilesToDelete.Count - 1 do
+          begin
+            if (theFilesToDelete[I].IsDirectory or theFilesToDelete[I].IsLinkToDirectory) and
+               IsInPath(theFilesToDelete[I].FullPath, frmMain.NotActiveFrame.CurrentPath, True, True) then
+            begin
+              frmMain.NotActiveFrame.CurrentPath:= theFilesToDelete.Path;
+              Break;
+            end;
+          end;
+        end;
+
         Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
 
         if Assigned(Operation) then
