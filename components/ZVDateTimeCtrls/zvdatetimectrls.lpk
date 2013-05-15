@@ -16,6 +16,11 @@ begin
   UnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
   UsageUnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
 end;"/>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
       <Other>
         <CompilerPath Value="$(CompPath)"/>
       </Other>

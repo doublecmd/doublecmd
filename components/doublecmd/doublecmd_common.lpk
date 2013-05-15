@@ -21,6 +21,11 @@
           <OverflowChecks Value="True"/>
         </Checks>
       </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
       <Other>
         <CompilerMessages>
           <MsgFileName Value=""/>
