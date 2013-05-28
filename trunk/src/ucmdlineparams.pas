@@ -66,12 +66,12 @@ begin
               end;
             2:
               begin
-                gpCmdLineCfgDir:= SysToUTF8(TrimQuotes(OptArg));
+                gpCmdLineCfgDir:= TrimQuotes(OptArg);
               end;
           end;
         end;
-      'L', 'l': CommandLineParams.LeftPath:= SysToUTF8(TrimQuotes(OptArg));
-      'R', 'r': CommandLineParams.RightPath:= SysToUTF8(TrimQuotes(OptArg));
+      'L', 'l': CommandLineParams.LeftPath:= TrimQuotes(OptArg);
+      'R', 'r': CommandLineParams.RightPath:= TrimQuotes(OptArg);
       'P', 'p': CommandLineParams.ActiveRight:= (UpperCase(OptArg) = 'R');
       'T', 't': CommandLineParams.NewTab:= True;
       '?', ':': DCDebug ('Error with opt : ', OptOpt);
@@ -84,16 +84,16 @@ begin
     if ParamCount - OptInd = 0 then
       begin
         if CommandLineParams.ActiveRight then
-          CommandLineParams.RightPath:= ParamStrUTF8(OptInd)
+          CommandLineParams.RightPath:= ParamStr(OptInd)
         else
-          CommandLineParams.LeftPath:= ParamStrUTF8(OptInd);
+          CommandLineParams.LeftPath:= ParamStr(OptInd);
         Inc(OptInd, 1);
       end
     // If also found two parameters then use it as paths in panels
     else if ParamCount - OptInd = 1 then
       begin
-        CommandLineParams.LeftPath:= ParamStrUTF8(OptInd);
-        CommandLineParams.RightPath:= ParamStrUTF8(OptInd + 1);
+        CommandLineParams.LeftPath:= ParamStr(OptInd);
+        CommandLineParams.RightPath:= ParamStr(OptInd + 1);
         Inc(OptInd, 2);
       end;
     // Unknown options, print to console

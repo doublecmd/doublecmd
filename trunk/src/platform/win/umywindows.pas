@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -149,6 +149,8 @@ function IsUserAdmin: LongBool;
 function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD;
 
 procedure InitErrorMode;
+
+procedure FixCommandLineToUTF8;
 
 implementation
 
@@ -644,6 +646,30 @@ end;
 procedure InitErrorMode;
 begin
   SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
+end;
+
+procedure FixCommandLineToUTF8;
+var
+  I, nArgs: Integer;
+  sTemp: UTF8String;
+  szArglist: PPWideChar;
+begin
+  szArglist:= CommandLineToArgvW(GetCommandLineW(), @nArgs);
+  if Assigned(szArglist) then
+  begin
+    if (nArgs > argc) then
+    begin
+      argc:= nArgs;
+      SysReAllocMem(argv, nArgs * SizeOf(Pointer));
+    end;
+    for I:= 0 to nArgs - 1 do
+    begin
+      sTemp:= UTF8Encode(WideString(szArglist[I]));
+      SysReAllocMem(argv[I], Length(sTemp) + 1);
+      StrPCopy(argv[I], sTemp);
+    end;
+    LocalFree(HLOCAL(szArglist));
+  end;
 end;
 
 end.
