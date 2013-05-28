@@ -74,6 +74,7 @@ begin
 
   {$IFDEF MSWINDOWS}
   uMyWindows.InitErrorMode;
+  uMyWindows.FixCommandLineToUTF8;
   {$ENDIF}
 
   Application.Title:= 'Double Commander';
