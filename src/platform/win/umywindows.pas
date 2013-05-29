@@ -653,16 +653,25 @@ var
   I, nArgs: Integer;
   sTemp: UTF8String;
   szArglist: PPWideChar;
+  lpFileName: array[0..Pred(MaxSmallInt)] of WideChar;
 begin
   szArglist:= CommandLineToArgvW(GetCommandLineW(), @nArgs);
   if Assigned(szArglist) then
   begin
     if (nArgs > argc) then
     begin
-      argc:= nArgs;
       SysReAllocMem(argv, nArgs * SizeOf(Pointer));
+      FillChar(argv[argc], (nArgs - argc) * Sizeof(Pointer), #0);
+      argc:= nArgs;
     end;
-    for I:= 0 to nArgs - 1 do
+    // Special case for ParamStr(0)
+    I:= GetModuleFileNameW(0, lpFileName, MaxSmallInt);
+    lpFileName[I]:= #0; // to be safe
+    sTemp:= UTF8Encode(WideString(lpFileName));
+    SysReAllocMem(argv[0], Length(sTemp) + 1);
+    StrPCopy(argv[0], sTemp);
+    // Process all other parameters
+    for I:= 1 to nArgs - 1 do
     begin
       sTemp:= UTF8Encode(WideString(szArglist[I]));
       SysReAllocMem(argv[I], Length(sTemp) + 1);
