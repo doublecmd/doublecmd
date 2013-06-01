@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -240,7 +240,7 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uDCUtils,
+  uLng, uGlobs, uShowForm, uDCUtils, uFileSource,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
   uFileViewNotebook, uColumnsFileView, uKeyboard,
   DCOSUtils;
@@ -991,8 +991,12 @@ begin
   for i := 0 to lsFoundedFiles.Items.Count - 1 do
   begin
     sFileName:= lsFoundedFiles.Items[I];
-    aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
-    FileList.AddSubNode(aFile);
+    try
+      aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
+      FileList.AddSubNode(aFile);
+    except
+      on EFileNotFound do;
+    end;
   end;
 
   // Create search result file source.
