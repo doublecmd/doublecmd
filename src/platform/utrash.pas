@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some functions for working with trash
 
-    Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2013  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ uses
     {$IFDEF DARWIN}
     , MacOSAll, DynLibs, StrUtils
     {$ELSE}
-    , uFileProcs
+    , uFileProcs, uClipboard
     {$ENDIF}
   {$ENDIF};
 
@@ -168,7 +168,7 @@ var
     begin
       sTemp:= '[Trash Info]' + LineEnding;
       FileWrite(hFile, PChar(sTemp)[0], Length(sTemp));
-      sTemp:= 'Path=' + FileName + LineEnding;
+      sTemp:= 'Path=' + URIEncode(FileName) + LineEnding;
       FileWrite(hFile, PChar(sTemp)[0], Length(sTemp));
       sTemp:= 'DeletionDate=' + FormatDateTime('YYYY-MM-DD', dtNow);
       sTemp:= sTemp + 'T' + FormatDateTime('hh:nn:ss', dtNow) + LineEnding;
