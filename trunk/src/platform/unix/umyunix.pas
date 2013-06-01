@@ -186,6 +186,8 @@ function GetFileMimeType(const FileName: UTF8String): UTF8String;
 }
 procedure FixDateTimeSeparators;
 
+procedure FixCommandLineToUTF8;
+
 function MountDrive(Drive: PDrive): Boolean;
 function UnmountDrive(Drive: PDrive): Boolean;
 function EjectDrive(Drive: PDrive): Boolean;
@@ -442,6 +444,19 @@ begin
       if Ord(TimeSeparator) > $7F then
         TimeSeparator := ':';
     end;
+  end;
+end;
+
+procedure FixCommandLineToUTF8;
+var
+  I: Integer;
+  sTemp: UTF8String;
+begin
+  for I:= 0 to Pred(argc) do
+  begin
+    sTemp:= SysToUTF8(AnsiString(argv[I]));
+    SysReAllocMem(argv[I], Length(sTemp) + 1);
+    StrPCopy(argv[I], sTemp);
   end;
 end;
 
