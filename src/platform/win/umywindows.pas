@@ -652,11 +652,21 @@ procedure FixCommandLineToUTF8;
 var
   I, nArgs: Integer;
   sTemp: UTF8String;
-  szArglist: PPWideChar;
+  szArgList: PPWideChar;
+  pwcCommandLine: PWideChar;
   lpFileName: array[0..Pred(MaxSmallInt)] of WideChar;
 begin
-  szArglist:= CommandLineToArgvW(GetCommandLineW(), @nArgs);
-  if Assigned(szArglist) then
+  pwcCommandLine:= GetCommandLineW();
+  for I:= 0 to StrLen(pwcCommandLine) - 1 do
+  begin
+    if (pwcCommandLine[I] = PathDelim) and (pwcCommandLine[I + 1] = '"') then
+    begin
+      pwcCommandLine[I]:= '"';
+      pwcCommandLine[I + 1]:= #32;
+    end;
+  end;
+  szArgList:= CommandLineToArgvW(pwcCommandLine, @nArgs);
+  if Assigned(szArgList) then
   begin
     if (nArgs > argc) then
     begin
@@ -673,11 +683,11 @@ begin
     // Process all other parameters
     for I:= 1 to nArgs - 1 do
     begin
-      sTemp:= UTF8Encode(WideString(szArglist[I]));
+      sTemp:= UTF8Encode(WideString(szArgList[I]));
       SysReAllocMem(argv[I], Length(sTemp) + 1);
       StrPCopy(argv[I], sTemp);
     end;
-    LocalFree(HLOCAL(szArglist));
+    LocalFree(HLOCAL(szArgList));
   end;
 end;
 
