@@ -23,7 +23,7 @@ uses
   {$IF DEFINED(NIGHTLY_BUILD)}
   uOSUtils,
   {$ENDIF}
-  Forms, Dialogs, SysUtils, uDCUtils, uGlobsPaths, FileUtil, getopts, uDebug, uLng;
+  Forms, Dialogs, SysUtils, uDCUtils, uGlobsPaths, getopts, uDebug, uLng;
 
 procedure ProcessCommandLineParams;
 var
@@ -66,12 +66,12 @@ begin
               end;
             2:
               begin
-                gpCmdLineCfgDir:= TrimQuotes(OptArg);
+                gpCmdLineCfgDir:= ParamStrU(TrimQuotes(OptArg));
               end;
           end;
         end;
-      'L', 'l': CommandLineParams.LeftPath:= TrimQuotes(OptArg);
-      'R', 'r': CommandLineParams.RightPath:= TrimQuotes(OptArg);
+      'L', 'l': CommandLineParams.LeftPath:= ParamStrU(TrimQuotes(OptArg));
+      'R', 'r': CommandLineParams.RightPath:= ParamStrU(TrimQuotes(OptArg));
       'P', 'p': CommandLineParams.ActiveRight:= (UpperCase(OptArg) = 'R');
       'T', 't': CommandLineParams.NewTab:= True;
       '?', ':': DCDebug ('Error with opt : ', OptOpt);
@@ -84,16 +84,16 @@ begin
     if ParamCount - OptInd = 0 then
       begin
         if CommandLineParams.ActiveRight then
-          CommandLineParams.RightPath:= ParamStr(OptInd)
+          CommandLineParams.RightPath:= ParamStrU(OptInd)
         else
-          CommandLineParams.LeftPath:= ParamStr(OptInd);
+          CommandLineParams.LeftPath:= ParamStrU(OptInd);
         Inc(OptInd, 1);
       end
     // If also found two parameters then use it as paths in panels
     else if ParamCount - OptInd = 1 then
       begin
-        CommandLineParams.LeftPath:= ParamStr(OptInd);
-        CommandLineParams.RightPath:= ParamStr(OptInd + 1);
+        CommandLineParams.LeftPath:= ParamStrU(OptInd);
+        CommandLineParams.RightPath:= ParamStrU(OptInd + 1);
         Inc(OptInd, 2);
       end;
     // Unknown options, print to console
@@ -101,7 +101,7 @@ begin
     begin
       while OptInd <= ParamCount do
       begin
-        OptionUnknown:= ParamStr(OptInd) + ' ';
+        OptionUnknown:= ParamStrU(OptInd) + ' ';
         Inc(OptInd)
       end;
       DCDebug ('Non options : ', OptionUnknown);
