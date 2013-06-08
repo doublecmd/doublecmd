@@ -171,6 +171,9 @@ procedure FixFormIcon(Handle: LCLType.HWND);
 procedure HideConsoleWindow;
 procedure FixDateNamesToUTF8;
 
+function ParamStrU(Param: Integer): UTF8String; overload;
+function ParamStrU(const Param: String): UTF8String; overload;
+
 implementation
 
 uses
@@ -931,6 +934,31 @@ begin
       LongDayNames[i] := SysToUTF8(LongDayNames[i]);
   end;
 end;
+
+function ParamStrU(Param: Integer): UTF8String;
+{$IFDEF UNIX}
+begin
+  Result:= SysToUTF8(ObjPas.ParamStr(Param));
+end;
+{$ELSE}
+begin
+  if (Param >= 0) and (Param < argc) then
+    Result:= StrPas(argv[Param])
+  else
+    Result:= EmptyStr;
+end;
+{$ENDIF}
+
+function ParamStrU(const Param: String): UTF8String;
+{$IFDEF UNIX}
+begin
+  Result:= SysToUTF8(Param);
+end;
+{$ELSE}
+begin
+  Result:= Param;
+end;
+{$ENDIF}
 
 { EInvalidQuoting }
 
