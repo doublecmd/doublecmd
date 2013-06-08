@@ -20,10 +20,7 @@ var
 implementation
 
 uses
-  {$IF DEFINED(NIGHTLY_BUILD)}
-  uOSUtils,
-  {$ENDIF}
-  Forms, Dialogs, SysUtils, uDCUtils, uGlobsPaths, getopts, uDebug, uLng;
+  Forms, Dialogs, SysUtils, uOSUtils, uDCUtils, uGlobsPaths, getopts, uDebug, uLng;
 
 procedure ProcessCommandLineParams;
 var
