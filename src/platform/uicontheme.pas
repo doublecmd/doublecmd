@@ -58,7 +58,7 @@ type
   { TIconTheme }
 
   TIconTheme = class
-  private
+  protected
     FTheme,
     FThemeName: String;
     FComment: UTF8String;
@@ -74,10 +74,11 @@ type
     procedure CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Integer);
   protected
     function LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
+    function CreateParentTheme(const sThemeName: String): TIconTheme; virtual;
   public
-    constructor Create(sThemeName: String; BaseDirList: array of String);
+    constructor Create(sThemeName: String; BaseDirList: array of String); virtual;
     destructor Destroy; override;
-    function Load: Boolean;
+    function Load: Boolean; virtual;
     function FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
     function DirectoryMatchesSize(SubDirIndex: Integer; AIconSize: Integer): Boolean;
     function DirectorySizeDistance(SubDirIndex: Integer; AIconSize: Integer): Integer;
@@ -89,11 +90,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uDebug, uFindEx, DCOSUtils, DCStrUtils
-  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  , uUnixIconTheme
-  {$ENDIF}
-  ;
+  LCLProc, StrUtils, uDebug, uFindEx, DCOSUtils, DCStrUtils;
 
 const
   IconExtensionList: array[0..1] of String = ('png', 'xpm');
@@ -207,12 +204,6 @@ end;
 function TIconTheme.Load: Boolean;
 begin
    Result := LoadThemeWithInherited(FInherits);
-
-   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-   // add default theme if needed
-   if Result and Assigned(FInherits) then
-     LoadParentTheme(DEFAULT_THEME_NAME);
-   {$ENDIF}
 end;
 
 function TIconTheme.LoadThemeWithInherited(AInherits: TStringList): Boolean;
@@ -289,7 +280,7 @@ var
 begin
   if FInherits.IndexOf(AThemeName) < 0 then
     begin
-      ATheme:= TIconTheme.Create(AThemeName, FBaseDirListAtCreate);
+      ATheme:= CreateParentTheme(AThemeName);
       I:= FInherits.AddObject(AThemeName, ATheme);
       if not ATheme.LoadThemeWithInherited(FInherits) then
         begin
@@ -356,6 +347,11 @@ begin
           end;
       end;
   end;
+end;
+
+function TIconTheme.CreateParentTheme(const sThemeName: String): TIconTheme;
+begin
+  Result:= TIconTheme.Create(sThemeName, FBaseDirListAtCreate);
 end;
 
 function TIconTheme.LoadIconDirInfo(const IniFile: TIniFileEx; const sIconDirName: String): PIconDirInfo;

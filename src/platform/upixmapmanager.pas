@@ -643,7 +643,7 @@ begin
   gtk_icon_theme_set_custom_theme(FIconTheme, 'oxygen');
   }
   {$ELSE}
-  FIconTheme:= TIconTheme.Create(GetCurrentIconTheme, UnixIconThemesBaseDirList);
+  FIconTheme:= TUnixIconTheme.Create;
   {$ENDIF}
 {$ENDIF}
 
