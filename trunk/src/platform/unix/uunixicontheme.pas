@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some useful functions for Icon Theme implementation
 
-    Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,20 +27,31 @@ unit uUnixIconTheme;
 interface
 
 uses
-  Classes, SysUtils; 
+  Classes, SysUtils, uIconTheme;
 
 const
   DEFAULT_THEME_NAME: String = 'hicolor';
+  DEFAULT_THEME_KDE4: String = 'default.kde4';
 
-var
-  UnixIconThemesBaseDirList: array of String;
+type
 
-function GetCurrentIconTheme: String;
+  { TUnixIconTheme }
+
+  TUnixIconTheme = class(TIconTheme)
+  private
+    FDesktopEnvironment: Cardinal;
+  protected
+    function CreateParentTheme(const sThemeName: String): TIconTheme; override;
+  public
+    constructor Create; reintroduce;
+    constructor Create(sThemeName: String; BaseDirList: array of String); override;
+    function Load: Boolean; override;
+  end;
 
 implementation
 
 uses
-  DOM, XMLRead, IniFiles, uMyUnix, DCOSUtils, uOSUtils;
+  DOM, XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils;
 
 function GetKdeIconTheme: String;
 const
@@ -49,21 +60,26 @@ const
 var
   kdeConfig: array[1..2] of String = (kde4Config, kde3Config);
   I: Integer;
-  iniCfg: TIniFile = nil;
+  iniCfg: TIniFileEx = nil;
 begin
   Result:= EmptyStr;
   for I:= Low(kdeConfig) to High(kdeConfig) do
-    if (Result = EmptyStr) and mbFileExists(GetHomeDir + kdeConfig[I]) then
+  begin
+    if (Length(Result) = 0) and mbFileExists(GetHomeDir + kdeConfig[I]) then
+    try
+      iniCfg:= TIniFileEx.Create(GetHomeDir + kdeConfig[I]);
       try
-        iniCfg:= TIniFile.Create(GetHomeDir + kdeConfig[I]);
         Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
       finally
-        if Assigned(iniCfg) then
-          iniCfg.Free;
+        iniCfg.Free;
       end;
-  if (Result = EmptyStr) and mbDirectoryExists('/usr/share/icons/default.kde4') then
+    except
+      // Skip
+    end;
+  end;
+  if (Length(Result) = 0) and mbDirectoryExists('/usr/share/icons/default.kde4') then
     Result:= 'default.kde4'
-  else if (Result = EmptyStr) and mbDirectoryExists('/usr/share/icons/default.kde') then
+  else if (Length(Result) = 0) and mbDirectoryExists('/usr/share/icons/default.kde') then
     Result:= 'default.kde';
 end;
 
@@ -72,14 +88,14 @@ const
   gnomeConfig = '/.gconf/desktop/gnome/interface/%gconf.xml';
 var
   I: Integer;
-  xmlCfg: TXMLDocument;
   ChildNode: TDOMNode;
+  xmlCfg: TXMLDocument = nil;
 begin
   Result:= EmptyStr;
-  xmlCfg:= nil;
   if mbFileExists(GetHomeDir + gnomeConfig) then
+  try
+    ReadXMLFile(xmlCfg, GetHomeDir + gnomeConfig);
     try
-      ReadXMLFile(xmlCfg, GetHomeDir + gnomeConfig);
       for I := 0 to xmlCfg.DocumentElement.ChildNodes.Count -1 do
         begin
           ChildNode := xmlCfg.DocumentElement.ChildNodes.Item[I];
@@ -93,7 +109,10 @@ begin
     finally
       xmlCfg.Free;
     end;
-  if Result = EmptyStr then
+  except
+    // Skip
+  end;
+  if Length(Result) = 0 then
     Result:= 'gnome';
 end;
 
@@ -102,15 +121,15 @@ const
   xfceConfig = '/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml';
 var
   J, I: Integer;
-  xmlCfg: TXMLDocument;
   ChildNode1,
   ChildNode2: TDOMNode;
+  xmlCfg: TXMLDocument = nil;
 begin
   Result:= EmptyStr;
-  xmlCfg:= nil;
   if mbFileExists(GetHomeDir + xfceConfig) then
+  try
+    ReadXMLFile(xmlCfg, GetHomeDir + xfceConfig);
     try
-      ReadXMLFile(xmlCfg, GetHomeDir + xfceConfig);
       for J := 0 to xmlCfg.DocumentElement.ChildNodes.Count -1 do
         begin
           ChildNode1:= xmlCfg.DocumentElement.ChildNodes.Item[J];
@@ -130,6 +149,9 @@ begin
     finally
       xmlCfg.Free;
     end;
+  except
+    // Skip
+  end;
 end;
 
 function GetLxdeIconTheme: String;
@@ -139,7 +161,7 @@ const
 var
   I: Integer;
   DesktopSession: String;
-  iniCfg: TIniFile = nil;
+  iniCfg: TIniFileEx = nil;
   lxdeConfig: array[1..2] of String = (lxdeConfig1, lxdeConfig2);
 begin
   Result:= EmptyStr;
@@ -149,13 +171,18 @@ begin
     lxdeConfig[1]:= GetHomeDir + Format(lxdeConfig[1], [DesktopSession]);
     lxdeConfig[2]:= Format(lxdeConfig[2], [DesktopSession]);
     for I:= Low(lxdeConfig) to High(lxdeConfig) do
-    if (Length(Result) = 0) and mbFileExists(lxdeConfig[I]) then
-    try
-      iniCfg:= TIniFile.Create(lxdeConfig[I]);
-      Result:= iniCfg.ReadString('GTK', 'sNet/IconThemeName', EmptyStr);
-    finally
-      if Assigned(iniCfg) then
-        iniCfg.Free;
+    begin
+      if (Length(Result) = 0) and mbFileExists(lxdeConfig[I]) then
+      try
+        iniCfg:= TIniFileEx.Create(lxdeConfig[I]);
+        try
+          Result:= iniCfg.ReadString('GTK', 'sNet/IconThemeName', EmptyStr);
+        finally
+          iniCfg.Free;
+        end;
+      except
+        // Skip
+      end;
     end;
   end;
 end;
@@ -179,6 +206,9 @@ begin
     Result:= DEFAULT_THEME_NAME;
 end;
 
+var
+  UnixIconThemesBaseDirList: array of String;
+
 procedure InitIconThemesBaseDirList;
 begin
   SetLength(UnixIconThemesBaseDirList, 5);
@@ -187,6 +217,37 @@ begin
   UnixIconThemesBaseDirList[2] := '/usr/local/share/pixmaps';
   UnixIconThemesBaseDirList[3] := '/usr/share/icons';
   UnixIconThemesBaseDirList[4] := '/usr/share/pixmaps';
+end;
+
+{ TUnixIconTheme }
+
+function TUnixIconTheme.CreateParentTheme(const sThemeName: String): TIconTheme;
+begin
+  Result:= TUnixIconTheme.Create(sThemeName, FBaseDirListAtCreate);
+  TUnixIconTheme(Result).FDesktopEnvironment:= FDesktopEnvironment;
+end;
+
+constructor TUnixIconTheme.Create;
+begin
+  FDesktopEnvironment:= GetDesktopEnvironment;
+  inherited Create(GetCurrentIconTheme, UnixIconThemesBaseDirList);
+end;
+
+constructor TUnixIconTheme.Create(sThemeName: String;
+  BaseDirList: array of String);
+begin
+  inherited Create(sThemeName, BaseDirList);
+end;
+
+function TUnixIconTheme.Load: Boolean;
+begin
+  Result:= inherited Load;
+  // add default theme if needed
+  if Result and Assigned(FInherits) then
+  begin
+    LoadParentTheme(DEFAULT_THEME_NAME);
+    if (FDesktopEnvironment = DE_KDE) then LoadParentTheme(DEFAULT_THEME_KDE4);
+  end;
 end;
 
 initialization
