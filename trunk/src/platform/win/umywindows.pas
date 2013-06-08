@@ -657,7 +657,7 @@ var
   lpFileName: array[0..Pred(MaxSmallInt)] of WideChar;
 begin
   pwcCommandLine:= GetCommandLineW();
-  for I:= 0 to StrLen(pwcCommandLine) - 1 do
+  for I:= 0 to lstrlenW(pwcCommandLine) - 1 do
   begin
     if (pwcCommandLine[I] = PathDelim) and (pwcCommandLine[I + 1] = '"') then
     begin

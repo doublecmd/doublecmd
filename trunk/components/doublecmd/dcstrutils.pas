@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2013  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -256,6 +256,10 @@ function OctToDec(Value: String): LongInt;
 function DecToOct(Value: LongInt): String;
 
 procedure AddString(var anArray: TDynamicStringArray; const sToAdd: String);
+{en
+   Splits a string into different parts delimited by the specified delimiter character.
+}
+function SplitString(const S: String; Delimiter: AnsiChar): TDynamicStringArray;
 {en
    Checks if the second array is the beginning of first.
    If BothWays is @true then also checks the other way around,
@@ -873,6 +877,26 @@ begin
   Len := Length(anArray);
   SetLength(anArray, Len + 1);
   anArray[Len] := sToAdd;
+end;
+
+function SplitString(const S: String; Delimiter: AnsiChar): TDynamicStringArray;
+var
+  Start: Integer = 1;
+  Len, Finish: Integer;
+begin
+  Len:= Length(S);
+  for Finish:= 1 to Len - 1 do
+  begin
+    if S[Finish] = Delimiter then
+    begin
+      AddString(Result, Copy(S, Start, Finish - Start));
+      Start:= Finish + 1;
+    end;
+  end;
+  if Start <= Len then
+  begin
+    AddString(Result, Copy(S, Start, Len - Start + 1));
+  end;
 end;
 
 function ArrBegins(const Array1, Array2: array of String; BothWays: Boolean): Boolean;
