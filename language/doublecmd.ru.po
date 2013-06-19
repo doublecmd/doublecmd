@@ -2,14 +2,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-02-24 17:02+0400\n"
-"Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
+"PO-Revision-Date: 2013-06-19 23:58+0400\n"
+"Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-Language: Russian\n"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -3498,27 +3497,27 @@ msgstr "Путь файла"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
-msgstr ""
+msgstr "Выбор приложения"
 
 #: tfrmopenwith.chkcustomcommand.caption
 msgid "Custom command"
-msgstr ""
+msgstr "Пользовательская команда"
 
 #: tfrmopenwith.chksaveassociation.caption
 msgid "Save association"
-msgstr ""
+msgstr "Сохранить ассоциацию"
 
 #: tfrmopenwith.chkuseasdefault.caption
 msgid "Set selected application as default action"
-msgstr ""
+msgstr "Установить как приложение по умолчанию"
 
 #: tfrmopenwith.lblmimetype.caption
 msgid "File type to be opened: %s"
-msgstr ""
+msgstr "Тип открываемого файла: %s"
 
 #: tfrmopenwith.milistoffiles.caption
 msgid "Multiple file names"
-msgstr ""
+msgstr "Список файлов"
 
 #: tfrmopenwith.milistoffiles.hint
 msgid "%F"
@@ -3526,7 +3525,7 @@ msgstr "%F"
 
 #: tfrmopenwith.milistofurls.caption
 msgid "Multiple URIs"
-msgstr ""
+msgstr "Список URI"
 
 #: tfrmopenwith.milistofurls.hint
 msgid "%U"
@@ -3534,7 +3533,7 @@ msgstr "%U"
 
 #: tfrmopenwith.misinglefilename.caption
 msgid "Single file name"
-msgstr ""
+msgstr "Один файл"
 
 #: tfrmopenwith.misinglefilename.hint
 msgid "%f"
@@ -3542,7 +3541,7 @@ msgstr "%f"
 
 #: tfrmopenwith.misingleurl.caption
 msgid "Single URI"
-msgstr ""
+msgstr "Один URI"
 
 #: tfrmopenwith.misingleurl.hint
 msgid "%u"
@@ -4969,11 +4968,10 @@ msgid ">>"
 msgstr ""
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
-#, fuzzy
 #| msgid "Remove hotkey"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
 msgid "Remove hotke&y"
-msgstr "&Х"
+msgstr "У&далить"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
@@ -5531,7 +5529,7 @@ msgstr "Разбиение"
 
 #: tfrmsplitter.cmbxsize.text
 msgid "1457664B - 3.5\""
-msgstr ""
+msgstr "1457664B - 3.5\""
 
 #: tfrmsplitter.grbxfile.caption
 msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
@@ -8117,3 +8115,4 @@ msgstr "Кодировка"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не найден!"
+
