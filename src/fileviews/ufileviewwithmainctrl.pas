@@ -63,8 +63,6 @@ type
     procedure edtRenameExit(Sender: TObject);
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
-    procedure OnUserInputEvent(Sender: TObject; Msg: Cardinal);
-
   protected
     edtRename: TEdit;
     FWindowProc: TWndMethod;
@@ -822,8 +820,9 @@ end;
 
 procedure TFileViewWithMainCtrl.MainControlWindowProc(var TheMessage: TLMessage);
 begin
-  // Cancel rename if user scroll file list by mouse using scrollbar
-  if (TheMessage.Msg = LM_VSCROLL) or (TheMessage.Msg = LM_HSCROLL) then
+  // Cancel rename if user scroll file list by mouse
+  if (TheMessage.Msg = LM_VSCROLL) or (TheMessage.Msg = LM_HSCROLL) or
+     (TheMessage.Msg = LM_MOUSEWHEEL) then
   begin
     edtRename.Hide;
     SetFocus;
@@ -1079,14 +1078,12 @@ procedure TFileViewWithMainCtrl.edtRenameEnter(Sender: TObject);
 begin
   FWindowProc:= MainControl.WindowProc;
   MainControl.WindowProc:= @MainControlWindowProc;
-  Application.AddOnUserInputHandler(@OnUserInputEvent);
 end;
 
 procedure TFileViewWithMainCtrl.edtRenameExit(Sender: TObject);
 begin
   edtRename.Visible := False;
   MainControl.WindowProc:= FWindowProc;
-  Application.RemoveOnUserInputHandler(@OnUserInputEvent);
 
   // OnEnter don't called automatically (bug?)
   // TODO: Check on which widgetset/OS this is needed.
@@ -1143,16 +1140,6 @@ begin
     VK_DOWN:
       Key := 0;
 {$ENDIF}
-  end;
-end;
-
-procedure TFileViewWithMainCtrl.OnUserInputEvent(Sender: TObject; Msg: Cardinal);
-begin
-  // Cancel rename if user scroll file list by mouse wheel
-  if (Msg = LM_MOUSEWHEEL) and (Screen.ActiveControl = edtRename) then
-  begin
-    edtRename.Hide;
-    SetFocus;
   end;
 end;
 
