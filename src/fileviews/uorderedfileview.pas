@@ -113,7 +113,7 @@ implementation
 uses
   LCLProc, LCLType, math, Forms, Graphics,
   DCStrUtils,
-  uLng, uGlobs, uMasks, uDCUtils,
+  uLng, uGlobs, uMasks, uDCUtils, uIMCode,
   uFileSourceProperty,
   uPixMapManager,
   uFileViewWorker,
@@ -492,6 +492,8 @@ var
   sSearchNameNoExt,
   sSearchExt : UTF8String;
   AFile: TFile;
+  uFileName: UnicodeString;
+  sPy: UTF8String;
 
   function NextIndexWrap(Index: PtrInt): PtrInt;
   begin
@@ -499,6 +501,7 @@ var
     if Result = FFiles.Count then
       Result := 0;
   end;
+
   function PrevIndexWrap(Index: PtrInt): PtrInt;
   begin
     Result := Index - 1;
@@ -564,10 +567,16 @@ begin
 
       sFileName := AFile.Name;
 
+      // Get the Chinese first letter of Pinyin from the file name
+      uFileName := UTF8Decode(sFileName);
+      sPy := uIMCode.MakeSpellCode(uFileName);
+
       if SearchOptions.SearchCase = qscInsensitive then
         sFileName := UTF8LowerCase(sFileName);
 
-      if not MatchesMask(sFileName, sSearchName, SearchOptions.SearchCase = qscSensitive) then
+      // Match the filename and pinyin letter
+      if not (MatchesMask(sFileName, sSearchName, SearchOptions.SearchCase = qscSensitive) or
+        (MatchesMask(sPy, sSearchName))) then
         Result := False;
 
       if Result then
