@@ -885,7 +885,7 @@ msgstr "&Ok"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr "Öffnen"
+msgstr "&Öffnen"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
@@ -897,7 +897,7 @@ msgstr "&Speichern"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr "Freigeben"
+msgstr "&Freigeben"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
