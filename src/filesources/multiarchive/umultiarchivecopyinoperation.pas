@@ -127,7 +127,6 @@ procedure TMultiArchiveCopyInOperation.MainExecute;
 var
   I: Integer;
   sRootPath,
-  sCurrPath,
   sDestPath: String;
   MultiArcItem: TMultiArcItem;
   aFile: TFile;
@@ -141,11 +140,7 @@ begin
 
   sDestPath := ExcludeFrontPathDelimiter(TargetPath);
   sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
-  // save current path
-  sCurrPath:= mbGetCurrentDir;
   sRootPath:= FFullFilesTree.Path;
-  // set current path to file list root
-  mbSetCurrentDir(sRootPath);
   ChangeFileListRoot(EmptyStr, FFullFilesTree);
   with FMultiArchiveFileSource do
   begin
@@ -176,6 +171,8 @@ begin
                                             );
       OnReadLn(sReadyCommand);
 
+      // Set archiver current path to file list root
+      FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sRootPath);
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -203,6 +200,8 @@ begin
                                             );
       OnReadLn(sReadyCommand);
 
+      // Set archiver current path to file list root
+      FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sRootPath);
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -213,8 +212,6 @@ begin
             DeleteFiles(sRootPath, FFullFilesTree);
         end;
     end;
-  // restore current path
-  mbSetCurrentDir(sCurrPath);
 
   // Delete temporary TAR archive if needed
   if FTarBefore then
