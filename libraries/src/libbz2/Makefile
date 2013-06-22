@@ -1,7 +1,7 @@
 # This Makefile builds a shared version of the library libbz2.dll
 
 CC=gcc
-LDFLAGS=-Wl,--enable-stdcall-fixup
+LDFLAGS=-Wl,--enable-stdcall-fixup -Wl,--strip-all
 CFLAGS=-Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -DBZ_NO_STDIO
 
 # Determine output directory
