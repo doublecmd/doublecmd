@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -121,6 +121,7 @@ function mbFileCreate(const FileName: UTF8String): System.THandle; overload;
 function mbFileCreate(const FileName: UTF8String; ShareMode: Longint): System.THandle; overload;
 function mbFileCreate(const FileName: UTF8String; ShareMode: Longint; Rights: Longint): System.THandle; overload;
 function mbFileAge(const FileName: UTF8String): DCBasicTypes.TFileTime;
+function mbFileSame(const FirstName, SecondName: UTF8String): Boolean;
 // On success returns True.
 function mbFileGetTime(const FileName: UTF8String;
                        var ModificationTime: DCBasicTypes.TFileTime;
@@ -694,6 +695,48 @@ begin
 {$PUSH}{$R-}
     Result := Info.st_mtime;
 {$POP}
+end;
+{$ENDIF}
+
+function mbFileSame(const FirstName, SecondName: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  Handle: System.THandle;
+  lpFirstFileInfo,
+  lpSecondFileInfo: TByHandleFileInformation;
+begin
+  // Read first file info
+  Handle:= CreateFileW(PWideChar(UTF8Decode(FirstName)), FILE_READ_ATTRIBUTES,
+                       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
+                       nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
+  if Handle = INVALID_HANDLE_VALUE then Exit(False);
+  Result:= GetFileInformationByHandle(Handle, lpFirstFileInfo);
+  CloseHandle(Handle);
+  if not Result then Exit;
+  // Read second file info
+  Handle:= CreateFileW(PWideChar(UTF8Decode(SecondName)), FILE_READ_ATTRIBUTES,
+                       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
+                       nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
+  if Handle = INVALID_HANDLE_VALUE then Exit(False);
+  Result:= GetFileInformationByHandle(Handle, lpSecondFileInfo);
+  CloseHandle(Handle);
+  if not Result then Exit;
+  // Compare file info
+  Result:= CompareByte(lpFirstFileInfo, lpSecondFileInfo,
+                       SizeOf(TByHandleFileInformation)) = 0;
+end;
+{$ELSE}
+var
+  FirstStat,
+  SecondStat: BaseUnix.Stat;
+begin
+  // Read first file info
+  if fpStat(UTF8ToSys(FirstName), FirstStat) < 0 then Exit(False);
+  // Read second file info
+  if fpStat(UTF8ToSys(SecondName), SecondStat) < 0 then Exit(False);
+  // Compare file info
+  Result:= (FirstStat.st_dev = SecondStat.st_dev) and
+           (FirstStat.st_ino = SecondStat.st_ino);
 end;
 {$ENDIF}
 
