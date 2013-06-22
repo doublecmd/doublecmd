@@ -149,7 +149,6 @@ procedure TMultiArchiveCopyOutOperation.MainExecute;
 var
   TargetFileName,
   SourcePath,
-  sCurrPath,
   sTempDir: UTF8String;
   CreatedPaths: TStringHashList = nil;
   I: Integer;
@@ -161,8 +160,6 @@ var
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
   try
-    // save current path
-    sCurrPath:= mbGetCurrentDir;
     // Archive current path
     SourcePath:= ExcludeFrontPathDelimiter(SourceFiles.Path);
     // Check ExtractWithoutPath option
@@ -195,8 +192,8 @@ begin
             if (DoFileExists(TargetFileName) <> fsoofeOverwrite) then
               Continue;
 
-            // go to target directory
-            mbSetCurrentDir(ExtractFileDir(TargetFileName));
+            // Get target directory
+            sTempDir:= ExtractFileDir(TargetFileName);
 
             UpdateProgress(aFile.FullPath, TargetFileName, 0);
 
@@ -212,6 +209,8 @@ begin
                                                   );
             OnReadLn(sReadyCommand);
 
+            // Set target directory as archiver current directory
+            FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sTempDir);
             FExProcess.SetCmdLine(sReadyCommand);
             FExProcess.Execute;
 
@@ -243,9 +242,6 @@ begin
           FilesToExtract.Add(aFile.Clone);
       end;
 
-      // go to target directory
-      mbSetCurrentDir(sTempDir);
-
       sReadyCommand:= FormatArchiverCommand(
                                             MultiArcItem.FArchiver,
                                             sCommandLine,
@@ -258,6 +254,8 @@ begin
                                             );
       OnReadLn(sReadyCommand);
 
+      // Set target directory as archiver current directory
+      FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sTempDir);
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -279,7 +277,6 @@ begin
               UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
             end
         end;
-        mbSetCurrentDir(sCurrPath);
         DelTree(sTempDir);
       end;
     end;
@@ -289,8 +286,6 @@ begin
   finally
     FreeThenNil(CreatedPaths);
     FreeThenNil(FilesToExtract);
-    // restore current path
-    mbSetCurrentDir(sCurrPath);
   end;
 end;
 
