@@ -3751,11 +3751,11 @@ msgstr "&Растягивать колонки на всю ширину пане
 
 #: tfrmoptionscolumnsview.gbshowgrid.caption
 msgid "Show grid"
-msgstr ""
+msgstr "Показывать сетку"
 
 #: tfrmoptionscolumnsview.grpautosizecolumns.caption
 msgid "Auto-size columns"
-msgstr ""
+msgstr "Автоматически изменять размер колонок"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
@@ -4320,7 +4320,7 @@ msgstr ""
 #: tfrmoptionsfonts.btnselmainfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELMAINFNT.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionsfonts.btnselviewerbookfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWERBOOKFNT.CAPTION"
@@ -4403,7 +4403,7 @@ msgstr "Параметры"
 #: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
-msgstr ""
+msgstr "Элементы"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -6931,7 +6931,7 @@ msgstr "Ошибка в команде контекстного меню"
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
-msgstr ""
+msgstr "Ошибка при загрузке конфигурации"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -6959,7 +6959,7 @@ msgstr "Невозможно установить дату/время для \"%
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
-msgstr ""
+msgstr "Не могу установить владельца/группу для \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
