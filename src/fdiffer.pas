@@ -30,13 +30,13 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
-  uPariterControls, uDiff, uFormCommands, uHotkeyManager;
+  uPariterControls, uDiff, uFormCommands, uHotkeyManager, uOSForms;
 
 type
 
   { TfrmDiffer }
 
-  TfrmDiffer = class(TForm, IFormCommands)
+  TfrmDiffer = class(TAloneForm, IFormCommands)
     actBinaryCompare: TAction;
     actCopyLeftToRight: TAction;
     actCopyRightToLeft: TAction;
