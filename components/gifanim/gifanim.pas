@@ -307,7 +307,7 @@ begin
       Inc(FCurrentImage);
     if Assigned(FOnFrameChanged) then
       FOnFrameChanged(Self);
-    Paint;
+    Repaint;
   end;
 end;
 
@@ -346,7 +346,7 @@ begin
     end;
     if Assigned(FOnFrameChanged) then
       FOnFrameChanged(Self);
-    Paint;
+    Repaint;
   end;
 end;
 
@@ -401,7 +401,7 @@ begin
       Inc(FCurrentImage);
     if Assigned(FOnFrameChanged) then
       FOnFrameChanged(Self);
-    Paint;
+    Repaint;
   end;
 end;
 
