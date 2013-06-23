@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +35,12 @@ type
   { TAloneForm }
 
   TAloneForm = class(TForm)
-  {$IF DEFINED(LCLWIN32)}
+  {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
+  protected
+    FActiveForm: TForm;
+    procedure DoShow; override;
+    procedure DoClose(var CloseAction: TCloseAction); override;
+  {$ELSEIF DEFINED(LCLWIN32)}
   public
     constructor Create(TheOwner: TComponent); override;
   {$ENDIF}
@@ -107,12 +112,42 @@ uses
   , BaseUnix, fFileProperties, uJpegThumb
     {$IF NOT DEFINED(DARWIN)}
     , uMagickWand
+    {$ELSE}
+    , MacOSAll
     {$ENDIF}
   {$ENDIF};
 
-{$IF DEFINED(LCLWIN32)}
-
 { TAloneForm }
+
+{$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
+
+procedure TAloneForm.DoShow;
+begin
+  // Save current active form
+  FActiveForm:= Screen.ActiveForm;
+  inherited DoShow;
+end;
+
+procedure TAloneForm.DoClose(var CloseAction: TCloseAction);
+var
+  psnFront, psnCurrent: ProcessSerialNumber;
+begin
+  inherited DoClose(CloseAction);
+  if (GetCurrentProcess(psnCurrent) = noErr) and (GetFrontProcess(psnFront) = noErr) then
+  begin
+    // Check that our process is active and form still exists
+    if (psnCurrent.lowLongOfPSN = psnFront.lowLongOfPSN) and
+       (psnCurrent.highLongOfPSN = psnFront.highLongOfPSN) and
+       (Screen.FormIndex(FActiveForm) >= 0) then
+    begin
+      // Restore active form
+      if (FActiveForm.WindowState <> wsMinimized) then
+        FActiveForm.SetFocus;
+    end;
+  end;
+end;
+
+{$ELSEIF DEFINED(LCLWIN32)}
 
 constructor TAloneForm.Create(TheOwner: TComponent);
 begin

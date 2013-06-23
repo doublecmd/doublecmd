@@ -291,7 +291,7 @@ begin
   else if pid > 0 then          { Parent }
     begin
       WaitForPidThread := TWaitForPidThread.Create(pid);
-      WaitForPidThread.Resume;
+      WaitForPidThread.Start;
     end;
 
   Result := (pid > 0);
