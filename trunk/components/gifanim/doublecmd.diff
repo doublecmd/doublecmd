@@ -52,7 +52,7 @@ Index: gifanim.pas
 +      Inc(FCurrentImage);
 +    if Assigned(FOnFrameChanged) then
 +      FOnFrameChanged(Self);
-+    Paint;
++    Repaint;
 +  end;
 +end;
 +
@@ -91,7 +91,7 @@ Index: gifanim.pas
 +    end;
 +    if Assigned(FOnFrameChanged) then
 +      FOnFrameChanged(Self);
-+    Paint;
++    Repaint;
 +  end;
 +end;
 +
@@ -106,14 +106,15 @@ Index: gifanim.pas
 -      FCurrentImage := 0;
 -    if assigned(FOnFrameChanged) then
 -      FOnFrameChanged(self);
+-    Paint;
+-    Inc(FCurrentImage);
 +    if FCurrentImage >= GifBitmaps.Count - 1 then
 +      FCurrentImage := 0
 +    else
 +      Inc(FCurrentImage);
 +    if Assigned(FOnFrameChanged) then
 +      FOnFrameChanged(Self);
-     Paint;
--    Inc(FCurrentImage);
++    Repaint;
    end;
  end;
  
@@ -144,7 +145,7 @@ Index: pkg_gifanim.lpk
 ===================================================================
 --- pkg_gifanim.lpk	(revision none)
 +++ pkg_gifanim.lpk	(working copy)
-@@ -1,15 +1,21 @@
+@@ -1,15 +1,26 @@
  <?xml version="1.0"?>
  <CONFIG>
 -  <Package Version="3">
@@ -166,10 +167,15 @@ Index: pkg_gifanim.lpk
 +  UnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
 +  UsageUnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
 +end;"/>
++      <Linking>
++        <Debugging>
++          <DebugInfoType Value="dsDwarf2Set"/>
++        </Debugging>
++      </Linking>
        <Other>
          <CompilerPath Value="$(CompPath)"/>
        </Other>
-@@ -41,7 +47,7 @@
+@@ -41,7 +52,7 @@
        </Item2>
      </RequiredPkgs>
      <UsageOptions>
