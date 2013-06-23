@@ -28,13 +28,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons, ExtCtrls, EditBtn, uExts, ExtDlgs, Menus;
+  StdCtrls, Buttons, ExtCtrls, EditBtn, uExts, ExtDlgs,
+  Menus, uOSForms;
 
 type
 
   { TfrmFileAssoc }
 
-  TfrmFileAssoc = class(TForm)
+  TfrmFileAssoc = class(TAloneForm)
     btnAddAct: TButton;
     btnAddExt: TButton;
     btnAddNewType: TButton;
