@@ -211,7 +211,7 @@ begin
   {$IFDEF BSD}
   KQueueDriveWatcher := TKQueueDriveEventWatcher.Create();
   KQueueDriveWatcher.OnDriveEvent := @KQueueDriveWatcher_OnDriveEvent;
-  KQueueDriveWatcher.Resume;
+  KQueueDriveWatcher.Start;
   {$ENDIF}
 end;
 
@@ -1171,4 +1171,4 @@ end;
 {$ENDIF}
 
 end.
-
+
