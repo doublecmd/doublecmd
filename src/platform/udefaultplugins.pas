@@ -163,7 +163,7 @@ begin
     gWFXPlugins.Add('FTP', Folder + 'ftp' + PathDelim + 'ftp.wfx');
   end;
 
-  {$IF DEFINED(UNIX)}
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   if gWFXPlugins.IndexOfName('Windows Network') < 0 then
   begin
     gWFXPlugins.Add('Windows Network', Folder + 'samba' + PathDelim + 'samba.wfx');

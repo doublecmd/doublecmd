@@ -28,7 +28,6 @@ mkdir -p $DC_INSTALL_DIR/plugins/wdx/deb_wdx
 # WFX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wfx
 mkdir -p $DC_INSTALL_DIR/plugins/wfx/ftp
-mkdir -p $DC_INSTALL_DIR/plugins/wfx/samba
 
 # Copy files
 cp -r doublecmd.app/*              $DC_APP_DIR/
@@ -54,7 +53,6 @@ install -m 644 plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/
 install -m 644 plugins/wdx/scripts/*                $DC_INSTALL_DIR/plugins/wdx/scripts/
 # WFX
 install -m 644 plugins/wfx/ftp/lib/ftp.wfx          $DC_INSTALL_DIR/plugins/wfx/ftp/
-install -m 644 plugins/wfx/samba/lib/samba.wfx      $DC_INSTALL_DIR/plugins/wfx/samba/
 
 # Copy documentation
 mkdir -p $DC_INSTALL_DIR/doc
