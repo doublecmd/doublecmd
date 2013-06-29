@@ -7,11 +7,11 @@ Summary:	Documentation for the Double Commander (English)
 Version:	0.6.0
 Release:	1
 Url:		http://doublecmd.sourceforge.net/
-License:	GPL
+License:	GPL-2+
 Source0:	%{doublecmd_help}-%{version}.tar.gz
 Group:		Documentation
 Requires:	doublecmd
-BuildArch:      noarch
+BuildArch:	noarch
 
 %description
 This package contains the documentation files for the Double Commander
@@ -23,7 +23,7 @@ This package contains the documentation for the DC in English.
 Summary:	Documentation for the Double Commander (Russian)
 Group:		Documentation
 Requires:	doublecmd
-BuildArch:      noarch
+BuildArch:	noarch
 
 %description -n doublecmd-help-ru
 This package contains the documentation files for the Double Commander
@@ -35,7 +35,7 @@ This package contains the documentation for the DC in Russian.
 Summary:	Documentation for the Double Commander (Ukrainian)
 Group:		Documentation
 Requires:	doublecmd
-BuildArch:      noarch
+BuildArch:	noarch
 
 %description -n doublecmd-help-uk
 This package contains the documentation files for the Double Commander
@@ -50,29 +50,29 @@ This package contains the documentation for the DC in Ukrainian.
 
 %install
 install -d     %{buildroot}/%{_datadir}/doublecmd/doc
-cp -r en   %{buildroot}/%{_datadir}/doublecmd/doc
-cp -r ru   %{buildroot}/%{_datadir}/doublecmd/doc
-cp -r uk   %{buildroot}/%{_datadir}/doublecmd/doc
+cp -r en       %{buildroot}/%{_datadir}/doublecmd/doc
+cp -r ru       %{buildroot}/%{_datadir}/doublecmd/doc
+cp -r uk       %{buildroot}/%{_datadir}/doublecmd/doc
 
 %clean
 [ %{buildroot} != "/" ] && ( rm -rf %{buildroot} )
 
 %files
 %defattr(-,root,root)
-%{_datadir}/doublecmd
-%{_datadir}/doublecmd/doc
+%dir %{_datadir}/doublecmd
+%dir %{_datadir}/doublecmd/doc
 %doc %{_datadir}/doublecmd/doc/en
 
 %files -n doublecmd-help-ru
 %defattr(-,root,root)
-%{_datadir}/doublecmd
-%{_datadir}/doublecmd/doc
+%dir %{_datadir}/doublecmd
+%dir %{_datadir}/doublecmd/doc
 %doc %{_datadir}/doublecmd/doc/ru
 
 %files -n doublecmd-help-uk
 %defattr(-,root,root)
-%{_datadir}/doublecmd
-%{_datadir}/doublecmd/doc
+%dir %{_datadir}/doublecmd
+%dir %{_datadir}/doublecmd/doc
 %doc %{_datadir}/doublecmd/doc/uk
 
 %changelog
