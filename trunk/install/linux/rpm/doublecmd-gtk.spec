@@ -20,8 +20,8 @@ BuildRequires:  xorg-x11-devel ncurses-devel dbus-devel bzip2-devel
 %if 0%{?suse_version} >= 1110
 BuildRequires: ncurses-devel dbus-1-devel libbz2-devel
 %endif 
-Provides:  doublecmd
-Obsoletes: doublecmd < 0.4.6 doublecmd-qt
+Provides:	doublecmd
+Conflicts:	doublecmd-qt
 BuildRoot:	%{_tmppath}/%{doublecmd}-%{version}-build
 
 %description
