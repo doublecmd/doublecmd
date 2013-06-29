@@ -445,8 +445,8 @@ begin
 
   {$IFDEF LCLQT}
   {$IF RevisionStr >= qtLibQt4PasRev}
-  // Only since Lazarus 0.9.29 QT bindings v2.1.
-  WSVersion := 'QT ' + QtVersion + ', libQt4Pas ';
+  // Only since Lazarus 0.9.29 Qt bindings v2.1.
+  WSVersion := 'Qt ' + QtVersion + ', libQt4Pas ';
   {$ELSE}
   WSVersion := 'libqt4intf ';
   {$ENDIF}
