@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains additional or extended classes.
 
-   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2013  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -92,24 +92,28 @@ begin
   if Self.Owner is TCustomForm then
     with Self.Owner as TCustomForm do
     begin
-      mLeft:= Monitor.Left;
-      mTop:= Monitor.Top;
-      mWidth:= Monitor.Width;
-      mHeight:= Monitor.Height;
+      // Workaround for bug: http://bugs.freepascal.org/view.php?id=22499
+      if Assigned(Monitor) then
+      begin
+        mLeft:= Monitor.Left;
+        mTop:= Monitor.Top;
+        mWidth:= Monitor.Width;
+        mHeight:= Monitor.Height;
 
-      pWidth:= (mWidth * FPercentSize) div 100;
-      pHeight:= (mHeight * FPercentSize) div 100;
+        pWidth:= (mWidth * FPercentSize) div 100;
+        pHeight:= (mHeight * FPercentSize) div 100;
 
-      if (mWidth < Width) or (mHeight < Height) then
-        begin
-          Width:= mWidth - pWidth;
-          Height:= mHeight - (pHeight * 2);
-        end;
+        if (mWidth < Width) or (mHeight < Height) then
+          begin
+            Width:= mWidth - pWidth;
+            Height:= mHeight - (pHeight * 2);
+          end;
 
-      if (Top > (mTop + mHeight - pHeight)) or (Top < mTop) then
-        Top:= mTop + pHeight;
-      if (Left > (mLeft + mWidth - pWidth)) or ((Left + Width - pWidth) < mLeft) then
-        Left:= mLeft + pWidth;
+        if (Top > (mTop + mHeight - pHeight)) or (Top < mTop) then
+          Top:= mTop + pHeight;
+        if (Left > (mLeft + mWidth - pWidth)) or ((Left + Width - pWidth) < mLeft) then
+          Left:= mLeft + pWidth;
+      end;
 
       // Workaround for bug: http://bugs.freepascal.org/view.php?id=18514
       if WindowState = wsMinimized then WindowState:= wsNormal;
