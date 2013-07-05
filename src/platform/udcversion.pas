@@ -77,16 +77,17 @@ const
   LCLPlatform: array[TLCLPlatform] of string = (
       'gtk1',
       'gtk2',
+{$if lcl_fullversion >= 1010000}
+      'gtk3',
+{$endif}
       'win32/win64',
       'wince',
       'carbon',
       'qt4',
       'fpGUI',
       'NoGUI',
-      'cocoa'
-{$if lcl_fullversion >= 093100}
-      , 'customdrawn'
-{$endif}
+      'cocoa',
+      'customdrawn'
     );
 
 {$IF DEFINED(UNIX)}
