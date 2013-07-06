@@ -659,7 +659,7 @@ begin
       AddIfNotExists(['Ctrl+R'],[],'cm_Refresh');
       AddIfNotExists(['Ctrl+T'],[],'cm_NewTab');
       AddIfNotExists(['Ctrl+U'],[],'cm_Exchange');
-      AddIfNotExists(['Ctrl+W'],[],'cm_RemoveTab');
+      AddIfNotExists(['Ctrl+W'],[],'cm_CloseTab');
       AddIfNotExists(['Ctrl+Z'],[],'cm_EditComment');
       AddIfNotExists(['Ctrl+F1'],[],'cm_BriefView');
       AddIfNotExists(['Ctrl+F2'],[],'cm_ColumnsView');
