@@ -736,22 +736,8 @@ begin
       begin
         aFile := Files[CurrentFileIndex];
 
-        if aFile.IsDirectory or aFile.IsLinkToDirectory then
+        if aFile.IsDirectory or aFile.IsLink then
           AddFile(aFile.FullPath)
-        else if aFile.IsLink and not aFile.IsLinkToDirectory then
-          begin
-            // Add file record
-            AddFile(aFile.FullPath);
-            // Update progress
-            with Statistics do
-            begin
-              CurrentFileFrom := aFile.FullPath;
-              CurrentFileTotalBytes := aFile.Size;
-              CurrentFileDoneBytes := CurrentFileTotalBytes;
-              DoneBytes := DoneBytes + CurrentFileTotalBytes;
-            end;
-            UpdateStatistics(Statistics);
-          end
         else
           begin
             // Update progress
