@@ -8,7 +8,7 @@
     (http://www.freedesktop.org/wiki/Specifications/mime-actions-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
-    Copyright (C) 2011-2012  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2011-2013  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -287,36 +287,39 @@ var
   procedure AddAction(action: PChar);
   begin
     desktopFile := mime_type_locate_desktop_file(nil, action);
-    app := mime_get_desktop_entry(desktopFile);
+    if Assigned(desktopFile) then
+    begin
+      app := mime_get_desktop_entry(desktopFile);
 
-    New(Entry);
+      New(Entry);
 
-    Entry^.DesktopFilePath := StrPas(desktopFile);
-    Entry^.MimeType := StrPas(mimeType);
-    Entry^.DisplayName := StrPas(app.DisplayName);
-    Entry^.Comment := StrPas(app.Comment);
-    Entry^.ExecWithParams := StrPas(app.Exec);
-    Entry^.IconName := StrPas(app.IconName);
-    Entry^.Terminal := app.Terminal;
-    Entry^.Hidden := app.Hidden;
-    // Set Exec as last because it uses other fields of Entry.
-    Entry^.Exec := TranslateAppExecToCmdLine(Entry, Filenames);
+      Entry^.DesktopFilePath := StrPas(desktopFile);
+      Entry^.MimeType := StrPas(mimeType);
+      Entry^.DisplayName := StrPas(app.DisplayName);
+      Entry^.Comment := StrPas(app.Comment);
+      Entry^.ExecWithParams := StrPas(app.Exec);
+      Entry^.IconName := StrPas(app.IconName);
+      Entry^.Terminal := app.Terminal;
+      Entry^.Hidden := app.Hidden;
+      // Set Exec as last because it uses other fields of Entry.
+      Entry^.Exec := TranslateAppExecToCmdLine(Entry, Filenames);
 
-    {
-      Some icon names in .desktop files are specified with an extension,
-      even though it is not allowed by the standard unless an absolute path
-      to the icon is supplied. We delete this extension here.
-    }
-    if GetPathType(Entry^.IconName) = ptNone then
-      Entry^.IconName := TIconTheme.CutTrailingExtension(Entry^.IconName);
+      {
+        Some icon names in .desktop files are specified with an extension,
+        even though it is not allowed by the standard unless an absolute path
+        to the icon is supplied. We delete this extension here.
+      }
+      if GetPathType(Entry^.IconName) = ptNone then
+        Entry^.IconName := TIconTheme.CutTrailingExtension(Entry^.IconName);
 
-    Result.Add(Entry);
+      Result.Add(Entry);
 
-    g_free(desktopFile);
-    g_free(app.DisplayName);
-    g_free(app.Comment);
-    g_free(app.Exec);
-    g_free(app.IconName);
+      g_free(desktopFile);
+      g_free(app.DisplayName);
+      g_free(app.Comment);
+      g_free(app.Exec);
+      g_free(app.IconName);
+    end;
   end;
 
 begin
@@ -401,24 +404,27 @@ begin
   if (action <> nil) then
   begin
     desktopFile := mime_type_locate_desktop_file(nil, action);
-    app := mime_get_desktop_entry(desktopFile);
+    if Assigned(desktopFile) then
+    begin
+      app := mime_get_desktop_entry(desktopFile);
 
-    Entry.DesktopFilePath := StrPas(desktopFile);
-    Entry.MimeType := StrPas(mimeType);
-    Entry.DisplayName := StrPas(app.DisplayName);
-    Entry.Comment := StrPas(app.Comment);
-    Entry.ExecWithParams := StrPas(app.Exec);
-    Entry.IconName := StrPas(app.IconName);
-    Entry.Terminal := app.Terminal;
-    Entry.Hidden := app.Hidden;
-    // Set Exec as last because it uses other fields of Entry.
-    Result := TranslateAppExecToCmdLine(@Entry, Filenames);
+      Entry.DesktopFilePath := StrPas(desktopFile);
+      Entry.MimeType := StrPas(mimeType);
+      Entry.DisplayName := StrPas(app.DisplayName);
+      Entry.Comment := StrPas(app.Comment);
+      Entry.ExecWithParams := StrPas(app.Exec);
+      Entry.IconName := StrPas(app.IconName);
+      Entry.Terminal := app.Terminal;
+      Entry.Hidden := app.Hidden;
+      // Set Exec as last because it uses other fields of Entry.
+      Result := TranslateAppExecToCmdLine(@Entry, Filenames);
 
-    g_free(desktopFile);
-    g_free(app.DisplayName);
-    g_free(app.Comment);
-    g_free(app.Exec);
-    g_free(app.IconName);
+      g_free(desktopFile);
+      g_free(app.DisplayName);
+      g_free(app.Comment);
+      g_free(app.Exec);
+      g_free(app.IconName);
+    end;
   end;
 
   // Free resources
