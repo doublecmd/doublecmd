@@ -1154,7 +1154,8 @@ procedure TFileViewWithMainCtrl.WorkerFinished(const Worker: TFileViewWorker);
 begin
   inherited WorkerFinished(Worker);
   MainControl.Cursor := crDefault;
-  UpdateInfoPanel; // Update status line only
+  // Update status line only
+  if not (csDestroying in ComponentState) then UpdateInfoPanel;
 end;
 
 procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
