@@ -185,11 +185,11 @@ uses
   Windows, JwaWinNetWk;
 {$ENDIF}
 {$IF DEFINED(UNIX)}
-  {$IF DEFINED(DARWIN)}
+  {$IF DEFINED(BSD)}
     {$DEFINE FPC_USE_LIBC}
   {$ENDIF}
 uses
-  {$IF NOT DEFINED(FPC_USE_LIBC)}
+  {$IF (NOT DEFINED(FPC_USE_LIBC)) OR (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   SysCall,
   {$ENDIF}
   BaseUnix, Unix, dl, DCStrUtils;
