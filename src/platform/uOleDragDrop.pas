@@ -280,8 +280,12 @@ begin
   AddFormat(CFU_PREFERRED_DROPEFFECT);
   AddFormat(CFU_FILENAME);
   AddFormat(CFU_FILENAMEW);
+  // URIs disabled for now. This implementation does not work correct.
+  // See bug http://doublecmd.sourceforge.net/mantisbt/view.php?id=692
+  {
   AddFormat(CFU_UNIFORM_RESOURCE_LOCATOR);
   AddFormat(CFU_UNIFORM_RESOURCE_LOCATORW);
+  }
   AddFormat(CFU_SHELL_IDLIST_ARRAY);
 end;
 
@@ -506,9 +510,10 @@ begin
         Result := CreateFileNames(True);
       end
 
-    // URIs disabled for now. It may be enough to just report that URL format
-    // is supported, but not actually format data this way.
-    {else if (formatEtc.CfFormat = CFU_UNIFORM_RESOURCE_LOCATOR) then
+    // URIs disabled for now. This implementation does not work correct.
+    // See bug http://doublecmd.sourceforge.net/mantisbt/view.php?id=692
+    {
+    else if (formatEtc.CfFormat = CFU_UNIFORM_RESOURCE_LOCATOR) then
 
       begin
         Result := CreateURIs(False);
@@ -518,7 +523,8 @@ begin
 
       begin
         Result := CreateURIs(True);
-      end}
+      end
+    }
 
     else if (formatEtc.CfFormat = CFU_SHELL_IDLIST_ARRAY) then
 
