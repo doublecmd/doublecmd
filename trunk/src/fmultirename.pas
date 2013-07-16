@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit fMultiRename;
@@ -687,7 +687,12 @@ begin
         end;
       '=':
         begin
-          Result:= FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource, True);
+          Result := FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource, True);
+          for Counter := 1 to Length(Result) - 1 do
+          begin
+            if Result[Counter] in ['\', '/', ':', '*', '?', '"', '<', '>', '|'] then
+              Result[Counter] := '.';
+          end;
         end;
       else
       begin
