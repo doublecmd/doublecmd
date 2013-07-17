@@ -5094,7 +5094,7 @@ msgstr "Ctrl+Alt+문자"
 #| msgid "Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
 msgid "&Letters"
-msgstr "Alt+문자"
+msgstr "문자"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 #, fuzzy
@@ -8103,7 +8103,7 @@ msgstr "\"%s\" 프리셋이 이미 존재합니다. 덮어쓸까요?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "선택한 파일/폴더 %s 개의 이름을 바꿀/이동할까요?"
+msgstr "선택한 파일/폴더 %d 개의 이름을 바꿀/이동할까요?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
@@ -9065,4 +9065,4 @@ msgstr "인코딩"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s 를 찾지 못했습니다!"
-
+
