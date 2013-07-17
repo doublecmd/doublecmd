@@ -3169,7 +3169,7 @@ begin
     SetLoadingFileListLongTime(False);
   end;
 
-  if Worker is TCalculateSpaceWorker then
+  if (Worker is TCalculateSpaceWorker) and (Worker.Aborted = False) then
   begin
     if TCalculateSpaceWorker(Worker).CompletedCalculations > 1 then
     begin
