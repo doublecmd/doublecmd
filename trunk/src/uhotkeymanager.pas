@@ -765,15 +765,15 @@ var
   NotAnXML: Boolean = False;
 begin
   try
+    Config := TXmlConfig.Create(FileName);
     try
-      Config := TXmlConfig.Create(FileName, True);
-      Load(Config, Config.RootNode);
-    except
-      on EXMLReadError do
-        NotAnXML := True;
+      if Config.Load then Load(Config, Config.RootNode);
+    finally
+      Config.Free;
     end;
-  finally
-    Config.Free;
+  except
+    on EXMLReadError do
+      NotAnXML := True;
   end;
 
   if NotAnXML then
