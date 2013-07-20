@@ -93,7 +93,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 16;
+  hkVersion     = 17;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -638,7 +638,8 @@ begin
   with HMForm.Hotkeys do
     begin
       AddIfNotExists(['F1'],[],'cm_About');
-      AddIfNotExists(['F2'],[],'cm_RenameOnly');
+      AddIfNotExists(['F2','','',
+                      'Shift+F6','',''],'cm_RenameOnly');
       AddIfNotExists(['F3'],[],'cm_View');
       AddIfNotExists(['F4'],[],'cm_Edit');
       AddIfNotExists(['F5'],[],'cm_Copy');
@@ -685,7 +686,6 @@ begin
       AddIfNotExists(['Shift+F2'],[],'cm_FocusCmdLine');
       AddIfNotExists(['Shift+F4'],[],'cm_EditNew');
       AddIfNotExists(['Shift+F5'],[],'cm_CopySamePanel');
-      AddIfNotExists(['Shift+F6'],[],'cm_RenameOnly');
       AddIfNotExists(['Shift+F10'],[],'cm_ContextMenu');
       AddIfNotExists(['Alt+V'],[],'cm_OperationsViewer');
       AddIfNotExists(['Alt+X'],[],'cm_Exit');
