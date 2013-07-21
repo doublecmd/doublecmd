@@ -102,6 +102,7 @@ constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                                aTargetPath: String);
 begin
   FMultiArchiveFileSource := aSourceFileSource as IMultiArchiveFileSource;
+  FPassword:= FMultiArchiveFileSource.Password;
   FFullFilesTreeToExtract:= nil;
   FFileExistsOption := fsoofeNone;
   FExtractWithoutPath:= False;
@@ -543,11 +544,10 @@ end;
 
 procedure TMultiArchiveCopyOutOperation.OnQueryString(str: string);
 var
-  sPassword: UTF8String;
   pcPassword: PAnsiChar;
 begin
-  ShowInputQuery(FMultiArchiveFileSource.MultiArcItem.FDescription, rsMsgPasswordEnter, True, sPassword);
-  pcPassword:= PAnsiChar(UTF8ToConsole(sPassword + #13#10));
+  ShowInputQuery(FMultiArchiveFileSource.MultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword);
+  pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + #13#10));
   FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
 end;
 

@@ -30,6 +30,7 @@ type
   { TOutputParser }
 
   TOutputParser = class
+    FPassword: UTF8String;
     FMultiArcItem: TMultiArcItem;
     FExProcess: TExProcess;
   private
@@ -66,6 +67,7 @@ type
     destructor Destroy; override;
     procedure Prepare;
     procedure Execute;
+    property Password: UTF8String read FPassword;
     property OnGetArchiveItem: TOnGetArchiveItem read FOnGetArchiveItem write FOnGetArchiveItem;
   end;
 
@@ -261,11 +263,10 @@ end;
 
 procedure TOutputParser.OnQueryString(str: string);
 var
-  sPassword: UTF8String;
   pcPassword: PAnsiChar;
 begin
-  ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, sPassword);
-  pcPassword:= PAnsiChar(UTF8ToConsole(sPassword + #13#10));
+  ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword);
+  pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + #13#10));
   FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
 end;
 
