@@ -17,6 +17,7 @@ type
   IMultiArchiveFileSource = interface(IArchiveFileSource)
     ['{71BF41D3-1E40-4E84-83BB-B6D3E0DEB6FC}']
 
+    function GetPassword: UTF8String;
     function GetArcFileList: TObjectList;
     function GetMultiArcItem: TMultiArcItem;
 
@@ -28,6 +29,7 @@ type
                            out NewFiles: TFiles;
                            out FilesCount: Int64; out FilesSize: Int64);
 
+    property Password: UTF8String read GetPassword;
     property ArchiveFileList: TObjectList read GetArcFileList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
   end;
@@ -36,6 +38,7 @@ type
 
   TMultiArchiveFileSource = class(TArchiveFileSource, IMultiArchiveFileSource)
   private
+    FPassword: UTF8String;
     FOutputParser: TOutputParser;
     FArcFileList : TObjectList;
     FMultiArcItem: TMultiArcItem;
@@ -44,6 +47,7 @@ type
     FLinkAttribute,
     FDirectoryAttribute: TFileAttrs;
 
+    function GetPassword: UTF8String;
     function GetMultiArcItem: TMultiArcItem;
     procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
 
@@ -112,6 +116,7 @@ type
     }
     class function CheckAddonByExt(anArchiveType: String): Boolean;
 
+    property Password: UTF8String read GetPassword;
     property ArchiveFileList: TObjectList read GetArcFileList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
   end;
@@ -473,6 +478,11 @@ begin
   FArcFileList.Add(ArchiveItem);
 end;
 
+function TMultiArchiveFileSource.GetPassword: UTF8String;
+begin
+  Result:= FPassword;
+end;
+
 function TMultiArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 var
   I : Integer;
@@ -502,6 +512,7 @@ begin
 
     FOutputParser.Prepare;
     FOutputParser.Execute;
+    FPassword:= FOutputParser.Password;
 
     (* if archiver does not give a list of folders *)
     for I := 0 to FAllDirsList.Count - 1 do
