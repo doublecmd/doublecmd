@@ -543,6 +543,22 @@ procedure TfrmOptionsEditorColors.GeneralCheckBoxOnChange(Sender: TObject);
 var
   TheColorBox: TColorBox;
   AttrToEdit: TSynHighlighterAttributes;
+
+  procedure SetCheckBoxStyle(CheckBox: TCheckBox; style: TFontStyle);
+  begin
+    if hafStyleMask in AttrToEdit.Features then
+      TextStyleRadioOnChange(Sender)
+    else
+    if CheckBox.Checked xor (style in AttrToEdit.Style) then
+    begin
+      if CheckBox.Checked then
+        AttrToEdit.Style := AttrToEdit.Style + [style]
+      else
+        AttrToEdit.Style := AttrToEdit.Style - [style];
+      UpdateCurrentScheme;
+    end;
+  end;
+
 begin
   if FCurHighlightElement = nil then Exit;
 
@@ -592,61 +608,17 @@ begin
     UpdatingColor := False;
   end;
 
-  if Sender = TextBoldCheckBox then begin
-    if hafStyleMask in AttrToEdit.Features then
-      TextStyleRadioOnChange(Sender)
-    else
-    if TextBoldCheckBox.Checked xor (fsBold in AttrToEdit.Style) then
-    begin
-      if TextBoldCheckBox.Checked then
-        AttrToEdit.Style := AttrToEdit.Style + [fsBold]
-      else
-        AttrToEdit.Style := AttrToEdit.Style - [fsBold];
-      UpdateCurrentScheme;
-    end;
-  end;
+  if Sender = TextBoldCheckBox then
+    SetCheckBoxStyle(TextBoldCheckBox, fsBold);
 
-  if Sender = TextItalicCheckBox then begin
-    if hafStyleMask in AttrToEdit.Features then
-      TextStyleRadioOnChange(Sender)
-    else
-    if TextItalicCheckBox.Checked xor (fsItalic in AttrToEdit.Style) then
-    begin
-      if TextItalicCheckBox.Checked then
-        AttrToEdit.Style := AttrToEdit.Style + [fsItalic]
-      else
-        AttrToEdit.Style := AttrToEdit.Style - [fsItalic];
-      UpdateCurrentScheme;
-    end;
-  end;
+  if Sender = TextItalicCheckBox then
+    SetCheckBoxStyle(TextItalicCheckBox, fsItalic);
 
-  if Sender = TextUnderlineCheckBox then begin
-    if hafStyleMask in AttrToEdit.Features then
-      TextStyleRadioOnChange(Sender)
-    else
-    if TextUnderlineCheckBox.Checked xor (fsUnderline in AttrToEdit.Style) then
-    begin
-      if TextUnderlineCheckBox.Checked then
-        AttrToEdit.Style := AttrToEdit.Style + [fsUnderline]
-      else
-        AttrToEdit.Style := AttrToEdit.Style - [fsUnderline];
-      UpdateCurrentScheme;
-    end;
-  end;
+  if Sender = TextUnderlineCheckBox then
+    SetCheckBoxStyle(TextUnderlineCheckBox, fsUnderline);
 
-  if Sender = TextStrikeOutCheckBox then begin
-    if hafStyleMask in AttrToEdit.Features then
-      TextStyleRadioOnChange(Sender)
-    else
-    if TextStrikeOutCheckBox.Checked xor (fsStrikeOut in AttrToEdit.Style) then
-    begin
-      if TextStrikeOutCheckBox.Checked then
-        AttrToEdit.Style := AttrToEdit.Style + [fsStrikeOut]
-      else
-        AttrToEdit.Style := AttrToEdit.Style - [fsStrikeOut];
-      UpdateCurrentScheme;
-    end;
-  end;
+  if Sender = TextStrikeOutCheckBox then
+    SetCheckBoxStyle(TextStrikeOutCheckBox, fsStrikeOut);
 end;
 
 procedure TfrmOptionsEditorColors.pnlElementAttributesResize(Sender: TObject); //+++

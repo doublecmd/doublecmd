@@ -11,7 +11,7 @@ uses
   SynHighlighterUNIXShellScript, SynHighlighterPHP, SynHighlighterTeX,
   SynHighlighterSQL, SynHighlighterPerl, SynHighlighterCss,
   SynHighlighterPython, SynHighlighterDiff, SynHighlighterVB, SynHighlighterBat,
-  SynHighlighterIni;
+  SynHighlighterIni, SynHighlighterPo;
 
 
 const
@@ -41,6 +41,7 @@ type
     SynPasSyn1: TSynPasSyn;
     SynPerlSyn1: TSynPerlSyn;
     SynPHPSyn1: TSynPHPSyn;
+    SynPoSyn1: TSynPoSyn;
     SynPythonSyn1: TSynPythonSyn;
     SynSQLSyn1: TSynSQLSyn;
     SynTeXSyn1: TSynTeXSyn;
@@ -68,6 +69,27 @@ type
     property Changed: Boolean read FChanged write FChanged;
   end;
 
+{$if lcl_fullversion >= 1010000}
+
+  TSynHighlighterAttrFeature =
+    ( hafBackColor, hafForeColor, hafFrameColor,
+      hafStyle, hafStyleMask,
+      hafFrameStyle, hafFrameEdges
+    );
+  TSynHighlighterAttrFeatures = set of TSynHighlighterAttrFeature;
+
+  { TSynHighlighterAttributesHelper }
+
+  TSynHighlighterAttributesHelper = class helper for TSynHighlighterAttributes
+  private
+    function GetFeatures: TSynHighlighterAttrFeatures;
+    procedure SetFeatures(AValue: TSynHighlighterAttrFeatures);
+  public
+    property Features: TSynHighlighterAttrFeatures read GetFeatures write SetFeatures;
+  end;
+
+{$endif}
+
 var
   dmHighl: TdmHighl;
 
@@ -77,11 +99,7 @@ implementation
 
 uses
   Graphics, SynEditTypes, uHighlighterProcs, DCXmlConfig, uGlobsPaths,
-  DCClassesUtf8, DCOSUtils, uLng
-{$IF lcl_fullversion >= 093100}
-  , SynHighlighterPo
-{$ENDIF}
-  ;
+  DCClassesUtf8, DCOSUtils, uLng;
 
 const
   csDefaultName = 'editor.col';
@@ -115,9 +133,6 @@ begin
 {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
   SynPlainTextHighlighter:= TSynPlainTextHighlighter.Create(Self);
 {$POP}
-{$IF lcl_fullversion >= 093100}
-  TSynPoSyn.Create(Self).Tag:= 1; // Will be destroyed by owner
-{$ENDIF}
   GetHighlighters(Self, SynHighlighterList, False);
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
@@ -329,7 +344,6 @@ begin
         FormNode := Config.FindNode(Root, 'Highlighter');
         if Assigned(FormNode) then
         begin
-          FormNode:= FormNode.FirstChild;
           while Assigned(FormNode) do
           begin
             LanguageName:= Config.GetAttr(FormNode, 'Name', EmptyStr);
@@ -340,7 +354,6 @@ begin
               AttributeNode := Config.FindNode(FormNode, 'Attribute');
               if Assigned(AttributeNode) then
               begin
-                AttributeNode := AttributeNode.FirstChild;
                 while Assigned(AttributeNode) do
                 begin
                   AttributeName:= Config.GetAttr(AttributeNode, 'Name', EmptyStr);;
@@ -449,6 +462,25 @@ begin
   SynEdit.Color:= Attribute.Background;
   SynEdit.Font.Color:= Attribute.Foreground;
 end;
+
+{$if lcl_fullversion >= 1010000}
+
+{ TSynHighlighterAttributesHelper }
+
+function TSynHighlighterAttributesHelper.GetFeatures: TSynHighlighterAttrFeatures;
+begin
+  if SameText(StoredName, SYNS_XML_DefaultText) then
+    Result:= [hafBackColor, hafForeColor]
+  else
+    Result:= [hafBackColor, hafForeColor, hafFrameColor, hafStyle, hafFrameStyle, hafFrameEdges];
+end;
+
+procedure TSynHighlighterAttributesHelper.SetFeatures(AValue: TSynHighlighterAttrFeatures);
+begin
+
+end;
+
+{$endif}
 
 end.
 
