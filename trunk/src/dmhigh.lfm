@@ -35,7 +35,6 @@ object dmHighl: TdmHighl
   end
   object SynCppSyn1: TSynCppSyn
     Tag = 1
-    DefaultFilter = 'C++ Files (*.c,*.cpp,*.h,*.hpp)|*.c;*.cpp;*.h;*.hpp'
     Enabled = False
     AsmAttri.Foreground = clGreen
     AsmAttri.FrameEdges = sfeAround
@@ -59,7 +58,6 @@ object dmHighl: TdmHighl
     top = 8
   end
   object SynJavaSyn1: TSynJavaSyn
-    DefaultFilter = 'Java Files (*.java)|*.java'
     Enabled = False
     CommentAttri.Foreground = clBlue
     CommentAttri.FrameEdges = sfeAround
@@ -82,7 +80,6 @@ object dmHighl: TdmHighl
   end
   object SynHTMLSyn1: TSynHTMLSyn
     Tag = 1
-    DefaultFilter = 'HTML Document (*.htm,*.html)|*.htm;*.html'
     Enabled = False
     AndAttri.FrameEdges = sfeAround
     ASPAttri.FrameEdges = sfeAround
@@ -99,7 +96,6 @@ object dmHighl: TdmHighl
   end
   object SynXMLSyn1: TSynXMLSyn
     Tag = 1
-    DefaultFilter = 'XML Document (*.xml,*.xsd,*.xsl,*.xslt,*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd'
     Enabled = False
     ElementAttri.FrameEdges = sfeAround
     AttributeAttri.FrameEdges = sfeAround
@@ -120,7 +116,6 @@ object dmHighl: TdmHighl
   end
   object SynLFMSyn1: TSynLFMSyn
     Tag = 1
-    DefaultFilter = 'Lazarus Form Files (*.lfm)|*.lfm'
     Enabled = False
     CommentAttri.Foreground = clBlue
     CommentAttri.FrameEdges = sfeAround
@@ -137,7 +132,6 @@ object dmHighl: TdmHighl
   end
   object SynUNIXShellScriptSyn1: TSynUNIXShellScriptSyn
     Tag = 1
-    DefaultFilter = 'UNIX Shell Scripts (*.sh)|*.sh'
     Enabled = False
     CommentAttri.FrameEdges = sfeAround
     IdentifierAttri.FrameEdges = sfeAround
@@ -153,7 +147,6 @@ object dmHighl: TdmHighl
   end
   object SynPHPSyn1: TSynPHPSyn
     Tag = 1
-    DefaultFilter = 'PHP Files (*.php,*.php3,*.phtml,*.inc)|*.php;*.php3;*.phtml;*.inc'
     Enabled = False
     CommentAttri.Foreground = clBlue
     CommentAttri.FrameEdges = sfeAround
@@ -174,7 +167,6 @@ object dmHighl: TdmHighl
   end
   object SynTeXSyn1: TSynTeXSyn
     Tag = 1
-    DefaultFilter = 'TeX Files (*.tex)|*.tex'
     Enabled = False
     CommentAttri.FrameEdges = sfeAround
     TextAttri.FrameEdges = sfeAround
@@ -188,7 +180,6 @@ object dmHighl: TdmHighl
   end
   object SynSQLSyn1: TSynSQLSyn
     Tag = 1
-    DefaultFilter = 'SQL Files (*.sql)|*.sql'
     Enabled = False
     CommentAttri.Foreground = clBlue
     CommentAttri.FrameEdges = sfeAround
@@ -216,7 +207,6 @@ object dmHighl: TdmHighl
   end
   object SynPerlSyn1: TSynPerlSyn
     Tag = 1
-    DefaultFilter = 'Perl Files (*.pl,*.pm,*.cgi)|*.pl;*.pm;*.cgi'
     Enabled = False
     CommentAttri.Foreground = clBlue
     CommentAttri.FrameEdges = sfeAround
@@ -239,7 +229,6 @@ object dmHighl: TdmHighl
   end
   object SynCssSyn1: TSynCssSyn
     Tag = 1
-    DefaultFilter = 'Cascading Stylesheets (*.css)|*.css'
     Enabled = False
     CommentAttri.Foreground = clBlue
     CommentAttri.FrameEdges = sfeAround
@@ -258,7 +247,6 @@ object dmHighl: TdmHighl
   end
   object SynPythonSyn1: TSynPythonSyn
     Tag = 1
-    DefaultFilter = 'Файлы Python (*.py)|*.py'
     Enabled = False
     CommentAttri.FrameEdges = sfeAround
     IdentifierAttri.FrameEdges = sfeAround
@@ -315,7 +303,6 @@ object dmHighl: TdmHighl
   end
   object SynBatSyn1: TSynBatSyn
     Tag = 1
-    DefaultFilter = 'Пакетные файлы MS-DOS (*.bat;*.cmd)|*.bat;*.cmd'
     Enabled = False
     CommentAttri.Foreground = clBlue
     CommentAttri.FrameEdges = sfeAround
@@ -331,7 +318,6 @@ object dmHighl: TdmHighl
   end
   object SynIniSyn1: TSynIniSyn
     Tag = 1
-    DefaultFilter = 'INI-файлы (*.ini)|*.ini'
     Enabled = False
     CommentAttri.FrameEdges = sfeAround
     TextAttri.FrameEdges = sfeAround
@@ -342,6 +328,16 @@ object dmHighl: TdmHighl
     StringAttri.FrameEdges = sfeAround
     SymbolAttri.FrameEdges = sfeAround
     left = 168
+    top = 200
+  end
+  object SynPoSyn1: TSynPoSyn
+    Tag = 1
+    Enabled = False
+    CommentAttri.FrameEdges = sfeAround
+    TextAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    left = 240
     top = 200
   end
 end
