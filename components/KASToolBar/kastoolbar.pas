@@ -558,42 +558,38 @@ var
     BitmapTmp: TBitmap = nil;
     sText: String;
   begin
-    if Depth < 10 then
+    for I := 0 to MenuItem.SubItems.Count - 1 do
     begin
-      Inc(Depth);
-      for I := 0 to MenuItem.SubItems.Count - 1 do
+      Item := MenuItem.SubItems.Items[I];
+      if Item is TKASSeparatorItem then
       begin
-        Item := MenuItem.SubItems.Items[I];
-        if Item is TKASSeparatorItem then
+        PopupMenu.AddSeparator;
+      end
+      else
+      begin
+        PopupMenuItem := TMenuItem.Create(PopupMenu);
+        sText := Item.GetEffectiveText;
+        if sText = '' then
+          sText := Item.GetEffectiveHint;
+        PopupMenuItem.Caption := sText;
+
+        if Item is TKASNormalItem then
         begin
-          PopupMenu.AddSeparator;
-        end
-        else
-        begin
-          PopupMenuItem := TMenuItem.Create(PopupMenu);
-          sText := Item.GetEffectiveText;
-          if sText = '' then
-            sText := Item.GetEffectiveHint;
-          PopupMenuItem.Caption := sText;
+          if Assigned(FOnLoadButtonGlyph) then
+            BitmapTmp := FOnLoadButtonGlyph(Item, 16, clMenu);
+          if not Assigned(BitmapTmp) then
+            BitmapTmp := LoadBtnIcon(TKASNormalItem(Item).Icon);
 
-          if Item is TKASNormalItem then
-          begin
-            if Assigned(FOnLoadButtonGlyph) then
-              BitmapTmp := FOnLoadButtonGlyph(Item, 16, clMenu);
-            if not Assigned(BitmapTmp) then
-              BitmapTmp := LoadBtnIcon(TKASNormalItem(Item).Icon);
-
-            PopupMenuItem.Bitmap := BitmapTmp;
-            FreeAndNil(BitmapTmp);
-          end;
-
-          PopupMenuItem.Tag := PtrInt(Item);
-          PopupMenuItem.OnClick := TNotifyEvent(@ToolMenuClicked);
-          PopupMenu.Add(PopupMenuItem);
-
-          if Item is TKASMenuItem then
-            MakeMenu(PopupMenuItem, TKASMenuItem(Item));
+          PopupMenuItem.Bitmap := BitmapTmp;
+          FreeAndNil(BitmapTmp);
         end;
+
+        PopupMenuItem.Tag := PtrInt(Item);
+        PopupMenuItem.OnClick := TNotifyEvent(@ToolMenuClicked);
+        PopupMenu.Add(PopupMenuItem);
+
+        if Item is TKASMenuItem then
+          MakeMenu(PopupMenuItem, TKASMenuItem(Item));
       end;
     end;
   end;
