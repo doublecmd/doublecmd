@@ -55,9 +55,12 @@ function UTF16CharLen(utf16char: Word): Integer;
 function utf16PairToUnicode(u1, u2: Word): Cardinal;
 
 function Utf16LEToUtf8(const s: string): string; // UTF16-LE 2 or 4 byte little endian
-function Utf16BEToUtf8(const s: string): string; // UTF16-BE 2 or 4 byte little endian
+function Utf16BEToUtf8(const s: string): string; // UTF16-BE 2 or 4 byte big endian
 function Utf32LEToUtf8(const s: string): string; // UTF32-LE 4 byte little endian
 function Utf32BEToUtf8(const s: string): string; // UTF32-BE 4 byte big endian
+
+function Utf8ToUtf16LE(const s: string): string; // UTF16-LE 2 or 4 byte little endian
+function Utf8ToUtf16BE(const s: string): string; // UTF16-BE 2 or 4 byte big endian
 
 {en
    Replaces invalid UTF-8 characters with '?'.
@@ -67,7 +70,7 @@ function Utf8ReplaceBroken(const s: UTF8String): UTF8String;
 implementation
 
 uses
-  LCLProc;
+  LCLProc, LazUTF8;
 
 const
   maxUTF8Len = 7;  // really is 4, but this includes any invalid characters up to length 7
@@ -394,6 +397,68 @@ begin
   SetLength(Result,len);
 end;
 
+function Utf8ToUtf16LE(const s: string): string;
+var
+  P: PWord;
+  I, L: SizeUInt;
+begin
+  if Length(S) = 0 then
+  begin
+    Result := '';
+    Exit;
+  end;
+  // Wide chars of UTF-16 <= bytes of UTF-8 string
+  SetLength(Result, Length(S) * SizeOf(WideChar));
+  if ConvertUTF8ToUTF16(PWideChar(PAnsiChar(Result)), Length(Result) + SizeOf(WideChar),
+                        PAnsiChar(S), Length(S), [toInvalidCharToSymbol], L) <> trNoError
+  then
+    Result := ''
+  else
+    begin
+      SetLength(Result, (L - 1) * SizeOf(WideChar));
+      // Swap endian if needed
+      if (NtoLE($FFFE) <> $FFFE) then
+      begin
+        P := PWord(PAnsiChar(Result));
+        for I := 0 to L - 1 do
+        begin
+          P[I] := SwapEndian(P[I]);
+        end;
+      end;
+    end;
+end;
+
+function Utf8ToUtf16BE(const s: string): string;
+var
+  P: PWord;
+  I, L: SizeUInt;
+begin
+  if Length(S) = 0 then
+  begin
+    Result := '';
+    Exit;
+  end;
+  // Wide chars of UTF-16 <= bytes of UTF-8 string
+  SetLength(Result, Length(S) * SizeOf(WideChar));
+  if ConvertUTF8ToUTF16(PWideChar(PAnsiChar(Result)), Length(Result) + SizeOf(WideChar),
+                        PAnsiChar(S), Length(S), [toInvalidCharToSymbol], L) <> trNoError
+  then
+    Result := ''
+  else
+    begin
+      SetLength(Result, (L - 1) * SizeOf(WideChar));
+      // Swap endian if needed
+      if (NtoBE($FEFF) <> $FEFF) then
+      begin
+        P := PWord(PAnsiChar(Result));
+        for I := 0 to L - 1 do
+        begin
+          P[I] := SwapEndian(P[I]);
+        end;
+      end;
+    end;
+end;
+
 function Utf8ReplaceBroken(const s: UTF8String): UTF8String;
 var
   Src, Dst, LastGoodPos: PByte;
@@ -450,4 +515,4 @@ begin
 end;
 
 end.
-
+

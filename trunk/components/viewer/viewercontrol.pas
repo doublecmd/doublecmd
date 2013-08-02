@@ -2801,9 +2801,9 @@ begin
     veUtf8, veUtf8bom:
       Result := sText;
     veUtf16be:
-      Result := '';//Utf8ToUtf16BE(sText);
+      Result := Utf8ToUtf16BE(sText);
     veUtf16le:
-      Result := '';//Utf8ToUtf16LE(sText);
+      Result := Utf8ToUtf16LE(sText);
     veUtf32be:
       Result := '';//Utf8ToUtf32BE(sText);
     veUtf32le:
