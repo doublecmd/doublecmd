@@ -1006,7 +1006,7 @@ begin
   ExtractOptions := [];
   FStatus := asIdle;
   FOnProgress := DoProgress;
-  BaseDirectory := ExtractFilePath(ParamStr(0));
+  // BaseDirectory := ExtractFilePath(ParamStr(0));
 end;
 { -------------------------------------------------------------------------- }
 constructor TAbArchive.Create(const FileName : string; Mode : Word);

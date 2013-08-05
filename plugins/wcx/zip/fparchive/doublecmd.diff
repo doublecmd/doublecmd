@@ -90,7 +90,15 @@ Index: AbArcTyp.pas
  function TAbArchiveItem.GetStoredPath : string;
  begin
    Result := ExtractFilePath(DiskFileName);
-@@ -980,7 +1013,7 @@
+@@ -973,14 +1006,14 @@
+   ExtractOptions := [];
+   FStatus := asIdle;
+   FOnProgress := DoProgress;
+-  BaseDirectory := ExtractFilePath(ParamStr(0));
++  // BaseDirectory := ExtractFilePath(ParamStr(0));
+ end;
+ { -------------------------------------------------------------------------- }
+ constructor TAbArchive.Create(const FileName : string; Mode : Word);
    {create an archive by opening a filestream on filename with the given mode}
  begin
    FOwnsStream := True;
