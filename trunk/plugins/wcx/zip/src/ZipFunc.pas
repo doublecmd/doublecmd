@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2013  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -94,7 +94,7 @@ var
 implementation
 
 uses
-  SysUtils, ZipConfDlg, IniFiles, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
+  SysUtils, ZipConfDlg, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
 
 procedure StringToArrayW(src: WideString;
                          pDst: PWideChar;
@@ -149,7 +149,7 @@ begin
     on EWriteError do
       ArchiveData.OpenResult := E_EWRITE;
     else
-      ;
+      ArchiveData.OpenResult := -1;
   end;
 
   if (Result = 0) and Assigned(Arc) then
@@ -188,7 +188,7 @@ begin
     on EWriteError do
       ArchiveData.OpenResult := E_EWRITE;
     else
-      ;
+      ArchiveData.OpenResult := -1;
   end;
 
   if (Result = 0) and Assigned(Arc) then
@@ -752,20 +752,11 @@ begin
 end;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
-var
-  gIni: TIniFile;
 begin
   gStartupInfo:= StartupInfo^;
-
-  // load configuration from ini file
-  gIni:= TIniFile.Create(gStartupInfo.PluginConfDir + IniFileName);
-  try
-    LoadConfig;
-  finally
-    gIni.Free;
-  end;
+  // Load configuration from ini file
+  LoadConfig;
 end;
-
 
 { TAbZipKitEx }
 
