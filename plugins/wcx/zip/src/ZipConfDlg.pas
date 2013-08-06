@@ -3,9 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.bz2, *.tar, *.tgz, *.tbz archives
 
-
-   Copyright (C) 2008-2012  Alexander Koblov (alexx2000@mail.ru)
-
+   Copyright (C) 2008-2013  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -41,7 +39,7 @@ procedure SaveConfig;
   
 implementation
 
-uses ZipFunc, AbZipTyp, IniFiles;
+uses ZipFunc, AbZipTyp, DCClassesUtf8;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
@@ -141,9 +139,9 @@ end;
 
 procedure LoadConfig;
 var
-  gIni: TIniFile;
+  gIni: TIniFileEx;
 begin
-  gIni:= TIniFile.Create(gStartupInfo.PluginConfDir + IniFileName);
+  gIni:= TIniFileEx.Create(gStartupInfo.PluginConfDir + IniFileName);
   try
     gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 2));
     gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
@@ -155,9 +153,9 @@ end;
 
 procedure SaveConfig;
 var
-  gIni: TIniFile;
+  gIni: TIniFileEx;
 begin
-  gIni:= TIniFile.Create(gStartupInfo.PluginConfDir + IniFileName);
+  gIni:= TIniFileEx.Create(gStartupInfo.PluginConfDir + IniFileName);
   try
     gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
     gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
