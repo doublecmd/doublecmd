@@ -10,6 +10,11 @@
       <SearchPaths>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+begin
+  CustomOptions += '-fPIC';
+  UsageCustomOptions += '-fPIC';
+end"/>
       <Parsing>
         <SyntaxOptions>
           <IncludeAssertionCode Value="True"/>
@@ -30,7 +35,6 @@
         <CompilerMessages>
           <MsgFileName Value=""/>
         </CompilerMessages>
-        <CustomOptions Value="-fPIC"/>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
@@ -81,7 +85,6 @@
       </Item2>
     </RequiredPkgs>
     <UsageOptions>
-      <CustomOptions Value="-fPIC"/>
       <UnitPath Value="$(PkgOutDir)"/>
     </UsageOptions>
     <PublishOptions>
