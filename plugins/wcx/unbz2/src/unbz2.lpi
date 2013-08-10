@@ -48,7 +48,12 @@
       <OtherUnitFiles Value="..\bzip2;..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
-    <Conditionals Value="if TargetOS = 'darwin' then
+    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+begin
+  CustomOptions += '-fPIC';
+end;
+
+if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
 end;"/>
@@ -69,11 +74,6 @@ end;"/>
       <CompilerMessages>
         <UseMsgFile Value="True"/>
       </CompilerMessages>
-      <ConfigFile>
-        <CustomConfigFile Value="True"/>
-        <ConfigFilePath Value="fpc-extra.cfg"/>
-      </ConfigFile>
-      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
