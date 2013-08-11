@@ -88,16 +88,6 @@ uses
   DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard, DCOSUtils,
   uOSUtils, uKeyFile;
 
-type
-  TCDesktopFileEntry = record
-    DisplayName: PChar;
-    Comment: PChar;
-    Exec: PChar;
-    IconName: PChar;
-    Terminal: gboolean;
-    Hidden: gboolean;
-  end;
-
 const  
   libmime = 'libmime';
 
@@ -108,7 +98,6 @@ function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdec
 function mime_type_get_by_file(filepath: PChar; stat: Pointer; basename: PChar): PChar; cdecl; external libmime;
 function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external libmime;
 function mime_type_locate_desktop_file(DirectoryToCheck: PChar; DesktopFileId: PChar): PChar; cdecl; external libmime;
-function mime_get_desktop_entry(DesktopFileName: PChar): TCDesktopFileEntry; cdecl; external libmime;
 
 function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
                                    const fileList: TStringList): String;
@@ -233,7 +222,7 @@ var
   mimeApps: TIniFileEx = nil;
   mimeAppsList: array[1..2] of String = (mimeApps1, mimeApps2);
 
-  function ParseActions(const Actions: String; out ActionList: TStringList): Boolean;
+  function ParseActions(const Actions: String; var ActionList: TStringList): Boolean;
   var
     startIndex,
     finishIndex: LongInt;
@@ -264,13 +253,16 @@ begin
   if (mbFileExists(mimeAppsList[I])) then
   try
     mimeApps:= TIniFileEx.Create(mimeAppsList[I], fmOpenRead or fmShareDenyNone);
-    sTemp:= mimeApps.ReadString('Added Associations', mimeType, EmptyStr);
-    if (Length(sTemp) <> 0) then ParseActions(sTemp, Added);
-    sTemp:= mimeApps.ReadString('Removed Associations', mimeType, EmptyStr);
-    if (Length(sTemp) <> 0) then ParseActions(sTemp, Removed);
-  finally
-    if Assigned(mimeApps) then
+    try
+      sTemp:= mimeApps.ReadString('Added Associations', mimeType, EmptyStr);
+      if (Length(sTemp) <> 0) then ParseActions(sTemp, Added);
+      sTemp:= mimeApps.ReadString('Removed Associations', mimeType, EmptyStr);
+      if (Length(sTemp) <> 0) then ParseActions(sTemp, Removed);
+    finally
       FreeAndNil(mimeApps);
+    end;
+  except
+    // Continue
   end;
 end;
 
@@ -280,7 +272,6 @@ var
   actions: PPChar;
   desktopFile: PChar;
   i: Integer;
-  app: TCDesktopFileEntry;
   Entry: PDesktopFileEntry;
   Added, Removed: TStringList;
 
@@ -289,36 +280,18 @@ var
     desktopFile := mime_type_locate_desktop_file(nil, action);
     if Assigned(desktopFile) then
     begin
-      app := mime_get_desktop_entry(desktopFile);
+      Entry := GetDesktopEntry(desktopFile);
 
-      New(Entry);
+      if Assigned(Entry) then
+      begin
+        Entry^.MimeType := StrPas(mimeType);
+        // Set Exec as last because it uses other fields of Entry.
+        Entry^.Exec := TranslateAppExecToCmdLine(Entry, Filenames);
 
-      Entry^.DesktopFilePath := StrPas(desktopFile);
-      Entry^.MimeType := StrPas(mimeType);
-      Entry^.DisplayName := StrPas(app.DisplayName);
-      Entry^.Comment := StrPas(app.Comment);
-      Entry^.ExecWithParams := StrPas(app.Exec);
-      Entry^.IconName := StrPas(app.IconName);
-      Entry^.Terminal := app.Terminal;
-      Entry^.Hidden := app.Hidden;
-      // Set Exec as last because it uses other fields of Entry.
-      Entry^.Exec := TranslateAppExecToCmdLine(Entry, Filenames);
-
-      {
-        Some icon names in .desktop files are specified with an extension,
-        even though it is not allowed by the standard unless an absolute path
-        to the icon is supplied. We delete this extension here.
-      }
-      if GetPathType(Entry^.IconName) = ptNone then
-        Entry^.IconName := TIconTheme.CutTrailingExtension(Entry^.IconName);
-
-      Result.Add(Entry);
+        Result.Add(Entry);
+      end;
 
       g_free(desktopFile);
-      g_free(app.DisplayName);
-      g_free(app.Comment);
-      g_free(app.Exec);
-      g_free(app.IconName);
     end;
   end;
 
@@ -369,8 +342,7 @@ var
   action: PChar = nil;
   actions: PPChar = nil;
   desktopFile: PChar;
-  app: TCDesktopFileEntry;
-  Entry: TDesktopFileEntry;
+  Entry: PDesktopFileEntry;
   Added, Removed: TStringList;
 begin
   Result:= EmptyStr;
@@ -406,24 +378,17 @@ begin
     desktopFile := mime_type_locate_desktop_file(nil, action);
     if Assigned(desktopFile) then
     begin
-      app := mime_get_desktop_entry(desktopFile);
+      Entry := GetDesktopEntry(desktopFile);
 
-      Entry.DesktopFilePath := StrPas(desktopFile);
-      Entry.MimeType := StrPas(mimeType);
-      Entry.DisplayName := StrPas(app.DisplayName);
-      Entry.Comment := StrPas(app.Comment);
-      Entry.ExecWithParams := StrPas(app.Exec);
-      Entry.IconName := StrPas(app.IconName);
-      Entry.Terminal := app.Terminal;
-      Entry.Hidden := app.Hidden;
-      // Set Exec as last because it uses other fields of Entry.
-      Result := TranslateAppExecToCmdLine(@Entry, Filenames);
+      if Assigned(Entry) then
+      begin
+        Entry^.MimeType := StrPas(mimeType);
+        // Set Exec as last because it uses other fields of Entry.
+        Result := TranslateAppExecToCmdLine(Entry, Filenames);
+        Dispose(Entry);
+      end;
 
       g_free(desktopFile);
-      g_free(app.DisplayName);
-      g_free(app.Comment);
-      g_free(app.Exec);
-      g_free(app.IconName);
     end;
   end;
 
@@ -449,11 +414,16 @@ var
 begin
   try
     DesktopEntryFile:= TKeyFile.Create(FileName, fmOpenRead);
+    if not DesktopEntryFile.SectionExists(DESKTOP_GROUP) then
+    begin
+      DesktopEntryFile.Free;
+      Exit(nil);
+    end;
     try
       New(Result);
       with Result^, DesktopEntryFile do
       begin
-        DesktopFilePath := ExtractFileName(FileName);
+        DesktopFilePath := FileName;
         DisplayName     := ReadLocaleString(DESKTOP_GROUP, DESKTOP_KEY_NAME, EmptyStr);
         Comment         := ReadLocaleString(DESKTOP_GROUP, DESKTOP_KEY_COMMENT, EmptyStr);
         ExecWithParams  := ReadString(DESKTOP_GROUP, DESKTOP_KEY_EXEC, EmptyStr);
