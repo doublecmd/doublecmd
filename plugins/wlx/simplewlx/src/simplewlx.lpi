@@ -38,7 +38,7 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <Target>
       <Filename Value="../lib/simplewlx.wlx" ApplyConventions="False"/>
     </Target>
@@ -46,7 +46,12 @@
       <IncludeFiles Value="../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
-    <Conditionals Value="if TargetOS = 'darwin' then
+    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+begin
+  CustomOptions += '-fPIC';
+end;
+
+if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
 end;"/>
@@ -66,7 +71,6 @@ end;"/>
       <CompilerMessages>
         <UseMsgFile Value="True"/>
       </CompilerMessages>
-      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
