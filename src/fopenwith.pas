@@ -154,7 +154,7 @@ begin
   else if tvApplications.SelectionCount > 0 then
     begin
       DesktopFile:= PDesktopFileEntry(tvApplications.Selected.Data);
-      fneCommand.Text:= DesktopFile^.DesktopFilePath;
+      fneCommand.Text:= ExtractFileName(DesktopFile^.DesktopFilePath);
     end;
   if Assigned(DesktopFile) then
   begin
