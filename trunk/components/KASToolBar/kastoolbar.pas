@@ -716,12 +716,16 @@ begin
     if not Assigned(Bitmap) and (ToolButton.ToolItem is TKASNormalItem) then
       Bitmap := LoadBtnIcon(TKASNormalItem(ToolButton.ToolItem).Icon);
 
-    if (ToolButton.ToolItem is TKASMenuItem) and Assigned(Bitmap) then
-      DrawLinkIcon(Bitmap);
+    try
+      if (ToolButton.ToolItem is TKASMenuItem) and Assigned(Bitmap) then
+        DrawLinkIcon(Bitmap);
 
-    ToolButton.Glyph.Assign(Bitmap);
-  finally
-    Bitmap.Free;
+      ToolButton.Glyph.Assign(Bitmap);
+    finally
+      Bitmap.Free;
+    end;
+  except
+    // Ignore
   end;
 end;
 
