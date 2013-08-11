@@ -16,7 +16,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander"/>
+      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="default" Default="True"/>
@@ -60,7 +60,7 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\lib\ftp.wfx" ApplyConventions="False"/>
@@ -70,7 +70,12 @@
       <OtherUnitFiles Value="..\synapse;..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
-    <Conditionals Value="if TargetOS = 'darwin' then
+    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+begin
+  CustomOptions += '-fPIC';
+end;
+
+if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
 end;"/>
@@ -90,7 +95,6 @@ end;"/>
       <CompilerMessages>
         <UseMsgFile Value="True"/>
       </CompilerMessages>
-      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
