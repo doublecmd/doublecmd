@@ -1904,10 +1904,20 @@ end;
 function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
 var
   sExt: String;
+  fsFileHandle: System.THandle;
   fsFileStream: TFileStreamEx = nil;
+  gifHeader: array[0..5] of AnsiChar;
 begin
   sExt:= ExtractOnlyFileExt(sFilename);
-  if sExt <> 'gif' then
+  if SameText(sExt, 'gif') then
+  begin
+    fsFileHandle:= mbFileOpen(sFileName, fmOpenRead or fmShareDenyNone);
+    if (fsFileHandle = feInvalidHandle) then Exit(False);
+    FileRead(fsFileHandle, gifHeader, SizeOf(gifHeader));
+    FileClose(fsFileHandle);
+  end;
+  // GifAnim supports only GIF89a
+  if gifHeader <> 'GIF89a' then
     begin
       Image.Visible:= True;
       GifAnim.Visible:= False;
@@ -1915,19 +1925,19 @@ begin
         fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
         try
           Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
-          btnHightlight.Visible:=True;
-          btnPaint.Visible:=True;
-          btnResize.Visible:=True;
-          miImage.Visible:=True;
-          btnZoomIn.Visible:=true;
-          btnZoomOut.Visible:=true;
-          btn270.Visible:=true;
-          btn90.Visible:=true;
-          btnMirror.Visible:=true;
-          btnGifMove.Visible:=false;
-          btnGifToBmp.Visible:=false;
-          btnNextGifFrame.Visible:=false;
-          btnPrevGifFrame.Visible:=false;
+          btnHightlight.Visible:= True;
+          btnPaint.Visible:= True;
+          btnResize.Visible:= True;
+          miImage.Visible:= True;
+          btnZoomIn.Visible:= True;
+          btnZoomOut.Visible:= True;
+          btn270.Visible:= True;
+          btn90.Visible:= True;
+          btnMirror.Visible:= True;
+          btnGifMove.Visible:= False;
+          btnGifToBmp.Visible:= False;
+          btnNextGifFrame.Visible:= False;
+          btnPrevGifFrame.Visible:= False;
         finally
           FreeAndNil(fsFileStream);
         end;
@@ -1943,19 +1953,19 @@ begin
       Image.Visible:= False;
       try
         GifAnim.FileName:= UTF8ToSys(sFileName);
-        btnHightlight.Visible:=False;
-        btnPaint.Visible:=False;
-        btnResize.Visible:=False;
-        miImage.Visible:=False;
-        btnZoomIn.Visible:=false;
-        btnZoomOut.Visible:=false;
-        btn270.Visible:=false;
-        btn90.Visible:=false;
-        btnMirror.Visible:=false;
-        btnGifMove.Visible:=true;
-        btnGifToBmp.Visible:=true;
-        btnNextGifFrame.Visible:=true;
-        btnPrevGifFrame.Visible:=true;
+        btnHightlight.Visible:= False;
+        btnPaint.Visible:= False;
+        btnResize.Visible:= False;
+        miImage.Visible:= False;
+        btnZoomIn.Visible:= False;
+        btnZoomOut.Visible:= False;
+        btn270.Visible:= False;
+        btn90.Visible:= False;
+        btnMirror.Visible:= False;
+        btnGifMove.Visible:= True;
+        btnGifToBmp.Visible:= True;
+        btnNextGifFrame.Visible:= True;
+        btnPrevGifFrame.Visible:= True;
       except
         Exit(False);
       end;
