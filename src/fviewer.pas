@@ -1430,8 +1430,9 @@ begin
 
   FFindDialog:=nil; // dialog is created in first use
   
-  miStretch.Checked:= gImageStretch;
-  miPreview.Checked:= gPreviewVisible;
+  sboxImage.DoubleBuffered := True;
+  miStretch.Checked := gImageStretch;
+  miPreview.Checked := gPreviewVisible;
   ComboBoxPaint.Text := gImagePaintMode;
   ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
   ColorBoxPaint.Selected := gImagePaintColor;
