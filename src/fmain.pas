@@ -777,6 +777,13 @@ begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
 
+  {$IF DEFINED(DARWIN)}
+  // MainForm receives in Mac OS closing events on system shortcut Command-Q
+  // See details at http://doublecmd.sourceforge.net/mantisbt/view.php?id=712
+  Application.MainForm.OnClose := @frmMainClose;
+  Application.MainForm.OnCloseQuery := @FormCloseQuery;
+  {$ENDIF}
+
   ConvertToolbarBarConfig(gpCfgDir + 'default.bar');
   CreateDefaultToolbar;
 
