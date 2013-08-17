@@ -22,7 +22,7 @@ implementation
 
 uses
   Forms, Controls, Dialogs, LCLProc, LCLStrConsts, syncobjs,
-  uDebug, uLng, uGlobs, uDCVersion, DCOSUtils;
+  uDebug, uLng, uGlobs, uDCVersion, DCOSUtils, LazUTF8;
 
 type
   THandleException = class
