@@ -284,7 +284,7 @@ asm
 
         // Load MM4 with 128 to allow for saturated biasing.
         MOV     EAX, 128
-        DB      $0F, $6E, AlphaBlendLineConstant$E0          /// MOVD      MM4, EAX
+        DB      $0F, $6E, $E0          /// MOVD      MM4, EAX
         DB      $0F, $61, $E4          /// PUNPCKLWD MM4, MM4
         DB      $0F, $62, $E4          /// PUNPCKLDQ MM4, MM4
 

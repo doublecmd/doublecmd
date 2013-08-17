@@ -31,9 +31,6 @@
 }
 
 {$MACRO ON}
-{$if lcl_fullversion > 1000000}
-{$define TGtk2DeviceContext:=TGtkDeviceContext}
-{$endif}
 
 {$define HAS_GETBKCOLOR}
 {$define HAS_GETTEXTEXTENTEXPOINT}

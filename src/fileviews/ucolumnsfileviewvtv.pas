@@ -1490,8 +1490,8 @@ begin
     VK_UP, VK_DOWN:
       begin
         Node := FocusedNode;
-        if ((Node = GetLastNoInit) and (Key = VK_DOWN))
-        or ((Node = GetFirstNoInit) and (Key = VK_UP)) then
+        if ((Node = GetLastNoInit) and (SavedKey = VK_DOWN))
+        or ((Node = GetFirstNoInit) and (SavedKey = VK_UP)) then
           Message.CharCode := 0;
       end;
 {$ENDIF}
