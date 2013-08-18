@@ -374,6 +374,7 @@ implementation
 
 uses
   StrUtils,
+  LazUTF8,
   AbConst,
   AbExcept,
   DCOSUtils,

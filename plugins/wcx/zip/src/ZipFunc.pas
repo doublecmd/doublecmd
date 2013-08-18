@@ -94,7 +94,7 @@ var
 implementation
 
 uses
-  SysUtils, ZipConfDlg, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
+  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
 
 procedure StringToArrayW(src: WideString;
                          pDst: PWideChar;
