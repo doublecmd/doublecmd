@@ -168,6 +168,7 @@ function mbRemoveDir(const Dir: UTF8String): Boolean;
 }
 function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
 function mbCompareFileNames(const FileName1, FileName2: UTF8String): Boolean;
+function mbSameFile(const FileName1, FileName2: String): Boolean;
 { Other functions }
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
@@ -1147,6 +1148,57 @@ end;
 {$ELSE}
 begin
   Result:= (WideCompareStr(UTF8Decode(FileName1), UTF8Decode(FileName2)) = 0);
+end;
+{$ENDIF}
+
+function mbSameFile(const FileName1, FileName2: String): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+var
+  FileHandle1, FileHandle2: System.THandle;
+  FileInfo1, FileInfo2: BY_HANDLE_FILE_INFORMATION;
+begin
+  Result := mbCompareFileNames(FileName1, FileName2);
+
+  if not Result then
+  begin
+    FileHandle1 := CreateFileW(PWideChar(UTF8Decode(FileName1)), FILE_READ_ATTRIBUTES,
+        FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
+        nil, OPEN_EXISTING, 0, 0);
+
+    if FileHandle1 <> INVALID_HANDLE_VALUE then
+    begin
+      FileHandle2 := CreateFileW(PWideChar(UTF8Decode(FileName2)), FILE_READ_ATTRIBUTES,
+          FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
+          nil, OPEN_EXISTING, 0, 0);
+
+      if FileHandle2 <> INVALID_HANDLE_VALUE then
+      begin
+        if GetFileInformationByHandle(FileHandle1, FileInfo1) and
+           GetFileInformationByHandle(FileHandle2, FileInfo2) then
+        begin
+          // Check if both files have the same index on the same volume.
+          // This check is valid only while both files are open.
+          Result := (FileInfo1.dwVolumeSerialNumber = FileInfo2.dwVolumeSerialNumber) and
+                    (FileInfo1.nFileIndexHigh       = FileInfo2.nFileIndexHigh) and
+                    (FileInfo1.nFileIndexLow        = FileInfo2.nFileIndexLow);
+        end;
+        CloseHandle(FileHandle2);
+      end;
+      CloseHandle(FileHandle1);
+    end
+  end;
+end;
+{$ELSEIF DEFINED(UNIX)}
+var
+  File1Stat, File2Stat: stat;
+begin
+  Result := mbCompareFileNames(FileName1, FileName2) or
+            (
+              (fpLstat(UTF8ToSys(FileName1), File1Stat) = 0) and
+              (fpLstat(UTF8ToSys(FileName2), File2Stat) = 0) and
+              (File1Stat.st_ino = File2Stat.st_ino) and
+              (File1Stat.st_dev = File2Stat.st_dev)
+            );
 end;
 {$ENDIF}
 
