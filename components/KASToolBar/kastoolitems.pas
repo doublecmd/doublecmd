@@ -93,6 +93,10 @@ type
   strict private
     FID: String;            // Unique identificator of the button
     function GetID: String;
+  strict protected
+    procedure SaveHint(Config: TXmlConfig; Node: TXmlNode); virtual;
+    procedure SaveIcon(Config: TXmlConfig; Node: TXmlNode); virtual;
+    procedure SaveText(Config: TXmlConfig; Node: TXmlNode); virtual;
   public
     Icon: String;
     Text: String;
@@ -495,9 +499,24 @@ end;
 procedure TKASNormalItem.SaveContents(Config: TXmlConfig; Node: TXmlNode);
 begin
   Config.AddValue(Node, 'ID', ID);
-  Config.AddValueDef(Node, 'Text', Text, '');
-  Config.AddValueDef(Node, 'Icon', Icon, '');
+  SaveText(Config, Node);
+  SaveIcon(Config, Node);
+  SaveHint(Config, Node);
+end;
+
+procedure TKASNormalItem.SaveHint(Config: TXmlConfig; Node: TXmlNode);
+begin
   Config.AddValueDef(Node, 'Hint', Hint, '');
+end;
+
+procedure TKASNormalItem.SaveIcon(Config: TXmlConfig; Node: TXmlNode);
+begin
+  Config.AddValueDef(Node, 'Icon', Icon, '');
+end;
+
+procedure TKASNormalItem.SaveText(Config: TXmlConfig; Node: TXmlNode);
+begin
+  Config.AddValueDef(Node, 'Text', Text, '');
 end;
 
 { TKASToolBarItems }

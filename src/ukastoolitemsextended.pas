@@ -28,14 +28,20 @@ interface
 
 uses
   Classes, SysUtils, KASToolItems, KASToolBar, IniFiles, DCXmlConfig,
-  uDrive, DCBasicTypes;
+  uDrive, DCBasicTypes, uFormCommands;
 
 type
   { TKASCommandItem }
 
   TKASCommandItem = class(TKASNormalItem)
+  strict private
+    FCommands: IFormCommands;
+  strict protected
+    procedure SaveHint(Config: TXmlConfig; Node: TXmlNode); override;
+  public
     Command: String;
     Params:  TDynamicStringArray;
+    constructor Create(AFormCommands: IFormCommands); reintroduce;
     procedure Assign(OtherItem: TKASToolItem); override;
     function Clone: TKASToolItem; override;
     function ConfigNodeName: String; override;
@@ -72,17 +78,23 @@ type
   { TKASToolBarIniLoader }
 
   TKASToolBarIniLoader = class
-  private
+  strict private
+    FCommands: IFormCommands;
     FDepthLevel: Integer; // In case .bar files reference each other
   public
+    constructor Create(AFormCommands: IFormCommands); reintroduce;
     procedure Load(IniFileName: String; ToolBar: TKASToolBar; ToolItemMenu: TKASMenuItem; OnLoadIniItem: TOnLoadIniItem);
   end;
 
   { TKASToolBarExtendedLoader }
 
   TKASToolBarExtendedLoader = class(TKASToolBarLoader)
+  strict private
+    FCommands: IFormCommands;
   protected
     function CreateItem(Node: TXmlNode): TKASToolItem; override;
+  public
+    constructor Create(AFormCommands: IFormCommands); reintroduce;
   end;
 
 implementation
@@ -137,13 +149,18 @@ end;
 
 function TKASCommandItem.Clone: TKASToolItem;
 begin
-  Result := TKASCommandItem.Create;
+  Result := TKASCommandItem.Create(FCommands);
   Result.Assign(Self);
 end;
 
 function TKASCommandItem.ConfigNodeName: String;
 begin
   Result := CommandItemConfigNode;
+end;
+
+constructor TKASCommandItem.Create(AFormCommands: IFormCommands);
+begin
+  FCommands := AFormCommands;
 end;
 
 procedure TKASCommandItem.Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader);
@@ -159,6 +176,11 @@ begin
       AddString(Params, Config.GetContent(Node));
     Node := Node.NextSibling;
   end;
+
+  if Hint = EmptyStr then
+  begin
+    Hint := FCommands.GetCommandCaption(Command, cctLong);
+  end;
 end;
 
 procedure TKASCommandItem.SaveContents(Config: TXmlConfig; Node: TXmlNode);
@@ -169,6 +191,16 @@ begin
   Config.AddValue(Node, 'Command', Command);
   for AParam in Params do
     Config.AddValueDef(Node, 'Param', AParam, '');
+end;
+
+procedure TKASCommandItem.SaveHint(Config: TXmlConfig; Node: TXmlNode);
+begin
+  if Hint <> FCommands.GetCommandCaption(Command, cctLong) then
+  begin
+    Config.AddValueDef(Node, 'Hint', Hint, '');
+  end;
+  // else don't save default text for the hint so that a different text
+  // can be loaded if the language changes.
 end;
 
 { TKASProgramItem }
@@ -224,13 +256,18 @@ end;
 
 { TKASToolBarExtendedLoader }
 
+constructor TKASToolBarExtendedLoader.Create(AFormCommands: IFormCommands);
+begin
+  FCommands := AFormCommands;
+end;
+
 function TKASToolBarExtendedLoader.CreateItem(Node: TXmlNode): TKASToolItem;
 begin
   Result := inherited CreateItem(Node);
   if not Assigned(Result) then
   begin
     if Node.CompareName(CommandItemConfigNode) = 0 then
-      Result := TKASCommandItem.Create
+      Result := TKASCommandItem.Create(FCommands)
     else if Node.CompareName(ProgramItemConfigNode) = 0 then
       Result := TKASProgramItem.Create
     else if Node.CompareName(DriveItemConfigNode) = 0 then
@@ -239,6 +276,11 @@ begin
 end;
 
 { TKASToolBarIniLoader }
+
+constructor TKASToolBarIniLoader.Create(AFormCommands: IFormCommands);
+begin
+  FCommands := AFormCommands;
+end;
 
 procedure TKASToolBarIniLoader.Load(IniFileName: String; ToolBar: TKASToolBar; ToolItemMenu: TKASMenuItem; OnLoadIniItem: TOnLoadIniItem);
 var
@@ -272,7 +314,7 @@ begin
         end
         else if (Length(Command) > 3) and (Copy(Command, 1, 3) = 'cm_') then
         begin
-          CommandItem := TKASCommandItem.Create;
+          CommandItem := TKASCommandItem.Create(FCommands);
           CommandItem.Command := Command;
           CommandItem.Hint := Menu;
           CommandItem.Icon := Button;

@@ -325,7 +325,7 @@ procedure TfrmOptionsToolbar.LoadToolbar(ToolBar: TKASToolBar; Config: TXmlConfi
 var
   ToolBarLoader: TKASToolBarExtendedLoader;
 begin
-  ToolBarLoader := TKASToolBarExtendedLoader.Create;
+  ToolBarLoader := TKASToolBarExtendedLoader.Create(FFormCommands);
   try
     if Assigned(RootNode) then
       ToolBar.LoadConfiguration(Config, RootNode, ToolBarLoader);
@@ -403,7 +403,7 @@ begin
   begin
     case rgToolItemType.ItemIndex of
       0: ToolItem := TKASSeparatorItem.Create;
-      1: ToolItem := TKASCommandItem.Create;
+      1: ToolItem := TKASCommandItem.Create(FFormCommands);
       2: ToolItem := TKASProgramItem.Create;
       3: ToolItem := TKASMenuItem.Create;
     end;
@@ -485,7 +485,7 @@ function TfrmOptionsToolbar.AddNewSubToolbar(ToolItem: TKASMenuItem): TKASToolBa
 begin
   Result := CreateToolbar(ToolItem.SubItems);
   if Result.ButtonCount = 0 then
-    Result.AddButton(TKASCommandItem.Create);
+    Result.AddButton(TKASCommandItem.Create(FFormCommands));
 end;
 
 procedure TfrmOptionsToolbar.ApplyEditControls;
@@ -535,7 +535,7 @@ begin
 
   if Assigned(ToolBar) then
   begin
-    FCurrentButton := ToolBar.InsertButton(FCurrentButton, TKASCommandItem.Create);
+    FCurrentButton := ToolBar.InsertButton(FCurrentButton, TKASCommandItem.Create(FFormCommands));
     PressButtonDown(FCurrentButton);
   end;
 end;
