@@ -342,8 +342,11 @@ type
 
   EFileSourceException = class(Exception);
   EFileNotFound = class(EFileSourceException)
+  private
+    FFilePath: String;
   public
     constructor Create(const AFilePath: string); reintroduce;
+    property FilePath: String read FFilePath;
   end;
 
 var
@@ -352,7 +355,7 @@ var
 implementation
 
 uses
-  uDebug, uFileSourceListOperation;
+  uDebug, uFileSourceListOperation, uLng;
 
 { TFileSource }
 
@@ -904,7 +907,8 @@ end;
 
 constructor EFileNotFound.Create(const AFilePath: string);
 begin
-  inherited Create('File ' + aFilePath + ' not found.');
+  FFilePath := AFilePath;
+  inherited Create(Format(rsMsgFileNotFound, [aFilePath]));
 end;
 
 initialization

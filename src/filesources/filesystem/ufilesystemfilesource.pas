@@ -404,7 +404,15 @@ begin
       except
         on EFileNotFound do
           if not OmitNotExisting then
+          begin
+            FreeAndNil(Result);
             raise;
+          end;
+        on Exception do
+          begin
+            FreeAndNil(Result);
+            raise;
+          end;
       end;
     end;
   end;

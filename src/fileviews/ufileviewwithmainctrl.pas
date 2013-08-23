@@ -158,8 +158,8 @@ uses
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
 {$ENDIF}
-  LCLIntf, LCLProc, Forms,
-  fMain, uShowMsg, uLng, uFileProperty, uFileSourceOperationTypes,
+  LCLIntf, LCLProc, Forms, Dialogs,
+  fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil;
 
 type
@@ -917,11 +917,12 @@ end;
 
 function TFileViewWithMainCtrl.OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect; ScreenPoint: TPoint): Boolean;
 var
-  AFiles: TFiles;
+  AFiles: TFiles = nil;
   DropParams: TDropParams;
 begin
+  Result := False;
   if FileNamesList.Count > 0 then
-  begin
+  try
     AFiles := TFileSystemFileSource.CreateFilesFromFileList(
         ExtractFilePath(FileNamesList[0]), FileNamesList);
     try
@@ -930,14 +931,17 @@ begin
         nil, Self, Self.FileSource, Self.CurrentPath);
 
       frmMain.DropFiles(DropParams);
-    except
+
+      Result := True;
+    finally
       FreeAndNil(AFiles);
-      raise;
     end;
+  except
+    on e: EFileNotFound do
+      MessageDlg(e.Message, mtError, [mbOK], 0);
   end;
 
   SetDropFileIndex(-1);
-  Result := True;
 end;
 
 procedure TFileViewWithMainCtrl.SetDropFileIndex(NewFileIndex: PtrInt);

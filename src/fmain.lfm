@@ -11,7 +11,6 @@ object frmMain: TfrmMain
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnShow = frmMainShow
