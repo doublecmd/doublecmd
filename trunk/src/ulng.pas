@@ -29,8 +29,10 @@ interface
 uses
   LResources;
 resourcestring
+  // File operations.
   rsMsgNotDelete = 'Can not delete file %s';
   rsMsgCannotDeleteDirectory = 'Cannot delete directory %s';
+  rsMsgErrDirExists = 'Directory %s exists!';
   rsMsgErrRename = 'Cannot rename file %s to %s';
   rsMsgErrCannotCopyFile = 'Cannot copy file %s to %s';
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
@@ -44,6 +46,7 @@ resourcestring
   rsMsgDelFlDrT = 'Delete %d selected files/directories into trash can?';
   rsMsgDelSelT = 'Delete selected "%s" into trash can?';
   rsMsgDelToTrashForce = 'Can not delete "%s" to trash! Delete directly?';
+  rsMsgFileNotFound = 'File "%s" not found.';
   // ---
   rsMsgWipeFlDr = 'Wipe %d selected files/directories?';
   rsMsgWipeSel = 'Wipe selected "%s"?';
@@ -63,7 +66,6 @@ resourcestring
   rsMaskInput = 'Input mask:';
   rsFreeMsg = 'Free %s from %s bytes';
   rsFreeMsgShort = '%s bytes free';
-  rsMsgErrDirExists = 'Directory %s exists!';
   rsMsgPopUpHotDelete = '&Delete %s';
   rsMsgDiskNotAvail = 'Disk is not available';
   rsMsgChDirFailed = 'ChDir to [%s] failed!';

@@ -777,6 +777,11 @@ begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
 
+  // Use LCL's method of dropping files from external
+  // applications if we don't support it ourselves.
+  if not IsExternalDraggingSupported then
+    frmMain.OnDropFiles := @FormDropFiles;
+
   {$IF DEFINED(DARWIN)}
   // MainForm receives in Mac OS closing events on system shortcut Command-Q
   // See details at http://doublecmd.sourceforge.net/mantisbt/view.php?id=712
@@ -1286,7 +1291,7 @@ end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
 var
-  TargetFileView: TFileView;
+  TargetFileView: TFileView = nil;
   TargetControl: TControl;
   I: Integer;
   Files: TFiles = nil;
@@ -1294,8 +1299,6 @@ var
   Point: TPoint;
   DropParams: TDropParams;
 begin
-  TargetFileView := nil;
-
   TargetControl := FindLCLControl(Mouse.CursorPos);
   while TargetControl <> nil do
   begin
@@ -1320,22 +1323,35 @@ begin
     // fill file list by files
     FileNamesList := TStringList.Create;
     for I := Low(FileNames) to High(FileNames) do
-      FileNamesList.Add(FileNames[I]);
+    begin
+      if Length(FileNames[I]) > 0 then
+        FileNamesList.Add(FileNames[I]);
+    end;
 
-    Files := TFileSystemFileSource.CreateFilesFromFileList(
-        ExtractFilePath(FileNames[Low(FileNames)]), FileNamesList);
+    if FileNamesList.Count > 0 then
+    try
+      Files := TFileSystemFileSource.CreateFilesFromFileList(
+          ExtractFilePath(FileNamesList[0]), FileNamesList);
 
-    GetCursorPos(Point);
+      if Files.Count > 0 then
+      begin
+        GetCursorPos(Point);
 
-    DropParams := TDropParams.Create(
-        Files,
-        GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
-        Point, False,
-        nil, TargetFileView,
-        TargetFileView.FileSource,
-        TargetFileView.CurrentPath);
+        DropParams := TDropParams.Create(
+            Files,
+            GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
+            Point, False,
+            nil, TargetFileView,
+            TargetFileView.FileSource,
+            TargetFileView.CurrentPath);
 
-    DropFiles(DropParams);
+        DropFiles(DropParams);
+      end;
+
+    except
+      on e: EFileNotFound do
+        MessageDlg(e.Message, mtError, [mbOK], 0);
+    end;
 
   finally
     FreeAndNil(Files);
