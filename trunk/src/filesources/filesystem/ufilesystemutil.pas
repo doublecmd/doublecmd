@@ -1042,7 +1042,7 @@ begin
     UpdateStatistics(FStatistics);
 
     // Check if moving to the same file.
-    if CompareFilenames(aFile.FullPath, TargetName) = 0 then
+    if mbSameFile(TargetName, aFile.FullPath) then
     begin
       if (FMode = fsohmCopy) and FAutoRenameItSelf then
         TargetName := GetNextCopyName(TargetName)
