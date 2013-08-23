@@ -430,8 +430,12 @@ begin
   if sPath <> EmptyStr then
   begin
 {$IFDEF MSWINDOWS}
-    {check for drive/unc info}
-    if ( Pos( '\\', sPath ) > 0 ) or ( Pos( DriveDelim, sPath ) > 0 ) then
+    { Absolute path in Windows }
+    if { X:\...  [Disk] ":" is reserved otherwise }
+       ( Pos( DriveDelim, sPath ) > 0 ) or
+       { \\...   [UNC]
+         \...    [Root of current drive] }
+       ( sPath[1] = PathDelim ) then
 {$ENDIF MSWINDOWS}
 {$IFDEF UNIX}
     { UNIX absolute paths start with a slash }
