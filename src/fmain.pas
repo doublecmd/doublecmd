@@ -1259,12 +1259,6 @@ begin
   CloseNotebook(LeftTabs);
   CloseNotebook(RightTabs);
 
-  if gSaveConfiguration then
-    begin
-      // Save main toolbar
-      SaveMainToolBar;
-    end;
-
   FreeAndNil(DrivesList);
 
 {$IFDEF LCLQT}
@@ -1815,12 +1809,14 @@ begin
 
   if gSaveConfiguration then
   try
+    DebugLn('Saving configuration');
     if Assigned(gIni) then
       uGlobs.ConvertIniToXml;
     if gSaveCmdLineHistory then
       glsCmdLineHistory.Assign(edtCommand.Items);
     SaveWindowState;
-    SaveGlobs;
+    SaveMainToolBar;
+    SaveGlobs; // Should be last, writes configuration file
   except
     on E: Exception do
       DebugLn('Cannot save main configuration: ', e.Message);
