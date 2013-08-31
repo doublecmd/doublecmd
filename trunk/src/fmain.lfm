@@ -3133,6 +3133,7 @@ object frmMain: TfrmMain
     end
     object miRenameTab: TMenuItem
       Action = actRenameTab
+      OnClick = mnuTabMenuClick
     end
     object miLine14: TMenuItem
       Caption = '-'

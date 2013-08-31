@@ -64,6 +64,7 @@ type
    procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
+   procedure DoRenameTab(Page: TFileViewPage);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
    procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
@@ -448,6 +449,15 @@ var
 begin
   NewPage := Notebook.NewPage(Notebook.ActiveView);
   NewPage.MakeActive;
+end;
+
+procedure TMainCommands.DoRenameTab(Page: TFileViewPage);
+var
+  sCaption: UTF8String;
+begin
+  sCaption := Page.CurrentTitle;
+  if InputQuery(rsMsgTabRenameCaption, rsMsgTabRenamePrompt, sCaption) then
+    Page.PermanentTitle := sCaption;
 end;
 
 procedure TMainCommands.DoOpenVirtualFileSystemList(Panel: TFileView);
@@ -1045,17 +1055,8 @@ begin
 end;
 
 procedure TMainCommands.cm_RenameTab(const Params: array of string);
-var
-  sCaption: UTF8String;
-  Page: TFileViewPage;
 begin
-  with frmMain do
-  begin
-    Page := ActiveNotebook.ActivePage;
-    sCaption:= Page.CurrentTitle;
-    if InputQuery(rsMsgTabRenameCaption, rsMsgTabRenamePrompt, sCaption) then
-      Page.PermanentTitle := sCaption;
-  end;
+  DoRenameTab(frmMain.ActiveNotebook.ActivePage);
 end;
 
 procedure TMainCommands.cm_CloseTab(const Params: array of string);
