@@ -1920,6 +1920,8 @@ begin
 
   if MenuItem = miCloseTab then
     Commands.DoCloseTab(NoteBook, pmTabMenu.Tag)
+  else if MenuItem = miRenameTab then
+    Commands.DoRenameTab(NoteBook.Page[pmTabMenu.Tag])
   else if MenuItem = miTabOptionNormal then
     NoteBook.Page[pmTabMenu.Tag].LockState := tlsNormal
   else if MenuItem = miTabOptionPathLocked then
