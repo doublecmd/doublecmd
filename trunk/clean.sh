@@ -22,6 +22,7 @@ find . -iname '*.o' -delete
 find plugins -iname '*.w?x' -delete
 find plugins -iname '*.dsx' -delete
 find plugins -iname '*.or'  -delete
+find plugins -iname '*.res'  -delete
 rm -f src/doublecmd.res doublecmd
 rm -f tools/extractdwrflnfo
 rm -f plugins/wcx/zip/lib/ZipConfDlg.lfm
