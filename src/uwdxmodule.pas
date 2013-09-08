@@ -331,11 +331,11 @@ begin
     // читать FileName - читать расширение и создавать нужный обьект
     tp := GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Path', ''));
     DCDebug('WDX:LOAD:' + tp);
-    if upcase(ExtractFileExt(tp)) = '.WDX' then
-      Flist.AddObject(UpCase(tmp), TPluginWDX.Create)
-    else {иначе проверка на скрипт}
-      if upcase(ExtractFileExt(tp)) = '.LUA' then
-        Flist.AddObject(UpCase(tmp), TLuaWdx.Create);
+
+    if UpCase(ExtractFileExt(tp)) = '.LUA' then
+      Flist.AddObject(UpCase(tmp), TLuaWdx.Create)
+    else
+      Flist.AddObject(UpCase(tmp), TPluginWDX.Create);
 
     TWDXModule(Flist.Objects[I]).Name := tmp;
     TWDXModule(Flist.Objects[I]).DetectStr := Ini.ReadString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Detect', '');
@@ -365,12 +365,11 @@ begin
           // Create a correct object based on plugin file extension.
           APath := GetCmdDirFromEnvVar(APath);
           DCDebug('WDX: LOAD: ' + APath);
-          if UpCase(ExtractFileExt(APath)) = '.WDX' then
-            AWdxModule := TPluginWDX.Create
-          else if UpCase(ExtractFileExt(APath)) = '.LUA' then
-              AWdxModule := TLuaWdx.Create
-            else
-              raise Exception.Create('Invalid WDX plugin: ' + APath);
+
+          if UpCase(ExtractFileExt(APath)) = '.LUA' then
+            AWdxModule := TLuaWdx.Create
+          else
+            AWdxModule := TPluginWDX.Create;
 
           AWdxModule.Name := AName;
           AWdxModule.FileName := APath;
@@ -434,39 +433,30 @@ function TWDXModuleList.Add(FileName: String): Integer;
 var
   s: String;
 begin
-  Result := -1;
-
   s := ExtractFileName(FileName);
   if pos('.', s) > 0 then
     Delete(s, pos('.', s), length(s));
 
-  if upcase(ExtractFileExt(FileName)) = '.WDX' then
-    Result := Flist.AddObject(UpCase(s), TPluginWDX.Create)
-  else {иначе проверка на скрипт}
-    if upcase(ExtractFileExt(FileName)) = '.LUA' then
-      Result := Flist.AddObject(UpCase(s), TLuaWdx.Create);
+  if UpCase(ExtractFileExt(FileName)) = '.LUA' then
+    Result := Flist.AddObject(UpCase(s), TLuaWdx.Create)
+  else
+    Result := Flist.AddObject(UpCase(s), TPluginWDX.Create);
 
-  if Result <> -1 then
+  TWDXModule(Flist.Objects[Result]).Name := s;
+  TWDXModule(Flist.Objects[Result]).FileName := FileName;
+  if TWDXModule(Flist.Objects[Result]).LoadModule then
   begin
-    TWDXModule(Flist.Objects[Result]).Name := s;
-    TWDXModule(Flist.Objects[Result]).FileName := FileName;
-    if TWDXModule(Flist.Objects[Result]).LoadModule then
-    begin
-      TWDXModule(Flist.Objects[Result]).DetectStr := TWDXModule(Flist.Objects[Result]).CallContentGetDetectString;
-      TWDXModule(Flist.Objects[Result]).UnloadModule;
-    end;
+    TWDXModule(Flist.Objects[Result]).DetectStr := TWDXModule(Flist.Objects[Result]).CallContentGetDetectString;
+    TWDXModule(Flist.Objects[Result]).UnloadModule;
   end;
 end;
 
 function TWDXModuleList.Add(AName, FileName, DetectStr: String): Integer;
 begin
-  if upcase(ExtractFileExt(FileName)) = '.WDX' then
-    Result := Flist.AddObject(UpCase(AName), TPluginWDX.Create)
-  else {иначе проверка на скрипт}
-    if upcase(ExtractFileExt(FileName)) = '.LUA' then
-      Result := Flist.AddObject(UpCase(AName), TLuaWdx.Create);
-
-  //      Result:=Flist.AddObject(UpCase(AName),TWDXModule.Create);
+  if UpCase(ExtractFileExt(FileName)) = '.LUA' then
+    Result := Flist.AddObject(UpCase(AName), TLuaWdx.Create)
+  else
+    Result := Flist.AddObject(UpCase(AName), TPluginWDX.Create);
 
   TWDXModule(Flist.Objects[Result]).Name := AName;
   TWDXModule(Flist.Objects[Result]).DetectStr := DetectStr;
