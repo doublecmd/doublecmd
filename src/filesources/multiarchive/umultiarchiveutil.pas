@@ -210,9 +210,9 @@ begin
     if FNamePos.Index = FFormatIndex then
       FArchiveItem.FileName := FGetFileName(Trim(GetKeyValue(str, FNamePos)));
     if FUnpSizePos.Index = FFormatIndex then
-      FArchiveItem.UnpSize := StrToIntDef(Trim(GetKeyValue(str, FUnpSizePos)), 0);
+      FArchiveItem.UnpSize := StrToInt64Def(Trim(GetKeyValue(str, FUnpSizePos)), 0);
     if FPackSizePos.Index = FFormatIndex then
-      FArchiveItem.PackSize := StrToIntDef(Trim(GetKeyValue(str, FPackSizePos)), 0);
+      FArchiveItem.PackSize := StrToInt64Def(Trim(GetKeyValue(str, FPackSizePos)), 0);
     if FYearPos.Index = FFormatIndex then
       FArchiveItem.Year := YearShortToLong(StrToIntDef(Trim(GetKeyValue(str, FYearPos)), 0));
     if FMonthPos.Index = FFormatIndex then
