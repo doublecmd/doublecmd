@@ -30,7 +30,7 @@ interface
 uses
   SysUtils, Classes, Controls, Forms, StdCtrls, ComCtrls, Buttons, ExtCtrls,
   KASProgressBar, uOperationsManager, uFileSourceOperation,
-  uFileSourceOperationUI;
+  uFileSourceOperationUI, uOSForms;
 
 type
 
@@ -53,7 +53,7 @@ type
 
   { TfrmFileOp }
 
-  TfrmFileOp = class(TForm)
+  TfrmFileOp = class(TAloneForm)
     btnCancel: TBitBtn;
     btnPauseStart: TBitBtn;
     btnViewOperations: TBitBtn;
