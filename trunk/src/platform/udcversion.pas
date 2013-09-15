@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -383,6 +383,10 @@ begin
                       OSVersion := OSVersion + ' 7'
                     else if (osvi.wProductType = VER_NT_SERVER) then
                       OSVersion := OSVersion + ' Server 2008 R2';
+                 2: if (osvi.wProductType = VER_NT_WORKSTATION) then
+                      OSVersion := OSVersion + ' 8'
+                    else if (osvi.wProductType = VER_NT_SERVER) then
+                      OSVersion := OSVersion + ' Server 2012';
                end;
           end;
         end;
