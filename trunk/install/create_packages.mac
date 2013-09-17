@@ -13,7 +13,7 @@ BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
 BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
 
 # DC revision number
-DC_REVISION=$(svnversion -n ../)
+DC_REVISION=$(svnversion ../ | sed -e 's/\([0-9]*\).*/\1/')
 
 # Export from SVN
 rm -rf $BUILD_DC_TMP_DIR
@@ -50,6 +50,11 @@ cd $BUILD_DC_TMP_DIR
 
 # Build all components of Double Commander
 ./build.sh beta
+
+# Update application bundle version
+defaults write $(pwd)/doublecmd.app/Contents/Info CFBundleVersion $DC_REVISION
+defaults write $(pwd)/doublecmd.app/Contents/Info CFBundleShortVersionString $DC_VER
+plutil -convert xml1 $(pwd)/doublecmd.app/Contents/Info.plist
 
 # Create *.dmg package
 mkdir -p $BUILD_PACK_DIR
