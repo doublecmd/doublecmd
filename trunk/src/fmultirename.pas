@@ -19,7 +19,8 @@ interface
 
 uses
   SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr, Controls, LCLType,
-  DCClassesUtf8, uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls, DCXmlConfig;
+  DCClassesUtf8, uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls,
+  DCXmlConfig, uOSForms;
 
 type
 
@@ -42,7 +43,7 @@ type
 
   { TfrmMultiRename }
 
-  TfrmMultiRename = class(TForm)
+  TfrmMultiRename = class(TAloneForm)
     btnLoadPreset: TButton;
     btnSavePreset: TButton;
     btnDeletePreset: TButton;

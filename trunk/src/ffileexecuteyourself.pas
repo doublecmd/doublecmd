@@ -29,13 +29,13 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Buttons,
-  uFile, uFileSource, uFileView;
+  uFile, uFileSource, uFileView, uOSForms;
 
 type
 
   { TfrmFileExecuteYourSelf }
 
-  TfrmFileExecuteYourSelf = class(TForm)
+  TfrmFileExecuteYourSelf = class(TAloneForm)
     btnClose: TBitBtn;
     lblFromPath: TLabel;
     lblFileName: TLabel;
@@ -133,4 +133,4 @@ begin
 end;
 
 end.
-
+
