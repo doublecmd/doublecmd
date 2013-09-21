@@ -28,13 +28,13 @@ unit fCheckSumVerify;
 interface
 
 uses
-  Classes, SysUtils, Forms, StdCtrls, Buttons;
+  Classes, SysUtils, Forms, StdCtrls, Buttons, uOSForms;
 
 type
 
   { TfrmCheckSumVerify }
 
-  TfrmCheckSumVerify = class(TForm)
+  TfrmCheckSumVerify = class(TAloneForm)
     btnClose: TBitBtn;
     mmCheckSumVerify: TMemo;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
