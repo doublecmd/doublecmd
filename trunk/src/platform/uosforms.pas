@@ -37,8 +37,6 @@ type
   TAloneForm = class(TForm)
   {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
   protected
-    FActiveForm: TForm;
-    procedure DoShow; override;
     procedure DoClose(var CloseAction: TCloseAction); override;
   {$ELSEIF DEFINED(LCLWIN32)}
   public
@@ -121,28 +119,45 @@ uses
 
 {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
 
-procedure TAloneForm.DoShow;
-begin
-  // Save current active form
-  FActiveForm:= Screen.ActiveForm;
-  inherited DoShow;
-end;
+var
+  FMain, FBefore, FCurrent: TCustomForm;
 
 procedure TAloneForm.DoClose(var CloseAction: TCloseAction);
+
+  procedure TrySetFocus(Form: TCustomForm); inline;
+  begin
+    if Form.CanFocus then Form.SetFocus;
+  end;
+
 var
   psnFront, psnCurrent: ProcessSerialNumber;
 begin
   inherited DoClose(CloseAction);
   if (GetCurrentProcess(psnCurrent) = noErr) and (GetFrontProcess(psnFront) = noErr) then
   begin
-    // Check that our process is active and form still exists
+    // Check that our process is active
     if (psnCurrent.lowLongOfPSN = psnFront.lowLongOfPSN) and
-       (psnCurrent.highLongOfPSN = psnFront.highLongOfPSN) and
-       (Screen.FormIndex(FActiveForm) >= 0) then
+       (psnCurrent.highLongOfPSN = psnFront.highLongOfPSN) then
     begin
       // Restore active form
-      if (FActiveForm.WindowState <> wsMinimized) then
-        FActiveForm.SetFocus;
+      if (Screen.CustomFormIndex(FBefore) < 0) then
+        TrySetFocus(FMain)
+      else if (FBefore <> Self) then
+        TrySetFocus(FBefore)
+      else
+        FBefore:= FMain;
+    end;
+  end;
+end;
+
+procedure ActiveFormChangedHandler(Self, Sender: TObject; Form: TCustomForm);
+begin
+  if (Form is TAloneForm) or (FMain = Form) then
+  begin
+    if FCurrent <> Form then
+    begin
+      FBefore:= FCurrent;
+      FCurrent:= Form;
     end;
   end;
 end;
@@ -349,9 +364,19 @@ begin
     MainForm.Caption:= MainForm.Caption + ' - Administrator';
 end;
 {$ELSE}
+{$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
+var
+  Handler: TMethod;
+{$ENDIF}
 begin
   if fpGetUID = 0 then // if run under root
     MainForm.Caption:= MainForm.Caption + ' - ROOT PRIVILEGES';
+  {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
+  FMain:= MainForm;
+  Handler.Data:= MainForm;
+  Handler.Code:= @ActiveFormChangedHandler;
+  Screen.AddHandlerActiveFormChanged(TScreenFormEvent(Handler), True);
+  {$ENDIF}
 end;
 {$ENDIF}
 
