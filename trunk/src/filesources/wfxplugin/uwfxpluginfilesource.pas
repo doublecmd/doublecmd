@@ -483,7 +483,8 @@ begin
   begin
     FCallbackDataClass:= TCallbackDataClass.Create(Self);
     FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, FCallbackDataClass);
-    FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
+    if Assigned(FsInit) then
+      FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
     if Assigned(FsInitW) then
       FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
     if Assigned(FsSetCryptCallback) then

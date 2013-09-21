@@ -456,9 +456,7 @@ end;
 function TWFXModule.LoadModule(const sName: String): Boolean;
 begin
   FModuleHandle := mbLoadLibrary(sName);
-  Result := (FModuleHandle <> 0);
-  if not Result then
-    Exit;
+  if FModuleHandle = 0 then Exit(False);
 
   DCDebug('WFX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
@@ -468,13 +466,25 @@ begin
   FsFindFirst := TFsFindFirst(GetProcAddress(FModuleHandle,'FsFindFirst'));
   FsFindNext := TFsFindNext(GetProcAddress(FModuleHandle,'FsFindNext'));
   FsFindClose := TFsFindClose(GetProcAddress(FModuleHandle,'FsFindClose'));
+{ Unicode }
+  FsInitW := TFsInitW(GetProcAddress(FModuleHandle,'FsInitW'));
+  FsFindFirstW := TFsFindFirstW(GetProcAddress(FModuleHandle,'FsFindFirstW'));
+  FsFindNextW := TFsFindNextW(GetProcAddress(FModuleHandle,'FsFindNextW'));
 
-  if (FsInit = nil) or (FsFindFirst = nil) or
-     (FsFindNext = nil) or (FsFindClose = nil) then
+  Result:= (FsInit <> nil) and (FsFindFirst <> nil) and (FsFindNext <> nil);
+  if (Result = False) then
   begin
     FsInit:= nil;
     FsFindFirst:= nil;
     FsFindNext:= nil;
+    Result:= (FsInitW <> nil) and (FsFindFirstW <> nil) and (FsFindNextW <> nil);
+  end;
+
+  if (Result = False) or (FsFindClose = nil) then
+  begin
+    FsInitW:= nil;
+    FsFindFirstW:= nil;
+    FsFindNextW:= nil;
     FsFindClose:= nil;
     Exit(False);
   end;
@@ -513,10 +523,6 @@ begin
   FsContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
   FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
 { Unicode }
-  FsInitW := TFsInitW(GetProcAddress(FModuleHandle,'FsInitW'));
-  FsFindFirstW := TFsFindFirstW(GetProcAddress(FModuleHandle,'FsFindFirstW'));
-  FsFindNextW := TFsFindNextW(GetProcAddress(FModuleHandle,'FsFindNextW'));
-  //---------------------
   FsSetCryptCallbackW:= TFsSetCryptCallbackW(GetProcAddress(FModuleHandle,'FsSetCryptCallbackW'));
   FsMkDirW := TFsMkDirW(GetProcAddress(FModuleHandle,'FsMkDirW'));
   FsExecuteFileW := TFsExecuteFileW(GetProcAddress(FModuleHandle,'FsExecuteFileW'));

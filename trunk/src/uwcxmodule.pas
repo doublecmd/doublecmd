@@ -327,8 +327,7 @@ var
   StartupInfo: TExtensionStartupInfo;
 begin
   FModuleHandle := mbLoadLibrary(sName);
-  if FModuleHandle = 0 then
-    Exit(False);
+  if FModuleHandle = 0 then Exit(False);
 
   DCDebug('WCX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
@@ -338,17 +337,28 @@ begin
   ReadHeaderEx:= TReadHeaderEx(GetProcAddress(FModuleHandle,'ReadHeaderEx'));
   ProcessFile:= TProcessFile(GetProcAddress(FModuleHandle,'ProcessFile'));
   CloseArchive:= TCloseArchive(GetProcAddress(FModuleHandle,'CloseArchive'));
+  // Unicode
+  OpenArchiveW:= TOpenArchiveW(GetProcAddress(FModuleHandle,'OpenArchiveW'));
+  ReadHeaderExW:= TReadHeaderExW(GetProcAddress(FModuleHandle,'ReadHeaderExW'));
+  ProcessFileW:= TProcessFileW(GetProcAddress(FModuleHandle,'ProcessFileW'));
 
-  if (OpenArchive = nil) or (ReadHeader = nil) or
-     (ProcessFile = nil) or (CloseArchive = nil) then
-    begin
-      OpenArchive := nil;
-      ReadHeader:= nil;
-      ProcessFile := nil;
-      CloseArchive := nil;
-      Result := False;
-      Exit;
-    end;
+  Result:= (OpenArchive <> nil) and (ReadHeader <> nil) and (ProcessFile <> nil);
+  if (Result = False) then
+  begin
+    OpenArchive:= nil;
+    ReadHeader:= nil;
+    ProcessFile:= nil;
+    Result:= (OpenArchiveW <> nil) and (ReadHeaderExW <> nil) and (ProcessFileW <> nil);
+  end;
+
+  if (Result = False) or (CloseArchive = nil) then
+  begin
+    OpenArchiveW:= nil;
+    ReadHeaderExW:= nil;
+    ProcessFileW:= nil;
+    CloseArchive:= nil;
+    Exit(False);
+  end;
 
   // Optional functions
   PackFiles:= TPackFiles(GetProcAddress(FModuleHandle,'PackFiles'));
@@ -365,9 +375,6 @@ begin
   PkSetCryptCallback:= TPkSetCryptCallback(GetProcAddress(FModuleHandle,'PkSetCryptCallback'));
   GetBackgroundFlags:= TGetBackgroundFlags(GetProcAddress(FModuleHandle,'GetBackgroundFlags'));
   // Unicode
-  OpenArchiveW:= TOpenArchiveW(GetProcAddress(FModuleHandle,'OpenArchiveW'));
-  ReadHeaderExW:= TReadHeaderExW(GetProcAddress(FModuleHandle,'ReadHeaderExW'));
-  ProcessFileW:= TProcessFileW(GetProcAddress(FModuleHandle,'ProcessFileW'));
   SetChangeVolProcW:= TSetChangeVolProcW(GetProcAddress(FModuleHandle,'SetChangeVolProcW'));
   SetProcessDataProcW:= TSetProcessDataProcW(GetProcAddress(FModuleHandle,'SetProcessDataProcW'));
   PackFilesW:= TPackFilesW(GetProcAddress(FModuleHandle,'PackFilesW'));
@@ -416,8 +423,6 @@ begin
 
       ExtensionInitialize(@StartupInfo);
     end;
-
-  Result := True;
 end;
 
 procedure TWCXModule.UnloadModule;
