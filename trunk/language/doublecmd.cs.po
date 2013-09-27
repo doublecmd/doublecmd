@@ -6929,11 +6929,11 @@ msgstr "Nahradit"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
-msgstr "Zeptat se, Přepsat, Kopírovat do, Přeskočit"
+msgstr "Zeptat se;Přepsat;Kopírovat do;Přeskočit"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Overwrite Older;Skip"
-msgstr "Zeptat se, Přepsat, Přepsat starší, Přeskočit"
+msgstr "Zeptat se;Přepsat;Přepsat starší;Přeskočit"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
