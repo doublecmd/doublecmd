@@ -5,13 +5,13 @@
 
 build: 
 	dh_testdir
-	make lib -f makefile.unix CXXFLAGS+="-fPIC -DSILENT" LDFLAGS+="-Wl,-soname,libunrar.so.0"
+	make lib CXXFLAGS+="-fPIC -DSILENT" LDFLAGS+="-Wl,-soname,libunrar.so.0"
 
 clean:
 	dh_testdir
 	dh_testroot
 
-	make -f makefile.unix clean
+	make clean
 	rm -f libunrar.so
 
 	dh_clean

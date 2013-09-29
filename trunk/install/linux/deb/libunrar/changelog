@@ -1,5 +1,5 @@
-libunrar-nonfree (4.0.7-0~lucid) lucid; urgency=low
+libunrar-nonfree (5.0.12-1~precise) precise; urgency=low
 
-  * Initial release of library
+  * Non-maintainer upload
 
- -- Alexander Koblov <Alexx2000@mail.ru>  Sun, 23 Jan 2011 21:04:07 -0500
+ -- Alexander Koblov <Alexx2000@mail.ru>  Sun, 29 Sep 2013 13:04:07 +0400
