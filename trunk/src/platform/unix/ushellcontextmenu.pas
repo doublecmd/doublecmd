@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Shell context menu implementation.
 
-    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -295,7 +295,7 @@ begin
         begin
           mi := TMenuItem.Create(miOpenWith);
           mi.Caption := ExtractOnlyFileName(ApplicationCString);
-          mi.Hint := ApplicationCString + #32 + QuoteStr(FFiles[0].FullPath);
+          mi.Hint := QuoteStr(ApplicationCString) + #32 + QuoteStr(FFiles[0].FullPath);
           ImageIndex:= PixMapManager.GetApplicationBundleIcon(ApplicationCString, -1);
           if LSCopyDisplayNameForURL(ApplicationUrlRef, ApplicationNameCFRef) = noErr then
           begin
