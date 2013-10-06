@@ -441,7 +441,8 @@ end;
 
 function TdmHighl.GetHighlighterByExt(const sExtension: string): TSynCustomHighlighter;
 begin
-  Result:=GetHighlighterFromFileExt(SynHighlighterList, sExtension);
+  Result:= GetHighlighterFromFileExt(SynHighlighterList, sExtension);
+  if (Result = nil) then Result:= SynPlainTextHighlighter;
 end;
 
 procedure TdmHighl.SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
@@ -449,7 +450,6 @@ var
   I: LongInt;
   Attribute: TSynHighlighterAttributes;
 begin
-  if (Highlighter = nil) then Exit;
   if (Highlighter is TSynPlainTextHighlighter) then
     SynEdit.Highlighter:= nil
   else

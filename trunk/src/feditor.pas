@@ -8,7 +8,7 @@ This form used SynEdit and his Highlighters
 
 contributors:
 
-Copyright (C) 2006-2012 Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2013 Alexander Koblov (Alexx2000@mail.ru)
 
 }
 
@@ -20,7 +20,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
-  ComCtrls, SynEditSearch, uDebug, uOSForms;
+  ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms;
 
 type
 
@@ -181,7 +181,7 @@ type
     procedure SetEncodingIn(Sender:TObject);
     procedure SetEncodingOut(Sender:TObject);
     procedure SetHighLighter(Sender:TObject);
-    procedure UpdateHighlighterStatus;
+    procedure UpdateHighlighter(Highlighter: TSynCustomHighlighter);
     procedure DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
     procedure ShowSearchReplaceDialog(AReplace: boolean);
 
@@ -195,7 +195,7 @@ implementation
 {$R *.lfm}
 
 uses
-  dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, SynEditLines, LCLType,
+  dmCommonData, dmHigh, SynEditTypes, SynEditLines, LCLType,
   LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobs, fOptions,
   uOSUtils, uConvEncoding, uSynEditFiler, fOptionsEditorColors;
 
@@ -360,8 +360,7 @@ begin
     Editor.Lines.Text := ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
   // set up highlighter
   Highlighter := dmHighl.GetHighlighterByExt(ExtractFileExt(aFileName));
-  dmHighl.SetHighlighter(Editor, Highlighter);
-  UpdateHighlighterStatus;
+  UpdateHighlighter(Highlighter);
   FileName := aFileName;
   bChanged := False;
   bNoname := False;
@@ -565,8 +564,7 @@ var
   Highlighter: TSynCustomHighlighter;
 begin
   Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[TMenuItem(Sender).Tag]);
-  dmHighl.SetHighlighter(Editor, Highlighter);
-  UpdateHighlighterStatus;
+  UpdateHighlighter(Highlighter);
 end;
 
 (*
@@ -676,6 +674,8 @@ begin
 end;
 
 procedure TfrmEditor.actFileSaveAsExecute(Sender: TObject);
+var
+  Highlighter: TSynCustomHighlighter;
 begin
   dmComData.SaveDialog.FileName := FileName;
   dmComData.SaveDialog.Filter:='*.*'; // rewrite for highlighter
@@ -688,8 +688,8 @@ begin
   bNoname:=False;
 
   UpdateStatus;
-  Editor.Highlighter:= dmHighl.GetHighlighterByExt(ExtractFileExt(FileName));
-  UpdateHighlighterStatus;
+  Highlighter:= dmHighl.GetHighlighterByExt(ExtractFileExt(FileName));
+  UpdateHighlighter(Highlighter);
 end;
 
 procedure TfrmEditor.UpdateStatus;
@@ -722,10 +722,10 @@ begin
   UpdateStatus;
 end;
 
-procedure TfrmEditor.UpdateHighlighterStatus;
+procedure TfrmEditor.UpdateHighlighter(Highlighter: TSynCustomHighlighter);
 begin
-  if assigned(Editor.Highlighter) then
-    StatusBar.Panels[3].Text:= Editor.Highlighter.GetLanguageName;
+  dmHighl.SetHighlighter(Editor, Highlighter);
+  StatusBar.Panels[3].Text:= Highlighter.GetLanguageName;
 end;
 
 procedure TfrmEditor.actFileExitExecute(Sender: TObject);
