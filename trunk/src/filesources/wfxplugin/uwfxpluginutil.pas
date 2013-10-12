@@ -236,6 +236,7 @@ const
   ResponsesNoAppend: array[0..3] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll);
 var
+  Message: String;
   PossibleResponses: array of TFileSourceOperationUIResponse;
 begin
   case FFileExistsOption of
@@ -245,8 +246,11 @@ begin
           True :  PossibleResponses := Responses;
           False:  PossibleResponses := ResponsesNoAppend;
         end;
-
-        case AskQuestion(Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]), '',
+        if FMode <> wpohmCopyOut then
+          Message:= Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName])
+        else
+          Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath, aFile.Size, aFile.ModificationTime);
+        case AskQuestion(Message, '',
                          PossibleResponses, fsourOverwrite, fsourSkip) of
           fsourOverwrite:
             Result := fsoofeOverwrite;
