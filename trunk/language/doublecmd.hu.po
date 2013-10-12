@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2013-03-24 22:03+0100\n"
+"PO-Revision-Date: 2013-10-12 18:09+0100\n"
 "Last-Translator: Nyilas MISY <dr.dabzse@gmail.com>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -4393,7 +4393,7 @@ msgstr "R&ejtett/Rendszer fájlok megjelenítése"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
 #, fuzzy
-#| msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+#| msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Szó&közzel történő kijelöléskor automatikus léptetés (mint <INSERT> estén)"
@@ -4995,7 +4995,7 @@ msgstr "F&inomhangolás"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 #, fuzzy
-#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "A kereső beépülők le&hetővé tesznek más keresési algoritmusokat vagy külső eszközöket (mint pl : \"lokális\", stb)"
@@ -5008,14 +5008,14 @@ msgstr "A tömö&rítő beépülők az archív fájlokkal való munkához valók
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 #, fuzzy
-#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename toolContent plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename toolContent plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename toolContent plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
 msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "A tartalmi beépülők lehetővé teszik kiegészítő fájlinformációk megjelenítését, mint pl : mp3 tag vagy kép attribútumok a fájl listában, vagy használja kereséshez és csoportos átnevezéshez"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
 #, fuzzy
-#| msgid "Content plu&gins allow to display extended file details like mp3 tags oFi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+#| msgid "Content plu&gins allow to display extended file details like mp3 tags oFi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "A fáj&lrendszer beépülők lehetővé teszik, hogy az operációs rendszer számára elérhetetlen lemezek hozzáférését, vagy külső eszközöket, mint pl : Palm/PocketPC."
@@ -5028,7 +5028,7 @@ msgstr "A né&zőke beépülők lehetővé teszik képek, táblázatok, adatbáz
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 #, fuzzy
-#| msgid "Vie&wer plugins allow to display file formats like images, spreadsheetsActiveActive"
+#| msgid "Vie&wer plugins allow to display file formats like images, spreadsheetsActiveActiveActive"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTIONTFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
 msgid "Active"
 msgstr "Aktív"
@@ -7275,11 +7275,11 @@ msgstr "A fájl %s megváltozott, menti?"
 
 #: ulng.rsmsgfileexistsfileinfo
 msgid "%s bytes, %s"
-msgstr ""
+msgstr "%s bájt, %s"
 
 #: ulng.rsmsgfileexistsoverwrite
 msgid "Overwrite:"
-msgstr ""
+msgstr "Felülírja :"
 
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
@@ -7287,11 +7287,11 @@ msgstr "A fájl %s már létezik, felülírja?"
 
 #: ulng.rsmsgfileexistswithfile
 msgid "With file:"
-msgstr ""
+msgstr "Ezzel a fájllal :"
 
 #: ulng.rsmsgfilenotfound
 msgid "File \"%s\" not found."
-msgstr ""
+msgstr "A fájl \"%s\" nem található."
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
