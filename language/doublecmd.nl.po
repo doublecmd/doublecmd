@@ -7531,9 +7531,25 @@ msgstr "Archief formaat onbekend"
 msgid "File %s changed, save?"
 msgstr "Bestand %s gewijzigd, opslaan?"
 
+#: ulng.rsmsgfileexistsfileinfo
+msgid "%s bytes, %s"
+msgstr ""
+
+#: ulng.rsmsgfileexistsoverwrite
+msgid "Overwrite:"
+msgstr ""
+
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Bestand %s bestaat, overschrijven?"
+
+#: ulng.rsmsgfileexistswithfile
+msgid "With file:"
+msgstr ""
+
+#: ulng.rsmsgfilenotfound
+msgid "File \"%s\" not found."
+msgstr ""
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"

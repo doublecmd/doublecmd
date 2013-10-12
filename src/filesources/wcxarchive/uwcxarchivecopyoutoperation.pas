@@ -13,6 +13,7 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFile,
+  uWcxModule,
   uWcxArchiveFileSource;
 
 type
@@ -59,7 +60,7 @@ type
              from where the attributes are retrieved.}
     function SetDirsAttributes(const Paths: TStringHashList): Boolean;
 
-    function DoFileExists(const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+    function DoFileExists(Header: TWcxHeader; const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 	
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -93,7 +94,7 @@ implementation
 
 uses
   LCLProc, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils, uShowMsg,
-  uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uWCXmodule,
+  uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uFileSystemUtil,
   uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes;
 
 // ----------------------------------------------------------------------------
@@ -320,7 +321,7 @@ begin
           FCurrentFileSize := Header.UnpSize;
         end;
 
-        if (DoFileExists(TargetFileName) = fsoofeOverwrite) then
+        if (DoFileExists(Header, TargetFileName) = fsoofeOverwrite) then
           iResult := WcxModule.WcxProcessFile(ArcHandle, PK_EXTRACT, EmptyStr, TargetFileName)
         else
           iResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
@@ -560,18 +561,23 @@ begin
   end;
 end;
 
-function TWcxArchiveCopyOutOperation.DoFileExists(const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+function TWcxArchiveCopyOutOperation.DoFileExists(Header: TWcxHeader;
+  const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 const
   PossibleResponses: array[0..4] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+var
+  Message: String;
 begin
   case FFileExistsOption of
     fsoofeNone:
       begin
         if not mbFileExists(AbsoluteTargetFileName) then
           Result:= fsoofeOverwrite
-        else
-          case AskQuestion(Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]), '',
+        else begin
+          Message:= FileExistsMessage(AbsoluteTargetFileName, Header.FileName,
+                                      Header.UnpSize, WcxFileTimeToDateTime(Header));
+          case AskQuestion(Message, '',
                            PossibleResponses, fsourOverwrite, fsourSkip) of
             fsourOverwrite:
               Result := fsoofeOverwrite;
@@ -591,6 +597,7 @@ begin
             fsourCancel:
               RaiseAbortOperation;
           end;
+        end;
       end;
 
     else

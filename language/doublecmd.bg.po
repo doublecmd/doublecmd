@@ -7671,9 +7671,25 @@ msgstr "Форматът на сбивката е непознат"
 msgid "File %s changed, save?"
 msgstr "Фаълът %s е променен. Да бъде ли съхранен?"
 
+#: ulng.rsmsgfileexistsfileinfo
+msgid "%s bytes, %s"
+msgstr ""
+
+#: ulng.rsmsgfileexistsoverwrite
+msgid "Overwrite:"
+msgstr ""
+
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Съществува файл %s. Да бъде ли заменен?"
+
+#: ulng.rsmsgfileexistswithfile
+msgid "With file:"
+msgstr ""
+
+#: ulng.rsmsgfilenotfound
+msgid "File \"%s\" not found."
+msgstr ""
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
@@ -8809,4 +8825,4 @@ msgstr "Знаков набор"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не е открит!"
-
+

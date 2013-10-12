@@ -6977,9 +6977,25 @@ msgstr "Архив повреждён или имеет неизвестный �
 msgid "File %s changed, save?"
 msgstr "Файл %s изменён, сохранить?"
 
+#: ulng.rsmsgfileexistsfileinfo
+msgid "%s bytes, %s"
+msgstr "%s байт, %s"
+
+#: ulng.rsmsgfileexistsoverwrite
+msgid "Overwrite:"
+msgstr "Заменить:"
+
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Файл %s существует, переписать?"
+
+#: ulng.rsmsgfileexistswithfile
+msgid "With file:"
+msgstr "файлом:"
+
+#: ulng.rsmsgfilenotfound
+msgid "File \"%s\" not found."
+msgstr ""
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
