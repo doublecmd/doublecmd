@@ -7730,9 +7730,25 @@ msgstr "Format d'archive inconnu"
 msgid "File %s changed, save?"
 msgstr "Le fichier %s a été modifié, le sauvegarder ?"
 
+#: ulng.rsmsgfileexistsfileinfo
+msgid "%s bytes, %s"
+msgstr ""
+
+#: ulng.rsmsgfileexistsoverwrite
+msgid "Overwrite:"
+msgstr ""
+
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Le fichier %s existe déjà, l'écraser ?"
+
+#: ulng.rsmsgfileexistswithfile
+msgid "With file:"
+msgstr ""
+
+#: ulng.rsmsgfilenotfound
+msgid "File \"%s\" not found."
+msgstr ""
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"

@@ -7719,9 +7719,25 @@ msgstr "未知的壓縮格式"
 msgid "File %s changed, save?"
 msgstr "檔案 %s 已變更, 是否要儲存?"
 
+#: ulng.rsmsgfileexistsfileinfo
+msgid "%s bytes, %s"
+msgstr ""
+
+#: ulng.rsmsgfileexistsoverwrite
+msgid "Overwrite:"
+msgstr ""
+
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "檔案 %s 已存在, 是否要覆蓋?"
+
+#: ulng.rsmsgfileexistswithfile
+msgid "With file:"
+msgstr ""
+
+#: ulng.rsmsgfilenotfound
+msgid "File \"%s\" not found."
+msgstr ""
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"

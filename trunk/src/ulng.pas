@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,9 @@ resourcestring
   rsMsgErrDirExists = 'Directory %s exists!';
   rsMsgErrRename = 'Cannot rename file %s to %s';
   rsMsgErrCannotCopyFile = 'Cannot copy file %s to %s';
+  rsMsgFileExistsOverwrite = 'Overwrite:';
+  rsMsgFileExistsWithFile = 'With file:';
+  rsMsgFileExistsFileInfo = '%s bytes, %s';
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
   rsMsgFileChangedSave = 'File %s changed, save?';
   rsMsgFolderExistsRwrt = 'Folder %s exists, overwrite?';

@@ -21,6 +21,8 @@ uses
                          out NewFiles: TFiles;
                          out FilesCount: Int64;
                          out FilesSize: Int64);
+  function FileExistsMessage(const TargetName, SourceName: UTF8String;
+                             SourceSize: Int64; SourceTime: TDateTime): UTF8String;
 
 type
   // Additional data for the filesystem tree node.
@@ -194,7 +196,8 @@ implementation
 
 uses
   uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
-  DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, DCDateTimeUtils;
+  uDCUtils, DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty,
+  StrUtils, DCDateTimeUtils;
 
 function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
 begin
@@ -276,6 +279,21 @@ begin
       end;
     end;
   end;
+end;
+
+function FileExistsMessage(const TargetName, SourceName: UTF8String;
+                           SourceSize: Int64; SourceTime: TDateTime): UTF8String;
+var
+  TargetInfo: TSearchRec;
+begin
+  Result:= rsMsgFileExistsOverwrite + LineEnding + TargetName + LineEnding;
+  if mbFileGetAttr(TargetName, TargetInfo) then
+  begin
+    Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(TargetInfo.Size)),
+                             DateTimeToStr(FileDateToDateTime(TargetInfo.Time))]) + LineEnding;
+  end;
+  Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + SourceName + LineEnding +
+           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceSize)), DateTimeToStr(SourceTime)]);
 end;
 
 // ----------------------------------------------------------------------------
@@ -1488,6 +1506,7 @@ const
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll,
        fsourOverwriteOlder, fsourCancel);
 var
+  Message: String;
   PossibleResponses: array of TFileSourceOperationUIResponse;
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
@@ -1506,8 +1525,9 @@ begin
           True :  PossibleResponses := Responses;
           False:  PossibleResponses := ResponsesNoAppend;
         end;
-
-        case AskQuestion(Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]), '',
+        Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
+                                    aFile.Size, aFile.ModificationTime);
+        case AskQuestion(Message, '',
                          PossibleResponses, fsourOverwrite, fsourSkip) of
           fsourOverwrite:
             Result := fsoofeOverwrite;

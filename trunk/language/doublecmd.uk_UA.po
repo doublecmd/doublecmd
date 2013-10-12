@@ -7428,9 +7428,25 @@ msgstr "Архів пошкоджено або має невідомий фор�
 msgid "File %s changed, save?"
 msgstr "Файл %s змінено, зберегти?"
 
+#: ulng.rsmsgfileexistsfileinfo
+msgid "%s bytes, %s"
+msgstr ""
+
+#: ulng.rsmsgfileexistsoverwrite
+msgid "Overwrite:"
+msgstr ""
+
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Файл %s існує, перезаписати?"
+
+#: ulng.rsmsgfileexistswithfile
+msgid "With file:"
+msgstr ""
+
+#: ulng.rsmsgfilenotfound
+msgid "File \"%s\" not found."
+msgstr ""
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
@@ -8582,4 +8598,4 @@ msgstr "Кодування"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не знайдено!"
-
+

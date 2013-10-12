@@ -54,7 +54,7 @@ type
              from where the attributes are retrieved.}
     function SetDirsAttributes(const Paths: TStringHashList): Boolean;
 
-    function DoFileExists(const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+    function DoFileExists(aFile: TFile; const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -93,8 +93,9 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, DCOSUtils, DCStrUtils, uMultiArc, uFileSourceOperationUI, fMultiArchiveCopyOperationOptions,
-  uMultiArchiveUtil, uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes, uShowMsg;
+  LCLProc, FileUtil, uOSUtils, DCOSUtils, DCStrUtils, uMultiArc, uFileSourceOperationUI,
+  fMultiArchiveCopyOperationOptions, uMultiArchiveUtil, uFileProcs, uLng, DCDateTimeUtils,
+  DCBasicTypes, uShowMsg, uFileSystemUtil;
 
 constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                                aTargetFileSource: IFileSource;
@@ -190,7 +191,7 @@ begin
               TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
 
             // Check existence of target file
-            if (DoFileExists(TargetFileName) <> fsoofeOverwrite) then
+            if (DoFileExists(aFile, TargetFileName) <> fsoofeOverwrite) then
               Continue;
 
             // Get target directory
@@ -239,7 +240,7 @@ begin
            TargetFileName := TargetPath + aFile.Name
         else
            TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
-        if (DoFileExists(TargetFileName) = fsoofeOverwrite) then
+        if (DoFileExists(aFile, TargetFileName) = fsoofeOverwrite) then
           FilesToExtract.Add(aFile.Clone);
       end;
 
@@ -444,19 +445,23 @@ begin
   end;
 end;
 
-function TMultiArchiveCopyOutOperation.DoFileExists(
+function TMultiArchiveCopyOutOperation.DoFileExists(aFile: TFile;
   const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 const
   PossibleResponses: array[0..4] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+var
+  Message: String;
 begin
   case FFileExistsOption of
     fsoofeNone:
       begin
         if not mbFileExists(AbsoluteTargetFileName) then
           Result:= fsoofeOverwrite
-        else
-          case AskQuestion(Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]), '',
+        else begin
+          Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
+                                      aFile.Size, aFile.ModificationTime);
+          case AskQuestion(Message, '',
                            PossibleResponses, fsourOverwrite, fsourSkip) of
             fsourOverwrite:
               Result := fsoofeOverwrite;
@@ -476,8 +481,8 @@ begin
             fsourCancel:
               RaiseAbortOperation;
           end;
+        end;
       end;
-
     else
       Result := FFileExistsOption;
   end;
