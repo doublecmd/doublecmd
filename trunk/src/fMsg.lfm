@@ -1,10 +1,13 @@
-inherited frmMsg: TfrmMsg
+object frmMsg: TfrmMsg
   Left = 270
   Height = 254
   Top = 149
   Width = 426
   HorzScrollBar.Page = 425
   VertScrollBar.Page = 253
+  AutoSize = True
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
   ClientHeight = 254
   ClientWidth = 426
   KeyPreview = True
@@ -12,11 +15,34 @@ inherited frmMsg: TfrmMsg
   OnKeyPress = FormKeyPress
   OnKeyUp = FormKeyUp
   OnShow = frmMsgShow
-  object lblMsg: TLabel[0]
-    Left = 32
+  LCLVersion = '1.0.12.0'
+  object lblMsg: TLabel
+    Left = 6
     Height = 1
-    Top = 16
-    Width = 1
+    Top = 6
+    Width = 414
+    Align = alTop
     ParentColor = False
+  end
+  object pnlButtons: TPanel
+    AnchorSideTop.Control = lblMsg
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 235
+    Top = 13
+    Width = 414
+    Align = alClient
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    BevelOuter = bvNone
+    ChildSizing.HorizontalSpacing = 12
+    ChildSizing.VerticalSpacing = 4
+    ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 3
+    Color = clForm
+    ParentColor = False
+    TabOrder = 0
   end
 end

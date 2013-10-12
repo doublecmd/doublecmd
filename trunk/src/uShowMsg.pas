@@ -179,73 +179,36 @@ begin
   Result:= FInputQueryResult;
 end;
 
-{ This is workaround for autosize}
-function MeasureText(Canvas:TCanvas; const sText: UTF8String):Integer;
-var
-  xEnter:Integer;
-begin
-  xEnter:=Pos(#10, sText);
-  if xEnter>0 then
-    Result:=Canvas.TextWidth(Copy(sText,1, xEnter))
-  else
-    Result:=Canvas.TextWidth(sText);
-end;
-
 procedure SetMsgBoxParams(var frmMsg : TfrmMsg; const sMsg: UTF8String;
                        const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton);
 var
-  iIndex:Integer;
+  iIndex: Integer;
 begin
   Assert(Assigned(frmMsg));
-  frmMsg.Position:=poScreenCenter;
-  frmMsg.BorderStyle := bsSingle;
-  frmMsg.BorderIcons := [biSystemMenu];
-  
-  if (High(Buttons)+1)>=3 then
-    frmMsg.Width:=(cButtonWidth+cButtonSpace)*3+cButtonSpace
-  else
-    frmMsg.Width:=(cButtonWidth+cButtonSpace)*(High(Buttons)+1)+cButtonSpace;
-  frmMsg.Height:=(High(Buttons) div 3)*40+90;
+  frmMsg.Position:= poScreenCenter;
+  frmMsg.BorderStyle:= bsSingle;
+  frmMsg.BorderIcons:= [biSystemMenu];
 
+  frmMsg.Caption:= cMsgName;
+  frmMsg.lblMsg.Caption:= sMsg;
 
-    frmMsg.Caption:=cMsgName;
-    with frmMsg.lblMsg do
+  for iIndex:= 0 to High(Buttons) do
+  begin
+    with TButton.Create(frmMsg) do
     begin
-      Caption:=sMsg;
-      Top:=15;
-      AutoSize:=True;
-//      Anchors:=[akTop];
-      Width:=MeasureText(frmMsg.Canvas, sMsg); // workaround
-      if Width>frmMsg.Width then
-        frmMsg.Width:=Width+2*cButtonSpace;
-      Left:=(frmMsg.Width-Width) div 2;
+      AutoSize:= True;
+      Caption:= cLngButton[Buttons[iIndex]];
+      Parent:= frmMsg.pnlButtons;
+      Constraints.MinWidth:= cButtonWidth;
+      Tag:= iIndex;
+      OnClick:= frmMsg.ButtonClick;
+      OnMouseUp:= frmMsg.MouseUpEvent;
+      if Buttons[iIndex] = ButDefault then
+        Default:= True;
+      if Buttons[iIndex] = ButEscape then
+        frmMsg.Escape:= iIndex;
     end;
-
-    for iIndex:=0 to High(Buttons) do
-    begin
-      With TButton.Create(frmMsg) do
-      begin
-        Caption:=cLngButton[Buttons[iIndex]];
-        Parent:=frmMsg;
-        Width:=cButtonWidth;
-        Height := 32;
-        Tag:=iIndex;
-        OnCLick:=frmMsg.ButtonClick;
-        OnMouseUp:=frmMsg.MouseUpEvent;
-        if (High(Buttons)+1)>=3 then
-          Left:=(iIndex mod 3)*(cButtonWidth+cButtonSpace)+(frmMsg.Width-(3*cButtonWidth+2*cButtonSpace)) div 2
-        else
-          Left:=iIndex*(cButtonWidth+cButtonSpace)+(frmMsg.Width-((High(Buttons)+1)*cButtonWidth+High(Buttons)*cButtonSpace)) div 2;
-
-        Top:=(iIndex div 3)*(Height+5)+50;
-        if Buttons[iIndex]=ButDefault then
-          Default:=True;
-        if Buttons[iIndex]=ButEscape then
-          frmMsg.Escape:=iIndex;
-{        if iIndex=0 then
-          SetFocus;  }
-      end;
-    end;
+  end;
 end;
 
 function MsgBox(const sMsg: UTF8String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;

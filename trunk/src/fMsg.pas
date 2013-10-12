@@ -3,11 +3,10 @@ unit fMsg;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, uOSForms;
+  SysUtils, Classes, Controls, Forms, StdCtrls, ExtCtrls, uOSForms;
 
 var
   cButtonWidth: Integer = 90;
-  cButtonSpace: Integer = 15;
 
 type
 
@@ -15,6 +14,7 @@ type
 
   TfrmMsg = class(TModalForm)
     lblMsg: TLabel;
+    pnlButtons: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
