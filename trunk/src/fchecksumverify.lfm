@@ -48,7 +48,6 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     SelectedColor.BoldPriority = 50
     SelectedColor.ItalicPriority = 50
     SelectedColor.UnderlinePriority = 50
-    SelectedColor.StrikeOutPriority = 50
     IncrementColor.FrameEdges = sfeAround
     HighlightAllColor.FrameEdges = sfeAround
     BracketHighlightStyle = sbhsBoth
