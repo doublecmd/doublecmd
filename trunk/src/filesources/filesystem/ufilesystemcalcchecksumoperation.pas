@@ -292,9 +292,9 @@ begin
 
   sCheckSum:= CheckSumCalc(aFile);
   bResult:= (CompareText(sCheckSum, ExpectedChecksum) = 0);
-  FResult.Add(ExtractDirLevel(FFullFilesTree.Path, aFile.Path) +
-              aFile.Name + ': ' +
-              IfThen(bResult, 'True', 'False'));
+  FResult.AddObject(ExtractDirLevel(FFullFilesTree.Path, aFile.Path) +
+                    aFile.Name + ': ' +
+                    IfThen(bResult, 'True', 'False'), TObject(PtrInt(bResult)));
 end;
 
 function TFileSystemCalcChecksumOperation.CheckSumCalc(aFile: TFile): String;
