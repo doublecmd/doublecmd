@@ -67,7 +67,6 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     LineHighlightColor.Foreground = clNone
     LineHighlightColor.FrameEdges = sfeAround
     OnSpecialLineColors = seCheckSumVerifySpecialLineColors
-    end
   end
   object btnClose: TBitBtn
     AnchorSideLeft.Control = seCheckSumVerify
