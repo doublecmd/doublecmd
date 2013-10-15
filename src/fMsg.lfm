@@ -28,13 +28,13 @@ object frmMsg: TfrmMsg
     AnchorSideTop.Control = lblMsg
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 235
-    Top = 13
+    Height = 229
+    Top = 19
     Width = 414
     Align = alClient
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Top = 6
+    BorderSpacing.Top = 12
     BevelOuter = bvNone
     ChildSizing.HorizontalSpacing = 12
     ChildSizing.VerticalSpacing = 4
@@ -44,5 +44,9 @@ object frmMsg: TfrmMsg
     Color = clForm
     ParentColor = False
     TabOrder = 0
+  end
+  object mnuOther: TPopupMenu
+    left = 120
+    top = 48
   end
 end
