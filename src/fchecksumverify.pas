@@ -28,7 +28,7 @@ unit fCheckSumVerify;
 interface
 
 uses
-  Classes, SysUtils, Forms, StdCtrls, Buttons, uOSForms;
+  Classes, SysUtils, Forms, Buttons, SynEdit, uOSForms, SynEditMarkupSpecialLine, Graphics;
 
 type
 
@@ -36,8 +36,10 @@ type
 
   TfrmCheckSumVerify = class(TAloneForm)
     btnClose: TBitBtn;
-    mmCheckSumVerify: TMemo;
+    seCheckSumVerify: TSynEdit;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure seCheckSumVerifySpecialLineColors(Sender: TObject; Line: integer;
+      var Special: boolean; var FG, BG: TColor);
   private
     { private declarations }
   public
@@ -54,7 +56,7 @@ procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
 begin
   with TfrmCheckSumVerify.Create(Application) do
   begin
-    mmCheckSumVerify.Lines.Assign(VerifyResult);
+    seCheckSumVerify.Lines.Assign(VerifyResult);
     Show;
   end;
 end;
@@ -64,6 +66,16 @@ end;
 procedure TfrmCheckSumVerify.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+end;
+
+procedure TfrmCheckSumVerify.seCheckSumVerifySpecialLineColors(Sender: TObject; Line: integer;
+                                                               var Special: boolean; var FG, BG: TColor);
+begin
+  Special:= True;
+  if Assigned(seCheckSumVerify.Lines.Objects[Line - 1]) then
+    FG:= clGreen
+  else
+    FG:= clRed;
 end;
 
 end.

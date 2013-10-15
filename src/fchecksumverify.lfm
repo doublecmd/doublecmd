@@ -12,7 +12,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   Position = poScreenCenter
   ShowInTaskBar = stAlways
   LCLVersion = '1.0.1.3'
-  object mmCheckSumVerify: TMemo
+  inline seCheckSumVerify: TSynEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
@@ -22,20 +22,59 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     Height = 240
     Top = 10
     Width = 380
-    Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 10
     BorderSpacing.Top = 10
     BorderSpacing.Right = 10
     BorderSpacing.Bottom = 10
-    ReadOnly = True
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    ParentColor = False
+    ParentFont = False
     TabOrder = 0
+    Gutter.Visible = False
+    Gutter.Width = 0
+    Gutter.MouseActions = <>
+    RightGutter.Width = 0
+    RightGutter.MouseActions = <>
+    Keystrokes = <>
+    MouseActions = <>
+    MouseSelActions = <>
+    VisibleSpecialChars = [vscSpace, vscTabAtLast]
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    SelectedColor.FrameEdges = sfeAround
+    SelectedColor.BackPriority = 50
+    SelectedColor.ForePriority = 50
+    SelectedColor.FramePriority = 50
+    SelectedColor.BoldPriority = 50
+    SelectedColor.ItalicPriority = 50
+    SelectedColor.UnderlinePriority = 50
+    SelectedColor.StrikeOutPriority = 50
+    IncrementColor.FrameEdges = sfeAround
+    HighlightAllColor.FrameEdges = sfeAround
+    BracketHighlightStyle = sbhsBoth
+    BracketMatchColor.Background = clNone
+    BracketMatchColor.Foreground = clNone
+    BracketMatchColor.FrameEdges = sfeAround
+    BracketMatchColor.Style = [fsBold]
+    FoldedCodeColor.Background = clNone
+    FoldedCodeColor.Foreground = clGray
+    FoldedCodeColor.FrameColor = clGray
+    FoldedCodeColor.FrameEdges = sfeAround
+    MouseLinkColor.Background = clNone
+    MouseLinkColor.Foreground = clBlue
+    MouseLinkColor.FrameEdges = sfeAround
+    LineHighlightColor.Background = clNone
+    LineHighlightColor.Foreground = clNone
+    LineHighlightColor.FrameEdges = sfeAround
+    OnSpecialLineColors = seCheckSumVerifySpecialLineColors
+    end
   end
   object btnClose: TBitBtn
-    AnchorSideLeft.Control = mmCheckSumVerify
+    AnchorSideLeft.Control = seCheckSumVerify
     AnchorSideLeft.Side = asrCenter
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 163
+    Left = 150
     Height = 30
     Top = 260
     Width = 100
