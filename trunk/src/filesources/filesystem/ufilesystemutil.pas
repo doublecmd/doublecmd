@@ -1499,9 +1499,10 @@ function TFileSystemOperationHelper.FileExists(
              AbsoluteTargetFileName: String;
              AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..7] of TFileSourceOperationUIResponse
+  Responses: array[0..9] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll,
-       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel);
+       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
+       fsourOverwriteSmaller, fsourOverwriteLarger);
   ResponsesNoAppend: array[0..5] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll,
        fsourOverwriteOlder, fsourCancel);
@@ -1512,6 +1513,22 @@ var
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
     if aFile.ModificationTime > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteSmaller: TFileSourceOperationOptionFileExists;
+  begin
+    if aFile.Size > mbFileSize(AbsoluteTargetFileName) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteLarger: TFileSourceOperationOptionFileExists;
+  begin
+    if aFile.Size < mbFileSize(AbsoluteTargetFileName) then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;
@@ -1557,6 +1574,16 @@ begin
               FFileExistsOption := fsoofeOverwriteOlder;
               Result:= OverwriteOlder;
             end;
+          fsourOverwriteSmaller:
+            begin
+              FFileExistsOption := fsoofeOverwriteSmaller;
+              Result:= OverwriteSmaller;
+            end;
+          fsourOverwriteLarger:
+            begin
+              FFileExistsOption := fsoofeOverwriteLarger;
+              Result:= OverwriteLarger;
+            end;
           fsourNone,
           fsourCancel:
             AbortOperation;
@@ -1565,6 +1592,14 @@ begin
     fsoofeOverwriteOlder:
       begin
         Result:= OverwriteOlder;
+      end;
+    fsoofeOverwriteSmaller:
+      begin
+        Result:= OverwriteSmaller;
+      end;
+    fsoofeOverwriteLarger:
+      begin
+        Result:= OverwriteLarger;
       end;
 
     else

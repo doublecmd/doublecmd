@@ -23,12 +23,14 @@ uses
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
                 mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
-                mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder, mmrSkip,
+                mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder,
+                mmrOverwriteSmaller, mmrOverwriteLarger, mmrSkip,
                 mmrSkipAll, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
-                msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder, msmbSkip,
+                msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
+                msmbOverwriteSmaller, msmbOverwriteLarger, msmbSkip,
                 msmbSkipAll, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
 
 
@@ -92,12 +94,11 @@ function ShowInputQuery(Thread: TThread; const ACaption, APrompt: UTF8String; va
 function ShowInputComboBox(const sCaption, sPrompt : UTF8String; slValueList : TStringList; var sValue : UTF8String) : Boolean;
 
 procedure msgLoadLng;
-procedure InitDialogButtonWidth;
 
 implementation
 
 uses
-  LCLIntf, SysUtils, StdCtrls, Graphics, Math, typinfo,
+  LCLIntf, SysUtils, StdCtrls, Graphics, Math, typinfo, Menus,
   fMsg, uLng, Buttons, Controls, uLog, uGlobs, uDebug;
 
 const
@@ -179,10 +180,18 @@ begin
   Result:= FInputQueryResult;
 end;
 
-procedure SetMsgBoxParams(var frmMsg : TfrmMsg; const sMsg: UTF8String;
-                       const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton);
+procedure SetMsgBoxParams(var frmMsg: TfrmMsg; const sMsg: UTF8String;
+                          const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton);
+const
+  cButtonCount = 8;
+  cButtonSpace = 8;
 var
   iIndex: Integer;
+  iCount: Integer;
+  MenuItem: TMenuItem;
+  CaptionWidth: Integer;
+  More: Boolean = False;
+  MinButtonWidth: Integer;
 begin
   Assert(Assigned(frmMsg));
   frmMsg.Position:= poScreenCenter;
@@ -192,14 +201,41 @@ begin
   frmMsg.Caption:= cMsgName;
   frmMsg.lblMsg.Caption:= sMsg;
 
-  for iIndex:= 0 to High(Buttons) do
+  // Get default button width
+  with TButton.Create(nil) do
+  begin
+    MinButtonWidth:= GetDefaultWidth;
+    Free;
+  end;
+
+  // Determine number of buttons
+  iCount:= High(Buttons);
+  if iCount > cButtonCount then
+  begin
+    More:= True;
+    iCount:= cButtonCount - 1;
+    CaptionWidth:= frmMsg.Canvas.TextWidth(rsDlgButtonOther);
+    if CaptionWidth >= (MinButtonWidth - cButtonSpace) then
+      MinButtonWidth:= CaptionWidth + cButtonSpace;
+  end;
+
+  // Calculate minimum button width
+  for iIndex:= Low(Buttons) to iCount do
+  begin
+    CaptionWidth:= frmMsg.Canvas.TextWidth(cLngButton[Buttons[iIndex]]);
+    if CaptionWidth >= (MinButtonWidth - cButtonSpace) then
+      MinButtonWidth:= CaptionWidth + cButtonSpace;
+  end;
+
+  // Add first 9 items as buttons
+  for iIndex:= Low(Buttons) to iCount do
   begin
     with TButton.Create(frmMsg) do
     begin
       AutoSize:= True;
       Caption:= cLngButton[Buttons[iIndex]];
       Parent:= frmMsg.pnlButtons;
-      Constraints.MinWidth:= cButtonWidth;
+      Constraints.MinWidth:= MinButtonWidth;
       Tag:= iIndex;
       OnClick:= frmMsg.ButtonClick;
       OnMouseUp:= frmMsg.MouseUpEvent;
@@ -207,6 +243,32 @@ begin
         Default:= True;
       if Buttons[iIndex] = ButEscape then
         frmMsg.Escape:= iIndex;
+    end;
+  end;
+
+  // More add as popup menu
+  if More then
+  begin
+    // Add button with popup menu
+    with TButton.Create(frmMsg) do
+    begin
+      AutoSize:= True;
+      Caption:= rsDlgButtonOther;
+      Parent:= frmMsg.pnlButtons;
+      Constraints.MinWidth:= MinButtonWidth;
+      OnClick:= frmMsg.ButtonOtherClick;
+    end;
+    // Fill popup menu
+    for iIndex:= cButtonCount to High(Buttons) do
+    begin
+      MenuItem:= TMenuItem.Create(frmMsg.mnuOther);
+      with MenuItem do
+      begin
+        Tag:= iIndex;
+        Caption:= cLngButton[Buttons[iIndex]];
+        OnClick:= frmMsg.ButtonClick;
+        frmMsg.mnuOther.Items.Add(MenuItem);
+      end;
     end;
   end;
 end;
@@ -444,40 +506,35 @@ begin
 end;
 
 procedure msgLoadLng;
-begin
-  cLngButton[msmbOK]             := rsDlgButtonOK;
-  cLngButton[msmbNo]             := rsDlgButtonNo;
-  cLngButton[msmbYes]            := rsDlgButtonYes;
-  cLngButton[msmbCancel]         := rsDlgButtonCancel;
-  cLngButton[msmbNone]           := rsDlgButtonNone;
-  cLngButton[msmbAppend]         := rsDlgButtonAppend;
-  cLngButton[msmbResume]         := rsDlgButtonResume;
-  cLngButton[msmbCopyInto]       := rsDlgButtonCopyInto;
-  cLngButton[msmbCopyIntoAll]    := rsDlgButtonCopyIntoAll;
-  cLngButton[msmbOverwrite]      := rsDlgButtonOverwrite;
-  cLngButton[msmbOverwriteAll]   := rsDlgButtonOverwriteAll;
-  cLngButton[msmbOverwriteOlder] := rsDlgButtonOverwriteOlder;
-  cLngButton[msmbSkip]           := rsDlgButtonSkip;
-  cLngButton[msmbSkipAll]        := rsDlgButtonSkipAll;
-  cLngButton[msmbIgnoreAll]      := rsDlgButtonIgnoreAll;
-  cLngButton[msmbAll]            := rsDlgButtonAll;
-  cLngButton[msmbRetry]          := rsDlgButtonRetry;
-  cLngButton[msmbAbort]          := rsDlgButtonAbort;
-end;
-
-procedure InitDialogButtonWidth;
 var
   I: TMyMsgButton;
 begin
+  cLngButton[msmbOK]               := rsDlgButtonOK;
+  cLngButton[msmbNo]               := rsDlgButtonNo;
+  cLngButton[msmbYes]              := rsDlgButtonYes;
+  cLngButton[msmbCancel]           := rsDlgButtonCancel;
+  cLngButton[msmbNone]             := rsDlgButtonNone;
+  cLngButton[msmbAppend]           := rsDlgButtonAppend;
+  cLngButton[msmbResume]           := rsDlgButtonResume;
+  cLngButton[msmbCopyInto]         := rsDlgButtonCopyInto;
+  cLngButton[msmbCopyIntoAll]      := rsDlgButtonCopyIntoAll;
+  cLngButton[msmbOverwrite]        := rsDlgButtonOverwrite;
+  cLngButton[msmbOverwriteAll]     := rsDlgButtonOverwriteAll;
+  cLngButton[msmbOverwriteOlder]   := rsDlgButtonOverwriteOlder;
+  cLngButton[msmbOverwriteSmaller] := rsDlgButtonOverwriteSmaller;
+  cLngButton[msmbOverwriteLarger]  := rsDlgButtonOverwriteLarger;
+  cLngButton[msmbSkip]             := rsDlgButtonSkip;
+  cLngButton[msmbSkipAll]          := rsDlgButtonSkipAll;
+  cLngButton[msmbIgnoreAll]        := rsDlgButtonIgnoreAll;
+  cLngButton[msmbAll]              := rsDlgButtonAll;
+  cLngButton[msmbRetry]            := rsDlgButtonRetry;
+  cLngButton[msmbAbort]            := rsDlgButtonAbort;
+
   for I:= Low(TMyMsgButton) to High(TMyMsgButton) do
   begin
     // A reminder in case someone forgots to assign text.
     if cLngButton[I] = EmptyStr then
       DCDebug('Warning: MsgBox button ' + GetEnumName(TypeInfo(TMyMsgButton), Integer(I)) + ' caption not set.');
-
-    with Application.MainForm.Canvas do
-    if TextWidth(cLngButton[I]) >= (cButtonWidth - 8) then
-      cButtonWidth:= TextWidth(cLngButton[I]) + 8;
   end;
 end;
 

@@ -23,6 +23,8 @@ type
      fsourOverwrite,
      fsourOverwriteAll,
      fsourOverwriteOlder,
+     fsourOverwriteSmaller,
+     fsourOverwriteLarger,
      fsourSkip,
      fsourSkipAll,
      fsourIgnoreAll,

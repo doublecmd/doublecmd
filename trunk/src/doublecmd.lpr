@@ -137,9 +137,6 @@ begin
        GTK2WidgetSet.SetClipboardWidget(PGtkWidget(frmMain.Handle));
        {$ENDIF}
 
-       // Calculate buttons width of message dialogs
-       InitDialogButtonWidth;
-
        // Hooking on QT needs the handle of the main form which is created
        // in Application.CreateForm above.
        uKeyboard.HookKeyboardLayoutChanged;

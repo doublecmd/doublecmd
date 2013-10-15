@@ -183,12 +183,15 @@ resourcestring
   rsDlgButtonOverwrite = '&Overwrite';
   rsDlgButtonOverwriteAll = 'Overwrite &All';
   rsDlgButtonOverwriteOlder = 'Overwrite All Ol&der';
+  rsDlgButtonOverwriteSmaller = 'Overwrite All S&maller';
+  rsDlgButtonOverwriteLarger = 'Overwrite All &Larger';
   rsDlgButtonSkip = '&Skip';
   rsDlgButtonSkipAll = 'S&kip All';
   rsDlgButtonIgnoreAll = 'I&gnore All';
   rsDlgButtonAll = 'A&ll';
   rsDlgButtonRetry = 'Re&try';
   rsDlgButtonAbort = 'Ab&ort';
+  rsDlgButtonOther = 'Ot&her';
 
   rsDlgButtonContinue = '&Continue';
   rsDlgButtonExitProgram = 'E&xit program';
