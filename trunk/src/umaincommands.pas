@@ -1725,7 +1725,9 @@ end;
 procedure TMainCommands.cm_CheckSumVerify(const Params: array of string);
 var
   I: Integer;
+  Hash: String;
   SelectedFiles: TFiles;
+  Algorithm: THashAlgorithm;
   Operation: TFileSourceCalcChecksumOperation;
 begin
   // This will work only for filesystem.
@@ -1753,15 +1755,24 @@ begin
       for I := 0 to SelectedFiles.Count - 1 do // find files in selection
         if not FileExtIsHash(SelectedFiles[I].Extension) then
         begin
-          msgError(rsMsgSelectOnlyCheckSumFiles);
-          Exit;
+          if (SelectedFiles.Count > 1) or (SelectedFiles[I].IsDirectory) or
+             (SelectedFiles[I].IsLinkToDirectory) then
+          begin
+            msgError(rsMsgSelectOnlyCheckSumFiles);
+            Exit;
+          end
+          else begin
+            if not ShowCalcVerifyCheckSum(Hash, Algorithm) then
+              Exit;
+          end
         end;
 
       Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
-                     SelectedFiles, '', '') as TFileSourceCalcChecksumOperation;
+                     SelectedFiles, Hash, '') as TFileSourceCalcChecksumOperation;
 
       if Assigned(Operation) then
       begin
+        Operation.Algorithm := Algorithm;
         Operation.AddStateChangedListener([fsosStopped], @OnCalcChecksumStateChanged);
         Operation.Mode := checksum_verify;
 

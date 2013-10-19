@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Calculate check sum dialog
 
-   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ type
     lblSaveTo: TLabel;
     procedure cbSeparateFileChange(Sender: TObject);
     procedure cmbHashAlgorithmChange(Sender: TObject);
+    procedure edtSaveToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -55,12 +56,15 @@ type
 function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
                           out HashAlgorithm: THashAlgorithm): Boolean;
 
+function ShowCalcVerifyCheckSum(out Hash: String;
+                                out HashAlgorithm: THashAlgorithm): Boolean;
+
 implementation
 
 {$R *.lfm}
 
 uses
-  uGlobs;
+  uGlobs, uLng;
 
 function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
                           out HashAlgorithm: THashAlgorithm): Boolean;
@@ -81,6 +85,34 @@ begin
   end;
 end;
 
+function ShowCalcVerifyCheckSum(out Hash: String;
+                                out HashAlgorithm: THashAlgorithm): Boolean;
+begin
+  with TfrmCheckSumCalc.Create(Application) do
+  try
+    OnShow:= nil;
+    SessionProperties:= EmptyStr;
+    Caption:= rsCheckSumVerifyTitle;
+    cbSeparateFile.Visible:= False;
+    cmbHashAlgorithm.OnChange:= nil;
+    edtSaveTo.OnChange:= @edtSaveToChange;
+    lblSaveTo.Caption:= rsCheckSumVerifyText;
+    cmbHashAlgorithm.Anchors:= [akTop, akLeft, akRight];
+    cmbHashAlgorithm.AnchorSide[akRight].Side:= asrRight;
+    cmbHashAlgorithm.AnchorSide[akRight].Control:= edtSaveTo;
+
+    Result:= (ShowModal = mrOK);
+    if Result then
+    begin
+      Hash:= Trim(edtSaveTo.Text);
+      Result:= Length(Hash) > 0;
+      HashAlgorithm:= THashAlgorithm(cmbHashAlgorithm.ItemIndex);
+    end;
+  finally
+    Free;
+  end;
+end;
+
 { TfrmCheckSumCalc }
 
 procedure TfrmCheckSumCalc.cbSeparateFileChange(Sender: TObject);
@@ -95,6 +127,18 @@ procedure TfrmCheckSumCalc.cmbHashAlgorithmChange(Sender: TObject);
 begin
   FAlgorithm:= THashAlgorithm(cmbHashAlgorithm.ItemIndex);
   edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.' + HashFileExt[FAlgorithm]);
+end;
+
+procedure TfrmCheckSumCalc.edtSaveToChange(Sender: TObject);
+begin
+  case Length(Trim(edtSaveTo.Text)) of
+     8: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SFV);
+    32: cmbHashAlgorithm.ItemIndex:= Integer(HASH_MD5);
+    40: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA1);
+    64: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA256);
+    96: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA384);
+   128: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA512);
+  end;
 end;
 
 procedure TfrmCheckSumCalc.FormCreate(Sender: TObject);
