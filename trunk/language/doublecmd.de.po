@@ -7195,6 +7195,14 @@ msgstr "Schnell-Filter abbrechen"
 msgid "Cancel Current Operation"
 msgstr "Aktuellen Vorgang abbrechen"
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr ""
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Die Zwischenablage enthält keine gültigen Daten für die Werkzeugleiste."
@@ -7325,6 +7333,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "&OK"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "&Überschreiben"
@@ -7333,9 +7345,17 @@ msgstr "&Überschreiben"
 msgid "Overwrite &All"
 msgstr "Alle &vorhandenen Dateien überschreiben"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
 msgstr "Alle älteren &Dateien überschreiben"
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
+msgstr ""
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -7913,7 +7933,7 @@ msgstr ""
 
 #: ulng.rsmsgfileexistsoverwrite
 msgid "Overwrite:"
-msgstr ""
+msgstr "Überschreiben:"
 
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
@@ -7921,11 +7941,11 @@ msgstr "Datei %s existiert bereits. Überschreiben?"
 
 #: ulng.rsmsgfileexistswithfile
 msgid "With file:"
-msgstr ""
+msgstr "Mit Datei:"
 
 #: ulng.rsmsgfilenotfound
 msgid "File \"%s\" not found."
-msgstr ""
+msgstr "Datei \"%s\" nicht gefunden."
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
@@ -7973,7 +7993,7 @@ msgstr "Pfad %s enthält ungültige Zeichen."
 
 #: ulng.rsmsginvalidplugin
 msgid "This is not a valid plugin!"
-msgstr "Dies sit kein akzeptables Plugin"
+msgstr "Dies ist kein akzeptables Plugin"
 
 #: ulng.rsmsginvalidpluginarchitecture
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
@@ -9074,4 +9094,4 @@ msgstr "Codierung"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nicht gefunden!"
-
+

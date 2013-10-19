@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-06-19 23:58+0400\n"
+"PO-Revision-Date: 2013-10-19 16:31+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -6276,6 +6276,14 @@ msgstr "Отменить быстрый фильтр"
 msgid "Cancel Current Operation"
 msgstr "Отменить текущую операцию"
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr "Введите контрольную сумму и выберите алгоритм:"
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr "Проверка контрольной суммы"
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Буфер омена не содержит данных панели инструментов"
@@ -6404,6 +6412,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "&OK"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr "&Другое"
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "&Переписать"
@@ -6412,9 +6424,17 @@ msgstr "&Переписать"
 msgid "Overwrite &All"
 msgstr "Переписать &все"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr "Заменить &большие"
+
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
 msgstr "Заменить более &старые"
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
+msgstr "Заменить &маленькие"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -6995,7 +7015,7 @@ msgstr "файлом:"
 
 #: ulng.rsmsgfilenotfound
 msgid "File \"%s\" not found."
-msgstr ""
+msgstr "Файл \"%s\" не найден."
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
