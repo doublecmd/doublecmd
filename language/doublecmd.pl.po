@@ -6973,6 +6973,14 @@ msgstr "Anuluj szybki filtr"
 msgid "Cancel Current Operation"
 msgstr "Anuluj bieżącą operację"
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr ""
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr ""
@@ -7103,6 +7111,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "&OK"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "&Zastąp"
@@ -7111,9 +7123,17 @@ msgstr "&Zastąp"
 msgid "Overwrite &All"
 msgstr "Zastąp wszystko"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
 msgstr "Nadpisz wszystkie &stare"
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
+msgstr ""
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -8834,4 +8854,4 @@ msgstr "Kodowanie"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nie znaleziony!"
-
+

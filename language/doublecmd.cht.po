@@ -7011,6 +7011,14 @@ msgstr "取消快速篩選"
 msgid "Cancel Current Operation"
 msgstr "取消目前操作"
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr ""
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "剪貼簿沒有包含任何可用的工具列資料。"
@@ -7139,6 +7147,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "確定 (&O)"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "覆蓋 (&O)"
@@ -7147,9 +7159,17 @@ msgstr "覆蓋 (&O)"
 msgid "Overwrite &All"
 msgstr "覆蓋全部 (&A)"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
 msgstr "覆蓋全部舊檔 (&D)"
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
+msgstr ""
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -8877,4 +8897,4 @@ msgstr "正在編碼"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "沒有找到 %s!"
-
+

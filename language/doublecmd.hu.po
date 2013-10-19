@@ -6566,6 +6566,14 @@ msgstr "Gyorsszűrő mellőzése"
 msgid "Cancel Current Operation"
 msgstr "Jelenlegi művelet megállítása"
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr ""
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "A vágólap nem tartalmaz érvényes eszköztári adatot."
@@ -6695,6 +6703,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "&OK"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "&Felülír"
@@ -6703,9 +6715,17 @@ msgstr "&Felülír"
 msgid "Overwrite &All"
 msgstr "Min&det felülír"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
 msgstr "Min&den régebbi felülírása"
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
+msgstr ""
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"

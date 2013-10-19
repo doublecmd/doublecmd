@@ -6825,6 +6825,14 @@ msgstr ""
 msgid "Cancel Current Operation"
 msgstr ""
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr ""
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr ""
@@ -6953,6 +6961,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "&OK"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "Overschrijven"
@@ -6961,8 +6973,16 @@ msgstr "Overschrijven"
 msgid "Overwrite &All"
 msgstr "Overschrijven &Alles'"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
+msgstr ""
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
 msgstr ""
 
 #: ulng.rsdlgbuttonresume
@@ -8688,4 +8708,4 @@ msgstr ""
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr ""
-
+

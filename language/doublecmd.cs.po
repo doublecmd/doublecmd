@@ -6661,6 +6661,14 @@ msgstr "Zrušit rychlý filtr"
 msgid "Cancel Current Operation"
 msgstr "Zrušit aktuální operaci"
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr ""
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Schránka neobsahuje žádné platné údaje z panelu nástrojů."
@@ -6790,6 +6798,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "&OK"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "&Přepsat"
@@ -6798,9 +6810,17 @@ msgstr "&Přepsat"
 msgid "Overwrite &All"
 msgstr "Přepsat &Vše"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
 msgstr "Přepsat Vše s&tarší"
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
+msgstr ""
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -7368,9 +7388,25 @@ msgstr "Neznámý formát archívu"
 msgid "File %s changed, save?"
 msgstr "Soubor %s byl změněn, uložit?"
 
+#: ulng.rsmsgfileexistsfileinfo
+msgid "%s bytes, %s"
+msgstr ""
+
+#: ulng.rsmsgfileexistsoverwrite
+msgid "Overwrite:"
+msgstr ""
+
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Soubor %s existuje, přepsat?"
+
+#: ulng.rsmsgfileexistswithfile
+msgid "With file:"
+msgstr ""
+
+#: ulng.rsmsgfilenotfound
+msgid "File \"%s\" not found."
+msgstr ""
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"

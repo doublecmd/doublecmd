@@ -7161,6 +7161,14 @@ msgstr "빠른 필터 취소"
 msgid "Cancel Current Operation"
 msgstr "현재 작업 취소"
 
+#: ulng.rschecksumverifytext
+msgid "Enter checksum and select algorithm:"
+msgstr ""
+
+#: ulng.rschecksumverifytitle
+msgid "Verify checksum"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr ""
@@ -7292,6 +7300,10 @@ msgctxt "ulng.rsdlgbuttonok"
 msgid "&OK"
 msgstr "확인(&O)"
 
+#: ulng.rsdlgbuttonother
+msgid "Ot&her"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
 msgstr "덮어쓰기(&R)"
@@ -7300,10 +7312,18 @@ msgstr "덮어쓰기(&R)"
 msgid "Overwrite &All"
 msgstr "전부 덮어쓰기(&A)"
 
+#: ulng.rsdlgbuttonoverwritelarger
+msgid "Overwrite All &Larger"
+msgstr ""
+
 #: ulng.rsdlgbuttonoverwriteolder
 #, fuzzy
 msgid "Overwrite All Ol&der"
 msgstr "옛파일 전부 덮기(&D)"
+
+#: ulng.rsdlgbuttonoverwritesmaller
+msgid "Overwrite All S&maller"
+msgstr ""
 
 #: ulng.rsdlgbuttonresume
 #, fuzzy
@@ -9081,4 +9101,4 @@ msgstr "인코딩"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s 를 찾지 못했습니다!"
-
+
