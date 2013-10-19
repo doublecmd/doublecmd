@@ -202,6 +202,27 @@ var
   Entry: TChecksumEntry;
 begin
   FFullFilesTree := TFiles.Create(Files.Path);
+
+  if Length(TargetPath) > 0 then
+  begin
+    aFileToVerify := Files[0].Clone;
+
+    with FStatistics do
+    begin
+      TotalFiles := TotalFiles + 1;
+      TotalBytes := TotalBytes + aFileToVerify.Size;
+    end;
+
+    FFullFilesTree.Add(aFileToVerify);
+    Entry := TChecksumEntry.Create;
+    FChecksumsList.Add(Entry);
+    Entry.Checksum := TargetPath;
+    Entry.Algorithm := Algorithm;
+
+    CheckOperationState;
+    Exit;
+  end;
+
   FChecksumsList.Clear;
   for CurrentFileIndex := 0 to Files.Count - 1 do
   begin
