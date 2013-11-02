@@ -5151,7 +5151,7 @@ begin
     // Copy path opened in the other panel if the file source and drive match
     // and that path is not already opened in this panel.
     if OtherFileView.FileSource.IsClass(TFileSystemFileSource) and
-       mbCompareFileNames(OtherFileView.FileSource.GetRootDir(OtherFileView.CurrentPath), Drive^.Path) and
+       mbCompareFileNames(ExtractRootDir(OtherFileView.CurrentPath), ExcludeTrailingPathDelimiter(Drive^.Path)) and
        not mbCompareFileNames(OtherFileView.CurrentPath, aFileView.CurrentPath) and not gGoToRoot then
     begin
       SetFileSystemPath(aFileView, OtherFileView.CurrentPath);
