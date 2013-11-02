@@ -459,7 +459,7 @@ begin
     if Drive^.Path <> EmptyStr then
 {$ENDIF}
       Result := fpSystemStatus('mount ' + Drive^.DeviceId) = 0;
-{$IFDEF LINUX}
+{$IF DEFINED(LINUX)}
     if not Result and uUDisks.Initialize then
     begin
       Result := uUDisks.Mount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), EmptyStr, nil, MountPath);
@@ -469,6 +469,9 @@ begin
     end;
     if not Result and HavePMount and Drive^.IsMediaRemovable then
       Result := fpSystemStatus('pmount ' + Drive^.DeviceId) = 0;
+{$ELSE IF DEFINED(DARWIN)}
+    if not Result then
+      Result := fpSystemStatus('diskutil mount ' + Drive^.DeviceId) = 0;
 {$ENDIF}
   end
   else
@@ -479,7 +482,7 @@ function UnmountDrive(Drive: PDrive): Boolean;
 begin
   if Drive^.IsMounted then
   begin
-{$IFDEF LINUX}
+{$IF DEFINED(LINUX)}
     Result := False;
     if uUDisks.Initialize then
     begin
@@ -488,6 +491,9 @@ begin
     end;
     if not Result and HavePMount and Drive^.IsMediaRemovable then
       Result := fpSystemStatus('pumount ' + Drive^.DeviceId) = 0;
+    if not Result then
+{$ELSE IF DEFINED(DARWIN)}
+    Result := fpSystemStatus('diskutil unmount ' + Drive^.DeviceId) = 0;
     if not Result then
 {$ENDIF}
     Result := fpSystemStatus('umount ' + Drive^.Path) = 0;
@@ -498,6 +504,10 @@ end;
 
 function EjectDrive(Drive: PDrive): Boolean;
 begin
+{$IF DEFINED(DARWIN)}
+  Result := fpSystemStatus('diskutil eject ' + Drive^.DeviceId) = 0;
+  if not Result then
+{$ENDIF}
   Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
 end;
 
