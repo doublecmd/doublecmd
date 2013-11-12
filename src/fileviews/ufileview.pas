@@ -1828,7 +1828,7 @@ begin
     DisplayFilesHashed := TStringHashList.Create(True);
     // Map filename to display file.
     for i := 0 to FAllDisplayFiles.Count - 1 do
-      DisplayFilesHashed.Add(FAllDisplayFiles[i].FSFile.Name, ClonedDisplayFiles[i]);
+      DisplayFilesHashed.Add(FAllDisplayFiles[i].FSFile.FullPath, ClonedDisplayFiles[i]);
   end;
 
   Worker := TFileListBuilder.Create(

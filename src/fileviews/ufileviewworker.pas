@@ -699,7 +699,7 @@ begin
     try
       for i := 0 to aFileSourceFiles.Count - 1 do
       begin
-        j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].Name);
+        j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].FullPath);
         if j >= 0 then
         begin
           // Existing file.
