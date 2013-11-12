@@ -774,10 +774,8 @@ begin
     if IsFileIndexInRange(Index) then
     begin
       InvertFileSelection(FFiles[Index], False);
-      if (Index = 0) or (Index = FFiles.Count - 1) then
-        RedrawFile(Index);
+      DoSelectionChanged(Index);
     end;
-    UpdateRangeSelectionState;
   end;
 end;
 
