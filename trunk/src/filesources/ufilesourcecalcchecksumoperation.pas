@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs,
+  DCBasicTypes,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSource,
@@ -15,6 +16,13 @@ uses
 type
 
   TCalcCheckSumOperationMode = (checksum_calc, checksum_verify);
+
+  TVerifyChecksumResult = record
+    Success: TDynamicStringArray;
+    Broken: TDynamicStringArray;
+    Missing: TDynamicStringArray;
+    ReadError: TDynamicStringArray;
+  end;
 
   TFileSourceCalcChecksumOperationStatistics = record
     CurrentFile: String;
@@ -49,7 +57,7 @@ type
     FOneFile: Boolean;
 
   protected
-    FResult: TStringList;
+    FResult: TVerifyChecksumResult;
 
     function GetID: TFileSourceOperationType; override;
 
@@ -75,7 +83,7 @@ type
     property Mode: TCalcCheckSumOperationMode read FMode write FMode;
     property Algorithm: THashAlgorithm read FAlgorithm write FAlgorithm;
     property OneFile: Boolean read FOneFile write FOneFile;
-    property Result: TStringList read FResult;
+    property Result: TVerifyChecksumResult read FResult;
   end;
 
 implementation
@@ -114,8 +122,6 @@ begin
   FMode := checksum_calc;
   FAlgorithm := HASH_MD5;
   FOneFile := False;
-
-  FResult := TStringList.Create;
 end;
 
 destructor TFileSourceCalcChecksumOperation.Destroy;
@@ -126,8 +132,6 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
-  if Assigned(FResult) then
-    FreeAndNil(FResult);
 end;
 
 function TFileSourceCalcChecksumOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;

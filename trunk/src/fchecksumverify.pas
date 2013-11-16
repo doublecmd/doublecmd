@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Verify check sum dialog
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,8 @@ unit fCheckSumVerify;
 interface
 
 uses
-  Classes, SysUtils, Forms, Buttons, SynEdit, uOSForms, SynEditMarkupSpecialLine, Graphics;
+  Classes, SysUtils, Forms, Buttons, SynEdit, uOSForms,
+  Graphics, uFileSourceCalcChecksumOperation, DCBasicTypes;
 
 type
 
@@ -41,22 +42,53 @@ type
     procedure seCheckSumVerifySpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
   private
-    { private declarations }
+    procedure AddHeader(const aText: UTF8String; aCount: Integer; aColor: TColor);
+    procedure ProcessResult(const aResult: TDynamicStringArray;
+                            const aText: UTF8String; aColor: TColor);
   public
     { public declarations }
   end; 
 
-procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
+procedure ShowVerifyCheckSum(const VerifyResult: TVerifyChecksumResult);
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
+uses
+  uLng;
+
+procedure ShowVerifyCheckSum(const VerifyResult: TVerifyChecksumResult);
+var
+  aTotalCount: Integer;
 begin
   with TfrmCheckSumVerify.Create(Application) do
   begin
-    seCheckSumVerify.Lines.Assign(VerifyResult);
+    seCheckSumVerify.Lines.BeginUpdate;
+    try
+      seCheckSumVerify.Lines.Add(rsCheckSumVerifyGeneral);
+      aTotalCount:= Length(VerifyResult.Success) + Length(VerifyResult.ReadError) +
+                    Length(VerifyResult.Broken) + Length(VerifyResult.Missing);
+
+      // Add header information
+      AddHeader(rsCheckSumVerifyTotal, aTotalCount, clBlack);
+      AddHeader(rsCheckSumVerifySuccess, Length(VerifyResult.Success), clGreen);
+      AddHeader(rsCheckSumVerifyMissing, Length(VerifyResult.Missing), clRed);
+      AddHeader(rsCheckSumVerifyBroken, Length(VerifyResult.Broken), clRed);
+      AddHeader(rsCheckSumVerifyReadError, Length(VerifyResult.ReadError), clRed);
+
+      // Add broken files
+      ProcessResult(VerifyResult.Broken, rsCheckSumVerifyBroken, clRed);
+      // Add read error files
+      ProcessResult(VerifyResult.ReadError, rsCheckSumVerifyReadError, clRed);
+      // Add missing files
+      ProcessResult(VerifyResult.Missing, rsCheckSumVerifyMissing, clRed);
+      // Add good files
+      ProcessResult(VerifyResult.Success, rsCheckSumVerifySuccess, clGreen);
+    finally
+      seCheckSumVerify.Lines.EndUpdate;
+    end;
+
     Show;
   end;
 end;
@@ -72,10 +104,31 @@ procedure TfrmCheckSumVerify.seCheckSumVerifySpecialLineColors(Sender: TObject; 
                                                                var Special: boolean; var FG, BG: TColor);
 begin
   Special:= True;
-  if Assigned(seCheckSumVerify.Lines.Objects[Line - 1]) then
-    FG:= clGreen
+  FG:= TColor(PtrInt(seCheckSumVerify.Lines.Objects[Line - 1]));
+end;
+
+procedure TfrmCheckSumVerify.AddHeader(const aText: UTF8String; aCount: Integer; aColor: TColor);
+begin
+  if aCount = 0 then
+    seCheckSumVerify.Lines.Add(#32 + aText + #32 + IntToStr(aCount))
   else
-    FG:= clRed;
+    seCheckSumVerify.Lines.AddObject(#32 + aText + #32 + IntToStr(aCount), TObject(PtrInt(aColor)));
+end;
+
+procedure TfrmCheckSumVerify.ProcessResult(const aResult: TDynamicStringArray;
+                                           const aText: UTF8String; aColor: TColor);
+var
+  I: Integer;
+begin
+  if Length(aResult) > 0 then
+  begin
+    seCheckSumVerify.Lines.Add(EmptyStr);
+    seCheckSumVerify.Lines.AddObject(aText, TObject(PtrInt(aColor)));
+    for I:= Low(aResult) to High(aResult) do
+    begin
+      seCheckSumVerify.Lines.AddObject(#32 + aResult[I], TObject(PtrInt(aColor)));
+    end;
+  end;
 end;
 
 end.

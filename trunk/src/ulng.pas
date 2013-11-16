@@ -360,6 +360,13 @@ resourcestring
   // CheckSumCalcVerify dialog
   rsCheckSumVerifyTitle = 'Verify checksum';
   rsCheckSumVerifyText = 'Enter checksum and select algorithm:';
+  // CheckSumVerify dialog
+  rsCheckSumVerifyGeneral = 'General:';
+  rsCheckSumVerifyTotal = 'Total:';
+  rsCheckSumVerifySuccess = 'Success:';
+  rsCheckSumVerifyMissing = 'Missing:';
+  rsCheckSumVerifyBroken = 'Broken:';
+  rsCheckSumVerifyReadError = 'Read error:';
   // Drive status
   rsDriveNoMedia = '<no media>';
   rsDriveNoLabel = '<no label>';
