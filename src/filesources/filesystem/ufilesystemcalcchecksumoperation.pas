@@ -15,6 +15,8 @@ uses
 
 type
 
+  { TFileSystemCalcChecksumOperation }
+
   TFileSystemCalcChecksumOperation = class(TFileSourceCalcChecksumOperation)
 
   private
@@ -29,7 +31,7 @@ type
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FSkipErrors: Boolean;
 
-    function CheckSumCalc(aFile: TFile): String;
+    function CheckSumCalc(aFile: TFile; out aValue: String): Boolean;
     procedure InitializeVerifyMode;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -99,7 +101,6 @@ end;
 
 procedure TFileSystemCalcChecksumOperation.Initialize;
 begin
-  FResult.Clear;
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
@@ -258,9 +259,7 @@ begin
       except
         on EFileNotFound do
           begin
-            FResult.Add(Format(rsViewNotFound,
-                               [Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt) + ': '])
-                       );
+            AddString(FResult.Missing, Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt));
           end
         else
           begin
@@ -285,7 +284,7 @@ begin
   if not OneFile then
     FCheckSumFile.Clear;
 
-  sCheckSum := CheckSumCalc(aFile);
+  CheckSumCalc(aFile, sCheckSum);
   FCheckSumFile.Add(sCheckSum + ' *' +
                     ExtractDirLevel(FFullFilesTree.Path,
                                     aFile.Path) + aFile.Name);
@@ -307,18 +306,24 @@ function TFileSystemCalcChecksumOperation.VerifyChecksumProcessFile(
            aFile: TFile; ExpectedChecksum: String): Boolean;
 var
   sCheckSum: String;
-  bResult: Boolean;
+  sFileName: UTF8String;
 begin
-  Result := False;
+  Result:= False;
+  sFileName:= ExtractDirLevel(FFullFilesTree.Path, aFile.Path) + aFile.Name;
 
-  sCheckSum:= CheckSumCalc(aFile);
-  bResult:= (CompareText(sCheckSum, ExpectedChecksum) = 0);
-  FResult.AddObject(ExtractDirLevel(FFullFilesTree.Path, aFile.Path) +
-                    aFile.Name + ': ' +
-                    IfThen(bResult, 'True', 'False'), TObject(PtrInt(bResult)));
+  if (CheckSumCalc(aFile, sCheckSum) = False) then
+    AddString(FResult.ReadError, sFileName)
+  else
+    begin
+      if (CompareText(sCheckSum, ExpectedChecksum) = 0) then
+        AddString(FResult.Success, sFileName)
+      else
+        AddString(FResult.Broken, sFileName);
+    end;
 end;
 
-function TFileSystemCalcChecksumOperation.CheckSumCalc(aFile: TFile): String;
+function TFileSystemCalcChecksumOperation.CheckSumCalc(aFile: TFile; out
+  aValue: String): Boolean;
 var
   hFile: THandle;
   Context: THashContext;
@@ -326,7 +331,6 @@ var
   bRetryRead: Boolean;
   TotalBytesToRead: Int64 = 0;
 begin
-  Result:= EmptyStr;
   hFile := feInvalidHandle;
   BytesToRead := FBufferSize;
 
@@ -334,7 +338,8 @@ begin
   try
     hFile:= mbFileOpen(aFile.FullPath, fmOpenRead or fmShareDenyNone);
 
-    if hFile <> feInvalidHandle then
+    Result:= hFile <> feInvalidHandle;
+    if Result then
       begin
         TotalBytesToRead := mbFileSize(aFile.FullPath);
 
@@ -364,7 +369,7 @@ begin
                   begin
                     LogMessage(rsMsgErrERead + ' ' + aFile.FullPath + ': ' + E.Message,
                                [], lmtError);
-                    Exit;
+                    Exit(False);
                   end
                   else
                   case AskQuestion(rsMsgErrERead + ' ' + aFile.FullPath + ': ',
@@ -376,7 +381,7 @@ begin
                     fsourAbort:
                       RaiseAbortOperation;
                     fsourSkip:
-                      Exit;
+                      Exit(False);
                   end; // case
                 end;
             end;
@@ -395,7 +400,7 @@ begin
       end;
 
   finally
-    HashFinal(Context, Result);
+    HashFinal(Context, aValue);
     if hFile <> feInvalidHandle then
     begin
       FileClose(hFile);
