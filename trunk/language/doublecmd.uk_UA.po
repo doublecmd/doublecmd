@@ -1957,6 +1957,10 @@ msgstr "За&мінити на"
 msgid "Selected directories and &files"
 msgstr "Вибрані &файли і каталоги"
 
+#: tfrmfinddlg.cbtextregexp.caption
+msgid "Regular &expression"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #| msgid "Time from:"
 msgid "&Time from:"
@@ -6718,6 +6722,26 @@ msgstr "Скасувати швидкий фільтр"
 msgid "Cancel Current Operation"
 msgstr "Скасувати поточну операцію"
 
+#: ulng.rschecksumverifybroken
+msgid "Broken:"
+msgstr ""
+
+#: ulng.rschecksumverifygeneral
+msgid "General:"
+msgstr ""
+
+#: ulng.rschecksumverifymissing
+msgid "Missing:"
+msgstr ""
+
+#: ulng.rschecksumverifyreaderror
+msgid "Read error:"
+msgstr ""
+
+#: ulng.rschecksumverifysuccess
+msgid "Success:"
+msgstr ""
+
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
 msgstr "Введіть контрольну суму і виберіть алгоритм:"
@@ -6725,6 +6749,10 @@ msgstr "Введіть контрольну суму і виберіть алг�
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
 msgstr "Перевірити контрольну суму"
+
+#: ulng.rschecksumverifytotal
+msgid "Total:"
+msgstr ""
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."

@@ -1879,6 +1879,10 @@ msgstr "&Zamenjaj besedilo z"
 msgid "Selected directories and &files"
 msgstr "Izbrane &datoteke in mape"
 
+#: tfrmfinddlg.cbtextregexp.caption
+msgid "Regular &expression"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 msgid "&Time from:"
 msgstr "&Od časa:"
@@ -6210,12 +6214,36 @@ msgstr "Prekliči hitri filter"
 msgid "Cancel Current Operation"
 msgstr "Prekliči trenutno opravilo"
 
+#: ulng.rschecksumverifybroken
+msgid "Broken:"
+msgstr ""
+
+#: ulng.rschecksumverifygeneral
+msgid "General:"
+msgstr ""
+
+#: ulng.rschecksumverifymissing
+msgid "Missing:"
+msgstr ""
+
+#: ulng.rschecksumverifyreaderror
+msgid "Read error:"
+msgstr ""
+
+#: ulng.rschecksumverifysuccess
+msgid "Success:"
+msgstr ""
+
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
 msgstr ""
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
+msgstr ""
+
+#: ulng.rschecksumverifytotal
+msgid "Total:"
 msgstr ""
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata

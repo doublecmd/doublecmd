@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-10-19 16:31+0400\n"
-"Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
+"PO-Revision-Date: 2013-11-22 19:55+0400\n"
+"Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -1884,6 +1884,10 @@ msgstr "З&аменить текст"
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and &files"
 msgstr "&Выбранные файлы и каталоги"
+
+#: tfrmfinddlg.cbtextregexp.caption
+msgid "Regular &expression"
+msgstr "Регулярное &выражение"
 
 #: tfrmfinddlg.cbtimefrom.caption
 msgid "&Time from:"
@@ -6276,6 +6280,26 @@ msgstr "Отменить быстрый фильтр"
 msgid "Cancel Current Operation"
 msgstr "Отменить текущую операцию"
 
+#: ulng.rschecksumverifybroken
+msgid "Broken:"
+msgstr "Ошибка:"
+
+#: ulng.rschecksumverifygeneral
+msgid "General:"
+msgstr "Отчет:"
+
+#: ulng.rschecksumverifymissing
+msgid "Missing:"
+msgstr "Не найдено:"
+
+#: ulng.rschecksumverifyreaderror
+msgid "Read error:"
+msgstr "Ошибка чтения:"
+
+#: ulng.rschecksumverifysuccess
+msgid "Success:"
+msgstr "Успешно:"
+
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
 msgstr "Введите контрольную сумму и выберите алгоритм:"
@@ -6283,6 +6307,10 @@ msgstr "Введите контрольную сумму и выберите а�
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
 msgstr "Проверка контрольной суммы"
+
+#: ulng.rschecksumverifytotal
+msgid "Total:"
+msgstr "Всего:"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
