@@ -344,6 +344,7 @@ object frmFindDlg: TfrmFindDlg
             BorderSpacing.Top = 4
             BorderSpacing.Bottom = 8
             Caption = 'Case sens&itive'
+            OnChange = cbCaseSensChange
             TabOrder = 4
           end
           object cbNotContainingText: TCheckBox
@@ -371,7 +372,7 @@ object frmFindDlg: TfrmFindDlg
             ItemHeight = 13
             OnSelect = cmbEncodingSelect
             Style = csDropDownList
-            TabOrder = 5
+            TabOrder = 6
           end
           object cmbFindText: TComboBoxWithDelItems
             AnchorSideLeft.Control = CheksPanel
@@ -453,6 +454,20 @@ object frmFindDlg: TfrmFindDlg
               OnChange = cbReplaceTextChange
               TabOrder = 1
             end
+          end
+          object cbTextRegExp: TCheckBox
+            AnchorSideLeft.Control = cbCaseSens
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbCaseSens
+            AnchorSideTop.Side = asrCenter
+            Left = 344
+            Height = 19
+            Top = 55
+            Width = 118
+            BorderSpacing.Left = 12
+            Caption = 'Regular &expression'
+            OnChange = cbTextRegExpChange
+            TabOrder = 5
           end
         end
       end

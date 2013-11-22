@@ -296,7 +296,9 @@ begin
             ReplaceText:= AConfig.GetValue(ANode, 'ReplaceText', '');
           CaseSensitive:= AConfig.GetValue(ANode, 'CaseSensitive', False);
           NotContainingText:= AConfig.GetValue(ANode, 'NotContainingText', False);
+          TextRegExp:= AConfig.GetValue(ANode, 'TextRegExp', False);
           TextEncoding:= AConfig.GetValue(ANode, 'TextEncoding', '');
+          // other
           SearchPlugin:= AConfig.GetValue(ANode, 'SearchPlugin', '');
         end;
         SearchTemplate.MakeFileChecks;
@@ -415,7 +417,9 @@ begin
         AConfig.AddValue(SubNode, 'ReplaceText', ReplaceText);
       AConfig.AddValue(SubNode, 'CaseSensitive', CaseSensitive);
       AConfig.AddValue(SubNode, 'NotContainingText', NotContainingText);
+      AConfig.AddValue(SubNode, 'TextRegExp', TextRegExp);
       AConfig.AddValue(SubNode, 'TextEncoding', TextEncoding);
+      // other
       AConfig.AddValue(SubNode, 'SearchPlugin', SearchPlugin);
     end;
 end;
