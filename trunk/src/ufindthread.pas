@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2012 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2013 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -53,8 +53,8 @@ type
 
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
-    function FindInFile(const sFileName:UTF8String;
-                        sData: String; bCase:Boolean): Boolean;
+    function FindInFile(const sFileName: UTF8String;
+                        sData: String; bCase, bRegExp: Boolean): Boolean;
   protected
     procedure Execute; override;
   public
@@ -75,7 +75,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, LConvEncoding, DCStrUtils,
+  LCLProc, StrUtils, LConvEncoding, SynRegExpr, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog;
 
@@ -183,8 +183,8 @@ begin
   FCurrent.Caption:= rsFindScanning + ': ' + FCurrentDir;
 end;
 
-function TFindThread.FindInFile(const sFileName:UTF8String;
-                                sData: String; bCase:Boolean): Boolean;
+function TFindThread.FindInFile(const sFileName: UTF8String; sData: String;
+                                bCase, bRegExp: Boolean): Boolean;
 var
   fs: TFileStreamEx;
 
@@ -207,9 +207,28 @@ var
   DataRead: Longint;
   Buffer: PAnsiChar = nil;
   BufferSize: Integer;
+  S: String;
 begin
   Result := False;
   if sData = '' then Exit;
+
+  // Simple regular expression search (don't work for very big files)
+  if bRegExp then
+  begin
+    fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    try
+      if fs.Size = 0 then Exit;
+      {$PUSH}{$R-}
+      SetLength(S, fs.Size);
+      {$POP}
+      if Length(S) = 0 then
+        raise EFOpenError.Create(EmptyStr);
+      fs.ReadBuffer(S[1], fs.Size);
+    finally
+      fs.Free;
+    end;
+    Exit(ExecRegExpr(sData, S));
+  end;
 
   if gUseMmapInSearch then
     begin
@@ -275,24 +294,34 @@ begin
 end;
 
 
-procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase:Boolean);
+procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
 var
+  S: String;
   fs: TFileStreamEx;
-  S: string;
   Flags : TReplaceFlags = [];
 begin
-  Include(Flags, rfReplaceAll);
-  if not bCase then
-    Include(Flags, rfIgnoreCase);
-    
-  fs := TFileStreamEx.Create(FileName, fmOpenread or fmShareDenyNone);
+  fs := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
   try
+    if fs.Size = 0 then Exit;
+    {$PUSH}{$R-}
     SetLength(S, fs.Size);
+    {$POP}
+    if Length(S) = 0 then
+      raise EFOpenError.Create(EmptyStr);
     fs.ReadBuffer(S[1], fs.Size);
   finally
     fs.Free;
   end;
-  S  := StringReplace(S, SearchString, replaceString, Flags);
+
+  if bRegExp then
+    S := ReplaceRegExpr(SearchString, S, replaceString, False)
+  else
+    begin
+      Include(Flags, rfReplaceAll);
+      if not bCase then Include(Flags, rfIgnoreCase);
+      S := StringReplace(S, SearchString, replaceString, Flags);
+    end;
+
   fs := TFileStreamEx.Create(FileName, fmCreate);
   try
     fs.WriteBuffer(S[1], Length(S));
@@ -325,10 +354,10 @@ begin
            Exit(False);
 
          try
-           Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive);
+           Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
 
            if (Result and IsReplaceText) then
-             FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive);
+             FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);
 
            if NotContainingText then
              Result := not Result;

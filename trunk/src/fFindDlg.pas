@@ -72,6 +72,7 @@ type
     cbFollowSymLinks: TCheckBox;
     cbUsePlugin: TCheckBox;
     cbSelectedFiles: TCheckBox;
+    cbTextRegExp: TCheckBox;
     cmbExcludeDirectories: TComboBoxWithDelItems;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
@@ -139,10 +140,12 @@ type
     procedure btnSearchLoadClick(Sender: TObject);
     procedure btnSearchSaveWithStartingPathClick(Sender: TObject);
     procedure btnSearchSaveClick(Sender: TObject);
+    procedure cbCaseSensChange(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
     procedure cbPartialNameSearchChange(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
+    procedure cbTextRegExpChange(Sender: TObject);
     procedure cbSelectedFilesChange(Sender: TObject);
     procedure cmbEncodingSelect(Sender: TObject);
     procedure cbFindTextChange(Sender: TObject);
@@ -516,6 +519,7 @@ begin
   EnableControl(cbCaseSens, cbFindText.Checked);
   EnableControl(cbReplaceText, cbFindText.Checked);
   EnableControl(cbNotContainingText, cbFindText.Checked);
+  EnableControl(cbTextRegExp, cbFindText.Checked);
   lblEncoding.Enabled:=cbFindText.Checked;
   cbReplaceText.Checked:= False;
 
@@ -630,6 +634,11 @@ begin
   SaveTemplate(False);
 end;
 
+procedure TfrmFindDlg.cbCaseSensChange(Sender: TObject);
+begin
+  if cbCaseSens.Checked then cbTextRegExp.Checked:= False;
+end;
+
 procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
 begin
   UpdateColor(ZVDateFrom, cbDateFrom.Checked);
@@ -648,6 +657,11 @@ end;
 procedure TfrmFindDlg.cbRegExpChange(Sender: TObject);
 begin
   if cbRegExp.Checked then cbPartialNameSearch.Checked:=False;
+end;
+
+procedure TfrmFindDlg.cbTextRegExpChange(Sender: TObject);
+begin
+  if cbTextRegExp.Checked then cbCaseSens.Checked:= False;
 end;
 
 procedure TfrmFindDlg.cbSelectedFilesChange(Sender: TObject);
@@ -766,7 +780,9 @@ begin
     ReplaceText       := cmbReplaceText.Text;
     CaseSensitive     := cbCaseSens.Checked;
     NotContainingText := cbNotContainingText.Checked;
+    TextRegExp        := cbTextRegExp.Checked;
     TextEncoding      := cmbEncoding.Text;
+    { Other }
     SearchPlugin      := cmbPlugin.Text;
   end;
 end;
@@ -1274,7 +1290,9 @@ begin
     cmbReplaceText.Text:= ReplaceText;
     cbCaseSens.Checked:= CaseSensitive;
     cbNotContainingText.Checked:= NotContainingText;
+    cbTextRegExp.Checked:= TextRegExp;
     cmbEncoding.Text:= TextEncoding;
+    // other
     cmbPlugin.Text:= SearchPlugin;
   end;
 end;

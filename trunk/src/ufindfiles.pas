@@ -68,7 +68,9 @@ type
     ReplaceText: String;
     CaseSensitive,
     NotContainingText: Boolean;
+    TextRegExp: Boolean;
     TextEncoding: String;
+    { Other }
     SearchPlugin: String;
   end;
 
