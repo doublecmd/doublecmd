@@ -1926,6 +1926,10 @@ msgstr "Szöveg &helyettesítése"
 msgid "Selected directories and &files"
 msgstr "Kiválasztott mappák és &fájlok"
 
+#: tfrmfinddlg.cbtextregexp.caption
+msgid "Regular &expression"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #| msgid "Time from:"
 msgid "&Time from:"
@@ -6566,12 +6570,36 @@ msgstr "Gyorsszűrő mellőzése"
 msgid "Cancel Current Operation"
 msgstr "Jelenlegi művelet megállítása"
 
+#: ulng.rschecksumverifybroken
+msgid "Broken:"
+msgstr ""
+
+#: ulng.rschecksumverifygeneral
+msgid "General:"
+msgstr ""
+
+#: ulng.rschecksumverifymissing
+msgid "Missing:"
+msgstr ""
+
+#: ulng.rschecksumverifyreaderror
+msgid "Read error:"
+msgstr ""
+
+#: ulng.rschecksumverifysuccess
+msgid "Success:"
+msgstr ""
+
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
 msgstr ""
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
+msgstr ""
+
+#: ulng.rschecksumverifytotal
+msgid "Total:"
 msgstr ""
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata

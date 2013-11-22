@@ -2031,6 +2031,10 @@ msgstr "E&rsetze Text"
 msgid "Selected directories and &files"
 msgstr "Ausgew&ählte Verzeichnisse und Dateien"
 
+#: tfrmfinddlg.cbtextregexp.caption
+msgid "Regular &expression"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
 #| msgid "Time from:"
@@ -7195,12 +7199,36 @@ msgstr "Schnell-Filter abbrechen"
 msgid "Cancel Current Operation"
 msgstr "Aktuellen Vorgang abbrechen"
 
+#: ulng.rschecksumverifybroken
+msgid "Broken:"
+msgstr ""
+
+#: ulng.rschecksumverifygeneral
+msgid "General:"
+msgstr ""
+
+#: ulng.rschecksumverifymissing
+msgid "Missing:"
+msgstr ""
+
+#: ulng.rschecksumverifyreaderror
+msgid "Read error:"
+msgstr ""
+
+#: ulng.rschecksumverifysuccess
+msgid "Success:"
+msgstr ""
+
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
 msgstr ""
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
+msgstr ""
+
+#: ulng.rschecksumverifytotal
+msgid "Total:"
 msgstr ""
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
