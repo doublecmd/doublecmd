@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc,
+  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -32,6 +32,7 @@ type
     function Equals(aFileSource: IFileSource): Boolean;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(ClassType: TClass): Boolean;
+    function GetURI: TURI;
     function GetClassName: String;
     function GetRefCount: Integer;
 
@@ -96,6 +97,7 @@ type
     procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
     procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
 
+    property URI: TURI read GetURI;
     property ClassName: String read GetClassName;
     property CurrentAddress: String read GetCurrentAddress;
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
@@ -124,9 +126,11 @@ type
                                         State: TFileSourceOperationState);
 
   protected
+    FURI: TURI;
     FCurrentAddress: String;
     FOperationsClasses: TFileSourceOperationsClasses;
 
+    function GetURI: TURI;
     {en
        Retrieves the full address of the file source
        (the CurrentPath is relative to this).
@@ -183,6 +187,7 @@ type
 
   public
     constructor Create; virtual;
+    constructor Create(const URI: TURI); virtual;
     destructor Destroy; override;
 
     function Equals(aFileSource: IFileSource): Boolean; overload;
@@ -379,6 +384,21 @@ begin
   DCDebug('Creating ', ClassName);
 end;
 
+constructor TFileSource.Create(const URI: TURI);
+var
+  AddressURI: TURI;
+begin
+  Create;
+  FURI:= URI;
+  FillChar(AddressURI, SizeOf(TURI), 0);
+  AddressURI.Protocol:= FURI.Protocol;
+  AddressURI.Username:= FURI.Username;
+  AddressURI.Host:= FURI.Host;
+  AddressURI.Port:= FURI.Port;
+  AddressURI.HasAuthority:= FURI.HasAuthority;
+  FCurrentAddress:= EncodeURI(AddressURI);
+end;
+
 destructor TFileSource.Destroy;
 begin
   DCDebug('Destroying ', ClassName, ' when refcount=', DbgS(refcount));
@@ -455,6 +475,11 @@ end;
 function TFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [];
+end;
+
+function TFileSource.GetURI: TURI;
+begin
+  Result := FURI;
 end;
 
 function TFileSource.GetCurrentAddress: String;
