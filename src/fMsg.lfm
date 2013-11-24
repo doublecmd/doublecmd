@@ -25,14 +25,14 @@ object frmMsg: TfrmMsg
     ParentColor = False
   end
   object pnlButtons: TPanel
-    AnchorSideLeft.Control = Owner
-    AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = lblMsg
     AnchorSideTop.Side = asrBottom
-    Left = 213
-    Height = 0
+    Left = 6
+    Height = 229
     Top = 19
-    Width = 0
+    Width = 414
+    Align = alClient
+    Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 12
     BevelOuter = bvNone
