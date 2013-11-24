@@ -54,10 +54,13 @@ begin
   for I:= 0 to gVfsModuleList.Count - 1 do
     begin
       CheckOperationState;
-      aFile := TVfsFileSource.CreateFile(Path);
-      aFile.Name:= gVfsModuleList.Strings[I];
-      //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
-      FFiles.Add(aFile);
+      if TVfsModule(gVfsModuleList.Objects[I]).Visible then
+      begin
+        aFile := TVfsFileSource.CreateFile(Path);
+        aFile.Name:= gVfsModuleList.Strings[I];
+        //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
+        FFiles.Add(aFile);
+      end;
     end;
 end;
 

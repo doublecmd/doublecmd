@@ -16,6 +16,7 @@ type
   { TVfsModule }
 
   TVfsModule = class
+    Visible: Boolean;
     FileSourceClass: TFileSourceClass;
   end;
 
@@ -30,7 +31,9 @@ type
     property VfsModule[const S: String]: TVfsModule read GetVfsModule;
   end;
 
-procedure RegisterVirtualFileSource(AName: UTF8String; AFileSourceClass: TFileSourceClass);
+procedure RegisterVirtualFileSource(AName: UTF8String;
+                                    AFileSourceClass: TFileSourceClass;
+                                    Visible: Boolean = True);
 
 var
   // All of file sources from this list will be displayed
@@ -40,11 +43,14 @@ var
 
 implementation
 
-procedure RegisterVirtualFileSource(AName: UTF8String; AFileSourceClass: TFileSourceClass);
+procedure RegisterVirtualFileSource(AName: UTF8String;
+                                    AFileSourceClass: TFileSourceClass;
+                                    Visible: Boolean = True);
 var
   VfsModule: TVfsModule;
 begin
   VfsModule:= TVfsModule.Create;
+  VfsModule.Visible:= Visible;
   VfsModule.FileSourceClass:= AFileSourceClass;
   gVfsModuleList.AddObject(AName, VfsModule);
 end;

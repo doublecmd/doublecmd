@@ -48,7 +48,7 @@ uses
   uArchiveFileSourceUtil,
   uFileSourceOperationTypes,
   uFileSourceOperationMessageBoxesUI,
-  uFileProperty;
+  uFileProperty, URIParser;
 
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 var
@@ -182,42 +182,38 @@ end;
 
 function ChooseFileSource(aFileView: TFileView; const aPath: UTF8String): Boolean;
 var
-  I: Integer;
+  URI: TURI;
+  RemotePath: UTF8String;
   aFileSourceClass: TFileSourceClass;
 begin
   Result:= True;
   aFileSourceClass:= gVfsModuleList.GetFileSource(aPath);
+  // If found special FileSource for path
   if Assigned(aFileSourceClass) then
     begin
+      // If path is URI
+      if Pos('://', aPath) > 0 then
+        begin
+          URI:= ParseURI(aPath);
+          RemotePath:= NormalizePathDelimiters(URI.Path + URI.Document);
+          RemotePath:= IncludeTrailingPathDelimiter(RemotePath);
+          // Create new FileSource with given URI
+          aFileView.AddFileSource(aFileSourceClass.Create(URI), RemotePath);
+        end
       // If found FileSource is same as current then simply change path
-      if aFileSourceClass.ClassNameIs(aFileView.FileSource.ClassName) then
+      else if aFileSourceClass.ClassNameIs(aFileView.FileSource.ClassName) then
         aFileView.CurrentPath := aPath
+      // Else create new FileSource with given path
       else
         aFileView.AddFileSource(aFileSourceClass.Create, aPath);
     end
+  // If current FileSource has address
+  else if Length(aFileView.CurrentAddress) > 0 then
+     aFileView.CurrentPath := aPath
+  // Else use FileSystemFileSource
   else
-    // Search for filesystem file source in this view, and remove others.
-    with aFileView do
     begin
-      for I := FileSourcesCount - 1 downto 0 do
-      begin
-        // Search FileSource with same class name, we can not use "is"
-        // operator because it also works for descendant classes
-        if TFileSystemFileSource.ClassNameIs(FileSources[I].ClassName) then
-        begin
-          CurrentPath := aPath;
-          Break;
-        end
-        else
-          RemoveCurrentFileSource;
-      end;
-
-      if FileSourcesCount = 0 then
-      begin
-        // If not found, get a new filesystem file source.
-        AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
-      end;
-
+      SetFileSystemPath(aFileView, aPath);
       Result:= mbSetCurrentDir(aPath);
     end;
 end;

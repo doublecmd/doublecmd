@@ -312,12 +312,15 @@ var
   I : LongInt;
 begin
   Result:= Path;
-  for I:= 1 to Length(Path) do
-    if Path[I] in AllowPathDelimiters then
-      Result[I]:= DirectorySeparator;
+  // If path is not URI
+  if Pos('://', Result) = 0 then
+  begin
+    for I:= 1 to Length(Path) do
+      if Path[I] in AllowPathDelimiters then
+        Result[I]:= DirectorySeparator;
+  end;
 end;
 {$ENDIF}
-
 
 function GetLastDir(Path : String) : String;
 begin
