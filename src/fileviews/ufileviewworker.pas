@@ -226,7 +226,7 @@ implementation
 
 uses
   {$IFDEF timeFileView} uDebug, {$ENDIF}
-  LCLProc, Graphics,
+  LCLProc, Graphics, DCFileAttributes,
   uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
   uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
@@ -466,7 +466,14 @@ begin
         AFile := FFileSource.CreateFileObject(FCurrentPath);
         AFile.Name := '..';
         if fpAttributes in AFile.SupportedProperties then
-          AFile.Attributes := faFolder;
+        begin
+          if AFile.AttributesProperty is TNtfsFileAttributesProperty then
+            AFile.Attributes := FILE_ATTRIBUTE_DIRECTORY
+          else if AFile.AttributesProperty is TUnixFileAttributesProperty then
+            AFile.Attributes := S_IFDIR
+          else
+            AFile.Attributes := faFolder;
+        end;
         FileSourceFiles.Insert(AFile, 0);
       end;
     end;
