@@ -2325,6 +2325,10 @@ msgstr "Изчисляване на &заетото място..."
 msgid "Change directory"
 msgstr "Смяна на папката"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr "Папка нагоре"
@@ -3298,6 +3302,16 @@ msgstr "&Заповеди"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Настройка"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 #| msgid "Files"

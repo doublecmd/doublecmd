@@ -93,7 +93,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 17;
+  hkVersion     = 18;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -720,6 +720,7 @@ begin
       AddIfNotExists(['Ctrl+C'],[],'cm_CopyToClipboard');
       AddIfNotExists(['Ctrl+V'],[],'cm_PasteFromClipboard');
       AddIfNotExists(['Ctrl+X'],[],'cm_CutToClipboard');
+      AddIfNotExists(['Ctrl+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');
     end;

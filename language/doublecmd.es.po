@@ -2373,6 +2373,10 @@ msgstr "Calcular espacio &ocupado"
 msgid "Change directory"
 msgstr "Cambiar de Carpeta"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr "Cambiar a la carpeta de usuario"
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr "Cambiar a la carpeta superior"
@@ -3298,6 +3302,16 @@ msgstr "&Comandos"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "C&onfiguración"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr ""
 
 #: tfrmmain.mnufiles.caption
 #, fuzzy

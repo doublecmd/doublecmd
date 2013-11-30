@@ -1855,12 +1855,8 @@ msgid "Sa&ve with \"Start in directory\""
 msgstr "Ulo&žit s \"Začátek v adresáři\""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid ""
-"If saved then \"Start in directory\" will be restored when loading template. "
-"Use it if you want to fix searching to a certain directory"
-msgstr ""
-"Pokud je uloženo, pak \"Začátek v adresáři \" se obnoví při načítání "
-"šablony. Použijte, pokud chcete opravit hledání v určitém adresáři"
+msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
+msgstr "Pokud je uloženo, pak \"Začátek v adresáři \" se obnoví při načítání šablony. Použijte, pokud chcete opravit hledání v určitém adresáři"
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -1956,6 +1952,10 @@ msgstr "Nahradit pomocí"
 msgid "Selected directories and &files"
 msgstr "Vybrané adresáře a &soubory"
 
+#: tfrmfinddlg.cbtextregexp.caption
+msgid "Regular &expression"
+msgstr ""
+
 #: tfrmfinddlg.cbtimefrom.caption
 #| msgid "Time from:"
 msgid "&Time from:"
@@ -1971,17 +1971,12 @@ msgid "&Use search plugin:"
 msgstr "Použit vyhledávací doplněk:"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
-msgid ""
-"Enter directories names that should be excluded from search separated with "
-"\";\""
-msgstr ""
-"Zadejte názvy adresářů, které mají být vyloučeny z hledání, oddělených \";\""
+msgid "Enter directories names that should be excluded from search separated with \";\""
+msgstr "Zadejte názvy adresářů, které mají být vyloučeny z hledání, oddělených \";\""
 
 #: tfrmfinddlg.cmbexcludefiles.hint
-msgid ""
-"Enter files names that should be excluded from search separated with \";\""
-msgstr ""
-"Zadejte názvy souborů, které mají být vyloučeny z hledání, oddělených \";\""
+msgid "Enter files names that should be excluded from search separated with \";\""
+msgstr "Zadejte názvy souborů, které mají být vyloučeny z hledání, oddělených \";\""
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
@@ -2265,6 +2260,10 @@ msgstr "Spočítat &obsazené místo..."
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
 msgstr "Změnit adresář"
+
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
 
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
@@ -2769,8 +2768,7 @@ msgstr "Řadit podle veliko&sti"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
-msgstr ""
-"Povolit/zakázat seznam ignorování souborů, aby nezobrazoval jména souborů"
+msgstr "Povolit/zakázat seznam ignorování souborů, aby nezobrazoval jména souborů"
 
 #: tfrmmain.actsymlink.caption
 #| msgid "Create symbolic link..."
@@ -3170,6 +3168,16 @@ msgstr "&Příkazy"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "N&astavení"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 #| msgid "Files"
@@ -3749,10 +3757,8 @@ msgid "Options"
 msgstr "Předvolby"
 
 #: tfrmoptions.lblemptyeditor.caption
-msgid ""
-"Please select one of the subpages, this page does not contain any settings."
-msgstr ""
-"Prosím, zvolte jednu z podstránek, tato stránka neobsahuje žádné nastavení."
+msgid "Please select one of the subpages, this page does not contain any settings."
+msgstr "Prosím, zvolte jednu z podstránek, tato stránka neobsahuje žádné nastavení."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 #| msgid "Auto Configure"
@@ -3926,11 +3932,8 @@ msgid "A&llow only one copy of DC at a time"
 msgstr "P&ovolit pouze jednu kopii DC ve stejný čas"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
-msgid ""
-"Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
-"Zde můžete zadat jednu nebo více jednotek nebo připojovacích bodů oddělených "
-"\";\"."
+msgid "Here you can enter one or more drives or mount points, separated by \";\"."
+msgstr "Zde můžete zadat jednu nebo více jednotek nebo připojovacích bodů oddělených \";\"."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 #| msgid "Drives blacklist"
@@ -4461,15 +4464,11 @@ msgid "Show s&ystem and hidden files"
 msgstr "Zobrazit s&ystémové a skryté soubory"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
-#| msgid ""
-#| "When selecting files with <SPACEBAR>, move down to next file (as with "
-#| "<INSERT>)"
+#, fuzzy
+#| msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
-msgid ""
-"&When selecting files with <SPACEBAR>, move down to next file (as with "
-"<INSERT>)"
-msgstr ""
-"&Při výběru mezerníkem posunout kursor dolů, jako při výběru klávesou Insert"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "&Při výběru mezerníkem posunout kursor dolů, jako při výběru klávesou Insert"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -5088,16 +5087,11 @@ msgid "&Tweak"
 msgstr "&Vylepšení"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
-#| msgid ""
-#| "Search plugins allow to use alternative search algorithms or external "
-#| "tools (like \"locate\", etc.)"
+#, fuzzy
+#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid ""
-"Searc&h plugins allow to use alternative search algorithms or external tools "
-"(like \"locate\", etc.)"
-msgstr ""
-"Vyhle&dávací doplňky umožňují použití při hledání alternativních "
-"vyhledávacích algoritmů nebo externích nástrojů (např. \"najít \", atd.)"
+msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Vyhle&dávací doplňky umožňují použití při hledání alternativních vyhledávacích algoritmů nebo externích nástrojů (např. \"najít \", atd.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 #| msgid "Packer plugins are used to work with archives."
@@ -5106,42 +5100,25 @@ msgid "Pack&er plugins are used to work with archives"
 msgstr "Komp&rimační doplňky pro práci s archívy."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
-#| msgid ""
-#| "Content plugins allow to display extended file details like mp3 tags or "
-#| "image attributes in file lists, or use them in search and multi-rename "
-#| "tool"
+#, fuzzy
+#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename toolContent plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid ""
-"Content plu&gins allow to display extended file details like mp3 tags or "
-"image attributes in file lists, or use them in search and multi-rename tool"
-msgstr ""
-"Obsahové dop&lňky umožňují zobrazit rozšířené informace jako jsou MP3 značky "
-"nebo atributy obrázků v seznamu souborů, nebo je používat při vyhledávání a "
-"s nástrojem hromadné přejmenování"
+msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Obsahové dop&lňky umožňují zobrazit rozšířené informace jako jsou MP3 značky nebo atributy obrázků v seznamu souborů, nebo je používat při vyhledávání a s nástrojem hromadné přejmenování"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
-#| msgid ""
-#| "File system plugins allow access to disks inaccessible by operating "
-#| "system or to external devices like Palm/PocketPC."
+#, fuzzy
+#| msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
-msgid ""
-"Fi&le system plugins allow access to disks inaccessible by operating system "
-"or to external devices like Palm/PocketPC."
-msgstr ""
-"Doplňky sou&borových systémů umožní přístup na běžně nedostupná média jako "
-"jsou například externí zařízení (Palm/PocketPC)."
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Doplňky sou&borových systémů umožní přístup na běžně nedostupná média jako jsou například externí zařízení (Palm/PocketPC)."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
-#| msgid ""
-#| "Viewer plugins allow to display file formats like images, spreadsheets, "
-#| "databases etc. in Viewer (F3, Ctrl+Q)"
+#, fuzzy
+#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid ""
-"Vie&wer plugins allow to display file formats like images, spreadsheets, "
-"databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr ""
-"Zobra&zovací doplňky umožňují prohlížení souborů jako jsou například "
-"obrázky, databáze a podobně v prohlížeči (F3, nebo Ctrl+Q)"
+msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Zobra&zovací doplňky umožňují prohlížení souborů jako jsou například obrázky, databáze a podobně v prohlížeči (F3, nebo Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -5342,12 +5319,8 @@ msgid "&Flat buttons"
 msgstr "&Plochá tlačítka"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
-msgid ""
-"Enter command parameters, each in a separate line. Press F1 to see help on "
-"parameters."
-msgstr ""
-"Zadejte parametry příkazů, každý na samostatném řádku. Stisknutím klávesy F1 "
-"zobrazíte nápovědu k parametrům."
+msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
+msgstr "Zadejte parametry příkazů, každý na samostatném řádku. Stisknutím klávesy F1 zobrazíte nápovědu k parametrům."
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
@@ -6711,6 +6684,26 @@ msgstr "Zrušit rychlý filtr"
 msgid "Cancel Current Operation"
 msgstr "Zrušit aktuální operaci"
 
+#: ulng.rschecksumverifybroken
+msgid "Broken:"
+msgstr ""
+
+#: ulng.rschecksumverifygeneral
+msgid "General:"
+msgstr ""
+
+#: ulng.rschecksumverifymissing
+msgid "Missing:"
+msgstr ""
+
+#: ulng.rschecksumverifyreaderror
+msgid "Read error:"
+msgstr ""
+
+#: ulng.rschecksumverifysuccess
+msgid "Success:"
+msgstr ""
+
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
 msgstr "Zadejte kontrolní součet a vyberte algoritmus:"
@@ -6718,6 +6711,10 @@ msgstr "Zadejte kontrolní součet a vyberte algoritmus:"
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
 msgstr "Ověřit kontrolní součet"
+
+#: ulng.rschecksumverifytotal
+msgid "Total:"
+msgstr ""
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
@@ -7463,12 +7460,8 @@ msgid "File operations active"
 msgstr "Aktivní souborové operace)"
 
 #: ulng.rsmsgfileoperationsactivelong
-msgid ""
-"Some file operations have not yet finished. Closing Double Commander may "
-"result in data loss."
-msgstr ""
-"Některé souborové operace nejsou dokončeny. Uzavření Double Commanderu může "
-"vést ke ztrátě dat."
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr "Některé souborové operace nejsou dokončeny. Uzavření Double Commanderu může vést ke ztrátě dat."
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -7511,12 +7504,8 @@ msgid "This is not a valid plugin!"
 msgstr "Toto není platný zásuvný modul!"
 
 #: ulng.rsmsginvalidpluginarchitecture
-msgid ""
-"This plugin is built for Double Commander for %s.%sIt can not work with "
-"Double Commander for %s!"
-msgstr ""
-"Tento plugin je vyvinut pro Double Commander pro %s.%s Nemůže pracovat s "
-"Double Commander pro %s!"
+msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
+msgstr "Tento plugin je vyvinut pro Double Commander pro %s.%s Nemůže pracovat s Double Commander pro %s!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -7749,9 +7738,7 @@ msgstr "Očistit vybrané \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
-msgid ""
-"No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word "
-"Uppercase;"
+msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Neměnit;VELKÁ;malá;1. znak velký;První znak každého slov velký"
 
 #: ulng.rsoperaborted
@@ -8073,12 +8060,8 @@ msgid "float;B;K;M;G"
 msgstr "plovoucí;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-msgid ""
-"Shortcut %s for cm_Delete will be registered, so it can be used to reverse "
-"this setting."
-msgstr ""
-"Zkratka %s pro cm_Delete budou registrovány, takže jej lze použít ke "
-"obrácení tohoto nastavení."
+msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgstr "Zkratka %s pro cm_Delete budou registrovány, takže jej lze použít ke obrácení tohoto nastavení."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
@@ -8101,20 +8084,12 @@ msgid "Command"
 msgstr "Příkaz"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
-msgid ""
-"Shortcut %s for cm_Delete has a parameter that overrides this setting. Do "
-"you want to change this parameter to use the global setting?"
-msgstr ""
-"Zástupce %s pro cm_Delete má parametr, který přepíše toto nastavení. Chcete "
-"změnit tento parametr a použít globální nastavení?"
+msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgstr "Zástupce %s pro cm_Delete má parametr, který přepíše toto nastavení. Chcete změnit tento parametr a použít globální nastavení?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
-msgid ""
-"Shortcut %s for cm_Delete needs to have a parameter changed to match "
-"shortcut %s. Do you want to change it?"
-msgstr ""
-"Zástupce %s pro cm_Delete potřebuje mít parametr změněný, aby odpovídal "
-"zástupci %s. Chcete ho změnit?"
+msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgstr "Zástupce %s pro cm_Delete potřebuje mít parametr změněný, aby odpovídal zástupci %s. Chcete ho změnit?"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -8151,20 +8126,12 @@ msgid "Set shortcut to delete file"
 msgstr "Nastavit zástupce ke smazání souboru"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-msgid ""
-"For this setting to work with shortcut %s, shortcut %s must be assigned to "
-"cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
-"Pro toto nastavení, aby pracoval zástupce %s, musí zástupce %s být přiřazen "
-"cm_Delete, ale už byl přiřazen k %s. Chcete to změnit?"
+msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr "Pro toto nastavení, aby pracoval zástupce %s, musí zástupce %s být přiřazen cm_Delete, ale už byl přiřazen k %s. Chcete to změnit?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
-msgid ""
-"Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with "
-"reversed Shift cannot be assigned. This setting might not work."
-msgstr ""
-"Zástupce %s pro cm_Delete je sekvence zkratek pro které nesmí být přidělena "
-"obrácená zkratka Shift. Toto nastavení nemusí fungovat."
+msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgstr "Zástupce %s pro cm_Delete je sekvence zkratek pro které nesmí být přidělena obrácená zkratka Shift. Toto nastavení nemusí fungovat."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -8343,12 +8310,8 @@ msgid "Left button;Right button;"
 msgstr "Levé tlačítko;Pravé tlačítko;"
 
 #: ulng.rsoptnewfilesposition
-msgid ""
-"at the top of the file list;after directories (if directories are sorted "
-"before files);at sorted position;at the bottom of the file list"
-msgstr ""
-"nahoře v seznamu souborů;po adresářích (pokud jsou adresáře řazeny před "
-"soubory);na řazené pozici;v dolní části seznamu souborů"
+msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
+msgstr "nahoře v seznamu souborů;po adresářích (pokud jsou adresáře řazeny před soubory);na řazené pozici;v dolní části seznamu souborů"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -8387,23 +8350,15 @@ msgid "&Hide filter panel when not focused"
 msgstr "&Skrýt panel filtru, když není zaměřen"
 
 #: ulng.rsoptsortcasesens
-msgid ""
-"not case sensitive;according to locale settings (aAbBcC);first upper then "
-"lower case (ABCabc)"
-msgstr ""
-"nezáleží na velikosti znaků;podle místního nastavení(aAbBcC);první velká, "
-"poté malá písmena (ABCabc)"
+msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr "nezáleží na velikosti znaků;podle místního nastavení(aAbBcC);první velká, poté malá písmena (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
-msgid ""
-"sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
-"seřadit podle jména a zobrazit první;seřadit jako soubory a zobrazit první;"
-"seřadit jako soubory"
+msgid "sort by name and show first;sort like files and show first;sort like files"
+msgstr "seřadit podle jména a zobrazit první;seřadit jako soubory a zobrazit první;seřadit jako soubory"
 
 #: ulng.rsoptsortmethod
-msgid ""
-"Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
 msgstr "Abecedně, s ohledem na diakritiku; Přirozené řazení: abecedně a čísla"
 
 #: ulng.rsopttabsposition
@@ -8415,11 +8370,8 @@ msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "O&ddělovač;Vni&třní příkaz;V&nější příkaz;Nabíd&ka"
 
 #: ulng.rsoptupdatedfilesposition
-msgid ""
-"don't change position;use the same setting as for new files;to sorted "
-"position"
-msgstr ""
-"neměnit pozici;použít stejné nastavení pro nové soubory;do řazené pozice"
+msgid "don't change position;use the same setting as for new files;to sorted position"
+msgstr "neměnit pozici;použít stejné nastavení pro nové soubory;do řazené pozice"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -8618,14 +8570,8 @@ msgid "Viewer"
 msgstr "Prohlížeč"
 
 #: ulng.rsunhandledexceptionmessage
-msgid ""
-"Please report this error to the bug tracker with a description of what you "
-"were doing and the following file:%sPress %s to continue or %s to abort the "
-"program."
-msgstr ""
-"Prosíme nahlašte tuto chybu do sledovače chyb a popište, co jste dělali a "
-"následující soubor:%sStiskněte %s pro pokračování nebo %s pro přerušení "
-"programu."
+msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr "Prosíme nahlašte tuto chybu do sledovače chyb a popište, co jste dělali a následující soubor:%sStiskněte %s pro pokračování nebo %s pro přerušení programu."
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
@@ -8644,3 +8590,4 @@ msgstr "Kódování"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nenalezeno!"
+

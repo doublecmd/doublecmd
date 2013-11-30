@@ -1965,6 +1965,11 @@ object frmMain: TfrmMain
       Hint = 'Thumbnails View'
       OnExecute = actExecute
     end
+    object actChangeDirToHome: TAction
+      Category = 'Commands'
+      Caption = 'Change directory to home'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 120

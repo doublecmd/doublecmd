@@ -2305,6 +2305,10 @@ msgstr "计算已用空间..."
 msgid "Change directory"
 msgstr "切换目录"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr ""
@@ -3258,6 +3262,16 @@ msgstr "命令(&C)"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "配置(&O)"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 #, fuzzy

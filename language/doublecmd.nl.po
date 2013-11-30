@@ -2299,6 +2299,10 @@ msgstr "Bereken gebruikte ruimte..."
 msgid "Change directory"
 msgstr ""
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr ""
@@ -3246,6 +3250,16 @@ msgstr "&Commando's"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "C&onfiguratie"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 #, fuzzy

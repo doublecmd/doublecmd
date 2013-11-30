@@ -2335,6 +2335,10 @@ msgstr "B&eregn brugt plads..."
 msgid "Change directory"
 msgstr "Skift mappe"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr "Gå til overmappe"
@@ -3208,6 +3212,16 @@ msgstr "&Kommandoer"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Opsætning"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
