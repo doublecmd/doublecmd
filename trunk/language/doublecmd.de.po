@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2013-05-07 16:14+0100\n"
+"PO-Revision-Date: 2013-11-24 16:14+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2033,7 +2033,7 @@ msgstr "Ausgew&ählte Verzeichnisse und Dateien"
 
 #: tfrmfinddlg.cbtextregexp.caption
 msgid "Regular &expression"
-msgstr ""
+msgstr "R&egulärer Ausdruck"
 
 #: tfrmfinddlg.cbtimefrom.caption
 #, fuzzy
@@ -7201,31 +7201,31 @@ msgstr "Aktuellen Vorgang abbrechen"
 
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
-msgstr ""
+msgstr "Kompromittiert:"
 
 #: ulng.rschecksumverifygeneral
 msgid "General:"
-msgstr ""
+msgstr "Allgemein:"
 
 #: ulng.rschecksumverifymissing
 msgid "Missing:"
-msgstr ""
+msgstr "Fehlend:"
 
 #: ulng.rschecksumverifyreaderror
 msgid "Read error:"
-msgstr ""
+msgstr "Lesefehler:"
 
 #: ulng.rschecksumverifysuccess
 msgid "Success:"
-msgstr ""
+msgstr "Erfolg:"
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
-msgstr ""
+msgstr "Checksum eingeben und Algorithmus auswählen"
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
-msgstr ""
+msgstr "Checksum verifizieren"
 
 #: ulng.rschecksumverifytotal
 msgid "Total:"
@@ -7363,7 +7363,7 @@ msgstr "&OK"
 
 #: ulng.rsdlgbuttonother
 msgid "Ot&her"
-msgstr ""
+msgstr "A&ndere"
 
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
@@ -7375,7 +7375,7 @@ msgstr "Alle &vorhandenen Dateien überschreiben"
 
 #: ulng.rsdlgbuttonoverwritelarger
 msgid "Overwrite All &Larger"
-msgstr ""
+msgstr "A&lle größeren Dateien überschreiben"
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
@@ -7383,7 +7383,7 @@ msgstr "Alle älteren &Dateien überschreiben"
 
 #: ulng.rsdlgbuttonoverwritesmaller
 msgid "Overwrite All S&maller"
-msgstr ""
+msgstr "Alle &kleineren Dateien überschreiben"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
