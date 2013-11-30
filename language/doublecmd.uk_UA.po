@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-10-21 00:07+0300\n"
+"PO-Revision-Date: 2013-11-29 00:26+0300\n"
 "Last-Translator: masterok <m_shein@ukr.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1959,7 +1959,7 @@ msgstr "Вибрані &файли і каталоги"
 
 #: tfrmfinddlg.cbtextregexp.caption
 msgid "Regular &expression"
-msgstr ""
+msgstr "Р&егулярний вираз"
 
 #: tfrmfinddlg.cbtimefrom.caption
 #| msgid "Time from:"
@@ -6724,23 +6724,23 @@ msgstr "Скасувати поточну операцію"
 
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
-msgstr ""
+msgstr "Пошкоджені:"
 
 #: ulng.rschecksumverifygeneral
 msgid "General:"
-msgstr ""
+msgstr "Загальні:"
 
 #: ulng.rschecksumverifymissing
 msgid "Missing:"
-msgstr ""
+msgstr "Відсутні:"
 
 #: ulng.rschecksumverifyreaderror
 msgid "Read error:"
-msgstr ""
+msgstr "Помилок читання:"
 
 #: ulng.rschecksumverifysuccess
 msgid "Success:"
-msgstr ""
+msgstr "Успішно:"
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
@@ -6752,7 +6752,7 @@ msgstr "Перевірити контрольну суму"
 
 #: ulng.rschecksumverifytotal
 msgid "Total:"
-msgstr ""
+msgstr "Всього:"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
