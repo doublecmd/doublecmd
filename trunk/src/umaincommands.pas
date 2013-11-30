@@ -205,6 +205,7 @@ type
    procedure cm_CutToClipboard(const Params: array of string);
    procedure cm_PasteFromClipboard(const Params: array of string);
    procedure cm_ChangeDirToRoot(const Params: array of string);
+   procedure cm_ChangeDirToHome(const Params: array of string);
    procedure cm_ChangeDirToParent(const Params: array of string);
    procedure cm_ChangeDir(const Params: array of string);
    procedure cm_ClearLogWindow(const Params: array of string);
@@ -2837,6 +2838,11 @@ begin
   begin
     CurrentPath := FileSource.GetRootDir(CurrentPath);
   end;
+end;
+
+procedure TMainCommands.cm_ChangeDirToHome(const Params: array of string);
+begin
+  SetFileSystemPath(frmMain.ActiveFrame, GetHomeDir);
 end;
 
 procedure TMainCommands.cm_ChangeDirToParent(const Params: array of string);

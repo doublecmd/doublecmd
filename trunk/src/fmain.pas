@@ -90,6 +90,7 @@ type
     actCmdLinePrev: TAction;
     actBriefView: TAction;
     actColumnsView: TAction;
+    actChangeDirToHome: TAction;
     actThumbnailsView: TAction;
     actShellExecute: TAction;
     actRenameTab: TAction;

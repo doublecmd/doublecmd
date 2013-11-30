@@ -2161,6 +2161,10 @@ msgstr ""
 msgid "Change directory"
 msgstr ""
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr ""
@@ -3013,6 +3017,16 @@ msgstr ""
 
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
+msgstr ""
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "TFRMMAIN.MNUCONTEXTLINE1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "TFRMMAIN.MNUCONTEXTLINE2.CAPTION"
+msgid "-"
 msgstr ""
 
 #: tfrmmain.mnufiles.caption

@@ -2165,6 +2165,10 @@ msgstr "Preračunaj &zasedenost prostora"
 msgid "Change directory"
 msgstr "Zamenjaj mapo"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr "Zamenjaj mapo v nadrejeno"
@@ -3018,6 +3022,16 @@ msgstr "&Ukazi"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Nastavitve"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"

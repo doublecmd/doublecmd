@@ -2264,6 +2264,10 @@ msgstr "Розрахувати зайнятий об'&єм"
 msgid "Change directory"
 msgstr "Змінити каталог"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr "Перейти в батьківський каталог"
@@ -3181,6 +3185,16 @@ msgstr "&Команди"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Налаштування"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"

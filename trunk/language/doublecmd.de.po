@@ -2364,6 +2364,10 @@ msgstr "Berechne belegten &Platz"
 msgid "Change directory"
 msgstr "Verzeichnis wechseln"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr "In das übergeordnete Verzeichnis wechseln"
@@ -3349,6 +3353,16 @@ msgstr "&Befehle"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "K&onfigurieren"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 #, fuzzy

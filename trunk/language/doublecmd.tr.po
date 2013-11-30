@@ -2331,6 +2331,10 @@ msgstr "Kullanılan alanı hesapla"
 msgid "Change directory"
 msgstr "Dizin Değiştir"
 
+#: tfrmmain.actchangedirtohome.caption
+msgid "Change directory to home"
+msgstr ""
+
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
 msgstr "Ana dizini değiştir"
@@ -3200,6 +3204,16 @@ msgstr "&Komutlar"
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Yapılandır"
+
+#: tfrmmain.mnucontextline1.caption
+msgctxt "tfrmmain.mnucontextline1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.mnucontextline2.caption
+msgctxt "tfrmmain.mnucontextline2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
