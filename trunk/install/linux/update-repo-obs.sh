@@ -18,7 +18,7 @@ DC_OBS_WEB_DIR=home:Alexx2000
 # OBS project directory
 DC_OBS_PRJ_DIR=$DC_OBS_DIR/$DC_OBS_WEB_DIR
 # DC revision number
-DC_REVISION=$(svnversion -n ../../)
+DC_REVISION=$(svnversion ../../ | sed -e 's/\([0-9]*\).*/\1/')
 
 # Recreate temp directory
 rm -rf $DC_TEMP_DIR

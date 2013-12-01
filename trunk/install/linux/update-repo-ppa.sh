@@ -14,7 +14,7 @@ DC_SOURCE_DIR=$DC_TEMP_DIR/doublecmd-$DC_VER
 # Directory for DC help
 DC_HELP_DIR=$DC_TEMP_DIR/doublecmd-help-$DC_VER
 # DC revision number
-DC_REVISION=$(svnversion -n ../../)
+DC_REVISION=$(svnversion ../../ | sed -e 's/\([0-9]*\).*/\1/')
 
 # Recreate temp directory
 rm -rf $DC_TEMP_DIR
