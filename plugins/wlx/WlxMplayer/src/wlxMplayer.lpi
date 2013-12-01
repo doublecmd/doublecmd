@@ -54,7 +54,12 @@
       <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType);..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
-    <Conditionals Value="if TargetOS = 'darwin' then
+    <Conditionals Value="if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro';
+end;
+
+if TargetOS = 'darwin' then
 begin
   LinkerOptions += ' -no_order_inits';
 end;"/>

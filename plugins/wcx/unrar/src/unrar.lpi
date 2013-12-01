@@ -60,6 +60,11 @@ begin
   CustomOptions += '-fPIC';
 end;
 
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro';
+end;
+
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
