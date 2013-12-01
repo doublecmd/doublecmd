@@ -211,6 +211,7 @@ end;"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <Options>
+              <PassLinkerOptions Value="True"/>
               <Win32>
                 <GraphicApplication Value="True"/>
               </Win32>
