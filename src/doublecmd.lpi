@@ -180,7 +180,12 @@
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
-          <Conditionals Value="if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
+          <Conditionals Value="if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro';
+end;
+
+if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
 begin
   UnitPath += '$(FallbackOutputRoot)/LazControls/lib/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
   UnitPath += '$(FallbackOutputRoot)/SynEdit/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
@@ -1244,6 +1249,7 @@ end;"/>
       <Unit152>
         <Filename Value="filesources\filesystem\ufilesystemutil.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemUtil"/>
       </Unit152>
       <Unit153>
         <Filename Value="filesources\filesystem\ufilesystemwipeoperation.pas"/>
@@ -1267,6 +1273,7 @@ end;"/>
       <Unit157>
         <Filename Value="filesources\multiarchive\umultiarchivecopyoutoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiArchiveCopyOutOperation"/>
       </Unit157>
       <Unit158>
         <Filename Value="filesources\multiarchive\umultiarchivedeleteoperation.pas"/>
