@@ -158,7 +158,8 @@ uses
   LCLIntf,
   LCLProc,
   DCStrUtils,
-  uGlobs
+  uGlobs,
+  uArchiveFileSource
   {$IF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ENDIF}
@@ -286,10 +287,18 @@ begin
     end
     else
     begin
-      NewCaption := FileView.CurrentPath;
-      if NewCaption <> '' then
-        NewCaption := GetLastDir(NewCaption);
-
+      if (FileView.FileSource is TArchiveFileSource) and
+         (FileView.FileSource.IsPathAtRoot(FileView.CurrentPath)) then
+        begin
+          with (FileView.FileSource as TArchiveFileSource) do
+            NewCaption := ExtractFileName(ArchiveFileName);
+        end
+      else
+        begin
+          NewCaption := FileView.CurrentPath;
+          if NewCaption <> '' then
+            NewCaption := GetLastDir(NewCaption);
+        end;
       FCurrentTitle := NewCaption;
     end;
 
