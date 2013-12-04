@@ -775,13 +775,17 @@ begin
     Include(Options, ssoWholeWord);
   if bSearchRegExp then
     Include(Options, ssoRegExpr);
-  if Editor.SearchReplace(sSearchText, sReplaceText, Options) = 0 then
-  begin
-    if ssoBackwards in Options then
-      Editor.BlockEnd := Editor.BlockBegin
-    else
-      Editor.BlockBegin := Editor.BlockEnd;
-    Editor.CaretXY := Editor.BlockBegin;
+  try
+    if Editor.SearchReplace(sSearchText, sReplaceText, Options) = 0 then
+    begin
+      if ssoBackwards in Options then
+        Editor.BlockEnd := Editor.BlockBegin
+      else
+        Editor.BlockBegin := Editor.BlockEnd;
+      Editor.CaretXY := Editor.BlockBegin;
+    end;
+  except
+    on E: Exception do msgError(E.Message);
   end;
 end;
 
