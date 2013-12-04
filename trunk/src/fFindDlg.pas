@@ -212,6 +212,7 @@ type
     procedure SelectTemplate(const ATemplateName: String);
     procedure UpdateTemplatesList;
     procedure OnAddAttribute(Sender: TObject);
+    function InvalidRegExpr(AChecked: Boolean; const ARegExpr: String): Boolean;
   public
     class function Instance: TfrmFindDlg;
   public
@@ -246,7 +247,7 @@ uses
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
   uFileViewNotebook, uColumnsFileView, uKeyboard,
-  DCOSUtils;
+  DCOSUtils, SynRegExpr;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of Integer = (0, 1, 2, 3, 4, 5, 6);
@@ -1462,6 +1463,24 @@ begin
   edtAttrib.Text := sAttr;
 end;
 
+function TfrmFindDlg.InvalidRegExpr(AChecked: Boolean; const ARegExpr: String): Boolean;
+var
+  sMsg: UTF8String;
+begin
+  Result:= False;
+  if AChecked then
+  try
+    ExecRegExpr(ARegExpr, '');
+  except
+    on E: Exception do
+    begin
+      Result:= True;
+      sMsg:= StringReplace(cbRegExp.Caption, '&', '', [rfReplaceAll]);
+      MessageDlg(sMsg + ': ' +  E.Message, mtError, [mbOK], 0);
+    end;
+  end;
+end;
+
 procedure TfrmFindDlg.pgcSearchChange(Sender: TObject);
 begin
   if (pgcSearch.ActivePage = tsStandard) and not cmbFindFileMask.Focused then
@@ -1477,6 +1496,10 @@ var
   SearchTemplate: TSearchTemplate;
   SearchRec: TSearchTemplateRec;
 begin
+  if InvalidRegExpr(cbRegExp.Checked, cmbFindFileMask.Text) or
+     InvalidRegExpr(cbTextRegExp.Checked, cmbFindText.Text) then
+    Exit;
+
   sName := FLastTemplateName;
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
   begin
