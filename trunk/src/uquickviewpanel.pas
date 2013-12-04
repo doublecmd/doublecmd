@@ -85,12 +85,11 @@ end;
 
 procedure TQuickViewPanel.CreateViewer(aFileView: TFileView);
 begin
-  FViewer:= TfrmViewer.Create(Self, nil);
+  FViewer:= TfrmViewer.Create(Self, nil, True);
   FViewer.Parent:= Self;
   FViewer.BorderStyle:= bsNone;
   FViewer.Menu:= nil;
   FViewer.Align:= alClient;
-  FViewer.QuickView:= True;
   FFirstFile:= True;
   FFileView:= aFileView;
   FFileSource:= aFileView.FileSource;

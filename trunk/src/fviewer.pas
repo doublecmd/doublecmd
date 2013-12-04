@@ -276,7 +276,7 @@ type
     property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
 
   public
-    constructor Create(TheOwner: TComponent; aFileSource: IFileSource); overload;
+    constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure LoadFile(const aFileName: UTF8String);
@@ -291,7 +291,6 @@ type
     procedure GetCommandsList(List: TStrings);
     {$ENDIF}
 
-    property QuickView: Boolean read bQuickView write bQuickView;
   published
     // Commands for hotkey manager
     procedure cm_About(const Params: array of string);
@@ -342,7 +341,6 @@ var
 begin
   //DCDebug('ShowViewer - Using Internal');
   Viewer := TfrmViewer.Create(Application, aFileSource);
-  Viewer.QuickView:= False;
   Viewer.FileList.Assign(FilesToView);// Make a copy of the list
   Viewer.DrawPreview.RowCount:= Viewer.FileList.Count;
   with Viewer.ViewerControl do
@@ -363,8 +361,10 @@ begin
     end;
 end;
 
-constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource);
+constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource;
+  aQuickView: Boolean);
 begin
+  bQuickView:= aQuickView;
   inherited Create(TheOwner);
   FFileSource := aFileSource;
   FLastSearchPos := -1;
@@ -1414,7 +1414,7 @@ procedure TfrmViewer.FormCreate(Sender: TObject);
 var
   HMViewer: THMForm;
 begin
-  InitPropStorage(Self);
+  if not bQuickView then InitPropStorage(Self);
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
 
