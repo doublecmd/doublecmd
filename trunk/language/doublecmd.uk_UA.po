@@ -2262,15 +2262,15 @@ msgstr "Розрахувати зайнятий об'&єм"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
-msgstr "Змінити каталог"
+msgstr "Змінити теку"
 
 #: tfrmmain.actchangedirtohome.caption
 msgid "Change directory to home"
-msgstr ""
+msgstr "Перейти в домашню теку"
 
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
-msgstr "Перейти в батьківський каталог"
+msgstr "Перейти в батьківську теку"
 
 #: tfrmmain.actchangedirtoroot.caption
 msgid "Change directory to root"
