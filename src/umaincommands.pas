@@ -2855,7 +2855,7 @@ end;
 procedure TMainCommands.cm_ChangeDir(const Params: array of string);
 begin
   if Length(Params) > 0 then
-    FrmMain.ActiveFrame.CurrentPath := ReplaceEnvVars(Params[0]);
+    ChooseFileSource(FrmMain.ActiveFrame, ReplaceEnvVars(Params[0]));
 end;
 
 procedure TMainCommands.cm_ClearLogWindow(const Params: array of string);
