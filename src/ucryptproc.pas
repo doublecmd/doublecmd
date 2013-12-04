@@ -39,8 +39,9 @@ type
     FMasterKeyHash: AnsiString;
     FInitialized: Boolean;
   public
-    constructor Create(const AFileName: String; Mode: Word); override;
+    constructor Create(const AFileName: String); reintroduce;
     destructor Destroy; override;
+  public
     function HasMasterKey: Boolean;
     function CheckMasterKey: Boolean;
     function WritePassword(Prefix, Name, Connection: UTF8String; const Password: AnsiString): Boolean;
@@ -67,8 +68,7 @@ var
 implementation
 
 uses
-  LCLProc, LCLType, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng, uDebug,
-  DCOSUtils;
+  LCLProc, LCLType, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng, uDebug;
 
 type
   TBlowFishKeyRec = record
@@ -132,9 +132,10 @@ end;
 
 { TPasswordStore }
 
-constructor TPasswordStore.Create(const AFileName: String; Mode: Word);
+constructor TPasswordStore.Create(const AFileName: String);
 begin
-  inherited Create(AFileName, Mode);
+  inherited Create(AFileName);
+  if ReadOnly then DCDebug('Read only password store!');
   FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
   // In case exception happens when opening file use this flag to
   // allow WriteString in Destroy only when Create has been successful.
@@ -188,11 +189,15 @@ var
   Data: AnsiString;
 begin
   Result:= False;
+  if ReadOnly then Exit;
   if CheckMasterKey = False then Exit;
   Data:= Encode(FMasterKey, Password);
-  if Data = EmptyStr then
-    raise EEncryptDecryptFailed.Create;
-  WriteString(Prefix + '_' + Name, Connection, Data);
+  if Length(Data) = 0 then raise EEncryptDecryptFailed.Create;
+  try
+    WriteString(Prefix + '_' + Name, Connection, Data);
+  except
+    Exit;
+  end;
   Result:= True;
 end;
 
@@ -204,30 +209,30 @@ begin
   Result:= False;
   if CheckMasterKey = False then Exit;
   Data:= ReadString(Prefix + '_' + Name, Connection, Data);
-  if Data = EmptyStr then
-    raise EEncryptDecryptFailed.Create;
+  if Length(Data) = 0 then Exit;
   Password:= Decode(FMasterKey, Data);
+  if Length(Password) = 0 then raise EEncryptDecryptFailed.Create;
   Result:= True;
 end;
 
 function TPasswordStore.DeletePassword(Prefix, Name, Connection: UTF8String): Boolean;
 begin
-  DeleteKey(Prefix + '_' + Name, Connection);
-  Result := True;
+  Result:= not ReadOnly;
+  if Result then
+  try
+    DeleteKey(Prefix + '_' + Name, Connection);
+  except
+    Result:= False;
+  end;
 end;
 
 procedure InitPasswordStore;
 var
   AFileName: String;
-  Mode: Word;
 begin
   AFileName := gpCfgDir + 'pwd.ini';
   try
-    if mbFileAccess(AFileName, fmOpenReadWrite or fmShareDenyWrite) then
-      Mode := fmOpenReadWrite or fmShareDenyWrite
-    else
-      Mode := fmOpenRead or fmShareDenyWrite;
-    PasswordStore:= TPasswordStore.Create(AFileName, Mode);
+    PasswordStore:= TPasswordStore.Create(AFileName);
   except
     DCDebug('Can not create secure password store!');
   end;
