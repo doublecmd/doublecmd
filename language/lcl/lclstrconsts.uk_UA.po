@@ -20,9 +20,9 @@ msgstr "Помилка при виконанні %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "Не вдається знайти браузер HTML."
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgstr "Браузер HTML не знайдено.%s Задайте його в меню Допомога -> Параметри довідки -> Переглядачі"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -64,6 +64,10 @@ msgstr "Великі літери"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Очистити"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -148,6 +152,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Меню"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Зміна режиму"
@@ -219,6 +227,10 @@ msgstr "Скріншот"
 msgid "Space key"
 msgstr "Пробіл"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -236,6 +248,10 @@ msgstr "Вверх"
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
 msgstr "неможливо виконати %s"
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
+msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -255,7 +271,9 @@ msgid "3D Light"
 msgstr "Об'ємне світло"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
-msgid "A control can't have itself as parent"
+#, fuzzy
+#| msgid "A control can't have itself as parent"
+msgid "A control can't have itself as a parent"
 msgstr "Елемент управління не може бути сам собі предком"
 
 #: lclstrconsts.rsactivebordercolorcaption
@@ -350,6 +368,10 @@ msgstr "Елемент управління класу '%s' не може мат
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr "Елемент управління '%s' не має батьківського вінка"
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
+msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
@@ -521,6 +543,10 @@ msgstr "FixedRows не може бути >= RowCount"
 msgid "Form"
 msgstr "Форма"
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Помилка потоків форм \"%s\": %s"
@@ -626,7 +652,9 @@ msgid "--no-xshm             Disable use of the X Shared Memory Extension."
 msgstr "--no-xshm             Заборонити використання спільних розширень Х-пам'яті."
 
 #: lclstrconsts.rsgtkoptionsync
-msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediatey after the protocol request that generated the error has been processed by the X server."
+#, fuzzy
+#| msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediatey after the protocol request that generated the error has been processed by the X server."
+msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
 msgstr "--sync                Виклик XSynchronize (display, True) після встановлення з'єднання з X-сервером. Це полегшує налагодження помилок протоколу X через те, що запити буферування X будуть вимкнені і помилки X будуть одержані одразу після запиту протоколу, який викликав цю помилку, яка була оброблена X-сервером."
 
 #: lclstrconsts.rshelpalreadyregistered
@@ -634,11 +662,15 @@ msgid "%s: Already registered"
 msgstr "%s: Вже зареєстрований"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Контекст довідки не знайдено"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "База даних довідки не знайдена"
 
 #: lclstrconsts.rshelperror
@@ -661,6 +693,14 @@ msgstr "База даних довідки %s%s%s не знайшла прогр
 msgid "Help Database %s%s%s not found"
 msgstr "Базу даних довідки %s%s%s не знайдено"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "Ключове слово довідки %s%s%s не знайдено."
@@ -678,11 +718,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Не знайдено довідки для рядка %d, колонки %d з %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "Відсутні доступні вузли довідки"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Довідку не знайдено"
 
 #: lclstrconsts.rshelpnotregistered
@@ -702,7 +746,9 @@ msgid "Help Viewer Error"
 msgstr "Помилка переглядача довідки"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Не знайдено переглядач довідки"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -718,7 +764,9 @@ msgid "Hot Light"
 msgstr "Гаряче світло"
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+#, fuzzy
+#| msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr "Ресурс значків OSX"
 
 #: lclstrconsts.rsicon
@@ -1009,6 +1057,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Попередній"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Властивості %s не існує"
@@ -1166,6 +1218,10 @@ msgstr "  розмір "
 msgid "Sky Blue"
 msgstr "Небесно-синій"
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr "Синьо-зелений"
@@ -1177,6 +1233,18 @@ msgstr "Текст"
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr "Тегований формат файлу зображення"
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
+msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1289,6 +1357,10 @@ msgstr "Невірний розмір зображення"
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
 msgstr "Невірний індекс ImageList"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1406,7 +1478,9 @@ msgid "Invalid integer number: %s"
 msgstr "Невірне ціле число: %s"
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+#, fuzzy
+#| msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr " (на %d,%d, зміщення потоку %.8x)"
 
 #: lclstrconsts.sparunterminatedbinvalue

@@ -25,11 +25,9 @@ msgstr "Fout tijdens uitvoeren van %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "Geen HTML browser kunnen vinden."
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-#, fuzzy
-#| msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "Geen HTML browser gevonden. %sDefinieer deze alstublieft via Help -> Configureer Help -> Viewers"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -71,6 +69,10 @@ msgstr "Hoofdletter"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Wissen"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -155,6 +157,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Menu"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Mode wijziging"
@@ -226,6 +232,10 @@ msgstr "Snapshot"
 msgid "Space key"
 msgstr "Spatiebar"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -242,6 +252,10 @@ msgstr "Omhoog"
 
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
+msgstr ""
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
 msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
@@ -358,6 +372,10 @@ msgstr ""
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
+msgstr ""
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
 msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
@@ -530,6 +548,10 @@ msgstr "FixedRows kan niet >= RowCount"
 msgid "Form"
 msgstr ""
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "\"%s\" fout: %s bij het streamen van form."
@@ -645,11 +667,15 @@ msgid "%s: Already registered"
 msgstr "%s: Al vastgelegd"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Help Context niet gevonden"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "Help Database niet gevonden"
 
 #: lclstrconsts.rshelperror
@@ -672,6 +698,14 @@ msgstr "Help Database %s%s%s heeft geen viewer gevonden voor help pagina van typ
 msgid "Help Database %s%s%s not found"
 msgstr "Help Database %s%s%s niet gevonden"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "Help sleutelwoord %s%s%s niet gevonden."
@@ -689,11 +723,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Geen help gevonden voor regel %d, kolom %d van %s. "
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "Geen help nodes beschikbaar"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Help niet gevonden"
 
 #: lclstrconsts.rshelpnotregistered
@@ -713,7 +751,9 @@ msgid "Help Viewer Error"
 msgstr "Help Viewer Fout"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Help Viewer niet gevonden"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -729,7 +769,7 @@ msgid "Hot Light"
 msgstr ""
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr ""
 
 #: lclstrconsts.rsicon
@@ -1022,6 +1062,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Vorige"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Eigenschap %s bestaat niet"
@@ -1179,6 +1223,10 @@ msgstr "  afmeting "
 msgid "Sky Blue"
 msgstr ""
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr ""
@@ -1189,6 +1237,18 @@ msgstr "Tekst"
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
+msgstr ""
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
 msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
@@ -1302,6 +1362,10 @@ msgstr "Ongeldig formaat voor afbeelding "
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
 msgstr "Ongeldige index van ImageList"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1419,7 +1483,7 @@ msgid "Invalid integer number: %s"
 msgstr ""
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr ""
 
 #: lclstrconsts.sparunterminatedbinvalue

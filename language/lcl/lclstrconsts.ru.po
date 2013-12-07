@@ -25,10 +25,9 @@ msgstr "Ошибка при выполнении %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "Невозможно найти браузер HTML."
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-#| msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "Не найдена программа просмотра справки.%sЗадайте её в меню Окружение -> Параметры -> Справка -> Параметры справки"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -70,6 +69,10 @@ msgstr "CapsLock"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Clear"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -154,6 +157,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Menu"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Изменение режима"
@@ -225,6 +232,10 @@ msgstr "Snapshot"
 msgid "Space key"
 msgstr "Пробел"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -242,6 +253,10 @@ msgstr "Стрелка вверх"
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
 msgstr "Запустить %s невозможно"
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
+msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -357,6 +372,10 @@ msgstr "Элемент управления класса '%s' не может и
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr "Элемент управления '%s' не имеет родительского окна"
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
+msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
@@ -528,6 +547,10 @@ msgstr "FixedRows не может быть >= RowCount"
 msgid "Form"
 msgstr "Форма"
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Ошибка потоков \"%s\" форм: %s"
@@ -642,11 +665,15 @@ msgid "%s: Already registered"
 msgstr "%s: уже зарегистрирован"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Контекст справки не найден"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "База данных справки не найдена"
 
 #: lclstrconsts.rshelperror
@@ -669,6 +696,14 @@ msgstr "База данных справки %s%s%s не нашла програ
 msgid "Help Database %s%s%s not found"
 msgstr "База данных справки %s%s%s не найдена"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "Ключевое слово справки %s%s%s не найдено."
@@ -686,11 +721,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Не найдено справки для строки %d, столбца %d из %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "Доступные узлы справки отсутствуют"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Справка не найдена"
 
 #: lclstrconsts.rshelpnotregistered
@@ -710,7 +749,9 @@ msgid "Help Viewer Error"
 msgstr "Ошибка программы просмотра справки"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Программа просмотра справки не найдена"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -726,7 +767,9 @@ msgid "Hot Light"
 msgstr "Выделение"
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+#, fuzzy
+#| msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr "Ресурс значков OSX"
 
 #: lclstrconsts.rsicon
@@ -1018,6 +1061,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Предыдущая"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Свойство %s не существует"
@@ -1183,6 +1230,10 @@ msgstr "  размер "
 msgid "Sky Blue"
 msgstr "Голубой"
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr "Бирюзовый"
@@ -1194,6 +1245,18 @@ msgstr "Текст"
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr "Формат Tagged Image File"
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
+msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1306,6 +1369,10 @@ msgstr "Неверный размер рисунка"
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
 msgstr "Неверный индекс ImageList"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1423,7 +1490,9 @@ msgid "Invalid integer number: %s"
 msgstr "Неверное целое число: %s"
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+#, fuzzy
+#| msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr " (на %d,%d, смещение потока %.8x)"
 
 #: lclstrconsts.sparunterminatedbinvalue

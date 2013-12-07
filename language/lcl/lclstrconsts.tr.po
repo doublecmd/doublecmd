@@ -1,4 +1,4 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Last-Translator:Ahmet Çağlar <ahmetcaglar111@hotmail.com>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,11 +25,9 @@ msgstr "Yürütülürken hata oluştu %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "HTML tarayıcı bulunamıyor."
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-#, fuzzy
-#| msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "HTML tarayıcı bulunamadı.%sLütfen bir ortam tanımlayın -> Seçenekler -> Yardım -> Yardım seçenekleri"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -71,6 +69,10 @@ msgstr "Büyük harf"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Temizle"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -155,6 +157,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Menü"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Modu Değiştir"
@@ -226,6 +232,10 @@ msgstr "Anlık görüntü"
 msgid "Space key"
 msgstr "Boşluk tuşu"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -243,6 +253,10 @@ msgstr "Yukarı"
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
 msgstr "yürütemez"
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
+msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -284,15 +298,10 @@ msgid "Application Workspace"
 msgstr "Uygulama Çalışma Alanı"
 
 #: lclstrconsts.rsaquacolorcaption
+#, fuzzy
+#| msgid "White"
+msgctxt "lclstrconsts.rsaquacolorcaption"
 msgid "Aqua"
-msgstr "deniz mavisi"
-
-#: lclstrconsts.rsaquacolorcaption
-msgid "Turquaise"
-msgstr "Turkuaz(Mavimsi yeşil renk)"
-
-#: lclstrconsts.rsaquacolorcaption
-msgid "White"
 msgstr "Beyaz"
 
 #: lclstrconsts.rsbackgroundcolorcaption
@@ -367,6 +376,10 @@ msgstr "Sınıfın denetimini '%s' bir alt sınıf '%s' kontrol edemez"
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr "Hiçbir üst pencere '%s' denetimi yok"
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
+msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
@@ -538,6 +551,10 @@ msgstr "Sabit satır olamaz >= Satır sayısı"
 msgid "Form"
 msgstr "Biçim"
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Biçim akışı \"%s\" hatası: %s"
@@ -653,11 +670,15 @@ msgid "%s: Already registered"
 msgstr "%s: Zaten kaydedilmiş"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Yardım bağlamı bulunamadı"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "Yardım veritabanı bulunamadı"
 
 #: lclstrconsts.rshelperror
@@ -680,6 +701,14 @@ msgstr " Yardım veritabanı %s%s%s türündeki yardım sayfası için bir gör�
 msgid "Help Database %s%s%s not found"
 msgstr "%s%s%s Yardım veritabanı bulunamadı"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "%s%s%s yardım anahtar sözcüğü bulunamadı."
@@ -697,11 +726,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "%s'nin satır %d, sütun %d için yardım bulunamadı."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "Kullanılabilir yardım düğümü yok"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Yardım bulunamadı"
 
 #: lclstrconsts.rshelpnotregistered
@@ -721,7 +754,9 @@ msgid "Help Viewer Error"
 msgstr "Yardım görüntüleyici hatası"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Yardım görüntüleyici bulunamadı"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -737,7 +772,9 @@ msgid "Hot Light"
 msgstr "Güçlü Vurgula"
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+#, fuzzy
+#| msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr "OSX Simge Kaynağı"
 
 #: lclstrconsts.rsicon
@@ -1030,6 +1067,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Önceki"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Özelliği %s mevcut değil"
@@ -1104,7 +1145,7 @@ msgstr "-geometri geometri,gösterilen ilk pencerenin geometrisini istemci  ayar
 
 #: lclstrconsts.rsqtoptionx11im
 msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
-msgstr "-im, sunucuya giriş yöntemi ayarları"(X DEĞİŞTİRİCİLER ortam değişkeni ayarına eşdeğerdir)
+msgstr "-im, sunucuya giriş yöntemi ayarları\"(X DEĞİŞTİRİCİLER ortam değişkeni ayarına eşdeğerdir"
 
 #: lclstrconsts.rsqtoptionx11inputstyle
 msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
@@ -1129,7 +1170,7 @@ msgstr "-görsel GerçekRenk, gerçekrenkli görüntü 8 bit görüntü üzerind
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
 msgstr "Güncelleştirme yapılırken sonlandı, devam etmeyen bir güncelleştirme"
- 
+
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
 msgstr "Güncelleştirme devam ederken görüntü kaydedemezsiniz"
@@ -1187,6 +1228,10 @@ msgstr "  boyut "
 msgid "Sky Blue"
 msgstr "Gök mavisi"
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr "Deniz mavisi"
@@ -1198,6 +1243,18 @@ msgstr "Metin"
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr "Etiketli Resim dosyası biçimi"
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
+msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1244,6 +1301,7 @@ msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left.
 msgstr " UYARI: kaldırılmamış %s LM_PAINT/LM_GtkBOYA mesaj bağlantısı kaldı."
 
 #: lclstrconsts.rswhitecolorcaption
+msgctxt "lclstrconsts.rswhitecolorcaption"
 msgid "White"
 msgstr "Beyaz"
 
@@ -1311,6 +1369,10 @@ msgstr "Geçersiz görüntü boyutu"
 msgid "Invalid ImageList Index"
 msgstr "Geçersiz GörüntüListesi dizini"
 
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
+
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
 msgstr "Menü dizini sınırın dışında"
@@ -1342,12 +1404,12 @@ msgstr ""
 #: lclstrconsts.smkcdown
 msgctxt "lclstrconsts.smkcdown"
 msgid "Down"
-msgstr ""
+msgstr "Aşağı"
 
 #: lclstrconsts.smkcend
 msgctxt "lclstrconsts.smkcend"
 msgid "End"
-msgstr ""
+msgstr "Bitiş"
 
 #: lclstrconsts.smkcenter
 msgid "Enter"
@@ -1360,7 +1422,7 @@ msgstr ""
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"
 msgid "Home"
-msgstr ""
+msgstr "Başa git"
 
 #: lclstrconsts.smkcins
 msgid "Ins"
@@ -1369,7 +1431,7 @@ msgstr ""
 #: lclstrconsts.smkcleft
 msgctxt "lclstrconsts.smkcleft"
 msgid "Left"
-msgstr ""
+msgstr "Sol"
 
 #: lclstrconsts.smkcmeta
 msgid "Meta+"
@@ -1386,7 +1448,7 @@ msgstr ""
 #: lclstrconsts.smkcright
 msgctxt "lclstrconsts.smkcright"
 msgid "Right"
-msgstr ""
+msgstr "Sağ"
 
 #: lclstrconsts.smkcshift
 msgid "Shift+"
@@ -1427,7 +1489,9 @@ msgid "Invalid integer number: %s"
 msgstr "Geçersiz tamsayı: %s"
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+#, fuzzy
+#| msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr " (at %d,%d, Akış uzaklığı %.8x)"
 
 #: lclstrconsts.sparunterminatedbinvalue

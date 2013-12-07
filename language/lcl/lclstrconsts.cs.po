@@ -26,9 +26,9 @@ msgstr "Chyba během spouštění %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "Nepodařilo se nalézt HTML prohlížeč."
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "Nenalezen HTML prohlížeč.%sProsím určete nějaký v Prostředí -> Volby -> Nápověda -> Volby nápovědy"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -70,6 +70,10 @@ msgstr "Velké písmena"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Vyčistit"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -154,6 +158,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Nabídka"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Změna režimu"
@@ -225,6 +233,10 @@ msgstr "Snímek"
 msgid "Space key"
 msgstr "Mezerník"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -242,6 +254,10 @@ msgstr "Nahoru"
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
 msgstr "nelze spustit %s"
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
+msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -357,6 +373,10 @@ msgstr "Prvek třídy '%s' nemůže mít prvek třídy '%s' jako dítě"
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr "Prvek '%s' nemá rodičovské okno"
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
+msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
@@ -528,6 +548,10 @@ msgstr "FixedRows nemůže být >= RowCount"
 msgid "Form"
 msgstr "Formulář"
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Chyba zřetězení \"%s\" chyba: %s"
@@ -641,11 +665,15 @@ msgid "%s: Already registered"
 msgstr "%s: Již zaregistrováno"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Kontext nápovědy nenalezen"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "Databáze nápovědy nenalezena"
 
 #: lclstrconsts.rshelperror
@@ -668,6 +696,14 @@ msgstr "Databáze nápovědy %s%s%s nenalezla prohlížeč pro stránku nápově
 msgid "Help Database %s%s%s not found"
 msgstr "Databáze nápovědy %s%s%s nenalezena"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "Klíčové slovo %s%s%s nenalezeno."
@@ -685,11 +721,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Nápověda nenalezena pro řádek %d, sloupce %d pro %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "Uzly nápovědy nejsou dostupné"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Nápověda nenalezena"
 
 #: lclstrconsts.rshelpnotregistered
@@ -709,7 +749,9 @@ msgid "Help Viewer Error"
 msgstr "Chyba prohlížeče nápovědy"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Prohlížeč nápovědy nenalezen"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -725,7 +767,9 @@ msgid "Hot Light"
 msgstr ""
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+#, fuzzy
+#| msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr "Zdroj ikony OSX"
 
 #: lclstrconsts.rsicon
@@ -1016,6 +1060,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Předchozí"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Vlastnost %s neexistuje"
@@ -1173,6 +1221,10 @@ msgstr "  velikost "
 msgid "Sky Blue"
 msgstr "Nebeská modrá"
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr "Hluboká zelenomodrá"
@@ -1184,6 +1236,18 @@ msgstr "Text"
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr "Označkovaný obrazový formát souboru"
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
+msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1296,6 +1360,10 @@ msgstr "Neplatná velikost obrázku"
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
 msgstr "Neplatný index ImageList"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1413,7 +1481,9 @@ msgid "Invalid integer number: %s"
 msgstr "Neplatné celé číslo: %s"
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+#, fuzzy
+#| msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr " (u %d,%d, posun proudu %.8x)"
 
 #: lclstrconsts.sparunterminatedbinvalue

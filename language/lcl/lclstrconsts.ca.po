@@ -25,11 +25,9 @@ msgstr "Error en executar  %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "No puc trobar un navegador HTML"
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-#, fuzzy
-#| msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "No s'ha trobat navegador HTML .%sSisplau definiu-ne un en  Ajuda -> Configura ajuda -> Visors"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -71,6 +69,10 @@ msgstr "Majúscula"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Neteja"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -155,6 +157,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Menú"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Canvi de mode"
@@ -226,6 +232,10 @@ msgstr "Captura"
 msgid "Space key"
 msgstr "Espaiador"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -242,6 +252,10 @@ msgstr "Amunt"
 
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
+msgstr ""
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
 msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
@@ -358,6 +372,10 @@ msgstr ""
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
+msgstr ""
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
 msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
@@ -530,6 +548,10 @@ msgstr "FixedRows (files fixades) no poden ser >= RowCount (recompte de files)"
 msgid "Form"
 msgstr ""
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Formació del corrent \"%s\" amb  error: %s"
@@ -645,11 +667,15 @@ msgid "%s: Already registered"
 msgstr "Ja enregistrat"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "No trobo ajuda contextual"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "Base de dades de l'ajuda no trobada"
 
 #: lclstrconsts.rshelperror
@@ -672,6 +698,14 @@ msgstr "La base de dades de l'ajuda %s%s%s no ha trobat un visor per una pàgina
 msgid "Help Database %s%s%s not found"
 msgstr "Base de dades de l'ajuda %s%s%s no trobada"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "Paraula clau d'ajuda %s%s%s no trobada"
@@ -689,11 +723,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "No s'ha trobat cap ajuda per a la línia %d, columna %d de %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "No hi ha nodes d'ajuda disponibles"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Ajuda no trobada"
 
 #: lclstrconsts.rshelpnotregistered
@@ -713,7 +751,9 @@ msgid "Help Viewer Error"
 msgstr "Error del visor d'ajuda"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Visor d'ajuda no trobat"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -729,7 +769,7 @@ msgid "Hot Light"
 msgstr ""
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr ""
 
 #: lclstrconsts.rsicon
@@ -1022,6 +1062,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Previ"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "La propietat %s  no existeix"
@@ -1179,6 +1223,10 @@ msgstr " mida "
 msgid "Sky Blue"
 msgstr ""
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr ""
@@ -1189,6 +1237,18 @@ msgstr "Text"
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
+msgstr ""
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
 msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
@@ -1302,6 +1362,10 @@ msgstr "Mida de la imatge no vàlida"
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
 msgstr "Índex de llista d'imatges no vàlid"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1419,7 +1483,7 @@ msgid "Invalid integer number: %s"
 msgstr ""
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr ""
 
 #: lclstrconsts.sparunterminatedbinvalue
