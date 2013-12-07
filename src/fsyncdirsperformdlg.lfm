@@ -1,0 +1,117 @@
+object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
+  Left = 234
+  Height = 153
+  Top = 137
+  Width = 320
+  AutoSize = True
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Synchronize'
+  ClientHeight = 153
+  ClientWidth = 320
+  Position = poOwnerFormCenter
+  LCLVersion = '1.0.12.0'
+  object chkLeftToRight: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 6
+    Height = 17
+    Top = 3
+    Width = 20
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 3
+    Enabled = False
+    ParentBidiMode = False
+    TabOrder = 0
+  end
+  object edRightPath: TEdit
+    AnchorSideLeft.Control = chkLeftToRight
+    AnchorSideTop.Control = chkLeftToRight
+    AnchorSideTop.Side = asrBottom
+    Left = 22
+    Height = 21
+    Top = 20
+    Width = 270
+    BorderSpacing.Left = 16
+    BorderSpacing.Right = 6
+    Enabled = False
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object chkRightToLeft: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edRightPath
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 17
+    Top = 47
+    Width = 20
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    Enabled = False
+    ParentBidiMode = False
+    TabOrder = 2
+  end
+  object edLeftPath: TEdit
+    AnchorSideLeft.Control = chkRightToLeft
+    AnchorSideTop.Control = chkRightToLeft
+    AnchorSideTop.Side = asrBottom
+    Left = 22
+    Height = 21
+    Top = 64
+    Width = 270
+    BorderSpacing.Left = 16
+    Enabled = False
+    ReadOnly = True
+    TabOrder = 3
+  end
+  object Bevel1: TBevel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edLeftPath
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 0
+    Height = 6
+    Top = 88
+    Width = 320
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 3
+    Shape = bsBottomLine
+  end
+  object chkConfirmOverwrites: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Bevel1
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 17
+    Top = 100
+    Width = 111
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    Caption = 'Confirm overwrites'
+    Checked = True
+    State = cbChecked
+    TabOrder = 4
+  end
+  object ButtonPanel1: TButtonPanel
+    AnchorSideTop.Control = chkConfirmOverwrites
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 24
+    Top = 123
+    Width = 308
+    Anchors = [akTop, akLeft, akRight]
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 5
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+end

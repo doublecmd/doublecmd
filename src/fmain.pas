@@ -91,6 +91,7 @@ type
     actBriefView: TAction;
     actColumnsView: TAction;
     actChangeDirToHome: TAction;
+    actSyncDirs: TAction;
     actThumbnailsView: TAction;
     actShellExecute: TAction;
     actRenameTab: TAction;
@@ -164,6 +165,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuCmdSyncDirs: TMenuItem;
     mnuContextRenameOnly: TMenuItem;
     mnuContextCopy: TMenuItem;
     mnuContextOpen: TMenuItem;
