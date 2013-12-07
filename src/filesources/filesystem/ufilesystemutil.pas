@@ -153,14 +153,14 @@ type
     function ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
     function ProcessFile(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 
-    function TargetExists(aNode: TFileTreeNode; AbsoluteTargetFileName: String)
+    function TargetExists(aNode: TFileTreeNode; var AbsoluteTargetFileName: String)
                  : TFileSystemOperationTargetExistsResult;
     function DirExists(aFile: TFile;
                        AbsoluteTargetFileName: String;
                        AllowCopyInto: Boolean;
                        AllowDelete: Boolean): TFileSourceOperationOptionDirectoryExists;
     function FileExists(aFile: TFile;
-                        AbsoluteTargetFileName: String;
+                        var AbsoluteTargetFileName: String;
                         AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 
     procedure CountStatistics(aNode: TFileTreeNode);
@@ -1309,9 +1309,8 @@ end;
 
 // ----------------------------------------------------------------------------
 
-function TFileSystemOperationHelper.TargetExists(
-             aNode: TFileTreeNode;
-             AbsoluteTargetFileName: String): TFileSystemOperationTargetExistsResult;
+function TFileSystemOperationHelper.TargetExists(aNode: TFileTreeNode;
+  var AbsoluteTargetFileName: String): TFileSystemOperationTargetExistsResult;
 var
   Attrs, LinkTargetAttrs: TFileAttrs;
   SourceFile: TFile;
@@ -1356,6 +1355,10 @@ var
         begin
           Exit(fsoterResume);
         end;
+      fsoofeAutoRenameSource:
+        begin
+          Exit(fsoterNotExists);
+        end
       else
         raise Exception.Create('Invalid file exists option');
     end;
@@ -1494,15 +1497,14 @@ begin
   end;
 end;
 
-function TFileSystemOperationHelper.FileExists(
-             aFile: TFile;
-             AbsoluteTargetFileName: String;
-             AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
+function TFileSystemOperationHelper.FileExists(aFile: TFile;
+  var AbsoluteTargetFileName: String; AllowAppend: Boolean
+  ): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..9] of TFileSourceOperationUIResponse
+  Responses: array[0..10] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll,
        fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
-       fsourOverwriteSmaller, fsourOverwriteLarger);
+       fsourOverwriteSmaller, fsourOverwriteLarger, fsourAutoRenameSource);
   ResponsesNoAppend: array[0..5] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll,
        fsourOverwriteOlder, fsourCancel);
@@ -1584,6 +1586,12 @@ begin
               FFileExistsOption := fsoofeOverwriteLarger;
               Result:= OverwriteLarger;
             end;
+          fsourAutoRenameSource:
+            begin
+              Result:= fsoofeAutoRenameSource;
+              FFileExistsOption:= fsoofeAutoRenameSource;
+              AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName);
+            end;
           fsourNone,
           fsourCancel:
             AbortOperation;
@@ -1600,6 +1608,11 @@ begin
     fsoofeOverwriteLarger:
       begin
         Result:= OverwriteLarger;
+      end;
+    fsoofeAutoRenameSource:
+      begin
+        Result:= fsoofeAutoRenameSource;
+        AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName);
       end;
 
     else

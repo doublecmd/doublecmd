@@ -24,14 +24,14 @@ type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
                 mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
                 mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder,
-                mmrOverwriteSmaller, mmrOverwriteLarger, mmrSkip,
-                mmrSkipAll, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort);
+                mmrOverwriteSmaller, mmrOverwriteLarger, mmrAutoRenameSource,
+                mmrSkip, mmrSkipAll, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
                 msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
-                msmbOverwriteSmaller, msmbOverwriteLarger, msmbSkip,
-                msmbSkipAll, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
+                msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource,
+                msmbSkip, msmbSkipAll, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
 
 
   { TDialogMainThread }
@@ -523,6 +523,7 @@ begin
   cLngButton[msmbOverwriteOlder]   := rsDlgButtonOverwriteOlder;
   cLngButton[msmbOverwriteSmaller] := rsDlgButtonOverwriteSmaller;
   cLngButton[msmbOverwriteLarger]  := rsDlgButtonOverwriteLarger;
+  cLngButton[msmbAutoRenameSource] := rsDlgButtonAutoRenameSource;
   cLngButton[msmbSkip]             := rsDlgButtonSkip;
   cLngButton[msmbSkipAll]          := rsDlgButtonSkipAll;
   cLngButton[msmbIgnoreAll]        := rsDlgButtonIgnoreAll;

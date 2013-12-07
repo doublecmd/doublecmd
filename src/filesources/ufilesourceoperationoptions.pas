@@ -17,7 +17,8 @@ type
 
   TFileSourceOperationOptionFileExists =
     (fsoofeNone, fsoofeSkip, fsoofeOverwrite, fsoofeOverwriteOlder,
-     fsoofeOverwriteSmaller, fsoofeOverwriteLarger, fsoofeAppend, fsoofeResume);
+     fsoofeOverwriteSmaller, fsoofeOverwriteLarger, fsoofeAutoRenameSource,
+     fsoofeAppend, fsoofeResume);
 
   TFileSourceOperationOptionDirectoryExists =
     (fsoodeNone, fsoodeSkip, fsoodeDelete, fsoodeCopyInto);
