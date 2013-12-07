@@ -185,6 +185,7 @@ resourcestring
   rsDlgButtonOverwriteOlder = 'Overwrite All Ol&der';
   rsDlgButtonOverwriteSmaller = 'Overwrite All S&maller';
   rsDlgButtonOverwriteLarger = 'Overwrite All &Larger';
+  rsDlgButtonAutoRenameSource = 'A&uto-rename source files';
   rsDlgButtonSkip = '&Skip';
   rsDlgButtonSkipAll = 'S&kip All';
   rsDlgButtonIgnoreAll = 'I&gnore All';

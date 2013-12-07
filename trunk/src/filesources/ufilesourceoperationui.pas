@@ -25,6 +25,7 @@ type
      fsourOverwriteOlder,
      fsourOverwriteSmaller,
      fsourOverwriteLarger,
+     fsourAutoRenameSource,
      fsourSkip,
      fsourSkipAll,
      fsourIgnoreAll,
