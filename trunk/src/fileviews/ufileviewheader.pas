@@ -398,6 +398,7 @@ begin
   FFileView:= AOwner;
   Parent:= AParent;
   Align:= alTop;
+  DoubleBuffered:= True;
 
   Sections.Add.Text:= rsColName;
   Sections.Add.Text:= rsColExt;
