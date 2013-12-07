@@ -13,6 +13,22 @@ msgstr ""
 "X-Poedit-Country: SLOVAKIA\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,444,-1,-1\n"
 
+#: fsyncdirsdlg.rscomparingpercent
+msgid "Comparing... %d%% (ESC to cancel)"
+msgstr ""
+
+#: fsyncdirsdlg.rsfilesfound
+msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
+msgstr ""
+
+#: fsyncdirsdlg.rslefttorightcopy
+msgid "Left to Right: Copy %d files, total size: %d bytes"
+msgstr ""
+
+#: fsyncdirsdlg.rsrighttoleftcopy
+msgid "Right to Left: Copy %d files, total size: %d bytes"
+msgstr ""
+
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
 msgid "All"
@@ -7166,6 +7182,10 @@ msgstr "Všetko"
 #: ulng.rsdlgbuttonappend
 msgid "A&ppend"
 msgstr "&Pripojiť"
+
+#: ulng.rsdlgbuttonautorenamesource
+msgid "A&uto-rename source files"
+msgstr ""
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
