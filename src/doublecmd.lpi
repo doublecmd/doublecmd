@@ -292,7 +292,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="207">
+    <Units Count="209">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1502,6 +1502,18 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uKeyFile"/>
       </Unit206>
+      <Unit207>
+        <Filename Value="fsyncdirsdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fSyncDirsDlg"/>
+      </Unit207>
+      <Unit208>
+        <Filename Value="fsyncdirsperformdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fSyncDirsPerformDlg"/>
+      </Unit208>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
