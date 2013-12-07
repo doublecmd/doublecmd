@@ -174,6 +174,7 @@ type
    procedure cm_SaveSelectionToFile(const Params: array of string);
    procedure cm_LoadSelectionFromFile(const Params: array of string);
    procedure cm_LoadSelectionFromClip(const Params: array of string);
+   procedure cm_SyncDirs(const Params: array of string);
    procedure cm_Search(const Params: array of string);
    procedure cm_HardLink(const Params: array of string);
    procedure cm_MultiRename(const Params: array of string);
@@ -237,7 +238,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
-     DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation
+     DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -2109,6 +2110,10 @@ begin
   ShowFindDlg(frmMain.ActiveFrame);
 end;
 
+procedure TMainCommands.cm_SyncDirs(const Params: array of string);
+begin
+  ShowSyncDirsDlg(frmMain.FrameLeft, frmMain.FrameRight);
+end;
 
 //------------------------------------------------------
 

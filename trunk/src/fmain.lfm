@@ -1096,6 +1096,9 @@ object frmMain: TfrmMain
       object mnuCmdDirHotlist: TMenuItem
         Action = actDirHotList
       end
+      object mnuCmdSyncDirs: TMenuItem
+        Action = actSyncDirs
+      end
       object miLine6: TMenuItem
         Caption = '-'
       end
@@ -1968,6 +1971,12 @@ object frmMain: TfrmMain
     object actChangeDirToHome: TAction
       Category = 'Commands'
       Caption = 'Change directory to home'
+      OnExecute = actExecute
+    end
+    object actSyncDirs: TAction
+      Category = 'Commands'
+      Caption = 'Synchronize dirs...'
+      HelpType = htKeyword
       OnExecute = actExecute
     end
   end
