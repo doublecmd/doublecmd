@@ -4,7 +4,7 @@ TZVDateTimePicker control for Lazarus
 Author: Zoran Vučenović, January and February 2010
         Зоран Вученовић, јануар и фебруар 2010.
 
-Last change: April 2011
+Last change: September 2012
 
    This unit is part of ZVDateTimeCtrls package for Lazarus.
 
@@ -19,14 +19,13 @@ the VCL's TDateTimePicker.
 TDateTimePicker as much as possible, but not to rely on native Windows control.
 
    This TZVDateTimePicker control does not use native Win control. It has been
-written and initially tested on Windows XP with win widgetset, but then tested
-and adjusted on Ubuntu Linux 9.10 with gtk2 widgetset.
-   Additionaly, tests were made on Qt widgetset too, on both Windows and Linux.
+tested on Windows with win32/64 and qt widgetsets, as well as on Linux with
+qt and gtk2 widgetsets.
 
 -----------------------------------------------------------
 LICENCE
 - - - -
-   Modified LGPL -- see COPYING.TXT.
+   Modified LGPL -- see the file COPYING.modifiedLGPL.
 
 -----------------------------------------------------------
 NO WARRANTY
@@ -45,37 +44,35 @@ unit ZVDateTimePicker;
 interface
 
 uses
+  {$ifdef unix}
+  clocale, // needed to initialize default local settings on Linux.
+  {$endif}
   Classes, SysUtils, LCLProc, Controls, LCLType, Graphics, Math, StdCtrls,
-  Buttons, ExtCtrls, Forms, Calendar, ComCtrls, Types, LCLVersion;
+  Buttons, ExtCtrls, Forms, Calendar, ComCtrls, Types, LMessages
+  {$ifdef LCLGtk2}, LCLVersion{$endif}
+  ;
 
 const
-  { We will deal with the NullDate value the special way. It will be
-    especially useful for dealing with null values from database. }
+  { We will deal with the NullDate value the special way. It will be especially
+    useful for dealing with null values from database. }
   NullDate = TDateTime(Math.MaxDouble);
 
+  { The biggest date a user can enter. }
   TheBiggestDate = TDateTime(2958465.0); // 31. dec. 9999.
-//{$IFDEF WINDOWS}
-// TCalendar does not accept smaller dates then 14. sep. 1752 on Windows
-// platform (see TCustomCalendar.SetDateTime).
-// In Delphi help it is documented that Windows controls act weird with dates
-// older than 24. sep. 1752. Actually, TCalendar control has problems to show
-// dates before 1. okt. 1752. (try putting one calendar on the form, run the
-// application and see what september 1752. looks like). So, this will be the
-// down limit:
-  TheSmallestDate = TDateTime(-53780.0); // 1. okt. 1752.
-//{$ELSE} -- I just commented this out. Let's behave uniformely as much as
-// possible -- I won't allow dates before 1. okt. 1752. on any platform (who
-// cares about those).
-//  TheSmallestDate = TDateTime(-693593.0); // 1. jan. 0001.
-//{$ENDIF}
 
-{$IF (lcl_major > 0) OR (lcl_minor > 9) OR ((lcl_minor = 9) AND (lcl_release >= 29))}
-  {$DEFINE LCL_0_9_29_OR_AFTER}
-{$ELSE}
-  {$IFDEF LCLQt}
-    {$DEFINE QT_BEFORE_0_9_29}
-  {$ENDIF}
-{$IFEND}
+  { The smallest date a user can enter.
+    Note:
+      TCalendar does not accept smaller dates then 14. sep. 1752 on Windows OS
+      (see the implementation of TCustomCalendar.SetDateTime).
+      In Delphi help it is documented that Windows controls act weird with dates
+      older than 24. sep. 1752. Actually, TCalendar control has problems to show
+      dates before 1. okt. 1752. (try putting one calendar on the form, run the
+      application and see what september 1752. looks like).
+      Let's behave uniformely as much as
+      possible -- we won't allow dates before 1. okt. 1752. on any OS (who cares
+      about those).
+      So, this will be the down limit:  }
+  TheSmallestDate = TDateTime(-53780.0); // 1. okt. 1752.
 
 type
   TYMD = record
@@ -86,8 +83,11 @@ type
     Hour, Minute, Second, MiliSec: Word;
   end;
 
-  { Used by DateDisplayOrder property to determine the order to display date parts d-m-y, m-d-y or y-m-d.
-    When ddoTryDefault }
+  { Used by DateDisplayOrder property to determine the order to display date
+    parts -- d-m-y, m-d-y or y-m-d.
+    When ddoTryDefault is set, the actual order is determined from
+    ShortDateFormat global variable -- see coments above AdjustDateDisplayOrder
+    procedure }
   TDateDisplayOrder = (ddoDMY, ddoMDY, ddoYMD, ddoTryDefault);
 
   TDateTextPart = (dtpDay, dtpMonth, dtpYear, dtpTime);
@@ -101,8 +101,8 @@ type
                  tf24  // 24 hours format
                  );
 
-  TDateTimeKind = (dtkDate, dtkTime, dtkDateTime); // Determines if we should
-                                                 // display date, time or both.
+  { TDateTimeKind determines if we should display date, time or both: }
+  TDateTimeKind = (dtkDate, dtkTime, dtkDateTime);
 
   TTimeTextPart = (ttpHour, ttpMinute, ttpSecond, ttpMiliSec, ttpAMPM);
 
@@ -121,20 +121,19 @@ type
     FLeadingZeros: Boolean;
     FNullInputAllowed: Boolean;
     FDateTime: TDateTime;
-    FConfirmedDate: TDateTime;
-    FDateSeparator: UTF8String;
+    FDateSeparator: String;
     FReadOnly: Boolean;
     FMaxDate, FMinDate: TDate;
-    FTextForNullDate: UTF8String;
-    FTimeSeparator: UTF8String;
+    FTextForNullDate: String;
+    FTimeSeparator: String;
     FTimeDisplay: TTimeDisplay;
     FTimeFormat: TTimeFormat;
     FTrailingSeparator: Boolean;
     FUseDefaultSeparators: Boolean;
     FUserChangedText: Boolean;
-    FTextPart: array[1..3] of UTF8String;
-    FTimeText: array[TTimeTextPart] of UTF8String;
-    FStoredLockCount: Integer;
+    FTextPart: array[1..3] of String;
+    FTimeText: array[TTimeTextPart] of String;
+    FUserChanging: Integer;
     FDigitWidth: Integer;
     FTextHeight: Integer;
     FSeparatorWidth: Integer;
@@ -153,18 +152,17 @@ type
     FCheckBox: TCheckBox;
     FUpDown: TCustomUpDown;
     FOnChange: TNotifyEvent;
+    FOnCheckBoxChange: TNotifyEvent;
     FOnDropDown: TNotifyEvent;
     FOnCloseUp: TNotifyEvent;
+    FEffectiveDateDisplayOrder: TDateDisplayOrder;
 
-    FArrowButton: TSpeedButton;
-    FCalendarForm: TForm;
-    FCal: TCalendar;
-    FShape: TShape;
-    FRememberedCalendarFormOrigin: TPoint;
+    FArrowButton: TCustomSpeedButton;
+    FCalendarForm: TCustomForm;
     FDoNotArrangeControls: Boolean;
-    FClosingCalendarForm: Boolean;
-    FCloseCalendarOnChange: Boolean;
-    FForceShowCalendar: Boolean;
+    FConfirmedDateTime: TDateTime;
+    FNoEditingDone: Integer;
+    FAllowDroppingCalendar: Boolean;
 
     function AreSeparatorsStored: Boolean;
     function GetChecked: Boolean;
@@ -183,14 +181,14 @@ type
     procedure SetNullInputAllowed(const AValue: Boolean);
     procedure SetDate(const AValue: TDate);
     procedure SetDateTime(const AValue: TDateTime);
-    procedure SetDateSeparator(const AValue: UTF8String);
+    procedure SetDateSeparator(const AValue: String);
     procedure SetMaxDate(const AValue: TDate);
     procedure SetMinDate(const AValue: TDate);
     procedure SetReadOnly(const AValue: Boolean);
     procedure SetShowCheckBox(const AValue: Boolean);
-    procedure SetTextForNullDate(const AValue: UTF8String);
+    procedure SetTextForNullDate(const AValue: String);
     procedure SetTime(const AValue: TTime);
-    procedure SetTimeSeparator(const AValue: UTF8String);
+    procedure SetTimeSeparator(const AValue: String);
     procedure SetTimeDisplay(const AValue: TTimeDisplay);
     procedure SetTimeFormat(const AValue: TTimeFormat);
     procedure SetTrailingSeparator(const AValue: Boolean);
@@ -210,23 +208,19 @@ type
     procedure SetMiliSec(const AValue: Word);
     procedure SetMinute(const AValue: Word);
     procedure SetSecond(const AValue: Word);
-    procedure SetSeparators(const DateSep, TimeSep: UTF8String);
+    procedure SetSeparators(const DateSep, TimeSep: String);
     procedure SetDay(const AValue: Word);
     procedure SetMonth(const AValue: Word);
     procedure SetYear(const AValue: Word);
     procedure SetYYYYMMDD(const AValue: TYMD);
     procedure SetHMSMs(const AValue: THMSMs);
     procedure UpdateIfUserChangedText;
-    function GetSelectedText: UTF8String;
+    function GetSelectedText: String;
     procedure AdjustEffectiveCenturyFrom;
+    procedure AdjustEffectiveDateDisplayOrder;
     procedure SelectDateTextPart(const DateTextPart: TDateTextPart);
     procedure SelectTimeTextPart(const TimeTextPart: TTimeTextPart);
-    procedure DestroyTheCalendar;
-    procedure AdjustCalendarFormSize;
-    procedure AdjustCalendarFormScreenPosition;
-    procedure CreateCalendarForm;
     procedure DestroyCalendarForm;
-    procedure CloseCalendarForm(AndSetTheDate: Boolean = False);
     procedure DropDownCalendarForm;
     procedure UpdateShowArrowButton(NewDateMode: TDTDateMode;
                                                  NewKind: TDateTimeKind);
@@ -236,31 +230,15 @@ type
                                             Shift: TShiftState; X, Y: Integer);
     procedure UpDownClick(Sender: TObject; Button: TUDBtnType);
     procedure CheckBoxChange(Sender: TObject);
-
-    procedure CalendarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure CalendarResize(Sender: TObject);
-    procedure CalendarMouseUp(Sender: TObject; Button: TMouseButton;
-                                            Shift: TShiftState; X, Y: Integer);
-    procedure CalendarChange(Sender: TObject);
-    procedure CalendarFormDeactivate(Sender: TObject);
-    procedure CalendarFormShow(Sender: TObject);
-    procedure CalendarFormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure CalendarFormDestroy(Sender: TObject);
+    procedure SetFocusIfPossible;
 
   protected
-    // In older Lazarus versions, GetControlClassDefaultSize is of type TPoint,
-    // since 0.9.29, svn rev. 25204, it's TSize.
-    {$IFDEF LCL_0_9_29_OR_AFTER}
+    procedure WMKillFocus(var Message: TLMKillFocus); message LM_KILLFOCUS;
+
     class function GetControlClassDefaultSize: TSize; override;
-    {$ELSE}
-    class function GetControlClassDefaultSize: TPoint; override;
-    {$ENDIF}
 
-    procedure ConfirmChanges;
-    procedure UndoChanges;
-
-    procedure ChangeDateTimeInternally(const AValue: TDateTime);
-    function GetEffectiveDateDisplayOrder: TDateDisplayOrder; virtual;
+    procedure ConfirmChanges; virtual;
+    procedure UndoChanges; virtual;
 
     function GetCurrentDateTextPart: TDateTextPart;
     function GetCurrentTimeTextPart: TTimeTextPart;
@@ -310,6 +288,7 @@ type
     procedure SelectAMPM;
 
     procedure SetEnabled(Value: Boolean); override;
+    procedure SetAutoSize(Value: Boolean); override;
     procedure CreateWnd; override;
     procedure SetDateTimeJumpMinMax(const AValue: TDateTime);
     procedure ArrangeCtrls; virtual;
@@ -335,11 +314,13 @@ type
              read FTrailingSeparator write SetTrailingSeparator;
     property ReadOnly: Boolean read FReadOnly write SetReadOnly default False;
     property LeadingZeros: Boolean read FLeadingZeros write SetLeadingZeros;
-    property TextForNullDate: UTF8String
+    property TextForNullDate: String
              read FTextForNullDate write SetTextForNullDate;
     property NullInputAllowed: Boolean
              read FNullInputAllowed write SetNullInputAllowed default True;
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
+    property OnCheckBoxChange: TNotifyEvent
+             read FOnCheckBoxChange write FOnCheckBoxChange;
     property OnDropDown: TNotifyEvent read FOnDropDown write FOnDropDown;
     property OnCloseUp: TNotifyEvent read FOnCloseUp write FOnCloseUp;
     property ShowCheckBox: Boolean
@@ -349,9 +330,9 @@ type
         read FArrowShape write SetArrowShape default asModernSmaller;
     property Kind: TDateTimeKind
              read FKind write SetKind;
-    property DateSeparator: UTF8String
+    property DateSeparator: String
              read FDateSeparator write SetDateSeparator stored AreSeparatorsStored;
-    property TimeSeparator: UTF8String
+    property TimeSeparator: String
              read FTimeSeparator write SetTimeSeparator stored AreSeparatorsStored;
     property UseDefaultSeparators: Boolean
              read FUseDefaultSeparators write SetUseDefaultSeparators;
@@ -370,6 +351,7 @@ type
 
     procedure Paint; override;
     procedure EditingDone; override;
+
   published
     //
   end;
@@ -421,6 +403,7 @@ type
     property UseDefaultSeparators;
 // events:
     property OnChange;
+    property OnCheckBoxChange;
     property OnDropDown;
     property OnCloseUp;
     property OnChangeBounds;
@@ -454,6 +437,9 @@ begin
     Result := MonthDays[IsLeapYear(Year), Month];
 end;
 
+{ EqualDateTime
+  --------------
+  Returns True when two dates are equal or both are null }
 function EqualDateTime(const A, B: TDateTime): Boolean;
 begin
   if IsNullDate(A) then
@@ -488,6 +474,297 @@ begin
   Invalidate;
 end;
 
+type
+
+  { TDTCalendarForm }
+
+  TDTCalendarForm = class(TForm)
+  private
+    DTPicker: TCustomZVDateTimePicker;
+    Cal: TCalendar;
+    Shape: TShape;
+    RememberedCalendarFormOrigin: TPoint;
+    FClosing: Boolean;
+    DTPickersParentForm: TCustomForm;
+
+    procedure SetClosingCalendarForm;
+    procedure AdjustCalendarFormSize;
+    procedure AdjustCalendarFormScreenPosition;
+    procedure CloseCalendarForm(const AndSetTheDate: Boolean = False);
+
+    procedure CalendarKeyDown(Sender: TObject; var Key: Word;
+                                      Shift: TShiftState);
+    procedure CalendarResize(Sender: TObject);
+    procedure CalendarMouseUp(Sender: TObject; Button: TMouseButton;
+                                      Shift: TShiftState; X, Y: Integer);
+    procedure VisibleOfParentChanged(Sender: TObject);
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+
+  protected
+    procedure Deactivate; override;
+    procedure DoShow; override;
+    procedure DoClose(var CloseAction: TCloseAction); override;
+
+  public
+    constructor CreateNewDTCalendarForm(AOwner: TComponent;
+                  ADTPicker: TCustomZVDateTimePicker);
+    destructor Destroy; override;
+  published
+  end;
+
+{ TDTCalendarForm }
+
+procedure TDTCalendarForm.SetClosingCalendarForm;
+begin
+  if not FClosing then begin
+    FClosing := True;
+
+    if Assigned(DTPicker) and (DTPicker.FCalendarForm = Self) then
+      DTPicker.FCalendarForm := nil;
+
+  end;
+end;
+
+procedure TDTCalendarForm.AdjustCalendarFormSize;
+begin
+  if not FClosing then begin
+    ClientWidth := Cal.Width + 2;
+    ClientHeight := Cal.Height + 2;
+
+    Shape.SetBounds(0, 0, ClientWidth, ClientHeight);
+
+    AdjustCalendarFormScreenPosition;
+
+  end;
+end;
+
+procedure TDTCalendarForm.AdjustCalendarFormScreenPosition;
+var
+  R: TRect;
+  P: TPoint;
+  H, W: Integer;
+begin
+  H := Height;
+  W := Width;
+
+  P := DTPicker.ControlToScreen(Point(0, DTPicker.Height));
+
+  R := Screen.MonitorFromWindow(DTPicker.Handle).WorkareaRect;
+
+  if P.y > R.Bottom - H then
+    P.y := P.y - H - DTPicker.Height;
+
+  if P.y < R.Top then
+    P.y := R.Top;
+
+  if P.x > R.Right - W then
+    P.x := R.Right - W;
+
+  if P.x < R.Left then
+    P.x := R.Left;
+
+  if (P.x <> RememberedCalendarFormOrigin.x)
+            or (P.y <> RememberedCalendarFormOrigin.y) then begin
+    SetBounds(P.x, P.y, W, H);
+    RememberedCalendarFormOrigin := P;
+  end;
+
+end;
+
+procedure TDTCalendarForm.CloseCalendarForm(const AndSetTheDate: Boolean);
+begin
+  if not FClosing then begin
+    SetClosingCalendarForm;
+
+    if Assigned(DTPicker) and DTPicker.IsVisible then begin
+
+      if AndSetTheDate then begin
+        Inc(DTPicker.FUserChanging);
+        try
+          if DTPicker.DateIsNull then begin
+            // we'll set the time to 0.0 (midnight):
+            DTPicker.SetDateTime(Int(Cal.DateTime));
+          end else if not EqualDateTime(Int(DTPicker.DateTime),
+                                        Int(Cal.DateTime)) then begin
+            // we'll change the date, but keep the time:
+            DTPicker.SetDateTime(ComposeDateTime(Cal.DateTime, DTPicker.DateTime));
+          end;
+        finally
+          Dec(DTPicker.FUserChanging);
+        end;
+      end;
+
+      if Screen.ActiveCustomForm = Self then
+        DTPicker.SetFocusIfPossible;
+
+      Visible := False;
+
+      Close;
+      DTPicker.DoCloseUp;
+
+    end else
+      Close;
+
+  end;
+
+end;
+
+procedure TDTCalendarForm.CalendarKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case Key of
+    VK_ESCAPE:
+      CloseCalendarForm;
+
+    VK_RETURN, VK_SPACE:
+      CloseCalendarForm(True);
+
+  end;
+end;
+
+procedure TDTCalendarForm.CalendarResize(Sender: TObject);
+begin
+  AdjustCalendarFormSize;
+end;
+
+procedure TDTCalendarForm.CalendarMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if Cal.HitTest(Point(X, Y)) in [cpDate, cpNoWhere] then
+    CloseCalendarForm(True);
+
+end;
+
+{ This procedure is added to list of "visible change handlers" of DTPicker's
+  parent form, so that hiding of DTPicker's parent form does not leave the
+  calendar form visible. }
+procedure TDTCalendarForm.VisibleOfParentChanged(Sender: TObject);
+begin
+  SetClosingCalendarForm;
+  Release;
+end;
+
+procedure TDTCalendarForm.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+
+  if (AComponent = DTPickersParentForm) and (Operation = opRemove) then
+    DTPickersParentForm := nil;
+
+end;
+
+procedure TDTCalendarForm.Deactivate;
+begin
+  inherited Deactivate;
+
+  CloseCalendarForm;
+end;
+
+procedure TDTCalendarForm.DoShow;
+begin
+  if not FClosing then begin
+    inherited DoShow;
+
+    AdjustCalendarFormSize;
+    DTPicker.DoDropDown; // calls OnDropDown event handler
+  end;
+end;
+
+procedure TDTCalendarForm.DoClose(var CloseAction: TCloseAction);
+begin
+  SetClosingCalendarForm;
+  CloseAction := caFree;
+
+  inherited DoClose(CloseAction);
+end;
+
+constructor TDTCalendarForm.CreateNewDTCalendarForm(AOwner: TComponent;
+  ADTPicker: TCustomZVDateTimePicker);
+var
+  P: TPoint;
+begin
+  inherited CreateNew(AOwner);
+
+  ADTPicker.FAllowDroppingCalendar := False;
+  FClosing := False;
+
+  DTPicker := ADTPicker;
+  DTPickersParentForm := GetParentForm(DTPicker);
+  if Assigned(DTPickersParentForm) then begin
+    DTPickersParentForm.AddHandlerOnVisibleChanged(@VisibleOfParentChanged);
+    DTPickersParentForm.FreeNotification(Self);
+  end;
+
+  P := Point(0, 0);
+
+  Cal := TCalendar.Create(nil);
+  Cal.AutoSize := True;
+  Cal.GetPreferredSize(P.x, P.y);
+
+  Cal.Align := alNone;
+
+  Cal.SetBounds(1, 1, P.x, P.y);
+  Cal.TabStop := True;
+
+  PopupMode := pmAuto;
+
+  SetBounds(-8000, -8000, P.x + 2, P.y + 2);
+  RememberedCalendarFormOrigin := Point(-8000, -8000);
+
+  ShowInTaskBar := stNever;
+  BorderStyle := bsNone;
+
+  Shape := TShape.Create(nil);
+  Shape.Brush.Style := bsClear;
+
+  if DTPicker.DateIsNull then
+    Cal.DateTime := Max(DTPicker.MinDate, Min(SysUtils.Date, DTPicker.MaxDate))
+
+  else if DTPicker.DateTime < DTPicker.MinDate then // These "out of bounds" values
+    Cal.DateTime := DTPicker.MinDate      // can happen when DateTime was set with
+  else if DTPicker.DateTime > DTPicker.MaxDate then // "SetDateTimeJumpMinMax" protected
+    Cal.DateTime := DTPicker.MaxDate      // procedure (used in TDBZVDateTimePicker control).
+
+  else
+    Cal.DateTime := DTPicker.DateTime;
+
+  Cal.Parent := Self;
+  Shape.Parent := Self;
+
+  Cal.OnResize := @CalendarResize;
+  Cal.OnMouseUp := @CalendarMouseUp;
+  Cal.OnKeyDown := @CalendarKeyDown;
+
+end;
+
+destructor TDTCalendarForm.Destroy;
+begin
+  SetClosingCalendarForm;
+  if Assigned(DTPickersParentForm) then
+    DTPickersParentForm.RemoveAllHandlersOfObject(Self);
+
+  if Assigned(Cal) then begin
+    Cal.OnResize := nil;
+    Cal.OnMouseUp := nil;
+    Cal.OnKeyDown := nil;
+    Cal.Free;
+    Cal := nil;
+  end;
+  FreeAndNil(Shape);
+
+  if Assigned(DTPicker) then begin
+    if (Screen.ActiveControl = DTPicker) then
+      DTPicker.Invalidate;
+
+    if DTPicker.FCalendarForm = nil then
+        DTPicker.FAllowDroppingCalendar := True;
+
+  end;
+
+  inherited Destroy;
+end;
+
 procedure TCustomZVDateTimePicker.CheckTextEnabled;
 begin
   FTextEnabled := Self.Enabled and GetChecked;
@@ -507,9 +784,10 @@ var
   PreviousEffectiveDDO: TDateDisplayOrder;
 begin
   if FDateDisplayOrder <> AValue then begin
-    PreviousEffectiveDDO := GetEffectiveDateDisplayOrder;
+    PreviousEffectiveDDO := FEffectiveDateDisplayOrder;
     FDateDisplayOrder := AValue;
-    if PreviousEffectiveDDO <> GetEffectiveDateDisplayOrder then
+    AdjustEffectiveDateDisplayOrder;
+    if FEffectiveDateDisplayOrder <> PreviousEffectiveDDO then
       UpdateDate;
   end;
 end;
@@ -562,13 +840,11 @@ begin
       FDateTime := NullDate
     else
       FDateTime := AValue;
-
-    Change;
   end;
   UpdateDate;
 end;
 
-procedure TCustomZVDateTimePicker.SetDateSeparator(const AValue: UTF8String);
+procedure TCustomZVDateTimePicker.SetDateSeparator(const AValue: String);
 begin
   SetSeparators(AValue, FTimeSeparator);
 end;
@@ -614,10 +890,8 @@ end;
 procedure TCustomZVDateTimePicker.SetReadOnly(const AValue: Boolean);
 begin
   if FReadOnly <> AValue then begin
-    if AValue then begin
+    if AValue then
       ConfirmChanges;
-      UpdateDate;
-    end;
 
     FReadOnly := AValue;
   end;
@@ -689,7 +963,7 @@ begin
   end;
 end;
 
-procedure TCustomZVDateTimePicker.SetTextForNullDate(const AValue: UTF8String);
+procedure TCustomZVDateTimePicker.SetTextForNullDate(const AValue: String);
 begin
   if FTextForNullDate = AValue then
     Exit;
@@ -709,19 +983,19 @@ begin
     DateTime := ComposeDateTime(FDateTime, AValue);
 end;
 
-procedure TCustomZVDateTimePicker.SetTimeSeparator(const AValue: UTF8String);
+procedure TCustomZVDateTimePicker.SetTimeSeparator(const AValue: String);
 begin
   SetSeparators(FDateSeparator, AValue);
 end;
 
 procedure TCustomZVDateTimePicker.SetTimeDisplay(const AValue: TTimeDisplay);
 begin
-  if FTimeDisplay = AValue then Exit;
+  if FTimeDisplay <> AValue then begin
+    FTimeDisplay:=AValue;
+    FRecalculatingTextSizesNeeded := True;
 
-  FTimeDisplay:=AValue;
-  FRecalculatingTextSizesNeeded := True;
-
-  UpdateDate;
+    UpdateDate;
+  end;
 end;
 
 procedure TCustomZVDateTimePicker.SetTimeFormat(const AValue: TTimeFormat);
@@ -736,19 +1010,20 @@ end;
 
 procedure TCustomZVDateTimePicker.SetTrailingSeparator(const AValue: Boolean);
 begin
-  if FTrailingSeparator = AValue then Exit;
-
-  FTrailingSeparator := AValue;
-  FRecalculatingTextSizesNeeded := True;
-  UpdateIfUserChangedText;
-  Invalidate;
+  if FTrailingSeparator <> AValue then begin
+    FTrailingSeparator := AValue;
+    FRecalculatingTextSizesNeeded := True;
+    UpdateIfUserChangedText;
+    Invalidate;
+  end;
 end;
 
 procedure TCustomZVDateTimePicker.SetUseDefaultSeparators(const AValue: Boolean);
 begin
   if FUseDefaultSeparators <> AValue then begin
     if AValue then begin
-      SetSeparators(SysUtils.DateSeparator, SysUtils.TimeSeparator);
+      SetSeparators(DefaultFormatSettings.DateSeparator,
+                      DefaultFormatSettings.TimeSeparator);
         // Note that here, in SetSeparators procedure,
         // the field FUseDefaultSeparators is set to False.
     end;
@@ -780,7 +1055,7 @@ end;
 { RecalculateTextSizesIfNeeded
  --------------------------------
   In this procedure we measure text and store the values in the following
-  fields: FDateWidth,  FTimeWidth, FTextWidth, FTextHeigth, FDigitWidth,
+  fields: FDateWidth, FTimeWidth, FTextWidth, FTextHeigth, FDigitWidth,
   FSeparatorWidth, FTimeSeparatorWidth, FSepNoSpaceWidth. These fields are used
   in calculating our preffered size and when painting.
   The procedure is called internally when needed (when properties which
@@ -789,7 +1064,7 @@ procedure TCustomZVDateTimePicker.RecalculateTextSizesIfNeeded;
 var
   C: Char;
   N: Integer;
-  S: UTF8String;
+  S: String;
 begin
   if FRecalculatingTextSizesNeeded then begin
     FRecalculatingTextSizesNeeded := False;
@@ -878,7 +1153,7 @@ end;
 
 function TCustomZVDateTimePicker.GetYear: Word;
 begin
-Result := GetYYYYMMDD.Year;
+  Result := GetYYYYMMDD.Year;
 end;
 
 function TCustomZVDateTimePicker.GetHMSMs(const NowIfNull: Boolean): THMSMs;
@@ -960,25 +1235,28 @@ begin
   SetHMSMs(HMSMs);
 end;
 
-procedure TCustomZVDateTimePicker.SetSeparators(const DateSep,
-  TimeSep: UTF8String);
+procedure TCustomZVDateTimePicker.SetSeparators(const DateSep, TimeSep: String);
 var
   SeparatorsChanged: Boolean;
 begin
   FUseDefaultSeparators := False;
   SeparatorsChanged := False;
+
   if FDateSeparator <> DateSep then begin
     FDateSeparator := DateSep;
     SeparatorsChanged := True;
   end;
+
   if FTimeSeparator <> TimeSep then begin
     FTimeSeparator := TimeSep;
     SeparatorsChanged := True;
   end;
+
   if SeparatorsChanged then begin
     FRecalculatingTextSizesNeeded := True;
     Invalidate;
   end;
+
 end;
 
 procedure TCustomZVDateTimePicker.SetDay(const AValue: Word);
@@ -1038,20 +1316,19 @@ var
   T: TDateTime;
 begin
   if TryEncodeTime(AValue.Hour, AValue.Minute,
-                                  AValue.Second, AValue.MiliSec, T) then begin
-    SetTime(T);
-
-  end else
+                                  AValue.Second, AValue.MiliSec, T) then
+    SetTime(T)
+  else
     UpdateDate;
 end;
 
 procedure TCustomZVDateTimePicker.UpdateIfUserChangedText;
 var
   W: Word;
-  S: UTF8String;
+  S: String;
 begin
   if FUserChangedText then begin
-    Inc(FStoredLockCount);
+    Inc(FUserChanging);
     try
       FUserChangedText := False;
       S := Trim(GetSelectedText);
@@ -1074,10 +1351,11 @@ begin
           dtpYear:
             begin
               if Length(S) <= 2 then begin
-          // If user entered the year in two digit format (or even only one
-          // digit), we will set the year according to the CenturyFrom property
-          // (We actually use FEffectiveCenturyFrom field, which is adjusted to
-          //  take care of MinDate and MaxDate besides CenturyFrom properties).
+                // If user entered the year in two digit format (or even only
+                // one digit), we will set the year according to the CenturyFrom
+                // property (We actually use FEffectiveCenturyFrom field, which
+                // is adjusted to take care of MinDate and MaxDate properties,
+                // besides CenturyFrom).
                 if W >= (FEffectiveCenturyFrom mod 100) then
                   W := W + 100 * (FEffectiveCenturyFrom div 100)
                 else
@@ -1122,12 +1400,12 @@ begin
 
       end;
     finally
-      Dec(FStoredLockCount);
+      Dec(FUserChanging);
     end;
   end;
 end;
 
-function TCustomZVDateTimePicker.GetSelectedText: UTF8String;
+function TCustomZVDateTimePicker.GetSelectedText: String;
 begin
   if FSelectedTextPart <= 3 then
     Result := FTextPart[FSelectedTextPart]
@@ -1174,30 +1452,87 @@ begin
   end;
 end;
 
+{ AdjustEffectiveDateDisplayOrder procedure
+ ----------------------------------
+  If date display order ddoTryDefault is set, then we will decide which
+  display order to use according to ShortDateFormat global variable. This
+  procedure tries to achieve that by searching through short date format string,
+  to see which letter comes first -- d, m or y. When it finds any of these
+  characters, it assumes that date order should be d-m-y, m-d-y, or y-m-d
+  respectively. If the search through ShortDateFormat is unsuccessful by any
+  chance, we try the same with LongDateFormat global variable. If we don't
+  succeed again, we'll assume y-m-d order.  }
+procedure TCustomZVDateTimePicker.AdjustEffectiveDateDisplayOrder;
+var
+  S: String;
+  I: Integer;
+begin
+  if FDateDisplayOrder = ddoTryDefault then begin
+    S := DefaultFormatSettings.ShortDateFormat;
+    FEffectiveDateDisplayOrder := ddoTryDefault;
+
+    repeat
+
+      for I := 1 to Length(S) do begin
+        case upCase(S[I]) of
+          'D': begin
+                 FEffectiveDateDisplayOrder := ddoDMY;
+                 Break;
+               end;
+          'M': begin
+                 FEffectiveDateDisplayOrder := ddoMDY;
+                 Break;
+               end;
+          'Y': begin
+                 FEffectiveDateDisplayOrder := ddoYMD;
+                 Break;
+               end;
+        end;
+      end;
+
+      if FEffectiveDateDisplayOrder = ddoTryDefault then begin
+        { We couldn't decide with ShortDateFormat, let's try with
+          LongDateFormat now. }
+        S := DefaultFormatSettings.LongDateFormat;
+        { But now we must set something to be default. This ensures that the
+          repeat loop breaks next time. If we don't find anything in
+          LongDateFormat, we'll leave with y-m-d order. }
+        FEffectiveDateDisplayOrder := ddoYMD;
+
+      end else
+        Break;
+
+    until False;
+
+  end else
+    FEffectiveDateDisplayOrder := FDateDisplayOrder;
+
+end;
+
 procedure TCustomZVDateTimePicker.SelectDateTextPart(
   const DateTextPart: TDateTextPart);
 begin
   if FKind in [dtkDate, dtkDateTime] then begin
 
     case DateTextPart of
-      dtpDay: //SelectDay;
+      dtpDay:
         begin
-          case GetEffectiveDateDisplayOrder of
+          case FEffectiveDateDisplayOrder of
             ddoDMY: FSelectedTextPart := 1;
             ddoMDY: FSelectedTextPart := 2;
             ddoYMD: FSelectedTextPart := 3;
           end;
         end;
-      dtpMonth: //SelectMonth;
+      dtpMonth:
         begin
-          if GetEffectiveDateDisplayOrder = ddoMDY then
+          if FEffectiveDateDisplayOrder = ddoMDY then
             FSelectedTextPart := 1
           else
             FSelectedTextPart := 2;
         end;
-      dtpYear: //SelectYear;
+      dtpYear:
         begin
-          if GetEffectiveDateDisplayOrder = ddoYMD then
+          if FEffectiveDateDisplayOrder = ddoYMD then
             FSelectedTextPart := 1
           else
             FSelectedTextPart := 3;
@@ -1222,214 +1557,36 @@ begin
 
     if B then
       FSelectedTextPart := 4 + Ord(TimeTextPart);
+
   end;
   Invalidate;
-end;
-
-procedure TCustomZVDateTimePicker.DestroyTheCalendar;
-begin
-  if Assigned(FCal) then begin
-    FCal.OnChange := nil;
-    FCal.OnResize := nil;
-    FCal.OnMouseUp := nil;
-    FCal.OnKeyDown := nil;
-    FreeAndNil(FCal);
-  end;
-  FreeAndNil(FShape);
-end;
-
-procedure TCustomZVDateTimePicker.AdjustCalendarFormSize;
-begin
-  FCalendarForm.ClientWidth := FCal.Width + 2;
-  FCalendarForm.ClientHeight := FCal.Height + 2;
-
-  FShape.SetBounds(0, 0, FCalendarForm.ClientWidth, FCalendarForm.ClientHeight);
-
-  AdjustCalendarFormScreenPosition;
-end;
-
-procedure TCustomZVDateTimePicker.CreateCalendarForm;
-var
-  P: TPoint;
-begin
-  if not (csDesigning in ComponentState) then begin
-    DestroyCalendarForm;
-
-    FCloseCalendarOnChange := False;
-
-    P := Point(0, 0);
-    FCal := TCalendar.Create(nil);
-    FCal.AutoSize := True;
-    FCal.GetPreferredSize(P.x, P.y);
-
-    FCal.Align := alNone;
-
-    FCal.SetBounds(1, 1, P.x, P.y);
-    FCal.TabStop := True;
-
-    FCalendarForm := TForm.CreateNew(nil);
-
-  {$IFDEF LCL_0_9_29_OR_AFTER}
-  // Nice new property!
-    FCalendarForm.PopupMode := pmAuto;
-  {$ENDIF}
-
-    FCalendarForm.SetBounds(-8000, -8000, P.x + 2, P.y + 2);
-    FRememberedCalendarFormOrigin := Point(-8000, -8000);
-
-    FCalendarForm.ShowInTaskBar := stNever;
-    FCalendarForm.BorderStyle := bsNone;
-
-    FShape := TShape.Create(nil);
-    FShape.Brush.Style := bsClear;
-
-    FCal.Parent := FCalendarForm;
-    FShape.Parent := FCalendarForm;
-
-    FCal.OnResize := @CalendarResize;
-    FCal.OnMouseUp := @CalendarMouseUp;
-    FCal.OnKeyDown := @CalendarKeyDown;
-    FCal.OnChange := @CalendarChange;
-
-    FCalendarForm.OnDeactivate := @CalendarFormDeactivate;
-    FCalendarForm.OnClose := @CalendarFormClose;
-    FCalendarForm.OnShow := @CalendarFormShow;
-    FCalendarForm.OnDestroy := @CalendarFormDestroy;
-
-  end;
 end;
 
 procedure TCustomZVDateTimePicker.DestroyCalendarForm;
 begin
   if Assigned(FCalendarForm) then begin
-    DestroyTheCalendar;
+    TDTCalendarForm(FCalendarForm).FClosing := True;
     FCalendarForm.Release;
     FCalendarForm := nil;
   end;
 end;
 
-procedure TCustomZVDateTimePicker.AdjustCalendarFormScreenPosition;
-var
-  R: TRect;
-  P: TPoint;
-  H, W: Integer;
-begin
-  H := FCalendarForm.Height;
-  W := FCalendarForm.Width;
-
-  P := ControlToScreen(Point(0, Height));
-
-  R := Screen.MonitorFromWindow(Self.Handle).WorkareaRect;
-
-  if P.y > R.Bottom - H then
-    P.y := P.y - H - Height;
-
-  if P.y < R.Top then
-    P.y := R.Top;
-
-  if P.x > R.Right - W then
-    P.x := R.Right - W;
-
-  if P.x < R.Left then
-    P.x := R.Left;
-
-  if (P.x <> FRememberedCalendarFormOrigin.x)
-            or (P.y <> FRememberedCalendarFormOrigin.y) then begin
-    FCalendarForm.SetBounds(P.x, P.y, W, H);
-    FRememberedCalendarFormOrigin := P;
-  end;
-
-end;
-
-{ In older Lazarus versions, GetControlClassDefaultSize is of type TPoint,
- since 0.9.29, svn rev. 25204, it's TSize. }
-{$IFDEF LCL_0_9_29_OR_AFTER}
 class function TCustomZVDateTimePicker.GetControlClassDefaultSize: TSize;
 begin
   Result.cx := 102;
   Result.cy := 23;
 end;
-{$ELSE}
-class function TCustomZVDateTimePicker.GetControlClassDefaultSize: TPoint;
-begin
-  Result.x := 102;
-  Result.y := 23;
-end;
-{$ENDIF}
 
 procedure TCustomZVDateTimePicker.ConfirmChanges;
 begin
   UpdateIfUserChangedText;
-  FConfirmedDate := FDateTime;
+  FConfirmedDateTime := FDateTime;
 end;
 
 procedure TCustomZVDateTimePicker.UndoChanges;
 begin
-  SetDateTime(FConfirmedDate);
-end;
-
-procedure TCustomZVDateTimePicker.ChangeDateTimeInternally(
-  const AValue: TDateTime);
-begin
-  Inc(FStoredLockCount);
-  try
-    SetDateTime(AValue);
-  finally
-    Dec(FStoredLockCount);
-  end;
-end;
-
-{ GetEffectiveDateDisplayOrder function
- ----------------------------------
-  If date display order ddoTryDefault is set, then we will decide which
-  display order to use according to ShortDateFormat global variable. The
-  function tries to achieve that by searching through short date format string,
-  to see which letter comes first -- d, m or y. When it finds any of these
-  characters, it assumes that date order should be d-m-y, m-d-y, or y-m-d
-  respectively. If the search through ShortDateFormat is unsuccessful by any
-  chance, we try the same with LongDateFormat global variable. If we don't
-  succeed again, we'll assume y-m-d order.  }
-function TCustomZVDateTimePicker.GetEffectiveDateDisplayOrder: TDateDisplayOrder;
-var
-  S: String;
-  I: Integer;
-begin
-  if FDateDisplayOrder = ddoTryDefault then begin
-    S := ShortDateFormat;
-    Result := ddoTryDefault;
-
-    repeat
-
-      for I := 1 to Length(S) do begin
-        case upCase(S[I]) of
-          'D': begin
-                 Result := ddoDMY;
-                 Break;
-               end;
-          'M': begin
-                 Result := ddoMDY;
-                 Break;
-               end;
-          'Y': begin
-                 Result := ddoYMD;
-                 Break;
-               end;
-        end;
-      end;
-
-      if Result = ddoTryDefault then begin
-        S := LongDateFormat; { We couldn't decide with ShortDateFormat, let's
-                                             try with LongDateFormat now. }
-        Result := ddoYMD; { -- But now we must set something to be default. This
-                ensures that the repeat loop breaks next time. If we don't find
-                anything in LongDateFormat, we'll leave with y-m-d order. }
-      end else
-        Break;
-
-    until False;
-
-  end else
-    Result := FDateDisplayOrder;
+  FDateTime := FConfirmedDateTime;
+  UpdateDate;
 end;
 
 { GetCurrentDateTextPart function
@@ -1449,7 +1606,7 @@ begin
       3: Result := dtpYear;
     end;
 
-    case GetEffectiveDateDisplayOrder of
+    case FEffectiveDateDisplayOrder of
       ddoMDY: if Result = dtpDay then Result := dtpMonth
               else if Result = dtpMonth then Result := dtpDay;
       ddoYMD: if Result = dtpDay then Result := dtpYear
@@ -1495,7 +1652,7 @@ var
   M, L, N: Integer;
   K: Word;
 begin
-  Inc(FStoredLockCount);
+  Inc(FUserChanging);
   try
     if FTextEnabled then
       inherited KeyDown(Key, Shift); // calls OnKeyDown event
@@ -1562,10 +1719,9 @@ begin
               DecreaseCurrentTextPart;
           end;
         VK_RETURN:
-          if not FReadOnly then begin
-            ConfirmChanges;
+          if not FReadOnly then
             EditingDone;
-          end;
+
         VK_ESCAPE:
           if not FReadOnly then begin
             UndoChanges;
@@ -1574,12 +1730,11 @@ begin
         VK_N:
           if (not FReadOnly) and FNullInputAllowed then
             SetDateTime(NullDate);
-
       end;
-    end;
 
+    end;
   finally
-    Dec(FStoredLockCount);
+    Dec(FUserChanging);
   end;
 
 end;
@@ -1594,9 +1749,10 @@ var
   HMSMs: THMSMs;
   D, T: TDateTime;
   Finished: Boolean;
+
 begin
   if FTextEnabled then begin
-    Inc(FStoredLockCount);
+    Inc(FUserChanging);
     try
       inherited KeyPress(Key);
 
@@ -1654,7 +1810,6 @@ begin
               if (D < MinDate) or (D > MaxDate) then begin
                 if N = 4 then begin
                   UpdateDate;
-                  //Change;
                   Finished := True;
                 end else
                   S := Key;
@@ -1704,7 +1859,7 @@ begin
       end;
 
     finally
-      Dec(FStoredLockCount);
+      Dec(FUserChanging);
     end;
 
   end;
@@ -1721,8 +1876,7 @@ var
   InTime: Boolean;
 begin
   UpdateIfUserChangedText;
-  if CanFocus then
-    SetFocus;
+  SetFocusIfPossible;
 
   if Focused then begin
 // Calculating mouse position inside text
@@ -1769,7 +1923,7 @@ begin
 
     end else begin
       M := 2 * FDigitWidth;
-      if GetEffectiveDateDisplayOrder = ddoYMD then
+      if FEffectiveDateDisplayOrder = ddoYMD then
         M := 2 * M;
       Inc(M, FSeparatorWidth div 2);
 
@@ -1795,21 +1949,29 @@ begin
   if FTextEnabled then begin
     SelectTextPartUnderMouse(X);
     inherited MouseDown(Button, Shift, X, Y);
-  end;
+  end else
+    SetFocusIfPossible;
+
 end;
 
 function TCustomZVDateTimePicker.DoMouseWheel(Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint): Boolean;
 begin
+  Result := False;
   if FTextEnabled then begin
     SelectTextPartUnderMouse(MousePos.x);
     if not FReadOnly then begin
-      if WheelDelta < 0 then
-        DecreaseCurrentTextPart
-      else
-        IncreaseCurrentTextPart;
+      Inc(FUserChanging);
+      try
+        if WheelDelta < 0 then
+          DecreaseCurrentTextPart
+        else
+          IncreaseCurrentTextPart;
 
-      Result := True;
+        Result := True;
+      finally
+        Dec(FUserChanging);
+      end;
     end;
   end;
 end;
@@ -1824,6 +1986,8 @@ begin
   RecalculateTextSizesIfNeeded;
   TextOrigin := GetTextOrigin;
 
+  // We must use TextOrigin's x + y (x is, of corse, left margin, but not right
+  // margin if check box is shown. Hower, y always equals right margin).
   PreferredWidth := TextOrigin.x + TextOrigin.y;
 
   if Assigned(FUpDown) then
@@ -1831,24 +1995,10 @@ begin
   else if Assigned(FArrowButton) then
     Inc(PreferredWidth, FArrowButton.Width);
 
-  PreferredWidth := PreferredWidth + {W + 2 * TextOrigin.y +} FTextWidth;
+  PreferredWidth := PreferredWidth + FTextWidth;
 
-  M := 0;
-
-  if BorderStyle = bsSingle then begin
-{
-Only by experimenting, I came to conclusion that BorderStyle bsSingle needs two
-pixels on each side around. It has nothing to do with BorderWidth property,
-that's apparently separate thing. Is there some property which gives this value?
-For now, I just assume two pixels on each side. Therefore, I add 4 to width and
-height:
-This seems to work well on both Windows (win WS) and Linux (gtk2 WS).
-  -- and on Qt - Windows and Linux --
-}
-    PreferredWidth := PreferredWidth + 4;
-
-    M := 4;
-  end;
+  M := Width - ClientWidth;
+  PreferredWidth := PreferredWidth + M;
 
   PreferredHeight := 2 * TextOrigin.y + FTextHeight + M;
 end;
@@ -2214,7 +2364,7 @@ begin
 
   if FKind in [dtkDate, dtkDateTime] then begin
     if DateIsNull then begin
-      if GetEffectiveDateDisplayOrder = ddoYMD then begin
+      if FEffectiveDateDisplayOrder = ddoYMD then begin
         FTextPart[1] := '0000';
         FTextPart[3] := '00';
       end else begin
@@ -2226,7 +2376,7 @@ begin
     end else begin
       DecodeDate(FDateTime, W[3], W[2], W[1]);
       YearPos := 3;
-      case GetEffectiveDateDisplayOrder of
+      case FEffectiveDateDisplayOrder of
         ddoMDY:
           Exchange(W[1], W[2]);
 
@@ -2252,8 +2402,10 @@ begin
     for I := Low(FTextPart) to High(FTextPart) do
       FTextPart[I] := '';
 
-  if FStoredLockCount = 0 then
-    ConfirmChanges;
+  if FUserChanging > 0 then // this means that the change is caused by user interaction
+    Change
+  else
+    FConfirmedDateTime := FDateTime;
 
   Invalidate;
 end;
@@ -2266,7 +2418,6 @@ end;
 
 procedure TCustomZVDateTimePicker.DoExit;
 begin
-  ConfirmChanges;
   inherited DoExit;
   Invalidate;
 end;
@@ -2351,6 +2502,16 @@ begin
   end;
 end;
 
+procedure TCustomZVDateTimePicker.SetAutoSize(Value: Boolean);
+begin
+  if AutoSize <> Value then begin
+    if Value then
+      InvalidatePreferredSize;
+
+    inherited SetAutoSize(Value);
+  end;
+end;
+
 // I had to override CreateWnd, because in design time on Linux Lazarus crashes
 // if we try to do anchoring of child controls in constructor.
 // Therefore, I needed to ensure that controls anchoring does not take place
@@ -2386,7 +2547,6 @@ end;
 procedure TCustomZVDateTimePicker.ArrangeCtrls;
 begin
   if not FDoNotArrangeControls then begin //Read the note above CreateWnd procedure.
-    DisableAutoSizing;
     DisableAlign;
     try
       if GetShowCheckBox then begin
@@ -2403,7 +2563,6 @@ begin
       Invalidate;
     finally
       EnableAlign;
-      EnableAutoSizing;
     end;
   end;
 end;
@@ -2435,6 +2594,9 @@ var
   TextStyle: TTextStyle;
 
 begin
+  if ClientRectNeedsInterfaceUpdate then // In Qt widgetset, this solves the
+    DoAdjustClientRectChange;           // problem of dispositioned client rect.
+
   if FRecalculatingTextSizesNeeded then begin
     if AutoSize then begin
       InvalidatePreferredSize;
@@ -2490,7 +2652,7 @@ begin
 
     if FKind in [dtkDate, dtkDateTime] then begin
       DD[2] := 2 * FDigitWidth;
-      if GetEffectiveDateDisplayOrder = ddoYMD then begin
+      if FEffectiveDateDisplayOrder = ddoYMD then begin
         DD[1] := 4 * FDigitWidth;
         DD[3] := 2 * FDigitWidth;
       end else begin
@@ -2588,8 +2750,11 @@ end;
 
 procedure TCustomZVDateTimePicker.EditingDone;
 begin
-  UpdateIfUserChangedText;
-  inherited EditingDone;
+  if FNoEditingDone <= 0 then begin
+    ConfirmChanges;
+
+    inherited EditingDone;
+  end;
 end;
 
 procedure TCustomZVDateTimePicker.ArrowMouseDown(Sender: TObject;
@@ -2601,8 +2766,7 @@ end;
 procedure TCustomZVDateTimePicker.UpDownClick(Sender: TObject;
   Button: TUDBtnType);
 begin
-  if CanFocus then
-    SetFocus;
+  SetFocusIfPossible;
 
   if not FReadOnly then begin
     if Button = btNext then
@@ -2651,22 +2815,24 @@ begin
     case FArrowShape of
       asClassicLarger:
         { triangle: }
-        FArrowButton.Glyph.Canvas.Polygon([Point(0, 1), Point(8, 1), Point(4, 5)]);
+        FArrowButton.Glyph.Canvas.Polygon([Point(0, 1), Point(8, 1),
+                                                        Point(4, 5)]);
       asClassicSmaller:
         { triangle -- smaller variant:  }
-        FArrowButton.Glyph.Canvas.Polygon([Point(1, 2), Point(7, 2), Point(4, 5)]);
+        FArrowButton.Glyph.Canvas.Polygon([Point(1, 2), Point(7, 2),
+                                                        Point(4, 5)]);
       asModernLarger:
         { modern: }
-        FArrowButton.Glyph.Canvas.Polygon([Point(0, 1), Point(1, 0), Point(4, 3),
-                                        Point(7, 0), Point(8, 1), Point(4, 5)]);
+        FArrowButton.Glyph.Canvas.Polygon([Point(0, 1), Point(1, 0),
+                          Point(4, 3), Point(7, 0), Point(8, 1), Point(4, 5)]);
       asModernSmaller:
         { modern -- smaller variant:    }
-        FArrowButton.Glyph.Canvas.Polygon([Point(1, 2), Point(2, 1), Point(4, 3),
-                                        Point(6, 1), Point(7, 2), Point(4, 5)]);
+        FArrowButton.Glyph.Canvas.Polygon([Point(1, 2), Point(2, 1),
+                          Point(4, 3), Point(6, 1), Point(7, 2), Point(4, 5)]);
       asYetAnotherShape:
         { something in between, not very pretty:  }
-        FArrowButton.Glyph.Canvas.Polygon([Point(0, 1), Point(1, 0), Point(2, 1),
-                            Point(6, 1),Point(7, 0), Point(8, 1), Point(4, 5)]);
+        FArrowButton.Glyph.Canvas.Polygon([Point(0, 1), Point(1, 0),
+              Point(2, 1), Point(6, 1),Point(7, 0), Point(8, 1), Point(4, 5)]);
     end;
 
     FArrowButton.Glyph.Mask(clSkyBlue);
@@ -2726,155 +2892,80 @@ end;
 procedure TCustomZVDateTimePicker.CheckBoxChange(Sender: TObject);
 begin
   CheckTextEnabled;
-  if CanFocus then
-    SetFocus;
+  SetFocusIfPossible;
+
+  if Assigned(FOnCheckBoxChange) then
+    FOnCheckBoxChange(Sender);
 
   Invalidate;
 end;
 
-procedure TCustomZVDateTimePicker.CalendarMouseUp(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TCustomZVDateTimePicker.SetFocusIfPossible;
+var
+  F: TCustomForm;
+
 begin
-  if FCal.HitTest(Point(X, Y)) in [cpDate, cpNoWhere] then begin
+  Inc(FNoEditingDone);
+  try
+    F := GetParentForm(Self);
 
-    // According to tests made by Željko Rikalo,
-    // on Qt widgetset the calendar's DateTime field does not get updated if
-    // we close the calendar form here, because on Qt change is not made until
-    // after the OnMouseUp event.
-
-    // Let's then try something else, as proposed by Željko:
-    // Closing the calendar form is moved to Calendar.OnChange.
-    {$IFDEF QT_BEFORE_0_9_29}
-    // Željko changed the Qt behaviour since Lazarus 0.9.29, revision 23641.
-      FCloseCalendarOnChange := True; // This is asked in
-                                          // CalendarChange procedure.
-    {$ELSE}
-    // On the other hand, on other widgetsets, the previous wouldn't work
-    // because OnChange gets called before OnMoueseUp event, so the OnChange
-    // event is already executed when we are here, so it's too late to notify
-    // it now.
-    // But the calendar's date is already changed then and we can simply
-    // call CloseCalendarForm immidiately.
-      CloseCalendarForm(True);
-    {$ENDIF}
-  end;
-end;
-
-procedure TCustomZVDateTimePicker.CalendarChange(Sender: TObject);
-begin
-{$IFDEF QT_BEFORE_0_9_29}
-  // See the coments in CalendarMouseUp procedure.
-  if FCloseCalendarOnChange then
-    CloseCalendarForm(True);
-{$ENDIF}
-end;
-
-procedure TCustomZVDateTimePicker.CalendarKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  case Key of
-    VK_ESCAPE:
-      CloseCalendarForm;
-
-    VK_RETURN, VK_SPACE:
-      CloseCalendarForm(True);
-
-  end;
-end;
-
-procedure TCustomZVDateTimePicker.CalendarFormDeactivate(Sender: TObject);
-begin
-  if not FClosingCalendarForm then
-    CloseCalendarForm;
-end;
-
-procedure TCustomZVDateTimePicker.CalendarFormShow(Sender: TObject);
-begin
-  FClosingCalendarForm := False;
-
-  AdjustCalendarFormSize;
-  DoDropDown; // calls OnDropDown event handler
-end;
-
-procedure TCustomZVDateTimePicker.CalendarFormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
-begin
-  FClosingCalendarForm := True;
-  CloseAction := caFree;
-end;
-
-procedure TCustomZVDateTimePicker.CalendarFormDestroy(Sender: TObject);
-begin
-  DestroyTheCalendar;
-  FCalendarForm := nil;
-end;
-
-procedure TCustomZVDateTimePicker.CloseCalendarForm(AndSetTheDate: Boolean);
-begin
-  if Assigned(FCalendarForm) and (not FClosingCalendarForm) then begin
-    FClosingCalendarForm := True;
-    if AndSetTheDate then begin
-      if DateIsNull then begin
-        // we'll set the time to 0.0 (midnight):
-        ChangeDateTimeInternally(Int(FCal.DateTime));
-      end else if not EqualDateTime(Int(DateTime), Int(FCal.DateTime)) then begin
-        // we'll change the date, but keep the time:
-        ChangeDateTimeInternally(ComposeDateTime(FCal.DateTime, DateTime));
-      end;
-    end;
-
-    if CanFocus then
+    if Assigned(F) and F.CanFocus and CanTab then
       SetFocus;
 
-    FCalendarForm.Close;
-    DoCloseUp;
+  finally
+    Dec(FNoEditingDone);
   end;
 end;
 
-procedure TCustomZVDateTimePicker.DropDownCalendarForm;
-{$IFNDEF LCLWin32}
- var
-   F: TCustomForm;
-{$ENDIF}
+procedure TCustomZVDateTimePicker.WMKillFocus(var Message: TLMKillFocus);
 begin
-  if CanFocus then
-    SetFocus;
+  // On Qt it seems that WMKillFocus happens even when focus jumps to some other
+  // form. This behaviour differs from win and gtk 2 (where it happens only when
+  // focus jumps to other control on the same form) and we should prevent it at
+  // least for our calendar, because it triggers EditingDone.
+  if Screen.ActiveCustomForm <> FCalendarForm then
+    inherited WMKillFocus(Message);
+end;
 
-  if not (FReadOnly or Assigned(FCalendarForm)) then begin
-    try
-      CreateCalendarForm;
+{$ifdef LCLGtk2}
+// On Gtk2, it seems that if a non-modal form is shown on top
+// of a modal one, it can't get user interaction. So it is useless then.
+// Therefore, if our parent is shown modally, we must show the calendar
+// on a modal form too.
+  {$if lcl_fullversion < 00093100}
+  // This seems to be fixed, so this is not needed in recent Lazarus versions.
+    {$define show_modally_on_modal_form}
+  {$endif}
+{$endif}
 
-      if DateIsNull then
-        FCal.DateTime := Max(MinDate, Min(SysUtils.Date, MaxDate))
+procedure TCustomZVDateTimePicker.DropDownCalendarForm;
+{$ifdef show_modally_on_modal_form}
+var
+  F: TCustomForm;
+{$endif}
+begin
+  SetFocusIfPossible;
 
-      else if DateTime < MinDate then // These "out of bounds" values can
-        FCal.DateTime := MinDate      // happen when DateTime was set with
-      else if DateTime > MaxDate then // "SetDateTimeJumpMinMax" protected
-        FCal.DateTime := MaxDate      // procedure (used in TDBZVDateTimePicker control).
+  if FAllowDroppingCalendar then begin
+    if not (FReadOnly or Assigned(FCalendarForm)
+                          or (csDesigning in ComponentState)) then begin
+      FCalendarForm := TDTCalendarForm.CreateNewDTCalendarForm(nil, Self);
 
-      else
-        FCal.DateTime := DateTime;
-
-  {$IFNDEF LCLWin32}
-      // On Gtk2, it seems that if a non-modal form is shown on top
-      // of a modal one, it can't get user interaction. So it is useless then.
-      // Therefore, if our parent is shown modally, we must show the calendar
-      // on a modal form too.
-      // Seems that it applies to Qt also!
+    {$ifdef show_modally_on_modal_form}
       F := GetParentForm(Self);
       if Assigned(F) and (fsModal in F.FormState) then
         FCalendarForm.ShowModal
       else
-  {$ENDIF}
+    {$endif}
         FCalendarForm.Show;
-
-    finally
-      if Assigned(FCalendarForm) and (not FCalendarForm.Visible) then
-        DestroyCalendarForm;
     end;
-  end;
-end;
 
+  end else begin
+    DestroyCalendarForm;
+    FAllowDroppingCalendar := True;
+  end;
+
+end;
 
 type
 
@@ -2883,18 +2974,25 @@ type
 { The two buttons contained by UpDown control are never disabled in original
   UpDown class. This class is defined here to override this behaviour. }
   TDTUpDown = class(TCustomUpDown)
+  private
+    DTPicker: TCustomZVDateTimePicker;
   protected
     procedure SetEnabled(Value: Boolean); override;
     procedure CalculatePreferredSize(var PreferredWidth,
                   PreferredHeight: integer; WithThemeSpace: Boolean); override;
+    procedure WndProc(var Message: TLMessage); override;
   end;
 
   { TDTSpeedButton }
 
-  TDTSpeedButton = class(TSpeedButton)
+  TDTSpeedButton = class(TCustomSpeedButton)
+  private
+    DTPicker: TCustomZVDateTimePicker;
   protected
     procedure CalculatePreferredSize(var PreferredWidth,
                   PreferredHeight: integer; WithThemeSpace: Boolean); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+      override;
   end;
 
 { TDTUpDown }
@@ -2902,13 +3000,26 @@ type
 { When our UpDown control gets enabled/disabled, the two its buttons' Enabled
   property is set accordingly. }
 procedure TDTUpDown.SetEnabled(Value: Boolean);
-var
-  I: Integer;
+
+  procedure SetEnabledForAllChildren(AWinControl: TWinControl);
+  var
+    I: Integer;
+    C: TControl;
+  begin
+    for I := 0 to AWinControl.ControlCount - 1 do begin
+      C := AWinControl.Controls[I];
+      C.Enabled := Value;
+
+      if C is TWinControl then
+        SetEnabledForAllChildren(TWinControl(C));
+
+    end;
+  end;
+
 begin
   inherited SetEnabled(Value);
-  for I := 0 to ControlCount - 1 do begin
-    Controls[I].Enabled := Value;
-  end;
+
+  SetEnabledForAllChildren(Self);
 end;
 
 { Our UpDown control is always alligned, but setting its PreferredHeight
@@ -2925,8 +3036,28 @@ begin
   PreferredHeight := 1;
 end;
 
+{ We don't want to let EditingDone event to fire each time up-down buttons get
+  clicked. That is why WndProc is overriden. }
+procedure TDTUpDown.WndProc(var Message: TLMessage);
+begin
+  if ((Message.msg >= LM_MOUSEFIRST) and (Message.msg <= LM_MOUSELAST))
+      or ((Message.msg >= LM_MOUSEFIRST2) and (Message.msg <= LM_MOUSELAST2)) then begin
+
+    Inc(DTPicker.FNoEditingDone);
+    try
+      inherited WndProc(Message);
+    finally
+      Dec(DTPicker.FNoEditingDone);
+    end
+
+  end else
+    inherited WndProc(Message);
+
+end;
+
 { TDTSpeedButton }
 
+{ See the coment above TDTUpDown.CalculatePreferredSize }
 procedure TDTSpeedButton.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: integer; WithThemeSpace: Boolean);
 begin
@@ -2936,25 +3067,41 @@ begin
   PreferredHeight := 1;
 end;
 
+{ Prevent EditingDone to fire whenever the SpeedButton gets clicked }
+procedure TDTSpeedButton.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Inc(DTPicker.FNoEditingDone);
+  try
+    inherited MouseDown(Button, Shift, X, Y);
+  finally
+    Dec(DTPicker.FNoEditingDone);
+  end;
+end;
+
 procedure TCustomZVDateTimePicker.UpdateShowArrowButton(
                              NewDateMode: TDTDateMode; NewKind: TDateTimeKind);
 
   procedure CreateArrowBtn;
   begin
     if not Assigned(FArrowButton) then begin
+      DestroyCalendarForm;
       DestroyUpDown;
 
       FArrowButton := TDTSpeedButton.Create(Self);
       FArrowButton.ControlStyle := FArrowButton.ControlStyle +
                                             [csNoFocus, csNoDesignSelectable];
+      TDTSpeedButton(FArrowButton).DTPicker := Self;
       FArrowButton.SetBounds(0, 0, 17, 1);
       FArrowButton.Align := alRight;
       FArrowButton.BringToFront;
 
       DrawArrowButtonGlyph;
-      FArrowButton.Parent := Self;
 
-      FArrowButton.OnMouseDown := @ArrowMouseDown;
+      FArrowButton.Parent := Self;
+      FAllowDroppingCalendar := True;
+
+      TDTSpeedButton(FArrowButton).OnMouseDown := @ArrowMouseDown;
 
     end;
   end;
@@ -2965,14 +3112,16 @@ procedure TCustomZVDateTimePicker.UpdateShowArrowButton(
       DestroyArrowBtn;
 
       FUpDown := TDTUpDown.Create(Self);
-
       FUpDown.ControlStyle := FUpDown.ControlStyle +
                                      [csNoFocus, csNoDesignSelectable];
-      FUpDown.SetBounds(0, 0, 15, 1);
-      FUpDown.Parent := Self;
-      FUpDown.Align := alRight;
 
+      TDTUpDown(FUpDown).DTPicker := Self;
+
+      FUpDown.SetBounds(0, 0, 15, 1);
+      FUpDown.Align := alRight;
       FUpDown.BringToFront;
+
+      FUpDown.Parent := Self;
 
       TDTUpDown(FUPDown).OnClick := @UpDownClick;
 
@@ -2980,19 +3129,20 @@ procedure TCustomZVDateTimePicker.UpdateShowArrowButton(
   end;
 
 var
-  ReallyShowCalendar: Boolean;
+  ReallyShowArrowButton: Boolean;
+
 begin
   if NewDateMode = dmNone then begin
     DestroyArrowBtn;
     DestroyUpDown;
 
   end else begin
-    ReallyShowCalendar := (NewDateMode = dmComboBox) and (NewKind <> dtkTime);
+    ReallyShowArrowButton := (NewDateMode = dmComboBox) and (NewKind <> dtkTime);
 
-    if (ReallyShowCalendar <> Assigned(FArrowButton)) or
+    if (ReallyShowArrowButton <> Assigned(FArrowButton)) or
                        (Assigned(FArrowButton) = Assigned(FUpDown)) then begin
 
-      if ReallyShowCalendar then
+      if ReallyShowArrowButton then
         CreateArrowBtn
       else
         CreateUpDown;
@@ -3014,15 +3164,10 @@ end;
 procedure TCustomZVDateTimePicker.DestroyArrowBtn;
 begin
   if Assigned(FArrowButton) then begin
-    FArrowButton.OnMouseDown := nil;
+    TDTSpeedButton(FArrowButton).OnMouseDown := nil;
     DestroyCalendarForm;
     FreeAndNil(FArrowButton);
   end;
-end;
-
-procedure TCustomZVDateTimePicker.CalendarResize(Sender: TObject);
-begin
-  AdjustCalendarFormSize;
 end;
 
 constructor TCustomZVDateTimePicker.Create(AOwner: TComponent);
@@ -3032,20 +3177,15 @@ var
 begin
   inherited Create(AOwner);
 
-  with GetControlClassDefaultSize do begin
-    {$IFDEF LCL_0_9_29_OR_AFTER}
-    SetInitialBounds(0, 0, cx, cy); // TSize since 0.9.29, svn rev. 25204
-    {$ELSE}
-    SetInitialBounds(0, 0, x, y); // TPoint in older Lazarus versions
-    {$ENDIF}
-  end;
+  with GetControlClassDefaultSize do
+    SetInitialBounds(0, 0, cx, cy);
 
+  FNoEditingDone := 0;
   FArrowShape := asModernSmaller;
+  FAllowDroppingCalendar := True;
 
   FOnDropDown := nil;
   FOnCloseUp := nil;
-  FOnChange := nil;
-  FForceShowCalendar := False;
 
   ParentColor := False;
   FCheckBox := nil;
@@ -3054,10 +3194,20 @@ begin
 
   FKind := dtkDate;
   FNullInputAllowed := True;
-  FTextForNullDate := 'NULL';
+
+  { Thanks to Luiz Américo for this:
+    Lazarus ignores empty string when saving to lrs. Therefore, the problem
+    is, when TextForNullDate is set to an empty string and after the project
+    is saved and opened again, then, this property gets default value NULL
+    instead of empty string. The following condition seems to be a workaround
+    for this. }
+  if (AOwner = nil) or not (csReading in Owner.ComponentState) then
+    FTextForNullDate := 'NULL';
+
   FCenturyFrom := 1941;
   FRecalculatingTextSizesNeeded := True;
   FOnChange := nil;
+  FOnCheckBoxChange := nil;
   FSeparatorWidth := 0;
   FSepNoSpaceWidth := 0;
   FDigitWidth := 0;
@@ -3067,26 +3217,29 @@ begin
   FTimeWidth := 0;
   FTextWidth := 0;
   FTextHeight := 0;
+
   for I := Low(FTextPart) to High(FTextPart) do
     FTextPart[I] := '';
+
   for TTP := Low(TTimeTextPart) to High(TTimeTextPart) do
     FTimeText[TTP] := '';
+
   FTimeDisplay := tdHMS;
   FTimeFormat := tf24;
 
   FLeadingZeros := True;
-  FStoredLockCount := 0;
+  FUserChanging := 0;
   FReadOnly := False;
   FDateTime := SysUtils.Now;
-  FConfirmedDate := FDateTime;
+  FConfirmedDateTime := FDateTime;
   FMinDate := TheSmallestDate;
   FMaxDate := TheBiggestDate;
   FTrailingSeparator := False;
   FDateDisplayOrder := ddoTryDefault;
   FSelectedTextPart := 1;
   FUseDefaultSeparators := True;
-  FDateSeparator := SysUtils.DateSeparator;
-  FTimeSeparator := SysUtils.TimeSeparator;
+  FDateSeparator := DefaultFormatSettings.DateSeparator;
+  FTimeSeparator := DefaultFormatSettings.TimeSeparator;
   FEffectiveCenturyFrom := FCenturyFrom;
   FJumpMinMax := False;
 
@@ -3097,18 +3250,13 @@ begin
   ParentFont := True;
   AutoSize := True;
 
-  UpdateDate;
-
   FTextEnabled := True;
-
-  BorderStyle := bsSingle;
-  AutoSize := True;
-  TabStop := True;
-
-  FShape := nil;
-  FCal := nil;
   FCalendarForm := nil;
   FDoNotArrangeControls := True;
+
+  AdjustEffectiveDateDisplayOrder;
+
+  UpdateDate;
 
   DateMode := dmComboBox;
 end;
@@ -3116,8 +3264,8 @@ end;
 destructor TCustomZVDateTimePicker.Destroy;
 begin
   FDoNotArrangeControls := True;
-  DestroyUpDown;
   DestroyArrowBtn;
+  DestroyUpDown;
   SetShowCheckBox(False);
 
   inherited Destroy;

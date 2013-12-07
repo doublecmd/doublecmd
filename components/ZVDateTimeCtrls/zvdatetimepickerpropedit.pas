@@ -4,7 +4,7 @@ ZVDateTimePickerPropEdit
 Author: Zoran Vučenović, January and February 2010
         Зоран Вученовић, јануар и фебруар 2010.
 
-Last change: April 2011
+Last change: August 2012.
 
    This unit is part of ZVDateTimeCtrls package for Lazarus. It contains
 component and property editors for TZVDateTimePicker control.
@@ -12,7 +12,7 @@ component and property editors for TZVDateTimePicker control.
 -----------------------------------------------------------
 LICENCE
 - - - -
-   Modified LGPL -- see COPYING.TXT.
+   Modified LGPL -- see the file COPYING.modifiedLGPL.
 
 -----------------------------------------------------------
 NO WARRANTY

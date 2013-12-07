@@ -4,12 +4,12 @@ ZVDateTimeControlsReg
 Author: Zoran Vučenović, January and February 2010
         Зоран Вученовић, јануар и фебруар 2010.
 
-   This unit is part of ZVDateTimeCtrls package for Lazarus.
+  This unit is part of ZVDateTimeCtrls package for Lazarus.
 
 -----------------------------------------------------------
 LICENCE
 - - - -
-   Modified LGPL -- see COPYING.TXT.
+   Modified LGPL -- see the file COPYING.modifiedLGPL.
 
 -----------------------------------------------------------
 NO WARRANTY
