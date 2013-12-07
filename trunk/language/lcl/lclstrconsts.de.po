@@ -28,11 +28,9 @@ msgstr "Fehler beim Ausführen von %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "Kann den HTML-Browser nicht finden."
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-#, fuzzy
-#| msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "Kein HTML-Browser gefunden.%sBitte definieren Sie ihn in Hilfe -> Hilfe konfigurieren -> Betrachter"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -74,6 +72,10 @@ msgstr "Großbuchstabe"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Löschen"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -158,6 +160,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Menü"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Modusänderung"
@@ -229,6 +235,10 @@ msgstr "Auszug"
 msgid "Space key"
 msgstr "Leertaste"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -246,6 +256,10 @@ msgstr "Hoch"
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
 msgstr "Kann %s nicht ausführen"
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
+msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -361,6 +375,10 @@ msgstr ""
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
+msgstr ""
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
 msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
@@ -533,6 +551,10 @@ msgstr "FixedRows kann nicht größer/gleich RowCount sein"
 msgid "Form"
 msgstr "Form"
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Form-Streaming \"%s\" Fehler: %s"
@@ -648,11 +670,15 @@ msgid "%s: Already registered"
 msgstr "%s: Bereits registriert"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Hilfekontext nicht gefunden"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "Hilfedatenbank nicht gefunden"
 
 #: lclstrconsts.rshelperror
@@ -675,6 +701,14 @@ msgstr "Die Hilfedatenbank %s%s%s fand keinen Betrachter für eine Hilfeseite de
 msgid "Help Database %s%s%s not found"
 msgstr "Hilfedatenbank %s%s%s nicht gefunden"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "Hilfeschlüsselwort %s%s%s nciht gefunden."
@@ -692,11 +726,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Keine Hilfe für Zeile %d, Spalte %d von %s gefunden."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "Keine Hilfeknoten verfügbar"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Hilfe nicht gefunden"
 
 #: lclstrconsts.rshelpnotregistered
@@ -716,7 +754,9 @@ msgid "Help Viewer Error"
 msgstr "Hilfebetrachterfehler"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Hilfebetrachter nicht gefunden"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -732,7 +772,9 @@ msgid "Hot Light"
 msgstr "Kräftig hervorgehoben"
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+#, fuzzy
+#| msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr "OSX-Icon-Ressource"
 
 #: lclstrconsts.rsicon
@@ -1024,6 +1066,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Vorher"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Eigenschaft %s fehlt"
@@ -1181,6 +1227,10 @@ msgstr "  Größe "
 msgid "Sky Blue"
 msgstr "Himmelblau"
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr "Türkiss"
@@ -1191,6 +1241,18 @@ msgstr "Text"
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
+msgstr ""
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
 msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
@@ -1304,6 +1366,10 @@ msgstr "Ungültige Bildgröße"
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
 msgstr "Ungültiger Bildlistenindex"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1421,7 +1487,9 @@ msgid "Invalid integer number: %s"
 msgstr "Ungültiger Integerzahl: %s"
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+#, fuzzy
+#| msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr " (bei %d,%d, Stream-Offset %.8x)"
 
 #: lclstrconsts.sparunterminatedbinvalue

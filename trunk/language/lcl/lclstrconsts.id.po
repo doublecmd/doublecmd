@@ -26,11 +26,9 @@ msgstr "Kesalahan saat mengeksekusi %s%s%s:%s%s"
 msgid "Unable to find a HTML browser."
 msgstr "Tidak bisa menemukan HTML browser"
 
-#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
-#, fuzzy
-#| msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgid "No HTML Browser found.%sPlease define one in Environment -> Options -> Help -> Help Options"
-msgstr "HTML Browser tidak ditemukan.%sSilahkan definisikan dalam Bantuan -> Konfigurasi Bantuan -> Peninjau"
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -72,6 +70,10 @@ msgstr "Kapital"
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
 msgstr "Clear"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr ""
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -156,6 +158,10 @@ msgctxt "lclstrconsts.ifsvk_menu"
 msgid "Menu"
 msgstr "Menu"
 
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr ""
+
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
 msgstr "Ubah  Mode"
@@ -227,6 +233,10 @@ msgstr "Snapshot"
 msgid "Space key"
 msgstr "Tombol Spasi"
 
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
 msgid "Tab"
@@ -243,6 +253,10 @@ msgstr "Up"
 
 #: lclstrconsts.liscannotexecute
 msgid "can not execute %s"
+msgstr ""
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
 msgstr ""
 
 #: lclstrconsts.lislclresourcesnotfound
@@ -359,6 +373,10 @@ msgstr ""
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
+msgstr ""
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
 msgstr ""
 
 #: lclstrconsts.rscreamcolorcaption
@@ -531,6 +549,10 @@ msgstr "FixedRows tidak bisa >= RowCount"
 msgid "Form"
 msgstr ""
 
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr ""
+
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Pengaliran form \"%s\" salah: %s"
@@ -646,11 +668,15 @@ msgid "%s: Already registered"
 msgstr "%s: Sudah teregistrasi"
 
 #: lclstrconsts.rshelpcontextnotfound
-msgid "Help Context not found"
+#, fuzzy
+#| msgid "Help Context not found"
+msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Konteks Bantuan tidak ditemukan"
 
 #: lclstrconsts.rshelpdatabasenotfound
-msgid "Help Database not found"
+#, fuzzy
+#| msgid "Help Database not found"
+msgid "There is no help database installed for this topic"
 msgstr "Database Bantuan tidak ditemukan"
 
 #: lclstrconsts.rshelperror
@@ -673,6 +699,14 @@ msgstr "Database Bantuan %s%s%s tidak ditemukan peninjau untuk halaman bantuan d
 msgid "Help Database %s%s%s not found"
 msgstr "Database Bantuan %s%s%s tidak ditemukan"
 
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr ""
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr ""
+
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
 msgstr "Kata kunci Bantuan %s%s%s tidak ditemukan."
@@ -690,11 +724,15 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Tidak ada bantuan ditemukan untuk baris %d, column %d of %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-msgid "No help nodes available"
+#, fuzzy
+#| msgid "No help nodes available"
+msgid "No help entries available for this topic"
 msgstr "Node bantuan tidak tersedia"
 
 #: lclstrconsts.rshelpnotfound
-msgid "Help not found"
+#, fuzzy
+#| msgid "Help not found"
+msgid "No help found for this topic"
 msgstr "Bantuan tidak ditemukan"
 
 #: lclstrconsts.rshelpnotregistered
@@ -714,7 +752,9 @@ msgid "Help Viewer Error"
 msgstr "Peninjau Bantuan Salah"
 
 #: lclstrconsts.rshelpviewernotfound
-msgid "Help Viewer not found"
+#, fuzzy
+#| msgid "Help Viewer not found"
+msgid "No viewer was found for this type of help content"
 msgstr "Peninjau Bantuian tidak ditemukan"
 
 #: lclstrconsts.rshighlightcolorcaption
@@ -730,7 +770,7 @@ msgid "Hot Light"
 msgstr ""
 
 #: lclstrconsts.rsicns
-msgid "OSX Icon Resource"
+msgid "Mac OS X Icon"
 msgstr ""
 
 #: lclstrconsts.rsicon
@@ -1023,6 +1063,10 @@ msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
 msgstr "Sebelumnya"
 
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr ""
+
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Properti %s tidak ada"
@@ -1180,6 +1224,10 @@ msgstr "  ukuran "
 msgid "Sky Blue"
 msgstr ""
 
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr ""
+
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
 msgstr ""
@@ -1190,6 +1238,18 @@ msgstr "Teks"
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
+msgstr ""
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgid "A grip to control how much size to give two parts of an area"
+msgstr ""
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgid "A tree of items"
 msgstr ""
 
 #: lclstrconsts.rsunabletoloaddefaultfont
@@ -1303,6 +1363,10 @@ msgstr "Ukuran gambar tidak benar"
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
 msgstr "Indeks ImageList tidak benar"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1420,7 +1484,7 @@ msgid "Invalid integer number: %s"
 msgstr ""
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr ""
 
 #: lclstrconsts.sparunterminatedbinvalue
