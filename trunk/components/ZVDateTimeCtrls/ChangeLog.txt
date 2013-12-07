@@ -48,3 +48,21 @@ Version 1.3 -- 1. April 2011.
    The changes of LCL, made after separating the 0.9.30 branch from the trunk, caused the crash of the control in new Lazarus 0.9.31 from trunk (see: http://wiki.freepascal.org/Lazarus_0.99.0_release_notes#Changes_affecting_compatibility), internal using of constructor TForm.Create had to be replaced by TForm.CreateNew (it was used twice -- for the drop-down form which carries the calendar and for design-time component editor form).
    There are also internal changes which improved autosizing of the control.
    The code is much simplified and the control is lighter now (there used to be an auxiliary control which is removed now and its code is simplified and unified in the main control).
+   
+===================================================
+
+Version 1.4 -- 5. September 2012.
+
+These are main changes:
+
+   The ZVDateTimeControls package is now in subversion control.
+
+   Added an event to interact with CheckBox -- OnCheckBoxChange (by Daniel S. Almeida).
+   
+   OnChange event was triggered whenever date/time values change. Now it reacts only on changes made by user interaction, not when the changes are made programatically. The new behaviour is compatible with OnChange event of VCL's TDateTimePicker.
+
+   In Linux, locale-dependent properties were not initialized to correct defaults. Fixed now.
+
+   In Qt ws, the client rect of the control was not calculated correctly. Fixed now.
+   
+   Plus many internal changes...

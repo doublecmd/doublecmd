@@ -4,7 +4,7 @@ TDBZVDateTimePicker control for Lazarus
 Author: Zoran Vučenović, January and February 2010
         Зоран Вученовић, јануар и фебруар 2010.
 
-Last change: April 2011
+Last change: August 2012
 
 This unit is part of ZVDateTimeCtrls package for Lazarus.
 TDBZVDateTimePicker is data-aware version of TZVDateTimePicker control.
@@ -12,7 +12,7 @@ TDBZVDateTimePicker is data-aware version of TZVDateTimePicker control.
 -----------------------------------------------------------
 LICENCE
 - - - -
-   Modified LGPL -- see COPYING.TXT.
+   Modified LGPL -- see the file COPYING.modifiedLGPL.
 
 -----------------------------------------------------------
 NO WARRANTY
@@ -42,7 +42,8 @@ type
     { Private declarations }
     FDataLink: TFieldDataLink;
     FReadOnly: Boolean;
-    FDataChanging: Boolean;
+    FDataChangeCount: Integer;
+    FChangingCount: Integer;
     function GetDataField: string;
     function GetDataSource: TDataSource;
     procedure SetDataField(const AValue: string);
@@ -56,12 +57,13 @@ type
   protected
     { Protected declarations }
     procedure Change; override;
+    procedure ConfirmChanges; override;
+    procedure UndoChanges; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property Field: TField read GetField;
-    procedure EditingDone; override;
   published
     { Published declarations }
     property DataField: string read GetDataField write SetDataField;
@@ -108,6 +110,7 @@ type
     property UseDefaultSeparators;
   //events:
     property OnChange;
+    property OnCheckBoxChange;
     property OnDropDown;
     property OnCloseUp;
     property OnChangeBounds;
@@ -157,24 +160,21 @@ end;
 
 procedure TDBZVDateTimePicker.DataChange(Sender: TObject);
 begin
-  FDataChanging := True;
-  try
-    if Assigned(FDataLink.Field) then begin
-      if FDataLink.Field.IsNull then begin
-        DateTime := NullDate;
-      end else begin
-              // Using the SetTheDateJumpMinMax procedure, instead of property
+  if (FChangingCount = 0) then begin
+    Inc(FDataChangeCount);
+    try
+      if Assigned(FDataLink.Field) and not FDataLink.Field.IsNull then begin
+        // Using the SetTheDateJumpMinMax procedure, instead of property
         SetDateTimeJumpMinMax(FDataLink.Field.AsDateTime); // assignment allows
-              // this control to display dates from database whose value falls
-              // outside of MinDate and MaxDate interval.
-              // Note that user still cannot enter such values in the control.
-      end;
-    end else begin
-      DateTime := NullDate;
-    end;
+            // this control to display dates from database whose value falls
+            // outside of MinDate and MaxDate interval.
+            // Note that user still cannot enter such values in the control.
+      end else
+        DateTime := NullDate;
 
-  finally
-    FDataChanging := False;
+    finally
+      Dec(FDataChangeCount);
+    end;
   end;
 end;
 
@@ -207,12 +207,8 @@ begin
 end;
 
 procedure TDBZVDateTimePicker.CheckField;
-var
-  FieldOK: Boolean;
 begin
-  FieldOK := (FDataLink.Active) and Assigned(FDataLink.Field);
-
-  if FieldOK then
+  if (FDataLink.Active) and Assigned(FDataLink.Field) then
     inherited ReadOnly := FReadOnly or (not FDataLink.CanModify)
   else begin
     inherited ReadOnly := True;
@@ -222,21 +218,47 @@ end;
 
 procedure TDBZVDateTimePicker.Change;
 begin
-  if (not FDataChanging) and Assigned(FDataLink) then begin
-    if FDataLink.Edit then begin
-      FDataLink.Modified;
-      inherited Change; // calls OnChange event handler
-    end else
-      FDataLink.Reset; // reverts user changes
-
+  if (FDataChangeCount <= 0) and Assigned(FDataLink) then begin
+    Inc(FChangingCount);
+    try
+      if FDataLink.Edit then begin
+        FDataLink.Modified;
+        inherited Change; // calls OnChange event handler
+      end else
+        FDataLink.Reset; // reverts user changes
+    finally
+      Dec(FChangingCount);
+    end;
   end;
+end;
+
+procedure TDBZVDateTimePicker.ConfirmChanges;
+begin
+  inherited ConfirmChanges;
+
+  if Assigned(FDataLink) then
+    try
+      FDataLink.UpdateRecord;
+    except
+      SetFocus;
+      raise;
+    end;
+
+end;
+
+procedure TDBZVDateTimePicker.UndoChanges;
+begin
+  FDataLink.Reset;
+
+  inherited UndoChanges;
 end;
 
 constructor TDBZVDateTimePicker.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FDataChanging := False;
+  FDataChangeCount := 0;
+  FChangingCount := 0;
   FDataLink := TFieldDataLink.Create;
   FDataLink.Control := Self;
   DateTime := NullDate;
@@ -255,18 +277,6 @@ begin
   FreeAndNil(FDataLink);
 
   inherited Destroy;
-end;
-
-procedure TDBZVDateTimePicker.EditingDone;
-begin
-  inherited EditingDone;
-  if Assigned(FDataLink) then
-    try
-      FDataLink.UpdateRecord;
-    except
-      SetFocus;
-      raise;
-    end;
 end;
 
 end.
