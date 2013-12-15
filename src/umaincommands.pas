@@ -98,6 +98,7 @@ type
    procedure cm_CmdLinePrev(const Params: array of string);
    procedure cm_ContextMenu(const Params: array of string);
    procedure cm_CopyFullNamesToClip(const Params: array of string);
+   procedure cm_CopyFileDetailsToClip(const Params: array of string);
    procedure cm_Exchange(const Params: array of string);
    procedure cm_OpenArchive(const Params: array of string);
    procedure cm_TestArchive(const Params: array of string);
@@ -731,6 +732,11 @@ end;
 procedure TMainCommands.cm_CopyFullNamesToClip(const Params: array of string);
 begin
   DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, True);
+end;
+
+procedure TMainCommands.cm_CopyFileDetailsToClip(const Params: array of string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CopyFileDetailsToClip', []);
 end;
 
 procedure TMainCommands.cm_CopyNamesToClip(const Params: array of string);

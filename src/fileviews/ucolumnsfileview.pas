@@ -172,12 +172,15 @@ type
 
     procedure UpdateColumnsView;
 
+  published
+    procedure cm_CopyFileDetailsToClip(const Params: array of string);
+
   end;
 
 implementation
 
 uses
-  LCLProc, Clipbrd, uLng, uGlobs, uPixmapManager, uDebug,
+  LCLProc, Clipbrd, DCStrUtils, uLng, uGlobs, uPixmapManager, uDebug,
   uDCUtils, math, fMain, fOptions,
   uOrderedFileView,
   uFileSourceProperty,
@@ -1023,6 +1026,54 @@ begin
     Exit
   else if not AFile.FSFile.IsDirectory then // without name
     dgPanel.Hint:= #32;
+end;
+
+procedure TColumnsFileView.cm_CopyFileDetailsToClip(const Params: array of string);
+var
+  I: Integer;
+  AFile: TDisplayFile;
+  sl: TStringList = nil;
+
+  procedure AddFile;
+  var
+    J: Integer;
+    S: UTF8String;
+  begin
+    if AFile.FSFile.IsNameValid then
+    begin
+      S:= EmptyStr;
+      for J:= 0 to AFile.DisplayStrings.Count - 1 do
+      begin
+        S:= S + AFile.DisplayStrings[J] + #09;
+      end;
+      J:= Length(S);
+      if J > 0 then sl.Add(Copy(S, 1, J - 1));
+    end;
+  end;
+
+begin
+  if DisplayFiles.Count > 0 then
+  begin
+    sl:= TStringList.Create;
+    try
+      for I:= 0 to FFiles.Count - 1 do
+      begin
+        AFile:= FFiles[I];
+        if AFile.Selected then AddFile;
+      end;
+
+      if sl.Count = 0 then
+      begin
+        AFile:= GetActiveDisplayFile;
+        AddFile;
+      end;
+
+      Clipboard.Clear;   // prevent multiple formats in Clipboard
+      Clipboard.AsText:= TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
+    finally
+      FreeAndNil(sl);
+    end;
+  end;
 end;
 
 { TDrawGridEx }
