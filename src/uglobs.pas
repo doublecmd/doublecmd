@@ -346,6 +346,17 @@ var
   gBookFontColor: TColor;
   gTextPosition:PtrInt;
 
+  {SyncDirs}
+  gSyncDirsSubdirs,
+  gSyncDirsByContent,
+  gSyncDirsIgnoreDate,
+  gSyncDirsShowFilterCopyRight,
+  gSyncDirsShowFilterEqual,
+  gSyncDirsShowFilterNotEqual,
+  gSyncDirsShowFilterCopyLeft,
+  gSyncDirsShowFilterDuplicates,
+  gSyncDirsShowFilterSingles: Boolean;
+
   gUseShellForFileOperations: Boolean;
 
 function LoadConfig: Boolean;
@@ -1190,6 +1201,17 @@ begin
   gBookFontColor := clWhite;
   gTextPosition:= 0;
   gViewerMode:= 0;
+
+  {SyncDirs}
+  gSyncDirsSubdirs := False;
+  gSyncDirsByContent := False;
+  gSyncDirsIgnoreDate := False;
+  gSyncDirsShowFilterCopyRight := True;
+  gSyncDirsShowFilterEqual := True;
+  gSyncDirsShowFilterNotEqual := True;
+  gSyncDirsShowFilterCopyLeft := True;
+  gSyncDirsShowFilterDuplicates := True;
+  gSyncDirsShowFilterSingles := True;
 
   { - Other - }
   gGoToRoot := False;
@@ -2242,6 +2264,22 @@ begin
         gThumbSave := GetValue(Node, 'SaveThumbnails', gThumbSave);
       end;
     end;
+
+    { SyncDirs }
+    Node := Root.FindNode('SyncDirs');
+    if Assigned(Node) then
+    begin
+      gSyncDirsSubdirs := GetValue(Node, 'Subdirs', gSyncDirsSubdirs);
+      gSyncDirsByContent := GetValue(Node, 'ByContent', gSyncDirsByContent);
+      gSyncDirsIgnoreDate := GetValue(Node, 'IgnoreDate', gSyncDirsIgnoreDate);
+      gSyncDirsShowFilterCopyRight := GetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
+      gSyncDirsShowFilterEqual := GetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
+      gSyncDirsShowFilterNotEqual := GetValue(Node, 'FilterNotEqual', gSyncDirsShowFilterNotEqual);
+      gSyncDirsShowFilterCopyLeft := GetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
+      gSyncDirsShowFilterDuplicates := GetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
+      gSyncDirsShowFilterSingles := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
+    end;
+
     { - Other - }
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
     gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
@@ -2537,6 +2575,18 @@ begin
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
     SetValue(Node, 'FontColor', gBookFontColor);
     SetValue(Node, 'TextPosition', gTextPosition);
+
+    { SyncDirs }
+    Node := FindNode(Root, 'SyncDirs', True);
+    SetValue(Node, 'Subdirs', gSyncDirsSubdirs);
+    SetValue(Node, 'ByContent', gSyncDirsByContent);
+    SetValue(Node, 'IgnoreDate', gSyncDirsIgnoreDate);
+    SetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
+    SetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
+    SetValue(Node, 'FilterNotEqual', gSyncDirsShowFilterNotEqual);
+    SetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
+    SetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
+    SetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
 
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);

@@ -5,9 +5,6 @@
 
    Copyright (C) 2013  Anton Panferov (ast.a_s@mail.ru)
 
-   TODO:
-     save options
-
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
@@ -72,6 +69,7 @@ type
     procedure btnSelDir1Click(Sender: TObject);
     procedure btnCompareClick(Sender: TObject);
     procedure btnSynchronizeClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure MainDrawGridDblClick(Sender: TObject);
     procedure MainDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -127,8 +125,8 @@ procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
 implementation
 
 uses
-  fMain, uDebug, fDiffer, fSyncDirsPerformDlg, LCLType, LazUTF8, DCClassesUtf8,
-  uFileSystemFileSource;
+  fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
+  DCClassesUtf8, uFileSystemFileSource;
 
 {$R *.lfm}
 
@@ -464,6 +462,21 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  { settings }
+  gSyncDirsSubdirs              := chkSubDirs.Checked;
+  gSyncDirsByContent            := chkByContent.Checked;
+  gSyncDirsIgnoreDate           := chkIgnoreDate.Checked;
+  gSyncDirsShowFilterCopyRight  := sbCopyRight.Down;
+  gSyncDirsShowFilterEqual      := sbEqual.Down;
+  gSyncDirsShowFilterNotEqual   := sbNotEqual.Down;
+  gSyncDirsShowFilterCopyLeft   := sbCopyLeft.Down;
+  gSyncDirsShowFilterDuplicates := sbDuplicates.Down;
+  gSyncDirsShowFilterSingles    := sbSingles.Down;
+end;
+
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
 var
   r: Integer;
@@ -606,7 +619,7 @@ begin
     s := HeaderDG.Columns[AValue].Title.Caption;
     UTF8Delete(s, 1, 1);
     FSortDesc := not FSortDesc;
-    if FSortDesc then s := '^' + s else s := 'v' + s;
+    if FSortDesc then s := '↑' + s else s := '↓' + s;
     HeaderDG.Columns[AValue].Title.Caption := s;
     SortFoundItems;
     FillFoundItemsDG;
@@ -620,7 +633,7 @@ begin
     FSortIndex := AValue;
     FSortDesc := False;
     with HeaderDG.Columns[FSortIndex].Title do
-      Caption := 'v' + Caption;
+      Caption := '↓' + Caption;
     SortFoundItems;
     FillFoundItemsDG;
   end;
@@ -1050,6 +1063,17 @@ begin
   FSortIndex := -1;
   SortIndex := 0;
   FSortDesc := False;
+  MainDrawGrid.RowCount := 0;
+  { settings }
+  chkSubDirs.Checked := gSyncDirsSubdirs;
+  chkByContent.Checked := gSyncDirsByContent;
+  chkIgnoreDate.Checked := gSyncDirsIgnoreDate;
+  sbCopyRight.Down := gSyncDirsShowFilterCopyRight;
+  sbEqual.Down := gSyncDirsShowFilterEqual;
+  sbNotEqual.Down := gSyncDirsShowFilterNotEqual;
+  sbCopyLeft.Down := gSyncDirsShowFilterCopyLeft;
+  sbDuplicates.Down := gSyncDirsShowFilterDuplicates;
+  sbSingles.Down := gSyncDirsShowFilterSingles;
 end;
 
 destructor TfrmSyncDirsDlg.Destroy;
