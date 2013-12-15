@@ -1344,8 +1344,14 @@ var
         Exit(fsoterSkip);
       fsoofeOverwrite:
         begin
-          mbDeleteFile(AbsoluteTargetFileName);
-          Exit(fsoterDeleted);
+          if FileIsReadOnly(Attrs) then
+            mbFileSetReadOnly(AbsoluteTargetFileName, False);
+          if FPS_ISLNK(Attrs) or (FMode = fsohmMove) then
+          begin
+            mbDeleteFile(AbsoluteTargetFileName);
+            Exit(fsoterDeleted);
+          end;
+          Exit(fsoterNotExists);
         end;
       fsoofeAppend:
         begin
