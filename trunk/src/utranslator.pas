@@ -53,6 +53,7 @@ constructor TTranslator.Create(POFileName: string);
 begin
   inherited Create;
   FPOFile := TPOFile.Create(POFileName);
+  Translations.TranslateResourceStrings(FPOFile);
 end;
 
 destructor TTranslator.Destroy;
