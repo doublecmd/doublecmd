@@ -7,6 +7,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   ClientHeight = 438
   ClientWidth = 691
   KeyPreview = True
+  OnClose = FormClose
   OnKeyDown = FormKeyDown
   Position = poScreenCenter
   ShowInTaskBar = stAlways
