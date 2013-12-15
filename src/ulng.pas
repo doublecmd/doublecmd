@@ -648,8 +648,8 @@ begin
   if mbFileExists(gpLngDir + gPOFileName) then
     begin
       DCDebug('Loading lng file: ' + gpLngDir + gPOFileName);
-      TranslateLCL(gPOFileName);
       LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
+      TranslateLCL(gPOFileName);
     end;
 end;
 
