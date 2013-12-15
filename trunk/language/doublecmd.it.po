@@ -1333,6 +1333,7 @@ msgid "&Unpack path names if stored with files"
 msgstr "&Estrai i nomi di percorso se salvati con i file"
 
 #: tfrmextractdlg.cbfilemask.text
+msgctxt "tfrmextractdlg.cbfilemask.text"
 msgid "*.*"
 msgstr "*.*"
 
@@ -2265,6 +2266,10 @@ msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Copia"
 
+#: tfrmmain.actcopyfiledetailstoclip.caption
+msgid "Copy all shown &columns"
+msgstr ""
+
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
 msgstr "Copia il nome del file con il &percorso completo"
@@ -2400,7 +2405,9 @@ msgid "&Load Selection from File..."
 msgstr "Carica selezione da &file..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir"
+#, fuzzy
+#| msgid "Create directory"
+msgid "Create &Directory"
 msgstr "Crea cartella"
 
 #: tfrmmain.actmarkcurrentextension.caption
@@ -2646,6 +2653,10 @@ msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
 msgstr "Crea &Link Simbolico..."
 
+#: tfrmmain.actsyncdirs.caption
+msgid "Synchronize dirs..."
+msgstr ""
+
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
 msgstr "Destinazione &= Sorgente"
@@ -2705,6 +2716,11 @@ msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Esci"
 
+#: tfrmmain.btnf7.caption
+msgctxt "tfrmmain.btnf7.caption"
+msgid "Directory"
+msgstr "Cartella"
+
 #: tfrmmain.btnf8.caption
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
 msgid "Delete"
@@ -2726,6 +2742,7 @@ msgid "Directory hotlist"
 msgstr "Cartelle preferite"
 
 #: tfrmmain.btnleftequalright.caption
+msgctxt "tfrmmain.btnleftequalright.caption"
 msgid "<"
 msgstr "<"
 
@@ -2769,6 +2786,7 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnrightequalleft.caption
+msgctxt "tfrmmain.btnrightequalleft.caption"
 msgid ">"
 msgstr ">"
 
@@ -2950,6 +2968,11 @@ msgstr "-"
 
 #: tfrmmain.miline5.caption
 msgctxt "TFRMMAIN.MILINE5.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline50.caption
+msgctxt "tfrmmain.miline50.caption"
 msgid "-"
 msgstr "-"
 
@@ -5554,6 +5577,141 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Nome co&llegamento"
 
+#: tfrmsyncdirsdlg.btnclose.caption
+msgctxt "tfrmsyncdirsdlg.btnclose.caption"
+msgid "Close"
+msgstr "Chiudi"
+
+#: tfrmsyncdirsdlg.btncompare.caption
+msgctxt "tfrmsyncdirsdlg.btncompare.caption"
+msgid "Compare"
+msgstr "Confronta"
+
+#: tfrmsyncdirsdlg.btnseldir1.caption
+msgctxt "tfrmsyncdirsdlg.btnseldir1.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmsyncdirsdlg.btnseldir2.caption
+msgctxt "tfrmsyncdirsdlg.btnseldir2.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmsyncdirsdlg.btnsynchronize.caption
+msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
+msgid "Synchronize"
+msgstr ""
+
+#: tfrmsyncdirsdlg.caption
+msgid "Synchronize directories"
+msgstr ""
+
+#: tfrmsyncdirsdlg.cbextfilter.text
+msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
+msgid "*.*"
+msgstr "*.*"
+
+#: tfrmsyncdirsdlg.chkasymmetric.caption
+msgid "asymmetric"
+msgstr ""
+
+#: tfrmsyncdirsdlg.chkbycontent.caption
+msgid "by content"
+msgstr ""
+
+#: tfrmsyncdirsdlg.chkignoredate.caption
+msgid "ignore date"
+msgstr ""
+
+#: tfrmsyncdirsdlg.chkonlyselected.caption
+msgid "only selected"
+msgstr ""
+
+#: tfrmsyncdirsdlg.chksubdirs.caption
+msgid "Subdirs"
+msgstr ""
+
+#: tfrmsyncdirsdlg.groupbox1.caption
+msgid "Show:"
+msgstr ""
+
+#: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
+msgid "Name"
+msgstr "Nome"
+
+#: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
+msgid "Size"
+msgstr "Dimensione"
+
+#: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
+msgid "Date"
+msgstr "Data"
+
+#: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
+msgid "<=>"
+msgstr ""
+
+#: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
+msgid "Date"
+msgstr "Data"
+
+#: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
+msgid "Size"
+msgstr "Dimensione"
+
+#: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
+msgid "Name"
+msgstr "Nome"
+
+#: tfrmsyncdirsdlg.label1.caption
+msgid "(in main window)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbcopyleft.caption
+msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
+msgid "<"
+msgstr "<"
+
+#: tfrmsyncdirsdlg.sbcopyright.caption
+msgctxt "tfrmsyncdirsdlg.sbcopyright.caption"
+msgid ">"
+msgstr ">"
+
+#: tfrmsyncdirsdlg.sbduplicates.caption
+msgid "duplicates"
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbequal.caption
+msgid "="
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbnotequal.caption
+msgid "!="
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbsingles.caption
+msgid "singles"
+msgstr ""
+
+#: tfrmsyncdirsdlg.statusbar1.panels[0].text
+msgid "Please press \"Compare\" to start"
+msgstr ""
+
+#: tfrmsyncdirsperformdlg.caption
+msgctxt "tfrmsyncdirsperformdlg.caption"
+msgid "Synchronize"
+msgstr ""
+
+#: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
+msgid "Confirm overwrites"
+msgstr ""
+
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
 msgstr "A&ggiungi nuovo"
@@ -6282,6 +6440,7 @@ msgid "Attr"
 msgstr "Attr"
 
 #: ulng.rscoldate
+msgctxt "ulng.rscoldate"
 msgid "Date"
 msgstr "Data"
 

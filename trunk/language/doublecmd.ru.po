@@ -15,12 +15,8 @@ msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Сравнение... %d%% (ESC для отмены)"
 
 #: fsyncdirsdlg.rsfilesfound
-msgid ""
-"Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique "
-"right: %d)"
-msgstr ""
-"Найдено файлов: %d  (Одинаковых: %d, Различных: %d, Уникальных слева: %d, "
-"Уникальных справа: %d)"
+msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
+msgstr "Найдено файлов: %d  (Одинаковых: %d, Различных: %d, Уникальных слева: %d, Уникальных справа: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %d bytes"
@@ -1339,6 +1335,7 @@ msgid "&Unpack path names if stored with files"
 msgstr "&Учитывать подкаталоги"
 
 #: tfrmextractdlg.cbfilemask.text
+msgctxt "tfrmextractdlg.cbfilemask.text"
 msgid "*.*"
 msgstr ""
 
@@ -2109,7 +2106,7 @@ msgstr "&ОК"
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmlinker.caption
 msgctxt "TFRMLINKER.CAPTION"
@@ -2281,6 +2278,10 @@ msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Копировать"
 
+#: tfrmmain.actcopyfiledetailstoclip.caption
+msgid "Copy all shown &columns"
+msgstr "Копировать &содержимое всех колонок"
+
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
 msgstr "Копировать по&лные имена файлов"
@@ -2418,8 +2419,8 @@ msgid "&Load Selection from File..."
 msgstr "Загрузить выделение из &файла..."
 
 #: tfrmmain.actmakedir.caption
-msgid "MakeDir"
-msgstr "Каталог"
+msgid "Create &Directory"
+msgstr "Создать &каталог"
 
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
@@ -2665,6 +2666,10 @@ msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
 msgstr "Создать символ&ьную ссылку..."
 
+#: tfrmmain.actsyncdirs.caption
+msgid "Synchronize dirs..."
+msgstr "&Синхронизировать каталоги..."
+
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
 msgstr "&Две одинаковых панели"
@@ -2724,6 +2729,11 @@ msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Выход"
 
+#: tfrmmain.btnf7.caption
+msgctxt "tfrmmain.btnf7.caption"
+msgid "Directory"
+msgstr "Каталог"
+
 #: tfrmmain.btnf8.caption
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
 msgid "Delete"
@@ -2744,6 +2754,7 @@ msgid "Directory hotlist"
 msgstr "Избранные каталоги"
 
 #: tfrmmain.btnleftequalright.caption
+msgctxt "tfrmmain.btnleftequalright.caption"
 msgid "<"
 msgstr ""
 
@@ -2784,6 +2795,7 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnrightequalleft.caption
+msgctxt "tfrmmain.btnrightequalleft.caption"
 msgid ">"
 msgstr ""
 
@@ -2967,6 +2979,11 @@ msgstr ""
 msgctxt "TFRMMAIN.MILINE5.CAPTION"
 msgid "-"
 msgstr ""
+
+#: tfrmmain.miline50.caption
+msgctxt "tfrmmain.miline50.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmmain.miline6.caption
 msgctxt "TFRMMAIN.MILINE6.CAPTION"
@@ -3165,27 +3182,27 @@ msgstr "&Введите имя каталога:"
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath2.caption
 msgctxt "TFRMMODVIEW.BTNPATH2.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath3.caption
 msgctxt "TFRMMODVIEW.BTNPATH3.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath4.caption
 msgctxt "TFRMMODVIEW.BTNPATH4.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath5.caption
 msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnproportion.caption
 msgid "Pr"
@@ -3277,7 +3294,7 @@ msgstr "&Удалить"
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmultirename.btnloadpreset.caption
 msgid "&Load"
@@ -3286,7 +3303,7 @@ msgstr "З&агрузить"
 #: tfrmmultirename.btnnamemenu.caption
 msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmultirename.btnrename.caption
 msgctxt "tfrmmultirename.btnrename.caption"
@@ -4348,12 +4365,12 @@ msgstr "&Наименование:"
 #: tfrmoptionsfonts.btnseleditfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionsfonts.btnsellogfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELLOGFNT.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionsfonts.btnselmainfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELMAINFNT.CAPTION"
@@ -4363,12 +4380,12 @@ msgstr "..."
 #: tfrmoptionsfonts.btnselviewerbookfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWERBOOKFNT.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionsfonts.btnselviewfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
@@ -5553,7 +5570,7 @@ msgstr "О&тмена"
 #: tfrmsplitter.btnftchoice.caption
 msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmsplitter.btnok.caption
 msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
@@ -5628,6 +5645,141 @@ msgstr "&На что указывает"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "&Имя ссылки"
+
+#: tfrmsyncdirsdlg.btnclose.caption
+msgctxt "tfrmsyncdirsdlg.btnclose.caption"
+msgid "Close"
+msgstr "Закрыть"
+
+#: tfrmsyncdirsdlg.btncompare.caption
+msgctxt "tfrmsyncdirsdlg.btncompare.caption"
+msgid "Compare"
+msgstr "Сравнить"
+
+#: tfrmsyncdirsdlg.btnseldir1.caption
+msgctxt "tfrmsyncdirsdlg.btnseldir1.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmsyncdirsdlg.btnseldir2.caption
+msgctxt "tfrmsyncdirsdlg.btnseldir2.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmsyncdirsdlg.btnsynchronize.caption
+msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
+msgid "Synchronize"
+msgstr "Синхронизировать"
+
+#: tfrmsyncdirsdlg.caption
+msgid "Synchronize directories"
+msgstr "Синхронизация каталогов"
+
+#: tfrmsyncdirsdlg.cbextfilter.text
+msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
+msgid "*.*"
+msgstr ""
+
+#: tfrmsyncdirsdlg.chkasymmetric.caption
+msgid "asymmetric"
+msgstr "&асимметрично"
+
+#: tfrmsyncdirsdlg.chkbycontent.caption
+msgid "by content"
+msgstr "&по содержимому"
+
+#: tfrmsyncdirsdlg.chkignoredate.caption
+msgid "ignore date"
+msgstr "&игнорировать дату"
+
+#: tfrmsyncdirsdlg.chkonlyselected.caption
+msgid "only selected"
+msgstr "&Выделенные"
+
+#: tfrmsyncdirsdlg.chksubdirs.caption
+msgid "Subdirs"
+msgstr "с &подкаталогами"
+
+#: tfrmsyncdirsdlg.groupbox1.caption
+msgid "Show:"
+msgstr "Показывать:"
+
+#: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
+msgid "Name"
+msgstr "Имя"
+
+#: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
+msgid "Size"
+msgstr "Размер"
+
+#: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
+msgid "Date"
+msgstr "Дата"
+
+#: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
+msgid "<=>"
+msgstr ""
+
+#: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
+msgid "Date"
+msgstr "Дата"
+
+#: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
+msgid "Size"
+msgstr "Размер"
+
+#: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
+msgid "Name"
+msgstr "Имя"
+
+#: tfrmsyncdirsdlg.label1.caption
+msgid "(in main window)"
+msgstr "(в главном окне)"
+
+#: tfrmsyncdirsdlg.sbcopyleft.caption
+msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
+msgid "<"
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbcopyright.caption
+msgctxt "tfrmsyncdirsdlg.sbcopyright.caption"
+msgid ">"
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbduplicates.caption
+msgid "duplicates"
+msgstr "&дубликаты"
+
+#: tfrmsyncdirsdlg.sbequal.caption
+msgid "="
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbnotequal.caption
+msgid "!="
+msgstr ""
+
+#: tfrmsyncdirsdlg.sbsingles.caption
+msgid "singles"
+msgstr "&уникальные"
+
+#: tfrmsyncdirsdlg.statusbar1.panels[0].text
+msgid "Please press \"Compare\" to start"
+msgstr "Чтобы начать, нажмите \"Сравнить\""
+
+#: tfrmsyncdirsperformdlg.caption
+msgctxt "tfrmsyncdirsperformdlg.caption"
+msgid "Synchronize"
+msgstr "Синхронизировать"
+
+#: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
+msgid "Confirm overwrites"
+msgstr "Подтвердить замену"
 
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
@@ -6355,6 +6507,7 @@ msgid "Attr"
 msgstr "Атриб"
 
 #: ulng.rscoldate
+msgctxt "ulng.rscoldate"
 msgid "Date"
 msgstr "Дата"
 
