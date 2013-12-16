@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2013-12-03 18:00+0100\n"
+"PO-Revision-Date: 2013-12-16 08:25+0100\n"
 "Last-Translator: Nyilas MISY <dr.dabzse@gmail.com>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -13,19 +13,19 @@ msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
-msgstr ""
+msgstr "Összehasonlítás.... %d%% (ESC a kilépéshez)"
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr ""
+msgstr "Fájl található : %d (azonos : %d, különböző : %d, csak balról : %d, csak jobbról : %d )"
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Balról jobbra : %d fájl másolása, teljes méret : %d bájt"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 msgid "Right to Left: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Jobbról balra : %d fájl másolása, teljes méret : %d bájt"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -2349,7 +2349,7 @@ msgstr "Másolás"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
-msgstr ""
+msgstr "Minden látható oszlop más&olása"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2499,7 +2499,6 @@ msgid "&Load Selection from File..."
 msgstr "Kiválasztás betöltése &fájlból"
 
 #: tfrmmain.actmakedir.caption
-#, fuzzy
 #| msgid "Create directory"
 msgid "Create &Directory"
 msgstr "Új könyvtár"
@@ -2773,7 +2772,7 @@ msgstr "&Szimbolikus hivatkozás készítése.."
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Synchronize dirs..."
-msgstr ""
+msgstr "Könyvtárak szinkronizálása...."
 
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
@@ -5926,11 +5925,11 @@ msgstr ">>"
 #: tfrmsyncdirsdlg.btnsynchronize.caption
 msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
 msgid "Synchronize"
-msgstr ""
+msgstr "Szinkronizálás"
 
 #: tfrmsyncdirsdlg.caption
 msgid "Synchronize directories"
-msgstr ""
+msgstr "Könyvtárak szinkronizálása"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
@@ -5939,27 +5938,27 @@ msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
-msgstr ""
+msgstr "aszimmetrikus"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
-msgstr ""
+msgstr "tartalom szerint"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
-msgstr ""
+msgstr "dátum mellőzése"
 
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
-msgstr ""
+msgstr "csak a kiválasztott"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
 msgid "Subdirs"
-msgstr ""
+msgstr "Almappák"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"
-msgstr ""
+msgstr "Mutat :"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
@@ -5978,7 +5977,7 @@ msgstr "Dátum"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
@@ -5997,7 +5996,7 @@ msgstr "Név"
 
 #: tfrmsyncdirsdlg.label1.caption
 msgid "(in main window)"
-msgstr ""
+msgstr "(a főablakban)"
 
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
@@ -6011,32 +6010,32 @@ msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
-msgstr ""
+msgstr "másolatok"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgid "="
-msgstr ""
+msgstr "="
 
 #: tfrmsyncdirsdlg.sbnotequal.caption
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
-msgstr ""
+msgstr "egyedülállók"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr ""
+msgstr "Nyomja meg az \"Összehasonlítás\" gombot a kezdéshez"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "tfrmsyncdirsperformdlg.caption"
 msgid "Synchronize"
-msgstr ""
+msgstr "Szinkronizálás"
 
 #: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
 msgid "Confirm overwrites"
-msgstr ""
+msgstr "Felülírások megerősítése"
 
 #: tfrmtweakplugin.btnadd.caption
 #| msgid "Add new"
@@ -6873,7 +6872,7 @@ msgstr "&Hozzáfűz"
 
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
-msgstr ""
+msgstr "Forrásfájlok a&utomatikus átnevezése"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
