@@ -38,7 +38,6 @@ type
     FAutoRenameItSelf: Boolean;
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FCorrectSymLinks: Boolean;
-    FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
     procedure SetSearchTemplate(AValue: TSearchTemplate);
 
@@ -63,7 +62,6 @@ type
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
     property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
-    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
     property ExcludeEmptyTemplateDirectories: Boolean read FExcludeEmptyTemplateDirectories write FExcludeEmptyTemplateDirectories;
