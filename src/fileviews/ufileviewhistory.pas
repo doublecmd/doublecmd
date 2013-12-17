@@ -214,7 +214,10 @@ begin
     if (aPaths.Count = 0) or (aPaths.Strings[FCurrentPath] <> aPath) then
     begin
       aPaths.Add(aPath);
-      Inc(FCurrentPath);
+      if aPaths.Count > 50 then
+        aPaths.Delete(0)
+      else
+        Inc(FCurrentPath);
     end;
   end;
 end;
