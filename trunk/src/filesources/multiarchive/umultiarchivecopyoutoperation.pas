@@ -28,7 +28,6 @@ type
     // Options
     FPassword: UTF8String;
     FExtractWithoutPath: Boolean;
-    FFileExistsOption: TFileSourceOperationOptionFileExists;
 
     {en
       Creates neccessary paths before extracting files from archive.
@@ -86,7 +85,6 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property Password: UTF8String read FPassword write FPassword;
-    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property ExtractWithoutPath: Boolean read FExtractWithoutPath write FExtractWithoutPath;
   end;
 

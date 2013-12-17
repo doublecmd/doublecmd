@@ -29,7 +29,6 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
     FInfoOperation: LongInt;
-    FFileExistsOption: TFileSourceOperationOptionFileExists;
   protected
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
 
@@ -46,8 +45,6 @@ type
     procedure Finalize; override;
 
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
-
-    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
 
   end;
 
