@@ -9,7 +9,7 @@
    
    contributors:
    
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -270,7 +270,7 @@ type
     }
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
                            IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
-    {$IF DEFINED(MSWINDOWS)}
+    {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
     {en
        Retrieves overlay icon index for a file.
 
@@ -317,9 +317,15 @@ uses
   {$IFDEF DARWIN}
     , CocoaAll, MacOSAll, uClassesEx
   {$ENDIF}
+  {$IFDEF RabbitVCS}
+  , uRabbitVCS
+  {$ENDIF}
   ;
 
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(RabbitVCS)}
+const
+  SystemIconIndexStart: PtrInt = 0;
+{$ELSEIF DEFINED(MSWINDOWS)}
 const
   SystemIconIndexStart: PtrInt = High(PtrInt) div 2;
 {$ENDIF}
@@ -1521,7 +1527,7 @@ begin
           Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
       end;
     end
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
   else
     // Windows XP doesn't draw link overlay icon for soft links (don't know about Vista or 7).
     if DirectAccess then
@@ -1744,6 +1750,19 @@ function TPixMapManager.GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean
 begin
   if DirectAccess then
     Result:= SHGetOverlayIconIndex(AFile.Path, AFile.Name) + SystemIconIndexStart
+  else
+    Result:= -1;
+end;
+{$ELSEIF DEFINED(RabbitVCS)}
+function TPixMapManager.GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
+var
+  Emblem: String;
+begin
+  if RabbitVCS and DirectAccess then
+  begin
+    Emblem:= uRabbitVCS.CheckStatus(AFile.FullPath);
+    Result:= CheckAddThemePixmap(Emblem);
+  end
   else
     Result:= -1;
 end;
