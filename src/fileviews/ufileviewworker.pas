@@ -834,7 +834,7 @@ begin
               gShowIcons,
               not gIconOverlays);
 
-        {$IF DEFINED(MSWINDOWS)}
+        {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
         if gIconOverlays and (FWorkingFile.IconOverlayID < 0) then
           FWorkingFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(
               FWorkingFile.FSFile,
