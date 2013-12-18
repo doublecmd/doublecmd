@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-11-29 00:26+0300\n"
+"PO-Revision-Date: 2013-12-17 22:30+0300\n"
 "Last-Translator: masterok <m_shein@ukr.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -13,19 +13,19 @@ msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
-msgstr ""
+msgstr "Порівняння... %d%% (ESC щоб скасувати)"
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr ""
+msgstr "Знайдено файлів: %d  (Однакових: %d, Різних: %d, Унікальних зліва: %d, Унікальних справа: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Справа на ліво: Копіювати %d файлів, загальним розміром: %d байт"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 msgid "Right to Left: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Зліва на право: Копіювати %d файлів, загальним розміром: %d байт"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -2375,7 +2375,7 @@ msgstr "Копіювати"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
-msgstr ""
+msgstr "Копіювати в&сі показані колонки"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2813,7 +2813,7 @@ msgstr "Створити &символічне посилання..."
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Synchronize dirs..."
-msgstr ""
+msgstr "Синхронізація тек..."
 
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
@@ -5611,7 +5611,7 @@ msgstr "Колір шри&фту в переглядачі книг"
 #| msgid "Number of columns in book viewer"
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
-msgstr "К-сть стовпців у переглядачі к&ниг"
+msgstr "К-сть колонок у переглядачі к&ниг"
 
 #: tfrmpackdlg.btncancel.caption
 #| msgid "Cancel"
@@ -6087,11 +6087,11 @@ msgstr ">>"
 #: tfrmsyncdirsdlg.btnsynchronize.caption
 msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронізація"
 
 #: tfrmsyncdirsdlg.caption
 msgid "Synchronize directories"
-msgstr ""
+msgstr "Синхронізувати теки"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
@@ -6100,27 +6100,27 @@ msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
-msgstr ""
+msgstr "асиметрично"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
-msgstr ""
+msgstr "за змістом"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
-msgstr ""
+msgstr "ігнорувати дату"
 
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
-msgstr ""
+msgstr "лише виділене"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
 msgid "Subdirs"
-msgstr ""
+msgstr "Підтеки"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"
-msgstr ""
+msgstr "Показати:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
@@ -6139,7 +6139,7 @@ msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
@@ -6158,7 +6158,7 @@ msgstr "Ім'я"
 
 #: tfrmsyncdirsdlg.label1.caption
 msgid "(in main window)"
-msgstr ""
+msgstr "(в основному вікні)"
 
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
@@ -6172,32 +6172,32 @@ msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
-msgstr ""
+msgstr "дублікати"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgid "="
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.sbnotequal.caption
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
-msgstr ""
+msgstr "унікальні"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr ""
+msgstr "Для запуску натисніть  \"Порівняти\" "
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "tfrmsyncdirsperformdlg.caption"
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронізація"
 
 #: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
 msgid "Confirm overwrites"
-msgstr ""
+msgstr "Підтвердження перезапису"
 
 #: tfrmtweakplugin.btnadd.caption
 #| msgid "Add new"
@@ -7035,7 +7035,7 @@ msgstr "&Додати"
 
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
-msgstr ""
+msgstr "Авто-перейменування вихідних файлів"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
