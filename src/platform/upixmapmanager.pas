@@ -1530,7 +1530,9 @@ begin
     if DirectAccess then
     begin
       if AFile.IconOverlayID >= SystemIconIndexStart then
-        Result:= DrawBitmap(AFile.IconOverlayID, Canvas, X, Y);
+        Result:= DrawBitmap(AFile.IconOverlayID
+                            {$IFDEF RabbitVCS} - SystemIconIndexStart {$ENDIF},
+                            Canvas, X, Y);
     end;
   {$ENDIF}
     ;
