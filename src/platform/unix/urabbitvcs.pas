@@ -57,8 +57,8 @@ const
 {en
    Requests a status check from the underlying status checker.
 }
-function CheckStatus(Path: UTF8String; Recurse: Boolean = False;
-                     Invalidate: Boolean = False; Summary: Boolean = False): string;
+function CheckStatus(Path: UTF8String; Recurse: Boolean32 = False;
+                     Invalidate: Boolean32 = True; Summary: Boolean32 = False): string;
 
 var
   RabbitVCS: Boolean = False;
@@ -113,9 +113,10 @@ begin
     end;
 end;
 
-function CheckStatus(Path: UTF8String; Recurse: Boolean;
-                     Invalidate: Boolean; Summary: Boolean): string;
+function CheckStatus(Path: UTF8String; Recurse: Boolean32;
+                     Invalidate: Boolean32; Summary: Boolean32): string;
 var
+  Return: Boolean;
   StringPtr: PAnsiChar;
   JAnswer : TJSONObject;
   VcsStatus: TVcsStatus;
@@ -140,7 +141,12 @@ begin
     // Append arguments
     StringPtr:= PAnsiChar(Path);
     dbus_message_iter_init_append(message, @argsIter);
-    if (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_STRING, @StringPtr) = 0) then
+    Return:= (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_STRING, @StringPtr) <> 0);
+    Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Recurse) <> 0);
+    Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Invalidate) <> 0);
+    Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Summary) <> 0);
+
+    if not Return then
     begin
       Print('Cannot append arguments');
       Exit;
