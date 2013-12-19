@@ -197,8 +197,9 @@ begin
           JAnswer:= Parse as TJSONObject;
           try
             Result:= JAnswer.Strings['content'];
+            if Result = 'unknown' then Exit(EmptyStr);
           except
-            Result:= EmptyStr;
+            Exit(EmptyStr);
           end;
           JAnswer.Free;
         finally
