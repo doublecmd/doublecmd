@@ -318,14 +318,11 @@ uses
     , CocoaAll, MacOSAll, uClassesEx
   {$ENDIF}
   {$IFDEF RabbitVCS}
-  , uRabbitVCS
+  , Math, uRabbitVCS
   {$ENDIF}
   ;
 
-{$IF DEFINED(RabbitVCS)}
-const
-  SystemIconIndexStart: PtrInt = 0;
-{$ELSEIF DEFINED(MSWINDOWS)}
+{$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
 const
   SystemIconIndexStart: PtrInt = High(PtrInt) div 2;
 {$ENDIF}
@@ -1760,11 +1757,13 @@ var
 begin
   if RabbitVCS and DirectAccess then
   begin
-    Emblem:= uRabbitVCS.CheckStatus(AFile.FullPath);
+    Emblem:= CheckStatus(AFile.FullPath);
+    if Length(Emblem) = 0 then Exit(0);
     Result:= CheckAddThemePixmap(Emblem);
+    Result:= IfThen(Result < 0, 0, Result + SystemIconIndexStart);
   end
   else
-    Result:= -1;
+    Result:= 0;
 end;
 {$ENDIF}
 
