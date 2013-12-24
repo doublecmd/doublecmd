@@ -18,6 +18,8 @@ function GetArchiveFileSource(SourceFileSource: IFileSource;
 
 procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 
+function FileIsArchive(const FileName: UTF8String): Boolean;
+
 implementation
 
 uses
@@ -233,6 +235,15 @@ begin
   finally
 
   end;
+end;
+
+function FileIsArchive(const FileName: UTF8String): Boolean;
+var
+  ArchiveType: UTF8String;
+begin
+  ArchiveType:= ExtractOnlyFileExt(FileName);
+  Result:= TWcxArchiveFileSource.CheckPluginByExt(ArchiveType) or
+           TMultiArchiveFileSource.CheckAddonByExt(ArchiveType);
 end;
 
 end.

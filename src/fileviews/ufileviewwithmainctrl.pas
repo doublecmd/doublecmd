@@ -160,7 +160,8 @@ uses
 {$ENDIF}
   LCLIntf, LCLProc, Forms, Dialogs,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
-  uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil;
+  uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
+  uArchiveFileSourceUtil;
 
 type
   TControlHandlersHack = class(TWinControl)
@@ -281,7 +282,12 @@ begin
             end
             else
               TargetPath := TargetPath + AFile.FSFile.Name + DirectorySeparator;
-          end;
+          end
+          else if FileIsArchive(AFile.FSFile.FullPath) then
+            begin
+              TargetFileSource:= GetArchiveFileSource(FileSource, AFile.FSFile);
+              if Assigned(TargetFileSource) then TargetPath:= TargetFileSource.GetRootDir;
+            end;
         end;
       end;
     end;
@@ -430,7 +436,8 @@ begin
 
   AFile := FFiles[FileIndex];
 
-  if (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
+  if AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory or
+     FileIsArchive(AFile.FSFile.FullPath) then
     begin
       if State = dsDragLeave then
         // Mouse is leaving the control or drop will occur immediately.
@@ -906,7 +913,8 @@ begin
     AFile := FFiles[FileIndex];
 
     // If it is a directory or link mark possibility of drop.
-    if (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
+    if AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory or
+       FileIsArchive(AFile.FSFile.FullPath) then
       SetDropFileIndex(FileIndex)
     else
       SetDropFileIndex(-1);
