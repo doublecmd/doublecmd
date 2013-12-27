@@ -1052,9 +1052,9 @@ begin
   gFonts[dcfViewerBook].Style := [fsBold];
 
   { Colors page }
-  gForeColor := clDefault;
-  gBackColor := clWhite;
-  gBackColor2 := clWhite;
+  gForeColor := clWindowText;
+  gBackColor := clWindow;
+  gBackColor2 := clWindow;
   gMarkColor := clRed;
   gCursorColor := clHighlight;
   gCursorText := clHighlightText;
@@ -1617,9 +1617,9 @@ begin
   gFonts[dcfViewer].Style := TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
 
   { Colors }
-  gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clDefault);
-  gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
-  gBackColor2 := gIni.ReadInteger('Colors', 'BackColor2', clWhite);
+  gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clWindowText);
+  gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWindow);
+  gBackColor2 := gIni.ReadInteger('Colors', 'BackColor2', clWindow);
   gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', clRed);
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightText);
