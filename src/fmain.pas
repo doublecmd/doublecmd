@@ -5197,6 +5197,14 @@ end;
 procedure TfrmMain.OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
 begin
   UpdateDiskCount;
+
+  if (EventType = dweDriveRemoved) and Assigned(ADrive) then
+  begin
+    if IsInPath(ADrive^.Path, ActiveFrame.CurrentPath, True, True) then
+      ActiveFrame.CurrentPath:= gpExePath
+    else if IsInPath(ADrive^.Path, NotActiveFrame.CurrentPath, True, True) then
+      NotActiveFrame.CurrentPath:= gpExePath;
+  end;
 end;
 
 procedure TfrmMain.AppActivate(Sender: TObject);
