@@ -146,15 +146,43 @@ end;
 {$IFDEF MSWINDOWS}
 function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 var
-  ADrive: PDrive = nil;
+  ADrive: TDrive;
+  lpdb: PDEV_BROADCAST_HDR absolute lParam;
+  lpdbv: PDEV_BROADCAST_VOLUME absolute lpdb;
+
+  function GetDrivePath(UnitMask: ULONG): String;
+  var
+    DriveNum: Byte;
+  begin
+    for DriveNum:= 0 to 25 do
+    begin
+      if ((UnitMask shr DriveNum) and $01) <> 0 then
+        Exit(AnsiChar(DriveNum + Ord('a')) + ':\');
+     end;
+  end;
+
 begin
   case uiMsg of
     WM_DEVICECHANGE:
       case wParam of
         DBT_DEVICEARRIVAL:
-          DoDriveAdded(ADrive);
+        begin
+          if (lpdb^.dbch_devicetype <> DBT_DEVTYP_VOLUME) then
+            DoDriveAdded(nil)
+          else begin
+            ADrive.Path:= GetDrivePath(lpdbv^.dbcv_unitmask);
+            DoDriveAdded(@ADrive);
+          end;
+        end;
         DBT_DEVICEREMOVECOMPLETE:
-          DoDriveRemoved(ADrive);
+        begin
+          if (lpdb^.dbch_devicetype <> DBT_DEVTYP_VOLUME) then
+            DoDriveRemoved(nil)
+          else begin
+            ADrive.Path:= GetDrivePath(lpdbv^.dbcv_unitmask);
+            DoDriveRemoved(@ADrive);
+          end;
+        end;
       end;
   end; // case
   Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
