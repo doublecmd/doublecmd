@@ -17,6 +17,7 @@ uses
   function URIDecode(encodedUri: String): String;
   function URIEncode(path: String): String;
   function ExtractFilenames(uriList: String): TStringList;
+  function FileNameToURI(const FileName: String): String;
 
   function FormatUriList(FileNames: TStringList): String;
   function FormatTextPlain(FileNames: TStringList): String;
@@ -260,6 +261,11 @@ begin
     if Length(path) > 0 then
       Result.Add(path);
   end;
+end;
+
+function FileNameToURI(const FileName: String): String;
+begin
+  Result := fileScheme + '//' + URIEncode(FileName);
 end;
 
 function FormatUriList(FileNames: TStringList): String;

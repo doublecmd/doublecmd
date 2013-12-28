@@ -185,7 +185,7 @@ uses
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
     {$IF NOT DEFINED(DARWIN)}
-  , uGio
+  , uGio, uClipboard
     {$ENDIF}
   {$ENDIF}
   ;
@@ -374,7 +374,7 @@ begin
       if (DesktopEnv = DE_KDE) and (FindDefaultExecutablePath('kioclient') <> EmptyStr) then
         sCmdLine:= 'kioclient exec ' + QuoteStr(URL) // Under KDE use "kioclient" to open files
       else if (DesktopEnv = DE_XFCE) and (FindDefaultExecutablePath('exo-open') <> EmptyStr) then
-        sCmdLine:= 'exo-open ' + QuoteStr(URL) // Under Xfce use "exo-open" to open files
+        sCmdLine:= 'exo-open ' + FileNameToURI(URL) // Under Xfce use "exo-open" to open files
       else if HasGio then
         Result:= GioOpen(URL) // Under GNOME, Unity and LXDE use "GIO" to open files
       else
