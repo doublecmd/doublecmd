@@ -356,6 +356,7 @@ var
   gSyncDirsShowFilterCopyLeft,
   gSyncDirsShowFilterDuplicates,
   gSyncDirsShowFilterSingles: Boolean;
+  gSyncDirsFileMask: string;
 
   gUseShellForFileOperations: Boolean;
 
@@ -1212,6 +1213,7 @@ begin
   gSyncDirsShowFilterCopyLeft := True;
   gSyncDirsShowFilterDuplicates := True;
   gSyncDirsShowFilterSingles := True;
+  gSyncDirsFileMask := '*';
 
   { - Other - }
   gGoToRoot := False;
@@ -2278,6 +2280,7 @@ begin
       gSyncDirsShowFilterCopyLeft := GetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
       gSyncDirsShowFilterDuplicates := GetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
       gSyncDirsShowFilterSingles := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
+      gSyncDirsFileMask := GetValue(Node, 'FileMask', gSyncDirsFileMask);
     end;
 
     { - Other - }
@@ -2587,6 +2590,7 @@ begin
     SetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
     SetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
     SetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
+    SetValue(Node, 'FileMask', gSyncDirsFileMask);
 
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);

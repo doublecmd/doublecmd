@@ -30,7 +30,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Masks, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, uFileView, uFileSource,
-  uFileSourceOperation, uFile;
+  uFileSourceCopyOperation, uFile, uFileSourceOperationMessageBoxesUI;
 
 type
 
@@ -70,6 +70,7 @@ type
     procedure btnCompareClick(Sender: TObject);
     procedure btnSynchronizeClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure MainDrawGridDblClick(Sender: TObject);
     procedure MainDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -95,6 +96,7 @@ type
     hCols: array [0..6] of record Left, Width: Integer end;
     CheckContentThread: TObject;
     Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR: Integer;
+    FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
     procedure ClearFoundItems;
     procedure Compare;
     procedure FillFoundItemsDG;
@@ -126,7 +128,8 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
-  DCClassesUtf8, uFileSystemFileSource;
+  DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions,
+  uFileSourceOperation, uDCUtils;
 
 {$R *.lfm}
 
@@ -170,12 +173,8 @@ begin
     raise Exception.Create('ShowSyncDirsDlg: FileView1=nil');
   if not Assigned(FileView2) then
     raise Exception.Create('ShowSyncDirsDlg: FileView2=nil');
-  with TfrmSyncDirsDlg.Create(frmMain, FileView1, FileView2) do
-  try
-    ShowModal;
-  finally
-    Free;
-  end;
+  with TfrmSyncDirsDlg.Create(Application, FileView1, FileView2) do
+    Show;
 end;
 
 { TCheckContentThread }
@@ -349,6 +348,7 @@ end;
 
 procedure TfrmSyncDirsDlg.btnCompareClick(Sender: TObject);
 begin
+  InsertFirstItem(Trim(cbExtFilter.Text), cbExtFilter);
   StatusBar1.Panels[0].Text := Format(rsComparingPercent, [0]);
   if Assigned(CheckContentThread) then
     with TCheckContentThread(CheckContentThread) do
@@ -363,25 +363,20 @@ procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
 var
   ConfirmOverwrites: Boolean;
 
-  function CopyFile(AFileSrc, AFileDst: TFile; fsFrom, fsDest: IFileSource; Target: string): Boolean;
+  function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
   var
-    fs: TFiles;
-    r: TFileSourceOperation;
-    conf: Integer;
+    r: TFileSourceCopyOperation;
   begin
-    Result := True;
-    if ConfirmOverwrites and Assigned(AFileDst) then
-      conf := MessageDlg('File exists: ' + AFileDst.FullPath + sLineBreak
-        + 'Overwrite?', mtConfirmation, mbYesNoCancel, 0);
-      case conf of
-      mrCancel: Exit;
-      mrNo: Exit(False);
-      end;
-    fs := TFiles.Create('');
-    fs.Add(AFileSrc.Clone);
-    r := fsFrom.CreateCopyOutOperation(fsDest, fs, Target);
+    r := src.CreateCopyOutOperation(dst,
+      fs, Dest) as TFileSourceCopyOperation;
+    r.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+    if ConfirmOverwrites then
+      r.FileExistsOption := fsoofeNone
+    else
+      r.FileExistsOption := fsoofeOverwrite;
     try
       r.Execute;
+      Result := r.Result = fsorFinished;
     finally
       r.Free;
     end;
@@ -393,6 +388,8 @@ var
   CopyLeftSize, CopyRightSize: Int64;
   fsr: TFileSyncRec;
   CopyLeft, CopyRight: Boolean;
+  CopyLeftFiles, CopyRightFiles: TFiles;
+  Dest: string;
 begin
   CopyLeftCount := 0; CopyRightCount := 0;
   CopyLeftSize := 0;  CopyRightSize := 0;
@@ -435,25 +432,38 @@ begin
       Format(rsRightToLeftCopy, [CopyLeftCount, CopyLeftSize]);
     if ShowModal = mrOk then
     begin
-      ConfirmOverwrites := chkConfirmOverwrites.Checked;;
+      ConfirmOverwrites := chkConfirmOverwrites.Checked;
       CopyLeft := chkRightToLeft.Checked;
       CopyRight := chkLeftToRight.Checked;
-      for i := 0 to FVisibleItems.Count - 1 do
+
+      i := 0;
+      while i < FVisibleItems.Count do
       begin
-        fsr := TFileSyncRec(FVisibleItems.Objects[i]);
-        if Assigned(fsr) then
+        CopyLeftFiles := TFiles.Create('');
+        CopyRightFiles := TFiles.Create('');
+        if FVisibleItems.Objects[i] <> nil then
+          repeat
+            fsr := TFileSyncRec(FVisibleItems.Objects[i]);
+            Dest := fsr.FRelPath;
+            case fsr.FAction of
+            srsCopyRight:
+              if CopyRight then CopyRightFiles.Add(fsr.FFileL.Clone);
+            srsCopyLeft:
+              if CopyLeft then CopyLeftFiles.Add(fsr.FFileR.Clone);
+            end;
+            i := i + 1;
+          until (i = FVisibleItems.Count) or (FVisibleItems.Objects[i] = nil);
+        i := i + 1;
+        if CopyLeftFiles.Count > 0 then
         begin
-          case fsr.FAction of
-          srsCopyRight:
-            if CopyRight then
-              if not CopyFile(fsr.FFileL, fsr.FFileR, FCmpFileSourceL,
-                FCmpFileSourceR, FCmpFilePathR + fsr.FRelPath) then Break;
-          srsCopyLeft:
-            if CopyLeft then
-              if not CopyFile(fsr.FFileR, fsr.FFileL, FCmpFileSourceR,
-                FCmpFileSourceL, FCmpFilePathL + fsr.FRelPath) then Break;
-          end;
-        end;
+          if not CopyFiles(FCmpFileSourceR, FCmpFileSourceL, CopyLeftFiles,
+            FCmpFilePathL + Dest) then Break;
+        end else CopyLeftFiles.Free;
+        if CopyRightFiles.Count > 0 then
+        begin
+          if not CopyFiles(FCmpFileSourceL, FCmpFileSourceR, CopyRightFiles,
+            FCmpFilePathR + Dest) then Break;
+        end else CopyRightFiles.Free;
       end;
       btnCompare.Click;
     end;
@@ -465,6 +475,7 @@ end;
 procedure TfrmSyncDirsDlg.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
+  CloseAction := caFree;
   { settings }
   gSyncDirsSubdirs              := chkSubDirs.Checked;
   gSyncDirsByContent            := chkByContent.Checked;
@@ -475,6 +486,26 @@ begin
   gSyncDirsShowFilterCopyLeft   := sbCopyLeft.Down;
   gSyncDirsShowFilterDuplicates := sbDuplicates.Down;
   gSyncDirsShowFilterSingles    := sbSingles.Down;
+  gSyncDirsFileMask             := cbExtFilter.Text;
+  glsMaskHistory.Assign(cbExtFilter.Items);
+end;
+
+procedure TfrmSyncDirsDlg.FormCreate(Sender: TObject);
+begin
+  // Initialize property storage
+  InitPropStorage(Self);
+  { settings }
+  chkSubDirs.Checked     := gSyncDirsSubdirs;
+  chkByContent.Checked   := gSyncDirsByContent;
+  chkIgnoreDate.Checked  := gSyncDirsIgnoreDate;
+  sbCopyRight.Down       := gSyncDirsShowFilterCopyRight;
+  sbEqual.Down           := gSyncDirsShowFilterEqual;
+  sbNotEqual.Down        := gSyncDirsShowFilterNotEqual;
+  sbCopyLeft.Down        := gSyncDirsShowFilterCopyLeft;
+  sbDuplicates.Down      := gSyncDirsShowFilterDuplicates;
+  sbSingles.Down         := gSyncDirsShowFilterSingles;
+  cbExtFilter.Items.Assign(glsMaskHistory);
+  cbExtFilter.Text       := gSyncDirsFileMask;
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
@@ -524,7 +555,9 @@ begin
         x := hCols[1].Left + hCols[1].Width - 2 - TextWidth(s);
         TextOut(x, aRect.Top + 2, s);
         s := DateTimeToStr(r.FFileL.ModificationTime);
-        TextOut(hCols[2].Left + 2, aRect.Top + 2, s);
+        with hCols[2] do
+          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+            Left + 2, aRect.Top + 2, s)
       end;
       if Assigned(r.FFileR) then
       begin
@@ -533,7 +566,9 @@ begin
         x := hCols[5].Left + hCols[5].Width - 2 - TextWidth(s);
         TextOut(x, aRect.Top + 2, s);
         s := DateTimeToStr(r.FFileR.ModificationTime);
-        TextOut(hCols[4].Left + 2, aRect.Top + 2, s);
+        with hCols[4] do
+          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+            Left + 2, aRect.Top + 2, s)
       end;
       ImageList1.Draw(MainDrawGrid.Canvas,
         hCols[3].Left + (hCols[3].Width - ImageList1.Width) div 2 - 2,
@@ -584,10 +619,13 @@ end;
 procedure TfrmSyncDirsDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if not FCancel and (Key = VK_ESCAPE) then
+  if Key = VK_ESCAPE then
   begin
-    FCancel := True;
     Key := 0;
+    if not FCancel then
+      FCancel := True
+    else
+      Close;
   end;
 end;
 
@@ -694,9 +732,8 @@ procedure TfrmSyncDirsDlg.FillFoundItemsDG;
 
 begin
   InitVisibleItems;
-  if MainDrawGrid.RowCount <> FVisibleItems.Count then
-    MainDrawGrid.RowCount := FVisibleItems.Count;
   MainDrawGrid.ColCount := 1;
+  MainDrawGrid.RowCount := FVisibleItems.Count;
   MainDrawGrid.Invalidate;
   CalcStat;
   UpdateStatusBar;
@@ -1064,20 +1101,12 @@ begin
   SortIndex := 0;
   FSortDesc := False;
   MainDrawGrid.RowCount := 0;
-  { settings }
-  chkSubDirs.Checked := gSyncDirsSubdirs;
-  chkByContent.Checked := gSyncDirsByContent;
-  chkIgnoreDate.Checked := gSyncDirsIgnoreDate;
-  sbCopyRight.Down := gSyncDirsShowFilterCopyRight;
-  sbEqual.Down := gSyncDirsShowFilterEqual;
-  sbNotEqual.Down := gSyncDirsShowFilterNotEqual;
-  sbCopyLeft.Down := gSyncDirsShowFilterCopyLeft;
-  sbDuplicates.Down := gSyncDirsShowFilterDuplicates;
-  sbSingles.Down := gSyncDirsShowFilterSingles;
+  FFileSourceOperationMessageBoxesUI := TFileSourceOperationMessageBoxesUI.Create;
 end;
 
 destructor TfrmSyncDirsDlg.Destroy;
 begin
+  FFileSourceOperationMessageBoxesUI.Free;
   FVisibleItems.Free;
   ClearFoundItems;
   FFoundItems.Free;
