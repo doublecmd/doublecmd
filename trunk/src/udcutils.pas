@@ -806,7 +806,10 @@ begin
     while (I < Count) and (CompareStr(Strings[I], sLine) <> 0) do Inc(I);
 
     if (I < 0) or (I >= Count) then
-      comboBox.Items.Insert(0, sLine)
+      begin
+        comboBox.Items.Insert(0, sLine);
+        comboBox.ItemIndex := 0;
+      end
     else if (I > 0) then
       begin
         comboBox.Items.Move(I, 0);
