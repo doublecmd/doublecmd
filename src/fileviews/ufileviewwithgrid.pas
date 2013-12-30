@@ -29,6 +29,7 @@ type
     procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure TopLeftChanged; override;
+    function  GetBorderWidth: Integer;
   protected
     procedure DrawLines(aIdx, aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState);
     procedure PrepareColors(aFile: TDisplayFile; aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState);
@@ -39,6 +40,7 @@ type
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); virtual; abstract;
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce; virtual;
+    property BorderWidth: Integer read GetBorderWidth;
   end;
 
   { TFileViewGridClass }
@@ -261,6 +263,14 @@ begin
   FFileView.Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
+function TFileViewGrid.GetBorderWidth: Integer;
+begin
+  if Flat and (BorderStyle = bsSingle) then
+    Result := 1
+  else
+    Result := 0;
+end;
+
 procedure TFileViewGrid.DrawLines(aIdx, aCol, aRow: Integer; aRect: TRect;
   aState: TGridDrawState);
 begin
@@ -466,6 +476,9 @@ begin
   FUpdatingActiveFile := True;
   dgPanel.MoveExtend(False, 0, 0);
   FUpdatingActiveFile := False;
+
+  dgPanel.CalculateColRowCount;
+  dgPanel.CalculateColumnWidth;
 end;
 
 procedure TFileViewWithGrid.ClearAfterDragDrop;
