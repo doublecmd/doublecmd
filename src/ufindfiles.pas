@@ -4,7 +4,7 @@
    Structures and functions for searching files.   
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2010 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2013 Koblov Alexander (Alexx2000@mail.ru)
    Copyright (C) 2010 Przemys³aw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -184,7 +184,7 @@ begin
       else if SearchTemplate.IsTimeFrom then
         DateTimeFrom := Frac(SearchTemplate.DateTimeFrom)
       else
-        DateTimeFrom := 0;
+        DateTimeFrom := MinDateTime;
 
       if SearchTemplate.IsDateTo then
       begin
@@ -194,9 +194,9 @@ begin
           DateTimeTo := Trunc(SearchTemplate.DateTimeTo) + Frac(MaxDateTime);
       end
       else if SearchTemplate.IsTimeTo then
-        DateTimeFrom := Frac(SearchTemplate.DateTimeTo)
+        DateTimeTo := Frac(SearchTemplate.DateTimeTo)
       else
-        DateTimeFrom := 0;
+        DateTimeTo := MaxDateTime;
     end;
   end;
 end;
