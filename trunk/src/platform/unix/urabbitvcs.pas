@@ -5,7 +5,7 @@ unit uRabbitVCS;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, Menus, Graphics, uPixMapManager;
 
 const
   RabbitVCSAddress   = 'org.google.code.rabbitvcs.RabbitVCS.Checker';
@@ -59,6 +59,8 @@ const
 }
 function CheckStatus(Path: UTF8String; Recurse: Boolean32 = False;
                      Invalidate: Boolean32 = True; Summary: Boolean32 = False): string;
+
+function GenerateMenuConditions(Paths: TStringList): string;
 
 var
   RabbitVCS: Boolean = False;
@@ -214,6 +216,99 @@ begin
             Break;
           end;
         end;
+      end;
+    end;
+  finally
+    dbus_message_unref(message);
+  end;
+end;
+
+function GenerateMenuConditions(Paths: TStringList): string;
+var
+  I: Integer;
+  Return: Boolean;
+  StringPtr: PAnsiChar;
+  optsPChar: PAnsiChar;
+  message: PDBusMessage;
+  pending: PDBusPendingCall;
+  argsIter, arrayIter: DBusMessageIter;
+begin
+  if not RabbitVCS then Exit;
+
+  // Create a new method call and check for errors
+  message := dbus_message_new_method_call(RabbitVCSAddress,          // target for the method call
+                                          RabbitVCSObject,           // object to call on
+                                          RabbitVCSInterface,        // interface to call on
+                                          'GenerateMenuConditions'); // method name
+  if (message = nil) then
+  begin
+    Print('Cannot create message "GenerateMenuConditions"');
+    Exit;
+  end;
+
+  try
+    dbus_message_iter_init_append(message, @argsIter);
+    Return := dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, PChar(DBUS_TYPE_STRING_AS_STRING), @arrayIter) <> 0;
+    if Return then
+    begin
+      for I := 0 to Paths.Count - 1 do
+      begin
+        optsPChar := PAnsiChar(Paths[I]);
+        if dbus_message_iter_append_basic(@arrayIter, DBUS_TYPE_STRING, @optsPChar) = 0 then
+        begin
+          Print('Cannot append arguments');
+          Exit;
+        end;
+      end;
+
+      if dbus_message_iter_close_container(@argsIter, @arrayIter) = 0 then
+      begin
+        Print('Cannot append arguments');
+        Exit;
+      end;
+    end;
+
+    // Send message and get a handle for a reply
+    if (dbus_connection_send_with_reply(conn, message, @pending, -1) = 0) then // -1 is default timeout
+    begin
+      Print('Error sending message');
+      Exit;
+    end;
+
+    if (pending = nil) then
+    begin
+      Print('Pending call is null');
+      Exit;
+    end;
+
+    dbus_connection_flush(conn);
+
+  finally
+    dbus_message_unref(message);
+  end;
+
+  // Block until we recieve a reply
+  dbus_pending_call_block(pending);
+  // Get the reply message
+  message := dbus_pending_call_steal_reply(pending);
+  // Free the pending message handle
+  dbus_pending_call_unref(pending);
+
+  if (message = nil) then
+  begin
+    Print('Reply is null');
+    Exit;
+  end;
+
+  try
+    // Read the parameters
+    if (dbus_message_iter_init(message, @argsIter) <> 0) then
+    begin
+      if (dbus_message_iter_get_arg_type(@argsIter) = DBUS_TYPE_STRING) then
+      begin
+        dbus_message_iter_get_basic(@argsIter, @StringPtr);
+
+        Result:= StrPas(StringPtr);
       end;
     end;
   finally
