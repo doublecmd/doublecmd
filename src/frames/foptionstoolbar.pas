@@ -503,6 +503,7 @@ begin
       NormalItem := TKASNormalItem(ToolItem);
       NormalItem.Icon := edtIconFileName.Text;
       NormalItem.Hint := edtToolTip.Text;
+      NormalItem.Text := EmptyStr;
     end;
     if ToolItem is TKASCommandItem then
     begin

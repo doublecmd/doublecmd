@@ -1136,7 +1136,7 @@ begin
                 ToolItem.StartPath := aFile.Path;
                 ToolItem.Icon := aFile.FullPath;
                 ToolItem.Hint := ExtractOnlyFileName(aFile.Name);
-                ToolItem.Text := ExtractOnlyFileName(aFile.Name);
+                // ToolItem.Text := ExtractOnlyFileName(aFile.Name);
                 MainToolBar.InsertButton(Sender as TKASToolButton, ToolItem);
 
                 NumberOfMoveButton := (Sender as TSpeedButton).Tag;
@@ -1716,7 +1716,7 @@ begin
           ToolItem.Command := aFile.FullPath;
           ToolItem.StartPath := aFile.Path;
           ToolItem.Hint := ExtractOnlyFileName(aFile.Name);
-          ToolItem.Text := ExtractOnlyFileName(aFile.Name);
+          // ToolItem.Text := ExtractOnlyFileName(aFile.Name);
           ToolItem.Icon := aFile.FullPath;
           MainToolBar.AddButton(ToolItem);
         end;
