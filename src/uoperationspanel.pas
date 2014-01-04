@@ -384,6 +384,15 @@ var
     InflateRect(ARect, -1, -1);
     ARect.Right := ARect.Left + Round((ARect.Right - ARect.Left) * Progress);
     Canvas.GradientFill(ARect, ColorFrom, ColorTo, gdVertical);
+    // Special indication if operation is paused/stopped
+    if State in [fsosPaused, fsosStopped] then
+    begin
+      Canvas.Brush.Color:= ColorFrom;
+      Canvas.Brush.Style:= bsDiagCross;
+      ARect.Left:= ARect.Right + 1;
+      ARect.Right:= ItemRect.Right - 1;
+      Canvas.FillRect(ARect);
+    end;
   end;
 begin
   inherited Paint;
@@ -413,7 +422,7 @@ begin
 
         // Draw border
         Canvas.Pen.Color := LightColor(cl3DDkShadow, 25);
-        Canvas.Brush.Style := bsSolid;
+        Canvas.Pen.Style := psSolid;
         Canvas.Rectangle(ItemRect);
 
         AProgress := OpManItem.Operation.Progress;
@@ -449,7 +458,7 @@ begin
           Canvas.Pen.Color := LightColor(cl3DDkShadow, 40);
 
         // Draw border
-        Canvas.Brush.Style := bsSolid;
+        Canvas.Pen.Style := psSolid;
         Canvas.Rectangle(ItemRect);
 
         AProgress := OpManItem.Operation.Progress;
