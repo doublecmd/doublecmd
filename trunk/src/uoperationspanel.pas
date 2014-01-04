@@ -385,7 +385,7 @@ var
     ARect.Right := ARect.Left + Round((ARect.Right - ARect.Left) * Progress);
     Canvas.GradientFill(ARect, ColorFrom, ColorTo, gdVertical);
     // Special indication if operation is paused/stopped
-    if State in [fsosPaused, fsosStopped] then
+    if State in [fsosPaused, fsosStopped, fsosWaitingForFeedback] then
     begin
       Canvas.Brush.Color:= ColorFrom;
       Canvas.Brush.Style:= bsDiagCross;
