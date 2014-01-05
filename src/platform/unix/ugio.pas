@@ -4,7 +4,7 @@
    Interface to GIO - GLib Input, Output and Streaming Library
    This unit loads all libraries dynamically so it can work without it
 
-   Copyright (C) 2011 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ unit uGio;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, DCBasicTypes;
 
 type
   gpointer           = pointer;
@@ -50,6 +50,7 @@ type
   end;
 
 function GioOpen(const Uri: UTF8String): Boolean;
+function GioMimeTypeGetActions(const MimeType: UTF8String): TDynamicStringArray;
 
 var
   HasGio: Boolean = False;
@@ -57,23 +58,26 @@ var
 implementation
 
 uses
-  DynLibs;
+  DynLibs, DCStrUtils;
 
 const
   gobjectlib = 'libgobject-2.0.so.0';
   giolib     = 'libgio-2.0.so.0';
 
 var
-  hgobjectlib: TLibHandle = 0;
-  hgiolib: TLibHandle = 0;
+  hgobjectlib: TLibHandle = NilHandle;
+  hgiolib: TLibHandle = NilHandle;
 
 var
+  g_list_free: procedure(list: PGList); cdecl;
   g_object_unref: procedure(anObject: gpointer); cdecl;
   g_file_is_native: function(AFile: PGFile): gboolean; cdecl;
   g_file_new_for_commandline_arg: function(arg: Pgchar): PGFile; cdecl;
   g_file_query_default_handler: function(AFile: PGFile; cancellable: PGCancellable; error: PPGError): PGAppInfo; cdecl;
   g_app_info_launch: function(AAppInfo: PGAppInfo; files: PGList; launch_context: PGAppLaunchContext; error: PPGError): gboolean; cdecl;
   g_app_info_launch_uris: function(AAppInfo: PGAppInfo; uris: PGList; launch_context: PGAppLaunchContext; error: PPGError): gboolean; cdecl;
+  g_app_info_get_all_for_type: function(const content_type: PAnsiChar): PGList; cdecl;
+  g_app_info_get_id: function(appinfo: PGAppInfo): PAnsiChar; cdecl;
 
 function GioOpen(const Uri: UTF8String): Boolean;
 var
@@ -105,15 +109,37 @@ begin
   end;
 end;
 
-initialization
+function GioMimeTypeGetActions(const MimeType: UTF8String): TDynamicStringArray;
+var
+  AppList,
+  TempList: PGList;
+  DesktopFile: PAnsiChar;
+begin
+  AppList:= g_app_info_get_all_for_type(PAnsiChar(MimeType));
+  if Assigned(AppList) then
+  begin
+    TempList:= AppList;
+    repeat
+      DesktopFile:= g_app_info_get_id(TempList^.data);
+      if Assigned(DesktopFile) then AddString(Result, DesktopFile);
+      g_object_unref(TempList^.data);
+      TempList:= TempList^.next;
+    until TempList = nil;
+    g_list_free(AppList);
+  end;
+end;
+
+procedure Initialize;
+begin
   // Load GObject library
   hgobjectlib:= LoadLibrary(gobjectlib);
-  if hgobjectlib <> 0 then
-  begin
+  if hgobjectlib <> NilHandle then
+  try
+    @g_list_free:= GetProcedureAddress(hgobjectlib, 'g_list_free');
     @g_object_unref:= GetProcedureAddress(hgobjectlib, 'g_object_unref');
     // Load GIO library
     hgiolib:= LoadLibrary(giolib);
-    HasGio:= (hgiolib <> 0);
+    HasGio:= (hgiolib <> NilHandle);
     if HasGio then
     begin
       @g_file_is_native:= GetProcedureAddress(hgiolib, 'g_file_is_native');
@@ -121,12 +147,24 @@ initialization
       @g_file_query_default_handler:= GetProcedureAddress(hgiolib, 'g_file_query_default_handler');
       @g_app_info_launch:= GetProcedureAddress(hgiolib, 'g_app_info_launch');
       @g_app_info_launch_uris:= GetProcedureAddress(hgiolib, 'g_app_info_launch_uris');
+      @g_app_info_get_all_for_type:= GetProcedureAddress(hgiolib, 'g_app_info_get_all_for_type');
+      @g_app_info_get_id:= GetProcedureAddress(hgiolib, 'g_app_info_get_id');
     end;
+  except
+    HasGio:= False;
   end;
+end;
+
+procedure Finalize;
+begin
+  if hgiolib <> NilHandle then FreeLibrary(hgiolib);
+  if hgobjectlib <> NilHandle then FreeLibrary(hgobjectlib);
+end;
+
+initialization
+  Initialize;
 
 finalization
-  if hgiolib <> 0 then FreeLibrary(hgiolib);
-  if hgobjectlib <> 0 then FreeLibrary(hgobjectlib);
+  Finalize;
 
 end.
-

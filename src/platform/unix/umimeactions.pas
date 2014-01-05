@@ -8,7 +8,7 @@
     (http://www.freedesktop.org/wiki/Specifications/mime-actions-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
-    Copyright (C) 2011-2013  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2011-2014  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,10 +85,10 @@ function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
 implementation
 
 uses
-  DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard, DCOSUtils,
-  uOSUtils, uKeyFile;
+  DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard,
+  DCOSUtils, uOSUtils, uKeyFile, uGio;
 
-const  
+const
   libmime = 'libmime';
 
 procedure mime_type_init; cdecl; external libmime;
@@ -268,12 +268,13 @@ end;
 
 function GetDesktopEntries(FileNames: TStringList): TList;
 var
+  I: Integer;
   mimeType: PChar;
   actions: PPChar;
   desktopFile: PChar;
-  i: Integer;
   Entry: PDesktopFileEntry;
   Added, Removed: TStringList;
+  ActionArray: TDynamicStringArray;
 
   procedure AddAction(action: PChar);
   begin
@@ -304,35 +305,46 @@ begin
   // This string should not be freed.
   mimeType := mime_type_get_by_file(PChar(FileNames[0]), nil, nil);
 
-  // Retrieve *.desktop identificators
-  actions := mime_type_get_actions(mimeType);
-
   // Read actions from mimeapps.list
   ReadMimeAppsList(mimeType, Added, Removed);
 
   // Add actions from mimeapps.list
-  for i := 0 to Added.Count - 1 do
-    AddAction(PChar(Added[i]));
+  for I := 0 to Added.Count - 1 do
+    AddAction(PChar(Added[I]));
 
-  // If find any actions for this mime
-  if actions <> nil then
+  if HasGio then
   begin
-    i := 0;
-    while (actions[i] <> nil) and (actions[i] <> '') do
+    ActionArray:= GioMimeTypeGetActions(mimeType);
+    for I:= Low(ActionArray) to High(ActionArray) do
     begin
       // Don't add actions where already in mimeapps.list
-      if (Added.IndexOf(actions[i]) < 0) and (Removed.IndexOf(actions[i]) < 0) then
-        AddAction(actions[i]);
+      if (Added.IndexOf(ActionArray[I]) < 0) and (Removed.IndexOf(ActionArray[I]) < 0) then
+        AddAction(PAnsiChar(ActionArray[I]));
+    end;
+  end
+  else begin
+    // Retrieve *.desktop identificators
+    actions := mime_type_get_actions(mimeType);
 
-      i := i + 1;
+    // If find any actions for this mime
+    if actions <> nil then
+    begin
+      I := 0;
+      while (actions[I] <> nil) and (actions[I] <> '') do
+      begin
+        // Don't add actions where already in mimeapps.list
+        if (Added.IndexOf(actions[I]) < 0) and (Removed.IndexOf(actions[I]) < 0) then
+          AddAction(actions[I]);
+
+        I := I + 1;
+      end;
+      g_strfreev(actions);
     end;
   end;
 
   // Free resources
   FreeAndNil(Added);
   FreeAndNil(Removed);
-  if (actions <> nil) then
-    g_strfreev(actions);
 end;
 
 function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
