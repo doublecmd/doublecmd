@@ -54,7 +54,7 @@ type
 implementation
 
 uses
-  DynLibs, IntfGraphics, GraphType, CTypes;
+  DynLibs, IntfGraphics, GraphType, CTypes, DCOSUtils;
 
 type
   cairo_format_t = (
@@ -183,12 +183,6 @@ const
 
 var
   libcairo, librsvg, libgobject: TLibHandle;
-
-function SafeGetProcAddress(Lib : TlibHandle; const ProcName : AnsiString) : Pointer;
-begin
-  Result:= GetProcedureAddress(Lib, ProcName);
-  if (Result = nil) then raise Exception.Create(EmptyStr);
-end;
 
 procedure Initialize;
 begin
