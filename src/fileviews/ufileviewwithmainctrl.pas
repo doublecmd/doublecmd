@@ -83,6 +83,7 @@ type
     FDropFileIndex: PtrInt;
     FStartDrag: Boolean;
     tmContextMenu: TTimer;
+    procedure AfterChangePath; override;
     // Simulates releasing mouse button that started a dragging operation,
     // but was released in another window or another application.
     procedure ClearAfterDragDrop; virtual;
@@ -1153,6 +1154,16 @@ begin
       Key := 0;
 {$ENDIF}
   end;
+end;
+
+procedure TFileViewWithMainCtrl.AfterChangePath;
+begin
+  if edtRename.Visible then
+  begin
+    edtRename.Hide;
+    SetFocus;
+  end;
+  inherited AfterChangePath;
 end;
 
 {$IFDEF LCLGTK2}
