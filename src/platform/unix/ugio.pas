@@ -58,7 +58,7 @@ var
 implementation
 
 uses
-  DynLibs, DCStrUtils;
+  DynLibs, DCOSUtils, DCStrUtils;
 
 const
   gobjectlib = 'libgobject-2.0.so.0';
@@ -135,20 +135,20 @@ begin
   hgobjectlib:= LoadLibrary(gobjectlib);
   if hgobjectlib <> NilHandle then
   try
-    @g_list_free:= GetProcedureAddress(hgobjectlib, 'g_list_free');
-    @g_object_unref:= GetProcedureAddress(hgobjectlib, 'g_object_unref');
+    @g_list_free:= SafeGetProcAddress(hgobjectlib, 'g_list_free');
+    @g_object_unref:= SafeGetProcAddress(hgobjectlib, 'g_object_unref');
     // Load GIO library
     hgiolib:= LoadLibrary(giolib);
     HasGio:= (hgiolib <> NilHandle);
     if HasGio then
     begin
-      @g_file_is_native:= GetProcedureAddress(hgiolib, 'g_file_is_native');
-      @g_file_new_for_commandline_arg:= GetProcedureAddress(hgiolib, 'g_file_new_for_commandline_arg');
-      @g_file_query_default_handler:= GetProcedureAddress(hgiolib, 'g_file_query_default_handler');
-      @g_app_info_launch:= GetProcedureAddress(hgiolib, 'g_app_info_launch');
-      @g_app_info_launch_uris:= GetProcedureAddress(hgiolib, 'g_app_info_launch_uris');
-      @g_app_info_get_all_for_type:= GetProcedureAddress(hgiolib, 'g_app_info_get_all_for_type');
-      @g_app_info_get_id:= GetProcedureAddress(hgiolib, 'g_app_info_get_id');
+      @g_file_is_native:= SafeGetProcAddress(hgiolib, 'g_file_is_native');
+      @g_file_new_for_commandline_arg:= SafeGetProcAddress(hgiolib, 'g_file_new_for_commandline_arg');
+      @g_file_query_default_handler:= SafeGetProcAddress(hgiolib, 'g_file_query_default_handler');
+      @g_app_info_launch:= SafeGetProcAddress(hgiolib, 'g_app_info_launch');
+      @g_app_info_launch_uris:= SafeGetProcAddress(hgiolib, 'g_app_info_launch_uris');
+      @g_app_info_get_all_for_type:= SafeGetProcAddress(hgiolib, 'g_app_info_get_all_for_type');
+      @g_app_info_get_id:= SafeGetProcAddress(hgiolib, 'g_app_info_get_id');
     end;
   except
     HasGio:= False;
