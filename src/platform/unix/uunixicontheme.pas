@@ -213,7 +213,7 @@ procedure InitIconThemesBaseDirList;
 begin
   SetLength(UnixIconThemesBaseDirList, 6);
   UnixIconThemesBaseDirList[0] := GetHomeDir + '/.icons';
-  UnixIconThemesBaseDirList[1] := GetHomeDir + '/.local/share/icons'
+  UnixIconThemesBaseDirList[1] := GetHomeDir + '/.local/share/icons';
   UnixIconThemesBaseDirList[2] := '/usr/local/share/icons';
   UnixIconThemesBaseDirList[3] := '/usr/local/share/pixmaps';
   UnixIconThemesBaseDirList[4] := '/usr/share/icons';
