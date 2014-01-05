@@ -1,9 +1,9 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Simple key file parser
+   Simple key file implementation based on GKeyFile
 
-   Copyright (C) 2012 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ unit uKeyFile;
 interface
 
 uses
-  Classes, SysUtils, GetText, DCBasicTypes, DCClassesUtf8;
+  Classes, SysUtils, IniFiles;
 
 const
 
@@ -44,14 +44,22 @@ const
   DESKTOP_KEY_TERMINAL = 'Terminal';
 
 type
+  TGKeyFile = record end;
+  PGKeyFile = ^TGKeyFile;
+
+type
 
   { TKeyFile }
 
-  TKeyFile = class(TIniFileEx)
+  TKeyFile = class(TCustomIniFile)
+  private
+    FGKeyFile: PGKeyFile;
   public
-    constructor Create(const AFileName: String; Mode: Word); override;
+    constructor Create(const AFileName: String; AEscapeLineFeeds : Boolean = False); override;
+    destructor Destroy; override;
+  public
+    function SectionExists(const Section: String): Boolean; override;
     function ReadBool(const Section, Ident: String; Default: Boolean): Boolean; override;
-    procedure WriteBool(const Section, Ident: String; Value: Boolean); override;
     function ReadString(const Section, Ident, Default: String): String; override;
     function ReadLocaleString(const Section, Ident, Default: String): String; virtual;
   end;
@@ -59,126 +67,86 @@ type
 implementation
 
 uses
-  DCStrUtils;
+  RtlConsts, GLib2;
 
-var
-  LocaleKeyList: TDynamicStringArray;
+type
+  TGKeyFileFlags = (
+    G_KEY_FILE_NONE              = 0,
+    G_KEY_FILE_KEEP_COMMENTS     = 1 shl 0,
+    G_KEY_FILE_KEEP_TRANSLATIONS = 1 shl 1
+  );
 
-procedure InitializeLocaleKeyList;
-var
-  FLang,
-  FFallbackLang: String;
-  EncodingIndex,
-  ModifierIndex: Integer;
-begin
-  GetLanguageIDs(FLang, FFallbackLang);
-  EncodingIndex:= Pos('.', FLang);
-  ModifierIndex:= Pos('@', FLang);
-  // Strip encoding part
-  if EncodingIndex > 0 then
-  begin
-    if ModifierIndex = 0 then
-      FLang:= Copy(FLang, 1, EncodingIndex - 1)
-    else
-      Delete(FLang, EncodingIndex, ModifierIndex - EncodingIndex);
-  end;
-  // Fill possible keys in order of matching
-  AddString(LocaleKeyList, FLang);
-  if FLang <> FFallbackLang then
-  begin
-    if (ModifierIndex > 0) and (Pos('_', FLang) > 0) then
-    begin
-      AddString(LocaleKeyList, Copy(FLang, 1, ModifierIndex - 1));
-      AddString(LocaleKeyList, FFallbackLang + Copy(FLang, ModifierIndex, MaxInt));
-    end;
-    AddString(LocaleKeyList, FFallbackLang);
-  end;
-end;
-
-function EscapeSequences(const S: UTF8String): UTF8String;
-var
-  C: AnsiChar;
-  R, P: PAnsiChar;
-begin
-  P:= PAnsiChar(S); C:= P^;
-  SetLength(Result, Length(S));
-  R:= PAnsiChar(Result);
-  repeat
-    Inc(P);
-    if C = '\' then
-      begin
-        case P^ of
-          #00: Exit;
-          't': C:= #09;
-          'n': C:= #10;
-          'r': C:= #13;
-          's': C:= #32;
-          '\':
-            begin
-              R^:= C;
-              Inc(P);
-              C:= P^;
-            end;
-        end;
-      end
-    else
-      begin
-        R^:= C;
-        C:= P^;
-        Inc(R);
-      end;
-  until P^ = #00;
-end;
+function  g_key_file_new(): PGKeyFile; cdecl; external;
+procedure g_key_file_free(key_file: PGKeyFile); cdecl; external;
+function  g_key_file_load_from_file(key_file: PGKeyFile; const file_name: Pgchar;
+                                    flags: TGKeyFileFlags; error: PPGError): gboolean; cdecl; external;
+function  g_key_file_has_group(key_file: PGKeyFile; const group_name: Pgchar): gboolean; cdecl; external;
+function  g_key_file_get_string(key_file: PGKeyFile; const group_name: Pgchar;
+                                const key: Pgchar; error: PPGError): Pgchar; cdecl; external;
+function  g_key_file_get_locale_string(key_file: PGKeyFile; const group_name: Pgchar;
+                                       const key: Pgchar; const locale: Pgchar; error: PPGError): Pgchar; cdecl; external;
+function  g_key_file_get_boolean(key_file: PGKeyFile; const group_name: Pgchar;
+                                 const key: Pgchar; error: PPGError): gboolean; cdecl; external;
 
 { TKeyFile }
 
-constructor TKeyFile.Create(const AFileName: String; Mode: Word);
+constructor TKeyFile.Create(const AFileName: String; AEscapeLineFeeds: Boolean);
 begin
-  inherited Create(AFileName, Mode);
+  FGKeyFile:= g_key_file_new();
+  if not g_key_file_load_from_file(FGKeyFile, Pgchar(AFileName), G_KEY_FILE_NONE, nil) then
+    raise EFOpenError.CreateFmt(SFOpenError, [AFileName]);
+  inherited Create(AFileName, AEscapeLineFeeds);
   CaseSensitive:= True;
 end;
 
-function TKeyFile.ReadBool(const Section, Ident: String;
-  Default: Boolean): Boolean;
-var
-  S: String;
+destructor TKeyFile.Destroy;
 begin
-  Result := Default;
-  S := inherited ReadString(Section, Ident, EmptyStr);
-  if Length(S) > 0 then Result := (S[1] in ['1', 't']);
+  inherited Destroy;
+  g_key_file_free(FGKeyFile);
 end;
 
-procedure TKeyFile.WriteBool(const Section, Ident: String;
-  Value: Boolean);
-var
-  S: String;
+function TKeyFile.SectionExists(const Section: String): Boolean;
 begin
-  if Value then S := 'true' else S := 'false';
-  inherited WriteString(Section, Ident, S);
+  Result:= g_key_file_has_group(FGKeyFile, Pgchar(Section));
+end;
+
+function TKeyFile.ReadBool(const Section, Ident: String; Default: Boolean): Boolean;
+var
+  AError: PGError = nil;
+begin
+  Result:= g_key_file_get_boolean(FGKeyFile, Pgchar(Section), Pgchar(Ident), @AError);
+  if (AError <> nil) then
+  begin
+    Result:= Default;
+    g_error_free(AError);
+  end;
 end;
 
 function TKeyFile.ReadString(const Section, Ident, Default: String): String;
+var
+  AValue: Pgchar;
 begin
-  Result:= inherited ReadString(Section, Ident, Default);
-  if Length(Result) > 0 then Result := EscapeSequences(Result);
+  AValue:= g_key_file_get_string(FGKeyFile, Pgchar(Section), Pgchar(Ident), nil);
+  if (AValue = nil) then
+    Result:= Default
+  else begin
+    Result:= StrPas(AValue);
+    g_free(AValue);
+  end;
 end;
 
 function TKeyFile.ReadLocaleString(const Section, Ident, Default: String): String;
-const
-  LocaleString: String = '%s[%s]';
 var
-  I: Integer;
+  AValue: Pgchar;
 begin
-  for I:= Low(LocaleKeyList) to High(LocaleKeyList) do
-  begin
-    Result:=  ReadString(Section, Format(LocaleString, [Ident, LocaleKeyList[I]]), EmptyStr);
-    if Length(Result) > 0 then Exit;
+  AValue:= g_key_file_get_locale_string(FGKeyFile, Pgchar(Section), Pgchar(Ident), nil, nil);
+  if (AValue = nil) then
+    Result:= Default
+  else begin
+    Result:= StrPas(AValue);
+    g_free(AValue);
   end;
-  Result:= ReadString(Section, Ident, Default);
 end;
-
-initialization
-  InitializeLocaleKeyList;
 
 end.
 
