@@ -25,8 +25,6 @@ unit DCBasicTypes;
 interface
 
 type
-  TLibHandle = PtrInt;
-
   TDynamicStringArray = array of String;
   TCharSet = set of Char;
 

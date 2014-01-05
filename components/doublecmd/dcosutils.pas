@@ -27,7 +27,7 @@ unit DCOSUtils;
 interface
 
 uses
-  SysUtils, Classes, DCClassesUtf8, DCBasicTypes;
+  SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes;
     
 type
   TFileMapRec = record
@@ -174,6 +174,7 @@ function mbSameFile(const FileName1, FileName2: String): Boolean;
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 function mbLoadLibrary(const Name: UTF8String): TLibHandle;
+function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
 
 implementation
 
@@ -1281,5 +1282,11 @@ begin
   Result:= TLibHandle(dlopen(PChar(UTF8ToSys(Name)), RTLD_LAZY));
 end;
 {$ENDIF}
+
+function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
+begin
+  Result:= GetProcedureAddress(Lib, ProcName);
+  if (Result = nil) then raise Exception.Create(ProcName);
+end;
 
 end.
