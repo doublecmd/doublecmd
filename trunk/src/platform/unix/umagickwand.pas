@@ -30,7 +30,7 @@ implementation
 
 uses
   LCLIntf, Classes, SysUtils, GraphType, DynLibs, FileUtil, Types, Graphics,
-  CTypes, uThumbnails, uDebug, uClassesEx;
+  CTypes, DCOSUtils, uThumbnails, uDebug, uClassesEx;
 
 const
   MagickFalse = 0;
@@ -178,12 +178,6 @@ begin
       // DCDebug('GetThumbnail finish: ' + IntToStr(GetTickCount));
     end;
   end;
-end;
-
-function SafeGetProcAddress(Lib : TlibHandle; const ProcName : AnsiString) : Pointer;
-begin
-  Result:= GetProcedureAddress(Lib, ProcName);
-  if (Result = nil) then raise Exception.Create(EmptyStr);
 end;
 
 procedure Initialize;
