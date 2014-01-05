@@ -1581,6 +1581,9 @@ begin
       end;
     end;
 
+    // Save parameter for later use
+    BoolValue := bRecycle;
+
     if bRecycle then
       bRecycle := FileSource.IsClass(TFileSystemFileSource) and
                   mbCheckTrash(CurrentPath);
@@ -1593,7 +1596,6 @@ begin
         bConfirmation := focDeleteToTrash in gFileOperationsConfirmations;
     end;
 
-    // 12.05.2009
     // Showing delete dialog: to trash or to /dev/null :)
     If bRecycle then
      begin
@@ -1605,6 +1607,10 @@ begin
       MsgDelSel := rsMsgDelSel;
       MsgDelFlDr := rsMsgDelFlDr;
      end;
+
+    // Special case for fspLinksToLocalFiles
+    if (fspLinksToLocalFiles in FileSource.Properties) then
+      bRecycle := BoolValue;
 
     // ------------------------------------------------------
 
