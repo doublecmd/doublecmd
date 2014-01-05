@@ -425,7 +425,7 @@ var
   DesktopEntryFile: TKeyFile;
 begin
   try
-    DesktopEntryFile:= TKeyFile.Create(FileName, fmOpenRead);
+    DesktopEntryFile:= TKeyFile.Create(FileName);
     if not DesktopEntryFile.SectionExists(DESKTOP_GROUP) then
     begin
       DesktopEntryFile.Free;
