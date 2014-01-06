@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -57,7 +57,7 @@ uses
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uFileSystemWatcher, DCStrUtils, uOSUtils, FileUtil
+   , uUDisks, uMountWatcher, DCStrUtils, uOSUtils, FileUtil
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
@@ -67,9 +67,12 @@ uses
 
 {$IFDEF LINUX}
 type
+
+  { TFakeClass }
+
   TFakeClass = class
   public
-    procedure OnWatcherNotifyEvent(const EventData: TFSWatcherEventData);
+    procedure OnMountWatcherNotify(Sender: TObject);
     procedure OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
   end;
 {$ENDIF}
@@ -110,6 +113,7 @@ var
   InitializeCounter: Integer = 0;
   {$IFDEF LINUX}
   FakeClass: TFakeClass = nil;
+  MountWatcher: TMountWatcher = nil;
   IsUDisksAvailable: Boolean = False;
   {$ENDIF}
   {$IFDEF MSWINDOWS}
@@ -227,8 +231,10 @@ begin
   end
   else
   begin
-    DCDebug('Detecting devices through /etc/mtab.');
-    TFileSystemWatcher.AddWatch('/etc', [wfFileNameChange], @FakeClass.OnWatcherNotifyEvent);
+    DCDebug('Detecting devices through /proc/self/mounts');
+    MountWatcher:= TMountWatcher.Create(True);
+    MountWatcher.OnMountEvent:= @FakeClass.OnMountWatcherNotify;
+    MountWatcher.Start;
   end;
   {$ENDIF}
 
@@ -257,7 +263,7 @@ begin
     uUDisks.Finalize;
     IsUDisksAvailable := False;
   end;
-  TFileSystemWatcher.RemoveWatch('/etc', @FakeClass.OnWatcherNotifyEvent);
+  FreeAndNil(MountWatcher);
   if Assigned(FakeClass) then
     FreeAndNil(FakeClass);
   {$ENDIF}
@@ -1049,12 +1055,11 @@ end;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure TFakeClass.OnWatcherNotifyEvent(const EventData: TFSWatcherEventData);
+procedure TFakeClass.OnMountWatcherNotify(Sender: TObject);
 var
   ADrive: PDrive = nil;
 begin
-  if (EventData.EventType = fswFileDeleted) and (Pos('mtab', EventData.FileName) = 1) then
-    DoDriveChanged(ADrive);
+  DoDriveChanged(ADrive);
 end;
 
 procedure TFakeClass.OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
