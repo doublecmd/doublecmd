@@ -74,6 +74,7 @@ function PeekMessage(Parameter: Pointer): PtrInt;
 var
   UnixIPC: TUnixIPCServer absolute Parameter;
 begin
+  Result:= 0;
   while UnixIPC.Active do
   begin
     if UnixIPC.PeekMessage(100, False) then
