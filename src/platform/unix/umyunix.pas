@@ -436,6 +436,7 @@ begin
   begin
     TimeEnv := upcase(TimeEnv);
     if StrEnds(TimeEnv, 'UTF-8') or StrEnds(TimeEnv, 'UTF8') then
+    with FormatSettings do
     begin
       if Ord(DateSeparator) > $7F then
         DateSeparator := '/';
