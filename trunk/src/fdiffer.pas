@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2014  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -202,7 +202,7 @@ type
     SynDiffHighlighterLeft,
     SynDiffHighlighterRight: TSynDiffHighlighter;
     HashListLeft,
-    HashListRight: TList;
+    HashListRight: array of Integer;
     EncodingList: TStringList;
     ScrollLock: LongInt;
     FCommands: TFormCommands;
@@ -294,15 +294,14 @@ begin
       end
     else
       begin
-        if (HashListLeft.Count = 0) or (HashListRight.Count = 0) then Exit;
+        if (Length(HashListLeft) = 0) or (Length(HashListRight) = 0) then Exit;
         actCancelCompare.Enabled := True;
 
-        //nb: TList.list is a pointer to the bottom of the list's integer array
         Diff.Execute(
-                     PInteger(HashListLeft.List),
-                     PInteger(HashListRight.List),
-                     HashListLeft.Count,
-                     HashListRight.Count
+                     PInteger(@HashListLeft[0]),
+                     PInteger(@HashListRight[0]),
+                     Length(HashListLeft),
+                     Length(HashListRight)
                     );
 
         if Diff.Cancelled then Exit;
@@ -579,8 +578,6 @@ begin
   SynDiffEditRight:= TSynDiffEdit.Create(Self);
   SynDiffHighlighterLeft:= TSynDiffHighlighter.Create(SynDiffEditLeft);
   SynDiffHighlighterRight:= TSynDiffHighlighter.Create(SynDiffEditRight);
-  HashListLeft:= TList.Create;
-  HashListRight:= TList.Create;
 
   SynDiffEditLeft.Parent:= pnlLeft;
   SynDiffEditRight.Parent:= pnlRight;
@@ -613,8 +610,6 @@ end;
 procedure TfrmDiffer.FormDestroy(Sender: TObject);
 begin
   FreeThenNil(Diff);
-  FreeThenNil(HashListLeft);
-  FreeThenNil(HashListRight);
 end;
 
 procedure TfrmDiffer.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -641,12 +636,12 @@ begin
   if bLeft then
   begin
     SynDiffEditLeft.Lines.Clear;
-    HashListLeft.Clear;
+    SetLength(HashListLeft, 0);
   end;
   if bRight then
   begin
     SynDiffEditRight.Lines.Clear;
-    HashListRight.Clear;
+    SetLength(HashListRight, 0);
   end;
   Diff.Clear;
   StatusBar.Panels[0].Text := EmptyStr;
@@ -826,20 +821,20 @@ var
 begin
   if bLeft then
   begin
-    HashListLeft.Clear;
+    SetLength(HashListLeft, SynDiffEditLeft.Lines.Count);
     for I := 0 to SynDiffEditLeft.Lines.Count - 1 do
-      HashListLeft.Add(HashString(SynDiffEditLeft.Lines[i],
+      HashListLeft[I]:= Integer(HashString(SynDiffEditLeft.Lines[I],
         actIgnoreCase.Checked, actIgnoreWhiteSpace.Checked));
   end;
   if bRight then
   begin
-    HashListRight.Clear;
+    SetLength(HashListRight, SynDiffEditRight.Lines.Count);
     for I := 0 to SynDiffEditRight.Lines.Count - 1 do
-      HashListRight.Add(HashString(SynDiffEditRight.Lines[i],
+      HashListRight[I]:= Integer(HashString(SynDiffEditRight.Lines[I],
         actIgnoreCase.Checked, actIgnoreWhiteSpace.Checked));
   end;
 
-  actStartCompare.Enabled := (HashListLeft.Count > 0) and (HashListRight.Count > 0);
+  actStartCompare.Enabled := (Length(HashListLeft) > 0) and (Length(HashListRight) > 0);
 end;
 
 procedure TfrmDiffer.ChooseEncoding(SynDiffEdit: TSynDiffEdit);
@@ -953,7 +948,6 @@ begin
   try
     Clear(True, False);
     LoadFromFile(SynDiffEditLeft, FileName);
-    HashListLeft.Capacity := SynDiffEditLeft.Lines.Count;
     BuildHashList(True, False);
     SynDiffEditLeft.Repaint;
   except
@@ -968,7 +962,6 @@ begin
   try
     Clear(False, True);
     LoadFromFile(SynDiffEditRight, FileName);
-    HashListRight.Capacity := SynDiffEditRight.Lines.Count;
     BuildHashList(False, True);
     SynDiffEditRight.Repaint;
   except

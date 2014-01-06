@@ -46,7 +46,7 @@ procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 procedure HashUpdate(var Context: THashContext; const Buffer; BufLen: LongWord);
 procedure HashFinal(var Context: THashContext; out Hash: String);
 
-function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;
+function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): LongWord;
 
 { Helper functions }
 function FileExtIsHash(const FileExt: String): Boolean;
@@ -96,7 +96,7 @@ begin
   FreeAndNil(Context);
 end;
 
-function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;
+function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): LongWord;
 var
   CRC: LongWord;
   I, J, L: Integer;
@@ -121,8 +121,7 @@ begin
   if IgnoreCase then S := AnsiLowerCase(S);
 
   CRC := crc32(0, nil, 0);
-  // Return result as a pointer to save typecasting later...
-  Result := Pointer(PtrUInt(crc32(CRC, PByte(S), Length(S))));
+  Result := crc32(CRC, PByte(S), Length(S));
 end;
 
 function FileExtIsHash(const FileExt: String): Boolean;
