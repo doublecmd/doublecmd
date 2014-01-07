@@ -9,9 +9,6 @@ uses
   SynEditMiscClasses, SynGutterBase, SynTextDrawer, uDiff;
 
 const
-  { Fake line kinds }
-  lkFakeAdd = -1;
-  lkFakeDelete = -2;
   { Default differ colors }
   clPaleGreen: TColor = $AAFFAA;
   clPaleRed  : TColor = $AAAAFF;
@@ -43,62 +40,56 @@ type
 
   { TSynDiffGutterLineNumber }
 
-    TSynDiffGutterLineNumber = class(TSynGutterPartBase)
-    private
-      FTextDrawer: TheTextDrawer;
+  TSynDiffGutterLineNumber = class(TSynGutterPartBase)
+  private
+    FTextDrawer: TheTextDrawer;
 
-      FDigitCount: integer;
-      FAutoSizeDigitCount: integer;
-      FLeadingZeros: boolean;
+    FDigitCount: integer;
+    FAutoSizeDigitCount: integer;
+    FLeadingZeros: boolean;
 
-      procedure SetDigitCount(AValue : integer);
-      procedure SetLeadingZeros(const AValue : boolean);
-      function FormatLineNumber(Line: integer; IsFakeLine: boolean): string;
-    protected
-      procedure Init; override;
-      function  PreferedWidth: Integer; override;
-    public
-      constructor Create(AOwner: TComponent); override;
-      destructor Destroy; override;
-      procedure Assign(Source: TPersistent); override;
-      procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
-    published
-      property MarkupInfo;
-      property DigitCount: integer read FDigitCount write SetDigitCount;
-      property LeadingZeros: boolean read FLeadingZeros write SetLeadingZeros;
-    end;
+    procedure SetDigitCount(AValue : integer);
+    procedure SetLeadingZeros(const AValue : boolean);
+    function FormatLineNumber(Line: integer; Kind: TChangeKind): string;
+  protected
+    procedure Init; override;
+    function  PreferedWidth: Integer; override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+    procedure Assign(Source: TPersistent); override;
+    procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
+  published
+    property MarkupInfo;
+    property DigitCount: integer read FDigitCount write SetDigitCount;
+    property LeadingZeros: boolean read FLeadingZeros write SetLeadingZeros;
+  end;
 
   { TSynDiffGutterChanges }
 
-    TSynDiffGutterChanges = class(TSynGutterPartBase)
-    private
-      FColors: TDiffColors;
-    protected
-      function  PreferedWidth: Integer; override;
-    public
-      constructor Create(AOwner: TComponent); override;
-      destructor Destroy; override;
-      procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
-    published
-      property Colors: TDiffColors read FColors write FColors;
-    end;
+  TSynDiffGutterChanges = class(TSynGutterPartBase)
+  private
+    FColors: TDiffColors;
+  protected
+    function  PreferedWidth: Integer; override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+    procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
+  published
+    property Colors: TDiffColors read FColors write FColors;
+  end;
 
   { TSynDiffEdit }
 
   TSynDiffEdit = class(TCustomSynEdit)
   private
     FPaintStyle: TPaintStyle;
-    FDiff: TDiff;
-    FDiffCount: Integer;
     FEncoding: String;
     FColors: TDiffColors;
     FOriginalFile,
     FModifiedFile: TSynDiffEdit;
   private
-    function GetDiffCount: Integer;
-    function GetDiffKind(Index: Integer): TChangeKind;
-    function GetLineNumber(Index: Integer): PtrInt;
-    procedure SetLineNumber(Index: Integer; const AValue: PtrInt);
     procedure SetModifiedFile(const AValue: TSynDiffEdit);
     procedure SetOriginalFile(const AValue: TSynDiffEdit);
     procedure SetPaintStyle(const AValue: TPaintStyle);
@@ -108,17 +99,12 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
-    procedure RemoveFakeLines(Strings: TStrings);
-    procedure BeginCompare(ADiff: TDiff);
-    procedure EndCompare(ADiffCount: Integer);
+  public
+    procedure StartCompare;
+    procedure FinishCompare;
     function DiffBegin(ALine: Integer): Integer;
     function DiffEnd(ALine: Integer): Integer;
     property PaintStyle: TPaintStyle read FPaintStyle write SetPaintStyle;
-    property Diff: TDiff read FDiff write FDiff;
-    property DiffKind[Index: Integer]: TChangeKind read GetDiffKind;
-    property DiffCount: Integer read GetDiffCount;
-    property LineNumber[Index: Integer]: PtrInt read GetLineNumber write SetLineNumber;
     property Encoding: String read FEncoding write FEncoding;
     property Colors: TDiffColors read FColors write FColors;
     property OriginalFile: TSynDiffEdit read FOriginalFile write SetOriginalFile;
@@ -127,10 +113,33 @@ type
     property OnStatusChange;
   end;
 
+  { TStringsHelper }
+
+  TStringsHelper = class helper for TStrings
+  private
+    function GetKind(AIndex: Integer): TChangeKind;
+    function GetNumber(AIndex: Integer): PtrInt;
+    procedure SetKind(AIndex: Integer; AValue: TChangeKind);
+    procedure SetNumber(AIndex: Integer; AValue: PtrInt);
+  public
+    procedure RemoveFake;
+    procedure Append(const S: String; AKind: TChangeKind);
+    procedure InsertFake(AIndex: Integer; AKind: TChangeKind);
+    procedure SetKindAndNumber(AIndex: Integer; AKind: TChangeKind; ANumber: PtrInt);
+  public
+    property Kind[AIndex: Integer]: TChangeKind read GetKind write SetKind;
+    property Number[AIndex: Integer]: PtrInt read GetNumber write SetNumber;
+  end;
+
 implementation
 
 uses
   LCLIntf, LCLType, SynEditMiscProcs;
+
+const
+  KindShift = 8;   // Line kind shift
+  KindMask  = $FF; // Line kind mask
+  FakeLine  = PtrInt(High(PtrUInt) shr KindShift);
 
 { TDiffColors }
 
@@ -169,37 +178,6 @@ end;
 
 { TSynDiffEdit }
 
-function TSynDiffEdit.GetDiffCount: Integer;
-begin
-  if Assigned(FDiff) then
-    Result:= FDiff.Count
-  else
-    Result:= FDiffCount;
-end;
-
-function TSynDiffEdit.GetDiffKind(Index: Integer): TChangeKind;
-begin
-  if Assigned(FDiff) then
-    Result:= FDiff.Compares[Index].Kind
-  else
-    begin
-      if PtrInt(Lines.Objects[Index]) = 0 then
-        Result:= ckNone
-      else
-        Result:= ckModify;
-    end;
-end;
-
-function TSynDiffEdit.GetLineNumber(Index: Integer): PtrInt;
-begin
-  Result:= PtrInt(Lines.Objects[Index]);
-end;
-
-procedure TSynDiffEdit.SetLineNumber(Index: Integer; const AValue: PtrInt);
-begin
-  Lines.Objects[Index]:= TObject(AValue);
-end;
-
 procedure TSynDiffEdit.SetModifiedFile(const AValue: TSynDiffEdit);
 begin
   if FModifiedFile <> AValue then
@@ -235,9 +213,9 @@ var
   Kind: TChangeKind;
   LineColor: TColor;
 begin
-  if Line > DiffCount then Exit;
+  if Line > Lines.Count then Exit;
 
-  Kind:= DiffKind[Line - 1];
+  Kind:= Lines.Kind[Line - 1];
 
   if (Kind <> ckNone) then
   with AMarkup do
@@ -265,18 +243,17 @@ begin
   end;
 end;
 
-procedure TSynDiffEdit.BeginCompare(ADiff: TDiff);
+procedure TSynDiffEdit.StartCompare;
 begin
-  FDiff:= ADiff;
   BeginUpdate;
   // Remove fake lines
-  RemoveFakeLines(Lines);
+  Lines.RemoveFake;
 end;
 
-procedure TSynDiffEdit.EndCompare(ADiffCount: Integer);
+procedure TSynDiffEdit.FinishCompare;
 begin
-  FDiffCount:= ADiffCount;
   EndUpdate;
+  Invalidate;
 end;
 
 function TSynDiffEdit.DiffBegin(ALine: Integer): Integer;
@@ -286,8 +263,8 @@ begin
   Result:= ALine;
   if ALine = 0 then Exit;
   // Skip lines with current difference type
-  Kind := DiffKind[ALine];
-  while (ALine > 0) and (DiffKind[ALine] = Kind) do Dec(ALine);
+  Kind := Lines.Kind[ALine];
+  while (ALine > 0) and (Lines.Kind[ALine] = Kind) do Dec(ALine);
   Result:= ALine + 1;
 end;
 
@@ -298,14 +275,13 @@ begin
   Result:= ALine;
   if ALine = Lines.Count - 1 then Exit;
   // Skip lines with current difference type
-  Kind := DiffKind[ALine];
-  while (ALine < Lines.Count - 1) and (DiffKind[ALine] = Kind) do Inc(ALine);
+  Kind := Lines.Kind[ALine];
+  while (ALine < Lines.Count - 1) and (Lines.Kind[ALine] = Kind) do Inc(ALine);
   Result:= ALine - 1;
 end;
 
 constructor TSynDiffEdit.Create(AOwner: TComponent);
 begin
-  FDiff:= nil;
   inherited Create(AOwner);
   if not(csLoading in AOwner.ComponentState) then
     begin
@@ -325,22 +301,6 @@ begin
   if Assigned(FColors) then
     FreeAndNil(FColors);
   inherited Destroy;
-end;
-
-procedure TSynDiffEdit.InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
-begin
-  Lines.InsertObject(AIndex, EmptyStr, TObject(ADiffKind));
-end;
-
-procedure TSynDiffEdit.RemoveFakeLines(Strings: TStrings);
-var
-  I: Integer;
-begin
-  for I:= Strings.Count - 1 downto 0 do
-  begin
-    if (PtrInt(Strings.Objects[I]) < 0) and (Strings[I] = EmptyStr) then
-      Strings.Delete(I);
-  end;
 end;
 
 { TSynDiffGutterChanges }
@@ -368,9 +328,9 @@ end;
 procedure TSynDiffGutterChanges.Paint(Canvas: TCanvas; AClip: TRect; FirstLine,
   LastLine: Integer);
 var
-  I, iLine: Integer;
-  LineHeight: Integer;
   rcLine: TRect;
+  LineHeight: Integer;
+  I, LineNumber: Integer;
   SynDiffEdit: TSynDiffEdit;
 begin
   if not Visible then Exit;
@@ -392,13 +352,13 @@ begin
   rcLine.Bottom := FirstLine * LineHeight;
   for I := FirstLine to LastLine do
   begin
-    iLine := FoldView.TextIndex[I];
+    LineNumber := FoldView.TextIndex[I];
     // next line rect
     rcLine.Top := rcLine.Bottom;
     Inc(rcLine.Bottom, LineHeight);
-    if (iLine >= 0) and (iLine < SynDiffEdit.DiffCount) then
+    if (LineNumber >= 0) and (LineNumber < SynDiffEdit.Lines.Count) then
     begin
-      case SynDiffEdit.DiffKind[iLine] of
+      case SynDiffEdit.Lines.Kind[LineNumber] of
         ckNone:
             Continue;
         ckAdd:
@@ -439,18 +399,19 @@ begin
   end;
 end;
 
-function TSynDiffGutterLineNumber.FormatLineNumber(Line: Integer; IsFakeLine: Boolean): String;
+function TSynDiffGutterLineNumber.FormatLineNumber(Line: Integer;
+  Kind: TChangeKind): string;
 var
   I: Integer;
 begin
   Result := EmptyStr;
   // if a symbol must be showed
-  if IsFakeLine then
+  if (Line = 0) or (Line = FakeLine) then
     begin
-      case Line of
-      lkFakeAdd:
+      case Kind of
+      ckAdd:
         Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '+';
-      lkFakeDelete:
+      ckDelete:
         Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '-';
       else
         Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '.';
@@ -510,12 +471,12 @@ end;
 procedure TSynDiffGutterLineNumber.Paint(Canvas: TCanvas; AClip: TRect;
   FirstLine, LastLine: Integer);
 var
-  I, iLine: Integer;
-  rcLine: TRect;
-  S: String;
   DC: HDC;
-  FakeLine: Boolean;
+  S: String;
+  rcLine: TRect;
   LineHeight: Integer;
+  LineKind: TChangeKind;
+  I, LineNumber: Integer;
   SynDiffEdit: TSynDiffEdit;
 begin
   if not Visible then Exit;
@@ -550,16 +511,13 @@ begin
     rcLine.Bottom := FirstLine * LineHeight;
     for I := FirstLine to LastLine do
     begin
-      iLine := FoldView.DisplayNumber[I];
+      LineNumber := FoldView.DisplayNumber[I];
+      LineKind := SynDiffEdit.Lines.Kind[LineNumber - 1];
+      LineNumber:= SynDiffEdit.Lines.Number[LineNumber - 1];
       // next line rect
       rcLine.Top := rcLine.Bottom;
-      if Assigned(SynDiffEdit.FDiff) and (SynDiffEdit.DiffCount <> 0) then
-        begin
-          iLine:= SynDiffEdit.LineNumber[iLine - 1];
-        end;
-      FakeLine := (iLine <= 0);
       // Get the formatted line number or dot
-      S := FormatLineNumber(iLine, FakeLine);
+      S := FormatLineNumber(LineNumber, LineKind);
       Inc(rcLine.Bottom, LineHeight);
       // erase the background and draw the line number string in one go
       fTextDrawer.ExtTextOut(rcLine.Left, rcLine.Top, ETO_OPAQUE or ETO_CLIPPED, rcLine,
@@ -577,6 +535,61 @@ begin
   finally
     fTextDrawer.EndDrawing;
   end;
+end;
+
+{ TStringsHelper }
+
+function TStringsHelper.GetKind(AIndex: Integer): TChangeKind;
+begin
+  Result:= TChangeKind(PtrInt(Objects[AIndex]) and KindMask);
+end;
+
+function TStringsHelper.GetNumber(AIndex: Integer): PtrInt;
+begin
+  Result:= PtrInt(Objects[AIndex]) shr KindShift;
+end;
+
+procedure TStringsHelper.SetKind(AIndex: Integer; AValue: TChangeKind);
+var
+  ANumber: PtrInt;
+begin
+  ANumber:= GetNumber(AIndex);
+  Objects[AIndex]:= TObject(PtrInt(AValue) or (ANumber shl KindShift));
+end;
+
+procedure TStringsHelper.SetNumber(AIndex: Integer; AValue: PtrInt);
+var
+  AKind: TChangeKind;
+begin
+  AKind:= GetKind(AIndex);
+  Objects[AIndex]:= TObject(PtrInt(AKind) or (AValue shl KindShift));
+end;
+
+procedure TStringsHelper.RemoveFake;
+var
+  I: Integer;
+begin
+  for I:= Count - 1 downto 0 do
+  begin
+    if ((PtrInt(Objects[I]) shr KindShift) = FakeLine) and (Self[I] = EmptyStr) then
+      Delete(I);
+  end;
+end;
+
+procedure TStringsHelper.Append(const S: String; AKind: TChangeKind);
+begin
+  InsertObject(Count, S, TObject(PtrInt(AKind) or (Count shl KindShift)));
+end;
+
+procedure TStringsHelper.InsertFake(AIndex: Integer; AKind: TChangeKind);
+begin
+  InsertObject(AIndex, EmptyStr, TObject(PtrInt(AKind) or PtrInt(FakeLine shl KindShift)));
+end;
+
+procedure TStringsHelper.SetKindAndNumber(AIndex: Integer; AKind: TChangeKind;
+  ANumber: PtrInt);
+begin
+  Objects[AIndex]:= TObject(PtrInt(AKind) or (ANumber shl KindShift));
 end;
 
 end.
