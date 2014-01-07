@@ -287,8 +287,8 @@ begin
     Screen.Cursor := crHourGlass;
     if actBinaryCompare.Checked then
       begin
-        SynDiffEditLeft.BeginCompare(nil);
-        SynDiffEditRight.BeginCompare(nil);
+        SynDiffEditLeft.StartCompare;
+        SynDiffEditRight.StartCompare;
         DiffCount := BinaryCompare(edtFileNameLeft.Text, edtFileNameRight.Text,
                                    SynDiffEditLeft.Lines, SynDiffEditRight.Lines);
       end
@@ -306,8 +306,8 @@ begin
 
         if Diff.Cancelled then Exit;
 
-        SynDiffEditLeft.BeginCompare(Diff);
-        SynDiffEditRight.BeginCompare(Diff);
+        SynDiffEditLeft.StartCompare;
+        SynDiffEditRight.StartCompare;
 
         for I := 0 to Diff.Count - 1 do
         with Diff.Compares[I] do
@@ -317,18 +317,18 @@ begin
           case Kind of
           ckAdd:
             begin
-              SynDiffEditLeft.InsertFakeLine(I, lkFakeAdd);
-              SynDiffEditRight.LineNumber[I]:= LineNumberRight;
+              SynDiffEditLeft.Lines.InsertFake(I, Kind);
+              SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
             end;
           ckDelete:
             begin
-              SynDiffEditLeft.LineNumber[I]:= LineNumberLeft;
-              SynDiffEditRight.InsertFakeLine(I, lkFakeDelete);
+              SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
+              SynDiffEditRight.Lines.InsertFake(I, Kind);
             end;
           else
             begin
-              SynDiffEditLeft.LineNumber[I]:= LineNumberLeft;
-              SynDiffEditRight.LineNumber[I]:= LineNumberRight;
+              SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
+              SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
             end;
           end;
         end;
@@ -342,10 +342,8 @@ begin
         end;
     end;
   finally
-    SynDiffEditLeft.EndCompare(DiffCount);
-    SynDiffEditRight.EndCompare(DiffCount);
-    SynDiffEditLeft.Invalidate;
-    SynDiffEditRight.Invalidate;
+    SynDiffEditLeft.FinishCompare;
+    SynDiffEditRight.FinishCompare;
     Screen.Cursor := crDefault;
     actCancelCompare.Enabled := False;
     Dec(ScrollLock);
@@ -691,7 +689,7 @@ begin
   // Skip unmodified lines
   Kind := ckNone;
   while (Line < SynDiffEditLeft.Lines.Count - 1) and
-    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+    (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
   Inc(Line);
   SynDiffEditLeft.CaretY := Line;
   SynDiffEditLeft.TopLine := Line;
@@ -711,10 +709,10 @@ begin
   if Line = 0 then Exit;
   // Skip unmodified lines
   Kind := ckNone;
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
   // Find top line of previous difference
-  Kind:= SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  Kind:= SynDiffEditLeft.Lines.Kind[Line];
+  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
   if (Line <> 0) then Inc(Line, 2);
   SynDiffEditLeft.CaretY := Line;
   SynDiffEditLeft.TopLine := Line;
@@ -733,15 +731,15 @@ begin
   Line := SynDiffEditLeft.CaretY - 1;
   if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
   // Skip lines with current difference type
-  Kind := SynDiffEditLeft.DiffKind[Line];
+  Kind := SynDiffEditLeft.Lines.Kind[Line];
   while (Line < SynDiffEditLeft.Lines.Count - 1) and
-    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
-  if SynDiffEditLeft.DiffKind[Line] = ckNone then
+    (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
+  if SynDiffEditLeft.Lines.Kind[Line] = ckNone then
   begin
     // Skip unmodified lines
     Kind := ckNone;
     while (Line < SynDiffEditLeft.Lines.Count - 1) and
-      (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+      (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
   end;
   Inc(Line);
   SynDiffEditLeft.CaretY := Line;
@@ -761,17 +759,17 @@ begin
   Line := SynDiffEditLeft.CaretY - 1;
   if Line = 0 then Exit;
   // Skip lines with current difference type
-  Kind := SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  if SynDiffEditLeft.DiffKind[Line] = ckNone then
+  Kind := SynDiffEditLeft.Lines.Kind[Line];
+  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
+  if SynDiffEditLeft.Lines.Kind[Line] = ckNone then
   begin
     // Skip unmodified lines
     Kind := ckNone;
-    while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+    while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
   end;
   // Find top line of previous difference
-  Kind:= SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  Kind:= SynDiffEditLeft.Lines.Kind[Line];
+  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
   if (Line <> 0) then Inc(Line, 2);
   SynDiffEditLeft.CaretY := Line;
   SynDiffEditLeft.TopLine := Line;
@@ -916,7 +914,7 @@ begin
   try
     slStringList.Assign(SynDiffEdit.Lines);
     // remove fake lines
-    SynDiffEdit.RemoveFakeLines(slStringList);
+    slStringList.RemoveFake;
     // restore encoding
     slStringList.Text:= ConvertEncoding(slStringList.Text, EncodingUTF8, SynDiffEdit.Encoding);
     try
