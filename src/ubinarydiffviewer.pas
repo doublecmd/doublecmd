@@ -13,11 +13,15 @@ type
 
   TBinaryDiffViewer = class(TViewerControl)
   private
+    FScrollLock: Integer;
+    FKeepScrolling: Boolean;
     FSecondViewer: TBinaryDiffViewer;
   protected
     procedure WriteHex; override;
+    procedure SetPosition(Value: PtrInt); override;
   public
     constructor Create(AOwner: TComponent); override;
+    property KeepScrolling: Boolean read FKeepScrolling write FKeepScrolling;
     property SecondViewer: TBinaryDiffViewer read FSecondViewer write FSecondViewer;
   end;
 
@@ -99,6 +103,21 @@ begin
         Inc(X, SymbolWidth);
       end;
       Canvas.Font.Color := clBlack
+    end;
+  end;
+end;
+
+procedure TBinaryDiffViewer.SetPosition(Value: PtrInt);
+begin
+  if FScrollLock = 0 then
+  begin
+    Inc(FScrollLock);
+    try
+      inherited SetPosition(Value);
+      if FKeepScrolling and Assigned(SecondViewer) then
+        SecondViewer.SetPosition(Value);
+    finally
+      Dec(FScrollLock);
     end;
   end;
 end;

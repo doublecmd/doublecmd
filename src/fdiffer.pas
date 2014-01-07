@@ -30,7 +30,8 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
-  uPariterControls, uDiff, uFormCommands, uHotkeyManager, uOSForms;
+  uPariterControls, uDiff, uFormCommands, uHotkeyManager, uOSForms,
+  uBinaryDiffViewer;
 
 type
 
@@ -195,6 +196,9 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
   private
+    BinaryViewerLeft,
+    BinaryViewerRight: TBinaryDiffViewer;
+  private
     Diff: TDiff;
     SynDiffEditActive: TSynDiffEdit;
     SynDiffEditLeft: TSynDiffEdit;
@@ -252,7 +256,7 @@ implementation
 
 uses
   LCLType, LCLProc, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
-  uShowMsg, uBinaryCompare, DCClassesUtf8, dmCommonData, DCOSUtils;
+  uShowMsg, DCClassesUtf8, dmCommonData, DCOSUtils;
 
 const
   HotkeysCategory = 'Differ';
@@ -264,8 +268,9 @@ begin
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
     actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) or FileIsText(FileNameRight));
-    if not actBinaryCompare.Checked then
-    begin
+    if actBinaryCompare.Checked then
+      actBinaryCompare.Execute
+    else begin
       OpenFileLeft(FileNameLeft);
       OpenFileRight(FileNameRight);
       if actAutoCompare.Checked then actStartCompare.Execute;
@@ -289,8 +294,8 @@ begin
       begin
         SynDiffEditLeft.StartCompare;
         SynDiffEditRight.StartCompare;
-        DiffCount := BinaryCompare(edtFileNameLeft.Text, edtFileNameRight.Text,
-                                   SynDiffEditLeft.Lines, SynDiffEditRight.Lines);
+//        DiffCount := BinaryCompare(edtFileNameLeft.Text, edtFileNameRight.Text,
+//                                   SynDiffEditLeft.Lines, SynDiffEditRight.Lines);
       end
     else
       begin
@@ -448,17 +453,27 @@ begin
   actSaveRightAs.Enabled:= not actBinaryCompare.Checked;
   actIgnoreCase.Enabled:= not actBinaryCompare.Checked;
   actIgnoreWhiteSpace.Enabled:= not actBinaryCompare.Checked;
+  actPaintBackground.Enabled:= not actBinaryCompare.Checked;
   actLineDifferences.Enabled:= not actBinaryCompare.Checked;
+
+  SynDiffEditLeft.Visible:= not actBinaryCompare.Checked;
+  SynDiffEditRight.Visible:= not actBinaryCompare.Checked;
+  BinaryViewerLeft.Visible:= actBinaryCompare.Checked;
+  BinaryViewerRight.Visible:= actBinaryCompare.Checked;
+
   if actBinaryCompare.Checked then
     begin
-      SynDiffEditLeft.Lines.Clear;
-      SynDiffEditRight.Lines.Clear;
+      BinaryViewerLeft.FileName:= edtFileNameLeft.Text;
+      BinaryViewerRight.FileName:= edtFileNameRight.Text;
     end
   else
     begin
+      BinaryViewerLeft.FileName:= EmptyStr;
+      BinaryViewerRight.FileName:= EmptyStr;
       OpenFileLeft(edtFileNameLeft.Text);
       OpenFileRight(edtFileNameRight.Text);
     end;
+
   if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
@@ -543,7 +558,8 @@ end;
 
 procedure TfrmDiffer.actKeepScrollingExecute(Sender: TObject);
 begin
-
+  BinaryViewerLeft.KeepScrolling:= actKeepScrolling.Checked;
+  BinaryViewerRight.KeepScrolling:= actKeepScrolling.Checked;
 end;
 
 procedure TfrmDiffer.btnLeftEncodingClick(Sender: TObject);
@@ -593,6 +609,26 @@ begin
   SynDiffEditRight.OnStatusChange:= @SynDiffEditRightStatusChange;
   // Set active editor
   SynDiffEditActive:= SynDiffEditLeft;
+
+  BinaryViewerLeft:= TBinaryDiffViewer.Create(Self);
+  BinaryViewerRight:= TBinaryDiffViewer.Create(Self);
+
+  BinaryViewerLeft.Parent:= pnlLeft;
+  BinaryViewerRight.Parent:= pnlRight;
+  BinaryViewerLeft.Align:= alClient;
+  BinaryViewerRight.Align:= alClient;
+
+  BinaryViewerLeft.Font.Name:= gFonts[dcfViewer].Name;
+  BinaryViewerLeft.Font.Size:= gFonts[dcfViewer].Size;
+  BinaryViewerLeft.Font.Style:= gFonts[dcfViewer].Style;
+
+  BinaryViewerRight.Font.Name:= gFonts[dcfViewer].Name;
+  BinaryViewerRight.Font.Size:= gFonts[dcfViewer].Size;
+  BinaryViewerRight.Font.Style:= gFonts[dcfViewer].Style;
+
+  BinaryViewerLeft.SecondViewer:= BinaryViewerRight;
+  BinaryViewerRight.SecondViewer:= BinaryViewerLeft;
+
   // Initialize property storage
   InitPropStorage(Self);
   // Fill encoding menu
