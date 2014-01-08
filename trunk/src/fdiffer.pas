@@ -295,6 +295,7 @@ begin
   begin
     actStartCompare.Enabled := False;
     actCancelCompare.Enabled := True;
+    actBinaryCompare.Enabled := False;
     BinaryCompare:= TBinaryCompare.Create(BinaryViewerLeft.GetDataAdr,
                                           BinaryViewerRight.GetDataAdr,
                                           BinaryViewerLeft.FileSize,
@@ -469,8 +470,13 @@ begin
 
   if actBinaryCompare.Checked then
     begin
+      BinaryDiffList.Clear;
       BinaryViewerLeft.FileName:= edtFileNameLeft.Text;
       BinaryViewerRight.FileName:= edtFileNameRight.Text;
+      StatusBar.Panels[0].Text := EmptyStr;
+      StatusBar.Panels[1].Text := EmptyStr;
+      StatusBar.Panels[2].Text := EmptyStr;
+      StatusBar.Panels[3].Text := EmptyStr;
     end
   else
     begin
@@ -590,12 +596,14 @@ procedure TfrmDiffer.edtFileNameLeftAcceptFileName(Sender: TObject;
   var Value: String);
 begin
   OpenFileLeft(Value);
+  if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.edtFileNameRightAcceptFileName(Sender: TObject;
   var Value: String);
 begin
   OpenFileRight(Value);
+  if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.FormCreate(Sender: TObject);
@@ -692,6 +700,7 @@ begin
   StatusBar.Panels[3].Text := EmptyStr;
   actStartCompare.Enabled := True;
   actCancelCompare.Enabled := False;
+  actBinaryCompare.Enabled := True;
 end;
 
 procedure TfrmDiffer.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -1063,7 +1072,12 @@ end;
 procedure TfrmDiffer.OpenFileLeft(const FileName: UTF8String);
 begin
   if not mbFileExists(FileName) then Exit;
-  try
+  if actBinaryCompare.Checked then
+  begin
+    BinaryDiffList.Clear;
+    BinaryViewerLeft.FileName:= FileName
+  end
+  else try
     Clear(True, False);
     LoadFromFile(SynDiffEditLeft, FileName);
     BuildHashList(True, False);
@@ -1077,7 +1091,12 @@ end;
 procedure TfrmDiffer.OpenFileRight(const FileName: UTF8String);
 begin
   if not mbFileExists(FileName) then Exit;
-  try
+  if actBinaryCompare.Checked then
+  begin
+    BinaryDiffList.Clear;
+    BinaryViewerRight.FileName:= FileName
+  end
+  else try
     Clear(False, True);
     LoadFromFile(SynDiffEditRight, FileName);
     BuildHashList(False, True);
