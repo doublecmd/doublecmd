@@ -269,7 +269,7 @@ begin
     edtFileNameRight.Text:= FileNameRight;
     actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) or FileIsText(FileNameRight));
     if actBinaryCompare.Checked then
-      actBinaryCompare.Execute
+      actBinaryCompareExecute(actBinaryCompare)
     else begin
       OpenFileLeft(FileNameLeft);
       OpenFileRight(FileNameRight);
@@ -283,68 +283,58 @@ end;
 
 procedure TfrmDiffer.actStartCompareExecute(Sender: TObject);
 var
-  I, DiffCount: Integer;
+  I: Integer;
   LineNumberLeft,
   LineNumberRight: PtrInt;
 begin
+  if not actBinaryCompare.Checked then
   try
     Inc(ScrollLock);
     Screen.Cursor := crHourGlass;
-    if actBinaryCompare.Checked then
-      begin
-        SynDiffEditLeft.StartCompare;
-        SynDiffEditRight.StartCompare;
-//        DiffCount := BinaryCompare(edtFileNameLeft.Text, edtFileNameRight.Text,
-//                                   SynDiffEditLeft.Lines, SynDiffEditRight.Lines);
-      end
-    else
-      begin
-        if (Length(HashListLeft) = 0) or (Length(HashListRight) = 0) then Exit;
-        actCancelCompare.Enabled := True;
+    if (Length(HashListLeft) = 0) or (Length(HashListRight) = 0) then Exit;
+    actCancelCompare.Enabled := True;
 
-        Diff.Execute(
-                     PInteger(@HashListLeft[0]),
-                     PInteger(@HashListRight[0]),
-                     Length(HashListLeft),
-                     Length(HashListRight)
-                    );
+    Diff.Execute(
+                 PInteger(@HashListLeft[0]),
+                 PInteger(@HashListRight[0]),
+                 Length(HashListLeft),
+                 Length(HashListRight)
+                );
 
-        if Diff.Cancelled then Exit;
+    if Diff.Cancelled then Exit;
 
-        SynDiffEditLeft.StartCompare;
-        SynDiffEditRight.StartCompare;
+    SynDiffEditLeft.StartCompare;
+    SynDiffEditRight.StartCompare;
 
-        for I := 0 to Diff.Count - 1 do
-        with Diff.Compares[I] do
+    for I := 0 to Diff.Count - 1 do
+    with Diff.Compares[I] do
+    begin
+      LineNumberLeft:= oldIndex1 + 1;
+      LineNumberRight:= oldIndex2 + 1;
+      case Kind of
+      ckAdd:
         begin
-          LineNumberLeft:= oldIndex1 + 1;
-          LineNumberRight:= oldIndex2 + 1;
-          case Kind of
-          ckAdd:
-            begin
-              SynDiffEditLeft.Lines.InsertFake(I, Kind);
-              SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
-            end;
-          ckDelete:
-            begin
-              SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
-              SynDiffEditRight.Lines.InsertFake(I, Kind);
-            end;
-          else
-            begin
-              SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
-              SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
-            end;
-          end;
+          SynDiffEditLeft.Lines.InsertFake(I, Kind);
+          SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
         end;
-        DiffCount:= Diff.Count;
-        with Diff.DiffStats do
+      ckDelete:
         begin
-          StatusBar.Panels[0].Text := ' Matches: ' + IntToStr(matches);
-          StatusBar.Panels[1].Text := ' Modifies: ' + IntToStr(modifies);
-          StatusBar.Panels[2].Text := ' Adds: ' + IntToStr(adds);
-          StatusBar.Panels[3].Text := ' Deletes: ' + IntToStr(deletes);
+          SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
+          SynDiffEditRight.Lines.InsertFake(I, Kind);
         end;
+      else
+        begin
+          SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
+          SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
+        end;
+      end;
+    end;
+    with Diff.DiffStats do
+    begin
+      StatusBar.Panels[0].Text := ' Matches: ' + IntToStr(matches);
+      StatusBar.Panels[1].Text := ' Modifies: ' + IntToStr(modifies);
+      StatusBar.Panels[2].Text := ' Adds: ' + IntToStr(adds);
+      StatusBar.Panels[3].Text := ' Deletes: ' + IntToStr(deletes);
     end;
   finally
     SynDiffEditLeft.FinishCompare;
@@ -441,8 +431,6 @@ begin
   mnuEncoding.Enabled:= not actBinaryCompare.Checked;
   btnLeftEncoding.Enabled:= not actBinaryCompare.Checked;
   btnRightEncoding.Enabled:= not actBinaryCompare.Checked;
-  SynDiffEditLeft.ReadOnly:= actBinaryCompare.Checked;
-  SynDiffEditRight.ReadOnly:= actBinaryCompare.Checked;
   actCopyLeftToRight.Enabled:= not actBinaryCompare.Checked;
   actCopyRightToLeft.Enabled:= not actBinaryCompare.Checked;
   actSave.Enabled:= not actBinaryCompare.Checked;
@@ -455,6 +443,13 @@ begin
   actIgnoreWhiteSpace.Enabled:= not actBinaryCompare.Checked;
   actPaintBackground.Enabled:= not actBinaryCompare.Checked;
   actLineDifferences.Enabled:= not actBinaryCompare.Checked;
+
+  // Temporarily while not implemented ---------------------
+  actNextDifference.Enabled:= not actBinaryCompare.Checked;
+  actPrevDifference.Enabled:= not actBinaryCompare.Checked;
+  actFirstDifference.Enabled:= not actBinaryCompare.Checked;
+  actLastDifference.Enabled:= not actBinaryCompare.Checked;
+  // -------------------------------------------------------
 
   SynDiffEditLeft.Visible:= not actBinaryCompare.Checked;
   SynDiffEditRight.Visible:= not actBinaryCompare.Checked;
