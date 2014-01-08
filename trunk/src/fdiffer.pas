@@ -608,6 +608,8 @@ begin
   BinaryViewerLeft:= TBinaryDiffViewer.Create(Self);
   BinaryViewerRight:= TBinaryDiffViewer.Create(Self);
 
+  BinaryViewerLeft.Visible:= False;
+  BinaryViewerRight.Visible:= False;
   BinaryViewerLeft.Parent:= pnlLeft;
   BinaryViewerRight.Parent:= pnlRight;
   BinaryViewerLeft.Align:= alClient;
@@ -626,6 +628,10 @@ begin
 
   // Initialize property storage
   InitPropStorage(Self);
+
+  // Initialize mode
+  actKeepScrollingExecute(actKeepScrolling);
+
   // Fill encoding menu
   EncodingList:= TStringList.Create;
   GetSupportedEncodings(EncodingList);
