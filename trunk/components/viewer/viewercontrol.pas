@@ -38,7 +38,7 @@
    a) File mapping blocks writing into file by other processes.
       Either:
       + Open small text files by reading them all into memory (done).
-      - Change file mapping to custom loading/caching portions of file in memory
+      - Add optional custom loading/caching portions of file in memory
         and only reading from file when neccessary.
 
    b) Searching in Unicode encodings and case-insensitive searching.

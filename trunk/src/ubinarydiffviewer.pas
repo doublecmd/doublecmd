@@ -25,6 +25,23 @@ type
     property SecondViewer: TBinaryDiffViewer read FSecondViewer write FSecondViewer;
   end;
 
+  { TBinaryCompare }
+
+  TBinaryCompare = class(TThread)
+  private
+    FFirst,
+    FSecond: PByte;
+    FFirstSize,
+    FSecondSize: PtrUInt;
+    FResult: TFPList;
+    FOnFinish: TThreadMethod;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(First, Second: PByte; FirstSize, SecondSize: PtrUInt; Result: TFPList);
+    property OnFinish: TThreadMethod read FOnFinish write FOnFinish;
+  end;
+
 implementation
 
 uses
@@ -129,6 +146,36 @@ constructor TBinaryDiffViewer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   ViewerMode:= vmHex;
+end;
+
+{ TBinaryCompare }
+
+procedure TBinaryCompare.Execute;
+var
+  Position: PtrInt = 0;
+begin
+  FResult.Clear;
+  while (Terminated = False) and (Position < FFirstSize) and (Position < FSecondSize) do
+  begin
+    if not CompareMem(FFirst + Position, FSecond + Position, cHexWidth) then
+    begin
+      FResult.Add(Pointer(Position));
+    end;
+    Position:= Position + cHexWidth;
+  end;
+  if Assigned(FOnFinish) then Synchronize(FOnFinish);
+end;
+
+constructor TBinaryCompare.Create(First, Second: PByte; FirstSize,
+  SecondSize: PtrUInt; Result: TFPList);
+begin
+  FFirst:= First;
+  FSecond:= Second;
+  FFirstSize:= FirstSize;
+  FSecondSize:= SecondSize;
+  FResult:= Result;
+  inherited Create(True);
+  FreeOnTerminate:= True;
 end;
 
 end.
