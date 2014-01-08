@@ -1584,6 +1584,7 @@ object frmDiffer: TfrmDiffer
     end
     object actCancelCompare: TAction
       Caption = 'Cancel'
+      Enabled = False
       Hint = 'Cancel'
       ImageIndex = 7
       OnExecute = actCancelCompareExecute
