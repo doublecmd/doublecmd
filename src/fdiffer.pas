@@ -196,8 +196,12 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
   private
+    BinaryDiffList: TFPList;
+    BinaryDiffIndex: Integer;
+    BinaryCompare: TBinaryCompare;
     BinaryViewerLeft,
     BinaryViewerRight: TBinaryDiffViewer;
+    procedure BinaryCompareFinish;
   private
     Diff: TDiff;
     SynDiffEditActive: TSynDiffEdit;
@@ -287,11 +291,24 @@ var
   LineNumberLeft,
   LineNumberRight: PtrInt;
 begin
-  if not actBinaryCompare.Checked then
-  try
+  if actBinaryCompare.Checked then
+  begin
+    actStartCompare.Enabled := False;
+    actCancelCompare.Enabled := True;
+    BinaryCompare:= TBinaryCompare.Create(BinaryViewerLeft.GetDataAdr,
+                                          BinaryViewerRight.GetDataAdr,
+                                          BinaryViewerLeft.FileSize,
+                                          BinaryViewerRight.FileSize,
+                                          BinaryDiffList);
+
+    BinaryCompare.OnFinish:= @BinaryCompareFinish;
+    BinaryCompare.Start;
+  end
+  else try
     Inc(ScrollLock);
     Screen.Cursor := crHourGlass;
     if (Length(HashListLeft) = 0) or (Length(HashListRight) = 0) then Exit;
+    actStartCompare.Enabled := False;
     actCancelCompare.Enabled := True;
 
     Diff.Execute(
@@ -340,6 +357,7 @@ begin
     SynDiffEditLeft.FinishCompare;
     SynDiffEditRight.FinishCompare;
     Screen.Cursor := crDefault;
+    actStartCompare.Enabled := True;
     actCancelCompare.Enabled := False;
     Dec(ScrollLock);
   end;
@@ -444,13 +462,6 @@ begin
   actPaintBackground.Enabled:= not actBinaryCompare.Checked;
   actLineDifferences.Enabled:= not actBinaryCompare.Checked;
 
-  // Temporarily while not implemented ---------------------
-  actNextDifference.Enabled:= not actBinaryCompare.Checked;
-  actPrevDifference.Enabled:= not actBinaryCompare.Checked;
-  actFirstDifference.Enabled:= not actBinaryCompare.Checked;
-  actLastDifference.Enabled:= not actBinaryCompare.Checked;
-  // -------------------------------------------------------
-
   SynDiffEditLeft.Visible:= not actBinaryCompare.Checked;
   SynDiffEditRight.Visible:= not actBinaryCompare.Checked;
   BinaryViewerLeft.Visible:= actBinaryCompare.Checked;
@@ -474,7 +485,15 @@ end;
 
 procedure TfrmDiffer.actCancelCompareExecute(Sender: TObject);
 begin
-  Diff.Cancel;
+  if not actBinaryCompare.Checked then
+    Diff.Cancel
+  else begin
+    if Assigned(BinaryCompare) then
+    begin
+      BinaryCompare.Terminate;
+      BinaryCompare:= nil;
+    end;
+  end;
 end;
 
 procedure TfrmDiffer.actAboutExecute(Sender: TObject);
@@ -605,6 +624,7 @@ begin
   // Set active editor
   SynDiffEditActive:= SynDiffEditLeft;
 
+  BinaryDiffList:= TFPList.Create;
   BinaryViewerLeft:= TBinaryDiffViewer.Create(Self);
   BinaryViewerRight:= TBinaryDiffViewer.Create(Self);
 
@@ -644,7 +664,8 @@ end;
 
 procedure TfrmDiffer.FormDestroy(Sender: TObject);
 begin
-  FreeThenNil(Diff);
+  FreeAndNil(Diff);
+  FreeAndNil(BinaryDiffList);
 end;
 
 procedure TfrmDiffer.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -659,6 +680,18 @@ end;
 procedure TfrmDiffer.FormResize(Sender: TObject);
 begin
   pnlLeft.Width:= (ClientWidth div 2) - (Splitter.Width div 2);
+end;
+
+procedure TfrmDiffer.BinaryCompareFinish;
+begin
+  BinaryCompare:= nil;
+  BinaryDiffIndex:= -1;
+  StatusBar.Panels[0].Text := EmptyStr;
+  StatusBar.Panels[1].Text := ' Modifies: ' + IntToStr(BinaryDiffList.Count);
+  StatusBar.Panels[2].Text := EmptyStr;
+  StatusBar.Panels[3].Text := EmptyStr;
+  actStartCompare.Enabled := True;
+  actCancelCompare.Enabled := False;
 end;
 
 procedure TfrmDiffer.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -720,20 +753,32 @@ var
   Line: Integer;
   Kind: TChangeKind;
 begin
-  // Start at first line
-  Line := 0;
-  if Line = SynDiffEditLeft.Lines.Count then Exit;
-  // Skip unmodified lines
-  Kind := ckNone;
-  while (Line < SynDiffEditLeft.Lines.Count - 1) and
-    (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
-  Inc(Line);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
+  if actBinaryCompare.Checked then
   begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
+    if BinaryDiffList.Count > 0 then
+    begin
+      BinaryDiffIndex:= 0;
+      BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
+      if not actKeepScrolling.Checked then
+        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+    end;
+  end
+  else begin
+    // Start at first line
+    Line := 0;
+    if Line = SynDiffEditLeft.Lines.Count then Exit;
+    // Skip unmodified lines
+    Kind := ckNone;
+    while (Line < SynDiffEditLeft.Lines.Count - 1) and
+      (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
+    Inc(Line);
+    SynDiffEditLeft.CaretY := Line;
+    SynDiffEditLeft.TopLine := Line;
+    if not actKeepScrolling.Checked then
+    begin
+      SynDiffEditRight.TopLine := Line;
+      SynDiffEditRight.CaretY := Line;
+    end;
   end;
 end;
 
@@ -742,21 +787,33 @@ var
   Line: Integer;
   Kind: TChangeKind;
 begin
-  Line := SynDiffEditLeft.Lines.Count - 1;
-  if Line = 0 then Exit;
-  // Skip unmodified lines
-  Kind := ckNone;
-  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
-  // Find top line of previous difference
-  Kind:= SynDiffEditLeft.Lines.Kind[Line];
-  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
-  if (Line <> 0) then Inc(Line, 2);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
+  if actBinaryCompare.Checked then
   begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
+    if BinaryDiffList.Count > 0 then
+    begin
+      BinaryDiffIndex:= BinaryDiffList.Count - 1;
+      BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
+      if not actKeepScrolling.Checked then
+        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+    end;
+  end
+  else begin
+    Line := SynDiffEditLeft.Lines.Count - 1;
+    if Line = 0 then Exit;
+    // Skip unmodified lines
+    Kind := ckNone;
+    while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
+    // Find top line of previous difference
+    Kind:= SynDiffEditLeft.Lines.Kind[Line];
+    while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
+    if (Line <> 0) then Inc(Line, 2);
+    SynDiffEditLeft.CaretY := Line;
+    SynDiffEditLeft.TopLine := Line;
+    if not actKeepScrolling.Checked then
+    begin
+      SynDiffEditRight.TopLine := Line;
+      SynDiffEditRight.CaretY := Line;
+    end;
   end;
 end;
 
@@ -765,26 +822,38 @@ var
   Line: Integer;
   Kind: TChangeKind;
 begin
-  Line := SynDiffEditLeft.CaretY - 1;
-  if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
-  // Skip lines with current difference type
-  Kind := SynDiffEditLeft.Lines.Kind[Line];
-  while (Line < SynDiffEditLeft.Lines.Count - 1) and
-    (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
-  if SynDiffEditLeft.Lines.Kind[Line] = ckNone then
+  if actBinaryCompare.Checked then
   begin
-    // Skip unmodified lines
-    Kind := ckNone;
+    if BinaryDiffIndex < BinaryDiffList.Count - 1 then
+    begin
+      BinaryDiffIndex:= BinaryDiffIndex + 1;
+      BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
+      if not actKeepScrolling.Checked then
+        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+    end;
+  end
+  else begin
+    Line := SynDiffEditLeft.CaretY - 1;
+    if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
+    // Skip lines with current difference type
+    Kind := SynDiffEditLeft.Lines.Kind[Line];
     while (Line < SynDiffEditLeft.Lines.Count - 1) and
       (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
-  end;
-  Inc(Line);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
+    if SynDiffEditLeft.Lines.Kind[Line] = ckNone then
+    begin
+      // Skip unmodified lines
+      Kind := ckNone;
+      while (Line < SynDiffEditLeft.Lines.Count - 1) and
+        (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Inc(Line);
+    end;
+    Inc(Line);
+    SynDiffEditLeft.CaretY := Line;
+    SynDiffEditLeft.TopLine := Line;
+    if not actKeepScrolling.Checked then
+    begin
+      SynDiffEditRight.TopLine := Line;
+      SynDiffEditRight.CaretY := Line;
+    end;
   end;
 end;
 
@@ -793,27 +862,39 @@ var
   Line: Integer;
   Kind: TChangeKind;
 begin
-  Line := SynDiffEditLeft.CaretY - 1;
-  if Line = 0 then Exit;
-  // Skip lines with current difference type
-  Kind := SynDiffEditLeft.Lines.Kind[Line];
-  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
-  if SynDiffEditLeft.Lines.Kind[Line] = ckNone then
+  if actBinaryCompare.Checked then
   begin
-    // Skip unmodified lines
-    Kind := ckNone;
+    if BinaryDiffIndex > 0 then
+    begin
+      BinaryDiffIndex:= BinaryDiffIndex - 1;
+      BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
+      if not actKeepScrolling.Checked then
+        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+    end;
+  end
+  else begin
+    Line := SynDiffEditLeft.CaretY - 1;
+    if Line = 0 then Exit;
+    // Skip lines with current difference type
+    Kind := SynDiffEditLeft.Lines.Kind[Line];
     while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
-  end;
-  // Find top line of previous difference
-  Kind:= SynDiffEditLeft.Lines.Kind[Line];
-  while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
-  if (Line <> 0) then Inc(Line, 2);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-    SynDiffEditRight.CaretY := Line;
+    if SynDiffEditLeft.Lines.Kind[Line] = ckNone then
+    begin
+      // Skip unmodified lines
+      Kind := ckNone;
+      while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
+    end;
+    // Find top line of previous difference
+    Kind:= SynDiffEditLeft.Lines.Kind[Line];
+    while (Line > 0) and (SynDiffEditLeft.Lines.Kind[Line] = Kind) do Dec(Line);
+    if (Line <> 0) then Inc(Line, 2);
+    SynDiffEditLeft.CaretY := Line;
+    SynDiffEditLeft.TopLine := Line;
+    if not actKeepScrolling.Checked then
+    begin
+      SynDiffEditRight.TopLine := Line;
+      SynDiffEditRight.CaretY := Line;
+    end;
   end;
 end;
 
