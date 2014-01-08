@@ -846,6 +846,8 @@ end;
 
 destructor TfrmDiffer.Destroy;
 begin
+  BinaryViewerLeft.SecondViewer:= nil;
+  BinaryViewerRight.SecondViewer:= nil;
   HotMan.UnRegister(Self);
   inherited Destroy;
 end;

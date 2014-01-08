@@ -109,15 +109,18 @@ end;
 
 procedure TBinaryDiffViewer.SetPosition(Value: PtrInt);
 begin
-  if FScrollLock = 0 then
+  if not (csDestroying in ComponentState) then
   begin
-    Inc(FScrollLock);
-    try
-      inherited SetPosition(Value);
-      if FKeepScrolling and Assigned(SecondViewer) then
-        SecondViewer.SetPosition(Value);
-    finally
-      Dec(FScrollLock);
+    if FScrollLock = 0 then
+    begin
+      Inc(FScrollLock);
+      try
+        inherited SetPosition(Value);
+        if FKeepScrolling and Assigned(SecondViewer) then
+          SecondViewer.SetPosition(Value);
+      finally
+        Dec(FScrollLock);
+      end;
     end;
   end;
 end;
