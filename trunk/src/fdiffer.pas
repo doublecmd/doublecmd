@@ -1010,8 +1010,9 @@ var
   fsFileStream: TFileStreamEx = nil;
 begin
   try
+    fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
     try
-      fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+      SynDiffEdit.BeginUpdate;
       SynDiffEdit.Lines.LoadFromStream(fsFileStream);
       if Length(SynDiffEdit.Encoding) = 0 then
       begin
@@ -1019,18 +1020,19 @@ begin
         ChooseEncoding(SynDiffEdit);
       end;
       SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, SynDiffEdit.Encoding, EncodingUTF8);
-    except
-      on EFOpenError do
-      begin
-        msgError(rsMsgErrEOpen + ': ' + FileName);
-      end;
-      on EReadError do
-      begin
-        msgError(rsMsgErrERead + ': ' + FileName);
-      end;
+    finally
+      SynDiffEdit.EndUpdate;
+      FreeThenNil(fsFileStream);
     end;
-  finally
-    FreeThenNil(fsFileStream);
+  except
+    on EFOpenError do
+    begin
+      msgError(rsMsgErrEOpen + ': ' + FileName);
+    end;
+    on EReadError do
+    begin
+      msgError(rsMsgErrERead + ': ' + FileName);
+    end;
   end;
 end;
 
