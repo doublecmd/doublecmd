@@ -98,17 +98,18 @@ uses
 procedure TSynDiffHighlighter.ComputeTokens(const aOldLine, aNewLine: String);
 var
   I: Integer;
-  lastKind: TChangeKind;
-  lastToken: String;
+  LastKind: TChangeKind;
+  LastToken: String;
+  FirstToken: Boolean = True;
 
   procedure AddTokenIfNeed(Symbol: Char; Kind: TChangeKind);
   begin
-    if (Kind = lastKind) then // Same Kind, no need to change colors
-      lastToken := lastToken + Symbol
+    if (Kind = LastKind) then // Same Kind, no need to change colors
+      LastToken := LastToken + Symbol
     else begin
-      fTokens.AddObject(lastToken, TObject(PtrInt(lastKind)));
-      lastToken := Symbol;
-      lastKind := Kind;
+      fTokens.AddObject(LastToken, TObject(PtrInt(LastKind)));
+      LastToken := Symbol;
+      LastKind := Kind;
     end;
   end;
 
@@ -120,8 +121,7 @@ begin
     fDiff.Execute(PChar(aOldLine), PChar(aNewLine), Length(aOldLine), Length(aNewLine));
 
   // Prepare diffs to display
-  lastKind := ckNone;
-  lastToken:= EmptyStr;
+  LastToken:= EmptyStr;
 
   for I := 0 to fDiff.Count - 1 do
     with fDiff.Compares[I] do
@@ -130,17 +130,31 @@ begin
         begin
           // Show changes for original file
           if Kind <> ckAdd then
+          begin
+            if FirstToken then
+            begin
+              LastKind:= Kind;
+              FirstToken:= False;
+            end;
             AddTokenIfNeed(chr1, Kind);
+          end;
         end
       else if not Assigned(Editor.ModifiedFile) then // Modified file
         begin
           // Show changes for modified file
           if Kind <> ckDelete then
+          begin
+            if FirstToken then
+            begin
+              LastKind:= Kind;
+              FirstToken:= False;
+            end;
             AddTokenIfNeed(chr2, Kind);
+          end;
         end;
     end;
   // Add last token
-  fTokens.AddObject(lastToken, TObject(PtrInt(lastKind)));
+  fTokens.AddObject(LastToken, TObject(PtrInt(LastKind)));
 end;
 
 constructor TSynDiffHighlighter.Create(aOwner: TComponent);
