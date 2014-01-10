@@ -1,3 +1,25 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   Binary difference viewer and comparator
+
+   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
+
 unit uBinaryDiffViewer;
 
 {$mode objfpc}{$H+}
@@ -31,14 +53,13 @@ type
   private
     FFirst,
     FSecond: PByte;
-    FFirstSize,
-    FSecondSize: PtrUInt;
+    FFinish: PtrInt;
     FResult: TFPList;
     FOnFinish: TThreadMethod;
   protected
     procedure Execute; override;
   public
-    constructor Create(First, Second: PByte; FirstSize, SecondSize: PtrUInt; Result: TFPList);
+    constructor Create(First, Second: PByte; FirstSize, SecondSize: PtrInt; Result: TFPList);
     property OnFinish: TThreadMethod read FOnFinish write FOnFinish;
   end;
 
@@ -152,30 +173,46 @@ end;
 
 procedure TBinaryCompare.Execute;
 var
+  Finish: PtrInt;
+  Remain: PtrInt;
   Position: PtrInt = 0;
+  Equal: Boolean = True;
 begin
   FResult.Clear;
-  while (Terminated = False) and (Position < FFirstSize) and (Position < FSecondSize) do
+  Remain:= (FFinish mod cHexWidth);
+  Finish:= (FFinish - Remain);
+  // Compare integer block size
+  while (Terminated = False) and (Position < Finish) do
   begin
-    if not CompareMem(FFirst + Position, FSecond + Position, cHexWidth) then
+    if CompareMem(FFirst + Position, FSecond + Position, cHexWidth) then
+      Equal:= True
+    else if Equal then
     begin
+      Equal:= False;
       FResult.Add(Pointer(Position));
     end;
     Position:= Position + cHexWidth;
+  end;
+  // Compare remain bytes
+  if (Remain > 0) then
+  begin
+    if not CompareMem(FFirst + Position, FSecond + Position, Remain) then
+    begin
+      if Equal then FResult.Add(Pointer(Position));
+    end;
   end;
   if Assigned(FOnFinish) then Synchronize(FOnFinish);
 end;
 
 constructor TBinaryCompare.Create(First, Second: PByte; FirstSize,
-  SecondSize: PtrUInt; Result: TFPList);
+  SecondSize: PtrInt; Result: TFPList);
 begin
   FFirst:= First;
   FSecond:= Second;
-  FFirstSize:= FirstSize;
-  FSecondSize:= SecondSize;
   FResult:= Result;
   inherited Create(True);
   FreeOnTerminate:= True;
+  FFinish:= Min(FirstSize, SecondSize);
 end;
 
 end.
