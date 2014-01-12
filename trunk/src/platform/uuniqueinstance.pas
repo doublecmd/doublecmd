@@ -62,7 +62,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows,
   {$ELSEIF DEFINED(UNIX)}
-  ipc,
+  ipc, baseunix,
   {$ENDIF}
   StrUtils, FileUtil, uGlobs, uDebug;
 
@@ -138,6 +138,18 @@ var
   status: longint = 0;
   arg: tsemun;
 
+  function id: byte;
+  var
+    UserID: LongRec;
+  begin
+    Result := 0;
+    UserID := LongRec(fpGetUID);
+    Result := Result xor UserID.Bytes[0];
+    Result := Result xor UserID.Bytes[1];
+    Result := Result xor UserID.Bytes[2];
+    Result := Result xor UserID.Bytes[3];
+  end;
+
   function semlock(semid: longint): boolean;
   // increase special Value in semaphore structure (value decreases automatically
   // when program completed incorrectly)
@@ -152,7 +164,7 @@ var
 
 begin
   Result := False;
-  semkey := ftok(PAnsiChar(ParamStr(0)), 0);
+  semkey := ftok(PAnsiChar(ParamStr(0)), id);
   // try create semapore for semkey
   // If semflg specifies both IPC_CREAT and IPC_EXCL and a semaphore set already
   // exists for semkey, then semget() return -1 and errno set to EEXIST
@@ -268,6 +280,9 @@ end;
 constructor TUniqueInstance.Create(aInstanceName: String);
 begin
   FInstanceName:= aInstanceName;
+  {$IF DEFINED(UNIX)}
+  FInstanceName+= '-' + IntToStr(fpGetUID);
+  {$ENDIF}
 end;
 
 destructor TUniqueInstance.Destroy;
