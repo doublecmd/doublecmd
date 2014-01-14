@@ -622,6 +622,8 @@ begin
     begin
       // Queue was begin followed - switch to next operation from that queue.
       FOperationHandle := GetFirstOperationHandle(FQueueIdentifier);
+      OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+      OpManItem.Operation.AddUserInterface(FUserInterface);
     end;
   end;
 end;
