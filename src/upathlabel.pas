@@ -35,6 +35,7 @@ type
 
   TPathLabel = class(TLabel)
   private
+    FAllowHighlight: Boolean;
     FHighlightStartPos: Integer;
     FHighlightText: String;
     {en
@@ -54,13 +55,15 @@ type
     }
     procedure Highlight(MousePosX, MousePosY: Integer);
 
-    procedure MouseEnterEvent(Sender: TObject);
-    procedure MouseMoveEvent(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure MouseLeaveEvent(Sender: TObject);
+  protected
+
+    procedure MouseEnter; override;
+    procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
+    procedure MouseLeave; override;
 
   public
 
-    constructor Create(AOwner: TComponent; AllowHighlight: Boolean = False); reintroduce;
+    constructor Create(AOwner: TComponent; bAllowHighlight: Boolean = False); reintroduce;
 
     procedure Paint; override;
 
@@ -69,6 +72,7 @@ type
     }
     procedure SetActive(Active: Boolean);
 
+    property AllowHighlight: Boolean read FAllowHighlight write FAllowHighlight;
     property LeftSpacing: Integer read FLeftSpacing write FLeftSpacing;
     property SelectedDir: String read FSelectedDir;
   end;
@@ -80,11 +84,13 @@ uses
 
 { TPathLabel }
 
-constructor TPathLabel.Create(AOwner: TComponent; AllowHighlight: Boolean);
+constructor TPathLabel.Create(AOwner: TComponent; bAllowHighlight: Boolean);
 begin
   FLeftSpacing := 3; // set before painting
 
   inherited Create(AOwner);
+
+  FAllowHighlight := bAllowHighlight;
 
   FSelectedDir := '';
 
@@ -92,13 +98,6 @@ begin
   FHighlightText := '';
 
   SetActive(False);
-
-  if AllowHighlight then
-  begin
-    OnMouseEnter:=@MouseEnterEvent;
-    OnMouseMove :=@MouseMoveEvent;
-    OnMouseLeave:=@MouseLeaveEvent;
-  end;
 end;
 
 procedure TPathLabel.Paint;
@@ -211,24 +210,33 @@ begin
   end;
 end;
 
-procedure TPathLabel.MouseEnterEvent(Sender: TObject);
+procedure TPathLabel.MouseEnter;
 begin
-  Cursor := crDefault;
-  Invalidate;
+  inherited MouseEnter;
+  if FAllowHighlight then
+  begin
+    Cursor := crDefault;
+    Invalidate;
+  end;
 end;
 
-procedure TPathLabel.MouseMoveEvent(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+procedure TPathLabel.MouseMove(Shift: TShiftState; X,Y: Integer);
 begin
-  Highlight(X, Y);
+  inherited MouseMove(Shift, X, Y);
+  if FAllowHighlight then Highlight(X, Y);
 end;
 
-procedure TPathLabel.MouseLeaveEvent(Sender: TObject);
+procedure TPathLabel.MouseLeave;
 begin
-  FSelectedDir := '';
-  FHighlightStartPos := -1;
-  FHighlightText := '';
-  Cursor := crDefault;
-  Invalidate;
+  inherited MouseLeave;
+  if FAllowHighlight then
+  begin
+    FSelectedDir := '';
+    FHighlightStartPos := -1;
+    FHighlightText := '';
+    Cursor := crDefault;
+    Invalidate;
+  end;
 end;
 
 end.
