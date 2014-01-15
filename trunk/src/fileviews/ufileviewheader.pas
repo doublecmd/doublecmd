@@ -24,6 +24,8 @@ type
     procedure PathLabelClick(Sender: TObject);
     procedure PathLabelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure AddressLabelClick(Sender: TObject);
+    procedure AddressLabelMouseEnter(Sender: TObject);
   public
     constructor Create(AOwner: TFileView; AParent: TWinControl); reintroduce;
 
@@ -66,7 +68,8 @@ implementation
 
 uses
   LCLType, ShellCtrls, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
-  fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions;
+  fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
+  uArchiveFileSource;
 
 const
   SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
@@ -157,6 +160,33 @@ begin
   end;
 end;
 
+procedure TFileViewHeader.AddressLabelClick(Sender: TObject);
+var
+  walkPath, dirNameToSelect: UTF8String;
+begin
+  FFileView.SetFocus;
+
+  if (FAddressLabel.AllowHighlight) and
+     (Length(FAddressLabel.SelectedDir) > 0) then
+  begin
+    // User clicked on a subdirectory of the address.
+    walkPath := FFileView.CurrentAddress;
+    SetFileSystemPath(FFileView, FAddressLabel.SelectedDir);
+
+    while (Length(walkPath) > Length(FAddressLabel.SelectedDir) + 1) do
+    begin
+      dirNameToSelect := ExtractFileName(ExcludeTrailingPathDelimiter(walkPath));
+      walkPath := FFileView.FileSource.GetParentDir(walkPath);
+    end;
+    FFileView.SetActiveFile(dirNameToSelect);
+  end;
+end;
+
+procedure TFileViewHeader.AddressLabelMouseEnter(Sender: TObject);
+begin
+  FAddressLabel.AllowHighlight:= FFileView.FileSource is TArchiveFileSource;
+end;
+
 constructor TFileViewHeader.Create(AOwner: TFileView; AParent: TWinControl);
 begin
   inherited Create(AOwner);
@@ -194,6 +224,9 @@ begin
 
   FPathLabel.OnClick := @PathLabelClick;
   FPathLabel.OnMouseUp := @PathLabelMouseUp;
+
+  FAddressLabel.OnClick := @AddressLabelClick;
+  FAddressLabel.OnMouseEnter:= @AddressLabelMouseEnter;
 end;
 
 procedure TFileViewHeader.HeaderResize(Sender: TObject);
