@@ -2593,6 +2593,10 @@ msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Spl&it File..."
 msgstr "&Teile Datei"
 
+#: tfrmmain.actflatview.caption
+msgid "&Flat view"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Fokus auf die Befehlsze&ile"

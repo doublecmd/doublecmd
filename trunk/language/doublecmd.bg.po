@@ -2553,6 +2553,10 @@ msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Spl&it File..."
 msgstr "Раздробяване на файл"
 
+#: tfrmmain.actflatview.caption
+msgid "&Flat view"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Сочене на реда за управление"
