@@ -6585,6 +6585,11 @@ msgstr ""
 msgid "Overwrite All S&maller"
 msgstr ""
 
+#: ulng.rsdlgbuttonrename
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr ""
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr ""

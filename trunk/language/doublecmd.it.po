@@ -6588,6 +6588,11 @@ msgstr "Sovrascrivi tutti i &vecchi"
 msgid "Overwrite All S&maller"
 msgstr "Sovrascrivi tutti i più &piccoli"
 
+#: ulng.rsdlgbuttonrename
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "&Rinomina"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "&Riprendi"

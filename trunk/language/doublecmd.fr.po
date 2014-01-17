@@ -7367,6 +7367,13 @@ msgstr ""
 msgid "Overwrite All S&maller"
 msgstr ""
 
+#: ulng.rsdlgbuttonrename
+#, fuzzy
+#| msgid "Rename"
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "Effacer"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr ""

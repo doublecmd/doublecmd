@@ -7576,6 +7576,13 @@ msgstr "Alle älteren &Dateien überschreiben"
 msgid "Overwrite All S&maller"
 msgstr "Alle &kleineren Dateien überschreiben"
 
+#: ulng.rsdlgbuttonrename
+#, fuzzy
+#| msgid "Rename"
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "Umb&enennen"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "Fo&rtsetzen"

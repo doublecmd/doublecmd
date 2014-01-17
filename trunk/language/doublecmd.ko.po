@@ -7547,6 +7547,13 @@ msgstr "옛파일 전부 덮기(&D)"
 msgid "Overwrite All S&maller"
 msgstr ""
 
+#: ulng.rsdlgbuttonrename
+#, fuzzy
+#| msgid "Rename"
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "이름 바꾸기"
+
 #: ulng.rsdlgbuttonresume
 #, fuzzy
 msgid "&Resume"

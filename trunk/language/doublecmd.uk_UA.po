@@ -7102,6 +7102,11 @@ msgstr "Замінити всі ста&рі"
 msgid "Overwrite All S&maller"
 msgstr "Перезаписати всі &маленькі"
 
+#: ulng.rsdlgbuttonrename
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "Пере&йменувати"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "&Підсумок"
