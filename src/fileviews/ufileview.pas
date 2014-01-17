@@ -1439,6 +1439,7 @@ begin
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
     {$ENDIF}
+    FileSource.FlatView:= False;
   end;
 end;
 

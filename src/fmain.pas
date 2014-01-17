@@ -92,6 +92,7 @@ type
     actColumnsView: TAction;
     actChangeDirToHome: TAction;
     actCopyFileDetailsToClip: TAction;
+    actFlatView: TAction;
     actSyncDirs: TAction;
     actThumbnailsView: TAction;
     actShellExecute: TAction;
@@ -166,6 +167,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    miFlatView: TMenuItem;
     miMakeDir: TMenuItem;
     miWipe: TMenuItem;
     miDelete: TMenuItem;

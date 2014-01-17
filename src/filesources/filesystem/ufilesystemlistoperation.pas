@@ -12,7 +12,11 @@ uses
 
 type
 
+  { TFileSystemListOperation }
+
   TFileSystemListOperation = class(TFileSourceListOperation)
+  private
+    procedure FlatView(const APath: UTF8String);
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
     procedure MainExecute; override;
@@ -21,7 +25,31 @@ type
 implementation
 
 uses
-  uFile, uFindEx, uOSUtils, uFileSystemFileSource;
+  DCOSUtils, uFile, uFindEx, uOSUtils, uFileSystemFileSource;
+
+procedure TFileSystemListOperation.FlatView(const APath: UTF8String);
+var
+  AFile: TFile;
+  sr: TSearchRecEx;
+begin
+  try
+    if FindFirstEx(APath + '*', faAnyFile, sr) = 0 then
+    repeat
+      CheckOperationState;
+
+      if (sr.Name = '.') or (sr.Name = '..') then Continue;
+
+      if FPS_ISDIR(sr.Attr) then
+        FlatView(APath + sr.Name + DirectorySeparator)
+      else begin
+        AFile := TFileSystemFileSource.CreateFile(APath, @sr);
+        FFiles.Add(AFile);
+      end;
+    until FindNextEx(sr) <> 0;
+  finally
+    FindCloseEx(sr);
+  end;
+end;
 
 constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -36,6 +64,12 @@ var
   IsRootPath, Found: Boolean;
 begin
   FFiles.Clear;
+
+  if FileSource.FlatView then
+  begin
+    FlatView(Path);
+    Exit;
+  end;
 
   IsRootPath := FileSource.IsPathAtRoot(Path);
 

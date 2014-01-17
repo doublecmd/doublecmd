@@ -44,7 +44,11 @@ type
     {en
        Set, if the file source supports file listing in main thread only.
     }
-    fspListInMainThread
+    fspListInMainThread,
+    {en
+       Set, if the file source supports flat listing mode.
+    }
+    fspListFlatView
 
   );
 
