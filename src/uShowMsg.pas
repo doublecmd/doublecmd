@@ -24,13 +24,13 @@ type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
                 mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
                 mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder,
-                mmrOverwriteSmaller, mmrOverwriteLarger, mmrAutoRenameSource,
+                mmrOverwriteSmaller, mmrOverwriteLarger, mmrAutoRenameSource, mmrRenameSource,
                 mmrSkip, mmrSkipAll, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
                 msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
-                msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource,
+                msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbRenameSource,
                 msmbSkip, msmbSkipAll, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
 
 
@@ -524,6 +524,7 @@ begin
   cLngButton[msmbOverwriteSmaller] := rsDlgButtonOverwriteSmaller;
   cLngButton[msmbOverwriteLarger]  := rsDlgButtonOverwriteLarger;
   cLngButton[msmbAutoRenameSource] := rsDlgButtonAutoRenameSource;
+  cLngButton[msmbRenameSource]     := rsDlgButtonRename;
   cLngButton[msmbSkip]             := rsDlgButtonSkip;
   cLngButton[msmbSkipAll]          := rsDlgButtonSkipAll;
   cLngButton[msmbIgnoreAll]        := rsDlgButtonIgnoreAll;
