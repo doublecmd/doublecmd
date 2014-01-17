@@ -1516,8 +1516,8 @@ const
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsourOverwriteLarger, fsourAutoRenameSource);
 var
+  Answer: Boolean;
   Message: String;
-  Answer: Boolean = True;
   PossibleResponses: array of TFileSourceOperationUIResponse;
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
@@ -1548,6 +1548,7 @@ begin
   case FFileExistsOption of
     fsoofeNone:
       repeat
+        Answer := True;
         case AllowAppend of
           True :  PossibleResponses := Responses;
           False:  PossibleResponses := ResponsesNoAppend;
