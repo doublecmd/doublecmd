@@ -197,7 +197,7 @@ implementation
 uses
   uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   uDCUtils, DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty,
-  StrUtils, DCDateTimeUtils;
+  StrUtils, DCDateTimeUtils, uShowMsg, Forms;
 
 function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
 begin
@@ -1507,15 +1507,17 @@ function TFileSystemOperationHelper.FileExists(aFile: TFile;
   var AbsoluteTargetFileName: String; AllowAppend: Boolean
   ): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..10] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll,
-       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
+  Responses: array[0..11] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
+       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel, fsourAppend,
        fsourOverwriteSmaller, fsourOverwriteLarger, fsourAutoRenameSource);
-  ResponsesNoAppend: array[0..5] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll,
-       fsourOverwriteOlder, fsourCancel);
+  ResponsesNoAppend: array[0..9] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourRenameSource,  fsourOverwriteAll,
+       fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
+       fsourOverwriteLarger, fsourAutoRenameSource);
 var
   Message: String;
+  Answer: Boolean = True;
   PossibleResponses: array of TFileSourceOperationUIResponse;
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
@@ -1545,7 +1547,7 @@ var
 begin
   case FFileExistsOption of
     fsoofeNone:
-      begin
+      repeat
         case AllowAppend of
           True :  PossibleResponses := Responses;
           False:  PossibleResponses := ResponsesNoAppend;
@@ -1598,11 +1600,21 @@ begin
               FFileExistsOption:= fsoofeAutoRenameSource;
               AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName);
             end;
+          fsourRenameSource:
+            begin
+              Message:= ExtractFileName(AbsoluteTargetFileName);
+              Answer:= ShowInputQuery(FOperationThread, Application.Title, rsEditNewFileName, Message);
+              if Answer then
+              begin
+                Result:= fsoofeAutoRenameSource;
+                AbsoluteTargetFileName:= ExtractFilePath(AbsoluteTargetFileName) + Message;
+              end;
+            end;
           fsourNone,
           fsourCancel:
             AbortOperation;
         end;
-      end;
+        until Answer;
     fsoofeOverwriteOlder:
       begin
         Result:= OverwriteOlder;

@@ -34,14 +34,14 @@ const
   ResponseToButton: array[TFileSourceOperationUIResponse] of TMyMsgButton =
     (msmbOK, msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone, msmbAppend, msmbResume,
      msmbCopyInto, msmbCopyIntoAll, msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
-     msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbSkip, msmbSkipAll,
-     msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
+     msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbRenameSource,
+     msmbSkip, msmbSkipAll, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
 
   ResultToResponse: array[TMyMsgResult] of TFileSourceOperationUIResponse =
     (fsourOk, fsourNo, fsourYes, fsourCancel, fsourNone, fsourAppend, fsourResume,
      fsourCopyInto, fsourCopyIntoAll, fsourOverwrite, fsourOverwriteAll, fsourOverwriteOlder,
-     fsourOverwriteSmaller, fsourOverwriteLarger, fsourAutoRenameSource, fsourSkip, fsourSkipAll,
-     fsourIgnoreAll, fsourAll, fsourRetry, fsourAbort);
+     fsourOverwriteSmaller, fsourOverwriteLarger, fsourAutoRenameSource, fsourRenameSource,
+     fsourSkip, fsourSkipAll, fsourIgnoreAll, fsourAll, fsourRetry, fsourAbort);
 
 constructor TFileSourceOperationMessageBoxesUI.Create;
 begin
