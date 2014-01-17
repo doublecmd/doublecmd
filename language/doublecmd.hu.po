@@ -2450,6 +2450,10 @@ msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Spl&it File..."
 msgstr "Fájl szele&telése"
 
+#: tfrmmain.actflatview.caption
+msgid "&Flat view"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Parancssorra fókuszálás"
