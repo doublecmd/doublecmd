@@ -100,6 +100,7 @@ type
    procedure cm_CopyFullNamesToClip(const Params: array of string);
    procedure cm_CopyFileDetailsToClip(const Params: array of string);
    procedure cm_Exchange(const Params: array of string);
+   procedure cm_FlatView(const Params: array of string);
    procedure cm_OpenArchive(const Params: array of string);
    procedure cm_TestArchive(const Params: array of string);
    procedure cm_OpenDirInNewTab(const Params: array of string);
@@ -760,6 +761,19 @@ var
 begin
   if GetParamValue(Params, 'ToolItemID', ToolItemID) then
     frmMain.MainToolBar.ClickItem(ToolItemID);
+end;
+
+procedure TMainCommands.cm_FlatView(const Params: array of string);
+begin
+  with frmMain.ActiveFrame do
+  begin
+    if not (fspListFlatView in FileSource.GetProperties) then
+      msgWarning(rsMsgErrNotSupported)
+    else begin
+      FileSource.FlatView:= not FileSource.FlatView;
+      Reload;
+    end;
+  end;
 end;
 
 procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);

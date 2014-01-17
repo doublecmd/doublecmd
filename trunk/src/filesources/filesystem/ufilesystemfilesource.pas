@@ -658,7 +658,7 @@ end;
 function TFileSystemFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [
-    fspDirectAccess
+    fspDirectAccess, fspListFlatView
 {$IFDEF UNIX}
   , fspCaseSensitive
 {$ENDIF}

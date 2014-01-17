@@ -1124,6 +1124,9 @@ object frmMain: TfrmMain
       object miLine9: TMenuItem
         Caption = '-'
       end
+      object miFlatView: TMenuItem
+        Action = actFlatView
+      end
       object mnuOpenVFSList: TMenuItem
         Action = actOpenVirtualFileSystemList
       end
@@ -1998,6 +2001,11 @@ object frmMain: TfrmMain
     object actCopyFileDetailsToClip: TAction
       Category = 'Mark'
       Caption = 'Copy all shown &columns'
+      OnExecute = actExecute
+    end
+    object actFlatView: TAction
+      Category = 'Commands'
+      Caption = '&Flat view'
       OnExecute = actExecute
     end
   end
