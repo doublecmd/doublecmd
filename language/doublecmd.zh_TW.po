@@ -7390,6 +7390,13 @@ msgstr "覆蓋全部舊檔 (&D)"
 msgid "Overwrite All S&maller"
 msgstr ""
 
+#: ulng.rsdlgbuttonrename
+#, fuzzy
+#| msgid "Rename"
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "重新命名 (&E)"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "回復 (&R)"

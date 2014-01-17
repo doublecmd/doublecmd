@@ -7047,6 +7047,11 @@ msgstr "Přepsat Vše s&tarší"
 msgid "Overwrite All S&maller"
 msgstr "Přepsat všechno &menší"
 
+#: ulng.rsdlgbuttonrename
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "S&mazat"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "&Znovu začít"

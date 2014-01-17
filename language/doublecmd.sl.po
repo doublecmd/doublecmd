@@ -1,9 +1,15 @@
+# Slovenian translations for double-commander.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# This file is distributed under the same license as the double-commander package.
+#
+# Matej Urbančič <mateju@svn.gnome.org>, 2011-2013.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: double-commander 0.5.5 alpha\n"
+"Project-Id-Version: double-commander master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2013-04-14 22:21+0100\n"
+"PO-Revision-Date: 2013-12-21 19:52+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -17,19 +23,19 @@ msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
-msgstr ""
+msgstr "Poteka primerjava ... %d%% (S tipko ESC se opravilo prekliče)"
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr ""
+msgstr "Število najdenih datotek: %d  (Enakih: %d, Različnih: %d, Različnih na levi: %d, Različnih na desni: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Z leve na desno: kopiraj %d datotek s skupno velikostjo %d bajtov"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 msgid "Right to Left: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Z desne na levo: kopiraj %d datotek s skupno velikostjo %d bajtov"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -1898,7 +1904,7 @@ msgstr "Izbrane &datoteke in mape"
 
 #: tfrmfinddlg.cbtextregexp.caption
 msgid "Regular &expression"
-msgstr ""
+msgstr "Logični &izraz"
 
 #: tfrmfinddlg.cbtimefrom.caption
 msgid "&Time from:"
@@ -2184,7 +2190,7 @@ msgstr "Zamenjaj mapo"
 
 #: tfrmmain.actchangedirtohome.caption
 msgid "Change directory to home"
-msgstr ""
+msgstr "Pojdi v osebno mapo"
 
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
@@ -2271,7 +2277,7 @@ msgstr "Kopiraj"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
-msgstr ""
+msgstr "Kopiraj vse prikazane &stolpce"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
@@ -2408,10 +2414,8 @@ msgid "&Load Selection from File..."
 msgstr "&Naloži izbor iz datoteke ..."
 
 #: tfrmmain.actmakedir.caption
-#, fuzzy
-#| msgid "Create directory"
 msgid "Create &Directory"
-msgstr "Nova mapa"
+msgstr "Ustvari &mapo"
 
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
@@ -2658,7 +2662,7 @@ msgstr "Ustvari &simbolno povezavo ..."
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Synchronize dirs..."
-msgstr ""
+msgstr "Uskladi mape ..."
 
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
@@ -2720,7 +2724,7 @@ msgid "Exit"
 msgstr "Končaj"
 
 #: tfrmmain.btnf7.caption
-msgctxt "tfrmmain.btnf7.caption"
+msgctxt "TFRMMAIN.BTNF7.CAPTION"
 msgid "Directory"
 msgstr "Mapa"
 
@@ -2761,7 +2765,7 @@ msgstr "~"
 #: tfrmmain.btnlefthome.hint
 msgctxt "TFRMMAIN.BTNLEFTHOME.HINT"
 msgid "Go to home directory"
-msgstr "Pojdi v domačo mapo"
+msgstr "Pojdi v osebno mapo"
 
 #: tfrmmain.btnleftroot.caption
 msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
@@ -2975,7 +2979,7 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline50.caption
-msgctxt "tfrmmain.miline50.caption"
+msgctxt "TFRMMAIN.MILINE50.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -3063,12 +3067,12 @@ msgid "C&onfiguration"
 msgstr "&Nastavitve"
 
 #: tfrmmain.mnucontextline1.caption
-msgctxt "tfrmmain.mnucontextline1.caption"
+msgctxt "TFRMMAIN.MNUCONTEXTLINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
 #: tfrmmain.mnucontextline2.caption
-msgctxt "tfrmmain.mnucontextline2.caption"
+msgctxt "TFRMMAIN.MNUCONTEXTLINE2.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -3854,7 +3858,7 @@ msgstr "Mapa &programa (prenosna različica)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
 msgid "&User home directory"
-msgstr "Domača mapa &uporabnika"
+msgstr "Osebna mapa &uporabnika"
 
 #: tfrmoptionscustomcolumns.btncopycolumnsset.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
@@ -4027,7 +4031,7 @@ msgstr "Opravila &brisanja"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
-msgstr "Izbriši v &smeti (S sočasnim pritiskom dvigalke, se izbriše trajno)"
+msgstr "Izbriši v &smeti (s sočasnim pritiskom dvigalke, se izbriše trajno)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
 msgid "D&elete to trash operation"
@@ -4908,7 +4912,7 @@ msgstr "&Zavihki so lahko v več vrsticah"
 #: tfrmoptionstabs.cbtabsopenforeground.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSOPENFOREGROUND.CAPTION"
 msgid "Ctrl+&Up opens new tab in foreground"
-msgstr "Tipki CTRL+navzgor odpreta nov zavihek v ospredju"
+msgstr "Tipki CTRL+↑ odpreta nov zavihek v ospredju"
 
 #: tfrmoptionstabs.cbtabsopennearcurrent.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION"
@@ -5040,7 +5044,7 @@ msgstr "Vrsta gumba"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgid "&Keep terminal window open after executing program"
-msgstr "Ohrani okno terminala &odprto po končani izvedbi programa"
+msgstr "Po koncu izvajanja programa ohrani okno terminala &odprto"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
 msgid "&Execute in terminal"
@@ -5052,11 +5056,11 @@ msgstr "Uporabi &zunanji program"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
 msgid "A&dditional parameters"
-msgstr "&Dodatni parametri"
+msgstr "&Dodatni parametri:"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
 msgid "&Path to program to execute"
-msgstr "&Pot do programa za izvedbo"
+msgstr "&Pot do programa za izvedbo:"
 
 #: tfrmoptionstooltips.btnaddfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
@@ -5581,139 +5585,139 @@ msgid "&Link name"
 msgstr "Ime &povezave"
 
 #: tfrmsyncdirsdlg.btnclose.caption
-msgctxt "tfrmsyncdirsdlg.btnclose.caption"
+msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Zapri"
 
 #: tfrmsyncdirsdlg.btncompare.caption
-msgctxt "tfrmsyncdirsdlg.btncompare.caption"
+msgctxt "TFRMSYNCDIRSDLG.BTNCOMPARE.CAPTION"
 msgid "Compare"
-msgstr "Primerjava"
+msgstr "Primerjaj"
 
 #: tfrmsyncdirsdlg.btnseldir1.caption
-msgctxt "tfrmsyncdirsdlg.btnseldir1.caption"
+msgctxt "TFRMSYNCDIRSDLG.BTNSELDIR1.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmsyncdirsdlg.btnseldir2.caption
-msgctxt "tfrmsyncdirsdlg.btnseldir2.caption"
+msgctxt "TFRMSYNCDIRSDLG.BTNSELDIR2.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmsyncdirsdlg.btnsynchronize.caption
 msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
 msgid "Synchronize"
-msgstr ""
+msgstr "Usklajevanje"
 
 #: tfrmsyncdirsdlg.caption
 msgid "Synchronize directories"
-msgstr ""
+msgstr "Usklajevanje map"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
-msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
+msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
 msgid "*.*"
 msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
-msgstr ""
+msgstr "nesimetrično"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
-msgstr ""
+msgstr "po vsebini"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
-msgstr ""
+msgstr "Prezri datum"
 
 #: tfrmsyncdirsdlg.chkonlyselected.caption
 msgid "only selected"
-msgstr ""
+msgstr "le izbrano"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
 msgid "Subdirs"
-msgstr ""
+msgstr "Podmape"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"
-msgstr ""
+msgstr "Pokaži:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[0].TITLE.CAPTION"
 msgid "Name"
 msgstr "Ime"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[1].TITLE.CAPTION"
 msgid "Size"
 msgstr "Velikost"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[2].TITLE.CAPTION"
 msgid "Date"
 msgstr "Datum"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[4].TITLE.CAPTION"
 msgid "Date"
 msgstr "Datum"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[5].TITLE.CAPTION"
 msgid "Size"
 msgstr "Velikost"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[6].TITLE.CAPTION"
 msgid "Name"
 msgstr "Ime"
 
 #: tfrmsyncdirsdlg.label1.caption
 msgid "(in main window)"
-msgstr ""
+msgstr "(v glavnem oknu)"
 
 #: tfrmsyncdirsdlg.sbcopyleft.caption
-msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
+msgctxt "TFRMSYNCDIRSDLG.SBCOPYLEFT.CAPTION"
 msgid "<"
 msgstr "<"
 
 #: tfrmsyncdirsdlg.sbcopyright.caption
-msgctxt "tfrmsyncdirsdlg.sbcopyright.caption"
+msgctxt "TFRMSYNCDIRSDLG.SBCOPYRIGHT.CAPTION"
 msgid ">"
 msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
-msgstr ""
+msgstr "podvojeno"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgid "="
-msgstr ""
+msgstr "="
 
 #: tfrmsyncdirsdlg.sbnotequal.caption
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
-msgstr ""
+msgstr "posamezne"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr ""
+msgstr "Pritisnite gumb \"Primerjava\" za začetek"
 
 #: tfrmsyncdirsperformdlg.caption
-msgctxt "tfrmsyncdirsperformdlg.caption"
+msgctxt "TFRMSYNCDIRSPERFORMDLG.CAPTION"
 msgid "Synchronize"
-msgstr ""
+msgstr "Usklajevanje"
 
 #: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
 msgid "Confirm overwrites"
-msgstr ""
+msgstr "Potrdi prepisovanje"
 
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
@@ -6404,35 +6408,35 @@ msgstr "Prekliči trenutno opravilo"
 
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
-msgstr ""
+msgstr "Okvarjeno:"
 
 #: ulng.rschecksumverifygeneral
 msgid "General:"
-msgstr ""
+msgstr "Splošno:"
 
 #: ulng.rschecksumverifymissing
 msgid "Missing:"
-msgstr ""
+msgstr "Manjkajoče:"
 
 #: ulng.rschecksumverifyreaderror
 msgid "Read error:"
-msgstr ""
+msgstr "Napaka branj:"
 
 #: ulng.rschecksumverifysuccess
 msgid "Success:"
-msgstr ""
+msgstr "Uspešno zaključeno:"
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
-msgstr ""
+msgstr "Vnos nadzorne vsote in izbira algoritma:"
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
-msgstr ""
+msgstr "Preveri nadzorne vsote"
 
 #: ulng.rschecksumverifytotal
 msgid "Total:"
-msgstr ""
+msgstr "Skupaj:"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
@@ -6527,7 +6531,7 @@ msgstr "&Pripni"
 
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
-msgstr ""
+msgstr "&Samodejno preimenuj izvorne datoteke"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
@@ -6569,7 +6573,7 @@ msgstr "&V redu"
 
 #: ulng.rsdlgbuttonother
 msgid "Ot&her"
-msgstr ""
+msgstr "&Drugo"
 
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
@@ -6581,7 +6585,7 @@ msgstr "Prepiši &vse"
 
 #: ulng.rsdlgbuttonoverwritelarger
 msgid "Overwrite All &Larger"
-msgstr ""
+msgstr "Prepiši vse &večje"
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
@@ -6589,7 +6593,12 @@ msgstr "Prepiši vse &starejše"
 
 #: ulng.rsdlgbuttonoverwritesmaller
 msgid "Overwrite All S&maller"
-msgstr ""
+msgstr "Prepiši vse &manjše"
+
+#: ulng.rsdlgbuttonrename
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "&Preimenuj"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -6971,7 +6980,7 @@ msgstr "Ukaz chdir v [%s] je spodletel!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
-msgstr "Ali naj se odstranijo vsi nedejavni zavihke?"
+msgstr "Ali naj se odstranijo vsi nedejavni zavihki?"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
@@ -7155,11 +7164,11 @@ msgstr "Datoteka %s je spremenjena. Ali naj se spremembe shranijo?"
 
 #: ulng.rsmsgfileexistsfileinfo
 msgid "%s bytes, %s"
-msgstr ""
+msgstr "%s bajtov, %s"
 
 #: ulng.rsmsgfileexistsoverwrite
 msgid "Overwrite:"
-msgstr ""
+msgstr "Prepiši:"
 
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
@@ -7167,11 +7176,11 @@ msgstr "Datoteka %s že obstaja. Ali naj bo prepisana?"
 
 #: ulng.rsmsgfileexistswithfile
 msgid "With file:"
-msgstr ""
+msgstr "Z datoteko:"
 
 #: ulng.rsmsgfilenotfound
 msgid "File \"%s\" not found."
-msgstr ""
+msgstr "Datoteke \"%s\" ni mogoče najti."
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
@@ -7442,6 +7451,7 @@ msgstr "Uporabniško ime (požarni zid):"
 msgid "Volume label:"
 msgstr "Oznaka dela arhiva:"
 
+# This should be multiple plural !!!!
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Velikost dela arhiva:"
@@ -8024,7 +8034,7 @@ msgstr "Brez;Ukazna vrstica;Hitro iskanje;Hitri filter"
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
-msgstr "Levi gumb;Desni gumb;"
+msgstr "z desnim gumbom;z levim gumbom;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"

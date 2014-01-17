@@ -6655,6 +6655,11 @@ msgstr "Заменить более &старые"
 msgid "Overwrite All S&maller"
 msgstr "Заменить &маленькие"
 
+#: ulng.rsdlgbuttonrename
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "Пе&реименовать"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "П&родолжить"

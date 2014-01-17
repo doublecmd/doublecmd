@@ -6936,6 +6936,11 @@ msgstr "Min&den régebbi felülírása"
 msgid "Overwrite All S&maller"
 msgstr "Minden &kisebb felülírása"
 
+#: ulng.rsdlgbuttonrename
+msgctxt "ulng.rsdlgbuttonrename"
+msgid "R&ename"
+msgstr "Át&nevezés"
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "Fol&ytat"
