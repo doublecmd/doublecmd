@@ -628,7 +628,7 @@ var
   AFile: TFile;
   AFileName: UTF8String;
 begin
-  if FSelectedCount > 0 then
+  if FileSource.FlatView or (FSelectedCount > 0) then
     lblDetails.Caption:= EmptyStr
   else
     begin
