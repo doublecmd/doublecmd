@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2013-12-15 17:30+0100\n"
+"PO-Revision-Date: 2014-01-18 15:15+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1123,7 +1123,7 @@ msgstr "Finde nächste"
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
-msgstr ""
+msgstr "Gehe zu Zeile..."
 
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
@@ -2600,7 +2600,7 @@ msgstr "&Teile Datei"
 
 #: tfrmmain.actflatview.caption
 msgid "&Flat view"
-msgstr ""
+msgstr ""&Flache" Ansicht"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -7689,12 +7689,12 @@ msgstr "Interner Text-Editor von Double Commander"
 
 #: ulng.rseditgotolinequery
 msgid "Goto line:"
-msgstr ""
+msgstr "Gehe zu Zeile:"
 
 #: ulng.rseditgotolinetitle
 msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
-msgstr ""
+msgstr "Gehe zu Zeile"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -9113,7 +9113,7 @@ msgstr "Oben;Unten;"
 #, fuzzy
 #| msgid "Separator;Internal command;External command;Menu"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
-msgstr "Tr&ennendes Element;&nterner Befehl;E&xterner Befehl;Men&ü"
+msgstr "Tr&ennendes Element;&interner Befehl;E&xterner Befehl;Men&ü"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
