@@ -50,6 +50,7 @@ type
     procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
     procedure ShowPathEdit;
+    procedure UpdateFlatFileName;
     procedure UpdateInfoPanel; virtual;
 
   public
@@ -63,7 +64,7 @@ type
 implementation
 
 uses
-  uGlobs, uLng, uFileProperty, uFileViewWorker, uDCUtils;
+  DCStrUtils, uFile, uGlobs, uLng, uFileProperty, uFileViewWorker, uDCUtils;
 
 { TFileViewWithPanels }
 
@@ -157,6 +158,20 @@ begin
   pnlHeader.ShowPathEdit;
 end;
 
+procedure TFileViewWithPanels.UpdateFlatFileName;
+var
+  AFile: TFile;
+begin
+  AFile:= CloneActiveFile;
+  if Assigned(AFile) then
+  try
+    lblInfo.Caption := MinimizeFilePath(ExtractDirLevel(CurrentPath, AFile.FullPath),
+                                        lblInfo.Canvas, lblInfo.Width);
+  finally
+    AFile.Free;
+  end;
+end;
+
 procedure TFileViewWithPanels.UpdateInfoPanel;
 var
   i: Integer;
@@ -213,13 +228,17 @@ begin
     end;
 
     FSelectedCount := FilesSelected + FolderSelected;
-    lblInfo.Caption := Format(rsMsgSelectedInfo,
-                              [cnvFormatFileSize(SizeSelected),
-                               cnvFormatFileSize(SizeInDir),
-                               FilesSelected,
-                               FilesInDir,
-                               FolderSelected,
-                               FolderInDir]);
+
+    if FileSource.FlatView and (FSelectedCount = 0) then
+      UpdateFlatFileName
+    else
+      lblInfo.Caption := Format(rsMsgSelectedInfo,
+                                [cnvFormatFileSize(SizeSelected),
+                                 cnvFormatFileSize(SizeInDir),
+                                 FilesSelected,
+                                 FilesInDir,
+                                 FolderSelected,
+                                 FolderInDir]);
   end
   else if not (csDestroying in ComponentState) then
     lblInfo.Caption := '';
