@@ -38,6 +38,7 @@ type
     actEditLineEndCrLf: TAction;
     actEditLineEndCr: TAction;
     actEditLineEndLf: TAction;
+    actEditGotoLine: TAction;
     ilImageList: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
@@ -48,6 +49,7 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    miGotoLine: TMenuItem;
     miEditLineEndCr: TMenuItem;
     miEditLineEndLf: TMenuItem;
     miEditLineEndCrLf: TMenuItem;
@@ -111,6 +113,7 @@ type
     tbConfig: TToolButton;
     tbHelp: TToolButton;
     procedure actEditFindNextExecute(Sender: TObject);
+    procedure actEditGotoLineExecute(Sender: TObject);
     procedure actEditLineEndCrExecute(Sender: TObject);
     procedure actEditLineEndCrLfExecute(Sender: TObject);
     procedure actEditLineEndLfExecute(Sender: TObject);
@@ -286,6 +289,24 @@ begin
       DoSearchReplaceText(False, bSearchBackwards);
       bSearchFromCaret:= True;
     end;
+end;
+
+procedure TfrmEditor.actEditGotoLineExecute(Sender: TObject);
+var
+  P: TPoint;
+  Value: String;
+  NewTopLine: Integer;
+begin
+  if ShowInputQuery(rsEditGotoLineTitle, rsEditGotoLineQuery, Value) then
+  begin
+    P.X := 1;
+    P.Y := StrToIntDef(Value, 1);
+    NewTopLine := P.Y - (Editor.LinesInWindow div 2);
+    if NewTopLine < 1 then NewTopLine:= 1;
+    Editor.CaretXY := P;
+    Editor.TopLine := NewTopLine;
+    Editor.SetFocus;
+  end;
 end;
 
 procedure TfrmEditor.actEditLineEndCrExecute(Sender: TObject);

@@ -244,6 +244,8 @@ resourcestring
   rsViewNotFound = '%s not found!';
   rsViewEncoding = 'Encoding';
   // Editor
+  rsEditGotoLineTitle = 'Goto Line';
+  rsEditGotoLineQuery = 'Goto line:';
   rsEditAboutText = 'Internal Editor of Double Commander.';
   // Editor Highlighters
   rsSynLangPlainText = 'Plain text';
