@@ -1118,6 +1118,11 @@ msgctxt "TFRMEDITOR.ACTEDITFINDNEXT.HINT"
 msgid "Find next"
 msgstr "다음 찾기"
 
+#: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
 msgid "Mac (CR)"
@@ -7656,6 +7661,15 @@ msgstr "<미디어 없음>"
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
 msgstr "더블 커맨더 내장 에디터"
+
+#: ulng.rseditgotolinequery
+msgid "Goto line:"
+msgstr ""
+
+#: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
+msgid "Goto Line"
+msgstr ""
 
 #: ulng.rseditnewfile
 msgid "new.txt"

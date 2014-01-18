@@ -1032,6 +1032,11 @@ msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
 msgstr "Найти далее"
 
+#: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
+msgid "Goto Line..."
+msgstr "Перейти к строке..."
+
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
 msgid "Mac (CR)"
@@ -6754,6 +6759,15 @@ msgstr "<нет носителя>"
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
 msgstr "Встроенный редактор Double Commander."
+
+#: ulng.rseditgotolinequery
+msgid "Goto line:"
+msgstr "Перейти к строке:"
+
+#: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
+msgid "Goto Line"
+msgstr "Переход к строке"
 
 #: ulng.rseditnewfile
 msgid "new.txt"

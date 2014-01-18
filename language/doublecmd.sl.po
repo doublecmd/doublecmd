@@ -1043,6 +1043,11 @@ msgctxt "TFRMEDITOR.ACTEDITFINDNEXT.HINT"
 msgid "Find next"
 msgstr "Najdi naslednje"
 
+#: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
 msgid "Mac (CR)"
@@ -6694,6 +6699,15 @@ msgstr "<ni nosilca>"
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
 msgstr "Notranji urejevalnik programa Double Commander"
+
+#: ulng.rseditgotolinequery
+msgid "Goto line:"
+msgstr ""
+
+#: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
+msgid "Goto Line"
+msgstr ""
 
 #: ulng.rseditnewfile
 msgid "new.txt"

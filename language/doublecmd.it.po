@@ -1034,6 +1034,11 @@ msgctxt "TFRMEDITOR.ACTEDITFINDNEXT.HINT"
 msgid "Find next"
 msgstr "Trova prossimo"
 
+#: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
 msgid "Mac (CR)"
@@ -6687,6 +6692,15 @@ msgstr "<nessun media>"
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
 msgstr "Editor interno di Double Commander."
+
+#: ulng.rseditgotolinequery
+msgid "Goto line:"
+msgstr ""
+
+#: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
+msgid "Goto Line"
+msgstr ""
 
 #: ulng.rseditnewfile
 msgid "new.txt"
