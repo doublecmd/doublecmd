@@ -1102,6 +1102,11 @@ msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
 msgstr "找下一個"
 
+#: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
 msgid "Mac (CR)"
@@ -7495,6 +7500,15 @@ msgstr "<沒有媒體>"
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
 msgstr "Double Commander 內部編輯器。"
+
+#: ulng.rseditgotolinequery
+msgid "Goto line:"
+msgstr ""
+
+#: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
+msgid "Goto Line"
+msgstr ""
 
 #: ulng.rseditnewfile
 msgid "new.txt"
