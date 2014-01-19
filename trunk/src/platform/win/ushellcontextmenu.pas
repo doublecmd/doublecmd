@@ -399,7 +399,7 @@ begin
                   begin
                     sAct:= sl.Names[I];
                     if (CompareText('OPEN', sAct) = 0) or (CompareText('VIEW', sAct) = 0) or (CompareText('EDIT', sAct) = 0) then Continue;
-                    InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
+                    InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sAct)), I, I + USER_CMD_ID, MFT_STRING);
                   end;
               end;
 
@@ -407,12 +407,12 @@ begin
               begin
                 // Add separator if needed.
                 if GetMenuItemCount(hActionsSubMenu) > 0 then
-                  InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
+                  InsertMenuItemEx(hActionsSubMenu, 0, nil, 0, 0, MFT_SEPARATOR);
 
                 // now add VIEW item
                 sCmd:= '{!VIEWER} ' + QuoteStr(aFile.FullPath);
                 I := sl.Add(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuView)), 1, I + USER_CMD_ID, MFT_STRING);
+                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuView)), 0, I + USER_CMD_ID, MFT_STRING);
 
                 // now add EDIT item
                 sCmd:= '{!EDITOR} ' + QuoteStr(aFile.FullPath);
