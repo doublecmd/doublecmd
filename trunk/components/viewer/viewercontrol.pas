@@ -393,6 +393,8 @@ type
 
     function ConvertToUTF8(const sText: AnsiString): UTF8String;
     function ConvertFromUTF8(const sText: UTF8String): AnsiString;
+    function FindUtf8Text(iStartPos: PtrInt; const sSearchText: UTF8String;
+                          bCaseSensitive: Boolean; bSearchBackwards: Boolean): PtrInt;
 
     function DetectEncoding: TViewerEncoding;
 
@@ -3167,6 +3169,81 @@ begin
           end;
         end;
       // In non-text modes any selection is valid.
+    end;
+  end;
+end;
+
+function TViewerControl.FindUtf8Text(iStartPos: PtrInt; const sSearchText: UTF8String;
+                                     bCaseSensitive: Boolean; bSearchBackwards: Boolean): PtrInt;
+var
+  SearchTextLength: Integer;
+  sSearchChars: array of UTF8String;
+  pCurrentAddr, pEndAddr: PtrInt;
+  i, charLen: Integer;
+
+  function sPos2(pAdr: PtrInt):Boolean;
+  var
+    curChr:UTF8String;
+    i, charLen: Integer;
+  begin
+    Result := False;
+    for i := 0 to SearchTextLength-1 do
+    begin
+      curChr:=GetNextCharAsUtf8(pAdr,charLen);
+      case bCaseSensitive of
+       False: if UTF8UpperCase(curChr) <> UTF8UpperCase(sSearchChars[i]) then Exit;
+       True : if curChr <> sSearchChars[i] then Exit;
+      end;
+      if charLen>0 then
+        pAdr:=pAdr+charLen
+      else
+        Inc(pAdr);
+    end;
+    Result:=True;
+  end;
+
+begin
+  Result := PtrInt(-1);
+  SearchTextLength := UTF8Length(sSearchText);
+  if (SearchTextLength <= 0) then
+    Exit;
+
+  setLength(sSearchChars,SearchTextLength);
+  for i:=1 to SearchTextLength do
+    sSearchChars[i-1]:=UTF8Copy(sSearchText,i,1);
+
+
+  pCurrentAddr := iStartPos;
+  pEndAddr := FHighLimit - Length(ConvertFromUTF8(sSearchText));
+
+  if bSearchBackwards and (pCurrentAddr > pEndAddr) then
+    // Move to the first possible position for searching backwards.
+    pCurrentAddr := pEndAddr;
+
+  if (pEndAddr < 0) or (pCurrentAddr < 0) or (pCurrentAddr > pEndAddr) then
+    Exit;
+
+  while True do
+  begin
+    if (pCurrentAddr > pEndAddr) or (pCurrentAddr < 0) then
+      Exit;
+
+    if sPos2(pCurrentAddr) then
+    begin
+      Result := pCurrentAddr;
+      Exit;
+    end;
+
+    case bSearchBackwards of
+      False:
+      begin
+        GetNextCharAsUtf8(pCurrentAddr,charLen);
+        if charLen>0 then
+          pCurrentAddr:=pCurrentAddr+charLen
+        else
+          Inc(pCurrentAddr);
+       end;
+      True : Dec(pCurrentAddr);
     end;
   end;
 end;

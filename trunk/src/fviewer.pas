@@ -1975,8 +1975,8 @@ end;
 
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
 var
-  PAdr: PChar;
-  iSizeData: Integer;
+  PAdr: PtrInt;
+  iSizeData, charLen: Integer;
   sSearchTextU: UTF8String;
   sSearchTextA: AnsiString;
 begin
@@ -2039,13 +2039,12 @@ begin
       end;
 
       sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
-      PAdr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
-                     FLastSearchPos, sSearchTextA,
-                     FFindDialog.cbCaseSens.Checked, bSearchBackwards);
+      PAdr := ViewerControl.FindUtf8Text(FLastSearchPos, sSearchTextU,
+                          FFindDialog.cbCaseSens.Checked, bSearchBackwards);
 
-      if (PAdr <> Pointer(-1)) then
+      if (PAdr <> PtrInt(-1)) then
         begin
-          FLastSearchPos := PAdr - ViewerControl.GetDataAdr;
+          FLastSearchPos := PAdr;
           // Text found, show it in ViewerControl if not visible
           ViewerControl.MakeVisible(FLastSearchPos);
           // Select found text.
