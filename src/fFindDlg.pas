@@ -471,17 +471,20 @@ end;
 
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
 begin
-  if cmbEncoding.ItemIndex <> cmbEncoding.Items.IndexOf(EncodingAnsi) then
-    begin
-      cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
-      cbCaseSens.Checked:= True;
-      cbCaseSens.Enabled:= False;
-    end
-  else
-    begin
-      cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
-      cbCaseSens.Enabled:= True;
-    end;
+  if not gUseMmapInSearch then
+  begin
+    if cmbEncoding.ItemIndex <> cmbEncoding.Items.IndexOf(EncodingAnsi) then
+      begin
+        cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
+        cbCaseSens.Checked:= True;
+        cbCaseSens.Enabled:= False;
+      end
+    else
+      begin
+        cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
+        cbCaseSens.Enabled:= True;
+      end;
+  end;
 end;
 
 constructor TfrmFindDlg.Create(TheOwner: TComponent);

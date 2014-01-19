@@ -29,7 +29,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, SysUtils, uFindFiles, uFindEx;
+  Classes, StdCtrls, SysUtils, uFindFiles, uFindEx, uFindByrMr;
 
 type
 
@@ -50,7 +50,7 @@ type
     FSelectedFiles: TStringList;
     FFileChecks: TFindFileChecks;
     FLinkTargets: TStringList;  // A list of encountered directories (for detecting cycles)
-
+    RecodeTable:TRecodeTable;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function FindInFile(const sFileName: UTF8String;
@@ -103,6 +103,8 @@ begin
 
     FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
     ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
+    if IsFindText then
+      RecodeTable:=InitRecodeTable(TextEncoding,CaseSensitive);
   end;
 
   SearchTemplateToFindFileChecks(FSearchTemplate, FFileChecks);
@@ -233,7 +235,7 @@ begin
   if gUseMmapInSearch then
     begin
       // memory mapping should be slightly faster and use less memory
-      case FindMmap(sFileName, sData, bCase, @IsAborting) of
+      case FindMmapBM(sFileName, sData, RecodeTable, @IsAborting) of
         0 : Exit(False);
         1 : Exit(True);
         // else fall back to searching via stream reading
