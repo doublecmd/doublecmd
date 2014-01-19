@@ -182,7 +182,7 @@
           </SearchPaths>
           <Conditionals Value="if (TargetOS = 'linux') then
 begin
-  LinkerOptions += ' -z relro';
+  LinkerOptions += ' -z relro --as-needed';
 end;
 
 if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
