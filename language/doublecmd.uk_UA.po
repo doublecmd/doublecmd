@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-12-17 22:30+0300\n"
+"PO-Revision-Date: 2014-01-19 17:15+0300\n"
 "Last-Translator: masterok <m_shein@ukr.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1081,7 +1081,7 @@ msgstr "Знайти наступний"
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
-msgstr ""
+msgstr "Перехід до рядка"
 
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
@@ -2483,7 +2483,7 @@ msgstr "Ро&зрізати файл..."
 
 #: tfrmmain.actflatview.caption
 msgid "&Flat view"
-msgstr ""
+msgstr "Плоский вигл&яд"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -7214,12 +7214,12 @@ msgstr "Внутрішній редактор Double Commander."
 
 #: ulng.rseditgotolinequery
 msgid "Goto line:"
-msgstr ""
+msgstr "Перейти до рядка:"
 
 #: ulng.rseditgotolinetitle
 msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
-msgstr ""
+msgstr "Перехід до рядка"
 
 #: ulng.rseditnewfile
 msgid "new.txt"

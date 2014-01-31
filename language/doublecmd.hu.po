@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2013-12-16 08:25+0100\n"
+"PO-Revision-Date: 2014-01-19 06:43+0100\n"
 "Last-Translator: Nyilas MISY <dr.dabzse@gmail.com>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1052,7 +1052,7 @@ msgstr "Következő keresése"
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
-msgstr ""
+msgstr "Sorra ugrás..."
 
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
@@ -2457,7 +2457,7 @@ msgstr "Fájl szele&telése"
 
 #: tfrmmain.actflatview.caption
 msgid "&Flat view"
-msgstr ""
+msgstr "&Lapos nézet"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -7045,12 +7045,12 @@ msgstr "Double Commander belső szerkesztője"
 
 #: ulng.rseditgotolinequery
 msgid "Goto line:"
-msgstr ""
+msgstr "Sorra ugrás :"
 
 #: ulng.rseditgotolinetitle
 msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
-msgstr ""
+msgstr "Sorra ugrás"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
