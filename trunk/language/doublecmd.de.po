@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2014-01-18 15:15+0100\n"
+"PO-Revision-Date: 2014-01-28 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -8476,7 +8476,7 @@ msgstr "Markierte \"%s\" sicher löschen?"
 #, fuzzy
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe Gross"
+msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe Groß;Erster Buchstabe In Jedem Wort Groß;"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
