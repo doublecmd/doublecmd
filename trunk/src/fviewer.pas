@@ -441,13 +441,16 @@ begin
 end;
 
 procedure TfrmViewer.LoadNextFile(const aFileName: UTF8String);
+var
+  ShowFlags: Integer;
 begin
   if bPlugin then
     with WlxPlugins.GetWlxModule(ActivePlugin) do
     begin
       if FileParamVSDetectStr(aFileName, False) then
       begin
-        if CallListLoadNext(Self.Handle, aFileName, 0) <> LISTPLUGIN_ERROR then
+        ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
+        if CallListLoadNext(Self.Handle, aFileName, ShowFlags) <> LISTPLUGIN_ERROR then
           Exit;
       end;
     end;
@@ -1015,6 +1018,7 @@ var
   WlxModule: TWlxModule;
 begin
   ShowFlags:= IfThen(bForce, lcp_forceshow, 0);
+  ShowFlags:= ShowFlags or IfThen(miStretch.Checked, lcp_fittowindow, 0);
   // DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   for I:= 0 to WlxPlugins.Count - 1 do
   if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName, bForce) then
@@ -1349,19 +1353,29 @@ begin
 end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
+var
+  ShowFlags: Integer;
 begin
   miStretch.Checked:= not miStretch.Checked;
-  Image.Stretch:= miStretch.Checked;
-  Image.AutoSize:= not Image.Stretch;
-  Image.Proportional:= Image.Stretch;
-  if gboxHightlight.Visible then UndoTmp;
-  if miStretch.Checked then
-    begin
-      gboxPaint.Visible:=false;
-      gboxHightlight.Visible:=false;
-      gboxView.Visible:=true;
-    end;
-  AdjustImageSize;
+  if bImage then
+  begin
+    Image.Stretch:= miStretch.Checked;
+    Image.AutoSize:= not Image.Stretch;
+    Image.Proportional:= Image.Stretch;
+    if gboxHightlight.Visible then UndoTmp;
+    if miStretch.Checked then
+      begin
+        gboxPaint.Visible:=false;
+        gboxHightlight.Visible:=false;
+        gboxView.Visible:=true;
+      end;
+    AdjustImageSize;
+  end
+  else if bPlugin then
+  begin
+    ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
+    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_newparams, ShowFlags)
+  end;
 end;
 
 procedure TfrmViewer.miTextClick(Sender: TObject);
@@ -2105,16 +2119,21 @@ begin
 
   if Assigned(Panel) then Panel.Visible := True;
 
-  bAnimation         := (GifAnim.Visible);
-  bImage             := (Panel = pnlImage) and (bAnimation = False);
-  bPlugin            := (Panel = nil);
-  miPlugins.Checked  := (Panel = nil);
-  miGraphics.Checked := (Panel = pnlImage);
-  miEncoding.Visible := (Panel = pnlText);
-  miEdit.Visible     := (Panel = pnlText) or (Panel = nil);
-  miImage.Visible    := bImage;
-  miSave.Visible     := bImage;
-  miSaveAs.Visible   := bImage;
+  bAnimation           := (GifAnim.Visible);
+  bImage               := (Panel = pnlImage) and (bAnimation = False);
+  bPlugin              := (Panel = nil);
+  miPlugins.Checked    := (Panel = nil);
+  miGraphics.Checked   := (Panel = pnlImage);
+  miEncoding.Visible   := (Panel = pnlText);
+  miEdit.Visible       := (Panel = pnlText) or (Panel = nil);
+  miImage.Visible      := (bImage or bPlugin);
+  miRotate.Visible     := bImage;
+  miZoomIn.Visible     := bImage;
+  miZoomOut.Visible    := bImage;
+  miFullScreen.Visible := bImage;
+  miScreenshot.Visible := bImage;
+  miSave.Visible       := bImage;
+  miSaveAs.Visible     := bImage;
 
   if Panel = nil then
   begin
@@ -2173,7 +2192,7 @@ end;
 
 procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);
 var
-  I: Integer;
+  I, ShowFlags: Integer;
 begin
   I:= iActiveFile + 1;
   if I >= FileList.Count then
@@ -2181,7 +2200,8 @@ begin
 
   if bPlugin then
     begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+      ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], ShowFlags) <> LISTPLUGIN_ERROR then
         Exit;
     end;
   ExitPluginMode;
@@ -2200,7 +2220,7 @@ end;
 
 procedure TfrmViewer.cm_LoadPrevFile(const Params: array of string);
 var
-  I: Integer;
+  I, ShowFlags: Integer;
 begin
   I:= iActiveFile - 1;
   if I < 0 then
@@ -2208,7 +2228,8 @@ begin
 
   if bPlugin then
     begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+      ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], ShowFlags) <> LISTPLUGIN_ERROR then
         Exit;
     end;
   if pnlPreview.Visible then
