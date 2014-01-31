@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2014  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2941,6 +2941,8 @@ begin
 end;
 
 procedure TMainCommands.cm_CompareDirectories(const Params: array of string);
+const
+  TimeDiff = 3100 / MSecsPerDay;
 var
   I: LongWord;
   SourceFile: TDisplayFile;
@@ -2974,7 +2976,7 @@ begin
       else
         begin
           FileTimeDiff:= SourceFile.FSFile.ModificationTime - TargetFile.FSFile.ModificationTime;
-          if FileTimeDiff = 0 then
+          if (FileTimeDiff > -TimeDiff) and (FileTimeDiff < TimeDiff) then
             ActiveFrame.MarkFile(SourceFile, False)
           else if FileTimeDiff > 0 then
             NotActiveFrame.MarkFile(TargetFile, False)
