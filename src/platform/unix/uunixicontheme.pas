@@ -222,8 +222,8 @@ begin
   begin
     I:= 3;
     SetLength(UnixIconThemesBaseDirList, 8);
-    UnixIconThemesBaseDirList[2] := Home + '/.kde/share/icons');
-    UnixIconThemesBaseDirList[3] := Home + '/.kde4/share/icons');
+    UnixIconThemesBaseDirList[2] := Home + '/.kde/share/icons';
+    UnixIconThemesBaseDirList[3] := Home + '/.kde4/share/icons';
   end;
   UnixIconThemesBaseDirList[I + 1] := '/usr/local/share/icons';
   UnixIconThemesBaseDirList[I + 2] := '/usr/local/share/pixmaps';
