@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some useful functions for Icon Theme implementation
 
-    Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2014  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,8 +38,6 @@ type
   { TUnixIconTheme }
 
   TUnixIconTheme = class(TIconTheme)
-  private
-    FDesktopEnvironment: Cardinal;
   protected
     function CreateParentTheme(const sThemeName: String): TIconTheme; override;
   public
@@ -207,17 +205,30 @@ begin
 end;
 
 var
+  FDesktopEnvironment: Cardinal;
   UnixIconThemesBaseDirList: array of String;
 
 procedure InitIconThemesBaseDirList;
+var
+  Home: String;
+  I: Integer = 1;
 begin
+  Home := GetHomeDir;
   SetLength(UnixIconThemesBaseDirList, 6);
-  UnixIconThemesBaseDirList[0] := GetHomeDir + '/.icons';
-  UnixIconThemesBaseDirList[1] := GetHomeDir + '/.local/share/icons';
-  UnixIconThemesBaseDirList[2] := '/usr/local/share/icons';
-  UnixIconThemesBaseDirList[3] := '/usr/local/share/pixmaps';
-  UnixIconThemesBaseDirList[4] := '/usr/share/icons';
-  UnixIconThemesBaseDirList[5] := '/usr/share/pixmaps';
+  FDesktopEnvironment := GetDesktopEnvironment;
+  UnixIconThemesBaseDirList[0] := Home + '/.icons';
+  UnixIconThemesBaseDirList[1] := Home + '/.local/share/icons';
+  if FDesktopEnvironment = DE_KDE then
+  begin
+    I:= 3;
+    SetLength(UnixIconThemesBaseDirList, 8);
+    UnixIconThemesBaseDirList[2] := Home + '/.kde/share/icons');
+    UnixIconThemesBaseDirList[3] := Home + '/.kde4/share/icons');
+  end;
+  UnixIconThemesBaseDirList[I + 1] := '/usr/local/share/icons';
+  UnixIconThemesBaseDirList[I + 2] := '/usr/local/share/pixmaps';
+  UnixIconThemesBaseDirList[I + 3] := '/usr/share/icons';
+  UnixIconThemesBaseDirList[I + 4] := '/usr/share/pixmaps';
 end;
 
 { TUnixIconTheme }
@@ -225,12 +236,10 @@ end;
 function TUnixIconTheme.CreateParentTheme(const sThemeName: String): TIconTheme;
 begin
   Result:= TUnixIconTheme.Create(sThemeName, FBaseDirListAtCreate);
-  TUnixIconTheme(Result).FDesktopEnvironment:= FDesktopEnvironment;
 end;
 
 constructor TUnixIconTheme.Create;
 begin
-  FDesktopEnvironment:= GetDesktopEnvironment;
   inherited Create(GetCurrentIconTheme, UnixIconThemesBaseDirList);
 end;
 
