@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Scalable Vector Graphics reader implementation (via rsvg and cairo)
 
-   Copyright (C) 2012 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -51,10 +51,17 @@ type
     class function GetFileExtensions: string; override;
   end;
 
+  { TBitmapHelper }
+
+  TBitmapHelper = class helper for TBitmap
+  public
+    procedure LoadFromScalable(const FileName: String; AWidth, AHeight: Integer);
+  end;
+
 implementation
 
 uses
-  DynLibs, IntfGraphics, GraphType, CTypes, DCOSUtils;
+  DynLibs, IntfGraphics, GraphType, Types, CTypes, LazUTF8, DCOSUtils, uThumbnails;
 
 type
   cairo_format_t = (
@@ -68,7 +75,7 @@ type
   Pcairo_surface_t = Pointer;
   Pcairo_t = Pointer;
   PRsvgHandle = Pointer;
-  PGError = Pointer;
+  PPGError = Pointer;
 
 type
   PRsvgDimensionData = ^TRsvgDimensionData;
@@ -85,8 +92,10 @@ var
   cairo_image_surface_get_data: function(surface: Pcairo_surface_t): PByte; cdecl;
   cairo_create: function(target: Pcairo_surface_t): Pcairo_t; cdecl;
   cairo_destroy: procedure (cr: Pcairo_t); cdecl;
+  cairo_scale: procedure(cr: Pcairo_t; sx, sy: cdouble); cdecl;
 
-  rsvg_handle_new_from_data: function(data: PByte; data_len: SizeUInt; var error: PGError): PRsvgHandle; cdecl;
+  rsvg_handle_new_from_file: function(const file_name: PAnsiChar; error: PPGError): PRsvgHandle; cdecl;
+  rsvg_handle_new_from_data: function(data: PByte; data_len: SizeUInt; error: PPGError): PRsvgHandle; cdecl;
   rsvg_handle_get_dimensions: procedure(handle: PRsvgHandle; dimension_data: PRsvgDimensionData); cdecl;
   rsvg_handle_render_cairo: function(handle: PRsvgHandle; cr: Pcairo_t): LongBool; cdecl;
 
@@ -100,43 +109,22 @@ type
     Red, Alpha: Byte;
   end;
 
-{ TDCReaderSVG }
-
-function TDCReaderSVG.InternalCheck(Stream: TStream): boolean;
-var
-  GError: PGError = nil;
-  MemoryStream: TMemoryStream;
-begin
-  MemoryStream:= Stream as TMemoryStream;
-  FRsvgHandle:= rsvg_handle_new_from_data(MemoryStream.Memory, MemoryStream.Size, GError);
-  Result:= Assigned(FRsvgHandle);
-end;
-
-procedure TDCReaderSVG.InternalRead(Stream: TStream; Img: TFPCustomImage);
+procedure RsvgHandleRender(RsvgHandle: Pointer; CairoSurface: Pcairo_surface_t;
+                           Cairo: Pcairo_t; Img: TFPCustomImage);
 var
   X, Y: Integer;
-  Cairo: Pcairo_t;
   ImageData: PBGRA;
   PixelColor: TFPColor;
   Desc: TRawImageDescription;
-  CairoSurface: Pcairo_surface_t;
-  RsvgDimensionData: TRsvgDimensionData;
 begin
   try
-    // Get the SVG's size
-    rsvg_handle_get_dimensions(FRsvgHandle, @RsvgDimensionData);
-    // Creates an image surface of the specified format and dimensions
-    CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, RsvgDimensionData.width, RsvgDimensionData.height);
-    Cairo:= cairo_create(CairoSurface);
     // Draws a SVG to a Cairo surface
-    if rsvg_handle_render_cairo(FRsvgHandle, Cairo) then
+    if rsvg_handle_render_cairo(RsvgHandle, Cairo) then
     begin
       // Get a pointer to the data of the image surface, for direct access
       ImageData:= PBGRA(cairo_image_surface_get_data(CairoSurface));
-      // Set output image size
-      Img.SetSize(RsvgDimensionData.width, RsvgDimensionData.height);
       // Initialize image description
-      Desc.Init_BPP32_B8G8R8A8_BIO_TTB(RsvgDimensionData.width, RsvgDimensionData.height);
+      Desc.Init_BPP32_B8G8R8A8_BIO_TTB(Img.Width, Img.Height);
       TLazIntfImage(Img).DataDescription:= Desc;
       // Read image data
       for Y:= 0 to Img.Height - 1 do
@@ -153,10 +141,86 @@ begin
       end;
     end;
   finally
-    g_object_unref(FRsvgHandle);
+    g_object_unref(RsvgHandle);
     cairo_destroy(Cairo);
     cairo_surface_destroy(CairoSurface);
   end;
+end;
+
+function GetThumbnail(const aFileName: UTF8String; aSize: TSize): Graphics.TBitmap;
+var
+  Scale: Boolean;
+  Cairo: Pcairo_t;
+  RsvgHandle: Pointer;
+  Image: TLazIntfImage;
+  CairoSurface: Pcairo_surface_t;
+  RsvgDimensionData: TRsvgDimensionData;
+begin
+  Result:= nil;
+
+  if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(aFileName)) then
+  begin
+    RsvgHandle:= rsvg_handle_new_from_file(PAnsiChar(UTF8ToSys(aFileName)), nil);
+    if Assigned(RsvgHandle) then
+    begin
+      Result:= TBitmap.Create;
+      // Get the SVG's size
+      rsvg_handle_get_dimensions(RsvgHandle, @RsvgDimensionData);
+      Scale:= (RsvgDimensionData.width > aSize.cx) or (RsvgDimensionData.height > aSize.cy);
+      if Scale then
+      begin
+        // Calculate aspect width and height of thumb
+        aSize:= TThumbnailManager.GetPreviewScaleSize(RsvgDimensionData.width, RsvgDimensionData.height);
+      end
+      else begin
+        aSize.cx:= RsvgDimensionData.width;
+        aSize.cy:= RsvgDimensionData.height;
+      end;
+      // Creates an image surface of the specified format and dimensions
+      CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, aSize.cx, aSize.cy);
+      Cairo:= cairo_create(CairoSurface);
+      // Scale image if needed
+      if Scale then
+      begin
+        cairo_scale(Cairo, aSize.cx / RsvgDimensionData.width, aSize.cy / RsvgDimensionData.height);
+      end;
+      Image:= TLazIntfImage.Create(aSize.cx, aSize.cy);
+      try
+        RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
+        Result.LoadFromIntfImage(Image);
+      finally
+        Image.Free;
+      end;
+    end;
+  end;
+end;
+
+{ TDCReaderSVG }
+
+function TDCReaderSVG.InternalCheck(Stream: TStream): boolean;
+var
+  MemoryStream: TMemoryStream;
+begin
+  MemoryStream:= Stream as TMemoryStream;
+  FRsvgHandle:= rsvg_handle_new_from_data(MemoryStream.Memory, MemoryStream.Size, nil);
+  Result:= Assigned(FRsvgHandle);
+end;
+
+procedure TDCReaderSVG.InternalRead(Stream: TStream; Img: TFPCustomImage);
+var
+  Cairo: Pcairo_t;
+  CairoSurface: Pcairo_surface_t;
+  RsvgDimensionData: TRsvgDimensionData;
+begin
+  // Get the SVG's size
+  rsvg_handle_get_dimensions(FRsvgHandle, @RsvgDimensionData);
+  // Set output image size
+  Img.SetSize(RsvgDimensionData.width, RsvgDimensionData.height);
+  // Creates an image surface of the specified format and dimensions
+  CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, RsvgDimensionData.width, RsvgDimensionData.height);
+  Cairo:= cairo_create(CairoSurface);
+  // Render vector graphics to raster image
+  RsvgHandleRender(FRsvgHandle, CairoSurface, Cairo, Img);
 end;
 
 { TScalableVectorGraphics }
@@ -174,6 +238,40 @@ end;
 class function TScalableVectorGraphics.GetFileExtensions: string;
 begin
   Result:= 'svg;svgz';
+end;
+
+{ TBitmapHelper }
+
+procedure TBitmapHelper.LoadFromScalable(const FileName: String; AWidth,
+  AHeight: Integer);
+var
+  Cairo: Pcairo_t;
+  RsvgHandle: Pointer;
+  Image: TLazIntfImage;
+  CairoSurface: Pcairo_surface_t;
+  RsvgDimensionData: TRsvgDimensionData;
+begin
+  RsvgHandle:= rsvg_handle_new_from_file(PAnsiChar(UTF8ToSys(FileName)), nil);
+  if Assigned(RsvgHandle) then
+  begin
+    Image:= TLazIntfImage.Create(AWidth, AHeight);
+    try
+      // Get the SVG's size
+      rsvg_handle_get_dimensions(RsvgHandle, @RsvgDimensionData);
+      // Creates an image surface of the specified format and dimensions
+      CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, Image.Width, Image.Height);
+      Cairo:= cairo_create(CairoSurface);
+      // Scale image if needed
+      if (Image.Width <> RsvgDimensionData.width) or (Image.Height <> RsvgDimensionData.height) then
+      begin
+        cairo_scale(Cairo, Image.Width / RsvgDimensionData.width, Image.Height / RsvgDimensionData.height);
+      end;
+      RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
+      LoadFromIntfImage(Image);
+    finally
+      Image.Free;
+    end;
+  end;
 end;
 
 const
@@ -197,7 +295,9 @@ begin
     @cairo_image_surface_get_data:= SafeGetProcAddress(libcairo, 'cairo_image_surface_get_data');
     @cairo_create:= SafeGetProcAddress(libcairo, 'cairo_create');
     @cairo_destroy:= SafeGetProcAddress(libcairo, 'cairo_destroy');
+    @cairo_scale:= SafeGetProcAddress(libcairo, 'cairo_scale');
 
+    @rsvg_handle_new_from_file:= SafeGetProcAddress(librsvg, 'rsvg_handle_new_from_file');
     @rsvg_handle_new_from_data:= SafeGetProcAddress(librsvg, 'rsvg_handle_new_from_data');
     @rsvg_handle_get_dimensions:= SafeGetProcAddress(librsvg, 'rsvg_handle_get_dimensions');
     @rsvg_handle_render_cairo:=  SafeGetProcAddress(librsvg, 'rsvg_handle_render_cairo');
@@ -207,6 +307,7 @@ begin
 
     g_type_init();
     // Register image handler and format
+    TThumbnailManager.RegisterProvider(@GetThumbnail);
     ImageHandlers.RegisterImageReader ('Scalable Vector Graphics', 'SVG;SVGZ', TDCReaderSVG);
     TPicture.RegisterFileFormat('svg;svgz', 'Scalable Vector Graphics', TScalableVectorGraphics);
   except

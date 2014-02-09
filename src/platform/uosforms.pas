@@ -109,7 +109,7 @@ uses
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties, uJpegThumb
     {$IF NOT DEFINED(DARWIN)}
-    , uMagickWand
+    , uDCReadSVG, uMagickWand
     {$ELSE}
     , MacOSAll
     {$ENDIF}
