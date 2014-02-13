@@ -987,7 +987,12 @@ begin
   {$ELSE}
   sIconFileName:= FIconTheme.FindIcon(AIconName, AIconSize);
   if sIconFileName <> EmptyStr then
-    Result := CheckLoadPixmapFromFile(sIconFileName);
+  begin
+    if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(sIconFileName)) then
+      Result := BitmapLoadFromScalable(sIconFileName, AIconSize, AIconSize)
+    else
+      Result := CheckLoadPixmapFromFile(sIconFileName);
+  end;
   {$ENDIF}
   if not Assigned(Result) then
 {$ENDIF}

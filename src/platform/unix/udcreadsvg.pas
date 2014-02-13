@@ -51,17 +51,14 @@ type
     class function GetFileExtensions: string; override;
   end;
 
-  { TBitmapHelper }
 
-  TBitmapHelper = class helper for TBitmap
-  public
-    procedure LoadFromScalable(const FileName: String; AWidth, AHeight: Integer);
-  end;
+function BitmapLoadFromScalable(const FileName: String; AWidth, AHeight: Integer): TBitmap;
 
 implementation
 
 uses
-  DynLibs, IntfGraphics, GraphType, Types, CTypes, LazUTF8, DCOSUtils, uThumbnails;
+  DynLibs, IntfGraphics, GraphType, Types, CTypes, LazUTF8, DCOSUtils,
+  uThumbnails, uIconTheme;
 
 type
   cairo_format_t = (
@@ -144,6 +141,39 @@ begin
     g_object_unref(RsvgHandle);
     cairo_destroy(Cairo);
     cairo_surface_destroy(CairoSurface);
+  end;
+end;
+
+function BitmapLoadFromScalable(const FileName: String; AWidth, AHeight: Integer): TBitmap;
+var
+  Cairo: Pcairo_t;
+  RsvgHandle: Pointer;
+  Image: TLazIntfImage;
+  CairoSurface: Pcairo_surface_t;
+  RsvgDimensionData: TRsvgDimensionData;
+begin
+  Result:= nil;
+  RsvgHandle:= rsvg_handle_new_from_file(PAnsiChar(UTF8ToSys(FileName)), nil);
+  if Assigned(RsvgHandle) then
+  begin
+    Image:= TLazIntfImage.Create(AWidth, AHeight);
+    try
+      // Get the SVG's size
+      rsvg_handle_get_dimensions(RsvgHandle, @RsvgDimensionData);
+      // Creates an image surface of the specified format and dimensions
+      CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, Image.Width, Image.Height);
+      Cairo:= cairo_create(CairoSurface);
+      // Scale image if needed
+      if (Image.Width <> RsvgDimensionData.width) or (Image.Height <> RsvgDimensionData.height) then
+      begin
+        cairo_scale(Cairo, Image.Width / RsvgDimensionData.width, Image.Height / RsvgDimensionData.height);
+      end;
+      RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
+      Result:= TBitmap.Create;
+      Result.LoadFromIntfImage(Image);
+    finally
+      Image.Free;
+    end;
   end;
 end;
 
@@ -240,40 +270,6 @@ begin
   Result:= 'svg;svgz';
 end;
 
-{ TBitmapHelper }
-
-procedure TBitmapHelper.LoadFromScalable(const FileName: String; AWidth,
-  AHeight: Integer);
-var
-  Cairo: Pcairo_t;
-  RsvgHandle: Pointer;
-  Image: TLazIntfImage;
-  CairoSurface: Pcairo_surface_t;
-  RsvgDimensionData: TRsvgDimensionData;
-begin
-  RsvgHandle:= rsvg_handle_new_from_file(PAnsiChar(UTF8ToSys(FileName)), nil);
-  if Assigned(RsvgHandle) then
-  begin
-    Image:= TLazIntfImage.Create(AWidth, AHeight);
-    try
-      // Get the SVG's size
-      rsvg_handle_get_dimensions(RsvgHandle, @RsvgDimensionData);
-      // Creates an image surface of the specified format and dimensions
-      CairoSurface:= cairo_image_surface_create(CAIRO_FORMAT_ARGB32, Image.Width, Image.Height);
-      Cairo:= cairo_create(CairoSurface);
-      // Scale image if needed
-      if (Image.Width <> RsvgDimensionData.width) or (Image.Height <> RsvgDimensionData.height) then
-      begin
-        cairo_scale(Cairo, Image.Width / RsvgDimensionData.width, Image.Height / RsvgDimensionData.height);
-      end;
-      RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
-      LoadFromIntfImage(Image);
-    finally
-      Image.Free;
-    end;
-  end;
-end;
-
 const
   cairolib   = 'libcairo.so.2';
   rsvglib    = 'librsvg-2.so.2';
@@ -307,6 +303,7 @@ begin
 
     g_type_init();
     // Register image handler and format
+    TIconTheme.RegisterExtension('svg;svgz');
     TThumbnailManager.RegisterProvider(@GetThumbnail);
     ImageHandlers.RegisterImageReader ('Scalable Vector Graphics', 'SVG;SVGZ', TDCReaderSVG);
     TPicture.RegisterFileFormat('svg;svgz', 'Scalable Vector Graphics', TScalableVectorGraphics);
