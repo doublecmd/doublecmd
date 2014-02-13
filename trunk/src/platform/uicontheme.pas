@@ -4,7 +4,7 @@
     Simple implementation of Icon Theme based on FreeDesktop.org specification
     (http://standards.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html)
 
-    Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2014  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -83,6 +83,7 @@ type
     function DirectoryMatchesSize(SubDirIndex: Integer; AIconSize: Integer): Boolean;
     function DirectorySizeDistance(SubDirIndex: Integer; AIconSize: Integer): Integer;
     class function CutTrailingExtension(const AIconName: String): String;
+    class procedure RegisterExtension(const AExtension: String);
     property ThemeName: String read FThemeName;
     property Directories: TIconDirList read FDirectories;
   end;
@@ -90,10 +91,10 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uDebug, uFindEx, DCOSUtils, DCStrUtils;
+  LCLProc, StrUtils, uDebug, uFindEx, DCBasicTypes, DCOSUtils, DCStrUtils;
 
-const
-  IconExtensionList: array[0..1] of String = ('png', 'xpm');
+var
+  IconExtensionList: TDynamicStringArray;
 
 { TIconTheme }
 
@@ -459,6 +460,18 @@ begin
   Result := AIconName;
 end;
 
+class procedure TIconTheme.RegisterExtension(const AExtension: String);
+var
+  I: Integer;
+  ExtList: TDynamicStringArray;
+begin
+  ExtList:= SplitString(AExtension, ';');
+  for I:= Low(ExtList) to High(ExtList) do
+  begin
+    AddString(IconExtensionList, ExtList[I]);
+  end;
+end;
+
 { TIconDirList }
 
 function TIconDirList.Add(IconDirName: String; IconDirInfo: PIconDirInfo): Integer;
@@ -488,5 +501,9 @@ begin
     end;
   inherited Destroy;
 end;
+
+initialization
+  AddString(IconExtensionList, 'png');
+  AddString(IconExtensionList, 'xpm');
 
 end.
