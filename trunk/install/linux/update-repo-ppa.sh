@@ -54,7 +54,7 @@ update_doublecmd()
   do
     # Update changelog file
     pushd $DC_SOURCE_DIR/debian
-    dch -m -D $DIST -v $DC_VER-0+svn$DC_REVISION~$DIST "Update to revision $DC_REVISION"
+    dch -D $DIST -v $DC_VER-0+svn$DC_REVISION~$DIST "Non-maintainer upload (revision $DC_REVISION)"
     popd
 
     # Create archive with source code
@@ -92,7 +92,7 @@ update_doublecmd_svn()
   do
     # Update changelog file
     pushd $DC_SOURCE_DIR/debian
-    dch -m -D $DIST -v $DC_VER-0+svn$DC_REVISION~$DIST "Update to revision $DC_REVISION"
+    dch -D $DIST -v $DC_VER-0+svn$DC_REVISION~$DIST "Non-maintainer upload (revision $DC_REVISION)"
     popd
 
     # Create archive with source code
