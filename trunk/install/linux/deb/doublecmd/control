@@ -104,7 +104,7 @@ Description: twin-panel (commander-style) file manager (plugins)
 
 Package: doublecmd-common
 Architecture: all
-Depends: ${misc:Depends}
+Depends: desktop-file-utils, ${misc:Depends}
 Suggests: doublecmd-help-en | doublecmd-help,
           libunrar0,
           xterm | x-terminal-emulator

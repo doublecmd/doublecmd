@@ -8,9 +8,7 @@ export HOME=$(CURDIR)/tmphome
 
 override_dh_install:
 	cd language ;\
- 		if [ -f doublecmd.pb.po ] ; then mv doublecmd.pb.po doublecmd.pt_BR.po; fi ;\
-		if [ -f doublecmd.po ] ; then mv doublecmd.po doublecmd.en.po; fi ;\
-		if [ -f doublecmd.zh.po ] ; then mv doublecmd.zh.po doublecmd.zh_TW.po; fi
+		if [ -f doublecmd.po ] ; then mv doublecmd.po doublecmd.en.po; fi
 
 	# Build GTK2 version
 	./build.sh beta gtk2
@@ -51,9 +49,7 @@ override_dh_clean:
 	./clean.sh
 
 	cd language ;\
-		if [ -f doublecmd.pt_BR.po ] ; then mv doublecmd.pt_BR.po doublecmd.pb.po; fi ;\
-		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi ;\
-		if [ -f doublecmd.zh_TW.po ] ; then mv doublecmd.zh_TW.po doublecmd.zh.po; fi
+		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi
 	# Clean up temporary HOME
 	rm -rf $(CURDIR)/tmphome
 	dh_clean
