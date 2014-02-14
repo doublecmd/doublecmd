@@ -1,0 +1,11 @@
+doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/dsx/dsxlocate/dsxlocate.dsx
+doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wcx/cpio/cpio.wcx
+doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wcx/deb/deb.wcx
+doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wcx/lzma/lzma.wcx
+doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wcx/rpm/rpm.wcx
+doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wdx/deb_wdx/deb_wdx.wdx
+doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wdx/rpm_wdx/rpm_wdx.wdx
+doublecmd-plugins: library-not-linked-against-libc usr/lib/doublecmd/plugins/wfx/ftp/ftp.wfx
+doublecmd-plugins: library-not-linked-against-libc usr/lib/doublecmd/plugins/wfx/samba/samba.wfx
+doublecmd-plugins: missing-depends-line
+

@@ -1,85 +1,59 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
-# As a special exception, when this file is copied by dh-make into a
-# dh-make output file, you may use that output file without restriction.
-# This special exception was added by Craig Small in version 0.37 of dh-make.
 
-# Uncomment this to turn on verbose mode.
-# export DH_VERBOSE=1
+# Set temporary HOME for lazarus primary config directory
+export HOME=$(CURDIR)/tmphome
 
-configure: configure-stamp
-configure-stamp:
-	dh_testdir
+%:
+	dh $@
 
+override_dh_install:
 	cd language ;\
-		if [ -f doublecmd.pb.po ] ; then mv doublecmd.pb.po doublecmd.pt_BR.po; fi ;\
+ 		if [ -f doublecmd.pb.po ] ; then mv doublecmd.pb.po doublecmd.pt_BR.po; fi ;\
 		if [ -f doublecmd.po ] ; then mv doublecmd.po doublecmd.en.po; fi ;\
 		if [ -f doublecmd.zh.po ] ; then mv doublecmd.zh.po doublecmd.zh_TW.po; fi
 
-	touch configure-stamp
-
-build: build-arch build-indep
-build-arch: build-stamp
-build-indep: build-stamp
-
-build-stamp: configure-stamp 
-	dh_testdir
-
 	# Build GTK2 version
 	./build.sh beta gtk2
-	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-gtk	
-	./clean.sh	
+	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-common
+	./clean.sh
 
 	# Build Qt4 version
 	./build.sh beta qt
-	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt	
-	./clean.sh	
-	
-	touch $@
+	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt-temp
+	./clean.sh
 
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp configure-stamp
+	# Separate GTK2-specific files
+	mkdir -p $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/plugins
+	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/doublecmd $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/
+	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/plugins/wlx $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/plugins/
+	mkdir -p $(CURDIR)/debian/doublecmd-gtk-dbg/usr/lib/doublecmd
+	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/doublecmd.zdli $(CURDIR)/debian/doublecmd-gtk-dbg/usr/lib/doublecmd/
 
+	# Separate Qt4-specific files
+	mkdir -p $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/plugins
+	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/doublecmd $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/
+	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/plugins/wlx $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/plugins/
+	mkdir -p $(CURDIR)/debian/doublecmd-qt-dbg/usr/lib/doublecmd
+	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/doublecmd.zdli $(CURDIR)/debian/doublecmd-qt-dbg/usr/lib/doublecmd/
+	rm -rf $(CURDIR)/debian/doublecmd-qt-temp/
+
+	# Separate plugins
+	mkdir -p $(CURDIR)/debian/doublecmd-plugins/usr/lib/doublecmd
+	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/plugins $(CURDIR)/debian/doublecmd-plugins/usr/lib/doublecmd
+
+	# Clean up common files
+	rm -f $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/doc/COPYING*.txt
+	find $(CURDIR)/debian/doublecmd-common/usr/share/ -type f | xargs chmod a-x ;
+
+	dh_install
+
+override_dh_clean:
 	./clean.sh
 
 	cd language ;\
 		if [ -f doublecmd.pt_BR.po ] ; then mv doublecmd.pt_BR.po doublecmd.pb.po; fi ;\
 		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi ;\
 		if [ -f doublecmd.zh_TW.po ] ; then mv doublecmd.zh_TW.po doublecmd.zh.po; fi
-	dh_clean 
-
-install: build
-	dh_testdir
-	dh_testroot
-
-# Build architecture-independent files here.
-binary-indep: build install
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installmenu
-	dh_installchangelogs -a
-	dh_installdocs -a
-
-	for pkg in `dh_listpackages` ; do \
-	  install -d     $(CURDIR)/debian/$$pkg/usr/share/lintian/overrides ; \
-	  install -m 644 $(CURDIR)/debian/lintian/$$pkg $(CURDIR)/debian/$$pkg/usr/share/lintian/overrides ; \
-	  rm -f $(CURDIR)/debian/$$pkg/usr/share/doublecmd/doc/COPYING*.txt ; \
-	  find $(CURDIR)/debian/$$pkg/usr/share/ -type f | xargs chmod a-x ; \
-	done
-
-	dh_strip
-	dh_compress -a
-	dh_fixperms -a
-	dh_installdeb -a
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
+	# Clean up temporary HOME
+	rm -rf $(CURDIR)/tmphome
+	dh_clean
