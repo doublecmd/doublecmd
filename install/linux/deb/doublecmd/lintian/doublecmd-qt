@@ -1,4 +1,0 @@
-doublecmd-qt: shlib-with-non-pic-code
-doublecmd-qt: shlib-with-executable-stack
-doublecmd-qt: library-not-linked-against-libc
-doublecmd-qt: shared-lib-without-dependency-information

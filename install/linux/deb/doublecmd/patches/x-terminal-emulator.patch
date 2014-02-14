@@ -1,0 +1,17 @@
+Description: Change default terminal command to 'x-terminal-emulator'
+Author: Graham Inggs <graham@nerve.org.za>
+Forwarded: not-needed
+Last-Update: 2013-09-06
+--- a/src/platform/uOSUtils.pas
++++ b/src/platform/uOSUtils.pas
+@@ -52,8 +52,8 @@
+   RunInTerm = ''; // default run in terminal command
+   fmtRunInTerm = '';
+   {$ELSE}
+-  RunTerm = 'xterm';  // default terminal
+-  RunInTerm = 'xterm -e sh -c'; // default run in terminal command
++  RunTerm = 'x-terminal-emulator';  // default terminal
++  RunInTerm = 'x-terminal-emulator -e sh -c'; // default run in terminal command
+   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read a''';
+   {$ENDIF}
+   fmtRunInShell = '%s -c ''%s''';
