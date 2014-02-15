@@ -152,7 +152,7 @@ msgstr "Schriftart:"
 #: tfcolumnssetconf.label4.caption
 msgctxt "TFCOLUMNSSETCONF.LABEL4.CAPTION"
 msgid "Size:"
-msgstr "Grösse:"
+msgstr "Größe:"
 
 #: tfcolumnssetconf.lblbackground2.caption
 msgctxt "TFCOLUMNSSETCONF.LBLBACKGROUND2.CAPTION"
@@ -329,7 +329,7 @@ msgstr "<Keine Vorlage>"
 #: tfrmabout.btnclose.caption
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmabout.btncopytoclipboard.caption
 msgid "Copy to clipboard"
@@ -549,7 +549,7 @@ msgstr "Prüf&summen-Datei speichern unter:"
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmchecksumverify.caption
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
@@ -761,7 +761,7 @@ msgstr "Erster Unterschied"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
-msgstr "Gross- / Kleinschreibung ignorieren"
+msgstr "Groß- / Kleinschreibung ignorieren"
 
 #: tfrmdiffer.actignorewhitespace.caption
 msgid "Ignore Blanks"
@@ -1039,13 +1039,13 @@ msgstr "Letzte Verknüpfung aus der Sequenz entfernen"
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
-msgstr "Nur für diese Steuerungs-Elemente"
+msgstr "Nur für diese Steuerungselemente"
 
 #: tfrmedithotkey.lblparameters.caption
 #, fuzzy
 #| msgid "Parameters (each in a separate line):"
 msgid "&Parameters (each in a separate line):"
-msgstr "&Parameter(jeder in einer eigenen Zeile):"
+msgstr "&Parameter (jeder in einer eigenen Zeile):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
@@ -1206,12 +1206,12 @@ msgstr "Rückgängig machen"
 #: tfrmeditor.actfileclose.caption
 msgctxt "TFRMEDITOR.ACTFILECLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmeditor.actfileclose.hint
 msgctxt "tfrmeditor.actfileclose.hint"
 msgid "Close"
-msgstr "Schliessen"
+msgstr "Schließen"
 
 #: tfrmeditor.actfileexit.caption
 msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
@@ -1618,7 +1618,7 @@ msgstr "In Betrachter öffnen"
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmfileexecuteyourself.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.CAPTION"
@@ -1636,7 +1636,7 @@ msgstr "Von:"
 
 #: tfrmfileexecuteyourself.lblprompt.caption
 msgid "Click on Close when the temporary file can be deleted!"
-msgstr "Auf [Schliessen] klicken, wenn die temporären Daten gelöscht werden können!"
+msgstr "Auf [Schließen] klicken, wenn die temporären Daten gelöscht werden können!"
 
 #: tfrmfileop.btncancel.caption
 #, fuzzy
@@ -1671,7 +1671,7 @@ msgstr "Nach:"
 #| msgid "Close"
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmfileproperties.btnsetproperties.caption
 msgid "&Set properties"
@@ -1844,7 +1844,7 @@ msgstr "???"
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
 msgid "Size:"
-msgstr "Grösse:"
+msgstr "Größe:"
 
 #: tfrmfileproperties.lblsymlink.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION"
@@ -1895,7 +1895,7 @@ msgstr "&Hilfe"
 #: tfrmfinddlg.btnclose.caption
 msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmfinddlg.btnedit.caption
 #, fuzzy
@@ -1981,7 +1981,7 @@ msgstr "Suche Datei(en)"
 
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
-msgstr "Gross- / Kle&inschreibung beachten"
+msgstr "Groß- / Kle&inschreibung beachten"
 
 #: tfrmfinddlg.cbdatefrom.caption
 #, fuzzy
@@ -1999,13 +1999,13 @@ msgstr "&Vor Datum:"
 #, fuzzy
 #| msgid "Size from:"
 msgid "S&ize from:"
-msgstr "Date&igrösse ab:"
+msgstr "Date&igröße ab:"
 
 #: tfrmfinddlg.cbfilesizeto.caption
 #, fuzzy
 #| msgid "Size to:"
 msgid "Si&ze to:"
-msgstr "Bis Dateigr&össe"
+msgstr "Bis Dateigr&öße"
 
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
@@ -3628,7 +3628,7 @@ msgstr "Breite"
 #: tfrmmultirename.btnclose.caption
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmmultirename.btndeletepreset.caption
 msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
@@ -4163,7 +4163,7 @@ msgstr "Allgemein"
 #| msgid "Also when &size, date, or attributes change"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION"
 msgid "When &size, date or attributes change"
-msgstr "Auch wenn &Grösse, Datum oder Attribut geändert werden"
+msgstr "Auch wenn &Größe, Datum oder Attribut geändert werden"
 
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHEXCLUDEDIRS.CAPTION"
@@ -4263,14 +4263,14 @@ msgstr "Zeige Gitterstruktur zur Orientierung"
 
 #: tfrmoptionscolumnsview.grpautosizecolumns.caption
 msgid "Auto-size columns"
-msgstr "Grösse der Spalten automatisch einstellen"
+msgstr "Größe der Spalten automatisch einstellen"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
 #, fuzzy
 #| msgid "Auto size column:"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
 msgid "Auto si&ze column:"
-msgstr "&Grösse der Spalten automatisch einstellen:"
+msgstr "&Größe der Spalten automatisch einstellen:"
 
 #: tfrmoptionsconfiguration.btnconfigapply.caption
 #, fuzzy
@@ -4458,13 +4458,13 @@ msgstr "&Textmarkierung"
 #, fuzzy
 #| msgid "Use (and edit) global scheme settings"
 msgid "Use (and edit) &global scheme settings"
-msgstr "Nutze (und bearbeite) all&gemeine Schemeinstellungen"
+msgstr "Nutze (und bearbeite) all&gemeine Schemaeinstellungen"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
 #, fuzzy
 #| msgid "Use local scheme settings"
 msgid "Use &local scheme settings"
-msgstr "Nutze &lokales Schemaeinstellungen"
+msgstr "Nutze &lokale Schemaeinstellungen"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
 #, fuzzy
@@ -4624,7 +4624,7 @@ msgstr "&Suche nach Teil des Dateinamens"
 #| msgid "Process comments with files/folders"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
 msgid "&Process comments with files/folders"
-msgstr "K&ommentare von Dateien / Verzeichnissen mitbearbeiten"
+msgstr "K&ommentare von Dateien/Verzeichnissen mitbearbeiten"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 #, fuzzy
@@ -5155,7 +5155,7 @@ msgstr "Icons in Menüs"
 #| msgid " Icon &size "
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
 msgid " Icon size "
-msgstr "Icon-Grö&sse"
+msgstr "Icon-Grö&ße"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -5572,7 +5572,7 @@ msgstr "An&passen"
 #| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Suc&h-PlugIns erlauben alternative Such-Algorithmen oder externe Tools (wie \"locate\", oder ähnliches) zu nutzen"
+msgstr "Suc&h-PlugIns erlauben es, alternative Such-Algorithmen oder aber externe Tools (wie \"locate\", oder ähnliches) zu nutzen"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 #, fuzzy
@@ -5702,7 +5702,7 @@ msgstr "&Reiter-Titel auch zeigen wenn nur einer vorhanden"
 #| msgid "&Confirm close all tabs"
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
 msgid "Con&firm close all tabs"
-msgstr "&Schliessen aller Reiter bestätigen"
+msgstr "&Schließen aller Reiter bestätigen"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 #, fuzzy
@@ -5736,7 +5736,7 @@ msgstr "&Neuen Reiter neben aktuellem Reiter einfügen"
 #| msgid "Show tab close button"
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show ta&b close button"
-msgstr "Zeige Schalter um Ta&bs zu schliessen"
+msgstr "Zeige Schalter um Ta&bs zu schließen"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -6140,7 +6140,7 @@ msgstr "Packer"
 #| msgid "Close"
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmpackinfodlg.btnunpackallandexec.caption
 msgid "Unpack &all and execute"
@@ -6173,7 +6173,7 @@ msgstr "Methode:"
 
 #: tfrmpackinfodlg.lbloriginalsize.caption
 msgid "Original size:"
-msgstr "Originalgrösse"
+msgstr "Originalgröße"
 
 #: tfrmpackinfodlg.lblpackedfile.caption
 msgid "File:"
@@ -6181,7 +6181,7 @@ msgstr "Datei:"
 
 #: tfrmpackinfodlg.lblpackedsize.caption
 msgid "Packed size:"
-msgstr "Gepackte Grösse:"
+msgstr "Gepackte Größe:"
 
 #: tfrmpackinfodlg.lblpacker.caption
 msgid "Packer:"
@@ -6263,7 +6263,7 @@ msgstr "Abbruch"
 #: tfrmselecttextrange.btppanel.closebutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION"
 msgid "&Close"
-msgstr "S&chliessen"
+msgstr "S&chließen"
 
 #: tfrmselecttextrange.btppanel.helpbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
@@ -6382,7 +6382,7 @@ msgstr "Gruppe"
 #, fuzzy
 #| msgid "(gray = unchanged, checked=set attribute)"
 msgid "(gray field means unchanged value)"
-msgstr "(grau = unverändert, markiert = Attribut setzen)"
+msgstr "(Ein graues Feld bedeutet, dass ein Wert unverändert bleibt)"
 
 #: tfrmsetfileproperties.lblattrotherstr.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
@@ -6461,7 +6461,7 @@ msgstr "Dateiname"
 #, fuzzy
 #| msgid "File size"
 msgid "Size and number of parts"
-msgstr "Grösse und Anzahl der Teilstücke"
+msgstr "Größe und Anzahl der Teilstücke"
 
 #: tfrmsplitter.lbdirtarget.caption
 #, fuzzy
@@ -6531,7 +6531,7 @@ msgstr "&Verknüpfungsname"
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
 msgid "Close"
-msgstr "Schliessen"
+msgstr "Schließen"
 
 #: tfrmsyncdirsdlg.btncompare.caption
 msgctxt "tfrmsyncdirsdlg.btncompare.caption"
@@ -6594,7 +6594,7 @@ msgstr "Name"
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
-msgstr "Grösse"
+msgstr "Größe"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
@@ -6613,7 +6613,7 @@ msgstr "Datum"
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
-msgstr "Grösse"
+msgstr "Größe"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
@@ -7022,7 +7022,7 @@ msgstr "Rote Augen"
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
 msgid "Resize"
 msgstr ""
-"Grösse\n"
+"Größe\n"
 "ändern\n"
 
 #: tfrmviewer.btnundo.hint
@@ -7033,7 +7033,7 @@ msgstr "Rückgängig machen"
 #: tfrmviewer.btnzoomin.hint
 msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
 msgid "Zoom In"
-msgstr "Grösser darstellen"
+msgstr "Größer darstellen"
 
 #: tfrmviewer.btnzoomout.hint
 msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
@@ -7261,7 +7261,7 @@ msgstr "&Zeilenumbruch"
 #: tfrmviewer.mizoomin.caption
 msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
 msgid "Zoom In"
-msgstr "Grösser darstellen"
+msgstr "Größer darstellen"
 
 #: tfrmviewer.mizoomout.caption
 msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
@@ -7310,7 +7310,7 @@ msgstr "Abbruch"
 #| msgid "Exit"
 msgctxt "tfrmviewoperations.mnucancelqueue.caption"
 msgid "Cancel"
-msgstr "Ende"
+msgstr "Abbruch"
 
 #: tfrmviewoperations.mnunewqueue.caption
 msgid "New queue"
@@ -7451,7 +7451,7 @@ msgstr "Name"
 #: ulng.rscolsize
 msgctxt "ulng.rscolsize"
 msgid "Size"
-msgstr "Grösse"
+msgstr "Größe"
 
 #: ulng.rscomparediffs
 msgid "Number of changes:"
@@ -7804,7 +7804,7 @@ msgstr "%s Bytes frei"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
-msgstr "Datum / Zeit des letzten Zugriffs"
+msgstr "Datum/Zeit des letzten Zugriffs"
 
 #: ulng.rsfuncattr
 msgctxt "ulng.rsfuncattr"
@@ -7822,7 +7822,7 @@ msgstr "Komprimierte Größe"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
-msgstr "Datum / Zeit der Erstellung"
+msgstr "Datum/Zeit der Erstellung"
 
 #: ulng.rsfuncext
 msgid "Extension"
@@ -7839,7 +7839,7 @@ msgstr "Vernüpfung mit"
 
 #: ulng.rsfuncmtime
 msgid "Modification date/time"
-msgstr "Datum / Zeit der letzten Änderung"
+msgstr "Datum/Zeit der letzten Änderung"
 
 #: ulng.rsfuncname
 msgctxt "ulng.rsfuncname"
@@ -7863,7 +7863,7 @@ msgstr "Pfad"
 #: ulng.rsfuncsize
 msgctxt "ulng.rsfuncsize"
 msgid "Size"
-msgstr "Grösse"
+msgstr "Größe"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -7977,7 +7977,7 @@ msgstr "Zusätzliche Parameter für die Befehlszeile des Packers:"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
-msgstr "Die Datei \"%s\" kann nicht über sich selbst kopiert / verschoben werden!"
+msgstr "Die Datei \"%s\" kann nicht über sich selbst kopiert/verschoben werden!"
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
@@ -7993,7 +7993,7 @@ msgstr "Alle in-aktiven Tabs entfernen?"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr "Dieser Tab ist gesperrt! Trotzdem schliessen?"
+msgstr "Dieser Tab ist gesperrt! Trotzdem schließen?"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -8001,7 +8001,7 @@ msgstr "Soll DoubleCommander wirklich beendet werden?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
-msgstr "%d markierte Datei(en) / Verzeichnis(se) kopieren?"
+msgstr "%d markierte Datei(en)/Verzeichnis(se) kopieren?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
@@ -8149,7 +8149,7 @@ msgstr "Kann Attribut für  \"%s\" nicht setzen"
 
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
-msgstr "Kann Datum / Zeit für  \"%s\" nicht setzen"
+msgstr "Kann Datum/Zeit für  \"%s\" nicht setzen"
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
@@ -8205,7 +8205,7 @@ msgstr "Datei %s ist als schreibgeschützt markiert. Soll sie gelöscht werden?"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
-msgstr "Die Grösse der Datei \"%s\" ist zu gross für das Dateisystem des Ziel-Laufwerks!"
+msgstr "Die Größe der Datei \"%s\" ist zu groß für das Dateisystem des Ziel-Laufwerks!"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
@@ -8398,11 +8398,11 @@ msgstr "Voreinstellung \"%s\" besteht bereits. Überschreiben?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "%d markierte Dateien / Verzeichnisse umbenennen / verschieben?"
+msgstr "%d markierte Dateien/Verzeichnisse umbenennen/verschieben?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
-msgstr "Datei / Verzeichnis \"%s\" kopieren / verschieben?"
+msgstr "Datei/Verzeichnis \"%s\" kopieren/verschieben?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
@@ -8462,7 +8462,7 @@ msgstr "Laufwerksbezeichnung:"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr "Bitte Volume-Grösse eingeben:"
+msgstr "Bitte Volume-Größe eingeben:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -8836,7 +8836,7 @@ msgstr "Beschreibung"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
-msgstr "Bearbeite Tastaturkürzle für %s"
+msgstr "Bearbeite Tastaturkürzel für %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
@@ -8904,7 +8904,7 @@ msgstr "Archivierer"
 #: ulng.rsoptionseditorautorefresh
 msgctxt "ulng.rsoptionseditorautorefresh"
 msgid "Auto refresh"
-msgstr "Automatisch Auffrischen"
+msgstr "Automatisch auffrischen"
 
 #: ulng.rsoptionseditorbehavior
 msgctxt "ulng.rsoptionseditorbehavior"
@@ -8974,7 +8974,7 @@ msgstr "Hervorheber"
 #: ulng.rsoptionseditorhotkeys
 msgctxt "ulng.rsoptionseditorhotkeys"
 msgid "Hot keys"
-msgstr "Tastaurkürzel"
+msgstr "Tastaturkürzel"
 
 #: ulng.rsoptionseditoricons
 msgctxt "ulng.rsoptionseditoricons"
@@ -9024,7 +9024,7 @@ msgstr "Plugins"
 #| msgid "Quick search"
 msgctxt "ulng.rsoptionseditorquicksearch"
 msgid "Quick search/filter"
-msgstr "Schnelle Suche"
+msgstr "Schnelle Suche/Filter"
 
 #: ulng.rsoptionseditorterminal
 msgctxt "ulng.rsoptionseditorterminal"
@@ -9095,15 +9095,15 @@ msgstr "Verstecke Filterpanel wenn es nicht ausgewä&hlt ist"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr "Nicht abhängig von der Schreibweise; abhängig von den lokalen Einstellungen (aAbBcC); erst GrOß, dann klein (ABCabc)"
+msgstr "Nicht abhängig von der Schreibweise; abhängig von den lokalen Einstellungen (aAbBcC); erst Groß, dann klein (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr "Nach Namen sortieren und ersten anzeigen; wie Dateien sortieren und erste anzeigen; wie Dateien sortieren"
+msgstr "Nach Namen sortieren und ersten anzeigen;wie Dateien sortieren und erste anzeigen;wie Dateien sortieren"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr "Alphabetisch;Natürliche Sortierung: alphabetisch und numerisch"
+msgstr "Alphabetisch;Akzentuierungen beachten;Natürliche Sortierung: alphabetisch und numerisch"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -9113,7 +9113,7 @@ msgstr "Oben;Unten;"
 #, fuzzy
 #| msgid "Separator;Internal command;External command;Menu"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
-msgstr "Tr&ennendes Element;&interner Befehl;E&xterner Befehl;Men&ü"
+msgstr "Tr&ennendes Element;&Interner Befehl;E&xterner Befehl;Men&ü"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
@@ -9301,7 +9301,7 @@ msgstr "Fehler beim Öffnen des Editors"
 
 #: ulng.rstoolerroropeningterminal
 msgid "Error opening terminal"
-msgstr "Fehler beim starten des Befehlszeilen-Interpreters"
+msgstr "Fehler beim Starten des Befehlszeilen-Interpreters"
 
 #: ulng.rstoolerroropeningviewer
 msgid "Error opening viewer"
@@ -9319,7 +9319,7 @@ msgstr "Schnellansicht"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Bitte diesen Fehler im Bug-Tracker melden, mit einer Beschreibung was Sie getan haben und der folgend Datei:%s Klicken Sie auf %s zum Fortfahren oder %s zum Abbrechen."
+msgstr "Bitte diesen Fehler im Bug-Tracker melden, mit einer Beschreibung was Sie getan haben und der folgenden Datei:%s Klicken Sie auf %s zum Fortfahren oder %s zum Abbrechen."
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
