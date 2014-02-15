@@ -91,10 +91,20 @@ function  g_key_file_get_boolean(key_file: PGKeyFile; const group_name: Pgchar;
 { TKeyFile }
 
 constructor TKeyFile.Create(const AFileName: String; AEscapeLineFeeds: Boolean);
+var
+  AMessage: UTF8String;
+  AError: PGError = nil;
 begin
   FGKeyFile:= g_key_file_new();
-  if not g_key_file_load_from_file(FGKeyFile, Pgchar(AFileName), G_KEY_FILE_NONE, nil) then
-    raise EFOpenError.CreateFmt(SFOpenError, [AFileName]);
+  if not g_key_file_load_from_file(FGKeyFile, Pgchar(AFileName), G_KEY_FILE_NONE, @AError) then
+  begin
+    if Assigned(AError) then
+    begin
+      AMessage:= StrPas(AError^.message);
+      g_error_free(AError);
+    end;
+    raise EFOpenError.CreateFmt(SFOpenErrorEx, [AFileName, AMessage]);
+  end;
   inherited Create(AFileName, AEscapeLineFeeds);
   CaseSensitive:= True;
 end;
