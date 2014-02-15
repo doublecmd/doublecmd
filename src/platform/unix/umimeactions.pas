@@ -455,7 +455,11 @@ begin
       DesktopEntryFile.Free;
     end;
   except
-    Result:= nil;
+    on E: Exception do
+    begin
+      Result:= nil;
+      WriteLn('GetDesktopEntry: ', E.Message);
+    end;
   end;
 end;
 
