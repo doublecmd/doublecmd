@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    ImageMagick thumbnail provider
 
-   Copyright (C) 2013 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -122,7 +122,7 @@ var
 begin
   Result:= nil;
 
-  if GetGraphicClassForFileExtension(ExtractFileExt(aFileName)) <> nil then
+  if SameText(ExtractFileExt(aFileName), '.xcf') then
   begin
     // DCDebug('GetThumbnail start: ' + IntToStr(GetTickCount));
     MagickWandGenesis;
@@ -147,7 +147,7 @@ begin
           if (Status = MagickFalse) then RaiseWandException(Wand);
         end;
 
-        Status:= MagickSetImageFormat(Wand, 'PNG');
+        Status:= MagickSetImageFormat(Wand, 'PNG32');
         if (Status = MagickFalse) then RaiseWandException(Wand);
 
         Memory:= MagickGetImageBlob(Wand, @MemorySize);
