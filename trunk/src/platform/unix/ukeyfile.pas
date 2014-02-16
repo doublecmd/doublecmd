@@ -125,7 +125,7 @@ begin
       if not Result then
         AMessage:= FormatMessage
       else try
-        AChar:= g_strrstr(AContents, DESKTOP_KEY_KDE_BUG);
+        AChar:= g_strstr_len(AContents, ALength, DESKTOP_KEY_KDE_BUG);
         if Assigned(AChar) then AChar^:= '#';
         Result:= g_key_file_load_from_data(FGKeyFile, AContents, ALength, G_KEY_FILE_NONE, @AError);
         if not Result then AMessage:= FormatMessage;
