@@ -305,14 +305,14 @@ implementation
 uses
   LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
   DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
-  DCOSUtils
+  DCOSUtils, DCClassesUtf8
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
   {$ELSE}
-    , StrUtils, DCBasicTypes, DCClassesUtf8
+    , StrUtils, DCBasicTypes
   {$ENDIF}
   {$IFDEF DARWIN}
     , CocoaAll, MacOSAll, uClassesEx
@@ -1211,7 +1211,7 @@ end;
 
 procedure TPixMapManager.Load(const sFileName: String);
 var
-  slPixmapList: TStringList;
+  slPixmapList: TStringListEx;
   s:String;
   sExt, sPixMap:String;
   iekv:integer;
@@ -1312,7 +1312,7 @@ begin
   // Load icons from pixmaps.txt only if "Only standart icons" enabled
   if (gShowIcons = sim_standart) and mbFileExists(sFileName) then
   try
-    slPixmapList:= TStringList.Create;
+    slPixmapList:= TStringListEx.Create;
     try
       slPixmapList.LoadFromFile(sFileName);
       for I:= 0 to slPixmapList.Count - 1 do
@@ -1971,4 +1971,4 @@ finalization
   end;
 
 end.
-
+
