@@ -6,13 +6,13 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ButtonPanel, Buttons;
+  ButtonPanel, Buttons, uOSForms;
 
 type
 
   { TfrmSelectTextRange }
 
-  TfrmSelectTextRange = class(TForm)
+  TfrmSelectTextRange = class(TModalForm)
     btpPanel: TButtonPanel;
     edtSelectText: TEdit;
     lblSelectText: TLabel;
@@ -27,17 +27,17 @@ type
     { public declarations }
   end; 
 
-function ShowSelectTextRangeDlg(const ACaption, AText: UTF8String;
-                                out iSelStart, iSelFinish: LongInt): Boolean;
+function ShowSelectTextRangeDlg(TheOwner: TCustomForm; const ACaption,
+                                AText: UTF8String; out ASelection: TPoint): Boolean;
 
 implementation
 
 {$R *.lfm}
 
-function ShowSelectTextRangeDlg(const ACaption, AText: UTF8String;
-                                out iSelStart, iSelFinish: LongInt): Boolean;
+function ShowSelectTextRangeDlg(TheOwner: TCustomForm; const ACaption,
+                                AText: UTF8String; out ASelection: TPoint): Boolean;
 begin
-  with TfrmSelectTextRange.Create(Application) do
+  with TfrmSelectTextRange.Create(TheOwner) do
   try
      Caption:= ACaption;
      edtSelectText.Text:= AText;
@@ -46,8 +46,8 @@ begin
 
      if Result then
      begin
-       iSelStart:= FSelStart;
-       iSelFinish:= FSelFinish;
+       ASelection.X:= FSelStart;
+       ASelection.Y:= FSelFinish;
        Result:= (FSelFinish >= FSelStart);
      end;
   finally
