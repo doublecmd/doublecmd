@@ -151,6 +151,7 @@ object frmMultiRename: TfrmMultiRename
         BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnNameMenuClick
+        PopupMenu = ppNameMenu
         TabOrder = 1
       end
       object btnExtMenu: TButton
@@ -168,6 +169,7 @@ object frmMultiRename: TfrmMultiRename
         BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnExtMenuClick
+        PopupMenu = ppNameMenu
         TabOrder = 4
       end
       object cmbNameStyle: TComboBox
