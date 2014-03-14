@@ -1,27 +1,28 @@
 object frmSelectTextRange: TfrmSelectTextRange
-  Left = 326
+  Left = 323
   Height = 112
-  Top = 236
+  Top = 214
   Width = 320
   BorderStyle = bsDialog
   ChildSizing.LeftRightSpacing = 10
   ClientHeight = 112
   ClientWidth = 320
   Position = poOwnerFormCenter
-  LCLVersion = '1.1'
+  LCLVersion = '1.0.12.0'
   object edtSelectText: TEdit
     AnchorSideLeft.Control = lblSelectText
     AnchorSideTop.Control = lblSelectText
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 28
-    Top = 34
+    Height = 24
+    Top = 31
     Width = 300
     AutoSelect = False
     BorderSpacing.Top = 6
     Constraints.MinWidth = 300
-    OnExit = edtSelectTextExit
+    OnKeyUp = edtSelectTextKeyUp
+    OnMouseUp = edtSelectTextMouseUp
     TabOrder = 0
   end
   object lblSelectText: TLabel
@@ -29,9 +30,9 @@ object frmSelectTextRange: TfrmSelectTextRange
     AnchorSideTop.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 18
+    Height = 15
     Top = 10
-    Width = 206
+    Width = 188
     BorderSpacing.Left = 10
     BorderSpacing.Top = 10
     BorderSpacing.Right = 10
@@ -41,8 +42,8 @@ object frmSelectTextRange: TfrmSelectTextRange
   end
   object btpPanel: TButtonPanel
     Left = 10
-    Height = 40
-    Top = 66
+    Height = 36
+    Top = 70
     Width = 300
     OKButton.Name = 'OKButton'
     OKButton.Caption = '&OK'

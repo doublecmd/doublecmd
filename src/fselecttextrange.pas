@@ -16,7 +16,10 @@ type
     btpPanel: TButtonPanel;
     edtSelectText: TEdit;
     lblSelectText: TLabel;
-    procedure edtSelectTextExit(Sender: TObject);
+    procedure edtSelectTextKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtSelectTextMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     FSelStart,
     FSelFinish: LongInt;
@@ -54,7 +57,15 @@ end;
 
 { TfrmSelectTextRange }
 
-procedure TfrmSelectTextRange.edtSelectTextExit(Sender: TObject);
+procedure TfrmSelectTextRange.edtSelectTextKeyUp(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  FSelStart:= edtSelectText.SelStart + 1;
+  FSelFinish:= edtSelectText.SelStart + edtSelectText.SelLength;
+end;
+
+procedure TfrmSelectTextRange.edtSelectTextMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   FSelStart:= edtSelectText.SelStart + 1;
   FSelFinish:= edtSelectText.SelStart + edtSelectText.SelLength;

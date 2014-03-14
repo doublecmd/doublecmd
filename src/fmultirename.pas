@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2014  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit fMultiRename;
@@ -763,9 +763,7 @@ procedure TfrmMultiRename.btnNameMenuClick(Sender: TObject);
 begin
   ppNameMenu.AutoPopup:= False;
   FillContentFieldMenu(miPlugin, @miPluginClick);
-  ppNameMenu.Popup(gbMaska.Parent.Left+gbMaska.Left+
-                    btnNameMenu.Left,gbMaska.Parent.Top+
-                    gbMaska.Top+btnNameMenu.Top);
+  btnNameMenu.PopupMenu.PopUp;
   ppNameMenu.Tag:= 0;
 end;
 
@@ -773,9 +771,7 @@ procedure TfrmMultiRename.btnExtMenuClick(Sender: TObject);
 begin
   ppNameMenu.AutoPopup:= False;
   FillContentFieldMenu(miPlugin, @miPluginClick);
-  ppNameMenu.Popup(gbMaska.Parent.Left+gbMaska.Left+
-                    btnExtMenu.Left,gbMaska.Parent.Top+
-                    gbMaska.Top+btnExtMenu.Top);
+  btnExtMenu.PopupMenu.PopUp;
   ppNameMenu.Tag:= 1;
 end;
 
