@@ -227,7 +227,7 @@ uses
   , SysCall
 {$ENDIF}
 {$IFDEF LINUX}
-  , uMimeActions, uUDisks
+  , Process, uMimeActions, uUDisks
 {$ENDIF}
   ;
 
@@ -276,11 +276,17 @@ end;
 
 var
   HavePMount: Boolean = False;
+  HaveUDisksCtl: Boolean = False;
 
 procedure CheckPMount;
 begin
   HavePMount := (fpSystemStatus('pmount --version > /dev/null') = 0) and
                 (fpSystemStatus('pumount --version > /dev/null') = 0);
+end;
+
+procedure CheckUDisksCtl;
+begin
+  HaveUDisksCtl := (fpSystemStatus('udisksctl help > /dev/null') = 0);
 end;
 
 {$ENDIF LINUX}
@@ -449,6 +455,7 @@ end;
 function MountDrive(Drive: PDrive): Boolean;
 {$IFDEF LINUX}
 var
+  Index: Integer;
   MountPath: UTF8String;
 {$ENDIF}
 begin
@@ -461,6 +468,22 @@ begin
 {$ENDIF}
       Result := fpSystemStatus('mount ' + Drive^.DeviceId) = 0;
 {$IF DEFINED(LINUX)}
+    if not Result and HaveUDisksCtl then
+    begin
+      {$IF (FPC_FULLVERSION >= 20602)}
+      Result:= RunCommand('udisksctl', ['mount', '-b', Drive^.DeviceId], MountPath);
+      if Result then
+      begin
+        Write(MountPath);
+        Index:= Pos(' at ', MountPath);
+        if Index > 0  then
+        begin
+          Inc(Index, 4);
+          Drive^.Path:= Copy(MountPath, Index, Length(MountPath) - Index - 1);
+        end;
+      end
+      {$ENDIF}
+    end;
     if not Result and uUDisks.Initialize then
     begin
       Result := uUDisks.Mount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), EmptyStr, nil, MountPath);
@@ -485,7 +508,9 @@ begin
   begin
 {$IF DEFINED(LINUX)}
     Result := False;
-    if uUDisks.Initialize then
+    if HaveUDisksCtl then
+      Result := fpSystemStatus('udisksctl unmount -b ' + Drive^.DeviceId) = 0;
+    if not Result and uUDisks.Initialize then
     begin
       Result := uUDisks.Unmount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), nil);
       uUDisks.Finalize;
@@ -516,6 +541,7 @@ end;
 
 initialization
   CheckPMount;
+  CheckUDisksCtl;
 
 {$ENDIF}
 
