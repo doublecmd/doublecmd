@@ -27,7 +27,7 @@ unit uUDisks;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, fgl;
 
 type
   TStringArray = array of string;
@@ -69,6 +69,8 @@ type
 
   TUDisksDeviceNotify = procedure(Reason: TUDisksMethod; const ObjectPath: UTF8String) of object;
 
+  TUDisksObserverList = specialize TFPGList<TUDisksDeviceNotify>;
+
 const
   UDisksDevicePathPrefix  = '/org/freedesktop/UDisks/devices/';
 
@@ -102,7 +104,7 @@ procedure RemoveObserver(Func: TUDisksDeviceNotify);
 implementation
 
 uses
-  dbus, fgl, ExtCtrls;
+  dbus, ExtCtrls;
 
 {$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 2)}
 type
@@ -119,7 +121,6 @@ procedure dbus_connection_remove_filter (connection: PDBusConnection;
 {$ENDIF}
 
 type
-  TUDisksObserverList = specialize TFPGList<TUDisksDeviceNotify>;
 
   TDummy = class
     procedure OnTimer(Sender: TObject);
