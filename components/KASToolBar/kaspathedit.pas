@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Path edit class with auto complete feature
 
-   Copyright (C) 2012  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2014  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -195,6 +195,7 @@ begin
     FPanel.Width:= Width;
     FPanel.Visible:= True;
 
+    Application.AddOnDeactivateHandler(FormChangeBoundsEvent, True);
     GetParentForm(Self).AddHandlerOnChangeBounds(FormChangeBoundsEvent, True);
   end;
 end;
@@ -206,6 +207,7 @@ begin
     FPanel.Visible:= False;
     FListBox.Parent:= nil;
     FreeAndNil(FPanel);
+    Application.RemoveOnDeactivateHandler(FormChangeBoundsEvent);
     GetParentForm(Self).RemoveHandlerOnChangeBounds(FormChangeBoundsEvent);
   end;
 end;
