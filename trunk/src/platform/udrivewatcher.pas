@@ -57,7 +57,7 @@ uses
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uMountWatcher, DCStrUtils, uOSUtils, FileUtil
+   , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
@@ -231,7 +231,12 @@ begin
   end
   else
   begin
-    DCDebug('Detecting devices through /proc/self/mounts');
+    if HasUdev then
+    begin
+      if uUDev.Initialize then
+        uUDev.AddObserver(@FakeClass.OnUDisksNotify);
+    end;
+    DCDebug('Detecting mounts through /proc/self/mounts');
     MountWatcher:= TMountWatcher.Create(True);
     MountWatcher.OnMountEvent:= @FakeClass.OnMountWatcherNotify;
     MountWatcher.Start;
@@ -262,6 +267,11 @@ begin
     uUDisks.RemoveObserver(@FakeClass.OnUDisksNotify);
     uUDisks.Finalize;
     IsUDisksAvailable := False;
+  end
+  else if HasUdev then
+  begin
+    uUDev.RemoveObserver(@FakeClass.OnUDisksNotify);
+    uUDev.Finalize;
   end;
   FreeAndNil(MountWatcher);
   if Assigned(FakeClass) then
@@ -330,10 +340,15 @@ begin
     end;
     Result := False;
   end
-  else
+  else if IsUDisksAvailable then
   begin
     // Devices not supplied, retrieve info from UDisks.
     Result := uUDisks.GetDeviceInfo(DeviceObjectPath, DeviceInfo);
+  end
+  else
+  begin
+    // Devices not supplied, retrieve info from UDev.
+    Result := uUDev.GetDeviceInfo(DeviceObjectPath, DeviceInfo);
   end;
 end;
 
@@ -691,7 +706,9 @@ begin
     AddedMountPoints := TStringList.Create;
 
     if IsUDisksAvailable then
-      HaveUDisksDevices := uUDisks.EnumerateDevices(UDisksDevices);
+      HaveUDisksDevices := uUDisks.EnumerateDevices(UDisksDevices)
+    else if HasUdev then
+      HaveUDisksDevices := uUDev.EnumerateDevices(UDisksDevices);
 
     // Storage devices have to be in fstab or mtab and reported by UDisks.
     for I:= Low(MntEntFileList) to High(MntEntFileList) do
@@ -1064,10 +1081,16 @@ end;
 
 procedure TFakeClass.OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
 var
+  Result: Boolean;
   ADrive: PDrive = nil;
   DeviceInfo: TUDisksDeviceInfo;
 begin
-  if uUDisks.GetDeviceInfo(ObjectPath, DeviceInfo) then
+  if IsUDisksAvailable = False then
+    Result:= uUDev.GetDeviceInfo(ObjectPath, DeviceInfo)
+  else
+    Result:= uUDisks.GetDeviceInfo(ObjectPath, DeviceInfo);
+
+  if Result then
     UDisksDeviceToDrive(nil, DeviceInfo, ADrive);
   try
     case Reason of
