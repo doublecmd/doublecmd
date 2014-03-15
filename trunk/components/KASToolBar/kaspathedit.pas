@@ -281,7 +281,13 @@ end;
 procedure TKASPathEdit.KeyUpAfterInterface(var Key: Word; Shift: TShiftState);
 begin
   if (FKeyDown = Key) and FAutoComplete and not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
-    AutoComplete(Text);
+  begin
+    if Modified then
+    begin
+      Modified:= False;
+      AutoComplete(Text);
+    end;
+  end;
   inherited KeyUpAfterInterface(Key, Shift);
 {$IF DEFINED(LCLWIN32)}
   // Windows auto-completer eats the TAB so LCL doesn't get it and doesn't move to next control.
