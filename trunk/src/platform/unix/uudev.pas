@@ -194,6 +194,7 @@ begin
     udev_device_get_property_value:= SafeGetProcAddress(libudev, 'udev_device_get_property_value');
     udev_device_get_sysattr_value:= SafeGetProcAddress(libudev, 'udev_device_get_sysattr_value');
     // udev_monitor — device event source
+    udev_monitor_unref:= SafeGetProcAddress(libudev, 'udev_monitor_unref');
     udev_monitor_new_from_netlink:= SafeGetProcAddress(libudev, 'udev_monitor_new_from_netlink');
 
     udev_monitor_filter_add_match_subsystem_devtype:= SafeGetProcAddress(libudev, 'udev_monitor_filter_add_match_subsystem_devtype');
