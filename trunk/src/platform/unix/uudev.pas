@@ -364,20 +364,36 @@ begin
     end;
 
     GetDeviceProperty(Device, 'UDISKS_SYSTEM_INTERNAL', DeviceIsSystemInternal);
-    GetDeviceProperty(Device, 'UDISKS_PRESENTATION_HIDE', DevicePresentationHide);
-    GetDeviceProperty(Device, 'UDISKS_PRESENTATION_NAME', DevicePresentationName);
-    GetDeviceProperty(Device, 'UDISKS_PRESENTATION_ICON_NAME', DevicePresentationIconName);
     GetDeviceProperty(Device, 'UDISKS_AUTOMOUNT_HINT', DeviceAutomountHint);
+
+    if not GetDeviceProperty(Device, 'UDISKS_IGNORE', DevicePresentationHide) then
+      GetDeviceProperty(Device, 'UDISKS_PRESENTATION_HIDE', DevicePresentationHide);
+
+    if not GetDeviceProperty(Device, 'UDISKS_NAME', DevicePresentationName) then
+      GetDeviceProperty(Device, 'UDISKS_PRESENTATION_NAME', DevicePresentationName);
+
+    if not GetDeviceProperty(Device, 'UDISKS_ICON_NAME', DevicePresentationIconName) then
+      GetDeviceProperty(Device, 'UDISKS_PRESENTATION_ICON_NAME', DevicePresentationIconName);
 
     GetDeviceProperty(Device, 'ID_DRIVE_DETACHABLE', DriveCanDetach);
 
     Value:= udev_device_get_devtype(Device);
     DeviceIsDrive:= (Value = UDEV_DEVICE_TYPE_DISK);
     DeviceIsPartition:= (Value = UDEV_DEVICE_TYPE_PARTITION);
-    GetDeviceProperty(Device, 'UDISKS_PARTITION_TABLE', DeviceIsPartitionTable);
-    if DeviceIsPartition then
+    if DeviceIsDrive then
     begin
-      GetDeviceProperty(Device, 'UDISKS_PARTITION_SLAVE', PartitionSlave);
+      if not GetDeviceProperty(Device, 'UDISKS_PARTITION_TABLE', DeviceIsPartitionTable) then
+      begin
+        DeviceIsPartitionTable:= (udev_device_get_property_value(Device, 'ID_PART_TABLE_TYPE' ) <> nil);
+      end;
+    end
+    else if DeviceIsPartition then
+    begin
+      if not GetDeviceProperty(Device, 'UDISKS_PARTITION_SLAVE', PartitionSlave) then
+      begin
+        if DeviceObjectPath[Length(DeviceObjectPath)] in ['0'..'9'] then
+          PartitionSlave:= ExtractFileDir(DeviceObjectPath);
+      end;
     end;
 
     GetDeviceAttribute(Device, 'removable', DeviceIsRemovable);
