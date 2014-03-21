@@ -302,6 +302,7 @@ var
     J: LongWord;
   begin
     TargetHighlighter.Tag:= SourceHighlighter.Tag;
+    TargetHighlighter.DefaultFilter:= SourceHighlighter.DefaultFilter;
     for J:= 0 to SourceHighlighter.AttrCount - 1 do
     begin
       TargetHighlighter.Attribute[J].Background:= SourceHighlighter.Attribute[J].Background;
@@ -351,6 +352,7 @@ begin
             if Assigned(Highlighter) then
             begin
               Highlighter.Tag := Config.GetAttr(FormNode, 'Tag', 1);
+              Highlighter.DefaultFilter:= Config.GetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
               AttributeNode := Config.FindNode(FormNode, 'Attribute');
               if Assigned(AttributeNode) then
               begin
@@ -402,6 +404,7 @@ var
     FormNode := Config.AddNode(Root, 'Highlighter');
     Config.SetAttr(FormNode, 'Tag', Highlighter.Tag);
     Config.SetAttr(FormNode, 'Name', Highlighter.LanguageName);
+    Config.SetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
     for J:= 0 to Highlighter.AttrCount - 1 do
     begin
       Attribute:= Highlighter.Attribute[J];

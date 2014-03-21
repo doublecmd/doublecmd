@@ -46,6 +46,7 @@ type
     cmbLanguage: TComboBox;
     ColorPreview: TSynEdit;
     ColumnPosBevel: TPanel;
+    edtFileExtensions: TEdit;
     ForegroundColorBox: TColorBox;
     ForeGroundLabel: TLabel;
     ForeGroundUseDefaultCheckBox: TCheckBox;
@@ -61,8 +62,10 @@ type
     pnlTop: TPanel;
     PnlTop2: TPanel;
     pnlUnderline: TPanel;
+    btnSaveMask: TSpeedButton;
+    btnResetMask: TSpeedButton;
     Splitter1: TSplitter;
-    stFileExtensions: TStaticText;
+    pnlFileExtensions: TPanel;
     tbtnGlobal: TToolButton;
     tbtnLocal: TToolButton;
     TextBoldCheckBox: TCheckBox;
@@ -87,6 +90,8 @@ type
     TextUnderlineRadioPanel: TPanel;
     ToolBar1: TToolBar;
     ToolButton3: TToolButton;
+    procedure btnResetMaskClick(Sender: TObject);
+    procedure btnSaveMaskClick(Sender: TObject);
     procedure FrameStyleBoxDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
     procedure cmbLanguageChange(Sender: TObject);
@@ -224,6 +229,21 @@ begin
   end;
 end;
 
+procedure TfrmOptionsEditorColors.btnSaveMaskClick(Sender: TObject);
+begin
+  FCurrentHighlighter.DefaultFilter:= FCurrentHighlighter.LanguageName + ' (' + edtFileExtensions.Text + ')|' + edtFileExtensions.Text;
+end;
+
+procedure TfrmOptionsEditorColors.btnResetMaskClick(Sender: TObject);
+begin
+  with TSynCustomHighlighterClass(FCurrentHighlighter.ClassType).Create(nil) do
+  begin
+    FCurrentHighlighter.DefaultFilter:= DefaultFilter;
+    edtFileExtensions.Text:= Copy(FCurrentHighlighter.DefaultFilter, Pos('|', FCurrentHighlighter.DefaultFilter) + 1, MaxInt);
+    Free;
+  end;
+end;
+
 procedure TfrmOptionsEditorColors.cmbLanguageChange(Sender: TObject);
 var
   I: LongInt;
@@ -233,7 +253,8 @@ begin
   AttributeList:= TStringList.Create;
   try
     FCurrentHighlighter:= TSynCustomHighlighter(cmbLanguage.Items.Objects[cmbLanguage.ItemIndex]);
-    stFileExtensions.Caption:= Copy(FCurrentHighlighter.DefaultFilter, 1, Pos('|', FCurrentHighlighter.DefaultFilter) - 1);
+    pnlFileExtensions.Enabled:= not (FCurrentHighlighter is TSynPlainTextHighlighter);
+    edtFileExtensions.Text:= Copy(FCurrentHighlighter.DefaultFilter, Pos('|', FCurrentHighlighter.DefaultFilter) + 1, MaxInt);
     ColorPreview.Lines.Text:= FHighl.GetSampleSource(FCurrentHighlighter);
     if ColorPreview.Lines.Text = EmptyStr then
     try
