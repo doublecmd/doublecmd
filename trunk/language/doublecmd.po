@@ -3918,6 +3918,15 @@ msgctxt "TFRMOPTIONSEDITORCOLORS.BACKGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Bac&kground"
 msgstr ""
 
+#: tfrmoptionseditorcolors.btnresetmask.hint
+msgid "Reset"
+msgstr ""
+
+#: tfrmoptionseditorcolors.btnsavemask.hint
+msgctxt "TFRMOPTIONSEDITORCOLORS.BTNSAVEMASK.HINT"
+msgid "Save"
+msgstr ""
+
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
 msgstr ""

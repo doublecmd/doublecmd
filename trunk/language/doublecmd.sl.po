@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # This file is distributed under the same license as the double-commander package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2011-2013.
+# Matej Urbančič <mateju@svn.gnome.org>, 2011-2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: double-commander master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2013-12-21 19:52+0100\n"
+"PO-Revision-Date: 2014-03-16 16:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -1046,7 +1046,7 @@ msgstr "Najdi naslednje"
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
-msgstr ""
+msgstr "Skoči v vrstico ..."
 
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
@@ -2375,7 +2375,7 @@ msgstr "Raz&deli datoteko ..."
 
 #: tfrmmain.actflatview.caption
 msgid "&Flat view"
-msgstr ""
+msgstr "&Ploski pogled"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -3927,6 +3927,15 @@ msgstr "O&zadje"
 msgctxt "TFRMOPTIONSEDITORCOLORS.BACKGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Bac&kground"
 msgstr "O&zadje"
+
+#: tfrmoptionseditorcolors.btnresetmask.hint
+msgid "Reset"
+msgstr ""
+
+#: tfrmoptionseditorcolors.btnsavemask.hint
+msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
+msgid "Save"
+msgstr "Shrani"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
@@ -6702,12 +6711,12 @@ msgstr "Notranji urejevalnik programa Double Commander"
 
 #: ulng.rseditgotolinequery
 msgid "Goto line:"
-msgstr ""
+msgstr "Skoči v vrstico:"
 
 #: ulng.rseditgotolinetitle
 msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
-msgstr ""
+msgstr "Skoči v vrstico:"
 
 #: ulng.rseditnewfile
 msgid "new.txt"

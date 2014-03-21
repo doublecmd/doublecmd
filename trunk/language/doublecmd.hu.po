@@ -4111,6 +4111,15 @@ msgctxt "TFRMOPTIONSEDITORCOLORS.BACKGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Bac&kground"
 msgstr "Hát&tér"
 
+#: tfrmoptionseditorcolors.btnresetmask.hint
+msgid "Reset"
+msgstr ""
+
+#: tfrmoptionseditorcolors.btnsavemask.hint
+msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
+msgid "Save"
+msgstr "Mentés"
+
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
 msgstr "Elem attribútumai"

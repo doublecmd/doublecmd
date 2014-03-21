@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # This file is distributed under the same license as the double-commander package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2011-2013.
+# Matej Urbančič <mateju@svn.gnome.org>, 2011-2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: double-commander-lclstrconsts master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-12-21 20:00+0100\n"
+"PO-Revision-Date: 2014-03-16 16:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
