@@ -2600,7 +2600,7 @@ msgstr "&Teile Datei"
 
 #: tfrmmain.actflatview.caption
 msgid "&Flat view"
-msgstr ""&Flache" Ansicht"
+msgstr "\"&Flache\" Ansicht"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -4429,6 +4429,15 @@ msgstr "&Hintergrund"
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
 msgid "Bac&kground"
 msgstr "&Hintergrund"
+
+#: tfrmoptionseditorcolors.btnresetmask.hint
+msgid "Reset"
+msgstr ""
+
+#: tfrmoptionseditorcolors.btnsavemask.hint
+msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
+msgid "Save"
+msgstr "Speichern"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"

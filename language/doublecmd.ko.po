@@ -4348,6 +4348,16 @@ msgctxt "TFRMOPTIONSEDITORCOLORS.BACKGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Bac&kground"
 msgstr "배경 색상:"
 
+#: tfrmoptionseditorcolors.btnresetmask.hint
+msgid "Reset"
+msgstr ""
+
+#: tfrmoptionseditorcolors.btnsavemask.hint
+#, fuzzy
+msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
+msgid "Save"
+msgstr "저장하기"
+
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 #, fuzzy
 msgid "Element Attributes"
