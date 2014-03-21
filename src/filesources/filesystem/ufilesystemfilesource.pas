@@ -76,6 +76,7 @@ type
 
     function IsPathAtRoot(Path: String): Boolean; override;
 
+    function GetParentDir(sPath : String): String; override;
     function GetRootDir(sPath: String): String; override; overload;
     function GetRootDir: String; override; overload;
     function GetPathType(sPath : String): TPathType; override;
@@ -120,7 +121,7 @@ type
 implementation
 
 uses
-  uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs,
+  uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs, uGlobsPaths,
 {$IFDEF MSWINDOWS}
   uMyWindows, Windows,
 {$ENDIF}
@@ -688,6 +689,13 @@ begin
   if (Pos('\\', sPath) = 1) and (NumCountChars(PathDelim, sPath) = 3) then
     Exit(True);
   Result := (DCStrUtils.GetParentDir(Path) = '');
+end;
+
+function TFileSystemFileSource.GetParentDir(sPath: String): String;
+begin
+  Result:= inherited GetParentDir(sPath);
+  Result:= GetDeepestExistingPath(Result);
+  if Length(Result) = 0 then Result:= gpExePath;
 end;
 
 function TFileSystemFileSource.GetRootDir(sPath : String): String;
