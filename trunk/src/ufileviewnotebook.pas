@@ -5,13 +5,9 @@ unit uFileViewNotebook;
 interface
 
 uses
-  Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552}, LMessages,
+  Classes, SysUtils, Controls, ComCtrls, LMessages,
   LCLType, LCLVersion, Forms,
   uFileView, uFilePanelSelect, uDCVersion, DCXmlConfig;
-
-const
-  lazRevNewTabControl = '31767';
-  lazRevOnPageChangedRemoved = '32622';
 
 type
 
@@ -25,7 +21,7 @@ type
 
   { TFileViewPage }
 
-  TFileViewPage = class(TCustomPage)
+  TFileViewPage = class(TTabSheet)
   private
     FLockState: TTabLockState;
     FLockPath: String;          //<en Path on which tab is locked
@@ -87,11 +83,7 @@ type
 
   { TFileViewNotebook }
 
-  {$IF (lcl_fullversion >= 093100) and (lazRevision >= lazRevNewTabControl)}
-  TFileViewNotebook = class(TCustomTabControl)
-  {$ELSE}
-  TFileViewNotebook = class(TCustomNotebook)
-  {$ENDIF}
+  TFileViewNotebook = class(TPageControl)
   private
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
@@ -145,9 +137,7 @@ type
 
   published
     property OnDblClick;
-    {$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100) and (lazRevision >= lazRevOnPageChangedRemoved)}
     property OnChange;
-    {$ENDIF}
     property OnMouseDown;
     property OnMouseUp;
   end;
@@ -446,7 +436,7 @@ end;
 
 function TFileViewNotebook.InsertPage(Index: Integer): TFileViewPage;
 begin
-  Pages.Insert(Index, '');
+  Tabs.Insert(Index, '');
   Result := GetPage(Index);
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 end;
@@ -670,7 +660,7 @@ begin
     begin
       // Move within the same panel.
       if ATabIndex <> -1 then
-        Pages.Move(FDraggedPageIndex, ATabIndex);
+        Tabs.Move(FDraggedPageIndex, ATabIndex);
     end
     else
     begin
