@@ -83,7 +83,11 @@ type
 
   { TFileViewNotebook }
 
+  {$IF (LCL_FULLVERSION >= 1020000)}
   TFileViewNotebook = class(TPageControl)
+  {$ELSE}
+  TFileViewNotebook = class(TCustomTabControl)
+  {$ENDIF}
   private
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
