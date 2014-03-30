@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -354,8 +354,8 @@ begin
     begin
       if caoCopyTime in Options then
       begin
-        utb.actime  := StatInfo.st_atime;  // last access time
-        utb.modtime := StatInfo.st_mtime;  // last modification time
+        utb.actime  := time_t(StatInfo.st_atime);  // last access time
+        utb.modtime := time_t(StatInfo.st_mtime);  // last modification time
         if fputime(PChar(UTF8ToSys(sDst)), @utb) <> 0 then
           Include(Result, caoCopyTime);
       end;
@@ -747,8 +747,8 @@ end;
 var
   t: TUTimBuf;
 begin
-  t.actime := LastAccessTime;
-  t.modtime := ModificationTime;
+  t.actime := time_t(LastAccessTime);
+  t.modtime := time_t(ModificationTime);
   Result := (fputime(PChar(UTF8ToSys(FileName)), @t) <> -1);
 end;
 {$ENDIF}
