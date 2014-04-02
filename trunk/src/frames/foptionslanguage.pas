@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Language options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,22 +62,14 @@ var
   sLangName: String;
 begin
   lngList.Clear;
-  DCDebug('Language dir: ' + gpLngDir);
-  if FindFirstEx(gpLngDir+'*.po', faAnyFile, fr)<>0 then
-  begin
-    FindCloseEx(fr);
-    Exit;
-  end;
+  DCDebug('Language directory: ' + gpLngDir);
+  if FindFirstEx(gpLngDir + '*.po', faAnyFile, fr) = 0 then
   repeat
     sLangName := GetLanguageName(gpLngDir + fr.Name);
-    lngList.Items.Add(Format('%s = (%s)', [fr.Name, sLangName]));
-  until FindNextEx(fr)<>0;
-
+    iIndex := lngList.Items.Add(Format('%s = %s', [sLangName, fr.Name]));
+    if (gPOFileName = fr.Name) then lngList.Selected[iIndex] := True;
+  until FindNextEx(fr) <> 0;
   FindCloseEx(fr);
-
-  iIndex:=lngList.Items.IndexOfName(gPOFileName + #32);
-  if iIndex>=0 then
-    lngList.Selected[iIndex]:=True;
 end;
 
 class function TfrmOptionsLanguage.GetIconIndex: Integer;
@@ -102,7 +94,7 @@ begin
   Result := [];
   if lngList.ItemIndex > -1 then
   begin
-    SelectedPOFileName := Trim(lngList.Items.Names[lngList.ItemIndex]);
+    SelectedPOFileName := Trim(lngList.Items.ValueFromIndex[lngList.ItemIndex]);
     if SelectedPOFileName <> gPOFileName then
       Include(Result, oesfNeedsRestart);
     gPOFileName := SelectedPOFileName;
@@ -110,4 +102,4 @@ begin
 end;
 
 end.
-
+
