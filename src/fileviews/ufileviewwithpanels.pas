@@ -50,7 +50,7 @@ type
     procedure DoSelectionChanged; override;
     procedure DoUpdateView; override;
     procedure ShowPathEdit;
-    procedure UpdateFlatFileName;
+    procedure UpdateFlatFileName; virtual;
     procedure UpdateInfoPanel; virtual;
 
   public

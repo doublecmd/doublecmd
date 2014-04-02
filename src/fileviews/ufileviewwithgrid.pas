@@ -79,6 +79,7 @@ type
     procedure SetActiveFile(FileIndex: PtrInt); override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure UpdateFlatFileName; override;
     procedure UpdateInfoPanel; override;
     procedure DoUpdateView; override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
@@ -101,7 +102,7 @@ implementation
 
 uses
   LCLIntf, LCLType, LCLVersion, LCLProc, math,
-  uGlobs, uPixmapManager, uKeyboard,
+  DCStrUtils, uGlobs, uPixmapManager, uKeyboard,
   uDCUtils, fMain,
   uFileFunctions;
 
@@ -628,7 +629,7 @@ var
   AFile: TFile;
   AFileName: UTF8String;
 begin
-  if FileSource.FlatView or (FSelectedCount > 0) then
+  if (FSelectedCount > 0) then
     lblDetails.Caption:= EmptyStr
   else
     begin
@@ -642,8 +643,11 @@ begin
         AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILEATTR{}', AFile, FileSource);
         lblDetails.Caption:= AFileName;
         // Get file name
-        AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
-        lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile, lblInfo.ClientWidth);
+        if not FileSource.FlatView then
+        begin
+          AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
+          lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile, lblInfo.ClientWidth);
+        end;
       finally
         AFile.Free;
       end;
@@ -784,6 +788,21 @@ begin
   end;
 
   inherited DoHandleKeyDown(Key, Shift);
+end;
+
+procedure TFileViewWithGrid.UpdateFlatFileName;
+var
+  AFile: TFile;
+  AFileName: UTF8String;
+begin
+  AFile:= CloneActiveFile;
+  if Assigned(AFile) then
+  try
+    AFileName:= ExtractDirLevel(CurrentPath, AFile.Path) + AFile.NameNoExt;
+    lblInfo.Caption := MinimizeFilePath(AFileName, lblInfo.Canvas, lblInfo.Width);
+  finally
+    AFile.Free;
+  end;
 end;
 
 procedure TFileViewWithGrid.DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer);
