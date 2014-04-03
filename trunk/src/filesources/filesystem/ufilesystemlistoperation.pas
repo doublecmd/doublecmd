@@ -65,7 +65,7 @@ var
 begin
   FFiles.Clear;
 
-  if FileSource.FlatView then
+  if FFlatView then
   begin
     FlatView(Path);
     Exit;

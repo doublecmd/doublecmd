@@ -36,9 +36,6 @@ type
     function GetClassName: String;
     function GetRefCount: Integer;
 
-    function GetFlatView: Boolean;
-    procedure SetFlatView(AValue: Boolean);
-
     function GetCurrentAddress: String;
     function GetCurrentWorkingDirectory: String;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean;
@@ -103,7 +100,6 @@ type
     property URI: TURI read GetURI;
     property ClassName: String read GetClassName;
     property CurrentAddress: String read GetCurrentAddress;
-    property FlatView: Boolean read GetFlatView write SetFlatView;
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
@@ -115,7 +111,6 @@ type
   TFileSource = class(TInterfacedObject, IFileSource)
 
   private
-    FFlatView: Boolean;
     FReloadEventListeners: TMethodList;
     {en
        File source on which this file source is dependent on
@@ -129,8 +124,6 @@ type
     }
     procedure OperationFinishedCallback(Operation: TFileSourceOperation;
                                         State: TFileSourceOperationState);
-    function GetFlatView: Boolean;
-    procedure SetFlatView(AValue: Boolean);
 
   protected
     FURI: TURI;
@@ -289,7 +282,6 @@ type
     procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
 
     property CurrentAddress: String read GetCurrentAddress;
-    property FlatView: Boolean read GetFlatView write SetFlatView;
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
@@ -745,16 +737,6 @@ begin
     Operation.RemoveStateChangedListener([fsosStopped], @OperationFinishedCallback);
     OperationFinished(Operation);
   end;
-end;
-
-function TFileSource.GetFlatView: Boolean;
-begin
-  Result:= FFlatView;
-end;
-
-procedure TFileSource.SetFlatView(AValue: Boolean);
-begin
-  FFlatView:= AValue;
 end;
 
 procedure TFileSource.OperationFinished(Operation: TFileSourceOperation);

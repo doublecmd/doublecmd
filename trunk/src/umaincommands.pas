@@ -770,7 +770,7 @@ begin
     if not (fspListFlatView in FileSource.GetProperties) then
       msgWarning(rsMsgErrNotSupported)
     else begin
-      FileSource.FlatView:= not FileSource.FlatView;
+      FlatView:= not FlatView;
       Reload;
     end;
   end;

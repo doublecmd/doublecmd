@@ -186,6 +186,7 @@ type
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
 
   protected
+    FFlatView: Boolean;
     FFileFilter: String;
     FAllDisplayFiles: TDisplayFiles;    //<en List of all files that can be displayed
     FFiles: TDisplayFiles;              //<en List of displayed files (filtered)
@@ -468,6 +469,7 @@ type
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
     property FileSourcesCount: Integer read GetFileSourcesCount;
     property Flags: TFileViewFlags read FFlags write SetFlags;
+    property FlatView: Boolean read FFlatView write FFlatView;
     property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
     property PathsCount[FileSourceIndex: Integer]: Integer read GetPathsCount;
 
@@ -707,6 +709,7 @@ begin
   if Assigned(AFileView) then
   begin
     AFileView.FFlags := FFlags;
+    AFileView.FFlatView := FFlatView;
     AFileView.FLastLoadedFileSource := FLastLoadedFileSource;
     AFileView.FLastLoadedPath := FLastLoadedPath;
     AFileView.FLastMark := FLastMark;
@@ -1432,6 +1435,7 @@ procedure TFileView.SetCurrentPath(NewPath: String);
 begin
   if (NewPath <> CurrentPath) and BeforeChangePath(FileSource, NewPath) then
   begin
+    FFlatView:= False;
     EnableWatcher(False);
     FHistory.AddPath(NewPath); // Sets CurrentPath.
     AfterChangePath;
@@ -1439,7 +1443,6 @@ begin
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
     {$ENDIF}
-    FileSource.FlatView:= False;
   end;
 end;
 
@@ -1839,6 +1842,7 @@ begin
     FilterOptions,
     CurrentPath,
     SortingForSorter,
+    FlatView,
     AThread,
     FilePropertiesNeeded,
     @SetFileList,

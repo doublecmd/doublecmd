@@ -229,7 +229,7 @@ begin
 
     FSelectedCount := FilesSelected + FolderSelected;
 
-    if FileSource.FlatView and (FSelectedCount = 0) then
+    if FlatView and (FSelectedCount = 0) then
       UpdateFlatFileName
     else
       lblInfo.Caption := Format(rsMsgSelectedInfo,
