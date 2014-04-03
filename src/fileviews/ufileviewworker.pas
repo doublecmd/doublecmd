@@ -91,6 +91,7 @@ type
     FFileFilter: String;
     FFilterOptions: TQuickSearchOptions;
     FCurrentPath: String;
+    FFlatView: Boolean;
     FSortings: TFileSortings;
     FFilePropertiesNeeded: TFilePropertiesTypes;
 
@@ -123,6 +124,7 @@ type
                        const AFilterOptions: TQuickSearchOptions;
                        const ACurrentPath: String;
                        const ASorting: TFileSortings;
+                       AFlatView: Boolean;
                        AThread: TThread;
                        AFilePropertiesNeeded: TFilePropertiesTypes;
                        ASetFileListMethod: TSetFileListMethod;
@@ -348,16 +350,13 @@ end;
 { TFileListBuilder }
 
 constructor TFileListBuilder.Create(AFileSource: IFileSource;
-                                    AFileSourceIndex: Integer;
-                                    const AFileFilter: String;
-                                    const AFilterOptions: TQuickSearchOptions;
-                                    const ACurrentPath: String;
-                                    const ASorting: TFileSortings;
-                                    AThread: TThread;
-                                    AFilePropertiesNeeded: TFilePropertiesTypes;
-                                    ASetFileListMethod: TSetFileListMethod;
-                                    var ExistingDisplayFiles: TDisplayFiles;
-                                    var ExistingDisplayFilesHashed: TStringHashList);
+  AFileSourceIndex: Integer; const AFileFilter: String;
+  const AFilterOptions: TQuickSearchOptions; const ACurrentPath: String;
+  const ASorting: TFileSortings; AFlatView: Boolean; AThread: TThread;
+  AFilePropertiesNeeded: TFilePropertiesTypes;
+  ASetFileListMethod: TSetFileListMethod;
+  var ExistingDisplayFiles: TDisplayFiles;
+  var ExistingDisplayFilesHashed: TStringHashList);
 begin
   inherited Create(AThread);
 
@@ -372,6 +371,7 @@ begin
 
   FFileSource           := AFileSource;
   FFileSourceIndex      := AFileSourceIndex;
+  FFlatView             := AFlatView;
   FFileFilter           := AFileFilter;
   FFilterOptions        := AFilterOptions;
   FCurrentPath          := ACurrentPath;
@@ -424,6 +424,7 @@ begin
 
       if Assigned(FListOperation) then
       try
+        FListOperation.FlatView := FFlatView;
         FListOperation.AssignThread(Thread);
         FListOperation.Execute;
         if FListOperation.Result = fsorFinished then

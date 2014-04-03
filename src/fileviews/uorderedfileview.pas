@@ -228,7 +228,7 @@ begin
       if Assigned(OnChangeActiveFile) then
         OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
     end;
-    if FileSource.FlatView and (FSelectedCount = 0) then UpdateFlatFileName;
+    if FlatView and (FSelectedCount = 0) then UpdateFlatFileName;
   end;
 end;
 

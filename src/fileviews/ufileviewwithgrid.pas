@@ -643,7 +643,7 @@ begin
         AFileName:= AFileName + #32#32 + FormatFileFunction('DC().GETFILEATTR{}', AFile, FileSource);
         lblDetails.Caption:= AFileName;
         // Get file name
-        if not FileSource.FlatView then
+        if not FlatView then
         begin
           AFileName:= FormatFileFunction('DC().GETFILENAMENOEXT{}', AFile, FileSource);
           lblInfo.Caption:= FitFileName(AFileName, lblInfo.Canvas, AFile, lblInfo.ClientWidth);
