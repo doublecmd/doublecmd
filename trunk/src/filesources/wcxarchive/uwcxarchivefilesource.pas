@@ -619,9 +619,6 @@ begin
 end;
 
 function TWcxArchiveFileSource.ReadArchive: Boolean;
-var
-  LastHeader, Header : TWCXHeader;
-  ExistsDirList : TStringHashList;
 
   procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashList);
   var
@@ -635,18 +632,8 @@ var
       begin
         SetString(Dir, Path, I);
         if DirsList.Find(Dir) = -1 then
-        begin
-          // Workaround for archives that don't have attributes on folders
-          if (LastHeader.FileAttr = 0) and (Dir = LastHeader.FileName) then
-          begin
-            LastHeader.FileAttr := faFolder;
-            ExistsDirList.Add(LastHeader.FileName);
-            Break;
-          end
-          else
-            // Add directory and continue scanning for parent directories.
-            DirsList.Add(Dir)
-        end
+          // Add directory and continue scanning for parent directories.
+          DirsList.Add(Dir)
         else
           // This directory is already in the list and we assume
           // that all parent directories are too.
@@ -656,10 +643,11 @@ var
   end;
 
 var
-  I : Integer;
-  NameLength : Integer;
   ArcHandle : TArcHandle;
-  AllDirsList : TStringHashList;
+  Header: TWCXHeader;
+  AllDirsList, ExistsDirList : TStringHashList;
+  I : Integer;
+  NameLength: Integer;
 begin
   Result:= False;
 
@@ -708,7 +696,6 @@ begin
 
         //****************************
 
-        LastHeader := Header;
         FArcFileList.Add(Header);
 
         // get next file
