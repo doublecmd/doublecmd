@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.bz2, *.tar, *.tgz, *.tbz archives
 
-   Copyright (C) 2008-2013  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -143,8 +143,8 @@ var
 begin
   gIni:= TIniFileEx.Create(gStartupInfo.PluginConfDir + IniFileName);
   try
-    gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 2));
-    gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
+    gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', Integer(AbDefCompressionMethodToUse)));
+    gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', Integer(AbDefDeflationOption)));
     gTarAutoHandle:= gIni.ReadBool('Configuration', 'TarAutoHandle', True);
   finally
     gIni.Free;
