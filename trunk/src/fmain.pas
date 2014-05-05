@@ -602,17 +602,17 @@ type
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
+    procedure HotDirActualSwitchToDir(Index:longint);
+    procedure HistorySelected(Sender:TObject);
     procedure ViewHistorySelected(Sender:TObject);
     procedure ViewHistoryPrevSelected(Sender:TObject);
     procedure ViewHistoryNextSelected(Sender:TObject);
-    procedure CreatePopUpHotDir;
     procedure CreatePopUpDirHistory;
     procedure ShowFileViewHistory;
     procedure ShowFileViewHistory(FromFileSourceIndex, FromPathIndex,
                                   ToFileSourceIndex, ToPathIndex: Integer);
-    procedure miHotAddClick(Sender: TObject);
-    procedure miHotDeleteClick(Sender: TObject);
-    procedure miHotConfClick(Sender: TObject);
+    procedure miHotAddOrConfigClick(Sender: TObject);
+
     {en
        Returns @true if copy operation has been successfully started.
     }
@@ -712,7 +712,8 @@ uses
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
-  XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar
+  XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar,
+  uhotdir
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ENDIF}
@@ -806,6 +807,10 @@ begin
   // The text would otherwise be briefly shown before the drive button was updated.
   btnLeftDrive.Caption := '';
   btnRightDrive.Caption := '';
+
+  //Have the correct button label to indicate root
+  btnLeftRoot.Caption:=DirectorySeparator;
+  btnRightRoot.Caption:=DirectorySeparator;
 
   for I := 0 to pnlKeys.ControlCount - 1 do
     FunctionButtonsCaptions[I].ACaption := pnlKeys.Controls[I].Caption;
@@ -936,7 +941,7 @@ Var P:TPoint;
 begin
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(fpLeft);
-  CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
+  gHotDirList.CreatePopUpHotDir(pmHotList,POPUPMENU_WITHADDANDCONFIG,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath); // TODO: i thing in future this must call on create or change
   p := Classes.Point(btnLeftDirectoryHotlist.Left,btnLeftDirectoryHotlist.Height);
   p := pnlLeftTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
@@ -952,7 +957,7 @@ Var P:TPoint;
 begin
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(fpRight);
-  CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
+  gHotDirList.CreatePopUpHotDir(pmHotList,POPUPMENU_WITHADDANDCONFIG,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath); // TODO: i thing in future this must call on create or change
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
@@ -1237,7 +1242,7 @@ var
 begin
   with FileView do
   begin
-    if Button.Caption = '/' then
+    if Button.Caption = DirectorySeparator then
       CurrentPath := FileSource.GetRootDir(CurrentPath)
     else if Button.Caption = '..' then
       ChangePathToParent(True)
@@ -2353,31 +2358,17 @@ begin
     Result := Format(sLngOne, [Files[0].Name]);
 end;
 
-
-procedure TfrmMain.miHotAddClick(Sender: TObject);
+procedure TfrmMain.miHotAddOrConfigClick(Sender: TObject);
 var
-  sName: UTF8String;
+  ActionDispatcher:longint;
 begin
-  sName:= StringReplace(GetLastDir(ActiveFrame.CurrentPath), '&', '&&', [rfReplaceAll]);
-  if InputQuery('Double Commander', rsMsgTitleNewEntryHotDir, sName) then
-    glsHotDir.Add(sName + '=' + ActiveFrame.CurrentPath);
-end;
+  with Sender as TComponent do ActionDispatcher:=tag;
 
-procedure TfrmMain.miHotDeleteClick(Sender: TObject);
-var
-  I: Integer;
-begin
-  I:= glsHotDir.IndexOfValue(ActiveFrame.CurrentPath);
-  if I >= 0 then glsHotDir.Delete(I);
-end;
-
-procedure TfrmMain.miHotConfClick(Sender: TObject);
-begin
   with TfrmHotDir.Create(Application) do
   begin
     try
-      LoadFromGlob;
-      ShowModal;
+      SubmitToAddOrConfigToHotDirDlg(ActionDispatcher,ActiveFrame.CurrentPath,NotActiveFrame.CurrentPath);
+      if ShowModal=mrAll then HotDirActualSwitchToDir(lsHotDir.ItemIndex);
     finally
       Free;
     end;
@@ -2403,7 +2394,7 @@ begin
     mi:= TMenuItem.Create(pmDirHistory);
     mi.Caption:= glsDirHistory[I];
     mi.Hint:= mi.Caption;
-    mi.OnClick:= @HotDirSelected;
+    mi.OnClick:= @HistorySelected;
     pmDirHistory.Items.Add(mi);
   end;
 end;
@@ -2595,56 +2586,43 @@ begin
   pmDirHistory.Popup(p.X, p.Y);
 end;
 
-procedure TfrmMain.CreatePopUpHotDir;
+procedure TfrmMain.HotDirActualSwitchToDir(Index:longint);
 var
-  mi: TMenuItem;
-  I: Integer;
+  aPath: String;
+  isCTRLDown: boolean;
 begin
-  // Create All popup menu
-  pmHotList.Items.Clear;
-  for I:= 0 to glsHotDir.Count - 1 do
-  begin
-    mi:= TMenuItem.Create(pmHotList);
-    if Pos('&', glsHotDir.Names[I]) = 0 then
-      mi.Caption:= '&' + glsHotDir.Names[I]
-    else
-      mi.Caption:= glsHotDir.Names[I];
-    mi.Hint:= glsHotDir.ValueFromIndex[I];
-    mi.OnClick:= @HotDirSelected;
-    pmHotList.Items.Add(mi);
-  end;
-  // now add delimiter
-  mi:= TMenuItem.Create(pmHotList);
-  mi.Caption:= '-';
-  pmHotList.Items.Add(mi);
-  // now add ADD or DELETE item
+  // This handler is used by HotDir.
+  // Hot dirs are only supported by filesystem.
+  isCTRLDown:=((GetKeyState(VK_CONTROL) AND $80) <> 0); //Will check later is CTRL key was pressed, but let's put state in memory ASAP
 
-  mi:= TMenuItem.Create(pmHotList);
-  if glsHotDir.IndexOfValue(ActiveFrame.CurrentPath) >= 0 then
+  aPath := gHotDirList.HotDir[Index].HotDirPath;
+  if aPath<>'' then
     begin
-      mi.Caption:= Format(rsMsgPopUpHotDelete,[ActiveFrame.CurrentPath]);
-      mi.OnClick:= @miHotDeleteClick;
-    end
-  else
-    begin
-      mi.Caption:= Format(rsMsgPopUpHotAdd,[ActiveFrame.CurrentPath]);
-      mi.OnClick:= @miHotAddClick;
+      aPath := mbExpandFileName(aPath);
+      ChooseFileSource(ActiveFrame, aPath);
+
+      if (not isCTRLDown) then //We don't change target folder if CTRL key is pressed
+      begin
+        aPath := gHotDirList.HotDir[Index].HotDirTarget;
+        if aPath<>'' then
+          begin
+            aPath := mbExpandFileName(aPath);
+            ChooseFileSource(NotActiveFrame, aPath);
+          end;
+      end;
     end;
-  pmHotList.Items.Add(mi);
-
-  // now add configure item
-  mi:= TMenuItem.Create(pmHotList);
-  mi.Caption:= rsMsgPopUpHotCnf;
-  mi.OnClick:= @miHotConfClick;
-  pmHotList.Items.Add(mi);
 end;
 
 procedure TfrmMain.HotDirSelected(Sender: TObject);
+begin
+  HotDirActualSwitchToDir((Sender as TMenuItem).Tag);
+end;
+
+procedure TfrmMain.HistorySelected(Sender: TObject);
 var
   aPath: String;
 begin
-  // This handler is used by HotDir and DirHistory.
-  // Hot dirs are only supported by filesystem.
+  // This handler is used by DirHistory.
   aPath := (Sender as TMenuItem).Hint;
   aPath := mbExpandFileName(aPath);
   ChooseFileSource(ActiveFrame, aPath);

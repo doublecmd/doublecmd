@@ -1,120 +1,326 @@
 object frmHotDir: TfrmHotDir
-  Left = 285
-  Height = 423
-  Top = 127
-  Width = 437
-  ActiveControl = btnOK
+  Left = 647
+  Height = 370
+  Top = 376
+  Width = 440
   Caption = 'Directory Hotlist'
-  ClientHeight = 423
-  ClientWidth = 437
+  ClientHeight = 370
+  ClientWidth = 440
+  Constraints.MinHeight = 370
+  Constraints.MinWidth = 440
+  KeyPreview = True
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  SessionProperties = 'WindowState;Width;Height'
+  LCLVersion = '1.0.14.0'
   object lsHotDir: TListBox
-    AnchorSideRight.Control = btnOK
-    Left = 12
-    Height = 409
-    Top = 8
-    Width = 265
+    Left = 5
+    Height = 258
+    Top = 21
+    Width = 275
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 12
+    DragMode = dmAutomatic
     ItemHeight = 0
-    OnMouseMove = lsHotDirMouseMove
+    OnClick = lsHotDirClick
+    OnDblClick = lsHotDirDblClick
+    OnDragDrop = lsHotDirDragDrop
+    OnDragOver = lsHotDirDragOver
     OnMouseDown = lsHotDirMouseDown
-    OnMouseUp = lsHotDirMouseUp
     ScrollWidth = 263
     TabOrder = 0
-    TopIndex = -1
   end
-  object btnOK: TBitBtn
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 289
-    Height = 32
-    Top = 8
-    Width = 142
-    Anchors = [akTop, akRight]
-    BorderSpacing.Right = 6
-    Caption = '&OK'
-    Kind = bkOK
-    ModalResult = 1
-    OnClick = btnOKClick
-    TabOrder = 1
-  end
-  object btnCancel: TBitBtn
-    AnchorSideTop.Control = btnDelete
+  object btnAdd: TBitBtn
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 289
+    Left = 292
     Height = 32
-    Top = 128
+    Top = 8
     Width = 142
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
-    Cancel = True
-    Caption = '&Cancel'
-    Kind = bkCancel
-    ModalResult = 2
+    Caption = 'Add...'
+    OnClick = btnAddClick
     TabOrder = 4
   end
-  object btnADD: TBitBtn
-    AnchorSideTop.Control = btnOK
+  object btnDelete: TBitBtn
+    AnchorSideTop.Control = btnAdd
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 289
+    Left = 292
     Height = 32
     Top = 48
     Width = 142
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
-    Caption = '&Add'
-    OnClick = btnADDClick
-    TabOrder = 2
+    Caption = '&Delete'
+    OnClick = btnDeleteClick
+    TabOrder = 5
   end
-  object btnDelete: TBitBtn
-    AnchorSideTop.Control = btnADD
+  object lbleditHotDirName: TLabeledEdit
+    Tag = 1
+    Left = 50
+    Height = 23
+    Top = 288
+    Width = 346
+    Anchors = [akLeft, akRight, akBottom]
+    EditLabel.AnchorSideTop.Control = lbleditHotDirName
+    EditLabel.AnchorSideTop.Side = asrCenter
+    EditLabel.AnchorSideRight.Control = lbleditHotDirName
+    EditLabel.AnchorSideBottom.Control = lbleditHotDirName
+    EditLabel.AnchorSideBottom.Side = asrBottom
+    EditLabel.Left = 11
+    EditLabel.Height = 16
+    EditLabel.Top = 291
+    EditLabel.Width = 36
+    EditLabel.Caption = 'Name:'
+    EditLabel.ParentColor = False
+    LabelPosition = lpLeft
+    TabOrder = 1
+    OnEditingDone = lbleditHotDirEditingDone
+    OnEnter = lbleditHotDirEnter
+    OnExit = lbleditHotDirExit
+    OnKeyPress = lbleditHotDirKeyPress
+  end
+  object lbleditHotDirPath: TLabeledEdit
+    Tag = 2
+    Left = 50
+    Height = 23
+    Top = 314
+    Width = 346
+    Anchors = [akLeft, akRight, akBottom]
+    EditLabel.AnchorSideTop.Control = lbleditHotDirPath
+    EditLabel.AnchorSideTop.Side = asrCenter
+    EditLabel.AnchorSideRight.Control = lbleditHotDirPath
+    EditLabel.AnchorSideBottom.Control = lbleditHotDirPath
+    EditLabel.AnchorSideBottom.Side = asrBottom
+    EditLabel.Left = 19
+    EditLabel.Height = 16
+    EditLabel.Top = 317
+    EditLabel.Width = 28
+    EditLabel.Caption = 'Path:'
+    EditLabel.ParentColor = False
+    LabelPosition = lpLeft
+    TabOrder = 2
+    OnEditingDone = lbleditHotDirEditingDone
+    OnEnter = lbleditHotDirEnter
+    OnExit = lbleditHotDirExit
+    OnKeyPress = lbleditHotDirKeyPress
+  end
+  object lbleditHotDirTarget: TLabeledEdit
+    Tag = 3
+    Left = 50
+    Height = 23
+    Top = 340
+    Width = 346
+    Anchors = [akLeft, akRight, akBottom]
+    EditLabel.AnchorSideTop.Control = lbleditHotDirTarget
+    EditLabel.AnchorSideTop.Side = asrCenter
+    EditLabel.AnchorSideRight.Control = lbleditHotDirTarget
+    EditLabel.AnchorSideBottom.Control = lbleditHotDirTarget
+    EditLabel.AnchorSideBottom.Side = asrBottom
+    EditLabel.Left = 9
+    EditLabel.Height = 16
+    EditLabel.Top = 343
+    EditLabel.Width = 38
+    EditLabel.Caption = 'Target:'
+    EditLabel.ParentColor = False
+    LabelPosition = lpLeft
+    TabOrder = 3
+    OnEditingDone = lbleditHotDirEditingDone
+    OnEnter = lbleditHotDirEnter
+    OnExit = lbleditHotDirExit
+    OnKeyPress = lbleditHotDirKeyPress
+  end
+  object btnRelativePath: TButton
+    Tag = 2
+    Left = 400
+    Height = 23
+    Top = 314
+    Width = 35
+    Anchors = [akRight, akBottom]
+    Caption = 'rel'
+    OnClick = btnRelativeClick
+    TabOrder = 6
+  end
+  object btnRelativeTarget: TButton
+    Tag = 3
+    Left = 400
+    Height = 23
+    Top = 340
+    Width = 35
+    Anchors = [akRight, akBottom]
+    Caption = 'rel'
+    OnClick = btnRelativeClick
+    TabOrder = 7
+  end
+  object btnGoToDir: TBitBtn
+    AnchorSideTop.Control = btnCancel
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 289
+    Left = 292
+    Height = 32
+    Top = 206
+    Width = 142
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 6
+    Caption = 'OK and goto dir'
+    Kind = bkAll
+    ModalResult = 8
+    OnClick = btnGoToDirClick
+    TabOrder = 8
+  end
+  object btnTestMenu: TBitBtn
+    AnchorSideTop.Control = btnDelete
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 292
     Height = 32
     Top = 88
     Width = 142
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
-    Caption = '&Delete'
-    OnClick = btnDeleteClick
-    TabOrder = 3
+    Caption = 'Test resulting menu'
+    OnClick = btnTestMenuClick
+    TabOrder = 9
   end
-  object btnAddMan: TBitBtn
+  object btnCancel: TBitBtn
+    AnchorSideTop.Control = btnTestMenu
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 289
+    Left = 292
     Height = 32
-    Top = 168
+    Top = 166
     Width = 142
     Anchors = [akTop, akRight]
+    BorderSpacing.Top = 46
     BorderSpacing.Right = 6
-    Caption = 'Add &manually'
-    OnClick = btnAddManClick
-    TabOrder = 5
+    DefaultCaption = True
+    Kind = bkCancel
+    ModalResult = 5
+    TabOrder = 10
   end
-  object btnEdit: TBitBtn
+  object bynOk: TBitBtn
+    AnchorSideTop.Control = btnGoToDir
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 289
+    Left = 292
     Height = 32
-    Top = 208
+    Top = 246
     Width = 142
     Anchors = [akTop, akRight]
+    BorderSpacing.Top = 8
     BorderSpacing.Right = 6
-    Caption = '&Edit'
-    OnClick = btnEditClick
-    TabOrder = 6
+    Default = True
+    DefaultCaption = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 11
+  end
+  object Label1: TLabel
+    Left = 6
+    Height = 16
+    Top = 6
+    Width = 165
+    Caption = 'Hot dir list (sort by drag&&drop)'
+    ParentColor = False
+  end
+  object pmPathHelper: TPopupMenu
+    Images = frmMain.imgLstActions
+    left = 348
+    top = 317
+    object miMakeRelativeDC: TMenuItem
+      Tag = 1
+      Caption = 'Make path relative to %commander_path%'
+      OnClick = miPlayPathClick
+    end
+    object miMakeAbsolute: TMenuItem
+      Tag = 2
+      Caption = 'Make path absolute'
+      OnClick = miPlayPathClick
+    end
+    object miAddActiveFramePath: TMenuItem
+      Tag = 3
+      Caption = 'Add path from active frame'
+      OnClick = miPlayPathClick
+    end
+    object miAddNotActiveFramePath: TMenuItem
+      Tag = 4
+      Caption = 'Add path from not active frame'
+      OnClick = miPlayPathClick
+    end
+    object MenuItem10: TMenuItem
+      Tag = 5
+      Caption = 'Browse and add selected directory'
+      OnClick = miPlayPathClick
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    left = 61
+    top = 144
+  end
+  object pmHotDirTestMenu: TPopupMenu
+    left = 241
+    top = 101
+    object MenuItem11: TMenuItem
+      Caption = 'New Item1'
+    end
+  end
+  object pmAddHotDirMenu: TPopupMenu
+    left = 225
+    top = 20
+    object MenuItem3: TMenuItem
+      Tag = 1
+      Caption = 'Browse and add selected'
+      OnClick = btnAddHotDirClick
+    end
+    object MenuItem4: TMenuItem
+      Tag = 2
+      Caption = 'Add manually a directoy I will type'
+      OnClick = btnAddHotDirClick
+    end
+    object MenuItem5: TMenuItem
+      Tag = 3
+      Caption = 'Add active frame directory'
+      OnClick = btnAddHotDirClick
+    end
+    object MenuItem6: TMenuItem
+      Tag = 4
+      Caption = 'Add active frame directory and inactive one as target'
+      OnClick = btnAddHotDirClick
+    end
+    object MenuItem7: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem8: TMenuItem
+      Tag = 5
+      Caption = 'Add separator'
+      OnClick = btnAddHotDirClick
+    end
+    object MenuItem9: TMenuItem
+      Tag = 6
+      Caption = 'Add sub menu'
+      OnClick = btnAddHotDirClick
+    end
+    object MenuItem1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Add importation from TC'
+      OnClick = miImportTotalCommanderClick
+    end
   end
 end

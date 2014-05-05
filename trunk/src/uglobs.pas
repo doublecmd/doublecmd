@@ -28,7 +28,7 @@ uses
   Classes, Controls, Forms, Types, uExts, uColorExt, Graphics, DCClassesUtf8,
   uMultiArc, uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, DCXmlConfig,
-  uInfoToolTip, fQuickSearch, uTypes, uClassesEx;
+  uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uhotdir;
 
 type
   { Log options }
@@ -181,7 +181,7 @@ var
   gAutoFillColumns: Boolean;
   gAutoSizeColumn: Integer;
   
-  glsHotDir:TStringListEx;
+  gHotDirList:THotDirList;
   glsDirHistory:TStringListEx;
   glsCmdLineHistory: TStringListEx;
   glsMaskHistory : TStringListEx;
@@ -860,33 +860,6 @@ begin
   end;
 end;
 
-procedure LoadDirHotList(AConfig: TXmlConfig; Node: TXmlNode);
-var
-  Name, Path: String;
-begin
-  glsHotDir.Clear;
-
-  Node := Node.FindNode('DirectoryHotList');
-  if Assigned(Node) then
-  begin
-    Node := Node.FirstChild;
-    while Assigned(Node) do
-    begin
-      if Node.CompareName('HotDir') = 0 then
-      begin
-        if AConfig.TryGetAttr(Node, 'Name', Name) and
-           AConfig.TryGetAttr(Node, 'Path', Path) then
-        begin
-          glsHotDir.Add(Name + '=' + Path);
-        end
-        else
-          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(Node) + '.');
-      end;
-      Node := Node.NextSibling;
-    end;
-  end;
-end;
-
 procedure ConvertIniToXml;
 var
   MultiRename: TfrmMultiRename = nil;
@@ -935,7 +908,7 @@ begin
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
   gFileInfoToolTip := TFileInfoToolTip.Create;
-  glsHotDir := TStringListEx.Create;
+  gHotDirList := THotDirList.Create;
   glsDirHistory := TStringListEx.Create;
   glsCmdLineHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
@@ -961,7 +934,7 @@ begin
   FreeThenNil(gFileInfoToolTip);
   FreeThenNil(glsDirHistory);
   FreeThenNil(glsCmdLineHistory);
-  FreeThenNil(glsHotDir);
+  FreeThenNil(gHotDirList);
   FreeThenNil(glsMaskHistory);
   FreeThenNil(glsSearchHistory);
   FreeThenNil(glsReplaceHistory);
@@ -1227,7 +1200,7 @@ begin
   gExts.Clear;
   gColorExt.Clear;
   gFileInfoToolTip.Clear;
-  glsHotDir.Clear;
+  gHotDirList.Clear;
   glsDirHistory.Clear;
   glsMaskHistory.Clear;
   glsSearchHistory.Clear;
@@ -1534,7 +1507,9 @@ var
   oldQuickFilter: Boolean = False;
   oldQuickSearchMode: TShiftState = [ssCtrl, ssAlt];
   oldQuickFilterMode: TShiftState = [];
-begin
+  glsHotDirTempoLegacyConversion:TStringListEx;
+  LocalHotDir: THotDir;
+  IndexHotDir: integer;begin
   { Layout page }
 
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
@@ -1697,8 +1672,19 @@ begin
                                        gIni.ReadInteger('Operations', 'DirectoryExists', Integer(gOperationOptionDirectoryExists)));
   gOperationOptionCheckFreeSpace := gIni.ReadBool('Operations', 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
 
-  gIni.ReadSectionRaw('DirectoryHotList', glsHotDir);
-
+  //Let's take the time to do the conversion for those loading from INI file
+  { Hot dir }
+  glsHotDirTempoLegacyConversion:=TStringListEx.Create;
+  gIni.ReadSectionRaw('DirectoryHotList', glsHotDirTempoLegacyConversion);
+  for IndexHotDir:=0 to pred(glsHotDirTempoLegacyConversion.Count) do
+  begin
+    LocalHotDir:=THotDir.Create;
+    LocalHotDir.HotDirName:=glsHotDirTempoLegacyConversion.Names[IndexHotDir];
+    LocalHotDir.HotDirPath:=glsHotDirTempoLegacyConversion.ValueFromIndex[IndexHotDir];
+    LocalHotDir.HotDirTarget:='';
+    gHotDirList.Add(LocalHotDir);
+  end;
+  FreeAndNil(glsHotDirTempoLegacyConversion); //Thank you, good bye!
   gColorExt.LoadIni;
 
   { Search template list }
@@ -1719,10 +1705,6 @@ procedure SaveIniConfig;
 var
   I: LongInt;
 begin
-  gIni.EraseSection('DirectoryHotList');
-  for I:= 0 to glsHotDir.Count - 1 do
-    gIni.WriteString('DirectoryHotList', glsHotDir.Names[I], glsHotDir.ValueFromIndex[I]);
-
   { Layout page }
 
   gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
@@ -2241,7 +2223,7 @@ begin
     end;
 
     { Directories HotList }
-    LoadDirHotList(gConfig, Root);
+    gHotDirList.LoadFromXML(gConfig, Root);
 
     { Viewer }
     Node := Root.FindNode('Viewer');
@@ -2553,14 +2535,7 @@ begin
     SetValue(Node, 'IgnoreListFile', gIgnoreListFile);
 
     { Directories HotList }
-    Node := FindNode(Root, 'DirectoryHotList', True);
-    gConfig.ClearNode(Node);
-    for I:= 0 to glsHotDir.Count - 1 do
-    begin
-      SubNode := AddNode(Node, 'HotDir');
-      SetAttr(SubNode, 'Name', glsHotDir.Names[I]);
-      SetAttr(SubNode, 'Path', glsHotDir.ValueFromIndex[I]);
-    end;
+    gHotDirList.SaveToXml(gConfig, Root);
 
     { Viewer }
     Node := FindNode(Root, 'Viewer',True);
