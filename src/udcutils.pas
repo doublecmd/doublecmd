@@ -254,6 +254,13 @@ var
   EnvValue: String;
 begin
   Result:= sText;
+
+  {$IFDEF UNIX}
+  if pos('$',sText)=0 then Exit; //If there is no '$' in the name, no need to see if there is something to be replaced...
+  {$ELSE}
+  if pos('%',sText)=0 then Exit; //If there is no '?' in the name, no need to see if there is something to be replaced...
+  {$ENDIF}
+
   if sText = EmptyStr then Exit;
   X:= GetEnvironmentVariableCount;
   if X = 0 then Exit;

@@ -240,7 +240,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
-     DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg
+     DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
+     uhotdir
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -2126,7 +2127,7 @@ procedure TMainCommands.cm_DirHotList(const Params: array of string);
 var
   p:TPoint;
 begin
-  frmMain.CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
+  gHotDirList.CreatePopUpHotDir(frmMain.pmHotList,POPUPMENU_WITHADDANDCONFIG,@frmMain.HotDirSelected,@frmMain.miHotAddOrConfigClick,frmMain.ActiveFrame.CurrentPath); // TODO: i thing in future this must call on create or change
   p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
   frmMain.pmHotList.Popup(p.X,p.Y);
 end;
