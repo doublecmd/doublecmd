@@ -585,7 +585,7 @@ begin
     case Button of
       mbRight:
       begin
-        SetActiveFile(FileIndex);
+        SetActiveFile(FileIndex, -1);
 
         if gMouseSelectionEnabled and (gMouseSelectionButton = 1) then
         begin
@@ -627,7 +627,7 @@ begin
         end;//of mouse selection handler
       end;
     else
-      SetActiveFile(FileIndex);
+      SetActiveFile(FileIndex, -1);
     end;
 
     { Dragging }
@@ -758,7 +758,7 @@ begin
         SelEndIndex := FMouseSelectionStartIndex;
       end;
 
-      SetActiveFile(FileIndex);
+      SetActiveFile(FileIndex, -1);
       MarkFiles(SelStartIndex, SelEndIndex, FMouseSelectionLastState);
     end;
   end;
