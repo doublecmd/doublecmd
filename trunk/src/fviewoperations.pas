@@ -1,4 +1,4 @@
-unit fViewOperations; 
+unit fViewOperations;
 
 {$mode objfpc}{$H+}
 
@@ -863,7 +863,7 @@ var
       Pen.Style := psSolid;
 
       HalfSize := ExpandSignSize shr 1;
-      if ((ExpandSignSize and 1) = 0) then
+      if not Odd(ExpandSignSize) then
         dec(HalfSize);
       ALeft := MidX - HalfSize;
       ATop := MidY - HalfSize;
