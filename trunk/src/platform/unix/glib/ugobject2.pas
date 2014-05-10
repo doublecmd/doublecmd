@@ -60,7 +60,6 @@ const
   G_PARAM_PRIVATE: TGParamFlags = 32;
   G_PARAM_STATIC_NICK: TGParamFlags = 64;
   G_PARAM_STATIC_BLURB: TGParamFlags = 128;
-  G_PARAM_DEPRECATED: TGParamFlags = 2147483648;
 
 type
   TGSignalFlags = Integer;
