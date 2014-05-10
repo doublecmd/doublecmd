@@ -39,11 +39,13 @@ const
   _PATH_MOUNTED = '/etc/mtab';
 
 const
-  DE_UNKNOWN = 0;
-  DE_KDE = 1;
-  DE_GNOME = 2;
-  DE_XFCE = 3;
-  DE_LXDE = 4;
+  DE_UNKNOWN  = 0;
+  DE_KDE      = 1;
+  DE_GNOME    = 2;
+  DE_XFCE     = 3;
+  DE_LXDE     = 4;
+  DE_MATE     = 5;
+  DE_CINNAMON = 6;
 
 type
   PIOFILE = Pointer;
@@ -296,14 +298,6 @@ var
   DesktopSession: String;
 begin
   Result:= DE_UNKNOWN;
-  if GetEnvironmentVariable('KDE_FULL_SESSION') <> '' then
-    Exit(DE_KDE);
-  if GetEnvironmentVariable('GNOME_DESKTOP_SESSION_ID') <> '' then
-    Exit(DE_GNOME);
-  if GetEnvironmentVariable('_LXSESSION_PID') <> '' then
-    Exit(DE_LXDE);
-  if fpSystemStatus('pgrep xfce4-session > /dev/null') = 0 then
-    Exit(DE_XFCE);
   DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
   DesktopSession:= LowerCase(DesktopSession);
   if Pos('kde', DesktopSession) <> 0 then
@@ -314,6 +308,18 @@ begin
     Exit(DE_XFCE);
   if Pos('lxde', DesktopSession) <> 0 then
     Exit(DE_LXDE);
+  if Pos('mate', DesktopSession) <> 0 then
+    Exit(DE_MATE);
+  if Pos('cinnamon', DesktopSession) <> 0 then
+    Exit(DE_CINNAMON);
+  if GetEnvironmentVariable('KDE_FULL_SESSION') <> '' then
+    Exit(DE_KDE);
+  if GetEnvironmentVariable('GNOME_DESKTOP_SESSION_ID') <> '' then
+    Exit(DE_GNOME);
+  if GetEnvironmentVariable('_LXSESSION_PID') <> '' then
+    Exit(DE_LXDE);
+  if fpSystemStatus('pgrep xfce4-session > /dev/null') = 0 then
+    Exit(DE_XFCE);
 end;
 
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
