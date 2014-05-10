@@ -176,7 +176,7 @@
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -292,7 +292,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="209">
+    <Units Count="212">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1369,6 +1369,7 @@ end;"/>
       <Unit178>
         <Filename Value="filesources\wcxarchive\uwcxarchivefilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveFileSource"/>
       </Unit178>
       <Unit179>
         <Filename Value="filesources\wcxarchive\uwcxarchivelistoperation.pas"/>
@@ -1514,6 +1515,21 @@ end;"/>
         <HasResources Value="True"/>
         <UnitName Value="fSyncDirsPerformDlg"/>
       </Unit208>
+      <Unit209>
+        <Filename Value="platform\unix\glib\ugio2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGio2"/>
+      </Unit209>
+      <Unit210>
+        <Filename Value="platform\unix\glib\ugobject2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGObject2"/>
+      </Unit210>
+      <Unit211>
+        <Filename Value="platform\unix\glib\uglib2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGLib2"/>
+      </Unit211>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

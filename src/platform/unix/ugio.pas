@@ -24,60 +24,25 @@
 unit uGio;
 
 {$mode delphi}
-{$packrecords c}
+{$assertions on}
 
 interface
 
 uses
   Classes, SysUtils, DCBasicTypes;
 
-type
-  gpointer           = pointer;
-  gboolean           = longbool;
-  Pgchar             = PChar;
-  PGFile             = Pointer;
-  PGAppInfo          = Pointer;
-  PGCancellable      = Pointer;
-  PGAppLaunchContext = Pointer;
-  PPGError           = Pointer;
-
-type
-  PGList = ^TGList;
-  TGList = record
-    data: gpointer;
-    next: PGList;
-    prev: PGList;
-  end;
-
 function GioOpen(const Uri: UTF8String): Boolean;
+function GioGetIconTheme(const Scheme: UTF8String): UTF8String;
+function GioFileGetIcon(const FileName: UTF8String): UTF8String;
 function GioMimeTypeGetActions(const MimeType: UTF8String): TDynamicStringArray;
 
 var
-  HasGio: Boolean = False;
+  HasGio: Boolean = True;
 
 implementation
 
 uses
-  DynLibs, DCOSUtils, DCStrUtils;
-
-const
-  gobjectlib = 'libgobject-2.0.so.0';
-  giolib     = 'libgio-2.0.so.0';
-
-var
-  hgobjectlib: TLibHandle = NilHandle;
-  hgiolib: TLibHandle = NilHandle;
-
-var
-  g_list_free: procedure(list: PGList); cdecl;
-  g_object_unref: procedure(anObject: gpointer); cdecl;
-  g_file_is_native: function(AFile: PGFile): gboolean; cdecl;
-  g_file_new_for_commandline_arg: function(arg: Pgchar): PGFile; cdecl;
-  g_file_query_default_handler: function(AFile: PGFile; cancellable: PGCancellable; error: PPGError): PGAppInfo; cdecl;
-  g_app_info_launch: function(AAppInfo: PGAppInfo; files: PGList; launch_context: PGAppLaunchContext; error: PPGError): gboolean; cdecl;
-  g_app_info_launch_uris: function(AAppInfo: PGAppInfo; uris: PGList; launch_context: PGAppLaunchContext; error: PPGError): gboolean; cdecl;
-  g_app_info_get_all_for_type: function(const content_type: PAnsiChar): PGList; cdecl;
-  g_app_info_get_id: function(appinfo: PGAppInfo): PAnsiChar; cdecl;
+  DCStrUtils, uGlib2, uGObject2, uGio2;
 
 function GioOpen(const Uri: UTF8String): Boolean;
 var
@@ -103,10 +68,51 @@ begin
         AFileList.data:= Pgchar(Uri);
         Result:= g_app_info_launch_uris (AppInfo, @AFileList, nil, nil);
       end;
-    g_object_unref(AppInfo);
+    g_object_unref(PGObject(AppInfo));
   finally
-    g_object_unref(AFile);
+    g_object_unref(PGObject(AFile));
   end;
+end;
+
+function GioGetIconTheme(const Scheme: UTF8String): UTF8String;
+var
+  Theme: Pgchar;
+  Settings: PGSettings;
+begin
+  Settings:= g_settings_new(Pgchar(Scheme));
+  if Assigned(Settings) then
+  begin
+    Theme:= g_settings_get_string(Settings, 'icon-theme');
+    if Assigned(Theme) then
+    begin
+      Result:= StrPas(Theme);
+      g_free(Theme);
+    end;
+    g_object_unref(Settings);
+  end;
+end;
+
+function GioFileGetIcon(const FileName: UTF8String): UTF8String;
+var
+  GFile: PGFile;
+  GIcon: PGIcon;
+  AIconList: PPgchar;
+  GFileInfo: PGFileInfo;
+begin
+  Result:= EmptyStr;
+  GFile:= g_file_new_for_commandline_arg(Pgchar(FileName));
+  GFileInfo:= g_file_query_info(GFile, FILE_ATTRIBUTE_STANDARD_ICON, 0, nil, nil);
+  if Assigned(GFileInfo) then
+  begin
+    GIcon:= g_file_info_get_icon(GFileInfo);
+    if g_type_check_instance_is_a(PGTypeInstance(GIcon), g_themed_icon_get_type()) then
+    begin
+      AIconList:= g_themed_icon_get_names(PGThemedIcon(GIcon));
+      if Assigned(AIconList) then Result:= AIconList[0];
+    end;
+    g_object_unref(GFileInfo);
+  end;
+  g_object_unref(PGObject(GFile));
 end;
 
 function GioMimeTypeGetActions(const MimeType: UTF8String): TDynamicStringArray;
@@ -131,40 +137,30 @@ end;
 
 procedure Initialize;
 begin
-  // Load GObject library
-  hgobjectlib:= LoadLibrary(gobjectlib);
-  if hgobjectlib <> NilHandle then
   try
-    @g_list_free:= SafeGetProcAddress(hgobjectlib, 'g_list_free');
-    @g_object_unref:= SafeGetProcAddress(hgobjectlib, 'g_object_unref');
-    // Load GIO library
-    hgiolib:= LoadLibrary(giolib);
-    HasGio:= (hgiolib <> NilHandle);
-    if HasGio then
-    begin
-      @g_file_is_native:= SafeGetProcAddress(hgiolib, 'g_file_is_native');
-      @g_file_new_for_commandline_arg:= SafeGetProcAddress(hgiolib, 'g_file_new_for_commandline_arg');
-      @g_file_query_default_handler:= SafeGetProcAddress(hgiolib, 'g_file_query_default_handler');
-      @g_app_info_launch:= SafeGetProcAddress(hgiolib, 'g_app_info_launch');
-      @g_app_info_launch_uris:= SafeGetProcAddress(hgiolib, 'g_app_info_launch_uris');
-      @g_app_info_get_all_for_type:= SafeGetProcAddress(hgiolib, 'g_app_info_get_all_for_type');
-      @g_app_info_get_id:= SafeGetProcAddress(hgiolib, 'g_app_info_get_id');
-    end;
+    Assert(@g_file_is_native <> nil, 'g_file_is_native');
+    Assert(@g_file_new_for_commandline_arg <> nil, 'g_file_new_for_commandline_arg');
+    Assert(@g_file_query_default_handler <> nil, 'g_file_query_default_handler');
+    Assert(@g_file_query_info <> nil, 'g_file_query_info');
+    Assert(@g_file_info_get_icon <> nil, 'g_file_info_get_icon');
+    Assert(@g_themed_icon_get_type <> nil, 'g_themed_icon_get_type');
+    Assert(@g_themed_icon_get_names <> nil, 'g_themed_icon_get_names');
+    Assert(@g_app_info_launch <> nil, 'g_app_info_launch');
+    Assert(@g_app_info_launch_uris <> nil, 'g_app_info_launch_uris');
+    Assert(@g_app_info_get_all_for_type <> nil, 'g_app_info_get_all_for_type');
+    Assert(@g_app_info_get_id <> nil, 'g_app_info_get_id');
+    Assert(@g_settings_new <> nil, 'g_settings_new');
+    Assert(@g_settings_get_string <> nil, 'g_settings_get_string');
   except
-    HasGio:= False;
+    on E: Exception do
+    begin
+      HasGio:= False;
+      WriteLn(E.Message);
+    end;
   end;
-end;
-
-procedure Finalize;
-begin
-  if hgiolib <> NilHandle then FreeLibrary(hgiolib);
-  if hgobjectlib <> NilHandle then FreeLibrary(hgobjectlib);
 end;
 
 initialization
   Initialize;
-
-finalization
-  Finalize;
 
 end.
