@@ -13,19 +13,10 @@ DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
 DC_SOURCE_DIR=$DC_TEMP_DIR/doublecmd-$DC_VER
 # Directory for DC help
 DC_HELP_DIR=$DC_TEMP_DIR/doublecmd-help-$DC_VER
-# DC revision number
-DC_REVISION=$(svnversion ../../ | sed -e 's/\([0-9]*\).*/\1/')
 
 # Recreate temp directory
 rm -rf $DC_TEMP_DIR
 mkdir -p $DC_TEMP_DIR
-
-update_revision()
-{
-  # Update dcrevision.inc
-  echo "// Created by Svn2RevisionInc"      >  $DC_SOURCE_DIR/src/dcrevision.inc
-  echo "const dcRevision = '$DC_REVISION';" >> $DC_SOURCE_DIR/src/dcrevision.inc
-}
 
 update_doublecmd()
 {
@@ -33,7 +24,7 @@ update_doublecmd()
   svn export ../../ $DC_SOURCE_DIR
 
   # Save revision number
-  update_revision
+  DC_REVISION=`$(pwd)/update-revision.sh $DC_SOURCE_DIR`
 
   # Remove help files
   rm -rf $DC_SOURCE_DIR/doc/en
@@ -75,7 +66,7 @@ update_doublecmd_svn()
   svn export ../../ $DC_SOURCE_DIR
 
   # Save revision number
-  update_revision
+  DC_REVISION=`$(pwd)/update-revision.sh $DC_SOURCE_DIR`
 
   # Remove help files
   rm -rf $DC_SOURCE_DIR/doc/en
