@@ -63,6 +63,7 @@ begin
       end;
       if (ret > 0) and (fpFD_ISSET(fd, fds) = 1) then
       begin
+        Sleep(1000);
         Synchronize(@DoMountEvent);
         ShowMessage('DoMountEvent');
       end;
