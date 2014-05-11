@@ -769,6 +769,11 @@ begin
               begin
                 if not UDisksDevice.DevicePresentationHide then
                 begin
+                  if (IsUDisksAvailable = False) and (I = 2) then
+                  begin
+                    UDisksDevice.DeviceIsMounted:= True;
+                    AddString(UDisksDevice.DeviceMountPaths, MountPoint);
+                  end;
                   UDisksDeviceToDrive(UDisksDevices, UDisksDevice, Drive);
                   Drive^.Path := MountPoint;
                   Drive^.DisplayName := UDisksDevice.DevicePresentationName;
