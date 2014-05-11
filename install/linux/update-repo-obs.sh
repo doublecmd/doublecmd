@@ -28,7 +28,7 @@ update_doublecmd()
   svn export ../../ $DC_SOURCE_DIR
 
   # Save revision number
-  DC_REVISION=`$(pwd)/update-revision.sh $DC_SOURCE_DIR`
+  DC_REVISION=`$(pwd)/update-revision.sh ../../ $DC_SOURCE_DIR`
 
   # Remove help files
   rm -rf $DC_SOURCE_DIR/doc/en
