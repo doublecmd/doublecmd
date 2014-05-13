@@ -2,21 +2,21 @@
   This source is only used to compile and install the package.
  }
 
-unit ZVDateTimeCtrls; 
+unit ZVDateTimeCtrls;
 
 interface
 
 uses
-    ZVDateTimePicker, DBZVDateTimePicker, ZVDateTimePickerPropEdit, 
-  ZVDateTimeControlsReg, LazarusPackageIntf;
+  ZVDateTimePicker, DBZVDateTimePicker, ZVDateTimeControlsReg, 
+  LazarusPackageIntf;
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-  RegisterUnit('ZVDateTimeControlsReg', @ZVDateTimeControlsReg.Register); 
-end; 
+  RegisterUnit('ZVDateTimeControlsReg', @ZVDateTimeControlsReg.Register);
+end;
 
 initialization
-  RegisterPackage('ZVDateTimeCtrls', @Register); 
+  RegisterPackage('ZVDateTimeCtrls', @Register);
 end.
