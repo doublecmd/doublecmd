@@ -239,28 +239,9 @@ procedure Register;
 
 implementation
 
-uses LazIDEIntf, propedits;
-Type
-  TGifFileNamePropertyEditor=class(TFileNamePropertyEditor)
-  protected
-    function GetFilter: String; override;
-    function GetInitialDirectory: string; override;
-  end;
-function TGifFileNamePropertyEditor.GetFilter: String;
-begin
-  Result := 'GIF|*.gif';
-end;
-
-function TGifFileNamePropertyEditor.GetInitialDirectory: string;
-begin
-  Result:= ExtractFilePath(LazarusIDE.ActiveProject.ProjectInfoFile);
-end;
-
 procedure Register;
 begin
   RegisterComponents('Wile64', [TGifAnim]);
-  RegisterPropertyEditor(TypeInfo(String),
-    TGifAnim, 'FileName', TGifFileNamePropertyEditor);
 end;
 
 { TGifAnim }
@@ -421,26 +402,12 @@ begin
 end;
 
 procedure TGifAnim.SetFileName(const AValue: string);
-var
-  fn: string;
 begin
-  if (FFileName = AValue) then
-    exit;
+  if (FFileName = AValue) then Exit;
   FFileName := AValue;
   ResetImage;
-  if (FFileName = '') then exit;
-  if (csDesigning in ComponentState) then
-  begin
-     fn:= ExtractFileName(AValue);
-     FFileName:= ExtractFilePath(AValue);
-     FFileName:= ExtractRelativepath(ExtractFilePath(LazarusIDE.ActiveProject.ProjectInfoFile) ,FFileName);
-     FFileName:=FFileName+fn;
-     LoadFromFile(FFileName+fn);
-  end
-  else begin
-     FFileName := AValue;
-     LoadFromFile(FFileName);
-  end;
+  if (FFileName = '') then Exit;
+  LoadFromFile(FFileName);
   if not Empty then
     GifChanged;
 end;

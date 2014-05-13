@@ -29,7 +29,36 @@ Index: gifanim.pas
      property Empty: boolean Read FEmpty;
      property GifBitmaps: TGifList Read FGifBitmaps;
      property GifIndex: integer Read FCurrentImage;
-@@ -268,7 +270,7 @@
+@@ -237,28 +239,9 @@
+ 
+ implementation
+ 
+-uses LazIDEIntf, propedits;
+-Type
+-  TGifFileNamePropertyEditor=class(TFileNamePropertyEditor)
+-  protected
+-    function GetFilter: String; override;
+-    function GetInitialDirectory: string; override;
+-  end;
+-function TGifFileNamePropertyEditor.GetFilter: String;
+-begin
+-  Result := 'GIF|*.gif';
+-end;
+-
+-function TGifFileNamePropertyEditor.GetInitialDirectory: string;
+-begin
+-  Result:= ExtractFilePath(LazarusIDE.ActiveProject.ProjectInfoFile);
+-end;
+-
+ procedure Register;
+ begin
+   RegisterComponents('Wile64', [TGifAnim]);
+-  RegisterPropertyEditor(TypeInfo(String),
+-    TGifAnim, 'FileName', TGifFileNamePropertyEditor);
+ end;
+ 
+ { TGifAnim }
+@@ -268,7 +251,7 @@
    inherited Create(AOwner);
    ControlStyle := [csCaptureMouse, csClickEvents, csDoubleClicks];
    AutoSize     := True;
@@ -38,7 +67,7 @@ Index: gifanim.pas
    FEmpty      := True;
    FCurrentImage := 0;
    CurrentView := TBitmap.Create;
-@@ -295,6 +297,59 @@
+@@ -295,6 +278,59 @@
    CurrentView.Free;
  end;
  
@@ -98,7 +127,7 @@ Index: gifanim.pas
  function TGifAnim.LoadFromLazarusResource(const ResName: String): boolean;
  var
    GifLoader: TGifLoader;
-@@ -340,12 +395,13 @@
+@@ -340,12 +376,13 @@
  begin
    if (not Empty) and Visible then
    begin
@@ -118,15 +147,38 @@ Index: gifanim.pas
    end;
  end;
  
-@@ -368,7 +424,6 @@
- var
-   fn: string;
+@@ -365,27 +402,12 @@
+ end;
+ 
+ procedure TGifAnim.SetFileName(const AValue: string);
+-var
+-  fn: string;
  begin
 -
-   if (FFileName = AValue) then
-     exit;
+-  if (FFileName = AValue) then
+-    exit;
++  if (FFileName = AValue) then Exit;
    FFileName := AValue;
-@@ -441,10 +496,10 @@
+   ResetImage;
+-  if (FFileName = '') then exit;
+-  if (csDesigning in ComponentState) then
+-  begin
+-     fn:= ExtractFileName(AValue);
+-     FFileName:= ExtractFilePath(AValue);
+-     FFileName:= ExtractRelativepath(ExtractFilePath(LazarusIDE.ActiveProject.ProjectInfoFile) ,FFileName);
+-     FFileName:=FFileName+fn;
+-     LoadFromFile(FFileName+fn);
+-  end
+-  else begin
+-     FFileName := AValue;
+-     LoadFromFile(FFileName);
+-  end;
++  if (FFileName = '') then Exit;
++  LoadFromFile(FFileName);
+   if not Empty then
+     GifChanged;
+ end;
+@@ -441,10 +463,10 @@
    end;
  end;
  
@@ -140,13 +192,59 @@ Index: gifanim.pas
  end;
  
  procedure TGifAnim.GifChanged;
-
+Index: gifanimdsgn.pas
+===================================================================
+--- gifanimdsgn.pas	(revision 0)
++++ gifanimdsgn.pas	(revision 0)
+@@ -0,0 +1,41 @@
++unit GifAnimDsgn;
++
++{$mode objfpc}{$H+}
++
++interface
++
++uses
++  LazIDEIntf, PropEdits;
++
++Type
++  TGifFileNamePropertyEditor = class(TFileNamePropertyEditor)
++  protected
++    function GetFilter: String; override;
++    function GetInitialDirectory: string; override;
++  end;
++
++procedure Register;
++
++implementation
++
++uses
++  SysUtils, GifAnim;
++
++function TGifFileNamePropertyEditor.GetFilter: String;
++begin
++  Result := 'GIF|*.gif';
++end;
++
++function TGifFileNamePropertyEditor.GetInitialDirectory: string;
++begin
++  Result:= ExtractFilePath(LazarusIDE.ActiveProject.ProjectInfoFile);
++end;
++
++procedure Register;
++begin
++  RegisterPropertyEditor(TypeInfo(String), TGifAnim,
++                         'FileName', TGifFileNamePropertyEditor);
++end;
++
++end.
++
 Index: pkg_gifanim.lpk
 ===================================================================
 --- pkg_gifanim.lpk	(revision none)
 +++ pkg_gifanim.lpk	(working copy)
-@@ -1,15 +1,26 @@
- <?xml version="1.0"?>
+@@ -1,15 +1,21 @@
+-<?xml version="1.0"?>
++<?xml version="1.0" encoding="UTF-8"?>
  <CONFIG>
 -  <Package Version="3">
 +  <Package Version="4">
@@ -162,11 +260,6 @@ Index: pkg_gifanim.lpk
 -        <OtherUnitFiles Value="$(LazarusDir)\ide\"/>
 +        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
        </SearchPaths>
-+      <Conditionals Value="if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
-+begin
-+  UnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
-+  UsageUnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
-+end;"/>
 +      <Linking>
 +        <Debugging>
 +          <DebugInfoType Value="dsDwarf2Set"/>
@@ -175,7 +268,18 @@ Index: pkg_gifanim.lpk
        <Other>
          <CompilerPath Value="$(CompPath)"/>
        </Other>
-@@ -41,7 +52,7 @@
+@@ -33,15 +39,16 @@
+     <Type Value="RunAndDesignTime"/>
+     <RequiredPkgs Count="2">
+       <Item1>
+-        <PackageName Value="FCL"/>
++        <PackageName Value="LCL"/>
+         <MinVersion Major="1" Valid="True"/>
+       </Item1>
+       <Item2>
+-        <PackageName Value="IDEIntf"/>
++        <PackageName Value="FCL"/>
++        <MinVersion Major="1" Valid="True"/>
        </Item2>
      </RequiredPkgs>
      <UsageOptions>
@@ -184,3 +288,83 @@ Index: pkg_gifanim.lpk
      </UsageOptions>
      <PublishOptions>
        <Version Value="2"/>
+Index: pkg_gifanim_dsgn.lpk
+===================================================================
+--- pkg_gifanim_dsgn.lpk	(revision 0)
++++ pkg_gifanim_dsgn.lpk	(revision 0)
+@@ -0,0 +1,49 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<CONFIG>
++  <Package Version="4">
++    <PathDelim Value="\"/>
++    <Name Value="pkg_gifanim_dsgn"/>
++    <CompilerOptions>
++      <Version Value="11"/>
++      <PathDelim Value="\"/>
++      <SearchPaths>
++        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
++      </SearchPaths>
++      <Linking>
++        <Debugging>
++          <DebugInfoType Value="dsDwarf2Set"/>
++        </Debugging>
++      </Linking>
++      <Other>
++        <CompilerMessages>
++          <MsgFileName Value=""/>
++        </CompilerMessages>
++        <CompilerPath Value="$(CompPath)"/>
++      </Other>
++    </CompilerOptions>
++    <License Value="GPL"/>
++    <Version Major="1" Minor="4"/>
++    <Files Count="1">
++      <Item1>
++        <Filename Value="gifanimdsgn.pas"/>
++        <HasRegisterProc Value="True"/>
++        <UnitName Value="GifAnimDsgn"/>
++      </Item1>
++    </Files>
++    <Type Value="DesignTime"/>
++    <RequiredPkgs Count="2">
++      <Item1>
++        <PackageName Value="IDEIntf"/>
++      </Item1>
++      <Item2>
++        <PackageName Value="pkg_gifanim"/>
++      </Item2>
++    </RequiredPkgs>
++    <UsageOptions>
++      <UnitPath Value="$(PkgOutDir)"/>
++    </UsageOptions>
++    <PublishOptions>
++      <Version Value="2"/>
++    </PublishOptions>
++  </Package>
++</CONFIG>
+Index: pkg_gifanim_dsgn.pas
+===================================================================
+--- pkg_gifanim_dsgn.pas	(revision 0)
++++ pkg_gifanim_dsgn.pas	(revision 0)
+@@ -0,0 +1,21 @@
++{ This file was automatically created by Lazarus. Do not edit!
++  This source is only used to compile and install the package.
++ }
++
++unit pkg_gifanim_dsgn;
++
++interface
++
++uses
++  GifAnimDsgn, LazarusPackageIntf;
++
++implementation
++
++procedure Register;
++begin
++  RegisterUnit('GifAnimDsgn', @GifAnimDsgn.Register);
++end;
++
++initialization
++  RegisterPackage('pkg_gifanim_dsgn', @Register);
++end.
