@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
@@ -11,11 +11,6 @@
       <SearchPaths>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
-      <Conditionals Value="if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
-begin
-  UnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
-  UsageUnitPath += '$(FallbackOutputRoot)/IDEIntf/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
-end;"/>
       <Linking>
         <Debugging>
           <DebugInfoType Value="dsDwarf2Set"/>
@@ -28,7 +23,7 @@ end;"/>
     <Description Value="TZVDateTimePicker - the cross-platform control behaving much like VCL's TDateTimePicker. TDBZVDateTimePicker - the data-aware version of TZVDateTimePicker"/>
     <License Value="Modified LGPL"/>
     <Version Major="1" Minor="4"/>
-    <Files Count="5">
+    <Files Count="4">
       <Item1>
         <Filename Value="zvdatetimepicker.pas"/>
         <UnitName Value="ZVDateTimePicker"/>
@@ -38,31 +33,24 @@ end;"/>
         <UnitName Value="DBZVDateTimePicker"/>
       </Item2>
       <Item3>
-        <Filename Value="zvdatetimepickerpropedit.pas"/>
-        <UnitName Value="ZVDateTimePickerPropEdit"/>
-      </Item3>
-      <Item4>
         <Filename Value="zvdatetimecontrolsreg.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ZVDateTimeControlsReg"/>
-      </Item4>
-      <Item5>
+      </Item3>
+      <Item4>
         <Filename Value="zvdatetimectrls.lrs"/>
         <Type Value="LRS"/>
-      </Item5>
+      </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="IDEIntf"/>
+        <PackageName Value="LCL"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
-      </Item2>
-      <Item3>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item3>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
