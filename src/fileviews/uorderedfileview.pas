@@ -54,8 +54,7 @@ type
   protected
     lblFilter: TLabel;
     quickSearch: TfrmQuickSearch;
-    FLastActiveFileIndex: PtrInt;
-    FLastTopRowIndex: PtrInt;
+    FLastActiveFileIndex: Integer;
     FRangeSelecting: Boolean;
     FRangeSelectionStartIndex: Integer;
     FRangeSelectionEndIndex: Integer;
@@ -64,7 +63,7 @@ type
     procedure InvertActiveFile;
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
-    procedure DoFileIndexChanged(NewFileIndex, TopRowIndex: PtrInt);
+    procedure DoFileIndexChanged(NewFileIndex: PtrInt);
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoHandleKeyDownWhenLoading(var Key: Word; Shift: TShiftState); override;
     procedure DoSelectionChanged; override; overload;
@@ -90,13 +89,13 @@ type
                          SearchDirection: TQuickSearchDirection = qsdNone);
     procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
-    procedure SetActiveFile(FileIndex, aLastTopRowIndex: PtrInt); overload; virtual; abstract;
-    procedure SetLastActiveFile(FileIndex, TopRowIndex: PtrInt);
+    procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
+    procedure SetLastActiveFile(FileIndex: PtrInt);
     {en
        Sets a file as active if the file currently exists.
        @returns(@true if the file was found and selected.)
     }
-    function SetActiveFileNow(aFilePath: String; aLastTopRowIndex: PtrInt): Boolean;
+    function SetActiveFileNow(aFilePath: String): Boolean;
 
   public
     procedure CloneTo(AFileView: TFileView); override;
@@ -159,7 +158,7 @@ begin
   if not (IsEmpty or IsLoadingFileList) then
   begin
     SetFocus;
-    SetActiveFile(0, -1);
+    SetActiveFile(0);
   end;
 end;
 
@@ -168,7 +167,7 @@ begin
   if not (IsEmpty or IsLoadingFileList) then
   begin
     SetFocus;
-    SetActiveFile(FFiles.Count - 1, -1);
+    SetActiveFile(FFiles.Count - 1);
   end;
 end;
 
@@ -210,13 +209,9 @@ begin
   pmOperationsCancel.Parent := Self;
 end;
 
-procedure TOrderedFileView.DoFileIndexChanged(NewFileIndex, TopRowIndex: PtrInt);
+procedure TOrderedFileView.DoFileIndexChanged(NewFileIndex: PtrInt);
 begin
-  if IsFileIndexInRange(NewFileIndex) and
-     ( (FLastActiveFileIndex <> NewFileIndex) or
-       (FLastTopRowIndex <> TopRowIndex)
-     )
-  then
+  if IsFileIndexInRange(NewFileIndex) and (FLastActiveFileIndex <> NewFileIndex) then
   begin
     if not FRangeSelecting then
     begin
@@ -228,7 +223,7 @@ begin
 
     if not FUpdatingActiveFile then
     begin
-      SetLastActiveFile(NewFileIndex, TopRowIndex);
+      SetLastActiveFile(NewFileIndex);
 
       if Assigned(OnChangeActiveFile) then
         OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
@@ -587,7 +582,7 @@ begin
 
       if Result then
       begin
-        SetActiveFile(Index, -1);
+        SetActiveFile(Index);
         Exit;
       end;
 
@@ -690,14 +685,14 @@ begin
   begin
     // First try to select the file in the current file list.
     // If not found save it for later selection (possibly after reload).
-    if SetActiveFileNow(aFilePath, -1) then
+    if SetActiveFileNow(aFilePath) then
       RequestedActiveFile := ''
     else
       RequestedActiveFile := aFilePath;
   end;
 end;
 
-function TOrderedFileView.SetActiveFileNow(aFilePath: String; aLastTopRowIndex: PtrInt): Boolean;
+function TOrderedFileView.SetActiveFileNow(aFilePath: String): Boolean;
 var
   Index: PtrInt;
 begin
@@ -710,9 +705,9 @@ begin
         if FFiles[Index].FSFile.FullPath = aFilePath then
         begin
           FUpdatingActiveFile := True;
-          SetActiveFile(Index, aLastTopRowIndex);
+          SetActiveFile(Index);
           FUpdatingActiveFile := False;
-          SetLastActiveFile(Index, aLastTopRowIndex);
+          SetLastActiveFile(Index);
           Exit(True);
         end;
       end;
@@ -724,9 +719,9 @@ begin
         if FFiles[Index].FSFile.Name = aFilePath then
         begin
           FUpdatingActiveFile := True;
-          SetActiveFile(Index, aLastTopRowIndex);
+          SetActiveFile(Index);
           FUpdatingActiveFile := False;
-          SetLastActiveFile(Index, aLastTopRowIndex);
+          SetLastActiveFile(Index);
           Exit(True);
         end;
       end;
@@ -735,13 +730,12 @@ begin
   Result := False;
 end;
 
-procedure TOrderedFileView.SetLastActiveFile(FileIndex, TopRowIndex: PtrInt);
+procedure TOrderedFileView.SetLastActiveFile(FileIndex: PtrInt);
 begin
   if IsFileIndexInRange(FileIndex) then
   begin
     LastActiveFile := FFiles[FileIndex].FSFile.FullPath;
     FLastActiveFileIndex := FileIndex;
-    FLastTopRowIndex := TopRowIndex;
   end;
 end;
 
