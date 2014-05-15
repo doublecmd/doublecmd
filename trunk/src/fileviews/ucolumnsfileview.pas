@@ -142,7 +142,7 @@ type
     procedure RedrawFile(FileIndex: PtrInt); override;
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
     procedure RedrawFiles; override;
-    procedure SetActiveFile(FileIndex, aLastTopRowIndex: PtrInt); override;
+    procedure SetActiveFile(FileIndex: PtrInt); override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
     procedure ShowRenameFileEdit(aFile: TFile); override;
 
@@ -385,13 +385,11 @@ begin
 {$IF lcl_fullversion >= 093100}
   dgPanel.Options := dgPanel.Options - [goDontScrollPartCell];
 {$ENDIF}
-  DoFileIndexChanged(aRow - dgPanel.FixedRows, dgPanel.TopRow);
+  DoFileIndexChanged(aRow - dgPanel.FixedRows);
 end;
 
 procedure TColumnsFileView.dgPanelTopLeftChanged(Sender: TObject);
 begin
-  if not FUpdatingActiveFile then
-    DoFileIndexChanged(dgPanel.Row - dgPanel.FixedRows, dgPanel.TopRow);
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
@@ -601,8 +599,7 @@ begin
   begin
     AVisibleRows := GetFullVisibleRows;
     if iRow < AVisibleRows.First then
-      TopRow := iRow
-    else
+      TopRow := AVisibleRows.First;
     if iRow > AVisibleRows.Last then
       TopRow := iRow - (AVisibleRows.Last - AVisibleRows.First);
   end;
@@ -614,11 +611,9 @@ begin
     MakeVisible(dgPanel.Row);
 end;
 
-procedure TColumnsFileView.SetActiveFile(FileIndex, aLastTopRowIndex: PtrInt);
+procedure TColumnsFileView.SetActiveFile(FileIndex: PtrInt);
 begin
   dgPanel.Row := FileIndex + dgPanel.FixedRows;
-  if (aLastTopRowIndex <> -1) then
-    dgPanel.TopRow := aLastTopRowIndex;
   MakeVisible(dgPanel.Row);
 end;
 
@@ -837,10 +832,10 @@ begin
   SetFilesDisplayItems;
   RedrawFiles;
 
-  if SetActiveFileNow(RequestedActiveFile, FLastTopRowIndex) then
+  if SetActiveFileNow(RequestedActiveFile) then
     RequestedActiveFile := ''
   // Requested file was not found, restore position to last active file.
-  else if not SetActiveFileNow(LastActiveFile, FLastTopRowIndex) then
+  else if not SetActiveFileNow(LastActiveFile) then
   // Make sure at least that the previously active file is still visible after displaying file list.
     MakeActiveVisible;
 
