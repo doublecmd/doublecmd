@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -38,7 +38,7 @@
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -87,7 +87,7 @@
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -98,9 +98,9 @@
           </Parsing>
           <CodeGeneration>
             <Optimizations>
+              <OptimizationLevel Value="3"/>
               <VariablesInRegisters Value="True"/>
               <UncertainOptimizations Value="True"/>
-              <OptimizationLevel Value="3"/>
             </Optimizations>
           </CodeGeneration>
           <Linking>
@@ -132,7 +132,7 @@
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -200,8 +200,8 @@ end;"/>
               <IOChecks Value="True"/>
             </Checks>
             <Optimizations>
-              <VariablesInRegisters Value="True"/>
               <OptimizationLevel Value="2"/>
+              <VariablesInRegisters Value="True"/>
             </Optimizations>
           </CodeGeneration>
           <Linking>
@@ -1541,7 +1541,7 @@ end;"/>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
       <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-      <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet"/>
+      <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
