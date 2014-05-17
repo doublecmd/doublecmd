@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2013  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -456,20 +456,21 @@ end;
 
 function ExtractOnlyFileName(const FileName: string): string;
 var
- iDotIndex,
- I: longint;
+ I, Index : LongInt;
+ EndSep : Set of Char;
 begin
-  (* Find a dot index *)
+  // Find a dot index
   I := Length(FileName);
-  while (I > 0) and not (FileName[I] in ['.', '/', '\', ':']) do Dec(I);
-  if (I > 0) and (FileName[I] = '.') then
-     iDotIndex := I
+  EndSep:= AllowDirectorySeparators + AllowDriveSeparators + [ExtensionSeparator];
+  while (I > 0) and not (FileName[I] in EndSep) do Dec(I);
+  if (I > 0) and (FileName[I] = ExtensionSeparator) then
+     Index := I
   else
-     iDotIndex := MaxInt;
-  (* Find file name index *)
-  I := Length(FileName);
-  while (I > 0) and not (FileName[I] in ['/', '\', ':']) do Dec(I);
-  Result := Copy(FileName, I + 1, iDotIndex - I - 1);
+     Index := MaxInt;
+  // Find file name index
+  EndSep := EndSep - [ExtensionSeparator];
+  while (I > 0) and not (FileName[I] in EndSep) do Dec(I);
+  Result := Copy(FileName, I + 1, Index - I - 1);
 end;
 
 function ExtractOnlyFileExt(const FileName: string): string;
@@ -479,8 +480,7 @@ var
 begin
   I := Length(FileName);
   EndSep:= AllowDirectorySeparators + AllowDriveSeparators + [ExtensionSeparator];
-  while (I > 0) and not (FileName[I] in EndSep) do
-    Dec(I);
+  while (I > 0) and not (FileName[I] in EndSep) do Dec(I);
   if (I > 0) and (FileName[I] = ExtensionSeparator) then
     Result := Copy(FileName, I + 1, MaxInt)
   else
