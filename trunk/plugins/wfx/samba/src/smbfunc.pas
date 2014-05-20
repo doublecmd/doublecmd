@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with Common Internet File System (CIFS)
 
-   Copyright (C) 2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2011-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ unit SmbFunc;
 interface
 
 uses
-  Classes, SysUtils, WfxPlugin, Extension;
+  InitC, Classes, SysUtils, WfxPlugin, Extension;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc; pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; cdecl;
 
@@ -105,7 +105,7 @@ end;
 
 procedure WriteError(const FuncName: String);
 begin
-  WriteLn(FuncName + ': ', SysErrorMessage(GetLastOSError));
+  WriteLn(FuncName + ': ', SysErrorMessage(fpgetCerrno));
 end;
 
 procedure smbc_get_auth_data(server, share: PAnsiChar;
@@ -336,12 +336,12 @@ begin
         // Copy data
         repeat
           dwRead:= smbc_read(fdOldFile, Buffer, BufferSize);
-          if (fpgeterrno <> 0) then Exit(FS_FILE_READERROR);
+          if (fpgetCerrno <> 0) then Exit(FS_FILE_READERROR);
           if (dwRead > 0) then
           begin
             if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
               Exit(FS_FILE_WRITEERROR);
-            if (fpgeterrno <> 0) then Exit(FS_FILE_WRITEERROR);
+            if (fpgetCerrno <> 0) then Exit(FS_FILE_WRITEERROR);
             Written:= Written + dwRead;
             // Calculate percent
             Percent:= (Written * 100) div FileSize;
@@ -392,7 +392,7 @@ begin
     // Copy data
     repeat
       dwRead:= smbc_read(fdOldFile, Buffer, BufferSize);
-      if (fpgeterrno <> 0) then Exit(FS_FILE_READERROR);
+      if (fpgetCerrno <> 0) then Exit(FS_FILE_READERROR);
       if (dwRead > 0) then
       begin
         if fpWrite(fdNewFile, Buffer^, dwRead) <> dwRead then
@@ -452,7 +452,7 @@ begin
           begin
             if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
               Exit(FS_FILE_WRITEERROR);
-            if (fpgeterrno <> 0) then Exit(FS_FILE_WRITEERROR);
+            if (fpgetCerrno <> 0) then Exit(FS_FILE_WRITEERROR);
             Written:= Written + dwRead;
             // Calculate percent
             Percent:= (Written * 100) div FileSize;
