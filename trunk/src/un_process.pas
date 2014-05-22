@@ -81,6 +81,14 @@ begin
           else
             begin
               Sleep(1);
+              if Assigned(FOnQueryString) and (FProcess.Stderr.NumBytesAvailable > 0) then
+              begin
+                SetLength(OutputBuffer, BufferSize);
+                // Waits for the process output
+                SetLength(OutputBuffer, FProcess.Stderr.Read(OutputBuffer[1], Length(OutputBuffer)));
+                if (Pos(FQueryString, OutputBuffer) > 0) then FOnQueryString(OutputBuffer);
+                OutputBuffer:= EmptyStr;
+              end;
               Continue;
             end
         end;
