@@ -131,6 +131,8 @@ type
    procedure cm_CloseAllTabs(const Params: array of string);
    procedure cm_NextTab(const Params: array of string);
    procedure cm_PrevTab(const Params: array of string);
+   procedure cm_SaveTabs(const Params: array of string);
+   procedure cm_LoadTabs(const Params: array of string);
    procedure cm_SetTabOptionNormal(const Params: array of string);
    procedure cm_SetTabOptionPathLocked(const Params: array of string);
    procedure cm_SetTabOptionPathResets(const Params: array of string);
@@ -241,7 +243,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
-     uhotdir
+     uhotdir, DCXmlConfig, dmCommonData
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -1126,6 +1128,56 @@ end;
 procedure TMainCommands.cm_PrevTab(const Params: array of string);
 begin
   frmMain.ActiveNotebook.ActivatePrevTab;
+end;
+
+procedure TMainCommands.cm_SaveTabs(const Params: array of string);
+var
+  Config: TXmlConfig;
+begin
+  dmComData.SaveDialog.DefaultExt:= 'tab';
+  dmComData.SaveDialog.Filter:= '*.tab|*.tab';
+  dmComData.SaveDialog.FileName:= GetDefaultParam(Params);
+  if (Length(dmComData.SaveDialog.FileName) > 0) or dmComData.SaveDialog.Execute then
+  try
+    Config:= TXmlConfig.Create(dmComData.SaveDialog.FileName);
+    with frmMain do
+    try
+      SaveTabsXml(Config, LeftTabs);
+      SaveTabsXml(Config, RightTabs);
+      Config.Save;
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
+
+procedure TMainCommands.cm_LoadTabs(const Params: array of string);
+var
+  Config: TXmlConfig;
+begin
+  dmComData.OpenDialog.Filter:= '*.tab|*.tab';
+  dmComData.OpenDialog.FileName:= GetDefaultParam(Params);
+  if (Length(dmComData.OpenDialog.FileName) > 0) or dmComData.OpenDialog.Execute then
+  try
+    Config:= TXmlConfig.Create(dmComData.OpenDialog.FileName, True);
+    with frmMain do
+    try
+      LeftTabs.DestroyAllPages;
+      LoadTabsXml(Config, LeftTabs);
+      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
+      RightTabs.DestroyAllPages;
+      LoadTabsXml(Config, RightTabs);
+      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
 end;
 
 procedure TMainCommands.cm_SetTabOptionNormal(const Params: array of string);
