@@ -1200,6 +1200,15 @@ object frmMain: TfrmMain
       object mnuPrevTab: TMenuItem
         Action = actPrevTab
       end
+      object miLine38: TMenuItem
+        Caption = '-'
+      end
+      object mnuSaveTabs: TMenuItem
+        Action = actSaveTabs
+      end
+      object mnuLoadTabs: TMenuItem
+        Action = actLoadTabs
+      end
     end
     object mnuShow: TMenuItem
       Caption = '&Show'
@@ -2006,6 +2015,16 @@ object frmMain: TfrmMain
     object actFlatView: TAction
       Category = 'Commands'
       Caption = '&Flat view'
+      OnExecute = actExecute
+    end
+    object actSaveTabs: TAction
+      Category = 'Tabs'
+      Caption = '&Save Tabs to File'
+      OnExecute = actExecute
+    end
+    object actLoadTabs: TAction
+      Category = 'Tabs'
+      Caption = '&Load Tabs from File'
       OnExecute = actExecute
     end
   end

@@ -93,6 +93,8 @@ type
     actChangeDirToHome: TAction;
     actCopyFileDetailsToClip: TAction;
     actFlatView: TAction;
+    actLoadTabs: TAction;
+    actSaveTabs: TAction;
     actSyncDirs: TAction;
     actThumbnailsView: TAction;
     actShellExecute: TAction;
@@ -167,6 +169,9 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuLoadTabs: TMenuItem;
+    mnuSaveTabs: TMenuItem;
+    miLine38: TMenuItem;
     miFlatView: TMenuItem;
     miMakeDir: TMenuItem;
     miWipe: TMenuItem;
@@ -649,8 +654,8 @@ type
     procedure AssignEvents(AFileView: TFileView);
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True): LongInt;
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
-    procedure LoadTabsXml(ANoteBook: TFileViewNotebook);
-    procedure SaveTabsXml(ANoteBook: TFileViewNotebook);
+    procedure LoadTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
+    procedure SaveTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
     function ExecCmd(Cmd: String; Param: String=''; StartPath: String='') : Boolean;
     procedure ToggleConsole;
     procedure UpdateWindowView;
@@ -3716,7 +3721,7 @@ begin
     ANoteBook.PageIndex := iActiveTab;
 end;
 
-procedure TfrmMain.LoadTabsXml(ANoteBook: TFileViewNotebook);
+procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
 var
   sPath, sViewType: String;
   iActiveTab: Integer;
@@ -3727,9 +3732,9 @@ var
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
   if ANoteBook = nbLeft then
-    RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs/Left')
+    RootNode := AConfig.FindNode(AConfig.RootNode, 'Tabs/OpenedTabs/Left')
   else
-    RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs/Right');
+    RootNode := AConfig.FindNode(AConfig.RootNode, 'Tabs/OpenedTabs/Right');
 
   if Assigned(RootNode) then
   begin
@@ -3741,33 +3746,33 @@ begin
         Page := nil;
         AFileView := nil;
 
-        ViewNode := gConfig.FindNode(TabNode, 'FileView', False);
+        ViewNode := AConfig.FindNode(TabNode, 'FileView', False);
         if Assigned(ViewNode) then
         begin
           // File view has its own configuration.
-          if gConfig.TryGetAttr(ViewNode, 'Type', sViewType) then
+          if AConfig.TryGetAttr(ViewNode, 'Type', sViewType) then
           begin
             Page := ANoteBook.AddPage;
-            Page.LoadConfiguration(gConfig, TabNode);
-            AFileView := CreateFileView(sViewType, Page, gConfig, ViewNode);
+            Page.LoadConfiguration(AConfig, TabNode);
+            AFileView := CreateFileView(sViewType, Page, AConfig, ViewNode);
           end
           else
-            DCDebug('File view type not specified in configuration: ' + gConfig.GetPathFromNode(ViewNode) + '.');
+            DCDebug('File view type not specified in configuration: ' + AConfig.GetPathFromNode(ViewNode) + '.');
         end
         // Else try old configuration.
-        else if gConfig.TryGetValue(TabNode, 'Path', sPath) then
+        else if AConfig.TryGetValue(TabNode, 'Path', sPath) then
         begin
           sPath := GetDeepestExistingPath(sPath);
           if sPath <> EmptyStr then
           begin
             Page := ANoteBook.AddPage;
-            Page.LoadConfiguration(gConfig, TabNode);
-            AFileView := CreateFileView('columns', Page, gConfig, TabNode);
+            Page.LoadConfiguration(AConfig, TabNode);
+            AFileView := CreateFileView('columns', Page, AConfig, TabNode);
             AFileView.AddFileSource(TFileSystemFileSource.GetFileSource, sPath);
           end;
         end
         else
-          DCDebug('Invalid entry in configuration: ' + gConfig.GetPathFromNode(TabNode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(TabNode) + '.');
 
         if Assigned(Page) then
         begin
@@ -3803,7 +3808,7 @@ begin
   else if Assigned(RootNode) then
   begin
     // read active tab index
-    iActiveTab := gConfig.GetValue(RootNode, 'ActiveTab', 0);
+    iActiveTab := AConfig.GetValue(RootNode, 'ActiveTab', 0);
     // set active tab
     if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
     begin
@@ -3815,31 +3820,31 @@ begin
   end;
 end;
 
-procedure TfrmMain.SaveTabsXml(ANoteBook: TFileViewNotebook);
+procedure TfrmMain.SaveTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
 var
   I: Integer;
   TabsSection: String;
   Page: TFileViewPage;
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
-  RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs', True);
+  RootNode := AConfig.FindNode(AConfig.RootNode, 'Tabs/OpenedTabs', True);
   if ANoteBook = nbLeft then
     TabsSection := 'Left'
   else
     TabsSection := 'Right';
-  RootNode := gConfig.FindNode(RootNode, TabsSection, True);
+  RootNode := AConfig.FindNode(RootNode, TabsSection, True);
 
-  gConfig.ClearNode(RootNode);
-  gConfig.AddValue(RootNode, 'ActiveTab', ANoteBook.PageIndex);
+  AConfig.ClearNode(RootNode);
+  AConfig.AddValue(RootNode, 'ActiveTab', ANoteBook.PageIndex);
 
   for I:= 0 to ANoteBook.PageCount - 1 do
     begin
-      TabNode := gConfig.AddNode(RootNode, 'Tab');
-      ViewNode := gConfig.AddNode(TabNode, 'FileView');
+      TabNode := AConfig.AddNode(RootNode, 'Tab');
+      ViewNode := AConfig.AddNode(TabNode, 'FileView');
 
       Page := ANoteBook.Page[I];
-      Page.SaveConfiguration(gConfig, TabNode);
-      Page.FileView.SaveConfiguration(gConfig, ViewNode);
+      Page.SaveConfiguration(AConfig, TabNode);
+      Page.FileView.SaveConfiguration(AConfig, ViewNode);
     end;
 end;
 
@@ -4554,8 +4559,8 @@ begin
   end
   else
   begin
-    LoadTabsXml(nbLeft);
-    LoadTabsXml(nbRight);
+    LoadTabsXml(gConfig, nbLeft);
+    LoadTabsXml(gConfig, nbRight);
   end;
 
   LoadTabsCommandLine(CommandLineParams);
@@ -4665,8 +4670,8 @@ begin
 }
 
   (* Save all tabs *)
-  SaveTabsXml(nbLeft);
-  SaveTabsXml(nbRight);
+  SaveTabsXml(gConfig, nbLeft);
+  SaveTabsXml(gConfig, nbRight);
 
   (* Save window bounds and state *)
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
