@@ -1244,38 +1244,43 @@ function TFileSystemOperationHelper.ProcessFile(aNode: TFileTreeNode; AbsoluteTa
 var
   OldDoneBytes: Int64; // for if there was an error
 begin
-  Result:= False;
-
   // If there will be an error the DoneBytes value
   // will be inconsistent, so remember it here.
   OldDoneBytes := FStatistics.DoneBytes;
 
-  if (aNode.TheFile.Size > GetDiskMaxFileSize(ExtractFileDir(AbsoluteTargetFileName))) then
-    case AskQuestion('', Format(rsMsgFileSizeTooBig, [aNode.TheFile.Name]),
-                     [fsourSkip, fsourAbort],
-                     fsourSkip, fsourAbort) of
-      fsourSkip:
-        Result := False;
-      else
-        AbortOperation;
-    end
-  else
-    case TargetExists(aNode, AbsoluteTargetFileName) of
-      fsoterSkip:
-        Result := False;
+  // Skip descript.ion, it will be processed below
+  if gProcessComments and mbCompareFileNames(aNode.TheFile.Name, DESCRIPT_ION) then
+    Result:= True
+  else begin
+    Result:= False;
 
-      fsoterDeleted, fsoterNotExists:
-        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmDefault);
+    if (aNode.TheFile.Size > GetDiskMaxFileSize(ExtractFileDir(AbsoluteTargetFileName))) then
+      case AskQuestion('', Format(rsMsgFileSizeTooBig, [aNode.TheFile.Name]),
+                       [fsourSkip, fsourAbort],
+                       fsourSkip, fsourAbort) of
+        fsourSkip:
+          Result := False;
+        else
+          AbortOperation;
+      end
+    else
+      case TargetExists(aNode, AbsoluteTargetFileName) of
+        fsoterSkip:
+          Result := False;
 
-      fsoterAddToTarget:
-        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmAppend);
+        fsoterDeleted, fsoterNotExists:
+          Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmDefault);
 
-      fsoterResume:
-        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmResume);
+        fsoterAddToTarget:
+          Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmAppend);
 
-      else
-        raise Exception.Create('Invalid TargetExists result');
-    end;
+        fsoterResume:
+          Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmResume);
+
+        else
+          raise Exception.Create('Invalid TargetExists result');
+      end;
+  end;
 
   if Result = True then
     begin
