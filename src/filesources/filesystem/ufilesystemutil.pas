@@ -1249,7 +1249,7 @@ begin
   OldDoneBytes := FStatistics.DoneBytes;
 
   // Skip descript.ion, it will be processed below
-  if gProcessComments and mbCompareFileNames(aNode.TheFile.Name, DESCRIPT_ION) then
+  if gProcessComments and (FStatistics.TotalFiles > 1) and mbCompareFileNames(aNode.TheFile.Name, DESCRIPT_ION) then
     Result:= True
   else begin
     Result:= False;
