@@ -1833,7 +1833,7 @@ begin
     if gSaveCmdLineHistory then
       glsCmdLineHistory.Assign(edtCommand.Items);
     SaveWindowState;
-    SaveMainToolBar;
+    if gButtonBar then SaveMainToolBar;
     SaveGlobs; // Should be last, writes configuration file
   except
     on E: Exception do
