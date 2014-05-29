@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains class for working with file comments.
 
-   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ type
     FLastDescrFile,
     FEncoding: String;
     FModified: Boolean;
+    FNewEncoding: String;
     FDestDescr: TDescription;
     procedure PrepareDescrFile(FileName: String);
     function GetDescription(Index: Integer): String;
@@ -129,7 +130,7 @@ type
 implementation
 
 uses
-  LConvEncoding, uDebug, DCOSUtils;
+  LConvEncoding, uDebug, DCOSUtils, uConvEncoding;
 
 { TDescription }
 
@@ -145,15 +146,18 @@ begin
         SaveToFile(FLastDescrFile);
       // load description file if exists
       FLastDescrFile:= sDescrFile;
-      if mbFileExists(FLastDescrFile) then
-        begin
-          LoadFromFile(FLastDescrFile);
-          FEncoding:= GuessEncoding(Text); // try to guess encoding
-          if FEncoding = EmptyStr then // by default use UTF-8
-            FEncoding:= EncodingUTF8;
-          if FEncoding <> EncodingUTF8 then
-            Text:= ConvertEncoding(Text, FEncoding, EncodingUTF8);
-        end;
+      if not mbFileExists(FLastDescrFile) then
+        FEncoding:= FNewEncoding // use new encoding if new file
+      else begin
+        LoadFromFile(FLastDescrFile);
+        // try to guess encoding
+        FEncoding:= DetectEncoding(Text);
+        // set target encoding
+        if Assigned(FDestDescr) then
+          FDestDescr.FNewEncoding:= FEncoding;
+        if FEncoding <> EncodingUTF8 then
+          Text:= ConvertEncoding(Text, FEncoding, EncodingUTF8);
+      end;
     except
       on E: Exception do
         DCDebug('TDescription.PrepareDescrFile - ' + E.Message);
@@ -295,6 +299,7 @@ constructor TDescription.Create(UseSubDescr: Boolean);
 begin
   FModified:= False;
   FEncoding:= EncodingUTF8; // by default
+  FNewEncoding:= EncodingUTF8;
   if UseSubDescr then
     FDestDescr:= TDescription.Create(False)
   else
@@ -407,4 +412,4 @@ begin
 end;
 
 end.
-
+
