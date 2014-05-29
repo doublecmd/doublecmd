@@ -29,6 +29,9 @@ interface
 uses
   Classes, SysUtils, DCClassesUtf8;
 
+const
+  DESCRIPT_ION = 'descript.ion';
+
 type
 
   { TDescription }
@@ -138,7 +141,7 @@ procedure TDescription.PrepareDescrFile(FileName: String);
 var
   sDescrFile: String;
 begin
-  sDescrFile:= ExtractFilePath(FileName) + 'descript.ion';
+  sDescrFile:= ExtractFilePath(FileName) + DESCRIPT_ION;
   if sDescrFile <> FLastDescrFile then
     try
       // save previous decription file if need
