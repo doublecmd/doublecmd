@@ -29,6 +29,8 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
     FInfoOperation: LongInt;
+    procedure SetNeedsConnection(AValue: Boolean);
+
   protected
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
 
@@ -46,7 +48,7 @@ type
 
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
-    property NeedsConnection: Boolean read FNeedsConnection write FNeedsConnection;
+    property NeedsConnection: Boolean read FNeedsConnection write SetNeedsConnection;
 
   end;
 
@@ -56,6 +58,17 @@ uses
   fWfxPluginCopyMoveOperationOptions, WfxPlugin;
 
 // -- TWfxPluginCopyOutOperation ---------------------------------------------
+
+procedure TWfxPluginCopyOutOperation.SetNeedsConnection(AValue: Boolean);
+begin
+  FNeedsConnection:= AValue;
+  if (FNeedsConnection = False) then
+    FInfoOperation:= FS_STATUS_OP_GET_MULTI_THREAD
+  else if (SourceFiles.Count > 1) then
+    FInfoOperation:= FS_STATUS_OP_GET_MULTI
+  else
+    FInfoOperation:= FS_STATUS_OP_GET_SINGLE;
+end;
 
 function TWfxPluginCopyOutOperation.UpdateProgress(SourceName, TargetName: UTF8String;
                                                    PercentDone: Integer): Integer;
@@ -95,12 +108,7 @@ begin
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 
-  if (FNeedsConnection = False) then
-    FInfoOperation:= FS_STATUS_OP_GET_MULTI_THREAD
-  else if (SourceFiles.Count > 1) then
-    FInfoOperation:= FS_STATUS_OP_GET_MULTI
-  else
-    FInfoOperation:= FS_STATUS_OP_GET_SINGLE;
+  SetNeedsConnection(FNeedsConnection);
 end;
 
 destructor TWfxPluginCopyOutOperation.Destroy;
