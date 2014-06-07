@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSource, uFileView, uFile;
+  uFileSource, uFileView, uFile, uFileSourceOperationTypes;
 
 {en
    Decides what should be done when user chooses a file in a file view.
@@ -34,6 +34,9 @@ procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 
+function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
+                              out OperationType: TFileSourceOperationType): Boolean;
+
 implementation
 
 uses
@@ -46,7 +49,6 @@ uses
   uFileSystemFileSource,
   uWfxPluginFileSource,
   uArchiveFileSourceUtil,
-  uFileSourceOperationTypes,
   uFileSourceOperationMessageBoxesUI,
   uFileProperty, URIParser;
 
@@ -339,6 +341,36 @@ begin
       FreeThenNil(UserInterface);
       FreeThenNil(aFiles);
     end;
+  end;
+end;
+
+function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
+  out OperationType: TFileSourceOperationType): Boolean;
+begin
+  // If same file source and address
+  if (fsoCopy in SourceFileSource.GetOperationsTypes) and
+     (fsoCopy in TargetFileSource.GetOperationsTypes) and
+     SourceFileSource.Equals(TargetFileSource) and
+     SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
+  begin
+    Result:= True;
+    OperationType := fsoCopy;
+  end
+  else if TargetFileSource.IsClass(TFileSystemFileSource) and
+          (fsoCopyOut in SourceFileSource.GetOperationsTypes) then
+  begin
+    Result:= True;
+    OperationType := fsoCopyOut;
+  end
+  else if SourceFileSource.IsClass(TFileSystemFileSource) and
+          (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
+  begin
+    Result:= True;
+    OperationType := fsoCopyIn;
+  end
+  else
+  begin
+    Result:= False;
   end;
 end;
 
