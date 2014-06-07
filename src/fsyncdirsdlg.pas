@@ -4,6 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013  Anton Panferov (ast.a_s@mail.ru)
+   Copyright (C) 2014  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -129,7 +130,7 @@ implementation
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions,
-  uFileSourceOperation, uDCUtils;
+  uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes;
 
 {$R *.lfm}
 
@@ -365,20 +366,56 @@ var
 
   function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
   var
-    r: TFileSourceCopyOperation;
+    Operation: TFileSourceCopyOperation;
+    OperationType: TFileSourceOperationType;
   begin
-    r := src.CreateCopyOutOperation(dst,
-      fs, Dest) as TFileSourceCopyOperation;
-    r.AddUserInterface(FFileSourceOperationMessageBoxesUI);
-    if ConfirmOverwrites then
-      r.FileExistsOption := fsoofeNone
-    else
-      r.FileExistsOption := fsoofeOverwrite;
-    try
-      r.Execute;
-      Result := r.Result = fsorFinished;
-    finally
-      r.Free;
+    if GetCopyOperationType(Src, Dst, OperationType) then
+    begin
+      Fs.Path:= fs[0].Path;
+      // Create destination directory
+      with Dst.CreateCreateDirectoryOperation(PathDelim, Dest) do
+      try
+        Execute;
+      finally
+        Free;
+      end;
+      // Determine operation type
+      case OperationType of
+        fsoCopy:
+          begin
+            // Copy within the same file source.
+            Operation := Src.CreateCopyOperation(
+                           Fs,
+                           Dest) as TFileSourceCopyOperation;
+          end;
+        fsoCopyOut:
+          begin
+            // CopyOut to filesystem.
+            Operation := Src.CreateCopyOutOperation(
+                           Dst,
+                           Fs,
+                           Dest) as TFileSourceCopyOperation;
+          end;
+        fsoCopyIn:
+          begin
+            // CopyIn from filesystem.
+            Operation := Dst.CreateCopyInOperation(
+                           Src,
+                           Fs,
+                           Dest) as TFileSourceCopyOperation;
+          end;
+      end;
+      Operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+      if ConfirmOverwrites then
+        Operation.FileExistsOption := fsoofeNone
+      else
+        Operation.FileExistsOption := fsoofeOverwrite;
+      try
+        Operation.Execute;
+        Result := Operation.Result = fsorFinished;
+      finally
+        Operation.Free;
+      end;
     end;
   end;
 
@@ -478,7 +515,6 @@ begin
   CloseAction := caFree;
   { settings }
   gSyncDirsSubdirs              := chkSubDirs.Checked;
-  gSyncDirsByContent            := chkByContent.Checked;
   gSyncDirsIgnoreDate           := chkIgnoreDate.Checked;
   gSyncDirsShowFilterCopyRight  := sbCopyRight.Down;
   gSyncDirsShowFilterEqual      := sbEqual.Down;
@@ -487,6 +523,8 @@ begin
   gSyncDirsShowFilterDuplicates := sbDuplicates.Down;
   gSyncDirsShowFilterSingles    := sbSingles.Down;
   gSyncDirsFileMask             := cbExtFilter.Text;
+  if chkByContent.Enabled then
+    gSyncDirsByContent          := chkByContent.Checked;
   glsMaskHistory.Assign(cbExtFilter.Items);
 end;
 
@@ -495,8 +533,10 @@ begin
   // Initialize property storage
   InitPropStorage(Self);
   { settings }
+  chkByContent.Enabled   := FFileSourceL.IsClass(TFileSystemFileSource) and
+                            FFileSourceR.IsClass(TFileSystemFileSource);
   chkSubDirs.Checked     := gSyncDirsSubdirs;
-  chkByContent.Checked   := gSyncDirsByContent;
+  chkByContent.Checked   := gSyncDirsByContent and chkByContent.Enabled;
   chkIgnoreDate.Checked  := gSyncDirsIgnoreDate;
   sbCopyRight.Down       := gSyncDirsShowFilterCopyRight;
   sbEqual.Down           := gSyncDirsShowFilterEqual;
