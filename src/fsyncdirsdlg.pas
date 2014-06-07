@@ -287,6 +287,10 @@ begin
 end;
 
 procedure TFileSyncRec.UpdateState(ignoreDate: Boolean);
+const
+  TimeDiff = 3100 / MSecsPerDay;
+var
+  FileTimeDiff: TDateTime;
 begin
   FState := srsNotEq;
   if Assigned(FFileR) and not Assigned(FFileL) then
@@ -294,16 +298,18 @@ begin
   else
   if not Assigned(FFileR) and Assigned(FFileL) then
     FState := srsCopyRight
-  else
-  if ((FFileL.ModificationTime = FFileR.ModificationTime) or ignoreDate) and (FFileL.Size = FFileR.Size) then
-    FState := srsEqual
-  else
-  if not ignoreDate then
-    if FFileR.ModificationTime < FFileL.ModificationTime then
-      FState := srsCopyRight
+  else begin
+    FileTimeDiff := FFileL.ModificationTime - FFileR.ModificationTime;
+    if (((FileTimeDiff > -TimeDiff) and (FileTimeDiff < TimeDiff)) or ignoreDate) and (FFileL.Size = FFileR.Size) then
+      FState := srsEqual
     else
-    if FFileR.ModificationTime > FFileL.ModificationTime then
-      FState := srsCopyLeft;
+    if not ignoreDate then
+      if FFileR.ModificationTime < FFileL.ModificationTime then
+        FState := srsCopyRight
+      else
+      if FFileR.ModificationTime > FFileL.ModificationTime then
+        FState := srsCopyLeft;
+  end;
   FAction := FState;
 end;
 
