@@ -369,11 +369,11 @@ end;
 procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
 var
   ConfirmOverwrites: Boolean;
+  OperationType: TFileSourceOperationType;
 
   function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
   var
     Operation: TFileSourceCopyOperation;
-    OperationType: TFileSourceOperationType;
   begin
     if GetCopyOperationType(Src, Dst, OperationType) then
     begin
@@ -457,13 +457,15 @@ begin
   try
     edLeftPath.Text := FCmpFileSourceL.CurrentAddress + FCmpFilePathL;
     edRightPath.Text := FCmpFileSourceR.CurrentAddress + FCmpFilePathR;
-    if CopyLeftCount > 0 then
+    if (CopyLeftCount > 0) and
+        GetCopyOperationType(FFileSourceR, FFileSourceL, OperationType) then
     begin
       chkRightToLeft.Enabled := True;
       chkRightToLeft.Checked := True;
       edLeftPath.Enabled := True;
     end;
-    if CopyRightCount > 0 then
+    if (CopyRightCount > 0) and
+        GetCopyOperationType(FFileSourceL, FFileSourceR, OperationType) then
     begin
       chkLeftToRight.Enabled := True;
       chkLeftToRight.Checked := True;
