@@ -1650,6 +1650,8 @@ begin
             Exit(FiExeIconID)
           else if Ext = 'lnk' then
             Exit(FiLinkIconID)
+          else if Ext = 'url' then
+            Exit(FiLinkIconID)
           else if Ext = 'ico' then
             Exit(FiDefaultIconID)
         end;
@@ -1734,7 +1736,8 @@ begin
       if (not IsDirectory) and
          (Ext <> 'exe') and
          (Ext <> 'ico') and
-         (Ext <> 'lnk') then
+         (Ext <> 'lnk') and
+         (Ext <> 'url') then
       begin
         FPixmapsLock.Acquire;
         try
