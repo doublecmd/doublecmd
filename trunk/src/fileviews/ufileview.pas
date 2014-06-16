@@ -564,7 +564,8 @@ begin
     FFlags := AFlags;
     CreateDefault(AOwner);
 
-    FHistory.Add(AFileSource, aPath);
+    FHistory.AddFileSource(AFileSource);
+    ChangePathAndSetActiveFile(aPath);
     FileSource.AddReloadEventListener(@ReloadEvent);
 
     // Update view before making file source file list,
