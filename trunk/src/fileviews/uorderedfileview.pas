@@ -100,6 +100,7 @@ type
   public
     procedure CloneTo(AFileView: TFileView); override;
     procedure SetActiveFile(aFilePath: String); override; overload;
+    procedure ChangePathAndSetActiveFile(aFilePath: String); override; overload;
 
   published  // commands
     procedure cm_QuickSearch(const Params: array of string);
@@ -113,6 +114,7 @@ implementation
 uses
   LCLProc, LCLType, math, Forms, Graphics,
   DCStrUtils,
+  DCOSUtils, 
   uLng, uGlobs, uMasks, uDCUtils, uIMCode,
   uFileSourceProperty,
   uPixMapManager,
@@ -691,6 +693,18 @@ begin
       RequestedActiveFile := aFilePath;
   end;
 end;
+
+procedure TOrderedFileView.ChangePathAndSetActiveFile(aFilePath: String);
+begin
+  if not mbFileExists(aFilePath) then
+    CurrentPath := aFilePath
+  else
+  begin
+    CurrentPath := ExtractFileDir(aFilePath);
+    SetActiveFile(ExtractFileName(aFilePath));
+  end;
+end;
+
 
 function TOrderedFileView.SetActiveFileNow(aFilePath: String): Boolean;
 var
