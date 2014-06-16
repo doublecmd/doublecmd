@@ -4604,9 +4604,9 @@ begin
       if Params.NewTab then
         AddTab(nbLeft, Params.LeftPath)
       else
-        FrameLeft.CurrentPath:= Params.LeftPath;
+        FrameLeft.ChangePathAndSetActiveFile(Params.LeftPath)
+      end;
     end;
-  end;
   if Params.RightPath[0] <> #0 then
   begin
     Params.RightPath:= ReplaceEnvVars(ReplaceTilde(Params.RightPath));
@@ -4617,7 +4617,7 @@ begin
       if Params.NewTab then
         AddTab(nbRight, Params.RightPath)
       else
-        FrameRight.CurrentPath:= Params.RightPath;
+        FrameRight.ChangePathAndSetActiveFile(Params.RightPath);
     end;
   end;
   if Params.ActiveRight then

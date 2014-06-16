@@ -408,6 +408,15 @@ type
     }
     procedure SetActiveFile(aFilePath: String); virtual; overload;
 
+    {en
+       If given path is a path to the directory, then changes current path
+       to the given one;
+       if given path is a path to the file, then changes current path
+       to the path to a given file, and moves the selection to the file.
+       @param(aFilePath may be an absolute path to the directory or to the file)
+    }
+    procedure ChangePathAndSetActiveFile(aFilePath: String); virtual; overload;
+
     procedure CalculateSpaceOfAllDirectories;
     {en
        Changes the current path to a parent directory.
@@ -1759,6 +1768,10 @@ begin
 end;
 
 procedure TFileView.SetActiveFile(aFilePath: String);
+begin
+end;
+
+procedure TFileView.ChangePathAndSetActiveFile(aFilePath: String);
 begin
 end;
 
