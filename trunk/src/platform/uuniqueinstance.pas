@@ -45,7 +45,10 @@ type
     property OnMessage: TOnUniqueInstanceMessage read FOnMessage write FOnMessage;
   end;
 
-function IsUniqueInstance(aInstanceName: String): Boolean;
+
+procedure InitInstance;
+procedure InitInstanceWithName(aInstanceName: String);
+function IsUniqueInstance: Boolean;
 
 {en
    Returns @true if current application instance is allowed to run.
@@ -55,6 +58,7 @@ function IsInstanceAllowed: Boolean;
 
 var
   UniqueInstance: TUniqueInstance = nil;
+  FIsUniqueInstance: Boolean = False;
 
 implementation
 
@@ -295,21 +299,59 @@ begin
 end;
 
 
-function IsUniqueInstance(aInstanceName: String): Boolean;
+
+{en 
+  Initializes instance with given name.
+  If there is no already existing instance, then create it.
+  If there is already existing instance, and the current one is a client,
+    then send params to the server (i.e. to the existing instance)
+  If there is already existing instance, and the current one is not a client,
+    (i.e. gOnlyOneAppInstance is false and no --client/-c options were given),
+    then new application is opened, but no server is started.
+
+TODO: implement 'servername', for example, similar to Vim's implementation.
+        if there is already instance with given name, and IsInstanceAllowed returned true
+        (that is, gOnlyOneAppInstance is false and no --client/-c options were given),
+        then we should add a trailing number to the servername.
+}
+procedure InitInstanceWithName(aInstanceName: String);
 begin
-  Result:= True;
+  FIsUniqueInstance:= True;
+
+  //-- determine if the instance with the same name already exists
   UniqueInstance:= TUniqueInstance.Create(aInstanceName);
   if UniqueInstance.IsRunInstance then
-   begin
+    //-- it does exist, so, set flag that instance is not unique
+    FIsUniqueInstance:= False
+  else
+    //-- id doesn't exist, so, run it
+    UniqueInstance.RunListen;
+
+  //-- if this instance is not allowed (i.e. it's a client), then send params to the server.
+  if not IsInstanceAllowed then
     UniqueInstance.SendParams;
-    Exit(False);
-   end;
-  UniqueInstance.RunListen;
 end;
+
+{en 
+  Initialize instance with an application name
+  (see detailed comment for InitInstanceWithName)
+}
+procedure InitInstance;
+begin
+  InitInstanceWithName(ApplicationName);
+end;
+
+
+
+function IsUniqueInstance: Boolean;
+begin
+   Result := FIsUniqueInstance;
+end;
+
 
 function IsInstanceAllowed: Boolean;
 begin
-  Result := (not gOnlyOneAppInstance) or IsUniqueInstance(ApplicationName);
+  Result := (not (gOnlyOneAppInstance or CommandLineParams.Client)) or IsUniqueInstance;
 end;
 
 finalization
