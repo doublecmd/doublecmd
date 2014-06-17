@@ -844,7 +844,9 @@ begin
   TDriveWatcher.Initialize(Handle);
   TDriveWatcher.AddObserver(@OnDriveWatcherEvent);
 
-  if gOnlyOneAppInstance and Assigned(UniqueInstance) then
+  //NOTE: we don't check gOnlyOneAppInstance anymore, because cmdline option "--client" was implemented,
+  //      so, we should always listen for the messages
+  if Assigned(UniqueInstance) then
     UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
 
   MainFormCreate(Self);

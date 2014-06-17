@@ -119,6 +119,12 @@ begin
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
   if InitGlobs then
+    //-- NOTE: before, only IsInstanceAllowed was called, and all the magic on creation
+    //         new instance or sending params to the existing server happened inside 
+    //         IsInstanceAllowed() function as a side effect.
+    //         Functions with side effects are generally bad, so,
+    //         new function was added to explicitly initialize instance.
+    InitInstance;
     if IsInstanceAllowed then
      begin
        InitPasswordStore;

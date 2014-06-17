@@ -10,6 +10,7 @@ type
     ActiveRight: Boolean;
     LeftPath: array[0..1023] of AnsiChar;
     RightPath: array[0..1023] of AnsiChar;
+    Client: Boolean;
   end;
 
 procedure ProcessCommandLineParams;
@@ -26,7 +27,7 @@ procedure ProcessCommandLineParams;
 var
   Option: AnsiChar = #0;
   OptionIndex: LongInt = 0;
-  Options: array[1..2] of TOption;
+  Options: array[1..3] of TOption;
   OptionUnknown: UTF8String;
 begin
   with Options[1] do
@@ -43,10 +44,17 @@ begin
     Flag:= nil;
     Value:= #0;
   end;
+  with Options[3] do
+  begin
+    Name:= 'client';
+    Has_arg:= 0;
+    Flag:= nil;
+    Value:= #0;
+  end;
   FillChar(CommandLineParams, SizeOf(TCommandLineParams), #0);
   repeat
     try
-      Option:= GetLongOpts('L:l:R:r:P:p:Tt', @Options[1], OptionIndex);
+      Option:= GetLongOpts('L:l:R:r:P:p:TtCc', @Options[1], OptionIndex);
     except
       MessageDlg(Application.Title, rsMsgInvalidCommandLine, mtError, [mbOK], 0, mbOK);
       Exit;
@@ -65,12 +73,17 @@ begin
               begin
                 gpCmdLineCfgDir:= ParamStrU(TrimQuotes(OptArg));
               end;
+            3:
+              begin
+                CommandLineParams.Client:= True;
+              end;
           end;
         end;
       'L', 'l': CommandLineParams.LeftPath:= ParamStrU(TrimQuotes(OptArg));
       'R', 'r': CommandLineParams.RightPath:= ParamStrU(TrimQuotes(OptArg));
       'P', 'p': CommandLineParams.ActiveRight:= (UpperCase(OptArg) = 'R');
       'T', 't': CommandLineParams.NewTab:= True;
+      'C', 'c': CommandLineParams.Client:= True;
       '?', ':': DCDebug ('Error with opt : ', OptOpt);
     end; { case }
   until Option = EndOfOptions;
