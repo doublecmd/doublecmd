@@ -11,6 +11,7 @@ type
     LeftPath: array[0..1023] of AnsiChar;
     RightPath: array[0..1023] of AnsiChar;
     Client: Boolean;
+    Servername: array[0..1023] of AnsiChar;
   end;
 
 procedure ProcessCommandLineParams;
@@ -27,9 +28,10 @@ procedure ProcessCommandLineParams;
 var
   Option: AnsiChar = #0;
   OptionIndex: LongInt = 0;
-  Options: array[1..3] of TOption;
+  Options: array[1..4] of TOption;
   OptionUnknown: UTF8String;
 begin
+  CommandLineParams.Servername := '';
   with Options[1] do
   begin
     Name:= 'no-console';
@@ -48,6 +50,13 @@ begin
   begin
     Name:= 'client';
     Has_arg:= 0;
+    Flag:= nil;
+    Value:= #0;
+  end;
+  with Options[4] do
+  begin
+    Name:= 'servername';
+    Has_arg:= 1;
     Flag:= nil;
     Value:= #0;
   end;
@@ -76,6 +85,10 @@ begin
             3:
               begin
                 CommandLineParams.Client:= True;
+              end;
+            4:
+              begin
+                CommandLineParams.Servername:= ParamStrU(TrimQuotes(OptArg));
               end;
           end;
         end;

@@ -5,7 +5,7 @@ unit uUniqueInstance;
 interface
 
 uses
-  Classes, SysUtils, SimpleIPC, uCmdLineParams;
+  Classes, SysUtils, SimpleIPC, uCmdLineParams, SynRegExpr;
 
 type
 
@@ -20,6 +20,7 @@ type
     FServerIPC: TSimpleIPCServer;
     FClientIPC: TSimpleIPCClient;
     FOnMessage: TOnUniqueInstanceMessage;
+    FServernameByUser: String;
     {$IF DEFINED(UNIX)}
     FMyProgramCreateSemaphore:Boolean;
     FPeekThread: TThreadID;
@@ -33,7 +34,7 @@ type
     function IsRunning: Boolean;
     procedure DisposeMutex;
   public
-    constructor Create(aInstanceName: String);
+    constructor Create(aInstanceName: String; aServernameByUser: String);
     destructor Destroy; override;
 
     function IsRunInstance: Boolean;
@@ -43,12 +44,15 @@ type
     procedure StopListen;
 
     property OnMessage: TOnUniqueInstanceMessage read FOnMessage write FOnMessage;
+    property ServernameByUser: String read FServernameByUser;
   end;
 
 
 procedure InitInstance;
 procedure InitInstanceWithName(aInstanceName: String);
 function IsUniqueInstance: Boolean;
+function GetNextServername(CurServername: String): String;
+function WantsToBeClient: Boolean;
 
 {en
    Returns @true if current application instance is allowed to run.
@@ -73,6 +77,35 @@ uses
 {$IF DEFINED(UNIX)}
 type
   TUnixIPCServer = class(TSimpleIPCServer) end;
+
+{en
+  If a given servername doesn't contain a trailing number, then
+  add a trailing number '2'; otherwise increase existing number
+  and return resulting string.
+}
+function GetNextServername(CurServername: String): String;
+var
+  SNameRegExp: TRegExpr;
+  CurNumber: Integer;
+begin
+  SNameRegExp := TRegExpr.Create();
+  try
+    SNameRegExp.Expression := '(\d+)$';
+    if SNameRegExp.Exec(CurServername) then
+    begin
+      //-- there is existing trailing number, so, increase it by 1
+      CurNumber := StrToInt(SNameRegExp.Match[1]) + 1;
+      Result := ReplaceRegExpr(SNameRegExp.Expression, CurServername, IntToStr(CurNumber), False);
+    end
+    else
+      //-- there is no trailing number, so, add a trailing number '2'
+      Result := CurServername + '2';
+
+  finally
+    SNameRegExp.Free;
+  end;
+
+end;
 
 function PeekMessage(Parameter: Pointer): PtrInt;
 var
@@ -281,9 +314,10 @@ begin
   {$ENDIF}
 end;
 
-constructor TUniqueInstance.Create(aInstanceName: String);
+constructor TUniqueInstance.Create(aInstanceName: String; aServernameByUser: String);
 begin
-  FInstanceName:= aInstanceName;
+  FServernameByUser := aServernameByUser;
+  FInstanceName:= aInstanceName + '-' + FServernameByUser;
   {$IF DEFINED(UNIX)}
   FInstanceName+= '-' + IntToStr(fpGetUID);
   {$ENDIF}
@@ -315,21 +349,38 @@ TODO: implement 'servername', for example, similar to Vim's implementation.
         then we should add a trailing number to the servername.
 }
 procedure InitInstanceWithName(aInstanceName: String);
+var
+  ServernameByUser: String;
 begin
-  FIsUniqueInstance:= True;
+  FIsUniqueInstance := True;
+  ServernameByUser := CommandLineParams.Servername;
 
   //-- determine if the instance with the same name already exists
-  UniqueInstance:= TUniqueInstance.Create(aInstanceName);
+  UniqueInstance := TUniqueInstance.Create(aInstanceName, ServernameByUser);
   if UniqueInstance.IsRunInstance then
     //-- it does exist, so, set flag that instance is not unique
-    FIsUniqueInstance:= False
-  else
-    //-- id doesn't exist, so, run it
-    UniqueInstance.RunListen;
+    FIsUniqueInstance := False;
 
-  //-- if this instance is not allowed (i.e. it's a client), then send params to the server.
-  if not IsInstanceAllowed then
+  //-- if instance is allowed (i.e. is not a client), then find unique
+  //   servername
+  if IsInstanceAllowed then
+  begin
+    while UniqueInstance.IsRunInstance do
+    begin
+      UniqueInstance.Free;
+      ServernameByUser := GetNextServername(ServernameByUser);
+      UniqueInstance := TUniqueInstance.Create(aInstanceName, ServernameByUser);
+    end;
+
+    //-- unique servername is found, so, run it as a server and set 
+    //   FIsUniqueInstance flag
+    UniqueInstance.RunListen;
+    FIsUniqueInstance := True
+  end
+  else
+    //-- if this instance is not allowed (i.e. it's a client), then send params to the server.
     UniqueInstance.SendParams;
+
 end;
 
 {en 
@@ -348,10 +399,15 @@ begin
    Result := FIsUniqueInstance;
 end;
 
+function WantsToBeClient: Boolean;
+begin
+   Result := (gOnlyOneAppInstance or CommandLineParams.Client);
+end;
+
 
 function IsInstanceAllowed: Boolean;
 begin
-  Result := (not (gOnlyOneAppInstance or CommandLineParams.Client)) or IsUniqueInstance;
+  Result := (not WantsToBeClient) or IsUniqueInstance;
 end;
 
 finalization

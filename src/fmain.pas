@@ -780,8 +780,20 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnDblClick := @pnlLeftRightDblClick;
   end;
   function GenerateTitle():String;
+  var 
+    ServernameString: String;
   begin
-    Result := Format('%s %s build %s; %s', ['Double Commander', dcVersion, dcRevision, dcBuildDate]);
+    ServernameString := '';
+    if Length(UniqueInstance.ServernameByUser) > 0 then
+      ServernameString := ' [' + UniqueInstance.ServernameByUser + ']';
+
+    Result := Format('%s%s %s build %s; %s',
+        ['Double Commander',
+        ServernameString,
+        dcVersion,
+        dcRevision,
+        dcBuildDate]
+    );
   end;
 
 var
