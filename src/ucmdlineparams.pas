@@ -7,6 +7,7 @@ interface
 type
   TCommandLineParams = packed record
     NewTab: Boolean;
+    ActivePanelSpecified: Boolean;
     ActiveRight: Boolean;
     LeftPath: array[0..1023] of AnsiChar;
     RightPath: array[0..1023] of AnsiChar;
@@ -94,7 +95,10 @@ begin
         end;
       'L', 'l': CommandLineParams.LeftPath:= ParamStrU(TrimQuotes(OptArg));
       'R', 'r': CommandLineParams.RightPath:= ParamStrU(TrimQuotes(OptArg));
-      'P', 'p': CommandLineParams.ActiveRight:= (UpperCase(OptArg) = 'R');
+      'P', 'p': begin
+        CommandLineParams.ActivePanelSpecified:= True;
+        CommandLineParams.ActiveRight:= (UpperCase(OptArg) = 'R');
+      end;
       'T', 't': CommandLineParams.NewTab:= True;
       'C', 'c': CommandLineParams.Client:= True;
       '?', ':': DCDebug ('Error with opt : ', OptOpt);

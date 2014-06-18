@@ -4353,10 +4353,6 @@ begin
 
   LoadTabsCommandLine(Params);
 
-  if Params.ActiveRight then
-    SetActiveFrame(fpRight)
-  else
-    SetActiveFrame(fpLeft);
 end;
 
 procedure TfrmMain.tbPasteClick(Sender: TObject);
@@ -4634,10 +4630,15 @@ begin
         FrameRight.ChangePathAndSetActiveFile(Params.RightPath);
     end;
   end;
-  if Params.ActiveRight then
-    PanelSelected:= fpRight
-  else
-    PanelSelected:= fpLeft;
+
+  //-- set active panel, if needed
+  if Params.ActivePanelSpecified then
+  begin
+    if Params.ActiveRight then
+      SetActiveFrame(fpRight)
+    else
+      SetActiveFrame(fpLeft);
+  end
 end;
 
 procedure TfrmMain.LoadWindowState;
