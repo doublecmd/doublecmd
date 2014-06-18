@@ -51,7 +51,6 @@ type
 procedure InitInstance;
 procedure InitInstanceWithName(aInstanceName: String);
 function IsUniqueInstance: Boolean;
-function GetNextServername(CurServername: String): String;
 function WantsToBeClient: Boolean;
 
 {en
@@ -83,30 +82,6 @@ type
   add a trailing number '2'; otherwise increase existing number
   and return resulting string.
 }
-function GetNextServername(CurServername: String): String;
-var
-  SNameRegExp: TRegExpr;
-  CurNumber: Integer;
-begin
-  SNameRegExp := TRegExpr.Create();
-  try
-    SNameRegExp.Expression := '(\d+)$';
-    if SNameRegExp.Exec(CurServername) then
-    begin
-      //-- there is existing trailing number, so, increase it by 1
-      CurNumber := StrToInt(SNameRegExp.Match[1]) + 1;
-      Result := ReplaceRegExpr(SNameRegExp.Expression, CurServername, IntToStr(CurNumber), False);
-    end
-    else
-      //-- there is no trailing number, so, add a trailing number '2'
-      Result := CurServername + '2';
-
-  finally
-    SNameRegExp.Free;
-  end;
-
-end;
-
 function PeekMessage(Parameter: Pointer): PtrInt;
 var
   UnixIPC: TUnixIPCServer absolute Parameter;
@@ -349,6 +324,31 @@ TODO: implement 'servername', for example, similar to Vim's implementation.
         then we should add a trailing number to the servername.
 }
 procedure InitInstanceWithName(aInstanceName: String);
+
+  function GetNextServername(CurServername: String): String;
+  var
+    SNameRegExp: TRegExpr;
+    CurNumber: Integer;
+  begin
+    SNameRegExp := TRegExpr.Create();
+    try
+      SNameRegExp.Expression := '(\d+)$';
+      if SNameRegExp.Exec(CurServername) then
+      begin
+        //-- there is existing trailing number, so, increase it by 1
+        CurNumber := StrToInt(SNameRegExp.Match[1]) + 1;
+        Result := ReplaceRegExpr(SNameRegExp.Expression, CurServername, IntToStr(CurNumber), False);
+      end
+      else
+        //-- there is no trailing number, so, add a trailing number '2'
+        Result := CurServername + '2';
+
+    finally
+      SNameRegExp.Free;
+    end;
+
+  end;
+
 var
   ServernameByUser: String;
 begin
