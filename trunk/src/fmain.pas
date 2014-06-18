@@ -4621,7 +4621,10 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
   end;
 
 begin
+  //-- set path for left panel (if set)
   LoadPanel(nbLeft,  Params.LeftPath);
+
+  //-- set path for right panel (if set)
   LoadPanel(nbRight, Params.RightPath);
 
   //-- set active panel, if needed
@@ -4631,7 +4634,14 @@ begin
       SetActiveFrame(fpRight)
     else
       SetActiveFrame(fpLeft);
-  end
+  end;
+
+  //-- set path for active panel (if set)
+  if ActiveFrame.NotebookPage is TFileViewPage then
+  begin
+    LoadPanel((ActiveFrame.NotebookPage as TFileViewPage).Notebook, Params.ActivePanelPath);
+  end;
+
 end;
 
 procedure TfrmMain.LoadWindowState;
