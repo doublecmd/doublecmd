@@ -11,6 +11,7 @@ type
     ActiveRight: Boolean;
     LeftPath: array[0..1023] of AnsiChar;
     RightPath: array[0..1023] of AnsiChar;
+    ActivePanelPath: array[0..1023] of AnsiChar;
     Client: Boolean;
     Servername: array[0..1023] of AnsiChar;
   end;
@@ -110,10 +111,7 @@ begin
     // If also found one parameter then use it as path of active panel
     if ParamCount - OptInd = 0 then
       begin
-        if CommandLineParams.ActiveRight then
-          CommandLineParams.RightPath:= ParamStrU(OptInd)
-        else
-          CommandLineParams.LeftPath:= ParamStrU(OptInd);
+        CommandLineParams.ActivePanelPath:= ParamStrU(OptInd);
         Inc(OptInd, 1);
       end
     // If also found two parameters then use it as paths in panels

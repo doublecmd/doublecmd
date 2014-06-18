@@ -4603,33 +4603,26 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
     ANoteBook.PageIndex := ANoteBook.PageCount - 1;
   end;
 
-begin
-  if Params.LeftPath[0] <> #0 then
+  procedure LoadPanel(aNoteBook: TFileViewNotebook; aPath: UTF8String);
   begin
-    Params.LeftPath:= ReplaceEnvVars(ReplaceTilde(Params.LeftPath));
-    if not mbFileSystemEntryExists(Params.LeftPath) then
-      Params.LeftPath:= GetDeepestExistingPath(Params.LeftPath);
-    if Params.LeftPath[0] <> #0 then
+    if Length(aPath) <> 0 then
     begin
-      if Params.NewTab then
-        AddTab(nbLeft, Params.LeftPath)
-      else
-        FrameLeft.ChangePathAndSetActiveFile(Params.LeftPath)
+      aPath:= ReplaceEnvVars(ReplaceTilde(aPath));
+      if not mbFileSystemEntryExists(aPath) then
+        aPath:= GetDeepestExistingPath(aPath);
+      if Length(aPath) <> 0 then
+      begin
+        if Params.NewTab then
+          AddTab(aNoteBook, aPath)
+        else
+          aNoteBook.ActivePage.FileView.ChangePathAndSetActiveFile(aPath)
       end;
     end;
-  if Params.RightPath[0] <> #0 then
-  begin
-    Params.RightPath:= ReplaceEnvVars(ReplaceTilde(Params.RightPath));
-    if not mbFileSystemEntryExists(Params.RightPath) then
-      Params.RightPath:= GetDeepestExistingPath(Params.RightPath);
-    if Params.RightPath[0] <> #0 then
-    begin
-      if Params.NewTab then
-        AddTab(nbRight, Params.RightPath)
-      else
-        FrameRight.ChangePathAndSetActiveFile(Params.RightPath);
-    end;
   end;
+
+begin
+  LoadPanel(nbLeft,  Params.LeftPath);
+  LoadPanel(nbRight, Params.RightPath);
 
   //-- set active panel, if needed
   if Params.ActivePanelSpecified then
