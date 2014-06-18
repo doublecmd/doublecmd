@@ -49,7 +49,7 @@ type
 
 
 procedure InitInstance;
-procedure InitInstanceWithName(aInstanceName: String);
+procedure InitInstanceWithName(aInstanceName: String; aServernameByUser: String);
 function IsUniqueInstance: Boolean;
 function WantsToBeClient: Boolean;
 
@@ -77,11 +77,6 @@ uses
 type
   TUnixIPCServer = class(TSimpleIPCServer) end;
 
-{en
-  If a given servername doesn't contain a trailing number, then
-  add a trailing number '2'; otherwise increase existing number
-  and return resulting string.
-}
 function PeekMessage(Parameter: Pointer): PtrInt;
 var
   UnixIPC: TUnixIPCServer absolute Parameter;
@@ -310,21 +305,26 @@ end;
 
 
 {en 
-  Initializes instance with given name.
+  Initializes instance with given name (currently this is ApplicationName),
+  and user-provided servername (typically, an empty string).
+
   If there is no already existing instance, then create it.
   If there is already existing instance, and the current one is a client,
     then send params to the server (i.e. to the existing instance)
   If there is already existing instance, and the current one is not a client,
     (i.e. gOnlyOneAppInstance is false and no --client/-c options were given),
-    then new application is opened, but no server is started.
-
-TODO: implement 'servername', for example, similar to Vim's implementation.
-        if there is already instance with given name, and IsInstanceAllowed returned true
-        (that is, gOnlyOneAppInstance is false and no --client/-c options were given),
-        then we should add a trailing number to the servername.
+    then user-provided servername is altered: firstly, just add a trailing number '2'.
+    If there is already some trailing number, then increase it by 1, until
+    we found a servername that isn't busy yet, and then create instance
+    with this servername.
 }
-procedure InitInstanceWithName(aInstanceName: String);
+procedure InitInstanceWithName(aInstanceName: String; aServernameByUser: String);
 
+  {en
+    If a given servername doesn't contain a trailing number, then
+    add a trailing number '2'; otherwise increase existing number
+    and return resulting string.
+  }
   function GetNextServername(CurServername: String): String;
   var
     SNameRegExp: TRegExpr;
@@ -349,14 +349,11 @@ procedure InitInstanceWithName(aInstanceName: String);
 
   end;
 
-var
-  ServernameByUser: String;
 begin
   FIsUniqueInstance := True;
-  ServernameByUser := CommandLineParams.Servername;
 
   //-- determine if the instance with the same name already exists
-  UniqueInstance := TUniqueInstance.Create(aInstanceName, ServernameByUser);
+  UniqueInstance := TUniqueInstance.Create(aInstanceName, aServernameByUser);
   if UniqueInstance.IsRunInstance then
     //-- it does exist, so, set flag that instance is not unique
     FIsUniqueInstance := False;
@@ -368,8 +365,8 @@ begin
     while UniqueInstance.IsRunInstance do
     begin
       UniqueInstance.Free;
-      ServernameByUser := GetNextServername(ServernameByUser);
-      UniqueInstance := TUniqueInstance.Create(aInstanceName, ServernameByUser);
+      aServernameByUser := GetNextServername(aServernameByUser);
+      UniqueInstance := TUniqueInstance.Create(aInstanceName, aServernameByUser);
     end;
 
     //-- unique servername is found, so, run it as a server and set 
@@ -384,12 +381,12 @@ begin
 end;
 
 {en 
-  Initialize instance with an application name
+  Initialize instance with an application name and user-provided servername
   (see detailed comment for InitInstanceWithName)
 }
 procedure InitInstance;
 begin
-  InitInstanceWithName(ApplicationName);
+  InitInstanceWithName(ApplicationName, CommandLineParams.Servername);
 end;
 
 
