@@ -49,6 +49,7 @@ type
     function GetCurrentPath: UTF8String;
     function GetFileSource(Index: Integer): IFileSource;
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
+    function GetFilename(FileSourceIndex, FilenameIndex: Integer): UTF8String;
     function GetPathsCount(Index: Integer): Integer;
 
   public
@@ -61,6 +62,7 @@ type
     procedure Add(aFileSource: IFileSource; aPath: UTF8String);
     procedure AddFileSource(aFileSource: IFileSource);
     procedure AddPath(aPath: UTF8String);
+    procedure SetFilenameForCurrentPath(aFilename: UTF8String);
     procedure Assign(otherHistory: TFileViewHistory);
     procedure DeleteFromCurrentFileSource;
     procedure SetIndexes(aFileSourceIndex: Integer; aCurrentPathIndex: Integer);
@@ -72,6 +74,7 @@ type
     property CurrentPathIndex: Integer read FCurrentPath write FCurrentPath;
     property FileSource[Index: Integer]: IFileSource read GetFileSource;
     property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
+    property Filename[FileSourceIndex, FilenameIndex: Integer]: UTF8String read GetFilename;
     property PathsCount[Index: Integer]: Integer read GetPathsCount;
   end;
 
@@ -82,6 +85,11 @@ type
   TFileViewHistoryEntry = record
     FileSource: IFileSource;
     PathsList : TStringList; // paths always include trailing path delimiter
+    FilenamesList : TStringList;
+    //TODO: refactor this!
+    //      it's much better to store list of objects each of them contain
+    //      both path and filename, instead of keeping two separate lists.
+    //      (right now, quick-n-dirty solution was applied)
   end;
 
 { TFileViewHistory }
@@ -164,6 +172,11 @@ begin
   Result := PFileViewHistoryEntry(FHistory.Items[FileSourceIndex])^.PathsList.Strings[PathIndex];
 end;
 
+function TFileViewHistory.GetFilename(FileSourceIndex, FilenameIndex: Integer): UTF8String;
+begin
+  Result := PFileViewHistoryEntry(FHistory.Items[FileSourceIndex])^.FilenamesList.Strings[FilenameIndex];
+end;
+
 function TFileViewHistory.GetPathsCount(Index: Integer): Integer;
 begin
   Result := PFileViewHistoryEntry(FHistory.Items[Index])^.PathsList.Count;
@@ -194,19 +207,34 @@ begin
   FHistory.Add(HistEntry);
   HistEntry^.FileSource := aFileSource;
   HistEntry^.PathsList := TStringList.Create;
+  HistEntry^.FilenamesList := TStringList.Create;
   Inc(FCurrentFileSource);
   FCurrentPath := -1;
+end;
+
+procedure TFileViewHistory.SetFilenameForCurrentPath(aFilename: UTF8String);
+var
+  aFilenames: TStringList;
+begin
+  aFilenames := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.FilenamesList;
+
+  if (FCurrentPath >= 0) then
+  begin
+    aFilenames[FCurrentPath] := aFilename;
+  end
 end;
 
 procedure TFileViewHistory.AddPath(aPath: UTF8String);
 var
   aPaths: TStringList;
+  aFilenames: TStringList;
 begin
   if FCurrentFileSource >= 0 then
   begin
     DeleteAfterCurrent;
 
-    aPaths := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.PathsList;
+    aPaths     := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.PathsList;
+    aFilenames := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.FilenamesList;
 
     if aPath <> '' then
       aPath := IncludeTrailingPathDelimiter(aPath);
@@ -214,8 +242,12 @@ begin
     if (aPaths.Count = 0) or (aPaths.Strings[FCurrentPath] <> aPath) then
     begin
       aPaths.Add(aPath);
+      aFilenames.Add('');
       if aPaths.Count > 50 then
-        aPaths.Delete(0)
+      begin
+        aPaths.Delete(0);
+        aFilenames.Delete(0);
+      end
       else
         Inc(FCurrentPath);
     end;
@@ -258,14 +290,19 @@ procedure TFileViewHistory.DeleteAfterCurrent;
 var
   i: Integer;
   aPaths: TStringList;
+  aFilenames: TStringList;
 begin
   if FHistory.Count > 0 then
   begin
     for i := FHistory.Count - 1 downto FCurrentFileSource + 1 do
       Delete(i);
     aPaths := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.PathsList;
+    aFilenames := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.FilenamesList;
     for i := aPaths.Count - 1 downto FCurrentPath + 1 do
+    begin
       aPaths.Delete(i);
+      aFilenames.Delete(i);
+    end;
   end;
 end;
 

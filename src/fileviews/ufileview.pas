@@ -383,6 +383,8 @@ type
     }
     function CloneSelectedOrActiveFiles: TFiles;
 
+    function GetActiveFileName: String;
+
     {en
        Retrieves files from file source again and displays the new list of files.
        Returns @true if reloading is done, @false if reloading will not be done
@@ -1447,6 +1449,9 @@ begin
   begin
     FFlatView:= False;
     EnableWatcher(False);
+
+  //-- before changing path, remember currently active filename
+    FHistory.SetFilenameForCurrentPath(GetActiveFileName());
     FHistory.AddPath(NewPath); // Sets CurrentPath.
     AfterChangePath;
     EnableWatcher(True);
@@ -1762,6 +1767,18 @@ begin
     OrigDisplayFile.TextColor := UpdatedFile.TextColor;
 
   DoFileUpdated(OrigDisplayFile);
+end;
+
+function TFileView.GetActiveFileName: String;
+var
+  aFile: TDisplayFile;
+begin
+  aFile := GetActiveDisplayFile;
+
+  if Assigned(aFile) then
+    Result := aFile.FSFile.Name
+  else
+    Result := '';
 end;
 
 procedure TFileView.SetActiveFile(const aFile: TFile);
@@ -3067,12 +3084,18 @@ end;
 procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
 var
   IsNewFileSource: Boolean;
+  FilenameFromHistory: String;
 begin
+  //-- before changing path, remember currently active filename
+  FHistory.SetFilenameForCurrentPath(GetActiveFileName());
+
   IsNewFileSource := not FHistory.FileSource[aFileSourceIndex].Equals(FHistory.CurrentFileSource);
 
   if BeforeChangePath(FHistory.FileSource[aFileSourceIndex],
                       FHistory.Path[aFileSourceIndex, aPathIndex]) then
   begin
+    FilenameFromHistory := FHistory.Filename[aFileSourceIndex, aPathIndex];
+
     if Assigned(FileSource) and IsNewFileSource then
       FileSource.RemoveReloadEventListener(@ReloadEvent);
     EnableWatcher(False);
@@ -3087,6 +3110,9 @@ begin
 
     AfterChangePath;
     EnableWatcher(True);
+
+    if FilenameFromHistory <> '' then
+      SetActiveFile(FilenameFromHistory)
 
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
