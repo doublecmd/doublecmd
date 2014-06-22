@@ -229,16 +229,10 @@ type
     procedure SynDiffEditLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
 
-    property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
+    property Commands: TFormCommands read FCommands implements IFormCommands;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
-    {$IF FPC_FULLVERSION < 020501}
-    // "implements" does not work in FPC < 2.5.1
-    function ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
-    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-    procedure GetCommandsList(List: TStrings);
-    {$ENDIF}
   published
     procedure cm_CopyLeftToRight(const Params: array of string);
     procedure cm_CopyRightToLeft(const Params: array of string);
@@ -1159,23 +1153,6 @@ begin
       Dec(ScrollLock);
     end;
 end;
-
-{$IF FPC_FULLVERSION < 020501}
-function TfrmDiffer.ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
-begin
-  Result := FCommands.ExecuteCommand(Command, Params);
-end;
-
-function TfrmDiffer.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-begin
-  Result := FCommands.GetCommandCaption(Command, CaptionType);
-end;
-
-procedure TfrmDiffer.GetCommandsList(List: TStrings);
-begin
-  FCommands.GetCommandsList(List);
-end;
-{$ENDIF}
 
 initialization
   TFormCommands.RegisterCommandsForm(TfrmDiffer, HotkeysCategory, @rsHotkeyCategoryDiffer);
