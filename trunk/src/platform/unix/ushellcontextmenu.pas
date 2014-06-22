@@ -67,6 +67,9 @@ uses
   {$ELSEIF DEFINED(LINUX)}
   , uMimeActions, fOpenWith
   {$ENDIF}
+  {$IF DEFINED(RabbitVCS)}
+  , uRabbitVCS
+  {$ENDIF}
   ;
 
 const
@@ -377,6 +380,10 @@ begin
     mi.Caption := rsMnuOpenWithOther;
     mi.OnClick := Self.OpenWithOtherSelect;
     miOpenWith.Add(mi);
+
+{$IF DEFINED(RabbitVCS)}
+    FillRabbitMenu(Self, OpenWithMenuItemSelect, FileNames);
+{$ENDIF}
 
   finally
     FreeAndNil(FileNames);
