@@ -599,6 +599,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Kopírovat soubor(y)"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 #| msgid "Cancel"
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -2531,6 +2535,10 @@ msgstr "Načíst výběr ze schrán&ky"
 msgid "&Load Selection from File..."
 msgstr "&Načíst výběr ze souboru..."
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 #, fuzzy
 #| msgid "Create directory"
@@ -2714,6 +2722,10 @@ msgstr "Uložit &výběr"
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
 msgstr "Uložit vý&běr do souboru..."
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
 
 #: tfrmmain.actsearch.caption
 #| msgid "&Search"
@@ -3109,6 +3121,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -7357,6 +7374,10 @@ msgstr "Kopírovat/Přesunout dialog"
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "Rozdílné"
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
 
 #: ulng.rshotkeycategorymain
 msgid "Main"

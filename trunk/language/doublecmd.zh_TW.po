@@ -617,6 +617,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "複製檔案"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
@@ -2614,6 +2618,10 @@ msgstr "從剪貼簿載入所選項目 (&B)"
 msgid "&Load Selection from File..."
 msgstr "從檔案載入所選項目 (&L)..."
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 #, fuzzy
 #| msgid "Create directory"
@@ -2798,6 +2806,10 @@ msgstr "儲存所選項目 (&V)"
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
 msgstr "儲存所選項目到檔案... (&E)"
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
 
 #: tfrmmain.actsearch.caption
 #| msgid "&Search"
@@ -3197,6 +3209,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -7702,6 +7719,10 @@ msgstr "複製/移動對話盒"
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "比對器"
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
 
 #: ulng.rshotkeycategorymain
 msgid "Main"

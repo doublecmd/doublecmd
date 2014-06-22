@@ -11,8 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);;\n"
 "X-Poedit-Language: Romanian\n"
 "X-Generator: Virtaal 0.7.1\n"
 
@@ -24,7 +23,7 @@ msgstr "Se compară...%d%% (ESC pentru a renunța)"
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr ""
 "Fișiere găsite: %d (Identice: %d, Diferite: %d,\n"
-"Unice la stânga: %d, Unice la dreapta: %d)"
+"Unice la stânga: %d, Unice la dreapta: %d)\n"
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %d bytes"
@@ -574,6 +573,10 @@ msgstr "Sal&vează aceste opțiuni ca implicite"
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Copiază fișer(e)"
+
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
 
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -1350,8 +1353,7 @@ msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr ""
-"Despachetează fiecare arhivă într-un subdirector &separat (nume de arhivă)"
+msgstr "Despachetează fiecare arhivă într-un subdirector &separat (nume de arhivă)"
 
 #: tfrmextractdlg.cboverwrite.caption
 msgid "O&verwrite existing files"
@@ -1819,9 +1821,7 @@ msgstr "Sal&vează cu \"Pornește în director\""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr ""
-"Dacă e salvat atunci \"Pornește în director\" va fi restaurat când se încarcă "
-"șablonul. Utilizați dacă doriți să fixați căutarea la un director anume"
+msgstr "Dacă e salvat atunci \"Pornește în director\" va fi restaurat când se încarcă șablonul. Utilizați dacă doriți să fixați căutarea la un director anume"
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -1925,15 +1925,11 @@ msgstr "&Utilizează pluginul căutare:"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr ""
-"Introduceți numele de directoare ce ar trebui excluse de la căutare separate "
-"cu \";\""
+msgstr "Introduceți numele de directoare ce ar trebui excluse de la căutare separate cu \";\""
 
 #: tfrmfinddlg.cmbexcludefiles.hint
 msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr ""
-"Introduceți numele de directoare ce ar trebui excluse de la căutare separate "
-"cu \";\""
+msgstr "Introduceți numele de directoare ce ar trebui excluse de la căutare separate cu \";\""
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
@@ -2426,6 +2422,10 @@ msgstr "Încarcă Selecția din Clip&board"
 msgid "&Load Selection from File..."
 msgstr "Încarcă Selecția din Fișier..."
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Creează un &Director"
@@ -2591,6 +2591,10 @@ msgstr "Sal&vează Selecția"
 msgid "Save S&election to File..."
 msgstr "Salvează S&elecția în Fișierul..."
 
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
+
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
 msgstr "&Caută..."
@@ -2666,9 +2670,7 @@ msgstr "Aranjează după &Mărime"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
-msgstr ""
-"Activează/dezactivează ca fișierul conținând lista de ignorați să arate "
-"numele de fișier"
+msgstr "Activează/dezactivează ca fișierul conținând lista de ignorați să arate numele de fișier"
 
 #: tfrmmain.actsymlink.caption
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
@@ -2975,6 +2977,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -3790,9 +3797,7 @@ msgstr "Permite o singuro copie DC la un anumit moment"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
-"Aici puteți introduce unul sau mai multe dispozitive sau puncte de montare, "
-"separate prin \";\""
+msgstr "Aici puteți introduce unul sau mai multe dispozitive sau puncte de montare, separate prin \";\""
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -3935,6 +3940,15 @@ msgstr "Fundal"
 msgctxt "TFRMOPTIONSEDITORCOLORS.BACKGROUNDUSEDEFAULTCHECKBOX.CAPTION"
 msgid "Bac&kground"
 msgstr "Fundal"
+
+#: tfrmoptionseditorcolors.btnresetmask.hint
+msgid "Reset"
+msgstr ""
+
+#: tfrmoptionseditorcolors.btnsavemask.hint
+msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
+msgid "Save"
+msgstr "Salvează"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
@@ -4081,8 +4095,7 @@ msgstr "Arată panoul de selecție al filei în fereastra de dialog"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
 msgid "S&kip file operations errors and write them to log window"
-msgstr ""
-"Sari peste erorile din operațiile cu fișiere și scrie-le în fereastra jurnal"
+msgstr "Sari peste erorile din operațiile cu fișiere și scrie-le în fereastra jurnal"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -4253,9 +4266,7 @@ msgstr "Arată fișierele ascunse și de sistem"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr ""
-"Când se selectează fișiere cu <SPACEBAR>, mergi în jos la următorul fișier "
-"(ca și cu <INSERT>)"
+msgstr "Când se selectează fișiere cu <SPACEBAR>, mergi în jos la următorul fișier (ca și cu <INSERT>)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -4648,9 +4659,7 @@ msgstr "Arată fereastra terminal"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
-msgstr ""
-"Arată barele cu butoane de două discuri (lățime fixă, deasupra ferestrelor "
-"de fișiere)"
+msgstr "Arată barele cu butoane de două discuri (lățime fixă, deasupra ferestrelor de fișiere)"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
@@ -4807,9 +4816,7 @@ msgstr "Ajustare"
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr ""
-"Modulele de căutare permit utilizarea algoritmilor alternativi sau a "
-"uneltelor externe (precum \"locate\" etc.)"
+msgstr "Modulele de căutare permit utilizarea algoritmilor alternativi sau a uneltelor externe (precum \"locate\" etc.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
@@ -4819,24 +4826,17 @@ msgstr "Module Pack&er sunt utilizate pentru a lucra cu arhivele"
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
 msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr ""
-"Modulele de conținut permit afișarea extinsă a detaliilor fișierelor, precum "
-"etichete mp3 sau atributele imaginii în listele de fișiere, sau utilizarea "
-"lor în căutare sau în unealta de redenumire multiplă"
+msgstr "Modulele de conținut permit afișarea extinsă a detaliilor fișierelor, precum etichete mp3 sau atributele imaginii în listele de fișiere, sau utilizarea lor în căutare sau în unealta de redenumire multiplă"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr ""
-"Modulele pentru fișierele de sistem permit accesul la discurile inaccesibile "
-"prin sistemul de operare sau la dispozitive externe precum Palm/PocketPC."
+msgstr "Modulele pentru fișierele de sistem permit accesul la discurile inaccesibile prin sistemul de operare sau la dispozitive externe precum Palm/PocketPC."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr ""
-"Modulele de vizualizare permit afișarea formatelor de fișier precum "
-"imaginile, foi de calcul, baze de date etc. în Vizualizator (F3, Ctrl+Q)"
+msgstr "Modulele de vizualizare permit afișarea formatelor de fișier precum imaginile, foi de calcul, baze de date etc. în Vizualizator (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -5019,9 +5019,7 @@ msgstr "Butoane plate"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr ""
-"Introduceți parametri de comandă, fiecare pe o linie separată. Apăsați F1 "
-"pentru a primi ajutor la parametri."
+msgstr "Introduceți parametri de comandă, fiecare pe o linie separată. Apăsați F1 pentru a primi ajutor la parametri."
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgid "Appearance"
@@ -6919,6 +6917,10 @@ msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "Comparator"
 
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
+
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Principal"
@@ -7230,9 +7232,7 @@ msgstr "Operațiile cu fișiere active"
 
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
-msgstr ""
-"Câteva operații cu fișierele nu au fost finalizate. Închiderea Double "
-"Commander ar putea duce la pierderea datelor."
+msgstr "Câteva operații cu fișierele nu au fost finalizate. Închiderea Double Commander ar putea duce la pierderea datelor."
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -7276,9 +7276,7 @@ msgstr "Acesta nu este un modul valid!"
 
 #: ulng.rsmsginvalidpluginarchitecture
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr ""
-"Acest modul este construit pentru Double Commander pentru %s. Nu poate "
-"funcționa cu Double Commander pentru %s!"
+msgstr "Acest modul este construit pentru Double Commander pentru %s. Nu poate funcționa cu Double Commander pentru %s!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -7511,9 +7509,7 @@ msgstr "Se șterge selecția \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr ""
-"Nicio schimbare: MAJUSCULE;minuscule;Majuscule primul char; Primul char din "
-"fiecare cuvânt Majusculă"
+msgstr "Nicio schimbare: MAJUSCULE;minuscule;Majuscule primul char; Primul char din fiecare cuvânt Majusculă"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -7835,9 +7831,7 @@ msgstr "float;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
-"Scurtătura %s pentru cm_Delete va fi înregistrată, pentru a putea fi "
-"inversată această setare."
+msgstr "Scurtătura %s pentru cm_Delete va fi înregistrată, pentru a putea fi inversată această setare."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
@@ -7862,16 +7856,12 @@ msgstr "Comandă"
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr ""
-"Scurtătura %s pentru cm_Delete are un parametru ce suprascrie această "
-"setare. Doriți să schimbați acest parametru ca să utilizeze setarea globală?"
+msgstr "Scurtătura %s pentru cm_Delete are un parametru ce suprascrie această setare. Doriți să schimbați acest parametru ca să utilizeze setarea globală?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr ""
-"Scurtătura %s pentru cm_Delete necesită schimbarea unui parametru pentru a "
-"se potrivi cu scurtătura %s. Doriți să o schimbați?"
+msgstr "Scurtătura %s pentru cm_Delete necesită schimbarea unui parametru pentru a se potrivi cu scurtătura %s. Doriți să o schimbați?"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7909,17 +7899,11 @@ msgstr "Setează scurtătura la fișierul șters"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
-"Pentru ca această setare să funcționeze cu scurtătura %s, scurtătura %s "
-"trebuie atribuită la cm_Delete dar e deja atribuită lui &s. Doriți să o "
-"schimbați?"
+msgstr "Pentru ca această setare să funcționeze cu scurtătura %s, scurtătura %s trebuie atribuită la cm_Delete dar e deja atribuită lui &s. Doriți să o schimbați?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr ""
-"Scurtătura %s pentru cm_Delete este o scurtătură secvențială pentru care o "
-"tastă rapidă cu Shift inversat nu poate fi atribuită. Această setare ar "
-"putea să nu funcționeze."
+msgstr "Scurtătura %s pentru cm_Delete este o scurtătură secvențială pentru care o tastă rapidă cu Shift inversat nu poate fi atribuită. Această setare ar putea să nu funcționeze."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -8097,9 +8081,7 @@ msgstr "Buton stânga;Buton Dreapta"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr ""
-"în vârful listei de fișiere;după dosare (dacă acestea sunt sortate înaintea "
-"fișierelor);la poziția sortată;la baza listei de fișiere"
+msgstr "în vârful listei de fișiere;după dosare (dacă acestea sunt sortate înaintea fișierelor);la poziția sortată;la baza listei de fișiere"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -8139,15 +8121,11 @@ msgstr "Ascunde panoul cu filtre când nu este activ"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
-"cu majuscule semnificative;potrivit setărilor locale (aAbBcC); mai întâi cu "
-"majuscule apoi cu minuscule (ABCabc)"
+msgstr "cu majuscule semnificative;potrivit setărilor locale (aAbBcC); mai întâi cu majuscule apoi cu minuscule (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
-"sortează după nume și arată primul;sortează ca fișiere și arată "
-"primul;sortează ca fișiere"
+msgstr "sortează după nume și arată primul;sortează ca fișiere și arată primul;sortează ca fișiere"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
@@ -8163,9 +8141,7 @@ msgstr "S&eparator;Comandă inte&rnă; Comandă e&xternă;Meni&u"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr ""
-"nu schimba poziția;utilizează aceleași setări ca pentru fișierele noi;la "
-"poziția sortată"
+msgstr "nu schimba poziția;utilizează aceleași setări ca pentru fișierele noi;la poziția sortată"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -8365,10 +8341,7 @@ msgstr "Vizualizator"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr ""
-"Vă rugăm raportați această eroare la sistemul de urmărire a defecțiunilor cu "
-"o descriere a ceea ce făceați și a fișierelor implicate:%s Apăsați %S "
-"pentru a continua sau %s pentru a părăsi programul."
+msgstr "Vă rugăm raportați această eroare la sistemul de urmărire a defecțiunilor cu o descriere a ceea ce făceați și a fișierelor implicate:%s Apăsați %S pentru a continua sau %s pentru a părăsi programul."
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
@@ -8387,3 +8360,4 @@ msgstr "Codificare"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nu a fost găsit!"
+

@@ -580,6 +580,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Fájl(ok) másolása"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 #| msgid "Cancel"
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -2509,6 +2513,10 @@ msgstr "Kiválasztás betöltése a &vágólapról"
 msgid "&Load Selection from File..."
 msgstr "Kiválasztás betöltése &fájlból"
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 #| msgid "Create directory"
 msgid "Create &Directory"
@@ -2689,6 +2697,10 @@ msgstr "Kiválasztott men&tése"
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
 msgstr "Kiválasztott m&entése fájlba..."
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
 
 #: tfrmmain.actsearch.caption
 #| msgid "&Search"
@@ -3086,6 +3098,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -7248,6 +7265,10 @@ msgstr "Párbeszédablak másolása/mozgatása"
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "Eltérésnézőke"
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
 
 #: ulng.rshotkeycategorymain
 msgid "Main"

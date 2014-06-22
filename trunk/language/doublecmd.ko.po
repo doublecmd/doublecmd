@@ -624,6 +624,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "파일 복사"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
@@ -2650,6 +2654,10 @@ msgstr "선택목록 클립보드에서 불러오기(&B)"
 msgid "&Load Selection from File..."
 msgstr "선택목록 파일에서 불러오기(&L)..."
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 #, fuzzy
 #| msgid "Create directory"
@@ -2836,6 +2844,10 @@ msgstr "선택목록 저장(&S)"
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
 msgstr "선택목록 파일로 저장(&E)..."
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
 
 #: tfrmmain.actsearch.caption
 #, fuzzy
@@ -3241,6 +3253,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -7869,6 +7886,10 @@ msgstr "복사/이동 대화상자"
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "파일 비교"
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
 
 #: ulng.rshotkeycategorymain
 #, fuzzy

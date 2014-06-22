@@ -624,6 +624,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Copiar Arxiu(s)"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
@@ -2631,6 +2635,10 @@ msgstr "Carregar selecció del portapapers"
 msgid "&Load Selection from File..."
 msgstr "Carregar se&lecció des d'Arxiu..."
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 #, fuzzy
 #| msgid "Create directory"
@@ -2823,6 +2831,10 @@ msgstr "Desar selecció"
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
 msgstr "Desar sel&ecció a Arxiu..."
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
 
 #: tfrmmain.actsearch.caption
 #, fuzzy
@@ -3226,6 +3238,11 @@ msgstr ""
 
 #: tfrmmain.miline37.caption
 msgctxt "tfrmmain.miline37.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr ""
 
@@ -7659,6 +7676,10 @@ msgstr ""
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "Differ(comparador)"
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
 
 #: ulng.rshotkeycategorymain
 msgid "Main"

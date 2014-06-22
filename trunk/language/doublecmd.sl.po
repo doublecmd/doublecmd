@@ -578,6 +578,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Kopiraj datoteke"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -2422,6 +2426,10 @@ msgstr "Naloži izbor iz o&dložišča"
 msgid "&Load Selection from File..."
 msgstr "&Naloži izbor iz datoteke ..."
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Ustvari &mapo"
@@ -2586,6 +2594,10 @@ msgstr "Shrani izb&or"
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
 msgstr "Shrani &izbor v datoteko ..."
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
 
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
@@ -2969,6 +2981,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -6903,6 +6920,10 @@ msgstr "Pogovorno okno kopiranja in premikanja"
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "Primerjalnik"
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
 
 #: ulng.rshotkeycategorymain
 msgid "Main"

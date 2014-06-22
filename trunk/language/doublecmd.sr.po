@@ -573,6 +573,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Умножи датотеку(е)"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -2417,6 +2421,10 @@ msgstr "Учитај садржај оставе исечака"
 msgid "&Load Selection from File..."
 msgstr "&Учитај избор из датотеке..."
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Направи &фасциклу"
@@ -2581,6 +2589,10 @@ msgstr "&Сачувај избор"
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
 msgstr "Сачувај &избор у датотеку..."
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
+msgstr ""
 
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
@@ -2964,6 +2976,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -6898,6 +6915,10 @@ msgstr "Прозорче умножавања и премештања"
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
 msgstr "Програм за разлике"
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
+msgstr ""
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
