@@ -582,6 +582,10 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Kopiëer bestand(en)"
 
+#: tfrmdescredit.actsavedescription.caption
+msgid "Save Description"
+msgstr ""
+
 #: tfrmdescredit.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
@@ -2582,6 +2586,10 @@ msgstr ""
 msgid "&Load Selection from File..."
 msgstr ""
 
+#: tfrmmain.actloadtabs.caption
+msgid "&Load Tabs from File"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 #, fuzzy
 #| msgid "Create directory"
@@ -2779,6 +2787,10 @@ msgstr ""
 
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
+msgstr ""
+
+#: tfrmmain.actsavetabs.caption
+msgid "&Save Tabs to File"
 msgstr ""
 
 #: tfrmmain.actsearch.caption
@@ -3189,6 +3201,11 @@ msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline38.caption
+msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
@@ -7515,6 +7532,10 @@ msgstr ""
 #: ulng.rshotkeycategorydiffer
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
+msgstr ""
+
+#: ulng.rshotkeycategoryeditcommentdialog
+msgid "Edit Comment Dialog"
 msgstr ""
 
 #: ulng.rshotkeycategorymain
