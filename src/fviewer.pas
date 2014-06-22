@@ -273,7 +273,7 @@ type
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
-    property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
+    property Commands: TFormCommands read FCommands implements IFormCommands;
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
@@ -283,13 +283,6 @@ type
     procedure LoadNextFile(const aFileName: UTF8String);
     procedure LoadFile(iIndex:Integer);
     procedure ExitPluginMode;
-
-    {$IF FPC_FULLVERSION < 020501}
-    // "implements" does not work in FPC < 2.5.1
-    function ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
-    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-    procedure GetCommandsList(List: TStrings);
-    {$ENDIF}
 
   published
     // Commands for hotkey manager
@@ -2160,25 +2153,6 @@ begin
     PanelEditImage.Visible:= not bQuickView;
   end;
 end;
-
-// Commands for hotkey manager
-
-{$IF FPC_FULLVERSION < 020501}
-function TfrmViewer.ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
-begin
-  Result := FCommands.ExecuteCommand(Command, Params);
-end;
-
-function TfrmViewer.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-begin
-  Result := FCommands.GetCommandCaption(Command, CaptionType);
-end;
-
-procedure TfrmViewer.GetCommandsList(List: TStrings);
-begin
-  FCommands.GetCommandsList(List);
-end;
-{$ENDIF}
 
 procedure TfrmViewer.cm_About(const Params: array of string);
 begin
