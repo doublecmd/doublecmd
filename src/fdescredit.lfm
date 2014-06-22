@@ -10,14 +10,14 @@ object frmDescrEdit: TfrmDescrEdit
   ClientWidth = 400
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  LCLVersion = '1.2.0.3'
   object lblEditCommentFor: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 12
-    Height = 18
+    Height = 13
     Top = 12
-    Width = 115
+    Width = 85
     BorderSpacing.Left = 12
     BorderSpacing.Top = 12
     Caption = 'E&dit comment for:'
@@ -28,10 +28,10 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideTop.Control = cbEncoding
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = cbEncoding
-    Left = 214
-    Height = 18
-    Top = 216
-    Width = 62
+    Left = 229
+    Height = 13
+    Top = 223
+    Width = 47
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
     Caption = '&Encoding:'
@@ -43,9 +43,9 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideTop.Control = lblEditCommentFor
     AnchorSideTop.Side = asrBottom
     Left = 12
-    Height = 18
-    Top = 36
-    Width = 27
+    Height = 13
+    Top = 31
+    Width = 18
     BorderSpacing.Top = 6
     Caption = '???'
     Font.Style = [fsBold]
@@ -60,8 +60,8 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = cbEncoding
     Left = 12
-    Height = 136
-    Top = 62
+    Height = 155
+    Top = 52
     Width = 376
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 12
@@ -76,12 +76,12 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCancel
     Left = 288
-    Height = 30
-    Top = 210
+    Height = 21
+    Top = 219
     Width = 100
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 12
-    ItemHeight = 0
+    ItemHeight = 13
     OnChange = cbEncodingChange
     Style = csDropDownList
     TabOrder = 1
@@ -119,5 +119,13 @@ object frmDescrEdit: TfrmDescrEdit
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 3
+  end
+  object ActionList: TActionList
+    left = 104
+    top = 224
+    object actSaveDescription: TAction
+      Caption = 'Save Description'
+      OnExecute = actExecute
+    end
   end
 end
