@@ -403,6 +403,19 @@ begin
           SetBitmap(MenuItem, 'rabbitvcs-checkout');
           SubMenu.Add(MenuItem);
         end;
+        // (MenuCompareTool, None),
+        if ((Integers['length'] = 1) and
+            Booleans['is_in_a_or_a_working_copy'] and
+            (Booleans['is_modified'] or Booleans['has_modified'] or
+             Booleans['is_conflicted'] or Booleans['has_conflicted'])) then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Compare with base';
+          MenuItem.Hint:= 'rabbitvcs diff -s' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-compare');
+          SubMenu.Add(MenuItem);
+        end;
         // (MenuShowLog, None),
         if ((Integers['length'] = 1) and
             Booleans['is_in_a_or_a_working_copy'] and
@@ -422,6 +435,7 @@ begin
           MenuItem.OnClick:= OnClick;
           MenuItem.Caption:= 'Repository Browser';
           MenuItem.Hint:= 'rabbitvcs browser' + Parameters;
+          SetBitmap(MenuItem, 'system-search');
           SubMenu.Add(MenuItem);
         end;
         // (MenuCheckForModifications, None),
