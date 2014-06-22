@@ -475,6 +475,7 @@ resourcestring
   rsHotkeyCategoryViewer = 'Viewer';
   rsHotkeyCategoryDiffer = 'Differ';
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
+  rsHotkeyCategoryEditCommentDialog = 'Edit Comment Dialog';
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';

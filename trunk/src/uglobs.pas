@@ -93,7 +93,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 19;
+  hkVersion     = 20;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -764,6 +764,12 @@ begin
   with HMForm.Hotkeys do
     begin
       AddIfNotExists(['F2'],[],'cm_AddToQueue');
+    end;
+
+  HMForm := HotMan.Forms.FindOrCreate('Edit Comment Dialog');
+  with HMForm.Hotkeys do
+    begin
+      AddIfNotExists(['F2'],[],'cm_SaveDescription');
     end;
 
   if not mbFileExists(gpCfgDir + gNameSCFile) then

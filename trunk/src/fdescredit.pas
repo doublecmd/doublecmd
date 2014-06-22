@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Dialog for editing file comments.
 
-   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,13 +27,16 @@ unit fDescrEdit;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, uDescr;
+  Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, ActnList, uDescr,
+  uFormCommands;
 
 type
 
   { TfrmDescrEdit }
 
-  TfrmDescrEdit = class(TForm)
+  TfrmDescrEdit = class(TForm, IFormCommands)
+    actSaveDescription: TAction;
+    ActionList: TActionList;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     cbEncoding: TComboBox;
@@ -41,13 +44,18 @@ type
     lblEncoding: TLabel;
     lblEditCommentFor: TLabel;
     memDescr: TMemo;
+    procedure actExecute(Sender: TObject);
     procedure cbEncodingChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     FDescr: TDescription;
+    FCommands: TFormCommands;
     procedure DisplayEncoding;
+    property Commands: TFormCommands read FCommands implements IFormCommands;
   public
-    { public declarations }
+    constructor Create(TheOwner: TComponent); override;
+  published
+    procedure cm_SaveDescription(const Params: array of string);
   end; 
 
 function ShowDescrEditDlg(sFileName: String): Boolean;
@@ -57,7 +65,10 @@ implementation
 {$R *.lfm}
 
 uses
-  LConvEncoding;
+  LConvEncoding, DCStrUtils, uHotkeyManager, uLng, uGlobs;
+
+const
+  HotkeysCategory = 'Edit Comment Dialog';
 
 function ShowDescrEditDlg(sFileName: String): Boolean;
 const
@@ -85,10 +96,19 @@ end;
 { TfrmDescrEdit }
 
 procedure TfrmDescrEdit.FormCreate(Sender: TObject);
+var
+  HMForm: THMForm;
+  Hotkey: THotkey;
 begin
   // fill encoding combobox
   cbEncoding.Clear;
   GetSupportedEncodings(cbEncoding.Items);
+
+  HMForm := HotMan.Register(Self, HotkeysCategory);
+  Hotkey := HMForm.Hotkeys.FindByCommand('cm_SaveDescription');
+
+  if Assigned(Hotkey) then
+    btnOK.Caption := btnOK.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
 end;
 
 procedure TfrmDescrEdit.DisplayEncoding;
@@ -103,11 +123,34 @@ begin
       end;
 end;
 
+constructor TfrmDescrEdit.Create(TheOwner: TComponent);
+begin
+  inherited Create(TheOwner);
+  FCommands := TFormCommands.Create(Self, actionList);
+end;
+
+procedure TfrmDescrEdit.cm_SaveDescription(const Params: array of string);
+begin
+  ModalResult:= btnOK.ModalResult;
+end;
+
 procedure TfrmDescrEdit.cbEncodingChange(Sender: TObject);
 begin
   FDescr.Encoding:= cbEncoding.Text;
   memDescr.Lines.Text:= FDescr.ReadDescription(lblFileName.Caption);
 end;
+
+procedure TfrmDescrEdit.actExecute(Sender: TObject);
+var
+  cmd: string;
+begin
+  cmd := (Sender as TAction).Name;
+  cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
+  Commands.ExecuteCommand(cmd, []);
+end;
+
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmDescrEdit, HotkeysCategory, @rsHotkeyCategoryEditCommentDialog);
 
 end.
 
