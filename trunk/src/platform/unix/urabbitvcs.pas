@@ -62,13 +62,15 @@ function CheckStatus(Path: UTF8String; Recurse: Boolean32 = False;
 
 function GenerateMenuConditions(Paths: TStringList): string;
 
+procedure FillRabbitMenu(Menu: TPopupMenu; OnClick: TNotifyEvent; Paths: TStringList);
+
 var
   RabbitVCS: Boolean = False;
 
 implementation
 
 uses
-  dbus, unixtype, fpjson, jsonparser, unix;
+  dbus, unixtype, fpjson, jsonparser, unix, uDCUtils;
 
 var
   error: DBusError;
@@ -313,6 +315,185 @@ begin
     end;
   finally
     dbus_message_unref(message);
+  end;
+end;
+
+procedure FillRabbitMenu(Menu: TPopupMenu; OnClick: TNotifyEvent; Paths: TStringList);
+var
+  I: Integer;
+  Parameters,
+  Conditions: String;
+  MenuItem,
+  SubMenu: TMenuItem;
+  JAnswer : TJSONObject;
+
+  procedure SetBitmap(Item: TMenuItem; const IconName: String);
+  var
+    ImageIndex: PtrInt;
+    bmpTemp: TBitmap = nil;
+  begin
+    ImageIndex:= PixMapManager.GetIconByName(IconName);
+    if ImageIndex >= 0 then
+      begin
+        bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
+        if Assigned(bmpTemp) then
+        begin
+          Item.Bitmap.Assign(bmpTemp);
+          FreeAndNil(bmpTemp);
+        end;
+      end;
+  end;
+
+  procedure AddSeparator(MenuTarget: TMenuItem);
+  begin
+    MenuItem:= TMenuItem.Create(Menu);
+    MenuItem.Caption:= '-';
+    MenuTarget.Add(MenuItem);
+  end;
+
+begin
+  Conditions:= GenerateMenuConditions(Paths);
+  for I := 0 to Paths.Count - 1 do
+    Parameters := Parameters + ' ' + QuoteStr(Paths[I]);
+  with TJSONParser.Create(Conditions) do
+  try
+    JAnswer:= Parse as TJSONObject;
+    with JAnswer do
+    try
+      // (MenuUpdate, None),
+      if (Booleans['is_in_a_or_a_working_copy'] and
+          Booleans['is_versioned'] and
+          not Booleans['is_added']) then
+      begin
+        MenuItem:= TMenuItem.Create(Menu);
+        MenuItem.OnClick:= OnClick;
+        MenuItem.Caption:= 'Update';
+        MenuItem.Hint:= 'rabbitvcs update' + Parameters;
+        SetBitmap(MenuItem, 'rabbitvcs-update');
+        Menu.Items.Add(MenuItem);
+      end;
+      // (MenuCommit, None),
+      if Booleans['is_svn'] and Booleans['is_in_a_or_a_working_copy'] and
+         (Booleans['is_dir'] or Booleans['is_added'] or Booleans['is_modified'] or
+          Booleans['is_deleted'] or not Booleans['is_versioned']) then
+      begin
+        MenuItem:= TMenuItem.Create(Menu);
+        MenuItem.OnClick:= OnClick;
+        MenuItem.Caption:= 'Commit';
+        MenuItem.Hint:= 'rabbitvcs commit' + Parameters;
+        SetBitmap(MenuItem, 'rabbitvcs-commit');
+        Menu.Items.Add(MenuItem);
+      end;
+      // (MenuRabbitVCSSvn, [
+      if Booleans['is_svn'] or not Booleans['is_in_a_or_a_working_copy'] then
+      begin
+        SubMenu:= TMenuItem.Create(Menu);
+        SubMenu.Caption:= 'RabbitVCS SVN';
+        SetBitmap(SubMenu, 'rabbitvcs');
+        Menu.Items.Add(SubMenu);
+
+        // (MenuCheckout, None),
+        if (Integers['length'] = 1) and Booleans['is_dir'] and
+            not Booleans['is_working_copy'] then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Checkout...';
+          MenuItem.Hint:= 'rabbitvcs checkout' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-checkout');
+          SubMenu.Add(MenuItem);
+        end;
+        // (MenuShowLog, None),
+        if ((Integers['length'] = 1) and
+            Booleans['is_in_a_or_a_working_copy'] and
+            Booleans['is_versioned'] and
+            not Booleans['is_added']) then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Show Log';
+          MenuItem.Hint:= 'rabbitvcs log' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-show_log');
+          SubMenu.Add(MenuItem);
+        end;
+        // (MenuRepoBrowser, None),
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Repository Browser';
+          MenuItem.Hint:= 'rabbitvcs browser' + Parameters;
+          SubMenu.Add(MenuItem);
+        end;
+        // (MenuCheckForModifications, None),
+        if (Booleans['is_working_copy'] or
+            Booleans['is_versioned']) then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Check for Modifications...';
+          MenuItem.Hint:= 'rabbitvcs checkmods' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-checkmods');
+          SubMenu.Add(MenuItem);
+        end;
+        // (MenuSeparator, None),
+        AddSeparator(SubMenu);
+        // (MenuAdd, None),
+        if (Booleans['is_svn'] and
+            ((Booleans['is_dir'] and Booleans['is_in_a_or_a_working_copy']) or
+            ((not Booleans['is_dir']) and Booleans['is_in_a_or_a_working_copy'] and
+              not Booleans['is_versioned']) )) then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Add';
+          MenuItem.Hint:= 'rabbitvcs add' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-add');
+          SubMenu.Add(MenuItem);
+        end;
+        // (MenuSeparator, None),
+        AddSeparator(SubMenu);
+        // (MenuUpdateToRevision, None),
+        if ((Integers['length'] = 1) and
+            Booleans['is_versioned'] and
+            Booleans['is_in_a_or_a_working_copy']) then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Update to revision...';
+          MenuItem.Hint:= 'rabbitvcs updateto' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-update');
+          SubMenu.Add(MenuItem);
+        end;
+        // (MenuRename, None),
+        if ((Integers['length'] = 1) and
+            Booleans['is_in_a_or_a_working_copy'] and
+            Booleans['is_versioned']) then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Rename...';
+          MenuItem.Hint:= 'rabbitvcs rename' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-rename');
+          SubMenu.Add(MenuItem);
+        end;
+        // (MenuDelete, None),
+        if (Booleans['exists'] or Booleans['is_versioned']) and
+           not Booleans['is_deleted'] then
+        begin
+          MenuItem:= TMenuItem.Create(Menu);
+          MenuItem.OnClick:= OnClick;
+          MenuItem.Caption:= 'Delete';
+          MenuItem.Hint:= 'rabbitvcs delete' + Parameters;
+          SetBitmap(MenuItem, 'rabbitvcs-delete');
+          SubMenu.Add(MenuItem);
+        end;
+      end;
+    except
+      Exit;
+    end;
+    JAnswer.Free;
+  finally
+    Free;
   end;
 end;
 
