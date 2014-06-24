@@ -2268,7 +2268,7 @@ procedure TFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   HistoryNode, EntryNode, FSNode, PathsNode: TXmlNode;
   SortingsNode, SortingSubNode, SortFunctionNode: TXmlNode;
-  sFSType, sPath: String;
+  sFSType, sPath, sFilename: String;
   aFileSource: IFileSource = nil;
   ActiveFSIndex: Integer = -1;
   ActivePathIndex: Integer = -1;
@@ -2355,6 +2355,13 @@ begin
 
                       if AConfig.GetAttr(PathsNode, 'Active', False) then
                         ActivePathIndex := FHistory.PathsCount[FHistory.Count - 1] - 1;
+
+                      //-- if selected filename is specified in xml file, load it too
+                      if AConfig.TryGetAttr(PathsNode, 'Filename', sFilename) then
+                      begin
+                        FHistory.SetFilenameForCurrentPath(sFilename);
+                      end
+
                     end;
                   end;
                   PathsNode := PathsNode.NextSibling;
@@ -2481,7 +2488,11 @@ begin
             AConfig.SetAttr(PathNode, 'Active', True);
           end;
 
+          //-- set path
           AConfig.SetContent(PathNode, FHistory.Path[i, j]);
+
+          //-- set selected filename
+          AConfig.SetAttr(PathNode, 'Filename', FHistory.Filename[i, j]);
         end;
       end
       else
