@@ -269,6 +269,8 @@ begin
     HistEntry^.FileSource := otherHistEntry^.FileSource;
     HistEntry^.PathsList := TStringList.Create;
     HistEntry^.PathsList.AddStrings(otherHistEntry^.PathsList);
+    HistEntry^.FilenamesList := TStringList.Create;
+    HistEntry^.FilenamesList.AddStrings(otherHistEntry^.FilenamesList);
   end;
 
   FCurrentFileSource := otherHistory.FCurrentFileSource;
@@ -283,6 +285,7 @@ begin
   FHistory.Delete(Index);
   HistEntry^.FileSource := nil;
   HistEntry^.PathsList.Free;
+  HistEntry^.FilenamesList.Free;
   Dispose(HistEntry);
 end;
 
