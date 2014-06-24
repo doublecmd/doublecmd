@@ -47,6 +47,7 @@ type
     function GetCount: Integer; // = FileSourcesCount
     function GetCurrentFileSource: IFileSource;
     function GetCurrentPath: UTF8String;
+    function GetCurrentFilename: UTF8String;
     function GetFileSource(Index: Integer): IFileSource;
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetFilename(FileSourceIndex, FilenameIndex: Integer): UTF8String;
@@ -71,6 +72,7 @@ type
     property CurrentFileSource: IFileSource read GetCurrentFileSource;
     property CurrentFileSourceIndex: Integer read FCurrentFileSource write FCurrentFileSource;
     property CurrentPath: UTF8String read GetCurrentPath;
+    property CurrentFilename: UTF8String read GetCurrentFilename;
     property CurrentPathIndex: Integer read FCurrentPath write FCurrentPath;
     property FileSource[Index: Integer]: IFileSource read GetFileSource;
     property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
@@ -158,6 +160,14 @@ function TFileViewHistory.GetCurrentPath: UTF8String;
 begin
   if (FCurrentFileSource >= 0) and (FCurrentPath >= 0) then
     Result := PFileViewHistoryEntry(FHistory[FCurrentFileSource])^.PathsList[FCurrentPath]
+  else
+    Result := EmptyStr;
+end;
+
+function TFileViewHistory.GetCurrentFilename: UTF8String;
+begin
+  if (FCurrentFileSource >= 0) and (FCurrentPath >= 0) then
+    Result := PFileViewHistoryEntry(FHistory[FCurrentFileSource])^.FilenamesList[FCurrentPath]
   else
     Result := EmptyStr;
 end;
