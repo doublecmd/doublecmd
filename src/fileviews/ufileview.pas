@@ -1450,7 +1450,9 @@ begin
     FFlatView:= False;
     EnableWatcher(False);
 
-  //-- before changing path, remember currently active filename
+    //-- before changing path, remember currently active filename
+    //   TODO: move this call to some generic place that is called
+    //         ALWAYS when currently selected file is changed
     FHistory.SetFilenameForCurrentPath(GetActiveFileName());
     FHistory.AddPath(NewPath); // Sets CurrentPath.
     AfterChangePath;
@@ -2399,6 +2401,12 @@ begin
 
   if Assigned(FileSource) then
     FileSource.AddReloadEventListener(@ReloadEvent);
+
+  //TODO: probably it's not the best place for calling SetActiveFile() :
+  //      initially-active file should be set in the same place where
+  //      initial path is set
+  SetActiveFile(FHistory.CurrentFilename);
+
   // No automatic reload here.
 end;
 
@@ -2439,6 +2447,11 @@ var
   PathIndex: Integer;
   ASorting: TFileSortings;
 begin
+  //-- remember currently active filename
+  //   TODO: move this call to some generic place that is called
+  //         ALWAYS when currently selected file is changed
+  FHistory.SetFilenameForCurrentPath(GetActiveFileName());
+
   AConfig.ClearNode(ANode);
 
   // Sorting.
@@ -3098,6 +3111,8 @@ var
   FilenameFromHistory: String;
 begin
   //-- before changing path, remember currently active filename
+  //   TODO: move this call to some generic place that is called
+  //         ALWAYS when currently selected file is changed
   FHistory.SetFilenameForCurrentPath(GetActiveFileName());
 
   IsNewFileSource := not FHistory.FileSource[aFileSourceIndex].Equals(FHistory.CurrentFileSource);
