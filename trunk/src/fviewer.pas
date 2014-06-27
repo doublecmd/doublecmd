@@ -37,7 +37,7 @@ unit fViewer;
 interface
 
 uses
-  SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
+  SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls, LMessages,
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms;
@@ -274,6 +274,9 @@ type
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
+
+  protected
+    procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
@@ -777,6 +780,11 @@ begin
           FBitmapList.Insert(index, bmpThumb);
         end;
     end;
+end;
+
+procedure TfrmViewer.WMSetFocus(var Message: TLMSetFocus);
+begin
+  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).SetFocus;
 end;
 
 procedure TfrmViewer.miPreviewClick(Sender: TObject);
