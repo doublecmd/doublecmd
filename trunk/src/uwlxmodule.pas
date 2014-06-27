@@ -335,12 +335,14 @@ begin
 end;
 
 function TWlxModule.CallListGetDetectString: String;
+const
+  MAX_LEN = 2048; // See listplugin.hlp fo details
 begin
   //  DCDebug('GetDetectstr Entered');
   if Assigned(ListGetDetectString) then
   begin
-    SetLength(Result, MAX_PATH); Result[1] := #0;
-    ListGetDetectString(PAnsiChar(Result), MAX_PATH);
+    SetLength(Result, MAX_LEN); Result[1] := #0;
+    ListGetDetectString(PAnsiChar(Result), MAX_LEN);
     Result := PAnsiChar(Result);
   end
   else
