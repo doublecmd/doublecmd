@@ -42,6 +42,8 @@ type
     function GetRootDir(sPath: String): String; override; overload;
     function GetRootDir: String; override; overload;
 
+    function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
+
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
@@ -129,6 +131,15 @@ end;
 function TWinNetFileSource.GetRootDir: String;
 begin
   Result:= PathDelim;
+end;
+
+function TWinNetFileSource.GetFreeSpace(Path: String; out FreeSize,
+                                        TotalSize: Int64): Boolean;
+begin
+  if IsNetworkPath(Path) then
+    Result:= False
+  else
+    Result:= inherited GetFreeSpace(Path, FreeSize, TotalSize);
 end;
 
 function TWinNetFileSource.GetProperties: TFileSourceProperties;
