@@ -10,7 +10,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2012 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2014 Alexander Koblov (alexx2000@mail.ru)
    
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
    
@@ -25,7 +25,7 @@ unit uGlobs;
 interface
 
 uses
-  Classes, Controls, Forms, Types, uExts, uColorExt, Graphics, DCClassesUtf8,
+  Classes, SysUtils, Controls, Forms, Types, uExts, uColorExt, Graphics, DCClassesUtf8,
   uMultiArc, uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, DCXmlConfig,
   uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uhotdir;
@@ -381,6 +381,8 @@ function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;
 function IsFileSystemWatcher: Boolean;
 function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
 
+procedure RegisterInitialization(InitProc: TProcedure);
+
 const
   cMaxStringItems=50;
   
@@ -391,7 +393,7 @@ var
 implementation
 
 uses
-   LCLProc, Dialogs, SysUtils, XMLRead,
+   LCLProc, Dialogs, XMLRead,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
@@ -412,6 +414,7 @@ var
   // Double Commander version
   // loaded from configuration file
   gPreviousVersion: UTF8String = '';
+  FInitList: array of TProcedure;
 
 function LoadConfigCheckErrors(LoadConfigProc: TLoadConfigProc;
                                ConfigFileName: String;
@@ -628,6 +631,12 @@ begin
     on EConvertError do
       Result := ADefaultFormat;
   end;
+end;
+
+procedure RegisterInitialization(InitProc: TProcedure);
+begin
+  SetLength(FInitList, Length(FInitList) + 1);
+  FInitList[High(FInitList)]:= InitProc;
 end;
 
 procedure LoadDefaultHotkeyBindings;
@@ -2607,6 +2616,7 @@ end;
 
 function InitGlobs: Boolean;
 var
+  InitProc: TProcedure;
   ErrorMessage: String = '';
 begin
   CreateGlobs;
@@ -2623,6 +2633,9 @@ begin
     if not AskUserOnError(ErrorMessage) then
       Exit(False);
   end;
+
+  for InitProc in FInitList do
+    InitProc();
 
   Result := AskUserOnError(ErrorMessage);
 end;
