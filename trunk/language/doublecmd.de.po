@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2014-01-28 19:50+0100\n"
+"PO-Revision-Date: 2014-06-23 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -633,7 +633,7 @@ msgstr "Datei(en) kopieren"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
-msgstr ""
+msgstr "Beschreibung speichern"
 
 #: tfrmdescredit.btncancel.caption
 #, fuzzy
@@ -2665,7 +2665,7 @@ msgstr "Auswah&l aus Datei laden"
 
 #: tfrmmain.actloadtabs.caption
 msgid "&Load Tabs from File"
-msgstr ""
+msgstr "&Lade Tabs aus Datei"
 
 #: tfrmmain.actmakedir.caption
 #, fuzzy
@@ -2884,7 +2884,7 @@ msgstr "Auswa&hl in Datei speichern"
 
 #: tfrmmain.actsavetabs.caption
 msgid "&Save Tabs to File"
-msgstr ""
+msgstr "&Speichere Tabs in Datei"
 
 #: tfrmmain.actsearch.caption
 #, fuzzy
@@ -4449,7 +4449,7 @@ msgstr "&Hintergrund"
 
 #: tfrmoptionseditorcolors.btnresetmask.hint
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
 #: tfrmoptionseditorcolors.btnsavemask.hint
 msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
@@ -7910,7 +7910,7 @@ msgstr "Vergleichsprogramm"
 
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
-msgstr ""
+msgstr "Bearbeite Kommentar-Dialog"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
