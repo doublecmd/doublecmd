@@ -68,6 +68,7 @@ object frmDescrEdit: TfrmDescrEdit
     BorderSpacing.Top = 8
     BorderSpacing.Right = 12
     BorderSpacing.Bottom = 12
+    OnKeyDown = memDescrKeyDown
     TabOrder = 0
   end
   object cbEncoding: TComboBox
