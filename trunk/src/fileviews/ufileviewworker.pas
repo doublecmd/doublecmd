@@ -230,7 +230,7 @@ uses
   {$IFDEF timeFileView} uDebug, {$ENDIF}
   LCLProc, Graphics, DCFileAttributes,
   uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
-  uGlobs, uMasks, uPixMapManager, uFileSourceProperty, uFileFunctions,
+  uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
   uFileSourceOperationOptions;
 
@@ -405,10 +405,9 @@ end;
 procedure TFileListBuilder.Execute;
 var
   AFile: TFile;
-  I, J: Integer;
+  I: Integer;
   HaveUpDir: Boolean = False;
   FileSourceFiles: TFiles = nil;
-  SortingProperties: TFilePropertiesTypes = [];
 begin
   try
     if Aborted then
@@ -484,18 +483,10 @@ begin
       Exit;
 
     // Retrieve RetrievableFileProperties which used in sorting
-    for I:= Low(FSortings) to High(FSortings) do
-    begin
-      for J:= Low(FSortings[I].SortFunctions) to High(FSortings[I].SortFunctions) do
-      begin
-        SortingProperties:= SortingProperties + TFileFunctionToProperty[FSortings[I].SortFunctions[J]];
-      end;
-    end;
-    SortingProperties:= (SortingProperties - FFileSource.SupportedFileProperties) * FFileSource.RetrievableFileProperties;
-    if SortingProperties <> [] then
+    if FFilePropertiesNeeded <> [] then
     begin
       for I:= 0 to FileSourceFiles.Count - 1 do
-        FFileSource.RetrieveProperties(FileSourceFiles[I], SortingProperties);
+        FFileSource.RetrieveProperties(FileSourceFiles[I], FFilePropertiesNeeded);
     end;
 
     // Make display file list from file source file list.
