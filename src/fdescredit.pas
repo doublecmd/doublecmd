@@ -47,6 +47,7 @@ type
     procedure actExecute(Sender: TObject);
     procedure cbEncodingChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure memDescrKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FDescr: TDescription;
     FCommands: TFormCommands;
@@ -65,7 +66,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LConvEncoding, DCStrUtils, uHotkeyManager, uLng, uGlobs;
+  LCLType, LConvEncoding, DCStrUtils, uHotkeyManager, uLng, uGlobs;
 
 const
   HotkeysCategory = 'Edit Comment Dialog';
@@ -109,6 +110,12 @@ begin
 
   if Assigned(Hotkey) then
     btnOK.Caption := btnOK.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
+end;
+
+procedure TfrmDescrEdit.memDescrKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then ModalResult:= btnCancel.ModalResult;
 end;
 
 procedure TfrmDescrEdit.DisplayEncoding;
