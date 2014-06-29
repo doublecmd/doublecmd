@@ -79,6 +79,7 @@ type
        Which file properties are needed to be displayed for each file.
     }
     FFilePropertiesNeeded: TFilePropertiesTypes;
+    FSortingProperties: TFilePropertiesTypes;
     FFileViewWorkers: TFileViewWorkers;
     FFlags: TFileViewFlags;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
@@ -114,6 +115,7 @@ type
     FLastLoadedPath: String;
     FLoadingFileListLongTime: Boolean;
     FMethods: TFormCommands;
+    FForceReload: Boolean;
 
     FOnBeforeChangePath : TOnBeforeChangePath;
     FOnAfterChangePath : TOnAfterChangePath;
@@ -142,6 +144,7 @@ type
     function GetFiltered: Boolean;
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
+    function GetSortingProperties: TFilePropertiesTypes;
     function GetSortingForSorter: TFileSortings;
     function GetWatcherActive: Boolean;
     procedure HandleNotifications;
@@ -1819,12 +1822,22 @@ begin
 end;
 
 procedure TFileView.SetSorting(const NewSortings: TFileSortings);
+var
+  SortingProperties: TFilePropertiesTypes;
 begin
   FSortings := CloneSortings(NewSortings);
   if not IsLoadingFileList then
   begin
-    SortAllDisplayFiles;
-    ReDisplayFileList;
+    SortingProperties:= GetSortingProperties;
+    // Force reload if new sorting properties needed
+    FForceReload:= (SortingProperties <> []) and (SortingProperties <> FSortingProperties);
+    FSortingProperties:= SortingProperties;
+    if FForceReload then
+      Reload()
+    else begin
+      SortAllDisplayFiles;
+      ReDisplayFileList;
+    end;
   end;
 end;
 
@@ -1857,7 +1870,8 @@ begin
 
   if FileSource.Equals(FLastLoadedFileSource) and
      (FLastLoadedPath = CurrentPath) and
-     (FAllDisplayFiles.Count > 0) then
+     (FAllDisplayFiles.Count > 0) and
+     (FForceReload = False) then
   begin
     // Clone all properties of display files, but don't clone the FS files
     // themselves because new ones will be retrieved from FileSource.
@@ -1868,6 +1882,9 @@ begin
       DisplayFilesHashed.Add(FAllDisplayFiles[i].FSFile.FullPath, ClonedDisplayFiles[i]);
   end;
 
+  // Drop FForceReload flag
+  FForceReload := False;
+
   Worker := TFileListBuilder.Create(
     FileSource,
     CurrentFileSourceIndex,
@@ -1877,7 +1894,7 @@ begin
     SortingForSorter,
     FlatView,
     AThread,
-    FilePropertiesNeeded,
+    FSortingProperties,
     @SetFileList,
     ClonedDisplayFiles,
     DisplayFilesHashed);
@@ -2400,7 +2417,10 @@ begin
   FHistory.SetIndexes(ActiveFSIndex, ActivePathIndex);
 
   if Assigned(FileSource) then
+  begin
+    FSortingProperties := GetSortingProperties;
     FileSource.AddReloadEventListener(@ReloadEvent);
+  end;
 
   //TODO: probably it's not the best place for calling SetActiveFile() :
   //      initially-active file should be set in the same place where
@@ -2812,6 +2832,22 @@ begin
     else
       Result := 0;
   end;
+end;
+
+function TFileView.GetSortingProperties: TFilePropertiesTypes;
+var
+  I, J: Integer;
+begin
+  Result:= [];
+  // Retrieve RetrievableFileProperties which used in sorting
+  for I:= Low(FSortings) to High(FSortings) do
+  begin
+    for J:= Low(FSortings[I].SortFunctions) to High(FSortings[I].SortFunctions) do
+    begin
+      Result:= Result + TFileFunctionToProperty[FSortings[I].SortFunctions[J]];
+    end;
+  end;
+  Result:= (Result - FileSource.SupportedFileProperties) * FileSource.RetrievableFileProperties;
 end;
 
 function TFileView.GetSortingForSorter: TFileSortings;
