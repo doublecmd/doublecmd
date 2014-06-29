@@ -491,7 +491,7 @@ begin
         SortingProperties:= SortingProperties + TFileFunctionToProperty[FSortings[I].SortFunctions[J]];
       end;
     end;
-    SortingProperties:= SortingProperties - FFileSource.SupportedFileProperties;
+    SortingProperties:= (SortingProperties - FFileSource.SupportedFileProperties) * FFileSource.RetrievableFileProperties;
     if SortingProperties <> [] then
     begin
       for I:= 0 to FileSourceFiles.Count - 1 do
