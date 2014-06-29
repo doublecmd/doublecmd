@@ -313,7 +313,7 @@ implementation
 uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
-  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils;
+  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr;
 
 const
   HotkeysCategory = 'Viewer';
@@ -1996,6 +1996,7 @@ var
   sSearchTextU: UTF8String;
   sSearchTextA: AnsiString;
   iSearchParameter: Integer;
+  RecodeTable: TRecodeTable;
 begin
   // in first use create dialog
   if not Assigned(FFindDialog) then
@@ -2055,8 +2056,8 @@ begin
       end;
 
       sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
-      // Using fast search algorithm if ASCII or case insensitive
-      if FFindDialog.cbCaseSens.Checked or TextIsASCII(sSearchTextA) then
+      // Using standard search algorithm if case insensitive and multibyte
+      if FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte) then
       begin
         PAnsiAddr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
                             FLastSearchPos, sSearchTextA,
@@ -2064,10 +2065,20 @@ begin
         bTextFound := (PAnsiAddr <> Pointer(-1));
         if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
       end
-      else begin
+      // Using very slow search algorithm
+      else if (ViewerControl.Encoding in ViewerEncodingMultiByte) then
+      begin
         PAdr := ViewerControl.FindUtf8Text(FLastSearchPos, sSearchTextU,
                                            FFindDialog.cbCaseSens.Checked,
                                            bSearchBackwards);
+        bTextFound := (PAdr <> PtrInt(-1));
+        if bTextFound then FLastSearchPos := PAdr;
+      end
+      // Using very fast Boyer–Moore search algorithm
+      else begin
+        RecodeTable:= InitRecodeTable(ViewerControl.EncodingName, FFindDialog.cbCaseSens.Checked);
+        PAdr := PosMemBoyerMur(ViewerControl.GetDataAdr + FLastSearchPos,
+                               ViewerControl.FileSize, sSearchTextA, RecodeTable);
         bTextFound := (PAdr <> PtrInt(-1));
         if bTextFound then FLastSearchPos := PAdr;
       end;
