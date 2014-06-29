@@ -1991,9 +1991,11 @@ end;
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
 var
   PAdr: PtrInt;
-  iSizeData, charLen: Integer;
+  PAnsiAddr: PByte;
+  bTextFound: Boolean;
   sSearchTextU: UTF8String;
   sSearchTextA: AnsiString;
+  iSearchParameter: Integer;
 begin
   // in first use create dialog
   if not Assigned(FFindDialog) then
@@ -2030,10 +2032,9 @@ begin
 
   if bPlugin then
     begin
-      iSizeData:= 0;
-      if FFindDialog.cbCaseSens.Checked then
-        iSizeData:= lcs_matchcase;
-      WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchText(sSearchTextU, iSizeData);
+      iSearchParameter:= 0;
+      if FFindDialog.cbCaseSens.Checked then iSearchParameter:= lcs_matchcase;
+      WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchText(sSearchTextU, iSearchParameter);
     end
   else
     begin
@@ -2054,12 +2055,25 @@ begin
       end;
 
       sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
-      PAdr := ViewerControl.FindUtf8Text(FLastSearchPos, sSearchTextU,
-                          FFindDialog.cbCaseSens.Checked, bSearchBackwards);
+      // Using fast search algorithm if ASCII or case insensitive
+      if FFindDialog.cbCaseSens.Checked or TextIsASCII(sSearchTextA) then
+      begin
+        PAnsiAddr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
+                            FLastSearchPos, sSearchTextA,
+                            FFindDialog.cbCaseSens.Checked, bSearchBackwards);
+        bTextFound := (PAnsiAddr <> Pointer(-1));
+        if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
+      end
+      else begin
+        PAdr := ViewerControl.FindUtf8Text(FLastSearchPos, sSearchTextU,
+                                           FFindDialog.cbCaseSens.Checked,
+                                           bSearchBackwards);
+        bTextFound := (PAdr <> PtrInt(-1));
+        if bTextFound then FLastSearchPos := PAdr;
+      end;
 
-      if (PAdr <> PtrInt(-1)) then
+      if bTextFound then
         begin
-          FLastSearchPos := PAdr;
           // Text found, show it in ViewerControl if not visible
           ViewerControl.MakeVisible(FLastSearchPos);
           // Select found text.

@@ -26,6 +26,7 @@ unit uConvEncoding;
 
 interface
 
+function TextIsASCII(const S: String): Boolean;
 function DetectEncoding(const s: string): string;
 
 implementation
@@ -425,6 +426,18 @@ begin
 
   // Try to detect encoding
   Result:= MyDetectCodePageType(s);
+end;
+
+function TextIsASCII(const S: String): Boolean; inline;
+var
+  I: Integer;
+begin
+  for I:= 1 to Length(S) do
+  begin
+    if Ord(S[I]) > 127 then
+      Exit(False);
+  end;
+  Result:= True;
 end;
 
 initialization
