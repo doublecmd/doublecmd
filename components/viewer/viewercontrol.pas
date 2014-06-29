@@ -113,6 +113,8 @@ type
                      veUtf32le,  // = ucs4le
                      veUtf32be); // = ucs4be
 
+  TViewerEncodings = set of TViewerEncoding;
+
 const
   ViewerEncodingsNames: array [TViewerEncoding] of string =
                    ('Auto-detect',
@@ -146,6 +148,11 @@ const
                     'UTF-16BE',
                     'UTF-32LE',
                     'UTF-32BE');
+
+const
+  ViewerEncodingMultiByte: TViewerEncodings = [
+    veUtf8, veUtf8bom, veUcs2le, veUcs2be,
+    veUtf16le, veUtf16be, veUtf32le, veUtf32be];
 
 type
 
