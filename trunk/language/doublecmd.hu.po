@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 0.6.0 alpha r5566\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2014-03-30 09:27+0100\n"
+"PO-Revision-Date: 2014-06-29 16:20+0100\n"
 "Last-Translator: Nyilas MISY <dr.dabzse@gmail.com>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -582,7 +582,7 @@ msgstr "Fájl(ok) másolása"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
-msgstr ""
+msgstr "Leírás mentése"
 
 #: tfrmdescredit.btncancel.caption
 #| msgid "Cancel"
@@ -2515,7 +2515,7 @@ msgstr "Kiválasztás betöltése &fájlból"
 
 #: tfrmmain.actloadtabs.caption
 msgid "&Load Tabs from File"
-msgstr ""
+msgstr "Fülek betöltése fájlból"
 
 #: tfrmmain.actmakedir.caption
 #| msgid "Create directory"
@@ -2700,7 +2700,7 @@ msgstr "Kiválasztott m&entése fájlba..."
 
 #: tfrmmain.actsavetabs.caption
 msgid "&Save Tabs to File"
-msgstr ""
+msgstr "Fülek mentése fájlba"
 
 #: tfrmmain.actsearch.caption
 #| msgid "&Search"
@@ -7268,7 +7268,7 @@ msgstr "Eltérésnézőke"
 
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
-msgstr ""
+msgstr "Megjegyzés ablakának szerkesztése"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
