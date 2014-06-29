@@ -109,6 +109,7 @@ function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
 }
 function YearShortToLong(Year: Word): Word;
 function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
+function FileTimeCompare(SourceTime, TargetTime: TDateTime; NtfsShift: Boolean): Integer;
 
 type
   EDateOutOfRange = class(EConvertError)
@@ -544,6 +545,32 @@ begin
   end;
 end;
 
+function FileTimeCompare(SourceTime, TargetTime: TDateTime; NtfsShift: Boolean): Integer;
+const
+  TimeDiff = 3100 / MSecsPerDay;
+  NtfsDiff = MinsPerHour * SecsPerMin;
+var
+  FileTimeDiff,
+  NtfsTimeDiff: TDateTime;
+begin
+  FileTimeDiff:= SourceTime - TargetTime;
+  if NtfsShift then
+  begin
+    NtfsTimeDiff:= FileTimeDiff - NtfsDiff;
+    if (NtfsTimeDiff > -TimeDiff) and (NtfsTimeDiff < TimeDiff) then
+      Exit(0);
+    NtfsTimeDiff:= FileTimeDiff + NtfsDiff;
+    if (NtfsTimeDiff > -TimeDiff) and (NtfsTimeDiff < TimeDiff) then
+      Exit(0);
+  end;
+  if (FileTimeDiff > -TimeDiff) and (FileTimeDiff < TimeDiff) then
+    Result:= 0
+  else if FileTimeDiff > 0 then
+    Result:= +1
+  else if FileTimeDiff < 0 then
+    Result:= -1;
+end;
+
 { EDateOutOfRange }
 
 constructor EDateOutOfRange.Create(ADateTime: TDateTime);
@@ -574,4 +601,4 @@ initialization
 {$ENDIF}
 
 end.
-
+
