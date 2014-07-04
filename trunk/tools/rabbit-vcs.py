@@ -44,7 +44,7 @@ class DCMenuItem:
   icon = None
   menu = None
 
-  def connect(self, signal, callback):
+  def connect(self, signal, *callback):
     return
 
 class DCContextMenu(MenuBuilder):
@@ -59,7 +59,10 @@ class DCContextMenu(MenuBuilder):
     if type(item) is MenuSeparator:
       menuitem.label = "-"
     else:
-      menuitem.identifier = item.identifier
+      if item.callback_name != None:
+        menuitem.identifier = "RabbitVCS::" + item.callback_name
+      else:
+        menuitem.identifier = item.identifier
       menuitem.label = item.make_label()
       menuitem.icon = item.icon
 
