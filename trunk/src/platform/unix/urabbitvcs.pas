@@ -60,9 +60,7 @@ const
 function CheckStatus(Path: UTF8String; Recurse: Boolean32 = False;
                      Invalidate: Boolean32 = True; Summary: Boolean32 = False): string;
 
-function GenerateMenuConditions(Paths: TStringList): string;
-
-procedure FillRabbitMenu(Menu: TPopupMenu; OnClick: TNotifyEvent; Paths: TStringList);
+procedure FillRabbitMenu(Menu: TPopupMenu; Paths: TStringList);
 
 var
   RabbitVCS: Boolean = False;
@@ -70,11 +68,17 @@ var
 implementation
 
 uses
-  dbus, unixtype, fpjson, jsonparser, unix, uDCUtils;
+  dbus, unixtype, fpjson, jsonparser, unix,
+  uGlobs, uGlobsPaths, uPython;
+
+const
+  MODULE_NAME = 'rabbit-vcs';
 
 var
   error: DBusError;
-  conn: PDBusConnection;
+  conn: PDBusConnection = nil;
+  PythonModule: PPyObject = nil;
+  ShellContextMenu: PPyObject = nil;
 
 procedure Print(const sMessage: String);
 begin
@@ -93,10 +97,7 @@ begin
     Result := False;
 end;
 
-function CheckService: Boolean;
-const
-  RunStatusChecker = 'echo "from rabbitvcs.services.checkerservice import StatusCheckerStub' +
-                     #13 + 'status_checker = StatusCheckerStub()' + #13 + '" | python';
+function CheckService(const PythonScript: UTF8String): Boolean;
 var
   service_exists: dbus_bool_t;
 begin
@@ -111,7 +112,7 @@ begin
     Print('Service found running.')
   else
     begin
-      Result:= fpSystem(RunStatusChecker) = 0;
+      Result:= fpSystem(PythonScript) = 0;
       if Result then
         Print('Service successfully started.');
     end;
@@ -225,107 +226,25 @@ begin
   end;
 end;
 
-function GenerateMenuConditions(Paths: TStringList): string;
+procedure MenuClickHandler(Self, Sender: TObject);
 var
-  I: Integer;
-  Return: Boolean;
-  StringPtr: PAnsiChar;
-  optsPChar: PAnsiChar;
-  message: PDBusMessage;
-  pending: PDBusPendingCall;
-  argsIter, arrayIter: DBusMessageIter;
+  pyMethod, pyArgs: PPyObject;
+  MenuItem: TMenuItem absolute Sender;
 begin
-  if not RabbitVCS then Exit;
-
-  // Create a new method call and check for errors
-  message := dbus_message_new_method_call(RabbitVCSAddress,          // target for the method call
-                                          RabbitVCSObject,           // object to call on
-                                          RabbitVCSInterface,        // interface to call on
-                                          'GenerateMenuConditions'); // method name
-  if (message = nil) then
+  if Assigned(ShellContextMenu) then
   begin
-    Print('Cannot create message "GenerateMenuConditions"');
-    Exit;
-  end;
-
-  try
-    dbus_message_iter_init_append(message, @argsIter);
-    Return := dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, PChar(DBUS_TYPE_STRING_AS_STRING), @arrayIter) <> 0;
-    if Return then
-    begin
-      for I := 0 to Paths.Count - 1 do
-      begin
-        optsPChar := PAnsiChar(Paths[I]);
-        if dbus_message_iter_append_basic(@arrayIter, DBUS_TYPE_STRING, @optsPChar) = 0 then
-        begin
-          Print('Cannot append arguments');
-          Exit;
-        end;
-      end;
-
-      if dbus_message_iter_close_container(@argsIter, @arrayIter) = 0 then
-      begin
-        Print('Cannot append arguments');
-        Exit;
-      end;
-    end;
-
-    // Send message and get a handle for a reply
-    if (dbus_connection_send_with_reply(conn, message, @pending, -1) = 0) then // -1 is default timeout
-    begin
-      Print('Error sending message');
-      Exit;
-    end;
-
-    if (pending = nil) then
-    begin
-      Print('Pending call is null');
-      Exit;
-    end;
-
-    dbus_connection_flush(conn);
-
-  finally
-    dbus_message_unref(message);
-  end;
-
-  // Block until we recieve a reply
-  dbus_pending_call_block(pending);
-  // Get the reply message
-  message := dbus_pending_call_steal_reply(pending);
-  // Free the pending message handle
-  dbus_pending_call_unref(pending);
-
-  if (message = nil) then
-  begin
-    Print('Reply is null');
-    Exit;
-  end;
-
-  try
-    // Read the parameters
-    if (dbus_message_iter_init(message, @argsIter) <> 0) then
-    begin
-      if (dbus_message_iter_get_arg_type(@argsIter) = DBUS_TYPE_STRING) then
-      begin
-        dbus_message_iter_get_basic(@argsIter, @StringPtr);
-
-        Result:= StrPas(StringPtr);
-      end;
-    end;
-  finally
-    dbus_message_unref(message);
+    pyMethod:= PyString_FromString('Execute');
+    pyArgs:= PyString_FromString(PAnsiChar(MenuItem.Hint));
+    PyObject_CallMethodObjArgs(ShellContextMenu, pyMethod, pyArgs, nil);
+    Py_XDECREF(pyArgs);
+    Py_XDECREF(pyMethod);
   end;
 end;
 
-procedure FillRabbitMenu(Menu: TPopupMenu; OnClick: TNotifyEvent; Paths: TStringList);
+procedure FillRabbitMenu(Menu: TPopupMenu; Paths: TStringList);
 var
-  I: Integer;
-  Parameters,
-  Conditions: String;
-  MenuItem,
-  SubMenu: TMenuItem;
-  JAnswer : TJSONObject;
+  Handler: TMethod;
+  pyMethod, pyValue, pyArgs: PPyObject;
 
   procedure SetBitmap(Item: TMenuItem; const IconName: String);
   var
@@ -344,189 +263,81 @@ var
       end;
   end;
 
-  procedure AddSeparator(MenuTarget: TMenuItem);
+  procedure BuildMenu(pyMenu: PPyObject; BaseItem: TMenuItem);
+  var
+    Index: Integer;
+    IconName: String;
+    MenuItem: TMenuItem;
+    pyItem, pyObject: PPyObject;
   begin
-    MenuItem:= TMenuItem.Create(Menu);
-    MenuItem.Caption:= '-';
-    MenuTarget.Add(MenuItem);
+    for Index:= 0 to PyList_Size(pyMenu) - 1 do
+    begin
+      pyItem:= PyList_GetItem(pyMenu, Index);
+      MenuItem:= TMenuItem.Create(BaseItem);
+      pyObject:= PyObject_GetAttrString(pyItem, 'label');
+      MenuItem.Caption:= PyStringToString(pyObject);
+      if MenuItem.Caption <> '-' then
+      begin
+        pyObject:= PyObject_GetAttrString(pyItem, 'identifier');
+        MenuItem.Hint:= PyStringToString(pyObject);
+        if Length(MenuItem.Hint) > 0 then begin
+          MenuItem.OnClick:= TNotifyEvent(Handler);
+        end;
+        pyObject:= PyObject_GetAttrString(pyItem, 'icon');
+        IconName:= PyStringToString(pyObject);
+        if Length(IconName) > 0 then SetBitmap(MenuItem, IconName);
+      end;
+      pyObject:= PyObject_GetAttrString(pyItem, 'menu');
+      if Assigned(pyObject) and (PyList_Size(pyObject) > 0) then
+      begin
+        BuildMenu(pyObject, MenuItem);
+        Py_DECREF(pyObject);
+      end;
+      BaseItem.Add(MenuItem);
+    end;
   end;
 
 begin
-  Conditions:= GenerateMenuConditions(Paths);
-  for I := 0 to Paths.Count - 1 do
-    Parameters := Parameters + ' ' + QuoteStr(Paths[I]);
-  with TJSONParser.Create(Conditions) do
-  try
-    JAnswer:= Parse as TJSONObject;
-    with JAnswer do
-    try
-      // (MenuUpdate, None),
-      if (Booleans['is_in_a_or_a_working_copy'] and
-          Booleans['is_versioned'] and
-          not Booleans['is_added']) then
-      begin
-        MenuItem:= TMenuItem.Create(Menu);
-        MenuItem.OnClick:= OnClick;
-        MenuItem.Caption:= 'Update';
-        MenuItem.Hint:= 'rabbitvcs update' + Parameters;
-        SetBitmap(MenuItem, 'rabbitvcs-update');
-        Menu.Items.Add(MenuItem);
-      end;
-      // (MenuCommit, None),
-      if Booleans['is_svn'] and Booleans['is_in_a_or_a_working_copy'] and
-         (Booleans['is_dir'] or Booleans['is_added'] or Booleans['is_modified'] or
-          Booleans['is_deleted'] or not Booleans['is_versioned']) then
-      begin
-        MenuItem:= TMenuItem.Create(Menu);
-        MenuItem.OnClick:= OnClick;
-        MenuItem.Caption:= 'Commit';
-        MenuItem.Hint:= 'rabbitvcs commit' + Parameters;
-        SetBitmap(MenuItem, 'rabbitvcs-commit');
-        Menu.Items.Add(MenuItem);
-      end;
-      // (MenuRabbitVCSSvn, [
-      if Booleans['is_svn'] or not Booleans['is_in_a_or_a_working_copy'] then
-      begin
-        SubMenu:= TMenuItem.Create(Menu);
-        SubMenu.Caption:= 'RabbitVCS SVN';
-        SetBitmap(SubMenu, 'rabbitvcs');
-        Menu.Items.Add(SubMenu);
-
-        // (MenuCheckout, None),
-        if (Integers['length'] = 1) and Booleans['is_dir'] and
-            not Booleans['is_working_copy'] then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Checkout...';
-          MenuItem.Hint:= 'rabbitvcs checkout' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-checkout');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuCompareTool, None),
-        if ((Integers['length'] = 1) and
-            Booleans['is_in_a_or_a_working_copy'] and
-            (Booleans['is_modified'] or Booleans['has_modified'] or
-             Booleans['is_conflicted'] or Booleans['has_conflicted'])) then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Compare with base';
-          MenuItem.Hint:= 'rabbitvcs diff -s' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-compare');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuShowLog, None),
-        if ((Integers['length'] = 1) and
-            Booleans['is_in_a_or_a_working_copy'] and
-            Booleans['is_versioned'] and
-            not Booleans['is_added']) then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Show Log';
-          MenuItem.Hint:= 'rabbitvcs log' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-show_log');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuRepoBrowser, None),
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Repository Browser';
-          MenuItem.Hint:= 'rabbitvcs browser' + Parameters;
-          SetBitmap(MenuItem, 'system-search');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuCheckForModifications, None),
-        if (Booleans['is_working_copy'] or
-            Booleans['is_versioned']) then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Check for Modifications...';
-          MenuItem.Hint:= 'rabbitvcs checkmods' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-checkmods');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuSeparator, None),
-        AddSeparator(SubMenu);
-        // (MenuAdd, None),
-        if (Booleans['is_svn'] and
-            ((Booleans['is_dir'] and Booleans['is_in_a_or_a_working_copy']) or
-            ((not Booleans['is_dir']) and Booleans['is_in_a_or_a_working_copy'] and
-              not Booleans['is_versioned']) )) then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Add';
-          MenuItem.Hint:= 'rabbitvcs add' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-add');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuSeparator, None),
-        AddSeparator(SubMenu);
-        // (MenuUpdateToRevision, None),
-        if ((Integers['length'] = 1) and
-            Booleans['is_versioned'] and
-            Booleans['is_in_a_or_a_working_copy']) then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Update to revision...';
-          MenuItem.Hint:= 'rabbitvcs updateto' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-update');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuRename, None),
-        if ((Integers['length'] = 1) and
-            Booleans['is_in_a_or_a_working_copy'] and
-            Booleans['is_versioned']) then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Rename...';
-          MenuItem.Hint:= 'rabbitvcs rename' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-rename');
-          SubMenu.Add(MenuItem);
-        end;
-        // (MenuDelete, None),
-        if (Booleans['exists'] or Booleans['is_versioned']) and
-           not Booleans['is_deleted'] then
-        begin
-          MenuItem:= TMenuItem.Create(Menu);
-          MenuItem.OnClick:= OnClick;
-          MenuItem.Caption:= 'Delete';
-          MenuItem.Hint:= 'rabbitvcs delete' + Parameters;
-          SetBitmap(MenuItem, 'rabbitvcs-delete');
-          SubMenu.Add(MenuItem);
-        end;
-      end;
-    except
-      Exit;
+  Py_XDECREF(ShellContextMenu);
+  ShellContextMenu:= PythonRunFunction(PythonModule, 'GetContextMenu', Paths);
+  if Assigned(ShellContextMenu) then
+  begin
+    Handler.Data:= Menu;
+    Handler.Code:= @MenuClickHandler;
+    pyMethod:= PyString_FromString('GetMenu');
+    pyValue:= PyObject_CallMethodObjArgs(ShellContextMenu, pyMethod, nil);
+    if Assigned(pyValue) then
+    begin
+      BuildMenu(pyValue, Menu.Items);
+      Py_DECREF(pyValue);
     end;
-    JAnswer.Free;
-  finally
-    Free;
+    Py_XDECREF(pyMethod);
   end;
 end;
 
 procedure Initialize;
+var
+  PythonPath: UTF8String;
 begin
   dbus_error_init(@error);
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);
   if CheckError('Cannot acquire connection to DBUS session bus', @error) then
     Exit;
-  RabbitVCS:= CheckService;
+  PythonPath:= gpExePath + 'tools';
+  RabbitVCS:= CheckService(PythonPath + PathDelim + MODULE_NAME + '.py');
+  if RabbitVCS then begin
+    PythonAddModulePath(PythonPath);
+    PythonModule:= PythonLoadModule(MODULE_NAME);
+  end;
 end;
 
 procedure Finalize;
 begin
-  dbus_connection_close(conn);
+  if Assigned(conn) then dbus_connection_unref(conn);
 end;
 
 initialization
-  Initialize;
+  RegisterInitialization(@Initialize);
 
 finalization
   Finalize;

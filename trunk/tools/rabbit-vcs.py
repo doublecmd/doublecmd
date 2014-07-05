@@ -42,7 +42,7 @@ class DCMenuItem:
   identifier = None
   label = None
   icon = None
-  menu = None
+  menu = []
 
   def connect(self, signal, *callback):
     return
@@ -59,18 +59,15 @@ class DCContextMenu(MenuBuilder):
     if type(item) is MenuSeparator:
       menuitem.label = "-"
     else:
-      if item.callback_name != None:
-        menuitem.identifier = "RabbitVCS::" + item.callback_name
-      else:
-        menuitem.identifier = item.identifier
-      menuitem.label = item.make_label()
       menuitem.icon = item.icon
+      menuitem.label = item.make_label()
+      menuitem.identifier = item.callback_name
 
     return menuitem
 
   def attach_submenu(self, menu_node, submenu_list):
     menu_node.menu = []
-    menu_node.identifier = None
+    menu_node.identifier = ""
     for item in submenu_list:
       menu_node.menu.append(item)
 
@@ -80,22 +77,15 @@ class DCContextMenu(MenuBuilder):
 class DCMainContextMenu(MainContextMenu):
   """Double Commander main context menu class"""
 
-  def BuildMenu(self, menu):
-    result = ""
-    for item in menu:
-      result += "<item caption=\"%s\">\n" % item.label
-      if item.identifier != None:
-        result += "<command>%s</command>\n" % item.identifier
-      if item.icon != None:
-        result += "<icon>" + item.icon + "</icon>\n"
-      if item.menu != None:
-        result += self.BuildMenu(item.menu)
-      result += "</item>\n"
-    return result
+  def Execute(self, identifier):
+    # Try to find and execute callback function
+    if hasattr(self.callbacks, identifier):
+      function = getattr(self.callbacks, identifier)
+      if callable(function):
+        function(self, None)
 
-  def GetXmlMenu(self):
-    menu = DCContextMenu(self.structure, self.conditions, self.callbacks).menu
-    return "<menu>\n" + self.BuildMenu(menu) + "</menu>"
+  def GetMenu(self):
+    return DCContextMenu(self.structure, self.conditions, self.callbacks).menu
 
 def GetContextMenu(paths):
   upaths = []
@@ -104,28 +94,9 @@ def GetContextMenu(paths):
 
   sender = DCSender()
   base_dir = os.path.dirname(upaths[0])
-  return DCMainContextMenu(sender, base_dir, upaths, None).GetXmlMenu()
-
-def Execute(identifier, paths):
-  sender = DCSender()
-  base_dir = os.path.dirname(paths[0])
-  vcs_client = rabbitvcs.vcs.create_vcs_instance()
-  action = MenuItem.make_default_name(identifier)
-  callbacks = MainContextMenuCallbacks(sender, base_dir, vcs_client, paths)
-  # Try to find and execute callback function
-  if hasattr(callbacks, action):
-    function = getattr(callbacks, action)
-    if callable(function):
-      function(sender, None)
+  return DCMainContextMenu(sender, base_dir, upaths, None)
 
 if __name__ == "__main__":
 
-    args = sys.argv
-    argc = len(args)
+  status_checker = StatusCheckerStub()
 
-    if argc < 2:
-      status_checker = StatusCheckerStub()
-    elif (argc > 2):
-      args.pop(0)
-      identifier = args.pop(0)
-      Execute(identifier, args)
