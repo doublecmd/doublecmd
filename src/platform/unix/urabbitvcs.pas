@@ -298,6 +298,7 @@ var
   end;
 
 begin
+  if not RabbitVCS then Exit;
   Py_XDECREF(ShellContextMenu);
   ShellContextMenu:= PythonRunFunction(PythonModule, 'GetContextMenu', Paths);
   if Assigned(ShellContextMenu) then
@@ -323,11 +324,14 @@ begin
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);
   if CheckError('Cannot acquire connection to DBUS session bus', @error) then
     Exit;
-  PythonPath:= gpExePath + 'tools';
-  RabbitVCS:= CheckService(PythonPath + PathDelim + MODULE_NAME + '.py');
-  if RabbitVCS then begin
-    PythonAddModulePath(PythonPath);
-    PythonModule:= PythonLoadModule(MODULE_NAME);
+  if HasPython then
+  begin
+    PythonPath:= gpExePath + 'tools';
+    RabbitVCS:= CheckService(PythonPath + PathDelim + MODULE_NAME + '.py');
+    if RabbitVCS then begin
+      PythonAddModulePath(PythonPath);
+      PythonModule:= PythonLoadModule(MODULE_NAME);
+    end;
   end;
 end;
 
