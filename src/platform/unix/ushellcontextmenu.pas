@@ -382,7 +382,7 @@ begin
     miOpenWith.Add(mi);
 
 {$IF DEFINED(RabbitVCS)}
-    FillRabbitMenu(Self, OpenWithMenuItemSelect, FileNames);
+    FillRabbitMenu(Self, FileNames);
 {$ENDIF}
 
   finally
