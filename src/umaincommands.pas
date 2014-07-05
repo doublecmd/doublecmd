@@ -3008,6 +3008,7 @@ end;
 procedure TMainCommands.cm_CompareDirectories(const Params: array of string);
 var
   I: LongWord;
+  NtfsShift: Boolean;
   SourceFile: TDisplayFile;
   TargetFile: TDisplayFile;
   SourceList: TStringHashList;
@@ -3017,6 +3018,7 @@ begin
   SourceList:= TStringHashList.Create(FileNameCaseSensitive);
   with frmMain do
   try
+    NtfsShift:= gNtfsHourTimeDelay and NtfsHourTimeDelay(ActiveFrame.CurrentPath, NotActiveFrame.CurrentPath);
     SourceFiles:= ActiveFrame.DisplayFiles;
     TargetFiles:= NotActiveFrame.DisplayFiles;
     for I:= 0 to SourceFiles.Count - 1 do
@@ -3036,7 +3038,7 @@ begin
       if (SourceFile = nil) then
         NotActiveFrame.MarkFile(TargetFile, True)
       else
-        case FileTimeCompare(SourceFile.FSFile.ModificationTime, TargetFile.FSFile.ModificationTime, False) of
+        case FileTimeCompare(SourceFile.FSFile.ModificationTime, TargetFile.FSFile.ModificationTime, NtfsShift) of
           0:
             ActiveFrame.MarkFile(SourceFile, False);
           +1:

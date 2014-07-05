@@ -263,6 +263,7 @@ var
   gRenameSelOnlyName:boolean;
   gShowDialogOnDragDrop: Boolean;
   gOverwriteFolder: Boolean;
+  gNtfsHourTimeDelay: Boolean;
   gFileOperationsProgressKind: TFileOperationsProgressKind;
   gFileOperationsConfirmations: TFileOperationsConfirmations;
 
@@ -1099,6 +1100,7 @@ begin
   gSkipFileOpError := False;
   gShowDialogOnDragDrop := False;
   gOverwriteFolder := False;
+  gNtfsHourTimeDelay := False;
   gFileOperationsProgressKind := fopkSeparateWindow;
   gFileOperationsConfirmations := [focCopy, focMove, focDelete, focDeleteToTrash];
 
@@ -2109,6 +2111,7 @@ begin
       gSkipFileOpError := GetValue(Node, 'SkipFileOpError', gSkipFileOpError);
       gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
       gOverwriteFolder := GetValue(Node, 'OverwriteFolder', gOverwriteFolder);
+      gNtfsHourTimeDelay := GetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
       gFileOperationsProgressKind := TFileOperationsProgressKind(GetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind)));
       gFileOperationsConfirmations := TFileOperationsConfirmations(GetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations)));
       // Operations options
@@ -2470,6 +2473,7 @@ begin
     SetValue(Node, 'SkipFileOpError', gSkipFileOpError);
     SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
     SetValue(Node, 'OverwriteFolder', gOverwriteFolder);
+    SetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
     SetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind));
     SetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations));
     // Operations options

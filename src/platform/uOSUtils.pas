@@ -67,6 +67,7 @@ type
     constructor Create; reintroduce;
   end;
 
+function NtfsHourTimeDelay(const SourceName, TargetName: UTF8String): Boolean;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''; bKeepTerminalOpen: Boolean = True):Boolean;
 {en
@@ -455,6 +456,29 @@ begin
     else if SameText(lpFileSystemNameBuffer, 'FAT32') then
       Result:= $FFFFFFFF; // 4 Gb
   end;
+end;
+{$ENDIF}
+
+function NtfsHourTimeDelay(const SourceName, TargetName: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+ lpDummy: DWORD = 0;
+ lpSourceFileSystem,
+ lpTargetFileSystem: array [0..MAX_PATH] of WideChar;
+begin
+ Result:= False;
+ if GetVolumeInformationW(PWideChar(UTF8Decode(ExtractFileDrive(SourceName)) + PathDelim),
+                          nil, 0, nil, lpDummy, lpDummy, lpSourceFileSystem, MAX_PATH) and
+    GetVolumeInformationW(PWideChar(UTF8Decode(ExtractFileDrive(TargetName)) + PathDelim),
+                          nil, 0, nil, lpDummy, lpDummy, lpTargetFileSystem, MAX_PATH) then
+  begin
+    Result:= (SameText(lpSourceFileSystem, 'FAT32') and SameText(lpTargetFileSystem, 'NTFS')) or
+             (SameText(lpTargetFileSystem, 'FAT32') and SameText(lpSourceFileSystem, 'NTFS'))
+  end;
+end;
+{$ELSE}
+begin
+  Result:= False;
 end;
 {$ENDIF}
 
