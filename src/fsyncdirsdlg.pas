@@ -129,7 +129,7 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
-  DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions,
+  DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes;
 
 {$R *.lfm}
@@ -287,10 +287,8 @@ begin
 end;
 
 procedure TFileSyncRec.UpdateState(ignoreDate: Boolean);
-const
-  TimeDiff = 3100 / MSecsPerDay;
 var
-  FileTimeDiff: TDateTime;
+  FileTimeDiff: Integer;
 begin
   FState := srsNotEq;
   if Assigned(FFileR) and not Assigned(FFileL) then
@@ -299,15 +297,15 @@ begin
   if not Assigned(FFileR) and Assigned(FFileL) then
     FState := srsCopyRight
   else begin
-    FileTimeDiff := FFileL.ModificationTime - FFileR.ModificationTime;
-    if (((FileTimeDiff > -TimeDiff) and (FileTimeDiff < TimeDiff)) or ignoreDate) and (FFileL.Size = FFileR.Size) then
+    FileTimeDiff := FileTimeCompare(FFileL.ModificationTime, FFileR.ModificationTime, False);
+    if ((FileTimeDiff = 0) or ignoreDate) and (FFileL.Size = FFileR.Size) then
       FState := srsEqual
     else
     if not ignoreDate then
-      if FFileR.ModificationTime < FFileL.ModificationTime then
+      if FileTimeDiff > 0 then
         FState := srsCopyRight
       else
-      if FFileR.ModificationTime > FFileL.ModificationTime then
+      if FileTimeDiff < 0 then
         FState := srsCopyLeft;
   end;
   FAction := FState;
