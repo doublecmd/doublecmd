@@ -228,7 +228,7 @@ type
 implementation
 
 uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
-     dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, fFileAssoc,
+     dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, fFileAssoc, DCDateTimeUtils,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
@@ -3006,8 +3006,6 @@ begin
 end;
 
 procedure TMainCommands.cm_CompareDirectories(const Params: array of string);
-const
-  TimeDiff = 3100 / MSecsPerDay;
 var
   I: LongWord;
   SourceFile: TDisplayFile;
@@ -3015,7 +3013,6 @@ var
   SourceList: TStringHashList;
   SourceFiles: TDisplayFiles = nil;
   TargetFiles: TDisplayFiles = nil;
-  FileTimeDiff: TDateTime;
 begin
   SourceList:= TStringHashList.Create(FileNameCaseSensitive);
   with frmMain do
@@ -3039,13 +3036,12 @@ begin
       if (SourceFile = nil) then
         NotActiveFrame.MarkFile(TargetFile, True)
       else
-        begin
-          FileTimeDiff:= SourceFile.FSFile.ModificationTime - TargetFile.FSFile.ModificationTime;
-          if (FileTimeDiff > -TimeDiff) and (FileTimeDiff < TimeDiff) then
-            ActiveFrame.MarkFile(SourceFile, False)
-          else if FileTimeDiff > 0 then
-            NotActiveFrame.MarkFile(TargetFile, False)
-          else if FileTimeDiff < 0 then
+        case FileTimeCompare(SourceFile.FSFile.ModificationTime, TargetFile.FSFile.ModificationTime, False) of
+          0:
+            ActiveFrame.MarkFile(SourceFile, False);
+          +1:
+            NotActiveFrame.MarkFile(TargetFile, False);
+          -1:
             begin
               ActiveFrame.MarkFile(SourceFile, False);
               NotActiveFrame.MarkFile(TargetFile, True);
