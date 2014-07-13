@@ -13,29 +13,30 @@ object frmLinker: TfrmLinker
   ClientHeight = 337
   ClientWidth = 360
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  LCLVersion = '1.2.4.0'
   object gbSaveTo: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = lstFile
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 80
-    Top = 248
+    Height = 92
+    Top = 236
     Width = 242
     Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
     BorderSpacing.Left = 6
     BorderSpacing.Bottom = 6
     Caption = 'Save to...'
-    ClientHeight = 57
+    ClientHeight = 70
     ClientWidth = 238
     TabOrder = 1
     object lblFileName: TLabel
       AnchorSideLeft.Control = gbSaveTo
       AnchorSideTop.Control = gbSaveTo
       Left = 6
-      Height = 18
+      Height = 25
       Top = 6
-      Width = 62
+      Width = 75
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = '&File name'
@@ -48,8 +49,8 @@ object frmLinker: TfrmLinker
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSave
       Left = 6
-      Height = 28
-      Top = 30
+      Height = 33
+      Top = 37
       Width = 195
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
@@ -64,8 +65,8 @@ object frmLinker: TfrmLinker
       AnchorSideBottom.Control = edSave
       AnchorSideBottom.Side = asrBottom
       Left = 207
-      Height = 28
-      Top = 30
+      Height = 33
+      Top = 37
       Width = 25
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 6
@@ -82,13 +83,13 @@ object frmLinker: TfrmLinker
     AnchorSideBottom.Control = lstFile
     AnchorSideBottom.Side = asrBottom
     Left = 254
-    Height = 242
+    Height = 230
     Top = 0
     Width = 100
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 6
     Caption = 'Item'
-    ClientHeight = 219
+    ClientHeight = 208
     ClientWidth = 96
     TabOrder = 2
     object spbtnUp: TButton
@@ -192,7 +193,7 @@ object frmLinker: TfrmLinker
     AnchorSideRight.Control = grbxControl
     AnchorSideBottom.Control = gbSaveTo
     Left = 6
-    Height = 234
+    Height = 222
     Top = 8
     Width = 242
     Anchors = [akTop, akLeft, akRight, akBottom]
@@ -203,7 +204,6 @@ object frmLinker: TfrmLinker
     ItemHeight = 0
     ScrollWidth = 240
     TabOrder = 0
-    TopIndex = -1
   end
   object dlgSaveAll: TSaveDialog
     Filter = 'All files|*.*'
