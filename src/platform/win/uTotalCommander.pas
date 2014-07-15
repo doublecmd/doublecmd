@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Creates Total Commander fake window (some plugins don't work without it)
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2014 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,9 @@ procedure CreateTotalCommanderWindow(hWindow: HWND);
 
 implementation
 
+uses
+  LCLVersion, Forms, JwaDbt, uDebug;
+
 var
   wcFakeWndClass: TWndClassEx;
   //hMainWindow,
@@ -56,6 +59,14 @@ begin
       it stops calling OnExit events for controls (see TWinControl.WMKillFocus).
   }
   //SendMessage(hMainWindow, uiMsg, wParam, lParam);
+
+  {$IF (lcl_fullversion >= 1020000)}
+  if (uiMsg = WM_DEVICECHANGE) and (wParam = DBT_DEVNODES_CHANGED) and (lParam = 0) then
+  begin
+    Screen.UpdateMonitors; // Refresh monitor list
+    DCDebug('WM_DEVICECHANGE:DBT_DEVNODES_CHANGED');
+  end;
+  {$ENDIF}
 
   {$IFDEF DEBUG}
   WriteLn(uiMsg);
