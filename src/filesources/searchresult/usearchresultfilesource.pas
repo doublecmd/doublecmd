@@ -25,10 +25,12 @@ type
 
   TSearchResultFileSource = class(TMultiListFileSource, ISearchResultFileSource)
   public
-    constructor Create; override;
 
+    function GetRootDir(sPath : String): String; override;
     function GetProperties: TFileSourceProperties; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
+
+    class function CreateFile(const APath: String): TFile; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
 
@@ -38,23 +40,27 @@ type
 implementation
 
 uses
-  uSearchResultListOperation;
+  uFileSystemFileSource, uSearchResultListOperation, uLng;
 
-constructor TSearchResultFileSource.Create;
+function TSearchResultFileSource.GetRootDir(sPath: String): String;
 begin
-  FCurrentAddress := 'SearchResult';
-  inherited Create;
+  Result:=  PathDelim + PathDelim + PathDelim + rsSearchResult + PathDelim;
 end;
 
 function TSearchResultFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [fspLinksToLocalFiles];
+  Result := inherited GetProperties + [fspLinksToLocalFiles];
 end;
 
 function TSearchResultFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 begin
   // Only Root dir allowed (for flat mode).
   Result := IsPathAtRoot(NewDir);
+end;
+
+class function TSearchResultFileSource.CreateFile(const APath: String): TFile;
+begin
+  Result:= TFileSystemFileSource.CreateFile(APath);
 end;
 
 function TSearchResultFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;

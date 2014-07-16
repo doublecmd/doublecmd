@@ -247,7 +247,7 @@ uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
-  uFileViewNotebook, uColumnsFileView, uKeyboard,
+  uFileViewNotebook, uKeyboard,
   DCOSUtils, SynRegExpr;
 
 const
@@ -1047,12 +1047,8 @@ begin
 
   // Add new tab for search results.
   Notebook := frmMain.ActiveNotebook;
-  NewPage := Notebook.NewEmptyPage;
-  NewPage.PermanentTitle := rsSearchResult;
-
-  // Hard-coded Columns file view for now (later user will be able to change default view).
-  FileView := TColumnsFileView.Create(NewPage, SearchResultFS, SearchResultFS.GetRootDir);
-  frmMain.AssignEvents(FileView);
+  NewPage := Notebook.NewPage(Notebook.ActiveView);
+  NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
   NewPage.MakeActive;
 
   Close;
