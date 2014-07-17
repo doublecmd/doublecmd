@@ -51,7 +51,6 @@ inherited frmEditor: TfrmEditor
   OnClose = frmEditorClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  Position = poDefault
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
   object StatusBar: TStatusBar[0]
