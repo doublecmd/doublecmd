@@ -2784,14 +2784,14 @@ begin
   Result := False;
 
   with frmMain.ActiveFrame do
-  if FileSource.IsClass(TFileSystemFileSource) then
+  if (fspDirectAccess in FileSource.Properties) then
   begin
     sl := TStringList.Create;
     try
       theSelectedFiles := CloneSelectedOrActiveFiles;
 
       for i := 0 to theSelectedFiles.Count - 1 do
-        sl.Add(CurrentPath + theSelectedFiles[i].Name);
+        sl.Add(theSelectedFiles[i].FullPath);
 
       case ClipboardMode of
         uClipboard.ClipboardCut:
