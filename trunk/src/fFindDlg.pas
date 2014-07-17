@@ -1049,6 +1049,7 @@ begin
   Notebook := frmMain.ActiveNotebook;
   NewPage := Notebook.NewPage(Notebook.ActiveView);
   NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
+  NewPage.FileView.FlatView := True;
   NewPage.MakeActive;
 
   Close;
