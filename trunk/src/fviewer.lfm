@@ -58,7 +58,6 @@ inherited frmViewer: TfrmViewer
   OnKeyPress = FormKeyPress
   OnResize = FormResize
   OnShow = FormShow
-  Position = poDefault
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
   object pnlFolder: TPanel[0]
