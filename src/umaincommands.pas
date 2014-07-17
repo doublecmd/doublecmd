@@ -811,10 +811,10 @@ begin
   aFile := FrmMain.ActiveFrame.CloneActiveFile;
   if Assigned(aFile) then
   try
-    if FileIsArchive(aFile.FullPath) then
-      OpenArchive(aFile)
-    else if aFile.IsNameValid and (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+    if aFile.IsNameValid and (aFile.IsDirectory or aFile.IsLinkToDirectory) then
       OpenTab(aFile.FullPath)
+    else if FileIsArchive(aFile.FullPath) then
+      OpenArchive(aFile)
     else
       OpenTab(FrmMain.ActiveFrame.CurrentPath);
   finally
