@@ -781,47 +781,50 @@ end;
 
 procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
 
-  procedure OpenTab(const aFullPath: string);
-  var
-    NewPage: TFileViewPage;
+  function OpenTab(const aFullPath: string): TFileViewPage;
   begin
-    NewPage := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
+    Result := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
     // Workaround for Search Result File Source
-    if NewPage.FileView.FileSource is TSearchResultFileSource then
-      SetFileSystemPath(NewPage.FileView, aFullPath)
+    if Result.FileView.FileSource is TSearchResultFileSource then
+      SetFileSystemPath(Result.FileView, aFullPath)
     else
-      NewPage.FileView.CurrentPath := aFullPath;
-    if tb_open_new_in_foreground in gDirTabOptions then
-      NewPage.MakeActive;
+      Result.FileView.CurrentPath := aFullPath;
   end;
 
-  procedure OpenArchive(const aFile: TFile);
-  var
-    NewPage: TFileViewPage;
+  function OpenArchive(const aFile: TFile): TFileViewPage;
   begin
-    NewPage := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
-    ChooseArchive(NewPage.FileView, aFile);
-    if tb_open_new_in_foreground in gDirTabOptions then
-      NewPage.MakeActive;
+    Result := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
+    ChooseArchive(Result.FileView, aFile);
+  end;
+
+  function OpenParent: TFileViewPage;
+  begin
+    Result := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
+    Result.FileView.ChangePathToParent(True);
   end;
 
 var
   aFile: TFile;
+  NewPage: TFileViewPage;
 begin
   aFile := FrmMain.ActiveFrame.CloneActiveFile;
-  if Assigned(aFile) then
-  try
-    if aFile.IsNameValid and (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-      OpenTab(aFile.FullPath)
+  if not Assigned(aFile) then
+    NewPage := OpenTab(FrmMain.ActiveFrame.CurrentPath)
+  else try
+    if not aFile.IsNameValid then
+      NewPage := OpenParent
+    else if (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+      NewPage := OpenTab(aFile.FullPath)
     else if FileIsArchive(aFile.FullPath) then
-      OpenArchive(aFile)
+      NewPage := OpenArchive(aFile)
     else
-      OpenTab(FrmMain.ActiveFrame.CurrentPath);
+      NewPage := OpenTab(aFile.Path);
   finally
     FreeAndNil(aFile);
-  end
-  else
-    OpenTab(FrmMain.ActiveFrame.CurrentPath);
+  end;
+
+  if tb_open_new_in_foreground in gDirTabOptions then
+    NewPage.MakeActive;
 end;
 
 procedure TMainCommands.cm_TargetEqualSource(const Params: array of string);
