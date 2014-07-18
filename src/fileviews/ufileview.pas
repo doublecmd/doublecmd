@@ -2655,6 +2655,8 @@ begin
 
   if BeforeChangePath(aFileSource, aPath) then
   begin
+    FFlatView := False;
+
     if Assigned(FileSource) and IsNewFileSource then
       FileSource.RemoveReloadEventListener(@ReloadEvent);
 
@@ -2688,6 +2690,7 @@ var
 begin
   if FileSourcesCount > 0 then
   begin
+    FFlatView := False;
     // TODO: Do this by remembering focused file name in a list?
     FocusedFile := ExtractFileName(FileSource.CurrentAddress);
 
