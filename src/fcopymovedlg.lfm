@@ -42,7 +42,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 28
+    Height = 21
     Top = 34
     Width = 596
     Anchors = [akTop, akLeft, akRight]
@@ -61,7 +61,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 38
-    Top = 70
+    Top = 63
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 8
@@ -75,19 +75,19 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = edtDst
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 36
-    Top = 112
+    Height = 34
+    Top = 105
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
     BevelOuter = bvNone
-    ClientHeight = 36
+    ClientHeight = 34
     ClientWidth = 596
     TabOrder = 2
     object btnOptions: TButton
       Left = 0
-      Height = 36
+      Height = 34
       Top = 0
       Width = 100
       Align = alLeft
@@ -95,14 +95,13 @@ object frmCopyDlg: TfrmCopyDlg
       Caption = 'O&ptions'
       Constraints.MinWidth = 100
       OnClick = btnOptionsClick
-      OnMouseUp = btnOptionsMouseUp
       TabOrder = 0
     end
     object btnAddToQueue: TBitBtn
-      Left = 251
-      Height = 36
+      Left = 264
+      Height = 34
       Top = 0
-      Width = 128
+      Width = 119
       Align = alRight
       AutoSize = True
       BorderSpacing.InnerBorder = 2
@@ -146,27 +145,31 @@ object frmCopyDlg: TfrmCopyDlg
         0000000000000000000000000000000000000000000000000000
       }
       ModalResult = 1
-      OnClick = btnAddToQueueClick
-      OnMouseUp = btnAddToQueueMouseUp
       TabOrder = 1
     end
-    object btnCreateSpecialQueue: TButton
-      Left = 379
-      Height = 36
+    object btnCreateSpecialQueue: TBitBtn
+      Left = 383
+      Height = 34
       Top = 0
-      Width = 25
+      Width = 23
       Align = alRight
-      AutoSize = True
       BorderSpacing.Right = 12
-      Caption = '...'
+      Glyph.Data = {
+        72000000424D7200000000000000360000002800000005000000030000000100
+        2000000000003C00000064000000640000000000000000000000000000000000
+        0000000000FF000000000000000000000000000000FF000000FF000000FF0000
+        0000000000FF000000FF000000FF000000FF000000FF
+      }
+      Layout = blGlyphBottom
+      OnClick = btnCreateSpecialQueueClick
+      PopupMenu = pmQueuePopup
       TabOrder = 2
-      Visible = False
     end
     object btnCancel: TBitBtn
-      Left = 416
-      Height = 36
+      Left = 418
+      Height = 34
       Top = 0
-      Width = 84
+      Width = 82
       Align = alRight
       AutoSize = True
       BorderSpacing.Left = 12
@@ -176,12 +179,11 @@ object frmCopyDlg: TfrmCopyDlg
       Caption = '&Cancel'
       Kind = bkCancel
       ModalResult = 2
-      OnMouseUp = btnCancelMouseUp
       TabOrder = 3
     end
     object btnOK: TBitBtn
       Left = 508
-      Height = 36
+      Height = 34
       Top = 0
       Width = 88
       Align = alRight
@@ -228,7 +230,6 @@ object frmCopyDlg: TfrmCopyDlg
       }
       ModalResult = 1
       OnClick = btnOKClick
-      OnMouseUp = btnOKMouseUp
       TabOrder = 4
     end
   end
@@ -239,14 +240,14 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = edtDst
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 43
-    Top = 152
+    Height = 35
+    Top = 143
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
     BevelOuter = bvNone
-    ClientHeight = 43
+    ClientHeight = 35
     ClientWidth = 596
     TabOrder = 3
     OnResize = pnlOptionsResize
@@ -268,15 +269,43 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = grpOptions
       AnchorSideTop.Side = asrBottom
-      Left = 197
-      Height = 31
+      Left = 214
+      Height = 23
       Top = 12
-      Width = 203
+      Width = 169
       AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Sa&ve these options as default'
       OnClick = btnSaveOptionsClick
       TabOrder = 1
+    end
+  end
+  object pmQueuePopup: TPopupMenu
+    left = 296
+    top = 184
+    object mnuNewQueue: TMenuItem
+      Caption = 'New queue'
+      OnClick = mnuNewQueueClick
+    end
+    object mnuQueue1: TMenuItem
+      Caption = 'Queue 1'
+      OnClick = mnuQueueNumberClick
+    end
+    object mnuQueue2: TMenuItem
+      Caption = 'Queue 2'
+      OnClick = mnuQueueNumberClick
+    end
+    object mnuQueue3: TMenuItem
+      Caption = 'Queue 3'
+      OnClick = mnuQueueNumberClick
+    end
+    object mnuQueue4: TMenuItem
+      Caption = 'Queue 4'
+      OnClick = mnuQueueNumberClick
+    end
+    object mnuQueue5: TMenuItem
+      Caption = 'Queue 5'
+      OnClick = mnuQueueNumberClick
     end
   end
 end
