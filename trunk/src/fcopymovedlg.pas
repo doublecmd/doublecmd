@@ -28,38 +28,39 @@ type
     edtDst: TKASPathEdit;
     grpOptions: TGroupBox;
     lblCopySrc: TLabel;
+    mnuQueue2: TMenuItem;
+    mnuQueue3: TMenuItem;
+    mnuQueue4: TMenuItem;
+    mnuQueue5: TMenuItem;
+    mnuQueue1: TMenuItem;
+    mnuNewQueue: TMenuItem;
+    pmQueuePopup: TPopupMenu;
     pnlButtons: TPanel;
     pnlOptions: TPanel;
     pnlSelector: TPanel;
-    btnCreateSpecialQueue: TButton;
-    procedure btnAddToQueueClick(Sender: TObject);
-    procedure btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure btnAddToQueueMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    btnCreateSpecialQueue: TBitBtn;
+    procedure btnCreateSpecialQueueClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
-    procedure btnOKMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure btnOptionsClick(Sender: TObject);
-    procedure btnOptionsMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure btnSaveOptionsClick(Sender: TObject);
     procedure btnStartModeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmCopyDlgShow(Sender: TObject);
+    procedure mnuNewQueueClick(Sender: TObject);
+    procedure mnuQueueNumberClick(Sender: TObject);
     procedure pnlOptionsResize(Sender: TObject);
 
   private
     FCommands: TFormCommands;
     FDialogType: TCopyMoveDlgType;
-    FQueueIdentifier: TOperationsManagerQueueIdentifier;
     noteb: TFileViewNotebook;
     FFileSource: IFileSource;
     FOperationOptionsUIClass: TFileSourceOperationOptionsUIClass;
     FOperationOptionsUI: TFileSourceOperationOptionsUI;
 
+    function GetQueueIdentifier: TOperationsManagerQueueIdentifier;
     function ShowTabsSelector: integer;
     procedure TabsSelector(Sender: TObject);
     procedure TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
@@ -67,7 +68,7 @@ type
     procedure ShowOptions(bShow: Boolean);
     procedure UpdateSize;
 
-    property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
+    property Commands: TFormCommands read FCommands implements IFormCommands;
 
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
@@ -76,14 +77,7 @@ type
     constructor Create(TheOwner: TComponent); override;
     procedure SetOperationOptions(Operation: TFileSourceOperation);
 
-    property QueueIdentifier: TOperationsManagerQueueIdentifier read FQueueIdentifier;
-
-    {$IF FPC_FULLVERSION < 020501}
-    // "implements" does not work in FPC < 2.5.1
-    function ExecuteCommand(Command: string; const Params: array of String): TCommandFuncResult;
-    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-    procedure GetCommandsList(List: TStrings);
-    {$ENDIF}
+    property QueueIdentifier: TOperationsManagerQueueIdentifier read GetQueueIdentifier;
 
   published
     procedure cm_AddToQueue(const Params: array of String);
@@ -100,6 +94,9 @@ uses
 const
   HotkeysCategory = 'Copy/Move Dialog';
 
+var
+  FQueueIdentifier: TOperationsManagerQueueIdentifier = SingleQueueId;
+
 constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
                                AFileSource: IFileSource;
                                AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass);
@@ -107,7 +104,6 @@ begin
   FDialogType := DialogType;
   FFileSource := AFileSource;
   FOperationOptionsUIClass := AOperationOptionsUIClass;
-  FQueueIdentifier := FreeOperationsQueueId;
   FCommands := TFormCommands.Create(Self);
   inherited Create(TheOwner);
 end;
@@ -129,7 +125,12 @@ var
   sQueueId: String;
 begin
   if GetParamValue(Params, 'queueid', sQueueId) and TryStrToInt(sQueueId, Value) then
-    FQueueIdentifier := Value
+    begin
+      if Value < 0 then
+        mnuNewQueue.Click
+      else
+        FQueueIdentifier := Value
+    end
   else
     FQueueIdentifier := SingleQueueId;
   ModalResult := btnAddToQueue.ModalResult;
@@ -213,6 +214,11 @@ begin
   end;
 end;
 
+function TfrmCopyDlg.GetQueueIdentifier: TOperationsManagerQueueIdentifier;
+begin
+  Result:= FQueueIdentifier;
+end;
+
 procedure TfrmCopyDlg.frmCopyDlgShow(Sender: TObject);
 begin
   case FDialogType of
@@ -232,6 +238,33 @@ begin
 
   edtDst.SelectAll;
   edtDst.SetFocus;
+end;
+
+procedure TfrmCopyDlg.mnuNewQueueClick(Sender: TObject);
+var
+  NewQueueId: TOperationsManagerQueueIdentifier;
+begin
+  for NewQueueId := Succ(FreeOperationsQueueId) to MaxInt do
+  with OperationsManager do
+  begin
+    if not Assigned(QueueByIdentifier[NewQueueId]) then
+    begin
+      FQueueIdentifier := NewQueueId;
+      ModalResult := btnAddToQueue.ModalResult;
+      Break;
+    end;
+  end;
+end;
+
+procedure TfrmCopyDlg.mnuQueueNumberClick(Sender: TObject);
+var
+  NewQueueNumber: TOperationsManagerQueueIdentifier;
+begin
+  if TryStrToInt(Copy((Sender as TMenuItem).Name, 9, 1), NewQueueNumber) then
+  begin
+    FQueueIdentifier := NewQueueNumber;
+    ModalResult := btnAddToQueue.ModalResult;
+  end;
 end;
 
 procedure TfrmCopyDlg.pnlOptionsResize(Sender: TObject);
@@ -262,66 +295,19 @@ begin
   {$ENDIF}
 end;
 
-procedure TfrmCopyDlg.btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TfrmCopyDlg.btnCreateSpecialQueueClick(Sender: TObject);
 begin
-{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
-  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-    ModalResult := btnCancel.ModalResult;
-{$ENDIF}
-end;
-
-procedure TfrmCopyDlg.btnAddToQueueClick(Sender: TObject);
-begin
-{$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
-  FQueueIdentifier := SingleQueueId;
-{$ENDIF}
-end;
-
-procedure TfrmCopyDlg.btnAddToQueueMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
-  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-  begin
-    cm_AddToQueue([]);
-  end;
-{$ENDIF}
+  btnCreateSpecialQueue.PopupMenu.PopUp;
 end;
 
 procedure TfrmCopyDlg.btnOKClick(Sender: TObject);
 begin
-{$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
   FQueueIdentifier := FreeOperationsQueueId;
-{$ENDIF}
-end;
-
-procedure TfrmCopyDlg.btnOkMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
-  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-  begin
-     FQueueIdentifier := FreeOperationsQueueId;
-     ModalResult := btnOk.ModalResult;
-  end;
-{$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
 begin
-{$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
   ShowOptions(not pnlOptions.Visible);
-{$ENDIF}
-end;
-
-procedure TfrmCopyDlg.btnOptionsMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
-  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-    ShowOptions(not pnlOptions.Visible);
-{$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnSaveOptionsClick(Sender: TObject);
@@ -361,7 +347,7 @@ begin
   ShowOptions(False);
 
   btnOK.Caption := rsDlgOpStart;
-  FQueueIdentifier := FreeOperationsQueueId;
+  btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
 
   HMForm := HotMan.Register(Self, HotkeysCategory);
   Hotkey := HMForm.Hotkeys.FindByCommand('cm_AddToQueue');
@@ -389,23 +375,6 @@ begin
   else
     Self.Height := pnlOptions.Top;
 end;
-
-{$IF FPC_FULLVERSION < 020501}
-function TfrmCopyDlg.ExecuteCommand(Command: string; const Params: array of String): TCommandFuncResult;
-begin
-  Result := FCommands.ExecuteCommand(Command, Params);
-end;
-
-function TfrmCopyDlg.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-begin
-  Result := FCommands.GetCommandCaption(Command, CaptionType);
-end;
-
-procedure TfrmCopyDlg.GetCommandsList(List: TStrings);
-begin
-  FCommands.GetCommandsList(List);
-end;
-{$ENDIF}
 
 initialization
   TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
