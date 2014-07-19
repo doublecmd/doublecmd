@@ -698,6 +698,11 @@ end;
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 begin
   ExtensionStartupInfo := StartupInfo^;
+  if ModuleHandle = NilHandle then
+  begin
+    ExtensionStartupInfo.MessageBox('Cannot load library ' + _unrar + '! Please check your installation.',
+                                    nil, MB_OK or MB_ICONERROR);
+  end;
 end;
 
 finalization
