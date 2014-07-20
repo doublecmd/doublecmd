@@ -326,7 +326,7 @@ begin
     Exit;
   if HasPython then
   begin
-    PythonPath:= gpExePath + 'tools';
+    PythonPath:= gpExePath + 'scripts';
     RabbitVCS:= CheckService(PythonPath + PathDelim + MODULE_NAME + '.py');
     if RabbitVCS then begin
       PythonAddModulePath(PythonPath);
