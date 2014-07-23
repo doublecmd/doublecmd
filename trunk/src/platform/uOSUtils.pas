@@ -358,7 +358,6 @@ begin
 end;
 {$ELSE}
 var
-  DesktopEnv: Cardinal;
   sCmdLine: UTF8String;
 begin
   Result:= False;
@@ -371,7 +370,6 @@ begin
     end
   else
     begin
-      DesktopEnv:= GetDesktopEnvironment;
       if (DesktopEnv = DE_KDE) and (FindDefaultExecutablePath('kioclient') <> EmptyStr) then
         sCmdLine:= 'kioclient exec ' + QuoteStr(URL) // Under KDE use "kioclient" to open files
       else if (DesktopEnv = DE_XFCE) and (FindDefaultExecutablePath('exo-open') <> EmptyStr) then

@@ -38,14 +38,27 @@ const
   _PATH_FSTAB = '/etc/fstab';
   _PATH_MOUNTED = '/etc/mtab';
 
+type
+  TDesktopEnvironment = (
+    DE_UNKNOWN  = 0,
+    DE_KDE      = 1,
+    DE_GNOME    = 2,
+    DE_XFCE     = 3,
+    DE_LXDE     = 4,
+    DE_MATE     = 5,
+    DE_CINNAMON = 6
+  );
+
 const
-  DE_UNKNOWN  = 0;
-  DE_KDE      = 1;
-  DE_GNOME    = 2;
-  DE_XFCE     = 3;
-  DE_LXDE     = 4;
-  DE_MATE     = 5;
-  DE_CINNAMON = 6;
+  DesktopName: array[TDesktopEnvironment] of UTF8String = (
+    'Unknown',
+    'KDE',
+    'GNOME',
+    'Xfce',
+    'LXDE',
+    'MATE',
+    'Cinnamon'
+  );
 
 type
   PIOFILE = Pointer;
@@ -165,7 +178,7 @@ function fpCloseDir(__dirp: pDir): cInt; inline;
 {$ENDIF}
 function fpSystemStatus(Command: string): cint;
 
-function GetDesktopEnvironment: Cardinal;
+function GetDesktopEnvironment: TDesktopEnvironment;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 {en
    Checks if file is executable or script
@@ -220,6 +233,9 @@ function getfsstat(struct_statfs: PStatFS; const buffsize: int64; const int_flag
 function getfsent(): PFSTab; cdecl; external libc name 'getfsent';
 procedure endfsent(); cdecl; external libc name 'endfsent';
 {$ENDIF}
+
+var
+  DesktopEnv: TDesktopEnvironment = DE_UNKNOWN;
 
 implementation
 
@@ -293,7 +309,7 @@ end;
 
 {$ENDIF LINUX}
 
-function GetDesktopEnvironment: Cardinal;
+function GetDesktopEnvironment: TDesktopEnvironment;
 var
   DesktopSession: String;
 begin
@@ -543,12 +559,13 @@ begin
   Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
 end;
 
-{$IFDEF LINUX}
-
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 initialization
+  DesktopEnv := GetDesktopEnvironment;
+  {$IFDEF LINUX}
   CheckPMount;
   CheckUDisksCtl;
-
+  {$ENDIF}
 {$ENDIF}
 
 end.
