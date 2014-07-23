@@ -107,6 +107,9 @@ begin
   DCDebug('Free Pascal: ' + fpcVersion);
   DCDebug('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
   DCDebug('System: ' + OSVersion);
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  DCDebug('Desktop Environment: ' + DesktopName[DesktopEnv]);
+  {$ENDIF}
   if WSVersion <> EmptyStr then
     DCDebug('Widgetset library: ' + WSVersion);
   DCDebug('This program is free software released under terms of GNU GPL 2');

@@ -188,7 +188,7 @@ end;
 function GetCurrentIconTheme: String;
 begin
   Result:= EmptyStr;
-  case GetDesktopEnvironment of
+  case DesktopEnv of
     DE_UNKNOWN:
       Result:= DEFAULT_THEME_NAME;
     DE_KDE:
@@ -205,7 +205,6 @@ begin
 end;
 
 var
-  FDesktopEnvironment: Cardinal;
   UnixIconThemesBaseDirList: array of String;
 
 procedure InitIconThemesBaseDirList;
@@ -215,10 +214,9 @@ var
 begin
   Home := GetHomeDir;
   SetLength(UnixIconThemesBaseDirList, 6);
-  FDesktopEnvironment := GetDesktopEnvironment;
   UnixIconThemesBaseDirList[0] := Home + '/.icons';
   UnixIconThemesBaseDirList[1] := Home + '/.local/share/icons';
-  if FDesktopEnvironment = DE_KDE then
+  if DesktopEnv = DE_KDE then
   begin
     I:= 3;
     SetLength(UnixIconThemesBaseDirList, 8);
@@ -256,7 +254,7 @@ begin
   if Result and Assigned(FInherits) then
   begin
     LoadParentTheme(DEFAULT_THEME_NAME);
-    if (FDesktopEnvironment = DE_KDE) then LoadParentTheme(DEFAULT_THEME_KDE4);
+    if (DesktopEnv = DE_KDE) then LoadParentTheme(DEFAULT_THEME_KDE4);
   end;
 end;
 
