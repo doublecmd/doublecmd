@@ -2131,6 +2131,7 @@ end;
 
 procedure TMainCommands.cm_Refresh(const Params: array of string);
 begin
+  frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
   frmMain.ActiveFrame.Reload;
 end;
 

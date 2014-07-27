@@ -67,7 +67,7 @@ type
     destructor Destroy; override;
     procedure Prepare;
     procedure Execute;
-    property Password: UTF8String read FPassword;
+    property Password: UTF8String read FPassword write FPassword;
     property OnGetArchiveItem: TOnGetArchiveItem read FOnGetArchiveItem write FOnGetArchiveItem;
   end;
 
@@ -337,7 +337,8 @@ begin
   FFormatIndex:= 0;
   FreeThenNil(FExProcess);
   sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
-                                       FMultiArcItem.FList, FArchiveName);
+                                       FMultiArcItem.FList, FArchiveName,
+                                       nil, '', '','', FPassword);
   if FMultiArcItem.FDebug then
     DCDebug(sCommandLine);
 
