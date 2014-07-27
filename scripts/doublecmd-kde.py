@@ -45,10 +45,7 @@ def CheckArguments(argc):
 #--------------- main ------------------
 if __name__ == '__main__':
 
-    locale = KLocale("kio4")
-    KGlobal.setLocale(locale)
-
-    appName     = "doublecmd-kde"
+    appName     = "kio4"
     catalog     = ""
     programName = ki18n ("Double Commander")
     version     = "1.0"
