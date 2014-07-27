@@ -1,4 +1,3 @@
-# Adrian <raziel_theripper@yahoo.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
@@ -324,10 +323,12 @@ msgid "About"
 msgstr "Despre"
 
 #: tfrmabout.lblbuild.caption
+msgctxt "tfrmabout.lblbuild.caption"
 msgid "Build"
 msgstr "Generează"
 
 #: tfrmabout.lblfreepascalver.caption
+msgctxt "tfrmabout.lblfreepascalver.caption"
 msgid "Free Pascal"
 msgstr "Free Pascal"
 
@@ -340,6 +341,7 @@ msgid "http://doublecmd.sourceforge.net"
 msgstr "http://doublecmd.sourceforge.net"
 
 #: tfrmabout.lbllazarusver.caption
+msgctxt "tfrmabout.lbllazarusver.caption"
 msgid "Lazarus"
 msgstr "Lazarus"
 
@@ -354,6 +356,7 @@ msgid "Double Commander"
 msgstr "Double Commander"
 
 #: tfrmabout.lblversion.caption
+msgctxt "tfrmabout.lblversion.caption"
 msgid "Version"
 msgstr "Versiune"
 
@@ -1671,6 +1674,7 @@ msgid "???"
 msgstr "???"
 
 #: tfrmfileproperties.lblfolderstr.caption
+msgctxt "tfrmfileproperties.lblfolderstr.caption"
 msgid "Path:"
 msgstr "Cale:"
 
@@ -2064,38 +2068,276 @@ msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Nume &legătură:"
 
-#: tfrmhotdir.btnadd.caption
-msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
-msgid "&Add"
-msgstr "&Adaugă"
+#: tfrmhotdir.btngotodir.caption
+msgid "OK and goto dir"
+msgstr ""
 
-#: tfrmhotdir.btnaddman.caption
-msgid "Add &manually"
-msgstr "Adaugă &manual"
+#: tfrmhotdir.btnrelativepath.hint
+msgid "Some functions to select appropriate path"
+msgstr ""
 
-#: tfrmhotdir.btncancel.caption
-msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Renunță"
+#: tfrmhotdir.btnrelativetarget.hint
+msgid "Some functions to select appropriate target"
+msgstr ""
 
-#: tfrmhotdir.btndelete.caption
-msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
-msgid "&Delete"
-msgstr "Ș&terge"
-
-#: tfrmhotdir.btnedit.caption
-msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
-msgid "&Edit"
-msgstr "&Editează"
-
-#: tfrmhotdir.btnok.caption
-msgctxt "TFRMHOTDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
+#: tfrmhotdir.btntestmenu.caption
+msgctxt "tfrmhotdir.btntestmenu.caption"
+msgid "Test resulting menu"
+msgstr ""
 
 #: tfrmhotdir.caption
 msgid "Directory Hotlist"
 msgstr "Listă dosare"
+
+#: tfrmhotdir.cbsorthotdirpath.text
+msgctxt "tfrmhotdir.cbsorthotdirpath.text"
+msgid "Name, a-z"
+msgstr ""
+
+#: tfrmhotdir.cbsorthotdirtarget.text
+msgctxt "tfrmhotdir.cbsorthotdirtarget.text"
+msgid "Name, a-z"
+msgstr ""
+
+#: tfrmhotdir.lbldirectoryhotlist.caption
+msgid "Directory Hotlist (reorder by drag && drop):"
+msgstr ""
+
+#: tfrmhotdir.lbledithotdirname.editlabel.caption
+msgctxt "tfrmhotdir.lbledithotdirname.editlabel.caption"
+msgid "Name:"
+msgstr "Nume:"
+
+#: tfrmhotdir.lbledithotdirpath.editlabel.caption
+msgctxt "tfrmhotdir.lbledithotdirpath.editlabel.caption"
+msgid "Path:"
+msgstr "Cale:"
+
+#: tfrmhotdir.lbledithotdirtarget.editlabel.caption
+msgid "Target:"
+msgstr ""
+
+#: tfrmhotdir.menuitem1.caption
+msgctxt "tfrmhotdir.menuitem1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.menuitem2.caption
+msgctxt "tfrmhotdir.menuitem2.caption"
+msgid "Options"
+msgstr "Opţiuni"
+
+#: tfrmhotdir.menuitem7.caption
+msgctxt "tfrmhotdir.menuitem7.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.miactiveframedirectory.caption
+msgid "directory of the active frame"
+msgstr ""
+
+#: tfrmhotdir.miactiveframedirectory2.caption
+msgid "Add directory of the active frame"
+msgstr ""
+
+#: tfrmhotdir.miactiveinactiveframedirectory.caption
+msgid "directories of the active && inactive frames"
+msgstr ""
+
+#: tfrmhotdir.miactiveinactiveframedirectory2.caption
+msgid "Add directories of the active && inactive frames"
+msgstr ""
+
+#: tfrmhotdir.miadd.caption
+msgctxt "tfrmhotdir.miadd.caption"
+msgid "&Add"
+msgstr "&Adaugă"
+
+#: tfrmhotdir.miaddcommand.caption
+msgid "a command"
+msgstr ""
+
+#: tfrmhotdir.miaddcommand2.caption
+msgid "Add a command"
+msgstr ""
+
+#: tfrmhotdir.miaddcopyofselected.caption
+msgid "a copy of the selected entry"
+msgstr ""
+
+#: tfrmhotdir.miaddcopyofselected2.caption
+msgid "Add a copy of the selected entry"
+msgstr ""
+
+#: tfrmhotdir.miaddseparator.caption
+msgid "a separator"
+msgstr ""
+
+#: tfrmhotdir.miaddseparator2.caption
+msgid "Add a separator"
+msgstr ""
+
+#: tfrmhotdir.miaddsubmenu.caption
+msgid "sub-menu"
+msgstr ""
+
+#: tfrmhotdir.miaddsubmenu2.caption
+msgid "Add sub-menu"
+msgstr ""
+
+#: tfrmhotdir.miaddtarget.caption
+msgid "Also add target dir when adding dir"
+msgstr ""
+
+#: tfrmhotdir.mibrowsetodirectory.caption
+msgid "directory I will browse to"
+msgstr ""
+
+#: tfrmhotdir.mibrowsetodirectory2.caption
+msgid "Add directory I will browse to"
+msgstr ""
+
+#: tfrmhotdir.midelete.caption
+msgctxt "tfrmhotdir.midelete.caption"
+msgid "&Delete"
+msgstr "Ș&terge"
+
+#: tfrmhotdir.mideleteallhotdirs.caption
+msgid "delete all!"
+msgstr ""
+
+#: tfrmhotdir.mideletecompletesubmenu.caption
+msgid "sub-menu and all its elements"
+msgstr ""
+
+#: tfrmhotdir.mideletejustsubmenu.caption
+msgid "just sub-menu but keep elements"
+msgstr ""
+
+#: tfrmhotdir.mideleteselectedentry.caption
+msgid "selected item"
+msgstr ""
+
+#: tfrmhotdir.mideleteselectedentry2.caption
+msgid "Delete selected item"
+msgstr ""
+
+#: tfrmhotdir.midetectifpathexist.caption
+msgid "Scan all hotdir's path to validate the ones that actually exist"
+msgstr ""
+
+#: tfrmhotdir.midetectifpathtargetexist.caption
+msgid "Scan all hotdir's path && target to validate the ones that actually exist"
+msgstr ""
+
+#: tfrmhotdir.miexport.caption
+msgid "&Export"
+msgstr ""
+
+#: tfrmhotdir.miexporttodoublecommanderk.caption
+msgid "export to a \"doublecmd.xml\" of DC (keep existing)"
+msgstr ""
+
+#: tfrmhotdir.miexporttodoublecommandernk.caption
+msgid "export to a \"doublecmd.xml\" of DC (erase existing)"
+msgstr ""
+
+#: tfrmhotdir.miexporttohotlistfile.caption
+msgid "export to a new Directory Hotlist file"
+msgstr ""
+
+#: tfrmhotdir.miexporttototalcommanderk.caption
+msgid "export to a \"wincmd.ini\" of TC (keep existing)"
+msgstr ""
+
+#: tfrmhotdir.miexporttototalcommandernk.caption
+msgid "export to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmhotdir.miimport.caption
+msgid "&Import"
+msgstr ""
+
+#: tfrmhotdir.miimportdoublecommander.caption
+msgid "importation from \"doublecmd.xml\" of DC"
+msgstr ""
+
+#: tfrmhotdir.miimportfromhotlistfile.caption
+msgid "import from a Directory Hotlist file"
+msgstr ""
+
+#: tfrmhotdir.miimporttotalcommander.caption
+msgid "importation from \"wincmd.ini\" of TC"
+msgstr ""
+
+#: tfrmhotdir.miseparator1.caption
+msgctxt "tfrmhotdir.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.miseparator2.caption
+msgctxt "tfrmhotdir.miseparator2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.miseparator3.caption
+msgctxt "tfrmhotdir.miseparator3.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.miseparator4.caption
+msgctxt "tfrmhotdir.miseparator4.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.miseparator5.caption
+msgctxt "tfrmhotdir.miseparator5.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.miseparator6.caption
+msgctxt "tfrmhotdir.miseparator6.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmhotdir.mitestresultingmenu.caption
+msgctxt "tfrmhotdir.mitestresultingmenu.caption"
+msgid "Test resulting menu"
+msgstr ""
+
+#: tfrmhotdir.mitools.caption
+msgid "&Tools"
+msgstr ""
+
+#: tfrmhotdir.mitypethedirectory.caption
+msgid "directory I will type"
+msgstr ""
+
+#: tfrmhotdir.mitypethedirectory2.caption
+msgid "Add directory I will type"
+msgstr ""
+
+#: tfrmhotdirimportexport.btnselectall.caption
+msgctxt "tfrmhotdirimportexport.btnselectall.caption"
+msgid "Import all!"
+msgstr ""
+
+#: tfrmhotdirimportexport.btnselectiondone.caption
+msgctxt "tfrmhotdirimportexport.btnselectiondone.caption"
+msgid "Import selected"
+msgstr ""
+
+#: tfrmhotdirimportexport.caption
+msgid "Select the entries your want to import"
+msgstr ""
+
+#: tfrmhotdirimportexport.lbhint.caption
+msgid "When clicking a sub-menu, it will select the whole menu"
+msgstr ""
+
+#: tfrmhotdirimportexport.lblhintholdcontrol.caption
+msgid "Hold CTRL and click entries to select multiple one"
+msgstr ""
 
 #: tfrmlinker.btnexit.caption
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
@@ -5591,6 +5833,53 @@ msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
 msgid "&Megabytes"
 msgstr "&Megabiți"
 
+#: tfrmstartingsplash.caption
+msgctxt "tfrmstartingsplash.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmstartingsplash.lblbuild.caption
+msgctxt "tfrmstartingsplash.lblbuild.caption"
+msgid "Build"
+msgstr "Generează"
+
+#: tfrmstartingsplash.lblfreepascalver.caption
+msgctxt "tfrmstartingsplash.lblfreepascalver.caption"
+msgid "Free Pascal"
+msgstr "Free Pascal"
+
+#: tfrmstartingsplash.lbllazarusver.caption
+msgctxt "tfrmstartingsplash.lbllazarusver.caption"
+msgid "Lazarus"
+msgstr "Lazarus"
+
+#: tfrmstartingsplash.lbloperatingsystem.caption
+msgid "Operating System"
+msgstr ""
+
+#: tfrmstartingsplash.lblplatform.caption
+msgid "Platform"
+msgstr ""
+
+#: tfrmstartingsplash.lblrevision.caption
+msgctxt "tfrmstartingsplash.lblrevision.caption"
+msgid "Revision"
+msgstr "Revizie"
+
+#: tfrmstartingsplash.lbltitle.caption
+msgctxt "tfrmstartingsplash.lbltitle.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmstartingsplash.lblversion.caption
+msgctxt "tfrmstartingsplash.lblversion.caption"
+msgid "Version"
+msgstr "Versiune"
+
+#: tfrmstartingsplash.lblwidgetsetver.caption
+msgid "WidgetsetVer"
+msgstr ""
+
 #: tfrmsymlink.btncancel.caption
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -6429,6 +6718,15 @@ msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Când fișierul există"
 
+#: ulng.msgtrytolocatecrcfile
+msgid ""
+"This file cannot be found and could help to validate final combination of files:\n"
+"%s\n"
+"\n"
+"Could you make it available and press \"OK\" when ready,\n"
+"or press \"CANCEL\" to continue without it?\n"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "Anulează Filtrul Rapid"
@@ -7010,6 +7308,14 @@ msgstr "Cont:"
 msgid "Additional parameters for archiver command-line:"
 msgstr "Parametri adiționali pentru linia de comandă a arhivatorului:"
 
+#: ulng.rsmsgbadcrc32
+msgid ""
+"Bad CRC32 for resulting file:\n"
+"\"%s\"\n"
+"\n"
+"Do you want to keep the resulting corrupted file anyway?\n"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Nu puteți copia/muta un fișier \"%s\" la sine însuși!"
@@ -7250,6 +7556,176 @@ msgstr "Dosarul %s există, se suprascrie?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Urmează legătura simbolică \"%s\"?"
 
+#: ulng.rsmsghotdiraddthisdirectory
+msgid "Add dir: "
+msgstr ""
+
+#: ulng.rsmsghotdircommandname
+msgid "Do command"
+msgstr ""
+
+#: ulng.rsmsghotdircommandsample
+msgid "cm_somthing"
+msgstr ""
+
+#: ulng.rsmsghotdirconfighotlist
+msgid "Configuration of directory hotlist"
+msgstr ""
+
+#: ulng.rsmsghotdirdeleteallentries
+msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
+msgstr ""
+
+#: ulng.rsmsghotdirdemocommand
+msgid "This will execute the following command:"
+msgstr ""
+
+#: ulng.rsmsghotdirdemoname
+msgid "This is hot dir named "
+msgstr ""
+
+#: ulng.rsmsghotdirdemopath
+msgid "This will change active frame to the following path:"
+msgstr ""
+
+#: ulng.rsmsghotdirdemotarget
+msgid "And inactive frame would change to the following path:"
+msgstr ""
+
+#: ulng.rsmsghotdirerrorexporting
+msgid "Error exporting entries..."
+msgstr ""
+
+#: ulng.rsmsghotdirexportall
+msgid "Export all!"
+msgstr ""
+
+#: ulng.rsmsghotdirexporthotlist
+msgid "Export Directory Hotlist - Select the entries you want to export"
+msgstr ""
+
+#: ulng.rsmsghotdirexportsel
+msgid "Export selected"
+msgstr ""
+
+#: ulng.rsmsghotdirimportall
+msgctxt "ulng.rsmsghotdirimportall"
+msgid "Import all!"
+msgstr ""
+
+#: ulng.rsmsghotdirimporthotlist
+msgid "Import Directory Hotlist - Select the entries you want to import"
+msgstr ""
+
+#: ulng.rsmsghotdirimportsel
+msgctxt "ulng.rsmsghotdirimportsel"
+msgid "Import selected"
+msgstr ""
+
+#: ulng.rsmsghotdirjustpath
+msgctxt "ulng.rsmsghotdirjustpath"
+msgid "Path"
+msgstr "Cale"
+
+#: ulng.rsmsghotdirlocatedc
+msgid "Locate DC \"doublecmd.xml\" file"
+msgstr ""
+
+#: ulng.rsmsghotdirlocateprevioussave
+msgid "Select location and filename of previously saved directory hotlist file"
+msgstr ""
+
+#: ulng.rsmsghotdirlocatetc
+msgid "Locate TC \"wincmd.ini\" file"
+msgstr ""
+
+#: ulng.rsmsghotdirmodifiedwanttosave
+msgid "Directory hotlist has been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsghotdirname
+msgid "Hotdir name"
+msgstr ""
+
+#: ulng.rsmsghotdirnbnewentries
+msgid "Number of new entries: "
+msgstr ""
+
+#: ulng.rsmsghotdirnothingtoexport
+msgid "Nothing selected to export!"
+msgstr ""
+
+#: ulng.rsmsghotdirpath
+msgid "Hotdir path"
+msgstr ""
+
+#: ulng.rsmsghotdirsimplecommand
+msgid "Command:"
+msgstr ""
+
+#: ulng.rsmsghotdirsimpleendofmenu
+msgid "(end of sub menu)"
+msgstr ""
+
+#: ulng.rsmsghotdirsimplemenu
+msgid "Menu name:"
+msgstr ""
+
+#: ulng.rsmsghotdirsimplename
+msgctxt "ulng.rsmsghotdirsimplename"
+msgid "Name:"
+msgstr "Nume:"
+
+#: ulng.rsmsghotdirsimpleseparator
+msgid "(separator)"
+msgstr ""
+
+#: ulng.rsmsghotdirsubmenuname
+msgid "Submenu name"
+msgstr ""
+
+#: ulng.rsmsghotdirtarget
+msgid "Hotdir target"
+msgstr ""
+
+#: ulng.rsmsghotdirtiporderpath
+msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
+msgstr ""
+
+#: ulng.rsmsghotdirtipordertarget
+msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
+msgstr ""
+
+#: ulng.rsmsghotdirtipspecialdirbut
+msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
+msgstr ""
+
+#: ulng.rsmsghotdirtotalexported
+msgid "Total entries exported: "
+msgstr ""
+
+#: ulng.rsmsghotdirwhattodelete
+msgid "Do you want to delete all elements inside the sub-menu? Answering NO will delete only menu delimiters but will keep element inside sub-menu."
+msgstr ""
+
+#: ulng.rsmsghotdirwheretosave
+msgid "Enter location and filename where to save a directory hotlist file"
+msgstr ""
+
+#: ulng.rsmsgincorrectfilelength
+msgid "Incorrect resulting filelength for file : \"%s\""
+msgstr ""
+
+#: ulng.rsmsginsertnextdisk
+msgid ""
+"Please insert next disk or something similar.\n"
+"\n"
+"It is to allow writing this file:\n"
+"\"%s\"\n"
+"\n"
+"Number of bytes still to write: %d\n"
+msgstr ""
+
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
 msgstr "Eroare în linia de comandă"
@@ -7342,17 +7818,13 @@ msgstr "Creează legătura simbolică %s"
 msgid "Test file integrity %s"
 msgstr "Testează integritatea fișierului %s"
 
-#: ulng.rsmsgmanualaddhotdir
-msgid "Manually add hot path"
-msgstr "Adaugă calea manual"
+#: ulng.rsmsglogwipe
+msgid "Wipe file %s"
+msgstr ""
 
-#: ulng.rsmsgmanualedithotdir
-msgid "Manualy edit hot path"
-msgstr "Editează calea manual"
-
-#: ulng.rsmsgmanualhotdirquery
-msgid "Enter name and path (format name=path):"
-msgstr "Introduceți numele și calea (format nume=cale):"
+#: ulng.rsmsglogwipedir
+msgid "Wipe directory %s"
+msgstr ""
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
@@ -7431,6 +7903,10 @@ msgstr "Șterge %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Fișierul predefinit \"%s\" există deja. Suprascrieți?"
 
+#: ulng.rsmsgprovidethisfile
+msgid "Please, make this file available. Retry?"
+msgstr ""
+
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Se redenumește/mută fișierele/dosarele selectate %d?"
@@ -7459,6 +7935,74 @@ msgstr "Selectați locația volumului următor"
 msgid "Set volume label"
 msgstr "Definește eticheta volumului"
 
+#: ulng.rsmsgspecialdir
+msgid "Special Dirs"
+msgstr ""
+
+#: ulng.rsmsgspecialdiraddacti
+msgid "Add path from active frame"
+msgstr ""
+
+#: ulng.rsmsgspecialdiraddnonacti
+msgid "Add path from inactive frame"
+msgstr ""
+
+#: ulng.rsmsgspecialdirbrowssel
+msgid "Browse and use selected path"
+msgstr ""
+
+#: ulng.rsmsgspecialdirenvvar
+msgid "Use environment variable..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirgotodc
+msgid "Go to Double Commander special path..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirgotoenvvar
+msgid "Go to environment variable..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirgotoother
+msgid "Go to other Windows special folder..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirgototc
+msgid "Go to Windows special folder (TC)..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirmkabso
+msgid "Make path absolute"
+msgstr ""
+
+#: ulng.rsmsgspecialdirmkdcrel
+msgid "Make relative to Double Commander special path..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirmkenvrel
+msgid "Make relative to environment variable..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirmktctel
+msgid "Make relative to Windows special folder (TC)..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirmkwnrel
+msgid "Make relative to other Windows special folder..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirusedc
+msgid "Use Double Commander special path..."
+msgstr ""
+
+#: ulng.rsmsgspecialdiruseother
+msgid "Use other Windows special folder..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirusetc
+msgid "Use Windows special folder (TC)..."
+msgstr ""
+
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
 msgstr "Redenumește fila"
@@ -7471,13 +8015,13 @@ msgstr "Noul nume al filei:"
 msgid "Target path:"
 msgstr "Calea țintei:"
 
-#: ulng.rsmsgtitlenewentryhotdir
-msgid "New title for menu entry:"
-msgstr "Titlu nou pentru intrarea de meniu:"
-
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Prea multe fișiere selectate."
+
+#: ulng.rsmsgundeterminednumberoffile
+msgid "Undetermined"
+msgstr ""
 
 #: ulng.rsmsgurl
 msgid "URL:"
