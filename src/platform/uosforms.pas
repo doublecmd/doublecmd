@@ -96,6 +96,14 @@ procedure ShowDriveContextMenu(Parent: TWinControl; ADrive: PDrive; X, Y : Integ
 }
 function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boolean;
 
+{$IF DEFINED(LINUX)}
+{en
+   Show open with dialog
+   @param(FileList List of files to open with)
+}
+procedure ShowOpenWithDialog(const FileList: TStringList);
+{$ENDIF}
+
 implementation
 
 uses
@@ -112,6 +120,9 @@ uses
     , uDCReadSVG, uMagickWand
     {$ELSE}
     , MacOSAll
+    {$ENDIF}
+    {$IFDEF LINUX}
+    , fOpenWith, uKde
     {$ENDIF}
   {$ENDIF};
 
@@ -535,6 +546,15 @@ begin
   if Assigned(opdDialog) then
     FreeAndNil(opdDialog);
 end;
+
+{$IF DEFINED(LINUX)}
+procedure ShowOpenWithDialog(const FileList: TStringList);
+begin
+  if not (UseKde and uKde.ShowOpenWithDialog(FileList)) then begin
+    fOpenWith.ShowOpenWithDlg(FileList);
+  end;
+end;
+{$ENDIF}
 
 finalization
   FreeThenNil(ShellContextMenu);
