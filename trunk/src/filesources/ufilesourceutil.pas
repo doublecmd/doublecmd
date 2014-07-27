@@ -224,16 +224,15 @@ function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean): Boo
 var
   FileSource: IFileSource;
 begin
-  if not mbCompareFileNames(aFileView.CurrentPath, aFile.Path) then
-  begin
-    SetFileSystemPath(aFileView, aFile.Path);
-  end;
-
   // Check if there is a ArchiveFileSource for possible archive.
   FileSource := GetArchiveFileSource(aFileView.FileSource, aFile, EmptyStr, bForce);
 
   if Assigned(FileSource) then
   begin
+    if not mbCompareFileNames(aFileView.CurrentPath, aFile.Path) then
+    begin
+      SetFileSystemPath(aFileView, aFile.Path);
+    end;
     aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
     Exit(True);
   end;
