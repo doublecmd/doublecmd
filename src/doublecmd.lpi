@@ -295,7 +295,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="212">
+    <Units Count="215">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1538,6 +1538,23 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGLib2"/>
       </Unit211>
+      <Unit212>
+        <Filename Value="uspecialdir.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSpecialDir"/>
+      </Unit212>
+      <Unit213>
+        <Filename Value="fhotdirimportexport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fhotdirimportexport"/>
+      </Unit213>
+      <Unit214>
+        <Filename Value="fstartingsplash.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fstartingsplash"/>
+      </Unit214>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

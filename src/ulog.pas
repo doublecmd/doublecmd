@@ -61,7 +61,7 @@ procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType
 implementation
 
 uses
-  SysUtils, Forms, fMain, uDebug, uGlobs, uFileProcs, DCOSUtils;
+  SysUtils, Forms, fMain, uDebug, uGlobs, uFileProcs, DCOSUtils, uDCUtils;
 
 procedure ShowLogWindow(bShow: Boolean);
 begin
@@ -97,6 +97,7 @@ procedure TLogWriteThread.LogWriteInTheThread;
 var
   hLogFile: THandle;
   LogMsgTypeObject: TObject;
+  TempoFilename:string;
 begin
   LogMsgTypeObject:= TObject(PtrInt(FLogMsgType));
   if Assigned(fMain.frmMain) then
@@ -111,10 +112,19 @@ begin
 
   if gLogFile and FLogFile then // if write log to file
     try
-      if mbFileExists(gLogFileName) then
-        hLogFile:= mbFileOpen(gLogFileName, fmOpenReadWrite)
+      TempoFilename:=ReplaceEnvVars(gLogFileName);
+
+      if gLogFileWithDateInName then
+      begin
+        TempoFilename:=copy(TempoFilename,1,length(TempoFilename)-length(ExtractFileExt(TempoFilename)))+
+                       '_'+ReplaceEnvVars(EnvVarTodaysDate)+
+                       ExtractFileExt(TempoFilename);
+      end;
+
+      if mbFileExists(TempoFilename) then
+        hLogFile:= mbFileOpen(TempoFilename, fmOpenReadWrite)
       else
-        hLogFile:= mbFileCreate(gLogFileName);
+        hLogFile:= mbFileCreate(TempoFilename);
 
       FileSeek(hLogFile, 0, soFromEnd);
       FileWriteLn(hLogFile, Format('%s %s', [DateTimeToStr(Now), FMsg]));
@@ -148,4 +158,4 @@ begin
   TThread.Synchronize(FThread, @LogWriteInTheThread);
 end;
 
-end.
+end.

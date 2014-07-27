@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ComCtrls, ExtCtrls, Buttons, fOptionsFrame, KASToolBar, KASToolItems,
+  ComCtrls, ExtCtrls, Buttons, Menus, fOptionsFrame, KASToolBar, KASToolItems,
   uFormCommands, uHotkeyManager, DCBasicTypes,
   fOptionsHotkeysEditHotkey, DCXmlConfig;
 
@@ -43,6 +43,9 @@ type
     btnDeleteButton: TButton;
     btnOpenFile: TButton;
     btnEditHotkey: TButton;
+    btnRelativeStartPath: TSpeedButton;
+    btnStartPath: TButton;
+    btnRelativeIconFileName: TSpeedButton;
     btnRemoveHotkey: TButton;
     cbInternalCommand: TComboBox;
     cbFlatButtons: TCheckBox;
@@ -66,25 +69,53 @@ type
     lblStartPath: TLabel;
     lblToolTip: TLabel;
     edtInternalParameters: TMemo;
+    miAddSeparatorSubMenu: TMenuItem;
+    miExternalCommandFirstElement: TMenuItem;
+    miSubToolBarFirstElement: TMenuItem;
+    miInternalCommandPriorCurrent: TMenuItem;
+    miExternalCommandPriorCurrent: TMenuItem;
+    miSubToolBarPriorCurrent: TMenuItem;
+    miInternalCommandAfterCurrent: TMenuItem;
+    miExternalCommandAfterCurrent: TMenuItem;
+    miSubToolBarAfterCurrent: TMenuItem;
+    miInternalCommandLastElement: TMenuItem;
+    miExternalCommandLastElement: TMenuItem;
+    miAddInternalCommandSubMenu: TMenuItem;
+    miSubToolBarLastElement: TMenuItem;
+    miAddExternalCommandSubMenu: TMenuItem;
+    miAddSubToolBarSubMenu: TMenuItem;
+    miSeparatorFirstItem: TMenuItem;
+    miSeparatorPriorCurrent: TMenuItem;
+    miSeparatorAfterCurrent: TMenuItem;
+    miSeparatorLastElement: TMenuItem;
+    miInternalCommandFirstElement: TMenuItem;
     OpenDialog: TOpenDialog;
+    pmPathHelper: TPopupMenu;
     pnlEditControls: TPanel;
     pnlFullToolbarButtons: TPanel;
     pnlEditToolbar: TPanel;
     pnlToolbarButtons: TPanel;
+    pmInsertButtonMenu: TPopupMenu;
     rgToolItemType: TRadioGroup;
     btnOpenIcon: TButton;
     sboxToolbars: TScrollBox;
+    btnRelativeExternalCommand: TSpeedButton;
     trbBarSize: TTrackBar;
     trbIconSize: TTrackBar;
     procedure btnEditHotkeyClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
+    procedure btnRelativeExternalCommandClick(Sender: TObject);
+    procedure btnRelativeIconFileNameClick(Sender: TObject);
+    procedure btnRelativeStartPathClick(Sender: TObject);
     procedure btnRemoveHotKeyClick(Sender: TObject);
     procedure btnCloneButtonClick(Sender: TObject);
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
+    procedure btnStartPathClick(Sender: TObject);
     procedure cbInternalCommandSelect(Sender: TObject);
     procedure cbFlatButtonsChange(Sender: TObject);
     procedure edtIconFileNameChange(Sender: TObject);
+    procedure miInsertButtonClick(Sender: TObject);
     procedure ToolbarDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
     procedure ToolbarDragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -141,10 +172,12 @@ implementation
 {$R *.lfm}
 
 uses
+  //Lazarus, Free-Pascal, etc.
   LCLProc, LCLVersion, Toolwin,
+
+  //DC
   DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils, uPixMapManager,
-  uKASToolItemsExtended,
-  fMain;
+  uKASToolItemsExtended, fMain, uSpecialDir;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';
@@ -223,6 +256,7 @@ begin
   LoadToolbar(ToolBar, gConfig, ToolBarNode);
   if ToolBar.ButtonCount > 0 then
     PressButtonDown(ToolBar.Buttons[0]);
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
 end;
 
 procedure TfrmOptionsToolbar.LoadCurrentButton;
@@ -294,6 +328,7 @@ begin
     lblIconFile.Visible           := EnableNormal;
     edtIconFileName.Visible       := EnableNormal;
     btnOpenIcon.Visible           := EnableNormal;
+    btnRelativeIconFileName.Visible:=EnableNormal;
     lblToolTip.Visible            := EnableNormal;
     edtToolTip.Visible            := EnableNormal;
     lblInternalCommand.Visible    := EnableCommand;
@@ -307,6 +342,9 @@ begin
     lblStartPath.Visible          := EnableProgram;
     edtStartPath.Visible          := EnableProgram;
     btnOpenFile.Visible           := EnableProgram;
+    btnRelativeExternalCommand.Visible:=EnableProgram;
+    btnStartPath.Visible          := EnableProgram;
+    btnRelativeStartPath.Visible:= EnableProgram;
     lblHotkey.Visible             := EnableNormal;
     lblHotkeyValue.Visible        := EnableNormal;
     btnEditHotkey.Visible         := EnableNormal;
@@ -523,8 +561,17 @@ end;
 
 (*Add new button on tool bar*)
 procedure TfrmOptionsToolbar.btnInsertButtonClick(Sender: TObject);
+begin
+  pmInsertButtonMenu.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure TfrmOptionsToolbar.miInsertButtonClick(Sender: TObject);
 var
   ToolBar: TKASToolBar;
+  ToolItem: TKASToolItem = nil;
+  WhereToAdd:longint;
+  WhatToAdd:longint;
+  IndexWhereToAdd:longint;
 begin
   if Assigned(FCurrentButton) then
   begin
@@ -532,13 +579,64 @@ begin
     ToolBar := FCurrentButton.ToolBar;
   end
   else
+  begin
     ToolBar := GetTopToolbar;
+  end;
 
   if Assigned(ToolBar) then
   begin
-    FCurrentButton := ToolBar.InsertButton(FCurrentButton, TKASCommandItem.Create(FFormCommands));
+    with Sender as TComponent do
+    begin
+      case ((tag shr 4) and $0F) of
+        1: ToolItem := TKASSeparatorItem.Create;
+        2: ToolItem := TKASCommandItem.Create(FFormCommands);
+        3: ToolItem := TKASProgramItem.Create;
+        4: ToolItem := TKASMenuItem.Create;
+      end;
+
+      WhereToAdd:=tag and $0F;
+    end;
+
+    IndexWhereToAdd:=0;
+    if (ToolBar.ButtonCount=0) then IndexWhereToAdd:=-1;
+    if (IndexWhereToAdd=0) AND  (WhereToAdd=4) then IndexWhereToAdd:=-1;
+    if (IndexWhereToAdd=0) AND  (WhereToAdd=3) AND (FCurrentButton.Tag=pred(ToolBar.ButtonCount)) then IndexWhereToAdd:=-1;
+    if (IndexWhereToAdd=0) AND  (WhereToAdd=3) then IndexWhereToAdd:=(FCurrentButton.Tag+1);
+    if (IndexWhereToAdd=0) AND  (WhereToAdd=2) then IndexWhereToAdd:=FCurrentButton.Tag;
+
+    if IndexWhereToAdd=-1 then
+    begin
+      //We simply add the button at the end
+      FCurrentButton := ToolBar.AddButton(ToolItem);
+    end
+    else
+    begin
+      //We add the button *after* the current selected button
+      FCurrentButton := ToolBar.InsertButton(IndexWhereToAdd, ToolItem);
+    end;
     PressButtonDown(FCurrentButton);
   end;
+end;
+
+procedure TfrmOptionsToolbar.btnRelativeExternalCommandClick(Sender: TObject);
+begin
+  edtExternalCommand.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(edtExternalCommand,pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure TfrmOptionsToolbar.btnRelativeIconFileNameClick(Sender: TObject);
+begin
+  edtIconFileName.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(edtIconFileName,pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure TfrmOptionsToolbar.btnRelativeStartPathClick(Sender: TObject);
+begin
+  edtStartPath.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(edtStartPath,pfPATH);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
 procedure TfrmOptionsToolbar.btnRemoveHotKeyClick(Sender: TObject);
@@ -670,6 +768,16 @@ begin
       edtIconFileName.Text    := OpenDialog.FileName;
       edtToolTip.Text         := ExtractOnlyFileName(OpenDialog.FileName);
     end;
+end;
+
+procedure TfrmOptionsToolbar.btnStartPathClick(Sender: TObject);
+var
+  MaybeResultingOutputPath:string;
+begin
+  MaybeResultingOutputPath:=edtStartPath.Text;
+  if MaybeResultingOutputPath='' then MaybeResultingOutputPath:=frmMain.ActiveFrame.CurrentPath;
+  if SelectDirectory(rsSelectDir, MaybeResultingOutputPath, MaybeResultingOutputPath, False) then
+    edtStartPath.Text:=MaybeResultingOutputPath;
 end;
 
 procedure TfrmOptionsToolbar.cbInternalCommandSelect(Sender: TObject);

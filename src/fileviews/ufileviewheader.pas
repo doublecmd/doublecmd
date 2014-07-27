@@ -26,6 +26,10 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure AddressLabelClick(Sender: TObject);
     procedure AddressLabelMouseEnter(Sender: TObject);
+    procedure PathLabelDblClick(Sender: TObject);
+    procedure tmViewHistoryMenuTimer(Sender: TObject);
+  protected
+    tmViewHistoryMenu: TTimer;
   public
     constructor Create(AOwner: TFileView; AParent: TWinControl); reintroduce;
 
@@ -140,7 +144,24 @@ begin
     FFileView.SetActiveFile(dirNameToSelect);
   end
   else
-    frmMain.Commands.cm_ViewHistory([]);
+    tmViewHistoryMenu.Enabled:=TRUE; //Let's start timer. If it's a double-click, we'll abort timer otherwise we'll show history as before but 250ms later.
+end;
+
+procedure TFileViewHeader.tmViewHistoryMenuTimer(Sender: TObject);
+begin
+  tmViewHistoryMenu.Enabled:=FALSE;
+  frmMain.Commands.cm_ViewHistory([]);
+end;
+
+{ TFileViewHeader.PathLabelDblClick }
+{ -If we double-click on the the path label, it shows the Hot Dir popup menu at the cursor position.
+  -If we click just once, after the 250ms of the timer, it shows the history.
+  This will make both kind of people happy AND will make DC like TC}
+procedure TFileViewHeader.PathLabelDblClick(Sender: TObject);
+begin
+  tmViewHistoryMenu.Enabled:=FALSE; //Cancel the possibility of a left click
+  FFileView.SetFocus;
+  frmMain.Commands.cm_DirHotList(['MousePos']);
 end;
 
 procedure TFileViewHeader.PathLabelMouseUp(Sender: TObject; Button: TMouseButton;
@@ -150,7 +171,7 @@ begin
     mbMiddle:
       begin
         FFileView.SetFocus;
-        frmMain.Commands.cm_DirHotList([]);
+        frmMain.Commands.cm_DirHotList(['MousePos']);
       end;
 
     mbRight:
@@ -223,10 +244,16 @@ begin
   FPathEdit.OnKeyDown:= @PathEditKeyDown;
 
   FPathLabel.OnClick := @PathLabelClick;
+  FPathLabel.OnDblClick := @PathLabelDblClick;
   FPathLabel.OnMouseUp := @PathLabelMouseUp;
 
   FAddressLabel.OnClick := @AddressLabelClick;
   FAddressLabel.OnMouseEnter:= @AddressLabelMouseEnter;
+  
+  tmViewHistoryMenu := TTimer.Create(Self); //Timer used to show history after a while in case it was not a double click to show Hot dir
+  tmViewHistoryMenu.Enabled  := False;
+  tmViewHistoryMenu.Interval := 250;
+  tmViewHistoryMenu.OnTimer  := @tmViewHistoryMenuTimer;
 end;
 
 procedure TFileViewHeader.HeaderResize(Sender: TObject);

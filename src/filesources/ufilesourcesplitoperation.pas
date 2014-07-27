@@ -33,6 +33,9 @@ type
     FTargetPath: String;
     FVolumeSize: Int64;
     FVolumeNumber: LongInt;
+    FRequireACRC32VerificationFile: boolean;
+    FCurrentCRC32: dword;
+    FAutomaticSplitMode: boolean;
 
   protected
     function GetID: TFileSourceOperationType; override;
@@ -67,6 +70,9 @@ type
 
     property VolumeSize: Int64 read FVolumeSize write FVolumeSize;
     property VolumeNumber: LongInt read FVolumeNumber write FVolumeNumber;
+    property RequireACRC32VerificationFile: boolean read FRequireACRC32VerificationFile write FRequireACRC32VerificationFile;
+    property CurrentCRC32: dword read FCurrentCRC32 write FCurrentCRC32;
+    property AutomaticSplitMode: boolean read FAutomaticSplitMode write FAutomaticSplitMode;
   end;
 
 implementation

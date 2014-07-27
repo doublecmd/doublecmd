@@ -27,7 +27,7 @@ unit fOptionsLog;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, EditBtn, fOptionsFrame;
+  Classes, SysUtils, Controls, StdCtrls, EditBtn, Buttons, Menus, fOptionsFrame;
 
 type
 
@@ -40,13 +40,21 @@ type
     cbLogDirOp: TCheckBox;
     cbLogErrors: TCheckBox;
     cbLogFile: TCheckBox;
+    cbIncludeDateInLogFilename: TCheckBox;
     cbLogInfo: TCheckBox;
     cbLogSuccess: TCheckBox;
     cbLogVFS: TCheckBox;
+    cbLogStartShutdown: TCheckBox;
     fneLogFileName: TFileNameEdit;
     gbLogFile: TGroupBox;
     gbLogFileOp: TGroupBox;
     gbLogFileStatus: TGroupBox;
+    btnRelativeLogFile: TSpeedButton;
+    pmPathHelper: TPopupMenu;
+    btnViewLogFile: TSpeedButton;
+    procedure btnRelativeLogFileClick(Sender: TObject);
+    procedure cbLogFileChange(Sender: TObject);
+    procedure btnViewLogFileClick(Sender: TObject);
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -60,7 +68,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  uGlobs, uLng, uSpecialDir, uShowForm, uDCUtils;
 
 { TfrmOptionsLog }
 
@@ -74,10 +82,44 @@ begin
   Result := rsOptionsEditorLog;
 end;
 
+procedure TfrmOptionsLog.cbLogFileChange(Sender: TObject);
+begin
+  cbIncludeDateInLogFilename.Enabled:=cbLogFile.Checked;
+end;
+
+procedure TfrmOptionsLog.btnViewLogFileClick(Sender: TObject);
+var
+  MyYear,MyMonth,MyDay:word;
+  TempoFilename:string;
+begin
+  TempoFilename:=ReplaceEnvVars(fneLogFileName.FileName);
+
+  if cbIncludeDateInLogFilename.Checked then
+  begin
+    DecodeDate(now,MyYear,MyMonth,MyDay);
+    TempoFilename:=copy(TempoFilename,1,length(TempoFilename)-length(ExtractFileExt(TempoFilename)))+
+                   Format('_%d-%2.2d-%2.2d',[MyYear,MyMonth,MyDay])+
+                   ExtractFileExt(TempoFilename);
+
+  end;
+
+  ShowViewerByGlob(TempoFilename);
+end;
+
+procedure TfrmOptionsLog.btnRelativeLogFileClick(Sender: TObject);
+begin
+  fneLogFileName.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneLogFileName,pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
 procedure TfrmOptionsLog.Load;
 begin
+  cbIncludeDateInLogFilename.Checked := gLogFileWithDateInName;
   cbLogFile.Checked := gLogFile;
+  cbLogFileChange(cbLogFile);
   fneLogFileName.FileName := gLogFileName;
+  cbLogStartShutdown.Checked := (log_start_shutdown in gLogOptions);
   cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
   cbLogDelete.Checked := (log_delete in gLogOptions);
   cbLogDirOp.Checked := (log_dir_op in gLogOptions);
@@ -86,6 +128,7 @@ begin
   cbLogSuccess.Checked := (log_success in gLogOptions);
   cbLogErrors.Checked := (log_errors in gLogOptions);
   cbLogInfo.Checked := (log_info in gLogOptions);
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
 end;
 
 function TfrmOptionsLog.Save: TOptionsEditorSaveFlags;
@@ -93,8 +136,11 @@ begin
   Result := [];
 
   gLogFile := cbLogFile.Checked;
+  gLogFileWithDateInName := cbIncludeDateInLogFilename.Checked;
   gLogFileName := fneLogFileName.FileName;
   gLogOptions := []; // Reset log options
+  if cbLogStartShutdown.Checked then
+    Include(gLogOptions, log_start_shutdown);
   if cbLogCpMvLn.Checked then
     Include(gLogOptions, log_cp_mv_ln);
   if cbLogDelete.Checked then

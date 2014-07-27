@@ -216,6 +216,7 @@ type
 
     function Add(AFile: TFile): Integer;
     procedure Insert(AFile: TFile; AtIndex: Integer);
+    procedure Delete(AtIndex: Integer);
     procedure Clear;
 
     property Count: Integer read GetCount write SetCount;
@@ -805,6 +806,15 @@ end;
 procedure TFiles.Insert(AFile: TFile; AtIndex: Integer);
 begin
   FList.Insert(AtIndex, AFile);
+end;
+
+procedure TFiles.Delete(AtIndex: Integer);
+var
+  p: Pointer;
+begin
+  p := FList.Items[AtIndex];
+  TFile(AtIndex).Free;
+  FList.Delete(AtIndex);
 end;
 
 procedure TFiles.Clear;

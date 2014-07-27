@@ -39,7 +39,10 @@ uses
   uDCVersion,
   uCmdLineParams,
   uDebug,
-  uOSUtils
+  uOSUtils,
+  uspecialdir,
+  fstartingsplash,
+  ulog
   {$IFDEF MSWINDOWS}
   , uMyWindows
   {$ENDIF}
@@ -116,11 +119,17 @@ begin
   DCDebug('(C)opyright 2006-2012 Koblov Alexander (Alexx2000@mail.ru)');
   DCDebug('   and contributors (see about dialog)');
 
-  ProcessCommandLineParams; // before load paths
-  LoadPaths; // before loading config
-
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
+
+  //Let's show the starting slash screen to confirm user application has been started
+  Application.CreateForm(TfrmStartingSplash, frmStartingSplash);
+  frmStartingSplash.Show;
+
+  ProcessCommandLineParams; // before load paths
+  LoadPaths; // before loading config
+  LoadWindowsSpecialDir; // Load the list with special path. *Must* be located AFTER "LoadPaths" and BEFORE "InitGlobs"
+
   if InitGlobs then
     //-- NOTE: before, only IsInstanceAllowed was called, and all the magic on creation
     //         new instance or sending params to the existing server happened inside 
@@ -130,6 +139,8 @@ begin
     InitInstance;
     if IsInstanceAllowed then
      begin
+       if (log_start_shutdown in gLogOptions) then logWrite('Program start ('+GetCurrentUserName+'/'+GetComputerNetName+')');
+
        InitPasswordStore;
        LoadPixMapManager;
        Application.CreateForm(TfrmMain, frmMain); // main form
@@ -150,7 +161,12 @@ begin
        // in Application.CreateForm above.
        uKeyboard.HookKeyboardLayoutChanged;
 
+       //We may now remove the starting splash screen, mot of the application has been started now
+       frmStartingSplash.Close;
+       frmStartingSplash.Release;
+
        Application.Run;
+       if (log_start_shutdown in gLogOptions) then logWrite('Program shutdown ('+GetCurrentUserName+'/'+GetComputerNetName+')');
      end
     else
      begin

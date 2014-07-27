@@ -1,0 +1,79 @@
+object frmhotdirimportexport: Tfrmhotdirimportexport
+  Left = 686
+  Height = 283
+  Top = 295
+  Width = 427
+  Caption = 'Select the entries your want to import'
+  ClientHeight = 283
+  ClientWidth = 427
+  OnCreate = FormCreate
+  OnResize = FormResize
+  Position = poScreenCenter
+  SessionProperties = 'Height;Width;WindowState'
+  LCLVersion = '1.0.14.0'
+  object lsImportedHotDir: TListBox
+    Left = 8
+    Height = 195
+    Top = 40
+    Width = 411
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Right = 12
+    Columns = 4
+    DragMode = dmAutomatic
+    ItemHeight = 0
+    MultiSelect = True
+    ScrollWidth = 263
+    TabOrder = 0
+  end
+  object lblHintHoldControl: TLabel
+    Left = 8
+    Height = 16
+    Top = 24
+    Width = 263
+    Caption = 'Hold CTRL and click entries to select multiple one'
+    ParentColor = False
+  end
+  object lbHint: TLabel
+    Left = 8
+    Height = 16
+    Top = 8
+    Width = 299
+    Caption = 'When clicking a sub-menu, it will select the whole menu'
+    ParentColor = False
+  end
+  object btnSelectAll: TBitBtn
+    Left = 115
+    Height = 30
+    Top = 243
+    Width = 150
+    Anchors = [akRight, akBottom]
+    Caption = 'Import all!'
+    Kind = bkAll
+    ModalResult = 8
+    TabOrder = 1
+  end
+  object btnSelectionDone: TBitBtn
+    Left = 269
+    Height = 30
+    Top = 243
+    Width = 150
+    Anchors = [akRight, akBottom]
+    Caption = 'Import selected'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 2
+  end
+  object btnCancelImportation: TBitBtn
+    Left = 8
+    Height = 30
+    Top = 243
+    Width = 104
+    Anchors = [akRight, akBottom]
+    Cancel = True
+    DefaultCaption = True
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 3
+  end
+end

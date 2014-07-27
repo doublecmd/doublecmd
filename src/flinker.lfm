@@ -12,31 +12,33 @@ object frmLinker: TfrmLinker
   Caption = 'Linker'
   ClientHeight = 337
   ClientWidth = 360
+  OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.2.4.0'
+  SessionProperties = 'Height;Width'
+  LCLVersion = '1.0.14.0'
   object gbSaveTo: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = lstFile
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 92
-    Top = 236
+    Height = 69
+    Top = 259
     Width = 242
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Left = 6
     BorderSpacing.Bottom = 6
     Caption = 'Save to...'
-    ClientHeight = 70
+    ClientHeight = 51
     ClientWidth = 238
     TabOrder = 1
     object lblFileName: TLabel
       AnchorSideLeft.Control = gbSaveTo
       AnchorSideTop.Control = gbSaveTo
       Left = 6
-      Height = 25
+      Height = 16
       Top = 6
-      Width = 75
+      Width = 52
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = '&File name'
@@ -49,8 +51,8 @@ object frmLinker: TfrmLinker
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSave
       Left = 6
-      Height = 33
-      Top = 37
+      Height = 23
+      Top = 28
       Width = 195
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
@@ -65,8 +67,8 @@ object frmLinker: TfrmLinker
       AnchorSideBottom.Control = edSave
       AnchorSideBottom.Side = asrBottom
       Left = 207
-      Height = 33
-      Top = 37
+      Height = 23
+      Top = 28
       Width = 25
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 6
@@ -83,13 +85,13 @@ object frmLinker: TfrmLinker
     AnchorSideBottom.Control = lstFile
     AnchorSideBottom.Side = asrBottom
     Left = 254
-    Height = 230
+    Height = 253
     Top = 0
     Width = 100
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 6
     Caption = 'Item'
-    ClientHeight = 208
+    ClientHeight = 235
     ClientWidth = 96
     TabOrder = 2
     object spbtnUp: TButton
@@ -131,7 +133,7 @@ object frmLinker: TfrmLinker
       ParentShowHint = False
       TabOrder = 1
     end
-    object spbtnDel: TButton
+    object spbtnRem: TButton
       AnchorSideLeft.Control = grbxControl
       AnchorSideTop.Control = spbtnDown
       AnchorSideTop.Side = asrBottom
@@ -147,8 +149,8 @@ object frmLinker: TfrmLinker
       BorderSpacing.Top = 6
       BorderSpacing.Right = 4
       BorderSpacing.InnerBorder = 4
-      Caption = '&Delete'
-      OnClick = spbtnDelClick
+      Caption = '&Remove'
+      OnClick = spbtnRemClick
       ParentShowHint = False
       TabOrder = 2
     end
@@ -193,7 +195,7 @@ object frmLinker: TfrmLinker
     AnchorSideRight.Control = grbxControl
     AnchorSideBottom.Control = gbSaveTo
     Left = 6
-    Height = 222
+    Height = 245
     Top = 8
     Width = 242
     Anchors = [akTop, akLeft, akRight, akBottom]

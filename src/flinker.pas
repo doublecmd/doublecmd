@@ -17,14 +17,13 @@ unit fLinker;
 interface
 
 uses
+  //Lazarus, Free-Pascal, etc.
   SysUtils, Classes, Forms, Dialogs, StdCtrls,
-  uFileSource,
-  uFile;
+  //DC
+  uFileSource, uFile;
 
 type
-
   { TfrmLinker }
-
   TfrmLinker = class(TForm)
     lblFileName: TLabel;
     lstFile: TListBox;
@@ -36,28 +35,39 @@ type
     btnExit: TButton;
     spbtnUp: TButton;
     spbtnDown: TButton;
-    spbtnDel: TButton;
+    spbtnRem: TButton;
     dlgSaveAll: TSaveDialog;
     procedure spbtnUpClick(Sender: TObject);
     procedure spbtnDownClick(Sender: TObject);
-    procedure spbtnDelClick(Sender: TObject);
+    procedure spbtnRemClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
   end;
 
+{ ShowLinkerFilesForm:
+  "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
 function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: UTF8String): Boolean;
+
+{ DoDynamicFilesLinking:
+  "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
+procedure DoDynamicFilesLinking(aFileSource: IFileSource; aFiles: TFiles; TargetPath, aFirstFilenameOfSeries: UTF8String);
 
 implementation
 
 {$R *.lfm}
 
 uses
-  LCLProc, Controls, uFileProcs, uOperationsManager,
-  uFileSourceCombineOperation;
+  //Lazarus, Free-Pascal, etc.
+  LCLProc, Controls,
+  //DC
+  uFileProcs, uOperationsManager, uFileSourceCombineOperation, uGlobs;
 
+{ ShowLinkerFilesForm:
+  "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
 function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: UTF8String): Boolean;
 var
   I: Integer;
@@ -68,11 +78,14 @@ begin
   begin
     try
       // Fill file list box
+      lstFile.Sorted:=TRUE;
       for I:= 0 to aFiles.Count - 1 do
       with lstFile.Items do
       begin
         AddObject(aFiles[I].Name, aFiles[I]);
       end;
+      lstFile.Sorted:=FALSE;
+
       // Use first file name without extension as target file name
       edSave.Text:= TargetPath + aFiles[0].NameNoExt;
 
@@ -102,6 +115,26 @@ begin
   end;
 end;
 
+{ DoDynamicFilesLinking:
+  "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
+procedure DoDynamicFilesLinking(aFileSource: IFileSource; aFiles: TFiles; TargetPath, aFirstFilenameOfSeries: UTF8String);
+var
+  xFiles: TFiles = nil;
+  Operation: TFileSourceCombineOperation = nil;
+begin
+  xFiles:= TFiles.Create(aFiles.Path);
+  try
+    //Fill file list with new file order
+    xFiles.Add(aFiles[0].Clone);
+    Operation:= aFileSource.CreateCombineOperation(xFiles, TargetPath + aFiles[0].NameNoExt) as TFileSourceCombineOperation;
+    Operation.RequireDynamicMode:=TRUE;
+    OperationsManager.AddOperation(Operation);
+  finally
+    FreeThenNil(xFiles);
+  end;
+end;
+
+{ TfrmLinker.spbtnDownClick }
 procedure TfrmLinker.spbtnDownClick(Sender: TObject);
 var
   iSelected: Integer;
@@ -116,6 +149,7 @@ begin
   end;
 end;
 
+{ TfrmLinker.spbtnUpClick }
 procedure TfrmLinker.spbtnUpClick(Sender: TObject);
 var
   iSelected: Integer;
@@ -129,22 +163,27 @@ begin
   end;
 end;
 
-procedure TfrmLinker.spbtnDelClick(Sender: TObject);
+{ TfrmLinker.spbtnRemClick }
+procedure TfrmLinker.spbtnRemClick(Sender: TObject);
 begin
   with lstFile do
   begin
-    if ItemIndex > -1 then
-      Items.Delete(ItemIndex);
+    if ItemIndex > -1 then Items.Delete(ItemIndex);
   end;
 end;
 
+{ TfrmLinker.btnSaveClick }
 procedure TfrmLinker.btnSaveClick(Sender: TObject);
 begin
   dlgSaveAll.InitialDir:= ExtractFileDir(edSave.Text);
   dlgSaveAll.FileName:= ExtractFileName(edSave.Text);
+  if dlgSaveAll.Execute then edSave.Text:= dlgSaveAll.FileName;
+end;
 
-  if dlgSaveAll.Execute then
-    edSave.Text:= dlgSaveAll.FileName;
+{TfrmLinker.FormCreate }
+procedure TfrmLinker.FormCreate(Sender: TObject);
+begin
+  InitPropStorage(Self); // Initialize property storage
 end;
 
 end.

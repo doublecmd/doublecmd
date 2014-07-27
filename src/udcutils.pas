@@ -46,8 +46,18 @@ const
   NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', #10];
   DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
 {$ENDIF}
-  EnvVarCommanderPath = '%commander_path%';
-  EnvVarConfigPath    = '%dc_config_path%';
+
+{$IFDEF MSWINDOWS}
+VARDELIMITER='%';
+{$ENDIF}
+
+{$IFDEF UNIX }
+VARDELIMITER='$';
+{$ENDIF}
+
+EnvVarCommanderPath = '%commander_path%';
+EnvVarConfigPath    = '%dc_config_path%';
+EnvVarTodaysDate    = VARDELIMITER+'dc_todaysdate'+VARDELIMITER;
 
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
@@ -229,7 +239,10 @@ implementation
 
 uses
   LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
-  DCStrUtils, DCOSUtils;
+  DCStrUtils, DCOSUtils, uSpecialDir;
+
+var
+  dtLastDateSubstitutionCheck:TDateTime=0;
 
 function GetCmdDirFromEnvVar(const sPath: String): String;
 begin
@@ -245,26 +258,78 @@ begin
   Result := StringReplace(Result, ExcludeTrailingPathDelimiter(gpCfgDir), EnvVarConfigPath, []);
 end;
 
-
 function ReplaceEnvVars(const sText: String): String;
 var
-  I, X,
-  EqualPos: Integer;
-  EnvVar, EnvName,
-  EnvValue: String;
+  I, X, EqualPos: Integer;
+  EnvVar, EnvName, EnvValue: String;
+  MyYear, MyMonth, MyDay:word;
 begin
   Result:= sText;
 
+  //1st, if we have an empty string, get out of here, quick
+  if sText = EmptyStr then Exit;
+
+  //2nd, if we don't have the variable indication (% in windows for example), get out of here here, quick
   {$IFDEF UNIX}
-  if pos('$',sText)=0 then Exit; //If there is no '$' in the name, no need to see if there is something to be replaced...
+  if pos('$',sText)=0 then Exit;
   {$ELSE}
-  if pos('%',sText)=0 then Exit; //If there is no '?' in the name, no need to see if there is something to be replaced...
+  if pos('%',sText)=0 then Exit;
   {$ENDIF}
 
-  if sText = EmptyStr then Exit;
+  //3rd, let's check if date changed since last time we updated our dc_todaysdate variable
+  if dtLastDateSubstitutionCheck<>Trunc(now) then
+    begin
+      //Date changed! Let's find where variable is and update it.
+      //Don't worry for time consumed: this is done only once per day!
+      I:=0;
+      while (I<gSpecialDirList.Count) do
+      begin
+        if gSpecialDirList.SpecialDir[I].VariableName=ENVVARTODAYSDATE then
+        begin
+          //Variable name found! Let's assign the new date to path value
+          DecodeDate(now,MyYear,MyMonth,MyDay);
+          gSpecialDirList.SpecialDir[I].PathValue:=Format('%d-%2.2d-%2.2d',[MyYear,MyMonth,MyDay]);
+          I:=gSpecialDirList.Count; //To make sure we will end the search loop
+        end;
+        inc(I);
+      end;
+      dtLastDateSubstitutionCheck:=Trunc(now); //So we won't re-check this while we're under the same day
+    end;
+
+  //4th, let's check the "easy" substitution, there one related with Double Commander
+  Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfReplaceAll, rfIgnoreCase]);
+
+  //5th, let's roll through the possible variable. We did that with a "while" instead of a constant "for-loop" to get out quickly as soon as we solved the variables
+  I:=0;
+  {$IFDEF UNIX}
+  while (I<gSpecialDirList.Count) AND (pos('$',sText)<>0) do
+  {$ELSE}
+  while (I<gSpecialDirList.Count) AND (pos('%',sText)<>0) do
+  {$ENDIF}
+  begin
+    if pos(gSpecialDirList.SpecialDir[I].VariableName,Result)<>0 then Result := StringReplace(Result, gSpecialDirList.SpecialDir[I].VariableName, ExcludeTrailingPathDelimiter(gSpecialDirList.SpecialDir[I].PathValue), [rfReplaceAll, rfIgnoreCase]);
+    inc(I);
+  end;
+
+  //6th, if we don't have variable indication anymore, (% in windows for example), get out of here here, quick
+  {$IFDEF UNIX}
+  if pos('$',sText)=0 then Exit;
+  {$ELSE}
+  if pos('%',sText)=0 then Exit;
+  {$ENDIF}
+
+  //7th, if still we have variable there, let's scan through the environment variable.
+  //     We got them in the "gSpecialDirList" but just in case some others were added on-the-fly
+  //     between the moment the application started and the moment we might needed them
   X:= GetEnvironmentVariableCount;
-  if X = 0 then Exit;
-  for I:= 1 to X do
+  if X = 0 then Exit; //In the ridiculous possible situation where there is ZERO environment variable...
+  I:=1;
+  {$IFDEF UNIX}
+  while (I<=X) AND (pos('$',sText)<>0) do
+  {$ELSE}
+  while (I<=X) AND (pos('%',sText)<>0) do
+  {$ENDIF}
   begin
     EnvVar:= mbGetEnvironmentString(I);
     EqualPos:= PosEx('=', EnvVar, 2);
@@ -276,10 +341,8 @@ begin
     {$ELSE}
     Result:= StringReplace(Result, '%' + EnvName + '%', EnvValue, [rfReplaceAll, rfIgnoreCase]);
     {$ENDIF}
+    inc(I);
   end;
-
-  Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfReplaceAll, rfIgnoreCase]);
 end;
 
 function ReplaceTilde(const Path: String): String;

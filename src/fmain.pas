@@ -93,6 +93,7 @@ type
     actChangeDirToHome: TAction;
     actCopyFileDetailsToClip: TAction;
     actFlatView: TAction;
+    actConfigDirHotList: TAction;
     actLoadTabs: TAction;
     actSaveTabs: TAction;
     actSyncDirs: TAction;
@@ -169,6 +170,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuCmdConfigDirHotlist: TMenuItem;
     mnuLoadTabs: TMenuItem;
     mnuSaveTabs: TMenuItem;
     miLine38: TMenuItem;
@@ -613,6 +615,7 @@ type
     procedure ViewHistoryPrevSelected(Sender:TObject);
     procedure ViewHistoryNextSelected(Sender:TObject);
     procedure CreatePopUpDirHistory;
+    procedure ShowHotDirConfig(ActionDispatcher:longint);
     procedure ShowFileViewHistory;
     procedure ShowFileViewHistory(FromFileSourceIndex, FromPathIndex,
                                   ToFileSourceIndex, ToPathIndex: Integer);
@@ -718,7 +721,7 @@ uses
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
   XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar,
-  uhotdir
+  uHotDir, uFileSorting, DCBasicTypes
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ENDIF}
@@ -960,7 +963,7 @@ Var P:TPoint;
 begin
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(fpLeft);
-  gHotDirList.CreatePopUpHotDir(pmHotList,POPUPMENU_WITHADDANDCONFIG,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath); // TODO: i thing in future this must call on create or change
+  gHotDirList.PopulateMenuWithHotDir(pmHotList,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
   p := Classes.Point(btnLeftDirectoryHotlist.Left,btnLeftDirectoryHotlist.Height);
   p := pnlLeftTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
@@ -976,7 +979,7 @@ Var P:TPoint;
 begin
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(fpRight);
-  gHotDirList.CreatePopUpHotDir(pmHotList,POPUPMENU_WITHADDANDCONFIG,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath); // TODO: i thing in future this must call on create or change
+  gHotDirList.PopulateMenuWithHotDir(pmHotList,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
@@ -2378,20 +2381,21 @@ begin
 end;
 
 procedure TfrmMain.miHotAddOrConfigClick(Sender: TObject);
-var
-  ActionDispatcher:longint;
 begin
-  with Sender as TComponent do ActionDispatcher:=tag;
+with Sender as TComponent do ShowHotDirConfig(tag);
+end;
 
-  with TfrmHotDir.Create(Application) do
-  begin
-    try
-      SubmitToAddOrConfigToHotDirDlg(ActionDispatcher,ActiveFrame.CurrentPath,NotActiveFrame.CurrentPath);
-      if ShowModal=mrAll then HotDirActualSwitchToDir(lsHotDir.ItemIndex);
-    finally
-      Free;
-    end;
+procedure TfrmMain.ShowHotDirConfig(ActionDispatcher:longint);
+begin
+with TfrmHotDir.Create(Application) do
+begin
+  try
+    SubmitToAddOrConfigToHotDirDlg(ActionDispatcher,IncludeTrailingPathDelimiter(ActiveFrame.CurrentPath),IncludeTrailingPathDelimiter(NotActiveFrame.CurrentPath));
+    if ShowModal=mrAll then HotDirActualSwitchToDir(lsHotDir.ItemIndex);
+  finally
+    Free;
   end;
+end;
 end;
 
 procedure TfrmMain.CreatePopUpDirHistory;
@@ -2601,7 +2605,8 @@ begin
     pmDirHistory.Items.Add(mi);
   end;
 
-  p := ActiveFrame.ClientToScreen(Classes.Point(0,0));
+  //Let's show the popup right where is the current cursor instead of being on top left like previous version
+  p:=Mouse.CursorPos;
   pmDirHistory.Popup(p.X, p.Y);
 end;
 
@@ -2609,26 +2614,85 @@ procedure TfrmMain.HotDirActualSwitchToDir(Index:longint);
 var
   aPath: String;
   isCTRLDown: boolean;
+  PossibleCommande,PossibleParam: string;
+  PosFirstSpace: integer;
 begin
-  // This handler is used by HotDir.
-  // Hot dirs are only supported by filesystem.
-  isCTRLDown:=((GetKeyState(VK_CONTROL) AND $80) <> 0); //Will check later is CTRL key was pressed, but let's put state in memory ASAP
+  // This handler is used by HotDir AND SpecialDir.
+  // HotDirs AND SpecialDirs are only supported by filesystem.
 
-  aPath := gHotDirList.HotDir[Index].HotDirPath;
-  if aPath<>'' then
+  // If the index is larger or equal to "TAGOFFSET_FORCHANGETOSPECIALDIR", it means it's a "SpecialDir" and we'll change accordingly
+  if Index < TAGOFFSET_FORCHANGETOSPECIALDIR then
     begin
-      aPath := mbExpandFileName(aPath);
-      ChooseFileSource(ActiveFrame, aPath);
-
-      if (not isCTRLDown) then //We don't change target folder if CTRL key is pressed
-      begin
-        aPath := gHotDirList.HotDir[Index].HotDirTarget;
-        if aPath<>'' then
+      case gHotDirList.HotDir[Index].Dispatcher of
+        hd_CHANGEPATH:
           begin
-            aPath := mbExpandFileName(aPath);
-            ChooseFileSource(NotActiveFrame, aPath);
+            isCTRLDown:=((GetKeyState(VK_CONTROL) AND $80) <> 0); //Will check later is CTRL key was pressed, but let's put state in memory ASAP
+
+            aPath := gHotDirList.HotDir[Index].HotDirPath;
+            if aPath<>'' then
+              begin
+                case gHotDirList.HotDir[Index].HotDirPathSort of
+                  1: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Name','Ascending']); //Name, a-z
+                  2: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Name','Descending']); //Name, z-a
+                  3: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Extension','Ascending']); //Ext, a-z
+                  4: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Extension','Descending']); //Ext, z-a
+                  5: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Size','Descending']); //Size 9-0
+                  6: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Size','Ascending']); //Size 0-9
+                  7: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','ModificationTime','Descending']); //Date 9-0
+                  8: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','ModificationTime','Ascending']); //Date 0-9
+                end;
+
+                aPath := mbExpandFileName(aPath);
+                ChooseFileSource(ActiveFrame, aPath);
+
+                if (not isCTRLDown) then //We don't change target folder if CTRL key is pressed
+                begin
+                  aPath := gHotDirList.HotDir[Index].HotDirTarget;
+                  if aPath<>'' then
+                    begin
+                      case gHotDirList.HotDir[Index].HotDirTargetSort of
+                        1: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Name','Ascending']); //Name, a-z
+                        2: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Name','Descending']); //Name, z-a
+                        3: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Extension','Ascending']); //Ext, a-z
+                        4: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Extension','Descending']); //Ext, z-a
+                        5: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Size','Descending']); //Size 9-0
+                        6: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Size','Ascending']); //Size 0-9
+                        7: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','ModificationTime','Descending']); //Date 9-0
+                        8: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','ModificationTime','Ascending']); //Date 0-9
+                      end;
+
+                      aPath := mbExpandFileName(aPath);
+                      ChooseFileSource(NotActiveFrame, aPath);
+                    end;
+                end;
+              end;
+          end; //hd_CHANGEPATH:
+
+        hd_COMMAND:
+          begin
+            PosFirstSpace:=pos(' ',gHotDirList.HotDir[Index].HotDirPath);
+
+            if PosFirstSpace=0 then
+              begin
+                PossibleCommande:=gHotDirList.HotDir[Index].HotDirPath;
+                PossibleParam:='';
+              end
+            else
+              begin
+                PossibleCommande:=leftstr(gHotDirList.HotDir[Index].HotDirPath,(PosFirstSpace-1));
+                PossibleParam:=rightstr(gHotDirList.HotDir[Index].HotDirPath,length(gHotDirList.HotDir[Index].HotDirPath)-PosFirstSpace);
+              end;
+
+              Commands.Commands.ExecuteCommand(PossibleCommande, SplitString(PossibleParam,' '));
           end;
-      end;
+      end; //case gHotDirList.HotDir[Index].Dispatcher of
+    end
+  else
+    begin
+      //So it's a SpecialDir...
+      Index:=Index-TAGOFFSET_FORCHANGETOSPECIALDIR;
+      aPath := mbExpandFileName((gSpecialDirList.SpecialDir[Index].PathValue));
+      ChooseFileSource(ActiveFrame, aPath);
     end;
 end;
 
