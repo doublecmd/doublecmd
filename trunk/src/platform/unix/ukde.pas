@@ -15,7 +15,7 @@ var
 implementation
 
 uses
-  uDCUtils, uGlobs, uGlobsPaths;
+  uDCUtils, uGlobs, uGlobsPaths, uOSUtils;
 
 var
   PythonScript: UTF8String = 'scripts/doublecmd-kde.py';
@@ -28,7 +28,7 @@ begin
   Args := ' openwith';
   for I := 0 to FileList.Count - 1 do
     Args+= ' ' + QuoteStr(FileList[I]);
-  Result:= (fpSystemStatus(PythonScript + Args) = 0);
+  Result:= ExecCmdFork(PythonScript + Args);
 end;
 
 procedure Initialize;
