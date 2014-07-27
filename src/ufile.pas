@@ -813,7 +813,7 @@ var
   p: Pointer;
 begin
   p := FList.Items[AtIndex];
-  TFile(AtIndex).Free;
+  TFile(p).Free;
   FList.Delete(AtIndex);
 end;
 
