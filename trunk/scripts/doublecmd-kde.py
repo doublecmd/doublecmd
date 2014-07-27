@@ -24,7 +24,8 @@
 
 import sys
 from PyKDE4.kdeui import KApplication
-from PyKDE4.kdecore import ki18n, KAboutData, KCmdLineArgs, KUrl, KCmdLineOptions, KService
+from PyKDE4.kdecore import KService, KLocale, KGlobal
+from PyKDE4.kdecore import ki18n, KAboutData, KCmdLineArgs, KUrl, KCmdLineOptions
 from PyKDE4.kio import  KFileItem, KFileItemList, KPropertiesDialog, KRun, KOpenWithDialog
 
 # Show help message
@@ -43,6 +44,9 @@ def CheckArguments(argc):
   
 #--------------- main ------------------
 if __name__ == '__main__':
+
+    locale = KLocale("kio4")
+    KGlobal.setLocale(locale)
 
     appName     = "doublecmd-kde"
     catalog     = ""

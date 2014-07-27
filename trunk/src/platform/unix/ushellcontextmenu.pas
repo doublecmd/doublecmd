@@ -65,7 +65,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF DEFINED(LINUX)}
-  , uMimeActions, fOpenWith
+  , uMimeActions, uOSForms
   {$ENDIF}
   {$IF DEFINED(RabbitVCS)}
   , uRabbitVCS
@@ -244,7 +244,7 @@ begin
   FileNames := TStringList.Create;
   for I := 0 to FFiles.Count - 1 do
     FileNames.Add(FFiles[I].FullPath);
-  ShowOpenWithDlg(FileNames);
+  ShowOpenWithDialog(FileNames);
 {$ENDIF}
 end;
 
