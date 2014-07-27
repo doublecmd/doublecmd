@@ -510,6 +510,7 @@ begin
   try
     DCDebug('Get File List');
 
+    FOutputParser.Password:= FPassword;
     FOutputParser.Prepare;
     FOutputParser.Execute;
     FPassword:= FOutputParser.Password;
