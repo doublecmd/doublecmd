@@ -92,10 +92,6 @@ resourcestring
   rsMsgInvalidPathLong = 'Path %s contains forbidden characters.';
   rsMsgSelectOnlyCheckSumFiles = 'Please select only check sum files!';
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
-  rsMsgTitleNewEntryHotDir = 'New title for menu entry:';
-  rsMsgManualAddHotDir = 'Manually add hot path';
-  rsMsgManualEditHotDir = 'Manualy edit hot path';
-  rsMsgManualHotDirQuery = 'Enter name and path (format name=path):';
   rsMsgVolumeSizeEnter = 'Please enter the volume size:';
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
   rsMsgMasterPassword = 'Master Password';
@@ -134,6 +130,66 @@ resourcestring
   rsMsgErrorInContextMenuCommand = 'Error in context menu command';
   rsMsgErrorLoadingConfiguration = 'Error when loading configuration';
   rsMsgInvalidFormatOfConfigurationFile = 'Invalid format of configuration file';
+
+  //Hot Dir related
+  rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu? Answering NO will delete only menu delimiters but will keep element inside sub-menu.';
+  rsMsgHotDirAddThisDirectory = 'Add dir: ';
+  rsMsgHotDirConfigHotlist = 'Configuration of directory hotlist';
+  rsMsgHotDirDeleteAllEntries = 'Are you sure you want to remove all entries of your Directory Hotlist? (There is no "undo" to this action!)';
+  rsMsgHotDirName = 'Hotdir name';
+  rsMsgHotDirPath = 'Hotdir path';
+  rsMsgHotDirJustPath = 'Path';
+  rsMsgHotDirTarget = 'Hotdir target';
+  rsMsgHotDirSubMenuName = 'Submenu name';
+  rsMsgHotDirModifiedWantToSave = 'Directory hotlist has been modified. Do you want to save before to exit?';
+  rsMsgHotDirSimpleName = 'Name:';
+  rsMsgHotDirSimpleSeparator = '(separator)';
+  rsMsgHotDirSimpleMenu = 'Menu name:';
+  rsMsgHotDirSimpleEndOfMenu = '(end of sub menu)';
+  rsMsgHotDirSimpleCommand = 'Command:';
+  rsMsgHotDirCommandName = 'Do command';
+  rsMsgHotDirCommandSample = 'cm_somthing';
+  rsMsgHotDirDemoName = 'This is hot dir named ';
+  rsMsgHotDirDemoPath = 'This will change active frame to the following path:';
+  rsMsgHotDirDemoCommand = 'This will execute the following command:';
+  rsMsgHotDirDemoTarget = 'And inactive frame would change to the following path:';
+  rsMsgHotDirLocateTC = 'Locate TC "wincmd.ini" file';
+  rsMsgHotDirLocateDC = 'Locate DC "doublecmd.xml" file';
+  rsMsgHotDirLocatePreviousSave = 'Select location and filename of previously saved directory hotlist file';
+  rsMsgHotDirWhereToSave = 'Enter location and filename where to save a directory hotlist file';
+  rsMsgHotDirImportall = 'Import all!';
+  rsMsgHotDirImportSel = 'Import selected';
+  rsMsgHotDirImportHotlist = 'Import Directory Hotlist - Select the entries you want to import';
+  rsMsgHotDirExportall = 'Export all!';
+  rsMsgHotDirExportSel = 'Export selected';
+  rsMsgHotDirExportHotlist = 'Export Directory Hotlist - Select the entries you want to export';
+  rsMsgHotDirNbNewEntries = 'Number of new entries: ';
+  rsMsgHotDirTotalExported = 'Total entries exported: ';
+  rsMsgHotDirErrorExporting = 'Error exporting entries...';
+  rsMsgHotDirNothingToExport = 'Nothing selected to export!';
+  rsMsgHotDirTipSpecialDirBut = 'Some functions to select appropriate path relative, absolute, windows special folders, etc.';
+  rsMsgHotDirTipOrderPath = 'Determine if you want the active frame to be sorted in a specified order after changing directory';
+  rsMsgHotDirTipOrderTarget = 'Determine if you want the not active frame to be sorted in a specified order after changing directory';
+
+  //Special dir related
+  rsMsgSpecialDirUseDC = 'Use Double Commander special path...';
+  rsMsgSpecialDirUseTC = 'Use Windows special folder (TC)...';
+  rsMsgSpecialDirUseOther = 'Use other Windows special folder...';
+  rsMsgSpecialDirEnvVar = 'Use environment variable...';
+  rsMsgSpecialDirMkDCRel = 'Make relative to Double Commander special path...';
+  rsMsgSpecialDirMkTCTel = 'Make relative to Windows special folder (TC)...';
+  rsMsgSpecialDirMkWnRel = 'Make relative to other Windows special folder...';
+  rsMsgSpecialDirMkEnvRel = 'Make relative to environment variable...';
+  rsMsgSpecialDirMkAbso = 'Make path absolute';
+  rsMsgSpecialDirAddActi = 'Add path from active frame';
+  rsMsgSpecialDirAddNonActi = 'Add path from inactive frame';
+  rsMsgSpecialDirBrowsSel = 'Browse and use selected path';
+
+  rsMsgSpecialDir = 'Special Dirs';
+  rsMsgSpecialDirGotoDC = 'Go to Double Commander special path...';
+  rsMsgSpecialDirGotoTC = 'Go to Windows special folder (TC)...';
+  rsMsgSpecialDirGotoOther = 'Go to other Windows special folder...';
+  rsMsgSpecialDirGotoEnvVar = 'Go to environment variable...';
 
   // for context menu
   rsMnuActions = 'Actions';
@@ -205,10 +261,12 @@ resourcestring
   rsMsgLogCopy = 'Copy file %s';
   rsMsgLogMove = 'Move file %s';
   rsMsgLogDelete = 'Delete file %s';
+  rsMsgLogWipe = 'Wipe file %s';
   rsMsgLogLink = 'Create link %s';
   rsMsgLogSymLink = 'Create symlink %s';
   rsMsgLogMkDir = 'Create directory %s';
   rsMsgLogRmDir = 'Remove directory %s';
+  rsMsgLogWipeDir = 'Wipe directory %s';
   rsMsgLogPack = 'Pack to file %s';
   rsMsgLogExtract = 'Extract file %s';
   rsMsgLogTest = 'Test file integrity %s';
@@ -562,6 +620,14 @@ resourcestring
   rsOperWipingIn = 'Wiping in "%s"';
   rsOperWipingSomething = 'Wiping "%s"';
   rsOperWorking = 'Working'; // Generic description for unknown operation
+
+  //Split/Combine operation special message
+  rsMsgBadCRC32 = 'Bad CRC32 for resulting file:'+#$0A+'"%s"'+#$0A+#$0A+'Do you want to keep the resulting corrupted file anyway?';
+  rsMsgProvideThisFile = 'Please, make this file available. Retry?';
+  rsMsgIncorrectFilelength = 'Incorrect resulting filelength for file : "%s"';
+  rsMSgUndeterminedNumberOfFile = 'Undetermined';
+  rsMsgInsertNextDisk = 'Please insert next disk or something similar.'+#$0A+#$0A+'It is to allow writing this file:'+#$0A+'"%s"'+#$0A+''+#$0A+'Number of bytes still to write: %d';
+  msgTryToLocateCRCFile = 'This file cannot be found and could help to validate final combination of files:'+#$0A+'%s'+#$0A+#$0A+'Could you make it available and press "OK" when ready,'+#$0A+'or press "CANCEL" to continue without it?';
 
   // Unhandled error.
   rsUnhandledExceptionMessage =

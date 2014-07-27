@@ -19,11 +19,10 @@ type
   TFileSystemSplitOperation = class(TFileSourceSplitOperation)
   private
     FStatistics: TFileSourceSplitOperationStatistics; // local copy of statistics
-    FTargetFile: UTF8String;
+    FTargetpath: UTF8String;
     FBuffer: Pointer;
     FBufferSize: LongWord;
     FCheckFreeSpace: Boolean;
-
   protected
     function Split(aSourceFileStream: TFileStreamEx; TargetFile: UTF8String): Boolean;
     procedure ShowError(sMessage: String);
@@ -44,14 +43,14 @@ type
 implementation
 
 uses
-  uOSUtils, DCOSUtils, uLng, LCLProc;
+  LCLProc, crc, uOSUtils, DCOSUtils, uLng;
 
 constructor TFileSystemSplitOperation.Create(aFileSource: IFileSource;
                                                var aSourceFile: TFile;
                                                aTargetPath: String);
 begin
   FCheckFreeSpace := True;
-  FTargetFile := IncludeTrailingPathDelimiter(aTargetPath) + aSourceFile.Name;
+  FTargetpath := IncludeTrailingPathDelimiter(aTargetPath);
   FBufferSize := gCopyBlockSize;
   GetMem(FBuffer, FBufferSize);
 
@@ -87,17 +86,23 @@ var
   iExt, CurrentFileIndex: Integer;
   iTotalDiskSize, iFreeDiskSize: Int64;
   SourceFileStream: TFileStreamEx = nil;
-  TargetFile: UTF8String;
+  TargetFilename: UTF8String;
+  SummaryFile:textfile;
+  SummaryFilename:UTF8String;
+  respAutomaticSwapDisk: TFileSourceOperationUIResponse;
 begin
   try
-    { Check disk free space }
-    if FCheckFreeSpace = True then
+    if not AutomaticSplitMode then
     begin
-      GetDiskFreeSpace(TargetPath, iFreeDiskSize, iTotalDiskSize);
-      if FStatistics.TotalBytes > iFreeDiskSize then
+      { Check disk free space }
+      if FCheckFreeSpace = True then
       begin
-        AskQuestion('', rsMsgNoFreeSpaceCont, [fsourAbort], fsourAbort, fsourAbort);
-        RaiseAbortOperation;
+        GetDiskFreeSpace(TargetPath, iFreeDiskSize, iTotalDiskSize);
+        if FStatistics.TotalBytes > iFreeDiskSize then
+        begin
+          AskQuestion('', rsMsgNoFreeSpaceCont, [fsourAbort], fsourAbort, fsourAbort);
+          RaiseAbortOperation;
+        end;
       end;
     end;
 
@@ -105,31 +110,56 @@ begin
     SourceFileStream := TFileStreamEx.Create(SourceFile.FullPath, fmOpenRead or fmShareDenyNone);
     try
       // Calculate extension length
-      iExt:= 2; // Minimum length 3 symbols
-      CurrentFileIndex:= FStatistics.TotalFiles;
-      while CurrentFileIndex >= 1 do
+      iExt:= 3; // Minimum length 3 symbols
+      if not AutomaticSplitMode then
       begin
-        CurrentFileIndex:= CurrentFileIndex div 1000;
-        Inc(iExt);
+        CurrentFileIndex:= (FStatistics.TotalFiles div 1000);
+        while CurrentFileIndex >= 1 do
+        begin
+          CurrentFileIndex:= CurrentFileIndex div 10;
+          Inc(iExt);
+        end;
       end;
 
-      for CurrentFileIndex := 1 to FStatistics.TotalFiles do
+      //For-loop has been replaced by a while if for any reason the number of files has been miscomputed, it won't create hundreds of file of 0 byte long!
+      CurrentFileIndex:=1;
+      while ((CurrentFileIndex<=FStatistics.TotalFiles) OR AutomaticSplitMode) AND (FStatistics.TotalBytes>FStatistics.DoneBytes) do
       begin
-        TargetFile:= FTargetFile + ExtensionSeparator + Format('%.*d',[iExt, CurrentFileIndex]);
+        //Determine what will be the next filename to the output file
+        if RequireACRC32VerificationFile then
+          TargetFilename:= FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + Format('%.*d',[iExt, CurrentFileIndex]) //like TC
+        else
+          TargetFilename:= FTargetpath + SourceFile.Name + ExtensionSeparator + Format('%.*d',[iExt, CurrentFileIndex]); //like DC originally
+
+        if AutomaticSplitMode then
+        begin
+          repeat
+            GetDiskFreeSpace(TargetPath, iFreeDiskSize, iTotalDiskSize);
+            VolumeSize:=iFreeDiskSize-(64*1024); //Let's keep a possible 64KB free of space on target even after copy
+            if VolumeSize<(64*1024) then
+            begin
+              respAutomaticSwapDisk:=AskQuestion('',Format(rsMsgInsertNextDisk,[TargetFilename,(FStatistics.TotalBytes-FStatistics.DoneBytes)]),[fsourOk,fsourAbort],fsourOk,fsourAbort);
+              if respAutomaticSwapDisk = fsourAbort then RaiseAbortOperation;
+              if respAutomaticSwapDisk = fsourOk then VolumeSize:=1*1024*1024; //~~~Debug
+            end;
+          until (VolumeSize >= (64*1024));
+          FStatistics.TotalFiles:=FStatistics.TotalFiles+1;
+        end;
+
 
         with FStatistics do
         begin
           // Last file can be smaller then volume size
           if (TotalBytes - DoneBytes) < VolumeSize then
             VolumeSize:= TotalBytes - DoneBytes;
-          CurrentFileTo := TargetFile;
+          CurrentFileTo := TargetFilename;
           CurrentFileTotalBytes := VolumeSize;
           CurrentFileDoneBytes := 0;
         end;
         UpdateStatistics(FStatistics);
 
         // Split with current file
-        if not Split(SourceFileStream, TargetFile) then Break;
+        if not Split(SourceFileStream, TargetFilename) then Break;
 
         with FStatistics do
         begin
@@ -138,19 +168,42 @@ begin
         end;
 
         CheckOperationState;
+        inc(CurrentFileIndex);
       end;
     finally
       if Assigned(SourceFileStream) then
+      begin
+        FreeAndNil(SourceFileStream);
+        if (FStatistics.DoneBytes <> FStatistics.TotalBytes) then
         begin
-          FreeAndNil(SourceFileStream);
-          if (FStatistics.DoneBytes <> FStatistics.TotalBytes) then
-            begin
-              for CurrentFileIndex := 1 to FStatistics.TotalFiles do
-                // There was some error, because not all files has been created.
-                // Delete the not completed target files.
-                mbDeleteFile(FTargetFile + ExtensionSeparator + Format('%.*d',[iExt, CurrentFileIndex]));
+          for CurrentFileIndex := 1 to FStatistics.TotalFiles do
+            // There was some error, because not all files has been created.
+            // Delete the not completed target files.
+            mbDeleteFile(FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + Format('%.*d',[iExt, CurrentFileIndex]));
+        end
+        else
+        begin
+          //If requested, let's create the CRC32 verification file
+          if RequireACRC32VerificationFile then
+          begin
+            //We just mimic TC who set in uppercase the "CRC" extension if the filename (without extension!) is made all with capital letters.
+            if SourceFile.NameNoExt = UpperCase(SourceFile.NameNoExt) then
+              SummaryFilename:= FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + 'CRC'
+            else
+              SummaryFilename:= FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + 'crc';
+            AssignFile(SummaryFile,SummaryFilename);
+            filemode:=1;
+            ReWrite(SummaryFile);
+            try
+              WriteLn(SummaryFile,'filename='+SourceFile.Name);
+              WriteLn(SummaryFile,'size='+IntToStr(SourceFile.Size));
+              WriteLn(SummaryFile,'crc32='+hexStr(CurrentCRC32,8));
+            finally
+              CloseFile(SummaryFile);
             end;
+          end;
         end;
+      end;
     end;
   except
     on EFOpenError do
@@ -195,6 +248,8 @@ begin
 
             if (BytesRead = 0) then
               Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
+
+            if RequireACRC32VerificationFile then CurrentCRC32:=crc32(CurrentCRC32,FBuffer,BytesRead);
 
             TotalBytesToRead := TotalBytesToRead - BytesRead;
             BytesWritten := 0;

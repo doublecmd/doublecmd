@@ -3,13 +3,15 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
   Width = 850
   ClientHeight = 573
   ClientWidth = 850
+  DesignLeft = 60
+  DesignTop = 169
   object gbGroupBox: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 81
+    Height = 83
     Top = 0
     Width = 838
     Anchors = [akTop, akLeft, akRight]
@@ -19,7 +21,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     Caption = 'Appearance'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 63
+    ClientHeight = 65
     ClientWidth = 834
     TabOrder = 0
     object lblBarSize: TLabel
@@ -27,9 +29,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideTop.Control = trbBarSize
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 13
-      Top = 13
-      Width = 41
+      Height = 16
+      Top = 11
+      Width = 43
       Caption = '&Bar size:'
       FocusControl = trbBarSize
       ParentColor = False
@@ -39,7 +41,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbBarSize
       AnchorSideTop.Side = asrCenter
-      Left = 51
+      Left = 53
       Height = 1
       Top = 19
       Width = 1
@@ -50,7 +52,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Control = lblBarSizeValue
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbGroupBox
-      Left = 55
+      Left = 57
       Height = 30
       Top = 4
       Width = 150
@@ -69,10 +71,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrCenter
-      Left = 220
-      Height = 13
-      Top = 13
-      Width = 46
+      Left = 222
+      Height = 16
+      Top = 11
+      Width = 49
       BorderSpacing.Left = 15
       Caption = 'Icon si&ze:'
       FocusControl = trbIconSize
@@ -83,7 +85,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrCenter
-      Left = 268
+      Left = 273
       Height = 1
       Top = 19
       Width = 1
@@ -95,7 +97,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbGroupBox
       AnchorSideBottom.Side = asrBottom
-      Left = 272
+      Left = 277
       Height = 30
       Top = 4
       Width = 150
@@ -116,9 +118,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 17
+      Height = 19
       Top = 42
-      Width = 76
+      Width = 83
       BorderSpacing.Top = 8
       Caption = '&Flat buttons'
       Checked = True
@@ -135,11 +137,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlFullToolbarButtons
     Left = 6
-    Height = 171
-    Top = 87
+    Height = 146
+    Top = 89
     Width = 838
     HorzScrollBar.Page = 834
-    VertScrollBar.Page = 167
+    VertScrollBar.Page = 142
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Around = 6
     TabOrder = 1
@@ -150,8 +152,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlEditToolbar
     Left = 6
-    Height = 23
-    Top = 264
+    Height = 25
+    Top = 241
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
@@ -159,7 +161,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 2
     BevelOuter = bvNone
-    ClientHeight = 23
+    ClientHeight = 25
     ClientWidth = 838
     TabOrder = 2
     object pnlToolbarButtons: TPanel
@@ -167,10 +169,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = pnlFullToolbarButtons
       AnchorSideBottom.Side = asrBottom
-      Left = 282
-      Height = 23
+      Left = 274
+      Height = 25
       Top = 0
-      Width = 274
+      Width = 290
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.HorizontalSpacing = 8
@@ -180,34 +182,34 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.ShrinkVertical = crsHomogenousChildResize
       ChildSizing.Layout = cclTopToBottomThenLeftToRight
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 23
-      ClientWidth = 274
+      ClientHeight = 25
+      ClientWidth = 290
       TabOrder = 0
       object btnInsertButton: TButton
         Left = 0
-        Height = 23
+        Height = 25
         Top = 0
-        Width = 113
+        Width = 119
         AutoSize = True
         Caption = '&Insert new button'
         OnClick = btnInsertButtonClick
         TabOrder = 0
       end
       object btnCloneButton: TButton
-        Left = 121
-        Height = 23
+        Left = 127
+        Height = 25
         Top = 0
-        Width = 88
+        Width = 96
         AutoSize = True
         Caption = 'C&lone button'
         OnClick = btnCloneButtonClick
         TabOrder = 1
       end
       object btnDeleteButton: TButton
-        Left = 217
-        Height = 23
+        Left = 231
+        Height = 25
         Top = 0
-        Width = 57
+        Width = 59
         AutoSize = True
         Caption = '&Delete'
         OnClick = btnDeleteButtonClick
@@ -222,8 +224,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 278
-    Top = 289
+    Height = 299
+    Top = 268
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
@@ -231,7 +233,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 6
     BevelOuter = bvNone
-    ClientHeight = 278
+    ClientHeight = 299
     ClientWidth = 838
     TabOrder = 3
     object rgToolItemType: TRadioGroup
@@ -240,7 +242,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideBottom.Control = pnlEditToolbar
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 278
+      Height = 299
       Top = 0
       Width = 146
       Anchors = [akTop, akLeft, akBottom]
@@ -264,7 +266,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideRight.Control = pnlEditToolbar
       AnchorSideRight.Side = asrBottom
       Left = 152
-      Height = 278
+      Height = 299
       Top = 0
       Width = 680
       Anchors = [akTop, akLeft, akRight]
@@ -276,14 +278,14 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.VerticalSpacing = 10
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 278
+      ClientHeight = 299
       ClientWidth = 680
       TabOrder = 1
       object lblIconFile: TLabel
         Left = 0
-        Height = 13
+        Height = 16
         Top = 6
-        Width = 59
+        Width = 63
         Caption = 'Ico&n:'
         FocusControl = edtIconFileName
         ParentColor = False
@@ -295,10 +297,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblIconFile
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnOpenIcon
-        Left = 59
-        Height = 21
-        Top = 2
-        Width = 589
+        Left = 63
+        Height = 23
+        Top = 3
+        Width = 553
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
         OnChange = edtIconFileNameChange
@@ -307,13 +309,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       end
       object btnOpenIcon: TButton
         AnchorSideTop.Control = edtIconFileName
-        AnchorSideRight.Control = pnlEditControls
-        AnchorSideRight.Side = asrBottom
+        AnchorSideRight.Control = btnRelativeIconFileName
         AnchorSideBottom.Control = edtIconFileName
         AnchorSideBottom.Side = asrBottom
-        Left = 648
-        Height = 21
-        Top = 2
+        Left = 616
+        Height = 23
+        Top = 3
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Caption = '>>'
@@ -324,9 +325,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblToolTip: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 13
-        Top = 29
-        Width = 59
+        Height = 16
+        Top = 32
+        Width = 63
         Caption = '&Tooltip:'
         FocusControl = edtToolTip
         ParentColor = False
@@ -339,10 +340,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
-        Left = 59
-        Height = 21
-        Top = 25
-        Width = 621
+        Left = 63
+        Height = 23
+        Top = 29
+        Width = 617
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
         TabOrder = 2
@@ -351,9 +352,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblInternalCommand: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 13
-        Top = 52
-        Width = 59
+        Height = 16
+        Top = 58
+        Width = 63
         Caption = 'Co&mmand:'
         FocusControl = cbInternalCommand
         ParentColor = False
@@ -366,14 +367,14 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
-        Left = 59
-        Height = 21
-        Top = 48
-        Width = 621
+        Left = 63
+        Height = 23
+        Top = 55
+        Width = 617
         HelpType = htKeyword
         Anchors = [akTop, akLeft, akRight]
         DropDownCount = 20
-        ItemHeight = 13
+        ItemHeight = 15
         OnSelect = cbInternalCommandSelect
         Style = csDropDownList
         TabOrder = 3
@@ -382,8 +383,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblInternalParameters: TLabel
         Left = 0
         Height = 100
-        Top = 75
-        Width = 59
+        Top = 84
+        Width = 63
         Caption = '&Parameters:'
         Constraints.MinHeight = 100
         FocusControl = edtInternalParameters
@@ -398,11 +399,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = lblInternalParameters
         AnchorSideBottom.Side = asrBottom
-        Left = 59
+        Left = 63
         Height = 100
         Hint = 'Enter command parameters, each in a separate line. Press F1 to see help on parameters.'
-        Top = 75
-        Width = 621
+        Top = 84
+        Width = 617
         HelpType = htKeyword
         Anchors = [akTop, akLeft, akRight, akBottom]
         ParentShowHint = False
@@ -415,9 +416,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblExternalCommand: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 13
-        Top = 185
-        Width = 59
+        Height = 16
+        Top = 194
+        Width = 63
         Caption = 'Comman&d:'
         FocusControl = edtExternalCommand
         ParentColor = False
@@ -429,10 +430,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblExternalCommand
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnOpenFile
-        Left = 59
-        Height = 21
-        Top = 181
-        Width = 589
+        Left = 63
+        Height = 23
+        Top = 191
+        Width = 553
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
         TabOrder = 5
@@ -440,13 +441,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       end
       object btnOpenFile: TButton
         AnchorSideTop.Control = edtExternalCommand
-        AnchorSideRight.Control = pnlEditControls
-        AnchorSideRight.Side = asrBottom
+        AnchorSideRight.Control = btnRelativeExternalCommand
         AnchorSideBottom.Control = edtExternalCommand
         AnchorSideBottom.Side = asrBottom
-        Left = 648
-        Height = 21
-        Top = 181
+        Left = 616
+        Height = 23
+        Top = 191
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -458,9 +458,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblExternalParameters: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 13
-        Top = 208
-        Width = 59
+        Height = 16
+        Top = 220
+        Width = 63
         Caption = 'Parameter&s:'
         FocusControl = edtExternalParameters
         ParentColor = False
@@ -473,10 +473,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
-        Left = 59
-        Height = 21
-        Top = 204
-        Width = 621
+        Left = 63
+        Height = 23
+        Top = 217
+        Width = 617
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
         TabOrder = 7
@@ -485,9 +485,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblStartPath: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 13
-        Top = 231
-        Width = 59
+        Height = 16
+        Top = 246
+        Width = 63
         Caption = 'Start pat&h:'
         FocusControl = edtStartPath
         ParentColor = False
@@ -498,12 +498,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblStartPath
         AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = pnlEditControls
-        AnchorSideRight.Side = asrBottom
-        Left = 59
-        Height = 21
-        Top = 227
-        Width = 621
+        AnchorSideRight.Control = btnStartPath
+        Left = 63
+        Height = 23
+        Top = 243
+        Width = 553
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 259
         TabOrder = 8
@@ -512,9 +511,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblHotkey: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 13
-        Top = 254
-        Width = 59
+        Height = 16
+        Top = 272
+        Width = 63
         Caption = 'Hot key:'
         ParentColor = False
         Visible = False
@@ -523,9 +522,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Control = lblHotkey
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
-        Left = 59
+        Left = 63
         Height = 1
-        Top = 254
+        Top = 272
         Width = 1
         BorderSpacing.Right = 10
         ParentColor = False
@@ -536,10 +535,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
         AnchorSideTop.Side = asrCenter
-        Left = 70
-        Height = 23
-        Top = 249
-        Width = 80
+        Left = 74
+        Height = 25
+        Top = 268
+        Width = 85
         AutoSize = True
         Caption = 'Edit hot&key'
         OnClick = btnEditHotkeyClick
@@ -551,10 +550,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
         AnchorSideTop.Side = asrCenter
-        Left = 152
-        Height = 23
-        Top = 249
-        Width = 101
+        Left = 161
+        Height = 25
+        Top = 268
+        Width = 108
         AutoSize = True
         BorderSpacing.Left = 2
         Caption = 'Remove hotke&y'
@@ -562,11 +561,280 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         TabOrder = 10
         Visible = False
       end
+      object btnRelativeExternalCommand: TSpeedButton
+        AnchorSideTop.Control = edtExternalCommand
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtExternalCommand
+        AnchorSideBottom.Side = asrBottom
+        Left = 648
+        Height = 23
+        Top = 191
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        NumGlyphs = 0
+        Visible = False
+        OnClick = btnRelativeExternalCommandClick
+      end
+      object btnRelativeIconFileName: TSpeedButton
+        AnchorSideTop.Control = edtIconFileName
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtIconFileName
+        AnchorSideBottom.Side = asrBottom
+        Left = 648
+        Height = 23
+        Top = 3
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        NumGlyphs = 0
+        Visible = False
+        OnClick = btnRelativeIconFileNameClick
+      end
+      object btnStartPath: TButton
+        AnchorSideTop.Control = edtStartPath
+        AnchorSideRight.Control = btnRelativeStartPath
+        AnchorSideBottom.Control = edtStartPath
+        AnchorSideBottom.Side = asrBottom
+        Left = 616
+        Height = 23
+        Top = 243
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnStartPathClick
+        TabOrder = 11
+        Visible = False
+      end
+      object btnRelativeStartPath: TSpeedButton
+        AnchorSideTop.Control = edtStartPath
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtStartPath
+        AnchorSideBottom.Side = asrBottom
+        Left = 648
+        Height = 23
+        Top = 243
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        NumGlyphs = 0
+        Visible = False
+        OnClick = btnRelativeStartPathClick
+      end
     end
   end
   object OpenDialog: TOpenDialog[4]
     FilterIndex = 0
     left = 16
     top = 136
+  end
+  object pmPathHelper: TPopupMenu[5]
+    left = 696
+    top = 48
+  end
+  object pmInsertButtonMenu: TPopupMenu[6]
+    left = 598
+    top = 51
+    object miAddSeparatorSubMenu: TMenuItem
+      Caption = 'for a separator'
+      object miSeparatorFirstItem: TMenuItem
+        Tag = 17
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miSeparatorPriorCurrent: TMenuItem
+        Tag = 18
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSeparatorAfterCurrent: TMenuItem
+        Tag = 19
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSeparatorLastElement: TMenuItem
+        Tag = 20
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
+    object miAddInternalCommandSubMenu: TMenuItem
+      Caption = 'for an internal command'
+      object miInternalCommandFirstElement: TMenuItem
+        Tag = 33
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miInternalCommandPriorCurrent: TMenuItem
+        Tag = 34
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miInternalCommandAfterCurrent: TMenuItem
+        Tag = 35
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miInternalCommandLastElement: TMenuItem
+        Tag = 36
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
+    object miAddExternalCommandSubMenu: TMenuItem
+      Caption = 'for an external command'
+      object miExternalCommandFirstElement: TMenuItem
+        Tag = 49
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miExternalCommandPriorCurrent: TMenuItem
+        Tag = 50
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miExternalCommandAfterCurrent: TMenuItem
+        Tag = 51
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miExternalCommandLastElement: TMenuItem
+        Tag = 52
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
+    object miAddSubToolBarSubMenu: TMenuItem
+      Caption = 'for a sub-tool bar'
+      object miSubToolBarFirstElement: TMenuItem
+        Tag = 65
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miSubToolBarPriorCurrent: TMenuItem
+        Tag = 66
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSubToolBarAfterCurrent: TMenuItem
+        Tag = 67
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSubToolBarLastElement: TMenuItem
+        Tag = 68
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
   end
 end

@@ -175,6 +175,17 @@ procedure FixDateNamesToUTF8;
 function ParamStrU(Param: Integer): UTF8String; overload;
 function ParamStrU(const Param: String): UTF8String; overload;
 
+{en
+  Get the current username of the current session
+}
+function GetCurrentUserName : UTF8String;
+
+{en
+  Get the current machine name
+}
+function GetComputerNetName: UTF8String;
+
+
 implementation
 
 uses
@@ -988,5 +999,45 @@ constructor EInvalidQuoting.Create;
 begin
   inherited Create(rsMsgInvalidQuoting);
 end;
+
+{ GetCurrentUserName }
+function GetCurrentUserName : UTF8String;
+{$IF DEFINED(MSWINDOWS)}
+var
+  wsUserName    : WideString;
+  dwUserNameLen : DWORD = UNLEN + 1;
+begin
+  SetLength(wsUserName, dwUserNameLen);
+  if GetUserNameW(PWideChar(wsUserName), dwUserNameLen) then
+  begin
+    SetLength(wsUserName, dwUserNameLen - 1);
+    Result := UTF8Encode(wsUserName);
+  end
+  else
+    Result := 'Unknown';
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result:= SysToUTF8(GetEnvironmentVariable('USER'));
+end;
+{$ENDIF}
+
+{ GetComputerNetName }
+function GetComputerNetName: UTF8String;
+{$IF DEFINED(MSWINDOWS)}
+var
+  Size: DWORD = MAX_PATH;
+  Buffer: array[0..Pred(MAX_PATH)] of WideChar;
+begin
+  if GetComputerNameW(Buffer, Size) then
+    Result := UTF8Encode(WideString(Buffer))
+  else
+    Result := ''
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result:= SysToUTF8(GetHostName);
+end;
+{$ENDIF}
 
 end.

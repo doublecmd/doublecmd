@@ -28,12 +28,13 @@ uses
   Classes, SysUtils, Controls, Forms, Types, uExts, uColorExt, Graphics, DCClassesUtf8,
   uMultiArc, uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, DCXmlConfig,
-  uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uhotdir;
+  uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uHotDir, uSpecialDir;
 
 type
   { Log options }
   TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
-                        log_vfs_op, log_success, log_errors, log_info);
+                        log_vfs_op, log_success, log_errors, log_info,
+                        log_start_shutdown);
   { Watch dirs options }
   TWatchOptions = set of (watch_file_name_change, watch_attributes_change,
                           watch_only_foreground, watch_exclude_dirs);
@@ -181,7 +182,9 @@ var
   gAutoFillColumns: Boolean;
   gAutoSizeColumn: Integer;
   
+  gSpecialDirList:TSpecialDirList;
   gHotDirList:THotDirList;
+  gHotDirAddTargetOrNot: Boolean;
   glsDirHistory:TStringListEx;
   glsCmdLineHistory: TStringListEx;
   glsMaskHistory : TStringListEx;
@@ -275,6 +278,7 @@ var
 
   { Log page }
   gLogFile : Boolean;
+  gLogFileWithDateInName : Boolean;
   gLogFileName : String;
   gLogOptions : TLogOptions;
 
@@ -697,6 +701,7 @@ begin
       AddIfNotExists(['Ctrl+PgUp'],[],'cm_ChangeDirToParent');
       AddIfNotExists(['Ctrl+Alt+Enter'],[],'cm_ShellExecute');
       AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
+      AddIfNotExists(['Ctrl+Shift+D'],[],'cm_ConfigDirHotList');
       AddIfNotExists(['Ctrl+Shift+H'],[],'cm_HorizontalFilePanels');
       AddIfNotExists(['Ctrl+Shift+X'],[],'cm_CopyNamesToClip');
       AddIfNotExists(['Ctrl+Shift+F1'],[],'cm_ThumbnailsView');
@@ -950,6 +955,7 @@ begin
   FreeThenNil(gFileInfoToolTip);
   FreeThenNil(glsDirHistory);
   FreeThenNil(glsCmdLineHistory);
+  FreeThenNil(gSpecialDirList);
   FreeThenNil(gHotDirList);
   FreeThenNil(glsMaskHistory);
   FreeThenNil(glsSearchHistory);
@@ -1127,9 +1133,11 @@ begin
 
   { Log page }
   gLogFile := False;
+  gLogFileWithDateInName := FALSE;
   gLogFileName := gpCfgDir + 'doublecmd.log';
   gLogOptions := [log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
-                  log_vfs_op, log_success, log_errors, log_info];
+                  log_vfs_op, log_success, log_errors, log_info,
+                  log_start_shutdown];
 
   { Configuration page }
   gSaveConfiguration := True;
@@ -1150,6 +1158,7 @@ begin
   gShowWarningMessages := True;
   gSpaceMovesDown := False;
   gDirBrackets := True;
+  gHotDirAddTargetOrNot := False;
   gShowToolTipMode := [stm_show_for_all];
   gThumbSave := True;
   gThumbSize.cx := 128;
@@ -1636,6 +1645,7 @@ var
 
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
+  gLogFileWithDateInName := gIni. ReadBool('Configuration', 'LogFileWithDateInName', FALSE);
   gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpCfgDir + 'doublecmd.log');
   gLogOptions := TLogOptions(gIni.ReadInteger('Configuration', 'LogOptions', Integer(gLogOptions)));
   { Configuration page }
@@ -1825,6 +1835,7 @@ begin
 
   { Log }
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);
+  gIni.WriteBool('Configuration', 'LogFileWithDateInName', gLogFileWithDateInName);
   gIni.WriteString('Configuration', 'LogFileName', gLogFileName);
   gIni.WriteInteger('Configuration', 'LogOptions', Integer(gLogOptions));
   { Configuration page }
@@ -2145,6 +2156,7 @@ begin
     if Assigned(Node) then
     begin
       gLogFile := GetAttr(Node, 'Enabled', gLogFile);
+      gLogFileWithDateInName := GetAttr(Node, 'LogFileWithDateInName', gLogFileWithDateInName);
       gLogFileName := GetValue(Node, 'FileName', gLogFileName);
       gLogOptions := TLogOptions(GetValue(Node, 'Options', Integer(gLogOptions)));
     end;
@@ -2198,6 +2210,7 @@ begin
       gShowWarningMessages := GetValue(Node, 'ShowWarningMessages', gShowWarningMessages);
       gSpaceMovesDown := GetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
       gDirBrackets := GetValue(Node, 'DirBrackets', gDirBrackets);
+      gHotDirAddTargetOrNot:=GetValue(Node, 'HotDirAddTargetOrNot', gHotDirAddTargetOrNot);
     end;
 
     { Thumbnails }
@@ -2498,6 +2511,7 @@ begin
     { Log page }
     Node := FindNode(Root, 'Log', True);
     SetAttr(Node, 'Enabled', gLogFile);
+    SetAttr(Node, 'LogFileWithDateInName', gLogFileWithDateInName);
     SetValue(Node, 'FileName', gLogFileName);
     SetValue(Node, 'Options', Integer(gLogOptions));
 
@@ -2524,6 +2538,7 @@ begin
     SetValue(Node, 'ShowWarningMessages', gShowWarningMessages);
     SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
     SetValue(Node, 'DirBrackets', gDirBrackets);
+    SetValue(Node, 'HotDirAddTargetOrNot',gHotDirAddTargetOrNot);
 
     { Thumbnails }
     Node := FindNode(Root, 'Thumbnails', True);
@@ -2554,7 +2569,7 @@ begin
     SetValue(Node, 'IgnoreListFile', gIgnoreListFile);
 
     { Directories HotList }
-    gHotDirList.SaveToXml(gConfig, Root);
+    gHotDirList.SaveToXml(gConfig, Root, TRUE);
 
     { Viewer }
     Node := FindNode(Root, 'Viewer',True);

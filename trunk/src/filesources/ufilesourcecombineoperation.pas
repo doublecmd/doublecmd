@@ -31,6 +31,9 @@ type
     FFileSource: IFileSource;
     FSourceFiles: TFiles;
     FTargetFile: String;
+    FRequireDynamicMode, FWeGotTheCRC32VerificationFile: boolean;
+    FExpectedCRC32: dword;
+    FCurrentCRC32: dword;
 
   protected
     function GetID: TFileSourceOperationType; override;
@@ -41,7 +44,7 @@ type
 
     property FileSource: IFileSource read FFileSource;
     property SourceFiles: TFiles read FSourceFiles;
-    property TargetFile: String read FTargetFile;
+    property TargetFile: String read FTargetFile write FTargetFile; //FTargetFile might be written when in "RequireDynamicMode"
 
   public
     {en
@@ -62,7 +65,10 @@ type
 
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceCombineOperationStatistics;
-
+    property RequireDynamicMode: boolean read FRequireDynamicMode write FRequireDynamicMode;
+    property CurrentCRC32: dword read FCurrentCRC32 write FCurrentCRC32;
+    property ExpectedCRC32: dword read FExpectedCRC32 write FExpectedCRC32;
+    property WeGotTheCRC32VerificationFile: boolean read FWeGotTheCRC32VerificationFile write FWeGotTheCRC32VerificationFile;
   end;
 
 implementation
@@ -89,6 +95,10 @@ begin
     CurrentFileDoneBytes := 0;
     BytesPerSecond := 0;
     RemainingTime := 0;
+    RequireDynamicMode := FALSE; // By default, DC mode which means user selected ALL the files.
+    ExpectedCRC32 := $00000000; // By default, the expected CRC32 is 0, which is undefined
+    CurrentCRC32 := $00000000; // Initial value of CRC32
+    WeGotTheCRC32VerificationFile := FALSE; // By default, we still don't have in hand info from summary file
   end;
 
   FStatisticsLock := TCriticalSection.Create;

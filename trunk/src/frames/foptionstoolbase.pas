@@ -27,7 +27,7 @@ unit fOptionsToolBase;
 interface
 
 uses
-  Classes, SysUtils, Controls, StdCtrls, EditBtn,
+  Classes, SysUtils, Controls, StdCtrls, EditBtn, Buttons, Menus,
   fOptionsFrame, uGlobs;
 
 type
@@ -35,6 +35,7 @@ type
   { TfrmOptionsToolBase }
 
   TfrmOptionsToolBase = class(TOptionsEditor)
+    btnRelativeToolPath: TSpeedButton;
     cbToolsKeepTerminalOpen: TCheckBox;
     cbToolsRunInTerminal: TCheckBox;
     cbToolsUseExternalProgram: TCheckBox;
@@ -42,6 +43,8 @@ type
     fneToolsPath: TFileNameEdit;
     lblToolsParameters: TLabel;
     lblToolsPath: TLabel;
+    pmPathHelper: TPopupMenu;
+    procedure btnRelativeToolPathClick(Sender: TObject);
     procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
     procedure cbToolsRunInTerminalChange(Sender: TObject);
     procedure cbToolsUseExternalProgramChange(Sender: TObject);
@@ -67,13 +70,20 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils;
+  uDCUtils, uSpecialDir;
 
 { TfrmOptionsToolBase }
 
 procedure TfrmOptionsToolBase.cbToolsKeepTerminalOpenChange(Sender: TObject);
 begin
   FExternalToolOptions.KeepTerminalOpen := cbToolsKeepTerminalOpen.Checked;
+end;
+
+procedure TfrmOptionsToolBase.btnRelativeToolPathClick(Sender: TObject);
+begin
+  fneToolsPath.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneToolsPath,pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
 procedure TfrmOptionsToolBase.cbToolsRunInTerminalChange(Sender: TObject);
@@ -133,6 +143,7 @@ begin
   edtToolsParameters.Text           := FExternalToolOptions.Parameters;
   cbToolsRunInTerminal.Checked      := FExternalToolOptions.RunInTerminal;
   cbToolsKeepTerminalOpen.Checked   := FExternalToolOptions.KeepTerminalOpen;
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
 end;
 
 function TfrmOptionsToolBase.Save: TOptionsEditorSaveFlags;

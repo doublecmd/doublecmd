@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uFileFunctions, uFormCommands;
+  uFileFunctions, uFormCommands, uFileSorting;
 
 type
 
@@ -166,6 +166,7 @@ type
    procedure cm_Refresh(const Params: array of string);
    procedure cm_ShowMainMenu(const Params: array of string);
    procedure cm_DirHotList(const Params: array of string);
+   procedure cm_ConfigDirHotList(const Params: array of string);
    procedure cm_MarkInvert(const Params: array of string);
    procedure cm_MarkMarkAll(const Params: array of string);
    procedure cm_MarkUnmarkAll(const Params: array of string);
@@ -184,6 +185,7 @@ type
    procedure cm_MultiRename(const Params: array of string);
    procedure cm_ReverseOrder(const Params: array of string);
    procedure cm_SortByAttr(const Params: array of string);
+   procedure cm_UniversalSingleDirectSort(const Params: array of string);
    procedure cm_SortByDate(const Params: array of string);
    procedure cm_SortByExt(const Params: array of string);
    procedure cm_SortByName(const Params: array of string);
@@ -240,10 +242,10 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil, uThumbFileView,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation,
+     uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
-     uhotdir, DCXmlConfig, dmCommonData
+     uHotDir, DCXmlConfig, dmCommonData
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -631,8 +633,14 @@ begin
     end;
   end;
 
+  //If there is no direction currently, sort "sdDescending" for size and date
   if SortDirection = sdNone then
-    SortDirection := sdAscending;
+  begin
+    case FileFunctions[0] of
+      fsfSize, fsfModificationTime, fsfCreationTime, fsfLastAccessTime: SortDirection:=sdDescending;
+      else SortDirection:=sdAscending;
+    end;
+  end;
 
   SetLength(NewSorting, 1);
   SetLength(NewSorting[0].SortFunctions, 1);
@@ -2194,9 +2202,23 @@ procedure TMainCommands.cm_DirHotList(const Params: array of string);
 var
   p:TPoint;
 begin
-  gHotDirList.CreatePopUpHotDir(frmMain.pmHotList,POPUPMENU_WITHADDANDCONFIG,@frmMain.HotDirSelected,@frmMain.miHotAddOrConfigClick,frmMain.ActiveFrame.CurrentPath); // TODO: i thing in future this must call on create or change
-  p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
+  gHotDirList.PopulateMenuWithHotDir(frmMain.pmHotList,@frmMain.HotDirSelected,@frmMain.miHotAddOrConfigClick,frmMain.ActiveFrame.CurrentPath,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
+  if length(Params)=0 then
+  begin
+    p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
+    Application.ProcessMessages; //TODO: Same thing as with "cm_DirHotList", in Windows, Not sure why, but on all system I tried, this eliminate a "beep" when the popup is shown.
+  end
+  else
+  begin
+    p:=Mouse.CursorPos;
+  end;
+
   frmMain.pmHotList.Popup(p.X,p.Y);
+end;
+
+procedure TMainCommands.cm_ConfigDirHotList(const Params: array of string);
+begin
+  frmMain.ShowHotDirConfig(ACTION_CONFIGTOHOTLIST);
 end;
 
 procedure TMainCommands.cm_Search(const Params: array of string);
@@ -2371,6 +2393,36 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
+{Command to request to sort a frame with a column with a defined order.
+ Must provide THREE parameters:
+   -1st, the panel, ActiveFrame or NotActiveFrame
+   -2nd, the column
+   -3rd, the order}
+procedure TMainCommands.cm_UniversalSingleDirectSort(const Params: array of string);
+var
+  DesignatedFileView: TFileView;
+  DesignatedSortFunction: TFileFunction;
+  DesignatedSortDirection: TSortDirection;
+  NewSorting: TFileSortings = nil;
+begin
+  if Length(Params) = 3 then
+  begin
+    if Params[0]='NotActiveFrame' then DesignatedFileView:=frmMain.NotActiveFrame else DesignatedFileView:=frmMain.ActiveFrame;
+
+    if Params[1]='ModificationTime' then DesignatedSortFunction:=fsfModificationTime else
+      if Params[1]='Size' then DesignatedSortFunction:=fsfSize else
+        if Params[1]='Extension' then DesignatedSortFunction:=fsfExtension else DesignatedSortFunction:=fsfName;
+
+    if Params[2]='Descending' then DesignatedSortDirection:=sdDescending else DesignatedSortDirection:=sdAscending;
+
+    SetLength(NewSorting, 1);
+    SetLength(NewSorting[0].SortFunctions, 1);
+    NewSorting[0].SortFunctions[0] := DesignatedSortFunction;
+    NewSorting[0].SortDirection := DesignatedSortDirection;
+    DesignatedFileView.Sorting := NewSorting;
+  end;
+end;
+
 procedure TMainCommands.cm_MultiRename(const Params: array of string);
 var
   aFiles: TFiles;
@@ -2485,6 +2537,7 @@ var
 begin
   frmMain.CreatePopUpDirHistory;
   p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
+  Application.ProcessMessages; //TODO: In Windows, Not sure why, but on all systems tried, this eliminate a "beep" when the popup is shown.
   frmMain.pmDirHistory.Popup(p.X,p.Y);
 end;
 
@@ -2673,6 +2726,7 @@ var
   I: Integer;
   aSelectedFiles: TFiles = nil;
   aFile: TFile;
+  aFirstFilenameOfSeries: UTF8String;
 begin
   with frmMain, frmMain.ActiveFrame do
   begin
@@ -2681,7 +2735,6 @@ begin
         msgWarning(rsMsgErrNotSupported);
         Exit;
       end;
-
     try
       aSelectedFiles := CloneSelectedOrActiveFiles;
 
@@ -2696,9 +2749,34 @@ begin
         end;
 
       if aSelectedFiles.Count > 1 then
+      begin
         ShowLinkerFilesForm(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath)
+      end
       else
-        msgWarning(rsMsgInvalidSelection);
+      begin
+        if aSelectedFiles.Count = 1 then
+        begin
+          try
+            if StrToInt(aSelectedFiles[0].Extension)>0 then
+            begin
+              aFirstFilenameOfSeries:='1';
+              while length(aFirstFilenameOfSeries)<length(aSelectedFiles[0].Extension) do aFirstFilenameOfSeries:='0'+aFirstFilenameOfSeries;
+              aFirstFilenameOfSeries:=aSelectedFiles[0].Path + aSelectedFiles[0].NameNoExt + ExtensionSeparator + aFirstFilenameOfSeries;
+              DoDynamicFilesLinking(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath, aFirstFilenameOfSeries)
+            end
+            else
+            begin
+              msgWarning(rsMsgInvalidSelection);
+            end;
+          except
+            msgWarning(rsMsgInvalidSelection);
+          end;
+        end
+        else
+        begin
+          msgWarning(rsMsgInvalidSelection);
+        end;
+      end;
     finally
       FreeThenNil(aSelectedFiles);
     end; // try
@@ -2966,7 +3044,7 @@ end;
 procedure TMainCommands.cm_ChangeDir(const Params: array of string);
 begin
   if Length(Params) > 0 then
-    ChooseFileSource(FrmMain.ActiveFrame, ReplaceEnvVars(Params[0]));
+    ChooseFileSource(FrmMain.ActiveFrame, RemoveQuotation(ReplaceEnvVars(Params[0])));
 end;
 
 procedure TMainCommands.cm_ClearLogWindow(const Params: array of string);

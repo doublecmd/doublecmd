@@ -27,7 +27,7 @@ unit fOptionsIgnoreList;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, EditBtn, fOptionsFrame;
+  Classes, SysUtils, StdCtrls, EditBtn, Buttons, Menus, fOptionsFrame;
 
 type
 
@@ -36,12 +36,15 @@ type
   TfrmOptionsIgnoreList = class(TOptionsEditor)
     btnAddSel: TButton;
     btnAddSelWithPath: TButton;
+    btnRelativeSaveIn: TSpeedButton;
     chkIgnoreEnable: TCheckBox;
     fneSaveIn: TFileNameEdit;
     lblSaveIn: TLabel;
     memIgnoreList: TMemo;
+    pmPathHelper: TPopupMenu;
     procedure btnAddSelClick(Sender: TObject);
     procedure btnAddSelWithPathClick(Sender: TObject);
+    procedure btnRelativeSaveInClick(Sender: TObject);
     procedure chkIgnoreEnableChange(Sender: TObject);
   private
     procedure FillIgnoreList(bWithFullPath: Boolean);
@@ -57,7 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uFile, uLng, fMain;
+  Controls, uGlobs, uFile, uLng, fMain, uSpecialDir;
 
 { TfrmOptionsIgnoreList }
 
@@ -70,6 +73,14 @@ procedure TfrmOptionsIgnoreList.btnAddSelWithPathClick(Sender: TObject);
 begin
   FillIgnoreList(True);
 end;
+
+procedure TfrmOptionsIgnoreList.btnRelativeSaveInClick(Sender: TObject);
+begin
+  fneSaveIn.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneSaveIn,pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
 
 procedure TfrmOptionsIgnoreList.chkIgnoreEnableChange(Sender: TObject);
 begin
@@ -112,6 +123,7 @@ begin
   fneSaveIn.FileName:= gIgnoreListFile;
   memIgnoreList.Lines.Assign(glsIgnoreList);
   chkIgnoreEnableChange(chkIgnoreEnable);
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
 end;
 
 function TfrmOptionsIgnoreList.Save: TOptionsEditorSaveFlags;

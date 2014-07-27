@@ -1109,6 +1109,9 @@ object frmMain: TfrmMain
       object mnuCmdSearch: TMenuItem
         Action = actSearch
       end
+      object mnuCmdConfigDirHotlist: TMenuItem
+        Action = actConfigDirHotList
+      end
       object mnuCmdDirHotlist: TMenuItem
         Action = actDirHotList
       end
@@ -1410,6 +1413,11 @@ object frmMain: TfrmMain
       Category = 'Commands'
       Caption = '&Search...'
       HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actConfigDirHotList: TAction
+      Category = 'Commands'
+      Caption = 'Configuration of directory hotlist'
       OnExecute = actExecute
     end
     object actDirHotList: TAction

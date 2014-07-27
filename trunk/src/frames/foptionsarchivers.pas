@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn, Grids, Buttons,
-  fOptionsFrame;
+  Menus, fOptionsFrame;
 
 type
 
@@ -40,6 +40,7 @@ type
     btnMultiArcApply: TBitBtn;
     btnMultiArcDelete: TBitBtn;
     btnMultiArcRename: TBitBtn;
+    btnRelativeArchiver: TSpeedButton;
     chkMultiArcDebug: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
     chkMultiArcOutput: TCheckBox;
@@ -64,6 +65,7 @@ type
     lbxMultiArc: TListBox;
     memArchiveListFormat: TMemo;
     pcArchiverCommands: TPageControl;
+    pmPathHelper: TPopupMenu;
     pnlArchiverCommands: TPanel;
     pnlMultiArcButtons: TPanel;
     splMultiArc: TSplitter;
@@ -75,6 +77,7 @@ type
     procedure btnMultiArcApplyClick(Sender: TObject);
     procedure btnMultiArcDeleteClick(Sender: TObject);
     procedure btnMultiArcRenameClick(Sender: TObject);
+    procedure btnRelativeArchiverClick(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
@@ -96,7 +99,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Dialogs, uGlobs, uLng, uMultiArc;
+  Dialogs, Controls, uGlobs, uLng, uMultiArc, uSpecialDir;
 
 const
   stgArchiveTitle                = 0;
@@ -186,6 +189,13 @@ begin
       lbxMultiArc.Items[lbxMultiArc.ItemIndex]:= sNewName;
       gMultiArcList.Names[lbxMultiArc.ItemIndex]:= sNewName;
     end;
+end;
+
+procedure TfrmOptionsArchivers.btnRelativeArchiverClick(Sender: TObject);
+begin
+  fneArchiver.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneArchiver,pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
 procedure TfrmOptionsArchivers.chkMultiArcEnabledChange(Sender: TObject);
@@ -313,6 +323,7 @@ end;
 procedure TfrmOptionsArchivers.Load;
 begin
   FillArchiverList;
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
 end;
 
 function TfrmOptionsArchivers.Save: TOptionsEditorSaveFlags;

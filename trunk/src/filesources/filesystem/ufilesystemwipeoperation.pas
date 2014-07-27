@@ -330,7 +330,7 @@ begin
           begin
             DCDebug('wp: error wiping directory ' + dir);
             // write log -------------------------------------------------------------------
-            LogMessage(Format(rsMsgLogError+rsMsgLogRmDir, [dir]), [log_dir_op, log_delete], lmtError);
+            LogMessage(Format(rsMsgLogError+rsMsgLogWipeDir, [dir]), [log_dir_op, log_delete], lmtError);
             //------------------------------------------------------------------------------
           end
         else
@@ -338,7 +338,7 @@ begin
             directories:= directories + 1;
             DCDebug('OK');
             // write log -------------------------------------------------------------------
-            LogMessage(Format(rsMsgLogSuccess+rsMsgLogRmDir, [dir]), [log_dir_op, log_delete], lmtSuccess);
+            LogMessage(Format(rsMsgLogSuccess+rsMsgLogWipeDir, [dir]), [log_dir_op, log_delete], lmtSuccess);
             //------------------------------------------------------------------------------
           end;
       end;
@@ -379,9 +379,9 @@ begin
       SecureDelete(gWipePassNumber, sPath + SRec.Name);
       // write log -------------------------------------------------------------------
       if FEverythingOK then
-        LogMessage(Format(rsMsgLogSuccess+rsMsgLogDelete, [sPath + SRec.Name]), [log_delete], lmtSuccess)
+        LogMessage(Format(rsMsgLogSuccess+rsMsgLogWipe, [sPath + SRec.Name]), [log_delete], lmtSuccess)
       else
-        LogMessage(Format(rsMsgLogError+rsMsgLogDelete, [sPath + SRec.Name]), [log_delete], lmtError);
+        LogMessage(Format(rsMsgLogError+rsMsgLogWipe, [sPath + SRec.Name]), [log_delete], lmtError);
       // -----------------------------------------------------------------------------
       Found:= FindNextEx(SRec);   { Find the next file }
     end;

@@ -1,31 +1,33 @@
 object frmSplitter: TfrmSplitter
-  Left = 283
-  Height = 293
-  Top = 122
-  Width = 399
+  Left = 359
+  Height = 311
+  Top = 326
+  Width = 461
   HorzScrollBar.Page = 464
   HorzScrollBar.Range = 369
   VertScrollBar.Page = 301
   VertScrollBar.Range = 227
   ActiveControl = cmbxSize
-  AutoSize = True
   BorderIcons = [biSystemMenu]
   Caption = 'Splitter'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 293
-  ClientWidth = 399
+  ClientHeight = 311
+  ClientWidth = 461
+  OnClose = FormClose
+  OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  SessionProperties = 'cmbxSize.Text;rbtnByte.Checked;rbtnGigaB.Checked;rbtnKiloB.Checked;rbtnMegaB.Checked;teNumberParts.Text;Width;cbRequireACRC32VerificationFile.Checked'
+  LCLVersion = '1.0.14.0'
   object grbxFile: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = btnCancel
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 143
+    Height = 124
     Top = 6
-    Width = 385
+    Width = 447
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Left = 6
@@ -33,14 +35,14 @@ object frmSplitter: TfrmSplitter
     Caption = 'File name'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 120
-    ClientWidth = 381
+    ClientHeight = 106
+    ClientWidth = 443
     TabOrder = 0
     object lbFileSource: TLabel
       Left = 10
-      Height = 18
+      Height = 16
       Top = 4
-      Width = 72
+      Width = 57
       Caption = 'File &source'
       FocusControl = edFileSource
       ParentColor = False
@@ -49,9 +51,9 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = edFileSource
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 18
-      Top = 66
-      Width = 107
+      Height = 16
+      Top = 59
+      Width = 83
       BorderSpacing.Top = 12
       Caption = 'Directory &target'
       FocusControl = edDirTarget
@@ -62,9 +64,9 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
       Left = 10
-      Height = 28
-      Top = 26
-      Width = 360
+      Height = 23
+      Top = 24
+      Width = 422
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       ReadOnly = True
@@ -75,28 +77,79 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnFTChoice
       Left = 10
-      Height = 28
-      Top = 88
-      Width = 330
+      Height = 23
+      Top = 79
+      Width = 372
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
-      BorderSpacing.Right = 6
       TabOrder = 1
     end
     object btnFTChoice: TButton
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edDirTarget
-      AnchorSideRight.Control = edFileSource
-      AnchorSideRight.Side = asrBottom
-      Left = 346
+      AnchorSideRight.Control = btnRelativeFTChoice
+      AnchorSideBottom.Control = edDirTarget
+      AnchorSideBottom.Side = asrBottom
+      Left = 382
       Height = 23
-      Top = 88
+      Top = 79
       Width = 24
-      Anchors = [akTop, akRight]
-      BorderSpacing.Left = 4
+      Anchors = [akTop, akRight, akBottom]
       Caption = '...'
       OnClick = btnFTChoiceClick
       TabOrder = 2
+    end
+    object btnRelativeFTChoice: TSpeedButton
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edDirTarget
+      AnchorSideRight.Control = edFileSource
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = edDirTarget
+      AnchorSideBottom.Side = asrBottom
+      Left = 406
+      Height = 23
+      Hint = 'Some functions to select appropriate path'
+      Top = 79
+      Width = 26
+      Anchors = [akTop, akRight, akBottom]
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000640000006400000000000000000000002C86D8702D88
+        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+      }
+      NumGlyphs = 0
+      OnClick = btnRelativeFTChoiceClick
     end
   end
   object grbxSize: TGroupBox
@@ -104,9 +157,9 @@ object frmSplitter: TfrmSplitter
     AnchorSideTop.Control = grbxFile
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 128
-    Top = 155
-    Width = 300
+    Height = 136
+    Top = 136
+    Width = 362
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Left = 6
@@ -114,8 +167,8 @@ object frmSplitter: TfrmSplitter
     Caption = 'Size and number of parts'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 105
-    ClientWidth = 296
+    ClientHeight = 118
+    ClientWidth = 358
     Constraints.MinWidth = 300
     TabOrder = 1
     object cmbxSize: TComboBox
@@ -123,106 +176,134 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = grbxSize
       AnchorSideRight.Side = asrBottom
       Left = 6
-      Height = 28
+      Height = 23
       Top = 6
-      Width = 276
+      Width = 338
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 0
-      ItemIndex = 0
+      ItemHeight = 15
       Items.Strings = (
-        '1457664B - 3.5"'
+        'Automatic'
+        '1457664B - 3.5" High Density 1.44M'
+        '1213952B - 5.25" High Density 1.2M'
+        '730112B - 3.5" Double Density 720K'
+        '362496B - 5.25" Double Density 360K'
         '98078KB - ZIP 100MB'
         '650MB - CD 650MB'
         '700MB - CD 700MB'
         '4482MB - DVD+R'
       )
-      OnCloseUp = cmbxSizeCloseUp
-      OnKeyPress = cmbxSizeKeyPress
-      OnKeyUp = cmbxSizeKeyUp
+      OnChange = cmbxSizeChange
       TabOrder = 0
       Text = '1457664B - 3.5"'
     end
-    object rbtnKiloB: TRadioButton
+    object rbtnByte: TRadioButton
       AnchorSideLeft.Control = cmbxSize
       AnchorSideTop.Control = cmbxSize
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 23
-      Top = 40
-      Width = 84
-      BorderSpacing.Top = 6
-      Caption = '&Kilobytes'
+      Height = 19
+      Top = 31
+      Width = 48
+      BorderSpacing.Top = 2
+      Caption = '&Bytes'
       Checked = True
-      OnChange = rbtnKiloBChange
+      OnChange = rbtnByteChange
       TabOrder = 1
+      TabStop = True
+    end
+    object rbtnKiloB: TRadioButton
+      AnchorSideLeft.Control = rbtnByte
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = rbtnByte
+      Left = 56
+      Height = 19
+      Top = 31
+      Width = 68
+      BorderSpacing.Left = 2
+      Caption = '&Kilobytes'
+      OnChange = rbtnByteChange
+      TabOrder = 2
     end
     object rbtnMegaB: TRadioButton
       AnchorSideLeft.Control = rbtnKiloB
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = rbtnKiloB
-      Left = 92
-      Height = 23
-      Top = 40
-      Width = 94
+      Left = 126
+      Height = 19
+      Top = 31
+      Width = 78
       BorderSpacing.Left = 2
       Caption = '&Megabytes'
-      OnChange = rbtnKiloBChange
-      TabOrder = 2
-    end
-    object rbtnGigaB: TRadioButton
-      AnchorSideLeft.Control = rbtnMegaB
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rbtnMegaB
-      Left = 188
-      Height = 23
-      Top = 40
-      Width = 87
-      BorderSpacing.Left = 2
-      Caption = '&Gigabytes'
-      OnChange = rbtnKiloBChange
+      OnChange = rbtnByteChange
       TabOrder = 3
     end
     object teNumberParts: TEdit
       AnchorSideLeft.Control = lblNumberParts
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rbtnMegaB
+      AnchorSideTop.Control = rbtnKiloB
       AnchorSideTop.Side = asrBottom
-      Left = 117
-      Height = 28
-      Top = 71
-      Width = 72
+      Left = 98
+      Height = 23
+      Top = 60
+      Width = 128
       BorderSpacing.Left = 4
-      BorderSpacing.Top = 8
-      OnKeyPress = teNumberPartsKeyPress
-      OnKeyUp = teNumberPartsKeyUp
+      BorderSpacing.Top = 10
+      OnChange = teNumberPartsChange
       TabOrder = 4
     end
     object lblNumberParts: TLabel
-      AnchorSideLeft.Control = rbtnKiloB
+      AnchorSideLeft.Control = rbtnByte
       AnchorSideTop.Control = teNumberParts
       AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 18
-      Top = 76
-      Width = 107
+      Height = 16
+      Top = 63
+      Width = 88
       Caption = '&Number of parts'
       FocusControl = teNumberParts
       ParentColor = False
+    end
+    object rbtnGigaB: TRadioButton
+      AnchorSideLeft.Control = rbtnMegaB
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = rbtnKiloB
+      Left = 206
+      Height = 19
+      Top = 31
+      Width = 72
+      BorderSpacing.Left = 2
+      Caption = '&Gigabytes'
+      OnChange = rbtnByteChange
+      TabOrder = 5
+    end
+    object cbRequireACRC32VerificationFile: TCheckBox
+      AnchorSideLeft.Control = cmbxSize
+      AnchorSideTop.Control = teNumberParts
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 93
+      Width = 188
+      BorderSpacing.Top = 10
+      Caption = 'Require a CRC32 verification file'
+      Checked = True
+      State = cbChecked
+      TabOrder = 6
     end
   end
   object btnOK: TButton
     AnchorSideRight.Control = btnCancel
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCancel
-    Left = 316
+    Left = 378
     Height = 32
-    Top = 213
+    Top = 202
     Width = 75
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 6
     Caption = '&OK'
     Default = True
-    ModalResult = 1
+    OnClick = btnOKClick
     TabOrder = 2
   end
   object btnCancel: TButton
@@ -231,9 +312,9 @@ object frmSplitter: TfrmSplitter
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = grbxSize
     AnchorSideBottom.Side = asrBottom
-    Left = 316
+    Left = 378
     Height = 32
-    Top = 251
+    Top = 240
     Width = 75
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 10
@@ -241,5 +322,9 @@ object frmSplitter: TfrmSplitter
     Caption = '&Cancel'
     ModalResult = 2
     TabOrder = 3
+  end
+  object pmPathHelper: TPopupMenu
+    left = 408
+    top = 128
   end
 end
