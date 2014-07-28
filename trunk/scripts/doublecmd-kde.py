@@ -45,8 +45,8 @@ def CheckArguments(argc):
 #--------------- main ------------------
 if __name__ == '__main__':
 
-    appName     = "kio4"
-    catalog     = ""
+    appName     = "doublecmd-kde"
+    catalog     = "kio4"
     programName = ki18n ("Double Commander")
     version     = "1.0"
     description = ki18n ("Double Commander KDE helper")
