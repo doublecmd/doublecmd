@@ -347,6 +347,7 @@ begin
   ShowOptions(False);
 
   btnOK.Caption := rsDlgOpStart;
+  if FQueueIdentifier = FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
   btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
 
   HMForm := HotMan.Register(Self, HotkeysCategory);
