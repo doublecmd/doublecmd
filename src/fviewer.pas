@@ -2066,7 +2066,7 @@ begin
         if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
       end
       // Using very slow search algorithm
-      else if (ViewerControl.Encoding in ViewerEncodingMultiByte) then
+      else if (ViewerControl.Encoding in ViewerEncodingMultiByte) or bSearchBackwards then
       begin
         PAdr := ViewerControl.FindUtf8Text(FLastSearchPos, sSearchTextU,
                                            FFindDialog.cbCaseSens.Checked,
@@ -2078,9 +2078,9 @@ begin
       else begin
         RecodeTable:= InitRecodeTable(ViewerControl.EncodingName, FFindDialog.cbCaseSens.Checked);
         PAdr := PosMemBoyerMur(ViewerControl.GetDataAdr + FLastSearchPos,
-                               ViewerControl.FileSize, sSearchTextA, RecodeTable);
+                               ViewerControl.FileSize - FLastSearchPos, sSearchTextA, RecodeTable);
         bTextFound := (PAdr <> PtrInt(-1));
-        if bTextFound then FLastSearchPos := PAdr;
+        if bTextFound then FLastSearchPos := PAdr + FLastSearchPos;
       end;
 
       if bTextFound then
