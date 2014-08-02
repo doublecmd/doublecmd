@@ -507,7 +507,16 @@ Index: AbBzip2.pas
 ===================================================================
 --- AbBzip2.pas	(revision 512)
 +++ AbBzip2.pas	(working copy)
-@@ -391,7 +391,7 @@
+@@ -149,6 +149,8 @@ type
+   large chunk of data from the decompression stream in a single call.}
+ 
+   TBZDecompressionStream = class(TCustomBZip2Stream)
++  private
++    FReadState: LongInt;
+   public
+     constructor Create(Source: TStream);
+     destructor Destroy; override;
+@@ -391,7 +393,7 @@ end; { _free }
  {$ENDIF}
  
  const
@@ -516,7 +525,7 @@ Index: AbBzip2.pas
             {$ELSEIF DEFINED(DARWIN)}'libbz2.dylib'
             {$ELSE}'libbz2.so.1'{$IFEND};
  
-@@ -527,8 +527,7 @@
+@@ -527,8 +529,7 @@ begin
          P := OutBuf;
          Inc(OutBytes, 256);
          ReallocMem(OutBuf, OutBytes);
@@ -526,7 +535,7 @@ Index: AbBzip2.pas
          strm.avail_out := 256;
        end;
      finally
-@@ -571,7 +570,7 @@
+@@ -571,7 +572,7 @@ begin
          P := OutBuf;
          Inc(OutBytes, BufInc);
          ReallocMem(OutBuf, OutBytes);
@@ -535,6 +544,30 @@ Index: AbBzip2.pas
          strm.avail_out := BufInc;
        end;
      finally
+@@ -717,8 +718,13 @@ begin
+   if FStrm.Position <> FStrmPos then FStrm.Position := FStrmPos;
+   while (FBZRec.avail_out > 0) do
+   begin
+-    if FBZRec.avail_in = 0 then
++    if FReadState = BZ_STREAM_END then
+     begin
++      Result := Count - FBZRec.avail_out;
++      Exit;
++    end
++    else if FBZRec.avail_in = 0 then
++    begin
+       FBZRec.avail_in := FStrm.Read(FBuffer, sizeof(FBuffer));
+       if FBZRec.avail_in = 0 then
+       begin
+@@ -728,7 +734,7 @@ begin
+       FBZRec.next_in := @FBuffer[0];
+       FStrmPos := FStrm.Position;
+     end;
+-    CCheck(BZ2_bzDecompress(FBZRec));
++    FReadState := DCheck(BZ2_bzDecompress(FBZRec));
+     Progress(Self);
+   end;
+   Result := Count;
 Index: AbBzip2Typ.pas
 ===================================================================
 --- AbBzip2Typ.pas	(revision 512)
