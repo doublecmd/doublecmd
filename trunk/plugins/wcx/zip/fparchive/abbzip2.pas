@@ -149,6 +149,8 @@ type
   large chunk of data from the decompression stream in a single call.}
 
   TBZDecompressionStream = class(TCustomBZip2Stream)
+  private
+    FReadState: LongInt;
   public
     constructor Create(Source: TStream);
     destructor Destroy; override;
@@ -716,7 +718,12 @@ begin
   if FStrm.Position <> FStrmPos then FStrm.Position := FStrmPos;
   while (FBZRec.avail_out > 0) do
   begin
-    if FBZRec.avail_in = 0 then
+    if FReadState = BZ_STREAM_END then
+    begin
+      Result := Count - FBZRec.avail_out;
+      Exit;
+    end
+    else if FBZRec.avail_in = 0 then
     begin
       FBZRec.avail_in := FStrm.Read(FBuffer, sizeof(FBuffer));
       if FBZRec.avail_in = 0 then
@@ -727,7 +734,7 @@ begin
       FBZRec.next_in := @FBuffer[0];
       FStrmPos := FStrm.Position;
     end;
-    CCheck(BZ2_bzDecompress(FBZRec));
+    FReadState := DCheck(BZ2_bzDecompress(FBZRec));
     Progress(Self);
   end;
   Result := Count;
