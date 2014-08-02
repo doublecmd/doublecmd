@@ -2037,9 +2037,9 @@ begin
 
           if ActiveSelectedFiles.Count = 1 then
           begin
-            // If no files selected in the opposite panel then try to get file
-            // with the same name.
-            if not NotActiveFrame.HasSelectedFiles then
+            // If no files selected in the opposite panel and panels have
+            // different path then try to get file with the same name.
+            if (not NotActiveFrame.HasSelectedFiles) and (not mbCompareFileNames(NotActiveFrame.CurrentPath, ActiveFrame.CurrentPath)) then
             begin
               for i := 0 to NotActiveFrame.DisplayFiles.Count - 1 do
                 if NotActiveFrame.DisplayFiles[i].FSFile.Name = ActiveSelectedFiles[0].Name then
