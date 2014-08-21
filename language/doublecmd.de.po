@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
+"Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2014-06-23 19:50+0100\n"
+"PO-Revision-Date: 2014-07-27 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2242,20 +2242,20 @@ msgstr "Hard&link-Name"
 
 #: tfrmhotdir.btngotodir.caption
 msgid "OK and goto dir"
-msgstr ""
+msgstr "Ok und gehe zum Verzeichnis"
 
 #: tfrmhotdir.btnrelativepath.hint
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Einige Funktionen um angemessene Pfade zu wählen"
 
 #: tfrmhotdir.btnrelativetarget.hint
 msgid "Some functions to select appropriate target"
-msgstr ""
+msgstr "Einige Funktionen um angemessene Ziele zu wählen"
 
 #: tfrmhotdir.btntestmenu.caption
 msgctxt "tfrmhotdir.btntestmenu.caption"
 msgid "Test resulting menu"
-msgstr ""
+msgstr "Menü aus Testergebnissen"
 
 #: tfrmhotdir.caption
 msgid "Directory Hotlist"
@@ -2264,16 +2264,16 @@ msgstr "Verzeichnisfavoriten"
 #: tfrmhotdir.cbsorthotdirpath.text
 msgctxt "tfrmhotdir.cbsorthotdirpath.text"
 msgid "Name, a-z"
-msgstr ""
+msgstr "Name, a bis z"
 
 #: tfrmhotdir.cbsorthotdirtarget.text
 msgctxt "tfrmhotdir.cbsorthotdirtarget.text"
 msgid "Name, a-z"
-msgstr ""
+msgstr "Name, a bis z"
 
 #: tfrmhotdir.lbldirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop):"
-msgstr ""
+msgstr "Verzeichnis-Hotlist (per Drag and Drop umsortieren)"
 
 #: tfrmhotdir.lbledithotdirname.editlabel.caption
 msgctxt "tfrmhotdir.lbledithotdirname.editlabel.caption"
@@ -2287,7 +2287,7 @@ msgstr "Pfad:"
 
 #: tfrmhotdir.lbledithotdirtarget.editlabel.caption
 msgid "Target:"
-msgstr ""
+msgstr "Ziel:"
 
 #: tfrmhotdir.menuitem1.caption
 msgctxt "tfrmhotdir.menuitem1.caption"
@@ -2306,19 +2306,19 @@ msgstr "-"
 
 #: tfrmhotdir.miactiveframedirectory.caption
 msgid "directory of the active frame"
-msgstr ""
+msgstr "Verzeichnis des aktiven Frames"
 
 #: tfrmhotdir.miactiveframedirectory2.caption
 msgid "Add directory of the active frame"
-msgstr ""
+msgstr "Füge Verzeichnis zum aktiven Frame hinzu"
 
 #: tfrmhotdir.miactiveinactiveframedirectory.caption
 msgid "directories of the active && inactive frames"
-msgstr ""
+msgstr "Verzeichnisse der aktiven und nicht aktiven Frames"
 
 #: tfrmhotdir.miactiveinactiveframedirectory2.caption
 msgid "Add directories of the active && inactive frames"
-msgstr ""
+msgstr "Füge Verzeichnis der aktiven und inaktiven Frames hinzu"
 
 #: tfrmhotdir.miadd.caption
 #, fuzzy
@@ -2329,47 +2329,47 @@ msgstr "&Hinzufügen"
 
 #: tfrmhotdir.miaddcommand.caption
 msgid "a command"
-msgstr ""
+msgstr "Ein Befehl"
 
 #: tfrmhotdir.miaddcommand2.caption
 msgid "Add a command"
-msgstr ""
+msgstr "Füge einen Befehl hinzu"
 
 #: tfrmhotdir.miaddcopyofselected.caption
 msgid "a copy of the selected entry"
-msgstr ""
+msgstr "Eine Kopie des gewählten Eintrages"
 
 #: tfrmhotdir.miaddcopyofselected2.caption
 msgid "Add a copy of the selected entry"
-msgstr ""
+msgstr "Füge eine Kopie des gewählten Eintrages hinzu"
 
 #: tfrmhotdir.miaddseparator.caption
 msgid "a separator"
-msgstr ""
+msgstr "Ein Trennzeichen"
 
 #: tfrmhotdir.miaddseparator2.caption
 msgid "Add a separator"
-msgstr ""
+msgstr "Füge ein Trennzeichen hinzu"
 
 #: tfrmhotdir.miaddsubmenu.caption
 msgid "sub-menu"
-msgstr ""
+msgstr "Untermenü"
 
 #: tfrmhotdir.miaddsubmenu2.caption
 msgid "Add sub-menu"
-msgstr ""
+msgstr "Füge Untermenü hinzu"
 
 #: tfrmhotdir.miaddtarget.caption
 msgid "Also add target dir when adding dir"
-msgstr ""
+msgstr "Füge auch Zielverzeichnis hinzu, wenn Verzeichnis hinzu gefügt wird"
 
 #: tfrmhotdir.mibrowsetodirectory.caption
 msgid "directory I will browse to"
-msgstr ""
+msgstr "Verzeichnis zu dem gewechselt wird"
 
 #: tfrmhotdir.mibrowsetodirectory2.caption
 msgid "Add directory I will browse to"
-msgstr ""
+msgstr "Füge Verzeichnis zu dem gewechselt wird hinzu"
 
 #: tfrmhotdir.midelete.caption
 #, fuzzy
@@ -2380,71 +2380,71 @@ msgstr "&Löschen"
 
 #: tfrmhotdir.mideleteallhotdirs.caption
 msgid "delete all!"
-msgstr ""
+msgstr "Lösche alle!"
 
 #: tfrmhotdir.mideletecompletesubmenu.caption
 msgid "sub-menu and all its elements"
-msgstr ""
+msgstr "Untermenü und alle seine Elemente"
 
 #: tfrmhotdir.mideletejustsubmenu.caption
 msgid "just sub-menu but keep elements"
-msgstr ""
+msgstr "Nur das Untermenü, nicht seine Elemente"
 
 #: tfrmhotdir.mideleteselectedentry.caption
 msgid "selected item"
-msgstr ""
+msgstr "Gewählte Einträge"
 
 #: tfrmhotdir.mideleteselectedentry2.caption
 msgid "Delete selected item"
-msgstr ""
+msgstr "Lösche gewählte Einträge"
 
 #: tfrmhotdir.midetectifpathexist.caption
 msgid "Scan all hotdir's path to validate the ones that actually exist"
-msgstr ""
+msgstr "Alle Hot-Dir Verzeichnisse scannen um die zu erkennen, die wirklich existieren"
 
 #: tfrmhotdir.midetectifpathtargetexist.caption
 msgid "Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr ""
+msgstr "Alle Hot-Dir Verzeichnisse und Ziele scannen, um die zu erkennen, die wirklich existieren"
 
 #: tfrmhotdir.miexport.caption
 msgid "&Export"
-msgstr ""
+msgstr "&Exportieren"
 
 #: tfrmhotdir.miexporttodoublecommanderk.caption
 msgid "export to a \"doublecmd.xml\" of DC (keep existing)"
-msgstr ""
+msgstr "In eine \"doublecmd.xml\" des DC exportieren (vorhandene behalten)"
 
 #: tfrmhotdir.miexporttodoublecommandernk.caption
 msgid "export to a \"doublecmd.xml\" of DC (erase existing)"
-msgstr ""
+msgstr "In eine \"doublecmd.xml\" des DC exportieren (vorhandene löschen)"
 
 #: tfrmhotdir.miexporttohotlistfile.caption
 msgid "export to a new Directory Hotlist file"
-msgstr ""
+msgstr "In eine neue Verzeichnis-Hotlist exportieren"
 
 #: tfrmhotdir.miexporttototalcommanderk.caption
 msgid "export to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "In eine \"wincmd.ini\" des TotalCommanders exportieren (vorhandene behalten)"
 
 #: tfrmhotdir.miexporttototalcommandernk.caption
 msgid "export to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "In eine \"wincmd.ini\" des TotalCommanders exportieren (vorhandene löschen)"
 
 #: tfrmhotdir.miimport.caption
 msgid "&Import"
-msgstr ""
+msgstr "&Importieren"
 
 #: tfrmhotdir.miimportdoublecommander.caption
 msgid "importation from \"doublecmd.xml\" of DC"
-msgstr ""
+msgstr "Aus \"doublecmd.xml\" des DC importieren"
 
 #: tfrmhotdir.miimportfromhotlistfile.caption
 msgid "import from a Directory Hotlist file"
-msgstr ""
+msgstr "Aus einer Verzeichnis-Hotlist importieren"
 
 #: tfrmhotdir.miimporttotalcommander.caption
 msgid "importation from \"wincmd.ini\" of TC"
-msgstr ""
+msgstr "Aus einer \"wincmd.ini\" des TotalCommanders importieren"
 
 #: tfrmhotdir.miseparator1.caption
 msgctxt "tfrmhotdir.miseparator1.caption"
@@ -2483,37 +2483,37 @@ msgstr ""
 
 #: tfrmhotdir.mitools.caption
 msgid "&Tools"
-msgstr ""
+msgstr "&Werkzeuge"
 
 #: tfrmhotdir.mitypethedirectory.caption
 msgid "directory I will type"
-msgstr ""
+msgstr "Verzeichnis das ich eintippe"
 
 #: tfrmhotdir.mitypethedirectory2.caption
 msgid "Add directory I will type"
-msgstr ""
+msgstr "Füge Verzeichnis hinzu, dass ich eintippe"
 
 #: tfrmhotdirimportexport.btnselectall.caption
 msgctxt "tfrmhotdirimportexport.btnselectall.caption"
 msgid "Import all!"
-msgstr ""
+msgstr "Alle importieren!"
 
 #: tfrmhotdirimportexport.btnselectiondone.caption
 msgctxt "tfrmhotdirimportexport.btnselectiondone.caption"
 msgid "Import selected"
-msgstr ""
+msgstr "Ausgewählte importieren"
 
 #: tfrmhotdirimportexport.caption
 msgid "Select the entries your want to import"
-msgstr ""
+msgstr "Einträge auswählen, die importiert werden sollen"
 
 #: tfrmhotdirimportexport.lbhint.caption
 msgid "When clicking a sub-menu, it will select the whole menu"
-msgstr ""
+msgstr "Wird ein Untermenü ausgewählt, wird das ganze Menü ausgewählt"
 
 #: tfrmhotdirimportexport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple one"
-msgstr ""
+msgstr "Halte Strg und klicke Einträge an um mehrere auszuwählen"
 
 #: tfrmlinker.btnexit.caption
 #, fuzzy
@@ -6781,11 +6781,11 @@ msgstr ""
 
 #: tfrmstartingsplash.lbloperatingsystem.caption
 msgid "Operating System"
-msgstr ""
+msgstr "Betriebssystem"
 
 #: tfrmstartingsplash.lblplatform.caption
 msgid "Platform"
-msgstr ""
+msgstr "Maschinen-Typ"
 
 #: tfrmstartingsplash.lblrevision.caption
 msgctxt "tfrmstartingsplash.lblrevision.caption"
@@ -7703,7 +7703,11 @@ msgid ""
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
-msgstr ""
+msgstr "Die Datei konnte nicht gefunden werden, aber könnte helfen die vorhandenen zu prüfen:\n"
+"%s\n"
+"\n"
+"Kann sie manuell zur Verfügung gestellt werden? Dann bitte \"Ok\" klicken,\n"
+"oder \"Abbruch\" klicken um ohne sie fortzusetzen.\n"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -8305,6 +8309,10 @@ msgid ""
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
 msgstr ""
+"Falscher CRC32-Wert für entstehende Datei:\n"
+"\"%s\"\n"
+"\n"
+"Soll die entstehende korrupte Datei trotzdem behalten werden?\n"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -9011,7 +9019,7 @@ msgstr "Zuviele Dateien ausgewählt."
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
-msgstr ""
+msgstr "Unbestimmt"
 
 #: ulng.rsmsgurl
 msgid "URL:"
