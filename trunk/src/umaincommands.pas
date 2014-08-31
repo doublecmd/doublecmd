@@ -66,6 +66,7 @@ type
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoRenameTab(Page: TFileViewPage);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
+   procedure DoTransferPath(SourceFrame: TFileView; TargetNotebook: TFileViewNotebook); overload;
    procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    procedure DoShowMainMenu(bShow: Boolean);
@@ -551,6 +552,23 @@ begin
   end;
 end;
 
+procedure TMainCommands.DoTransferPath(SourceFrame: TFileView;
+  TargetNotebook: TFileViewNotebook);
+begin
+  if TargetNotebook.ActivePage.LockState = tlsPathLocked then
+    Exit;
+  if TargetNotebook.ActivePage.LockState = tlsDirsInNewTab then
+  begin
+    TargetNotebook.NewPage(SourceFrame).MakeActive;
+    TargetNotebook.ActivePage.LockState := tlsNormal;
+  end
+  else
+  begin
+    TargetNotebook.ActivePage.FileView := nil;
+    SourceFrame.Clone(TargetNotebook.ActivePage);
+  end;
+end;
+
 procedure TMainCommands.DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
 var
   aFile: TFile;
@@ -839,8 +857,7 @@ procedure TMainCommands.cm_TargetEqualSource(const Params: array of string);
 begin
   with frmMain do
   begin
-    NotActiveNotebook.ActivePage.FileView := nil;
-    ActiveFrame.Clone(NotActiveNotebook.ActivePage);
+    DoTransferPath(ActiveFrame, NotActiveNotebook);
   end;
 end;
 
@@ -848,8 +865,7 @@ procedure TMainCommands.cm_LeftEqualRight(const Params: array of string);
 begin
   with frmMain do
   begin
-    LeftTabs.ActivePage.FileView := nil;
-    FrameRight.Clone(LeftTabs.ActivePage);
+    DoTransferPath(FrameRight, LeftTabs);
 
     // Destroying active view may have caused losing focus. Restore it if needed.
     if SelectedPanel = fpLeft then
@@ -861,8 +877,7 @@ procedure TMainCommands.cm_RightEqualLeft(const Params: array of string);
 begin
   with frmMain do
   begin
-    RightTabs.ActivePage.FileView := nil;
-    FrameLeft.Clone(RightTabs.ActivePage);
+    DoTransferPath(FrameLeft, RightTabs);
 
     // Destroying active view may have caused losing focus. Restore it if needed.
     if SelectedPanel = fpRight then
