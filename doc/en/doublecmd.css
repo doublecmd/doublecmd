@@ -64,6 +64,10 @@ p.FIGURE {
   text-align: center;
 }
 
+img.LARGEIMAGE {
+  margin-top: 5px; margin-bottom: 20px;
+}
+
 p.NAVBACK {
  text-align: right;
  text-indent: 38px;
