@@ -377,6 +377,7 @@ type
        Caller is responsible for freeing the list.
     }
     function CloneSelectedFiles: TFiles;
+    function CloneSelectedDirectories: TFiles;
     {en
        A list of files selected by the user
        (this should be a subset of displayed files list returned by Files).
@@ -385,6 +386,7 @@ type
        Caller is responsible for freeing the list.
     }
     function CloneSelectedOrActiveFiles: TFiles;
+    function CloneSelectedOrActiveDirectories: TFiles;
 
     function GetActiveFileName: String;
 
@@ -1537,6 +1539,20 @@ begin
   end;
 end;
 
+function TFileView.CloneSelectedDirectories: TFiles;
+var
+  i: Integer;
+begin
+  Result := TFiles.Create(CurrentPath);
+
+  for i := 0 to FFiles.Count - 1 do
+  begin
+    if FFiles[i].Selected then
+      if FFiles[i].FSFile.IsDirectory then
+        Result.Add(FFiles[i].FSFile.Clone);
+  end;
+end;
+
 function TFileView.CloneSelectedOrActiveFiles: TFiles;
 var
   aFile: TDisplayFile;
@@ -1549,6 +1565,22 @@ begin
     aFile := GetActiveDisplayFile;
     if IsItemValid(aFile) then
       Result.Add(aFile.FSFile.Clone);
+  end;
+end;
+
+function TFileView.CloneSelectedOrActiveDirectories: TFiles;
+var
+  aFile: TDisplayFile;
+begin
+  Result := CloneSelectedDirectories;
+
+  // If no directory(ies) is(are) selected, add currently active directory if it is valid.
+  if (Result.Count = 0) then
+  begin
+    aFile := GetActiveDisplayFile;
+    if IsItemValid(aFile) then
+      if aFile.FSFile.IsDirectory then
+        Result.Add(aFile.FSFile.Clone);
   end;
 end;
 
