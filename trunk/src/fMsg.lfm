@@ -1,7 +1,7 @@
 object frmMsg: TfrmMsg
-  Left = 270
+  Left = 572
   Height = 254
-  Top = 149
+  Top = 233
   Width = 426
   HorzScrollBar.Page = 425
   VertScrollBar.Page = 253
@@ -10,31 +10,37 @@ object frmMsg: TfrmMsg
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 254
   ClientWidth = 426
+  Constraints.MinWidth = 250
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnKeyUp = FormKeyUp
-  OnShow = frmMsgShow
-  LCLVersion = '1.0.12.0'
+  LCLVersion = '1.2.4.0'
   object lblMsg: TLabel
-    Left = 6
-    Height = 1
-    Top = 6
-    Width = 414
+    AnchorSideRight.Side = asrBottom
+    Left = 12
+    Height = 15
+    Top = 12
+    Width = 402
     Align = alTop
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 12
+    Caption = '456456465465465'
     ParentColor = False
   end
   object pnlButtons: TPanel
-    AnchorSideTop.Control = lblMsg
-    AnchorSideTop.Side = asrBottom
-    Left = 6
-    Height = 229
-    Top = 19
-    Width = 414
+    AnchorSideBottom.Side = asrBottom
+    Left = 12
+    Height = 203
+    Top = 39
+    Width = 402
     Align = alClient
-    Anchors = [akTop, akLeft, akRight]
     AutoSize = True
+    BorderSpacing.Left = 12
     BorderSpacing.Top = 12
+    BorderSpacing.Right = 12
+    BorderSpacing.Bottom = 12
     BevelOuter = bvNone
     ChildSizing.HorizontalSpacing = 12
     ChildSizing.VerticalSpacing = 4

@@ -16,7 +16,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure frmMsgShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -79,26 +78,6 @@ begin
     // Lazarus issue 0021483. ControlKeyUp not called after Enter pressed.
     Application.ControlKeyUp(ActiveControl, Key, Shift);
   {$ENDIF}
-end;
-
-procedure TfrmMsg.frmMsgShow(Sender: TObject);
-var
-  I: Integer;
-begin
-  for I:= 0 to ComponentCount - 1 do
-  begin
-    if Components[I] is TButton then
-    begin
-      with Components[I] as TButton do
-      begin
-        if Tag = 0 then
-        begin
-          SetFocus;
-          Break;
-        end;
-      end;
-    end;
-  end;
 end;
 
 procedure TfrmMsg.ButtonOtherClick(Sender: TObject);
