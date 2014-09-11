@@ -192,6 +192,7 @@ var
   CaptionWidth: Integer;
   More: Boolean = False;
   MinButtonWidth: Integer;
+  iIndexDefault : Integer = -1;
 begin
   Assert(Assigned(frmMsg));
   frmMsg.Position:= poScreenCenter;
@@ -240,9 +241,30 @@ begin
       OnClick:= frmMsg.ButtonClick;
       OnMouseUp:= frmMsg.MouseUpEvent;
       if Buttons[iIndex] = ButDefault then
+      begin
         Default:= True;
+        iIndexDefault:=iIndex;
+      end;
       if Buttons[iIndex] = ButEscape then
         frmMsg.Escape:= iIndex;
+    end;
+  end;
+
+  //Once the buttons has been added, let's set the correct "TabOrder" in such way:
+  //1o) The one with the default is "TabOrder=0"
+  //2o) If we press "TAB" key, it keeps moving to the right
+  //Let's determine what should be the "TabOrder" initial value so
+  //1. The default button will have tab order 0
+  //2. When moving with "tab" key, it will move from left to right
+  //"TabOrder" need to be set *after* all the buttons are there
+  if iIndexDefault<>-1 then
+  begin
+    for iIndex:= 0 to pred(frmMsg.ComponentCount) do
+    begin
+      if frmMsg.Components[iIndex] is TButton then
+      begin
+        with frmMsg.Components[iIndex] as TButton do TabOrder:=(tag+(iCount+1)-iIndexDefault) mod (iCount+1); //Tricky but it does it, no "if", no negative after to check, etc.
+      end;
     end;
   end;
 
