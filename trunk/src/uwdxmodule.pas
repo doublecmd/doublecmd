@@ -33,9 +33,6 @@ unit uWDXModule;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
   Classes, SysUtils, DCClassesUtf8,
   uWdxPrototypes, WdxPlugin,
   dynlibs, uDetectStr, lua, uFile, DCXmlConfig;
@@ -78,6 +75,8 @@ type
     //---------------------
     function CallContentGetDefaultSortOrder(FieldIndex: Integer): Boolean; virtual; abstract;
     function CallContentGetDetectString: String; virtual; abstract;
+    function CallContentGetValueV(FileName: String; FieldName: String; UnitName: String; flags: Integer): Variant; overload; virtual; abstract;
+    function CallContentGetValueV(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): Variant; overload; virtual; abstract;
     function CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String; overload; virtual; abstract;
     function CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String; overload; virtual; abstract;
     function CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer; virtual; abstract;
@@ -149,6 +148,8 @@ type
     //---------------------
     function CallContentGetDefaultSortOrder(FieldIndex: Integer): Boolean; override;
     function CallContentGetDetectString: String; override;
+    function CallContentGetValueV(FileName: String; FieldName: String; UnitName: String; flags: Integer): Variant; overload; override;
+    function CallContentGetValueV(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): Variant; overload; override;
     function CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String; overload; override;
     function CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String; overload; override;
     function CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer; override;
@@ -255,13 +256,37 @@ type
     property Count: Integer read GetCount;
   end;
 
+  function StrToVar(const Value: String; FieldType: Integer): Variant;
+
 implementation
 
 uses
-  StrUtils, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils, DCOSUtils;
+  StrUtils, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils, DCBasicTypes,
+  DCOSUtils, DCDateTimeUtils;
 
 const
   WdxIniFileName = 'wdx.ini';
+
+function StrToVar(const Value: String; FieldType: Integer): Variant;
+begin
+  case FieldType of
+  ft_fieldempty: Result := Null;
+  ft_numeric_32: Result := StrToInt(Value);
+  ft_numeric_64: Result := StrToInt64(Value);
+  ft_numeric_floating: Result := StrToFloat(Value);
+  ft_date: Result := StrToDate(Value);
+  ft_time: Result := StrToTime(Value);
+  ft_datetime: Result := StrToDateTime(Value);
+  ft_boolean: Result := StrToBool(Value);
+
+  ft_multiplechoice,
+  ft_string,
+  ft_fulltext,
+  ft_stringw: Result := Value;
+  else
+    Result := Null;
+  end;
+end;
 
 { TWDXModuleList }
 
@@ -513,15 +538,13 @@ var
   tmp: Integer;
 begin
   tmp := Flist.IndexOf(upcase(AName));
-  if tmp > -1 then
-  begin
-    if (Flist.Objects[tmp] is TPluginWDX) then
-      Result := TPluginWDX(Flist.Objects[tmp])
-    else
-      if (Flist.Objects[tmp] is TLuaWdx) then
-        Result := TLuaWdx(Flist.Objects[tmp]);
-  end;
+  if tmp < 0 then Exit(nil);
 
+  if (Flist.Objects[tmp] is TPluginWDX) then
+    Result := TPluginWDX(Flist.Objects[tmp])
+  else
+    if (Flist.Objects[tmp] is TLuaWdx) then
+      Result := TLuaWdx(Flist.Objects[tmp]);
 end;
 
 { TPluginWDX }
@@ -741,6 +764,59 @@ begin
     Result := '';
 end;
 
+function TPluginWDX.CallContentGetValueV(FileName: String; FieldName: String;
+  UnitName: String; flags: Integer): Variant;
+var
+  FieldIndex,
+  UnitIndex: Integer;
+begin
+  FieldIndex := GetFieldIndex(FieldName);
+  if FieldIndex <> -1 then
+  begin
+    UnitIndex := TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
+    Result := CallContentGetValuev(FileName, FieldIndex, UnitIndex, flags);
+  end
+  else
+    Result := Null;
+end;
+
+function TPluginWDX.CallContentGetValueV(FileName: String; FieldIndex,
+  UnitIndex: Integer; flags: Integer): Variant;
+var
+  Rez: Integer;
+  Buf: array[0..2 * 1024] of Byte;
+  fnval: Integer absolute buf;
+  fnval64: Int64 absolute buf;
+  ffval: Double absolute buf;
+  fdate: TDateFormat absolute buf;
+  ftime: TTimeFormat absolute buf;
+  wtime: TWinFileTime absolute buf;
+begin
+  if Assigned(ContentGetValueW) then
+    Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
+  else if Assigned(ContentGetValue) then
+    Rez := ContentGetValue(PAnsiChar(UTF8ToSys(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
+
+  case Rez of
+    ft_fieldempty: Result := Null;
+    ft_numeric_32: Result := fnval;
+    ft_numeric_64: Result := fnval64;
+    ft_numeric_floating: Result := ffval;
+    ft_date: Result := EncodeDate(fdate.wYear, fdate.wMonth, fdate.wDay);
+    ft_time: Result := EncodeTime(ftime.wHour, ftime.wMinute, ftime.wSecond, 0);
+    ft_datetime: Result :=  WinFileTimeToDateTime(wtime);
+    ft_boolean: Result := Boolean(fnval);
+
+    ft_multiplechoice,
+    ft_string,
+    ft_fulltext: Result := SysToUTF8(AnsiString(PAnsiChar(@Buf[0])));
+    ft_stringw: Result := UTF8Encode(WideString(PWideChar(@Buf[0])));
+    else
+      Result := Null;
+  end;
+
+end;
+
 function TPluginWDX.CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String;
 var
   FieldIndex,
@@ -765,12 +841,7 @@ var
   ffval: Double absolute buf;
   fdate: TDateFormat absolute buf;
   ftime: TTimeFormat absolute buf;
-    {$IF DEFINED(MSWINDOWS)}
-  xtime: Windows.FILETIME absolute buf;
-    {$ELSEIF DEFINED(UNIX)}
-  dtime: TDateTime absolute buf;
-    {$ENDIF}
-  stime: TSystemTime;
+  wtime: TWinFileTime absolute buf;
 begin
   if Assigned(ContentGetValueW) then
     Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
@@ -784,16 +855,7 @@ begin
     ft_numeric_floating: Result := FloatToStr(ffval);
     ft_date: Result := Format('%2.2d.%2.2d.%4.4d', [fdate.wDay, fdate.wMonth, fdate.wYear]);
     ft_time: Result := Format('%2.2d:%2.2d:%2.2d', [ftime.wHour, ftime.wMinute, ftime.wSecond]);
-    ft_datetime:
-    begin
-                           {$IF DEFINED(MSWINDOWS)}
-      Windows.FileTimeToSystemTime(xtime, stime);
-      Result := Format('%2.2d.%2.2d.%4.4d %2.2d:%2.2d:%2.2d', [stime.wDay, stime.wMonth, stime.wYear, stime.wHour, stime.wMinute, stime.wSecond]);
-                           {$ELSEIF DEFINED(UNIX)}
-      DateTimeToSystemTime(dtime, stime);
-      Result := Format('%2.2d.%2.2d.%4.4d %2.2d:%2.2d:%2.2d', [stime.Day, stime.Month, stime.Year, stime.Hour, stime.Minute, stime.Second]);
-                           {$ENDIF}
-    end;
+    ft_datetime: Result := DateTimeToStr(WinFileTimeToDateTime(wtime));
 
     ft_boolean: if fnval = 0 then
         Result := 'FALSE'
@@ -1158,4 +1220,4 @@ begin
 end;
 
 end.
-
+
