@@ -374,6 +374,10 @@ begin
              end;
          end;
        end;
+    if Result and ContentPlugin then
+    begin
+      Result:= CheckPlugin(FSearchTemplate, Folder + PathDelim + sr.Name);
+    end;
    end;
 end;
 

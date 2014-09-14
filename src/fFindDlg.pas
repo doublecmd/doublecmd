@@ -33,7 +33,7 @@ uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker, KASComboBox,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
-  uSearchTemplate, uFileView;
+  uSearchTemplate, fSearchPlugin, uFileView;
 
 type
 
@@ -85,6 +85,7 @@ type
     cmbExcludeFiles: TComboBoxWithDelItems;
     edtAttrib: TEdit;
     edtFindPathStart: TDirectoryEdit;
+    frmContentPlugins: TfrmSearchPlugin;
     gbDirectories: TGroupBox;
     gbFiles: TGroupBox;
     lblAttributes: TLabel;
@@ -794,8 +795,9 @@ begin
     NotContainingText := cbNotContainingText.Checked;
     TextRegExp        := cbTextRegExp.Checked;
     TextEncoding      := cmbEncoding.Text;
-    { Other }
+    { Plugins }
     SearchPlugin      := cmbPlugin.Text;
+    frmContentPlugins.Save(FindOptions)
   end;
 end;
 
@@ -1316,8 +1318,9 @@ begin
     cbNotContainingText.Checked:= NotContainingText;
     cbTextRegExp.Checked:= TextRegExp;
     cmbEncoding.Text:= TextEncoding;
-    // other
+    // plugins
     cmbPlugin.Text:= SearchPlugin;
+    frmContentPlugins.Load(Template);
   end;
 end;
 

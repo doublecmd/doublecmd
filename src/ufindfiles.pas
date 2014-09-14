@@ -34,6 +34,17 @@ uses
 type
   TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
   TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
+  TPluginOperator = (poEqual, poNotEqual, poMore, poLess, poMoreEqual, poLessEqual,
+                     poEqualCase, poNotEqualCase, poContains, poNotContains,
+                     poContainsCase, poNotContainsCase);
+
+  TPluginSearchRec = record
+    Plugin: String;
+    Field: String;
+    FieldType: Integer;
+    Compare: TPluginOperator;
+    Value: Variant;
+  end;
 
   TSearchTemplateRec = record
     StartPath: String;
@@ -70,8 +81,11 @@ type
     NotContainingText: Boolean;
     TextRegExp: Boolean;
     TextEncoding: String;
-    { Other }
+    { Plugins }
     SearchPlugin: String;
+    ContentPlugin: Boolean;
+    ContentPluginCombine: Boolean;
+    ContentPlugins: array of TPluginSearchRec;
   end;
 
   TFindFileAttrsCheck = record
@@ -97,6 +111,7 @@ type
   procedure DateTimeOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
                                     var FileChecks: TFindFileChecks);
 
+  function CheckPlugin(const SearchTemplate: TSearchTemplateRec; const FileName: UTF8String) : Boolean;
   function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String) : Boolean;
   function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String) : Boolean;
   function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String) : Boolean;
@@ -110,7 +125,7 @@ implementation
 
 uses
   strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, SynRegExpr, uMasks,
-  DCStrUtils, uFileProperty;
+  DCStrUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8;
 
 const
   cKilo = 1024;
@@ -304,6 +319,42 @@ begin
   DateTimeOptionsToChecks(SearchTemplate, FileChecks);
   FileSizeOptionsToChecks(SearchTemplate, FileChecks);
   AttrsPatternOptionsToChecks(SearchTemplate, FileChecks);
+end;
+
+function CheckPlugin(const SearchTemplate: TSearchTemplateRec;
+  const FileName: UTF8String): Boolean;
+var
+  I: Integer;
+  Work: Boolean;
+  Value: Variant;
+  Module: TWdxModule;
+begin
+  Result := SearchTemplate.ContentPluginCombine;
+  for I:= Low(SearchTemplate.ContentPlugins) to High(SearchTemplate.ContentPlugins) do
+  with SearchTemplate do
+  begin
+    Module := gWDXPlugins.GetWdxModule(ContentPlugins[I].Plugin);
+    if Module = nil then Continue;
+    Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, '', 0);
+    case ContentPlugins[I].Compare of
+      poEqual: Work:= (ContentPlugins[I].Value = Value);
+      poNotEqual: Work:= (ContentPlugins[I].Value <> Value);
+      poMore: Work := (ContentPlugins[I].Value > Value);
+      poLess: Work := (ContentPlugins[I].Value < Value);
+      poMoreEqual: Work := (ContentPlugins[I].Value >= Value);
+      poLessEqual: Work := (ContentPlugins[I].Value <= Value);
+      poEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) = 0;
+      poNotEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) <> 0;
+      poContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) > 0;
+      poNotContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) = 0;
+      poContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) > 0;
+      poNotContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) = 0;
+    end;
+    if ContentPluginCombine then
+      Result := Result and Work
+    else
+      Result := Result or Work;
+  end;
 end;
 
 function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String): Boolean;

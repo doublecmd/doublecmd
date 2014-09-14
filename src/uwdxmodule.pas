@@ -853,7 +853,7 @@ begin
     ft_numeric_32: Result := IntToStr(fnval);
     ft_numeric_64: Result := IntToStr(fnval64);
     ft_numeric_floating: Result := FloatToStr(ffval);
-    ft_date: Result := Format('%2.2d.%2.2d.%4.4d', [fdate.wDay, fdate.wMonth, fdate.wYear]);
+    ft_date: Result :=  Format('%2.2d.%2.2d.%4.4d', [fdate.wDay, fdate.wMonth, fdate.wYear]);
     ft_time: Result := Format('%2.2d:%2.2d:%2.2d', [ftime.wHour, ftime.wMinute, ftime.wSecond]);
     ft_datetime: Result := DateTimeToStr(WinFileTimeToDateTime(wtime));
 
