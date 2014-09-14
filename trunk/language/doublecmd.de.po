@@ -2258,6 +2258,7 @@ msgid "Test resulting menu"
 msgstr "Menü aus Testergebnissen"
 
 #: tfrmhotdir.caption
+msgctxt "tfrmhotdir.caption"
 msgid "Directory Hotlist"
 msgstr "Verzeichnisfavoriten"
 
@@ -2479,7 +2480,7 @@ msgstr "-"
 #: tfrmhotdir.mitestresultingmenu.caption
 msgctxt "tfrmhotdir.mitestresultingmenu.caption"
 msgid "Test resulting menu"
-msgstr ""
+msgstr "Menü aus Testergebnissen"
 
 #: tfrmhotdir.mitools.caption
 msgid "&Tools"
@@ -7703,7 +7704,8 @@ msgid ""
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
-msgstr "Die Datei konnte nicht gefunden werden, aber könnte helfen die vorhandenen zu prüfen:\n"
+msgstr ""
+"Die Datei konnte nicht gefunden werden, aber könnte helfen die vorhandenen zu prüfen:\n"
 "%s\n"
 "\n"
 "Kann sie manuell zur Verfügung gestellt werden? Dann bitte \"Ok\" klicken,\n"
@@ -7940,13 +7942,17 @@ msgid "Calculate files and folders"
 msgstr "Berechne Dateien und Verzeichnisse"
 
 #: ulng.rsdlgchecksumcalc
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Berechne Prüfsumme..."
 
 #: ulng.rsdlgchecksumverify
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify check sum..."
+msgid "Verify checksum..."
 msgstr "Verifiziere Prüfsumme..."
 
 #: ulng.rsdlgcp
@@ -8195,6 +8201,17 @@ msgstr "Typ"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Fehler beim Erstellen des Hardlink."
+
+#: ulng.rshotdirnothingtoimport
+msgid "Sorry, nothing detected to import!"
+msgstr ""
+
+#: ulng.rshotdirwarningabortrestorebackup
+msgid ""
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+"\n"
+"Are you sure you want to proceed?\n"
+msgstr ""
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -8554,8 +8571,16 @@ msgstr "Verzeichnis %s besteht bereits. Bitte eine Auswahl treffen:"
 msgid "Follow symlink \"%s\"?"
 msgstr "Sym-Link \"%s\" folgen?"
 
+#: ulng.rsmsghotdiraddselecteddirectories
+msgid "Add %d selected dirs"
+msgstr ""
+
+#: ulng.rsmsghotdiraddselecteddirectory
+msgid "Add selected dir: "
+msgstr ""
+
 #: ulng.rsmsghotdiraddthisdirectory
-msgid "Add dir: "
+msgid "Add current dir: "
 msgstr ""
 
 #: ulng.rsmsghotdircommandname
@@ -8567,7 +8592,7 @@ msgid "cm_somthing"
 msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
-msgid "Configuration of directory hotlist"
+msgid "Configuration of Directory Hotlist"
 msgstr ""
 
 #: ulng.rsmsghotdirdeleteallentries
@@ -8590,6 +8615,10 @@ msgstr ""
 msgid "And inactive frame would change to the following path:"
 msgstr ""
 
+#: ulng.rsmsghotdirerrorbackuping
+msgid "Error backuping entries..."
+msgstr ""
+
 #: ulng.rsmsghotdirerrorexporting
 msgid "Error exporting entries..."
 msgstr ""
@@ -8609,7 +8638,7 @@ msgstr ""
 #: ulng.rsmsghotdirimportall
 msgctxt "ulng.rsmsghotdirimportall"
 msgid "Import all!"
-msgstr ""
+msgstr "Alle importieren!"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
@@ -8618,19 +8647,19 @@ msgstr ""
 #: ulng.rsmsghotdirimportsel
 msgctxt "ulng.rsmsghotdirimportsel"
 msgid "Import selected"
-msgstr ""
+msgstr "Ausgewählte importieren"
 
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
 msgid "Path"
 msgstr "Pfad"
 
-#: ulng.rsmsghotdirlocatedc
-msgid "Locate DC \"doublecmd.xml\" file"
+#: ulng.rsmsghotdirlocatehotlistfile
+msgid "Locate \".hotlist\" file to import"
 msgstr ""
 
 #: ulng.rsmsghotdirlocateprevioussave
-msgid "Select location and filename of previously saved directory hotlist file"
+msgid "Select location and filename of previously saved Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsghotdirlocatetc
@@ -8638,7 +8667,7 @@ msgid "Locate TC \"wincmd.ini\" file"
 msgstr ""
 
 #: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory hotlist has been modified. Do you want to save before to exit?"
+msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsghotdirname
@@ -8646,7 +8675,7 @@ msgid "Hotdir name"
 msgstr ""
 
 #: ulng.rsmsghotdirnbnewentries
-msgid "Number of new entries: "
+msgid "Number of new entries: %d"
 msgstr ""
 
 #: ulng.rsmsghotdirnothingtoexport
@@ -8655,6 +8684,18 @@ msgstr ""
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
+msgstr ""
+
+#: ulng.rsmsghotdirreaddselecteddirectory
+msgid "Re-Add selected dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirreaddthisdirectory
+msgid "Re-Add current dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirrestorewhat
+msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
@@ -8698,16 +8739,25 @@ msgstr ""
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
 msgstr ""
 
+#: ulng.rsmsghotdirtotalbackuped
+msgid ""
+"Total entries saved: %d\n"
+"\n"
+"Backup filename: %s\n"
+msgstr ""
+
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr ""
 
 #: ulng.rsmsghotdirwhattodelete
-msgid "Do you want to delete all elements inside the sub-menu? Answering NO will delete only menu delimiters but will keep element inside sub-menu."
+msgid ""
+"Do you want to delete all elements inside the sub-menu [%s]?\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
-msgid "Enter location and filename where to save a directory hotlist file"
+msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsgincorrectfilelength
@@ -8922,7 +8972,9 @@ msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Ausgewählt: %s von %s, Dateien: %d von %d, Verzeichnisse: %d von %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
-msgid "Please select only check sum files!"
+#, fuzzy
+#| msgid "Please select only check sum files!"
+msgid "Please select only checksum files!"
 msgstr "Bitte nur Prüfsummen-Dateien auswählen!"
 
 #: ulng.rsmsgsellocnextvol
@@ -9060,15 +9112,21 @@ msgid "Aborted"
 msgstr "Abgebrochen"
 
 #: ulng.rsopercalculatingchecksum
-msgid "Calculating check sum"
+#, fuzzy
+#| msgid "Calculating check sum"
+msgid "Calculating checksum"
 msgstr "Berechne Prüfsumme"
 
 #: ulng.rsopercalculatingchecksumin
-msgid "Calculating check sum in \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum in \"%s\""
+msgid "Calculating checksum in \"%s\""
 msgstr "Berechne Prüfsumme in \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
-msgid "Calculating check sum of \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum of \"%s\""
+msgid "Calculating checksum of \"%s\""
 msgstr "Berechne Prüfsumme von \"%s\""
 
 #: ulng.rsopercalculatingstatictics
@@ -9239,15 +9297,21 @@ msgid "Testing \"%s\""
 msgstr "Teste \"%s\""
 
 #: ulng.rsoperverifyingchecksum
-msgid "Verifying check sum"
+#, fuzzy
+#| msgid "Verifying check sum"
+msgid "Verifying checksum"
 msgstr "Verifiziere Prüfsumme"
 
 #: ulng.rsoperverifyingchecksumin
-msgid "Verifying check sum in \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum in \"%s\""
+msgid "Verifying checksum in \"%s\""
 msgstr "Verifiziere Prüfsumme in \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
-msgid "Verifying check sum of \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum of \"%s\""
+msgid "Verifying checksum of \"%s\""
 msgstr "Verifiziere Prüfsumme von \"%s\""
 
 #: ulng.rsoperwaitingforconnection
@@ -9506,6 +9570,11 @@ msgstr "Einstellungen"
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
 msgstr "Benutzerdefinierte Spalten"
+
+#: ulng.rsoptionseditordirectoryhotlist
+msgctxt "ulng.rsoptionseditordirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "Verzeichnisfavoriten"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"

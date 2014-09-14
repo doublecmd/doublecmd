@@ -2269,6 +2269,7 @@ msgid "Test resulting menu"
 msgstr ""
 
 #: tfrmhotdir.caption
+msgctxt "tfrmhotdir.caption"
 msgid "Directory Hotlist"
 msgstr "폴더 즐겨찾기"
 
@@ -7910,13 +7911,17 @@ msgid "Calculate files and folders"
 msgstr "파일과 폴더 계산하기"
 
 #: ulng.rsdlgchecksumcalc
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "CRC 체크섬 생성..."
 
 #: ulng.rsdlgchecksumverify
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify check sum..."
+msgid "Verify checksum..."
 msgstr "CRC 체크섬 검사..."
 
 #: ulng.rsdlgcp
@@ -8171,6 +8176,17 @@ msgstr "형식"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "하드 링크 생성 오류"
+
+#: ulng.rshotdirnothingtoimport
+msgid "Sorry, nothing detected to import!"
+msgstr ""
+
+#: ulng.rshotdirwarningabortrestorebackup
+msgid ""
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+"\n"
+"Are you sure you want to proceed?\n"
+msgstr ""
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -8530,8 +8546,16 @@ msgstr "%s 폴더가 존재합니다. 덮어쓸까요?"
 msgid "Follow symlink \"%s\"?"
 msgstr "심링크 \"%s\"를 추적할까요?"
 
+#: ulng.rsmsghotdiraddselecteddirectories
+msgid "Add %d selected dirs"
+msgstr ""
+
+#: ulng.rsmsghotdiraddselecteddirectory
+msgid "Add selected dir: "
+msgstr ""
+
 #: ulng.rsmsghotdiraddthisdirectory
-msgid "Add dir: "
+msgid "Add current dir: "
 msgstr ""
 
 #: ulng.rsmsghotdircommandname
@@ -8543,7 +8567,7 @@ msgid "cm_somthing"
 msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
-msgid "Configuration of directory hotlist"
+msgid "Configuration of Directory Hotlist"
 msgstr ""
 
 #: ulng.rsmsghotdirdeleteallentries
@@ -8564,6 +8588,10 @@ msgstr ""
 
 #: ulng.rsmsghotdirdemotarget
 msgid "And inactive frame would change to the following path:"
+msgstr ""
+
+#: ulng.rsmsghotdirerrorbackuping
+msgid "Error backuping entries..."
 msgstr ""
 
 #: ulng.rsmsghotdirerrorexporting
@@ -8601,12 +8629,12 @@ msgctxt "ulng.rsmsghotdirjustpath"
 msgid "Path"
 msgstr "경로"
 
-#: ulng.rsmsghotdirlocatedc
-msgid "Locate DC \"doublecmd.xml\" file"
+#: ulng.rsmsghotdirlocatehotlistfile
+msgid "Locate \".hotlist\" file to import"
 msgstr ""
 
 #: ulng.rsmsghotdirlocateprevioussave
-msgid "Select location and filename of previously saved directory hotlist file"
+msgid "Select location and filename of previously saved Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsghotdirlocatetc
@@ -8614,7 +8642,7 @@ msgid "Locate TC \"wincmd.ini\" file"
 msgstr ""
 
 #: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory hotlist has been modified. Do you want to save before to exit?"
+msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsghotdirname
@@ -8622,7 +8650,7 @@ msgid "Hotdir name"
 msgstr ""
 
 #: ulng.rsmsghotdirnbnewentries
-msgid "Number of new entries: "
+msgid "Number of new entries: %d"
 msgstr ""
 
 #: ulng.rsmsghotdirnothingtoexport
@@ -8631,6 +8659,18 @@ msgstr ""
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
+msgstr ""
+
+#: ulng.rsmsghotdirreaddselecteddirectory
+msgid "Re-Add selected dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirreaddthisdirectory
+msgid "Re-Add current dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirrestorewhat
+msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
@@ -8674,16 +8714,25 @@ msgstr ""
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
 msgstr ""
 
+#: ulng.rsmsghotdirtotalbackuped
+msgid ""
+"Total entries saved: %d\n"
+"\n"
+"Backup filename: %s\n"
+msgstr ""
+
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr ""
 
 #: ulng.rsmsghotdirwhattodelete
-msgid "Do you want to delete all elements inside the sub-menu? Answering NO will delete only menu delimiters but will keep element inside sub-menu."
+msgid ""
+"Do you want to delete all elements inside the sub-menu [%s]?\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
-msgid "Enter location and filename where to save a directory hotlist file"
+msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsgincorrectfilelength
@@ -8903,7 +8952,9 @@ msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "용량: %s / %s, 파일 : %d / %d, 폴더: %d / %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
-msgid "Please select only check sum files!"
+#, fuzzy
+#| msgid "Please select only check sum files!"
+msgid "Please select only checksum files!"
 msgstr "체크섬 파일만 선택해 주세요!"
 
 #: ulng.rsmsgsellocnextvol
@@ -9039,15 +9090,21 @@ msgid "Aborted"
 msgstr "취소됨"
 
 #: ulng.rsopercalculatingchecksum
-msgid "Calculating check sum"
+#, fuzzy
+#| msgid "Calculating check sum"
+msgid "Calculating checksum"
 msgstr "체크섬 계산"
 
 #: ulng.rsopercalculatingchecksumin
-msgid "Calculating check sum in \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum in \"%s\""
+msgid "Calculating checksum in \"%s\""
 msgstr "\"%s\" 의 체크섬 계산"
 
 #: ulng.rsopercalculatingchecksumof
-msgid "Calculating check sum of \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum of \"%s\""
+msgid "Calculating checksum of \"%s\""
 msgstr "\"%s\" 의 체크섬 계산"
 
 #: ulng.rsopercalculatingstatictics
@@ -9218,15 +9275,21 @@ msgid "Testing \"%s\""
 msgstr "\"%s\" 를 검사하기"
 
 #: ulng.rsoperverifyingchecksum
-msgid "Verifying check sum"
+#, fuzzy
+#| msgid "Verifying check sum"
+msgid "Verifying checksum"
 msgstr "체크섬 검사하기"
 
 #: ulng.rsoperverifyingchecksumin
-msgid "Verifying check sum in \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum in \"%s\""
+msgid "Verifying checksum in \"%s\""
 msgstr "\"%s\" 에 있는 체크섬 검사하기"
 
 #: ulng.rsoperverifyingchecksumof
-msgid "Verifying check sum of \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum of \"%s\""
+msgid "Verifying checksum of \"%s\""
 msgstr "\"%s\" 의 체크섬 검사하기"
 
 #: ulng.rsoperwaitingforconnection
@@ -9487,6 +9550,11 @@ msgstr "환경설정"
 #, fuzzy
 msgid "Custom columns"
 msgstr "사용자 정의 열"
+
+#: ulng.rsoptionseditordirectoryhotlist
+msgctxt "ulng.rsoptionseditordirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "폴더 즐겨찾기"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
