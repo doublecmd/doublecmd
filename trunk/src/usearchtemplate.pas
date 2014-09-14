@@ -74,7 +74,7 @@ function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 implementation
 
 uses
- DCFileAttributes, DCBasicTypes;
+ Variants, DCFileAttributes, DCBasicTypes, WdxPlugin, uWdxModule;
 
 function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 begin
@@ -234,8 +234,10 @@ end;
 
 procedure TSearchTemplateList.LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
 var
+  Index: Integer;
   SearchTemplate: TSearchTemplate;
   FloatNotOlderThan: Double;
+  Node: TXmlNode;
 begin
   Clear;
 
@@ -298,8 +300,29 @@ begin
           NotContainingText:= AConfig.GetValue(ANode, 'NotContainingText', False);
           TextRegExp:= AConfig.GetValue(ANode, 'TextRegExp', False);
           TextEncoding:= AConfig.GetValue(ANode, 'TextEncoding', '');
-          // other
+          // plugins
           SearchPlugin:= AConfig.GetValue(ANode, 'SearchPlugin', '');
+          Node := AConfig.FindNode(ANode, 'ContentPlugins', True);
+          ContentPlugin:=  AConfig.GetAttr(Node, 'Enabled', False);
+          if ContentPlugin then
+          begin
+            ContentPluginCombine:= AConfig.GetAttr(Node, 'Combine', True);
+            Node := Node.FirstChild;
+            while Assigned(Node) do
+            begin
+              if Node.CompareName('Plugin') = 0 then
+              begin
+                Index:= Length(ContentPlugins);
+                SetLength(ContentPlugins, Index + 1);
+                ContentPlugins[Index].Plugin:= AConfig.GetValue(Node, 'Name', EmptyStr);
+                ContentPlugins[Index].Field:= AConfig.GetValue(Node, 'Field', EmptyStr);
+                ContentPlugins[Index].FieldType:= AConfig.GetValue(Node, 'FieldType', ft_string);
+                ContentPlugins[Index].Compare:= TPluginOperator(AConfig.GetValue(Node, 'Compare', 0));
+                ContentPlugins[Index].Value:= StrToVar(AConfig.GetValue(Node, 'Value', EmptyStr), ContentPlugins[Index].FieldType);
+              end;
+              Node := Node.NextSibling;
+            end;
+          end;
         end;
         SearchTemplate.MakeFileChecks;
         Add(SearchTemplate);
@@ -364,8 +387,8 @@ end;
 
 procedure TSearchTemplateList.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  I: Integer;
-  SubNode: TXmlNode;
+  I, J: Integer;
+  Node, SubNode: TXmlNode;
 begin
   ANode := AConfig.FindNode(ANode, cSection, True);
   AConfig.ClearNode(ANode);
@@ -419,8 +442,23 @@ begin
       AConfig.AddValue(SubNode, 'NotContainingText', NotContainingText);
       AConfig.AddValue(SubNode, 'TextRegExp', TextRegExp);
       AConfig.AddValue(SubNode, 'TextEncoding', TextEncoding);
-      // other
+      // plugins
       AConfig.AddValue(SubNode, 'SearchPlugin', SearchPlugin);
+      Node := AConfig.FindNode(SubNode, 'ContentPlugins', True);
+      AConfig.SetAttr(Node, 'Enabled', ContentPlugin);
+      if ContentPlugin then
+      begin
+        AConfig.SetAttr(Node, 'Combine', ContentPluginCombine);
+        for J:= Low(ContentPlugins) to High(ContentPlugins) do
+        begin
+          SubNode := AConfig.AddNode(Node, 'Plugin');
+          AConfig.SetValue(SubNode, 'Name', ContentPlugins[J].Plugin);
+          AConfig.SetValue(SubNode, 'Field', ContentPlugins[J].Field);
+          AConfig.SetValue(SubNode, 'FieldType', ContentPlugins[J].FieldType);
+          AConfig.SetValue(SubNode, 'Compare', Integer(ContentPlugins[J].Compare));
+          AConfig.SetValue(SubNode, 'Value', VarToStr(ContentPlugins[J].Value));
+        end;
+      end;
     end;
 end;
 
