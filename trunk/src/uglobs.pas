@@ -31,6 +31,9 @@ uses
   uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uHotDir, uSpecialDir;
 
 type
+  { Configuration options }
+  TSortConfigurationOptions = (scoClassicLegacy, scoAlphabeticalButLanguage);
+
   { Log options }
   TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                         log_vfs_op, log_success, log_errors, log_info,
@@ -182,9 +185,13 @@ var
   gAutoFillColumns: Boolean;
   gAutoSizeColumn: Integer;
   
-  gSpecialDirList:TSpecialDirList;
-  gHotDirList:THotDirList;
+  gSpecialDirList:TSpecialDirList=nil;
+  gDirectoryHotlist:TDirectoryHotlist;
   gHotDirAddTargetOrNot: Boolean;
+  gHotDirFullExpandOrNot: Boolean;
+  gShowPathInPopup: boolean;
+  gShowOnlyValidEnv: boolean = TRUE;
+  gWhereToAddNewHotDir: TPositionWhereToAddHotDir;
   glsDirHistory:TStringListEx;
   glsCmdLineHistory: TStringListEx;
   glsMaskHistory : TStringListEx;
@@ -290,6 +297,7 @@ var
   gSaveDirHistory,
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
+  gSortOrderOfConfigurationOptionsTree:TSortConfigurationOptions;
   
   { Quick Search page }
   gQuickSearchOptions: TQuickSearchOptions;
@@ -929,7 +937,7 @@ begin
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
   gFileInfoToolTip := TFileInfoToolTip.Create;
-  gHotDirList := THotDirList.Create;
+  gDirectoryHotlist := TDirectoryHotlist.Create;
   glsDirHistory := TStringListEx.Create;
   glsCmdLineHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
@@ -956,7 +964,7 @@ begin
   FreeThenNil(glsDirHistory);
   FreeThenNil(glsCmdLineHistory);
   FreeThenNil(gSpecialDirList);
-  FreeThenNil(gHotDirList);
+  FreeThenNil(gDirectoryHotlist);
   FreeThenNil(glsMaskHistory);
   FreeThenNil(glsSearchHistory);
   FreeThenNil(glsReplaceHistory);
@@ -1159,6 +1167,10 @@ begin
   gSpaceMovesDown := False;
   gDirBrackets := True;
   gHotDirAddTargetOrNot := False;
+  gHotDirFullExpandOrNot:=False;
+  gShowPathInPopup:=FALSE;
+  gShowOnlyValidEnv:=TRUE;
+  gWhereToAddNewHotDir := ahdSmart;
   gShowToolTipMode := [stm_show_for_all];
   gThumbSave := True;
   gThumbSize.cx := 128;
@@ -1226,7 +1238,7 @@ begin
   gExts.Clear;
   gColorExt.Clear;
   gFileInfoToolTip.Clear;
-  gHotDirList.Clear;
+  gDirectoryHotlist.Clear;
   glsDirHistory.Clear;
   glsMaskHistory.Clear;
   glsSearchHistory.Clear;
@@ -1462,6 +1474,9 @@ begin
   msgLoadLng;
 
   FillFileFuncList;
+
+  { Specialdir }
+  if gShowOnlyValidEnv=FALSE then gSpecialDirList.PopulateSpecialDir;  //We must reload it if user has included the unsignificant environment variable. But anyway, this will not happen often.
 
   Result := AskUserOnError(ErrorMessage);
 end;
@@ -1709,7 +1724,7 @@ var
     LocalHotDir.HotDirName:=glsHotDirTempoLegacyConversion.Names[IndexHotDir];
     LocalHotDir.HotDirPath:=glsHotDirTempoLegacyConversion.ValueFromIndex[IndexHotDir];
     LocalHotDir.HotDirTarget:='';
-    gHotDirList.Add(LocalHotDir);
+    gDirectoryHotlist.Add(LocalHotDir);
   end;
   FreeAndNil(glsHotDirTempoLegacyConversion); //Thank you, good bye!
   gColorExt.LoadIni;
@@ -2167,6 +2182,7 @@ begin
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
+    gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(GetAttr(Root, 'Configuration/SortOrder', Integer(scoClassicLegacy)));
 
     { Quick Search/Filter page }
     Node := Root.FindNode('QuickSearch');
@@ -2211,6 +2227,10 @@ begin
       gSpaceMovesDown := GetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
       gDirBrackets := GetValue(Node, 'DirBrackets', gDirBrackets);
       gHotDirAddTargetOrNot:=GetValue(Node, 'HotDirAddTargetOrNot', gHotDirAddTargetOrNot);
+      gHotDirFullExpandOrNot:=GetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
+      gShowPathInPopup:=GetValue(Node, 'ShowPathInPopup', gShowPathInPopup);
+      gShowOnlyValidEnv:=GetValue(Node, 'ShowOnlyValidEnv', gShowOnlyValidEnv);
+      gWhereToAddNewHotDir:=TPositionWhereToAddHotDir(GetValue(Node, 'WhereToAddNewHotDir', Integer(gWhereToAddNewHotDir)));
     end;
 
     { Thumbnails }
@@ -2254,7 +2274,7 @@ begin
     end;
 
     { Directories HotList }
-    gHotDirList.LoadFromXML(gConfig, Root);
+    gDirectoryHotlist.LoadFromXML(gConfig, Root);
 
     { Viewer }
     Node := Root.FindNode('Viewer');
@@ -2521,6 +2541,7 @@ begin
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
+    SetAttr(Root, 'Configuration/SortOrder', Integer(gSortOrderOfConfigurationOptionsTree));
 
     { Quick Search/Filter page }
     Node := FindNode(Root, 'QuickSearch', True);
@@ -2539,6 +2560,10 @@ begin
     SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
     SetValue(Node, 'DirBrackets', gDirBrackets);
     SetValue(Node, 'HotDirAddTargetOrNot',gHotDirAddTargetOrNot);
+    SetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
+    SetValue(Node, 'ShowPathInPopup', gShowPathInPopup);
+    SetValue(Node, 'ShowOnlyValidEnv', gShowOnlyValidEnv);
+    SetValue(Node, 'WhereToAddNewHotDir', Integer(gWhereToAddNewHotDir));
 
     { Thumbnails }
     Node := FindNode(Root, 'Thumbnails', True);
@@ -2569,7 +2594,7 @@ begin
     SetValue(Node, 'IgnoreListFile', gIgnoreListFile);
 
     { Directories HotList }
-    gHotDirList.SaveToXml(gConfig, Root, TRUE);
+    gDirectoryHotlist.SaveToXml(gConfig, Root, TRUE);
 
     { Viewer }
     Node := FindNode(Root, 'Viewer',True);

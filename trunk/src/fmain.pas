@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2012 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -167,6 +167,7 @@ type
     dskRight: TKASToolBar;
     edtCommand: TComboBoxWithDelItems;
     imgLstActions: TImageList;
+    imgLstDirectoryHotlist: TImageList;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
@@ -562,6 +563,7 @@ type
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure SetMainSplitterPos(AValue: Double);
     procedure UpdateActionIcons;
+    procedure UpdateHotDirIcons;
     procedure TypeInCommandLine(Str: String);
     procedure AddVirtualDriveButton(dskPanel: TKASToolBar);
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
@@ -615,7 +617,6 @@ type
     procedure ViewHistoryPrevSelected(Sender:TObject);
     procedure ViewHistoryNextSelected(Sender:TObject);
     procedure CreatePopUpDirHistory;
-    procedure ShowHotDirConfig(ActionDispatcher:longint);
     procedure ShowFileViewHistory;
     procedure ShowFileViewHistory(FromFileSourceIndex, FromPathIndex,
                                   ToFileSourceIndex, ToPathIndex: Integer);
@@ -714,14 +715,14 @@ implementation
 
 uses
   LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
-  uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
+  uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
   XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar,
-  uHotDir, uFileSorting, DCBasicTypes
+  uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ENDIF}
@@ -958,12 +959,14 @@ begin
     Commands.cm_Delete([]);
 end;
 
+{ TfrmMain.btnLeftDirectoryHotlistClick}
+//To make appear the Directory Hotlist popup menu when pressing "*" button on left
+//
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
-Var P:TPoint;
+var P:TPoint;
 begin
-  if tb_activate_panel_on_click in gDirTabOptions then
-    SetActiveFrame(fpLeft);
-  gHotDirList.PopulateMenuWithHotDir(pmHotList,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
+  if tb_activate_panel_on_click in gDirTabOptions then SetActiveFrame(fpLeft);
+  gDirectoryHotlist.PopulateMenuWithHotDir(pmHotList,@HotDirSelected,@miHotAddOrConfigClick,mpHOTDIRSWITHCONFIG,0);
   p := Classes.Point(btnLeftDirectoryHotlist.Left,btnLeftDirectoryHotlist.Height);
   p := pnlLeftTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
@@ -974,12 +977,14 @@ begin
   PanelButtonClick(Sender as TSpeedButton, FrameRight);
 end;
 
+{ TfrmMain.btnRightDirectoryHotlistClick}
+//To make appear the Directory Hotlist popup menu when pressing "*" button on right
+//
 procedure TfrmMain.btnRightDirectoryHotlistClick(Sender: TObject);
-Var P:TPoint;
+var P:TPoint;
 begin
-  if tb_activate_panel_on_click in gDirTabOptions then
-    SetActiveFrame(fpRight);
-  gHotDirList.PopulateMenuWithHotDir(pmHotList,@HotDirSelected,@miHotAddOrConfigClick,ActiveFrame.CurrentPath,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
+  if tb_activate_panel_on_click in gDirTabOptions then SetActiveFrame(fpRight);
+  gDirectoryHotlist.PopulateMenuWithHotDir(pmHotList,@HotDirSelected,@miHotAddOrConfigClick,mpHOTDIRSWITHCONFIG,0);
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
@@ -1707,6 +1712,11 @@ begin
   end;
 end;
 
+{ TfrmMain.lblDriveInfoDblClick }
+//Shows the Directory Hotlist at the cursor position after double-clicking the panel.
+//This is NOT like TC but was here as legacy in DC. Let it there for respect to original authors.
+//Double-clicking on the "FPathLabel" of the "TFileViewHeader" does the same as in TC and is implemented now.
+//
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
 begin
   if tb_activate_panel_on_click in gDirTabOptions then
@@ -1716,7 +1726,7 @@ begin
     else if Sender = lblLeftDriveInfo then
       SetActiveFrame(fpLeft);
   end;
-  Commands.cm_DirHotList([]);
+  Commands.cm_DirHotList(['MousePos']);
 end;
 
 procedure TfrmMain.LeftDriveBarExecuteDrive(ToolItem: TKASToolItem);
@@ -2290,43 +2300,84 @@ begin
   mnuMain.Images := nil;
   imgLstActions.Clear;
 
-  if gIconsInMenus then
-  begin
-    // Temporarily while feature is not implemented
-    // http://doublecmd.sourceforge.net/mantisbt/view.php?id=11
-    fileName := IntToStr(gIconsInMenusSize);
-    iconsDir := gpPixmapPath + PathDelim + 'dctheme' + PathDelim + fileName;
-    iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
-    if not mbDirectoryExists(iconsDir) then Exit;
+  // Temporarily while feature is not implemented
+  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=11
+  fileName := IntToStr(gIconsInMenusSize);
+  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
+  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
+  if not mbDirectoryExists(iconsDir) then Exit;
 
-    iconImg := TPicture.Create;
-    try
-      imgLstActions.Width := gIconsInMenusSize;
-      imgLstActions.Height := gIconsInMenusSize;
+  iconImg := TPicture.Create;
+  try
+    imgLstActions.Width := gIconsInMenusSize;
+    imgLstActions.Height := gIconsInMenusSize;
 
-      actionLst.Images := imgLstActions;
-      pmTabMenu.Images := imgLstActions;
-      mnuMain.Images := imgLstActions;
+    actionLst.Images := imgLstActions;
+    pmTabMenu.Images := imgLstActions;
+    mnuMain.Images := imgLstActions;
 
-      for I:= 0 to actionLst.ActionCount - 1 do
-      begin
-        actionName := UTF8LowerCase(actionLst.Actions[I].Name);
-        fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
-        if mbFileExists(fileName) then
-        try
-          iconImg.LoadFromFile(fileName);
-          imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
-          if imgIndex >= 0 then
-          begin
-             TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
-          end;
-        except
-          // Skip
+    for I:= 0 to actionLst.ActionCount - 1 do
+    begin
+      actionName := UTF8LowerCase(actionLst.Actions[I].Name);
+      fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
+      if mbFileExists(fileName) then
+      try
+        iconImg.LoadFromFile(fileName);
+        imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
+        if imgIndex >= 0 then
+        begin
+           TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
         end;
+      except
+        // Skip
       end;
-    finally
-      FreeAndNil(iconImg);
     end;
+
+  finally
+    FreeAndNil(iconImg);
+  end;
+end;
+
+procedure TfrmMain.UpdateHotDirIcons;
+var
+  I: Integer;
+  imgIndex: Integer;
+  iconsDir: String;
+  fileName: String;
+  iconImg: TPicture;
+  actionName: TComponentName;
+begin
+  pmHotList.Images:=nil; { TODO -oDB : The images of popup menu in configuration should also be nilled to be correct }
+  imgLstDirectoryHotlist.Clear;
+
+  fileName := IntToStr(gIconsInMenusSize);
+  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
+  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
+  if not mbDirectoryExists(iconsDir) then Exit;
+
+  iconImg := TPicture.Create;
+  try
+    fileName := IntToStr(gIconsInMenusSize);
+    iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
+    iconsDir := iconsDir + 'x' + fileName + PathDelim + 'dirhotlist';
+    imgLstDirectoryHotlist.Width := gIconsInMenusSize;
+    imgLstDirectoryHotlist.Height := gIconsInMenusSize;
+    pmHotList.Images:=imgLstDirectoryHotlist;
+
+    for I:=0 to pred(length(ICONINDEXNAME)) do
+    begin
+      filename:=iconsDir+PathDelim+ICONINDEXNAME[I]+'.png';
+      if mbFileExists(fileName) then
+      try
+        iconImg.LoadFromFile(fileName);
+        imgIndex := imgLstDirectoryHotlist.Add(iconImg.Bitmap, nil);
+      except
+        // Skip
+      end;
+    end;
+
+  finally
+    FreeAndNil(iconImg);
   end;
 end;
 
@@ -2382,20 +2433,7 @@ end;
 
 procedure TfrmMain.miHotAddOrConfigClick(Sender: TObject);
 begin
-with Sender as TComponent do ShowHotDirConfig(tag);
-end;
-
-procedure TfrmMain.ShowHotDirConfig(ActionDispatcher:longint);
-begin
-with TfrmHotDir.Create(Application) do
-begin
-  try
-    SubmitToAddOrConfigToHotDirDlg(ActionDispatcher,IncludeTrailingPathDelimiter(ActiveFrame.CurrentPath),IncludeTrailingPathDelimiter(NotActiveFrame.CurrentPath));
-    if ShowModal=mrAll then HotDirActualSwitchToDir(lsHotDir.ItemIndex);
-  finally
-    Free;
-  end;
-end;
+  with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist([HOTLISTMAGICWORDS[tag],ActiveFrame.CurrentPath,NotActiveFrame.CurrentPath,'0']);
 end;
 
 procedure TfrmMain.CreatePopUpDirHistory;
@@ -2610,89 +2648,111 @@ begin
   pmDirHistory.Popup(p.X, p.Y);
 end;
 
+{ TfrmMain.HotDirActualSwitchToDir }
+// Actual routine called when user click the item from the Directory Hotlist popup menu to switch to a hot directory
+// The index received is the index from the "gDirectoryHotlist" to read hotdir entry from.
+//
 procedure TfrmMain.HotDirActualSwitchToDir(Index:longint);
 var
   aPath: String;
-  isCTRLDown: boolean;
+  isSHIFTDown, isCTRLDown: boolean;
   PossibleCommande,PossibleParam: string;
   PosFirstSpace: integer;
+  SelectedDirectories: TFiles = nil;
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
 begin
   // This handler is used by HotDir AND SpecialDir.
   // HotDirs AND SpecialDirs are only supported by filesystem.
 
   // If the index is larger or equal to "TAGOFFSET_FORCHANGETOSPECIALDIR", it means it's a "SpecialDir" and we'll change accordingly
-  if Index < TAGOFFSET_FORCHANGETOSPECIALDIR then
+  if (Index < TAGOFFSET_FORCHANGETOSPECIALDIR) AND (Index >= 0) then
     begin
-      case gHotDirList.HotDir[Index].Dispatcher of
-        hd_CHANGEPATH:
-          begin
-            isCTRLDown:=((GetKeyState(VK_CONTROL) AND $80) <> 0); //Will check later is CTRL key was pressed, but let's put state in memory ASAP
+      isSHIFTDown:=((GetKeyState(VK_SHIFT) AND $80) <> 0);
+      if not isSHIFTDown then //if SHIFT is NOT down, it's to change directory
+      begin
+        case gDirectoryHotlist.HotDir[Index].Dispatcher of
+          hd_CHANGEPATH:
+            begin
+              isCTRLDown:=((GetKeyState(VK_CONTROL) AND $80) <> 0); //if CTRL is down, it's to request to DON'T CHANGE TARGET even if in the directoryhotlist entry it was requesting to do so
 
-            aPath := gHotDirList.HotDir[Index].HotDirPath;
-            if aPath<>'' then
-              begin
-                case gHotDirList.HotDir[Index].HotDirPathSort of
-                  1: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Name','Ascending']); //Name, a-z
-                  2: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Name','Descending']); //Name, z-a
-                  3: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Extension','Ascending']); //Ext, a-z
-                  4: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Extension','Descending']); //Ext, z-a
-                  5: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Size','Descending']); //Size 9-0
-                  6: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','Size','Ascending']); //Size 0-9
-                  7: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','ModificationTime','Descending']); //Date 9-0
-                  8: Commands.cm_UniversalSingleDirectSort(['ActiveFrame','ModificationTime','Ascending']); //Date 0-9
-                end;
-
-                aPath := mbExpandFileName(aPath);
-                ChooseFileSource(ActiveFrame, aPath);
-
-                if (not isCTRLDown) then //We don't change target folder if CTRL key is pressed
+              aPath := gDirectoryHotlist.HotDir[Index].HotDirPath;
+              if aPath<>'' then
                 begin
-                  aPath := gHotDirList.HotDir[Index].HotDirTarget;
-                  if aPath<>'' then
-                    begin
-                      case gHotDirList.HotDir[Index].HotDirTargetSort of
-                        1: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Name','Ascending']); //Name, a-z
-                        2: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Name','Descending']); //Name, z-a
-                        3: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Extension','Ascending']); //Ext, a-z
-                        4: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Extension','Descending']); //Ext, z-a
-                        5: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Size','Descending']); //Size 9-0
-                        6: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','Size','Ascending']); //Size 0-9
-                        7: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','ModificationTime','Descending']); //Date 9-0
-                        8: Commands.cm_UniversalSingleDirectSort(['NotActiveFrame','ModificationTime','Ascending']); //Date 0-9
+                  case gDirectoryHotlist.HotDir[Index].HotDirPathSort of
+                    1: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_NAME,STR_ASCENDING]); //Name, a-z
+                    2: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_NAME,STR_DESCENDING]); //Name, z-a
+                    3: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_EXTENSION,STR_ASCENDING]); //Ext, a-z
+                    4: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_EXTENSION,STR_DESCENDING]); //Ext, z-a
+                    5: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_SIZE,STR_DESCENDING]); //Size 9-0
+                    6: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_SIZE,STR_ASCENDING]); //Size 0-9
+                    7: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_MODIFICATIONTIME,STR_DESCENDING]); //Date 9-0
+                    8: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_MODIFICATIONTIME,STR_ASCENDING]); //Date 0-9
+                  end;
+
+                  aPath := mbExpandFileName(aPath);
+                  ChooseFileSource(ActiveFrame, aPath);
+
+                  if (not isCTRLDown) then //We don't change target folder if CTRL key is pressed
+                  begin
+                    aPath := gDirectoryHotlist.HotDir[Index].HotDirTarget;
+                    if aPath<>'' then
+                      begin
+                        case gDirectoryHotlist.HotDir[Index].HotDirTargetSort of
+                          1: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_NAME,STR_ASCENDING]); //Name, a-z
+                          2: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_NAME,STR_DESCENDING]); //Name, z-a
+                          3: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_EXTENSION,STR_ASCENDING]); //Ext, a-z
+                          4: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_EXTENSION,STR_DESCENDING]); //Ext, z-a
+                          5: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_SIZE,STR_DESCENDING]); //Size 9-0
+                          6: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_SIZE,STR_ASCENDING]); //Size 0-9
+                          7: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_MODIFICATIONTIME,STR_DESCENDING]); //Date 9-0
+                          8: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_MODIFICATIONTIME,STR_ASCENDING]); //Date 0-9
+                        end;
+
+                        aPath := mbExpandFileName(aPath);
+                        ChooseFileSource(NotActiveFrame, aPath);
                       end;
-
-                      aPath := mbExpandFileName(aPath);
-                      ChooseFileSource(NotActiveFrame, aPath);
-                    end;
+                  end;
                 end;
-              end;
-          end; //hd_CHANGEPATH:
+            end; //hd_CHANGEPATH:
 
-        hd_COMMAND:
-          begin
-            PosFirstSpace:=pos(' ',gHotDirList.HotDir[Index].HotDirPath);
+          hd_COMMAND:
+            begin
+              PosFirstSpace:=pos(' ',gDirectoryHotlist.HotDir[Index].HotDirPath);
 
-            if PosFirstSpace=0 then
-              begin
-                PossibleCommande:=gHotDirList.HotDir[Index].HotDirPath;
-                PossibleParam:='';
-              end
-            else
-              begin
-                PossibleCommande:=leftstr(gHotDirList.HotDir[Index].HotDirPath,(PosFirstSpace-1));
-                PossibleParam:=rightstr(gHotDirList.HotDir[Index].HotDirPath,length(gHotDirList.HotDir[Index].HotDirPath)-PosFirstSpace);
-              end;
+              if PosFirstSpace=0 then
+                begin
+                  PossibleCommande:=gDirectoryHotlist.HotDir[Index].HotDirPath;
+                  PossibleParam:='';
+                end
+              else
+                begin
+                  PossibleCommande:=leftstr(gDirectoryHotlist.HotDir[Index].HotDirPath,(PosFirstSpace-1));
+                  PossibleParam:=rightstr(gDirectoryHotlist.HotDir[Index].HotDirPath,length(gDirectoryHotlist.HotDir[Index].HotDirPath)-PosFirstSpace);
+                end;
 
-              Commands.Commands.ExecuteCommand(PossibleCommande, SplitString(PossibleParam,' '));
-          end;
-      end; //case gHotDirList.HotDir[Index].Dispatcher of
+                Commands.Commands.ExecuteCommand(PossibleCommande, SplitString(PossibleParam,' '));
+            end;
+        end; //case gDirectoryHotlist.HotDir[Index].Dispatcher of
+      end
+      else
+      begin //if SHIFT IS down, it's to EDIT current selected entry from the Directory Hotlist that the current selected popup menu selection is pointing.
+        Options := ShowOptions(TfrmOptionsDirectoryHotlist);
+        Editor := Options.GetEditor(TfrmOptionsDirectoryHotlist);
+        Application.ProcessMessages;
+        if Editor.CanFocus then  Editor.SetFocus;
+        TfrmOptionsDirectoryHotlist(Editor).SubmitToAddOrConfigToHotDirDlg(HOTLISTMAGICWORDS[ACTION_DIRECTLYCONFIGENTRY],ActiveFrame.CurrentPath,NotActiveFrame.CurrentPath,IntToStr(Index));
+      end;
     end
   else
     begin
-      //So it's a SpecialDir...
-      Index:=Index-TAGOFFSET_FORCHANGETOSPECIALDIR;
-      aPath := mbExpandFileName((gSpecialDirList.SpecialDir[Index].PathValue));
-      ChooseFileSource(ActiveFrame, aPath);
+      if Index>=0 then
+      begin
+        //So it's a SpecialDir...
+        Index:=Index-TAGOFFSET_FORCHANGETOSPECIALDIR;
+        aPath := mbExpandFileName((gSpecialDirList.SpecialDir[Index].PathValue));
+        ChooseFileSource(ActiveFrame, aPath);
+      end;
     end;
 end;
 
@@ -4279,7 +4339,8 @@ begin
       UpdateFreeSpace(fpRight);
     end;
 
-    UpdateActionIcons;
+    if gIconsInMenus then UpdateActionIcons;
+    UpdateHotDirIcons; // Preferable to be loaded even if not required in popupmenu *because* in the tree it's a must, especially when checking for missing directories
     ShowTrayIcon(gAlwaysShowTrayIcon);
 
     FInitializedView := True;

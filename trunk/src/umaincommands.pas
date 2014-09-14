@@ -168,6 +168,7 @@ type
    procedure cm_ShowMainMenu(const Params: array of string);
    procedure cm_DirHotList(const Params: array of string);
    procedure cm_ConfigDirHotList(const Params: array of string);
+   procedure cm_WorkWithDirectoryHotlist(const Params: array of string);
    procedure cm_MarkInvert(const Params: array of string);
    procedure cm_MarkMarkAll(const Params: array of string);
    procedure cm_MarkUnmarkAll(const Params: array of string);
@@ -246,7 +247,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uShellContextMenu, uTrash, uFileSystemCopyOperation,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
-     uHotDir, DCXmlConfig, dmCommonData
+     uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -2214,11 +2215,16 @@ end;
 
 //------------------------------------------------------
 
+{ TMainCommands.cm_DirHotList }
+// Command to SHOW the Directory Hotlist popup menu
+// The directory popup hotlist is run-time continously regenerated each time command is invoken.
+// If any param is provided, it is assume the popup menu as to be shown where the mouse cursor is which is friendly with user since it minimize mouse travel.
+//
 procedure TMainCommands.cm_DirHotList(const Params: array of string);
 var
   p:TPoint;
 begin
-  gHotDirList.PopulateMenuWithHotDir(frmMain.pmHotList,@frmMain.HotDirSelected,@frmMain.miHotAddOrConfigClick,frmMain.ActiveFrame.CurrentPath,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
+  gDirectoryHotlist.PopulateMenuWithHotDir(frmMain.pmHotList,@frmMain.HotDirSelected,@frmMain.miHotAddOrConfigClick,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
   if length(Params)=0 then
   begin
     p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
@@ -2230,11 +2236,35 @@ begin
   end;
 
   frmMain.pmHotList.Popup(p.X,p.Y);
+  Application.ProcessMessages;
 end;
 
+{ TMainCommands.cm_ConfigDirHotList }
+// Mainly present for backward compatibility since "cm_ConfigDirHotList" existed before.
+// Calling "cm_WorkWithDirectoryHotlist" with "config" as first parameters would do the same
+//
 procedure TMainCommands.cm_ConfigDirHotList(const Params: array of string);
 begin
-  frmMain.ShowHotDirConfig(ACTION_CONFIGTOHOTLIST);
+  cm_WorkWithDirectoryHotlist([HOTLISTMAGICWORDS[ACTION_CONFIGTOHOTLIST],frmMain.ActiveFrame.CurrentPath,frmMain.NotActiveFrame.CurrentPath,'0']);
+end;
+
+{ TMainCommands.cm_WorkWithDirectoryHotlist }
+// The parameter 0, in text, indicate the job to do to generic "SubmitToAddOrConfigToHotDirDlg" routine.
+// This way, "SubmitToAddOrConfigToHotDirDlg" is to entry point to attempt to do anything in the Directory Hotlist conifguration screen.
+//
+procedure TMainCommands.cm_WorkWithDirectoryHotlist(const Params: array of string);
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+begin
+  if Length(Params) >= 1 then
+  begin
+    Options := ShowOptions(TfrmOptionsDirectoryHotlist);
+    Editor := Options.GetEditor(TfrmOptionsDirectoryHotlist);
+    Application.ProcessMessages;
+    if Editor.CanFocus then  Editor.SetFocus;
+    TfrmOptionsDirectoryHotlist(Editor).SubmitToAddOrConfigToHotDirDlg(Params[0],Params[1],Params[2],Params[3]);
+  end;
 end;
 
 procedure TMainCommands.cm_Search(const Params: array of string);

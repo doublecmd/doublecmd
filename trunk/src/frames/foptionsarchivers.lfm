@@ -3,7 +3,8 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
   Width = 901
   ClientHeight = 642
   ClientWidth = 901
-  DesignTop = 27
+  DesignLeft = 276
+  DesignTop = 84
   object lbxMultiArc: TListBox[0]
     Left = 0
     Height = 642
@@ -14,7 +15,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
     OnSelectionChange = lbxMultiArcSelectionChange
     ScrollWidth = 53
     TabOrder = 0
-    TopIndex = -1
   end
   object splMultiArc: TSplitter[1]
     Left = 55
@@ -33,9 +33,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
     ClientWidth = 841
     TabOrder = 2
     object pcArchiverCommands: TPageControl
-      AnchorSideLeft.Control = pnlArchiverCommands
-      AnchorSideTop.Control = pnlArchiverCommands
-      AnchorSideRight.Control = pnlArchiverCommands
+      AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 592
       Top = 0
@@ -49,14 +47,14 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
       TabOrder = 0
       object tbArchiverGeneral: TTabSheet
         Caption = 'General'
-        ClientHeight = 553
-        ClientWidth = 835
+        ClientHeight = 564
+        ClientWidth = 833
         object lblDescription: TLabel
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
+          Height = 15
           Top = 10
-          Width = 811
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 10
@@ -72,9 +70,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 28
-          Top = 28
-          Width = 811
+          Height = 23
+          Top = 25
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 0
         end
@@ -83,9 +81,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 58
-          Width = 811
+          Height = 15
+          Top = 50
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
@@ -99,9 +97,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 106
-          Width = 811
+          Height = 15
+          Top = 90
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
@@ -117,9 +115,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 28
-          Top = 124
-          Width = 811
+          Height = 23
+          Top = 105
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 2
         end
@@ -128,9 +126,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 154
-          Width = 811
+          Height = 15
+          Top = 130
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
@@ -146,9 +144,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 28
-          Top = 172
-          Width = 811
+          Height = 23
+          Top = 145
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 3
         end
@@ -157,9 +155,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 376
-          Width = 811
+          Height = 15
+          Top = 325
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
@@ -175,9 +173,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 28
-          Top = 394
-          Width = 811
+          Height = 23
+          Top = 340
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 7
         end
@@ -186,9 +184,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 424
-          Width = 811
+          Height = 15
+          Top = 365
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
@@ -204,9 +202,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 28
-          Top = 442
-          Width = 811
+          Height = 23
+          Top = 380
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 8
         end
@@ -215,9 +213,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 296
-          Width = 811
+          Height = 15
+          Top = 248
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 2
@@ -232,8 +230,8 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 60
-          Top = 314
-          Width = 811
+          Top = 263
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Right = 10
@@ -250,8 +248,8 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnRelativeArchiver
           Left = 10
-          Height = 28
-          Top = 76
+          Height = 23
+          Top = 65
           Width = 758
           DialogOptions = []
           FilterIndex = 0
@@ -269,9 +267,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 202
-          Width = 811
+          Height = 15
+          Top = 170
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           Caption = 'Listin&g start (optional):'
@@ -285,9 +283,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 28
-          Top = 220
-          Width = 811
+          Height = 23
+          Top = 185
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 4
         end
@@ -298,9 +296,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 18
-          Top = 248
-          Width = 811
+          Height = 15
+          Top = 208
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Listing &finish (optional):'
           FocusControl = edtArchiveListEnd
@@ -313,9 +311,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblDescription
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 28
-          Top = 266
-          Width = 811
+          Height = 23
+          Top = 223
+          Width = 809
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 5
         end
@@ -329,7 +327,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Left = 792
           Height = 23
           Hint = 'Some functions to select appropriate path'
-          Top = 67
+          Top = 65
           Width = 27
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.Left = 24
@@ -369,7 +367,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
             FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
           }
-          NumGlyphs = 0
           OnClick = btnRelativeArchiverClick
         end
       end
@@ -397,7 +394,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           OnPrepareCanvas = stgArchiverCommandsPrepareCanvas
           ColWidths = (
             64
-            749
+            730
           )
         end
         object gbArchiverOptions: TGroupBox
@@ -412,7 +409,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Caption = 'Options'
           ChildSizing.LeftRightSpacing = 10
           ChildSizing.TopBottomSpacing = 8
-          ClientHeight = 39
+          ClientHeight = 44
           ClientWidth = 811
           TabOrder = 1
           object chkMultiArcOutput: TCheckBox
@@ -513,8 +510,8 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnAutoConfig
         Left = 10
-        Height = 23
-        Top = 14
+        Height = 19
+        Top = 16
         Width = 260
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10

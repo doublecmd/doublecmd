@@ -41,7 +41,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uOSUtils, uDCUtils, uDCVersion;
+  uDCVersion;
 
 { TfrmStartingSplash }
 

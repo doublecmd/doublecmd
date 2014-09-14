@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 378
+  Left = 962
   Height = 370
-  Top = 100
+  Top = 261
   Width = 760
   Caption = 'Double Commander'
   ClientHeight = 370
@@ -19,7 +19,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.0.14.0'
+  LCLVersion = '1.2.2.0'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -120,23 +120,23 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 157
+    Height = 156
     Top = 46
     Width = 760
     Align = alClient
-    ClientHeight = 157
+    ClientHeight = 156
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 1
     OnResize = pnlNotebooksResize
     object pnlLeft: TPanel
       Left = 1
-      Height = 155
+      Height = 154
       Top = 1
       Width = 511
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 155
+      ClientHeight = 154
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -153,80 +153,74 @@ object frmMain: TfrmMain
       end
       object pnlLeftTools: TPanel
         Left = 0
-        Height = 25
+        Height = 24
         Top = 10
         Width = 511
         Align = alTop
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 25
+        ClientHeight = 24
         ClientWidth = 511
         TabOrder = 0
         object btnLeftDrive: TSpeedButton
           Left = 0
-          Height = 25
+          Height = 24
           Top = 0
           Width = 48
           Action = actLeftOpenDrives
           Align = alLeft
           Constraints.MinHeight = 24
-          NumGlyphs = 0
           OnMouseUp = btnDriveMouseUp
         end
         object btnLeftHome: TSpeedButton
           Left = 465
-          Height = 25
+          Height = 24
           Hint = 'Go to home directory'
           Top = 0
           Width = 23
           Align = alRight
           Caption = '~'
-          NumGlyphs = 0
           OnClick = btnLeftClick
         end
         object btnLeftUp: TSpeedButton
           Left = 442
-          Height = 25
+          Height = 24
           Hint = 'Go to parent directory'
           Top = 0
           Width = 23
           Align = alRight
           Caption = '..'
-          NumGlyphs = 0
           OnClick = btnLeftClick
         end
         object btnLeftRoot: TSpeedButton
           Left = 419
-          Height = 25
+          Height = 24
           Hint = 'Go to root directory'
           Top = 0
           Width = 23
           Align = alRight
           Caption = '/'
-          NumGlyphs = 0
           OnClick = btnLeftClick
         end
         object btnLeftDirectoryHotlist: TSpeedButton
           Left = 396
-          Height = 25
-          Hint = 'Directory hotlist'
+          Height = 24
+          Hint = 'Directory Hotlist'
           Top = 0
           Width = 23
           Align = alRight
           Caption = '*'
-          NumGlyphs = 0
           OnClick = btnLeftDirectoryHotlistClick
         end
         object btnLeftEqualRight: TSpeedButton
           Left = 488
-          Height = 25
+          Height = 24
           Hint = 'Show current directory of the right panel in the left panel'
           Top = 0
           Width = 23
           Action = actLeftEqualRight
           Align = alRight
           Caption = '<'
-          NumGlyphs = 0
         end
         object pbxLeftDrive: TPaintBox
           AnchorSideLeft.Control = lblLeftDriveInfo
@@ -263,12 +257,12 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 512
-      Height = 155
+      Height = 154
       Top = 1
       Width = 247
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 155
+      ClientHeight = 154
       ClientWidth = 247
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
@@ -285,76 +279,71 @@ object frmMain: TfrmMain
       end
       object pnlRightTools: TPanel
         Left = 0
-        Height = 25
+        Height = 24
         Top = 10
         Width = 247
         Align = alTop
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 25
+        ClientHeight = 24
         ClientWidth = 247
         TabOrder = 0
         object btnRightDrive: TSpeedButton
           Left = 0
-          Height = 25
+          Height = 24
           Top = 0
           Width = 48
           Action = actRightOpenDrives
           Align = alLeft
           Constraints.MinHeight = 24
-          NumGlyphs = 0
           OnMouseUp = btnDriveMouseUp
         end
         object btnRightHome: TSpeedButton
           Left = 201
-          Height = 25
+          Height = 24
           Top = 0
           Width = 23
           Align = alRight
           Caption = '~'
-          NumGlyphs = 0
           OnClick = btnRightClick
         end
         object btnRightUp: TSpeedButton
           Left = 178
-          Height = 25
+          Height = 24
           Top = 0
           Width = 23
           Align = alRight
           Caption = '..'
-          NumGlyphs = 0
           OnClick = btnRightClick
         end
         object btnRightRoot: TSpeedButton
           Left = 155
-          Height = 25
+          Height = 24
           Top = 0
           Width = 23
           Align = alRight
           Caption = '/'
-          NumGlyphs = 0
           OnClick = btnRightClick
         end
         object btnRightDirectoryHotlist: TSpeedButton
           Left = 132
-          Height = 25
+          Height = 24
+          Hint = 'Directory Hotlist'
           Top = 0
           Width = 23
           Align = alRight
           Caption = '*'
-          NumGlyphs = 0
           OnClick = btnRightDirectoryHotlistClick
         end
         object btnRightEqualLeft: TSpeedButton
           Left = 224
-          Height = 25
+          Height = 24
           Hint = 'Show current directory of the left panel in the right panel'
           Top = 0
           Width = 23
           Action = actRightEqualLeft
           Align = alRight
           Caption = '>'
-          NumGlyphs = 0
         end
         object pbxRightDrive: TPaintBox
           AnchorSideLeft.Control = lblRightDriveInfo
@@ -407,8 +396,8 @@ object frmMain: TfrmMain
   end
   object PanelAllProgress: TPanel
     Left = 0
-    Height = 0
-    Top = 203
+    Height = 1
+    Top = 202
     Width = 760
     Align = alBottom
     AutoSize = True
@@ -456,9 +445,9 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 22
-        Top = 5
-        Width = 34
+        Height = 17
+        Top = 8
+        Width = 31
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -469,13 +458,13 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 38
+        Left = 35
         Height = 29
         Top = 2
-        Width = 720
+        Width = 723
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
-        ItemHeight = 21
+        ItemHeight = 0
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
         TabOrder = 0
@@ -895,77 +884,69 @@ object frmMain: TfrmMain
       Left = 0
       Height = 20
       Top = 0
-      Width = 87
+      Width = 88
       Action = actView
       Flat = True
-      NumGlyphs = 0
     end
     object btnF4: TSpeedButton
-      Left = 87
+      Left = 88
       Height = 20
       Top = 0
-      Width = 81
+      Width = 82
       Action = actEdit
       Flat = True
-      NumGlyphs = 0
     end
     object btnF5: TSpeedButton
-      Left = 168
+      Left = 170
       Height = 20
       Top = 0
       Width = 89
       Action = actCopy
       Flat = True
-      NumGlyphs = 0
     end
     object btnF6: TSpeedButton
-      Left = 257
+      Left = 259
       Height = 20
       Top = 0
-      Width = 94
+      Width = 92
       Action = actRename
       Flat = True
-      NumGlyphs = 0
     end
     object btnF7: TSpeedButton
       Left = 351
       Height = 20
       Top = 0
-      Width = 116
+      Width = 118
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
-      NumGlyphs = 0
     end
     object btnF8: TSpeedButton
-      Left = 467
+      Left = 469
       Height = 20
       Top = 0
-      Width = 101
+      Width = 99
       Caption = 'Delete'
       Flat = True
-      NumGlyphs = 0
       OnClick = btnF8Click
     end
     object btnF9: TSpeedButton
       Left = 568
       Height = 20
       Top = 0
-      Width = 117
+      Width = 113
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
-      NumGlyphs = 0
     end
     object btnF10: TSpeedButton
-      Left = 685
+      Left = 681
       Height = 20
       Top = 0
-      Width = 75
+      Width = 79
       Action = actExit
       Caption = 'Exit'
       Flat = True
-      NumGlyphs = 0
     end
   end
   object mnuMain: TMainMenu
@@ -1108,9 +1089,6 @@ object frmMain: TfrmMain
       Caption = '&Commands'
       object mnuCmdSearch: TMenuItem
         Action = actSearch
-      end
-      object mnuCmdConfigDirHotlist: TMenuItem
-        Action = actConfigDirHotList
       end
       object mnuCmdDirHotlist: TMenuItem
         Action = actDirHotList
@@ -1281,6 +1259,10 @@ object frmMain: TfrmMain
       object mnuConfigOptions: TMenuItem
         Action = actOptions
       end
+      object mnuCmdConfigDirHotlist: TMenuItem
+        Action = actConfigDirHotList
+        Caption = 'Directory Hotlist'
+      end
       object mnuFileAssoc: TMenuItem
         Action = actFileAssoc
       end
@@ -1417,7 +1399,7 @@ object frmMain: TfrmMain
     end
     object actConfigDirHotList: TAction
       Category = 'Commands'
-      Caption = 'Configuration of directory hotlist'
+      Caption = 'Configuration of Directory Hotlist'
       OnExecute = actExecute
     end
     object actDirHotList: TAction
@@ -2037,6 +2019,7 @@ object frmMain: TfrmMain
     end
   end
   object pmHotList: TPopupMenu
+    Images = imgLstDirectoryHotlist
     left = 120
     top = 72
   end
@@ -3299,7 +3282,11 @@ object frmMain: TfrmMain
     top = 152
   end
   object imgLstActions: TImageList
-    left = 24
-    top = 216
+    left = 64
+    top = 224
+  end
+  object imgLstDirectoryHotlist: TImageList
+    left = 200
+    top = 224
   end
 end
