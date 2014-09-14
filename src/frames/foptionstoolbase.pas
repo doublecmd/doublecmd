@@ -96,6 +96,7 @@ procedure TfrmOptionsToolBase.cbToolsUseExternalProgramChange(Sender: TObject);
 begin
   lblToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
   fneToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
+  btnRelativeToolPath.Enabled := cbToolsUseExternalProgram.Checked;
   lblToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
   edtToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
   cbToolsRunInTerminal.Enabled    := cbToolsUseExternalProgram.Checked;

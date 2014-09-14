@@ -43,7 +43,11 @@ type
 implementation
 
 uses
-  LCLProc, crc, uOSUtils, DCOSUtils, uLng;
+  //Lazarus, Free-Pascal, etc.
+  LCLProc, crc,
+
+  //DC
+  uOSUtils, DCOSUtils, uLng, uFileProcs;
 
 constructor TFileSystemSplitOperation.Create(aFileSource: IFileSource;
                                                var aSourceFile: TFile;
@@ -68,6 +72,27 @@ begin
   end;
 end;
 
+//TC, when creating the CRC32 verification file after a split will include the target filename with both ANSI and UTF8 string filename
+//In the ANSI filename, he puts "_" to replace any UTF8 needed character, not present in regular ANSI set.
+//Let's do the same!
+//
+function ConvertStringToTCStringUTF8CharReplacedByUnderscore(sString: string): string;
+var
+  indexChar:integer;
+begin
+  result:='';
+  {$IFDEF DEBUG}
+  DCDebug(Format('UTF8length(sString): %d',[UTF8length(sString)]));
+  {$ENDIF}
+  for indexChar:=1 to UTF8length(sString) do
+  begin
+    {$IFDEF DEBUG}
+    DCDebug(UTF8copy(sString,indexChar,1));
+    {$ENDIF}
+    if UTF8copy(sString,indexChar,1)=UTF8ToAnsi(UTF8copy(sString,indexChar,1)) then result:=result+UTF8copy(sString,indexChar,1) else result:=result+'_';
+  end;
+end;
+
 procedure TFileSystemSplitOperation.Initialize;
 begin
   // Get initialized statistics; then we change only what is needed.
@@ -87,7 +112,7 @@ var
   iTotalDiskSize, iFreeDiskSize: Int64;
   SourceFileStream: TFileStreamEx = nil;
   TargetFilename: UTF8String;
-  SummaryFile:textfile;
+  hSummaryFile: THandle;
   SummaryFilename:UTF8String;
   respAutomaticSwapDisk: TFileSourceOperationUIResponse;
 begin
@@ -191,15 +216,15 @@ begin
               SummaryFilename:= FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + 'CRC'
             else
               SummaryFilename:= FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + 'crc';
-            AssignFile(SummaryFile,SummaryFilename);
-            filemode:=1;
-            ReWrite(SummaryFile);
+
+            hSummaryFile := mbFileCreate(SummaryFilename);
             try
-              WriteLn(SummaryFile,'filename='+SourceFile.Name);
-              WriteLn(SummaryFile,'size='+IntToStr(SourceFile.Size));
-              WriteLn(SummaryFile,'crc32='+hexStr(CurrentCRC32,8));
+              FileWriteLn(hSummaryFile,'filename='+ConvertStringToTCStringUTF8CharReplacedByUnderscore(SourceFile.Name));
+              FileWriteLn(hSummaryFile,'filenameutf8='+SourceFile.Name);
+              FileWriteLn(hSummaryFile,'size='+IntToStr(SourceFile.Size));
+              FileWriteLn(hSummaryFile,'crc32='+hexStr(CurrentCRC32,8));
             finally
-              CloseFile(SummaryFile);
+              FileClose(hSummaryFile);
             end;
           end;
         end;

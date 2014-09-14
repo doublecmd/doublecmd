@@ -32,7 +32,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls, Buttons,
-  StdCtrls, fgl, uGlobs, fOptionsFrame;
+  StdCtrls, fgl, uGlobs, fOptionsFrame, uDCUtils;
 
 type
 
@@ -42,6 +42,7 @@ type
     EditorClass: TOptionsEditorClass;
     Instance: TOptionsEditor;
     TreeNode: TTreeNode;
+    LegacyOrderIndex: integer;
   end;
 
   TOptionsEditorViews = specialize TFPGObjectList<TOptionsEditorView>;
@@ -62,6 +63,7 @@ type
     splOptionsSplitter: TSplitter;
     procedure btnCancelClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -75,6 +77,7 @@ type
     function GetEditor(EditorClass: TOptionsEditorClass): TOptionsEditor;
     procedure LoadSettings;
     procedure SelectEditor(EditorClassName: String);
+    function CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass); overload;
@@ -85,6 +88,8 @@ type
 
   function ShowOptions(EditorClass: TOptionsEditorClass = nil): IOptionsDialog;
   function ShowOptions(EditorClassName: String): IOptionsDialog;
+  procedure SortConfigurationOptionsOnLeftTree; //If the var "frmOptions" would be in the interface section, we could have called directly "frmOptions.tvTreeView.CustomSort(@frmOptions.CompareTwoNodeOfConfigurationOptionTree);"
+                                                //But it's not the case... Let's create this routine and respect the wish of original authors to have it there. Maybe there is a raison why so let's play safe.
 
 implementation
 
@@ -125,6 +130,11 @@ begin
   Result := frmOptions;
 end;
 
+procedure SortConfigurationOptionsOnLeftTree;
+begin
+  if frmOptions<>nil then frmOptions.tvTreeView.CustomSort(@frmOptions.CompareTwoNodeOfConfigurationOptionTree);
+end;
+
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   // Initialize property storage
@@ -135,6 +145,19 @@ procedure TfrmOptions.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
   frmOptions:= nil;
+end;
+
+procedure TfrmOptions.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+var
+  I:integer;
+begin
+  CanClose:=TRUE;
+  I:=0;
+  while (I<FOptionsEditorList.Count) AND (CanClose) do
+  begin
+    if Assigned(FOptionsEditorList[I].Instance) then CanClose:=FOptionsEditorList[I].Instance.CanWeClose;
+    inc(I);
+  end;
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
@@ -166,6 +189,28 @@ begin
   FreeThenNil(FOptionsEditorList);
 end;
 
+function TfrmOptions.CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
+begin
+  case gSortOrderOfConfigurationOptionsTree of
+    scoClassicLegacy:
+      begin
+        if TOptionsEditorView(Node1.Data).LegacyOrderIndex < TOptionsEditorView(Node2.Data).LegacyOrderIndex then result:=-1 else result:=1;
+      end;
+
+    scoAlphabeticalButLanguage:
+      begin
+        if TOptionsEditorView(Node1.Data).EditorClass.ClassName='TfrmOptionsLanguage' then
+          result:=-1
+        else
+          if TOptionsEditorView(Node2.Data).EditorClass.ClassName='TfrmOptionsLanguage' then
+            result:=1
+          else
+            result:=CompareStrings(Node1.Text,Node2.Text, gSortNatural, gSortCaseSensitivity)
+      end;
+  end;
+
+end;
+
 procedure TfrmOptions.CreateOptionsEditorList;
   procedure AddEditors(EditorClassList: TOptionsEditorClassList; RootNode: TTreeNode);
   var
@@ -182,6 +227,7 @@ procedure TfrmOptions.CreateOptionsEditorList;
       aOptionsEditorView := TOptionsEditorView.Create;
       aOptionsEditorView.EditorClass := aOptionsEditorClass;
       aOptionsEditorView.Instance    := nil;
+      aOptionsEditorView.LegacyOrderIndex:=I;
       FOptionsEditorList.Add(aOptionsEditorView);
 
       TreeNode := tvTreeView.Items.AddChild(RootNode,
@@ -205,6 +251,9 @@ procedure TfrmOptions.CreateOptionsEditorList;
       if EditorClassList[I].HasChildren then
         AddEditors(EditorClassList[I].Children, TreeNode);
     end;
+
+    //2014-08-12:Let's sort by alphabetical order this list.
+    tvTreeView.CustomSort(@CompareTwoNodeOfConfigurationOptionTree);
   end;
 begin
   FOptionsEditorList:= TOptionsEditorViews.Create;

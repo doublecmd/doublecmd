@@ -27,7 +27,7 @@ unit fOptionsConfiguration;
 interface
 
 uses
-  Classes, SysUtils, fOptionsFrame, StdCtrls, Buttons;
+  Classes, SysUtils, fOptionsFrame, StdCtrls, Buttons, ExtCtrls;
 
 type
 
@@ -44,11 +44,13 @@ type
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
     lblCmdLineConfigDir: TLabel;
+    gbSortOrderConfigurationOption: TRadioGroup;
     rbProgramDir: TRadioButton;
     rbUserHomeDir: TRadioButton;
     procedure btnConfigApplyClick(Sender: TObject);
     procedure btnConfigEditClick(Sender: TObject);
     procedure chkSaveConfigurationChange(Sender: TObject);
+    procedure gbSortOrderConfigurationOptionClick(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -63,7 +65,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng;
+  Forms, uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng, fOptions;
 
 { TfrmOptionsConfiguration }
 
@@ -96,7 +98,14 @@ begin
   cbDirHistory.Enabled:= chkSaveConfiguration.Checked;
   cbCmdLineHistory.Enabled:= chkSaveConfiguration.Checked;
   cbFileMaskHistory.Enabled:= chkSaveConfiguration.Checked;
-  chkSearchReplaceHistory.Enabled:= chkSaveConfiguration.Checked;
+  chkSearchReplaceHistory.Enabled := chkSaveConfiguration.Checked;
+end;
+
+procedure TfrmOptionsConfiguration.gbSortOrderConfigurationOptionClick(Sender: TObject);
+begin
+  //Exceptionnally for THIS setting, let's apply it immediately, even before quiting since the effect is... in the configuration area, just where we are at this moment!
+  gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(gbSortOrderConfigurationOption.ItemIndex);
+  SortConfigurationOptionsOnLeftTree;
 end;
 
 class function TfrmOptionsConfiguration.GetIconIndex: Integer;
@@ -138,6 +147,7 @@ begin
   cbDirHistory.Checked := gSaveDirHistory;
   cbCmdLineHistory.Checked := gSaveCmdLineHistory;
   cbFileMaskHistory.Checked := gSaveFileMaskHistory;
+  gbSortOrderConfigurationOption.ItemIndex:=Integer(gSortOrderOfConfigurationOptionsTree);
 end;
 
 function TfrmOptionsConfiguration.Save: TOptionsEditorSaveFlags;
@@ -150,6 +160,7 @@ begin
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;
+  gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(gbSortOrderConfigurationOption.ItemIndex);
 end;
 
 end.

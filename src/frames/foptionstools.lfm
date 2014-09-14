@@ -170,7 +170,11 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       TabOrder = 0
     end
   end
-  object optColorDialog: TColorDialog[8]
+  inherited pmPathHelper: TPopupMenu[9]
+    left = 528
+    top = 168
+  end
+  object optColorDialog: TColorDialog[10]
     Color = clBlack
     CustomColors.Strings = (
       'ColorA=000000'

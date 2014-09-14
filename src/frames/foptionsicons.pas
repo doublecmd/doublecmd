@@ -160,6 +160,8 @@ begin
     Include(Result, oesfNeedsRestart);
   end;
 
+  if cbIconsInMenus.Checked <> gIconsInMenus then Include(Result, oesfNeedsRestart); //Main page menu's are created only at startup so we need to restart.
+
   gIconsSizeNew := SelectedIconsSize;
   gShowIconsNew := SelectedShowIcons;
   gIconOverlays := cbIconsShowOverlay.Checked;

@@ -3,11 +3,10 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
   Width = 604
   ClientHeight = 376
   ClientWidth = 604
-  DesignTop = 27
+  DesignLeft = 248
+  DesignTop = 275
   object pcPluginsTypes: TPageControl[0]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 84
     Top = 0
@@ -19,7 +18,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     OnChange = pcPluginsTypesChange
     object tsWCX: TTabSheet
       Caption = 'Pac&ker plugins (.WCX)'
-      ClientHeight = 58
+      ClientHeight = 56
       ClientWidth = 596
       OnShow = tsWCXShow
       object lblWCXDescription: TLabel
@@ -28,7 +27,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsWCX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 13
+        Height = 15
         Top = 12
         Width = 576
         Anchors = [akTop, akLeft, akRight]

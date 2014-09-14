@@ -46,7 +46,12 @@ type
 implementation
 
 uses
-  LCLProc, crc, uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource;
+  //Lazarus, Free-Pascal, etc.
+  LCLProc, crc,
+
+  //DC
+  uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource,
+  uFileProcs;
 
 { TFileSystemCombineOperation.Create }
 constructor TFileSystemCombineOperation.Create(aFileSource: IFileSource;
@@ -405,7 +410,7 @@ function TFileSystemCombineOperation.TryToGetInfroFromTheCRC32VerificationFile:b
 var
   PosOfEqualSign: integer;
   MaybeSummaryFilename: UTF8String;
-  SummaryFile: Textfile;
+  hSummaryFile: THandle;
   LineToParse: string;
   UserAnswer: TFileSourceOperationUIResponse;
 begin
@@ -421,41 +426,37 @@ begin
 
   if mbFileExists(MaybeSummaryFilename) then
   begin
-    AssignFile(SummaryFile,MaybeSummaryFilename);
-    filemode:=0;
-    Reset(SummaryFile);
+    hSummaryFile:=mbFileOpen(MaybeSummaryFilename, fmOpenRead);
     try
-      while not eof(SummaryFile) do
+      while FileReadLn(hSummaryFile,LineToParse) do //"FileReadLn" return FALSE when we're at the end of the file! Wow! Let's use it for the loop control then!
       begin
-        ReadLn(SummaryFile,LineToParse);
-
-        //Let's see if we could extract final filename...
-        PosOfEqualSign:=pos('filename=',lowercase(LineToParse));
-        if PosOfEqualSign>0 then
+        PosOfEqualSign := UTF8Pos('=',LineToParse);
+        if PosOfEqualSign > 0 then //Investiguate *only* if the equal sign is present
         begin
-          PosOfEqualSign:=pos('=',LineToParse);
-          TargetFile:=ExtractFilePath(TargetFile)+copy(LineToParse,(PosOfEqualSign+1),(length(LineToParse)-PosOfEqualSign));
-        end;
+          //Let's see if we could extract final filename.
+          //We first look for a UTF8 filename style. If so, take it, if not, search for the ANSI flavor
+          if UTF8Pos('filenameutf8=',UTF8LowerCase(LineToParse))>0 then
+          begin
+            TargetFile:=ExtractFilePath(TargetFile)+UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign));
+          end
+          else
+          begin
+            if UTF8Pos('filename=',UTF8LowerCase(LineToParse))>0 then
+              TargetFile:=ExtractFilePath(TargetFile)+UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign));
+          end;
 
-        //Let's see if we could extract final filesize...
-        PosOfEqualSign:=pos('size=',lowercase(LineToParse));
-        if PosOfEqualSign>0 then
-        begin
-          PosOfEqualSign:=pos('=',LineToParse);
-          FStatistics.TotalBytes:=StrToInt(copy(LineToParse,(PosOfEqualSign+1),(length(LineToParse)-PosOfEqualSign)));
-        end;
+          //Let's see if we could extract final filesize...
+          if UTF8Pos('size=',UTF8LowerCase(LineToParse))>0 then
+            FStatistics.TotalBytes:=StrToInt(UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign)));
 
-        //Let's see if we could extract final CRC32...
-        PosOfEqualSign:=pos('crc32=',lowercase(LineToParse));
-        if PosOfEqualSign>0 then
-        begin
-          PosOfEqualSign:=pos('=',LineToParse);
-          ExpectedCRC32:=StrToQWord('x'+copy(LineToParse,(PosOfEqualSign+1),(length(LineToParse)-PosOfEqualSign)));
+          //Let's see if we could extract final CRC32...
+          if UTF8Pos('crc32=',UTF8LowerCase(LineToParse))>0 then
+            ExpectedCRC32:=StrToQWord('x'+UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign)));
         end;
       end;
 
     finally
-      CloseFile(SummaryFile);
+      FileClose(hSummaryFile);
     end;
 
     WeGotTheCRC32VerificationFile:=TRUE;

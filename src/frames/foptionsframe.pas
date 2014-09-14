@@ -50,6 +50,7 @@ type
     procedure Init(AParent: TWinControl;
                    AOptionsDialog: IOptionsDialog;
                    Flags: TOptionsEditorInitFlags);
+    function CanWeClose:boolean; virtual;
   end;
 
   { TOptionsEditorRec }
@@ -115,7 +116,8 @@ uses
   fOptionsToolbar,
   fOptionsTools,
   fOptionsEditorColors,
-  fOptionsToolTips;
+  fOptionsToolTips,
+  fOptionsDirectoryHotlist;
 
 { TOptionsEditorRec }
 
@@ -161,6 +163,11 @@ end;
 procedure TOptionsEditor.Init;
 begin
   // Empty.
+end;
+
+function TOptionsEditor.CanWeClose:boolean;
+begin
+  result:=TRUE;
 end;
 
 procedure TOptionsEditor.Done;
@@ -266,6 +273,7 @@ begin
   Main.Add(TfrmOptionsIgnoreList);
   Main.Add(TfrmOptionsArchivers);
   Main.Add(TfrmOptionsToolTips);
+  Main.Add(TfrmOptionsDirectoryHotlist);
 end;
 
 initialization

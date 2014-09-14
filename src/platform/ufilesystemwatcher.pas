@@ -1269,6 +1269,17 @@ begin
 
   if FHandle = INVALID_HANDLE_VALUE then
   begin
+    FHandle := CreateFileW(PWideChar(UTF8Decode(FWatchPath)),
+                 FILE_LIST_DIRECTORY,
+                 CREATEFILEW_SHAREMODE,
+                 nil,
+                 OPEN_EXISTING,
+                 FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_OVERLAPPED,
+                 0);
+  end;
+
+  if FHandle = INVALID_HANDLE_VALUE then
+  begin
     FHandle := feInvalidHandle;
     ShowError('CreateFileW failed for ' + FWatchPath);
   end

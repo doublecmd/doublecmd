@@ -89,19 +89,21 @@ type
     property IndexOfEnvironmentVariable: longint read fIndexOfEnvironmentVariable write fIndexOfEnvironmentVariable; //Index of first EnvironmentVariable
   end;
 
+function GetMenuCaptionAccordingToOptions(const WantedCaption:string; const MatchingPath:string):string;
 procedure LoadWindowsSpecialDir;
 
 implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  EditBtn, Dialogs, ExtCtrls, StrUtils, StdCtrls,
+  EditBtn, Dialogs, ExtCtrls, StrUtils, StdCtrls, lazutf8,
   {$IFDEF MSWINDOWS}
   ShlObj,
   {$ENDIF}
 
   //DC
-  DCOSUtils, uDCUtils, uGlobsPaths, fmain, uLng, uGlobs, uHotDir, uOSUtils;
+  DCOSUtils, uDCUtils, uGlobsPaths, fmain, uLng, uGlobs, uHotDir, uOSUtils,
+  DCStrUtils;
 
 { The special path are sorted first by type of special path they represent (DC, Windows, Environment...)
   Then, by alphabetical order.
@@ -166,7 +168,7 @@ procedure TSpecialDirList.Clear;
 var
   i: Integer;
 begin
-  for i := 0 to Count - 1 do SpecialDir[i].Free;
+  for i := pred(Count) downto 0 do SpecialDir[i].Free;
   inherited Clear;
 end;
 
@@ -195,7 +197,7 @@ var
     localmi:TMenuItem;
   begin
     localmi:=TMenuItem.Create(ParamMenuItem);
-    localmi.Caption:=SpecialDir[IndexVariable].VariableName;
+    localmi.Caption:=GetMenuCaptionAccordingToOptions(SpecialDir[IndexVariable].VariableName,SpecialDir[IndexVariable].PathValue);
     localmi.tag:=TagRequested;
     localmi.OnClick:=ProcedureWhenClickOnMenuItem;
     ParamMenuItem.Add(localmi);
@@ -237,7 +239,7 @@ begin
 
         //4o) "Use hotdir path...", then the ones user might have with his HotDir
         AddStraightToMainTree('Use hotdir path',0,nil);
-        gHotDirList.PopulateMenuWithHotDir(miMainTree,@SpecialDirMenuClick,nil,frmMain.ActiveFrame.CurrentPath,mpPATHHELPER,TAGOFFSET_FORHOTDIRUSEINPATHHELPER);
+        gDirectoryHotlist.PopulateMenuWithHotDir(miMainTree,@SpecialDirMenuClick,nil,mpPATHHELPER,TAGOFFSET_FORHOTDIRUSEINPATHHELPER);
         AddStraightToMainTree('-',0,nil);
 
         //5o) "Make relative to special path...", we add the special path used by TC
@@ -254,7 +256,7 @@ begin
 
         //8o)  "Make relative to HotDir path...", then, the ones from hotdir
         AddStraightToMainTree('Make relative to hotdir path',0,nil);
-        gHotDirList.PopulateMenuWithHotDir(miMainTree,@SpecialDirMenuClick,nil,frmMain.ActiveFrame.CurrentPath,mpPATHHELPER,TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER);
+        gDirectoryHotlist.PopulateMenuWithHotDir(miMainTree,@SpecialDirMenuClick,nil,mpPATHHELPER,TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER);
         AddStraightToMainTree('-',0,nil);
 
         //9o) Then add the item to make the path in absolute format
@@ -315,8 +317,7 @@ procedure TSpecialDirList.SpecialDirMenuClick(Sender: TObject);
 
 var
   Dispatcher:longint; //Indicate wich menuitem user selected
-  RememberFilename, OriginalPath, MaybeResultingOutputPath, InitialPath, sSelectedPath:string;
-  FlagCancelled:boolean;
+  RememberFilename, OriginalPath, MaybeResultingOutputPath, sSelectedPath:string;
 begin
   with Sender as TComponent do Dispatcher:=tag;
   OriginalPath:='';
@@ -368,12 +369,12 @@ begin
 
     TAGOFFSET_FORHOTDIRUSEINPATHHELPER..(TAGOFFSET_FORHOTDIRUSEINPATHHELPER+$FFFF):
       begin
-        MaybeResultingOutputPath:=gHotDirList.HotDir[Dispatcher-TAGOFFSET_FORHOTDIRUSEINPATHHELPER].HotDirPath;
+        MaybeResultingOutputPath:=gDirectoryHotlist.HotDir[Dispatcher-TAGOFFSET_FORHOTDIRUSEINPATHHELPER].HotDirPath;
       end;
 
     TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER..(TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER+$FFFF):
       begin
-        MaybeResultingOutputPath:=GetCorrectPathForHotDirFromHints(OriginalPath,gHotDirList.HotDir[Dispatcher-TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER].HotDirPath,gHotDirList.HotDir[Dispatcher-TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER].HotDirPath);
+        MaybeResultingOutputPath:=GetCorrectPathForHotDirFromHints(OriginalPath,gDirectoryHotlist.HotDir[Dispatcher-TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER].HotDirPath,gDirectoryHotlist.HotDir[Dispatcher-TAGOFFSET_FORHOTDIRRELATIVEINPATHHELPER].HotDirPath);
       end;
   end;
 
@@ -394,7 +395,7 @@ procedure TSpecialDirList.PopulateSpecialDir;
 var
   FilePath: array [0..255] of char;
   NbOfEnvVar, IndexVar, EqualPos:integer;
-  EnvVar, EnvName, EnvValue:string;
+  EnvVar, EnvValue:string;
   LocalSpecialDir:TSpecialDir;
   MyYear,MyMonth,MyDay:word;
 
@@ -415,6 +416,9 @@ var
   {$ENDIF}
 
 begin
+  //Since in configuration we might need to recall this routine, let's clear the list
+  if gSpecialDirList.Count>0 then gSpecialDirList.Clear;
+
   LocalSpecialDir:=TSpecialDir.Create;
   LocalSpecialDir.fDispatcher:=sd_DOUBLECOMMANDER;
   LocalSpecialDir.VariableName:=VARDELIMITER+'commander_path'+VARDELIMITER;
@@ -519,14 +523,23 @@ begin
       for IndexVar:= 1 to NbOfEnvVar do
       begin
         EnvVar:= mbGetEnvironmentString(IndexVar);
+
         EqualPos:= PosEx('=', EnvVar, 2);
         if EqualPos <> 0 then
           begin
-            LocalSpecialDir:=TSpecialDir.Create;
-            LocalSpecialDir.fDispatcher:=sd_ENVIRONMENTVARIABLE;
-            LocalSpecialDir.VariableName:=VARDELIMITER+copy(EnvVar, 1, EqualPos - 1)+VARDELIMITER;
-            LocalSpecialDir.PathValue:=copy(EnvVar, EqualPos + 1, MaxInt);
-            Add(LocalSpecialDir);
+            EnvValue:=copy(EnvVar, EqualPos + 1, MaxInt);
+            {$IFDEF MSWINDOWS}
+            if (not gShowOnlyValidEnv) OR (ExtractFileDrive(EnvValue)<>'') then
+            {$ELSE}
+            if (not gShowOnlyValidEnv) OR (UTF8LeftStr(EnvValue,1)=PathDelim) then
+            {$ENDIF}
+            begin
+              LocalSpecialDir:=TSpecialDir.Create;
+              LocalSpecialDir.fDispatcher:=sd_ENVIRONMENTVARIABLE;
+              LocalSpecialDir.VariableName:=VARDELIMITER+copy(EnvVar, 1, EqualPos - 1)+VARDELIMITER;
+              LocalSpecialDir.PathValue:=IncludeTrailingPathDelimiter(EnvValue);
+              Add(LocalSpecialDir);
+            end;
           end;
       end;
     end;
@@ -541,6 +554,18 @@ begin
   fRecipientType:=ParamKindOfPathFile;
 end;
 
+function GetMenuCaptionAccordingToOptions(const WantedCaption:string; const MatchingPath:string):string;
+  begin
+    result:=WantedCaption;
+    if gShowPathInPopup then
+    begin
+      if UTF8length(MatchingPath)<100 then
+        result:=result + ' - ['+IncludeTrailingPathDelimiter(MatchingPath)+']'
+      else
+        result:=result + ' - ['+IncludeTrailingPathDelimiter('...'+UTF8RightStr(MatchingPath,100))+']';
+    end;
+  end;
+
 procedure LoadWindowsSpecialDir;
 begin
   gSpecialDirList:=TSpecialDirList.Create;
@@ -548,4 +573,4 @@ begin
 end;
 
 end.
-
+

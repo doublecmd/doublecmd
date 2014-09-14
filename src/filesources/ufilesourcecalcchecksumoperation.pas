@@ -55,6 +55,7 @@ type
     FTargetMask: String;
     FAlgorithm: THashAlgorithm;
     FOneFile: Boolean;
+    FOpenFileAfterOperationCompleted: Boolean;
 
   protected
     FResult: TVerifyChecksumResult;
@@ -63,6 +64,7 @@ type
 
     procedure UpdateStatistics(var NewStatistics: TFileSourceCalcChecksumOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
+    procedure DoReloadFileSources; override;
 
     property FileSource: IFileSource read FFileSource;
     property Files: TFiles read FFiles;
@@ -83,13 +85,14 @@ type
     property Mode: TCalcCheckSumOperationMode read FMode write FMode;
     property Algorithm: THashAlgorithm read FAlgorithm write FAlgorithm;
     property OneFile: Boolean read FOneFile write FOneFile;
+    property OpenFileAfterOperationCompleted: Boolean  read FOpenFileAfterOperationCompleted write FOpenFileAfterOperationCompleted;
     property Result: TVerifyChecksumResult read FResult;
   end;
 
 implementation
 
 uses
-  uDCUtils, uLng;
+  uDCUtils, uLng, uShowForm;
 
 constructor TFileSourceCalcChecksumOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -122,6 +125,7 @@ begin
   FMode := checksum_calc;
   FAlgorithm := HASH_MD5;
   FOneFile := False;
+  FOpenFileAfterOperationCompleted := FALSE;
 end;
 
 destructor TFileSourceCalcChecksumOperation.Destroy;
@@ -223,6 +227,12 @@ begin
     FStatisticsLock.Release;
   end;
 end;
+
+procedure TFileSourceCalcChecksumOperation.DoReloadFileSources;
+begin
+  if OneFile AND OpenFileAfterOperationCompleted then ShowViewerByGlob(TargetMask);
+end;
+
 
 end.
 

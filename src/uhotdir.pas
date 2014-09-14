@@ -30,29 +30,55 @@ unit uHotDir;
 interface
 
 uses
- //Lazarus, Free-Pascal, etc.
- Classes, SysUtils, Menus, extctrls, Controls, stdctrls,
+  //Lazarus, Free-Pascal, etc.
+  Classes, SysUtils, Menus, ExtCtrls, Controls, ComCtrls,
 
- //DC
- DCClassesUtf8, DCXmlConfig, uFile, uFindFiles;
-
+  //DC
+  DCClassesUtf8, DCXmlConfig;
 const
   cSectionOfHotDir = 'DirectoryHotList';
 
   ACTION_ADDTOHOTLIST = 1;
   ACTION_CONFIGTOHOTLIST = 2;
+  ACTION_JUSTSHOWCONFIGHOTLIST = 3;
+  ACTION_ADDSELECTEDDIR = 4;
+  ACTION_DIRECTLYCONFIGENTRY = 5;
+
+  HOTLISTMAGICWORDS:array[1..5] of string =('add','config','show','addsel','directconfig');
 
   TAGOFFSET_FORCHANGETOSPECIALDIR = $10000;
+
+  ICONINDEX_SUBMENU = 0;
+  ICONINDEX_DIRECTORYNOTPRESENTHERE = 1;
+  ICONINDEX_SUBMENUWITHMISSING = 2;
+  ICONINDEX_NEWADDEDDIRECTORY = 3;
+  ICONINDEXNAME:array[0..3] of string = ('submenu','dirmissing','submenuwithmissing','newaddition');
+
+  HOTLIST_SEPARATORSTRING:string='···························';
+  TERMINATORNOTPRESENT = ':-<#/?*+*?\#>-:';
+
+  STR_ACTIVEFRAME: string = 'ActiveFrame';
+  STR_NOTACTIVEFRAME: string = 'NotActiveFrame';
+  STR_NAME: string = 'Name';
+  STR_EXTENSION: string = 'Extension';
+  STR_SIZE: string = 'Size';
+  STR_MODIFICATIONTIME: string = 'ModificationTime';
+  STR_ASCENDING : string = 'Ascending';
+  STR_DESCENDING : string = 'Descending';
+
 
 type
   { TKindOfHotDirEntry }
   TKindOfHotDirEntry = (hd_NULL, hd_CHANGEPATH, hd_SEPARATOR, hd_STARTMENU, hd_ENDMENU, hd_COMMAND);
 
   { TKindHotDirMenuPopulation }
-  TKindHotDirMenuPopulation = (mpJUSTHOTDIRS,mpHOTDIRSWITHCONFIG,mpPATHHELPER);
+  TKindHotDirMenuPopulation = (mpJUSTHOTDIRS, mpHOTDIRSWITHCONFIG, mpPATHHELPER);
+
+  { TPositionWhereToAddHotDir }
+  TPositionWhereToAddHotDir = (ahdFirst, ahdLast, ahdSmart);
 
   { TExistingState }
-  TExistingState = (DirExistUnknown,DirExist,DirNotExist);
+  TExistingState = (DirExistUnknown, DirExist, DirNotExist);
 
   { TProcedureWhenClickMenuItem}
   TProcedureWhenClickOnMenuItem = procedure(Sender: TObject) of object;
@@ -61,64 +87,56 @@ type
   THotDir = class
   private
     FDispatcher: TKindOfHotDirEntry;
-    FMenuLevel: integer;
     FHotDirName: string;
     FHotDirPath: string;
     FHotDirPathSort: longint;
     FHotDirTarget: string;
     FHotDirTargetSort: longint;
     FHotDirExistingState: TExistingState;
+    FGroupNumber : integer;
   public
     constructor Create;
+    procedure CopyToHotDir(var DestinationHotDir: THotDir);
     property Dispatcher: TKindOfHotDirEntry read FDispatcher write FDispatcher;
-    property MenuLevel: integer read FMenuLevel write FMenuLevel;
     property HotDirName: string read FHotDirName write FHotDirName;
     property HotDirPath: string read FHotDirPath write FHotDirPath;
     property HotDirPathSort: longint read FHotDirPathSort write FHotDirPathSort;
     property HotDirTarget: string read FHotDirTarget write FHotDirTarget;
     property HotDirTargetSort: longint read FHotDirTargetSort write FHotDirTargetSort;
     property HotDirExisting: TExistingState read FHotDirExistingState write FHotDirExistingState;
+    property GroupNumber: integer read FGroupNumber write FGroupNumber;
   end;
 
-  { THotDirList }
-  THotDirList = class(TList)
+  { TDirectoryHotlist }
+  TDirectoryHotlist = class(TList)
   private
-    function GetHotDir(Index: Integer): THotDir;
+    function GetHotDir(Index: integer): THotDir;
   public
-    FlagModified:boolean;
+    FlagModified: boolean;
     constructor Create;
     procedure Clear; override;
-    function Add(HotDir: THotDir): Integer;
-    procedure DeleteHotDir(Index: Integer);
-    procedure DeleteHotDirMenuDelimiters(Index,DeleteDispatcher:Integer);
-    procedure LoadToStringList(StringList: TStrings);
-    function TryToGetCloserHotDir(APath:string; paramActionDispatcher:integer):longint;
-    function GetIndexSubMenuEnd(SearchIndex:longint):longint;
-    procedure Move(CurIndex, NewIndex: Integer);
-    function MoveHotDirMenu(CurIndex, NewIndex: Integer):longint;
-    procedure PopulateMenuWithHotDir(mncmpMenuComponentToPopulate:TComponent; ProcedureWhenHotDirItemClicked,ProcedureWhenHotDirAddOrConfigClicked:TProcedureWhenClickOnMenuItem; CurrentPath:string; KindHotDirMenuPopulation:TKindHotDirMenuPopulation; TagOffset:longint);
-    procedure LoadFromIni(IniFile: TIniFileEx);
-    procedure SaveToIni(IniFile: TIniFileEx);
+    function Add(HotDir: THotDir): integer;
+    procedure DeleteHotDir(Index: integer);
+    procedure CopyDirectoryHotlistToDirectoryHotlist(var DestinationDirectoryHotlist: TDirectoryHotlist);
     procedure LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
-    procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode; FlagEraseOriginalOnes:boolean);
-    procedure ImportTotalCommander(TotalCommanderFilename:utf8string);
-    function ExportTotalCommander(TotalCommanderFilename:utf8string; FlagEraseOriginalOnes:boolean):boolean;
-    procedure ImportDoubleCommander(DoubleCommanderFilename:utf8string);
-    function ExportDoubleCommander(DoubleCommanderFilename:utf8string; FlagEraseOriginalOnes:boolean):boolean;
-    procedure RefreshExistingProperty(lsShowingIt:TListBox;lbleditShowingIt:TLabeledEdit; ScanMode:integer);
-    procedure lsImportationHotDirClick(Sender: TObject);
-    function AddFromAnotherListTheSelected(ImportantedHotDirList:THotDirList;lsHoldingSelection:TListBox):longint;
-    function EliminateTheNonSelectedInList(lsHoldingSelection:TListBox):longint;
-    procedure lsHotDirDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
-    procedure CopyListToHotDirList(var DestinationHotDirList:THotDirList);
-    property HotDir[Index: Integer]: THotDir read GetHotDir;
+    procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode; FlagEraseOriginalOnes: boolean);
+    procedure ImportDoubleCommander(DoubleCommanderFilename: utf8string);
+    function ExportDoubleCommander(DoubleCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
+    procedure PopulateMenuWithHotDir(mncmpMenuComponentToPopulate: TComponent; ProcedureWhenHotDirItemClicked, ProcedureWhenHotDirAddOrConfigClicked: TProcedureWhenClickOnMenuItem; KindHotDirMenuPopulation: TKindHotDirMenuPopulation; TagOffset: longint);
+    function LoadTTreeView(ParamTreeView:TTreeView; DirectoryHotlistIndexToSelectIfAny:longint):TTreeNode;
+    procedure RefreshFromTTreeView(ParamTreeView:TTreeView);
+    function AddFromAnotherTTreeViewTheSelected(ParamWorkingTreeView, ParamTreeViewToImport:TTreeView; FlagAddThemAll: boolean): longint;
+    property HotDir[Index: integer]: THotDir read GetHotDir;
+    {$IFDEF MSWINDOWS}
+    function ImportTotalCommander(TotalCommanderFilename: utf8string): integer;
+    function ExportTotalCommander(TotalCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
+    {$ENDIF}
   end;
 
   { TCheckDrivePresenceThread }
   TCheckDrivePresenceThread = class(TThread)
   private
-    FThread: TThread;
-    FDriveToSearchFor:string;
+    FDriveToSearchFor: string;
     FListOfNonExistingDrive: TStringList;
     FThreadCountPoint: ^longint;
     procedure ReportNotPresentInTheThread;
@@ -126,7 +144,7 @@ type
   protected
     procedure Execute; override;
   public
-    constructor Create(sDrive:string; ParamListOfNonExistingDrive: TStringList; var ThreadCount:longint);
+    constructor Create(sDrive: string; ParamListOfNonExistingDrive: TStringList; var ThreadCount: longint);
     destructor Destroy; override;
   end;
 
@@ -134,422 +152,368 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
- Graphics, Forms,
+  Graphics, Forms, lazutf8,
 
- //DC
- Dialogs, DCFileAttributes, DCBasicTypes, uDebug, DCStrUtils, uDCUtils,
- uLng, DCOSUtils, uGlobs, uSpecialDir;
+  //DC
+  DCFileAttributes, uDebug, uDCUtils, fMain, uFile,  uLng, DCOSUtils, uGlobs,
+  uSpecialDir
+{$IFDEF MSWINDOWS}
+  ,uTotalCommander
+{$ENDIF}
+  ;
 
 { THotDir.Create }
 constructor THotDir.Create;
 begin
   inherited Create;
-  FDispatcher:=hd_NULL;
-  FMenuLevel:=0;
-  FHotDirName:='';
-  FHotDirPath:='';
-  FHotDirPathSort:=0;
-  FHotDirTarget:='';
-  FHotDirTargetSort:=0;
-  FHotDirExistingState:=DirExistUnknown;
+  FDispatcher := hd_NULL;
+  FHotDirName := '';
+  FHotDirPath := '';
+  FHotDirPathSort := 0;
+  FHotDirTarget := '';
+  FHotDirTargetSort := 0;
+  FHotDirExistingState := DirExistUnknown;
+  FGroupNumber := 0;
 end;
 
-{ THotDirList.Create }
-constructor THotDirList.Create;
+{ THotDir.CopyToHotDir }
+procedure THotDir.CopyToHotDir(var DestinationHotDir: THotDir);
+begin
+  DestinationHotDir.Dispatcher := FDispatcher;
+  DestinationHotDir.HotDirName := FHotDirName;
+  DestinationHotDir.HotDirPath := FHotDirPath;
+  DestinationHotDir.HotDirPathSort := FHotDirPathSort;
+  DestinationHotDir.HotDirTarget := FHotDirTarget;
+  DestinationHotDir.HotDirTargetSort := FHotDirTargetSort;
+  DestinationHotDir.HotDirExisting := FHotDirExistingState;
+  DestinationHotDir.GroupNumber := FGroupNumber;
+end;
+
+{ TDirectoryHotlist.Create }
+constructor TDirectoryHotlist.Create;
 begin
   inherited Create;
-  FlagModified:=FALSE;
+  FlagModified := False;
 end;
 
-{ THotDirList.Clear }
-procedure THotDirList.Clear;
+{ TDirectoryHotlist.Clear }
+procedure TDirectoryHotlist.Clear;
 var
-  i: Integer;
+  i: integer;
 begin
   for i := 0 to Count - 1 do HotDir[i].Free;
   inherited Clear;
 end;
 
-{ THotDirList.Add }
-function THotDirList.Add(HotDir: THotDir): Integer;
+{ TDirectoryHotlist.Add }
+function TDirectoryHotlist.Add(HotDir: THotDir): integer;
 begin
-  Result:= inherited Add(HotDir);
-  FlagModified:=TRUE;
+  Result := inherited Add(HotDir);
+  FlagModified := True;
 end;
 
-{ THotDirList.DeleteHotDir }
-procedure THotDirList.DeleteHotDir(Index: Integer);
+{ TDirectoryHotlist.DeleteHotDir }
+procedure TDirectoryHotlist.DeleteHotDir(Index: integer);
 begin
   HotDir[Index].Free;
   Delete(Index);
-  FlagModified:=TRUE;
+  FlagModified := True;
 end;
 
-{ THotDirList.DeleteHotDirMenuDelimiters }
-procedure THotDirList.DeleteHotDirMenuDelimiters(Index,DeleteDispatcher:Integer);
+{ TDirectoryHotlist.CopyDirectoryHotlistToDirectoryHotlist }
+procedure TDirectoryHotlist.CopyDirectoryHotlistToDirectoryHotlist(var DestinationDirectoryHotlist: TDirectoryHotlist);
 var
-  EndIndex,OtherItemIndex,Answer:integer;
+  LocalHotDir: THotDir;
+  Index: longint;
 begin
-  if HotDir[Index].Dispatcher=hd_STARTMENU then
+  //Let's delete possible previous list content
+  for Index := pred(DestinationDirectoryHotlist.Count) downto 0 do DestinationDirectoryHotlist.DeleteHotDir(Index);
+  DestinationDirectoryHotlist.Clear;
+
+  //Now let's create entries and add them one by one to the destination list
+  for Index := 0 to pred(Count) do
   begin
-    EndIndex:=GetIndexSubMenuEnd(Index);
-
-    case DeleteDispatcher of
-      1: Answer:=MessageDlg(rsMsgHotDirWhatToDelete, mtConfirmation,[mbYes,mbNo,mbCancel],0);
-      2: Answer:=mrNo;
-      3: Answer:=mrYes;
-      else Answer:=mrCancel; //Should not happen, but just in case
-    end;
-
-    case Answer of
-      mrYes:
-        begin
-          for OtherItemIndex:=EndIndex downto Index do
-            begin
-              HotDir[OtherItemIndex].Free;
-              Delete(OtherItemIndex);
-            end;
-          FlagModified:=TRUE;
-        end;
-
-      mrNo:
-        begin
-          for OtherItemIndex:=(Index+1) to (EndIndex-1) do HotDir[OtherItemIndex].MenuLevel:=HotDir[OtherItemIndex].MenuLevel-1;
-          HotDir[EndIndex].Free;
-          Delete(EndIndex);
-          HotDir[Index].Free;
-          Delete(Index);
-          FlagModified:=TRUE;
-        end;
-
-      mrCancel:
-        begin
-        end;
-    end; //case Answer of
-  end; //if HotDir[Index].Dispatcher=hd_STARTMENU then
+    LocalHotDir := THotDir.Create;
+    LocalHotDir.Dispatcher := HotDir[Index].Dispatcher;
+    LocalHotDir.HotDirName := HotDir[Index].HotDirName;
+    LocalHotDir.HotDirPath := HotDir[Index].HotDirPath;
+    LocalHotDir.HotDirPathSort := HotDir[Index].HotDirPathSort;
+    LocalHotDir.HotDirTarget := HotDir[Index].HotDirTarget;
+    LocalHotDir.HotDirTargetSort := HotDir[Index].HotDirTargetSort;
+    LocalHotDir.FHotDirExistingState := HotDir[Index].HotDirExisting;
+    LocalHotDir.FGroupNumber := HotDir[Index].GroupNumber;
+    DestinationDirectoryHotlist.Add(LocalHotDir);
+  end;
+  DestinationDirectoryHotlist.FlagModified := True;
 end;
 
-{ THotDirList.LoadToStringList }
-procedure THotDirList.LoadToStringList(StringList: TStrings);
+{ TDirectoryHotlist.LoadTTreeView }
+//For each node, the "ImageIndex" field is recuperated to be an index of which
+//item in the directory list it represent. Because of the fact that the
+//"hd_ENDMENU's" don't have their direct element in the tree, the field
+//"absoluteindex" cannot be used for that since as soon as there is a subment,
+//we lost the linearity of the matching of absoluteindex vs index of hotdir in
+//the list.
+function TDirectoryHotlist.LoadTTreeView(ParamTreeView:TTreeView; DirectoryHotlistIndexToSelectIfAny:longint):TTreeNode;
 var
-  I: Integer;
-begin
-  StringList.Clear;
-  for I:= 0 to Count - 1 do StringList.Add('');
-end;
+  Index: longint;
 
-{ THotDirList.TryToGetCloserHotDir }
-function THotDirList.TryToGetCloserHotDir(APath:string; paramActionDispatcher:integer):longint;
-var
-  PerfectMatchIndex,I,SecondAlternative,SecondAlternativeLengthRecord:Integer;
-  InitialPath,AttemptingPath:string;
-begin
-  InitialPath:=lowercase(IncludeTrailingPathDelimiter(APath));
-  APath:=InitialPath;
-  SecondAlternative:=-1;
-  SecondAlternativeLengthRecord:=0;
-
-  PerfectMatchIndex:=-1;
-
-  repeat
-    I:=0;
-
-    while (I < Count) and (PerfectMatchIndex=-1) do
+  procedure RecursivAddElements(WorkingNode: TTreeNode);
+  var
+    FlagGetOut: boolean = False;
+    LocalNode: TTreeNode;
+  begin
+    while (FlagGetOut = False) and (Index < Count) do
     begin
-      if HotDir[I].Dispatcher=hd_CHANGEPATH then
-      begin
-        AttemptingPath:=lowercase(ExpandFileName(ReplaceEnvVars(HotDir[I].HotDirPath)));
-
-        if APath=AttemptingPath then
+      case HotDir[Index].Dispatcher of
+        hd_STARTMENU:
         begin
-          case paramActionDispatcher of
-            ACTION_CONFIGTOHOTLIST: PerfectMatchIndex:=I;
-            ACTION_ADDTOHOTLIST: PerfectMatchIndex:=I+1;
+          LocalNode := ParamTreeView.Items.AddChildObject(WorkingNode, HotDir[Index].HotDirName,HotDir[Index]);
+          if HotDir[Index].FHotDirExistingState=DirNotExist then
+          begin
+            LocalNode.ImageIndex:=ICONINDEX_SUBMENUWITHMISSING;
+            LocalNode.SelectedIndex:=ICONINDEX_SUBMENUWITHMISSING;
+            LocalNode.StateIndex:=ICONINDEX_SUBMENUWITHMISSING;
+          end
+          else
+          begin
+            LocalNode.ImageIndex:=ICONINDEX_SUBMENU;
+            LocalNode.SelectedIndex:=ICONINDEX_SUBMENU;
+            LocalNode.StateIndex:=ICONINDEX_SUBMENU;
           end;
+          LocalNode.Data:=HotDir[Index];
+          if DirectoryHotlistIndexToSelectIfAny=Index then result:=LocalNode;
+          Inc(Index);
+          RecursivAddElements(LocalNode);
+        end;
+
+        hd_ENDMENU:
+        begin
+          FlagGetOut := True;
+          Inc(Index);
+        end;
+
+        hd_SEPARATOR:
+        begin
+          LocalNode:=ParamTreeView.Items.AddChildObject(WorkingNode, HOTLIST_SEPARATORSTRING ,HotDir[Index]);
+          LocalNode.Data:=HotDir[Index];
+          if DirectoryHotlistIndexToSelectIfAny=Index then result:=LocalNode;
+          Inc(Index);
         end
+
         else
         begin
-          if (pos(APath,AttemptingPath)=1) and (length(APath)>=SecondAlternativeLengthRecord) then
+          LocalNode:=ParamTreeView.Items.AddChildObject(WorkingNode, HotDir[Index].HotDirName,HotDir[Index]);
+          if HotDir[Index].FHotDirExistingState=DirNotExist then
           begin
-            SecondAlternativeLengthRecord:=length(APath);
-
-            if SecondAlternative=-1 then
-            begin
-              if (InitialPath<AttemptingPath) OR (paramActionDispatcher=ACTION_CONFIGTOHOTLIST) then
-              begin
-                SecondAlternative:=I;
-              end
-              else
-              begin
-                if (I+1)<Count then SecondAlternative:=(I+1);
-              end;
-            end
-            else
-            begin
-              if (InitialPath>AttemptingPath) AND (paramActionDispatcher=ACTION_ADDTOHOTLIST) then
-              begin
-                if (I+1)<Count then SecondAlternative:=(I+1);
-              end;
-            end;
+            LocalNode.ImageIndex:=ICONINDEX_DIRECTORYNOTPRESENTHERE;
+            LocalNode.SelectedIndex:=ICONINDEX_DIRECTORYNOTPRESENTHERE;
+            LocalNode.StateIndex:=ICONINDEX_DIRECTORYNOTPRESENTHERE;
           end;
+          LocalNode.Data:=HotDir[Index];
+          if DirectoryHotlistIndexToSelectIfAny=Index then result:=LocalNode;
+          Inc(Index);
         end;
       end;
-      inc(I);
-     end; //while (I < Count) and (PerfectMatchIndex=-1) do
-
-    if PerfectMatchIndex=-1 then APath:=ExcludeTrailingPathDelimiter(GetParentDir(APath));
-  until (PerfectMatchIndex<>-1) OR (APath='');
-
-  if PerfectMatchIndex<>-1 then result:=PerfectMatchIndex else if SecondAlternative<>-1 then result:=SecondAlternative else result:=-1;
-end;
-
-{ THotDirList.GetIndexSubMenuEnd }
-{ Given the start of a menu, it will return the index of the end of the same menu}
-function THotDirList.GetIndexSubMenuEnd(SearchIndex:longint):longint;
-var
-  InnerMenuCount:longint;
-begin
-  result:=-1;
-  if HotDir[SearchIndex].Dispatcher=hd_STARTMENU then
-  begin
-    InnerMenuCount:=1;
-    while (SearchIndex<pred(count)) and (InnerMenuCount<>0) do
-    begin
-      inc(SearchIndex);
-
-      if HotDir[SearchIndex].Dispatcher=hd_STARTMENU then
-        inc(InnerMenuCount)
-      else
-        if HotDir[SearchIndex].Dispatcher=hd_ENDMENU then dec(InnerMenuCount);
-    end;
-
-    if InnerMenuCount=0 then result:=SearchIndex;
-  end;
-end;
-
-{ THotDirList.Move }
-procedure THotDirList.Move(CurIndex, NewIndex: Integer);
-begin
-  inherited Move(CurIndex, NewIndex);
-
-  if NewIndex=0 then
-  begin
-    HotDir[NewIndex].MenuLevel:=0;
-  end
-  else
-  begin
-    case HotDir[NewIndex-1].Dispatcher of
-      hd_STARTMENU:
-        begin
-          case HotDir[NewIndex].Dispatcher of
-            hd_ENDMENU: HotDir[NewIndex].MenuLevel:=HotDir[NewIndex-1].MenuLevel;
-            else HotDir[NewIndex].MenuLevel:=HotDir[NewIndex-1].MenuLevel+1;
-          end;
-        end;
-      else
-        begin
-          case HotDir[NewIndex].Dispatcher of
-            hd_ENDMENU: HotDir[NewIndex].MenuLevel:=HotDir[NewIndex-1].MenuLevel-1;
-            else HotDir[NewIndex].MenuLevel:=HotDir[NewIndex-1].MenuLevel;
-          end;
-        end;
     end;
   end;
-  FlagModified:=TRUE;
-end;
 
-{ MoveHotDirMenu.MoveHotDirMenu }
-function THotDirList.MoveHotDirMenu(CurIndex, NewIndex: Integer):Integer;
-var
-  HotDirSubMenuEndIndex,OffsetIndex:longint;
-begin
-  result:=-1;
-  HotDirSubMenuEndIndex:=GetIndexSubMenuEnd(CurIndex);
-  if HotDirSubMenuEndIndex<>-1 then
   begin
-    if (NewIndex<CurIndex) OR (NewIndex>HotDirSubMenuEndIndex) then
-    begin
-      if NewIndex<CurIndex then
-      begin
-        for OffsetIndex:=0 to (HotDirSubMenuEndIndex-CurIndex) do Move(CurIndex+OffsetIndex, NewIndex+OffsetIndex);
-      end
-      else
-      begin
-        for OffsetIndex:=0 to (HotDirSubMenuEndIndex-CurIndex) do Move(CurIndex, NewIndex);
-      end;
-      FlagModified:=TRUE;
-    end;
+    result:=nil;
+    ParamTreeView.Items.Clear;
+    Index := 0;
+    RecursivAddElements(nil);
   end;
-end;
 
-{ THotDirList.PopulateMenuWithHotDir }
-procedure THotDirList.PopulateMenuWithHotDir(mncmpMenuComponentToPopulate:TComponent; ProcedureWhenHotDirItemClicked,ProcedureWhenHotDirAddOrConfigClicked:TProcedureWhenClickOnMenuItem; CurrentPath:string; KindHotDirMenuPopulation:TKindHotDirMenuPopulation; TagOffset:longint);
+
+{ TDirectoryHotlist.PopulateMenuWithHotDir }
+procedure TDirectoryHotlist.PopulateMenuWithHotDir(mncmpMenuComponentToPopulate: TComponent; ProcedureWhenHotDirItemClicked, ProcedureWhenHotDirAddOrConfigClicked: TProcedureWhenClickOnMenuItem; KindHotDirMenuPopulation: TKindHotDirMenuPopulation; TagOffset: longint);
 var
-  I:longint; //Same variable for main and local routine
-  FlagPathAlreadyInMenu:boolean;
-  CurrentPathToSearch:string;
+  I: longint; //Same variable for main and local routine
+  FlagCurrentPathAlreadyInMenu, FlagSelectedPathAlreadyInMenu: boolean;
+  CurrentPathToSearch, SelectedPathToSearch: string;
+  MaybeActiveOrSelectedDirectories: TFiles;
 
   //Warning: "CompleteMenu" is recursive and call itself.
-  function CompleteMenu(ParamMenuItem:TMenuItem):longint;
-    var
-      localmi:TMenuItem;
-      LocalLastAdditionIsASeparator:boolean;
+  function CompleteMenu(ParamMenuItem: TMenuItem): longint;
+  var
+    localmi: TMenuItem;
+    LocalLastAdditionIsASeparator: boolean;
+  begin
+    Result := 0;
+    LocalLastAdditionIsASeparator := False;
+    while I < Count do
     begin
-      result:=0;
-      LocalLastAdditionIsASeparator:=FALSE;
-      while I<Count do
-      begin
-        inc(I);
+      Inc(I);
 
-        case HotDir[I-1].Dispatcher of
-          hd_CHANGEPATH:
+      case HotDir[I - 1].Dispatcher of
+        hd_CHANGEPATH:
+        begin
+          case HotDir[I - 1].HotDirExisting of
+            DirExistUnknown, DirExist:
             begin
-              case HotDir[I-1].HotDirExisting of
-                DirExistUnknown,DirExist:
-                  begin
-                    localmi:= TMenuItem.Create(ParamMenuItem);
-                    localmi.Caption:=HotDir[I-1].HotDirName;
-                    localmi.tag:= (I-1)+TagOffset;
-                    localmi.OnClick:=ProcedureWhenHotDirItemClicked;
-                    ParamMenuItem.Add(localmi);
-                    if CurrentPathToSearch=UpperCase(mbExpandFileName(HotDir[I-1].FHotDirPath)) then FlagPathAlreadyInMenu:=TRUE;
-                    LocalLastAdditionIsASeparator:=FALSE;
-                    inc(result);
-                  end;
-              end;
-            end;
-
-          hd_NULL,hd_COMMAND:
-            begin
-              if KindHotDirMenuPopulation<>mpPATHHELPER then
-              begin
-                localmi:= TMenuItem.Create(ParamMenuItem);
-                localmi.Caption:=HotDir[I-1].HotDirName;
-                localmi.tag:= (I-1)+TagOffset;
-                localmi.OnClick:=ProcedureWhenHotDirItemClicked;
-                ParamMenuItem.Add(localmi);
-                LocalLastAdditionIsASeparator:=FALSE;
-                inc(result);
-              end;
-            end;
-
-          hd_SEPARATOR:
-            begin
-              if (ParamMenuItem.Count>0) AND (not LocalLastAdditionIsASeparator) then
-              begin
-                localmi:= TMenuItem.Create(ParamMenuItem);
-                localmi.Caption:='-';
-                ParamMenuItem.Add(localmi);
-                LocalLastAdditionIsASeparator:=TRUE;
-                inc(result);
-              end;
-            end;
-
-          hd_STARTMENU:
-            begin
-              localmi:= TMenuItem.Create(ParamMenuItem);
-              localmi.Caption:=HotDir[I-1].HotDirName;
+              localmi := TMenuItem.Create(ParamMenuItem);
+              localmi.Caption := GetMenuCaptionAccordingToOptions(HotDir[I - 1].HotDirName,HotDir[I - 1].HotDirPath);
+              localmi.tag := (I - 1) + TagOffset;
+              localmi.OnClick := ProcedureWhenHotDirItemClicked;
               ParamMenuItem.Add(localmi);
-              CompleteMenu(localmi);
-              if localmi.Count<>0 then
-              begin
-                LocalLastAdditionIsASeparator:=FALSE;
-                inc(result);
-              end
-              else
-              begin
-                localmi.Free;
-              end;
+              if CurrentPathToSearch = UpperCase(mbExpandFileName(HotDir[I - 1].FHotDirPath)) then FlagCurrentPathAlreadyInMenu := True;
+              if SelectedPathToSearch = UpperCase(mbExpandFileName(HotDir[I - 1].FHotDirPath)) then FlagSelectedPathAlreadyInMenu := True;
+              LocalLastAdditionIsASeparator := False;
+              Inc(Result);
             end;
+          end;
+        end;
 
-          hd_ENDMENU:
-            begin
-              if LocalLastAdditionIsASeparator then
-                begin
-                  ParamMenuItem.Items[pred(ParamMenuItem.Count)].Free;
-                  dec(result);
-                end;
-              exit;
-            end;
-        end; //case HotDir[I-1].Dispatcher of
-      end; //while I<Count do
-    end;
+        hd_NULL, hd_COMMAND:
+        begin
+          if KindHotDirMenuPopulation <> mpPATHHELPER then
+          begin
+            localmi := TMenuItem.Create(ParamMenuItem);
+            localmi.Caption := HotDir[I - 1].HotDirName;
+            localmi.tag := (I - 1) + TagOffset;
+            localmi.OnClick := ProcedureWhenHotDirItemClicked;
+            ParamMenuItem.Add(localmi);
+            LocalLastAdditionIsASeparator := False;
+            Inc(Result);
+          end;
+        end;
+
+        hd_SEPARATOR:
+        begin
+          if (ParamMenuItem.Count > 0) and (not LocalLastAdditionIsASeparator) then
+          begin
+            localmi := TMenuItem.Create(ParamMenuItem);
+            localmi.Caption := '-';
+            ParamMenuItem.Add(localmi);
+            LocalLastAdditionIsASeparator := True;
+            Inc(Result);
+          end;
+        end;
+
+        hd_STARTMENU:
+        begin
+          localmi := TMenuItem.Create(ParamMenuItem);
+          localmi.Caption := HotDir[I - 1].HotDirName;
+          if gIconsInMenus then localmi.ImageIndex:=ICONINDEX_SUBMENU;
+          ParamMenuItem.Add(localmi);
+          CompleteMenu(localmi);
+          if localmi.Count <> 0 then
+          begin
+            LocalLastAdditionIsASeparator := False;
+            Inc(Result);
+          end
+          else
+          begin
+            localmi.Free;
+          end;
+        end;
+
+        hd_ENDMENU:
+        begin
+          if LocalLastAdditionIsASeparator then
+          begin
+            ParamMenuItem.Items[pred(ParamMenuItem.Count)].Free;
+            Dec(Result);
+          end;
+          exit;
+        end;
+      end; //case HotDir[I-1].Dispatcher of
+    end; //while I<Count do
+  end;
 var
   miMainTree: TMenuItem;
-  LastAdditionIsASeparator:boolean;
-  NumberOfElementsSoFar:longint;
+  LastAdditionIsASeparator: boolean;
+  NumberOfElementsSoFar, InitialNumberOfItems: longint;
 begin
-  // Create All popup menu
-  CurrentPathToSearch:=UpperCase(mbExpandFileName(CurrentPath));
-  FlagPathAlreadyInMenu:=FALSE;
-  LastAdditionIsASeparator:=FALSE;
+  MaybeActiveOrSelectedDirectories:=frmMain.ActiveFrame.CloneSelectedOrActiveDirectories;
+  try
+    // Create All popup menu
+    CurrentPathToSearch := UpperCase(mbExpandFileName(frmMain.ActiveFrame.CurrentPath));
+    if MaybeActiveOrSelectedDirectories.Count=1 then SelectedPathToSearch := UpperCase(IncludeTrailingPathDelimiter(mbExpandFileName(MaybeActiveOrSelectedDirectories.Items[0].FullPath))) else SelectedPathToSearch := TERMINATORNOTPRESENT;
 
-  case KindHotDirMenuPopulation of
-    mpJUSTHOTDIRS,mpHOTDIRSWITHCONFIG: if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Clear;
-  end;
+    FlagCurrentPathAlreadyInMenu := False;
+    FlagSelectedPathAlreadyInMenu := FALSE;
+    LastAdditionIsASeparator := False;
 
-  I:=0;
-  while I<Count do
-  begin
-    inc(I);
-
-    case HotDir[I-1].Dispatcher of
-      hd_CHANGEPATH:
+    case KindHotDirMenuPopulation of
+      mpJUSTHOTDIRS, mpHOTDIRSWITHCONFIG:
+      begin
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
         begin
-          case HotDir[I-1].HotDirExisting of
-            DirExistUnknown,DirExist:
-              begin
-                miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-                miMainTree.Caption:=HotDir[I-1].HotDirName;
-                miMainTree.tag:= (I-1)+TagOffset;
-                miMainTree.OnClick:=ProcedureWhenHotDirItemClicked;
+          TPopupMenu(mncmpMenuComponentToPopulate).Items.Clear;
+          InitialNumberOfItems := mncmpMenuComponentToPopulate.ComponentCount;
+        end;
+      end;
+    end;
 
-                if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-                  else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+    I := 0;
+    while I < Count do
+    begin
+      Inc(I);
 
-                if CurrentPathToSearch=UpperCase(mbExpandFileName(HotDir[I-1].FHotDirPath)) then FlagPathAlreadyInMenu:=TRUE;
-                LastAdditionIsASeparator:=FALSE;
-              end;
+      case HotDir[I - 1].Dispatcher of
+        hd_CHANGEPATH:
+        begin
+          case HotDir[I - 1].HotDirExisting of
+            DirExistUnknown, DirExist:
+            begin
+              miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+              miMainTree.Caption := GetMenuCaptionAccordingToOptions(HotDir[I - 1].HotDirName,HotDir[I - 1].HotDirPath);
+              miMainTree.tag := (I - 1) + TagOffset;
+              miMainTree.OnClick := ProcedureWhenHotDirItemClicked;
+
+              if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+              else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+
+              if CurrentPathToSearch = UpperCase(mbExpandFileName(HotDir[I - 1].FHotDirPath)) then FlagCurrentPathAlreadyInMenu := True;
+              if SelectedPathToSearch = UpperCase(mbExpandFileName(HotDir[I - 1].FHotDirPath)) then FlagSelectedPathAlreadyInMenu := True;
+              LastAdditionIsASeparator := False;
+            end;
           end;
         end;
 
-      hd_NULL,hd_COMMAND:
+        hd_NULL, hd_COMMAND:
         begin
-          miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-          miMainTree.Caption:=HotDir[I-1].HotDirName;
-          miMainTree.tag:= (I-1)+TagOffset;
-          miMainTree.OnClick:=ProcedureWhenHotDirItemClicked;
+          miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+          miMainTree.Caption := HotDir[I - 1].HotDirName;
+          miMainTree.tag := (I - 1) + TagOffset;
+          miMainTree.OnClick := ProcedureWhenHotDirItemClicked;
 
-          if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-            else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+          if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+          else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
 
-          LastAdditionIsASeparator:=FALSE;
+          LastAdditionIsASeparator := False;
         end;
 
-      hd_SEPARATOR:
+        hd_SEPARATOR:
         begin
-          if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then NumberOfElementsSoFar:=TPopupMenu(mncmpMenuComponentToPopulate).Items.Count
-            else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then NumberOfElementsSoFar:=TMenuItem(mncmpMenuComponentToPopulate).Count;
-          if (NumberOfElementsSoFar>0) AND (not LastAdditionIsASeparator) then
+          if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then NumberOfElementsSoFar := TPopupMenu(mncmpMenuComponentToPopulate).Items.Count
+          else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then NumberOfElementsSoFar := TMenuItem(mncmpMenuComponentToPopulate).Count;
+          if (NumberOfElementsSoFar > 0) and (not LastAdditionIsASeparator) then
           begin
-            miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-            miMainTree.Caption:='-';
-            if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-              else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
-            LastAdditionIsASeparator:=TRUE;
+            miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+            miMainTree.Caption := '-';
+            if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+            else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+            LastAdditionIsASeparator := True;
           end;
         end;
 
-      hd_STARTMENU:
+        hd_STARTMENU:
         begin
-          miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-          miMainTree.Caption:=HotDir[I-1].HotDirName;
-          if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-            else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+          miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+          miMainTree.Caption := HotDir[I - 1].HotDirName;
+          if gIconsInMenus then miMainTree.ImageIndex := ICONINDEX_SUBMENU;
+          if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
+            TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+          else
+          if mncmpMenuComponentToPopulate.ClassType = TMenuItem then
+            TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
           CompleteMenu(miMainTree);
-          if miMainTree.Count<>0 then
+          if miMainTree.Count <> 0 then
           begin
-            LastAdditionIsASeparator:=TRUE;
+            LastAdditionIsASeparator := False;
           end
           else
           begin
@@ -557,81 +521,103 @@ begin
           end;
         end;
 
-      hd_ENDMENU:
+        hd_ENDMENU:
         begin
           if LastAdditionIsASeparator then
-            begin
-              if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items[pred(TPopupMenu(mncmpMenuComponentToPopulate).Items.Count)].Free
-                else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Items[pred(TPopupMenu(mncmpMenuComponentToPopulate).Items.Count)].Free;
-            end;
+          begin
+            if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items[pred(TPopupMenu(mncmpMenuComponentToPopulate).Items.Count)].Free
+            else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Items[pred(TMenuItem(mncmpMenuComponentToPopulate).Count)].Free;
+          end;
         end;
+      end;
     end;
-  end;
 
-  case KindHotDirMenuPopulation of
-    mpHOTDIRSWITHCONFIG:
+    //2014-08-25:If last item added is a separator, we need to remove it so it will not look bad with another separator added at the end
+    if LastAdditionIsASeparator then
+    begin
+      if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items[pred(TPopupMenu(mncmpMenuComponentToPopulate).Items.Count)].Free
+      else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Items[pred(TMenuItem(mncmpMenuComponentToPopulate).Count)].Free;
+    end;
+
+    case KindHotDirMenuPopulation of
+      mpHOTDIRSWITHCONFIG:
       begin
-        // now add delimiter
-        miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-        miMainTree.Caption:= '-';
-        if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-          else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
+        begin
+          if mncmpMenuComponentToPopulate.ComponentCount>InitialNumberOfItems then
+          begin
+            miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+            miMainTree.Caption := '-';
+            if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+            else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+          end;
+        end;
 
         // Let's add the "Special path" in a context of change directory
-        gSpecialDirList.PopulateMenuWithSpecialDir(mncmpMenuComponentToPopulate,mp_CHANGEDIR,ProcedureWhenHotDirItemClicked);
+        gSpecialDirList.PopulateMenuWithSpecialDir(mncmpMenuComponentToPopulate, mp_CHANGEDIR, ProcedureWhenHotDirItemClicked);
 
         // now add delimiter
-        miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-        miMainTree.Caption:= '-';
-        if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-          else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+        miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+        miMainTree.Caption := '-';
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+        else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
 
-        // now add the "add current path" (id not already present)
-        if not FlagPathAlreadyInMenu then
+        //now add the "selected path", if any, if it's the case
+        if MaybeActiveOrSelectedDirectories.Count>0 then
         begin
-          miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-          with Application.MainForm as TForm do miMainTree.Caption:=rsMsgHotDirAddThisDirectory+MinimizeFilePath(CurrentPath,Canvas,250);
-          miMainTree.Tag:=ACTION_ADDTOHOTLIST;
-          miMainTree.OnClick:=ProcedureWhenHotDirAddOrConfigClicked;
-          if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-            else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+          miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+          case MaybeActiveOrSelectedDirectories.Count of
+            1: with Application.MainForm as TForm do if not FlagSelectedPathAlreadyInMenu then miMainTree.Caption := rsMsgHotDirAddSelectedDirectory + MinimizeFilePath(MaybeActiveOrSelectedDirectories.Items[0].FullPath, Canvas, 250) else miMainTree.Caption := rsMsgHotDirReAddSelectedDirectory + MinimizeFilePath(MaybeActiveOrSelectedDirectories.Items[0].FullPath, Canvas, 250);
+            else miMainTree.Caption := Format(rsMsgHotDirAddSelectedDirectories,[MaybeActiveOrSelectedDirectories.Count]);
+          end;
+          miMainTree.Tag := ACTION_ADDSELECTEDDIR;
+          miMainTree.OnClick := ProcedureWhenHotDirAddOrConfigClicked;
+          if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+          else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
         end;
 
+        // now allow to add or re-add the "current path"
+        miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+        with Application.MainForm as TForm do if not FlagCurrentPathAlreadyInMenu then miMainTree.Caption := rsMsgHotDirAddThisDirectory + MinimizeFilePath(frmMain.ActiveFrame.CurrentPath, Canvas, 250) else miMainTree.Caption := rsMsgHotDirReAddThisDirectory + MinimizeFilePath(frmMain.ActiveFrame.CurrentPath, Canvas, 250);
+        miMainTree.Tag := ACTION_ADDTOHOTLIST;
+        miMainTree.OnClick := ProcedureWhenHotDirAddOrConfigClicked;
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+        else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+
         // now add configure item
-        miMainTree:= TMenuItem.Create(mncmpMenuComponentToPopulate);
-        miMainTree.Caption:= rsMsgHotDirConfigHotlist;
-        miMainTree.Tag:=ACTION_CONFIGTOHOTLIST;
-        miMainTree.OnClick:= ProcedureWhenHotDirAddOrConfigClicked;
-        if mncmpMenuComponentToPopulate.ClassType=TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
-          else if mncmpMenuComponentToPopulate.ClassType=TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+        miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+        miMainTree.Caption := rsMsgHotDirConfigHotlist;
+        miMainTree.Tag := ACTION_CONFIGTOHOTLIST;
+        miMainTree.ShortCut := frmMain.mnuCmdConfigDirHotlist.ShortCut;
+        miMainTree.OnClick := ProcedureWhenHotDirAddOrConfigClicked;
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+        else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
       end;
-  end; //case KindHotDirMenuPopulation of
+    end; //case KindHotDirMenuPopulation of
+  finally
+    FreeAndNil(MaybeActiveOrSelectedDirectories);
+  end;
+
+  if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
+    if TPopupMenu(mncmpMenuComponentToPopulate).Images=nil then
+      TPopupMenu(mncmpMenuComponentToPopulate).Images:= frmMain.imgLstDirectoryHotlist;
+
+  if mncmpMenuComponentToPopulate.ClassType = TMenuItem then
+    if TMenuItem(mncmpMenuComponentToPopulate).GetParentMenu.Images=nil then
+      TMenuItem(mncmpMenuComponentToPopulate).GetParentMenu.Images:= frmMain.imgLstDirectoryHotlist;
 end;
 
-{ THotDirList.LoadFromIni }
-procedure THotDirList.LoadFromIni(IniFile: TIniFileEx);
-begin
-  Clear;
-end;
-
-{ THotDirList.SaveToIni }
-procedure THotDirList.SaveToIni(IniFile: TIniFileEx);
-begin
-  IniFile.EraseSection(cSectionOfHotDir);
-end;
-
-{ THotDirList.LoadFromXml }
+{ TDirectoryHotlist.LoadFromXml }
 { Information are stored like originally DC was storing them WITH addition of menu related info in a simular way TC. }
-procedure THotDirList.LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
+procedure TDirectoryHotlist.LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  sName, sPath: String;
+  sName, sPath: string;
   LocalHotDir: THotDir;
-  CurrentMenuLevel:integer;
-  FlagAvortInsertion:boolean;
+  CurrentMenuLevel: integer;
+  FlagAvortInsertion: boolean;
 begin
   Clear;
-
-  CurrentMenuLevel:=0;
+  CurrentMenuLevel := 0;
 
   ANode := ANode.FindNode(cSectionOfHotDir);
   if Assigned(ANode) then
@@ -641,63 +627,63 @@ begin
     begin
       if ANode.CompareName('HotDir') = 0 then
       begin
-        if AConfig.TryGetAttr(ANode, 'Name', sName) and
-           AConfig.TryGetAttr(ANode, 'Path', sPath) then
+        if AConfig.TryGetAttr(ANode, 'Name', sName) and AConfig.TryGetAttr(ANode, 'Path', sPath) then
         begin
-          FlagAvortInsertion:=FALSE;
-          LocalHotDir:=THotDir.Create;
+          FlagAvortInsertion := False;
+          LocalHotDir := THotDir.Create;
 
-          if sName='-' then
+          if sName = '-' then
           begin
-            LocalHotDir.Dispatcher:=hd_SEPARATOR;
-            LocalHotDir.MenuLevel:=CurrentMenuLevel;
+            LocalHotDir.Dispatcher := hd_SEPARATOR;
           end
           else
           begin
-            if sName='--' then
+            if sName = '--' then
             begin
-              LocalHotDir.Dispatcher:=hd_ENDMENU;
-              if CurrentMenuLevel>0 then dec(CurrentMenuLevel) else FlagAvortInsertion:=TRUE; //Sanity correction in case we got correcupted from any ways
-              LocalHotDir.MenuLevel:=CurrentMenuLevel;
+              LocalHotDir.Dispatcher := hd_ENDMENU;
+              if CurrentMenuLevel > 0 then Dec(CurrentMenuLevel) else FlagAvortInsertion := True; //Sanity correction in case we got corrupted from any ways
             end
             else
             begin
-              if (length(sName)>1) then
+              if (UTF8Length(sName) > 1) then
               begin
-                if (sName[1]='-') AND (sName[2]<>'-') then
+                if (sName[1] = '-') and (sName[2] <> '-') then
                 begin
-                  LocalHotDir.MenuLevel:=CurrentMenuLevel;
-                  inc(CurrentMenuLevel);
-                  LocalHotDir.Dispatcher:=hd_STARTMENU;
-                  LocalHotDir.HotDirName:=rightstr(sName,length(sName)-1);
+                  Inc(CurrentMenuLevel);
+                  LocalHotDir.Dispatcher := hd_STARTMENU;
+                  LocalHotDir.HotDirName := UTF8RightStr(sName, UTF8Length(sName) - 1);
                 end;
               end;
 
-              if LocalHotDir.Dispatcher=hd_NULL then
+              if LocalHotDir.Dispatcher = hd_NULL then
               begin
-                LocalHotDir.HotDirName:=sName;
-                LocalHotDir.HotDirPath:=sPath;
-                if pos('cm_',lowercase(sPath))=0 then
+                LocalHotDir.HotDirName := sName;
+                LocalHotDir.HotDirPath := sPath;
+                if UTF8Pos('cm_', UTF8LowerCase(sPath)) = 0 then
                 begin
-                  LocalHotDir.HotDirPathSort:=AConfig.GetAttr(Anode, 'PathSort',0);
-                  LocalHotDir.HotDirTarget:=AConfig.GetAttr(ANode, 'Target', '');
-                  LocalHotDir.HotDirTargetSort:=AConfig.GetAttr(Anode, 'TargetSort',0);
-                  LocalHotDir.Dispatcher:=hd_CHANGEPATH;
+                  LocalHotDir.HotDirPathSort := AConfig.GetAttr(Anode, 'PathSort', 0);
+                  LocalHotDir.HotDirTarget := AConfig.GetAttr(ANode, 'Target', '');
+                  LocalHotDir.HotDirTargetSort := AConfig.GetAttr(Anode, 'TargetSort', 0);
+                  if LocalHotDir.HotDirPath<>'' then LocalHotDir.HotDirPath:=IncludeTrailingPathDelimiter(LocalHotDir.HotDirPath);
+                  if LocalHotDir.HotDirTarget<>'' then LocalHotDir.HotDirTarget:=IncludeTrailingPathDelimiter(LocalHotDir.HotDirTarget);
+                  LocalHotDir.Dispatcher := hd_CHANGEPATH;
                 end
                 else
                 begin
-                  LocalHotDir.Dispatcher:=hd_COMMAND;
+                  LocalHotDir.Dispatcher := hd_COMMAND;
                 end;
-                LocalHotDir.MenuLevel:=CurrentMenuLevel;
               end;
             end;
           end;
 
-          if not FlagAvortInsertion then Add(LocalHotDir) else LocalHotDir.Free;
-        end
-        else
-        begin
-          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          if not FlagAvortInsertion then
+            begin
+              Add(LocalHotDir);
+            end
+          else
+            begin
+              LocalHotDir.Free;
+            end;
         end;
       end;
 
@@ -705,279 +691,83 @@ begin
     end;
 
     //Try to fix possible problem if the LAST MENU is not ending correctly...
-    while CurrentMenuLevel>0 do
-      begin
-        dec(CurrentMenuLevel);
-        LocalHotDir:=THotDir.Create;
-        LocalHotDir.Dispatcher:=hd_ENDMENU;
-        LocalHotDir.MenuLevel:=CurrentMenuLevel;
-        Add(LocalHotDir);
-      end;
+    while CurrentMenuLevel > 0 do
+    begin
+      Dec(CurrentMenuLevel);
+      LocalHotDir := THotDir.Create;
+      LocalHotDir.Dispatcher := hd_ENDMENU;
+      Add(LocalHotDir);
+    end;
 
   end;
 end;
 
-{ THotDirList.SaveToXml }
-{ Information are stored like originally DC was storing them WITH addition of menu related info in a simular way TC. }
-procedure THotDirList.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode; FlagEraseOriginalOnes:boolean);
+{ TDirectoryHotlist.SaveToXml }
+// Information are stored like originally DC was storing them WITH addition of menu related info in a simular way TC.
+// When the parameter has the same value as it would have when loaded with no value (so with the default value), the parameter is not saved...
+// ...this way, it makes the overall filelenth smaller. When running on a portable mode from a usb key, everything thing counts! :-)
+// ..."Name" and "Path" always must be present for backward compatibility reason in case someone would go backward.
+// ...Not saving the value that are correctly initialized anyway as default on startup, with a setup of 386 entries for example saved 6642 bytes (5.3% of original 126005 bytes file)
+//
+procedure TDirectoryHotlist.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode; FlagEraseOriginalOnes: boolean);
 var
-  Index: Integer;
+  Index: integer;
   SubNode: TXmlNode;
 begin
   ANode := AConfig.FindNode(ANode, cSectionOfHotDir, True);
   if FlagEraseOriginalOnes then AConfig.ClearNode(ANode);
-  for Index:= 0 to pred(Count) do
-    begin
-      SubNode := AConfig.AddNode(ANode, 'HotDir');
+  for Index := 0 to pred(Count) do
+  begin
+    SubNode := AConfig.AddNode(ANode, 'HotDir');
 
-      case THotDir(HotDir[Index]).Dispatcher of
-        hd_NULL:
-          begin
-            AConfig.SetAttr(SubNode, 'Name', '');
-            AConfig.SetAttr(SubNode, 'Path', '');
-            AConfig.SetAttr(SubNode, 'Target', '');
-          end;
-
-        hd_CHANGEPATH:
-          begin
-            AConfig.SetAttr(SubNode, 'Name', HotDir[Index].HotDirName);
-            if THotDir(HotDir[Index]).HotDirPath<>'' then AConfig.SetAttr(SubNode, 'Path', HotDir[Index].HotDirPath) else AConfig.SetAttr(SubNode, 'Path', '');
-            AConfig.SetAttr(SubNode, 'PathSort', HotDir[Index].HotDirPathSort);
-            if THotDir(HotDir[Index]).HotDirTarget<>'' then AConfig.SetAttr(SubNode, 'Target', HotDir[Index].HotDirTarget) else AConfig.SetAttr(SubNode, 'Target', '');
-            AConfig.SetAttr(SubNode, 'TargetSort', HotDir[Index].HotDirTargetSort);
-          end;
-
-        hd_SEPARATOR:
-          begin
-            AConfig.SetAttr(SubNode, 'Name', '-');
-            AConfig.SetAttr(SubNode, 'Path', '');
-            AConfig.SetAttr(SubNode, 'Target', '');
-          end;
-
-        hd_STARTMENU:
-          begin
-            AConfig.SetAttr(SubNode, 'Name', '-'+THotDir(HotDir[Index]).HotDirName);
-            AConfig.SetAttr(SubNode, 'Path', '');
-            AConfig.SetAttr(SubNode, 'Target', '');
-          end;
-
-        hd_ENDMENU:
-          begin
-            AConfig.SetAttr(SubNode, 'Name', '--');
-            AConfig.SetAttr(SubNode, 'Path', '');
-            AConfig.SetAttr(SubNode, 'Target', '');
-          end;
-
-        hd_COMMAND:
-          begin
-            AConfig.SetAttr(SubNode, 'Name', HotDir[Index].HotDirName);
-            if THotDir(HotDir[Index]).HotDirPath<>'' then AConfig.SetAttr(SubNode, 'Path', HotDir[Index].HotDirPath) else AConfig.SetAttr(SubNode, 'Path', '');
-            if THotDir(HotDir[Index]).HotDirTarget<>'' then AConfig.SetAttr(SubNode, 'Target', HotDir[Index].HotDirTarget) else AConfig.SetAttr(SubNode, 'Target', '');
-          end;
-      end;
-    end;
-end;
-
-{ THotDirList.ImportTotalCommander }
-procedure THotDirList.ImportTotalCommander(TotalCommanderFilename:utf8string);
-const
-  CONFIGFILE_SECTIONNAME = 'DirMenu';
-  CONFIGFILE_NAMEPREFIX = 'menu';
-  CONFIGFILE_PATHPREFIX = 'cmd';
-  CONFIGFILE_TARGETPREFIX = 'path';
-  TERMINATORNOTPRESENT = ':-<#/?*+*?\#>-:';
-var
-  LocalHotDir:THotDir;
-  ConfigFile:TIniFileEx;
-  sName, sPath, sTarget:UTF8string;
-  Index,CurrentMenuLevel:longint;
-  FlagAvortInsertion:boolean;
-begin
-  Index:=1;
-  CurrentMenuLevel:=0;
-
-  ConfigFile:=TIniFileEx.Create(TotalCommanderFilename);
-
-  try
-    repeat
-      sName:=AnsiToUTF8(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME,CONFIGFILE_NAMEPREFIX+IntToStr(Index),TERMINATORNOTPRESENT));
-      if sName<>TERMINATORNOTPRESENT then
+    case THotDir(HotDir[Index]).Dispatcher of
+      hd_NULL:
       begin
-        sName:=StringReplace(sName,'&','',[rfReplaceAll, rfIgnoreCase]); //Let's remove the amperstand
-
-        FlagAvortInsertion:=FALSE;
-        LocalHotDir:=THotDir.Create;
-
-        if sName='-' then //Was it a separator?
-        begin
-          LocalHotDir.Dispatcher:=hd_SEPARATOR;
-          LocalHotDir.MenuLevel:=CurrentMenuLevel;
-        end
-        else
-        begin
-          if sName='--' then //Was is a end of menu?
-          begin
-            LocalHotDir.Dispatcher:=hd_ENDMENU;
-            if CurrentMenuLevel>0 then dec(CurrentMenuLevel) else FlagAvortInsertion:=TRUE; //Sanity correction since Total Commande may contains extra end of menu...
-            LocalHotDir.MenuLevel:=CurrentMenuLevel;
-          end
-          else
-          begin
-            if (length(sName)>1) then //Was it a menu start?
-            begin
-              if (sName[1]='-') AND (sName[2]<>'-') then
-              begin
-                LocalHotDir.MenuLevel:=CurrentMenuLevel;
-                inc(CurrentMenuLevel);
-                LocalHotDir.Dispatcher:=hd_STARTMENU;
-                LocalHotDir.HotDirName:=rightstr(sName,length(sName)-1);
-              end;
-            end;
-
-            if LocalHotDir.Dispatcher=hd_NULL then
-            begin
-              LocalHotDir.MenuLevel:=CurrentMenuLevel;
-              LocalHotDir.HotDirName:=sName;
-
-              sPath:=AnsiToUTF8(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME,CONFIGFILE_PATHPREFIX+IntToStr(Index),''));
-              if length(sPath)>3 then if pos('cd ',lowercase(sPath))=1 then sPath:=copy(sPath,4,length(sPath)-3);
-              sPath:=StringReplace(sPath,'%COMMANDER_PATH%','%commander_path%',[rfReplaceAll, rfIgnoreCase]);
-
-              if pos('cm_',LowerCase(sPath))=0 then //Make sure it's not a command
-              begin
-                if sPath<>'' then sPath:=IncludeTrailingPathDelimiter(sPath); //Not an obligation but DC convention seems to like a backslash at the end
-
-                sTarget:=AnsiToUTF8(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME,CONFIGFILE_TARGETPREFIX+IntToStr(Index),''));
-                if length(sTarget)>3 then if pos('cd ',lowercase(sTarget))=1 then sTarget:=copy(sTarget,4,length(sTarget)-3);
-                sTarget:=StringReplace(sTarget,'%COMMANDER_PATH%','%commander_path%',[rfReplaceAll, rfIgnoreCase]);
-                if sTarget<>'' then sTarget:=IncludeTrailingPathDelimiter(sTarget); //Not an obligation but DC convention seems to like a backslash at the end
-
-                LocalHotDir.Dispatcher:=hd_CHANGEPATH;
-                LocalHotDir.HotDirPath:=sPath;
-                LocalHotDir.HotDirTarget:=sTarget;
-              end
-              else
-              begin //If it's command, store it as a command
-                LocalHotDir.Dispatcher:=hd_COMMAND;
-                LocalHotDir.HotDirPath:=sPath;
-              end;
-            end;
-          end;
-        end;
-
-        if not FlagAvortInsertion then Add(LocalHotDir) else LocalHotDir.Free;
-        inc(Index);
+        AConfig.SetAttr(SubNode, 'Name', '');
+        AConfig.SetAttr(SubNode, 'Path', '');
       end;
-    until sName=TERMINATORNOTPRESENT;
 
-    //Try to fix possible problem if the LAST MENU is not ending correctly...
-    while CurrentMenuLevel>0 do
-    begin
-      dec(CurrentMenuLevel);
-      LocalHotDir:=THotDir.Create;
-      LocalHotDir.Dispatcher:=hd_ENDMENU;
-      LocalHotDir.MenuLevel:=CurrentMenuLevel;
-      Add(LocalHotDir);
+      hd_CHANGEPATH:
+      begin
+        AConfig.SetAttr(SubNode, 'Name', HotDir[Index].HotDirName);
+        AConfig.SetAttr(SubNode, 'Path', HotDir[Index].HotDirPath);
+        if HotDir[Index].HotDirTarget <> '' then AConfig.SetAttr(SubNode, 'Target', HotDir[Index].HotDirTarget);
+        if HotDir[Index].HotDirPathSort <> 0 then AConfig.SetAttr(SubNode, 'PathSort', HotDir[Index].HotDirPathSort);
+        if HotDir[Index].HotDirTargetSort <> 0 then AConfig.SetAttr(SubNode, 'TargetSort', HotDir[Index].HotDirTargetSort);
+      end;
+
+      hd_SEPARATOR:
+      begin
+        AConfig.SetAttr(SubNode, 'Name', '-');
+        AConfig.SetAttr(SubNode, 'Path', '');
+      end;
+
+      hd_STARTMENU:
+      begin
+        AConfig.SetAttr(SubNode, 'Name', '-' + THotDir(HotDir[Index]).HotDirName);
+        AConfig.SetAttr(SubNode, 'Path', '');
+      end;
+
+      hd_ENDMENU:
+      begin
+        AConfig.SetAttr(SubNode, 'Name', '--');
+        AConfig.SetAttr(SubNode, 'Path', '');
+      end;
+
+      hd_COMMAND:
+      begin
+        AConfig.SetAttr(SubNode, 'Name', HotDir[Index].HotDirName);
+        AConfig.SetAttr(SubNode, 'Path', HotDir[Index].HotDirPath);
+        if HotDir[Index].HotDirTarget <> '' then AConfig.SetAttr(SubNode, 'Target', HotDir[Index].HotDirTarget);
+      end;
     end;
-  finally
-    ConfigFile.Free;
   end;
 end;
 
-{ THotDirList.ExportTotalCommander }
-function THotDirList.ExportTotalCommander(TotalCommanderFilename:utf8string; FlagEraseOriginalOnes:boolean):boolean;
-const
-  CONFIGFILE_SECTIONNAME = 'DirMenu';
-  CONFIGFILE_NAMEPREFIX = 'menu';
-  CONFIGFILE_PATHPREFIX = 'cmd';
-  CONFIGFILE_TARGETPREFIX = 'path';
-  TERMINATORNOTPRESENT = ':-<#/?*+*?\#>-:';
+{ TDirectoryHotlist.ImportDoubleCommander }
+procedure TDirectoryHotlist.ImportDoubleCommander(DoubleCommanderFilename: utf8string);
 var
-  ConfigFile: TIniFileEx;
-  Index, OffsetForOnesAlreadyThere: integer;
-  sName:string;
-  RememberCursor:TCursor;
-begin
-  result:=TRUE;
-  OffsetForOnesAlreadyThere:=0;
-
-  try
-    RememberCursor:=Screen.Cursor;
-    Screen.Cursor:=crHourGlass;
-    try
-      ConfigFile:=TIniFileEx.Create(TotalCommanderFilename);
-      try
-        with ConfigFile do
-          begin
-            if FlagEraseOriginalOnes then
-            begin
-              EraseSection(CONFIGFILE_SECTIONNAME);
-            end
-            else
-            begin
-              Index:=1;
-              repeat
-                sName:=AnsiToUTF8(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME,CONFIGFILE_NAMEPREFIX+IntToStr(Index),TERMINATORNOTPRESENT));
-                if sName<>TERMINATORNOTPRESENT then inc(OffsetForOnesAlreadyThere);
-                inc(Index);
-              until sName=TERMINATORNOTPRESENT;
-            end;
-
-            for Index:=0 to pred(count) do
-              begin
-                case THotDir(HotDir[Index]).Dispatcher of
-                  hd_NULL:
-                    begin
-                    end;
-
-                  hd_CHANGEPATH:
-                    begin
-                      WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_NAMEPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),UTF8toAnsi(THotDir(HotDir[Index]).HotDirName));
-                      if THotDir(HotDir[Index]).HotDirPath<>'' then WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_PATHPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),UTF8toAnsi('cd '+THotDir(HotDir[Index]).HotDirPath));
-                      if THotDir(HotDir[Index]).HotDirTarget<>'' then WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_TARGETPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),UTF8toAnsi(THotDir(HotDir[Index]).HotDirTarget));
-                    end;
-
-                  hd_SEPARATOR:
-                    begin
-                      WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_NAMEPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),'-');
-                    end;
-
-                  hd_STARTMENU:
-                    begin
-                      WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_NAMEPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),'-'+UTF8toAnsi(THotDir(HotDir[Index]).HotDirName));
-                    end;
-
-                  hd_ENDMENU:
-                    begin
-                      WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_NAMEPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),'--');
-                    end;
-
-                  hd_COMMAND:
-                    begin
-                      WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_NAMEPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),UTF8toAnsi(THotDir(HotDir[Index]).HotDirName));
-                      if THotDir(HotDir[Index]).HotDirPath<>'' then WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_PATHPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),UTF8toAnsi(THotDir(HotDir[Index]).HotDirPath));
-                      if THotDir(HotDir[Index]).HotDirTarget<>'' then WriteString(CONFIGFILE_SECTIONNAME,CONFIGFILE_TARGETPREFIX+IntToStr(OffsetForOnesAlreadyThere+Index+1),UTF8toAnsi(THotDir(HotDir[Index]).HotDirTarget));
-                    end;
-                end;
-              end;
-          end;
-      finally
-        ConfigFile.Free;
-      end;
-
-    except
-      result:=FALSE;
-    end;
-
-  finally
-    Screen.Cursor:=RememberCursor;
-  end;
-end;
-
-{ THotDirList.ImportDoubleCommander }
-procedure THotDirList.ImportDoubleCommander(DoubleCommanderFilename:utf8string);
-var
-  DoubleCommanderXMLToImport:TXmlConfig;
+  DoubleCommanderXMLToImport: TXmlConfig;
   Root: TXmlNode;
 begin
   DoubleCommanderXMLToImport := TXmlConfig.Create(DoubleCommanderFilename);
@@ -992,371 +782,215 @@ begin
   end;
 end;
 
-{ THotDirList.ExportDoubleCommander }
-function THotDirList.ExportDoubleCommander(DoubleCommanderFilename:utf8string; FlagEraseOriginalOnes:boolean):boolean;
+{ TDirectoryHotlist.ExportDoubleCommander }
+function TDirectoryHotlist.ExportDoubleCommander(DoubleCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
 var
-  DoubleCommanderXMLToImport:TXmlConfig;
+  DoubleCommanderXMLToImport: TXmlConfig;
   Root: TXmlNode;
-  FlagKeepGoing:boolean;
+  FlagKeepGoing: boolean;
 begin
-  result:=FALSE; //Unless we reach correctly the end, the result is negative
-  FlagKeepGoing:=TRUE;
+  Result := False; //Unless we reach correctly the end, the result is negative
+  FlagKeepGoing := True;
 
   DoubleCommanderXMLToImport := TXmlConfig.Create(DoubleCommanderFilename);
   try
     //Just in case we're requested to add or update content of a .XML file will already other data in it, first we load the structure
-    if FileExists(DoubleCommanderFilename) then FlagKeepGoing:=DoubleCommanderXMLToImport.Load;
+    if FileExists(DoubleCommanderFilename) then FlagKeepGoing := DoubleCommanderXMLToImport.Load;
 
     if FlagKeepGoing then
     begin
       Root := DoubleCommanderXMLToImport.RootNode;
       SaveToXml(DoubleCommanderXMLToImport, Root, FlagEraseOriginalOnes);
-      result:=DoubleCommanderXMLToImport.Save;
+      Result := DoubleCommanderXMLToImport.Save;
     end;
   finally
     FreeAndNil(DoubleCommanderXMLToImport);
   end;
 end;
 
-{ THotDirList.RefreshExistingProperty }
-procedure THotDirList.RefreshExistingProperty(lsShowingIt:TListBox; lbleditShowingIt:TLabeledEdit; ScanMode:integer);
-var
-  Index,LocalThreadCount:longint;
-  ListOfAlreadyCheckDrive,ListOfNonExistingDrive:TStringList;
-  RememberCursor:TCursor;
+{ TDirectoryHotlist.AddFromAnotherTTreeViewTheSelected }
+//It looks the ".selected" field only gives us the kind of "itemindex" of current selection in the TTREE.
+//So, the apparent way to detect the current selected node is to check the ".Selection" fields.
+//So, we'll set the "GroupNumber" of pointed HotDir to 1 to indicate the one to import.
+//
+function TDirectoryHotlist.AddFromAnotherTTreeViewTheSelected(ParamWorkingTreeView, ParamTreeViewToImport:TTreeView; FlagAddThemAll: boolean): longint;
 
-  procedure StartThreadToSeeIfThisDriveExists(const sDrive:string);
+  procedure RecursiveAddTheOnesWithGroupNumberOne(WorkingTreeNode:TTreeNode; InsertionNodePlace:TTreeNode);
   var
-    CheckDrivePresenceThread: TCheckDrivePresenceThread;
+    MaybeChildNode:TTreeNode;
+    WorkingHotDirEntry:THotDir;
+    NewTreeNode:TTreeNode;
   begin
-    CheckDrivePresenceThread:= TCheckDrivePresenceThread.Create(sDrive,ListOfNonExistingDrive,LocalThreadCount);
-  end;
-
-  //Since we do that for both "Path" and "Target", it was useful to place in a routine so we can call two times the same routine
-  procedure ScanForThisDir(DirToScan:string);
-  var
-    localPath,localDrive:string;
-  begin
-    localPath:=ExcludeTrailingPathDelimiter(mbExpandFileName(DirToScan));
-    localDrive:=UpperCase(ExtractFileDrive(localPath));
-
-    if ListOfAlreadyCheckDrive.IndexOf(localDrive) = -1 then
+    while WorkingTreeNode<>nil do
     begin
-      inc(LocalThreadCount);
-      StartThreadToSeeIfThisDriveExists(localDrive);
-      ListOfAlreadyCheckDrive.Add(localDrive);
-    end;
-  end;
+      MaybeChildNode:=WorkingTreeNode.GetFirstChild;
 
-  //Since we do that for both "Path" and "Target", it was useful to place in a routine so we can call two times the same routine
-  function CheckIfThisDirectoryExists(RequestedDirectoryToCheck:string):boolean;
-  var
-    localPath,localDrive:string;
-  begin
-    if RequestedDirectoryToCheck<>'' then
-    begin
-      result:=FALSE;
-      localPath:=ExcludeTrailingPathDelimiter(mbExpandFileName(RequestedDirectoryToCheck));
-      localDrive:=UpperCase(ExtractFileDrive(localPath));
-      lbleditShowingIt.text:=localPath;
-      Application.ProcessMessages;
-
-      if ListOfNonExistingDrive.IndexOf(localDrive) = -1 then
+      if MaybeChildNode<>nil then
       begin
-        result:=mbDirectoryExists(localPath);
-      end;
-
-      if not result then
-      begin
-        FlagModified:=FlagModified OR (HotDir[Index].FHotDirExistingState<>DirNotExist);
-        HotDir[Index].FHotDirExistingState:=DirNotExist;
-      end;
-    end
-    else
-    begin
-      result:=TRUE;
-    end;
-  end;
-
-begin
-  RememberCursor:=Screen.Cursor;
-
-  try
-    Screen.Cursor:=crHourGlass;
-
-    ListOfAlreadyCheckDrive:=TStringList.Create;
-    ListOfAlreadyCheckDrive.Sorted:=FALSE;
-    ListOfAlreadyCheckDrive.Clear;
-
-    ListOfNonExistingDrive:=TStringList.Create;
-    ListOfNonExistingDrive.Sorted:=FALSE;
-    ListOfNonExistingDrive.Clear;
-
-    try
-      LocalThreadCount:=0;
-
-      //First, let's build a list of the "\\ServerName" that exists and let's check them in MultiThread
-      //We scan only once each drive and "\\ServerName"
-      //"\\ServerName" have a long timeout so that's why we check them this way
-      for Index:=0 to pred(count) do
-      begin
-        case HotDir[Index].FDispatcher of
-          hd_CHANGEPATH:
-            begin
-              ScanForThisDir(HotDir[Index].FHotDirPath);
-              if ScanMode=2 then ScanForThisDir(HotDir[Index].FHotDirTarget);
-            end;
-        end;
-      end;
-
-      //Let's wait all the threads to complete
-      //TODO:Maybe a little timeout or something would be better here!
-      while (LocalThreadCount<>0) do
+        if (THotDir(WorkingTreeNode.Data).GroupNumber = 1) OR (FlagAddThemAll) then
         begin
-          lbleditShowingIt.text:=IntToStr(LocalThreadCount);
-          Application.ProcessMessages;
-          if LocalThreadCount=0 then Sleep(100);
-        end;
-
-      //Second, now let's scan if the director exists!
-      for Index:=0 to pred(count) do
-      begin
-        if lsShowingIt<>nil then lsShowingIt.ItemIndex:=Index;
-        case HotDir[Index].FDispatcher of
-          hd_CHANGEPATH:
-            begin
-              if CheckIfThisDirectoryExists(HotDir[Index].FHotDirPath) then
-              begin
-                case ScanMode of
-                  1:
-                    begin
-                      FlagModified:=FlagModified OR (HotDir[Index].FHotDirExistingState<>DirExist);
-                      HotDir[Index].FHotDirExistingState:=DirExist;
-                    end;
-
-                  2:
-                    begin
-                      if CheckIfThisDirectoryExists(HotDir[Index].FHotDirTarget) then
-                      begin
-                        FlagModified:=FlagModified OR (HotDir[Index].FHotDirExistingState<>DirExist);
-                        HotDir[Index].FHotDirExistingState:=DirExist;
-                      end;
-                    end;
-                end; //case ScanMode
-              end;
-            end; //hd_CHANGEPATH:
-        end; //case HotDir[Index].FDispatcher of
-      end;
-    finally
-      ListOfAlreadyCheckDrive.Free;
-      ListOfNonExistingDrive.Free;
-    end;
-
-  finally
-    Screen.Cursor:=RememberCursor;
-  end;
-end;
-
-{ THotDirList.lsImportationHotDirClick }
-procedure THotDirList.lsImportationHotDirClick(Sender: TObject);
-var
-  Index, SubMenuEndIndex,IndexSel:longint;
-begin
-  with Sender as TListBox do
-  begin
-    Index:=ItemIndex;
-    case HotDir[Index].Dispatcher of
-      hd_NULL:
-        begin
-        end;
-
-      hd_CHANGEPATH:
-        begin
-        end;
-
-      hd_SEPARATOR:
-        begin
-        end;
-
-      hd_STARTMENU:
-        begin
-          SubMenuEndIndex:=GetIndexSubMenuEnd(Index);
-          if SubMenuEndIndex<>-1 then
+          WorkingHotDirEntry:=THotDir.Create;
+          THotDir(WorkingTreeNode.Data).CopyToHotDir(WorkingHotDirEntry);
+          WorkingHotDirEntry.Dispatcher:=hd_STARTMENU; //Probably not necessary, but let's make sure it will start a menu
+          Add(WorkingHotDirEntry);
+          if ParamWorkingTreeView<>nil then
           begin
-            for IndexSel:=Index+1 to SubMenuEndIndex do Selected[IndexSel]:=Selected[Index];
+            NewTreeNode := ParamWorkingTreeView.Items.AddChildObject(InsertionNodePlace, WorkingHotDirEntry.HotDirName,HotDir[count-1]);
+            NewTreeNode.ImageIndex:=ICONINDEX_SUBMENU;
+            NewTreeNode.SelectedIndex:=ICONINDEX_SUBMENU;
+            NewTreeNode.StateIndex:=ICONINDEX_SUBMENU;
           end;
+          inc(result);
         end;
 
-      hd_ENDMENU:
-        begin
-          Selected[Index]:=not Selected[Index];
-        end;
+        RecursiveAddTheOnesWithGroupNumberOne(MaybeChildNode,NewTreeNode);
 
-      hd_COMMAND:
+        if (THotDir(WorkingTreeNode.Data).GroupNumber=1) OR (FlagAddThemAll) then
         begin
+          WorkingHotDirEntry:=THotDir.Create;
+          WorkingHotDirEntry.Dispatcher:=hd_ENDMENU;
+          Add(WorkingHotDirEntry);
         end;
+      end
+      else
+      begin
+        if (THotDir(WorkingTreeNode.Data).GroupNumber=1) OR (FlagAddThemAll) then
+        begin
+          WorkingHotDirEntry:=THotDir.Create;
+          THotDir(WorkingTreeNode.Data).CopyToHotDir(WorkingHotDirEntry);
+          Add(WorkingHotDirEntry);
+          if ParamWorkingTreeView<>nil then
+          begin
+            case WorkingHotDirEntry.Dispatcher of
+              hd_Separator: NewTreeNode := ParamWorkingTreeView.Items.AddChildObject(InsertionNodePlace, HOTLIST_SEPARATORSTRING, HotDir[count-1]);
+              else NewTreeNode := ParamWorkingTreeView.Items.AddChildObject(InsertionNodePlace, WorkingHotDirEntry.HotDirName, HotDir[count-1]);
+            end;
+          end;
+          inc(result);
+        end;
+      end;
+
+      WorkingTreeNode:=WorkingTreeNode.GetNextSibling;
     end;
   end;
-end;
 
-{ THotDirList.AddFromAnotherListTheSelected }
-function THotDirList.AddFromAnotherListTheSelected(ImportantedHotDirList:THotDirList;lsHoldingSelection:TListBox):longint;
+  procedure RecursiveSetGroupNumberToOne(WorkingTreeNode:TTreeNode; FlagTakeAlsoSibling:boolean);
+  begin
+    repeat
+      if WorkingTreeNode.GetFirstChild=nil then
+      begin
+        if (THotDir(WorkingTreeNode.Data).Dispatcher<>hd_STARTMENU) AND (THotDir(WorkingTreeNode.Data).Dispatcher<>hd_ENDMENU) then
+        begin
+          THotDir(WorkingTreeNode.Data).GroupNumber:=1;
+        end;
+      end
+      else
+      begin
+        THotDir(WorkingTreeNode.Data).GroupNumber:=1;
+        RecursiveSetGroupNumberToOne(WorkingTreeNode.GetFirstChild,TRUE);
+      end;
+
+      if FlagTakeAlsoSibling then WorkingTreeNode:=WorkingTreeNode.GetNextSibling;
+    until (FlagTakeAlsoSibling=FALSE) OR (WorkingTreeNode=nil);
+  end;
+
 var
-  LocalHotDir:THotDir;
-  Index,CurrentMenuLevel:longint;
+  OutsideIndex:integer;
 begin
   result:=0;
 
-  CurrentMenuLevel:=0;
-  Index:=0;
-  while (Index<lsHoldingSelection.Items.Count) do
-  begin
-    if lsHoldingSelection.Selected[Index] then
-    begin
-      LocalHotDir:=THotDir.Create;
-      LocalHotDir.Dispatcher:=ImportantedHotDirList.HotDir[Index].Dispatcher;
-      LocalHotDir.HotDirName:=ImportantedHotDirList.HotDir[Index].HotDirName;
-      LocalHotDir.HotDirPath:=ImportantedHotDirList.HotDir[Index].HotDirPath;
-      LocalHotDir.HotDirPathSort:=ImportantedHotDirList.HotDir[Index].HotDirPathSort;
-      LocalHotDir.HotDirTarget:=ImportantedHotDirList.HotDir[Index].HotDirTarget;
-      LocalHotDir.HotDirTargetSort:=ImportantedHotDirList.HotDir[Index].HotDirTargetSort;
+  //First, make sure no one is marked
+  for OutsideIndex:=0 to pred(ParamTreeViewToImport.Items.Count) do THotDir(ParamTreeViewToImport.Items.Item[OutsideIndex].Data).GroupNumber:=0;
 
-      case LocalHotDir.Dispatcher of
-        hd_STARTMENU:
-          begin
-            LocalHotDir.MenuLevel:=CurrentMenuLevel;
-            inc(CurrentMenuLevel);
-          end;
+  //Then, set the "GroupNumber" to 1 to the ones to import
+  if ParamTreeViewToImport.SelectionCount>0 then for OutsideIndex:=0 to pred(ParamTreeViewToImport.SelectionCount) do RecursiveSetGroupNumberToOne(ParamTreeViewToImport.Selections[OutsideIndex],FALSE);
 
-        hd_ENDMENU:
-          begin
-            dec(CurrentMenuLevel);
-            LocalHotDir.MenuLevel:=CurrentMenuLevel;
-          end;
-
-        else
-          begin
-            LocalHotDir.MenuLevel:=CurrentMenuLevel;
-          end;
-      end;
-
-      Add(LocalHotDir);
-      inc(result);
-    end; ////if lsHoldingSelection.Selected[Index] then
-
-    inc(Index);
-  end;
+  //Finally now collect the one with the "GroupNumber" set to 1.
+  RecursiveAddTheOnesWithGroupNumberOne(ParamTreeViewToImport.Items.Item[0],nil);
 end;
 
-{ THotDirList.EliminateTheNonSelectedInList }
-function THotDirList.EliminateTheNonSelectedInList(lsHoldingSelection:TListBox):longint;
+{ TDirectoryHotlist.GetHotDir }
+function TDirectoryHotlist.GetHotDir(Index: integer): THotDir;
+begin
+  Result := THotDir(Items[Index]);
+end;
+
+{ TDirectoryHotlist.RefreshFromTTreeView }
+//The routine will recreate the complete TDirectoryHotlist from a TTreeView.
+//It cannot erase or replace immediately the current list because the TTreeView refer to it!
+//So it create it into the "TransitDirectoryHotlist" and then, it will copy it to self one.
+//
+procedure TDirectoryHotlist.RefreshFromTTreeView(ParamTreeView:TTreeView);
 var
-  Index:longint;
-begin
-  Index:=pred(lsHoldingSelection.Items.Count);
-  while (Index>=0) do
+  TransitDirectoryHotlist:TDirectoryHotlist;
+  IndexToTryToRestore:longint=-1;
+  MaybeTTreeNodeToSelect:TTreeNode;
+
+  procedure RecursiveEncapsulateSubMenu(WorkingTreeNode:TTreeNode);
+  var
+    MaybeChildNode:TTreeNode;
+    WorkingHotDirEntry:THotDir;
   begin
-    if not lsHoldingSelection.Selected[Index] then DeleteHotDir(Index);
-    dec(Index);
-  end;
-  result:=count;
-end;
-
-{ THotDirList.lsHotDirDrawItem }
-procedure THotDirList.lsHotDirDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
-  function GetSpacesRequire(NbSpace:longint):string;
-    var
-      i:integer;
+    while WorkingTreeNode<>nil do
     begin
-      result:='';
-      for i:=1 to NbSpace do result:=result+' ';
-      result:=result+result+result+result;
-    end;
+      if WorkingTreeNode=ParamTreeView.Selected then IndexToTryToRestore:=TransitDirectoryHotlist.Count;
 
-begin
-  with Control as TListBox do
-    begin
-      Canvas.FillRect(ARect);
+      MaybeChildNode:=WorkingTreeNode.GetFirstChild;
+      if MaybeChildNode<>nil then
+      begin
+        WorkingHotDirEntry:=THotDir.Create;
+        THotDir(WorkingTreeNode.Data).CopyToHotDir(WorkingHotDirEntry);
+        WorkingHotDirEntry.Dispatcher:=hd_STARTMENU; //Probably not necessary, but let's make sure it will start a menu
+        TransitDirectoryHotlist.Add(WorkingHotDirEntry);
 
-      case HotDir[Index].Dispatcher of
-        hd_NULL:
-          begin
-          end;
+        RecursiveEncapsulateSubMenu(MaybeChildNode);
 
-        hd_CHANGEPATH:
-          begin
-            Canvas.Font.Style:=[];
-            Canvas.TextOut(ARect.Left+2,ARect.Top,GetSpacesRequire(HotDir[Index].MenuLevel)+HotDir[Index].HotDirName);
-          end;
-
-        hd_SEPARATOR:
-          begin
-          end;
-
-        hd_STARTMENU:
-          begin
-            Canvas.Font.Style:=[fsBold];
-            Canvas.TextOut(ARect.Left+2,ARect.Top,GetSpacesRequire(HotDir[Index].MenuLevel)+HotDir[Index].HotDirName);
-          end;
-
-        hd_ENDMENU:
-          begin
-            ARect.Bottom:=ARect.Top+3;
-            //Canvas.Brush.Color:=clYellow;
-            //Canvas.FillRect(Rect);
-            Canvas.TextOut(ARect.Left+2,ARect.Top,GetSpacesRequire(HotDir[Index].MenuLevel)+'--');
-          end;
-
-        hd_COMMAND:
-          begin
-            Canvas.Font.Style:=[];
-            Canvas.TextOut(ARect.Left+2,ARect.Top,GetSpacesRequire(HotDir[Index].MenuLevel)+HotDir[Index].HotDirName);
-          end;
+        WorkingHotDirEntry:=THotDir.Create;
+        WorkingHotDirEntry.Dispatcher:=hd_ENDMENU;
+        TransitDirectoryHotlist.Add(WorkingHotDirEntry);
+      end
+      else
+      begin
+        //We won't copy EMPTY submenu so that's why we check for "hd_STARTMENU". And the check for "hd_ENDMENU" is simply probably unecessary protection
+        if (THotDir(WorkingTreeNode.Data).Dispatcher<>hd_STARTMENU) AND (THotDir(WorkingTreeNode.Data).Dispatcher<>hd_ENDMENU) then
+        begin
+          WorkingHotDirEntry:=THotDir.Create;
+          THotDir(WorkingTreeNode.Data).CopyToHotDir(WorkingHotDirEntry);
+          TransitDirectoryHotlist.Add(WorkingHotDirEntry);
+        end;
       end;
+      WorkingTreeNode:=WorkingTreeNode.GetNextSibling;
     end;
-end;
-
-{ THotDirList.CopyListToHotDirList }
-procedure THotDirList.CopyListToHotDirList(var DestinationHotDirList:THotDirList);
-var
-  LocalHotDir:THotDir;
-  Index:longint;
-begin
-  //Let's delete possible previous list content
-  for Index:=pred(DestinationHotDirList.Count) downto 0 do DestinationHotDirList.DeleteHotDir(Index);
-  DestinationHotDirList.Clear;
-
-  //Now let's create entries and add them one by one to the destination list
-  for Index:=0 to pred(Count) do
-  begin
-    LocalHotDir:=THotDir.Create;
-    LocalHotDir.Dispatcher:=HotDir[Index].Dispatcher;
-    LocalHotDir.MenuLevel:=HotDir[Index].MenuLevel;
-    LocalHotDir.HotDirName:=HotDir[Index].HotDirName;
-    LocalHotDir.HotDirPath:=HotDir[Index].HotDirPath;
-    LocalHotDir.HotDirPathSort:=HotDir[Index].HotDirPathSort;
-    LocalHotDir.HotDirTarget:=HotDir[Index].HotDirTarget;
-    LocalHotDir.HotDirTargetSort:=HotDir[Index].HotDirTargetSort;
-    LocalHotDir.FHotDirExistingState:=HotDir[Index].HotDirExisting;
-    DestinationHotDirList.Add(LocalHotDir);
   end;
-  DestinationHotDirList.FlagModified:=TRUE;
-end;
 
-{ THotDirList.GetHotDir }
-function THotDirList.GetHotDir(Index: Integer): THotDir;
 begin
-  Result:= THotDir(Items[Index]);
+  if ParamTreeView.Items.count>0 then
+  begin
+    TransitDirectoryHotlist:=TDirectoryHotlist.Create;
+    try
+      RecursiveEncapsulateSubMenu(ParamTreeView.Items.Item[0]);
+      TransitDirectoryHotlist.CopyDirectoryHotlistToDirectoryHotlist(self);
+      MaybeTTreeNodeToSelect:=LoadTTreeView(ParamTreeView,IndexToTryToRestore);
+      if MaybeTTreeNodeToSelect<>nil then MaybeTTreeNodeToSelect.Selected:=TRUE else if ParamTreeView.Items.count>0 then ParamTreeView.Items.Item[0].Selected:=TRUE;
+    finally
+      TransitDirectoryHotlist.Clear;
+      TransitDirectoryHotlist.Free;
+    end;
+  end
+  else
+  begin
+    Self.Clear;
+  end;
 end;
 
 { TCheckDrivePresenceThread.Create }
-constructor TCheckDrivePresenceThread.Create(sDrive:string; ParamListOfNonExistingDrive: TStringList; var ThreadCount:longint);
+constructor TCheckDrivePresenceThread.Create(sDrive: string; ParamListOfNonExistingDrive: TStringList; var ThreadCount: longint);
 begin
-  FListOfNonExistingDrive:=ParamListOfNonExistingDrive;
-  FDriveToSearchFor:=sDrive;
-  FThreadCountPoint:=addr(ThreadCount);
-  FreeOnTerminate:=True;
-  inherited Create(FALSE);
+  FListOfNonExistingDrive := ParamListOfNonExistingDrive;
+  FDriveToSearchFor := sDrive;
+  FThreadCountPoint := addr(ThreadCount);
+  FreeOnTerminate := True;
+  inherited Create(False);
 end;
 
 { TCheckDrivePresenceThread.Destroy }
@@ -1368,7 +1002,7 @@ end;
 {TCheckDrivePresenceThread.Execute}
 procedure TCheckDrivePresenceThread.Execute;
 begin
-  if FDriveToSearchFor='' then
+  if FDriveToSearchFor = '' then
   begin
     Synchronize(@Self.ReportPresentInTheThread);
   end
@@ -1389,15 +1023,210 @@ end;
 { TCheckDrivePresenceThread.ReportPresentInTheThread }
 procedure TCheckDrivePresenceThread.ReportPresentInTheThread;
 begin
-  dec(FThreadCountPoint^);
+  Dec(FThreadCountPoint^);
 end;
 
 { TCheckDrivePresenceThread.ReportNotPresentInTheThread }
 procedure TCheckDrivePresenceThread.ReportNotPresentInTheThread;
 begin
   FListOfNonExistingDrive.Add(FDriveToSearchFor);
-  dec(FThreadCountPoint^);
+  Dec(FThreadCountPoint^);
 end;
 
-end.
+{$IFDEF MSWINDOWS}
+{ TDirectoryHotlist.ImportTotalCommander }
+function TDirectoryHotlist.ImportTotalCommander(TotalCommanderFilename: utf8string): integer;
+const
+  CONFIGFILE_SECTIONNAME = 'DirMenu';
+  CONFIGFILE_NAMEPREFIX = 'menu';
+  CONFIGFILE_PATHPREFIX = 'cmd';
+  CONFIGFILE_TARGETPREFIX = 'path';
+var
+  LocalHotDir: THotDir;
+  ConfigFile: TIniFileEx;
+  sName, sPath, sTarget: string;
+  Index, CurrentMenuLevel, InitialNumberOfElement: longint;
+  FlagAvortInsertion: boolean;
+begin
+  InitialNumberOfElement := Count;
+  Index := 1;
+  CurrentMenuLevel := 0;
 
+  ConfigFile := TIniFileEx.Create(TotalCommanderFilename);
+
+  try
+    repeat
+      sName := ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(Index), TERMINATORNOTPRESENT));
+
+      if sName <> TERMINATORNOTPRESENT then
+      begin
+        sName := StringReplace(sName, '&', '', [rfReplaceAll, rfIgnoreCase]); //Let's remove the amperstand
+
+        FlagAvortInsertion := False;
+        LocalHotDir := THotDir.Create;
+
+        if sName = '-' then //Was it a separator?
+        begin
+          LocalHotDir.Dispatcher := hd_SEPARATOR;
+        end
+        else
+        begin
+          if sName = '--' then //Was is a end of menu?
+          begin
+            LocalHotDir.Dispatcher := hd_ENDMENU;
+            if CurrentMenuLevel > 0 then Dec(CurrentMenuLevel) else FlagAvortInsertion := True; //Sanity correction since Total Commande may contains extra end of menu...
+          end
+          else
+          begin
+            if (UTF8Length(sName) > 1) then //Was it a menu start?
+            begin
+              if (sName[1] = '-') and (sName[2] <> '-') then
+              begin
+                Inc(CurrentMenuLevel);
+                LocalHotDir.Dispatcher := hd_STARTMENU;
+                LocalHotDir.HotDirName := UTF8RightStr(sName, UTF8Length(sName) - 1);
+              end;
+            end;
+
+            if LocalHotDir.Dispatcher = hd_NULL then
+            begin
+              LocalHotDir.HotDirName := sName;
+
+              sPath := ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_PATHPREFIX + IntToStr(Index), ''));
+              if UTF8Pos('cd ', sPath) = 1 then sPath := UTF8Copy(sPath, 4, UTF8Length(sPath) - 3);
+
+              if UTF8Pos('cm_', UTF8LowerCase(sPath)) = 0 then //Make sure it's not a command
+              begin
+                if sPath <> '' then sPath := IncludeTrailingPathDelimiter(sPath); //Not an obligation but DC convention seems to like a backslash at the end
+
+                sTarget := ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(Index), ''));
+                if UTF8Length(sTarget) > 3 then if UTF8Pos('cd ', UTF8LowerCase(sTarget)) = 1 then sTarget := UTF8Copy(sTarget, 4, UTF8Length(sTarget) - 3);
+                sTarget := StringReplace(sTarget, '%COMMANDER_PATH%', '%commander_path%', [rfReplaceAll, rfIgnoreCase]);
+                if sTarget <> '' then sTarget := IncludeTrailingPathDelimiter(sTarget); //Not an obligation but DC convention seems to like a backslash at the end
+
+                LocalHotDir.Dispatcher := hd_CHANGEPATH;
+                LocalHotDir.HotDirPath := sPath;
+                LocalHotDir.HotDirTarget := sTarget;
+              end
+              else
+              begin //If it's command, store it as a command
+                LocalHotDir.Dispatcher := hd_COMMAND;
+                LocalHotDir.HotDirPath := sPath;
+              end;
+            end;
+          end;
+        end;
+
+        if not FlagAvortInsertion then Add(LocalHotDir) else LocalHotDir.Free;
+        Inc(Index);
+      end;
+    until sName = TERMINATORNOTPRESENT;
+
+    //Try to fix possible problem if the LAST MENU is not ending correctly...
+    while CurrentMenuLevel > 0 do
+    begin
+      Dec(CurrentMenuLevel);
+      LocalHotDir := THotDir.Create;
+      LocalHotDir.Dispatcher := hd_ENDMENU;
+      Add(LocalHotDir);
+    end;
+  finally
+    ConfigFile.Free;
+  end;
+  Result := Count - InitialNumberOfElement;
+end;
+
+{ TDirectoryHotlist.ExportTotalCommander }
+function TDirectoryHotlist.ExportTotalCommander(TotalCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
+const
+  CONFIGFILE_SECTIONNAME = 'DirMenu';
+  CONFIGFILE_NAMEPREFIX = 'menu';
+  CONFIGFILE_PATHPREFIX = 'cmd';
+  CONFIGFILE_TARGETPREFIX = 'path';
+  TERMINATORNOTPRESENT = ':-<#/?*+*?\#>-:';
+var
+  ConfigFile: TIniFileEx;
+  Index, OffsetForOnesAlreadyThere: integer;
+  sName: string;
+  RememberCursor: TCursor;
+begin
+  Result := True;
+  OffsetForOnesAlreadyThere := 0;
+
+  try
+    RememberCursor := Screen.Cursor;
+    Screen.Cursor := crHourGlass;
+    try
+      ConfigFile := TIniFileEx.Create(TotalCommanderFilename);
+      try
+        with ConfigFile do
+        begin
+          if FlagEraseOriginalOnes then
+          begin
+            EraseSection(CONFIGFILE_SECTIONNAME);
+          end
+          else
+          begin
+            Index := 1;
+            repeat
+              sName := ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(Index), TERMINATORNOTPRESENT);
+              if sName <> TERMINATORNOTPRESENT then Inc(OffsetForOnesAlreadyThere);
+              Inc(Index);
+            until sName = TERMINATORNOTPRESENT;
+          end;
+
+          for Index := 0 to pred(Count) do
+          begin
+            case THotDir(HotDir[Index]).Dispatcher of
+              hd_NULL:
+              begin
+              end;
+
+              hd_CHANGEPATH:
+              begin
+                WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(THotDir(HotDir[Index]).HotDirName));
+                if THotDir(HotDir[Index]).HotDirPath <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_PATHPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString('cd ' + THotDir(HotDir[Index]).HotDirPath));
+                if THotDir(HotDir[Index]).HotDirTarget <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(THotDir(HotDir[Index]).HotDirTarget));
+              end;
+
+              hd_SEPARATOR:
+              begin
+                WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), '-');
+              end;
+
+              hd_STARTMENU:
+              begin
+                //See the position of the '-'. It *must* be inside the parameter for calling "ConvertStringToTCString" because the expected utf8 signature of TC must be before the '-'.
+                WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString('-' + THotDir(HotDir[Index]).HotDirName));
+              end;
+
+              hd_ENDMENU:
+              begin
+                WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), '--');
+              end;
+
+              hd_COMMAND:
+              begin
+                WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(THotDir(HotDir[Index]).HotDirName));
+                if THotDir(HotDir[Index]).HotDirPath <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_PATHPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(THotDir(HotDir[Index]).HotDirPath));
+                if THotDir(HotDir[Index]).HotDirTarget <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(THotDir(HotDir[Index]).HotDirTarget));
+              end;
+            end;
+          end;
+        end;
+      finally
+        ConfigFile.Free;
+      end;
+
+    except
+      Result := False;
+    end;
+
+  finally
+    Screen.Cursor := RememberCursor;
+  end;
+end;
+{$ENDIF}
+
+
+end.

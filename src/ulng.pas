@@ -90,7 +90,7 @@ resourcestring
   rsMsgInvalidFilename = 'Invalid filename';
   rsMsgInvalidPath = 'Invalid path';
   rsMsgInvalidPathLong = 'Path %s contains forbidden characters.';
-  rsMsgSelectOnlyCheckSumFiles = 'Please select only check sum files!';
+  rsMsgSelectOnlyCheckSumFiles = 'Please select only checksum files!';
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
   rsMsgVolumeSizeEnter = 'Please enter the volume size:';
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
@@ -132,16 +132,20 @@ resourcestring
   rsMsgInvalidFormatOfConfigurationFile = 'Invalid format of configuration file';
 
   //Hot Dir related
-  rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu? Answering NO will delete only menu delimiters but will keep element inside sub-menu.';
-  rsMsgHotDirAddThisDirectory = 'Add dir: ';
-  rsMsgHotDirConfigHotlist = 'Configuration of directory hotlist';
+  rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu [%s]?'+#$0A+'Answering NO will delete only menu delimiters but will keep element inside sub-menu.';
+  rsMsgHotDirAddThisDirectory = 'Add current dir: ';
+  rsMsgHotDirAddSelectedDirectory = 'Add selected dir: ';
+  rsMsgHotDirReAddSelectedDirectory = 'Re-Add selected dir: ';
+  rsMsgHotDirReAddThisDirectory = 'Re-Add current dir: ';
+  rsMsgHotDirAddSelectedDirectories = 'Add %d selected dirs';
+  rsMsgHotDirConfigHotlist = 'Configuration of Directory Hotlist';
   rsMsgHotDirDeleteAllEntries = 'Are you sure you want to remove all entries of your Directory Hotlist? (There is no "undo" to this action!)';
   rsMsgHotDirName = 'Hotdir name';
   rsMsgHotDirPath = 'Hotdir path';
   rsMsgHotDirJustPath = 'Path';
   rsMsgHotDirTarget = 'Hotdir target';
   rsMsgHotDirSubMenuName = 'Submenu name';
-  rsMsgHotDirModifiedWantToSave = 'Directory hotlist has been modified. Do you want to save before to exit?';
+  rsMsgHotDirModifiedWantToSave = 'Directory Hotlist has been modified. Do you want to save before to exit?';
   rsMsgHotDirSimpleName = 'Name:';
   rsMsgHotDirSimpleSeparator = '(separator)';
   rsMsgHotDirSimpleMenu = 'Menu name:';
@@ -154,22 +158,28 @@ resourcestring
   rsMsgHotDirDemoCommand = 'This will execute the following command:';
   rsMsgHotDirDemoTarget = 'And inactive frame would change to the following path:';
   rsMsgHotDirLocateTC = 'Locate TC "wincmd.ini" file';
-  rsMsgHotDirLocateDC = 'Locate DC "doublecmd.xml" file';
-  rsMsgHotDirLocatePreviousSave = 'Select location and filename of previously saved directory hotlist file';
-  rsMsgHotDirWhereToSave = 'Enter location and filename where to save a directory hotlist file';
+  rsMsgHotDirLocateHotlistFile = 'Locate ".hotlist" file to import';
+  rsMsgHotDirLocatePreviousSave = 'Select location and filename of previously saved Directory Hotlist file';
+  rsMsgHotDirWhereToSave = 'Enter location and filename where to save a Directory Hotlist file';
+  rsMsgHotDirRestoreWhat = 'Enter location and filename of Directory Hotlist to restore';
   rsMsgHotDirImportall = 'Import all!';
   rsMsgHotDirImportSel = 'Import selected';
   rsMsgHotDirImportHotlist = 'Import Directory Hotlist - Select the entries you want to import';
   rsMsgHotDirExportall = 'Export all!';
   rsMsgHotDirExportSel = 'Export selected';
   rsMsgHotDirExportHotlist = 'Export Directory Hotlist - Select the entries you want to export';
-  rsMsgHotDirNbNewEntries = 'Number of new entries: ';
+  rsMsgHotDirNbNewEntries = 'Number of new entries: %d';
   rsMsgHotDirTotalExported = 'Total entries exported: ';
   rsMsgHotDirErrorExporting = 'Error exporting entries...';
   rsMsgHotDirNothingToExport = 'Nothing selected to export!';
   rsMsgHotDirTipSpecialDirBut = 'Some functions to select appropriate path relative, absolute, windows special folders, etc.';
   rsMsgHotDirTipOrderPath = 'Determine if you want the active frame to be sorted in a specified order after changing directory';
   rsMsgHotDirTipOrderTarget = 'Determine if you want the not active frame to be sorted in a specified order after changing directory';
+  rsMsgHotDirTotalBackuped = 'Total entries saved: %d'+#$0A+#$0A+'Backup filename: %s';
+  rsMsgHotDirErrorBackuping = 'Error backuping entries...';
+  rsHotDirWarningAbortRestoreBackup = 'Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.'+#$0A+#$0A+
+                                      'Are you sure you want to proceed?';
+  rsHotDirNothingToImport = 'Sorry, nothing detected to import!';
 
   //Special dir related
   rsMsgSpecialDirUseDC = 'Use Double Commander special path...';
@@ -279,8 +289,8 @@ resourcestring
   rsDlgAllOpComplete = 'All operations completed';
   rsDlgAllOpProgress = 'Progress of all operations %d %%';
   rsDlgCalcStatistics = 'Calculate files and folders';
-  rsDlgCheckSumCalc = 'Calculate check sum...';
-  rsDlgCheckSumVerify = 'Verify check sum...';
+  rsDlgCheckSumCalc = 'Calculate checksum...';
+  rsDlgCheckSumVerify = 'Verify checksum...';
   rsDlgCp = 'Copy file(s)';
   rsDlgDel = 'Delete file(s)';
   rsDlgMv = 'Move file(s)';
@@ -474,6 +484,7 @@ resourcestring
   rsOptionsEditorToolbar = 'Toolbar';
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
+  rsOptionsEditorDirectoryHotlist = 'Directory Hotlist';
   //-------------------------------
   rsOptArchiveParam = 'Parameter';
   rsOptArchiveValue = 'Value';
@@ -578,9 +589,9 @@ resourcestring
   rsOperQueued = 'Queued';
 
   // Operations descriptions.
-  rsOperCalculatingCheckSum = 'Calculating check sum';
-  rsOperCalculatingCheckSumIn = 'Calculating check sum in "%s"';
-  rsOperCalculatingCheckSumOf = 'Calculating check sum of "%s"';
+  rsOperCalculatingCheckSum = 'Calculating checksum';
+  rsOperCalculatingCheckSumIn = 'Calculating checksum in "%s"';
+  rsOperCalculatingCheckSumOf = 'Calculating checksum of "%s"';
   rsOperCalculatingStatictics = 'Calculating';
   rsOperCalculatingStatisticsIn = 'Calculating "%s"';
   rsOperCombining = 'Joining';
@@ -613,9 +624,9 @@ resourcestring
   rsOperTesting = 'Testing';
   rsOperTestingSomething = 'Testing "%s"';
   rsOperTestingIn = 'Testing in "%s"';
-  rsOperVerifyingCheckSum = 'Verifying check sum';
-  rsOperVerifyingCheckSumIn = 'Verifying check sum in "%s"';
-  rsOperVerifyingCheckSumOf = 'Verifying check sum of "%s"';
+  rsOperVerifyingCheckSum = 'Verifying checksum';
+  rsOperVerifyingCheckSumIn = 'Verifying checksum in "%s"';
+  rsOperVerifyingCheckSumOf = 'Verifying checksum of "%s"';
   rsOperWiping = 'Wiping';
   rsOperWipingIn = 'Wiping in "%s"';
   rsOperWipingSomething = 'Wiping "%s"';

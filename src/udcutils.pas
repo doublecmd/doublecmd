@@ -55,8 +55,8 @@ VARDELIMITER='%';
 VARDELIMITER='$';
 {$ENDIF}
 
-EnvVarCommanderPath = '%commander_path%';
-EnvVarConfigPath    = '%dc_config_path%';
+EnvVarCommanderPath = VARDELIMITER+'commander_path'+VARDELIMITER; //"VARLIMITER" used to work when compiled either for Windows/Unix
+EnvVarConfigPath    = VARDELIMITER+'dc_config_path'+VARDELIMITER;
 EnvVarTodaysDate    = VARDELIMITER+'dc_todaysdate'+VARDELIMITER;
 
 function GetCmdDirFromEnvVar(const sPath : String) : String;

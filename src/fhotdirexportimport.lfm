@@ -1,4 +1,4 @@
-object frmhotdirimportexport: Tfrmhotdirimportexport
+object frmhotdirexportimport: Tfrmhotdirexportimport
   Left = 686
   Height = 283
   Top = 295
@@ -7,37 +7,22 @@ object frmhotdirimportexport: Tfrmhotdirimportexport
   ClientHeight = 283
   ClientWidth = 427
   OnCreate = FormCreate
-  OnResize = FormResize
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState'
-  LCLVersion = '1.0.14.0'
-  object lsImportedHotDir: TListBox
-    Left = 8
-    Height = 195
-    Top = 40
-    Width = 411
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Right = 12
-    Columns = 4
-    DragMode = dmAutomatic
-    ItemHeight = 0
-    MultiSelect = True
-    ScrollWidth = 263
-    TabOrder = 0
-  end
+  LCLVersion = '1.2.4.0'
   object lblHintHoldControl: TLabel
     Left = 8
-    Height = 16
+    Height = 15
     Top = 24
-    Width = 263
-    Caption = 'Hold CTRL and click entries to select multiple one'
+    Width = 267
+    Caption = 'Hold CTRL and click entries to select multiple ones'
     ParentColor = False
   end
   object lbHint: TLabel
     Left = 8
-    Height = 16
+    Height = 15
     Top = 8
-    Width = 299
+    Width = 298
     Caption = 'When clicking a sub-menu, it will select the whole menu'
     ParentColor = False
   end
@@ -50,7 +35,7 @@ object frmhotdirimportexport: Tfrmhotdirimportexport
     Caption = 'Import all!'
     Kind = bkAll
     ModalResult = 8
-    TabOrder = 1
+    TabOrder = 0
   end
   object btnSelectionDone: TBitBtn
     Left = 269
@@ -62,7 +47,7 @@ object frmhotdirimportexport: Tfrmhotdirimportexport
     Default = True
     Kind = bkOK
     ModalResult = 1
-    TabOrder = 2
+    TabOrder = 1
   end
   object btnCancelImportation: TBitBtn
     Left = 8
@@ -74,6 +59,25 @@ object frmhotdirimportexport: Tfrmhotdirimportexport
     DefaultCaption = True
     Kind = bkCancel
     ModalResult = 2
+    TabOrder = 2
+  end
+  object tvDirectoryHotlistToExportImport: TTreeView
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 193
+    Top = 40
+    Width = 408
+    Anchors = [akTop, akLeft, akBottom]
+    DefaultItemHeight = 18
+    DragMode = dmAutomatic
+    HideSelection = False
+    HotTrack = True
+    MultiSelect = True
+    MultiSelectStyle = [msControlSelect, msShiftSelect, msVisibleOnly, msSiblingOnly]
+    ParentFont = False
+    ReadOnly = True
+    RowSelect = True
     TabOrder = 3
+    Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
   end
 end
