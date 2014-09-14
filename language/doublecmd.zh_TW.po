@@ -2240,6 +2240,7 @@ msgid "Test resulting menu"
 msgstr ""
 
 #: tfrmhotdir.caption
+msgctxt "tfrmhotdir.caption"
 msgid "Directory Hotlist"
 msgstr "常用資料夾列表"
 
@@ -7750,13 +7751,17 @@ msgid "Calculate files and folders"
 msgstr "計算檔案及資料夾"
 
 #: ulng.rsdlgchecksumcalc
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "計算驗證碼..."
 
 #: ulng.rsdlgchecksumverify
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify check sum..."
+msgid "Verify checksum..."
 msgstr "校驗驗證碼..."
 
 #: ulng.rsdlgcp
@@ -8003,6 +8008,17 @@ msgstr "類型"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "建立硬式連結發生錯誤。"
+
+#: ulng.rshotdirnothingtoimport
+msgid "Sorry, nothing detected to import!"
+msgstr ""
+
+#: ulng.rshotdirwarningabortrestorebackup
+msgid ""
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+"\n"
+"Are you sure you want to proceed?\n"
+msgstr ""
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -8358,8 +8374,16 @@ msgstr "資料夾 %s 已存在, 是否要覆蓋?"
 msgid "Follow symlink \"%s\"?"
 msgstr "你確定要允許符號連結【%s】嗎?"
 
+#: ulng.rsmsghotdiraddselecteddirectories
+msgid "Add %d selected dirs"
+msgstr ""
+
+#: ulng.rsmsghotdiraddselecteddirectory
+msgid "Add selected dir: "
+msgstr ""
+
 #: ulng.rsmsghotdiraddthisdirectory
-msgid "Add dir: "
+msgid "Add current dir: "
 msgstr ""
 
 #: ulng.rsmsghotdircommandname
@@ -8371,7 +8395,7 @@ msgid "cm_somthing"
 msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
-msgid "Configuration of directory hotlist"
+msgid "Configuration of Directory Hotlist"
 msgstr ""
 
 #: ulng.rsmsghotdirdeleteallentries
@@ -8392,6 +8416,10 @@ msgstr ""
 
 #: ulng.rsmsghotdirdemotarget
 msgid "And inactive frame would change to the following path:"
+msgstr ""
+
+#: ulng.rsmsghotdirerrorbackuping
+msgid "Error backuping entries..."
 msgstr ""
 
 #: ulng.rsmsghotdirerrorexporting
@@ -8429,12 +8457,12 @@ msgctxt "ulng.rsmsghotdirjustpath"
 msgid "Path"
 msgstr "路徑"
 
-#: ulng.rsmsghotdirlocatedc
-msgid "Locate DC \"doublecmd.xml\" file"
+#: ulng.rsmsghotdirlocatehotlistfile
+msgid "Locate \".hotlist\" file to import"
 msgstr ""
 
 #: ulng.rsmsghotdirlocateprevioussave
-msgid "Select location and filename of previously saved directory hotlist file"
+msgid "Select location and filename of previously saved Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsghotdirlocatetc
@@ -8442,7 +8470,7 @@ msgid "Locate TC \"wincmd.ini\" file"
 msgstr ""
 
 #: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory hotlist has been modified. Do you want to save before to exit?"
+msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsghotdirname
@@ -8450,7 +8478,7 @@ msgid "Hotdir name"
 msgstr ""
 
 #: ulng.rsmsghotdirnbnewentries
-msgid "Number of new entries: "
+msgid "Number of new entries: %d"
 msgstr ""
 
 #: ulng.rsmsghotdirnothingtoexport
@@ -8459,6 +8487,18 @@ msgstr ""
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
+msgstr ""
+
+#: ulng.rsmsghotdirreaddselecteddirectory
+msgid "Re-Add selected dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirreaddthisdirectory
+msgid "Re-Add current dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirrestorewhat
+msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
@@ -8502,16 +8542,25 @@ msgstr ""
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
 msgstr ""
 
+#: ulng.rsmsghotdirtotalbackuped
+msgid ""
+"Total entries saved: %d\n"
+"\n"
+"Backup filename: %s\n"
+msgstr ""
+
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr ""
 
 #: ulng.rsmsghotdirwhattodelete
-msgid "Do you want to delete all elements inside the sub-menu? Answering NO will delete only menu delimiters but will keep element inside sub-menu."
+msgid ""
+"Do you want to delete all elements inside the sub-menu [%s]?\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
-msgid "Enter location and filename where to save a directory hotlist file"
+msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsgincorrectfilelength
@@ -8726,7 +8775,9 @@ msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "選擇: %s / %sB  |  檔案: %d / %d  |  資料夾: %d / %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
-msgid "Please select only check sum files!"
+#, fuzzy
+#| msgid "Please select only check sum files!"
+msgid "Please select only checksum files!"
 msgstr "請僅選擇驗證碼檔案!"
 
 #: ulng.rsmsgsellocnextvol
@@ -8865,15 +8916,21 @@ msgid "Aborted"
 msgstr "已放棄"
 
 #: ulng.rsopercalculatingchecksum
-msgid "Calculating check sum"
+#, fuzzy
+#| msgid "Calculating check sum"
+msgid "Calculating checksum"
 msgstr "正在計算驗證碼"
 
 #: ulng.rsopercalculatingchecksumin
-msgid "Calculating check sum in \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum in \"%s\""
+msgid "Calculating checksum in \"%s\""
 msgstr "正在【%s】計算驗證碼"
 
 #: ulng.rsopercalculatingchecksumof
-msgid "Calculating check sum of \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum of \"%s\""
+msgid "Calculating checksum of \"%s\""
 msgstr "正在計算【%s】的驗證碼"
 
 #: ulng.rsopercalculatingstatictics
@@ -9044,15 +9101,21 @@ msgid "Testing \"%s\""
 msgstr "正在測試【%s】"
 
 #: ulng.rsoperverifyingchecksum
-msgid "Verifying check sum"
+#, fuzzy
+#| msgid "Verifying check sum"
+msgid "Verifying checksum"
 msgstr "正在校驗驗證碼"
 
 #: ulng.rsoperverifyingchecksumin
-msgid "Verifying check sum in \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum in \"%s\""
+msgid "Verifying checksum in \"%s\""
 msgstr "正在【%s】校驗驗證碼"
 
 #: ulng.rsoperverifyingchecksumof
-msgid "Verifying check sum of \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum of \"%s\""
+msgid "Verifying checksum of \"%s\""
 msgstr "正在校驗【%s】的驗證碼"
 
 #: ulng.rsoperwaitingforconnection
@@ -9306,6 +9369,11 @@ msgstr "設定檔"
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
 msgstr "自訂欄位"
+
+#: ulng.rsoptionseditordirectoryhotlist
+msgctxt "ulng.rsoptionseditordirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "常用資料夾列表"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"

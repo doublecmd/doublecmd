@@ -2085,6 +2085,7 @@ msgid "Test resulting menu"
 msgstr ""
 
 #: tfrmhotdir.caption
+msgctxt "tfrmhotdir.caption"
 msgid "Directory Hotlist"
 msgstr "Seznam hitrih map"
 
@@ -6953,13 +6954,17 @@ msgid "Calculate files and folders"
 msgstr "Preračunaj velikost datotek in map"
 
 #: ulng.rsdlgchecksumcalc
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Izračunavanje nadzorne vsote ..."
 
 #: ulng.rsdlgchecksumverify
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify check sum..."
+msgid "Verify checksum..."
 msgstr "Preveri nadzorno vsoto ..."
 
 #: ulng.rsdlgcp
@@ -7204,6 +7209,17 @@ msgstr "Vrsta"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Napaka med ustvarjanjem trde povezave."
+
+#: ulng.rshotdirnothingtoimport
+msgid "Sorry, nothing detected to import!"
+msgstr ""
+
+#: ulng.rshotdirwarningabortrestorebackup
+msgid ""
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+"\n"
+"Are you sure you want to proceed?\n"
+msgstr ""
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -7555,8 +7571,16 @@ msgstr "Mapa %s že obstaja. Ali naj se prepiše?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Ali naj se sledi simbolni povezavi \"%s\"?"
 
+#: ulng.rsmsghotdiraddselecteddirectories
+msgid "Add %d selected dirs"
+msgstr ""
+
+#: ulng.rsmsghotdiraddselecteddirectory
+msgid "Add selected dir: "
+msgstr ""
+
 #: ulng.rsmsghotdiraddthisdirectory
-msgid "Add dir: "
+msgid "Add current dir: "
 msgstr ""
 
 #: ulng.rsmsghotdircommandname
@@ -7568,7 +7592,7 @@ msgid "cm_somthing"
 msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
-msgid "Configuration of directory hotlist"
+msgid "Configuration of Directory Hotlist"
 msgstr ""
 
 #: ulng.rsmsghotdirdeleteallentries
@@ -7589,6 +7613,10 @@ msgstr ""
 
 #: ulng.rsmsghotdirdemotarget
 msgid "And inactive frame would change to the following path:"
+msgstr ""
+
+#: ulng.rsmsghotdirerrorbackuping
+msgid "Error backuping entries..."
 msgstr ""
 
 #: ulng.rsmsghotdirerrorexporting
@@ -7626,12 +7654,12 @@ msgctxt "ulng.rsmsghotdirjustpath"
 msgid "Path"
 msgstr "Pot"
 
-#: ulng.rsmsghotdirlocatedc
-msgid "Locate DC \"doublecmd.xml\" file"
+#: ulng.rsmsghotdirlocatehotlistfile
+msgid "Locate \".hotlist\" file to import"
 msgstr ""
 
 #: ulng.rsmsghotdirlocateprevioussave
-msgid "Select location and filename of previously saved directory hotlist file"
+msgid "Select location and filename of previously saved Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsghotdirlocatetc
@@ -7639,7 +7667,7 @@ msgid "Locate TC \"wincmd.ini\" file"
 msgstr ""
 
 #: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory hotlist has been modified. Do you want to save before to exit?"
+msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsghotdirname
@@ -7647,7 +7675,7 @@ msgid "Hotdir name"
 msgstr ""
 
 #: ulng.rsmsghotdirnbnewentries
-msgid "Number of new entries: "
+msgid "Number of new entries: %d"
 msgstr ""
 
 #: ulng.rsmsghotdirnothingtoexport
@@ -7656,6 +7684,18 @@ msgstr ""
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
+msgstr ""
+
+#: ulng.rsmsghotdirreaddselecteddirectory
+msgid "Re-Add selected dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirreaddthisdirectory
+msgid "Re-Add current dir: "
+msgstr ""
+
+#: ulng.rsmsghotdirrestorewhat
+msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
@@ -7699,16 +7739,25 @@ msgstr ""
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
 msgstr ""
 
+#: ulng.rsmsghotdirtotalbackuped
+msgid ""
+"Total entries saved: %d\n"
+"\n"
+"Backup filename: %s\n"
+msgstr ""
+
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr ""
 
 #: ulng.rsmsghotdirwhattodelete
-msgid "Do you want to delete all elements inside the sub-menu? Answering NO will delete only menu delimiters but will keep element inside sub-menu."
+msgid ""
+"Do you want to delete all elements inside the sub-menu [%s]?\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
-msgid "Enter location and filename where to save a directory hotlist file"
+msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsgincorrectfilelength
@@ -7923,7 +7972,9 @@ msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Izbranih: %s od %s, datoteke: %d od %d, mape: %d od %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
-msgid "Please select only check sum files!"
+#, fuzzy
+#| msgid "Please select only check sum files!"
+msgid "Please select only checksum files!"
 msgstr "Izbrati je treba datoteko nadzorne vsote!"
 
 #: ulng.rsmsgsellocnextvol
@@ -8059,15 +8110,21 @@ msgid "Aborted"
 msgstr "Preklicano"
 
 #: ulng.rsopercalculatingchecksum
-msgid "Calculating check sum"
+#, fuzzy
+#| msgid "Calculating check sum"
+msgid "Calculating checksum"
 msgstr "Izračunavanje nadzorne vsote"
 
 #: ulng.rsopercalculatingchecksumin
-msgid "Calculating check sum in \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum in \"%s\""
+msgid "Calculating checksum in \"%s\""
 msgstr "Izračunavanje nadzorne vsote v \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
-msgid "Calculating check sum of \"%s\""
+#, fuzzy
+#| msgid "Calculating check sum of \"%s\""
+msgid "Calculating checksum of \"%s\""
 msgstr "Izračunavanje nadzorne vsote \"%s\""
 
 #: ulng.rsopercalculatingstatictics
@@ -8238,15 +8295,21 @@ msgid "Testing \"%s\""
 msgstr "Preizkušanje \"%s\""
 
 #: ulng.rsoperverifyingchecksum
-msgid "Verifying check sum"
+#, fuzzy
+#| msgid "Verifying check sum"
+msgid "Verifying checksum"
 msgstr "Preverjanje nadzorne vsote"
 
 #: ulng.rsoperverifyingchecksumin
-msgid "Verifying check sum in \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum in \"%s\""
+msgid "Verifying checksum in \"%s\""
 msgstr "Preizkušanje veljavnosti nadzorne vsote v \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
-msgid "Verifying check sum of \"%s\""
+#, fuzzy
+#| msgid "Verifying check sum of \"%s\""
+msgid "Verifying checksum of \"%s\""
 msgstr "Preizkušanje veljavnosti nadzorne vsote \"%s\""
 
 #: ulng.rsoperwaitingforconnection
@@ -8500,6 +8563,11 @@ msgstr "Nastavitve"
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
 msgstr "Stolpci po meri"
+
+#: ulng.rsoptionseditordirectoryhotlist
+msgctxt "ulng.rsoptionseditordirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "Seznam hitrih map"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
