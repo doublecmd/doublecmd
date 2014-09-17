@@ -49,21 +49,23 @@ const
 
 {$IFDEF MSWINDOWS}
 VARDELIMITER='%';
+VARDELIMITER_END='%';
 {$ENDIF}
 
 {$IFDEF UNIX }
 VARDELIMITER='$';
+VARDELIMITER_END='';
 {$ENDIF}
 
-EnvVarCommanderPath = VARDELIMITER+'commander_path'+VARDELIMITER; //"VARLIMITER" used to work when compiled either for Windows/Unix
-EnvVarConfigPath    = VARDELIMITER+'dc_config_path'+VARDELIMITER;
-EnvVarTodaysDate    = VARDELIMITER+'dc_todaysdate'+VARDELIMITER;
+EnvVarCommanderPath = '%COMMANDER_PATH%'; // Using '%' for backward compatibility
+EnvVarConfigPath    = '%DC_CONFIG_PATH%'; // Using '%' for backward compatibility
+EnvVarTodaysDate    = VARDELIMITER + 'DC_TODAYSDATE' + VARDELIMITER_END;
 
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
 {en
    Replaces environment variables of form %<NAME>% with their values.
-   Also replaces the internal "%commander_path%".
+   Also replaces the internal "%COMMANDER_PATH%".
 }
 function ReplaceEnvVars(const sText: String): String;
 {en
@@ -269,14 +271,17 @@ begin
   //1st, if we have an empty string, get out of here, quick
   if sText = EmptyStr then Exit;
 
-  //2nd, if we don't have the variable indication (% in windows for example), get out of here here, quick
-  {$IFDEF UNIX}
-  if pos('$',sText)=0 then Exit;
-  {$ELSE}
-  if pos('%',sText)=0 then Exit;
-  {$ENDIF}
+  //2th, let's check the "easy" substitution, there one related with Double Commander
+  if pos('%', sText) > 0 then
+  begin
+    Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfReplaceAll, rfIgnoreCase]);
+  end;
 
-  //3rd, let's check if date changed since last time we updated our dc_todaysdate variable
+  //3nd, if we don't have the variable indication (% in windows for example), get out of here here, quick
+  if pos(VARDELIMITER, sText) = 0 then Exit;
+
+  //4rd, let's check if date changed since last time we updated our dc_todaysdate variable
   if dtLastDateSubstitutionCheck<>Trunc(now) then
     begin
       //Date changed! Let's find where variable is and update it.
@@ -296,28 +301,16 @@ begin
       dtLastDateSubstitutionCheck:=Trunc(now); //So we won't re-check this while we're under the same day
     end;
 
-  //4th, let's check the "easy" substitution, there one related with Double Commander
-  Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfReplaceAll, rfIgnoreCase]);
-
   //5th, let's roll through the possible variable. We did that with a "while" instead of a constant "for-loop" to get out quickly as soon as we solved the variables
   I:=0;
-  {$IFDEF UNIX}
-  while (I<gSpecialDirList.Count) AND (pos('$',sText)<>0) do
-  {$ELSE}
-  while (I<gSpecialDirList.Count) AND (pos('%',sText)<>0) do
-  {$ENDIF}
+  while (I<gSpecialDirList.Count) AND (pos(VARDELIMITER,sText)<>0) do
   begin
     if pos(gSpecialDirList.SpecialDir[I].VariableName,Result)<>0 then Result := StringReplace(Result, gSpecialDirList.SpecialDir[I].VariableName, ExcludeTrailingPathDelimiter(gSpecialDirList.SpecialDir[I].PathValue), [rfReplaceAll, rfIgnoreCase]);
     inc(I);
   end;
 
   //6th, if we don't have variable indication anymore, (% in windows for example), get out of here here, quick
-  {$IFDEF UNIX}
-  if pos('$',sText)=0 then Exit;
-  {$ELSE}
-  if pos('%',sText)=0 then Exit;
-  {$ENDIF}
+  if pos(VARDELIMITER, sText)=0 then Exit;
 
   //7th, if still we have variable there, let's scan through the environment variable.
   //     We got them in the "gSpecialDirList" but just in case some others were added on-the-fly
@@ -325,22 +318,14 @@ begin
   X:= GetEnvironmentVariableCount;
   if X = 0 then Exit; //In the ridiculous possible situation where there is ZERO environment variable...
   I:=1;
-  {$IFDEF UNIX}
-  while (I<=X) AND (pos('$',sText)<>0) do
-  {$ELSE}
-  while (I<=X) AND (pos('%',sText)<>0) do
-  {$ENDIF}
+  while (I<=X) AND (pos(VARDELIMITER,sText)<>0) do
   begin
     EnvVar:= mbGetEnvironmentString(I);
     EqualPos:= PosEx('=', EnvVar, 2);
     if EqualPos = 0 then Continue;
     EnvName:= Copy(EnvVar, 1, EqualPos - 1);
     EnvValue:= Copy(EnvVar, EqualPos + 1, MaxInt);
-    {$IFDEF UNIX}
-    Result:= StringReplace(Result, '$' + EnvName, EnvValue, [rfReplaceAll, rfIgnoreCase]);
-    {$ELSE}
-    Result:= StringReplace(Result, '%' + EnvName + '%', EnvValue, [rfReplaceAll, rfIgnoreCase]);
-    {$ENDIF}
+    Result:= StringReplace(Result, VARDELIMITER + EnvName + VARDELIMITER_END, EnvValue, [rfReplaceAll, rfIgnoreCase]);
     inc(I);
   end;
 end;
