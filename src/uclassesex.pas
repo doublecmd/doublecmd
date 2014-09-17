@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains additional or extended classes.
 
-   Copyright (C) 2008-2013  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,23 +43,19 @@ type
 
   TIniPropStorageEx = class(TCustomIniPropStorage)
   private
-    FPercentSize: Integer;
     function ChangeIdent(const Ident: String): String;
   protected
     function IniFileClass: TIniFileClass; override;
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Restore; override;
     function DoReadString(const Section, Ident, default: string): string; override;
     procedure DoWriteString(const Section, Ident, Value: string); override;
-
-    property PercentSize: Integer read FPercentSize write FPercentSize;
   end;
 
 implementation
 
 uses
-  Forms, DCStrUtils, DCClassesUtf8;
+  LCLVersion, Forms, DCStrUtils, DCClassesUtf8;
 
 { TBlobStream }
 
@@ -76,48 +72,27 @@ begin
   Result:= TIniFileEx;
 end;
 
-constructor TIniPropStorageEx.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  FPercentSize:= 5;
-end;
-
 procedure TIniPropStorageEx.Restore;
 var
-  mLeft, mTop, // monitor left and top
-  mWidth, mHeight, // monitor width and height
-  pWidth, pHeight: Integer;
+  AMonitor: TMonitor;
 begin
   inherited Restore;
+
   if Self.Owner is TCustomForm then
-    with Self.Owner as TCustomForm do
+  begin
+    with TCustomForm(Self.Owner) do
     begin
-      // Workaround for bug: http://bugs.freepascal.org/view.php?id=22499
-      if Assigned(Monitor) then
-      begin
-        mLeft:= Monitor.Left;
-        mTop:= Monitor.Top;
-        mWidth:= Monitor.Width;
-        mHeight:= Monitor.Height;
-
-        pWidth:= (mWidth * FPercentSize) div 100;
-        pHeight:= (mHeight * FPercentSize) div 100;
-
-        if (mWidth < Width) or (mHeight < Height) then
-          begin
-            Width:= mWidth - pWidth;
-            Height:= mHeight - (pHeight * 2);
-          end;
-
-        if (Top > (mTop + mHeight - pHeight)) or (Top < mTop) then
-          Top:= mTop + pHeight;
-        if (Left > (mLeft + mWidth - pWidth)) or ((Left + Width - pWidth) < mLeft) then
-          Left:= mLeft + pWidth;
-      end;
+{$IF (lcl_fullversion >= 1020000)}
+      // Refresh monitor list
+      Screen.UpdateMonitors;
+{$ENDIF}
+      AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
+      if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
 
       // Workaround for bug: http://bugs.freepascal.org/view.php?id=18514
       if WindowState = wsMinimized then WindowState:= wsNormal;
     end;
+  end;
 end;
 
 function TIniPropStorageEx.DoReadString(const Section, Ident, default: string): string;
