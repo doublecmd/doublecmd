@@ -587,6 +587,7 @@ type
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
     procedure AppException(Sender: TObject; E: Exception);
+    procedure AppShowHint(var HintStr: string; var CanShow: Boolean; var HintInfo: THintInfo);
     {en
        Convert toolbar configuration from .bar file to global config.
     }
@@ -806,6 +807,7 @@ var
 begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
+  Application.OnShowHint := @AppShowHint;
 
   // Use LCL's method of dropping files from external
   // applications if we don't support it ourselves.
@@ -2277,6 +2279,15 @@ procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
   WriteExceptionToErrorFile;
   ShowExceptionDialog;
+end;
+
+procedure TfrmMain.AppShowHint(var HintStr: string; var CanShow: Boolean;
+  var HintInfo: THintInfo);
+begin
+{$IF (lcl_fullversion >= 1020000)}
+  // Refresh monitor list
+  Screen.UpdateMonitors;
+{$ENDIF}
 end;
 
 constructor TfrmMain.Create(TheOwner: TComponent);
