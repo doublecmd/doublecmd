@@ -843,6 +843,7 @@ begin
   // http://doublecmd.sourceforge.net/mantisbt/view.php?id=573
   pnlLeftTools.Visible := False;
   pnlRightTools.Visible := False;
+  PanelAllProgress.Visible := False;
   {$ENDIF}
 
   InitPropStorage(Self);
