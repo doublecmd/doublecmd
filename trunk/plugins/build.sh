@@ -1,4 +1,7 @@
 #!/bin/sh
+
+set -e
+
 # Build all plugins
 
 # This script run from main build.sh script

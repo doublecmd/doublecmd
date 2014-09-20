@@ -1,4 +1,7 @@
 #!/bin/sh
+
+set -e
+
 # Compiling components
 
 # This script run from main build.sh script
