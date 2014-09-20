@@ -111,7 +111,7 @@
     <WlxPlugins>
       <WlxPlugin>
         <Name>wlxMplayer</Name>
-        <Path>%commander_path%/plugins/wlx/WlxMplayer/wlxMplayer.wlx</Path>
+        <Path>%commander_path%/plugins/wlx/wlxmplayer/wlxmplayer.wlx</Path>
         <DetectString>(EXT="MPG")|(EXT="AVI")|(EXT="MPEG")|(EXT="FLV")</DetectString>
       </WlxPlugin>
     </WlxPlugins>
