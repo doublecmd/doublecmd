@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -54,12 +54,17 @@
       <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType);..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
-    <Conditionals Value="if (TargetOS = 'linux') then
+    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+begin
+  CustomOptions += '-fPIC';
+end;
+
+if (TargetOS = 'linux') then
 begin
   LinkerOptions += ' -z relro';
 end;
 
-if TargetOS = 'darwin' then
+if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
 end;"/>
