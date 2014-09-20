@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Set processor architecture
 if [ -z $CPU_TARGET ]; then
    export CPU_TARGET=$(fpc -iTP)
@@ -98,7 +100,9 @@ if [ -z $CK_PORTABLE ]
   then
     # Copy libraries
     install -d                $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
-    install -m 644 *.so*      $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
+    if [ "$(echo *.so*)" != "*.so*" ]; then
+      install -m 644 *.so*    $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
+    fi
     # Create directory for platform independed files
     install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd
     # Copy man files
