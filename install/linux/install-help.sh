@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Parse input parameters
 CKNAME=$(basename "$0")
 args=$(getopt -n $CKNAME -o P:,I: -l portable-prefix:,install-prefix:,default -- "$@")
