@@ -139,6 +139,7 @@ type
     function Add(AName, FileName, DetectStr: String): Integer; overload;
     //---------------------
     procedure Assign(OtherList: TWLXModuleList);
+    function IndexOfName(const AName: string): Integer;
     //---------------------
     function IsLoaded(AName: String): Boolean; overload;
     function IsLoaded(Index: Integer): Boolean; overload;
@@ -645,6 +646,11 @@ begin
       GetWlxModule(J).Enabled:= Enabled;
     end;
   end;
+end;
+
+function TWLXModuleList.IndexOfName(const AName: string): Integer;
+begin
+  Result := Flist.IndexOf(UpCase(AName));
 end;
 
 function TWLXModuleList.IsLoaded(AName: String): Boolean;

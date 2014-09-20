@@ -169,6 +169,17 @@ begin
     gWFXPlugins.Add('Windows Network', Folder + 'samba' + PathDelim + 'samba.wfx');
   end;
   {$ENDIF}
+
+  {$IF DEFINED(LINUX)}
+  // Wlx plugins
+  Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wlx' + PathDelim;
+
+  I:= gWlxPlugins.IndexOfName('wlxMplayer');
+  if I >= 0 then
+  begin
+    gWlxPlugins.GetWlxModule(I).FileName:= Folder + 'wlxmplayer' + PathDelim + 'wlxmplayer.wlx';
+  end;
+  {$ENDIF}
 end;
 
 function CheckPlugin(var FileName: UTF8String): Boolean;
