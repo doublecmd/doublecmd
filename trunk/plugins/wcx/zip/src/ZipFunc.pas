@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2013  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -84,8 +84,6 @@ const
   IniFileName = 'zip.ini';
 
 var
-  gProcessDataProc : TProcessDataProc;
-  gProcessDataProcW : TProcessDataProcW;
   gStartupInfo: TExtensionStartupInfo;
   gCompressionMethodToUse : TAbZipSupportedMethod;
   gDeflationOption : TAbZipDeflationOption;
@@ -95,6 +93,10 @@ implementation
 
 uses
   SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
+
+threadvar
+  gProcessDataProc : TProcessDataProc;
+  gProcessDataProcW : TProcessDataProcW;
 
 procedure StringToArrayW(src: WideString;
                          pDst: PWideChar;
@@ -113,6 +115,26 @@ end;
 function StrEndsWith(S : String; SearchPhrase : String) : Boolean;
 begin
   Result := (RightStr(S, Length(SearchPhrase)) = SearchPhrase);
+end;
+
+function GetArchiveError(const E : Exception): Integer;
+begin
+  if E is EAbUserAbort then
+    Result := E_EABORTED
+  else if E is EAbFileNotFound then
+    Result := E_EOPEN
+  else if E is EAbUnhandledType then
+    Result := E_NOT_SUPPORTED
+  else if E is EFCreateError then
+    Result := E_ECREATE
+  else if E is EFOpenError then
+    Result := E_EOPEN
+  else if E is EReadError then
+    Result := E_EREAD
+  else if E is EWriteError then
+    Result := E_EWRITE
+  else
+    Result := E_BAD_DATA;
 end;
 
 // -- Exported functions ------------------------------------------------------
@@ -134,26 +156,12 @@ begin
     Arc.Tag := 0;
     Result := TArcHandle(Arc);
   except
-    on EAbUnhandledType do
-      ArchiveData.OpenResult := E_UNKNOWN_FORMAT;
-    on EAbFileNotFound do
-      ArchiveData.OpenResult := E_EOPEN;
-    on EAbUnhandledType do
-      ArchiveData.OpenResult := E_NOT_SUPPORTED;
-    on EFCreateError do
-      ArchiveData.OpenResult := E_ECREATE;
-    on EFOpenError do
-      ArchiveData.OpenResult := E_EOPEN;
-    on EReadError do
-      ArchiveData.OpenResult := E_EREAD;
-    on EWriteError do
-      ArchiveData.OpenResult := E_EWRITE;
-    else
-      ArchiveData.OpenResult := -1;
+    on E: Exception do
+    begin
+      Arc.Free;
+      ArchiveData.OpenResult := GetArchiveError(E);
+    end;
   end;
-
-  if (Result = 0) and Assigned(Arc) then
-    Arc.Free;
 end;
 
 function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall;
@@ -173,26 +181,12 @@ begin
     Arc.Tag := 0;
     Result := TArcHandle(Arc);
   except
-    on EAbUnhandledType do
-      ArchiveData.OpenResult := E_UNKNOWN_FORMAT;
-    on EAbFileNotFound do
-      ArchiveData.OpenResult := E_EOPEN;
-    on EAbUnhandledType do
-      ArchiveData.OpenResult := E_NOT_SUPPORTED;
-    on EFCreateError do
-      ArchiveData.OpenResult := E_ECREATE;
-    on EFOpenError do
-      ArchiveData.OpenResult := E_EOPEN;
-    on EReadError do
-      ArchiveData.OpenResult := E_EREAD;
-    on EWriteError do
-      ArchiveData.OpenResult := E_EWRITE;
-    else
-      ArchiveData.OpenResult := -1;
+    on E: Exception do
+    begin
+      Arc.Free;
+      ArchiveData.OpenResult := GetArchiveError(E);
+    end;
   end;
-
-  if (Result = 0) and Assigned(Arc) then
-    Arc.Free;
 end;
 
 function ReadHeader(hArcData : TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall;
@@ -323,10 +317,8 @@ begin
     end; {case}
 
   except
-    on EAbUserAbort do
-      Arc.FOperationResult := E_EABORTED;
-    else
-      Arc.FOperationResult := E_BAD_DATA;
+    on E: Exception do
+      Arc.FOperationResult := GetArchiveError(E);
   end;
 
   Result:= Arc.FOperationResult;
@@ -384,10 +376,8 @@ begin
     end; {case}
 
   except
-    on EAbUserAbort do
-      Arc.FOperationResult := E_EABORTED;
-    else
-      Arc.FOperationResult := E_BAD_DATA;
+    on E: Exception do
+      Arc.FOperationResult := GetArchiveError(E);
   end;
 
   Result:= Arc.FOperationResult;
@@ -447,24 +437,24 @@ var
   FileName: AnsiString;
   sPassword: AnsiString;
 begin
+  Arc := TAbZipKitEx.Create(nil);
   try
+    Arc.AutoSave := False;
+    Arc.TarAutoHandle:= True;
+    Arc.CompressionMethodToUse:= gCompressionMethodToUse;
+    Arc.DeflationOption:= gDeflationOption;
+    Arc.FProcessDataProc := gProcessDataProc;
+    Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
+    Arc.StoreOptions := Arc.StoreOptions + [soReplace];
+
+    if ((Flags and PK_PACK_ENCRYPT) <> 0) and
+       (LowerCase(ExtractFileExt(PackedFile)) = '.zip') then // only zip supports encryption
+    begin
+      Arc.AbNeedPasswordEvent(Arc, sPassword);
+      Arc.Password:= sPassword;
+    end;
+
     try
-      Arc := TAbZipKitEx.Create(nil);
-      Arc.AutoSave := False;
-      Arc.CompressionMethodToUse:= gCompressionMethodToUse;
-      Arc.DeflationOption:= gDeflationOption;
-      Arc.FProcessDataProc := gProcessDataProc;
-      Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-      Arc.StoreOptions := Arc.StoreOptions + [soReplace];
-
-      if ((Flags and PK_PACK_ENCRYPT) <> 0) and
-         (LowerCase(ExtractFileExt(PackedFile)) = '.zip') then // only zip supports encryption
-        begin
-          Arc.AbNeedPasswordEvent(Arc, sPassword);
-          Arc.Password:= sPassword;
-        end;
-
-      Arc.TarAutoHandle:=True;
       Arc.OpenArchive(PackedFile);
 
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
@@ -484,30 +474,12 @@ begin
 
       Arc.Save;
       Arc.CloseArchive;
-
-      Result := E_SUCCESS;
     except
-      on EAbUserAbort do
-        Result := E_EABORTED;
-      on EAbFileNotFound do
-        Result := E_EOPEN;
-      on EAbUnhandledType do
-        Result := E_NOT_SUPPORTED;
-      on EFCreateError do
-        Result := E_ECREATE;
-      on EFOpenError do
-        Result := E_EOPEN;
-      on EReadError do
-        Result := E_EREAD;
-      on EWriteError do
-        Result := E_EWRITE;
-      else
-        begin
-          Result := E_BAD_DATA;
-        end;
+      on E: Exception do
+        Arc.FOperationResult := GetArchiveError(E);
     end;
-
   finally
+    Result := Arc.FOperationResult;
     FreeAndNil(Arc);
   end;
 end;
@@ -520,26 +492,26 @@ var
   sPassword: AnsiString;
   sPackedFile: UTF8String;
 begin
+  Arc := TAbZipKitEx.Create(nil);
   try
+    Arc.AutoSave := False;
+    Arc.TarAutoHandle:= True;
+    Arc.CompressionMethodToUse:= gCompressionMethodToUse;
+    Arc.DeflationOption:= gDeflationOption;
+    Arc.FProcessDataProcW := gProcessDataProcW;
+    Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
+    Arc.StoreOptions := Arc.StoreOptions + [soReplace];
+
+    sPackedFile := UTF8Encode(WideString(PackedFile));
+
+    if ((Flags and PK_PACK_ENCRYPT) <> 0) and
+       (LowerCase(ExtractFileExt(sPackedFile)) = '.zip') then // only zip supports encryption
+    begin
+      Arc.AbNeedPasswordEvent(Arc, sPassword);
+      Arc.Password:= sPassword;
+    end;
+
     try
-      Arc := TAbZipKitEx.Create(nil);
-      Arc.AutoSave := False;
-      Arc.CompressionMethodToUse:= gCompressionMethodToUse;
-      Arc.DeflationOption:= gDeflationOption;
-      Arc.FProcessDataProcW := gProcessDataProcW;
-      Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-      Arc.StoreOptions := Arc.StoreOptions + [soReplace];
-
-      sPackedFile := UTF8Encode(WideString(PackedFile));
-
-      if ((Flags and PK_PACK_ENCRYPT) <> 0) and
-         (LowerCase(ExtractFileExt(sPackedFile)) = '.zip') then // only zip supports encryption
-        begin
-          Arc.AbNeedPasswordEvent(Arc, sPassword);
-          Arc.Password:= sPassword;
-        end;
-
-      Arc.TarAutoHandle:=True;
       Arc.OpenArchive(sPackedFile);
 
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
@@ -559,30 +531,12 @@ begin
 
       Arc.Save;
       Arc.CloseArchive;
-
-      Result := E_SUCCESS;
     except
-      on EAbUserAbort do
-        Result := E_EABORTED;
-      on EAbFileNotFound do
-        Result := E_EOPEN;
-      on EAbUnhandledType do
-        Result := E_NOT_SUPPORTED;
-      on EFCreateError do
-        Result := E_ECREATE;
-      on EFOpenError do
-        Result := E_EOPEN;
-      on EReadError do
-        Result := E_EREAD;
-      on EWriteError do
-        Result := E_EWRITE;
-      else
-        begin
-          Result := E_BAD_DATA;
-        end;
+      on E: Exception do
+        Arc.FOperationResult := GetArchiveError(E);
     end;
-
   finally
+    Result := Arc.FOperationResult;
     FreeAndNil(Arc);
   end;
 end;
@@ -593,14 +547,14 @@ var
  pFileName : PChar;
  FileName : String;
 begin
+  Arc := TAbZipKitEx.Create(nil);
   try
-    try
-      Arc := TAbZipKitEx.Create(nil);
-      Arc.FProcessDataProc := gProcessDataProc;
-      Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-      Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
+    Arc.TarAutoHandle:= True;
+    Arc.FProcessDataProc := gProcessDataProc;
+    Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
+    Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
-      Arc.TarAutoHandle:=True;
+    try
       Arc.OpenArchive(PackedFile);
 
       // Set this after opening archive, to get only progress of deleting.
@@ -628,26 +582,12 @@ begin
 
       Arc.Save;
       Arc.CloseArchive;
-      Result := E_SUCCESS;
     except
-      on EAbUserAbort do
-        Result := E_EABORTED;
-      on EAbFileNotFound do
-        Result := E_EOPEN;
-      on EAbUnhandledType do
-        Result := E_NOT_SUPPORTED;
-      on EFCreateError do
-        Result := E_ECREATE;
-      on EFOpenError do
-        Result := E_EOPEN;
-      on EReadError do
-        Result := E_EREAD;
-      on EWriteError do
-        Result := E_EWRITE;
-      else
-        Result := E_BAD_DATA;
+      on E: Exception do
+        Arc.FOperationResult := GetArchiveError(E);
     end;
   finally
+    Result := Arc.FOperationResult;
     FreeAndNil(Arc);
   end;
 end;
@@ -659,14 +599,14 @@ var
  FileName : WideString;
  FileNameUTF8 : UTF8String;
 begin
+  Arc := TAbZipKitEx.Create(nil);
   try
-    try
-      Arc := TAbZipKitEx.Create(nil);
-      Arc.FProcessDataProcW := gProcessDataProcW;
-      Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-      Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
+    Arc.TarAutoHandle:= True;
+    Arc.FProcessDataProcW := gProcessDataProcW;
+    Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
+    Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
-      Arc.TarAutoHandle:=True;
+    try
       Arc.OpenArchive(UTF8Encode(WideString(PackedFile)));
 
       // Set this after opening archive, to get only progress of deleting.
@@ -696,26 +636,12 @@ begin
 
       Arc.Save;
       Arc.CloseArchive;
-      Result := E_SUCCESS;
     except
-      on EAbUserAbort do
-        Result := E_EABORTED;
-      on EAbFileNotFound do
-        Result := E_EOPEN;
-      on EAbUnhandledType do
-        Result := E_NOT_SUPPORTED;
-      on EFCreateError do
-        Result := E_ECREATE;
-      on EFOpenError do
-        Result := E_EOPEN;
-      on EReadError do
-        Result := E_EREAD;
-      on EWriteError do
-        Result := E_EWRITE;
-      else
-        Result := E_BAD_DATA;
+      on E: Exception do
+        Arc.FOperationResult := GetArchiveError(E);
     end;
   finally
+    Result := Arc.FOperationResult;
     FreeAndNil(Arc);
   end;
 end;
@@ -725,7 +651,6 @@ begin
   Result := PK_CAPS_NEW      or PK_CAPS_DELETE  or PK_CAPS_MODIFY
          or PK_CAPS_MULTIPLE or PK_CAPS_OPTIONS or PK_CAPS_BY_CONTENT
          or PK_CAPS_ENCRYPT;
-  //     or PK_CAPS_MEMPACK
 end;
 
 procedure ConfigurePacker(Parent: HWND; DllInstance: THandle);dcpcall;
@@ -790,18 +715,42 @@ end;
 procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
                            Item: TAbArchiveItem; ProcessType: TAbProcessType;
                            ErrorClass: TAbErrorClass; ErrorCode: Integer);
+var
+  Message: AnsiString;
 begin
-  case ErrorCode of
-  AbUserAbort:
-    FOperationResult:= E_EABORTED;
-  AbZipBadCRC:
-    FOperationResult:= E_BAD_ARCHIVE;
-  AbFileNotFound:
-    FOperationResult:= E_NO_FILES;
-  AbReadError:
-    FOperationResult:= E_EREAD;
+  case ErrorClass of
+  ecFileOpenError:
+    begin
+      ErrorCode:= AbFCIFileOpenError;
+      FOperationResult:= E_EOPEN;
+    end;
+  ecFileCreateError:
+    begin
+      ErrorCode:= AbFCICreateError;
+      FOperationResult:= E_ECREATE;
+    end
   else
-    FOperationResult:= E_BAD_DATA;
+    case ErrorCode of
+    AbUserAbort:
+      FOperationResult:= E_EABORTED;
+    AbZipBadCRC:
+      FOperationResult:= E_BAD_ARCHIVE;
+    AbFileNotFound:
+      FOperationResult:= E_NO_FILES;
+    AbReadError:
+      FOperationResult:= E_EREAD;
+    else
+      FOperationResult:= E_BAD_DATA;
+    end;
+  end;
+  if ProcessType in [ptAdd, ptFreshen, ptReplace] then
+  begin
+    Message:= AbStrRes(ErrorCode) + ': ' + Item.FileName;
+    if gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OKCANCEL) = ID_OK then
+      FOperationResult:= E_SUCCESS
+    else begin
+      raise EAbUserAbort.Create;
+    end;
   end;
 end;
 
@@ -850,13 +799,9 @@ begin
   aNewPassword := Copy(NewPassword, 1, MAX_PATH);
   Result:= gStartupInfo.InputBox('Zip', 'Please enter the password:', True, PAnsiChar(aNewPassword), MAX_PATH);
   if Result then
-    begin
-      NewPassword := aNewPassword;
-    end
+    NewPassword := aNewPassword
   else
-    begin
-      raise EAbUserAbort.Create;
-    end;
+    raise EAbUserAbort.Create;
 end;
 
 end.
