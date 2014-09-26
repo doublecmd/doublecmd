@@ -671,6 +671,18 @@ Index: AbBzip2Typ.pas
                try
                  CompStream.CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
                finally
+Index: AbDfEnc.pas
+===================================================================
+--- AbDfEnc.pas	(revision 512)
++++ AbDfEnc.pas	(working copy)
+@@ -889,6 +889,7 @@
+         {$ENDIF}
+         raise EAbDeflateError.Create(E.Message);
+       end;
++      else raise;
+     end;
+   finally
+     Helper.Free;
 Index: AbDfInW.pas
 ===================================================================
 --- AbDfInW.pas	(revision 512)
