@@ -365,13 +365,15 @@ begin
              Result := not Result;
 
          except
-           on e : EFOpenError do
+           on E : Exception do
+           begin
+             Result := False;
+             if (log_errors in gLogOptions) then
              begin
-               if (log_errors in gLogOptions) then
-                 logWrite(Self, rsMsgLogError + rsMsgErrEOpen + ' ' +
-                                Folder + PathDelim + sr.Name, lmtError);
-               Result := False;
+               logWrite(Self, rsMsgLogError + E.Message + ' (' +
+                        Folder + PathDelim + sr.Name + ')', lmtError);
              end;
+           end;
          end;
        end;
     if Result and ContentPlugin then
