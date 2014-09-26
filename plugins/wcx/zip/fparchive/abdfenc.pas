@@ -889,6 +889,7 @@ begin
         {$ENDIF}
         raise EAbDeflateError.Create(E.Message);
       end;
+      else raise;
     end;
   finally
     Helper.Free;

@@ -50,6 +50,7 @@ type
     function ReadQWord: QWord;
     procedure WriteQWord(q: QWord);
     {$ENDIF}
+    function Read(var Buffer; Count: LongInt): LongInt; override;
     property FileName: UTF8String read FFileName;
   end; 
 
@@ -120,6 +121,13 @@ begin
   inherited Destroy;
   // Close handle after destroying the base object, because it may use Handle in Destroy.
   if FHandle >= 0 then FileClose(FHandle);
+end;
+
+function TFileStreamEx.Read(var Buffer; Count: LongInt): LongInt;
+begin
+  Result:= FileRead(FHandle, Buffer, Count);
+  if Result = -1 then
+    raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 end;
 
 {$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
