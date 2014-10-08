@@ -1722,16 +1722,9 @@ begin
           Result := False;
         end;
 
-      E_OUTOFMEMORY:
-        begin
-          MessageBox(0, 'Out of memory', 'Error!', 16);
-          FLastStatus := DragDropError;
-          Result := False;
-        end;
-
       else
         begin
-          MessageBox(0, 'Something bad happened', 'Error!', 16);
+          MessageBox(0, PAnsiChar(SysErrorMessage(Rslt)), nil, MB_OK or MB_ICONERROR);
           FLastStatus := DragDropError;
           Result := False;
         end;
