@@ -397,6 +397,7 @@ type
     }
     function Reload(const PathsToReload: TPathsArray = nil): Boolean; overload;
     function Reload(const PathToReload: String): Boolean; overload;
+    procedure Reload(AForced: Boolean);
     procedure ReloadIfNeeded;
     procedure StopWorkers; virtual;
 
@@ -2277,6 +2278,12 @@ begin
   Result := Reload(Paths);
 end;
 
+procedure TFileView.Reload(AForced: Boolean);
+begin
+  FForceReload:= AForced;
+  DoReload;
+end;
+
 procedure TFileView.ReloadIfNeeded;
 begin
   if FReloadNeeded then
@@ -2969,8 +2976,8 @@ begin
   Request([fvrqMakeDisplayFileList]);
 end;
 
-procedure TFileView.SetFilelist(var NewAllDisplayFiles: TDisplayFiles;
-                                var NewFilteredDisplayFiles: TDisplayFiles);
+procedure TFileView.SetFileList(var NewAllDisplayFiles: TDisplayFiles;
+  var NewFilteredDisplayFiles: TDisplayFiles);
 var
   ARequests: TFileViewRequests;
 begin
