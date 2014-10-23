@@ -301,26 +301,31 @@ begin
   if Length(sAttr) < 10 then Exit;
   sAttr:= LowerCase(sAttr);
 
-  if sAttr[1]='d' then Result:= Result or S_IFDIR;
-  if sAttr[1]='l' then Result:= Result or S_IFLNK;
-  if sAttr[1]='s' then Result:= Result or S_IFSOCK;
-  if sAttr[1]='f' then Result:= Result or S_IFIFO;
-  if sAttr[1]='b' then Result:= Result or S_IFBLK;
-  if sAttr[1]='c' then Result:= Result or S_IFCHR;
+  if sAttr[1] = 'd' then Result:= Result or S_IFDIR;
+  if sAttr[1] = 'l' then Result:= Result or S_IFLNK;
+  if sAttr[1] = 's' then Result:= Result or S_IFSOCK;
+  if sAttr[1] = 'f' then Result:= Result or S_IFIFO;
+  if sAttr[1] = 'b' then Result:= Result or S_IFBLK;
+  if sAttr[1] = 'c' then Result:= Result or S_IFCHR;
 
 
-  if sAttr[2]='r' then Result:= Result or S_IRUSR;
-  if sAttr[3]='w' then Result:= Result or S_IWUSR;
-  if sAttr[4]='x' then Result:= Result or S_IXUSR;
-  if sAttr[5]='r' then Result:= Result or S_IRGRP;
-  if sAttr[6]='w' then Result:= Result or S_IWGRP;
-  if sAttr[7]='x' then Result:= Result or S_IXGRP;
-  if sAttr[8]='r' then Result:= Result or S_IROTH;
-  if sAttr[9]='w' then Result:= Result or S_IWOTH;
-  if sAttr[10]='x' then Result:= Result or S_IXOTH;
+  if sAttr[2] = 'r' then Result:= Result or S_IRUSR;
+  if sAttr[3] = 'w' then Result:= Result or S_IWUSR;
+  if sAttr[4] = 'x' then Result:= Result or S_IXUSR;
+  if sAttr[5] = 'r' then Result:= Result or S_IRGRP;
+  if sAttr[6] = 'w' then Result:= Result or S_IWGRP;
+  if sAttr[7] = 'x' then Result:= Result or S_IXGRP;
+  if sAttr[8] = 'r' then Result:= Result or S_IROTH;
+  if sAttr[9] = 'w' then Result:= Result or S_IWOTH;
+  if sAttr[10] = 'x' then Result:= Result or S_IXOTH;
 
-  if sAttr[4]='s' then Result:= Result or S_ISUID;
-  if sAttr[7]='s' then Result:= Result or S_ISGID;
+  if sAttr[4] = 'S' then Result:= Result or S_ISUID;
+  if sAttr[7] = 'S' then Result:= Result or S_ISGID;
+  if sAttr[10] = 'T' then Result:= Result or S_ISVTX;
+
+  if sAttr[4] = 's' then Result:= Result or S_IXUSR or S_ISUID;
+  if sAttr[7] = 's' then Result:= Result or S_IXGRP or S_ISGID;
+  if sAttr[10] = 't' then Result:= Result or S_IXOTH or S_ISVTX;
 end;
 
 end.

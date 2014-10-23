@@ -121,8 +121,27 @@ begin
   if ((iAttr and S_IWOTH) = S_IWOTH) then Result[9]  := 'w';
   if ((iAttr and S_IXOTH) = S_IXOTH) then Result[10] := 'x';
 
-  if ((iAttr and S_ISUID) = S_ISUID) then Result[4]  := 's';
-  if ((iAttr and S_ISGID) = S_ISGID) then Result[7]  := 's';
+  if ((iAttr and S_ISUID) = S_ISUID) then
+  begin
+    if Result[4] = 'x' then
+      Result[4]  := 's'
+    else
+      Result[4]  := 'S';
+  end;
+  if ((iAttr and S_ISGID) = S_ISGID) then
+  begin
+    if Result[7] = 'x' then
+      Result[7]  := 's'
+    else
+      Result[7]  := 'S';
+  end;
+  if ((iAttr and S_ISVTX) = S_ISVTX) then
+  begin
+    if Result[10] = 'x' then
+      Result[10]  := 't'
+    else
+      Result[10]  := 'T';
+  end;
 end;
 
 // ----------------------------------------------------------------------------
