@@ -299,7 +299,6 @@ function UnixStrToFileAttr(sAttr: String): TFileAttrs;
 begin
   Result:= 0;
   if Length(sAttr) < 10 then Exit;
-  sAttr:= LowerCase(sAttr);
 
   if sAttr[1] = 'd' then Result:= Result or S_IFDIR;
   if sAttr[1] = 'l' then Result:= Result or S_IFLNK;
