@@ -322,19 +322,37 @@ var
   CompStream: TStream;
   i: Integer;
   CurItem: TAbBzip2Item;
+  UpdateArchive: Boolean;
+  TempFileName: UTF8String;
   InputFileStream: TStream;
 begin
   if IsBzippedTar and TarAutoHandle then
   begin
     SwapToTar;
     inherited SaveArchive;
+    UpdateArchive := (FBzip2Stream.Size > 0) and (FBzip2Stream is TFileStreamEx);
+    if UpdateArchive then
+    begin
+      FreeAndNil(FBzip2Stream);
+      TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
+      { Create new archive with temporary name }
+      FBzip2Stream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
+    end;
     FTarStream.Position := 0;
-    FBzip2Stream.Size := 0;
     CompStream := TBZCompressionStream.Create(bs9, FBzip2Stream);
     try
       CompStream.CopyFrom(FTarStream, 0);
     finally
       CompStream.Free;
+    end;
+    if UpdateArchive then
+    begin
+      FreeAndNil(FBzip2Stream);
+      { Replace original by new archive }
+      if not (mbDeleteFile(FArchiveName) and mbRenameFile(TempFileName, FArchiveName)) then
+        RaiseLastOSError;
+      { Open new archive }
+      FBzip2Stream := TFileStreamEx.Create(FArchiveName, fmOpenRead or fmShareDenyNone);
     end;
   end
   else begin
