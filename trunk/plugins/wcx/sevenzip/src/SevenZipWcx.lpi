@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="SevenZipWcx"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="14"/>
+      <MinorVersionNr Value="10"/>
+      <RevisionNr Value="5"/>
+      <CharSet Value="04B0"/>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <HostApplicationFilename Value="D:\doublecmd\doublecmd.exe"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="LazUtils"/>
+      </Item1>
+    </RequiredPackages>
+    <Units Count="5">
+      <Unit0>
+        <Filename Value="SevenZipWcx.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SevenZipWcx"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="SevenZipFunc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SevenZipFunc"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="SevenZipAdv.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SevenZipAdv"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="SevenZipDlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SevenZipDlg"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="SevenZipLng.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SevenZipLng"/>
+      </Unit4>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\sevenzip.wcx" ApplyConventions="False"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir);jcl\include;jcl\include\jedi"/>
+      <OtherUnitFiles Value="jcl\common;jcl\windows"/>
+      <UnitOutputDirectory Value="..\lib"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CustomOptions Value="-dUNICODE_CTRLS"/>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
