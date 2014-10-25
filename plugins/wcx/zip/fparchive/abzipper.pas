@@ -173,7 +173,8 @@ type
 implementation
 
 uses
-  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc, DCOSUtils;
+  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc,
+  AbXzTyp, DCOSUtils;
 
 { -------------------------------------------------------------------------- }
 constructor TAbCustomZipper.Create( AOwner : TComponent );
@@ -443,6 +444,20 @@ begin
           inherited InitArchive;
         end;
 
+        atXz : begin
+          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
+          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbXzArchive(FArchive).IsXzippedTar := False;
+          inherited InitArchive;
+        end;
+
+        atXzippedTar : begin
+          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
+          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbXzArchive(FArchive).IsXzippedTar := True;
+          inherited InitArchive;
+        end;
+
         else
           raise EAbUnhandledType.Create;
       end {case};
@@ -489,6 +504,20 @@ begin
           FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyWrite);
           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
           TAbBzip2Archive(FArchive).IsBzippedTar := True;
+          inherited InitArchive;
+        end;
+
+        atXz : begin
+          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbXzArchive(FArchive).IsXzippedTar := False;
+          inherited InitArchive;
+        end;
+
+        atXzippedTar : begin
+          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbXzArchive(FArchive).IsXzippedTar := True;
           inherited InitArchive;
         end;
 
