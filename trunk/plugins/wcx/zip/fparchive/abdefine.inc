@@ -271,6 +271,7 @@ all newer (zipx) compatible methods (Bzip2, Lzma, PPMd, WavPack)}
 {$ENDIF}
 
 {$IFDEF UnzipZipxSupport}
+  {$DEFINE UnzipXzSupport}
   {$DEFINE UnzipBzip2Support}
   {$DEFINE UnzipLzmaSupport}
   {$DEFINE UnzipPPMdSupport}

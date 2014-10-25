@@ -348,9 +348,9 @@ Index: AbBitBkt.pas
    {the stream size and position have changed}
 Index: AbBrowse.pas
 ===================================================================
---- AbBrowse.pas	(revision 525)
+--- AbBrowse.pas	(revision 512)
 +++ AbBrowse.pas	(working copy)
-@@ -220,13 +220,15 @@
+@@ -220,13 +220,16 @@
  uses
    SysUtils,
    AbExcept,
@@ -363,12 +363,13 @@ Index: AbBrowse.pas
    AbGzTyp,
 -  AbBzip2Typ;
 +  AbBzip2Typ,
++  AbXzTyp,
 +  DCOSUtils,
 +  DCClassesUtf8;
  
  { TAbBaseBrowser implementation ======================================= }
  
-@@ -515,66 +517,70 @@
+@@ -515,66 +518,77 @@
  function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
  var
    Ext : string;
@@ -394,6 +395,7 @@ Index: AbBrowse.pas
 -    if (Ext = '.BZ2') then
 -      Result := atBzip2;
 -    if (Ext = '.TBZ') then
+-      Result := atBzippedTar;
 +      Result := atZip
 +    else if (Ext = '.EXE') then
 +      Result := atSelfExtZip
@@ -408,7 +410,11 @@ Index: AbBrowse.pas
 +    else if (Ext = '.BZ2') then
 +      Result := atBzip2
 +    else if (Ext = '.TBZ') then
-       Result := atBzippedTar;
++      Result := atBzippedTar
++    else if (Ext = '.XZ') then
++      Result := atXz
++    else if (Ext = '.TXZ') then
++      Result := atXzippedTar;
    end;
 -  {$IFNDEF MSWINDOWS}
 +  {$IF NOT DEFINED(ExtractCabSupport)}
@@ -452,6 +458,9 @@ Index: AbBrowse.pas
 +            atBzip2, atBzippedTar: begin
 +              Result := VerifyBzip2(FS);
 +            end;
++            atXz, atXzippedTar: begin
++              Result := VerifyXz(FS);
++            end;
            end;
 -          atSelfExtZip : begin
 -            Result := VerifySelfExtracting(FS);
@@ -483,7 +492,7 @@ Index: AbBrowse.pas
      end;
    end;
  end;
-@@ -583,15 +589,16 @@
+@@ -583,15 +597,16 @@
  begin
    { VerifyZip returns true for self-extracting zips too, so test those first }
    Result := VerifySelfExtracting(aStream);
@@ -507,7 +516,7 @@ Index: AbBzip2.pas
 ===================================================================
 --- AbBzip2.pas	(revision 512)
 +++ AbBzip2.pas	(working copy)
-@@ -149,6 +149,8 @@ type
+@@ -149,6 +149,8 @@
    large chunk of data from the decompression stream in a single call.}
  
    TBZDecompressionStream = class(TCustomBZip2Stream)
@@ -516,7 +525,7 @@ Index: AbBzip2.pas
    public
      constructor Create(Source: TStream);
      destructor Destroy; override;
-@@ -391,7 +393,7 @@ end; { _free }
+@@ -391,7 +393,7 @@
  {$ENDIF}
  
  const
@@ -525,7 +534,7 @@ Index: AbBzip2.pas
             {$ELSEIF DEFINED(DARWIN)}'libbz2.dylib'
             {$ELSE}'libbz2.so.1'{$IFEND};
  
-@@ -527,8 +529,7 @@ begin
+@@ -527,8 +529,7 @@
          P := OutBuf;
          Inc(OutBytes, 256);
          ReallocMem(OutBuf, OutBytes);
@@ -535,7 +544,7 @@ Index: AbBzip2.pas
          strm.avail_out := 256;
        end;
      finally
-@@ -571,7 +572,7 @@ begin
+@@ -571,7 +572,7 @@
          P := OutBuf;
          Inc(OutBytes, BufInc);
          ReallocMem(OutBuf, OutBytes);
@@ -544,7 +553,7 @@ Index: AbBzip2.pas
          strm.avail_out := BufInc;
        end;
      finally
-@@ -717,8 +718,13 @@ begin
+@@ -717,8 +718,13 @@
    if FStrm.Position <> FStrmPos then FStrm.Position := FStrmPos;
    while (FBZRec.avail_out > 0) do
    begin
@@ -559,7 +568,7 @@ Index: AbBzip2.pas
        FBZRec.avail_in := FStrm.Read(FBuffer, sizeof(FBuffer));
        if FBZRec.avail_in = 0 then
        begin
-@@ -728,7 +734,7 @@ begin
+@@ -728,7 +734,7 @@
        FBZRec.next_in := @FBuffer[0];
        FStrmPos := FStrm.Position;
      end;
@@ -662,7 +671,47 @@ Index: AbBzip2Typ.pas
          raise;
        end;
      end;
-@@ -347,7 +357,7 @@
+@@ -312,20 +322,38 @@
+   CompStream: TStream;
+   i: Integer;
+   CurItem: TAbBzip2Item;
++  UpdateArchive: Boolean;
++  TempFileName: UTF8String;
+   InputFileStream: TStream;
+ begin
+   if IsBzippedTar and TarAutoHandle then
+   begin
+     SwapToTar;
+     inherited SaveArchive;
++    UpdateArchive := (FBzip2Stream.Size > 0) and (FBzip2Stream is TFileStreamEx);
++    if UpdateArchive then
++    begin
++      FreeAndNil(FBzip2Stream);
++      TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
++      { Create new archive with temporary name }
++      FBzip2Stream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
++    end;
+     FTarStream.Position := 0;
+-    FBzip2Stream.Size := 0;
+     CompStream := TBZCompressionStream.Create(bs9, FBzip2Stream);
+     try
+       CompStream.CopyFrom(FTarStream, 0);
+     finally
+       CompStream.Free;
+     end;
++    if UpdateArchive then
++    begin
++      FreeAndNil(FBzip2Stream);
++      { Replace original by new archive }
++      if not (mbDeleteFile(FArchiveName) and mbRenameFile(TempFileName, FArchiveName)) then
++        RaiseLastOSError;
++      { Open new archive }
++      FBzip2Stream := TFileStreamEx.Create(FArchiveName, fmOpenRead or fmShareDenyNone);
++    end;
+   end
+   else begin
+     { Things we know: There is only one file per archive.}
+@@ -347,7 +375,7 @@
              if CurItem.Action = aaStreamAdd then
                CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
              else begin
@@ -671,6 +720,18 @@ Index: AbBzip2Typ.pas
                try
                  CompStream.CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
                finally
+Index: AbDefine.inc
+===================================================================
+--- AbDefine.inc	(revision 512)
++++ AbDefine.inc	(working copy)
+@@ -271,6 +271,7 @@
+ {$ENDIF}
+ 
+ {$IFDEF UnzipZipxSupport}
++  {$DEFINE UnzipXzSupport}
+   {$DEFINE UnzipBzip2Support}
+   {$DEFINE UnzipLzmaSupport}
+   {$DEFINE UnzipPPMdSupport}
 Index: AbDfEnc.pas
 ===================================================================
 --- AbDfEnc.pas	(revision 512)
@@ -1519,7 +1580,17 @@ Index: AbUnzPrc.pas
 ===================================================================
 --- AbUnzPrc.pas	(revision 512)
 +++ AbUnzPrc.pas	(working copy)
-@@ -153,7 +153,8 @@
+@@ -144,6 +144,9 @@
+   {$IFDEF UnzipWavPackSupport}
+   AbWavPack,
+   {$ENDIF}
++  {$IFDEF UnzipXzSupport}
++  AbXz,
++  {$ENDIF}
+   AbBitBkt,
+   AbConst,
+   AbDfBase,
+@@ -153,7 +156,8 @@
    AbSpanSt,
    AbSWStm,
    AbUnzOutStm,
@@ -1529,7 +1600,40 @@ Index: AbUnzPrc.pas
  
  { -------------------------------------------------------------------------- }
  procedure AbReverseBits(var W : Word);
-@@ -1111,7 +1112,7 @@
+@@ -949,6 +953,20 @@
+ end;
+ {$ENDIF}
+ { -------------------------------------------------------------------------- }
++{$IFDEF UnzipXzSupport}
++procedure DoExtractXz(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
++var
++  LzmaDecompression: TLzmaDecompression;
++begin
++  LzmaDecompression := TLzmaDecompression.Create(InStream, OutStream);
++  try
++    LzmaDecompression.Code(Item.UncompressedSize);
++  finally
++    LzmaDecompression.Free;
++  end;
++end;
++{$ENDIF}
++{ -------------------------------------------------------------------------- }
+ function ExtractPrep(ZipArchive: TAbZipArchive; Item: TAbZipItem): TStream;
+ var
+   LFH         : TAbZipLocalFileHeader;
+@@ -1062,6 +1080,11 @@
+         DecompressWavPack(aInStream, OutStream);
+       end;
+       {$ENDIF}
++      {$IFDEF UnzipXzSupport}
++      cmXz: begin
++        DoExtractXz(aZipArchive, aItem, aInStream, OutStream);
++      end;
++      {$ENDIF}
+       cmShrunk..cmImploded: begin
+         DoLegacyUnzip(aZipArchive, aItem, aInStream, OutStream);
+       end;
+@@ -1111,7 +1134,7 @@
    else begin
      InStream := ExtractPrep(ZipArchive, Item);
      try
@@ -1555,7 +1659,17 @@ Index: AbUtils.pas
  
  
  type
-@@ -114,6 +114,12 @@
+@@ -94,7 +94,8 @@
+ 
+ type
+   TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
+-                    atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar);
++                    atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar,
++                    atXz, atXzippedTar);
+ 
+ 
+ {$IF NOT DECLARED(DWORD)}
+@@ -114,6 +115,12 @@
    {$ENDIF}
  {$IFEND}
  
@@ -1568,7 +1682,7 @@ Index: AbUtils.pas
  { System-encoded SBCS string (formerly AnsiString) }
  type
    AbSysString = {$IFDEF Posix}UTF8String{$ELSE}AnsiString{$ENDIF};
-@@ -198,8 +204,13 @@
+@@ -198,8 +205,13 @@
       because if you have a path x:\dir, and request x:\dir\sub1\sub2,
       (/dir and /dir/sub1/sub2 on Unix) it fails.}
  
@@ -1582,7 +1696,7 @@ Index: AbUtils.pas
    function AbGetTempDirectory : string;
      {-Return the system temp directory}
  
-@@ -294,7 +305,7 @@
+@@ -294,7 +306,7 @@
      Mode: {$IFDEF UNIX}mode_t{$ELSE}Cardinal{$ENDIF};
    end;
  
@@ -1591,7 +1705,7 @@ Index: AbUtils.pas
  
    function AbSwapLongEndianness(Value : LongInt): LongInt;
  
-@@ -363,9 +374,14 @@
+@@ -363,9 +375,14 @@
  
  uses
    StrUtils,
@@ -1607,7 +1721,7 @@ Index: AbUtils.pas
  {$IF DEFINED(FPCUnixAPI)}
  function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
    external clib name 'mktemp';
-@@ -387,6 +403,7 @@
+@@ -387,6 +404,7 @@
  function nl_langinfo(__item: nl_item): PAnsiChar; cdecl;
    external clib name 'nl_langinfo';
  {$IFEND}
@@ -1615,7 +1729,7 @@ Index: AbUtils.pas
  
  {===platform independent routines for platform dependent stuff=======}
  function ExtractShortName(const SR : TSearchRec) : string;
-@@ -410,16 +427,16 @@
+@@ -410,16 +428,16 @@
  function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
  {$IFDEF UNIX}
  var
@@ -1636,7 +1750,7 @@ Index: AbUtils.pas
          try
            DesStream.CopyFrom(SrcStream, 0);
            Result := True;
-@@ -434,7 +451,7 @@
+@@ -434,7 +452,7 @@
      end;
  {$ENDIF UNIX}
  {$IFDEF MSWINDOWS}
@@ -1645,7 +1759,7 @@ Index: AbUtils.pas
  {$ENDIF MSWINDOWS}
  end;
  { -------------------------------------------------------------------------- }
-@@ -447,7 +464,7 @@
+@@ -447,7 +465,7 @@
    i : Integer;
    TempPath : string;
  begin
@@ -1654,7 +1768,7 @@ Index: AbUtils.pas
      Exit;
    {see how much of the path currently exists}
    if Pos( '\\', Path ) > 0 then
-@@ -463,57 +480,66 @@
+@@ -463,57 +481,66 @@
      {get a temp path to try: drive:\path1}
      TempPath := Copy( Path, 1, i );
      {if it doesn't exist, create it}
@@ -1751,7 +1865,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbDrive(const ArchiveName : string) : Char;
-@@ -560,8 +586,8 @@
+@@ -560,8 +587,8 @@
  var
    FreeAvailable, TotalSpace: Int64;
  begin
@@ -1762,7 +1876,7 @@ Index: AbUtils.pas
      Result := FreeAvailable
    else
      Result := -1;
-@@ -574,7 +600,7 @@
+@@ -574,7 +601,7 @@
    if statfs(PAnsiChar(ExtractFilePath(ArchiveName)), FStats) = 0 then
      Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize)
    {$ELSEIF DEFINED(FPCUnixAPI)}
@@ -1771,7 +1885,7 @@ Index: AbUtils.pas
      Result := Int64(FStats.bAvail) * Int64(FStats.bsize)
    {$ELSEIF DEFINED(PosixAPI)}
    if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
-@@ -591,8 +617,8 @@
+@@ -591,8 +618,8 @@
    DirMatch : Boolean;
    MaskDir : string;
  begin
@@ -1782,7 +1896,7 @@ Index: AbUtils.pas
    MaskDir := ExtractFilePath( FileMask );
    if MaskDir = '' then
      DirMatch := True
-@@ -614,12 +640,12 @@
+@@ -614,12 +641,12 @@
    Found := FindFirst( FileMask, SearchAttr, SR );
    if Found = 0 then begin
      try
@@ -1797,7 +1911,7 @@ Index: AbUtils.pas
            if (SR.Attr and faDirectory) <> 0 then
              FileList.Add( NewFile + PathDelim )
            else
-@@ -1002,18 +1028,18 @@
+@@ -1002,18 +1029,18 @@
  function AbWriteVolumeLabel(const VolName : string;
                                  Drive : Char) : Cardinal;
  var
@@ -1823,7 +1937,7 @@ Index: AbUtils.pas
      Result := 0
    else Result := GetLastError;
  {$ENDIF MSWINDOWS}
-@@ -1166,12 +1192,7 @@
+@@ -1166,12 +1193,7 @@
  
  function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
  begin
@@ -1837,7 +1951,7 @@ Index: AbUtils.pas
  end;
  
  { -------------------------------------------------------------------------- }
-@@ -1188,7 +1209,8 @@
+@@ -1188,7 +1210,8 @@
  { -------------------------------------------------------------------------- }
  function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
  begin
@@ -1847,7 +1961,7 @@ Index: AbUtils.pas
    Result := { default permissions }
      AB_FPERMISSION_OWNERREAD or
      AB_FPERMISSION_GROUPREAD or
-@@ -1201,12 +1223,14 @@
+@@ -1201,12 +1224,14 @@
      Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE
    else
      Result := Result or AB_FMODE_FILE;
@@ -1864,7 +1978,7 @@ Index: AbUtils.pas
    Result := 0;
    case (Attr and $F000) of
      AB_FMODE_FILE, AB_FMODE_FILE2: { standard file }
-@@ -1225,21 +1249,20 @@
+@@ -1225,21 +1250,20 @@
  
    if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
      Result := Result or faReadOnly;
@@ -1890,7 +2004,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbFileGetSize(const aFileName : string) : Int64;
-@@ -1252,12 +1275,12 @@
+@@ -1252,12 +1276,12 @@
      Result := -1;
  end;
  { -------------------------------------------------------------------------- }
@@ -1906,7 +2020,7 @@ Index: AbUtils.pas
  {$ENDIF}
  {$IFDEF FPCUnixAPI}
    StatBuf: stat;
-@@ -1274,9 +1297,9 @@
+@@ -1274,9 +1298,9 @@
    aAttr.Attr := -1;
    aAttr.Mode := 0;
  {$IFDEF MSWINDOWS}
@@ -1918,7 +2032,7 @@ Index: AbUtils.pas
         FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
        aAttr.Time := FileDateToDateTime(Integer(FileDate));
      LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
-@@ -1287,7 +1310,10 @@
+@@ -1287,7 +1311,10 @@
  {$ENDIF}
  {$IFDEF UNIX}
    {$IFDEF FPCUnixAPI}
@@ -1930,7 +2044,7 @@ Index: AbUtils.pas
    {$ENDIF}
    {$IFDEF LibcAPI}
    // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
-@@ -1313,10 +1339,10 @@
+@@ -1313,10 +1340,10 @@
  {-Get the volume label for the specified drive.}
  {$IFDEF MSWINDOWS}
  var
@@ -1943,7 +2057,7 @@ Index: AbUtils.pas
  {$ENDIF}
  begin
  {$IFDEF MSWINDOWS}
-@@ -1326,10 +1352,10 @@
+@@ -1326,10 +1353,10 @@
  
    Result := '';
  
@@ -2018,16 +2132,17 @@ Index: AbZipper.pas
 ===================================================================
 --- AbZipper.pas	(revision 512)
 +++ AbZipper.pas	(working copy)
-@@ -173,7 +173,7 @@
+@@ -173,7 +173,8 @@
  implementation
  
  uses
 -  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc;
-+  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc, DCOSUtils;
++  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc,
++  AbXzTyp, DCOSUtils;
  
  { -------------------------------------------------------------------------- }
  constructor TAbCustomZipper.Create( AOwner : TComponent );
-@@ -399,7 +399,7 @@
+@@ -399,7 +400,7 @@
    ArcType := ArchiveType;
  
    if (FileName <> '') then
@@ -2036,7 +2151,7 @@ Index: AbZipper.pas
  
      if not ForceType then
        ArcType := AbDetermineArcType(FileName, atUnknown);
-@@ -411,33 +411,33 @@
+@@ -411,38 +412,52 @@
          end;
  
          atTar : begin
@@ -2075,7 +2190,26 @@ Index: AbZipper.pas
            TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbBzip2Archive(FArchive).IsBzippedTar := True;
            inherited InitArchive;
-@@ -455,38 +455,38 @@
+         end;
+ 
++        atXz : begin
++          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
++          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
++          TAbXzArchive(FArchive).IsXzippedTar := False;
++          inherited InitArchive;
++        end;
++
++        atXzippedTar : begin
++          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
++          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
++          TAbXzArchive(FArchive).IsXzippedTar := True;
++          inherited InitArchive;
++        end;
++
+         else
+           raise EAbUnhandledType.Create;
+       end {case};
+@@ -455,43 +470,57 @@
  
        case ArcType of
          atZip : begin                                                    
@@ -2120,6 +2254,25 @@ Index: AbZipper.pas
            TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbBzip2Archive(FArchive).IsBzippedTar := True;
            inherited InitArchive;
+         end;
+ 
++        atXz : begin
++          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
++          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
++          TAbXzArchive(FArchive).IsXzippedTar := False;
++          inherited InitArchive;
++        end;
++
++        atXzippedTar : begin
++          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
++          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
++          TAbXzArchive(FArchive).IsXzippedTar := True;
++          inherited InitArchive;
++        end;
++
+         else
+           raise EAbUnhandledType.Create;
+       end {case};
 Index: AbZipPrc.pas
 ===================================================================
 --- AbZipPrc.pas	(revision 512)
@@ -2165,8 +2318,17 @@ Index: AbZipPrc.pas
      Item.ExternalFileAttributes := LongWord(AttrEx.Mode) shl 16 + LongWord(AttrEx.Attr);
 Index: AbZipTyp.pas
 ===================================================================
---- AbZipTyp.pas	(revision 525)
+--- AbZipTyp.pas	(revision 512)
 +++ AbZipTyp.pas	(working copy)
+@@ -169,7 +169,7 @@
+     (cmStored, cmShrunk, cmReduced1, cmReduced2, cmReduced3,
+      cmReduced4, cmImploded, cmTokenized, cmDeflated,
+      cmEnhancedDeflated, cmDCLImploded, cmBzip2 = 12, cmLZMA = 14,
+-     cmIBMTerse = 18, cmLZ77, cmJPEG = 96, cmWavPack = 97, cmPPMd);
++     cmIBMTerse = 18, cmLZ77, cmXz = 95, cmJPEG = 96, cmWavPack = 97, cmPPMd);
+ 
+   TAbZipSupportedMethod =
+     (smStored, smDeflated, smBestMethod);
 @@ -407,6 +407,7 @@
      function  GetLastModFileDate : Word; override;
      function  GetLastModFileTime : Word; override;

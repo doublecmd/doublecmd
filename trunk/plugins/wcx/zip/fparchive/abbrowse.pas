@@ -227,6 +227,7 @@ uses
   AbTarTyp,
   AbGzTyp,
   AbBzip2Typ,
+  AbXzTyp,
   DCOSUtils,
   DCClassesUtf8;
 
@@ -538,7 +539,11 @@ begin
     else if (Ext = '.BZ2') then
       Result := atBzip2
     else if (Ext = '.TBZ') then
-      Result := atBzippedTar;
+      Result := atBzippedTar
+    else if (Ext = '.XZ') then
+      Result := atXz
+    else if (Ext = '.TXZ') then
+      Result := atXzippedTar;
   end;
   {$IF NOT DEFINED(ExtractCabSupport)}
   if Result = atCab then
@@ -571,6 +576,9 @@ begin
             {$ENDIF}
             atBzip2, atBzippedTar: begin
               Result := VerifyBzip2(FS);
+            end;
+            atXz, atXzippedTar: begin
+              Result := VerifyXz(FS);
             end;
           end;
         end;

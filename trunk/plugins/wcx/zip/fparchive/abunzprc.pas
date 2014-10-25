@@ -144,6 +144,9 @@ uses
   {$IFDEF UnzipWavPackSupport}
   AbWavPack,
   {$ENDIF}
+  {$IFDEF UnzipXzSupport}
+  AbXz,
+  {$ENDIF}
   AbBitBkt,
   AbConst,
   AbDfBase,
@@ -950,6 +953,20 @@ begin
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
+{$IFDEF UnzipXzSupport}
+procedure DoExtractXz(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
+var
+  LzmaDecompression: TLzmaDecompression;
+begin
+  LzmaDecompression := TLzmaDecompression.Create(InStream, OutStream);
+  try
+    LzmaDecompression.Code(Item.UncompressedSize);
+  finally
+    LzmaDecompression.Free;
+  end;
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
 function ExtractPrep(ZipArchive: TAbZipArchive; Item: TAbZipItem): TStream;
 var
   LFH         : TAbZipLocalFileHeader;
@@ -1061,6 +1078,11 @@ begin
       {$IFDEF UnzipWavPackSupport}
       cmWavPack: begin
         DecompressWavPack(aInStream, OutStream);
+      end;
+      {$ENDIF}
+      {$IFDEF UnzipXzSupport}
+      cmXz: begin
+        DoExtractXz(aZipArchive, aItem, aInStream, OutStream);
       end;
       {$ENDIF}
       cmShrunk..cmImploded: begin
