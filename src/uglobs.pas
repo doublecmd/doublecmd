@@ -308,6 +308,7 @@ var
   gGridHorzLine,
   gShowWarningMessages,
   gDirBrackets,
+  gInplaceRename,
   gGoToRoot: Boolean;
   gShowToolTipMode: TShowToolTipMode;
   gThumbSize: TSize;
@@ -1166,6 +1167,7 @@ begin
   gShowWarningMessages := True;
   gSpaceMovesDown := False;
   gDirBrackets := True;
+  gInplaceRename := False;
   gHotDirAddTargetOrNot := False;
   gHotDirFullExpandOrNot:=False;
   gShowPathInPopup:=FALSE;
@@ -2226,6 +2228,7 @@ begin
       gShowWarningMessages := GetValue(Node, 'ShowWarningMessages', gShowWarningMessages);
       gSpaceMovesDown := GetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
       gDirBrackets := GetValue(Node, 'DirBrackets', gDirBrackets);
+      gInplaceRename := GetValue(Node, 'InplaceRename', gInplaceRename);
       gHotDirAddTargetOrNot:=GetValue(Node, 'HotDirAddTargetOrNot', gHotDirAddTargetOrNot);
       gHotDirFullExpandOrNot:=GetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
       gShowPathInPopup:=GetValue(Node, 'ShowPathInPopup', gShowPathInPopup);
@@ -2559,6 +2562,7 @@ begin
     SetValue(Node, 'ShowWarningMessages', gShowWarningMessages);
     SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
     SetValue(Node, 'DirBrackets', gDirBrackets);
+    SetValue(Node, 'InplaceRename', gInplaceRename);
     SetValue(Node, 'HotDirAddTargetOrNot',gHotDirAddTargetOrNot);
     SetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
     SetValue(Node, 'ShowPathInPopup', gShowPathInPopup);
