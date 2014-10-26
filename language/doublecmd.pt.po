@@ -1,4 +1,3 @@
- Pedro <palbuquerque73@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
@@ -4491,6 +4490,10 @@ msgstr "Mostrar pastas entre parênteses retos"
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
 msgid "Hi&ghlight new and updated files"
 msgstr "Rea&lçar ficheiros novos e atualizados"
+
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"

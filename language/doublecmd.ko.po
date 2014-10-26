@@ -5019,6 +5019,10 @@ msgstr "폴더 이름 양 옆에 대괄호 [] 보이기"
 msgid "Hi&ghlight new and updated files"
 msgstr "새파일/업데이트된 파일 강조하기"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #, fuzzy
 #| msgid "Load file list in separate thread"

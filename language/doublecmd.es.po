@@ -5021,6 +5021,10 @@ msgstr "Mostrar corchetes cuadrados para las carpetas"
 msgid "Hi&ghlight new and updated files"
 msgstr "Destacar archivos nuevos y actualizados"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #, fuzzy
 #| msgid "Load file list in separate thread"

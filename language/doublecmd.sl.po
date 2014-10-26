@@ -4491,6 +4491,10 @@ msgstr "&Izpiši oglate oklepaje okoli imena mape v seznamu okna"
 msgid "Hi&ghlight new and updated files"
 msgstr "&Poudari nove in posodobljene datoteke"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"

@@ -4757,6 +4757,10 @@ msgstr "N&ázvy adresářů v hranatých závorkách"
 msgid "Hi&ghlight new and updated files"
 msgstr "Zvý&raznit nové a aktualizované soubory"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #| msgid "Load file list in separate thread"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"

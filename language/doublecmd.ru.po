@@ -4529,6 +4529,10 @@ msgstr "Показыват&ь квадратные скобки вокруг и�
 msgid "Hi&ghlight new and updated files"
 msgstr "По&дсвечивать новые и измененные файлы"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"

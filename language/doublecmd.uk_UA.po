@@ -4796,6 +4796,10 @@ msgstr "Показувати квадратні ду&жки навколо ка�
 msgid "Hi&ghlight new and updated files"
 msgstr "Виділяти но&ві та оновлені файли"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #| msgid "Load file list in separate thread"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
