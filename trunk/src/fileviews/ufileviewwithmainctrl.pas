@@ -55,6 +55,8 @@ type
 
     procedure SetMainControl(AValue: TWinControl);
     procedure tmContextMenuTimer(Sender: TObject);
+    // Needed for rename on mouse
+    procedure tmRenameFileTimer(Sender: TObject);
     // If internal dragging is currently in effect, this function
     // stops internal dragging and starts external.
     procedure TransformDraggingToExternal(ScreenPoint: TPoint);
@@ -83,6 +85,10 @@ type
     FDropFileIndex: PtrInt;
     FStartDrag: Boolean;
     tmContextMenu: TTimer;
+    // Needed for rename on mouse
+    FRenameFileIndex: PtrInt;
+    tmRenameFile: TTimer;
+    FMouseRename: Boolean;
     procedure AfterChangePath; override;
     // Simulates releasing mouse button that started a dragging operation,
     // but was released in another window or another application.
@@ -213,6 +219,12 @@ begin
   tmContextMenu.Enabled  := False;
   tmContextMenu.Interval := 500;
   tmContextMenu.OnTimer  := @tmContextMenuTimer;
+
+  tmRenameFile := TTimer.Create(Self);
+  tmRenameFile.Enabled  := False;
+  tmRenameFile.Interval := 1000;
+  tmRenameFile.OnTimer  := @tmRenameFileTimer;
+  FRenameFileIndex := -1;
 end;
 
 destructor TFileViewWithMainCtrl.Destroy;
@@ -226,6 +238,8 @@ procedure TFileViewWithMainCtrl.DoActiveChanged;
 begin
   inherited DoActiveChanged;
   MainControl.Color := DimColor(gBackColor);
+  // Needed for rename on mouse
+  FMouseRename := False;
 end;
 
 procedure TFileViewWithMainCtrl.DoDragDropOperation(Operation: TDragDropOperation; var DropParams: TDropParams);
@@ -350,6 +364,9 @@ var
   FileIndex : PtrInt;
   AtFileList: Boolean;
 begin
+  // Needed for rename on mouse
+  tmRenameFile.Enabled := False;
+  FRenameFileIndex := -1;
   if IsLoadingFileList then Exit;
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
@@ -581,6 +598,8 @@ begin
   begin
     AFile := FFiles[FileIndex];
     FMainControlLastMouseButton := Button;
+    // Needed for rename on mouse
+    FRenameFileIndex := -1;
 
     case Button of
       mbRight:
@@ -619,11 +638,27 @@ begin
               FRangeSelecting := True;
               SelectRange(FileIndex);
             end
-          else if (gMouseSelectionButton = 0) then
+          else begin
+            if FMouseRename then
+            begin
+              APreviousFile := GetActiveDisplayFile;
+              // Start the rename file timer if the actual file is clicked again
+              if Assigned(APreviousFile) and (APreviousFile = AFile) then
+              begin
+                if AFile.FSFile.IsNameValid then
+                begin
+                  FRenameFileIndex := FileIndex;
+                  tmRenameFile.Enabled := True;
+                end;
+              end;
+            end;
+            //  If mark with left button enable
+            if (gMouseSelectionButton = 0) then
             begin
               if not AFile.Selected then
                 MarkFiles(False);
             end;
+          end;
         end;//of mouse selection handler
       end;
     else
@@ -651,6 +686,8 @@ begin
       if (Button = mbRight) and (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
         tmContextMenu.Enabled:= True; // start context menu timer
     end;
+  // Needed for rename on mouse
+  FMouseRename := gInplaceRename;
 end;
 
 procedure TFileViewWithMainCtrl.MainControlMouseLeave(Sender: TObject);
@@ -722,6 +759,12 @@ begin
       end;
     end;
 
+  // Disable the rename file timer if we are dragging
+  if FMouseRename and MainControl.Dragging then
+  begin
+     tmRenameFile.Enabled := False;
+     FRenameFileIndex := -1;
+  end;
   // Show file info tooltip.
   if ShowHint and
      not MainControl.Dragging and ([ssLeft, ssMiddle, ssRight] * Shift = []) then
@@ -1046,6 +1089,10 @@ begin
   FileIndex   := GetFileIndexFromCursor(ClientPoint.x, ClientPoint.y, AtFileList);
   Background  := not IsFileIndexInRange(FileIndex);
 
+  // Skip if a rename is in progress on the same file
+  if FRenameFileIndex = FileIndex then
+    Exit;
+
   if not Background then
   begin
     AFile := FFiles[FileIndex];
@@ -1056,6 +1103,36 @@ begin
   frmMain.Commands.DoContextMenu(Self, MousePoint.x, MousePoint.y, Background);
 end;
 
+procedure TFileViewWithMainCtrl.tmRenameFileTimer(Sender: TObject);
+var
+  ClientPoint, MousePoint: TPoint;
+  Background: Boolean;
+  FileIndex: PtrInt;
+  AtFileList: Boolean;
+begin
+  if FMainControlMouseDown = True then
+   begin
+     FMainControlMouseDown := False;
+     tmRenameFile.Enabled := False; // stop timer
+     Exit;
+   end;
+  tmRenameFile.Enabled := False; // stop timer
+
+  MousePoint  := Mouse.CursorPos;
+  ClientPoint := MainControl.ScreenToClient(MousePoint);
+  FileIndex   := GetFileIndexFromCursor(ClientPoint.x, ClientPoint.y, AtFileList);
+  Background  := not IsFileIndexInRange(FileIndex);
+
+  if not Background then
+  begin
+    if FRenameFileIndex = FileIndex then
+    begin
+      FMouseRename := False;
+      cm_RenameOnly([]);
+    end;
+  end;
+  FRenameFileIndex := -1;
+end;
 procedure TFileViewWithMainCtrl.TransformDraggingToExternal(ScreenPoint: TPoint);
 begin
   // Set flag temporarily before stopping internal dragging,

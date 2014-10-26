@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Files views options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ type
     cbCaseSensitivity: TComboBox;
     cbSortFolderMode: TComboBox;
     cbFileSizeFormat: TComboBox;
+    cbInplaceRename: TCheckBox;
     gbFormatting: TGroupBox;
     gbSorting: TGroupBox;
     gbMisc: TGroupBox;
@@ -150,6 +151,7 @@ begin
   cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
   cbDelayLoadingTabs.Checked:= gDelayLoadingTabs;
   cbHighlightUpdatedFiles.Checked:= gHighlightUpdatedFiles;
+  cbInplaceRename.Checked := gInplaceRename;
 end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
@@ -187,6 +189,7 @@ begin
   gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
   gDelayLoadingTabs := cbDelayLoadingTabs.Checked;
   gHighlightUpdatedFiles := cbHighlightUpdatedFiles.Checked;
+  gInplaceRename := cbInplaceRename.Checked;
 
   Result := [];
 end;
