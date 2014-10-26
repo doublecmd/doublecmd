@@ -7,11 +7,11 @@ set -e
 # This script run from main build.sh script
 # If you run it direct, set up $lazbuild first
 
-# Rebuild widget dependent packages
-if [ -d /usr/lib/lazarus/default ]
-  then
-  $lazbuild /usr/lib/lazarus/default/components/synedit/synedit.lpk $DC_ARCH -B
-  $lazbuild /usr/lib/lazarus/default/components/lazcontrols/lazcontrols.lpk $DC_ARCH -B
+# Generate PIC code
+if [ -f /etc/fpc.cfg ] ; then
+  cp /etc/fpc.cfg ./
+  echo "-fPIC" >> fpc.cfg
+  export PPC_CONFIG_PATH=$(pwd)
 fi
 
 # Build components
@@ -26,3 +26,9 @@ $lazbuild viewer/viewerpackage.lpk $DC_ARCH
 $lazbuild gifanim/pkg_gifanim.lpk $DC_ARCH
 $lazbuild ZVDateTimeCtrls/zvdatetimectrls.lpk $DC_ARCH
 cd $basedir
+
+# Remove temporary file
+if [ -f fpc.cfg ] ; then
+  rm -f fpc.cfg
+  export PPC_CONFIG_PATH=
+fi
