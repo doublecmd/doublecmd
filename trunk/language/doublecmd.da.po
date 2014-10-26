@@ -4680,6 +4680,10 @@ msgstr ""
 msgid "Hi&ghlight new and updated files"
 msgstr ""
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgid "Load &file list in separate thread"
 msgstr ""

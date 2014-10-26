@@ -4490,6 +4490,10 @@ msgstr "&Mostra parentesi quadre attorno alle cartelle"
 msgid "Hi&ghlight new and updated files"
 msgstr "Evi&denzia i file nuovi/aggiornati"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"

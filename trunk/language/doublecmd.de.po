@@ -5111,6 +5111,10 @@ msgstr "Zeige eckige Klammern um Verzeic&hnisse"
 msgid "Hi&ghlight new and updated files"
 msgstr "Ma&rkiere neue und aktualisierte Dateien"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #, fuzzy
 #| msgid "Load file list in separate thread"

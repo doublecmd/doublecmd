@@ -4489,6 +4489,10 @@ msgstr "Pokazuj nazwy katalogów w nawiasach kwadratowych"
 msgid "Hi&ghlight new and updated files"
 msgstr "WYróżnij nowe i zaktualizowane pliki"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"

@@ -4492,6 +4492,10 @@ msgstr "Arată paranteze pătrate în jurul dosarelor"
 msgid "Hi&ghlight new and updated files"
 msgstr "Evidențiază fișiere noi și actualizate"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"

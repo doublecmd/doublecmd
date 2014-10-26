@@ -4953,6 +4953,10 @@ msgstr "顯示方括號在資料夾項目的兩端 (&H)"
 msgid "Hi&ghlight new and updated files"
 msgstr "高亮顯示新檔及更新檔案 (&G)"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"

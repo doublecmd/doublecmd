@@ -4706,6 +4706,10 @@ msgstr "Szö&gletes zárójel a könyvtárnevek körül"
 msgid "Hi&ghlight new and updated files"
 msgstr "Ú&j és frissített fájlok kiemelése"
 
+#: tfrmoptionsfilesviews.cbinplacerename.caption
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load &file list in separate thread"
