@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2014-07-27 19:50+0100\n"
+"PO-Revision-Date: 2014-10-27 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -5113,7 +5113,7 @@ msgstr "Ma&rkiere neue und aktualisierte Dateien"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr ""
+msgstr "Ermöglicht sofortiges Umbenennen beim zweimaligen Anklicken eines Dateinamens"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #, fuzzy
@@ -8208,14 +8208,16 @@ msgstr "Fehler beim Erstellen des Hardlink."
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
-msgstr ""
+msgstr "Sorry, nichts erkannt zum Importieren!"
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
 "Are you sure you want to proceed?\n"
-msgstr ""
+msgstr "Warnung! Wenn ein BackUp einer "Hotlist" wird die existierende mit dem BackUp überschrieben"
+"\n"
+"Sicher, dass weiter gemacht werden soll?\n"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -8577,19 +8579,19 @@ msgstr "Sym-Link \"%s\" folgen?"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
-msgstr ""
+msgstr "Füge %d markierte Verzeichnisse hinzu"
 
 #: ulng.rsmsghotdiraddselecteddirectory
 msgid "Add selected dir: "
-msgstr ""
+msgstr "Füge ausgewähltes Verzeichnis hinzu:"
 
 #: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
-msgstr ""
+msgstr "Füge aktuelles Verzeichnis hinzu"
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
-msgstr ""
+msgstr "Führe Befehl aus"
 
 #: ulng.rsmsghotdircommandsample
 msgid "cm_somthing"
@@ -8597,47 +8599,47 @@ msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
 msgid "Configuration of Directory Hotlist"
-msgstr ""
+msgstr "Konfiguration der Verzeichnis-Hotlist"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr ""
+msgstr "Sicher, dass alle Einträge aus der Verzeichnis-Hotlist entfernt werden sollen? (Es gibt keine Möglichkeit dies \"rückgängig\" zu machen!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
-msgstr ""
+msgstr "Dies wird den folgenden Befehl ausführen:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
-msgstr ""
+msgstr "So wird das Verzeichnis benannt"
 
 #: ulng.rsmsghotdirdemopath
 msgid "This will change active frame to the following path:"
-msgstr ""
+msgstr "Dies wird den aktiven Rahmen in den folgenden Pfad ändern:"
 
 #: ulng.rsmsghotdirdemotarget
 msgid "And inactive frame would change to the following path:"
-msgstr ""
+msgstr "Und der inaktive Rahmen wird in den folgenden Pfad geändert:"
 
 #: ulng.rsmsghotdirerrorbackuping
 msgid "Error backuping entries..."
-msgstr ""
+msgstr "Fehler beim Sichern der Einträge"
 
 #: ulng.rsmsghotdirerrorexporting
 msgid "Error exporting entries..."
-msgstr ""
+msgstr "Fehler beim Export der Einträge"
 
 #: ulng.rsmsghotdirexportall
 msgid "Export all!"
-msgstr ""
+msgstr "Exportiere alle"
 
 #: ulng.rsmsghotdirexporthotlist
 msgid "Export Directory Hotlist - Select the entries you want to export"
-msgstr ""
+msgstr "Exportiere Verzeichnis-Hotlist - Wähle Einträge die exportiert werden sollen"
 
 #: ulng.rsmsghotdirexportsel
 msgid "Export selected"
-msgstr ""
+msgstr "Exportiere ausgewählte"
 
 #: ulng.rsmsghotdirimportall
 msgctxt "ulng.rsmsghotdirimportall"
@@ -8646,7 +8648,7 @@ msgstr "Alle importieren!"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
-msgstr ""
+msgstr "Importiere Verzeichnis-Hotlist - Wähle die Einträge die importiert werden sollen"
 
 #: ulng.rsmsghotdirimportsel
 msgctxt "ulng.rsmsghotdirimportsel"
@@ -8660,59 +8662,59 @@ msgstr "Pfad"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr ""
+msgstr "Finde \".hotlist\" Datei zum Importieren"
 
 #: ulng.rsmsghotdirlocateprevioussave
 msgid "Select location and filename of previously saved Directory Hotlist file"
-msgstr ""
+msgstr "Wähle Speicherort und Dateiname von vorher gespeicherten Verzeichnis-Hotlists"
 
 #: ulng.rsmsghotdirlocatetc
 msgid "Locate TC \"wincmd.ini\" file"
-msgstr ""
+msgstr "Finde TC \"wincmd.ini\" Datei"
 
 #: ulng.rsmsghotdirmodifiedwanttosave
 msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Verzeichnis-Hotlist wurde verändert. Soll sie gespeichert werden vor dem Schließen?"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
-msgstr ""
+msgstr "Name für HotDir"
 
 #: ulng.rsmsghotdirnbnewentries
 msgid "Number of new entries: %d"
-msgstr ""
+msgstr "Zahl neuer Einträge: %d"
 
 #: ulng.rsmsghotdirnothingtoexport
 msgid "Nothing selected to export!"
-msgstr ""
+msgstr "Nichts zum Exportieren ausgewählt!"
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
-msgstr ""
+msgstr "HotDir-Pfad"
 
 #: ulng.rsmsghotdirreaddselecteddirectory
 msgid "Re-Add selected dir: "
-msgstr ""
+msgstr "Gewähltes Verzeichnis erneut hinzufügen"
 
 #: ulng.rsmsghotdirreaddthisdirectory
 msgid "Re-Add current dir: "
-msgstr ""
+msgstr "Aktuelles Verzeichnis erneut hinzufügen"
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
-msgstr ""
+msgstr "Speicherort und Dateinamen der Verzeichnis-Hotlist eigeben, die wiederhergestellt werden soll"
 
 #: ulng.rsmsghotdirsimplecommand
 msgid "Command:"
-msgstr ""
+msgstr "Befehl"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgid "(end of sub menu)"
-msgstr ""
+msgstr "(Ende des Untermenüs)"
 
 #: ulng.rsmsghotdirsimplemenu
 msgid "Menu name:"
-msgstr ""
+msgstr "Name des Menüs"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
@@ -8721,52 +8723,56 @@ msgstr "Name:"
 
 #: ulng.rsmsghotdirsimpleseparator
 msgid "(separator)"
-msgstr ""
+msgstr "(Unterteilung)"
 
 #: ulng.rsmsghotdirsubmenuname
 msgid "Submenu name"
-msgstr ""
+msgstr "Name des Untermenüs"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr ""
+msgstr "Ziel der HotDir"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
-msgstr ""
+msgstr "Entscheidung ob der aktive Frame in einer bestimmten Weise sortiert werdensoll, nachdem das Verzeichnis gewechselt wurde"
 
 #: ulng.rsmsghotdirtipordertarget
 msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
-msgstr ""
+msgstr "Entscheide, ob der nicht-aktive Frame in einer bestimmten Art und Weise sortiert werden soll nach dem Wechsel des Verzeichnisses"
 
 #: ulng.rsmsghotdirtipspecialdirbut
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr ""
+msgstr "Einige Funktionen zum Wählen eines relativen Pfades, absoluten Pfades, spezieler Ordner, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
 msgid ""
 "Total entries saved: %d\n"
 "\n"
 "Backup filename: %s\n"
-msgstr ""
+msgstr "Anzahl aller gespeicherter Einträge: %d\n
+"\n"
+"Name des Backups: %s\n"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
-msgstr ""
+msgstr "Gesamtzahl der exportierten Einträge"
 
 #: ulng.rsmsghotdirwhattodelete
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
+"Sollen alle Elemente innerhalb der Untermenüs gelöscht werden [%s]?\n"
+"JA als Antwort löscht nur Unterteilungen innerhalb der Untermenüs, aber erhält die Elemente in den Untermenüs.\n"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
-msgstr ""
+msgstr "Speicherort und Dateiname zum Speichern der Verzeichnis-Hotlist"
 
 #: ulng.rsmsgincorrectfilelength
 msgid "Incorrect resulting filelength for file : \"%s\""
-msgstr ""
+msgstr "Falsches Ergebnis der Dateilänge für: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
 msgid ""
@@ -8777,6 +8783,11 @@ msgid ""
 "\n"
 "Number of bytes still to write: %d\n"
 msgstr ""
+"Bitte nächste Disk oder ähnliches einlegen.\n"
+"Damit diese Datei geschrieben werden kann: %d\n"
+"\"%s\"\n"
+"\n"
+"Anzahl der noch zu schreibenden Bytes: %d\n"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -8872,11 +8883,11 @@ msgstr "Teste Dateiintegrität von %s"
 
 #: ulng.rsmsglogwipe
 msgid "Wipe file %s"
-msgstr ""
+msgstr "Lösche Datei %s"
 
 #: ulng.rsmsglogwipedir
 msgid "Wipe directory %s"
-msgstr ""
+msgstr "Lösche Verzeichnis %s"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
@@ -8957,7 +8968,7 @@ msgstr "Voreinstellung \"%s\" besteht bereits. Überschreiben?"
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
-msgstr ""
+msgstr "Bitte diese Datei zur Verfügung stellen. Nochmal versuchen?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -8991,71 +9002,71 @@ msgstr "Laufwerksbezeichnung angeben"
 
 #: ulng.rsmsgspecialdir
 msgid "Special Dirs"
-msgstr ""
+msgstr "Besondere Verzeichnisse"
 
 #: ulng.rsmsgspecialdiraddacti
 msgid "Add path from active frame"
-msgstr ""
+msgstr "Pfad aus dem aktiven Frame hinzufügen"
 
 #: ulng.rsmsgspecialdiraddnonacti
 msgid "Add path from inactive frame"
-msgstr ""
+msgstr "Pfad aus dem inaktiven Frame hinzufügen"
 
 #: ulng.rsmsgspecialdirbrowssel
 msgid "Browse and use selected path"
-msgstr ""
+msgstr "Durchsuche und benutze den gewählten Pfad"
 
 #: ulng.rsmsgspecialdirenvvar
 msgid "Use environment variable..."
-msgstr ""
+msgstr "Benutze Umgebungsvariable..."
 
 #: ulng.rsmsgspecialdirgotodc
 msgid "Go to Double Commander special path..."
-msgstr ""
+msgstr "Gehe zu besonderem Double Commander Pfad"
 
 #: ulng.rsmsgspecialdirgotoenvvar
 msgid "Go to environment variable..."
-msgstr ""
+msgstr "Gehe zu Umgebungsvariable..."
 
 #: ulng.rsmsgspecialdirgotoother
 msgid "Go to other Windows special folder..."
-msgstr ""
+msgstr "Gehe zu anderem besonderen Windows-Pfad..."
 
 #: ulng.rsmsgspecialdirgototc
 msgid "Go to Windows special folder (TC)..."
-msgstr ""
+msgstr "Gehe zu besonderem Windows-Verzeichnis (TC)"
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
-msgstr ""
+msgstr "Mache Pfad absolut"
 
 #: ulng.rsmsgspecialdirmkdcrel
 msgid "Make relative to Double Commander special path..."
-msgstr ""
+msgstr "Mache Pfad relativ zu Double Commander"
 
 #: ulng.rsmsgspecialdirmkenvrel
 msgid "Make relative to environment variable..."
-msgstr ""
+msgstr "Mache Pfad relativ zur Umgebungsvariable"
 
 #: ulng.rsmsgspecialdirmktctel
 msgid "Make relative to Windows special folder (TC)..."
-msgstr ""
+msgstr "Mache Pfad relativ zum besonderen Windows-Verzeichnis (TC)"
 
 #: ulng.rsmsgspecialdirmkwnrel
 msgid "Make relative to other Windows special folder..."
-msgstr ""
+msgstr "Mache Pfda relativ zu anderem besonderen Windows-Verzeichnis..."
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
-msgstr ""
+msgstr "Nutze besonderen Double Commander-Pfad"
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
-msgstr ""
+msgstr "Nutze anderes besonderes Windows-Verzeichnis"
 
 #: ulng.rsmsgspecialdirusetc
 msgid "Use Windows special folder (TC)..."
-msgstr ""
+msgstr "Nutze besonderes Windows-Verzeichnis (TC)..."
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
