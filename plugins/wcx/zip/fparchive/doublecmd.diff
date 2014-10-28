@@ -350,7 +350,7 @@ Index: AbBrowse.pas
 ===================================================================
 --- AbBrowse.pas	(revision 512)
 +++ AbBrowse.pas	(working copy)
-@@ -220,13 +220,16 @@
+@@ -220,13 +220,17 @@
  uses
    SysUtils,
    AbExcept,
@@ -363,13 +363,14 @@ Index: AbBrowse.pas
    AbGzTyp,
 -  AbBzip2Typ;
 +  AbBzip2Typ,
++  AbLzmaTyp,
 +  AbXzTyp,
 +  DCOSUtils,
 +  DCClassesUtf8;
  
  { TAbBaseBrowser implementation ======================================= }
  
-@@ -515,66 +518,77 @@
+@@ -515,66 +519,84 @@
  function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
  var
    Ext : string;
@@ -414,7 +415,11 @@ Index: AbBrowse.pas
 +    else if (Ext = '.XZ') then
 +      Result := atXz
 +    else if (Ext = '.TXZ') then
-+      Result := atXzippedTar;
++      Result := atXzippedTar
++    else if (Ext = '.LZMA') then
++      Result := atLzma
++    else if (Ext = '.TLZ') then
++      Result := atLzmaTar;
    end;
 -  {$IFNDEF MSWINDOWS}
 +  {$IF NOT DEFINED(ExtractCabSupport)}
@@ -461,6 +466,9 @@ Index: AbBrowse.pas
 +            atXz, atXzippedTar: begin
 +              Result := VerifyXz(FS);
 +            end;
++            atLzma, atLzmaTar: begin
++              Result := VerifyLzma(FS);
++            end;
            end;
 -          atSelfExtZip : begin
 -            Result := VerifySelfExtracting(FS);
@@ -492,7 +500,7 @@ Index: AbBrowse.pas
      end;
    end;
  end;
-@@ -583,15 +597,16 @@
+@@ -583,15 +605,16 @@
  begin
    { VerifyZip returns true for self-extracting zips too, so test those first }
    Result := VerifySelfExtracting(aStream);
@@ -732,6 +740,14 @@ Index: AbDefine.inc
    {$DEFINE UnzipBzip2Support}
    {$DEFINE UnzipLzmaSupport}
    {$DEFINE UnzipPPMdSupport}
+@@ -279,7 +280,6 @@
+ 
+ { Linking .obj files isn't currently supported in Kylix or FPC }
+ {$IF DEFINED(FPC) OR NOT DEFINED(MSWINDOWS)}
+-  {$UNDEF UnzipLzmaSupport}
+   {$UNDEF UnzipPPMdSupport}
+   {$UNDEF UnzipWavPackSupport}
+ {$IFEND}
 Index: AbDfEnc.pas
 ===================================================================
 --- AbDfEnc.pas	(revision 512)
@@ -1580,6 +1596,15 @@ Index: AbUnzPrc.pas
 ===================================================================
 --- AbUnzPrc.pas	(revision 512)
 +++ AbUnzPrc.pas	(working copy)
+@@ -136,7 +136,7 @@
+   AbBzip2,
+   {$ENDIF}
+   {$IFDEF UnzipLzmaSupport}
+-  AbLzma,
++  ULZMADecoder,
+   {$ENDIF}
+   {$IFDEF UnzipPPMdSupport}
+   AbPPMd,
 @@ -144,6 +144,9 @@
    {$IFDEF UnzipWavPackSupport}
    AbWavPack,
@@ -1600,7 +1625,19 @@ Index: AbUnzPrc.pas
  
  { -------------------------------------------------------------------------- }
  procedure AbReverseBits(var W : Word);
-@@ -949,6 +953,20 @@
+@@ -944,11 +948,30 @@
+   InStream.ReadBuffer(Header, SizeOf(Header));
+   SetLength(Properties, Header.PropSize);
+   InStream.ReadBuffer(Properties[0], Header.PropSize);
+-  LzmaDecodeStream(PByte(Properties), Header.PropSize, InStream, OutStream,
+-    Item.UncompressedSize);
++  with TLZMADecoder.Create do
++  try
++    SetDecoderProperties(Properties);
++    Code(InStream, OutStream, Item.UncompressedSize);
++  finally
++    Free;
++  end;
  end;
  {$ENDIF}
  { -------------------------------------------------------------------------- }
@@ -1621,7 +1658,7 @@ Index: AbUnzPrc.pas
  function ExtractPrep(ZipArchive: TAbZipArchive; Item: TAbZipItem): TStream;
  var
    LFH         : TAbZipLocalFileHeader;
-@@ -1062,6 +1080,11 @@
+@@ -1062,6 +1085,11 @@
          DecompressWavPack(aInStream, OutStream);
        end;
        {$ENDIF}
@@ -1633,7 +1670,7 @@ Index: AbUnzPrc.pas
        cmShrunk..cmImploded: begin
          DoLegacyUnzip(aZipArchive, aItem, aInStream, OutStream);
        end;
-@@ -1111,7 +1134,7 @@
+@@ -1111,7 +1139,7 @@
    else begin
      InStream := ExtractPrep(ZipArchive, Item);
      try
@@ -1665,7 +1702,7 @@ Index: AbUtils.pas
    TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
 -                    atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar);
 +                    atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar,
-+                    atXz, atXzippedTar);
++                    atXz, atXzippedTar, atLzma, atLzmaTar);
  
  
  {$IF NOT DECLARED(DWORD)}
@@ -2138,7 +2175,7 @@ Index: AbZipper.pas
  uses
 -  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc;
 +  SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc,
-+  AbXzTyp, DCOSUtils;
++  AbXzTyp, AbLzmaTyp, DCOSUtils;
  
  { -------------------------------------------------------------------------- }
  constructor TAbCustomZipper.Create( AOwner : TComponent );
@@ -2192,17 +2229,17 @@ Index: AbZipper.pas
            inherited InitArchive;
          end;
  
-+        atXz : begin
++        atXz, atXzippedTar : begin
 +          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
 +          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-+          TAbXzArchive(FArchive).IsXzippedTar := False;
++          TAbXzArchive(FArchive).IsXzippedTar := (ArcType = atXzippedTar);
 +          inherited InitArchive;
 +        end;
 +
-+        atXzippedTar : begin
-+          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-+          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-+          TAbXzArchive(FArchive).IsXzippedTar := True;
++        atLzma, atLzmaTar : begin
++          FArchive := TAbLzmaArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
++          TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
++          TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
 +          inherited InitArchive;
 +        end;
 +
@@ -2256,17 +2293,17 @@ Index: AbZipper.pas
            inherited InitArchive;
          end;
  
-+        atXz : begin
++        atXz, atXzippedTar : begin
 +          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
 +          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-+          TAbXzArchive(FArchive).IsXzippedTar := False;
++          TAbXzArchive(FArchive).IsXzippedTar := (ArcType = atXzippedTar);
 +          inherited InitArchive;
 +        end;
 +
-+        atXzippedTar : begin
-+          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-+          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-+          TAbXzArchive(FArchive).IsXzippedTar := True;
++        atLzma, atLzmaTar : begin
++          FArchive := TAbLzmaArchive.Create(FileName, fmCreate or fmShareDenyWrite);
++          TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
++          TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
 +          inherited InitArchive;
 +        end;
 +
