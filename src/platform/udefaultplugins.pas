@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Some useful functions to work with plugins
 
-   Copyright (C) 2011-2013 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2014 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -127,9 +127,18 @@ begin
 
   I:= gWCXPlugins.IndexOfName('lzma');
   if I < 0 then
-    gWCXPlugins.Add('lzma', 1, Folder + 'lzma' + PathDelim + 'lzma.wcx')
-  else
+    gWCXPlugins.Add('lzma', 1, Folder + 'zip' + PathDelim + 'zip.wcx')
+  else begin
     gWCXPlugins.Flags[I]:= 1;
+    // For lzma used another plugin, so update path too
+    gWCXPlugins.FileName[I]:= Folder + 'zip' + PathDelim + 'zip.wcx';
+  end;
+
+  I:= gWCXPlugins.IndexOfName('tlz');
+  if I < 0 then
+    gWCXPlugins.Add('tlz', 95, Folder + 'zip' + PathDelim + 'zip.wcx')
+  else
+    gWCXPlugins.Flags[I]:= 95;
 
   I:= gWCXPlugins.IndexOfName('cpio');
   if I < 0 then
