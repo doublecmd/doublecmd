@@ -174,7 +174,7 @@ implementation
 
 uses
   SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc,
-  AbXzTyp, DCOSUtils;
+  AbXzTyp, AbLzmaTyp, DCOSUtils;
 
 { -------------------------------------------------------------------------- }
 constructor TAbCustomZipper.Create( AOwner : TComponent );
@@ -444,17 +444,17 @@ begin
           inherited InitArchive;
         end;
 
-        atXz : begin
+        atXz, atXzippedTar : begin
           FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
           TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbXzArchive(FArchive).IsXzippedTar := False;
+          TAbXzArchive(FArchive).IsXzippedTar := (ArcType = atXzippedTar);
           inherited InitArchive;
         end;
 
-        atXzippedTar : begin
-          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbXzArchive(FArchive).IsXzippedTar := True;
+        atLzma, atLzmaTar : begin
+          FArchive := TAbLzmaArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
+          TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
           inherited InitArchive;
         end;
 
@@ -507,17 +507,17 @@ begin
           inherited InitArchive;
         end;
 
-        atXz : begin
+        atXz, atXzippedTar : begin
           FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
           TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbXzArchive(FArchive).IsXzippedTar := False;
+          TAbXzArchive(FArchive).IsXzippedTar := (ArcType = atXzippedTar);
           inherited InitArchive;
         end;
 
-        atXzippedTar : begin
-          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbXzArchive(FArchive).IsXzippedTar := True;
+        atLzma, atLzmaTar : begin
+          FArchive := TAbLzmaArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+          TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
           inherited InitArchive;
         end;
 

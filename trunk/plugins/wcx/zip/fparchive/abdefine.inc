@@ -280,7 +280,6 @@ all newer (zipx) compatible methods (Bzip2, Lzma, PPMd, WavPack)}
 
 { Linking .obj files isn't currently supported in Kylix or FPC }
 {$IF DEFINED(FPC) OR NOT DEFINED(MSWINDOWS)}
-  {$UNDEF UnzipLzmaSupport}
   {$UNDEF UnzipPPMdSupport}
   {$UNDEF UnzipWavPackSupport}
 {$IFEND}
