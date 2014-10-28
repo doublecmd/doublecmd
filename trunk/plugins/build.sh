@@ -15,7 +15,6 @@ pluginsdir=$(pwd)
 # WCX plugins
 $lazbuild wcx/cpio/src/cpio.lpi $DC_ARCH
 $lazbuild wcx/deb/src/deb.lpi $DC_ARCH
-$lazbuild wcx/lzma/src/lzma.lpi $DC_ARCH
 $lazbuild wcx/rpm/src/rpm.lpi $DC_ARCH
 $lazbuild wcx/unrar/src/unrar.lpi $DC_ARCH
 $lazbuild wcx/zip/src/Zip.lpi $DC_ARCH
@@ -43,10 +42,6 @@ cd $pluginsdir
 
 cd wcx/deb/lib/
 strip --strip-all deb.wcx
-cd $pluginsdir
-
-cd wcx/lzma/lib/
-strip --strip-all lzma.wcx
 cd $pluginsdir
 
 cd wcx/rpm/lib/

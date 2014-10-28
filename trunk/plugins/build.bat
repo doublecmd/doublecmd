@@ -12,7 +12,6 @@ pushd plugins
 rem WCX plugins
 lazbuild wcx\cpio\src\cpio.lpi %DC_ARCH%
 lazbuild wcx\deb\src\deb.lpi %DC_ARCH%
-lazbuild wcx\lzma\src\lzma.lpi %DC_ARCH%
 lazbuild wcx\rpm\src\rpm.lpi %DC_ARCH%
 lazbuild wcx\unrar\src\unrar.lpi %DC_ARCH%
 lazbuild wcx\zip\src\zip.lpi %DC_ARCH%
@@ -33,10 +32,6 @@ popd
 
 pushd wcx\deb\lib\
 strip --strip-all deb.wcx
-popd
-
-pushd wcx\lzma\lib\
-strip --strip-all lzma.wcx
 popd
 
 pushd wcx\rpm\lib\
