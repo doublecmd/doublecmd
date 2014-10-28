@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -48,7 +48,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
-      <OtherUnitFiles Value="../fparchive;../../../../sdk"/>
+      <OtherUnitFiles Value="../fparchive;../../../../sdk;../lzma/compression/LZ;../lzma/compression/LZMA;../lzma/compression/RangeCoder"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <Conditionals Value="if (TargetCPU &lt;> 'arm') then

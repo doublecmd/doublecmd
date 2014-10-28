@@ -136,7 +136,7 @@ uses
   AbBzip2,
   {$ENDIF}
   {$IFDEF UnzipLzmaSupport}
-  AbLzma,
+  ULZMADecoder,
   {$ENDIF}
   {$IFDEF UnzipPPMdSupport}
   AbPPMd,
@@ -948,8 +948,13 @@ begin
   InStream.ReadBuffer(Header, SizeOf(Header));
   SetLength(Properties, Header.PropSize);
   InStream.ReadBuffer(Properties[0], Header.PropSize);
-  LzmaDecodeStream(PByte(Properties), Header.PropSize, InStream, OutStream,
-    Item.UncompressedSize);
+  with TLZMADecoder.Create do
+  try
+    SetDecoderProperties(Properties);
+    Code(InStream, OutStream, Item.UncompressedSize);
+  finally
+    Free;
+  end;
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
