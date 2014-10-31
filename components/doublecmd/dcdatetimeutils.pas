@@ -321,7 +321,7 @@ end;
 
 function DateTimeToWinFileTime(dt : TDateTime) : TWinFileTime;
 begin
-  Result := Round((dt + 109205.0) * 864000000000.0);
+  Result := Round((Extended(dt) + 109205.0) * 864000000000.0);
   WinLocalFileTimeToFileTime(Result, Result);
 end;
 
