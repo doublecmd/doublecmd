@@ -107,15 +107,16 @@ function VerifyLzma(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-  StrUtils, SysUtils,
+  StrUtils, SysUtils, Math,
   AbExcept, AbVMStrm, AbBitBkt, ULZMADecoder, ULZMAEncoder, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function VerifyLzma(Strm : TStream) : TAbArchiveType;
 var
   CurPos : Int64;
-  Hdr : TAbLzmaHeader;
   TarStream: TStream;
+  Hdr : TAbLzmaHeader;
+  UncompressedSize: Int64;
   DecompStream: TLZMADecoder;
 begin
   Result := atUnknown;
@@ -130,8 +131,15 @@ begin
       try
         DecompStream := TLZMADecoder.Create;
         try
+          if Hdr.UncompressedSize <> High(Int64) then
+            UncompressedSize:= Min(AB_TAR_RECORDSIZE * 4, Hdr.UncompressedSize)
+          else if Strm.Size < AB_TAR_RECORDSIZE * 8 then
+            UncompressedSize:= -1
+          else begin
+            UncompressedSize:= AB_TAR_RECORDSIZE * 4;
+          end;
           if DecompStream.SetDecoderProperties(Hdr.Properties) and
-             DecompStream.Code(Strm, TarStream, 512 * 2) then
+             DecompStream.Code(Strm, TarStream, UncompressedSize) then
           begin
             Result := atLzma;
             { Check for embedded TAR }
