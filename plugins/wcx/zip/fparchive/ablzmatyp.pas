@@ -131,7 +131,7 @@ begin
       try
         DecompStream := TLZMADecoder.Create;
         try
-          if Hdr.UncompressedSize <> High(Int64) then
+          if Hdr.UncompressedSize <> -1 then
             UncompressedSize:= Min(AB_TAR_RECORDSIZE * 4, Hdr.UncompressedSize)
           else if Strm.Size < AB_TAR_RECORDSIZE * 8 then
             UncompressedSize:= -1
@@ -298,7 +298,7 @@ begin
     FStream.Read(Header, SizeOf(Header));
     Item := TAbLzmaItem.Create;
     Item.Action := aaNone;
-    if Header.UncompressedSize <> High(Int64) then
+    if Header.UncompressedSize <> -1 then
       Item.UncompressedSize := Header.UncompressedSize;
     { Filename isn't stored, so constuct one based on the archive name }
     ItemName := ExtractFileName(ArchiveName);
