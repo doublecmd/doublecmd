@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
@@ -40,8 +40,8 @@ end"/>
     </CompilerOptions>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
-    <Version Minor="3"/>
-    <Files Count="8">
+    <Version Minor="3" Release="1"/>
+    <Files Count="9">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
         <UnitName Value="DCClassesUtf8"/>
@@ -74,6 +74,10 @@ end"/>
         <Filename Value="dcxmlconfig.pas"/>
         <UnitName Value="DCXmlConfig"/>
       </Item8>
+      <Item9>
+        <Filename Value="dcprocessutf8.pas"/>
+        <UnitName Value="DCProcessUtf8"/>
+      </Item9>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
