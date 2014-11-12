@@ -8,7 +8,7 @@ interface
 
 uses
   DCClassesUtf8, DCOSUtils, DCStrUtils, DCBasicTypes, DCFileAttributes, 
-  DCConvertEncoding, DCDateTimeUtils, DCXmlConfig;
+  DCConvertEncoding, DCDateTimeUtils, DCXmlConfig, DCProcessUtf8;
 
 implementation
 
