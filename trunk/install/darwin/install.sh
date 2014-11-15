@@ -16,7 +16,6 @@ mkdir -p $DC_INSTALL_DIR/plugins
 mkdir -p $DC_INSTALL_DIR/plugins/wcx
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/cpio
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/deb
-mkdir -p $DC_INSTALL_DIR/plugins/wcx/lzma
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/rpm
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/unrar
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/zip
@@ -43,7 +42,6 @@ cp -a multiarc.ini                 $DC_INSTALL_DIR/
 # WCX
 install -m 644 plugins/wcx/cpio/lib/cpio.wcx        $DC_INSTALL_DIR/plugins/wcx/cpio/
 install -m 644 plugins/wcx/deb/lib/deb.wcx          $DC_INSTALL_DIR/plugins/wcx/deb/
-install -m 644 plugins/wcx/lzma/lib/lzma.wcx        $DC_INSTALL_DIR/plugins/wcx/lzma/
 install -m 644 plugins/wcx/rpm/lib/rpm.wcx          $DC_INSTALL_DIR/plugins/wcx/rpm/
 install -m 644 plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
 install -m 644 plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
