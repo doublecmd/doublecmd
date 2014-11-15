@@ -65,10 +65,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF DEFINED(LINUX)}
-  , uMimeActions, uOSForms
-  {$ENDIF}
-  {$IF DEFINED(RabbitVCS)}
-  , uRabbitVCS
+  , uMimeActions, uOSForms, uRabbitVCS
   {$ENDIF}
   ;
 
@@ -381,9 +378,7 @@ begin
     mi.OnClick := Self.OpenWithOtherSelect;
     miOpenWith.Add(mi);
 
-{$IF DEFINED(RabbitVCS)}
     FillRabbitMenu(Self, FileNames);
-{$ENDIF}
 
   finally
     FreeAndNil(FileNames);
