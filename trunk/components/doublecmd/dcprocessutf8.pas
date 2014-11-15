@@ -21,7 +21,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   , Process, Windows, Pipes
   {$ELSEIF DEFINED(UNIX)}
-  UTF8Process
+  , UTF8Process
   {$ENDIF}
   ;
 
@@ -288,4 +288,4 @@ end;
 {$ENDIF}
 
 end.
-
+
