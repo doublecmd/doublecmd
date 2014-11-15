@@ -49,8 +49,13 @@
       </WcxPlugin>
       <WcxPlugin Enabled="True">
         <ArchiveExt>lzma</ArchiveExt>
-        <Path>%commander_path%/plugins/wcx/lzma/lzma.wcx</Path>
-        <Flags>1</Flags>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>65</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tlz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
       </WcxPlugin>
       <WcxPlugin Enabled="True">
         <ArchiveExt>tar</ArchiveExt>

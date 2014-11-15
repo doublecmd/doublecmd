@@ -11,7 +11,6 @@ rem WCX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wcx
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\cpio
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\deb
-mkdir  %DC_INSTALL_DIR%\plugins\wcx\lzma
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\rpm
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\unrar
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\zip
@@ -43,7 +42,6 @@ rem copy plugins
 rem WCX
 copy  plugins\wcx\cpio\lib\cpio.wcx        %DC_INSTALL_DIR%\plugins\wcx\cpio\
 copy  plugins\wcx\deb\lib\deb.wcx          %DC_INSTALL_DIR%\plugins\wcx\deb\
-copy  plugins\wcx\lzma\lib\lzma.wcx        %DC_INSTALL_DIR%\plugins\wcx\lzma\
 copy  plugins\wcx\rpm\lib\rpm.wcx          %DC_INSTALL_DIR%\plugins\wcx\rpm\
 copy  plugins\wcx\unrar\lib\unrar.wcx      %DC_INSTALL_DIR%\plugins\wcx\unrar\
 copy  plugins\wcx\zip\lib\zip.wcx          %DC_INSTALL_DIR%\plugins\wcx\zip\
