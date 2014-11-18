@@ -2850,11 +2850,15 @@ begin
 end;
 
 procedure TViewerControl.MakeVisible(const aPosition: PtrInt);
+var
+  Offset: Integer;
+  LastLine: Boolean;
 begin
   if not IsVisible(aPosition) then
   begin
     SetPosition(aPosition);
-    Scroll(-4);
+    Offset:= GetLinesTillEnd(aPosition, LastLine);
+    if (Offset > 4) and (LastLine = False) then Scroll(-4);
 
     Update;
 
