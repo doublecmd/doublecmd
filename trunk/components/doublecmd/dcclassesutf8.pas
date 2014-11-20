@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains classes with UTF8 file names support.
 
-   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2014  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,13 +63,15 @@ type
     procedure SaveToFile(const FileName: String); override;
   end;   
   
-  { TIniFileEx }
+  { THackIniFile }
 
   THackIniFile = class
   private
     FFileName: String;
     FSectionList: TIniFileSectionList;
   end;
+
+  { TIniFileEx }
 
   TIniFileEx = class(TIniFile)
   private
@@ -215,6 +217,8 @@ begin
 
   if mbFileExists(AFileName) then
   begin
+    if ((Mode and $03) = fmOpenWrite) then
+      Mode := fmCreate or (Mode and $F0);
     if (Mode and $F0) = 0 then
       Mode := Mode or fmShareDenyWrite;
   end
