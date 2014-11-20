@@ -3082,13 +3082,19 @@ end;
 function TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean;
                             QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId): Boolean;
 var
+  FileSource: IFileSource;
   SourceFiles: TFiles = nil;
 begin
   SourceFiles := ActiveFrame.CloneSelectedOrActiveFiles;
   if Assigned(SourceFiles) then
   begin
+    if Length(sDestPath) > 0 then
+      FileSource := NotActiveFrame.FileSource
+    else begin
+      FileSource := ActiveFrame.FileSource;
+    end;
     try
-      Result := CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
+      Result := CopyFiles(ActiveFrame.FileSource, FileSource,
                           SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
       if Result then
         ActiveFrame.MarkFiles(False);
