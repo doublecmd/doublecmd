@@ -90,7 +90,7 @@ Index: AbArcTyp.pas
  function TAbArchiveItem.GetStoredPath : string;
  begin
    Result := ExtractFilePath(DiskFileName);
-@@ -973,14 +1006,14 @@
+@@ -973,7 +1006,7 @@
    ExtractOptions := [];
    FStatus := asIdle;
    FOnProgress := DoProgress;
@@ -99,6 +99,7 @@ Index: AbArcTyp.pas
  end;
  { -------------------------------------------------------------------------- }
  constructor TAbArchive.Create(const FileName : string; Mode : Word);
+@@ -980,7 +1013,7 @@
    {create an archive by opening a filestream on filename with the given mode}
  begin
    FOwnsStream := True;
@@ -127,7 +128,7 @@ Index: AbArcTyp.pas
  procedure TAbArchive.AddFiles(const FileMask : string; SearchAttr : Integer);
    {Add files to the archive where the disk filespec matches}
  begin
-@@ -1196,14 +1242,14 @@
+@@ -1196,7 +1242,7 @@
      UseName := AbAddBackSlash(BaseDirectory) + UseName;
  
    Path := ExtractFileDir(UseName);
@@ -136,6 +137,7 @@ Index: AbArcTyp.pas
      if (eoCreateDirs in ExtractOptions) then
        AbCreateDirectory(Path)
      else
+@@ -1203,7 +1249,7 @@
        raise EAbNoSuchDirectory.Create;
  
    Result := True;
@@ -370,7 +372,7 @@ Index: AbBrowse.pas
  
  { TAbBaseBrowser implementation ======================================= }
  
-@@ -515,66 +519,84 @@
+@@ -515,7 +519,7 @@
  function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
  var
    Ext : string;
@@ -379,6 +381,7 @@ Index: AbBrowse.pas
  begin
    Result := AssertType;
    if Result = atUnknown then begin
+@@ -522,59 +526,77 @@
      { Guess archive type based on it's extension }
      Ext := UpperCase(ExtractFileExt(FN));
      if (Ext = '.ZIP') or (Ext = '.JAR') then
@@ -608,7 +611,28 @@ Index: AbBzip2Typ.pas
  
  { ****************** Helper functions Not from Classes Above ***************** }
  function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
-@@ -193,20 +194,29 @@
+@@ -131,8 +132,9 @@
+ function VerifyBzip2(Strm : TStream) : TAbArchiveType;
+ var
+   Hdr : TAbBzip2Header;
+-  CurPos : int64;
++  CurPos, DecompSize : Int64;
+   DecompStream, TarStream: TStream;
++  Buffer: array[0..Pred(AB_TAR_RECORDSIZE * 4)] of Byte;
+ begin
+   Result := atUnknown;
+ 
+@@ -148,7 +150,8 @@
+       try
+         TarStream := TMemoryStream.Create;
+         try
+-          TarStream.CopyFrom(DecompStream, 512 * 2);
++          DecompSize:= DecompStream.Read(Buffer, SizeOf(Buffer));
++          TarStream.Write(Buffer, DecompSize);
+           TarStream.Seek(0, soFromBeginning);
+           if VerifyTar(TarStream) = atTar then
+             Result := atBzippedTar;
+@@ -193,20 +196,29 @@
    FState    := gsBzip2;
  end;
  { -------------------------------------------------------------------------- }
@@ -644,7 +668,7 @@ Index: AbBzip2Typ.pas
        raise;
      end;
    end;
-@@ -223,7 +233,7 @@
+@@ -223,7 +235,7 @@
  procedure TAbBzip2Archive.ExtractItemAt(Index: Integer;
    const NewName: string);
  var
@@ -653,7 +677,7 @@ Index: AbBzip2Typ.pas
  begin
    if IsBzippedTar and TarAutoHandle then begin
      SwapToTar;
-@@ -231,7 +241,7 @@
+@@ -231,7 +243,7 @@
    end
    else begin
      SwapToBzip2;
@@ -662,7 +686,7 @@ Index: AbBzip2Typ.pas
      try
        try
          ExtractItemToStreamAt(Index, OutStream);
-@@ -242,12 +252,12 @@
+@@ -242,12 +254,12 @@
      except
        on E : EAbUserAbort do begin
          FStatus := asInvalid;
@@ -679,7 +703,7 @@ Index: AbBzip2Typ.pas
          raise;
        end;
      end;
-@@ -312,20 +322,38 @@
+@@ -312,6 +324,8 @@
    CompStream: TStream;
    i: Integer;
    CurItem: TAbBzip2Item;
@@ -688,6 +712,7 @@ Index: AbBzip2Typ.pas
    InputFileStream: TStream;
  begin
    if IsBzippedTar and TarAutoHandle then
+@@ -318,8 +332,15 @@
    begin
      SwapToTar;
      inherited SaveArchive;
@@ -704,6 +729,7 @@ Index: AbBzip2Typ.pas
      CompStream := TBZCompressionStream.Create(bs9, FBzip2Stream);
      try
        CompStream.CopyFrom(FTarStream, 0);
+@@ -326,6 +347,15 @@
      finally
        CompStream.Free;
      end;
@@ -719,7 +745,7 @@ Index: AbBzip2Typ.pas
    end
    else begin
      { Things we know: There is only one file per archive.}
-@@ -347,7 +375,7 @@
+@@ -347,7 +377,7 @@
              if CurItem.Action = aaStreamAdd then
                CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
              else begin
@@ -893,6 +919,17 @@ Index: AbGzTyp.pas
  
  const
    { Header Signature Values}
+@@ -399,8 +402,8 @@
+         PartialTarData := TMemoryStream.Create;
+         GHlp.SeekToItemData;
+         Hlpr := TAbDeflateHelper.Create;
+-        Hlpr.PartialSize := 512;
+-        PartialTarData.SetSize(512 * 2);
++        Hlpr.PartialSize := AB_TAR_RECORDSIZE * 4;
++        PartialTarData.SetSize(Hlpr.PartialSize);
+         Inflate(Strm, PartialTarData, Hlpr);
+ 
+         {set to beginning of extracted data}
 @@ -708,6 +711,20 @@
    Result := AbUnixTimeToLocalDateTime(FGZHeader.ModTime);
  end;
@@ -2188,7 +2225,7 @@ Index: AbZipper.pas
  
      if not ForceType then
        ArcType := AbDetermineArcType(FileName, atUnknown);
-@@ -411,38 +412,52 @@
+@@ -411,12 +412,12 @@
          end;
  
          atTar : begin
@@ -2203,6 +2240,7 @@ Index: AbZipper.pas
            TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbGzipArchive(FArchive).IsGzippedTar := False;
            inherited InitArchive;
+@@ -423,7 +424,7 @@
          end;
  
          atGZippedTar : begin
@@ -2211,6 +2249,7 @@ Index: AbZipper.pas
            TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbGzipArchive(FArchive).IsGzippedTar := True;
            inherited InitArchive;
+@@ -430,7 +431,7 @@
          end;
  
          atBzip2 : begin
@@ -2219,6 +2258,7 @@ Index: AbZipper.pas
            TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbBzip2Archive(FArchive).IsBzippedTar := False;
            inherited InitArchive;
+@@ -437,12 +438,26 @@
          end;
  
          atBzippedTar : begin
@@ -2246,7 +2286,7 @@ Index: AbZipper.pas
          else
            raise EAbUnhandledType.Create;
        end {case};
-@@ -455,43 +470,57 @@
+@@ -455,17 +470,17 @@
  
        case ArcType of
          atZip : begin                                                    
@@ -2267,6 +2307,7 @@ Index: AbZipper.pas
            TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbGzipArchive(FArchive).IsGzippedTar := False;
            inherited InitArchive;
+@@ -472,7 +487,7 @@
          end;
  
          atGZippedTar : begin
@@ -2275,6 +2316,7 @@ Index: AbZipper.pas
            TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbGzipArchive(FArchive).IsGzippedTar := True;
            inherited InitArchive;
+@@ -479,7 +494,7 @@
          end;
  
          atBzip2 : begin
@@ -2283,6 +2325,7 @@ Index: AbZipper.pas
            TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
            TAbBzip2Archive(FArchive).IsBzippedTar := False;
            inherited InitArchive;
+@@ -486,12 +501,26 @@
          end;
  
          atBzippedTar : begin
@@ -2447,7 +2490,7 @@ Index: AbZipTyp.pas
        end;
      end;
    except
-@@ -733,15 +747,13 @@
+@@ -733,8 +747,7 @@
    leaves stream positioned at start of structure or at original
    position if not found }
  const
@@ -2457,6 +2500,7 @@ Index: AbZipTyp.pas
  var
    StartPos  : Int64;
    TailRec   : TAbZipEndOfCentralDirectoryRecord;
+@@ -741,7 +754,6 @@
    Buffer    : PAnsiChar;
    Offset    : Int64;
    TestPos   : PAnsiChar;
@@ -2464,7 +2508,7 @@ Index: AbZipTyp.pas
    BytesRead : Int64;
    BufSize   : Int64;
    CommentLen: integer;
-@@ -767,64 +779,48 @@
+@@ -767,7 +779,7 @@
     stream; we need to search for the tail signature}
  
    {get a buffer}
@@ -2473,6 +2517,7 @@ Index: AbZipTyp.pas
    GetMem(Buffer, BufSize);
    try
  
+@@ -774,57 +786,41 @@
      {start out searching backwards}
      Offset := -BufSize;
  
@@ -2580,7 +2625,7 @@ Index: AbZipTyp.pas
  function TAbZipItem.GetShannonFanoTreeCount : Byte;
  begin
    Result := FItemInfo.ShannonFanoTreeCount;
-@@ -1428,37 +1440,50 @@
+@@ -1428,14 +1440,15 @@
    FieldStream: TStream;
    InfoZipField: PInfoZipUnicodePathRec;
    UnicodeName: UnicodeString;
@@ -2599,6 +2644,7 @@ Index: AbZipTyp.pas
    else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
       (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
       (InfoZipField.Version = 1) and
+@@ -1442,7 +1455,7 @@
       (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
      SetString(UTF8Name, InfoZipField.UnicodeName,
        FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
@@ -2607,6 +2653,7 @@ Index: AbZipTyp.pas
    end
    else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
       (FieldSize > SizeOf(TXceedUnicodePathRec)) and
+@@ -1449,16 +1462,28 @@
       (XceedField.Signature = Ab_XceedUnicodePathSignature) and
       (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
      SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
@@ -2691,7 +2738,7 @@ Index: AbZipTyp.pas
      FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
      GetMem(InfoZipField, FieldSize);
      try
-@@ -1762,20 +1783,28 @@
+@@ -1762,11 +1783,11 @@
    inherited Destroy;
  end;
  { -------------------------------------------------------------------------- }
@@ -2706,6 +2753,7 @@ Index: AbZipTyp.pas
    Result := TAbZipItem.Create;
    with TAbZipItem( Result ) do begin
      CompressionMethod := cmDeflated;
+@@ -1773,9 +1794,17 @@
      GeneralPurposeBitFlag := 0;
      CompressedSize := 0;
      CRC32 := 0;
