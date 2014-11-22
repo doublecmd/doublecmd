@@ -402,8 +402,8 @@ begin
         PartialTarData := TMemoryStream.Create;
         GHlp.SeekToItemData;
         Hlpr := TAbDeflateHelper.Create;
-        Hlpr.PartialSize := 512;
-        PartialTarData.SetSize(512 * 2);
+        Hlpr.PartialSize := AB_TAR_RECORDSIZE * 4;
+        PartialTarData.SetSize(Hlpr.PartialSize);
         Inflate(Strm, PartialTarData, Hlpr);
 
         {set to beginning of extracted data}

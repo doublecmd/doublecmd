@@ -132,8 +132,9 @@ end;
 function VerifyBzip2(Strm : TStream) : TAbArchiveType;
 var
   Hdr : TAbBzip2Header;
-  CurPos : int64;
+  CurPos, DecompSize : Int64;
   DecompStream, TarStream: TStream;
+  Buffer: array[0..Pred(AB_TAR_RECORDSIZE * 4)] of Byte;
 begin
   Result := atUnknown;
 
@@ -149,7 +150,8 @@ begin
       try
         TarStream := TMemoryStream.Create;
         try
-          TarStream.CopyFrom(DecompStream, 512 * 2);
+          DecompSize:= DecompStream.Read(Buffer, SizeOf(Buffer));
+          TarStream.Write(Buffer, DecompSize);
           TarStream.Seek(0, soFromBeginning);
           if VerifyTar(TarStream) = atTar then
             Result := atBzippedTar;
