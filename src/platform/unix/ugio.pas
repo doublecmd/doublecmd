@@ -78,17 +78,29 @@ function GioGetIconTheme(const Scheme: UTF8String): UTF8String;
 var
   Theme: Pgchar;
   Settings: PGSettings;
+  SettingsSchema: PGSettingsSchema;
+  SchemaSource: PGSettingsSchemaSource;
 begin
-  Settings:= g_settings_new(Pgchar(Scheme));
-  if Assigned(Settings) then
+  SchemaSource:= g_settings_schema_source_get_default();
+  if Assigned(SchemaSource) then
   begin
-    Theme:= g_settings_get_string(Settings, 'icon-theme');
-    if Assigned(Theme) then
+    SettingsSchema:= g_settings_schema_source_lookup(SchemaSource, Pgchar(Scheme), False);
+    if Assigned(SettingsSchema) then
     begin
-      Result:= StrPas(Theme);
-      g_free(Theme);
+      Settings:= g_settings_new(Pgchar(Scheme));
+      if Assigned(Settings) then
+      begin
+        Theme:= g_settings_get_string(Settings, 'icon-theme');
+        if Assigned(Theme) then
+        begin
+          Result:= StrPas(Theme);
+          g_free(Theme);
+        end;
+        g_object_unref(Settings);
+      end;
+      g_object_unref(PGObject(SettingsSchema));
     end;
-    g_object_unref(Settings);
+    g_object_unref(PGObject(SchemaSource));
   end;
 end;
 
@@ -151,6 +163,8 @@ begin
     Assert(@g_app_info_get_id <> nil, 'g_app_info_get_id');
     Assert(@g_settings_new <> nil, 'g_settings_new');
     Assert(@g_settings_get_string <> nil, 'g_settings_get_string');
+    Assert(@g_settings_schema_source_get_default <> nil, 'g_settings_schema_source_get_default');
+    Assert(@g_settings_schema_source_lookup <> nil, 'g_settings_schema_source_lookup');
   except
     on E: Exception do
     begin
