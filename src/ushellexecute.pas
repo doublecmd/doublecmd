@@ -93,8 +93,10 @@ end;
   Functions (without parameters they give output for all selected files):
   %f - only filename
   %d - only path, without trailing delimiter
-  %p - path+filename
+  %p - path + filename
+  %a - address + path + filename
   %D - current path in active or chosen panel
+  %A - current address in active or chosen panel
 
   Choosing panel (if not given, active panel is used):
     %X[l|r|s|t] - where X is function (l - left, r - right, s - source, t - target)
@@ -136,7 +138,7 @@ function ReplaceVarParams(sSourceStr: String;
                           rightPanel: TFileView;
                           activePanel: TFileView): String;
 type
-  TFunctType = (ftNone, ftName, ftDir, ftPath, ftSingleDir);
+  TFunctType = (ftNone, ftName, ftDir, ftPath, ftSingleDir, ftSource, ftSourcePath);
   TStatePos = (spNone, spPercent, spFunction, spPrefix, spPostfix,
                spGotPrefix, spSide, spIndex, spComplete);
 
@@ -146,6 +148,7 @@ type
     funct: TFunctType;
     files: TFiles;
     dir: String;
+    address: String;
     sFileIndex: String;
     prefix, postfix: String; // a string to add before/after each output
                              // (for functions giving output of multiple strings)
@@ -159,6 +162,8 @@ var
   inactiveFiles: TFiles;
   activeDir: String;
   inactiveDir: String;
+  activeAddress : String;
+  inactiveAddress : String;
   state: Tstate;
   sOutput: String = '';
   parseStartIndex: Integer;
@@ -174,6 +179,10 @@ var
         Result := aFile.FullPath;
       ftSingleDir:
         Result := ExcludeTrailingPathDelimiter(state.dir);
+      ftSource:
+        Result := state.address;
+      ftSourcePath:
+        Result := state.address + aFile.FullPath;
       else
         Exit('');
     end;
@@ -203,6 +212,7 @@ var
       pos := spNone;
       files := activeFiles;
       dir := activeDir;
+      address := activeAddress;
       sFileIndex := '';
       funct := ftNone;
       functStartIndex := 0;
@@ -242,9 +252,9 @@ var
     end
     else
     begin
-      if state.funct in [ftName, ftPath, ftDir] then
+      if state.funct in [ftName, ftPath, ftDir, ftSourcePath] then
         sOutput := sOutput + BuildAllNames
-      else if state.funct in [ftSingleDir] then // only single current dir
+      else if state.funct in [ftSingleDir, ftSource] then // only single current dir
         sOutput := sOutput + BuildName(nil);
     end;
 
@@ -280,15 +290,19 @@ begin
     begin
       activeFiles := leftFiles;
       activeDir := leftPanel.CurrentPath;
+      activeAddress := leftPanel.CurrentAddress;
       inactiveFiles := rightFiles;
       inactiveDir := rightPanel.CurrentPath;
+      inactiveAddress := rightPanel.CurrentAddress;
     end
     else
     begin
       activeFiles := rightFiles;
       activeDir := rightPanel.CurrentPath;
+      activeAddress := rightPanel.CurrentAddress;
       inactiveFiles := leftFiles;
       inactiveDir := leftPanel.CurrentPath;
+      inactiveAddress := leftPanel.CurrentAddress;
     end;
 
     index := 1;
@@ -328,6 +342,16 @@ begin
                 state.funct := ftPath;
                 state.pos := spFunction;
               end;
+            'A':
+              begin
+                state.funct := ftSource;
+                state.pos := spFunction;
+              end;
+            'a':
+              begin
+                state.funct := ftSourcePath;
+                state.pos := spFunction;
+              end;
             else
               ResetState(state);
           end;
@@ -338,6 +362,7 @@ begin
               begin
                 state.files := leftFiles;
                 state.dir := leftpanel.CurrentPath;
+                state.address := leftPanel.CurrentAddress;
                 state.pos := spSide;
               end;
 
@@ -345,6 +370,7 @@ begin
               begin
                 state.files := rightFiles;
                 state.dir := rightPanel.CurrentPath;
+                state.address := rightPanel.CurrentAddress;
                 state.pos := spSide;
               end;
 
@@ -352,6 +378,7 @@ begin
               begin
                 state.files := activeFiles;
                 state.dir := activeDir;
+                state.address := activeAddress;
                 state.pos := spSide;
               end;
 
@@ -359,6 +386,7 @@ begin
               begin
                 state.files := inactiveFiles;
                 state.dir := inactiveDir;
+                state.address := inactiveAddress;
                 state.pos := spSide;
               end;
 
@@ -543,4 +571,4 @@ begin
 end;
 
 end.
-
+
