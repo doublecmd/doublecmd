@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  DOM, XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils;
+  DOM, XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio;
 
 function GetKdeIconTheme: String;
 const
@@ -82,34 +82,8 @@ begin
 end;
 
 function GetGnomeIconTheme: String;
-const
-  gnomeConfig = '/.gconf/desktop/gnome/interface/%gconf.xml';
-var
-  I: Integer;
-  ChildNode: TDOMNode;
-  xmlCfg: TXMLDocument = nil;
 begin
-  Result:= EmptyStr;
-  if mbFileExists(GetHomeDir + gnomeConfig) then
-  try
-    ReadXMLFile(xmlCfg, GetHomeDir + gnomeConfig);
-    try
-      for I := 0 to xmlCfg.DocumentElement.ChildNodes.Count -1 do
-        begin
-          ChildNode := xmlCfg.DocumentElement.ChildNodes.Item[I];
-          if (ChildNode.NodeName = 'entry') then
-            if (ChildNode.Attributes.Length > 0) and (ChildNode.Attributes[0].NodeValue = 'icon_theme') then
-              begin
-                Result:= ChildNode.FirstChild.FirstChild.NodeValue;
-                Break;
-              end;
-        end;
-    finally
-      xmlCfg.Free;
-    end;
-  except
-    // Skip
-  end;
+  Result:= GioGetIconTheme('org.gnome.desktop.interface');
   if Length(Result) = 0 then
     Result:= 'gnome';
 end;
@@ -185,6 +159,16 @@ begin
   end;
 end;
 
+function GetMateIconTheme: String; inline;
+begin
+  Result:= GioGetIconTheme('org.mate.interface');
+end;
+
+function GetCinnamonIconTheme: String; inline;
+begin
+  Result:= GioGetIconTheme('org.cinnamon.desktop.interface');
+end;
+
 function GetCurrentIconTheme: String;
 begin
   Result:= EmptyStr;
@@ -199,6 +183,10 @@ begin
       Result:= GetXfceIconTheme;
     DE_LXDE:
       Result:= GetLxdeIconTheme;
+    DE_MATE:
+      Result:= GetMateIconTheme;
+    DE_CINNAMON:
+      Result:= GetCinnamonIconTheme;
   end;
   if Result = EmptyStr then
     Result:= DEFAULT_THEME_NAME;

@@ -81,6 +81,7 @@ var
   SettingsSchema: PGSettingsSchema;
   SchemaSource: PGSettingsSchemaSource;
 begin
+  if not HasGio then Exit(EmptyStr);
   SchemaSource:= g_settings_schema_source_get_default();
   if Assigned(SchemaSource) then
   begin
