@@ -85,6 +85,8 @@ update_doublecmd_svn()
   curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-qt?cmd=runservice
   echo "Update Double Commander (Gtk)"
   curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-gtk?cmd=runservice
+  echo "Update Double Commander (Debian)"
+  curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-deb?cmd=runservice
   exit 0
 }
 
