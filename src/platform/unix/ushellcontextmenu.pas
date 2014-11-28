@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Shell context menu implementation.
 
-    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2014 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,24 +59,30 @@ type
 implementation
 
 uses
-  LCLProc, Dialogs, IniFiles, Graphics, uFindEx, uDCUtils,
+  LCLProc, Dialogs, Graphics, uFindEx, uDCUtils,
   uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager, uMyUnix,
   fMain, fFileProperties, DCOSUtils, DCStrUtils
   {$IF DEFINED(DARWIN)}
   , MacOSAll
-  {$ELSEIF DEFINED(LINUX)}
+  {$ELSE}
+  , uKeyFile
+    {$IF DEFINED(LINUX)}
   , uMimeActions, uOSForms, uRabbitVCS
+    {$ENDIF}
   {$ENDIF}
   ;
 
 const
   sCmdVerbProperties = 'properties';
 
+{$IF NOT DEFINED(DARWIN)}
+
 function GetGnomeTemplateMenu(out Items: TStringList): Boolean;
 var
-  userDirs: TStringList = nil;
-  templateDir: UTF8String;
   searchRec: TSearchRecEx;
+  templateDir: UTF8String;
+  bmpBitmap: TBitmap = nil;
+  userDirs: TStringList = nil;
 begin
   Result:= False;
   try
@@ -84,7 +90,11 @@ begin
     templateDir:= GetHomeDir + '/.config/user-dirs.dirs';
     if not mbFileExists(templateDir) then Exit;
     userDirs:= TStringList.Create;
-    userDirs.LoadFromFile(templateDir);
+    try
+      userDirs.LoadFromFile(templateDir);
+    except
+      Exit;
+    end;
     templateDir:= userDirs.Values['XDG_TEMPLATES_DIR'];
     if Length(templateDir) = 0 then Exit;
     templateDir:= IncludeTrailingPathDelimiter(mbExpandFileName(TrimQuotes(templateDir)));
@@ -97,7 +107,8 @@ begin
           // Skip directories
           if FPS_ISDIR(searchRec.Attr) then Continue;
 
-          Items.Add(ExtractOnlyFileName(searchRec.Name) + '=' + templateDir + searchRec.Name);
+          bmpBitmap:= PixMapManager.LoadBitmapEnhanced(templateDir + searchRec.Name, 16, True, clMenu);
+          Items.AddObject(ExtractOnlyFileName(searchRec.Name) + '=' + templateDir + searchRec.Name, bmpBitmap);
         until FindNextEx(searchRec) <> 0;
         Result:= Items.Count > 0;
       end;
@@ -106,17 +117,18 @@ begin
   finally
     if Assigned(Items) and (Items.Count = 0) then
       FreeAndNil(Items);
-    FreeThenNil(userDirs);
+    FreeAndNil(userDirs);
   end;
 end;
 
 function GetKdeTemplateMenu(out Items: TStringList): Boolean;
 var
   I: Integer;
-  desktopFile: TIniFile = nil;
+  bmpBitmap: TBitmap = nil;
+  desktopFile: TKeyFile = nil;
   templateDir: array [0..1] of UTF8String;
   searchRec: TSearchRecEx;
-  templateName,
+  templateName, templateIcon,
   templatePath: UTF8String;
 begin
   Result:= False;
@@ -135,14 +147,20 @@ begin
           if FPS_ISDIR(searchRec.Attr) then Continue;
 
           try
-            desktopFile:= TIniFile.Create(templateDir[I] + PathDelim + searchRec.Name);
-            templateName:= desktopFile.ReadString('Desktop Entry', 'Name', EmptyStr);
-            templatePath:= desktopFile.ReadString('Desktop Entry', 'URL', EmptyStr);
-            templatePath:= GetAbsoluteFileName(templateDir[I] + PathDelim, templatePath);
+            desktopFile:= TKeyFile.Create(templateDir[I] + PathDelim + searchRec.Name);
+            try
+              templateName:= desktopFile.ReadLocaleString('Desktop Entry', 'Name', EmptyStr);
+              templateIcon:= desktopFile.ReadString('Desktop Entry', 'Icon', EmptyStr);
+              templatePath:= desktopFile.ReadString('Desktop Entry', 'URL', EmptyStr);
+              templatePath:= GetAbsoluteFileName(templateDir[I] + PathDelim, templatePath);
 
-            Items.Add(templateName + '=' + templatePath);
-          finally
-            FreeThenNil(desktopFile);
+              bmpBitmap:= PixMapManager.LoadBitmapEnhanced(templateIcon, 16, True, clMenu);
+              Items.AddObject(templateName + '=' + templatePath, bmpBitmap);
+            finally
+              FreeAndNil(desktopFile);
+            end;
+          except
+            // Skip
           end;
         until FindNextEx(searchRec) <> 0;
         Result:= Items.Count > 0;
@@ -155,14 +173,20 @@ begin
   end;
 end;
 
+{$ENDIF}
+
 function GetTemplateMenu(out Items: TStringList): Boolean;
 begin
+{$IF DEFINED(DARWIN)}
+  Result:= False;
+{$ELSE}
   case GetDesktopEnvironment of
   DE_KDE:
     Result:= GetKdeTemplateMenu(Items);
   else
     Result:= GetGnomeTemplateMenu(Items);
   end;
+{$ENDIF}
 end;
 
 (* handling user commands from context menu *)
@@ -641,9 +665,15 @@ begin
             mi.Caption:= sl.Names[I];
             mi.Hint:= sl.ValueFromIndex[I];
             mi.OnClick:= Self.TemplateContextMenuSelect;
+            if Assigned(sl.Objects[I]) then
+            begin
+              mi.Bitmap.Assign(TBitmap(sl.Objects[I]));
+              sl.Objects[I].Free;
+              sl.Objects[I]:= nil;
+            end;
             miSortBy.Add(mi);
           end;
-          FreeThenNil(sl);
+          FreeAndNil(sl);
         end;
 
         mi:=TMenuItem.Create(Self);
