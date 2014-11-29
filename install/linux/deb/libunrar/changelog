@@ -1,5 +1,5 @@
-libunrar-nonfree (5.0.12-1~precise) precise; urgency=low
+unrar-nonfree (5.2.2-0) unstable; urgency=low
 
   * Non-maintainer upload
 
- -- Alexander Koblov <Alexx2000@mail.ru>  Sun, 29 Sep 2013 13:04:07 +0400
+ -- Alexander Koblov <alexx2000@mail.ru>  Sat, 29 Nov 2014 23:04:07 +0300
