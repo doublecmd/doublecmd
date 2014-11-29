@@ -1,15 +1,19 @@
-Source: libunrar-nonfree
-Section: non-free/libs
+Source: unrar-nonfree
+Section: non-free/utils
 Priority: optional
-Maintainer: Alexander Koblov <Alexx2000@mail.ru>
+Maintainer: Alexander Koblov <alexx2000@mail.ru>
+Homepage: http://www.rarlabs.com
 Build-Depends: debhelper (>= 7)
 Standards-Version: 3.8.4
 XS-Autobuild: yes
 
 Package: libunrar
+Section: non-free/libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Homepage: http://www.rarlabs.com/
-Description: Library for extract *.rar format archives (non-free version)
- This library can be used by software developers to extract *.rar format
- archives.
+Description: Unarchiver for .rar files (non-free version) - shared library
+ Unrar can extract files from .rar archives. If you want to create .rar
+ archives, install package rar.
+ .
+ This package includes the dynamic library.
+
