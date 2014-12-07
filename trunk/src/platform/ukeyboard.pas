@@ -15,12 +15,13 @@ uses
 
 
 type
-  TMenuKeyCap = (mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
+  TMenuKeyCap = (mkcClear, mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
     mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
     mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcWin, mkcNumDivide, mkcNumMultiply,
     mkcNumAdd, mkcNumSubstract);
 
 const
+  SmkcClear = 'Clear';
   SmkcBkSp = 'BkSp';
   SmkcTab = 'Tab';
   SmkcEsc = 'Esc';
@@ -46,7 +47,7 @@ const
   SmkcNumSubstract = 'Num-';
 
   MenuKeyCaps: array[TMenuKeyCap] of string = (
-    SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
+    SmkcClear, SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
     SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight,
     SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt,
     SmkcWin, SmkcNumDivide, SmkcNumMultiply, SmkcNumAdd, SmkcNumSubstract);
@@ -236,6 +237,8 @@ begin
         VKToCharArray[Key] := MenuKeyCaps[mkcBkSp];
       VK_TAB:
         VKToCharArray[Key] := MenuKeyCaps[mkcTab];
+      VK_CLEAR:
+        VKToCharArray[Key] := MenuKeyCaps[mkcClear];
       VK_RETURN:
         VKToCharArray[Key] := MenuKeyCaps[mkcEnter];
       VK_ESCAPE:
