@@ -2215,280 +2215,28 @@ msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Navn på linket:"
 
-#: tfrmhotdir.btngotodir.caption
-msgid "OK and goto dir"
-msgstr ""
-
-#: tfrmhotdir.btnrelativepath.hint
-msgid "Some functions to select appropriate path"
-msgstr ""
-
-#: tfrmhotdir.btnrelativetarget.hint
-msgid "Some functions to select appropriate target"
-msgstr ""
-
-#: tfrmhotdir.btntestmenu.caption
-msgctxt "tfrmhotdir.btntestmenu.caption"
-msgid "Test resulting menu"
-msgstr ""
-
-#: tfrmhotdir.caption
-msgctxt "tfrmhotdir.caption"
-msgid "Directory Hotlist"
-msgstr "Rediger favoritmapper"
-
-#: tfrmhotdir.cbsorthotdirpath.text
-msgctxt "tfrmhotdir.cbsorthotdirpath.text"
-msgid "Name, a-z"
-msgstr ""
-
-#: tfrmhotdir.cbsorthotdirtarget.text
-msgctxt "tfrmhotdir.cbsorthotdirtarget.text"
-msgid "Name, a-z"
-msgstr ""
-
-#: tfrmhotdir.lbldirectoryhotlist.caption
-msgid "Directory Hotlist (reorder by drag && drop):"
-msgstr ""
-
-#: tfrmhotdir.lbledithotdirname.editlabel.caption
-msgctxt "tfrmhotdir.lbledithotdirname.editlabel.caption"
-msgid "Name:"
-msgstr "Navn:"
-
-#: tfrmhotdir.lbledithotdirpath.editlabel.caption
-msgctxt "tfrmhotdir.lbledithotdirpath.editlabel.caption"
-msgid "Path:"
-msgstr "Placering:"
-
-#: tfrmhotdir.lbledithotdirtarget.editlabel.caption
-msgid "Target:"
-msgstr ""
-
-#: tfrmhotdir.menuitem1.caption
-msgctxt "tfrmhotdir.menuitem1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.menuitem2.caption
-msgctxt "tfrmhotdir.menuitem2.caption"
-msgid "Options"
-msgstr "Indstillinger"
-
-#: tfrmhotdir.menuitem7.caption
-msgctxt "tfrmhotdir.menuitem7.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.miactiveframedirectory.caption
-msgid "directory of the active frame"
-msgstr ""
-
-#: tfrmhotdir.miactiveframedirectory2.caption
-msgid "Add directory of the active frame"
-msgstr ""
-
-#: tfrmhotdir.miactiveinactiveframedirectory.caption
-msgid "directories of the active && inactive frames"
-msgstr ""
-
-#: tfrmhotdir.miactiveinactiveframedirectory2.caption
-msgid "Add directories of the active && inactive frames"
-msgstr ""
-
-#: tfrmhotdir.miadd.caption
-#, fuzzy
-#| msgid "Add"
-msgctxt "tfrmhotdir.miadd.caption"
-msgid "&Add"
-msgstr "Tilføj"
-
-#: tfrmhotdir.miaddcommand.caption
-msgid "a command"
-msgstr ""
-
-#: tfrmhotdir.miaddcommand2.caption
-msgid "Add a command"
-msgstr ""
-
-#: tfrmhotdir.miaddcopyofselected.caption
-msgid "a copy of the selected entry"
-msgstr ""
-
-#: tfrmhotdir.miaddcopyofselected2.caption
-msgid "Add a copy of the selected entry"
-msgstr ""
-
-#: tfrmhotdir.miaddseparator.caption
-msgid "a separator"
-msgstr ""
-
-#: tfrmhotdir.miaddseparator2.caption
-msgid "Add a separator"
-msgstr ""
-
-#: tfrmhotdir.miaddsubmenu.caption
-msgid "sub-menu"
-msgstr ""
-
-#: tfrmhotdir.miaddsubmenu2.caption
-msgid "Add sub-menu"
-msgstr ""
-
-#: tfrmhotdir.miaddtarget.caption
-msgid "Also add target dir when adding dir"
-msgstr ""
-
-#: tfrmhotdir.mibrowsetodirectory.caption
-msgid "directory I will browse to"
-msgstr ""
-
-#: tfrmhotdir.mibrowsetodirectory2.caption
-msgid "Add directory I will browse to"
-msgstr ""
-
-#: tfrmhotdir.midelete.caption
-#, fuzzy
-#| msgid "Delete"
-msgctxt "tfrmhotdir.midelete.caption"
-msgid "&Delete"
-msgstr "Slet"
-
-#: tfrmhotdir.mideleteallhotdirs.caption
-msgid "delete all!"
-msgstr ""
-
-#: tfrmhotdir.mideletecompletesubmenu.caption
-msgid "sub-menu and all its elements"
-msgstr ""
-
-#: tfrmhotdir.mideletejustsubmenu.caption
-msgid "just sub-menu but keep elements"
-msgstr ""
-
-#: tfrmhotdir.mideleteselectedentry.caption
-msgid "selected item"
-msgstr ""
-
-#: tfrmhotdir.mideleteselectedentry2.caption
-msgid "Delete selected item"
-msgstr ""
-
-#: tfrmhotdir.midetectifpathexist.caption
-msgid "Scan all hotdir's path to validate the ones that actually exist"
-msgstr ""
-
-#: tfrmhotdir.midetectifpathtargetexist.caption
-msgid "Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr ""
-
-#: tfrmhotdir.miexport.caption
-msgid "&Export"
-msgstr ""
-
-#: tfrmhotdir.miexporttodoublecommanderk.caption
-msgid "export to a \"doublecmd.xml\" of DC (keep existing)"
-msgstr ""
-
-#: tfrmhotdir.miexporttodoublecommandernk.caption
-msgid "export to a \"doublecmd.xml\" of DC (erase existing)"
-msgstr ""
-
-#: tfrmhotdir.miexporttohotlistfile.caption
-msgid "export to a new Directory Hotlist file"
-msgstr ""
-
-#: tfrmhotdir.miexporttototalcommanderk.caption
-msgid "export to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
-
-#: tfrmhotdir.miexporttototalcommandernk.caption
-msgid "export to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
-
-#: tfrmhotdir.miimport.caption
-msgid "&Import"
-msgstr ""
-
-#: tfrmhotdir.miimportdoublecommander.caption
-msgid "importation from \"doublecmd.xml\" of DC"
-msgstr ""
-
-#: tfrmhotdir.miimportfromhotlistfile.caption
-msgid "import from a Directory Hotlist file"
-msgstr ""
-
-#: tfrmhotdir.miimporttotalcommander.caption
-msgid "importation from \"wincmd.ini\" of TC"
-msgstr ""
-
-#: tfrmhotdir.miseparator1.caption
-msgctxt "tfrmhotdir.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.miseparator2.caption
-msgctxt "tfrmhotdir.miseparator2.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.miseparator3.caption
-msgctxt "tfrmhotdir.miseparator3.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.miseparator4.caption
-msgctxt "tfrmhotdir.miseparator4.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.miseparator5.caption
-msgctxt "tfrmhotdir.miseparator5.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.miseparator6.caption
-msgctxt "tfrmhotdir.miseparator6.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmhotdir.mitestresultingmenu.caption
-msgctxt "tfrmhotdir.mitestresultingmenu.caption"
-msgid "Test resulting menu"
-msgstr ""
-
-#: tfrmhotdir.mitools.caption
-msgid "&Tools"
-msgstr ""
-
-#: tfrmhotdir.mitypethedirectory.caption
-msgid "directory I will type"
-msgstr ""
-
-#: tfrmhotdir.mitypethedirectory2.caption
-msgid "Add directory I will type"
-msgstr ""
-
-#: tfrmhotdirimportexport.btnselectall.caption
-msgctxt "tfrmhotdirimportexport.btnselectall.caption"
+#: tfrmhotdirexportimport.btnselectall.caption
+msgctxt "tfrmhotdirexportimport.btnselectall.caption"
 msgid "Import all!"
 msgstr ""
 
-#: tfrmhotdirimportexport.btnselectiondone.caption
-msgctxt "tfrmhotdirimportexport.btnselectiondone.caption"
+#: tfrmhotdirexportimport.btnselectiondone.caption
+msgctxt "tfrmhotdirexportimport.btnselectiondone.caption"
 msgid "Import selected"
 msgstr ""
 
-#: tfrmhotdirimportexport.caption
+#: tfrmhotdirexportimport.caption
+msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
 msgstr ""
 
-#: tfrmhotdirimportexport.lbhint.caption
+#: tfrmhotdirexportimport.lbhint.caption
+msgctxt "tfrmhotdirexportimport.lbhint.caption"
 msgid "When clicking a sub-menu, it will select the whole menu"
 msgstr ""
 
-#: tfrmhotdirimportexport.lblhintholdcontrol.caption
-msgid "Hold CTRL and click entries to select multiple one"
+#: tfrmhotdirexportimport.lblhintholdcontrol.caption
+msgid "Hold CTRL and click entries to select multiple ones"
 msgstr ""
 
 #: tfrmlinker.btnexit.caption
@@ -4344,6 +4092,347 @@ msgstr "Generelt"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
 msgid "Con&figure columns for file system:"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnadd.caption
+msgid "Add..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnbackup.caption
+msgid "Backup..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btndelete.caption
+msgid "Delete..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnexport.caption
+msgid "Export..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnhelp.caption
+msgid "Help"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnimport.caption
+msgid "Import..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btninsert.caption
+msgid "Insert..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption
+msgid "Miscellaneous..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
+msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnrelativetarget.hint
+msgctxt "tfrmoptionsdirectoryhotlist.btnrelativetarget.hint"
+msgid "Some functions to select appropriate target"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.btnsort.caption
+msgid "Sort..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
+msgid "When adding directory, add also target"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
+msgid "Always expand tree"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
+msgid "Show only valid %env_var%"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
+msgid "In popup, show [path also]"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
+msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
+msgid "Name, a-z"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.cbsorthotdirtarget.text
+msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirtarget.text"
+msgid "Name, a-z"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
+msgid "Directory Hotlist (reorder by drag && drop)"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
+msgid "Other options"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption
+msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption"
+msgid "Name:"
+msgstr "Navn:"
+
+#: tfrmoptionsdirectoryhotlist.lbledithotdirpath.editlabel.caption
+msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirpath.editlabel.caption"
+msgid "Path:"
+msgstr "Placering:"
+
+#: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
+msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption"
+msgid "Target:"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption"
+msgid "directory of the active frame"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption"
+msgid "directories of the active && inactive frames"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddcommand.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddcommand.caption"
+msgid "a command"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddcommand2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddcommand2.caption"
+msgid "Add a command"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption"
+msgid "a copy of the selected entry"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption"
+msgid "Add a copy of the selected entry"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddseparator.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator.caption"
+msgid "a separator"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddseparator2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator2.caption"
+msgid "Add a separator"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddsubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu.caption"
+msgid "sub-menu"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption"
+msgid "Add sub-menu"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption"
+msgid "directory I will browse to"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.micollapseall.caption
+msgid "Collapse all"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
+msgid "...current level of item(s) selected only"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.micurrentselectedoractivedirectories.caption
+msgid "current selected or active directories of active frame"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.micutselection.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micutselection.caption"
+msgid "Cut"
+msgstr "Klip"
+
+#: tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption"
+msgid "delete all!"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption"
+msgid "sub-menu and all its elements"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption"
+msgid "just sub-menu but keep elements"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption"
+msgid "selected item"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption"
+msgid "Delete selected item"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
+msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
+msgid "Scan all hotdir's path to validate the ones that actually exist"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
+msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption"
+msgid "Scan all hotdir's path && target to validate the ones that actually exist"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
+msgid "to a Directory Hotlist file (.hotlist)"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
+msgid "to a \"wincmd.ini\" of TC (keep existing)"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
+msgid "to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
+msgid "HotDirTestMenu"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
+msgid "from a Directory Hotlist file (.hotlist)"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
+msgid "from \"wincmd.ini\" of TC"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
+msgid "Open all branches"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mipasteselection.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mipasteselection.caption"
+msgid "Paste"
+msgstr "Sæt ind"
+
+#: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
+msgid "Restore a backup of Directory Hotlist"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
+msgid "Save a backup of current Directory Hotlist"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.miseparator1.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator10.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator11.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator11.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator3.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator3.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator4.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator4.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator5.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator5.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator6.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator6.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator7.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator7.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator8.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator8.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator9.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator9.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.misorteverything.caption
+msgid "...everything, from A to Z!"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
+msgid "...single group of item(s) only"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
+msgid "Sort single group of item(s) only"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
+msgid "...content of submenu(s) selected, no sublevel"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
+msgid "...content of submenu(s) selected and all sublevels"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
+msgid "Test resulting menu"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mitypethedirectory.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory.caption"
+msgid "directory I will type"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption"
+msgid "Add directory I will type"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.mitypethedirectory3.caption
+msgid "Insert directory I will type"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
+msgid "Addition from main panel:"
 msgstr ""
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
