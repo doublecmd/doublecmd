@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-12-08 21:38+0300\n"
+"PO-Revision-Date: 2014-12-10 22:34+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr "Найдено файлов: %d  (Одинаковых: %d, Различ
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Слева направо: Копируется файлов: %d, общий размер: %d байт"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 msgid "Right to Left: Copy %d files, total size: %d bytes"
-msgstr ""
+msgstr "Справа налево: Копируется файлов: %d, общий размер: %d байт"
 
 #: tfcolumnssetconf.btnallback.caption
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
@@ -64,12 +64,12 @@ msgstr "Все"
 #: tfcolumnssetconf.btnbackcolor.caption
 msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfcolumnssetconf.btnbackcolor2.caption
 msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR2.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfcolumnssetconf.btncancel.caption
 msgctxt "TFCOLUMNSSETCONF.BTNCANCEL.CAPTION"
@@ -79,36 +79,36 @@ msgstr "Отмена"
 #: tfcolumnssetconf.btncursorbordercolor.caption
 msgctxt "TFCOLUMNSSETCONF.BTNCURSORBORDERCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfcolumnssetconf.btncursorcolor.caption
 msgctxt "TFCOLUMNSSETCONF.BTNCURSORCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfcolumnssetconf.btncursortext.caption
 msgctxt "TFCOLUMNSSETCONF.BTNCURSORTEXT.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfcolumnssetconf.btnfontselect.caption
 msgctxt "TFCOLUMNSSETCONF.BTNFONTSELECT.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfcolumnssetconf.btnforecolor.caption
 msgctxt "TFCOLUMNSSETCONF.BTNFORECOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfcolumnssetconf.btnmarkcolor.caption
 msgctxt "TFCOLUMNSSETCONF.BTNMARKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfcolumnssetconf.btnnext.caption
 msgid "->"
-msgstr ""
+msgstr "->"
 
 #: tfcolumnssetconf.btnok.caption
 msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
@@ -117,7 +117,7 @@ msgstr "&ОК"
 
 #: tfcolumnssetconf.btnprev.caption
 msgid "<-"
-msgstr ""
+msgstr "<-"
 
 #: tfcolumnssetconf.caption
 msgid "Configure custom columns view"
@@ -851,52 +851,52 @@ msgstr "Сравнить файлы"
 #: tfrmdiffer.midivider1.caption
 msgctxt "TFRMDIFFER.MIDIVIDER1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider10.caption
 msgctxt "TFRMDIFFER.MIDIVIDER10.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider2.caption
 msgctxt "TFRMDIFFER.MIDIVIDER2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider3.caption
 msgctxt "TFRMDIFFER.MIDIVIDER3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider4.caption
 msgctxt "TFRMDIFFER.MIDIVIDER4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider5.caption
 msgctxt "TFRMDIFFER.MIDIVIDER5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider6.caption
 msgctxt "TFRMDIFFER.MIDIVIDER6.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider7.caption
 msgctxt "TFRMDIFFER.MIDIVIDER7.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider8.caption
 msgctxt "TFRMDIFFER.MIDIVIDER8.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider9.caption
 msgctxt "TFRMDIFFER.MIDIVIDER9.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.miencodingleft.caption
 msgid "&Left"
@@ -909,12 +909,12 @@ msgstr "С&права"
 #: tfrmdiffer.miseparator1.caption
 msgctxt "TFRMDIFFER.MISEPARATOR1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.miseparator2.caption
 msgctxt "TFRMDIFFER.MISEPARATOR2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.mnuactions.caption
 msgid "&Actions"
@@ -1201,7 +1201,7 @@ msgstr "Помощ&ь"
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.miedit.caption
 msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
@@ -1237,32 +1237,32 @@ msgstr "Конец строки"
 #: tfrmeditor.miseparator1.caption
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.miseparator2.caption
 msgctxt "TFRMEDITOR.MISEPARATOR2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n1.caption
 msgctxt "TFRMEDITOR.N1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n3.caption
 msgctxt "TFRMEDITOR.N3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n4.caption
 msgctxt "TFRMEDITOR.N4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n5.caption
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditsearchreplace.btncancel.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
@@ -2087,7 +2087,7 @@ msgstr "Импортировать выделенный"
 #: tfrmhotdirexportimport.caption
 msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
-msgstr ""
+msgstr "Выделите элементы для импорта"
 
 #: tfrmhotdirexportimport.lbhint.caption
 msgctxt "tfrmhotdirexportimport.lbhint.caption"
@@ -2379,7 +2379,7 @@ msgstr "&Разрезать файл..."
 
 #: tfrmmain.actflatview.caption
 msgid "&Flat view"
-msgstr ""
+msgstr "Показать все фа&йлы без подкаталогов"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -2852,31 +2852,31 @@ msgstr ""
 
 #: tfrmmain.mi2080.caption
 msgid "&20/80"
-msgstr ""
+msgstr "&20/80"
 
 #: tfrmmain.mi3070.caption
 msgid "&30/70"
-msgstr ""
+msgstr "&30/70"
 
 #: tfrmmain.mi4060.caption
 msgid "&40/60"
-msgstr ""
+msgstr "&40/60"
 
 #: tfrmmain.mi5050.caption
 msgid "&50/50"
-msgstr ""
+msgstr "&50/50"
 
 #: tfrmmain.mi6040.caption
 msgid "&60/40"
-msgstr ""
+msgstr "&60/40"
 
 #: tfrmmain.mi7030.caption
 msgid "&70/30"
-msgstr ""
+msgstr "&70/30"
 
 #: tfrmmain.mi8020.caption
 msgid "&80/20"
-msgstr ""
+msgstr "&80/20"
 
 #: tfrmmain.micancel.caption
 msgctxt "TFRMMAIN.MICANCEL.CAPTION"
@@ -2895,112 +2895,112 @@ msgstr "Создать &ссылку..."
 #: tfrmmain.miline1.caption
 msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline13.caption
 msgctxt "TFRMMAIN.MILINE13.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline14.caption
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline15.caption
 msgctxt "TFRMMAIN.MILINE15.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline16.caption
 msgctxt "TFRMMAIN.MILINE16.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline17.caption
 msgctxt "TFRMMAIN.MILINE17.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline18.caption
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline19.caption
 msgctxt "TFRMMAIN.MILINE19.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline2.caption
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline20.caption
 msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline24.caption
 msgctxt "TFRMMAIN.MILINE24.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline3.caption
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline32.caption
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline33.caption
 msgctxt "tfrmmain.miline33.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline38.caption
 msgctxt "tfrmmain.miline38.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline47.caption
 msgctxt "TFRMMAIN.MILINE47.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline5.caption
 msgctxt "TFRMMAIN.MILINE5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "tfrmmain.miline50.caption"
@@ -3010,22 +3010,22 @@ msgstr "-"
 #: tfrmmain.miline6.caption
 msgctxt "TFRMMAIN.MILINE6.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline7.caption
 msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline8.caption
 msgctxt "TFRMMAIN.MILINE8.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline9.caption
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.milogclear.caption
 msgid "Clear"
@@ -4022,7 +4022,7 @@ msgstr "Путь:"
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption"
 msgid "Target:"
-msgstr ""
+msgstr "Целевой путь:"
 
 #: tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption"
@@ -4052,7 +4052,7 @@ msgstr ""
 #: tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption"
 msgid "Add a copy of the selected entry"
-msgstr ""
+msgstr "Добавить копию выделенного элемента"
 
 #: tfrmoptionsdirectoryhotlist.miaddseparator.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator.caption"
@@ -4067,12 +4067,12 @@ msgstr "Добавить разделитель"
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu.caption"
 msgid "sub-menu"
-msgstr ""
+msgstr "Подменю"
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption"
 msgid "Add sub-menu"
-msgstr ""
+msgstr "Добавить подменю"
 
 #: tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption"
@@ -4229,7 +4229,7 @@ msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
 msgid "...everything, from A to Z!"
-msgstr ""
+msgstr "...все, от А до Я!"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgid "...single group of item(s) only"
@@ -5643,7 +5643,7 @@ msgstr "&Многотомный архив"
 
 #: tfrmpackdlg.cbotherplugins.caption
 msgid "=>"
-msgstr ""
+msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
@@ -5911,7 +5911,7 @@ msgstr "Владелец"
 #: tfrmsetfileproperties.lblattrtext.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION"
 msgid "-----------"
-msgstr ""
+msgstr "-----------"
 
 #: tfrmsetfileproperties.lblattrtextstr.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
@@ -6101,7 +6101,7 @@ msgstr "Синхронизация каталогов"
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
 msgid "*.*"
-msgstr ""
+msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
@@ -6144,7 +6144,7 @@ msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
@@ -6168,12 +6168,12 @@ msgstr "(в главном окне)"
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: tfrmsyncdirsdlg.sbcopyright.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyright.caption"
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
@@ -6181,11 +6181,11 @@ msgstr "&дубликаты"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgid "="
-msgstr ""
+msgstr "="
 
 #: tfrmsyncdirsdlg.sbnotequal.caption
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: tfrmsyncdirsdlg.sbsingles.caption
 msgid "singles"
@@ -6613,27 +6613,27 @@ msgstr "&Копировать в буфер"
 #: tfrmviewer.midiv1.caption
 msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv2.caption
 msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv3.caption
 msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv4.caption
 msgctxt "TFRMVIEWER.MIDIV4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv5.caption
 msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.miedit.caption
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
@@ -6735,7 +6735,7 @@ msgstr "Выделить &всё"
 #: tfrmviewer.miseparator.caption
 msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.mistretch.caption
 msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
@@ -7117,14 +7117,12 @@ msgid "Calculate files and folders"
 msgstr "Посчитать файлы и каталоги"
 
 #: ulng.rsdlgchecksumcalc
-#, fuzzy
 #| msgid "Calculate check sum..."
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate checksum..."
 msgstr "Посчитать контрольные суммы..."
 
 #: ulng.rsdlgchecksumverify
-#, fuzzy
 #| msgid "Verify check sum..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify checksum..."
@@ -7735,19 +7733,19 @@ msgstr "Следовать ссылке \"%s\"?"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
-msgstr ""
+msgstr "Добавить %d выделенных каталогов"
 
 #: ulng.rsmsghotdiraddselecteddirectory
 msgid "Add selected dir: "
-msgstr ""
+msgstr "Добавить выделенный каталог:"
 
 #: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
-msgstr ""
+msgstr "Добавить текущий каталог:"
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
-msgstr ""
+msgstr "Выполнить команду"
 
 #: ulng.rsmsghotdircommandsample
 msgid "cm_somthing"
@@ -7787,7 +7785,7 @@ msgstr ""
 
 #: ulng.rsmsghotdirexportall
 msgid "Export all!"
-msgstr ""
+msgstr "Экспортировать все"
 
 #: ulng.rsmsghotdirexporthotlist
 msgid "Export Directory Hotlist - Select the entries you want to export"
@@ -7800,7 +7798,7 @@ msgstr ""
 #: ulng.rsmsghotdirimportall
 msgctxt "ulng.rsmsghotdirimportall"
 msgid "Import all!"
-msgstr ""
+msgstr "Импортировать все"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
@@ -7838,7 +7836,7 @@ msgstr ""
 
 #: ulng.rsmsghotdirnbnewentries
 msgid "Number of new entries: %d"
-msgstr ""
+msgstr "Число новых элементов: %d"
 
 #: ulng.rsmsghotdirnothingtoexport
 msgid "Nothing selected to export!"
@@ -7862,11 +7860,11 @@ msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
 msgid "Command:"
-msgstr ""
+msgstr "Команда:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgid "(end of sub menu)"
-msgstr ""
+msgstr "(конец подменю)"
 
 #: ulng.rsmsghotdirsimplemenu
 msgid "Menu name:"
@@ -7879,7 +7877,7 @@ msgstr "Имя:"
 
 #: ulng.rsmsghotdirsimpleseparator
 msgid "(separator)"
-msgstr ""
+msgstr "(разделитель)"
 
 #: ulng.rsmsghotdirsubmenuname
 msgid "Submenu name"
@@ -8134,7 +8132,6 @@ msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Выделено: %s из %s, файлов: %d из %d, каталогов: %d из %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
-#, fuzzy
 #| msgid "Please select only check sum files!"
 msgid "Please select only checksum files!"
 msgstr "Необходимо выбрать только файлы контрольных сумм!"
@@ -8149,15 +8146,15 @@ msgstr "Изменение метки диска"
 
 #: ulng.rsmsgspecialdir
 msgid "Special Dirs"
-msgstr ""
+msgstr "Специальные каталоги"
 
 #: ulng.rsmsgspecialdiraddacti
 msgid "Add path from active frame"
-msgstr ""
+msgstr "Добавить путь из активной панели"
 
 #: ulng.rsmsgspecialdiraddnonacti
 msgid "Add path from inactive frame"
-msgstr ""
+msgstr "Добавить путь из пассивной панели"
 
 #: ulng.rsmsgspecialdirbrowssel
 msgid "Browse and use selected path"
@@ -8165,7 +8162,7 @@ msgstr ""
 
 #: ulng.rsmsgspecialdirenvvar
 msgid "Use environment variable..."
-msgstr ""
+msgstr "Использовать переменную окружения..."
 
 #: ulng.rsmsgspecialdirgotodc
 msgid "Go to Double Commander special path..."
@@ -8185,7 +8182,7 @@ msgstr ""
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
-msgstr ""
+msgstr "Сделать путь абсолютным"
 
 #: ulng.rsmsgspecialdirmkdcrel
 msgid "Make relative to Double Commander special path..."
@@ -8273,19 +8270,16 @@ msgid "Aborted"
 msgstr "Прервано"
 
 #: ulng.rsopercalculatingchecksum
-#, fuzzy
 #| msgid "Calculating check sum"
 msgid "Calculating checksum"
 msgstr "Вычисление контрольной суммы"
 
 #: ulng.rsopercalculatingchecksumin
-#, fuzzy
 #| msgid "Calculating check sum in \"%s\""
 msgid "Calculating checksum in \"%s\""
 msgstr "Вычисление контрольной суммы \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
-#, fuzzy
 #| msgid "Calculating check sum of \"%s\""
 msgid "Calculating checksum of \"%s\""
 msgstr "Вычисление контрольной суммы \"%s\""
@@ -8458,19 +8452,16 @@ msgid "Testing \"%s\""
 msgstr "Проверка \"%s\""
 
 #: ulng.rsoperverifyingchecksum
-#, fuzzy
 #| msgid "Verifying check sum"
 msgid "Verifying checksum"
 msgstr "Проверка контрольной суммы"
 
 #: ulng.rsoperverifyingchecksumin
-#, fuzzy
 #| msgid "Verifying check sum in \"%s\""
 msgid "Verifying checksum in \"%s\""
 msgstr "Проверка контрольной суммы в \"%s'"
 
 #: ulng.rsoperverifyingchecksumof
-#, fuzzy
 #| msgid "Verifying check sum of \"%s\""
 msgid "Verifying checksum of \"%s\""
 msgstr "Проверка контрольной суммы из \"%s\""
