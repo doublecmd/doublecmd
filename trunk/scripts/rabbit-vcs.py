@@ -26,9 +26,12 @@
 import os, os.path
 import sys
 
-from rabbitvcs.util.contextmenuitems import *
-from rabbitvcs.util.contextmenu import MenuBuilder, MainContextMenu, MainContextMenuCallbacks
-from rabbitvcs.services.checkerservice import StatusCheckerStub
+try:
+  from rabbitvcs.util.contextmenuitems import *
+  from rabbitvcs.util.contextmenu import MenuBuilder, MainContextMenu, MainContextMenuCallbacks
+  from rabbitvcs.services.checkerservice import StatusCheckerStub
+except:
+  exit(1)
 
 class DCSender:
   """Double Commander sender class"""
