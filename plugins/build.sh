@@ -45,7 +45,7 @@ $lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
 strip wfx/ftp/lib/ftp.wfx
 
 # Don't build under OS X
-if [ ! -d /System/Library ]; then
+if [ -z $(uname | grep Darwin) ]; then
 
   $lazbuild wfx/samba/src/samba.lpi $DC_ARCH
   strip wfx/samba/lib/samba.wfx
