@@ -44,7 +44,8 @@ strip wdx/xpi_wdx/lib/xpi_wdx.wdx
 $lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
 strip wfx/ftp/lib/ftp.wfx
 
-if [[ $OSTYPE != darwin* ]]; then
+# Don't build under OS X
+if [ ! -d /System/Library ]; then
 
   $lazbuild wfx/samba/src/samba.lpi $DC_ARCH
   strip wfx/samba/lib/samba.wfx
