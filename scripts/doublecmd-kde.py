@@ -23,10 +23,14 @@
 #
 
 import sys
-from PyKDE4.kdeui import KApplication
-from PyKDE4.kdecore import KService, KLocale, KGlobal
-from PyKDE4.kdecore import ki18n, KAboutData, KCmdLineArgs, KUrl, KCmdLineOptions
-from PyKDE4.kio import  KFileItem, KFileItemList, KPropertiesDialog, KRun, KOpenWithDialog
+
+try:
+  from PyKDE4.kdeui import KApplication
+  from PyKDE4.kdecore import KService, KLocale, KGlobal
+  from PyKDE4.kdecore import ki18n, KAboutData, KCmdLineArgs, KUrl, KCmdLineOptions
+  from PyKDE4.kio import  KFileItem, KFileItemList, KPropertiesDialog, KRun, KOpenWithDialog
+except:
+  exit(1)
 
 # Show help message
 def Help():
