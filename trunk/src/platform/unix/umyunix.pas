@@ -298,13 +298,14 @@ var
 
 procedure CheckPMount;
 begin
-  HavePMount := (fpSystemStatus('pmount --version > /dev/null') = 0) and
-                (fpSystemStatus('pumount --version > /dev/null') = 0);
+  // Check pumount first because Puppy Linux has another tool named pmount
+  HavePMount := (fpSystemStatus('pumount --version > /dev/null 2>&1') = 0) and
+                (fpSystemStatus('pmount --version > /dev/null 2>&1') = 0);
 end;
 
 procedure CheckUDisksCtl;
 begin
-  HaveUDisksCtl := (fpSystemStatus('udisksctl help > /dev/null') = 0);
+  HaveUDisksCtl := (fpSystemStatus('udisksctl help > /dev/null 2>&1') = 0);
 end;
 
 {$ENDIF LINUX}
