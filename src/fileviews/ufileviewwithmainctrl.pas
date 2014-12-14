@@ -1089,12 +1089,12 @@ begin
   FileIndex   := GetFileIndexFromCursor(ClientPoint.x, ClientPoint.y, AtFileList);
   Background  := not IsFileIndexInRange(FileIndex);
 
-  // Skip if a rename is in progress on the same file
-  if FRenameFileIndex = FileIndex then
-    Exit;
-
   if not Background then
   begin
+    // Skip if a rename is in progress on the same file
+    if FRenameFileIndex = FileIndex then
+      Exit;
+
     AFile := FFiles[FileIndex];
     MarkFile(AFile, not FMouseSelectionLastState, False);
     DoSelectionChanged(FileIndex);
