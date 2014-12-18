@@ -4393,35 +4393,35 @@ msgstr "Bearbeite Spalten für Dateis&ystem"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgid "Add..."
-msgstr ""
+msgstr "Füge hinzu..."
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
 msgid "Backup..."
-msgstr ""
+msgstr "Backup..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgid "Delete..."
-msgstr ""
+msgstr "Lösche..."
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
 msgid "Export..."
-msgstr ""
+msgstr "Exportieren..."
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgid "Import..."
-msgstr ""
+msgstr "Importieren..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
 msgid "Insert..."
-msgstr ""
+msgstr "Einfügen..."
 
 #: tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption
 msgid "Miscellaneous..."
-msgstr ""
+msgstr "Verschiedenes..."
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
@@ -4435,23 +4435,23 @@ msgstr "Einige Funktionen um angemessene Ziele zu wählen"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
 msgid "Sort..."
-msgstr ""
+msgstr "Sortieren..."
 
 #: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
 msgid "When adding directory, add also target"
-msgstr ""
+msgstr "Beim Hinzufügen eines Verzeichnisses, auch das Ziel hinzufügen"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgid "Always expand tree"
-msgstr ""
+msgVerzeichnisbaum immer aufklappen"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only valid %env_var%"
-msgstr ""
+msgstr "Nur gültige %env_var% verwenden"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In popup, show [path also]"
-msgstr ""
+msgstr "Im Pop-Up-Menü [auch Pfad] zeigen"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
@@ -4465,11 +4465,11 @@ msgstr "Name, a bis z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr ""
+msgstr "Verzeichnis hotlist (Umsortieren durch Drag&&Drop"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgid "Other options"
-msgstr ""
+msgstr "Andere Optionen"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption"
@@ -4543,15 +4543,15 @@ msgstr "Verzeichnis zu dem gewechselt wird"
 
 #: tfrmoptionsdirectoryhotlist.micollapseall.caption
 msgid "Collapse all"
-msgstr ""
+msgstr "Alle zusammenfalten"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgid "...current level of item(s) selected only"
-msgstr ""
+msgstr "... aktuelles Level an markierten Einträgen"
 
 #: tfrmoptionsdirectoryhotlist.micurrentselectedoractivedirectories.caption
 msgid "current selected or active directories of active frame"
-msgstr ""
+msgstr "Aktuell markierte oder aktive Verzeichnisse aktiver Frames"
 
 #: tfrmoptionsdirectoryhotlist.micutselection.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micutselection.caption"
@@ -4595,31 +4595,31 @@ msgstr "Alle Hot-Dir Verzeichnisse und Ziele scannen, um die zu erkennen, die wi
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory Hotlist file (.hotlist)"
-msgstr ""
+msgstr "zu einer Verzeichnis-Hotlist (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "zu einer \"wincmd.ini\" aus TotalCommander (bestehende erhalten)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "zu einer \"wincmd.ini\" aus TotalCommander (bestehende ersetzen)"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
-msgstr ""
+msgstr "HotDir-Testmenü"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory Hotlist file (.hotlist)"
-msgstr ""
+msgstr "aus einer Verzeichnis-Hotlist (.hotlis)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"wincmd.ini\" of TC"
-msgstr ""
+msgstr "aus einer \"wincmd.ini\" des TotalCommander"
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
 msgid "Open all branches"
-msgstr ""
+msgstr "Alle Zweige öffnen"
 
 #: tfrmoptionsdirectoryhotlist.mipasteselection.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mipasteselection.caption"
@@ -4628,11 +4628,11 @@ msgstr "Einfügen"
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "Restore a backup of Directory Hotlist"
-msgstr ""
+msgstr "Wiederherstellen einer Verzeichnis-Hotlist aus einem Backup"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "Save a backup of current Directory Hotlist"
-msgstr ""
+msgstr "Speichern einer aktuellen Verzeichnis-Hotlist in ein Backup"
 
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
@@ -4691,23 +4691,23 @@ msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
 msgid "...everything, from A to Z!"
-msgstr ""
+msgstr "... alles von A bis Z"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgid "...single group of item(s) only"
-msgstr ""
+msgstr "... nur einzelne Gruppe von Einträgen"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
 msgid "Sort single group of item(s) only"
-msgstr ""
+msgstr "Sortiere nur einzelne Gruppe von Einträgen"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgid "...content of submenu(s) selected, no sublevel"
-msgstr ""
+msgstr "... Inhalt von Untermenüs gewählt, aber keine tieferen Level"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
 msgid "...content of submenu(s) selected and all sublevels"
-msgstr ""
+msgstr "Inhalt von Untermenüs ausgewählt, auch alle tiferen Level"
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
@@ -4726,11 +4726,11 @@ msgstr "Füge Verzeichnis hinzu, dass ich eintippe"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory3.caption
 msgid "Insert directory I will type"
-msgstr ""
+msgstr "Füge Verzeichnis ein, das ich eintippe"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel:"
-msgstr ""
+msgstr "Zusatz aus dem Hauptpanel:"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 #, fuzzy
