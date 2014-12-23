@@ -156,8 +156,7 @@ begin
       end;
     end;
   except
-    on EReadError do
-      Result := atUnknown;
+    Result := atUnknown;
   end;
   Strm.Position := CurPos; { Return to original position. }
 end;
