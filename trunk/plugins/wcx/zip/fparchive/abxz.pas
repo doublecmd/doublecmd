@@ -163,7 +163,7 @@ const
             {$ELSEIF DEFINED(DARWIN)}
             'liblzma.dylib'
             {$ELSEIF DEFINED(UNIX)}
-            'liblzma.so.1'
+            'liblzma.so.5'
             {$IFEND};
 
 var
