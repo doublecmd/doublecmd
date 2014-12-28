@@ -40,6 +40,8 @@ const
   DESKTOP_KEY_EXEC = 'Exec';
   DESKTOP_KEY_ICON = 'Icon';
   DESKTOP_KEY_NAME = 'Name';
+  DESKTOP_KEY_TYPE = 'Type';
+  DESKTOP_KEY_MIME_TYPE = 'MimeType';
   DESKTOP_KEY_NO_DISPLAY = 'NoDisplay';
   DESKTOP_KEY_TERMINAL = 'Terminal';
   DESKTOP_KEY_KDE_BUG = 'Path[$e]';
