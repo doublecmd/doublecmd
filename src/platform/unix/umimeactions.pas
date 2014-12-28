@@ -5,7 +5,7 @@
 
     Based on FreeDesktop.org specifications
     (http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html)
-    (http://www.freedesktop.org/wiki/Specifications/mime-actions-spec)
+    (http://www.freedesktop.org/wiki/Specifications/mime-apps-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
     Copyright (C) 2011-2014  Alexander Koblov (alexx2000@mail.ru)
@@ -86,7 +86,7 @@ implementation
 
 uses
   DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard,
-  DCOSUtils, uOSUtils, uKeyFile, uGio;
+  DCOSUtils, uOSUtils, uKeyFile, uGio, uMyUnix;
 
 const
   libmime = 'libmime';
@@ -466,44 +466,67 @@ end;
 function AddDesktopEntry(const MimeType, DesktopEntry: UTF8String; DefaultAction: Boolean): Boolean;
 var
   CustomFile: UTF8String;
+  UserDataDir: UTF8String;
   DesktopFile: TIniFileEx;
   MimeTypeValue: UTF8String;
-  CustomDesktop: PAnsiChar = nil;
-  MimeApps: UTF8String = '/.local/share/applications/mimeapps.list';
+  MimeApps: UTF8String = '/applications/mimeapps.list';
+
+  procedure UpdateDesktop(const Group: UTF8String);
+  begin
+    // Read current actions of this mime type
+    MimeTypeValue:= DesktopFile.ReadString(Group, MimeType, EmptyStr);
+    // Remove chosen action if it exists
+    MimeTypeValue:= StringReplace(MimeTypeValue, CustomFile, EmptyStr, [rfReplaceAll]);
+    // Save chosen action as first
+    DesktopFile.WriteString(Group, MimeType, CustomFile + MimeTypeValue);
+  end;
+
 begin
-  Result:= True;
   CustomFile:= DesktopEntry;
-  if (DefaultAction = False) or (StrEnds(DesktopEntry, '.desktop') = False) then
+  UserDataDir:= GetUserDataDir;
+  if (StrEnds(DesktopEntry, '.desktop') = False) then
   begin
     // Create new desktop entry file for user command
-    mime_type_add_action(PAnsiChar(MimeType), PAnsiChar(DesktopEntry), @CustomDesktop);
-    Result:= Assigned(CustomDesktop);
-    if Result then
-    begin
-      CustomFile:= StrPas(CustomDesktop);
-      g_free(CustomDesktop);
-    end;
-  end;
-  // Set as default action if needed
-  if DefaultAction and Result then
-  begin
-    CustomFile:= CustomFile + ';';
-    MimeApps:= GetHomeDir + MimeApps;
+    CustomFile:= 'doublecmd_' + ExtractFileName(DesktopEntry) + '_';
+    CustomFile:= UserDataDir + '/applications/' + CustomFile;
+    CustomFile:= GetTempName(CustomFile) + '.desktop';
     try
-      DesktopFile:= TIniFileEx.Create(MimeApps, fmOpenReadWrite);
+      DesktopFile:= TIniFileEx.Create(CustomFile, fmCreate or fmOpenReadWrite);
       try
-        // Read current actions of this mime type
-        MimeTypeValue:= DesktopFile.ReadString('Added Associations', MimeType, EmptyStr);
-        // Remove chosen action if it exists
-        MimeTypeValue:= StringReplace(MimeTypeValue, CustomFile, EmptyStr, [rfReplaceAll]);
-        // Set chosen action as default
-        DesktopFile.WriteString('Added Associations', MimeType, CustomFile + MimeTypeValue);
+        DesktopFile.WriteBool(DESKTOP_GROUP, DESKTOP_KEY_NO_DISPLAY, True);
+        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_EXEC, DesktopEntry);
+        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_TYPE, 'Application');
+        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_MIME_TYPE, MimeType);
+        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_NAME, ExtractFileName(DesktopEntry));
       finally
         DesktopFile.Free;
       end;
     except
-      Result:= False;
+      Exit(False);
     end;
+    CustomFile:= ExtractFileName(CustomFile);
+  end;
+  // Save association in MimeApps
+  CustomFile:= CustomFile + ';';
+  MimeApps:= UserDataDir + MimeApps;
+  try
+    DesktopFile:= TIniFileEx.Create(MimeApps, fmOpenReadWrite);
+    try
+      // Update added associations
+      UpdateDesktop('Added Associations');
+      // Set as default action if needed
+      if DefaultAction then
+      begin
+        // Update default applications
+        UpdateDesktop('Default Applications');
+      end;
+      Result:= True;
+    finally
+      DesktopFile.Free;
+    end;
+    fpSystemStatus('update-desktop-database ' + UserDataDir);
+  except
+    Result:= False;
   end;
 end;
 
