@@ -27,7 +27,7 @@ unit uKeyFile;
 interface
 
 uses
-  Classes, SysUtils, IniFiles;
+  Classes, SysUtils, IniFiles, DCBasicTypes, uGLib2;
 
 const
 
@@ -47,10 +47,6 @@ const
   DESKTOP_KEY_KDE_BUG = 'Path[$e]';
 
 type
-  TGKeyFile = record end;
-  PGKeyFile = ^TGKeyFile;
-
-type
 
   { TKeyFile }
 
@@ -67,33 +63,13 @@ type
     function ReadBool(const Section, Ident: String; Default: Boolean): Boolean; override;
     function ReadString(const Section, Ident, Default: String): String; override;
     function ReadLocaleString(const Section, Ident, Default: String): String; virtual;
+    function ReadStringList(const Section, Ident: String): TDynamicStringArray; virtual;
   end;
 
 implementation
 
 uses
-  RtlConsts, GLib2;
-
-type
-  TGKeyFileFlags = (
-    G_KEY_FILE_NONE              = 0,
-    G_KEY_FILE_KEEP_COMMENTS     = 1 shl 0,
-    G_KEY_FILE_KEEP_TRANSLATIONS = 1 shl 1
-  );
-
-function  g_key_file_new(): PGKeyFile; cdecl; external;
-procedure g_key_file_free(key_file: PGKeyFile); cdecl; external;
-function  g_key_file_load_from_file(key_file: PGKeyFile; const file_name: Pgchar;
-                                    flags: TGKeyFileFlags; error: PPGError): gboolean; cdecl; external;
-function  g_key_file_load_from_data(key_file: PGKeyFile; const data: Pgchar; data_length: gsize;
-                                    flags: TGKeyFileFlags; error: PPGError): gboolean; cdecl; external;
-function  g_key_file_has_group(key_file: PGKeyFile; const group_name: Pgchar): gboolean; cdecl; external;
-function  g_key_file_get_string(key_file: PGKeyFile; const group_name: Pgchar;
-                                const key: Pgchar; error: PPGError): Pgchar; cdecl; external;
-function  g_key_file_get_locale_string(key_file: PGKeyFile; const group_name: Pgchar;
-                                       const key: Pgchar; const locale: Pgchar; error: PPGError): Pgchar; cdecl; external;
-function  g_key_file_get_boolean(key_file: PGKeyFile; const group_name: Pgchar;
-                                 const key: Pgchar; error: PPGError): gboolean; cdecl; external;
+  RtlConsts, DCStrUtils;
 
 { TKeyFile }
 
@@ -195,6 +171,22 @@ begin
   else begin
     Result:= StrPas(AValue);
     g_free(AValue);
+  end;
+end;
+
+function TKeyFile.ReadStringList(const Section, Ident: String): TDynamicStringArray;
+var
+  AValue: PPgchar;
+  AIndex, ALength: gsize;
+begin
+  AValue:= g_key_file_get_string_list(FGKeyFile, Pgchar(Section), Pgchar(Ident), @ALength, nil);
+  if Assigned(AValue) then
+  begin
+    for AIndex:= 0 to Pred(ALength) do
+    begin
+      AddString(Result, StrPas(AValue[AIndex]));
+    end;
+    g_strfreev(AValue);
   end;
 end;
 
