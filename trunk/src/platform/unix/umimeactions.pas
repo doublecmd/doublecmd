@@ -85,8 +85,8 @@ function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
 implementation
 
 uses
-  DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard,
-  DCOSUtils, uOSUtils, uKeyFile, uGio, uMyUnix;
+  Unix, DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard,
+  DCOSUtils, uOSUtils, uKeyFile, uGio, uXdg;
 
 const
   libmime = 'libmime';
@@ -524,7 +524,7 @@ begin
     finally
       DesktopFile.Free;
     end;
-    fpSystemStatus('update-desktop-database ' + UserDataDir);
+    fpSystem('update-desktop-database ' + UserDataDir);
   except
     Result:= False;
   end;
