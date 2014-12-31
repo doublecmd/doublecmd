@@ -195,11 +195,6 @@ function FindMountPointPath(const FileName: UTF8String): UTF8String;
 function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
 {en
-   Returns a base directory relative to which user-specific data
-   files should be written.
-}
-function GetUserDataDir: UTF8String;
-{en
    Fix separators in case they are broken UTF-8 characters
    (FPC takes only first byte as it doesn't support Unicode).
 }
@@ -455,14 +450,6 @@ begin
   Result:= EmptyStr;
 end;
 {$ENDIF}
-
-function GetUserDataDir: UTF8String;
-begin
-  Result:= mbGetEnvironmentVariable('XDG_DATA_HOME');
-  if Length(Result) = 0 then begin
-    Result:= GetHomeDir + '/.local/share';
-  end;
-end;
 
 procedure FixDateTimeSeparators;
 var
