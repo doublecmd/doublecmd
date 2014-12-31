@@ -50,6 +50,10 @@ function GetUserConfigDir: UTF8String;
 }
 function GetSystemConfigDirs: TDynamicStringArray;
 {en
+   Get current desktop names
+}
+function GetCurrentDesktop: TDynamicStringArray;
+{en
    Get desktop file path by desktop base file name.
 }
 function GetDesktopPath(const DesktopName: UTF8String): UTF8String;
@@ -97,6 +101,17 @@ begin
     Value:= '/etc/xdg';
   end;
   Result:= SplitString(Value, PathSeparator);
+end;
+
+function GetCurrentDesktop: TDynamicStringArray;
+var
+  Value: String;
+begin
+  Value:= mbGetEnvironmentVariable('XDG_CURRENT_DESKTOP');
+  if Length(Value) > 0 then
+  begin
+    Result:= SplitString(Value, PathSeparator);
+  end;
 end;
 
 function GetDesktopPath(const DesktopName: UTF8String): UTF8String;
