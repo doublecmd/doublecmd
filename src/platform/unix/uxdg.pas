@@ -40,6 +40,16 @@ function GetUserDataDir: UTF8String;
 }
 function GetSystemDataDirs: TDynamicStringArray;
 {en
+   Returns a base directory in which to store user-specific application
+   configuration information such as user preferences and settings.
+}
+function GetUserConfigDir: UTF8String;
+{en
+  Returns an ordered list of base directories in which to access
+  system-wide configuration information.
+}
+function GetSystemConfigDirs: TDynamicStringArray;
+{en
    Get desktop file path by desktop base file name.
 }
 function GetDesktopPath(const DesktopName: UTF8String): UTF8String;
@@ -65,6 +75,26 @@ begin
   if Length(Value) = 0 then
   begin
     Value:= '/usr/local/share/:/usr/share/';
+  end;
+  Result:= SplitString(Value, PathSeparator);
+end;
+
+function GetUserConfigDir: UTF8String;
+begin
+  Result:= mbGetEnvironmentVariable('XDG_CONFIG_HOME');
+  if Length(Result) = 0 then begin
+    Result:= GetHomeDir + '/.config';
+  end;
+end;
+
+function GetSystemConfigDirs: TDynamicStringArray;
+var
+  Value: String;
+begin
+  Value:= mbGetEnvironmentVariable('XDG_CONFIG_DIRS');
+  if Length(Value) = 0 then
+  begin
+    Value:= '/etc/xdg';
   end;
   Result:= SplitString(Value, PathSeparator);
 end;
