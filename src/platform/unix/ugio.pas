@@ -172,14 +172,14 @@ begin
       finally
         FileStream.Free;
       end;
-      MimeType:= g_content_type_guess(Pgchar(FileName), @Buffer[0], Size, @Uncertain);
-      if Assigned(MimeType) then
-      begin
-        Result:= StrPas(MimeType);
-        g_free(MimeType);
-      end;
     except
-      Uncertain:= True;
+      Size:= 0;
+    end;
+    MimeType:= g_content_type_guess(Pgchar(FileName), @Buffer[0], Size, @Uncertain);
+    if Assigned(MimeType) then
+    begin
+      Result:= StrPas(MimeType);
+      g_free(MimeType);
     end;
     if Uncertain and (Stat.st_size = 0) then
       Result:= 'text/plain';
