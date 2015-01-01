@@ -67,6 +67,7 @@ procedure mime_cache_free(cache: PMimeCache);
 
 function mime_cache_load(cache: PMimeCache; const file_path: UTF8String): Boolean;
 function mime_cache_lookup_literal(cache: PMimeCache; const filename: PChar): PAnsiChar;
+function mime_cache_lookup_magic(cache: PMimeCache; const data: PByte; len: Integer): PAnsiChar;
 function mime_cache_lookup_parents(cache: PMimeCache; const mime_type: PChar): TDynamicStringArray;
 function mime_cache_lookup_glob(cache: PMimeCache; const filename: PChar; glob_len: PInteger): PAnsiChar;
 function mime_cache_lookup_suffix(cache: PMimeCache; const filename: PChar; const suffix_pos: PPChar): PAnsiChar;
