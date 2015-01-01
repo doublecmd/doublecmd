@@ -625,7 +625,7 @@ end;"/>
         <UnitName Value="uFileViewNotebook"/>
       </Unit46>
       <Unit47>
-        <Filename Value="platform\unix\umimeactions.pas"/>
+        <Filename Value="platform\unix\mime\umimeactions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMimeActions"/>
       </Unit47>
