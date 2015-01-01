@@ -65,9 +65,9 @@ uses
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSE}
-  , uKeyFile
+  , uKeyFile, uMimeActions, uOSForms
     {$IF DEFINED(LINUX)}
-  , uMimeActions, uOSForms, uRabbitVCS
+  , uRabbitVCS
     {$ENDIF}
   {$ENDIF}
   ;
@@ -261,7 +261,7 @@ var
   I: LongInt;
   FileNames: TStringList;
 begin
-{$IF DEFINED(LINUX)}
+{$IF NOT DEFINED(DARWIN)}
   FileNames := TStringList.Create;
   for I := 0 to FFiles.Count - 1 do
     FileNames.Add(FFiles[I].FullPath);
@@ -353,7 +353,7 @@ begin
       CFRelease(ApplicationArrayRef);
   end;
 end;
-{$ELSEIF DEFINED(LINUX)}
+{$ELSE}
 var
   I: LongInt;
   ImageIndex: PtrInt;
@@ -402,7 +402,9 @@ begin
     mi.OnClick := Self.OpenWithOtherSelect;
     miOpenWith.Add(mi);
 
+{$IF DEFINED(LINUX)}
     FillRabbitMenu(Self, FileNames);
+{$ENDIF}
 
   finally
     FreeAndNil(FileNames);
@@ -413,10 +415,6 @@ begin
       FreeAndNil(DesktopEntries);
     end;
   end;
-end;
-{$ELSE}
-begin
-  Result:= False;
 end;
 {$ENDIF}
 

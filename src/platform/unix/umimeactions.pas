@@ -8,7 +8,7 @@
     (http://www.freedesktop.org/wiki/Specifications/mime-apps-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
-    Copyright (C) 2011-2014  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2011-2015  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,8 +32,7 @@ unit uMimeActions;
 interface
 
 uses
-  Classes, SysUtils, // for AnsiString version of StrPas function
-  glib2;
+  Classes, SysUtils;
 
 type
   PDesktopFileEntry = ^TDesktopFileEntry;
@@ -61,11 +60,6 @@ function GetDesktopEntries(FileNames: TStringList): TList;
 }
 function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
 {en
-   Get file MIME type.
-   Returns a file MIME type.
-}
-function GetFileMimeType(const FileName: UTF8String): UTF8String;
-{en
    Get desktop entry by desktop file name.
 }
 function GetDesktopEntry(const FileName: UTF8String): PDesktopFileEntry;
@@ -85,19 +79,19 @@ function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
 implementation
 
 uses
-  Unix, DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uIconTheme, uClipboard,
-  DCOSUtils, uOSUtils, uKeyFile, uGio, uXdg;
+  Unix, DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uGlib2,
+  uIconTheme, uClipboard, DCOSUtils, uKeyFile, uGio, uXdg, uMimeType;
 
-const
-  libmime = 'libmime';
+type
+  TMimeAppsGroup = (magDefault, magAdded, magRemoved);
+  TMimeAppsGroupSet = set of TMimeAppsGroup;
 
-procedure mime_type_init; cdecl; external libmime;
-procedure mime_type_finalize; cdecl; external libmime;
-procedure mime_type_add_action(mimeType, DesktopFileId: PChar; CustomDesktop: PPChar); cdecl; external libmime;
-function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdecl; external libmime;
-function mime_type_get_by_file(filepath: PChar; stat: Pointer; basename: PChar): PChar; cdecl; external libmime;
-function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external libmime;
-function mime_type_locate_desktop_file(DirectoryToCheck: PChar; DesktopFileId: PChar): PChar; cdecl; external libmime;
+type
+  TMimeAppsList = record
+    Defaults,
+    Added,
+    Removed: TDynamicStringArray;
+  end;
 
 function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
                                    const fileList: TStringList): String;
@@ -212,54 +206,113 @@ begin
   end;
 end;
 
-procedure ReadMimeAppsList(const mimeType: String; out Added, Removed: TStringList);
-const
-  mimeApps1 = '/.local/share/applications/mimeapps.list';
-  mimeApps2 = '/usr/share/applications/mimeapps.list';
+procedure ParseActions(Actions: TDynamicStringArray; var ActionList: TDynamicStringArray);
 var
-  I: LongInt;
-  sTemp: String;
-  mimeApps: TIniFileEx = nil;
-  mimeAppsList: array[1..2] of String = (mimeApps1, mimeApps2);
-
-  function ParseActions(const Actions: String; var ActionList: TStringList): Boolean;
-  var
-    startIndex,
-    finishIndex: LongInt;
-    action: String;
-    desktopFile: PChar = nil;
+  Action: String;
+begin
+  for Action in Actions do
   begin
-    startIndex:= 1;
-    for finishIndex:= 1 to Length(Actions) do
-    if (Actions[finishIndex] = ';') then
+    if Length(GetDesktopPath(Action)) > 0 then
     begin
-      action:= Copy(Actions, startIndex, finishIndex - startIndex);
-      desktopFile := mime_type_locate_desktop_file(nil, PChar(action));
-      if (desktopFile <> nil) then
-      begin
-        if (ActionList.IndexOf(action) < 0) then
-          ActionList.Add(action);
-        g_free(desktopFile);
-      end;
-      startIndex:= finishIndex + 1;
+      if not Contains(ActionList, Action) then
+        AddString(ActionList, Action);
     end;
   end;
+end;
 
+procedure SetFindPath(var MimeAppsPath: TDynamicStringArray);
+const
+  APPLICATIONS = 'applications/';
+var
+  I: Integer;
+  Temp: TDynamicStringArray;
 begin
-  Added:= TStringList.Create;
-  Removed:= TStringList.Create;
-  mimeAppsList[1]:= GetHomeDir + mimeAppsList[1];
-  for I:= Low(mimeAppsList) to High(mimeAppsList) do
-  if (mbFileExists(mimeAppsList[I])) then
-  try
-    mimeApps:= TIniFileEx.Create(mimeAppsList[I], fmOpenRead or fmShareDenyNone);
+  // $XDG_CONFIG_HOME
+  AddString(MimeAppsPath, IncludeTrailingBackslash(GetUserConfigDir));
+  // $XDG_CONFIG_DIRS
+  Temp:= GetSystemConfigDirs;
+  for I:= Low(Temp) to High(Temp) do
+  begin
+    AddString(MimeAppsPath, IncludeTrailingBackslash(Temp[I]));
+  end;
+  // $XDG_DATA_HOME
+  AddString(MimeAppsPath, IncludeTrailingBackslash(GetUserDataDir) + APPLICATIONS);
+  // $XDG_DATA_DIRS
+  Temp:= GetSystemDataDirs;
+  for I:= Low(Temp) to High(Temp) do
+  begin
+    AddString(MimeAppsPath, IncludeTrailingBackslash(Temp[I]) + APPLICATIONS);
+  end;
+end;
+
+function ReadMimeAppsList(const MimeType, MimeAppsPath: String; Flags: TMimeAppsGroupSet): TMimeAppsList;
+const
+  MIME_APPS_LIST = 'mimeapps.list';
+var
+  J: LongInt;
+  FileName: String;
+  MimeApps: TKeyFile;
+  Actions: TDynamicStringArray;
+  MimeAppsFile: TDynamicStringArray;
+begin
+  // $XDG_CURRENT_DESKTOP
+  Actions:= GetCurrentDesktop;
+  // Desktop specific configuration
+  for J:= Low(Actions) to High(Actions) do
+  begin
+    AddString(MimeAppsFile, LowerCase(Actions[J]) + '-' + MIME_APPS_LIST);
+  end;
+  // Common configuration
+  AddString(MimeAppsFile, MIME_APPS_LIST);
+
+  for J:= Low(MimeAppsFile) to High(MimeAppsFile) do
+  begin
+    FileName:= MimeAppsPath + MimeAppsFile[J];
+    if mbFileExists(FileName) then
     try
-      sTemp:= mimeApps.ReadString('Added Associations', mimeType, EmptyStr);
-      if (Length(sTemp) <> 0) then ParseActions(sTemp, Added);
-      sTemp:= mimeApps.ReadString('Removed Associations', mimeType, EmptyStr);
-      if (Length(sTemp) <> 0) then ParseActions(sTemp, Removed);
+      MimeApps:= TKeyFile.Create(FileName);
+      try
+        if magDefault in Flags then
+        begin
+          Actions:= MimeApps.ReadStringList('Default Applications', MimeType);
+          if (Length(Actions) > 0) then ParseActions(Actions, Result.Defaults);
+        end;
+        if magAdded in Flags then
+        begin
+          Actions:= MimeApps.ReadStringList('Added Associations', MimeType);
+          if (Length(Actions) > 0) then ParseActions(Actions, Result.Added);
+        end;
+        if magRemoved in Flags then
+        begin
+          Actions:= MimeApps.ReadStringList('Removed Associations', MimeType);
+          if (Length(Actions) > 0) then ParseActions(Actions, Result.Removed);
+        end;
+      finally
+        FreeAndNil(MimeApps);
+      end;
+    except
+      // Continue
+    end;
+  end;
+end;
+
+procedure ReadMimeInfoCache(const MimeType, Path: String; out Actions: TDynamicStringArray);
+const
+  MIME_INFO_CACHE = 'mimeinfo.cache';
+var
+  MimeCache: TKeyFile;
+  FileName: UTF8String;
+  AValue: TDynamicStringArray;
+begin
+  FileName:= IncludeTrailingBackslash(Path) + MIME_INFO_CACHE;
+  if mbFileExists(FileName) then
+  try
+    MimeCache:= TKeyFile.Create(FileName);
+    try
+      AValue:= MimeCache.ReadStringList('MIME Cache', MimeType);
+      if (Length(AValue) > 0) then ParseActions(AValue, Actions);
     finally
-      FreeAndNil(mimeApps);
+      FreeAndNil(MimeCache);
     end;
   except
     // Continue
@@ -268,156 +321,175 @@ end;
 
 function GetDesktopEntries(FileNames: TStringList): TList;
 var
-  I: Integer;
-  mimeType: PChar;
-  actions: PPChar;
-  desktopFile: PChar;
+  Apps: TMimeAppsList;
   Entry: PDesktopFileEntry;
-  Added, Removed: TStringList;
-  ActionArray: TDynamicStringArray;
+  Path, Action, MimeType: String;
+  Actions, MimeTypes: TDynamicStringArray;
+  ResultArray, MimeAppsPath: TDynamicStringArray;
 
-  procedure AddAction(action: PChar);
+  procedure AddAction(const Action: String);
   begin
-    desktopFile := mime_type_locate_desktop_file(nil, action);
-    if Assigned(desktopFile) then
+    Path := GetDesktopPath(Action);
+    if Length(Path) > 0 then
     begin
-      Entry := GetDesktopEntry(desktopFile);
+      Entry := GetDesktopEntry(Path);
 
       if Assigned(Entry) then
       begin
-        Entry^.MimeType := StrPas(mimeType);
+        Entry^.MimeType := MimeType;
         // Set Exec as last because it uses other fields of Entry.
         Entry^.Exec := TranslateAppExecToCmdLine(Entry, Filenames);
 
         Result.Add(Entry);
       end;
-
-      g_free(desktopFile);
     end;
   end;
 
 begin
-  if FileNames.Count = 0 then
-    Exit(nil);
+  if FileNames.Count = 0 then Exit(nil);
+
+  // Get file mime type
+  MimeTypes := GetFileMimeTypes(FileNames[0]);
+  if Length(MimeTypes) = 0 then Exit(nil);
 
   Result := TList.Create;
+  SetFindPath(MimeAppsPath);
 
-  // This string should not be freed.
-  mimeType := mime_type_get_by_file(PChar(FileNames[0]), nil, nil);
-
-  // Read actions from mimeapps.list
-  ReadMimeAppsList(mimeType, Added, Removed);
-
-  // Add actions from mimeapps.list
-  for I := 0 to Added.Count - 1 do
-    AddAction(PChar(Added[I]));
-
-  if HasGio then
+  for MimeType in MimeTypes do
   begin
-    ActionArray:= GioMimeTypeGetActions(mimeType);
-    for I:= Low(ActionArray) to High(ActionArray) do
+    for Path in MimeAppsPath do
     begin
-      // Don't add actions where already in mimeapps.list
-      if (Added.IndexOf(ActionArray[I]) < 0) and (Removed.IndexOf(ActionArray[I]) < 0) then
-        AddAction(PAnsiChar(ActionArray[I]));
-    end;
-  end
-  else begin
-    // Retrieve *.desktop identificators
-    actions := mime_type_get_actions(mimeType);
+      // Read actions from mimeapps.list
+      Apps:= ReadMimeAppsList(MimeType, Path, [magDefault, magAdded, magRemoved]);
 
-    // If find any actions for this mime
-    if actions <> nil then
-    begin
-      I := 0;
-      while (actions[I] <> nil) and (actions[I] <> '') do
+      // Add actions from default group
+      for Action in Apps.Defaults do
       begin
-        // Don't add actions where already in mimeapps.list
-        if (Added.IndexOf(actions[I]) < 0) and (Removed.IndexOf(actions[I]) < 0) then
-          AddAction(actions[I]);
-
-        I := I + 1;
+        if (not Contains(ResultArray, Action)) and (not Contains(Apps.Removed, Action)) then
+          AddString(ResultArray, Action);
       end;
-      g_strfreev(actions);
+
+      // Add actions from added group
+      for Action in Apps.Added do
+      begin
+        if (not Contains(ResultArray, Action)) and (not Contains(Apps.Defaults, Action)) then
+          AddString(ResultArray, Action);
+      end;
+
+      // Read actions from mimeinfo.cache
+      ReadMimeInfoCache(MimeType, Path, Actions);
+
+      for Action in Actions do
+      begin
+        if (not Contains(ResultArray, Action)) and (not Contains(Apps.Removed, Action)) then
+        begin
+          AddString(ResultArray, Action);
+          AddString(Apps.Removed, Action);
+        end;
+      end;
     end;
   end;
-
-  // Free resources
-  FreeAndNil(Added);
-  FreeAndNil(Removed);
+  if HasGio then
+  begin
+    Actions:= GioMimeTypeGetActions(MimeTypes[0]);
+    for Action in Actions do
+    begin
+      if not Contains(ResultArray, Action) then
+        AddString(ResultArray, Action);
+    end;
+  end;
+  // Fill result list
+  for Action in ResultArray do
+  begin
+    AddAction(Action);
+  end;
 end;
 
 function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
 var
-  i: Integer = 0;
-  mimeType: PChar = nil;
-  action: PChar = nil;
-  actions: PPChar = nil;
-  desktopFile: PChar;
+  I: Integer;
+  Action: String;
+  Apps: TMimeAppsList;
+  MimeType, Path: String;
   Entry: PDesktopFileEntry;
-  Added, Removed: TStringList;
-begin
-  Result:= EmptyStr;
+  Actions: TDynamicStringArray;
+  MimeTypes: TDynamicStringArray;
+  MimeAppsPath: TDynamicStringArray;
 
-  if FileNames.Count = 0 then Exit;
-
-  // This string should not be freed.
-  mimeType := mime_type_get_by_file(PChar(FileNames[0]), nil, nil);
-
-  // Read actions from mimeapps.list
-  ReadMimeAppsList(mimeType, Added, Removed);
-
-  if (Added.Count > 0) then
-    begin
-      // First action is default
-      action:= PChar(Added[0]);
-    end
-  else
-    begin
-      // Retrieve *.desktop identificators
-      actions := mime_type_get_actions(mimeType);
-
-      // If find any actions for this mime
-      if (actions <> nil) then
-      repeat
-        action := actions[i];
-        inc(i);
-      until ((action <> nil) or (action <> EmptyStr)) and (Removed.IndexOf(action) < 0);
-    end;
-
-  if (action <> nil) then
+  function GetAppExec: UTF8String;
   begin
-    desktopFile := mime_type_locate_desktop_file(nil, action);
-    if Assigned(desktopFile) then
+    if Length(Action) > 0 then
     begin
-      Entry := GetDesktopEntry(desktopFile);
-
-      if Assigned(Entry) then
+      Path := GetDesktopPath(Action);
+      if Length(Path) > 0 then
       begin
-        Entry^.MimeType := StrPas(mimeType);
-        // Set Exec as last because it uses other fields of Entry.
-        Result := TranslateAppExecToCmdLine(Entry, Filenames);
-        Dispose(Entry);
-      end;
+        Entry := GetDesktopEntry(Path);
 
-      g_free(desktopFile);
+        if Assigned(Entry) then
+        begin
+          Entry^.MimeType := MimeType;
+          // Set Exec as last because it uses other fields of Entry.
+          Result := TranslateAppExecToCmdLine(Entry, Filenames);
+          Dispose(Entry);
+        end;
+      end;
     end;
   end;
 
-  // Free resources
-  FreeAndNil(Added);
-  FreeAndNil(Removed);
-  if (actions <> nil) then
-    g_strfreev(actions)
-end;
-
-function GetFileMimeType(const FileName: UTF8String): UTF8String;
-var
-  mimeType: PChar;
 begin
-  // This string should not be freed.
-  mimeType := mime_type_get_by_file(PChar(FileName), nil, nil);
-  Result:= StrPas(mimeType);
+  Result:= EmptyStr;
+  if FileNames.Count = 0 then Exit;
+
+  // Get file mime type
+  MimeTypes := GetFileMimeTypes(FileNames[0]);
+  if Length(MimeTypes) = 0 then Exit;
+
+  for MimeType in MimeTypes do
+  begin
+    // Check defaults
+    for Path in MimeAppsPath do
+    begin
+      // Read actions from mimeapps.list
+      Apps:= ReadMimeAppsList(MimeType, Path, [magDefault]);
+      if Length(Apps.Defaults) > 0 then
+      begin
+        // First Action is default
+        Action:= Apps.Defaults[0];
+        Exit(GetAppExec);
+      end
+    end;
+    // Check added
+    for Path in MimeAppsPath do
+    begin
+      // Read actions from mimeapps.list
+      Apps:= ReadMimeAppsList(MimeType, Path,  [magAdded]);
+      if Length(Apps.Added) > 0 then
+      begin
+        // First Action is default
+        Action:= Apps.Added[0];
+        Exit(GetAppExec);
+      end;
+    end;
+    // Check mime info cache
+    for Path in MimeAppsPath do
+    begin
+      // Read actions from mimeinfo.cache
+      ReadMimeInfoCache(MimeType, Path, Actions);
+      if Length(Actions) > 0 then
+      begin
+        // Read actions from mimeapps.list
+        Apps:= ReadMimeAppsList(MimeType, Path,  [magRemoved]);
+        for I:= Low(Actions) to High(Actions) do
+        begin
+          if not Contains(Apps.Removed, Actions[I]) then
+          begin
+            Action:= Actions[I];
+            Exit(GetAppExec);
+          end;
+        end;
+      end;
+    end;
+  end; //for
 end;
 
 function GetDesktopEntry(const FileName: UTF8String): PDesktopFileEntry;
@@ -487,7 +559,7 @@ begin
   if (StrEnds(DesktopEntry, '.desktop') = False) then
   begin
     // Create new desktop entry file for user command
-    CustomFile:= 'doublecmd_' + ExtractFileName(DesktopEntry) + '_';
+    CustomFile:= 'dc_' + ExtractFileName(DesktopEntry) + '_';
     CustomFile:= UserDataDir + '/applications/' + CustomFile;
     CustomFile:= GetTempName(CustomFile) + '.desktop';
     try
@@ -495,12 +567,13 @@ begin
       try
         DesktopFile.WriteBool(DESKTOP_GROUP, DESKTOP_KEY_NO_DISPLAY, True);
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_EXEC, DesktopEntry);
-        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_TYPE, 'Application');
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_MIME_TYPE, MimeType);
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_NAME, ExtractFileName(DesktopEntry));
+        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_TYPE, KEY_FILE_DESKTOP_TYPE_APPLICATION);
       finally
         DesktopFile.Free;
       end;
+      fpSystem('update-desktop-database ' + UserDataDir);
     except
       Exit(False);
     end;
@@ -524,16 +597,9 @@ begin
     finally
       DesktopFile.Free;
     end;
-    fpSystem('update-desktop-database ' + UserDataDir);
   except
     Result:= False;
   end;
 end;
-
-initialization
-  mime_type_init;
-
-finalization
-  mime_type_finalize();
 
 end.
