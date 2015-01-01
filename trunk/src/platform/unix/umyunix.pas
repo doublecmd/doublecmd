@@ -243,8 +243,11 @@ uses
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
+{$IF NOT DEFINED(DARWIN)}
+  , uMimeActions, uMimeType
+{$ENDIF}
 {$IFDEF LINUX}
-  , Process, uMimeActions, uUDisks
+  , Process, uUDisks
 {$ENDIF}
   ;
 
@@ -423,7 +426,7 @@ begin
 end;
 
 function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
-{$IFDEF LINUX}
+{$IF NOT DEFINED(DARWIN)}
 var
   Filenames: TStringList;
 begin
@@ -441,9 +444,9 @@ end;
 {$ENDIF}
 
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
-{$IFDEF LINUX}
+{$IF NOT DEFINED(DARWIN)}
 begin
-  Result:= uMimeActions.GetFileMimeType(FileName);
+  Result:= uMimeType.GetFileMimeType(FileName);
 end;
 {$ELSE}
 begin
