@@ -45,7 +45,7 @@ uses
     {$IFDEF DARWIN}
     , MacOSAll, DynLibs, StrUtils
     {$ELSE}
-    , uFileProcs, uClipboard
+    , uFileProcs, uClipboard, uXdg
     {$ENDIF}
   {$ENDIF};
 
@@ -200,12 +200,8 @@ begin
      and (fpLStat(PChar(UTF8ToSys(FileName)), st2) >= 0)
      and (st1.st_dev = st2.st_dev) then
   begin
-    // Get $XDG_DATA_HOME directory
-    sTemp:= mbGetEnvironmentVariable('XDG_DATA_HOME');
-    if (Length(sTemp) = 0) then
-      sTemp:= sHomeDir + '/.local/share/Trash'
-    else
-      sTemp:= IncludeTrailingPathDelimiter(sTemp) + 'Trash';
+    // Get trash directory in $XDG_DATA_HOME
+    sTemp:= IncludeTrailingPathDelimiter(GetUserDataDir) + 'Trash';
     // Create destination directories if needed
     if (mbForceDirectory(sTemp + PathDelim + trashFiles) and mbForceDirectory(sTemp + PathDelim + trashInfo)) then
     begin
