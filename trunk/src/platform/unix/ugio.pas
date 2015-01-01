@@ -43,7 +43,7 @@ var
 implementation
 
 uses
-  Math, BaseUnix, DCStrUtils, DCClassesUtf8, uGlib2, uGObject2, uGio2;
+  DCStrUtils, DCClassesUtf8, uGlib2, uGObject2, uGio2;
 
 function GioOpen(const Uri: UTF8String): Boolean;
 var
@@ -151,53 +151,36 @@ end;
 
 function GioGetMimeType(const FileName: UTF8String; MaxExtent: LongWord): UTF8String;
 var
-  Size: Integer;
   MimeType: Pgchar;
+  Size: Integer = 0;
   Uncertain: gboolean;
-  Stat: BaseUnix.Stat;
   Buffer: array of Byte;
   FileStream: TFileStreamEx;
 begin
-  if fpStat(FileName, Stat) < 0 then
-    Exit(EmptyStr);
-
-  if fpS_ISREG(Stat.st_mode) then
+  if MaxExtent > 0 then
   begin
     SetLength(Buffer, MaxExtent);
     try
       FileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
       try
-        Size:= Min(Stat.st_size, MaxExtent);
-        Size:= FileStream.Read(Buffer[0], Size);
+        Size:= FileStream.Read(Buffer[0], MaxExtent);
       finally
         FileStream.Free;
       end;
     except
       Size:= 0;
     end;
-    MimeType:= g_content_type_guess(Pgchar(FileName), @Buffer[0], Size, @Uncertain);
-    if Assigned(MimeType) then
-    begin
-      Result:= StrPas(MimeType);
-      g_free(MimeType);
-    end;
-    if Uncertain and (Stat.st_size = 0) then
-      Result:= 'text/plain';
-    if Length(Result) = 0 then
-      Result:= 'application/octet-stream';
-  end
-  else if fpS_ISDIR(Stat.st_mode) then
-    Result:= 'inode/directory'
-  else if fpS_ISCHR(Stat.st_mode) then
-    Result:= 'inode/chardevice'
-  else if fpS_ISBLK(Stat.st_mode) then
-    Result:= 'inode/blockdevice'
-  else if fpS_ISFIFO(Stat.st_mode) then
-    Result:= 'inode/fifo'
-  else if fpS_ISLNK(Stat.st_mode) then
-    Result:= 'inode/symlink'
-  else if fpS_ISSOCK(Stat.st_mode) then
-    Result:= 'inode/socket';
+  end;
+  MimeType:= g_content_type_guess(Pgchar(FileName), @Buffer[0], Size, @Uncertain);
+  if Assigned(MimeType) then
+  begin
+    Result:= StrPas(MimeType);
+    g_free(MimeType);
+  end;
+  if Uncertain and (MaxExtent = 0) then
+    Result:= 'text/plain';
+  if Length(Result) = 0 then
+    Result:= 'application/octet-stream';
 end;
 
 procedure Initialize;
@@ -218,6 +201,7 @@ begin
     Assert(@g_settings_get_string <> nil, 'g_settings_get_string');
     Assert(@g_settings_schema_source_get_default <> nil, 'g_settings_schema_source_get_default');
     Assert(@g_settings_schema_source_lookup <> nil, 'g_settings_schema_source_lookup');
+    Assert(@g_content_type_guess <> nil, 'g_content_type_guess');
   except
     on E: Exception do
     begin
