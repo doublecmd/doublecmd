@@ -182,9 +182,10 @@ begin
   AValue:= g_key_file_get_string_list(FGKeyFile, Pgchar(Section), Pgchar(Ident), @ALength, nil);
   if Assigned(AValue) then
   begin
+    SetLength(Result, ALength);
     for AIndex:= 0 to Pred(ALength) do
     begin
-      AddString(Result, StrPas(AValue[AIndex]));
+      Result[AIndex]:= StrPas(AValue[AIndex]);
     end;
     g_strfreev(AValue);
   end;
