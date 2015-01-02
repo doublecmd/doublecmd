@@ -25,48 +25,5 @@ lazbuild wdx\xpi_wdx\src\xpi_wdx.lpi %DC_ARCH%
 rem WFX plugins
 lazbuild wfx\ftp\src\ftp.lpi %DC_ARCH%
 
-rem Strip and rename WCX
-pushd wcx\cpio\lib\
-strip --strip-all cpio.wcx
-popd
-
-pushd wcx\deb\lib\
-strip --strip-all deb.wcx
-popd
-
-pushd wcx\rpm\lib\
-strip --strip-all rpm.wcx
-popd
-
-pushd wcx\unrar\lib\
-strip --strip-all unrar.wcx
-popd
-
-pushd wcx\zip\lib\
-strip --strip-all zip.wcx
-popd
-
-rem Strip and rename WDX
-pushd wdx\rpm_wdx\lib\
-strip --strip-all rpm_wdx.wdx
-popd
-
-pushd wdx\deb_wdx\lib\
-strip --strip-all deb_wdx.wdx
-popd
-
-pushd wdx\svn_wdx\lib\
-strip --strip-all svn_wdx.wdx
-popd
-
-pushd wdx\xpi_wdx\lib\
-strip --strip-all xpi_wdx.wdx
-popd
-
-rem Strip and rename WFX
-pushd wfx\ftp\lib\
-strip --strip-all ftp.wfx
-popd
-
 rem Return from plugins directory
 popd
