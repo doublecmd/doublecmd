@@ -507,7 +507,6 @@ begin
   edtFindPathStart.Visible := False;
   cbFollowSymLinks.Visible := False;
   cbSelectedFiles.Visible := False;
-  cbPartialNameSearch.Visible := False;
   btnStart.Visible := False;
   btnStop.Visible := False;
   btnNewSearch.Visible := False;
