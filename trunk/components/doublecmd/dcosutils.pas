@@ -746,10 +746,18 @@ end;
 {$ELSE}
 var
   t: TUTimBuf;
+  CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime: DCBasicTypes.TFileTime;
 begin
-  t.actime := time_t(LastAccessTime);
-  t.modtime := time_t(ModificationTime);
-  Result := (fputime(PChar(UTF8ToSys(FileName)), @t) <> -1);
+  if mbFileGetTime(FileName,CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime) then
+  begin
+    if LastAccessTime<>0 then t.actime := time_t(LastAccessTime) else t.actime := time_t(CurrentLastAccessTime);
+    if ModificationTime<>0 then t.modtime := time_t(ModificationTime) else t.modtime := time_t(CurrentModificationTime);
+    Result := (fputime(PChar(UTF8ToSys(FileName)), @t) <> -1);
+  end
+  else
+  begin
+    Result:=False;
+  end;
 end;
 {$ENDIF}
 
