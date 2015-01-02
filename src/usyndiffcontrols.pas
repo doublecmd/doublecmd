@@ -50,7 +50,7 @@ type
 
     procedure SetDigitCount(AValue : integer);
     procedure SetLeadingZeros(const AValue : boolean);
-    function FormatLineNumber(Line: integer; Kind: TChangeKind): string;
+    function FormatLineNumber(Line: PtrInt; Kind: TChangeKind): string;
   protected
     procedure Init; override;
     function  PreferedWidth: Integer; override;
@@ -399,7 +399,7 @@ begin
   end;
 end;
 
-function TSynDiffGutterLineNumber.FormatLineNumber(Line: Integer;
+function TSynDiffGutterLineNumber.FormatLineNumber(Line: PtrInt;
   Kind: TChangeKind): string;
 var
   I: Integer;
@@ -474,9 +474,9 @@ var
   DC: HDC;
   S: String;
   rcLine: TRect;
-  LineHeight: Integer;
+  LineNumber: PtrInt;
   LineKind: TChangeKind;
-  I, LineNumber: Integer;
+  I, LineHeight: Integer;
   SynDiffEdit: TSynDiffEdit;
 begin
   if not Visible then Exit;
