@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File mask input dialog
 
-   Copyright (C) 2010-2012 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2014 Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -110,6 +110,7 @@ procedure TfrmMaskInputDlg.FormCreate(Sender: TObject);
 var
   I: Integer;
 begin
+  InitPropStorage(Self);
   for I:= 0 to gSearchTemplateList.Count - 1 do
     lbxSearchTemplate.Items.Add(gSearchTemplateList.Templates[I].TemplateName);
 end;
