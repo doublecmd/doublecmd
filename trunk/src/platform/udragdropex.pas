@@ -181,6 +181,9 @@ uses
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
 uses
   uDragDropGtk;
+{$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
+uses
+  uDragDropQt, uDragDropCocoa;
 {$ELSEIF DEFINED(LCLQT)}
 uses
   uDragDropQt;
@@ -354,6 +357,8 @@ begin
   Result := TDragDropSourceWindows.Create(Control);
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   Result := TDragDropSourceGTK.Create(Control);
+{$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
+  Result := TDragDropSourceCocoa.Create(Control);
 {$ELSEIF DEFINED(LCLQT)}
   Result := TDragDropSourceQT.Create(Control);
 {$ELSE}
