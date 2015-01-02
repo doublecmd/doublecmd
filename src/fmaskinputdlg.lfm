@@ -1,18 +1,17 @@
 object frmMaskInputDlg: TfrmMaskInputDlg
   Left = 404
   Height = 231
-  Top = 176
-  Width = 339
-  AutoSize = True
+  Top = 635
+  Width = 331
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
   ChildSizing.LeftRightSpacing = 10
   ChildSizing.TopBottomSpacing = 10
   ClientHeight = 231
-  ClientWidth = 339
+  ClientWidth = 331
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  SessionProperties = 'Height;Width'
+  LCLVersion = '1.2.4.0'
   object lblPrompt: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -21,7 +20,7 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     Left = 10
     Height = 1
     Top = 10
-    Width = 319
+    Width = 311
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 10
     BorderSpacing.Right = 10
@@ -33,9 +32,9 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     AnchorSideTop.Control = cmbMask
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 18
-    Top = 51
-    Width = 238
+    Height = 15
+    Top = 46
+    Width = 185
     BorderSpacing.Top = 6
     Caption = 'O&r select predefined selection type:'
     FocusControl = lbxSearchTemplate
@@ -49,24 +48,25 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 28
+    Height = 23
     Top = 17
-    Width = 319
+    Width = 311
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
     BorderSpacing.Right = 10
     DropDownCount = 10
-    ItemHeight = 0
+    ItemHeight = 15
     TabOrder = 0
   end
   object btnOK: TBitBtn
+    AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = lbxSearchTemplate
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
-    Left = 123
-    Height = 35
-    Top = 174
+    Left = 115
+    Height = 30
+    Top = 193
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -83,16 +83,15 @@ object frmMaskInputDlg: TfrmMaskInputDlg
   object btnCancel: TBitBtn
     AnchorSideTop.Control = lbxSearchTemplate
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
+    AnchorSideRight.Control = lbxSearchTemplate
     AnchorSideRight.Side = asrBottom
-    Left = 229
-    Height = 36
-    Top = 174
+    Left = 221
+    Height = 30
+    Top = 193
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
-    BorderSpacing.Right = 10
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = '&Cancel'
@@ -107,11 +106,12 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
     Left = 10
-    Height = 93
-    Top = 75
-    Width = 319
-    Anchors = [akTop, akLeft, akRight]
+    Height = 120
+    Top = 67
+    Width = 311
+    Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
     BorderSpacing.Right = 10
@@ -121,17 +121,20 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     ScrollWidth = 317
     Sorted = True
     TabOrder = 1
-    TopIndex = -1
   end
   object btnDefineTemplate: TBitBtn
-    AnchorSideTop.Control = btnOK
+    AnchorSideTop.Control = lbxSearchTemplate
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnOK
-    Left = 17
-    Height = 35
-    Top = 174
+    AnchorSideBottom.Control = btnCancel
+    AnchorSideBottom.Side = asrBottom
+    Left = 9
+    Height = 30
+    Top = 193
     Width = 100
-    Anchors = [akTop, akRight]
+    Anchors = [akTop, akRight, akBottom]
     AutoSize = True
+    BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Caption = '&Define...'
