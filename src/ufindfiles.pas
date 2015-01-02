@@ -145,11 +145,13 @@ begin
     while (Length(FileChecks.FilesMasks) > 0) do
     begin
       sMask:= Copy2SymbDel(FileChecks.FilesMasks, ';');
-      iMask:= Length(sMask);
-      if (iMask > 0) then
+      if not ContainsOneOf(sMask, '*?') then
       begin
-        if sMask[iMask] <> '*' then sMask:= sMask + '*';
-        if sMask[1] <> '*' then sMask:= '*' + sMask;
+        if Length(sMask) = 0 then
+          sMask:= AllFilesMask
+        else begin
+          sMask:= '*' + sMask + '*';
+        end;
       end;
       sTemp:= sTemp + sMask + ';';
     end;
