@@ -2678,6 +2678,10 @@ var
   SelectedFiles: TFiles = nil;
   aFileProperties: TFileProperties;
   Operation: TFileSourceSetFilePropertyOperation = nil;
+  ModificationTime: DCBasicTypes.TFileTime;
+  CreationTime: DCBasicTypes.TFileTime;
+  LastAccessTime : DCBasicTypes.TFileTime;
+
 begin
   with frmMain do
   try
@@ -2691,6 +2695,15 @@ begin
     ActiveFile := ActiveFrame.CloneActiveFile;
     if Assigned(ActiveFile) then
       begin
+        if fspDirectAccess in ActiveFrame.FileSource.Properties then
+        begin
+          if mbFileGetTime(ActiveFile.FullPath, ModificationTime, CreationTime, LastAccessTime) then
+          begin
+            ActiveFile.ModificationTime:= FileTimeToDateTime(ModificationTime);
+            ActiveFile.CreationTime:= FileTimeToDateTime(CreationTime);
+            ActiveFile.LastAccessTime:= FileTimeToDateTime(LastAccessTime);
+          end;
+        end;
         FillByte(aFileProperties, SizeOf(aFileProperties), 0);
         if fpAttributes in ActiveFile.SupportedProperties then
           aFileProperties[fpAttributes]:= ActiveFile.Properties[fpAttributes].Clone;

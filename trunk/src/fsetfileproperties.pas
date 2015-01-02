@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Change file properties dialog
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2014  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,6 +85,7 @@ type
     procedure btnCreationTimeClick(Sender: TObject);
     procedure btnLastAccessTimeClick(Sender: TObject);
     procedure btnLastWriteTimeClick(Sender: TObject);
+    procedure SetOtherDateLikeThis(ReferenceZVDateTimePicker:TZVDateTimePicker);
     procedure btnOKClick(Sender: TObject);
     procedure cbChangeModeClick(Sender: TObject);
     procedure chkChangeAttrClick(Sender: TObject);
@@ -115,7 +116,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, DCFileAttributes, DCStrUtils, uDCUtils, uFileProperty;
+  LCLType, DCFileAttributes, DCStrUtils, uDCUtils, uFileProperty, uKeyboard;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;
 begin
@@ -307,16 +308,45 @@ end;
 procedure TfrmSetFileProperties.btnCreationTimeClick(Sender: TObject);
 begin
   ZVCreationDateTime.DateTime:= Now;
-end;
-
-procedure TfrmSetFileProperties.btnLastAccessTimeClick(Sender: TObject);
-begin
-  ZVLastAccessDateTime.DateTime:= Now;
+  if not chkCreationTime.Checked then chkCreationTime.Checked:=TRUE;
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVCreationDateTime);
 end;
 
 procedure TfrmSetFileProperties.btnLastWriteTimeClick(Sender: TObject);
 begin
   ZVLastWriteDateTime.DateTime:= Now;
+  if not chkLastWriteTime.Checked then chkLastWriteTime.Checked:=TRUE;
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastWriteDateTime);
+end;
+
+procedure TfrmSetFileProperties.btnLastAccessTimeClick(Sender: TObject);
+begin
+  ZVLastAccessDateTime.DateTime:= Now;
+  if not chkLastAccessTime.Checked then chkLastAccessTime.Checked:=TRUE;
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastAccessDateTime);
+end;
+
+procedure TfrmSetFileProperties.SetOtherDateLikeThis(ReferenceZVDateTimePicker:TZVDateTimePicker);
+begin
+  if ReferenceZVDateTimePicker<>ZVCreationDateTime then
+  begin
+    ZVCreationDateTime.DateTime:=ReferenceZVDateTimePicker.DateTime;
+    chkCreationTime.Checked:=TRUE;
+  end;
+
+  if ReferenceZVDateTimePicker<>ZVLastWriteDateTime then
+  begin
+    ZVLastWriteDateTime.DateTime:=ReferenceZVDateTimePicker.DateTime;
+    chkLastWriteTime.Checked:=TRUE;
+  end;
+
+  if ReferenceZVDateTimePicker<>ZVLastAccessDateTime then
+  begin
+    ZVLastAccessDateTime.DateTime:=ReferenceZVDateTimePicker.DateTime;
+    chkLastAccessTime.Checked:=TRUE;
+   end;
+
+  ReferenceZVDateTimePicker.SetFocus;
 end;
 
 procedure TfrmSetFileProperties.chkCreationTimeChange(Sender: TObject);
@@ -340,16 +370,19 @@ end;
 procedure TfrmSetFileProperties.ZVCreationDateTimeChange(Sender: TObject);
 begin
   chkCreationTime.Checked:=True;
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVCreationDateTime);
 end;
 
 procedure TfrmSetFileProperties.ZVLastAccessDateTimeChange(Sender: TObject);
 begin
   chkLastAccessTime.Checked:=True;
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastAccessDateTime);
 end;
 
 procedure TfrmSetFileProperties.ZVLastWriteDateTimeChange(Sender: TObject);
 begin
   chkLastWriteTime.Checked:=True;
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastWriteDateTime);
 end;
 
 end.
