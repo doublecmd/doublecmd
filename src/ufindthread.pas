@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2013 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, SysUtils, uFindFiles, uFindEx, uFindByrMr;
+  Classes, StdCtrls, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks;
 
 type
 
@@ -51,6 +51,9 @@ type
     FFileChecks: TFindFileChecks;
     FLinkTargets: TStringList;  // A list of encountered directories (for detecting cycles)
     RecodeTable:TRecodeTable;
+    FFilesMasks: TMaskList;
+    FExcludeFiles: TMaskList;
+    function CheckFileName(const FileName: String) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function FindInFile(const sFileName: UTF8String;
@@ -101,6 +104,9 @@ begin
     ExcludeFiles := UTF8UpperCase(ExcludeFiles);
     ExcludeDirectories := UTF8UpperCase(ExcludeDirectories);
 
+    FFilesMasks := TMaskList.Create(FilesMasks);
+    FExcludeFiles := TMaskList.Create(ExcludeFiles);
+
     FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
     ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
     if IsFindText then
@@ -112,6 +118,8 @@ end;
 
 destructor TFindThread.Destroy;
 begin
+  FreeAndNil(FFilesMasks);
+  FreeAndNil(FExcludeFiles);
   FreeThenNil(FLinkTargets);
   inherited Destroy;
 end;
@@ -332,13 +340,30 @@ begin
   end;
 end;
 
+function TFindThread.CheckFileName(const FileName: String): Boolean;
+begin
+  with FFileChecks do
+  begin
+    if RegExp then
+    begin
+      Result := ((FilesMasks = '') or ExecRegExpr(FilesMasks, FileName)) and
+                ((ExcludeFiles = '') or not ExecRegExpr(ExcludeFiles, FileName));
+    end
+    else
+    begin
+      Result := FFilesMasks.Matches(FileName) and
+                not FExcludeFiles.Matches(FileName);
+    end;
+  end;
+end;
+
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
 begin
   Result := True;
 
   with FSearchTemplate do
   begin
-    if not CheckFileName(FFileChecks, UTF8UpperCase(sr.Name)) then
+    if not CheckFileName(UTF8UpperCase(sr.Name)) then
       Exit(False);
 
     if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
