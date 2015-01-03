@@ -151,38 +151,44 @@ end;
 
 function GioGetMimeType(const FileName: UTF8String; MaxExtent: LongWord): UTF8String;
 var
-  Size: gsize = 0;
+  Size: gsize;
   MimeType: Pgchar;
   Uncertain: gboolean;
-  Buffer: PByte = nil;
+  Buffer: array of Byte;
   FileStream: TFileStreamEx;
 begin
-  if MaxExtent > 0 then
-  begin
-    Buffer:= GetMem(MaxExtent);
-    try
-      FileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
-      try
-        Size:= FileStream.Read(Buffer[0], MaxExtent);
-      finally
-        FileStream.Free;
-      end;
-    except
-      Size:= 0;
-    end;
-  end;
-  MimeType:= g_content_type_guess(Pgchar(FileName), Buffer, Size, @Uncertain);
+  // First check by file name (fast)
+  MimeType:= g_content_type_guess(Pgchar(FileName), nil, 0, @Uncertain);
   if Assigned(MimeType) then
   begin
     Result:= StrPas(MimeType);
     g_free(MimeType);
   end;
-  if Assigned(Buffer) then
-    FreeMem(Buffer);
-  if Uncertain and (MaxExtent = 0) then
-    Result:= 'text/plain';
-  if Length(Result) = 0 then
-    Result:= 'application/octet-stream';
+  // Second check by file content (slow)
+  if Uncertain then
+  begin
+    if MaxExtent = 0 then
+      Result:= 'text/plain'
+    else begin
+      SetLength(Buffer, MaxExtent);
+      try
+        FileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+        try
+          Size:= FileStream.Read(Buffer[0], MaxExtent);
+        finally
+          FileStream.Free;
+        end;
+        MimeType:= g_content_type_guess(nil, @Buffer[0], Size, @Uncertain);
+        if Assigned(MimeType) then
+        begin
+          Result:= StrPas(MimeType);
+          g_free(MimeType);
+        end;
+      except
+        // Skip
+      end;
+    end;
+  end;
 end;
 
 procedure Initialize;
