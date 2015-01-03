@@ -27,8 +27,9 @@ unit fOpenWith;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, EditBtn, Buttons, ButtonPanel, ComCtrls, Menus, Types;
+  Classes, SysUtils, FileUtil, TreeFilterEdit, Forms, Controls, Graphics,
+  Dialogs, StdCtrls, ExtCtrls, EditBtn, Buttons, ButtonPanel, ComCtrls, Menus,
+  Types;
 
 type
 
@@ -47,8 +48,10 @@ type
     miSingleURL: TMenuItem;
     miListOfFiles: TMenuItem;
     miSingleFileName: TMenuItem;
+    pnlFilter: TPanel;
     pnlOpenWith: TPanel;
     pmFieldCodes: TPopupMenu;
+    tfeApplications: TTreeFilterEdit;
     tvApplications: TTreeView;
     procedure btnCommandsClick(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
