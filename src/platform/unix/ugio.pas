@@ -151,15 +151,15 @@ end;
 
 function GioGetMimeType(const FileName: UTF8String; MaxExtent: LongWord): UTF8String;
 var
+  Size: gsize = 0;
   MimeType: Pgchar;
-  Size: Integer = 0;
   Uncertain: gboolean;
-  Buffer: array of Byte;
+  Buffer: PByte = nil;
   FileStream: TFileStreamEx;
 begin
   if MaxExtent > 0 then
   begin
-    SetLength(Buffer, MaxExtent);
+    Buffer:= GetMem(MaxExtent);
     try
       FileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
       try
@@ -171,12 +171,14 @@ begin
       Size:= 0;
     end;
   end;
-  MimeType:= g_content_type_guess(Pgchar(FileName), @Buffer[0], Size, @Uncertain);
+  MimeType:= g_content_type_guess(Pgchar(FileName), Buffer, Size, @Uncertain);
   if Assigned(MimeType) then
   begin
     Result:= StrPas(MimeType);
     g_free(MimeType);
   end;
+  if Assigned(Buffer) then
+    FreeMem(Buffer);
   if Uncertain and (MaxExtent = 0) then
     Result:= 'text/plain';
   if Length(Result) = 0 then
