@@ -123,14 +123,18 @@ begin
   begin
     cache := PMimeCache(caches[i]);
     mime_type := mime_cache_lookup_literal(cache, filename);
-    if (mime_type = nil) then
+    if Assigned(mime_type) then Exit(PAnsiChar(mime_type));
+  end;
+
+  //* suffix matching */
+  for i := 0 to caches.Count - 1 do
+  begin
+    cache := PMimeCache(caches[i]);
+    type_suffix := mime_cache_lookup_suffix(cache, filename, @suffix_pos);
+    if (type_suffix <> nil) and (suffix_pos < prev_suffix_pos) then
     begin
-      type_suffix := mime_cache_lookup_suffix(cache, filename, @suffix_pos);
-      if (type_suffix <> nil) and (suffix_pos < prev_suffix_pos) then
-      begin
-        mime_type := type_suffix;
-        prev_suffix_pos := suffix_pos;
-      end;
+      mime_type := type_suffix;
+      prev_suffix_pos := suffix_pos;
     end;
   end;
 
