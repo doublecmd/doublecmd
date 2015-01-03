@@ -79,7 +79,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, uOSUtils, uPixMapManager, uGlobs, uKeyFile, uMimeActions, uMimeType, uLng;
+  LCLProc, DCStrUtils, uOSUtils, uPixMapManager, uGlobs, uKeyFile, uMimeActions,
+  uMimeType, uLng;
 
 procedure ShowOpenWithDlg(const FileList: TStringList);
 begin
@@ -157,7 +158,7 @@ begin
   else if tvApplications.SelectionCount > 0 then
     begin
       DesktopFile:= PDesktopFileEntry(tvApplications.Selected.Data);
-      fneCommand.Text:= ExtractFileName(DesktopFile^.DesktopFilePath);
+      fneCommand.Text:= DesktopFile^.DesktopFilePath;
     end;
   if Assigned(DesktopFile) then
   begin
@@ -219,6 +220,11 @@ begin
         begin
           Dispose(DesktopFile);
           Continue;
+        end;
+        with DesktopFile^ do
+        begin
+          DesktopFilePath:= ExtractDirLevel(Folders[I] + PathDelim, DesktopFilePath);
+          DesktopFilePath:= StringReplace(DesktopFilePath, PathDelim, '-', [rfReplaceAll]);
         end;
         TreeNode:= tvApplications.Items.AddChild(nil, DesktopFile^.DisplayName);
         TreeNode.Data:= DesktopFile;
