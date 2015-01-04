@@ -295,7 +295,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="218">
+    <Units Count="219">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1577,6 +1577,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMimeType"/>
       </Unit217>
+      <Unit218>
+        <Filename Value="frames\foptionstoolsdiffer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsDiffer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsToolsDiffer"/>
+      </Unit218>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

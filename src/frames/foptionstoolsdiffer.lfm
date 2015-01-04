@@ -1,0 +1,66 @@
+inherited frmOptionsDiffer: TfrmOptionsDiffer
+  Height = 478
+  Width = 586
+  ClientHeight = 478
+  ClientWidth = 586
+  DesignLeft = 377
+  DesignTop = 160
+  inherited edtToolsParameters: TEdit
+    Top = 113
+  end
+  inherited fneToolsPath: TFileNameEdit
+    Top = 61
+  end
+  inherited lblToolsPath: TLabel
+    Height = 15
+    Width = 144
+  end
+  inherited lblToolsParameters: TLabel
+    Height = 15
+    Top = 94
+    Width = 117
+  end
+  inherited cbToolsKeepTerminalOpen: TCheckBox
+    Top = 169
+  end
+  inherited cbToolsRunInTerminal: TCheckBox
+    Top = 148
+  end
+  inherited btnRelativeToolPath: TSpeedButton
+    Top = 61
+  end
+  object rgResultingFramePositionAfterCompare: TRadioGroup[8]
+    AnchorSideLeft.Control = edtToolsParameters
+    AnchorSideTop.Control = cbToolsKeepTerminalOpen
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtToolsParameters
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 65
+    Top = 200
+    Width = 571
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    BorderSpacing.Top = 12
+    Caption = 'Position of frame panel after the comparison:'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 47
+    ClientWidth = 567
+    ItemIndex = 0
+    Items.Strings = (
+      'Active frame panel on left, inactive on right (legacy)'
+      'Left frame panel on left, right on right'
+    )
+    TabOrder = 5
+  end
+  inherited pmPathHelper: TPopupMenu[9]
+    left = 464
+    top = 8
+  end
+end

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Tools options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -60,17 +60,6 @@ type
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
-  end;
-
-  { TfrmOptionsDiffer }
-
-  TfrmOptionsDiffer = class(TfrmOptionsToolBase)
-  protected
-    procedure Init; override;
-  public
-    constructor Create(TheOwner: TComponent); override;
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
   end;
@@ -214,30 +203,6 @@ end;
 class function TfrmOptionsEditor.GetTitle: String;
 begin
   Result := rsToolEditor;
-end;
-
-{ TfrmOptionsDiffer }
-
-procedure TfrmOptionsDiffer.Init;
-begin
-  ExternalTool := etDiffer;
-  inherited Init;
-end;
-
-constructor TfrmOptionsDiffer.Create(TheOwner: TComponent);
-begin
-  inherited Create(TheOwner);
-  Name := 'frmOptionsDiffer';
-end;
-
-class function TfrmOptionsDiffer.GetIconIndex: Integer;
-begin
-  Result := 25;
-end;
-
-class function TfrmOptionsDiffer.GetTitle: String;
-begin
-  Result := rsToolDiffer;
 end;
 
 end.
