@@ -53,7 +53,9 @@ type
     RecodeTable:TRecodeTable;
     FFilesMasks: TMaskList;
     FExcludeFiles: TMaskList;
+    FExcludeDirectories: TMaskList;
     function CheckFileName(const FileName: String) : Boolean;
+    function CheckDirectoryName(const DirectoryName: String) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function FindInFile(const sFileName: UTF8String;
@@ -97,23 +99,20 @@ begin
     if SearchDepth < 0 then
       SearchDepth := MaxInt;
 
-    // use case insensitive mask because
-    // MatchesMaskList work incorrect with non ASCII characters
-    // since it uses UpCase function
-    FilesMasks := UTF8UpperCase(FilesMasks);
-    ExcludeFiles := UTF8UpperCase(ExcludeFiles);
-    ExcludeDirectories := UTF8UpperCase(ExcludeDirectories);
-
-    FFilesMasks := TMaskList.Create(FilesMasks);
-    FExcludeFiles := TMaskList.Create(ExcludeFiles);
-
     FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
     ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
     if IsFindText then
-      RecodeTable:=InitRecodeTable(TextEncoding,CaseSensitive);
+      RecodeTable := InitRecodeTable(TextEncoding, CaseSensitive);
   end;
 
   SearchTemplateToFindFileChecks(FSearchTemplate, FFileChecks);
+
+  with FFileChecks do
+  begin
+    FFilesMasks := TMaskList.Create(FilesMasks);
+    FExcludeFiles := TMaskList.Create(ExcludeFiles);
+    FExcludeDirectories := TMaskList.Create(ExcludeDirectories);
+  end;
 end;
 
 destructor TFindThread.Destroy;
@@ -121,6 +120,7 @@ begin
   FreeAndNil(FFilesMasks);
   FreeAndNil(FExcludeFiles);
   FreeThenNil(FLinkTargets);
+  FreeAndNil(FExcludeDirectories);
   inherited Destroy;
 end;
 
@@ -179,10 +179,10 @@ function TFindThread.CheckDirectory(const CurrentDir, FolderName : String): Bool
 begin
   with FSearchTemplate do
   begin
-    Result := CheckDirectoryName(FFileChecks, UTF8UpperCase(FolderName)) and
+    Result := CheckDirectoryName(FolderName) and
               CheckDirectoryNameRelative(FFileChecks,
-                UTF8UpperCase(CurrentDir + PathDelim + FolderName),
-                UTF8UpperCase(FSearchTemplate.StartPath));
+                CurrentDir + PathDelim + FolderName,
+                FSearchTemplate.StartPath);
   end;
 end;
 
@@ -357,13 +357,21 @@ begin
   end;
 end;
 
+function TFindThread.CheckDirectoryName(const DirectoryName: String): Boolean;
+begin
+  with FFileChecks do
+  begin
+    Result := not FExcludeDirectories.Matches(DirectoryName);
+  end;
+end;
+
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
 begin
   Result := True;
 
   with FSearchTemplate do
   begin
-    if not CheckFileName(UTF8UpperCase(sr.Name)) then
+    if not CheckFileName(sr.Name) then
       Exit(False);
 
     if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
