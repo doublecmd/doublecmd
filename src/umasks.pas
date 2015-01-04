@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Modified version of standart Masks unit
 
-   Copyright (C) 2010 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This file is based on masks.pas from the Lazarus Component Library (LCL)
 
@@ -29,7 +29,7 @@ type
 
   TMaskChar = record
     case CharType: TMaskCharType of
-      mcChar: (CharValue: Char);
+      mcChar: (CharValue: WideChar);
       mcAnyChar, mcAnyText: ();
   end;
 
@@ -80,6 +80,9 @@ function MatchesMaskList(const FileName, Mask: String; Separator: Char = ';'): B
 
 implementation
 
+uses
+  LazUTF8;
+
 function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
 var
   AMask: TMask;
@@ -119,6 +122,7 @@ end;
 constructor TMask.Create(const AValue: String; CaseSensitive: Boolean = False);
 var
   I: Integer;
+  S: UnicodeString;
   SkipAnyText: Boolean;
 
   procedure AddAnyText;
@@ -158,10 +162,7 @@ var
     with FMask.Chars[High(FMask.Chars)] do
     begin
       CharType := mcChar;
-      CharValue := AValue[I];
-
-      if not FCaseSensitive then
-        CharValue := upCase(CharValue);
+      CharValue := S[I];
     end;
 
     Inc(FMask.MinLength);
@@ -178,10 +179,16 @@ begin
 
   FCaseSensitive := CaseSensitive;
 
+  if FCaseSensitive then
+    S := UTF8Decode(AValue)
+  else begin
+    S := UTF8Decode(UTF8LowerCase(AValue));
+  end;
+
   I := 1;
-  while I <= Length(AValue) do
+  while I <= Length(S) do
   begin
-    case AValue[I] of
+    case S[I] of
       '*': AddAnyText;
       '?': AddAnyChar;
       else AddChar;
@@ -192,7 +199,7 @@ end;
 function TMask.Matches(const AFileName: String): Boolean;
 var
   L: Integer;
-  S: String;
+  S: UnicodeString;
 
   function MatchToEnd(MaskIndex, CharIndex: Integer): Boolean;
   var
@@ -238,7 +245,14 @@ var
 
 begin
   Result := False;
-  L := Length(AFileName);
+
+  if FCaseSensitive then
+    S := UTF8Decode(AFileName)
+  else begin
+    S := UTF8Decode(UTF8LowerCase(AFileName));
+  end;
+
+  L := Length(S);
   if L = 0 then
   begin
     if FMask.MinLength = 0 then Result := True;
@@ -246,11 +260,6 @@ begin
   end;
 
   if (L < FMask.MinLength) or (L > FMask.MaxLength) then Exit;
-
-  S := AFileName;
-
-  if not FCaseSensitive then
-    S := UpperCase(S);
 
   Result := MatchToEnd(0, 1);
 end;
@@ -290,15 +299,17 @@ end;
 
 constructor TMaskList.Create(const AValue: String; ASeparator: Char);
 var
-  S: TParseStringList;
+  L: String;
   I: Integer;
+  S: TParseStringList;
 begin
   FMasks := TObjectList.Create(True);
 
-  S := TParseStringList.Create(AValue, ASeparator);
+  L := UTF8LowerCase(AValue);
+  S := TParseStringList.Create(L, ASeparator);
   try
     for I := 0 to S.Count - 1 do
-      FMasks.Add(TMask.Create(S[I]));
+      FMasks.Add(TMask.Create(S[I], True));
   finally
     S.Free;
   end;
@@ -313,13 +324,15 @@ end;
 
 function TMaskList.Matches(const AFileName: String): Boolean;
 var
+  S: String;
   I: Integer;
 begin
   Result := False;
 
+  S := UTF8LowerCase(AFileName);
   for I := 0 to FMasks.Count - 1 do
   begin
-    if TMask(FMasks.Items[I]).Matches(AFileName) then
+    if TMask(FMasks.Items[I]).Matches(S) then
     begin
       Result := True;
       Exit;
