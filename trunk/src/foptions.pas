@@ -150,14 +150,17 @@ end;
 procedure TfrmOptions.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 var
   I:integer;
+  NeedsUpdateWindowView:boolean=FALSE;
 begin
   CanClose:=TRUE;
   I:=0;
   while (I<FOptionsEditorList.Count) AND (CanClose) do
   begin
-    if Assigned(FOptionsEditorList[I].Instance) then CanClose:=FOptionsEditorList[I].Instance.CanWeClose;
+    if Assigned(FOptionsEditorList[I].Instance) then CanClose:=FOptionsEditorList[I].Instance.CanWeClose(NeedsUpdateWindowView);
     inc(I);
   end;
+
+  if NeedsUpdateWindowView then frmMain.UpdateWindowView;
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);

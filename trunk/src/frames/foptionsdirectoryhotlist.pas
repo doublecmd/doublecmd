@@ -178,7 +178,7 @@ type
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     destructor Destroy; override;
-    function CanWeClose: boolean; override;
+    function CanWeClose(var WillNeedUpdateWindowView:boolean): boolean; override;
     procedure SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher,paramPath,paramTarget,paramOptionalIndex: string);
   end;
 
@@ -288,7 +288,7 @@ begin
 end;
 
 { TfrmOptionsDirectoryHotlist.CanWeClose }
-function TfrmOptionsDirectoryHotlist.CanWeClose: boolean;
+function TfrmOptionsDirectoryHotlist.CanWeClose(var WillNeedUpdateWindowView:boolean): boolean;
 var
   Answer:TMyMsgResult;
 begin

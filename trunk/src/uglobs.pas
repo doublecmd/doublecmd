@@ -75,6 +75,7 @@ type
     KeepTerminalOpen: Boolean;
   end;
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
+  TResultingFramePositionAfterCompare = (rfpacActiveOnLeft, rfpacLeftOnLeft);
 
   TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook);
   TDCFontOptions = record
@@ -220,6 +221,7 @@ var
   { Tools page }
   gExternalTools: TExternalToolsOptions;
 
+  gResultingFramePositionAfterCompare:TResultingFramePositionAfterCompare;
   gLuaLib:String;
   gExts:TExts;
   gColorExt:TColorExt;
@@ -526,30 +528,30 @@ begin
     Result := True;
 end;
 
-function LoadGlobalConfig(var ErrorMessage: String): Boolean;
+function LoadGlobalConfig(var {%H-}ErrorMessage: String): Boolean;
 begin
   Result := gConfig.Load;
 end;
 
-function LoadExtsConfig(var ErrorMessage: String): Boolean;
+function LoadExtsConfig(var {%H-}ErrorMessage: String): Boolean;
 begin
   gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
   Result := True;
 end;
 
-function LoadHotManConfig(var ErrorMessage: String): Boolean;
+function LoadHotManConfig(var {%H-}ErrorMessage: String): Boolean;
 begin
   HotMan.Load(gpCfgDir + gNameSCFile);
   Result := True;
 end;
 
-function LoadMultiArcConfig(var ErrorMessage: String): Boolean;
+function LoadMultiArcConfig(var {%H-}ErrorMessage: String): Boolean;
 begin
   gMultiArcList.LoadFromFile(gpCfgDir + 'multiarc.ini');
   Result := True;
 end;
 
-function LoadHistoryConfig(var ErrorMessage: String): Boolean;
+function LoadHistoryConfig(var {%H-}ErrorMessage: String): Boolean;
 var
   Root: TXmlNode;
   History: TXmlConfig;
@@ -1039,6 +1041,9 @@ begin
   SetDefaultExternalTool(gExternalTools[etViewer]);
   SetDefaultExternalTool(gExternalTools[etEditor]);
   SetDefaultExternalTool(gExternalTools[etDiffer]);
+
+  { Differ related}
+  gResultingFramePositionAfterCompare := rfpacActiveOnLeft;
 
   { Fonts page }
   gFonts[dcfMain].Name := 'default';
@@ -1746,8 +1751,6 @@ var
 end;
 
 procedure SaveIniConfig;
-var
-  I: LongInt;
 begin
   { Layout page }
 
@@ -2010,6 +2013,11 @@ begin
     GetExtTool(gConfig.FindNode(Root, 'Tools/Viewer'), gExternalTools[etViewer]);
     GetExtTool(gConfig.FindNode(Root, 'Tools/Editor'), gExternalTools[etEditor]);
     GetExtTool(gConfig.FindNode(Root, 'Tools/Differ'), gExternalTools[etDiffer]);
+
+    { Differ related}
+    Node := Root.FindNode('Tools');
+    SubNode := FindNode(Node, 'Differ', TRUE);
+    gResultingFramePositionAfterCompare := TResultingFramePositionAfterCompare(GetValue(SubNode, 'FramePosAfterComp', Integer(gResultingFramePositionAfterCompare)));
 
     { Fonts page }
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Main'), gFonts[dcfMain]);
@@ -2325,7 +2333,7 @@ begin
     gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
     gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     gUseShellForFileOperations:= GetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
-  end;
+    end;
 
   { Search template list }
   gSearchTemplateList.LoadFromXml(gConfig, Root);
@@ -2365,7 +2373,6 @@ procedure SaveXmlConfig;
       gConfig.SetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style));
   end;
 var
-  I: Integer;
   Root, Node, SubNode: TXmlNode;
   KeyTypingModifier: TKeyTypingModifier;
 begin
@@ -2417,6 +2424,11 @@ begin
     SetExtTool(gConfig.FindNode(Root, 'Tools/Viewer', True), gExternalTools[etViewer]);
     SetExtTool(gConfig.FindNode(Root, 'Tools/Editor', True), gExternalTools[etEditor]);
     SetExtTool(gConfig.FindNode(Root, 'Tools/Differ', True), gExternalTools[etDiffer]);
+
+    { Differ related}
+    Node := Root.FindNode('Tools');
+    SubNode := FindNode(Node, 'Differ', TRUE);
+    SetValue(SubNode, 'FramePosAfterComp', Integer(gResultingFramePositionAfterCompare));
 
     { Fonts page }
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Main', True), gFonts[dcfMain]);
@@ -2636,7 +2648,7 @@ begin
     SetValue(Root, 'NameShortcutFile', gNameSCFile);
     SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     SetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
-  end;
+      end;
 
   { Search template list }
   gSearchTemplateList.SaveToXml(gConfig, Root);
