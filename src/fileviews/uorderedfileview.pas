@@ -497,6 +497,7 @@ var
   AFile: TFile;
   uFileName: UnicodeString;
   sPy: UTF8String;
+  Mask: TMask;
 
   function NextIndexWrap(Index: PtrInt): PtrInt;
   begin
@@ -516,10 +517,9 @@ begin
   if IsEmpty then
     Exit;
 
-  if SearchOptions.SearchCase = qscInsensitive then
-    sSearchName := UTF8LowerCase(SearchTerm)
-  else
-    sSearchName := SearchTerm;
+  sSearchName := SearchTerm;
+
+  Mask:= TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
 
   if Pos('.', sSearchName) <> 0 then
   begin
@@ -574,18 +574,14 @@ begin
       uFileName := UTF8Decode(sFileName);
       sPy := uIMCode.MakeSpellCode(uFileName);
 
-      if SearchOptions.SearchCase = qscInsensitive then
-        sFileName := UTF8LowerCase(sFileName);
-
       // Match the filename and pinyin letter
-      if not (MatchesMask(sFileName, sSearchName, SearchOptions.SearchCase = qscSensitive) or
-        (MatchesMask(sPy, sSearchName))) then
+      if not (Mask.Matches(sFileName) or (MatchesMask(sPy, sSearchName))) then
         Result := False;
 
       if Result then
       begin
         SetActiveFile(Index);
-        Exit;
+        Break;
       end;
 
       // check next file depending on search direction
@@ -596,6 +592,7 @@ begin
 
     until Index = StartIndex;
 
+    Mask.Free;
   except
     on EConvertError do; // bypass
     else

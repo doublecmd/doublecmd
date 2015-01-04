@@ -545,8 +545,6 @@ end;
 class function TFileListBuilder.InternalMatchesFilter(aFile: TFile;
                                                       const aFileFilter: String;
                                                       const aFilterOptions: TQuickSearchOptions): Boolean;
-var
-  sFileName: String;
 begin
   if (gShowSystemFiles = False) and AFile.IsSysFile and (AFile.Name <> '..') then
     Result := True
@@ -572,12 +570,7 @@ begin
       Result := False
     else
     begin
-      if aFilterOptions.SearchCase = qscSensitive then
-        sFileName := AFile.Name
-      else
-        sFileName := UTF8LowerCase(AFile.Name);
-
-      if MatchesMask(sFileName,
+      if MatchesMask(AFile.Name,
                      aFileFilter,
                      aFilterOptions.SearchCase = qscSensitive)
       then
