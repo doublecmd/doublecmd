@@ -51,14 +51,15 @@ const
   RunTerm = '/Applications/Utilities/Terminal.app';  // default terminal
   RunInTerm = ''; // default run in terminal command
   fmtRunInTerm = '';
+  MonoSpaceFont = 'Monaco';
   {$ELSE}
   RunTerm = 'xterm';  // default terminal
   RunInTerm = 'xterm -e sh -c'; // default run in terminal command
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read a''';
+  MonoSpaceFont = 'Monospace';
   {$ENDIF}
   fmtRunInShell = '%s -c ''%s''';
   fmtCommandPath = '[%s]$:';
-  MonoSpaceFont = 'Monospace';
   {$ENDIF}
 
 type
