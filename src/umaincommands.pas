@@ -33,6 +33,8 @@ uses
 
 type
 
+  TCopyFileNamesToClipboard = (cfntcPathAndFileNames, cfntcJustFileNames, cfntcJustPathWithSeparator, cfntcPathWithoutSeparator);
+
   { TMainCommands }
 
   TMainCommands = class(TComponent{$IF FPC_FULLVERSION >= 020501}, IFormCommands{$ENDIF})
@@ -62,7 +64,7 @@ type
    procedure DoOpenVirtualFileSystemList(Panel: TFileView);
    procedure DoPanelsSplitterPerPos(SplitPos: Integer);
    procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
-   procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
+   procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoRenameTab(Page: TFileViewPage);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
@@ -224,6 +226,11 @@ type
    procedure cm_HorizontalFilePanels(const Params: array of string);
    procedure cm_OperationsViewer(const Params: array of string);
    procedure cm_CompareDirectories(const Params: array of string);
+   procedure cm_ViewLogFile(const Params: array of string);
+   procedure cm_ConfigToolbars(const Params: array of string);
+   procedure cm_DebugShowCommandParameters(const Params: array of string);
+   procedure cm_CopyPathOfFilesToClip(const Params: array of string);
+   procedure cm_CopyPathNoSepOfFilesToClip(const Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -247,7 +254,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uShellContextMenu, uTrash, uFileSystemCopyOperation, fOptionsFileAssoc,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
-     uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist
+     uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
+	 fOptionsToolbar
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -413,12 +421,12 @@ begin
   end;
 end;
 
-procedure TMainCommands.DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
+procedure TMainCommands.DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard);
 var
   I: Integer;
   sl: TStringList = nil;
   SelectedFiles: TFiles = nil;
-  PathToAdd: String;
+  PathToAdd, FileNameToAdd: String;
 begin
   SelectedFiles := FileView.CloneSelectedOrActiveFiles;
   try
@@ -427,19 +435,30 @@ begin
       sl := TStringList.Create;
       for I := 0 to SelectedFiles.Count - 1 do
       begin
-        if FullNames then
-        begin
-          // Workaround for not fully implemented TMultiListFileSource.
-          if not FileView.FileSource.IsClass(TMultiListFileSource) then
-            PathToAdd := FileView.CurrentAddress
-          else
-            PathToAdd := '';
-          PathToAdd := PathToAdd + SelectedFiles[I].Path;
-        end
-        else
-          PathToAdd := '';
+        PathToAdd:='';
+        FileNameToAdd:='';
 
-        sl.Add(PathToAdd + SelectedFiles[I].Name);
+        //Let's set the "PathToAdd" according to type of copy.
+        case TypeOfCopy of
+          cfntcPathAndFileNames, cfntcJustPathWithSeparator, cfntcPathWithoutSeparator:
+            begin
+              // Workaround for not fully implemented TMultiListFileSource.
+              if not FileView.FileSource.IsClass(TMultiListFileSource) then
+                PathToAdd := FileView.CurrentAddress
+              else
+                PathToAdd := '';
+              PathToAdd := PathToAdd + SelectedFiles[I].Path;
+
+              if TypeOfCopy=cfntcPathWithoutSeparator then PathToAdd:=ExcludeTrailingPathDelimiter(PathToAdd);
+            end;
+        end;
+
+        //Let's set the "FilenameToAdd" according to type of copy.
+        case TypeOfCopy of
+          cfntcPathAndFileNames, cfntcJustFileNames: FileNameToAdd:=SelectedFiles[I].Name;
+        end;
+
+        sl.Add(PathToAdd + FileNameToAdd);
       end;
 
       Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
@@ -762,7 +781,7 @@ end;
 
 procedure TMainCommands.cm_CopyFullNamesToClip(const Params: array of string);
 begin
-  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, True);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcPathAndFileNames);
 end;
 
 procedure TMainCommands.cm_CopyFileDetailsToClip(const Params: array of string);
@@ -772,7 +791,7 @@ end;
 
 procedure TMainCommands.cm_CopyNamesToClip(const Params: array of string);
 begin
-  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, False);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcJustFileNames);
 end;
 
 //------------------------------------------------------
@@ -1774,7 +1793,7 @@ end;
 procedure TMainCommands.cm_CheckSumCalc(const Params: array of string);
 var
   I: Integer;
-  bSeparateFile: Boolean;
+  bSeparateFile, bOpenFileAfterJobCompleted: Boolean;
   HashAlgorithm: THashAlgorithm;
   sFileName: UTF8String;
   SelectedFiles: TFiles;
@@ -1803,6 +1822,7 @@ begin
       end;
 
       bSeparateFile:= False;
+      bOpenFileAfterJobCompleted:= False;
       for I := 0 to SelectedFiles.Count - 1 do // find files in selection
         if not SelectedFiles[I].IsDirectory then
           begin
@@ -1815,7 +1835,7 @@ begin
       else
         sFileName:= ActiveFrame.CurrentPath + SelectedFiles[0].Name;
 
-      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm) then
+      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm, bOpenFileAfterJobCompleted) then
       begin
         Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
                        SelectedFiles, ActiveFrame.CurrentPath, sFileName) as TFileSourceCalcChecksumOperation;
@@ -1824,6 +1844,7 @@ begin
         begin
           Operation.Mode := checksum_calc;
           Operation.OneFile := not bSeparateFile;
+          Operation.OpenFileAfterOperationCompleted := bOpenFileAfterJobCompleted;
           Operation.Algorithm := HashAlgorithm;
 
           // Start operation.
@@ -3136,9 +3157,17 @@ begin
   DoShowCmdLineHistory(False);
 end;
 
+procedure TMainCommands.cm_ViewLogFile(const Params: array of string);
+begin
+  ShowViewerByGlob(GetActualLogFilename);
+end;
+
 procedure TMainCommands.cm_ClearLogFile(const Params: array of string);
 begin
-  mbDeleteFile(gLogFileName);
+  if MsgBox(Format(rsMsgPopUpHotDelete,['log file ('+GetActualLogFilename+')']),[msmbYes, msmbNo], msmbNo, msmbNo ) = mmrYes then
+  begin
+    mbDeleteFile(GetActualLogFilename);
+  end;
 end;
 
 procedure TMainCommands.cm_NetworkConnect(const Params: array of string);
@@ -3222,6 +3251,49 @@ begin
     ActiveFrame.UpdateView;
     NotActiveFrame.UpdateView;
   end;
+end;
+
+{ TMainCommands.cm_ConfigToolbars }
+procedure TMainCommands.cm_ConfigToolbars(const Params: array of string);
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+begin
+  Options := ShowOptions(TfrmOptionsToolbar);
+  Application.ProcessMessages;
+  Editor := Options.GetEditor(TfrmOptionsToolbar);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
+end;
+
+{ TMainCommands.cm_DebugShowCommandParameters }
+procedure TMainCommands.cm_DebugShowCommandParameters(const Params: array of string);
+var
+  sMessageToshow:string;
+  indexParameter:integer;
+begin
+  sMessageToshow:='Number of parameters: '+IntToStr(Length(Params));
+  if Length(Params)>0 then
+  begin
+    sMessageToshow:=sMessageToshow+#$0A;
+    for indexParameter:=0 to pred(Length(Params)) do
+    begin
+      sMessageToshow:=sMessageToshow+#$0A+'Parameter #'+IntToStr(indexParameter)+': '+Params[indexParameter]+' ==> '+PrepareParameter(Params[indexParameter], frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame);
+    end;
+  end;
+  msgOK(sMessageToshow);
+end;
+
+{ TMainCommands.cm_CopyPathOfFilesToClip }
+procedure TMainCommands.cm_CopyPathOfFilesToClip(const Params: array of string);
+begin
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcJustPathWithSeparator);
+end;
+
+{ TMainCommands.cm_CopyPathNoSepOfFilesToClip }
+procedure TMainCommands.cm_CopyPathNoSepOfFilesToClip(const Params: array of string);
+begin
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcPathWithoutSeparator);
 end;
 
 end.

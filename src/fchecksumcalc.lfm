@@ -1,34 +1,32 @@
 object frmCheckSumCalc: TfrmCheckSumCalc
-  Left = 290
-  Height = 136
-  Top = 175
-  Width = 460
+  Left = 321
+  Height = 400
+  Top = 59
+  Width = 400
   AutoSize = True
   BorderIcons = [biSystemMenu]
-  Caption = 'Calculate check sum...'
+  Caption = 'Calculate checksum...'
   ChildSizing.LeftRightSpacing = 8
   ChildSizing.TopBottomSpacing = 8
-  ClientHeight = 136
-  ClientWidth = 460
-  Constraints.MaxHeight = 200
-  Constraints.MaxWidth = 800
-  Constraints.MinHeight = 136
+  ClientHeight = 400
+  ClientWidth = 400
+  Constraints.MinHeight = 400
   Constraints.MinWidth = 400
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  SessionProperties = 'cbSeparateFile.Checked;cmbHashAlgorithm.ItemIndex'
-  LCLVersion = '1.2.4.0'
+  SessionProperties = 'cbOpenAfterJobIsComplete.Checked;cbSeparateFile.Checked;cmbHashAlgorithm.ItemIndex;lbHashAlgorithm.ItemIndex'
+  LCLVersion = '1.2.6.0'
   object lblSaveTo: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 10
-    Height = 25
+    Height = 15
     Top = 8
-    Width = 197
+    Width = 130
     BorderSpacing.Left = 10
     BorderSpacing.Top = 8
-    Caption = '&Save check sum file(s) to:'
+    Caption = '&Save checksum file(s) to:'
     FocusControl = edtSaveTo
     ParentColor = False
   end
@@ -39,9 +37,9 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 33
-    Top = 39
-    Width = 440
+    Height = 23
+    Top = 29
+    Width = 380
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
@@ -53,60 +51,77 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideTop.Control = edtSaveTo
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 29
-    Top = 78
-    Width = 360
+    Height = 19
+    Top = 58
+    Width = 242
     BorderSpacing.Top = 6
     Caption = 'C&reate separate checksum file for each file'
     OnChange = cbSeparateFileChange
     TabOrder = 1
   end
   object btnOK: TBitBtn
+    AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = btnCancel
-    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 244
+    Left = 184
     Height = 32
-    Top = 94
+    Top = 356
     Width = 100
-    Anchors = [akRight, akBottom]
+    Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
-    BorderSpacing.Bottom = 10
     Caption = '&OK'
     Default = True
     Kind = bkOK
     ModalResult = 1
-    TabOrder = 3
+    TabOrder = 2
   end
   object btnCancel: TBitBtn
+    AnchorSideTop.Control = lbHashAlgorithm
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtSaveTo
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 350
+    Left = 290
     Height = 32
-    Top = 94
+    Top = 356
     Width = 100
-    Anchors = [akRight, akBottom]
-    BorderSpacing.Bottom = 10
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
     Cancel = True
     Caption = '&Cancel'
     Kind = bkCancel
     ModalResult = 2
+    TabOrder = 3
+  end
+  object lbHashAlgorithm: TListBox
+    AnchorSideLeft.Control = edtSaveTo
+    AnchorSideTop.Control = cbOpenAfterJobIsComplete
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtSaveTo
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 10
+    Height = 236
+    Top = 108
+    Width = 380
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 6
+    ItemHeight = 0
+    OnSelectionChange = lbHashAlgorithmSelectionChange
+    ScrollWidth = 150
     TabOrder = 4
   end
-  object cmbHashAlgorithm: TComboBox
-    AnchorSideLeft.Control = cbSeparateFile
+  object cbOpenAfterJobIsComplete: TCheckBox
+    AnchorSideLeft.Control = edtSaveTo
     AnchorSideTop.Control = cbSeparateFile
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 33
-    Top = 113
-    Width = 132
+    Height = 19
+    Top = 83
+    Width = 243
     BorderSpacing.Top = 6
-    ItemHeight = 25
-    OnChange = cmbHashAlgorithmChange
-    Style = csDropDownList
-    TabOrder = 2
+    Caption = 'Open checksum file after job is completed'
+    OnChange = cbSeparateFileChange
+    TabOrder = 5
   end
 end

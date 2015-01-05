@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Calculate check sum dialog
+   Calculate checksum dialog
 
    Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
 
@@ -38,14 +38,15 @@ type
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     cbSeparateFile: TCheckBox;
-    cmbHashAlgorithm: TComboBox;
+    cbOpenAfterJobIsComplete: TCheckBox;
     edtSaveTo: TEdit;
     lblSaveTo: TLabel;
+    lbHashAlgorithm: TListBox;
     procedure cbSeparateFileChange(Sender: TObject);
-    procedure cmbHashAlgorithmChange(Sender: TObject);
     procedure edtSaveToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure lbHashAlgorithmSelectionChange(Sender: TObject; User: boolean);
   private
     FFileName: UTF8String;
     FAlgorithm: THashAlgorithm;
@@ -54,7 +55,7 @@ type
   end; 
 
 function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
-                          out HashAlgorithm: THashAlgorithm): Boolean;
+                          out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean): Boolean;
 
 function ShowCalcVerifyCheckSum(out Hash: String;
                                 out HashAlgorithm: THashAlgorithm): Boolean;
@@ -67,7 +68,7 @@ uses
   uGlobs, uLng;
 
 function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
-                          out HashAlgorithm: THashAlgorithm): Boolean;
+                          out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean): Boolean;
 begin
   with TfrmCheckSumCalc.Create(Application) do
   try
@@ -78,6 +79,7 @@ begin
       begin
         sFileName:= edtSaveTo.Text;
         SeparateFile:= cbSeparateFile.Checked;
+        OpenFileAfterJobCompleted:=(cbOpenAfterJobIsComplete.Checked AND cbOpenAfterJobIsComplete.Enabled);
         HashAlgorithm:= FAlgorithm;
       end;
   finally
@@ -91,22 +93,21 @@ begin
   with TfrmCheckSumCalc.Create(Application) do
   try
     OnShow:= nil;
+    edtSaveTo.Text:= EmptyStr;
     SessionProperties:= EmptyStr;
     Caption:= rsCheckSumVerifyTitle;
     cbSeparateFile.Visible:= False;
-    cmbHashAlgorithm.OnChange:= nil;
+    cbOpenAfterJobIsComplete.Visible:= False;
+    lbHashAlgorithm.OnSelectionChange:= nil;
     edtSaveTo.OnChange:= @edtSaveToChange;
     lblSaveTo.Caption:= rsCheckSumVerifyText;
-    cmbHashAlgorithm.Anchors:= [akTop, akLeft, akRight];
-    cmbHashAlgorithm.AnchorSide[akRight].Side:= asrRight;
-    cmbHashAlgorithm.AnchorSide[akRight].Control:= edtSaveTo;
 
     Result:= (ShowModal = mrOK);
     if Result then
     begin
       Hash:= Trim(edtSaveTo.Text);
       Result:= Length(Hash) > 0;
-      HashAlgorithm:= THashAlgorithm(cmbHashAlgorithm.ItemIndex);
+      HashAlgorithm:= THashAlgorithm(lbHashAlgorithm.ItemIndex);
     end;
   finally
     Free;
@@ -121,23 +122,19 @@ begin
     edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + '*.' + HashFileExt[FAlgorithm]
   else
     edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + ExtractFileName(FFileName) + '.' + HashFileExt[FAlgorithm];
-end;
 
-procedure TfrmCheckSumCalc.cmbHashAlgorithmChange(Sender: TObject);
-begin
-  FAlgorithm:= THashAlgorithm(cmbHashAlgorithm.ItemIndex);
-  edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.' + HashFileExt[FAlgorithm]);
+  cbOpenAfterJobIsComplete.Enabled:=not cbSeparateFile.Checked;
 end;
 
 procedure TfrmCheckSumCalc.edtSaveToChange(Sender: TObject);
 begin
   case Length(Trim(edtSaveTo.Text)) of
-     8: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SFV);
-    32: cmbHashAlgorithm.ItemIndex:= Integer(HASH_MD5);
-    40: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA1);
-    64: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA256);
-    96: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA384);
-   128: cmbHashAlgorithm.ItemIndex:= Integer(HASH_SHA512);
+     8: lbHashAlgorithm.ItemIndex:= Integer(HASH_SFV);
+    32: lbHashAlgorithm.ItemIndex:= Integer(HASH_MD5);
+    40: lbHashAlgorithm.ItemIndex:= Integer(HASH_SHA1);
+    64: lbHashAlgorithm.ItemIndex:= Integer(HASH_SHA256);
+    96: lbHashAlgorithm.ItemIndex:= Integer(HASH_SHA384);
+   128: lbHashAlgorithm.ItemIndex:= Integer(HASH_SHA512);
   end;
 end;
 
@@ -147,16 +144,23 @@ var
 begin
   for I:= Low(HashFileExt) to High(HashFileExt) do
   begin
-    cmbHashAlgorithm.Items.Add(UpperCase(HashFileExt[I]));
+    lbHashAlgorithm.Items.Add(UpperCase(HashFileExt[I]));
   end;
-  cmbHashAlgorithm.ItemIndex:= 0;
-  InitPropStorage(Self);
+  InitPropStorage(Self); // Must be *after* lbHashAlgorithm.Items has been loaded so index is restored correctly.
+  if (lbHashAlgorithm.ItemIndex=-1) AND (lbHashAlgorithm.Count>0) then lbHashAlgorithm.ItemIndex:= 0;
 end;
 
 procedure TfrmCheckSumCalc.FormShow(Sender: TObject);
 begin
   edtSaveTo.Text:= FFileName + ExtensionSeparator;
-  cmbHashAlgorithmChange(cmbHashAlgorithm);
+  lbHashAlgorithmSelectionChange(lbHashAlgorithm,FALSE);
+end;
+
+procedure TfrmCheckSumCalc.lbHashAlgorithmSelectionChange(Sender: TObject;
+  User: boolean);
+begin
+  FAlgorithm:= THashAlgorithm(lbHashAlgorithm.ItemIndex);
+  edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.' + HashFileExt[FAlgorithm]);
 end;
 
 end.
