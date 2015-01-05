@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Log options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng, uSpecialDir, uShowForm, uDCUtils;
+  fMain, uGlobs, uLng, uSpecialDir, uShowForm, uDCUtils;
 
 { TfrmOptionsLog }
 
@@ -88,22 +88,8 @@ begin
 end;
 
 procedure TfrmOptionsLog.btnViewLogFileClick(Sender: TObject);
-var
-  MyYear,MyMonth,MyDay:word;
-  TempoFilename:string;
 begin
-  TempoFilename:=ReplaceEnvVars(fneLogFileName.FileName);
-
-  if cbIncludeDateInLogFilename.Checked then
-  begin
-    DecodeDate(now,MyYear,MyMonth,MyDay);
-    TempoFilename:=copy(TempoFilename,1,length(TempoFilename)-length(ExtractFileExt(TempoFilename)))+
-                   Format('_%d-%2.2d-%2.2d',[MyYear,MyMonth,MyDay])+
-                   ExtractFileExt(TempoFilename);
-
-  end;
-
-  ShowViewerByGlob(TempoFilename);
+  frmMain.Commands.cm_ViewLogFile([]);
 end;
 
 procedure TfrmOptionsLog.btnRelativeLogFileClick(Sender: TObject);
