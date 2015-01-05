@@ -20,7 +20,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit fFileAssoc;
+unit fOptionsFileAssoc;
 
 {$mode objfpc}{$H+}
 
@@ -29,19 +29,17 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ExtCtrls, EditBtn, uExts, ExtDlgs,
-  Menus, uOSForms;
+  Menus, fOptionsFrame;
 
 type
 
-  { TfrmFileAssoc }
+  { TfrmOptionsFileAssoc }
 
-  TfrmFileAssoc = class(TAloneForm)
+  TfrmOptionsFileAssoc = class(TOptionsEditor)
     btnAddAct: TButton;
     btnAddExt: TButton;
     btnAddNewType: TButton;
-    btnCancel: TBitBtn;
     btnDownAct: TButton;
-    btnOK: TBitBtn;
     btnRemoveIcon: TSpeedButton;
     btnUpAct: TButton;
     btnRemoveAct: TButton;
@@ -78,7 +76,6 @@ type
     pnlExtsButtons: TPanel;
     pnlRightSettings: TPanel;
     pnlSettings: TPanel;
-    pnlButtonPanel: TPanel;
     pmActions: TPopupMenu;
     pmCommands: TPopupMenu;
     sbtnIcon: TSpeedButton;
@@ -87,10 +84,8 @@ type
     procedure btnAddActClick(Sender: TObject);
     procedure btnAddExtClick(Sender: TObject);
     procedure btnAddNewTypeClick(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
     procedure btnCommandsClick(Sender: TObject);
     procedure btnDownActClick(Sender: TObject);
-    procedure btnOKClick(Sender: TObject);
     procedure btnRemoveActClick(Sender: TObject);
     procedure btnRemoveExtClick(Sender: TObject);
     procedure btnRemoveTypeClick(Sender: TObject);
@@ -100,9 +95,6 @@ type
     procedure btnUpActClick(Sender: TObject);
     procedure edtIconFileNameChange(Sender: TObject);
     procedure fneCommandAcceptFileName(Sender: TObject; var Value: String);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
     procedure lbExtsSelectionChange(Sender: TObject; User: boolean);
     procedure lbFileTypesDrawItem(Control: TWinControl; Index: Integer;
@@ -128,12 +120,15 @@ type
     procedure SetIconFileName(const sFileName: String);
     procedure SetMinimumSize;
 
+  protected
+    procedure Init; override;
+    procedure Done; override;
+    procedure Load; override;
+    function Save: TOptionsEditorSaveFlags; override;
   public
-    constructor Create(TheOwner: TComponent); override;
-    destructor Destroy; override;
+    class function GetIconIndex: Integer; override;
+    class function GetTitle: String; override;
   end;
-
-procedure ShowFileAssocDlg;
 
 implementation
 
@@ -143,41 +138,31 @@ uses
   LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uDCUtils,
   DCOSUtils, DCStrUtils;
 
-var
-  frmFileAssoc: TfrmFileAssoc = nil;
+{ TfrmOptionsFileAssoc }
 
-procedure ShowFileAssocDlg;
+procedure TfrmOptionsFileAssoc.Init;
 begin
-  if not Assigned(frmFileAssoc) then
-    frmFileAssoc := TfrmFileAssoc.Create(Application);
-  frmFileAssoc.ShowOnTop;
-end;
-
-{ TfrmFileAssoc }
-
-constructor TfrmFileAssoc.Create(TheOwner: TComponent);
-begin
+  inherited Init;
+  Exts := TExts.Create;
   FUpdatingControls := False;
-  inherited Create(TheOwner);
 end;
 
-destructor TfrmFileAssoc.Destroy;
+procedure TfrmOptionsFileAssoc.Done;
 var
-  i: Integer;
+  I: Integer;
 begin
-  for i := 0 to lbFileTypes.Items.Count - 1 do
-    FreeIcon(i);
-
-  inherited;
+  for I := 0 to lbFileTypes.Items.Count - 1 do
+    FreeIcon(I);
+  FreeAndNil(Exts);
+  inherited Done;
 end;
 
-procedure TfrmFileAssoc.FormCreate(Sender: TObject);
+procedure TfrmOptionsFileAssoc.Load;
 var
   I : Integer;
   sName : String;
   Bitmap : TBitmap;
 begin
-  Exts := TExts.Create;
   // load extension file
   if mbFileExists(gpCfgDir + 'doublecmd.ext') then
     Exts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
@@ -198,17 +183,29 @@ begin
     lbFileTypes.ItemIndex:= 0;
 
   UpdateEnabledButtons;
-  // Initialize property storage
-  InitPropStorage(Self);
+
+  inherited Load;
 end;
 
-procedure TfrmFileAssoc.FormDestroy(Sender: TObject);
+function TfrmOptionsFileAssoc.Save: TOptionsEditorSaveFlags;
 begin
-  if Assigned(Exts) then
-    FreeAndNil(Exts);
+  Exts.SaveToFile(gpCfgDir + 'doublecmd.ext');
+  gExts.Clear;
+  gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
+  Result:= inherited Save;
 end;
 
-procedure TfrmFileAssoc.UpdateEnabledButtons;
+class function TfrmOptionsFileAssoc.GetIconIndex: Integer;
+begin
+  Result := 34;
+end;
+
+class function TfrmOptionsFileAssoc.GetTitle: String;
+begin
+  Result:= rsOptionsEditorFileAssoc;
+end;
+
+procedure TfrmOptionsFileAssoc.UpdateEnabledButtons;
 begin
   if (lbFileTypes.Items.Count = 0) or (lbFileTypes.ItemIndex = -1) then
     begin
@@ -252,7 +249,7 @@ begin
     end;
 end;
 
-procedure TfrmFileAssoc.btnAddNewTypeClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnAddNewTypeClick(Sender: TObject);
 var
   ExtAction : TExtAction;
   s: string;
@@ -273,7 +270,7 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnRemoveTypeClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnRemoveTypeClick(Sender: TObject);
 var
   iIndex : Integer;
 begin
@@ -299,12 +296,12 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnRemoveTypeResize(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnRemoveTypeResize(Sender: TObject);
 begin
   SetMinimumSize;
 end;
 
-procedure TfrmFileAssoc.btnRenameTypeClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnRenameTypeClick(Sender: TObject);
 var
   iIndex : Integer;
   sName : String;
@@ -320,12 +317,12 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnRenameTypeResize(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnRenameTypeResize(Sender: TObject);
 begin
   SetMinimumSize;
 end;
 
-procedure TfrmFileAssoc.lbActionsSelectionChange(Sender: TObject; User: boolean);
+procedure TfrmOptionsFileAssoc.lbActionsSelectionChange(Sender: TObject; User: boolean);
 var
   iIndex : Integer;
   slActions : TStringList;
@@ -338,13 +335,13 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.lbExtsSelectionChange(Sender: TObject; User: boolean);
+procedure TfrmOptionsFileAssoc.lbExtsSelectionChange(Sender: TObject; User: boolean);
 begin
   if (lbExts.ItemIndex < 0) then Exit;
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
+procedure TfrmOptionsFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState);
 var
   iTextTop: Integer;
@@ -378,7 +375,7 @@ begin
   end;
 end;
 
-procedure TfrmFileAssoc.lbFileTypesSelectionChange(Sender: TObject;
+procedure TfrmOptionsFileAssoc.lbFileTypesSelectionChange(Sender: TObject;
   User: boolean);
 var
   ExtCommand : TExtAction;
@@ -420,7 +417,7 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.edtActionChange(Sender: TObject);
+procedure TfrmOptionsFileAssoc.edtActionChange(Sender: TObject);
 var
   iIndex : Integer;
   slActions : TStringList;
@@ -434,7 +431,7 @@ begin
     Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
 end;
 
-procedure TfrmFileAssoc.fneCommandChange(Sender: TObject);
+procedure TfrmOptionsFileAssoc.fneCommandChange(Sender: TObject);
 var
   iIndex : Integer;
   slActions : TStringList;
@@ -447,7 +444,7 @@ begin
     Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
 end;
 
-procedure TfrmFileAssoc.miActionsClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.miActionsClick(Sender: TObject);
 var
   miMenuItem: TMenuItem absolute Sender;
 begin
@@ -459,7 +456,7 @@ begin
     edbAction.Text:= 'Edit';
 end;
 
-procedure TfrmFileAssoc.miCommandsClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.miCommandsClick(Sender: TObject);
 var
   miMenuItem: TMenuItem absolute Sender;
 begin
@@ -485,29 +482,29 @@ begin
     fneCommand.Text:= fneCommand.Text + '%p';
 end;
 
-procedure TfrmFileAssoc.pnlRightSettingsResize(Sender: TObject);
+procedure TfrmOptionsFileAssoc.pnlRightSettingsResize(Sender: TObject);
 begin
   gbExts.Height := pnlRightSettings.ClientHeight div 4;
 end;
 
-procedure TfrmFileAssoc.pnlSettingsResize(Sender: TObject);
+procedure TfrmOptionsFileAssoc.pnlSettingsResize(Sender: TObject);
 begin
   pnlLeftSettings.Width := pnlSettings.ClientWidth div 3;
 end;
 
-procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.sbtnIconClick(Sender: TObject);
 begin
   OpenPictureDialog.FileName:= NormalizePathDelimiters(edtIconFileName.Text);
   if OpenPictureDialog.Execute then
     edtIconFileName.Text := OpenPictureDialog.FileName; // Triggers OnChange
 end;
 
-procedure TfrmFileAssoc.btnRemoveIconClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnRemoveIconClick(Sender: TObject);
 begin
   edtIconFileName.Text:= ''; // Triggers OnChange
 end;
 
-procedure TfrmFileAssoc.btnAddExtClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnAddExtClick(Sender: TObject);
 var
   sExt : String;
 begin
@@ -522,7 +519,7 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnRemoveExtClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnRemoveExtClick(Sender: TObject);
 var
   I : Integer;
 begin
@@ -546,7 +543,7 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnUpActClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnUpActClick(Sender: TObject);
 var
   I : Integer;
 begin
@@ -572,13 +569,13 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.edtIconFileNameChange(Sender: TObject);
+procedure TfrmOptionsFileAssoc.edtIconFileNameChange(Sender: TObject);
 begin
   if not FUpdatingControls then
     SetIconFileName(edtIconFileName.Text);
 end;
 
-procedure TfrmFileAssoc.fneCommandAcceptFileName(Sender: TObject;
+procedure TfrmOptionsFileAssoc.fneCommandAcceptFileName(Sender: TObject;
   var Value: String);
 begin
   if Pos(#32, Value) = 0 then
@@ -587,13 +584,7 @@ begin
     Value:= QuoteStr(Value) + #32;
 end;
 
-procedure TfrmFileAssoc.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  CloseAction := caFree;
-  frmFileAssoc := nil;
-end;
-
-procedure TfrmFileAssoc.btnDownActClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnDownActClick(Sender: TObject);
 var
   I : Integer;
 begin
@@ -619,7 +610,7 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnAddActClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnAddActClick(Sender: TObject);
 var
   I : Integer;
   ExtAction : TExtAction;
@@ -638,12 +629,12 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnActionsClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnActionsClick(Sender: TObject);
 begin
   pmActions.PopUp();
 end;
 
-procedure TfrmFileAssoc.btnRemoveActClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnRemoveActClick(Sender: TObject);
 var
   I : Integer;
 begin
@@ -671,26 +662,12 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnOKClick(Sender: TObject);
-begin
-  gExts.Free;
-  gExts := Exts;
-  Exts := nil;  // so that it isn't destroyed later
-  gExts.SaveToFile(gpCfgDir + 'doublecmd.ext');
-  Close;
-end;
-
-procedure TfrmFileAssoc.btnCancelClick(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TfrmFileAssoc.btnCommandsClick(Sender: TObject);
+procedure TfrmOptionsFileAssoc.btnCommandsClick(Sender: TObject);
 begin
   pmCommands.PopUp();
 end;
 
-procedure TfrmFileAssoc.FreeIcon(iIndex: Integer);
+procedure TfrmOptionsFileAssoc.FreeIcon(iIndex: Integer);
 begin
   with lbFileTypes do
   begin
@@ -707,7 +684,7 @@ begin
   end;
 end;
 
-procedure TfrmFileAssoc.SetIconFileName(const sFileName: String);
+procedure TfrmOptionsFileAssoc.SetIconFileName(const sFileName: String);
 var
   bmpTemp: TBitmap;
   Index: Integer;
@@ -741,7 +718,7 @@ begin
   end;
 end;
 
-procedure TfrmFileAssoc.SetMinimumSize;
+procedure TfrmOptionsFileAssoc.SetMinimumSize;
 begin
   gbFileTypes.Constraints.MinWidth :=
     gbFileTypes.BorderSpacing.Left +

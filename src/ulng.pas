@@ -484,6 +484,7 @@ resourcestring
   rsOptionsEditorToolbar = 'Toolbar';
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
+  rsOptionsEditorFileAssoc = 'File associations';
   rsOptionsEditorDirectoryHotlist = 'Directory Hotlist';
   //-------------------------------
   rsOptArchiveParam = 'Parameter';

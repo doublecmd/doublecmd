@@ -140,6 +140,7 @@ uses
   fOptionsToolsDiffer,
   fOptionsEditorColors,
   fOptionsToolTips,
+  fOptionsFileAssoc,
   fOptionsDirectoryHotlist;
 
 { TOptionsEditorRec }
@@ -296,6 +297,7 @@ begin
   Main.Add(TfrmOptionsIgnoreList);
   Main.Add(TfrmOptionsArchivers);
   Main.Add(TfrmOptionsToolTips);
+  Main.Add(TfrmOptionsFileAssoc);
   Main.Add(TfrmOptionsDirectoryHotlist);
 end;
 

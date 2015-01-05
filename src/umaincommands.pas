@@ -232,7 +232,7 @@ type
 implementation
 
 uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
-     dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, fFileAssoc, DCDateTimeUtils,
+     dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
@@ -244,7 +244,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil, uThumbFileView,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uShellContextMenu, uTrash, uFileSystemCopyOperation,
+     uShellContextMenu, uTrash, uFileSystemCopyOperation, fOptionsFileAssoc,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist
@@ -1927,7 +1927,7 @@ end;
 
 procedure TMainCommands.cm_FileAssoc(const Params: array of string);
 begin
-  ShowFileAssocDlg;
+  ShowOptions(TfrmOptionsFileAssoc);
 end;
 
 procedure TMainCommands.cm_HelpIndex(const Params: array of string);
