@@ -54,6 +54,7 @@ type
     procedure WriteLog(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
   end;
 
+function GetActualLogFilename: string;
 procedure ShowLogWindow(bShow: Boolean);
 procedure logWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
 procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
@@ -91,13 +92,25 @@ begin
   end
 end;
 
+function GetActualLogFilename: string;
+begin
+  result:=ReplaceEnvVars(gLogFileName);
+
+  if gLogFileWithDateInName then
+  begin
+    result:=copy(result,1,length(result)-length(ExtractFileExt(result)))+
+                   '_'+ReplaceEnvVars(EnvVarTodaysDate)+
+                   ExtractFileExt(result);
+  end;
+end;
+
 { TLogWriteThread }
 
 procedure TLogWriteThread.LogWriteInTheThread;
 var
   hLogFile: THandle;
   LogMsgTypeObject: TObject;
-  TempoFilename:string;
+  ActualLogFilename: string;
 begin
   LogMsgTypeObject:= TObject(PtrInt(FLogMsgType));
   if Assigned(fMain.frmMain) then
@@ -112,19 +125,11 @@ begin
 
   if gLogFile and FLogFile then // if write log to file
     try
-      TempoFilename:=ReplaceEnvVars(gLogFileName);
-
-      if gLogFileWithDateInName then
-      begin
-        TempoFilename:=copy(TempoFilename,1,length(TempoFilename)-length(ExtractFileExt(TempoFilename)))+
-                       '_'+ReplaceEnvVars(EnvVarTodaysDate)+
-                       ExtractFileExt(TempoFilename);
-      end;
-
-      if mbFileExists(TempoFilename) then
-        hLogFile:= mbFileOpen(TempoFilename, fmOpenReadWrite)
+      ActualLogFilename:= GetActualLogFilename;
+      if mbFileExists(ActualLogFilename) then
+        hLogFile:= mbFileOpen(ActualLogFilename, fmOpenReadWrite)
       else
-        hLogFile:= mbFileCreate(TempoFilename);
+        hLogFile:= mbFileCreate(ActualLogFilename);
 
       FileSeek(hLogFile, 0, soFromEnd);
       FileWriteLn(hLogFile, Format('%s %s', [DateTimeToStr(Now), FMsg]));
