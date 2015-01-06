@@ -198,6 +198,7 @@ type
     FFrmAttributesEdit: TfrmAttributesEdit;
     FLastTemplateName: UTF8String;
     FLastSearchTemplate: TSearchTemplate;
+    FUpdateTimer: TTimer;
     FUpdating: Boolean;
 
     procedure DisableControlsForTemplate;
@@ -212,6 +213,7 @@ type
     procedure SaveTemplate(SaveStartingPath: Boolean);
     procedure SelectTemplate(const ATemplateName: String);
     procedure UpdateTemplatesList;
+    procedure OnUpdateTimer(Sender: TObject);
     procedure OnAddAttribute(Sender: TObject);
     function InvalidRegExpr(AChecked: Boolean; const ARegExpr: String): Boolean;
   public
@@ -492,6 +494,10 @@ constructor TfrmFindDlg.Create(TheOwner: TComponent);
 begin
   FSelectedFiles := TStringList.Create;
   inherited Create(TheOwner);
+  FUpdateTimer := TTimer.Create(Self);
+  FUpdateTimer.Interval := 100;
+  FUpdateTimer.Enabled := False;
+  FUpdateTimer.OnTimer := @OnUpdateTimer;
 end;
 
 destructor TfrmFindDlg.Destroy;
@@ -978,12 +984,11 @@ begin
         with FFindThread do
         begin
           Items := FoundedStringCopy;
-          Status := lblStatus;
-          Current := lblCurrent;
-          Found := lblFound;
           OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
         end;
         FFindThread.Start;
+        FUpdateTimer.Enabled := True;
+        FUpdateTimer.OnTimer(FUpdateTimer);
       end;
   except
     StopSearch;
@@ -1104,7 +1109,10 @@ end;
 
 procedure TfrmFindDlg.ThreadTerminate(Sender:TObject);
 begin
-  FFindThread:= nil;
+  FFindThread := TFindThread(Sender);
+  FUpdateTimer.OnTimer(FUpdateTimer);
+  FUpdateTimer.Enabled := False;
+  FFindThread := nil;
   AfterSearchStopped;
 end;
 
@@ -1449,6 +1457,16 @@ begin
   gSearchTemplateList.LoadToStringList(lbSearchTemplates.Items);
   if OldIndex <> -1 then
     lbSearchTemplates.ItemIndex := OldIndex;
+end;
+
+procedure TfrmFindDlg.OnUpdateTimer(Sender: TObject);
+begin
+  if Assigned(FFindThread) then
+  begin
+    lblStatus.Caption := Format(rsFindScanned, [FFindThread.FilesScanned]);
+    lblFound.Caption := Format(rsFindFound, [FFindThread.FilesFound]);
+    lblCurrent.Caption := rsFindScanning + ': ' + FFindThread.CurrentDir;
+  end;
 end;
 
 procedure TfrmFindDlg.ZVDateFromChange(Sender: TObject);
