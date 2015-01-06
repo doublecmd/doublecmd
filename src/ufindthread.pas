@@ -38,9 +38,6 @@ type
   TFindThread = class(TThread)
   private
     FItems: TStrings;
-    FStatus: TLabel;
-    FFound: TLabel;
-    FCurrent: TLabel;
     FCurrentDir:String;
     FFilesScanned:Integer;
     FFilesFound:Integer;
@@ -68,13 +65,13 @@ type
     procedure AddFile;
     procedure DoFile(const sNewDir: String; const sr : TSearchRecEx);
     procedure WalkAdr(const sNewDir: String);
-    procedure UpDateProgress;
     function IsAborting: Boolean;
 
+    property FilesScanned: Integer read FFilesScanned;
+    property FilesFound: Integer read FFilesFound;
+    property CurrentDir: String read FCurrentDir;
+
     property Items:TStrings write FItems;
-    property Status:TLabel read FStatus write FStatus;
-    property Found:TLabel read FFound write FFound;
-    property Current:TLabel read FCurrent write FCurrent; // label current file
   end;
 
 implementation
@@ -134,7 +131,6 @@ begin
 
   try
     Assert(Assigned(FItems), 'Assert: FItems is empty');
-    Synchronize(@UpDateProgress);
     FCurrentDepth:= -1;
     if not Assigned(FSelectedFiles) or (FSelectedFiles.Count = 0) then
     begin
@@ -163,7 +159,6 @@ begin
       end;
     end;
     FCurrentDir:= rsOperFinished;
-    Synchronize(@UpDateProgress);
   except
     on E:Exception do
       msgError(Self, E.Message);
@@ -184,13 +179,6 @@ begin
                 CurrentDir + PathDelim + FolderName,
                 FSearchTemplate.StartPath);
   end;
-end;
-
-procedure TFindThread.UpDateProgress;
-begin
-  FStatus.Caption:= Format(rsFindScanned, [FFilesScanned]);
-  FFound.Caption := Format(rsFindFound, [FFilesFound]);
-  FCurrent.Caption:= rsFindScanning + ': ' + FCurrentDir;
 end;
 
 function TFindThread.FindInFile(const sFileName: UTF8String; sData: String;
@@ -426,7 +414,6 @@ begin
   end;
 
   Inc(FFilesScanned);
-  Synchronize(@UpDateProgress);
 end;
 
 procedure TFindThread.WalkAdr(const sNewDir:String);
@@ -474,7 +461,6 @@ begin
       end;
   until (FindNextEx(sr) <> 0) or Terminated;
   FindCloseEx(sr);
-  Synchronize(@UpDateProgress);
 
   Dec(FCurrentDepth);
 end;
