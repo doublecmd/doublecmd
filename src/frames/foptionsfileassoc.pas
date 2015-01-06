@@ -345,33 +345,26 @@ procedure TfrmOptionsFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState);
 var
   iTextTop: Integer;
-  MR: TRect;
 begin
   with (Control as TListBox) do
   begin
-    MR.Left:= ARect.Left + 1;
-    MR.Top:= ARect.Top + 1;
-    MR.Right:= ARect.Right - 1;
-    MR.Bottom:= ARect.Bottom - 1;
-
     if odSelected in State then
       begin
-        Canvas.Font.Color := clWindowText;
-        Canvas.Brush.Color:= clWindowText;
+        Canvas.Font.Color := clHighlightText;
+        Canvas.Brush.Color := clHighlight;
         Canvas.FillRect(ARect);
-        Canvas.Brush.Color:= Color;
-        Canvas.FillRect(MR);
       end
     else
       begin
-        Canvas.Brush.Color:= Color;
+        Canvas.Font.Color := Font.Color;
+        Canvas.Brush.Color := Color;
         Canvas.FillRect(ARect);
-      end ;
+      end;
 
-    iTextTop := MR.Top + (gIconsSize div 2) - (Canvas.TextHeight(Items[Index]) div 2);
+    iTextTop := ARect.Top + (gIconsSize div 2) - (Canvas.TextHeight(Items[Index]) div 2);
     if (Canvas.Locked = False) and (Assigned(Items.Objects[Index])) then
-      Canvas.Draw(MR.Left + 2, MR.Top + 1, TBitmap(Items.Objects[Index]));
-    Canvas.TextOut(MR.Left + gIconsSize + 6, iTextTop, Items[Index]);
+      Canvas.Draw(ARect.Left + 2, ARect.Top + 2, TBitmap(Items.Objects[Index]));
+    Canvas.TextOut(ARect.Left + gIconsSize + 6, iTextTop, Items[Index]);
   end;
 end;
 
