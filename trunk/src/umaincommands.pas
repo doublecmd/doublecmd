@@ -1467,12 +1467,36 @@ begin
 end;
 
 procedure TMainCommands.cm_ThumbnailsView(const Params: array of string);
+const
+  // Static variables
+  LeftFileViewClass: TFileViewClass = TColumnsFileView;
+  RightFileViewClass: TFileViewClass = TColumnsFileView;
 var
   aFileView: TFileView;
 begin
   with frmMain do
   begin
-    aFileView:= TThumbFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    if ActiveFrame.ClassType <> TThumbFileView then
+    begin
+      // Save current file view type
+      case SelectedPanel of
+        fpLeft:
+          LeftFileViewClass:= TFileViewClass(FrameLeft.ClassType);
+        fpRight:
+          RightFileViewClass:= TFileViewClass(FrameRight.ClassType);
+      end;
+      // Create thumbnails view
+      aFileView:= TThumbFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    end
+    else begin
+      // Restore previous file view type
+      case SelectedPanel of
+        fpLeft:
+          aFileView:= LeftFileViewClass.Create(ActiveNotebook.ActivePage, ActiveFrame);
+        fpRight:
+          aFileView:= RightFileViewClass.Create(ActiveNotebook.ActivePage, ActiveFrame);
+      end;
+    end;
     ActiveNotebook.ActivePage.FileView:= aFileView;
     ActiveFrame.SetFocus;
   end;
