@@ -14,6 +14,8 @@ type
 
   TFileView = class;
 
+  TFileViewClass = class of TFileView;
+
   {en
      Called before path is changed. If it returns @true the paths is changed
      (and if successful, OnAfterChangePath is called). If it returns @false,
