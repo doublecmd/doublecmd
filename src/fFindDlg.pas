@@ -1031,7 +1031,6 @@ var
   aFile: TFile;
   Notebook: TFileViewNotebook;
   NewPage: TFileViewPage;
-  FileView: TFileView;
 begin
   StopSearch;
 

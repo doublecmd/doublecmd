@@ -136,7 +136,6 @@ const
 procedure FileMaskOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
                                   var FileChecks: TFindFileChecks);
 var
-  iMask: Integer;
   sMask, sTemp: String;
 begin
   FileChecks.FilesMasks := SearchTemplate.FilesMasks;
