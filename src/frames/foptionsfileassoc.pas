@@ -135,7 +135,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uDCUtils,
+  Math, LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uDCUtils,
   DCOSUtils, DCStrUtils;
 
 { TfrmOptionsFileAssoc }
@@ -166,7 +166,7 @@ begin
   // load extension file
   if mbFileExists(gpCfgDir + 'doublecmd.ext') then
     Exts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
-  lbFileTypes.ItemHeight := gIconsSize + 4;
+  lbFileTypes.ItemHeight := Max(gIconsSize, lbFileTypes.Canvas.TextHeight('Pp')) + 4;
   // fill file types list box
   for I := 0 to Exts.Count - 1 do
     begin
@@ -344,7 +344,7 @@ end;
 procedure TfrmOptionsFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState);
 var
-  iTextTop: Integer;
+  iDrawTop: Integer;
 begin
   with (Control as TListBox) do
   begin
@@ -361,10 +361,13 @@ begin
         Canvas.FillRect(ARect);
       end;
 
-    iTextTop := ARect.Top + (gIconsSize div 2) - (Canvas.TextHeight(Items[Index]) div 2);
     if (Canvas.Locked = False) and (Assigned(Items.Objects[Index])) then
-      Canvas.Draw(ARect.Left + 2, ARect.Top + 2, TBitmap(Items.Objects[Index]));
-    Canvas.TextOut(ARect.Left + gIconsSize + 6, iTextTop, Items[Index]);
+    begin
+      iDrawTop := ARect.Top + ((lbFileTypes.ItemHeight - gIconsSize) div 2);
+      Canvas.Draw(ARect.Left + 2, iDrawTop, TBitmap(Items.Objects[Index]));
+    end;
+    iDrawTop := ARect.Top + ((lbFileTypes.ItemHeight - Canvas.TextHeight(Items[Index])) div 2);
+    Canvas.TextOut(ARect.Left + gIconsSize + 6, iDrawTop, Items[Index]);
   end;
 end;
 
