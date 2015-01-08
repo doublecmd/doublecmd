@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Base options page for external tools (Viewer, Editor, Differ)
 
-   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -125,8 +125,7 @@ end;
 
 procedure TfrmOptionsToolBase.fneToolsPathChange(Sender: TObject);
 begin
-  // Use fneToolsPath.Caption because Filename is one letter behind when typing manually.
-  FExternalToolOptions.Path := fneToolsPath.Caption;
+  FExternalToolOptions.Path := fneToolsPath.FileName;
 end;
 
 procedure TfrmOptionsToolBase.Init;
