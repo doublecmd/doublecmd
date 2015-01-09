@@ -1,17 +1,20 @@
 inherited frmOptionsMisc: TfrmOptionsMisc
-  Height = 263
+  Height = 336
   Width = 719
-  ClientHeight = 263
+  HorzScrollBar.Page = 1
+  VertScrollBar.Page = 1
+  AutoScroll = True
+  ClientHeight = 336
   ClientWidth = 719
-  DesignLeft = 460
-  DesignTop = 269
+  DesignLeft = 113
+  DesignTop = 219
   object gbExtended: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 183
+    Height = 193
     Top = 6
     Width = 707
     Anchors = [akTop, akLeft, akRight]
@@ -19,14 +22,14 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     BorderSpacing.Around = 6
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 179
+    ClientHeight = 189
     ClientWidth = 703
     TabOrder = 0
     object chkShowWarningMessages: TCheckBox
       Left = 12
-      Height = 22
+      Height = 24
       Top = 6
-      Width = 308
+      Width = 312
       Caption = 'Show &warning messages ("OK" button only)'
       TabOrder = 0
     end
@@ -34,8 +37,8 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = dblThumbnails
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 22
-      Top = 87
+      Height = 24
+      Top = 91
       Width = 191
       BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
@@ -45,9 +48,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 16
-      Top = 119
-      Width = 104
+      Height = 17
+      Top = 126
+      Width = 103
       Caption = '&Thumbnail size:'
       FocusControl = speThumbWidth
       ParentColor = False
@@ -60,7 +63,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideRight.Side = asrBottom
       Left = 12
       Height = 17
-      Top = 66
+      Top = 70
       Width = 679
       Caption = 'Thumbnails'
       Anchors = [akTop, akLeft, akRight]
@@ -72,9 +75,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = chkThumbSave
       AnchorSideTop.Side = asrBottom
-      Left = 122
-      Height = 25
-      Top = 115
+      Left = 121
+      Height = 27
+      Top = 121
       Width = 50
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
@@ -87,9 +90,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Control = lblThumbSeparator
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
-      Left = 194
-      Height = 25
-      Top = 115
+      Left = 192
+      Height = 27
+      Top = 121
       Width = 50
       BorderSpacing.Left = 6
       MaxValue = 512
@@ -102,10 +105,10 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
-      Left = 178
-      Height = 16
-      Top = 119
-      Width = 10
+      Left = 177
+      Height = 17
+      Top = 126
+      Width = 9
       BorderSpacing.Left = 6
       Caption = 'X'
       ParentColor = False
@@ -115,9 +118,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
-      Left = 250
-      Height = 16
-      Top = 119
+      Left = 248
+      Height = 17
+      Top = 126
       Width = 40
       BorderSpacing.Left = 6
       Caption = 'pixels'
@@ -127,9 +130,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 27
-      Top = 146
-      Width = 316
+      Height = 29
+      Top = 154
+      Width = 321
       AutoSize = True
       BorderSpacing.Top = 6
       Caption = '&Remove thumbnails for no longer existing files'
@@ -140,12 +143,343 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = chkShowWarningMessages
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 22
-      Top = 32
-      Width = 375
+      Height = 24
+      Top = 34
+      Width = 379
       BorderSpacing.Top = 4
       Caption = 'Always &go to the root of a drive when changing drives'
       TabOrder = 1
     end
+  end
+  object gbTCExportImport: TGroupBox[1]
+    AnchorSideLeft.Control = gbExtended
+    AnchorSideTop.Control = gbExtended
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbExtended
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 116
+    Top = 211
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 12
+    Caption = 'Regarding TC export/import:'
+    ClientHeight = 97
+    ClientWidth = 703
+    TabOrder = 1
+    TabStop = True
+    Visible = False
+    object fneTCExecutableFilename: TFileNameEdit
+      AnchorSideLeft.Control = lblTCExecutable
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbTCExportImport
+      AnchorSideRight.Control = btnRelativeTCExecutableFile
+      Left = 177
+      Height = 27
+      Top = 4
+      Width = 469
+      DialogOptions = [ofPathMustExist, ofFileMustExist]
+      Filter = 'executables|*.exe|any files|*.*'
+      FilterIndex = 1
+      HideDirectories = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 4
+      BorderSpacing.Bottom = 4
+      MaxLength = 0
+      TabOrder = 0
+    end
+    object btnRelativeTCExecutableFile: TSpeedButton
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = fneTCExecutableFilename
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btnViewConfigFile
+      AnchorSideRight.Side = asrBottom
+      Left = 670
+      Height = 24
+      Hint = 'Some functions to select appropriate path'
+      Top = 5
+      Width = 24
+      Anchors = [akTop, akRight]
+      BorderSpacing.Left = 24
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000640000006400000000000000000000002C86D8702D88
+        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+      }
+      OnClick = btnRelativeTCExecutableFileClick
+    end
+    object lblTCExecutable: TLabel
+      AnchorSideTop.Control = fneTCExecutableFilename
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblTCPathForTool
+      AnchorSideRight.Side = asrBottom
+      Left = -586
+      Height = 17
+      Top = 9
+      Width = 757
+      Alignment = taRightJustify
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'TC executable:'
+      ParentColor = False
+    end
+    object fneTCConfigFilename: TFileNameEdit
+      AnchorSideLeft.Control = lblTCConfig
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = fneTCExecutableFilename
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 177
+      Height = 27
+      Top = 35
+      Width = 444
+      DialogOptions = [ofPathMustExist, ofFileMustExist]
+      Filter = 'ini configuration file|*.ini|any file|*.*'
+      FilterIndex = 1
+      HideDirectories = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 4
+      BorderSpacing.Bottom = 4
+      MaxLength = 0
+      TabOrder = 1
+    end
+    object lblTCConfig: TLabel
+      AnchorSideTop.Control = fneTCConfigFilename
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblTCPathForTool
+      AnchorSideRight.Side = asrBottom
+      Left = 51
+      Height = 17
+      Top = 40
+      Width = 120
+      Anchors = [akTop, akRight]
+      Caption = 'Configuration file:'
+      ParentColor = False
+    end
+    object btnRelativeTCConfigFile: TSpeedButton
+      AnchorSideLeft.Control = fneTCConfigFilename
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = fneTCConfigFilename
+      AnchorSideTop.Side = asrCenter
+      Left = 645
+      Height = 24
+      Hint = 'Some functions to select appropriate path'
+      Top = 36
+      Width = 24
+      BorderSpacing.Left = 24
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000640000006400000000000000000000002C86D8702D88
+        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+      }
+      OnClick = btnRelativeTCConfigFileClick
+    end
+    object btnViewConfigFile: TSpeedButton
+      AnchorSideLeft.Control = btnRelativeTCConfigFile
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = fneTCConfigFilename
+      AnchorSideTop.Side = asrCenter
+      Left = 670
+      Height = 24
+      Hint = 'View log file content'
+      Top = 36
+      Width = 24
+      BorderSpacing.Left = 1
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        18000000000000030000130B0000130B00000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000C17213B6E9E3A6EA000000000000000000000000000
+        00000000000000000000000000000000000000000000000000003A83CC44C8FF
+        29B2FF316DA70000000000000000000000000000000000000000000000000000
+        000000000000000000003881CC55DBFF3AC6FF82756C6F6C6B69696C68696F73
+        6F66CFAA61B87E0BB67D0AB67D0AB67C0AB67D0AB77F0F7F580A0000002980DB
+        9F928C7D7773E9D7A3FFF5B0FFEEA8E7CA94737379F6FBFFF2F7FFF2F7FFF2F6
+        FFF2F7FFF7FFFFB77F0F000000C98506828088E9D8A5FFF8BBFFEFB2FFE7A6FF
+        E6A6E6C28984858AECECEDECECEDEAEBEEEAEBEEF5FBFFB67D0A000000C08511
+        7F8290FFF2AFFFEFB2FFE9ABFFE7B3FFEFCAFFE09C7B7B7EEAE9E8EAE9E8E6E6
+        E6E6E6E6F5FBFFB67C09000000BD8412868C9AFFEAA5FFE6A4FFE7B2FFEDC8FF
+        F7E3FFDC96858689E5E4E3E5E4E3E0E0E1E0E0E1F5FBFFB67C09000000BB8210
+        9DA3B0ECCE97FFE4A3FFEEC9FFF7E3FFF3DAECBE8096979AE1E1E0DEDDDCDBDB
+        DCDBDBDCF5FBFFB67C09000000B9800DDDE3EE9E9B9BEECA8FFFDD9AFFDA95EE
+        C2829B9895D9D7D7D9D7D7D9D7D7D8D6D8D8D6D8F6FCFFB67C0A000000B77E0B
+        F9FFFFC4C4C6A5A4A6A4A4A7A4A3A6B1AFB3D6D4D3D4D2D3D4D2D3D4D2D3D4D2
+        D3D4D2D3F6FCFFB67D0A000000B67D0AF7FDFFCFCED0CFCECECCCBCDCFCECECC
+        CBCDCCCBCDCCCBCDCFCECECCCBCDCCCBCDCCCBCDF6FCFFB67D0A000000B67D0C
+        F5FDFFF3F8FFF5F9FFF6FBFFF6FBFFF6FBFFF6FAFFF5FAFFF5F9FFF4F8FFF3F7
+        FFF3F7FFF4FDFFB67D0C000000B67F10F7E4C0DCAA4ADDAB4BDDAC4CDDAC4CDD
+        AC4CDDAC4CDDAC4CDDAC4CDDAB4BDCAB4ADCAA4AF7E4C0B67F10000000B88216
+        EFD2A0EDCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF
+        9BEDCF9BEFD2A0B88216000000825D14B88217B78114B68114B68114B68114B6
+        8114B68114B68114B68114B68114B68114B78114B88217825D14
+      }
+      OnClick = btnViewConfigFileClick
+    end
+    object edOutputPathForToolbar: TEdit
+      AnchorSideLeft.Control = lblTCPathForTool
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = fneTCConfigFilename
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = btnOutputPathForToolbar
+      Left = 177
+      Height = 27
+      Top = 66
+      Width = 461
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 4
+      BorderSpacing.Bottom = 4
+      TabOrder = 2
+    end
+    object lblTCPathForTool: TLabel
+      AnchorSideTop.Control = edOutputPathForToolbar
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Side = asrBottom
+      Left = 32
+      Height = 17
+      Top = 71
+      Width = 139
+      Anchors = [akTop]
+      Caption = 'Toolbar output path:'
+      ParentColor = False
+    end
+    object btnOutputPathForToolbar: TButton
+      AnchorSideTop.Control = edOutputPathForToolbar
+      AnchorSideRight.Control = btnRelativeOutputPathForToolbar
+      AnchorSideBottom.Control = edOutputPathForToolbar
+      AnchorSideBottom.Side = asrBottom
+      Left = 638
+      Height = 27
+      Top = 66
+      Width = 32
+      Anchors = [akTop, akRight, akBottom]
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnOutputPathForToolbarClick
+      TabOrder = 3
+    end
+    object btnRelativeOutputPathForToolbar: TSpeedButton
+      AnchorSideLeft.Control = btnViewConfigFile
+      AnchorSideTop.Control = edOutputPathForToolbar
+      AnchorSideRight.Control = btnViewConfigFile
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = edOutputPathForToolbar
+      AnchorSideBottom.Side = asrBottom
+      Left = 670
+      Height = 27
+      Hint = 'Some functions to select appropriate path'
+      Top = 66
+      Width = 24
+      Anchors = [akTop, akRight, akBottom]
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000640000006400000000000000000000002C86D8702D88
+        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+      }
+      OnClick = btnRelativeOutputPathForToolbarClick
+    end
+  end
+  object pmPathHelper: TPopupMenu[2]
+    left = 656
+    top = 32
   end
 end

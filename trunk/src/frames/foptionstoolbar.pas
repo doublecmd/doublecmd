@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Toolbar configuration options page
 
-   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -98,10 +98,68 @@ type
     pmInsertButtonMenu: TPopupMenu;
     rgToolItemType: TRadioGroup;
     btnOpenIcon: TButton;
-    sboxToolbars: TScrollBox;
+    pnToolbars: TPanel;
     btnRelativeExternalCommand: TSpeedButton;
     trbBarSize: TTrackBar;
     trbIconSize: TTrackBar;
+    miExportSeparator1: TMenuItem;
+    miExportSeparator2: TMenuItem;
+    miExportSeparator3: TMenuItem;
+    miExportSeparator4: TMenuItem;
+    miSeparator6: TMenuItem;
+    miSeparator7: TMenuItem;
+    miSeparator9: TMenuItem;
+    miSeparator8: TMenuItem;
+    miSeparator10: TMenuItem;
+    miSeparator11: TMenuItem;
+    miSeparator13: TMenuItem;
+    miSeparator14: TMenuItem;
+    miImportSeparator: TMenuItem;
+    SaveDialog: TSaveDialog;
+    cbReportErrorWithCommands: TCheckBox;
+    btnExport: TButton;
+    pmExportToolbar: TPopupMenu;
+    miExportTop: TMenuItem;
+    miExportTopToTCIniKeep: TMenuItem;
+    miExportTopToTCIniNoKeep: TMenuItem;
+    miExportTopToTCBarKeep: TMenuItem;
+    miExportTopToTCBarNoKeep: TMenuItem;
+    miExportTopToDCBar: TMenuItem;
+    miExportCurrent: TMenuItem;
+    miExportCurrentToTCIniKeep: TMenuItem;
+    miExportCurrentToTCIniNoKeep: TMenuItem;
+    miExportCurrentToTCBarKeep: TMenuItem;
+    miExportCurrentToTCBarNoKeep: TMenuItem;
+    miExportCurrentToDCBar: TMenuItem;
+    btnImport: TButton;
+    pmImportToolbar: TPopupMenu;
+    miImportTCINI: TMenuItem;
+    miImportTCINIReplaceTop: TMenuItem;
+    miImportTCINIAddTop: TMenuItem;
+    miImportTCINIAddMenuTop: TMenuItem;
+    miImportTCINIAddCurrent: TMenuItem;
+    miImportTCINIAddMenuCurrent: TMenuItem;
+    miImportTCBAR: TMenuItem;
+    miImportTCBARRepaceTop: TMenuItem;
+    miImportTCBARAddTop: TMenuItem;
+    miImportTCBARAddMenuTop: TMenuItem;
+    miImportTCBARAddCurrent: TMenuItem;
+    miImportTCBARAddMenuCurrent: TMenuItem;
+    miImportDCBAR: TMenuItem;
+    miImportDCBARReplaceTop: TMenuItem;
+    miImportDCBARAddTop: TMenuItem;
+    miImportDCBARAddMenuTop: TMenuItem;
+    miImportDCBARAddCurrent: TMenuItem;
+    miImportDCBARAddMenuCurrent: TMenuItem;
+    btnBackup: TButton;
+    pmBackupToolbar: TPopupMenu;
+    miExportTopToBackup: TMenuItem;
+    miImportBackup: TMenuItem;
+    miImportBackupReplaceTop: TMenuItem;
+    miImportBackupAddTop: TMenuItem;
+    miImportBackupAddMenuTop: TMenuItem;
+    miImportBackupAddCurrent: TMenuItem;
+    miImportBackupAddMenuCurrent: TMenuItem;
     procedure btnEditHotkeyClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
     procedure btnRelativeExternalCommandClick(Sender: TObject);
@@ -136,6 +194,14 @@ type
     procedure rgToolItemTypeSelectionChanged(Sender: TObject);
     procedure trbBarSizeChange(Sender: TObject);
     procedure trbIconSizeChange(Sender: TObject);
+    procedure FrameEnter(Sender: TObject);
+    function ComputeToolbarsSignature: dword;
+    procedure btnExportClick(Sender: TObject);
+    procedure btnImportClick(Sender: TObject);
+    procedure btnBackupClick(Sender: TObject);
+    procedure miExportToAnythingClick(Sender: TObject);
+    procedure miImportFromAnythingClick(Sender: TObject);
+
   private
     FCurrentButton: TKASToolButton;
     FEditForm: TfrmEditHotkey;
@@ -143,6 +209,8 @@ type
     FToolButtonMouseX, FToolButtonMouseY, FToolDragButtonNumber: Integer; // For dragging
     FUpdatingButtonType: Boolean;
     FUpdatingIconText: Boolean;
+    bFirstTimeDrawn: boolean;
+    FLastLoadedToolbarsSignature: dword;
     function AddNewSubToolbar(ToolItem: TKASMenuItem): TKASToolBar;
     procedure ApplyEditControls;
     procedure CloseToolbarsBelowCurrentButton;
@@ -152,10 +220,11 @@ type
     class function FindHotkey(NormalItem: TKASNormalItem): THotkey;
     function GetTopToolbar: TKASToolBar;
     procedure LoadCurrentButton;
-    procedure LoadToolbar(ToolBar: TKASToolBar; Config: TXmlConfig; RootNode: TXmlNode);
-    procedure MarkCurrentToolbar;
+    procedure LoadToolbar(ToolBar: TKASToolBar; Config: TXmlConfig; RootNode: TXmlNode; ConfigurationLoadType: TTypeOfConfigurationLoad);
     procedure PressButtonDown(Button: TKASToolButton);
     procedure UpdateIcon(Icon: String);
+    procedure DisplayAppropriateControls(EnableNormal, EnableCommand, EnableProgram: boolean);
+
   protected
     procedure Init; override;
     procedure Load; override;
@@ -165,6 +234,7 @@ type
     class function GetShortcuts(NormalItem: TKASNormalItem): TDynamicStringArray;
     class function GetTitle: String; override;
     procedure SelectButton(ButtonNumber: Integer);
+    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -173,14 +243,36 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, LCLVersion, Toolwin,
+  crc, LCLProc, LCLVersion, Toolwin,
 
   //DC
+  {$IFDEF MSWINDOWS}
+  uTotalCommander,
+  {$ENDIF}
+  uFileProcs, uDebug, DCOSUtils, uShowMsg, DCClassesUtf8, fOptions,
   DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils, uPixMapManager,
   uKASToolItemsExtended, fMain, uSpecialDir;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';
+
+  { Constants used with export/import }
+  MASK_ACTION_WITH_WHAT = $03;
+  ACTION_WITH_WINCMDINI = $00;
+  ACTION_WITH_TC_TOOLBARFILE = $01;
+  ACTION_WITH_DC_TOOLBARFILE = $02;
+  ACTION_WITH_BACKUP = $03;
+
+  MASK_ACTION_TOOLBAR = $30;
+  ACTION_WITH_MAIN_TOOLBAR = $0;
+  IMPORT_IN_MAIN_TOOLBAR_TO_NEW_SUB_BAR = $1;
+  ACTION_WITH_CURRENT_BAR = $2;
+  IMPORT_IN_CURRENT_BAR_TO_NEW_SUB_BAR = $3;
+
+  MASK_FLUSHORNOT_EXISTING = $80;
+  ACTION_FLUSH_EXISTING = $80;
+  MASK_IMPORT_DESTIONATION = $30;
+  ACTION_ERASEEXISTING = $80;
 
 { TfrmOptionsToolbar }
 
@@ -207,8 +299,8 @@ end;
 
 function TfrmOptionsToolbar.GetTopToolbar: TKASToolBar;
 begin
-  if sboxToolbars.ControlCount > 0 then
-    Result := sboxToolbars.Controls[0] as TKASToolBar
+  if pnToolbars.ControlCount > 0 then
+    Result := pnToolbars.Controls[0] as TKASToolBar
   else
     Result := nil;
 end;
@@ -217,6 +309,7 @@ procedure TfrmOptionsToolbar.Init;
 var
   ToolBar: TKASToolBar;
 begin
+  bFirstTimeDrawn := True;
   FFormCommands := frmMain as IFormCommands;
   FFormCommands.GetCommandsList(cbInternalCommand.Items);
   cbInternalCommand.Sorted := True;
@@ -241,9 +334,27 @@ var
   ToolBarNode: TXmlNode;
   ToolBar: TKASToolBar;
 begin
+  {$IFNDEF MSWINDOWS}
+  miExportSeparator1.free;
+  miExportTopToTCIniKeep.free;
+  miExportTopToTCIniNoKeep.free;
+  miExportSeparator2.free;
+  miExportTopToTCBarKeep.free;
+  miExportTopToTCBarNoKeep.free;
+  miExportSeparator3.free;
+  miExportCurrentToTCIniKeep.free;
+  miExportCurrentToTCIniNoKeep.free;
+  miExportSeparator4.free;
+  miExportCurrentToTCBarKeep.free;
+  miExportCurrentToTCBarNoKeep.free;
+  miImportSeparator.free;
+  miImportTCINI.free;
+  miImportTCBAR.free;
+  {$ENDIF}
   trbBarSize.Position   := gToolBarButtonSize div 2;
   trbIconSize.Position  := gToolBarIconSize div 2;
   cbFlatButtons.Checked := gToolBarFlat;
+  cbReportErrorWithCommands.Checked := gToolbarReportErrorWithCommands;
 
   lblBarSizeValue.Caption  := IntToStr(trbBarSize.Position*2);
   lblIconSizeValue.Caption := IntToStr(trbIconSize.Position*2);
@@ -253,10 +364,12 @@ begin
 
   ToolBar := GetTopToolbar;
   ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
-  LoadToolbar(ToolBar, gConfig, ToolBarNode);
+  LoadToolbar(ToolBar, gConfig, ToolBarNode, tocl_FlushCurrentToolbarContent);
   if ToolBar.ButtonCount > 0 then
     PressButtonDown(ToolBar.Buttons[0]);
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
+
+  FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
 end;
 
 procedure TfrmOptionsToolbar.LoadCurrentButton;
@@ -325,102 +438,66 @@ begin
     rgToolItemType.ItemIndex := ButtonTypeIndex;
     FUpdatingButtonType := False;
 
-    lblIconFile.Visible           := EnableNormal;
-    edtIconFileName.Visible       := EnableNormal;
-    btnOpenIcon.Visible           := EnableNormal;
-    btnRelativeIconFileName.Visible:=EnableNormal;
-    lblToolTip.Visible            := EnableNormal;
-    edtToolTip.Visible            := EnableNormal;
-    lblInternalCommand.Visible    := EnableCommand;
-    cbInternalCommand.Visible     := EnableCommand;
-    lblInternalParameters.Visible := EnableCommand;
-    edtInternalParameters.Visible := EnableCommand;
-    lblExternalCommand.Visible    := EnableProgram;
-    edtExternalCommand.Visible    := EnableProgram;
-    lblExternalParameters.Visible := EnableProgram;
-    edtExternalParameters.Visible := EnableProgram;
-    lblStartPath.Visible          := EnableProgram;
-    edtStartPath.Visible          := EnableProgram;
-    btnOpenFile.Visible           := EnableProgram;
-    btnRelativeExternalCommand.Visible:=EnableProgram;
-    btnStartPath.Visible          := EnableProgram;
-    btnRelativeStartPath.Visible:= EnableProgram;
-    lblHotkey.Visible             := EnableNormal;
-    lblHotkeyValue.Visible        := EnableNormal;
-    btnEditHotkey.Visible         := EnableNormal;
-    btnRemoveHotkey.Visible       := EnableNormal;
-    btnCloneButton.Visible        := Assigned(FCurrentButton);
-    btnDeleteButton.Visible       := Assigned(FCurrentButton);
-    rgToolItemType.Visible        := Assigned(FCurrentButton);
-
-    MarkCurrentToolbar;
+    DisplayAppropriateControls(EnableNormal, EnableCommand, EnableProgram);
   finally
     EnableAutoSizing;
   end;
+
+  //Let's display the menuitem related with a subtoolbar only if current selected toolbar is a subtoolbar.
+  miExportCurrent.Enabled := (FCurrentButton.ToolBar.Tag > 1);
+  {$IFDEF MSWINDOWS}
+  miImportTCINIAddCurrent.Enabled := miExportCurrent.Enabled;
+  miImportTCINIAddMenuCurrent.Enabled := miExportCurrent.Enabled;
+  miImportTCBARAddCurrent.Enabled := miExportCurrent.Enabled;
+  miImportTCBARAddMenuCurrent.Enabled := miExportCurrent.Enabled;
+  {$ENDIF}
+  miImportDCBARAddCurrent.Enabled := miExportCurrent.Enabled;
+  miImportDCBARAddMenuCurrent.Enabled := miExportCurrent.Enabled;
+  miImportBackupAddCurrent.Enabled := miExportCurrent.Enabled;
+  miImportBackupAddMenuCurrent.Enabled := miExportCurrent.Enabled;
 end;
 
-procedure TfrmOptionsToolbar.LoadToolbar(ToolBar: TKASToolBar; Config: TXmlConfig; RootNode: TXmlNode);
+procedure TfrmOptionsToolbar.DisplayAppropriateControls(EnableNormal, EnableCommand, EnableProgram: boolean);
+begin
+  lblIconFile.Visible := EnableNormal;
+  edtIconFileName.Visible := EnableNormal;
+  btnOpenIcon.Visible := EnableNormal;
+  btnRelativeIconFileName.Visible := EnableNormal;
+  lblToolTip.Visible := EnableNormal;
+  edtToolTip.Visible := EnableNormal;
+  lblInternalCommand.Visible := EnableCommand;
+  cbInternalCommand.Visible := EnableCommand;
+  lblInternalParameters.Visible := EnableCommand;
+  edtInternalParameters.Visible := EnableCommand;
+  lblExternalCommand.Visible := EnableProgram;
+  edtExternalCommand.Visible := EnableProgram;
+  lblExternalParameters.Visible := EnableProgram;
+  edtExternalParameters.Visible := EnableProgram;
+  lblStartPath.Visible := EnableProgram;
+  edtStartPath.Visible := EnableProgram;
+  btnOpenFile.Visible := EnableProgram;
+  btnRelativeExternalCommand.Visible := EnableProgram;
+  btnStartPath.Visible := EnableProgram;
+  btnRelativeStartPath.Visible := EnableProgram;
+  lblHotkey.Visible := EnableNormal;
+  lblHotkeyValue.Visible := EnableNormal;
+  btnEditHotkey.Visible := EnableNormal;
+  btnRemoveHotkey.Visible := EnableNormal;
+  btnCloneButton.Visible := Assigned(FCurrentButton);
+  btnDeleteButton.Visible := Assigned(FCurrentButton);
+  rgToolItemType.Visible := Assigned(FCurrentButton);
+end;
+
+procedure TfrmOptionsToolbar.LoadToolbar(ToolBar: TKASToolBar; Config: TXmlConfig; RootNode: TXmlNode; ConfigurationLoadType: TTypeOfConfigurationLoad);
 var
   ToolBarLoader: TKASToolBarExtendedLoader;
 begin
   ToolBarLoader := TKASToolBarExtendedLoader.Create(FFormCommands);
   try
     if Assigned(RootNode) then
-      ToolBar.LoadConfiguration(Config, RootNode, ToolBarLoader);
+      ToolBar.LoadConfiguration(Config, RootNode, ToolBarLoader, ConfigurationLoadType);
   finally
     ToolBarLoader.Free;
-  end;
-end;
-
-procedure TfrmOptionsToolbar.MarkCurrentToolbar;
-var
-  MarkToolBar, ToolBar, PrevToolBar: TKASToolBar;
-  i: Integer;
-begin
-  if Assigned(FCurrentButton) then
-    MarkToolBar := FCurrentButton.ToolBar
-  else
-    MarkToolBar := GetTopToolbar;
-
-  if Assigned(MarkToolBar) then
-  begin
-    DisableAutoSizing;
-    try
-      PrevToolBar := nil;
-      for i := 0 to sboxToolbars.ControlCount - 1 do
-      begin
-        ToolBar := sboxToolbars.Controls[i] as TKASToolBar;
-        if ToolBar = MarkToolBar then
-        begin
-          if Assigned(PrevToolBar) then
-          begin
-            PrevToolBar.EdgeBorders := [ebBottom];
-            PrevToolBar.EdgeInner   := esLowered;
-            PrevToolBar.EdgeOuter   := esLowered;
-          end;
-          ToolBar.EdgeInner   := esRaised;
-          ToolBar.EdgeOuter   := esRaised;
-          ToolBar.EdgeBorders := [ebTop, ebBottom];
-        end
-        else if PrevToolBar = MarkToolBar then
-        begin
-          ToolBar.EdgeInner   := esLowered;
-          ToolBar.EdgeOuter   := esLowered;
-          ToolBar.EdgeBorders := [ebTop];
-        end
-        else
-        begin
-          ToolBar.EdgeInner   := esNone;
-          ToolBar.EdgeOuter   := esNone;
-          ToolBar.EdgeBorders := [];
-        end;
-        PrevToolBar := ToolBar;
-      end;
-      PrevToolBar.EdgeOuter   := esRaised;
-      PrevToolBar.EdgeBorders := [ebBottom];
-    finally
-      EnableAutoSizing;
-    end;
   end;
 end;
 
@@ -466,6 +543,7 @@ begin
   ApplyEditControls;
 
   gToolBarFlat       := cbFlatButtons.Checked;
+  gToolbarReportErrorWithCommands := cbReportErrorWithCommands.Checked;
   gToolBarButtonSize := trbBarSize.Position * 2;
   gToolBarIconSize   := trbIconSize.Position * 2;
 
@@ -475,6 +553,7 @@ begin
     ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', True);
     gConfig.ClearNode(ToolBarNode);
     Toolbar.SaveConfiguration(gConfig, ToolBarNode);
+    FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
   end;
 
   Result := [];
@@ -491,8 +570,9 @@ end;
 
 function TfrmOptionsToolbar.CreateToolbar(Items: TKASToolBarItems): TKASToolBar;
 begin
-  Result := TKASToolBar.Create(sboxToolbars);
+  Result := TKASToolBar.Create(pnToolbars);
   Result.AutoSize                := True;
+  Result.Anchors := [akTop, akLeft, akRight];
   Result.Constraints.MinHeight   := 24;
   Result.Flat                    := cbFlatButtons.Checked;
   Result.GlyphSize               := trbIconSize.Position * 2;
@@ -510,13 +590,15 @@ begin
   Result.OnToolButtonDragOver    := @ToolbarToolButtonDragOver;
   Result.OnToolItemShortcutsHint := @ToolbarToolItemShortcutsHint;
   Result.BorderSpacing.Bottom    := 2;
-  Result.EdgeInner   := esNone;
-  Result.EdgeOuter   := esNone;
-  Result.EdgeBorders := [];
+  Result.EdgeInner := esRaised;
+  Result.EdgeOuter := esLowered;
+  Result.EdgeBorders := [ebBottom];
+
   Result.Top := MaxSmallInt; // So that it is put under all existing toolbars (because of Align=alTop).
 
   Result.UseItems(Items);
-  Result.Parent := sboxToolbars;
+  Result.Parent := pnToolbars;
+  Result.Tag := pnToolbars.ComponentCount;
 end;
 
 function TfrmOptionsToolbar.AddNewSubToolbar(ToolItem: TKASMenuItem): TKASToolBar;
@@ -570,7 +652,6 @@ var
   ToolBar: TKASToolBar;
   ToolItem: TKASToolItem = nil;
   WhereToAdd:longint;
-  WhatToAdd:longint;
   IndexWhereToAdd:longint;
 begin
   if Assigned(FCurrentButton) then
@@ -678,7 +759,12 @@ begin
   begin
     ApplyEditControls;
     SourceItem := FCurrentButton.ToolItem;
-    Button := FCurrentButton.ToolBar.InsertButton(FCurrentButton, SourceItem.Clone);
+
+    if FCurrentButton.Tag < pred(FCurrentButton.ToolBar.ButtonCount) then
+      Button := FCurrentButton.ToolBar.InsertButton((FCurrentButton.Tag + 1), SourceItem.Clone)
+    else
+      Button := FCurrentButton.ToolBar.AddButton(SourceItem.Clone);
+
     PressButtonDown(Button);
   end;
 end;
@@ -797,21 +883,21 @@ var
 begin
   if Assigned(FCurrentButton) then
   begin
-    for i := 0 to sboxToolbars.ControlCount - 1 do
-      if sboxToolbars.Controls[i] = FCurrentButton.ToolBar then
+    for i := 0 to pnToolbars.ControlCount - 1 do
+      if pnToolbars.Controls[i] = FCurrentButton.ToolBar then
       begin
         CloseFrom := i + 1;
         Break;
       end;
   end;
-  for i := sboxToolbars.ControlCount - 1 downto CloseFrom do
+  for i := pnToolbars.ControlCount - 1 downto CloseFrom do
     CloseToolbar(i);
 end;
 
 procedure TfrmOptionsToolbar.CloseToolbar(Index: Integer);
 begin
   if Index > 0 then
-    sboxToolbars.Controls[Index].Free;
+    pnToolbars.Controls[Index].Free;
 end;
 
 procedure TfrmOptionsToolbar.cbFlatButtonsChange(Sender: TObject);
@@ -819,9 +905,9 @@ var
   i: Integer;
   ToolBar: TKASToolBar;
 begin
-  for i := 0 to sboxToolbars.ControlCount - 1 do
+  for i := 0 to pnToolbars.ControlCount - 1 do
   begin
-    ToolBar := sboxToolbars.Controls[i] as TKASToolBar;
+    ToolBar := pnToolbars.Controls[i] as TKASToolBar;
     ToolBar.Flat := cbFlatButtons.Checked;
   end;
 end;
@@ -880,9 +966,9 @@ begin
   try
     lblBarSizeValue.Caption := IntToStr(trbBarSize.Position*2);
     trbIconSize.Position    := trbBarSize.Position - (trbBarSize.Position div 5);
-    for i := 0 to sboxToolbars.ControlCount - 1 do
+    for i := 0 to pnToolbars.ControlCount - 1 do
     begin
-      ToolBar := sboxToolbars.Controls[i] as TKASToolBar;
+      ToolBar := pnToolbars.Controls[i] as TKASToolBar;
       ToolBar.SetButtonSize(trbBarSize.Position * 2, trbBarSize.Position * 2);
     end;
   finally
@@ -898,9 +984,9 @@ begin
   DisableAutoSizing;
   try
     lblIconSizeValue.Caption := IntToStr(trbIconSize.Position * 2);
-    for i := 0 to sboxToolbars.ControlCount - 1 do
+    for i := 0 to pnToolbars.ControlCount - 1 do
     begin
-      ToolBar := sboxToolbars.Controls[i] as TKASToolBar;
+      ToolBar := pnToolbars.Controls[i] as TKASToolBar;
       ToolBar.GlyphSize := trbIconSize.Position * 2;
     end;
   finally
@@ -958,7 +1044,7 @@ begin
       Result.Canvas.RoundRect(Rect(Round(iIconSize * 0.4), 2, Round(iIconSize * 0.6), iIconSize - 2),iIconSize div 8,iIconSize div 4);
     end
   else if ToolItem is TKASNormalItem then
-    Result := PixMapManager.LoadBitmapEnhanced(TKASNormalItem(ToolItem).Icon, iIconSize, True, clBackColor)
+    Result := PixMapManager.LoadBitmapEnhanced(TKASNormalItem(ToolItem).Icon, iIconSize, True, clBackColor, nil)
   else
     Result := nil;
 end;
@@ -1066,9 +1152,9 @@ procedure TfrmOptionsToolbar.SelectButton(ButtonNumber: Integer);
 var
   ToolBar: TKASToolBar;
 begin
-  if sboxToolbars.ControlCount > 0 then
+  if pnToolbars.ControlCount > 0 then
   begin
-    ToolBar := sboxToolbars.Controls[0] as TKASToolBar;
+    ToolBar := pnToolbars.Controls[0] as TKASToolBar;
     if (ButtonNumber >= 0) and (ButtonNumber < Toolbar.ButtonCount) then
     begin
       FCurrentButton := Toolbar.Buttons[ButtonNumber];
@@ -1077,5 +1163,420 @@ begin
   end;
 end;
 
-end.
+{ TfrmOptionsToolbar.FrameEnter }
+procedure TfrmOptionsToolbar.FrameEnter(Sender: TObject);
+begin
+  //Tricky pass to don't have the "pnlEditToolbar" being continously resized depending on the button task we're going through.
+  //The idea is to have system arrange for the "CommandItem", which is the taller size one, then froze size there and keep this way.
+  if bFirstTimeDrawn then
+  begin
+    bFirstTimeDrawn := False;
+    DisplayAppropriateControls(True, True, False);
+    Application.ProcessMessages;
+    pnlEditToolbar.AutoSize := False;
+    LoadCurrentButton;
+  end;
+end;
 
+{ TfrmOptionsToolbar.CanWeClose }
+function TfrmOptionsToolbar.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
+var
+  Answer: TMyMsgResult;
+begin
+  Result := (FLastLoadedToolbarsSignature = ComputeToolbarsSignature);
+
+  if not Result then
+  begin
+    ShowOptions(TfrmOptionsToolbar);
+    Answer := MsgBox(rsMsgToolbarModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
+    case Answer of
+      mmrYes:
+      begin
+        Save;
+        WillNeedUpdateWindowView := True;
+        Result := True;
+      end;
+
+      mmrNo: Result := True;
+      else
+        Result := False;
+    end;
+  end;
+end;
+
+{ TfrmOptionsToolbar.ComputeToolbarsSignature }
+// Routine tries to pickup all char chain from element of toolbar toolbar and compute a unique CRC32.
+// This CRC32 will bea kind of signature of the toolbar.
+// We compute the CRC32 at the start of edition (TfrmOptionsToolbar.Load) and
+// at the end (TfrmOptionsToolbar.CanWeClose).
+// If they are different, it's a sign that toolbars have been modified.
+// It's not "perfect" since it might happen that two different combinaisons will
+// give the same CRC32 but odds are very good that it will be a different one.
+function TfrmOptionsToolbar.ComputeToolbarsSignature: dword;
+const
+  CONSTFORTOOLITEM: array[1..4] of dword = ($2335, $28DE, $1971, $0805);
+
+  procedure RecursiveGetSignature(ToolItem: TKASToolItem; var Result: dword);
+  var
+    IndexToolItem: longint;
+    sInnerParam: string;
+  begin
+    if ToolItem is TKASSeparatorItem then
+      Result := crc32(Result, @CONSTFORTOOLITEM[1], 1);
+    if ToolItem is TKASCommandItem then
+    begin
+      Result := crc32(Result, @CONSTFORTOOLITEM[2], 1);
+      if length(TKASCommandItem(ToolItem).Icon) > 0 then
+        Result := crc32(Result, @TKASCommandItem(ToolItem).Icon[1], length(TKASCommandItem(ToolItem).Icon));
+      if length(TKASCommandItem(ToolItem).Hint) > 0 then
+        Result := crc32(Result, @TKASCommandItem(ToolItem).Hint[1], length(TKASCommandItem(ToolItem).Hint));
+      if length(TKASCommandItem(ToolItem).Command) > 0 then
+        Result := crc32(Result, @TKASCommandItem(ToolItem).Command[1], length(TKASCommandItem(ToolItem).Command));
+      for sInnerParam in TKASCommandItem(ToolItem).Params do
+        Result := crc32(Result, @sInnerParam[1], length(sInnerParam));
+    end;
+    if ToolItem is TKASProgramItem then
+    begin
+      Result := crc32(Result, @CONSTFORTOOLITEM[3], 1);
+      if length(TKASProgramItem(ToolItem).Icon) > 0 then
+        Result := crc32(Result, @TKASProgramItem(ToolItem).Icon[1], length(TKASProgramItem(ToolItem).Icon));
+      if length(TKASProgramItem(ToolItem).Hint) > 0 then
+        Result := crc32(Result, @TKASProgramItem(ToolItem).Hint[1], length(TKASProgramItem(ToolItem).Hint));
+      if length(TKASProgramItem(ToolItem).Command) > 0 then
+        Result := crc32(Result, @TKASProgramItem(ToolItem).Command[1], length(TKASProgramItem(ToolItem).Command));
+      if length(TKASProgramItem(ToolItem).Params) > 0 then
+        Result := crc32(Result, @TKASProgramItem(ToolItem).Params[1], length(TKASProgramItem(ToolItem).Params));
+      if length(TKASProgramItem(ToolItem).StartPath) > 0 then
+        Result := crc32(Result, @TKASProgramItem(ToolItem).StartPath[1], length(TKASProgramItem(ToolItem).StartPath));
+    end;
+    if ToolItem is TKASMenuItem then
+    begin
+      Result := crc32(Result, @CONSTFORTOOLITEM[4], 1);
+      if length(TKASMenuItem(ToolItem).Icon) > 0 then
+        Result := crc32(Result, @TKASMenuItem(ToolItem).Icon[1], length(TKASMenuItem(ToolItem).Icon));
+      if length(TKASMenuItem(ToolItem).Hint) > 0 then
+        Result := crc32(Result, @TKASMenuItem(ToolItem).Hint[1], length(TKASMenuItem(ToolItem).Hint));
+
+      for IndexToolItem := 0 to pred(TKASMenuItem(ToolItem).SubItems.Count) do
+        RecursiveGetSignature(TKASMenuItem(ToolItem).SubItems[IndexToolItem], Result);
+    end;
+  end;
+
+var
+  IndexButton: longint;
+  Toolbar: TKASToolBar;
+begin
+  ApplyEditControls;
+  Toolbar := GetTopToolbar;
+  Result := 0;
+  for IndexButton := 0 to pred(Toolbar.ButtonCount) do
+    RecursiveGetSignature(Toolbar.Buttons[IndexButton].ToolItem, Result);
+end;
+
+{ TfrmOptionsToolbar.btnExportClick }
+procedure TfrmOptionsToolbar.btnExportClick(Sender: TObject);
+begin
+  pmExportToolbar.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsToolbar.btnImportClick }
+procedure TfrmOptionsToolbar.btnImportClick(Sender: TObject);
+begin
+  pmImportToolbar.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsToolbar.btnBackupClick }
+procedure TfrmOptionsToolbar.btnBackupClick(Sender: TObject);
+begin
+  pmBackupToolbar.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsToolbar.miExportToAnythingClick }
+procedure TfrmOptionsToolbar.miExportToAnythingClick(Sender: TObject);
+var
+  ToolbarConfig: TXmlConfig;
+  FlagKeepGoing: boolean = False;
+  BackupPath: string;
+  ToolBarNode: TXmlNode;
+  ToolBar: TKASToolBar;
+  InnerResult: boolean = False;
+  ActionDispatcher: integer;
+  FreezeTime: TDateTime;
+  MyYear, MyMonth, MyDay, MyHour, MyMin, MySec, MyMilSec: word;
+
+begin
+  with Sender as TComponent do
+    ActionDispatcher := tag;
+
+  FreezeTime := now;
+  DecodeDate(Freezetime, MyYear, MyMonth, MyDay);
+  DecodeTime(FreezeTime, MyHour, MyMin, MySec, MyMilSec);
+
+  //1. Make we got an invalid name from the start
+  SaveDialog.Filename := '';
+
+  //2. Let's determine from which which level of toolbar we need to export
+  ToolBar := GetTopToolbar;
+  if (ActionDispatcher and MASK_ACTION_TOOLBAR) = ACTION_WITH_CURRENT_BAR then
+  begin
+    if Assigned(FCurrentButton) then
+    begin
+      ApplyEditControls;
+      ToolBar := FCurrentButton.ToolBar;
+    end;
+  end;
+
+  if Assigned(ToolBar) then
+  begin
+    //3. Let's get a filename for the export
+    case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
+      ACTION_WITH_DC_TOOLBARFILE:
+      begin
+        SaveDialog.DefaultExt := '*.toolbar';
+        SaveDialog.FilterIndex := 2;
+        SaveDialog.Title := rsMsgDCToolbarWhereToSave;
+        SaveDialog.FileName := 'New DC Toolbar filename';
+        FlagKeepGoing := SaveDialog.Execute;
+      end;
+
+      ACTION_WITH_BACKUP:
+      begin
+        BackupPath := IncludeTrailingPathDelimiter(mbExpandFileName(EnvVarConfigPath)) + 'Backup';
+        if mbForceDirectory(BackupPath) then
+        begin
+          SaveDialog.Filename := BackupPath + DirectorySeparator + 'Backup_' + Format('%d-%2.2d-%2.2d@%2.2d-%2.2d-%2.2d', [MyYear, MyMonth, MyDay, MyHour, MyMin, MySec]) + '.toolbar';
+          FlagKeepGoing := True;
+        end;
+      end;
+
+      {$IFDEF MSWINDOWS}
+      ACTION_WITH_WINCMDINI:
+      begin
+        if areWeInSituationToPlayWithTCFiles then
+        begin
+          SaveDialog.Filename := sTotalCommanderMainbarFilename;
+          FlagKeepGoing := True;
+        end;
+      end;
+
+      ACTION_WITH_TC_TOOLBARFILE:
+      begin
+        SaveDialog.DefaultExt := '*.BAR';
+        SaveDialog.FilterIndex := 1;
+        SaveDialog.Title := rsMsgTCToolbarWhereToSave;
+        SaveDialog.FileName := 'New TC Toolbar filename';
+        SaveDialog.InitialDir := ExcludeTrailingPathDelimiter(gTotalCommanderToolbarPath);
+        FlagKeepGoing := SaveDialog.Execute;
+        if FlagKeepGoing then
+          FlagKeepGoing := areWeInSituationToPlayWithTCFiles;
+      end;
+      {$ENDIF}
+    end;
+
+    //4. Let's do the actual exportation
+    if FlagKeepGoing and (SaveDialog.Filename <> '') then
+    begin
+      case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
+        //If it's DC format, let's save the XML in regular fashion.
+        ACTION_WITH_DC_TOOLBARFILE, ACTION_WITH_BACKUP:
+        begin
+          ToolbarConfig := TXmlConfig.Create(SaveDialog.Filename);
+          try
+            ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, 'Toolbars/MainToolbar', True);
+            ToolbarConfig.ClearNode(ToolBarNode);
+            ToolBar.SaveConfiguration(ToolbarConfig, ToolBarNode);
+            InnerResult := ToolbarConfig.Save;
+          finally
+            FreeAndNil(ToolbarConfig);
+          end;
+        end;
+
+        {$IFDEF MSWINDOWS}
+        //If it's TC format, we first create the necessary .BAR files.
+        //If requested, we also update the Wincmd.ini file.
+        ACTION_WITH_WINCMDINI, ACTION_WITH_TC_TOOLBARFILE:
+        begin
+          ExportDCToolbarsToTC(Toolbar,SaveDialog.Filename,((ActionDispatcher and MASK_FLUSHORNOT_EXISTING) = ACTION_FLUSH_EXISTING), ((actionDispatcher and MASK_ACTION_WITH_WHAT) = ACTION_WITH_WINCMDINI) );
+          InnerResult := True;
+        end;
+        {$ENDIF}
+      end;
+    end;
+
+    if InnerResult then
+      msgOK(Format(rsMsgToolbarSaved, [SaveDialog.Filename]));
+  end;
+end;
+
+{ TfrmOptionsToolbar.miImportFromAnythingClick }
+// We can import elements to DC toolbar...
+//   FROM...
+//     -a previously exported DC .toolbar file
+//     -a previously backuped DC .toolbar file
+//     -the TC toolbar and subtoolbar right from the main toolbar in TC
+//     -a specified TC toolbar file
+//   TO...
+//     -replace the top toolbar in DC
+//     -extend the top toolbar in DC
+//     -a subtoolbar of the top toolbar in DC
+//     -replace the current selected toolbar in DC
+//     -extend the current selected toolbar in DC
+//     -a subtoolbar of the current selected in DC
+procedure TfrmOptionsToolbar.miImportFromAnythingClick(Sender: TObject);
+var
+  ActionDispatcher: longint;
+  FlagKeepGoing: boolean = False;
+  BackupPath, ImportedToolbarHint: string;
+  ImportDestination: byte;
+  ToolBar: TKASToolBar;
+  LocalKASMenuItem: TKASMenuItem;
+  ToolbarConfig: TXmlConfig;
+  ToolBarNode: TXmlNode;
+begin
+  with Sender as TComponent do
+    ActionDispatcher := tag;
+
+  //1o) Make sure we got the the filename to import into "OpenDialog.Filename" variable.
+  case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
+    {$IFDEF MSWINDOWS}
+    ACTION_WITH_WINCMDINI:
+    begin
+      if areWeInSituationToPlayWithTCFiles then
+      begin
+        OpenDialog.Filename := sTotalCommanderMainbarFilename;
+        ImportedToolbarHint := rsDefaultImportedTCToolbarHint;
+        FlagKeepGoing := True;
+      end;
+    end;
+
+    ACTION_WITH_TC_TOOLBARFILE:
+    begin
+      if areWeInSituationToPlayWithTCFiles then
+      begin
+        OpenDialog.DefaultExt := '*.BAR';
+        OpenDialog.FilterIndex := 1;
+        OpenDialog.Title := rsMsgToolbarLocateTCToolbarFile;
+        ImportedToolbarHint := rsDefaultImportedTCToolbarHint;
+        FlagKeepGoing := OpenDialog.Execute;
+      end;
+    end;
+    {$ENDIF}
+
+    ACTION_WITH_DC_TOOLBARFILE:
+    begin
+      OpenDialog.DefaultExt := '*.toolbar';
+      OpenDialog.FilterIndex := 2;
+      OpenDialog.Title := rsMsgToolbarLocateDCToolbarFile;
+      ImportedToolbarHint := rsDefaultImportedDCToolbarHint;
+      FlagKeepGoing := OpenDialog.Execute;
+    end;
+
+    ACTION_WITH_BACKUP:
+    begin
+      BackupPath := IncludeTrailingPathDelimiter(mbExpandFileName(EnvVarConfigPath)) + 'Backup';
+      if mbForceDirectory(BackupPath) then
+      begin
+        OpenDialog.FilterIndex := 2;
+        OpenDialog.InitialDir := ExcludeTrailingPathDelimiter(BackupPath);
+        OpenDialog.Title := rsMsgToolbarRestoreWhat;
+        OpenDialog.Filter := 'Backup_*.toolbar';
+        ImportedToolbarHint := rsDefaultImportedDCToolbarHint;
+        FlagKeepGoing := OpenDialog.Execute;
+      end;
+    end;
+  end;
+
+  //2o) If we got something valid, let's attempt to import it!
+  if FlagKeepGoing then
+  begin
+    //3o) Let's make "Toolbar" hold the toolbar where to import in.
+    ImportDestination := (ActionDispatcher and MASK_IMPORT_DESTIONATION);
+    ImportDestination := ImportDestination shr 4;
+
+    case ImportDestination of
+      ACTION_WITH_MAIN_TOOLBAR:
+      begin
+        ToolBar := GetTopToolbar;
+      end;
+
+      ACTION_WITH_CURRENT_BAR:
+      begin
+        Toolbar := FCurrentButton.ToolBar;
+        if Toolbar = nil then
+          ToolBar := GetTopToolbar;
+      end;
+
+      IMPORT_IN_MAIN_TOOLBAR_TO_NEW_SUB_BAR, IMPORT_IN_CURRENT_BAR_TO_NEW_SUB_BAR:
+      begin
+        case ImportDestination of
+          IMPORT_IN_MAIN_TOOLBAR_TO_NEW_SUB_BAR:
+          begin
+            FCurrentButton := nil;
+            ToolBar := GetTopToolbar;
+            CloseToolbarsBelowCurrentButton;
+          end;
+
+          IMPORT_IN_CURRENT_BAR_TO_NEW_SUB_BAR:
+          begin
+            Toolbar := FCurrentButton.ToolBar;
+            if Toolbar = nil then
+              ToolBar := GetTopToolbar;
+          end;
+        end;
+
+        if FCurrentButton <> nil then
+          FCurrentButton.Down := False;
+        LocalKASMenuItem := TKASMenuItem.Create;
+        LocalKASMenuItem.Icon := 'cm_configtoolbars';
+        LocalKASMenuItem.Hint := ImportedToolbarHint;
+        FCurrentButton := ToolBar.AddButton(LocalKASMenuItem);
+        Toolbar := AddNewSubToolbar(LocalKASMenuItem);
+        PressButtonDown(FCurrentButton);
+        PressButtonDown(Toolbar.Buttons[0]);
+        Toolbar.RemoveButton(0); // ...to remove the default empty button added by "AddNewSubToolbar" routine
+      end;
+    end;
+
+    //4o) Let's attempt the actual import
+    case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
+      {$IFDEF MSWINDOWS}
+      ACTION_WITH_WINCMDINI, ACTION_WITH_TC_TOOLBARFILE:
+      begin
+        if (ActionDispatcher and MASK_FLUSHORNOT_EXISTING) = ACTION_FLUSH_EXISTING then
+        begin
+          FCurrentButton := nil;
+          Application.ProcessMessages;
+          ToolBar.Clear;
+          Application.ProcessMessages;
+        end;
+        ImportTCToolbarsToDC(OpenDialog.FileName, LocalKASMenuItem, Toolbar, (ImportDestination and $01), FCurrentButton, FFormCommands);
+        if ToolBar.ButtonCount > 0 then
+          PressButtonDown(ToolBar.Buttons[pred(ToolBar.ButtonCount)]); //Let's press the last added button since user might wants to complement what he just added
+      end;
+      {$ENDIF}
+
+      ACTION_WITH_DC_TOOLBARFILE, ACTION_WITH_BACKUP:
+      begin
+        ToolbarConfig := TXmlConfig.Create(OpenDialog.FileName, True);
+        try
+          ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, 'Toolbars/MainToolbar', False);
+          if ToolBarNode <> nil then
+          begin
+            FCurrentButton := nil;
+            if (ActionDispatcher and MASK_FLUSHORNOT_EXISTING) = ACTION_FLUSH_EXISTING then
+              LoadToolbar(ToolBar, ToolbarConfig, ToolBarNode, tocl_FlushCurrentToolbarContent)
+            else
+              LoadToolbar(ToolBar, ToolbarConfig, ToolBarNode, tocl_AddToCurrentToolbarContent);
+
+            if ToolBar.ButtonCount > 0 then
+              PressButtonDown(ToolBar.Buttons[pred(ToolBar.ButtonCount)]); //Let's press the last added button since user might wants to complement what he just added
+          end;
+        finally
+          FreeAndNil(ToolbarConfig);
+        end;
+      end;
+    end;
+  end;
+end;
+
+end.

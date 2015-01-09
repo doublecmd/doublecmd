@@ -3,15 +3,16 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
   Width = 850
   ClientHeight = 573
   ClientWidth = 850
-  DesignLeft = 60
-  DesignTop = 169
+  OnEnter = FrameEnter
+  DesignLeft = 158
+  DesignTop = 294
   object gbGroupBox: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 83
+    Height = 105
     Top = 0
     Width = 838
     Anchors = [akTop, akLeft, akRight]
@@ -21,7 +22,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     Caption = 'Appearance'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 65
+    ClientHeight = 86
     ClientWidth = 834
     TabOrder = 0
     object lblBarSize: TLabel
@@ -29,9 +30,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideTop.Control = trbBarSize
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 16
-      Top = 11
-      Width = 43
+      Height = 17
+      Top = 19
+      Width = 56
       Caption = '&Bar size:'
       FocusControl = trbBarSize
       ParentColor = False
@@ -41,9 +42,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbBarSize
       AnchorSideTop.Side = asrCenter
-      Left = 53
+      Left = 66
       Height = 1
-      Top = 19
+      Top = 27
       Width = 1
       BorderSpacing.Left = 2
       ParentColor = False
@@ -52,8 +53,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Control = lblBarSizeValue
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbGroupBox
-      Left = 57
-      Height = 30
+      Left = 70
+      Height = 46
       Top = 4
       Width = 150
       Frequency = 4
@@ -71,10 +72,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrCenter
-      Left = 222
-      Height = 16
-      Top = 11
-      Width = 49
+      Left = 235
+      Height = 17
+      Top = 19
+      Width = 61
       BorderSpacing.Left = 15
       Caption = 'Icon si&ze:'
       FocusControl = trbIconSize
@@ -85,9 +86,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrCenter
-      Left = 273
+      Left = 298
       Height = 1
-      Top = 19
+      Top = 27
       Width = 1
       BorderSpacing.Left = 2
       ParentColor = False
@@ -97,8 +98,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbGroupBox
       AnchorSideBottom.Side = asrBottom
-      Left = 277
-      Height = 30
+      Left = 302
+      Height = 46
       Top = 4
       Width = 150
       Frequency = 4
@@ -118,9 +119,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 19
-      Top = 42
-      Width = 83
+      Height = 24
+      Top = 58
+      Width = 108
       BorderSpacing.Top = 8
       Caption = '&Flat buttons'
       Checked = True
@@ -128,51 +129,46 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       State = cbChecked
       TabOrder = 2
     end
+    object cbReportErrorWithCommands: TCheckBox
+      AnchorSideLeft.Control = cbFlatButtons
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbFlatButtons
+      Left = 128
+      Height = 24
+      Top = 58
+      Width = 227
+      BorderSpacing.Left = 12
+      Caption = 'Report errors with commands'
+      TabOrder = 3
+    end
   end
-  object sboxToolbars: TScrollBox[1]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = gbGroupBox
+  object pnlFullToolbarButtons: TPanel[1]
+    AnchorSideLeft.Control = gbGroupBox
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = pnlFullToolbarButtons
-    Left = 6
-    Height = 146
-    Top = 89
-    Width = 838
-    HorzScrollBar.Page = 834
-    VertScrollBar.Page = 142
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Around = 6
-    TabOrder = 1
-  end
-  object pnlFullToolbarButtons: TPanel[2]
-    AnchorSideLeft.Control = Owner
-    AnchorSideRight.Control = Owner
+    AnchorSideRight.Control = gbGroupBox
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlEditToolbar
     Left = 6
-    Height = 25
-    Top = 241
+    Height = 29
+    Top = 229
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Right = 6
+    BorderSpacing.Top = 2
     BorderSpacing.Bottom = 2
     BevelOuter = bvNone
-    ClientHeight = 25
+    ClientHeight = 29
     ClientWidth = 838
-    TabOrder = 2
+    TabOrder = 1
     object pnlToolbarButtons: TPanel
       AnchorSideLeft.Control = pnlFullToolbarButtons
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = pnlFullToolbarButtons
       AnchorSideBottom.Side = asrBottom
-      Left = 274
-      Height = 25
+      Left = 150
+      Height = 29
       Top = 0
-      Width = 290
+      Width = 539
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.HorizontalSpacing = 8
@@ -182,69 +178,97 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.ShrinkVertical = crsHomogenousChildResize
       ChildSizing.Layout = cclTopToBottomThenLeftToRight
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 25
-      ClientWidth = 290
+      ClientHeight = 29
+      ClientWidth = 539
       TabOrder = 0
       object btnInsertButton: TButton
         Left = 0
-        Height = 25
+        Height = 29
         Top = 0
-        Width = 119
+        Width = 130
         AutoSize = True
         Caption = '&Insert new button'
         OnClick = btnInsertButtonClick
         TabOrder = 0
       end
       object btnCloneButton: TButton
-        Left = 127
-        Height = 25
+        Left = 138
+        Height = 29
         Top = 0
-        Width = 96
+        Width = 99
         AutoSize = True
         Caption = 'C&lone button'
         OnClick = btnCloneButtonClick
         TabOrder = 1
       end
       object btnDeleteButton: TButton
-        Left = 231
-        Height = 25
+        Left = 245
+        Height = 29
         Top = 0
-        Width = 59
+        Width = 56
         AutoSize = True
         Caption = '&Delete'
         OnClick = btnDeleteButtonClick
         TabOrder = 2
       end
+      object btnExport: TButton
+        Left = 309
+        Height = 29
+        Top = 0
+        Width = 70
+        AutoSize = True
+        Caption = 'Export...'
+        OnClick = btnExportClick
+        TabOrder = 3
+      end
+      object btnImport: TButton
+        Left = 387
+        Height = 29
+        Top = 0
+        Width = 71
+        AutoSize = True
+        Caption = 'Import...'
+        OnClick = btnImportClick
+        TabOrder = 4
+      end
+      object btnBackup: TButton
+        Left = 466
+        Height = 29
+        Top = 0
+        Width = 73
+        AutoSize = True
+        Caption = 'Backup...'
+        OnClick = btnBackupClick
+        TabOrder = 5
+      end
     end
   end
-  object pnlEditToolbar: TPanel[3]
-    AnchorSideLeft.Control = Owner
-    AnchorSideRight.Control = Owner
+  object pnlEditToolbar: TPanel[2]
+    AnchorSideLeft.Control = gbGroupBox
+    AnchorSideRight.Control = gbGroupBox
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 299
-    Top = 268
+    Height = 307
+    Top = 260
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Right = 6
     BorderSpacing.Bottom = 6
     BevelOuter = bvNone
-    ClientHeight = 299
+    ClientHeight = 307
     ClientWidth = 838
-    TabOrder = 3
+    TabOrder = 2
     object rgToolItemType: TRadioGroup
       AnchorSideLeft.Control = pnlEditToolbar
       AnchorSideTop.Control = pnlEditToolbar
       AnchorSideBottom.Control = pnlEditToolbar
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 299
+      Height = 307
       Top = 0
-      Width = 146
+      Width = 5
       Anchors = [akTop, akLeft, akBottom]
       AutoFill = True
       AutoSize = True
@@ -265,12 +289,13 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideTop.Control = pnlEditToolbar
       AnchorSideRight.Control = pnlEditToolbar
       AnchorSideRight.Side = asrBottom
-      Left = 152
-      Height = 299
+      AnchorSideBottom.Control = pnlEditToolbar
+      AnchorSideBottom.Side = asrBottom
+      Left = 11
+      Height = 307
       Top = 0
-      Width = 680
-      Anchors = [akTop, akLeft, akRight]
-      AutoSize = True
+      Width = 821
+      Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Left = 6
       BorderSpacing.Right = 6
       BevelOuter = bvNone
@@ -278,14 +303,15 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.VerticalSpacing = 10
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 299
-      ClientWidth = 680
+      ClientHeight = 307
+      ClientWidth = 821
       TabOrder = 1
       object lblIconFile: TLabel
         Left = 0
-        Height = 16
+        Height = 17
         Top = 6
-        Width = 63
+        Width = 83
+        Alignment = taRightJustify
         Caption = 'Ico&n:'
         FocusControl = edtIconFileName
         ParentColor = False
@@ -297,11 +323,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblIconFile
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnOpenIcon
-        Left = 63
-        Height = 23
-        Top = 3
-        Width = 553
+        Left = 85
+        Height = 27
+        Top = 1
+        Width = 672
         Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
         MaxLength = 259
         OnChange = edtIconFileNameChange
         TabOrder = 0
@@ -312,9 +339,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = btnRelativeIconFileName
         AnchorSideBottom.Control = edtIconFileName
         AnchorSideBottom.Side = asrBottom
-        Left = 616
-        Height = 23
-        Top = 3
+        Left = 757
+        Height = 27
+        Top = 1
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Caption = '>>'
@@ -325,9 +352,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblToolTip: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 16
-        Top = 32
-        Width = 63
+        Height = 17
+        Top = 33
+        Width = 83
+        Alignment = taRightJustify
         Caption = '&Tooltip:'
         FocusControl = edtToolTip
         ParentColor = False
@@ -340,11 +368,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
-        Left = 63
-        Height = 23
-        Top = 29
-        Width = 617
+        Left = 85
+        Height = 27
+        Top = 28
+        Width = 736
         Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
         MaxLength = 259
         TabOrder = 2
         Visible = False
@@ -352,9 +381,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblInternalCommand: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 16
-        Top = 58
-        Width = 63
+        Height = 17
+        Top = 60
+        Width = 83
+        Alignment = taRightJustify
         Caption = 'Co&mmand:'
         FocusControl = cbInternalCommand
         ParentColor = False
@@ -367,14 +397,15 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
-        Left = 63
-        Height = 23
-        Top = 55
-        Width = 617
+        Left = 85
+        Height = 31
+        Top = 53
+        Width = 736
         HelpType = htKeyword
         Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
         DropDownCount = 20
-        ItemHeight = 15
+        ItemHeight = 0
         OnSelect = cbInternalCommandSelect
         Style = csDropDownList
         TabOrder = 3
@@ -383,8 +414,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblInternalParameters: TLabel
         Left = 0
         Height = 100
-        Top = 84
-        Width = 63
+        Top = 87
+        Width = 83
+        Alignment = taRightJustify
         Caption = '&Parameters:'
         Constraints.MinHeight = 100
         FocusControl = edtInternalParameters
@@ -399,13 +431,14 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = lblInternalParameters
         AnchorSideBottom.Side = asrBottom
-        Left = 63
+        Left = 85
         Height = 100
         Hint = 'Enter command parameters, each in a separate line. Press F1 to see help on parameters.'
-        Top = 84
-        Width = 617
+        Top = 87
+        Width = 736
         HelpType = htKeyword
         Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Left = 2
         ParentShowHint = False
         ScrollBars = ssAutoBoth
         ShowHint = True
@@ -416,9 +449,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblExternalCommand: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 16
-        Top = 194
-        Width = 63
+        Height = 17
+        Top = 197
+        Width = 83
+        Alignment = taRightJustify
         Caption = 'Comman&d:'
         FocusControl = edtExternalCommand
         ParentColor = False
@@ -430,11 +464,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblExternalCommand
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnOpenFile
-        Left = 63
-        Height = 23
-        Top = 191
-        Width = 553
+        Left = 85
+        Height = 27
+        Top = 192
+        Width = 672
         Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
         MaxLength = 259
         TabOrder = 5
         Visible = False
@@ -444,9 +479,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = btnRelativeExternalCommand
         AnchorSideBottom.Control = edtExternalCommand
         AnchorSideBottom.Side = asrBottom
-        Left = 616
-        Height = 23
-        Top = 191
+        Left = 757
+        Height = 27
+        Top = 192
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -458,9 +493,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblExternalParameters: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 16
-        Top = 220
-        Width = 63
+        Height = 17
+        Top = 224
+        Width = 83
+        Alignment = taRightJustify
         Caption = 'Parameter&s:'
         FocusControl = edtExternalParameters
         ParentColor = False
@@ -473,11 +509,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
-        Left = 63
-        Height = 23
-        Top = 217
-        Width = 617
+        Left = 85
+        Height = 27
+        Top = 219
+        Width = 736
         Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
         MaxLength = 259
         TabOrder = 7
         Visible = False
@@ -485,9 +522,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblStartPath: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 16
-        Top = 246
-        Width = 63
+        Height = 17
+        Top = 251
+        Width = 83
+        Alignment = taRightJustify
         Caption = 'Start pat&h:'
         FocusControl = edtStartPath
         ParentColor = False
@@ -499,11 +537,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblStartPath
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnStartPath
-        Left = 63
-        Height = 23
-        Top = 243
-        Width = 553
+        Left = 85
+        Height = 27
+        Top = 246
+        Width = 672
         Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
         MaxLength = 259
         TabOrder = 8
         Visible = False
@@ -511,9 +550,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblHotkey: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 16
-        Top = 272
-        Width = 63
+        Height = 17
+        Top = 278
+        Width = 83
+        Alignment = taRightJustify
         Caption = 'Hot key:'
         ParentColor = False
         Visible = False
@@ -522,10 +562,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Control = lblHotkey
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
-        Left = 63
+        Left = 85
         Height = 1
-        Top = 272
+        Top = 278
         Width = 1
+        BorderSpacing.Left = 2
         BorderSpacing.Right = 10
         ParentColor = False
         Visible = False
@@ -535,11 +576,12 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
         AnchorSideTop.Side = asrCenter
-        Left = 74
-        Height = 25
-        Top = 268
-        Width = 85
+        Left = 96
+        Height = 29
+        Top = 272
+        Width = 88
         AutoSize = True
+        BorderSpacing.Left = 2
         Caption = 'Edit hot&key'
         OnClick = btnEditHotkeyClick
         TabOrder = 9
@@ -550,10 +592,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
         AnchorSideTop.Side = asrCenter
-        Left = 161
-        Height = 25
-        Top = 268
-        Width = 108
+        Left = 186
+        Height = 29
+        Top = 272
+        Width = 115
         AutoSize = True
         BorderSpacing.Left = 2
         Caption = 'Remove hotke&y'
@@ -567,9 +609,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtExternalCommand
         AnchorSideBottom.Side = asrBottom
-        Left = 648
-        Height = 23
-        Top = 191
+        Left = 789
+        Height = 27
+        Top = 192
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -608,7 +650,6 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
           FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
         }
-        NumGlyphs = 0
         Visible = False
         OnClick = btnRelativeExternalCommandClick
       end
@@ -618,9 +659,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtIconFileName
         AnchorSideBottom.Side = asrBottom
-        Left = 648
-        Height = 23
-        Top = 3
+        Left = 789
+        Height = 27
+        Top = 1
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -659,7 +700,6 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
           FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
         }
-        NumGlyphs = 0
         Visible = False
         OnClick = btnRelativeIconFileNameClick
       end
@@ -668,9 +708,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = btnRelativeStartPath
         AnchorSideBottom.Control = edtStartPath
         AnchorSideBottom.Side = asrBottom
-        Left = 616
-        Height = 23
-        Top = 243
+        Left = 757
+        Height = 27
+        Top = 246
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -685,9 +725,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtStartPath
         AnchorSideBottom.Side = asrBottom
-        Left = 648
-        Height = 23
-        Top = 243
+        Left = 789
+        Height = 27
+        Top = 246
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -726,24 +766,40 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
           FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
         }
-        NumGlyphs = 0
         Visible = False
         OnClick = btnRelativeStartPathClick
       end
     end
   end
+  object pnToolbars: TPanel[3]
+    AnchorSideLeft.Control = gbGroupBox
+    AnchorSideTop.Control = gbGroupBox
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbGroupBox
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = pnlFullToolbarButtons
+    Left = 6
+    Height = 120
+    Top = 107
+    Width = 838
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 2
+    ParentColor = False
+    TabOrder = 3
+  end
   object OpenDialog: TOpenDialog[4]
-    FilterIndex = 0
-    left = 16
-    top = 136
+    Filter = 'TC Toolbar files|*.BAR|DC Toolbar files|*.toolbar|Any filesAny files|*.*'
+    Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 48
+    top = 104
   end
   object pmPathHelper: TPopupMenu[5]
-    left = 696
-    top = 48
+    left = 784
+    top = 232
   end
   object pmInsertButtonMenu: TPopupMenu[6]
-    left = 598
-    top = 51
+    left = 312
+    top = 192
     object miAddSeparatorSubMenu: TMenuItem
       Caption = 'for a separator'
       object miSeparatorFirstItem: TMenuItem
@@ -836,5 +892,236 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         OnClick = miInsertButtonClick
       end
     end
+  end
+  object pmExportToolbar: TPopupMenu[7]
+    Tag = 1
+    left = 480
+    top = 200
+    object miExportTop: TMenuItem
+      Caption = 'Top toolbar...'
+      object miExportTopToDCBar: TMenuItem
+        Tag = 2
+        Caption = 'to a Toolbar File (.toolbar)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportSeparator1: TMenuItem
+        Caption = '-'
+      end
+      object miExportTopToTCIniKeep: TMenuItem
+        Caption = 'to a "wincmd.ini" of TC (keep existing)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportTopToTCIniNoKeep: TMenuItem
+        Tag = 128
+        Caption = 'to a "wincmd.ini" of TC (erase existing)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportSeparator2: TMenuItem
+        Caption = '-'
+      end
+      object miExportTopToTCBarKeep: TMenuItem
+        Tag = 1
+        Caption = 'to a TC .BAR file (keep existing)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportTopToTCBarNoKeep: TMenuItem
+        Tag = 129
+        Caption = 'to a TC .BAR file (erase existing)'
+        OnClick = miExportToAnythingClick
+      end
+    end
+    object miExportCurrent: TMenuItem
+      Caption = 'Current toolbar...'
+      Enabled = False
+      object miExportCurrentToDCBar: TMenuItem
+        Tag = 34
+        Caption = 'to a Toolbar File (.toolbar)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportSeparator3: TMenuItem
+        Caption = '-'
+      end
+      object miExportCurrentToTCIniKeep: TMenuItem
+        Tag = 32
+        Caption = 'to a "wincmd.ini" of TC (keep existing)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportCurrentToTCIniNoKeep: TMenuItem
+        Tag = 160
+        Caption = 'to a "wincmd.ini" of TC (erase existing)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportSeparator4: TMenuItem
+        Caption = '-'
+      end
+      object miExportCurrentToTCBarKeep: TMenuItem
+        Tag = 33
+        Caption = 'to a TC .BAR file (keep existing)'
+        OnClick = miExportToAnythingClick
+      end
+      object miExportCurrentToTCBarNoKeep: TMenuItem
+        Tag = 161
+        Caption = 'to a TC .BAR file (erase existing)'
+        OnClick = miExportToAnythingClick
+      end
+    end
+  end
+  object pmImportToolbar: TPopupMenu[8]
+    left = 552
+    top = 176
+    object miImportDCBAR: TMenuItem
+      Caption = 'from a Toolbar File (.toolbar)'
+      object miImportDCBARReplaceTop: TMenuItem
+        Tag = 130
+        Caption = 'to replace top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator8: TMenuItem
+        Caption = '-'
+      end
+      object miImportDCBARAddTop: TMenuItem
+        Tag = 2
+        Caption = 'to add to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportDCBARAddMenuTop: TMenuItem
+        Tag = 18
+        Caption = 'to add to a new toolbar to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator9: TMenuItem
+        Caption = '-'
+      end
+      object miImportDCBARAddCurrent: TMenuItem
+        Tag = 34
+        Caption = 'to add to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportDCBARAddMenuCurrent: TMenuItem
+        Tag = 50
+        Caption = 'to add to a new toobar to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+    end
+    object miImportSeparator: TMenuItem
+      Caption = '-'
+    end
+    object miImportTCINI: TMenuItem
+      Caption = 'from "wincmd.ini" of TC...'
+      object miImportTCINIReplaceTop: TMenuItem
+        Tag = 128
+        Caption = 'to replace top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator6: TMenuItem
+        Caption = '-'
+      end
+      object miImportTCINIAddTop: TMenuItem
+        Caption = 'to add to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportTCINIAddMenuTop: TMenuItem
+        Tag = 16
+        Caption = 'to add to a new toolbar to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator7: TMenuItem
+        Caption = '-'
+      end
+      object miImportTCINIAddCurrent: TMenuItem
+        Tag = 32
+        Caption = 'to add to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportTCINIAddMenuCurrent: TMenuItem
+        Tag = 48
+        Caption = 'to add to a new toobar to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+    end
+    object miImportTCBAR: TMenuItem
+      Caption = 'from a single TC .BAR file'
+      object miImportTCBARRepaceTop: TMenuItem
+        Tag = 129
+        Caption = 'to replace top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator10: TMenuItem
+        Caption = '-'
+      end
+      object miImportTCBARAddTop: TMenuItem
+        Tag = 1
+        Caption = 'to add to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportTCBARAddMenuTop: TMenuItem
+        Tag = 17
+        Caption = 'to add to a new toolbar to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator11: TMenuItem
+        Caption = '-'
+      end
+      object miImportTCBARAddCurrent: TMenuItem
+        Tag = 33
+        Caption = 'to add to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportTCBARAddMenuCurrent: TMenuItem
+        Tag = 49
+        Caption = 'to add to a new toobar to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+    end
+  end
+  object pmBackupToolbar: TPopupMenu[9]
+    left = 632
+    top = 200
+    object miExportTopToBackup: TMenuItem
+      Tag = 3
+      Caption = 'Save a backup of Toolbar'
+      OnClick = miExportToAnythingClick
+    end
+    object miImportBackup: TMenuItem
+      Caption = 'Restore a backup of Toolbar'
+      object miImportBackupReplaceTop: TMenuItem
+        Tag = 131
+        Caption = 'to replace top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator13: TMenuItem
+        Caption = '-'
+      end
+      object miImportBackupAddTop: TMenuItem
+        Tag = 3
+        Caption = 'to add to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportBackupAddMenuTop: TMenuItem
+        Tag = 19
+        Caption = 'to add to a new toolbar to top toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miSeparator14: TMenuItem
+        Caption = '-'
+      end
+      object miImportBackupAddCurrent: TMenuItem
+        Tag = 35
+        Caption = 'to add to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+      object miImportBackupAddMenuCurrent: TMenuItem
+        Tag = 51
+        Caption = 'to add to a new toobar to current toolbar'
+        OnClick = miImportFromAnythingClick
+      end
+    end
+  end
+  object SaveDialog: TSaveDialog[10]
+    DefaultExt = '.hotlist'
+    Filter = 'TC Toolbar file|*.BAR|DC Toolbar file|*.toolbar|Any files|*.*'
+    Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
+    left = 152
+    top = 104
   end
 end

@@ -3,7 +3,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   Height = 300
   Top = 175
   Width = 400
-  Caption = 'Verify check sum...'
+  Caption = 'Verify checksum...'
   ClientHeight = 300
   ClientWidth = 400
   Constraints.MinHeight = 200
@@ -11,7 +11,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   OnClose = FormClose
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '1.0.1.3'
+  LCLVersion = '1.2.4.0'
   inline seCheckSumVerify: TSynEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -37,6 +37,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     RightGutter.MouseActions = <>
     Keystrokes = <>
     MouseActions = <>
+    MouseTextActions = <>
     MouseSelActions = <>
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
@@ -48,6 +49,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     SelectedColor.BoldPriority = 50
     SelectedColor.ItalicPriority = 50
     SelectedColor.UnderlinePriority = 50
+    SelectedColor.StrikeOutPriority = 50
     IncrementColor.FrameEdges = sfeAround
     HighlightAllColor.FrameEdges = sfeAround
     BracketHighlightStyle = sbhsBoth
@@ -66,6 +68,8 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     LineHighlightColor.Foreground = clNone
     LineHighlightColor.FrameEdges = sfeAround
     OnSpecialLineColors = seCheckSumVerifySpecialLineColors
+    inline SynLeftGutterPartList1: TSynGutterPartList
+    end
   end
   object btnClose: TBitBtn
     AnchorSideLeft.Control = seCheckSumVerify

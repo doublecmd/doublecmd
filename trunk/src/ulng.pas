@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2014  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -157,7 +157,6 @@ resourcestring
   rsMsgHotDirDemoPath = 'This will change active frame to the following path:';
   rsMsgHotDirDemoCommand = 'This will execute the following command:';
   rsMsgHotDirDemoTarget = 'And inactive frame would change to the following path:';
-  rsMsgHotDirLocateTC = 'Locate TC "wincmd.ini" file';
   rsMsgHotDirLocateHotlistFile = 'Locate ".hotlist" file to import';
   rsMsgHotDirLocatePreviousSave = 'Select location and filename of previously saved Directory Hotlist file';
   rsMsgHotDirWhereToSave = 'Enter location and filename where to save a Directory Hotlist file';
@@ -200,6 +199,13 @@ resourcestring
   rsMsgSpecialDirGotoTC = 'Go to Windows special folder (TC)...';
   rsMsgSpecialDirGotoOther = 'Go to other Windows special folder...';
   rsMsgSpecialDirGotoEnvVar = 'Go to environment variable...';
+
+  //Total Commander related message
+  rsMsgLocateTCExecutable = 'Locate TC executable file (totalcmd.exe or totalcmd64.exe)';
+  rsMsgLocateTCConfiguation = 'Locate TC configuration file (wincmd.ini)';
+  rsDefaultImportedTCToolbarHint = 'Imported TC toolbar';
+  rsDefaultImportedDCToolbarHint = 'Imported DC toolbar';
+  rsFilenameExportedTCBarPrefix = 'Exported_from_DC';
 
   // for context menu
   rsMnuActions = 'Actions';
@@ -482,6 +488,7 @@ resourcestring
   rsOptionsEditorQuickSearch = 'Quick search/filter';
   rsOptionsEditorTerminal = 'Terminal';
   rsOptionsEditorToolbar = 'Toolbar';
+  rsOptionsEditorToolbarComplement = 'Complements';
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
   rsOptionsEditorFileAssoc = 'File associations';
@@ -570,6 +577,19 @@ resourcestring
 
   // Toolbar
   rsOptToolbarButtonType = 'S&eparator;Inte&rnal command;E&xternal command;Men&u';
+  rsImportToolbarProblem = 'Cannot find reference to default bar file';
+  rsMsgToolbarSaved = 'Saved!'+#$0A+'Toolbar filename: %s';
+  rsMsgToolbarErrorNotSaved = 'Error! Problem saving toolbar!';
+  rsMsgTCToolbarWhereToSave = 'Enter location and filename where to save a TC Toolbar file';
+  rsMsgDCToolbarWhereToSave = 'Enter location and filename where to save a DC Toolbar file';
+  rsMsgToolbarRestoreWhat = 'Enter location and filename of Toolbar to restore';
+  rsMsgToolbarLocateTCToolbarFile = 'Locate ".BAR" file to import';
+  rsMsgToolbarLocateDCToolbarFile = 'Locate ".toolbar" file to import';
+  rsMsgTCToolbarNotFound = 'Error! Cannot find the desired wanted TC toolbar output folder:'+#$0A+'%s';
+  rsMsgTCConfigNotFound = 'Error! Cannot find the TC oncfiguration file:'+#$0A+'%s';
+  rsMsgTCExecutableNotFound = 'Error! Cannot find the TC configuration executable:'+#$0A+'%s';
+  rsMsgTCisRunning = 'Error! TC is still running but it should be closed for this operation.'+#$0A+'Close it and press OK or press CANCEL to abort.';
+  rsMsgToolbarModifiedWantToSave = 'Toolbar has been modified. Do you want to save before to exit?';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
