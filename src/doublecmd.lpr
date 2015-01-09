@@ -4,6 +4,9 @@ program doublecmd;
 
 {.$APPTYPE GUI}
 uses
+  {$IFDEF DARWIN}
+  uAppleMagnifiedModeFix,
+  {$ENDIF}
   {$IFDEF WIN64}
   uExceptionHandlerFix,
   {$ENDIF}
