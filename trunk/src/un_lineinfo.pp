@@ -891,6 +891,7 @@ begin
 {$PUSH}
 {$overflowchecks off}
 {$rangechecks off}
+{$warnings off}
       addr := addr - base_addr + Pointer(ExeImageBase);
 {$POP}
 
@@ -922,4 +923,4 @@ initialization
   InitLineInfo;
 
 end.
-
+

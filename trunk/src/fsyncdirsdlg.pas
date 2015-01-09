@@ -158,9 +158,9 @@ type
   private
     FOwner: TfrmSyncDirsDlg;
     FDone: Boolean;
-    procedure DoTerminate(Sender: TObject);
     procedure UpdateGrid;
     procedure ReapplyFilter;
+    procedure DoOnTerminate(Sender: TObject);
   protected
     procedure Execute; override;
   public
@@ -180,7 +180,7 @@ end;
 
 { TCheckContentThread }
 
-procedure TCheckContentThread.DoTerminate(Sender: TObject);
+procedure TCheckContentThread.DoOnTerminate(Sender: TObject);
 begin
   FOwner.CheckContentThread := nil;
   FOwner := nil;
@@ -268,7 +268,7 @@ end;
 constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
 begin
   inherited Create(True);
-  OnTerminate := @DoTerminate;
+  OnTerminate := @DoOnTerminate;
   FreeOnTerminate := True;
   FOwner := Owner;
   Start;
