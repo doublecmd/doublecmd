@@ -9,7 +9,7 @@
    
    contributors:
    
-   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -70,6 +70,12 @@ type
     bmDriveRemovableMedia,
     bmDriveRemovableMediaUsb: TBitmap;
   end;
+
+  { TfromWhatBitmapWasLoaded }
+  //Used to indicate from where the icon was loaded from.
+  //Useful when exporting to TC for example which cannot used "as is" the same icon file in some circumstances.
+  TfromWhatBitmapWasLoaded = (fwbwlNotLoaded, fwbwlIconThemeBitmap, fwbwlResourceFileExtracted, fwbwlGraphicFileGTK2, fwbwlGraphicFileOtherGTK2, fwbwlGraphicFileNotSupportedByTC, fwbwlFileIconByExtension, fwbwlFiDefaultIconID);
+  PTfromWhatBitmapWasLoaded = ^TfromWhatBitmapWasLoaded;
 
   { TPixMapManager }
 
@@ -217,7 +223,7 @@ type
        Performs resize of the bitmap to <iIconSize>x<iIconSize> if Stretch = @true.
        If Stretch = @false then clBackColor is ignored.
     }
-    function LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor) : Graphics.TBitmap;
+    function LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor; fromWhatItWasLoaded:PTfromWhatBitmapWasLoaded = nil) : Graphics.TBitmap;
     {en
        Loads a theme icon as bitmap.
        @param(AIconName is a MIME type name.)
@@ -303,7 +309,7 @@ procedure LoadPixMapManager;
 implementation
 
 uses
-  LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
+  GraphType, LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
   DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
   DCOSUtils, DCClassesUtf8
   {$IFDEF LCLGTK2}
@@ -331,7 +337,33 @@ function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 var
   memstream: TMemoryStream;
+  {$IFDEF MSWINDOWS}
+  liiSource: TLazIntfImage = nil;
+  liiDestination: TLazIntfImage = nil;
+  ImgFormatDescription:TRawImageDescription;
+  {$ENDIF}
+
 begin
+  {$IFDEF MSWINDOWS}
+  //Let's make sure we're working with 32-bits bitmap
+  if bmBitmap.PixelFormat<>pf32bit then
+    begin
+      liiSource:=bmBitmap.CreateIntfImage;
+      liiDestination:=TLazIntfImage.Create(bmBitmap.Width,bmBitmap.Height);
+	  try
+        ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(bmBitmap.Width,bmBitmap.Height);
+        liiDestination.DataDescription:=ImgFormatDescription;
+        liiDestination.CopyPixels(liiSource);
+        bmBitmap.FreeImage;
+        bmBitmap.PixelFormat:=pf32bit;
+        bmBitmap.LoadFromIntfImage(liiDestination);
+	  finally
+        liiDestination.Free;
+        liiSource.Free;
+	  end;
+    end;
+  {$ENDIF}
+
   if (iIconSize <> bmBitmap.Height) or (iIconSize <> bmBitmap.Width) then
   begin
     Result := Graphics.TBitMap.Create;
@@ -417,7 +449,7 @@ begin
   end;
 end;
 
-function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor) : Graphics.TBitmap;
+function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor; fromWhatItWasLoaded:PTfromWhatBitmapWasLoaded) : Graphics.TBitmap;
 var
 {$IFDEF MSWINDOWS}
   iIconIndex: PtrInt;
@@ -439,12 +471,16 @@ var
   {$ENDIF}
 begin
   Result := nil;
+  if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlNotLoaded;
 
   sFileName:= ReplaceEnvVars(sFileName);
 
   // If the name is not full path then treat it as MIME type.
   if GetPathType(sFileName) = ptNone then
-    bmStandartBitmap := LoadIconThemeBitmap(sFileName, iIconSize)
+  begin
+    bmStandartBitmap := LoadIconThemeBitmap(sFileName, iIconSize);
+    if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlIconThemeBitmap;
+  end
   else
 {$IFDEF MSWINDOWS}
   if GetIconResourceIndex(sFileName, IconFileName, iIconIndex) then
@@ -469,6 +505,7 @@ begin
               bmStandartBitmap := Graphics.TBitMap.Create;
               bmStandartBitmap.Assign(Icon);
               bmStandartBitmap.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
+              if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlResourceFileExtracted;
             finally
               FreeThenNil(Icon);
             end;
@@ -489,11 +526,13 @@ begin
         if pbPicture <> nil then
         begin
           bmStandartBitmap:= PixBufToBitmap(pbPicture);
+          if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlGraphicFileGTK2;
           gdk_pixmap_unref(pbPicture);
         end
         else // Try loading the standard way.
         {$ELSE}
           LoadBitmapFromFile(sFileName, bmStandartBitmap);
+          if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlGraphicFileOtherGTK2;
         {$ENDIF}
       end;
     end;
@@ -506,6 +545,7 @@ begin
         try
           iIndex := GetIconByFile(AFile, True, True, sim_all_and_exe, False);
           bmStandartBitmap := GetBitmap(iIndex);
+          if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlFileIconByExtension;
         finally
           FreeAndNil(AFile);
         end;
@@ -513,6 +553,7 @@ begin
     else  // file not found
       begin
         bmStandartBitmap := GetBitmap(FiDefaultIconID);
+        if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlFiDefaultIconID;
       end;
   end;
 
@@ -595,7 +636,7 @@ begin
             else
               DCDebug(Format('Error: pixmap [%s] not loaded!', [AIconName]));
         {$ELSE}
-            bmpBitmap := LoadBitmapEnhanced(AIconName, AIconSize, False, clNone);
+            bmpBitmap := LoadBitmapEnhanced(AIconName, AIconSize, False, clNone, nil);
             if Assigned(bmpBitmap) then
             begin
               // Shrink big bitmaps before putting them into PixmapManager,

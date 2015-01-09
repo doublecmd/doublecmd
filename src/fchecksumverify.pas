@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Verify check sum dialog
+   Verify checksum dialog
 
    Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
 

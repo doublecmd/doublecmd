@@ -1092,16 +1092,15 @@ begin
             begin
               LocalHotDir.HotDirName := sName;
 
-              sPath := ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_PATHPREFIX + IntToStr(Index), ''));
-              if UTF8Pos('cd ', sPath) = 1 then sPath := UTF8Copy(sPath, 4, UTF8Length(sPath) - 3);
+              sPath := ReplaceTCEnvVars(ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_PATHPREFIX + IntToStr(Index), '')));
+              if UTF8Length(sPath) > 3 then if UTF8Pos('cd ', UTF8LowerCase(sPath)) = 1 then sPath := UTF8Copy(sPath, 4, UTF8Length(sPath) - 3);
 
               if UTF8Pos('cm_', UTF8LowerCase(sPath)) = 0 then //Make sure it's not a command
               begin
                 if sPath <> '' then sPath := IncludeTrailingPathDelimiter(sPath); //Not an obligation but DC convention seems to like a backslash at the end
 
-                sTarget := ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(Index), ''));
+                sTarget := ReplaceTCEnvVars(ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(Index), '')));
                 if UTF8Length(sTarget) > 3 then if UTF8Pos('cd ', UTF8LowerCase(sTarget)) = 1 then sTarget := UTF8Copy(sTarget, 4, UTF8Length(sTarget) - 3);
-                sTarget := StringReplace(sTarget, '%COMMANDER_PATH%', '%commander_path%', [rfReplaceAll, rfIgnoreCase]);
                 if sTarget <> '' then sTarget := IncludeTrailingPathDelimiter(sTarget); //Not an obligation but DC convention seems to like a backslash at the end
 
                 LocalHotDir.Dispatcher := hd_CHANGEPATH;
@@ -1185,8 +1184,8 @@ begin
               hd_CHANGEPATH:
               begin
                 WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_NAMEPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(THotDir(HotDir[Index]).HotDirName));
-                if THotDir(HotDir[Index]).HotDirPath <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_PATHPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString('cd ' + THotDir(HotDir[Index]).HotDirPath));
-                if THotDir(HotDir[Index]).HotDirTarget <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(THotDir(HotDir[Index]).HotDirTarget));
+                if THotDir(HotDir[Index]).HotDirPath <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_PATHPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString('cd ' + ReplaceDCEnvVars(THotDir(HotDir[Index]).HotDirPath)));
+                if THotDir(HotDir[Index]).HotDirTarget <> '' then WriteString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(OffsetForOnesAlreadyThere + Index + 1), ConvertStringToTCString(ReplaceDCEnvVars(THotDir(HotDir[Index]).HotDirTarget)));
               end;
 
               hd_SEPARATOR:
@@ -1228,5 +1227,5 @@ begin
 end;
 {$ENDIF}
 
-
 end.
+

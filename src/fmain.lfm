@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 962
+  Left = 474
   Height = 370
-  Top = 261
+  Top = 272
   Width = 760
   Caption = 'Double Commander'
   ClientHeight = 370
@@ -19,7 +19,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.2.2.0'
+  LCLVersion = '1.2.6.0'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -120,23 +120,23 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 156
+    Height = 163
     Top = 46
     Width = 760
     Align = alClient
-    ClientHeight = 156
+    ClientHeight = 163
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 1
     OnResize = pnlNotebooksResize
     object pnlLeft: TPanel
       Left = 1
-      Height = 154
+      Height = 161
       Top = 1
       Width = 511
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 154
+      ClientHeight = 161
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -257,12 +257,12 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 512
-      Height = 154
+      Height = 161
       Top = 1
       Width = 247
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 154
+      ClientHeight = 161
       ClientWidth = 247
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
@@ -396,8 +396,8 @@ object frmMain: TfrmMain
   end
   object PanelAllProgress: TPanel
     Left = 0
-    Height = 1
-    Top = 202
+    Height = 0
+    Top = 209
     Width = 760
     Align = alBottom
     AutoSize = True
@@ -408,7 +408,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 3
-    Top = 203
+    Top = 209
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -419,35 +419,35 @@ object frmMain: TfrmMain
   object pnlCommand: TPanel
     AnchorSideBottom.Control = LogSplitter
     Left = 0
-    Height = 89
-    Top = 206
+    Height = 83
+    Top = 212
     Width = 760
     Align = alBottom
     AutoSize = True
     BevelOuter = bvLowered
-    ClientHeight = 89
+    ClientHeight = 83
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 8
     object pnlCmdLine: TPanel
       Left = 1
-      Height = 33
+      Height = 27
       Top = 55
       Width = 758
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 2
-      ClientHeight = 33
+      ClientHeight = 27
       ClientWidth = 758
       TabOrder = 1
       object lblCommandPath: TLabel
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 17
-        Top = 8
-        Width = 31
+        Height = 15
+        Top = 6
+        Width = 24
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -458,13 +458,13 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 35
-        Height = 29
+        Left = 28
+        Height = 23
         Top = 2
-        Width = 723
+        Width = 730
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
-        ItemHeight = 0
+        ItemHeight = 15
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
         TabOrder = 0
@@ -843,22 +843,37 @@ object frmMain: TfrmMain
         ShortCut = 24642
       end>
     MouseActions = <>
+    MouseTextActions = <>
     MouseSelActions = <>
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.FrameEdges = sfeAround
+    SelectedColor.BackPriority = 50
+    SelectedColor.ForePriority = 50
+    SelectedColor.FramePriority = 50
+    SelectedColor.BoldPriority = 50
+    SelectedColor.ItalicPriority = 50
+    SelectedColor.UnderlinePriority = 50
+    SelectedColor.StrikeOutPriority = 50
+    IncrementColor.FrameEdges = sfeAround
+    HighlightAllColor.FrameEdges = sfeAround
     BracketHighlightStyle = sbhsBoth
     BracketMatchColor.Background = clNone
     BracketMatchColor.Foreground = clNone
+    BracketMatchColor.FrameEdges = sfeAround
     BracketMatchColor.Style = [fsBold]
     FoldedCodeColor.Background = clNone
     FoldedCodeColor.Foreground = clGray
     FoldedCodeColor.FrameColor = clGray
+    FoldedCodeColor.FrameEdges = sfeAround
     MouseLinkColor.Background = clNone
     MouseLinkColor.Foreground = clBlue
+    MouseLinkColor.FrameEdges = sfeAround
     LineHighlightColor.Background = clNone
     LineHighlightColor.Foreground = clNone
+    LineHighlightColor.FrameEdges = sfeAround
     OnSpecialLineColors = seLogWindowSpecialLineColors
     inline SynLeftGutterPartList1: TSynGutterPartList
     end
@@ -884,48 +899,48 @@ object frmMain: TfrmMain
       Left = 0
       Height = 20
       Top = 0
-      Width = 88
+      Width = 89
       Action = actView
       Flat = True
     end
     object btnF4: TSpeedButton
-      Left = 88
+      Left = 89
       Height = 20
       Top = 0
-      Width = 82
+      Width = 84
       Action = actEdit
       Flat = True
     end
     object btnF5: TSpeedButton
-      Left = 170
+      Left = 173
       Height = 20
       Top = 0
-      Width = 89
+      Width = 92
       Action = actCopy
       Flat = True
     end
     object btnF6: TSpeedButton
-      Left = 259
+      Left = 265
       Height = 20
       Top = 0
-      Width = 92
+      Width = 94
       Action = actRename
       Flat = True
     end
     object btnF7: TSpeedButton
-      Left = 351
+      Left = 359
       Height = 20
       Top = 0
-      Width = 118
+      Width = 112
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
     end
     object btnF8: TSpeedButton
-      Left = 469
+      Left = 471
       Height = 20
       Top = 0
-      Width = 99
+      Width = 97
       Caption = 'Delete'
       Flat = True
       OnClick = btnF8Click
@@ -934,16 +949,16 @@ object frmMain: TfrmMain
       Left = 568
       Height = 20
       Top = 0
-      Width = 113
+      Width = 111
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
     end
     object btnF10: TSpeedButton
-      Left = 681
+      Left = 679
       Height = 20
       Top = 0
-      Width = 79
+      Width = 81
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -951,7 +966,7 @@ object frmMain: TfrmMain
   end
   object mnuMain: TMainMenu
     ParentBidiMode = False
-    left = 283
+    left = 240
     top = 8
     object mnuFiles: TMenuItem
       Caption = '&Files'
@@ -1310,7 +1325,7 @@ object frmMain: TfrmMain
     end
   end
   object actionLst: TActionList
-    left = 336
+    left = 320
     top = 24
     object actExit: TAction
       Category = 'File'
@@ -1516,18 +1531,6 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
-    object actShowCmdLineHistory: TAction
-      Category = 'Commands'
-      Caption = 'Show command line history'
-      HelpType = htKeyword
-      OnExecute = actExecute
-    end
-    object actRunTerm: TAction
-      Category = 'Commands'
-      Caption = 'Run &Terminal'
-      HelpType = htKeyword
-      OnExecute = actExecute
-    end
     object actCalculateSpace: TAction
       Category = 'File'
       Caption = 'Calculate &Occupied Space'
@@ -1568,59 +1571,9 @@ object frmMain: TfrmMain
       Caption = '&Extract Files...'
       OnExecute = actExecute
     end
-    object actOpenVirtualFileSystemList: TAction
-      Category = 'Commands'
-      Caption = 'Open &VFS List'
-      OnExecute = actExecute
-    end
-    object actLeftOpenDrives: TAction
-      Category = 'Commands'
-      Caption = 'Open left drive list'
-      OnExecute = actExecute
-    end
-    object actRightOpenDrives: TAction
-      Category = 'Commands'
-      Caption = 'Open right drive list'
-      OnExecute = actExecute
-    end
-    object actAddPathToCmdLine: TAction
-      Category = 'Commands'
-      Caption = 'Copy path to command line'
-      OnExecute = actExecute
-    end
-    object actFocusCmdLine: TAction
-      Category = 'Commands'
-      Caption = 'Focus command line'
-      OnExecute = actExecute
-    end
-    object actTransferLeft: TAction
-      Category = 'Commands'
-      Caption = 'Transfer dir under cursor to left window'
-      OnExecute = actExecute
-    end
-    object actTransferRight: TAction
-      Category = 'Commands'
-      Caption = 'Transfer dir under cursor to right window'
-      OnExecute = actExecute
-    end
-    object actContextMenu: TAction
-      Category = 'Commands'
-      Caption = 'Show context menu'
-      OnExecute = actExecute
-    end
     object actOpenArchive: TAction
       Category = 'File'
       Caption = 'Try open archive'
-      OnExecute = actExecute
-    end
-    object actShowButtonMenu: TAction
-      Category = 'Commands'
-      Caption = 'Show button menu'
-      OnExecute = actExecute
-    end
-    object actQuickSearch: TAction
-      Category = 'Commands'
-      Caption = 'Quick search'
       OnExecute = actExecute
     end
     object actFileAssoc: TAction
@@ -1658,21 +1611,6 @@ object frmMain: TfrmMain
       Caption = 'Copy Filename(s) with Full &Path'
       OnExecute = actExecute
     end
-    object actTargetEqualSource: TAction
-      Category = 'Commands'
-      Caption = 'Target &= Source'
-      OnExecute = actExecute
-    end
-    object actExchange: TAction
-      Category = 'Commands'
-      Caption = 'Swap &Panels'
-      OnExecute = actExecute
-    end
-    object actWipe: TAction
-      Category = 'Commands'
-      Caption = 'Wipe'
-      OnExecute = actExecute
-    end
     object actMarkCurrentExtension: TAction
       Category = 'Mark'
       Caption = 'Select All with the Same E&xtension'
@@ -1703,26 +1641,6 @@ object frmMain: TfrmMain
       Caption = '&Contents'
       OnExecute = actExecute
     end
-    object actLeftEqualRight: TAction
-      Category = 'Commands'
-      Caption = 'Left &= Right'
-      OnExecute = actExecute
-    end
-    object actRightEqualLeft: TAction
-      Category = 'Commands'
-      Caption = 'Right &= Left'
-      OnExecute = actExecute
-    end
-    object actChangeDirToRoot: TAction
-      Category = 'Commands'
-      Caption = 'Change directory to root'
-      OnExecute = actExecute
-    end
-    object actCountDirContent: TAction
-      Category = 'Commands'
-      Caption = 'Sho&w Occupied Space'
-      OnExecute = actExecute
-    end
     object actCheckSumVerify: TAction
       Category = 'File'
       Caption = '&Verify Checksum...'
@@ -1731,56 +1649,6 @@ object frmMain: TfrmMain
     object actCheckSumCalc: TAction
       Category = 'File'
       Caption = 'Calculate Check&sum...'
-      OnExecute = actExecute
-    end
-    object actClearLogFile: TAction
-      Category = 'Commands'
-      Caption = 'Clear log file'
-      OnExecute = actExecute
-    end
-    object actClearLogWindow: TAction
-      Category = 'Commands'
-      Caption = 'Clear log window'
-      OnExecute = actExecute
-    end
-    object actMinimize: TAction
-      Category = 'Commands'
-      Caption = 'Minimize window'
-      OnExecute = actExecute
-    end
-    object actChangeDir: TAction
-      Category = 'Commands'
-      Caption = 'Change directory'
-      OnExecute = actExecute
-    end
-    object actAddFilenameToCmdLine: TAction
-      Category = 'Commands'
-      Caption = 'Add file name to command line'
-      OnExecute = actExecute
-    end
-    object actAddPathAndFilenameToCmdLine: TAction
-      Category = 'Commands'
-      Caption = 'Add path and file name to command line'
-      OnExecute = actExecute
-    end
-    object actPanelsSplitterPerPos: TAction
-      Category = 'Commands'
-      Caption = 'Set splitter position'
-      OnExecute = actExecute
-    end
-    object actCopyNoAsk: TAction
-      Category = 'Commands'
-      Caption = 'Copy files without asking for confirmation'
-      OnExecute = actExecute
-    end
-    object actRenameNoAsk: TAction
-      Category = 'Commands'
-      Caption = 'Move/Rename files without asking for confirmation'
-      OnExecute = actExecute
-    end
-    object actQuickFilter: TAction
-      Category = 'Commands'
-      Caption = 'Quick filter'
       OnExecute = actExecute
     end
     object actSetFileProperties: TAction
@@ -1834,11 +1702,6 @@ object frmMain: TfrmMain
       Caption = 'Switch to &Previous Tab'
       OnExecute = actExecute
     end
-    object actOpenBar: TAction
-      Category = 'Commands'
-      Caption = 'Open bar file'
-      OnExecute = actExecute
-    end
     object actQuickView: TAction
       Category = 'Show'
       Caption = '&Quick View Panel'
@@ -1879,6 +1742,243 @@ object frmMain: TfrmMain
       Caption = 'Load Selection from Clip&board'
       OnExecute = actExecute
     end
+    object actNetworkConnect: TAction
+      Category = 'Network'
+      Caption = 'Network &Connect...'
+      OnExecute = actExecute
+    end
+    object actNetworkQuickConnect: TAction
+      Category = 'Network'
+      Caption = 'Network &Quick Connect...'
+      OnExecute = actExecute
+    end
+    object actNetworkDisconnect: TAction
+      Category = 'Network'
+      Caption = 'Network &Disconnect'
+      OnExecute = actExecute
+    end
+    object actHorizontalFilePanels: TAction
+      Category = 'Show'
+      Caption = '&Horizontal Panels Mode'
+      OnExecute = actExecute
+    end
+    object actOperationsViewer: TAction
+      Category = 'Show'
+      Caption = 'Operations &Viewer'
+      OnExecute = actExecute
+    end
+    object actRenameTab: TAction
+      Category = 'Tabs'
+      Caption = '&Rename Tab'
+      OnExecute = actExecute
+    end
+    object actCompareDirectories: TAction
+      Category = 'Mark'
+      Caption = 'Compare Directories'
+      Hint = 'Compare Directories'
+      OnExecute = actExecute
+    end
+    object actShellExecute: TAction
+      Category = 'File'
+      Caption = 'Open'
+      Hint = 'Open using system associations'
+      OnExecute = actExecute
+    end
+    object actBriefView: TAction
+      Category = 'Show'
+      Caption = 'Brief'
+      Hint = 'Brief View'
+      OnExecute = actExecute
+    end
+    object actColumnsView: TAction
+      Category = 'Show'
+      Caption = 'Full'
+      Hint = 'Columns View'
+      OnExecute = actExecute
+    end
+    object actThumbnailsView: TAction
+      Category = 'Show'
+      Caption = 'Thumbnails'
+      Hint = 'Thumbnails View'
+      OnExecute = actExecute
+    end
+    object actCopyFileDetailsToClip: TAction
+      Category = 'Mark'
+      Caption = 'Copy all shown &columns'
+      OnExecute = actExecute
+    end
+    object actSaveTabs: TAction
+      Category = 'Tabs'
+      Caption = '&Save Tabs to File'
+      OnExecute = actExecute
+    end
+    object actLoadTabs: TAction
+      Category = 'Tabs'
+      Caption = '&Load Tabs from File'
+      OnExecute = actExecute
+    end
+    object actConfigToolbars: TAction
+      Category = 'Config'
+      Caption = 'Configure toolbar'
+      OnExecute = actExecute
+    end
+    object actShowCmdLineHistory: TAction
+      Category = 'Commands'
+      Caption = 'Show command line history'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actRunTerm: TAction
+      Category = 'Commands'
+      Caption = 'Run &Terminal'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actOpenVirtualFileSystemList: TAction
+      Category = 'Commands'
+      Caption = 'Open &VFS List'
+      OnExecute = actExecute
+    end
+    object actLeftOpenDrives: TAction
+      Category = 'Commands'
+      Caption = 'Open left drive list'
+      OnExecute = actExecute
+    end
+    object actRightOpenDrives: TAction
+      Category = 'Commands'
+      Caption = 'Open right drive list'
+      OnExecute = actExecute
+    end
+    object actAddPathToCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'Copy path to command line'
+      OnExecute = actExecute
+    end
+    object actFocusCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'Focus command line'
+      OnExecute = actExecute
+    end
+    object actTransferLeft: TAction
+      Category = 'Commands'
+      Caption = 'Transfer dir under cursor to left window'
+      OnExecute = actExecute
+    end
+    object actTransferRight: TAction
+      Category = 'Commands'
+      Caption = 'Transfer dir under cursor to right window'
+      OnExecute = actExecute
+    end
+    object actContextMenu: TAction
+      Category = 'Commands'
+      Caption = 'Show context menu'
+      OnExecute = actExecute
+    end
+    object actShowButtonMenu: TAction
+      Category = 'Commands'
+      Caption = 'Show button menu'
+      OnExecute = actExecute
+    end
+    object actQuickSearch: TAction
+      Category = 'Commands'
+      Caption = 'Quick search'
+      OnExecute = actExecute
+    end
+    object actTargetEqualSource: TAction
+      Category = 'Commands'
+      Caption = 'Target &= Source'
+      OnExecute = actExecute
+    end
+    object actExchange: TAction
+      Category = 'Commands'
+      Caption = 'Swap &Panels'
+      OnExecute = actExecute
+    end
+    object actWipe: TAction
+      Category = 'Commands'
+      Caption = 'Wipe'
+      OnExecute = actExecute
+    end
+    object actLeftEqualRight: TAction
+      Category = 'Commands'
+      Caption = 'Left &= Right'
+      OnExecute = actExecute
+    end
+    object actRightEqualLeft: TAction
+      Category = 'Commands'
+      Caption = 'Right &= Left'
+      OnExecute = actExecute
+    end
+    object actChangeDirToRoot: TAction
+      Category = 'Commands'
+      Caption = 'Change directory to root'
+      OnExecute = actExecute
+    end
+    object actCountDirContent: TAction
+      Category = 'Commands'
+      Caption = 'Sho&w Occupied Space'
+      OnExecute = actExecute
+    end
+    object actViewLogFile: TAction
+      Category = 'Commands'
+      Caption = 'Clear log file'
+      OnExecute = actExecute
+    end
+    object actClearLogFile: TAction
+      Category = 'Commands'
+      Caption = 'Clear log file'
+      OnExecute = actExecute
+    end
+    object actClearLogWindow: TAction
+      Category = 'Commands'
+      Caption = 'Clear log window'
+      OnExecute = actExecute
+    end
+    object actMinimize: TAction
+      Category = 'Commands'
+      Caption = 'Minimize window'
+      OnExecute = actExecute
+    end
+    object actChangeDir: TAction
+      Category = 'Commands'
+      Caption = 'Change directory'
+      OnExecute = actExecute
+    end
+    object actAddFilenameToCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'Add file name to command line'
+      OnExecute = actExecute
+    end
+    object actAddPathAndFilenameToCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'Add path and file name to command line'
+      OnExecute = actExecute
+    end
+    object actPanelsSplitterPerPos: TAction
+      Category = 'Commands'
+      Caption = 'Set splitter position'
+      OnExecute = actExecute
+    end
+    object actCopyNoAsk: TAction
+      Category = 'Commands'
+      Caption = 'Copy files without asking for confirmation'
+      OnExecute = actExecute
+    end
+    object actRenameNoAsk: TAction
+      Category = 'Commands'
+      Caption = 'Move/Rename files without asking for confirmation'
+      OnExecute = actExecute
+    end
+    object actQuickFilter: TAction
+      Category = 'Commands'
+      Caption = 'Quick filter'
+      OnExecute = actExecute
+    end
+    object actOpenBar: TAction
+      Category = 'Commands'
+      Caption = 'Open bar file'
+      OnExecute = actExecute
+    end
     object actChangeDirToParent: TAction
       Category = 'Commands'
       Caption = 'Change Directory To Parent'
@@ -1904,26 +2004,6 @@ object frmMain: TfrmMain
       Caption = 'Go to next entry in history'
       OnExecute = actExecute
     end
-    object actNetworkConnect: TAction
-      Category = 'Network'
-      Caption = 'Network &Connect...'
-      OnExecute = actExecute
-    end
-    object actNetworkQuickConnect: TAction
-      Category = 'Network'
-      Caption = 'Network &Quick Connect...'
-      OnExecute = actExecute
-    end
-    object actNetworkDisconnect: TAction
-      Category = 'Network'
-      Caption = 'Network &Disconnect'
-      OnExecute = actExecute
-    end
-    object actHorizontalFilePanels: TAction
-      Category = 'Show'
-      Caption = '&Horizontal Panels Mode'
-      OnExecute = actExecute
-    end
     object actGoToFirstFile: TAction
       Category = 'Commands'
       Caption = 'Place cursor on first file in list'
@@ -1932,28 +2012,6 @@ object frmMain: TfrmMain
     object actGoToLastFile: TAction
       Category = 'Commands'
       Caption = 'Place cursor on last file in list'
-      OnExecute = actExecute
-    end
-    object actOperationsViewer: TAction
-      Category = 'Show'
-      Caption = 'Operations &Viewer'
-      OnExecute = actExecute
-    end
-    object actRenameTab: TAction
-      Category = 'Tabs'
-      Caption = '&Rename Tab'
-      OnExecute = actExecute
-    end
-    object actCompareDirectories: TAction
-      Category = 'Mark'
-      Caption = 'Compare Directories'
-      Hint = 'Compare Directories'
-      OnExecute = actExecute
-    end
-    object actShellExecute: TAction
-      Category = 'File'
-      Caption = 'Open'
-      Hint = 'Open using system associations'
       OnExecute = actExecute
     end
     object actCmdLineNext: TAction
@@ -1968,24 +2026,6 @@ object frmMain: TfrmMain
       Hint = 'Set command line to previous command in history'
       OnExecute = actExecute
     end
-    object actBriefView: TAction
-      Category = 'Show'
-      Caption = 'Brief'
-      Hint = 'Brief View'
-      OnExecute = actExecute
-    end
-    object actColumnsView: TAction
-      Category = 'Show'
-      Caption = 'Full'
-      Hint = 'Columns View'
-      OnExecute = actExecute
-    end
-    object actThumbnailsView: TAction
-      Category = 'Show'
-      Caption = 'Thumbnails'
-      Hint = 'Thumbnails View'
-      OnExecute = actExecute
-    end
     object actChangeDirToHome: TAction
       Category = 'Commands'
       Caption = 'Change directory to home'
@@ -1997,31 +2037,31 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
-    object actCopyFileDetailsToClip: TAction
-      Category = 'Mark'
-      Caption = 'Copy all shown &columns'
-      OnExecute = actExecute
-    end
     object actFlatView: TAction
       Category = 'Commands'
       Caption = '&Flat view'
       OnExecute = actExecute
     end
-    object actSaveTabs: TAction
-      Category = 'Tabs'
-      Caption = '&Save Tabs to File'
+    object actDebugShowCommandParameters: TAction
+      Category = 'Commands'
+      Caption = 'Show Command Parameters'
       OnExecute = actExecute
     end
-    object actLoadTabs: TAction
-      Category = 'Tabs'
-      Caption = '&Load Tabs from File'
+    object actCopyPathOfFilesToClip: TAction
+      Category = 'Mark'
+      Caption = 'Copy Full Path of slected file(s)'
+      OnExecute = actExecute
+    end
+    object actCopyPathNoSepOfFilesToClip: TAction
+      Category = 'Mark'
+      Caption = 'Copy Full Path of slected file(s) with no ending dir separator'
       OnExecute = actExecute
     end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
-    left = 120
-    top = 72
+    left = 128
+    top = 88
   end
   object pmDirHistory: TPopupMenu
     AutoPopup = False
@@ -2065,7 +2105,7 @@ object frmMain: TfrmMain
     end
   end
   object pmContextMenu: TPopupMenu
-    left = 56
+    left = 40
     top = 96
     object mnuContextOpen: TMenuItem
       Action = actOpen
@@ -3178,8 +3218,8 @@ object frmMain: TfrmMain
     top = 168
   end
   object pmTabMenu: TPopupMenu
-    left = 374
-    top = 136
+    left = 392
+    top = 128
     object miNewTab: TMenuItem
       Action = actNewTab
       OnClick = mnuTabMenuClick

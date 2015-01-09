@@ -166,6 +166,7 @@ var
   { Toolbar }
   gToolBarButtonSize,
   gToolBarIconSize: Integer;
+  gToolbarReportErrorWithCommands: boolean;
 
   gRepeatPassword:Boolean;  // repeat password when packing files
   gDirHistoryCount:Integer; // how many history we remember
@@ -376,6 +377,13 @@ var
 
   gUseShellForFileOperations: Boolean;
 
+  { TotalCommander Import/Export }
+  {$IFDEF MSWINDOWS}
+  gTotalCommanderExecutableFilename:string;
+  gTotalCommanderConfigFilename:string;
+  gTotalCommanderToolbarPath:string;
+  {$ENDIF}
+
 function LoadConfig: Boolean;
 function InitGlobs: Boolean;
 function LoadGlobs: Boolean;
@@ -414,7 +422,7 @@ uses
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
    {$IF DEFINED(MSWINDOWS)}
-    , win32proc
+    , ShlObj, win32proc
    {$ENDIF}
    ;
 
@@ -988,6 +996,24 @@ begin
   FreeThenNil(HotMan);
 end;
 
+{$IFDEF MSWINDOWS}
+function GetPathNameIfItMatch(SpecialConstant:integer; FilenameSearched:string):string;
+var
+  MaybePath:string;
+  FilePath: array [0..Pred(MAX_PATH)] of WideChar;
+begin
+  result:='';
+
+  FillChar(FilePath, MAX_PATH, 0);
+  SHGetSpecialFolderPathW(0, @FilePath[0], SpecialConstant, FALSE);
+  if FilePath<>'' then
+  begin
+    MaybePath:=IncludeTrailingPathDelimiter(UTF8Encode(WideString(FilePath)));
+    if mbFileExists(MaybePath+FilenameSearched) then result:=MaybePath+FilenameSearched;
+  end;
+end;
+{$ENDIF}
+
 procedure SetDefaultConfigGlobs;
 
   procedure SetDefaultExternalTool(var ExternalToolOptions: TExternalToolOptions);
@@ -1081,6 +1107,7 @@ begin
   gToolBarFlat := True;
   gToolBarButtonSize := 24;
   gToolBarIconSize := 16;
+  gToolbarReportErrorWithCommands := FALSE;
   gDriveBar1 := True;
   gDriveBar2 := True;
   gDriveBarFlat := True;
@@ -1241,6 +1268,32 @@ begin
   gLastUsedPacker := 'zip';
   gUseShellForFileOperations :=
     {$IF DEFINED(MSWINDOWS)}WindowsVersion >= wvVista{$ELSE}False{$ENDIF};
+
+  { TotalCommander Import/Export }
+  //Will search minimally where TC could be installed so the default value would have some chances to be correct.
+  {$IFDEF MSWINDOWS}
+  gTotalCommanderExecutableFilename:='';
+  gTotalCommanderConfigFilename:='';
+  gTotalCommanderToolbarPath:='';
+
+  if mbFileExists('c:\totalcmd\TOTALCMD.EXE') then gTotalCommanderExecutableFilename:='c:\totalcmd\TOTALCMD.EXE';
+  if (gTotalCommanderExecutableFilename='') AND  (mbFileExists('c:\totalcmd\TOTALCMD64.EXE')) then gTotalCommanderExecutableFilename:='c:\totalcmd\TOTALCMD64.EXE';
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_COMMON_PROGRAMS,'totalcmd\TOTALCMD.EXE');
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_PROGRAMS,'totalcmd\TOTALCMD.EXE');
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_PROGRAM_FILESX86,'totalcmd\TOTALCMD.EXE');
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_PROGRAM_FILES_COMMON,'totalcmd\TOTALCMD.EXE');
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_PROGRAM_FILES_COMMONX86,'totalcmd\TOTALCMD.EXE');
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_COMMON_PROGRAMS,'totalcmd\TOTALCMD64.EXE');
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_PROGRAMS,'totalcmd\TOTALCMD64.EXE');
+  if gTotalCommanderExecutableFilename='' then gTotalCommanderExecutableFilename:=GetPathNameIfItMatch(CSIDL_PROGRAM_FILES_COMMON,'totalcmd\TOTALCMD64.EXE');
+
+  if mbFileExists('c:\totalcmd\wincmd.ini') then gTotalCommanderConfigFilename:='c:\totalcmd\wincmd.ini';
+  if gTotalCommanderConfigFilename='' then gTotalCommanderConfigFilename:=GetPathNameIfItMatch(CSIDL_APPDATA,'GHISLER\wincmd.ini');
+  if gTotalCommanderConfigFilename='' then gTotalCommanderConfigFilename:=GetPathNameIfItMatch(CSIDL_PROFILE,'wincmd.ini');
+  if gTotalCommanderConfigFilename='' then gTotalCommanderConfigFilename:=GetPathNameIfItMatch(CSIDL_WINDOWS,'wincmd.ini'); //Don't laugh. The .INI file were originally saved in windows folder for many programs!
+
+  if gTotalCommanderConfigFilename<>'' then gTotalCommanderToolbarPath:=ExtractFilePath(gTotalCommanderConfigFilename);
+  {$ENDIF}
 
   gExts.Clear;
   gColorExt.Clear;
@@ -2069,6 +2122,7 @@ begin
           gToolBarIconSize := GetValue(SubNode, 'SmallIconSize', gToolBarIconSize)
         else
           gToolBarIconSize := GetValue(SubNode, 'IconSize', gToolBarIconSize);
+        gToolbarReportErrorWithCommands := GetValue(SubNode,'ReportErrorWithCommands',gToolbarReportErrorWithCommands);
       end;
       gDriveBar1 := GetValue(Node, 'DriveBar1', gDriveBar1);
       gDriveBar2 := GetValue(Node, 'DriveBar2', gDriveBar2);
@@ -2333,7 +2387,18 @@ begin
     gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
     gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     gUseShellForFileOperations:= GetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
+
+    { TotalCommander Import/Export }
+    {$IFDEF MSWINDOWS}
+    Node := Root.FindNode('TCSection');
+    if Assigned(Node) then
+    begin
+      gTotalCommanderExecutableFilename := GetValue(Node, 'TCExecutableFilename', gTotalCommanderExecutableFilename);
+      gTotalCommanderConfigFilename := GetValue(Node, 'TCConfigFilename', gTotalCommanderConfigFilename);
+      gTotalCommanderToolbarPath:=GetValue(Node,'TCToolbarPath',gTotalCommanderToolbarPath);
     end;
+    {$ENDIF}
+  end;
 
   { Search template list }
   gSearchTemplateList.LoadFromXml(gConfig, Root);
@@ -2467,6 +2532,7 @@ begin
     SetValue(SubNode, 'FlatIcons', gToolBarFlat);
     SetValue(SubNode, 'ButtonHeight', gToolBarButtonSize);
     SetValue(SubNode, 'IconSize', gToolBarIconSize);
+    SetValue(SubNode, 'ReportErrorWithCommands', gToolbarReportErrorWithCommands);
     SetValue(Node, 'DriveBar1', gDriveBar1);
     SetValue(Node, 'DriveBar2', gDriveBar2);
     SetValue(Node, 'DriveBarFlat', gDriveBarFlat);
@@ -2648,7 +2714,22 @@ begin
     SetValue(Root, 'NameShortcutFile', gNameSCFile);
     SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     SetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
+
+    {$IFDEF MSWINDOWS}
+    { TotalCommander Import/Export }
+    //We'll save the last TC executable filename AND TC configuration filename ONLY if both has been set
+    if (gTotalCommanderExecutableFilename<>'') AND (gTotalCommanderConfigFilename<>'') then
+    begin
+      Node := FindNode(Root, 'TCSection', True);
+      if Assigned(Node) then
+      begin
+        SetValue(Node, 'TCExecutableFilename', gTotalCommanderExecutableFilename);
+        SetValue(Node, 'TCConfigFilename', gTotalCommanderConfigFilename);
+        SetValue(Node,'TCToolbarPath',gTotalCommanderToolbarPath);
       end;
+    end;
+    {$ENDIF}
+  end;
 
   { Search template list }
   gSearchTemplateList.SaveToXml(gConfig, Root);

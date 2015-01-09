@@ -94,6 +94,9 @@ type
     actCopyFileDetailsToClip: TAction;
     actFlatView: TAction;
     actConfigDirHotList: TAction;
+    actCopyPathOfFilesToClip: TAction;
+    actCopyPathNoSepOfFilesToClip: TAction;
+    actViewLogFile: TAction;
     actLoadTabs: TAction;
     actSaveTabs: TAction;
     actSyncDirs: TAction;
@@ -153,6 +156,8 @@ type
     actPackFiles: TAction;
     actCloseTab: TAction;
     actNewTab: TAction;
+    actConfigToolbars: TAction;
+    actDebugShowCommandParameters: TAction;
     btnF10: TSpeedButton;
     btnF3: TSpeedButton;
     btnF4: TSpeedButton;
@@ -1097,11 +1102,14 @@ var
   Options: IOptionsDialog;
 begin
   Options := ShowOptions(TfrmOptionsToolbar);
+  Application.ProcessMessages;
+  Editor := Options.GetEditor(TfrmOptionsToolbar);
   if Assigned(Button) then
   begin
-    Editor := Options.GetEditor(TfrmOptionsToolbar);
     (Editor as TfrmOptionsToolbar).SelectButton(Button.Tag);
   end;
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
 end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
@@ -1788,7 +1796,7 @@ function TfrmMain.MainToolBarLoadButtonGlyph(ToolItem: TKASToolItem;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
   if ToolItem is TKASNormalItem then
-    Result := PixMapManager.LoadBitmapEnhanced(TKASNormalItem(ToolItem).Icon, iIconSize, True, clBackColor)
+    Result := PixMapManager.LoadBitmapEnhanced(TKASNormalItem(ToolItem).Icon, iIconSize, True, clBackColor, nil)
   else
     Result := nil;
 end;
@@ -2394,12 +2402,12 @@ begin
 end;
 
 procedure TfrmMain.CreateDefaultToolbar;
-  procedure AddCommand(Command, Icon: String);
+  procedure AddCommand(Command: String);
   var
     CommandItem: TKASCommandItem;
   begin
     CommandItem := TKASCommandItem.Create(Commands.Commands);
-    CommandItem.Icon := Icon;
+    CommandItem.Icon := UTF8LowerCase(Command);
     CommandItem.Command := Command;
     // Leave CommandItem.Hint empty. It will be loaded at startup based on language.
     MainToolBar.AddButton(CommandItem);
@@ -2416,17 +2424,30 @@ begin
     MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
     if not Assigned(MainToolBarNode) then
     begin
-      AddCommand('cm_Refresh', 'view-refresh');
-      AddCommand('cm_RunTerm', 'utilities-terminal');
-      AddCommand('cm_MarkPlus', 'list-add');
-      AddCommand('cm_MarkMinus', 'list-remove');
+      AddCommand('cm_Refresh');
+      AddCommand('cm_RunTerm');
+      AddCommand('cm_Options');
       AddSeparator;
-      AddCommand('cm_PackFiles', 'package-x-generic');
+      AddCommand('cm_BriefView');
+      AddCommand('cm_ColumnsView');
+      AddCommand('cm_ThumbnailsView');
       AddSeparator;
-      AddCommand('cm_Search', 'system-search');
+      AddCommand('cm_FlatView');
       AddSeparator;
-      AddCommand('cm_ViewHistoryPrev', 'go-previous');
-      AddCommand('cm_ViewHistoryNext', 'go-next');
+      AddCommand('cm_ViewHistoryPrev');
+      AddCommand('cm_ViewHistoryNext');
+      AddSeparator;
+      AddCommand('cm_MarkPlus');
+      AddCommand('cm_MarkMinus');
+      AddCommand('cm_MarkInvert');
+      AddSeparator;
+      AddCommand('cm_PackFiles');
+      AddCommand('cm_ExtractFiles');
+      AddSeparator;
+      AddCommand('cm_Search');
+      AddCommand('cm_MultiRename');
+      AddCommand('cm_SyncDirs');
+      AddCommand('cm_CopyFullNamesToClip');
       SaveMainToolBar;
     end;
   end;
@@ -4074,11 +4095,16 @@ end;
 procedure TfrmMain.ToolbarExecuteCommand(ToolItem: TKASToolItem);
 var
   CommandItem: TKASCommandItem;
+  CommandFuncResult: TCommandFuncResult;
 begin
   if not Draging then
   begin
     CommandItem := ToolItem as TKASCommandItem;
-    Commands.Commands.ExecuteCommand(CommandItem.Command, CommandItem.Params);
+    CommandFuncResult:=Commands.Commands.ExecuteCommand(CommandItem.Command, CommandItem.Params);
+    if gToolbarReportErrorWithCommands AND (CommandFuncResult=cfrNotFound) then
+    begin
+      MsgError('Command not found! ('+CommandItem.Command+')');
+    end;
   end;
   Draging := False;
 end;
@@ -4086,11 +4112,16 @@ end;
 procedure TfrmMain.ToolbarExecuteProgram(ToolItem: TKASToolItem);
 var
   ProgramItem: TKASProgramItem;
+  CommandExecResult: boolean;
 begin
   if not Draging then
   begin
     ProgramItem := ToolItem as TKASProgramItem;
-    ExecCmd(ProgramItem.Command, ProgramItem.Params, ProgramItem.StartPath);
+    CommandExecResult:=ExecCmd(ProgramItem.Command, ProgramItem.Params, ProgramItem.StartPath);
+    if gToolbarReportErrorWithCommands AND (CommandExecResult=FALSE) then
+    begin
+      MsgError('Problem executing command! ('+ProgramItem.Command+')');
+    end;
   end;
   Draging := False;
 end;
@@ -4859,7 +4890,7 @@ begin
     MainToolBar.Clear;
     ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
     if Assigned(ToolBarNode) then
-      MainToolBar.LoadConfiguration(gConfig, ToolBarNode, ToolBarLoader);
+      MainToolBar.LoadConfiguration(gConfig, ToolBarNode, ToolBarLoader, tocl_FlushCurrentToolbarContent);
   finally
     ToolBarLoader.Free;
     MainToolBar.EndUpdate;

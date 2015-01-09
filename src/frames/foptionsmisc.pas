@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Miscellaneous options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ unit fOptionsMisc;
 interface
 
 uses
+  EditBtn, Buttons, Menus,
   Classes, SysUtils, StdCtrls, Spin, DividerBevel, fOptionsFrame;
 
 type
@@ -45,7 +46,25 @@ type
     lblThumbSeparator: TLabel;
     speThumbWidth: TSpinEdit;
     speThumbHeight: TSpinEdit;
+    gbTCExportImport: TGroupBox;
+    lblTCExecutable: TLabel;
+    fneTCExecutableFilename: TFileNameEdit;
+    btnRelativeTCExecutableFile: TSpeedButton;
+    lblTCConfig: TLabel;
+    fneTCConfigFilename: TFileNameEdit;
+    btnRelativeTCConfigFile: TSpeedButton;
+    btnViewConfigFile: TSpeedButton;
+    lblTCPathForTool: TLabel;
+    edOutputPathForToolbar: TEdit;
+    btnOutputPathForToolbar: TButton;
+    btnRelativeOutputPathForToolbar: TSpeedButton;
+    pmPathHelper: TPopupMenu;
     procedure btnThumbCompactCacheClick(Sender: TObject);
+    procedure btnRelativeTCExecutableFileClick(Sender: TObject);
+    procedure btnRelativeTCConfigFileClick(Sender: TObject);
+    procedure btnViewConfigFileClick(Sender: TObject);
+    procedure btnOutputPathForToolbarClick(Sender: TObject);
+    procedure btnRelativeOutputPathForToolbarClick(Sender: TObject);
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -54,11 +73,14 @@ type
     class function GetTitle: String; override;
   end;
 
+procedure BringUsToTCConfigurationPage;
+
 implementation
 
 {$R *.lfm}
 
 uses
+  fOptions, Forms, Dialogs, fMain, Controls, uSpecialDir, uShowForm,
   uGlobs, uLng, uThumbnails;
 
 { TfrmOptionsMisc }
@@ -85,6 +107,16 @@ begin
   speThumbWidth.Value            := gThumbSize.cx;
   speThumbHeight.Value           := gThumbSize.cy;
   chkGoToRoot.Checked            := gGoToRoot;
+
+  {$IFDEF MSWINDOWS}
+  gbTCExportImport.Visible:=True;
+  fneTCExecutableFilename.FileName := gTotalCommanderExecutableFilename;
+  fneTCConfigFilename.FileName := gTotalCommanderConfigFilename;
+  edOutputPathForToolbar.Text := gTotalCommanderToolbarPath;
+  fneTCExecutableFilename.DialogTitle := rsMsgLocateTCExecutable;
+  fneTCConfigFilename.DialogTitle := rsMsgLocateTCConfiguation;
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper, mp_PATHHELPER, nil);
+  {$ENDIF}
 end;
 
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
@@ -95,6 +127,66 @@ begin
   gThumbSize.cx        := speThumbWidth.Value;
   gThumbSize.cy        := speThumbHeight.Value;
   gGoToRoot            := chkGoToRoot.Checked;
+  {$IFDEF MSWINDOWS}
+  gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;
+  gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;
+  gTotalCommanderToolbarPath := edOutputPathForToolbar.Text;
+  {$ENDIF}
+end;
+
+{ TfrmOptionsMisc.btnRelativeTCExecutableFileClick }
+procedure TfrmOptionsMisc.btnRelativeTCExecutableFileClick(Sender: TObject);
+begin
+  fneTCExecutableFilename.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneTCExecutableFilename, pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsMisc.btnRelativeTCConfigFileClick }
+procedure TfrmOptionsMisc.btnRelativeTCConfigFileClick(Sender: TObject);
+begin
+  fneTCConfigFilename.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneTCConfigFilename, pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsMisc.btnViewConfigFileClick }
+procedure TfrmOptionsMisc.btnViewConfigFileClick(Sender: TObject);
+begin
+  ShowViewerByGlob(fneTCConfigFilename.FileName);
+end;
+
+{ TfrmOptionsMisc.btnOutputPathForToolbarClick }
+procedure TfrmOptionsMisc.btnOutputPathForToolbarClick(Sender: TObject);
+var
+  MaybeResultingOutputPath: string;
+begin
+  MaybeResultingOutputPath := edOutputPathForToolbar.Text;
+  if MaybeResultingOutputPath = '' then
+    MaybeResultingOutputPath := frmMain.ActiveFrame.CurrentPath;
+  if SelectDirectory(rsSelectDir, MaybeResultingOutputPath, MaybeResultingOutputPath, False) then
+    edOutputPathForToolbar.Text := MaybeResultingOutputPath;
+end;
+
+{ TfrmOptionsMisc.btnRelativeOutputPathForToolbarClick }
+procedure TfrmOptionsMisc.btnRelativeOutputPathForToolbarClick(Sender: TObject);
+begin
+  edOutputPathForToolbar.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(edOutputPathForToolbar, pfPATH);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure BringUsToTCConfigurationPage;
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+begin
+  Options := ShowOptions(TfrmOptionsMisc);
+  Application.ProcessMessages;
+  Editor := Options.GetEditor(TfrmOptionsMisc);
+  Application.ProcessMessages;
+  if Editor.CanFocus then
+    Editor.SetFocus;
 end;
 
 end.

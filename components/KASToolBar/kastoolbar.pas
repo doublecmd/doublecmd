@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Toolbar panel class
 
-   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
    
    contributors:
      2012 Przemyslaw Nagay (cobines@gmail.com)
@@ -47,7 +47,8 @@ type
   TOnToolItemExecute = procedure (ToolItem: TKASToolItem) of object;
   TOnConfigLoadItem = function (Config: TXmlConfig; Node: TXmlNode): TKASToolItem of object;
   TOnToolItemShortcutsHint = function (ToolItem: TKASNormalItem): String of object;
-
+  TTypeOfConfigurationLoad = (tocl_FlushCurrentToolbarContent, tocl_AddToCurrentToolbarContent);
+  
   TKASToolBar = class;
 
   { TKASToolButton }
@@ -162,7 +163,7 @@ type
     procedure UseItems(AItems: TKASToolBarItems);
 
     procedure LoadConfiguration(Config: TXmlConfig; RootNode: TXmlNode;
-                                Loader: TKASToolBarLoader);
+                                Loader: TKASToolBarLoader; ConfigurationLoadType:TTypeOfConfigurationLoad);
     procedure SaveConfiguration(Config: TXmlConfig; RootNode: TXmlNode);
 
     procedure BeginUpdate; override;
@@ -468,12 +469,16 @@ begin
 end;
 
 procedure TKASToolBar.LoadConfiguration(Config: TXmlConfig; RootNode: TXmlNode;
-                                        Loader: TKASToolBarLoader);
+                                        Loader: TKASToolBarLoader; ConfigurationLoadType:TTypeOfConfigurationLoad);
 var
   Node: TXmlNode;
 begin
-  Clear;
   BeginUpdate;
+  if ConfigurationLoadType=tocl_FlushCurrentToolbarContent then
+    begin
+      Clear;
+      Application.ProcessMessages;
+    end;
   try
     Node := Config.FindNode(RootNode, 'Row', False);
     if Assigned(Node) then

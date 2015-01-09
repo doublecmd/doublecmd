@@ -27,6 +27,9 @@ unit foptionsDirectoryHotlist;
 interface
 
 uses
+  {$IFDEF MSWINDOWS}
+  uTotalCommander,
+  {$ENDIF}
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, EditBtn, ExtCtrls,
   Menus, Dialogs, ComCtrls, uHotDir, types, fOptionsFrame, uFile;
 
@@ -123,6 +126,8 @@ type
     miPasteSelection: TMenuItem;
     OpenDialog: TOpenDialog;
     SaveDialog: TSaveDialog;
+    miGotoConfigureTCInfo1: TMenuItem;
+    miGotoConfigureTCInfo2: TMenuItem;
     procedure btnHelpClick(Sender: TObject);
     procedure cbFullExpandTreeChange(Sender: TObject);
     procedure miCollapseAllClick(Sender: TObject);
@@ -164,6 +169,7 @@ type
     function MySortViaGroup(Node1, Node2: TTreeNode): integer;
     procedure CopyTTreeViewToAnother(tvSource,tvDestination:TTreeView);
     function GetNextGroupNumber:integer;
+    procedure miGotoConfigureTCInfo2Click(Sender: TObject);
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -191,6 +197,7 @@ uses
   Graphics, LCLType, LCLProc, LCLIntf, LCLMessageGlue, helpintfs,
 
   //DC
+  fOptionsMisc,
   DCStrUtils, uGlobs, uLng, uDCUtils, uDebug, fmain, uFormCommands, uFileProcs,
   uShowMsg, DCOSUtils, uSpecialDir, fhotdirexportimport, fOptions;
 
@@ -235,9 +242,11 @@ begin
   {$IFNDEF MSWINDOWS}
   miExportToTotalCommanderk.Free;
   miExportToTotalCommandernk.Free;
+  miGotoConfigureTCInfo1.Free;
   miSeparator4.Free;
   miSeparator5.Free;
   miImportTotalCommander.Free;
+  miGotoConfigureTCInfo2.Free;
   cbShowOnlyValidEnv.Caption:='Show only valid $env__var$';
   {$ENDIF}
 
@@ -790,13 +799,16 @@ begin
       ActionDispatcher := tag;
 
     case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
+      {$IFDEF MSWINDOWS}
       ACTION_WITH_WINCMDINI:
       begin
-        OpenDialog.DefaultExt := '*.ini';
-        OpenDialog.FilterIndex := 1;
-        OpenDialog.Title := rsMsgHotDirLocateTC;
-        FlagKeepGoing := OpenDialog.Execute;
+        if areWeInSituationToPlayWithTCFiles then
+        begin
+          OpenDialog.Filename := gTotalCommanderConfigFilename;
+          FlagKeepGoing := TRUE;
+        end;
       end;
+      {$ENDIF}
 
       ACTION_WITH_HOTLISTFILE:
       begin
@@ -879,21 +891,13 @@ procedure TfrmOptionsDirectoryHotlist.miImportFromAnythingClick(Sender: TObject)
 var
   WorkingDirectoryList: TDirectoryHotlist;
   Answer, NbOfAdditional, ActionDispatcher: longint;
-  FlagKeepGoing: boolean;
+  FlagKeepGoing: boolean = FALSE;
   BackupPath: string;
 begin
   with Sender as TComponent do
     ActionDispatcher := tag;
 
   case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
-    ACTION_WITH_WINCMDINI:
-    begin
-      OpenDialog.DefaultExt := '*.ini';
-      OpenDialog.FilterIndex := 1;
-      OpenDialog.Title := rsMsgHotDirLocateTC;
-      FlagKeepGoing := OpenDialog.Execute;
-    end;
-
     ACTION_WITH_HOTLISTFILE:
     begin
       OpenDialog.DefaultExt := '*.hotlist';
@@ -914,6 +918,17 @@ begin
         FlagKeepGoing := OpenDialog.Execute;
       end;
     end;
+
+    {$IFDEF MSWINDOWS}
+    ACTION_WITH_WINCMDINI:
+    begin
+      if areWeInSituationToPlayWithTCFiles then
+      begin
+        OpenDialog.FileName := gTotalCommanderConfigFilename;
+        FlagKeepGoing:=TRUE;
+      end;
+    end;
+    {$ENDIF}
   end;
 
   if FlagKeepGoing then
@@ -937,12 +952,12 @@ begin
           Caption := rsMsgHotDirImportHotlist;
 
           case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
-            ACTION_WITH_WINCMDINI: Answer := ShowModal;
             ACTION_WITH_HOTLISTFILE: Answer := ShowModal;
             ACTION_WITH_BACKUP:
             begin
               if MsgBox(rsHotDirWarningAbortRestoreBackup, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel) = mmrYes then Answer := mrAll else Exit;
             end;
+            ACTION_WITH_WINCMDINI: Answer := ShowModal;
           end;
 
           if ((Answer = mrOk) and (tvDirectoryHotlistToExportImport.SelectionCount > 0)) or ((Answer = mrAll) and (tvDirectoryHotlistToExportImport.Items.Count > 0)) then
@@ -1930,10 +1945,16 @@ begin
   if not lbleditHotDirName.Focused then if lbleditHotDirName.CanFocus then lbleditHotDirName.SetFocus;
 end;
 
+{ TfrmOptionsDirectoryHotlist.miGotoConfigureTCInfoClick }
+procedure TfrmOptionsDirectoryHotlist.miGotoConfigureTCInfo2Click(Sender: TObject);
+begin
+  BringUsToTCConfigurationPage;
+end;
+
 { TODO -oDB : Would be nice if directory does not exist to offer immediately to re-configure it. }
 { TODO -oDB : Would be nice to be able to SEARCH through. Something like "Start Search" and then "Search again". }
 { TODO -oDB : Would be nice to be able to do a kind of "Search and replace" like changing all the "X:\" by "\\whatever_server\" for example. }
 { TODO -oDB : Be able to add a quick 16x16 icon to some friendly shortcut like a little star or something to help to see a special entry. }
 { TODO -oDB : Would be nice to have also a COPY-and-PASTE in addition to CUT-and-PASTE. Also, make sure to create new THotDir entry, not just copy entries in tree otherwise it's not good. }
 end.
-
+

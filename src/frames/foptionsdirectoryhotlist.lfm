@@ -29,7 +29,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 379
-      Top = 8
+      Top = 7
       Width = 248
       Anchors = [akTop, akLeft, akRight, akBottom]
       DefaultItemHeight = 18
@@ -696,6 +696,14 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
   object pmExportDirectoryHotlist: TPopupMenu[7]
     left = 200
     top = 40
+    object miExportToHotlistFile: TMenuItem
+      Tag = 1
+      Caption = 'to a Directory Hotlist file (.hotlist)'
+      OnClick = miExportToAnythingClick
+    end
+    object miSeparator5: TMenuItem
+      Caption = '-'
+    end
     object miExportToTotalCommanderk: TMenuItem
       Caption = 'to a "wincmd.ini" of TC (keep existing)'
       OnClick = miExportToAnythingClick
@@ -705,29 +713,29 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       Caption = 'to a "wincmd.ini" of TC (erase existing)'
       OnClick = miExportToAnythingClick
     end
-    object miSeparator5: TMenuItem
-      Caption = '-'
-    end
-    object miExportToHotlistFile: TMenuItem
-      Tag = 1
-      Caption = 'to a Directory Hotlist file (.hotlist)'
-      OnClick = miExportToAnythingClick
+    object miGotoConfigureTCInfo1: TMenuItem
+      Caption = 'Go to configure TC related info'
+      OnClick = miGotoConfigureTCInfo2Click
     end
   end
   object pmImportDirectoryHotlist: TPopupMenu[8]
     left = 200
     top = 88
-    object miImportTotalCommander: TMenuItem
-      Caption = 'from "wincmd.ini" of TC'
+    object miImportFromHotlistFile: TMenuItem
+      Tag = 1
+      Caption = 'from a Directory Hotlist file (.hotlist)'
       OnClick = miImportFromAnythingClick
     end
     object miSeparator4: TMenuItem
       Caption = '-'
     end
-    object miImportFromHotlistFile: TMenuItem
-      Tag = 1
-      Caption = 'from a Directory Hotlist file (.hotlist)'
+    object miImportTotalCommander: TMenuItem
+      Caption = 'from "wincmd.ini" of TC'
       OnClick = miImportFromAnythingClick
+    end
+    object miGotoConfigureTCInfo2: TMenuItem
+      Caption = 'Go to configure TC related info'
+      OnClick = miGotoConfigureTCInfo2Click
     end
   end
   object pmBackupDirectoryHotlist: TPopupMenu[9]
@@ -806,7 +814,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmPathHelper: TPopupMenu[12]
-    left = 464
-    top = 232
+    left = 480
+    top = 216
   end
 end
