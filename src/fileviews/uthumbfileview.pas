@@ -449,8 +449,8 @@ var
                                       );
     end;
 
-    s := AFile.DisplayStrings[0];
-    Y:= (ColWidths[ACol] - 4 - Canvas.TextWidth('W'));
+    s:= AFile.DisplayStrings[0];
+    Y:= (ColWidths[ACol] - Canvas.TextWidth('W'));
     s:= FitFileName(s, Canvas, AFile.FSFile, Y);
 
     Canvas.TextOut(aRect.Left + 2, iTextTop, s);
