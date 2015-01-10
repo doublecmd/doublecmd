@@ -391,12 +391,22 @@ var
         end;
 
       end;
-
-      s := AFile.DisplayStrings[0];
-      Y:= (DefaultColWidth - 4 - Canvas.TextWidth('W'));
-      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize;
-      s:= FitFileName(s, Canvas, AFile.FSFile, Y);
-
+      // Print filename with align
+      Y:= (DefaultColWidth - 2 - Canvas.TextWidth('I'));
+      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize - 2;
+      if (AFile.FSFile.Extension = '') then
+        begin
+          s:= AFile.DisplayStrings[0];
+          s:= FitFileName(s, Canvas, AFile.FSFile, Y);
+        end
+      else
+        begin
+          // Right align extention print
+          s:= AFile.FSFile.Extension;
+          Canvas.TextOut(aRect.Left + DefaultColWidth - Canvas.TextWidth(s + 'I'), iTextTop, s);
+          s:= AFile.FSFile.NameNoExt;
+          s:= FitFileName(s, Canvas, AFile.FSFile, Y - Canvas.TextWidth(AFile.FSFile.Extension + 'I'));
+        end;
       if (gShowIcons <> sim_none) then
         Canvas.TextOut(aRect.Left + gIconsSize + 4, iTextTop, s)
       else
