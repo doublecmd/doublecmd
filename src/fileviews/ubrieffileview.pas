@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LCLVersion, LCLProc, Math,
+  LCLIntf, LCLType, LCLVersion, LCLProc, Math, StdCtrls,
   uGlobs, uPixmapManager, uKeyboard, fMain,
   uFileSourceProperty,
   uOrderedFileView;
@@ -338,6 +338,8 @@ constructor TBriefDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);
 begin
   FBriefView:= AParent as TBriefFileView;
   inherited Create(AOwner, AParent);
+  // Fix vertical bar flash
+  ScrollBars := ssAutoHorizontal;
 end;
 
 procedure TBriefDrawGrid.DrawCell(aCol, aRow: Integer; aRect: TRect;

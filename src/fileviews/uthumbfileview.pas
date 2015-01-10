@@ -91,8 +91,8 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LMessages, Graphics, Math, uFileSourceProperty, uGlobs,
-  uPixMapManager;
+  LCLIntf, LCLType, LMessages, Graphics, Math, StdCtrls, uFileSourceProperty,
+  uGlobs, uPixMapManager;
 
 { TFileThumbnailsRetriever }
 
@@ -389,6 +389,8 @@ begin
   FThumbSize:= gThumbSize;
   FThumbView:= AParent as TThumbFileView;
   inherited Create(AOwner, AParent);
+  // Fix horizontal bar flash
+  ScrollBars := ssAutoVertical;
 end;
 
 procedure TThumbDrawGrid.DrawCell(aCol, aRow: Integer; aRect: TRect;

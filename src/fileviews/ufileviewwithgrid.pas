@@ -111,20 +111,16 @@ var
   Index: Integer;
 begin
   Result:= AFileName;
-  if ACanvas.TextWidth(AFileName) - ATargetWidth > 0 then
+  if ACanvas.TextWidth(AFileName) > ATargetWidth then
   begin
+    if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
+      Result:= Result + '..]'
+    else
+      Result:= Result + '...';
     repeat
-      Index:= UTF8Length(Result);
+      Index:= UTF8Length(Result) - 3;
       UTF8Delete(Result, Index, 1);
-    until (ACanvas.TextWidth(Result) - ATargetWidth < 1) or (Index = 0);
-    if (Index > 0) then
-    begin
-      Result:= UTF8Copy(Result, 1, Index - 3);
-      if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-        Result:= Result + '..]'
-      else
-        Result:= Result + '...';
-    end;
+    until (ACanvas.TextWidth(Result) <= ATargetWidth) or (Index = 0);
   end;
 end;
 
