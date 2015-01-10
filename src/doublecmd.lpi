@@ -67,10 +67,6 @@
             </Debugging>
           </Linking>
           <Other>
-            <ConfigFile>
-              <CustomConfigFile Value="True"/>
-              <ConfigFilePath Value="fpc-extra.cfg"/>
-            </ConfigFile>
             <CustomOptions Value="-dHEAPTRC -dHEAPTRC_EXTRA"/>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
@@ -113,10 +109,6 @@
             </Debugging>
           </Linking>
           <Other>
-            <ConfigFile>
-              <CustomConfigFile Value="True"/>
-              <ConfigFilePath Value="fpc-extra.cfg"/>
-            </ConfigFile>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
               <Command Value="$(ProjPath)\_getsvnrev$(ExeExt).cmd $MakeDir($(LazarusDir))"/>
@@ -228,10 +220,6 @@ end;"/>
             <CompilerMessages>
               <UseMsgFile Value="True"/>
             </CompilerMessages>
-            <ConfigFile>
-              <CustomConfigFile Value="True"/>
-              <ConfigFilePath Value="fpc-extra.cfg"/>
-            </ConfigFile>
             <CustomOptions Value="-dNIGHTLY_BUILD"/>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
@@ -1628,10 +1616,6 @@ end;"/>
       <CompilerMessages>
         <UseMsgFile Value="True"/>
       </CompilerMessages>
-      <ConfigFile>
-        <CustomConfigFile Value="True"/>
-        <ConfigFilePath Value="fpc-extra.cfg"/>
-      </ConfigFile>
       <CompilerPath Value="$(CompPath)"/>
       <ExecuteBefore>
         <Command Value="$(ProjPath)\_getsvnrev$(ExeExt).cmd $MakeDir($(LazarusDir))"/>
