@@ -91,7 +91,8 @@ procedure TBriefDrawGrid.UpdateView;
 var
   TempRowHeight: Integer;
 begin
-  Flat := gInterfaceFlat;
+  // Fix border blinking while scroll window
+  Flat := True; // gInterfaceFlat;
 
   // Calculate row height.
   TempRowHeight := CalculateDefaultRowHeight;
