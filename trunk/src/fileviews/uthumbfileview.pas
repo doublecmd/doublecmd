@@ -293,7 +293,8 @@ var
   end;
 
 begin
-  Flat := gInterfaceFlat;
+  // Fix border blinking while scroll window
+  Flat := True; // gInterfaceFlat;
 
   // Calculate row height.
   DefaultRowHeight := CalculateDefaultRowHeight;
