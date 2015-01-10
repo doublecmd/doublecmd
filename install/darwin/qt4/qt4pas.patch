@@ -33,11 +33,10 @@ Index: Qt4Pas.pro
  
  SOURCES += qt4pas.cpp \
             qobject_hook_c.cpp \
-@@ -334,33 +319,7 @@
-            qstyleoption_c.cpp \
+@@ -335,32 +320,6 @@
             qstylefactory_c.cpp \
             qgraphicsscene_c.cpp \
--           qgraphicsview_c.cpp \
+            qgraphicsview_c.cpp \
 -           qsslcipher_c.cpp \
 -           qsslkey_c.cpp \
 -           qsslerror_c.cpp \
@@ -64,7 +63,6 @@ Index: Qt4Pas.pro
 -           qwebsettings_c.cpp \
 -           qwebview_c.cpp \
 -           qlclwebview_c.cpp \
-+           qgraphicsview_c.cpp
             qcoreapplication_hook_c.cpp \
             qtimer_hook_c.cpp \
             qabstractitemmodel_hook_c.cpp \

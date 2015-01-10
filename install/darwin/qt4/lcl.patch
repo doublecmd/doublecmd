@@ -1,7 +1,20 @@
-Index: qt45.pas
+Index: include/sysenvapis_mac.inc
 ===================================================================
---- qt45.pas	(revision 46742)
-+++ qt45.pas	(working copy)
+--- include/sysenvapis_mac.inc	(revision 46742)
++++ include/sysenvapis_mac.inc	(working copy)
+@@ -11,7 +11,7 @@
+   url := CFURLCreateWithBytes(nil, @AURL[1], Length(AURL), kCFStringEncodingUTF8, nil);
+   if not Assigned(url) then
+     Exit(False);
+-  Result := LSOpenCFURLRef(url, nil) = 0;
++  // Result := LSOpenCFURLRef(url, nil) = 0;
+   CFRelease(url);
+ end;
+ 
+Index: interfaces/qt/qt45.pas
+===================================================================
+--- interfaces/qt/qt45.pas	(revision 47328)
++++ interfaces/qt/qt45.pas	(working copy)
 @@ -12411,7 +12411,7 @@
  procedure QGraphicsView_invalidateScene(handle: QGraphicsViewH; rect: QRectFH = nil; layers: QGraphicsSceneSceneLayers = QGraphicsSceneAllLayers); cdecl; external Qt4PasLib name 'QGraphicsView_invalidateScene';
  procedure QGraphicsView_updateSceneRect(handle: QGraphicsViewH; rect: QRectFH); cdecl; external Qt4PasLib name 'QGraphicsView_updateSceneRect';
