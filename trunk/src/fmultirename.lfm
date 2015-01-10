@@ -41,6 +41,7 @@ object frmMultiRename: TfrmMultiRename
       end>
     ExtendedSelect = False
     FixedCols = 0
+    MouseWheelOption = mwGrid
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goSmoothScroll]
     RowCount = 1
     TabOrder = 0
