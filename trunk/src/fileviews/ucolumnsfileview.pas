@@ -17,7 +17,8 @@ uses
   uFileSorting,
   DCXmlConfig,
   DCClassesUtf8,
-  uTypes;
+  uTypes,
+  uFileViewWithGrid;
 
 type
   TColumnsSortDirections = array of TSortDirection;
@@ -1342,23 +1343,9 @@ var
 
     if gCutTextToColWidth then
     begin
-      Y:= ((aRect.Right - aRect.Left) - 4 - Canvas.TextWidth('W'));
+      Y:= ((aRect.Right - aRect.Left) - Canvas.TextWidth('V'));
       if (gShowIcons <> sim_none) then Y:= Y - gIconsSize;
-      if Canvas.TextWidth(s) - Y > 0 then
-      begin
-        repeat
-          IconID:= UTF8Length(s);
-          UTF8Delete(s, IconID, 1);
-        until (Canvas.TextWidth(s) - Y < 1) or (IconID = 0);
-        if (IconID > 0) then
-        begin
-          s:= UTF8Copy(s, 1, IconID - 3);
-          if gDirBrackets and (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
-            s:= s + '..]'
-          else
-            s:= s + '...';
-        end;
-      end;
+      s:= FitFileName(s, Canvas, AFile.FSFile, Y);
     end;
 
     if (gShowIcons <> sim_none) then
