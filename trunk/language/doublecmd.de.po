@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
+"Project-Id-Version: Double Commander 0.7.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
 "PO-Revision-Date: 2014-10-27 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
