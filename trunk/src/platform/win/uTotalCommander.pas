@@ -1020,7 +1020,7 @@ procedure ExportDCToolbarsToTC(Toolbar: TKASToolbar; Barfilename: string; FlushE
 var
   TargetBarFilenamePrefix: string;
   TCToolBarIndex: integer;
-  MyYear, MyMonth, MyDay, MyHour, MyMin, MySec, MyMilSec: word;
+  ExportationDateTime: TDateTime;
 
   procedure PossiblyRecursiveAddThisToolItemToConfigFile(ToolItem: TKASToolItem; TCBarConfigFile: TIniFileEx; TCIndexButton: integer);
   var
@@ -1059,7 +1059,7 @@ var
 
     if ToolItem is TKASMenuItem then
     begin
-      InnerTCBarConfigFilename := TargetBarFilenamePrefix + '_SubBar' + Format('%2.2d', [TCToolBarIndex]) + '_' + Format('%d-%2.2d-%2.2d@%2.2d-%2.2d-%2.2d', [MyYear, MyMonth, MyDay, MyHour, MyMin, MySec]) + '.BAR';
+      InnerTCBarConfigFilename := TargetBarFilenamePrefix + '_SubBar' + Format('%2.2d', [TCToolBarIndex]) + '_' + GetDateTimeInStrEZSortable(ExportationDateTime) + '.BAR';
       Inc(TCToolBarIndex);
 
       TCBarConfigFile.WriteString(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_CMD_PREFIX + sTCIndexButton, ConvertStringToTCString(InnerTCBarConfigFilename));
@@ -1087,12 +1087,9 @@ var
   //Placed intentionnally *AFTER* above routine to make sure these variable names are not used in above possibly recursive routines.
   TCMainConfigFile, MainTCBarConfigFile: TIniFileEx;
   IndexButton, TCMainIndexButton: integer;
-  FreezeTime: TDateTime;
 
 begin
-  FreezeTime := now;
-  DecodeDate(Freezetime, MyYear, MyMonth, MyDay);
-  DecodeTime(FreezeTime, MyHour, MyMin, MySec, MyMilSec);
+  ExportationDateTime := now;
 
   TargetBarFilenamePrefix := IncludeTrailingPathDelimiter(gTotalCommanderToolbarPath) + rsFilenameExportedTCBarPrefix;
   TCToolBarIndex := 1;

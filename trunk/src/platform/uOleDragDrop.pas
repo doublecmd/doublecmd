@@ -1,5 +1,4 @@
 {
-
    DRAGDROP.PAS -- simple realization of OLE drag and drop.
 
    Author: Jim Mischel
@@ -10,6 +9,9 @@
 
    Copyright (C) 2009 Alexander Koblov (Alexx2000@mail.ru)
 
+   Some inspiration for drag-and-drop using CF_FILEGROUPDESCRIPTORW and CFU_FILECONTENTS:
+     -http://msdn.microsoft.com/en-us/library/windows/desktop/bb776904%28v=vs.85%29.aspx#filecontents
+     -http://www.unitoops.com/uoole/examples/outlooktest.htm
 }
 
 unit uOleDragDrop;
@@ -19,85 +21,51 @@ unit uOleDragDrop;
 interface
 
 uses
-  Windows, ActiveX, Classes, Controls, uDragDropEx;
+  DCBasicTypes, Windows, ActiveX, Classes, Controls, uDragDropEx;
 
 type
 
   { IEnumFormatEtc }
-
   TEnumFormatEtc = class(TInterfacedObject, IEnumFormatEtc)
-
   private
-
     FIndex: Integer;
-
   public
-
     constructor Create(Index: Integer = 0);
-
-    function Next(celt: LongWord; out elt: FormatEtc;
-      pceltFetched: pULong): HResult; stdcall;
-
+    function Next(celt: LongWord; out elt: FormatEtc; pceltFetched: pULong): HResult; stdcall;
     function Skip(celt: LongWord): HResult; stdcall;
-
     function Reset: HResult; stdcall;
-
     function Clone(out enum: IEnumFormatEtc): HResult; stdcall;
-
   end;
 
   { TDragDropInfo }
-
   TDragDropInfo = class(TObject)
-
   private
-
     FFileList: TStringList;
-
     FPreferredWinDropEffect: DWORD;
-
-
     function CreateHDrop(bUnicode: Boolean): HGlobal;
     function CreateFileNames(bUnicode: Boolean): HGlobal;
     function CreateURIs(bUnicode: Boolean): HGlobal;
     function CreateShellIdListArray: HGlobal;
     function MakeHGlobal(ptr: Pointer; Size: LongWord): HGlobal;
-
   public
-
     constructor Create(PreferredWinDropEffect: DWORD);
-
     destructor Destroy; override;
-
     procedure Add(const s: string);
-
     function MakeDataInFormat(const formatEtc: TFormatEtc): HGlobal;
-
     function CreatePreferredDropEffect(WinDropEffect: DWORD): HGlobal;
-
     property Files: TStringList Read FFileList;
-
   end;
-
 
   TDragDropTargetWindows = class; // forward declaration
 
-  { TFileDropTarget знает, как принимать сброшенные файлы }
-
+  { TFileDropTarget Р·РЅР°РµС‚, РєР°Рє РїСЂРёРЅРёРјР°С‚СЊ СЃР±СЂРѕС€РµРЅРЅС‹Рµ С„Р°Р№Р»С‹ }
   TFileDropTarget = class(TInterfacedObject, IDropTarget)
-
   private
-
     FHandle: HWND;
-
     FReleased: Boolean;
-
     FDragDropTarget: TDragDropTargetWindows;
-
   public
-
     constructor Create(DragDropTarget: TDragDropTargetWindows);
-
     {en
        Unregisters drag&drop target and releases the object (it is destroyed).
        This is the function that should be called to cleanup the object instead
@@ -105,10 +73,7 @@ type
     }
     procedure FinalRelease;
 
-
-    { из IDropTarget }
-
-    function DragEnter(const dataObj: IDataObject; grfKeyState: LongWord;
+    function DragEnter(const {%H-}dataObj: IDataObject; grfKeyState: LongWord;
       pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
 
     function DragOver(grfKeyState: LongWord; pt: TPoint;
@@ -125,16 +90,26 @@ type
        @returns(List of filenames or nil in case of an error.)
     }
     class function GetDropFilenames(hDropData: HDROP): TStringList;
+
+    {en
+       Retrieves the filenames from the CFU_FILEGROUPDESCRIPTORW/CFU_FILEGROUPDESCRIPTOR format
+       as a list of UTF-8 strings.
+       @returns(List of filenames or nil in case of an error.)
+    }
+    function GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
+    function SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:UTF8String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
+
+    {en
+       Retrieves the text from the CF_UNICODETEXT/CF_TEXT format, will store this in a single file
+       return filename as a list of a single UTF-8 string.
+       @returns(List of filenames or nil in case of an error.)
+    }
+    function GetDropTextCreatedFilenames(var Medium: TSTGMedium; Format: TFormatETC): TStringList;
   end;
 
-  { TFileDropSource - источник
-
-  для перетаскивания файлов }
-
+  { TFileDropSource - РёСЃС‚РѕС‡РЅРёРє РґР»СЏ РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёСЏ С„Р°Р№Р»РѕРІ }
   TFileDropSource = class(TInterfacedObject, IDropSource)
-
     constructor Create;
-
     {$IF FPC_FULLVERSION < 020601}
     function QueryContinueDrag(fEscapePressed: BOOL;
       grfKeyState: longint): HResult; stdcall;
@@ -150,52 +125,30 @@ type
     {$ENDIF}
   end;
 
-
-
-  { THDropDataObject - объект данных с
-
-  информацией о перетаскиваемых файлах }
-
+  { THDropDataObject - РѕР±СЉРµРєС‚ РґР°РЅРЅС‹С… СЃ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ РїРµСЂРµС‚Р°СЃРєРёРІР°РµРјС‹С… С„Р°Р№Р»Р°С… }
   THDropDataObject = class(TInterfacedObject, IDataObject)
-
   private
-
     FDropInfo: TDragDropInfo;
-
   public
-
     constructor Create(PreferredWinDropEffect: DWORD);
-
     destructor Destroy; override;
-
     procedure Add(const s: string);
-
-    { из IDataObject }
-
+    { РёР· IDataObject }
     function GetData(const formatetcIn: TFormatEtc;
       out medium: TStgMedium): HResult; stdcall;
-
     function GetDataHere(const formatetc: TFormatEtc;
       out medium: TStgMedium): HResult; stdcall;
-
     function QueryGetData(const formatetc: TFormatEtc): HResult; stdcall;
-
     function GetCanonicalFormatEtc(const formatetc: TFormatEtc;
       out formatetcOut: TFormatEtc): HResult; stdcall;
-
     function SetData(const formatetc: TFormatEtc; const medium: TStgMedium;
       fRelease: BOOL): HResult; stdcall;
-
     function EnumFormatEtc(dwDirection: LongWord;
       out enumFormatEtc: IEnumFormatEtc): HResult; stdcall;
-
     function DAdvise(const formatetc: TFormatEtc; advf: LongWord;
       const advSink: IAdviseSink; out dwConnection: LongWord): HResult; stdcall;
-
     function DUnadvise(dwConnection: LongWord): HResult; stdcall;
-
     function EnumDAdvise(out enumAdvise: IEnumStatData): HResult; stdcall;
-
   end;
 
   TDragDropSourceWindows = class(TDragDropSource)
@@ -226,7 +179,6 @@ type
     FDragDropTarget: TFileDropTarget;
   end;
 
-
   function GetEffectByKeyState(grfKeyState: LongWord) : Integer;
 
   { These functions convert Windows-specific effect value to
@@ -234,19 +186,23 @@ type
   function WinEffectToDropEffect(dwEffect: LongWord): TDropEffect;
   function DropEffectToWinEffect(DropEffect: TDropEffect): LongWord;
 
-
   { Query DROPFILES structure for [BOOL fWide] parameter }
   function DragQueryWide( hGlobalDropInfo: HDROP ): boolean;
 
 implementation
 
 uses
-  SysUtils, ShellAPI, ShlObj, LCLIntf, Win32Proc, uClipboard, uLng;
+  //Lazarus, Free-Pascal, etc.
+  LazUTF8, SysUtils, ShellAPI, ShlObj, LCLIntf, Win32Proc, ComObj,
+  DCDateTimeUtils, Forms,
+
+  //DC
+  uOSUtils, fOptionsDragDrop, uShowMsg, UGlobs, DCStrUtils, DCOSUtils,
+  uClipboard, uLng, uDebug;
 
 var
   // Supported formats by the source.
   DataFormats: TList = nil;  // of TFormatEtc
-
 
 procedure InitDataFormats;
 
@@ -304,208 +260,116 @@ begin
 end;
 
 
-{ TEnumFormatEtc }
+{ TEnumFormatEtc.Create }
 
 constructor TEnumFormatEtc.Create(Index: Integer);
-
 begin
-
   inherited Create;
 
   FIndex := Index;
-
 end;
 
-{
-
-  Next извлекает заданное количество
-
-  структур TFormatEtc
-
-  в передаваемый массив elt.
-
-  Извлекается celt элементов, начиная с
-
-  текущей позиции в списке.
-
-}
-
+{ TEnumFormatEtc.Next РёР·РІР»РµРєР°РµС‚ Р·Р°РґР°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂСѓРєС‚СѓСЂ TFormatEtc РІ РїРµСЂРµРґР°РІР°РµРјС‹Р№ РјР°СЃСЃРёРІ elt.
+  РР·РІР»РµРєР°РµС‚СЃСЏ celt СЌР»РµРјРµРЅС‚РѕРІ, РЅР°С‡РёРЅР°СЏ СЃ С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РІ СЃРїРёСЃРєРµ. }
 function TEnumFormatEtc.Next(celt: LongWord; out elt: FormatEtc;
   pceltFetched: pULong): HResult;
-
 var
-
   i: Integer;
-
   eltout: PFormatEtc;
-
 begin
-
   // Support returning only 1 format at a time.
   if celt > 1 then celt := 1;
-
   eltout := @elt;
-
   i := 0;
 
-
-
   while (i < celt) and (FIndex < DataFormats.Count) do
-
   begin
-
     (eltout + i)^ := PFormatEtc(DataFormats.Items[FIndex])^;
-
     Inc(FIndex);
-
     Inc(i);
-
   end;
 
-
-
-  if (pceltFetched <> nil) then
-
-    pceltFetched^ := i;
-
-
+  if (pceltFetched <> nil) then pceltFetched^ := i;
 
   if (I = celt) then
-
     Result := S_OK
-
   else
-
     Result := S_FALSE;
-
 end;
 
-{
-
-  Skip пропускает celt элементов списка,
-
-  устанавливая текущую позицию
-
-  на (CurrentPointer + celt) или на конец
-
-  списка в случае переполнения.
-
-}
-
+{ TEnumFormatEtc.Skip РїСЂРѕРїСѓСЃРєР°РµС‚ celt СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°, СѓСЃС‚Р°РЅР°РІР»РёРІР°СЏ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ
+   РЅР° (CurrentPointer + celt) РёР»Рё РЅР° РєРѕРЅРµС† СЃРїРёСЃРєР° РІ СЃР»СѓС‡Р°Рµ РїРµСЂРµРїРѕР»РЅРµРЅРёСЏ. }
 function TEnumFormatEtc.Skip(celt: LongWord): HResult;
-
 begin
-
   if (celt <= DataFormats.Count - FIndex) then
-
   begin
-
     FIndex := FIndex + celt;
-
     Result := S_OK;
-
   end
   else
-
   begin
-
     FIndex := DataFormats.Count;
-
     Result := S_FALSE;
-
   end;
-
 end;
 
-{ Reset устанавливает указатель текущей
-
-позиции на начало списка }
-
+{ TEnumFormatEtc.Reset СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СѓРєР°Р·Р°С‚РµР»СЊ С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РЅР° РЅР°С‡Р°Р»Рѕ СЃРїРёСЃРєР° }
 function TEnumFormatEtc.Reset: HResult;
-
 begin
-
   FIndex := 0;
-
   Result := S_OK;
-
 end;
 
-{ Clone копирует список структур }
-
+{ TEnumFormatEtc.Clone РєРѕРїРёСЂСѓРµС‚ СЃРїРёСЃРѕРє СЃС‚СЂСѓРєС‚СѓСЂ }
 function TEnumFormatEtc.Clone(out enum: IEnumFormatEtc): HResult;
-
 begin
-
   enum := TEnumFormatEtc.Create(FIndex);
-
   Result := S_OK;
-
 end;
 
-
-{ TDragDropInfo }
-
+{ TDragDropInfo.Create }
 constructor TDragDropInfo.Create(PreferredWinDropEffect: DWORD);
-
 begin
-
   inherited Create;
-
   FFileList := TStringList.Create;
-
   FPreferredWinDropEffect := PreferredWinDropEffect;
-
 end;
 
+{ TDragDropInfo.Destroy }
 destructor TDragDropInfo.Destroy;
-
 begin
-
   FFileList.Free;
-
   inherited Destroy;
-
 end;
 
+{ TDragDropInfo.Add }
 procedure TDragDropInfo.Add(const s: string);
-
 begin
-
   Files.Add(s);
-
 end;
 
+{ TDragDropInfo.MakeDataInFormat }
 function TDragDropInfo.MakeDataInFormat(const formatEtc: TFormatEtc): HGlobal;
 begin
-
   Result := 0;
 
   if (formatEtc.tymed = DWORD(-1)) or  // Transport medium not specified.
      (Boolean(formatEtc.tymed and TYMED_HGLOBAL)) // Support only HGLOBAL medium.
   then
-
   begin
-
     if formatEtc.CfFormat = CF_HDROP then
       begin
         Result := CreateHDrop(Win32Proc.UnicodeEnabledOS)
       end
-
     else if formatEtc.CfFormat = CFU_PREFERRED_DROPEFFECT then
-
       begin
         Result := CreatePreferredDropEffect(FPreferredWinDropEffect);
       end
-
     else if (formatEtc.CfFormat = CFU_FILENAME) then
-
       begin
         Result := CreateFileNames(False);
       end
-
     else if (formatEtc.CfFormat = CFU_FILENAMEW) then
-
       begin
         Result := CreateFileNames(True);
       end
@@ -514,102 +378,77 @@ begin
     // See bug http://doublecmd.sourceforge.net/mantisbt/view.php?id=692
     {
     else if (formatEtc.CfFormat = CFU_UNIFORM_RESOURCE_LOCATOR) then
-
       begin
         Result := CreateURIs(False);
       end
-
     else if (formatEtc.CfFormat = CFU_UNIFORM_RESOURCE_LOCATORW) then
-
       begin
         Result := CreateURIs(True);
       end
     }
 
     else if (formatEtc.CfFormat = CFU_SHELL_IDLIST_ARRAY) then
-
       begin
         Result := CreateShellIdListArray;
       end;
-
   end;
-
 end;
 
+{ TDragDropInfo.CreateFileNames }
 function TDragDropInfo.CreateFileNames(bUnicode: Boolean): HGlobal;
-
 var
-
   FileList: AnsiString;
   wsFileList: WideString;
-
 begin
-
   if Files.Count = 0 then Exit;
-
   if bUnicode then
     begin
-
       wsFileList := UTF8Decode(Self.Files[0]) + #0;
-
       Result := MakeHGlobal(PWideChar(wsFileList),
                             Length(wsFileList) * SizeOf(WideChar));
     end
     else
     begin
-
       FileList := Utf8ToAnsi(Self.Files[0]) + #0;
-
       Result := MakeHGlobal(PAnsiChar(FileList),
                             Length(FileList) * SizeOf(AnsiChar));
     end;
 end;
 
+{ TDragDropInfo.CreateURIs }
 function TDragDropInfo.CreateURIs(bUnicode: Boolean): HGlobal;
-
 var
-
   UriList: AnsiString;
   wsUriList: WideString;
   I: Integer;
-
 begin
-
   wsUriList := '';
-
   for I := 0 to Self.Files.Count - 1 do
   begin
-    if I > 0 then
-      wsUriList := wsUriList + LineEnding;
+    if I > 0 then wsUriList := wsUriList + LineEnding;
 
     wsUriList := wsUriList
                + fileScheme + '//'  { don't put hostname }
-               + URIEncode(UTF8Decode(
-                   StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
+               + URIEncode(UTF8Decode(StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
   end;
 
   wsUriList := wsUriList + #0;
 
   if bUnicode then
-
       Result := MakeHGlobal(PWideChar(wsUriList),
                             Length(wsUriList) * SizeOf(WideChar))
     else
-
     begin
-
       // Wide to Ansi
       UriList := Utf8ToAnsi(UTF8Encode(wsUriList));
 
       Result := MakeHGlobal(PAnsiChar(UriList),
                             Length(UriList) * SizeOf(AnsiChar));
-
     end;
-
 end;
 
+{ TDragDropInfo.CreateShellIdListArray }
 function TDragDropInfo.CreateShellIdListArray: HGlobal;
-
 var
   pidl: LPITEMIDLIST;
   pidlSize: Integer;
@@ -706,6 +545,7 @@ begin
 {$R-}
           pIdA^.aoffset[i + 1] := CurPosition;
 {$R+}
+
           CopyMemory(LPBYTE(pIdA) + PtrInt(CurPosition), pidl, pidlSize);
           Inc(CurPosition, pidlSize);
 
@@ -719,156 +559,91 @@ begin
         Result := MakeHGlobal(pIdA, CurPosition);
         Freemem(pIda);
       end;
-
     end; // SHGetSpecialFolderLocation
 
     ShellDesktop := nil;
-
   end; // SHGetDesktopFolder
-
 end;
 
+{ TDragDropInfo.CreatePreferredDropEffect }
 function TDragDropInfo.CreatePreferredDropEffect(WinDropEffect: DWORD) : HGlobal;
 begin
   Result := MakeHGlobal(@WinDropEffect, SizeOf(WinDropEffect));
 end;
 
+{ TDragDropInfo.MakeHGlobal }
 function TDragDropInfo.MakeHGlobal(ptr: Pointer; Size: LongWord): HGlobal;
-
 var
   DataPointer : Pointer;
   DataHandle  : HGLOBAL;
-
 begin
-
   Result := 0;
 
   if Assigned(ptr) then
   begin
-
     DataHandle := GlobalAlloc(GMEM_MOVEABLE or GMEM_ZEROINIT, Size);
 
     if (DataHandle <> 0) then
-
     begin
-
       DataPointer := GlobalLock(DataHandle);
 
       if Assigned(DataPointer) then
       begin
-
         CopyMemory(DataPointer, ptr, Size);
-
         GlobalUnlock(DataHandle);
-
         Result := DataHandle;
-
       end
       else
       begin
-
         GlobalFree(DataHandle);
-
       end;
-
     end;
-
   end;
 end;
 
+{ TDragDropInfo.CreateHDrop }
 function TDragDropInfo.CreateHDrop(bUnicode: Boolean): HGlobal;
-
 var
-
   RequiredSize: Integer;
-
   I: Integer;
-
   hGlobalDropInfo: HGlobal;
-
   DropFiles: PDropFiles;
-
   FileList: AnsiString = '';
-
   wsFileList: WideString = '';
-
 begin
+  { РџРѕСЃС‚СЂРѕРёРј СЃС‚СЂСѓРєС‚СѓСЂСѓ TDropFiles РІ РїР°РјСЏС‚Рё, РІС‹РґРµР»РµРЅРЅРѕР№ С‡РµСЂРµР·
+    GlobalAlloc. РћР±Р»Р°СЃС‚СЊ РїР°РјСЏС‚Рё СЃРґРµР»Р°РµРј РіР»РѕР±Р°Р»СЊРЅРѕР№ Рё СЃРѕРІРјРµСЃС‚РЅРѕР№,
+    РїРѕСЃРєРѕР»СЊРєСѓ РѕРЅР°, РІРµСЂРѕСЏС‚РЅРѕ, Р±СѓРґРµС‚ РїРµСЂРµРґР°РІР°С‚СЊСЃСЏ РґСЂСѓРіРѕРјСѓ РїСЂРѕС†РµСЃСЃСѓ.
 
-  {
-
-    Построим структуру TDropFiles в памяти,
-
-    выделенной через
-
-    GlobalAlloc. Область памяти сделаем глобальной
-
-    и совместной,
-
-    поскольку она, вероятно, будет передаваться
-
-    другому процессу.
-
-  }
-
-  {
     Bring the filenames in a form,
-    separated by #0 and ending with a double #0#0
-  }
-
+    separated by #0 and ending with a double #0#0 }
   if bUnicode then
   begin
-
     for I := 0 to Self.Files.Count - 1 do
       wsFileList := wsFileList + UTF8Decode(Self.Files[I]) + #0;
-
     wsFileList := wsFileList + #0;
-
-    { Определяем необходимый размер структуры }
-
+    { РћРїСЂРµРґРµР»СЏРµРј РЅРµРѕР±С…РѕРґРёРјС‹Р№ СЂР°Р·РјРµСЂ СЃС‚СЂСѓРєС‚СѓСЂС‹ }
     RequiredSize := SizeOf(TDropFiles) + Length(wsFileList) * SizeOf(WChar);
-
   end
   else
   begin
-
     for I := 0 to Self.Files.Count - 1 do
       FileList := FileList + Utf8ToAnsi(Self.Files[I]) + #0;
 
     FileList := FileList + #0;
-
-    { Определяем необходимый размер структуры }
-
+    { РћРїСЂРµРґРµР»СЏРµРј РЅРµРѕР±С…РѕРґРёРјС‹Р№ СЂР°Р·РјРµСЂ СЃС‚СЂСѓРєС‚СѓСЂС‹ }
     RequiredSize := SizeOf(TDropFiles) + Length(FileList) * SizeOf(AnsiChar);
-
   end;
 
 
   hGlobalDropInfo := GlobalAlloc(GMEM_MOVEABLE or GMEM_ZEROINIT, RequiredSize);
-
   if (hGlobalDropInfo <> 0) then
-
   begin
-    { Заблокируем область памяти, чтобы к ней
-
-      можно было обратиться
-
-    }
-
+  { Р—Р°Р±Р»РѕРєРёСЂСѓРµРј РѕР±Р»Р°СЃС‚СЊ РїР°РјСЏС‚Рё, С‡С‚РѕР±С‹ Рє РЅРµР№ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РѕР±СЂР°С‚РёС‚СЊСЃСЏ }
     DropFiles := GlobalLock(hGlobalDropInfo);
 
-
-    { Заполним поля структуры DropFiles }
-
-    {
-
-      pFiles -- смещение от начала
-
-      структуры до первого байта массива
-
-      с именами файлов.
-
-    }
-
+  { Р—Р°РїРѕР»РЅРёРј РїРѕР»СЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ DropFiles
+    pFiles -- СЃРјРµС‰РµРЅРёРµ РѕС‚ РЅР°С‡Р°Р»Р° СЃС‚СЂСѓРєС‚СѓСЂС‹ РґРѕ РїРµСЂРІРѕРіРѕ Р±Р°Р№С‚Р° РјР°СЃСЃРёРІР° СЃ РёРјРµРЅР°РјРё С„Р°Р№Р»РѕРІ. }
     DropFiles.pFiles := SizeOf(TDropFiles);
 
     if Windows.GetCursorPos(@DropFiles.pt) = False then
@@ -882,20 +657,13 @@ begin
 
     DropFiles.fWide := bUnicode;
 
-    {
+  { РљРѕРїРёСЂСѓРµРј РёРјРµРЅР° С„Р°Р№Р»РѕРІ РІ Р±СѓС„РµСЂ.
+    Р‘СѓС„РµСЂ РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃРѕ СЃРјРµС‰РµРЅРёСЏ
+    DropFiles + DropFiles.pFiles,
+    С‚Рѕ РµСЃС‚СЊ РїРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕР»СЏ СЃС‚СЂСѓРєС‚СѓСЂС‹.
 
-      Копируем имена файлов в буфер.
-
-      Буфер начинается со смещения
-
-      DropFiles + DropFiles.pFiles,
-
-      то есть после последнего поля структуры.
-
-    }
-
-    { The pointer should be aligned nicely,
-      because the TDropFiles record is not packed. }
+    The pointer should be aligned nicely,
+    because the TDropFiles record is not packed. }
     DropFiles := Pointer(DropFiles) + DropFiles.pFiles;
 
     if bUnicode then
@@ -903,35 +671,24 @@ begin
     else
       CopyMemory(DropFiles, PAnsiChar(FileList), Length(FileList) * SizeOf(AnsiChar));
 
-
-
-    { Снимаем блокировку }
-
+    { РЎРЅРёРјР°РµРј Р±Р»РѕРєРёСЂРѕРІРєСѓ }
     GlobalUnlock(hGlobalDropInfo);
-
   end;
 
-
-
   Result := hGlobalDropInfo;
-
 end;
 
 
-{ TFileDropTarget }
-
+{ TFileDropTarget.Create }
 constructor TFileDropTarget.Create(DragDropTarget: TDragDropTargetWindows);
 begin
-
   inherited Create;
 
   // Here RefCount is 1 - as set in TInterfacedObject.NewInstance,
   // but it's decremented back in TInterfacedObject.AfterConstruction
   // (when this constructor finishes). So we must manually again increase it.
   _AddRef;
-
   FReleased := False;
-
   FDragDropTarget := DragDropTarget;
 
   // Increases RefCount.
@@ -939,24 +696,16 @@ begin
 
   // Increases RefCount.
   if ActiveX.RegisterDragDrop(DragDropTarget.GetControl.Handle, Self) = S_OK then
-
     FHandle := DragDropTarget.GetControl.Handle
-
   else
-
     FHandle := 0;
-
 end;
 
-
+{ TFileDropTarget.FinalRelease }
 procedure TFileDropTarget.FinalRelease;
-
 begin
-
   if not FReleased then
-
   begin
-
     FReleased := True;
 
     // Decreases reference count.
@@ -965,28 +714,21 @@ begin
     // Check if window was not already destroyed.
     if (FHandle <> 0) and (IsWindow(FHandle)) then
     begin
-
       // Decreases reference count.
       ActiveX.RevokeDragDrop(FHandle);
-
       FHandle := 0;
-
     end
     else
       _Release; // Cannot revoke - just release reference.
 
     _Release; // For _AddRef in Create.
-
   end;
-  
 end;
 
 function TFileDropTarget.DragEnter(const dataObj: IDataObject;
   grfKeyState: LongWord; pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
-
 var
   DropEffect: TDropEffect;
-
 begin
   // dwEffect parameter states which effects are allowed by the source.
   dwEffect := dwEffect and GetEffectByKeyState(grfKeyState);
@@ -1007,13 +749,10 @@ begin
       Result := S_OK;
 end;
 
-function TFileDropTarget.DragOver
-
-  (grfKeyState: LongWord; pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
-
+{ TFileDropTarget.DragOver }
+function TFileDropTarget.DragOver(grfKeyState: LongWord; pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
 var
   DropEffect: TDropEffect;
-
 begin
   // dwEffect parameter states which effects are allowed by the source.
   dwEffect := dwEffect and GetEffectByKeyState(grfKeyState);
@@ -1034,10 +773,9 @@ begin
       Result := S_OK;
 end;
 
+{ TFileDropTarget.DragLeave }
 function TFileDropTarget.DragLeave: HResult; stdcall;
-
 begin
-
   if Assigned(FDragDropTarget.GetDragLeaveEvent) then
   begin
       if FDragDropTarget.GetDragLeaveEvent() = True then
@@ -1049,162 +787,167 @@ begin
       Result := S_OK;
 end;
 
-{
-
-  Обработка сброшенных данных.
-
-}
-
+{ РћР±СЂР°Р±РѕС‚РєР° СЃР±СЂРѕС€РµРЅРЅС‹С… РґР°РЅРЅС‹С…. }
+{ TFileDropTarget.Drop }
 function TFileDropTarget.Drop(const dataObj: IDataObject; grfKeyState: LongWord;
   pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
 
 var
-
   Medium: TSTGMedium;
-
-  Format: TFormatETC;
-
+  CyclingThroughFormat, ChosenFormat: TFormatETC;
   i: Integer;
-
   DropInfo: TDragDropInfo;
-
-  FileNames: TStringList;
-
+  FileNames, DragTextModeOfferedList: TStringList;
+  SelectedFormatName:UTF8String;
   DropEffect: TDropEffect;
+  Enum: IEnumFormatEtc;
+  DragAndDropSupportedFormatList:TStringList;
+  UnusedInteger : integer;
+  FlagTempFiletoDelete:boolean;
 
 begin
+  DragAndDropSupportedFormatList:=TStringList.Create;
+  try
+    FileNames:=nil;
+    FlagTempFiletoDelete:=FALSE;
+    UnusedInteger:=0;
 
-  dataObj._AddRef;
+    dataObj._AddRef;
 
-  {
+    { РџРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ.
+      РЎС‚СЂСѓРєС‚СѓСЂР° TFormatETC СЃРѕРѕР±С‰Р°РµС‚ dataObj.GetData, РєР°Рє РїРѕР»СѓС‡РёС‚СЊ РґР°РЅРЅС‹Рµ Рё РІ РєР°РєРѕРј С„РѕСЂРјР°С‚Рµ РѕРЅРё РґРѕР»Р¶РЅС‹ С…СЂР°РЅРёС‚СЊСЃСЏ
+      (СЌС‚Р° РёРЅС„РѕСЂРјР°С†РёСЏ СЃРѕРґРµСЂР¶РёС‚СЃСЏ РІ СЃС‚СЂСѓРєС‚СѓСЂРµ TSTGMedium). }
 
-    Получаем данные.  Структура TFormatETC
+    //1. Let's build as quick list of the supported formats of what we've just been dropped.
+    // We scan through all because sometimes the best one is not the first compatible one.
+    OleCheck(DataObj.EnumFormatEtc(DATADIR_GET, Enum));
+    while Enum.Next(1, CyclingThroughFormat, nil) = S_OK do
+      DragAndDropSupportedFormatList.Add(IntToStr(CyclingThroughFormat.CfFormat));
 
-    сообщает
+    //2. Let's determine our best guess.
+    // The order for this will be:
+    // 1st) CF_HDROP (for legacy purpose, since DC was using it first).
+    // 2nd) CFU_FILEGROUPDESCRIPTORW + CFU_FILECONTENTS (Outlook 2010 / Windows Live Mail, etc.)
+    // 3rd) CFU_FILEGROUPDESCRIPTOR + CFU_FILECONTENTS (Outlook 2010 / Windows Live Mail, etc.)
+    // 4th) We'll see if user would like to create a new text file from possible selected text dropped on the panel
+    // CF_UNICODETEXT (Notepad++ / Wordpad / Firefox)
+    // CF_TEXT (Notepad / Wordpad / Firefox)
+    // CFU_HTML (Firefox)
+    // Rich Text (Wordpad / Microsoft Word)
+    ChosenFormat.CfFormat:=0;
+    if DragAndDropSupportedFormatList.IndexOf(IntToStr(CF_HDROP))<>-1 then ChosenFormat.CfFormat:=CF_HDROP;
+    if (ChosenFormat.CfFormat=0) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILEGROUPDESCRIPTORW))<>-1) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILECONTENTS))<>-1) then ChosenFormat.CfFormat:=CFU_FILEGROUPDESCRIPTORW;
+    if (ChosenFormat.CfFormat=0) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILEGROUPDESCRIPTOR))<>-1) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILECONTENTS))<>-1) then ChosenFormat.CfFormat:=CFU_FILEGROUPDESCRIPTOR;
 
-    dataObj.GetData, как получить данные
+    // If we have no chosen format yet, let's attempt for text ones...
+    if ChosenFormat.CfFormat=0 then
+    begin
+      DragTextModeOfferedList:=TStringList.Create;
+      try
+        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_RICHTEXT))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name);
+        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_HTML))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextHtml_Index].Name);
+        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CF_UNICODETEXT))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextUnicode_Index].Name);
+        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CF_TEXT))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].Name);
+        SortThisListAccordingToDragAndDropDesiredFormat(DragTextModeOfferedList);
 
-    и в каком формате
-
-    они должны храниться (эта информация
-
-    содержится в
-
-    структуре TSTGMedium).
-
-  }
-
-  Format.cfFormat := CF_HDROP;
-
-  Format.ptd := nil;
-
-  Format.dwAspect := DVASPECT_CONTENT;
-
-  Format.lindex := -1;
-
-  Format.tymed := TYMED_HGLOBAL;
-
-
-
-  { Заносим данные в структуру Medium }
-
-  Result := dataObj.GetData(Format, Medium);
-
-
-
-  {
-
-    Если все прошло успешно, далее
-
-    действуем, как при операции файлового
-
-    перетаскивания FMDD.
-
-  }
-
-  if (Result = S_OK) then
-
-  begin
-
-    case Medium.Tymed of
-
-    TYMED_HGLOBAL:
-
-      begin
-
-        { Создаем объект TDragDropInfo }
-
-        DropInfo := TDragDropInfo.Create(dwEffect);
-
-
-        { Retrieve file names }
-
-        FileNames := GetDropFilenames(Medium.hGlobal);
-
-        if Assigned(FileNames) then
-        begin
-
-          for i := 0 to FileNames.Count - 1 do
-
+        if DragTextModeOfferedList.Count>0 then SelectedFormatName:=DragTextModeOfferedList.Strings[0] else SelectedFormatName:='';
+        if (DragTextModeOfferedList.Count>1) AND (gDragAndDropAskFormatEachTime) then if not ShowInputListBox(rsCaptionForTextFormatToImport,rsMsgForTextFormatToImport,DragTextModeOfferedList,SelectedFormatName,UnusedInteger) then SelectedFormatName:='';
+        if SelectedFormatName<>'' then
           begin
-
-            DropInfo.Add(FileNames[i]);
-
+            if SelectedFormatName=gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name then ChosenFormat.CfFormat:=CFU_RICHTEXT;
+            if SelectedFormatName=gDragAndDropDesiredTextFormat[DropTextHtml_Index].Name then ChosenFormat.CfFormat:=CFU_HTML;
+            if SelectedFormatName=gDragAndDropDesiredTextFormat[DropTextUnicode_Index].Name then ChosenFormat.CfFormat:=CF_UNICODETEXT;
+            if SelectedFormatName=gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].Name then ChosenFormat.CfFormat:=CF_TEXT;
           end;
-
-          FreeAndNil(FileNames);
+        finally
+          DragTextModeOfferedList.Free;
         end;
+      end;
 
+    //3. According to our best guess, let's store to "FileNames" list, the list of files we got (...or that we'll create!)
+    if ChosenFormat.CfFormat<>0 then
+    begin
+      ChosenFormat.ptd := nil;
+      ChosenFormat.dwAspect := DVASPECT_CONTENT;
+      ChosenFormat.lindex := -1;
+      ChosenFormat.tymed := TYMED_HGLOBAL;
 
-        { Если указан обработчик, вызываем его }
+      { Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ Medium }
+      Result:=dataObj.GetData(ChosenFormat, Medium);
 
-        if (Assigned(FDragDropTarget.GetDropEvent)) then
-
+      { Р•СЃР»Рё РІСЃРµ РїСЂРѕС€Р»Рѕ СѓСЃРїРµС€РЅРѕ, РґР°Р»РµРµ РґРµР№СЃС‚РІСѓРµРј, РєР°Рє РїСЂРё РѕРїРµСЂР°С†РёРё С„Р°Р№Р»РѕРІРѕРіРѕ РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёСЏ FMDD. }
+      if Result = S_OK then
+      begin
+        if Medium.Tymed=TYMED_HGLOBAL then
         begin
+          case ChosenFormat.CfFormat of
+            CF_HDROP: FileNames := GetDropFilenames(Medium.hGlobal);
+            CF_UNICODETEXT, CF_TEXT:
+              begin
+                FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
+                FlagTempFiletoDelete:=(Filenames.Count>0);
+              end;
+            else
+              begin
+                if ChosenFormat.CfFormat=CFU_FILEGROUPDESCRIPTORW then FileNames := GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
+                if ChosenFormat.CfFormat=CFU_FILEGROUPDESCRIPTOR  then FileNames := GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
+                if ChosenFormat.CfFormat=CFU_HTML then FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
+                if ChosenFormat.CfFormat=CFU_RICHTEXT then FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
+                FlagTempFiletoDelete:=(Filenames.Count>0);
+              end;
+          end;
+        end;
+      end;
+    end;
 
-          // Set default effect by examining keyboard keys, taking into
-          // consideration effects allowed by the source (dwEffect parameter).
-          dwEffect := dwEffect and GetEffectByKeyState(grfKeyState);
+    //4. If we have some filenames in our list, continue to process the actual "Drop" of files
+    if (Result = S_OK) then
+    begin
+      { РЎРѕР·РґР°РµРј РѕР±СЉРµРєС‚ TDragDropInfo }
+      DropInfo := TDragDropInfo.Create(dwEffect);
 
+      if Assigned(FileNames) then
+      begin
+        for i := 0 to FileNames.Count - 1 do DropInfo.Add(FileNames[i]);
+        FreeAndNil(FileNames);
+      end;
+
+      { Р•СЃР»Рё СѓРєР°Р·Р°РЅ РѕР±СЂР°Р±РѕС‚С‡РёРє, РІС‹Р·С‹РІР°РµРј РµРіРѕ }
+      if (Assigned(FDragDropTarget.GetDropEvent)) then
+      begin
+        // Set default effect by examining keyboard keys, taking into
+        // consideration effects allowed by the source (dwEffect parameter).
+        dwEffect := dwEffect and GetEffectByKeyState(grfKeyState);
+
+        if FlagTempFiletoDelete then
+          DropEffect := DropMoveEffect
+        else
           DropEffect := WinEffectToDropEffect(dwEffect);
 
-          if FDragDropTarget.GetDropEvent()(DropInfo.Files, DropEffect, pt) = False then
+        FDragDropTarget.GetDropEvent()(DropInfo.Files, DropEffect, pt);
+        dwEffect := DropEffectToWinEffect(DropEffect);
+      end;
+      DropInfo.Free;
 
-            ;
+      if (Medium.PUnkForRelease = nil) then
+        // Drop target must release the medium allocated by GetData.
+        // This does the same as DragFinish(Medium.hGlobal) in this case,
+        // but can support other media.
+        ReleaseStgMedium(@Medium)
+      else
+        // Drop source is responsible for releasing medium via this object.
+        IUnknown(Medium.PUnkForRelease)._Release;
+    end;
 
-          dwEffect := DropEffectToWinEffect(DropEffect);
+    dataObj._Release;
 
-        end;
-
-        DropInfo.Free;
-
-      end; // TYMED_HGLOBAL
-
-    end; // case
-
-
-    if (Medium.PUnkForRelease = nil) then
-
-      // Drop target must release the medium allocated by GetData.
-
-      // This does the same as DragFinish(Medium.hGlobal) in this case,
-      // but can support other media.
-      ReleaseStgMedium(@Medium)
-
-    else
-
-      // Drop source is responsible for releasing medium via this object.
-      IUnknown(Medium.PUnkForRelease)._Release;
-
+  finally
+    DragAndDropSupportedFormatList.Free;
   end;
-
-
-  dataObj._Release;
-
 end;
 
+{ TFileDropTarget.GetDropFilenames }
 class function TFileDropTarget.GetDropFilenames(hDropData: HDROP): TStringList;
-
 var
   NumFiles: Integer;
   i: Integer;
@@ -1213,16 +956,13 @@ var
   RequiredSize: Cardinal;
 
 begin
-
   Result := nil;
 
   if hDropData <> 0 then
   begin
-
     Result := TStringList.Create;
 
     try
-
       NumFiles := DragQueryFileW(hDropData, $FFFFFFFF, nil, 0);
 
       for i := 0 to NumFiles - 1 do
@@ -1248,40 +988,263 @@ begin
 
         finally
           FreeMem(wszFilename);
-
         end;
-
       end;
 
     except
       FreeAndNil(Result);
       raise;
-
     end;
+  end;
+end;
 
+{ TFileDropTarget.SaveCfuContentToFile }
+function TFileDropTarget.SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:UTF8String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
+const
+  TEMPFILENAME='CfuContentFile.bin';
+var
+  Format  : TFORMATETC;
+  Medium : TSTGMedium;
+  Ifile, iStg : IStorage;
+  tIID : PGuid;
+  pvStrm: IStream;
+  i64Size:    Int64;
+  i64Move:    Int64;
+  dwSize:     LongInt;
+  msStream:   TMemoryStream;
+  InnerFilename:WideString;
+begin
+  result:=FALSE;
+  InnerFilename:=ExtractFilepath(WantedFilename)+TEMPFILENAME;
+  Format.cfFormat := CFU_FILECONTENTS;
+  Format.dwAspect := DVASPECT_CONTENT;
+  Format.lindex := Index;
+  Format.ptd := nil;
+  Format.TYMED := TYMED_ISTREAM OR TYMED_ISTORAGE;
+
+  if dataObj.GetData(Format, Medium) = S_OK then
+  begin
+    if Medium.TYMED = TYMED_ISTORAGE then
+    begin
+      iStg := IStorage(Medium.pstg);
+      StgCreateDocfile(PWideChar(InnerFilename), STGM_CREATE Or STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, iFile);
+      tIID:=nil;
+      iStg.CopyTo(0, tIID, nil, iFile);
+      iFile.Commit(0);
+      iFile := nil;
+      iStg := nil;
+    end
+    else
+    begin
+      pvStrm:=IStream(Medium.pstm);
+      // Figure out how large the data is
+      if (pvStrm.Seek(0, STREAM_SEEK_END, i64Size) = S_OK) then
+      begin
+        // Seek back to start of stream
+        pvStrm.Seek(0, STREAM_SEEK_SET, i64Move);
+        // Create memory stream to convert to
+        msStream:=TMemoryStream.Create;
+        // Allocate size
+        msStream.Size:=i64Size;
+        // Read from the IStream into the memory for the TMemoryStream
+        if pvStrm.Read(msStream.Memory, i64Size, @dwSize)=S_OK then
+          msStream.Size:=dwSize
+        else
+          msStream.Size:=0;
+        // Release interface
+        pvStrm:=nil;
+
+        msStream.Position:=0;
+        msStream.SaveToFile(InnerFilename);
+        msStream.Free;
+      end;
+    end;
   end;
 
+  if mbFileExists(InnerFilename) then
+  begin
+    mbRenameFile(InnerFilename,WantedFilename);
+    if mbFileExists(WantedFilename) then result:=mbFileSetTime(WantedFilename, WantedModificationTime, WantedCreationTime, WantedLastAccessTime);
+  end;
 end;
 
-{ TFileDropSource }
+{ TFileDropTarget.GetDropFileGroupFilenames }
+function TFileDropTarget.GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
+var
+  AnyPointer: Pointer;
+  DC_FileGroupeDescriptorW: FILEGROUPDESCRIPTORW;
+  DC_FileGroupeDescriptor: FILEGROUPDESCRIPTOR;
+  DC_FileDescriptorW: FILEDESCRIPTORW;
+  DC_FileDescriptor: FILEDESCRIPTOR;
+  NumberOfFiles, CopyNumber, IndexFile: integer;
+  ActualFilename, DroppedTextFilename: UTF8String;
+  SuffixStr: string;
+  WantedCreationTime, WantedModificationTime, WantedLastAccessTime : DCBasicTypes.TFileTime;
+begin
+  Result := nil;
 
-constructor TFileDropSource.Create;
+  AnyPointer := GlobalLock(Medium.HGLOBAL);
+  try
+    // Copy the structure
+    if Format.CfFormat=CFU_FILEGROUPDESCRIPTORW then
+    begin
+      MoveMemory(@DC_FileGroupeDescriptorW, AnyPointer, SizeOf(FILEGROUPDESCRIPTORW));
+      NumberOfFiles:=DC_FileGroupeDescriptorW.cItems;
+    end
+    else
+    begin
+      MoveMemory(@DC_FileGroupeDescriptor, AnyPointer, SizeOf(FILEGROUPDESCRIPTOR));
+      NumberOfFiles:=DC_FileGroupeDescriptor.cItems;
+    end;
+
+    // Return the number of messages
+    if NumberOfFiles>0 then
+    begin
+      if Format.CfFormat=CFU_FILEGROUPDESCRIPTORW then
+        AnyPointer:=AnyPointer+SizeOf(FILEGROUPDESCRIPTORW.cItems)
+      else
+        AnyPointer:=AnyPointer+SizeOf(FILEGROUPDESCRIPTOR.cItems);
+
+      result:=TStringList.Create;
+
+      for IndexFile:=0 to pred(NumberOfFiles) do
+      begin
+        if Format.CfFormat=CFU_FILEGROUPDESCRIPTORW then
+        begin
+          MoveMemory(@DC_FileDescriptorW, AnyPointer, SizeOf(FILEDESCRIPTORW));
+          AnyPointer:=AnyPointer+SizeOf(FILEDESCRIPTORW);
+          ActualFilename:=UTF8Encode(WideString(DC_FileDescriptorW.cFileName));
+          WantedCreationTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftCreationTime);
+          WantedModificationTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftLastWriteTime);
+          WantedLastAccessTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftLastAccessTime);
+        end
+        else
+        begin
+          MoveMemory(@DC_FileDescriptor, AnyPointer, SizeOf(FILEDESCRIPTOR));
+          AnyPointer:=AnyPointer+SizeOf(FILEDESCRIPTOR);
+          ActualFilename:=UTF8Encode(AnsiString(DC_FileDescriptor.cFileName));
+          WantedCreationTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftCreationTime);
+          WantedModificationTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftLastWriteTime);
+          WantedLastAccessTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftLastAccessTime);
+        end;
+
+        DroppedTextFilename := GetTempFolderDeletableAtTheEnd+ActualFilename;
+        if result.IndexOf(DroppedTextFilename) <> -1 then
+        begin
+          CopyNumber := 2;
+          repeat
+            case gTypeOfDuplicatedRename of
+              drLikeWindows7: SuffixStr:=' ('+IntToStr(CopyNumber)+')';
+              drLikeTC: SuffixStr:='('+IntToStr(CopyNumber)+')';
+            end;
+
+            case gTypeOfDuplicatedRename of
+              drLegacyWithCopy: DroppedTextFilename := GetTempFolderDeletableAtTheEnd+SysUtils.Format(rsCopyNameTemplate, [CopyNumber, ActualFilename]);
+              drLikeWindows7, drLikeTC: DroppedTextFilename := GetTempFolderDeletableAtTheEnd+RemoveFileExt(ActualFilename) + SuffixStr + ExtractFileExt(ActualFilename);
+            end;
+            Inc(CopyNumber);
+          until result.IndexOf(DroppedTextFilename) = -1;
+        end;
+
+        if SaveCfuContentToFile(dataObj, IndexFile, DroppedTextFilename, WantedCreationTime, WantedModificationTime, WantedLastAccessTime) then result.Add(DroppedTextFilename);
+      end;
+    end;
+  finally
+  // Release the pointer
+    GlobalUnlock(Medium.HGLOBAL);
+  end;
+end;
+
+{ TFileDropTarget.GetDropTextCreatedFilenames }
+function TFileDropTarget.GetDropTextCreatedFilenames(var Medium: TSTGMedium; Format: TFormatETC): TStringList;
+var
+  FlagKeepGoing:boolean;
+  AnyPointer: Pointer;
+  UnicodeCharPointer: PUnicodeChar;
+  hFile: THandle;
+  DroppedTextFilename: UTF8String;
+  MyUnicodeString: UnicodeString;
+
+  procedure SetDefaultFilename;
+  begin
+    DroppedTextFilename:=GetDateTimeInStrEZSortable(now)+rsDefaultSuffixDroppedText+'.txt';
+    if Format.CfFormat=CFU_RICHTEXT then DroppedTextFilename:=GetDateTimeInStrEZSortable(now)+rsDefaultSuffixDroppedTextRichtextFilename+'.rtf';
+    if Format.CfFormat=CFU_HTML then DroppedTextFilename:=GetDateTimeInStrEZSortable(now)+rsDefaultSuffixDroppedTextHTMLFilename+'.html';
+    if (Format.CfFormat=CF_UNICODETEXT) AND not gDragAndDropSaveUnicodeTextInUFT8 then DroppedTextFilename:=GetDateTimeInStrEZSortable(now)+rsDefaultSuffixDroppedTextUnicodeUTF16Filename+'.txt';
+    if (Format.CfFormat=CF_UNICODETEXT) AND gDragAndDropSaveUnicodeTextInUFT8 then DroppedTextFilename:=GetDateTimeInStrEZSortable(now)+rsDefaultSuffixDroppedTextUnicodeUTF8Filename+'.txt';
+    if Format.CfFormat=CF_TEXT then DroppedTextFilename:=GetDateTimeInStrEZSortable(now)+rsDefaultSuffixDroppedTextSimpleFilename+'.txt';
+  end;
 
 begin
+  result:=nil;
+  FlagKeepGoing:=TRUE;
+  SetDefaultFilename;
+  if not gDragAndDropTextAutoFilename then FlagKeepGoing:=ShowInputQuery(rsCaptionForAskingFilename, rsMsgPromptAskingFilename, DroppedTextFilename);
 
+  if FlagKeepGoing then
+  begin
+    if DroppedTextFilename='' then SetDefaultFilename; //Just minimal idot-proof...
+    DroppedTextFilename:=GetTempFolderDeletableAtTheEnd+DroppedTextFilename;
+
+    AnyPointer := GlobalLock(Medium.hGlobal);
+    try
+      hFile:= mbFileCreate(DroppedTextFilename);
+      try
+        case Format.CfFormat of
+          CF_TEXT:
+            begin
+              FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
+            end;
+
+          CF_UNICODETEXT:
+            begin
+              if gDragAndDropSaveUnicodeTextInUFT8 then
+              begin
+                UnicodeCharPointer:=AnyPointer;
+                MyUnicodeString:='';
+                while UnicodeCharPointer^<>#$0000 do
+                begin
+                  MyUnicodeString:=MyUnicodeString+UnicodeCharPointer^;
+                  inc(UnicodeCharPointer);
+                end;
+
+                FileWrite(hFile, PChar(#$EF+#$BB+#$BF)[0], 3); //Adding Byte Order Mask for UTF8.
+                FileWrite(hFile, UTF16toUTF8(MyUnicodeString)[1], Length(UTF16toUTF8(MyUnicodeString)));
+              end
+              else
+              begin
+                FileWrite(hFile, PChar(#$FF+#$FE)[0], 2); //Adding Byte Order Mask for UTF16, Little-Endian first.
+                FileWrite(hFile, PUnicodeChar(AnyPointer)^, Length(PUnicodeChar(AnyPointer))*2);
+              end;
+            end;
+
+          else
+            begin
+              if Format.CfFormat=CFU_HTML then FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
+              if Format.CfFormat=CFU_RICHTEXT then FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
+            end;
+        end;
+      finally
+        FileClose(hFile);
+      end;
+
+      result:=TStringList.Create;
+      result.Add(DroppedTextFilename);
+    finally
+      GlobalUnlock(Medium.hGlobal);
+    end;
+  end;
+end;
+
+{ TFileDropSource.Create }
+constructor TFileDropSource.Create;
+begin
   inherited Create;
-
   _AddRef;
-
 end;
 
 
-{
-
-QueryContinueDrag определяет необходимые действия.
-
-}
-
+{ TFileDropSource.QueryContinueDrag }
 {$IF FPC_FULLVERSION < 020601}
 function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL;
   grfKeyState: longint): HResult;
@@ -1291,36 +1254,22 @@ function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL;
 {$ENDIF}
 var
   Point:TPoint;
-
 begin
-
   if (fEscapePressed) then
-
   begin
-
     Result := DRAGDROP_S_CANCEL;
 
     // Set flag to notify that dragging was canceled by the user.
     uDragDropEx.TransformDragging := False;
-
   end
-
   else if ((grfKeyState and (MK_LBUTTON or MK_MBUTTON or MK_RBUTTON)) = 0) then
-
   begin
-
     Result := DRAGDROP_S_DROP;
-
   end
-
   else
-
   begin
-
     if uDragDropEx.AllowTransformToInternal then
-
     begin
-
       GetCursorPos(Point);
 
       // Call LCL function, not the Windows one.
@@ -1329,28 +1278,19 @@ begin
 
       begin
         // Mouse cursor has been moved back into the application window.
-
         // Cancel external dragging.
         Result := DRAGDROP_S_CANCEL;
 
         // Set flag to notify that dragging has not finished,
         // but rather it is to be transformed into internal dragging.
         uDragDropEx.TransformDragging := True;
-
       end
-
       else
-
         Result := S_OK;  // Continue dragging
-
     end
-
     else
-
       Result := S_OK;  // Continue dragging
-
   end;
-
 end;
 
 {$IF FPC_FULLVERSION < 020601}
@@ -1358,263 +1298,162 @@ function TFileDropSource.GiveFeedback(dwEffect: longint): HResult;
 {$ELSE}
 function TFileDropSource.GiveFeedback(dwEffect: DWORD): HResult;
 {$ENDIF}
-
 begin
-
   case LongWord(dwEffect) of
-
     DROPEFFECT_NONE,
-
     DROPEFFECT_COPY,
-
     DROPEFFECT_MOVE,
-
     DROPEFFECT_LINK,
-
     DROPEFFECT_SCROLL:
-
       Result := DRAGDROP_S_USEDEFAULTCURSORS;
-
     else
-
       Result := S_OK;
-
   end;
-
 end;
 
 
-{ THDropDataObject }
-
+{ THDropDataObject.Create }
 constructor THDropDataObject.Create(PreferredWinDropEffect: DWORD);
-
 begin
-
   inherited Create;
-
   _AddRef;
-
   FDropInfo := TDragDropInfo.Create(PreferredWinDropEffect);
-
 end;
 
+{ THDropDataObject.Destroy }
 destructor THDropDataObject.Destroy;
-
 begin
-
-  if (FDropInfo <> nil) then
-
-    FDropInfo.Free;
-
+  if (FDropInfo <> nil) then FDropInfo.Free;
   inherited Destroy;
-
 end;
 
+{ THDropDataObject.Add }
 procedure THDropDataObject.Add(const s: string);
-
 begin
-
   FDropInfo.Add(s);
-
 end;
 
+{ THDropDataObject.GetData }
 function THDropDataObject.GetData(const formatetcIn: TFormatEtc;
   out medium: TStgMedium): HResult;
-
 begin
-
   Result := DV_E_FORMATETC;
-
-  { Необходимо обнулить все поля medium
-
-  на случай ошибки}
-
+  { РќРµРѕР±С…РѕРґРёРјРѕ РѕР±РЅСѓР»РёС‚СЊ РІСЃРµ РїРѕР»СЏ medium РЅР° СЃР»СѓС‡Р°Р№ РѕС€РёР±РєРё }
   medium.tymed := 0;
-
   medium.hGlobal := 0;
-
   medium.PUnkForRelease := nil;
 
-
-
-  { Если формат поддерживается, создаем
-
-  и возвращаем данные }
-
+  { Р•СЃР»Рё С„РѕСЂРјР°С‚ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ, СЃРѕР·РґР°РµРј Рё РІРѕР·РІСЂР°С‰Р°РµРј РґР°РЅРЅС‹Рµ }
   if (QueryGetData(formatetcIn) = S_OK) then
-
   begin
-
     if (FDropInfo <> nil) then
-
     begin
-
       { Create data in specified format. }
       { The hGlobal will be released by the caller of GetData. }
-
       medium.hGlobal := FDropInfo.MakeDataInFormat(formatetcIn);
 
       if medium.hGlobal <> 0 then
-
       begin
-
         medium.tymed := TYMED_HGLOBAL;
-
         Result := S_OK;
-
       end;
-
     end;
-
   end;
-
 end;
 
+{ THDropDataObject.GetDataHere }
 function THDropDataObject.GetDataHere(const formatetc: TFormatEtc;
   out medium: TStgMedium): HResult;
-
 begin
-
-  Result := DV_E_FORMATETC;  { К сожалению,
-
-  не поддерживается }
-
+  Result := DV_E_FORMATETC; { Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ, РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ }
 end;
 
+{ THDropDataObject.QueryGetData }
 function THDropDataObject.QueryGetData(const formatetc: TFormatEtc): HResult;
-
 var
   i:Integer;
 
 begin
-
   with formatetc do
-
     if dwAspect = DVASPECT_CONTENT then
-
     begin
-
       Result := DV_E_FORMATETC; // begin with 'format not supported'
 
       // See if the queried format is supported.
       for i := 0 to DataFormats.Count - 1 do
       begin
-
         if Assigned(DataFormats[i]) then
         begin
-
           if cfFormat = PFormatEtc(DataFormats[i])^.CfFormat then
           begin
-
             // Format found, see if transport medium is supported.
-
             if (tymed = DWORD(-1)) or
                (Boolean(tymed and PFormatEtc(DataFormats[i])^.tymed)) then
             begin
-
               Result := S_OK;
-
             end
-
             else
-
               Result := DV_E_TYMED;   // transport medium not supported
 
-
             Exit; // exit if format found (regardless of transport medium)
-
           end
-
         end
-
       end
-
     end
-
     else
-
       Result := DV_E_DVASPECT;  // aspect not supported
-
 end;
 
+{ THDropDataObject.GetCanonicalFormatEtc }
 function THDropDataObject.GetCanonicalFormatEtc(const formatetc: TFormatEtc;
   out formatetcOut: TFormatEtc): HResult;
-
 begin
-
   formatetcOut.ptd := nil;
-
   Result := E_NOTIMPL;
-
 end;
 
+{ THDropDataObject.SetData }
 function THDropDataObject.SetData(const formatetc: TFormatEtc;
   const medium: TStgMedium; fRelease: BOOL): HResult;
-
 begin
-
   Result := E_NOTIMPL;
-
 end;
 
 
-{ EnumFormatEtc возвращает список поддерживаемых форматов }
-
+{ THDropDataObject.EnumFormatEtc РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє РїРѕРґРґРµСЂР¶РёРІР°РµРјС‹С… С„РѕСЂРјР°С‚РѕРІ}
 function THDropDataObject.EnumFormatEtc(dwDirection: LongWord;
   out enumFormatEtc: IEnumFormatEtc): HResult;
-
 begin
-
-  { Поддерживается только Get. Задать
-
-  содержимое данных нельзя }
-
+  { РџРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ Get. Р—Р°РґР°С‚СЊ СЃРѕРґРµСЂР¶РёРјРѕРµ РґР°РЅРЅС‹С… РЅРµР»СЊР·СЏ }
   if dwDirection = DATADIR_GET then
-
   begin
-
     enumFormatEtc := TEnumFormatEtc.Create;
-
     Result := S_OK;
-
   end
   else
-
   begin
-
     enumFormatEtc := nil;
-
     Result := E_NOTIMPL;
-
   end;
-
 end;
 
-{ Функции Advise не поддерживаются }
-
+{ THDropDataObject.DAdviseDAdvise РЅРµ РїРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ}
 function THDropDataObject.DAdvise(const formatetc: TFormatEtc;
   advf: LongWord; const advSink: IAdviseSink; out dwConnection: LongWord): HResult;
-
 begin
-
   Result := OLE_E_ADVISENOTSUPPORTED;
-
 end;
 
+{ THDropDataObject.DUnadvise }
 function THDropDataObject.DUnadvise(dwConnection: LongWord): HResult;
-
 begin
-
   Result := OLE_E_ADVISENOTSUPPORTED;
-
 end;
 
+{ THDropDataObject.EnumDAdvise }
 function THDropDataObject.EnumDAdvise(out enumAdvise: IEnumStatData): HResult;
-
 begin
-
   Result := OLE_E_ADVISENOTSUPPORTED;
-
 end;
 
 
@@ -1631,7 +1470,6 @@ begin
   end
   else if (grfKeyState and MK_SHIFT) > 0 then
     Result := DROPEFFECT_MOVE;
-
 end;
 
 function WinEffectToDropEffect(dwEffect: LongWord): TDropEffect;
@@ -1664,7 +1502,6 @@ end;
 
 { ---------------------------------------------------------}
 { TDragDropSourceWindows }
-
 function TDragDropSourceWindows.RegisterEvents(
                          DragBeginEvent  : uDragDropEx.TDragBeginEvent;
                          RequestDataEvent: uDragDropEx.TRequestDataEvent; // not Handled in Windows
@@ -1796,13 +1633,10 @@ end;
 
 
 initialization
-
   OleInitialize(nil);
   InitDataFormats;
 
-
 finalization
-
   OleUninitialize;
   DestroyDataFormats;
 

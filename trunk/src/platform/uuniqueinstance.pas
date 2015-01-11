@@ -42,6 +42,7 @@ type
 
     procedure RunListen;
     procedure StopListen;
+    function isAnotherDCRunningWhileIamRunning:boolean;
 
     property OnMessage: TOnUniqueInstanceMessage read FOnMessage write FOnMessage;
     property ServernameByUser: String read FServernameByUser;
@@ -71,7 +72,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   ipc, baseunix,
   {$ENDIF}
-  StrUtils, FileUtil, uGlobs, uDebug;
+  Forms, StrUtils, FileUtil, uGlobs, uDebug;
 
 {$IF DEFINED(UNIX)}
 type
@@ -282,6 +283,41 @@ begin
   DCDebug('Close UniqueInstance thread');
   CloseThread(FPeekThread);
   {$ENDIF}
+end;
+
+function TUniqueInstance.isAnotherDCRunningWhileIamRunning:boolean;
+var
+  LocalClientIPC: TSimpleIPCClient;
+  IndexInstance:integer;
+
+function GetServerIdNameToCheck:string;
+begin
+  result:=ApplicationName+'-';
+  if IndexInstance>1 then result:=result+IntToStr(IndexInstance);
+  {$IF DEFINED(UNIX)}
+  result := result + '-' + IntToStr(fpGetUID);
+  {$ENDIF}
+end;
+
+begin
+  Result:=True;
+
+  if IsRunning then
+  begin
+    FServerIPC.Active:=False;
+    try
+      LocalClientIPC:=TSimpleIPCClient.Create(nil);
+      IndexInstance:=1;
+      Result:=FALSE;
+      repeat
+        LocalClientIPC.ServerID:=GetServerIdNameToCheck;
+        Result:=LocalClientIPC.ServerRunning;
+        inc(IndexInstance);
+      until Result OR (IndexInstance>=10);
+    finally
+      FServerIPC.Active:=True;
+    end;
+  end;
 end;
 
 constructor TUniqueInstance.Create(aInstanceName: String; aServernameByUser: String);

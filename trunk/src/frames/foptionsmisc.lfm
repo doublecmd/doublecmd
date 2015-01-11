@@ -14,7 +14,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 193
+    Height = 182
     Top = 6
     Width = 707
     Anchors = [akTop, akLeft, akRight]
@@ -22,35 +22,37 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     BorderSpacing.Around = 6
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 189
+    ClientHeight = 164
     ClientWidth = 703
     TabOrder = 0
     object chkShowWarningMessages: TCheckBox
       Left = 12
-      Height = 24
+      Height = 19
       Top = 6
-      Width = 312
+      Width = 251
       Caption = 'Show &warning messages ("OK" button only)'
+      OnClick = GenericSomethingChanged
       TabOrder = 0
     end
     object chkThumbSave: TCheckBox
       AnchorSideTop.Control = dblThumbnails
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 24
-      Top = 91
-      Width = 191
+      Height = 19
+      Top = 79
+      Width = 154
       BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
+      OnClick = GenericSomethingChanged
       TabOrder = 2
     end
     object lblThumbSize: TLabel
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 17
-      Top = 126
-      Width = 103
+      Height = 15
+      Top = 108
+      Width = 83
       Caption = '&Thumbnail size:'
       FocusControl = speThumbWidth
       ParentColor = False
@@ -62,8 +64,8 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideRight.Control = gbExtended
       AnchorSideRight.Side = asrBottom
       Left = 12
-      Height = 17
-      Top = 70
+      Height = 15
+      Top = 60
       Width = 679
       Caption = 'Thumbnails'
       Anchors = [akTop, akLeft, akRight]
@@ -75,14 +77,15 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = chkThumbSave
       AnchorSideTop.Side = asrBottom
-      Left = 121
-      Height = 27
-      Top = 121
+      Left = 101
+      Height = 23
+      Top = 104
       Width = 50
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       MaxValue = 512
       MinValue = 16
+      OnChange = GenericSomethingChanged
       TabOrder = 3
       Value = 16
     end
@@ -90,13 +93,14 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Control = lblThumbSeparator
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
-      Left = 192
-      Height = 27
-      Top = 121
+      Left = 170
+      Height = 23
+      Top = 104
       Width = 50
       BorderSpacing.Left = 6
       MaxValue = 512
       MinValue = 16
+      OnChange = GenericSomethingChanged
       TabOrder = 4
       Value = 16
     end
@@ -105,10 +109,10 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
-      Left = 177
-      Height = 17
-      Top = 126
-      Width = 9
+      Left = 157
+      Height = 15
+      Top = 108
+      Width = 7
       BorderSpacing.Left = 6
       Caption = 'X'
       ParentColor = False
@@ -118,10 +122,10 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
-      Left = 248
-      Height = 17
-      Top = 126
-      Width = 40
+      Left = 226
+      Height = 15
+      Top = 108
+      Width = 29
       BorderSpacing.Left = 6
       Caption = 'pixels'
       ParentColor = False
@@ -130,9 +134,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 29
-      Top = 154
-      Width = 321
+      Height = 25
+      Top = 133
+      Width = 271
       AutoSize = True
       BorderSpacing.Top = 6
       Caption = '&Remove thumbnails for no longer existing files'
@@ -143,11 +147,12 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = chkShowWarningMessages
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 24
-      Top = 34
-      Width = 379
+      Height = 19
+      Top = 29
+      Width = 304
       BorderSpacing.Top = 4
       Caption = 'Always &go to the root of a drive when changing drives'
+      OnClick = GenericSomethingChanged
       TabOrder = 1
     end
   end
@@ -158,14 +163,14 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Control = gbExtended
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 116
-    Top = 211
+    Height = 103
+    Top = 200
     Width = 707
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 12
     Caption = 'Regarding TC export/import:'
-    ClientHeight = 97
+    ClientHeight = 85
     ClientWidth = 703
     TabOrder = 1
     TabStop = True
@@ -175,10 +180,10 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbTCExportImport
       AnchorSideRight.Control = btnRelativeTCExecutableFile
-      Left = 177
-      Height = 27
+      Left = 162
+      Height = 23
       Top = 4
-      Width = 469
+      Width = 484
       DialogOptions = [ofPathMustExist, ofFileMustExist]
       Filter = 'executables|*.exe|any files|*.*'
       FilterIndex = 1
@@ -191,6 +196,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Bottom = 4
       MaxLength = 0
       TabOrder = 0
+      OnChange = GenericSomethingChanged
     end
     object btnRelativeTCExecutableFile: TSpeedButton
       AnchorSideLeft.Side = asrBottom
@@ -201,7 +207,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Left = 670
       Height = 24
       Hint = 'Some functions to select appropriate path'
-      Top = 5
+      Top = 3
       Width = 24
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 24
@@ -249,9 +255,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideRight.Control = lblTCPathForTool
       AnchorSideRight.Side = asrBottom
       Left = -586
-      Height = 17
-      Top = 9
-      Width = 757
+      Height = 15
+      Top = 8
+      Width = 742
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
       Caption = 'TC executable:'
@@ -263,10 +269,10 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = fneTCExecutableFilename
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
-      Left = 177
-      Height = 27
-      Top = 35
-      Width = 444
+      Left = 162
+      Height = 23
+      Top = 31
+      Width = 459
       DialogOptions = [ofPathMustExist, ofFileMustExist]
       Filter = 'ini configuration file|*.ini|any file|*.*'
       FilterIndex = 1
@@ -279,16 +285,17 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Bottom = 4
       MaxLength = 0
       TabOrder = 1
+      OnChange = GenericSomethingChanged
     end
     object lblTCConfig: TLabel
       AnchorSideTop.Control = fneTCConfigFilename
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblTCPathForTool
       AnchorSideRight.Side = asrBottom
-      Left = 51
-      Height = 17
-      Top = 40
-      Width = 120
+      Left = 60
+      Height = 15
+      Top = 35
+      Width = 96
       Anchors = [akTop, akRight]
       Caption = 'Configuration file:'
       ParentColor = False
@@ -301,7 +308,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Left = 645
       Height = 24
       Hint = 'Some functions to select appropriate path'
-      Top = 36
+      Top = 30
       Width = 24
       BorderSpacing.Left = 24
       Glyph.Data = {
@@ -350,7 +357,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Left = 670
       Height = 24
       Hint = 'View log file content'
-      Top = 36
+      Top = 30
       Width = 24
       BorderSpacing.Left = 1
       Glyph.Data = {
@@ -389,24 +396,25 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = fneTCConfigFilename
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnOutputPathForToolbar
-      Left = 177
-      Height = 27
-      Top = 66
-      Width = 461
+      Left = 162
+      Height = 23
+      Top = 58
+      Width = 476
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
       BorderSpacing.Top = 4
       BorderSpacing.Bottom = 4
+      OnChange = GenericSomethingChanged
       TabOrder = 2
     end
     object lblTCPathForTool: TLabel
       AnchorSideTop.Control = edOutputPathForToolbar
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
-      Left = 32
-      Height = 17
-      Top = 71
-      Width = 139
+      Left = 46
+      Height = 15
+      Top = 62
+      Width = 110
       Anchors = [akTop]
       Caption = 'Toolbar output path:'
       ParentColor = False
@@ -417,8 +425,8 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideBottom.Control = edOutputPathForToolbar
       AnchorSideBottom.Side = asrBottom
       Left = 638
-      Height = 27
-      Top = 66
+      Height = 23
+      Top = 58
       Width = 32
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.InnerBorder = 4
@@ -434,9 +442,9 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideBottom.Control = edOutputPathForToolbar
       AnchorSideBottom.Side = asrBottom
       Left = 670
-      Height = 27
+      Height = 23
       Hint = 'Some functions to select appropriate path'
-      Top = 66
+      Top = 58
       Width = 24
       Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {

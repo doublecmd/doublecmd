@@ -130,6 +130,19 @@ resourcestring
   rsMsgErrorInContextMenuCommand = 'Error in context menu command';
   rsMsgErrorLoadingConfiguration = 'Error when loading configuration';
   rsMsgInvalidFormatOfConfigurationFile = 'Invalid format of configuration file';
+  rsDefaultSuffixDroppedText = '_DroppedText';
+  rsDefaultSuffixDroppedTextRichtextFilename = '_DroppedRichtext';
+  rsDefaultSuffixDroppedTextHTMLFilename = '_DroppedHTMLtext';
+  rsDefaultSuffixDroppedTextUnicodeUTF16Filename = '_DroppedUnicodeUTF16text';
+  rsDefaultSuffixDroppedTextUnicodeUTF8Filename = '_DroppedUnicodeUTF8text';
+  rsDefaultSuffixDroppedTextSimpleFilename = '_DroppedSimpleText';
+  rsCaptionForAskingFilename = 'Enter filename, with extension, for dropped text';
+  rsMsgPromptAskingFilename = 'Filename for dropped text:';
+  rsCaptionForTextFormatToImport = 'Text format to import';
+  rsMsgForTextFormatToImport = 'Select the text format to import';
+  rsMsgDragAndDropModifiedWantToSave = 'Options regarding mouse drag && drop have been modified. Do you want to save before to exit?';
+  rsMsgFileOperationsModifiedWantToSave = 'Options regarding file operations have been modified. Do you want to save before to exit?';
+  rsMsgMiscellaneousModifiedWantToSave = 'Miscellaneous options have been modified. Do you want to save before to exit?';
 
   //Hot Dir related
   rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu [%s]?'+#$0A+'Answering NO will delete only menu delimiters but will keep element inside sub-menu.';

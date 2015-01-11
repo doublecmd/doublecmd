@@ -96,6 +96,13 @@ type
   TKeyTypingModifier = (ktmNone, ktmAlt, ktmCtrlAlt);
   TKeyTypingAction = (ktaNone, ktaCommandLine, ktaQuickSearch, ktaQuickFilter);
 
+  tDesiredDropTextFormat=record
+    Name:string;
+    DesireLevel:longint;
+  end;
+
+  tDuplicatedRename = (drLegacyWithCopy, drLikeWindows7, drLikeTC);
+
 const
   { Default hotkey list version number }
   hkVersion     = 20;
@@ -116,6 +123,13 @@ const
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
+
+  { Related with the drop of text over panels}
+  NbOfDropTextFormat = 4;
+  DropTextRichText_Index=0;
+  DropTextHtml_Index=1;
+  DropTextUnicode_Index=2;
+  DropTextSimpleText_Index=3;
 
 var
   { For localization }
@@ -268,6 +282,7 @@ var
   gUseMmapInSearch : Boolean;
   gPartialNameSearch: Boolean;
   gSkipFileOpError: Boolean;
+  gTypeOfDuplicatedRename: tDuplicatedRename;
   gDropReadOnlyFlag : Boolean;
   gWipePassNumber: Integer;
   gProcessComments: Boolean;
@@ -275,6 +290,10 @@ var
   gUseTrash : Boolean; // if using delete to trash by default
   gRenameSelOnlyName:boolean;
   gShowDialogOnDragDrop: Boolean;
+  gDragAndDropDesiredTextFormat:array[0..pred(NbOfDropTextFormat)] of tDesiredDropTextFormat;
+  gDragAndDropAskFormatEachTime: Boolean;
+  gDragAndDropTextAutoFilename: Boolean;
+  gDragAndDropSaveUnicodeTextInUFT8: Boolean;
   gOverwriteFolder: Boolean;
   gNtfsHourTimeDelay: Boolean;
   gFileOperationsProgressKind: TFileOperationsProgressKind;
@@ -1145,7 +1164,19 @@ begin
   gShowCopyTabSelectPanel := False;
   gUseTrash := True;
   gSkipFileOpError := False;
+  gTypeOfDuplicatedRename := drLegacyWithCopy;
   gShowDialogOnDragDrop := False;
+  gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name:='Richtext format';
+  gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel:=0;
+  gDragAndDropDesiredTextFormat[DropTextHtml_Index].Name:='HTML format';
+  gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel:=1;
+  gDragAndDropDesiredTextFormat[DropTextUnicode_Index].Name:='Unicode format';
+  gDragAndDropDesiredTextFormat[DropTextUnicode_Index].DesireLevel:=2;
+  gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].Name:='Simple text format';
+  gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].DesireLevel:=3;
+  gDragAndDropAskFormatEachTime := False;
+  gDragAndDropTextAutoFilename := False;
+  gDragAndDropSaveUnicodeTextInUFT8 := True;
   gOverwriteFolder := False;
   gNtfsHourTimeDelay := False;
   gFileOperationsProgressKind := fopkSeparateWindow;
@@ -2199,7 +2230,15 @@ begin
       gShowCopyTabSelectPanel := GetValue(Node, 'ShowCopyTabSelectPanel', gShowCopyTabSelectPanel);
       gUseTrash := GetValue(Node, 'UseTrash', gUseTrash);
       gSkipFileOpError := GetValue(Node, 'SkipFileOpError', gSkipFileOpError);
+      gTypeOfDuplicatedRename := tDuplicatedRename(GetValue(Node, 'TypeOfDuplicatedRename', Integer(gTypeOfDuplicatedRename)));
       gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
+      gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel := GetValue(Node, 'DragAndDropTextRichtextDesireLevel', gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel);
+      gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel := GetValue(Node, 'DragAndDropTextHtmlDesireLevel',gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel);
+      gDragAndDropDesiredTextFormat[DropTextUnicode_Index].DesireLevel := GetValue(Node, 'DragAndDropTextUnicodeDesireLevel',gDragAndDropDesiredTextFormat[DropTextUnicode_Index].DesireLevel);
+      gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].DesireLevel := GetValue(Node, 'DragAndDropTextSimpletextDesireLevel',gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].DesireLevel);
+      gDragAndDropAskFormatEachTime := GetValue(Node,'DragAndDropAskFormatEachTime', gDragAndDropAskFormatEachTime);
+      gDragAndDropTextAutoFilename := GetValue(Node, 'DragAndDropTextAutoFilename', gDragAndDropTextAutoFilename);
+      gDragAndDropSaveUnicodeTextInUFT8 := GetValue(Node, 'DragAndDropSaveUnicodeTextInUFT8', gDragAndDropSaveUnicodeTextInUFT8);
       gOverwriteFolder := GetValue(Node, 'OverwriteFolder', gOverwriteFolder);
       gNtfsHourTimeDelay := GetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
       gFileOperationsProgressKind := TFileOperationsProgressKind(GetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind)));
@@ -2585,7 +2624,15 @@ begin
     SetValue(Node, 'ShowCopyTabSelectPanel', gShowCopyTabSelectPanel);
     SetValue(Node, 'UseTrash', gUseTrash);
     SetValue(Node, 'SkipFileOpError', gSkipFileOpError);
+    SetValue(Node, 'TypeOfDuplicatedRename', Integer(gTypeOfDuplicatedRename));
     SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
+    SetValue(Node, 'DragAndDropTextRichtextDesireLevel', gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel);
+    SetValue(Node, 'DragAndDropTextHtmlDesireLevel',gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel);
+    SetValue(Node, 'DragAndDropTextUnicodeDesireLevel',gDragAndDropDesiredTextFormat[DropTextUnicode_Index].DesireLevel);
+    SetValue(Node, 'DragAndDropTextSimpletextDesireLevel',gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].DesireLevel);
+    SetValue(Node, 'DragAndDropAskFormatEachTime', gDragAndDropAskFormatEachTime);
+    SetValue(Node, 'DragAndDropTextAutoFilename', gDragAndDropTextAutoFilename);
+    SetValue(Node, 'DragAndDropSaveUnicodeTextInUFT8', gDragAndDropSaveUnicodeTextInUFT8);
     SetValue(Node, 'OverwriteFolder', gOverwriteFolder);
     SetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
     SetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind));

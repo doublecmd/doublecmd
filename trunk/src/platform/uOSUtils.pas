@@ -136,6 +136,11 @@ function GetAppConfigDir: String;
 }
 function GetAppCacheDir: UTF8String;
 function GetTempFolder: String;
+
+{ Similar to "GetTempFolder" but that we can unilaterally delete at the end when closin application}
+function GetTempFolderDeletableAtTheEnd: String;
+procedure DeleteTempFolderDeletableAtTheEnd;
+
 {en
    Get the system specific self extracting archive extension
    @returns(Self extracting archive extension)
@@ -190,7 +195,7 @@ function GetComputerNetName: UTF8String;
 implementation
 
 uses
-  FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng
+  uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng
   {$IF DEFINED(MSWINDOWS)}
   , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
   , shlobj
@@ -760,6 +765,23 @@ begin
   if not mbDirectoryExists(Result) then
     mbCreateDir(Result);
   Result:= Result + PathDelim;
+end;
+
+function GetTempFolderDeletableAtTheEnd: String;
+begin
+  Result:= GetTempDir + '_dc~~~';
+  if not mbDirectoryExists(Result) then
+    mbCreateDir(Result);
+  Result:= Result + PathDelim;
+end;
+
+procedure DeleteTempFolderDeletableAtTheEnd;
+var
+  TempFolderName:string;
+begin
+  TempFolderName:= GetTempDir + '_dc~~~';
+  if mbDirectoryExists(TempFolderName) then
+    DelTree(TempFolderName);
 end;
 
 function GetSfxExt: String;
