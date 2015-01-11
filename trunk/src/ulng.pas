@@ -476,6 +476,7 @@ resourcestring
   rsOptionsEditorAutoRefresh = 'Auto refresh';
   rsOptionsEditorBehavior = 'Behaviors';
   rsOptionsEditorColors = 'Colors';
+  rsOptionsEditorBriefView = 'Brief';
   rsOptionsEditorColumnsView = 'Columns';
   rsOptionsEditorCustomColumns = 'Custom columns';
   rsOptionsEditorConfiguration = 'Configuration';

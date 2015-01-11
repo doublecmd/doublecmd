@@ -232,6 +232,7 @@ var
   gDelayLoadingTabs: Boolean;
   gHighlightUpdatedFiles: Boolean;
   gLastUsedPacker: String;
+  gBriefViewFileExtAligned: Boolean;
 
   { Tools page }
   gExternalTools: TExternalToolsOptions;
@@ -1081,6 +1082,7 @@ begin
   gHighlightUpdatedFiles := True;
   gDriveBlackList := '';
   gDriveBlackListUnmounted := False;
+  gBriefViewFileExtAligned := False;
 
   { Tools page }
   SetDefaultExternalTool(gExternalTools[etViewer]);
@@ -2078,6 +2080,7 @@ begin
       gWheelScrollLines:= GetValue(Node, 'Mouse/WheelScrollLines', gWheelScrollLines);
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
+      gBriefViewFileExtAligned := GetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
       gDateTimeFormat := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormat), DefaultDateTimeFormat);
       gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
@@ -2510,6 +2513,7 @@ begin
     SetValue(SubNode, 'WheelScrollLines', gWheelScrollLines);
     SetValue(Node, 'AutoFillColumns', gAutoFillColumns);
     SetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
+    SetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
     SetValue(Node, 'DateTimeFormat', gDateTimeFormat);
     SetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
     SetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
