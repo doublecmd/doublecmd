@@ -395,7 +395,7 @@ var
       // Print filename with align
       Y:= (DefaultColWidth - 2 - Canvas.TextWidth('I'));
       if (gShowIcons <> sim_none) then Y:= Y - gIconsSize - 2;
-      if (AFile.FSFile.Extension = '') then
+      if (not gBriefViewFileExtAligned) or (AFile.FSFile.Extension = '') then
         begin
           s:= AFile.DisplayStrings[0];
           s:= FitFileName(s, Canvas, AFile.FSFile, Y);

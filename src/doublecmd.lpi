@@ -283,7 +283,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="219">
+    <Units Count="220">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1573,6 +1573,14 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFileAssoc"/>
       </Unit218>
+      <Unit219>
+        <Filename Value="frames\foptionsbriefview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsBriefView"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsBriefView"/>
+      </Unit219>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
