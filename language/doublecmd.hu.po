@@ -1465,6 +1465,7 @@ msgid "&Up"
 msgstr "&Fel"
 
 #: tfrmfileassoc.caption
+msgctxt "tfrmfileassoc.caption"
 msgid "File associations"
 msgstr "Fájltársítások"
 
@@ -1474,6 +1475,7 @@ msgid "Actions"
 msgstr "Műveletek"
 
 #: tfrmfileassoc.gbexts.caption
+msgctxt "tfrmfileassoc.gbexts.caption"
 msgid "Extensions"
 msgstr "Kiterjesztések"
 
@@ -1483,10 +1485,12 @@ msgid "File types"
 msgstr "Fájltípusok"
 
 #: tfrmfileassoc.gbicon.caption
+msgctxt "tfrmfileassoc.gbicon.caption"
 msgid "Icon"
 msgstr "Ikon"
 
 #: tfrmfileassoc.lblaction.caption
+msgctxt "tfrmfileassoc.lblaction.caption"
 msgid "Action:"
 msgstr "Művelet :"
 
@@ -1501,6 +1505,7 @@ msgid "Edit"
 msgstr "Szerkesztés :"
 
 #: tfrmfileassoc.mieditor.caption
+msgctxt "tfrmfileassoc.mieditor.caption"
 msgid "Open in Editor"
 msgstr "Megnyitás szerkesztőben"
 
@@ -1510,14 +1515,17 @@ msgid "File name"
 msgstr "Fájl neve"
 
 #: tfrmfileassoc.mifilepath.caption
+msgctxt "tfrmfileassoc.mifilepath.caption"
 msgid "File path"
 msgstr "Fájl útvonala"
 
 #: tfrmfileassoc.mifullpath.caption
+msgctxt "tfrmfileassoc.mifullpath.caption"
 msgid "Full path"
 msgstr "Teljes elérési út"
 
 #: tfrmfileassoc.migetoutputfromcommand.caption
+msgctxt "tfrmfileassoc.migetoutputfromcommand.caption"
 msgid "Get output from command"
 msgstr "Parancs kimenetének kérése"
 
@@ -1527,10 +1535,12 @@ msgid "Open"
 msgstr "Megnyitás"
 
 #: tfrmfileassoc.mishell.caption
+msgctxt "tfrmfileassoc.mishell.caption"
 msgid "Run in terminal"
 msgstr "Futtatás terminálban"
 
 #: tfrmfileassoc.mivfs.caption
+msgctxt "tfrmfileassoc.mivfs.caption"
 msgid "Open in VFS"
 msgstr "Megnyitás VFS-ben"
 
@@ -1540,6 +1550,7 @@ msgid "View"
 msgstr "Nézőke"
 
 #: tfrmfileassoc.miviewer.caption
+msgctxt "tfrmfileassoc.miviewer.caption"
 msgid "Open in Viewer"
 msgstr "Megnyitás nézőkében"
 
@@ -2241,6 +2252,7 @@ msgid "Copy path to command line"
 msgstr "Útvonal másolása parancssorba"
 
 #: tfrmmain.actbriefview.caption
+msgctxt "tfrmmain.actbriefview.caption"
 msgid "Brief"
 msgstr "Rövid nézet"
 
@@ -3954,6 +3966,18 @@ msgstr "Ide beírhat egy vagy több meghajtót vagy csatolási pontot, elkülön
 msgid "Drives &blacklist"
 msgstr "Meghajtó &feketelista"
 
+#: tfrmoptionsbriefview.gbshowfileext.caption
+msgid "Show file extensions"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbaligned.caption
+msgid "ali&gned (with Tab)"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbdirectly.caption
+msgid "di&rectly after filename"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 #| msgid "Cut text to column width"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -4091,11 +4115,16 @@ msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
 msgid "Con&figure columns for file system:"
 msgstr "Fájlrendszer &oszlopok beállítása :"
 
+#: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
+msgid "Position of frame panel after the comparison:"
+msgstr ""
+
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgid "Add..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Backup..."
 msgstr ""
 
@@ -4104,6 +4133,7 @@ msgid "Delete..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "Export..."
 msgstr ""
 
@@ -4112,6 +4142,7 @@ msgid "Help"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"
 msgid "Import..."
 msgstr ""
 
@@ -4298,11 +4329,23 @@ msgid "to a Directory Hotlist file (.hotlist)"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
+msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
+msgid "Go to configure TC related info"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption"
+msgid "Go to configure TC related info"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
@@ -4432,9 +4475,37 @@ msgstr ""
 msgid "Addition from main panel:"
 msgstr ""
 
+#: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
+msgid "From all the supported formats, ask which one to use every time"
+msgstr ""
+
+#: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
+msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
+msgstr ""
+
+#: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
+msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
+msgstr ""
+
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
 msgstr "Megerő&sítő ablak megjelenítése \"ejtés\" után"
+
+#: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
+msgid "When drag && dropping text into panels:"
+msgstr ""
+
+#: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
+msgid "Place the most desired format on top of list (use dag && drop):"
+msgstr ""
+
+#: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
+msgid "(if the most desired is not present, we'll take second one and so on)"
+msgstr ""
+
+#: tfrmoptionsdragdrop.lblwarningforaskformat.caption
+msgid "(will not work with some source application, so try to uncheck if problem)"
+msgstr ""
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -4573,6 +4644,141 @@ msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
 msgstr "&Be"
 
+#: tfrmoptionsfileassoc.btnaddact.caption
+msgctxt "tfrmoptionsfileassoc.btnaddact.caption"
+msgid "Add"
+msgstr "Hozzáadás"
+
+#: tfrmoptionsfileassoc.btnaddext.caption
+msgctxt "tfrmoptionsfileassoc.btnaddext.caption"
+msgid "&Add"
+msgstr "&Hozzáadás"
+
+#: tfrmoptionsfileassoc.btnaddnewtype.caption
+msgctxt "tfrmoptionsfileassoc.btnaddnewtype.caption"
+msgid "A&dd"
+msgstr "Hozzáa&dás"
+
+#: tfrmoptionsfileassoc.btndownact.caption
+msgctxt "tfrmoptionsfileassoc.btndownact.caption"
+msgid "&Down"
+msgstr "&Le"
+
+#: tfrmoptionsfileassoc.btnremoveact.caption
+msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
+msgid "Remo&ve"
+msgstr "&Eltávolítás"
+
+#: tfrmoptionsfileassoc.btnremoveext.caption
+msgctxt "tfrmoptionsfileassoc.btnremoveext.caption"
+msgid "Re&move"
+msgstr "&Eltávolítás"
+
+#: tfrmoptionsfileassoc.btnremoveicon.caption
+msgctxt "tfrmoptionsfileassoc.btnremoveicon.caption"
+msgid "X"
+msgstr "X"
+
+#: tfrmoptionsfileassoc.btnremovetype.caption
+msgctxt "tfrmoptionsfileassoc.btnremovetype.caption"
+msgid "&Remove"
+msgstr "&Eltávolítás"
+
+#: tfrmoptionsfileassoc.btnrenametype.caption
+msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
+msgid "R&ename"
+msgstr "Át&nevezés"
+
+#: tfrmoptionsfileassoc.btnupact.caption
+msgctxt "tfrmoptionsfileassoc.btnupact.caption"
+msgid "&Up"
+msgstr "&Fel"
+
+#: tfrmoptionsfileassoc.gbactions.caption
+msgctxt "tfrmoptionsfileassoc.gbactions.caption"
+msgid "Actions"
+msgstr "Műveletek"
+
+#: tfrmoptionsfileassoc.gbexts.caption
+msgctxt "tfrmoptionsfileassoc.gbexts.caption"
+msgid "Extensions"
+msgstr "Kiterjesztések"
+
+#: tfrmoptionsfileassoc.gbfiletypes.caption
+msgctxt "tfrmoptionsfileassoc.gbfiletypes.caption"
+msgid "File types"
+msgstr "Fájltípusok"
+
+#: tfrmoptionsfileassoc.gbicon.caption
+msgctxt "tfrmoptionsfileassoc.gbicon.caption"
+msgid "Icon"
+msgstr "Ikon"
+
+#: tfrmoptionsfileassoc.lblaction.caption
+msgctxt "tfrmoptionsfileassoc.lblaction.caption"
+msgid "Action:"
+msgstr "Művelet :"
+
+#: tfrmoptionsfileassoc.lblcommand.caption
+msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
+msgid "&Command:"
+msgstr "&Parancs :"
+
+#: tfrmoptionsfileassoc.miedit.caption
+msgctxt "tfrmoptionsfileassoc.miedit.caption"
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: tfrmoptionsfileassoc.mieditor.caption
+msgctxt "tfrmoptionsfileassoc.mieditor.caption"
+msgid "Open in Editor"
+msgstr "Megnyitás szerkesztőben"
+
+#: tfrmoptionsfileassoc.mifilename.caption
+msgctxt "tfrmoptionsfileassoc.mifilename.caption"
+msgid "File name"
+msgstr "Fájl neve"
+
+#: tfrmoptionsfileassoc.mifilepath.caption
+msgctxt "tfrmoptionsfileassoc.mifilepath.caption"
+msgid "File path"
+msgstr "Fájl útvonala"
+
+#: tfrmoptionsfileassoc.mifullpath.caption
+msgctxt "tfrmoptionsfileassoc.mifullpath.caption"
+msgid "Full path"
+msgstr "Teljes elérési út"
+
+#: tfrmoptionsfileassoc.migetoutputfromcommand.caption
+msgctxt "tfrmoptionsfileassoc.migetoutputfromcommand.caption"
+msgid "Get output from command"
+msgstr "Parancs kimenetének kérése"
+
+#: tfrmoptionsfileassoc.miopen.caption
+msgctxt "tfrmoptionsfileassoc.miopen.caption"
+msgid "Open"
+msgstr "Megnyitás"
+
+#: tfrmoptionsfileassoc.mishell.caption
+msgctxt "tfrmoptionsfileassoc.mishell.caption"
+msgid "Run in terminal"
+msgstr "Futtatás terminálban"
+
+#: tfrmoptionsfileassoc.mivfs.caption
+msgctxt "tfrmoptionsfileassoc.mivfs.caption"
+msgid "Open in VFS"
+msgstr "Megnyitás VFS-ben"
+
+#: tfrmoptionsfileassoc.miview.caption
+msgctxt "tfrmoptionsfileassoc.miview.caption"
+msgid "View"
+msgstr "Nézőke"
+
+#: tfrmoptionsfileassoc.miviewer.caption
+msgctxt "tfrmoptionsfileassoc.miviewer.caption"
+msgid "Open in Viewer"
+msgstr "Megnyitás nézőkében"
+
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
 msgstr "Művelet &másolása"
@@ -4670,6 +4876,10 @@ msgstr "Memória térképezés has&ználata fájlokban történő kereséskor"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
 msgid "&Use stream for search text in files"
 msgstr "Memóriafolyam haszná&lata fájlokban történő kereséskor"
+
+#: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
+msgid "Duplicated name auto-rename style:"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -5255,6 +5465,20 @@ msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
 msgid " Screen layout "
 msgstr " Képernyő felosztása "
 
+#: tfrmoptionslog.btnrelativelogfile.hint
+msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionslog.btnviewlogfile.hint
+msgctxt "tfrmoptionslog.btnviewlogfile.hint"
+msgid "View log file content"
+msgstr ""
+
+#: tfrmoptionslog.cbincludedateinlogfilename.caption
+msgid "Include date in log filename"
+msgstr ""
+
 #: tfrmoptionslog.cblogarcop.caption
 #| msgid "Pack/Unpack"
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
@@ -5296,6 +5520,10 @@ msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
 msgid "Log &information messages"
 msgstr "&Információs üzenetek naplózása"
 
+#: tfrmoptionslog.cblogstartshutdown.caption
+msgid "Start/shutdown"
+msgstr ""
+
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
 msgid "Log &successful operations"
@@ -5324,9 +5552,34 @@ msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
 msgstr "Művelet állapota"
 
+#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
+msgctxt "tfrmoptionsmisc.btnoutputpathfortoolbar.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
+msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionsmisc.btnrelativetcconfigfile.hint
+msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
+msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
 msgstr "&Nem létező fájlok bélyegképeinek eltávolítása"
+
+#: tfrmoptionsmisc.btnviewconfigfile.hint
+msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
+msgid "View log file content"
+msgstr ""
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -5347,6 +5600,22 @@ msgstr "Miniatűrök gyor&sítótárazása"
 msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
 msgstr "Miniatűrök"
+
+#: tfrmoptionsmisc.gbtcexportimport.caption
+msgid "Regarding TC export/import:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbltcconfig.caption
+msgid "Configuration file:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbltcexecutable.caption
+msgid "TC executable:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbltcpathfortool.caption
+msgid "Toolbar output path:"
+msgstr ""
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
@@ -5596,6 +5865,11 @@ msgstr "Futtatás &terminálban :"
 msgid "Run t&erminal:"
 msgstr "T&erminál indítása :"
 
+#: tfrmoptionstoolbar.btnbackup.caption
+msgctxt "tfrmoptionstoolbar.btnbackup.caption"
+msgid "Backup..."
+msgstr ""
+
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
 msgid "C&lone button"
@@ -5611,6 +5885,16 @@ msgstr "&Törlés"
 msgctxt "TFRMOPTIONSTOOLBAR.BTNEDITHOTKEY.CAPTION"
 msgid "Edit hot&key"
 msgstr "Gyorsbillentyű szerkesztése :"
+
+#: tfrmoptionstoolbar.btnexport.caption
+msgctxt "tfrmoptionstoolbar.btnexport.caption"
+msgid "Export..."
+msgstr ""
+
+#: tfrmoptionstoolbar.btnimport.caption
+msgctxt "tfrmoptionstoolbar.btnimport.caption"
+msgid "Import..."
+msgstr ""
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNINSERTBUTTON.CAPTION"
@@ -5632,10 +5916,19 @@ msgctxt "TFRMOPTIONSTOOLBAR.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
 msgstr "Gyorsbillent&yű eltávolítása"
 
+#: tfrmoptionstoolbar.btnstartpath.caption
+msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
+msgid ">>"
+msgstr ">>"
+
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "L&apos gombok"
+
+#: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
+msgid "Report errors with commands"
+msgstr ""
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -5697,6 +5990,345 @@ msgstr "Ki&induló útvonal :"
 msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
 msgid "&Tooltip:"
 msgstr "Buborék& :"
+
+#: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
+msgid "for an external command"
+msgstr ""
+
+#: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
+msgid "for an internal command"
+msgstr ""
+
+#: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
+msgid "for a separator"
+msgstr ""
+
+#: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
+msgid "for a sub-tool bar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrent.caption
+msgid "Current toolbar..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttodcbar.caption"
+msgid "to a Toolbar File (.toolbar)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption"
+msgid "to a TC .BAR file (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption"
+msgid "to a TC .BAR file (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
+msgid "to a \"wincmd.ini\" of TC (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
+msgid "to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportseparator1.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miexportseparator2.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miexportseparator3.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator3.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miexportseparator4.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator4.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miexporttop.caption
+msgid "Top toolbar..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptobackup.caption
+msgid "Save a backup of Toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptodcbar.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
+msgid "to a Toolbar File (.toolbar)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
+msgid "to a TC .BAR file (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
+msgid "to a TC .BAR file (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
+msgid "to a \"wincmd.ini\" of TC (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
+msgid "to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandfirstelement.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackup.caption
+msgid "Restore a backup of Toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddtop.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupreplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupreplacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbar.caption
+msgid "from a Toolbar File (.toolbar)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddtop.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportseparator.caption
+msgctxt "tfrmoptionstoolbar.miimportseparator.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miimporttcbar.caption
+msgid "from a single TC .BAR file"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddtop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbarrepacetop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbarrepacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcini.caption
+msgid "from \"wincmd.ini\" of TC..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddtop.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcinireplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcinireplacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandaftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandfirstelement.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator10.caption
+msgctxt "tfrmoptionstoolbar.miseparator10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator11.caption
+msgctxt "tfrmoptionstoolbar.miseparator11.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator13.caption
+msgctxt "tfrmoptionstoolbar.miseparator13.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator14.caption
+msgctxt "tfrmoptionstoolbar.miseparator14.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator6.caption
+msgctxt "tfrmoptionstoolbar.miseparator6.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator7.caption
+msgctxt "tfrmoptionstoolbar.miseparator7.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator8.caption
+msgctxt "tfrmoptionstoolbar.miseparator8.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator9.caption
+msgctxt "tfrmoptionstoolbar.miseparator9.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparatoraftercurrent.caption
+msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparatorfirstitem.caption
+msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparatorlastelement.caption
+msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbarfirstelement.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbarlastelement.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbarlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
@@ -7175,6 +7807,14 @@ msgstr "Gyorsszűrő mellőzése"
 msgid "Cancel Current Operation"
 msgstr "Jelenlegi művelet megállítása"
 
+#: ulng.rscaptionforaskingfilename
+msgid "Enter filename, with extension, for dropped text"
+msgstr ""
+
+#: ulng.rscaptionfortextformattoimport
+msgid "Text format to import"
+msgstr ""
+
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
 msgstr "Törött :"
@@ -7277,6 +7917,38 @@ msgstr "Oszlop személyreszabása:"
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
 msgstr "Másolat (%d) %s"
+
+#: ulng.rsdefaultimporteddctoolbarhint
+msgid "Imported DC toolbar"
+msgstr ""
+
+#: ulng.rsdefaultimportedtctoolbarhint
+msgid "Imported TC toolbar"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtext
+msgid "_DroppedText"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtexthtmlfilename
+msgid "_DroppedHTMLtext"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextrichtextfilename
+msgid "_DroppedRichtext"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextsimplefilename
+msgid "_DroppedSimpleText"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
+msgid "_DroppedUnicodeUTF16text"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
+msgid "_DroppedUnicodeUTF8text"
+msgstr ""
 
 #: ulng.rsdlgallopcomplete
 msgid "All operations completed"
@@ -7506,6 +8178,10 @@ msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "Csere"
 
+#: ulng.rsfilenameexportedtcbarprefix
+msgid "Exported_from_DC"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
 msgstr "Kérdez;Felülír;Belemásol;Kihagy"
@@ -7686,6 +8362,10 @@ msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
 msgstr "Nézőke"
 
+#: ulng.rsimporttoolbarproblem
+msgid "Cannot find reference to default bar file"
+msgstr ""
+
 #: ulng.rslinkmsgok
 msgid "Linker complete"
 msgstr "Linker végzett"
@@ -7808,6 +8488,10 @@ msgstr "%d kiválasztott fájl/könyvtár másolása?"
 msgid "Copy selected \"%s\"?"
 msgstr "\"%s\" másolása?"
 
+#: ulng.rsmsgdctoolbarwheretosave
+msgid "Enter location and filename where to save a DC Toolbar file"
+msgstr ""
+
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
 msgstr "Törölje a részben átmásolt fájlt?"
@@ -7835,6 +8519,10 @@ msgstr "\"%s\" nem helyezhető a Kukába! Véglegesen törli?"
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "A lemez nem elérhető"
+
+#: ulng.rsmsgdraganddropmodifiedwanttosave
+msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
+msgstr ""
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -8000,6 +8688,10 @@ msgstr "Aktív fájl műveletek"
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Néhány fájlművelet még nem lett befejezve. Double Commander bezárása adatvesztést eredményezhet!"
 
+#: ulng.rsmsgfileoperationsmodifiedwanttosave
+msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
+msgstr ""
+
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
 msgstr "A fájl (%s) csak olvasható. Törli?"
@@ -8015,6 +8707,10 @@ msgstr "A mappa %s már létezik, felülírja?"
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
 msgstr "A szimbolikus hivatkozás \"%s\" követése?"
+
+#: ulng.rsmsgfortextformattoimport
+msgid "Select the text format to import"
+msgstr ""
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
@@ -8105,10 +8801,6 @@ msgstr ""
 
 #: ulng.rsmsghotdirlocateprevioussave
 msgid "Select location and filename of previously saved Directory Hotlist file"
-msgstr ""
-
-#: ulng.rsmsghotdirlocatetc
-msgid "Locate TC \"wincmd.ini\" file"
 msgstr ""
 
 #: ulng.rsmsghotdirmodifiedwanttosave
@@ -8259,6 +8951,14 @@ msgstr "Érvénytelen kijelölés"
 msgid "Loading file list..."
 msgstr "Fájl lista betöltése..."
 
+#: ulng.rsmsglocatetcconfiguation
+msgid "Locate TC configuration file (wincmd.ini)"
+msgstr ""
+
+#: ulng.rsmsglocatetcexecutable
+msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "%s másolása"
@@ -8326,6 +9026,10 @@ msgstr "Mesterjelszó"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Kérem, írja be a mesterjelszavat :"
+
+#: ulng.rsmsgmiscellaneousmodifiedwanttosave
+msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
+msgstr ""
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -8395,6 +9099,10 @@ msgstr "%s &törlése"
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Preset \"%s\" már létezik. Felülírja?"
+
+#: ulng.rsmsgpromptaskingfilename
+msgid "Filename for dropped text:"
+msgstr ""
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
@@ -8509,6 +9217,60 @@ msgstr "Fül új neve :"
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Cél útvonal :"
+
+#: ulng.rsmsgtcconfignotfound
+msgid ""
+"Error! Cannot find the TC oncfiguration file:\n"
+"%s\n"
+msgstr ""
+
+#: ulng.rsmsgtcexecutablenotfound
+msgid ""
+"Error! Cannot find the TC configuration executable:\n"
+"%s\n"
+msgstr ""
+
+#: ulng.rsmsgtcisrunning
+msgid ""
+"Error! TC is still running but it should be closed for this operation.\n"
+"Close it and press OK or press CANCEL to abort.\n"
+msgstr ""
+
+#: ulng.rsmsgtctoolbarnotfound
+msgid ""
+"Error! Cannot find the desired wanted TC toolbar output folder:\n"
+"%s\n"
+msgstr ""
+
+#: ulng.rsmsgtctoolbarwheretosave
+msgid "Enter location and filename where to save a TC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgtoolbarerrornotsaved
+msgid "Error! Problem saving toolbar!"
+msgstr ""
+
+#: ulng.rsmsgtoolbarlocatedctoolbarfile
+msgid "Locate \".toolbar\" file to import"
+msgstr ""
+
+#: ulng.rsmsgtoolbarlocatetctoolbarfile
+msgid "Locate \".BAR\" file to import"
+msgstr ""
+
+#: ulng.rsmsgtoolbarmodifiedwanttosave
+msgid "Toolbar has been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgtoolbarrestorewhat
+msgid "Enter location and filename of Toolbar to restore"
+msgstr ""
+
+#: ulng.rsmsgtoolbarsaved
+msgid ""
+"Saved!\n"
+"Toolbar filename: %s\n"
+msgstr ""
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -8992,6 +9754,11 @@ msgctxt "ulng.rsoptionseditorbehavior"
 msgid "Behaviors"
 msgstr "Viselkedés"
 
+#: ulng.rsoptionseditorbriefview
+msgctxt "ulng.rsoptionseditorbriefview"
+msgid "Brief"
+msgstr "Rövid nézet"
+
 #: ulng.rsoptionseditorcolors
 msgctxt "ulng.rsoptionseditorcolors"
 msgid "Colors"
@@ -9023,6 +9790,11 @@ msgstr "Húzd és ejtsd"
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
 msgstr "Meghajtólista gombok"
+
+#: ulng.rsoptionseditorfileassoc
+msgctxt "ulng.rsoptionseditorfileassoc"
+msgid "File associations"
+msgstr "Fájltársítások"
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -9119,6 +9891,10 @@ msgstr "Terminál"
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "Eszköztár"
+
+#: ulng.rsoptionseditortoolbarcomplement
+msgid "Complements"
+msgstr ""
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"

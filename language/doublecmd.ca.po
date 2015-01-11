@@ -1540,6 +1540,7 @@ msgid "&Up"
 msgstr "Amunt"
 
 #: tfrmfileassoc.caption
+msgctxt "tfrmfileassoc.caption"
 msgid "File associations"
 msgstr "Associacions de fitxers"
 
@@ -1549,6 +1550,7 @@ msgid "Actions"
 msgstr "Accions"
 
 #: tfrmfileassoc.gbexts.caption
+msgctxt "tfrmfileassoc.gbexts.caption"
 msgid "Extensions"
 msgstr "Extensions"
 
@@ -1558,10 +1560,12 @@ msgid "File types"
 msgstr "Tipus de Fitxer"
 
 #: tfrmfileassoc.gbicon.caption
+msgctxt "tfrmfileassoc.gbicon.caption"
 msgid "Icon"
 msgstr "Icona"
 
 #: tfrmfileassoc.lblaction.caption
+msgctxt "tfrmfileassoc.lblaction.caption"
 msgid "Action:"
 msgstr "Acció:"
 
@@ -1576,6 +1580,7 @@ msgid "Edit"
 msgstr "Edita"
 
 #: tfrmfileassoc.mieditor.caption
+msgctxt "tfrmfileassoc.mieditor.caption"
 msgid "Open in Editor"
 msgstr "Obre amb l'Editor"
 
@@ -1585,14 +1590,17 @@ msgid "File name"
 msgstr "Nom del fitxer"
 
 #: tfrmfileassoc.mifilepath.caption
+msgctxt "tfrmfileassoc.mifilepath.caption"
 msgid "File path"
 msgstr "Ruta del fitxer"
 
 #: tfrmfileassoc.mifullpath.caption
+msgctxt "tfrmfileassoc.mifullpath.caption"
 msgid "Full path"
 msgstr "Ruta completa"
 
 #: tfrmfileassoc.migetoutputfromcommand.caption
+msgctxt "tfrmfileassoc.migetoutputfromcommand.caption"
 msgid "Get output from command"
 msgstr "Obtenir sortida de comandament"
 
@@ -1602,10 +1610,12 @@ msgid "Open"
 msgstr "Obre"
 
 #: tfrmfileassoc.mishell.caption
+msgctxt "tfrmfileassoc.mishell.caption"
 msgid "Run in terminal"
 msgstr "Executa en el terminal"
 
 #: tfrmfileassoc.mivfs.caption
+msgctxt "tfrmfileassoc.mivfs.caption"
 msgid "Open in VFS"
 msgstr "Obre en VFS"
 
@@ -1615,6 +1625,7 @@ msgid "View"
 msgstr "Visualització"
 
 #: tfrmfileassoc.miviewer.caption
+msgctxt "tfrmfileassoc.miviewer.caption"
 msgid "Open in Viewer"
 msgstr "Obre en el Visualitzador"
 
@@ -2350,6 +2361,7 @@ msgid "Copy path to command line"
 msgstr "Copia ruta a linia d'ordres"
 
 #: tfrmmain.actbriefview.caption
+msgctxt "tfrmmain.actbriefview.caption"
 msgid "Brief"
 msgstr "Reduïda"
 
@@ -4151,6 +4163,18 @@ msgstr "Aquí podeu introduir una o més unitats o punts de muntatge, separats p
 msgid "Drives &blacklist"
 msgstr "Llista &negra d'unitats"
 
+#: tfrmoptionsbriefview.gbshowfileext.caption
+msgid "Show file extensions"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbaligned.caption
+msgid "ali&gned (with Tab)"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbdirectly.caption
+msgid "di&rectly after filename"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 #, fuzzy
 #| msgid "Cut text to column width"
@@ -4310,11 +4334,16 @@ msgctxt "tfrmoptionscustomcolumns.lblconfigcolumns.caption"
 msgid "Con&figure columns for file system:"
 msgstr "Configura columnes per a sistema de fitxers:"
 
+#: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
+msgid "Position of frame panel after the comparison:"
+msgstr ""
+
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgid "Add..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Backup..."
 msgstr ""
 
@@ -4323,6 +4352,7 @@ msgid "Delete..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "Export..."
 msgstr ""
 
@@ -4331,6 +4361,7 @@ msgid "Help"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"
 msgid "Import..."
 msgstr ""
 
@@ -4517,11 +4548,23 @@ msgid "to a Directory Hotlist file (.hotlist)"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
+msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
+msgid "Go to configure TC related info"
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption"
+msgid "Go to configure TC related info"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
@@ -4651,9 +4694,37 @@ msgstr ""
 msgid "Addition from main panel:"
 msgstr ""
 
+#: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
+msgid "From all the supported formats, ask which one to use every time"
+msgstr ""
+
+#: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
+msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
+msgstr ""
+
+#: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
+msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
+msgstr ""
+
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
 msgstr "Demana confirmació després de deixar anar"
+
+#: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
+msgid "When drag && dropping text into panels:"
+msgstr ""
+
+#: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
+msgid "Place the most desired format on top of list (use dag && drop):"
+msgstr ""
+
+#: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
+msgid "(if the most desired is not present, we'll take second one and so on)"
+msgstr ""
+
+#: tfrmoptionsdragdrop.lblwarningforaskformat.caption
+msgid "(will not work with some source application, so try to uncheck if problem)"
+msgstr ""
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -4792,6 +4863,157 @@ msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
 msgstr ""
 
+#: tfrmoptionsfileassoc.btnaddact.caption
+msgctxt "tfrmoptionsfileassoc.btnaddact.caption"
+msgid "Add"
+msgstr "Afegeix"
+
+#: tfrmoptionsfileassoc.btnaddext.caption
+msgctxt "tfrmoptionsfileassoc.btnaddext.caption"
+msgid "&Add"
+msgstr "Afegeix"
+
+#: tfrmoptionsfileassoc.btnaddnewtype.caption
+#, fuzzy
+#| msgid "Add"
+msgctxt "tfrmoptionsfileassoc.btnaddnewtype.caption"
+msgid "A&dd"
+msgstr "Afegeix"
+
+#: tfrmoptionsfileassoc.btndownact.caption
+#, fuzzy
+#| msgid "Down"
+msgctxt "tfrmoptionsfileassoc.btndownact.caption"
+msgid "&Down"
+msgstr "Avall"
+
+#: tfrmoptionsfileassoc.btnremoveact.caption
+#, fuzzy
+#| msgid "Remove"
+msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
+msgid "Remo&ve"
+msgstr "Elimina"
+
+#: tfrmoptionsfileassoc.btnremoveext.caption
+#, fuzzy
+#| msgid "Remove"
+msgctxt "tfrmoptionsfileassoc.btnremoveext.caption"
+msgid "Re&move"
+msgstr "Elimina"
+
+#: tfrmoptionsfileassoc.btnremoveicon.caption
+msgctxt "tfrmoptionsfileassoc.btnremoveicon.caption"
+msgid "X"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnremovetype.caption
+#, fuzzy
+#| msgid "Remove"
+msgctxt "tfrmoptionsfileassoc.btnremovetype.caption"
+msgid "&Remove"
+msgstr "Elimina"
+
+#: tfrmoptionsfileassoc.btnrenametype.caption
+#, fuzzy
+#| msgid "Rename"
+msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
+msgid "R&ename"
+msgstr "Reanomena"
+
+#: tfrmoptionsfileassoc.btnupact.caption
+#, fuzzy
+#| msgid "Up"
+msgctxt "tfrmoptionsfileassoc.btnupact.caption"
+msgid "&Up"
+msgstr "Amunt"
+
+#: tfrmoptionsfileassoc.gbactions.caption
+msgctxt "tfrmoptionsfileassoc.gbactions.caption"
+msgid "Actions"
+msgstr "Accions"
+
+#: tfrmoptionsfileassoc.gbexts.caption
+msgctxt "tfrmoptionsfileassoc.gbexts.caption"
+msgid "Extensions"
+msgstr "Extensions"
+
+#: tfrmoptionsfileassoc.gbfiletypes.caption
+msgctxt "tfrmoptionsfileassoc.gbfiletypes.caption"
+msgid "File types"
+msgstr "Tipus de Fitxer"
+
+#: tfrmoptionsfileassoc.gbicon.caption
+msgctxt "tfrmoptionsfileassoc.gbicon.caption"
+msgid "Icon"
+msgstr "Icona"
+
+#: tfrmoptionsfileassoc.lblaction.caption
+msgctxt "tfrmoptionsfileassoc.lblaction.caption"
+msgid "Action:"
+msgstr "Acció:"
+
+#: tfrmoptionsfileassoc.lblcommand.caption
+msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
+msgid "&Command:"
+msgstr "&Comandament:"
+
+#: tfrmoptionsfileassoc.miedit.caption
+msgctxt "tfrmoptionsfileassoc.miedit.caption"
+msgid "Edit"
+msgstr "Edita"
+
+#: tfrmoptionsfileassoc.mieditor.caption
+msgctxt "tfrmoptionsfileassoc.mieditor.caption"
+msgid "Open in Editor"
+msgstr "Obre amb l'Editor"
+
+#: tfrmoptionsfileassoc.mifilename.caption
+msgctxt "tfrmoptionsfileassoc.mifilename.caption"
+msgid "File name"
+msgstr "Nom del fitxer"
+
+#: tfrmoptionsfileassoc.mifilepath.caption
+msgctxt "tfrmoptionsfileassoc.mifilepath.caption"
+msgid "File path"
+msgstr "Ruta del fitxer"
+
+#: tfrmoptionsfileassoc.mifullpath.caption
+msgctxt "tfrmoptionsfileassoc.mifullpath.caption"
+msgid "Full path"
+msgstr "Ruta completa"
+
+#: tfrmoptionsfileassoc.migetoutputfromcommand.caption
+msgctxt "tfrmoptionsfileassoc.migetoutputfromcommand.caption"
+msgid "Get output from command"
+msgstr "Obtenir sortida de comandament"
+
+#: tfrmoptionsfileassoc.miopen.caption
+msgctxt "tfrmoptionsfileassoc.miopen.caption"
+msgid "Open"
+msgstr "Obre"
+
+#: tfrmoptionsfileassoc.mishell.caption
+msgctxt "tfrmoptionsfileassoc.mishell.caption"
+msgid "Run in terminal"
+msgstr "Executa en el terminal"
+
+#: tfrmoptionsfileassoc.mivfs.caption
+msgctxt "tfrmoptionsfileassoc.mivfs.caption"
+msgid "Open in VFS"
+msgstr "Obre en VFS"
+
+#: tfrmoptionsfileassoc.miview.caption
+#, fuzzy
+#| msgid "View"
+msgctxt "tfrmoptionsfileassoc.miview.caption"
+msgid "View"
+msgstr "Visualització"
+
+#: tfrmoptionsfileassoc.miviewer.caption
+msgctxt "tfrmoptionsfileassoc.miviewer.caption"
+msgid "Open in Viewer"
+msgstr "Obre en el Visualitzador"
+
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
 msgstr "Operació de còpia"
@@ -4896,6 +5118,10 @@ msgstr "Usa mapatge en memòria per a cerca de text en fitxers"
 msgctxt "tfrmoptionsfileoperations.rbusestreaminsearch.caption"
 msgid "&Use stream for search text in files"
 msgstr "Usa disc per a cerca de text en fitxers"
+
+#: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
+msgid "Duplicated name auto-rename style:"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.btnbackcolor.caption"
@@ -5542,6 +5768,20 @@ msgctxt "tfrmoptionslayout.gbscreenlayout.caption"
 msgid " Screen layout "
 msgstr " Aparença de pantalla"
 
+#: tfrmoptionslog.btnrelativelogfile.hint
+msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionslog.btnviewlogfile.hint
+msgctxt "tfrmoptionslog.btnviewlogfile.hint"
+msgid "View log file content"
+msgstr ""
+
+#: tfrmoptionslog.cbincludedateinlogfilename.caption
+msgid "Include date in log filename"
+msgstr ""
+
 #: tfrmoptionslog.cblogarcop.caption
 #, fuzzy
 #| msgid "Pack/Unpack"
@@ -5589,6 +5829,10 @@ msgctxt "tfrmoptionslog.cbloginfo.caption"
 msgid "Log &information messages"
 msgstr "Registra missatges d'informació"
 
+#: tfrmoptionslog.cblogstartshutdown.caption
+msgid "Start/shutdown"
+msgstr ""
+
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "tfrmoptionslog.cblogsuccess.caption"
 msgid "Log &successful operations"
@@ -5614,9 +5858,34 @@ msgstr "Registre de les operacions"
 msgid "Operation status"
 msgstr "Estat de les operacions"
 
+#: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
+msgctxt "tfrmoptionsmisc.btnoutputpathfortoolbar.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
+msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionsmisc.btnrelativetcconfigfile.hint
+msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
+msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
 msgstr "Esborra miniatures de fitxers que ja no existeixen"
+
+#: tfrmoptionsmisc.btnviewconfigfile.hint
+msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
+msgid "View log file content"
+msgstr ""
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -5640,6 +5909,22 @@ msgstr "Desa miniatures en caché"
 msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
 msgstr "Miniatures"
+
+#: tfrmoptionsmisc.gbtcexportimport.caption
+msgid "Regarding TC export/import:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbltcconfig.caption
+msgid "Configuration file:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbltcexecutable.caption
+msgid "TC executable:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbltcpathfortool.caption
+msgid "Toolbar output path:"
+msgstr ""
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
@@ -5926,6 +6211,11 @@ msgctxt "tfrmoptionsterminal.lblrunterm.caption"
 msgid "Run t&erminal:"
 msgstr "Terminal:"
 
+#: tfrmoptionstoolbar.btnbackup.caption
+msgctxt "tfrmoptionstoolbar.btnbackup.caption"
+msgid "Backup..."
+msgstr ""
+
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"
 msgstr "Botó de clonació"
@@ -5939,6 +6229,16 @@ msgstr "&Esborra"
 msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
 msgid "Edit hot&key"
 msgstr "Edita drecera"
+
+#: tfrmoptionstoolbar.btnexport.caption
+msgctxt "tfrmoptionstoolbar.btnexport.caption"
+msgid "Export..."
+msgstr ""
+
+#: tfrmoptionstoolbar.btnimport.caption
+msgctxt "tfrmoptionstoolbar.btnimport.caption"
+msgid "Import..."
+msgstr ""
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
 msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
@@ -5959,12 +6259,21 @@ msgstr ">>"
 msgid "Remove hotke&y"
 msgstr "Esborra drecera"
 
+#: tfrmoptionstoolbar.btnstartpath.caption
+msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
+msgid ">>"
+msgstr ">>"
+
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 #, fuzzy
 #| msgid "Flat b&uttons"
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "Botons plans"
+
+#: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
+msgid "Report errors with commands"
+msgstr ""
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -6024,6 +6333,345 @@ msgstr "Ruta d'inici"
 #: tfrmoptionstoolbar.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "Indicador de funció"
+
+#: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
+msgid "for an external command"
+msgstr ""
+
+#: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
+msgid "for an internal command"
+msgstr ""
+
+#: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
+msgid "for a separator"
+msgstr ""
+
+#: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
+msgid "for a sub-tool bar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrent.caption
+msgid "Current toolbar..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttodcbar.caption"
+msgid "to a Toolbar File (.toolbar)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption"
+msgid "to a TC .BAR file (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption"
+msgid "to a TC .BAR file (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
+msgid "to a \"wincmd.ini\" of TC (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
+msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
+msgid "to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportseparator1.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator1.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportseparator2.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator2.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportseparator3.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator3.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexportseparator4.caption
+msgctxt "tfrmoptionstoolbar.miexportseparator4.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttop.caption
+msgid "Top toolbar..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptobackup.caption
+msgid "Save a backup of Toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptodcbar.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
+msgid "to a Toolbar File (.toolbar)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
+msgid "to a TC .BAR file (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
+msgid "to a TC .BAR file (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
+msgid "to a \"wincmd.ini\" of TC (keep existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
+msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
+msgid "to a \"wincmd.ini\" of TC (erase existing)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandfirstelement.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackup.caption
+msgid "Restore a backup of Toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupaddtop.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupaddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportbackupreplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimportbackupreplacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbar.caption
+msgid "from a Toolbar File (.toolbar)"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbaraddtop.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimportseparator.caption
+msgctxt "tfrmoptionstoolbar.miimportseparator.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbar.caption
+msgid "from a single TC .BAR file"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbaraddtop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcbarrepacetop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbarrepacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcini.caption
+msgid "from \"wincmd.ini\" of TC..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddcurrent.caption"
+msgid "to add to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
+msgid "to add to a new toobar to current toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddmenutop.caption"
+msgid "to add to a new toolbar to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttciniaddtop.caption
+msgctxt "tfrmoptionstoolbar.miimporttciniaddtop.caption"
+msgid "to add to top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miimporttcinireplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcinireplacetop.caption"
+msgid "to replace top toolbar"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandaftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandfirstelement.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator10.caption
+msgctxt "tfrmoptionstoolbar.miseparator10.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator11.caption
+msgctxt "tfrmoptionstoolbar.miseparator11.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator13.caption
+msgctxt "tfrmoptionstoolbar.miseparator13.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator14.caption
+msgctxt "tfrmoptionstoolbar.miseparator14.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator6.caption
+msgctxt "tfrmoptionstoolbar.miseparator6.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator7.caption
+msgctxt "tfrmoptionstoolbar.miseparator7.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator8.caption
+msgctxt "tfrmoptionstoolbar.miseparator8.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator9.caption
+msgctxt "tfrmoptionstoolbar.miseparator9.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparatoraftercurrent.caption
+msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparatorfirstitem.caption
+msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparatorlastelement.caption
+msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
+msgid "just after current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbarfirstelement.caption"
+msgid "as first element"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbarlastelement.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbarlastelement.caption"
+msgid "as last element"
+msgstr ""
+
+#: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
+msgctxt "tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption"
+msgid "just prior current selection"
+msgstr ""
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
@@ -7576,6 +8224,14 @@ msgstr "Cancel·la el filtre ràpid"
 msgid "Cancel Current Operation"
 msgstr "Cancel·la l'operació current"
 
+#: ulng.rscaptionforaskingfilename
+msgid "Enter filename, with extension, for dropped text"
+msgstr ""
+
+#: ulng.rscaptionfortextformattoimport
+msgid "Text format to import"
+msgstr ""
+
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
 msgstr ""
@@ -7677,6 +8333,38 @@ msgstr "Columna personalitzada"
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
 msgstr "Copia (%d) %s"
+
+#: ulng.rsdefaultimporteddctoolbarhint
+msgid "Imported DC toolbar"
+msgstr ""
+
+#: ulng.rsdefaultimportedtctoolbarhint
+msgid "Imported TC toolbar"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtext
+msgid "_DroppedText"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtexthtmlfilename
+msgid "_DroppedHTMLtext"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextrichtextfilename
+msgid "_DroppedRichtext"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextsimplefilename
+msgid "_DroppedSimpleText"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
+msgid "_DroppedUnicodeUTF16text"
+msgstr ""
+
+#: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
+msgid "_DroppedUnicodeUTF8text"
+msgstr ""
 
 #: ulng.rsdlgallopcomplete
 #, fuzzy
@@ -7915,6 +8603,10 @@ msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "Reemplaçar"
 
+#: ulng.rsfilenameexportedtcbarprefix
+msgid "Exported_from_DC"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
 msgstr ""
@@ -8092,6 +8784,10 @@ msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
 msgstr "Visualitzador"
 
+#: ulng.rsimporttoolbarproblem
+msgid "Cannot find reference to default bar file"
+msgstr ""
+
 #: ulng.rslinkmsgok
 msgid "Linker complete"
 msgstr "Enllaçat complet"
@@ -8214,6 +8910,10 @@ msgstr "Copia %d Fitxers/carpetes seleccionats?"
 msgid "Copy selected \"%s\"?"
 msgstr "Copia  \"%s\"?"
 
+#: ulng.rsmsgdctoolbarwheretosave
+msgid "Enter location and filename where to save a DC Toolbar file"
+msgstr ""
+
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
 msgstr ""
@@ -8241,6 +8941,10 @@ msgstr "No puc enviar \"%s\" a la paperera!¿Ho esborro directament?"
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Disc no disponible"
+
+#: ulng.rsmsgdraganddropmodifiedwanttosave
+msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
+msgstr ""
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -8406,6 +9110,10 @@ msgstr "Operacions de fitxer actives"
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Algunes operacions de fitxer no han acabat encara. Si tanca Double Commander pot perdre dades."
 
+#: ulng.rsmsgfileoperationsmodifiedwanttosave
+msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
+msgstr ""
+
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
 msgstr "El fitxer %s s'ha marcat com de només lectura, l'esborro?"
@@ -8421,6 +9129,10 @@ msgstr "La carpeta %s existeix, la sobreescric?"
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
 msgstr "¿Segueis l'enllaç simbòlic \"%s\"?"
+
+#: ulng.rsmsgfortextformattoimport
+msgid "Select the text format to import"
+msgstr ""
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
@@ -8511,10 +9223,6 @@ msgstr ""
 
 #: ulng.rsmsghotdirlocateprevioussave
 msgid "Select location and filename of previously saved Directory Hotlist file"
-msgstr ""
-
-#: ulng.rsmsghotdirlocatetc
-msgid "Locate TC \"wincmd.ini\" file"
 msgstr ""
 
 #: ulng.rsmsghotdirmodifiedwanttosave
@@ -8665,6 +9373,14 @@ msgstr "Selecció no vàlida"
 msgid "Loading file list..."
 msgstr "Carregant la llista de fitxers ..."
 
+#: ulng.rsmsglocatetcconfiguation
+msgid "Locate TC configuration file (wincmd.ini)"
+msgstr ""
+
+#: ulng.rsmsglocatetcexecutable
+msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "Copia fitxer %s"
@@ -8732,6 +9448,10 @@ msgstr "Contrasenya mestra"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Per favor, introduiu la contrasenya mestra:"
+
+#: ulng.rsmsgmiscellaneousmodifiedwanttosave
+msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
+msgstr ""
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -8801,6 +9521,10 @@ msgstr "&Esborra %s"
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "La configuració \"%s\" ja exiteix.¿Sobreescriure?"
+
+#: ulng.rsmsgpromptaskingfilename
+msgid "Filename for dropped text:"
+msgstr ""
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
@@ -8915,6 +9639,60 @@ msgstr "Nom de la nova pestanya:"
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Ruta destí:"
+
+#: ulng.rsmsgtcconfignotfound
+msgid ""
+"Error! Cannot find the TC oncfiguration file:\n"
+"%s\n"
+msgstr ""
+
+#: ulng.rsmsgtcexecutablenotfound
+msgid ""
+"Error! Cannot find the TC configuration executable:\n"
+"%s\n"
+msgstr ""
+
+#: ulng.rsmsgtcisrunning
+msgid ""
+"Error! TC is still running but it should be closed for this operation.\n"
+"Close it and press OK or press CANCEL to abort.\n"
+msgstr ""
+
+#: ulng.rsmsgtctoolbarnotfound
+msgid ""
+"Error! Cannot find the desired wanted TC toolbar output folder:\n"
+"%s\n"
+msgstr ""
+
+#: ulng.rsmsgtctoolbarwheretosave
+msgid "Enter location and filename where to save a TC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgtoolbarerrornotsaved
+msgid "Error! Problem saving toolbar!"
+msgstr ""
+
+#: ulng.rsmsgtoolbarlocatedctoolbarfile
+msgid "Locate \".toolbar\" file to import"
+msgstr ""
+
+#: ulng.rsmsgtoolbarlocatetctoolbarfile
+msgid "Locate \".BAR\" file to import"
+msgstr ""
+
+#: ulng.rsmsgtoolbarmodifiedwanttosave
+msgid "Toolbar has been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgtoolbarrestorewhat
+msgid "Enter location and filename of Toolbar to restore"
+msgstr ""
+
+#: ulng.rsmsgtoolbarsaved
+msgid ""
+"Saved!\n"
+"Toolbar filename: %s\n"
+msgstr ""
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -9391,6 +10169,11 @@ msgctxt "ulng.rsoptionseditorbehavior"
 msgid "Behaviors"
 msgstr "Comportament"
 
+#: ulng.rsoptionseditorbriefview
+msgctxt "ulng.rsoptionseditorbriefview"
+msgid "Brief"
+msgstr "Reduïda"
+
 #: ulng.rsoptionseditorcolors
 msgctxt "ulng.rsoptionseditorcolors"
 msgid "Colors"
@@ -9422,6 +10205,11 @@ msgstr "Drag & drop (Arrossega i deixa anar)"
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
 msgstr "Butó llista d'unitats"
+
+#: ulng.rsoptionseditorfileassoc
+msgctxt "ulng.rsoptionseditorfileassoc"
+msgid "File associations"
+msgstr "Associacions de fitxers"
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -9519,6 +10307,10 @@ msgstr ""
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "Barra d'eines"
+
+#: ulng.rsoptionseditortoolbarcomplement
+msgid "Complements"
+msgstr ""
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
