@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<doublecmd DCVersion="0.6.0 alpha" ConfigVersion="5">
+<doublecmd DCVersion="0.7.0 alpha" ConfigVersion="5">
   <Configuration Save="True">
     <UseConfigInProgramDir>False</UseConfigInProgramDir>
   </Configuration>
