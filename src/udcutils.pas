@@ -241,7 +241,7 @@ implementation
 
 uses
   LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
-  DCStrUtils, DCOSUtils, uSpecialDir;
+  DCStrUtils, DCOSUtils;
 
 var
   dtLastDateSubstitutionCheck:TDateTime=0;

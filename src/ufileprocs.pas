@@ -249,14 +249,24 @@ function GetNextCopyName(FileName: UTF8String): UTF8String;
 var
   CopyNumber: Int64 = 1;
   sFilePath,
-  sFileName: UTF8String;
+  sFileName, SuffixStr: UTF8String;
 begin
   sFilePath:= ExtractFilePath(FileName);
   sFileName:= ExtractFileName(FileName);
+  SuffixStr:= '';
   repeat
-    Result := sFilePath + Format(rsCopyNameTemplate, [CopyNumber, sFileName]);
+    case gTypeOfDuplicatedRename of
+      drLegacyWithCopy: Result := sFilePath + Format(rsCopyNameTemplate, [CopyNumber, sFileName]);
+      drLikeWindows7, drLikeTC: Result :=sFilePath + RemoveFileExt(sFileName) + SuffixStr + ExtractFileExt(sFileName);
+    end;
+
     Inc(CopyNumber);
-  until not mbFileSystemEntryExists(Result);
+    case gTypeOfDuplicatedRename of
+      drLikeWindows7: SuffixStr:=' ('+IntToStr(CopyNumber)+')';
+      drLikeTC: SuffixStr:='('+IntToStr(CopyNumber)+')';
+    end;
+
+    until not mbFileSystemEntryExists(Result);
 end;
 
 end.

@@ -65,12 +65,16 @@ type
     procedure btnViewConfigFileClick(Sender: TObject);
     procedure btnOutputPathForToolbarClick(Sender: TObject);
     procedure btnRelativeOutputPathForToolbarClick(Sender: TObject);
+    procedure GenericSomethingChanged(Sender: TObject);
+  private
+    FModificationTookPlace: Boolean;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 procedure BringUsToTCConfigurationPage;
@@ -80,7 +84,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, Forms, Dialogs, fMain, Controls, uSpecialDir, uShowForm,
+  uShowMsg, fOptions, Forms, Dialogs, fMain, Controls, uSpecialDir, uShowForm,
   uGlobs, uLng, uThumbnails;
 
 { TfrmOptionsMisc }
@@ -117,6 +121,7 @@ begin
   fneTCConfigFilename.DialogTitle := rsMsgLocateTCConfiguation;
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper, mp_PATHHELPER, nil);
   {$ENDIF}
+  FModificationTookPlace := False;
 end;
 
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
@@ -132,6 +137,7 @@ begin
   gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;
   gTotalCommanderToolbarPath := edOutputPathForToolbar.Text;
   {$ENDIF}
+  FModificationTookPlace := False;
 end;
 
 { TfrmOptionsMisc.btnRelativeTCExecutableFileClick }
@@ -175,6 +181,39 @@ begin
   gSpecialDirList.SetSpecialDirRecipientAndItsType(edOutputPathForToolbar, pfPATH);
   pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
+
+{ TfrmOptionsMisc.GenericSomethingChanged }
+procedure TfrmOptionsMisc.GenericSomethingChanged(Sender: TObject);
+begin
+  FModificationTookPlace := True;
+end;
+
+{ TfrmOptionsMisc.CanWeClose }
+function TfrmOptionsMisc.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
+var
+  Answer: TMyMsgResult;
+begin
+  Result := not FModificationTookPlace;
+
+  if not Result then
+  begin
+    ShowOptions(TfrmOptionsMisc);
+    Answer := MsgBox(rsMsgMiscellaneousModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
+    case Answer of
+      mmrYes:
+      begin
+        Save;
+        Result := True;
+      end;
+
+      mmrNo: Result := True;
+      else
+        Result := False;
+    end;
+  end;
+end;
+
+
 
 procedure BringUsToTCConfigurationPage;
 var

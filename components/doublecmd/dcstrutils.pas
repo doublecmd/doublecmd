@@ -294,6 +294,7 @@ procedure SetStringsFromArray(Strings: TStrings; const anArray: TDynamicStringAr
 procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
 procedure SetValue(var anArray: TDynamicStringArray; Key: String; NewValue: Boolean);
 function ShortcutsToText(const Shortcuts: TDynamicStringArray): String;
+function GetDateTimeInStrEZSortable(DateTime:TDateTime):string;
 
 implementation
 
@@ -1055,6 +1056,18 @@ end;
 function ShortcutsToText(const Shortcuts: TDynamicStringArray): String;
 begin
   Result := ArrayToString(Shortcuts, ' ');
+end;
+
+{ GetDateTimeInStrEZSortable: Return the date and time in string format with YYYY-MM-DD@HH-MM-SS
+  so it can be integrate in a filename. Also, because of the order of the terms, it make it
+  useful when things are sorted BECAUSE it will also sort by date/time at the same time}
+function GetDateTimeInStrEZSortable(DateTime:TDateTime):string;
+var
+  MyYear, MyMonth, MyDay, MyHour, MyMin, MySec, MyMilSec: word;
+begin
+  DecodeDate(DateTime, MyYear, MyMonth, MyDay);
+  DecodeTime(DateTime, MyHour, MyMin, MySec, MyMilSec);
+  result:=Format('%d-%2.2d-%2.2d@%2.2d-%2.2d-%2.2d', [MyYear, MyMonth, MyDay, MyHour, MyMin, MySec]);
 end;
 
 end.

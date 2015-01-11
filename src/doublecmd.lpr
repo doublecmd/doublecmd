@@ -141,40 +141,44 @@ begin
     //         new function was added to explicitly initialize instance.
     InitInstance;
     if IsInstanceAllowed then
-     begin
-       if (log_start_shutdown in gLogOptions) then logWrite('Program start ('+GetCurrentUserName+'/'+GetComputerNetName+')');
+    begin
+      if (log_start_shutdown in gLogOptions) then logWrite('Program start ('+GetCurrentUserName+'/'+GetComputerNetName+')');
 
-       InitPasswordStore;
-       LoadPixMapManager;
-       Application.CreateForm(TfrmMain, frmMain); // main form
-       Application.CreateForm(TdmHighl, dmHighl); // highlighters
-       Application.CreateForm(TdmComData, dmComData); // common data
-       Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
-       Application.CreateForm(TfrmMkDir, frmMkDir);  // 21.05.2009 - makedir form
+      InitPasswordStore;
+      LoadPixMapManager;
+      Application.CreateForm(TfrmMain, frmMain); // main form
+      Application.CreateForm(TdmHighl, dmHighl); // highlighters
+      Application.CreateForm(TdmComData, dmComData); // common data
+      Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
+      Application.CreateForm(TfrmMkDir, frmMkDir);  // 21.05.2009 - makedir form
 
-       {$IF DEFINED(LCLGTK2) AND (lcl_fullversion >= 093100)}
-       // LCLGTK2 uses Application.MainForm as the clipboard widget, however our
-       // MainForm is TfrmHackForm and it never gets realized. GTK2 doesn't
-       // seem to allow a not realized widget to have clipboard ownership.
-       // We switch to frmMain instead which will be realized at some point.
-       GTK2WidgetSet.SetClipboardWidget(PGtkWidget(frmMain.Handle));
-       {$ENDIF}
+      {$IF DEFINED(LCLGTK2) AND (lcl_fullversion >= 093100)}
+      // LCLGTK2 uses Application.MainForm as the clipboard widget, however our
+      // MainForm is TfrmHackForm and it never gets realized. GTK2 doesn't
+      // seem to allow a not realized widget to have clipboard ownership.
+      // We switch to frmMain instead which will be realized at some point.
+      GTK2WidgetSet.SetClipboardWidget(PGtkWidget(frmMain.Handle));
+      {$ENDIF}
 
-       // Hooking on QT needs the handle of the main form which is created
-       // in Application.CreateForm above.
-       uKeyboard.HookKeyboardLayoutChanged;
+      // Hooking on QT needs the handle of the main form which is created
+      // in Application.CreateForm above.
+      uKeyboard.HookKeyboardLayoutChanged;
 
-       //We may now remove the starting splash screen, mot of the application has been started now
-       frmStartingSplash.Close;
-       frmStartingSplash.Release;
+      //We may now remove the starting splash screen, mot of the application has been started now
+      frmStartingSplash.Close;
+      frmStartingSplash.Release;
 
-       Application.Run;
-       if (log_start_shutdown in gLogOptions) then logWrite('Program shutdown ('+GetCurrentUserName+'/'+GetComputerNetName+')');
-     end
+      Application.Run;
+
+      if not UniqueInstance.isAnotherDCRunningWhileIamRunning then
+        DeleteTempFolderDeletableAtTheEnd;
+
+      if (log_start_shutdown in gLogOptions) then logWrite('Program shutdown ('+GetCurrentUserName+'/'+GetComputerNetName+')');
+    end
     else
-     begin
-       DCDebug('Another instance of DC is already running. Exiting.');
-     end;
+    begin
+      DCDebug('Another instance of DC is already running. Exiting.');
+    end;
 
   uKeyboard.CleanupKeyboard;
   DCDebug('Finished Double Commander');

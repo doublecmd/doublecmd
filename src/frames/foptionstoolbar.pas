@@ -201,6 +201,7 @@ type
     procedure btnBackupClick(Sender: TObject);
     procedure miExportToAnythingClick(Sender: TObject);
     procedure miImportFromAnythingClick(Sender: TObject);
+    procedure GenericSomethingChanged(Sender: TObject);
 
   private
     FCurrentButton: TKASToolButton;
@@ -210,6 +211,7 @@ type
     FUpdatingButtonType: Boolean;
     FUpdatingIconText: Boolean;
     bFirstTimeDrawn: boolean;
+    FModificationTookPlace: boolean;
     FLastLoadedToolbarsSignature: dword;
     function AddNewSubToolbar(ToolItem: TKASMenuItem): TKASToolBar;
     procedure ApplyEditControls;
@@ -370,6 +372,7 @@ begin
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
 
   FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
+  FModificationTookPlace := False;
 end;
 
 procedure TfrmOptionsToolbar.LoadCurrentButton;
@@ -554,6 +557,7 @@ begin
     gConfig.ClearNode(ToolBarNode);
     Toolbar.SaveConfiguration(gConfig, ToolBarNode);
     FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
+    FModificationTookPlace := False;
   end;
 
   Result := [];
@@ -910,6 +914,7 @@ begin
     ToolBar := pnToolbars.Controls[i] as TKASToolBar;
     ToolBar.Flat := cbFlatButtons.Checked;
   end;
+  GenericSomethingChanged(Sender);
 end;
 
 procedure TfrmOptionsToolbar.edtIconFileNameChange(Sender: TObject);
@@ -971,6 +976,7 @@ begin
       ToolBar := pnToolbars.Controls[i] as TKASToolBar;
       ToolBar.SetButtonSize(trbBarSize.Position * 2, trbBarSize.Position * 2);
     end;
+    GenericSomethingChanged(Sender);
   finally
     EnableAutoSizing;
   end;
@@ -989,6 +995,7 @@ begin
       ToolBar := pnToolbars.Controls[i] as TKASToolBar;
       ToolBar.GlyphSize := trbIconSize.Position * 2;
     end;
+    GenericSomethingChanged(Sender);
   finally
     EnableAutoSizing;
   end;
@@ -1183,7 +1190,7 @@ function TfrmOptionsToolbar.CanWeClose(var WillNeedUpdateWindowView: boolean): b
 var
   Answer: TMyMsgResult;
 begin
-  Result := (FLastLoadedToolbarsSignature = ComputeToolbarsSignature);
+  Result := (FLastLoadedToolbarsSignature = ComputeToolbarsSignature) AND (not FModificationTookPlace);
 
   if not Result then
   begin
@@ -1301,16 +1308,10 @@ var
   ToolBar: TKASToolBar;
   InnerResult: boolean = False;
   ActionDispatcher: integer;
-  FreezeTime: TDateTime;
-  MyYear, MyMonth, MyDay, MyHour, MyMin, MySec, MyMilSec: word;
 
 begin
   with Sender as TComponent do
     ActionDispatcher := tag;
-
-  FreezeTime := now;
-  DecodeDate(Freezetime, MyYear, MyMonth, MyDay);
-  DecodeTime(FreezeTime, MyHour, MyMin, MySec, MyMilSec);
 
   //1. Make we got an invalid name from the start
   SaveDialog.Filename := '';
@@ -1344,7 +1345,7 @@ begin
         BackupPath := IncludeTrailingPathDelimiter(mbExpandFileName(EnvVarConfigPath)) + 'Backup';
         if mbForceDirectory(BackupPath) then
         begin
-          SaveDialog.Filename := BackupPath + DirectorySeparator + 'Backup_' + Format('%d-%2.2d-%2.2d@%2.2d-%2.2d-%2.2d', [MyYear, MyMonth, MyDay, MyHour, MyMin, MySec]) + '.toolbar';
+          SaveDialog.Filename := BackupPath + DirectorySeparator + 'Backup_' + GetDateTimeInStrEZSortable(now) + '.toolbar';
           FlagKeepGoing := True;
         end;
       end;
@@ -1578,5 +1579,12 @@ begin
     end;
   end;
 end;
+
+{ TfrmOptionsToolbar.GenericSomethingChanged }
+procedure TfrmOptionsToolbar.GenericSomethingChanged(Sender: TObject);
+begin
+  FModificationTookPlace := True;
+end;
+
 
 end.

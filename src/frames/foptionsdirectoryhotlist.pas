@@ -788,8 +788,6 @@ var
   FlagKeepGoing: boolean = False;
   ActionDispatcher: integer;
   BackupPath: string;
-  MyYear, MyMonth, MyDay, MyHour, MyMin, MySec, MyMilSec: word;
-  FreezeTime: TDateTime;
   WorkingDirectoryHotlist: TDirectoryHotlist;
   Answer: integer;
 begin
@@ -824,13 +822,7 @@ begin
         BackupPath := IncludeTrailingPathDelimiter(mbExpandFileName(EnvVarConfigPath)) + 'Backup';
         if mbForceDirectory(BackupPath) then
         begin
-          FreezeTime := now;
-          DecodeDate(Freezetime, MyYear, MyMonth, MyDay);
-          DecodeTime(FreezeTime, MyHour, MyMin, MySec, MyMilSec);
-          SaveDialog.Filename :=
-            BackupPath + DirectorySeparator + 'Backup_' +
-            Format('%d-%2.2d-%2.2d@%2.2d-%2.2d-%2.2d', [MyYear, MyMonth, MyDay,
-            MyHour, MyMin, MySec]) + '.hotlist';
+          SaveDialog.Filename := BackupPath + DirectorySeparator + 'Backup_' +GetDateTimeInStrEZSortable(now) + '.hotlist';
           if gDirectoryHotlist.ExportDoubleCommander(SaveDialog.FileName, True) then
             msgOK(Format(rsMsgHotDirTotalBackuped, [gDirectoryHotlist.Count, SaveDialog.Filename]))
           else
@@ -1957,4 +1949,4 @@ end;
 { TODO -oDB : Be able to add a quick 16x16 icon to some friendly shortcut like a little star or something to help to see a special entry. }
 { TODO -oDB : Would be nice to have also a COPY-and-PASTE in addition to CUT-and-PASTE. Also, make sure to create new THotDir entry, not just copy entries in tree otherwise it's not good. }
 end.
-
+

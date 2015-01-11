@@ -92,6 +92,7 @@ function ShowInputQuery(const ACaption, APrompt: UTF8String; var Value: UTF8Stri
 function ShowInputQuery(Thread: TThread; const ACaption, APrompt: UTF8String; var Value: UTF8String): Boolean; overload;
 
 function ShowInputComboBox(const sCaption, sPrompt : UTF8String; slValueList : TStringList; var sValue : UTF8String) : Boolean;
+function ShowInputListBox(const sCaption, sPrompt : UTF8String; slValueList : TStringList; var sValue : UTF8String; var SelectedChoice:integer) : Boolean;
 
 procedure msgLoadLng;
 
@@ -522,6 +523,80 @@ begin
             slValueList.Add(cbValue.Text);
           sValue := cbValue.Text;
         end;
+    finally
+      FreeAndNil(frmDialog);
+    end; // with frmDialog
+end;
+
+function ShowInputListBox(const sCaption, sPrompt : UTF8String; slValueList : TStringList;
+                           var sValue : UTF8String; var SelectedChoice:integer) : Boolean;
+var
+  frmDialog : TForm;
+  lblPrompt : TLabel;
+  lbValue : TListBox;
+  bbtnOK,
+  bbtnCancel : TBitBtn;
+begin
+  SelectedChoice:=-1;
+  frmDialog := TForm.CreateNew(nil, 0);
+  with frmDialog do
+    try
+      BorderStyle := bsDialog;
+      Position := poScreenCenter;
+      AutoSize := True;
+      Height := 120;
+      ChildSizing.TopBottomSpacing := 8;
+      ChildSizing.LeftRightSpacing := 8;
+      Caption := sCaption;
+      lblPrompt := TLabel.Create(frmDialog);
+      with lblPrompt do
+        begin
+          Parent := frmDialog;
+          Caption := sPrompt;
+          Top := 6;
+          Left := 6;
+        end;
+      lbValue := TListBox.Create(frmDialog);
+      with lbValue do
+        begin
+          Parent := frmDialog;
+          Items.Assign(slValueList);
+          ItemIndex:=Items.IndexOf(sValue);
+          if (ItemIndex=-1) AND (Items.count>0) then ItemIndex:=0;
+          Left := 6;
+          AnchorToNeighbour(akTop, 6, lblPrompt);
+          Constraints.MinWidth := max(280, Screen.Width div 4);
+        end;
+      bbtnCancel := TBitBtn.Create(frmDialog);
+      with bbtnCancel do
+        begin
+          Parent := frmDialog;
+          Kind := bkCancel;
+          Cancel := True;
+          Left := 6;
+          Width:= 90;
+          Anchors := [akTop, akRight];
+          AnchorToNeighbour(akTop, 18, lbValue);
+          AnchorSide[akRight].Control := lbValue;
+          AnchorSide[akRight].Side := asrRight;
+        end;
+      bbtnOK := TBitBtn.Create(frmDialog);
+      with bbtnOK do
+        begin
+          Parent := frmDialog;
+          Kind := bkOk;
+          Default := True;
+          Width:= 90;
+          Anchors := [akTop, akRight];
+          AnchorToNeighbour(akTop, 18, lbValue);
+          AnchorToNeighbour(akRight, 6, bbtnCancel);
+        end;
+      Result := (ShowModal = mrOK) AND (lbValue.ItemIndex<>-1);
+      if Result then
+      begin
+        sValue:=lbValue.Items.Strings[lbValue.ItemIndex];
+        SelectedChoice:=lbValue.ItemIndex
+      end;
     finally
       FreeAndNil(frmDialog);
     end; // with frmDialog

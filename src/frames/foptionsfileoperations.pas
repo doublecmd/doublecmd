@@ -59,9 +59,12 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
+    rgTypeOfDuplicatedRename: TRadioGroup;
     procedure cbDeleteToTrashChange(Sender: TObject);
+    procedure GenericSomethingChanged(Sender: TObject);
   private
     FLoading: Boolean;
+    FModificationTookPlace: Boolean;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -70,6 +73,7 @@ type
     constructor Create(TheOwner: TComponent); override;
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -77,7 +81,7 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uGlobs, uLng, fOptionsHotkeys;
+  fOptions, uShowMsg, DCStrUtils, uGlobs, uLng, fOptionsHotkeys;
 
 { TfrmOptionsFileOperations }
 
@@ -105,6 +109,7 @@ begin
     HotkeysEditor := OptionsDialog.GetEditor(TfrmOptionsHotkeys);
     if Assigned(HotkeysEditor) then
       (HotkeysEditor as TfrmOptionsHotkeys).AddDeleteWithShiftHotkey(cbDeleteToTrash.Checked);
+    GenericSomethingChanged(Sender);
   end;
 end;
 
@@ -133,8 +138,10 @@ begin
   cbMoveConfirmation.Checked          := focMove in gFileOperationsConfirmations;
   cbDeleteConfirmation.Checked        := focDelete in gFileOperationsConfirmations;
   cbDeleteToTrashConfirmation.Checked := focDeleteToTrash in gFileOperationsConfirmations;
+  rgTypeOfDuplicatedRename.ItemIndex := Integer(gTypeOfDuplicatedRename);
 
   FLoading := False;
+  FModificationTookPlace := False;
 end;
 
 function TfrmOptionsFileOperations.Save: TOptionsEditorSaveFlags;
@@ -167,12 +174,43 @@ begin
     Include(gFileOperationsConfirmations, focDelete);
   if cbDeleteToTrashConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDeleteToTrash);
+  gTypeOfDuplicatedRename := tDuplicatedRename(rgTypeOfDuplicatedRename.ItemIndex);
+  FModificationTookPlace := False;
 end;
 
 constructor TfrmOptionsFileOperations.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FLoading := False;
+end;
+
+procedure TfrmOptionsFileOperations.GenericSomethingChanged(Sender: TObject);
+begin
+  FModificationTookPlace := True;
+end;
+
+function TfrmOptionsFileOperations.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
+var
+  Answer: TMyMsgResult;
+begin
+  Result := not FModificationTookPlace;
+
+  if not Result then
+  begin
+    ShowOptions(TfrmOptionsFileOperations);
+    Answer := MsgBox(rsMsgFileOperationsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
+    case Answer of
+      mmrYes:
+      begin
+        Save;
+        Result := True;
+      end;
+
+      mmrNo: Result := True;
+      else
+        Result := False;
+    end;
+  end;
 end;
 
 end.
