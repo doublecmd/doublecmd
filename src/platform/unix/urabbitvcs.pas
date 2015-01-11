@@ -248,19 +248,14 @@ var
 
   procedure SetBitmap(Item: TMenuItem; const IconName: String);
   var
-    ImageIndex: PtrInt;
-    bmpTemp: TBitmap = nil;
+    bmpTemp: TBitmap;
   begin
-    ImageIndex:= PixMapManager.GetIconByName(IconName);
-    if ImageIndex >= 0 then
-      begin
-        bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
-        if Assigned(bmpTemp) then
-        begin
-          Item.Bitmap.Assign(bmpTemp);
-          FreeAndNil(bmpTemp);
-        end;
-      end;
+    bmpTemp:= PixMapManager.LoadBitmapEnhanced(IconName, 16, True, clMenu);
+    if Assigned(bmpTemp) then
+    begin
+      Item.Bitmap.Assign(bmpTemp);
+      FreeAndNil(bmpTemp);
+    end;
   end;
 
   procedure BuildMenu(pyMenu: PPyObject; BaseItem: TMenuItem);
