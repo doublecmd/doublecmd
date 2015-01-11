@@ -356,11 +356,11 @@ end;
 {$ELSE}
 var
   I: LongInt;
-  ImageIndex: PtrInt;
-  mi, miOpenWith: TMenuItem;
+  bmpTemp: TBitmap;
   FileNames: TStringList;
+  Entry: PDesktopFileEntry;
+  mi, miOpenWith: TMenuItem;
   DesktopEntries: TList = nil;
-  bmpTemp: TBitmap = nil;
 begin
   Result := True;
   FileNames := TStringList.Create;
@@ -369,28 +369,25 @@ begin
     miOpenWith.Caption := rsMnuOpenWith;
     Self.Items.Add(miOpenWith);
 
-    for i := 0 to FFiles.Count - 1 do
-      FileNames.Add(FFiles[i].FullPath);
+    for I := 0 to FFiles.Count - 1 do
+      FileNames.Add(FFiles[I].FullPath);
 
     DesktopEntries := GetDesktopEntries(FileNames);
 
     if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
     begin
-      for i := 0 to DesktopEntries.Count - 1 do
+      for I := 0 to DesktopEntries.Count - 1 do
       begin
+        Entry := PDesktopFileEntry(DesktopEntries[I]);
         mi := TMenuItem.Create(miOpenWith);
-        mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
-        mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
-        ImageIndex:= PixMapManager.GetIconByName(PDesktopFileEntry(DesktopEntries[i])^.IconName);
-        if ImageIndex >= 0 then
-          begin
-            bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
-            if Assigned(bmpTemp) then
-              begin
-                mi.Bitmap.Assign(bmpTemp);
-                FreeAndNil(bmpTemp);
-              end;
-          end;
+        mi.Caption := Entry^.DisplayName;
+        mi.Hint := Entry^.Exec;
+        bmpTemp:= PixMapManager.LoadBitmapEnhanced(Entry^.IconName, 16, True, clMenu);
+        if Assigned(bmpTemp) then
+        begin
+          mi.Bitmap.Assign(bmpTemp);
+          FreeAndNil(bmpTemp);
+        end;
         mi.OnClick := Self.OpenWithMenuItemSelect;
         miOpenWith.Add(mi);
       end;
@@ -410,8 +407,8 @@ begin
     FreeAndNil(FileNames);
     if Assigned(DesktopEntries) then
     begin
-      for i := 0 to DesktopEntries.Count - 1 do
-        Dispose(PDesktopFileEntry(DesktopEntries[i]));
+      for I := 0 to DesktopEntries.Count - 1 do
+        Dispose(PDesktopFileEntry(DesktopEntries[I]));
       FreeAndNil(DesktopEntries);
     end;
   end;
