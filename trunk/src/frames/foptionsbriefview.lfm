@@ -1,0 +1,48 @@
+inherited frmOptionsBriefView: TfrmOptionsBriefView
+  Height = 147
+  Width = 519
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 147
+  ClientWidth = 519
+  DesignLeft = 478
+  DesignTop = 191
+  object gbShowFileExt: TGroupBox[0]
+    Left = 6
+    Height = 60
+    Top = 6
+    Width = 507
+    Align = alTop
+    AutoSize = True
+    Caption = 'Show file extensions'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 2
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 42
+    ClientWidth = 503
+    TabOrder = 0
+    object rbDirectly: TRadioButton
+      Left = 6
+      Height = 19
+      Top = 2
+      Width = 491
+      Caption = 'di&rectly after filename'
+      Checked = True
+      TabOrder = 1
+      TabStop = True
+    end
+    object rbAligned: TRadioButton
+      Left = 6
+      Height = 19
+      Top = 21
+      Width = 491
+      Caption = 'ali&gned (with Tab)'
+      TabOrder = 0
+    end
+  end
+end
