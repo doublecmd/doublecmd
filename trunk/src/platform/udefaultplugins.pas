@@ -140,6 +140,14 @@ begin
   else
     gWCXPlugins.Flags[I]:= 95;
 
+  I:= gWCXPlugins.IndexOfName('xz');
+  if I < 0 then
+    gWCXPlugins.Add('xz', 91, Folder + 'zip' + PathDelim + 'zip.wcx');
+
+  I:= gWCXPlugins.IndexOfName('txz');
+  if I < 0 then
+    gWCXPlugins.Add('txz', 95, Folder + 'zip' + PathDelim + 'zip.wcx');
+
   {$IF DEFINED(MSWINDOWS)}
   I:= gWCXPlugins.IndexOfName('cpio');
   if I < 0 then
