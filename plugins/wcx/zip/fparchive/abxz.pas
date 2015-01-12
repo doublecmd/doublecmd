@@ -1,7 +1,7 @@
 (* ***** BEGIN LICENSE BLOCK *****
  * Simple interface to lzma library
  *
- * Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+ * Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -199,25 +199,29 @@ begin
   FLzmaRec.avail_out := SizeOf(FOutput);
   while True do
   begin
-    if (FLzmaRec.avail_in = 0) and (Action <> LZMA_FINISH) then
+    if (FLzmaRec.avail_in = 0) then
     begin
       FLzmaRec.next_in := FInput;
       FLzmaRec.avail_in := FSource.Read(FInput, SizeOf(FInput));
       if FLzmaRec.avail_in = 0 then Action:= LZMA_FINISH;
     end;
     State:= Check(lzma_code(FLzmaRec, Action));
+    if (FLzmaRec.total_out > Count) then
+    begin
+      State:= LZMA_STREAM_END;
+      FLzmaRec.avail_out:= SizeOf(FOutput) - (Count - FTarget.Position);
+    end;
     if (FLzmaRec.avail_out = 0) or (State = LZMA_STREAM_END) then
     begin
-    	Size:= SizeOf(FOutput) - FLzmaRec.avail_out;
-    	if FTarget.Write(FOutput, Size) <> Size then
-        begin
-          RaiseLastOSError;
-    	end;
-    	FLzmaRec.next_out := FOutput;
-    	FLzmaRec.avail_out := SizeOf(FOutput);
+      Size:= SizeOf(FOutput) - FLzmaRec.avail_out;
+      if FTarget.Write(FOutput, Size) <> Size then
+      begin
+        RaiseLastOSError;
+      end;
+      FLzmaRec.next_out := FOutput;
+      FLzmaRec.avail_out := SizeOf(FOutput);
     end;
     if State = LZMA_STREAM_END then Exit(True);
-    if FLzmaRec.total_out >= Count then Action:= LZMA_FINISH;
   end;
 end;
 
@@ -231,7 +235,7 @@ end;
 
 destructor TLzmaBase.Destroy;
 begin
-  lzma_end(FLzmaRec);
+  if (@lzma_end <> nil) then lzma_end(FLzmaRec);
   inherited Destroy;
 end;
 
