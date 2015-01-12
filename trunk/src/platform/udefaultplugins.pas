@@ -148,6 +148,10 @@ begin
   if I < 0 then
     gWCXPlugins.Add('txz', 95, Folder + 'zip' + PathDelim + 'zip.wcx');
 
+  I:= gWCXPlugins.IndexOfName('zipx');
+  if I < 0 then
+    gWCXPlugins.Add('zipx', 84, Folder + 'zip' + PathDelim + 'zip.wcx');
+
   {$IF DEFINED(MSWINDOWS)}
   I:= gWCXPlugins.IndexOfName('cpio');
   if I < 0 then
