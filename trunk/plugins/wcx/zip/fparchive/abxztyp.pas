@@ -144,7 +144,7 @@ begin
       try
         DecompStream := TLzmaDecompression.Create(Strm, TarStream);
         try
-          DecompStream.Code(512 * 2);
+          DecompStream.Code(AB_TAR_RECORDSIZE * 4);
           TarStream.Seek(0, soFromBeginning);
           if VerifyTar(TarStream) = atTar then
             Result := atXzippedTar;
