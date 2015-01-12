@@ -41,8 +41,6 @@ uses
   Classes, SysUtils, CTypes;
 
 type
-  TLzmaReservedEnum = (LZMA_RESERVED_ENUM);
-
   TLzmaStreamRec = record
     next_in: pbyte;     (**< Pointer to the next input byte. *)
     avail_in: csize_t;  (**< Number of available input bytes in next_in. *)
@@ -77,8 +75,8 @@ type
     reserved_int2: cuint64;
     reserved_int3: csize_t;
     reserved_int4: csize_t;
-    reserved_enum1: TLzmaReservedEnum;
-    reserved_enum2: TLzmaReservedEnum;
+    reserved_enum1: cuint32;
+    reserved_enum2: cuint32;
   end;
 
 type
