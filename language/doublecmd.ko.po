@@ -10644,6 +10644,10 @@ msgstr "위;아래;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr ""
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "위치 변경하지 않기;새 파일처럼 동일한 설정 사용하기;정렬된 위치로"

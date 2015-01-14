@@ -10442,6 +10442,10 @@ msgstr "頂端;底部;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "分隔線 (&E);內部指令 (&R);外部指令 (&X);選單 (&U)"
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "不要改變位置;使用和插入新檔案同樣的設定;移到排序位置"

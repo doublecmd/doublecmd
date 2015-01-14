@@ -9624,6 +9624,10 @@ msgstr "Vârf;Bază;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "S&eparator;Comandă inte&rnă; Comandă e&xternă;Meni&u"
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "nu schimba poziția;utilizează aceleași setări ca pentru fișierele noi;la poziția sortată"

@@ -10081,6 +10081,10 @@ msgstr "Nahoře;Dole;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "O&ddělovač;Vni&třní příkaz;V&nější příkaz;Nabíd&ka"
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "neměnit pozici;použít stejné nastavení pro nové soubory;do řazené pozice"

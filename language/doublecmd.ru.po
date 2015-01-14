@@ -9679,6 +9679,10 @@ msgstr "Вверху;Внизу;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "Разд&елитель;Внутрення&я команда;Вне&шняя команда;Мен&ю"
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "не менять позицию;использовать те же установки, как для новых файлов;в отсортированной позиции"
