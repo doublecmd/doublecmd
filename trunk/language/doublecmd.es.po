@@ -10542,6 +10542,10 @@ msgstr "Arriba;Abajo;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "Separador;Comando interno;Comando externo;Menú"
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "no cambiar posición; usar la misma configuración para nuevos archivos;para posición ordenada"

@@ -9624,6 +9624,10 @@ msgstr "Inizio;Fine;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "S&eparatore;comando inte&rno;comando e&sterno;Men&u"
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "non cambiare posizione;usa le stesse impostazioni per i nuovi file; alla posizione ordinata"

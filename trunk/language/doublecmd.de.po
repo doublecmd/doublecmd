@@ -9898,7 +9898,8 @@ msgstr "Zielpfad"
 msgid ""
 "Error! Cannot find the TC oncfiguration file:\n"
 "%s\n"
-msgstr "Fehler! Kann die TC-Konfigurationsdatei nicht finden:\n"
+msgstr ""
+"Fehler! Kann die TC-Konfigurationsdatei nicht finden:\n"
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
@@ -10658,6 +10659,10 @@ msgstr "Oben;Unten;"
 #| msgid "Separator;Internal command;External command;Menu"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "Tr&ennendes Element;&Interner Befehl;E&xterner Befehl;Men&ü"
+
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"

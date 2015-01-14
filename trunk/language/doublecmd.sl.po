@@ -9623,6 +9623,10 @@ msgstr "zgoraj;spodaj;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "&Ločilnik;&Notranji ukaz;&Zunanji ukaz;&Meni"
 
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
+
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "ne spremeni mesta;uporabi enake nastavitve kot za nove datoteke;na razvrščeno mesto"

@@ -6798,7 +6798,7 @@ msgstr "Mostra informació emergent per els fitxers si el panell es talla"
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "tfrmoptionsviewer.btnbackviewercolor.caption"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionsviewer.btnfontviewercolor.caption
 msgctxt "tfrmoptionsviewer.btnfontviewercolor.caption"
@@ -10389,6 +10389,10 @@ msgstr "Amunt;Avall;"
 #: ulng.rsopttoolbarbuttontype
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "S&eparador;Comandament inte&rn;Comandament e&xtern;Men&ú"
+
+#: ulng.rsopttypeofduplicatedrename
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
