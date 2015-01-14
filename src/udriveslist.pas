@@ -420,19 +420,16 @@ var
   Rect: TRect;
 begin
   case Key of
-    VK_HOME:
+    VK_HOME, VK_PRIOR:
       begin
         Row := LowestRow;
         Key := 0;
       end;
-    VK_END:
+    VK_END, VK_NEXT:
       begin
         Row := HighestRow;
         Key := 0;
       end;
-    VK_PRIOR, VK_NEXT:
-      // Disable page-up, page-down.
-      Key := 0;
     VK_UP, VK_LEFT:
       begin
         if Row > LowestRow then
