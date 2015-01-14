@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.7.0 alphaReport-Msgid-Bugs-To: \n"
+"Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2014-10-27 19:50+0100\n"
+"PO-Revision-Date: 2015-01-11 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -4246,15 +4246,15 @@ msgstr "A&usschlussliste für Laufwerke"
 
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
-msgstr ""
+msgstr "Zeige Dateiendungen"
 
 #: tfrmoptionsbriefview.rbaligned.caption
 msgid "ali&gned (with Tab)"
-msgstr ""
+msgstr "Ausgerichtet (mit TAB)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
-msgstr ""
+msgstr "Ubnmittelbar hinter dem Dateinamen"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 #, fuzzy
@@ -4417,7 +4417,7 @@ msgstr "Bearbeite Spalten für Dateis&ystem"
 
 #: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
 msgid "Position of frame panel after the comparison:"
-msgstr ""
+msgstr "Position des Frame-Panel nach dem Vergleich:"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgid "Add..."
@@ -4474,7 +4474,7 @@ msgstr "Beim Hinzufügen eines Verzeichnisses, auch das Ziel hinzufügen"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgid "Always expand tree"
-msgstr ""
+msgstr "Struktur immer aufklappen"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only valid %env_var%"
@@ -4641,12 +4641,12 @@ msgstr "zu einer \"wincmd.ini\" aus TotalCommander (bestehende ersetzen)"
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to configure TC related info"
-msgstr ""
+msgstr "Starte die Konfiguration von TC-bezogenen Informationen"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption"
 msgid "Go to configure TC related info"
-msgstr ""
+msgstr "Starte die Konfiguration von TC-bezogenen Informationen"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
@@ -4777,15 +4777,15 @@ msgstr "Zusatz aus dem Hauptpanel:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr ""
+msgstr "Frage welches von allen unterstützten Formaten ständig benutzt werden soll"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr ""
+msgstr "Wenn Unicode-Text gespeichert werden soll, nutze das UTF-8 Format (ansonsten wird das UTF-16 Format benutzt)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr ""
+msgstr "Wenn Text fallen gelassen wird, erstelle den Dateinamen automatisch (ansonsten wird der Nutzer gefragt)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 #, fuzzy
@@ -4795,19 +4795,19 @@ msgstr "Zeige Be&stätigungsdialog nach dem Ziehen und Ablegen von Dateien"
 
 #: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
 msgid "When drag && dropping text into panels:"
-msgstr ""
+msgstr "Wenn Drag && Drop benutzt wird:"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr ""
+msgstr "Das wahrscheinlichste Format an oberste Stelle setzen (Nutze Drag && Drop):"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
-msgstr ""
+msgstr "(ist das wahrscheinlichste Format nicht verfügbar, einen Ersatz festlegen (und so weiter) )"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr ""
+msgstr "(wird mit einigen Quellen nicht fünktionieren, bitte in diesem Fall versuchen das Problem durch Nicht-Markieren zu lösen)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 #, fuzzy
@@ -5274,7 +5274,7 @@ msgstr "N&utze Stream zur Textsuche in Dateien"
 
 #: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
 msgid "Duplicated name auto-rename style:"
-msgstr ""
+msgstr "Art der Neubenennung bei gleichem Namen:"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -5967,11 +5967,11 @@ msgstr "Einige Funktionen um angemessene Pfade zu wählen"
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
 msgid "View log file content"
-msgstr ""
+msgstr "Inhalt der Log-Datei betrachten"
 
 #: tfrmoptionslog.cbincludedateinlogfilename.caption
 msgid "Include date in log filename"
-msgstr ""
+msgstr "Datum in den Namen der Log-Datei aufnehmen"
 
 #: tfrmoptionslog.cblogarcop.caption
 #, fuzzy
@@ -6022,7 +6022,7 @@ msgstr "Log-Informat&ionsmeldungen"
 
 #: tfrmoptionslog.cblogstartshutdown.caption
 msgid "Start/shutdown"
-msgstr ""
+msgstr "Start/Beenden"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
@@ -6082,7 +6082,7 @@ msgstr "Vo&rschaubilder für gelöschte Dateien entfernen"
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
-msgstr ""
+msgstr "Inhalt der Log-Datei betrachten"
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -6109,19 +6109,19 @@ msgstr "Vorschaubilder"
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
-msgstr ""
+msgstr "In Bezug auf TC Import/Export:"
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
-msgstr ""
+msgstr "Konfigurationsdatei:"
 
 #: tfrmoptionsmisc.lbltcexecutable.caption
 msgid "TC executable:"
-msgstr ""
+msgstr "TC.exe-Datei"
 
 #: tfrmoptionsmisc.lbltcpathfortool.caption
 msgid "Toolbar output path:"
-msgstr ""
+msgstr "Ausgabepfad für Toolbar:"
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
@@ -6481,7 +6481,7 @@ msgstr "&Flache Schalter"
 
 #: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
-msgstr ""
+msgstr "Berichte Fehler mit Befehlen"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -6561,38 +6561,38 @@ msgstr "&Tooltip"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
-msgstr ""
+msgstr "für externen Befehl"
 
 #: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
-msgstr ""
+msgstr "für internen Befehl"
 
 #: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
 msgid "for a separator"
-msgstr ""
+msgstr "für ein Trennzeichen"
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
-msgstr ""
+msgstr "für ein Untermenü"
 
 #: tfrmoptionstoolbar.miexportcurrent.caption
 msgid "Current toolbar..."
-msgstr ""
+msgstr "Aktuelle Toolbar..."
 
 #: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "in eine Toolbar-Datei"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr ""
+msgstr "in eine TC .bar - Datei (bestehende erhalten)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr ""
+msgstr "in eine TC .bar - Datei (bestehende überschreiben)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
@@ -6626,26 +6626,26 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miexporttop.caption
 msgid "Top toolbar..."
-msgstr ""
+msgstr "Top-Toolbar..."
 
 #: tfrmoptionstoolbar.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
-msgstr ""
+msgstr "Ein Backup der Toolbar"
 
 #: tfrmoptionstoolbar.miexporttoptodcbar.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "in eine Toolbar-Datei (.toolbar)"
 
 #: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr ""
+msgstr "in eine TC .bar - Datei (bestehende erhalten)"
 
 #: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr ""
+msgstr "in eine TC .bar - Datei (bestehende überschreiben)"
 
 #: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
@@ -6660,80 +6660,80 @@ msgstr "zu einer \"wincmd.ini\" aus TotalCommander (bestehende ersetzen)"
 #: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "direkt hinter der aktuellen Auswahl"
 
 #: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "als erstes Element"
 
 #: tfrmoptionstoolbar.miexternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "als letztes Element"
 
 #: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "direkt vor die aktuelle Auswahl"
 
 #: tfrmoptionstoolbar.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
-msgstr ""
+msgstr "Backup einer Toolbar wieder herstellen"
 
 #: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "zur aktuellen Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "zu neuer Toolbar in der aktuellen Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "zu einer neuen Toolbar auf oberster Toolbarebene hinzufügen"
 
 #: tfrmoptionstoolbar.miimportbackupaddtop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "zu oberster Toolbarebene hinzufügen"
 
 #: tfrmoptionstoolbar.miimportbackupreplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "die oberste Toolbarebene ersetzen"
 
 #: tfrmoptionstoolbar.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "aus einer Toolbar-Datei (.toolbar)"
 
 #: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "zu aktueller Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "zu neuer Toolbar in der aktueller Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "zu neuer Toolbar an oberster Position der Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportdcbaraddtop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "zu oberster Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "die oberste Toolbar ersetzen"
 
 #: tfrmoptionstoolbar.miimportseparator.caption
 msgctxt "tfrmoptionstoolbar.miimportseparator.caption"
@@ -6742,81 +6742,81 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miimporttcbar.caption
 msgid "from a single TC .BAR file"
-msgstr ""
+msgstr "aus einzelner TC .bar - Datei"
 
 #: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "zu aktueller Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "zu einer neuen Toolbar in der aktuellen Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "zu einer neuen Toolbar der obersten Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttcbaraddtop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "zu oberster Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttcbarrepacetop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbarrepacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "die oberste Toolbar ersetzen"
 
 #: tfrmoptionstoolbar.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
-msgstr ""
+msgstr "aus \"wincmd.ini\" des TC"
 
 #: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "zu aktueller Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "zu einer neuen Toolbar in der aktuellen Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "zu einer neuen Toolbar in der obersten Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttciniaddtop.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "zur obersten Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimporttcinireplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcinireplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "die oberste Toolbar ersetzen"
 
 #: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "direkt hinter die aktuelle Markierung"
 
 #: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "als erstes Element"
 
 #: tfrmoptionstoolbar.miinternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "als letztes Element"
 
 #: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "direkt vor die aktuelle Markierung"
 
 #: tfrmoptionstoolbar.miseparator10.caption
 msgctxt "tfrmoptionstoolbar.miseparator10.caption"
@@ -6861,42 +6861,42 @@ msgstr "-"
 #: tfrmoptionstoolbar.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "direkt hinter die aktuelle Markierung"
 
 #: tfrmoptionstoolbar.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
 msgid "as first element"
-msgstr ""
+msgstr "als erstes Element"
 
 #: tfrmoptionstoolbar.miseparatorlastelement.caption
 msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "als letztes Element"
 
 #: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "direkt vor die aktuelle Markierung"
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "direkt hinter die aktuelle Markierung"
 
 #: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "als erstes Element"
 
 #: tfrmoptionstoolbar.misubtoolbarlastelement.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "als letztes Element"
 
 #: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "direkt vor die aktuelle Markierung"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
@@ -8462,15 +8462,15 @@ msgstr "Aktuellen Vorgang abbrechen"
 
 #: ulng.rscaptionforaskingfilename
 msgid "Enter filename, with extension, for dropped text"
-msgstr ""
+msgstr "Dateinamen eingeben, mit Endung, für gezogenen Text"
 
 #: ulng.rscaptionfortextformattoimport
 msgid "Text format to import"
-msgstr ""
+msgstr "Zu importierendes Textformat"
 
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
-msgstr "Kompromittiert:"
+msgstr "Kompromitiert:"
 
 #: ulng.rschecksumverifygeneral
 msgid "General:"
@@ -8572,35 +8572,35 @@ msgstr "Kopie (%d) %s"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
-msgstr ""
+msgstr "Importierte DC-Toolbar"
 
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
-msgstr ""
+msgstr "Importierte TC-Toolbar"
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
-msgstr ""
+msgstr "_Gezogener Text"
 
 #: ulng.rsdefaultsuffixdroppedtexthtmlfilename
 msgid "_DroppedHTMLtext"
-msgstr ""
+msgstr "_Gezogener HTML-Text"
 
 #: ulng.rsdefaultsuffixdroppedtextrichtextfilename
 msgid "_DroppedRichtext"
-msgstr ""
+msgstr "_Gezogener RichText"
 
 #: ulng.rsdefaultsuffixdroppedtextsimplefilename
 msgid "_DroppedSimpleText"
-msgstr ""
+msgstr "_Gezogener einfacher Text"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
 msgid "_DroppedUnicodeUTF16text"
-msgstr ""
+msgstr "_Gezogener UnicodeUTF16-Text"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
-msgstr ""
+msgstr "_Gezogener UnicodeUTF8-Text"
 
 #: ulng.rsdlgallopcomplete
 #, fuzzy
@@ -8838,7 +8838,7 @@ msgstr "Ersetzen"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
-msgstr ""
+msgstr "Exportiert_aus_DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
@@ -9024,7 +9024,7 @@ msgstr "Schnellansicht"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
-msgstr ""
+msgstr "Kann Bezug zur Standard Bar-Datei nicht finden"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -9156,7 +9156,7 @@ msgstr "Markierte \"%s\" kopieren?"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
-msgstr ""
+msgstr "Speicherort und Namen unter dem die Toolbar-Datei gespeichert werden soll"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
@@ -9188,7 +9188,7 @@ msgstr "Laufwerk steht nicht zur Verfügung"
 
 #: ulng.rsmsgdraganddropmodifiedwanttosave
 msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Optionen für Drag && Drop wurden verändert. Soll gespeichert werden vor dem Beenden?"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -9356,7 +9356,7 @@ msgstr "Es gibt Datei-Operationen, die noch nicht beendet sind. Das Schliessen v
 
 #: ulng.rsmsgfileoperationsmodifiedwanttosave
 msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Optionen für Dateioperationen wurden verändert. Soll gespeichert werden vor dem Beenden?"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -9376,7 +9376,7 @@ msgstr "Sym-Link \"%s\" folgen?"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
-msgstr ""
+msgstr "Textformat zum Importieren auswählen"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
@@ -9629,11 +9629,11 @@ msgstr "Lade Dateiliste..."
 
 #: ulng.rsmsglocatetcconfiguation
 msgid "Locate TC configuration file (wincmd.ini)"
-msgstr ""
+msgstr "TC-Konfigurationsdatei (wincmd.ini) finden"
 
 #: ulng.rsmsglocatetcexecutable
 msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
-msgstr ""
+msgstr "TC.exe (totalcmd.exe oder totalcmd64.exe) finden"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -9705,7 +9705,7 @@ msgstr "Bitte Master-Passwort eingeben"
 
 #: ulng.rsmsgmiscellaneousmodifiedwanttosave
 msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Verschiedene Optionen wurden verändert. Soll vor dem Schließen gespeichert werden?"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -9778,7 +9778,7 @@ msgstr "Voreinstellung \"%s\" besteht bereits. Überschreiben?"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
-msgstr ""
+msgstr "Dateiname für gezogenen Text:"
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
@@ -9898,7 +9898,8 @@ msgstr "Zielpfad"
 msgid ""
 "Error! Cannot find the TC oncfiguration file:\n"
 "%s\n"
-msgstr ""
+msgstr "Fehler! Kann die TC-Konfigurationsdatei nicht finden:\n"
+"%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
 msgid ""
@@ -10576,7 +10577,7 @@ msgstr "Werkzeugleiste"
 
 #: ulng.rsoptionseditortoolbarcomplement
 msgid "Complements"
-msgstr ""
+msgstr "Ergänzungen"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
