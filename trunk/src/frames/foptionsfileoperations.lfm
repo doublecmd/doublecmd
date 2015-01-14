@@ -3,8 +3,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
   Width = 734
   ClientHeight = 602
   ClientWidth = 734
-  DesignLeft = 229
-  DesignTop = 44
+  DesignLeft = 156
+  DesignTop = 261
   object gbUserInterface: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -293,6 +293,11 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       ChildSizing.ControlsPerLine = 1
       ClientHeight = 57
       ClientWidth = 311
+      Items.Strings = (
+        'DC legacy - Copy (x) filename.ext'
+        'Windows - filename (x).ext'
+        'Other - filename(x).ext'
+      )
       OnSelectionChanged = GenericSomethingChanged
       TabOrder = 4
     end
