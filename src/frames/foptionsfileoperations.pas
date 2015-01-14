@@ -98,6 +98,7 @@ end;
 procedure TfrmOptionsFileOperations.Init;
 begin
   ParseLineToList(rsOptFileOperationsProgressKind, cbProgressKind.Items);
+  ParseLineToList(rsOptTypeOfDuplicatedRename, rgTypeOfDuplicatedRename.Items);
 end;
 
 procedure TfrmOptionsFileOperations.cbDeleteToTrashChange(Sender: TObject);
@@ -138,7 +139,7 @@ begin
   cbMoveConfirmation.Checked          := focMove in gFileOperationsConfirmations;
   cbDeleteConfirmation.Checked        := focDelete in gFileOperationsConfirmations;
   cbDeleteToTrashConfirmation.Checked := focDeleteToTrash in gFileOperationsConfirmations;
-  rgTypeOfDuplicatedRename.ItemIndex := Integer(gTypeOfDuplicatedRename);
+  rgTypeOfDuplicatedRename.ItemIndex  := Integer(gTypeOfDuplicatedRename);
 
   FLoading := False;
   FModificationTookPlace := False;
