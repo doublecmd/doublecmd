@@ -580,6 +580,7 @@ resourcestring
   rsOptNewFilesPosition = 'at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list';
   rsOptUpdatedFilesPosition = 'don''t change position;use the same setting as for new files;to sorted position';
   rsOptFileOperationsProgressKind = 'separate window;minimized separate window;operations panel';
+  rsOptTypeOfDuplicatedRename = 'DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext';
   rsOptFileSizeFormat = 'float;B;K;M;G';
   // Keyboard
   rsOptLetters = 'None;Command Line;Quick Search;Quick Filter';
