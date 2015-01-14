@@ -843,37 +843,22 @@ object frmMain: TfrmMain
         ShortCut = 24642
       end>
     MouseActions = <>
-    MouseTextActions = <>
     MouseSelActions = <>
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.FrameEdges = sfeAround
-    SelectedColor.BackPriority = 50
-    SelectedColor.ForePriority = 50
-    SelectedColor.FramePriority = 50
-    SelectedColor.BoldPriority = 50
-    SelectedColor.ItalicPriority = 50
-    SelectedColor.UnderlinePriority = 50
-    SelectedColor.StrikeOutPriority = 50
-    IncrementColor.FrameEdges = sfeAround
-    HighlightAllColor.FrameEdges = sfeAround
     BracketHighlightStyle = sbhsBoth
     BracketMatchColor.Background = clNone
     BracketMatchColor.Foreground = clNone
-    BracketMatchColor.FrameEdges = sfeAround
     BracketMatchColor.Style = [fsBold]
     FoldedCodeColor.Background = clNone
     FoldedCodeColor.Foreground = clGray
     FoldedCodeColor.FrameColor = clGray
-    FoldedCodeColor.FrameEdges = sfeAround
     MouseLinkColor.Background = clNone
     MouseLinkColor.Foreground = clBlue
-    MouseLinkColor.FrameEdges = sfeAround
     LineHighlightColor.Background = clNone
     LineHighlightColor.Foreground = clNone
-    LineHighlightColor.FrameEdges = sfeAround
     OnSpecialLineColors = seLogWindowSpecialLineColors
     inline SynLeftGutterPartList1: TSynGutterPartList
     end
