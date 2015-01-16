@@ -343,10 +343,10 @@ begin
     end;
     with Diff.DiffStats do
     begin
-      StatusBar.Panels[0].Text := ' Matches: ' + IntToStr(matches);
-      StatusBar.Panels[1].Text := ' Modifies: ' + IntToStr(modifies);
-      StatusBar.Panels[2].Text := ' Adds: ' + IntToStr(adds);
-      StatusBar.Panels[3].Text := ' Deletes: ' + IntToStr(deletes);
+      StatusBar.Panels[0].Text := rsDiffMatches + IntToStr(matches);
+      StatusBar.Panels[1].Text := rsDiffModifies + IntToStr(modifies);
+      StatusBar.Panels[2].Text := rsDiffAdds + IntToStr(adds);
+      StatusBar.Panels[3].Text := rsDiffDeletes + IntToStr(deletes);
     end;
   finally
     SynDiffEditLeft.FinishCompare;
