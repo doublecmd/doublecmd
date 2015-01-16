@@ -665,7 +665,8 @@ end;
 function TfrmMultiRename.sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
 var
   aFile: TFile;
-  Counter: Integer;
+  Index: Integer;
+  Counter: Int64;
 begin
   Result := '';
   if Length(sFormatStr) > 0 then
@@ -682,17 +683,17 @@ begin
         end;
       'C':
         begin
-          Counter := StrToIntDef(edPoc.Text, 1) +
-                     StrToIntDef(edInterval.Text, 1) * ItemNr;
+          Counter := StrToInt64Def(edPoc.Text, 1) +
+                     StrToInt64Def(edInterval.Text, 1) * ItemNr;
           Result := Format('%.' + cmbxWidth.Items[cmbxWidth.ItemIndex] + 'd', [Counter]);
         end;
       '=':
         begin
           Result := FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource, True);
-          for Counter := 1 to Length(Result) - 1 do
+          for Index := 1 to Length(Result) - 1 do
           begin
-            if Result[Counter] in ['\', '/', ':', '*', '?', '"', '<', '>', '|'] then
-              Result[Counter] := '.';
+            if Result[Index] in ['\', '/', ':', '*', '?', '"', '<', '>', '|'] then
+              Result[Index] := '.';
           end;
         end;
       else
