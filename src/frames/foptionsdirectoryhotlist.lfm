@@ -238,9 +238,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         Left = 8
         Height = 19
         Top = 63
-        Width = 166
+        Width = 223
         BorderSpacing.Top = 2
-        Caption = 'Show only valid %env_var%'
+        Caption = 'Show only valid environment variables'
         OnChange = cbFullExpandTreeChange
         TabOrder = 3
       end

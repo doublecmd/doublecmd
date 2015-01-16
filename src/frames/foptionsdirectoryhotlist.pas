@@ -171,6 +171,7 @@ type
     function GetNextGroupNumber:integer;
     procedure miGotoConfigureTCInfo2Click(Sender: TObject);
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   private
@@ -247,14 +248,7 @@ begin
   miSeparator5.Free;
   miImportTotalCommander.Free;
   miGotoConfigureTCInfo2.Free;
-  cbShowOnlyValidEnv.Caption:='Show only valid $env__var$';
   {$ENDIF}
-
-  {$IFDEF MSWINDOWS}
-  cbShowOnlyValidEnv.Caption:='Show only valid %env_var%';
-  {$ENDIF}
-
-
 
   if DirectoryHotlistTemp=nil then
   begin
@@ -1941,6 +1935,11 @@ end;
 procedure TfrmOptionsDirectoryHotlist.miGotoConfigureTCInfo2Click(Sender: TObject);
 begin
   BringUsToTCConfigurationPage;
+end;
+
+procedure TfrmOptionsDirectoryHotlist.Init;
+begin
+  ParseLineToList(rsOptAddFromMainPanel, rgWhereToAdd.Items);
 end;
 
 { TODO -oDB : Would be nice if directory does not exist to offer immediately to re-configure it. }
