@@ -587,6 +587,8 @@ resourcestring
   rsOptFileSizeFormat = 'float;B;K;M;G';
   // Keyboard
   rsOptLetters = 'None;Command Line;Quick Search;Quick Filter';
+  // Directory hotlist
+  rsOptAddFromMainPanel = 'Add at beginning;Add at the end;Smart add';
 
   // Quick Search/Filter
   rsOptSearchItems = '&Files;Di&rectories;Files a&nd Directories';
