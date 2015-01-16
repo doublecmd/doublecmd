@@ -3991,7 +3991,7 @@ msgid "Always expand tree"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-msgid "Show only valid %env_var%"
+msgid "Show only valid environment variables"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
@@ -5859,7 +5859,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -7531,10 +7531,6 @@ msgctxt "ulng.rscolsize"
 msgid "Size"
 msgstr "Tamanho"
 
-#: ulng.rscomparediffs
-msgid "Number of changes:"
-msgstr "Número de alterações"
-
 #: ulng.rsconfcolalign
 msgid "Align"
 msgstr "Alinhar"
@@ -7604,6 +7600,22 @@ msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
+msgstr ""
+
+#: ulng.rsdiffadds
+msgid " Adds: "
+msgstr ""
+
+#: ulng.rsdiffdeletes
+msgid " Deletes: "
+msgstr ""
+
+#: ulng.rsdiffmatches
+msgid " Matches: "
+msgstr ""
+
+#: ulng.rsdiffmodifies
+msgid " Modifies: "
 msgstr ""
 
 #: ulng.rsdlgallopcomplete
@@ -9193,6 +9205,10 @@ msgstr "A limpar \"%s\""
 #: ulng.rsoperworking
 msgid "Working"
 msgstr "A trabalhar"
+
+#: ulng.rsoptaddfrommainpanel
+msgid "Add at beginning;Add at the end;Smart add"
+msgstr ""
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"

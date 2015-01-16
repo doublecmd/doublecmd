@@ -4477,7 +4477,9 @@ msgid "Always expand tree"
 msgstr "Struktur immer aufklappen"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-msgid "Show only valid %env_var%"
+#, fuzzy
+#| msgid "Show only valid %senv_var%s"
+msgid "Show only valid environment variables"
 msgstr "Nur gültige %env_var% verwenden"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
@@ -6716,8 +6718,10 @@ msgid "to add to current toolbar"
 msgstr "zu aktueller Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
+#, fuzzy
+#| msgid "to add to a new toobar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr "zu neuer Toolbar in der aktueller Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -8527,10 +8531,6 @@ msgctxt "ulng.rscolsize"
 msgid "Size"
 msgstr "Größe"
 
-#: ulng.rscomparediffs
-msgid "Number of changes:"
-msgstr "Anzahl der Änderungen:"
-
 #: ulng.rsconfcolalign
 msgid "Align"
 msgstr "Ausrichten"
@@ -8601,6 +8601,22 @@ msgstr "_Gezogener UnicodeUTF16-Text"
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
 msgstr "_Gezogener UnicodeUTF8-Text"
+
+#: ulng.rsdiffadds
+msgid " Adds: "
+msgstr ""
+
+#: ulng.rsdiffdeletes
+msgid " Deletes: "
+msgstr ""
+
+#: ulng.rsdiffmatches
+msgid " Matches: "
+msgstr ""
+
+#: ulng.rsdiffmodifies
+msgid " Modifies: "
+msgstr ""
 
 #: ulng.rsdlgallopcomplete
 #, fuzzy
@@ -10222,6 +10238,10 @@ msgstr "Lösche \"%s\" sicher"
 #: ulng.rsoperworking
 msgid "Working"
 msgstr "Führe aus"
+
+#: ulng.rsoptaddfrommainpanel
+msgid "Add at beginning;Add at the end;Smart add"
+msgstr ""
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
