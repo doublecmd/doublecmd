@@ -1000,7 +1000,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       end
       object miImportDCBARAddMenuCurrent: TMenuItem
         Tag = 50
-        Caption = 'to add to a new toobar to current toolbar'
+        Caption = 'to add to a new toolbar to current toolbar'
         OnClick = miImportFromAnythingClick
       end
     end
