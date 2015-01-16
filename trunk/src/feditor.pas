@@ -359,13 +359,19 @@ begin
     on E: EFCreateError do
       begin
         DCDebug(E.Message);
-        msgWarning(rsMsgErrECreate + ' ' + aFileName);
+        msgError(rsMsgErrECreate + ' ' + aFileName);
         Exit;
       end;
     on E: EFOpenError do
       begin
         DCDebug(E.Message);
-        msgWarning(rsMsgErrEOpen + ' ' + aFileName);
+        msgError(rsMsgErrEOpen + ' ' + aFileName);
+        Exit;
+      end;
+    on E: EReadError do
+      begin
+        DCDebug(E.Message);
+        msgError(rsMsgErrERead + ' ' + aFileName);
         Exit;
       end;
   end;
