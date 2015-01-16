@@ -573,7 +573,7 @@ msgstr "Копировать файл(ы)"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
-msgstr ""
+msgstr "Сохранить описание"
 
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -2103,11 +2103,11 @@ msgstr "Выделите элементы для импорта"
 #: tfrmhotdirexportimport.lbhint.caption
 msgctxt "tfrmhotdirexportimport.lbhint.caption"
 msgid "When clicking a sub-menu, it will select the whole menu"
-msgstr ""
+msgstr "При выборе подменю, будет выделено всё меню"
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
-msgstr ""
+msgstr "Удерживая CTRL и нажимая на объекты, можно выделить сразу несколько объектов"
 
 #: tfrmlinker.btnexit.caption
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
@@ -3955,7 +3955,7 @@ msgstr "&Настроить колонки для файловой систем�
 
 #: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
 msgid "Position of frame panel after the comparison:"
-msgstr ""
+msgstr "Позиция панели после сравнения:"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgid "Add..."
@@ -3964,7 +3964,7 @@ msgstr "Добавить..."
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Backup..."
-msgstr ""
+msgstr "Резервное копирование..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgid "Delete..."
@@ -3995,20 +3995,20 @@ msgstr "Разное..."
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Некоторые функции для выбора подходящего пути"
 
 #: tfrmoptionsdirectoryhotlist.btnrelativetarget.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativetarget.hint"
 msgid "Some functions to select appropriate target"
-msgstr ""
+msgstr "Некоторые функции для выбора подходящего назначения"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
 msgid "Sort..."
-msgstr ""
+msgstr "Сортировать..."
 
 #: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
 msgid "When adding directory, add also target"
-msgstr ""
+msgstr "При добавлении папки, также добавить папку назначения"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgid "Always expand tree"
@@ -4016,29 +4016,29 @@ msgstr "Всегда разворачивать дерево"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only valid %env_var%"
-msgstr ""
+msgstr "Показывать только приемлемые переменные %env_var%"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In popup, show [path also]"
-msgstr ""
+msgstr "В контекстном меню показывать также и путь"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
 msgid "Name, a-z"
-msgstr ""
+msgstr "Имя, a-z"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirtarget.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirtarget.text"
 msgid "Name, a-z"
-msgstr ""
+msgstr "Имя, a-z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr ""
+msgstr "Избранные каталоги (сортируйте перетаскиванием)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgid "Other options"
-msgstr ""
+msgstr "Другие настройки"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption"
@@ -4058,12 +4058,12 @@ msgstr "Целевой путь:"
 #: tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption"
 msgid "directory of the active frame"
-msgstr ""
+msgstr "каталог активной панели"
 
 #: tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption"
 msgid "directories of the active && inactive frames"
-msgstr ""
+msgstr "каталоги активного и неактивного панелей"
 
 #: tfrmoptionsdirectoryhotlist.miaddcommand.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcommand.caption"
@@ -4078,7 +4078,7 @@ msgstr "Добавить команду"
 #: tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption"
 msgid "a copy of the selected entry"
-msgstr ""
+msgstr "копия выделенного элемента"
 
 #: tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption"
@@ -4108,7 +4108,7 @@ msgstr "Добавить подменю"
 #: tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption"
 msgid "directory I will browse to"
-msgstr ""
+msgstr "каталог, который выберу"
 
 #: tfrmoptionsdirectoryhotlist.micollapseall.caption
 msgid "Collapse all"
@@ -4116,11 +4116,11 @@ msgstr "Свернуть все"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgid "...current level of item(s) selected only"
-msgstr ""
+msgstr "...текущий уровень элемента(ов) только для выделенных"
 
 #: tfrmoptionsdirectoryhotlist.micurrentselectedoractivedirectories.caption
 msgid "current selected or active directories of active frame"
-msgstr ""
+msgstr "текущие выделенные или активные каталоги в активной панели"
 
 #: tfrmoptionsdirectoryhotlist.micutselection.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micutselection.caption"
@@ -4135,12 +4135,12 @@ msgstr "Удалить все"
 #: tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
-msgstr ""
+msgstr "подменю и все его элементы"
 
 #: tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
-msgstr ""
+msgstr "только подменю без элементов"
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption"
@@ -4155,36 +4155,36 @@ msgstr "Удалить выделенный элемент"
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
 msgid "Scan all hotdir's path to validate the ones that actually exist"
-msgstr ""
+msgstr "Сканировать все пути в избранных для проверки на существование"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption"
 msgid "Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr ""
+msgstr "Сканировать все пути в избранных и назначениях для проверки на существование"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory Hotlist file (.hotlist)"
-msgstr ""
+msgstr "в файл Избранные каталоги (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "в фвйл \"wincmd.ini\" от TC (оставить существующий)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "в фвйл \"wincmd.ini\" от TC (удалить существующий)"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to configure TC related info"
-msgstr ""
+msgstr "Перейти к настройкам, связанным с TC"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption"
 msgid "Go to configure TC related info"
-msgstr ""
+msgstr "Перейти к настройкам, связанным с TC"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
@@ -4192,15 +4192,15 @@ msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory Hotlist file (.hotlist)"
-msgstr ""
+msgstr "из файла Избранные каталоги (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"wincmd.ini\" of TC"
-msgstr ""
+msgstr "из файла \"wincmd.ini\" от TC"
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
 msgid "Open all branches"
-msgstr ""
+msgstr "Оькрыть все ветки"
 
 #: tfrmoptionsdirectoryhotlist.mipasteselection.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mipasteselection.caption"
@@ -4209,11 +4209,11 @@ msgstr "&Вставить"
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "Restore a backup of Directory Hotlist"
-msgstr ""
+msgstr "Восстановить из резервной копии Избранных каталогов"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "Save a backup of current Directory Hotlist"
-msgstr ""
+msgstr "Сохранить резервную копию Избранных каталогов"
 
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
@@ -4276,54 +4276,54 @@ msgstr "...все, от А до Я!"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgid "...single group of item(s) only"
-msgstr ""
+msgstr "...только одну группу элементов"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
 msgid "Sort single group of item(s) only"
-msgstr ""
+msgstr "Сортировать только одну группу элементов"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgid "...content of submenu(s) selected, no sublevel"
-msgstr ""
+msgstr "...содержимое подменю выделено, не подуровень"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
 msgid "...content of submenu(s) selected and all sublevels"
-msgstr ""
+msgstr "...содержимое подменю выделено и все подуровни"
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
 msgid "Test resulting menu"
-msgstr ""
+msgstr "Проверить полученное меню"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory.caption"
 msgid "directory I will type"
-msgstr ""
+msgstr "каталог, который буду вводить вручную"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption"
 msgid "Add directory I will type"
-msgstr ""
+msgstr "Добавить каталог, который буду вводить"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory3.caption
 msgid "Insert directory I will type"
-msgstr ""
+msgstr "Вставить каталог, который буду вводить"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel:"
-msgstr ""
+msgstr "Добавление из главной панели:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr ""
+msgstr "Из всех поддерживаемых форматов, спрашивать, какой будет использоваться каждый раз"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr ""
+msgstr "При сохранении Юникод текста, сохранять в формате UTF8 (или будет UTF16)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr ""
+msgstr "При перетаскивании текста, генерировать имя файла автоматически (или будет спрашивать)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -4331,19 +4331,19 @@ msgstr "По&казать диалог подтверждения после о�
 
 #: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
 msgid "When drag && dropping text into panels:"
-msgstr ""
+msgstr "При перетаскивании текста в панели:"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr ""
+msgstr "Положить в наиболее желаемый формат из начала списка (используйте перетаскивание):"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
-msgstr ""
+msgstr "(если наиболее приемлемое не представлено, мы возьмём второе и так далее)"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr ""
+msgstr "(не будет работать с некоторыми приложениями, поэтому, если есть проблемы, то попробуйте снять галочку)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -4710,7 +4710,7 @@ msgstr "Использовать поток, при поиске текста в
 
 #: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
 msgid "Duplicated name auto-rename style:"
-msgstr ""
+msgstr "Стиль автопереименования совпадающих имён:"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -4834,7 +4834,7 @@ msgstr "По&дсвечивать новые и измененные файлы"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr ""
+msgstr "Включить &переименование прямо в строке по двойному щелчку по имени"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -5262,16 +5262,16 @@ msgstr " Компоненты основного окна "
 #: tfrmoptionslog.btnrelativelogfile.hint
 msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Некоторые функции для выбора подходящего пути"
 
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
 msgid "View log file content"
-msgstr ""
+msgstr "Просмотреть содержимое файла журнала"
 
 #: tfrmoptionslog.cbincludedateinlogfilename.caption
 msgid "Include date in log filename"
-msgstr ""
+msgstr "Добавоять дату в имя файла журнала"
 
 #: tfrmoptionslog.cblogarcop.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
@@ -5310,7 +5310,7 @@ msgstr "&Информационные сообщения"
 
 #: tfrmoptionslog.cblogstartshutdown.caption
 msgid "Start/shutdown"
-msgstr ""
+msgstr "Пуск/выключение"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
@@ -5346,17 +5346,17 @@ msgstr ">>"
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Некоторые функции для выбора подходящего пути"
 
 #: tfrmoptionsmisc.btnrelativetcconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Некоторые функции для выбора подходящего пути"
 
 #: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
 msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Некоторые функции для выбора подходящего пути"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
@@ -5365,7 +5365,7 @@ msgstr "&Удалить эскизы для отсутствующих файл�
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
-msgstr ""
+msgstr "Просмотреть содержимое файла журнала"
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -5388,19 +5388,19 @@ msgstr "Эскизы"
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
-msgstr ""
+msgstr "Касательно TC экспорта/импорта:"
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
-msgstr ""
+msgstr "Файл настроек:"
 
 #: tfrmoptionsmisc.lbltcexecutable.caption
 msgid "TC executable:"
-msgstr ""
+msgstr "Исполняемый файл TC:"
 
 #: tfrmoptionsmisc.lbltcpathfortool.caption
 msgid "Toolbar output path:"
-msgstr ""
+msgstr "Путь к папке с панелями инструментов:"
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
@@ -5640,7 +5640,7 @@ msgstr "Запуск &терминала"
 #: tfrmoptionstoolbar.btnbackup.caption
 msgctxt "tfrmoptionstoolbar.btnbackup.caption"
 msgid "Backup..."
-msgstr ""
+msgstr "Резервное копирование..."
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
@@ -5700,7 +5700,7 @@ msgstr "&Плоские кнопки"
 
 #: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
-msgstr ""
+msgstr "Сообщить об ошибках с командами"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -5762,48 +5762,48 @@ msgstr "Подс&казка:"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
-msgstr ""
+msgstr "для внешней команды"
 
 #: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
-msgstr ""
+msgstr "для внутренней команды"
 
 #: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
 msgid "for a separator"
-msgstr ""
+msgstr "для разделителя"
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
-msgstr ""
+msgstr "для под-панели инструментов"
 
 #: tfrmoptionstoolbar.miexportcurrent.caption
 msgid "Current toolbar..."
-msgstr ""
+msgstr "Текущая панель инструментов..."
 
 #: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "в файл Панели инструментов (.toolbar)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr ""
+msgstr "в файл TC .BAR (оставить существующий)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr ""
+msgstr "в файл TC .BAR (удалить существующий)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "в фвйл \"wincmd.ini\" от TC (оставить существующий)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "в фвйл \"wincmd.ini\" от TC (удалить существующий)"
 
 #: tfrmoptionstoolbar.miexportseparator1.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator1.caption"
@@ -5827,114 +5827,114 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miexporttop.caption
 msgid "Top toolbar..."
-msgstr ""
+msgstr "Наивысшая панель инструментов..."
 
 #: tfrmoptionstoolbar.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
-msgstr ""
+msgstr "Сохранить резервную копию Панели инструментов"
 
 #: tfrmoptionstoolbar.miexporttoptodcbar.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "в файл Панели инструментов (.toolbar)"
 
 #: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr ""
+msgstr "в файл TC .BAR (оставить существующий)"
 
 #: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr ""
+msgstr "в файл TC .BAR (удалить существующий)"
 
 #: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "в фвйл \"wincmd.ini\" от TC (оставить существующий)"
 
 #: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "в фвйл \"wincmd.ini\" от TC (удалить существующий)"
 
 #: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "сразу после текущей выбранной"
 
 #: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "как первый элемент"
 
 #: tfrmoptionstoolbar.miexternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "как последний элемент"
 
 #: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "сразу перед текущей выбранной"
 
 #: tfrmoptionstoolbar.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
-msgstr ""
+msgstr "Восстановить из резервной копии Панели инструментов"
 
 #: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "добавить в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "добавить в новую панель в текущей панели инструментов"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "добавить в новую панель в наивысшей панели инструментов"
 
 #: tfrmoptionstoolbar.miimportbackupaddtop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "добавить в наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimportbackupreplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "заменить наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "из файла Панели инструментов (.toolbar)"
 
 #: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "добавить в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "добавить в новую панель в текущей панели инструментов"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "добавить в новую панель в наивысшей панели инструментов"
 
 #: tfrmoptionstoolbar.miimportdcbaraddtop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "добавить в наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "заменить наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimportseparator.caption
 msgctxt "tfrmoptionstoolbar.miimportseparator.caption"
@@ -5943,81 +5943,81 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miimporttcbar.caption
 msgid "from a single TC .BAR file"
-msgstr ""
+msgstr "из одного файла TC .BAR"
 
 #: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "добавить в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgid "to add to a new toolbar to current toolbar"
+msgstr "добавить в новую панель в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "добавить в новую панель в наивысшей панели инструментов"
 
 #: tfrmoptionstoolbar.miimporttcbaraddtop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "добавить в наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcbarrepacetop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbarrepacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "заменить наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
-msgstr ""
+msgstr "из файла \"wincmd.ini\" от TC..."
 
 #: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "добавить в текущую панель"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "добавить в новую панель в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "добавить в новую панель в наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttciniaddtop.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "добавить в наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcinireplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcinireplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "заменить наивысшую панель инструментов"
 
 #: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "сразу после текущей выбранной"
 
 #: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "как первый элемент"
 
 #: tfrmoptionstoolbar.miinternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "как последний элемент"
 
 #: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "сразу перед текущей выбранной"
 
 #: tfrmoptionstoolbar.miseparator10.caption
 msgctxt "tfrmoptionstoolbar.miseparator10.caption"
@@ -6062,42 +6062,42 @@ msgstr "-"
 #: tfrmoptionstoolbar.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "сразу после текущей выбранной"
 
 #: tfrmoptionstoolbar.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
 msgid "as first element"
-msgstr ""
+msgstr "как первый элемент"
 
 #: tfrmoptionstoolbar.miseparatorlastelement.caption
 msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "как последний элемент"
 
 #: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "сразу перед текущей выбранной"
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "сразу после текущей выбранной"
 
 #: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "как первый элемент"
 
 #: tfrmoptionstoolbar.misubtoolbarlastelement.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "как последний элемент"
 
 #: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "сразу перед текущей выбранной"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
@@ -6652,11 +6652,11 @@ msgstr "Lazarus"
 
 #: tfrmstartingsplash.lbloperatingsystem.caption
 msgid "Operating System"
-msgstr ""
+msgstr "Операционная система"
 
 #: tfrmstartingsplash.lblplatform.caption
 msgid "Platform"
-msgstr ""
+msgstr "Платформа"
 
 #: tfrmstartingsplash.lblrevision.caption
 msgctxt "tfrmstartingsplash.lblrevision.caption"
@@ -7521,6 +7521,11 @@ msgid ""
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
 msgstr ""
+"Этот файл не может быть найден и можно помочь принять окончательную комбинацию файлов:\n"
+"%s\n"
+"\n"
+"Можете ли вы сделать это доступным и нажать \"OK\" когда будете готовы,\n"
+"или нажать \"ОТМЕНА\" чтобы продолжить без этого?\n"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -7532,11 +7537,11 @@ msgstr "Отменить текущую операцию"
 
 #: ulng.rscaptionforaskingfilename
 msgid "Enter filename, with extension, for dropped text"
-msgstr ""
+msgstr "Введите имя файла, с расширением, для перетащенного текста"
 
 #: ulng.rscaptionfortextformattoimport
 msgid "Text format to import"
-msgstr ""
+msgstr "Текстовый формат для импорта"
 
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
@@ -7642,11 +7647,11 @@ msgstr "Копия (%d) %s"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
-msgstr ""
+msgstr "Импортированная панель инструментов DC"
 
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
-msgstr ""
+msgstr "Импортированная панель инструментов TC"
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -8047,7 +8052,7 @@ msgstr "Ошибка создания жёсткой ссылки."
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
-msgstr ""
+msgstr "Извините, нечего импортировать!"
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
@@ -8055,6 +8060,9 @@ msgid ""
 "\n"
 "Are you sure you want to proceed?\n"
 msgstr ""
+"Внимание! Когда восстановите из резервного файла .hotlist, очистится существующий список и заменится импортированным.\n"
+"\n"
+"Вы уверены что хотите продолжить?\n"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -8067,7 +8075,7 @@ msgstr "Поиск различий"
 
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
-msgstr ""
+msgstr "Диалог редактирования комментария"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -8080,7 +8088,7 @@ msgstr "Внутренняя программа просмотра"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
-msgstr ""
+msgstr "Не могу найти ссылку на файл панели инструментов по умолчанию"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -8170,6 +8178,10 @@ msgid ""
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
 msgstr ""
+"Плохой CRC32 для файла назначения:\n"
+"\"%s\"\n"
+"\n"
+"Хотите оставить повреждённый файл назначения?\n"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -8205,7 +8217,7 @@ msgstr "Копировать выделенное \"%s\"?"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
-msgstr ""
+msgstr "Введите место расположения и имя файла, куда сохранить DC файл панели инструментов"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
@@ -8237,7 +8249,7 @@ msgstr "Диск недоступен"
 
 #: ulng.rsmsgdraganddropmodifiedwanttosave
 msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Настройки перетаскивания мышью изменены. Хотите сохранить настройки перед тем как выйти?"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -8405,7 +8417,7 @@ msgstr "Некоторые операции еще не завершены. За
 
 #: ulng.rsmsgfileoperationsmodifiedwanttosave
 msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Настройки файловых операций изменены. Хотите сохранить настройки перед тем как выйти?"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -8425,7 +8437,7 @@ msgstr "Следовать ссылке \"%s\"?"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
-msgstr ""
+msgstr "Выберите текстовый формат для импорта"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
@@ -8449,35 +8461,35 @@ msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
 msgid "Configuration of Directory Hotlist"
-msgstr ""
+msgstr "Настройка Избранных каталогов"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr ""
+msgstr "Вы уверены что хотите удалить все объекты из ваших Избранных каталогов? (Нельзя будет вернуть как было!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
-msgstr ""
+msgstr "Это запустит следующую команду:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
-msgstr ""
+msgstr "Это избранный каталог по имени "
 
 #: ulng.rsmsghotdirdemopath
 msgid "This will change active frame to the following path:"
-msgstr ""
+msgstr "Это изменит активную панель на следующий путь:"
 
 #: ulng.rsmsghotdirdemotarget
 msgid "And inactive frame would change to the following path:"
-msgstr ""
+msgstr "И изменит неактивную панель на следующий путь:"
 
 #: ulng.rsmsghotdirerrorbackuping
 msgid "Error backuping entries..."
-msgstr ""
+msgstr "Ошибка создания резервной копии..."
 
 #: ulng.rsmsghotdirerrorexporting
 msgid "Error exporting entries..."
-msgstr ""
+msgstr "Ошибка экспорта объектов..."
 
 #: ulng.rsmsghotdirexportall
 msgid "Export all!"
@@ -8485,11 +8497,11 @@ msgstr "Экспортировать все"
 
 #: ulng.rsmsghotdirexporthotlist
 msgid "Export Directory Hotlist - Select the entries you want to export"
-msgstr ""
+msgstr "Экспорт Избранных каталогов - Выделите объекты, которые хотите экспортировать"
 
 #: ulng.rsmsghotdirexportsel
 msgid "Export selected"
-msgstr ""
+msgstr "Экспорт выделенных"
 
 #: ulng.rsmsghotdirimportall
 msgctxt "ulng.rsmsghotdirimportall"
@@ -8498,7 +8510,7 @@ msgstr "Импортировать все"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
-msgstr ""
+msgstr "Импорт Избранных каталогов - Выделите объекты, которые хотите импортировать"
 
 #: ulng.rsmsghotdirimportsel
 msgctxt "ulng.rsmsghotdirimportsel"
@@ -8512,19 +8524,19 @@ msgstr "Путь"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr ""
+msgstr "Найдите файл \".hotlist\" для импорта"
 
 #: ulng.rsmsghotdirlocateprevioussave
 msgid "Select location and filename of previously saved Directory Hotlist file"
-msgstr ""
+msgstr "Выберите место расположения и имя файла ранее сохранённого файла Избранных каталогов"
 
 #: ulng.rsmsghotdirmodifiedwanttosave
 msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Избранные каталоги изменены. Хотите сохранить, перед тем как выйти?"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
-msgstr ""
+msgstr "Имя избранного каталога"
 
 #: ulng.rsmsghotdirnbnewentries
 msgid "Number of new entries: %d"
@@ -8532,23 +8544,23 @@ msgstr "Число новых элементов: %d"
 
 #: ulng.rsmsghotdirnothingtoexport
 msgid "Nothing selected to export!"
-msgstr ""
+msgstr "Ничего не выбрано для экспорта!"
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
-msgstr ""
+msgstr "Путь избранного каталога"
 
 #: ulng.rsmsghotdirreaddselecteddirectory
 msgid "Re-Add selected dir: "
-msgstr ""
+msgstr "Передобавление выбранного каталога: "
 
 #: ulng.rsmsghotdirreaddthisdirectory
 msgid "Re-Add current dir: "
-msgstr ""
+msgstr "Передобавление текущего каталога: "
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
-msgstr ""
+msgstr "Введите место расположения и имя файла Избранных каталогов для восстановления"
 
 #: ulng.rsmsghotdirsimplecommand
 msgid "Command:"
@@ -8560,7 +8572,7 @@ msgstr "(конец подменю)"
 
 #: ulng.rsmsghotdirsimplemenu
 msgid "Menu name:"
-msgstr ""
+msgstr "Имя меню:"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
@@ -8573,23 +8585,23 @@ msgstr "(разделитель)"
 
 #: ulng.rsmsghotdirsubmenuname
 msgid "Submenu name"
-msgstr ""
+msgstr "Имя подменю"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr ""
+msgstr "Назначение избранного каталога"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
-msgstr ""
+msgstr "Определите, как вы хотите чтобы активная панель была отсортирована после изменения каталога"
 
 #: ulng.rsmsghotdirtipordertarget
 msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
-msgstr ""
+msgstr "Определите, как вы хотите чтобы НЕактивная панель была отсортирована после изменения каталога"
 
 #: ulng.rsmsghotdirtipspecialdirbut
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr ""
+msgstr "Некоторые функции для выбора приемлемого пути - относительный, абсолютный, спец папки винды, и т.д."
 
 #: ulng.rsmsghotdirtotalbackuped
 msgid ""
@@ -8597,24 +8609,29 @@ msgid ""
 "\n"
 "Backup filename: %s\n"
 msgstr ""
+"Всего объектов сохранено: %d\n"
+"\n"
+"Имя резервного файла: %s\n"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
-msgstr ""
+msgstr "Всего объектов экспортировано: "
 
 #: ulng.rsmsghotdirwhattodelete
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
+"Вы хотите удалить все элементы внутри подменю [%s]?\n"
+"Ответ НЕТ удалит только разделители меню и оставит элементы внутри подменю.\n"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
-msgstr ""
+msgstr "Введите место расположения и имя файла куда сохранить файл Избранных каталогов"
 
 #: ulng.rsmsgincorrectfilelength
 msgid "Incorrect resulting filelength for file : \"%s\""
-msgstr ""
+msgstr "Неверная длина файла назначения для файла : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
 msgid ""
@@ -8625,6 +8642,12 @@ msgid ""
 "\n"
 "Number of bytes still to write: %d\n"
 msgstr ""
+"Пожалуйста, вставьте следующий диск или что-то похожее.\n"
+"\n"
+"Это разрешит запись этого файла:\n"
+"\"%s\"\n"
+"\n"
+"Число байтов оставшихся для записи: %d\n"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -8668,11 +8691,11 @@ msgstr "Загрузка списка файлов..."
 
 #: ulng.rsmsglocatetcconfiguation
 msgid "Locate TC configuration file (wincmd.ini)"
-msgstr ""
+msgstr "Найдите конфигурационный файл TC (wincmd.ini)"
 
 #: ulng.rsmsglocatetcexecutable
 msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
-msgstr ""
+msgstr "Найдите исполняемый файл TC (totalcmd.exe or totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -8728,11 +8751,11 @@ msgstr "Проверка целостности файла %s"
 
 #: ulng.rsmsglogwipe
 msgid "Wipe file %s"
-msgstr ""
+msgstr "Стирание файла %s"
 
 #: ulng.rsmsglogwipedir
 msgid "Wipe directory %s"
-msgstr ""
+msgstr "Стирание каталога %s"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
@@ -8744,7 +8767,7 @@ msgstr "Введите мастер пароль:"
 
 #: ulng.rsmsgmiscellaneousmodifiedwanttosave
 msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Настройки Разное изменены. Хотите сохранить настройки перед тем как выйти?"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -8817,11 +8840,11 @@ msgstr "Шаблон \"%s\" существует. Перезаписать?"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
-msgstr ""
+msgstr "Имя файла для перетащенного файла:"
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
-msgstr ""
+msgstr "Пожалуйста, сделайте этот файл доступным. Повторить?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -8866,7 +8889,7 @@ msgstr "Добавить путь из пассивной панели"
 
 #: ulng.rsmsgspecialdirbrowssel
 msgid "Browse and use selected path"
-msgstr ""
+msgstr "Выбрать и использовать выбранный путь"
 
 #: ulng.rsmsgspecialdirenvvar
 msgid "Use environment variable..."
@@ -8874,19 +8897,19 @@ msgstr "Использовать переменную окружения..."
 
 #: ulng.rsmsgspecialdirgotodc
 msgid "Go to Double Commander special path..."
-msgstr ""
+msgstr "Перейти в специальную папку DC..."
 
 #: ulng.rsmsgspecialdirgotoenvvar
 msgid "Go to environment variable..."
-msgstr ""
+msgstr "Перейти в переменную окружения..."
 
 #: ulng.rsmsgspecialdirgotoother
 msgid "Go to other Windows special folder..."
-msgstr ""
+msgstr "Перейти в другие специальные папки винды..."
 
 #: ulng.rsmsgspecialdirgototc
 msgid "Go to Windows special folder (TC)..."
-msgstr ""
+msgstr "Перейти в специальные папки винды (TC)..."
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
@@ -8894,31 +8917,31 @@ msgstr "Сделать путь абсолютным"
 
 #: ulng.rsmsgspecialdirmkdcrel
 msgid "Make relative to Double Commander special path..."
-msgstr ""
+msgstr "Сделать путь относительным к специальной папке DC..."
 
 #: ulng.rsmsgspecialdirmkenvrel
 msgid "Make relative to environment variable..."
-msgstr ""
+msgstr "Сделать путь относительным к переменному окружения..."
 
 #: ulng.rsmsgspecialdirmktctel
 msgid "Make relative to Windows special folder (TC)..."
-msgstr ""
+msgstr "Сделать путь относительным к специальной папке винды (TC)..."
 
 #: ulng.rsmsgspecialdirmkwnrel
 msgid "Make relative to other Windows special folder..."
-msgstr ""
+msgstr "Сделать путь относительным к другой специальной папке винды..."
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
-msgstr ""
+msgstr "Использовать специальные пути DC..."
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
-msgstr ""
+msgstr "Использовать другую специальную папку винды..."
 
 #: ulng.rsmsgspecialdirusetc
 msgid "Use Windows special folder (TC)..."
-msgstr ""
+msgstr "Использовать специальную папку винды (TC)..."
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
@@ -8937,54 +8960,64 @@ msgid ""
 "Error! Cannot find the TC oncfiguration file:\n"
 "%s\n"
 msgstr ""
+"Ошибка! Не могу найти файл конфигурации TC:\n"
+"%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
 msgstr ""
+"Ошибка! Не могу найти исполняемый файл TC:\n"
+"%s\n"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
 msgstr ""
+"Ошибка! TC всё ещё запущен, но он должен быть закрыт для этой операции.\n"
+"Закройте его и нажмите OK или нажмите ОТМЕНА для прекращения.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
 msgstr ""
+"Ошибка! Не могу найти приемлемый каталог для Панели инструментов TC:\n"
+"%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
-msgstr ""
+msgstr "Введите место расположения и имя файла куда сохранить Панель инструментов TC"
 
 #: ulng.rsmsgtoolbarerrornotsaved
 msgid "Error! Problem saving toolbar!"
-msgstr ""
+msgstr "Ошибка! Проблема сохранения Панели инструментов!"
 
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
-msgstr ""
+msgstr "Найдите файл \".toolbar\" для импорта"
 
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
-msgstr ""
+msgstr "Найдите файл \".BAR\" для импорта"
 
 #: ulng.rsmsgtoolbarmodifiedwanttosave
 msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Панель инструментов изменена. Хотите сохранить перед тем как выйти?"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
-msgstr ""
+msgstr "Введите место расположения и имя файла Панели инструментов для восстановления"
 
 #: ulng.rsmsgtoolbarsaved
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"
 msgstr ""
+"Сохранено!\n"
+"Имя файла Панели инструментов: %s\n"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -8992,7 +9025,7 @@ msgstr "Выделено слишком много файлов"
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
-msgstr ""
+msgstr "Неопределённый"
 
 #: ulng.rsmsgurl
 msgid "URL:"
@@ -9175,11 +9208,11 @@ msgstr "Установка свойства"
 
 #: ulng.rsopersettingpropertyin
 msgid "Setting property in \"%s\""
-msgstr ""
+msgstr "Установка свойства в \"%s\""
 
 #: ulng.rsopersettingpropertyof
 msgid "Setting property of \"%s\""
-msgstr ""
+msgstr "Установка свойства на \"%s\""
 
 #: ulng.rsopersplitting
 msgid "Splitting"
@@ -9353,7 +9386,7 @@ msgstr "плавающий;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
+msgstr "Сочетание %s для cm_Delete будет зарегистрировано, поэтому оно может быть использовано обратным этой настройке."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
@@ -9377,11 +9410,11 @@ msgstr "Команда"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr ""
+msgstr "Сочетание %s для cm_Delete имеет параметр, который перекрывает эту настройку. Хотите изменить этот параметр для использования глобально?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr ""
+msgstr "Сочетание %s для cm_Delete нуждается в изменении параметра для соответствия сочетанию %s. Хотите изменить это?"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -9419,11 +9452,11 @@ msgstr "Установить сочетание для удаления файл
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
+msgstr "Чтобы эта настройка работала с сочетанием %s, сочетание %s должно быть назначено на cm_Delete, но оно уже назначено на %s. Хотите изменить это?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr ""
+msgstr "Сочетание %s для cm_Delete это последовательность сочетаний для которого горячая клавиша с обратным Shift не может быть назначена. Эта настройка может не работать."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -9443,7 +9476,7 @@ msgstr "используется для %s в %s"
 
 #: ulng.rsopthotkeysusedwithdifferentparams
 msgid "used for this command but with different parameters"
-msgstr ""
+msgstr "использована для этой команды, но с другими параметрами"
 
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
@@ -9859,19 +9892,19 @@ msgstr "Редактор"
 
 #: ulng.rstoolerroropeningdiffer
 msgid "Error opening differ"
-msgstr ""
+msgstr "Ошибка открытия программы сравнения"
 
 #: ulng.rstoolerroropeningeditor
 msgid "Error opening editor"
-msgstr ""
+msgstr "Ошибка открытия редактора"
 
 #: ulng.rstoolerroropeningterminal
 msgid "Error opening terminal"
-msgstr ""
+msgstr "Ошибка открытия терминала"
 
 #: ulng.rstoolerroropeningviewer
 msgid "Error opening viewer"
-msgstr ""
+msgstr "Ошибка открытия программы просмотра"
 
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
