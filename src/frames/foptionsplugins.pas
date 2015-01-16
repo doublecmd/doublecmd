@@ -310,6 +310,7 @@ begin
 
     stgPlugins.RowCount:= stgPlugins.RowCount + 1;
     J:= stgPlugins.RowCount - stgPlugins.FixedRows;
+    stgPlugins.Cells[0, J]:= EmptyStr;
     stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
     stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
     stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
@@ -322,11 +323,12 @@ begin
   btnAddPlugin.OnClick:= @btnDSXAddClick;
   stgPlugins.RowCount:= tmpDSXPlugins.Count + stgPlugins.FixedRows;
   for i:=0 to tmpDSXPlugins.Count-1 do
-    begin
+  begin
+    stgPlugins.Cells[0, I + stgPlugins.FixedRows]:= EmptyStr;
     stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpDSXPlugins.GetDsxModule(i).Name;
     stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpDSXPlugins.GetDsxModule(i).Descr;
     stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(i).FileName);
-    end;
+  end;
 end;
 
 { WCX plugins }
@@ -539,6 +541,7 @@ begin
 
     stgPlugins.RowCount:= stgPlugins.RowCount + 1;
     J:= stgPlugins.RowCount - 1;
+    stgPlugins.Cells[0, J]:= EmptyStr;
     stgPlugins.Cells[1, J]:= tmpWDXPlugins.GetWdxModule(I).Name;
     stgPlugins.Cells[2, J]:= tmpWDXPlugins.GetWdxModule(I).DetectStr;
     stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(I).FileName);
@@ -552,6 +555,7 @@ begin
   stgPlugins.RowCount:= tmpWDXPlugins.Count + stgPlugins.FixedRows;
   for i:=0 to tmpWDXPlugins.Count-1 do
     begin
+    stgPlugins.Cells[0, I + stgPlugins.FixedRows]:= EmptyStr;
     stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpWDXPlugins.GetWdxModule(i).Name;
     stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpWDXPlugins.GetWdxModule(i).DetectStr;
     stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(i).FileName);
