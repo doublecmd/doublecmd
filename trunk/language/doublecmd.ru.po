@@ -7675,19 +7675,19 @@ msgstr ""
 
 #: ulng.rsdiffadds
 msgid " Adds: "
-msgstr ""
+msgstr " Добавлено: "
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
-msgstr ""
+msgstr " Удалено: "
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr ""
+msgstr " Совпало: "
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
-msgstr ""
+msgstr " Изменено: "
 
 #: ulng.rsdlgallopcomplete
 msgid "All operations completed"
@@ -9299,7 +9299,7 @@ msgstr "Работа"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at beginning;Add at the end;Smart add"
-msgstr ""
+msgstr "Добавлять в начало;Добавлять в конец;Добавлять по логике"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
@@ -9648,7 +9648,7 @@ msgstr "Панель инструментов"
 
 #: ulng.rsoptionseditortoolbarcomplement
 msgid "Complements"
-msgstr ""
+msgstr "Дополнения"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -9730,7 +9730,7 @@ msgstr "Разд&елитель;Внутрення&я команда;Вне&шн
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr ""
+msgstr "родной DC - Copy (x) filename.ext;Windows - filename (x).ext;другой - filename(x).ext"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
