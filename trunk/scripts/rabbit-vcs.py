@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #
 # This is an extension to the Double Commander to allow
 # integration with the version control systems.
