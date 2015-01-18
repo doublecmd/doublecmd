@@ -28,7 +28,7 @@ begin
   Args := ' openwith';
   for I := 0 to FileList.Count - 1 do
     Args+= ' ' + QuoteStr(FileList[I]);
-  Result:= ExecCmdFork(PythonScript + Args);
+  Result:= ExecCmdFork('python ' + PythonScript + Args);
 end;
 
 procedure Initialize;
@@ -37,7 +37,7 @@ begin
   if UseKde then
   begin
     PythonScript:= gpExePath + PythonScript;
-    UseKde:= (fpSystemStatus(PythonScript + ' > /dev/null 2>&1') = 0);
+    UseKde:= (fpSystemStatus('python ' + PythonScript + ' > /dev/null 2>&1') = 0);
   end;
 end;
 

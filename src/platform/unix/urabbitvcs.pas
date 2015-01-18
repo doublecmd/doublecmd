@@ -69,7 +69,7 @@ implementation
 
 uses
   dbus, unixtype, fpjson, jsonparser, unix,
-  uGlobs, uGlobsPaths, uPython;
+  uGlobs, uGlobsPaths, uMyUnix, uPython;
 
 const
   MODULE_NAME = 'rabbit-vcs';
@@ -112,7 +112,7 @@ begin
     Print('Service found running.')
   else
     begin
-      Result:= fpSystem(PythonScript) = 0;
+      Result:= fpSystemStatus('python ' + PythonScript) = 0;
       if Result then
         Print('Service successfully started.');
     end;
