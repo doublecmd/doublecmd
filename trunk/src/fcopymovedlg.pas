@@ -65,6 +65,7 @@ type
     procedure TabsSelector(Sender: TObject);
     procedure TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
                                     Shift: TShiftState; X, Y: Integer);
+    procedure RemoveConstraints(Data: PtrInt);
     procedure ShowOptions(bShow: Boolean);
     procedure UpdateSize;
 
@@ -147,6 +148,12 @@ begin
   edtDst.Text := noteb[(Sender as TButton).tag].CurrentPath;
 end;
 
+procedure TfrmCopyDlg.RemoveConstraints(Data: PtrInt);
+begin
+  AutoSize := False;
+  Constraints.MinWidth := 0;
+end;
+
 function TfrmCopyDlg.ShowTabsSelector: integer;
 var
   btnS, btnL: TButton;
@@ -193,7 +200,7 @@ begin
         btnS.OnMouseDown := @TabsSelectorMouseDown;
 
         btns.AutoSize:=True;
-        btns.Left := 2;
+        btns.Left := 0;
         btns.Top := 0;
         btns.Anchors :=[akLeft,akTop,akBottom];
         btns.Visible := True;
@@ -238,6 +245,8 @@ begin
 
   edtDst.SelectAll;
   edtDst.SetFocus;
+
+  Application.QueueAsyncCall(@RemoveConstraints, 0);
 end;
 
 procedure TfrmCopyDlg.mnuNewQueueClick(Sender: TObject);
@@ -326,6 +335,7 @@ var
   HMForm: THMForm;
   Hotkey: THotkey;
 begin
+  Constraints.MinWidth := Width;
   pnlSelector.Visible := gShowCopyTabSelectPanel;
 
   // Fix align of options panel and dialog size at start.
