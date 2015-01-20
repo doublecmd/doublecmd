@@ -1,15 +1,18 @@
 object frmCopyDlg: TfrmCopyDlg
-  Left = 45
+  Left = 462
   Height = 263
-  Top = 85
+  Top = 260
   Width = 612
   HorzScrollBar.Page = 349
   HorzScrollBar.Range = 337
   VertScrollBar.Page = 205
   VertScrollBar.Range = 186
   ActiveControl = edtDst
+  AutoSize = True
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Copy file(s)'
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
   ClientHeight = 263
   ClientWidth = 612
   KeyPreview = True
@@ -18,7 +21,7 @@ object frmCopyDlg: TfrmCopyDlg
   OnKeyDown = FormKeyDown
   OnShow = frmCopyDlgShow
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  LCLVersion = '1.2.4.0'
   object lblCopySrc: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -42,7 +45,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 21
+    Height = 27
     Top = 34
     Width = 596
     Anchors = [akTop, akLeft, akRight]
@@ -60,12 +63,15 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = edtDst
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 38
-    Top = 63
+    Height = 1
+    Top = 69
     Width = 596
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Top = 8
     BevelOuter = bvNone
+    Color = clForm
+    ParentColor = False
     TabOrder = 1
   end
   object pnlButtons: TPanel
@@ -75,19 +81,21 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = edtDst
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 34
-    Top = 105
+    Height = 36
+    Top = 74
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
     BevelOuter = bvNone
-    ClientHeight = 34
+    ClientHeight = 36
     ClientWidth = 596
+    Color = clForm
+    ParentColor = False
     TabOrder = 2
     object btnOptions: TButton
       Left = 0
-      Height = 34
+      Height = 36
       Top = 0
       Width = 100
       Align = alLeft
@@ -98,10 +106,10 @@ object frmCopyDlg: TfrmCopyDlg
       TabOrder = 0
     end
     object btnAddToQueue: TBitBtn
-      Left = 264
-      Height = 34
+      Left = 268
+      Height = 36
       Top = 0
-      Width = 119
+      Width = 118
       Align = alRight
       AutoSize = True
       BorderSpacing.InnerBorder = 2
@@ -148,8 +156,8 @@ object frmCopyDlg: TfrmCopyDlg
       TabOrder = 1
     end
     object btnCreateSpecialQueue: TBitBtn
-      Left = 383
-      Height = 34
+      Left = 386
+      Height = 36
       Top = 0
       Width = 23
       Align = alRight
@@ -166,10 +174,10 @@ object frmCopyDlg: TfrmCopyDlg
       TabOrder = 2
     end
     object btnCancel: TBitBtn
-      Left = 418
-      Height = 34
+      Left = 421
+      Height = 36
       Top = 0
-      Width = 82
+      Width = 79
       Align = alRight
       AutoSize = True
       BorderSpacing.Left = 12
@@ -183,7 +191,7 @@ object frmCopyDlg: TfrmCopyDlg
     end
     object btnOK: TBitBtn
       Left = 508
-      Height = 34
+      Height = 36
       Top = 0
       Width = 88
       Align = alRight
@@ -240,15 +248,17 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = edtDst
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 35
-    Top = 143
+    Height = 39
+    Top = 114
     Width = 596
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
     BevelOuter = bvNone
-    ClientHeight = 35
+    ClientHeight = 39
     ClientWidth = 596
+    Color = clForm
+    ParentColor = False
     TabOrder = 3
     OnResize = pnlOptionsResize
     object grpOptions: TGroupBox
@@ -269,10 +279,10 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = grpOptions
       AnchorSideTop.Side = asrBottom
-      Left = 214
-      Height = 23
+      Left = 207
+      Height = 27
       Top = 12
-      Width = 169
+      Width = 183
       AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Sa&ve these options as default'
