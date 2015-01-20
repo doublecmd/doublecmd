@@ -519,8 +519,6 @@ begin
 
   sSearchName := SearchTerm;
 
-  Mask:= TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
-
   if Pos('.', sSearchName) <> 0 then
   begin
     sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
@@ -554,45 +552,48 @@ begin
 
   StartIndex := Index;
   try
-    repeat
-      Result := True;
-      AFile := FFiles[Index].FSFile;
+    Mask := TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
+    try
+      repeat
+        Result := True;
+        AFile := FFiles[Index].FSFile;
 
-      if (SearchOptions.Items = qsiFiles) and
-         (AFile.IsDirectory or
-          AFile.IsLinkToDirectory) then
-        Result := False;
+        if (SearchOptions.Items = qsiFiles) and
+           (AFile.IsDirectory or
+            AFile.IsLinkToDirectory) then
+          Result := False;
 
-      if (SearchOptions.Items = qsiDirectories) and
-         not AFile.IsDirectory and
-         not AFile.IsLinkToDirectory then
-        Result := False;
+        if (SearchOptions.Items = qsiDirectories) and
+           not AFile.IsDirectory and
+           not AFile.IsLinkToDirectory then
+          Result := False;
 
-      sFileName := AFile.Name;
+        sFileName := AFile.Name;
 
-      // Get the Chinese first letter of Pinyin from the file name
-      uFileName := UTF8Decode(sFileName);
-      sPy := uIMCode.MakeSpellCode(uFileName);
+        // Get the Chinese first letter of Pinyin from the file name
+        uFileName := UTF8Decode(sFileName);
+        sPy := uIMCode.MakeSpellCode(uFileName);
 
-      // Match the filename and pinyin letter
-      if not (Mask.Matches(sFileName) or (MatchesMask(sPy, sSearchName))) then
-        Result := False;
+        // Match the filename and pinyin letter
+        if not (Mask.Matches(sFileName) or (MatchesMask(sPy, sSearchName))) then
+          Result := False;
 
-      if Result then
-      begin
-        SetActiveFile(Index);
-        Break;
-      end;
+        if Result then
+        begin
+          SetActiveFile(Index);
+          Break;
+        end;
 
-      // check next file depending on search direction
-      if SearchDirection in [qsdNone, qsdFirst, qsdNext] then
-        Index := NextIndexWrap(Index)
-      else
-        Index := PrevIndexWrap(Index);
+        // check next file depending on search direction
+        if SearchDirection in [qsdNone, qsdFirst, qsdNext] then
+          Index := NextIndexWrap(Index)
+        else
+          Index := PrevIndexWrap(Index);
 
-    until Index = StartIndex;
-
-    Mask.Free;
+      until Index = StartIndex;
+    finally
+      Mask.Free;
+    end;
   except
     on EConvertError do; // bypass
     else
