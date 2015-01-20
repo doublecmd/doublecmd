@@ -28,7 +28,7 @@ unit uWCXmodule;
 interface
 
 uses
-  LCLType, Classes, Dialogs, dynlibs,
+  LCLType, Classes, Dialogs, StringHashList, dynlibs,
   uWCXprototypes, WcxPlugin, Extension, DCClassesUtf8, DCBasicTypes, DCXmlConfig;
 
 Type
@@ -63,9 +63,9 @@ Type
   end;
 
   
-  { TWCXModule }
+  { TWcxModule }
 
-  TWCXModule = class
+  TWcxModule = class
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FBackgroundFlags: Integer;
@@ -107,6 +107,11 @@ Type
     ExtensionInitialize: TExtensionInitializeProc;
     ExtensionFinalize:   TExtensionFinalizeProc;
 
+  private
+    function LoadModule(const sName:String):Boolean; {Load WCX plugin}
+    procedure UnloadModule;                          {UnLoad WCX plugin}
+
+  public
     constructor Create;
     destructor Destroy; override;
 
@@ -124,9 +129,6 @@ Type
     procedure WcxSetProcessDataProc(hArcData: TArcHandle; ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
     procedure WcxSetCryptCallback(CryptoNr, Flags: Integer; PkCryptProcA: TPkCryptProc; PkCryptProcW: TPkCryptProcW);
 
-    function LoadModule(const sName:String):Boolean; {Load WCX plugin}
-    procedure UnloadModule;                          {UnLoad WCX plugin}
-
     procedure VFSConfigure(Parent: HWND);
     function GetPluginCapabilities: Integer;
 
@@ -139,6 +141,8 @@ Type
 
   TWCXModuleList = class(TStringList)
   private
+    FModuleList: TStringHashList;
+  private
     function GetAEnabled(Index: Integer): Boolean;
     function GetAExt(Index: Integer): String;
     function GetAFileName(Index: Integer): String;
@@ -148,6 +152,9 @@ Type
     procedure SetAFlags(Index: Integer; const AValue: PtrInt);
     procedure SetExt(Index: Integer; const AValue: String);
   public
+    constructor Create; reintroduce;
+    destructor Destroy; override;
+  public
     procedure Load(Ini: TIniFileEx);
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(Ini: TIniFileEx);
@@ -155,6 +162,7 @@ Type
     function Add(Ext: String; Flags: PtrInt; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
     function Find(const aFileName, aExt: String): Integer; overload;
+    function LoadModule(const FileName: String): TWcxModule;
 
     property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
     property Flags[Index: Integer]: PtrInt read GetAFlags write SetAFlags;
@@ -174,12 +182,12 @@ uses
 const
   WcxIniFileName = 'wcx.ini';
 
-constructor TWCXModule.Create;
+constructor TWcxModule.Create;
 begin
   FModuleHandle := 0;
 end;
 
-destructor TWCXModule.Destroy;
+destructor TWcxModule.Destroy;
 begin
   if IsLoaded then
   begin
@@ -190,7 +198,7 @@ begin
   end;
 end;
 
-function TWCXModule.OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
+function TWcxModule.OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
 var
   ArcFile: tOpenArchiveData;
   ArcFileW: tOpenArchiveDataW;
@@ -228,7 +236,7 @@ begin
     raise Exception.Create('Invalid WCX open mode');
 end;
 
-function TWCXModule.WcxProcessFile(hArcData: TArcHandle; Operation: LongInt;
+function TWcxModule.WcxProcessFile(hArcData: TArcHandle; Operation: LongInt;
   DestPath, DestName: UTF8String): LongInt;
 begin
   if Assigned(ProcessFileW) then
@@ -247,7 +255,7 @@ begin
     end;
 end;
 
-function TWCXModule.WcxPackFiles(PackedFile, SubPath, SrcPath,
+function TWcxModule.WcxPackFiles(PackedFile, SubPath, SrcPath,
   AddList: UTF8String; Flags: LongInt): LongInt;
 begin
   if Assigned(PackFilesW) then
@@ -270,7 +278,7 @@ begin
     end;
 end;
 
-function TWCXModule.WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
+function TWcxModule.WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
 begin
   if Assigned(DeleteFilesW) then
     Result:= DeleteFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(DeleteList)))
@@ -278,7 +286,7 @@ begin
     Result:= DeleteFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(DeleteList)));
 end;
 
-function TWCXModule.WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
+function TWcxModule.WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
 begin
   if Assigned(CanYouHandleThisFileW) then
     Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
@@ -286,7 +294,7 @@ begin
     Result:= CanYouHandleThisFile(PAnsiChar(UTF8ToSys(FileName)));
 end;
 
-function TWCXModule.WcxStartMemPack(Options: LongInt; FileName: UTF8String): TArcHandle;
+function TWcxModule.WcxStartMemPack(Options: LongInt; FileName: UTF8String): TArcHandle;
 begin
   if Assigned(StartMemPackW) then
     Result:= StartMemPackW(Options, PWideChar(UTF8Decode(FileName)))
@@ -294,7 +302,7 @@ begin
     Result:= StartMemPack(Options, PAnsiChar(UTF8ToSys(FileName)));
 end;
 
-procedure TWCXModule.WcxSetChangeVolProc(hArcData: TArcHandle;
+procedure TWcxModule.WcxSetChangeVolProc(hArcData: TArcHandle;
   ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW);
 begin
   if Assigned(SetChangeVolProcW) then
@@ -303,7 +311,7 @@ begin
     SetChangeVolProc(hArcData, ChangeVolProcA);
 end;
 
-procedure TWCXModule.WcxSetProcessDataProc(hArcData: TArcHandle;
+procedure TWcxModule.WcxSetProcessDataProc(hArcData: TArcHandle;
   ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
 begin
   if Assigned(SetProcessDataProcW) then
@@ -312,7 +320,7 @@ begin
     SetProcessDataProc(hArcData, ProcessDataProcA);
 end;
 
-procedure TWCXModule.WcxSetCryptCallback(CryptoNr, Flags: Integer;
+procedure TWcxModule.WcxSetCryptCallback(CryptoNr, Flags: Integer;
   PkCryptProcA: TPkCryptProc; PkCryptProcW: TPkCryptProcW);
 begin
   if Assigned(PkSetCryptCallbackW) then
@@ -321,7 +329,7 @@ begin
     PkSetCryptCallback(PkCryptProcA, CryptoNr, Flags);
 end;
 
-function TWCXModule.LoadModule(const sName:String):Boolean;
+function TWcxModule.LoadModule(const sName:String):Boolean;
 var
   PackDefaultParamStruct : TPackDefaultParamStruct;
   StartupInfo: TExtensionStartupInfo;
@@ -425,14 +433,12 @@ begin
     end;
 end;
 
-procedure TWCXModule.UnloadModule;
+procedure TWcxModule.UnloadModule;
 begin
-  if FModuleHandle <> 0 then
+  if FModuleHandle <> NilHandle then
   begin
-{$IF NOT DEFINED(MSWINDOWS)}
     FreeLibrary(FModuleHandle);
-{$ENDIF}
-    FModuleHandle := 0;
+    FModuleHandle := NilHandle;
   end;
   // Mandatory
   OpenArchive:= nil;
@@ -492,13 +498,13 @@ begin
   end;
 end;
 
-procedure TWCXModule.VFSConfigure(Parent: HWND);
+procedure TWcxModule.VFSConfigure(Parent: HWND);
 begin
   if Assigned(ConfigurePacker) then
     ConfigurePacker(Parent, FModuleHandle);
 end;
 
-function TWCXModule.ReadWCXHeader(hArcData: TArcHandle;
+function TWcxModule.ReadWCXHeader(hArcData: TArcHandle;
                                   out HeaderData: TWCXHeader): Integer;
 var
   ArcHeader : THeaderData;
@@ -540,7 +546,7 @@ begin
   end;
 end;
 
-function TWCXModule.GetPluginCapabilities: Integer;
+function TWcxModule.GetPluginCapabilities: Integer;
 begin
   if Assigned(GetPackerCaps) then
     Result := GetPackerCaps()
@@ -548,9 +554,9 @@ begin
     Result := 0;
 end;
 
-function TWCXModule.IsLoaded: Boolean;
+function TWcxModule.IsLoaded: Boolean;
 begin
-  Result := (FModuleHandle <> 0);
+  Result := (FModuleHandle <> NilHandle);
 end;
 
 { TWCXModuleList }
@@ -608,6 +614,23 @@ var
 begin
   sValue:= ValueFromIndex[Index];
   Self[Index]:= AValue + '=' + sValue;
+end;
+
+constructor TWCXModuleList.Create;
+begin
+  FModuleList:= TStringHashList.Create(FileNameCaseSensitive);
+end;
+
+destructor TWCXModuleList.Destroy;
+var
+  I: Integer;
+begin
+  for I:= 0 to FModuleList.Count - 1 do
+  begin
+    TWcxModule(FModuleList.List[I]^.Data).Free;
+  end;
+  FreeAndNil(FModuleList);
+  inherited Destroy;
 end;
 
 procedure TWCXModuleList.Load(Ini: TIniFileEx);
@@ -726,6 +749,20 @@ begin
       Result := Result + 1;
   end;
   if Result=Count then Result:=-1;
+end;
+
+function TWCXModuleList.LoadModule(const FileName: String): TWcxModule;
+begin
+  Result := TWcxModule(FModuleList.Data[FileName]);
+  if not Assigned(Result) then
+  begin
+    Result := TWcxModule.Create;
+    if not Result.LoadModule(FileName) then
+      FreeAndNil(Result)
+    else begin
+      FModuleList.Add(FileName, Result);
+    end;
+  end;
 end;
 
 { TWCXHeader }

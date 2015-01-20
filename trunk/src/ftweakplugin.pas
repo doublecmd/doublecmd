@@ -99,7 +99,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Dialogs, fOptionsPlugins, WcxPlugin, uDCUtils, uLng, LCLVersion;
+  Dialogs, fOptionsPlugins, WcxPlugin, uDCUtils, uLng, LCLVersion, uGlobs;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -339,16 +339,11 @@ end;
 
 function TfrmTweakPlugin.GetDefaultFlags(PluginFileName: String): PtrInt;
 var
-  WCXmodule: TWCXmodule;
+  WcxModule: TWcxModule;
 begin
-  Result:= 0;
-  WCXmodule := TWCXmodule.Create;
-  if WCXmodule.LoadModule(GetCmdDirFromEnvVar(PluginFileName)) then
-    begin
-      Result:= WCXmodule.GetPluginCapabilities;
-      WCXModule.UnloadModule;
-    end;
-  WCXmodule.Free;
+  WcxModule := gWCXPlugins.LoadModule(GetCmdDirFromEnvVar(PluginFileName));
+  if not Assigned(WcxModule) then Exit(0);
+  Result := WcxModule.GetPluginCapabilities;
 end;
 
 end.

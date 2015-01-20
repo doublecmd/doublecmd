@@ -38,8 +38,6 @@ type
     FWcxModule: TWCXModule;
     FOpenResult: LongInt;
 
-    function LoadModule: Boolean;
-    procedure UnloadModule;
     procedure SetCryptCallback;
     function ReadArchive: Boolean;
 
@@ -262,16 +260,14 @@ var
 begin
   Result := nil;
 
-  WcxPlugin:= TWcxModule.Create;
-
   // Check if there is a registered plugin for the archive file by content.
   for I := 0 to gWCXPlugins.Count - 1 do
   begin
     if (gWCXPlugins.Enabled[I]) then
     begin
       ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
-
-      if WcxPlugin.LoadModule(ModuleFileName) then
+      WcxPlugin := gWCXPlugins.LoadModule(ModuleFileName);
+      if Assigned(WcxPlugin) then
         begin
           if Assigned(WcxPlugin.CanYouHandleThisFileW) or Assigned(WcxPlugin.CanYouHandleThisFile) then
             begin
@@ -293,13 +289,10 @@ begin
               bFound:= SameText(ExtractOnlyFileExt(anArchiveFileName), gWCXPlugins.Ext[I]);
               if bFound then Break;
             end;
-          WcxPlugin.UnloadModule;
         end;
     end;
   end;
-  if not bFound then
-    WcxPlugin.Free
-  else
+  if bFound then
     begin
       Result := TWcxArchiveFileSource.Create(anArchiveFileSource,
                                              anArchiveFileName,
@@ -371,9 +364,9 @@ begin
   FModuleFileName := aWcxPluginFileName;
   FPluginCapabilities := aWcxPluginCapabilities;
   FArcFileList := TObjectList.Create(True);
-  FWcxModule := TWCXModule.Create;
+  FWcxModule := gWCXPlugins.LoadModule(FModuleFileName);
 
-  if LoadModule = False then
+  if not Assigned(FWcxModule) then
     raise EModuleNotLoadedException.Create('Cannot load WCX module ' + FModuleFileName);
 
   FOperationsClasses[fsoCopyIn]          := TWcxArchiveCopyInOperation.GetOperationClass;
@@ -417,14 +410,10 @@ end;
 
 destructor TWcxArchiveFileSource.Destroy;
 begin
-  UnloadModule;
-
-  inherited;
+  inherited Destroy;
 
   if Assigned(FArcFileList) then
     FreeAndNil(FArcFileList);
-  if Assigned(FWcxModule) then
-    FreeAndNil(FWcxModule);
 end;
 
 class function TWcxArchiveFileSource.CreateFile(const APath: String; WcxHeader: TWCXHeader): TFile;
@@ -510,16 +499,6 @@ begin
       end;
     end;
   end;
-end;
-
-function TWcxArchiveFileSource.LoadModule: Boolean;
-begin
-  Result := WcxModule.LoadModule(FModuleFileName);
-end;
-
-procedure TWcxArchiveFileSource.UnloadModule;
-begin
-  WcxModule.UnloadModule;
 end;
 
 procedure TWcxArchiveFileSource.SetCryptCallback;
