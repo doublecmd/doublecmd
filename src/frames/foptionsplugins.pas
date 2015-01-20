@@ -163,23 +163,15 @@ begin
 
   if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
-      WCXmodule := TWCXmodule.Create;
-      DCDebug('TWCXmodule created');
-      try
-        if WCXmodule.LoadModule(PluginFileName) then
-         begin
-           DCDebug('WCXModule Loaded');
-           WCXmodule.VFSConfigure(stgPlugins.Handle);
-           DCDebug('Dialog executed');
-           WCXModule.UnloadModule;
-           DCDebug('WCX Module Unloaded');
-         end
-         else
-           msgError(rsMsgErrEOpen + ': ' + PluginFileName);
-      finally
-        WCXmodule.Free;
-        DCDebug('WCX Freed');
-      end;
+      WCXmodule := gWCXPlugins.LoadModule(PluginFileName);
+      if Assigned(WCXmodule) then
+       begin
+         DCDebug('WCXModule Loaded');
+         WCXmodule.VFSConfigure(stgPlugins.Handle);
+         DCDebug('Dialog executed');
+       end
+       else
+         msgError(rsMsgErrEOpen + ': ' + PluginFileName);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
@@ -350,54 +342,50 @@ begin
     sFileName := dmComData.OpenDialog.FileName;
     if not CheckPlugin(sFileName) then Exit;
 
-    WCXmodule := TWCXmodule.Create;
-    try
-      if not WCXmodule.LoadModule(sFileName) then
-      begin
-        MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
-        Exit;
-      end;
+    WCXmodule := gWCXPlugins.LoadModule(sFileName);
 
-      iFlags := WCXmodule.GetPluginCapabilities;
-      WCXModule.UnloadModule;
+    if not Assigned(WCXmodule) then
+    begin
+      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+      Exit;
+    end;
 
-      sPluginName := SetCmdDirAsEnvVar(sFileName);
-      if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [sFileName]), sExts) then
-      begin
-        sExtsTemp := sExts;
-        sExts := '';
-        sAlreadyAssignedExts := '';
+    iFlags := WCXmodule.GetPluginCapabilities;
+
+    sPluginName := SetCmdDirAsEnvVar(sFileName);
+    if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [sFileName]), sExts) then
+    begin
+      sExtsTemp := sExts;
+      sExts := '';
+      sAlreadyAssignedExts := '';
+      sExt:= Copy2SpaceDel(sExtsTemp);
+      repeat
+        iPluginIndex:= tmpWCXPlugins.Find(sPluginName, sExt);
+        if iPluginIndex <> -1 then
+          begin
+            AddStrWithSep(sAlreadyAssignedExts, sExt);
+          end
+        else
+          begin
+            tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
+            AddStrWithSep(sExts, sExt);
+          end;
         sExt:= Copy2SpaceDel(sExtsTemp);
-        repeat
-          iPluginIndex:= tmpWCXPlugins.Find(sPluginName, sExt);
-          if iPluginIndex <> -1 then
-            begin
-              AddStrWithSep(sAlreadyAssignedExts, sExt);
-            end
-          else
-            begin
-              tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
-              AddStrWithSep(sExts, sExt);
-            end;
-          sExt:= Copy2SpaceDel(sExtsTemp);
-        until sExt = '';
+      until sExt = '';
 
-        if sAlreadyAssignedExts <> '' then
-          MessageDlg(Format(rsOptPluginAlreadyAssigned, [sFileName]) +
-                     LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
+      if sAlreadyAssignedExts <> '' then
+        MessageDlg(Format(rsOptPluginAlreadyAssigned, [sFileName]) +
+                   LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
 
-        if sExts <> '' then
-        begin
-          stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
-          J:= stgPlugins.RowCount - 1;
-          stgPlugins.Cells[0, J]:= '+'; // Enabled
-          stgPlugins.Cells[1, J]:= ExtractOnlyFileName(sFileName);
-          stgPlugins.Cells[2, J]:= sExts;
-          stgPlugins.Cells[3, J]:= sPluginName;
-        end;
+      if sExts <> '' then
+      begin
+        stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
+        J:= stgPlugins.RowCount - 1;
+        stgPlugins.Cells[0, J]:= '+'; // Enabled
+        stgPlugins.Cells[1, J]:= ExtractOnlyFileName(sFileName);
+        stgPlugins.Cells[2, J]:= sExts;
+        stgPlugins.Cells[3, J]:= sPluginName;
       end;
-    finally
-      WCXmodule.Free;
     end;
   end;
 end;
