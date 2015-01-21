@@ -810,6 +810,7 @@ begin
       else
         Editor.BlockBegin := Editor.BlockEnd;
       Editor.CaretXY := Editor.BlockBegin;
+      msgOK(Format(rsViewNotFound, ['"' + sSearchText + '"']));
     end;
   except
     on E: Exception do msgError(E.Message);
