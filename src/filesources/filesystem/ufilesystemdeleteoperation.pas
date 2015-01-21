@@ -209,7 +209,7 @@ begin
     else
     begin
       // Delete to trash (one function for file and folder)
-      DeleteResult:= mbDeleteToTrash(FileName);
+      DeleteResult:= FileTrashUtf8(FileName);
       if not DeleteResult then
         begin
           case FDeleteDirectly of

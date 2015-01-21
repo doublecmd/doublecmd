@@ -34,6 +34,9 @@ function mbDeleteToTrash(const FileName: UTF8String): Boolean;
 // 14.05.2009 - this funсtion checks trash availability.
 function mbCheckTrash(sPath: UTF8String): Boolean;
 
+var
+  FileTrashUtf8: function(const FileName: UTF8String): Boolean;
+
 implementation
 
 uses
@@ -306,6 +309,9 @@ begin
   Result := True;
 end;
 {$ENDIF}
+
+initialization
+  FileTrashUtf8:= @mbDeleteToTrash;
 
 end.
 
