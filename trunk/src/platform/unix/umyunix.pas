@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2013  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -192,6 +192,7 @@ function FileIsUnixExecutable(const Filename: UTF8String): Boolean;
    @returns(Mount point of file system)
 }
 function FindMountPointPath(const FileName: UTF8String): UTF8String;
+function ExecutableInSystemPath(const FileName: UTF8String): Boolean;
 function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
 {en
@@ -239,7 +240,7 @@ var
 implementation
 
 uses
-  URIParser, Unix, FileUtil, DCClassesUtf8, DCStrUtils, uDCUtils, uOSUtils
+  URIParser, Unix, FileUtil, DCClassesUtf8, DCStrUtils, uDCUtils, DCBasicTypes, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
@@ -423,6 +424,22 @@ begin
       J:= I;
     end;
   end;
+end;
+
+function ExecutableInSystemPath(const FileName: UTF8String): Boolean;
+var
+  I: Integer;
+  Path: String;
+  Value: TDynamicStringArray;
+begin
+  Path:= GetEnvironmentVariable('PATH');
+  Value:= SplitString(Path, PathSeparator);
+  for I:= Low(Value) to High(Value) do
+  begin
+    if fpAccess(IncludeTrailingPathDelimiter(Value[I]) + FileName, X_OK) = 0 then
+      Exit(True);
+  end;
+  Result:= False;
 end;
 
 function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
