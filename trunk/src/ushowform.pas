@@ -36,8 +36,11 @@ type
     destructor Destroy; override;
   end;
 
+procedure RunExtDiffer(CompareList: TStringList);
+
 procedure ShowEditorByGlob(sFileName:String);
 procedure ShowViewerByGlob(sFileName:String);
+procedure ShowDifferByGlob(const LeftName, RightName: String);
 procedure ShowViewerByGlobList(const FilesToView: TStringList;
                                const aFileSource: IFileSource);
 
@@ -47,7 +50,7 @@ implementation
 uses
   SysUtils, Process, UTF8Process, Dialogs,
   uGlobs, uOSUtils, fEditor, fViewer, uDCUtils, uTempFileSystemFileSource, uLng,
-  uDebug, DCOSUtils;
+  fDiffer, uDebug, DCOSUtils;
 
 procedure RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String);
 var
@@ -58,6 +61,29 @@ begin
     CommandLine := CommandLine + ' ' + ExtTool.Parameters;
   CommandLine := CommandLine + ' ' + QuoteStr(sFileName);
   ExecCmdFork(CommandLine, ExtTool.RunInTerminal, '', ExtTool.KeepTerminalOpen);
+end;
+
+procedure RunExtDiffer(CompareList: TStringList);
+var
+  i : Integer;
+  sCommand: String;
+begin
+  with gExternalTools[etDiffer] do
+  begin
+    sCommand := QuoteStr(ReplaceEnvVars(Path));
+    if Parameters <> EmptyStr then
+      sCommand := sCommand + ' ' + Parameters;
+    for i := 0 to CompareList.Count - 1 do
+      sCommand := sCommand + ' ' + QuoteStr(CompareList.Strings[i]);
+    try
+      ExecCmdFork(sCommand, RunInTerminal, '', KeepTerminalOpen);
+    except
+      on e: EInvalidCommandLine do
+        MessageDlg(rsToolErrorOpeningDiffer,
+          rsMsgInvalidCommandLine + ' (' + rsToolDiffer + '):' + LineEnding + e.Message,
+          mtError, [mbOK], 0);
+    end;
+  end;
 end;
 
 procedure ShowEditorByGlob(sFileName:String);
@@ -102,6 +128,25 @@ begin
       FreeAndNil(sl);
     end;
   end;
+end;
+
+procedure ShowDifferByGlob(const LeftName, RightName: String);
+var
+  sl: TStringList;
+begin
+  if gExternalTools[etDiffer].Enabled then
+    begin
+      sl:= TStringList.Create;
+      try
+        sl.add(LeftName);
+        sl.add(RightName);
+        RunExtDiffer(sl);
+      finally
+        sl.free;
+      end;
+    end
+  else
+    ShowDiffer(LeftName, RightName);
 end;
 
 procedure ShowViewerByGlobList(const FilesToView : TStringList;

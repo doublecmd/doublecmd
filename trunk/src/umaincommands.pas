@@ -2040,29 +2040,6 @@ var
       DirsToCompare.Add(aFile.FullPath);
   end;
 
-  procedure RunExtDiffer(CompareList: TStringList);
-  var
-    i : Integer;
-    sCommand: String;
-  begin
-    with gExternalTools[etDiffer] do
-    begin
-      sCommand := QuoteStr(ReplaceEnvVars(Path));
-      if Parameters <> EmptyStr then
-        sCommand := sCommand + ' ' + Parameters;
-      for i := 0 to CompareList.Count - 1 do
-        sCommand := sCommand + ' ' + QuoteStr(CompareList.Strings[i]);
-      try
-        ExecCmdFork(sCommand, RunInTerminal, '', KeepTerminalOpen);
-      except
-        on e: EInvalidCommandLine do
-          MessageDlg(rsToolErrorOpeningDiffer,
-            rsMsgInvalidCommandLine + ' (' + rsToolDiffer + '):' + LineEnding + e.Message,
-            mtError, [mbOK], 0);
-      end;
-    end;
-  end;
-
 var
   i : Integer;
   ActiveSelectedFiles: TFiles = nil;
