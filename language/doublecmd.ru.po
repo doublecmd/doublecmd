@@ -3908,6 +3908,10 @@ msgctxt "TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION"
 msgid "Save on exit"
 msgstr "Сохранять при выходе"
 
+#: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
+msgid "Sort order of configuration order in left tree"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
@@ -5951,8 +5955,10 @@ msgid "to add to current toolbar"
 msgstr "добавить в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
+#, fuzzy
+#| msgid "to add to a new toolbar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
-msgid "to add to a new toolbar to current toolbar"
+msgid "to add to a new toobar to current toolbar"
 msgstr "добавить в новую панель в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
@@ -6796,6 +6802,19 @@ msgstr "Имя"
 #: tfrmsyncdirsdlg.label1.caption
 msgid "(in main window)"
 msgstr "(в главном окне)"
+
+#: tfrmsyncdirsdlg.menuitemcompare.caption
+msgctxt "tfrmsyncdirsdlg.menuitemcompare.caption"
+msgid "Compare"
+msgstr "Сравнить"
+
+#: tfrmsyncdirsdlg.menuitemviewleft.caption
+msgid "View left"
+msgstr ""
+
+#: tfrmsyncdirsdlg.menuitemviewright.caption
+msgid "View right"
+msgstr ""
 
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
@@ -9362,6 +9381,14 @@ msgstr "Связать плагин \"%s\" с расширением:"
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
 msgstr "Первой;Последней;"
+
+#: ulng.rsoptconfigsortorder
+msgid "Classic, legacy order;Alphabetic order (but language still first)"
+msgstr ""
+
+#: ulng.rsoptdifferframeposition
+msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
+msgstr ""
 
 #: ulng.rsoptdisable
 msgid "Disable"

@@ -3889,6 +3889,10 @@ msgstr "Locația fișierelor de configurare"
 msgid "Save on exit"
 msgstr "Salvați la ieșire"
 
+#: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
+msgid "Sort order of configuration order in left tree"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Setează în linia de comandă"
@@ -6730,6 +6734,19 @@ msgstr "Nume"
 msgid "(in main window)"
 msgstr "(în fereastra principală)"
 
+#: tfrmsyncdirsdlg.menuitemcompare.caption
+msgctxt "tfrmsyncdirsdlg.menuitemcompare.caption"
+msgid "Compare"
+msgstr "Compară"
+
+#: tfrmsyncdirsdlg.menuitemviewleft.caption
+msgid "View left"
+msgstr ""
+
+#: tfrmsyncdirsdlg.menuitemviewright.caption
+msgid "View right"
+msgstr ""
+
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "TFRMSYNCDIRSDLG.SBCOPYLEFT.CAPTION"
 msgid "<"
@@ -9273,6 +9290,14 @@ msgstr "Asociază modulul \"%s\" cu:"
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
 msgstr "Primul;Ultimul;"
+
+#: ulng.rsoptconfigsortorder
+msgid "Classic, legacy order;Alphabetic order (but language still first)"
+msgstr ""
+
+#: ulng.rsoptdifferframeposition
+msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
+msgstr ""
 
 #: ulng.rsoptdisable
 msgid "Disable"
