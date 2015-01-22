@@ -3886,6 +3886,10 @@ msgstr "Putanja datoteka postavki"
 msgid "Save on exit"
 msgstr "Sačuvaj po izlazu"
 
+#: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
+msgid "Sort order of configuration order in left tree"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Uključi naredbenu liniju"
@@ -6729,6 +6733,19 @@ msgstr "Ime"
 msgid "(in main window)"
 msgstr "(u glavnom prozoru)"
 
+#: tfrmsyncdirsdlg.menuitemcompare.caption
+msgctxt "tfrmsyncdirsdlg.menuitemcompare.caption"
+msgid "Compare"
+msgstr "Uporedi"
+
+#: tfrmsyncdirsdlg.menuitemviewleft.caption
+msgid "View left"
+msgstr ""
+
+#: tfrmsyncdirsdlg.menuitemviewright.caption
+msgid "View right"
+msgstr ""
+
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "TFRMSYNCDIRSDLG.SBCOPYLEFT.CAPTION"
 msgid "<"
@@ -9277,6 +9294,14 @@ msgstr "Pridruži priključak „%s“ sa:"
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
 msgstr "Prvi;poslednji;"
+
+#: ulng.rsoptconfigsortorder
+msgid "Classic, legacy order;Alphabetic order (but language still first)"
+msgstr ""
+
+#: ulng.rsoptdifferframeposition
+msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
+msgstr ""
 
 #: ulng.rsoptdisable
 msgid "Disable"

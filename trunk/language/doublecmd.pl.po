@@ -3886,6 +3886,10 @@ msgstr "Położenie plików konfiguracji"
 msgid "Save on exit"
 msgstr "Zapisz przy wyjściu"
 
+#: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
+msgid "Sort order of configuration order in left tree"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Ustaw w linii komend"
@@ -6727,6 +6731,19 @@ msgstr "Nazwa"
 msgid "(in main window)"
 msgstr "(w głównym oknie)"
 
+#: tfrmsyncdirsdlg.menuitemcompare.caption
+msgctxt "tfrmsyncdirsdlg.menuitemcompare.caption"
+msgid "Compare"
+msgstr "Porównaj"
+
+#: tfrmsyncdirsdlg.menuitemviewleft.caption
+msgid "View left"
+msgstr ""
+
+#: tfrmsyncdirsdlg.menuitemviewright.caption
+msgid "View right"
+msgstr ""
+
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "TFRMSYNCDIRSDLG.SBCOPYLEFT.CAPTION"
 msgid "<"
@@ -9270,6 +9287,14 @@ msgstr "Skojarzyć wtyczkę \"%s\" z:"
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
 msgstr "Pierwszy;Ostatni;"
+
+#: ulng.rsoptconfigsortorder
+msgid "Classic, legacy order;Alphabetic order (but language still first)"
+msgstr ""
+
+#: ulng.rsoptdifferframeposition
+msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
+msgstr ""
 
 #: ulng.rsoptdisable
 msgid "Disable"

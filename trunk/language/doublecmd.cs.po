@@ -4109,6 +4109,10 @@ msgctxt "TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION"
 msgid "Save on exit"
 msgstr "Uložit při ukončení"
 
+#: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
+msgid "Sort order of configuration order in left tree"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
@@ -7160,6 +7164,19 @@ msgstr "Jméno"
 msgid "(in main window)"
 msgstr ""
 
+#: tfrmsyncdirsdlg.menuitemcompare.caption
+msgctxt "tfrmsyncdirsdlg.menuitemcompare.caption"
+msgid "Compare"
+msgstr "Porovnat"
+
+#: tfrmsyncdirsdlg.menuitemviewleft.caption
+msgid "View left"
+msgstr ""
+
+#: tfrmsyncdirsdlg.menuitemviewright.caption
+msgid "View right"
+msgstr ""
+
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
 msgid "<"
@@ -9730,6 +9747,14 @@ msgstr "Asociovat doplněk \"%s\" s:"
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
 msgstr "První;Poslední;"
+
+#: ulng.rsoptconfigsortorder
+msgid "Classic, legacy order;Alphabetic order (but language still first)"
+msgstr ""
+
+#: ulng.rsoptdifferframeposition
+msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
+msgstr ""
 
 #: ulng.rsoptdisable
 msgid "Disable"
