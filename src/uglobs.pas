@@ -1161,7 +1161,7 @@ begin
   gPartialNameSearch := True;
   gWipePassNumber := 1;
   gDropReadOnlyFlag := False;
-  gProcessComments := True;
+  gProcessComments := False;
   gRenameSelOnlyName := False;
   gShowCopyTabSelectPanel := False;
   gUseTrash := True;
