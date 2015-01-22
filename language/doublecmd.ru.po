@@ -3910,7 +3910,7 @@ msgstr "Сохранять при выходе"
 
 #: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
 msgid "Sort order of configuration order in left tree"
-msgstr ""
+msgstr "Сортировка дерева конфигурации (слева)"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
@@ -9384,11 +9384,11 @@ msgstr "Первой;Последней;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr ""
+msgstr "Классическая (по умолчанию);В алфавитном порядке (но язык первый)"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr ""
+msgstr "Активная панель слева, неактивная справа;Левая панель слева, правая справа"
 
 #: ulng.rsoptdisable
 msgid "Disable"
