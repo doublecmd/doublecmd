@@ -30,7 +30,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Masks, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, uFileView, uFileSource,
+  StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, uFileView, uFileSource,
   uFileSourceCopyOperation, uFile, uFileSourceOperationMessageBoxesUI;
 
 type
@@ -58,6 +58,10 @@ type
     Label1: TLabel;
     LeftPanel1: TPanel;
     LeftPanel2: TPanel;
+    MenuItemCompare: TMenuItem;
+    MenuItemViewRight: TMenuItem;
+    MenuItemViewLeft: TMenuItem;
+    pmGridMenu: TPopupMenu;
     sbCopyRight: TSpeedButton;
     sbEqual: TSpeedButton;
     sbNotEqual: TSpeedButton;
@@ -83,6 +87,7 @@ type
     procedure HeaderDGHeaderSizing(sender: TObject; const IsColumn: boolean;
       const aIndex, aSize: Integer);
     procedure FilterSpeedButtonClick(Sender: TObject);
+    procedure MenuItemViewClick(Sender: TObject);
   private
     { private declarations }
     FCancel: Boolean;
@@ -130,7 +135,8 @@ implementation
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
-  uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes;
+  uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes,
+  uShowForm;
 
 {$R *.lfm}
 
@@ -566,7 +572,7 @@ begin
   or not Assigned(sr.FFileR) or not Assigned(sr.FFileL) or (sr.FState = srsEqual)
   then
     Exit;
-  ShowDiffer(sr.FFileL.FullPath, sr.FFileR.FullPath);
+  ShowDifferByGlob(sr.FFileL.FullPath, sr.FFileR.FullPath);
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
@@ -692,6 +698,26 @@ end;
 procedure TfrmSyncDirsDlg.FilterSpeedButtonClick(Sender: TObject);
 begin
   FillFoundItemsDG
+end;
+
+procedure TfrmSyncDirsDlg.MenuItemViewClick(Sender: TObject);
+var
+  r: Integer;
+  f: TFile = nil;
+  sr: TFileSyncRec;
+begin
+  r := MainDrawGrid.Row;
+  if (r < 0) or (r >= FVisibleItems.Count) then Exit;
+  sr := TFileSyncRec(FVisibleItems.Objects[r]);
+  if Assigned(sr) then
+  begin
+    if Sender = MenuItemViewLeft then
+      f := sr.FFileL
+    else if Sender = MenuItemViewRight then begin
+      f := sr.FFileR;
+    end;
+    if Assigned(f) then ShowViewerByGlob(f.FullPath);
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
