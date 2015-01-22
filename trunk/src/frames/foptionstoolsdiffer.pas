@@ -50,7 +50,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uGlobs, uLng;
+  DCStrUtils, uDCUtils, uGlobs, uLng;
 
 { TfrmOptionsDiffer }
 
@@ -58,6 +58,7 @@ procedure TfrmOptionsDiffer.Init;
 begin
   ExternalTool := etDiffer;
   inherited Init;
+  ParseLineToList(rsOptDifferFramePosition, rgResultingFramePositionAfterCompare.Items);
 end;
 
 procedure TfrmOptionsDiffer.Load;

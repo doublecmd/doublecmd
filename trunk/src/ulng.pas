@@ -511,6 +511,9 @@ resourcestring
   rsOptionsEditorFileAssoc = 'File associations';
   rsOptionsEditorDirectoryHotlist = 'Directory Hotlist';
   //-------------------------------
+  rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
+  rsOptDifferFramePosition = 'Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right';
+  //-------------------------------
   rsOptArchiveParam = 'Parameter';
   rsOptArchiveValue = 'Value';
   rsOptArchiveDelete = 'Delete:';

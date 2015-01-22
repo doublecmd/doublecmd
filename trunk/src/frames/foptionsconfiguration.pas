@@ -65,7 +65,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng, fOptions;
+  Forms, DCStrUtils, uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng, fOptions;
 
 { TfrmOptionsConfiguration }
 
@@ -134,6 +134,7 @@ begin
     lblCmdLineConfigDir.Visible := True;
     lblCmdLineConfigDir.Caption := lblCmdLineConfigDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpCmdLineCfgDir) + ']';
   end;
+  ParseLineToList(rsOptConfigSortOrder, gbSortOrderConfigurationOption.Items);
 end;
 
 procedure TfrmOptionsConfiguration.Load;
