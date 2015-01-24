@@ -451,38 +451,35 @@ const
 var
   Message: String;
 begin
-  case FFileExistsOption of
-    fsoofeNone:
-      begin
-        if not mbFileExists(AbsoluteTargetFileName) then
-          Result:= fsoofeOverwrite
-        else begin
-          Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
-                                      aFile.Size, aFile.ModificationTime);
-          case AskQuestion(Message, '',
-                           PossibleResponses, fsourOverwrite, fsourSkip) of
-            fsourOverwrite:
-              Result := fsoofeOverwrite;
-            fsourSkip:
-              Result := fsoofeSkip;
-            fsourOverwriteAll:
-              begin
-                FFileExistsOption := fsoofeOverwrite;
-                Result := fsoofeOverwrite;
-              end;
-            fsourSkipAll:
-              begin
-                FFileExistsOption := fsoofeSkip;
-                Result := fsoofeSkip;
-              end;
-            fsourNone,
-            fsourCancel:
-              RaiseAbortOperation;
-          end;
+  if not mbFileExists(AbsoluteTargetFileName) then
+    Result:= fsoofeOverwrite
+  else if FFileExistsOption = fsoofeNone then
+  begin
+    Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
+                                aFile.Size, aFile.ModificationTime);
+    case AskQuestion(Message, '',
+                     PossibleResponses, fsourOverwrite, fsourSkip) of
+      fsourOverwrite:
+        Result := fsoofeOverwrite;
+      fsourSkip:
+        Result := fsoofeSkip;
+      fsourOverwriteAll:
+        begin
+          FFileExistsOption := fsoofeOverwrite;
+          Result := fsoofeOverwrite;
         end;
-      end;
-    else
-      Result := FFileExistsOption;
+      fsourSkipAll:
+        begin
+          FFileExistsOption := fsoofeSkip;
+          Result := fsoofeSkip;
+        end;
+      fsourNone,
+      fsourCancel:
+        RaiseAbortOperation;
+    end;
+  end
+  else begin
+    Result := FFileExistsOption;
   end;
 end;
 
