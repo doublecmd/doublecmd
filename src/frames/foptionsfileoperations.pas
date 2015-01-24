@@ -27,7 +27,7 @@ unit fOptionsFileOperations;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Spin, ExtCtrls,
+  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, DividerBevel,
   fOptionsFrame;
 
 type
@@ -35,7 +35,7 @@ type
   { TfrmOptionsFileOperations }
 
   TfrmOptionsFileOperations = class(TOptionsEditor)
-    bvlConfirmations: TBevel;
+    bvlConfirmations: TDividerBevel;
     cbDeleteToTrash: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbPartialNameSearch: TCheckBox;
@@ -48,18 +48,18 @@ type
     cbMoveConfirmation: TCheckBox;
     cbDeleteConfirmation: TCheckBox;
     cbDeleteToTrashConfirmation: TCheckBox;
+    bvlTypeOfDuplicatedRename: TDividerBevel;
+    cmbTypeOfDuplicatedRename: TComboBox;
     edtBufferSize: TEdit;
     gbUserInterface: TGroupBox;
     gbFileSearch: TGroupBox;
     gbExecutingOperations: TGroupBox;
-    lblConfirmations: TLabel;
     lblBufferSize: TLabel;
     lblProgressKind: TLabel;
     lblWipePassNumber: TLabel;
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
-    rgTypeOfDuplicatedRename: TRadioGroup;
     procedure cbDeleteToTrashChange(Sender: TObject);
     procedure GenericSomethingChanged(Sender: TObject);
   private
@@ -98,7 +98,7 @@ end;
 procedure TfrmOptionsFileOperations.Init;
 begin
   ParseLineToList(rsOptFileOperationsProgressKind, cbProgressKind.Items);
-  ParseLineToList(rsOptTypeOfDuplicatedRename, rgTypeOfDuplicatedRename.Items);
+  ParseLineToList(rsOptTypeOfDuplicatedRename, cmbTypeOfDuplicatedRename.Items);
 end;
 
 procedure TfrmOptionsFileOperations.cbDeleteToTrashChange(Sender: TObject);
@@ -139,7 +139,7 @@ begin
   cbMoveConfirmation.Checked          := focMove in gFileOperationsConfirmations;
   cbDeleteConfirmation.Checked        := focDelete in gFileOperationsConfirmations;
   cbDeleteToTrashConfirmation.Checked := focDeleteToTrash in gFileOperationsConfirmations;
-  rgTypeOfDuplicatedRename.ItemIndex  := Integer(gTypeOfDuplicatedRename);
+  cmbTypeOfDuplicatedRename.ItemIndex := Integer(gTypeOfDuplicatedRename);
 
   FLoading := False;
   FModificationTookPlace := False;
@@ -175,7 +175,7 @@ begin
     Include(gFileOperationsConfirmations, focDelete);
   if cbDeleteToTrashConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDeleteToTrash);
-  gTypeOfDuplicatedRename := tDuplicatedRename(rgTypeOfDuplicatedRename.ItemIndex);
+  gTypeOfDuplicatedRename := tDuplicatedRename(cmbTypeOfDuplicatedRename.ItemIndex);
   FModificationTookPlace := False;
 end;
 
