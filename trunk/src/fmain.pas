@@ -1580,11 +1580,15 @@ begin
         HideToTray;
       end;
     end
-    else
+    else begin
       // If we get wsMinimized while HiddenToTray is true,
       // then this means it was sent by LCL when a hidden, minimized window was shown.
       // We don't react to this message in this case.
       HiddenToTray := False;
+{$IF DEFINED(LCLGTK2)}
+      WindowState := lastWindowState;
+{$ENDIF}
+    end;
   end
   else
   begin  // Not minimized
@@ -1886,7 +1890,9 @@ end;
 procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
 begin
   ActiveFrame.SetFocus;
+{$IF NOT DEFINED(LCLGTK2)}
   HiddenToTray := False;
+{$ENDIF}
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
