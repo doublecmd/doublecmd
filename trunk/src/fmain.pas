@@ -3822,7 +3822,7 @@ begin
        else
          Exit(1);
     end;
-
+    if Assigned(QuickViewPanel) then QuickViewClose;
     ANoteBook.RemovePage(iPageIndex);
     Result:= 0;
   end;
