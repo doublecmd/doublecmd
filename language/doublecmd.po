@@ -6557,9 +6557,18 @@ msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "&OK"
 msgstr ""
 
+#: tfrmsplitter.btnrelativeftchoice.hint
+msgctxt "TFRMSPLITTER.BTNRELATIVEFTCHOICE.HINT"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmsplitter.caption
 msgctxt "TFRMSPLITTER.CAPTION"
 msgid "Splitter"
+msgstr ""
+
+#: tfrmsplitter.cbrequireacrc32verificationfile.caption
+msgid "Require a CRC32 verification file"
 msgstr ""
 
 #: tfrmsplitter.cmbxsize.text
@@ -6585,6 +6594,10 @@ msgstr ""
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
+msgstr ""
+
+#: tfrmsplitter.rbtnbyte.caption
+msgid "&Bytes"
 msgstr ""
 
 #: tfrmsplitter.rbtngigab.caption
