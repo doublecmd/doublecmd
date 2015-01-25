@@ -6421,6 +6421,44 @@ msgstr "Фильтр"
 msgid "Toggle between search or filter"
 msgstr "Поиск или фильтр"
 
+#: tfrmsearchplugin.btnadd.caption
+msgid "&More rules"
+msgstr "Добавить правило"
+
+#: tfrmsearchplugin.btndelete.caption
+msgid "L&ess rules"
+msgstr "Удалить правило"
+
+#: tfrmsearchplugin.chkuseplugins.caption
+msgid "Use &content plugins, combine with:"
+msgstr "Использовать контентные плагины, объединять:"
+
+#: tfrmsearchplugin.headercontrol.sections[0].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[0].text"
+msgid "Plugin"
+msgstr "Плагин"
+
+#: tfrmsearchplugin.headercontrol.sections[1].text
+msgid "Field"
+msgstr "Поле"
+
+#: tfrmsearchplugin.headercontrol.sections[2].text
+msgid "Operator"
+msgstr "Оператор"
+
+#: tfrmsearchplugin.headercontrol.sections[3].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
+msgid "Value"
+msgstr "Значение"
+
+#: tfrmsearchplugin.rband.caption
+msgid "&AND (all match)"
+msgstr "И (все правила)"
+
+#: tfrmsearchplugin.rbor.caption
+msgid "&OR (any match)"
+msgstr "ИЛИ (любое правило)"
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
 msgid "Cancel"
@@ -9375,6 +9413,7 @@ msgid "Archive type name:"
 msgstr "Наименование типа архива:"
 
 #: ulng.rsoptarchivevalue
+msgctxt "ulng.rsoptarchivevalue"
 msgid "Value"
 msgstr "Значение"
 

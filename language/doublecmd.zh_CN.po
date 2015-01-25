@@ -6956,6 +6956,44 @@ msgstr "过滤"
 msgid "Toggle between search or filter"
 msgstr ""
 
+#: tfrmsearchplugin.btnadd.caption
+msgid "&More rules"
+msgstr ""
+
+#: tfrmsearchplugin.btndelete.caption
+msgid "L&ess rules"
+msgstr ""
+
+#: tfrmsearchplugin.chkuseplugins.caption
+msgid "Use &content plugins, combine with:"
+msgstr ""
+
+#: tfrmsearchplugin.headercontrol.sections[0].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[0].text"
+msgid "Plugin"
+msgstr ""
+
+#: tfrmsearchplugin.headercontrol.sections[1].text
+msgid "Field"
+msgstr ""
+
+#: tfrmsearchplugin.headercontrol.sections[2].text
+msgid "Operator"
+msgstr ""
+
+#: tfrmsearchplugin.headercontrol.sections[3].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
+msgid "Value"
+msgstr ""
+
+#: tfrmsearchplugin.rband.caption
+msgid "&AND (all match)"
+msgstr ""
+
+#: tfrmsearchplugin.rbor.caption
+msgid "&OR (any match)"
+msgstr ""
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
 msgid "Cancel"
@@ -9948,6 +9986,7 @@ msgid "Archive type name:"
 msgstr ""
 
 #: ulng.rsoptarchivevalue
+msgctxt "ulng.rsoptarchivevalue"
 msgid "Value"
 msgstr ""
 
