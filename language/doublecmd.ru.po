@@ -4173,12 +4173,12 @@ msgstr "в файл Избранные каталоги (.hotlist)"
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr "в фвйл \"wincmd.ini\" от TC (оставить существующий)"
+msgstr "в файл \"wincmd.ini\" от TC (оставить существующий)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "в фвйл \"wincmd.ini\" от TC (удалить существующий)"
+msgstr "в файл \"wincmd.ini\" от TC (удалить существующий)"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
@@ -4204,7 +4204,7 @@ msgstr "из файла \"wincmd.ini\" от TC"
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
 msgid "Open all branches"
-msgstr "Оькрыть все ветки"
+msgstr "Открыть все ветки"
 
 #: tfrmoptionsdirectoryhotlist.mipasteselection.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mipasteselection.caption"
@@ -5802,12 +5802,12 @@ msgstr "в файл TC .BAR (удалить существующий)"
 #: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr "в фвйл \"wincmd.ini\" от TC (оставить существующий)"
+msgstr "в файл \"wincmd.ini\" от TC (оставить существующий)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "в фвйл \"wincmd.ini\" от TC (удалить существующий)"
+msgstr "в файл \"wincmd.ini\" от TC (удалить существующий)"
 
 #: tfrmoptionstoolbar.miexportseparator1.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator1.caption"
@@ -5855,12 +5855,12 @@ msgstr "в файл TC .BAR (удалить существующий)"
 #: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr "в фвйл \"wincmd.ini\" от TC (оставить существующий)"
+msgstr "в файл \"wincmd.ini\" от TC (оставить существующий)"
 
 #: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "в фвйл \"wincmd.ini\" от TC (удалить существующий)"
+msgstr "в файл \"wincmd.ini\" от TC (удалить существующий)"
 
 #: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
