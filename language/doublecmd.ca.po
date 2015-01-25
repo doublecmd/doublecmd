@@ -529,9 +529,15 @@ msgid "&OK"
 msgstr "&Accepta"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Calcula suma de comprovació"
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
@@ -541,8 +547,8 @@ msgstr "Crea un fitxer por cada comprobació"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 #, fuzzy
-#| msgid "Save check sum file(s) to:"
-msgid "&Save check sum file(s) to:"
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "Desa fitxer de comprobació en:"
 
 #: tfrmchecksumverify.btnclose.caption

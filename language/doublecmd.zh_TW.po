@@ -520,9 +520,15 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "計算驗證碼..."
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
@@ -532,8 +538,8 @@ msgstr "為每個檔案建立單獨的驗證碼檔案 (&R)"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 #, fuzzy
-#| msgid "Save check sum file(s) to:"
-msgid "&Save check sum file(s) to:"
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "儲存驗證碼檔案到 (&S):"
 
 #: tfrmchecksumverify.btnclose.caption

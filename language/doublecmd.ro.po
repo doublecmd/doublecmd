@@ -496,16 +496,24 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Calculează suma de control..."
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
 msgstr "C&rează sume de control separate pentru fiecare fișier"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-msgid "&Save check sum file(s) to:"
+#, fuzzy
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "&Salvează fișier(e) sumă de control la:"
 
 #: tfrmchecksumverify.btnclose.caption

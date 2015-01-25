@@ -496,7 +496,11 @@ msgstr "OK"
 
 #: tfrmchecksumcalc.caption
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
+msgstr ""
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
 msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
@@ -504,7 +508,7 @@ msgid "C&reate separate checksum file for each file"
 msgstr ""
 
 #: tfrmchecksumcalc.lblsaveto.caption
-msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption

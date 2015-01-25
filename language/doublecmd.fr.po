@@ -533,9 +533,15 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Vérification de la somme de contrôle..."
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
@@ -545,8 +551,8 @@ msgstr "Créer une somme de contrôle séparée pour chaque fichier"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 #, fuzzy
-#| msgid "Save check sum file(s) to:"
-msgid "&Save check sum file(s) to:"
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "Sauvegarder la somme de contrôle dans le fichier :"
 
 #: tfrmchecksumverify.btnclose.caption

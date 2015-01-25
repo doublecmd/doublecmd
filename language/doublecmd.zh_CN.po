@@ -497,9 +497,15 @@ msgid "&OK"
 msgstr "确定(&O)"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "产生校验..."
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
@@ -509,8 +515,8 @@ msgstr "为每个文件分别创建MD5/SHA1文件"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 #, fuzzy
-#| msgid "Save check sum file(s) to:"
-msgid "&Save check sum file(s) to:"
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "保存校验数据到文件："
 
 #: tfrmchecksumverify.btnclose.caption

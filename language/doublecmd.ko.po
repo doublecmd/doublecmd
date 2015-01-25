@@ -526,9 +526,15 @@ msgid "&OK"
 msgstr "확인(&O)"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "CRC 체크섬 생성..."
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
@@ -538,8 +544,8 @@ msgstr "각각의 파일별로 체크섬 파일 분리 생성하기"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 #, fuzzy
-#| msgid "Save check sum file(s) to:"
-msgid "&Save check sum file(s) to:"
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "체크섬 파일 저장:"
 
 #: tfrmchecksumverify.btnclose.caption

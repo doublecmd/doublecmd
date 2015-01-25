@@ -513,9 +513,15 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Výpočet kontrolního součtu..."
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #| msgid "Create separate checksum file for each file"
@@ -523,8 +529,9 @@ msgid "C&reate separate checksum file for each file"
 msgstr "V&ytvořit samostatný kontrolní součet pro každý soubor"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-#| msgid "Save check sum file(s) to:"
-msgid "&Save check sum file(s) to:"
+#, fuzzy
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "&Uložit soubor(y) s kontrolním součtem do:"
 
 #: tfrmchecksumverify.btnclose.caption

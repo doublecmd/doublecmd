@@ -496,16 +496,24 @@ msgid "&OK"
 msgstr "&У реду"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Израчунај збирну проверу"
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
 msgstr "&Образуј посебну датотеку збирне провере за сваку датотеку"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-msgid "&Save check sum file(s) to:"
+#, fuzzy
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "&Сачувај збирну(е) проверу(е) у:"
 
 #: tfrmchecksumverify.btnclose.caption
