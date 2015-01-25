@@ -6568,10 +6568,19 @@ msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
+#: tfrmsplitter.btnrelativeftchoice.hint
+msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmsplitter.caption
 msgctxt "TFRMSPLITTER.CAPTION"
 msgid "Splitter"
 msgstr "Separator"
+
+#: tfrmsplitter.cbrequireacrc32verificationfile.caption
+msgid "Require a CRC32 verification file"
+msgstr ""
 
 #: tfrmsplitter.cmbxsize.text
 msgid "1457664B - 3.5\""
@@ -6597,6 +6606,10 @@ msgstr "&Sursă fișier"
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
 msgstr "&Număr de părți"
+
+#: tfrmsplitter.rbtnbyte.caption
+msgid "&Bytes"
+msgstr ""
 
 #: tfrmsplitter.rbtngigab.caption
 msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
