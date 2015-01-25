@@ -7211,6 +7211,45 @@ msgstr "필터"
 msgid "Toggle between search or filter"
 msgstr ""
 
+#: tfrmsearchplugin.btnadd.caption
+msgid "&More rules"
+msgstr ""
+
+#: tfrmsearchplugin.btndelete.caption
+msgid "L&ess rules"
+msgstr ""
+
+#: tfrmsearchplugin.chkuseplugins.caption
+msgid "Use &content plugins, combine with:"
+msgstr ""
+
+#: tfrmsearchplugin.headercontrol.sections[0].text
+#, fuzzy
+msgctxt "tfrmsearchplugin.headercontrol.sections[0].text"
+msgid "Plugin"
+msgstr "플러그인"
+
+#: tfrmsearchplugin.headercontrol.sections[1].text
+msgid "Field"
+msgstr ""
+
+#: tfrmsearchplugin.headercontrol.sections[2].text
+msgid "Operator"
+msgstr ""
+
+#: tfrmsearchplugin.headercontrol.sections[3].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
+msgid "Value"
+msgstr "값"
+
+#: tfrmsearchplugin.rband.caption
+msgid "&AND (all match)"
+msgstr ""
+
+#: tfrmsearchplugin.rbor.caption
+msgid "&OR (any match)"
+msgstr ""
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 #, fuzzy
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
@@ -10278,6 +10317,7 @@ msgid "Archive type name:"
 msgstr "압축 형식 이름:"
 
 #: ulng.rsoptarchivevalue
+msgctxt "ulng.rsoptarchivevalue"
 msgid "Value"
 msgstr "값"
 
