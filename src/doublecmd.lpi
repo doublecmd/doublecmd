@@ -279,7 +279,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="220">
+    <Units Count="221">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1577,6 +1577,14 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsBriefView"/>
       </Unit219>
+      <Unit220>
+        <Filename Value="frames\fsearchplugin.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSearchPlugin"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fSearchPlugin"/>
+      </Unit220>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
