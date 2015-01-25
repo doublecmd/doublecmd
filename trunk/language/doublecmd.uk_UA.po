@@ -515,9 +515,15 @@ msgid "&OK"
 msgstr "&Так"
 
 #: tfrmchecksumcalc.caption
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
-msgid "Calculate check sum..."
+msgid "Calculate checksum..."
 msgstr "Розрахувати контрольну суму..."
+
+#: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
+msgid "Open checksum file after job is completed"
+msgstr ""
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #| msgid "Create separate checksum file for each file"
@@ -525,8 +531,9 @@ msgid "C&reate separate checksum file for each file"
 msgstr "Для кожного файлу ство&рити свій контрольний файл"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-#| msgid "Save check sum file(s) to:"
-msgid "&Save check sum file(s) to:"
+#, fuzzy
+#| msgid "&Save check sum file(s) to:"
+msgid "&Save checksum file(s) to:"
 msgstr "Зберегти файл(и) контрольних сум &як:"
 
 #: tfrmchecksumverify.btnclose.caption
