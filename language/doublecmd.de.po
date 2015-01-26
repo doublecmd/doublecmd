@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-01-11 19:50+0100\n"
+"PO-Revision-Date: 2015-01-26 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -534,8 +534,6 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmchecksumcalc.caption
-#, fuzzy
-#| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
 msgstr "Berechne Prüfsumme..."
@@ -551,8 +549,6 @@ msgid "C&reate separate checksum file for each file"
 msgstr "Fü&r jede Datei eigene MD5/SHA1-Prüfdatei erstellen"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-#, fuzzy
-#| msgid "&Save check sum file(s) to:"
 msgid "&Save checksum file(s) to:"
 msgstr "Prüf&summen-Datei speichern unter:"
 
@@ -4366,7 +4362,7 @@ msgstr "Beim Beenden speichern"
 
 #: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
 msgid "Sort order of configuration order in left tree"
-msgstr ""
+msgstr "Reihenfolge der Konfigurationsfolge im linken Baum sortieren"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
@@ -4490,7 +4486,7 @@ msgstr "Struktur immer aufklappen"
 #, fuzzy
 #| msgid "Show only valid %senv_var%s"
 msgid "Show only valid environment variables"
-msgstr "Nur gültige %env_var% verwenden"
+msgstr "Nur gültige Umgebungsvariable verwenden"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In popup, show [path also]"
@@ -7748,11 +7744,11 @@ msgstr "Vergleiche"
 
 #: tfrmsyncdirsdlg.menuitemviewleft.caption
 msgid "View left"
-msgstr ""
+msgstr "Ansicht links"
 
 #: tfrmsyncdirsdlg.menuitemviewright.caption
 msgid "View right"
-msgstr ""
+msgstr "Ansicht rechts"
 
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
@@ -8678,19 +8674,19 @@ msgstr "_Gezogener UnicodeUTF8-Text"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
-msgstr ""
+msgstr " Fügt hinzu: "
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
-msgstr ""
+msgstr " Löscht: "
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr ""
+msgstr " Entspricht: "
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
-msgstr ""
+msgstr " Verändert: "
 
 #: ulng.rsdlgallopcomplete
 #, fuzzy
@@ -10315,7 +10311,7 @@ msgstr "Führe aus"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at beginning;Add at the end;Smart add"
-msgstr ""
+msgstr "Am Anfang anfügen;Am Ende anfügen;Smart hinzufügen"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
@@ -10384,11 +10380,11 @@ msgstr "Erste;Letzte;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr ""
+msgstr "Klassisch, Vermächtnis-Reihenfolge, Alphabetische Reihenfolge (aber Sprache immer zuerst)"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr ""
+msgstr "Aktiver Frame-Panel links, inaktiver rechts (Vermächtnis);Linker Frame-Panel links, rechts auf der rechten Seite"
 
 #: ulng.rsoptdisable
 msgid "Disable"
@@ -10765,7 +10761,7 @@ msgstr "Tr&ennendes Element;&Interner Befehl;E&xterner Befehl;Men&ü"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr ""
+msgstr "DC Vermächtnis - Kopiere (x) Dateiname.ext;Windows - Dateiname (x).ext;Andere - Dateiname(x).ext"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
