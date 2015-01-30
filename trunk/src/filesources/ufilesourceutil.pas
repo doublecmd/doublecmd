@@ -46,6 +46,7 @@ uses
   uFileSourceSetFilePropertyOperation,
   uFileSourceExecuteOperation,
   uVfsFileSource,
+  uFileSourceProperty,
   uFileSystemFileSource,
   uWfxPluginFileSource,
   uArchiveFileSourceUtil,
@@ -62,23 +63,15 @@ begin
   if ChooseFileSource(aFileView, aFile) then
     Exit;
 
-  // For now work only for FileSystem until temporary file system is done.
-  if aFileView.FileSource.IsClass(TFileSystemFileSource) then
+  // For now work only for local files.
+  if aFileView.FileSource.Properties * [fspDirectAccess, fspLinksToLocalFiles] <> [] then
   begin
-    //now test if exists Open command in doublecmd.ext :)
-    sOpenCmd:= gExts.GetExtActionCmd(aFile, 'open');
-    if (sOpenCmd<>'') then
+    if fspLinksToLocalFiles in aFileView.FileSource.Properties then
+      aFileView.FileSource.GetLocalName(aFile);
+    // Now test if exists Open command in doublecmd.ext :)
+    sOpenCmd := gExts.GetExtActionCmd(aFile, 'open');
+    if (sOpenCmd <> '') then
     begin
-(*
-      if Pos('{!VFS}',sOpenCmd)>0 then
-      begin
-        if fVFS.FindModule(sName) then
-        begin
-          LoadPanelVFS(pfri);
-          Exit;
-        end;
-      end;
-*)
       sOpenCmd := PrepareParameter(sOpenCmd, aFile);
       if ProcessExtCommand(sOpenCmd, aFileView.CurrentPath) then
         Exit;
