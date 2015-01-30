@@ -106,6 +106,7 @@ begin
   FMimeType:= GetFileMimeType(FFileList[0]);
   lblMimeType.Caption:= Format(lblMimeType.Caption, [FMimeType]);
   LoadApplicationList;
+  tvApplications.AlphaSort;
 end;
 
 procedure TfrmOpenWith.chkCustomCommandChange(Sender: TObject);
