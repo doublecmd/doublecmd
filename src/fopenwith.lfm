@@ -1,7 +1,7 @@
 object frmOpenWith: TfrmOpenWith
-  Left = 464
+  Left = 421
   Height = 474
-  Top = 123
+  Top = 126
   Width = 410
   Caption = 'Choose an application'
   ClientHeight = 474
@@ -12,7 +12,7 @@ object frmOpenWith: TfrmOpenWith
   LCLVersion = '1.2.4.0'
   object lblMimeType: TLabel
     Left = 6
-    Height = 14
+    Height = 17
     Top = 6
     Width = 404
     Align = alTop
@@ -23,13 +23,13 @@ object frmOpenWith: TfrmOpenWith
   end
   object pnlOpenWith: TPanel
     Left = 0
-    Height = 36
-    Top = 342
+    Height = 39
+    Top = 341
     Width = 410
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 36
+    ClientHeight = 39
     ClientWidth = 410
     Color = clForm
     Enabled = False
@@ -41,7 +41,7 @@ object frmOpenWith: TfrmOpenWith
       AnchorSideRight.Control = btnCommands
       AnchorSideBottom.Side = asrBottom
       Left = 6
-      Height = 24
+      Height = 27
       Top = 7
       Width = 354
       DialogOptions = []
@@ -64,7 +64,7 @@ object frmOpenWith: TfrmOpenWith
       AnchorSideBottom.Control = fneCommand
       AnchorSideBottom.Side = asrBottom
       Left = 384
-      Height = 24
+      Height = 27
       Top = 7
       Width = 20
       Anchors = [akTop, akRight, akBottom]
@@ -113,8 +113,8 @@ object frmOpenWith: TfrmOpenWith
   end
   object ButtonPanel: TButtonPanel
     Left = 6
-    Height = 36
-    Top = 432
+    Height = 40
+    Top = 428
     Width = 398
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -131,12 +131,11 @@ object frmOpenWith: TfrmOpenWith
   end
   object tvApplications: TTreeView
     Left = 0
-    Height = 256
-    Top = 26
+    Height = 252
+    Top = 29
     Width = 410
     Align = alClient
     BorderSpacing.Top = 6
-    DefaultItemHeight = 16
     Images = ImageList
     ReadOnly = True
     ScrollBars = ssAutoBoth
@@ -148,8 +147,8 @@ object frmOpenWith: TfrmOpenWith
   object chkUseAsDefault: TCheckBox
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 24
-    Top = 402
+    Height = 21
+    Top = 401
     Width = 404
     Align = alBottom
     BorderSpacing.Left = 6
@@ -163,8 +162,8 @@ object frmOpenWith: TfrmOpenWith
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 24
-    Top = 318
+    Height = 21
+    Top = 320
     Width = 398
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -176,8 +175,8 @@ object frmOpenWith: TfrmOpenWith
   end
   object chkSaveAssociation: TCheckBox
     Left = 6
-    Height = 24
-    Top = 378
+    Height = 21
+    Top = 380
     Width = 404
     Align = alBottom
     BorderSpacing.Left = 6
@@ -187,14 +186,14 @@ object frmOpenWith: TfrmOpenWith
   end
   object pnlFilter: TPanel
     Left = 0
-    Height = 36
-    Top = 282
+    Height = 39
+    Top = 281
     Width = 410
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 36
+    ClientHeight = 39
     ClientWidth = 410
     Color = clForm
     ParentColor = False
@@ -204,9 +203,9 @@ object frmOpenWith: TfrmOpenWith
       AnchorSideTop.Control = pnlFilter
       AnchorSideRight.Side = asrBottom
       Left = 6
-      Height = 24
+      Height = 27
       Top = 6
-      Width = 354
+      Width = 375
       ButtonWidth = 23
       NumGlyphs = 1
       Anchors = [akTop, akLeft, akRight]
