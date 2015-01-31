@@ -80,6 +80,7 @@ const
     'Dmitry Kolomiets (B4rr4cuda@rambler.ru) - developer' + cIndention +
     'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding + LineEnding +
     'Contributors:' + cIndention +
+    'Denis Bisson (denis.bisson@denisbisson.org)' + cIndention +
     'Tolstov Igor (attid@yandex.ru)' + cIndention +
     'Anton Panferov (ast.a_s@mail.ru)' + cIndention +
     'Rustem Rakhimov (dok_rust@bk.ru)' + cIndention +
