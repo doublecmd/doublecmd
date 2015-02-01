@@ -87,7 +87,7 @@ begin
   begin
     if UnixIPC.PeekMessage(100, False) then
       TThread.Synchronize(nil, @UnixIPC.ReadMessage);
-    Sleep(1);
+    Sleep(1); // Fix crash under OS X
   end;
 end;
 {$ENDIF}
