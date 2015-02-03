@@ -80,7 +80,6 @@ begin
 
   {$IFDEF MSWINDOWS}
   uMyWindows.InitErrorMode;
-  FileNameCaseSensitive:= False;
   uMyWindows.FixCommandLineToUTF8;
   {$ENDIF}
 

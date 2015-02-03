@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archive File support - class for manage WCX plugins (Version 2.20)
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ unit uWCXmodule;
 interface
 
 uses
-  LCLType, Classes, Dialogs, StringHashList, dynlibs,
+  LCLType, Classes, Dialogs, LazUTF8Classes, dynlibs,
   uWCXprototypes, WcxPlugin, Extension, DCClassesUtf8, DCBasicTypes, DCXmlConfig;
 
 Type
@@ -141,7 +141,7 @@ Type
 
   TWCXModuleList = class(TStringList)
   private
-    FModuleList: TStringHashList;
+    FModuleList: TStringListUTF8;
   private
     function GetAEnabled(Index: Integer): Boolean;
     function GetAExt(Index: Integer): String;
@@ -618,7 +618,7 @@ end;
 
 constructor TWCXModuleList.Create;
 begin
-  FModuleList:= TStringHashList.Create(FileNameCaseSensitive);
+  FModuleList:= TStringListUTF8.Create;
 end;
 
 destructor TWCXModuleList.Destroy;
@@ -627,7 +627,7 @@ var
 begin
   for I:= 0 to FModuleList.Count - 1 do
   begin
-    TWcxModule(FModuleList.List[I]^.Data).Free;
+    TWcxModule(FModuleList.Objects[I]).Free;
   end;
   FreeAndNil(FModuleList);
   inherited Destroy;
@@ -752,15 +752,17 @@ begin
 end;
 
 function TWCXModuleList.LoadModule(const FileName: String): TWcxModule;
+var
+  Index: Integer;
 begin
-  Result := TWcxModule(FModuleList.Data[FileName]);
-  if not Assigned(Result) then
-  begin
+  if FModuleList.Find(FileName, Index) then
+    Result := TWcxModule(FModuleList.Objects[Index])
+  else begin
     Result := TWcxModule.Create;
     if not Result.LoadModule(FileName) then
       FreeAndNil(Result)
     else begin
-      FModuleList.Add(FileName, Result);
+      FModuleList.AddObject(FileName, Result);
     end;
   end;
 end;
