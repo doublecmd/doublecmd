@@ -1296,14 +1296,20 @@ end;
 procedure TfrmOptionsDirectoryHotlist.cbSortHotDirPathChange(Sender: TObject);
 begin
   DirectoryHotlistTemp.FlagModified := True;
-  THotDir(tvDirectoryHotlist.Selected.Data).HotDirPathSort:=cbSortHotDirPath.ItemIndex;
+  if Assigned(tvDirectoryHotlist.Selected) then
+  begin
+    THotDir(tvDirectoryHotlist.Selected.Data).HotDirPathSort := cbSortHotDirPath.ItemIndex;
+  end;
 end;
 
 { TfrmOptionsDirectoryHotlist.cbSortHotDirTargetChange }
 procedure TfrmOptionsDirectoryHotlist.cbSortHotDirTargetChange(Sender: TObject);
 begin
   DirectoryHotlistTemp.FlagModified := True;
-  THotDir(tvDirectoryHotlist.Selected.Data).HotDirTargetSort:=cbSortHotDirTarget.ItemIndex;
+  if Assigned(tvDirectoryHotlist.Selected) then
+  begin
+    THotDir(tvDirectoryHotlist.Selected.Data).HotDirTargetSort := cbSortHotDirTarget.ItemIndex;
+  end;
 end;
 
 { TfrmOptionsDirectoryHotlist.miShowWhereItWouldGo }
