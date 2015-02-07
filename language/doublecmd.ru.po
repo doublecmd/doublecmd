@@ -10013,7 +10013,7 @@ msgstr "Терминал"
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
 msgid "Viewer"
-msgstr "Внутренняя программа просмотра"
+msgstr "Проcмотр"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
