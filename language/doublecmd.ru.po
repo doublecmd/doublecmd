@@ -3972,7 +3972,7 @@ msgstr "Добавить..."
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Backup..."
-msgstr "Резервное копирование..."
+msgstr "Резервирование..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgid "Delete..."
@@ -5279,7 +5279,7 @@ msgstr "Просмотреть содержимое файла журнала"
 
 #: tfrmoptionslog.cbincludedateinlogfilename.caption
 msgid "Include date in log filename"
-msgstr "Добавоять дату в имя файла журнала"
+msgstr "Добавлять дату в имя файла журнала"
 
 #: tfrmoptionslog.cblogarcop.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
@@ -5648,7 +5648,7 @@ msgstr "Запуск &терминала"
 #: tfrmoptionstoolbar.btnbackup.caption
 msgctxt "tfrmoptionstoolbar.btnbackup.caption"
 msgid "Backup..."
-msgstr "Резервное копирование..."
+msgstr "Резервирование..."
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
@@ -7248,7 +7248,7 @@ msgstr "Уменьшить"
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"
 msgid "Viewer"
-msgstr "Внутренняя программа просмотра"
+msgstr "Программа просмотра"
 
 #: tfrmviewer.cbslideshow.caption
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
