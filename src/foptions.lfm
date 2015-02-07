@@ -12,9 +12,9 @@ object frmOptions: TfrmOptions
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  SessionProperties = 'Height;Width;WindowState;Left;Top'
+  SessionProperties = 'Height;Left;Top;Width;WindowState;tvTreeView.Width'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.2.6.0'
+  LCLVersion = '1.2.4.0'
   object tvTreeView: TTreeView
     Left = 0
     Height = 160
@@ -68,7 +68,7 @@ object frmOptions: TfrmOptions
       VertScrollBar.Tracking = True
       Align = alClient
       BorderStyle = bsNone
-      ClientHeight = 120
+      ClientHeight = 121
       ClientWidth = 321
       TabOrder = 1
       object lblEmptyEditor: TLabel
@@ -77,7 +77,7 @@ object frmOptions: TfrmOptions
         Left = 10
         Height = 15
         Top = 10
-        Width = 391
+        Width = 490
         BorderSpacing.Left = 10
         BorderSpacing.Top = 10
         Caption = 'Please select one of the subpages, this page does not contain any settings.'
