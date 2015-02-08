@@ -140,6 +140,7 @@ begin
   else
     gWCXPlugins.Flags[I]:= 95;
 
+  {$IF NOT DEFINED(DARWIN)}
   I:= gWCXPlugins.IndexOfName('xz');
   if I < 0 then
     gWCXPlugins.Add('xz', 91, Folder + 'zip' + PathDelim + 'zip.wcx');
@@ -151,6 +152,7 @@ begin
   I:= gWCXPlugins.IndexOfName('zipx');
   if I < 0 then
     gWCXPlugins.Add('zipx', 84, Folder + 'zip' + PathDelim + 'zip.wcx');
+  {$ENDIF}
 
   {$IF DEFINED(MSWINDOWS)}
   I:= gWCXPlugins.IndexOfName('cpio');
