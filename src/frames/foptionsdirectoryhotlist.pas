@@ -62,6 +62,7 @@ type
     miCurrentSelectedOrActiveDirectories: TMenuItem;
     pmPathHelper: TPopupMenu;
     rgWhereToAdd: TRadioGroup;
+    pnlButtons: TPanel;
     tvDirectoryHotlist: TTreeView;
     btnInsert: TBitBtn;
     btnAdd: TBitBtn;
@@ -132,6 +133,7 @@ type
     procedure cbFullExpandTreeChange(Sender: TObject);
     procedure miCollapseAllClick(Sender: TObject);
     procedure miOpenAllBranchesClick(Sender: TObject);
+    procedure pnlButtonsResize(Sender: TObject);
     procedure tvDirectoryHotlistDragDrop(Sender, {%H-}Source: TObject; X, Y: Integer);
     procedure tvDirectoryHotlistDragOver(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: Integer; {%H-}State: TDragState; var Accept: Boolean);
     procedure tvDirectoryHotlistEnter(Sender: TObject);
@@ -380,6 +382,16 @@ begin
       tvDirectoryHotlist.Selected.MakeVisible;
       if tvDirectoryHotlist.CanFocus then tvDirectoryHotlist.SetFocus;
     end;
+end;
+
+procedure TfrmOptionsDirectoryHotlist.pnlButtonsResize(Sender: TObject);
+var
+  I: Integer;
+begin
+  for I:= 0 to pnlButtons.ControlCount - 1 do
+  begin
+    pnlButtons.Controls[I].Width:= pnlButtons.ClientWidth div 2 - 3;
+  end;
 end;
 
 { TfrmOptionsDirectoryHotlist.miCollapseAllClick }
@@ -1954,4 +1966,4 @@ end;
 { TODO -oDB : Be able to add a quick 16x16 icon to some friendly shortcut like a little star or something to help to see a special entry. }
 { TODO -oDB : Would be nice to have also a COPY-and-PASTE in addition to CUT-and-PASTE. Also, make sure to create new THotDir entry, not just copy entries in tree otherwise it's not good. }
 end.
-
+
