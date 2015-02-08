@@ -38,9 +38,9 @@ type
   
   { TfrmOptionsDirectoryHotlist }
   TfrmOptionsDirectoryHotlist = class(TOptionsEditor)
+    btnHelp: TBitBtn;
     btnRelativePath: TSpeedButton;
     btnRelativeTarget: TSpeedButton;
-    btnHelp: TButton;
     cbAddTarget: TCheckBox;
     cbFullExpandTree: TCheckBox;
     cbShowPathInPopup: TCheckBox;
@@ -1966,4 +1966,4 @@ end;
 { TODO -oDB : Be able to add a quick 16x16 icon to some friendly shortcut like a little star or something to help to see a special entry. }
 { TODO -oDB : Would be nice to have also a COPY-and-PASTE in addition to CUT-and-PASTE. Also, make sure to create new THotDir entry, not just copy entries in tree otherwise it's not good. }
 end.
-
+
