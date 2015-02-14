@@ -45,7 +45,7 @@
                                                 G_FILE_ATTRIBUTE_TIME_ACCESS "," G_FILE_ATTRIBUTE_TIME_CREATED "," \
                                                 G_FILE_ATTRIBUTE_UNIX_MODE "," G_FILE_ATTRIBUTE_UNIX_UID "," \
                                                 G_FILE_ATTRIBUTE_UNIX_GID
-#define TUXCMD_DEFAULT_COPY_FLAGS G_FILE_COPY_OVERWRITE | G_FILE_COPY_NOFOLLOW_SYMLINKS | G_FILE_COPY_ALL_METADATA
+#define TUXCMD_DEFAULT_COPY_FLAGS G_FILE_COPY_OVERWRITE | G_FILE_COPY_NOFOLLOW_SYMLINKS
 
 #define GROUP_NAME "gvfs"
 #define PathDelim "/"
