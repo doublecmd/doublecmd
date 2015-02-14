@@ -1,0 +1,374 @@
+object frmMainCommandsDlg: TfrmMainCommandsDlg
+  Left = 77
+  Height = 350
+  Top = 189
+  Width = 600
+  HorzScrollBar.Page = 464
+  HorzScrollBar.Range = 369
+  VertScrollBar.Page = 301
+  VertScrollBar.Range = 227
+  ActiveControl = lbledtFilter
+  BorderIcons = [biSystemMenu]
+  Caption = 'Select your internal command'
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 350
+  ClientWidth = 600
+  Constraints.MinHeight = 350
+  Constraints.MinWidth = 600
+  KeyPreview = True
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  SessionProperties = 'cbCategorySortOrNot.ItemIndex;cbCommandsSortOrNot.ItemIndex;Height;Width;cbSelectAllCategoryDefault.Checked'
+  LCLVersion = '1.2.6.0'
+  object lblCategory: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lbledtFilter
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 34
+    Width = 59
+    Caption = '&Categories:'
+    FocusControl = lbCategory
+    ParentColor = False
+  end
+  object lblCommandName: TLabel
+    AnchorSideLeft.Control = lbCommands
+    AnchorSideTop.Control = lbledtFilter
+    AnchorSideTop.Side = asrBottom
+    Left = 161
+    Height = 15
+    Top = 34
+    Width = 93
+    Caption = 'Command &name:'
+    FocusControl = lbCommands
+    ParentColor = False
+  end
+  object lblHint: TLabel
+    AnchorSideLeft.Control = lblCommandName
+    AnchorSideTop.Control = lbledtFilter
+    AnchorSideTop.Side = asrBottom
+    Left = 411
+    Height = 15
+    Top = 34
+    Width = 26
+    BorderSpacing.Left = 250
+    Caption = 'Hint:'
+    ParentColor = False
+  end
+  object lbCategory: TListBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblCategory
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = cbCategorySortOrNot
+    Left = 6
+    Height = 187
+    Top = 49
+    Width = 150
+    Anchors = [akTop, akLeft, akBottom]
+    ItemHeight = 0
+    OnEnter = lbCategoryEnter
+    OnExit = lbCategoryExit
+    OnSelectionChange = lbCategorySelectionChange
+    ScrollWidth = 134
+    TabOrder = 2
+  end
+  object lbCommands: TListBox
+    AnchorSideLeft.Control = lbCategory
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = lblCommandName
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = cbCommandsSortOrNot
+    Left = 161
+    Height = 187
+    Top = 49
+    Width = 433
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 5
+    ItemHeight = 0
+    OnDblClick = lbCommandsDblClick
+    OnDrawItem = lbCommandsDrawItem
+    OnEnter = lbCommandsEnter
+    OnExit = lbCommandsExit
+    OnKeyPress = lbCommandsKeyPress
+    ScrollWidth = 445
+    Style = lbOwnerDrawFixed
+    TabOrder = 1
+  end
+  object lbledtFilter: TLabeledEdit
+    AnchorSideLeft.Control = lbCommands
+    AnchorSideTop.Control = Owner
+    Left = 161
+    Height = 23
+    Top = 6
+    Width = 136
+    BorderSpacing.Bottom = 5
+    EditLabel.AnchorSideTop.Control = lbledtFilter
+    EditLabel.AnchorSideTop.Side = asrCenter
+    EditLabel.AnchorSideRight.Control = lbledtFilter
+    EditLabel.AnchorSideBottom.Control = lbledtFilter
+    EditLabel.AnchorSideBottom.Side = asrBottom
+    EditLabel.Left = 129
+    EditLabel.Height = 15
+    EditLabel.Top = 10
+    EditLabel.Width = 29
+    EditLabel.Caption = '&Filter:'
+    EditLabel.ParentColor = False
+    LabelPosition = lpLeft
+    TabOrder = 0
+    OnChange = lbledtFilterChange
+    OnEnter = lbledtFilterEnter
+    OnExit = lbledtFilterExit
+  end
+  object btnOK: TBitBtn
+    AnchorSideLeft.Control = btnCancel
+    AnchorSideRight.Control = btnCancel
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnCancel
+    Left = 496
+    Height = 33
+    Top = 274
+    Width = 98
+    Anchors = [akLeft, akRight, akBottom]
+    BorderSpacing.InnerBorder = 2
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 7
+  end
+  object btnCancel: TBitBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 496
+    Height = 31
+    Top = 313
+    Width = 98
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Top = 6
+    BorderSpacing.InnerBorder = 2
+    Cancel = True
+    Caption = '&Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 8
+  end
+  object cbCategorySortOrNot: TComboBox
+    AnchorSideLeft.Control = lbCategory
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = lbCategory
+    AnchorSideBottom.Control = gbSelection
+    Left = 6
+    Height = 23
+    Top = 239
+    Width = 136
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Top = 3
+    ItemHeight = 15
+    ItemIndex = 0
+    Items.Strings = (
+      'Legacy sorted'
+      'A-Z sorted'
+    )
+    OnChange = cbCategorySortOrNotChange
+    Style = csDropDownList
+    TabOrder = 3
+    Text = 'Legacy sorted'
+  end
+  object cbCommandsSortOrNot: TComboBox
+    AnchorSideLeft.Control = lbCommands
+    AnchorSideTop.Control = lbCommands
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = gbSelection
+    Left = 161
+    Height = 23
+    Top = 239
+    Width = 136
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 5
+    ItemHeight = 15
+    ItemIndex = 0
+    Items.Strings = (
+      'Legacy sorted'
+      'Sorted A-Z'
+    )
+    OnChange = cbCommandsSortOrNotChange
+    Style = csDropDownList
+    TabOrder = 4
+    Text = 'Legacy sorted'
+  end
+  object gbSelection: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 76
+    Top = 268
+    Width = 480
+    Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 10
+    Caption = 'Selection:'
+    ClientHeight = 58
+    ClientWidth = 476
+    TabOrder = 6
+    object lblSelectedCommand: TLabel
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbSelection
+      AnchorSideRight.Control = pnlImage
+      Left = 373
+      Height = 15
+      Top = 0
+      Width = 53
+      Anchors = [akTop, akRight]
+      BorderSpacing.Left = 10
+      BorderSpacing.Right = 10
+      Caption = 'cm_name'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      OnClick = lblPlaceCaptionInClipClick
+    end
+    object lblSelectedCommandHint: TLabel
+      AnchorSideTop.Control = lblSelectedCommand
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = lblSelectedCommand
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Left = 402
+      Height = 15
+      Top = 15
+      Width = 24
+      Anchors = [akTop, akRight]
+      BorderSpacing.Left = 10
+      Caption = 'Hint'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      OnClick = lblPlaceCaptionInClipClick
+    end
+    object lblSelectedCommandHelp: TLabel
+      AnchorSideLeft.Control = pnlImage
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = pnlImage
+      AnchorSideTop.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 444
+      Height = 15
+      Top = 40
+      Width = 25
+      BorderSpacing.Right = 10
+      BorderSpacing.Bottom = 3
+      Caption = 'Help'
+      Font.Style = [fsUnderline]
+      ParentColor = False
+      ParentFont = False
+      OnClick = lblSelectedCommandHelpClick
+      OnMouseEnter = lblSelectedCommandHelpMouseEnter
+      OnMouseLeave = lblSelectedCommandHelpMouseLeave
+    end
+    object lblSelectedCommandHotkey: TLabel
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblSelectedCommandHint
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = lblSelectedCommand
+      AnchorSideRight.Side = asrBottom
+      Left = 385
+      Height = 15
+      Top = 30
+      Width = 41
+      Anchors = [akTop, akRight]
+      BorderSpacing.Left = 10
+      Caption = 'Hotkey'
+      Font.Color = clRed
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      OnClick = lblPlaceCaptionInClipClick
+    end
+    object lblSelectedCommandCategory: TLabel
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbSelection
+      AnchorSideRight.Control = lblSelectedCommand
+      Left = 315
+      Height = 15
+      Top = 0
+      Width = 48
+      Anchors = [akTop, akRight]
+      BorderSpacing.Left = 10
+      BorderSpacing.Right = 10
+      Caption = 'Category'
+      ParentColor = False
+      ParentFont = False
+      OnClick = lblPlaceCaptionInClipClick
+    end
+    object pnlImage: TPanel
+      AnchorSideTop.Control = gbSelection
+      AnchorSideRight.Control = gbSelection
+      AnchorSideRight.Side = asrBottom
+      Left = 436
+      Height = 40
+      Top = 0
+      Width = 40
+      Anchors = [akTop, akRight]
+      BevelOuter = bvNone
+      ClientHeight = 40
+      ClientWidth = 40
+      TabOrder = 0
+      object imgCommandIcon: TImage
+        AnchorSideLeft.Control = pnlImage
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = pnlImage
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        Left = 4
+        Height = 32
+        Top = 4
+        Width = 32
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 10
+        OnDblClick = lbCommandsDblClick
+      end
+    end
+  end
+  object cbSelectAllCategoryDefault: TCheckBox
+    AnchorSideLeft.Control = cbCommandsSortOrNot
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = cbCommandsSortOrNot
+    AnchorSideTop.Side = asrCenter
+    Left = 302
+    Height = 19
+    Top = 241
+    Width = 179
+    Caption = 'Select all categories by default'
+    Checked = True
+    OnChange = cbSelectAllCategoryDefaultChange
+    State = cbChecked
+    TabOrder = 5
+  end
+  object lblHotKey: TLabel
+    AnchorSideLeft.Control = lblCommandName
+    AnchorSideTop.Control = lbledtFilter
+    AnchorSideTop.Side = asrBottom
+    Left = 311
+    Height = 15
+    Top = 34
+    Width = 41
+    BorderSpacing.Left = 150
+    Caption = 'Hotkey:'
+    Font.Color = clRed
+    ParentColor = False
+    ParentFont = False
+  end
+end
