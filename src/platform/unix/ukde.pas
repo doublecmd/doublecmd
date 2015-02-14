@@ -37,7 +37,7 @@ var
 implementation
 
 uses
-  uDCUtils, uGlobs, uGlobsPaths, uOSUtils, uClipboard, uTrash;
+  uDCUtils, uGlobs, uGlobsPaths, uOSUtils, uTrash;
 
 var
   PythonScript: UTF8String = 'scripts/doublecmd-kde.py';
@@ -55,7 +55,7 @@ end;
 
 function FileTrash(const FileName: UTF8String): Boolean;
 begin
-  Result:= fpSystemStatus('kioclient move ' + FileNameToURI(FileName) + ' trash:/') = 0;
+  Result:= fpSystemStatus('kioclient move ' + QuoteStr(FileName) + ' trash:/') = 0;
 end;
 
 procedure Initialize;
