@@ -1,5 +1,7 @@
 #ifdef __GNUC__
 
+#include <stdint.h>
+
 #if defined(__WIN32__) || defined(_WIN32) || defined(_WIN64)
   #define DCPCALL __attribute__((stdcall))
 #else
@@ -8,15 +10,17 @@
 
 #define MAX_PATH 260
 
-typedef unsigned long DWORD;
-typedef unsigned short WORD;
+typedef uint32_t DWORD;
+typedef uint16_t WORD;
 typedef void *HANDLE;
 typedef HANDLE HICON;
 typedef HANDLE HBITMAP;
 typedef HANDLE HWND;
 typedef int BOOL;
 typedef char CHAR;
-typedef wchar_t WCHAR; 
+typedef uint16_t WCHAR;
+
+#pragma pack(push, 1)
 
 typedef struct _FILETIME {
 	DWORD dwLowDateTime;
@@ -48,6 +52,8 @@ typedef struct _WIN32_FIND_DATAW {
 	WCHAR cFileName[MAX_PATH];
 	WCHAR cAlternateFileName[14];
 } WIN32_FIND_DATAW,*LPWIN32_FIND_DATAW;
+
+#pragma pack(pop)
 
 #else
 
