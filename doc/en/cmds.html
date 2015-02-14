@@ -6,630 +6,1727 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
-<body style="margin: 1em 6% 1em 5%;">
+<body>
+  <a name="topofpage"></a>
   <div class="CHAPTER">
-	<h1>Internal commands</h1>
-	
-	<div class="SECT1">
-	  <table border="1" frame="none" rules="all" width="100%" cellpadding=6 class="CALSTABLE">
-		<thead>
-		  <tr>
-			<th>Command</th>
-			<th>Description</th>
-		  </tr>
-		</thead>
-		
-		<tbody valign="top">
-		  <tr>
-			<td><tt><div align="left"><a name="cm_About">cm_About</a></div>
-					<div align="right">F1</div></tt></td>
-			<td>Show program "About" information</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_AddPathToCmdLine">cm_AddPathToCmdLine</a></div>
-					<div align="right">Ctrl+P</div></tt></td>
-			<td>Place path in command line</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CalculateSpace">cm_CalculateSpace</a></div>
-					<div align="right">Ctrl+L</div></tt></td>
-			<td>Calculate <a href="help.html#cm_CalculateSpace">occupied</a> space</td>
-		  </tr>
-		   <tr>
-			<td><tt><div align="left"><a name="cm_ChangeDirToRoot">cm_ChangeDirToRoot</a></div>
-					<div align="right"></div></tt></td>
-			<td>Go to root directory ("/" in GNU/Linux)</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CheckSumCalc">cm_CheckSumCalc</a></div>
-					<div align="right"></div></tt></td>
-			<td>Calculate file <a href="help.html#012_controlnaya_summa">checksum</a> (MD5 or SHA1)</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CheckSumVerify">cm_CheckSumVerify</a></div>
-					<div align="right"></div></tt></td>
-			<td>Verify MD5 or SHA1 checksum</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CompareContents">cm_CompareContents</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open <a href="help.html#cm_CompareContents">compare by contents</a> dialog</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ContextMenu">cm_ContextMenu</a></div>
-					<div align="right"></div></tt></td>
-			<td>Shows <a href="help.html#cm_ContextMenu">context menu</a> for files and folders</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Copy">cm_Copy</a></div>
-					<div align="right">F5</div></tt></td>
-			<td>Copy items from source to target<br>
-				<br>
-				<table width=100% cellpadding=5>
-				<thead align=left>
-				<tr>
-				<th>Parameter</th>
-				<th>Value</th>
-				<th>Description</th>
-		  		</tr>
-				</thead>
-				<tbody valign=top>
-				<tr>
-					<td><tt>confirmation</tt></td>
-					<td><tt>1/true/on/yes</tt></td>
-					<td>shows confirmation dialog (default)</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><tt>0/false/off/no</tt></td>
-					<td>does not show a confirmation dialog</td>
-				</tr>
-				<tr>
-					<td><tt>queueid</tt></td>
-					<td><tt><i>&lt;queue identifier&gt;</i></tt></td>
-					<td>by default places the copy operation into a specific queue, works only if no confirmation dialog is shown, value 0 means it will be an independent operation (not queued)</td>
-				</tr>
-				</tbody>
-				</table>
-			</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CopyFullNamesToClip">cm_CopyFullNamesToClip</a></div>
-					<div align="right">Ctrl+Alt+C</div></tt></td>
-			<td>Copy item <a href="help.html#cm_CopyFullNamesToClip">full names</a> to clipboard</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CopyNamesToClip">cm_CopyNamesToClip</a></div>
-					<div align="right">Ctrl+Alt+X</div></tt></td>
-			<td>Copy item <a href="help.html#cm_CopyNamesToClip">names</a> to clipboard</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CopySamePanel">cm_CopySamePanel</a></div>
-					<div align="right">Shift+F5</div></tt></td>
-			<td>Copy items in the same directory</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CopyToClipboard">cm_CopyToClipboard</a></div>
-					<div align="right">Ctrl+C</div></tt></td>
-			<td>Copy selected text, file or directory to clipboard</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_CutToClipboard">cm_CutToClipboard</a></div>
-					<div align="right">Ctrl+X</div></tt></td>
-			<td>Cut selected text, file or directory to clipboard</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Delete">cm_Delete</a></div>
-					<div align="right">F8</div></tt></td>
-			<td>Delete selected item to trash can (recycle bin) or permanently.
-			Deleting to trash can might not be available for all platforms.
-         A different confirmation message is given when deleting to Trash Can or permanently.  
-			<br>
-				<br>
-				<table width=100% cellpadding=5>
-				<thead align=left>
-				<tr>
-				<th>Parameter</th>
-				<th>Value</th>
-				<th>Description</th>
-		  		</tr>
-				</thead>
-				<tbody valign=top>
-				<tr>
-					<td><tt>confirmation</tt></td>
-					<td><tt>1/true/on/yes</tt></td>
-					<td>shows confirmation dialog (default)</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><tt>0/false/off/no</tt></td>
-					<td>does not show a confirmation dialog (be careful!)</td>
-				</tr>
-				<tr>
-					<td><tt>trashcan</tt></td>
-					<td><tt>1/true/on/yes</tt></td>
-					<td>delete to trash can</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><tt>0/false/off/no</tt></td>
-					<td>delete permanently</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><tt>setting</tt></td>
-					<td>(default) acts accordingly to the global setting in <a href="help.html#5_1_10_fileOper">File Operations</a>, if that setting is enabled it will delete to trash can otherwise permanently</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><tt>reversesetting</tt></td>
-					<td>acts in the opposite way than <tt>setting</tt></td>
-				</tr>
-				</tbody>
-				</table>
-			</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_DirHistory">cm_DirHistory</a></div>
-					<div align="right">Ctrl+H</div></tt></td>
-			<td>Invoke <a href="help.html#cm_DirHistory">dir history</a> drop down menu</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_DirHotList">cm_DirHotList</a></div>
-					<div align="right">Ctrl+D</div></tt></td>
-			<td>Directory <a href="help.html#cm_DirHotList">hotlist</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_DriveContextMenu">cm_DriveContextMenu</a></div>
-					<div align="right"></div></tt></td>
-			<td>Shows context menu of a drive. Mount point set at parameters, e.g. (<tt>/media/cdrom</tt>)</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Edit">cm_Edit</a></div>
-					<div align="right">F4</div></tt></td>
-			<td>Open file in internal editor</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_EditComment">cm_EditComment</a></div>
-					<div align="right">Ctrl+Z</div></tt></td>
-			<td>Create or edit <a href="help.html#cm_EditComment">comment</a> for file/directory</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_EditNew">cm_EditNew</a></div>
-					<div align="right">Shift+F4</div></tt></td>
-			<td>Create a new file, and open it in the editor (<a href="help.html#5_1_3_instruments">see configuration</a>)</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Exchange">cm_Exchange</a></div>
-					<div align="right">Ctrl+U</div></tt></td>
-			<td><a href="help.html#cm_Exchange">Swap</a> file panels</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Exit">cm_Exit</a></div>
-					<div align="right">Alt+X</div></tt></td>
-			<td>Close Double Commander</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ExtractFiles">cm_ExtractFiles</a></div>
-					<div align="right">Alt+F9</div></tt></td>
-			<td><a href="help.html#cm_ExtractFiles">Unpack</a> one or more selected archives</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_FileAssoc">cm_FileAssoc</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open file associations <a href="help.html#cm_FileAssoc">configuration</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_FileLinker">cm_FileLinker</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_FileLinker">Combine</a> multiple split files with extension .split</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_FileProperties">cm_FileProperties</a></div>
-					<div align="right">Alt+Enter</div></tt></td>
-			<td>Show item <a href="help.html#cm_FileProperties">properties</a> (size, data, attributes, etc.)</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_FileSpliter">cm_FileSpliter</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_FileSpliter">Split</a> files dialog</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_FocusCmdLine">cm_FocusCmdLine</a></div>
-					<div align="right">Shift+F2</div></tt></td>
-			<td>Change focus to the command line</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_HardLink">cm_HardLink</a></div>
-					<div align="right"></div></tt></td>
-			<td>Create <a href="help.html#cm_HardLink">hard link</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_HelpIndex">cm_HelpIndex</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open Double Commander <a href="index.html">help</a> index page</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Keyboard">cm_Keyboard</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open keyboard <a href="shortcuts.html">shortcuts</a> help page</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_LeftEqualRight">cm_LeftEqualRight</a></div>
-					<div align="right">Alt+Z</div></tt></td>
-			<td>Show same directory in opposite panel</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_LeftOpenDrives">cm_LeftOpenDrives</a></div>
-					<div align="right">Alt+F1</div></tt></td>
-			<td>Open <a href="help.html#cm_LeftOpenDrives">drives list</a> for left panel</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MakeDir">cm_MakeDir</a></div>
-					<div align="right">F7</div></tt></td>
-			<td>Create a new directory</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MarkCurrentExtension">cm_MarkCurrentExtension</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_MarkCurrentExtension">Mark</a> files with the same extension as file under cursor</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MarkInvert">cm_MarkInvert</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_MarkInvert">Invert</a> selection</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MarkMarkAll">cm_MarkMarkAll</a></div>
-					<div align="right">Ctrl+A</div></tt></td>
-			<td>Mark <a href="help.html#cm_MarkMarkAll">all</a> in the panel</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MarkMinus">cm_MarkMinus</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_MarkMinus">Unselect</a> marked items using a mask</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MarkPlus">cm_MarkPlus</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_MarkPlus">Select</a> items using a mask</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MarkUnmarkAll">cm_MarkUnmarkAll</a></div>
-					<div align="right">F1</div></tt></td>
-			<td>Unselect <a href="help.html#cm_MarkUnmarkAll">all</a> marked items</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_MultiRename">cm_MultiRename</a></div>
-					<div align="right">Ctrl+M</div></tt></td>
-			<td>Open <a href="help.html#cm_MultiRename">multi rename</a> tool dialog</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_NewTab">cm_NewTab</a></div>
-					<div align="right">Ctrl+T</div></tt></td>
-			<td>Create a <a href="help.html#cm_NewTab">new tab</a> for opened directory</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_NextTab">cm_NextTab</a></div>
-					<div align="right">Ctrl+Tab</div></tt></td>
-			<td>Change to <a href="help.html#cm_NextTab">next tab</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Open">cm_Open</a></div>
-					<div align="right">Enter</div></tt></td>
-			<td>Open a file or program under cursor</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_OpenArchive">cm_OpenArchive</a></div>
-					<div align="right">Ctrl+PgDown</div></tt></td>
-			<td>Try to open a file as an archive</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_OpenDirInNewTab">cm_OpenDirInNewTab</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open directory at <a href="help.html#cm_OpenDirInNewTab">new tab</a>, but don't switch to it</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_OpenVFSList">cm_OpenVFSList</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open VFS list (depends on installed plugins)</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Options">cm_Options</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open <a href="help.html#cm_Options">configuration</a> dialog</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_PackFiles">cm_PackFiles</a></div>
-					<div align="right">Alt+F5</div></tt></td>
-			<td><a href="help.html#cm_PackFiles">Pack</a> items into archive</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_PanelsSplitterPerPos">cm_PanelsSplitterPerPos</a></div>
-					<div align="right"></div></tt></td>
-			<td>Set the panels width, e.g. 50%&nbsp;&mdash; equal size<br>
-				<br>
-				<table width=100% cellpadding=5>
-				<thead align=left>
-				<tr>
-				<th>Parameter</th>
-				<th>Value</th>
-				<th>Description</th>
-		  		</tr>
-				</thead>
-				<tbody valign=top>
-				<tr>
-					<td><tt>splitpct</tt></td>
-					<td><tt>0-100</tt></td>
-					<td>percentage of whole width to assign to left panel (or top panel if horizontal mode is enabled)</td>
-				</tr>
-				</tbody>
-				</table>
-			</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_PasteFromClipboard">cm_PasteFromClipboard</a></div>
-					<div align="right">Ctrl+V</div></tt></td>
-			<td>Paste data from clipboard</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_PrevTab">cm_PrevTab</a></div>
-					<div align="right">Shift+Ctrl+Tab</div></tt></td>
-			<td>Change to <a href="help.html#cm_PrevTab">previous tab</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_QuickFilter">cm_QuickFilter</a></div>
-					<div align="right">Ctrl+F</div></tt></td>
-			<td>Filter the file list to show only desired files/directories. It automatically sets <tt>filter=on</tt>.<br><br>
-				<table width=100% cellpadding=5>
-				<thead align=left>
-				<tr>
-				<th>Parameter</th>
-				<th>Value</th>
-				<th>Description</th>
-		  		</tr>
-				</thead>
-				<tbody valign=top>
-				<tr>
-					<td><tt>filter</tt></td>
-					<td><tt>on/off/toggle</tt></td>
-					<td>sets filtering to enabled/disabled or toggles current setting</td>
-				</tr>
-				<tr>
-					<td><tt>matchbeginning</tt></td>
-					<td><tt>on/off/toggle</tt></td>
-					<td>sets or toggles the <i>match beginning</i> option</td>
-				</tr>
-				<tr>
-					<td><tt>matchending</tt></td>
-					<td><tt>on/off/toggle</tt></td>
-					<td>sets or toggles the <i>match ending</i> option</td>
-				</tr>
-				<tr>
-					<td><tt>casesensitive</tt></td>
-					<td><tt>on/off/toggle</tt></td>
-					<td>sets or toggles case sensitivity</td>
-				</tr>
-				<tr>
-					<td><tt>files</tt></td>
-					<td><tt>on/off/toggle</tt></td>
-					<td>sets or toggles filtering files</td>
-				</tr>
-				<tr>
-					<td><tt>directories</tt></td>
-					<td><tt>on/off/toggle</tt></td>
-					<td>sets or toggles filtering directories</td>
-				</tr>
-				<tr>
-					<td><tt>filesdirectories</tt></td>
-					<td></td>
-					<td>toggles between filtering only files, only directories or both</td>
-				</tr>
-				<tr>
-					<td><tt>text</tt></td>
-					<td><tt><i>&lt;any string&gt;</i></tt></td>
-					<td>sets <i><any string></i> as the new filter</td>
-				</tr>
-				</tbody>
-				</table>
-				<br>
-				For example to set hotkey to filter <tt>*.txt</tt> files use following parameters:<br>
-				<div style="margin: 0 0 0 15;"><tt>
-					text=txt<br>
-					filter=yes<br>
-					files=yes<br>
-					directories=no<br>
-					matchbeginning=no<br>
-					matchending=yes
-				</tt></div>
-			</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_QuickSearch">cm_QuickSearch</a></div>
-					<div align="right">Ctrl+S</div></tt></td>
-			<td><a href="help.html#5_1_14_bystrPoisk">Quick search</a> in directory. It automatically sets <tt>filter=off</tt>.<br>
-				Parameters are the same as for cm_QuickFilter.
-			</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Refresh">cm_Refresh</a></div>
-					<div align="right">Ctrl+R</div></tt></td>
-			<td><a href="help.html#cm_Refresh">Refresh</a> panels</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_RemoveAllTabs">cm_RemoveAllTabs</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_RemoveAllTabs">Close all</a> tabs</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_RemoveTab">cm_RemoveTab</a></div>
-					<div align="right">Ctrl+W</div></tt></td>
-			<td>Close <a href="help.html#cm_RemoveTab">active tab</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Rename">cm_Rename</a></div>
-					<div align="right">F6</div></tt></td>
-			<td>Rename or move items<br>
-				<br>
-				<table width=100% cellpadding=5>
-				<thead align=left>
-				<tr>
-				<th>Parameter</th>
-				<th>Value</th>
-				<th>Description</th>
-		  		</tr>
-				</thead>
-				<tbody valign=top>
-				<tr>
-					<td><tt>confirmation</tt></td>
-					<td><tt>1/true/on/yes</tt></td>
-					<td>shows confirmation dialog (default)</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><tt>0/false/off/no</tt></td>
-					<td>does not show a confirmation dialog</td>
-				</tr>
-				<tr>
-					<td><tt>queueid</tt></td>
-					<td><tt><i>&lt;queue identifier&gt;</i></tt></td>
-					<td>by default places the copy operation into a specific queue, works only if no confirmation dialog is shown, value 0 means it will be an independent operation (not queued)</td>
-				</tr>
-				</tbody>
-				</table>
-			</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_RenameOnly">cm_RenameOnly</a></div>
-					<div align="right">Shift+F6, F2</div></tt></td>
-			<td>Rename files in the same directory</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ReverseOrder">cm_ReverseOrder</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_ReverseOrder">Invert sorting</a> items in the directory</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_RightOpenDrives">cm_RightOpenDrives</a></div>
-					<div align="right">Alt+F2</div></tt></td>
-			<td>Open <a href="help.html#cm_RightOpenDrives">drives list</a> for right panel</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_RunTerm">cm_RunTerm</a></div>
-					<div align="right">F9</div></tt></td>
-			<td>Starts a <a href="help.html#cm_RunTerm">terminal</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Search">cm_Search</a></div>
-					<div align="right">Alt+F7</div></tt></td>
-			<td>Open <a href="help.html#cm_Search">Search</a> dialog</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ShowButtonMenu">cm_ShowButtonMenu</a></div>
-					<div align="right"></div></tt></td>
-			<td>Create <a href="help.html#cm_ShowButtonMenu">a context menu</a>. Needs parameters</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ShowCmdLineHistory">cm_ShowCmdLineHistory</a></div>
-					<div align="right">Ctrl+7</div></tt></td>
-			<td>Show history of all commands used in the <a href="help.html#iface_path">command line</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ShowMenu">cm_ShowMenu</a></div>
-					<div align="right"></div></tt></td>
-			<td>Open Double Commander's <a href="help.html#iface_menu">main menu</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ShowSysFiles">cm_ShowSysFiles</a></div>
-					<div align="right"></div></tt></td>
-			<td>Show hidden and system <a href="help.html#cm_ShowSysFiles">files</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_SortByAttr">cm_SortByAttr</a></div>
-					<div align="right"></div></tt></td>
-			<td>Sort items in file panel by <a href="help.html#cm_SortByAttr">attributes</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_SortByDate">cm_SortByDate</a></div>
-					<div align="right">Ctrl+F5</div></tt></td>
-			<td>Sort items in file panel by <a href="help.html#cm_SortByDate">date</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_SortByExt">cm_SortByExt</a></div>
-					<div align="right">Ctrl+F4</div></tt></td>
-			<td>Sort items in file panel by <a href="help.html#cm_SortByExt">extension</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_SortByName">cm_SortByName</a></div>
-					<div align="right">Ctrl+F3</div></tt></td>
-			<td>Sort items in file panel by <a href="help.html#cm_SortByName">name</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_SortBySize">cm_SortBySize</a></div>
-					<div align="right">Ctrl+F6</div></tt></td>
-			<td>Sort items in file panel by <a href="help.html#cm_SortBySize">size</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_SymLink">cm_SymLink</a></div>
-					<div align="right"></div></tt></td>
-			<td>Create <a href="help.html#cm_SymLink">symlink</a> to file/directory</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_TargetEqualSource">cm_TargetEqualSource</a></div>
-					<div align="right">Alt+Z</div></tt></td>
-			<td>Show <a href="help.html#cm_TargetEqualSource">same</a> directory in opposite panel</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ToggleLockDcaTab">cm_ToggleLockDcaTab</a></div>
-					<div align="right"></div></tt></td>
-			<td>Lock current tab, but able to <a href="help.html#cm_ToggleLockDcaTab">change directory</a></td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_ToggleLockTab">cm_ToggleLockTab</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_ToggleLockTab">Lock</a> tab</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_TransferLeft">cm_TransferLeft</a></div>
-					<div align="right">Ctrl+Left</div></tt></td>
-			<td>Open directory under cursor in the left panel</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_TransferRight">cm_TransferRight</a></div>
-					<div align="right">Ctrl+Right</div></tt></td>
-			<td>Open directory under cursor in the right panel</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_UnmarkCurrentExtension">cm_UnmarkCurrentExtension</a></div>
-					<div align="right"></div></tt></td>
-			<td><a href="help.html#cm_UnmarkCurrentExtension">Unmark</a> items using mask</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_View">cm_View</a></div>
-					<div align="right">F3</div></tt></td>
-			<td>Open file in <a href="help.html#5_1_3_instruments">viewer</a> program</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_VisitHomePage">cm_VisitHomePage</a></div>
-					<div align="right"></div></tt></td>
-			<td>Go to Double Commander's home page</td>
-		  </tr>
-		  <tr>
-			<td><tt><div align="left"><a name="cm_Wipe">cm_Wipe</a></div>
-					<div align="right">Alt+Del</div></tt></td>
-			<td><a href="help.html#cm_Wipe">Wipe</a> file</td>
-		  </tr>
-		</body>
-	  </table>
-	</div>
-	
+  <h1>Internal Commands</h1>
+
+  <div class="TOC">
+    <dl>
+      <dt class="bold"><a name="TOC">Content</a></dt>
+      <dt>1. <a href="#commandcategory">Table of Command Categories</a></dt>
+      <dt>2. <a href="#commanddescription">Description of all commands per category</a></dt>
+        <dd>
+          <dl>
+            <dt>2.1. <a href="#catactivepanel">Active Panel</a></dt>
+            <dt>2.2. <a href="#catleftpanel">Left Panel</a></dt>
+            <dt>2.3. <a href="#catrightpanel">Right Panel</a></dt>
+            <dt>2.4. <a href="#catfileoperations">File Operations</a></dt>
+            <dt>2.5. <a href="#catconfiguration">Configuration</a></dt>
+            <dt>2.6. <a href="#catnetwork">Network</a></dt>
+            <dt>2.7. <a href="#catmiscellaneous">Miscellaneous</a></dt>
+            <dt>2.8. <a href="#catmark">Mark</a></dt>
+            <dt>2.9. <a href="#catclipboard">Clipboard</a></dt>
+            <dt>2.10. <a href="#catnavigation">Navigation</a></dt>
+            <dt>2.11. <a href="#cathelp">Help</a></dt>
+            <dt>2.12. <a href="#catwindow">Window</a></dt>
+            <dt>2.13. <a href="#catcommandline">Command Line</a></dt>
+            <dt>2.14. <a href="#cattools">Tools</a></dt>
+            <dt>2.15. <a href="#catview">View</a></dt>
+            <dt>2.16. <a href="#cattabs">Tabs</a></dt>
+            <dt>2.17. <a href="#catlogs">Logs</a></dt>
+          </dl>
+        </dd>
+    </dl>
   </div>
-	<div class="SECT1">
-	  <p class="NAVBACK"><a href="index.html">Home</a></p>
-	</div>
 
   <hr>
-  <div style="text-align: left;"><small><span style="font-family: Liberation Sans;">Created by Rustem (dok_rust@bk.ru)</span></small><br>
+
+  <div class="SECT1">
+    <h2><a name="commandcategory">1. Table of Command Categories</a></h2>
+  </div>
+
+  <div class="SECT1">
+    <table class="category">
+      <tr class="rowcategorytable"><th colspan="2">Table of Command Categories</th></tr>
+      <tr class="rowcategorysubtitle"><th class="categorynamecolumn">Category</th><th class="categorydesccolumn">Description</th></tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catactivepanel">Active Panel</a></div></td>
+        <td class="categorydesc">These commands apply to the </B>current selected panel</b>, left or right.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catleftpanel">Left Panel</a></div></td>
+        <td class="categorydesc">These commands apply to the <B>left panel</b>, no matter which one is currently selected.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catrightpanel">Right Panel</a></div></td>
+        <td class="categorydesc">These commands apply to the <B>right panel</b>, no matter which one is currently selected.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catfileoperations">File Operations</a></div></td>
+        <td class="categorydesc">These commands apply to current selected item in current selected panel.<br>It includes operations like view/copy/move/rename/delete/pack/unpack/split etc.<br>These are probably the commands that have a <B>direct impact with your files</b>.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catconfiguration">Configuration</a></div></td>
+        <td class="categorydesc">Access options and configurations of Double Commander.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catnetwork">Network</a></div></td>
+        <td class="categorydesc">Related directly with computer network.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catmiscellaneous">Miscellaneous</a></div></td>
+        <td class="categorydesc">Inevitable category with commands we did not in which category to place them!<br>Effort has been made to try to don't place too much commands in this category.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catmark">Mark</a></div></td>
+        <td class="categorydesc">Select the items on which the file operations will took place.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catclipboard">Clipboard</a></div></td>
+        <td class="categorydesc">Actions related to interact between system's clipboard and selected items.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catnavigation">Navigation</a></div></td>
+        <td class="categorydesc">To go from a folder to another to access various items according to where they are.</td>
+      </tr>
+      <tr>
+       <td class="categorycell"><div class="categoryname"><a href="#cathelp">Help</a></div></td>
+        <td class="categorydesc">Access the integrated help files of Double Commander</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catwindow">Window</a></div></td>
+        <td class="categorydesc">Commands related with the Double Commander window about its look and behaviour like any other computer's application.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catcommandline">Command line</a></div></td>
+        <td class="categorydesc">Interact with command line to view past commands and help to invoke new ones.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#cattools">Tools</a></div></td>
+        <td class="categorydesc">For action requiring more than a click. These action will generally  show another window to have Double Commander do some more complex jobs.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catview">View</a></div></td>
+        <td class="categorydesc">Commands related with the visibility or not of files like the system files, etc.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#cattabs">Tabs</a></div></td>
+        <td class="categorydesc">Interact with tabs by creating new ones, navigate through them, etc.</td>
+      </tr>
+      <tr>
+        <td class="categorycell"><div class="categoryname"><a href="#catlogs">Logs</a></div></td>
+        <td class="categorydesc">Actions related with DC logs file.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT1">
+    <h2><a name="commanddescription">2. Description of all commands per category</a></h2>
+  </div>
+
+  <div class="SECT2">
+    <h3><a name="catactivepanel">2.1. Active Panel</a></h3>
+    <p>These commands apply to the </B>current selected panel</b>, left or right.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Active Panel"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+        <td class="cmdcell"><img class="IntCmdImage" title="cm_BriefView" alt="cm_BriefView" src="../../pixmaps/dctheme/32x32/actions/cm_briefview.png"/>
+          <div class="cmdname"><a name="cm_BriefView">cm_BriefView</a></div></td>
+        <td class="hintcell">Just the name of the items.<BR>If possible, more than one column.</td>
+      </tr>
+      <tr>
+        <td class="cmdcell"><img class="IntCmdImage" title="cm_ColumnsView" alt="cm_ColumnsView" src="../../pixmaps/dctheme/32x32/actions/cm_columnsview.png"/>
+          <div class="cmdname"><a name="cm_ColumnsView"><B>cm_ColumnsView</b></a></div></td>
+        <td class="hintcell">One item per line, with the default columns settings.<br>See <a href="help.html#5_1_15_colonki">column section</a> in main help file.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ThumbnailsView" alt="cm_ThumbnailsView" src="../../pixmaps/dctheme/32x32/actions/cm_thumbnailsview.png"/>
+        <div class="cmdname"><a name="cm_ThumbnailsView"><B>cm_ThumbnailsView</b></a></div></td>
+      <td class="hintcell">Items shown as thumbnails.<BR>If possible, more than one column.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_FlatView" alt="cm_FlatView" src="../../pixmaps/dctheme/32x32/actions/cm_flatview.png"/>
+        <div class="cmdname"><a name="cm_FlatView">cm_FlatView</a></div></td>
+      <td class="hintcell">Will scan all the directories of active panel to show all this content in this one single panel.</td>
+      </tr>
+     <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_QuickView" alt="cm_QuickView" src="../../pixmaps/dctheme/32x32/actions/cm_quickview.png"/>
+          <div class="cmdname"><a name="cm_QuickView"><B>cm_QuickView</b></a></div></td>
+      <td class="hintcell">Content of selected item shown in opposite panel.<BR>As we navigate to next items, displayed content is updated.</td>
+      </tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SortByName" alt="cm_SortByName" src="../../pixmaps/dctheme/32x32/actions/cm_sortbyname.png"/>
+          <div class="cmdname"><a name="cm_SortByName"><B>cm_SortByName</b></a></div>
+          <div class="shrtctkey">Ctrl+F3</div></td>
+      <td class="hintcell">Sort items in active panel by <a href="help.html#cm_SortByName">name</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SortByExt" alt="cm_SortByExt" src="../../pixmaps/dctheme/32x32/actions/cm_sortbyext.png"/>
+          <div class="cmdname"><a name="cm_SortByExt"><B>cm_SortByExt</b></a></div>
+          <div class="shrtctkey">Ctrl+F4</div></td>
+      <td class="hintcell">Sort items in active panel by <a href="help.html#cm_SortByExt">extension</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SortBySize" alt="cm_SortBySize" src="../../pixmaps/dctheme/32x32/actions/cm_sortbysize.png"/>
+          <div class="cmdname"><a name="cm_SortBySize"><B>cm_SortBySize</b></a></div>
+          <div class="shrtctkey">Ctrl+F6</div></td>
+      <td class="hintcell">Sort items in active panel by <a href="help.html#cm_SortBySize">size</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SortByDate" alt="cm_SortByDate" src="../../pixmaps/dctheme/32x32/actions/cm_sortbydate.png"/>
+          <div class="cmdname"><a name="cm_SortByDate"><B>cm_SortByDate</b></a></div>
+          <div class="shrtctkey">Ctrl+F5</div></td>
+      <td class="hintcell">Sort items in active panel by <a href="help.html#cm_SortByDate">date</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SortByAttr" alt="cm_SortByAttr" src="../../pixmaps/dctheme/32x32/actions/cm_sortbyattr.png"/>
+          <div class="cmdname"><a name="cm_SortByAttr"><B>cm_SortByAttr</b></a></div>
+      <td class="hintcell">Sort items in active panel by <a href="help.html#cm_SortByAttr">attributes</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ReverseOrder" alt="cm_ReverseOrder" src="../../pixmaps/dctheme/32x32/actions/cm_reverseorder.png"/>
+          <div class="cmdname"><a name="cm_ReverseOrder"><B>cm_ReverseOrder</b></a></div>
+      <td class="hintcell"><a href="help.html#cm_ReverseOrder">Invert sorting</a> items in the active panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SrcOpenDrives" alt="cm_SrcOpenDrives" src="../../pixmaps/dctheme/32x32/actions/cm_srcopendrives.png"/>
+          <div class="cmdname"><a name="cm_SrcOpenDrives"><B>cm_SrcOpenDrives</b></a></div>
+      <td class="hintcell">Open drives list for active panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_UniversalSingleDirectSort" alt="cm_UniversalSingleDirectSort" src="../../pixmaps/dctheme/32x32/actions/cm_universalsingledirectsort.png"/>
+          <div class="cmdname"><a name="cm_UniversalSingleDirectSort"><B>cm_UniversalSingleDirectSort</b></a></div></td>
+      <td class="hintcell">Will sort specified column in specified order of the specified panel.<br>See the following table for the possible parameter values.<br>
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+        <th class="innerdescheader">Parameter</th>
+        <th class="innerdescheader">Value</th>
+        <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="5">panel</td>
+          <td class="innerdescvaluecell">active</td>
+          <td class="innerdescdesccell">will operate on active panel</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">inactive</td>
+          <td class="innerdescdesccell">will operate on inactive panel</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">left</td>
+          <td class="innerdescdesccell">will operate on left panel</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">right</td>
+          <td class="innerdescdesccell">will operate on right panel</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell"><i>(absent)</i></td>
+          <td class="innerdescdesccell">will operate on active panel</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="5">column</td>
+          <td class="innerdescvaluecell">name</td>
+          <td class="innerdescdesccell">sorted columns will be the "name-ext"</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">ext</td>
+          <td class="innerdescdesccell">sorted column will be the "ext"</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">size</td>
+          <td class="innerdescdesccell">sorted column will be the "size"</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">datetime</td>
+          <td class="innerdescdesccell">sorted column will be the "datetime"</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell"><i>(absent)</i></td>
+          <td class="innerdescdesccell">sorted column will be the "name"</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="3">order</td>
+          <td class="innerdescvaluecell">ascending</td>
+          <td class="innerdescdesccell">will sort with ascending order</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">descending</td>
+          <td class="innerdescdesccell">will sort with descending order</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell"><i>(absent)</i></td>
+          <td class="innerdescdesccell">will sort with descending order</td>
+        </tr>
+        <tr>
+          <td colspan="3">Note: If any of these three parameters are not defined or are defined incorrectly, the default for each parameter that will be used will be: panel=active, column=name and order=asscending</td>
+        </tr>
+        </table>
+        Example:<br>"cm_UniversalSingleDirectSort panel=active column=size order=descending"<br>This will sort the item in active column according to filesize with larger files first.
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CountDirContent" alt="cm_CountDirContent" src="../../pixmaps/dctheme/32x32/actions/cm_countdircontent.png"/>
+        <div class="cmdname"><a name="cm_CountDirContent">cm_CountDirContent</a></div></td>
+      <td class="hintcell">Compute overall size of the contents of each of the directories present in current selected panel.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catleftpanel">2.2. Left Panel</a></h3>
+    <P>These commands apply to the <B>left panel</b>, no matter which one is currently selected.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Left Panel"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftBriefView" alt="cm_LeftBriefView" src="../../pixmaps/dctheme/32x32/actions/cm_leftbriefview.png"/>
+        <div class="cmdname"><a name="cm_LeftBriefView">cm_LeftBriefView</a></div>
+      <td class="hintcell">In left panel, just the name of the items.<BR>If possible, more than one column.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftColumnsView" alt="cm_LeftColumnsView" src="../../pixmaps/dctheme/32x32/actions/cm_leftcolumnsview.png"/>
+        <div class="cmdname"><a name="cm_LeftColumnsView">cm_LeftColumnsView</a></div>
+      <td class="hintcell">In left panel, one item per line, with the default columns settings.<br>See <a href="help.html#5_1_15_colonki">column section</a> in main help file.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftThumbView" alt="cm_LeftThumbView" src="../../pixmaps/dctheme/32x32/actions/cm_leftthumbview.png"/>
+        <div class="cmdname"><a name="cm_LeftThumbView">cm_LeftThumbView</a></div>
+      <td class="hintcell">In left panel, items shown as thumbnails.<BR>If possible, more than one column.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftFlatView" alt="cm_LeftFlatView" src="../../pixmaps/dctheme/32x32/actions/cm_leftflatview.png"/>
+        <div class="cmdname"><a name="cm_LeftFlatView">cm_LeftFlatView</a></div>
+      <td class="hintcell">Will scan all the directories of left panel to show all this content in this single panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftSortByName" alt="cm_LeftSortByName" src="../../pixmaps/dctheme/32x32/actions/cm_leftsortbyname.png"/>
+        <div class="cmdname"><a name="cm_LeftSortByName">cm_LeftSortByName</a></div>
+      <td class="hintcell">Sort items in left panel by <a href="help.html#cm_SortByName">name</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftSortByExt" alt="cm_LeftSortByExt" src="../../pixmaps/dctheme/32x32/actions/cm_leftsortbyext.png"/>
+        <div class="cmdname"><a name="cm_LeftSortByExt">cm_LeftSortByExt</a></div>
+      <td class="hintcell">Sort items in left panel by <a href="help.html#cm_SortByExt">extension</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftSortBySize" alt="cm_LeftSortBySize" src="../../pixmaps/dctheme/32x32/actions/cm_leftsortbysize.png"/>
+        <div class="cmdname"><a name="cm_LeftSortBySize">cm_LeftSortBySize</a></div>
+      <td class="hintcell">Sort items in left panel by <a href="help.html#cm_SortBySize">size</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftSortByDate" alt="cm_LeftSortByDate" src="../../pixmaps/dctheme/32x32/actions/cm_leftsortbydate.png"/>
+        <div class="cmdname"><a name="cm_LeftSortByDate">cm_LeftSortByDate</a></div>
+      <td class="hintcell">Sort items in left panel by <a href="help.html#cm_SortByDate">date</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftSortByAttr" alt="cm_LeftSortByAttr" src="../../pixmaps/dctheme/32x32/actions/cm_leftsortbyattr.png"/>
+        <div class="cmdname"><a name="cm_LeftSortByAttr">cm_LeftSortByAttr</a></div>
+      <td class="hintcell">Sort items in left panel by <a href="help.html#cm_SortByAttr">attributes</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftReverseOrder" alt="cm_LeftReverseOrder" src="../../pixmaps/dctheme/32x32/actions/cm_leftreverseorder.png"/>
+        <div class="cmdname"><a name="cm_LeftReverseOrder">cm_LeftReverseOrder</a></div>
+      <td class="hintcell"><a href="help.html#cm_ReverseOrder">Invert sorting</a> items in the left panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftOpenDrives" alt="cm_LeftOpenDrives" src="../../pixmaps/dctheme/32x32/actions/cm_leftopendrives.png"/>
+        <div class="cmdname"><a name="cm_LeftOpenDrives">cm_LeftOpenDrives</a></div>
+        <div class="shrtctkey">Alt+F1</tt></td>
+      <td class="hintcell">Open <a href="help.html#cm_LeftOpenDrives">drives list</a> for left panel.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+
+  <div class="SECT2">
+    <h3><a name="catrightpanel">2.3 Right Panel</a></h3>
+    <P>These commands apply to the <B>right panel</b>, no matter which one is currently selected.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category: Right Panel</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightBriefView" alt="cm_RightBriefView" src="../../pixmaps/dctheme/32x32/actions/cm_rightbriefview.png"/>
+        <div class="cmdname"><a name="cm_RightBriefView">cm_RightBriefView</a></div>
+      <td class="hintcell">In right panel, just the name of the items.<BR>If possible, more than one column.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightColumnsView" alt="cm_RightColumnsView" src="../../pixmaps/dctheme/32x32/actions/cm_rightcolumnsview.png"/>
+        <div class="cmdname"><a name="cm_RightColumnsView">cm_RightColumnsView</a></div>
+      <td class="hintcell">In right panel, one item per line, with the default columns settings.<br>See <a href="help.html#5_1_15_colonki">column section</a> in main help file.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightThumbView" alt="cm_RightThumbView" src="../../pixmaps/dctheme/32x32/actions/cm_rightthumbview.png"/>
+        <div class="cmdname"><a name="cm_RightThumbView">cm_RightThumbView</a></div>
+      <td class="hintcell">In right panel, items shown as thumbnails.<BR>If possible, more than one column.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightFlatView" alt="cm_RightFlatView" src="../../pixmaps/dctheme/32x32/actions/cm_rightflatview.png"/>
+        <div class="cmdname"><a name="cm_RightFlatView">cm_RightFlatView</a></div>
+      <td class="hintcell">Will scan all the directories of right panel to show all this content in this single panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightSortByName" alt="cm_RightSortByName" src="../../pixmaps/dctheme/32x32/actions/cm_rightsortbyname.png"/>
+        <div class="cmdname"><a name="cm_RightSortByName">cm_RightSortByName</a></div>
+      <td class="hintcell">Sort items in right panel by <a href="help.html#cm_SortByName">name</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightSortByExt" alt="cm_RightSortByExt" src="../../pixmaps/dctheme/32x32/actions/cm_rightsortbyext.png"/>
+        <div class="cmdname"><a name="cm_RightSortByExt">cm_RightSortByExt</a></div>
+      <td class="hintcell">Sort items in right panel by <a href="help.html#cm_SortByExt">extension</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightSortBySize" alt="cm_RightSortBySize" src="../../pixmaps/dctheme/32x32/actions/cm_rightsortbysize.png"/>
+        <div class="cmdname"><a name="cm_RightSortBySize">cm_RightSortBySize</a></div>
+      <td class="hintcell">Sort items in right panel by <a href="help.html#cm_SortBySize">size</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightSortByDate" alt="cm_RightSortByDate" src="../../pixmaps/dctheme/32x32/actions/cm_rightsortbydate.png"/>
+        <div class="cmdname"><a name="cm_RightSortByDate">cm_RightSortByDate</a></div>
+      <td class="hintcell">Sort items in right panel by <a href="help.html#cm_SortByDate">date</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightSortByAttr" alt="cm_RightSortByAttr" src="../../pixmaps/dctheme/32x32/actions/cm_rightsortbyattr.png"/>
+        <div class="cmdname"><a name="cm_RightSortByAttr">cm_RightSortByAttr</a></div>
+      <td class="hintcell">Sort items in right panel by <a href="help.html#cm_SortByAttr">attributes</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightReverseOrder" alt="cm_RightReverseOrder" src="../../pixmaps/dctheme/32x32/actions/cm_rightreverseorder.png"/>
+        <div class="cmdname"><a name="cm_RightReverseOrder">cm_RightReverseOrder</a></div>
+      <td class="hintcell"><a href="help.html#cm_ReverseOrder">Invert sorting</a> items in the right panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightOpenDrives" alt="cm_RightOpenDrives" src="../../pixmaps/dctheme/32x32/actions/cm_rightopendrives.png"/>
+        <div class="cmdname"><a name="cm_RightOpenDrives">cm_RightOpenDrives</a></div>
+        <div class="shrtctkey">Alt+F2</div></td>
+      <td class="hintcell">Open <a href="help.html#cm_RightOpenDrives">drives list</a> for right panel.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catfileoperations">2.4 File Operations</a></h3>
+    <P>These commands apply to current selected item in current selected panel.<br>It includes operations like view/copy/move/rename/delete/pack/unpack/split etc.<br>These are probably the commands that have a <B>direct impact with your files</b>.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "File Operations"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_View" alt="cm_View" src="../../pixmaps/dctheme/32x32/actions/cm_view.png"/>
+          <div class="cmdname"><a name="cm_View">cm_View</a></div>
+          <div class="shrtctkey">F3</div></td>
+      <td class="hintcell">Open file in <a href="help.html#5_1_3_instruments">viewer</a> program.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Edit" alt="cm_Edit" src="../../pixmaps/dctheme/32x32/actions/cm_edit.png"/>
+          <div class="cmdname"><a name="cm_Edit">cm_Edit</a></div>
+          <div class="shrtctkey">F4</div></td>
+      <td class="hintcell">Open file in internal editor.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_EditNew" alt="cm_EditNew" src="../../pixmaps/dctheme/32x32/actions/cm_editnew.png"/>
+          <div class="cmdname"><a name="cm_EditNew">cm_EditNew</a></div>
+          <div class="shrtctkey">Shift+F4</div></td>
+      <td class="hintcell">Create a new file, and open it in the editor (<a href="help.html#5_1_3_instruments">see configuration</a>).</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Copy" alt="cm_Copy" src="../../pixmaps/dctheme/32x32/actions/cm_copy.png"/>
+          <div class="cmdname"><a name="cm_Copy">cm_Copy</a></div>
+          <div class="shrtctkey">F5</div></td>
+      <td class="hintcell">Copy items from source to target.<br>
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+        <th class="innerdescheader">Parameter</th>
+        <th class="innerdescheader">Value</th>
+        <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">confirmation</td>
+          <td class="innerdescvaluecell">1/true/on/yes</td>
+          <td class="innerdescdesccell">shows confirmation dialog (default)</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">0/false/off/no</td>
+          <td class="innerdescdesccell">does not show a confirmation dialog</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">queueid</td>
+          <td class="innerdescvaluecell"><i>&lt;queue identifier&gt;</i></td>
+          <td class="innerdescdesccell">by default places the copy operation into a specific queue, works only if no confirmation dialog is shown, value 0 means it will be an independent operation (not queued)</td>
+        </tr>
+        </table>
+        <br>
+        Example: "cm_Copy confirmation=1" will prompt user to confirm the copy, no matter how file operations confirmation for copy operations setting is set.
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopyNoAsk" alt="cm_CopyNoAsk" src="../../pixmaps/dctheme/32x32/actions/cm_copynoask.png"/>
+          <div class="cmdname"><a name="cm_CopyNoAsk">cm_CopyNoAsk</a></div></td>
+      <td class="hintcell">Copy items from source to target without asking for confirmation.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopySamePanel" alt="cm_CopySamePanel" src="../../pixmaps/dctheme/32x32/actions/cm_copysamepanel.png"/>
+          <div class="cmdname"><a name="cm_CopySamePanel">cm_CopySamePanel</a></div>
+          <div class="shrtctkey">Shift+F5</div></td>
+      <td class="hintcell">Copy items in the same directory.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Rename" alt="cm_Rename" src="../../pixmaps/dctheme/32x32/actions/cm_rename.png"/>
+          <div class="cmdname"><a name="cm_Rename">cm_Rename</a></div>
+          <div class="shrtctkey">F6</div></td>
+      <td class="hintcell">Rename or move items.<br>
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+        <th class="innerdescheader">Parameter</th>
+        <th class="innerdescheader">Value</th>
+        <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">confirmation</td>
+          <td class="innerdescvaluecell">1/true/on/yes</td>
+          <td class="innerdescdesccell">shows confirmation dialog (default)</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">0/false/off/no</td>
+          <td class="innerdescdesccell">does not show a confirmation dialog</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">queueid</td>
+          <td class="innerdescvaluecell"><i>&lt;queue identifier&gt;</i></td>
+          <td class="innerdescdesccell">by default places the move operation into a specific queue, works only if no confirmation dialog is shown, value 0 means it will be an independent operation (not queued)</td>
+        </tr>
+        </table>
+        <br>
+        Example: "cm_Rename confirmation=1" will prompt user to confirm the rename/move, no matter how file operations confirmation for move operations setting is set.
+      </td>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RenameNoAsk" alt="cm_RenameNoAsk" src="../../pixmaps/dctheme/32x32/actions/cm_renamenoask.png"/>
+          <div class="cmdname"><a name="cm_RenameNoAsk">cm_RenameNoAsk</a></div></td>
+      <td class="hintcell">Rename or move items without asking for confirmation.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RenameOnly" alt="cm_RenameOnly" src="../../pixmaps/dctheme/32x32/actions/cm_renameonly.png"/>
+          <div class="cmdname"><a name="cm_RenameOnly">cm_RenameOnly</a></div>
+          <div class="shrtctkey">Shift+F6, F2</div></td>
+      <td class="hintcell">Rename files in the same directory.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MakeDir" alt="cm_MakeDir" src="../../pixmaps/dctheme/32x32/actions/cm_makedir.png"/>
+          <div class="cmdname"><a name="cm_MakeDir">cm_MakeDir</a></div>
+          <div class="shrtctkey">F7</div></td>
+      <td class="hintcell">Create a new directory.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Delete" alt="cm_Delete" src="../../pixmaps/dctheme/32x32/actions/cm_delete.png"/>
+          <div class="cmdname"><a name="cm_Delete">cm_Delete</a></div>
+          <div class="shrtctkey">F8</div></td>
+      <td class="hintcell">Delete selected item to trash can (recycle bin) or permanently.<br>
+        Deleting to trash can might not be available for all platforms.<br>
+        A different confirmation message is given when deleting to Trash Can or permanently.<br>  
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+        <th class="innerdescheader">Parameter</th>
+        <th class="innerdescheader">Value</th>
+        <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">confirmation</td>
+          <td class="innerdescvaluecell">1/true/on/yes</td>
+          <td class="innerdescdesccell">shows confirmation dialog (default)</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">0/false/off/no</td>
+          <td class="innerdescdesccell">does not show a confirmation dialog (be careful!)</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="4">trashcan</td>
+          <td class="innerdescvaluecell">1/true/on/yes</td>
+          <td class="innerdescdesccell">delete to trash can</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">0/false/off/no</td>
+          <td class="innerdescdesccell">delete permanently</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">setting</td>
+          <td class="innerdescdesccell">(default) acts accordingly to the global setting in <a href="help.html#5_1_10_fileOper">File Operations</a>, if that setting is enabled it will delete to trash can otherwise permanently</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">reversesetting</td>
+          <td class="innerdescdesccell">acts in the opposite way than setting</td>
+        </tr>
+        </table>
+      </td>
+      </tr>
+      <tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Wipe" alt="cm_Wipe" src="../../pixmaps/dctheme/32x32/actions/cm_wipe.png"/>
+          <div class="cmdname"><a name="cm_Wipe">cm_Wipe</a></div>
+          <div class="shrtctkey">Alt+Del</div></td>
+      <td class="hintcell"><a href="help.html#cm_Wipe">Wipe</a> file.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_PackFiles" alt="cm_PackFiles" src="../../pixmaps/dctheme/32x32/actions/cm_packfiles.png"/>
+          <div class="cmdname"><a name="cm_PackFiles">cm_PackFiles</a></div>
+          <div class="shrtctkey">Alt+F5</div></td>
+      <td class="hintcell"><a href="help.html#cm_PackFiles">Pack</a> items into archive.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_TestArchive" alt="cm_TestArchive" src="../../pixmaps/dctheme/32x32/actions/cm_testarchive.png"/>
+          <div class="cmdname"><a name="cm_TestArchive">cm_TestArchive</a></div></td>
+      <td class="hintcell">Validate the integrity of the content of selected archive file.<br>
+        If archive content is corrupted, error message will be reported.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_OpenArchive" alt="cm_OpenArchive" src="../../pixmaps/dctheme/32x32/actions/cm_openarchive.png"/>
+          <div class="cmdname"><a name="cm_OpenArchive">cm_OpenArchive</a></div>
+          <div class="shrtctkey">Ctrl+PgDown</div></td>
+      <td class="hintcell">Try to open a file as an archive.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ExtractFiles" alt="cm_ExtractFiles" src="../../pixmaps/dctheme/32x32/actions/cm_extractfiles.png"/>
+          <div class="cmdname"><a name="cm_ExtractFiles">cm_ExtractFiles</a></div>
+          <div class="shrtctkey">Alt+F9</div></td>
+      <td class="hintcell"><a href="help.html#cm_ExtractFiles">Unpack</a> one or more selected archives.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_OpenVirtualFileSystemList" alt="cm_OpenVirtualFileSystemList" src="../../pixmaps/dctheme/32x32/actions/cm_openvirtualfilesystemlist.png"/>
+          <div class="cmdname"><a name="cm_OpenVirtualFileSystemList">cm_OpenVirtualFileSystemList</a></div></td>
+      <td class="hintcell">Open according to WFX plugin.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_FileProperties" alt="cm_FileProperties" src="../../pixmaps/dctheme/32x32/actions/cm_fileproperties.png"/>
+          <div class="cmdname"><a name="cm_FileProperties">cm_FileProperties</a></div>
+          <div class="shrtctkey">Alt+Enter</div></td>
+      <td class="hintcell">Show item <a href="help.html#cm_FileProperties">properties</a> (size, data, attributes, etc).</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SetFileProperties" alt="cm_SetFileProperties" src="../../pixmaps/dctheme/32x32/actions/cm_setfileproperties.png"/>
+          <div class="cmdname"><a name="cm_SetFileProperties">cm_SetFileProperties</a></div></td>
+      <td class="hintcell">Adjust item properties like creation, modified and last access date, file permission, etc.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_EditComment" alt="cm_EditComment" src="../../pixmaps/dctheme/32x32/actions/cm_editcomment.png"/>
+        <div class="cmdname"><a name="cm_EditComment">cm_EditComment</a></div>
+        <div class="shrtctkey">Ctrl+Z</div></td>
+      <td class="hintcell">Create or edit <a href="help.html#cm_EditComment">comment</a> for file/directory</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ContextMenu" alt="cm_ContextMenu" src="../../pixmaps/dctheme/32x32/actions/cm_contextmenu.png"/>
+        <div class="cmdname"><a name="cm_ContextMenu">cm_ContextMenu</a></div>
+      <td class="hintcell">Shows <a href="help.html#cm_ContextMenu">context menu</a> for files and folders</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Open" alt="cm_Open" src="../../pixmaps/dctheme/32x32/actions/cm_open.png"/>
+          <div class="cmdname"><a name="cm_Open">cm_Open</a></div>
+          <div class="shrtctkey">Enter</div></td>
+      <td class="hintcell">Open a file or program under cursor.<BR>Associated application based on file association configuration might be used, etc.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ShellExecute" alt="cm_ShellExecute" src="../../pixmaps/dctheme/32x32/actions/cm_shellexecute.png"/>
+          <div class="cmdname"><a name="cm_ShellExecute">cm_ShellExecute</a></div></td>
+      <td class="hintcell">Will invoke computer's associated program to current selected item.<BR>A single parameter may also be provided for the call.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SymLink" alt="cm_SymLink" src="../../pixmaps/dctheme/32x32/actions/cm_symlink.png"/>
+          <div class="cmdname"><a name="cm_SymLink">cm_SymLink</a></div>
+      <td class="hintcell">Create <a href="help.html#cm_SymLink">symlink</a> to file/directory.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_HardLink" alt="cm_HardLink" src="../../pixmaps/dctheme/32x32/actions/cm_hardlink.png"/>
+          <div class="cmdname"><a name="cm_HardLink">cm_HardLink</a></div>
+      <td class="hintcell">Create <a href="help.html#cm_HardLink">hard link</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_FileSpliter" alt="cm_FileSpliter" src="../../pixmaps/dctheme/32x32/actions/cm_filespliter.png"/>
+          <div class="cmdname"><a name="cm_FileSpliter">cm_FileSpliter</a></div>
+      <td class="hintcell"><a href="help.html#cm_FileSpliter">Split</a> files dialog.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_FileLinker" alt="cm_FileLinker" src="../../pixmaps/dctheme/32x32/actions/cm_filelinker.png"/>
+          <div class="cmdname"><a name="cm_FileLinker">cm_FileLinker</a></div>
+      <td class="hintcell"><a href="help.html#cm_FileLinker">Combine</a> multiple splitted files together to form one single file.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CheckSumCalc" alt="cm_CheckSumCalc" src="../../pixmaps/dctheme/32x32/actions/cm_checksumcalc.png"/>
+          <div class="cmdname"><a name="cm_CheckSumCalc">cm_CheckSumCalc</a></div>
+      <td class="hintcell">Calculate file <a href="help.html#012_controlnaya_summa">checksum</a> (MD5, SHA1, etc).</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CheckSumVerify" alt="cm_CheckSumVerify" src="../../pixmaps/dctheme/32x32/actions/cm_checksumverify.png"/>
+          <div class="cmdname"><a name="cm_CheckSumVerify">cm_CheckSumVerify</a></div>
+      <td class="hintcell">Verify MD5, SHA1, etc. checksum.</td>
+      </tr>
+      </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catconfiguration">2.5 Configuration</a></h3>
+    <P>Access options and configurations of Double Commander.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Configuration"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Options" alt="cm_Options" src="../../pixmaps/dctheme/32x32/actions/cm_options.png"/>
+        <div class="cmdname"><a name="cm_Options">cm_Options</a></div>
+      <td class="hintcell">Open <a href="help.html#cm_Options">configuration</a> dialog</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ConfigToolbars" alt="cm_ConfigToolbars" src="../../pixmaps/dctheme/32x32/actions/cm_configtoolbars.png"/>
+        <div class="cmdname"><a name="cm_ConfigToolbars">cm_ConfigToolbars</a></div></td>
+      <td class="hintcell">Access configuration of the toolbar.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ConfigDirHotList" alt="cm_ConfigDirHotList" src="../../pixmaps/dctheme/32x32/actions/cm_configdirhotlist.png"/>
+        <div class="cmdname"><a name="cm_ConfigDirHotList">cm_ConfigDirHotList</a></div></td>
+      <td class="hintcell">Access configuration of the directory hotlist.<BR><BR>
+      It is equivalent to "cm_WorkWithDirectoryHotlist" command with following parameters:<BR>
+      action=config source=%Ds</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_WorkWithDirectoryHotlist" alt="cm_WorkWithDirectoryHotlist" src="../../pixmaps/dctheme/32x32/actions/cm_workwithdirectoryhotlist.png"/>
+        <div class="cmdname"><a name="cm_WorkWithDirectoryHotlist">cm_WorkWithDirectoryHotlist</a></div></td>
+      <td class="hintcell">Access the "Directory Hotlist" configuration window.<br>With the parameters, you may control which actions will be done regarding the hotlist.
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+        <th class="innerdescheader">Parameter</th>
+        <th class="innerdescheader">Value</th>
+        <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="8">action</td>
+          <td class="innerdescvaluecell">add</td>
+          <td class="innerdescdesccell">add an entry (target will be added depending of option in config)</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">addsrconly</td>
+          <td class="innerdescdesccell">will add an entry with source only</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">addboth</td>
+          <td class="innerdescdesccell">will add an entry and target</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">config</td>
+          <td class="innerdescdesccell">config an entry</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">show</td>
+          <td class="innerdescdesccell">simply show the config window</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">addsel</td>
+          <td class="innerdescdesccell">add the current selected directory(ies)<br>(other parameters are ignored)</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">directconfig</td>
+          <td class="innerdescdesccell">config the specified "nth" entry</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell"><I>(nothing)</i></td>
+          <td class="innerdescdesccell">same as "add"</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">source</td>
+          <td class="innerdescvaluecell">source_path</td>
+          <td class="innerdescdesccell">the directory to add/config as "source"</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">(nothing)</td>
+          <td class="innerdescdesccell">directory the active panel is in</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">target</td>
+          <td class="innerdescvaluecell">target_path</td>
+          <td class="innerdescdesccell">the directory to add/config as "target"</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell"><I>(nothing)</i></td>
+          <td class="innerdescdesccell">directory the inactive panel is in</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">index</td>
+          <td class="innerdescvaluecell">0-999</td>
+          <td class="innerdescdesccell">if action=directconfig, the "nth" entry from the hotlist</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell"><I>(nothing)</i></td>
+          <td class="innerdescdesccell">index 0 will be used</td>
+        </tr>
+        </table>
+        Example:<br>"cm_WorkWithDirectoryHotlist action=addboth"<br>This will add to directory hotlist both current directories of active and inactive frame as source and target respectively.
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_FileAssoc" alt="cm_FileAssoc" src="../../pixmaps/dctheme/32x32/actions/cm_fileassoc.png"/>
+        <div class="cmdname"><a name="cm_FileAssoc">cm_FileAssoc</a></div>
+      <td class="hintcell">Open file associations <a href="help.html#cm_FileAssoc">configuration</a></td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catnetwork">2.6 Network</a></h3>
+    <P>Related directly with computer network.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Network"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_NetworkConnect" alt="cm_NetworkConnect" src="../../pixmaps/dctheme/32x32/actions/cm_networkconnect.png"/>
+        <div class="cmdname"><a name="cm_NetworkConnect">cm_NetworkConnect</a></div></td>
+      <td class="hintcell">Nothing for the moment, but might be used in the future with network related stuff.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_NetworkDisconnect" alt="cm_NetworkDisconnect" src="../../pixmaps/dctheme/32x32/actions/cm_networkdisconnect.png"/>
+        <div class="cmdname"><a name="cm_NetworkDisconnect">cm_NetworkDisconnect</a></div></td>
+      <td class="hintcell">Nothing for the moment, but might be used in the future with network related stuff.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catmiscellaneous">2.7 Miscellaneous</a></h3>
+    <P>Inevitable category with commands we did not in which category to place them!<br>Effort has been made to try to don't place too much commands in this category.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Miscellaneous"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CalculateSpace" alt="cm_CalculateSpace" src="../../pixmaps/dctheme/32x32/actions/cm_calculatespace.png"/>
+        <div class="cmdname"><a name="cm_CalculateSpace">cm_CalculateSpace</a></div>
+        <div class="shrtctkey">Ctrl+L</div></td>
+      <td class="hintcell">Calculate <a href="help.html#cm_CalculateSpace">occupied</a> space of selected items in active panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RunTerm" alt="cm_RunTerm" src="../../pixmaps/dctheme/32x32/actions/cm_runterm.png"/>
+        <div class="cmdname"><a name="cm_RunTerm">cm_RunTerm</a></div>
+        <div class="shrtctkey">F9</div></td>
+      <td class="hintcell">Starts a <a href="help.html#cm_RunTerm">terminal</a>.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catmark">2.8 Mark</a></h3>
+    <P>Select the items on which the file operations will took place.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Mark"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MarkPlus" alt="cm_MarkPlus" src="../../pixmaps/dctheme/32x32/actions/cm_markplus.png"/>
+        <div class="cmdname"><a name="cm_MarkPlus">cm_MarkPlus</a></div>
+      <td class="hintcell"><a href="help.html#cm_MarkPlus">Select</a> items using a mask.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MarkMinus" alt="cm_MarkMinus" src="../../pixmaps/dctheme/32x32/actions/cm_markminus.png"/>
+        <div class="cmdname"><a name="cm_MarkMinus">cm_MarkMinus</a></div>
+      <td class="hintcell"><a href="help.html#cm_MarkMinus">Unselect</a> marked items using a mask.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MarkMarkAll" alt="cm_MarkMarkAll" src="../../pixmaps/dctheme/32x32/actions/cm_markmarkall.png"/>
+        <div class="cmdname"><a name="cm_MarkMarkAll">cm_MarkMarkAll</a></div>
+        <div class="shrtctkey">Ctrl+A</div></td>
+      <td class="hintcell">Mark <a href="help.html#cm_MarkMarkAll">all</a> in the panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MarkUnmarkAll" alt="cm_MarkUnmarkAll" src="../../pixmaps/dctheme/32x32/actions/cm_markunmarkall.png"/>
+        <div class="cmdname"><a name="cm_MarkUnmarkAll">cm_MarkUnmarkAll</a></div>
+        <div class="shrtctkey">F1</div></td>
+      <td class="hintcell">Unselect <a href="help.html#cm_MarkUnmarkAll">all</a> marked items.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MarkInvert" alt="cm_MarkInvert" src="../../pixmaps/dctheme/32x32/actions/cm_markinvert.png"/>
+        <div class="cmdname"><a name="cm_MarkInvert">cm_MarkInvert</a></div>
+      <td class="hintcell"><a href="help.html#cm_MarkInvert">Invert</a> selection.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MarkCurrentExtension" alt="cm_MarkCurrentExtension" src="../../pixmaps/dctheme/32x32/actions/cm_markcurrentextension.png"/>
+        <div class="cmdname"><a name="cm_MarkCurrentExtension">cm_MarkCurrentExtension</a></div>
+      <td class="hintcell"><a href="help.html#cm_MarkCurrentExtension">Mark</a> files with the same extension as file under cursor.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_UnmarkCurrentExtension" alt="cm_UnmarkCurrentExtension" src="../../pixmaps/dctheme/32x32/actions/cm_unmarkcurrentextension.png"/>
+        <div class="cmdname"><a name="cm_UnmarkCurrentExtension">cm_UnmarkCurrentExtension</a></div>
+      <td class="hintcell"><a href="help.html#cm_UnmarkCurrentExtension">Unmark</a> items using mask.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CompareDirectories" alt="cm_CompareDirectories" src="../../pixmaps/dctheme/32x32/actions/cm_comparedirectories.png"/>
+        <div class="cmdname"><a name="cm_CompareDirectories">cm_CompareDirectories</a></div></td>
+      <td class="hintcell">Will select the files, in both active and inactive panels, that are not present in the opposite panel.</td>
+      </tr>
+	  <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SaveSelection" alt="cm_SaveSelection" src="../../pixmaps/dctheme/32x32/actions/cm_saveselection.png"/>
+        <div class="cmdname"><a name="cm_SaveSelection">cm_SaveSelection</a></div></td>
+      <td class="hintcell">Used in conjunction with "<a href="#cm_RestoreSelection">cm_RestoreSelection</a>".<br>The "cm_SaveSelection" command will save in internal buffer current selected items.<br>Then later, the command "<a href="#cm_RestoreSelection">cm_RestoreSelection</a>" could be use to re-select again the same items that were selected before.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RestoreSelection" alt="cm_RestoreSelection" src="../../pixmaps/dctheme/32x32/actions/cm_restoreselection.png"/>
+        <div class="cmdname"><a name="cm_RestoreSelection">cm_RestoreSelection</a></div></td>
+      <td class="hintcell">See previous "<a href="#cm_SaveSelection">cm_SaveSelection</a>" command.</td>
+      </tr>
+      <tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SaveSelectionToFile" alt="cm_SaveSelectionToFile" src="../../pixmaps/dctheme/32x32/actions/cm_saveselectiontofile.png"/>
+        <div class="cmdname"><a name="cm_SaveSelectionToFile">cm_SaveSelectionToFile</a></div></td>
+      <td class="hintcell">Save the current selection to a file.<BR>
+        You may specify the output filename into the first parameter.<BR>
+        If no parameter is supplied, Double Commander will prompt user to enter one.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LoadSelectionFromFile" alt="cm_LoadSelectionFromFile" src="../../pixmaps/dctheme/32x32/actions/cm_loadselectionfromfile.png"/>
+        <div class="cmdname"><a name="cm_LoadSelectionFromFile">cm_LoadSelectionFromFile</a></div></td>
+      <td class="hintcell">Will read the content of the supplied file to select items from what is read from the file<br>
+        This file could be supplied as the first parameter of the internal command.<br>
+        If no file is supplied, application will prompt use to enter one.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LoadSelectionFromClip" alt="cm_LoadSelectionFromClip" src="../../pixmaps/dctheme/32x32/actions/cm_loadselectionfromclip.png"/>
+        <div class="cmdname"><a name="cm_LoadSelectionFromClip">cm_LoadSelectionFromClip</a></div></td>
+      <td class="hintcell">Will select the item of the active panel based on the content of the clipboard.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catclipboard">2.9 Clipboard</a></h3>
+    <P>Actions related to interact between system's clipboard and selected items.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Clipboard"</th></tr>
+      <tr class="rowsubtitle"><th width="30%">Command name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CutToClipboard" alt="cm_CutToClipboard" src="../../pixmaps/dctheme/32x32/actions/cm_cuttoclipboard.png"/>
+        <div class="cmdname"><a name="cm_CutToClipboard">cm_CutToClipboard</a></div>
+        <div class="shrtctkey">Ctrl+X</div></td>
+      <td class="hintcell">Cut selected text, file or directory to clipboard.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopyToClipboard" alt="cm_CopyToClipboard" src="../../pixmaps/dctheme/32x32/actions/cm_copytoclipboard.png"/>
+        <div class="cmdname"><a name="cm_CopyToClipboard">cm_CopyToClipboard</a></div>
+        <div class="shrtctkey">Ctrl+C</div></td>
+      <td class="hintcell">Copy selected text, file or directory to clipboard.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_PasteFromClipboard" alt="cm_PasteFromClipboard" src="../../pixmaps/dctheme/32x32/actions/cm_pastefromclipboard.png"/>
+        <div class="cmdname"><a name="cm_PasteFromClipboard">cm_PasteFromClipboard.</a></div>
+        <div class="shrtctkey">Ctrl+V</div></td>
+      <td class="hintcell">Paste data from clipboard.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopyNamesToClip" alt="cm_CopyNamesToClip" src="../../pixmaps/dctheme/32x32/actions/cm_copynamestoclip.png"/>
+        <div class="cmdname"><a name="cm_CopyNamesToClip">cm_CopyNamesToClip</a></div>
+        <div class="shrtctkey">Ctrl+Alt+X</div></td>
+      <td class="hintcell">Copy item <a href="help.html#cm_CopyNamesToClip">names</a> to clipboard.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopyFullNamesToClip" alt="cm_CopyFullNamesToClip" src="../../pixmaps/dctheme/32x32/actions/cm_copyfullnamestoclip.png"/>
+        <div class="cmdname"><a name="cm_CopyFullNamesToClip">cm_CopyFullNamesToClip</a></div>
+        <div class="shrtctkey">Ctrl+Alt+C</div></td>
+      <td class="hintcell">Copy item <a href="help.html#cm_CopyFullNamesToClip">full names</a> to clipboard.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopyPathOfFilesToClip" alt="cm_CopyPathOfFilesToClip" src="../../pixmaps/dctheme/32x32/actions/cm_copypathoffilestoclip.png"/>
+        <div class="cmdname"><a name="cm_CopyPathOfFilesToClip">cm_CopyPathOfFilesToClip</a></div></td>
+      <td class="hintcell">Will copy the full path of the current selected items including an ending directory separator.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopyPathNoSepOfFilesToClip" alt="cm_CopyPathNoSepOfFilesToClip" src="../../pixmaps/dctheme/32x32/actions/cm_copypathnosepoffilestoclip.png"/>
+        <div class="longcmdname"><a name="cm_CopyPathNoSepOfFilesToClip">cm_CopyPathNoSepOfFilesToClip</a></div></td>
+      <td class="hintcell">Will copy the full path of the current selected items excluding an ending directory separator.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CopyFileDetailsToClip" alt="cm_CopyFileDetailsToClip" src="../../pixmaps/dctheme/32x32/actions/cm_copyfiledetailstoclip.png"/>
+        <div class="cmdname"><a name="cm_CopyFileDetailsToClip">cm_CopyFileDetailsToClip</a></div></td>
+      <td class="hintcell">Will copy in the clipboard the displayed infos of the selected items.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catnavigation">2.10 Navigation</a></h3>
+    <P>To go from a folder to another to access various items according to where they are.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Navigation"</th></tr>
+      <tr class="rowsubtitle"><th width="30%">Command name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_DirHistory" alt="cm_DirHistory" src="../../pixmaps/dctheme/32x32/actions/cm_dirhistory.png"/>
+        <div class="cmdname"><a name="cm_DirHistory">cm_DirHistory</a></div>
+        <div class="shrtctkey">Ctrl+H</div></td>
+      <td class="hintcell">Invoke <a href="help.html#cm_DirHistory">dir history</a> drop down menu.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_DirHotList" alt="cm_DirHotList" src="../../pixmaps/dctheme/32x32/actions/cm_dirhotlist.png"/>
+        <div class="cmdname"><a name="cm_DirHotList">cm_DirHotList</a></div>
+        <div class="shrtctkey">Ctrl+D</div></td>
+      <td class="hintcell">Directory <a href="help.html#cm_DirHotList">hotlist</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ChangeDirToParent" alt="cm_ChangeDirToParent" src="../../pixmaps/dctheme/32x32/actions/cm_changedirtoparent.png"/>
+        <div class="cmdname"><a name="cm_ChangeDirToParent">cm_ChangeDirToParent</a></div></td>
+      <td class="hintcell">Go to the parent directory of the current shown one.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ChangeDirToHome" alt="cm_ChangeDirToHome" src="../../pixmaps/dctheme/32x32/actions/cm_changedirtohome.png"/>
+        <div class="cmdname"><a name="cm_ChangeDirToHome">cm_ChangeDirToHome</a></div></td>
+      <td class="hintcell">Go to to the user's home directory.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ChangeDirToRoot" alt="cm_ChangeDirToRoot" src="../../pixmaps/dctheme/32x32/actions/cm_changedirtoroot.png"/>
+        <div class="cmdname"><a name="cm_ChangeDirToRoot">cm_ChangeDirToRoot</a></div>
+      <td class="hintcell">Go to root directory ("/" in GNU/Linux).</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_TargetEqualSource" alt="cm_TargetEqualSource" src="../../pixmaps/dctheme/32x32/actions/cm_targetequalsource.png"/>
+        <div class="cmdname"><a name="cm_TargetEqualSource">cm_TargetEqualSource</a></div>
+        <div class="shrtctkey">Alt+Z</div></td>
+      <td class="hintcell">Show <a href="help.html#cm_TargetEqualSource">same</a> directory in opposite panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_TransferLeft" alt="cm_TransferLeft" src="../../pixmaps/dctheme/32x32/actions/cm_transferleft.png"/>
+        <div class="cmdname"><a name="cm_TransferLeft">cm_TransferLeft</a></div>
+        <div class="shrtctkey">Ctrl+Left</div></td>
+      <td class="hintcell">Open directory under cursor in the left panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_TransferRight" alt="cm_TransferRight" src="../../pixmaps/dctheme/32x32/actions/cm_transferright.png"/>
+        <div class="cmdname"><a name="cm_TransferRight">cm_TransferRight</a></div>
+        <div class="shrtctkey">Ctrl+Right</div></td>
+      <td class="hintcell">Open directory under cursor in the right panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LeftEqualRight" alt="cm_LeftEqualRight" src="../../pixmaps/dctheme/32x32/actions/cm_leftequalright.png"/>
+        <div class="cmdname"><a name="cm_LeftEqualRight">cm_LeftEqualRight</a></div>
+        <div class="shrtctkey">Alt+Z</div></td>
+      <td class="hintcell">Show same directory in left panel than what is in the right panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RightEqualLeft" alt="cm_RightEqualLeft" src="../../pixmaps/dctheme/32x32/actions/cm_rightequalleft.png"/>
+        <div class="cmdname"><a name="cm_RightEqualLeft">cm_RightEqualLeft</a></div></td>
+      <td class="hintcell">Show same directory in right panel than what is in the left panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Exchange" alt="cm_Exchange" src="../../pixmaps/dctheme/32x32/actions/cm_exchange.png"/>
+        <div class="cmdname"><a name="cm_Exchange">cm_Exchange</a></div>
+        <div class="shrtctkey">Ctrl+U</div></td>
+      <td class="hintcell"><a href="help.html#cm_Exchange">Swap</a> file panels.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_QuickSearch" alt="cm_QuickSearch" src="../../pixmaps/dctheme/32x32/actions/cm_quicksearch.png"/>
+        <div class="cmdname"><a name="cm_QuickSearch">cm_QuickSearch</a></div>
+        <div class="shrtctkey">Ctrl+S</div></td>
+      <td class="hintcell"><a href="help.html#5_1_14_bystrPoisk">Quick search</a> in directory.<br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+          <th class="innerdescheader">Parameter</th>
+          <th class="innerdescheader">Value</th>
+          <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">search</td>
+          <td class="innerdescvaluecell">on/off/cycle</td>
+          <td class="innerdescdesccell">Determine the state of the quick search frame at the bottom:<BR>          
+            -when it's "on", the specified search parameters are applied and quick search frame is shown at the bottom<BR>
+            -when it's "off", quick search is removed and search frame is hidden<BR>
+            -when it's "cycle", it is to use for when you invoke many time in a row the command to go to the next matching item</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">direction</td>
+          <td class="innerdescvaluecell">first/last/next</td>
+          <td class="innerdescdesccell">Determine the direction of the quick search for the item that match the search criteras:<BR>          
+            -when it's "first", to the first item found from the top<BR>
+            -when it's "last", to the last item<BR>
+            -when it's "next", to the next one after the current one at the moment of the search. Please note that it may do a wrap around to come back to prior item if none was found after the current selected one.<BR>
+            *Note: This option is unrevelant when the "search=cycle".</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">matchbeginning</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles the <i>match beginning</i> option</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">matchending</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles the <i>match ending</i> option</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">casesensitive</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles case sensitivity</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">files</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles filtering files</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">directories</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles filtering directories</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" colspan="2">filesdirectories</td>
+          <td class="innerdescdesccell">toggles between filtering only files, only directories or both</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">text</td>
+          <td class="innerdescvaluecell"><i>&lt;any string&gt;</i></td>
+          <td class="innerdescdesccell">sets <i>any string</i> as the new searched string</td>
+        </tr>
+        </table>
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_QuickFilter" alt="cm_QuickFilter" src="../../pixmaps/dctheme/32x32/actions/cm_quickfilter.png"/>
+        <div class="cmdname"><a name="cm_QuickFilter">cm_QuickFilter</a></div>
+        <div class="shrtctkey">Ctrl+F</div></td>
+      <td class="hintcell">It allows to filter the file list to show only desired files/directories.<br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+          <th class="innerdescheader">Parameter</th>
+          <th class="innerdescheader">Value</th>
+          <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">filter</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell"><p>-when it's "on", the specified filter is applied and configurable filter frame is shown at the bottom
+                                        <p>-when it's "off", filtering is removed and filter frame is hidden
+                                        <p>-when it's "toggle", it will toggle between the two previous states</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">matchbeginning</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles the <i>match beginning</i> option</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">matchending</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles the <i>match ending</i> option</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">casesensitive</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles case sensitivity</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">files</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles filtering files</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">directories</td>
+          <td class="innerdescvaluecell">on/off/toggle</td>
+          <td class="innerdescdesccell">sets or toggles filtering directories</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" colspan="2">filesdirectories</td>
+          <td class="innerdescdesccell">toggles between filtering only files, only directories or both</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">text</td>
+          <td class="innerdescvaluecell"><i>&lt;any string&gt;</i></td>
+          <td class="innerdescdesccell">sets <i>any string</i> as the new filter</td>
+        </tr>
+        </table>
+        <br>
+        For example, setting a tool button with the following parameters will allow pressing button to alternate the application of a filter to show only the "txt" file or not each time the button is pressed:<br>
+        <div style="margin: 0 0 0 15;">
+          text=txt<br>
+          filter=toggle<br>
+          files=yes<br>
+          directories=yes<br>
+          matchbeginning=no<br>
+          matchending=yes
+        </div>
+        <p>When no parameter at all is specified, it will be assumed to activate the filter AND the other options will be the same as previous filter <b>except</b> for the text with the focus ready in the text box to allow you to type the desired text to set filter.
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_EditPath" alt="cm_EditPath" src="../../pixmaps/dctheme/32x32/actions/cm_editpath.png"/>
+        <div class="cmdname"><a name="cm_EditPath">cm_EditPath</a></div></td>
+      <td class="hintcell">User may type directly the directory he wants see in the selected panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ChangeDir" alt="cm_ChangeDir" src="../../pixmaps/dctheme/32x32/actions/cm_changedir.png"/>
+        <div class="cmdname"><a name="cm_ChangeDir">cm_ChangeDir</a></div></td>
+      <td class="hintcell">Will switch the active/inactive/left/right panel to the specified directory(ies).<br>
+	    Please note that you may specify more than one parameters so this way, with one command, you may set both source and target path.<br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+        <th class="innerdescheader">Parameter</th>
+        <th class="innerdescheader">Value</th>
+        <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">activepath</td>
+          <td class="innerdescvaluecell"><I>specified_path</i></td>
+          <td class="innerdescdesccell">will switch the active panel to the <I>specified_path</i></td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">inactivepath</td>
+          <td class="innerdescvaluecell"><I>specified_path</i></td>
+          <td class="innerdescdesccell">will switch the inactive panel to the <I>specified_path</i></td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">leftpath</td>
+          <td class="innerdescvaluecell"><I>specified_path</i></td>
+          <td class="innerdescdesccell">will switch the left panel to the <I>specified_path</i></td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">rightpath</td>
+          <td class="innerdescvaluecell"><I>specified_path</i></td>
+          <td class="innerdescdesccell">will switch the right panel to the <I>specified_path</i></td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" colspan="3">For legacy backward compatibility, you may also provide simply a single path as single parameter and DC will switch active panel to that path.</td>
+        </tr>
+        </table>
+  	    <br>
+		Examples:<br>
+		<I>cm_ChangeDir activepath=%DESKTOP% inactivepath=E:\Medias\Paul Houde</i><br>
+		This will make the active panel to show content of %DESKTOP% directory and in the inactive panel you'll see the content of "Paul Houde" one.<br><br>
+		<I>cm_ChangeDir leftpath=C:\Working rightpath=E:\Euler</i><br>
+		No matter where is the current active panel, the left one will show content of "Working" folder and the right panel will show the one of "Euler".<br><br>
+		<I>cm_ChangeDir \\TERA-06\OPENSHARE1\MEDIAS\PICTURES\2015</i><br>
+		This is the DC legacy way of working, the active panel will switch to show content of the network mentionned path.
+		</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_GoToFirstFile" alt="cm_GoToFirstFile" src="../../pixmaps/dctheme/32x32/actions/cm_gotofirstfile.png"/>
+        <div class="cmdname"><a name="cm_GoToFirstFile">cm_GoToFirstFile</a></div></td>
+      <td class="hintcell">Current selection of the active panel to the first item.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_GoToLastFile" alt="cm_GoToLastFile" src="../../pixmaps/dctheme/32x32/actions/cm_gotolastfile.png"/>
+        <div class="cmdname"><a name="cm_GoToLastFile">cm_GoToLastFile</a></div></td>
+      <td class="hintcell">Current selection of the active panel to the last item.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ViewHistory" alt="cm_ViewHistory" src="../../pixmaps/dctheme/32x32/actions/cm_viewhistory.png"/>
+        <div class="cmdname"><a name="cm_ViewHistory">cm_ViewHistory</a></div></td>
+      <td class="hintcell">Will popup at the cursor position the last directories visited.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ViewHistoryNext" alt="cm_ViewHistoryNext" src="../../pixmaps/dctheme/32x32/actions/cm_viewhistorynext.png"/>
+        <div class="cmdname"><a name="cm_ViewHistoryNext">cm_ViewHistoryNext</a></div></td>
+      <td class="hintcell">According to list of last directories visited, will set the active panel to the very next one, if any, visited prior the current one.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ViewHistoryPrev" alt="cm_ViewHistoryPrev" src="../../pixmaps/dctheme/32x32/actions/cm_viewhistoryprev.png"/>
+        <div class="cmdname"><a name="cm_ViewHistoryPrev">cm_ViewHistoryPrev</a></div></td>
+      <td class="hintcell">According to list of last directories visited, will set the active panel to the very last one visited prior the current one.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="cathelp">2.11 Help</a></h3>
+    <P>Access the integrated help files of Double Commander</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Help"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_HelpIndex" alt="cm_HelpIndex" src="../../pixmaps/dctheme/32x32/actions/cm_helpindex.png"/>
+        <div class="cmdname"><a name="cm_HelpIndex">cm_HelpIndex</a></div>
+      <td class="hintcell">Open Double Commander <a href="index.html">help</a> index page.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Keyboard" alt="cm_Keyboard" src="../../pixmaps/dctheme/32x32/actions/cm_keyboard.png"/>
+        <div class="cmdname"><a name="cm_Keyboard">cm_Keyboard</a></div>
+      <td class="hintcell">Open keyboard <a href="shortcuts.html">shortcuts</a> help page.<br><B>Note</b>:This will be a passive HTML file. So you if you change the keyboard shortcut from the default one, be aware that the passive html help file won't show the actual shortcut the application is currently using.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_VisitHomePage" alt="cm_VisitHomePage" src="../../pixmaps/dctheme/32x32/actions/cm_visithomepage.png"/>
+        <div class="cmdname"><a name="cm_VisitHomePage">cm_VisitHomePage</a></div>
+      <td class="hintcell">Go to Double Commander's home page.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_About" alt="cm_About" src="../../pixmaps/dctheme/32x32/actions/cm_about.png"/>
+        <div class="cmdname"><a name="cm_About">cm_About</a></div>
+        <div class="shrtctkey">F1</div></td>
+      <td class="hintcell">Show program "About" information.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catwindow">2.12 Window</a></h3>
+    <P>Commands related with the Double Commander window about its look and behavior like any other computer's application.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Window"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_HorizontalFilePanels" alt="cm_HorizontalFilePanels" src="../../pixmaps/dctheme/32x32/actions/cm_horizontalfilepanels.png"/>
+        <div class="cmdname"><a name="cm_HorizontalFilePanels">cm_HorizontalFilePanels</a></div></td>
+      <td class="hintcell">Will set the arrangement of panels between two vertical ones disposed in left/right OR two horizontal ones disposed in top/bottom.<br>
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+          <th class="innerdescheader">Parameter</th>
+          <th class="innerdescheader">Value</th>
+          <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="3">mode</td>
+          <td class="innerdescvaluecell"><I>(nothing)</i>/<br>legacy</td>
+          <td class="innerdescdesccell">toggle between vertical/horizontal</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">vertical</td>
+          <td class="innerdescdesccell">vertical panels (default)</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">horizontal</td>
+          <td class="innerdescdesccell">horizontal panels</td>
+        </tr>
+        </table>
+        <br>
+        Example: "cm_HorizontalFilePanels mode=horizontal" will force the two panels to be in horizontal disposition, one above the other.
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_PanelsSplitterPerPos" alt="cm_PanelsSplitterPerPos" src="../../pixmaps/dctheme/32x32/actions/cm_panelssplitterperpos.png"/>
+        <div class="cmdname"><a name="cm_PanelsSplitterPerPos">cm_PanelsSplitterPerPos</a></div>
+      <td class="hintcell">Set the panels width, e.g. 50%&nbsp;&mdash; equal size<br>
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+          <th class="innerdescheader">Parameter</th>
+          <th class="innerdescheader">Value</th>
+          <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell">splitpct</td>
+          <td class="innerdescvaluecell">0-100</td>
+          <td class="innerdescdesccell">percentage of whole width to assign to left panel<br>(or top panel if horizontal mode is enabled)</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" colspan="2"><I>(nothing, default)</i></td>
+          <td class="innerdescdesccell">percentage set to 50-50</td>
+        </tr>
+        </table>
+        <br>
+        Example: "cm_PanelsSplitterPerPos splitpct=80", with vertical panels, will set the left panel width to 80% of the available space.
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ShowMainMenu" alt="cm_ShowMainMenu" src="../../pixmaps/dctheme/32x32/actions/cm_showmainmenu.png"/>
+        <div class="cmdname"><a name="cm_ShowMainMenu">cm_ShowMainMenu</a></div></td>
+      <td class="hintcell">Determine if we see the main bar menu or not.<br>
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+          <th class="innerdescheader">Parameter</th>
+          <th class="innerdescheader">Value</th>
+          <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">menu</td>
+          <td class="innerdescvaluecell">1/true/on/yes</td>
+          <td class="innerdescdesccell">main menu is displayed</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">0/false/off/no</td>
+          <td class="innerdescdesccell">main menu is <B>not</b> displayed</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" colspan="2"><I>(nothing, default)</i></td>
+          <td class="innerdescdesccell">toggle the visibility of the main menu</td>
+        </tr>
+        </table>
+        <br>
+        Example: "cm_ShowMainMenu menu=off", will hide the main menu.
+      </td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ShowButtonMenu" alt="cm_ShowButtonMenu" src="../../pixmaps/dctheme/32x32/actions/cm_showbuttonmenu.png"/>
+        <div class="cmdname"><a name="cm_ShowButtonMenu">cm_ShowButtonMenu</a></div>
+      <td class="hintcell">Ex-command not implemented anymore.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_OperationsViewer" alt="cm_OperationsViewer" src="../../pixmaps/dctheme/32x32/actions/cm_operationsviewer.png"/>
+        <div class="cmdname"><a name="cm_OperationsViewer">cm_OperationsViewer</a></div></td>
+      <td class="hintcell">Shows a window with the file operations process currently in progress if any.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_OpenBar" alt="cm_OpenBar" src="../../pixmaps/dctheme/32x32/actions/cm_openbar.png"/>
+        <div class="cmdname"><a name="cm_OpenBar">cm_OpenBar</a></div></td>
+      <td class="hintcell">Ex-command not implemented anymore.<br>Since the configuration of the toolbar is done via one single simple versatile dedicated configuration window, you may want to refer to <a href="#cm_ConfigToolbars">cm_ConfigToolbars<a> command instead.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Minimize" alt="cm_Minimize" src="../../pixmaps/dctheme/32x32/actions/cm_minimize.png"/>
+        <div class="cmdname"><a name="cm_Minimize">cm_Minimize</a></div></td>
+      <td class="hintcell">Minimize the Double Commander window.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Exit" alt="cm_Exit" src="../../pixmaps/dctheme/32x32/actions/cm_exit.png"/>
+        <div class="cmdname"><a name="cm_Exit">cm_Exit</a></div>
+        <div class="shrtctkey">Alt+X</div></td>
+      <td class="hintcell">Close Double Commander.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catcommandline">2.13 Command Line</a></h3>
+    <P>Interact with command line to view past commands and help to invoke new ones.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Command Line"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_FocusCmdLine" alt="cm_FocusCmdLine" src="../../pixmaps/dctheme/32x32/actions/cm_focuscmdline.png"/>
+        <div class="cmdname"><a name="cm_FocusCmdLine">cm_FocusCmdLine</a></div>
+        <div class="shrtctkey">Shift+F2</div></td>
+      <td class="hintcell">Change focus to the command line.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ShowCmdLineHistory" alt="cm_ShowCmdLineHistory" src="../../pixmaps/dctheme/32x32/actions/cm_showcmdlinehistory.png"/>
+        <div class="cmdname"><a name="cm_ShowCmdLineHistory">cm_ShowCmdLineHistory</a></div>
+        <div class="shrtctkey">Ctrl+7</div></td>
+      <td class="hintcell">Show history of all commands used in the <a href="help.html#iface_path">command line</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CmdLineNext" alt="cm_CmdLineNext" src="../../pixmaps/dctheme/32x32/actions/cm_cmdlinenext.png"/>
+        <div class="cmdname"><a name="cm_CmdLineNext">cm_CmdLineNext</a></div></td>
+      <td class="hintcell">Will activate in the next command line typed prior the current one, if any.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CmdLinePrev" alt="cm_CmdLinePrev" src="../../pixmaps/dctheme/32x32/actions/cm_cmdlineprev.png"/>
+        <div class="cmdname"><a name="cm_CmdLinePrev">cm_CmdLinePrev</a></div></td>
+      <td class="hintcell">Will activate in the next command line typed after the current one, if any.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_AddPathToCmdLine" alt="cm_AddPathToCmdLine" src="../../pixmaps/dctheme/32x32/actions/cm_addpathtocmdline.png"/>
+        <div class="cmdname"><a name="cm_AddPathToCmdLine">cm_AddPathToCmdLine</a></div>
+        <div class="shrtctkey">Ctrl+P</div></td>
+      <td class="hintcell">Place current path in command line.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_AddFilenameToCmdLine" alt="cm_AddFilenameToCmdLine" src="../../pixmaps/dctheme/32x32/actions/cm_addfilenametocmdline.png"/>
+        <div class="cmdname"><a name="cm_AddFilenameToCmdLine">cm_AddFilenameToCmdLine</a></div></td>
+      <td class="hintcell">Place filename of current selected item in command line.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_AddPathAndFilenameToCmdLine" alt="cm_AddPathAndFilenameToCmdLine" src="../../pixmaps/dctheme/32x32/actions/cm_addpathandfilenametocmdline.png"/>
+        <div class="longcmdname"><a name="cm_AddPathAndFilenameToCmdLine">cm_AddPathAndFilenameToCmdLine</a></div></td>
+      <td class="hintcell">Place current path and filename of selected item in command line.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="cattools">2.14 Tools</a></h3>
+    <P>For action requiring more than a click.<BR>These action will generally  show another window to have Double Commander do some more complex jobs.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Tools"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_MultiRename" alt="cm_MultiRename" src="../../pixmaps/dctheme/32x32/actions/cm_multirename.png"/>
+        <div class="cmdname"><a name="cm_MultiRename">cm_MultiRename</a></div>
+        <div class="shrtctkey">Ctrl+M</div></td>
+      <td class="hintcell">Open <a href="help.html#cm_MultiRename">multi rename</a> tool dialog.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Search" alt="cm_Search" src="../../pixmaps/dctheme/32x32/actions/cm_search.png"/>
+        <div class="cmdname"><a name="cm_Search">cm_Search</a></div>
+        <div class="shrtctkey">Alt+F7</div></td>
+      <td class="hintcell">Open <a href="help.html#cm_Search">Search</a> dialog.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SyncDirs" alt="cm_SyncDirs" src="../../pixmaps/dctheme/32x32/actions/cm_syncdirs.png"/>
+        <div class="cmdname"><a name="cm_SyncDirs">cm_SyncDirs</a></div></td>
+      <td class="hintcell">Will invoke the directory synchronization tool to scan left and right panel folder to eventually see the content difference and make them equal.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CompareContents" alt="cm_CompareContents" src="../../pixmaps/dctheme/32x32/actions/cm_comparecontents.png"/>
+        <div class="cmdname"><a name="cm_CompareContents">cm_CompareContents</a></div>
+      <td class="hintcell">Open <a href="help.html#cm_CompareContents">compare by contents</a> dialog</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_DebugShowCommandParameters" alt="cm_DebugShowCommandParameters" src="../../pixmaps/dctheme/32x32/actions/cm_debugshowcommandparameters.png"/>
+        <div class="longcmdname"><a name="cm_DebugShowCommandParameters">cm_DebugShowCommandParameters</a></div></td>
+      <td class="hintcell">Will simply show a message with the info passed as parameters.<br>This may be helpful to validate the parameter you're passing to a command.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_DoAnyCmCommand" alt="cm_DoAnyCmCommand" src="../../pixmaps/dctheme/32x32/actions/cm_doanycmcommand.png"/>
+        <div class="cmdname"><a name="cm_DoAnyCmCommand">cm_DoAnyCmCommand</a></div></td>
+      <td class="hintcell">Will show an internal command selector window where user may select any of the possible internal command and execute it.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catview">2.15 View</a></h3>
+    <P>Commands related with the visibility or not of files like the system files, etc.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "View"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_Refresh" alt="cm_Refresh" src="../../pixmaps/dctheme/32x32/actions/cm_refresh.png"/>
+        <div class="cmdname"><a name="cm_Refresh">cm_Refresh</a></div>
+        <div class="shrtctkey">Ctrl+R</div></td>
+      <td class="hintcell"><a href="help.html#cm_Refresh">Refresh</a> panels.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ShowSysFiles" alt="cm_ShowSysFiles" src="../../pixmaps/dctheme/32x32/actions/cm_showsysfiles.png"/>
+        <div class="cmdname"><a name="cm_ShowSysFiles">cm_ShowSysFiles</a></div>
+      <td class="hintcell">Show hidden and system <a href="help.html#cm_ShowSysFiles">files</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SwitchIgnoreList" alt="cm_SwitchIgnoreList" src="../../pixmaps/dctheme/32x32/actions/cm_switchignorelist.png"/>
+        <div class="cmdname"><a name="cm_SwitchIgnoreList">cm_SwitchIgnoreList</a></div></td>
+      <td class="hintcell">Enable or not the "Ignore list" depending of the parameter.<br>
+        <br>
+        <table class="innercmddesc">
+        <tr class="rowinnerdesc">
+          <th class="innerdescheader">Parameter</th>
+          <th class="innerdescheader">Value</th>
+          <th class="innerdescheader">Description</th>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" rowspan="2">menu</td>
+          <td class="innerdescvaluecell">1/true/on/yes</td>
+          <td class="innerdescdesccell">ignore list is enabled</td>
+        </tr>
+        <tr>
+          <td class="innerdescvaluecell">0/false/off/no</td>
+          <td class="innerdescdesccell">ignore list is <B>not</b> enabled</td>
+        </tr>
+        <tr>
+          <td class="innerdescparamcell" colspan="2"><I>(nothing, default)</i></td>
+          <td class="innerdescdesccell">toggle the state of the ignore list</td>
+        </tr>
+        </table>
+        <br>
+        Example: "cm_SwitchIgnoreList ignorelist=on", ignore list is enabled so item present in the ignore list won't be shown in the panels.
+      </td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="cattabs">2.16 Tabs</a></h3>
+    <P>Interact with tabs by creating new ones, navigate through them, etc.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Tabs"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_NewTab" alt="cm_NewTab" src="../../pixmaps/dctheme/32x32/actions/cm_newtab.png"/>
+        <div class="cmdname"><a name="cm_NewTab">cm_NewTab</a></div>
+        <div class="shrtctkey">Ctrl+T</div></td>
+      <td class="hintcell">Create a <a href="help.html#cm_NewTab">new tab</a> for opened directory.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_OpenDirInNewTab" alt="cm_OpenDirInNewTab" src="../../pixmaps/dctheme/32x32/actions/cm_opendirinnewtab.png"/>
+        <div class="cmdname"><a name="cm_OpenDirInNewTab">cm_OpenDirInNewTab</a></div>
+      <td class="hintcell">Open directory at <a href="help.html#cm_OpenDirInNewTab">new tab</a>, but don't switch to it</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_NextTab" alt="cm_NextTab" src="../../pixmaps/dctheme/32x32/actions/cm_nexttab.png"/>
+        <div class="cmdname"><a name="cm_NextTab">cm_NextTab</a></div>
+        <div class="shrtctkey">Ctrl+Tab</div></td>
+      <td class="hintcell">Change to <a href="help.html#cm_NextTab">next tab</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_PrevTab" alt="cm_PrevTab" src="../../pixmaps/dctheme/32x32/actions/cm_prevtab.png"/>
+        <div class="cmdname"><a name="cm_PrevTab">cm_PrevTab</a></div>
+        <div class="shrtctkey">Shift+Ctrl+Tab</div></td>
+      <td class="hintcell">Change to <a href="help.html#cm_PrevTab">previous tab</a>.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_RenameTab" alt="cm_RenameTab" src="../../pixmaps/dctheme/32x32/actions/cm_renametab.png"/>
+        <div class="cmdname"><a name="cm_RenameTab">cm_RenameTab</a></div></td>
+      <td class="hintcell">Prompt user to rename current tab of active panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CloseTab" alt="cm_CloseTab" src="../../pixmaps/dctheme/32x32/actions/cm_closetab.png"/>
+        <div class="cmdname"><a name="cm_CloseTab">cm_CloseTab</a></div></td>
+      <td class="hintcell">Close current tab of active panel.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_CloseAllTabs" alt="cm_CloseAllTabs" src="../../pixmaps/dctheme/32x32/actions/cm_closealltabs.png"/>
+        <div class="cmdname"><a name="cm_CloseAllTabs">cm_CloseAllTabs</a></div></td>
+      <td class="hintcell">Close all tabs of active panels, except the current one and the locked ones.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_LoadTabs" alt="cm_LoadTabs" src="../../pixmaps/dctheme/32x32/actions/cm_loadtabs.png"/>
+        <div class="cmdname"><a name="cm_LoadTabs">cm_LoadTabs</a></div></td>
+      <td class="hintcell">Prompt the user to open a file expected to contains tab names to add and their associated directories.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SaveTabs" alt="cm_SaveTabs" src="../../pixmaps/dctheme/32x32/actions/cm_savetabs.png"/>
+        <div class="cmdname"><a name="cm_SaveTabs">cm_SaveTabs</a></div></td>
+      <td class="hintcell">Will save into a file the current tab names and thei associated directories.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SetTabOptionNormal" alt="cm_SetTabOptionNormal" src="../../pixmaps/dctheme/32x32/actions/cm_settaboptionnormal.png"/>
+        <div class="cmdname"><a name="cm_SetTabOptionNormal">cm_SetTabOptionNormal</a></div></td>
+      <td class="hintcell">Current tab status to normal.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SetTabOptionPathLocked" alt="cm_SetTabOptionPathLocked" src="../../pixmaps/dctheme/32x32/actions/cm_settaboptionpathlocked.png"/>
+        <div class="cmdname"><a name="cm_SetTabOptionPathLocked">cm_SetTabOptionPathLocked</a></div></td>
+      <td class="hintcell">Current tab to "locked", user can't change directory.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SetTabOptionPathResets" alt="cm_SetTabOptionPathResets" src="../../pixmaps/dctheme/32x32/actions/cm_settaboptionpathresets.png"/>
+        <div class="cmdname"><a name="cm_SetTabOptionPathResets">cm_SetTabOptionPathResets</a></div></td>
+      <td class="hintcell">Current tab to "locked with dir change allowed", user may change directory inside the panel, but if user changes tab and then come back to that one, it will come back to original directory where it was "locked with dir changed allowed".</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_SetTabOptionDirsInNewTab" alt="cm_SetTabOptionDirsInNewTab" src="../../pixmaps/dctheme/32x32/actions/cm_settaboptiondirsinnewtab.png"/>
+        <div class="longcmdname"><a name="cm_SetTabOptionDirsInNewTab">cm_SetTabOptionDirsInNewTab</a></div></td>
+      <td class="hintcell">Current tab to @locked with dir change in new tab", user may change directory inside the panel, but as user enters in new directory, that one will be opened in a new tab.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  <div class="SECT2">
+    <h3><a name="catlogs">2.17 Logs</a></h3>
+    <P>Actions related with DC logs file.</p>
+    <table class="cmddesc">
+      <tr class="rowcategorytitle"><th colspan="2">Category "Logs"</th></tr>
+      <tr class="rowsubtitle"><th class="namecolumn">Name</th><th class="cmdcolumndesc">Description</th></tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ViewLogFile" alt="cm_ViewLogFile" src="../../pixmaps/dctheme/32x32/actions/cm_viewlogfile.png"/>
+        <div class="cmdname"><a name="cm_ViewLogFile">cm_ViewLogFile</a></div></td>
+      <td class="hintcell">Open the current log file of operation.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ClearLogFile" alt="cm_ClearLogFile" src="../../pixmaps/dctheme/32x32/actions/cm_clearlogfile.png"/>
+        <div class="cmdname"><a name="cm_ClearLogFile">cm_ClearLogFile</a></div></td>
+      <td class="hintcell">Will erase the current log file of operation.</td>
+      </tr>
+      <tr>
+      <td class="cmdcell"><img class="IntCmdImage" title="cm_ClearLogWindow" alt="cm_ClearLogWindow" src="../../pixmaps/dctheme/32x32/actions/cm_clearlogwindow.png"/>
+        <div class="cmdname"><a name="cm_ClearLogWindow">cm_ClearLogWindow</a></div></td>
+      <td class="hintcell">Will clear the log window content.</td>
+      </tr>
+    </table>
+  </div>
+  <p class="NAVBACK"><a href="#topofpage">on top</a></p>
+  <BR>
+  
+  </div>
+  <div class="SECT1">
+    <p class="NAVBACK"><a href="index.html">Home</a></p>
+  </div>
+
+  <hr>
+  <div style="text-align: left;"><small><span style="font-family: Liberation Sans;">Originally created by Rustem (dok_rust@bk.ru)</span></small><br>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  <BR>
+  
 </body>
 
 </html>
