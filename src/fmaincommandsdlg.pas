@@ -467,7 +467,7 @@ end;
 { TfrmMainCommandsDlg.lblSelectedCommandHelpClick }
 procedure TfrmMainCommandsDlg.lblSelectedCommandHelpClick(Sender: TObject);
 begin
-  ShowHelpForKeywordWithAnchor('\cmds.html#' + lblSelectedCommand.Caption);
+  ShowHelpForKeywordWithAnchor(PathDelim + 'cmds.html#' + lblSelectedCommand.Caption);
 end;
 
 { TfrmMainCommandsDlg.lblSelectedCommandHelpClick }
@@ -482,4 +482,4 @@ begin
   lblSelectedCommandHelp.Font.Color := clDefault;
 end;
 
-end.
+end.
