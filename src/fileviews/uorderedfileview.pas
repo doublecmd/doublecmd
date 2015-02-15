@@ -45,7 +45,7 @@ type
     pmOperationsCancel: TPopupMenu;
     procedure lblFilterClick(Sender: TObject);
     procedure pmOperationsCancelClick(Sender: TObject);
-    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
+    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions);
     procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
     procedure quickSearchExecute(Sender: TObject);
     procedure quickSearchHide(Sender: TObject);
@@ -84,9 +84,7 @@ type
        Search and position in a file that matches name taking into account
        passed options.
     }
-    procedure SearchFile(SearchTerm: UTF8String;
-                         SearchOptions: TQuickSearchOptions;
-                         SearchDirection: TQuickSearchDirection = qsdNone);
+    procedure SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions);
     procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
@@ -468,10 +466,25 @@ begin
   lblFilter.Visible := Filtered;
 end;
 
-procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
+procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions);
+var
+  Index, MaybeFoundIndex: PtrInt;
 begin
+  Index:=GetActiveFileIndex;
   Active := True;
-  SearchFile(ASearchText, ASearchOptions, ASearchDirection);
+  SearchFile(ASearchText, ASearchOptions);
+  MaybeFoundIndex:=GetActiveFileIndex;
+
+  if (MaybeFoundIndex <= Index) AND (ASearchOptions.CancelSearchMode=qscmCancelIfNoFound) then
+  begin
+    SetActiveFile(Index-1);
+    quickSearch.Finalize;
+  end
+  else
+  begin
+    lblFilter.Caption := Format('(%s: %s)', [rsSearchStatus, ASearchText]);
+    lblFilter.Visible := (ASearchText<>EmptyStr);
+  end;
 end;
 
 procedure TOrderedFileView.quickSearchExecute(Sender: TObject);
@@ -486,7 +499,7 @@ begin
     SetFocus;
 end;
 
-procedure TOrderedFileView.SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions; SearchDirection: TQuickSearchDirection);
+procedure TOrderedFileView.SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions);
 var
   StartIndex, Index: PtrInt;
   Result: Boolean;
@@ -539,7 +552,7 @@ begin
   Index := GetActiveFileIndex; // start search from current position
   if not IsFileIndexInRange(Index) then
     Index := 0;
-  case SearchDirection of
+  case SearchOptions.Direction of
     qsdFirst:
       Index := 0;                  // begin search from first file
     qsdLast:
@@ -585,7 +598,7 @@ begin
         end;
 
         // check next file depending on search direction
-        if SearchDirection in [qsdNone, qsdFirst, qsdNext] then
+        if SearchOptions.Direction in [qsdNone, qsdFirst, qsdNext] then
           Index := NextIndexWrap(Index)
         else
           Index := PrevIndexWrap(Index);

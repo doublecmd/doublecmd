@@ -803,13 +803,11 @@ var
   Enum: IEnumFormatEtc;
   DragAndDropSupportedFormatList:TStringList;
   UnusedInteger : integer;
-  FlagTempFiletoDelete:boolean;
 
 begin
   DragAndDropSupportedFormatList:=TStringList.Create;
   try
     FileNames:=nil;
-    FlagTempFiletoDelete:=FALSE;
     UnusedInteger:=0;
 
     dataObj._AddRef;
@@ -882,18 +880,13 @@ begin
         begin
           case ChosenFormat.CfFormat of
             CF_HDROP: FileNames := GetDropFilenames(Medium.hGlobal);
-            CF_UNICODETEXT, CF_TEXT:
-              begin
-                FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
-                FlagTempFiletoDelete:=(Filenames.Count>0);
-              end;
+            CF_UNICODETEXT, CF_TEXT: FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
             else
               begin
                 if ChosenFormat.CfFormat=CFU_FILEGROUPDESCRIPTORW then FileNames := GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
                 if ChosenFormat.CfFormat=CFU_FILEGROUPDESCRIPTOR  then FileNames := GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
                 if ChosenFormat.CfFormat=CFU_HTML then FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
                 if ChosenFormat.CfFormat=CFU_RICHTEXT then FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
-                FlagTempFiletoDelete:=(Filenames.Count>0);
               end;
           end;
         end;
@@ -918,11 +911,7 @@ begin
         // Set default effect by examining keyboard keys, taking into
         // consideration effects allowed by the source (dwEffect parameter).
         dwEffect := dwEffect and GetEffectByKeyState(grfKeyState);
-
-        if FlagTempFiletoDelete then
-          DropEffect := DropMoveEffect
-        else
-          DropEffect := WinEffectToDropEffect(dwEffect);
+        DropEffect := WinEffectToDropEffect(dwEffect);
 
         FDragDropTarget.GetDropEvent()(DropInfo.Files, DropEffect, pt);
         dwEffect := DropEffectToWinEffect(DropEffect);

@@ -74,7 +74,7 @@ type
   { TfromWhatBitmapWasLoaded }
   //Used to indicate from where the icon was loaded from.
   //Useful when exporting to TC for example which cannot used "as is" the same icon file in some circumstances.
-  TfromWhatBitmapWasLoaded = (fwbwlNotLoaded, fwbwlIconThemeBitmap, fwbwlResourceFileExtracted, fwbwlGraphicFileGTK2, fwbwlGraphicFileOtherGTK2, fwbwlGraphicFileNotSupportedByTC, fwbwlFileIconByExtension, fwbwlFiDefaultIconID);
+  TfromWhatBitmapWasLoaded = (fwbwlNotLoaded, fwbwlIconThemeBitmap, fwbwlResourceFileExtracted, fwbwlGraphicFile, fwbwlGraphicFileNotSupportedByTC, fwbwlFileIconByExtension, fwbwlFiDefaultIconID);
   PTfromWhatBitmapWasLoaded = ^TfromWhatBitmapWasLoaded;
 
   { TPixMapManager }
@@ -419,11 +419,32 @@ end;
 
 { TPixMapManager }
 
+{ TPixMapManager.LoadBitmapFromFile }
 function TPixMapManager.LoadBitmapFromFile(AIconFileName: String; out ABitmap: Graphics.TBitmap): Boolean;
 var
+  {$IFDEF LCLGTK2}
+  pbPicture : PGdkPixbuf;
+  {$ELSE}
   Picture: TPicture;
+  {$ENDIF}
 begin
   Result:= False;
+
+  {$IFDEF LCLGTK2}
+  pbPicture := gdk_pixbuf_new_from_file(PChar(AIconFileName), nil);
+  if pbPicture <> nil then
+  begin
+    ABitmap := PixBufToBitmap(pbPicture);
+    gdk_pixmap_unref(pbPicture);
+
+    // if unsupported BitsPerPixel then exit
+    if ABitmap.RawImage.Description.BitsPerPixel > 32 then
+      raise EInvalidGraphic.Create('Unsupported bits per pixel');
+
+    Result:= True;
+  end;
+
+  {$ELSE}
   Picture := TPicture.Create;
   try
     ABitmap := Graphics.TBitmap.Create;
@@ -447,6 +468,7 @@ begin
   finally
     FreeAndNil(Picture);
   end;
+  {$ENDIF}
 end;
 
 function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor; fromWhatItWasLoaded:PTfromWhatBitmapWasLoaded) : Graphics.TBitmap;
@@ -466,9 +488,6 @@ var
   sExtFilter,
   sGraphicFilter : String;
   bmStandartBitmap : Graphics.TBitMap = nil;
-  {$IFDEF LCLGTK2}
-  pbPicture : PGdkPixbuf;
-  {$ENDIF}
 begin
   Result := nil;
   if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlNotLoaded;
@@ -521,19 +540,8 @@ begin
       // if file is graphic
       if (Length(sExtFilter) > 1) and (Pos(sExtFilter, sGraphicFilter) <> 0) and mbFileExists(sFileName) then
       begin
-        {$IFDEF LCLGTK2}
-        pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
-        if pbPicture <> nil then
-        begin
-          bmStandartBitmap:= PixBufToBitmap(pbPicture);
-          if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlGraphicFileGTK2;
-          gdk_pixmap_unref(pbPicture);
-        end
-        else // Try loading the standard way.
-        {$ELSE}
-          LoadBitmapFromFile(sFileName, bmStandartBitmap);
-          if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlGraphicFileOtherGTK2;
-        {$ENDIF}
+        LoadBitmapFromFile(sFileName, bmStandartBitmap);
+        if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlGraphicFile;
       end;
     end;
 
@@ -580,6 +588,7 @@ begin
       DCDebug(Format('Warning: pixmap [%s] not exists!',[AIconName]));
       Exit(nil);
     end;
+
   LoadBitmapFromFile(AIconName, Result);
 end;
 
@@ -2015,4 +2024,4 @@ finalization
   end;
 
 end.
-
+

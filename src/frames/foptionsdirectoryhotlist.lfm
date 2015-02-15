@@ -8,8 +8,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
   ParentShowHint = False
   PopupMenu = pmTreeView
   ShowHint = True
-  DesignLeft = 539
-  DesignTop = 77
+  DesignLeft = 611
+  DesignTop = 265
   object gbDirectoryHotlist: TGroupBox[0]
     Left = 6
     Height = 508
@@ -20,7 +20,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     Caption = 'Directory Hotlist (reorder by drag && drop)'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 491
+    ClientHeight = 490
     ClientWidth = 584
     Color = clForm
     Constraints.MinHeight = 460
@@ -32,7 +32,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideTop.Control = gbDirectoryHotlist
       AnchorSideRight.Control = gbHotlistOtherOptions
       Left = 6
-      Height = 382
+      Height = 381
       Top = 6
       Width = 252
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -221,7 +221,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideRight.Control = gbDirectoryHotlist
       AnchorSideRight.Side = asrBottom
       Left = 264
-      Height = 95
+      Height = 87
       Top = 170
       Width = 314
       Anchors = [akTop, akLeft, akRight]
@@ -237,7 +237,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 78
+      ClientHeight = 69
       ClientWidth = 310
       Items.Strings = (
         'Add at beginning'
@@ -254,24 +254,25 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 264
-      Height = 123
-      Top = 265
+      Height = 112
+      Top = 257
       Width = 314
       Anchors = [akTop, akRight]
       AutoSize = True
       Caption = 'Other options'
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.TopBottomSpacing = 6
-      ClientHeight = 106
+      ClientHeight = 94
       ClientWidth = 310
       Constraints.MinWidth = 314
       TabOrder = 6
       object cbAddTarget: TCheckBox
         Left = 6
-        Height = 22
+        Height = 19
         Top = 6
-        Width = 277
+        Width = 225
         Caption = 'When adding directory, add also target'
+        OnChange = GenericSomethingChanged
         TabOrder = 0
       end
       object cbFullExpandTree: TCheckBox
@@ -279,9 +280,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Control = cbAddTarget
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 22
-        Top = 30
-        Width = 153
+        Height = 19
+        Top = 27
+        Width = 121
         BorderSpacing.Top = 2
         Caption = 'Always expand tree'
         OnChange = cbFullExpandTreeChange
@@ -292,12 +293,12 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Control = cbFullExpandTree
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 22
-        Top = 54
-        Width = 196
+        Height = 19
+        Top = 48
+        Width = 161
         BorderSpacing.Top = 2
         Caption = 'In popup, show [path also]'
-        OnChange = cbFullExpandTreeChange
+        OnChange = GenericSomethingChanged
         TabOrder = 2
       end
       object cbShowOnlyValidEnv: TCheckBox
@@ -305,12 +306,12 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Control = cbShowPathInPopup
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 22
-        Top = 78
-        Width = 278
+        Height = 19
+        Top = 69
+        Width = 223
         BorderSpacing.Top = 2
         Caption = 'Show only valid environment variables'
-        OnChange = cbFullExpandTreeChange
+        OnChange = GenericSomethingChanged
         TabOrder = 3
       end
     end
@@ -318,8 +319,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       Tag = 1
       AnchorSideTop.Side = asrBottom
       Left = 110
-      Height = 25
-      Top = 401
+      Height = 23
+      Top = 402
       Width = 468
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Top = 9
@@ -328,10 +329,10 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       EditLabel.AnchorSideRight.Control = lbleditHotDirName
       EditLabel.AnchorSideBottom.Control = lbleditHotDirName
       EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 64
+      EditLabel.Left = 72
       EditLabel.Height = 15
       EditLabel.Top = 406
-      EditLabel.Width = 43
+      EditLabel.Width = 35
       EditLabel.Caption = 'Name:'
       EditLabel.ParentColor = False
       EditLabel.ParentFont = False
@@ -346,8 +347,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       Tag = 2
       AnchorSideTop.Side = asrBottom
       Left = 110
-      Height = 25
-      Top = 431
+      Height = 23
+      Top = 432
       Width = 320
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Top = 2
@@ -358,10 +359,10 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       EditLabel.AnchorSideRight.Control = lbleditHotDirPath
       EditLabel.AnchorSideBottom.Control = lbleditHotDirPath
       EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 75
+      EditLabel.Left = 80
       EditLabel.Height = 15
       EditLabel.Top = 436
-      EditLabel.Width = 32
+      EditLabel.Width = 27
       EditLabel.Caption = 'Path:'
       EditLabel.ParentColor = False
       EditLabel.ParentFont = False
@@ -378,8 +379,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       Tag = 3
       AnchorSideTop.Side = asrBottom
       Left = 110
-      Height = 25
-      Top = 461
+      Height = 23
+      Top = 462
       Width = 320
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Top = 2
@@ -390,10 +391,10 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       EditLabel.AnchorSideRight.Control = lbleditHotDirTarget
       EditLabel.AnchorSideBottom.Control = lbleditHotDirTarget
       EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 63
+      EditLabel.Left = 70
       EditLabel.Height = 15
       EditLabel.Top = 466
-      EditLabel.Width = 44
+      EditLabel.Width = 37
       EditLabel.Caption = 'Target:'
       EditLabel.ParentColor = False
       EditLabel.ParentFont = False
@@ -413,9 +414,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideBottom.Control = lbleditHotDirPath
       AnchorSideBottom.Side = asrBottom
       Left = 432
-      Height = 25
+      Height = 23
       Hint = 'Some functions to select appropriate path'
-      Top = 431
+      Top = 432
       Width = 23
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 2
@@ -516,12 +517,12 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
       Left = 456
-      Height = 25
-      Top = 431
+      Height = 23
+      Top = 432
       Width = 122
       Anchors = [akRight, akBottom]
       DropDownCount = 10
-      ItemHeight = 0
+      ItemHeight = 15
       ItemIndex = 1
       Items.Strings = (
         'none'
@@ -545,12 +546,12 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
       Left = 456
-      Height = 25
-      Top = 461
+      Height = 23
+      Top = 462
       Width = 122
       Anchors = [akRight, akBottom]
       DropDownCount = 10
-      ItemHeight = 0
+      ItemHeight = 15
       ItemIndex = 1
       Items.Strings = (
         'none'
@@ -571,8 +572,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object OpenDialog: TOpenDialog[1]
-    DefaultExt = '.ini'
-    Filter = '.ini config file|*.ini|.xml confile file|*.xml|Directory Hotlist file|*.hotlist|Any file|*.*'
+    DefaultExt = '.hotlist'
+    Filter = 'Directory Hotlist files|*.hotlist|.xml Config files|*.xml|Any files|*.*'
     Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
     left = 64
     top = 240
@@ -829,6 +830,30 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       OnClick = miCollapseAllClick
     end
     object miSeparator11: TMenuItem
+      Caption = '-'
+    end
+    object miSearchAndReplace: TMenuItem
+      Caption = 'Search and replace...'
+      object miSearchAndReplaceInPath: TMenuItem
+        Tag = 1
+        Caption = 'in path...'
+        OnClick = miSearchAndReplaceClick
+      end
+      object miSearchAndReplaceInTargetPath: TMenuItem
+        Tag = 2
+        Caption = 'in target path...'
+        OnClick = miSearchAndReplaceClick
+      end
+      object miSeparator13: TMenuItem
+        Caption = '-'
+      end
+      object miSearchInReplaceInBothPaths: TMenuItem
+        Tag = 3
+        Caption = 'in path and target path...'
+        OnClick = miSearchAndReplaceClick
+      end
+    end
+    object miSeparator12: TMenuItem
       Caption = '-'
     end
     object miDetectIfPathExist: TMenuItem

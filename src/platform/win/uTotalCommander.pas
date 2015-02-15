@@ -96,30 +96,30 @@ const
   COMMANDS_LIST_TC: array[1..NUMBEROFCOMMANDS] of TTCommandEquivalence =
     (
     (TCCommand: 'cm_SrcComments'; TCIcon: 21; DCCommand: ''), //Source: Show comments
-    (TCCommand: 'cm_SrcShort'; TCIcon: 3; DCCommand: 'cm_briefview'), //Source: Only file names
-    (TCCommand: 'cm_SrcLong'; TCIcon: 4; DCCommand: 'cm_columnsview'), //Source: All file details
+    (TCCommand: 'cm_SrcShort'; TCIcon: 3; DCCommand: 'cm_BriefView'), //Source: Only file names
+    (TCCommand: 'cm_SrcLong'; TCIcon: 4; DCCommand: 'cm_ColumnsView'), //Source: All file details
     (TCCommand: 'cm_SrcTree'; TCIcon: 2; DCCommand: ''), //Source: Directory tree
-    (TCCommand: 'cm_SrcQuickview'; TCIcon: 22; DCCommand: 'cm_quickview'), //Source: Quick view panel
-    (TCCommand: 'cm_VerticalPanels'; TCIcon: 23; DCCommand: ''), //File windows above each other
+    (TCCommand: 'cm_SrcQuickview'; TCIcon: 22; DCCommand: 'cm_QuickView'), //Source: Quick view panel
+    (TCCommand: 'cm_VerticalPanels'; TCIcon: 23; DCCommand: 'cm_HorizontalFilePanels'), //File windows above each other
     (TCCommand: 'cm_SrcQuickInternalOnly'; TCIcon: 22; DCCommand: ''), //Source: Quick view, no plugins
     (TCCommand: 'cm_SrcHideQuickview'; TCIcon: 22; DCCommand: ''), //Source: Quick view panel off
     (TCCommand: 'cm_SrcExecs'; TCIcon: 12; DCCommand: ''), //Source: Only programs
     (TCCommand: 'cm_SrcAllFiles'; TCIcon: 13; DCCommand: ''), //Source: All files
     (TCCommand: 'cm_SrcUserSpec'; TCIcon: 24; DCCommand: ''), //Source: Last selected
     (TCCommand: 'cm_SrcUserDef'; TCIcon: 25; DCCommand: ''), //Source: Select user type
-    (TCCommand: 'cm_SrcByName'; TCIcon: 5; DCCommand: 'cm_sortbyname'), //Source: Sort by name
-    (TCCommand: 'cm_SrcByExt'; TCIcon: 6; DCCommand: 'cm_sortbyext'), //Source: Sort by extension
-    (TCCommand: 'cm_SrcBySize'; TCIcon: 8; DCCommand: 'cm_sortbysize'), //Source: Sort by size
-    (TCCommand: 'cm_SrcByDateTime'; TCIcon: 7; DCCommand: 'cm_sortbydate'), //Source: Sort by date
+    (TCCommand: 'cm_SrcByName'; TCIcon: 5; DCCommand: 'cm_SortByName'), //Source: Sort by name
+    (TCCommand: 'cm_SrcByExt'; TCIcon: 6; DCCommand: 'cm_SortByExt'), //Source: Sort by extension
+    (TCCommand: 'cm_SrcBySize'; TCIcon: 8; DCCommand: 'cm_SortBySize'), //Source: Sort by size
+    (TCCommand: 'cm_SrcByDateTime'; TCIcon: 7; DCCommand: 'cm_SortByDate'), //Source: Sort by date
     (TCCommand: 'cm_SrcUnsorted'; TCIcon: 9; DCCommand: ''), //Source: Unsorted
-    (TCCommand: 'cm_SrcNegOrder'; TCIcon: 10; DCCommand: ''), //Source: Reversed order
-    (TCCommand: 'cm_SrcOpenDrives'; TCIcon: -1; DCCommand: ''), //Source: Open drive list
-    (TCCommand: 'cm_SrcThumbs'; TCIcon: 26; DCCommand: 'cm_thumbnailsview'), //Source: Thumbnail view
+    (TCCommand: 'cm_SrcNegOrder'; TCIcon: 10; DCCommand: 'cm_ReverseOrder'), //Source: Reversed order
+    (TCCommand: 'cm_SrcOpenDrives'; TCIcon: -1; DCCommand: 'cm_SrcOpenDrives'), //Source: Open drive list
+    (TCCommand: 'cm_SrcThumbs'; TCIcon: 26; DCCommand: 'cm_ThumbnailsView'), //Source: Thumbnail view
     (TCCommand: 'cm_SrcCustomViewMenu'; TCIcon: 52; DCCommand: ''), //Source: Custom view menu
     (TCCommand: 'cm_SrcPathFocus'; TCIcon: -1; DCCommand: ''), //Source: Put focus on path
     (TCCommand: 'cm_LeftComments'; TCIcon: 21; DCCommand: ''), //Left: Show comments
-    (TCCommand: 'cm_LeftShort'; TCIcon: 3; DCCommand: 'cm_briefview'), //Left: Only file names
-    (TCCommand: 'cm_LeftLong'; TCIcon: 4; DCCommand: ''), //Left: All file details
+    (TCCommand: 'cm_LeftShort'; TCIcon: 3; DCCommand: 'cm_LeftBriefView'), //Left: Only file names
+    (TCCommand: 'cm_LeftLong'; TCIcon: 4; DCCommand: 'cm_LeftColumnsView'), //Left: All file details
     (TCCommand: 'cm_LeftTree'; TCIcon: 2; DCCommand: ''), //Left: Directory tree
     (TCCommand: 'cm_LeftQuickview'; TCIcon: 22; DCCommand: ''), //Left: Quick view panel
     (TCCommand: 'cm_LeftQuickInternalOnly'; TCIcon: 22; DCCommand: ''), //Left: Quick view, no plugins
@@ -128,21 +128,21 @@ const
     (TCCommand: 'cm_LeftAllFiles'; TCIcon: 13; DCCommand: ''), //Left: All files
     (TCCommand: 'cm_LeftUserSpec'; TCIcon: 24; DCCommand: ''), //Left: Last selected
     (TCCommand: 'cm_LeftUserDef'; TCIcon: 25; DCCommand: ''), //Left: Select user type
-    (TCCommand: 'cm_LeftByName'; TCIcon: 5; DCCommand: ''), //Left: Sort by name
-    (TCCommand: 'cm_LeftByExt'; TCIcon: 6; DCCommand: ''), //Left: Sort by extension
-    (TCCommand: 'cm_LeftBySize'; TCIcon: 8; DCCommand: ''), //Left: Sort by size
-    (TCCommand: 'cm_LeftByDateTime'; TCIcon: 7; DCCommand: ''), //Left: Sort by date
+    (TCCommand: 'cm_LeftByName'; TCIcon: 5; DCCommand: 'cm_LeftSortByName'), //Left: Sort by name
+    (TCCommand: 'cm_LeftByExt'; TCIcon: 6; DCCommand: 'cm_LeftSortByExt'), //Left: Sort by extension
+    (TCCommand: 'cm_LeftBySize'; TCIcon: 8; DCCommand: 'cm_LeftSortBySize'), //Left: Sort by size
+    (TCCommand: 'cm_LeftByDateTime'; TCIcon: 7; DCCommand: 'cm_LeftSortByDate'), //Left: Sort by date
     (TCCommand: 'cm_LeftUnsorted'; TCIcon: 9; DCCommand: ''), //Left: Unsorted
-    (TCCommand: 'cm_LeftNegOrder'; TCIcon: 10; DCCommand: ''), //Left: Reversed order
-    (TCCommand: 'cm_LeftOpenDrives'; TCIcon: -1; DCCommand: 'cm_leftopendrives'), //Left: Open drive list
+    (TCCommand: 'cm_LeftNegOrder'; TCIcon: 10; DCCommand: 'cm_LeftReverseOrder'), //Left: Reversed order
+    (TCCommand: 'cm_LeftOpenDrives'; TCIcon: -1; DCCommand: 'cm_LeftOpenDrives'), //Left: Open drive list
     (TCCommand: 'cm_LeftPathFocus'; TCIcon: -1; DCCommand: ''), //Left: Put focus on path
-    (TCCommand: 'cm_LeftDirBranch'; TCIcon: 50; DCCommand: ''), //Left: Branch view
+    (TCCommand: 'cm_LeftDirBranch'; TCIcon: 50; DCCommand: 'cm_LeftFlatView'), //Left: Branch view
     (TCCommand: 'cm_LeftDirBranchSel'; TCIcon: 50; DCCommand: ''), //Left: branch view, only selected
-    (TCCommand: 'cm_LeftThumbs'; TCIcon: 26; DCCommand: ''), //Left: Thumbnail view
+    (TCCommand: 'cm_LeftThumbs'; TCIcon: 26; DCCommand: 'cm_LeftThumbView'), //Left: Thumbnail view
     (TCCommand: 'cm_LeftCustomViewMenu'; TCIcon: 52; DCCommand: ''), //Left: Custom view menu
     (TCCommand: 'cm_RightComments'; TCIcon: 21; DCCommand: ''), //Right: Show comments
-    (TCCommand: 'cm_RightShort'; TCIcon: 3; DCCommand: 'cm_briefview'), //Right: Only file names
-    (TCCommand: 'cm_RightLong'; TCIcon: 4; DCCommand: ''), //Right: All file details
+    (TCCommand: 'cm_RightShort'; TCIcon: 3; DCCommand: 'cm_RightBriefView'), //Right: Only file names
+    (TCCommand: 'cm_RightLong'; TCIcon: 4; DCCommand: 'cm_RightColumnsView'), //Right: All file details
     (TCCommand: 'cm_RightTree'; TCIcon: 2; DCCommand: ''), //Right: Directory tree
     (TCCommand: 'cm_RightQuickview'; TCIcon: 22; DCCommand: ''), //Right: Quick view panel
     (TCCommand: 'cm_RightQuickInternalOnly'; TCIcon: 22; DCCommand: ''), //Right: Quick view, no plugins
@@ -152,43 +152,43 @@ const
     (TCCommand: 'cm_RightUserSpec'; TCIcon: 24; DCCommand: ''), //Right: Last selected
     (TCCommand: 'cm_RightUserDef'; TCIcon: 25; DCCommand: ''), //Right: Select user type
     (TCCommand: 'cm_RightByName'; TCIcon: 5; DCCommand: ''), //Right: Sort by name
-    (TCCommand: 'cm_RightByExt'; TCIcon: 6; DCCommand: ''), //Right: Sort by extension
-    (TCCommand: 'cm_RightBySize'; TCIcon: 8; DCCommand: ''), //Right: Sort by size
-    (TCCommand: 'cm_RightByDateTime'; TCIcon: 7; DCCommand: ''), //Right: Sort by date
-    (TCCommand: 'cm_RightUnsorted'; TCIcon: 9; DCCommand: ''), //Right: Unsorted
-    (TCCommand: 'cm_RightNegOrder'; TCIcon: 10; DCCommand: ''), //Right: Reversed order
-    (TCCommand: 'cm_RightOpenDrives'; TCIcon: -1; DCCommand: 'cm_rightopendrives'), //Right: Open drive list
+    (TCCommand: 'cm_RightByExt'; TCIcon: 6; DCCommand: 'cm_RightSortByName'), //Right: Sort by extension
+    (TCCommand: 'cm_RightBySize'; TCIcon: 8; DCCommand: 'cm_RightSortByExt'), //Right: Sort by size
+    (TCCommand: 'cm_RightByDateTime'; TCIcon: 7; DCCommand: 'cm_RightSortBySize'), //Right: Sort by date
+    (TCCommand: 'cm_RightUnsorted'; TCIcon: 9; DCCommand: 'cm_RightSortByDate'), //Right: Unsorted
+    (TCCommand: 'cm_RightNegOrder'; TCIcon: 10; DCCommand: 'cm_RightReverseOrder'), //Right: Reversed order
+    (TCCommand: 'cm_RightOpenDrives'; TCIcon: -1; DCCommand: 'cm_RightOpenDrives'), //Right: Open drive list
     (TCCommand: 'cm_RightPathFocus'; TCIcon: -1; DCCommand: ''), //Right: Put focus on path
-    (TCCommand: 'cm_RightDirBranch'; TCIcon: 50; DCCommand: ''), //Right: branch view
+    (TCCommand: 'cm_RightDirBranch'; TCIcon: 50; DCCommand: 'cm_RightFlatView'), //Right: branch view
     (TCCommand: 'cm_RightDirBranchSel'; TCIcon: 50; DCCommand: ''), //Right: branch view, only selected
-    (TCCommand: 'cm_RightThumbs'; TCIcon: 26; DCCommand: ''), //Right: Thumbnail view
+    (TCCommand: 'cm_RightThumbs'; TCIcon: 26; DCCommand: 'cm_RightThumbView'), //Right: Thumbnail view
     (TCCommand: 'cm_RightCustomViewMenu'; TCIcon: 52; DCCommand: ''), //Right: Custom view menu
-    (TCCommand: 'cm_List'; TCIcon: 27; DCCommand: 'cm_view'), //View with Lister
+    (TCCommand: 'cm_List'; TCIcon: 27; DCCommand: 'cm_View'), //View with Lister
     (TCCommand: 'cm_ListInternalOnly'; TCIcon: 27; DCCommand: 'cm_view'), //Lister without plugins/multimedia
-    (TCCommand: 'cm_Edit'; TCIcon: 28; DCCommand: 'cm_edit'), //Edit (Notepad)
-    (TCCommand: 'cm_Copy'; TCIcon: 62; DCCommand: 'cm_copy'), //Copy files
-    (TCCommand: 'cm_CopySamepanel'; TCIcon: 62; DCCommand: 'cm_copysamepanel'), //Copy within panel
+    (TCCommand: 'cm_Edit'; TCIcon: 28; DCCommand: 'cm_Edit'), //Edit (Notepad)
+    (TCCommand: 'cm_Copy'; TCIcon: 62; DCCommand: 'cm_Copy'), //Copy files
+    (TCCommand: 'cm_CopySamepanel'; TCIcon: 62; DCCommand: 'cm_CopySamePanel'), //Copy within panel
     (TCCommand: 'cm_CopyOtherpanel'; TCIcon: 62; DCCommand: ''), //Copy to other
-    (TCCommand: 'cm_RenMov'; TCIcon: 63; DCCommand: 'cm_rename'), //Rename/Move files
-    (TCCommand: 'cm_MkDir'; TCIcon: 29; DCCommand: 'cm_makedir'), //Make directory
-    (TCCommand: 'cm_Delete'; TCIcon: 64; DCCommand: 'cm_delete'), //Delete files
-    (TCCommand: 'cm_TestArchive'; TCIcon: 60; DCCommand: 'cm_testarchive'), //Test selected archives
-    (TCCommand: 'cm_PackFiles'; TCIcon: 30; DCCommand: 'cm_packfiles'), //Pack files
-    (TCCommand: 'cm_UnpackFiles'; TCIcon: 31; DCCommand: 'cm_extractfiles'), //Unpack all
-    (TCCommand: 'cm_RenameOnly'; TCIcon: 32; DCCommand: 'cm_renameonly'), //Rename (Shift+F6)
+    (TCCommand: 'cm_RenMov'; TCIcon: 63; DCCommand: 'cm_Rename'), //Rename/Move files
+    (TCCommand: 'cm_MkDir'; TCIcon: 29; DCCommand: 'cm_MakeDir'), //Make directory
+    (TCCommand: 'cm_Delete'; TCIcon: 64; DCCommand: 'cm_Delete'), //Delete files
+    (TCCommand: 'cm_TestArchive'; TCIcon: 60; DCCommand: 'cm_TestArchive'), //Test selected archives
+    (TCCommand: 'cm_PackFiles'; TCIcon: 30; DCCommand: 'cm_PackFiles'), //Pack files
+    (TCCommand: 'cm_UnpackFiles'; TCIcon: 31; DCCommand: 'cm_ExtractFiles'), //Unpack all
+    (TCCommand: 'cm_RenameOnly'; TCIcon: 32; DCCommand: 'cm_RenameOnly'), //Rename (Shift+F6)
     (TCCommand: 'cm_RenameSingleFile'; TCIcon: 32; DCCommand: ''), //Rename file under cursor
     (TCCommand: 'cm_MoveOnly'; TCIcon: 63; DCCommand: ''), //Move (F6)
-    (TCCommand: 'cm_Properties'; TCIcon: -1; DCCommand: 'cm_fileproperties'), //Properties dialog
+    (TCCommand: 'cm_Properties'; TCIcon: -1; DCCommand: 'cm_FileProperties'), //Properties dialog
     (TCCommand: 'cm_CreateShortcut'; TCIcon: 65; DCCommand: ''), //Create a shortcut
-    (TCCommand: 'cm_Return'; TCIcon: -1; DCCommand: 'cm_open'), //Simulate: Return pressed
+    (TCCommand: 'cm_Return'; TCIcon: -1; DCCommand: 'cm_Open'), //Simulate: Return pressed
     (TCCommand: 'cm_OpenAsUser'; TCIcon: -1; DCCommand: ''), //Open program under cursor as different user
-    (TCCommand: 'cm_Split'; TCIcon: 68; DCCommand: 'cm_filespliter'), //Split file into pieces
-    (TCCommand: 'cm_Combine'; TCIcon: 69; DCCommand: 'cm_filelinker'), //Combine partial files
+    (TCCommand: 'cm_Split'; TCIcon: 68; DCCommand: 'cm_FileSpliter'), //Split file into pieces
+    (TCCommand: 'cm_Combine'; TCIcon: 69; DCCommand: 'cm_FileLinker'), //Combine partial files
     (TCCommand: 'cm_Encode'; TCIcon: 66; DCCommand: ''), //Encode MIME/UUE/XXE
     (TCCommand: 'cm_Decode'; TCIcon: 67; DCCommand: ''), //Decode MIME/UUE/XXE/BinHex
-    (TCCommand: 'cm_CRCcreate'; TCIcon: -1; DCCommand: 'cm_checksumcalc'), //Create CRC checksums
-    (TCCommand: 'cm_CRCcheck'; TCIcon: 61; DCCommand: 'cm_checksumverify'), //Verify CRC checksums
-    (TCCommand: 'cm_SetAttrib'; TCIcon: 33; DCCommand: 'cm_setfileproperties'), //Change attributes
+    (TCCommand: 'cm_CRCcreate'; TCIcon: -1; DCCommand: 'cm_CheckSumCalc'), //Create CRC checksums
+    (TCCommand: 'cm_CRCcheck'; TCIcon: 61; DCCommand: 'cm_CheckSumVerify'), //Verify CRC checksums
+    (TCCommand: 'cm_SetAttrib'; TCIcon: 33; DCCommand: 'cm_SetFileProperties'), //Change attributes
     (TCCommand: 'cm_Config'; TCIcon: 34; DCCommand: 'cm_Options'), //Conf: Layout (first page)
     (TCCommand: 'cm_DisplayConfig'; TCIcon: 34; DCCommand: ''), //Conf: Display
     (TCCommand: 'cm_IconConfig'; TCIcon: 34; DCCommand: ''), //Conf: Icons
@@ -213,38 +213,38 @@ const
     (TCCommand: 'cm_ZipPackerConfig'; TCIcon: 34; DCCommand: ''), //Conf: ZIP packer
     (TCCommand: 'cm_Confirmation'; TCIcon: 34; DCCommand: ''), //Conf: Misc, Confirmation
     (TCCommand: 'cm_ConfigSavePos'; TCIcon: -1; DCCommand: ''), //Conf: Save position
-    (TCCommand: 'cm_ButtonConfig'; TCIcon: 14; DCCommand: 'cm_configtoolbars'), //Conf: Button bar
+    (TCCommand: 'cm_ButtonConfig'; TCIcon: 14; DCCommand: 'cm_ConfigToolbars'), //Conf: Button bar
     (TCCommand: 'cm_ConfigSaveSettings'; TCIcon: -1; DCCommand: ''), //Save current paths etc.
     (TCCommand: 'cm_ConfigChangeIniFiles'; TCIcon: -1; DCCommand: ''), //Open ini files in notepad
     (TCCommand: 'cm_ConfigSaveDirHistory'; TCIcon: -1; DCCommand: ''), //Save directory history
     (TCCommand: 'cm_ChangeStartMenu'; TCIcon: 34; DCCommand: ''), //Change Start menu
-    (TCCommand: 'cm_NetConnect'; TCIcon: 53; DCCommand: 'cm_networkconnect'), //Network connections
-    (TCCommand: 'cm_NetDisconnect'; TCIcon: 54; DCCommand: 'cm_networkdisconnect'), //Disconnect network drives
+    (TCCommand: 'cm_NetConnect'; TCIcon: 53; DCCommand: 'cm_NetworkConnect'), //Network connections
+    (TCCommand: 'cm_NetDisconnect'; TCIcon: 54; DCCommand: 'cm_NetworkDisconnect'), //Disconnect network drives
     (TCCommand: 'cm_NetShareDir'; TCIcon: -1; DCCommand: ''), //Share directory
     (TCCommand: 'cm_NetUnshareDir'; TCIcon: -1; DCCommand: ''), //Unshare directory
     (TCCommand: 'cm_AdministerServer'; TCIcon: -1; DCCommand: ''), //Connect to admin share to open \\server\c$ etc.
     (TCCommand: 'cm_ShowFileUser'; TCIcon: -1; DCCommand: ''), //Which remote user has opened a local file
-    (TCCommand: 'cm_GetFileSpace'; TCIcon: -1; DCCommand: 'cm_calculatespace'), //Calculate space
+    (TCCommand: 'cm_GetFileSpace'; TCIcon: -1; DCCommand: 'cm_CalculateSpace'), //Calculate space
     (TCCommand: 'cm_VolumeId'; TCIcon: -1; DCCommand: ''), //Volume label
     (TCCommand: 'cm_VersionInfo'; TCIcon: -1; DCCommand: ''), //Version information
-    (TCCommand: 'cm_ExecuteDOS'; TCIcon: -1; DCCommand: 'cm_runterm'), //Open command prompt window
-    (TCCommand: 'cm_CompareDirs'; TCIcon: 35; DCCommand: 'cm_comparedirectories'), //Compare dirs
-    (TCCommand: 'cm_CompareDirsWithSubdirs'; TCIcon: 35; DCCommand: 'cm_comparedirectories'), //Also mark subdirs not present in other dir
-    (TCCommand: 'cm_ContextMenu'; TCIcon: -1; DCCommand: 'cm_contextmenu'), //Show context menu
+    (TCCommand: 'cm_ExecuteDOS'; TCIcon: -1; DCCommand: 'cm_RunTerm'), //Open command prompt window
+    (TCCommand: 'cm_CompareDirs'; TCIcon: 35; DCCommand: 'cm_CompareDirectories'), //Compare dirs
+    (TCCommand: 'cm_CompareDirsWithSubdirs'; TCIcon: 35; DCCommand: 'cm_CompareDirectories'), //Also mark subdirs not present in other dir
+    (TCCommand: 'cm_ContextMenu'; TCIcon: -1; DCCommand: 'cm_ContextMenu'), //Show context menu
     (TCCommand: 'cm_ContextMenuInternal'; TCIcon: -1; DCCommand: ''), //Show context menu for internal associations
     (TCCommand: 'cm_ContextMenuInternalCursor'; TCIcon: -1; DCCommand: ''), //Internal context menu for file under cursor
     (TCCommand: 'cm_ShowRemoteMenu'; TCIcon: -1; DCCommand: ''), //Context menu for Media Center remote control Play/Pause
     (TCCommand: 'cm_SyncChangeDir'; TCIcon: 75; DCCommand: ''), //Synchronous directory changing in both windows
-    (TCCommand: 'cm_EditComment'; TCIcon: -1; DCCommand: 'cm_editcomment'), //Edit file comment
+    (TCCommand: 'cm_EditComment'; TCIcon: -1; DCCommand: 'cm_EditComment'), //Edit file comment
     (TCCommand: 'cm_FocusLeft'; TCIcon: -1; DCCommand: ''), //Focus on left file list
     (TCCommand: 'cm_FocusRight'; TCIcon: -1; DCCommand: ''), //Focus on right file list
-    (TCCommand: 'cm_FocusCmdLine'; TCIcon: -1; DCCommand: 'cm_focuscmdline'), //Focus on command line
+    (TCCommand: 'cm_FocusCmdLine'; TCIcon: -1; DCCommand: 'cm_FocusCmdLine'), //Focus on command line
     (TCCommand: 'cm_FocusButtonBar'; TCIcon: -1; DCCommand: ''), //Focus on button bar
-    (TCCommand: 'cm_CountDirContent'; TCIcon: 36; DCCommand: 'cm_countdircontent'), //Calculate space occupied by subdirs in current dir
+    (TCCommand: 'cm_CountDirContent'; TCIcon: 36; DCCommand: 'cm_CountDirContent'), //Calculate space occupied by subdirs in current dir
     (TCCommand: 'cm_UnloadPlugins'; TCIcon: -1; DCCommand: ''), //Unload all plugins
     (TCCommand: 'cm_DirMatch'; TCIcon: 35; DCCommand: ''), //Mark newer
-    (TCCommand: 'cm_Exchange'; TCIcon: 37; DCCommand: 'cm_exchange'), //Swap panels
-    (TCCommand: 'cm_MatchSrc'; TCIcon: 86; DCCommand: 'cm_targetequalsource'), //target=Source
+    (TCCommand: 'cm_Exchange'; TCIcon: 37; DCCommand: 'cm_Exchange'), //Swap panels
+    (TCCommand: 'cm_MatchSrc'; TCIcon: 86; DCCommand: 'cm_TargetEqualSource'), //target=Source
     (TCCommand: 'cm_ReloadSelThumbs'; TCIcon: -1; DCCommand: ''), //Re-load selected thumbnails
     (TCCommand: 'cm_DirectCableConnect'; TCIcon: -1; DCCommand: ''), //Connect to other PC by cable
     (TCCommand: 'cm_NTinstallDriver'; TCIcon: -1; DCCommand: ''), //Install parallel port driver on NT
@@ -252,57 +252,57 @@ const
     (TCCommand: 'cm_PrintDir'; TCIcon: 38; DCCommand: ''), //Print current directory (with preview)
     (TCCommand: 'cm_PrintDirSub'; TCIcon: 38; DCCommand: ''), //Print dir with subdirs
     (TCCommand: 'cm_PrintFile'; TCIcon: 38; DCCommand: ''), //Print file
-    (TCCommand: 'cm_SpreadSelection'; TCIcon: 39; DCCommand: 'cm_markplus'), //Select group
+    (TCCommand: 'cm_SpreadSelection'; TCIcon: 39; DCCommand: 'cm_MarkPlus'), //Select group
     (TCCommand: 'cm_SelectBoth'; TCIcon: 72; DCCommand: ''), //Select group: files+folders
     (TCCommand: 'cm_SelectFiles'; TCIcon: 70; DCCommand: ''), //Select group: just files
     (TCCommand: 'cm_SelectFolders'; TCIcon: 71; DCCommand: ''), //Select group: just folders
-    (TCCommand: 'cm_ShrinkSelection'; TCIcon: 40; DCCommand: 'cm_markminus'), //Unselect group
+    (TCCommand: 'cm_ShrinkSelection'; TCIcon: 40; DCCommand: 'cm_MarkMinus'), //Unselect group
     (TCCommand: 'cm_ClearFiles'; TCIcon: 40; DCCommand: ''), //Unselect group: just files
     (TCCommand: 'cm_ClearFolders'; TCIcon: 40; DCCommand: ''), //Unselect group: just folders
     (TCCommand: 'cm_ClearSelCfg'; TCIcon: 40; DCCommand: ''), //Unselect group (files or both, as configured)
-    (TCCommand: 'cm_SelectAll'; TCIcon: 44; DCCommand: 'cm_markmarkall'), //Select all (files or both, as configured)
+    (TCCommand: 'cm_SelectAll'; TCIcon: 44; DCCommand: 'cm_MarkMarkAll'), //Select all (files or both, as configured)
     (TCCommand: 'cm_SelectAllBoth'; TCIcon: 44; DCCommand: ''), //Select both files+folders
     (TCCommand: 'cm_SelectAllFiles'; TCIcon: 44; DCCommand: ''), //Select all files
     (TCCommand: 'cm_SelectAllFolders'; TCIcon: 44; DCCommand: ''), //Select all folders
-    (TCCommand: 'cm_ClearAll'; TCIcon: -1; DCCommand: 'cm_markunmarkall'), //Unselect all (files+folders)
+    (TCCommand: 'cm_ClearAll'; TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll'), //Unselect all (files+folders)
     (TCCommand: 'cm_ClearAllFiles'; TCIcon: -1; DCCommand: ''), //Unselect all files
     (TCCommand: 'cm_ClearAllFolders'; TCIcon: -1; DCCommand: ''), //Unselect all folders
     (TCCommand: 'cm_ClearAllCfg'; TCIcon: -1; DCCommand: ''), //Unselect all (files or both, as configured)
-    (TCCommand: 'cm_ExchangeSelection'; TCIcon: 11; DCCommand: 'cm_markinvert'), //Invert selection
+    (TCCommand: 'cm_ExchangeSelection'; TCIcon: 11; DCCommand: 'cm_MarkInvert'), //Invert selection
     (TCCommand: 'cm_ExchangeSelBoth'; TCIcon: 11; DCCommand: ''), //Invert selection (files+folders)
     (TCCommand: 'cm_ExchangeSelFiles'; TCIcon: 11; DCCommand: ''), //Invert selection (files)
     (TCCommand: 'cm_ExchangeSelFolders'; TCIcon: 11; DCCommand: ''), //Invert selection (folders)
-    (TCCommand: 'cm_SelectCurrentExtension'; TCIcon: 41; DCCommand: 'cm_markcurrentextension'), //Select all files with same ext.
-    (TCCommand: 'cm_UnselectCurrentExtension'; TCIcon: -1; DCCommand: 'cm_unmarkcurrentextension'), //Unselect all files with same ext.
+    (TCCommand: 'cm_SelectCurrentExtension'; TCIcon: 41; DCCommand: 'cm_MarkCurrentExtension'), //Select all files with same ext.
+    (TCCommand: 'cm_UnselectCurrentExtension'; TCIcon: -1; DCCommand: 'cm_UnmarkCurrentExtension'), //Unselect all files with same ext.
     (TCCommand: 'cm_SelectCurrentName'; TCIcon: -1; DCCommand: ''), //Select all files with same name
     (TCCommand: 'cm_UnselectCurrentName'; TCIcon: -1; DCCommand: ''), //Unselect all files with same name
     (TCCommand: 'cm_SelectCurrentNameExt'; TCIcon: -1; DCCommand: ''), //Select all files with same name+ext.
     (TCCommand: 'cm_UnselectCurrentNameExt'; TCIcon: -1; DCCommand: ''), //Unselect all files with same name+ext.
     (TCCommand: 'cm_SelectCurrentPath'; TCIcon: 72; DCCommand: ''), //Select all in same path (for branch view+search)
     (TCCommand: 'cm_UnselectCurrentPath'; TCIcon: -1; DCCommand: ''), //Unselect all in same path
-    (TCCommand: 'cm_RestoreSelection'; TCIcon: 42; DCCommand: ''), //Selection before last operation
-    (TCCommand: 'cm_SaveSelection'; TCIcon: 43; DCCommand: 'cm_saveselection'), //Temporarily save selection
-    (TCCommand: 'cm_SaveSelectionToFile'; TCIcon: -1; DCCommand: 'cm_saveselectiontofile'), //Save file selection to file
+    (TCCommand: 'cm_RestoreSelection'; TCIcon: 42; DCCommand: 'cm_RestoreSelection'), //Selection before last operation
+    (TCCommand: 'cm_SaveSelection'; TCIcon: 43; DCCommand: 'cm_SaveSelection'), //Temporarily save selection
+    (TCCommand: 'cm_SaveSelectionToFile'; TCIcon: -1; DCCommand: 'cm_SaveSelectionToFile'), //Save file selection to file
     (TCCommand: 'cm_SaveSelectionToFileA'; TCIcon: -1; DCCommand: ''), //Save file selection to file (ANSI)
     (TCCommand: 'cm_SaveSelectionToFileW'; TCIcon: -1; DCCommand: ''), //Save file selection to file (Unicode)
     (TCCommand: 'cm_SaveDetailsToFile'; TCIcon: -1; DCCommand: ''), //Save all shown columns to file
     (TCCommand: 'cm_SaveDetailsToFileA'; TCIcon: -1; DCCommand: ''), //Save all shown columns to file (ANSI)
     (TCCommand: 'cm_SaveDetailsToFileW'; TCIcon: -1; DCCommand: ''), //Save all shown columns to file (Unicode)
-    (TCCommand: 'cm_LoadSelectionFromFile'; TCIcon: -1; DCCommand: 'cm_loadselectionfromfile'), //Read file selection from file
-    (TCCommand: 'cm_LoadSelectionFromClip'; TCIcon: -1; DCCommand: 'cm_loadselectionfromclip'), //Read file selection from clipboard
+    (TCCommand: 'cm_LoadSelectionFromFile'; TCIcon: -1; DCCommand: 'cm_LoadSelectionFromFile'), //Read file selection from file
+    (TCCommand: 'cm_LoadSelectionFromClip'; TCIcon: -1; DCCommand: 'cm_LoadSelectionFromClip'), //Read file selection from clipboard
     (TCCommand: 'cm_EditPermissionInfo'; TCIcon: -1; DCCommand: ''), //Permissions dialog (NTFS)
     (TCCommand: 'cm_EditPersmissionInfo'; TCIcon: -1; DCCommand: ''), //Typo...
     (TCCommand: 'cm_EditAuditInfo'; TCIcon: -1; DCCommand: ''), //File auditing (NTFS)
     (TCCommand: 'cm_EditOwnerInfo'; TCIcon: -1; DCCommand: ''), //Take ownership (NTFS)
-    (TCCommand: 'cm_CutToClipboard'; TCIcon: -1; DCCommand: 'cm_cuttoclipboard'), //Cut selected files to clipboard
-    (TCCommand: 'cm_CopyToClipboard'; TCIcon: -1; DCCommand: 'cm_copytoclipboard'), //Copy selected files to clipboard
-    (TCCommand: 'cm_PasteFromClipboard'; TCIcon: -1; DCCommand: 'cm_pastefromvlipboard'), //Paste from clipboard to current dir
-    (TCCommand: 'cm_CopyNamesToClip'; TCIcon: 45; DCCommand: 'cm_copynamestoclip'), //Copy filenames to clipboard
-    (TCCommand: 'cm_CopyFullNamesToClip'; TCIcon: 45; DCCommand: 'cm_copyfullnamestoclip'), //Copy names with full path
+    (TCCommand: 'cm_CutToClipboard'; TCIcon: -1; DCCommand: 'cm_CutToClipboard'), //Cut selected files to clipboard
+    (TCCommand: 'cm_CopyToClipboard'; TCIcon: -1; DCCommand: 'cm_CopyToClipboard'), //Copy selected files to clipboard
+    (TCCommand: 'cm_PasteFromClipboard'; TCIcon: -1; DCCommand: 'cm_PasteFromClipboard'), //Paste from clipboard to current dir
+    (TCCommand: 'cm_CopyNamesToClip'; TCIcon: 45; DCCommand: 'cm_CopyNamesToClip'), //Copy filenames to clipboard
+    (TCCommand: 'cm_CopyFullNamesToClip'; TCIcon: 45; DCCommand: 'cm_CopyFullNamesToClip'), //Copy names with full path
     (TCCommand: 'cm_CopyNetNamesToClip'; TCIcon: 45; DCCommand: ''), //Copy names with UNC path
     (TCCommand: 'cm_CopySrcPathToClip'; TCIcon: 45; DCCommand: ''), //Copy source path to clipboard
     (TCCommand: 'cm_CopyTrgPathToClip'; TCIcon: 45; DCCommand: ''), //Copy target path to clipboard
-    (TCCommand: 'cm_CopyFileDetailsToClip'; TCIcon: 59; DCCommand: 'cm_copyfiledetailstoclip'), //Copy all shown columns
+    (TCCommand: 'cm_CopyFileDetailsToClip'; TCIcon: 59; DCCommand: 'cm_CopyFileDetailsToClip'), //Copy all shown columns
     (TCCommand: 'cm_CopyFpFileDetailsToClip'; TCIcon: 59; DCCommand: ''), //Copy all columns, with full path
     (TCCommand: 'cm_CopyNetFileDetailsToClip'; TCIcon: 59; DCCommand: ''), //Copy all columns, with UNC path
     (TCCommand: 'cm_FtpConnect'; TCIcon: 16; DCCommand: ''), //Connect to FTP
@@ -316,12 +316,12 @@ const
     (TCCommand: 'cm_FtpDownloadList'; TCIcon: -1; DCCommand: ''), //Download files in download list
     (TCCommand: 'cm_GotoPreviousDir'; TCIcon: 18; DCCommand: ''), //Go back
     (TCCommand: 'cm_GotoNextDir'; TCIcon: 19; DCCommand: ''), //Go forward
-    (TCCommand: 'cm_DirectoryHistory'; TCIcon: -1; DCCommand: 'cm_dirhistory'), //History list
+    (TCCommand: 'cm_DirectoryHistory'; TCIcon: -1; DCCommand: 'cm_DirHistory'), //History list
     (TCCommand: 'cm_GotoPreviousLocalDir'; TCIcon: 18; DCCommand: ''), //Go back, no ftp
     (TCCommand: 'cm_GotoNextLocalDir'; TCIcon: 19; DCCommand: ''), //Go forward, no ftp
-    (TCCommand: 'cm_DirectoryHotlist'; TCIcon: -1; DCCommand: 'cm_dirhotlist'), //Directory popup menu
-    (TCCommand: 'cm_GoToRoot'; TCIcon: -1; DCCommand: 'cm_changedirtoroot'), //Go to root directory
-    (TCCommand: 'cm_GoToParent'; TCIcon: 15; DCCommand: 'cm_changedirtoparent'), //Go to parent directory
+    (TCCommand: 'cm_DirectoryHotlist'; TCIcon: -1; DCCommand: 'cm_DirHotList'), //Directory popup menu
+    (TCCommand: 'cm_GoToRoot'; TCIcon: -1; DCCommand: 'cm_ChangeDirToRoot'), //Go to root directory
+    (TCCommand: 'cm_GoToParent'; TCIcon: 15; DCCommand: 'cm_ChangeDirToParent'), //Go to parent directory
     (TCCommand: 'cm_GoToDir'; TCIcon: -1; DCCommand: ''), //Open dir or zip under cursor
     (TCCommand: 'cm_OpenDesktop'; TCIcon: -1; DCCommand: ''), //Desktop folder
     (TCCommand: 'cm_OpenDrives'; TCIcon: -1; DCCommand: ''), //My computer
@@ -331,10 +331,10 @@ const
     (TCCommand: 'cm_OpenPrinters'; TCIcon: -1; DCCommand: ''), //Printers folder
     (TCCommand: 'cm_OpenRecycled'; TCIcon: -1; DCCommand: ''), //Recycle bin
     (TCCommand: 'cm_CDtree'; TCIcon: 1; DCCommand: ''), //Popup directory tree
-    (TCCommand: 'cm_TransferLeft'; TCIcon: -1; DCCommand: 'cm_transferleft'), //Transfer dir under cursor to left window
-    (TCCommand: 'cm_TransferRight'; TCIcon: -1; DCCommand: 'cm_transferright'), //Transfer dir under cursor to right window
-    (TCCommand: 'cm_EditPath'; TCIcon: -1; DCCommand: 'cm_editpath'), //Edit path field above file list
-    (TCCommand: 'cm_GoToFirstFile'; TCIcon: -1; DCCommand: 'cm_gotofirstfile'), //Place cursor on first file in list
+    (TCCommand: 'cm_TransferLeft'; TCIcon: -1; DCCommand: 'cm_TransferLeft'), //Transfer dir under cursor to left window
+    (TCCommand: 'cm_TransferRight'; TCIcon: -1; DCCommand: 'cm_TransferRight'), //Transfer dir under cursor to right window
+    (TCCommand: 'cm_EditPath'; TCIcon: -1; DCCommand: 'cm_EditPath'), //Edit path field above file list
+    (TCCommand: 'cm_GoToFirstFile'; TCIcon: -1; DCCommand: 'cm_GoToFirstFile'), //Place cursor on first file in list
     (TCCommand: 'cm_GotoNextDrive'; TCIcon: -1; DCCommand: ''), //Go one drive up (C->D)
     (TCCommand: 'cm_GotoPreviousDrive'; TCIcon: -1; DCCommand: ''), //Go one drive down
     (TCCommand: 'cm_GotoNextSelected'; TCIcon: -1; DCCommand: ''), //Go to next selected file
@@ -345,29 +345,29 @@ const
     (TCCommand: 'cm_GotoDriveE'; TCIcon: -1; DCCommand: ''), //Switch to drive E
     (TCCommand: 'cm_GotoDriveF'; TCIcon: -1; DCCommand: ''), //(etc, define your own if)
     (TCCommand: 'cm_GotoDriveZ'; TCIcon: -1; DCCommand: ''), //(you need more drives)
-    (TCCommand: 'cm_HelpIndex'; TCIcon: 55; DCCommand: 'cm_helpindex'), //Help index
-    (TCCommand: 'cm_Keyboard'; TCIcon: -1; DCCommand: 'cm_keyboard'), //Keyboard help
+    (TCCommand: 'cm_HelpIndex'; TCIcon: 55; DCCommand: 'cm_HelpIndex'), //Help index
+    (TCCommand: 'cm_Keyboard'; TCIcon: -1; DCCommand: 'cm_Keyboard'), //Keyboard help
     (TCCommand: 'cm_Register'; TCIcon: -1; DCCommand: ''), //Registration info
-    (TCCommand: 'cm_VisitHomepage'; TCIcon: -1; DCCommand: 'cm_visithomepage'), //Visit http://www.ghisler.com/
-    (TCCommand: 'cm_About'; TCIcon: -1; DCCommand: 'cm_about'), //Help/About Total Commander
-    (TCCommand: 'cm_Exit'; TCIcon: -1; DCCommand: 'cm_exit'), //Exit Total Commander
-    (TCCommand: 'cm_Minimize'; TCIcon: -1; DCCommand: 'cm_minimize'), //Minimize Total Commander
+    (TCCommand: 'cm_VisitHomepage'; TCIcon: -1; DCCommand: 'cm_VisitHomePage'), //Visit http://www.ghisler.com/
+    (TCCommand: 'cm_About'; TCIcon: -1; DCCommand: 'cm_About'), //Help/About Total Commander
+    (TCCommand: 'cm_Exit'; TCIcon: -1; DCCommand: 'cm_Exit'), //Exit Total Commander
+    (TCCommand: 'cm_Minimize'; TCIcon: -1; DCCommand: 'cm_Minimize'), //Minimize Total Commander
     (TCCommand: 'cm_Maximize'; TCIcon: -1; DCCommand: ''), //Maximize Total Commander
     (TCCommand: 'cm_Restore'; TCIcon: -1; DCCommand: ''), //Restore normal size
     (TCCommand: 'cm_ClearCmdLine'; TCIcon: -1; DCCommand: ''), //Clear command line
-    (TCCommand: 'cm_NextCommand'; TCIcon: -1; DCCommand: 'cm_cmdlinenext'), //Next command line
-    (TCCommand: 'cm_PrevCommand'; TCIcon: -1; DCCommand: 'cm_cmdlineprev'), //Previous command line
-    (TCCommand: 'cm_AddPathToCmdline'; TCIcon: -1; DCCommand: 'cm_addpathtocmdline'), //Copy path to command line
-    (TCCommand: 'cm_MultiRenameFiles'; TCIcon: 46; DCCommand: 'cm_multirename'), //Rename multiple files
+    (TCCommand: 'cm_NextCommand'; TCIcon: -1; DCCommand: 'cm_CmdLineNext'), //Next command line
+    (TCCommand: 'cm_PrevCommand'; TCIcon: -1; DCCommand: 'cm_CmdLinePrev'), //Previous command line
+    (TCCommand: 'cm_AddPathToCmdline'; TCIcon: -1; DCCommand: 'cm_AddPathToCmdLine'), //Copy path to command line
+    (TCCommand: 'cm_MultiRenameFiles'; TCIcon: 46; DCCommand: 'cm_MultiRename'), //Rename multiple files
     (TCCommand: 'cm_SysInfo'; TCIcon: -1; DCCommand: ''), //System information
     (TCCommand: 'cm_OpenTransferManager'; TCIcon: 74; DCCommand: ''), //Background transfer manager
-    (TCCommand: 'cm_SearchFor'; TCIcon: 47; DCCommand: 'cm_search'), //Search for
+    (TCCommand: 'cm_SearchFor'; TCIcon: 47; DCCommand: 'cm_Search'), //Search for
     (TCCommand: 'cm_SearchStandalone'; TCIcon: 47; DCCommand: ''), //Search in separate process
-    (TCCommand: 'cm_FileSync'; TCIcon: 48; DCCommand: 'cm_syncdirs'), //Synchronize directories
+    (TCCommand: 'cm_FileSync'; TCIcon: 48; DCCommand: 'cm_SyncDirs'), //Synchronize directories
     (TCCommand: 'cm_Associate'; TCIcon: -1; DCCommand: ''), //Associate
-    (TCCommand: 'cm_InternalAssociate'; TCIcon: -1; DCCommand: 'cm_fileassoc'), //Define internal associations
-    (TCCommand: 'cm_CompareFilesByContent'; TCIcon: 49; DCCommand: 'cm_comparecontents'), //File comparison
-    (TCCommand: 'cm_IntCompareFilesByContent'; TCIcon: 49; DCCommand: 'cm_comparecontents'), //Use internal compare tool
+    (TCCommand: 'cm_InternalAssociate'; TCIcon: -1; DCCommand: 'cm_FileAssoc'), //Define internal associations
+    (TCCommand: 'cm_CompareFilesByContent'; TCIcon: 49; DCCommand: 'cm_CompareContents'), //File comparison
+    (TCCommand: 'cm_IntCompareFilesByContent'; TCIcon: 49; DCCommand: 'cm_CompareContents'), //Use internal compare tool
     (TCCommand: 'cm_CommandBrowser'; TCIcon: 82; DCCommand: ''), //Browse internal commands
     (TCCommand: 'cm_VisButtonbar'; TCIcon: -1; DCCommand: ''), //Show/hide button bar
     (TCCommand: 'cm_VisDriveButtons'; TCIcon: -1; DCCommand: ''), //Show/hide drive button bars
@@ -384,11 +384,11 @@ const
     (TCCommand: 'cm_ShowHint'; TCIcon: -1; DCCommand: ''), //Show file tip window
     (TCCommand: 'cm_ShowQuickSearch'; TCIcon: -1; DCCommand: ''), //Show name search window
     (TCCommand: 'cm_SwitchLongNames'; TCIcon: -1; DCCommand: ''), //Turn long names on and off
-    (TCCommand: 'cm_RereadSource'; TCIcon: 0; DCCommand: 'cm_refresh'), //Reread source
+    (TCCommand: 'cm_RereadSource'; TCIcon: 0; DCCommand: 'cm_Refresh'), //Reread source
     (TCCommand: 'cm_ShowOnlySelected'; TCIcon: 73; DCCommand: ''), //Hide files which aren't selected
     (TCCommand: 'cm_SwitchHidSys'; TCIcon: 79; DCCommand: ''), //Turn hidden/system files on and off
     (TCCommand: 'cm_SwitchHid'; TCIcon: 79; DCCommand: ''), //Turn hidden files on and off
-    (TCCommand: 'cm_SwitchSys'; TCIcon: 79; DCCommand: 'cm_showsysfiles'), //Turn system files on and off
+    (TCCommand: 'cm_SwitchSys'; TCIcon: 79; DCCommand: 'cm_ShowSysFiles'), //Turn system files on and off
     (TCCommand: 'cm_Switch83Names'; TCIcon: -1; DCCommand: ''), //Turn 8.3 names lowercase on/off
     (TCCommand: 'cm_SwitchDirSort'; TCIcon: -1; DCCommand: ''), //Turn directory sorting by name on/off
     (TCCommand: 'cm_DirBranch'; TCIcon: 50; DCCommand: 'cm_FlatView'), //Show all files in current dir and all subdirs
@@ -400,7 +400,7 @@ const
     (TCCommand: 'cm_SwitchOverlayIcons'; TCIcon: -1; DCCommand: ''), //Switch icon overlays on/off
     (TCCommand: 'cm_VisHistHotButtons'; TCIcon: -1; DCCommand: ''), //Show/hide dir history+hotlist
     (TCCommand: 'cm_SwitchWatchDirs'; TCIcon: 80; DCCommand: ''), //Enable/disable WatchDirs auto-refresh temporarily
-    (TCCommand: 'cm_SwitchIgnoreList'; TCIcon: 81; DCCommand: 'cm_switchignorelist'), //Enable/disable ignore list file to not show file names
+    (TCCommand: 'cm_SwitchIgnoreList'; TCIcon: 81; DCCommand: 'cm_SwitchIgnoreList'), //Enable/disable ignore list file to not show file names
     (TCCommand: 'cm_SwitchX64Redirection'; TCIcon: -1; DCCommand: ''), //64-bit Windows: Redirect 32-bit system32 dir off/on
     (TCCommand: 'cm_SeparateTreeOff'; TCIcon: 76; DCCommand: ''), //Disable separate tree panel
     (TCCommand: 'cm_SeparateTree1'; TCIcon: 77; DCCommand: ''), //One separate tree panel
@@ -418,14 +418,14 @@ const
     (TCCommand: 'cm_UserMenu8'; TCIcon: -1; DCCommand: ''), //You can add more
     (TCCommand: 'cm_UserMenu9'; TCIcon: -1; DCCommand: ''), //custom user menu ids
     (TCCommand: 'cm_UserMenu10'; TCIcon: -1; DCCommand: ''), //in totalcmd.inc!
-    (TCCommand: 'cm_OpenNewTab'; TCIcon: 83; DCCommand: 'cm_newtab'), //Open new tab
+    (TCCommand: 'cm_OpenNewTab'; TCIcon: 83; DCCommand: 'cm_NewTab'), //Open new tab
     (TCCommand: 'cm_OpenNewTabBg'; TCIcon: 83; DCCommand: ''), //Open new tab in background
-    (TCCommand: 'cm_OpenDirInNewTab'; TCIcon: -1; DCCommand: 'cm_opendirinnewtab'), //Open dir under cursor in tab
+    (TCCommand: 'cm_OpenDirInNewTab'; TCIcon: -1; DCCommand: 'cm_OpenDirInNewTab'), //Open dir under cursor in tab
     (TCCommand: 'cm_OpenDirInNewTabOther'; TCIcon: -1; DCCommand: ''), //Open dir under cursor (other window)
-    (TCCommand: 'cm_SwitchToNextTab'; TCIcon: -1; DCCommand: 'cm_nexttab'), //Switch to next Tab (as Ctrl+Tab)
-    (TCCommand: 'cm_SwitchToPreviousTab'; TCIcon: -1; DCCommand: 'cm_prevtab'), //Switch to previous Tab (Ctrl+Shift+Tab)
-    (TCCommand: 'cm_CloseCurrentTab'; TCIcon: 84; DCCommand: 'cm_closetab'), //Close tab
-    (TCCommand: 'cm_CloseAllTabs'; TCIcon: 85; DCCommand: 'cm_closealltabs'), //Close all
+    (TCCommand: 'cm_SwitchToNextTab'; TCIcon: -1; DCCommand: 'cm_NextTab'), //Switch to next Tab (as Ctrl+Tab)
+    (TCCommand: 'cm_SwitchToPreviousTab'; TCIcon: -1; DCCommand: 'cm_PrevTab'), //Switch to previous Tab (Ctrl+Shift+Tab)
+    (TCCommand: 'cm_CloseCurrentTab'; TCIcon: 84; DCCommand: 'cm_CloseTab'), //Close tab
+    (TCCommand: 'cm_CloseAllTabs'; TCIcon: 85; DCCommand: 'cm_CloseAllTabs'), //Close all
     (TCCommand: 'cm_DirTabsShowMenu'; TCIcon: -1; DCCommand: ''), //Show tab menu
     (TCCommand: 'cm_ToggleLockCurrentTab'; TCIcon: -1; DCCommand: ''), //Turn on/off tab locking
     (TCCommand: 'cm_ToggleLockDcaCurrentTab'; TCIcon: -1; DCCommand: ''), //Same but with dir changes allowed
@@ -557,11 +557,11 @@ const
 
 //DC commands unmatched for the moment
 //------------------------------------
-//cm_AddFilenameToCmdLine
-//cm_AddPathAndFilenameToCmdLine
-//cm_ChangeDir
-//cm_ChangeDirToHome
-//cm_ClearLogFile
+//cm_AddFilenameToCmdLine - Looks like TC can do it with a CTRL+ENTER but no cm_ command for this.
+//cm_AddPathAndFilenameToCmdLine - Looks like TC can do it with a CTRL+SHIFT+ENTER but no cm_ command for this.
+//cm_ChangeDir - Looks like TC can do it with "CD ..." bit no cm_ command for this.
+//cm_ChangeDirToHome - Looks like there is no TC equivalent
+//cm_ClearLogFile -
 //cm_ClearLogWindow
 //cm_ConfigDirHotList
 //cm_CopyNoAsk
@@ -569,7 +569,6 @@ const
 //cm_EditNew
 //cm_GoToLastFile
 //cm_HardLink
-//cm_HorizontalFilePanels
 //cm_LeftEqualRight
 //cm_LoadTabs
 //cm_OpenArchive
@@ -581,13 +580,12 @@ const
 //cm_QuickSearch
 //cm_RenameNoAsk
 //cm_RenameTab
-//cm_RestoreSelection
-//cm_ReverseOrder
 //cm_RightEqualLeft
 //cm_SaveTabs
 //cm_SetTabOptionNormal
 //cm_SetTabOptionPathLocked
 //cm_SetTabOptionPathResets
+//cm_SetTabOptionDirsInNewTab
 //cm_ShellExecute
 //cm_ShowButtonMenu
 //cm_ShowCmdLineHistory
@@ -598,6 +596,7 @@ const
 //cm_ViewHistory
 //cm_ViewHistoryNext
 //cm_ViewHistoryPrev
+//cm_ViewLogFile
 //cm_Wipe
 //cm_WorkWithDirectoryHotlist
 
@@ -902,9 +901,8 @@ end;
 // fwbwlNotLoaded: NOT TESTED
 // fwbwlIconThemeBitmap: Tested with 'cm_configdirhotlist', 'cm_dirhotlist', 'utilities-terminal', 'cm_markunmarkall', 'go-previous', 'go-next'
 // fwbwlResourceFileExtracted: Tested with 'wcmicons.dll,3', 'MyOwnIcons.icl,12', 'doublecmd.exe', 'TOTALCMD64.EXE', 'HWorks32.exe'
-// fwbwlGraphicFileGTK2: NOT TESTED
-// fwbwlGraphicFileOtherGTK2: Test with 'UploadDispatcher.ico', 'Carlos.bmp'
-// fwbwlGraphicFileOtherGTK2 switched to fwbwlGraphicFileNotSupportedByTC: Tested with 'Nop.png', 'cm_extractfiles.png', 'cm_about.png', a corrutped .png file
+// fwbwlGraphicFile: Test with 'UploadDispatcher.ico', 'Carlos.bmp'
+// fwbwlGraphicFile switched to fwbwlGraphicFileNotSupportedByTC: Tested with 'Nop.png', 'cm_extractfiles.png', 'cm_about.png', a corrutped .png file
 // fwbwlFileIconByExtension: Tested with 'ElementaryOS-32bits.vbox', 'backupsource.bat', 'Microsoft Word 2010.lnk', a corrupted .bmp file since DC at least attenmpt to by the extension which is nice!
 // fwbwlFiDefaultIconID: Tested with "a missing unknown extension file", An empty icon string,
 
@@ -928,8 +926,7 @@ begin
       fwbwlNotLoaded: needToBeConvertToIco := False;
       fwbwlIconThemeBitmap: needToBeConvertToIco := True;
       fwbwlResourceFileExtracted: needToBeConvertToIco := False;
-      fwbwlGraphicFileGTK2: needToBeConvertToIco := False;
-      fwbwlGraphicFileOtherGTK2: needToBeConvertToIco := False;
+      fwbwlGraphicFile: needToBeConvertToIco := False;
       fwbwlGraphicFileNotSupportedByTC: needToBeConvertToIco := True;
       fwbwlFileIconByExtension: needToBeConvertToIco := True;
       fwbwlFiDefaultIconID: needToBeConvertToIco := True;
@@ -1025,7 +1022,7 @@ var
   procedure PossiblyRecursiveAddThisToolItemToConfigFile(ToolItem: TKASToolItem; TCBarConfigFile: TIniFileEx; TCIndexButton: integer);
   var
     sTCIndexButton: string;
-    DCIndexButton, TCInitialNumberOfButton, TCIndexOfCommand, IndexItem: integer;
+    TCIndexOfCommand, IndexItem: integer;
     TCCommand, TCIcon: string;
     InnerTCBarConfigFilename: string;
     InnerTCBarConfigFile: TIniFileEx;

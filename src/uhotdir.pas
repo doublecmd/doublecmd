@@ -38,13 +38,16 @@ uses
 const
   cSectionOfHotDir = 'DirectoryHotList';
 
+  ACTION_INVALID = 0;
   ACTION_ADDTOHOTLIST = 1;
-  ACTION_CONFIGTOHOTLIST = 2;
-  ACTION_JUSTSHOWCONFIGHOTLIST = 3;
-  ACTION_ADDSELECTEDDIR = 4;
-  ACTION_DIRECTLYCONFIGENTRY = 5;
+  ACTION_ADDJUSTSOURCETOHOTLIST = 2;
+  ACTION_ADDBOTHTOHOTLIST = 3;
+  ACTION_CONFIGTOHOTLIST = 4;
+  ACTION_JUSTSHOWCONFIGHOTLIST = 5;
+  ACTION_ADDSELECTEDDIR = 6;
+  ACTION_DIRECTLYCONFIGENTRY = 7;
 
-  HOTLISTMAGICWORDS:array[1..5] of string =('add','config','show','addsel','directconfig');
+  HOTLISTMAGICWORDS:array[1..7] of string =('add','addsrconly','addboth','config','show','addsel','directconfig');
 
   TAGOFFSET_FORCHANGETOSPECIALDIR = $10000;
 
@@ -57,14 +60,16 @@ const
   HOTLIST_SEPARATORSTRING:string='···························';
   TERMINATORNOTPRESENT = ':-<#/?*+*?\#>-:';
 
-  STR_ACTIVEFRAME: string = 'ActiveFrame';
-  STR_NOTACTIVEFRAME: string = 'NotActiveFrame';
-  STR_NAME: string = 'Name';
-  STR_EXTENSION: string = 'Extension';
-  STR_SIZE: string = 'Size';
-  STR_MODIFICATIONTIME: string = 'ModificationTime';
-  STR_ASCENDING : string = 'Ascending';
-  STR_DESCENDING : string = 'Descending';
+  STR_ACTIVEFRAME: string = 'panel=active';
+  STR_NOTACTIVEFRAME: string = 'panel=inactive';
+  STR_LEFTFRAME: string = 'panel=left';
+  STR_RIGHTFRAME: string = 'panel=right';
+  STR_NAME: string = 'column=name';
+  STR_EXTENSION: string = 'column=ext';
+  STR_SIZE: string = 'column=size';
+  STR_MODIFICATIONDATETIME: string = 'column=datetime';
+  STR_ASCENDING : string = 'order=ascending';
+  STR_DESCENDING : string = 'order=descending';
 
 
 type
@@ -112,7 +117,6 @@ type
   private
     function GetHotDir(Index: integer): THotDir;
   public
-    FlagModified: boolean;
     constructor Create;
     procedure Clear; override;
     function Add(HotDir: THotDir): integer;
@@ -126,6 +130,7 @@ type
     function LoadTTreeView(ParamTreeView:TTreeView; DirectoryHotlistIndexToSelectIfAny:longint):TTreeNode;
     procedure RefreshFromTTreeView(ParamTreeView:TTreeView);
     function AddFromAnotherTTreeViewTheSelected(ParamWorkingTreeView, ParamTreeViewToImport:TTreeView; FlagAddThemAll: boolean): longint;
+    function ComputeSignature:dword;
     property HotDir[Index: integer]: THotDir read GetHotDir;
     {$IFDEF MSWINDOWS}
     function ImportTotalCommander(TotalCommanderFilename: utf8string): integer;
@@ -152,7 +157,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Graphics, Forms, lazutf8,
+  crc, Graphics, Forms, lazutf8,
 
   //DC
   DCFileAttributes, uDebug, uDCUtils, fMain, uFile,  uLng, DCOSUtils, uGlobs,
@@ -193,7 +198,6 @@ end;
 constructor TDirectoryHotlist.Create;
 begin
   inherited Create;
-  FlagModified := False;
 end;
 
 { TDirectoryHotlist.Clear }
@@ -209,7 +213,6 @@ end;
 function TDirectoryHotlist.Add(HotDir: THotDir): integer;
 begin
   Result := inherited Add(HotDir);
-  FlagModified := True;
 end;
 
 { TDirectoryHotlist.DeleteHotDir }
@@ -217,7 +220,6 @@ procedure TDirectoryHotlist.DeleteHotDir(Index: integer);
 begin
   HotDir[Index].Free;
   Delete(Index);
-  FlagModified := True;
 end;
 
 { TDirectoryHotlist.CopyDirectoryHotlistToDirectoryHotlist }
@@ -244,7 +246,6 @@ begin
     LocalHotDir.FGroupNumber := HotDir[Index].GroupNumber;
     DestinationDirectoryHotlist.Add(LocalHotDir);
   end;
-  DestinationDirectoryHotlist.FlagModified := True;
 end;
 
 { TDirectoryHotlist.LoadTTreeView }
@@ -907,6 +908,32 @@ begin
 
   //Finally now collect the one with the "GroupNumber" set to 1.
   RecursiveAddTheOnesWithGroupNumberOne(ParamTreeViewToImport.Items.Item[0],nil);
+end;
+
+{ TDirectoryHotlist.ComputeSignature }
+// Routine tries to pickup all char chain from element of directory hotlist and compute a unique CRC32.
+// This CRC32 will bea kind of signature of the directory hotlist.
+// We compute the CRC32 at the start of edition (TfrmOptionsDirectoryHotlist.Load) and
+// at the end (TfrmOptionsDirectoryHotlist.CanWeClose).
+// If they are different, it's a sign that directory hotlist have been modified.
+// It's not "perfect" since it might happen that two different combinaisons will
+// give the same CRC32 but odds are very good that it will be a different one.
+function TDirectoryHotlist.ComputeSignature:dword;
+var
+  Index:integer;
+begin
+  result:=$000000002;
+  for Index := 0 to pred(Count) do
+  begin
+    Result := crc32(Result,@HotDir[Index].Dispatcher,1);
+    if length(HotDir[Index].HotDirName)>0 then Result := crc32(Result,@HotDir[Index].HotDirName[1],length(HotDir[Index].HotDirName));
+    if length(HotDir[Index].HotDirPath)>0 then Result := crc32(Result,@HotDir[Index].HotDirPath[1],length(HotDir[Index].HotDirPath));
+    Result := crc32(Result,@HotDir[Index].HotDirPathSort,4);
+    if length(HotDir[Index].HotDirTarget)>0 then Result := crc32(Result,@HotDir[Index].HotDirTarget[1],length(HotDir[Index].HotDirTarget));
+    Result := crc32(Result,@HotDir[Index].HotDirTargetSort,4);
+    Result := crc32(Result,@HotDir[Index].HotDirExisting,1);
+    Result := crc32(Result,@HotDir[Index].GroupNumber,4);
+  end;
 end;
 
 { TDirectoryHotlist.GetHotDir }

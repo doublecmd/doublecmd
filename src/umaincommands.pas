@@ -94,6 +94,46 @@ type
    // 3. Commands intended for file sources (cm_Copy, cm_Rename, cm_MakeDir).
    //    The file operations will mostly work only for non-virtual file sources.
    //
+   //--------------------------------------------------------------------------
+   // RECIPE TO ADD A "cm_" COMMAND:
+   //--------------------------------------------------------------------------
+   // In this recipe, we use as an exemple the command "cm_SrcOpenDrives"
+   // 1. In "fMain" we add the action in the "actionLst".
+   // 2. Make sure we add it in the appropriate category.
+   // 3. The action name must start with "act" and have the exact same name as the "cm_" we want to add.
+   // 4. So if we want "cm_SrcOpenDrives", we name the action "actSrcOpenDrives".
+   // 5. By the way, "KEEP THE SAME SPELLING EVERYWHERE!".
+   // 6. The order in which the "cm_SrcOpenDrives" will appear, is the same as its position in the "actionLst".
+   // 7. So command is "cm_SrcOpenDrives", so keep writing "cm_SrcOpenDrives" and not "cm_srcopendrives" for example.
+   // 8. The only single place to have lowercases is for the icon name which will be "cm_srcopendrives" but it's the only one case.
+   // 9. Give an appropriate "caption" name for the command, so for our example "Open drive list"
+   // 10. Set the "GroupIndex" to the same number as the other command of the same category.
+   // 11. In the "uMainCommands", for the type "TMainCommands", add the code for the command.
+   // 12. The command name must start with "cm_" and ends with the same name as what we added for the "act".
+   // 13. So with our example we add "cm_SrcOpenDrives".
+   // 14. Create an icon for the command.
+   // 15. Make a 24-bits with alpha .PNG file.
+   // 16. Name the file with he same name of the "cm_" command.
+   // 17. But write the name all in lower case so here "cm_srcopendrives".
+   // 18. Store the file here: to path "pixmaps\dctheme\32x32\actions\".
+   // 19. If command is a compatible on with TC, add it in unit "uTotalCommander".
+   // 20. So with this example we add: "(TCCommand: 'cm_SrcOpenDrives'; TCIcon: -1; DCCommand: 'cm_SrcOpenDrives')".
+   // 21. If command needs to have a shortcut, go in unit "uGlobs", go to routine "LoadDefaultHotkeyBindings" and add the appropriate "AddIfNotExists".
+   // 22. Don't abuse on adding keyboard shortcut! We must let some user's keys for user!
+   // 23. For this example, we won't add a keyboard shortcut. TC does'nt have neither.
+   // 24. Edit the file "doc\en\cmds.html" to add help for the command.
+   // 25. For the languages we know, translate the caption of the action added.
+   // 26. For example in our example, it will be "tfrmmain.actsrcopendrives.caption" that will need to be change.
+   // 27. It's important to * T E S T * the "cm_" command you add.
+   // 28. Add a single button in the toolbar to test it works.
+   // 29. Make sure we see the expected icon and the expected tooltip.
+   // 30. Make sure the actual button you added do the expected task.
+   // 31. If command is using parameters, make sure you test the most cases of parameters.
+   // 32. If you added keyboard hosrtcut, make sure keyboard shortcut works.
+   // 33. With the "cm_DoAnyCmCommand", go find in the "Internal Command Selector" the command you added.
+   // 34. Make sure it's present there, under the appropriate category, sorted at the classic logical place.
+   // 35. Make sure we see the shortcut if any and that the description is correct.
+   // 36. Test the help for the command from there to make sure it links to the correct place in the help file.
    procedure cm_AddPathToCmdLine(const Params: array of string);
    procedure cm_AddFilenameToCmdLine(const Params: array of string);
    procedure cm_AddPathAndFilenameToCmdLine(const Params: array of string);
@@ -104,6 +144,8 @@ type
    procedure cm_CopyFileDetailsToClip(const Params: array of string);
    procedure cm_Exchange(const Params: array of string);
    procedure cm_FlatView(const Params: array of string);
+   procedure cm_LeftFlatView(const Params: array of string);
+   procedure cm_RightFlatView(const Params: array of string);
    procedure cm_OpenArchive(const Params: array of string);
    procedure cm_TestArchive(const Params: array of string);
    procedure cm_OpenDirInNewTab(const Params: array of string);
@@ -117,6 +159,7 @@ type
    procedure cm_ExtractFiles(const Params: array of string);
    procedure cm_QuickSearch(const Params: array of string);
    procedure cm_QuickFilter(const Params: array of string);
+   procedure cm_SrcOpenDrives(const Params: array of string);
    procedure cm_LeftOpenDrives(const Params: array of string);
    procedure cm_RightOpenDrives(const Params: array of string);
    procedure cm_OpenBar(const Params: array of string);
@@ -153,8 +196,14 @@ type
    procedure cm_View(const Params: array of string);
    procedure cm_QuickView(const Params: array of string);
    procedure cm_BriefView(const Params: array of string);
+   procedure cm_LeftBriefView(const Params: array of string);
+   procedure cm_RightBriefView(const Params: array of string);
    procedure cm_ColumnsView(const Params: array of string);
+   procedure cm_LeftColumnsView(const Params: array of string);
+   procedure cm_RightColumnsView(const Params: array of string);
    procedure cm_ThumbnailsView(const Params: array of string);
+   procedure cm_LeftThumbView(const Params: array of string);
+   procedure cm_RightThumbView(const Params: array of string);
    procedure cm_CopyNamesToClip(const Params: array of string);
    procedure cm_FocusCmdLine(const Params: array of string);
    procedure cm_FileAssoc(const Params: array of string);
@@ -188,12 +237,24 @@ type
    procedure cm_HardLink(const Params: array of string);
    procedure cm_MultiRename(const Params: array of string);
    procedure cm_ReverseOrder(const Params: array of string);
-   procedure cm_SortByAttr(const Params: array of string);
+   procedure cm_LeftReverseOrder(const Params: array of string);
+   procedure cm_RightReverseOrder(const Params: array of string);
    procedure cm_UniversalSingleDirectSort(const Params: array of string);
-   procedure cm_SortByDate(const Params: array of string);
-   procedure cm_SortByExt(const Params: array of string);
    procedure cm_SortByName(const Params: array of string);
+   procedure cm_SortByExt(const Params: array of string);
+   procedure cm_SortByDate(const Params: array of string);
    procedure cm_SortBySize(const Params: array of string);
+   procedure cm_SortByAttr(const Params: array of string);
+   procedure cm_LeftSortByName(const Params: array of string);
+   procedure cm_LeftSortByExt(const Params: array of string);
+   procedure cm_LeftSortByDate(const Params: array of string);
+   procedure cm_LeftSortBySize(const Params: array of string);
+   procedure cm_LeftSortByAttr(const Params: array of string);
+   procedure cm_RightSortByName(const Params: array of string);
+   procedure cm_RightSortByExt(const Params: array of string);
+   procedure cm_RightSortByDate(const Params: array of string);
+   procedure cm_RightSortBySize(const Params: array of string);
+   procedure cm_RightSortByAttr(const Params: array of string);
    procedure cm_SymLink(const Params: array of string);
    procedure cm_CopySamePanel(const Params: array of string);
    procedure cm_DirHistory(const Params: array of string);
@@ -231,6 +292,7 @@ type
    procedure cm_DebugShowCommandParameters(const Params: array of string);
    procedure cm_CopyPathOfFilesToClip(const Params: array of string);
    procedure cm_CopyPathNoSepOfFilesToClip(const Params: array of string);
+   procedure cm_DoAnyCmCommand(const Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -255,7 +317,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
-	 fOptionsToolbar
+     fOptionsToolbar, fMainCommandsDlg
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ENDIF}
@@ -814,14 +876,40 @@ end;
 
 procedure TMainCommands.cm_FlatView(const Params: array of string);
 begin
-  with frmMain.ActiveFrame do
+  if not (fspListFlatView in frmMain.ActiveFrame.FileSource.GetProperties) then
   begin
-    if not (fspListFlatView in FileSource.GetProperties) then
-      msgWarning(rsMsgErrNotSupported)
-    else begin
-      FlatView:= not FlatView;
-      Reload;
-    end;
+    msgWarning(rsMsgErrNotSupported)
+  end
+  else
+  begin
+    frmMain.ActiveFrame.FlatView:= not frmMain.ActiveFrame.FlatView;
+    frmMain.ActiveFrame.Reload;
+  end;
+end;
+
+procedure TMainCommands.cm_LeftFlatView(const Params: array of string);
+begin
+  if not (fspListFlatView in frmMain.FrameLeft.FileSource.GetProperties) then
+  begin
+    msgWarning(rsMsgErrNotSupported)
+  end
+  else
+  begin
+    frmMain.FrameLeft.FlatView:= not frmMain.FrameLeft.FlatView;
+    frmMain.FrameLeft.Reload;
+  end;
+end;
+
+procedure TMainCommands.cm_RightFlatView(const Params: array of string);
+begin
+  if not (fspListFlatView in frmMain.FrameRight.FileSource.GetProperties) then
+  begin
+    msgWarning(rsMsgErrNotSupported)
+  end
+  else
+  begin
+    frmMain.FrameRight.FlatView:= not frmMain.FrameRight.FlatView;
+    frmMain.FrameRight.Reload;
   end;
 end;
 
@@ -1032,6 +1120,11 @@ end;
 procedure TMainCommands.cm_QuickFilter(const Params: array of string);
 begin
   FrmMain.ActiveFrame.ExecuteCommand('cm_QuickFilter', Params);
+end;
+
+procedure TMainCommands.cm_SrcOpenDrives(const Params: array of string);
+begin
+  frmMain.ShowDrivesList(frmMain.SelectedPanel);
 end;
 
 procedure TMainCommands.cm_LeftOpenDrives(const Params: array of string);
@@ -1450,6 +1543,28 @@ begin
   end;
 end;
 
+procedure TMainCommands.cm_LeftBriefView(const Params: array of string);
+var
+  aFileView: TFileView;
+begin
+  with frmMain do
+  begin
+    aFileView:= TBriefFileView.Create(LeftTabs.ActivePage, FrameLeft);
+    LeftTabs.ActivePage.FileView:= aFileView;
+  end;
+end;
+
+procedure TMainCommands.cm_RightBriefView(const Params: array of string);
+var
+  aFileView: TFileView;
+begin
+  with frmMain do
+  begin
+    aFileView:= TBriefFileView.Create(RightTabs.ActivePage, FrameRight);
+    RightTabs.ActivePage.FileView:= aFileView;
+  end;
+end;
+
 procedure TMainCommands.cm_ColumnsView(const Params: array of string);
 var
   aFileView: TFileView;
@@ -1466,40 +1581,79 @@ begin
   end;
 end;
 
-procedure TMainCommands.cm_ThumbnailsView(const Params: array of string);
-const
-  // Static variables
-  LeftFileViewClass: TFileViewClass = TColumnsFileView;
-  RightFileViewClass: TFileViewClass = TColumnsFileView;
+procedure TMainCommands.cm_LeftColumnsView(const Params: array of string);
 var
   aFileView: TFileView;
 begin
   with frmMain do
   begin
-    if ActiveFrame.ClassType <> TThumbFileView then
-    begin
-      // Save current file view type
-      case SelectedPanel of
-        fpLeft:
-          LeftFileViewClass:= TFileViewClass(FrameLeft.ClassType);
-        fpRight:
-          RightFileViewClass:= TFileViewClass(FrameRight.ClassType);
-      end;
-      // Create thumbnails view
-      aFileView:= TThumbFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
-    end
-    else begin
-      // Restore previous file view type
-      case SelectedPanel of
-        fpLeft:
-          aFileView:= LeftFileViewClass.Create(ActiveNotebook.ActivePage, ActiveFrame);
-        fpRight:
-          aFileView:= RightFileViewClass.Create(ActiveNotebook.ActivePage, ActiveFrame);
-      end;
-    end;
-    ActiveNotebook.ActivePage.FileView:= aFileView;
-    ActiveFrame.SetFocus;
+    {$IFDEF COLUMNSFILEVIEW_VTV}
+    aFileView:= TColumnsFileViewVTV.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    {$ELSE}
+    aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft);
+    {$ENDIF}
+    LeftTabs.ActivePage.FileView:= aFileView;
   end;
+end;
+
+procedure TMainCommands.cm_RightColumnsView(const Params: array of string);
+var
+  aFileView: TFileView;
+begin
+  with frmMain do
+  begin
+    {$IFDEF COLUMNSFILEVIEW_VTV}
+    aFileView:= TColumnsFileViewVTV.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    {$ELSE}
+    aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight);
+    {$ENDIF}
+    RightTabs.ActivePage.FileView:= aFileView;
+  end;
+end;
+
+var
+  // Static variables
+  BackupLeftFileViewClass: TFileViewClass = TColumnsFileView;
+  BackupRightFileViewClass: TFileViewClass = TColumnsFileView;
+
+procedure ToggleOrNotToOrFromThumbnailsView(WorkingFileView:TFileView; WorkingFileViewClass:TFileViewClass; WorkingNotebook:TFileViewNotebook);
+var
+  aFileView: TFileView;
+begin
+  if WorkingFileView.ClassType <> TThumbFileView then
+  begin
+    // Save current file view type
+    WorkingFileViewClass:=TFileViewClass(WorkingFileView.ClassType);
+    // Create thumbnails view
+    aFileView:= TThumbFileView.Create(WorkingNotebook.ActivePage, WorkingFileView);
+  end
+  else
+  begin
+    // Restore previous file view type
+    aFileView:= WorkingFileViewClass.Create(WorkingNotebook.ActivePage, WorkingFileView);
+  end;
+  WorkingNotebook.ActivePage.FileView:= aFileView;
+end;
+
+procedure TMainCommands.cm_ThumbnailsView(const Params: array of string);
+begin
+  case frmMain.SelectedPanel of
+    fpLeft: ToggleOrNotToOrFromThumbnailsView(frmMain.FrameLeft, BackupLeftFileViewClass,frmMain.LeftTabs);
+    fpRight: ToggleOrNotToOrFromThumbnailsView(frmMain.FrameRight, BackupRightFileViewClass,frmMain.RightTabs);
+  end;
+  frmMain.ActiveFrame.SetFocus;
+end;
+
+procedure TMainCommands.cm_LeftThumbView(const Params: array of string);
+begin
+  ToggleOrNotToOrFromThumbnailsView(frmMain.FrameLeft, BackupLeftFileViewClass,frmMain.LeftTabs);
+  frmMain.ActiveFrame.SetFocus;
+end;
+
+procedure TMainCommands.cm_RightThumbView(const Params: array of string);
+begin
+  ToggleOrNotToOrFromThumbnailsView(frmMain.FrameRight, BackupRightFileViewClass,frmMain.RightTabs);
+  frmMain.ActiveFrame.SetFocus;
 end;
 
 procedure TMainCommands.cm_Edit(const Params: array of string);
@@ -2010,14 +2164,32 @@ begin
 end;
 
 procedure TMainCommands.cm_SwitchIgnoreList(const Params: array of string);
+var
+  WantedIgnoreList, BoolValue:boolean;
 begin
+  WantedIgnoreList:=gIgnoreListFileEnabled;
   with frmMain do
   begin
-    gIgnoreListFileEnabled:= not gIgnoreListFileEnabled;
-    actSwitchIgnoreList.Checked:= gIgnoreListFileEnabled;
-    //repaint both panels
-    FrameLeft.Reload;
-    FrameRight.Reload;
+    if Length(Params)>0 then
+    begin
+      if GetParamBoolValue(Params[0], 'ignorelist', BoolValue) then
+        WantedIgnoreList:=BoolValue
+      else
+        WantedIgnoreList := not WantedIgnoreList;
+    end
+    else
+    begin
+      WantedIgnoreList := not WantedIgnoreList;
+    end;
+
+    if WantedIgnoreList<>gIgnoreListFileEnabled then
+    begin
+      gIgnoreListFileEnabled:=WantedIgnoreList;
+      actSwitchIgnoreList.Checked:= gIgnoreListFileEnabled;
+      //repaint both panels
+      FrameLeft.Reload;
+      FrameRight.Reload;
+    end;
   end;
 end;
 
@@ -2178,8 +2350,28 @@ begin
 end;
 
 procedure TMainCommands.cm_ShowMainMenu(const Params: array of string);
+var
+  WantedMainMenu, BoolValue:boolean;
 begin
-  DoShowMainMenu(not gMainMenu);
+  WantedMainMenu:=gMainMenu;
+
+  if Length(Params)>0 then
+  begin
+    if GetParamBoolValue(Params[0], 'menu', BoolValue) then
+      WantedMainMenu:=BoolValue
+    else
+      WantedMainMenu := not WantedMainMenu;
+  end
+  else
+  begin
+    WantedMainMenu := not WantedMainMenu;
+  end;
+
+  if WantedMainMenu<>gMainMenu then
+  begin
+    gMainMenu:=WantedMainMenu;
+    DoShowMainMenu(gMainMenu);
+  end;
 end;
 
 procedure TMainCommands.cm_Refresh(const Params: array of string);
@@ -2278,11 +2470,10 @@ end;
 
 { TMainCommands.cm_ConfigDirHotList }
 // Mainly present for backward compatibility since "cm_ConfigDirHotList" existed before.
-// Calling "cm_WorkWithDirectoryHotlist" with "config" as first parameters would do the same
 //
 procedure TMainCommands.cm_ConfigDirHotList(const Params: array of string);
 begin
-  cm_WorkWithDirectoryHotlist([HOTLISTMAGICWORDS[ACTION_CONFIGTOHOTLIST],frmMain.ActiveFrame.CurrentPath,frmMain.NotActiveFrame.CurrentPath,'0']);
+  cm_WorkWithDirectoryHotlist(['action=config', 'source='+frmMain.ActiveFrame.CurrentPath, 'target='+frmMain.NotActiveFrame.CurrentPath, 'index=0']);
 end;
 
 { TMainCommands.cm_WorkWithDirectoryHotlist }
@@ -2293,15 +2484,48 @@ procedure TMainCommands.cm_WorkWithDirectoryHotlist(const Params: array of strin
 var
   Editor: TOptionsEditor;
   Options: IOptionsDialog;
+  SearchingIndex, WantedAction, WantedIndexToEdit: integer;
+  WantedSourcePath, WantedTargetPath : string;
+  Param, sValue: String;
 begin
-  if Length(Params) >= 1 then
+  //1o) Let's set our default values
+  WantedAction := ACTION_INVALID;
+  WantedSourcePath := frmMain.ActiveFrame.CurrentPath;
+  WantedTargetPath := frmMain.NotActiveFrame.CurrentPath;
+  WantedIndexToEdit := 0;
+
+  //2o) Let's parse the parameter to get the wanted ones
+  for Param in Params do
   begin
-    Options := ShowOptions(TfrmOptionsDirectoryHotlist);
-    Editor := Options.GetEditor(TfrmOptionsDirectoryHotlist);
-    Application.ProcessMessages;
-    if Editor.CanFocus then  Editor.SetFocus;
-    TfrmOptionsDirectoryHotlist(Editor).SubmitToAddOrConfigToHotDirDlg(Params[0],Params[1],Params[2],Params[3]);
+    if GetParamValue(Param, 'action', sValue) then
+    begin
+      SearchingIndex:=1;
+      while ( (SearchingIndex<=length(HOTLISTMAGICWORDS)) AND (WantedAction = ACTION_INVALID) ) do
+        if sValue=HOTLISTMAGICWORDS[SearchingIndex] then WantedAction:=SearchingIndex else inc(SearchingIndex);
+    end
+    else if GetParamValue(Param, 'source', sValue) then
+    begin
+      sValue:=RemoveQuotation(PrepareParameter(sValue, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      if (sValue<>'') and (not HasPathInvalidCharacters(sValue)) then WantedSourcePath:=sValue;
+    end
+    else if GetParamValue(Param, 'target', sValue) then
+    begin
+      sValue:=RemoveQuotation(PrepareParameter(sValue, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      if (sValue<>'') and (not HasPathInvalidCharacters(sValue)) then WantedTargetPath:=sValue;
+    end
+    else if GetParamValue(Param, 'index', sValue) then
+    begin
+      WantedIndexToEdit:=(strtointdef(sValue,0));
+    end;
   end;
+  if WantedAction=ACTION_INVALID then WantedAction:=ACTION_JUSTSHOWCONFIGHOTLIST;
+
+  //3o) Let's do the sorting job now!
+  Options := ShowOptions(TfrmOptionsDirectoryHotlist);
+  Editor := Options.GetEditor(TfrmOptionsDirectoryHotlist);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
+  TfrmOptionsDirectoryHotlist(Editor).SubmitToAddOrConfigToHotDirDlg(WantedAction, WantedSourcePath, WantedTargetPath, WantedIndexToEdit);
 end;
 
 procedure TMainCommands.cm_Search(const Params: array of string);
@@ -2436,6 +2660,18 @@ begin
     Sorting := ReverseSortDirection(Sorting);
 end;
 
+procedure TMainCommands.cm_LeftReverseOrder(const Params: array of string);
+begin
+  with frmMain.FrameLeft do
+    Sorting := ReverseSortDirection(Sorting);
+end;
+
+procedure TMainCommands.cm_RightReverseOrder(const Params: array of string);
+begin
+  with frmMain.FrameRight do
+    Sorting := ReverseSortDirection(Sorting);
+end;
+
 procedure TMainCommands.cm_SortByName(const Params: array of string);
 var
   FileFunctions: TFileFunctions = nil;
@@ -2476,34 +2712,133 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-{Command to request to sort a frame with a column with a defined order.
- Must provide THREE parameters:
-   -1st, the panel, ActiveFrame or NotActiveFrame
-   -2nd, the column
-   -3rd, the order}
+procedure TMainCommands.cm_LeftSortByName(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfNameNoExtension);
+  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+end;
+
+procedure TMainCommands.cm_LeftSortByExt(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfExtension);
+  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+end;
+
+procedure TMainCommands.cm_LeftSortBySize(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfSize);
+  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+end;
+
+procedure TMainCommands.cm_LeftSortByDate(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfModificationTime);
+  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+end;
+
+procedure TMainCommands.cm_LeftSortByAttr(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfAttr);
+  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+end;
+
+procedure TMainCommands.cm_RightSortByName(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfNameNoExtension);
+  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+end;
+
+procedure TMainCommands.cm_RightSortByExt(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfExtension);
+  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+end;
+
+procedure TMainCommands.cm_RightSortBySize(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfSize);
+  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+end;
+
+procedure TMainCommands.cm_RightSortByDate(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfModificationTime);
+  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+end;
+
+procedure TMainCommands.cm_RightSortByAttr(const Params: array of string);
+var
+  FileFunctions: TFileFunctions = nil;
+begin
+  AddSortFunction(FileFunctions, fsfAttr);
+  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+end;
+
+{ Command to request to sort a frame with a column with a defined order.
+  This command may be user by the user via the toolbar,
+  but it is definitively a nice-to-have for the "uHotDir" unit who may specify the order to be in when switching to a hotdir.}
 procedure TMainCommands.cm_UniversalSingleDirectSort(const Params: array of string);
 var
-  DesignatedFileView: TFileView;
-  DesignatedSortFunction: TFileFunction;
-  DesignatedSortDirection: TSortDirection;
+  Param: String;
+  sValue: String;
+  WantedFileView: TFileView;
+  WantedSortFunction: TFileFunction;
+  WantedSortDirection: TSortDirection;
+  FileFunctions: TFileFunctions = nil;
+  SortDirection: TSortDirection = sdNone;
   NewSorting: TFileSortings = nil;
 begin
-  if Length(Params) = 3 then
+  //1o) Let's set our default values
+  WantedFileView:=frmMain.ActiveFrame;
+  WantedSortFunction:=fsfName;
+  WantedSortDirection:=sdAscending;
+
+  //2o) Let's parse the parameter to get the wanted ones
+  for Param in Params do
   begin
-    if Params[0]='NotActiveFrame' then DesignatedFileView:=frmMain.NotActiveFrame else DesignatedFileView:=frmMain.ActiveFrame;
-
-    if Params[1]='ModificationTime' then DesignatedSortFunction:=fsfModificationTime else
-      if Params[1]='Size' then DesignatedSortFunction:=fsfSize else
-        if Params[1]='Extension' then DesignatedSortFunction:=fsfExtension else DesignatedSortFunction:=fsfName;
-
-    if Params[2]='Descending' then DesignatedSortDirection:=sdDescending else DesignatedSortDirection:=sdAscending;
-
-    SetLength(NewSorting, 1);
-    SetLength(NewSorting[0].SortFunctions, 1);
-    NewSorting[0].SortFunctions[0] := DesignatedSortFunction;
-    NewSorting[0].SortDirection := DesignatedSortDirection;
-    DesignatedFileView.Sorting := NewSorting;
+    if GetParamValue(Param, 'panel', sValue) then
+    begin
+      if sValue='inactive' then WantedFileView:=frmMain.NotActiveFrame else
+        if sValue='left' then WantedFileView:=frmMain.FrameLeft else
+          if sValue='right' then WantedFileView:=frmMain.FrameRight;
+    end
+    else if GetParamValue(Param, 'column', sValue) then
+    begin
+      if sValue='ext' then WantedSortFunction:=fsfExtension else
+        if sValue='size' then WantedSortFunction:=fsfSize else
+          if sValue='datetime' then WantedSortFunction:=fsfModificationTime;
+    end
+    else if GetParamValue(Param, 'order', sValue) then
+    begin
+      if sValue='descending' then WantedSortDirection:=sdDescending;
+    end;
   end;
+
+  //3o) Let's do the sorting job now!
+  AddSortFunction(FileFunctions, WantedSortFunction);
+  SetLength(NewSorting, 1);
+  SetLength(NewSorting[0].SortFunctions, 1);
+  NewSorting[0].SortFunctions[0] := FileFunctions[0];
+  NewSorting[0].SortDirection := WantedSortDirection;
+  WantedFileView.Sorting := NewSorting;
 end;
 
 procedure TMainCommands.cm_MultiRename(const Params: array of string);
@@ -2905,15 +3240,13 @@ end;
 
 procedure TMainCommands.cm_PanelsSplitterPerPos(const Params: array of string);
 var
-  Split: Integer = -1;
+  Split: Integer = 50;
   Param, SplitPct: String;
 begin
   for Param in Params do
   begin
     if GetParamValue(Param, 'splitpct', SplitPct) then
-      Split := StrToIntDef(SplitPct, Split)
-    else if Split = -1 then
-      Split := StrToIntDef(Param, Split); // deprecated
+      Split := StrToIntDef(SplitPct, Split);
   end;
   DoPanelsSplitterPerPos(Split);
 end;
@@ -3138,9 +3471,48 @@ end;
 // Parameters:
 // Full path to a directory.
 procedure TMainCommands.cm_ChangeDir(const Params: array of string);
+var
+  WantedFileView: TFileView;
+  Param, WantedPath: string;
 begin
-  if Length(Params) > 0 then
-    ChooseFileSource(FrmMain.ActiveFrame, RemoveQuotation(ReplaceEnvVars(Params[0])));
+  //1o) Let's set our default values
+  WantedFileView := frmMain.ActiveFrame;
+  WantedPath := frmMain.ActiveFrame.CurrentPath;
+
+  //2o) Let's parse the parameter to get the wanted ones
+  for Param in Params do
+  begin
+    if GetParamValue(Param, 'activepath', WantedPath) then
+    begin
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+    end
+    else
+    if GetParamValue(Param, 'inactivepath', WantedPath) then
+    begin
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      ChooseFileSource(frmMain.NotActiveFrame, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+    end
+    else
+    if GetParamValue(Param, 'leftpath', WantedPath) then
+    begin
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      ChooseFileSource(frmMain.FrameLeft, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+    end
+    else
+    if GetParamValue(Param, 'rightpath', WantedPath) then
+    begin
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      ChooseFileSource(frmMain.FrameRight, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+    end;
+  end;
+
+  //3o) Let's support the DC legacy way of working of the command
+  if Length(Params)=1 then
+  begin
+    if (not GetParamValue(Params[0], 'activepath', WantedPath)) AND (not GetParamValue(Params[0], 'inactivepath', WantedPath)) AND (not GetParamValue(Params[0], 'leftpath', WantedPath)) AND (not GetParamValue(Params[0], 'rightpath', WantedPath)) then
+      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(Params[0]));
+  end;
 end;
 
 procedure TMainCommands.cm_ClearLogWindow(const Params: array of string);
@@ -3191,10 +3563,32 @@ begin
 end;
 
 procedure TMainCommands.cm_HorizontalFilePanels(const Params: array of string);
+var
+  sParamValue:string;
+  WantedHorizontalFilePanels:boolean;
 begin
-  gHorizontalFilePanels := not gHorizontalFilePanels;
-  frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
-  frmMain.UpdateWindowView;
+  WantedHorizontalFilePanels:=gHorizontalFilePanels;
+
+  if Length(Params)>0 then
+  begin
+    if GetParamValue(Params[0], 'mode', sParamValue) then
+    begin
+      if sParamValue='legacy' then WantedHorizontalFilePanels := not WantedHorizontalFilePanels else
+        if sParamValue='vertical' then WantedHorizontalFilePanels:=FALSE else
+          if sParamValue='horizontal' then WantedHorizontalFilePanels:=TRUE;
+    end;
+  end
+  else
+  begin
+    WantedHorizontalFilePanels := not WantedHorizontalFilePanels;
+  end;
+
+  if WantedHorizontalFilePanels<>gHorizontalFilePanels then
+  begin
+    gHorizontalFilePanels:=WantedHorizontalFilePanels;
+    frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
+    frmMain.UpdateWindowView;
+  end;
 end;
 
 procedure TMainCommands.cm_OperationsViewer(const Params: array of string);
@@ -3295,6 +3689,18 @@ end;
 procedure TMainCommands.cm_CopyPathNoSepOfFilesToClip(const Params: array of string);
 begin
   DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcPathWithoutSeparator);
+end;
+
+{ TMainCommands.cm_DoAnyCmCommand }
+procedure TMainCommands.cm_DoAnyCmCommand(const Params: array of string);
+var
+  CommandReturnedToExecute:string;
+begin
+  if ShowMainCommandDlgForm(gLastDoAnyCommand,CommandReturnedToExecute) then
+  begin
+    gLastDoAnyCommand := CommandReturnedToExecute;
+    frmMain.Commands.Commands.ExecuteCommand(CommandReturnedToExecute, []);
+  end;
 end;
 
 end.
