@@ -33,6 +33,8 @@ type
   TCommandFuncResult = (cfrSuccess, cfrDisabled, cfrNotFound);
   TCommandFunc = procedure(const Params: array of string) of object;
   TCommandCaptionType = (cctShort, cctLong);
+  TCommandCategorySortOrder = (ccsLegacy, ccsAlphabetical);
+  TCommandSortOrder = (csLegacy, csAlphabetical);
 
   (*
     The commands are 'user' functions which can be assigned to toolbar
@@ -79,6 +81,9 @@ type
     function ExecuteCommand(Command: String; const Params: array of string): TCommandFuncResult;
     function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType = cctShort): String;
     procedure GetCommandsList(List: TStrings);
+    procedure GetCommandCategoriesList(List: TStringList; CommandCategorySortOrder:TCommandCategorySortOrder);
+    procedure GetCommandsListForACommandCategory(List: TStringList; sCategoryName:String; CommandSortOrder: TCommandSortOrder);
+    procedure ExtractCommandFields(ItemInList: string; var sCategory:string; var sCommand: string; var sHint: string; var sHotKey: string; var FlagCategoryTitle: boolean);
   end;
   {$interfaces default}
 
@@ -106,6 +111,7 @@ type
     FFilterFunc: TCommandFilterFunc;
     FInstanceObject: TObject;
     FMethods: TStringHashList;
+    FTranslatableCommandCategory: TStringList;
 
     class procedure GetMethodsList(Instance: TObject; MethodsList: TStringHashList; ActionList: TActionList);
 
@@ -138,6 +144,9 @@ type
     function GetCommandName(Index: Integer): String;
     function GetCommandRec(Command: String): PCommandRec;
     procedure GetCommandsList(List: TStrings);
+    procedure GetCommandCategoriesList(List: TStringList; CommandCategorySortOrder:TCommandCategorySortOrder);
+    procedure GetCommandsListForACommandCategory(List: TStringList; sCategoryName:String; CommandSortOrder: TCommandSortOrder);
+    procedure ExtractCommandFields(ItemInList: string; var sCategory: string; var sCommand: string; var sHint: string; var sHotKey: string; var FlagCategoryTitle: boolean);
 
     class procedure GetCategoriesList(List: TStrings; Translated: TStrings);
     class function GetCommandsForm(CategoryName: String): TComponentClass;
@@ -165,7 +174,7 @@ type
 implementation
 
 uses
-  DCStrUtils;
+  uGlobs, uHotkeyManager, DCStrUtils, uLng;
 
 type
   TCommandsFormRec = record
@@ -185,6 +194,8 @@ begin
   FInstanceObject := TheOwner;
   FMethods := TStringHashList.Create(False); // False = not case-sensitive
   GetMethodsList(FInstanceObject, FMethods, ActionList);
+  FTranslatableCommandCategory:=TStringList.Create;
+  ParseLineToList(rsCmdCategoryListInOrder, FTranslatableCommandCategory);
 end;
 
 destructor TFormCommands.Destroy;
@@ -194,6 +205,7 @@ begin
   for Index := 0 to FMethods.Count - 1 do
     Dispose(PCommandRec(FMethods.List[Index]^.Data));
   FreeAndNil(FMethods);
+  FTranslatableCommandCategory.Free;
   inherited;
 end;
 
@@ -284,6 +296,182 @@ begin
     end;
   finally
     List.EndUpdate;
+  end;
+end;
+
+procedure TFormCommands.GetCommandCategoriesList(List: TStringList; CommandCategorySortOrder:TCommandCategorySortOrder);
+var
+  Index: Integer;
+  Command, Category: String;
+begin
+  List.Clear;
+  List.BeginUpdate;
+  try
+    for Index := 0 to FMethods.Count - 1 do
+    begin
+      Command := FMethods.List[Index]^.Key;
+      if not (Assigned(FilterFunc) and FilterFunc(Command)) then
+      begin
+        if TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex <> 0 then
+        begin
+          case CommandCategorySortOrder of
+            ccsLegacy: Category:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex])+FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex];
+            else Category:=FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex];
+          end;
+          if List.IndexOf(Category)=-1 then
+            List.Add(Category);
+        end;
+      end;
+    end;
+
+    List.Sort;
+    if CommandCategorySortOrder=ccsLegacy then
+      for Index:=0 to pred(List.count) do List.Strings[Index]:=RightStr(List.Strings[Index],length(List.Strings[Index])-2);
+    List.Insert(0,'('+rsSimpleWordAll+')');
+  finally
+    List.EndUpdate;
+  end;
+end;
+
+{ TFormCommands.GetCommandsListForACommandCategory }
+{
+  Routine is in fact going through all the commands present in the main form.
+  They will store them into a list passed in parameter "List".
+  Each item of the list will be a string with information separate between pipe "|" symbol.
+  These info will be command name|shortcut|hint|category number.
+  For example: cm_ChangeDirToHome|Ctrl+Alt+H|Change directory to home|14
+  While building the list, if the wanted sort method is "csLegacy", each item will preceeded with category index on two digt and by command index on three digits.
+  This is to help to sort the element. We'll simply sort calling "TStringList.Sort" since the beginning of the string have the legacy reference order.
+  For example: 14106cm_ChangeDirToHome|Ctrl+Alt+H|Change directory to home|14
+  At the end, when exiting, these 5 digits which help to sort will simply be removed.
+  ALSO, the routine has the parameter "sCategoryName" to determine the command from which category should be in the list OR if all the commands from ALL the catagory must be returned.
+  When the commands from ALL the category are requested, category header will be inserted in the returned list.
+  These command will have the prefix for the command index set to '000' to make sure it appear at the beginning of the category command name.
+  For these category identifier, the other fields are empty so that's why pipe are following with nothing between.
+  Example: 14000Navigation||||
+  No special "class" has been created for all this. It seem simple like that.
+}
+procedure TFormCommands.GetCommandsListForACommandCategory(List: TStringList; sCategoryName:String; CommandSortOrder: TCommandSortOrder);
+var
+  Index, iHotKey, iControl: Integer;
+  Command, Category, sHotKey, LocalHint, HeaderSortedHelper, HeaderCategorySortedHelper: String;
+  HMForm: THMForm;
+  HMControl: THMControl;
+  hotkey: THotkey;
+begin
+  List.Clear;
+  List.BeginUpdate;
+  try
+    HeaderSortedHelper:='';
+    HMForm := HotMan.Forms.Find('main');
+
+    for Index := 0 to FMethods.Count - 1 do
+    begin
+      Command := FMethods.List[Index]^.Key;
+      if not (Assigned(FilterFunc) and FilterFunc(Command)) then
+      begin
+        Category:=FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex];
+
+        if (Category = sCategoryName) OR (sCategoryName=('('+rsSimpleWordAll+')'))  then
+        begin
+          sHotKey := '';
+
+          iHotKey := 0;
+          while (iHotKey < HMForm.Hotkeys.Count) and (sHotKey = '') do
+          begin
+            hotkey := HMForm.Hotkeys[iHotKey];
+            if hotkey.Command = Command then
+              sHotKey := ShortcutsToText(hotkey.Shortcuts);
+            Inc(iHotKey);
+          end;
+
+          if sHotKey='' then
+          begin
+            iControl:=0;
+            while (iControl<HMForm.Controls.Count) and (sHotKey='') do
+            begin
+              HMControl := HMForm.Controls[iControl];
+              iHotKey:=0;
+              while (iHotKey < HMControl.Hotkeys.Count) and (sHotKey = '') do
+              begin
+                hotkey := HMControl.Hotkeys[iHotKey];
+                if hotkey.Command = Command then
+                  sHotKey := ShortcutsToText(hotkey.Shortcuts);
+                Inc(iHotKey);
+              end;
+              inc(iControl);
+            end;
+          end;
+
+          if CommandSortOrder=csLegacy then
+          begin
+            HeaderSortedHelper:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex])+
+                                Format('%3.3d',[TCommandRec(FMethods.List[Index]^.Data^).Action.Index+1]);
+
+            if sCategoryName=('('+rsSimpleWordAll+')') then
+            begin
+              HeaderCategorySortedHelper:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex])+'000';
+              if List.IndexOf(HeaderCategorySortedHelper+Category+'||||')=-1 then
+                List.Add(HeaderCategorySortedHelper+Category+'||||');
+            end;
+          end;
+
+          if TCommandRec(FMethods.List[Index]^.Data^).Action.Hint <> EmptyStr then
+            LocalHint := TCommandRec(FMethods.List[Index]^.Data^).Action.Hint
+          else
+            LocalHint := StringReplace(TCommandRec(FMethods.List[Index]^.Data^).Action.Caption, '&', '', [rfReplaceAll]);
+
+          if LocalHint<>EmptyStr then Command:=Command+'|'+sHotKey+'|'+LocalHint+'|'+Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex]);
+
+          List.Add(HeaderSortedHelper+Command);
+        end;
+      end;
+    end;
+
+    List.Sort;
+    if CommandSortOrder=csLegacy then
+      for Index:=0 to pred(List.count) do List.Strings[Index]:=RightStr(List.Strings[Index],length(List.Strings[Index])-(2+3));
+  finally
+    List.EndUpdate;
+  end;
+end;
+
+procedure TFormCommands.ExtractCommandFields(ItemInList: string; var sCategory: string; var sCommand: string; var sHint: string; var sHotKey: string; var FlagCategoryTitle: boolean);
+var
+  PosPipe: longint;
+  sWorkingString: String;
+begin
+  FlagCategoryTitle := False;
+  sCommand := '';
+  sHint := '';
+  sHotKey := '';
+  sCategory := '';
+  PosPipe := Pos('|', ItemInList);
+  if PosPipe <> 0 then
+  begin
+    if pos('||||', ItemInList) = 0 then
+    begin
+      sCommand := Copy(ItemInList, 1, pred(PosPipe));
+      sWorkingString := RightStr(ItemInList, length(ItemInList) - PosPipe);
+      PosPipe := pos('|', sWorkingString);
+      if PosPipe <> 0 then
+      begin
+        sHotKey := copy(sWorkingString, 1, pred(PosPipe));
+        sWorkingString := rightStr(sWorkingString, length(sWorkingString) - PosPipe);
+        PosPipe := pos('|', sWorkingString);
+        if PosPipe <> 0 then
+        begin
+          sHint := copy(sWorkingString, 1, pred(PosPipe));
+          sCategory := rightStr(sWorkingString, length(sWorkingString) - PosPipe);
+          sCategory := FTranslatableCommandCategory.Strings[StrToIntDef(sCategory,0)];
+        end;
+      end;
+    end
+    else
+    begin
+      sCommand := Copy(ItemInList, 1, pred(PosPipe));
+      FlagCategoryTitle := True;
+    end;
   end;
 end;
 

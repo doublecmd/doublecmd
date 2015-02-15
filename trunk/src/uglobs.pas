@@ -105,7 +105,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 20;
+  hkVersion     = 21;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -212,7 +212,9 @@ var
   glsCmdLineHistory: TStringListEx;
   glsMaskHistory : TStringListEx;
   glsSearchHistory : TStringListEx;
+  glsSearchPathHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
+  glsReplacePathHistory : TStringListEx;
   glsSearchExcludeFiles: TStringList;
   glsSearchExcludeDirectories: TStringList;
   glsIgnoreList : TStringListEx;
@@ -232,6 +234,7 @@ var
   gDelayLoadingTabs: Boolean;
   gHighlightUpdatedFiles: Boolean;
   gLastUsedPacker: String;
+  gLastDoAnyCommand: String;
   gBriefViewFileExtAligned: Boolean;
 
   { Tools page }
@@ -325,6 +328,7 @@ var
   { Quick Search page }
   gQuickSearchOptions: TQuickSearchOptions;
   gQuickFilterAutoHide: Boolean;
+  gQuickFilterSaveSessionModifications: Boolean;
 
   { Misc page }
   gGridVertLine,
@@ -616,7 +620,9 @@ begin
       LoadHistory('CommandLine', glsCmdLineHistory);
       LoadHistory('FileMask', glsMaskHistory);
       LoadHistory('SearchText', glsSearchHistory);
+      LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
+      LoadHistory('ReplaceTextPath', glsReplacePathHistory);
       LoadHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       LoadHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
     end;
@@ -656,7 +662,9 @@ begin
     if gSaveSearchReplaceHistory then
     begin
       SaveHistory('SearchText', glsSearchHistory);
+      SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
+      SaveHistory('ReplaceTextPath', glsReplacePathHistory);
       SaveHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       SaveHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
     end;
@@ -714,10 +722,12 @@ begin
                       'Shift+F8','','trashcan=reversesetting',''], 'cm_Delete');
       AddIfNotExists(['F9'],[],'cm_RunTerm');
       AddIfNotExists(['Ctrl+7'],[],'cm_ShowCmdLineHistory');
+      AddIfNotExists(['Ctrl+Down'],'cm_ShowCmdLineHistory',['Ctrl+7'],[]); //Historic backward support reason...
       AddIfNotExists(['Ctrl+B'],[],'cm_FlatView');
       AddIfNotExists(['Ctrl+D'],[],'cm_DirHotList');
       AddIfNotExists(['Ctrl+F'],[],'cm_QuickFilter');
       AddIfNotExists(['Ctrl+H'],[],'cm_DirHistory');
+      AddIfNotExists(['Alt+Down'],'cm_DirHistory',['Ctrl+H'],[]); //Historic backward support reason...
       AddIfNotExists(['Ctrl+L'],[],'cm_CalculateSpace');
       AddIfNotExists(['Ctrl+M'],[],'cm_MultiRename');
       AddIfNotExists(['Ctrl+P'],[],'cm_AddPathToCmdLine');
@@ -734,7 +744,6 @@ begin
       AddIfNotExists(['Ctrl+F4'],[],'cm_SortByExt');
       AddIfNotExists(['Ctrl+F5'],[],'cm_SortByDate');
       AddIfNotExists(['Ctrl+F6'],[],'cm_SortBySize');
-      AddIfNotExists(['Ctrl+Down'],[],'cm_ShowCmdLineHistory');
       AddIfNotExists(['Ctrl+Enter'],[],'cm_AddFilenameToCmdLine');
       AddIfNotExists(['Ctrl+PgDn'],[],'cm_OpenArchive');
       AddIfNotExists(['Ctrl+PgUp'],[],'cm_ChangeDirToParent');
@@ -754,6 +763,7 @@ begin
       AddIfNotExists(['Shift+F4'],[],'cm_EditNew');
       AddIfNotExists(['Shift+F5'],[],'cm_CopySamePanel');
       AddIfNotExists(['Shift+F10'],[],'cm_ContextMenu');
+      AddIfNotExists(['Shift+F12'],[],'cm_DoAnyCmCommand');
       AddIfNotExists(['Alt+V'],[],'cm_OperationsViewer');
       AddIfNotExists(['Alt+X'],[],'cm_Exit');
       AddIfNotExists(['Alt+Z'],[],'cm_TargetEqualSource');
@@ -763,7 +773,6 @@ begin
       AddIfNotExists(['Alt+F7'],[],'cm_Search');
       AddIfNotExists(['Alt+F9'],[],'cm_ExtractFiles');
       AddIfNotExists(['Alt+Del'],[],'cm_Wipe');
-      AddIfNotExists(['Alt+Down'],[],'cm_DirHistory');
       AddIfNotExists(['Alt+Enter'],[],'cm_FileProperties');
       AddIfNotExists(['Alt+Left'],[],'cm_ViewHistoryPrev');
       AddIfNotExists(['Alt+Right'],[],'cm_ViewHistoryNext');
@@ -973,7 +982,9 @@ begin
   glsCmdLineHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
   glsSearchHistory := TStringListEx.Create;
+  glsSearchPathHistory := TStringListEx.Create;
   glsReplaceHistory := TStringListEx.Create;
+  glsReplacePathHistory := TStringListEx.Create;
   glsIgnoreList := TStringListEx.Create;
   glsSearchExcludeFiles:= TStringList.Create;
   glsSearchExcludeDirectories:= TStringList.Create;
@@ -998,7 +1009,9 @@ begin
   FreeThenNil(gDirectoryHotlist);
   FreeThenNil(glsMaskHistory);
   FreeThenNil(glsSearchHistory);
+  FreeThenNil(glsSearchPathHistory);
   FreeThenNil(glsReplaceHistory);
+  FreeThenNil(glsReplacePathHistory);
   FreeThenNil(glsIgnoreList);
   FreeThenNil(glsSearchExcludeFiles);
   FreeThenNil(glsSearchExcludeDirectories);
@@ -1225,6 +1238,7 @@ begin
   gQuickSearchOptions.Items := qsiFilesAndDirectories;
   gQuickSearchOptions.SearchCase := qscInsensitive;
   gQuickFilterAutoHide := True;
+  gQuickFilterSaveSessionModifications := False; //Legacy...
 
   { Miscellaneous page }
   gGridVertLine := False;
@@ -1301,6 +1315,7 @@ begin
   gLastUsedPacker := 'zip';
   gUseShellForFileOperations :=
     {$IF DEFINED(MSWINDOWS)}WindowsVersion >= wvVista{$ELSE}False{$ENDIF};
+  gLastDoAnyCommand := 'cm_Refresh';
 
   { TotalCommander Import/Export }
   //Will search minimally where TC could be installed so the default value would have some chances to be correct.
@@ -1335,7 +1350,9 @@ begin
   glsDirHistory.Clear;
   glsMaskHistory.Clear;
   glsSearchHistory.Clear;
+  glsSearchPathHistory.Clear;
   glsReplaceHistory.Clear;
+  glsReplacePathHistory.Clear;
   glsIgnoreList.Clear;
   gSearchTemplateList.Clear;
   gDSXPlugins.Clear;
@@ -2321,6 +2338,7 @@ begin
         OldKeysToNew(oldQuickFilter, oldQuickFilterMode, ktaQuickFilter);
       end;
       gQuickFilterAutoHide := GetValue(Node, 'AutoHide', gQuickFilterAutoHide);
+      gQuickFilterSaveSessionModifications := GetValue(Node, 'SaveSessionModifications', gQuickFilterSaveSessionModifications);
     end;
 
     { Miscellaneous page }
@@ -2429,6 +2447,7 @@ begin
     gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
     gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     gUseShellForFileOperations:= GetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
+    gLastDoAnyCommand:=GetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);
 
     { TotalCommander Import/Export }
     {$IFDEF MSWINDOWS}
@@ -2683,6 +2702,7 @@ begin
     SetValue(Node, 'Items', Integer(gQuickSearchOptions.Items));
     Node := FindNode(Root, 'QuickFilter', True);
     SetValue(Node, 'AutoHide', gQuickFilterAutoHide);
+    SetValue(Node, 'SaveSessionModifications', gQuickFilterSaveSessionModifications);
 
     { Misc page }
     Node := FindNode(Root, 'Miscellaneous', True);
@@ -2765,6 +2785,7 @@ begin
     SetValue(Root, 'NameShortcutFile', gNameSCFile);
     SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     SetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
+    SetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);
 
     {$IFDEF MSWINDOWS}
     { TotalCommander Import/Export }

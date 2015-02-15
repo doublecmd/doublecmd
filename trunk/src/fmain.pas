@@ -96,6 +96,30 @@ type
     actConfigDirHotList: TAction;
     actCopyPathOfFilesToClip: TAction;
     actCopyPathNoSepOfFilesToClip: TAction;
+    actDoAnyCmCommand: TAction;
+    actSrcOpenDrives: TAction;
+    actRightReverseOrder: TAction;
+    actLeftReverseOrder: TAction;
+    actRightFlatView: TAction;
+    actLeftFlatView: TAction;
+    actRightSortByAttr: TAction;
+    actRightSortByDate: TAction;
+    actRightSortBySize: TAction;
+    actRightSortByExt: TAction;
+    actRightSortByName: TAction;
+    actLeftSortByAttr: TAction;
+    actLeftSortByDate: TAction;
+    actLeftSortBySize: TAction;
+    actLeftSortByExt: TAction;
+    actLeftSortByName: TAction;
+    actLeftThumbView: TAction;
+    actRightThumbView: TAction;
+    actRightColumnsView: TAction;
+    actLeftColumnsView: TAction;
+    actRightBriefView: TAction;
+    actLeftBriefView: TAction;
+    actWorkWithDirectoryHotlist: TAction;
+    actUniversalSingleDirectSort: TAction;
     actViewLogFile: TAction;
     actLoadTabs: TAction;
     actSaveTabs: TAction;
@@ -720,6 +744,7 @@ implementation
 {$R *.lfm}
 
 uses
+  uFileProcs,
   LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
@@ -1275,8 +1300,6 @@ begin
 end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; FileView: TFileView);
-var
-  aFile : UTF8String;
 begin
   with FileView do
   begin
@@ -2371,7 +2394,6 @@ var
   iconsDir: String;
   fileName: String;
   iconImg: TPicture;
-  actionName: TComponentName;
 begin
   pmHotList.Images:=nil; { TODO -oDB : The images of popup menu in configuration should also be nilled to be correct }
   imgLstDirectoryHotlist.Clear;
@@ -2472,7 +2494,7 @@ end;
 
 procedure TfrmMain.miHotAddOrConfigClick(Sender: TObject);
 begin
-  with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist([HOTLISTMAGICWORDS[tag],ActiveFrame.CurrentPath,NotActiveFrame.CurrentPath,'0']);
+  with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist(['action='+HOTLISTMAGICWORDS[tag], 'source='+ActiveFrame.CurrentPath, 'target='+NotActiveFrame.CurrentPath, 'index=0']);
 end;
 
 procedure TfrmMain.CreatePopUpDirHistory;
@@ -2697,7 +2719,6 @@ var
   isSHIFTDown, isCTRLDown: boolean;
   PossibleCommande,PossibleParam: string;
   PosFirstSpace: integer;
-  SelectedDirectories: TFiles = nil;
   Editor: TOptionsEditor;
   Options: IOptionsDialog;
 begin
@@ -2725,8 +2746,8 @@ begin
                     4: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_EXTENSION,STR_DESCENDING]); //Ext, z-a
                     5: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_SIZE,STR_DESCENDING]); //Size 9-0
                     6: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_SIZE,STR_ASCENDING]); //Size 0-9
-                    7: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_MODIFICATIONTIME,STR_DESCENDING]); //Date 9-0
-                    8: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_MODIFICATIONTIME,STR_ASCENDING]); //Date 0-9
+                    7: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_MODIFICATIONDATETIME,STR_DESCENDING]); //Date 9-0
+                    8: Commands.cm_UniversalSingleDirectSort([STR_ACTIVEFRAME,STR_MODIFICATIONDATETIME,STR_ASCENDING]); //Date 0-9
                   end;
 
                   aPath := mbExpandFileName(aPath);
@@ -2744,8 +2765,8 @@ begin
                           4: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_EXTENSION,STR_DESCENDING]); //Ext, z-a
                           5: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_SIZE,STR_DESCENDING]); //Size 9-0
                           6: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_SIZE,STR_ASCENDING]); //Size 0-9
-                          7: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_MODIFICATIONTIME,STR_DESCENDING]); //Date 9-0
-                          8: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_MODIFICATIONTIME,STR_ASCENDING]); //Date 0-9
+                          7: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_MODIFICATIONDATETIME,STR_DESCENDING]); //Date 9-0
+                          8: Commands.cm_UniversalSingleDirectSort([STR_NOTACTIVEFRAME,STR_MODIFICATIONDATETIME,STR_ASCENDING]); //Date 0-9
                         end;
 
                         aPath := mbExpandFileName(aPath);
@@ -2780,7 +2801,7 @@ begin
         Editor := Options.GetEditor(TfrmOptionsDirectoryHotlist);
         Application.ProcessMessages;
         if Editor.CanFocus then  Editor.SetFocus;
-        TfrmOptionsDirectoryHotlist(Editor).SubmitToAddOrConfigToHotDirDlg(HOTLISTMAGICWORDS[ACTION_DIRECTLYCONFIGENTRY],ActiveFrame.CurrentPath,NotActiveFrame.CurrentPath,IntToStr(Index));
+        TfrmOptionsDirectoryHotlist(Editor).SubmitToAddOrConfigToHotDirDlg(ACTION_DIRECTLYCONFIGENTRY,ActiveFrame.CurrentPath,NotActiveFrame.CurrentPath,Index);
       end;
     end
   else

@@ -347,6 +347,7 @@ resourcestring
 
   // Filter status in file panel
   rsFilterStatus = 'FILTER';
+  rsSearchStatus = 'SEARCH';
 
   // Cancel operations in file panel
   rsCancelFilter = 'Cancel Quick Filter';
@@ -474,6 +475,8 @@ resourcestring
   rsEditSearchReplace ='Replace';
   rsEditSearchFrw = '&Forward';
   rsEditSearchBack = '&Backward';
+  rsZeroReplacement = 'No replacement took place.';
+  rsXReplacements = 'Number of replacement: %d';
   // Options editors
   rsOptionsEditorArchivers = 'Archivers';
   rsOptionsEditorAutoRefresh = 'Auto refresh';
@@ -573,6 +576,11 @@ resourcestring
   rsHotkeyCategoryDiffer = 'Differ';
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
   rsHotkeyCategoryEditCommentDialog = 'Edit Comment Dialog';
+  rsCmdCategoryListInOrder='All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log';
+  rsCmdKindOfSort='Legacy sorted;A-Z sorted';
+  rsMsgThisIsNowInClipboard = '"%s" is now in the clipboard';
+  rsSimpleWordAll = 'All';
+  rsSimpleWordCategory = 'Category';
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';
@@ -596,7 +604,7 @@ resourcestring
   // Quick Search/Filter
   rsOptSearchItems = '&Files;Di&rectories;Files a&nd Directories';
   rsOptSearchCase = '&Sensitive;&Insensitive';
-  rsOptSearchOpt = '&Hide filter panel when not focused';
+  rsOptSearchOpt = '&Hide filter panel when not focused;Keep saving setting modifications for next session';
 
   // Toolbar
   rsOptToolbarButtonType = 'S&eparator;Inte&rnal command;E&xternal command;Men&u';

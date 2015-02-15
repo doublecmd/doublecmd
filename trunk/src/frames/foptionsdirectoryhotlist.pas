@@ -52,6 +52,13 @@ type
     lbleditHotDirName: TLabeledEdit;
     lbleditHotDirPath: TLabeledEdit;
     lbleditHotDirTarget: TLabeledEdit;
+
+    miSearchAndReplaceInPath: TMenuItem;
+    miSearchInReplaceInBothPaths: TMenuItem;
+    miSeparator13: TMenuItem;
+    miSearchAndReplaceInTargetPath: TMenuItem;
+    miSearchAndReplace: TMenuItem;
+    miSeparator12: TMenuItem;
     miTypeTheDirectory3: TMenuItem;
     miCollapseAll: TMenuItem;
     miSeparator10: TMenuItem;
@@ -134,6 +141,7 @@ type
     procedure miCollapseAllClick(Sender: TObject);
     procedure miOpenAllBranchesClick(Sender: TObject);
     procedure pnlButtonsResize(Sender: TObject);
+    procedure miSearchAndReplaceClick(Sender: TObject);
     procedure tvDirectoryHotlistDragDrop(Sender, {%H-}Source: TObject; X, Y: Integer);
     procedure tvDirectoryHotlistDragOver(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: Integer; {%H-}State: TDragState; var Accept: Boolean);
     procedure tvDirectoryHotlistEnter(Sender: TObject);
@@ -172,6 +180,7 @@ type
     procedure CopyTTreeViewToAnother(tvSource,tvDestination:TTreeView);
     function GetNextGroupNumber:integer;
     procedure miGotoConfigureTCInfo2Click(Sender: TObject);
+    procedure GenericSomethingChanged(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -182,13 +191,15 @@ type
     DirectoryHotlistTemp: TDirectoryHotlist;
     CutAndPasteIndexList: TStringList;
     GlobalGroupNumber: integer;
+    FModificationTookPlace: boolean;
+    FLastLoadedDirectoryHotlistSignature: dword;
   public
     { Public declarations }
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     destructor Destroy; override;
     function CanWeClose(var WillNeedUpdateWindowView:boolean): boolean; override;
-    procedure SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher,paramPath,paramTarget,paramOptionalIndex: string);
+    procedure SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher: integer; paramPath,paramTarget:string; paramOptionalIndex: integer);
   end;
 
 implementation
@@ -200,9 +211,9 @@ uses
   Graphics, LCLType, LCLProc, LCLIntf, LCLMessageGlue, helpintfs,
 
   //DC
-  fOptionsMisc,
-  DCStrUtils, uGlobs, uLng, uDCUtils, uDebug, fmain, uFormCommands, uFileProcs,
-  uShowMsg, DCOSUtils, uSpecialDir, fhotdirexportimport, fOptions;
+  fEditSearch, fOptionsMisc, DCStrUtils, uGlobs, uLng, uDCUtils, uDebug, fmain,
+  uFormCommands, uFileProcs, uShowMsg, DCOSUtils, uSpecialDir,
+  fhotdirexportimport, fOptions;
 
 { Constants used with export/import }
 const
@@ -262,7 +273,9 @@ begin
   DirectoryHotlistTemp.LoadTTreeView(tvDirectoryHotlist,-1);
   cbFullExpandTreeChange(cbFullExpandTree);
   if tvDirectoryHotlist.Items.Count>0 then tvDirectoryHotlist.Items[0].Selected:=TRUE; //Select at least first one by default
-  DirectoryHotlistTemp.FlagModified:=FALSE;
+
+  FLastLoadedDirectoryHotlistSignature := DirectoryHotlistTemp.ComputeSignature;
+  FModificationTookPlace := False;
 end;
 
 { TfrmOptionsDirectoryHotlist.Save }
@@ -288,8 +301,9 @@ begin
     gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper, mp_PATHHELPER, nil);
   end;
   gWhereToAddNewHotDir:=TPositionWhereToAddHotDir(rgWhereToAdd.ItemIndex);
-  DirectoryHotlistTemp.FlagModified:=FALSE;
   cbFullExpandTreeChange(cbFullExpandTree);
+  FLastLoadedDirectoryHotlistSignature := DirectoryHotlistTemp.ComputeSignature;
+  FModificationTookPlace := False;
 end;
 
 { TfrmOptionsDirectoryHotlist.CanWeClose }
@@ -301,7 +315,9 @@ begin
 
   if Assigned(DirectoryHotlistTemp) then
   begin
-    result:=not DirectoryHotlistTemp.FlagModified;
+    DirectoryHotlistTemp.RefreshFromTTreeView(tvDirectoryHotlist);
+    result := (FLastLoadedDirectoryHotlistSignature = DirectoryHotlistTemp.ComputeSignature) AND (not FModificationTookPlace);
+
     if not result then
     begin
       ShowOptions(TfrmOptionsDirectoryHotlist);
@@ -366,7 +382,6 @@ begin
         tvDirectoryHotlist.Selections[Index].MoveTo(DestinationNode,naInsertBehind);
       end;
     end;
-    DirectoryHotlistTemp.FlagModified:=TRUE;
     ClearCutAndPasteList;
   end;
 
@@ -384,6 +399,7 @@ begin
     end;
 end;
 
+{ TfrmOptionsDirectoryHotlist.pnlButtonsResize }
 procedure TfrmOptionsDirectoryHotlist.pnlButtonsResize(Sender: TObject);
 var
   I: Integer;
@@ -391,6 +407,66 @@ begin
   for I:= 0 to pnlButtons.ControlCount - 1 do
   begin
     pnlButtons.Controls[I].Width:= pnlButtons.ClientWidth div 2 - 3;
+  end;
+end;
+
+{ TfrmOptionsDirectoryHotlist.miSearchAndReplaceClick }
+procedure TfrmOptionsDirectoryHotlist.miSearchAndReplaceClick(Sender: TObject);
+var
+  NbOfReplacement:longint;
+  sSearchText,sReplaceText: string;
+  ReplaceFlags: TReplaceFlags;
+
+  function ReplaceIfNecessary(sWorkingText:string):string;
+  begin
+    result := StringReplace(sWorkingText, sSearchText, sReplaceText, ReplaceFlags);
+    if result<>sWorkingText then inc(NbOfReplacement);
+  end;
+
+var
+  Index, ActionDispatcher: integer;
+  EditSearchOptionToOffer,EditSearchOptionReturned:TEditSearchDialogOption;
+begin
+  with Sender as TComponent do ActionDispatcher:=tag;
+
+  if ((ActionDispatcher and $01) <> 0) AND (lbleditHotDirPath.Text<>'') then sSearchText:=lbleditHotDirPath.Text
+    else if ((ActionDispatcher and $02) <> 0) AND (lbleditHotDirTarget.Text<>'') then sSearchText:=lbleditHotDirTarget.Text
+      else sSearchText:='';
+  sReplaceText:=sSearchText;
+
+  EditSearchOptionToOffer:=[];
+  {$IFDEF MSWINDOWS}
+  EditSearchOptionToOffer:=EditSearchOptionToOffer+[eswoCaseSensitiveUnchecked];
+  {$ELSE}
+  EditSearchOptionToOffer:=EditSearchOptionToOffer+[eswoCaseSensitiveChecked];
+  {$ENDIF}
+
+  if GetSimpleSearchAndReplaceString(self, EditSearchOptionToOffer, sSearchText, sReplaceText, EditSearchOptionReturned, glsSearchPathHistory, glsReplacePathHistory) then
+  begin
+    NbOfReplacement:=0;
+    ReplaceFlags:=[rfReplaceAll];
+    if eswoCaseSensitiveUnchecked in EditSearchOptionReturned then ReplaceFlags := ReplaceFlags + [rfIgnoreCase];
+
+    for Index:=0 to pred(gDirectoryHotlist.Count) do
+    begin
+      case DirectoryHotlistTemp.HotDir[Index].Dispatcher of
+        hd_CHANGEPATH:
+        begin
+          if (ActionDispatcher and $01) <> 0 then DirectoryHotlistTemp.HotDir[Index].HotDirPath:=ReplaceIfNecessary(DirectoryHotlistTemp.HotDir[Index].HotDirPath);
+          if (ActionDispatcher and $02) <> 0 then DirectoryHotlistTemp.HotDir[Index].HotDirTarget:=ReplaceIfNecessary(DirectoryHotlistTemp.HotDir[Index].HotDirTarget);
+        end;
+      end;
+    end;
+
+    if NbOfReplacement=0 then
+    begin
+      msgOk(rsZeroReplacement);
+    end
+    else
+    begin
+      tvDirectoryHotlistSelectionChanged(tvDirectoryHotlist);
+      msgOk(format(rsXReplacements,[NbOfReplacement]));
+    end;
   end;
 end;
 
@@ -411,6 +487,7 @@ end;
 { TfrmOptionsDirectoryHotlist.cbFullExpandTreeChange }
 procedure TfrmOptionsDirectoryHotlist.cbFullExpandTreeChange(Sender: TObject);
 begin
+  GenericSomethingChanged(cbFullExpandTree);
   if cbFullExpandTree.Checked then tvDirectoryHotlist.FullExpand else tvDirectoryHotlist.FullCollapse;
 end;
 
@@ -765,7 +842,6 @@ begin
       tvDirectoryHotlist.Enabled:=TRUE;
       if isTreeHadFocus AND tvDirectoryHotlist.CanFocus then tvDirectoryHotlist.SetFocus;
     end;
-    DirectoryHotlistTemp.FlagModified:=TRUE;
   end;
 end;
 
@@ -899,7 +975,7 @@ begin
     ACTION_WITH_HOTLISTFILE:
     begin
       OpenDialog.DefaultExt := '*.hotlist';
-      OpenDialog.FilterIndex := 3;
+      OpenDialog.FilterIndex := 1;
       OpenDialog.Title := rsMsgHotDirLocateHotlistFile;
       FlagKeepGoing := OpenDialog.Execute;
     end;
@@ -909,10 +985,10 @@ begin
       BackupPath := IncludeTrailingPathDelimiter(mbExpandFileName(EnvVarConfigPath)) + 'Backup';
       if mbForceDirectory(BackupPath) then
       begin
-        OpenDialog.FilterIndex := 3;
-        OpenDialog.InitialDir := ExcludeTrailingPathDelimiter(BackupPath);
+        OpenDialog.DefaultExt := '*.hotlist';
+        OpenDialog.FilterIndex := 1;
         OpenDialog.Title := rsMsgHotDirRestoreWhat;
-        OpenDialog.Filter := 'Backup_*.hotlist';
+        OpenDialog.InitialDir := ExcludeTrailingPathDelimiter(BackupPath);
         FlagKeepGoing := OpenDialog.Execute;
       end;
     end;
@@ -961,7 +1037,6 @@ begin
           if ((Answer = mrOk) and (tvDirectoryHotlistToExportImport.SelectionCount > 0)) or ((Answer = mrAll) and (tvDirectoryHotlistToExportImport.Items.Count > 0)) then
           begin
             ClearCutAndPasteList;
-            DirectoryHotlistTemp.FlagModified:=TRUE; //Ok.. It still might happen the list won't be modified but let's don't be too "picky"...
 
             if ((ActionDispatcher and MASK_ACTION_WITH_WHAT) = ACTION_WITH_BACKUP) AND (Answer = mrAll) then
             begin
@@ -1067,7 +1142,6 @@ begin
 
   //... and the finale!
   tvDirectoryHotlist.CustomSort(@MySortViaGroup);
-  DirectoryHotlistTemp.FlagModified:=TRUE;
   ClearCutAndPasteList;
 end;
 
@@ -1162,64 +1236,65 @@ end;
 { TfrmOptionsDirectoryHotlist.lbleditHotDirExit }
 procedure TfrmOptionsDirectoryHotlist.lbleditHotDirExit(Sender: TObject);
 begin
-  with Sender as TLabeledEdit do
+  //If nothing currently selected, no need to update anything here.
+  if tvDirectoryHotlist.Selected<>nil then
   begin
-    pmPathHelper.Tag := 0;
-    Font.Style := [];
-    EditLabel.Font.Style := []; //Text not in bold anymore
+    with Sender as TLabeledEdit do
+    begin
+      pmPathHelper.Tag := 0;
+      Font.Style := [];
+      EditLabel.Font.Style := []; //Text not in bold anymore
 
-    case tag of
-      1: //Hot dir name
-      begin
-        try
-          if (Text <> '') and (Text[1] <> '-') then
+      case tag of
+        1: //Hot dir name
+        begin
+          try
             //Make sure we actually have something, not an attempf of submenu or end of menu
-          begin
-            if THotDir(tvDirectoryHotlist.Selected.Data).HotDirName <> Text then
-              //Make sure it's different than what it was
+            if (Text <> '') and (Text[1] <> '-') then
             begin
-              DirectoryHotlistTemp.FlagModified := True;
-              THotDir(tvDirectoryHotlist.Selected.Data).HotDirName := Text;
-              tvDirectoryHotlist.Selected.Text:=Text;
+              //Make sure it's different than what it was
+              if THotDir(tvDirectoryHotlist.Selected.Data).HotDirName <> Text then
+              begin
+                THotDir(tvDirectoryHotlist.Selected.Data).HotDirName := Text;
+                tvDirectoryHotlist.Selected.Text:=Text;
+              end;
             end;
+          except
+            //Just in case the "Text" is empty to don't show error with Text[1] check.
           end;
-        except
-          //Just in case the "Text" is empty to don't show error with Text[1] check.
         end;
-      end;
 
-      2: //Hot dir path
-      begin
-        try
-          if (Text <> '') and (THotDir(tvDirectoryHotlist.Selected.Data).Dispatcher =
-            hd_CHANGEPATH) then
-            Text := IncludeTrailingPathDelimiter(Text);
-          if THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath <> Text then
+        2: //Hot dir path
+        begin
+          try
+            if (Text <> '') and (THotDir(tvDirectoryHotlist.Selected.Data).Dispatcher = hd_CHANGEPATH) then
+              Text := IncludeTrailingPathDelimiter(Text);
+
             //Make sure it's different than what it was
-          begin
-            DirectoryHotlistTemp.FlagModified := True;
-            THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath := Text;
-            THotDir(tvDirectoryHotlist.Selected.Data).HotDirExisting := DirExistUnknown;
+            if THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath <> Text then
+            begin
+              THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath := Text;
+              THotDir(tvDirectoryHotlist.Selected.Data).HotDirExisting := DirExistUnknown;
+            end;
+          except
+            //Just in case we have an empty list so "DirectoryHotlistTemp.HotDir[tvDirectoryHotlist.Selected.ImageIndex]" will not caused an error (since ItemIndex=-1 at this moment);
           end;
-        except
-          //Just in case we have an empty list so "DirectoryHotlistTemp.HotDir[tvDirectoryHotlist.Selected.ImageIndex]" will not caused an error (since ItemIndex=-1 at this moment);
         end;
-      end;
 
-      3: //Hot dir target
-      begin
-        try
-          if (Text <> '') and (THotDir(tvDirectoryHotlist.Selected.Data).Dispatcher =
-            hd_CHANGEPATH) then
-            Text := IncludeTrailingPathDelimiter(Text);
-          if THotDir(tvDirectoryHotlist.Selected.Data).HotDirTarget <> Text then
+        3: //Hot dir target
+        begin
+          try
+            if (Text <> '') and (THotDir(tvDirectoryHotlist.Selected.Data).Dispatcher =hd_CHANGEPATH) then
+              Text := IncludeTrailingPathDelimiter(Text);
+
             //Make sure it's different than what it was
-          begin
-            DirectoryHotlistTemp.FlagModified := True;
-            THotDir(tvDirectoryHotlist.Selected.Data).HotDirTarget := Text;
+            if THotDir(tvDirectoryHotlist.Selected.Data).HotDirTarget <> Text then
+            begin
+              THotDir(tvDirectoryHotlist.Selected.Data).HotDirTarget := Text;
+            end;
+          except
+            //Just in case we have an empty list so "DirectoryHotlistTemp.HotDir[tvDirectoryHotlist.Selected.ImageIndex]" will not caused an error (since ItemIndex=-1 at this moment);
           end;
-        except
-          //Just in case we have an empty list so "DirectoryHotlistTemp.HotDir[tvDirectoryHotlist.Selected.ImageIndex]" will not caused an error (since ItemIndex=-1 at this moment);
         end;
       end;
     end;
@@ -1230,23 +1305,22 @@ end;
 procedure TfrmOptionsDirectoryHotlist.lbleditHotDirKeyPress(Sender: TObject; var Key: char);
 begin
   case Ord(Key) of
-     $0D: //Enter? Let's save the field and go to next one
+     $0D: //Enter? Let's save the field and we'll exit
      begin
        lbleditHotDirExit(Sender); //Doing this will SAVE the new typed text if it's different than what we have in memory for the entry. Then we could attempt to quit.
-       //Key := #00; --> We don't do that because we want the "ENTER" key still quit the editor like it does for other config window
      end;
 
     $1B: //Escape? Place back the fields like they were
     begin
-      //If typed text has been changed, yes we will restore it but if it was not change, we will quit so user won't have to press two times escape
-      case tag of
-        1: if Text <> THotDir(tvDirectoryHotlist.Selected.Data).HotDirName then Key := #$00;
-        2: if Text <> THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath then Key := #00;
-        3: if Text <> THotDir(tvDirectoryHotlist.Selected.Data).HotDirTarget then Key := #00;
-      end;
-
       with Sender as TLabeledEdit do
       begin
+      //If typed text has been changed, yes we will restore it but if it was not change, we will quit so user won't have to press two times escape
+        case tag of
+          1: if Text <> THotDir(tvDirectoryHotlist.Selected.Data).HotDirName then Key := #$00;
+          2: if Text <> THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath then Key := #00;
+          3: if Text <> THotDir(tvDirectoryHotlist.Selected.Data).HotDirTarget then Key := #00;
+        end;
+
         case tag of
           1: tvDirectoryHotlistSelectionChanged(tvDirectoryHotlist);
           2: Text := THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath;
@@ -1283,7 +1357,6 @@ begin
         if THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath <>lbleditHotDirPath.Text then
         begin
           THotDir(tvDirectoryHotlist.Selected.Data).HotDirPath := lbleditHotDirPath.Text;
-          DirectoryHotlistTemp.FlagModified := True;
         end;
       end;
 
@@ -1307,7 +1380,6 @@ end;
 { TfrmOptionsDirectoryHotlist.cbSortHotDirPathChange }
 procedure TfrmOptionsDirectoryHotlist.cbSortHotDirPathChange(Sender: TObject);
 begin
-  DirectoryHotlistTemp.FlagModified := True;
   if Assigned(tvDirectoryHotlist.Selected) then
   begin
     THotDir(tvDirectoryHotlist.Selected.Data).HotDirPathSort := cbSortHotDirPath.ItemIndex;
@@ -1317,7 +1389,6 @@ end;
 { TfrmOptionsDirectoryHotlist.cbSortHotDirTargetChange }
 procedure TfrmOptionsDirectoryHotlist.cbSortHotDirTargetChange(Sender: TObject);
 begin
-  DirectoryHotlistTemp.FlagModified := True;
   if Assigned(tvDirectoryHotlist.Selected) then
   begin
     THotDir(tvDirectoryHotlist.Selected.Data).HotDirTargetSort := cbSortHotDirTarget.ItemIndex;
@@ -1454,7 +1525,6 @@ begin
   LocalHotDir.HotDirPath := IncludeTrailingPathDelimiter(sPath);
   if sTarget <> '' then LocalHotDir.HotDirTarget := IncludeTrailingPathDelimiter(sTarget);
   DirectoryHotlistTemp.Add(LocalHotDir);
-  DirectoryHotlistTemp.FlagModified := True;
   WorkingTreeNode:=tvDirectoryHotlist.Selected;
   if WorkingTreeNode<>nil then
     result:=tvDirectoryHotlist.Items.AddNode(nil,WorkingTreeNode, sName,LocalHotDir,SelectedNoAttachedMode[InsertOrAdd])
@@ -1552,7 +1622,7 @@ begin
   begin
     if THotDir(tvDirectoryHotlist.Items.Item[I].Data).Dispatcher = hd_CHANGEPATH then
     begin
-      if localDirToFindAPlaceFor = UTF8LowerCase(IncludeTrailingPathDelimiter(ExpandFileName(ReplaceEnvVars(THotDir(tvDirectoryHotlist.Items.Item[I].Data).HotDirPath)))) then result:=tvDirectoryHotlist.Items.Item[I];
+      if localDirToFindAPlaceFor = UTF8LowerCase(IncludeTrailingPathDelimiter(mbExpandFileName(THotDir(tvDirectoryHotlist.Items.Item[I].Data).HotDirPath))) then result:=tvDirectoryHotlist.Items.Item[I];
     end;
     inc(I);
   end;
@@ -1568,7 +1638,7 @@ begin
       begin
         if THotDir(tvDirectoryHotlist.Items.Item[I].Data).Dispatcher = hd_CHANGEPATH then
         begin
-          sRepresentantString:=UTF8LowerCase(IncludeTrailingPathDelimiter(ExpandFileName(ReplaceEnvVars(THotDir(tvDirectoryHotlist.Items.Item[I].Data).HotDirPath))))+IntToStr(I);
+          sRepresentantString:=UTF8LowerCase(IncludeTrailingPathDelimiter(mbExpandFileName(THotDir(tvDirectoryHotlist.Items.Item[I].Data).HotDirPath)))+IntToStr(I);
           MagickSortedList.Add(sRepresentantString);
         end;
       end;
@@ -1579,8 +1649,8 @@ begin
 
       I:=MagickSortedList.IndexOf(localDirToFindAPlaceFor);
 
-      if I=0 then sUnderPart:='' else sUnderPart:=UTF8LowerCase(IncludeTrailingPathDelimiter(ExpandFileName(ReplaceEnvVars(THotDir(tvDirectoryHotlist.Items.Item[StrToInt(GetLastDir(MagickSortedList.Strings[I-1]))].Data).HotDirPath))));
-      if I=pred(MagickSortedList.Count) then sOverPart:='' else sOverPart:=UTF8LowerCase(IncludeTrailingPathDelimiter(ExpandFileName(ReplaceEnvVars(THotDir(tvDirectoryHotlist.Items.Item[StrToInt(GetLastDir(MagickSortedList.Strings[I+1]))].Data).HotDirPath))));
+      if I=0 then sUnderPart:='' else sUnderPart:=UTF8LowerCase(IncludeTrailingPathDelimiter(mbExpandFileName(THotDir(tvDirectoryHotlist.Items.Item[StrToInt(GetLastDir(MagickSortedList.Strings[I-1]))].Data).HotDirPath)));
+      if I=pred(MagickSortedList.Count) then sOverPart:='' else sOverPart:=UTF8LowerCase(IncludeTrailingPathDelimiter(mbExpandFileName(THotDir(tvDirectoryHotlist.Items.Item[StrToInt(GetLastDir(MagickSortedList.Strings[I+1]))].Data).HotDirPath)));
       BestOne:=GetBestDir(sUnderPart,sOverPart);
 
       case BestOne of
@@ -1590,7 +1660,7 @@ begin
 
       if result<>nil then
       begin
-        if CompareStrings(localDirToFindAPlaceFor, UTF8LowerCase(IncludeTrailingPathDelimiter(ExpandFileName(ReplaceEnvVars(tHotDir(result.Data).HotDirPath)))), gSortNatural, gSortCaseSensitivity) = -1 then TypeOfAddition:=ACTION_INSERTHOTDIR;
+        if CompareStrings(localDirToFindAPlaceFor, UTF8LowerCase(IncludeTrailingPathDelimiter(mbExpandFileName(tHotDir(result.Data).HotDirPath))), gSortNatural, gSortCaseSensitivity) = -1 then TypeOfAddition:=ACTION_INSERTHOTDIR;
       end;
     finally
       MagickSortedList.Free;
@@ -1702,7 +1772,6 @@ var
 
       if not Result then
       begin
-        DirectoryHotlistTemp.FlagModified := DirectoryHotlistTemp.FlagModified or (THotDir(tvDirectoryHotlist.Items.Item[Index].Data).HotDirExisting <> DirNotExist);
         THotDir(tvDirectoryHotlist.Items.Item[Index].Data).HotDirExisting := DirNotExist;
         tvDirectoryHotlist.Items.Item[Index].ImageIndex:=ICONINDEX_DIRECTORYNOTPRESENTHERE;
         tvDirectoryHotlist.Items.Item[Index].SelectedIndex:=ICONINDEX_DIRECTORYNOTPRESENTHERE;
@@ -1769,7 +1838,6 @@ begin
               case ScanMode of
                 1:
                 begin
-                  DirectoryHotlistTemp.FlagModified := DirectoryHotlistTemp.FlagModified or (THotDir(tvDirectoryHotlist.Items.Item[Index].Data).HotDirExisting <> DirExist);
                   THotDir(tvDirectoryHotlist.Items.Item[Index].Data).HotDirExisting := DirExist;
                 end;
 
@@ -1777,7 +1845,6 @@ begin
                 begin
                   if CheckIfThisDirectoryExists(THotDir(tvDirectoryHotlist.Items.Item[Index].Data).HotDirTarget) then
                   begin
-                    DirectoryHotlistTemp.FlagModified := DirectoryHotlistTemp.FlagModified or (THotDir(tvDirectoryHotlist.Items.Item[Index].Data).HotDirExisting <> DirExist);
                     THotDir(tvDirectoryHotlist.Items.Item[Index].Data).HotDirExisting := DirExist;
                   end;
                 end;
@@ -1861,17 +1928,17 @@ begin
 end;
 
 { TfrmOptionsDirectoryHotlist.SubmitToAddOrConfigToHotDirDlg }
-procedure TfrmOptionsDirectoryHotlist.SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher,paramPath,paramTarget,paramOptionalIndex: string);
+procedure TfrmOptionsDirectoryHotlist.SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher: integer; paramPath,paramTarget:string; paramOptionalIndex: integer);
 var
-  ActualActionDispatcher, TypeOfAddition, IndexFile: longint;
+  TypeOfAddition, IndexFile: longint;
   sTempo: string;
   NodeToSelect:TTreeNode=nil;
   SelectedOrActiveDirectories:TFiles;
-  iOptionalIndex:integer;
 
   procedure AddThisSubmittedDirectory(DirectoryPath:string);
   begin
-    if cbAddTarget.Checked then sTempo := IncludeTrailingPathDelimiter(paramTarget) else sTempo := '';
+    if ((paramActionDispatcher=ACTION_ADDTOHOTLIST) AND (cbAddTarget.Checked)) OR
+       (paramActionDispatcher=ACTION_ADDBOTHTOHOTLIST) then sTempo := IncludeTrailingPathDelimiter(paramTarget) else sTempo := '';
     if gWhereToAddNewHotDir = ahdLast then TypeOfAddition:=ACTION_ADDHOTDIR else TypeOfAddition:=ACTION_INSERTHOTDIR;
 
     NodeToSelect:=nil;
@@ -1889,16 +1956,8 @@ var
   end;
 
 begin
-  if UTF8LowerCase(paramActionDispatcher)='add' then ActualActionDispatcher:=ACTION_ADDTOHOTLIST
-  else if UTF8LowerCase(paramActionDispatcher)='addsel' then ActualActionDispatcher:=ACTION_ADDSELECTEDDIR
-  else if UTF8LowerCase(paramActionDispatcher)='config' then ActualActionDispatcher:=ACTION_CONFIGTOHOTLIST
-  else if UTF8LowerCase(paramActionDispatcher)='directconfig' then ActualActionDispatcher:=ACTION_DIRECTLYCONFIGENTRY
-  else ActualActionDispatcher:=-1;
-
-  iOptionalIndex:=StrToInt(paramOptionalIndex);
-
-  case ActualActionDispatcher of
-    ACTION_ADDTOHOTLIST:
+  case paramActionDispatcher of
+    ACTION_ADDTOHOTLIST, ACTION_ADDJUSTSOURCETOHOTLIST, ACTION_ADDBOTHTOHOTLIST:
     begin
       AddThisSubmittedDirectory(paramPath);
     end;
@@ -1910,7 +1969,7 @@ begin
 
     ACTION_JUSTSHOWCONFIGHOTLIST:
     begin
-      NodeToSelect:=tvDirectoryHotlist.Items.Item[0];
+      if tvDirectoryHotlist.Items.Count>0 then NodeToSelect:=tvDirectoryHotlist.Items.Item[0];
     end;
 
     ACTION_ADDSELECTEDDIR:
@@ -1928,7 +1987,7 @@ begin
 
     ACTION_DIRECTLYCONFIGENTRY:
     begin
-      NodeToSelect := TryToGetExactHotDir(iOptionalIndex);
+      NodeToSelect := TryToGetExactHotDir(paramOptionalIndex);
     end
   end;
 
@@ -1955,14 +2014,19 @@ begin
   BringUsToTCConfigurationPage;
 end;
 
+{ TfrmOptionsDirectoryHotlist.GenericSomethingChanged }
+procedure TfrmOptionsDirectoryHotlist.GenericSomethingChanged(Sender: TObject);
+begin
+  FModificationTookPlace := True;
+end;
+
+{ TfrmOptionsDirectoryHotlist.Init }
 procedure TfrmOptionsDirectoryHotlist.Init;
 begin
   ParseLineToList(rsOptAddFromMainPanel, rgWhereToAdd.Items);
 end;
 
 { TODO -oDB : Would be nice if directory does not exist to offer immediately to re-configure it. }
-{ TODO -oDB : Would be nice to be able to SEARCH through. Something like "Start Search" and then "Search again". }
-{ TODO -oDB : Would be nice to be able to do a kind of "Search and replace" like changing all the "X:\" by "\\whatever_server\" for example. }
 { TODO -oDB : Be able to add a quick 16x16 icon to some friendly shortcut like a little star or something to help to see a special entry. }
 { TODO -oDB : Would be nice to have also a COPY-and-PASTE in addition to CUT-and-PASTE. Also, make sure to create new THotDir entry, not just copy entries in tree otherwise it's not good. }
 end.

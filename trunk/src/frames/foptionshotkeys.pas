@@ -54,6 +54,8 @@ type
     procedure edtFilterChange(Sender: TObject);
     procedure lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
+    procedure stgCommandsDrawCell(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; aState: TGridDrawState);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
@@ -120,7 +122,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, Controls, Dialogs, LCLProc, LCLVersion,
+  graphics, Forms, Controls, Dialogs, LCLProc, LCLVersion,
   uFindEx, uGlobs, uGlobsPaths, uLng, uKeyboard, uFormCommands, DCStrUtils;
 
 const
@@ -245,6 +247,28 @@ begin
 
   edtFilter.Clear;
   FillCommandList('');
+end;
+
+procedure TfrmOptionsHotkeys.stgCommandsDrawCell(Sender: TObject; aCol,
+  aRow: Integer; aRect: TRect; aState: TGridDrawState);
+var
+  OffsetY: integer;
+begin
+  if aCol=1 then
+  begin
+    if aRow>0 then
+    begin
+      with Sender as TStringGrid do
+      begin
+        if Cells[aCol,aRow]<>'' then
+        begin
+          OffsetY:=(DefaultRowHeight-Canvas.TextHeight(Cells[aCol,aRow])) div 2;
+          Canvas.Font.Color:=clRed;
+          Canvas.TextOut(aRect.Left+3,aRect.Top+OffsetY,Cells[aCol,aRow]);
+        end;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmOptionsHotkeys.stgCommandsResize(Sender: TObject);

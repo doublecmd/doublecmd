@@ -279,7 +279,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="221">
+    <Units Count="222">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1142,6 +1142,7 @@ end;"/>
       <Unit131>
         <Filename Value="filesources\ufilesourceutil.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceUtil"/>
       </Unit131>
       <Unit132>
         <Filename Value="filesources\ufilesourcewipeoperation.pas"/>
@@ -1578,13 +1579,18 @@ end;"/>
         <UnitName Value="fOptionsBriefView"/>
       </Unit219>
       <Unit220>
+        <Filename Value="fmaincommandsdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMainCommandsDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fMainCommandsDlg"/>
+      </Unit220>
+      <Unit221>
         <Filename Value="frames\fsearchplugin.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmSearchPlugin"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
-        <UnitName Value="fSearchPlugin"/>
-      </Unit220>
+      </Unit221>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -9,19 +9,23 @@ uses
   ExtCtrls, Buttons;
 
 type
-  TQuickSearchMode = (qsSearch, qsFilter);
+  TQuickSearchMode = (qsSearch, qsFilter, qsNone);
   TQuickSearchDirection = (qsdNone, qsdFirst, qsdLast, qsdNext, qsdPrevious);
   TQuickSearchMatch = (qsmBeginning, qsmEnding);
   TQuickSearchCase = (qscSensitive, qscInsensitive);
   TQuickSearchItems = (qsiFiles, qsiDirectories, qsiFilesAndDirectories);
+  TQuickSearchCancelMode = (qscmNode, qscmAtLeastOneThenCancelIfNoFound, qscmCancelIfNoFound);
 
   TQuickSearchOptions = record
     Match: set of TQuickSearchMatch;
     SearchCase: TQuickSearchCase;
     Items: TQuickSearchItems;
+    Direction: TQuickSearchDirection;
+    LastSearchMode: TQuickSearchMode;
+    CancelSearchMode: TQuickSearchCancelMode;
   end;
 
-  TOnChangeSearch = procedure(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; Direction: TQuickSearchDirection = qsdNone) of Object;
+  TOnChangeSearch = procedure(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions) of Object;
   TOnChangeFilter = procedure(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions) of Object;
   TOnExecute = procedure(Sender: TObject) of Object;
   TOnHide = procedure(Sender: TObject) of Object;
@@ -70,7 +74,7 @@ type
     procedure PopFilter;
     procedure ClearFilter;
     procedure CancelFilter;
-    procedure ProcessParams(const Params: array of String);
+    procedure ProcessParams(const SearchMode: TQuickSearchMode; const Params: array of String);
   public
     OnChangeSearch: TOnChangeSearch;
     OnChangeFilter: TOnChangeFilter;
@@ -101,6 +105,7 @@ const
   Parameters:
 
   "filter"           - set filtering (on/off/toggle)
+  "search"           - set searching (on/off/cycle)
   "matchbeginning"   - set match beginning option (on/off/toggle)
   "matchending"      - set match ending option (on/off/toggle)
   "casesensitive"    - set case sensitive searching (on/off/toggle)
@@ -110,9 +115,12 @@ const
   "text"="<...>"     - set <...> as new text to search/filter (string)
 
   'toggle' switches between on and off
+  'cycle' goto to next, next, next and so one
 }
   // parameters for quick search / filter actions
   PARAMETER_FILTER                 = 'filter';
+  PARAMETER_SEARCH                 = 'search';
+  PARAMETER_DIRECTION              = 'direction';
   PARAMETER_MATCH_BEGINNING        = 'matchbeginning';
   PARAMETER_MATCH_ENDING           = 'matchending';
   PARAMETER_CASE_SENSITIVE         = 'casesensitive';
@@ -122,6 +130,10 @@ const
   PARAMETER_TEXT                   = 'text';
 
   TOGGLE_VALUE = 'toggle';
+  CYCLE_VALUE = 'cycle';
+  FIRST_VALUE = 'first';
+  LAST_VALUE = 'last';
+  NEXT_VALUE = 'next';
 
 {$R *.lfm}
 
@@ -157,6 +169,7 @@ begin
 
   // load default options
   Options := gQuickSearchOptions;
+  Options.LastSearchMode := qsNone;
   LoadControlStates;
 
   FilterOptions := gQuickSearchOptions;
@@ -180,6 +193,7 @@ begin
     FNeedsChangeSearch := True
   else
   begin
+    Options.LastSearchMode:=Self.Mode;
     case Self.Mode of
       qsSearch:
         if Assigned(Self.OnChangeSearch) then
@@ -194,8 +208,6 @@ end;
 
 procedure TfrmQuickSearch.Execute(SearchMode: TQuickSearchMode; const Params: array of String; Char: TUTF8Char = #0);
 begin
-  tglFilter.Checked := SearchMode = qsFilter;
-
   Self.Visible := True;
 
   if not edtSearch.Focused then
@@ -210,28 +222,78 @@ begin
 
   Self.Active := True;
 
-  ProcessParams(Params);
+  ProcessParams(SearchMode, Params);
 end;
 
 procedure TfrmQuickSearch.Finalize;
 begin
   PopFilter;
-
   Self.Visible := False;
+
+  Options.LastSearchMode := qsNone;
+  Options.Direction := qsdNone;
+  Options.CancelSearchMode:=qscmNode;
 end;
 
-procedure TfrmQuickSearch.ProcessParams(const Params: array of String);
+{ TfrmQuickSearch.ProcessParams }
+procedure TfrmQuickSearch.ProcessParams(const SearchMode: TQuickSearchMode; const Params: array of String);
 var
   Param: String;
   Value: String;
+  bWeGotMainParam: boolean = False;
+  bLegacyBehavior: boolean = False;
 begin
   BeginUpdate;
   try
+    Options.Direction:=qsdNone;
+
     for Param in Params do
     begin
-      if GetParamValue(Param, PARAMETER_FILTER, Value) then
+      if (SearchMode=qsFilter) AND (GetParamValue(Param, PARAMETER_FILTER, Value)) then
+      begin
+        if (Value <> TOGGLE_VALUE) then
+          tglFilter.Checked := GetBoolState(Value, tglFilter.Checked)
+        else
+          tglFilter.Checked := (not tglFilter.Checked) OR (Options.LastSearchMode<>qsFilter); //With "toggle", if mode was not previously, we activate filter mode.
+        bWeGotMainParam := True;
+      end
+      else if (SearchMode=qsSearch) AND (GetParamValue(Param, PARAMETER_FILTER, Value)) then //Legacy
       begin
         tglFilter.Checked := GetBoolState(Value, tglFilter.Checked);
+        bWeGotMainParam := True;
+        bLegacyBehavior:= True;
+      end
+      else if (SearchMode=qsSearch) AND (GetParamValue(Param, PARAMETER_SEARCH, Value)) then
+      begin
+        if (Value <> CYCLE_VALUE) then
+        begin
+          Options.CancelSearchMode:=qscmNode;
+          if (Value <> TOGGLE_VALUE) then
+            tglFilter.Checked := not (GetBoolState(Value, tglFilter.Checked))
+          else
+            tglFilter.Checked := not((tglFilter.Checked) OR (Options.LastSearchMode<>qsSearch)); //With "toggle", if mode was not previously, we activate search mode.
+        end
+        else
+        begin
+          tglFilter.Checked:=FALSE;
+          if Options.LastSearchMode<>qsSearch then
+          begin
+            Options.Direction:=qsdFirst; //With "cycle", if mode was not previously, we activate search mode AND do to first item
+            Options.CancelSearchMode:=qscmAtLeastOneThenCancelIfNoFound;
+          end
+          else
+          begin
+            Options.Direction:=qsdNext;
+            Options.CancelSearchMode:=qscmCancelIfNoFound;
+          end;
+        end;
+        bWeGotMainParam := True;
+      end
+      else if (SearchMode=qsSearch) AND GetParamValue(Param, PARAMETER_DIRECTION, Value) then
+      begin
+        if Value = FIRST_VALUE then Options.Direction:=qsdFirst;
+        if Value = LAST_VALUE then Options.Direction:=qsdLast;
+        if Value = NEXT_VALUE then Options.Direction:=qsdNext;
       end
       else if GetParamValue(Param, PARAMETER_MATCH_BEGINNING, Value) then
       begin
@@ -285,6 +347,20 @@ begin
     end;
 
     CheckFilesOrDirectoriesDown;
+
+    //If search or filter was called with no parameter...
+    case SearchMode of
+      qsSearch: if not bWeGotMainParam then tglFilter.Checked:=False;
+      qsFilter: if not bWeGotMainParam then tglFilter.Checked:=True;
+    end;
+
+    if not bLegacyBehavior then
+    begin
+      case SearchMode of
+        qsSearch: if tglFilter.Checked then CancelFilter;
+        qsFilter: if not tglFilter.Checked then CancelFilter;
+      end;
+    end;
 
   finally
     EndUpdate;
@@ -473,7 +549,10 @@ begin
       Key := 0;
 
       if Assigned(Self.OnChangeSearch) then
-        Self.OnChangeSearch(Self, edtSearch.Text, Options, qsdNext);
+      begin
+        Options.Direction:=qsdNext;
+        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+      end;
     end;
 
     VK_UP:
@@ -481,7 +560,10 @@ begin
       Key := 0;
 
       if Assigned(Self.OnChangeSearch) then
-        Self.OnChangeSearch(Self, edtSearch.Text, Options, qsdPrevious);
+      begin
+        Options.Direction:=qsdPrevious;
+        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+      end;
     end;
 
 (*  // disabled as they can conflict with trying to get to start/end position
@@ -491,7 +573,10 @@ begin
       Key := 0;
 
       if Assigned(Self.OnChangeSearch) then
-        Self.OnChangeSearch(Self, edtSearch.Text, Options, qsdFirst);
+      begin
+        Options := qsdFirst;
+        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+      end;
     end;
 
     VK_END:
@@ -499,7 +584,10 @@ begin
       Key := 0;
 
       if Assigned(Self.OnChangeSearch) then
-        Self.OnChangeSearch(Self, edtSearch.Text, Options, qsdLast);
+      begin
+        Options := qsdLast;
+        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+      end;
     end;
 *)
     VK_RETURN, VK_SELECT:
@@ -559,6 +647,7 @@ begin
 
     Finalizing := False;
   end;
+
 end;
 
 procedure TfrmQuickSearch.sbCaseSensitiveClick(Sender: TObject);
@@ -567,6 +656,8 @@ begin
     Options.SearchCase := qscSensitive
   else
     Options.SearchCase := qscInsensitive;
+
+  if gQuickFilterSaveSessionModifications then gQuickSearchOptions.SearchCase := Options.SearchCase;
 
   DoOnChangeSearch;
 end;
@@ -585,6 +676,8 @@ begin
     Exit;
   end;
 
+  if gQuickFilterSaveSessionModifications then gQuickSearchOptions.Items := Options.Items;
+
   DoOnChangeSearch;
 end;
 
@@ -594,6 +687,8 @@ begin
     Include(Options.Match, qsmBeginning)
   else
     Exclude(Options.Match, qsmBeginning);
+
+  if gQuickFilterSaveSessionModifications then gQuickSearchOptions.Match := Options.Match;
 
   DoOnChangeSearch;
 end;
@@ -605,18 +700,21 @@ begin
   else
     Exclude(Options.Match, qsmEnding);
 
+  if gQuickFilterSaveSessionModifications then gQuickSearchOptions.Match := Options.Match;
+
   DoOnChangeSearch;
 end;
 
 procedure TfrmQuickSearch.tglFilterChange(Sender: TObject);
 begin
+  Options.LastSearchMode := qsNone;
   if tglFilter.Checked then
     Mode := qsFilter
   else
     Mode := qsSearch;
 
   // if a filter was set in background and a search is opened, the filter
-  // will get pushed staying active. Otherwise the filter wil be converted
+  // will get pushed staying active. Otherwise the filter will be converted
   // in a search
   if not Active and (Mode = qsSearch) then
     PushFilter

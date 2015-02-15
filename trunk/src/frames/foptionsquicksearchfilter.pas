@@ -58,6 +58,7 @@ uses
 
 const
   OPTION_AUTOHIDE_POSITION = 0;
+  OPTION_SAVE_SESSION_MODIFICATIONS = 1;
 
 { TfrmOptionsQuickSearchFilter }
 
@@ -86,6 +87,7 @@ begin
   rgpSearchItems.ItemIndex := Integer(gQuickSearchOptions.Items);
   rgpSearchCase.ItemIndex := Integer(gQuickSearchOptions.SearchCase);
   cgpOptions.Checked[OPTION_AUTOHIDE_POSITION] := gQuickFilterAutoHide;
+  cgpOptions.Checked[OPTION_SAVE_SESSION_MODIFICATIONS] := gQuickFilterSaveSessionModifications;
 end;
 
 function TfrmOptionsQuickSearchFilter.Save: TOptionsEditorSaveFlags;
@@ -105,6 +107,7 @@ begin
   gQuickSearchOptions.Items := TQuickSearchItems(rgpSearchItems.ItemIndex);
   gQuickSearchOptions.SearchCase := TQuickSearchCase(rgpSearchCase.ItemIndex);
   gQuickFilterAutoHide := cgpOptions.Checked[OPTION_AUTOHIDE_POSITION];
+  gQuickFilterSaveSessionModifications := cgpOptions.Checked[OPTION_SAVE_SESSION_MODIFICATIONS];
 end;
 
 end.

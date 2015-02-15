@@ -1,4 +1,4 @@
-inherited frmEditor: TfrmEditor
+object frmEditor: TfrmEditor
   Left = 100
   Height = 480
   Top = 100
@@ -53,7 +53,8 @@ inherited frmEditor: TfrmEditor
   OnCreate = FormCreate
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  object StatusBar: TStatusBar[0]
+  LCLVersion = '1.2.6.0'
+  object StatusBar: TStatusBar
     Left = 0
     Height = 23
     Top = 437
@@ -73,7 +74,7 @@ inherited frmEditor: TfrmEditor
       end>
     SimplePanel = False
   end
-  inline Editor: TSynEdit[1]
+  inline Editor: TSynEdit
     Left = 0
     Height = 411
     Top = 26
@@ -596,7 +597,7 @@ inherited frmEditor: TfrmEditor
       end
     end
   end
-  object tbToolBar: TToolBar[2]
+  object tbToolBar: TToolBar
     Left = 0
     Height = 26
     Top = 0
@@ -623,58 +624,58 @@ inherited frmEditor: TfrmEditor
     object tbSeparator1: TToolButton
       Left = 70
       Top = 2
-      Width = 8
+      Width = 10
       Style = tbsSeparator
     end
     object tbCut: TToolButton
-      Left = 78
+      Left = 80
       Top = 2
       Action = actEditCut
     end
     object tbCopy: TToolButton
-      Left = 101
+      Left = 103
       Top = 2
       Action = actEditCopy
     end
     object tbPaste: TToolButton
-      Left = 124
+      Left = 126
       Top = 2
       Action = actEditPaste
     end
     object tbSeparator2: TToolButton
-      Left = 147
+      Left = 149
       Top = 2
-      Width = 8
+      Width = 10
       Style = tbsSeparator
     end
     object tbUndo: TToolButton
-      Left = 155
+      Left = 159
       Top = 2
       Action = actEditUndo
     end
     object tbRedo: TToolButton
-      Left = 178
+      Left = 182
       Top = 2
       Action = actEditRedo
     end
     object tbSeparator3: TToolButton
-      Left = 201
+      Left = 205
       Top = 2
-      Width = 8
+      Width = 10
       Style = tbsSeparator
     end
     object tbConfig: TToolButton
-      Left = 209
+      Left = 215
       Top = 2
       Action = actConfHigh
     end
     object tbHelp: TToolButton
-      Left = 232
+      Left = 238
       Top = 2
       Action = actAbout
     end
   end
-  object MainMenu1: TMainMenu[3]
+  object MainMenu1: TMainMenu
     Images = ilImageList
     left = 48
     top = 32
@@ -1302,6 +1303,42 @@ inherited frmEditor: TfrmEditor
       end
       object miGotoLine: TMenuItem
         Action = actEditGotoLine
+        Bitmap.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000064000000640000000000000000000000FFFFFF00BBBB
+          BBFF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
+          88FF858A88FF858A88FF858A88FF858A88FFBBBBBBFFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFEFEFEFFFEFEFEFFFEFEFEFFFEFEFEFFFEFE
+          FEFFFEFEFEFFFEFEFEFFFEFEFEFFFFFFFFFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFF0000FFFF0000FFFF0000FFFF0000
+          FFFF0000FFFF0000FFFF0000FFFFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFFD4D4D4FFD4D4D4FF874A20FF874A
+          20FFD4D4D4FFD4D4D4FFD4D4D4FFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFFFFFFFFFF874A20FFBAA38FFFCCBB
+          ADFF874A20FFFFFFFFFFFFFFFFFFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFF874A20FFBAA38FFFB5957AFFB595
+          7AFFCCBBADFF874A20FFC8C8C8FFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFF874A20FFBAA38FFFB5957AFFB5957AFFB595
+          7AFFB5957AFFCCBBADFF874A20FFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FF874A20FFBAA38FFFBAA38FFFBAA38FFFB5957AFFB595
+          7AFFB5957AFFB5957AFFCCBBADFF874A20FF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FF874A20FF874A20FF874A20FF874A20FF874A20FFBAA38FFFCCBB
+          ADFF874A20FF874A20FF874A20FF874A20FF874A20FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFFBFBFBFFF874A20FFBAA38FFFCCBB
+          ADFF874A20FFBFBFBFFFBFBFBFFFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFD8D8D8FFD8D8D8FFBBBBBBFFFFFFFFFFFFFFFFFF874A20FFBAA38FFFCCBB
+          ADFF874A20FFFFFFFFFFFFFFFFFFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFBBBBBBFFBBBBBBFF948A7CFF9A7441FF9F7844FFBAA38FFFBAA38FFFCCBB
+          ADFF874A20FFB7B7B7FFB7B7B7FFFEFEFEFF858A88FFFFFFFF00FFFFFF00858A
+          88FFA59C8FFFB2ADA8FFBAA38FFFBAA38FFFBAA38FFFBAA38FFFCCBBADFF874A
+          20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88FFFFFFFF00FFFFFF00BBBB
+          BBFF9B958AFFA09990FF948A7CFF886F4FFF8B6738FF896A40FF7F7253FF858A
+          88FF858A88FF858A88FF858A88FF858A88FFBBBBBBFFFFFFFF00
+        }
         ImageIndex = 16
       end
       object N5: TMenuItem
@@ -1379,7 +1416,7 @@ inherited frmEditor: TfrmEditor
       end
     end
   end
-  object ActListEdit: TActionList[4]
+  object ActListEdit: TActionList
     Images = ilImageList
     left = 96
     top = 32
@@ -1577,7 +1614,7 @@ inherited frmEditor: TfrmEditor
       ShortCut = 16455
     end
   end
-  object pmContextMenu: TPopupMenu[5]
+  object pmContextMenu: TPopupMenu
     Images = ilImageList
     left = 144
     top = 32
@@ -1828,7 +1865,7 @@ inherited frmEditor: TfrmEditor
       OnClick = actEditSelectAllExecute
     end
   end
-  object ilImageList: TImageList[6]
+  object ilImageList: TImageList
     left = 192
     top = 32
     Bitmap = {

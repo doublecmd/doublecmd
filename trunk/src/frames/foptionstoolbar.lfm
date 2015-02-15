@@ -4,8 +4,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
   ClientHeight = 573
   ClientWidth = 850
   OnEnter = FrameEnter
-  DesignLeft = 158
-  DesignTop = 294
+  DesignLeft = 247
+  DesignTop = 141
   object gbGroupBox: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -166,10 +166,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = pnlFullToolbarButtons
       AnchorSideBottom.Side = asrBottom
-      Left = 156
+      Left = 209
       Height = 25
       Top = 0
-      Width = 527
+      Width = 420
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.HorizontalSpacing = 8
@@ -180,7 +180,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.Layout = cclTopToBottomThenLeftToRight
       ChildSizing.ControlsPerLine = 1
       ClientHeight = 25
-      ClientWidth = 527
+      ClientWidth = 420
       TabOrder = 0
       object btnInsertButton: TButton
         Left = 0
@@ -212,35 +212,16 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         OnClick = btnDeleteButtonClick
         TabOrder = 2
       end
-      object btnExport: TButton
-        Left = 298
+      object btnOther: TButton
+        Left = 355
         Height = 25
         Top = 0
-        Width = 68
+        Width = 65
         AutoSize = True
-        Caption = 'Export...'
-        OnClick = btnExportClick
+        BorderSpacing.Left = 65
+        Caption = 'Other...'
+        OnClick = btnOtherClick
         TabOrder = 3
-      end
-      object btnImport: TButton
-        Left = 374
-        Height = 25
-        Top = 0
-        Width = 71
-        AutoSize = True
-        Caption = 'Import...'
-        OnClick = btnImportClick
-        TabOrder = 4
-      end
-      object btnBackup: TButton
-        Left = 453
-        Height = 25
-        Top = 0
-        Width = 74
-        AutoSize = True
-        Caption = 'Backup...'
-        OnClick = btnBackupClick
-        TabOrder = 5
       end
     end
   end
@@ -367,12 +348,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblToolTip
         AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = pnlEditControls
-        AnchorSideRight.Side = asrBottom
+        AnchorSideRight.Control = btnSuggestionTooltip
         Left = 64
         Height = 23
         Top = 27
-        Width = 681
+        Width = 628
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
@@ -396,12 +376,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblInternalCommand
         AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = pnlEditControls
-        AnchorSideRight.Side = asrBottom
+        AnchorSideRight.Control = btnOpenCmdDlg
         Left = 64
         Height = 23
         Top = 52
-        Width = 681
+        Width = 600
         HelpType = htKeyword
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
@@ -770,6 +749,62 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Visible = False
         OnClick = btnRelativeStartPathClick
       end
+      object btnOpenCmdDlg: TButton
+        AnchorSideLeft.Control = cbInternalCommand
+        AnchorSideTop.Control = cbInternalCommand
+        AnchorSideRight.Control = lblHelpOnInternalCommand
+        AnchorSideBottom.Control = cbInternalCommand
+        AnchorSideBottom.Side = asrBottom
+        Left = 667
+        Height = 23
+        Top = 52
+        Width = 50
+        Anchors = [akTop, akRight, akBottom]
+        BorderSpacing.Left = 3
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Select'
+        OnClick = btnOpenCmdDlgClick
+        TabOrder = 12
+        Visible = False
+      end
+      object lblHelpOnInternalCommand: TLabel
+        AnchorSideTop.Control = lblInternalCommand
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 720
+        Height = 15
+        Top = 56
+        Width = 25
+        Anchors = [akTop, akRight]
+        BorderSpacing.Left = 3
+        Caption = 'Help'
+        Font.Style = [fsUnderline]
+        ParentColor = False
+        ParentFont = False
+        Visible = False
+        OnClick = lblHelpOnInternalCommandClick
+      end
+      object btnSuggestionTooltip: TButton
+        AnchorSideTop.Control = edtToolTip
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtToolTip
+        AnchorSideBottom.Side = asrBottom
+        Left = 695
+        Height = 23
+        Hint = 'Have DC suggest the tooltip based on button type, command and parameters'
+        Top = 27
+        Width = 50
+        Anchors = [akTop, akRight, akBottom]
+        BorderSpacing.Left = 3
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Suggest'
+        OnClick = btnSuggestionTooltipClick
+        TabOrder = 13
+        Visible = False
+      end
     end
   end
   object pnToolbars: TPanel[3]
@@ -789,7 +824,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     TabOrder = 3
   end
   object OpenDialog: TOpenDialog[4]
-    Filter = 'TC Toolbar files|*.BAR|DC Toolbar files|*.toolbar|Any filesAny files|*.*'
+    Filter = 'DC Toolbar files|*.toolbar|.xml Config files|*.xml|TC Toolbar files|*.BAR|Any files|*.*'
     Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
     left = 48
     top = 104
@@ -799,8 +834,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     top = 232
   end
   object pmInsertButtonMenu: TPopupMenu[6]
-    left = 312
-    top = 192
+    left = 256
+    top = 176
     object miAddSeparatorSubMenu: TMenuItem
       Caption = 'for a separator'
       object miSeparatorFirstItem: TMenuItem
@@ -894,235 +929,280 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       end
     end
   end
-  object pmExportToolbar: TPopupMenu[7]
-    Tag = 1
-    left = 480
-    top = 200
-    object miExportTop: TMenuItem
-      Caption = 'Top toolbar...'
-      object miExportTopToDCBar: TMenuItem
-        Tag = 2
-        Caption = 'to a Toolbar File (.toolbar)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportSeparator1: TMenuItem
-        Caption = '-'
-      end
-      object miExportTopToTCIniKeep: TMenuItem
-        Caption = 'to a "wincmd.ini" of TC (keep existing)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportTopToTCIniNoKeep: TMenuItem
-        Tag = 128
-        Caption = 'to a "wincmd.ini" of TC (erase existing)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportSeparator2: TMenuItem
-        Caption = '-'
-      end
-      object miExportTopToTCBarKeep: TMenuItem
-        Tag = 1
-        Caption = 'to a TC .BAR file (keep existing)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportTopToTCBarNoKeep: TMenuItem
-        Tag = 129
-        Caption = 'to a TC .BAR file (erase existing)'
-        OnClick = miExportToAnythingClick
-      end
-    end
-    object miExportCurrent: TMenuItem
-      Caption = 'Current toolbar...'
-      Enabled = False
-      object miExportCurrentToDCBar: TMenuItem
-        Tag = 34
-        Caption = 'to a Toolbar File (.toolbar)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportSeparator3: TMenuItem
-        Caption = '-'
-      end
-      object miExportCurrentToTCIniKeep: TMenuItem
-        Tag = 32
-        Caption = 'to a "wincmd.ini" of TC (keep existing)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportCurrentToTCIniNoKeep: TMenuItem
-        Tag = 160
-        Caption = 'to a "wincmd.ini" of TC (erase existing)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportSeparator4: TMenuItem
-        Caption = '-'
-      end
-      object miExportCurrentToTCBarKeep: TMenuItem
-        Tag = 33
-        Caption = 'to a TC .BAR file (keep existing)'
-        OnClick = miExportToAnythingClick
-      end
-      object miExportCurrentToTCBarNoKeep: TMenuItem
-        Tag = 161
-        Caption = 'to a TC .BAR file (erase existing)'
-        OnClick = miExportToAnythingClick
-      end
-    end
-  end
-  object pmImportToolbar: TPopupMenu[8]
-    left = 552
+  object pmOtherClickToolbar: TPopupMenu[7]
+    left = 592
     top = 176
-    object miImportDCBAR: TMenuItem
-      Caption = 'from a Toolbar File (.toolbar)'
-      object miImportDCBARReplaceTop: TMenuItem
-        Tag = 130
-        Caption = 'to replace top toolbar'
-        OnClick = miImportFromAnythingClick
+    object miAddAllCmds: TMenuItem
+      Caption = 'Add toolbar with ALL DC commands'
+      OnClick = miAddAllCmdsClick
+    end
+    object miSearchAndReplace: TMenuItem
+      Caption = 'Search and replace...'
+      object miSrcRplIconNames: TMenuItem
+        Tag = 1
+        Caption = 'in all icon names...'
+        OnClick = miSrcRplClick
       end
-      object miSeparator8: TMenuItem
-        Caption = '-'
-      end
-      object miImportDCBARAddTop: TMenuItem
+      object miSrcRplCommands: TMenuItem
         Tag = 2
-        Caption = 'to add to top toolbar'
-        OnClick = miImportFromAnythingClick
+        Caption = 'in all commands...'
+        OnClick = miSrcRplClick
       end
-      object miImportDCBARAddMenuTop: TMenuItem
-        Tag = 18
-        Caption = 'to add to a new toolbar to top toolbar'
-        OnClick = miImportFromAnythingClick
+      object miSrcRplParameters: TMenuItem
+        Tag = 4
+        Caption = 'in all parameters...'
+        OnClick = miSrcRplClick
       end
-      object miSeparator9: TMenuItem
+      object miSrcRplStartPath: TMenuItem
+        Tag = 8
+        Caption = 'in all start path...'
+        OnClick = miSrcRplClick
+      end
+      object miSrcRplClickSeparator: TMenuItem
         Caption = '-'
       end
-      object miImportDCBARAddCurrent: TMenuItem
-        Tag = 34
-        Caption = 'to add to current toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miImportDCBARAddMenuCurrent: TMenuItem
-        Tag = 50
-        Caption = 'to add to a new toolbar to current toolbar'
-        OnClick = miImportFromAnythingClick
+      object miSrcRplAllOfAll: TMenuItem
+        Tag = 15
+        Caption = 'in all of all the above...'
+        OnClick = miSrcRplClick
       end
     end
-    object miImportSeparator: TMenuItem
+    object miSeparator1: TMenuItem
       Caption = '-'
     end
-    object miImportTCINI: TMenuItem
-      Caption = 'from "wincmd.ini" of TC...'
-      object miImportTCINIReplaceTop: TMenuItem
-        Tag = 128
-        Caption = 'to replace top toolbar'
-        OnClick = miImportFromAnythingClick
+    object miExport: TMenuItem
+      Caption = 'Export...'
+      object miExportTop: TMenuItem
+        Caption = 'Top toolbar...'
+        object miExportTopToDCBar: TMenuItem
+          Tag = 2
+          Caption = 'to a Toolbar File (.toolbar)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator1: TMenuItem
+          Caption = '-'
+        end
+        object miExportTopToTCIniKeep: TMenuItem
+          Caption = 'to a "wincmd.ini" of TC (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportTopToTCIniNoKeep: TMenuItem
+          Tag = 128
+          Caption = 'to a "wincmd.ini" of TC (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator2: TMenuItem
+          Caption = '-'
+        end
+        object miExportTopToTCBarKeep: TMenuItem
+          Tag = 1
+          Caption = 'to a TC .BAR file (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportTopToTCBarNoKeep: TMenuItem
+          Tag = 129
+          Caption = 'to a TC .BAR file (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
       end
-      object miSeparator6: TMenuItem
-        Caption = '-'
-      end
-      object miImportTCINIAddTop: TMenuItem
-        Caption = 'to add to top toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miImportTCINIAddMenuTop: TMenuItem
-        Tag = 16
-        Caption = 'to add to a new toolbar to top toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miSeparator7: TMenuItem
-        Caption = '-'
-      end
-      object miImportTCINIAddCurrent: TMenuItem
-        Tag = 32
-        Caption = 'to add to current toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miImportTCINIAddMenuCurrent: TMenuItem
-        Tag = 48
-        Caption = 'to add to a new toobar to current toolbar'
-        OnClick = miImportFromAnythingClick
+      object miExportCurrent: TMenuItem
+        Caption = 'Current toolbar...'
+        object miExportCurrentToDCBar: TMenuItem
+          Tag = 34
+          Caption = 'to a Toolbar File (.toolbar)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator3: TMenuItem
+          Caption = '-'
+        end
+        object miExportCurrentToTCIniKeep: TMenuItem
+          Tag = 32
+          Caption = 'to a "wincmd.ini" of TC (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportCurrentToTCIniNoKeep: TMenuItem
+          Tag = 160
+          Caption = 'to a "wincmd.ini" of TC (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator4: TMenuItem
+          Caption = '-'
+        end
+        object miExportCurrentToTCBarKeep: TMenuItem
+          Tag = 33
+          Caption = 'to a TC .BAR file (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportCurrentToTCBarNoKeep: TMenuItem
+          Tag = 161
+          Caption = 'to a TC .BAR file (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
       end
     end
-    object miImportTCBAR: TMenuItem
-      Caption = 'from a single TC .BAR file'
-      object miImportTCBARRepaceTop: TMenuItem
-        Tag = 129
-        Caption = 'to replace top toolbar'
-        OnClick = miImportFromAnythingClick
+    object miImport: TMenuItem
+      Caption = 'Import...'
+      object miImportDCBAR: TMenuItem
+        Caption = 'from a Toolbar File (.toolbar)'
+        object miImportDCBARReplaceTop: TMenuItem
+          Tag = 130
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator8: TMenuItem
+          Caption = '-'
+        end
+        object miImportDCBARAddTop: TMenuItem
+          Tag = 2
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportDCBARAddMenuTop: TMenuItem
+          Tag = 18
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator9: TMenuItem
+          Caption = '-'
+        end
+        object miImportDCBARAddCurrent: TMenuItem
+          Tag = 34
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportDCBARAddMenuCurrent: TMenuItem
+          Tag = 50
+          Caption = 'to add to a new toobar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
       end
-      object miSeparator10: TMenuItem
+      object miImportSeparator: TMenuItem
         Caption = '-'
       end
-      object miImportTCBARAddTop: TMenuItem
-        Tag = 1
-        Caption = 'to add to top toolbar'
-        OnClick = miImportFromAnythingClick
+      object miImportTCINI: TMenuItem
+        Caption = 'from "wincmd.ini" of TC...'
+        object miImportTCINIReplaceTop: TMenuItem
+          Tag = 128
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator6: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCINIAddTop: TMenuItem
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCINIAddMenuTop: TMenuItem
+          Tag = 16
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator7: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCINIAddCurrent: TMenuItem
+          Tag = 32
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCINIAddMenuCurrent: TMenuItem
+          Tag = 48
+          Caption = 'to add to a new toobar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
       end
-      object miImportTCBARAddMenuTop: TMenuItem
-        Tag = 17
-        Caption = 'to add to a new toolbar to top toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miSeparator11: TMenuItem
-        Caption = '-'
-      end
-      object miImportTCBARAddCurrent: TMenuItem
-        Tag = 33
-        Caption = 'to add to current toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miImportTCBARAddMenuCurrent: TMenuItem
-        Tag = 49
-        Caption = 'to add to a new toobar to current toolbar'
-        OnClick = miImportFromAnythingClick
+      object miImportTCBAR: TMenuItem
+        Caption = 'from a single TC .BAR file'
+        object miImportTCBARReplaceTop: TMenuItem
+          Tag = 129
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator10: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCBARAddTop: TMenuItem
+          Tag = 1
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCBARAddMenuTop: TMenuItem
+          Tag = 17
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator11: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCBARAddCurrent: TMenuItem
+          Tag = 33
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCBARAddMenuCurrent: TMenuItem
+          Tag = 49
+          Caption = 'to add to a new toobar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
       end
     end
-  end
-  object pmBackupToolbar: TPopupMenu[9]
-    left = 632
-    top = 200
-    object miExportTopToBackup: TMenuItem
-      Tag = 3
-      Caption = 'Save a backup of Toolbar'
-      OnClick = miExportToAnythingClick
+    object miSeparator2: TMenuItem
+      Caption = '-'
     end
-    object miImportBackup: TMenuItem
-      Caption = 'Restore a backup of Toolbar'
-      object miImportBackupReplaceTop: TMenuItem
-        Tag = 131
-        Caption = 'to replace top toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miSeparator13: TMenuItem
-        Caption = '-'
-      end
-      object miImportBackupAddTop: TMenuItem
+    object miBackup: TMenuItem
+      Caption = 'Backup...'
+      object miExportTopToBackup: TMenuItem
         Tag = 3
-        Caption = 'to add to top toolbar'
-        OnClick = miImportFromAnythingClick
+        Caption = 'Save a backup of Toolbar'
+        OnClick = miExportToAnythingClick
       end
-      object miImportBackupAddMenuTop: TMenuItem
-        Tag = 19
-        Caption = 'to add to a new toolbar to top toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miSeparator14: TMenuItem
-        Caption = '-'
-      end
-      object miImportBackupAddCurrent: TMenuItem
-        Tag = 35
-        Caption = 'to add to current toolbar'
-        OnClick = miImportFromAnythingClick
-      end
-      object miImportBackupAddMenuCurrent: TMenuItem
-        Tag = 51
-        Caption = 'to add to a new toobar to current toolbar'
-        OnClick = miImportFromAnythingClick
+      object miImportBackup: TMenuItem
+        Caption = 'Restore a backup of Toolbar'
+        object miImportBackupReplaceTop: TMenuItem
+          Tag = 131
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator13: TMenuItem
+          Caption = '-'
+        end
+        object miImportBackupAddTop: TMenuItem
+          Tag = 3
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportBackupAddMenuTop: TMenuItem
+          Tag = 19
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator14: TMenuItem
+          Caption = '-'
+        end
+        object miImportBackupAddCurrent: TMenuItem
+          Tag = 35
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportBackupAddMenuCurrent: TMenuItem
+          Tag = 51
+          Caption = 'to add to a new toobar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
       end
     end
   end
-  object SaveDialog: TSaveDialog[10]
+  object SaveDialog: TSaveDialog[8]
     DefaultExt = '.hotlist'
-    Filter = 'TC Toolbar file|*.BAR|DC Toolbar file|*.toolbar|Any files|*.*'
+    Filter = 'DC Toolbar files|*.toolbar|TC Toolbar files|*.BAR|Any files|*.*'
     Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
     left = 152
     top = 104
+  end
+  object ReplaceDialog: TReplaceDialog[9]
+    Options = [frHideWholeWord, frHideUpDown, frDisableUpDown, frDisableWholeWord, frHideEntireScope, frHidePromptOnReplace]
+    left = 288
+    top = 112
   end
 end

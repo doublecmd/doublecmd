@@ -102,7 +102,7 @@ implementation
 {$R *.lfm}
 
 uses
-  HelpIntfs, LCLType, uKeyboard, uLng, uGlobs, uFormCommands, DCStrUtils,
+  HelpIntfs, LCLType, dmHelpManager, uOSUtils, uKeyboard, uLng, uGlobs, uFormCommands, DCStrUtils,
   uPixMapManager;
 
 const
@@ -117,6 +117,7 @@ begin
   if GetShortcutsEditorsCount < MaxShortcutSequenceLength then
   begin
     EditControl := TEdit.Create(Self);
+    EditControl.Font.Color:=clRed;
     EditControl.Parent := pnlShortcuts;
     EditControl.OnKeyDown  := @edtShortcutKeyDown;
     EditControl.OnKeyPress := @edtShortcutKeyPress;
@@ -225,7 +226,7 @@ end;
 
 procedure TfrmEditHotkey.btnShowCommandHelpClick(Sender: TObject);
 begin
-  ShowHelpOrErrorForKeyword('', edtParameters.HelpKeyword);
+  ShowHelpForKeywordWithAnchor(edtParameters.HelpKeyword);
 end;
 
 procedure TfrmEditHotkey.cgHKControlsItemClick(Sender: TObject; Index: integer);

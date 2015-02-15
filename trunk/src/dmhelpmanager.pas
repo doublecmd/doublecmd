@@ -43,6 +43,8 @@ type
     { public declarations }
   end; 
 
+procedure ShowHelpForKeywordWithAnchor(const Keyword: String);
+
 var
   dmHelpMgr: TdmHelpManager;
 
@@ -51,10 +53,45 @@ implementation
 {$R *.lfm}
 
 uses
-  {$IFDEF MSWindows}
-  LCLIntf,
+  {$IFDEF MSWINDOWS}
+  LCLIntf, uOSUtils, uFileProcs,
+  {$ELSE}
+  HelpIntfs,
   {$ENDIF}
   uGlobsPaths, uGlobs, DCStrUtils, DCOSUtils, StrUtils;
+
+{$IF DEFINED(MSWINDOWS)}
+procedure OpenURLWithAnchor(URL: String);
+var
+  hFile:THandle;
+  TempoFilenameWithTheLink: String;
+begin
+  TempoFilenameWithTheLink:= GetTempFolderDeletableAtTheEnd + 'FileWithALink.html';
+  hFile:= mbFileCreate(TempoFilenameWithTheLink);
+  if hFile <> feInvalidHandle then
+  try
+    FileWriteLn(hFile,'<html>');
+    FileWriteLn(hFile,'<head><meta http-equiv="refresh" content="0;url=' + URL + '" /></head>');
+    // In case browser doesn't support auto-redirection, give a link to user.
+    FileWriteLn(hFile,'<body><center><a href="' + URL + '">Click here</a> for help</center></body>');
+    FileWriteLn(hFile,'</html>');
+  finally
+    FileClose(hFile);
+  end;
+  if mbFileExists(TempoFilenameWithTheLink) then OpenURL(TempoFilenameWithTheLink);
+end;
+{$ENDIF}
+
+procedure ShowHelpForKeywordWithAnchor(const Keyword: String);
+{$IF DEFINED(MSWINDOWS)}
+begin
+  OpenURLWithAnchor(dmHelpMgr.HTMLHelpDatabase.BaseURL + Keyword);
+end;
+{$ELSE}
+begin
+  ShowHelpOrErrorForKeyword('', Keyword);
+end;
+{$ENDIF}
 
 { TdmHelpManager }
 
@@ -87,4 +124,4 @@ begin
 end;
 
 end.
-
+

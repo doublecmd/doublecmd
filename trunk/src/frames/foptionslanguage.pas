@@ -60,16 +60,30 @@ var
   fr: TSearchRecEx;
   iIndex: Integer;
   sLangName: String;
+  LanguageFileList: TStringList;
 begin
-  lngList.Clear;
-  DCDebug('Language directory: ' + gpLngDir);
-  if FindFirstEx(gpLngDir + '*.po', faAnyFile, fr) = 0 then
-  repeat
-    sLangName := GetLanguageName(gpLngDir + fr.Name);
-    iIndex := lngList.Items.Add(Format('%s = %s', [sLangName, fr.Name]));
-    if (gPOFileName = fr.Name) then lngList.Selected[iIndex] := True;
-  until FindNextEx(fr) <> 0;
-  FindCloseEx(fr);
+  LanguageFileList:=TStringList.Create;
+  LanguageFileList.Sorted:=True;
+  LanguageFileList.Duplicates:=dupAccept;
+  try
+    lngList.Clear;
+    DCDebug('Language directory: ' + gpLngDir);
+    if FindFirstEx(gpLngDir + '*.po', faAnyFile, fr) = 0 then
+    repeat
+      sLangName := GetLanguageName(gpLngDir + fr.Name);
+      LanguageFileList.Add(Format('%s = %s', [sLangName, fr.Name]));
+    until FindNextEx(fr) <> 0;
+    FindCloseEx(fr);
+
+    for iIndex:=0 to pred(LanguageFileList.Count) do
+    begin
+      lngList.Items.add(LanguageFileList.Strings[iIndex]);
+      if (gPOFileName = Trim(lngList.Items.ValueFromIndex[iIndex])) then lngList.ItemIndex:=iIndex;
+    end;
+
+  finally
+    LanguageFileList.Free;
+  end;
 end;
 
 class function TfrmOptionsLanguage.GetIconIndex: Integer;

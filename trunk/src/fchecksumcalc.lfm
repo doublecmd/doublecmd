@@ -15,7 +15,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  SessionProperties = 'cbOpenAfterJobIsComplete.Checked;cbSeparateFile.Checked;cmbHashAlgorithm.ItemIndex;lbHashAlgorithm.ItemIndex'
+  SessionProperties = 'cbOpenAfterJobIsComplete.Checked;cbSeparateFile.Checked;lbHashAlgorithm.ItemIndex'
   LCLVersion = '1.2.6.0'
   object lblSaveTo: TLabel
     AnchorSideLeft.Control = Owner

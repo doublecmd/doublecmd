@@ -104,15 +104,9 @@ implementation
 uses
   //Lazarus, Free-Pascal, etc.
   Clipbrd, LCLType, Graphics,
-  {$IFNDEF MSWINDOWS}
-  helpintfs,
-  {$ENDIF}
 
   //DC
-  {$IFDEF MSWINDOWS}
-  dmHelpManager, uOSUtils,
-  {$ENDIF}
-  DCStrUtils, uLng, uPixMapManager, uGlobs, fMain, uDebug, LazUTF8, LCLIntf;
+  DCStrUtils, dmHelpManager, uLng, uPixMapManager, uGlobs, fMain, uDebug, LazUTF8, LCLIntf;
 
 function ShowMainCommandDlgForm(DefaultCmd: string; var ReturnedCmd: string): boolean;
 var
@@ -473,12 +467,7 @@ end;
 { TfrmMainCommandsDlg.lblSelectedCommandHelpClick }
 procedure TfrmMainCommandsDlg.lblSelectedCommandHelpClick(Sender: TObject);
 begin
-  {$IFDEF MSWINDOWS}
-  OpenURLWithAnchor(dmHelpMgr.HTMLHelpDatabase.BaseURL + '\cmds.html#' + lblSelectedCommand.Caption);
-  {$ENDIF}
-  {$IFNDEF MSWINDOWS}
-  ShowHelpOrErrorForKeyword('', '/cmds.html#' + lblSelectedCommand.Caption);
-  {$ENDIF}
+  ShowHelpForKeywordWithAnchor('\cmds.html#' + lblSelectedCommand.Caption);
 end;
 
 { TfrmMainCommandsDlg.lblSelectedCommandHelpClick }
@@ -493,4 +482,4 @@ begin
   lblSelectedCommandHelp.Font.Color := clDefault;
 end;
 
-end.
+end.

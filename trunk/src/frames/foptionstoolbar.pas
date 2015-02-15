@@ -41,8 +41,10 @@ type
     btnInsertButton: TButton;
     btnCloneButton: TButton;
     btnDeleteButton: TButton;
+    btnSuggestionTooltip: TButton;
     btnOpenFile: TButton;
     btnEditHotkey: TButton;
+    btnOpenCmdDlg: TButton;
     btnRelativeStartPath: TSpeedButton;
     btnStartPath: TButton;
     btnRelativeIconFileName: TSpeedButton;
@@ -51,6 +53,7 @@ type
     cbFlatButtons: TCheckBox;
     edtExternalParameters: TEdit;
     edtExternalCommand: TEdit;
+    lblHelpOnInternalCommand: TLabel;
     lblHotkeyValue: TLabel;
     edtStartPath: TEdit;
     edtToolTip: TEdit;
@@ -69,6 +72,15 @@ type
     lblStartPath: TLabel;
     lblToolTip: TLabel;
     edtInternalParameters: TMemo;
+    miSrcRplIconNames: TMenuItem;
+    miSrcRplCommands: TMenuItem;
+    miSrcRplParameters: TMenuItem;
+    miSrcRplStartPath: TMenuItem;
+    miSrcRplClickSeparator: TMenuItem;
+    miSrcRplAllOfAll: TMenuItem;
+    miSearchAndReplace: TMenuItem;
+    miExportCurrent: TMenuItem;
+    miImportAllDCCommands: TMenuItem;
     miAddSeparatorSubMenu: TMenuItem;
     miExternalCommandFirstElement: TMenuItem;
     miSubToolBarFirstElement: TMenuItem;
@@ -96,72 +108,76 @@ type
     pnlEditToolbar: TPanel;
     pnlToolbarButtons: TPanel;
     pmInsertButtonMenu: TPopupMenu;
+    ReplaceDialog: TReplaceDialog;
     rgToolItemType: TRadioGroup;
     btnOpenIcon: TButton;
     pnToolbars: TPanel;
     btnRelativeExternalCommand: TSpeedButton;
     trbBarSize: TTrackBar;
     trbIconSize: TTrackBar;
-    miExportSeparator1: TMenuItem;
-    miExportSeparator2: TMenuItem;
-    miExportSeparator3: TMenuItem;
-    miExportSeparator4: TMenuItem;
-    miSeparator6: TMenuItem;
-    miSeparator7: TMenuItem;
-    miSeparator9: TMenuItem;
-    miSeparator8: TMenuItem;
-    miSeparator10: TMenuItem;
-    miSeparator11: TMenuItem;
-    miSeparator13: TMenuItem;
-    miSeparator14: TMenuItem;
     miImportSeparator: TMenuItem;
     SaveDialog: TSaveDialog;
     cbReportErrorWithCommands: TCheckBox;
-    btnExport: TButton;
-    pmExportToolbar: TPopupMenu;
+    btnOther: TButton;
+    pmOtherClickToolbar: TPopupMenu;
+    miAddAllCmds: TMenuItem;
+    miSeparator1: TMenuItem;
+    miExport: TMenuItem;
     miExportTop: TMenuItem;
+    miExportTopToDCBar: TMenuItem;
+    miExportSeparator1: TMenuItem;
     miExportTopToTCIniKeep: TMenuItem;
     miExportTopToTCIniNoKeep: TMenuItem;
+    miExportSeparator2: TMenuItem;
     miExportTopToTCBarKeep: TMenuItem;
     miExportTopToTCBarNoKeep: TMenuItem;
-    miExportTopToDCBar: TMenuItem;
-    miExportCurrent: TMenuItem;
+    miExportCurrentToDCBar: TMenuItem;
+    miExportSeparator3: TMenuItem;
     miExportCurrentToTCIniKeep: TMenuItem;
     miExportCurrentToTCIniNoKeep: TMenuItem;
+    miExportSeparator4: TMenuItem;
     miExportCurrentToTCBarKeep: TMenuItem;
     miExportCurrentToTCBarNoKeep: TMenuItem;
-    miExportCurrentToDCBar: TMenuItem;
-    btnImport: TButton;
-    pmImportToolbar: TPopupMenu;
+    miImport: TMenuItem;
+    miImportDCBAR: TMenuItem;
+    miImportDCBARReplaceTop: TMenuItem;
+    miSeparator8: TMenuItem;
+    miImportDCBARAddTop: TMenuItem;
+    miImportDCBARAddMenuTop: TMenuItem;
+    miSeparator9: TMenuItem;
+    miImportDCBARAddCurrent: TMenuItem;
+    miImportDCBARAddMenuCurrent: TMenuItem;
+    miImportSeparator2: TMenuItem;
     miImportTCINI: TMenuItem;
     miImportTCINIReplaceTop: TMenuItem;
+    miSeparator6: TMenuItem;
     miImportTCINIAddTop: TMenuItem;
     miImportTCINIAddMenuTop: TMenuItem;
+    miSeparator7: TMenuItem;
     miImportTCINIAddCurrent: TMenuItem;
     miImportTCINIAddMenuCurrent: TMenuItem;
     miImportTCBAR: TMenuItem;
-    miImportTCBARRepaceTop: TMenuItem;
+    miImportTCBARReplaceTop: TMenuItem;
+    miSeparator10: TMenuItem;
     miImportTCBARAddTop: TMenuItem;
     miImportTCBARAddMenuTop: TMenuItem;
+    miSeparator11: TMenuItem;
     miImportTCBARAddCurrent: TMenuItem;
     miImportTCBARAddMenuCurrent: TMenuItem;
-    miImportDCBAR: TMenuItem;
-    miImportDCBARReplaceTop: TMenuItem;
-    miImportDCBARAddTop: TMenuItem;
-    miImportDCBARAddMenuTop: TMenuItem;
-    miImportDCBARAddCurrent: TMenuItem;
-    miImportDCBARAddMenuCurrent: TMenuItem;
-    btnBackup: TButton;
-    pmBackupToolbar: TPopupMenu;
+    miSeparator2: TMenuItem;
+    miBackup: TMenuItem;
     miExportTopToBackup: TMenuItem;
     miImportBackup: TMenuItem;
     miImportBackupReplaceTop: TMenuItem;
+    miSeparator13: TMenuItem;
     miImportBackupAddTop: TMenuItem;
     miImportBackupAddMenuTop: TMenuItem;
+    miSeparator14: TMenuItem;
     miImportBackupAddCurrent: TMenuItem;
     miImportBackupAddMenuCurrent: TMenuItem;
     procedure btnEditHotkeyClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
+    procedure btnOpenCmdDlgClick(Sender: TObject);
     procedure btnRelativeExternalCommandClick(Sender: TObject);
     procedure btnRelativeIconFileNameClick(Sender: TObject);
     procedure btnRelativeStartPathClick(Sender: TObject);
@@ -170,10 +186,14 @@ type
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
     procedure btnStartPathClick(Sender: TObject);
+    procedure btnSuggestionTooltipClick(Sender: TObject);
     procedure cbInternalCommandSelect(Sender: TObject);
     procedure cbFlatButtonsChange(Sender: TObject);
     procedure edtIconFileNameChange(Sender: TObject);
+    procedure lblHelpOnInternalCommandClick(Sender: TObject);
+    procedure miAddAllCmdsClick(Sender: TObject);
     procedure miInsertButtonClick(Sender: TObject);
+    procedure miSrcRplClick(Sender: TObject);
     procedure ToolbarDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
     procedure ToolbarDragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -196,9 +216,7 @@ type
     procedure trbIconSizeChange(Sender: TObject);
     procedure FrameEnter(Sender: TObject);
     function ComputeToolbarsSignature: dword;
-    procedure btnExportClick(Sender: TObject);
-    procedure btnImportClick(Sender: TObject);
-    procedure btnBackupClick(Sender: TObject);
+    procedure btnOtherClick(Sender: TObject);
     procedure miExportToAnythingClick(Sender: TObject);
     procedure miImportFromAnythingClick(Sender: TObject);
     procedure GenericSomethingChanged(Sender: TObject);
@@ -249,11 +267,11 @@ uses
 
   //DC
   {$IFDEF MSWINDOWS}
-  uTotalCommander,
+  dmHelpManager, uOSUtils, uTotalCommander,
   {$ENDIF}
-  uFileProcs, uDebug, DCOSUtils, uShowMsg, DCClassesUtf8, fOptions,
-  DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils, uPixMapManager,
-  uKASToolItemsExtended, fMain, uSpecialDir;
+  fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils, uShowMsg,
+  DCClassesUtf8, fOptions, DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils,
+  uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';
@@ -405,7 +423,8 @@ begin
         FUpdatingIconText := True;
         edtIconFileName.Text := NormalItem.Icon;
         FUpdatingIconText := False;
-        edtToolTip.Text := NormalItem.Hint;
+        edtToolTip.Text:=StringReplace(NormalItem.Hint, #$0A, '\n', [rfReplaceAll]);
+
         ShortcutsHint := NormalItem.GetShortcutsHint;
         if ShortcutsHint = '' then
           lblHotkeyValue.Caption := rsOptHotkeysNoHotkey
@@ -468,8 +487,11 @@ begin
   btnRelativeIconFileName.Visible := EnableNormal;
   lblToolTip.Visible := EnableNormal;
   edtToolTip.Visible := EnableNormal;
+  btnSuggestionTooltip.Visible := EnableNormal;
   lblInternalCommand.Visible := EnableCommand;
   cbInternalCommand.Visible := EnableCommand;
+  btnOpenCmdDlg.Visible := EnableCommand;
+  lblHelpOnInternalCommand.Visible := EnableCommand;
   lblInternalParameters.Visible := EnableCommand;
   edtInternalParameters.Visible := EnableCommand;
   lblExternalCommand.Visible := EnableProgram;
@@ -626,7 +648,7 @@ begin
     begin
       NormalItem := TKASNormalItem(ToolItem);
       NormalItem.Icon := edtIconFileName.Text;
-      NormalItem.Hint := edtToolTip.Text;
+      NormalItem.Hint := StringReplace(edtToolTip.Text, '\n', #$0A, [rfReplaceAll]);
       NormalItem.Text := EmptyStr;
     end;
     if ToolItem is TKASCommandItem then
@@ -649,6 +671,29 @@ end;
 procedure TfrmOptionsToolbar.btnInsertButtonClick(Sender: TObject);
 begin
   pmInsertButtonMenu.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsToolbar.btnOpenCmdDlgClick }
+procedure TfrmOptionsToolbar.btnOpenCmdDlgClick(Sender: TObject);
+var
+  WantedCommand:UTF8String;
+  IndexMaybe:longint;
+begin
+  if cbInternalCommand.ItemIndex=-1 then
+    begin
+      cbInternalCommand.ItemIndex:=0;
+      cbInternalCommandSelect(cbInternalCommand);
+    end;
+
+  if ShowMainCommandDlgForm(cbInternalCommand.Items.Strings[cbInternalCommand.ItemIndex],WantedCommand) then
+  begin
+    IndexMaybe:=cbInternalCommand.Items.IndexOf(WantedCommand);
+    if IndexMaybe<>-1 then
+    begin
+      cbInternalCommand.ItemIndex:=IndexMaybe;
+      cbInternalCommandSelect(cbInternalCommand);
+    end;
+  end;
 end;
 
 procedure TfrmOptionsToolbar.miInsertButtonClick(Sender: TObject);
@@ -700,6 +745,118 @@ begin
       FCurrentButton := ToolBar.InsertButton(IndexWhereToAdd, ToolItem);
     end;
     PressButtonDown(FCurrentButton);
+
+    //Let's speed up process if we can pre-open requester according to what was just inserted as new button
+    with Sender as TComponent do
+    begin
+      case ((tag shr 4) and $0F) of
+        2: btnOpenCmdDlgClick(btnOpenCmdDlg);
+        3: btnOpenFileClick(btnOpenFile);
+      end;
+    end;
+  end;
+end;
+
+{ TfrmOptionsToolbar.miSrcRplClick }
+procedure TfrmOptionsToolbar.miSrcRplClick(Sender: TObject);
+const
+  SaRMASK_ICON = $01;
+  SaRMASK_COMMAND = $02;
+  SaRMASK_PARAMS = $04;
+  SaRMASK_STARTPATH = $08;
+var
+  ActionDispatcher, NbOfReplacement:integer;
+  sSearchText, sReplaceText:string;
+  ReplaceFlags: TReplaceFlags;
+
+  function ReplaceIfNecessary(sWorkingText:string):string;
+  begin
+    result := StringReplace(sWorkingText, sSearchText, sReplaceText, ReplaceFlags);
+    if result<>sWorkingText then inc(NbOfReplacement);
+  end;
+
+  procedure PossiblyRecursiveSearchAndReplaceInThisButton(ToolItem: TKASToolItem);
+  var
+    IndexItem, IndexParam: integer;
+  begin
+    if ToolItem is TKASSeparatorItem then
+    begin
+    end;
+
+    if ToolItem is TKASCommandItem then
+    begin
+      if (ActionDispatcher AND SaRMASK_ICON) <> 0 then TKASCommandItem(ToolItem).Icon:=ReplaceIfNecessary(TKASCommandItem(ToolItem).Icon);
+      if (ActionDispatcher AND SaRMASK_PARAMS) <> 0 then
+        for IndexParam:=0 to pred(length(TKASCommandItem(ToolItem).Params)) do
+          TKASCommandItem(ToolItem).Params[IndexParam]:=ReplaceIfNecessary(TKASCommandItem(ToolItem).Params[IndexParam]);
+    end;
+
+    if ToolItem is TKASProgramItem then
+    begin
+      if (ActionDispatcher AND SaRMASK_ICON) <> 0 then TKASProgramItem(ToolItem).Icon:=ReplaceIfNecessary(TKASProgramItem(ToolItem).Icon);
+      if (ActionDispatcher AND SaRMASK_COMMAND) <> 0 then TKASProgramItem(ToolItem).Command:=ReplaceIfNecessary(TKASProgramItem(ToolItem).Command);
+      if (ActionDispatcher AND SaRMASK_STARTPATH) <> 0 then TKASProgramItem(ToolItem).StartPath:=ReplaceIfNecessary(TKASProgramItem(ToolItem).StartPath);
+      if (ActionDispatcher AND SaRMASK_PARAMS) <> 0 then TKASProgramItem(ToolItem).Params:=ReplaceIfNecessary(TKASProgramItem(ToolItem).Params);
+    end;
+
+    if ToolItem is TKASMenuItem then
+    begin
+      if (ActionDispatcher AND SaRMASK_ICON) <> 0 then TKASMenuItem(ToolItem).Icon:=ReplaceIfNecessary(TKASMenuItem(ToolItem).Icon);
+      for IndexItem := 0 to pred(TKASMenuItem(ToolItem).SubItems.Count) do
+        PossiblyRecursiveSearchAndReplaceInThisButton(TKASMenuItem(ToolItem).SubItems[IndexItem]);
+    end;
+  end;
+
+var
+  //Placed intentionnally *AFTER* above routine to make sure these variable names are not used in above possibly recursive routines.
+  IndexButton: integer;
+  Toolbar: TKASToolbar;
+  EditSearchOptionToOffer,EditSearchOptionReturned:TEditSearchDialogOption;
+begin
+  with Sender as TComponent do ActionDispatcher:=tag;
+
+  ApplyEditControls;
+  Application.ProcessMessages;
+
+  if ((ActionDispatcher AND SaRMASK_ICON) <>0) AND (edtIconFileName.Visible) AND (edtIconFileName.Text<>'') then sSearchText:=edtIconFileName.Text else
+    if ((ActionDispatcher AND SaRMASK_COMMAND) <>0) AND (edtExternalCommand.Visible) AND (edtExternalCommand.Text<>'') then sSearchText:=edtExternalCommand.Text else
+      if ((ActionDispatcher AND SaRMASK_PARAMS) <>0) AND (edtExternalParameters.Visible) AND (edtExternalParameters.Text<>'') then sSearchText:=edtExternalParameters.Text else
+        if ((ActionDispatcher AND SaRMASK_STARTPATH) <>0) AND (edtStartPath.Visible) AND (edtStartPath.Text<>'') then sSearchText:=edtStartPath.Text else
+          if ((ActionDispatcher AND SaRMASK_PARAMS) <>0) AND (edtInternalParameters.Visible) AND (edtInternalParameters.Lines.Count>0) then sSearchText:=edtInternalParameters.Lines.Strings[0] else
+            sSearchText:='';
+  sReplaceText:=sSearchText;
+
+  EditSearchOptionToOffer:=[];
+  {$IFDEF MSWINDOWS}
+  EditSearchOptionToOffer:=EditSearchOptionToOffer+[eswoCaseSensitiveUnchecked];
+  {$ELSE}
+  EditSearchOptionToOffer:=EditSearchOptionToOffer+[eswoCaseSensitiveChecked];
+  {$ENDIF}
+
+  if GetSimpleSearchAndReplaceString(self, EditSearchOptionToOffer, sSearchText, sReplaceText, EditSearchOptionReturned, glsSearchPathHistory, glsReplacePathHistory) then
+  begin
+    NbOfReplacement:=0;
+    ReplaceFlags:=[rfReplaceAll];
+    if eswoCaseSensitiveUnchecked in EditSearchOptionReturned then ReplaceFlags := ReplaceFlags + [rfIgnoreCase];
+    Toolbar := GetTopToolbar;
+
+    //Let's scan the current bar!
+    for IndexButton := 0 to pred(Toolbar.ButtonCount) do
+    begin
+      PossiblyRecursiveSearchAndReplaceInThisButton(Toolbar.Buttons[IndexButton].ToolItem);
+      ToolBar.UpdateIcon(Toolbar.Buttons[IndexButton]);
+    end;
+
+    if NbOfReplacement=0 then
+    begin
+      msgOk(rsZeroReplacement);
+    end
+    else
+    begin
+      if ToolBar.ButtonCount > 0 then
+        PressButtonDown(ToolBar.Buttons[0]);
+      msgOk(format(rsXReplacements,[NbOfReplacement]));
+    end;
   end;
 end;
 
@@ -870,13 +1027,55 @@ begin
     edtStartPath.Text:=MaybeResultingOutputPath;
 end;
 
+{ TfrmOptionsToolbar.btnSuggestionTooltipClick }
+procedure TfrmOptionsToolbar.btnSuggestionTooltipClick(Sender: TObject);
+var
+  sSuggestion, sWorkingString : string;
+  iLineIndex, pOriginalSuggestion : integer;
+begin
+  sSuggestion:=EmptyStr;
+
+  case rgToolItemType.ItemIndex of
+    1: //Internal command: Idea is to keep the existing one for the single first line, then add systematically the parameters.
+    begin
+      sWorkingString:=edtToolTip.Text;
+      pOriginalSuggestion:=pos('\n',edtToolTip.Text);
+      if pOriginalSuggestion<>0 then
+        sSuggestion:=leftstr(edtToolTip.Text,pred(pOriginalSuggestion))+'\n----'
+      else
+        sSuggestion:=edtToolTip.Text+'\n----';
+
+      if edtInternalParameters.Lines.Count>0 then
+      begin
+        for iLineIndex:=0 to pred(edtInternalParameters.Lines.Count) do
+          sSuggestion:=sSuggestion+'\n'+edtInternalParameters.Lines.Strings[iLineIndex];
+      end;
+    end;
+
+    2://External command: Idea is to keep the existing one for the first line, then add systematically command, parameters and start path, one per line.
+    begin
+      sWorkingString:=edtToolTip.Text;
+      pOriginalSuggestion:=pos(('\n----\n'+StringReplace(lblExternalCommand.Caption, '&', '', [rfReplaceAll])),edtToolTip.Text);
+      if pOriginalSuggestion<>0 then
+        sSuggestion:=leftstr(edtToolTip.Text,pred(pOriginalSuggestion))+'\n----\n'
+      else
+        sSuggestion:=edtToolTip.Text+'\n----\n';
+
+      sSuggestion:=sSuggestion+StringReplace(lblExternalCommand.Caption, '&', '', [rfReplaceAll])+' '+edtExternalCommand.Text;
+      if edtExternalParameters.Text<>EmptyStr then sSuggestion:=sSuggestion+'\n'+StringReplace(lblExternalParameters.Caption, '&', '', [rfReplaceAll])+' '+edtExternalParameters.Text;
+      if edtStartPath.Text<>EmptyStr then sSuggestion:=sSuggestion+'\n'+StringReplace(lblStartPath.Caption, '&', '', [rfReplaceAll])+' '+edtStartPath.Text;
+    end;
+  end;
+
+  if sSuggestion<>EmptyStr then edtToolTip.Text:=sSuggestion;
+end;
+
 procedure TfrmOptionsToolbar.cbInternalCommandSelect(Sender: TObject);
 var
   Command: String;
 begin
   Command := cbInternalCommand.Items[cbInternalCommand.ItemIndex];
   edtToolTip.Text := FFormCommands.GetCommandCaption(Command, cctLong);
-  edtInternalParameters.HelpKeyword := '/cmds.html#' + Command;
   edtIconFileName.Text := UTF8LowerCase(Command);
 end;
 
@@ -921,6 +1120,11 @@ procedure TfrmOptionsToolbar.edtIconFileNameChange(Sender: TObject);
 begin
   if not FUpdatingIconText then
     UpdateIcon(edtIconFileName.Text);
+end;
+
+procedure TfrmOptionsToolbar.lblHelpOnInternalCommandClick(Sender: TObject);
+begin
+  ShowHelpForKeywordWithAnchor('\cmds.html#' + cbInternalCommand.Text);
 end;
 
 class function TfrmOptionsToolbar.FindHotkey(NormalItem: TKASNormalItem; Hotkeys: THotkeys): THotkey;
@@ -1174,7 +1378,7 @@ end;
 procedure TfrmOptionsToolbar.FrameEnter(Sender: TObject);
 begin
   //Tricky pass to don't have the "pnlEditToolbar" being continously resized depending on the button task we're going through.
-  //The idea is to have system arrange for the "CommandItem", which is the taller size one, then froze size there and keep this way.
+  //The idea is to have system arrange for the "CommandItem", which is the taller size one, then freeze size there and keep this way.
   if bFirstTimeDrawn then
   begin
     bFirstTimeDrawn := False;
@@ -1221,7 +1425,7 @@ end;
 // give the same CRC32 but odds are very good that it will be a different one.
 function TfrmOptionsToolbar.ComputeToolbarsSignature: dword;
 const
-  CONSTFORTOOLITEM: array[1..4] of dword = ($2335, $28DE, $1971, $0805);
+  CONSTFORTOOLITEM: array[1..4] of byte = ($23, $35, $28, $DE);
 
   procedure RecursiveGetSignature(ToolItem: TKASToolItem; var Result: dword);
   var
@@ -1281,21 +1485,79 @@ begin
 end;
 
 { TfrmOptionsToolbar.btnExportClick }
-procedure TfrmOptionsToolbar.btnExportClick(Sender: TObject);
+procedure TfrmOptionsToolbar.btnOtherClick(Sender: TObject);
 begin
-  pmExportToolbar.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+  pmOtherClickToolbar.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
-{ TfrmOptionsToolbar.btnImportClick }
-procedure TfrmOptionsToolbar.btnImportClick(Sender: TObject);
-begin
-  pmImportToolbar.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
-end;
+{ TfrmOptionsToolbar.miImportAllDCCommandsClick }
+procedure TfrmOptionsToolbar.miAddAllCmdsClick(Sender: TObject);
+var
+  IndexCommand: integer;
+  FlagCategoryTitle:boolean;
+  sCmdName,sHintName,sHotKey,sCategory:string;
+  ToolBar: TKASToolBar;
+  CategorySubToolBar: TKASToolBar = nil;
+  LocalKASMenuItem: TKASMenuItem;
+  ListCommands: TStringList;
+  SubToolItem: TKASToolItem = nil;
 
-{ TfrmOptionsToolbar.btnBackupClick }
-procedure TfrmOptionsToolbar.btnBackupClick(Sender: TObject);
 begin
-  pmBackupToolbar.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+  ListCommands := TStringList.Create;
+  try
+    FFormCommands.GetCommandsListForACommandCategory(ListCommands, '('+rsSimpleWordAll+')', csLegacy);
+
+    FCurrentButton := nil;
+    ToolBar := GetTopToolbar;
+    CloseToolbarsBelowCurrentButton;
+    if FCurrentButton <> nil then
+      FCurrentButton.Down := False;
+
+    LocalKASMenuItem := TKASMenuItem.Create;
+    LocalKASMenuItem.Icon := 'cm_doanycmcommand';
+    LocalKASMenuItem.Hint := 'All DC internal commands';
+    FCurrentButton := ToolBar.AddButton(LocalKASMenuItem);
+    Toolbar := AddNewSubToolbar(LocalKASMenuItem);
+    PressButtonDown(FCurrentButton);
+    Toolbar.RemoveButton(0); //Remove the default added button by the "AddNewSubToolbar" routine.
+
+    for IndexCommand:=0 to pred(ListCommands.Count) do
+    begin
+      FFormCommands.ExtractCommandFields(ListCommands.Strings[IndexCommand],sCategory,sCmdName,sHintName,sHotKey,FlagCategoryTitle);
+
+      if FlagCategoryTitle=FALSE then
+      begin
+        SubToolItem := TKASCommandItem.Create(FFormCommands);
+        TKASCommandItem(SubToolItem).Command := sCmdName;
+        TKASCommandItem(SubToolItem).Hint := sHintName;
+        TKASCommandItem(SubToolItem).Icon := UTF8LowerCase(TKASCommandItem(SubToolItem).Command);
+        FCurrentButton := CategorySubToolBar.AddButton(SubToolItem);
+      end
+      else
+      begin
+        if CategorySubToolBar<>nil then
+        begin
+          FCurrentButton:=Toolbar.Buttons[pred(Toolbar.ButtonCount)];
+          CloseToolbarsBelowCurrentButton;
+        end;
+        LocalKASMenuItem := TKASMenuItem.Create;
+        LocalKASMenuItem.Hint := sCmdName;
+        //Let's take icon of first command of the category for the subtoolbar icon for this "new" category
+        FFormCommands.ExtractCommandFields(ListCommands.Strings[IndexCommand+1],sCategory,sCmdName,sHintName,sHotKey,FlagCategoryTitle);
+        LocalKASMenuItem.Icon := UTF8LowerCase(sCmdName);
+        FCurrentButton := ToolBar.AddButton(LocalKASMenuItem);
+        CategorySubToolBar := AddNewSubToolbar(LocalKASMenuItem);
+        PressButtonDown(FCurrentButton);
+        CategorySubToolBar.RemoveButton(0);  //Remove the default added button by the "AddNewSubToolbar" routine.
+      end;
+    end;
+
+    //To give the impression of complete addition, let's finish by selecting last command added.
+    FCurrentButton:=CategorySubToolBar.Buttons[pred(CategorySubToolBar.ButtonCount)];
+    PressButtonDown(FCurrentButton);
+  finally
+    ListCommands.Free;
+  end;
 end;
 
 { TfrmOptionsToolbar.miExportToAnythingClick }
@@ -1334,7 +1596,7 @@ begin
       ACTION_WITH_DC_TOOLBARFILE:
       begin
         SaveDialog.DefaultExt := '*.toolbar';
-        SaveDialog.FilterIndex := 2;
+        SaveDialog.FilterIndex := 1;
         SaveDialog.Title := rsMsgDCToolbarWhereToSave;
         SaveDialog.FileName := 'New DC Toolbar filename';
         FlagKeepGoing := SaveDialog.Execute;
@@ -1363,7 +1625,7 @@ begin
       ACTION_WITH_TC_TOOLBARFILE:
       begin
         SaveDialog.DefaultExt := '*.BAR';
-        SaveDialog.FilterIndex := 1;
+        SaveDialog.FilterIndex := 2;
         SaveDialog.Title := rsMsgTCToolbarWhereToSave;
         SaveDialog.FileName := 'New TC Toolbar filename';
         SaveDialog.InitialDir := ExcludeTrailingPathDelimiter(gTotalCommanderToolbarPath);
@@ -1455,7 +1717,7 @@ begin
       if areWeInSituationToPlayWithTCFiles then
       begin
         OpenDialog.DefaultExt := '*.BAR';
-        OpenDialog.FilterIndex := 1;
+        OpenDialog.FilterIndex := 3;
         OpenDialog.Title := rsMsgToolbarLocateTCToolbarFile;
         ImportedToolbarHint := rsDefaultImportedTCToolbarHint;
         FlagKeepGoing := OpenDialog.Execute;
@@ -1466,7 +1728,7 @@ begin
     ACTION_WITH_DC_TOOLBARFILE:
     begin
       OpenDialog.DefaultExt := '*.toolbar';
-      OpenDialog.FilterIndex := 2;
+      OpenDialog.FilterIndex := 1;
       OpenDialog.Title := rsMsgToolbarLocateDCToolbarFile;
       ImportedToolbarHint := rsDefaultImportedDCToolbarHint;
       FlagKeepGoing := OpenDialog.Execute;
@@ -1477,10 +1739,10 @@ begin
       BackupPath := IncludeTrailingPathDelimiter(mbExpandFileName(EnvVarConfigPath)) + 'Backup';
       if mbForceDirectory(BackupPath) then
       begin
-        OpenDialog.FilterIndex := 2;
+        OpenDialog.DefaultExt := '*.toolbar';
+        OpenDialog.FilterIndex := 1;
         OpenDialog.InitialDir := ExcludeTrailingPathDelimiter(BackupPath);
         OpenDialog.Title := rsMsgToolbarRestoreWhat;
-        OpenDialog.Filter := 'Backup_*.toolbar';
         ImportedToolbarHint := rsDefaultImportedDCToolbarHint;
         FlagKeepGoing := OpenDialog.Execute;
       end;
@@ -1585,6 +1847,5 @@ procedure TfrmOptionsToolbar.GenericSomethingChanged(Sender: TObject);
 begin
   FModificationTookPlace := True;
 end;
-
 
 end.

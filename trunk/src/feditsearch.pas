@@ -60,12 +60,22 @@ unit fEditSearch;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Buttons, uOSForms;
+  Classes, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Buttons, uOSForms,
+  DCClassesUtf8;
 
 type
+  { TEditSearchDialogOption }
+  //Not only it helps to show what we want to offer to user, it will help to determine the default
+  //When used as paramters of function, place on required.
+  //When used as a returned value, we'll include the status of all.
+  TEditSearchDialogOption = set of (eswoCaseSensitiveChecked, eswoCaseSensitiveUnchecked,
+                                    eswoWholeWordChecked, eswoWholeWordUnchecked,
+                                    eswoSelectedTextChecked, eswoSelectedTextUnchecked,
+                                    eswoSearchFromCursorChecked, eswoSearchFromCursorUnchecked,
+                                    eswoRegularExpressChecked, eswoRegularExpressUnchecked,
+                                    eswoDirectionDisabled, eswoDirectionEnabledForward, eswoDirectionEnabledBackward);
 
   { TfrmEditSearchReplace }
-
   TfrmEditSearchReplace = class(TModalForm)
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
@@ -82,6 +92,7 @@ type
     rgSearchDirection: TRadioGroup;
     procedure btnOKClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     function GetSearchBackwards: boolean;
@@ -126,12 +137,84 @@ type
       write SetReplaceTextHistory;
   end;
 
+  function GetSimpleSearchAndReplaceString(AOwner:TComponent; OptionAllowed:TEditSearchDialogOption; var sSearchText:string; var sReplaceText:string; var OptionsToReturn:TEditSearchDialogOption; PastSearchList:TStringListEx; PastReplaceList:TStringListEx):boolean;
+
 implementation
 
 {$R *.lfm}
 
 uses
-  uLng, uDCUtils;
+  math, uGlobs, uLng, uDCUtils;
+
+function GetSimpleSearchAndReplaceString(AOwner:TComponent; OptionAllowed:TEditSearchDialogOption; var sSearchText:string; var sReplaceText:string; var OptionsToReturn:TEditSearchDialogOption; PastSearchList:TStringListEx; PastReplaceList:TStringListEx):boolean;
+var
+  dlg: TfrmEditSearchReplace;
+begin
+  result:=FALSE;
+  OptionsToReturn:=[];
+
+  dlg := TfrmEditSearchReplace.Create(AOwner, TRUE);
+  try
+    with dlg do
+    begin
+      //1. Let's enable to options host wanted to offer to user
+      cbSearchCaseSensitive.Enabled := ((eswoCaseSensitiveChecked in OptionAllowed) OR (eswoCaseSensitiveUnchecked in OptionAllowed));
+      cbSearchWholeWords.Enabled := ((eswoWholeWordChecked in OptionAllowed) OR (eswoWholeWordUnchecked in OptionAllowed));
+      cbSearchSelectedOnly.Enabled := ((eswoSelectedTextChecked in OptionAllowed) OR (eswoSelectedTextUnchecked in OptionAllowed));
+      cbSearchFromCursor.Enabled := ((eswoSearchFromCursorChecked in OptionAllowed) OR (eswoSearchFromCursorUnchecked in OptionAllowed));
+      cbSearchRegExp.Enabled := ((eswoRegularExpressChecked in OptionAllowed) OR (eswoRegularExpressUnchecked in OptionAllowed));
+      rgSearchDirection.Enabled := ((eswoDirectionEnabledForward in OptionAllowed) OR (eswoDirectionEnabledBackward in OptionAllowed));
+
+      //2. Let's set the option to their default according to what host wants to offer
+      cbSearchCaseSensitive.Checked := (eswoCaseSensitiveChecked in OptionAllowed);
+      cbSearchWholeWords.Checked := (eswoWholeWordChecked in OptionAllowed);
+      cbSearchSelectedOnly.Checked := (eswoSelectedTextChecked in OptionAllowed);
+      cbSearchFromCursor.Checked := (eswoSearchFromCursorChecked in OptionAllowed);
+      cbSearchRegExp.Checked := (eswoRegularExpressChecked in OptionAllowed);
+      rgSearchDirection.ItemIndex:=ifthen((eswoDirectionEnabledBackward in OptionAllowed),1,0);
+
+      //3. Setup the SEARCH info
+      if sSearchText='' then sSearchText:=rsEditSearchCaption;
+      SearchTextHistory:=PastSearchList.Text;
+      cbSearchText.Text:=sSearchText;
+
+      //4. Setup the REPLACE info
+      if sReplaceText='' then sReplaceText:=rsEditSearchReplace;
+      ReplaceTextHistory:=PastReplaceList.Text;
+      cbReplaceText.Text:=sReplaceText;
+
+      //5. Get feedback from user
+      if ShowModal=mrOk then
+      begin
+        //6. Let's set the options wanted by the user
+        if cbSearchCaseSensitive.Enabled then
+          if cbSearchCaseSensitive.Checked then OptionsToReturn:=OptionsToReturn+[eswoCaseSensitiveChecked] else OptionsToReturn:=OptionsToReturn+[eswoCaseSensitiveUnchecked];
+        if cbSearchWholeWords.Enabled then
+          if cbSearchWholeWords.Checked then OptionsToReturn:=OptionsToReturn+[eswoWholeWordChecked] else OptionsToReturn:=OptionsToReturn+[eswoWholeWordUnchecked];
+        if cbSearchSelectedOnly.Enabled then
+          if cbSearchSelectedOnly.Checked then OptionsToReturn:=OptionsToReturn+[eswoSelectedTextChecked] else OptionsToReturn:=OptionsToReturn+[eswoSelectedTextUnchecked];
+        if cbSearchFromCursor.Enabled then
+          if cbSearchFromCursor.Checked then OptionsToReturn:=OptionsToReturn+[eswoSearchFromCursorChecked] else OptionsToReturn:=OptionsToReturn+[eswoSearchFromCursorUnchecked];
+        if cbSearchRegExp.Enabled then
+          if cbSearchRegExp.Checked then OptionsToReturn:=OptionsToReturn+[eswoRegularExpressChecked] else OptionsToReturn:=OptionsToReturn+[eswoRegularExpressUnchecked];
+        if rgSearchDirection.Enabled then
+          if rgSearchDirection.ItemIndex=1 then OptionsToReturn:=OptionsToReturn+[eswoDirectionEnabledBackward] else OptionsToReturn:=OptionsToReturn+[eswoDirectionEnabledForward];
+
+        //7. Let's set our history
+        PastSearchList.Text:=SearchTextHistory;
+        PastReplaceList.Text:=ReplaceTextHistory;
+
+        //8. And FINALLY, our valuable text to search we wanted to replace!
+        sSearchText:=cbSearchText.Text;
+        sReplaceText:=cbReplaceText.Text;
+        result:=((sSearchText<>sReplaceText) AND (sSearchText<>''));
+      end;
+    end;
+
+  finally
+    FreeAndNil(Dlg);
+  end;
+end;
 
 { TfrmEditSearchReplace }
 
@@ -146,6 +229,11 @@ procedure TfrmEditSearchReplace.FormCloseQuery(Sender: TObject;
 begin
   if ModalResult = mrOK then
     InsertFirstItem(cbReplaceText.Text, cbReplaceText);
+end;
+
+procedure TfrmEditSearchReplace.FormCreate(Sender: TObject);
+begin
+  InitPropStorage(Self);
 end;
 
 procedure TfrmEditSearchReplace.FormShow(Sender: TObject);
