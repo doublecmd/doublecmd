@@ -10,8 +10,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hu\n"
-"X-Poedit-Language: Hungarian\n"
 "X-Generator: Poedit 1.5.4\n"
+"X-Native-Language: Magyar\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"

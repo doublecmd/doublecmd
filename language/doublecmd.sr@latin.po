@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 "X-Language: sr_RS\n"
-"X-Poedit-Language: Serbian\n"
+"X-Native-Language: srpski\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
