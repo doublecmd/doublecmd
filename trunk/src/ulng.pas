@@ -725,7 +725,7 @@ begin
   repeat
     FileReadLn(poFile, sLine);
     // find language name line
-    if Pos('X-Poedit-Language:', sLine) <> 0 then
+    if Pos('X-Native-Language:', sLine) <> 0 then
       begin
         iPos1 := Pos(':', sLine) + 2;
         iPos2 := Pos('\n', sLine) - 1;
@@ -735,7 +735,7 @@ begin
       end;
   until Pos('msgid', sLine) = 1;
   FileClose(poFile);
-  Result := 'Language name not found';
+  Result := 'Unknown';
 end;
 
 procedure TranslateLCL(poFileName: String);

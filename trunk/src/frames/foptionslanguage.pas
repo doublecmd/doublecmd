@@ -51,20 +51,20 @@ implementation
 {$R *.lfm}
 
 uses
-  uDebug, uFindEx, uGlobs, uGlobsPaths, uLng;
+  LazUTF8Classes, uDebug, uFindEx, uGlobs, uGlobsPaths, uLng;
 
 { TfrmOptionsLanguage }
 
 procedure TfrmOptionsLanguage.FillLngListBox;
 var
-  fr: TSearchRecEx;
   iIndex: Integer;
+  fr: TSearchRecEx;
   sLangName: String;
-  LanguageFileList: TStringList;
+  LanguageFileList: TStringListUtf8;
 begin
-  LanguageFileList:=TStringList.Create;
-  LanguageFileList.Sorted:=True;
-  LanguageFileList.Duplicates:=dupAccept;
+  LanguageFileList:= TStringListUtf8.Create;
+  LanguageFileList.Sorted:= True;
+  LanguageFileList.Duplicates:= dupAccept;
   try
     lngList.Clear;
     DCDebug('Language directory: ' + gpLngDir);
@@ -75,10 +75,10 @@ begin
     until FindNextEx(fr) <> 0;
     FindCloseEx(fr);
 
-    for iIndex:=0 to pred(LanguageFileList.Count) do
+    for iIndex:= 0 to pred(LanguageFileList.Count) do
     begin
       lngList.Items.add(LanguageFileList.Strings[iIndex]);
-      if (gPOFileName = Trim(lngList.Items.ValueFromIndex[iIndex])) then lngList.ItemIndex:=iIndex;
+      if (gPOFileName = Trim(lngList.Items.ValueFromIndex[iIndex])) then lngList.ItemIndex:= iIndex;
     end;
 
   finally

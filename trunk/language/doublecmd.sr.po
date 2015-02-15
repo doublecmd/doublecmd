@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Language: sr_RS\n"
 "X-Source-Language: C\n"
-"X-Poedit-Language: Serbian\n"
+"X-Native-Language: српски\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
