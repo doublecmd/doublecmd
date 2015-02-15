@@ -4196,6 +4196,7 @@ msgid "Export..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
 msgid "Help"
 msgstr ""
 
@@ -4435,6 +4436,23 @@ msgstr ""
 msgid "Save a backup of current Directory Hotlist"
 msgstr ""
 
+#: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
+msgid "Search and replace..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misearchandreplaceinpath.caption
+msgid "in path..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misearchandreplaceintargetpath.caption
+msgid "in target path..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misearchinreplaceinbothpaths.caption
+msgid "in path and target path..."
+msgstr ""
+
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
 msgid "-"
@@ -4447,6 +4465,16 @@ msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator11.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator11.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator12.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator12.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator13.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator13.caption"
 msgid "-"
 msgstr "-"
 
@@ -6006,11 +6034,6 @@ msgstr "Запустити у &терміналі:"
 msgid "Run t&erminal:"
 msgstr "Запустити т&ермінал"
 
-#: tfrmoptionstoolbar.btnbackup.caption
-msgctxt "tfrmoptionstoolbar.btnbackup.caption"
-msgid "Backup..."
-msgstr ""
-
 #: tfrmoptionstoolbar.btnclonebutton.caption
 #| msgid "&Clone button"
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
@@ -6028,21 +6051,15 @@ msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
 msgid "Edit hot&key"
 msgstr "Реда&гувати"
 
-#: tfrmoptionstoolbar.btnexport.caption
-msgctxt "tfrmoptionstoolbar.btnexport.caption"
-msgid "Export..."
-msgstr ""
-
-#: tfrmoptionstoolbar.btnimport.caption
-msgctxt "tfrmoptionstoolbar.btnimport.caption"
-msgid "Import..."
-msgstr ""
-
 #: tfrmoptionstoolbar.btninsertbutton.caption
 #| msgid "&Insert new buttonX"
 msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
 msgid "&Insert new button"
 msgstr "В&ставити нову кнопку"
+
+#: tfrmoptionstoolbar.btnopencmddlg.caption
+msgid "Select"
+msgstr ""
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
@@ -6054,6 +6071,11 @@ msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
 msgid ">>"
 msgstr ">>"
 
+#: tfrmoptionstoolbar.btnother.caption
+msgctxt "tfrmoptionstoolbar.btnother.caption"
+msgid "Other..."
+msgstr "Інше..."
+
 #: tfrmoptionstoolbar.btnremovehotkey.caption
 #| msgid "Remove hotkey"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
@@ -6064,6 +6086,14 @@ msgstr "Видалит&и гар.кл."
 msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
 msgid ">>"
 msgstr ">>"
+
+#: tfrmoptionstoolbar.btnsuggestiontooltip.caption
+msgid "Suggest"
+msgstr ""
+
+#: tfrmoptionstoolbar.btnsuggestiontooltip.hint
+msgid "Have DC suggest the tooltip based on button type, command and parameters"
+msgstr ""
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 #| msgid "Flat b&uttons"
@@ -6101,6 +6131,11 @@ msgstr "Коман&да:"
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
 msgid "Parameter&s:"
 msgstr "Параметр&и:"
+
+#: tfrmoptionstoolbar.lblhelponinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
+msgid "Help"
+msgstr ""
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
@@ -6142,6 +6177,10 @@ msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
 msgid "&Tooltip:"
 msgstr "Під&казка:"
 
+#: tfrmoptionstoolbar.miaddallcmds.caption
+msgid "Add toolbar with ALL DC commands"
+msgstr ""
+
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
 msgstr ""
@@ -6156,6 +6195,16 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
+msgstr ""
+
+#: tfrmoptionstoolbar.mibackup.caption
+msgctxt "tfrmoptionstoolbar.mibackup.caption"
+msgid "Backup..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miexport.caption
+msgctxt "tfrmoptionstoolbar.miexport.caption"
+msgid "Export..."
 msgstr ""
 
 #: tfrmoptionstoolbar.miexportcurrent.caption
@@ -6260,6 +6309,11 @@ msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr ""
 
+#: tfrmoptionstoolbar.miimport.caption
+msgctxt "tfrmoptionstoolbar.miimport.caption"
+msgid "Import..."
+msgstr ""
+
 #: tfrmoptionstoolbar.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
 msgstr ""
@@ -6300,7 +6354,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toolbar to current toolbar"
+msgid "to add to a new toobar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -6347,8 +6401,8 @@ msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr ""
 
-#: tfrmoptionstoolbar.miimporttcbarrepacetop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbarrepacetop.caption"
+#: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr ""
 
@@ -6401,6 +6455,16 @@ msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr ""
 
+#: tfrmoptionstoolbar.misearchandreplace.caption
+msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
+msgid "Search and replace..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator1.caption
+msgctxt "tfrmoptionstoolbar.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmoptionstoolbar.miseparator10.caption
 msgctxt "tfrmoptionstoolbar.miseparator10.caption"
 msgid "-"
@@ -6418,6 +6482,11 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator14.caption
 msgctxt "tfrmoptionstoolbar.miseparator14.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator2.caption
+msgctxt "tfrmoptionstoolbar.miseparator2.caption"
 msgid "-"
 msgstr "-"
 
@@ -6459,6 +6528,31 @@ msgstr ""
 #: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplallofall.caption
+msgid "in all of all the above..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplclickseparator.caption
+msgctxt "tfrmoptionstoolbar.misrcrplclickseparator.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.misrcrplcommands.caption
+msgid "in all commands..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrpliconnames.caption
+msgid "in all icon names..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplparameters.caption
+msgid "in all parameters..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplstartpath.caption
+msgid "in all start path..."
 msgstr ""
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
@@ -8087,6 +8181,14 @@ msgstr "Всього:"
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Буфер обміну не містить допустимих даних панелі інструментів."
 
+#: ulng.rscmdcategorylistinorder
+msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
+msgstr ""
+
+#: ulng.rscmdkindofsort
+msgid "Legacy sorted;A-Z sorted"
+msgstr ""
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Атриб"
@@ -8678,6 +8780,7 @@ msgid "Open with"
 msgstr "Відкрити з допомогою..."
 
 #: ulng.rsmnuopenwithother
+msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Інше..."
 
@@ -9501,6 +9604,10 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
+#: ulng.rsmsgthisisnowinclipboard
+msgid "\"%s\" is now in the clipboard"
+msgstr ""
+
 #: ulng.rsmsgtoolbarerrornotsaved
 msgid "Error! Problem saving toolbar!"
 msgstr ""
@@ -10227,7 +10334,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Файли;&Каталоги;Файли &і каталоги"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused"
+msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "&Приховати панель фільтру якщо не у фокусі"
 
 #: ulng.rsoptsortcasesens
@@ -10319,6 +10428,10 @@ msgstr "Так (%s)"
 msgid "Search result"
 msgstr "Результати пошуку"
 
+#: ulng.rssearchstatus
+msgid "SEARCH"
+msgstr ""
+
 #: ulng.rssearchtemplateunnamed
 #, fuzzy
 msgid "<unnamed template>"
@@ -10332,6 +10445,15 @@ msgstr "Виберіть каталог"
 #| msgid "Show help for %s"
 msgid "&Show help for %s"
 msgstr "Пока&зати довідку для %s"
+
+#: ulng.rssimplewordall
+msgctxt "ulng.rssimplewordall"
+msgid "All"
+msgstr "Всім"
+
+#: ulng.rssimplewordcategory
+msgid "Category"
+msgstr ""
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
@@ -10480,4 +10602,12 @@ msgstr "Кодування"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не знайдено!"
+
+#: ulng.rsxreplacements
+msgid "Number of replacement: %d"
+msgstr ""
+
+#: ulng.rszeroreplacement
+msgid "No replacement took place."
+msgstr ""
 

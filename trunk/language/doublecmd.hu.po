@@ -4149,6 +4149,7 @@ msgid "Export..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
 msgid "Help"
 msgstr ""
 
@@ -4388,6 +4389,23 @@ msgstr ""
 msgid "Save a backup of current Directory Hotlist"
 msgstr ""
 
+#: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
+msgid "Search and replace..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misearchandreplaceinpath.caption
+msgid "in path..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misearchandreplaceintargetpath.caption
+msgid "in target path..."
+msgstr ""
+
+#: tfrmoptionsdirectoryhotlist.misearchinreplaceinbothpaths.caption
+msgid "in path and target path..."
+msgstr ""
+
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
 msgid "-"
@@ -4400,6 +4418,16 @@ msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator11.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator11.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator12.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator12.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsdirectoryhotlist.miseparator13.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miseparator13.caption"
 msgid "-"
 msgstr "-"
 
@@ -5876,11 +5904,6 @@ msgstr "Futtatás &terminálban :"
 msgid "Run t&erminal:"
 msgstr "T&erminál indítása :"
 
-#: tfrmoptionstoolbar.btnbackup.caption
-msgctxt "tfrmoptionstoolbar.btnbackup.caption"
-msgid "Backup..."
-msgstr ""
-
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
 msgid "C&lone button"
@@ -5897,20 +5920,14 @@ msgctxt "TFRMOPTIONSTOOLBAR.BTNEDITHOTKEY.CAPTION"
 msgid "Edit hot&key"
 msgstr "Gyorsbillentyű szerkesztése :"
 
-#: tfrmoptionstoolbar.btnexport.caption
-msgctxt "tfrmoptionstoolbar.btnexport.caption"
-msgid "Export..."
-msgstr ""
-
-#: tfrmoptionstoolbar.btnimport.caption
-msgctxt "tfrmoptionstoolbar.btnimport.caption"
-msgid "Import..."
-msgstr ""
-
 #: tfrmoptionstoolbar.btninsertbutton.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNINSERTBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr "Ú&j gomb beszúrása"
+
+#: tfrmoptionstoolbar.btnopencmddlg.caption
+msgid "Select"
+msgstr ""
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
@@ -5922,6 +5939,11 @@ msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENICON.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: tfrmoptionstoolbar.btnother.caption
+msgctxt "tfrmoptionstoolbar.btnother.caption"
+msgid "Other..."
+msgstr "Más..."
+
 #: tfrmoptionstoolbar.btnremovehotkey.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
@@ -5931,6 +5953,14 @@ msgstr "Gyorsbillent&yű eltávolítása"
 msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
 msgid ">>"
 msgstr ">>"
+
+#: tfrmoptionstoolbar.btnsuggestiontooltip.caption
+msgid "Suggest"
+msgstr ""
+
+#: tfrmoptionstoolbar.btnsuggestiontooltip.hint
+msgid "Have DC suggest the tooltip based on button type, command and parameters"
+msgstr ""
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
@@ -5964,6 +5994,11 @@ msgstr "Para&ncs"
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALPARAMETERS.CAPTION"
 msgid "Parameter&s:"
 msgstr "Para&méterek"
+
+#: tfrmoptionstoolbar.lblhelponinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
+msgid "Help"
+msgstr ""
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
@@ -6002,6 +6037,10 @@ msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
 msgid "&Tooltip:"
 msgstr "Buborék& :"
 
+#: tfrmoptionstoolbar.miaddallcmds.caption
+msgid "Add toolbar with ALL DC commands"
+msgstr ""
+
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
 msgstr ""
@@ -6016,6 +6055,16 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
+msgstr ""
+
+#: tfrmoptionstoolbar.mibackup.caption
+msgctxt "tfrmoptionstoolbar.mibackup.caption"
+msgid "Backup..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miexport.caption
+msgctxt "tfrmoptionstoolbar.miexport.caption"
+msgid "Export..."
 msgstr ""
 
 #: tfrmoptionstoolbar.miexportcurrent.caption
@@ -6120,6 +6169,11 @@ msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr ""
 
+#: tfrmoptionstoolbar.miimport.caption
+msgctxt "tfrmoptionstoolbar.miimport.caption"
+msgid "Import..."
+msgstr ""
+
 #: tfrmoptionstoolbar.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
 msgstr ""
@@ -6160,7 +6214,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toolbar to current toolbar"
+msgid "to add to a new toobar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -6207,8 +6261,8 @@ msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr ""
 
-#: tfrmoptionstoolbar.miimporttcbarrepacetop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbarrepacetop.caption"
+#: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbar.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr ""
 
@@ -6261,6 +6315,16 @@ msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr ""
 
+#: tfrmoptionstoolbar.misearchandreplace.caption
+msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
+msgid "Search and replace..."
+msgstr ""
+
+#: tfrmoptionstoolbar.miseparator1.caption
+msgctxt "tfrmoptionstoolbar.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmoptionstoolbar.miseparator10.caption
 msgctxt "tfrmoptionstoolbar.miseparator10.caption"
 msgid "-"
@@ -6278,6 +6342,11 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator14.caption
 msgctxt "tfrmoptionstoolbar.miseparator14.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.miseparator2.caption
+msgctxt "tfrmoptionstoolbar.miseparator2.caption"
 msgid "-"
 msgstr "-"
 
@@ -6319,6 +6388,31 @@ msgstr ""
 #: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplallofall.caption
+msgid "in all of all the above..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplclickseparator.caption
+msgctxt "tfrmoptionstoolbar.misrcrplclickseparator.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionstoolbar.misrcrplcommands.caption
+msgid "in all commands..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrpliconnames.caption
+msgid "in all icon names..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplparameters.caption
+msgid "in all parameters..."
+msgstr ""
+
+#: tfrmoptionstoolbar.misrcrplstartpath.caption
+msgid "in all start path..."
 msgstr ""
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
@@ -7926,6 +8020,14 @@ msgstr "Összes :"
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "A vágólap nem tartalmaz érvényes eszköztári adatot."
 
+#: ulng.rscmdcategorylistinorder
+msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
+msgstr ""
+
+#: ulng.rscmdkindofsort
+msgid "Legacy sorted;A-Z sorted"
+msgstr ""
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Attr"
@@ -8510,6 +8612,7 @@ msgid "Open with"
 msgstr "Megnyitás ezzel ..."
 
 #: ulng.rsmnuopenwithother
+msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Más..."
 
@@ -9333,6 +9436,10 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
+#: ulng.rsmsgthisisnowinclipboard
+msgid "\"%s\" is now in the clipboard"
+msgstr ""
+
 #: ulng.rsmsgtoolbarerrornotsaved
 msgid "Error! Problem saving toolbar!"
 msgstr ""
@@ -10051,7 +10158,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Fájlok;&Mappák;Fájlok é&s Mappák"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused"
+msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "Szűrőpanel elrejtése, &ha nem fókuszált"
 
 #: ulng.rsoptsortcasesens
@@ -10140,6 +10249,10 @@ msgstr "Igen (%s)"
 msgid "Search result"
 msgstr "Keresés eredménye"
 
+#: ulng.rssearchstatus
+msgid "SEARCH"
+msgstr ""
+
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
 msgstr "<névtelen sablon>"
@@ -10151,6 +10264,15 @@ msgstr "Válasszon ki egy könyvtárat"
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"
 msgstr "&Súgó ehhez : %s"
+
+#: ulng.rssimplewordall
+msgctxt "ulng.rssimplewordall"
+msgid "All"
+msgstr "Mind"
+
+#: ulng.rssimplewordcategory
+msgid "Category"
+msgstr ""
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
@@ -10300,4 +10422,12 @@ msgstr "Kódolás"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nem található!"
+
+#: ulng.rsxreplacements
+msgid "Number of replacement: %d"
+msgstr ""
+
+#: ulng.rszeroreplacement
+msgid "No replacement took place."
+msgstr ""
 
