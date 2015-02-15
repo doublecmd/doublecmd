@@ -267,11 +267,11 @@ uses
 
   //DC
   {$IFDEF MSWINDOWS}
-  dmHelpManager, uOSUtils, uTotalCommander,
+  uOSUtils, uTotalCommander,
   {$ENDIF}
   fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils, uShowMsg,
   DCClassesUtf8, fOptions, DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils,
-  uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir;
+  uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir, dmHelpManager;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';
