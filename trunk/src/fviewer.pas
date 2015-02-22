@@ -451,6 +451,7 @@ begin
       end;
     end;
   ExitPluginMode;
+  ViewerControl.ResetEncoding;
   LoadFile(aFileName);
 end;
 
