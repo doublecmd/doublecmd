@@ -403,8 +403,8 @@ type
     function FindUtf8Text(iStartPos: PtrInt; const sSearchText: UTF8String;
                           bCaseSensitive: Boolean; bSearchBackwards: Boolean): PtrInt;
 
+    procedure ResetEncoding;
     function DetectEncoding: TViewerEncoding;
-
     procedure GetSupportedEncodings(List: TStrings);
 
     property Percent: Integer Read GetPercent Write SetPercent;
@@ -3257,6 +3257,11 @@ begin
       True : Dec(pCurrentAddr);
     end;
   end;
+end;
+
+procedure TViewerControl.ResetEncoding;
+begin
+  FEncoding:= veAutoDetect;
 end;
 
 procedure Register;
