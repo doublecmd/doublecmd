@@ -39,7 +39,7 @@ type
     FOpenResult: LongInt;
 
     procedure SetCryptCallback;
-    function ReadArchive: Boolean;
+    function ReadArchive(anArchiveHandle: TArcHandle = 0): Boolean;
 
     function GetArcFileList: TObjectList;
     function GetPluginCapabilities: PtrInt;
@@ -78,7 +78,8 @@ type
     constructor Create(anArchiveFileSource: IFileSource;
                        anArchiveFileName: String;
                        aWcxPluginModule: TWcxModule;
-                       aWcxPluginCapabilities: PtrInt); reintroduce;
+                       aWcxPluginCapabilities: PtrInt;
+                       anArchiveHandle: TArcHandle); reintroduce;
     destructor Destroy; override;
 
     class function CreateFile(const APath: String; WcxHeader: TWCXHeader): TFile; overload;
@@ -255,8 +256,8 @@ var
   ModuleFileName: String;
   WcxPlugin: TWcxModule;
   bFound: Boolean = False;
-  hArchive: TArcHandle;
   lOpenResult: LongInt;
+  anArchiveHandle: TArcHandle = 0;
 begin
   Result := nil;
 
@@ -269,20 +270,17 @@ begin
       WcxPlugin := gWCXPlugins.LoadModule(ModuleFileName);
       if Assigned(WcxPlugin) then
         begin
-          if Assigned(WcxPlugin.CanYouHandleThisFileW) or Assigned(WcxPlugin.CanYouHandleThisFile) then
+          if ((gWCXPlugins.Flags[I] and PK_CAPS_BY_CONTENT) = PK_CAPS_BY_CONTENT) then
             begin
-              bFound:= WcxPlugin.WcxCanYouHandleThisFile(anArchiveFileName);
-              if bFound then Break;
-            end
-          else if ((gWCXPlugins.Flags[I] and PK_CAPS_BY_CONTENT) = PK_CAPS_BY_CONTENT) then
-            begin
-              hArchive:= WcxPlugin.OpenArchiveHandle(anArchiveFileName, PK_OM_LIST, lOpenResult);
-              if (hArchive <> 0) and (lOpenResult = E_SUCCESS) then
+              if WcxPlugin.WcxCanYouHandleThisFile(anArchiveFileName) then
+              begin
+                anArchiveHandle:= WcxPlugin.OpenArchiveHandle(anArchiveFileName, PK_OM_LIST, lOpenResult);
+                if (anArchiveHandle <> 0) and (lOpenResult = E_SUCCESS) then
                 begin
-                  WcxPlugin.CloseArchive(hArchive);
                   bFound:= True;
                   Break;
                 end;
+              end;
             end
           else if ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) = PK_CAPS_HIDE) then
             begin
@@ -297,7 +295,8 @@ begin
       Result := TWcxArchiveFileSource.Create(anArchiveFileSource,
                                              anArchiveFileName,
                                              WcxPlugin,
-                                             gWCXPlugins.Flags[I]);
+                                             gWCXPlugins.Flags[I],
+                                             anArchiveHandle);
 
       DCDebug('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
     end;
@@ -384,9 +383,8 @@ begin
 end;
 
 constructor TWcxArchiveFileSource.Create(anArchiveFileSource: IFileSource;
-                                         anArchiveFileName: String;
-                                         aWcxPluginModule: TWcxModule;
-                                         aWcxPluginCapabilities: PtrInt);
+  anArchiveFileName: String; aWcxPluginModule: TWcxModule;
+  aWcxPluginCapabilities: PtrInt; anArchiveHandle: TArcHandle);
 begin
   inherited Create(anArchiveFileSource, anArchiveFileName);
 
@@ -394,14 +392,14 @@ begin
   FArcFileList := TObjectList.Create(True);
   FWcxModule := aWcxPluginModule;
 
-  FOperationsClasses[fsoCopyIn]          := TWcxArchiveCopyInOperation.GetOperationClass;
-  FOperationsClasses[fsoCopyOut]         := TWcxArchiveCopyOutOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyIn]  := TWcxArchiveCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut] := TWcxArchiveCopyOutOperation.GetOperationClass;
 
   SetCryptCallback;
 
   if mbFileExists(anArchiveFileName) then
   begin
-    if not ReadArchive then
+    if not ReadArchive(anArchiveHandle) then
       raise Exception.Create(GetErrorMsg(FOpenResult));
   end;
 
@@ -597,7 +595,7 @@ begin
   Result := TWcxArchiveCalcStatisticsOperation.Create(TargetFileSource, theFiles);
 end;
 
-function TWcxArchiveFileSource.ReadArchive: Boolean;
+function TWcxArchiveFileSource.ReadArchive(anArchiveHandle: TArcHandle): Boolean;
 
   procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashList);
   var
@@ -630,17 +628,19 @@ var
 begin
   Result:= False;
 
-  if not mbFileAccess(ArchiveFileName, fmOpenRead) then
-  begin
-    FOpenResult := E_EREAD;
-    Exit;
+  if anArchiveHandle <> 0 then
+    ArcHandle:= anArchiveHandle
+  else begin
+    if not mbFileAccess(ArchiveFileName, fmOpenRead) then
+    begin
+      FOpenResult := E_EREAD;
+      Exit;
+    end;
+
+    DCDebug('Open Archive');
+    ArcHandle := WcxModule.OpenArchiveHandle(ArchiveFileName, PK_OM_LIST, FOpenResult);
+    if ArcHandle = 0 then Exit;
   end;
-
-  DCDebug('Open Archive');
-
-  (*Open Archive*)
-  ArcHandle := WcxModule.OpenArchiveHandle(ArchiveFileName, PK_OM_LIST, FOpenResult);
-  if ArcHandle = 0 then Exit;
 
   WcxModule.WcxSetChangeVolProc(ArcHandle, nil, nil {ChangeVolProc});
   WcxModule.WcxSetProcessDataProc(ArcHandle, nil, nil {ProcessDataProc});
