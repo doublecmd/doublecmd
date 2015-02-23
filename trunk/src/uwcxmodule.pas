@@ -291,7 +291,9 @@ begin
   if Assigned(CanYouHandleThisFileW) then
     Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
   else if Assigned(CanYouHandleThisFile) then
-    Result:= CanYouHandleThisFile(PAnsiChar(UTF8ToSys(FileName)));
+    Result:= CanYouHandleThisFile(PAnsiChar(UTF8ToSys(FileName)))
+  else
+    Result:= True;
 end;
 
 function TWcxModule.WcxStartMemPack(Options: LongInt; FileName: UTF8String): TArcHandle;

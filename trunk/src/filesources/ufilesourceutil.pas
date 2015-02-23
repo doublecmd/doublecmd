@@ -217,8 +217,19 @@ function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean): Boo
 var
   FileSource: IFileSource;
 begin
-  // Check if there is a ArchiveFileSource for possible archive.
-  FileSource := GetArchiveFileSource(aFileView.FileSource, aFile, EmptyStr, bForce);
+  try
+    // Check if there is a ArchiveFileSource for possible archive.
+    FileSource := GetArchiveFileSource(aFileView.FileSource, aFile, EmptyStr, bForce);
+  except
+    on E: Exception do
+    begin
+      if not bForce then
+      begin
+        msgError(E.Message);
+        Exit(True);
+      end;
+    end;
+  end;
 
   if Assigned(FileSource) then
   begin
