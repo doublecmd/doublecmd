@@ -777,10 +777,9 @@ begin
     Inc(Line);
     SynDiffEditLeft.CaretY := Line;
     SynDiffEditLeft.TopLine := Line;
-    if not actKeepScrolling.Checked then
-    begin
+    SynDiffEditRight.CaretY := Line;
+    if not actKeepScrolling.Checked then begin
       SynDiffEditRight.TopLine := Line;
-      SynDiffEditRight.CaretY := Line;
     end;
   end;
 end;
@@ -812,10 +811,9 @@ begin
     if (Line <> 0) then Inc(Line, 2);
     SynDiffEditLeft.CaretY := Line;
     SynDiffEditLeft.TopLine := Line;
-    if not actKeepScrolling.Checked then
-    begin
+    SynDiffEditRight.CaretY := Line;
+    if not actKeepScrolling.Checked then begin
       SynDiffEditRight.TopLine := Line;
-      SynDiffEditRight.CaretY := Line;
     end;
   end;
 end;
@@ -852,10 +850,9 @@ begin
     Inc(Line);
     SynDiffEditLeft.CaretY := Line;
     SynDiffEditLeft.TopLine := Line;
-    if not actKeepScrolling.Checked then
-    begin
+    SynDiffEditRight.CaretY := Line;
+    if not actKeepScrolling.Checked then begin
       SynDiffEditRight.TopLine := Line;
-      SynDiffEditRight.CaretY := Line;
     end;
   end;
 end;
@@ -893,10 +890,9 @@ begin
     if (Line <> 0) then Inc(Line, 2);
     SynDiffEditLeft.CaretY := Line;
     SynDiffEditLeft.TopLine := Line;
-    if not actKeepScrolling.Checked then
-    begin
+    SynDiffEditRight.CaretY := Line;
+    if not actKeepScrolling.Checked then begin
       SynDiffEditRight.TopLine := Line;
-      SynDiffEditRight.CaretY := Line;
     end;
   end;
 end;
