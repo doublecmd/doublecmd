@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-01-26 19:50+0100\n"
+"PO-Revision-Date: 2015-02-16 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -540,7 +540,7 @@ msgstr "Berechne Prüfsumme..."
 
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
-msgstr ""
+msgstr "Prüfsummen-Datei öffnen wenn der Job beendet ist"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
@@ -4689,19 +4689,19 @@ msgstr "Speichern einer aktuellen Verzeichnis-Hotlist in ein Backup"
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "Suchen und Ersetzen"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceinpath.caption
 msgid "in path..."
-msgstr ""
+msgstr "im Pfad..."
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceintargetpath.caption
 msgid "in target path..."
-msgstr ""
+msgstr "im Zielpfad..."
 
 #: tfrmoptionsdirectoryhotlist.misearchinreplaceinbothpaths.caption
 msgid "in path and target path..."
-msgstr ""
+msgstr "im Pfad und Zielpfad..."
 
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
@@ -6473,7 +6473,7 @@ msgstr "Neuen Schalter e&infügen"
 
 #: tfrmoptionstoolbar.btnopencmddlg.caption
 msgid "Select"
-msgstr ""
+msgstr "Auswählen"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
@@ -6504,11 +6504,11 @@ msgstr ">>"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.caption
 msgid "Suggest"
-msgstr ""
+msgstr "Vorschlag"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr ""
+msgstr "DC einen Vorschlag für den Tooltip anhand des Schaltertyps, Befehls oder Parameters machen lassen"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 #, fuzzy
@@ -6604,7 +6604,7 @@ msgstr "&Tooltip"
 
 #: tfrmoptionstoolbar.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
-msgstr ""
+msgstr "Toolbar mit ALLEN DC-Befehlen hinzufügen"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
@@ -6781,7 +6781,7 @@ msgstr "zu aktueller Toolbar hinzufügen"
 #, fuzzy
 #| msgid "to add to a new toolbar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr "zu neuer Toolbar in der aktueller Toolbar hinzufügen"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -6885,7 +6885,7 @@ msgstr "direkt vor die aktuelle Markierung"
 #: tfrmoptionstoolbar.misearchandreplace.caption
 msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "Suchen und Ersetzen..."
 
 #: tfrmoptionstoolbar.miseparator1.caption
 msgctxt "tfrmoptionstoolbar.miseparator1.caption"
@@ -6959,7 +6959,7 @@ msgstr "direkt vor die aktuelle Markierung"
 
 #: tfrmoptionstoolbar.misrcrplallofall.caption
 msgid "in all of all the above..."
-msgstr ""
+msgstr "Alle in allen oberhalb..."
 
 #: tfrmoptionstoolbar.misrcrplclickseparator.caption
 msgctxt "tfrmoptionstoolbar.misrcrplclickseparator.caption"
@@ -7366,15 +7366,15 @@ msgstr "Umschalten zwischen Suchen und Filtern"
 
 #: tfrmsearchplugin.btnadd.caption
 msgid "&More rules"
-msgstr ""
+msgstr "&Mehr Regeln"
 
 #: tfrmsearchplugin.btndelete.caption
 msgid "L&ess rules"
-msgstr ""
+msgstr "W&eniger Regeln"
 
 #: tfrmsearchplugin.chkuseplugins.caption
 msgid "Use &content plugins, combine with:"
-msgstr ""
+msgstr "Nutze Inhalts-Plugin, kombiniert mit:"
 
 #: tfrmsearchplugin.headercontrol.sections[0].text
 msgctxt "tfrmsearchplugin.headercontrol.sections[0].text"
@@ -7383,7 +7383,7 @@ msgstr ""
 
 #: tfrmsearchplugin.headercontrol.sections[1].text
 msgid "Field"
-msgstr ""
+msgstr "Feld"
 
 #: tfrmsearchplugin.headercontrol.sections[2].text
 msgid "Operator"
@@ -7396,11 +7396,11 @@ msgstr "Wert"
 
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
-msgstr ""
+msgstr "&UND (alles stimmt überein)"
 
 #: tfrmsearchplugin.rbor.caption
 msgid "&OR (any match)"
-msgstr ""
+msgstr "&ODER (irgendeine Übereinstimmung)"
 
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
@@ -7602,7 +7602,7 @@ msgstr "Teiler"
 
 #: tfrmsplitter.cbrequireacrc32verificationfile.caption
 msgid "Require a CRC32 verification file"
-msgstr ""
+msgstr "Benötigt eine CRC32-Datei zum Verifizieren"
 
 #: tfrmsplitter.cmbxsize.text
 msgid "1457664B - 3.5\""
@@ -8674,11 +8674,11 @@ msgstr "Die Zwischenablage enthält keine gültigen Daten für die Werkzeugleist
 
 #: ulng.rscmdcategorylistinorder
 msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr ""
+msgstr "Alle;aktives Panel;Linkes Panel;rechtes Panel;Datei-Operationen;Konfiguration;Netzwerk;Verschiedenes;Paralleler Anschluss;Druck;Markierung;Sicherheit;Zwischenablage;FTP;Navigation;Hilfe;Fenster;Befehlszeile;Werkzeuge;Ansicht;Benutzer;Tabs;Sortierung;Log"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
-msgstr ""
+msgstr "Ablauf sorrtiert;A-Z sortiert"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -10115,7 +10115,7 @@ msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
-msgstr ""
+msgstr "\"%s\" ist jetzt in der Zwischenablage"
 
 #: ulng.rsmsgtoolbarerrornotsaved
 msgid "Error! Problem saving toolbar!"
@@ -10936,7 +10936,7 @@ msgstr "Suchergebnis"
 
 #: ulng.rssearchstatus
 msgid "SEARCH"
-msgstr ""
+msgstr "SUCHE"
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
@@ -10959,7 +10959,7 @@ msgstr "Alle"
 
 #: ulng.rssimplewordcategory
 msgid "Category"
-msgstr ""
+msgstr "Kategorie"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
@@ -11111,9 +11111,9 @@ msgstr "%s nicht gefunden!"
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
-msgstr ""
+msgstr "Anzahl der Ersetzungen: %d"
 
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
-msgstr ""
+msgstr "Nichts wurde ersetzt."
 
