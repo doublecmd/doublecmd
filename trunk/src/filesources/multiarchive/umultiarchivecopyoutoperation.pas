@@ -242,6 +242,8 @@ begin
           FilesToExtract.Add(aFile.Clone);
       end;
 
+      if FilesToExtract.Count = 0 then Exit;
+
       sReadyCommand:= FormatArchiverCommand(
                                             MultiArcItem.FArchiver,
                                             sCommandLine,
@@ -446,40 +448,95 @@ end;
 function TMultiArchiveCopyOutOperation.DoFileExists(aFile: TFile;
   const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 const
-  PossibleResponses: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+  PossibleResponses: array[0..7] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteLarger, fsourOverwriteAll,
+       fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel);
 var
   Message: String;
+
+  function OverwriteOlder: TFileSourceOperationOptionFileExists;
+  begin
+    if aFile.ModificationTime > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteSmaller: TFileSourceOperationOptionFileExists;
+  begin
+    if aFile.Size > mbFileSize(AbsoluteTargetFileName) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteLarger: TFileSourceOperationOptionFileExists;
+  begin
+    if aFile.Size < mbFileSize(AbsoluteTargetFileName) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
 begin
   if not mbFileExists(AbsoluteTargetFileName) then
     Result:= fsoofeOverwrite
-  else if FFileExistsOption = fsoofeNone then
-  begin
-    Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
-                                aFile.Size, aFile.ModificationTime);
-    case AskQuestion(Message, '',
-                     PossibleResponses, fsourOverwrite, fsourSkip) of
-      fsourOverwrite:
-        Result := fsoofeOverwrite;
-      fsourSkip:
-        Result := fsoofeSkip;
-      fsourOverwriteAll:
-        begin
-          FFileExistsOption := fsoofeOverwrite;
-          Result := fsoofeOverwrite;
+  else case FFileExistsOption of
+    fsoofeNone:
+      begin
+        Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
+                                    aFile.Size, aFile.ModificationTime);
+        case AskQuestion(Message, '',
+                         PossibleResponses, fsourOverwrite, fsourSkip) of
+          fsourOverwrite:
+            Result := fsoofeOverwrite;
+          fsourSkip:
+            Result := fsoofeSkip;
+          fsourOverwriteAll:
+            begin
+              FFileExistsOption := fsoofeOverwrite;
+              Result := fsoofeOverwrite;
+            end;
+          fsourSkipAll:
+            begin
+              FFileExistsOption := fsoofeSkip;
+              Result := fsoofeSkip;
+            end;
+          fsourOverwriteOlder:
+            begin
+              FFileExistsOption := fsoofeOverwriteOlder;
+              Result:= OverwriteOlder;
+            end;
+          fsourOverwriteSmaller:
+            begin
+              FFileExistsOption := fsoofeOverwriteSmaller;
+              Result:= OverwriteSmaller;
+            end;
+          fsourOverwriteLarger:
+            begin
+              FFileExistsOption := fsoofeOverwriteLarger;
+              Result:= OverwriteLarger;
+            end;
+          fsourNone,
+          fsourCancel:
+            RaiseAbortOperation;
         end;
-      fsourSkipAll:
-        begin
-          FFileExistsOption := fsoofeSkip;
-          Result := fsoofeSkip;
-        end;
-      fsourNone,
-      fsourCancel:
-        RaiseAbortOperation;
+      end;
+    fsoofeOverwriteOlder:
+      begin
+        Result:= OverwriteOlder;
+      end;
+    fsoofeOverwriteSmaller:
+      begin
+        Result:= OverwriteSmaller;
+      end;
+    fsoofeOverwriteLarger:
+      begin
+        Result:= OverwriteLarger;
+      end;
+    else begin
+      Result := FFileExistsOption;
     end;
-  end
-  else begin
-    Result := FFileExistsOption;
   end;
 end;
 
