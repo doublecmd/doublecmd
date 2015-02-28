@@ -217,7 +217,6 @@ object frmFileProperties: TfrmFileProperties
           Width = 41
           BorderSpacing.Top = 12
           Caption = 'Name:'
-          Font.Color = clBlack
           ParentColor = False
           ParentFont = False
         end
@@ -333,7 +332,6 @@ object frmFileProperties: TfrmFileProperties
         Width = 62
         BorderSpacing.Top = 12
         Caption = 'File name'
-        Font.Color = clBlack
         ParentColor = False
         ParentFont = False
       end
@@ -422,7 +420,6 @@ object frmFileProperties: TfrmFileProperties
         Top = 203
         Width = 55
         Caption = '-----------'
-        Font.Color = clBlack
         ParentColor = False
         ParentFont = False
       end
