@@ -50,8 +50,7 @@ type
     procedure CalculatePreferredSize(
                          var PreferredWidth, PreferredHeight: Integer;
                          WithThemeSpace: Boolean); override;
-    procedure CalculateSize(MaxWidth: Integer;
-                            var NeededWidth, NeededHeight: Integer);
+    procedure CalculateSize(MaxWidth: Integer; var NeededWidth: Integer);
   end;
 
 procedure Register;
@@ -99,11 +98,10 @@ begin
   if (Parent = nil) or (not Parent.HandleAllocated) then Exit;
 
   AWidth := Constraints.MinMaxWidth(10000);
-  CalculateSize(AWidth, PreferredWidth, PreferredHeight);
+  CalculateSize(AWidth, PreferredWidth);
 end;
 
-procedure TComboBoxAutoWidth.CalculateSize(MaxWidth: Integer; var NeededWidth,
-  NeededHeight: Integer);
+procedure TComboBoxAutoWidth.CalculateSize(MaxWidth: Integer; var NeededWidth: Integer);
 var
   DC: HDC;
   R: TRect;
@@ -135,7 +133,6 @@ begin
 
   if LabelText = '' then begin
     NeededWidth := 1;
-    NeededHeight := 1;
     Exit;
   end;
 
@@ -148,8 +145,6 @@ begin
     DrawText(DC, PChar(LabelText), Length(LabelText), R, Flags);
     SelectObject(DC, OldFont);
     NeededWidth := R.Right - R.Left + GetSystemMetrics(SM_CXVSCROLL) * 2;
-    NeededHeight := R.Bottom - R.Top;
-    // DebugLn(['TComboBoxAutoWidth.CalculatePreferredSize ',DbgSName(Self),' R=',dbgs(R),' MaxWidth=',MaxWidth,' DT_WORDBREAK=',(DT_WORDBREAK and Flags)>0,' LabelText="',LabelText,'"']);
   finally
     ReleaseDC(Parent.Handle, DC);
   end;
