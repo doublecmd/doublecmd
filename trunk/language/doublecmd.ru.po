@@ -1,10 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-12-10 22:34+0300\n"
+"PO-Revision-Date: 2015-02-28 19:02+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -278,6 +279,7 @@ msgid "&Reserve space"
 msgstr "Р&езервировать место"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
+msgctxt "tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint"
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Что делать, когда не удается установить время файла, его атрибуты и т.д."
 
@@ -557,11 +559,6 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "О&тмена"
 
-#: tfrmcopydlg.btncreatespecialqueue.caption
-msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
-msgid "..."
-msgstr "..."
-
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "О&пции"
@@ -574,6 +571,36 @@ msgstr "Со&хранить по умолчанию"
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Копировать файл(ы)"
+
+#: tfrmcopydlg.mnunewqueue.caption
+msgctxt "tfrmcopydlg.mnunewqueue.caption"
+msgid "New queue"
+msgstr "Новая очередь"
+
+#: tfrmcopydlg.mnuqueue1.caption
+msgctxt "tfrmcopydlg.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr "Очередь 1"
+
+#: tfrmcopydlg.mnuqueue2.caption
+msgctxt "tfrmcopydlg.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr "Очередь 2"
+
+#: tfrmcopydlg.mnuqueue3.caption
+msgctxt "tfrmcopydlg.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr "Очередь 3"
+
+#: tfrmcopydlg.mnuqueue4.caption
+msgctxt "tfrmcopydlg.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr "Очередь 4"
+
+#: tfrmcopydlg.mnuqueue5.caption
+msgctxt "tfrmcopydlg.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr "Очередь 5"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
@@ -5979,10 +6006,8 @@ msgid "to add to current toolbar"
 msgstr "добавить в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toolbar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr "добавить в новую панель в текущей панели инструментов"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -6015,8 +6040,6 @@ msgid "to add to current toolbar"
 msgstr "добавить в текущую панель инструментов"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toolbar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
 msgstr "добавить в новую панель в текущую панель инструментов"
@@ -7610,6 +7633,7 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: tfrmviewoperations.mnunewqueue.caption
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
 msgid "New queue"
 msgstr "Новая очередь"
 
@@ -7636,22 +7660,27 @@ msgid "Out of queue"
 msgstr "Убрать из очереди"
 
 #: tfrmviewoperations.mnuqueue1.caption
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "Очередь 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "Очередь 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "Очередь 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "Очередь 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "Очередь 5"
 
@@ -9897,10 +9926,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Файлы;Катало&ги;Ф&айлы и каталоги"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused"
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Ск&рывать панель фильтра, когда она не в фокусе"
+msgstr "Ск&рывать панель фильтра, когда она не в фокусе;Сохранять настройки, измененные через панель фильтра"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -9990,7 +10017,7 @@ msgstr "Результаты поиска"
 
 #: ulng.rssearchstatus
 msgid "SEARCH"
-msgstr ""
+msgstr "ПОИСК"
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
@@ -10011,7 +10038,7 @@ msgstr "Все"
 
 #: ulng.rssimplewordcategory
 msgid "Category"
-msgstr ""
+msgstr "Категория"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
@@ -10163,9 +10190,8 @@ msgstr "%s не найден!"
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
-msgstr ""
+msgstr "Число замен: %d"
 
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
-
