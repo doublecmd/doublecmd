@@ -59,7 +59,7 @@ type
              from where the attributes are retrieved.}
     function SetDirsAttributes(const Paths: TStringHashList): Boolean;
 
-    function DoFileExists(Header: TWcxHeader; const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+    function DoFileExists(Header: TWcxHeader; var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 	
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -91,9 +91,9 @@ type
 implementation
 
 uses
-  LCLProc, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils, uShowMsg,
+  Forms, LCLProc, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils,
   uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uFileSystemUtil,
-  uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes;
+  uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes, uShowMsg;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -560,42 +560,121 @@ begin
 end;
 
 function TWcxArchiveCopyOutOperation.DoFileExists(Header: TWcxHeader;
-  const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+  var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 const
-  PossibleResponses: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+  PossibleResponses: array[0..9] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteLarger, fsourOverwriteAll,
+       fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
+       fsourRenameSource, fsourAutoRenameSource);
 var
+  Answer: Boolean;
   Message: String;
+
+  function OverwriteOlder: TFileSourceOperationOptionFileExists;
+  begin
+    if WcxFileTimeToDateTime(Header) > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteSmaller: TFileSourceOperationOptionFileExists;
+  begin
+    if Header.UnpSize > mbFileSize(AbsoluteTargetFileName) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteLarger: TFileSourceOperationOptionFileExists;
+  begin
+    if Header.UnpSize < mbFileSize(AbsoluteTargetFileName) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
 begin
   if not mbFileExists(AbsoluteTargetFileName) then
     Result:= fsoofeOverwrite
-  else if FFileExistsOption = fsoofeNone then
-  begin
-    Message:= FileExistsMessage(AbsoluteTargetFileName, Header.FileName,
-                                Header.UnpSize, WcxFileTimeToDateTime(Header));
-    case AskQuestion(Message, '',
-                     PossibleResponses, fsourOverwrite, fsourSkip) of
-      fsourOverwrite:
-        Result := fsoofeOverwrite;
-      fsourSkip:
-        Result := fsoofeSkip;
-      fsourOverwriteAll:
-        begin
-          FFileExistsOption := fsoofeOverwrite;
-          Result := fsoofeOverwrite;
+  else case FFileExistsOption of
+    fsoofeNone:
+      repeat
+        Answer := True;
+        Message:= FileExistsMessage(AbsoluteTargetFileName, Header.FileName,
+                                    Header.UnpSize, WcxFileTimeToDateTime(Header));
+        case AskQuestion(Message, '',
+                         PossibleResponses, fsourOverwrite, fsourSkip) of
+          fsourOverwrite:
+            Result := fsoofeOverwrite;
+          fsourSkip:
+            Result := fsoofeSkip;
+          fsourOverwriteAll:
+            begin
+              FFileExistsOption := fsoofeOverwrite;
+              Result := fsoofeOverwrite;
+            end;
+          fsourSkipAll:
+            begin
+              FFileExistsOption := fsoofeSkip;
+              Result := fsoofeSkip;
+            end;
+          fsourOverwriteOlder:
+            begin
+              FFileExistsOption := fsoofeOverwriteOlder;
+              Result:= OverwriteOlder;
+            end;
+          fsourOverwriteSmaller:
+            begin
+              FFileExistsOption := fsoofeOverwriteSmaller;
+              Result:= OverwriteSmaller;
+            end;
+          fsourOverwriteLarger:
+            begin
+              FFileExistsOption := fsoofeOverwriteLarger;
+              Result:= OverwriteLarger;
+            end;
+          fsourAutoRenameSource:
+            begin
+              Result:= fsoofeOverwrite;
+              FFileExistsOption:= fsoofeAutoRenameSource;
+              AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName);
+            end;
+          fsourRenameSource:
+            begin
+              Message:= ExtractFileName(AbsoluteTargetFileName);
+              Answer:= ShowInputQuery(Thread, Application.Title, rsEditNewFileName, Message);
+              if Answer then
+              begin
+                Result:= fsoofeOverwrite;
+                AbsoluteTargetFileName:= ExtractFilePath(AbsoluteTargetFileName) + Message;
+              end;
+            end;
+          fsourNone,
+          fsourCancel:
+            RaiseAbortOperation;
         end;
-      fsourSkipAll:
-        begin
-          FFileExistsOption := fsoofeSkip;
-          Result := fsoofeSkip;
-        end;
-      fsourNone,
-      fsourCancel:
-        RaiseAbortOperation;
+      until Answer;
+    fsoofeOverwriteOlder:
+      begin
+        Result:= OverwriteOlder;
+      end;
+    fsoofeOverwriteSmaller:
+      begin
+        Result:= OverwriteSmaller;
+      end;
+    fsoofeOverwriteLarger:
+      begin
+        Result:= OverwriteLarger;
+      end;
+    fsoofeAutoRenameSource:
+      begin
+        Result:= fsoofeOverwrite;
+        AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName);
+      end;
+    else begin
+      Result := FFileExistsOption;
     end;
-  end
-  else begin
-    Result := FFileExistsOption;
   end;
 end;
 
