@@ -4,6 +4,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
   Top = 173
   Width = 637
   AutoSize = True
+  BorderSpacing.Around = 6
   ClientHeight = 248
   ClientWidth = 637
   LCLVersion = '1.2.6.0'
