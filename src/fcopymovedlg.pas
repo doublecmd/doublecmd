@@ -318,7 +318,7 @@ procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
 begin
   Constraints.MinWidth := Width;
   ShowOptions(not pnlOptions.Visible);
-  btnOptions.Visible:= not btnOptions.Visible;
+  btnOptions.Enabled := not btnOptions.Enabled;
   ClientWidth := pnlOptions.Width + ChildSizing.LeftRightSpacing * 2;
   pnlOptions.Anchors := pnlOptions.Anchors + [akRight];
   MoveToDefaultPosition;
