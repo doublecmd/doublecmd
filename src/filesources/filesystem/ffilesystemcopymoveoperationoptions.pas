@@ -9,7 +9,7 @@ uses
   uFileSourceOperationOptionsUI,
   uFileSystemCopyOperation,
   uFileSystemMoveOperation,
-  uSearchTemplate;
+  uSearchTemplate, KASComboBox;
 
 type
 
@@ -26,9 +26,9 @@ type
     cbCopyOwnership: TCheckBox;
     cbExcludeEmptyDirectories: TCheckBox;
     cbReserveSpace: TCheckBox;
-    cmbDirectoryExists: TComboBox;
-    cmbFileExists: TComboBox;
-    cmbSetPropertyError: TComboBox;
+    cmbDirectoryExists: TComboBoxAutoWidth;
+    cmbFileExists: TComboBoxAutoWidth;
+    cmbSetPropertyError: TComboBoxAutoWidth;
     gbFileTemplate: TGroupBox;
     grpOptions: TGroupBox;
     lblSetPropertyError: TLabel;
