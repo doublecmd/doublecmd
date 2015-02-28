@@ -317,6 +317,10 @@ end;
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
 begin
   ShowOptions(not pnlOptions.Visible);
+  btnOptions.Visible:= not btnOptions.Visible;
+  ClientWidth := pnlOptions.Width + ChildSizing.LeftRightSpacing * 2;
+  pnlOptions.Anchors := pnlOptions.Anchors + [akRight];
+  MoveToDefaultPosition;
 end;
 
 procedure TfrmCopyDlg.btnSaveOptionsClick(Sender: TObject);
@@ -374,7 +378,7 @@ end;
 
 procedure TfrmCopyDlg.ShowOptions(bShow: Boolean);
 begin
-  pnlOptions.Visible := bShow;
+    pnlOptions.Visible := bShow;
   UpdateSize;
 end;
 
