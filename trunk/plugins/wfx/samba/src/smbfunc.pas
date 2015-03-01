@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with Common Internet File System (CIFS)
 
-   Copyright (C) 2011-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -63,7 +63,7 @@ var
 implementation
 
 uses
-  Unix, BaseUnix, UnixType, StrUtils, SmbAuthDlg, libsmbclient;
+  Unix, BaseUnix, UnixType, StrUtils, URIParser, SmbAuthDlg, libsmbclient;
 
 const
   SMB_BUFFER_SIZE = 524288;
@@ -101,6 +101,12 @@ begin
   FileTime:= Int64(mtime) * 10000000 + 116444736000000000;
   Result.dwLowDateTime:= (FileTime and $FFFF);
   Result.dwHighDateTime:= (FileTime shr $20);
+end;
+
+function URIEncode(Path: String): String;
+begin
+  Result:= FileNameToURI(Path);
+  Result:= 'smb:/' + Copy(Result, 8, MaxInt);
 end;
 
 procedure WriteError(const FuncName: String);
@@ -168,11 +174,11 @@ begin
       Inc(C);
   end;
   if (C < 2) then
-    Result:= 'smb:/' + Result
+    Result:= URIEncode(Result)
   else
     begin
       I:= PosEx(PathDelim, Result, 2);
-      Result:= 'smb:/' + Copy(Result, I, MaxInt);
+      Result:= URIEncode(Copy(Result, I, MaxInt));
     end;
 end;
 
