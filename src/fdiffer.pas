@@ -30,7 +30,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
-  uPariterControls, uDiff, uFormCommands, uHotkeyManager, uOSForms,
+  uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
   uBinaryDiffViewer;
 
 type

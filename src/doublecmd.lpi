@@ -279,7 +279,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="222">
+    <Units Count="224">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1591,6 +1591,16 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit221>
+      <Unit222>
+        <Filename Value="udiffonp.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDiffONP"/>
+      </Unit222>
+      <Unit223>
+        <Filename Value="udiffond.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDiffOND"/>
+      </Unit223>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
