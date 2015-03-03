@@ -37,7 +37,7 @@ uses
   Classes,
   SynEditHighlighter,
   uSynDiffControls,
-  uDiff;
+  uDiffONP;
 
 const
   SynSpaceGlyph = Chr($B7);     //'·'
@@ -302,7 +302,7 @@ begin
       vOtherEdit := Editor.ModifiedFile;
     end;
 
-  if Editor.Lines.Kind[aLineNumber] = ckModify then
+  if TChangeKind(Editor.Lines.Kind[aLineNumber]) = ckModify then
     fDefaultAttriPointer := fUnmodifiedAttribute
   else
     fDefaultAttriPointer := fWhitespaceAttribute;
@@ -312,7 +312,7 @@ begin
   vNewLine := aNewValue;
   if Length(vNewLine) <> 0 then
     begin
-      if (Length(vOldLine) <> 0) and (Editor.Lines.Kind[aLineNumber] = ckModify) then
+      if (Length(vOldLine) <> 0) and (TChangeKind(Editor.Lines.Kind[aLineNumber]) = ckModify) then
         ComputeTokens(vOldLine, vNewLine)
       else
         fTokens.Add(vNewLine);

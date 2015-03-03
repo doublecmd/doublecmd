@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, SynEdit,
-  SynEditMiscClasses, SynGutterBase, SynTextDrawer, uDiff;
+  SynEditMiscClasses, SynGutterBase, SynTextDrawer, uDiffOND;
 
 const
   { Default differ colors }
