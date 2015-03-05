@@ -711,7 +711,7 @@ begin
     Result := False;
 {$ELSE}
   // Files beginning with '.' are treated as system/hidden files on Unix.
-  Result := (Length(Name) > 1) and (Name[1] = '.') and (Name[2] <> '.');
+  Result := (Length(Name) > 1) and (Name[1] = '.') and (Name <> '..');
 {$ENDIF}
 end;
 
