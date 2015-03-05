@@ -52,6 +52,7 @@ type
   TFTPSendEx = class(TFTPSend)
   public
     procedure FTPStatus(Sender: TObject; Response: Boolean; const Value: String);
+    function NetworkError(): Boolean;
   end;
 
   TConnection = class
@@ -228,11 +229,29 @@ begin
     Password := '';
 end;
 
+function FtpLogin(const Connection: TConnection; const FtpSend: TFTPSendEx): Boolean;
+var
+  sTemp: AnsiString;
+begin
+  Result := False;
+  
+  if FtpSend.Login then
+    begin
+      LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + Connection.ConnectionName));
+      sTemp:= Connection.InitCommands;
+      while sTemp <> EmptyStr do
+        FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
+      if Length(Connection.Path) > 0 then
+        FtpSend.ChangeWorkingDir(Connection.Path);
+      Result := True;
+    end;
+   
+end;
+
 function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): Boolean;
 var
   I: Integer;
   Connection: TConnection;
-  sTemp: AnsiString;
 begin
   Result:= False;
   I:= ActiveConnectionList.IndexOf(ConnectionName);
@@ -240,6 +259,24 @@ begin
   if I >= 0 then
     begin
       FtpSend:= TFTPSendEx(ActiveConnectionList.Objects[I]);
+      
+      if FtpSend.NetworkError then
+        //Server closed the connection, or network error occurred, or whatever else.
+        //Attempt to reconnect and execute login sequence
+        begin
+          LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error detected, attempting to reconnect...'));
+          I:= ConnectionList.IndexOf(ConnectionName);
+          if I >= 0 then
+          begin
+            Connection := TConnection(ConnectionList.Objects[I]);
+            if not FtpLogin(Connection, FtpSend) then
+              begin
+                RequestProc(PluginNumber, RT_MsgOK, nil, 'Connection lost, unable to reconnect!', nil, MAX_PATH);
+                Exit;
+              end;
+          end;
+        end;
+      
       Result:= True;
     end
   else
@@ -273,14 +310,8 @@ begin
         end;
         FtpSend.Password := Connection.Password;
         // try to connect
-        if FtpSend.Login then
+        if FtpLogin(Connection, FtpSend) then
           begin
-            LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + ConnectionName));
-            sTemp:= Connection.InitCommands;
-            while sTemp <> EmptyStr do
-              FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
-            if Length(Connection.Path) > 0 then
-              FtpSend.ChangeWorkingDir(Connection.Path);
             ActiveConnectionList.AddObject(ConnectionName, FtpSend);
             Result:= True;
           end
@@ -967,6 +998,13 @@ procedure TFTPSendEx.FTPStatus(Sender: TObject; Response: Boolean;
   const Value: string);
 begin
   LogProc(PluginNumber, msgtype_details, PAnsiChar(Value));
+  if FSock.LastError <> 0 then
+    LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error: '+FSock.LastErrorDesc));
+end;
+
+function TFTPSendEx.NetworkError: Boolean;
+begin
+  Result := FSock.CanRead(0);
 end;
 
 initialization
