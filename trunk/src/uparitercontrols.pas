@@ -1,6 +1,6 @@
 {
    Copyright (C) 2004  Flavio Etrusco
-   Copyright (C) 2011-2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2015  Alexander Koblov (alexx2000@mail.ru)
 
    All rights reserved.
 
@@ -91,34 +91,38 @@ type
 implementation
 
 uses
-  Graphics;
+  Graphics, UnicodeUtils;
 
 { TSynDiffHighlighter }
 
 procedure TSynDiffHighlighter.ComputeTokens(const aOldLine, aNewLine: String);
 var
   I: Integer;
-  LastKind: TChangeKind;
   LastToken: String;
+  LastKind: TChangeKind;
+  aOld, aNew: UCS4String;
   FirstToken: Boolean = True;
 
-  procedure AddTokenIfNeed(Symbol: Char; Kind: TChangeKind);
+  procedure AddTokenIfNeed(Symbol: UCS4Char; Kind: TChangeKind);
   begin
     if (Kind = LastKind) then // Same Kind, no need to change colors
-      LastToken := LastToken + Symbol
+      LastToken := LastToken + UCS4ToUTF8(Symbol)
     else begin
       fTokens.AddObject(LastToken, TObject(PtrInt(LastKind)));
-      LastToken := Symbol;
+      LastToken := UCS4ToUTF8(Symbol);
       LastKind := Kind;
     end;
   end;
 
 begin
+  // Convert to UCS-4
+  aOld:= UTF8ToUCS4(aOldLine);
+  aNew:= UTF8ToUCS4(aNewLine);
   // Compare lines
   if not Assigned(Editor.OriginalFile) then // Original file
-    fDiff.Execute(PChar(aNewLine), PChar(aOldLine), Length(aNewLine), Length(aOldLine))
+    fDiff.Execute(PInteger(aNew), PInteger(aOld), Length(aNew), Length(aOld))
   else if not Assigned(Editor.ModifiedFile) then // Modified file
-    fDiff.Execute(PChar(aOldLine), PChar(aNewLine), Length(aOldLine), Length(aNewLine));
+    fDiff.Execute(PInteger(aOld), PInteger(aNew), Length(aOld), Length(aNew));
 
   // Prepare diffs to display
   LastToken:= EmptyStr;
@@ -136,7 +140,7 @@ begin
               LastKind:= Kind;
               FirstToken:= False;
             end;
-            AddTokenIfNeed(chr1, Kind);
+            AddTokenIfNeed(int1, Kind);
           end;
         end
       else if not Assigned(Editor.ModifiedFile) then // Modified file
@@ -149,7 +153,7 @@ begin
               LastKind:= Kind;
               FirstToken:= False;
             end;
-            AddTokenIfNeed(chr2, Kind);
+            AddTokenIfNeed(int2, Kind);
           end;
         end;
     end;
