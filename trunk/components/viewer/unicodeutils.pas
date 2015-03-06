@@ -63,7 +63,6 @@ function Utf8ToUtf16LE(const s: string): string; // UTF16-LE 2 or 4 byte little 
 function Utf8ToUtf16BE(const s: string): string; // UTF16-BE 2 or 4 byte big endian
 
 function UTF8ToUCS4(const UTF8Text: String): UCS4String;
-function UCS4ToUTF8(UCS4Character: UCS4Char): String;
 
 {en
    Replaces invalid UTF-8 characters with '?'.
@@ -481,38 +480,6 @@ begin
     Inc(Index);
   end;
   SetLength(Result, Index);
-end;
-
-function UCS4ToUTF8(UCS4Character: UCS4Char): String;
-begin
-  // 1 byte length
-  if (UCS4Character < $80) then
-  begin
-    Result:= AnsiChar(UCS4Character);
-  end
-  // 2 bytes length
-  else if (UCS4Character < $800) then
-  begin
-    SetLength(Result, 2);
-    Result[1]:= AnsiChar($c0 or ((UCS4Character shr 6) and $1f));
-    Result[2]:= AnsiChar($80 or (UCS4Character and $3f));
-  end
-  // 3 bytes length
-  else if (UCS4Character < $1000) then
-  begin
-    SetLength(Result, 3);
-    Result[1]:= AnsiChar($c0 or ((UCS4Character shr 12) and $0f));
-    Result[2]:= AnsiChar($80 or ((UCS4Character shr 6) and $3f));
-    Result[3]:= AnsiChar($80 or (UCS4Character and $3f));
-  end
-  // 4 bytes length
-  else begin
-    SetLength(Result, 4);
-    Result[1]:= AnsiChar($c0 or ((UCS4Character shr 18) and $07));
-    Result[2]:= AnsiChar($80 or ((UCS4Character shr 12) and $3f));
-    Result[3]:= AnsiChar($80 or ((UCS4Character shr 6) and $3f));
-    Result[4]:= AnsiChar($80 or (UCS4Character and $3f));
-  end;
 end;
 
 function Utf8ReplaceBroken(const s: UTF8String): UTF8String;
