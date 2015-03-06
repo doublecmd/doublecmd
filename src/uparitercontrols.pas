@@ -91,7 +91,7 @@ type
 implementation
 
 uses
-  Graphics, UnicodeUtils;
+  LazUTF8, Graphics, UnicodeUtils;
 
 { TSynDiffHighlighter }
 
@@ -106,10 +106,10 @@ var
   procedure AddTokenIfNeed(Symbol: UCS4Char; Kind: TChangeKind);
   begin
     if (Kind = LastKind) then // Same Kind, no need to change colors
-      LastToken := LastToken + UCS4ToUTF8(Symbol)
+      LastToken := LastToken + UnicodeToUTF8(Symbol)
     else begin
       fTokens.AddObject(LastToken, TObject(PtrInt(LastKind)));
-      LastToken := UCS4ToUTF8(Symbol);
+      LastToken := UnicodeToUTF8(Symbol);
       LastKind := Kind;
     end;
   end;
