@@ -223,10 +223,9 @@ end;
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: UTF8String);
 var
   I: Integer;
-  sMsg: UTF8String;
+  sMsg, sName, sPath: String;
+  bLogFile, bLogWindow: Boolean;
   LogMsgType: TLogMsgType = lmtInfo;
-  bLogFile: Boolean;
-  sName: UTF8String;
   CallbackDataClass: TCallbackDataClass;
 Begin
   sMsg:= rsMsgLogInfo;
@@ -235,23 +234,25 @@ Begin
   case MsgType of
     msgtype_connect:
       begin
+        bLogWindow:= True;
         if Assigned(CallbackDataClass) then
-          begin
-            I:= Pos(#32, LogString);
-            sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
-            AddNetworkConnection(sName, CallbackDataClass.FileSource);
-          end;
+        begin
+          I:= Pos(#32, LogString);
+          sPath:= Copy(LogString, I + 1, MaxInt);
+          sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
+          AddNetworkConnection(sName, sPath, CallbackDataClass.FileSource);
+        end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
-        ShowLogWindow(True);
       end;
     msgtype_disconnect:
       begin
         if Assigned(CallbackDataClass) then
-          begin
-            I:= Pos(#32, LogString);
-            sName:= WfxOperationList[PluginNr] + Copy(LogString, I, MaxInt);
-            RemoveNetworkConnection(sName);
-          end;
+        begin
+          bLogWindow:= False;
+          I:= Pos(#32, LogString);
+          sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
+          RemoveNetworkConnection(sName);
+        end;
       end;
     msgtype_details,
     msgtype_operationcomplete,
@@ -260,13 +261,13 @@ Begin
       sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
     msgtype_importanterror:
       begin
-        sMsg:= rsMsgLogError + '[' + IntToStr(MsgType) + ']';
         LogMsgType:= lmtError;
+        sMsg:= rsMsgLogError + '[' + IntToStr(MsgType) + ']';
         bLogFile:= (log_vfs_op in gLogOptions) and (log_errors in gLogOptions);
       end;
   end;
   // write log info
-  logWrite(sMsg + ', ' + logString, LogMsgType, True, bLogFile);
+  logWrite(sMsg + ', ' + logString, LogMsgType, bLogWindow, bLogFile);
 
   //DCDebug('MainLogProc ('+ sMsg + ',' + logString + ')');
 end;
