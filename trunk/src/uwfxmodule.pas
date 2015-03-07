@@ -150,6 +150,7 @@ type
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxGetLocalName(var sFileName: UTF8String): Boolean;
+    function WfxDisconnect(const DisconnectRoot: String): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -285,7 +286,8 @@ begin
     end;
 end;
 
-procedure TWFXModule.WFXStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
+procedure TWFXModule.WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd,
+  InfoOperation: Integer);
 begin
   if Assigned(FsStatusInfoW) then
     FsStatusInfoW(PWideChar(UTF8Decode(RemoteDir)), InfoStartEnd, InfoOperation)
@@ -432,6 +434,16 @@ begin
         sFileName:= SysToUTF8(StrPas(pacRemoteName));
       FreeMem(pacRemoteName);
     end;
+end;
+
+function TWFXModule.WfxDisconnect(const DisconnectRoot: String): Boolean;
+begin
+  if Assigned(FsDisconnectW) then
+    Result:= FsDisconnectW(PWideChar(UTF8Decode(DisconnectRoot)))
+  else if Assigned(FsDisconnect) then
+    Result:= FsDisconnect(PAnsiChar(UTF8ToSys(DisconnectRoot)))
+  else
+    Result:= False;
 end;
 
 constructor TWFXModule.Create;
