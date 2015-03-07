@@ -223,8 +223,9 @@ end;
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: UTF8String);
 var
   I: Integer;
+  bLogFile: Boolean;
   sMsg, sName, sPath: String;
-  bLogFile, bLogWindow: Boolean;
+  bLogWindow: Boolean = True;
   LogMsgType: TLogMsgType = lmtInfo;
   CallbackDataClass: TCallbackDataClass;
 Begin
@@ -234,7 +235,6 @@ Begin
   case MsgType of
     msgtype_connect:
       begin
-        bLogWindow:= True;
         if Assigned(CallbackDataClass) then
         begin
           I:= Pos(#32, LogString);
