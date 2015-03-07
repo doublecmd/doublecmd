@@ -237,7 +237,7 @@ begin
   
   if FtpSend.Login then
     begin
-      LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + Connection.ConnectionName));
+      LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT /' + Connection.ConnectionName));
       sTemp:= Connection.InitCommands;
       while sTemp <> EmptyStr do
         FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
@@ -827,11 +827,12 @@ end;
 
 function FsDisconnect(DisconnectRoot: PAnsiChar): BOOL; dcpcall;
 var
-  FtpSend: TFTPSendEx;
   sTemp: AnsiString;
+  FtpSend: TFTPSendEx;
 begin
   Result := False;
-  if GetConnectionByPath(DisconnectRoot, FtpSend, sTemp) then
+  sTemp := ExcludeLeadingPathDelimiter(DisconnectRoot);
+  if GetConnectionByPath(sTemp, FtpSend, sTemp) then
   begin
     Result := FtpSend.Logout;
     LogProc(PluginNumber, MSGTYPE_DISCONNECT, PAnsiChar('DISCONNECT ' + DisconnectRoot));
