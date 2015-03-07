@@ -237,7 +237,6 @@ begin
   
   if FtpSend.Login then
     begin
-      LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT /' + Connection.ConnectionName));
       sTemp:= Connection.InitCommands;
       while sTemp <> EmptyStr do
         FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
@@ -312,6 +311,7 @@ begin
         // try to connect
         if FtpLogin(Connection, FtpSend) then
           begin
+            LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT /' + ConnectionName));
             ActiveConnectionList.AddObject(ConnectionName, FtpSend);
             Result:= True;
           end
