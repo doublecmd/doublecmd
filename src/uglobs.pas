@@ -1485,7 +1485,10 @@ begin
 
   // If global config is used then set config directory as global config directory.
   if gUseConfigInProgramDir then
+  begin
     gpCfgDir := gpGlobalCfgDir;
+    UpdateEnvironmentVariable;
+  end;
 
   if mbFileExists(gpCfgDir + 'doublecmd.xml') and
      (not mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenWrite or fmShareDenyWrite)) then
@@ -1602,7 +1605,10 @@ begin
     begin
       LoadPaths;
       if gUseConfigInProgramDirNew then
+      begin
         gpCfgDir := gpGlobalCfgDir;
+        UpdateEnvironmentVariable;
+      end;
 
       { Save location of configuration files }
 
