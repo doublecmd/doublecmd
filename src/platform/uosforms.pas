@@ -107,7 +107,7 @@ procedure ShowOpenWithDialog(const FileList: TStringList);
 implementation
 
 uses
-  ExtDlgs, LCLProc, uShellContextMenu
+  ExtDlgs, LCLProc, uShellContextMenu, uConnectionManager
   {$IF DEFINED(MSWINDOWS)}
   , Menus, Graphics, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, InterfaceBase, FileUtil, Windows, ShlObj, uShlObjAdditional
@@ -437,22 +437,30 @@ var
   aFile: TFile;
   Files: TFiles;
 begin
-  aFile := TFileSystemFileSource.CreateFile(EmptyStr);
-  aFile.FullPath := ADrive^.Path;
-  aFile.Attributes := faFolder;
-  Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
-  Files.Add(aFile);
-  ShowContextMenu(Parent, Files, X, Y, False, CloseEvent);
+  if ADrive.DriveType = dtVirtual then
+    ShowVirtualDriveMenu(ADrive, X, Y, CloseEvent)
+  else begin
+    aFile := TFileSystemFileSource.CreateFile(EmptyStr);
+    aFile.FullPath := ADrive^.Path;
+    aFile.Attributes := faFolder;
+    Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
+    Files.Add(aFile);
+    ShowContextMenu(Parent, Files, X, Y, False, CloseEvent);
+  end;
 end;
 {$ELSE}
 begin
-  // Free previous created menu
-  FreeThenNil(ShellContextMenu);
-  // Create new context menu
-  ShellContextMenu:= TShellContextMenu.Create(nil, ADrive);
-  ShellContextMenu.OnClose := CloseEvent;
-  // show context menu
-  ShellContextMenu.PopUp(X, Y);
+  if ADrive.DriveType = dtVirtual then
+    ShowVirtualDriveMenu(ADrive, X, Y, CloseEvent)
+  else begin
+    // Free previous created menu
+    FreeThenNil(ShellContextMenu);
+    // Create new context menu
+    ShellContextMenu:= TShellContextMenu.Create(nil, ADrive);
+    ShellContextMenu.OnClose := CloseEvent;
+    // show context menu
+    ShellContextMenu.PopUp(X, Y);
+  end;
 end;
 {$ENDIF}
 

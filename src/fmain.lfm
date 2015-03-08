@@ -1139,7 +1139,6 @@ object frmMain: TfrmMain
       Caption = 'Network'
       object miNetworkConnect: TMenuItem
         Action = actNetworkConnect
-        Visible = False
       end
       object miNetworkQuickConnect: TMenuItem
         Action = actNetworkQuickConnect

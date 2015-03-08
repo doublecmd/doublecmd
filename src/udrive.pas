@@ -39,7 +39,8 @@ type
                 dtOptical,       // CD, DVD, Blu-Ray, etc.
                 dtRamDisk,       // Ram-disk
                 dtRemovable,     // Drive with removable media
-                dtRemovableUsb); // Drive connected via USB
+                dtRemovableUsb,  // Drive connected via USB
+                dtVirtual);      // Virtual drive
 
   { TDrive }
 

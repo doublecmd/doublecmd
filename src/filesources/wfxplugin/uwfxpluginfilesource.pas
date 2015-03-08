@@ -240,8 +240,8 @@ Begin
         if Assigned(CallbackDataClass) then
         begin
           I:= Pos(#32, LogString);
+          sName:= WfxOperationList[PluginNr];
           sPath:= Copy(LogString, I + 1, MaxInt);
-          sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
           AddNetworkConnection(sName, sPath, CallbackDataClass.FileSource);
         end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
@@ -252,8 +252,9 @@ Begin
         begin
           bLogWindow:= False;
           I:= Pos(#32, LogString);
-          sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
-          RemoveNetworkConnection(sName);
+          sName:= WfxOperationList[PluginNr];
+          sPath:= Copy(LogString, I + 1, MaxInt);
+          RemoveNetworkConnection(sName, sPath);
         end;
       end;
     msgtype_details,

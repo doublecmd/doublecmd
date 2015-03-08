@@ -753,7 +753,7 @@ uses
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
   XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar,
-  uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist
+  uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ENDIF}
@@ -3673,6 +3673,8 @@ begin
         DrivesList.Remove(I);
     end;
 
+  UpdateDriveList(DrivesList);
+
   // create drives drop down menu
   FDrivesListPopup.UpdateDrivesList(DrivesList);
 
@@ -5359,7 +5361,7 @@ procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; Activa
 var
   aFileView, OtherFileView: TFileView;
 begin
-  if IsAvailable(Drive, Drive^.AutoMount) then
+  if (Drive^.DriveType = dtVirtual) or IsAvailable(Drive, Drive^.AutoMount) then
   begin
     case aPanel of
       fpLeft:
@@ -5372,6 +5374,15 @@ begin
           aFileView := FrameRight;
           OtherFileView := FrameLeft;
         end;
+    end;
+
+    // Special case for virtual drive
+    if Drive^.DriveType = dtVirtual then
+    begin
+      ChooseFileSource(aFileView, GetNetworkPath(Drive));
+      if ActivateIfNeeded and (tb_activate_panel_on_click in gDirTabOptions) then
+        SetActiveFrame(aPanel);
+      Exit;
     end;
 
     // Copy path opened in the other panel if the file source and drive match
