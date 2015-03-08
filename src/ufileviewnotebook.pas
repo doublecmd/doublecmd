@@ -348,17 +348,18 @@ end;
 procedure TFileViewPage.SetLockState(NewLockState: TTabLockState);
 begin
   if FLockState = NewLockState then Exit;
-  FLockState := NewLockState;
   if NewLockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab] then
     begin
       LockPath := FileView.CurrentPath;
-      FPermanentTitle := GetLastDir(LockPath);
+      if (FLockState <> tlsNormal) or (Length(FPermanentTitle) = 0) then
+        FPermanentTitle := GetLastDir(LockPath);
     end
   else
     begin
       LockPath := '';
       FPermanentTitle := '';
     end;
+  FLockState := NewLockState;
   UpdateTitle;
 end;
 
