@@ -6,7 +6,7 @@ unit uWfxPluginFileSource;
 interface
 
 uses
-  Classes, SysUtils, uWFXModule, WfxPlugin,
+  Classes, SysUtils, URIParser, uWFXModule, WfxPlugin,
   uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uFileProperty, uFileSource, uFileSourceOperation;
 
@@ -87,6 +87,7 @@ type
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
   public
+    constructor Create(const URI: TURI); override;
     constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
 
@@ -119,6 +120,7 @@ type
 
     function GetLocalName(var aFile: TFile): Boolean; override;
 
+    class function IsSupportedPath(const Path: String): Boolean; override;
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
@@ -155,7 +157,7 @@ implementation
 uses
   LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, DCStrUtils, uDCUtils, uLog,
   uDebug, uLng, uCryptProc, DCFileAttributes, uConnectionManager, contnrs, syncobjs,
-  uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
+  uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation;
 
@@ -722,6 +724,22 @@ begin
   end;
 end;
 
+constructor TWfxPluginFileSource.Create(const URI: TURI);
+var
+  sModuleFileName: UTF8String;
+begin
+  if gWFXPlugins.Count = 0 then Exit;
+  // Check if there is a registered plugin for the name of the file system plugin.
+  sModuleFileName:= gWFXPlugins.Values[URI.Host];
+  if sModuleFileName <> EmptyStr then
+    begin
+      sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
+      Create(sModuleFileName, URI.Host);
+
+      DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + URI.Host);
+    end;
+end;
+
 function TWfxPluginFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
@@ -822,6 +840,12 @@ begin
       aFile.FullPath:= sFileName;
       Result:= True;
     end;
+end;
+
+class function TWfxPluginFileSource.IsSupportedPath(const Path: String
+  ): Boolean;
+begin
+  Result:= Pos('wfx://', Path) = 1;
 end;
 
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): IWfxPluginFileSource;
@@ -1040,6 +1064,7 @@ initialization
   WfxConnectionsLock := TCriticalSection.Create;
   WfxOperationsQueue := TObjectList.Create(False); // False = don't destroy operations (only store references)
   WfxOperationsQueueLock := TCriticalSection.Create;
+  RegisterVirtualFileSource('WfxPlugin', TWfxPluginFileSource, False);
 
 finalization
   FreeThenNil(WfxOperationList);
