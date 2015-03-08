@@ -311,7 +311,7 @@ begin
         // try to connect
         if FtpLogin(Connection, FtpSend) then
           begin
-            LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT /' + ConnectionName));
+            LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + PathDelim + ConnectionName));
             ActiveConnectionList.AddObject(ConnectionName, FtpSend);
             Result:= True;
           end
