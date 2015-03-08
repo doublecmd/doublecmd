@@ -1842,6 +1842,11 @@ var
   iIconLarge: Integer;
 {$ENDIF}
 begin
+  if Drive^.DriveType = dtVirtual then
+  begin
+    Result := GetVirtualDriveIcon(IconSize, clBackColor);
+    Exit;
+  end;
   Result := nil;
 {$IFDEF MSWINDOWS}
   if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit;
@@ -2024,4 +2029,4 @@ finalization
   end;
 
 end.
-
+
