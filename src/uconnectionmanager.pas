@@ -81,10 +81,8 @@ var
   Index: Integer;
   MenuItem: TMenuItem absolute Sender;
 begin
-  if WfxConnectionList.Find(MenuItem.Hint, Index) then
-  begin
-    CloseConnection(Index);
-  end;
+  Index:= WfxConnectionList.IndexOf(MenuItem.Hint);
+  if Index >= 0 then CloseConnection(Index);
 end;
 
 function GetNetworkPath(ADrive: PDrive): String;
@@ -166,7 +164,8 @@ var
   ConnectionName: String;
 begin
   ConnectionName:= GetConnectionName(Name, Path);
-  if WfxConnectionList.Find(ConnectionName, Index) then
+  Index:= WfxConnectionList.IndexOf(ConnectionName);
+  if Index >= 0 then
   with frmMain do
   begin
     DisposeFileSourceRecord(PFileSourceRecord(WfxConnectionList.Objects[Index]));
@@ -189,16 +188,17 @@ begin
   if WfxConnectionList.Count > 0 then
   with frmMain do
   begin
-    if ActiveFrame.FileSource.IsInterface(IWfxPluginFileSource) then
+    if ActiveFrame.FileSource.IsInterface(IWfxPluginFileSource) and (ActiveFrame.CurrentPath <> PathDelim) then
       FileView:= ActiveFrame
-    else if NotActiveFrame.FileSource.IsInterface(IWfxPluginFileSource) then begin
+    else if NotActiveFrame.FileSource.IsInterface(IWfxPluginFileSource) and (NotActiveFrame.CurrentPath <> PathDelim) then begin
       FileView:= NotActiveFrame
     end;
     if Assigned(FileView) then
     begin
       ConnectionName:= ExtractWord(2, FileView.CurrentAddress, ['/']);
       ConnectionName:= GetConnectionName(ConnectionName, PathDelim + ExtractWord(1, FileView.CurrentPath, [PathDelim]));
-      if WfxConnectionList.Find(ConnectionName, Index) then CloseConnection(Index);
+      Index:= WfxConnectionList.IndexOf(ConnectionName);
+      if Index >= 0 then CloseConnection(Index);
     end
     // Close last connection
     else begin
