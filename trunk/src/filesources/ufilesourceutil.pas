@@ -179,6 +179,7 @@ function ChooseFileSource(aFileView: TFileView; const aPath: UTF8String): Boolea
 var
   URI: TURI;
   RemotePath: UTF8String;
+  FileSource: IFileSource;
   aFileSourceClass: TFileSourceClass;
 begin
   Result:= True;
@@ -192,8 +193,13 @@ begin
           URI:= ParseURI(aPath);
           RemotePath:= NormalizePathDelimiters(URI.Path + URI.Document);
           RemotePath:= IncludeTrailingPathDelimiter(RemotePath);
-          // Create new FileSource with given URI
-          aFileView.AddFileSource(aFileSourceClass.Create(URI), RemotePath);
+          FileSource:= FileSourceManager.Find(aFileSourceClass, URI.Protocol + '://' + URI.Host);
+          if Assigned(FileSource) then
+            aFileView.AddFileSource(FileSource, RemotePath)
+          else begin
+            // Create new FileSource with given URI
+            aFileView.AddFileSource(aFileSourceClass.Create(URI), RemotePath);
+          end;
         end
       // If found FileSource is same as current then simply change path
       else if aFileSourceClass.ClassNameIs(aFileView.FileSource.ClassName) then
