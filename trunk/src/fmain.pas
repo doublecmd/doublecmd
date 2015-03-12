@@ -745,7 +745,7 @@ implementation
 
 uses
   uFileProcs,
-  LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
+  Math, LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
@@ -2499,25 +2499,18 @@ end;
 
 procedure TfrmMain.CreatePopUpDirHistory;
 var
-  mi: TMenuItem;
   I: Integer;
+  MenuItem: TMenuItem;
 begin
   pmDirHistory.Items.Clear;
 
-  // store only first gDirHistoryCount of DirHistory
-  for I:= glsDirHistory.Count - 1 downto 0 do
-    if I > gDirHistoryCount then
-      glsDirHistory.Delete(I)
-    else
-      Break;
-
-  for I:= 0 to glsDirHistory.Count - 1 do
+  for I:= 0 to Min(gDirHistoryCount, glsDirHistory.Count - 1) do
   begin
-    mi:= TMenuItem.Create(pmDirHistory);
-    mi.Caption:= glsDirHistory[I];
-    mi.Hint:= mi.Caption;
-    mi.OnClick:= @HistorySelected;
-    pmDirHistory.Items.Add(mi);
+    MenuItem:= TMenuItem.Create(pmDirHistory);
+    MenuItem.Caption:= glsDirHistory[I];
+    MenuItem.Hint:= MenuItem.Caption;
+    MenuItem.OnClick:= @HistorySelected;
+    pmDirHistory.Items.Add(MenuItem);
   end;
 end;
 
@@ -3571,8 +3564,9 @@ end;
 
 procedure TfrmMain.FileViewAfterChangePath(FileView: TFileView);
 var
-  ANoteBook : TFileViewNotebook;
+  Index: Integer;
   Page: TFileViewPage;
+  ANoteBook : TFileViewNotebook;
 begin
   if FileView.NotebookPage is TFileViewPage then
     begin
@@ -3585,8 +3579,16 @@ begin
         begin
           if FileView.FileSource.IsClass(TFileSystemFileSource) then
           begin
-            if glsDirHistory.IndexOf(FileView.CurrentPath) = -1 then
-              glsDirHistory.Insert(0, FileView.CurrentPath);
+            // Store only first 255 items
+            if glsDirHistory.Count > $FF then begin
+              glsDirHistory.Delete(glsDirHistory.Count - 1);
+            end;
+            Index:= glsDirHistory.IndexOf(FileView.CurrentPath);
+            if Index = -1 then
+              glsDirHistory.Insert(0, FileView.CurrentPath)
+            else begin
+              glsDirHistory.Move(Index, 0);
+            end;
           end;
 
           UpdateSelectedDrive(ANoteBook);
@@ -5359,6 +5361,9 @@ end;
 
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
 var
+  Index: Integer;
+  DrivePath: String;
+  FoundPath: Boolean = False;
   aFileView, OtherFileView: TFileView;
 begin
   if (Drive^.DriveType = dtVirtual) or IsAvailable(Drive, Drive^.AutoMount) then
@@ -5393,8 +5398,26 @@ begin
     begin
       SetFileSystemPath(aFileView, OtherFileView.CurrentPath);
     end
-    else
+    // Open latest path from history for chosen drive
+    else if (gGoToRoot = False) and aFileView.FileSource.IsClass(TFileSystemFileSource) and
+            not mbCompareFileNames(ExtractRootDir(aFileView.CurrentPath), ExcludeTrailingPathDelimiter(Drive^.Path)) then
     begin
+      for Index:= 0 to glsDirHistory.Count - 1 do
+      begin
+        DrivePath:= Copy(glsDirHistory[Index], 1, Length(Drive^.Path));
+        if mbCompareFileNames(DrivePath, Drive^.Path) then
+        begin
+          if mbDirectoryExists(ExcludeBackPathDelimiter(glsDirHistory[Index])) then
+          begin
+            SetFileSystemPath(aFileView, glsDirHistory[Index]);
+            FoundPath:= True;
+            Break;
+          end;
+        end;
+      end;
+    end;
+
+    if not FoundPath then begin
       SetFileSystemPath(aFileView, Drive^.Path);
     end;
 
