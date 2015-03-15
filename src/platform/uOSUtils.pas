@@ -48,7 +48,7 @@ const
   {$ELSEIF DEFINED(UNIX)}
   faFolder = S_IFDIR;
   {$IFDEF DARWIN)}
-  RunTerm = '/Applications/Utilities/Terminal.app';  // default terminal
+  RunTerm = '/Applications/Utilities/Terminal.app %D';  // default terminal
   RunInTerm = ''; // default run in terminal command
   fmtRunInTerm = '';
   MonoSpaceFont = 'Monaco';
