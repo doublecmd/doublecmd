@@ -8665,11 +8665,11 @@ msgstr "Добавить %d выделенных каталогов"
 
 #: ulng.rsmsghotdiraddselecteddirectory
 msgid "Add selected dir: "
-msgstr "Добавить выделенный каталог:"
+msgstr "Добавить выделенный каталог: "
 
 #: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
-msgstr "Добавить текущий каталог:"
+msgstr "Добавить текущий каталог: "
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
