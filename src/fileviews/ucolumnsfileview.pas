@@ -322,6 +322,7 @@ begin
   begin
     NewSorting := Sorting;
     SortFunctions := Column.GetColumnFunctions;
+    if Length(SortFunctions) = 0 then Exit;
     ShiftState := GetKeyShiftStateEx;
     if [ssShift, ssCtrl] * ShiftState = [] then
     begin
