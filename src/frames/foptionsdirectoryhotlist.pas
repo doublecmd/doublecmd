@@ -362,9 +362,9 @@ var
   Index:longint;
   DestinationNode:TTreeNode;
 begin
-  DestinationNode:=tvDirectoryHotlist.GetNodeAt(X, Y);
+  DestinationNode:= tvDirectoryHotlist.GetNodeAt(X, Y);
 
-  if tvDirectoryHotlist.SelectionCount>0 then
+  if Assigned(DestinationNode) and (tvDirectoryHotlist.SelectionCount > 0) then
   begin
     //If we move toward the end, we place the moved item *after* the destination.
     //If we move toward the beginning, we place the moved item *before* the destination.
