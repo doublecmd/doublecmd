@@ -19,6 +19,7 @@ object frmCopyDlg: TfrmCopyDlg
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnPaint = FormPaint
   OnShow = frmCopyDlgShow
   Position = poScreenCenter
   LCLVersion = '1.2.4.0'
