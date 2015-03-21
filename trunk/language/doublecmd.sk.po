@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 0.6.0 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-08 18:30+0300\n"
-"PO-Revision-Date: 2012-05-08 18:30+0100\n"
+"PO-Revision-Date: 2015-03-16 20:20+0100\n"
 "Last-Translator: Rastislav Vojtek <rastislav.vojtek@enel.com>\n"
 "Language-Team: Slovenský <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,7 @@ msgstr "R"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
-msgstr ""
+msgstr "Vyber šablónu"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
 #, fuzzy
@@ -258,21 +258,21 @@ msgstr "Kontrolovať voľné miesto"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
 msgid "Cop&y attributes"
-msgstr ""
+msgstr "Kopírovať atribút&y"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
 msgid "Copy o&wnership"
-msgstr ""
+msgstr "Kopírovať vlastníka"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
-msgstr ""
+msgstr "Kopírov&ať dátum/čas"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 #, fuzzy
 #| msgid "Correct links"
 msgid "Correct lin&ks"
-msgstr "Opraviť odkazy"
+msgstr "Opraviť od&kazy"
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
 #, fuzzy
@@ -283,31 +283,31 @@ msgstr "Zahodiť znak len na čítanie"
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
 msgid "E&xclude empty directories"
-msgstr ""
+msgstr "Vynechať prázdne adresáre"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 #, fuzzy
 #| msgid "Follow links"
 msgid "Fo&llow links"
-msgstr "Nasledovať odkazy"
+msgstr "Nas&ledovať odkazy"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "&Reserve space"
-msgstr ""
+msgstr "Vyh&radený priestor"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr ""
+msgstr "Čo urobiť, ak nemôžem nastaviť súboru čas, atribúty a pod."
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
-msgstr ""
+msgstr "Použi šablónu súboru"
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 #, fuzzy
 #| msgid "When directory exists"
 msgid "When dir&ectory exists"
-msgstr "Ak zložka existuje"
+msgstr "Ak adresár &existuje"
 
 #: tfilesystemcopymoveoperationoptionsui.lblfileexists.caption
 #, fuzzy
@@ -318,7 +318,7 @@ msgstr "Ak súbor existuje"
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
 msgid "When ca&nnot set property"
-msgstr ""
+msgstr "Ak sa nedá nastaviť vlastnosť"
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
 msgid "<no template>"
@@ -331,7 +331,7 @@ msgstr "&Zavrieť"
 
 #: tfrmabout.btncopytoclipboard.caption
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopírovať do schránky"
 
 #: tfrmabout.caption
 msgctxt "TFRMABOUT.CAPTION"
@@ -379,7 +379,7 @@ msgstr "Verzia"
 #: tfrmattributesedit.btncancel.caption
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmattributesedit.btnok.caption
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
@@ -388,7 +388,7 @@ msgstr "&OK"
 
 #: tfrmattributesedit.btnreset.caption
 msgid "&Reset"
-msgstr ""
+msgstr "&Reset"
 
 #: tfrmattributesedit.caption
 msgid "Choose attributes"
@@ -412,7 +412,7 @@ msgstr "Komprimovaný"
 #| msgid "Directory"
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
 msgid "&Directory"
-msgstr "Zložka"
+msgstr "Adresár"
 
 #: tfrmattributesedit.cbencrypted.caption
 #, fuzzy
@@ -459,14 +459,14 @@ msgstr "SUID"
 #, fuzzy
 #| msgid "Symlink"
 msgid "&Symlink"
-msgstr "Symbolický link"
+msgstr "&Symbolický link"
 
 #: tfrmattributesedit.cbsystem.caption
 #, fuzzy
 #| msgid "System"
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
 msgid "S&ystem"
-msgstr "Systémový"
+msgstr "S&ystémový"
 
 #: tfrmattributesedit.cbtemporary.caption
 #, fuzzy
@@ -516,7 +516,7 @@ msgstr "Čítanie"
 #, fuzzy
 #| msgid "As text:"
 msgid "As te&xt:"
-msgstr "Ako text"
+msgstr "Ako te&xt:"
 
 #: tfrmattributesedit.lblwrite.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
@@ -528,7 +528,7 @@ msgstr "Zápis"
 #| msgid "Cancel"
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmchecksumcalc.btnok.caption
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
@@ -550,13 +550,13 @@ msgstr ""
 #, fuzzy
 #| msgid "Create separate checksum file for each file"
 msgid "C&reate separate checksum file for each file"
-msgstr "Vytvoriť samostatný MD5/SHA1 pre každý súbor"
+msgstr "Vytvo&riť samostatný MD5/SHA1 pre každý súbor"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 #, fuzzy
 #| msgid "&Save check sum file(s) to:"
 msgid "&Save checksum file(s) to:"
-msgstr "Uložiť súbor(y) s kontrolným súčtom do:"
+msgstr "Uložiť &súbor(y) s kontrolným súčtom do:"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -573,20 +573,20 @@ msgstr "Overiť kontrolný súčet..."
 #| msgid "Add"
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
 msgid "A&dd"
-msgstr "Pridať"
+msgstr "Pri&dať"
 
 #: tfrmconnectionmanager.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmconnectionmanager.btnconnect.caption
 #, fuzzy
 #| msgid "Connect"
 msgid "C&onnect"
-msgstr "Pripojiť"
+msgstr "Prip&ojiť"
 
 #: tfrmconnectionmanager.btndelete.caption
 #, fuzzy
@@ -600,7 +600,7 @@ msgstr "Vymazať"
 #| msgid "Edit"
 msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
 msgid "&Edit"
-msgstr "Upraviť"
+msgstr "&Upraviť"
 
 #: tfrmconnectionmanager.caption
 msgid "Connection manager"
@@ -612,14 +612,14 @@ msgstr "Pripojiť k:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
 msgid "A&dd To Queue"
-msgstr ""
+msgstr "Pri&daj do fronty"
 
 #: tfrmcopydlg.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmcopydlg.btncreatespecialqueue.caption
 msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
@@ -634,7 +634,7 @@ msgstr "Voľby"
 #, fuzzy
 #| msgid "Save these options as default"
 msgid "Sa&ve these options as default"
-msgstr "Uložiť tieto voľby ako východzie"
+msgstr "Uložiť tieto &voľby ako východzie"
 
 #: tfrmcopydlg.caption
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -650,7 +650,7 @@ msgstr ""
 #| msgid "Cancel"
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmdescredit.btnok.caption
 msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
@@ -659,7 +659,7 @@ msgstr "&OK"
 
 #: tfrmdescredit.caption
 msgid "File/folder comment"
-msgstr "Komentár k súboru/zložke"
+msgstr "Komentár k súboru/adresáru"
 
 #: tfrmdescredit.lbleditcommentfor.caption
 #, fuzzy
@@ -672,7 +672,7 @@ msgstr "Upraviť komentár k:"
 #| msgid "Encoding:"
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "&Encoding:"
-msgstr "Kódovanie:"
+msgstr "Zakódovani&e:"
 
 #: tfrmdescredit.lblfilename.caption
 msgctxt "TFRMDESCREDIT.LBLFILENAME.CAPTION"
@@ -854,12 +854,12 @@ msgstr "Uložiť"
 #: tfrmdiffer.actsaveas.caption
 msgctxt "TFRMDIFFER.ACTSAVEAS.CAPTION"
 msgid "Save as..."
-msgstr "Uložiť ako"
+msgstr "Uložiť ako..."
 
 #: tfrmdiffer.actsaveas.hint
 msgctxt "TFRMDIFFER.ACTSAVEAS.HINT"
 msgid "Save as..."
-msgstr "Uložiť ako"
+msgstr "Uložiť ako..."
 
 #: tfrmdiffer.actsaveleft.caption
 msgctxt "TFRMDIFFER.ACTSAVELEFT.CAPTION"
@@ -1007,7 +1007,7 @@ msgstr "&Akcie"
 #| msgid "Edit"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
 msgid "&Edit"
-msgstr "Upraviť"
+msgstr "&Upraviť"
 
 #: tfrmdiffer.mnuencoding.caption
 #, fuzzy
@@ -1032,7 +1032,7 @@ msgstr "&Nastavenia"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
-msgstr ""
+msgstr "Pridaj novú skratku k sekvencii"
 
 #: tfrmedithotkey.btncancel.caption
 msgctxt "tfrmedithotkey.btncancel.caption"
@@ -1046,19 +1046,19 @@ msgstr "&OK"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr ""
+msgstr "Zmazať poslednú skratku zo sekvencie"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgid "Only for these controls"
-msgstr ""
+msgstr "Iba pre toto riadenie"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "&Parameters (each in a separate line):"
-msgstr ""
+msgstr "&Parametre (každý v samostatnom riadku):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
-msgstr ""
+msgstr "Klávesové skratky"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -1130,7 +1130,6 @@ msgid "Find next"
 msgstr "Hľadať ďalší"
 
 #: tfrmeditor.acteditgotoline.caption
-msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr ""
 
@@ -1230,7 +1229,7 @@ msgstr "&Koniec"
 #: tfrmeditor.actfileexit.hint
 msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
-msgstr ""
+msgstr "Koniec"
 
 #: tfrmeditor.actfilenew.caption
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
@@ -1268,7 +1267,7 @@ msgstr "Uložiť &ako.."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr ""
+msgstr "Uložiť ako"
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1276,7 +1275,7 @@ msgstr "&Uložiť Všetko"
 
 #: tfrmeditor.actsaveall.hint
 msgid "Save All"
-msgstr ""
+msgstr "Uložiť všetko"
 
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
@@ -1322,7 +1321,7 @@ msgstr "Zvýrazňovanie syntaxu"
 
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
-msgstr ""
+msgstr "Koniec riadku"
 
 #: tfrmeditor.miseparator1.caption
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
@@ -1359,7 +1358,7 @@ msgstr "-"
 #| msgid "Cancel"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmeditsearchreplace.btnok.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
@@ -1418,7 +1417,7 @@ msgstr "Smer"
 #| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmextractdlg.btnhelp.caption
 #, fuzzy
@@ -1501,14 +1500,14 @@ msgstr "Pridať"
 #| msgid "Cancel"
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmfileassoc.btndownact.caption
 #, fuzzy
 #| msgid "Down"
 msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "&Down"
-msgstr "Dolov"
+msgstr "Dole"
 
 #: tfrmfileassoc.btnok.caption
 msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
@@ -1539,14 +1538,14 @@ msgstr "X"
 #| msgid "Remove"
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "&Remove"
-msgstr "Odstrániť"
+msgstr "Odst&rániť"
 
 #: tfrmfileassoc.btnrenametype.caption
 #, fuzzy
 #| msgid "Rename"
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "R&ename"
-msgstr "Premenovať"
+msgstr "Pr&emenovať"
 
 #: tfrmfileassoc.btnupact.caption
 #, fuzzy
@@ -1673,19 +1672,19 @@ msgstr "Kliknite na Zavrieť, až keď bude možné zmazať dočasné súbory."
 #| msgid "Cancel"
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
-msgstr ""
+msgstr "Na panel"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
-msgstr ""
+msgstr "Pohľad všetko"
 
 #: tfrmfileop.lblcurrentoperation.caption
 msgid "Current operation:"
-msgstr ""
+msgstr "Aktuálna operácia:"
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -1705,15 +1704,15 @@ msgstr "Zavrieť"
 
 #: tfrmfileproperties.btnsetproperties.caption
 msgid "&Set properties"
-msgstr ""
+msgstr "Nastav vlastnosti"
 
 #: tfrmfileproperties.btnsetpropertiestoallfiles.caption
 msgid "Set to &all selected files"
-msgstr ""
+msgstr "Nastav na všetky vybrané súbory"
 
 #: tfrmfileproperties.btnskipfile.caption
 msgid "Ski&p this file"
-msgstr ""
+msgstr "Preskoč tento súbor"
 
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
@@ -1779,7 +1778,7 @@ msgstr "???"
 
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
-msgstr ""
+msgstr "Obsahuje:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1934,7 +1933,7 @@ msgstr "&Zavrieť"
 #| msgid "Edit"
 msgctxt "tfrmfinddlg.btnedit.caption"
 msgid "&Edit"
-msgstr "Upraviť"
+msgstr "&Upraviť"
 
 #: tfrmfinddlg.btngotopath.caption
 msgid "&Go to file"
@@ -1942,7 +1941,7 @@ msgstr "&Choď na súbor"
 
 #: tfrmfinddlg.btnlastsearch.caption
 msgid "&Last search"
-msgstr ""
+msgstr "&Posledné vyhľadávanie"
 
 #: tfrmfinddlg.btnnewsearch.caption
 msgid "&New search"
@@ -1953,7 +1952,7 @@ msgstr "&Nové hľadanie"
 #| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
-msgstr "Uložiť"
+msgstr "&Uložiť"
 
 #: tfrmfinddlg.btnsearchdelete.caption
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
@@ -1970,11 +1969,11 @@ msgstr "&Uložiť"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
 msgid "Sa&ve with \"Start in directory\""
-msgstr ""
+msgstr "Ulož s \"Start in directory\""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr ""
+msgstr "Ak je uložené potom \"Start in directory\" bude obnovené pri nahrávaní šablóny. Použiť pri oprave hľadania na určený adresár."
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -1986,20 +1985,20 @@ msgstr "&Start"
 #| msgid "Cancel"
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "C&ancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
-msgstr ""
+msgstr "Použi šablónu"
 
 #: tfrmfinddlg.btnview.caption
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
 msgid "&View"
-msgstr "&Zobraziť"
+msgstr "Z&obraziť"
 
 #: tfrmfinddlg.btnworkwithfound.caption
 msgid "Feed to &listbox"
-msgstr "Výsledok do &okna"
+msgstr "&Výsledok do okna"
 
 #: tfrmfinddlg.caption
 msgctxt "tfrmfinddlg.caption"
@@ -2008,13 +2007,13 @@ msgstr "Hľadať súbory"
 
 #: tfrmfinddlg.cbcasesens.caption
 msgid "Case sens&itive"
-msgstr "Rozlišovať veľkosť"
+msgstr "Rozl&išovať veľkosť"
 
 #: tfrmfinddlg.cbdatefrom.caption
 #, fuzzy
 #| msgid "Date From:"
 msgid "&Date from:"
-msgstr "Dátum od:"
+msgstr "&Dátum od:"
 
 #: tfrmfinddlg.cbdateto.caption
 #, fuzzy
@@ -2078,7 +2077,7 @@ msgstr "Nahradiť text"
 
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and &files"
-msgstr ""
+msgstr "Vybrané adresáre a súbory"
 
 #: tfrmfinddlg.cbtextregexp.caption
 msgid "Regular &expression"
@@ -2098,19 +2097,19 @@ msgstr "Čas do:"
 
 #: tfrmfinddlg.cbuseplugin.caption
 msgid "&Use search plugin:"
-msgstr "Použiť vyhľadávací zásuvný modul:"
+msgstr "Po&užiť vyhľadávací zásuvný modul:"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr ""
+msgstr "Zadaj mená adresárov, ktoré by mali byť vynechané z vyhľadávania oddelené \";\""
 
 #: tfrmfinddlg.cmbexcludefiles.hint
 msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr ""
+msgstr "Zadaj mená súborov, ktoré by mali byť vynechané z vyhľadávania oddelené \";\""
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
-msgstr ""
+msgstr "Zadaj mená súborov oddelené \";\""
 
 #: tfrmfinddlg.cmbfindfilemask.text
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
@@ -2120,12 +2119,12 @@ msgstr "*"
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
 msgid "Directories"
-msgstr ""
+msgstr "Adresáre"
 
 #: tfrmfinddlg.gbfiles.caption
 msgctxt "tfrmfinddlg.gbfiles.caption"
 msgid "Files"
-msgstr ""
+msgstr "Súbory"
 
 #: tfrmfinddlg.gbfinddata.caption
 msgid "Find Data"
@@ -2133,7 +2132,7 @@ msgstr "Vyhľadávať v obsahu"
 
 #: tfrmfinddlg.lblattributes.caption
 msgid "Attri&butes"
-msgstr ""
+msgstr "Atribúty"
 
 #: tfrmfinddlg.lblencoding.caption
 #, fuzzy
@@ -2144,11 +2143,11 @@ msgstr "Kódovanie:"
 
 #: tfrmfinddlg.lblexcludedirectories.caption
 msgid "E&xclude subdirectories"
-msgstr ""
+msgstr "V&ynechať podadresáre"
 
 #: tfrmfinddlg.lblexcludefiles.caption
 msgid "&Exclude files"
-msgstr ""
+msgstr "Vynechať súbory"
 
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
@@ -2162,7 +2161,7 @@ msgstr "&Adresárová maska"
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
-msgstr "Prehľadať po&dzložky:"
+msgstr "Prehľadať po&dadresáre:"
 
 #: tfrmfinddlg.lbltemplateheader.caption
 msgid "&Previous searches:"
@@ -2206,7 +2205,7 @@ msgstr "Normálne"
 #| msgid "Cancel"
 msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmfindview.btnfind.caption
 #, fuzzy
@@ -2231,7 +2230,7 @@ msgstr "Rozlišovat veľkosť"
 #| msgid "Cancel"
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmhardlink.btnok.caption
 msgctxt "TFRMHARDLINK.BTNOK.CAPTION"
@@ -2269,12 +2268,10 @@ msgid "Import selected"
 msgstr ""
 
 #: tfrmhotdirexportimport.caption
-msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
 msgstr ""
 
 #: tfrmhotdirexportimport.lbhint.caption
-msgctxt "tfrmhotdirexportimport.lbhint.caption"
 msgid "When clicking a sub-menu, it will select the whole menu"
 msgstr ""
 
@@ -2287,14 +2284,14 @@ msgstr ""
 #| msgid "Cancel"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
 msgid "&Cancel"
-msgstr "Koniec"
+msgstr "Konie&c"
 
 #: tfrmlinker.btnok.caption
 #, fuzzy
 #| msgid "OK"
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "OK"
+msgstr "&OK"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
@@ -2393,7 +2390,7 @@ msgstr "Vypočítať &obsadené miesto..."
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
-msgstr "Zmeniť zložku"
+msgstr "Zmeniť adresár"
 
 #: tfrmmain.actchangedirtohome.caption
 msgid "Change directory to home"
@@ -2401,11 +2398,11 @@ msgstr ""
 
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
-msgstr "Ísť do nadradenej zložky"
+msgstr "Ísť do nadradeného adresára"
 
 #: tfrmmain.actchangedirtoroot.caption
 msgid "Change directory to root"
-msgstr "Ísť do koreňovej zložky"
+msgstr "Ísť do koreňového adresára"
 
 #: tfrmmain.actchecksumcalc.caption
 #, fuzzy
@@ -2441,31 +2438,31 @@ msgstr "Vymazať záložky"
 #| msgid "&Remove Tab"
 msgctxt "tfrmmain.actclosetab.caption"
 msgid "&Close Tab"
-msgstr "Vymazať záložku"
+msgstr "Zavrieť záložku"
 
 #: tfrmmain.actcmdlinenext.caption
 msgid "Next Command Line"
-msgstr ""
+msgstr "Nasledujúci príkazový riadok"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr ""
+msgstr "Nastav príkazový riadok na nasledujúci príkaz v histórii"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
-msgstr ""
+msgstr "Predchádzajúci príkazový riadok"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr ""
+msgstr "Nastav príkazový riadok na predchádzajúci príkaz v histórii"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
-msgstr ""
+msgstr "Plný"
 
 #: tfrmmain.actcolumnsview.hint
 msgid "Columns View"
-msgstr ""
+msgstr "Stĺpcový pohľad"
 
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
@@ -2474,12 +2471,12 @@ msgstr "Porovnať po&dľa obsahu"
 #: tfrmmain.actcomparedirectories.caption
 msgctxt "tfrmmain.actcomparedirectories.caption"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Porovnať adresáre"
 
 #: tfrmmain.actcomparedirectories.hint
 msgctxt "tfrmmain.actcomparedirectories.hint"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Porovnať adresáre"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2490,7 +2487,7 @@ msgstr "Zobraziť kontextové menu"
 #| msgid "Copy F5"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
-msgstr "Kopírova"
+msgstr "Kopírovať"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2524,7 +2521,7 @@ msgstr "Zo&braziť obsadené miesto"
 
 #: tfrmmain.actcuttoclipboard.caption
 msgid "Cu&t"
-msgstr "Vystrihnúť"
+msgstr "Vys&trihnúť"
 
 #: tfrmmain.actdelete.caption
 #, fuzzy
@@ -2542,20 +2539,20 @@ msgstr "História zložiek"
 #, fuzzy
 #| msgid "Directory &hotlist"
 msgid "Directory &Hotlist"
-msgstr "&Rýchle zložky"
+msgstr "&Rýchle adresáre"
 
 #: tfrmmain.actedit.caption
 #, fuzzy
 #| msgid "Edit F4"
 msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
-msgstr "Editova"
+msgstr "Editovať"
 
 #: tfrmmain.acteditcomment.caption
 #, fuzzy
 #| msgid "Edit comment..."
 msgid "Edit Co&mment..."
-msgstr "Upraviť komentár..."
+msgstr "Upraviť ko&mentár..."
 
 #: tfrmmain.acteditnew.caption
 msgid "Edit new file"
@@ -2668,9 +2665,9 @@ msgstr ""
 
 #: tfrmmain.actmakedir.caption
 #, fuzzy
-#| msgid "Create directory"
+#| msgid "MakeDir"
 msgid "Create &Directory"
-msgstr "Nová zložka"
+msgstr "Vytvor adresár"
 
 #: tfrmmain.actmarkcurrentextension.caption
 #, fuzzy
@@ -2692,7 +2689,7 @@ msgstr "&Vybrať všetko"
 #, fuzzy
 #| msgid "Unselect a group"
 msgid "Unselect a Gro&up..."
-msgstr "Zrušiť výber skupiny"
+msgstr "Zrušiť výber sk&upiny"
 
 #: tfrmmain.actmarkplus.caption
 #, fuzzy
@@ -2704,7 +2701,7 @@ msgstr "Výber skupiny"
 #, fuzzy
 #| msgid "Unselect All"
 msgid "&Unselect All"
-msgstr "Zrušiť výber"
+msgstr "Zr&ušiť výber"
 
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
@@ -2718,11 +2715,11 @@ msgstr "Nástroj pre hromadné premenovanie"
 
 #: tfrmmain.actnetworkconnect.caption
 msgid "Network &Connect..."
-msgstr "Pripojiť sieťovú zložku"
+msgstr "Pripojiť sieťový adresár"
 
 #: tfrmmain.actnetworkdisconnect.caption
 msgid "Network &Disconnect"
-msgstr "Odpojiť sieťovú zložku"
+msgstr "Odpojiť sieťový adresár"
 
 #: tfrmmain.actnetworkquickconnect.caption
 msgid "Network &Quick Connect..."
@@ -2757,7 +2754,7 @@ msgstr "Otvoriť súbor lišty"
 #, fuzzy
 #| msgid "Open &folder in new tab"
 msgid "Open &Folder in a New Tab"
-msgstr "Otvoriť zložku v novej záložke"
+msgstr "Otvoriť adresár v novej záložke"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 #, fuzzy
@@ -2885,7 +2882,7 @@ msgstr "Zmena atribútov"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "Uzamknuté; zložky otvárať v nových záložkách"
+msgstr "Uzamknuté; adresáre otvárať v nových záložkách"
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
@@ -2900,7 +2897,7 @@ msgstr "Uzamknuté"
 #| msgid "Locked, but &directory changes allowed"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
-msgstr "Uzamknuté; zmena zložky povolená"
+msgstr "Uzamknuté; zmena adresára povolená"
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "tfrmmain.actshellexecute.caption"
@@ -2909,7 +2906,7 @@ msgstr "Otvoriť"
 
 #: tfrmmain.actshellexecute.hint
 msgid "Open using system associations"
-msgstr ""
+msgstr "Otvor použité systémové asociácie"
 
 #: tfrmmain.actshowbuttonmenu.caption
 msgid "Show button menu"
@@ -2924,7 +2921,7 @@ msgstr "Zobraziť históriu príkazového riadku"
 #| msgid "Menu F9"
 msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu"
-msgstr "Menu F9"
+msgstr "Menu"
 
 #: tfrmmain.actshowsysfiles.caption
 #, fuzzy
@@ -2937,31 +2934,31 @@ msgstr "Zobraziť skryté/systémové súbory"
 #, fuzzy
 #| msgid "Sort by attrib"
 msgid "Sort by &Attributes"
-msgstr "Triediť podľa atribútov"
+msgstr "Triediť podľa &atribútov"
 
 #: tfrmmain.actsortbydate.caption
 #, fuzzy
 #| msgid "Sort by date"
 msgid "Sort by &Date"
-msgstr "Triediť podľa dátumu"
+msgstr "Triediť podľa &dátumu"
 
 #: tfrmmain.actsortbyext.caption
 #, fuzzy
 #| msgid "Sort by extension"
 msgid "Sort by &Extension"
-msgstr "Triediť podľa prípony"
+msgstr "Tri&ediť podľa prípony"
 
 #: tfrmmain.actsortbyname.caption
 #, fuzzy
 #| msgid "Sort by name"
 msgid "Sort by &Name"
-msgstr "Triediť podľa názvu"
+msgstr "Triediť podľa &názvu"
 
 #: tfrmmain.actsortbysize.caption
 #, fuzzy
 #| msgid "Sort by size"
 msgid "Sort by &Size"
-msgstr "Triediť podľa veľkosti"
+msgstr "Triediť podľa veľko&sti"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
@@ -2989,19 +2986,19 @@ msgstr "Testovať archív(y)"
 #: tfrmmain.actthumbnailsview.caption
 msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
-msgstr ""
+msgstr "Náhľady"
 
 #: tfrmmain.actthumbnailsview.hint
 msgid "Thumbnails View"
-msgstr ""
+msgstr "Pohľad s náhľadmi"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
-msgstr "Preniesť zložku pod kurzorom do ľavého okna"
+msgstr "Preniesť adresár pod kurzorom do ľavého okna"
 
 #: tfrmmain.acttransferright.caption
 msgid "Transfer dir under cursor to right window"
-msgstr "Preniesť zložku pod kurzorom do pravého okna"
+msgstr "Preniesť adresár pod kurzorom do pravého okna"
 
 #: tfrmmain.actunmarkcurrentextension.caption
 #, fuzzy
@@ -3014,7 +3011,7 @@ msgstr "Zrušiť výber súborov s rovnakou príponou"
 #| msgid "View F3"
 msgctxt "tfrmmain.actview.caption"
 msgid "View"
-msgstr "Zobrazi"
+msgstr "Zobraziť"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
@@ -3022,7 +3019,7 @@ msgstr "Zobraziť históriu navštívených ciest"
 
 #: tfrmmain.actviewhistorynext.caption
 msgid "Go to next entry in history"
-msgstr "Ísť na ďalšiu položku v histórii"
+msgstr "Ísť na nasledujúcu položku v histórii"
 
 #: tfrmmain.actviewhistoryprev.caption
 msgid "Go to previous entry in history"
@@ -3048,7 +3045,7 @@ msgstr "Koniec"
 #: tfrmmain.btnf7.caption
 msgctxt "tfrmmain.btnf7.caption"
 msgid "Directory"
-msgstr "Zložka"
+msgstr "Adresár"
 
 #: tfrmmain.btnf8.caption
 msgctxt "tfrmmain.btnf8.caption"
@@ -3079,7 +3076,7 @@ msgstr "<"
 
 #: tfrmmain.btnleftequalright.hint
 msgid "Show current directory of the right panel in the left panel"
-msgstr "Zobraziť aktuálnu zložku pravého panelu v ľavom panely"
+msgstr "Zobraziť aktuálny adresár pravého panelu v ľavom panely"
 
 #: tfrmmain.btnlefthome.caption
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
@@ -3088,7 +3085,7 @@ msgstr "~"
 
 #: tfrmmain.btnlefthome.hint
 msgid "Go to home directory"
-msgstr "Ísť do domovskej zložky"
+msgstr "Ísť do domovského adresára"
 
 #: tfrmmain.btnleftroot.caption
 msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
@@ -3097,7 +3094,7 @@ msgstr "/"
 
 #: tfrmmain.btnleftroot.hint
 msgid "Go to root directory"
-msgstr "Ísť do koreňovej zložky"
+msgstr "Ísť do koreňového adresára"
 
 #: tfrmmain.btnleftup.caption
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
@@ -3106,7 +3103,7 @@ msgstr ".."
 
 #: tfrmmain.btnleftup.hint
 msgid "Go to parent directory"
-msgstr "Ísť do nadradenej zložky"
+msgstr "Ísť do nadradeného adresára"
 
 #: tfrmmain.btnrightdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
@@ -3120,7 +3117,7 @@ msgstr ">"
 
 #: tfrmmain.btnrightequalleft.hint
 msgid "Show current directory of the left panel in the right panel"
-msgstr "Zobraziť aktuálnu zložku ľavého panelu v pravom panely"
+msgstr "Zobraziť aktuálny adresár ľavého panelu v pravom panely"
 
 #: tfrmmain.btnrighthome.caption
 msgctxt "TFRMMAIN.BTNRIGHTHOME.CAPTION"
@@ -3336,7 +3333,7 @@ msgstr "Vyčistiť"
 #: tfrmmain.milogcopy.caption
 msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
 msgid "Copy"
-msgstr "Kopírovat"
+msgstr "Kopírovať"
 
 #: tfrmmain.miloghide.caption
 msgid "Hide"
@@ -3479,13 +3476,13 @@ msgstr "-"
 #| msgid "Cancel"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmmaskinputdlg.btndefinetemplate.caption
 #, fuzzy
 #| msgid "Define..."
 msgid "&Define..."
-msgstr "Definovať..."
+msgstr "&Definovať..."
 
 #: tfrmmaskinputdlg.btnok.caption
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -3496,14 +3493,14 @@ msgstr "&OK"
 #, fuzzy
 #| msgid "Or select predefined selection type:"
 msgid "O&r select predefined selection type:"
-msgstr "Alebo zvoľte preddefinovaný typ výberu:"
+msgstr "Alebo zvoľte preddefinovaný typ výbe&ru:"
 
 #: tfrmmkdir.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmmkdir.btnok.caption
 msgctxt "TFRMMKDIR.BTNOK.CAPTION"
@@ -3512,13 +3509,13 @@ msgstr "&OK"
 
 #: tfrmmkdir.caption
 msgid "Create new directory"
-msgstr "Vytvoriť novú zložku"
+msgstr "Vytvoriť nový adresár"
 
 #: tfrmmkdir.lblmakedir.caption
 #, fuzzy
 #| msgid "Input new directory name:"
 msgid "&Input new directory name:"
-msgstr "Zadajte nový názov zložky:"
+msgstr "Zadajte nový názov adresára:"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
@@ -3647,7 +3644,7 @@ msgstr "..."
 #: tfrmmultirename.btnrename.caption
 msgctxt "tfrmmultirename.btnrename.caption"
 msgid "&Rename"
-msgstr "Premenovať (Ctrl+&R)"
+msgstr "P&remenovať"
 
 #: tfrmmultirename.btnrestore.caption
 #, fuzzy
@@ -3684,7 +3681,7 @@ msgstr "&Regulárne výrazy"
 #, fuzzy
 #| msgid "Use substitution"
 msgid "&Use substitution"
-msgstr "Použiť substitúciu"
+msgstr "Po&užiť substitúciu"
 
 #: tfrmmultirename.cmbxwidth.text
 msgid "01"
@@ -3704,7 +3701,7 @@ msgstr "1"
 #, fuzzy
 #| msgid "[E]xtension"
 msgid "[E] Extension"
-msgstr "[E]Prípona"
+msgstr "[E] Prípona"
 
 #: tfrmmultirename.gbcounter.caption
 msgid "Counter"
@@ -3742,13 +3739,13 @@ msgstr "Hľadať..."
 #, fuzzy
 #| msgid "Interval"
 msgid "&Interval"
-msgstr "Interval"
+msgstr "&Interval"
 
 #: tfrmmultirename.lbname.caption
 #, fuzzy
 #| msgid "File Name"
 msgid "File &Name"
-msgstr "Názov súboru"
+msgstr "&Názov súboru"
 
 #: tfrmmultirename.lbreplace.caption
 #, fuzzy
@@ -3942,31 +3939,31 @@ msgstr "Cesta k súboru"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
-msgstr ""
+msgstr "Vyber aplikáciu"
 
 #: tfrmopenwith.chkcustomcommand.caption
 msgid "Custom command"
-msgstr ""
+msgstr "Užívateľský príkaz"
 
 #: tfrmopenwith.chksaveassociation.caption
 msgid "Save association"
-msgstr ""
+msgstr "Ulož asociácie"
 
 #: tfrmopenwith.chkuseasdefault.caption
 msgid "Set selected application as default action"
-msgstr ""
+msgstr "Nastav vybranú aplikáciu ako štandartnú akciu"
 
 #: tfrmopenwith.lblmimetype.caption
 msgid "File type to be opened: %s"
-msgstr ""
+msgstr "Typ súboru na otvorenie: %s"
 
 #: tfrmopenwith.milistoffiles.caption
 msgid "Multiple file names"
-msgstr ""
+msgstr "Viacnásobné mená súboru"
 
 #: tfrmopenwith.milistoffiles.hint
 msgid "%F"
-msgstr ""
+msgstr "%F"
 
 #: tfrmopenwith.milistofurls.caption
 msgid "Multiple URIs"
@@ -3974,15 +3971,15 @@ msgstr ""
 
 #: tfrmopenwith.milistofurls.hint
 msgid "%U"
-msgstr ""
+msgstr "%U"
 
 #: tfrmopenwith.misinglefilename.caption
 msgid "Single file name"
-msgstr ""
+msgstr "Jednoduché meno súboru"
 
 #: tfrmopenwith.misinglefilename.hint
 msgid "%f"
-msgstr ""
+msgstr "%f"
 
 #: tfrmopenwith.misingleurl.caption
 msgid "Single URI"
@@ -3990,21 +3987,21 @@ msgstr ""
 
 #: tfrmopenwith.misingleurl.hint
 msgid "%u"
-msgstr ""
+msgstr "%u"
 
 #: tfrmoptions.btnapply.caption
 #, fuzzy
 #| msgid "Apply"
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "&Apply"
-msgstr "Použiť"
+msgstr "&Použiť"
 
 #: tfrmoptions.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
@@ -4018,14 +4015,14 @@ msgstr "Nastavenia"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr ""
+msgstr "Prosím, vyber jednu z podstránok, táto stránka neobsahuje nastavenia."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 #, fuzzy
 #| msgid "Auto Configure"
 msgctxt "tfrmoptionsarchivers.btnautoconfig.caption"
 msgid "A&uto Configure"
-msgstr "Automaticky"
+msgstr "A&utokonfigurovať"
 
 #: tfrmoptionsarchivers.btnmultiarcadd.caption
 #, fuzzy
@@ -4039,7 +4036,7 @@ msgstr "Pridať"
 #| msgid "Apply"
 msgctxt "tfrmoptionsarchivers.btnmultiarcapply.caption"
 msgid "A&pply"
-msgstr "Použiť"
+msgstr "&Použiť"
 
 #: tfrmoptionsarchivers.btnmultiarcdelete.caption
 #, fuzzy
@@ -4164,7 +4161,7 @@ msgstr "Tiež pri zmene &veľkosti, dátumu alebo atribútov"
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
 msgid "For the following &paths and their subdirectories:"
-msgstr "Pre nasledujúce cesty a podzložky"
+msgstr "Pre nasledujúce cesty a podadresáre"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 #, fuzzy
@@ -4199,7 +4196,7 @@ msgstr "Vždy zobraziť ikonu v oznamovacej oblasti"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
 msgid "Automatically &hide unmounted devices"
-msgstr ""
+msgstr "Automaticky skryť odpojené disky"
 
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "tfrmoptionsbehavior.cbminimizetotray.caption"
@@ -4215,11 +4212,11 @@ msgstr "Povoliť beh len jednej inštancie DC"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
+msgstr "Tu môžeš zadať 1 alebo viac diskov alebo prípojných bodov oddelených \";\"."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
-msgstr ""
+msgstr "Zoznam zakázaných diskov"
 
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
@@ -4252,36 +4249,36 @@ msgstr "Horizontálne čiary"
 #| msgid "Vertical lines"
 msgctxt "tfrmoptionscolumnsview.cbgridvertline.caption"
 msgid "&Vertical lines"
-msgstr "Vertikálne čiary"
+msgstr "&Vertikálne čiary"
 
 #: tfrmoptionscolumnsview.chkautofillcolumns.caption
 #, fuzzy
 #| msgid "Auto fill columns"
 msgctxt "tfrmoptionscolumnsview.chkautofillcolumns.caption"
 msgid "A&uto fill columns"
-msgstr "Automaticky vyplniť stĺpce"
+msgstr "A&utomaticky vyplniť stĺpce"
 
 #: tfrmoptionscolumnsview.gbshowgrid.caption
 msgid "Show grid"
-msgstr ""
+msgstr "Zobraz mriežku"
 
 #: tfrmoptionscolumnsview.grpautosizecolumns.caption
 msgid "Auto-size columns"
-msgstr ""
+msgstr "Automatická veľkosť stĺpcov"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
 #, fuzzy
 #| msgid "Auto size column:"
 msgctxt "tfrmoptionscolumnsview.lblautosizecolumn.caption"
 msgid "Auto si&ze column:"
-msgstr "Automatická veľkosť stĺpcov"
+msgstr "Automatická veľkosť stĺpca"
 
 #: tfrmoptionsconfiguration.btnconfigapply.caption
 #, fuzzy
 #| msgid "Apply"
 msgctxt "tfrmoptionsconfiguration.btnconfigapply.caption"
 msgid "A&pply"
-msgstr "Použiť"
+msgstr "&Použiť"
 
 #: tfrmoptionsconfiguration.btnconfigedit.caption
 #, fuzzy
@@ -4295,35 +4292,35 @@ msgstr "Upraviť"
 #| msgid "Command line history"
 msgctxt "tfrmoptionsconfiguration.cbcmdlinehistory.caption"
 msgid "Co&mmand line history"
-msgstr "História príkazového riadku"
+msgstr "Históriu príkazového riadku"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
 #, fuzzy
 #| msgid "Directory history"
 msgctxt "tfrmoptionsconfiguration.cbdirhistory.caption"
 msgid "&Directory history"
-msgstr "História zložiek"
+msgstr "Históriu adresárov"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
 #, fuzzy
 #| msgid "File mask history"
 msgctxt "tfrmoptionsconfiguration.cbfilemaskhistory.caption"
 msgid "&File mask history"
-msgstr "História použitých masiek"
+msgstr "Históriu použitých masiek"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 #, fuzzy
 #| msgid "Save configuration"
 msgctxt "tfrmoptionsconfiguration.chksaveconfiguration.caption"
 msgid "Sa&ve configuration"
-msgstr "Uložiť nastavenie"
+msgstr "Nastavenie"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 #, fuzzy
 #| msgid "Search/Replace history"
 msgctxt "tfrmoptionsconfiguration.chksearchreplacehistory.caption"
 msgid "Searc&h/Replace history"
-msgstr "Hľadať/nahradiť v histórii"
+msgstr "Históriu hľadania/nahrádzania"
 
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgctxt "tfrmoptionsconfiguration.gblocconfigfiles.caption"
@@ -4349,28 +4346,28 @@ msgstr "Nastaviť v príkazovom riadku"
 #| msgid "Program directory (portable version)"
 msgctxt "tfrmoptionsconfiguration.rbprogramdir.caption"
 msgid "P&rogram directory (portable version)"
-msgstr "Zložka programu (\"portable\" verzia)"
+msgstr "Adresár p&rogramu (\"portable\" verzia)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
 #, fuzzy
 #| msgid "User home directory"
 msgctxt "tfrmoptionsconfiguration.rbuserhomedir.caption"
 msgid "&User home directory"
-msgstr "Domovská zložka užívateľa"
+msgstr "Domovský adresár užívateľa"
 
 #: tfrmoptionscustomcolumns.btncopycolumnsset.caption
 #, fuzzy
 #| msgid "Copy"
 msgctxt "tfrmoptionscustomcolumns.btncopycolumnsset.caption"
 msgid "C&opy"
-msgstr "Kopírovať"
+msgstr "K&opírovať"
 
 #: tfrmoptionscustomcolumns.btndelcolumnsset.caption
 #, fuzzy
 #| msgid "Delete"
 msgctxt "tfrmoptionscustomcolumns.btndelcolumnsset.caption"
 msgid "&Delete"
-msgstr "Vymazať"
+msgstr "&Vymazať"
 
 #: tfrmoptionscustomcolumns.btneditcolumnsset.caption
 #, fuzzy
@@ -4394,7 +4391,7 @@ msgstr "Hlavné"
 #| msgid "Configure columns for file system:"
 msgctxt "tfrmoptionscustomcolumns.lblconfigcolumns.caption"
 msgid "Con&figure columns for file system:"
-msgstr "Konfigurácia stĺpcov pre systém súborov:"
+msgstr "Kon&figurácia stĺpcov pre systém súborov:"
 
 #: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
 msgid "Position of frame panel after the comparison:"
@@ -4442,7 +4439,6 @@ msgid "Some functions to select appropriate path"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnrelativetarget.hint
-msgctxt "tfrmoptionsdirectoryhotlist.btnrelativetarget.hint"
 msgid "Some functions to select appropriate target"
 msgstr ""
 
@@ -4495,62 +4491,50 @@ msgid "Path:"
 msgstr "Cesta:"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
-msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption"
 msgid "Target:"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption"
 msgid "directory of the active frame"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption"
 msgid "directories of the active && inactive frames"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddcommand.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddcommand.caption"
 msgid "a command"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddcommand2.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddcommand2.caption"
 msgid "Add a command"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption"
 msgid "a copy of the selected entry"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption"
 msgid "Add a copy of the selected entry"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddseparator.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator.caption"
 msgid "a separator"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddseparator2.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator2.caption"
 msgid "Add a separator"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu.caption"
 msgid "sub-menu"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption
-msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption"
 msgid "Add sub-menu"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption"
 msgid "directory I will browse to"
 msgstr ""
 
@@ -4572,37 +4556,30 @@ msgid "Cut"
 msgstr "Vystrihnúť"
 
 #: tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption"
 msgid "delete all!"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption"
 msgid "selected item"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption"
 msgid "Delete selected item"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
-msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
 msgid "Scan all hotdir's path to validate the ones that actually exist"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
-msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption"
 msgid "Scan all hotdir's path && target to validate the ones that actually exist"
 msgstr ""
 
@@ -4762,17 +4739,14 @@ msgid "...content of submenu(s) selected and all sublevels"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
 msgid "Test resulting menu"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory.caption"
 msgid "directory I will type"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption
-msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption"
 msgid "Add directory I will type"
 msgstr ""
 
@@ -4798,7 +4772,7 @@ msgstr ""
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
-msgstr ""
+msgstr "Ukáž potvrdzovacie okno po drop-e"
 
 #: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
 msgid "When drag && dropping text into panels:"
@@ -4818,29 +4792,29 @@ msgstr ""
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
-msgstr ""
+msgstr "Ukáž súborový systém"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
 msgid "Show fr&ee space"
-msgstr ""
+msgstr "Ukáž voľný pri&estor"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
 msgid "Show &label"
-msgstr ""
+msgstr "Ukáž značku"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
-msgstr ""
+msgstr "Zoznam diskov"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
-msgstr ""
+msgstr "Pozadie"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
 msgid "Bac&kground"
-msgstr ""
+msgstr "Pozadie"
 
 #: tfrmoptionseditorcolors.btnresetmask.hint
 msgid "Reset"
@@ -4853,33 +4827,33 @@ msgstr "Uložiť"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
-msgstr ""
+msgstr "Atribúty prvku"
 
 #: tfrmoptionseditorcolors.foregroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.foregroundlabel.caption"
 msgid "Fo&reground"
-msgstr ""
+msgstr "Pop&redie"
 
 #: tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption
 msgctxt "tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption"
 msgid "Fo&reground"
-msgstr ""
+msgstr "Pop&redie"
 
 #: tfrmoptionseditorcolors.framecolorusedefaultcheckbox.caption
 msgid "&Text-mark"
-msgstr ""
+msgstr "&Textová značka"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) &global scheme settings"
-msgstr ""
+msgstr "Použi (a uprav) &globálnu schému nastavení"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
 msgid "Use &local scheme settings"
-msgstr ""
+msgstr "Použi miestnu schému nastavení"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
 msgid "&Bold"
-msgstr ""
+msgstr "Tučné"
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
@@ -4889,69 +4863,69 @@ msgstr ""
 #: tfrmoptionseditorcolors.textboldradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
 msgid "O&ff"
-msgstr ""
+msgstr "Vypni"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
 msgid "O&n"
-msgstr ""
+msgstr "Zapni"
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
 msgid "&Italic"
-msgstr ""
+msgstr "Kurzíva"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
 msgid "In&vert"
-msgstr ""
+msgstr "In&vert"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
 msgid "O&ff"
-msgstr ""
+msgstr "Vypni"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
 msgid "O&n"
-msgstr ""
+msgstr "Zapni"
 
 #: tfrmoptionseditorcolors.textstrikeoutcheckbox.caption
 msgid "&Strike Out"
-msgstr ""
+msgstr "&Strike Out"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
 msgid "In&vert"
-msgstr ""
+msgstr "Pre&vrátiť"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
 msgid "O&ff"
-msgstr ""
+msgstr "Vyp"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioon.caption"
 msgid "O&n"
-msgstr ""
+msgstr "Zap"
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
 msgid "&Underline"
-msgstr ""
+msgstr "Podčiarknuť"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
 msgid "In&vert"
-msgstr ""
+msgstr "Pre&vrátiť"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
 msgid "O&ff"
-msgstr ""
+msgstr "Vyp"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
-msgstr ""
+msgstr "Zap"
 
 #: tfrmoptionsfileassoc.btnaddact.caption
 #, fuzzy
@@ -4976,7 +4950,7 @@ msgstr "Pridať"
 #| msgid "Down"
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
 msgid "&Down"
-msgstr "Dolov"
+msgstr "Dole"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 #, fuzzy
@@ -5002,14 +4976,14 @@ msgstr "X"
 #| msgid "Remove"
 msgctxt "tfrmoptionsfileassoc.btnremovetype.caption"
 msgid "&Remove"
-msgstr "Odstrániť"
+msgstr "Odst&rániť"
 
 #: tfrmoptionsfileassoc.btnrenametype.caption
 #, fuzzy
 #| msgid "Rename"
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
-msgstr "Premenovať"
+msgstr "Pr&emenovať"
 
 #: tfrmoptionsfileassoc.btnupact.caption
 #, fuzzy
@@ -5094,11 +5068,9 @@ msgid "Open in VFS"
 msgstr "Otvoriť vo VFS"
 
 #: tfrmoptionsfileassoc.miview.caption
-#, fuzzy
-#| msgid "View F3"
 msgctxt "tfrmoptionsfileassoc.miview.caption"
 msgid "View"
-msgstr "Zobrazi"
+msgstr "Zobraziť"
 
 #: tfrmoptionsfileassoc.miviewer.caption
 msgctxt "tfrmoptionsfileassoc.miviewer.caption"
@@ -5107,11 +5079,11 @@ msgstr "Otvoriť v prezerači"
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
-msgstr ""
+msgstr "Operácie kopírovania"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
 msgid "&Delete operation"
-msgstr ""
+msgstr "Operácie zmazania"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 #, fuzzy
@@ -5122,7 +5094,7 @@ msgstr "&F8/Del presúva do koša (Shift=zmazať ihneď)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
 msgid "D&elete to trash operation"
-msgstr ""
+msgstr "Operácie vyhodenia do koša"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 #, fuzzy
@@ -5133,7 +5105,7 @@ msgstr "Zahodiť znak len na čítanie"
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
 msgid "&Move operation"
-msgstr ""
+msgstr "Operácie presunu"
 
 #: tfrmoptionsfileoperations.cbpartialnamesearch.caption
 #, fuzzy
@@ -5147,11 +5119,11 @@ msgstr "Hľadať časť mena súboru"
 #| msgid "Process comments with files/folders"
 msgctxt "tfrmoptionsfileoperations.cbprocesscomments.caption"
 msgid "&Process comments with files/folders"
-msgstr "Spracovať komentáre so zložkami/súbormi"
+msgstr "Spracovať komentáre s adresármi/súbormi"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 msgid "Select &file name without extension when renaming"
-msgstr ""
+msgstr "Vybrať meno súboru bez prípony, pri premenovaní"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 #, fuzzy
@@ -5169,7 +5141,7 @@ msgstr "Preskočiť chyby súborových operácií a len ich zapísať do okna lo
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
-msgstr ""
+msgstr "Vykonávanie operácií"
 
 #: tfrmoptionsfileoperations.gbfilesearch.caption
 msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
@@ -5178,23 +5150,23 @@ msgstr "Hľadanie súborov"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
-msgstr ""
+msgstr "Užívateľský interfejs"
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
-msgstr ""
+msgstr "Veľkosť zásobníka pre súborové operácie (v KB):"
 
 #: tfrmoptionsfileoperations.lblconfirmations.caption
 msgid "Show confirmation window for:"
-msgstr ""
+msgstr "Ukázať okno potvrdenia pre:"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
-msgstr ""
+msgstr "Ukázať postup operácií &inicializovaný v"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
-msgstr ""
+msgstr "Počet prechodov bezpečného vymazania:"
 
 #: tfrmoptionsfileoperations.rbusemmapinsearch.caption
 #, fuzzy
@@ -5208,7 +5180,7 @@ msgstr "Použíť mapovanie pamäte pre hľadanie textu v súboroch"
 #| msgid "Use stream for search text in files"
 msgctxt "tfrmoptionsfileoperations.rbusestreaminsearch.caption"
 msgid "&Use stream for search text in files"
-msgstr "Použiť stream pre hľadanie textu v súboroch"
+msgstr "Po&užiť stream pre hľadanie textu v súboroch"
 
 #: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
 msgid "Duplicated name auto-rename style:"
@@ -5263,7 +5235,7 @@ msgstr "Použiť rámčekový kurzor"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
 msgid "Use &Gradient Indicator"
-msgstr ""
+msgstr "Použiť Indikátor &Gradientu"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 #, fuzzy
@@ -5274,7 +5246,7 @@ msgstr "Použiť inverzný výber"
 
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgid "Drive Free Space Indicator"
-msgstr ""
+msgstr "Indikátor Voľného Miesta na Disku"
 
 #: tfrmoptionsfilepanelscolors.gbexample.caption
 msgctxt "tfrmoptionsfilepanelscolors.gbexample.caption"
@@ -5283,7 +5255,7 @@ msgstr "Vzorka"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
-msgstr ""
+msgstr "Pozadie"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
 #, fuzzy
@@ -5315,11 +5287,11 @@ msgstr "Úroveň jasu neaktívneho panela"
 
 #: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
 msgid "In&dicator Back Color:"
-msgstr ""
+msgstr "&Indikátor Zadnej Farby:"
 
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
-msgstr ""
+msgstr "&Indikátor Prednej Farby:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 #, fuzzy
@@ -5337,7 +5309,7 @@ msgstr "Farba písma:"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"
-msgstr ""
+msgstr "Nenačítať zoznam súborov pokiaľ záložka je aktivovaná"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
 #, fuzzy
@@ -5348,7 +5320,7 @@ msgstr "Názvy zložiek v hranatých zátvorkách"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
 msgid "Hi&ghlight new and updated files"
-msgstr ""
+msgstr "Zvýraznenie nových a aktualizovaných súborov"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
@@ -5384,7 +5356,7 @@ msgstr "Pri výbere medzerníkom posunúť kurzor dolu, ako pri výbere kláveso
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
-msgstr ""
+msgstr "Formátovanie"
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgctxt "tfrmoptionsfilesviews.gbsorting.caption"
@@ -5393,11 +5365,11 @@ msgstr "Triedenie"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
-msgstr ""
+msgstr "Rozlíšovanie veľkosti písmen:"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
 msgid "Incorrect format"
-msgstr ""
+msgstr "Nesprávny formát"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 #, fuzzy
@@ -5408,15 +5380,15 @@ msgstr "Formát dátumu a času:"
 
 #: tfrmoptionsfilesviews.lblfilesizeformat.caption
 msgid "File si&ze format:"
-msgstr ""
+msgstr "Formát veľkosti súboru:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files"
-msgstr ""
+msgstr "Vlož&iť nové súbory"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
-msgstr ""
+msgstr "Triedenie adresárov:"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 #, fuzzy
@@ -5427,7 +5399,7 @@ msgstr "Metóda triedenia:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files"
-msgstr ""
+msgstr "Presunúť aktualizované súbory"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 #, fuzzy
@@ -5441,7 +5413,7 @@ msgstr "Pridať"
 #| msgid "Apply"
 msgctxt "tfrmoptionsfiletypescolors.btnapplycategory.caption"
 msgid "A&pply"
-msgstr "Použiť"
+msgstr "&Použiť"
 
 #: tfrmoptionsfiletypescolors.btncategorycolor.caption
 msgctxt "tfrmoptionsfiletypescolors.btncategorycolor.caption"
@@ -5462,7 +5434,7 @@ msgstr "Šablóny..."
 
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
 msgid "File types colors (sort by drag&&drop)"
-msgstr ""
+msgstr "Farby typu súborov (trieď podľa drag&&drop)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 #, fuzzy
@@ -5554,30 +5526,30 @@ msgstr "Písmo prezerača"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
 msgid "Add &hotkey"
-msgstr ""
+msgstr "Pridaj horúcu klávesu"
 
 #: tfrmoptionshotkeys.btndeletehotkey.caption
 msgid "&Delete hotkey"
-msgstr ""
+msgstr "Vymaž horúcu klávesu"
 
 #: tfrmoptionshotkeys.btnedithotkey.caption
 msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
 msgid "&Edit hotkey"
-msgstr ""
+msgstr "Zm&eň horúcu klávesu"
 
 #: tfrmoptionshotkeys.lbfilter.caption
 #, fuzzy
 #| msgid "Filter"
 msgctxt "tfrmoptionshotkeys.lbfilter.caption"
 msgid "&Filter"
-msgstr "Filter"
+msgstr "&Filter"
 
 #: tfrmoptionshotkeys.lblcategories.caption
 #, fuzzy
 #| msgid "Categories:"
 msgctxt "tfrmoptionshotkeys.lblcategories.caption"
 msgid "C&ategories:"
-msgstr "Kategórie:"
+msgstr "K&ategórie:"
 
 #: tfrmoptionshotkeys.lblcommands.caption
 #, fuzzy
@@ -5591,7 +5563,7 @@ msgstr "Príkazy:"
 #| msgid "Shortcut files:"
 msgctxt "tfrmoptionshotkeys.lblscfiles.caption"
 msgid "&Shortcut files:"
-msgstr "Súbory zástupcov:"
+msgstr "&Súbory zástupcov:"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[0].title.caption"
@@ -5605,16 +5577,16 @@ msgstr "Parametre"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
 msgid "Controls"
-msgstr ""
+msgstr "Controls"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
-msgstr "Pre nasledujúce cesty a podzložky"
+msgstr "&Pre nasledujúce cesty a podadresáre"
 
 #: tfrmoptionsicons.cbiconsinmenus.caption
 msgid "Show icons for actions in &menus"
-msgstr ""
+msgstr "Ukáž ikony akcií v &menu"
 
 #: tfrmoptionsicons.cbiconsinmenussize.text
 msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
@@ -5635,11 +5607,11 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
-msgstr ""
+msgstr "Zakáž špeciálne ikony"
 
 #: tfrmoptionsicons.gbiconsinmenus.caption
 msgid "Icons in menus"
-msgstr ""
+msgstr "Ikony v menu"
 
 #: tfrmoptionsicons.gbiconssize.caption
 #, fuzzy
@@ -5692,7 +5664,7 @@ msgstr "Pridať vybrané mená s celou cestou"
 #: tfrmoptionsignorelist.chkignoreenable.caption
 msgctxt "tfrmoptionsignorelist.chkignoreenable.caption"
 msgid "&Ignore (don't show) the following files and folders:"
-msgstr "&Ignorovať (nezobrazovať) nasledujúce súbory a zložky:"
+msgstr "&Ignorovať (nezobrazovať) nasledujúce súbory a adresáre:"
 
 #: tfrmoptionsignorelist.lblsavein.caption
 msgctxt "tfrmoptionsignorelist.lblsavein.caption"
@@ -5701,11 +5673,11 @@ msgstr "Uložiť do:"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
-msgstr ""
+msgstr "Ľavá, pravá šípka zmení adresár (pohyby ako v Lynx-e)"
 
 #: tfrmoptionskeyboard.gbtyping.caption
 msgid "Typing"
-msgstr ""
+msgstr "Písanie"
 
 #: tfrmoptionskeyboard.lblalt.caption
 #, fuzzy
@@ -5723,7 +5695,7 @@ msgstr "&Ctrl+Alt+Písmená"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 msgid "&Letters"
-msgstr ""
+msgstr "Písmená"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 #, fuzzy
@@ -5782,7 +5754,7 @@ msgstr "Zobraziť príkazový ria&dok"
 #| msgid "Show &current directory"
 msgctxt "tfrmoptionslayout.cbshowcurdir.caption"
 msgid "Show current director&y"
-msgstr "Zobraziť &aktuálnu zložku"
+msgstr "Zobraziť aktuáln&y adresár"
 
 #: tfrmoptionslayout.cbshowdiskpanel.caption
 msgctxt "tfrmoptionslayout.cbshowdiskpanel.caption"
@@ -5798,14 +5770,14 @@ msgstr "V hlavičke panela zobraziť údaj o voľnom mieste"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
 msgid "Show drives list bu&tton"
-msgstr ""
+msgstr "Ukáž &tlačidlo zoznamu diskov"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
 #, fuzzy
 #| msgid "Show &function key buttons"
 msgctxt "tfrmoptionslayout.cbshowkeyspanel.caption"
 msgid "Show function &key buttons"
-msgstr "Zobraziť &funkčné tlačítka"
+msgstr "Zobraziť &funkčné tlačidlá"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
 #, fuzzy
@@ -5817,11 +5789,11 @@ msgstr "Zobraziť hlavné menu"
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
 msgctxt "tfrmoptionslayout.cbshowmaintoolbar.caption"
 msgid "Show &button bar"
-msgstr "Zobraziť &tlačítkovú lištu"
+msgstr "Zobraziť &tlačídlovú lištu"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
 msgid "Show short free space &label"
-msgstr ""
+msgstr "Ukáž skrátený štítok voľného priestoru"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgctxt "tfrmoptionslayout.cbshowstatusbar.caption"
@@ -5904,21 +5876,21 @@ msgstr "Tvorba/Mazanie zložiek"
 #: tfrmoptionslog.cblogerrors.caption
 msgctxt "tfrmoptionslog.cblogerrors.caption"
 msgid "Log &errors"
-msgstr "Log &chýb"
+msgstr "Spis &chýb"
 
 #: tfrmoptionslog.cblogfile.caption
 #, fuzzy
 #| msgid "&Create a log file:"
 msgctxt "tfrmoptionslog.cblogfile.caption"
 msgid "C&reate a log file:"
-msgstr "&Vytvoriť log:"
+msgstr "&Vytvoriť súbor spisu:"
 
 #: tfrmoptionslog.cbloginfo.caption
 #, fuzzy
 #| msgid "Log information messages"
 msgctxt "tfrmoptionslog.cbloginfo.caption"
 msgid "Log &information messages"
-msgstr "Log informačných správ"
+msgstr "Spis informačných správ"
 
 #: tfrmoptionslog.cblogstartshutdown.caption
 msgid "Start/shutdown"
@@ -5927,7 +5899,7 @@ msgstr ""
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "tfrmoptionslog.cblogsuccess.caption"
 msgid "Log &successful operations"
-msgstr "Log &dokončených operácií"
+msgstr "Spis &dokončených operácií"
 
 #: tfrmoptionslog.cblogvfs.caption
 #, fuzzy
@@ -5939,15 +5911,15 @@ msgstr "Zásuvné moduly súborového systému"
 #: tfrmoptionslog.gblogfile.caption
 msgctxt "tfrmoptionslog.gblogfile.caption"
 msgid "File operation log file"
-msgstr "Log súborových operácií"
+msgstr "Spis súborových operácií"
 
 #: tfrmoptionslog.gblogfileop.caption
 msgid "Log operations"
-msgstr ""
+msgstr "Spis operácií"
 
 #: tfrmoptionslog.gblogfilestatus.caption
 msgid "Operation status"
-msgstr ""
+msgstr "Stav operácie"
 
 #: tfrmoptionsmisc.btnoutputpathfortoolbar.caption
 msgctxt "tfrmoptionsmisc.btnoutputpathfortoolbar.caption"
@@ -5971,7 +5943,7 @@ msgstr ""
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
-msgstr ""
+msgstr "Odober náhľady pre už neexistujúce súbory"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
@@ -5980,7 +5952,7 @@ msgstr ""
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
-msgstr ""
+msgstr "Vždy choď na root disku, keď je zmena diskov"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
@@ -5999,7 +5971,7 @@ msgstr "Uložiť náhľady do cache"
 #: tfrmoptionsmisc.dblthumbnails.caption
 msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
-msgstr ""
+msgstr "Náhľady"
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
@@ -6019,7 +5991,7 @@ msgstr ""
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
-msgstr ""
+msgstr "pixely"
 
 #: tfrmoptionsmisc.lblthumbseparator.caption
 msgctxt "tfrmoptionsmisc.lblthumbseparator.caption"
@@ -6028,7 +6000,7 @@ msgstr "X"
 
 #: tfrmoptionsmisc.lblthumbsize.caption
 msgid "&Thumbnail size:"
-msgstr ""
+msgstr "Veľkosť náhľadu:"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 #, fuzzy
@@ -6044,7 +6016,7 @@ msgstr "Skrolovanie"
 
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
-msgstr ""
+msgstr "Výber"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 #, fuzzy
@@ -6216,15 +6188,15 @@ msgstr "Nastavenia"
 
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
 msgid "Exact name match"
-msgstr ""
+msgstr "Presné meno súhlasí"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchcase.caption
 msgid "Search case"
-msgstr ""
+msgstr "Hľadaj písmeno"
 
 #: tfrmoptionsquicksearchfilter.rgpsearchitems.caption
 msgid "Search for these items"
-msgstr ""
+msgstr "Vyhľadať tieto položky"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "tfrmoptionstabs.cbtabsactivateonclick.caption"
@@ -6245,7 +6217,7 @@ msgstr "&Potvrdiť uzatvorenie všetkých záložiek"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgid "&Limit tab title length to"
-msgstr ""
+msgstr "Obmedzená dĺžka názvu záložky na"
 
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgctxt "tfrmoptionstabs.cbtabslockedasterisk.caption"
@@ -6286,7 +6258,7 @@ msgstr "znakov"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 msgid "Ta&bs position"
-msgstr ""
+msgstr "Umiestnenie záložky"
 
 #: tfrmoptionsterminal.lblruninterm.caption
 #, fuzzy
@@ -6304,7 +6276,7 @@ msgstr "Spustiť terminál:"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"
-msgstr ""
+msgstr "Klonovať tlačidlo"
 
 #: tfrmoptionstoolbar.btndeletebutton.caption
 msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
@@ -6314,7 +6286,7 @@ msgstr "&Vymazať"
 #: tfrmoptionstoolbar.btnedithotkey.caption
 msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
 msgid "Edit hot&key"
-msgstr ""
+msgstr "Zmeň horúcu klávesu"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
 msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
@@ -6338,11 +6310,11 @@ msgstr ">>"
 #: tfrmoptionstoolbar.btnother.caption
 msgctxt "tfrmoptionstoolbar.btnother.caption"
 msgid "Other..."
-msgstr ""
+msgstr "Iné ..."
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
 msgid "Remove hotke&y"
-msgstr ""
+msgstr "V&ymaž horúcu klávesu"
 
 #: tfrmoptionstoolbar.btnstartpath.caption
 msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
@@ -6370,7 +6342,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr ""
+msgstr "Zadaj parametre príkazu, každý v samostatnom riadku. Stlač F1 na pozretie pomoci k parametrom"
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
@@ -6387,12 +6359,12 @@ msgstr "Veľkosť lišty:"
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
 msgid "Comman&d:"
-msgstr ""
+msgstr "Príkaz:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
 msgid "Parameter&s:"
-msgstr ""
+msgstr "Parametre:"
 
 #: tfrmoptionstoolbar.lblhelponinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
@@ -6401,36 +6373,36 @@ msgstr ""
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
-msgstr ""
+msgstr "Horúca klávesa:"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
 msgid "Ico&n:"
-msgstr ""
+msgstr "Ikona:"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
 #, fuzzy
 #| msgid "Ic&on size:"
 msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
 msgid "Icon si&ze:"
-msgstr "Veľkosť ikony"
+msgstr "Veľkosť ikony:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
-msgstr ""
+msgstr "Príkaz:"
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
 msgid "&Parameters:"
-msgstr ""
+msgstr "&Parametre:"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
 msgid "Start pat&h:"
-msgstr ""
+msgstr "Začiatok cesty:"
 
 #: tfrmoptionstoolbar.lbltooltip.caption
 msgid "&Tooltip:"
-msgstr ""
+msgstr "Pomôcka:"
 
 #: tfrmoptionstoolbar.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
@@ -6608,8 +6580,7 @@ msgid "to add to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -6832,28 +6803,28 @@ msgstr ""
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
-msgstr ""
+msgstr "Typ tlačidla"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 #, fuzzy
 #| msgid "Keep terminal window open after executing program"
 msgctxt "tfrmoptionstoolbase.cbtoolskeepterminalopen.caption"
 msgid "&Keep terminal window open after executing program"
-msgstr "Ponechať okno terminálu otvorené aj po skončení programu"
+msgstr "Ponechať o&kno terminálu otvorené aj po skončení programu"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
 #, fuzzy
 #| msgid "Execute in terminal"
 msgctxt "tfrmoptionstoolbase.cbtoolsruninterminal.caption"
 msgid "&Execute in terminal"
-msgstr "Spustiť v terminály"
+msgstr "Spustiť v t&erminály"
 
 #: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
 #, fuzzy
 #| msgid "Use external program"
 msgctxt "tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption"
 msgid "&Use external program"
-msgstr "Použiť externý program"
+msgstr "Po&užiť externý program"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
 #, fuzzy
@@ -6867,21 +6838,21 @@ msgstr "Ďalšie parametre"
 #| msgid "Path to program to execute"
 msgctxt "tfrmoptionstoolbase.lbltoolspath.caption"
 msgid "&Path to program to execute"
-msgstr "Cesta k externému programu"
+msgstr "Cesta k externému &programu"
 
 #: tfrmoptionstooltips.btnaddfields.caption
 #, fuzzy
 #| msgid "Add"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
 msgid "A&dd"
-msgstr "Pridať"
+msgstr "Pri&dať"
 
 #: tfrmoptionstooltips.btnapplyfields.caption
 #, fuzzy
 #| msgid "Apply"
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
 msgid "A&pply"
-msgstr "Použiť"
+msgstr "&Použiť"
 
 #: tfrmoptionstooltips.btndeletefields.caption
 #, fuzzy
@@ -6977,28 +6948,28 @@ msgstr "Vzorka"
 #| msgid "Background color in book viewer"
 msgctxt "tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption"
 msgid "&Background color in book viewer"
-msgstr "Farba pozadia v prezerači kníh"
+msgstr "Far&ba pozadia v prezerači kníh"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 #, fuzzy
 #| msgid "Font color in book viewer"
 msgctxt "tfrmoptionsviewer.lblfontcolorviewerbook.caption"
 msgid "&Font color in book viewer"
-msgstr "Farba písma v prezerači kníh"
+msgstr "&Farba písma v prezerači kníh"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 #, fuzzy
 #| msgid "Number of columns in book viewer"
 msgctxt "tfrmoptionsviewer.lblnumbercolumnsviewer.caption"
 msgid "&Number of columns in book viewer"
-msgstr "Počet stĺpcov v prezerači kníh"
+msgstr "Počet stĺpcov v prezerači k&níh"
 
 #: tfrmpackdlg.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmpackdlg.btnconfig.caption
 #, fuzzy
@@ -7030,7 +7001,7 @@ msgstr "Komprimovať súbory"
 #, fuzzy
 #| msgid "Create separate archives, o&ne per selected file/dir"
 msgid "C&reate separate archives, one per selected file/dir"
-msgstr "Vytvoriť samostat&né archívne súbory pre každý vybratý súbor/zložku"
+msgstr "Vytvoriť samostat&né archívne súbory pre každý vybratý súbor/adresár"
 
 #: tfrmpackdlg.cbcreatesfx.caption
 msgid "Create self e&xtracting archive"
@@ -7136,11 +7107,11 @@ msgstr "X"
 
 #: tfrmquicksearch.btncancel.hint
 msgid "Close filter panel"
-msgstr ""
+msgstr "Zavrieť panel filtra"
 
 #: tfrmquicksearch.edtsearch.hint
 msgid "Enter text to search for or filter by"
-msgstr ""
+msgstr "Zadaj text na vyhľadanie alebo filtrovanie"
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
@@ -7148,7 +7119,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbcasesensitive.hint
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Rozlíšovať veľkosť písmen"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -7157,7 +7128,7 @@ msgstr ""
 #: tfrmquicksearch.sbdirectories.hint
 msgctxt "tfrmquicksearch.sbdirectories.hint"
 msgid "Directories"
-msgstr ""
+msgstr "Adresáre"
 
 #: tfrmquicksearch.sbfiles.caption
 msgid "F"
@@ -7166,7 +7137,7 @@ msgstr ""
 #: tfrmquicksearch.sbfiles.hint
 msgctxt "tfrmquicksearch.sbfiles.hint"
 msgid "Files"
-msgstr ""
+msgstr "Súbory"
 
 #: tfrmquicksearch.sbmatchbeginning.caption
 msgid "{"
@@ -7174,7 +7145,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbmatchbeginning.hint
 msgid "Match Beginning"
-msgstr ""
+msgstr "Zhoda Začiatok"
 
 #: tfrmquicksearch.sbmatchending.caption
 msgid "}"
@@ -7182,7 +7153,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbmatchending.hint
 msgid "Match Ending"
-msgstr ""
+msgstr "Zhoda Koniec"
 
 #: tfrmquicksearch.tglfilter.caption
 msgctxt "tfrmquicksearch.tglfilter.caption"
@@ -7191,7 +7162,7 @@ msgstr "Filter"
 
 #: tfrmquicksearch.tglfilter.hint
 msgid "Toggle between search or filter"
-msgstr ""
+msgstr "Prepnúť medzi vyhľadávaním a filtrom"
 
 #: tfrmsearchplugin.btnadd.caption
 msgid "&More rules"
@@ -7253,14 +7224,14 @@ msgstr "&OK"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
-msgstr ""
+msgstr "Vyber znaky na vloženie:"
 
 #: tfrmsetfileproperties.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmsetfileproperties.btnok.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
@@ -7400,7 +7371,7 @@ msgstr "Zápis"
 #| msgid "Cancel"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmsplitter.btnftchoice.caption
 msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
@@ -7447,13 +7418,13 @@ msgstr "Veľkosť a počet častí"
 #, fuzzy
 #| msgid "Directory target"
 msgid "Directory &target"
-msgstr "Cieľová zložka"
+msgstr "Cieľový adresár"
 
 #: tfrmsplitter.lbfilesource.caption
 #, fuzzy
 #| msgid "File source"
 msgid "File &source"
-msgstr "Zdroj súboru"
+msgstr "Zdroj &súboru"
 
 #: tfrmsplitter.lblnumberparts.caption
 #, fuzzy
@@ -7538,7 +7509,7 @@ msgstr ""
 #| msgid "Cancel"
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmsymlink.btnok.caption
 msgctxt "TFRMSYMLINK.BTNOK.CAPTION"
@@ -7717,14 +7688,14 @@ msgstr ""
 #, fuzzy
 #| msgid "Add new"
 msgid "A&dd new"
-msgstr "Pridať nový"
+msgstr "Pri&dať nový"
 
 #: tfrmtweakplugin.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Zrušiť"
+msgstr "&Zrušiť"
 
 #: tfrmtweakplugin.btnchange.caption
 #, fuzzy
@@ -7743,14 +7714,14 @@ msgstr "Východzí"
 #| msgid "OK"
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "OK"
+msgstr "&OK"
 
 #: tfrmtweakplugin.btnremove.caption
 #, fuzzy
 #| msgid "Remove"
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "&Remove"
-msgstr "Odstrániť"
+msgstr "Odst&rániť"
 
 #: tfrmtweakplugin.caption
 msgctxt "tfrmtweakplugin.caption"
@@ -7761,7 +7732,7 @@ msgstr "Vylepšovací zásuvný modul"
 #, fuzzy
 #| msgid "Detect archive type by content"
 msgid "De&tect archive type by content"
-msgstr "Detekovať typ archívu podľa obsahu"
+msgstr "De&tekovať typ archívu podľa obsahu"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
 #, fuzzy
@@ -7797,19 +7768,19 @@ msgstr "Môžte meniť existujúce archívy"
 #, fuzzy
 #| msgid "Archive can contain multiple files"
 msgid "&Archive can contain multiple files"
-msgstr "Archív môže obsahovať viac súborov"
+msgstr "&Archív môže obsahovať viac súborov"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
 #, fuzzy
 #| msgid "Can create new archives"
 msgid "Can create new archi&ves"
-msgstr "Môžte vytvárať nové archívy"
+msgstr "Môžte vytvárať nové archí&vy"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
 #, fuzzy
 #| msgid "Supports the options dialogbox"
 msgid "S&upports the options dialogbox"
-msgstr "Podporuje dialóg s nastavením"
+msgstr "Podpor&uje dialóg s nastavením"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
 #, fuzzy
@@ -7828,7 +7799,7 @@ msgstr "Popis:"
 #, fuzzy
 #| msgid "Detect string:"
 msgid "D&etect string:"
-msgstr "Detekovaný text:"
+msgstr "D&etekovaný text:"
 
 #: tfrmtweakplugin.lblextension.caption
 #, fuzzy
@@ -7846,7 +7817,7 @@ msgstr "Vlajky:"
 #| msgid "Name:"
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
 msgid "&Name:"
-msgstr "Meno:"
+msgstr "Me&no:"
 
 #: tfrmtweakplugin.lblplugin.caption
 #, fuzzy
@@ -7869,27 +7840,27 @@ msgstr "O prezerači..."
 
 #: tfrmviewer.actabout.hint
 msgid "Displays the About message"
-msgstr ""
+msgstr "Zobraziť About správu"
 
 #: tfrmviewer.actcopyfile.caption
 msgctxt "tfrmviewer.actcopyfile.caption"
 msgid "Copy File"
-msgstr ""
+msgstr "Skopírovať Súbor"
 
 #: tfrmviewer.actcopyfile.hint
 msgctxt "tfrmviewer.actcopyfile.hint"
 msgid "Copy File"
-msgstr ""
+msgstr "Skopírovať Súbor"
 
 #: tfrmviewer.actdeletefile.caption
 msgctxt "tfrmviewer.actdeletefile.caption"
 msgid "Delete File"
-msgstr ""
+msgstr "Vymazať Súbor"
 
 #: tfrmviewer.actdeletefile.hint
 msgctxt "tfrmviewer.actdeletefile.hint"
 msgid "Delete File"
-msgstr ""
+msgstr "Vymazať Súbor"
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "tfrmviewer.actloadnextfile.caption"
@@ -7898,7 +7869,7 @@ msgstr "&Další"
 
 #: tfrmviewer.actloadnextfile.hint
 msgid "Load Next File"
-msgstr ""
+msgstr "Načítať Nasledujúci Súbor"
 
 #: tfrmviewer.actloadprevfile.caption
 msgctxt "tfrmviewer.actloadprevfile.caption"
@@ -7907,7 +7878,7 @@ msgstr "&Predchádzajúci"
 
 #: tfrmviewer.actloadprevfile.hint
 msgid "Load Previous File"
-msgstr ""
+msgstr "Načítať Predchádzajúci Súbor"
 
 #: tfrmviewer.actmirror.caption
 msgctxt "tfrmviewer.actmirror.caption"
@@ -7922,12 +7893,12 @@ msgstr "Zrkadliť"
 #: tfrmviewer.actmovefile.caption
 msgctxt "tfrmviewer.actmovefile.caption"
 msgid "Move File"
-msgstr ""
+msgstr "Presunúť Súbor"
 
 #: tfrmviewer.actmovefile.hint
 msgctxt "tfrmviewer.actmovefile.hint"
 msgid "Move File"
-msgstr ""
+msgstr "Presunúť Súbor"
 
 #: tfrmviewer.actreload.caption
 msgctxt "tfrmviewer.actreload.caption"
@@ -7936,37 +7907,37 @@ msgstr "Obnoviť"
 
 #: tfrmviewer.actreload.hint
 msgid "Reload current file"
-msgstr ""
+msgstr "Znova načítať aktuálny súbor"
 
 #: tfrmviewer.actrotate180.caption
 msgctxt "tfrmviewer.actrotate180.caption"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Otoč o 180"
 
 #: tfrmviewer.actrotate180.hint
 msgctxt "tfrmviewer.actrotate180.hint"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Otoč o 180"
 
 #: tfrmviewer.actrotate270.caption
 msgctxt "tfrmviewer.actrotate270.caption"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Otoč o 270"
 
 #: tfrmviewer.actrotate270.hint
 msgctxt "tfrmviewer.actrotate270.hint"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Otoč o 270"
 
 #: tfrmviewer.actrotate90.caption
 msgctxt "tfrmviewer.actrotate90.caption"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Otoč o 90"
 
 #: tfrmviewer.actrotate90.hint
 msgctxt "tfrmviewer.actrotate90.hint"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Otoč o 90"
 
 #: tfrmviewer.actsaveas.caption
 msgctxt "tfrmviewer.actsaveas.caption"
@@ -7975,7 +7946,7 @@ msgstr "Uložiť ako..."
 
 #: tfrmviewer.actsaveas.hint
 msgid "Save File As..."
-msgstr ""
+msgstr "Ulož Súbor Ako ..."
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "tfrmviewer.actstretchimage.caption"
@@ -7984,7 +7955,7 @@ msgstr "Roztiahnuť"
 
 #: tfrmviewer.actstretchimage.hint
 msgid "Stretch Image"
-msgstr ""
+msgstr "Natiahni obrázok"
 
 #: tfrmviewer.btn270.hint
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -8335,7 +8306,7 @@ msgstr "&Start"
 
 #: tfrmviewoperations.btnstop.caption
 msgid "S&top"
-msgstr ""
+msgstr "Zas&tav"
 
 #: tfrmviewoperations.caption
 #, fuzzy
@@ -8345,11 +8316,11 @@ msgstr "Súborové operácie"
 
 #: tfrmviewoperations.cbalwaysontop.caption
 msgid "Always on top"
-msgstr ""
+msgstr "Vždy navrchu"
 
 #: tfrmviewoperations.lblusedragdrop.caption
 msgid "Use \"drag && drop\" to move operations between queues"
-msgstr ""
+msgstr "Použiť \"drag && drop\" na presun operácií medzi radmi"
 
 #: tfrmviewoperations.mnucanceloperation.caption
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
@@ -8363,58 +8334,58 @@ msgstr "Zrušiť"
 
 #: tfrmviewoperations.mnunewqueue.caption
 msgid "New queue"
-msgstr ""
+msgstr "Nový rad"
 
 #: tfrmviewoperations.mnuoperationshowdetached.caption
 msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Ukáž v oddelenom okne"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr ""
+msgstr "Vložiť prvý do radu"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
-msgstr ""
+msgstr "Vložiť posledný do radu"
 
 #: tfrmviewoperations.mnuqueue.caption
 msgctxt "tfrmviewoperations.mnuqueue.caption"
 msgid "Queue"
-msgstr ""
+msgstr "Rad"
 
 #: tfrmviewoperations.mnuqueue0.caption
 msgid "Out of queue"
-msgstr ""
+msgstr "Mimo radu"
 
 #: tfrmviewoperations.mnuqueue1.caption
 msgid "Queue 1"
-msgstr ""
+msgstr "Rad 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
 msgid "Queue 2"
-msgstr ""
+msgstr "Rad 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
 msgid "Queue 3"
-msgstr ""
+msgstr "Rad 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
 msgid "Queue 4"
-msgstr ""
+msgstr "Rad 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
 msgid "Queue 5"
-msgstr ""
+msgstr "Rad 5"
 
 #: tfrmviewoperations.mnuqueueshowdetached.caption
 msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Ukáž v oddelenom okne"
 
 #: tfrmviewoperations.tbpauseall.caption
 msgid "&Pause all"
-msgstr ""
+msgstr "&Preruš všetko"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -8428,7 +8399,7 @@ msgstr "Ak súbor existuje"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"
-msgstr ""
+msgstr "Pracuj na pozadí (oddelené spojenie)"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -8446,11 +8417,11 @@ msgstr ""
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
-msgstr ""
+msgstr "Zruš Rýchly Filter"
 
 #: ulng.rscanceloperation
 msgid "Cancel Current Operation"
-msgstr ""
+msgstr "Prerušiť Prebiehajúcu Operáciu"
 
 #: ulng.rscaptionforaskingfilename
 msgid "Enter filename, with extension, for dropped text"
@@ -8494,7 +8465,7 @@ msgstr ""
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
-msgstr ""
+msgstr "Schránka neobsahuje žiadne platné údaje panelu nástrojov"
 
 #: ulng.rscmdcategorylistinorder
 msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
@@ -8626,7 +8597,7 @@ msgstr "Priebeh všetkých operácií %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
-msgstr "Zrušiť"
+msgstr "Pr&erušiť"
 
 #: ulng.rsdlgbuttonall
 msgctxt "ulng.rsdlgbuttonall"
@@ -8648,7 +8619,7 @@ msgstr "&Zrušiť"
 
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
-msgstr ""
+msgstr "Pokračovať"
 
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
@@ -8660,11 +8631,11 @@ msgstr "Kopírovať do &Všetko"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
-msgstr ""
+msgstr "Ukončiť program"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
-msgstr ""
+msgstr "Všetko ignorovať"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -8697,7 +8668,7 @@ msgstr ""
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
-msgstr ""
+msgstr "Prepísať Všetko Staršie"
 
 #: ulng.rsdlgbuttonoverwritesmaller
 msgid "Overwrite All S&maller"
@@ -8708,7 +8679,7 @@ msgstr ""
 #| msgid "Rename"
 msgctxt "ulng.rsdlgbuttonrename"
 msgid "R&ename"
-msgstr "Premenovať"
+msgstr "Pr&emenovať"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -8732,7 +8703,7 @@ msgstr "&Ano"
 
 #: ulng.rsdlgcalcstatistics
 msgid "Calculate files and folders"
-msgstr "Spočítať súbory a zložky"
+msgstr "Spočítať súbory a adresáre"
 
 #: ulng.rsdlgchecksumcalc
 #, fuzzy
@@ -8778,7 +8749,7 @@ msgstr "Štart"
 #: ulng.rsdlgqueue
 msgctxt "ulng.rsdlgqueue"
 msgid "Queue"
-msgstr ""
+msgstr "Rad"
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
@@ -8819,7 +8790,6 @@ msgid "Goto line:"
 msgstr ""
 
 #: ulng.rseditgotolinetitle
-msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr ""
 
@@ -8859,15 +8829,15 @@ msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
-msgstr ""
+msgstr "Opýtaj sa;Prepíš;Skopíruj do;Preskoč"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Overwrite Older;Skip"
-msgstr ""
+msgstr "Opýtaj sa;Prepíš;Prepíš staršie;Preskoč"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgid "Ask;Don't set anymore;Ignore errors"
-msgstr ""
+msgstr "Opýtaj sa;Nenastavuj už nikdy;Ignoruj chyby"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -8887,7 +8857,7 @@ msgstr "všetko (nelimitovaná hĺbka)"
 
 #: ulng.rsfinddepthcurdir
 msgid "current dir only"
-msgstr "len aktuálna zložka"
+msgstr "len aktuálny adresár"
 
 #: ulng.rsfinddirnoex
 msgid "Directory %s does not exist!"
@@ -8945,7 +8915,7 @@ msgstr "Komentár"
 
 #: ulng.rsfunccompressedsize
 msgid "Compressed size"
-msgstr ""
+msgstr "Skomprimovaná veľkosť"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
@@ -9013,7 +8983,7 @@ msgstr ""
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
-msgstr ""
+msgstr "Dialód kopírovania/presunu"
 
 #: ulng.rshotkeycategorydiffer
 msgctxt "ulng.rshotkeycategorydiffer"
@@ -9026,7 +8996,7 @@ msgstr ""
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
-msgstr ""
+msgstr "Hlavný"
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
@@ -9097,7 +9067,7 @@ msgstr "Otvoriť s ..."
 #: ulng.rsmnuopenwithother
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
-msgstr ""
+msgstr "Iné ..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -9136,11 +9106,11 @@ msgstr "Nedá sa kopírovať/presunúť súbor \"%s\" sám na seba!"
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
-msgstr ""
+msgstr "Nemôžem vymazať adresár %s"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
-msgstr "Zmena zložky na [%s] zlyhala!"
+msgstr "Zmena adresára na [%s] zlyhala!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
@@ -9168,11 +9138,11 @@ msgstr ""
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr ""
+msgstr "Vymazať čiastočne skopírovaný súbor?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
-msgstr "Vymazať %d vybrané súbory / zložky?"
+msgstr "Vymazať %d vybrané súbory / adresáre?"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
@@ -9225,7 +9195,7 @@ msgstr "Nedá sa kopírovať súbor %s do %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."
-msgstr "Už existuje zložka s menom \"%s\"."
+msgstr "Už existuje adresár s menom \"%s\"."
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -9233,7 +9203,7 @@ msgstr "Dátum %s nie je podporovaný!"
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
-msgstr "Zložka %s existuje!"
+msgstr "Adresár %s existuje!"
 
 #: ulng.rsmsgerreaborted
 msgid "Function aborted by user"
@@ -9265,7 +9235,7 @@ msgstr "Chyba pri zápise do súboru"
 
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
-msgstr "Nedá sa vytvoriť zložku %s!"
+msgstr "Nedá sa vytvoriť adresár %s!"
 
 #: ulng.rsmsgerrinvalidlink
 msgid "Invalid link"
@@ -9285,11 +9255,11 @@ msgstr "Funkcia nie je podporovaná!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr ""
+msgstr "Chyba v príkaze kontextového menu "
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
-msgstr ""
+msgstr "Chyba pri načítavaní konfigurácie"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -9301,7 +9271,7 @@ msgstr "Nedá sa premenovať súbor %s na %s"
 
 #: ulng.rsmsgerrsaveassociation
 msgid "Can not save association!"
-msgstr ""
+msgstr "Nemôžem uložiť asociáciu súboru!"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -9317,7 +9287,7 @@ msgstr "Nedá sa nastaviť dátum/čas pre \"%s\""
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
-msgstr ""
+msgstr "Nemôžem nastaviť majiteľa/skupinu pre \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -9377,7 +9347,7 @@ msgstr "Veľkosť \"%s\" je príliš veľká pro cieľový súborový systém!"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
-msgstr "Zložka %s existuje, prepísať?"
+msgstr "Adresár %s existuje, prepísať?"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
@@ -9588,7 +9558,7 @@ msgstr ""
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
-msgstr ""
+msgstr "Chyba v príkazovom riadku"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
@@ -9596,27 +9566,27 @@ msgstr "Neplatné meno súboru"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
-msgstr ""
+msgstr "Nesprávny formát konfiguračného súboru"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
-msgstr ""
+msgstr "Nesprávna cesta"
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
-msgstr ""
+msgstr "Cesta %s obsahuje zakázané znaky."
 
 #: ulng.rsmsginvalidplugin
 msgid "This is not a valid plugin!"
-msgstr ""
+msgstr "Toto nie je platný zásuvný modul!"
 
 #: ulng.rsmsginvalidpluginarchitecture
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr ""
+msgstr "Tento zásuvný modul je vytvorený pre Double Commander pre %s.%s Nemôže fungovať s Double Commander pre %s!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
-msgstr ""
+msgstr "Nesprávne úvodzovky"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -9660,7 +9630,7 @@ msgstr "Vytvoriť odkaz %s"
 
 #: ulng.rsmsglogmkdir
 msgid "Create directory %s"
-msgstr "Vytvoriť zložku %s"
+msgstr "Vytvoriť adresár %s"
 
 #: ulng.rsmsglogmove
 msgid "Move file %s"
@@ -9672,7 +9642,7 @@ msgstr "Komprimovať do súboru %s"
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
-msgstr "Odstrániť zložku %s"
+msgstr "Odstrániť adresár %s"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
@@ -9716,7 +9686,7 @@ msgstr "Ďalšia časť bude rozbalená"
 
 #: ulng.rsmsgnofiles
 msgid "No files"
-msgstr ""
+msgstr "Žiadne súbory"
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
@@ -9736,7 +9706,7 @@ msgstr "Nedá sa vymazať súbor %s"
 
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
-msgstr "Nie je implementované."
+msgstr "Nie je zavedené."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
@@ -9744,7 +9714,7 @@ msgstr "Heslo:"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr ""
+msgstr "Heslá sú rozdielne!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
@@ -9756,7 +9726,7 @@ msgstr "Heslo (Firewall):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr ""
+msgstr "Prosím, znova zadaj heslo na kontrolu:"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -9798,7 +9768,7 @@ msgstr "Prosím, na uplatnenie zmien reštartujte program"
 
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
-msgstr ""
+msgstr "Vybrané: %s z %s, súbory: %d z %d, adresáre: %d of %d"
 
 #: ulng.rsmsgselectonlychecksumfiles
 #, fuzzy
@@ -10001,16 +9971,22 @@ msgid "Aborted"
 msgstr "Prerušené"
 
 #: ulng.rsopercalculatingchecksum
+#, fuzzy
+#| msgid "Calculating check sum"
 msgid "Calculating checksum"
-msgstr ""
+msgstr "Počítam kontrolný súčet"
 
 #: ulng.rsopercalculatingchecksumin
+#, fuzzy
+#| msgid "Calculating check sum in \"%s\""
 msgid "Calculating checksum in \"%s\""
-msgstr ""
+msgstr "Počítam kontrolný súčet v \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
+#, fuzzy
+#| msgid "Calculating check sum of \"%s\""
 msgid "Calculating checksum of \"%s\""
-msgstr ""
+msgstr "Počítam kontrolný súčet \"%s\""
 
 #: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
@@ -10019,35 +9995,35 @@ msgstr "Počíta sa"
 
 #: ulng.rsopercalculatingstatisticsin
 msgid "Calculating \"%s\""
-msgstr ""
+msgstr "Počíta sa \"%s\""
 
 #: ulng.rsopercombining
 msgid "Joining"
-msgstr ""
+msgstr "Pripájam sa"
 
 #: ulng.rsopercombiningfromto
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr ""
+msgstr "Pripájam súbory v \"%s\" do \"%s\""
 
 #: ulng.rsopercopying
 msgid "Copying"
-msgstr ""
+msgstr "Kopírujem"
 
 #: ulng.rsopercopyingfromto
 msgid "Copying from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Kopírujem z \"%s\" do \"%s\""
 
 #: ulng.rsopercopyingsomethingto
 msgid "Copying \"%s\" to \"%s\""
-msgstr ""
+msgstr "Kopírujem \"%s\" do \"%s\""
 
 #: ulng.rsopercreatingdirectory
 msgid "Creating directory"
-msgstr ""
+msgstr "Vytváram adresár"
 
 #: ulng.rsopercreatingsomedirectory
 msgid "Creating directory \"%s\""
-msgstr ""
+msgstr "Vytváram adresár \"%s\""
 
 #: ulng.rsoperdeleting
 msgctxt "ulng.rsoperdeleting"
@@ -10056,27 +10032,27 @@ msgstr "Mazanie"
 
 #: ulng.rsoperdeletingin
 msgid "Deleting in \"%s\""
-msgstr ""
+msgstr "Mazanie v \"%s\""
 
 #: ulng.rsoperdeletingsomething
 msgid "Deleting \"%s\""
-msgstr ""
+msgstr "Mazanie \"%s\""
 
 #: ulng.rsoperexecuting
 msgid "Executing"
-msgstr ""
+msgstr "Vykonávam"
 
 #: ulng.rsoperexecutingsomething
 msgid "Executing \"%s\""
-msgstr ""
+msgstr "Vykonávam \"%s\""
 
 #: ulng.rsoperextracting
 msgid "Extracting"
-msgstr ""
+msgstr "Rozbaľujem"
 
 #: ulng.rsoperextractingfromto
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Rozbaľujem z \"%s\" do \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -10084,23 +10060,23 @@ msgstr "Ukončené"
 
 #: ulng.rsoperlisting
 msgid "Listing"
-msgstr ""
+msgstr "Výpis"
 
 #: ulng.rsoperlistingin
 msgid "Listing \"%s\""
-msgstr ""
+msgstr "Výpis \"%s\""
 
 #: ulng.rsopermoving
 msgid "Moving"
-msgstr ""
+msgstr "Presúvam"
 
 #: ulng.rsopermovingfromto
 msgid "Moving from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Presúvam z \"%s\" do \"%s\""
 
 #: ulng.rsopermovingsomethingto
 msgid "Moving \"%s\" to \"%s\""
-msgstr ""
+msgstr "Presúvam \"%s\" na \"%s\""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -10108,15 +10084,15 @@ msgstr "Nespustené"
 
 #: ulng.rsoperpacking
 msgid "Packing"
-msgstr ""
+msgstr "Balím"
 
 #: ulng.rsoperpackingfromto
 msgid "Packing from \"%s\" to \"%s\""
-msgstr ""
+msgstr "Balím z \"%s\" do \"%s\""
 
 #: ulng.rsoperpackingsomethingto
 msgid "Packing \"%s\" to \"%s\""
-msgstr ""
+msgstr "Balím \"%s\" do \"%s\""
 
 #: ulng.rsoperpaused
 msgid "Paused"
@@ -10137,23 +10113,23 @@ msgstr "Beží"
 
 #: ulng.rsopersettingproperty
 msgid "Setting property"
-msgstr ""
+msgstr "Nastavujem vlastníctvo"
 
 #: ulng.rsopersettingpropertyin
 msgid "Setting property in \"%s\""
-msgstr ""
+msgstr "Nastavujem vlastníctvo v \"%s\""
 
 #: ulng.rsopersettingpropertyof
 msgid "Setting property of \"%s\""
-msgstr ""
+msgstr "Nastavujem vlastníctvo \"%s\""
 
 #: ulng.rsopersplitting
 msgid "Splitting"
-msgstr ""
+msgstr "Delím"
 
 #: ulng.rsopersplittingfromto
 msgid "Splitting \"%s\" to \"%s\""
-msgstr ""
+msgstr "Delím  \"%s\" na \"%s\""
 
 #: ulng.rsoperstarting
 msgid "Starting"
@@ -10169,27 +10145,33 @@ msgstr "Zastavujem"
 
 #: ulng.rsopertesting
 msgid "Testing"
-msgstr ""
+msgstr "Skúšam"
 
 #: ulng.rsopertestingin
 msgid "Testing in \"%s\""
-msgstr ""
+msgstr "Skúšam v \"%s\""
 
 #: ulng.rsopertestingsomething
 msgid "Testing \"%s\""
-msgstr ""
+msgstr "Skúšam \"%s\""
 
 #: ulng.rsoperverifyingchecksum
+#, fuzzy
+#| msgid "Verifying check sum"
 msgid "Verifying checksum"
-msgstr ""
+msgstr "Overujem kontrolný súčet"
 
 #: ulng.rsoperverifyingchecksumin
+#, fuzzy
+#| msgid "Verifying check sum in \"%s\""
 msgid "Verifying checksum in \"%s\""
-msgstr ""
+msgstr "Overujem kontrolný súčet v \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
+#, fuzzy
+#| msgid "Verifying check sum of \"%s\""
 msgid "Verifying checksum of \"%s\""
-msgstr ""
+msgstr "Overujem kontrolný súčet  \"%s\""
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -10201,19 +10183,19 @@ msgstr "Čakám na reakciu užívateľa"
 
 #: ulng.rsoperwiping
 msgid "Wiping"
-msgstr ""
+msgstr "Bezpečné mazanie"
 
 #: ulng.rsoperwipingin
 msgid "Wiping in \"%s\""
-msgstr ""
+msgstr "Bezpečné mazanie v \"%s\""
 
 #: ulng.rsoperwipingsomething
 msgid "Wiping \"%s\""
-msgstr ""
+msgstr "Bezpečné mazanie  \"%s\""
 
 #: ulng.rsoperworking
 msgid "Working"
-msgstr ""
+msgstr "Pracujem"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at beginning;Add at the end;Smart add"
@@ -10322,7 +10304,7 @@ msgstr "Text"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
-msgstr ""
+msgstr "oddelenom okne;minimalizovanom oddelenom okne;panely operácií"
 
 #: ulng.rsoptfilesizeformat
 msgid "float;B;K;M;G"
@@ -10330,47 +10312,47 @@ msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
+msgstr "Skratka pre cm_Delete bude zaregistrovaná, takže môže byť použitá na obrátenie tohto nastavenia."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
-msgstr ""
+msgstr "Pridať skratku pre %s"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
-msgstr ""
+msgstr "Pridať skratku"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr ""
+msgstr "Nemôžem zmeniť skratku"
 
 #: ulng.rsopthotkeyschangeshortcut
 msgid "Change shortcut"
-msgstr ""
+msgstr "Zmeniť skratku"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
-msgstr ""
+msgstr "Príkaz"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr ""
+msgstr "Skratka %s pre cm_Delete má parameter, ktorý prepíše toto nastavenie. Chceš tento parameter na použitie s globálnym nastavením?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr ""
+msgstr "Skratka %s pre cm_Delete musí mať parameter zmenený, aby súhlasil so skratkou %s. Chceš ho zmeniť?"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: ulng.rsopthotkeysedithotkey
 msgid "Edit hotkey for %s"
-msgstr ""
+msgstr "Zmeniť skratku pre %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
-msgstr ""
+msgstr "Opraviť parameter"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -10392,15 +10374,15 @@ msgstr "Parametre"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr ""
+msgstr "Nastaviť skratku pre vymazanie súboru"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
+msgstr "Pre toto nastavenie"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr ""
+msgstr "Skratka %s pre cm_Delete je postupnosť skratiek, pre ktorú klávesa so spätným Shiftom nemôže byť priradená. Toto nastavenie nemusí fungovať."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -10424,7 +10406,7 @@ msgstr "použité pre %s %s"
 
 #: ulng.rsopthotkeysusedwithdifferentparams
 msgid "used for this command but with different parameters"
-msgstr ""
+msgstr "použité pre tento príkaz, ale s inými parametrami"
 
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
@@ -10463,12 +10445,12 @@ msgstr "Umiestnenie konfigurácie"
 
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
-msgstr ""
+msgstr "Užívateľské stĺpce"
 
 #: ulng.rsoptionseditordirectoryhotlist
 msgctxt "ulng.rsoptionseditordirectoryhotlist"
 msgid "Directory Hotlist"
-msgstr "Rýchle zložky"
+msgstr "Rýchle adresáre"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
@@ -10476,7 +10458,7 @@ msgstr ""
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
-msgstr ""
+msgstr "Tlačidlo zoznamu diskov"
 
 #: ulng.rsoptionseditorfileassoc
 msgctxt "ulng.rsoptionseditorfileassoc"
@@ -10497,7 +10479,7 @@ msgstr "Panely súborov"
 
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
-msgstr ""
+msgstr "Náhľad súborov"
 
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
@@ -10516,7 +10498,7 @@ msgstr "Písma"
 
 #: ulng.rsoptionseditorhighlighters
 msgid "Highlighters"
-msgstr ""
+msgstr "Zvýrazňovače"
 
 #: ulng.rsoptionseditorhotkeys
 msgctxt "ulng.rsoptionseditorhotkeys"
@@ -10535,7 +10517,7 @@ msgstr "Zoznam ignorovaných"
 
 #: ulng.rsoptionseditorkeyboard
 msgid "Keys"
-msgstr ""
+msgstr "Klávesy"
 
 #: ulng.rsoptionseditorlanguage
 msgctxt "ulng.rsoptionseditorlanguage"
@@ -10555,11 +10537,11 @@ msgstr "Log"
 #: ulng.rsoptionseditormiscellaneous
 msgctxt "ulng.rsoptionseditormiscellaneous"
 msgid "Miscellaneous"
-msgstr "Rozličné"
+msgstr "Rôzne"
 
 #: ulng.rsoptionseditormouse
 msgid "Mouse"
-msgstr ""
+msgstr "Myš"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -10580,7 +10562,7 @@ msgstr "Terminál"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
-msgstr ""
+msgstr "Panel nástrojov"
 
 #: ulng.rsoptionseditortoolbarcomplement
 msgid "Complements"
@@ -10598,7 +10580,7 @@ msgstr "Bublinová pomoc"
 
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
-msgstr ""
+msgstr "Žiadny;Príkaz;Rýchle hľadanie;Rýchly filter"
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
@@ -10606,7 +10588,7 @@ msgstr "Ľavé tlačítko;Pravé tlačítko;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr ""
+msgstr "Na vrch zoznamu súborov;Pod adresáre (ak sú adresáre zoradené pred súbormi);Na vytriedenej pozícii;Na spodok zoznamu súborov"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -10638,23 +10620,25 @@ msgstr ""
 
 #: ulng.rsoptsearchitems
 msgid "&Files;Di&rectories;Files a&nd Directories"
-msgstr ""
+msgstr "Súbory;Ad&resáre;Súbory a Adresáre"
 
 #: ulng.rsoptsearchopt
+#, fuzzy
+#| msgid "&Hide filter panel when not focused"
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr ""
+msgstr "Sc&hovaj filter panelu, keď s ním nepracuješ"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
+msgstr "Nerozlišovať veľkosť písmen;Podľa miestneho nastavenia (aAbBcC);Najprv veľké, potom malé písmená (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
+msgstr "Triediť podľa mena a zobraz ich na začiatku;Triediť ako súbory a zobraz ich na začiatku;Triediť ako súbory"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr "Abecedne; Prirodzené triedenie: abecedne a číselne"
+msgstr "Abecedne, s ohľadom na prízvuk;Prirodzené triedenie: abecedne a číselne"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -10662,7 +10646,7 @@ msgstr "Hore;Dole"
 
 #: ulng.rsopttoolbarbuttontype
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
-msgstr ""
+msgstr "Odd&eľovač;Vnúto&rný príkaz;E&xterný príkaz;Men&u"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
@@ -10670,11 +10654,11 @@ msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr ""
+msgstr "Nemeň pozíciu;Použi také isté nastavenia ako pre nové súbory;Na triedenú pozíciu"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
-msgstr ""
+msgstr "Súbory: %d, adresáre: %d"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
@@ -10692,7 +10676,7 @@ msgstr "Súbor"
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
-msgstr "Zložka"
+msgstr "Adresár"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
@@ -10740,11 +10724,11 @@ msgstr ""
 
 #: ulng.rsselectdir
 msgid "Select a directory"
-msgstr "Vybrať zložku"
+msgstr "Vybrať adresár"
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"
-msgstr ""
+msgstr "Ukáže &sa pomoc pre %s"
 
 #: ulng.rssimplewordall
 msgctxt "ulng.rssimplewordall"
@@ -10784,7 +10768,7 @@ msgstr "Súborov: %d, Zložiek: %d, Veľkosť: %s (%s bajtov)"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"
-msgstr "Nedá sa vytvoriť cieľovú zložku!"
+msgstr "Nedá sa vytvoriť cieľový adresár!"
 
 #: ulng.rsspliterrfilesize
 msgid "Incorrect file size format!"
@@ -10800,7 +10784,7 @@ msgstr "Počet častí je väčší ako 100! Pokračovať?"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
-msgstr "Zvoľte zložku:"
+msgstr "Zvoľte adresár:"
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
@@ -10808,11 +10792,11 @@ msgstr "Chyba pri vytváraní zástupcu."
 
 #: ulng.rssyndefaulttext
 msgid "Default text"
-msgstr ""
+msgstr "Predvolený text"
 
 #: ulng.rssynlangplaintext
 msgid "Plain text"
-msgstr ""
+msgstr "Prostý text"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
@@ -10855,19 +10839,19 @@ msgstr "Editor"
 
 #: ulng.rstoolerroropeningdiffer
 msgid "Error opening differ"
-msgstr ""
+msgstr "Chyba otvorenia iných"
 
 #: ulng.rstoolerroropeningeditor
 msgid "Error opening editor"
-msgstr ""
+msgstr "Chyba otvorenia editora"
 
 #: ulng.rstoolerroropeningterminal
 msgid "Error opening terminal"
-msgstr ""
+msgstr "Chyba otvorenia terminálu"
 
 #: ulng.rstoolerroropeningviewer
 msgid "Error opening viewer"
-msgstr ""
+msgstr "Chyba otvorenia prezerača"
 
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
@@ -10881,7 +10865,7 @@ msgstr "Prezerač"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Prosím, založte do bug trackeru správu o tejto chybe s popisom, čo ste robili, a s nasledujúcim súborom:%s. Stlačte %s pre pokračovanie, alebo %s pre ukončenie programu."
+msgstr "Prosím, založte do bug trackeru správu o tejto chybe s popisom, čo ste robili a s nasledujúcim súborom:%sStlačte %s pre pokračovanie alebo %s pre ukončenie programu."
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
