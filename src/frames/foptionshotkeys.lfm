@@ -22,7 +22,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideTop.Control = edtFilter
     Left = 6
     Height = 15
-    Top = 81
+    Top = 58
     Width = 78
     BorderSpacing.Top = 6
     Caption = 'Co&mmands:'
@@ -35,7 +35,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Control = edtFilter
     Left = 663
     Height = 15
-    Top = 80
+    Top = 57
     Width = 32
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 4
@@ -44,7 +44,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     FocusControl = edtFilter
     ParentColor = False
   end
-  object lbxCategories: TListBox[3]
+  object lbxCategories: TComboBox[3]
     AnchorSideLeft.Control = lbSCFilesList
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = lblCategories
@@ -52,17 +52,16 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 317
-    Height = 50
+    Height = 27
     Top = 21
     Width = 485
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     ItemHeight = 0
-    OnSelectionChange = lbxCategoriesSelectionChange
-    ScrollWidth = 483
+    OnChange = lbxCategoriesChange
+    Style = csDropDownList
     TabOrder = 1
-    TopIndex = -1
   end
   object edtFilter: TEdit[4]
     AnchorSideTop.Control = lbxCategories
@@ -71,7 +70,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Side = asrBottom
     Left = 699
     Height = 25
-    Top = 75
+    Top = 52
     Width = 103
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 4
@@ -86,8 +85,8 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 264
-    Top = 104
+    Height = 287
+    Top = 81
     Width = 796
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoFillColumns = True
@@ -235,20 +234,19 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
       TabOrder = 2
     end
   end
-  object lbSCFilesList: TListBox[8]
+  object lbSCFilesList: TComboBox[8]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblSCFiles
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 50
+    Height = 27
     Top = 21
     Width = 305
     BorderSpacing.Left = 6
     ItemHeight = 0
-    OnSelectionChange = lbSCFilesListSelectionChange
-    ScrollWidth = 303
+    OnChange = lbSCFilesListChange
+    Style = csDropDownList
     TabOrder = 0
-    TopIndex = -1
   end
   object lblSCFiles: TLabel[9]
     AnchorSideLeft.Control = lbSCFilesList

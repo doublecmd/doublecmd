@@ -42,9 +42,9 @@ type
     lblCommands: TLabel;
     lbFilter: TLabel;
     lblSCFiles: TLabel;
-    lbSCFilesList: TListBox;
     lblCategories: TLabel;
-    lbxCategories: TListBox;
+    lbSCFilesList: TComboBox;
+    lbxCategories: TComboBox;
     pnlHotkeyButtons: TPanel;
     stgCommands: TStringGrid;
     stgHotkeys: TStringGrid;
@@ -52,8 +52,8 @@ type
     procedure btnDeleteHotKeyClick(Sender: TObject);
     procedure btnEditHotkeyClick(Sender: TObject);
     procedure edtFilterChange(Sender: TObject);
-    procedure lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
-    procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
+    procedure lbSCFilesListChange(Sender: TObject);
+    procedure lbxCategoriesChange(Sender: TObject);
     procedure stgCommandsDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure stgCommandsResize(Sender: TObject);
@@ -232,7 +232,7 @@ begin
   FillCommandList(edtFilter.Text);
 end;
 
-procedure TfrmOptionsHotkeys.lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
+procedure TfrmOptionsHotkeys.lbSCFilesListChange(Sender: TObject);
 begin
   if not FUpdatingShortcutsFiles and (lbSCFilesList.ItemIndex >= 0) then
   begin
@@ -241,7 +241,7 @@ begin
   end;
 end;
 
-procedure TfrmOptionsHotkeys.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
+procedure TfrmOptionsHotkeys.lbxCategoriesChange(Sender: TObject);
 begin
   if lbxCategories.ItemIndex=-1 then Exit;
 
@@ -387,7 +387,7 @@ begin
   begin
     Res:= lbSCFilesList.Items.Add(Sr.Name);
     if Sr.Name = gNameSCFile then
-      lbSCFilesList.Selected[Res] := True;
+      lbSCFilesList.ItemIndex:= Res;
     Res := FindNextEx(SR);
   end;
   FindCloseEx(SR);
@@ -717,6 +717,7 @@ procedure TfrmOptionsHotkeys.Load;
 begin
   FillSCFilesList;
   FillCategoriesList;
+  lbxCategoriesChange(lbxCategories);
 end;
 
 function TfrmOptionsHotkeys.Save: TOptionsEditorSaveFlags;
