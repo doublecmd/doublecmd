@@ -316,12 +316,7 @@ end;
 
 procedure TfrmOptionsHotkeys.AutoSizeCommandsGrid;
 begin
-  with stgCommands do
-  begin
-    AutoSizeColumns;
-    if ClientWidth > GridWidth then
-      ColWidths[stgCmdDescriptionIndex] := ColWidths[stgCmdDescriptionIndex] + (ClientWidth - GridWidth);
-  end;
+  stgCommands.AutoSizeColumns;
 end;
 
 procedure TfrmOptionsHotkeys.AutoSizeHotkeysGrid;
