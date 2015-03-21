@@ -3511,7 +3511,7 @@ begin
   if Length(Params)=1 then
   begin
     if (not GetParamValue(Params[0], 'activepath', WantedPath)) AND (not GetParamValue(Params[0], 'inactivepath', WantedPath)) AND (not GetParamValue(Params[0], 'leftpath', WantedPath)) AND (not GetParamValue(Params[0], 'rightpath', WantedPath)) then
-      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(Params[0]));
+      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(ReplaceEnvVars(Params[0])));
   end;
 end;
 
