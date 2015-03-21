@@ -2406,7 +2406,7 @@ Index: AbZipTyp.pas
       cmEnhancedDeflated, cmDCLImploded, cmBzip2 = 12, cmLZMA = 14,
 -     cmIBMTerse = 18, cmLZ77, cmJPEG = 96, cmWavPack = 97, cmPPMd);
 +     cmIBMTerse = 18, cmLZ77, cmXz = 95, cmJPEG = 96, cmWavPack = 97, cmPPMd);
- 
+
    TAbZipSupportedMethod =
      (smStored, smDeflated, smBestMethod);
 @@ -407,6 +407,7 @@
@@ -2425,7 +2425,7 @@ Index: AbZipTyp.pas
 -      override;
 +    function CreateItem(const SourceFileName   : string;
 +                        const ArchiveDirectory : string): TAbArchiveItem; override;
- 
+
    public {properties}
      property CompressionMethodToUse : TAbZipSupportedMethod
 @@ -620,11 +621,13 @@
@@ -2441,7 +2441,7 @@ Index: AbZipTyp.pas
 +  DCOSUtils,
 +  DCClassesUtf8,
 +  DCConvertEncoding;
- 
+
  function VerifyZip(Strm : TStream) : TAbArchiveType;
  { determine if stream appears to be in PkZip format }
 @@ -638,20 +641,31 @@
@@ -2490,7 +2490,7 @@ Index: AbZipTyp.pas
        end;
      end;
    except
-@@ -733,8 +747,7 @@
+@@ -733,15 +747,13 @@
    leaves stream positioned at start of structure or at original
    position if not found }
  const
@@ -2500,7 +2500,6 @@ Index: AbZipTyp.pas
  var
    StartPos  : Int64;
    TailRec   : TAbZipEndOfCentralDirectoryRecord;
-@@ -741,7 +754,6 @@
    Buffer    : PAnsiChar;
    Offset    : Int64;
    TestPos   : PAnsiChar;
@@ -2508,19 +2507,18 @@ Index: AbZipTyp.pas
    BytesRead : Int64;
    BufSize   : Int64;
    CommentLen: integer;
-@@ -767,7 +779,7 @@
+@@ -767,64 +779,48 @@
     stream; we need to search for the tail signature}
- 
+
    {get a buffer}
 -  BufSize := StartBufSize;
 +  BufSize := Min(MaxBufSize, aStream.Size);
    GetMem(Buffer, BufSize);
    try
- 
-@@ -774,57 +786,41 @@
+
      {start out searching backwards}
      Offset := -BufSize;
- 
+
 -    {while there is still data to search ...}
 -    Done := false;
 -    while not Done do begin
@@ -2529,7 +2527,7 @@ Index: AbZipTyp.pas
 +    if (Result < 0) then begin
 +      Result := aStream.Seek(0, soBeginning);
 +    end;
- 
+
 -      {seek to the search position}
 -      Result := aStream.Seek(Offset, soEnd);
 -      if (Result <= 0) then begin
@@ -2538,14 +2536,14 @@ Index: AbZipTyp.pas
 -      end;
 +    {read a buffer full}
 +    BytesRead := aStream.Read(Buffer^, BufSize);
- 
+
 -      {read a buffer full}
 -      BytesRead := aStream.Read(Buffer^, BufSize);
 +    if BytesRead < sizeOf(TailRec) then begin
 +      Result := -1;
 +      Exit;
 +    end;
- 
+
 -      if BytesRead < sizeOf(TailRec) then begin
 -        Result := -1;
 -        Exit;
@@ -2555,7 +2553,7 @@ Index: AbZipTyp.pas
 +    while (TestPos <> Buffer) and
 +          (PLongint(TestPos)^ <> Ab_ZipEndCentralDirectorySignature) do
 +      dec(TestPos);
- 
+
 -      {search backwards through the buffer looking for the signature}
 -      TestPos := Buffer + BytesRead - sizeof(TailRec);
 -      while (TestPos <> Buffer) and
@@ -2563,18 +2561,18 @@ Index: AbZipTyp.pas
 -        dec(TestPos);
 +    {if we found the signature...}
 +    if (PLongint(TestPos)^ = Ab_ZipEndCentralDirectorySignature) then begin
- 
+
 -      {if we found the signature...}
 -      if (PLongint(TestPos)^ = Ab_ZipEndCentralDirectorySignature) then begin
 +      {get the tail record at this position}
 +      Move(TestPos^, TailRec, sizeof(TailRec));
- 
+
 -        {get the tail record at this position}
 -        Move(TestPos^, TailRec, sizeof(TailRec));
 +      {if it's as valid a tail as we can check here...}
 +      CommentLen := -Offset - (TestPos - Buffer + sizeof(TailRec));
 +      if (TailRec.CommentLength <= CommentLen) then begin
- 
+
 -        {if it's as valid a tail as we can check here...}
 -        CommentLen := -Offset - (TestPos - Buffer + sizeof(TailRec));
 -        if (TailRec.CommentLength <= CommentLen) then begin
@@ -2600,9 +2598,29 @@ Index: AbZipTyp.pas
 -      end;
 -      dec(Offset, BufSize - SizeOf(TailRec));
      end;
- 
+
      {if we reach this point, the CD tail is not present}
-@@ -1407,6 +1403,22 @@
+@@ -1195,12 +1191,13 @@
+ { TAbZipDirectoryFileFooter implementation ================================= }
+ function TAbZipDirectoryFileFooter.GetIsZip64: Boolean;
+ begin
+-  Result := (DiskNumber >= $FFFF) or
+-            (StartDiskNumber >= $FFFF) or
+-            (EntriesOnDisk >= $FFFF) or
+-            (TotalEntries >= $FFFF) or
+-            (DirectorySize >= $FFFFFFFF) or
+-            (DirectoryOffset >= $FFFFFFFF);
++  if DiskNumber >= $FFFF then Exit(True);
++  if StartDiskNumber >= $FFFF then Exit(True);
++  if EntriesOnDisk >= $FFFF then Exit(True);
++  if TotalEntries >= $FFFF then Exit(True);
++  if DirectorySize >= $FFFFFFFF then Exit(True);
++  if DirectoryOffset >= $FFFFFFFF then Exit(True);
++  Result := False;
+ end;
+ { -------------------------------------------------------------------------- }
+ procedure TAbZipDirectoryFileFooter.LoadFromStream( Stream : TStream );
+@@ -1407,6 +1404,22 @@
    Result := FItemInfo.FileName;
  end;
  { -------------------------------------------------------------------------- }
@@ -2625,7 +2643,7 @@ Index: AbZipTyp.pas
  function TAbZipItem.GetShannonFanoTreeCount : Byte;
  begin
    Result := FItemInfo.ShannonFanoTreeCount;
-@@ -1428,14 +1440,15 @@
+@@ -1428,37 +1441,50 @@
    FieldStream: TStream;
    InfoZipField: PInfoZipUnicodePathRec;
    UnicodeName: UnicodeString;
@@ -2635,7 +2653,7 @@ Index: AbZipTyp.pas
 +  SystemCode: TAbZipHostOs;
  begin
    FItemInfo.LoadFromStream( Stream );
- 
+
    { decode filename (ANSI/OEM/UTF-8) }
 -  if FItemInfo.IsUTF8 or (AbDetectCharSet(FItemInfo.FileName) = csUTF8) then
 -    FFileName := UTF8ToString(FItemInfo.FileName)
@@ -2644,7 +2662,6 @@ Index: AbZipTyp.pas
    else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
       (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
       (InfoZipField.Version = 1) and
-@@ -1442,7 +1455,7 @@
       (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
      SetString(UTF8Name, InfoZipField.UnicodeName,
        FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
@@ -2653,7 +2670,6 @@ Index: AbZipTyp.pas
    end
    else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
       (FieldSize > SizeOf(TXceedUnicodePathRec)) and
-@@ -1449,16 +1462,28 @@
       (XceedField.Signature = Ab_XceedUnicodePathSignature) and
       (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
      SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
@@ -2687,10 +2703,10 @@ Index: AbZipTyp.pas
 +    {$ENDIF}
 +      FFileName := FItemInfo.FileName;
 +  end;
- 
+
    { read ZIP64 extended header }
    FUncompressedSize := FItemInfo.UncompressedSize;
-@@ -1586,7 +1611,7 @@
+@@ -1586,7 +1612,7 @@
    {$IFDEF MSWINDOWS}
    AnsiName : AnsiString;
    {$ENDIF}
@@ -2699,7 +2715,7 @@ Index: AbZipTyp.pas
    FieldSize : Word;
    I : Integer;
    InfoZipField : PInfoZipUnicodePathRec;
-@@ -1596,24 +1621,20 @@
+@@ -1596,24 +1622,20 @@
    {$IFDEF MSWINDOWS}
    FItemInfo.IsUTF8 := False;
    HostOS := hosDOS;
@@ -2727,18 +2743,18 @@ Index: AbZipTyp.pas
 +  FItemInfo.FileName := Value;
 +  FItemInfo.IsUTF8 := SystemEncodingUtf8;
    {$ENDIF}
- 
+
    UseExtraField := False;
-@@ -1626,7 +1647,7 @@
+@@ -1626,7 +1648,7 @@
      end;
- 
+
    if UseExtraField then begin
 -    UTF8Name := AnsiToUTF8(Value);
 +    UTF8Name := Value;
      FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
      GetMem(InfoZipField, FieldSize);
      try
-@@ -1762,11 +1783,11 @@
+@@ -1762,20 +1784,28 @@
    inherited Destroy;
  end;
  { -------------------------------------------------------------------------- }
@@ -2753,7 +2769,6 @@ Index: AbZipTyp.pas
    Result := TAbZipItem.Create;
    with TAbZipItem( Result ) do begin
      CompressionMethod := cmDeflated;
-@@ -1773,9 +1794,17 @@
      GeneralPurposeBitFlag := 0;
      CompressedSize := 0;
      CRC32 := 0;
@@ -2773,9 +2788,9 @@ Index: AbZipTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1930,8 +1959,8 @@
+@@ -1930,8 +1960,8 @@
      AbStripDots( lValue );
- 
+
    for i := 1 to Length( lValue ) do
 -    if lValue[i] = '\' then
 -      lValue[i] := '/';
@@ -2784,7 +2799,7 @@ Index: AbZipTyp.pas
    Result := lValue;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1983,7 +2012,7 @@
+@@ -1983,7 +2013,7 @@
          FStatus := asInvalid; //TODO: Status updates are extremely inconsistent
          raise EAbUserAbort.Create;
        end;
@@ -2793,7 +2808,7 @@ Index: AbZipTyp.pas
        TailPosition := FindCentralDirectoryTail( FStream );
      end;
    end;
-@@ -2302,7 +2331,7 @@
+@@ -2302,7 +2332,7 @@
          if FOwnsStream then begin
            {need new stream to write}
            FreeAndNil(FStream);

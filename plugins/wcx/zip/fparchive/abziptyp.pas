@@ -1191,12 +1191,13 @@ end;
 { TAbZipDirectoryFileFooter implementation ================================= }
 function TAbZipDirectoryFileFooter.GetIsZip64: Boolean;
 begin
-  Result := (DiskNumber >= $FFFF) or
-            (StartDiskNumber >= $FFFF) or
-            (EntriesOnDisk >= $FFFF) or
-            (TotalEntries >= $FFFF) or
-            (DirectorySize >= $FFFFFFFF) or
-            (DirectoryOffset >= $FFFFFFFF);
+  if DiskNumber >= $FFFF then Exit(True);
+  if StartDiskNumber >= $FFFF then Exit(True);
+  if EntriesOnDisk >= $FFFF then Exit(True);
+  if TotalEntries >= $FFFF then Exit(True);
+  if DirectorySize >= $FFFFFFFF then Exit(True);
+  if DirectoryOffset >= $FFFFFFFF then Exit(True);
+  Result := False;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipDirectoryFileFooter.LoadFromStream( Stream : TStream );
