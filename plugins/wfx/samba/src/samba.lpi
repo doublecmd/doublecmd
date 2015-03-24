@@ -18,8 +18,8 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="Samba WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander" ProductVersion=""/>
+      <MinorVersionNr Value="2"/>
+      <StringTable FileDescription="Samba WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2015 Alexander Koblov" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
