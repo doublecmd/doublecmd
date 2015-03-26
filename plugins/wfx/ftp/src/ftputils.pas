@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -77,6 +77,7 @@ function ModeStr2Mode(const sMode: String): Integer;
 function EncodeBase64(Data: AnsiString): AnsiString;
 function DecodeBase64(Data: AnsiString): AnsiString;
 
+function RepairConnectionName(Connection: AnsiString): AnsiString;
 function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 function ExtractConnectionPort(Connection: AnsiString): AnsiString;
 
@@ -177,6 +178,22 @@ begin
  finally
    StringStream1.Free;
  end;
+end;
+
+function RepairConnectionName(Connection: AnsiString): AnsiString;
+var
+  Index: Integer;
+  DenySym: set of AnsiChar;
+begin
+  Result:= Connection;
+  DenySym:= AllowDirectorySeparators + AllowDriveSeparators + ['<'];
+  for Index:= 1 to Length(Result) do
+  begin
+    if Result[Index] in DenySym then
+    begin
+      Result[Index]:= '_';
+    end;
+  end;
 end;
 
 function ExtractConnectionHost(Connection: AnsiString): AnsiString;
