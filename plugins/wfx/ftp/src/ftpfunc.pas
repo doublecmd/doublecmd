@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -717,7 +717,8 @@ begin
         Result:= FS_FILE_NOTFOUND
       else
         begin
-          TConnection(ConnectionList.Objects[I]).ConnectionName:= ExtractFileName(NewName);
+          ConnectionList[I]:= RepairConnectionName(NewName + 1);
+          TConnection(ConnectionList.Objects[I]).ConnectionName:= ConnectionList[I];
           WriteConnectionList;
           Result:= FS_FILE_OK;
         end;
