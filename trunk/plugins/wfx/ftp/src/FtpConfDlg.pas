@@ -137,7 +137,7 @@ begin
           begin
             Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
-            gConnection.ConnectionName:= StringReplace(Text, PathDelim, '_', [rfReplaceAll]);
+            gConnection.ConnectionName:= RepairConnectionName(Text);
             Data:= SendDlgMsg(pDlg, 'edtHost', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
             gConnection.Host:= ExtractConnectionHost(Text);
