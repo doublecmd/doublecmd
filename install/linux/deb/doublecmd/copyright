@@ -4,26 +4,26 @@ Uptream-Contact: Alexander Koblov <alexx2000@mail.ru>
 Source: http://doublecmd.sourceforge.net/
 
 Files: *
-Copyright: 2006-2013 Alexander Koblov <alexx2000@mail.ru>
+Copyright: 2006-2015 Alexander Koblov <alexx2000@mail.ru>
            2008 Dmitry Kolomiets <B4rr4cuda@rambler.ru>
            2009-2013 Przemysław Nagay <cobines@gmail.com>
-License: GPL-2+
+License: GPL-2.0+
 
 Files: components/CmdLine/*
 Copyright: 2007 Julian Schutsch <julian@julian-schutsch.de>
-License: GPL-3+
+License: GPL-3.0+
 
 Files: components/lclextensions/*
 Copyright: 2007 Luiz Américo Pereira Câmara <pascalive@bol.com.br>
-License: LGPL-2+
+License: LGPL-2.0+
 
 Files: components/dcpcrypt/*
 Copyright: 1999-2002 David Barton <crypto@cityinthesky.co.uk>
-License: MIT/X11
+License: X11
 
 Files: components/gifanim/*
 Copyright: 2009 Laurent Jacques
-License: GPL-2+
+License: GPL-2.0+
 
 Files: components/virtualtreeview/*
 Copyright: 2000-2003 Mike Lischke <public@delphi-gems.com>
@@ -34,19 +34,19 @@ License: LGPL-2.1+
 Files: components/viewer/viewercontrol.pas
 Copyright: 2003-2004 Radek Červinka <radek.cervinka@centrum.cz>
            2006-2013 Alexander Koblov <alexx2000@mail.ru>
-License: GPL-2+
+License: GPL-2.0+
 
 Files: components/viewer/MappingFile.pas
 Copyright: 2005 Razumikhin Dmitry <razumikhin_d@mail.ru>
-License: LGPL-2+
+License: LGPL-2.0+
 
 Files: components/chsdet/*
 Copyright: 2006 Nick Yakowlew <ya_nick@users.sourceforge.net>
 License: LGPL-2.1+
 
-Files: libraries/src/libmime/*
-Copyright: 2007 Houng Jen Yee <pcman.tw@gmail.com>
-License: GPL-2+
+Files: libraries/src/libbz2/*
+Copyright: 1996-2010 Julian Seward <jseward@bzip.org>
+License: BSD-4-clause~bzip2
 
 Files: plugins/wfx/ftp/synapse/*
 Copyright: 1999-2012 Lukas Gebauer
@@ -59,28 +59,41 @@ License: Zlib
 
 Files: plugins/wdx/deb_wdx/src/deb_wdx_intf.pas
 Copyright: 2005 Ralgh Young <yang.guilong@gmail.com>
-License: GPL-2+
+License: GPL-2.0+
 
 Files: plugins/wfx/gvfs/*
 Copyright: 2008-2009 Tomas Bzatek <tbzatek@users.sourceforge.net>
            2009-2010 Alexander Koblov <Alexx2000@mail.ru>
-License: LGPL-2+
+License: LGPL-2.0+
 
 Files: plugins/wdx/rpm_wdx/*
        plugins/wcx/rpm/*
 Copyright: 2000-2002 Mandryka Yurij <braingroup@hotmail.ru>
            2007 Alexander Koblov <Alexx2000@mail.ru>
-License: GPL-2+
+License: GPL-2.0+
 
 Files: plugins/wcx/unbz2/bzip2/bzip2.pas
 Copyright: 2002 by Daniel Mantione
            2007-2009 Alexander Koblov <Alexx2000@mail.ru>
-License: GPL-2+
+License: GPL-2.0+
 
 Files: plugins/wcx/zip/fparchive/*
 Copyright: 1997-2002 TurboPower Software
            2007-2012 Alexander Koblov <Alexx2000@mail.ru>
 License: MPL-1.1
+
+Files: plugins/wcx/zip/fparchive/abxz.pas
+Copyright: 2014-2015 Alexander Koblov <alexx2000@mail.ru>
+License: X11
+
+Files: plugins/wlx/WlxMplayer/src/qt4.pas
+Copyright: 2005-2011 by Jan Van hijfte
+License: LGPL-3.0+
+
+Files: src/platform/unix/uudev.pas
+Copyright: 2008 David Zeuthen <david@fubar.dk>
+           2014 Alexander Koblov <Alexx2000@mail.ru>
+License: GPL-2.0+
 
 Files: src/uparitercontrols.pas
 Copyright: 2004 Flavio Etrusco
@@ -98,11 +111,11 @@ Copyright: 2003-2004 Radek Červinka <radek.cervinka@centrum.cz>
            2008 Dmitry Kolomiets <B4rr4cuda@rambler.ru>
            2008 Vitaly Zotov <vitalyzotov@mail.ru>
            2010 Przemysław Nagay <cobines@gmail.com>
-License: GPL-2+
+License: GPL-2.0+
 
-Files: src/udiff.pas
+Files: src/udiffon*.pas
 Copyright: 2001-2009 Angus Johnson <angusj@myrealbox.com>
-License:
+License: Other
  The code in the TDiff component is released as freeware
  provided you agree to the following terms & conditions:
  1. the copyright notice, terms and conditions are left unchanged
@@ -115,85 +128,93 @@ License:
 
 Files: debian/*
 Copyright: 2010-2013 Alexander Koblov <alexx2000@mail.ru>
-           2013 Graham Inggs <graham@nerve.org.za>
-License: GPL-2+
+           2013-2015 Graham Inggs <graham@nerve.org.za>
+License: GPL-2.0+
 
-License: GPL-2+
- This program is free software; you can redistribute it
- and/or modify it under the terms of the GNU General Public
- License as published by the Free Software Foundation; either
- version 2 of the License, or (at your option) any later
- version.
+License: GPL-2.0+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
  .
- This program is distributed in the hope that it will be
- useful, but WITHOUT ANY WARRANTY; without even the implied
- warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- PURPOSE.  See the GNU General Public License for more
- details.
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
  .
- You should have received a copy of the GNU General Public
- License along with this package; if not, write to the Free
- Software Foundation, Inc., 51 Franklin St, Fifth Floor,
- Boston, MA  02110-1301 USA
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>
  .
- On Debian systems, the full text of the GNU General Public
- License version 2 can be found in the file
- "/usr/share/common-licenses/GPL-2".
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
 
-License: GPL-3+
+License: GPL-3.0+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
  .
- This program is distributed in the hope that it will be useful,
+ This package is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
  .
- On Debian systems, the full text of the GNU Lesser General
- Public License version 3 can be found in the file
- "/usr/share/common-licenses/GPL-3".
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
 
-License: LGPL-2+
- This library is free software; you can redistribute it and/or
- modify it under the terms of the GNU Library General Public
+License: LGPL-2.0+
+ This package is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 2 of the License, or (at your option) any later version.
  .
- This library is distributed in the hope that it will be useful,
+ This package is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- Library General Public License for more details.
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
  .
- You should have received a copy of the GNU Library General Public
- License along with this library; if not, write to the
- Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
- Boston, MA 02110-1301, USA.
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
  .
- On Debian systems, the full text of the GNU Lesser General
- Public License version 2 can be found in the file
- "/usr/share/common-licenses/LGPL-2".
+ On Debian systems, the complete text of the GNU Lesser General
+ Public License can be found in "/usr/share/common-licenses/LGPL-2".
 
 License: LGPL-2.1+
- This library is free software; you can redistribute it and/or
+ This package is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 2.1 of the License, or (at your option) any later version.
  .
- This library is distributed in the hope that it will be useful,
+ This package is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  Lesser General Public License for more details.
  .
- You should have received a copy of the GNU Lesser General Public
- License along with this library; if not, write to the Free Software
- Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- MA 02110-1301 USA
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
  .
- On Debian systems, the full text of the GNU Lesser General
- Public License version 2.1 can be found in the file
- "/usr/share/common-licenses/LGPL-2.1".
+ On Debian systems, the complete text of the GNU Lesser General
+ Public License can be found in "/usr/share/common-licenses/LGPL-2.1".
+
+License: LGPL-3.0+
+ This package is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 3 of the License, or (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU Lesser General
+ Public License can be found in "/usr/share/common-licenses/LGPL-3".
 
 License: BSD-2-clause
  Redistribution and use in source and binary forms, with or without
@@ -246,6 +267,38 @@ License: BSD-3-clause
  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  SUCH DAMAGE.
 
+License: BSD-4-clause~bzip2
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ .
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ .
+ 2. The origin of this software must not be misrepresented; you must 
+    not claim that you wrote the original software.  If you use this 
+    software in a product, an acknowledgment in the product 
+    documentation would be appreciated but is not required.
+ .
+ 3. Altered source versions must be plainly marked as such, and must
+    not be misrepresented as being the original software.
+ .
+ 4. The name of the author may not be used to endorse or promote 
+    products derived from this software without specific prior written 
+    permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
+ OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 License: MPL-1.1
  The contents of this file are subject to the Mozilla Public License Version
  1.1 (the "License"); you may not use this file except in compliance with
@@ -264,7 +317,7 @@ License: MPL-1.1
  Portions created by the Initial Developer are Copyright (C) 1997-2002
  the Initial Developer. All Rights Reserved.
 
-License: MIT/X11
+License: X11
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation

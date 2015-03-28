@@ -1,3 +1,107 @@
+doublecmd (0.6.0-3) experimental; urgency=medium
+
+  * Revert patch to not generate debug line info on
+    big-endian architectures.
+  * Work around ARM code generation bug in fpc < 3.0.1.
+
+ -- Graham Inggs <graham@nerve.org.za>  Fri, 27 Feb 2015 14:26:01 +0200
+
+doublecmd (0.6.0-2) experimental; urgency=low
+
+  * Disable PIC on ARM architectures.
+  * Do not generate debug line info on big-endian architectures.
+  * Update d/control: add Suggests on rabbitvcs-core.
+  * Update d/copyright: new directory libraries/src/libbz2.
+  * Update Lintian overrides.
+
+ -- Graham Inggs <graham@nerve.org.za>  Wed, 18 Feb 2015 11:09:44 +0200
+
+doublecmd (0.6.0-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Drop d/patches/hide-lazarus-revision.patch included upstream,
+    refresh remaining patches.
+  * New patch d/patches/clean-plugins-static-libs.patch
+    to clean static libs from plugins directories.
+  * Update d/rules:
+    - do not rename files doublecmd.pb.po and
+      doublecmd.zh.po that no longer exist
+    - strip plugins because dh_strip cannot handle non-standard extensions
+  * Update d/copyright:
+    - update copyright years
+    - add copyright information for new file
+      plugins/wcx/zip/fparchive/abxz.pas
+    - remove copyright information for removed directory
+      libraries/src/libmime/
+
+ -- Graham Inggs <graham@nerve.org.za>  Mon, 16 Feb 2015 14:09:06 +0200
+
+doublecmd (0.5.11-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop patches included upstream, refresh remaining patches.
+  * Update d/rules:
+    - do not delete symlink for doublecmd-help
+    - remove new convenience copy of qt4.pas before building
+  * Update d/copyright:
+    - update copyright years
+    - add copyright information for newly added qt4.pas
+    - use dh_make copyright templates
+  * Update d/control: add Suggests on mplayer2.
+  * Update Lintian overrides.
+
+ -- Graham Inggs <graham@nerve.org.za>  Tue, 07 Oct 2014 15:58:52 +0200
+
+doublecmd (0.5.10-2) unstable; urgency=medium
+
+  * Add d/patches/hide-lazarus-revision.patch to build without lazarus-src
+  * Update d/control:
+    - drop build-depends on lazarus-src
+    - clean up build-depends on lcl, lcl-gtk2 and lcl-qt4
+
+ -- Graham Inggs <graham@nerve.org.za>  Mon, 02 Jun 2014 14:04:06 +0200
+
+doublecmd (0.5.10-1) unstable; urgency=medium
+
+  [ Graham Inggs ]
+  * New upstream release (Closes: #746015)
+  * Refresh d/patches/hide-build-info.patch.
+
+  [ Paul Gevers ]
+  * Update d/copyright with newly added file
+  * Drop hack in fix_build.sh*.patch and convert it to not build the
+    lazarus components, as that is fixed in Lazarus now. Renamed patch
+    to dont_build_lazarus_components.patch
+
+ -- Paul Gevers <elbrus@debian.org>  Sun, 18 May 2014 15:56:14 +0200
+
+doublecmd (0.5.9-2) unstable; urgency=medium
+
+  * Tweak fix_build.sh_for_lazarus-1.2.patch, fix FTBFS on i386.
+
+ -- Graham Inggs <graham@nerve.org.za>  Tue, 15 Apr 2014 15:00:27 +0200
+
+doublecmd (0.5.9-1) unstable; urgency=medium
+
+  [ Graham Inggs ]
+  * New upstream.
+  * Update d/control:
+    - add Depends on desktop-file-utils
+    - update Maintainer and Vcs-* fields for
+      Pascal Packaging Team maintenance
+  * Update d/patches: remove link-with-as-needed.patch and
+    add-keywords-to-desktop-file.patch, included upstream.
+  * Remove unnecessary d/doublecmd-*.dir files.
+  * Do not install /usr/lib/doublecmd/doc.
+
+  [ Paul Gevers ]
+  * Add add_set-e_to_build_scripts.patch to let the build fail on failure
+  * Add fix_build.sh_for_lazarus-1.2.patch and
+    remove_red-haring__dont_install_.so_files.patch to prevent FTBFS
+    (Closes: 741792)
+
+ -- Paul Gevers <elbrus@debian.org>  Mon, 14 Apr 2014 21:51:22 +0200
+
 doublecmd (0.5.8-1) unstable; urgency=low
 
   * New upstream.
