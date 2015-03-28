@@ -329,22 +329,21 @@ end;
 
 function AddQuickConnection(const Connection: TConnection): Boolean;
 var
+  Text: PAnsiChar;
   Temp: AnsiString;
 begin
   Result:= False;
   SetLength(Temp, MAX_PATH);
-  Temp[1]:= #0;
-  if RequestProc(PluginNumber, RT_URL, nil, nil, PAnsiChar(Temp), MAX_PATH) then
+  Text:= PAnsiChar(Temp); Text[0]:= #0;
+  if RequestProc(PluginNumber, RT_URL, nil, nil, Text, MAX_PATH) then
   begin
-    Connection.Host := Temp;
-    Temp[1]:= #0;
-    if RequestProc(PluginNumber, RT_TargetDir, nil, nil, PAnsiChar(Temp), MAX_PATH) then
+    Connection.Host := Text; Text[0]:= #0;
+    if RequestProc(PluginNumber, RT_TargetDir, nil, nil, Text, MAX_PATH) then
     begin
-      Connection.Path := Temp;
-      Temp[1]:= #0;
-      if RequestProc(PluginNumber, RT_UserName, nil, nil, PAnsiChar(Temp), MAX_PATH) then
+      Connection.Path := Text; Text[0]:= #0;
+      if RequestProc(PluginNumber, RT_UserName, nil, nil, Text, MAX_PATH) then
       begin
-        Connection.UserName := Temp;
+        Connection.UserName := Text;
         Result:= True;
       end;
     end;
@@ -353,26 +352,26 @@ end;
 
 function QuickConnection: Boolean;
 var
-  I: Integer;
-  Connection: TConnection;
+  Index: Integer;
   FtpSend: TFTPSendEx;
+  Connection: TConnection;
 begin
-  Result:= False;
-  Connection := TConnection.Create;
-  if AddQuickConnection(Connection) then
+  Result:= ActiveConnectionList.IndexOf(cQuickConnection) >= 0;
+  if not Result then
+  begin
+    Connection := TConnection.Create;
+    if AddQuickConnection(Connection) then
     begin
       if ShowPasswordDialog(Connection.Password) then
       begin
-        Connection.ConnectionName:= Connection.Host;
-
-        I:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
+        Connection.ConnectionName:= cQuickConnection;
+        Index:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
         Result:= FtpConnect(Connection.ConnectionName, FtpSend);
-        ConnectionList.Delete(I);
+        ConnectionList.Delete(Index);
       end;
     end;
-
-  if not Result then
     Connection.Free;
+  end;
 end;
 
 function AddConnection: Integer;
@@ -400,11 +399,10 @@ begin
     end
   else
     begin
-      SetLength(Temp, MAX_PATH);
-      Temp[1]:= #0;
+      SetLength(Temp, MAX_PATH); Temp[1]:= #0;
       if RequestProc(PluginNumber, RT_Other, nil, nil, PAnsiChar(Temp), MAX_PATH) then
       begin
-        gConnection.ConnectionName := Temp;
+        gConnection.ConnectionName := PAnsiChar(Temp);
         if AddQuickConnection(gConnection) then
         begin
           Result:= ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
