@@ -50,6 +50,8 @@ type
   { TFTPSendEx }
 
   TFTPSendEx = class(TFTPSend)
+  protected
+    function Connect: Boolean; override;
   public
     procedure FTPStatus(Sender: TObject; Response: Boolean; const Value: String);
     function NetworkError(): Boolean;
@@ -996,8 +998,14 @@ end;
 
 { TFTPSendEx }
 
+function TFTPSendEx.Connect: Boolean;
+begin
+  Result:= inherited Connect;
+  if Result then LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
+end;
+
 procedure TFTPSendEx.FTPStatus(Sender: TObject; Response: Boolean;
-  const Value: string);
+  const Value: String);
 begin
   LogProc(PluginNumber, msgtype_details, PAnsiChar(Value));
   if FSock.LastError <> 0 then
