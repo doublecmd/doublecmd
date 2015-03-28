@@ -7,11 +7,18 @@ set -e
 # This script run from main build.sh script
 # If you run it direct, set up $lazbuild first
 
+# Get processor architecture
+if [ -z $CPU_TARGET ] ; then
+  export CPU_TARGET=$(fpc -iTP)
+fi
+
 # Generate PIC code
-if [ -f /etc/fpc.cfg ] ; then
-  cp /etc/fpc.cfg ./
-  echo "-fPIC" >> fpc.cfg
-  export PPC_CONFIG_PATH=$(pwd)
+if [ "$CPU_TARGET" != "arm" ] ; then
+  if [ -f /etc/fpc.cfg ] ; then
+    cp /etc/fpc.cfg ./
+    echo "-fPIC" >> fpc.cfg
+    export PPC_CONFIG_PATH=$(pwd)
+  fi
 fi
 
 # Build components
