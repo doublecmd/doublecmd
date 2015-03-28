@@ -8,7 +8,10 @@ export HOME=$(CURDIR)/tmphome
 
 override_dh_install:
 	cd language ;\
-		if [ -f doublecmd.po ] ; then mv doublecmd.po doublecmd.en.po; fi
+		if [ -f doublecmd.po ] ; then mv doublecmd.po doublecmd.en.po; fi ;
+
+	# Remove convenience copy of Free Pascal Qt4 binding, use libqt4pas-dev instead
+	rm -f plugins/wlx/WlxMplayer/src/qt4.pas
 
 	# Build GTK2 version
 	./build.sh beta gtk2
@@ -40,16 +43,22 @@ override_dh_install:
 	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/plugins $(CURDIR)/debian/doublecmd-plugins/usr/lib/doublecmd
 
 	# Clean up common files
-	rm -f $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/doc/COPYING*.txt
+	rm -rf $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/doc
 	find $(CURDIR)/debian/doublecmd-common/usr/share/ -type f | xargs chmod a-x ;
 
 	dh_install
+
+override_dh_strip:
+	# Strip plugins because dh_strip cannot handle non-standard extensions (bug #35733)
+	find $(CURDIR)/debian/doublecmd-*/usr/lib/doublecmd/plugins/ -name '*.w?x' -o -name '*.dsx' | \
+		xargs strip --remove-section=.comment --strip-unneeded ;
+	dh_strip
 
 override_dh_clean:
 	./clean.sh
 
 	cd language ;\
-		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi
+		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi ;
 	# Clean up temporary HOME
 	rm -rf $(CURDIR)/tmphome
 	dh_clean
