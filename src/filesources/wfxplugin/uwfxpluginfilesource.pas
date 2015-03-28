@@ -156,7 +156,7 @@ implementation
 
 uses
   LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, DCStrUtils, uDCUtils, uLog,
-  uDebug, uLng, uCryptProc, DCFileAttributes, uConnectionManager, contnrs, syncobjs,
+  uDebug, uLng, uCryptProc, DCFileAttributes, uConnectionManager, contnrs, syncobjs, fMain,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation;
@@ -226,23 +226,28 @@ procedure MainLogProc(PluginNr, MsgType: Integer; LogString: UTF8String);
 var
   I: Integer;
   bLogFile: Boolean;
+  bLogWindow: Boolean;
   sMsg, sName, sPath: String;
-  bLogWindow: Boolean = True;
   LogMsgType: TLogMsgType = lmtInfo;
   CallbackDataClass: TCallbackDataClass;
 Begin
   sMsg:= rsMsgLogInfo;
+  bLogWindow:= frmMain.seLogWindow.Visible;
   bLogFile:= ((log_vfs_op in gLogOptions) and (log_info in gLogOptions));
   CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
   case MsgType of
     msgtype_connect:
       begin
+        bLogWindow:= True;
         if Assigned(CallbackDataClass) then
         begin
-          I:= Pos(#32, LogString);
-          sName:= WfxOperationList[PluginNr];
-          sPath:= Copy(LogString, I + 1, MaxInt);
-          AddNetworkConnection(sName, sPath, CallbackDataClass.FileSource);
+          if Length(LogString) > 0 then
+          begin
+            I:= Pos(#32, LogString);
+            sName:= WfxOperationList[PluginNr];
+            sPath:= Copy(LogString, I + 1, MaxInt);
+            AddNetworkConnection(sName, sPath, CallbackDataClass.FileSource);
+          end;
         end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
       end;
@@ -250,12 +255,13 @@ Begin
       begin
         if Assigned(CallbackDataClass) then
         begin
-          bLogWindow:= False;
           I:= Pos(#32, LogString);
           sName:= WfxOperationList[PluginNr];
           sPath:= Copy(LogString, I + 1, MaxInt);
           RemoveNetworkConnection(sName, sPath);
+          bLogWindow:= frmMain.seLogWindow.Visible;
         end;
+        sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
       end;
     msgtype_details,
     msgtype_operationcomplete,
