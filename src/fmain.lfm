@@ -1327,136 +1327,136 @@ object frmMain: TfrmMain
     object actHorizontalFilePanels: TAction
       Category = 'Window'
       Caption = '&Horizontal Panels Mode'
-      GroupIndex = 16
+      Tag = 16
       OnExecute = actExecute
     end
     object actPanelsSplitterPerPos: TAction
       Category = 'Window'
       Caption = 'Set splitter position'
-      GroupIndex = 16
+      Tag = 16
       OnExecute = actExecute
     end
     object actView: TAction
       Category = 'File Operations'
       Caption = 'View'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actEdit: TAction
       Category = 'File Operations'
       Caption = 'Edit'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actHelpIndex: TAction
       Category = 'Help'
       Caption = '&Contents'
-      GroupIndex = 15
+      Tag = 15
       OnExecute = actExecute
     end
     object actKeyboard: TAction
       Category = 'Help'
       Caption = '&Keyboard'
-      GroupIndex = 15
+      Tag = 15
       OnExecute = actExecute
     end
     object actVisitHomePage: TAction
       Category = 'Help'
       Caption = '&Visit Double Commander Website'
-      GroupIndex = 15
+      Tag = 15
       OnExecute = actExecute
     end
     object actAbout: TAction
       Category = 'Help'
       Caption = '&About'
-      GroupIndex = 15
+      Tag = 15
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actOptions: TAction
       Category = 'Configuration'
       Caption = '&Options...'
-      GroupIndex = 5
+      Tag = 5
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMultiRename: TAction
       Category = 'Tools'
       Caption = 'Multi &Rename Tool'
-      GroupIndex = 18
+      Tag = 18
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSearch: TAction
       Category = 'Tools'
       Caption = '&Search...'
-      GroupIndex = 18
+      Tag = 18
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSyncDirs: TAction
       Category = 'Tools'
       Caption = 'Synchronize dirs...'
-      GroupIndex = 18
+      Tag = 18
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actConfigToolbars: TAction
       Category = 'Configuration'
       Caption = 'Configure toolbar'
-      GroupIndex = 5
+      Tag = 5
       OnExecute = actExecute
     end
     object actConfigDirHotList: TAction
       Category = 'Configuration'
       Caption = 'Configuration of Directory Hotlist'
-      GroupIndex = 5
+      Tag = 5
       OnExecute = actExecute
     end
     object actWorkWithDirectoryHotlist: TAction
       Category = 'Configuration'
       Caption = 'Work with Directory Hotlist and paramters'
-      GroupIndex = 5
+      Tag = 5
       OnExecute = actExecute
     end
     object actFileAssoc: TAction
       Category = 'Configuration'
       Caption = 'File &Associations...'
-      GroupIndex = 5
+      Tag = 5
       OnExecute = actExecute
     end
     object actCompareContents: TAction
       Category = 'Tools'
       Caption = 'Compare by &Contents'
-      GroupIndex = 18
+      Tag = 18
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actShowMainMenu: TAction
       Category = 'Window'
       Caption = 'Menu'
-      GroupIndex = 16
+      Tag = 16
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actShowButtonMenu: TAction
       Category = 'Window'
       Caption = 'Show button menu'
-      GroupIndex = 16
+      Tag = 16
       OnExecute = actExecute
     end
     object actOperationsViewer: TAction
       Category = 'Window'
       Caption = 'Operations &Viewer'
-      GroupIndex = 16
+      Tag = 16
       OnExecute = actExecute
     end
     object actRefresh: TAction
       Category = 'View'
       Caption = '&Refresh'
-      GroupIndex = 19
+      Tag = 19
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1464,873 +1464,873 @@ object frmMain: TfrmMain
       Category = 'View'
       Caption = 'Show &Hidden/System Files'
       Checked = True
-      GroupIndex = 19
+      Tag = 19
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDirHistory: TAction
       Category = 'Navigation'
       Caption = 'Directory history'
-      GroupIndex = 14
+      Tag = 14
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDirHotList: TAction
       Category = 'Navigation'
       Caption = 'Directory &Hotlist'
-      GroupIndex = 14
+      Tag = 14
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkPlus: TAction
       Category = 'Mark'
       Caption = 'Select a &Group...'
-      GroupIndex = 10
+      Tag = 10
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkMinus: TAction
       Category = 'Mark'
       Caption = 'Unselect a Gro&up...'
-      GroupIndex = 10
+      Tag = 10
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkMarkAll: TAction
       Category = 'Mark'
       Caption = '&Select All'
-      GroupIndex = 10
+      Tag = 10
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkUnmarkAll: TAction
       Category = 'Mark'
       Caption = '&Unselect All'
-      GroupIndex = 10
+      Tag = 10
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCalculateSpace: TAction
       Category = 'Miscellaneous'
       Caption = 'Calculate &Occupied Space'
-      GroupIndex = 7
+      Tag = 7
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actNewTab: TAction
       Category = 'Tabs'
       Caption = '&New Tab'
-      GroupIndex = 21
+      Tag = 21
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCutToClipboard: TAction
       Category = 'Clipboard'
       Caption = 'Cu&t'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actCopyToClipboard: TAction
       Category = 'Clipboard'
       Caption = '&Copy'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actPasteFromClipboard: TAction
       Category = 'Clipboard'
       Caption = '&Paste'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actRunTerm: TAction
       Category = 'Miscellaneous'
       Caption = 'Run &Terminal'
-      GroupIndex = 7
+      Tag = 7
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkInvert: TAction
       Category = 'Mark'
       Caption = '&Invert Selection'
-      GroupIndex = 10
+      Tag = 10
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkCurrentExtension: TAction
       Category = 'Mark'
       Caption = 'Select All with the Same E&xtension'
-      GroupIndex = 10
+      Tag = 10
       OnExecute = actExecute
     end
     object actUnmarkCurrentExtension: TAction
       Category = 'Mark'
       Caption = 'Unselect All with the Same Ex&tension'
-      GroupIndex = 10
+      Tag = 10
       OnExecute = actExecute
     end
     object actCompareDirectories: TAction
       Category = 'Mark'
       Caption = 'Compare Directories'
-      GroupIndex = 10
+      Tag = 10
       Hint = 'Compare Directories'
       OnExecute = actExecute
     end
     object actEditNew: TAction
       Category = 'File Operations'
       Caption = 'Edit new file'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCopy: TAction
       Category = 'File Operations'
       Caption = 'Copy'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCopyNoAsk: TAction
       Category = 'File Operations'
       Caption = 'Copy files without asking for confirmation'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actCopySamePanel: TAction
       Category = 'File Operations'
       Caption = 'Copy to same panel'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRename: TAction
       Category = 'File Operations'
       Caption = 'Move'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRenameNoAsk: TAction
       Category = 'File Operations'
       Caption = 'Move/Rename files without asking for confirmation'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actRenameOnly: TAction
       Category = 'File Operations'
       Caption = 'Rename'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMakeDir: TAction
       Category = 'File Operations'
       Caption = 'Create &Directory'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDelete: TAction
       Category = 'File Operations'
       Caption = 'Delete'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actWipe: TAction
       Category = 'File Operations'
       Caption = 'Wipe'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actPackFiles: TAction
       Category = 'File Operations'
       Caption = '&Pack Files...'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actTestArchive: TAction
       Category = 'File Operations'
       Caption = '&Test Archive(s)'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actOpenArchive: TAction
       Category = 'File Operations'
       Caption = 'Try open archive'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actExtractFiles: TAction
       Category = 'File Operations'
       Caption = '&Extract Files...'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actOpenVirtualFileSystemList: TAction
       Category = 'File Operations'
       Caption = 'Open &VFS List'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actFileProperties: TAction
       Category = 'File Operations'
       Caption = 'Show &File Properties'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actOpenDirInNewTab: TAction
       Category = 'Tabs'
       Caption = 'Open &Folder in a New Tab'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actNextTab: TAction
       Category = 'Tabs'
       Caption = 'Switch to Nex&t Tab'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actPrevTab: TAction
       Category = 'Tabs'
       Caption = 'Switch to &Previous Tab'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actSwitchIgnoreList: TAction
       Category = 'View'
       Caption = 'Enable/disable ignore list file to not show file names'
-      GroupIndex = 19
+      Tag = 19
       OnExecute = actExecute
     end
     object actCopyNamesToClip: TAction
       Category = 'Clipboard'
       Caption = 'Copy &Filename(s) to Clipboard'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actCopyFullNamesToClip: TAction
       Category = 'Clipboard'
       Caption = 'Copy Filename(s) with Full &Path'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actSaveSelection: TAction
       Category = 'Mark'
       Caption = 'Sa&ve Selection'
-      GroupIndex = 10
+      Tag = 10
       OnExecute = actExecute
     end
     object actRestoreSelection: TAction
       Category = 'Mark'
       Caption = '&Restore Selection'
-      GroupIndex = 10
+      Tag = 10
       OnExecute = actExecute
     end
     object actSaveSelectionToFile: TAction
       Category = 'Mark'
       Caption = 'Save S&election to File...'
-      GroupIndex = 10
+      Tag = 10
       OnExecute = actExecute
     end
     object actLoadSelectionFromFile: TAction
       Category = 'Mark'
       Caption = '&Load Selection from File...'
-      GroupIndex = 10
+      Tag = 10
       OnExecute = actExecute
     end
     object actLoadSelectionFromClip: TAction
       Category = 'Mark'
       Caption = 'Load Selection from Clip&board'
-      GroupIndex = 10
+      Tag = 10
       OnExecute = actExecute
     end
     object actNetworkConnect: TAction
       Category = 'Network'
       Caption = 'Network &Connect...'
-      GroupIndex = 6
+      Tag = 6
       OnExecute = actExecute
     end
     object actNetworkQuickConnect: TAction
       Category = 'Network'
       Caption = 'Network &Quick Connect...'
-      GroupIndex = 6
+      Tag = 6
       OnExecute = actExecute
     end
     object actNetworkDisconnect: TAction
       Category = 'Network'
       Caption = 'Network &Disconnect'
-      GroupIndex = 6
+      Tag = 6
       OnExecute = actExecute
     end
     object actCopyPathOfFilesToClip: TAction
       Category = 'Clipboard'
       Caption = 'Copy Full Path of selected file(s)'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actCopyPathNoSepOfFilesToClip: TAction
       Category = 'Clipboard'
       Caption = 'Copy Full Path of selected file(s) with no ending dir separator'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actCopyFileDetailsToClip: TAction
       Category = 'Clipboard'
       Caption = 'Copy all shown &columns'
-      GroupIndex = 12
+      Tag = 12
       OnExecute = actExecute
     end
     object actRenameTab: TAction
       Category = 'Tabs'
       Caption = '&Rename Tab'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actCloseTab: TAction
       Category = 'Tabs'
       Caption = '&Close Tab'
-      GroupIndex = 21
+      Tag = 21
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCloseAllTabs: TAction
       Category = 'Tabs'
       Caption = 'Close &All Tabs'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actLoadTabs: TAction
       Category = 'Tabs'
       Caption = '&Load Tabs from File'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actSaveTabs: TAction
       Category = 'Tabs'
       Caption = '&Save Tabs to File'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actSetTabOptionNormal: TAction
       Category = 'Tabs'
       Caption = '&Normal'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actSetTabOptionPathLocked: TAction
       Category = 'Tabs'
       Caption = '&Locked'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actSetTabOptionPathResets: TAction
       Category = 'Tabs'
       Caption = 'Locked with &Directory Changes Allowed'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actSetTabOptionDirsInNewTab: TAction
       Category = 'Tabs'
       Caption = 'Locked with Directories Opened in New &Tabs'
-      GroupIndex = 21
+      Tag = 21
       OnExecute = actExecute
     end
     object actLeftBriefView: TAction
       Category = 'Left Panel'
       Caption = 'Brief view on left panel'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftColumnsView: TAction
       Category = 'Left Panel'
       Caption = 'Columns view on left panel'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftThumbView: TAction
       Category = 'Left Panel'
       Caption = 'Thumbnails view on left panel'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftFlatView: TAction
       Category = 'Left Panel'
       Caption = '&Flat view on left panel'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftSortByName: TAction
       Category = 'Left Panel'
       Caption = 'Sort left panel by &Name'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftSortByExt: TAction
       Category = 'Left Panel'
       Caption = 'Sort left panel by &Extension'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftSortBySize: TAction
       Category = 'Left Panel'
       Caption = 'Sort left panel by &Size'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftSortByDate: TAction
       Category = 'Left Panel'
       Caption = 'Sort left panel by &Date'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftSortByAttr: TAction
       Category = 'Left Panel'
       Caption = 'Sort left panel by &Attributes'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftReverseOrder: TAction
       Category = 'Left Panel'
       Caption = 'Re&verse order on left panel'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actLeftOpenDrives: TAction
       Category = 'Left Panel'
       Caption = 'Open left drive list'
-      GroupIndex = 2
+      Tag = 2
       OnExecute = actExecute
     end
     object actRightBriefView: TAction
       Category = 'Right Panel'
       Caption = 'Brief view on right panel'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightColumnsView: TAction
       Category = 'Right Panel'
       Caption = 'Columns view on right panel'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightThumbView: TAction
       Category = 'Right Panel'
       Caption = 'Thumbnails view on right panel'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightFlatView: TAction
       Category = 'Right Panel'
       Caption = '&Flat view on right panel'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightSortByName: TAction
       Category = 'Right Panel'
       Caption = 'Sort right panel by &Name'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightSortByExt: TAction
       Category = 'Right Panel'
       Caption = 'Sort right panel by &Extension'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightSortBySize: TAction
       Category = 'Right Panel'
       Caption = 'Sort right panel by &Size'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightSortByDate: TAction
       Category = 'Right Panel'
       Caption = 'Sort right panel by &Date'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightSortByAttr: TAction
       Category = 'Right Panel'
       Caption = 'Sort right panel by &Attributes'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightReverseOrder: TAction
       Category = 'Right Panel'
       Caption = 'Re&verse order on right panel'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actRightOpenDrives: TAction
       Category = 'Right Panel'
       Caption = 'Open right drive list'
-      GroupIndex = 3
+      Tag = 3
       OnExecute = actExecute
     end
     object actFocusCmdLine: TAction
       Category = 'Command Line'
       Caption = 'Focus command line'
-      GroupIndex = 17
+      Tag = 17
       OnExecute = actExecute
     end
     object actShowCmdLineHistory: TAction
       Category = 'Command Line'
       Caption = 'Show command line history'
-      GroupIndex = 17
+      Tag = 17
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actChangeDirToParent: TAction
       Category = 'Navigation'
       Caption = 'Change Directory To Parent'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actChangeDirToHome: TAction
       Category = 'Navigation'
       Caption = 'Change directory to home'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actChangeDirToRoot: TAction
       Category = 'Navigation'
       Caption = 'Change directory to root'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actTargetEqualSource: TAction
       Category = 'Navigation'
       Caption = 'Target &= Source'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actTransferLeft: TAction
       Category = 'Navigation'
       Caption = 'Transfer dir under cursor to left window'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actTransferRight: TAction
       Category = 'Navigation'
       Caption = 'Transfer dir under cursor to right window'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actLeftEqualRight: TAction
       Category = 'Navigation'
       Caption = 'Left &= Right'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actRightEqualLeft: TAction
       Category = 'Navigation'
       Caption = 'Right &= Left'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actBriefView: TAction
       Category = 'Active Panel'
       Caption = 'Brief view'
-      GroupIndex = 1
+      Tag = 1
       Hint = 'Brief View'
       OnExecute = actExecute
     end
     object actColumnsView: TAction
       Category = 'Active Panel'
       Caption = 'Full'
-      GroupIndex = 1
+      Tag = 1
       Hint = 'Columns View'
       OnExecute = actExecute
     end
     object actThumbnailsView: TAction
       Category = 'Active Panel'
       Caption = 'Thumbnails'
-      GroupIndex = 1
+      Tag = 1
       Hint = 'Thumbnails View'
       OnExecute = actExecute
     end
     object actFlatView: TAction
       Category = 'Active Panel'
       Caption = '&Flat view'
-      GroupIndex = 1
+      Tag = 1
       OnExecute = actExecute
     end
     object actQuickView: TAction
       Category = 'Active Panel'
       Caption = '&Quick View Panel'
-      GroupIndex = 1
+      Tag = 1
       OnExecute = actExecute
     end
     object actSortByName: TAction
       Category = 'Active Panel'
       Caption = 'Sort by &Name'
-      GroupIndex = 1
+      Tag = 1
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByExt: TAction
       Category = 'Active Panel'
       Caption = 'Sort by &Extension'
-      GroupIndex = 1
+      Tag = 1
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortBySize: TAction
       Category = 'Active Panel'
       Caption = 'Sort by &Size'
-      GroupIndex = 1
+      Tag = 1
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByDate: TAction
       Category = 'Active Panel'
       Caption = 'Sort by &Date'
-      GroupIndex = 1
+      Tag = 1
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByAttr: TAction
       Category = 'Active Panel'
       Caption = 'Sort by &Attributes'
-      GroupIndex = 1
+      Tag = 1
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actReverseOrder: TAction
       Category = 'Active Panel'
       Caption = 'Re&verse Order'
-      GroupIndex = 1
+      Tag = 1
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSrcOpenDrives: TAction
       Category = 'Active Panel'
       Caption = 'Open drive list'
-      GroupIndex = 1
+      Tag = 1
     end
     object actExchange: TAction
       Category = 'Navigation'
       Caption = 'Swap &Panels'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actQuickSearch: TAction
       Category = 'Navigation'
       Caption = 'Quick search'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actViewLogFile: TAction
       Category = 'Log'
       Caption = 'View log file'
-      GroupIndex = 23
+      Tag = 23
       OnExecute = actExecute
     end
     object actClearLogFile: TAction
       Category = 'Log'
       Caption = 'Clear log file'
-      GroupIndex = 23
+      Tag = 23
       OnExecute = actExecute
     end
     object actClearLogWindow: TAction
       Category = 'Log'
       Caption = 'Clear log window'
-      GroupIndex = 23
+      Tag = 23
       OnExecute = actExecute
     end
     object actQuickFilter: TAction
       Category = 'Navigation'
       Caption = 'Quick filter'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actEditPath: TAction
       Category = 'Navigation'
       Caption = 'Edit path field above file list'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actChangeDir: TAction
       Category = 'Navigation'
       Caption = 'Change directory'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actCmdLineNext: TAction
       Category = 'Command Line'
       Caption = 'Next Command Line'
-      GroupIndex = 17
+      Tag = 17
       Hint = 'Set command line to next command in history'
       OnExecute = actExecute
     end
     object actCmdLinePrev: TAction
       Category = 'Command Line'
       Caption = 'Previous Command Line'
-      GroupIndex = 17
+      Tag = 17
       Hint = 'Set command line to previous command in history'
       OnExecute = actExecute
     end
     object actAddPathToCmdLine: TAction
       Category = 'Command Line'
       Caption = 'Copy path to command line'
-      GroupIndex = 17
+      Tag = 17
       OnExecute = actExecute
     end
     object actAddFilenameToCmdLine: TAction
       Category = 'Command Line'
       Caption = 'Add file name to command line'
-      GroupIndex = 17
+      Tag = 17
       OnExecute = actExecute
     end
     object actAddPathAndFilenameToCmdLine: TAction
       Category = 'Command Line'
       Caption = 'Add path and file name to command line'
-      GroupIndex = 17
+      Tag = 17
       OnExecute = actExecute
     end
     object actGoToFirstFile: TAction
       Category = 'Navigation'
       Caption = 'Place cursor on first file in list'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actGoToLastFile: TAction
       Category = 'Navigation'
       Caption = 'Place cursor on last file in list'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actViewHistory: TAction
       Category = 'Navigation'
       Caption = 'Show history of visited paths for active view'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actViewHistoryNext: TAction
       Category = 'Navigation'
       Caption = 'Go to next entry in history'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actViewHistoryPrev: TAction
       Category = 'Navigation'
       Caption = 'Go to previous entry in history'
-      GroupIndex = 14
+      Tag = 14
       OnExecute = actExecute
     end
     object actOpenBar: TAction
       Category = 'Window'
       Caption = 'Open bar file'
-      GroupIndex = 16
+      Tag = 16
       OnExecute = actExecute
     end
     object actMinimize: TAction
       Category = 'Window'
       Caption = 'Minimize window'
-      GroupIndex = 16
+      Tag = 16
       OnExecute = actExecute
     end
     object actExit: TAction
       Category = 'Window'
       Caption = 'E&xit'
-      GroupIndex = 16
+      Tag = 16
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDebugShowCommandParameters: TAction
       Category = 'Tools'
       Caption = 'Show Command Parameters'
-      GroupIndex = 18
+      Tag = 18
       OnExecute = actExecute
     end
     object actDoAnyCmCommand: TAction
       Category = 'Tools'
       Caption = 'Select any command and execute it'
-      GroupIndex = 18
+      Tag = 18
       OnExecute = actExecute
     end
     object actSetFileProperties: TAction
       Category = 'File Operations'
       Caption = 'Change &Attributes...'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actEditComment: TAction
       Category = 'File Operations'
       Caption = 'Edit Co&mment...'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actContextMenu: TAction
       Category = 'File Operations'
       Caption = 'Show context menu'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actOpen: TAction
       Category = 'File Operations'
       Caption = 'Open'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actShellExecute: TAction
       Category = 'File Operations'
       Caption = 'Open'
-      GroupIndex = 4
+      Tag = 4
       Hint = 'Open using system associations'
       OnExecute = actExecute
     end
     object actSymLink: TAction
       Category = 'File Operations'
       Caption = 'Create Symbolic &Link...'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actHardLink: TAction
       Category = 'File Operations'
       Caption = 'Create &Hard Link...'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileSpliter: TAction
       Category = 'File Operations'
       Caption = 'Spl&it File...'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileLinker: TAction
       Category = 'File Operations'
       Caption = 'Com&bine Files...'
-      GroupIndex = 4
+      Tag = 4
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCheckSumCalc: TAction
       Category = 'File Operations'
       Caption = 'Calculate Check&sum...'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actCheckSumVerify: TAction
       Category = 'File Operations'
       Caption = '&Verify Checksum...'
-      GroupIndex = 4
+      Tag = 4
       OnExecute = actExecute
     end
     object actUniversalSingleDirectSort: TAction
       Category = 'Active Panel'
       Caption = 'Sort according to parameters'
-      GroupIndex = 1
+      Tag = 1
       OnExecute = actExecute
     end
     object actCountDirContent: TAction
       Category = 'Active Panel'
       Caption = 'Sho&w Occupied Space'
-      GroupIndex = 1
+      Tag = 1
       OnExecute = actExecute
     end
   end

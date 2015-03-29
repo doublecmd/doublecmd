@@ -312,11 +312,11 @@ begin
       Command := FMethods.List[Index]^.Key;
       if not (Assigned(FilterFunc) and FilterFunc(Command)) then
       begin
-        if TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex <> 0 then
+        if TCommandRec(FMethods.List[Index]^.Data^).Action.Tag <> 0 then
         begin
           case CommandCategorySortOrder of
-            ccsLegacy: Category:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex])+FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex];
-            else Category:=FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex];
+            ccsLegacy: Category:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.Tag])+FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.Tag];
+            else Category:=FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.Tag];
           end;
           if List.IndexOf(Category)=-1 then
             List.Add(Category);
@@ -370,7 +370,7 @@ begin
       Command := FMethods.List[Index]^.Key;
       if not (Assigned(FilterFunc) and FilterFunc(Command)) then
       begin
-        Category:=FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex];
+        Category:=FTranslatableCommandCategory.Strings[TCommandRec(FMethods.List[Index]^.Data^).Action.Tag];
 
         if (Category = sCategoryName) OR (sCategoryName=('('+rsSimpleWordAll+')'))  then
         begin
@@ -405,12 +405,12 @@ begin
 
           if CommandSortOrder=csLegacy then
           begin
-            HeaderSortedHelper:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex])+
+            HeaderSortedHelper:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.Tag])+
                                 Format('%3.3d',[TCommandRec(FMethods.List[Index]^.Data^).Action.Index+1]);
 
             if sCategoryName=('('+rsSimpleWordAll+')') then
             begin
-              HeaderCategorySortedHelper:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex])+'000';
+              HeaderCategorySortedHelper:=Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.Tag])+'000';
               if List.IndexOf(HeaderCategorySortedHelper+Category+'||||')=-1 then
                 List.Add(HeaderCategorySortedHelper+Category+'||||');
             end;
@@ -421,7 +421,7 @@ begin
           else
             LocalHint := StringReplace(TCommandRec(FMethods.List[Index]^.Data^).Action.Caption, '&', '', [rfReplaceAll]);
 
-          if LocalHint<>EmptyStr then Command:=Command+'|'+sHotKey+'|'+LocalHint+'|'+Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.GroupIndex]);
+          if LocalHint<>EmptyStr then Command:=Command+'|'+sHotKey+'|'+LocalHint+'|'+Format('%2.2d',[TCommandRec(FMethods.List[Index]^.Data^).Action.Tag]);
 
           List.Add(HeaderSortedHelper+Command);
         end;
