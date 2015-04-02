@@ -63,7 +63,7 @@ var
 implementation
 
 uses
-  Unix, BaseUnix, UnixType, StrUtils, URIParser, SmbAuthDlg, libsmbclient;
+  Math, Unix, BaseUnix, UnixType, StrUtils, URIParser, SmbAuthDlg, libsmbclient;
 
 const
   SMB_BUFFER_SIZE = 524288;
@@ -259,8 +259,8 @@ function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; cdecl;
 var
   dirent: psmbc_dirent;
   FileInfo: BaseUnix.Stat;
+  Mode: array[0..9] of AnsiChar;
   SambaHandle: PSambaHandle absolute Hdl;
-  Mode: array[0..7] of Byte;
 begin
   Result:= True;
   dirent := smbc_readdir(SambaHandle^.Handle);
@@ -278,18 +278,13 @@ begin
         FindData.ftLastAccessTime:= UnixTimeToFileTime(FileInfo.st_atime);
         FindData.ftCreationTime:= UnixTimeToFileTime(FileInfo.st_ctime);
         FindData.ftLastWriteTime:= UnixTimeToFileTime(FileInfo.st_mtime);
+        FindData.dwFileAttributes:= IfThen(fpS_ISDIR(FileInfo.st_mode), FILE_ATTRIBUTE_DIRECTORY, 0);
       end;
       if smbc_getxattr(PChar(SambaHandle^.Path + FindData.cFileName), 'system.dos_attr.mode', @Mode, SizeOf(Mode)) >= 0 then
       begin
-        if (Mode[3] = 0) then
-          FindData.dwFileAttributes:= Mode[2] - SMBC_DOS_MODE_DIRECTORY - SMBC_DOS_MODE_ARCHIVE
-        else
-          case Mode[2] of
-          48: FindData.dwFileAttributes:= 0;
-          49: FindData.dwFileAttributes:= Mode[3] - SMBC_DOS_MODE_ARCHIVE;
-          50: FindData.dwFileAttributes:= Mode[3] - SMBC_DOS_MODE_DIRECTORY;
-          51: FindData.dwFileAttributes:= Mode[3];
-          end;
+        Mode[0]:= '$'; Mode[1]:= '0';
+        // smbc_getxattr returns attributes as hex string (like 0x00000000)
+        FindData.dwFileAttributes:= StrToIntDef(Mode, FindData.dwFileAttributes);
       end;
   end;
 end;
