@@ -282,7 +282,6 @@ begin
       end;
       if smbc_getxattr(PChar(SambaHandle^.Path + FindData.cFileName), 'system.dos_attr.mode', @Mode, SizeOf(Mode)) >= 0 then
       begin
-        Mode[0]:= '$'; Mode[1]:= '0';
         // smbc_getxattr returns attributes as hex string (like 0x00000000)
         FindData.dwFileAttributes:= StrToIntDef(Mode, FindData.dwFileAttributes);
       end;
@@ -501,31 +500,11 @@ end;
 function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; cdecl;
 var
   FileName: String;
-  Mode: array[0..7] of Byte;
+  Mode: array[0..9] of AnsiChar;
 begin
-  Mode[0]:= 48;
-  Mode[1]:= 120;
+  Mode:= '0x' + HexStr(NewAttr, 8);
   FileName:= BuildNetworkPath(RemoteName);
-  if (NewAttr and SMBC_DOS_MODE_DIRECTORY <> 0) and (NewAttr and SMBC_DOS_MODE_ARCHIVE <> 0) then
-    begin
-      Mode[2]:= 51;
-      Mode[3]:= NewAttr;
-    end
-  else if (NewAttr and SMBC_DOS_MODE_ARCHIVE <> 0) then
-    begin
-      Mode[2]:= 50;
-      Mode[3]:= NewAttr + SMBC_DOS_MODE_DIRECTORY;
-    end
-  else if (NewAttr and SMBC_DOS_MODE_DIRECTORY <> 0) then
-    begin
-      Mode[2]:= 49;
-      Mode[3]:= NewAttr + SMBC_DOS_MODE_ARCHIVE;
-    end
-  else
-    begin
-      Mode[2]:= NewAttr + SMBC_DOS_MODE_DIRECTORY + SMBC_DOS_MODE_ARCHIVE;
-      Mode[3]:= 0;
-    end;
+  // smbc_setxattr takes attributes as hex string (like 0x00000000)
   Result:= (smbc_setxattr(PChar(FileName), 'system.dos_attr.mode', @Mode, SizeOf(Mode), 0) >= 0);
 end;
 
