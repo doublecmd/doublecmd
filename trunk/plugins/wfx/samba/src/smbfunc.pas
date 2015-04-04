@@ -259,7 +259,7 @@ function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; cdecl;
 var
   dirent: psmbc_dirent;
   FileInfo: BaseUnix.Stat;
-  Mode: array[0..9] of AnsiChar;
+  Mode: array[0..10] of AnsiChar;
   SambaHandle: PSambaHandle absolute Hdl;
 begin
   Result:= True;
@@ -500,9 +500,9 @@ end;
 function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; cdecl;
 var
   FileName: String;
-  Mode: array[0..9] of AnsiChar;
+  Mode: array[0..10] of AnsiChar;
 begin
-  Mode:= '0x' + HexStr(NewAttr, 8);
+  Mode:= '0x' + HexStr(NewAttr, 8) + #0;
   FileName:= BuildNetworkPath(RemoteName);
   // smbc_setxattr takes attributes as hex string (like 0x00000000)
   Result:= (smbc_setxattr(PChar(FileName), 'system.dos_attr.mode', @Mode, SizeOf(Mode), 0) >= 0);
