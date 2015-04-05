@@ -5418,6 +5418,7 @@ begin
        mbCompareFileNames(ExtractRootDir(OtherFileView.CurrentPath), ExcludeTrailingPathDelimiter(Drive^.Path)) and
        not mbCompareFileNames(OtherFileView.CurrentPath, aFileView.CurrentPath) and not gGoToRoot then
     begin
+      FoundPath:= True;
       SetFileSystemPath(aFileView, OtherFileView.CurrentPath);
     end
     // Open latest path from history for chosen drive
