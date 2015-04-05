@@ -2864,6 +2864,10 @@ msgstr "Мініатюри"
 msgid "Thumbnails View"
 msgstr "Перегляд мініатюр"
 
+#: tfrmmain.acttogglefullscreenconsole.caption
+msgid "Toggle fullscreen mode console"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Відкрити каталог під курсором на лівій панелі"

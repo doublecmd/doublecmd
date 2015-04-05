@@ -105,7 +105,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 21;
+  hkVersion     = 22;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -730,6 +730,7 @@ begin
       AddIfNotExists(['Alt+Down'],'cm_DirHistory',['Ctrl+H'],[]); //Historic backward support reason...
       AddIfNotExists(['Ctrl+L'],[],'cm_CalculateSpace');
       AddIfNotExists(['Ctrl+M'],[],'cm_MultiRename');
+      AddIfNotExists(['Ctrl+O'],[],'cm_ToggleFullscreenConsole');
       AddIfNotExists(['Ctrl+P'],[],'cm_AddPathToCmdLine');
       AddIfNotExists(['Ctrl+Q'],[],'cm_QuickView');
       AddIfNotExists(['Ctrl+S'],[],'cm_QuickSearch');

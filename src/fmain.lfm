@@ -2333,6 +2333,11 @@ object frmMain: TfrmMain
       Tag = 1
       OnExecute = actExecute
     end
+    object actToggleFullscreenConsole: TAction
+      Category = 'Command Line'
+      Caption = 'Toggle  fullscreen mode console'
+      Tag = 17
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

@@ -97,6 +97,7 @@ type
     actCopyPathOfFilesToClip: TAction;
     actCopyPathNoSepOfFilesToClip: TAction;
     actDoAnyCmCommand: TAction;
+    actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
     actRightReverseOrder: TAction;
     actLeftReverseOrder: TAction;
@@ -707,6 +708,7 @@ type
     procedure UpdatePrompt;
     procedure UpdateFreeSpace(Panel: TFilePanelSelect);
     procedure ReLoadTabs(ANoteBook: TFileViewNotebook);
+    procedure ToggleFullscreenConsole;
 
     {en
        This function is called from various points to handle dropping files
@@ -4128,6 +4130,18 @@ begin
 
   nbConsole.Visible:= gTermWindow;
   ConsoleSplitter.Visible:= gTermWindow;
+end;
+
+procedure TfrmMain.ToggleFullscreenConsole;
+begin
+  if  nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height) then
+    begin
+      nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
+    end
+  else
+    begin
+      nbConsole.Height := 0;
+    end;
 end;
 
 procedure TfrmMain.ToolbarExecuteCommand(ToolItem: TKASToolItem);

@@ -2978,6 +2978,10 @@ msgstr "Miniaturas"
 msgid "Thumbnails View"
 msgstr "Vista Miniaturas"
 
+#: tfrmmain.acttogglefullscreenconsole.caption
+msgid "Toggle fullscreen mode console"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Transferir directorio bajo cursor a la izquierda"

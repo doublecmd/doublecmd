@@ -265,6 +265,7 @@ type
    procedure cm_RenameOnly(const Params: array of string);
    procedure cm_RunTerm(const Params: array of string);
    procedure cm_ShowCmdLineHistory(const Params: array of string);
+   procedure cm_ToggleFullscreenConsole(const Params: array of string);
    procedure cm_CalculateSpace(const Params: array of string);
    procedure cm_CountDirContent(const Params: array of string);
    procedure cm_SetFileProperties(const Params: array of string);
@@ -2990,6 +2991,18 @@ begin
       edtCommand.SetFocus;
       if edtCommand.Items.Count>0 then
         edtCommand.DroppedDown:=True;
+    end;
+  end;
+end;
+
+procedure TMainCommands.cm_ToggleFullscreenConsole(const Params: array of string);
+begin
+  with frmMain do
+  begin
+    ToggleFullscreenConsole;
+    if IsCommandLineVisible then
+    begin
+      edtCommand.SetFocus;
     end;
   end;
 end;
