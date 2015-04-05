@@ -1,13 +1,15 @@
 inherited frmOptionsFonts: TfrmOptionsFonts
-  Height = 351
+  Height = 480
   Width = 703
-  ClientHeight = 351
+  ClientHeight = 480
   ClientWidth = 703
+  DesignLeft = 397
+  DesignTop = 90
   object lblMainFont: TLabel[0]
     Left = 6
-    Height = 13
+    Height = 15
     Top = 8
-    Width = 45
+    Width = 52
     Caption = 'Main &font'
     FocusControl = edtMainFont
     ParentColor = False
@@ -16,9 +18,9 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtMainFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 13
-    Top = 58
-    Width = 51
+    Height = 15
+    Top = 62
+    Width = 56
     BorderSpacing.Top = 10
     Caption = '&Editor font'
     FocusControl = edtEditorFont
@@ -28,9 +30,9 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtEditorFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 13
-    Top = 108
-    Width = 55
+    Height = 15
+    Top = 116
+    Width = 60
     BorderSpacing.Top = 10
     Caption = '&Viewer font'
     FocusControl = edtViewerFont
@@ -43,8 +45,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtMainFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 21
-    Top = 27
+    Height = 23
+    Top = 29
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 8
@@ -57,8 +59,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelMainFnt
     Left = 596
-    Height = 21
-    Top = 27
+    Height = 23
+    Top = 29
     Width = 55
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
@@ -74,8 +76,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtMainFontSize
     Left = 6
-    Height = 21
-    Top = 27
+    Height = 23
+    Top = 29
     Width = 586
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -90,8 +92,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtEditorFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 21
-    Top = 77
+    Height = 23
+    Top = 83
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.InnerBorder = 4
@@ -105,8 +107,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtEditorFontSize
     Left = 6
-    Height = 21
-    Top = 77
+    Height = 23
+    Top = 83
     Width = 586
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -119,8 +121,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelEditFnt
     Left = 596
-    Height = 21
-    Top = 77
+    Height = 23
+    Top = 83
     Width = 55
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
@@ -137,8 +139,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtViewerFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 21
-    Top = 127
+    Height = 23
+    Top = 137
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.InnerBorder = 4
@@ -152,8 +154,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtViewerFontSize
     Left = 6
-    Height = 21
-    Top = 127
+    Height = 23
+    Top = 137
     Width = 585
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -166,8 +168,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelViewFnt
     Left = 595
-    Height = 21
-    Top = 127
+    Height = 23
+    Top = 137
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
@@ -182,9 +184,9 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtViewerBookFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 13
-    Top = 208
-    Width = 40
+    Height = 15
+    Top = 224
+    Width = 45
     BorderSpacing.Top = 10
     Caption = '&Log font'
     FocusControl = edtLogFont
@@ -196,8 +198,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtLogFontSize
     Left = 6
-    Height = 21
-    Top = 227
+    Height = 23
+    Top = 245
     Width = 585
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -212,8 +214,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtLogFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 21
-    Top = 227
+    Height = 23
+    Top = 245
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.InnerBorder = 4
@@ -226,8 +228,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelLogFnt
     Left = 595
-    Height = 21
-    Top = 227
+    Height = 23
+    Top = 245
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
@@ -242,9 +244,9 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtViewerFont
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 13
-    Top = 158
-    Width = 80
+    Height = 15
+    Top = 170
+    Width = 89
     BorderSpacing.Top = 10
     Caption = 'Viewer&Book Font'
     FocusControl = edtViewerBookFont
@@ -256,8 +258,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtViewerBookFontSize
     Left = 6
-    Height = 21
-    Top = 177
+    Height = 23
+    Top = 191
     Width = 585
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -270,8 +272,8 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelViewerBookFnt
     Left = 595
-    Height = 21
-    Top = 177
+    Height = 23
+    Top = 191
     Width = 56
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
@@ -288,15 +290,75 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideBottom.Control = edtViewerBookFontSize
     AnchorSideBottom.Side = asrBottom
     Left = 655
-    Height = 21
-    Top = 177
+    Height = 23
+    Top = 191
     Width = 40
     Anchors = [akTop, akRight, akBottom]
     Caption = '...'
     OnClick = btnSelViewerBookFntClick
     TabOrder = 11
   end
-  object dlgFnt: TFontDialog[20]
+  object btnSelConsoleFnt: TButton[20]
+    AnchorSideTop.Control = edtConsoleFontSize
+    AnchorSideRight.Control = btnSelViewerBookFnt
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = edtConsoleFontSize
+    AnchorSideBottom.Side = asrBottom
+    Left = 655
+    Height = 23
+    Top = 299
+    Width = 40
+    Anchors = [akTop, akRight, akBottom]
+    BorderSpacing.InnerBorder = 4
+    Caption = '...'
+    OnClick = btnSelConsoleFntClick
+    TabOrder = 15
+  end
+  object edtConsoleFontSize: TSpinEdit[21]
+    AnchorSideTop.Control = edtConsoleFont
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = btnSelConsoleFnt
+    Left = 595
+    Height = 23
+    Top = 299
+    Width = 56
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    MaxValue = 99
+    MinValue = 6
+    OnChange = edtConsoleFontSizeChange
+    TabOrder = 16
+    Value = 14
+  end
+  object edtConsoleFont: TEdit[22]
+    AnchorSideLeft.Control = lblConsoleFont
+    AnchorSideTop.Control = lblConsoleFont
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtConsoleFontSize
+    Left = 6
+    Height = 23
+    Top = 299
+    Width = 585
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 4
+    OnExit = edtLogFontExit
+    TabOrder = 17
+  end
+  object lblConsoleFont: TLabel[23]
+    AnchorSideLeft.Control = edtViewerFont
+    AnchorSideTop.Control = edtLogFont
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 278
+    Width = 68
+    BorderSpacing.Top = 10
+    Caption = '&Console font'
+    FocusControl = edtConsoleFont
+    ParentColor = False
+  end
+  object dlgFnt: TFontDialog[24]
     MinFontSize = 0
     MaxFontSize = 0
     Options = [fdNoStyleSel]

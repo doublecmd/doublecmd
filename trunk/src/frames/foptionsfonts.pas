@@ -37,6 +37,7 @@ type
   TfrmOptionsFonts = class(TOptionsEditor)
     btnSelEditFnt: TButton;
     btnSelLogFnt: TButton;
+    btnSelConsoleFnt: TButton;
     btnSelMainFnt: TButton;
     btnSelViewerBookFnt: TButton;
     btnSelViewFnt: TButton;
@@ -44,7 +45,9 @@ type
     edtEditorFont: TEdit;
     edtEditorFontSize: TSpinEdit;
     edtLogFont: TEdit;
+    edtConsoleFont: TEdit;
     edtLogFontSize: TSpinEdit;
+    edtConsoleFontSize: TSpinEdit;
     edtMainFont: TEdit;
     edtMainFontSize: TSpinEdit;
     edtViewerBookFont: TEdit;
@@ -53,14 +56,17 @@ type
     edtViewerFontSize: TSpinEdit;
     lblEditorFont: TLabel;
     lblLogFont: TLabel;
+    lblConsoleFont: TLabel;
     lblMainFont: TLabel;
     lblViewerBookFont: TLabel;
     lblViewerFont: TLabel;
+    procedure btnSelConsoleFntClick(Sender: TObject);
     procedure btnSelEditFntClick(Sender: TObject);
     procedure btnSelMainFntClick(Sender: TObject);
     procedure btnSelViewFntClick(Sender: TObject);
     procedure btnSelLogFntClick(Sender: TObject);
     procedure btnSelViewerBookFntClick(Sender: TObject);
+    procedure edtConsoleFontSizeChange(Sender: TObject);
     procedure edtEditorFontExit(Sender: TObject);
     procedure edtEditorFontSizeChange(Sender: TObject);
     procedure edtLogFontExit(Sender: TObject);
@@ -108,6 +114,11 @@ begin
   RunDialogFont(dcfEditor);
 end;
 
+procedure TfrmOptionsFonts.btnSelConsoleFntClick(Sender: TObject);
+begin
+  RunDialogFont(dcfConsole);
+end;
+
 procedure TfrmOptionsFonts.btnSelViewFntClick(Sender: TObject);
 begin
   RunDialogFont(dcfViewer);
@@ -116,6 +127,11 @@ end;
 procedure TfrmOptionsFonts.btnSelViewerBookFntClick(Sender: TObject);
 begin
   RunDialogFont(dcfViewerBook);
+end;
+
+procedure TfrmOptionsFonts.edtConsoleFontSizeChange(Sender: TObject);
+begin
+  SetFontSize(dcfConsole, TSpinEdit(Sender).Value);
 end;
 
 procedure TfrmOptionsFonts.btnSelLogFntClick(Sender: TObject);
@@ -190,6 +206,7 @@ begin
   LoadFont(dcfViewer);
   LoadFont(dcfLog);
   LoadFont(dcfViewerBook);
+  LoadFont(dcfConsole);
 end;
 
 function TfrmOptionsFonts.Save: TOptionsEditorSaveFlags;
@@ -200,6 +217,7 @@ begin
   SaveFont(dcfViewer);
   SaveFont(dcfLog);
   SaveFont(dcfViewerBook);
+  SaveFont(dcfConsole);
 end;
 
 procedure TfrmOptionsFonts.LoadFont(aDCFont: TDCFont);
@@ -247,6 +265,11 @@ begin
       edtViewerBookFont.Text := aFont.Name;
       edtViewerBookFontSize.Value := aFont.Size;
     end;
+    dcfConsole: begin
+      edtConsoleFont.Font := aFont;
+      edtConsoleFont.Text := aFont.Name;
+      edtConsoleFontSize.Value := aFont.Size;
+    end;
   end;
 end;
 
@@ -263,19 +286,24 @@ end;
 function TfrmOptionsFonts.GetFont(aDCFont: TDCFont): TFont;
 begin
   case aDCFont of
-    dcfMain      : result := edtMainFont.Font;
-    dcfEditor    : result := edtEditorFont.Font;
-    dcfViewer    : result := edtViewerFont.Font;
-    dcfLog       : result := edtLogFont.Font;
-    dcfViewerBook: result := edtViewerBookFont.Font;
-    else result:=nil; //TODO: show error for programmer
+    dcfMain      : Result := edtMainFont.Font;
+    dcfEditor    : Result := edtEditorFont.Font;
+    dcfViewer    : Result := edtViewerFont.Font;
+    dcfLog       : Result := edtLogFont.Font;
+    dcfViewerBook: Result := edtViewerBookFont.Font;
+    dcfConsole   : Result := edtConsoleFont.Font;
+    else Result  := nil; // TODO: show error for programmer
   end;
 end;
 
 procedure TfrmOptionsFonts.RunDialogFont(aDCFont: TDCFont);
 begin
   dlgFnt.Font := GetFont(aDCFont);
+  if not (aDCFont in [dcfMain, dcfViewerBook]) then begin
+    dlgFnt.Options:= dlgFnt.Options + [fdFixedPitchOnly];
+  end;
   if dlgFnt.Execute then SetFont(aDCFont, dlgFnt.Font);
+  dlgFnt.Options:= dlgFnt.Options - [fdFixedPitchOnly];
 end;
 
 
