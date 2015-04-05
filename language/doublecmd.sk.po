@@ -5468,6 +5468,12 @@ msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
 msgid "Category &name:"
 msgstr "Názov kategórie:"
 
+#: tfrmoptionsfonts.btnselconsolefnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmoptionsfonts.btnseleditfnt.caption
 msgctxt "tfrmoptionsfonts.btnseleditfnt.caption"
 msgid "..."
@@ -5492,6 +5498,10 @@ msgstr "..."
 msgctxt "tfrmoptionsfonts.btnselviewfnt.caption"
 msgid "..."
 msgstr "..."
+
+#: tfrmoptionsfonts.lblconsolefont.caption
+msgid "&Console font"
+msgstr ""
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 #, fuzzy

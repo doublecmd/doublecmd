@@ -5534,6 +5534,11 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category &name:"
 msgstr "&Nombre categoría:"
 
+#: tfrmoptionsfonts.btnselconsolefnt.caption
+msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
+msgid "..."
+msgstr ""
+
 #: tfrmoptionsfonts.btnseleditfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -5557,6 +5562,10 @@ msgstr ""
 #: tfrmoptionsfonts.btnselviewfnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
+msgstr ""
+
+#: tfrmoptionsfonts.lblconsolefont.caption
+msgid "&Console font"
 msgstr ""
 
 #: tfrmoptionsfonts.lbleditorfont.caption
