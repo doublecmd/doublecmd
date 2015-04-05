@@ -2710,6 +2710,10 @@ msgstr "Anteprime"
 msgid "Thumbnails View"
 msgstr "Visualizza anteprime"
 
+#: tfrmmain.acttogglefullscreenconsole.caption
+msgid "Toggle fullscreen mode console"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Trasferisci cartella evidenziata dal cursore nella finestra di sinistra"
@@ -5923,7 +5927,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption

@@ -2702,6 +2702,10 @@ msgstr ""
 msgid "Thumbnails View"
 msgstr ""
 
+#: tfrmmain.acttogglefullscreenconsole.caption
+msgid "Toggle fullscreen mode console"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr ""

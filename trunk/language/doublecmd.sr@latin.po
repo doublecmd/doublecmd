@@ -2710,6 +2710,10 @@ msgstr "Umanjene sličice"
 msgid "Thumbnails View"
 msgstr "Pregled umanjenih sličica"
 
+#: tfrmmain.acttogglefullscreenconsole.caption
+msgid "Toggle fullscreen mode console"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Premesti fasciklu pod pokazivačem na levi prozor"
@@ -5925,7 +5929,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption

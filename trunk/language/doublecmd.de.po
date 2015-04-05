@@ -3017,6 +3017,10 @@ msgstr "Vorschaubilder"
 msgid "Thumbnails View"
 msgstr "Ansicht \"Vorschaubilder\""
 
+#: tfrmmain.acttogglefullscreenconsole.caption
+msgid "Toggle fullscreen mode console"
+msgstr ""
+
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
 msgstr "Bewege markierten &Ordner in das linke Fenster"
