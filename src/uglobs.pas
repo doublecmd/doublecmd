@@ -77,7 +77,7 @@ type
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
   TResultingFramePositionAfterCompare = (rfpacActiveOnLeft, rfpacLeftOnLeft);
 
-  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook);
+  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole);
   TDCFontOptions = record
     Name: String;
     Size: Integer;
@@ -1122,6 +1122,9 @@ begin
   gFonts[dcfViewerBook].Name := 'default';
   gFonts[dcfViewerBook].Size := 16;
   gFonts[dcfViewerBook].Style := [fsBold];
+  gFonts[dcfConsole].Name := MonoSpaceFont;
+  gFonts[dcfConsole].Size := 12;
+  gFonts[dcfConsole].Style := [];
 
   { Colors page }
   gForeColor := clWindowText;
@@ -2136,6 +2139,7 @@ begin
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer'), gFonts[dcfViewer]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Log'), gFonts[dcfLog]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook'), gFonts[dcfViewerBook]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/Console'), gFonts[dcfConsole]);
 
     { Colors page }
     Node := Root.FindNode('Colors');
@@ -2570,6 +2574,7 @@ begin
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer', True), gFonts[dcfViewer]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Log', True), gFonts[dcfLog]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook', True), gFonts[dcfViewerBook]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/Console', True), gFonts[dcfConsole]);
 
     { Colors page }
     Node := FindNode(Root, 'Colors', True);

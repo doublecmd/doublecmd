@@ -4108,6 +4108,7 @@ begin
         cmdConsole.Align:= alClient;
         cmdConsole.AutoFollow:= True;
         cmdConsole.LineCount:= 256;
+        FontOptionsToFont(gFonts[dcfConsole], cmdConsole.Font);
       end;
       if not Assigned(Cons) then
         begin
