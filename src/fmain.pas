@@ -4310,16 +4310,12 @@ begin
 
     (*Tool Bar*)
     MainToolBar.Visible:= gButtonBar;
-    if gButtonBar then
-      begin
-        MainToolBar.Flat:= gToolBarFlat;
-        MainToolBar.GlyphSize:= gToolBarIconSize;
-        MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
-
-        MainToolBar.ChangePath:= gpExePath;
-        MainToolBar.EnvVar:= '%commander_path%';
-        LoadMainToolbar;
-      end;
+    MainToolBar.Flat:= gToolBarFlat;
+    MainToolBar.GlyphSize:= gToolBarIconSize;
+    MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
+    MainToolBar.ChangePath:= gpExePath;
+    MainToolBar.EnvVar:= '%commander_path%';
+    LoadMainToolbar;
 
     btnLeftDrive.Visible := gDrivesListButton;
     btnLeftDrive.Flat := gInterfaceFlat;
