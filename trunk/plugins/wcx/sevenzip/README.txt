@@ -8,6 +8,10 @@ SevenZip plugin search 7z.dll in next places:
 
 2. Plugin directory
 
+                   \i386\7z.dll
+                   \x86_64\7z.dll
+                   \7z.dll
+
 3. Commander directory
 
 4. Windows system directory
