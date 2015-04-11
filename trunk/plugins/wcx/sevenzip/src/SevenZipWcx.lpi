@@ -35,8 +35,8 @@
             <Filename Value="..\sevenzip.wcx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir);jcl\include;jcl\include\jedi"/>
-            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows"/>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
           <Parsing>
@@ -64,11 +64,7 @@
             </Options>
           </Linking>
           <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
             <CustomOptions Value="-dUNICODE_CTRLS"/>
-            <CompilerPath Value="$(CompPath)"/>
           </Other>
         </CompilerOptions>
       </Item2>
@@ -124,8 +120,8 @@
       <Filename Value="..\sevenzip.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);jcl\include;jcl\include\jedi"/>
-      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>
@@ -149,11 +145,7 @@
       </Options>
     </Linking>
     <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
       <CustomOptions Value="-dUNICODE_CTRLS"/>
-      <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
   <Debugging>

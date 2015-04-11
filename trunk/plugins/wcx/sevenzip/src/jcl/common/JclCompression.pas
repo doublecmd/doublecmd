@@ -44,8 +44,7 @@
 
 unit JclCompression;
 
-{$I jcl.inc}
-{$I crossplatform.inc}
+{$mode delphi}
 
 interface
 
@@ -78,8 +77,7 @@ uses
   {$IFNDEF FPC}
   zlibh, bzip2,
   {$ENDIF FPC}
-  JclWideStrings, JclBase, JclStreams,
-  LazUTF8Classes, LazFileUtils;
+  DCJclAlternative; // Must be after Classes, SysUtils, Windows
 
 {$IFDEF RTL230_UP}
 {$HPPEMIT '// To avoid ambiguity with System::Zlib::z_stream_s we force using ours'}
@@ -2222,8 +2220,7 @@ const
 implementation
 
 uses
-  JclUnicode, // WideSameText
-  JclDateTime, JclFileUtils, JclResources, JclStrings, JclSysUtils;
+  DCJclResources;
 
 const
   JclDefaultBufferSize = 131072; // 128k
@@ -3770,25 +3767,25 @@ begin
   Result := nil;
   case StreamAccess of
     saCreate:
-      Result := TFileStreamUTF8.Create(FileName, fmCreate);
+      Result := TFileStream.Create(FileName, fmCreate);
     saReadOnly:
-      if FileExistsUTF8(FileName) then
-        Result := TFileStreamUTF8.Create(FileName, fmOpenRead or fmShareDenyWrite);
+      if FileExists(FileName) then
+        Result := TFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
     saReadOnlyDenyNone:
-      if FileExistsUTF8(FileName) then
-        Result := TFileStreamUTF8.Create(FileName, fmOpenRead or fmShareDenyNone);
+      if FileExists(FileName) then
+        Result := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
     saWriteOnly:
-      if FileExistsUTF8(FileName) then
-        Result := TFileStreamUTF8.Create(FileName, fmOpenWrite)
+      if FileExists(FileName) then
+        Result := TFileStream.Create(FileName, fmOpenWrite)
       else
       if FileName <> '' then
-        Result := TFileStreamUTF8.Create(FileName, fmCreate);
+        Result := TFileStream.Create(FileName, fmCreate);
     saReadWrite:
-      if FileExistsUTF8(FileName) then
-        Result := TFileStreamUTF8.Create(FileName, fmOpenReadWrite)
+      if FileExists(FileName) then
+        Result := TFileStream.Create(FileName, fmOpenReadWrite)
       else
       if FileName <> '' then
-        Result := TFileStreamUTF8.Create(FileName, fmCreate);
+        Result := TFileStream.Create(FileName, fmCreate);
   end;
 end;
 
@@ -3803,7 +3800,7 @@ end;
 
 function TJclCompressionItem.DeleteOutputFile: Boolean;
 begin
-  Result := (FFileName <> '') and FileExistsUTF8(FFileName) and DeleteFileUTF8(FFileName);
+  Result := (FFileName <> '') and FileExists(FFileName) and FileDelete(FFileName);
 end;
 
 destructor TJclCompressionItem.Destroy;
@@ -3907,7 +3904,7 @@ end;
 function TJclCompressionItem.GetNestedArchiveName: WideString;
 var
   ParentArchiveExtension, ArchiveFileName, ArchiveExtension: WideString;
-  ExtensionMap: TJclWideStrings;
+  ExtensionMap: TStrings;
 begin
   if ipPackedName in ValidProperties then
     Result := PackedName
@@ -3934,7 +3931,7 @@ begin
     else
     if ArchiveFileName <> '' then
     begin
-      ExtensionMap := TJclWideStringList.Create;
+      ExtensionMap := TStringList.Create;
       try
         ExtensionMap.Delimiter := ';';
         ExtensionMap.DelimitedText := Archive.ArchiveSubExtensions;
@@ -4070,7 +4067,7 @@ begin
   end;
 
   if (Value <> '') and (FArchive is TJclCompressionArchive)
-    and GetFileAttributesExW(PWideChar(UTF8Decode(Value)), GetFileExInfoStandard, @AFindData) then
+    and GetFileAttributesEx(PChar(Value), GetFileExInfoStandard, @AFindData) then
   begin
     FileSize := (Int64(AFindData.nFileSizeHigh) shl 32) or AFindData.nFileSizeLow;
     Attributes := AFindData.dwFileAttributes;
@@ -4224,7 +4221,7 @@ begin
   Result := FFileName <> '';
   if Result then
   begin
-    FileHandle := CreateFileW(PWideChar(UTF8Decode(FFileName)), FILE_WRITE_ATTRIBUTES, FILE_SHARE_READ, nil, OPEN_ALWAYS, 0, 0);
+    FileHandle := CreateFile(PChar(FFileName), FILE_WRITE_ATTRIBUTES, FILE_SHARE_READ, nil, OPEN_ALWAYS, 0, 0);
     try
       // creation time should be the oldest
       if ipCreationTime in FValidProperties then
@@ -5534,7 +5531,7 @@ begin
             FreeAndNil(SrcStream);
           if OwnsDestStream then
             FreeAndNil(DestStream);
-          Handled := MoveFileExW(PWideChar(UTF8Decode(SrcFileName)), PWideChar(UTF8Decode(DestFileName)), MOVEFILE_REPLACE_EXISTING);
+          Handled := FileMove(SrcFileName, DestFileName, True);
         end
         else
         if (SrcFileName = '') and (DestFileName = '') and Assigned(SrcStream) and Assigned(DestStream) then

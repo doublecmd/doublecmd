@@ -53,10 +53,11 @@
 
 unit sevenzip;
 
+{$mode delphi}
+
 interface
 
-{$I jcl.inc}
-{$I windowsonly.inc}
+{$DEFINE 7ZIP_LINKONREQUEST}
 
 uses
   {$IFDEF HAS_UNITSCOPE}
@@ -67,8 +68,7 @@ uses
   {$IFDEF UNITVERSIONING}
   JclUnitVersioning,
   {$ENDIF UNITVERSIONING}
-  JclBase,
-  JclSysUtils;
+  DCJclAlternative;
 
 //DOM-IGNORE-BEGIN
 

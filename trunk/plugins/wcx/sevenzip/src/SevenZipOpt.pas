@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin, compression options
 
-  Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -277,7 +277,11 @@ var
   end;
 
 begin
-  OutArchive:= (AJclArchive as TJclSevenzipCompressArchive).OutArchive;
+  if AJclArchive is TJclSevenzipCompressArchive then
+    OutArchive:= (AJclArchive as TJclSevenzipCompressArchive).OutArchive
+  else begin
+    OutArchive:= (AJclArchive as TJclSevenzipUpdateArchive).OutArchive
+  end;
   if Supports(OutArchive, SevenZip.ISetProperties, PropertySetter) and Assigned(PropertySetter) then
   begin
     // Set word size parameter
@@ -325,7 +329,11 @@ var
   MultiThreadStrategy: IJclArchiveNumberOfThreads;
   CompressionMethod: IJclArchiveCompressionMethod;
 begin
-  ArchiveCLSID:= (AJclArchive as TJclSevenzipCompressArchive).ArchiveCLSID;
+  if AJclArchive is TJclSevenzipCompressArchive then
+    ArchiveCLSID:= (AJclArchive as TJclSevenzipCompressArchive).ArchiveCLSID
+  else begin
+    ArchiveCLSID:= (AJclArchive as TJclSevenzipUpdateArchive).ArchiveCLSID
+  end;
   for Index:= Low(PluginConfig) to High(PluginConfig) do
   begin
     if IsEqualGUID(ArchiveCLSID, PluginConfig[Index].ArchiveCLSID^) then
