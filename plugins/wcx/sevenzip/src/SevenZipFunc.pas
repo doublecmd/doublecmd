@@ -412,10 +412,18 @@ var
 begin
   // Save configuration file name
   ConfigFile:= ExtractFilePath(dps^.DefaultIniName) + 'sevenzip.ini';
-  // Load library from plugin path
-  if GetModulePath(ModulePath) and FileExists(ModulePath + SevenzipDefaultLibraryName) then
+  // Load plugin configuration
+  LoadConfiguration;
+  // Try to find library path
+  if FileExists(LibraryPath) then
+    SevenzipLibraryName:= LibraryPath
+  else if GetModulePath(ModulePath) then
   begin
-    SevenzipLibraryName:= ModulePath + SevenzipDefaultLibraryName;
+    if FileExists(ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName) then
+      SevenzipLibraryName:= ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName
+    else if FileExists(ModulePath + SevenzipDefaultLibraryName) then begin
+      SevenzipLibraryName:= ModulePath + SevenzipDefaultLibraryName;
+    end;
   end;
   // Process Xz files as archives
   GetArchiveFormats.RegisterFormat(TJclXzDecompressArchive);
@@ -429,8 +437,6 @@ begin
   begin
     MessageBoxW(0, PWideChar(UTF8Decode(rsSevenZipLoadError)), 'SevenZip', MB_OK or MB_ICONERROR);
   end;
-  // Load plugin configuration
-  LoadConfiguration;
 end;
 
 procedure ConfigurePacker(Parent: WcxPlugin.HWND; DllInstance: THandle); stdcall;
