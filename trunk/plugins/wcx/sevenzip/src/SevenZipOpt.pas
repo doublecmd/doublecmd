@@ -135,6 +135,9 @@ const
     cMega * 64
   );
 
+const
+  TargetCPU = {$I %FPCTARGETCPU%}; // Target CPU of FPC
+
 type
 
   TArchiveFormat = (afSevenZip, afBzip2, afGzip, afTar, afWim, afXz, afZip);
@@ -167,6 +170,7 @@ procedure SaveConfiguration;
 
 var
   ConfigFile: AnsiString;
+  LibraryPath: AnsiString;
 
 const
   ArchiveExtension: array[TArchiveFormat] of WideString =
@@ -381,6 +385,7 @@ begin
   try
     Ini:= TIniFile.Create(ConfigFile);
     try
+      LibraryPath:= Ini.ReadString(TargetCPU, 'LibraryPath', EmptyStr);
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);
