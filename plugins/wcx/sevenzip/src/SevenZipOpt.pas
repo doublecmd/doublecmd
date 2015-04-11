@@ -385,7 +385,7 @@ begin
   try
     Ini:= TIniFile.Create(ConfigFile);
     try
-      LibraryPath:= Ini.ReadString(TargetCPU, 'LibraryPath', EmptyStr);
+      LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);
