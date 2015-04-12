@@ -282,6 +282,7 @@ begin
   begin
     Archive := AFormats[I].Create(FileNameUTF8, 0, False);
     try
+      Archive.Tag:= @ProcessDataProcT;
       AProgress:= TSevenZipUpdate.Create;
       Archive.OnPassword:= AProgress.JclCompressionPassword;
       Archive.OnProgress:= AProgress.JclCompressionProgress;
@@ -360,6 +361,7 @@ begin
   begin
     Archive := AFormats[I].Create(FileNameUTF8, 0, False);
     try
+      Archive.Tag:= @ProcessDataProcT;
       AProgress:= TSevenZipUpdate.Create;
       Archive.OnPassword:= AProgress.JclCompressionPassword;
       Archive.OnProgress:= AProgress.JclCompressionProgress;
@@ -459,13 +461,15 @@ procedure TSevenZipUpdate.JclCompressionProgress(Sender: TObject; const Value,
   MaxValue: Int64);
 var
   Percent: Int64;
+  ProcessDataProc: TProcessDataProcW;
   Archive: TJclUpdateArchive absolute Sender;
 begin
-  if Assigned(ProcessDataProcT) then
+  if Assigned(Archive.Tag) then
   begin
     Percent:= 1000 + (Value * 100) div MaxValue;
+    ProcessDataProc:= TProcessDataProcW(Archive.Tag);
     // If the user has clicked on Cancel, the function returns zero
-    Archive.CancelCurrentOperation:= ProcessDataProcT(PWideChar(Archive.Items[Archive.CurrentItemIndex].PackedName), -Percent) = 0;
+    Archive.CancelCurrentOperation:= ProcessDataProc(PWideChar(Archive.Items[Archive.CurrentItemIndex].PackedName), -Percent) = 0;
   end;
 end;
 
