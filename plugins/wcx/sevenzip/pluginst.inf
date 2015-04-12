@@ -1,0 +1,6 @@
+[plugininstall] 
+description=SevenZip archiver plugin
+type=wcx 
+file=SevenZip.wcx
+defaultextension=7z
+defaultdir=SevenZip
