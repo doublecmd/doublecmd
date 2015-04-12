@@ -401,6 +401,10 @@ var
 
   gUseShellForFileOperations: Boolean;
 
+  crArrowCopy: Integer = 1;
+  crArrowMove: Integer = 2;
+  crArrowLink: Integer = 3;
+
   { TotalCommander Import/Export }
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename:string;

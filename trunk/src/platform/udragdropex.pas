@@ -165,6 +165,7 @@ type
     and returns the appropriate drop effect. }
   function GetDropEffectByKeyAndMouse(ShiftState: TShiftState;
                                       MouseButton: TMouseButton): TDropEffect;
+  function GetDropEffectByKey(ShiftState: TShiftState): TDropEffect;
 
 var
   { If set to True, then dragging is being transformed: internal to external or vice-versa. }
@@ -379,23 +380,27 @@ begin
 {$ENDIF}
 end;
 
+function GetDropEffectByKey(ShiftState: TShiftState): TDropEffect;
+begin
+  ShiftState := [ssCtrl, ssShift, ssAlt] * ShiftState;
+  if ShiftState = [] then
+    Result := DropCopyEffect   // default to Copy when no keys pressed
+  else if ShiftState = [ssShift] then
+    Result := DropMoveEffect
+  else if ShiftState = [ssCtrl] then
+    Result := DropMoveEffect
+  else if ShiftState = [ssCtrl, ssShift] then
+    Result := DropLinkEffect
+  else
+    Result := DropNoEffect;    // some other key combination pressed
+end;
+
 function GetDropEffectByKeyAndMouse(ShiftState: TShiftState;
                                     MouseButton: TMouseButton): TDropEffect;
 begin
   case MouseButton of
     mbLeft:
-      begin
-        if ShiftState = [] then
-          Result := DropCopyEffect   // default to Copy when no keys pressed
-        else if ShiftState = [ssShift] then
-          Result := DropMoveEffect
-        else if ShiftState = [ssCtrl] then
-          Result := DropCopyEffect
-        else if ShiftState = [ssCtrl, ssShift] then
-          Result := DropLinkEffect
-        else
-          Result := DropNoEffect;    // some other key combination pressed
-      end;
+      Result := GetDropEffectByKey(ShiftState);
 
     mbMiddle:
       Result := DropAskEffect;

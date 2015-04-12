@@ -152,6 +152,7 @@ type
                                   var DropParams: TDropParams); override;
     function Focused: Boolean; override;
     procedure SetFocus; override;
+    procedure SetDragCursor(Shift: TShiftState); override;
 
   published
     procedure cm_RenameOnly(const Params: array of string);
@@ -580,6 +581,7 @@ var
   AtFileList: Boolean;
   AFile, APreviousFile: TDisplayFile;
 begin
+  SetDragCursor(Shift);
   FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
   if not AtFileList then
     Exit;
@@ -711,6 +713,7 @@ var
   AtFileList: Boolean;
   SelStartIndex, SelEndIndex: Integer;
 begin
+  SetDragCursor(Shift);
   if FMainControlMouseDown and MainControl.Dragging then
   begin
     // If dragging has started then clear MouseDown flag.
@@ -1030,6 +1033,27 @@ begin
     inherited SetFocus;
     MainControl.SetFocus;
   end;
+end;
+
+procedure TFileViewWithMainCtrl.SetDragCursor(Shift: TShiftState);
+var
+  DropEffect: TDropEffect;
+begin
+  if (DragManager <> nil) and DragManager.IsDragging then
+    begin
+      DropEffect := GetDropEffectByKey(Shift);
+
+      if DropEffect = DropMoveEffect then
+        TControlHandlersHack(MainControl).DragCursor:= crArrowMove
+      else if DropEffect = DropLinkEffect then
+        TControlHandlersHack(MainControl).DragCursor:= crArrowLink
+      else if DropEffect = DropCopyEffect then
+        TControlHandlersHack(MainControl).DragCursor:= crArrowCopy
+      else
+        TControlHandlersHack(MainControl).DragCursor:= crDrag;
+    end
+  else
+    TControlHandlersHack(MainControl).DragCursor:= crDrag;
 end;
 
 procedure TFileViewWithMainCtrl.cm_RenameOnly(const Params: array of string);
