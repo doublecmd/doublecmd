@@ -475,6 +475,7 @@ type
     procedure GoToPrevHistory;
     procedure GoToNextHistory;
 
+    procedure SetDragCursor(Shift: TShiftState); virtual; abstract;
     procedure SetFileFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
 
     property CurrentAddress: String read GetCurrentAddress;

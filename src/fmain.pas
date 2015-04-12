@@ -41,7 +41,7 @@ interface
 
 uses
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
-  Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls,
+  Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
@@ -453,6 +453,7 @@ type
     MainTrayIcon: TTrayIcon;
 
     procedure actExecute(Sender: TObject);
+    procedure FormKeyUp( Sender: TObject; var Key: Word; Shift: TShiftState) ;
     function MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
@@ -630,6 +631,7 @@ type
     procedure ToolbarExecuteProgram(ToolItem: TKASToolItem);
     procedure LeftDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure RightDriveBarExecuteDrive(ToolItem: TKASToolItem);
+    procedure SetDragCursor(Shift: TShiftState);
 
   public
     constructor Create(TheOwner: TComponent); override;
@@ -2342,6 +2344,10 @@ begin
   FMainSplitterPos := 50.0;
   inherited Create(TheOwner);
   FCommands := TMainCommands.Create(Self, actionLst);
+
+  Screen.Cursors[crArrowCopy] := LoadCursorFromLazarusResource('ArrowCopy');
+  Screen.Cursors[crArrowMove] := LoadCursorFromLazarusResource('ArrowMove');
+  Screen.Cursors[crArrowLink] := LoadCursorFromLazarusResource('ArrowLink');
 end;
 
 procedure TfrmMain.UpdateActionIcons();
@@ -3272,12 +3278,27 @@ begin
   end;
 end;
 
+procedure TfrmMain.SetDragCursor(Shift: TShiftState);
+begin
+  FrameLeft.SetDragCursor(Shift);
+  FrameRight.SetDragCursor(Shift);
+end;
+
+procedure TfrmMain.FormKeyUp( Sender: TObject; var Key: Word;
+  Shift: TShiftState) ;
+begin
+  SetDragCursor(Shift);
+end;
+
+
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
   ShiftEx : TShiftState;
   CmdText : UTF8String;
 begin
+  SetDragCursor(Shift);
+
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
      not FrameRight.Focused then
@@ -5502,6 +5523,7 @@ end;
 {$ENDIF}
 
 initialization
+  {$I DragCursors.lrs}
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
