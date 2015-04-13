@@ -1,15 +1,15 @@
 inherited frmOptionsBriefView: TfrmOptionsBriefView
-  Height = 147
+  Height = 289
   Width = 519
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 147
+  ClientHeight = 289
   ClientWidth = 519
   DesignLeft = 478
   DesignTop = 191
   object gbShowFileExt: TGroupBox[0]
     Left = 6
-    Height = 60
+    Height = 62
     Top = 6
     Width = 507
     Align = alTop
@@ -43,6 +43,79 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
       Width = 491
       Caption = 'ali&gned (with Tab)'
       TabOrder = 0
+    end
+  end
+  object gbColumns: TGroupBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbShowFileExt
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbShowFileExt
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 89
+    Top = 68
+    Width = 507
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Columns'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 2
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 69
+    ClientWidth = 503
+    TabOrder = 1
+    object rbUseAutoSize: TRadioButton
+      Left = 6
+      Height = 19
+      Top = 2
+      Width = 145
+      Caption = 'Auto'
+      Checked = True
+      TabOrder = 0
+      TabStop = True
+    end
+    object lblStub: TLabel
+      Left = 151
+      Height = 19
+      Top = 2
+      Width = 50
+      ParentColor = False
+    end
+    object rbUseFixedWidth: TRadioButton
+      Left = 6
+      Height = 23
+      Top = 21
+      Width = 145
+      Caption = 'Use fixed column width'
+      TabOrder = 1
+    end
+    object speUseFixedWidth: TSpinEdit
+      Left = 151
+      Height = 23
+      Top = 21
+      Width = 50
+      MaxValue = 1000
+      MinValue = 1
+      TabOrder = 2
+      Value = 1
+    end
+    object rbUseFixedCount: TRadioButton
+      Left = 6
+      Height = 23
+      Top = 44
+      Width = 145
+      Caption = 'Use fixed column count'
+      TabOrder = 3
+    end
+    object speUseFixedCount: TSpinEdit
+      Left = 151
+      Height = 23
+      Top = 44
+      Width = 50
+      MinValue = 1
+      TabOrder = 4
+      Value = 1
     end
   end
 end

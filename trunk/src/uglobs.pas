@@ -103,6 +103,8 @@ type
 
   tDuplicatedRename = (drLegacyWithCopy, drLikeWindows7, drLikeTC);
 
+  TBriefViewMode = (bvmFixedWidth, bvmFixedCount, bvmAutoSize);
+
 const
   { Default hotkey list version number }
   hkVersion     = 22;
@@ -235,6 +237,11 @@ var
   gHighlightUpdatedFiles: Boolean;
   gLastUsedPacker: String;
   gLastDoAnyCommand: String;
+
+  { Brief view page }
+  gBriefViewFixedWidth: Integer;
+  gBriefViewFixedCount: Integer;
+  gBriefViewMode: TBriefViewMode;
   gBriefViewFileExtAligned: Boolean;
 
   { Tools page }
@@ -1100,6 +1107,11 @@ begin
   gHighlightUpdatedFiles := True;
   gDriveBlackList := '';
   gDriveBlackListUnmounted := False;
+
+  { Brief view page }
+  gBriefViewFixedCount := 2;
+  gBriefViewFixedWidth := 100;
+  gBriefViewMode := bvmAutoSize;
   gBriefViewFileExtAligned := False;
 
   { Tools page }

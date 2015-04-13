@@ -135,7 +135,11 @@ var
   I, J, L, M: Integer;
 begin
   if not Assigned(FBriefView.FFiles) then Exit;
-  if FBriefView.FFiles.Count < 2 then
+  if gBriefViewMode = bvmFixedWidth then
+    DefaultColWidth:= Min(ClientWidth, gBriefViewFixedWidth)
+  else if gBriefViewMode = bvmFixedCount then
+    DefaultColWidth:= ClientWidth div Max(1, gBriefViewFixedCount)
+  else if FBriefView.FFiles.Count < 2 then
     DefaultColWidth:= ClientWidth div 3
   else
     begin
