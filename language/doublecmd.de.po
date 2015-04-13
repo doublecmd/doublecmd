@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-02-16 19:50+0100\n"
+"PO-Revision-Date: 2015-04-12 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3019,7 +3019,7 @@ msgstr "Ansicht \"Vorschaubilder\""
 
 #: tfrmmain.acttogglefullscreenconsole.caption
 msgid "Toggle fullscreen mode console"
-msgstr ""
+msgstr "Vollbild-Modus der Konsole umschalten"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
@@ -4260,7 +4260,7 @@ msgstr "Ausgerichtet (mit TAB)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
-msgstr "Ubnmittelbar hinter dem Dateinamen"
+msgstr "Unmittelbar hinter dem Dateinamen"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 #, fuzzy
@@ -5652,7 +5652,7 @@ msgstr "..."
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr ""
+msgstr "S&chriftart für die Konsole"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 #, fuzzy
@@ -5976,7 +5976,7 @@ msgstr "Zeige kurze Information zum freien Speicherp&latz"
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
 msgid "Show &status bar"
-msgstr "&Stausleiste zeigen"
+msgstr "&Statusleiste zeigen"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
 #, fuzzy
