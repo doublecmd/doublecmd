@@ -1262,6 +1262,18 @@ begin
     VK_DOWN:
       Key := 0;
 {$ENDIF}
+
+{$IFDEF LCLWIN32}
+    // Workaround for Win32 - right arrow must clear selection at first move.
+    VK_RIGHT:
+      if (Shift = []) and (edtRename.SelLength > 0) then
+      begin
+        Key := edtRename.CaretPos.X;
+        edtRename.SelLength := 0;
+        edtRename.CaretPos := Classes.Point(Key, 0);
+        Key := 0;
+      end;
+{$ENDIF}
   end;
 end;
 
