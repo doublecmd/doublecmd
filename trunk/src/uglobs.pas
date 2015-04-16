@@ -121,7 +121,8 @@ const
   //       changed Behaviours/SortNatural to FilesViews/Sorting/NaturalSorting
   // 6   - changed Behaviours/ShortFileSizeFormat to Behaviours/FileSizeFormat
   // 7   - changed Viewer/SaveThumbnails to Thumbnails/Save
-  ConfigVersion = 7;
+  // 8   - changed Behaviours/BriefViewFileExtAligned to FilesViews/BriefView/FileExtAligned
+  ConfigVersion = 8;
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
@@ -2123,7 +2124,6 @@ begin
       gWheelScrollLines:= GetValue(Node, 'Mouse/WheelScrollLines', gWheelScrollLines);
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
-      gBriefViewFileExtAligned := GetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
       gDateTimeFormat := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormat), DefaultDateTimeFormat);
       gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
@@ -2137,6 +2137,9 @@ begin
       gHighlightUpdatedFiles := GetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
       gDriveBlackList := GetValue(Node, 'DriveBlackList', gDriveBlackList);
       gDriveBlackListUnmounted := GetValue(Node, 'DriveBlackListUnmounted', gDriveBlackListUnmounted);
+      if LoadedConfigVersion < 8 then begin
+        gBriefViewFileExtAligned := GetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
+      end;
     end;
 
     { Tools page }
@@ -2247,6 +2250,18 @@ begin
         gSortFolderMode:= TSortFolderMode(GetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode)));
         gNewFilesPosition := TNewFilesPosition(GetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition)));
         gUpdatedFilesPosition := TUpdatedFilesPosition(GetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition)));
+      end;
+      SubNode := Node.FindNode('BriefView');
+      if Assigned(SubNode) then
+      begin
+        gBriefViewFileExtAligned := GetValue(SubNode, 'FileExtAligned', gBriefViewFileExtAligned);
+        SubNode := SubNode.FindNode('Columns');
+        if Assigned(SubNode) then
+        begin
+          gBriefViewFixedWidth := GetValue(SubNode, 'FixedWidth', gBriefViewFixedWidth);
+          gBriefViewFixedCount := GetValue(SubNode, 'FixedCount', gBriefViewFixedCount);
+          gBriefViewMode := TBriefViewMode(GetValue(SubNode, 'AutoSize', Integer(gBriefViewMode)));
+        end;
       end;
     end;
 
@@ -2559,7 +2574,6 @@ begin
     SetValue(SubNode, 'WheelScrollLines', gWheelScrollLines);
     SetValue(Node, 'AutoFillColumns', gAutoFillColumns);
     SetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
-    SetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
     SetValue(Node, 'DateTimeFormat', gDateTimeFormat);
     SetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
     SetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
@@ -2655,6 +2669,12 @@ begin
     SetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode));
     SetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition));
     SetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition));
+    SubNode := FindNode(Node, 'BriefView', True);
+    SetValue(SubNode, 'FileExtAligned', gBriefViewFileExtAligned);
+    SubNode := FindNode(SubNode, 'Columns', True);
+    SetValue(SubNode, 'FixedWidth', gBriefViewFixedWidth);
+    SetValue(SubNode, 'FixedCount', gBriefViewFixedCount);
+    SetValue(SubNode, 'AutoSize', Integer(gBriefViewMode));
 
     { Keys page }
     Node := FindNode(Root, 'Keyboard', True);
