@@ -4131,6 +4131,10 @@ msgstr "你可以在這裡輸入一個或多個磁碟及掛載位置 (分隔符�
 msgid "Drives &blacklist"
 msgstr "磁碟黑名單 (&B) "
 
+#: tfrmoptionsbriefview.gbcolumns.caption
+msgid "Columns size"
+msgstr ""
+
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
 msgstr ""
@@ -4141,6 +4145,18 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbuseautosize.caption
+msgid "Auto"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedcount.caption
+msgid "Fixed columns count"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedwidth.caption
+msgid "Fixed columns width"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption

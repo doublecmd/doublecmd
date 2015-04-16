@@ -3811,6 +3811,10 @@ msgstr ""
 msgid "Drives &blacklist"
 msgstr ""
 
+#: tfrmoptionsbriefview.gbcolumns.caption
+msgid "Columns size"
+msgstr ""
+
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
 msgstr ""
@@ -3821,6 +3825,18 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbuseautosize.caption
+msgid "Auto"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedcount.caption
+msgid "Fixed columns count"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedwidth.caption
+msgid "Fixed columns width"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
