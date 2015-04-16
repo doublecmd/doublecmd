@@ -5,8 +5,8 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 289
   ClientWidth = 519
-  DesignLeft = 478
-  DesignTop = 191
+  DesignLeft = 497
+  DesignTop = 187
   object gbShowFileExt: TGroupBox[0]
     Left = 6
     Height = 62
@@ -57,7 +57,7 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
     Width = 507
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    Caption = 'Columns'
+    Caption = 'Columns size'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
@@ -69,14 +69,14 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
       Left = 6
       Height = 19
       Top = 2
-      Width = 145
+      Width = 130
       Caption = 'Auto'
       Checked = True
       TabOrder = 0
       TabStop = True
     end
     object lblStub: TLabel
-      Left = 151
+      Left = 136
       Height = 19
       Top = 2
       Width = 50
@@ -86,12 +86,12 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
       Left = 6
       Height = 23
       Top = 21
-      Width = 145
-      Caption = 'Use fixed column width'
+      Width = 130
+      Caption = 'Fixed columns width'
       TabOrder = 1
     end
     object speUseFixedWidth: TSpinEdit
-      Left = 151
+      Left = 136
       Height = 23
       Top = 21
       Width = 50
@@ -104,12 +104,12 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
       Left = 6
       Height = 23
       Top = 44
-      Width = 145
-      Caption = 'Use fixed column count'
+      Width = 130
+      Caption = 'Fixed columns count'
       TabOrder = 3
     end
     object speUseFixedCount: TSpinEdit
-      Left = 151
+      Left = 136
       Height = 23
       Top = 44
       Width = 50

@@ -4222,6 +4222,10 @@ msgstr "Tu môžeš zadať 1 alebo viac diskov alebo prípojných bodov oddelen�
 msgid "Drives &blacklist"
 msgstr "Zoznam zakázaných diskov"
 
+#: tfrmoptionsbriefview.gbcolumns.caption
+msgid "Columns size"
+msgstr ""
+
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
 msgstr ""
@@ -4232,6 +4236,18 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbuseautosize.caption
+msgid "Auto"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedcount.caption
+msgid "Fixed columns count"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedwidth.caption
+msgid "Fixed columns width"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption

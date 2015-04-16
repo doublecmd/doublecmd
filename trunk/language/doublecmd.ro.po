@@ -3820,6 +3820,10 @@ msgstr "Aici puteți introduce unul sau mai multe dispozitive sau puncte de mont
 msgid "Drives &blacklist"
 msgstr "Dispozitive interzise"
 
+#: tfrmoptionsbriefview.gbcolumns.caption
+msgid "Columns size"
+msgstr ""
+
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
 msgstr ""
@@ -3830,6 +3834,18 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbuseautosize.caption
+msgid "Auto"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedcount.caption
+msgid "Fixed columns count"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedwidth.caption
+msgid "Fixed columns width"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
@@ -10092,3 +10108,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+

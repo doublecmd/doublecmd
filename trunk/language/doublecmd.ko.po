@@ -4183,6 +4183,10 @@ msgstr "여기에 하나 이상의 드라이브(\";\"로 구분)를 입력할 �
 msgid "Drives &blacklist"
 msgstr "드라이브 블랙리스트:"
 
+#: tfrmoptionsbriefview.gbcolumns.caption
+msgid "Columns size"
+msgstr ""
+
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
 msgstr ""
@@ -4193,6 +4197,18 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbuseautosize.caption
+msgid "Auto"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedcount.caption
+msgid "Fixed columns count"
+msgstr ""
+
+#: tfrmoptionsbriefview.rbusefixedwidth.caption
+msgid "Fixed columns width"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
