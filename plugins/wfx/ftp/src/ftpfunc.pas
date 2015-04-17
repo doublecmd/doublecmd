@@ -568,8 +568,6 @@ begin
   LogProc := pLogProc;
   RequestProc := pRequestProc;
   PluginNumber := PluginNr;
-  ActiveConnectionList := TStringList.Create;
-  ConnectionList := TStringList.Create;
 
   Result := 0;
 end;
@@ -692,11 +690,13 @@ begin
       end;
     end
   else if Verb = 'properties' then
-    if (ExtractFileDir(RemoteName) = PathDelim) and (RemoteName[1] <> '<') then // connection
+    begin
+      if (ExtractFileDir(RemoteName) = PathDelim) and not (RemoteName[1] in [#0, '<']) then // connection
       begin
         EditConnection(RemoteName + 1);
-        Result:= FS_EXEC_OK;
       end;
+      Result:= FS_EXEC_OK;
+    end;
 end;
 
 function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
@@ -855,6 +855,8 @@ end;
 
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall;
 begin
+  ConnectionList := TStringList.Create;
+  ActiveConnectionList := TStringList.Create;
   IniFile := TIniFile.Create(dps.DefaultIniName);
   IniFile.WriteDateTime('FTP', 'Test', Now);
   ReadConnectionList;
