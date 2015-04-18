@@ -308,29 +308,6 @@ begin
 {$ENDIF}
 end;
 
-function GetSystemSpecificFileTime(HostOS: RarHostSystem; FileTime: LongInt) : LongInt;
-var
-  DateTime: TDateTime;
-begin
-  Result := FileTime;
-
-{$IFDEF MSWINDOWS}
-  if (HostOS = HOST_UNIX) then
-  begin
-    DateTime := UnixFileTimeToDateTime(Result);
-    Result   := LongInt(DateTimeToDosFileTime(DateTime));
-  end;
-{$ENDIF}
-
-{$IFDEF UNIX}
-  if HostOS in [HOST_MSDOS, HOST_WIN32] then
-  begin
-    DateTime := DosFileTimeToDateTime(TDosFileTime(Result));
-    Result   := LongInt(DateTimeToUnixFileTime(DateTime));
-  end;
-{$ENDIF}
-end;
-
 function GetSystemSpecificAttributes(HostOS: RarHostSystem; Attrs: LongInt): LongInt;
 begin
   Result := Attrs;
@@ -495,9 +472,6 @@ begin
       HeaderData.FileAttr :=
           GetSystemSpecificAttributes(RarHostSystem(HeaderData.HostOS),
                                       HeaderData.FileAttr);
-      HeaderData.FileTime :=
-          GetSystemSpecificFileTime(RarHostSystem(HeaderData.HostOS),
-                                    HeaderData.FileTime);
 {$POP}
       Move(HeaderData.FileName, ProcessedFileName, SizeOf(HeaderData.FileName));
       ProcessedFileNameW := '';
@@ -548,9 +522,6 @@ begin
       HeaderData.FileAttr :=
           GetSystemSpecificAttributes(RarHostSystem(HeaderData.HostOS),
                                       HeaderData.FileAttr);
-      HeaderData.FileTime :=
-          GetSystemSpecificFileTime(RarHostSystem(HeaderData.HostOS),
-                                    HeaderData.FileTime);
 {$POP}
       ProcessedFileName := HeaderData.FileName;
       ProcessedFileNameW := '';
@@ -601,9 +572,6 @@ begin
       HeaderData.FileAttr :=
           GetSystemSpecificAttributes(RarHostSystem(HeaderData.HostOS),
                                       HeaderData.FileAttr);
-      HeaderData.FileTime :=
-          GetSystemSpecificFileTime(RarHostSystem(HeaderData.HostOS),
-                                    HeaderData.FileTime);
 {$POP}
       ProcessedFileName := RarHeader.FileName;
       ProcessedFileNameW := HeaderData.FileName;
