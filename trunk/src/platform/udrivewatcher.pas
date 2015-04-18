@@ -371,6 +371,9 @@ begin
         else
           Drive^.DisplayName := PathDelim;
       end;
+      if Drive^.DisplayName = IdUuid then begin
+        Drive^.DisplayName := ExtractFileName(DeviceFile);
+      end;
     end
     else
     begin
@@ -775,15 +778,6 @@ begin
                     AddString(UDisksDevice.DeviceMountPaths, MountPoint);
                   end;
                   UDisksDeviceToDrive(UDisksDevices, UDisksDevice, Drive);
-                  Drive^.Path := MountPoint;
-                  Drive^.DisplayName := UDisksDevice.DevicePresentationName;
-                  if Drive^.DisplayName = EmptyStr then
-                  begin
-                    if MountPoint <> PathDelim then
-                      Drive^.DisplayName := ExtractFileName(MountPoint)
-                    else
-                      Drive^.DisplayName := PathDelim;
-                  end;
                 end;
               end
               // Even if mounted device is not listed by UDisks add it anyway the standard way.
