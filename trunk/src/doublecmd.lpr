@@ -125,11 +125,15 @@ begin
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
 
-  //Let's show the starting slash screen to confirm user application has been started
-  Application.CreateForm(TfrmStartingSplash, frmStartingSplash);
-  frmStartingSplash.Show;
-
   ProcessCommandLineParams; // before load paths
+
+  if not CommandLineParams.NoSplash then
+  begin
+    // Let's show the starting slash screen to confirm user application has been started
+    Application.CreateForm(TfrmStartingSplash, frmStartingSplash);
+    frmStartingSplash.Show;
+  end;
+
   LoadPaths; // before loading config
   LoadWindowsSpecialDir; // Load the list with special path. *Must* be located AFTER "LoadPaths" and BEFORE "InitGlobs"
 
@@ -164,9 +168,12 @@ begin
       // in Application.CreateForm above.
       uKeyboard.HookKeyboardLayoutChanged;
 
-      //We may now remove the starting splash screen, mot of the application has been started now
-      frmStartingSplash.Close;
-      frmStartingSplash.Release;
+      if not CommandLineParams.NoSplash then
+      begin
+        // We may now remove the starting splash screen, mot of the application has been started now
+        frmStartingSplash.Close;
+        frmStartingSplash.Release;
+      end;
 
       Application.Run;
 

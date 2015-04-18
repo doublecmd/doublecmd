@@ -7,6 +7,7 @@ interface
 type
   TCommandLineParams = packed record
     NewTab: Boolean;
+    NoSplash: Boolean;
     ActivePanelSpecified: Boolean;
     ActiveRight: Boolean;
     LeftPath: array[0..1023] of AnsiChar;
@@ -30,37 +31,31 @@ procedure ProcessCommandLineParams;
 var
   Option: AnsiChar = #0;
   OptionIndex: LongInt = 0;
-  Options: array[1..4] of TOption;
+  Options: array[1..5] of TOption;
   OptionUnknown: UTF8String;
 begin
-  CommandLineParams.Servername := '';
+  FillChar(Options, SizeOf(Options), #0);
   with Options[1] do
   begin
     Name:= 'no-console';
-    Has_arg:= 0;
-    Flag:= nil;
-    Value:= #0;
   end;
   with Options[2] do
   begin
     Name:= 'config-dir';
     Has_arg:= 1;
-    Flag:= nil;
-    Value:= #0;
   end;
   with Options[3] do
   begin
     Name:= 'client';
-    Has_arg:= 0;
-    Flag:= nil;
-    Value:= #0;
   end;
   with Options[4] do
   begin
     Name:= 'servername';
     Has_arg:= 1;
-    Flag:= nil;
-    Value:= #0;
+  end;
+  with Options[5] do
+  begin
+    Name:= 'no-splash';
   end;
   FillChar(CommandLineParams, SizeOf(TCommandLineParams), #0);
   repeat
@@ -91,6 +86,10 @@ begin
             4:
               begin
                 CommandLineParams.Servername:= ParamStrU(TrimQuotes(OptArg));
+              end;
+            5:
+              begin
+                CommandLineParams.NoSplash:= True;
               end;
           end;
         end;
