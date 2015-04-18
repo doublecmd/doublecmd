@@ -4,7 +4,7 @@
    WCX plugin for unpacking RAR archives
    This is simple wrapper for unrar.dll or libunrar.so
 
-   Copyright (C) 2008-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -308,6 +308,15 @@ begin
 {$ENDIF}
 end;
 
+function GetSystemSpecificFileTime(FileTime: LongInt) : LongInt;
+begin
+  Result := FileTime;
+
+{$IFDEF UNIX}
+  Result := LongInt(DateTimeToUnixFileTime(DosFileTimeToDateTime(TDosFileTime(Result))));
+{$ENDIF}
+end;
+
 function GetSystemSpecificAttributes(HostOS: RarHostSystem; Attrs: LongInt): LongInt;
 begin
   Result := Attrs;
@@ -472,6 +481,7 @@ begin
       HeaderData.FileAttr :=
           GetSystemSpecificAttributes(RarHostSystem(HeaderData.HostOS),
                                       HeaderData.FileAttr);
+      HeaderData.FileTime := GetSystemSpecificFileTime(HeaderData.FileTime);
 {$POP}
       Move(HeaderData.FileName, ProcessedFileName, SizeOf(HeaderData.FileName));
       ProcessedFileNameW := '';
@@ -522,6 +532,7 @@ begin
       HeaderData.FileAttr :=
           GetSystemSpecificAttributes(RarHostSystem(HeaderData.HostOS),
                                       HeaderData.FileAttr);
+      HeaderData.FileTime := GetSystemSpecificFileTime(HeaderData.FileTime);
 {$POP}
       ProcessedFileName := HeaderData.FileName;
       ProcessedFileNameW := '';
@@ -572,6 +583,7 @@ begin
       HeaderData.FileAttr :=
           GetSystemSpecificAttributes(RarHostSystem(HeaderData.HostOS),
                                       HeaderData.FileAttr);
+      HeaderData.FileTime := GetSystemSpecificFileTime(HeaderData.FileTime);
 {$POP}
       ProcessedFileName := RarHeader.FileName;
       ProcessedFileNameW := HeaderData.FileName;
