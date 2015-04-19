@@ -64,6 +64,7 @@ type
   TSevenZipUpdate = class(TThread)
     FValue: Int64;
     FPercent: Int64;
+    FFileName: WideString;
     FProgress: TEventObject;
     FArchive: TJclCompressionArchive;
   public
@@ -485,10 +486,8 @@ begin
   while not Terminated do
   begin
     FProgress.WaitFor(INFINITE);
-    if FArchive.ItemCount > 0 then begin
-      // If the user has clicked on Cancel, the function returns zero
-      FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FArchive.Items[FArchive.CurrentItemIndex].PackedName), FValue) = 0) and AllowCancel;
-    end;
+    // If the user has clicked on Cancel, the function returns zero
+    FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FFileName), FValue) = 0) and AllowCancel;
   end;
   Result:= ReturnValue;
 end;
@@ -506,6 +505,9 @@ procedure TSevenZipUpdate.JclCompressionProgress(Sender: TObject; const Value, M
 begin
   FValue:= Value - FPercent;
   FPercent:= Value;
+  if FArchive.ItemCount > 0 then begin
+    FFileName:= FArchive.Items[FArchive.CurrentItemIndex].PackedName;
+  end;
   FProgress.SetEvent;
 end;
 
