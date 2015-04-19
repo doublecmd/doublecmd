@@ -722,7 +722,7 @@ var
   end;
 
 const
-  MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
+  MntEntFileList: array[1..2] of PChar = (_PATH_MOUNTED, _PATH_FSTAB);
 var
   Drive : PDrive = nil;
   ExistingDrive : PDrive;
@@ -746,7 +746,7 @@ begin
     else if HasUdev then
       HaveUDisksDevices := uUDev.EnumerateDevices(UDisksDevices);
 
-    // Storage devices have to be in fstab or mtab and reported by UDisks.
+    // Storage devices have to be in mtab or fstab and reported by UDisks.
     for I:= Low(MntEntFileList) to High(MntEntFileList) do
     begin
       fstab:= setmntent(MntEntFileList[I],'r');
@@ -772,16 +772,16 @@ begin
               begin
                 if not UDisksDevice.DevicePresentationHide then
                 begin
-                  if (IsUDisksAvailable = False) and (I = 2) then
+                  if (IsUDisksAvailable = False) then
                   begin
-                    UDisksDevice.DeviceIsMounted:= True;
+                    UDisksDevice.DeviceIsMounted:= (I = 1);
                     AddString(UDisksDevice.DeviceMountPaths, MountPoint);
                   end;
                   UDisksDeviceToDrive(UDisksDevices, UDisksDevice, Drive);
                 end;
               end
               // Even if mounted device is not listed by UDisks add it anyway the standard way.
-              else if I = 2 then // MntEntFileList[2] = _PATH_MOUNTED
+              else if I = 1 then // MntEntFileList[1] = _PATH_MOUNTED
                 HandledByUDisks := False;
               // Else don't add the device if it's not listed by UDisks.
             end;
@@ -826,20 +826,8 @@ begin
                 IsMediaEjectable:= (DriveType = dtOptical);
                 IsMediaRemovable:= DriveType in [dtFloppy, dtOptical, dtFlash];
                 // If drive from /etc/mtab then it is mounted
-                // else it will be checked via mtab below
                 IsMounted:= (MntEntFileList[I] = _PATH_MOUNTED);
                 AutoMount:= True;
-              end;
-            end
-            // Mark drive as mounted if found in mtab.
-            else if MntEntFileList[I] = _PATH_MOUNTED then
-            begin
-              ExistingDrive := GetDrive(Result, DeviceFile, MountPoint);
-              if Assigned(ExistingDrive) then
-              begin
-                ExistingDrive^.IsMounted := True;
-                if ExistingDrive^.FileSystem = EmptyStr then
-                  ExistingDrive^.FileSystem := StrPas(pme^.mnt_type);
               end;
             end;
           end;
@@ -879,8 +867,8 @@ begin
         // Don't add drives with partition table because they cannot be mounted.
         // Don't add drives with ram and loop device because they cannot be mounted.
         // Add devices reported as "filesystem".
-        if ((UDisksDevices[i].DeviceIsDrive and not UDisksDevices[i].DeviceIsPartitionTable) or
-           (UDisksDevices[i].IdUsage = 'filesystem')) and
+        if ((UDisksDevices[i].DeviceIsDrive and (not UDisksDevices[i].DeviceIsPartitionTable) and
+           (UDisksDevices[i].IdType <> 'swap')) or (UDisksDevices[i].IdUsage = 'filesystem')) and
            (StrBegins(UDisksDevices[i].DeviceFile, '/dev/ram') = False) and
            (StrBegins(UDisksDevices[i].DeviceFile, '/dev/zram') = False) and
            (StrBegins(UDisksDevices[i].DeviceFile, '/dev/loop') = False) and
