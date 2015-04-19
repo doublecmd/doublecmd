@@ -778,7 +778,6 @@ type
   { TJclCompressionArchive is not ref-counted }
   TJclCompressionArchive = class(TInterfacedObject, IInterface)
   private
-    FTag: Pointer;
     FOnProgress: TJclCompressionProgressEvent;
     FOnRatio: TJclCompressionRatioEvent;
     FOnVolume: TJclCompressionVolumeEvent;
@@ -874,7 +873,6 @@ type
 
     property SupportsNestedArchive: Boolean read GetSupportsNestedArchive;
     property CancelCurrentOperation: Boolean read FCancelCurrentOperation write FCancelCurrentOperation;
-    property Tag: Pointer read FTag write FTag;
   end;
 
   TJclCompressionArchiveClass = class of TJclCompressionArchive;

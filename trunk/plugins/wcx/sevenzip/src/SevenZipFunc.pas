@@ -453,7 +453,6 @@ constructor TSevenZipUpdate.Create(Archive: TJclCompressionArchive);
 begin
   inherited Create(True);
   FArchive:= Archive;
-  Archive.Tag:= Self;
   FProgress:= TSimpleEvent.Create;
   Archive.OnPassword:= JclCompressionPassword;
   Archive.OnProgress:= JclCompressionProgress;
@@ -502,13 +501,9 @@ begin
 end;
 
 procedure TSevenZipUpdate.JclCompressionProgress(Sender: TObject; const Value, MaxValue: Int64);
-var
-  Progress: TSevenZipUpdate;
-  Archive: TJclUpdateArchive absolute Sender;
 begin
-  Progress:= TSevenZipUpdate(Archive.Tag);
-  Progress.FPercent:= 1000 + (Value * 100) div MaxValue;
-  Progress.FProgress.SetEvent;
+  FPercent:= 1000 + (Value * 100) div MaxValue;
+  FProgress.SetEvent;
 end;
 
 { TSevenZipHandle }
@@ -544,22 +539,17 @@ end;
 procedure TSevenZipHandle.SetArchive(AValue: TJclDecompressArchive);
 begin
   FArchive:= AValue;
-  FArchive.Tag:= Self;
   AValue.OnPassword := JclCompressionPassword;
   AValue.OnProgress := JclCompressionProgress;
   AValue.OnExtract  := JclCompressionExtract;
 end;
 
 procedure TSevenZipHandle.JclCompressionProgress(Sender: TObject; const Value, MaxValue: Int64);
-var
-  Progress: TSevenZipHandle;
-  Archive: TJclDecompressArchive absolute Sender;
 begin
   if Assigned(ProcessDataProc) then
   begin
-    Progress:= TSevenZipHandle(Archive.Tag);
-    Progress.FPercent:= 1000 + (Value * 100) div MaxValue;
-    Progress.FProgress.SetEvent;
+    FPercent:= 1000 + (Value * 100) div MaxValue;
+    FProgress.SetEvent;
   end;
 end;
 
