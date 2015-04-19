@@ -62,8 +62,9 @@ type
   { TSevenZipUpdate }
 
   TSevenZipUpdate = class(TThread)
+    FValue: Int64;
     FPercent: Int64;
-    FProgress: TSimpleEvent;
+    FProgress: TEventObject;
     FArchive: TJclCompressionArchive;
   public
     constructor Create; overload;
@@ -446,14 +447,13 @@ end;
 constructor TSevenZipUpdate.Create;
 begin
   inherited Create(True);
-  FProgress:= TSimpleEvent.Create;
+  FProgress:= TEventObject.Create(nil, False, False, '');
 end;
 
 constructor TSevenZipUpdate.Create(Archive: TJclCompressionArchive);
 begin
-  inherited Create(True);
+  Create;
   FArchive:= Archive;
-  FProgress:= TSimpleEvent.Create;
   Archive.OnPassword:= JclCompressionPassword;
   Archive.OnProgress:= JclCompressionProgress;
 end;
@@ -487,7 +487,7 @@ begin
     FProgress.WaitFor(INFINITE);
     if FArchive.ItemCount > 0 then begin
       // If the user has clicked on Cancel, the function returns zero
-      FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FArchive.Items[FArchive.CurrentItemIndex].PackedName), -FPercent) = 0) and AllowCancel;
+      FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FArchive.Items[FArchive.CurrentItemIndex].PackedName), FValue) = 0) and AllowCancel;
     end;
   end;
   Result:= ReturnValue;
@@ -504,11 +504,9 @@ end;
 
 procedure TSevenZipUpdate.JclCompressionProgress(Sender: TObject; const Value, MaxValue: Int64);
 begin
-  if MaxValue > 0 then
-  begin
-    FPercent:= 1000 + (Value * 100) div MaxValue;
-    FProgress.SetEvent;
-  end;
+  FValue:= Value - FPercent;
+  FPercent:= Value;
+  FProgress.SetEvent;
 end;
 
 { TSevenZipHandle }
