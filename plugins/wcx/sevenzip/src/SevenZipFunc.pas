@@ -502,8 +502,11 @@ end;
 
 procedure TSevenZipUpdate.JclCompressionProgress(Sender: TObject; const Value, MaxValue: Int64);
 begin
-  FPercent:= 1000 + (Value * 100) div MaxValue;
-  FProgress.SetEvent;
+  if MaxValue > 0 then
+  begin
+    FPercent:= 1000 + (Value * 100) div MaxValue;
+    FProgress.SetEvent;
+  end;
 end;
 
 { TSevenZipHandle }
