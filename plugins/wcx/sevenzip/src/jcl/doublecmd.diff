@@ -1,9 +1,9 @@
- jcl/source/common/JclCompression.pas | 47 ++++++++++++++++++++++++++++++------
- jcl/source/windows/sevenzip.pas      |  8 +++---
- 2 files changed, 44 insertions(+), 11 deletions(-)
+ jcl/source/common/JclCompression.pas | 45 ++++++++++++++++++++++++++++++------
+ jcl/source/windows/sevenzip.pas      |  8 +++----
+ 2 files changed, 42 insertions(+), 11 deletions(-)
 
 diff --git a/jcl/source/common/JclCompression.pas b/jcl/source/common/JclCompression.pas
-index e5e6a2f..6cde31b 100644
+index e5e6a2f..9fcf6f8 100644
 --- a/jcl/source/common/JclCompression.pas
 +++ b/jcl/source/common/JclCompression.pas
 @@ -44,8 +44,7 @@
@@ -68,12 +68,7 @@ index e5e6a2f..6cde31b 100644
 
    TJclCompressionItemProperty = (ipPackedName, ipPackedSize, ipPackedExtension,
      ipFileSize, ipFileName, ipAttributes, ipCreationTime, ipLastAccessTime,
-@@ -766,10 +778,12 @@ type
-   { TJclCompressionArchive is not ref-counted }
-   TJclCompressionArchive = class(TInterfacedObject, IInterface)
-   private
-+    FTag: Pointer;
-     FOnProgress: TJclCompressionProgressEvent;
+@@ -770,6 +782,7 @@ type
      FOnRatio: TJclCompressionRatioEvent;
      FOnVolume: TJclCompressionVolumeEvent;
      FOnVolumeMaxSize: TJclCompressionVolumeMaxSizeEvent;
@@ -81,7 +76,7 @@ index e5e6a2f..6cde31b 100644
      FPassword: WideString;
      FVolumeIndex: Integer;
      FVolumeIndexOffset: Integer;
-@@ -855,10 +869,12 @@ type
+@@ -855,6 +868,7 @@ type
      property OnVolume: TJclCompressionVolumeEvent read FOnVolume write FOnVolume;
      property OnVolumeMaxSize: TJclCompressionVolumeMaxSizeEvent read FOnVolumeMaxSize
        write FOnVolumeMaxSize;
@@ -89,12 +84,7 @@ index e5e6a2f..6cde31b 100644
      property Password: WideString read FPassword write FPassword;
 
      property SupportsNestedArchive: Boolean read GetSupportsNestedArchive;
-     property CancelCurrentOperation: Boolean read FCancelCurrentOperation write FCancelCurrentOperation;
-+    property Tag: Pointer read FTag write FTag;
-   end;
-
-   TJclCompressionArchiveClass = class of TJclCompressionArchive;
-@@ -2206,8 +2222,7 @@ const
+@@ -2206,8 +2220,7 @@ const
  implementation
 
  uses
@@ -104,7 +94,7 @@ index e5e6a2f..6cde31b 100644
 
  const
    JclDefaultBufferSize = 131072; // 128k
-@@ -2218,6 +2233,8 @@ var
+@@ -2218,6 +2231,8 @@ var
    GlobalStreamFormats: TObject;
    GlobalArchiveFormats: TObject;
 
@@ -113,7 +103,7 @@ index e5e6a2f..6cde31b 100644
  //=== { TJclCompressionStream } ==============================================
 
  constructor TJclCompressionStream.Create(AStream: TStream);
-@@ -3743,6 +3760,8 @@ begin
+@@ -3743,6 +3758,8 @@ begin
    end;
  end;
 
@@ -122,7 +112,7 @@ index e5e6a2f..6cde31b 100644
  {$IFDEF MSWINDOWS}
 
  function OpenFileStream(const FileName: TFileName; StreamAccess: TJclStreamAccess): TStream;
-@@ -3887,7 +3906,7 @@ end;
+@@ -3887,7 +3904,7 @@ end;
  function TJclCompressionItem.GetNestedArchiveName: WideString;
  var
    ParentArchiveExtension, ArchiveFileName, ArchiveExtension: WideString;
@@ -131,7 +121,7 @@ index e5e6a2f..6cde31b 100644
  begin
    if ipPackedName in ValidProperties then
      Result := PackedName
-@@ -3914,7 +3933,7 @@ begin
+@@ -3914,7 +3931,7 @@ begin
      else
      if ArchiveFileName <> '' then
      begin
@@ -140,7 +130,7 @@ index e5e6a2f..6cde31b 100644
        try
          ExtensionMap.Delimiter := ';';
          ExtensionMap.DelimitedText := Archive.ArchiveSubExtensions;
-@@ -7422,7 +7441,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
+@@ -7422,7 +7439,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -155,7 +145,7 @@ index e5e6a2f..6cde31b 100644
    Result := S_OK;
  end;
 
-@@ -7456,7 +7482,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
+@@ -7456,7 +7480,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
