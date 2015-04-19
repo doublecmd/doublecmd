@@ -553,7 +553,7 @@ procedure TSevenZipHandle.JclCompressionProgress(Sender: TObject; const Value, M
 begin
   if Assigned(ProcessDataProc) then
   begin
-    FPercent:= (Value * 100) div MaxValue;
+    if MaxValue > 0 then FPercent:= (Value * 100) div MaxValue;
     FFileName:= FArchive.Items[FArchive.CurrentItemIndex].PackedName;
     FProgress.SetEvent;
   end;
