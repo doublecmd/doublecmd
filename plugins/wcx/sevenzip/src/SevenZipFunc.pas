@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -485,8 +485,10 @@ begin
   while not Terminated do
   begin
     FProgress.WaitFor(INFINITE);
-    // If the user has clicked on Cancel, the function returns zero
-    FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FArchive.Items[FArchive.CurrentItemIndex].PackedName), -FPercent) = 0) and AllowCancel;
+    if FArchive.ItemCount > 0 then begin
+      // If the user has clicked on Cancel, the function returns zero
+      FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FArchive.Items[FArchive.CurrentItemIndex].PackedName), -FPercent) = 0) and AllowCancel;
+    end;
   end;
   Result:= ReturnValue;
 end;
