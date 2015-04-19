@@ -287,7 +287,7 @@ var
 begin
   // Try to find archive type in cache
   if UpdateFormatsCache.ArchiveName = AFileName then
-    Exit(TJclUpdateArchiveClassArray(DecompressFormatsCache.ArchiveClassArray))
+    Exit(TJclUpdateArchiveClassArray(UpdateFormatsCache.ArchiveClassArray))
   else begin
     UpdateFormatsCache.ArchiveName:= AFileName;
     SetLength(UpdateFormatsCache.ArchiveClassArray, 0);
@@ -307,7 +307,7 @@ var
 begin
   // Try to find archive type in cache
   if CompressFormatsCache.ArchiveName = AFileName then
-    Exit(TJclCompressArchiveClassArray(DecompressFormatsCache.ArchiveClassArray))
+    Exit(TJclCompressArchiveClassArray(CompressFormatsCache.ArchiveClassArray))
   else begin
     CompressFormatsCache.ArchiveName:= AFileName;
     SetLength(CompressFormatsCache.ArchiveClassArray, 0);
