@@ -535,7 +535,7 @@ begin
     if Assigned(ProcessDataProc) then
     begin
       // If the user has clicked on Cancel, the function returns zero
-      FArchive.CancelCurrentOperation:= ProcessDataProc(PWideChar(FArchive.Items[FArchive.CurrentItemIndex].PackedName), -FPercent) = 0;
+      FArchive.CancelCurrentOperation:= ProcessDataProc(PWideChar(FFileName), -FPercent) = 0;
     end;
   end;
   Result:= ReturnValue;
@@ -553,7 +553,8 @@ procedure TSevenZipHandle.JclCompressionProgress(Sender: TObject; const Value, M
 begin
   if Assigned(ProcessDataProc) then
   begin
-    FPercent:= 1000 + (Value * 100) div MaxValue;
+    FPercent:= (Value * 100) div MaxValue;
+    FFileName:= FArchive.Items[FArchive.CurrentItemIndex].PackedName;
     FProgress.SetEvent;
   end;
 end;
