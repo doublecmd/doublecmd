@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains some functions for open files in associated applications.
 
-    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ unit uShellExecute;
 interface
 
 uses
-  Classes, SysUtils, uFile, uFileView;
+  Classes, uFile, uFileView;
 
 type
   TPrepareParameterOption = (ppoNormalizePathDelims, ppoReplaceTilde);
@@ -58,8 +58,8 @@ function ShellExecuteEx(sCmd, sFileName, sActiveDir: String): Boolean;
 implementation
 
 uses
-  Process, UTF8Process, uDCUtils, uShowForm, uGlobs, uOSUtils,
-  uFileSystemFileSource, DCOSUtils, DCStrUtils, DCClassesUtf8, LConvEncoding;
+  SysUtils, Process, UTF8Process, LazUTF8, LConvEncoding, uDCUtils, uShowForm, uGlobs,
+  uOSUtils, uFileSystemFileSource, DCOSUtils, DCStrUtils, DCClassesUtf8, UnicodeUtils;
 
 function PrepareParameter(sParam: String;
                           leftPanel: TFileView;
@@ -226,53 +226,43 @@ var
     else begin
       Result := aFile.Name;
     end;
-    if not (fmUTF8 in state.functMod) then begin
-      Result := mbFileNameToSysEnc(Result);
-     end;
     if (fmQuote in state.functMod) then begin
       Result := '"' + Result + '"';
+    end;
+    if (fmUTF16 in state.functMod) then
+      Result := Utf8ToUtf16LE(Result)
+    else if not (fmUTF8 in state.functMod) then begin
+      Result := UTF8ToSys(Result);
     end;
   end;
 
   function BuildFileList: UTF8String;
   var
     I: Integer;
+    FileName: AnsiString;
     FileList: TFileStreamEx;
-    FileNameW: UnicodeString;
-    StringList: TStringListEx;
+    LineEndingA: AnsiString = LineEnding;
   begin
     Result := GetTempName(GetTempFolderDeletableAtTheEnd);
-    if fmUTF16 in state.functMod then
-    begin
+    try
+      FileList:= TFileStreamEx.Create(Result, fmCreate);
       try
-        FileList:= TFileStreamEx.Create(Result, fmCreate);
-        try
-          FileList.Write(UTF16LEBOM, Length(UTF16LEBOM));
-          for I := 0 to state.files.Count - 1 do
-          begin
-            FileNameW := UTF8Decode(BuildFile(state.files[I]));
-            FileNameW := FileNameW + UnicodeString(LineEnding);
-            FileList.Write(FileNameW[1], Length(FileNameW) * SizeOf(WideChar));
-          end;
-        finally
-          FileList.Free;
+        if fmUTF16 in state.functMod then
+        begin
+          FileName:= UTF16LEBOM;
+          LineEndingA:= Utf8ToUtf16LE(LineEnding)
         end;
-      except
-        Result:= EmptyStr;
+        for I := 0 to state.files.Count - 2 do
+        begin
+          FileName += BuildFile(state.files[I]) + LineEndingA;
+        end;
+        FileName += BuildFile(state.files[state.files.Count - 1]);
+        FileList.Write(FileName[1], Length(FileName));
+      finally
+        FileList.Free;
       end;
-    end
-    else begin
-      StringList := TStringListEx.Create;
-      for I := 0 to state.files.Count - 1 do
-      begin
-        StringList.Add(BuildFile(state.files[I]));
-      end;
-      try
-        StringList.SaveToFile(Result);
-      except
-        Result := EmptyStr;
-      end;
-      StringList.Free;
+    except
+      Result:= EmptyStr;
     end;
   end;
 
