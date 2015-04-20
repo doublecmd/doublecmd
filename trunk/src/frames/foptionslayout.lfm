@@ -3,8 +3,8 @@ inherited frmOptionsLayout: TfrmOptionsLayout
   Width = 784
   ClientHeight = 550
   ClientWidth = 784
-  DesignLeft = 319
-  DesignTop = 146
+  DesignLeft = 276
+  DesignTop = 44
   object gbScreenLayout: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -40,6 +40,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       Width = 98
       BorderSpacing.Top = 2
       Caption = 'Show &button bar'
+      OnChange = cbShowMainToolBarChange
       TabOrder = 1
     end
     object cbShowDiskPanel: TCheckBox
@@ -180,6 +181,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       BorderSpacing.Left = 16
       BorderSpacing.Top = 2
       Caption = 'Flat b&uttons'
+      Enabled = False
       TabOrder = 2
     end
     object cbLogWindow: TCheckBox

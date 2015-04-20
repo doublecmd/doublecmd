@@ -59,6 +59,7 @@ type
     gbScreenLayout: TGroupBox;
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowDriveFreeSpaceChange(Sender: TObject);
+    procedure cbShowMainToolBarChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
   protected
     procedure Load; override;
@@ -89,6 +90,10 @@ begin
   if not(cbShowDriveFreeSpace.Checked) then cbShowShortDriveFreeSpace.Checked:= false;
 end;
 
+procedure TfrmOptionsLayout.cbShowMainToolBarChange(Sender: TObject);
+begin
+  cbFlatToolBar.Enabled := cbShowMainToolBar.Checked;
+end;
 
 procedure TfrmOptionsLayout.cbTermWindowChange(Sender: TObject);
 begin
