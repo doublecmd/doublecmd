@@ -199,7 +199,7 @@ var
 
 procedure Initialize;
 begin
-  libpython:= TLibHandle(dlopen('libpython2.7.so.1', RTLD_NOW or RTLD_GLOBAL));
+  libpython:= TLibHandle(dlopen('libpython2.7.so.1.0', RTLD_NOW or RTLD_GLOBAL));
   HasPython:= libpython <> NilHandle;
   if HasPython then
   try
