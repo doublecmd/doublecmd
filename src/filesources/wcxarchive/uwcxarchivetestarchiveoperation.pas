@@ -120,20 +120,18 @@ begin
       end
       else // For plugins which unpack in CloseArchive
       begin
-        if (Size >= -100) and (Size <= -1) then // first percent bar
-          begin
-            CurrentFileDoneBytes := CurrentFileTotalBytes * (-Size) div 100;
-            CurrentFileTotalBytes := 100;
+        if (Size >= -100) and (Size <= -1) then // total percent bar
+        begin
+          DoneBytes := TotalBytes * Int64(-Size) div 100;
+        end
+        else if (Size >= -1100) and (Size <= -1000) then // current percent bar
+        begin
+          CurrentFileDoneBytes := CurrentFileTotalBytes * (-Size - 1000) div 100;
+          CurrentFileTotalBytes := 100;
 
-            if Size = -100 then // File finished
-              DoneBytes := DoneBytes + WcxTestArchiveOperation.FCurrentFileSize;
-            //DCDebug('Working ' + FileName + ' Percent1 = ' + IntToStr(FFileOpDlg.iProgress1Pos));
-          end
-        else if (Size >= -1100) and (Size <= -1000) then // second percent bar
-          begin
-            DoneBytes := TotalBytes * Int64(-Size - 1000) div 100;
-            //DCDebug('Working ' + FileName + ' Percent2 = ' + IntToStr(FFileOpDlg.iProgress2Pos));
-          end
+          if Size = -1100 then // File finished
+            DoneBytes := DoneBytes + WcxTestArchiveOperation.FCurrentFileSize;
+        end
         else
           begin
             DoneBytes := DoneBytes + WcxTestArchiveOperation.FCurrentFileSize;
