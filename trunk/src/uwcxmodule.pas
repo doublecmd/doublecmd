@@ -308,8 +308,8 @@ procedure TWcxModule.WcxSetChangeVolProc(hArcData: TArcHandle;
   ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW);
 begin
   if Assigned(SetChangeVolProcW) then
-    SetChangeVolProcW(hArcData, ChangeVolProcW)
-  else if Assigned(SetChangeVolProc) then
+    SetChangeVolProcW(hArcData, ChangeVolProcW);
+  if Assigned(SetChangeVolProc) then
     SetChangeVolProc(hArcData, ChangeVolProcA);
 end;
 
@@ -317,8 +317,8 @@ procedure TWcxModule.WcxSetProcessDataProc(hArcData: TArcHandle;
   ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
 begin
   if Assigned(SetProcessDataProcW) then
-    SetProcessDataProcW(hArcData, ProcessDataProcW)
-  else if Assigned(SetProcessDataProc) then
+    SetProcessDataProcW(hArcData, ProcessDataProcW);
+  if Assigned(SetProcessDataProc) then
     SetProcessDataProc(hArcData, ProcessDataProcA);
 end;
 
@@ -326,8 +326,8 @@ procedure TWcxModule.WcxSetCryptCallback(CryptoNr, Flags: Integer;
   PkCryptProcA: TPkCryptProc; PkCryptProcW: TPkCryptProcW);
 begin
   if Assigned(PkSetCryptCallbackW) then
-    PkSetCryptCallbackW(PkCryptProcW, CryptoNr, Flags)
-  else if Assigned(PkSetCryptCallback) then
+    PkSetCryptCallbackW(PkCryptProcW, CryptoNr, Flags);
+  if Assigned(PkSetCryptCallback) then
     PkSetCryptCallback(PkCryptProcA, CryptoNr, Flags);
 end;
 
