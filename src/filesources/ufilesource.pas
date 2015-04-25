@@ -88,6 +88,7 @@ type
     function GetPathType(sPath : String): TPathType;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
     function GetLocalName(var aFile: TFile): Boolean;
+    function CreateDirectory(const Path: String): Boolean;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation);
@@ -259,6 +260,7 @@ type
     function GetRootDir: String; virtual; overload;
     function GetPathType(sPath : String): TPathType; virtual;
 
+    function CreateDirectory(const Path: String): Boolean; virtual;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
     function GetLocalName(var aFile: TFile): Boolean; virtual;
 
@@ -550,6 +552,11 @@ begin
     else if ( Pos( PathDelim, sPath ) > 0 ) then
       Result := ptRelative;
   end;
+end;
+
+function TFileSource.CreateDirectory(const Path: String): Boolean;
+begin
+  Result := False;
 end;
 
 function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
