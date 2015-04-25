@@ -62,7 +62,6 @@ type
   { TSevenZipUpdate }
 
   TSevenZipUpdate = class(TThread)
-    FValue: Int64;
     FPercent: Int64;
     FFileName: WideString;
     FProgress: TEventObject;
@@ -94,7 +93,6 @@ type
     procedure Execute; override;
     function Update: Integer; override;
     procedure SetArchive(AValue: TJclDecompressArchive);
-    procedure JclCompressionProgress(Sender: TObject; const Value, MaxValue: Int64); override;
     function JclCompressionExtract(Sender: TObject; AIndex: Integer;
       var AFileName: TFileName; var Stream: TStream; var AOwnsStream: Boolean): Boolean;
   end;
@@ -487,7 +485,7 @@ begin
   begin
     FProgress.WaitFor(INFINITE);
     // If the user has clicked on Cancel, the function returns zero
-    FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FFileName), FValue) = 0) and AllowCancel;
+    FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FFileName), -FPercent) = 0) and AllowCancel;
   end;
   Result:= ReturnValue;
 end;
@@ -503,8 +501,9 @@ end;
 
 procedure TSevenZipUpdate.JclCompressionProgress(Sender: TObject; const Value, MaxValue: Int64);
 begin
-  FValue:= Value - FPercent;
-  FPercent:= Value;
+  if MaxValue > 0 then begin
+    FPercent:= (Value * 100) div MaxValue;
+  end;
   if FArchive.ItemCount > 0 then begin
     FFileName:= FArchive.Items[FArchive.CurrentItemIndex].PackedName;
   end;
@@ -547,16 +546,6 @@ begin
   AValue.OnPassword := JclCompressionPassword;
   AValue.OnProgress := JclCompressionProgress;
   AValue.OnExtract  := JclCompressionExtract;
-end;
-
-procedure TSevenZipHandle.JclCompressionProgress(Sender: TObject; const Value, MaxValue: Int64);
-begin
-  if Assigned(ProcessDataProc) then
-  begin
-    if MaxValue > 0 then FPercent:= (Value * 100) div MaxValue;
-    FFileName:= FArchive.Items[FArchive.CurrentItemIndex].PackedName;
-    FProgress.SetEvent;
-  end;
 end;
 
 function TSevenZipHandle.JclCompressionExtract(Sender: TObject; AIndex: Integer;
