@@ -138,16 +138,11 @@ object frmFileOp: TfrmFileOp
       BarShowText = True
     end
     object pbTotal: TKASProgressBar
-      AnchorSideLeft.Control = pbCurrent
-      AnchorSideTop.Control = pbCurrent
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = pbCurrent
-      AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 22
       Top = 86
       Width = 516
-      Anchors = [akTop, akLeft, akRight]
+      Align = alTop
       BorderSpacing.Top = 3
       Max = 516
       Smooth = True
@@ -155,16 +150,11 @@ object frmFileOp: TfrmFileOp
       BarShowText = True
     end
     object pnlButtons: TPanel
-      AnchorSideLeft.Control = pnlClient
-      AnchorSideTop.Control = pbTotal
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = pnlClient
-      AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 30
       Top = 111
       Width = 516
-      Anchors = [akTop, akLeft, akRight]
+      Align = alTop
       AutoSize = True
       BorderSpacing.Top = 3
       BevelOuter = bvNone

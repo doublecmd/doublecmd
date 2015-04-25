@@ -858,14 +858,6 @@ procedure TfrmFileOp.UpdateOperation(OpManItem: TOperationsManagerItem);
 var
   NewCaption: String;
 begin
-  {
-  // Proceed with update.
-  if (OpManItem.Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
-  begin
-    ProgressBarStyle:= pbstNormal;
-  end;
-  }
-
   case OpManItem.Operation.ID of
 
     fsoCopy, fsoCopyIn, fsoCopyOut:
@@ -970,6 +962,11 @@ begin
   with DeleteStatistics do
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+
+    if (Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
+    begin
+      ProgressBarStyle:= pbstNormal;
+    end;
 
     pbTotal.SetProgress(DoneFiles, TotalFiles,
       cnvFormatFileSize(DoneFiles, True) + '/' +
