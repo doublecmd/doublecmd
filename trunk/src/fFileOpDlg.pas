@@ -130,6 +130,8 @@ type
     class procedure ShowExistingWindow(AWindow: TfrmFileOp; Options: TOperationProgressWindowOptions);
     class procedure ShowNewWindow(AWindow: TfrmFileOp; Options: TOperationProgressWindowOptions);
 
+    property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
+
   public
     constructor Create(OperationHandle: TOperationHandle); reintroduce;
     constructor Create(QueueIdentifier: TOperationsManagerQueueIdentifier); reintroduce;
@@ -146,8 +148,6 @@ type
     class function IsOpenedFor(AQueueIdentifier: TOperationsManagerQueueIdentifier): Boolean;
     class procedure ShowFor(AOperationHandle: TOperationHandle; Options: TOperationProgressWindowOptions);
     class procedure ShowFor(AQueueIdentifier: TOperationsManagerQueueIdentifier; Options: TOperationProgressWindowOptions);
-
-    property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
   end;
 
 implementation
@@ -677,9 +677,15 @@ end;
 
 procedure TfrmFileOp.SetProgressBytes(ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
 begin
-  ProgressBar.SetProgress(CurrentBytes, TotalBytes,
-    cnvFormatFileSize(CurrentBytes, True) + 'B/' +
-    cnvFormatFileSize(TotalBytes, True) + 'B');
+  if (CurrentBytes = -1) then
+    ProgressBar.Style:= pbstMarquee
+  else begin
+    ProgressBar.Style:= pbstNormal;
+    ProgressBar.SetProgress(CurrentBytes, TotalBytes,
+                            cnvFormatFileSize(CurrentBytes, True) + 'B/' +
+                            cnvFormatFileSize(TotalBytes, True) + 'B'
+                            );
+  end;
 end;
 
 procedure TfrmFileOp.SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
@@ -852,11 +858,13 @@ procedure TfrmFileOp.UpdateOperation(OpManItem: TOperationsManagerItem);
 var
   NewCaption: String;
 begin
+  {
   // Proceed with update.
   if (OpManItem.Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
   begin
     ProgressBarStyle:= pbstNormal;
   end;
+  }
 
   case OpManItem.Operation.ID of
 

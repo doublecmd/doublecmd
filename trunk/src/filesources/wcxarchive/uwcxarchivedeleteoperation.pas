@@ -113,14 +113,16 @@ begin
     begin
       CurrentFile := FileName;
 
+      // Get the number of bytes processed since the previous call
       if Size >= 0 then
       begin
         DoneBytes := DoneBytes + Size;
         DoneFiles := DoneFiles + 1;
       end
-      else // For plugins which unpack in CloseArchive
-      begin
-        if (Size >= -100) and (Size <= -1) then // first percent bar
+      // Get progress percent value to directly set progress bar
+      else begin
+        // Total operation percent
+        if (Size >= -100) and (Size <= -1) then
           begin
             if Size = -100 then // File finished
             begin
@@ -128,7 +130,8 @@ begin
               DoneFiles := DoneFiles + 1;
             end;
           end
-        else if (Size >= -1100) and (Size <= -1000) then // second percent bar
+        // Current file percent
+        else if (Size >= -1100) and (Size <= -1000) then
           begin
             DoneBytes := TotalBytes * Int64(-Size - 1000) div 100;
             DoneFiles := DoneFiles + 1;

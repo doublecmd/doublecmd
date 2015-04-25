@@ -131,21 +131,28 @@ begin
     begin
       CurrentFileFrom:= FileName;
 
-      if Size >= 0 then
+      // Get the number of bytes processed since the previous call
+      if Size > 0 then
       begin
-        CurrentFileDoneBytes := CurrentFileDoneBytes + Size;
         DoneBytes := DoneBytes + Size;
+        if TotalFiles = 1 then begin
+          CurrentFileDoneBytes := DoneBytes;
+          CurrentFileTotalBytes := TotalBytes;
+        end;
       end
-      else // For plugins which unpack in CloseArchive
+      // Get progress percent value to directly set progress bar
+      else if Size < 0 then
       begin
-        if (Size >= -100) and (Size <= -1) then // total percent bar
+        // Total operation percent
+        if (Size >= -100) and (Size <= -1) then
         begin
           DoneBytes := TotalBytes * Int64(-Size) div 100;
         end
-        else if (Size >= -1100) and (Size <= -1000) then // current percent bar
+        // Current file percent
+        else if (Size >= -1100) and (Size <= -1000) then
         begin
-          CurrentFileDoneBytes := CurrentFileTotalBytes * (-Size - 1000) div 100;
           CurrentFileTotalBytes := 100;
+          CurrentFileDoneBytes := Int64(-Size) - 1000;
         end;
       end;
 
@@ -211,6 +218,7 @@ begin
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
+  FStatistics.CurrentFileDoneBytes := -1;
 
   FillAndCount(SourceFiles, False, False,
                FFullFilesTree,
