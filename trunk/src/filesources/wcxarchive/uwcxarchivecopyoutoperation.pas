@@ -167,13 +167,13 @@ begin
       end
       else // For plugins which unpack in CloseArchive
       begin
-        if (Size >= -100) and (Size <= -1) then // first percent bar
+        if (Size >= -100) and (Size <= -1) then // total percent bar
           begin
-            CurrentFileDoneBytes := CurrentFileTotalBytes * (-Size) div 100;
+            DoneBytes := TotalBytes * Int64(-Size) div 100;
           end
-        else if (Size >= -1100) and (Size <= -1000) then // second percent bar
+        else if (Size >= -1100) and (Size <= -1000) then // current percent bar
           begin
-            DoneBytes := TotalBytes * Int64(-Size - 1000) div 100;
+            CurrentFileDoneBytes := CurrentFileTotalBytes * (-Size - 1000) div 100;
           end;
       end;
 
