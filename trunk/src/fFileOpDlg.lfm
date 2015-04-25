@@ -1,7 +1,7 @@
 object frmFileOp: TfrmFileOp
-  Left = 287
+  Left = 576
   Height = 212
-  Top = 244
+  Top = 272
   Width = 522
   ClientHeight = 212
   ClientWidth = 522
@@ -10,33 +10,33 @@ object frmFileOp: TfrmFileOp
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '1.0.1.3'
+  LCLVersion = '1.4.0.4'
   object pnlClient: TPanel
     Left = 3
-    Height = 167
+    Height = 141
     Top = 3
     Width = 516
     Align = alTop
     AutoSize = True
     BorderSpacing.Around = 3
     BevelOuter = bvNone
-    ClientHeight = 167
+    ClientHeight = 141
     ClientWidth = 516
     TabOrder = 0
     object pnlQueue: TPanel
       Left = 0
-      Height = 28
+      Height = 21
       Top = 0
       Width = 516
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 28
+      ClientHeight = 21
       ClientWidth = 516
       TabOrder = 0
       object lblCurrentOperation: TLabel
         Left = 0
-        Height = 22
+        Height = 15
         Top = 0
         Width = 516
         Align = alTop
@@ -47,7 +47,7 @@ object frmFileOp: TfrmFileOp
       object lblCurrentOperationText: TLabel
         Left = 0
         Height = 1
-        Top = 27
+        Top = 20
         Width = 516
         Align = alTop
         ParentColor = False
@@ -55,19 +55,19 @@ object frmFileOp: TfrmFileOp
     end
     object pnlFrom: TPanel
       Left = 0
-      Height = 22
-      Top = 28
+      Height = 15
+      Top = 21
       Width = 516
       Align = alTop
       AutoSize = True
       BorderSpacing.Bottom = 3
       BevelOuter = bvNone
-      ClientHeight = 22
+      ClientHeight = 15
       ClientWidth = 516
       TabOrder = 1
       object lblFrom: TLabel
         Left = 0
-        Height = 22
+        Height = 15
         Top = 0
         Width = 40
         Align = alLeft
@@ -77,7 +77,7 @@ object frmFileOp: TfrmFileOp
       end
       object lblFileNameFrom: TLabel
         Left = 40
-        Height = 22
+        Height = 15
         Top = 0
         Width = 476
         Align = alClient
@@ -86,20 +86,20 @@ object frmFileOp: TfrmFileOp
     end
     object pnlTo: TPanel
       Left = 0
-      Height = 22
-      Top = 53
+      Height = 15
+      Top = 39
       Width = 516
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 3
       BorderSpacing.Bottom = 3
       BevelOuter = bvNone
-      ClientHeight = 22
+      ClientHeight = 15
       ClientWidth = 516
       TabOrder = 2
       object lblFileNameTo: TLabel
         Left = 40
-        Height = 22
+        Height = 15
         Top = 0
         Width = 476
         Align = alClient
@@ -107,7 +107,7 @@ object frmFileOp: TfrmFileOp
       end
       object lblTo: TLabel
         Left = 0
-        Height = 22
+        Height = 15
         Top = 0
         Width = 40
         Align = alLeft
@@ -119,16 +119,16 @@ object frmFileOp: TfrmFileOp
     object lblEstimated: TLabel
       Left = 0
       Height = 1
-      Top = 78
+      Top = 57
       Width = 516
       Align = alTop
       BorderSpacing.Top = 3
       ParentColor = False
     end
-    object pbFirst: TKASProgressBar
+    object pbCurrent: TKASProgressBar
       Left = 0
       Height = 22
-      Top = 107
+      Top = 61
       Width = 516
       Align = alTop
       BorderSpacing.Top = 3
@@ -137,12 +137,17 @@ object frmFileOp: TfrmFileOp
       TabOrder = 3
       BarShowText = True
     end
-    object pbSecond: TKASProgressBar
+    object pbTotal: TKASProgressBar
+      AnchorSideLeft.Control = pbCurrent
+      AnchorSideTop.Control = pbCurrent
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pbCurrent
+      AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 22
-      Top = 82
+      Top = 86
       Width = 516
-      Align = alTop
+      Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 3
       Max = 516
       Smooth = True
@@ -150,22 +155,27 @@ object frmFileOp: TfrmFileOp
       BarShowText = True
     end
     object pnlButtons: TPanel
+      AnchorSideLeft.Control = pnlClient
+      AnchorSideTop.Control = pbTotal
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlClient
+      AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 35
-      Top = 132
+      Height = 30
+      Top = 111
       Width = 516
-      Align = alTop
+      Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Top = 3
       BevelOuter = bvNone
-      ClientHeight = 35
+      ClientHeight = 30
       ClientWidth = 516
       TabOrder = 5
       object btnMinimizeToPanel: TBitBtn
         Left = 0
-        Height = 35
+        Height = 30
         Top = 0
-        Width = 84
+        Width = 72
         Align = alLeft
         AutoSize = True
         BorderSpacing.Right = 3
@@ -174,10 +184,10 @@ object frmFileOp: TfrmFileOp
         TabOrder = 0
       end
       object btnViewOperations: TBitBtn
-        Left = 87
-        Height = 35
+        Left = 75
+        Height = 30
         Top = 0
-        Width = 78
+        Width = 66
         Align = alLeft
         AutoSize = True
         BorderSpacing.Right = 3
@@ -186,10 +196,10 @@ object frmFileOp: TfrmFileOp
         TabOrder = 1
       end
       object btnCancel: TBitBtn
-        Left = 369
-        Height = 35
+        Left = 377
+        Height = 30
         Top = 0
-        Width = 94
+        Width = 86
         Align = alRight
         AutoSize = True
         BorderSpacing.Left = 3
@@ -199,20 +209,18 @@ object frmFileOp: TfrmFileOp
         Constraints.MinWidth = 50
         Kind = bkCancel
         ModalResult = 2
-        NumGlyphs = 0
         OnClick = btnCancelClick
         TabOrder = 2
       end
       object btnPauseStart: TBitBtn
         Left = 466
-        Height = 35
+        Height = 30
         Top = 0
         Width = 50
         Align = alRight
         AutoSize = True
         BorderSpacing.Left = 3
         Constraints.MinWidth = 50
-        NumGlyphs = 0
         OnClick = btnPauseStartClick
         Spacing = 0
         TabOrder = 3
