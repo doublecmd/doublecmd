@@ -64,6 +64,7 @@ type
   TSevenZipUpdate = class(TThread)
     FPercent: Int64;
     FFileName: WideString;
+    FPause: TEventObject;
     FProgress: TEventObject;
     FArchive: TJclCompressionArchive;
   public
@@ -446,6 +447,7 @@ end;
 constructor TSevenZipUpdate.Create;
 begin
   inherited Create(True);
+  FPause:= TEventObject.Create(nil, False, False, '');
   FProgress:= TEventObject.Create(nil, False, False, '');
 end;
 
@@ -459,6 +461,7 @@ end;
 
 destructor TSevenZipUpdate.Destroy;
 begin
+  FPause.Free;
   FProgress.Free;
   inherited Destroy;
 end;
@@ -483,9 +486,12 @@ begin
   AllowCancel:= not (FArchive is TJclUpdateArchive);
   while not Terminated do
   begin
+    // Wait progress event
     FProgress.WaitFor(INFINITE);
     // If the user has clicked on Cancel, the function returns zero
     FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FFileName), -FPercent) = 0) and AllowCancel;
+    // Drop pause
+    FPause.SetEvent;
   end;
   Result:= ReturnValue;
 end;
@@ -507,7 +513,10 @@ begin
   if FArchive.ItemCount > 0 then begin
     FFileName:= FArchive.Items[FArchive.CurrentItemIndex].PackedName;
   end;
+  // Fire progress event
   FProgress.SetEvent;
+  // Check pause progress
+  FPause.WaitFor(INFINITE);
 end;
 
 { TSevenZipHandle }
@@ -530,12 +539,15 @@ function TSevenZipHandle.Update: Integer;
 begin
   while not Terminated do
   begin
+    // Wait progress event
     FProgress.WaitFor(INFINITE);
     if Assigned(ProcessDataProc) then
     begin
       // If the user has clicked on Cancel, the function returns zero
       FArchive.CancelCurrentOperation:= ProcessDataProc(PWideChar(FFileName), -FPercent) = 0;
     end;
+    // Drop pause
+    FPause.SetEvent;
   end;
   Result:= ReturnValue;
 end;
