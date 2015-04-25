@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Window displaying progress for file source operations and queues.
 
-    Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2015  Alexander Koblov (alexx2000@mail.ru)
     Copyright (C) 2012       Przemysław Nagay (cobines@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@ uses
 
 type
 
-  TFileOpDlgLook = set of (fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb);
+  TFileOpDlgLook = set of (fodl_from_lbl, fodl_to_lbl, fodl_current_pb, fodl_total_pb);
 
   TOperationProgressWindowEvent =
     (opwevOpened,
@@ -66,8 +66,8 @@ type
     lblCurrentOperation: TLabel;
     lblTo: TLabel;
     pnlQueue: TPanel;
-    pbFirst: TKASProgressBar;
-    pbSecond: TKASProgressBar;
+    pbCurrent: TKASProgressBar;
+    pbTotal: TKASProgressBar;
     pnlButtons: TPanel;
     pnlClient: TPanel;
     pnlFrom: TPanel;
@@ -268,8 +268,8 @@ end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
 begin
-  pbFirst.DoubleBuffered:= True;
-  pbSecond.DoubleBuffered:= True;
+  pbCurrent.DoubleBuffered:= True;
+  pbTotal.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
 
   FUpdateTimer := TTimer.Create(Self);
@@ -638,15 +638,15 @@ begin
   lblTo.Visible           := fodl_to_lbl in FileOpDlgLook;
   lblFileNameTo.Visible   := lblTo.Visible;
 
-  pbFirst.Visible         := fodl_first_pb in FileOpDlgLook;
-  pbSecond.Visible        := fodl_second_pb in FileOpDlgLook;
+  pbCurrent.Visible       := fodl_current_pb in FileOpDlgLook;
+  pbTotal.Visible         := fodl_total_pb in FileOpDlgLook;
 
-  pbFirst.ShowInTaskbar  := [fodl_first_pb, fodl_second_pb] * FileOpDlgLook = [fodl_first_pb];
-  pbSecond.ShowInTaskbar := fodl_second_pb in FileOpDlgLook;
+  pbCurrent.ShowInTaskbar := [fodl_current_pb, fodl_total_pb] * FileOpDlgLook = [fodl_current_pb];
+  pbTotal.ShowInTaskbar   := fodl_total_pb in FileOpDlgLook;
 
   lblFileNameFrom.Caption := '';
-  lblFileNameTo.Caption := '';
-  lblEstimated.Caption := #32;
+  lblFileNameTo.Caption   := '';
+  lblEstimated.Caption    := #32;
 end;
 
 procedure TfrmFileOp.NotifyEvents(Events: TOperationProgressWindowEvents);
@@ -704,12 +704,12 @@ end;
 
 procedure TfrmFileOp.InitializeCopyOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeMoveOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_current_pb, fodl_total_pb]);
 end;
 
 function TfrmFileOp.InitializeOperation: Boolean;
@@ -761,7 +761,7 @@ begin
 
         else
           begin
-            InitializeControls(OpManItem, [fodl_first_pb]);
+            InitializeControls(OpManItem, [fodl_total_pb]);
           end;
       end;
 
@@ -777,7 +777,7 @@ end;
 
 procedure TfrmFileOp.InitializeDeleteOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_first_pb]);
+  InitializeControls(OpManItem, [fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeCalcStatisticsOperation(OpManItem: TOperationsManagerItem);
@@ -787,27 +787,27 @@ end;
 
 procedure TfrmFileOp.InitializeWipeOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeSplitOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeCombineOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeCalcChecksumOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeTestArchiveOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_to_lbl, fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
@@ -823,8 +823,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -842,8 +842,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -883,7 +883,7 @@ begin
     begin
       // Operation not currently supported for display.
       // Only show general progress.
-      pbFirst.Position := Round(OpManItem.Operation.Progress * pbFirst.Max);
+      pbTotal.Position := Round(OpManItem.Operation.Progress * pbTotal.Max);
     end;
   end;
 
@@ -963,7 +963,7 @@ begin
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
-    pbFirst.SetProgress(DoneFiles, TotalFiles,
+    pbTotal.SetProgress(DoneFiles, TotalFiles,
       cnvFormatFileSize(DoneFiles, True) + '/' +
       cnvFormatFileSize(TotalFiles, True));
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, True));
@@ -982,8 +982,8 @@ begin
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
-    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1001,8 +1001,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1020,8 +1020,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1053,8 +1053,8 @@ begin
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
-    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1072,15 +1072,15 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(ArchiveFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFile, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
 
 function TfrmFileOp.GetProgressBarStyle: TProgressBarStyle;
 begin
-  if (pbFirst.Style = pbstMarquee) and (pbSecond.Style = pbstMarquee) then
+  if (pbCurrent.Style = pbstMarquee) and (pbTotal.Style = pbstMarquee) then
     Result:= pbstMarquee
   else
     Result:= pbstNormal;
@@ -1088,8 +1088,8 @@ end;
 
 procedure TfrmFileOp.SetProgressBarStyle(const AValue: TProgressBarStyle);
 begin
-  pbFirst.Style:= AValue;
-  pbSecond.Style:= AValue;
+  pbCurrent.Style:= AValue;
+  pbTotal.Style:= AValue;
 end;
 
 initialization
