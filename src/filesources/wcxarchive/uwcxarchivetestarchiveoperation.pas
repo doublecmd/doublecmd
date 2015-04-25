@@ -113,29 +113,29 @@ begin
 
     with WcxTestArchiveOperation.FStatistics do
     begin
-      if Size >= 0 then
+      // Get the number of bytes processed since the previous call
+      if Size > 0 then
       begin
         CurrentFileDoneBytes := CurrentFileDoneBytes + Size;
+        if CurrentFileDoneBytes > CurrentFileTotalBytes then
+          CurrentFileDoneBytes := CurrentFileTotalBytes;
         DoneBytes := DoneBytes + Size;
       end
-      else // For plugins which unpack in CloseArchive
+      // Get progress percent value to directly set progress bar
+      else if Size < 0 then
       begin
-        if (Size >= -100) and (Size <= -1) then // total percent bar
+        CurrentFile:= FileName;
+        // Total operation percent
+        if (Size >= -100) and (Size <= -1) then
         begin
           DoneBytes := TotalBytes * Int64(-Size) div 100;
         end
-        else if (Size >= -1100) and (Size <= -1000) then // current percent bar
+        // Current file percent
+        else if (Size >= -1100) and (Size <= -1000) then
         begin
-          CurrentFileDoneBytes := CurrentFileTotalBytes * (-Size - 1000) div 100;
           CurrentFileTotalBytes := 100;
-
-          if Size = -1100 then // File finished
-            DoneBytes := DoneBytes + WcxTestArchiveOperation.FCurrentFileSize;
-        end
-        else
-          begin
-            DoneBytes := DoneBytes + WcxTestArchiveOperation.FCurrentFileSize;
-          end;
+          CurrentFileDoneBytes := Int64(-Size) - 1000;
+        end;
       end;
 
       WcxTestArchiveOperation.UpdateStatistics(WcxTestArchiveOperation.FStatistics);

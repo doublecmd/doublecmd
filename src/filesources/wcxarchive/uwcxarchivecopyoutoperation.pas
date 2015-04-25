@@ -158,22 +158,28 @@ begin
 
     with WcxCopyOutOperation.FStatistics do
     begin
-      if Size >= 0 then
+      // Get the number of bytes processed since the previous call
+      if Size > 0 then
       begin
         CurrentFileDoneBytes := CurrentFileDoneBytes + Size;
         if CurrentFileDoneBytes > CurrentFileTotalBytes then
           CurrentFileDoneBytes := CurrentFileTotalBytes;
         DoneBytes := DoneBytes + Size;
       end
-      else // For plugins which unpack in CloseArchive
+      // Get progress percent value to directly set progress bar
+      else if Size < 0 then
       begin
-        if (Size >= -100) and (Size <= -1) then // total percent bar
+        CurrentFileFrom:= FileName;
+        // Total operation percent
+        if (Size >= -100) and (Size <= -1) then
           begin
             DoneBytes := TotalBytes * Int64(-Size) div 100;
           end
-        else if (Size >= -1100) and (Size <= -1000) then // current percent bar
+        // Current file percent
+        else if (Size >= -1100) and (Size <= -1000) then
           begin
-            CurrentFileDoneBytes := CurrentFileTotalBytes * (-Size - 1000) div 100;
+            CurrentFileTotalBytes := 100;
+            CurrentFileDoneBytes := Int64(-Size) - 1000;
           end;
       end;
 
