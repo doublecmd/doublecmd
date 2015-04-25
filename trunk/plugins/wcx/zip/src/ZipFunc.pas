@@ -761,16 +761,16 @@ begin
     if Assigned(FProcessDataProcW) then
       begin
         if Assigned(Item) then
-          Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress)) = 0)
+          Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress + 1000)) = 0)
         else
-          Abort := (FProcessDataProcW(nil, -(Progress)) = 0);
+          Abort := (FProcessDataProcW(nil, -(Progress + 1000)) = 0);
       end
     else if Assigned(FProcessDataProc) then
       begin
         if Assigned(Item) then
-          Abort := (FProcessDataProc(PAnsiChar(Item.FileName), -(Progress)) = 0)
+          Abort := (FProcessDataProc(PAnsiChar(Item.FileName), -(Progress + 1000)) = 0)
         else
-          Abort := (FProcessDataProc(nil, -(Progress)) = 0);
+          Abort := (FProcessDataProc(nil, -(Progress + 1000)) = 0);
       end;
   except
     Abort := True;
@@ -782,9 +782,9 @@ procedure TAbZipKitEx.AbArchiveProgressEvent(Sender: TObject;
 begin
   try
     if Assigned(FProcessDataProcW) then
-      Abort := (FProcessDataProcW(nil, -(Progress + 1000)) = 0)
+      Abort := (FProcessDataProcW(nil, -(Progress)) = 0)
     else if Assigned(FProcessDataProc) then
-      Abort := (FProcessDataProc(nil, -(Progress + 1000)) = 0);
+      Abort := (FProcessDataProc(nil, -(Progress)) = 0);
   except
     Abort := True;
   end;
