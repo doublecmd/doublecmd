@@ -243,6 +243,7 @@ begin
 
   with FStatistics do
   begin
+    if FTarBefore then CurrentFileDoneBytes := -1;
     CurrentFileTo:= FWcxArchiveFileSource.ArchiveFileName;
     UpdateStatistics(FStatistics);
   end;
