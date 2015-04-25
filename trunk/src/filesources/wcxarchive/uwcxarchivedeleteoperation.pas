@@ -114,32 +114,21 @@ begin
       CurrentFile := FileName;
 
       // Get the number of bytes processed since the previous call
-      if Size >= 0 then
+      if Size > 0 then
       begin
+        TotalFiles := 100;
         DoneBytes := DoneBytes + Size;
-        DoneFiles := DoneFiles + 1;
+        DoneFiles := DoneBytes * 100 div TotalBytes;
       end
       // Get progress percent value to directly set progress bar
-      else begin
+      else if Size < 0 then
+      begin
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
-          begin
-            if Size = -100 then // File finished
-            begin
-              //DoneBytes := DoneBytes + {FileSize(FileName)};
-              DoneFiles := DoneFiles + 1;
-            end;
-          end
-        // Current file percent
-        else if (Size >= -1100) and (Size <= -1000) then
-          begin
-            DoneBytes := TotalBytes * Int64(-Size - 1000) div 100;
-            DoneFiles := DoneFiles + 1;
-          end
-        else
-          begin
-            DoneFiles := DoneFiles + 1;
-          end;
+        begin
+          TotalFiles := 100;
+          DoneFiles := -Size;
+        end;
       end;
 
       WcxDeleteOperation.UpdateStatistics(WcxDeleteOperation.FStatistics);
