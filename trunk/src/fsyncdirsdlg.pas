@@ -383,12 +383,7 @@ var
     begin
       Fs.Path:= fs[0].Path;
       // Create destination directory
-      with Dst.CreateCreateDirectoryOperation(PathDelim, Dest) do
-      try
-        Execute;
-      finally
-        Free;
-      end;
+      Dst.CreateDirectory(Dest);
       // Determine operation type
       case OperationType of
         fsoCopy:

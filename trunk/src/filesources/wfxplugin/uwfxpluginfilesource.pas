@@ -119,6 +119,7 @@ type
                                             var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
+    function CreateDirectory(const Path: String): Boolean; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
@@ -849,8 +850,12 @@ begin
     end;
 end;
 
-class function TWfxPluginFileSource.IsSupportedPath(const Path: String
-  ): Boolean;
+function TWfxPluginFileSource.CreateDirectory(const Path: String): Boolean;
+begin
+  Result:= WfxModule.WfxMkDir(ExtractFilePath(Path), Path) = WFX_SUCCESS;
+end;
+
+class function TWfxPluginFileSource.IsSupportedPath(const Path: String): Boolean;
 begin
   Result:= Pos('wfx://', Path) = 1;
 end;

@@ -81,6 +81,7 @@ type
     function GetRootDir: String; override; overload;
     function GetPathType(sPath : String): TPathType; override;
 
+    function CreateDirectory(const Path: String): Boolean; override;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -711,6 +712,11 @@ end;
 function TFileSystemFileSource.GetPathType(sPath : String): TPathType;
 begin
   Result := DCStrUtils.GetPathType(sPath);
+end;
+
+function TFileSystemFileSource.CreateDirectory(const Path: String): Boolean;
+begin
+  Result := mbCreateDir(Path);
 end;
 
 function TFileSystemFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
