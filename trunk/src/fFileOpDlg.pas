@@ -102,7 +102,8 @@ type
     procedure UpdateOperation(OpManItem: TOperationsManagerItem);
     procedure UpdatePauseStartButton(OpManItem: TOperationsManagerItem);
     procedure SetProgressBarStyle(const AValue: TProgressBarStyle);
-    procedure SetProgressBytes(ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
+    procedure SetProgressBytes(Operation: TFileSourceOperation; ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
+    procedure SetProgressFiles(Operation: TFileSourceOperation; ProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
     procedure StopOperationOrQueue;
 
@@ -675,15 +676,30 @@ begin
   dmComData.ImageList.GetBitmap(0, btnPauseStart.Glyph);
 end;
 
-procedure TfrmFileOp.SetProgressBytes(ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
+procedure TfrmFileOp.SetProgressBytes(Operation: TFileSourceOperation;
+  ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
 begin
   if (CurrentBytes = -1) then
-    ProgressBar.Style:= pbstMarquee
+    ProgressBar.Style := pbstMarquee
   else begin
-    ProgressBar.Style:= pbstNormal;
+    if Operation.State = fsosRunning then ProgressBar.Style := pbstNormal;
     ProgressBar.SetProgress(CurrentBytes, TotalBytes,
                             cnvFormatFileSize(CurrentBytes, True) + 'B/' +
                             cnvFormatFileSize(TotalBytes, True) + 'B'
+                            );
+  end;
+end;
+
+procedure TfrmFileOp.SetProgressFiles(Operation: TFileSourceOperation;
+  ProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
+begin
+  if (CurrentFiles = -1) then
+    ProgressBar.Style := pbstMarquee
+  else begin
+    if Operation.State = fsosRunning then ProgressBar.Style := pbstNormal;
+    ProgressBar.SetProgress(CurrentFiles, TotalFiles,
+                            cnvFormatFileSize(CurrentFiles, True) + '/' +
+                            cnvFormatFileSize(TotalFiles, True)
                             );
   end;
 end;
@@ -829,8 +845,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
+    SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -848,8 +864,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
+    SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -963,14 +979,7 @@ begin
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
-    if (Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
-    begin
-      ProgressBarStyle:= pbstNormal;
-    end;
-
-    pbTotal.SetProgress(DoneFiles, TotalFiles,
-      cnvFormatFileSize(DoneFiles, True) + '/' +
-      cnvFormatFileSize(TotalFiles, True));
+    SetProgressFiles(Operation, pbTotal, DoneFiles, TotalFiles);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, True));
   end;
 end;
@@ -987,8 +996,8 @@ begin
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
-    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
+    SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1006,8 +1015,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
+    SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1025,8 +1034,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
+    SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1058,8 +1067,8 @@ begin
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
-    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
+    SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -1077,8 +1086,8 @@ begin
     lblFileNameFrom.Caption := MinimizeFilePath(ArchiveFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFile, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
-    SetProgressBytes(pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgressBytes(pbTotal, DoneBytes, TotalBytes);
+    SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
