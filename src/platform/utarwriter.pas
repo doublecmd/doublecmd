@@ -705,6 +705,7 @@ function TTarWriter.ProcessTree(var Files: TFiles;
                                  var Statistics: TFileSourceCopyOperationStatistics): Boolean;
 var
   aFile: TFile;
+  Divider: Int64 = 1;
   CurrentFileIndex: Integer;
   iTotalDiskSize, iFreeDiskSize: Int64;
 begin
@@ -712,10 +713,13 @@ begin
     Result:= False;
     // Set base path
     FBasePath:= Files.Path;
+    if FMemPack = 0 then begin
+      Divider:= 2;
+    end;
     // Update progress
     with Statistics do
     begin
-      TotalBytes:= TotalBytes * 2;
+      TotalBytes:= TotalBytes * Divider;
       UpdateStatistics(Statistics);
     end;
     // Check disk free space
@@ -766,7 +770,7 @@ begin
       if Assigned(FTargetStream) then
         begin
           FreeAndNil(FTargetStream);
-          if (Statistics.DoneBytes <> Statistics.TotalBytes div 2) then
+          if (Statistics.DoneBytes <> Statistics.TotalBytes div Divider) then
             // There was some error, because not all files has been archived.
             // Delete the not completed target file.
             mbDeleteFile(FArchiveFileName)
