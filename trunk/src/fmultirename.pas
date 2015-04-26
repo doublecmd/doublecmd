@@ -673,6 +673,10 @@ begin
   begin
     aFile := FFiles[ItemNr];
     case sFormatStr[1] of
+      '[',']':
+        begin
+          Result := sFormatStr;
+        end;
       'N':
         begin
           Result := sReplaceXX(sFormatStr, aFile.NameNoExt);
