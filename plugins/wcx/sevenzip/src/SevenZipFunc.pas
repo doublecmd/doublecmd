@@ -456,7 +456,6 @@ begin
   Create;
   FArchive:= Archive;
   Archive.OnPassword:= JclCompressionPassword;
-  Archive.OnProgress:= JclCompressionProgress;
 end;
 
 destructor TSevenZipUpdate.Destroy;
@@ -483,6 +482,7 @@ function TSevenZipUpdate.Update: Integer;
 var
   AllowCancel: Boolean;
 begin
+  FArchive.OnProgress:= JclCompressionProgress;
   AllowCancel:= not (FArchive is TJclUpdateArchive);
   while not Terminated do
   begin
@@ -537,6 +537,7 @@ end;
 
 function TSevenZipHandle.Update: Integer;
 begin
+  FArchive.OnProgress:= JclCompressionProgress;
   while not Terminated do
   begin
     // Wait progress event
@@ -556,7 +557,6 @@ procedure TSevenZipHandle.SetArchive(AValue: TJclDecompressArchive);
 begin
   FArchive:= AValue;
   AValue.OnPassword := JclCompressionPassword;
-  AValue.OnProgress := JclCompressionProgress;
   AValue.OnExtract  := JclCompressionExtract;
 end;
 
