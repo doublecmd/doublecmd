@@ -51,7 +51,7 @@ type
 
     function FileExists(aFile: TFile;
                         AbsoluteTargetFileName: String;
-                        AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
+                        AllowResume: Boolean): TFileSourceOperationOptionFileExists;
 
   public
     constructor Create(FileSource: IFileSource;
@@ -209,7 +209,7 @@ begin
               Exit(FS_FILE_OK);
             fsoofeOverwrite:
                 iFlags:= iFlags + FS_COPYFLAGS_OVERWRITE;
-            fsoofeAppend:
+            fsoofeResume:
                 iFlags:= iFlags + FS_COPYFLAGS_RESUME;
           else
             raise Exception.Create('Invalid file exists option');
@@ -228,12 +228,12 @@ begin
 end;
 
 function TWfxPluginOperationHelper.FileExists(aFile: TFile;
-  AbsoluteTargetFileName: String; AllowAppend: Boolean
+  AbsoluteTargetFileName: String; AllowResume: Boolean
   ): TFileSourceOperationOptionFileExists;
 const
   Responses: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll, fsourSkipAll);
-  ResponsesNoAppend: array[0..3] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourResume, fsourOverwriteAll, fsourSkipAll);
+  ResponsesNoResume: array[0..3] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll);
 var
   Message: String;
@@ -242,9 +242,9 @@ begin
   case FFileExistsOption of
     fsoofeNone:
       begin
-        case AllowAppend of
+        case AllowResume of
           True :  PossibleResponses := Responses;
-          False:  PossibleResponses := ResponsesNoAppend;
+          False:  PossibleResponses := ResponsesNoResume;
         end;
         if FMode <> wpohmCopyOut then
           Message:= Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName])
@@ -256,10 +256,10 @@ begin
             Result := fsoofeOverwrite;
           fsourSkip:
             Result := fsoofeSkip;
-          fsourAppend:
+          fsourResume:
             begin
-              //FFileExistsOption := fsoofeAppend; - for AppendAll
-              Result := fsoofeAppend;
+              // FFileExistsOption := fsoofeResume; - for ResumeAll
+              Result := fsoofeResume;
             end;
           fsourOverwriteAll:
             begin
