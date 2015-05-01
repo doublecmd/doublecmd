@@ -346,9 +346,10 @@ end;
 
 procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent);
 var
-  Mi, mi2: TMenuItem;
-  i,j: Integer;
+  I, J: Integer;
   sUnits: String;
+  Module: TWDXModule;
+  Mi, mi2: TMenuItem;
 begin
   MenuItem.Clear;
 
@@ -356,53 +357,51 @@ begin
   MI:= TMenuItem.Create(MenuItem);
   MI.Caption:= 'DC';
   MenuItem.Add(MI);
-  for i:= 0 to FileFunctionsStr.Count-1 do
-    begin
-      MI:=TMenuItem.Create(MenuItem);
-      MI.Tag:=0;
-      MI.Hint:= FileFunctionsStr.Names[i];
-      MI.Caption:= FileFunctionsStr.ValueFromIndex[i] + '  (' + MI.Hint + ')';
-      MI.OnClick:= OnMenuItemClick;
-      MenuItem.Items[0].Add(MI);
-    end;
+  for I:= 0 to FileFunctionsStr.Count - 1 do
+  begin
+    MI:= TMenuItem.Create(MenuItem);
+    MI.Tag:= 0;
+    MI.Hint:= FileFunctionsStr.Names[I];
+    MI.Caption:= FileFunctionsStr.ValueFromIndex[I] + '  (' + MI.Hint + ')';
+    MI.OnClick:= OnMenuItemClick;
+    MenuItem.Items[0].Add(MI);
+  end;
 
   // Plugins
-  MI:=TMenuItem.Create(MenuItem);
+  MI:= TMenuItem.Create(MenuItem);
   MI.Caption:= 'Plugins';
   MenuItem.Add(MI);
-  for i:=0 to gWdxPlugins.Count-1 do
+  for I:= 0 to gWdxPlugins.Count - 1 do
+  begin
+    Module:= gWdxPlugins.GetWdxModule(I);
+    if not (Module.IsLoaded or Module.LoadModule) then
+     Continue;
+    MI:= TMenuItem.Create(MenuItem);
+    MI.Caption:= Module.Name;
+    MenuItem.Items[1].Add(MI);
+    // Load fields list
+    for J:= 0 to Module.FieldList.Count - 1 do
     begin
-     MI:=TMenuItem.Create(MenuItem);
-     MI.Caption:=gWdxPlugins.GetWdxModule(i).Name;
-     MenuItem.Items[1].Add(MI);
-     // Load fields list
-     if gWdxPlugins.GetWdxModule(i).IsLoaded=false then
-       if not (gWdxPlugins.GetWdxModule(i).LoadModule) then Break;
-         for j:=0 to  gWdxPlugins.GetWdxModule(i).FieldList.Count-1 do
-           begin
-             with gWdxPlugins.GetWdxModule(i) do
-               begin
-                 MI:=TMenuItem.Create(MenuItem);
-                 MI.Tag:=1;
-                 MI.Caption:=FieldList[j];
-                 MI.OnClick:= OnMenuItemClick;
-                 MenuItem.Items[1].Items[i].Add(MI);
-                 with TWdxField(FieldList.Objects[j]) do
-                 if FType <> ft_multiplechoice then
-                   begin
-                     sUnits:= FUnits;
-                     while sUnits <> EmptyStr do
-                     begin
-                       MI2:=TMenuItem.Create(MenuItem);
-                       MI2.Tag:= 2;
-                       MI2.Caption:= Copy2SymbDel(sUnits, '|');
-                       MI2.OnClick:= OnMenuItemClick;
-                       MI.Add(MI2);
-                     end;
-                   end;
-               end;
-           end;
+      MI:= TMenuItem.Create(MenuItem);
+      MI.Tag:= 1;
+      MI.Caption:= Module.FieldList[J];
+      MI.OnClick:= OnMenuItemClick;
+      MenuItem.Items[1].Items[MenuItem.Items[1].Count - 1].Add(MI);
+      with TWdxField(Module.FieldList.Objects[J]) do
+      if FType <> ft_multiplechoice then
+      begin
+        sUnits:= FUnits;
+        while sUnits <> EmptyStr do
+        begin
+          MI2:=TMenuItem.Create(MenuItem);
+          MI2.Tag:= 2;
+          MI2.Caption:= Copy2SymbDel(sUnits, '|');
+          MI2.OnClick:= OnMenuItemClick;
+          MI.Add(MI2);
+        end;
+      end;
     end;
+  end;
 end;
 
 procedure FillFileFuncList;
