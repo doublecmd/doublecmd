@@ -3100,10 +3100,13 @@ begin
 end;
 
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+var
+  NoWatcher: Boolean;
 begin
-  // Reload file view but only if the file source is currently viewed
-  // and FileSystemWatcher is not being used.
-  if not WatcherActive and aFileSource.Equals(FileSource) then
+  // Reload file view but only if the file source is
+  // currently viewed and FileSystemWatcher is not being used.
+  NoWatcher:= not (TFileSystemFileSource.ClassNameIs(FileSource.ClassName) and WatcherActive);
+  if (NoWatcher or FlatView) and aFileSource.Equals(FileSource) then
     Reload(ReloadedPaths);
 end;
 
