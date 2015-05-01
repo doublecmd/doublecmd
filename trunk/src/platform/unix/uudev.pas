@@ -280,6 +280,25 @@ begin
   if Result then Result:= TryStrToBool(S, Value);
 end;
 
+function GetDeviceAttribute(const SystemPath: String;
+                            const AttributeName: UTF8String;
+                            out Value: Boolean): Boolean; overload;
+var
+  S: AnsiChar;
+  Handle: THandle;
+  FileName: String;
+begin
+  FileName:= IncludeTrailingBackslash(SystemPath) + AttributeName;
+  Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyNone);
+  Result:= Handle <> feInvalidHandle;
+  if Result then
+  begin
+    Result:= FileRead(Handle, S, SizeOf(S)) > 0;
+    if Result then Result:= TryStrToBool(S, Value);
+    FileClose(Handle);
+  end;
+end;
+
 function DecodeString(const EncodedString: String): String;
 var
   Finish: Integer;
@@ -393,11 +412,17 @@ begin
       if not GetDeviceProperty(Device, 'UDISKS_PARTITION_SLAVE', PartitionSlave) then
       begin
         if DeviceObjectPath[Length(DeviceObjectPath)] in ['0'..'9'] then
+        begin
           PartitionSlave:= ExtractFileDir(DeviceObjectPath);
+          GetDeviceAttribute(PartitionSlave, 'removable', DeviceIsRemovable);
+        end;
       end;
     end;
 
-    GetDeviceAttribute(Device, 'removable', DeviceIsRemovable);
+    if not DeviceIsRemovable then
+    begin
+      GetDeviceAttribute(Device, 'removable', DeviceIsRemovable);
+    end;
 
     UpdateDriveConnectionInterface(SystemPath, Info);
 
