@@ -119,6 +119,9 @@ begin
             Text:= 'anonymous';
             Data:= PtrInt(PAnsiChar(Text));
             SendDlgMsg(pDlg, 'edtUserName', DM_SETTEXT, Data, 0);
+            Text:= 'anonymous@example.org';
+            Data:= PtrInt(PAnsiChar(Text));
+            SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
           end
         else if DlgItemName = 'btnChangePassword' then
           begin
