@@ -71,12 +71,6 @@ end;"/>
               <ExecutableType Value="Library"/>
             </Options>
           </Linking>
-          <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
-          </Other>
         </CompilerOptions>
       </Item2>
     </BuildModes>
@@ -93,7 +87,7 @@ end;"/>
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="ftp.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -116,6 +110,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FtpFunc"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="ftpadv.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="FtpAdv"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -164,11 +163,5 @@ end;"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
 </CONFIG>
