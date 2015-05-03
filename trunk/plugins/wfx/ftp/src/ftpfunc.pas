@@ -116,6 +116,7 @@ type
   TListRec = record
     Path: AnsiString;
     Index: Integer;
+    FtpSend: TFTPSendEx;
     FtpList: TFTPListEx;
   end;
   PListRec = ^TListRec;
@@ -480,6 +481,9 @@ begin
   sConnName := ExtractConnectionName(sPath);
   RemotePath := ExtractRemoteFileName(sPath);
   Result:= FtpConnect(sConnName, FtpSend);
+  if Result then begin
+    RemotePath:= FtpSend.ClientToServer(RemotePath);
+  end;
 end;
 
 function LocalFindNext(Hdl: THandle; var FindData: TWin32FindData): Boolean;
@@ -522,7 +526,7 @@ begin
       if I < FtpList.Count then
       begin
         FillChar(FindData, SizeOf(FindData), 0);
-        StrPCopy(FindData.cFileName, FtpList.Items[I].FileName);
+        StrPCopy(FindData.cFileName, FtpSend.ServerToClient(FtpList.Items[I].FileName));
         FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_UNIX_MODE;
         if FtpList.Items[I].Directory then
           FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_DIRECTORY
@@ -574,13 +578,14 @@ begin
       try
         if GetConnectionByPath(IncludeTrailingPathDelimiter(Path), FtpSend, sPath) then
         begin
+          ListRec.FtpSend := FtpSend;
           // Get directory listing
           if FtpSend.List(sPath, False) then
           begin
             if FtpSend.FtpList.Count > 0 then
             begin
-              ListRec.FtpList:= TFTPListEx.Create;
               // Save file list
+              ListRec.FtpList:= TFTPListEx.Create;
               ListRec.FtpList.Assign(FtpSend.FtpList);
               Result := THandle(ListRec);
               RemoteFindNext(Result, FindData);
@@ -636,7 +641,8 @@ begin
               Result := FS_EXEC_OK
             else
               begin
-                sFileName:= SetDirSeparators(RemoteName + FtpSend.GetCurrentDir);
+                sFileName := FtpSend.ServerToClient(FtpSend.GetCurrentDir);
+                sFileName := SetDirSeparators(RemoteName + sFileName);
                 StrPLCopy(RemoteName, sFileName, MAX_PATH);
                 Result := FS_EXEC_SYMLINK;
               end;
@@ -705,6 +711,7 @@ begin
   else if GetConnectionByPath(OldName, FtpSend, sOldName) then
     begin
       sNewName := ExtractRemoteFileName(NewName);
+      sNewName := FtpSend.ClientToServer(sNewName);
       ProgressProc(PluginNumber, OldName, NewName, 0);
       if FtpSend.RenameFile(sOldName, sNewName) then
         begin
