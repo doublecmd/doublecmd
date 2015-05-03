@@ -76,6 +76,7 @@ type
     FUnicode: Boolean;
   protected
     function Connect: Boolean; override;
+    procedure DoStatus(Response: Boolean; const Value: string); override;
   public
     ClientToServer,
     ServerToClient: TConvertEncoding;
@@ -84,7 +85,6 @@ type
     function Login: Boolean; override;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
     function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; overload;
-    procedure FTPStatus(Sender: TObject; Response: Boolean; const Value: String);
     function NetworkError(): Boolean;
   end;
 
@@ -155,6 +155,14 @@ function TFTPSendEx.Connect: Boolean;
 begin
   Result:= inherited Connect;
   if Result then LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
+end;
+
+procedure TFTPSendEx.DoStatus(Response: Boolean; const Value: string);
+begin
+  LogProc(PluginNumber, msgtype_details, PAnsiChar(ServerToClient(Value)));
+  if FSock.LastError <> 0 then begin
+    LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error: ' + FSock.LastErrorDesc));
+  end;
 end;
 
 constructor TFTPSendEx.Create;
@@ -272,15 +280,6 @@ begin
     Result := DataRead(RetrStream);
   finally
     RetrStream.Free;
-  end;
-end;
-
-procedure TFTPSendEx.FTPStatus(Sender: TObject; Response: Boolean;
-  const Value: String);
-begin
-  LogProc(PluginNumber, msgtype_details, PAnsiChar(ServerToClient(Value)));
-  if FSock.LastError <> 0 then begin
-    LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error: ' + FSock.LastErrorDesc));
   end;
 end;
 

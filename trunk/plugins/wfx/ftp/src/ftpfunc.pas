@@ -268,7 +268,6 @@ begin
       begin
         Connection := TConnection(ConnectionList.Objects[I]);
         FtpSend := TFTPSendEx.Create;
-        FtpSend.OnStatus:= FtpSend.FTPStatus;
         FtpSend.TargetHost := Connection.Host;
         FtpSend.PassiveMode:= Connection.PassiveMode;
         FtpSend.AutoTLS:= Connection.AutoTLS;
