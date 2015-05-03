@@ -91,7 +91,7 @@ type
 implementation
 
 uses
-  FtpFunc;
+  LazUTF8, FtpFunc;
 
 function Dummy(const S: String): String;
 begin
@@ -188,8 +188,8 @@ begin
         if FUnicode then
         begin
           FTPCommand('OPTS UTF8 ON');
-          ClientToServer:= @AnsiToUtf8;
-          ServerToClient:= @Utf8ToAnsi;
+          ClientToServer:= @SysToUTF8;
+          ServerToClient:= @UTF8ToSys;
           Exit;
         end;
       end;
