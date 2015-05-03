@@ -75,9 +75,10 @@ type
   private
     FUnicode: Boolean;
   protected
-    FClientToServer,
-    FServerToClient: TConvertEncoding;
     function Connect: Boolean; override;
+  public
+    ClientToServer,
+    ServerToClient: TConvertEncoding;
   public
     constructor Create; reintroduce;
     function Login: Boolean; override;
@@ -160,8 +161,8 @@ constructor TFTPSendEx.Create;
 begin
   inherited Create;
   FDirectFile:= True;
-  FClientToServer:= @Dummy;
-  FServerToClient:= @Dummy;
+  ClientToServer:= @Dummy;
+  ServerToClient:= @Dummy;
 end;
 
 function TFTPSendEx.Login: Boolean;
@@ -179,8 +180,8 @@ begin
         if FUnicode then
         begin
           FTPCommand('OPTS UTF8 ON');
-          FClientToServer:= @AnsiToUtf8;
-          FServerToClient:= @Utf8ToAnsi;
+          ClientToServer:= @AnsiToUtf8;
+          ServerToClient:= @Utf8ToAnsi;
           Exit;
         end;
       end;
@@ -206,8 +207,8 @@ begin
 
   SendStream.PluginNumber:= PluginNumber;
   SendStream.ProgressProc:= ProgressProc;
-  SendStream.RemoteName:= PAnsiChar(FileName);
   SendStream.LocalName:= PAnsiChar(FDirectFileName);
+  SendStream.RemoteName:= PAnsiChar(ServerToClient(FileName));
 
   try
     if not DataSocket then Exit;
@@ -254,8 +255,8 @@ begin
   RetrStream.FileSize := FileSize;
   RetrStream.PluginNumber := PluginNumber;
   RetrStream.ProgressProc := ProgressProc;
-  RetrStream.RemoteName := PAnsiChar(FileName);
   RetrStream.LocalName := PAnsiChar(FDirectFileName);
+  RetrStream.RemoteName := PAnsiChar(ServerToClient(FileName));
 
   try
     FTPCommand('TYPE I');
@@ -277,9 +278,10 @@ end;
 procedure TFTPSendEx.FTPStatus(Sender: TObject; Response: Boolean;
   const Value: String);
 begin
-  LogProc(PluginNumber, msgtype_details, PAnsiChar(Value));
-  if FSock.LastError <> 0 then
+  LogProc(PluginNumber, msgtype_details, PAnsiChar(ServerToClient(Value)));
+  if FSock.LastError <> 0 then begin
     LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error: ' + FSock.LastErrorDesc));
+  end;
 end;
 
 function TFTPSendEx.NetworkError: Boolean;
