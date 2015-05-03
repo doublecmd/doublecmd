@@ -223,7 +223,7 @@ begin
       while sTemp <> EmptyStr do
         FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
       if Length(Connection.Path) > 0 then
-        FtpSend.ChangeWorkingDir(Connection.Path);
+        FtpSend.ChangeWorkingDir(FtpSend.ClientToServer(Connection.Path));
       Result := True;
     end;
    
