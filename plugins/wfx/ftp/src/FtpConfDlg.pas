@@ -37,7 +37,7 @@ function ShowFtpConfDlg: Boolean;
 implementation
 
 uses
-  FtpFunc, FtpUtils, blcksock, ssl_openssl_lib;
+  LazUTF8, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
@@ -73,10 +73,10 @@ begin
               Data:= PtrInt(PAnsiChar(Text));
               SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
             end;
-          Text:= AnsiToUtf8(gConnection.Path);
+          Text:= SysToUTF8(gConnection.Path);
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtRemoteDir', DM_SETTEXT, Data, 0);
-          Text:= AnsiToUtf8(gConnection.InitCommands);
+          Text:= gConnection.InitCommands;
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtInitCommands', DM_SETTEXT, Data, 0);
           Data:= PtrInt(gConnection.PassiveMode);
@@ -155,10 +155,10 @@ begin
             gConnection.MasterPassword:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'edtRemoteDir', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
-            gConnection.Path:= Utf8ToAnsi(Text);
+            gConnection.Path:= UTF8ToSys(Text);
             Data:= SendDlgMsg(pDlg, 'edtInitCommands', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
-            gConnection.InitCommands:= Utf8ToAnsi(Text);
+            gConnection.InitCommands:= Text;
             Data:= SendDlgMsg(pDlg, 'chkPassiveMode', DM_GETCHECK, 0, 0);
             gConnection.PassiveMode:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
