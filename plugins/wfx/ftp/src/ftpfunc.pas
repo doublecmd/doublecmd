@@ -33,19 +33,6 @@ uses
 
 type
 
-  { TFTPSendEx }
-
-  TFTPSendEx = class(TFTPSend)
-  protected
-    function Connect: Boolean; override;
-  public
-    constructor Create; reintroduce;
-    function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
-    function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; overload;
-    procedure FTPStatus(Sender: TObject; Response: Boolean; const Value: String);
-    function NetworkError(): Boolean;
-  end;
-
   TConnection = class
   public
     ConnectionName, Path, Host: AnsiString;
@@ -100,20 +87,22 @@ var
   gStartupInfo: TExtensionStartupInfo;
   gConnection: TConnection;
 
+var
+  LogProc: TLogProc;
+  CryptProc: TCryptProc;
+  PluginNumber: Integer;
+  CryptoNumber: Integer;
+  RequestProc: TRequestProc;
+  ProgressProc: TProgressProc;
+
 implementation
 
 uses
-  IniFiles, StrUtils, FtpUtils, FtpConfDlg, syncobjs, ssl_openssl, FtpAdv;
+  IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, ssl_openssl;
 
 var
   ActiveConnectionList, ConnectionList: TStringList;
   IniFile: TIniFile;
-  ProgressProc: TProgressProc;
-  LogProc: TLogProc;
-  RequestProc: TRequestProc;
-  PluginNumber: Integer;
-  CryptProc: TCryptProc;
-  CryptoNumber: Integer;
   HasDialogAPI: Boolean = False;
   ListLock: TCriticalSection;
 
@@ -959,119 +948,6 @@ var
 begin
   Password:= EmptyStr;
   Result:= CryptFunc(FS_CRYPT_DELETE_PASSWORD, ConnectionName, Password) = FS_FILE_OK;
-end;
-
-{ TFTPSendEx }
-
-function TFTPSendEx.Connect: Boolean;
-begin
-  Result:= inherited Connect;
-  if Result then LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
-end;
-
-constructor TFTPSendEx.Create;
-begin
-  inherited Create;
-  FDirectFile:= True;
-end;
-
-function TFTPSendEx.StoreFile(const FileName: string; Restore: Boolean): Boolean;
-var
-  StorSize: Int64;
-  RestoreAt: Int64 = 0;
-  SendStream: TProgressStream;
-begin
-  Result := False;
-  Restore := Restore and FCanResume;
-  if Restore then
-  begin
-    RestoreAt := Self.FileSize(FileName);
-    if RestoreAt < 0 then RestoreAt := 0;
-  end;
-
-  SendStream := TProgressStream.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
-
-  SendStream.PluginNumber:= PluginNumber;
-  SendStream.ProgressProc:= ProgressProc;
-  SendStream.RemoteName:= PAnsiChar(FileName);
-  SendStream.LocalName:= PAnsiChar(FDirectFileName);
-
-  try
-    if not DataSocket then Exit;
-    FTPCommand('TYPE I');
-    StorSize := SendStream.Size;
-    if not FCanResume then RestoreAt := 0;
-    if RestoreAt > StorSize then RestoreAt := 0;
-    if (StorSize > 0) and (RestoreAt = StorSize) then
-    begin
-      Result := True;
-      Exit;
-    end;
-    SendStream.FileSize := StorSize;
-    SendStream.DoneSize := RestoreAt;
-    FTPCommand('ALLO ' + IntToStr(StorSize - RestoreAt));
-    if FCanResume then
-    begin
-      if (FTPCommand('REST ' + IntToStr(RestoreAt)) div 100) <> 3 then
-        Exit;
-    end;
-    SendStream.Position := RestoreAt;
-    if (FTPCommand('STOR ' + FileName) div 100) <> 1 then
-      Exit;
-    Result := DataWrite(SendStream);
-  finally
-    SendStream.Free;
-  end;
-end;
-
-function TFTPSendEx.RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean;
-var
-  RetrStream: TProgressStream;
-begin
-  Result := False;
-  if not DataSocket then Exit;
-  Restore := Restore and FCanResume;
-
-  if Restore and FileExists(FDirectFileName) then
-    RetrStream := TProgressStream.Create(FDirectFileName, fmOpenWrite or fmShareExclusive)
-  else begin
-    RetrStream := TProgressStream.Create(FDirectFileName, fmCreate or fmShareDenyWrite)
-  end;
-
-  RetrStream.FileSize := FileSize;
-  RetrStream.PluginNumber := PluginNumber;
-  RetrStream.ProgressProc := ProgressProc;
-  RetrStream.RemoteName := PAnsiChar(FileName);
-  RetrStream.LocalName := PAnsiChar(FDirectFileName);
-
-  try
-    FTPCommand('TYPE I');
-    if Restore then
-    begin
-      RetrStream.DoneSize := RetrStream.Size;
-      RetrStream.Position := RetrStream.DoneSize;
-      if (FTPCommand('REST ' + IntToStr(RetrStream.DoneSize)) div 100) <> 3 then
-        Exit;
-    end;
-    if (FTPCommand('RETR ' + FileName) div 100) <> 1 then
-      Exit;
-    Result := DataRead(RetrStream);
-  finally
-    RetrStream.Free;
-  end;
-end;
-
-procedure TFTPSendEx.FTPStatus(Sender: TObject; Response: Boolean;
-  const Value: String);
-begin
-  LogProc(PluginNumber, msgtype_details, PAnsiChar(Value));
-  if FSock.LastError <> 0 then
-    LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error: ' + FSock.LastErrorDesc));
-end;
-
-function TFTPSendEx.NetworkError: Boolean;
-begin
-  Result := FSock.CanRead(0);
 end;
 
 initialization
