@@ -73,10 +73,10 @@ begin
               Data:= PtrInt(PAnsiChar(Text));
               SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
             end;
-          Text:= gConnection.Path;
+          Text:= AnsiToUtf8(gConnection.Path);
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtRemoteDir', DM_SETTEXT, Data, 0);
-          Text:= gConnection.InitCommands;
+          Text:= AnsiToUtf8(gConnection.InitCommands);
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtInitCommands', DM_SETTEXT, Data, 0);
           Data:= PtrInt(gConnection.PassiveMode);
@@ -155,10 +155,10 @@ begin
             gConnection.MasterPassword:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'edtRemoteDir', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
-            gConnection.Path:= Text;
+            gConnection.Path:= Utf8ToAnsi(Text);
             Data:= SendDlgMsg(pDlg, 'edtInitCommands', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
-            gConnection.InitCommands:= Text;
+            gConnection.InitCommands:= Utf8ToAnsi(Text);
             Data:= SendDlgMsg(pDlg, 'chkPassiveMode', DM_GETCHECK, 0, 0);
             gConnection.PassiveMode:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
