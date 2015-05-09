@@ -10874,7 +10874,7 @@ msgstr "&Dateien;Ve&rzeichnisse;Dateien u&nd Verzeichnisse"
 #, fuzzy
 #| msgid "&Hide filter panel when not focused"
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Verstecke Filterpanel wenn es nicht ausgewä&hlt ist"
+msgstr "Verstecke Filterpanel wenn es nicht ausgewä&hlt ist;Halten Sie Einstellung zu speichern Änderungen für die nächste Sitzung"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
