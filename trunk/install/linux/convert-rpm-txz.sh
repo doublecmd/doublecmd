@@ -2,11 +2,14 @@
 
 # This script converts *.rpm package to portable package
 
+# Script directory
+SCRIPT_DIR=$(pwd)
+
 # Source directory
-DC_SOURCE_DIR=$(pwd)/../..
+DC_SOURCE_DIR=$SCRIPT_DIR/../..
 
 # The new package will be saved here
-PACK_DIR=$(pwd)/release
+PACK_DIR=$SCRIPT_DIR/release
 
 # Temp directory
 DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
@@ -40,7 +43,7 @@ mkdir -p $DC_TEMP_DIR
 
 pushd $DC_TEMP_DIR
 
-rpm2cpio $1 | cpio -idmv
+$SCRIPT_DIR/rpm2cpio.sh $1 | cpio -idmv
 
 if [ "$CPU_TARGET" = "x86_64" ]
   then
