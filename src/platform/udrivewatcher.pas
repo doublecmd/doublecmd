@@ -925,6 +925,8 @@ end;
       Result := dtHardDisk
     else if FSType = 'ufsd_NTFS' then
       Result := dtHardDisk
+    else if FSType = 'fusefs_txantfs' then
+      Result := dtHardDisk
     else if FSType = 'udf' then
       Result := dtOptical
     else if FSType = 'cd9660' then
