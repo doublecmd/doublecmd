@@ -754,12 +754,11 @@ begin
         end;
       end;
     end;
-    if (FLastActiveFileIndex >= FFiles.Count) then
-      SetUpdate(FFiles.Count - 1)
-    else begin
-      SetUpdate(FLastActiveFileIndex);
-    end;
-    Exit(True);
+  end;
+  if (FLastActiveFileIndex >= FFiles.Count) then
+    SetUpdate(FFiles.Count - 1)
+  else begin
+    SetUpdate(FLastActiveFileIndex);
   end;
   Result := False;
 end;
