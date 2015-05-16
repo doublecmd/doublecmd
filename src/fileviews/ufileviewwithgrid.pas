@@ -421,8 +421,6 @@ end;
 
 procedure TFileViewWithGrid.DisplayFileListChanged;
 begin
-  dgPanel.CalculateColRowCount;
-  dgPanel.CalculateColumnWidth;
   SetFilesDisplayItems;
 
   if SetActiveFileNow(RequestedActiveFile) then
@@ -430,6 +428,9 @@ begin
   else
     // Requested file was not found, restore position to last active file.
     SetActiveFileNow(LastActiveFile);
+
+  dgPanel.CalculateColRowCount;
+  dgPanel.CalculateColumnWidth;
 
   Notify([fvnVisibleFilePropertiesChanged]);
 
