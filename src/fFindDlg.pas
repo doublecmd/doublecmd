@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -645,7 +645,11 @@ begin
     FFrmAttributesEdit.OnOk := @OnAddAttribute;
   end;
   FFrmAttributesEdit.Reset;
-  FFrmAttributesEdit.Show;
+  if not (fsModal in FormState) then
+    FFrmAttributesEdit.Show
+  else begin
+    FFrmAttributesEdit.ShowModal;
+  end;
 end;
 
 procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
