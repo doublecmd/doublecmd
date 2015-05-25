@@ -180,7 +180,7 @@ end;
 
 procedure TBriefDrawGrid.IndexToCell(Index: Integer; out ACol, ARow: Integer);
 begin
-  if (Index < 0) or (Index >= FBriefView.FFiles.Count) then
+  if (Index < 0) or (Index >= FBriefView.FFiles.Count) or (RowCount = 0) then
     begin
       ACol:= -1;
       ARow:= -1;
