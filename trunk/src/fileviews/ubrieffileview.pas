@@ -123,8 +123,11 @@ begin
       RowCount := ARowCount;
       ColCount := (FBriefView.FFiles.Count + ARowCount - 1) div ARowCount;
       // Restore active file index
-      IndexToCell(AIndex, ACol, ARow);
-      MoveExtend(False, ACol, ARow);
+      if AIndex >= 0 then
+      begin
+        IndexToCell(AIndex, ACol, ARow);
+        MoveExtend(False, ACol, ARow);
+      end;
     end;
   end;
   Invalidate;
