@@ -348,8 +348,11 @@ begin
             ColWidths[ACol]:= ARow;
         end;
         // Restore active file index
-        IndexToCell(AIndex, ACol, ARow);
-        MoveExtend(False, ACol, ARow);
+        if AIndex >= 0 then
+        begin
+          IndexToCell(AIndex, ACol, ARow);
+          MoveExtend(False, ACol, ARow);
+        end;
       end;
     end;
   finally
