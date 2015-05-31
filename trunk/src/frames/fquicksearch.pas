@@ -566,30 +566,38 @@ begin
       end;
     end;
 
-(*  // disabled as they can conflict with trying to get to start/end position
-    // of edtSearch
+    // Request to have CTRL pressed at the same time.
+    // VK_HOME alone reserved to get to start position of edtSearch.
     VK_HOME:
     begin
-      Key := 0;
-
-      if Assigned(Self.OnChangeSearch) then
+      if ssCtrl in Shift then
       begin
-        Options := qsdFirst;
-        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+        Key := 0;
+
+        if Assigned(Self.OnChangeSearch) then
+        begin
+          Options.Direction := qsdFirst;
+          Self.OnChangeSearch(Self, edtSearch.Text, Options);
+        end;
       end;
     end;
 
+    // Request to have CTRL pressed at the same time.
+    // VK_END alone reserved to get to end position of edtSearch.
     VK_END:
     begin
-      Key := 0;
-
-      if Assigned(Self.OnChangeSearch) then
+      if ssCtrl in Shift then
       begin
-        Options := qsdLast;
-        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+        Key := 0;
+
+        if Assigned(Self.OnChangeSearch) then
+        begin
+          Options.Direction := qsdLast;
+          Self.OnChangeSearch(Self, edtSearch.Text, Options);
+        end;
       end;
     end;
-*)
+
     VK_RETURN, VK_SELECT:
     begin
       Key := 0;
