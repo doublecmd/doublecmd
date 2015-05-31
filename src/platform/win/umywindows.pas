@@ -27,7 +27,7 @@ unit uMyWindows;
 interface
 
 uses
-  Classes, SysUtils, JwaWinBase, Windows;
+  Graphics, Classes, SysUtils, JwaWinBase, Windows;
 
 type
   tagMENUITEMINFOW = record
@@ -56,7 +56,7 @@ function InsertMenuItemW(hMenu: HMENU; uItem: UINT; fByPosition: BOOL;
 
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
 function GetMenuItemType(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UINT;
-function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, ItemID,  ItemType : UINT): boolean;
+function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, ItemID,  ItemType : UINT; Bitmap:Graphics.TBitmap = nil): boolean;
 {en
    Extracts volume GUID from a volume GUID path
 }
@@ -195,15 +195,27 @@ begin
 end;
 
 function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar;
-                         Position, ItemID,  ItemType : UINT): boolean;
+                         Position, ItemID,  ItemType : UINT; Bitmap:Graphics.TBitmap): boolean;
 var
   mi: TMenuItemInfoW;
 begin
-   FillChar(mi, SizeOf(mi), 0);
+  FillChar(mi, SizeOf(mi), 0);
    with mi do
    begin
       cbSize := SizeOf(mi);
-      fMask := MIIM_STATE or MIIM_TYPE or MIIM_SUBMENU or MIIM_ID;
+
+      case ItemType of
+        MFT_SEPARATOR:
+          begin
+            fMask := MIIM_STATE or MIIM_TYPE or MIIM_ID;
+          end;
+        MFT_STRING:
+          begin
+            fMask := MIIM_BITMAP or MIIM_STRING or MIIM_SUBMENU or MIIM_ID;
+            if BitMap<>nil then hbmpItem:=Bitmap.Handle;
+          end;
+      end;
+
       fType := ItemType;
       fState := MFS_ENABLED;
       wID := ItemID;

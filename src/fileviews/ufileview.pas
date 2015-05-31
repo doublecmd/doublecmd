@@ -477,6 +477,7 @@ type
 
     procedure SetDragCursor(Shift: TShiftState); virtual; abstract;
     procedure SetFileFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
+    procedure JustForColorPreviewSetActiveState(bActive: Boolean);
 
     property CurrentAddress: String read GetCurrentAddress;
     property CurrentFileSourceIndex: Integer read GetCurrentFileSourceIndex;
@@ -559,8 +560,8 @@ implementation
 
 uses
   Clipbrd, Dialogs, LCLProc, LCLType, Forms, dmCommonData,
-  fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils, uDCUtils,
-  uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
+  uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
+  uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
   fMain, uSearchResultFileSource, uFileSourceProperty;
 
@@ -936,8 +937,7 @@ begin
         begin
           if IsActiveItemValid then
           begin
-            mbSetCurrentDir(CurrentPath);
-            ExecCmdFork(CurrentPath + GetActiveDisplayFile.FSFile.Name, True, gRunInTerm);
+            ProcessExtCommandFork(CurrentPath + GetActiveDisplayFile.FSFile.Name,'',CurrentPath,nil,True);
             Key := 0;
           end;
         end;
@@ -1855,6 +1855,11 @@ end;
 procedure TFileView.SetActive(bActive: Boolean);
 begin
   SetActive(bActive, True);
+end;
+
+procedure TFileView.JustForColorPreviewSetActiveState(bActive: Boolean);
+begin
+  SetActive(bActive, False);
 end;
 
 procedure TFileView.SetSorting(const NewSortings: TFileSortings);

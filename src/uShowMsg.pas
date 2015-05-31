@@ -560,6 +560,10 @@ begin
       with lbValue do
         begin
           Parent := frmDialog;
+          Height := (slValueList.Count*15)+50;
+          if height=0 then Height:=150 else
+            if height > (screen.Height div 2) then
+              height := (Screen.Height div 2);
           Items.Assign(slValueList);
           ItemIndex:=Items.IndexOf(sValue);
           if (ItemIndex=-1) AND (Items.count>0) then ItemIndex:=0;

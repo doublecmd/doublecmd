@@ -45,7 +45,8 @@ uses
   uOSUtils,
   uspecialdir,
   fstartingsplash,
-  ulog
+  ulog,
+  uVariableMenuSupport
   {$IFDEF MSWINDOWS}
   , uMyWindows
   {$ENDIF}
@@ -136,6 +137,7 @@ begin
 
   LoadPaths; // before loading config
   LoadWindowsSpecialDir; // Load the list with special path. *Must* be located AFTER "LoadPaths" and BEFORE "InitGlobs"
+  LoadVariableMenuSupport; //Load support for the popup menu with variable
 
   if InitGlobs then
     //-- NOTE: before, only IsInstanceAllowed was called, and all the magic on creation

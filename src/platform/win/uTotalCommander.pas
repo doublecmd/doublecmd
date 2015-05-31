@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Creates Total Commander fake window (some plugins don't work without it)
 
-    Copyright (C) 2009-2014 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,8 +40,7 @@ uses
   Windows, Classes,
 
   //DC
-  uFormCommands, KASToolItems, KASToolBar;
-
+  uFile, uFileView, uFormCommands, KASToolItems, KASToolBar;
 const
   TCCONFIG_MAINBAR_NOTPRESENT = ':-<#/?*+*?\#>-:';
 
@@ -78,10 +77,9 @@ uses
   Graphics, LCLVersion, Forms, JwaDbt, SysUtils, LCLProc,
 
   //DC
-  fOptionsMisc, uKASToolItemsExtended,
+  uFileProcs, uOSUtils, fOptionsMisc, uKASToolItemsExtended,
   DCClassesUtf8, DCOSUtils, uDebug, DCStrUtils, uPixMapManager, uShowMsg,
   uDCUtils, uLng, uGlobs, uGlobsPaths;
-
 type
   { TTCommandEquivalence }
   TTCommandEquivalence = record
@@ -1007,7 +1005,7 @@ begin
 
   if (Result = '') or (Result = 'nil') then
   begin
-    TCIndexOfCommand:=-1;
+    TCIndexOfCommand := -1;
     Result := TCCommand;
   end;
 end;
@@ -1201,14 +1199,14 @@ var
               if pos('cm_', UTF8LowerCase(sCmdName)) = 1 then
               begin
                 //We have an internal command!
-                sCmdName := GetDCEquivalentCommandToTCCommand(sCmdName,TCIndexOfCommand);
+                sCmdName := GetDCEquivalentCommandToTCCommand(sCmdName, TCIndexOfCommand);
                 SubToolItem := TKASCommandItem.Create(FFormCommands);
                 TKASCommandItem(SubToolItem).Command := sCmdName;
                 if sHintName <> '' then
                   TKASCommandItem(SubToolItem).Hint := sHintName
                 else
                   TKASCommandItem(SubToolItem).Hint := FFormCommands.GetCommandCaption(sCmdName, cctLong);
-                if TCIndexOfCommand=-1 then
+                if TCIndexOfCommand = -1 then
                   TKASCommandItem(SubToolItem).Icon := sButtonName
                 else
                   TKASCommandItem(SubToolItem).Icon := UTF8LowerCase(TKASCommandItem(SubToolItem).Command);
@@ -1267,6 +1265,5 @@ begin
     TCToolbarFilenameList.Free;
   end;
 end;
-
 
 end.

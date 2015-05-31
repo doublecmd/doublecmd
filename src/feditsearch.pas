@@ -66,7 +66,7 @@ uses
 type
   { TEditSearchDialogOption }
   //Not only it helps to show what we want to offer to user, it will help to determine the default
-  //When used as paramters of function, place on required.
+  //When used as parameters of function, place on required.
   //When used as a returned value, we'll include the status of all.
   TEditSearchDialogOption = set of (eswoCaseSensitiveChecked, eswoCaseSensitiveUnchecked,
                                     eswoWholeWordChecked, eswoWholeWordUnchecked,

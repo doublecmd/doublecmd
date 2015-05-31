@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,32 +37,46 @@ uses
     ;
     
 const
+  CnstUserCommand = '{command}';
+
   {$IF DEFINED(MSWINDOWS)}
   faFolder = faDirectory;
-  RunTerm = 'cmd.exe';  // default terminal
-  RunInTerm = 'cmd.exe /K'; // default run in terminal command
-  fmtRunInTerm = '%s "%s"';
-  fmtRunInShell = '%s /C "%s"';
+  RunTermCmd = 'cmd.exe';  // default terminal
+  RunTermParams = '';
+  RunInTermStayOpenCmd = 'cmd.exe'; // default run in terminal command AND Stay open after command
+  RunInTermStayOpenParams = '/K {command}';
+  RunInTermCloseCmd = 'cmd.exe'; // default run in terminal command AND Close after command
+  RunInTermCloseParams = '/C {command}';
   fmtCommandPath = '%s>';
   MonoSpaceFont = 'Fixedsys';
   {$ELSEIF DEFINED(UNIX)}
   faFolder = S_IFDIR;
   {$IFDEF DARWIN)}
-  RunTerm = '/Applications/Utilities/Terminal.app %D';  // default terminal
+  RunTermCmd = '/Applications/Utilities/Terminal.app %D';  // default terminal
+  RunTermParams = '';
   RunInTerm = ''; // default run in terminal command
-  fmtRunInTerm = '';
+  RunInTermStayOpenCmd = ''; // default run in terminal command AND Stay open after command
+  RunInTermStayOpenParams = '';
+  RunInTermCloseCmd = ''; // default run in terminal command AND Close after command
+  RunInTermCloseParams = '';
   MonoSpaceFont = 'Monaco';
   {$ELSE}
-  RunTerm = 'xterm';  // default terminal
-  RunInTerm = 'xterm -e sh -c'; // default run in terminal command
-  fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read a''';
+  RunTermCmd = 'xterm';  // default terminal
+  RunTermParams = '';
+  RunInTermStayOpenCmd = 'xterm'; // default run in terminal command AND Stay open after command
+  RunInTermStayOpenParams = '-e sh -c ''{command}; echo -n Press ENTER to exit... ; read a''';
+  RunInTermCloseCmd = 'xterm'; // default run in terminal command AND Close after command
+  RunInTermCloseParams = '-e sh -c {command}';
   MonoSpaceFont = 'Monospace';
   {$ENDIF}
-  fmtRunInShell = '%s -c ''%s''';
   fmtCommandPath = '[%s]$:';
   {$ENDIF}
 
+  termStayOpen=True;
+  termClose=False;
 type
+  tTerminalEndindMode = boolean;
+
   EInvalidCommandLine = class(Exception);
   EInvalidQuoting = class(EInvalidCommandLine)
     constructor Create; reintroduce;
@@ -70,7 +84,7 @@ type
 
 function NtfsHourTimeDelay(const SourceName, TargetName: UTF8String): Boolean;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
-function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''; bKeepTerminalOpen: Boolean = True):Boolean;
+function ExecCmdFork(sCmd:String; sParams:string=''; sStartPath:String=''; bShowCommandLinePriorToExecute:boolean=False; bTerm:Boolean=False; bKeepTerminalOpen:tTerminalEndindMode=termStayOpen):Boolean;
 {en
    Opens a file or URL in the user's preferred application
    @param(URL File name or URL)
@@ -156,7 +170,7 @@ function FormatShell(const Command: String): String;
 {en
    Formats a string which will execute Command in a terminal.
 }
-function FormatTerminal(Command: String; bKeepTerminalOpen: Boolean): String;
+procedure FormatTerminal(var sCmd: String; var sParams: String; bKeepTerminalOpen: tTerminalEndindMode);
 {en
    Same as mbFileGetAttr, but dereferences any encountered links.
 }
@@ -195,7 +209,8 @@ function GetComputerNetName: UTF8String;
 implementation
 
 uses
-  uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng
+  StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
+  fConfirmCommandLine, uLog
   {$IF DEFINED(MSWINDOWS)}
   , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
   , shlobj
@@ -263,78 +278,136 @@ end;
 {$ENDIF}
 
 (* Execute external commands *)
-
-function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String; bKeepTerminalOpen: Boolean) : Boolean;
+// Description of paramters:
+//   sCmd : The executable or command itself
+//   sParams : The optional paramters
+//   sStartPath : The initial working directory
+//   bShowCommandLinePriorToExecute : Flag indicating if we want the user to be prompted at the very last
+//                                    seconds prior to launch execution by offering a dialog window where
+//                                    he can adjust/confirm the three above parameters.
+//   bTerm : Flag indicating if it should be launch through terminal
+//   bKeepTerminalOpen : Value indicating the type of terminal to use (closed at the end, remain opened, etc.)
+//
+function ExecCmdFork(sCmd, sParams, sStartPath:String; bShowCommandLinePriorToExecute, bTerm : Boolean; bKeepTerminalOpen: tTerminalEndindMode) : Boolean;
 {$IFDEF UNIX}
 var
-  Command : String;
+  sCmdLine, Command : String;
   pid : LongInt;
   Args : TDynamicStringArray;
   WaitForPidThread: TWaitForPidThread;
+  bFlagKeepGoing: boolean = True;
 begin
+  result:=False;
+
   if bTerm then
-    sCmdLine := FormatTerminal(sCmdLine, bKeepTerminalOpen);
+    FormatTerminal(sCmd, sParams, bKeepTerminalOpen);
 
-  SplitCmdLine(UTF8ToSys(sCmdLine), Command, Args);
-  {$IFDEF DARWIN}
-  // If we run application bundle (*.app) then
-  // execute it by 'open -a' command (see 'man open' for details)
-  if StrEnds(Command, '.app') then
+  if bShowCommandLinePriorToExecute then
+    bFlagKeepGoing:= ConfirmCommandLine(sCmd, sParams, sStartPath);
+
+  if bFlagKeepGoing then
   begin
-    SetLength(Args, Length(Args) + 2);
-    for pid := High(Args) downto Low(Args) + 2 do
-      Args[pid]:= Args[pid - 2];
-    Args[0] := '-a';
-    Args[1] := Command;
-    Command := 'open';
-  end;
-  {$ENDIF}
-  if Command = EmptyStr then Exit(False);
+    if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdLaunch+': '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
 
-  pid := fpFork;
+    sCmdLine := ConcatenateStrWithSpace(sCmd, sParams);
+    SplitCmdLine(UTF8ToSys(sCmdLine), Command, Args);
 
-  if pid = 0 then
+    {$IFDEF DARWIN}
+    // If we run application bundle (*.app) then
+    // execute it by 'open -a' command (see 'man open' for details)
+    if StrEnds(Command, '.app') then
     begin
-      { The child does the actual exec, and then exits }
-      if FpExecLP(Command, Args) = -1 then
-        Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessageUTF8(fpgeterrno)]));
-
-      { If the FpExecLP fails, we return an exitvalue of 127, to let it be known }
-      fpExit(127);
-    end
-  else if pid = -1 then         { Fork failed }
-    begin
-      raise Exception.Create('Fork failed: ' + Command);
-    end
-  else if pid > 0 then          { Parent }
-    begin
-      WaitForPidThread := TWaitForPidThread.Create(pid);
-      WaitForPidThread.Start;
+      SetLength(Args, Length(Args) + 2);
+      for pid := High(Args) downto Low(Args) + 2 do
+        Args[pid]:= Args[pid - 2];
+      Args[0] := '-a';
+      Args[1] := Command;
+      Command := 'open';
     end;
+    {$ENDIF}
+    if Command = EmptyStr then Exit(False);
 
-  Result := (pid > 0);
+    pid := fpFork;
+
+    if pid = 0 then
+      begin
+        { The child does the actual exec, and then exits }
+        if FpExecLP(Command, Args) = -1 then
+          Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessageUTF8(fpgeterrno)]));
+
+        { If the FpExecLP fails, we return an exitvalue of 127, to let it be known }
+        fpExit(127);
+      end
+    else if pid = -1 then         { Fork failed }
+      begin
+        raise Exception.Create('Fork failed: ' + Command);
+      end
+    else if pid > 0 then          { Parent }
+      begin
+        WaitForPidThread := TWaitForPidThread.Create(pid);
+        WaitForPidThread.Start;
+      end;
+
+    Result := (pid > 0);
+    if Result and (log_commandlineexecution in gLogOptions) then
+      logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Success!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath)
+    else
+      logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Failed!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
+  end
+  else
+  begin
+    Result := True;
+  end;
 end;
 {$ELSE}
 var
-  sFileName,
-  sParams: String;
-  wFileName,
-  wParams,
-  wWorkDir: WideString;  
+  wFileName, wParams, wStartPath: WideString;
+  bFlagKeepGoing: boolean = True;
+  ExecutionResult:HINST;
 begin
-  wWorkDir:= UTF8Decode(mbGetCurrentDir);
+  sStartPath:=RemoveQuotation(sStartPath);
+
+  if sStartPath='' then
+    sStartPath:=mbGetCurrentDir;
+
+  sCmd:= NormalizePathDelimiters(sCmd);
 
   if bTerm then
     begin
-      if sTerm = '' then sTerm := RunInTerm;
-      sCmdLine := Format(fmtRunInTerm, [sTerm, sCmdLine]);
+      sCmd := ConcatenateStrWithSpace(sCmd,sParams);
+      if bKeepTerminalOpen = termStayOpen then
+        begin
+          sParams:=StringReplace(gRunInTermStayOpenParams, '{command}', QuoteFilenameIfNecessary(sCmd) , [rfIgnoreCase]);
+          sCmd := gRunInTermStayOpenCmd;
+        end
+        else
+        begin
+          sParams:=StringReplace(gRunInTermCloseParams, '{command}', QuoteFilenameIfNecessary(sCmd) , [rfIgnoreCase]);
+          sCmd := gRunInTermCloseCmd;
+        end;
     end;
-    
-  SplitCmdLine(sCmdLine, sFileName, sParams);
-  sFileName:= NormalizePathDelimiters(sFileName);
-  wFileName:= UTF8Decode(sFileName);
-  wParams:= UTF8Decode(sParams);
-  Result := (ShellExecuteW(0, nil, PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);
+
+  if bShowCommandLinePriorToExecute then
+    bFlagKeepGoing:= ConfirmCommandLine(sCmd, sParams, sStartPath);
+
+  if bFlagKeepGoing then
+  begin
+    wFileName:= UTF8Decode(sCmd);
+    wParams:= UTF8Decode(sParams);
+    wStartPath:= UTF8Decode(sStartPath);
+
+    if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdLaunch+': '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
+
+    ExecutionResult:=ShellExecuteW(0, nil, PWChar(wFileName), PWChar(wParams), PWChar(wStartPath), SW_SHOW);
+
+    if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+ifThen((ExecutionResult > 32),'Success!',IntToStr(ExecutionResult)+':'+SysErrorMessage(ExecutionResult))+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
+
+    Result := (ExecutionResult > 32);
+  end
+  else
+  begin
+    result:=True; //User abort, so let's fake all things completed.
+  end;
 end;
 {$ENDIF}
 
@@ -676,15 +749,51 @@ begin
 {$ENDIF}
 end;
 
-function FormatTerminal(Command: String; bKeepTerminalOpen: Boolean): String;
+procedure FormatTerminal(var sCmd: String; var sParams: String; bKeepTerminalOpen: tTerminalEndindMode);
+var
+  sConfigParam:string;
 begin
 {$IF DEFINED(UNIX)}
-  if bKeepTerminalOpen then
-    Command := Command + '; echo -n Press ENTER to exit... ; read a';
-  Result := Format('%s %s', [gRunInTerm, QuoteSingle(Command)]);
+  sParams := ConcatenateStrWithSpace(sCmd, sParams);
+
+  if bKeepTerminalOpen = termStayOpen then
+  begin
+    sCmd := gRunInTermStayOpenCmd;
+    sConfigParam := gRunInTermStayOpenParams;
+  end
+  else
+  begin
+    sCmd := gRunInTermCloseCmd;
+    sConfigParam := gRunInTermCloseParams;
+  end;
+
+  if pos(CnstUserCommand,sConfigParam)<>0 then
+    sParams := StringReplace(sConfigParam, CnstUserCommand, sParams , [rfIgnoreCase])
+  else
+    sParams:=ConcatenateStrWithSpace(sConfigParam, sParams);
+
 {$ELSEIF DEFINED(MSWINDOWS)}
-  // TODO: See if keeping terminal window open can be implemented on Windows.
-  Result := Format('%s %s', [gRunInTerm, QuoteDouble(Command)]);
+//  if bKeepTerminalOpen then
+//    Result := Format('%s %s', [gRunInTermStayOpenCmd, QuoteDouble(Command)])
+//  else
+//    Result := Format('%s %s', [gRunInTermCloseCmd, QuoteDouble(Command)]);
+  sParams := ConcatenateStrWithSpace(sCmd, sParams);
+
+  if bKeepTerminalOpen = termStayOpen then
+  begin
+    sCmd := gRunInTermStayOpenCmd;
+    sConfigParam := gRunInTermStayOpenParams;
+  end
+  else
+  begin
+    sCmd := gRunInTermCloseCmd;
+    sConfigParam := gRunInTermCloseParams;
+  end;
+
+  if pos(CnstUserCommand,sConfigParam)<>0 then
+    sParams := StringReplace(sConfigParam, CnstUserCommand, sParams , [rfIgnoreCase])
+  else
+    sParams:=ConcatenateStrWithSpace(sConfigParam, sParams);
 {$ENDIF}
 end;
 

@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uFileFunctions, uFormCommands, uFileSorting;
+  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu;
 
 type
 
@@ -67,7 +67,7 @@ type
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoRenameTab(Page: TFileViewPage);
-   procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
+   procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
    procedure DoTransferPath(SourceFrame: TFileView; TargetNotebook: TFileViewNotebook); overload;
    procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
@@ -305,7 +305,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
-     uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
+     uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
      uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uColumnsFileView,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
@@ -314,7 +314,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil, uThumbFileView,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uShellContextMenu, uTrash, uFileSystemCopyOperation, fOptionsFileAssoc,
+     uTrash, uFileSystemCopyOperation, fOptionsFileAssoc,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
@@ -368,10 +368,10 @@ procedure TMainCommands.OnCopyOutStateChanged(Operation: TFileSourceOperation;
 var
   I: Integer;
   aFile: TFile;
-  sViewCmd: String;
   aFileList: TStringList;
   aFileSource: ITempFileSystemFileSource;
   aCopyOutOperation: TFileSourceCopyOutOperation;
+  sCmd, sParams, sStartPath: string;
 begin
   if (State = fsosStopped) and (Operation.Result = fsorFinished) then
   begin
@@ -389,14 +389,13 @@ begin
           if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
           begin
             // Try to find 'view' command in internal associations
-            sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
-
-            if Length(sViewCmd) = 0 then
+            if not gExts.GetExtActionCmd(aFile, 'view', sCmd, sParams, sStartPath) then
               aFileList.Add(aFile.FullPath)
             else
               begin
-                sViewCmd := PrepareParameter(sViewCmd, aFile);
-                ProcessExtCommand(sViewCmd, aCopyOutOperation.SourceFiles.Path);
+                if sStartPath='' then
+                  sStartPath:=aCopyOutOperation.SourceFiles.Path;
+                ProcessExtCommandFork(sCmd, sParams, aCopyOutOperation.SourceFiles.Path, aFile);
                 // TODO:
                 // If TempFileSource is used, create a wait thread that will
                 // keep the TempFileSource alive until the command is finished.
@@ -579,7 +578,7 @@ begin
   end;
 end;
 
-procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
+procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu);
 var
   aFile: TFile = nil;
   aFiles: TFiles = nil;
@@ -622,7 +621,7 @@ begin
     try
       if aFiles.Count > 0 then
       try
-        ShowContextMenu(frmMain, aFiles, X, Y, Background, nil);
+        ShowContextMenu(frmMain, aFiles, X, Y, Background, nil, UserWishForContextMenu);
       except
         on e: EContextMenuException do
           ShowException(e);
@@ -839,7 +838,7 @@ end;
 procedure TMainCommands.cm_ContextMenu(const Params: array of string);
 begin
   // Let file view handle displaying context menu at appropriate position.
-  frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', []);
+  frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', Params);
 end;
 
 procedure TMainCommands.cm_CopyFullNamesToClip(const Params: array of string);
@@ -1043,7 +1042,7 @@ var
 begin
   if Length(Params) > 0 then
     with frmMain do
-    ShellExecute(PrepareParameter(Params[0], FrameLeft, FrameRight, ActiveFrame, []))
+    ShellExecute(PrepareParameter(Params[0]))
   else
     with frmMain.ActiveFrame do
     begin
@@ -1362,7 +1361,6 @@ procedure TMainCommands.cm_View(const Params: array of string);
 var
   sl: TStringList = nil;
   i, n: Integer;
-  sViewCmd: String;
   ActiveFile: TFile = nil;
   AllFiles: TFiles = nil;
   SelectedFiles: TFiles = nil;
@@ -1371,6 +1369,7 @@ var
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation;
   aFileSource: IFileSource;
+  sCmd, sParams, sStartPath:string;
 begin
   with frmMain do
   try
@@ -1442,14 +1441,11 @@ begin
         if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
         begin
           // Try to find 'view' command in internal associations
-          sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
-
-          if Length(sViewCmd) = 0 then
+          if not gExts.GetExtActionCmd(aFile, 'view', sCmd, sParams, sStartPath) then
             sl.Add(aFile.FullPath)
           else
             begin
-              sViewCmd := PrepareParameter(sViewCmd, aFile);
-              ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
+              ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath);
             end;
         end; // if selected
       end; // for
@@ -1660,9 +1656,9 @@ end;
 procedure TMainCommands.cm_Edit(const Params: array of string);
 var
   i: Integer;
-  sEditCmd: String;
   aFile: TFile;
   SelectedFiles: TFiles = nil;
+  sCmd, sParams, sStartPath: string;
 begin
   with frmMain do
   try
@@ -1695,13 +1691,10 @@ begin
         // For now we only process one file.
         if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
         begin
-          //now test if exists View command in doublecmd.ext :)
-          sEditCmd:= gExts.GetExtActionCmd(aFile, 'edit');
-
-          if (sEditCmd <> '') then
+          //now test if exists "EDIT" command in "extassoc.xml" :)
+          if gExts.GetExtActionCmd(aFile, 'edit', sCmd, sParams, sStartPath) then
             begin
-              sEditCmd := PrepareParameter(sEditCmd, aFile);
-              ProcessExtCommand(sEditCmd, aFile.Path);
+              ProcessExtCommandFork(sCmd, sParams, aFile.Path);
             end
           else
             begin
@@ -2126,8 +2119,15 @@ begin
 end;
 
 procedure TMainCommands.cm_FileAssoc(const Params: array of string);
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
 begin
-  ShowOptions(TfrmOptionsFileAssoc);
+  Options := ShowOptions(TfrmOptionsFileAssoc);
+  Application.ProcessMessages;
+  Editor := Options.GetEditor(TfrmOptionsFileAssoc);
+  if Editor.CanFocus then Editor.SetFocus;
+  TfrmOptionsFileAssoc(Editor).MakeUsInPositionToWorkWithActiveFile;
 end;
 
 procedure TMainCommands.cm_HelpIndex(const Params: array of string);
@@ -2474,7 +2474,7 @@ end;
 //
 procedure TMainCommands.cm_ConfigDirHotList(const Params: array of string);
 begin
-  cm_WorkWithDirectoryHotlist(['action=config', 'source='+frmMain.ActiveFrame.CurrentPath, 'target='+frmMain.NotActiveFrame.CurrentPath, 'index=0']);
+  cm_WorkWithDirectoryHotlist(['action=config', 'source='+QuoteStr(frmMain.ActiveFrame.CurrentPath), 'target='+QuoteStr(frmMain.NotActiveFrame.CurrentPath), 'index=0']);
 end;
 
 { TMainCommands.cm_WorkWithDirectoryHotlist }
@@ -2506,12 +2506,12 @@ begin
     end
     else if GetParamValue(Param, 'source', sValue) then
     begin
-      sValue:=RemoveQuotation(PrepareParameter(sValue, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      sValue:=RemoveQuotation(PrepareParameter(sValue));
       if (sValue<>'') and (not HasPathInvalidCharacters(sValue)) then WantedSourcePath:=sValue;
     end
     else if GetParamValue(Param, 'target', sValue) then
     begin
-      sValue:=RemoveQuotation(PrepareParameter(sValue, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      sValue:=RemoveQuotation(PrepareParameter(sValue));
       if (sValue<>'') and (not HasPathInvalidCharacters(sValue)) then WantedTargetPath:=sValue;
     end
     else if GetParamValue(Param, 'index', sValue) then
@@ -2804,7 +2804,6 @@ var
   WantedSortFunction: TFileFunction;
   WantedSortDirection: TSortDirection;
   FileFunctions: TFileFunctions = nil;
-  SortDirection: TSortDirection = sdNone;
   NewSorting: TFileSortings = nil;
 begin
   //1o) Let's set our default values
@@ -2885,6 +2884,7 @@ var
   hFile: System.THandle = 0;
   aFile: TFile;
   Attrs: TFileAttrs;
+  sCmd, sParams, sStartPath: string;
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', Params);
 
@@ -2931,15 +2931,12 @@ begin
 
     aFile := TFileSystemFileSource.CreateFileFromFile(sNewFile);
     try
-      // Try to find Edit command in doublecmd.ext
-      sNewFile := gExts.GetExtActionCmd(aFile, 'edit');
-      // If command not found then use default editor
-      if Length(sNewFile) = 0 then
-        ShowEditorByGlob(aFile.FullPath)
+      // Try to find Edit command in "extassoc.xml"
+      if not gExts.GetExtActionCmd(aFile, 'edit', sCmd, sParams, sStartPath) then
+        ShowEditorByGlob(aFile.FullPath) // If command not found then use default editor
       else
         begin
-          sNewFile := PrepareParameter(sNewFile, aFile);
-          ProcessExtCommand(sNewFile, aFile.Path);
+          ProcessExtCommandFork(sCmd, sParams, aFile.Path, aFile);
         end;
     finally
       FreeAndNil(aFile);
@@ -3012,8 +3009,7 @@ begin
   with frmMain do
   if not edtCommand.Focused then
   try
-    mbSetCurrentDir(ActiveFrame.CurrentPath);
-    ExecCmdFork(PrepareParameter(gRunTerm, FrameLeft, FrameRight, ActiveFrame, []));
+    ProcessExtCommandFork(gRunTermCmd, gRunTermParams, ActiveFrame.CurrentPath);
   except
     on e: EInvalidCommandLine do
       MessageDlg(rsToolErrorOpeningTerminal,
@@ -3485,11 +3481,9 @@ end;
 // Full path to a directory.
 procedure TMainCommands.cm_ChangeDir(const Params: array of string);
 var
-  WantedFileView: TFileView;
   Param, WantedPath: string;
 begin
   //1o) Let's set our default values
-  WantedFileView := frmMain.ActiveFrame;
   WantedPath := frmMain.ActiveFrame.CurrentPath;
 
   //2o) Let's parse the parameter to get the wanted ones
@@ -3497,25 +3491,25 @@ begin
   begin
     if GetParamValue(Param, 'activepath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
       ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(ReplaceEnvVars(WantedPath)));
     end
     else
     if GetParamValue(Param, 'inactivepath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
       ChooseFileSource(frmMain.NotActiveFrame, RemoveQuotation(ReplaceEnvVars(WantedPath)));
     end
     else
     if GetParamValue(Param, 'leftpath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
       ChooseFileSource(frmMain.FrameLeft, RemoveQuotation(ReplaceEnvVars(WantedPath)));
     end
     else
     if GetParamValue(Param, 'rightpath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame, []));
+      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
       ChooseFileSource(frmMain.FrameRight, RemoveQuotation(ReplaceEnvVars(WantedPath)));
     end;
   end;
@@ -3677,7 +3671,7 @@ begin
     sMessageToshow:=sMessageToshow+#$0A;
     for indexParameter:=0 to pred(Length(Params)) do
     begin
-      sMessageToshow:=sMessageToshow+#$0A+'Parameter #'+IntToStr(indexParameter)+': '+Params[indexParameter]+' ==> '+PrepareParameter(Params[indexParameter], frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame);
+      sMessageToshow:=sMessageToshow+#$0A+'Parameter #'+IntToStr(indexParameter)+': '+Params[indexParameter]+' ==> '+PrepareParameter(Params[indexParameter]);
     end;
   end;
   msgOK(sMessageToshow);

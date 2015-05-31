@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 }
 
 
@@ -36,6 +36,7 @@ type
     destructor Destroy; override;
   end;
 
+
 procedure RunExtDiffer(CompareList: TStringList);
 
 procedure ShowEditorByGlob(sFileName:String);
@@ -49,34 +50,39 @@ implementation
 
 uses
   SysUtils, Process, UTF8Process, Dialogs,
-  uGlobs, uOSUtils, fEditor, fViewer, uDCUtils, uTempFileSystemFileSource, uLng,
-  fDiffer, uDebug, DCOSUtils;
+  uShellExecute, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils,
+  uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils;
 
 procedure RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String);
 var
-  CommandLine: String;
+  sCmd: String;
+  sParams:string='';
 begin
-  CommandLine := QuoteStr(ReplaceEnvVars(ExtTool.Path));
-  if ExtTool.Parameters <> EmptyStr then
-    CommandLine := CommandLine + ' ' + ExtTool.Parameters;
-  CommandLine := CommandLine + ' ' + QuoteStr(sFileName);
-  ExecCmdFork(CommandLine, ExtTool.RunInTerminal, '', ExtTool.KeepTerminalOpen);
+  sCmd := ExtTool.Path;
+  sParams := ExtTool.Parameters;
+  //If there is %p already configured in the parameter, we assume user configured it the way he wants.
+  //This might be in non-common case where there are paramters AFTER the filename to open.
+  //If there is not %p, let's do thing like legacy was and let's add the filename received as paramter.
+  if pos('%p',sParams)=0 then
+    sParams := ConcatenateStrWithSpace(sParams,QuoteFilenameIfNecessary(sFileName));
+  ProcessExtCommandFork(sCmd, sParams, '', nil, ExtTool.RunInTerminal, ExtTool.KeepTerminalOpen);
 end;
 
 procedure RunExtDiffer(CompareList: TStringList);
 var
   i : Integer;
-  sCommand: String;
+  sCmd: String;
+  sParams:string='';
 begin
   with gExternalTools[etDiffer] do
   begin
-    sCommand := QuoteStr(ReplaceEnvVars(Path));
+    sCmd := QuoteStr(ReplaceEnvVars(Path));
     if Parameters <> EmptyStr then
-      sCommand := sCommand + ' ' + Parameters;
+      sParams := sParams + ' ' + Parameters;
     for i := 0 to CompareList.Count - 1 do
-      sCommand := sCommand + ' ' + QuoteStr(CompareList.Strings[i]);
+      sParams := sParams + ' ' + QuoteStr(CompareList.Strings[i]);
     try
-      ExecCmdFork(sCommand, RunInTerminal, '', KeepTerminalOpen);
+      ProcessExtCommandFork(sCmd, sParams, '', nil, RunInTerminal, KeepTerminalOpen);
     except
       on e: EInvalidCommandLine do
         MessageDlg(rsToolErrorOpeningDiffer,
@@ -204,7 +210,7 @@ procedure TWaitThread.Execute;
 var
   I : Integer;
   Process : TProcessUTF8;
-  sCmd: String;
+  sCmd, sSecureEmptyStr: String;
 begin
   Process := TProcessUTF8.Create(nil);
 
@@ -218,7 +224,8 @@ begin
       if Parameters <> EmptyStr then
         sCmd := sCmd + ' ' + Parameters;
       sCmd := sCmd + ' ' + QuoteStr(FFileList.Strings[0]);
-      sCmd := FormatTerminal(sCmd, False);
+      sSecureEmptyStr := EmptyStr; //Let's play safe and don't let EmptyStr being passed as "VAR" parameter of "FormatTerminal"
+      FormatTerminal(sCmd, sSecureEmptyStr, False);
     end
     else
     begin
