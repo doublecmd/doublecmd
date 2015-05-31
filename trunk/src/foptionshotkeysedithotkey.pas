@@ -3,7 +3,8 @@
    -------------------------------------------------------------------------
    Editor for hotkeys
 
-   Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2012  Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2015  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -556,7 +557,7 @@ procedure TfrmEditHotkey.SetCommand(NewCommand: String);
 begin
   FCommand := NewCommand;
   btnShowCommandHelp.Caption := Format(rsShowHelpFor, [FCommand]);
-  edtParameters.HelpKeyword := '/cmds.html#' + FCommand;
+  edtParameters.HelpKeyword := PathDelim+'cmds.html#' + FCommand;
 end;
 
 procedure TfrmEditHotkey.SetControls(const NewControls: TDynamicStringArray);

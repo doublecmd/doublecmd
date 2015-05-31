@@ -5,8 +5,8 @@ inherited frmOptionsLog: TfrmOptionsLog
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 369
   ClientWidth = 394
-  DesignLeft = 526
-  DesignTop = 199
+  DesignLeft = 666
+  DesignTop = 236
   object gbLogFile: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -112,7 +112,6 @@ inherited frmOptionsLog: TfrmOptionsLog
         FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
         FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
       }
-      NumGlyphs = 0
       OnClick = btnRelativeLogFileClick
     end
     object btnViewLogFile: TSpeedButton
@@ -154,7 +153,6 @@ inherited frmOptionsLog: TfrmOptionsLog
         9BEDCF9BEFD2A0B88216000000825D14B88217B78114B68114B68114B68114B6
         8114B68114B68114B68114B68114B68114B78114B88217825D14
       }
-      NumGlyphs = 0
       OnClick = btnViewLogFileClick
     end
   end
@@ -165,7 +163,7 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 151
+    Height = 170
     Top = 82
     Width = 382
     Anchors = [akTop, akLeft, akRight]
@@ -177,17 +175,17 @@ inherited frmOptionsLog: TfrmOptionsLog
     ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 133
+    ClientHeight = 152
     ClientWidth = 378
     TabOrder = 1
     object cbLogStartShutdown: TCheckBox
+      AnchorSideLeft.Control = cbLogCpMvLn
       AnchorSideTop.Control = cbLogVFS
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
       Top = 109
       Width = 102
-      BorderSpacing.Bottom = 15
       Caption = 'Start/shutdown'
       TabOrder = 5
     end
@@ -201,6 +199,7 @@ inherited frmOptionsLog: TfrmOptionsLog
       TabOrder = 0
     end
     object cbLogDelete: TCheckBox
+      AnchorSideLeft.Control = cbLogCpMvLn
       AnchorSideTop.Control = cbLogCpMvLn
       AnchorSideTop.Side = asrBottom
       Left = 10
@@ -211,6 +210,7 @@ inherited frmOptionsLog: TfrmOptionsLog
       TabOrder = 1
     end
     object cbLogDirOp: TCheckBox
+      AnchorSideLeft.Control = cbLogCpMvLn
       AnchorSideTop.Control = cbLogDelete
       AnchorSideTop.Side = asrBottom
       Left = 10
@@ -221,6 +221,7 @@ inherited frmOptionsLog: TfrmOptionsLog
       TabOrder = 2
     end
     object cbLogArcOp: TCheckBox
+      AnchorSideLeft.Control = cbLogCpMvLn
       AnchorSideTop.Control = cbLogDirOp
       AnchorSideTop.Side = asrBottom
       Left = 10
@@ -231,6 +232,7 @@ inherited frmOptionsLog: TfrmOptionsLog
       TabOrder = 3
     end
     object cbLogVFS: TCheckBox
+      AnchorSideLeft.Control = cbLogCpMvLn
       AnchorSideTop.Control = cbLogArcOp
       AnchorSideTop.Side = asrBottom
       Left = 10
@@ -239,6 +241,18 @@ inherited frmOptionsLog: TfrmOptionsLog
       Width = 120
       Caption = '&File system plugins'
       TabOrder = 4
+    end
+    object cbLogCommandLineExecution: TCheckBox
+      AnchorSideLeft.Control = cbLogCpMvLn
+      AnchorSideTop.Control = cbLogStartShutdown
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 130
+      Width = 195
+      BorderSpacing.Bottom = 15
+      Caption = 'External command line execution'
+      TabOrder = 6
     end
   end
   object gbLogFileStatus: TGroupBox[2]
@@ -249,7 +263,7 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 87
-    Top = 237
+    Top = 256
     Width = 382
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True

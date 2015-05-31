@@ -3,8 +3,8 @@
    -------------------------------------------------------------------------
    Toolbar configuration options page
 
-   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
-   Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2012      Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ type
     btnInsertButton: TButton;
     btnCloneButton: TButton;
     btnDeleteButton: TButton;
+    btnParametersHelper: TSpeedButton;
     btnSuggestionTooltip: TButton;
     btnOpenFile: TButton;
     btnEditHotkey: TButton;
@@ -108,6 +109,7 @@ type
     pnlEditToolbar: TPanel;
     pnlToolbarButtons: TPanel;
     pmInsertButtonMenu: TPopupMenu;
+    pmparameteresHelper: TPopupMenu;
     ReplaceDialog: TReplaceDialog;
     rgToolItemType: TRadioGroup;
     btnOpenIcon: TButton;
@@ -178,6 +180,7 @@ type
     procedure btnEditHotkeyClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
     procedure btnOpenCmdDlgClick(Sender: TObject);
+    procedure btnParametersHelperClick(Sender: TObject);
     procedure btnRelativeExternalCommandClick(Sender: TObject);
     procedure btnRelativeIconFileNameClick(Sender: TObject);
     procedure btnRelativeStartPathClick(Sender: TObject);
@@ -269,9 +272,10 @@ uses
   {$IFDEF MSWINDOWS}
   uOSUtils, uTotalCommander,
   {$ENDIF}
-  fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils, uShowMsg,
-  DCClassesUtf8, fOptions, DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils,
-  uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir, dmHelpManager;
+  uShellExecute, fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils,
+  uShowMsg, DCClassesUtf8, fOptions, DCStrUtils, uGlobs, uLng, uOSForms,
+  uDCUtils, uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir,
+  dmHelpManager;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';
@@ -388,6 +392,7 @@ begin
   if ToolBar.ButtonCount > 0 then
     PressButtonDown(ToolBar.Buttons[0]);
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
+  gSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmparameteresHelper,edtExternalParameters);
 
   FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
   FModificationTookPlace := False;
@@ -498,6 +503,8 @@ begin
   edtExternalCommand.Visible := EnableProgram;
   lblExternalParameters.Visible := EnableProgram;
   edtExternalParameters.Visible := EnableProgram;
+  btnParametersHelper.Visible := EnableProgram;
+
   lblStartPath.Visible := EnableProgram;
   edtStartPath.Visible := EnableProgram;
   btnOpenFile.Visible := EnableProgram;
@@ -694,6 +701,11 @@ begin
       cbInternalCommandSelect(cbInternalCommand);
     end;
   end;
+end;
+
+procedure TfrmOptionsToolbar.btnParametersHelperClick(Sender: TObject);
+begin
+  pmparameteresHelper.PopUp;
 end;
 
 procedure TfrmOptionsToolbar.miInsertButtonClick(Sender: TObject);
@@ -1008,6 +1020,7 @@ procedure TfrmOptionsToolbar.btnOpenFileClick(Sender: TObject);
 begin
   OpenDialog.DefaultExt:= EmptyStr;
   OpenDialog.Filter:= EmptyStr;
+  if edtExternalCommand.Text<>'' then OpenDialog.InitialDir:=ExtractFilePath(edtExternalCommand.Text);
   if OpenDialog.Execute then
     begin
       edtExternalCommand.Text := OpenDialog.FileName;

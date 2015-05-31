@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Shell context menu implementation.
 
-    Copyright (C) 2006-2014 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Menus,
-  uFile, uDrive;
+  uGlobs, uFile, uDrive;
 
 type
 
@@ -42,6 +42,7 @@ type
   private
     FFiles: TFiles;
     FDrive: TDrive;
+    FUserWishForContextMenu: TUserWishForContextMenu;
     procedure ContextMenuSelect(Sender: TObject);
     procedure TemplateContextMenuSelect(Sender: TObject);
     procedure DriveMountSelect(Sender: TObject);
@@ -50,9 +51,10 @@ type
     procedure OpenWithOtherSelect(Sender: TObject);
     procedure OpenWithMenuItemSelect(Sender: TObject);
     function FillOpenWithSubMenu: Boolean;
+    procedure CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
   public
     constructor Create(Owner: TWinControl; ADrive: PDrive); reintroduce; overload;
-    constructor Create(Owner: TWinControl; var Files : TFiles; Background: Boolean); reintroduce; overload;
+    constructor Create(Owner: TWinControl; var Files : TFiles; Background: Boolean; UserWishForContextMenu: TUserWishForContextMenu = uwcmComplete); reintroduce; overload;
     destructor Destroy; override;
   end;
 
@@ -60,8 +62,8 @@ implementation
 
 uses
   LCLProc, Dialogs, Graphics, uFindEx, uDCUtils,
-  uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager, uMyUnix,
-  fMain, fFileProperties, DCOSUtils, DCStrUtils
+  uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix,
+  fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSE}
@@ -74,6 +76,13 @@ uses
 
 const
   sCmdVerbProperties = 'properties';
+
+var
+  // The "ContextMenuActionList" will hold the possible actions to do from the
+  // context menu. Each "TMenuItem" associated with these actions will have the
+  // the "tag" set to the matching "TExtActionCommand" in this "TextActionList"
+  // list.
+  ContextMenuActionList: TExtActionList = nil;
 
 {$IF NOT DEFINED(DARWIN)}
 
@@ -192,31 +201,30 @@ end;
 (* handling user commands from context menu *)
 procedure TShellContextMenu.ContextMenuSelect(Sender: TObject);
 var
-  sCmd: String;
+  UserSelectedCommand: TExtActionCommand = nil;
 begin
-  // ShowMessage((Sender as TMenuItem).Hint);
+  with Sender as TComponent do
+    UserSelectedCommand := ContextMenuActionList.ExtActionCommand[tag].CloneExtAction;
 
-  sCmd:= (Sender as TMenuItem).Hint;
-  with frmMain.ActiveFrame do
-  begin
+  try
     (*
-    if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + FileRecItem.sName) then
-     begin
-        pnlFile.LoadPanelVFS(@FileRecItem);
-        Exit;
-      end;
-    *)
-
     if SameText(sCmd, sCmdVerbProperties) then
       ShowFileProperties(FileSource, FFiles);
+    *)
 
     try
-      if not ProcessExtCommand(sCmd, CurrentPath) then
-        frmMain.ExecCmd(sCmd);
+      //For the %-Variable replacement that follows it might sounds incorrect to do it with "nil" instead of "aFile",
+      //but original code was like that. It is useful, at least, when more than one file is selected so because of that,
+      //it's pertinent and should be kept!
+      ProcessExtCommandFork(UserSelectedCommand.CommandName, UserSelectedCommand.Params, UserSelectedCommand.StartPath, nil);
     except
       on e: EInvalidCommandLine do
         MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
     end;
+
+  finally
+    if Assigned(UserSelectedCommand) then
+      FreeAndNil(UserSelectedCommand);
   end;
 end;
 
@@ -452,235 +460,362 @@ begin
     end;
 end;
 
-constructor TShellContextMenu.Create(Owner: TWinControl; var Files: TFiles;
-  Background: Boolean);
+{ TShellContextMenu.CreateActionSubMenu }
+// Create the "Actions" menu/submenu.
+procedure TShellContextMenu.CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
+var
+  mi: TMenuItem;
+  I, iDummy:integer;
+  sAct: String;
+  iMenuPositionInsertion: integer =0;
+
+  procedure AddMenuItemRightPlace;
+  begin
+    if MenuWhereToAdd is TMenuItem then
+      TMenuItem(MenuWhereToAdd).Add(mi)
+    else
+      Self.Items.Add(mi);
+    inc(iMenuPositionInsertion);
+  end;
+
+  procedure LocalInsertMenuSeparator;
+  begin
+    mi:=TMenuItem.Create(MenuWhereToAdd);
+    mi.Caption:='-';
+    AddMenuItemRightPlace;
+  end;
+
+  procedure LocalInsertMenuItem(CaptionMenu:string; MenuDispatcher:integer);
+  begin
+    mi := TMenuItem.Create(MenuWhereToAdd);
+    mi.Caption := CaptionMenu;
+    mi.Tag := MenuDispatcher;
+    mi.OnClick:= Self.ContextMenuSelect;
+    AddMenuItemRightPlace;
+  end;
+
+begin
+  // Read actions from "extassoc.xml"
+  if not gExtendedContextMenu then
+    gExts.GetExtActions(aFile, ContextMenuActionList, @iDummy, False)
+  else
+    gExts.GetExtActions(aFile, ContextMenuActionList, @iDummy, True);
+
+  if not gExtendedContextMenu then
+  begin
+    // In non expanded context menu (legacy), the order of items is:
+    // 1o) Custom action different then Open, View or Edit
+    // 2o) Add a separator in any action added above
+    // 3o) View (always)
+    // 4o) Edit (always)
+    // note: In Windows flavor, this is not the same order but to respect initial DC legacy order, that was it.
+
+    if ContextMenuActionList.Count > 0 then
+    begin
+      for I := 0 to pred(ContextMenuActionList.Count) do
+      begin
+        sAct := ContextMenuActionList.ExtActionCommand[I].ActionName;
+        if (CompareText('OPEN', sAct) <> 0) and (CompareText('VIEW', sAct) <> 0) and (CompareText('EDIT', sAct) <> 0) then
+          LocalInsertMenuItem(sAct,  I);
+      end;
+    end;
+
+    if iMenuPositionInsertion>0 then //It cannot be just (ContextMenuActionList.Count>0) 'case if the list has just OPEN, VIEW or READ, we will have nothing and we don't want the separator.
+      LocalInsertMenuSeparator;
+
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView, '{!VIEWER}', QuoteStr(aFile.FullPath), ''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName, I);
+
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit, '{!EDITOR}', QuoteStr(aFile.FullPath), ''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName, I);
+  end
+  else
+  begin
+    // In expanded context menu (legacy), the order of items is the following.
+    // 1o) Custom actions, no matter is open, view or edit (if any, add also a separator just before).
+    //     These will be shown in the same order as what they are configured in File Association.
+    //     The routine "GetExtActions" has already placed them in the wanted order.
+    //     Also, the routine "GetExtActions" has already included the menu separator ('-') between different "TExtAction".
+    // 2o) Add a separator in any action added above
+    // 3o) View (always, and if "external" is used, shows also the "internal" if user wants it.
+    // 4o) Edit (always, and if "external" is used, shows also the "internal" if user wants it.
+    // 5o) We add the Execute via shell if user requested it.
+    // 6o) We add the Execute via terminal if user requested it  (close and then stay open).
+    // 7o) Still if user requested it, the shortcut run file association configuration, if user wanted it.
+    //     A separator also prior that last action.
+    // note: In Windows flavor, this is not the same order but to respect initial DC legacy order, that was it.
+
+    for I:= 0 to pred(ContextMenuActionList.Count) do
+      begin
+        if ContextMenuActionList.ExtActionCommand[I].ActionName<>'-' then
+        begin
+          sAct:= ContextMenuActionList.ExtActionCommand[I].ActionName;
+          if (SysUtils.CompareText('OPEN', sAct) = 0) or (SysUtils.CompareText('VIEW', sAct) = 0) or (SysUtils.CompareText('EDIT', sAct) = 0) then
+            sAct:=sAct+' ('+ExtractFilename(ContextMenuActionList.ExtActionCommand[I].CommandName)+')';
+          LocalInsertMenuItem(sAct,I);
+        end
+        else
+        begin
+          LocalInsertMenuSeparator;
+        end;
+      end;
+
+  if ContextMenuActionList.Count>0 then
+    LocalInsertMenuSeparator;
+
+  // If the external generic viewer is configured, offer it.
+  if gExternalTools[etViewer].Enabled then
+  begin
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithExternalViewer+')','{!VIEWER}',QuoteStr(aFile.FullPath),''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+  end;
+
+  // Make sure we always shows our internal viewer
+  I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithInternalViewer+')','{!DC-VIEWER}',QuoteStr(aFile.FullPath),''));
+  LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+
+  // If the external generic editor is configured, offer it.
+  if gExternalTools[etEditor].Enabled then
+  begin
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithExternalEditor+')','{!EDITOR}',QuoteStr(aFile.FullPath),''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+  end;
+
+  // Make sure we always shows our internal editor
+  I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithInternalEditor+')','{!DC-EDITOR}',QuoteStr(aFile.FullPath),''));
+  LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+
+  if gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen then
+    LocalInsertMenuSeparator;
+
+  // Execute via shell
+  if gOpenExecuteViaShell then
+  begin
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsExecuteViaShell,'{!SHELL}',QuoteStr(aFile.FullPath),''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+  end;
+
+  // Execute via terminal and close
+  if gExecuteViaTerminalClose then
+  begin
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsExecuteViaTerminalClose,'{!TERMANDCLOSE}',QuoteStr(aFile.FullPath),''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+  end;
+
+  // Execute via terminal and stay open
+  if gExecuteViaTerminalStayOpen then
+  begin
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsExecuteViaTerminalStayOpen,'{!TERMSTAYOPEN}',QuoteStr(aFile.FullPath),''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+  end;
+
+  // Add shortcut to launch file association cnfiguration screen
+  if gIncludeFileAssociation then
+  begin
+    LocalInsertMenuSeparator;
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsConfigurationFileAssociation,'cm_FileAssoc','',''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+  end;
+  end;
+end;
+
+
+constructor TShellContextMenu.Create(Owner: TWinControl; var Files: TFiles; Background: Boolean; UserWishForContextMenu: TUserWishForContextMenu);
 var
   aFile: TFile = nil;
   sl: TStringList = nil;
-  I: Integer;
+  I, iDummy: Integer;
   sAct, sCmd: UTF8String;
-  mi, miActions,
-  miSortBy: TMenuItem;
+  mi, miActions, miSortBy: TMenuItem;
   AddActionsMenu: Boolean = False;
   AddOpenWithMenu: Boolean = False;
 begin
   inherited Create(Owner);
 
   FFiles:= Files;
+  FUserWishForContextMenu:= UserWishForContextMenu;
 
   try
+    if ContextMenuActionList=nil then
+      ContextMenuActionList:=TExtActionList.Create;
+    ContextMenuActionList.Clear;
 
     if not Background then
     begin
+      aFile := Files[0];
 
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actShellExecute;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Caption:='-';
-    Self.Items.Add(mi);
-
-    aFile := Files[0];
-    // Actions submenu
-    begin
-      miActions:=TMenuItem.Create(Self);
-      miActions.Caption:= rsMnuActions;
-        
-      // Read actions from doublecmd.ext
-      sl:=TStringList.Create;
-      try
-        if gExts.GetExtActions(aFile, sl) then
-          begin
-            AddActionsMenu := True;
-
-            for I:= 0 to sl.Count - 1 do
-              begin
-                sAct:= sl.Names[I];
-                if (SysUtils.CompareText('OPEN', sAct) = 0) or (SysUtils.CompareText('VIEW', sAct) = 0) or (SysUtils.CompareText('EDIT', sAct) = 0) then Continue;
-                sCmd:= sl.ValueFromIndex[I];
-                sCmd:= PrepareParameter(sCmd, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame);
-                mi:= TMenuItem.Create(miActions);
-                mi.Caption:= sAct;
-                mi.Hint:= sCmd;
-                mi.OnClick:= Self.ContextMenuSelect; // handler
-                miActions.Add(mi);
-              end;
-          end;
-
-          if (Files.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-          begin
-            if sl.Count = 0 then
-              AddActionsMenu := True
-            else
-              begin
-                // now add delimiter
-                mi:=TMenuItem.Create(miActions);
-                mi.Caption:='-';
-                miActions.Add(mi);
-              end;
-
-            // now add VIEW item
-            mi:=TMenuItem.Create(miActions);
-            mi.Caption:= rsMnuView;
-            mi.Hint:= '{!VIEWER} ' + QuoteStr(aFile.FullPath);
-            mi.OnClick:=Self.ContextMenuSelect; // handler
-            miActions.Add(mi);
-
-            // now add EDITconfigure item
-            mi:=TMenuItem.Create(miActions);
-            mi.Caption:= rsMnuEdit;
-            mi.Hint:= '{!EDITOR} ' + QuoteStr(aFile.FullPath);
-            mi.OnClick:=Self.ContextMenuSelect; // handler
-            miActions.Add(mi);
-          end;
-      finally
-        FreeAndNil(sl);
-      end;
-
-      // Founded any commands
-      if AddActionsMenu then
-        Self.Items.Add(miActions)
-      else
-        miActions.Free;
-    end; // Actions submenu
-
-    // Add "Open with" submenu if needed
-    AddOpenWithMenu:= FillOpenWithSubMenu;
-
-    // Add separator after actions and openwith menu.
-    if AddActionsMenu or AddOpenWithMenu then
-    begin
-      mi:=TMenuItem.Create(Self);
-      mi.Caption:='-';
-      Self.Items.Add(mi);
-    end;
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actRename;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actCopy;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actDelete;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actRenameOnly;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Caption:='-';
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actCutToClipboard;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actCopyToClipboard;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actPasteFromClipboard;
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Caption:='-';
-    Self.Items.Add(mi);
-
-    mi:=TMenuItem.Create(Self);
-    mi.Action := frmMain.actFileProperties;
-    Self.Items.Add(mi);
-    end
-    else
+      // Add the "Open"
+      if FUserWishForContextMenu = uwcmComplete then
       begin
         mi:=TMenuItem.Create(Self);
-        mi.Action := frmMain.actRefresh;
+        mi.Action := frmMain.actShellExecute;
+        Self.Items.Add(mi);
+      end;
+
+      // Add the "Actions" menu
+      if FUserWishForContextMenu = uwcmComplete then
+      begin
+        miActions:=TMenuItem.Create(Self);
+        miActions.Caption:= rsMnuActions;
+        CreateActionSubMenu(miActions, aFile, ((FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory)));
+        if miActions.Count>0 then
+          Self.Items.Add(miActions)
+        else
+          miActions.Free;
+      end
+      else
+      begin
+        CreateActionSubMenu(Self, aFile, ((FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory)))
+      end;
+
+      if FUserWishForContextMenu = uwcmComplete then
+      begin
+        mi:=TMenuItem.Create(Self);
+        mi.Caption:='-';
         Self.Items.Add(mi);
 
-        // Add "Sort by" submenu
-        miSortBy := TMenuItem.Create(Self);
-        miSortBy.Caption := rsMnuSortBy;
-        Self.Items.Add(miSortBy);
+        // Add "Open with" submenu if needed
+        AddOpenWithMenu := FillOpenWithSubMenu;
 
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByName;
-        miSortBy.Add(mi);
+        // Add "Open with" menu
+        mi:=TMenuItem.Create(Self);
+        mi.Caption:='-';
+        Self.Items.Add(mi);
 
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByExt;
-        miSortBy.Add(mi);
+        // Add "Move"
+        mi:=TMenuItem.Create(Self);
+        mi.Action := frmMain.actRename;
+        Self.Items.Add(mi);
 
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortBySize;
-        miSortBy.Add(mi);
+        // Add "Copy"
+        mi:=TMenuItem.Create(Self);
+        mi.Action := frmMain.actCopy;
+        Self.Items.Add(mi);
 
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByDate;
-        miSortBy.Add(mi);
+        // Add "Delete"
+        mi:=TMenuItem.Create(Self);
+        mi.Action := frmMain.actDelete;
+        Self.Items.Add(mi);
 
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByAttr;
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Caption := '-';
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actReverseOrder;
-        miSortBy.Add(mi);
+        // Add "Rename"
+        mi:=TMenuItem.Create(Self);
+        mi.Action := frmMain.actRenameOnly;
+        Self.Items.Add(mi);
 
         mi:=TMenuItem.Create(Self);
         mi.Caption:='-';
         Self.Items.Add(mi);
 
+        // Add "Cut"
+        mi:=TMenuItem.Create(Self);
+        mi.Action := frmMain.actCutToClipboard;
+        Self.Items.Add(mi);
+
+        // Add "Copy"
+        mi:=TMenuItem.Create(Self);
+        mi.Action := frmMain.actCopyToClipboard;
+        Self.Items.Add(mi);
+
+        // Add "PAste"
         mi:=TMenuItem.Create(Self);
         mi.Action := frmMain.actPasteFromClipboard;
         Self.Items.Add(mi);
 
-        if GetTemplateMenu(sl) then
-        begin
-          mi:=TMenuItem.Create(Self);
-          mi.Caption:='-';
-          Self.Items.Add(mi);
-
-          // Add "New" submenu
-          miSortBy := TMenuItem.Create(Self);
-          miSortBy.Caption := rsMnuNew;
-          Self.Items.Add(miSortBy);
-
-          for I:= 0 to sl.Count - 1 do
-          begin
-            mi:=TMenuItem.Create(miSortBy);
-            mi.Caption:= sl.Names[I];
-            mi.Hint:= sl.ValueFromIndex[I];
-            mi.OnClick:= Self.TemplateContextMenuSelect;
-            if Assigned(sl.Objects[I]) then
-            begin
-              mi.Bitmap.Assign(TBitmap(sl.Objects[I]));
-              sl.Objects[I].Free;
-              sl.Objects[I]:= nil;
-            end;
-            miSortBy.Add(mi);
-          end;
-          FreeAndNil(sl);
-        end;
-
         mi:=TMenuItem.Create(Self);
         mi.Caption:='-';
         Self.Items.Add(mi);
 
+        // Add "Show file properties"
         mi:=TMenuItem.Create(Self);
-        mi.Caption:= frmMain.actFileProperties.Caption;
-        mi.Hint:= sCmdVerbProperties;
-        mi.OnClick:= Self.ContextMenuSelect;
+        mi.Action := frmMain.actFileProperties;
         Self.Items.Add(mi);
       end;
+    end
+    else
+    begin
+      mi:=TMenuItem.Create(Self);
+      mi.Action := frmMain.actRefresh;
+      Self.Items.Add(mi);
+
+      // Add "Sort by" submenu
+      miSortBy := TMenuItem.Create(Self);
+      miSortBy.Caption := rsMnuSortBy;
+      Self.Items.Add(miSortBy);
+
+      mi:=TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actSortByName;
+      miSortBy.Add(mi);
+
+      mi:=TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actSortByExt;
+      miSortBy.Add(mi);
+
+      mi:=TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actSortBySize;
+      miSortBy.Add(mi);
+
+      mi:=TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actSortByDate;
+      miSortBy.Add(mi);
+
+      mi:=TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actSortByAttr;
+      miSortBy.Add(mi);
+
+      mi:=TMenuItem.Create(miSortBy);
+      mi.Caption := '-';
+      miSortBy.Add(mi);
+
+      mi:=TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actReverseOrder;
+      miSortBy.Add(mi);
+
+      mi:=TMenuItem.Create(Self);
+      mi.Caption:='-';
+      Self.Items.Add(mi);
+
+      mi:=TMenuItem.Create(Self);
+      mi.Action := frmMain.actPasteFromClipboard;
+      Self.Items.Add(mi);
+
+      if GetTemplateMenu(sl) then
+      begin
+        mi:=TMenuItem.Create(Self);
+        mi.Caption:='-';
+        Self.Items.Add(mi);
+
+        // Add "New" submenu
+        miSortBy := TMenuItem.Create(Self);
+        miSortBy.Caption := rsMnuNew;
+        Self.Items.Add(miSortBy);
+
+        for I:= 0 to sl.Count - 1 do
+        begin
+          mi:=TMenuItem.Create(miSortBy);
+          mi.Caption:= sl.Names[I];
+          mi.Hint:= sl.ValueFromIndex[I];
+          mi.OnClick:= Self.TemplateContextMenuSelect;
+          if Assigned(sl.Objects[I]) then
+          begin
+            mi.Bitmap.Assign(TBitmap(sl.Objects[I]));
+            sl.Objects[I].Free;
+            sl.Objects[I]:= nil;
+          end;
+          miSortBy.Add(mi);
+        end;
+        FreeAndNil(sl);
+      end;
+
+      mi:=TMenuItem.Create(Self);
+      mi.Caption:='-';
+      Self.Items.Add(mi);
+
+      mi:=TMenuItem.Create(Self);
+      mi.Caption:= frmMain.actFileProperties.Caption;
+      mi.Hint:= sCmdVerbProperties;
+      mi.OnClick:= Self.ContextMenuSelect;
+      Self.Items.Add(mi);
+    end;
   finally
     Files:= nil;
   end;

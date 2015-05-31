@@ -250,7 +250,7 @@ procedure TWinConThread.Execute;
 begin
   FShell:= GetShell;
   if Length(FShell) = 0 then
-    FShell:= RunTerm;
+    FShell:= RunTermCmd;
   if Assigned(FTerm) then
     FTerm.Fork_pty(FRowsCount, FColsCount, FShell);
   while True do

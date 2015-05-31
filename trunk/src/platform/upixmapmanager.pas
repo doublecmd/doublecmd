@@ -306,6 +306,10 @@ var
 
 procedure LoadPixMapManager;
 
+function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+                       clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
+
+
 implementation
 
 uses
@@ -1336,18 +1340,18 @@ begin
   FiExeIconID:= CheckAddThemePixmap('application-x-executable');
   FiSortAscID := CheckAddThemePixmap('view-sort-ascending');
   FiSortDescID := CheckAddThemePixmap('view-sort-descending');
+  gFiOwnDCIcon := CheckAddPixmap(ParamStr(0), gIconsSize);
 
-  { Load icons from doublecmd.ext }
+  { Load icons from "extassoc.xml" }
   for I := 0 to gExts.Count - 1 do
     begin
-      iPixMap:= CheckAddPixmap(gExts.Items[I].Icon, gIconsSize);
+      iPixMap := CheckAddPixmap(gExts.Items[I].Icon, gIconsSize);
       if iPixMap >= 0 then
         begin
-
           // set pixmap index for all extensions
           for iekv := 0 to gExts.Items[I].Extensions.Count - 1 do
             begin
-              sExt := gExts.Items[I].Extensions[iekv];
+              sExt := LowerCase(gExts.Items[I].Extensions[iekv]);
               if FExtList.Find(sExt) < 0 then
                 FExtList.Add(sExt, TObject(iPixMap));
             end;
@@ -1357,7 +1361,7 @@ begin
 
       gExts.Items[I].IconIndex:= iPixMap;
     end;
-  {/ Load icons from doublecmd.ext }  
+  {/ Load icons from "extassoc.xml" }
 
   // Load icons from pixmaps.txt only if "Only standart icons" enabled
   if (gShowIcons = sim_standart) and mbFileExists(sFileName) then

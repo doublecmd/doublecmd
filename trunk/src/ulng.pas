@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -79,6 +79,9 @@ resourcestring
   rsMsgRestartForApplyChanges = 'Please, restart Double Commander in order to apply changes';
   rsMsgEnterName = 'Enter name:';
   rsMsgEnterFileExt = 'Enter file extension:';
+  rsMsgDefaultCustomActionName = 'Custom action';
+  rsMsgSelectExecutableFile = 'Select executable file for';
+  rsMsgWithActionWith = 'with';
   rsMsgFollowSymlink = 'Follow symlink "%s"?';
   rsMsgFileSizeTooBig = 'The file size of "%s" is too big for destination file system!';
   rsMsgCloseAllInActiveTabs = 'Remove all inactive tabs?';
@@ -143,6 +146,9 @@ resourcestring
   rsMsgDragAndDropModifiedWantToSave = 'Options regarding mouse drag && drop have been modified. Do you want to save before to exit?';
   rsMsgFileOperationsModifiedWantToSave = 'Options regarding file operations have been modified. Do you want to save before to exit?';
   rsMsgMiscellaneousModifiedWantToSave = 'Miscellaneous options have been modified. Do you want to save before to exit?';
+  rsMsgUserDidNotSetExtension = '<NO EXT>';
+  rsMsgUserDidNotSetName = '<NO NAME>';
+  rsMsgProblemExecutingCommand = 'Problem executing command (%s)';
 
   //Hot Dir related
   rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu [%s]?'+#$0A+'Answering NO will delete only menu delimiters but will keep element inside sub-menu.';
@@ -222,6 +228,7 @@ resourcestring
 
   // for context menu
   rsMnuActions = 'Actions';
+  rsMnuOpen = 'Open';
   rsMnuView = 'View';
   rsMnuEdit = 'Edit';
   rsMnuOpenWith = 'Open with';
@@ -299,10 +306,20 @@ resourcestring
   rsMsgLogPack = 'Pack to file %s';
   rsMsgLogExtract = 'Extract file %s';
   rsMsgLogTest = 'Test file integrity %s';
+  rsMsgLogExtCmdLaunch = 'Launch external';
+  rsMsgLogExtCmdResult = 'Result external';
+  rsMsgLogOptionsModifiedWantToSave = 'Options regarding log have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
 
   rsSearchResult = 'Search result';
   rsShowHelpFor = '&Show help for %s';
   rsClipboardContainsInvalidToolbarData = 'Clipboard doesn''t contain any valid toolbar data.';
+
+  //Terminal
+  rsMsgTerminalOptionsModifiedWantToSave = 'Options regarding terminal have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
+
+  //Panel Color Configuration
+  rsMsgFilePanelColorModifiedWantToSave = 'Options regarding panel color have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
+  rsMsgPanelPreview = 'Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings.';
 
   // File operations dialog
   rsDlgAllOpComplete = 'All operations completed';
@@ -470,6 +487,7 @@ resourcestring
   rsEditNewFile = 'new.txt';
   rsEditNewOpen = 'Open file';
   rsEditNewFileName = 'Filename:';
+
   // Edit search
   rsEditSearchCaption = 'Search';
   rsEditSearchReplace ='Replace';
@@ -477,6 +495,7 @@ resourcestring
   rsEditSearchBack = '&Backward';
   rsZeroReplacement = 'No replacement took place.';
   rsXReplacements = 'Number of replacement: %d';
+
   // Options editors
   rsOptionsEditorArchivers = 'Archivers';
   rsOptionsEditorAutoRefresh = 'Auto refresh';
@@ -512,6 +531,7 @@ resourcestring
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
   rsOptionsEditorFileAssoc = 'File associations';
+  rsOptionsEditorFileAssicExtra = 'File associations extra';
   rsOptionsEditorDirectoryHotlist = 'Directory Hotlist';
   //-------------------------------
   rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
@@ -581,6 +601,12 @@ resourcestring
   rsMsgThisIsNowInClipboard = '"%s" is now in the clipboard';
   rsSimpleWordAll = 'All';
   rsSimpleWordCategory = 'Category';
+  rsSimpleWordFilename = 'Filename';
+  rsSimpleWordParameter = 'Param';
+  rsSimpleWordWorkDir = 'WorkDir';
+  rsSimpleWordResult = 'Result';
+  rsSimpleWordPreview = 'Preview';
+  rsSimpleWordColumnSingular = 'Column';
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';
@@ -600,6 +626,63 @@ resourcestring
   rsOptLetters = 'None;Command Line;Quick Search;Quick Filter';
   // Directory hotlist
   rsOptAddFromMainPanel = 'Add at beginning;Add at the end;Smart add';
+  //File Associations
+  rsMsgTitleExtNotInFileType = 'Extension of selected file is not in any recognized file types';
+  rsMsgSekectFileType = 'Select to which file type to add extension "%s"';
+  rsMsgCreateANewFileType = '< Create a new file type "%s files" >';
+  rsMsgEnterNewFileTypeName = 'Enter name of new file type to create for extension "%s"';
+  rsMsgEnterCustomAction = 'Enter custom action name:';
+  rsSimpleWordFiles = 'files';
+  rsMsgFileAssociationsModifiedWantToSave = 'File extension associations have been modified.'+#$0A+#$0A+'Do you want to save before to exit?';
+  rsMsgFileAssociationsExtraModifiedWantToSave = 'File extension associations extra options have been modified.'+#$0A+#$0A+'Do you want to save before to exit?';
+  rsViewWithInternalViewer = 'with internal viewer';
+  rsEditWithInternalEditor = 'with internal editor';
+  rsViewWithExternalViewer = 'with external viewer';
+  rsEditWithExternalEditor = 'with external editor';
+  rsExecuteViaShell = 'Execute via shell';
+  rsExecuteViaTerminalClose = 'Execute via terminal and close';
+  rsExecuteViaTerminalStayOpen = 'Execute via terminal and stay open';
+  rsConfigurationFileAssociation = 'Configure file association';
+  //Variables
+  rsConfirmExecution = 'Confirming command line and parameters';
+  rsVarHelpWith = 'Help with "%" variables';
+  rsVarOtherExamples = 'Other example of what''s possible';
+
+  rsVarOnlyFilename = 'Only filename';
+  rsVarPath = 'Path, with ending delimiter';
+  rsVarFullPath = 'Complete filename (path+filename)';
+  rsVarFilenameNoExt = 'Just filename, no extension';
+  rsVarOnlyExtension = 'Only file extension';
+  rsVarRelativePathAndFilename = 'Filename with relative path';
+  rsVarCurrentPath = 'Path of panel';
+  rsVarListFilename = 'Temporary filename of list of filenames';
+  rsVarListFullFilename = 'Temporary filename of list of complete filenames (path+filename)';
+  rsVarListRelativeFilename = 'Temporary filename of list of filenames with relative path';
+
+  rsVarSourcePanel = 'Active panel (source)';
+  rsVarTargetPanel = 'Inactive panel (target)';
+  rsVarLeftPanel = 'Left panel';
+  rsVarRightPanel = 'Right panel';
+  rsVarBothPanelLeftToRight = 'Both panels, from left to right';
+  rsVarBothPanelActiveToInactive = 'Both panels, from active to inactive';
+
+  rsVarShowCommandPrior = 'Show command prior execute';
+  rsVarPercentSign = 'Return the percent sign';
+  rsVarPercentChangeToPound =  'From here to the end of the line, the percent-variable indicator is the "#" sign';
+  rsVarPoundChangeToPercent =  'From here to the end of the line, the percent-variable indicator is back the "%" sign';
+  rsVarWillNotBeQuoted =  'Filenames will not be quoted from here';
+  rsVarWillBeQuoted =  'Filenames will be quoted from here (default)';
+  rsVarWillNotHaveEndingDelimiter =  'Paths will not have ending delimiter (default)';
+  rsVarWillHaveEndingDelimiter =  'Paths will have ending delimiter';
+  rsVarWillNotDoInTerminal =  'Command will be done in terminal, closed at the end';
+  rsVarWillDoInTerminal =  'Command will be done in terminal, remaining opened at the end';
+  rsVarSimpleMessage = '%[Simple message]';
+  rsVarSimpleShowMessage =  'Will show a simple message';
+  rsVarPromptUserForParam = '%[Prompt user for param;Default value proposed]';
+  rsVarInputParam =  'Will request request user to enter a parameter with a default suggested value';
+  rsVarPrependElement = 'Prepend each name with "-a " or what you want';
+  rsVarEncloseElement = 'Enclose each name in brackets or what you want';
+  rsVarSecondElementRightPanel = 'Full path of second selected file in right panel';
 
   // Quick Search/Filter
   rsOptSearchItems = '&Files;Di&rectories;Files a&nd Directories';
@@ -617,7 +700,7 @@ resourcestring
   rsMsgToolbarLocateTCToolbarFile = 'Locate ".BAR" file to import';
   rsMsgToolbarLocateDCToolbarFile = 'Locate ".toolbar" file to import';
   rsMsgTCToolbarNotFound = 'Error! Cannot find the desired wanted TC toolbar output folder:'+#$0A+'%s';
-  rsMsgTCConfigNotFound = 'Error! Cannot find the TC oncfiguration file:'+#$0A+'%s';
+  rsMsgTCConfigNotFound = 'Error! Cannot find the TC configuration file:'+#$0A+'%s';
   rsMsgTCExecutableNotFound = 'Error! Cannot find the TC configuration executable:'+#$0A+'%s';
   rsMsgTCisRunning = 'Error! TC is still running but it should be closed for this operation.'+#$0A+'Close it and press OK or press CANCEL to abort.';
   rsMsgToolbarModifiedWantToSave = 'Toolbar has been modified. Do you want to save before to exit?';
@@ -625,6 +708,10 @@ resourcestring
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
   rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';
+  rsMenuConfigureEnterCustomColumnName = 'Enter new custom columns name';
+  rsMenuConfigureColumnsSaveToChange = 'To change current editing colmuns view, either SAVE, COPY or DELETE current editing one';
+  rsMenuConfigureColumnsAlreadyExists = 'A columns view with that name already exists.';
+  rsMsgColumnsModifiedWantToSave = 'Options regarding columns view have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
 
   // Operation states.
   rsOperNotStarted = 'Not started';

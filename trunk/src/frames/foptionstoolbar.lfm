@@ -4,15 +4,15 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
   ClientHeight = 573
   ClientWidth = 850
   OnEnter = FrameEnter
-  DesignLeft = 247
-  DesignTop = 141
+  DesignLeft = 79
+  DesignTop = 199
   object gbGroupBox: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 99
+    Height = 105
     Top = 0
     Width = 838
     Anchors = [akTop, akLeft, akRight]
@@ -22,7 +22,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     Caption = 'Appearance'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 81
+    ClientHeight = 86
     ClientWidth = 834
     TabOrder = 0
     object lblBarSize: TLabel
@@ -30,9 +30,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideTop.Control = trbBarSize
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 15
-      Top = 20
-      Width = 42
+      Height = 17
+      Top = 19
+      Width = 56
       Caption = '&Bar size:'
       FocusControl = trbBarSize
       ParentColor = False
@@ -42,7 +42,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbBarSize
       AnchorSideTop.Side = asrCenter
-      Left = 52
+      Left = 66
       Height = 1
       Top = 27
       Width = 1
@@ -53,7 +53,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Control = lblBarSizeValue
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbGroupBox
-      Left = 56
+      Left = 70
       Height = 46
       Top = 4
       Width = 150
@@ -72,10 +72,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrCenter
-      Left = 221
-      Height = 15
-      Top = 20
-      Width = 48
+      Left = 235
+      Height = 17
+      Top = 19
+      Width = 61
       BorderSpacing.Left = 15
       Caption = 'Icon si&ze:'
       FocusControl = trbIconSize
@@ -86,7 +86,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrCenter
-      Left = 271
+      Left = 298
       Height = 1
       Top = 27
       Width = 1
@@ -98,7 +98,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbGroupBox
       AnchorSideBottom.Side = asrBottom
-      Left = 275
+      Left = 302
       Height = 46
       Top = 4
       Width = 150
@@ -119,9 +119,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideTop.Control = trbIconSize
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 19
+      Height = 24
       Top = 58
-      Width = 83
+      Width = 108
       BorderSpacing.Top = 8
       Caption = '&Flat buttons'
       Checked = True
@@ -133,10 +133,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Control = cbFlatButtons
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbFlatButtons
-      Left = 103
-      Height = 19
+      Left = 128
+      Height = 24
       Top = 58
-      Width = 177
+      Width = 227
       BorderSpacing.Left = 12
       Caption = 'Report errors with commands'
       OnChange = GenericSomethingChanged
@@ -150,15 +150,15 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlEditToolbar
     Left = 6
-    Height = 25
-    Top = 248
+    Height = 29
+    Top = 229
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Top = 2
     BorderSpacing.Bottom = 2
     BevelOuter = bvNone
-    ClientHeight = 25
+    ClientHeight = 29
     ClientWidth = 838
     TabOrder = 1
     object pnlToolbarButtons: TPanel
@@ -166,10 +166,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = pnlFullToolbarButtons
       AnchorSideBottom.Side = asrBottom
-      Left = 209
-      Height = 25
+      Left = 205
+      Height = 29
       Top = 0
-      Width = 420
+      Width = 428
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.HorizontalSpacing = 8
@@ -179,44 +179,44 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.ShrinkVertical = crsHomogenousChildResize
       ChildSizing.Layout = cclTopToBottomThenLeftToRight
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 25
-      ClientWidth = 420
+      ClientHeight = 29
+      ClientWidth = 428
       TabOrder = 0
       object btnInsertButton: TButton
         Left = 0
-        Height = 25
+        Height = 29
         Top = 0
-        Width = 119
+        Width = 130
         AutoSize = True
         Caption = '&Insert new button'
         OnClick = btnInsertButtonClick
         TabOrder = 0
       end
       object btnCloneButton: TButton
-        Left = 127
-        Height = 25
+        Left = 138
+        Height = 29
         Top = 0
-        Width = 96
+        Width = 99
         AutoSize = True
         Caption = 'C&lone button'
         OnClick = btnCloneButtonClick
         TabOrder = 1
       end
       object btnDeleteButton: TButton
-        Left = 231
-        Height = 25
+        Left = 245
+        Height = 29
         Top = 0
-        Width = 59
+        Width = 56
         AutoSize = True
         Caption = '&Delete'
         OnClick = btnDeleteButtonClick
         TabOrder = 2
       end
       object btnOther: TButton
-        Left = 355
-        Height = 25
+        Left = 366
+        Height = 29
         Top = 0
-        Width = 65
+        Width = 62
         AutoSize = True
         BorderSpacing.Left = 65
         Caption = 'Other...'
@@ -232,14 +232,14 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 292
-    Top = 275
+    Height = 307
+    Top = 260
     Width = 838
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Bottom = 6
     BevelOuter = bvNone
-    ClientHeight = 292
+    ClientHeight = 307
     ClientWidth = 838
     TabOrder = 2
     object rgToolItemType: TRadioGroup
@@ -248,9 +248,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideBottom.Control = pnlEditToolbar
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 292
+      Height = 307
       Top = 0
-      Width = 81
+      Width = 5
       Anchors = [akTop, akLeft, akBottom]
       AutoFill = True
       AutoSize = True
@@ -273,10 +273,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlEditToolbar
       AnchorSideBottom.Side = asrBottom
-      Left = 87
-      Height = 292
+      Left = 11
+      Height = 307
       Top = 0
-      Width = 745
+      Width = 821
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Left = 6
       BorderSpacing.Right = 6
@@ -285,14 +285,14 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       ChildSizing.VerticalSpacing = 10
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 292
-      ClientWidth = 745
+      ClientHeight = 307
+      ClientWidth = 821
       TabOrder = 1
       object lblIconFile: TLabel
         Left = 0
-        Height = 15
+        Height = 17
         Top = 6
-        Width = 62
+        Width = 83
         Alignment = taRightJustify
         Caption = 'Ico&n:'
         FocusControl = edtIconFileName
@@ -305,10 +305,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblIconFile
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnOpenIcon
-        Left = 64
-        Height = 23
-        Top = 2
-        Width = 617
+        Left = 85
+        Height = 27
+        Top = 1
+        Width = 672
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
@@ -321,9 +321,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = btnRelativeIconFileName
         AnchorSideBottom.Control = edtIconFileName
         AnchorSideBottom.Side = asrBottom
-        Left = 681
-        Height = 23
-        Top = 2
+        Left = 757
+        Height = 27
+        Top = 1
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Caption = '>>'
@@ -334,9 +334,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblToolTip: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 31
-        Width = 62
+        Height = 17
+        Top = 33
+        Width = 83
         Alignment = taRightJustify
         Caption = '&Tooltip:'
         FocusControl = edtToolTip
@@ -349,10 +349,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblToolTip
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnSuggestionTooltip
-        Left = 64
-        Height = 23
-        Top = 27
-        Width = 628
+        Left = 85
+        Height = 27
+        Top = 28
+        Width = 660
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
@@ -362,9 +362,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblInternalCommand: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 56
-        Width = 62
+        Height = 17
+        Top = 60
+        Width = 83
         Alignment = taRightJustify
         Caption = 'Co&mmand:'
         FocusControl = cbInternalCommand
@@ -377,15 +377,15 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblInternalCommand
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnOpenCmdDlg
-        Left = 64
-        Height = 23
-        Top = 52
-        Width = 600
+        Left = 85
+        Height = 31
+        Top = 53
+        Width = 649
         HelpType = htKeyword
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         DropDownCount = 20
-        ItemHeight = 15
+        ItemHeight = 0
         OnSelect = cbInternalCommandSelect
         Style = csDropDownList
         TabOrder = 3
@@ -394,8 +394,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblInternalParameters: TLabel
         Left = 0
         Height = 100
-        Top = 81
-        Width = 62
+        Top = 87
+        Width = 83
         Alignment = taRightJustify
         Caption = '&Parameters:'
         Constraints.MinHeight = 100
@@ -411,11 +411,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = lblInternalParameters
         AnchorSideBottom.Side = asrBottom
-        Left = 64
+        Left = 85
         Height = 100
         Hint = 'Enter command parameters, each in a separate line. Press F1 to see help on parameters.'
-        Top = 81
-        Width = 681
+        Top = 87
+        Width = 736
         HelpType = htKeyword
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Left = 2
@@ -429,9 +429,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblExternalCommand: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 191
-        Width = 62
+        Height = 17
+        Top = 197
+        Width = 83
         Alignment = taRightJustify
         Caption = 'Comman&d:'
         FocusControl = edtExternalCommand
@@ -444,10 +444,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblExternalCommand
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnOpenFile
-        Left = 64
-        Height = 23
-        Top = 187
-        Width = 617
+        Left = 85
+        Height = 27
+        Top = 192
+        Width = 672
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
@@ -459,9 +459,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = btnRelativeExternalCommand
         AnchorSideBottom.Control = edtExternalCommand
         AnchorSideBottom.Side = asrBottom
-        Left = 681
-        Height = 23
-        Top = 187
+        Left = 757
+        Height = 27
+        Top = 192
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -473,9 +473,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblExternalParameters: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 216
-        Width = 62
+        Height = 17
+        Top = 224
+        Width = 83
         Alignment = taRightJustify
         Caption = 'Parameter&s:'
         FocusControl = edtExternalParameters
@@ -487,12 +487,11 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblExternalParameters
         AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = pnlEditControls
-        AnchorSideRight.Side = asrBottom
-        Left = 64
-        Height = 23
-        Top = 212
-        Width = 681
+        AnchorSideRight.Control = btnParametersHelper
+        Left = 85
+        Height = 27
+        Top = 219
+        Width = 704
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
@@ -502,9 +501,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblStartPath: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 241
-        Width = 62
+        Height = 17
+        Top = 251
+        Width = 83
         Alignment = taRightJustify
         Caption = 'Start pat&h:'
         FocusControl = edtStartPath
@@ -517,10 +516,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideTop.Control = lblStartPath
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnStartPath
-        Left = 64
-        Height = 23
-        Top = 237
-        Width = 617
+        Left = 85
+        Height = 27
+        Top = 246
+        Width = 672
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
@@ -530,9 +529,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       object lblHotkey: TLabel
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 266
-        Width = 62
+        Height = 17
+        Top = 278
+        Width = 83
         Alignment = taRightJustify
         Caption = 'Hot key:'
         ParentColor = False
@@ -542,9 +541,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Control = lblHotkey
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
-        Left = 64
+        Left = 85
         Height = 1
-        Top = 266
+        Top = 278
         Width = 1
         BorderSpacing.Left = 2
         BorderSpacing.Right = 10
@@ -556,10 +555,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
         AnchorSideTop.Side = asrCenter
-        Left = 75
-        Height = 25
-        Top = 261
-        Width = 85
+        Left = 96
+        Height = 29
+        Top = 272
+        Width = 88
         AutoSize = True
         BorderSpacing.Left = 2
         Caption = 'Edit hot&key'
@@ -572,10 +571,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lblHotkey
         AnchorSideTop.Side = asrCenter
-        Left = 162
-        Height = 25
-        Top = 261
-        Width = 108
+        Left = 186
+        Height = 29
+        Top = 272
+        Width = 115
         AutoSize = True
         BorderSpacing.Left = 2
         Caption = 'Remove hotke&y'
@@ -589,9 +588,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtExternalCommand
         AnchorSideBottom.Side = asrBottom
-        Left = 713
-        Height = 23
-        Top = 187
+        Left = 789
+        Height = 27
+        Top = 192
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -639,9 +638,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtIconFileName
         AnchorSideBottom.Side = asrBottom
-        Left = 713
-        Height = 23
-        Top = 2
+        Left = 789
+        Height = 27
+        Top = 1
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -688,9 +687,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = btnRelativeStartPath
         AnchorSideBottom.Control = edtStartPath
         AnchorSideBottom.Side = asrBottom
-        Left = 681
-        Height = 23
-        Top = 237
+        Left = 757
+        Height = 27
+        Top = 246
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -705,9 +704,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtStartPath
         AnchorSideBottom.Side = asrBottom
-        Left = 713
-        Height = 23
-        Top = 237
+        Left = 789
+        Height = 27
+        Top = 246
         Width = 32
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -755,9 +754,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = lblHelpOnInternalCommand
         AnchorSideBottom.Control = cbInternalCommand
         AnchorSideBottom.Side = asrBottom
-        Left = 667
-        Height = 23
-        Top = 52
+        Left = 737
+        Height = 31
+        Top = 53
         Width = 50
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.Left = 3
@@ -773,10 +772,10 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
         Cursor = crHandPoint
-        Left = 720
-        Height = 15
-        Top = 56
-        Width = 25
+        Left = 790
+        Height = 17
+        Top = 60
+        Width = 31
         Anchors = [akTop, akRight]
         BorderSpacing.Left = 3
         Caption = 'Help'
@@ -792,18 +791,69 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtToolTip
         AnchorSideBottom.Side = asrBottom
-        Left = 695
-        Height = 23
+        Left = 748
+        Height = 27
         Hint = 'Have DC suggest the tooltip based on button type, command and parameters'
-        Top = 27
-        Width = 50
+        Top = 28
+        Width = 73
         Anchors = [akTop, akRight, akBottom]
+        AutoSize = True
         BorderSpacing.Left = 3
         BorderSpacing.InnerBorder = 4
         Caption = 'Suggest'
         OnClick = btnSuggestionTooltipClick
         TabOrder = 13
         Visible = False
+      end
+      object btnParametersHelper: TSpeedButton
+        AnchorSideTop.Control = lblExternalParameters
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 789
+        Height = 23
+        Top = 221
+        Width = 32
+        Anchors = [akTop, akRight]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000064000000640000000000000000000000FFFFFF000000
+          0033000000000000000000000000000000000000000000000000000000000000
+          00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
+          47FF000000330000000000000000000000000000000000000000000000005C43
+          2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
+          47FFBB8747FF000000330000000000000000000000000000000000000000B482
+          44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
+          47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
+          000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
+          4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
+          00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
+          00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
+          00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
+          47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
+          0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
+          47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
+          0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
+          0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
+          0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
+          000000000000000000000000000000000000BB8747FFFFFFFF00
+        }
+        Visible = False
+        OnClick = btnParametersHelperClick
       end
     end
   end
@@ -815,8 +865,8 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlFullToolbarButtons
     Left = 6
-    Height = 145
-    Top = 101
+    Height = 120
+    Top = 107
     Width = 838
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 2
@@ -1204,5 +1254,9 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     Options = [frHideWholeWord, frHideUpDown, frDisableUpDown, frDisableWholeWord, frHideEntireScope, frHidePromptOnReplace]
     left = 288
     top = 112
+  end
+  object pmparameteresHelper: TPopupMenu[10]
+    left = 687
+    top = 483
   end
 end

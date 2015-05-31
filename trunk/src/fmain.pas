@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2014 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -538,6 +538,7 @@ type
     procedure pnlNotebooksResize(Sender: TObject);
     procedure pnlRightResize(Sender: TObject);
     procedure sboxDrivePaint(Sender: TObject);
+    procedure PaintDriveFreeBar(Sender: TObject; bIndUseGradient:boolean; pIndForeColor,pIndBackColor:TColor);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
@@ -694,7 +695,6 @@ type
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
     procedure LoadTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
     procedure SaveTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
-    function ExecCmd(Cmd: String; Param: String=''; StartPath: String='') : Boolean;
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -1177,9 +1177,11 @@ begin
                     Param := Param + QuoteStr(ActiveFrame.CurrentAddress + SelectedFiles[I].FullPath) + ' ';
                 end;
 
-                ExecCmd(TKASProgramItem(ToolItem).Command,
-                        Param,
-                        TKASProgramItem(ToolItem).StartPath);
+                TKASProgramItem(ToolItem).Command   := ReplaceEnvVars(ReplaceTilde(TKASProgramItem(ToolItem).Command));
+                Param := PrepareParameter(Param, nil, []);
+
+                if not (Commands.Commands.ExecuteCommand(TKASProgramItem(ToolItem).Command, [Param]) = cfrSuccess) then
+                  ProcessExtCommandFork(TKASProgramItem(ToolItem).Command, Param, TKASProgramItem(ToolItem).StartPath);
               end;
           finally
             FreeAndNil(SelectedFiles);
@@ -2405,7 +2407,6 @@ end;
 procedure TfrmMain.UpdateHotDirIcons;
 var
   I: Integer;
-  imgIndex: Integer;
   iconsDir: String;
   fileName: String;
   iconImg: TPicture;
@@ -2433,7 +2434,7 @@ begin
       if mbFileExists(fileName) then
       try
         iconImg.LoadFromFile(fileName);
-        imgIndex := imgLstDirectoryHotlist.Add(iconImg.Bitmap, nil);
+        imgLstDirectoryHotlist.Add(iconImg.Bitmap, nil);
       except
         // Skip
       end;
@@ -2509,7 +2510,7 @@ end;
 
 procedure TfrmMain.miHotAddOrConfigClick(Sender: TObject);
 begin
-  with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist(['action='+HOTLISTMAGICWORDS[tag], 'source='+ActiveFrame.CurrentPath, 'target='+NotActiveFrame.CurrentPath, 'index=0']);
+  with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist(['action='+HOTLISTMAGICWORDS[tag], 'source='+QuoteStr(ActiveFrame.CurrentPath), 'target='+QuoteStr(NotActiveFrame.CurrentPath), 'index=0']);
 end;
 
 procedure TfrmMain.CreatePopUpDirHistory;
@@ -3383,7 +3384,7 @@ begin
     if ToolItem is TKASProgramItem then
     begin
       sDir := TKASProgramItem(ToolItem).StartPath;
-      sDir:= PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
+      sDir:= PrepareParameter(sDir, nil, [ppoNormalizePathDelims, ppoReplaceTilde]);
       tbChangeDir.Caption := 'CD ' + sDir;
       tbChangeDir.Visible := True;
     end;
@@ -3475,6 +3476,11 @@ begin
 end;
 
 procedure TfrmMain.sboxDrivePaint(Sender: TObject);
+begin
+  PaintDriveFreeBar(Sender, gIndUseGradient, gIndForeColor, gIndBackColor);
+end;
+
+procedure TfrmMain.PaintDriveFreeBar(Sender: TObject; bIndUseGradient:boolean; pIndForeColor,pIndBackColor:TColor);
 var
   pbxDrive: TPaintBox absolute Sender;
   FillPercentage: PtrInt;
@@ -3491,15 +3497,15 @@ begin
     ARect.Top    := 1;
     ARect.Bottom := pbxDrive.Height - 2;
 
-    if not gIndUseGradient then
+    if not bIndUseGradient then
       begin
         ARect.Left  := 1;
         ARect.Right := 1 + FillPercentage * (pbxDrive.Width - 2) div 100;
-        AColor := gIndForeColor;
+        AColor := pIndForeColor;
         pbxDrive.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
         ARect.Left  := ARect.Right + 1;
         ARect.Right := pbxDrive.Width - 2;
-        AColor := gIndBackColor;
+        AColor := pIndBackColor;
         pbxDrive.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
       end
     else
@@ -4086,38 +4092,6 @@ begin
     end;
 end;
 
-(* Execute internal or external command *)
-
-function TfrmMain.ExecCmd(Cmd: String; Param: String=''; StartPath: String=''): Boolean;
-begin
-  // For Command only replace environment variables and tilde.
-  Cmd   := ReplaceEnvVars(ReplaceTilde(Cmd));
-  Param := PrepareParameter(Param, FrameLeft, FrameRight, ActiveFrame);
-
-  if Commands.Commands.ExecuteCommand(Cmd, [Param]) = cfrSuccess then
-    Result:= True
-  else
-  begin
-    StartPath := PrepareParameter(StartPath, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
-
-    // Only add a space after command if there are parameters.
-    if Length(Param) > 0 then
-      Param := ' ' + Param;
-    if StartPath <> '' then
-      mbSetCurrentDir(StartPath);
-
-    try
-      Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
-    except
-      on e: EInvalidCommandLine do
-      begin
-        MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
-        Result := False;
-      end;
-    end;
-  end;
-end;
-
 procedure TfrmMain.ToggleConsole;
 begin
   if gTermWindow then
@@ -4191,11 +4165,9 @@ begin
   if not Draging then
   begin
     ProgramItem := ToolItem as TKASProgramItem;
-    CommandExecResult:=ExecCmd(ProgramItem.Command, ProgramItem.Params, ProgramItem.StartPath);
+    CommandExecResult:=ProcessExtCommandFork(ProgramItem.Command, ProgramItem.Params, ProgramItem.StartPath);
     if gToolbarReportErrorWithCommands AND (CommandExecResult=FALSE) then
-    begin
-      MsgError('Problem executing command! ('+ProgramItem.Command+')');
-    end;
+      MsgError(Format(rsMsgProblemExecutingCommand,[ProgramItem.Command]));
   end;
   Draging := False;
 end;
@@ -4537,7 +4509,7 @@ begin
     if ToolItem is TKASProgramItem then
     begin
       sDir := TKASProgramItem(ToolItem).StartPath;
-      sDir := PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
+      sDir := PrepareParameter(sDir, nil, [ppoNormalizePathDelims, ppoReplaceTilde]);
       Commands.cm_ChangeDir([sDir]);
     end;
   end;
@@ -4707,7 +4679,7 @@ end;
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
 var
   iIndex: Integer;
-  sDir: String;
+  sDir, sParams: String;
   Operation: TFileSourceExecuteOperation = nil;
   aFile: TFile = nil;
 begin
@@ -4719,13 +4691,13 @@ begin
     edtCommand.Items.Delete(edtCommand.Items.Count-1);
   edtCommand.DroppedDown:= False;
 
-  sCmd:= ReplaceEnvVars(sCmd);
-
   if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
     begin
       iIndex:= Pos('cd ', sCmd);
       if (iIndex = 1) or (sCmd = 'cd') then
         begin
+          sCmd:= ReplaceEnvVars(sCmd);
+
           if (iIndex <> 1) then
             sDir:= GetHomeDir
           else
@@ -4748,14 +4720,15 @@ begin
       else
         begin
           if gTermWindow and Assigned(Cons) then
+          begin
+            sCmd:= ReplaceEnvVars(sCmd);
             Cons.Terminal.Write_pty(sCmd + sLineBreak)
+          end
           else
           begin
             try
-              if bRunInTerm then
-                ExecCmdFork(sCmd, True, gRunInTerm)
-              else
-                ExecCmdFork(sCmd);
+              SplitCmdLineToCmdParams(sCmd,sCmd, sParams); //TODO:Hum...
+              ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath, nil, bRunInTerm);
             except
               on e: EInvalidCommandLine do
                 MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);

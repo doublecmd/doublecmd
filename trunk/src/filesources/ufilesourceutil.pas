@@ -55,7 +55,7 @@ uses
 
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 var
-  sOpenCmd: String;
+  sCmd, sParams, sStartPath: String;
   Operation: TFileSourceExecuteOperation = nil;
   aFileCopy: TFile = nil;
 begin
@@ -68,12 +68,11 @@ begin
   begin
     if fspLinksToLocalFiles in aFileView.FileSource.Properties then
       aFileView.FileSource.GetLocalName(aFile);
-    // Now test if exists Open command in doublecmd.ext :)
-    sOpenCmd := gExts.GetExtActionCmd(aFile, 'open');
-    if (sOpenCmd <> '') then
+
+    // Now test if exists Open command in "extassoc.xml" :)
+    if gExts.GetExtActionCmd(aFile, 'open', sCmd, sParams, sStartPath) then
     begin
-      sOpenCmd := PrepareParameter(sOpenCmd, aFile);
-      if ProcessExtCommand(sOpenCmd, aFileView.CurrentPath) then
+      if ProcessExtCommandFork(sCmd,sParams,sStartPath) then
         Exit;
     end;
   end;

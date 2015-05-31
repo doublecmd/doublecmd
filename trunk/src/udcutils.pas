@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -150,6 +150,8 @@ function FixExeExt(const sFileName: UTF8String): UTF8String;
 }
 function TrimQuotes(const Str: String): String;
 function QuoteStr(const Str: String): String;
+function QuoteFilenameIfNecessary(const Str: String): String;
+function ConcatenateStrWithSpace(const Str: String; const Addition: String):string;
 {$IFDEF UNIX}
 function QuoteSingle(const Str: String): String;
 {$ENDIF}
@@ -236,6 +238,9 @@ function LightColor(AColor: TColor; APercent: Byte): TColor;
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
+
+procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String);
+
 
 implementation
 
@@ -620,6 +625,31 @@ begin
 end;
 {$ENDIF}
 
+function QuoteFilenameIfNecessary(const Str: String): String;
+{$IF DEFINED(UNIX)}
+begin
+  // Default method is to escape every special char with backslash.
+  Result := EscapeNoQuotes(Str);
+end;
+{$ELSE}
+begin
+  if Pos(#32, Str) <> 0 then
+    Result := QuoteDouble(Str)
+  else
+    Result := Str;
+end;
+{$ENDIF}
+
+function ConcatenateStrWithSpace(const Str: String; const Addition: String):string;
+begin
+  result:=Str;
+  if Addition <> EmptyStr then
+    if result = EmptyStr then
+      result := Addition
+    else
+      result := result + #32 + Addition;
+end;
+
 {$IF DEFINED(UNIX)}
 function QuoteSingle(const Str: String): String;
 begin
@@ -796,13 +826,7 @@ begin
 end;
 {$ENDIF}
 
-{$IF DEFINED(UNIX)}
-procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray);
-begin
-  RemoveQuotationOrSplitCmdLine(sCmdLine, sCommand, Args, True);
-end;
-{$ELSEIF DEFINED(MSWINDOWS)}
-procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
+procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String);
 var
   iPos : Integer;
 begin
@@ -819,8 +843,8 @@ begin
       iPos := Pos(#32, sCmdLine);
       if iPos <> 0 then
         begin
-      	  sCmd := Copy(sCmdLine, 1, iPos - 1);
-      	  sParams := Copy(sCmdLine, iPos + 1, Length(sCmdLine) - iPos + 1)
+         sCmd := Copy(sCmdLine, 1, iPos - 1);
+         sParams := Copy(sCmdLine, iPos + 1, Length(sCmdLine) - iPos + 1)
         end
       else
         begin
@@ -828,6 +852,17 @@ begin
           sParams := '';
         end;
     end;
+end;
+
+{$IF DEFINED(UNIX)}
+procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray);
+begin
+  RemoveQuotationOrSplitCmdLine(sCmdLine, sCommand, Args, True);
+end;
+{$ELSEIF DEFINED(MSWINDOWS)}
+procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
+begin
+  SplitCmdLineToCmdParams(sCmdLine,sCmd,sParams);
 end;
 {$ENDIF}
 

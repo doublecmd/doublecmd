@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   LCLType, Forms, Classes, SysUtils, Controls,
-  uDrive, uFile, uFileSource;
+  uGlobs, uShellContextMenu, uDrive, uFile, uFileSource;
 
 type
 
@@ -77,7 +77,7 @@ procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles
    @param(CloseEvent Method called when popup menu is closed (optional))
 }
 procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Integer;
-                          Background: Boolean; CloseEvent: TNotifyEvent);
+                          Background: Boolean; CloseEvent: TNotifyEvent; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
 {en
    Show drive context menu
    @param(Parent Parent window)
@@ -107,7 +107,7 @@ procedure ShowOpenWithDialog(const FileList: TStringList);
 implementation
 
 uses
-  ExtDlgs, LCLProc, uShellContextMenu, uConnectionManager
+  ExtDlgs, LCLProc, uConnectionManager
   {$IF DEFINED(MSWINDOWS)}
   , Menus, Graphics, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, InterfaceBase, FileUtil, Windows, ShlObj, uShlObjAdditional
@@ -392,7 +392,7 @@ end;
 {$ENDIF}
 
 procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Integer;
-                          Background: Boolean; CloseEvent: TNotifyEvent);
+                          Background: Boolean; CloseEvent: TNotifyEvent; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
 {$IFDEF MSWINDOWS}
 begin
   if Files.Count = 0 then
@@ -403,7 +403,7 @@ begin
 
   try
     // Create new context menu
-    ShellContextMenu:= TShellContextMenu.Create(Parent, Files, Background);
+    ShellContextMenu:= TShellContextMenu.Create(Parent, Files, Background, UserWishForContextMenu);
     ShellContextMenu.OnClose := CloseEvent;
     // Show context menu
     ShellContextMenu.PopUp(X, Y);
@@ -423,7 +423,7 @@ begin
   // Free previous created menu
   FreeThenNil(ShellContextMenu);
   // Create new context menu
-  ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background);
+  ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
   ShellContextMenu.OnClose := CloseEvent;
   // Show context menu
   ShellContextMenu.PopUp(X, Y);
@@ -505,16 +505,17 @@ var
   opdDialog : TOpenPictureDialog;
 {$IFDEF MSWINDOWS}
   sFilter : String;
-  iPos,
-  iIconIndex: Integer;
+  iPos, iIconIndex: Integer;
   bAlreadyOpen : Boolean;
+  bFlagKeepGoing : Boolean = True;
 {$ENDIF}
 begin
   opdDialog := nil;
 {$IFDEF MSWINDOWS}
   sFilter := GraphicFilter(TGraphic)+'|'+ 'Programs and Libraries (*.exe;*.dll)|*.exe;*.dll'+'|'+
-                       Format('All files (%s)|%s',[GetAllFilesMask, GetAllFilesMask]);
+             Format('All files (%s)|%s',[GetAllFilesMask, GetAllFilesMask]);
   bAlreadyOpen := False;
+
   iPos :=Pos(',', sFileName);
   if iPos <> 0 then
     begin
@@ -524,33 +525,35 @@ begin
   else
     begin
       opdDialog := TOpenPictureDialog.Create(Owner);
-      opdDialog.Filter:= sFilter;
+      opdDialog.Filter := sFilter;
+      opdDialog.InitialDir := ExtractFileDir(sFileName);
       opdDialog.FileName := sFileName;
-      Result:= opdDialog.Execute;
-      sFileName := opdDialog.FileName;
+      Result := opdDialog.Execute;
+      if Result then sFileName := opdDialog.FileName else bFlagKeepGoing := False;
       bAlreadyOpen := True;
     end;
 
   if FileIsExeLib(sFileName) then
     begin
-      Result := SHChangeIconDialog(Owner.Handle, sFileName, iIconIndex);
-      if Result then
-        sFileName := sFileName + ',' + IntToStr(iIconIndex);
+      if bFlagKeepGoing then
+      begin
+        Result := SHChangeIconDialog(Owner.Handle, sFileName, iIconIndex);
+        if Result then sFileName := sFileName + ',' + IntToStr(iIconIndex);
+      end;
     end
   else if not bAlreadyOpen then
 {$ENDIF}
     begin
       opdDialog := TOpenPictureDialog.Create(Owner);
+      opdDialog.InitialDir:=ExtractFileDir(sFileName);
 {$IFDEF MSWINDOWS}
       opdDialog.Filter:= sFilter;
 {$ENDIF}
       opdDialog.FileName := sFileName;
       Result:= opdDialog.Execute;
       sFileName := opdDialog.FileName;
-{$IFDEF MSWINDOWS}
-      bAlreadyOpen := True;
-{$ENDIF}
     end;
+
   if Assigned(opdDialog) then
     FreeAndNil(opdDialog);
 end;

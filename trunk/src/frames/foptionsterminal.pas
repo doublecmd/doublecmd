@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Terminal options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,23 +28,31 @@ interface
 
 uses
   Classes, SysUtils,
-  fOptionsFrame, StdCtrls;
+  fOptionsFrame, StdCtrls, ExtCtrls, Buttons, Menus;
 
 type
 
   { TfrmOptionsTerminal }
 
   TfrmOptionsTerminal = class(TOptionsEditor)
-    edtRunInTerm: TEdit;
-    edtRunTerm: TEdit;
-    lblRunInTerm: TLabel;
-    lblRunTerm: TLabel;
+    gbRunInTerminalClose: TGroupBox;
+    gbJustRunTerminal: TGroupBox;
+    gbRunInTerminalStayOpen: TGroupBox;
+    ledtRunInTermCloseCmd: TLabeledEdit;
+    ledtRunTermCmd: TLabeledEdit;
+    ledtRunTermParams: TLabeledEdit;
+    ledtRunInTermStayOpenCmd: TLabeledEdit;
+    ledtRunInTermCloseParams: TLabeledEdit;
+    ledtRunInTermStayOpenParams: TLabeledEdit;
+  private
+    FLastLoadedOptionSignature: dword;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -52,20 +60,32 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  fOptions, uShowMsg, uComponentsSignature, uGlobs, uLng;
 
 { TfrmOptionsTerminal }
 
 procedure TfrmOptionsTerminal.Load;
 begin
-  edtRunInTerm.Text := gRunInTerm;
-  edtRunTerm.Text   := gRunTerm;
+  ledtRunInTermStayOpenCmd.Text := gRunInTermStayOpenCmd;
+  ledtRunInTermStayOpenParams.Text := gRunInTermStayOpenParams;
+  ledtRunInTermCloseCmd.Text := gRunInTermCloseCmd;
+  ledtRunInTermCloseParams.Text := gRunInTermCloseParams;
+  ledtRunTermCmd.Text := gRunTermCmd;
+  ledtRunTermParams.Text := gRunTermParams;
+
+  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 function TfrmOptionsTerminal.Save: TOptionsEditorSaveFlags;
 begin
-  gRunInTerm := edtRunInTerm.Text;
-  gRunTerm   := edtRunTerm.Text;
+  gRunInTermStayOpenCmd := ledtRunInTermStayOpenCmd.Text;
+  gRunInTermStayOpenParams := ledtRunInTermStayOpenParams.Text;
+  gRunInTermCloseCmd := ledtRunInTermCloseCmd.Text;
+  gRunInTermCloseParams := ledtRunInTermCloseParams.Text;
+  gRunTermCmd := ledtRunTermCmd.Text;
+  gRunTermParams := ledtRunTermParams.Text;
+
+  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
   Result := [];
 end;
 
@@ -78,6 +98,32 @@ class function TfrmOptionsTerminal.GetTitle: String;
 begin
   Result := rsOptionsEditorTerminal;
 end;
+
+{ TfrmOptionsTerminal.CanWeClose }
+function TfrmOptionsTerminal.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
+var
+  Answer: TMyMsgResult;
+begin
+  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
+
+  if not Result then
+  begin
+    ShowOptions(TfrmOptionsTerminal);
+    Answer := MsgBox(rsMsgTerminalOptionsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
+    case Answer of
+      mmrYes:
+      begin
+        Save;
+        Result := True;
+      end;
+
+      mmrNo: Result := True;
+      else
+        Result := False;
+    end;
+  end;
+end;
+
 
 end.
 

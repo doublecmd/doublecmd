@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Options frame page
 
-   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -142,6 +142,7 @@ uses
   fOptionsEditorColors,
   fOptionsToolTips,
   fOptionsFileAssoc,
+  fOptionsFileAssocExtra,
   fOptionsDirectoryHotlist;
 
 { TOptionsEditorRec }
@@ -262,7 +263,8 @@ var
   Layout,
   Mouse,
   Tools,
-  Editor: TOptionsEditorRec;
+  Editor,
+  FileAssoc: TOptionsEditorRec;
 begin
   Main.Add(TfrmOptionsLanguage);
   Main.Add(TfrmOptionsBehavior);
@@ -299,7 +301,8 @@ begin
   Main.Add(TfrmOptionsIgnoreList);
   Main.Add(TfrmOptionsArchivers);
   Main.Add(TfrmOptionsToolTips);
-  Main.Add(TfrmOptionsFileAssoc);
+  FileAssoc := Main.Add(TfrmOptionsFileAssoc);
+  FileAssoc.Add(TfrmOptionsFileAssocExtra);
   Main.Add(TfrmOptionsDirectoryHotlist);
 end;
 

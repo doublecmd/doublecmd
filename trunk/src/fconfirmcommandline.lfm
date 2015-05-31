@@ -1,0 +1,116 @@
+object TfrmConfirmCommandLine: TTfrmConfirmCommandLine
+  Left = 403
+  Height = 205
+  Top = 360
+  Width = 500
+  ActiveControl = btnOK
+  Caption = 'TfrmConfirmCommandLine'
+  ChildSizing.LeftRightSpacing = 8
+  ChildSizing.TopBottomSpacing = 8
+  ClientHeight = 205
+  ClientWidth = 500
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  SessionProperties = 'Width'
+  LCLVersion = '1.2.6.0'
+  object btnCancel: TBitBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 392
+    Height = 32
+    Top = 165
+    Width = 100
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Top = 12
+    Cancel = True
+    Caption = '&Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 2
+  end
+  object btnOK: TBitBtn
+    AnchorSideTop.Control = btnCancel
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Side = asrBottom
+    Left = 286
+    Height = 32
+    Top = 165
+    Width = 100
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 1
+  end
+  object lbleCommandLine: TLabeledEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 23
+    Top = 30
+    Width = 484
+    Anchors = [akTop, akLeft, akRight]
+    EditLabel.AnchorSideLeft.Control = lbleCommandLine
+    EditLabel.AnchorSideRight.Control = lbleCommandLine
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = lbleCommandLine
+    EditLabel.Left = 8
+    EditLabel.Height = 15
+    EditLabel.Top = 12
+    EditLabel.Width = 484
+    EditLabel.Caption = 'Command line:'
+    EditLabel.ParentColor = False
+    TabOrder = 0
+    Text = 'lbleCommandLine'
+  end
+  object lbleParameters: TLabeledEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 23
+    Top = 80
+    Width = 484
+    Anchors = [akTop, akLeft, akRight]
+    EditLabel.AnchorSideLeft.Control = lbleParameters
+    EditLabel.AnchorSideRight.Control = lbleParameters
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = lbleParameters
+    EditLabel.Left = 8
+    EditLabel.Height = 15
+    EditLabel.Top = 62
+    EditLabel.Width = 484
+    EditLabel.Caption = 'Parameters:'
+    EditLabel.ParentColor = False
+    TabOrder = 3
+    Text = 'lbleParameters'
+  end
+  object lbleStartPath: TLabeledEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 23
+    Top = 130
+    Width = 484
+    Anchors = [akTop, akLeft, akRight]
+    EditLabel.AnchorSideLeft.Control = lbleStartPath
+    EditLabel.AnchorSideRight.Control = lbleStartPath
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = lbleStartPath
+    EditLabel.Left = 8
+    EditLabel.Height = 15
+    EditLabel.Top = 112
+    EditLabel.Width = 484
+    EditLabel.Caption = 'Start path:'
+    EditLabel.ParentColor = False
+    TabOrder = 4
+    Text = 'lbleStartPath'
+  end
+end

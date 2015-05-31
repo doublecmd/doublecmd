@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Log options page
 
-   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,6 @@ interface
 
 uses
   Classes, SysUtils, Controls, StdCtrls, EditBtn, Buttons, Menus, fOptionsFrame;
-
 type
 
   { TfrmOptionsLog }
@@ -42,6 +41,7 @@ type
     cbLogFile: TCheckBox;
     cbIncludeDateInLogFilename: TCheckBox;
     cbLogInfo: TCheckBox;
+    cbLogCommandLineExecution: TCheckBox;
     cbLogSuccess: TCheckBox;
     cbLogVFS: TCheckBox;
     cbLogStartShutdown: TCheckBox;
@@ -55,12 +55,15 @@ type
     procedure btnRelativeLogFileClick(Sender: TObject);
     procedure cbLogFileChange(Sender: TObject);
     procedure btnViewLogFileClick(Sender: TObject);
+  private
+    FLastLoadedOptionSignature: dword;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
+    class function GetIconIndex: integer; override;
+    class function GetTitle: string; override;
+    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -68,23 +71,24 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, uGlobs, uLng, uSpecialDir, uShowForm, uDCUtils;
+  fOptions, uShowMsg, uComponentsSignature, fMain, uGlobs, uLng, uSpecialDir,
+  uShowForm, uDCUtils;
 
 { TfrmOptionsLog }
 
-class function TfrmOptionsLog.GetIconIndex: Integer;
+class function TfrmOptionsLog.GetIconIndex: integer;
 begin
   Result := 23;
 end;
 
-class function TfrmOptionsLog.GetTitle: String;
+class function TfrmOptionsLog.GetTitle: string;
 begin
   Result := rsOptionsEditorLog;
 end;
 
 procedure TfrmOptionsLog.cbLogFileChange(Sender: TObject);
 begin
-  cbIncludeDateInLogFilename.Enabled:=cbLogFile.Checked;
+  cbIncludeDateInLogFilename.Enabled := cbLogFile.Checked;
 end;
 
 procedure TfrmOptionsLog.btnViewLogFileClick(Sender: TObject);
@@ -95,7 +99,7 @@ end;
 procedure TfrmOptionsLog.btnRelativeLogFileClick(Sender: TObject);
 begin
   fneLogFileName.SetFocus;
-  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneLogFileName,pfFILE);
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneLogFileName, pfFILE);
   pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
@@ -105,16 +109,21 @@ begin
   cbLogFile.Checked := gLogFile;
   cbLogFileChange(cbLogFile);
   fneLogFileName.FileName := gLogFileName;
-  cbLogStartShutdown.Checked := (log_start_shutdown in gLogOptions);
+
   cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
   cbLogDelete.Checked := (log_delete in gLogOptions);
   cbLogDirOp.Checked := (log_dir_op in gLogOptions);
   cbLogArcOp.Checked := (log_arc_op in gLogOptions);
   cbLogVFS.Checked := (log_vfs_op in gLogOptions);
+  cbLogStartShutdown.Checked := (log_start_shutdown in gLogOptions);
+  cbLogCommandLineExecution.Checked := (log_commandlineexecution in gLogOptions);
+
   cbLogSuccess.Checked := (log_success in gLogOptions);
   cbLogErrors.Checked := (log_errors in gLogOptions);
   cbLogInfo.Checked := (log_info in gLogOptions);
-  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
+
+  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper, mp_PATHHELPER, nil);
 end;
 
 function TfrmOptionsLog.Save: TOptionsEditorSaveFlags;
@@ -124,9 +133,8 @@ begin
   gLogFile := cbLogFile.Checked;
   gLogFileWithDateInName := cbIncludeDateInLogFilename.Checked;
   gLogFileName := fneLogFileName.FileName;
+
   gLogOptions := []; // Reset log options
-  if cbLogStartShutdown.Checked then
-    Include(gLogOptions, log_start_shutdown);
   if cbLogCpMvLn.Checked then
     Include(gLogOptions, log_cp_mv_ln);
   if cbLogDelete.Checked then
@@ -137,13 +145,47 @@ begin
     Include(gLogOptions, log_arc_op);
   if cbLogVFS.Checked then
     Include(gLogOptions, log_vfs_op);
+  if cbLogStartShutdown.Checked then
+    Include(gLogOptions, log_start_shutdown);
+  if cbLogCommandLineExecution.Checked then
+    Include(gLogOptions, log_commandlineexecution);
+
   if cbLogSuccess.Checked then
     Include(gLogOptions, log_success);
   if cbLogErrors.Checked then
     Include(gLogOptions, log_errors);
   if cbLogInfo.Checked then
     Include(gLogOptions, log_info);
+
+  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
+end;
+
+{ TfrmOptionsFileAssoc.CanWeClose }
+function TfrmOptionsLog.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
+var
+  Answer: TMyMsgResult;
+begin
+  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
+
+  if not Result then
+  begin
+    ShowOptions(TfrmOptionsLog);
+    Answer := MsgBox(rsMsgLogOptionsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
+    case Answer of
+      mmrYes:
+      begin
+        Save;
+        WillNeedUpdateWindowView := True;
+        Result := True;
+      end;
+
+      mmrNo: Result := True;
+      else
+        Result := False;
+    end;
+  end;
 end;
 
 end.
+
 
