@@ -703,10 +703,14 @@ begin
 end;
 
 procedure TfrmDiffer.ShowIdentical;
+var
+  Message: String;
 begin
   if FShowIdentical then
   begin
-    if MessageDlg(rsToolDiffer, rsDiffFilesIdentical, mtWarning, [mbClose, mbCancel], 0, mbClose) = mrClose then
+    Message:= rsDiffFilesIdentical + LineEnding + LineEnding;
+    Message+= edtFileNameLeft.Text + LineEnding + edtFileNameRight.Text;
+    if MessageDlg(rsToolDiffer, Message, mtWarning, [mbClose, mbCancel], 0, mbClose) = mrClose then
       Close
     else begin
       FShowIdentical:= False;
