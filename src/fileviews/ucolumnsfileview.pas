@@ -1404,9 +1404,10 @@ var
     IsCursorInactive: Boolean;
   //---------------------
   begin
-    Canvas.Font.Name   := ColumnsSet.GetColumnFontName(ACol);
-    Canvas.Font.Size   := ColumnsSet.GetColumnFontSize(ACol);
-    Canvas.Font.Style  := ColumnsSet.GetColumnFontStyle(ACol);
+    Canvas.Font.Name    := ColumnsSet.GetColumnFontName(ACol);
+    Canvas.Font.Size    := ColumnsSet.GetColumnFontSize(ACol);
+    Canvas.Font.Style   := ColumnsSet.GetColumnFontStyle(ACol);
+    Canvas.Font.Quality := ColumnsSet.GetColumnFontQuality(ACol);
 
     IsCursor := (gdSelected in aState) and ColumnsView.Active and (not ColumnsSet.UseFrameCursor);
     IsCursorInactive := (gdSelected in aState) and (not ColumnsView.Active) and (not ColumnsSet.UseFrameCursor);
