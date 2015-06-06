@@ -276,7 +276,7 @@ begin
       OpenFileRight(FileNameRight);
       if actAutoCompare.Checked then actStartCompare.Execute;
     end;
-    ShowOnTop;
+    if actBinaryCompare.Checked or (FShowIdentical = False) then ShowOnTop;
   end;
 end;
 
