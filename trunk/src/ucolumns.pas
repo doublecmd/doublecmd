@@ -133,6 +133,7 @@ type
     function GetColumnFontName(const Index: Integer): String;
     function GetColumnFontSize(const Index: Integer): Integer;
     function GetColumnFontStyle(const Index: Integer): TFontStyles;
+    function GetColumnFontQuality(const Index: Integer): TFontQuality;
     function GetColumnTextColor(const Index: Integer): TColor;
     function GetColumnBackground(const Index: Integer): TColor;
     function GetColumnBackground2(const Index: Integer): TColor;
@@ -309,6 +310,11 @@ begin
     Result := TPanelColumn(Flist[Index]).FontStyle
   else
     Result := gFonts[dcfMain].Style;
+end;
+
+function TPanelColumnsClass.GetColumnFontQuality(const Index: Integer): TFontQuality;
+begin
+  Result := gFonts[dcfMain].Quality;
 end;
 
 function TPanelColumnsClass.GetColumnTextColor(const Index: Integer): TColor;
