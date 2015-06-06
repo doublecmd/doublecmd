@@ -1222,9 +1222,9 @@ begin
   gDrivesListButtonOptions := [dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace];
 
   { Keys page }
-  gKeyTyping[ktmNone]    := ktaCommandLine;
+  gKeyTyping[ktmNone]    := ktaQuickSearch;
   gKeyTyping[ktmAlt]     := ktaNone;
-  gKeyTyping[ktmCtrlAlt] := ktaQuickSearch;
+  gKeyTyping[ktmCtrlAlt] := ktaQuickFilter;
 
   { File operations page }
   gCopyBlockSize := 524288;
