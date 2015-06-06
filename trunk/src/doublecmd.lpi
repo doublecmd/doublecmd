@@ -464,12 +464,10 @@ end;"/>
         <UnitName Value="uLng"/>
       </Unit23>
       <Unit24>
-        <Filename Value="fcolumnssetconf.pas"/>
+        <Filename Value="frames\foptionsfileassocextra.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fColumnsSetConf"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="fColumnsSetConf"/>
+        <UnitName Value="fOptionsFileAssocExtra"/>
       </Unit24>
       <Unit25>
         <Filename Value="fhackform.pas"/>
