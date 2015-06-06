@@ -424,6 +424,7 @@ resourcestring
   rsDiffModifies = ' Modifies: ';
   rsDiffAdds = ' Adds: ';
   rsDiffDeletes = ' Deletes: ';
+  rsDiffFilesIdentical = 'The two files are identical!';
   // Find files dialog
   rsFindSearchFiles = 'Find files';
   rsFindDefineTemplate = 'Define template';
