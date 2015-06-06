@@ -213,7 +213,9 @@ type
     HashListRight: array of Integer;
     EncodingList: TStringList;
     ScrollLock: LongInt;
+    FShowIdentical: Boolean;
     FCommands: TFormCommands;
+    procedure ShowIdentical;
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
     procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
@@ -265,6 +267,7 @@ begin
   begin
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
+    FShowIdentical:= actAutoCompare.Checked;
     actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) or FileIsText(FileNameRight));
     if actBinaryCompare.Checked then
       actBinaryCompareExecute(actBinaryCompare)
@@ -347,6 +350,7 @@ begin
       StatusBar.Panels[1].Text := rsDiffModifies + IntToStr(modifies);
       StatusBar.Panels[2].Text := rsDiffAdds + IntToStr(adds);
       StatusBar.Panels[3].Text := rsDiffDeletes + IntToStr(deletes);
+      if (modifies = 0) and (adds = 0) and (deletes = 0) then ShowIdentical;
     end;
   finally
     SynDiffEditLeft.FinishCompare;
@@ -689,12 +693,25 @@ begin
   BinaryCompare:= nil;
   BinaryDiffIndex:= -1;
   StatusBar.Panels[0].Text := EmptyStr;
-  StatusBar.Panels[1].Text := ' Modifies: ' + IntToStr(BinaryDiffList.Count);
+  StatusBar.Panels[1].Text := rsDiffModifies + IntToStr(BinaryDiffList.Count);
   StatusBar.Panels[2].Text := EmptyStr;
   StatusBar.Panels[3].Text := EmptyStr;
   actStartCompare.Enabled := True;
   actCancelCompare.Enabled := False;
   actBinaryCompare.Enabled := True;
+  if (BinaryDiffList.Count = 0) then ShowIdentical;
+end;
+
+procedure TfrmDiffer.ShowIdentical;
+begin
+  if FShowIdentical then
+  begin
+    if MessageDlg(rsToolDiffer, rsDiffFilesIdentical, mtWarning, [mbClose, mbCancel], 0, mbClose) = mrClose then
+      Close
+    else begin
+      FShowIdentical:= False;
+    end;
+  end;
 end;
 
 procedure TfrmDiffer.FormClose(Sender: TObject; var CloseAction: TCloseAction);
