@@ -294,22 +294,27 @@ var
   TextColor: TColor = clDefault;
   BackgroundColor: TColor;
   IsCursor: Boolean;
+  IsCursorInactive: Boolean;
 begin
   Canvas.Font.Name   := gFonts[dcfMain].Name;
   Canvas.Font.Size   := gFonts[dcfMain].Size;
   Canvas.Font.Style  := gFonts[dcfMain].Style;
 
   IsCursor := (gdSelected in aState) and FFileView.Active and (not gUseFrameCursor);
+  IsCursorInactive := (gdSelected in aState) and (not FFileView.Active) and (not gUseFrameCursor);
   // Set up default background color first.
   if IsCursor then
     BackgroundColor := gCursorColor
   else
     begin
-      // Alternate rows background color.
-      if odd(ARow) then
-        BackgroundColor := gBackColor
+      if IsCursorInactive AND gUseInactiveSelColor then
+        BackgroundColor := gInactiveCursorColor
       else
-        BackgroundColor := gBackColor2;
+        // Alternate rows background color.
+        if odd(ARow) then
+          BackgroundColor := gBackColor
+        else
+          BackgroundColor := gBackColor2;
     end;
 
   // Set text color.
@@ -322,20 +327,26 @@ begin
     if gUseInvertedSelection then
       begin
         //------------------------------------------------------
-        if IsCursor then
+        if IsCursor OR (IsCursorInactive AND gUseInactiveSelColor) then
           begin
             TextColor := InvertColor(gCursorText);
           end
         else
           begin
-            BackgroundColor := gMarkColor;
+            if FFileView.Active OR (not gUseInactiveSelColor) then
+              BackgroundColor := gMarkColor
+            else
+              BackgroundColor := gInactiveMarkColor;
             TextColor := TextColor;
           end;
         //------------------------------------------------------
       end
     else
       begin
-        TextColor := gMarkColor;
+        if FFileView.Active OR (not gUseInactiveSelColor) then
+          TextColor := gMarkColor
+        else
+          TextColor := gInactiveMarkColor;
       end;
   end
   else if IsCursor then

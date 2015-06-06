@@ -21,6 +21,8 @@ uses
   uFileViewWithGrid;
 
 type
+  TFunctionDime = function (AColor: TColor): TColor of Object;
+
   TColumnsSortDirections = array of TSortDirection;
   TColumnsFileView = class;
 
@@ -49,6 +51,8 @@ type
               aState: TGridDrawState); override;
 
   public
+    ColumnsOwnDim: TFunctionDime;
+
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
 
     procedure UpdateView;
@@ -70,7 +74,10 @@ type
 
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
+
   end;
+
+  TColumnResized = procedure (Sender: TObject; ColumnIndex: Integer; ColumnNewsize: integer) of object;
 
   { TColumnsFileView }
 
@@ -83,6 +90,7 @@ type
 
     pmColumnsMenu: TPopupMenu;
     dgPanel: TDrawGridEx;
+    FOnColumnResized: TColumnResized;
 
     function GetColumnsClass: TPanelColumnsClass;
 
@@ -124,6 +132,7 @@ type
     procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
     procedure dgPanelTopLeftChanged(Sender: TObject);
     procedure dgPanelResize(Sender: TObject);
+    procedure dgPanelHeaderSized(Sender: TObject; IsColumn: Boolean; index: Integer);
     procedure ColumnsMenuClick(Sender: TObject);
 
   protected
@@ -173,7 +182,9 @@ type
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
     procedure UpdateColumnsView;
+    procedure SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
 
+    property OnColumnResized: TColumnResized read FOnColumnResized write FOnColumnResized;
   published
     procedure cm_CopyFileDetailsToClip(const Params: array of string);
 
@@ -186,7 +197,6 @@ uses
   uDCUtils, math, fMain, fOptions,
   uOrderedFileView,
   uFileSourceProperty,
-  fColumnsSetConf,
   uKeyboard,
   uFileFunctions,
   uFormCommands,
@@ -426,6 +436,11 @@ begin
     dgPanel.Row := 0;
     FUpdatingActiveFile := False;
   end;
+end;
+
+procedure TColumnsfileView.SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
+begin
+  dgPanel.ColumnsOwnDim:=ExternalDimFunction;
 end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(aFile: TFile);
@@ -669,8 +684,8 @@ begin
   SetColumns;
   SetColumnsSortDirections;
 
-  dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder and not gUseFrameCursor;
-  dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
+  dgPanel.FocusRectVisible := ColumnsClass.UseCursorBorder and not ColumnsClass.UseFrameCursor;
+  dgPanel.FocusColor := ColumnsClass.CursorBorderColor;
   dgPanel.UpdateView;
 
   OldFilePropertiesNeeded := FilePropertiesNeeded;
@@ -682,38 +697,9 @@ begin
 end;
 
 procedure TColumnsFileView.ColumnsMenuClick(Sender: TObject);
-var
-  frmColumnsSetConf: TfColumnsSetConf;
-  Index: Integer;
-  Msg: TEachViewCallbackMsg;
 begin
   Case (Sender as TMenuItem).Tag of
-    1000: //This
-          begin
-            frmColumnsSetConf := TfColumnsSetConf.Create(nil);
-            try
-              Msg.Reason := evcrUpdateColumns;
-              Msg.UpdatedColumnsSetName := ActiveColm;
-
-              {EDIT Set}
-              frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
-              Index:=ColSet.Items.IndexOf(ActiveColm);
-              frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
-              frmColumnsSetConf.Tag:=Index;
-              frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
-              {EDIT Set}
-              if frmColumnsSetConf.ShowModal = mrOK then
-              begin
-                // Force saving changes to config file.
-                SaveGlobs;
-                Msg.NewColumnsSetName := frmColumnsSetConf.GetColumnsClass.Name;
-                frmMain.ForEachView(@EachViewUpdateColumns, @Msg);
-              end;
-            finally
-              FreeAndNil(frmColumnsSetConf);
-            end;
-          end;
-    1001: //All columns
+    1001: //All columns, but current one will be selected.
           begin
             ShowOptions(TfrmOptionsCustomColumns);
           end;
@@ -729,6 +715,7 @@ end;
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
   ActiveColm := 'Default';
+  FOnColumnResized := nil;
   inherited Create(AOwner, AFileSource, APath, AFlags);
 end;
 
@@ -771,6 +758,7 @@ begin
 {$ENDIF}
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
+  dgPanel.OnHeaderSized:= @dgPanelHeaderSized;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
@@ -1046,6 +1034,15 @@ begin
     dgPanel.Hint:= #32;
 end;
 
+procedure TColumnsFileView.dgPanelHeaderSized(Sender: TObject; IsColumn: Boolean; index: Integer);
+begin
+  if IsColumn then
+    if Assigned(FOnColumnResized) then
+      begin
+        FOnColumnResized(Self, index, dgPanel.ColWidths[index]);
+      end;
+end;
+
 procedure TColumnsFileView.cm_CopyFileDetailsToClip(const Params: array of string);
 var
   I: Integer;
@@ -1101,6 +1098,7 @@ begin
   inherited Create(AOwner);
 
   ColumnsView := AParent as TColumnsFileView;
+  ColumnsOwnDim := @ColumnsView.DimColor;
 
   // Workaround for Lazarus issue 18832.
   // Set Fixed... before setting ...Count.
@@ -1403,23 +1401,28 @@ var
     TextColor: TColor = clDefault;
     BackgroundColor: TColor;
     IsCursor: Boolean;
+    IsCursorInactive: Boolean;
   //---------------------
   begin
     Canvas.Font.Name   := ColumnsSet.GetColumnFontName(ACol);
     Canvas.Font.Size   := ColumnsSet.GetColumnFontSize(ACol);
     Canvas.Font.Style  := ColumnsSet.GetColumnFontStyle(ACol);
 
-    IsCursor := (gdSelected in aState) and ColumnsView.Active and (not gUseFrameCursor);
+    IsCursor := (gdSelected in aState) and ColumnsView.Active and (not ColumnsSet.UseFrameCursor);
+    IsCursorInactive := (gdSelected in aState) and (not ColumnsView.Active) and (not ColumnsSet.UseFrameCursor);
     // Set up default background color first.
     if IsCursor then
       BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol)
     else
       begin
-        // Alternate rows background color.
-        if odd(ARow) then
-          BackgroundColor := ColumnsSet.GetColumnBackground(ACol)
+        if IsCursorInactive AND ColumnsSet.GetColumnUseInactiveSelColor(ACol) then
+          BackgroundColor := ColumnsSet.GetColumnInactiveCursorColor(ACol)
         else
-          BackgroundColor := ColumnsSet.GetColumnBackground2(ACol);
+          // Alternate rows background color.
+          if odd(ARow) then
+            BackgroundColor := ColumnsSet.GetColumnBackground(ACol)
+          else
+            BackgroundColor := ColumnsSet.GetColumnBackground2(ACol);
       end;
 
     // Set text color.
@@ -1430,23 +1433,29 @@ var
 
     if AFile.Selected then
     begin
-      if gUseInvertedSelection then
+      if ColumnsSet.GetColumnUseInvertedSelection(ACol) then
         begin
           //------------------------------------------------------
-          if IsCursor then
+          if IsCursor OR (IsCursorInactive AND ColumnsSet.GetColumnUseInactiveSelColor(ACol)) then
             begin
               TextColor := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
             end
           else
             begin
-              BackgroundColor := ColumnsSet.GetColumnMarkColor(ACol);
+              if ColumnsView.Active OR (not ColumnsSet.GetColumnUseInactiveSelColor(ACol)) then
+                BackgroundColor := ColumnsSet.GetColumnMarkColor(ACol)
+              else
+                BackgroundColor := ColumnsSet.GetColumnInactiveMarkColor(ACol);
               TextColor := ColumnsSet.GetColumnBackground(ACol);
             end;
           //------------------------------------------------------
         end
       else
         begin
-          TextColor := ColumnsSet.GetColumnMarkColor(ACol);
+          if ColumnsView.Active OR (not ColumnsSet.GetColumnUseInactiveSelColor(ACol)) then
+            TextColor := ColumnsSet.GetColumnMarkColor(ACol)
+          else
+            TextColor := ColumnsSet.GetColumnInactiveMarkColor(ACol);
         end;
     end
     else if IsCursor then
@@ -1454,7 +1463,7 @@ var
         TextColor := ColumnsSet.GetColumnCursorText(ACol);
       end;
 
-    BackgroundColor := ColumnsView.DimColor(BackgroundColor);
+    BackgroundColor := ColumnsOwnDim(BackgroundColor);
 
     if AFile.RecentlyUpdatedPct <> 0 then
     begin
@@ -1471,9 +1480,12 @@ var
   procedure DrawLines;
   begin
     // Draw frame cursor.
-    if gUseFrameCursor and (gdSelected in aState) and ColumnsView.Active then
+    if ColumnsSet.UseFrameCursor and (gdSelected in aState) and (ColumnsView.Active OR ColumnsSet.GetColumnUseInactiveSelColor(Acol)) then
     begin
-      Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol);
+      if ColumnsView.Active then
+        Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol)
+      else
+        Canvas.Pen.Color := ColumnsSet.GetColumnInactiveCursorColor(ACol);
       Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
       Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
     end;
@@ -1560,6 +1572,7 @@ begin
                   MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
                   MI.Tag:=I;
                   MI.Caption:=ColSet.Items[I];
+                  MI.Checked:=(ColSet.Items[I] = ColumnsView.ActiveColm);
                   MI.OnClick:=@ColumnsView.ColumnsMenuClick;
                   ColumnsView.pmColumnsMenu.Items.Add(MI);
                 end;
@@ -1567,12 +1580,6 @@ begin
           //-
           MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
           MI.Caption:='-';
-          ColumnsView.pmColumnsMenu.Items.Add(MI);
-          //Configure this custom columns
-          MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
-          MI.Tag:=1000;
-          MI.Caption:=rsMenuConfigureThisCustomColumn;
-          MI.OnClick:=@ColumnsView.ColumnsMenuClick;
           ColumnsView.pmColumnsMenu.Items.Add(MI);
           //Configure custom columns
           MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);

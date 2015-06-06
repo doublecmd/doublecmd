@@ -4,6 +4,7 @@
    Filepanel columns implementation unit
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+   Copyright (C) 2015  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,13 +41,17 @@ type
     FontName: String;
     FontSize: Integer;
     FontStyle: TFontStyles;
-    Overcolor: Boolean;
     TextColor,
     Background,
     Background2,
     MarkColor,
     CursorColor,
-    CursorText: TColor;
+    CursorText,
+    InactiveCursorColor,
+    InactiveMarkColor: TColor;
+    UseInvertedSelection: Boolean;
+    UseInactiveSelColor: Boolean;
+    Overcolor: Boolean;
   public
     constructor Create;
   end;
@@ -72,13 +77,17 @@ type
     FontName: String;
     FontSize: Integer;
     FontStyle: TFontStyles;
-    Overcolor: Boolean;
     TextColor,
     Background,
     Background2,
     MarkColor,
     CursorColor,
-    CursorText: TColor;
+    CursorText,
+    InactiveCursorColor,
+    InactiveMarkColor: TColor;
+    UseInvertedSelection: Boolean;
+    UseInactiveSelColor: Boolean;
+    Overcolor: Boolean;
     //---------------------
 
     constructor Create;
@@ -108,6 +117,7 @@ type
     FCustomView: Boolean;
     FCursorBorder: Boolean;
     FCursorBorderColor: TColor;
+    FUseFrameCursor: Boolean;
     //------------------------------------------------------
   public
     constructor Create;
@@ -123,18 +133,19 @@ type
     function GetColumnFontName(const Index: Integer): String;
     function GetColumnFontSize(const Index: Integer): Integer;
     function GetColumnFontStyle(const Index: Integer): TFontStyles;
-    function GetColumnOvercolor(const Index: Integer): Boolean;
     function GetColumnTextColor(const Index: Integer): TColor;
     function GetColumnBackground(const Index: Integer): TColor;
     function GetColumnBackground2(const Index: Integer): TColor;
     function GetColumnMarkColor(const Index: Integer): TColor;
     function GetColumnCursorColor(const Index: Integer): TColor;
     function GetColumnCursorText(const Index: Integer): TColor;
+    function GetColumnInactiveCursorColor(const Index: Integer): TColor;
+    function GetColumnInactiveMarkColor(const Index: Integer): TColor;
+    function GetColumnUseInvertedSelection(const Index: Integer): Boolean;
+    function GetColumnUseInactiveSelColor(const Index: Integer): Boolean;
+    function GetColumnOvercolor(const Index: Integer): Boolean;
     //---------------------
     function GetColumnPrm(const Index: Integer): TColPrm;
-    //---------------------
-    function GetCursorBorder: Boolean;
-    function GetCursorBorderColor: TColor;
     //---------------------
     function GetColumnItem(const Index: Integer): TPanelColumn;
     function GetColumnItemResultString(const Index: Integer;
@@ -158,28 +169,34 @@ type
     procedure SetColumnMarkColor(const Index: Integer; Value: TColor);
     procedure SetColumnCursorColor(const Index: Integer; Value: TColor);
     procedure SetColumnCursorText(const Index: Integer; Value: TColor);
+    procedure SetColumnInactiveCursorColor(const Index: Integer; Value: TColor);
+    procedure SetColumnInactiveMarkColor(const Index: Integer; Value: TColor);
+    procedure SetColumnUseInvertedSelection(const Index: Integer; Value: Boolean);
+    procedure SetColumnUseInactiveSelColor(const Index: Integer; Value: Boolean);
     procedure SetColumnOvercolor(const Index: Integer; Value: Boolean);
-    procedure SetColumnPrm(const Index: Integer; Value: TColPrm);
     //---------------------
-    procedure SetCursorBorder(ShowBorder: Boolean);
-    procedure SetCursorBorderColor(Color: TColor);
+    procedure SetColumnPrm(const Index: Integer; Value: TColPrm);
     //---------------------
     procedure Delete(const Index: Integer);
     procedure Clear;
     procedure AddDefaultColumns;
+    procedure AddDefaultEverything;
     //---------------------
     procedure Load(Ini: TIniFileEx; SetName: String); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     //---------------------
-    procedure Save(Ini: TIniFileEx; ASetName: String); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     //---------------------
+    function GetSignature:dword;
     property ColumnsCount: Integer read GetCount;
     property Count: Integer read GetCount;
     property CustomView: Boolean read FCustomView write FCustomView;
     property CurrentColumnsSetName: String read fSetName write fSetName;
     property SetName: String read fSetName write fSetName;
     property Name: String read fSetName write fSetName;
+    property UseCursorBorder: boolean read FCursorBorder write FCursorBorder;
+    property CursorBorderColor: TColor read FCursorBorderColor write FCursorBorderColor;
+    property UseFrameCursor: boolean read FUseFrameCursor write FUseFrameCursor;
     //------------------------------------------------------
   end;
 
@@ -196,7 +213,6 @@ type
     procedure Clear;
     procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-    procedure Save(Ini: TIniFileEx); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     function Add(Item: TPanelColumnsClass): Integer;
     procedure Insert(AIndex: Integer; Item: TPanelColumnsClass);
@@ -215,7 +231,7 @@ type
 implementation
 
 uses
-  uDebug, uLng, uGlobs;
+  crc, uDebug, uLng, uGlobs;
 
 function StrToAlign(str: String): TAlignment;
 begin
@@ -295,14 +311,6 @@ begin
     Result := gFonts[dcfMain].Style;
 end;
 
-function TPanelColumnsClass.GetColumnOvercolor(const Index: Integer): Boolean;
-begin
-  if FCustomView and (Index < Flist.Count) then
-    Result := TPanelColumn(Flist[Index]).Overcolor
-  else
-    Result := True;
-end;
-
 function TPanelColumnsClass.GetColumnTextColor(const Index: Integer): TColor;
 begin
   if FCustomView and (Index < Flist.Count) then
@@ -351,32 +359,66 @@ begin
     Result := gCursorText;
 end;
 
+function TPanelColumnsClass.GetColumnInactiveCursorColor(const Index: Integer): TColor;
+begin
+  if FCustomView and (Index < Flist.Count) then
+    Result := TPanelColumn(Flist[Index]).InactiveCursorColor
+  else
+    Result := gInactiveCursorColor;
+end;
+
+function TPanelColumnsClass.GetColumnInactiveMarkColor(const Index: Integer): TColor;
+begin
+  if FCustomView and (Index < Flist.Count) then
+    Result := TPanelColumn(Flist[Index]).InactiveMarkColor
+  else
+    Result := gInactiveMarkColor;
+end;
+
+function TPanelColumnsClass.GetColumnUseInvertedSelection(const Index: Integer): Boolean;
+begin
+  if FCustomView and (Index < Flist.Count) then
+    Result := TPanelColumn(Flist[Index]).UseInvertedSelection
+  else
+    Result := gUseInvertedSelection;
+end;
+
+function TPanelColumnsClass.GetColumnUseInactiveSelColor(const Index: Integer): Boolean;
+begin
+  if FCustomView and (Index < Flist.Count) then
+    Result := TPanelColumn(Flist[Index]).UseInactiveSelColor
+  else
+    Result := gUseInactiveSelColor;
+end;
+
+function TPanelColumnsClass.GetColumnOvercolor(const Index: Integer): Boolean;
+begin
+  if FCustomView and (Index < Flist.Count) then
+    Result := TPanelColumn(Flist[Index]).Overcolor
+  else
+    Result := gAllowOverColor;
+end;
+
 function TPanelColumnsClass.GetColumnPrm(const Index: Integer): TColPrm;
 begin
   if Index >= Flist.Count then
     Exit(nil);
 
   Result := TColPrm.Create;
-  Result.Overcolor := GetColumnOvercolor(Index);
-  Result.Background := GetColumnBackground(Index);
-  Result.Background2 := GetColumnBackground2(Index);
-  Result.CursorColor := GetColumnCursorColor(Index);
-  Result.CursorText := GetColumnCursorText(Index);
   Result.FontName := GetColumnFontName(Index);
   Result.FontSize := GetColumnFontSize(Index);
   Result.FontStyle := GetColumnFontStyle(Index);
-  Result.MarkColor := GetColumnMarkColor(Index);
   Result.TextColor := GetColumnTextColor(Index);
-end;
-
-function TPanelColumnsClass.GetCursorBorder: Boolean;
-begin
-  Result := FCursorBorder;
-end;
-
-function TPanelColumnsClass.GetCursorBorderColor: TColor;
-begin
-  Result := FCursorBorderColor;
+  Result.Background := GetColumnBackground(Index);
+  Result.Background2 := GetColumnBackground2(Index);
+  Result.MarkColor := GetColumnMarkColor(Index);
+  Result.CursorColor := GetColumnCursorColor(Index);
+  Result.CursorText := GetColumnCursorText(Index);
+  Result.InactiveCursorColor := GetColumnInactiveCursorColor(Index);
+  Result.InactiveMarkColor := GetColumnMarkColor(Index);
+  Result.UseInvertedSelection:= GetColumnUseInvertedSelection(Index);
+  Result.UseInactiveSelColor:= GetColumnUseInactiveSelColor(Index);
+  Result.Overcolor := GetColumnOvercolor(Index);
 end;
 
 function TPanelColumnsClass.GetColumnItem(const Index: Integer): TPanelColumn;
@@ -429,6 +471,7 @@ begin
   FCustomView := OtherColumnsClass.FCustomView;
   FCursorBorder := OtherColumnsClass.FCursorBorder;
   FCursorBorderColor := OtherColumnsClass.FCursorBorderColor;
+  FUseFrameCursor := OtherColumnsClass.FUseFrameCursor;
 
   for i := 0 to OtherColumnsClass.ColumnsCount - 1 do
   begin
@@ -443,13 +486,17 @@ begin
     NewColumn.FontName    := OldColumn.FontName;
     NewColumn.FontSize    := OldColumn.FontSize;
     NewColumn.FontStyle   := OldColumn.FontStyle;
-    NewColumn.Overcolor   := OldColumn.Overcolor;
     NewColumn.TextColor   := OldColumn.TextColor;
     NewColumn.Background  := OldColumn.Background;
     NewColumn.Background2 := OldColumn.Background2;
     NewColumn.MarkColor   := OldColumn.MarkColor;
     NewColumn.CursorColor := OldColumn.CursorColor;
     NewColumn.CursorText  := OldColumn.CursorText;
+    NewColumn.InactiveCursorColor := OldColumn.InactiveCursorColor;
+    NewColumn.InactiveMarkColor := OldColumn.InactiveMarkColor;
+    NewColumn.UseInvertedSelection := OldColumn.UseInvertedSelection;
+    NewColumn.UseInactiveSelColor := OldColumn.UseInactiveSelColor;
+    NewColumn.Overcolor := OldColumn.Overcolor;
   end;
 end;
 
@@ -478,13 +525,17 @@ begin
   AColumn.FontName    := gFonts[dcfMain].Name;
   AColumn.FontSize    := gFonts[dcfMain].Size;
   AColumn.FontStyle   := gFonts[dcfMain].Style;
-  AColumn.Overcolor   := True;
   AColumn.TextColor   := gForeColor;
   AColumn.Background  := gBackColor;
   AColumn.Background2 := gBackColor2;
   AColumn.MarkColor   := gMarkColor;
   AColumn.CursorColor := gCursorColor;
   AColumn.CursorText  := gCursorText;
+  AColumn.InactiveCursorColor := gInactiveCursorColor;
+  AColumn.InactiveMarkColor := gInactiveMarkColor;
+  AColumn.UseInvertedSelection := gUseInvertedSelection;
+  AColumn.UseInactiveSelColor := gUseInactiveSelColor;
+  AColumn.Overcolor := gAllowOverColor;
 end;
 
 procedure TPanelColumnsClass.SetColumnTitle(const Index: Integer; Title: String);
@@ -578,6 +629,34 @@ begin
   TPanelColumn(Flist[Index]).CursorText := Value;
 end;
 
+procedure TPanelColumnsClass.SetColumnInactiveCursorColor(const Index: Integer; Value: TColor);
+begin
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).InactiveCursorColor := Value;
+end;
+
+procedure TPanelColumnsClass.SetColumnInactiveMarkColor(const Index: Integer; Value: TColor);
+begin
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).InactiveMarkColor := Value;
+end;
+
+procedure TPanelColumnsClass.SetColumnUseInvertedSelection(const Index: Integer; Value: Boolean);
+begin
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).UseInvertedSelection := Value;
+end;
+
+procedure TPanelColumnsClass.SetColumnUseInactiveSelColor(const Index: Integer; Value: Boolean);
+begin
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).UseInactiveSelColor := Value;
+end;
+
 procedure TPanelColumnsClass.SetColumnOvercolor(const Index: Integer; Value: Boolean);
 begin
   if Index > Flist.Count then
@@ -589,26 +668,20 @@ procedure TPanelColumnsClass.SetColumnPrm(const Index: Integer; Value: TColPrm);
 begin
   if Index >= Flist.Count then
     Exit;
-  SetColumnBackground(Index, Value.Background);
-  SetColumnBackground2(Index, Value.Background2);
-  SetColumnCursorColor(Index, Value.CursorColor);
-  SetColumnCursorText(Index, Value.CursorText);
   SetColumnFontName(Index, Value.FontName);
   SetColumnFontSize(Index, Value.FontSize);
   SetColumnFontStyle(Index, Value.FontStyle);
-  SetColumnMarkColor(Index, Value.MarkColor);
   SetColumnTextColor(Index, Value.TextColor);
+  SetColumnBackground(Index, Value.Background);
+  SetColumnBackground2(Index, Value.Background2);
+  SetColumnMarkColor(Index, Value.MarkColor);
+  SetColumnCursorColor(Index, Value.CursorColor);
+  SetColumnCursorText(Index, Value.CursorText);
+  SetColumnInactiveCursorColor(Index, Value.InactiveCursorColor);
+  SetColumnInactiveMarkColor(Index, Value.InactiveMarkColor);
+  SetColumnUseInvertedSelection(Index, Value.UseInvertedSelection);
+  SetColumnUseInactiveSelColor(Index, Value.UseInactiveSelColor);
   SetColumnOvercolor(Index, Value.Overcolor);
-end;
-
-procedure TPanelColumnsClass.SetCursorBorder(ShowBorder: Boolean);
-begin
-  FCursorBorder := ShowBorder;
-end;
-
-procedure TPanelColumnsClass.SetCursorBorderColor(Color: TColor);
-begin
-  FCursorBorderColor := Color;
 end;
 
 procedure TPanelColumnsClass.AddDefaultColumns;
@@ -627,6 +700,15 @@ begin
   Add(rsColDate, Format(DCFunc, [TFileFunctionStrings[fsfModificationTime]]), 70, taRightJustify);
   // file attributes
   Add(rsColAttr, Format(DCFunc, [TFileFunctionStrings[fsfAttr]]), 175, taLeftJustify);
+end;
+
+procedure TPanelColumnsClass.AddDefaultEverything;
+begin
+  AddDefaultColumns;
+  FCustomView := True;
+  FCursorBorder := gUseCursorBorder;
+  FCursorBorderColor := gCursorBorderColor;
+  FUseFrameCursor := gUseFrameCursor;
 end;
 
 procedure TPanelColumnsClass.Load(Ini: TIniFileEx; SetName: String);
@@ -654,19 +736,24 @@ begin
         TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFonts[dcfMain].Name);
         TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFonts[dcfMain].Size);
         TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFonts[dcfMain].Style)));
-        TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
         TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
         TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
         TPanelColumn(FList[I]).Background2:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background2',gBackColor2 ));
         TPanelColumn(FList[I]).MarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor',gMarkColor ));
         TPanelColumn(FList[I]).CursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor',gCursorColor ));
         TPanelColumn(FList[I]).CursorText:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText',gCursorText ));
+        TPanelColumn(FList[I]).InactiveCursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'InactiveCursorColor',gInactiveCursorColor));
+        TPanelColumn(FList[I]).InactiveMarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'InactiveMarkColor',gInactiveMarkColor ));
+        TPanelColumn(FList[I]).UseInvertedSelection:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'UseInvertedSelection',true );
+        TPanelColumn(FList[I]).UseInactiveSelColor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'UseInactiveSelColor',gUseInactiveSelColor);
+        TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
         //---------------------
       end;
   //---------------------
   FCustomView := Ini.ReadBool(fSetName, 'CustomView', False);
-  SetCursorBorder(Ini.ReadBool(fSetName, 'CursorBorder', False));
-  SetCursorBorderColor(TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorColor)));
+  FCursorBorder := Ini.ReadBool(fSetName, 'CursorBorder', gUseCursorBorder);
+  FCursorBorderColor := TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorBorderColor));
+  FUseFrameCursor := Ini.ReadBool(fSetName, 'UseFrameCursor', gUseFrameCursor);
 end;
 
 procedure TPanelColumnsClass.Load(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -675,8 +762,9 @@ var
   SubNode: TXmlNode;
 begin
   FCustomView := AConfig.GetValue(ANode, 'CustomView', False);
-  SetCursorBorder(AConfig.GetAttr(ANode, 'CursorBorder/Enabled', False));
-  SetCursorBorderColor(TColor(AConfig.GetValue(ANode, 'CursorBorder/Color', gCursorColor)));
+  FCursorBorder := AConfig.GetAttr(ANode, 'CursorBorder/Enabled', gUseCursorBorder);
+  FCursorBorderColor := TColor(AConfig.GetValue(ANode, 'CursorBorder/Color', gCursorBorderColor));
+  FUseFrameCursor := AConfig.GetAttr(ANode, 'UseFrameCursor', gUseFrameCursor);
 
   Clear;
 
@@ -697,13 +785,17 @@ begin
         AColumn.Align := TAlignment(AConfig.GetValue(SubNode, 'Align', Integer(0)));
         AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle),
                         gFonts[dcfMain].Name, gFonts[dcfMain].Size, Integer(gFonts[dcfMain].Style));
-        AColumn.Overcolor := AConfig.GetValue(SubNode, 'Overcolor', True);
         AColumn.TextColor := TColor(AConfig.GetValue(SubNode, 'TextColor', gForeColor));
         AColumn.Background := TColor(AConfig.GetValue(SubNode, 'Background', gBackColor));
         AColumn.Background2 := TColor(AConfig.GetValue(SubNode, 'Background2', gBackColor2));
         AColumn.MarkColor := TColor(AConfig.GetValue(SubNode, 'MarkColor', gMarkColor));
         AColumn.CursorColor := TColor(AConfig.GetValue(SubNode, 'CursorColor', gCursorColor));
         AColumn.CursorText := TColor(AConfig.GetValue(SubNode, 'CursorText', gCursorText));
+        AColumn.InactiveCursorColor := TColor(AConfig.GetValue(SubNode, 'InactiveCursorColor', gInactiveCursorColor));
+        AColumn.InactiveMarkColor := TColor(AConfig.GetValue(SubNode, 'InactiveMarkColor', gInactiveMarkColor));
+        AColumn.UseInvertedSelection := AConfig.GetValue(SubNode, 'UseInvertedSelection', gUseInvertedSelection);
+        AColumn.UseInactiveSelColor := AConfig.GetValue(SubNode, 'UseInactiveSelColor', gUseInactiveSelColor);
+        AColumn.Overcolor := AConfig.GetValue(SubNode, 'Overcolor', True);
       end;
       SubNode := SubNode.NextSibling;
     end;
@@ -713,47 +805,6 @@ begin
     AddDefaultColumns;
 end;
 
-procedure TPanelColumnsClass.Save(Ini: TIniFileEx; ASetName: String);
-var
-  I: Integer;
-begin
-  fSetName := ASetName;
-  if fSetName = '' then
-    Exit;
-  Ini.EraseSection(fSetName);
-  Ini.WriteInteger(fSetName, 'ColumnCount', FList.Count);
-  for I := 0 to FList.Count - 1 do
-    begin
-      Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'Title',TPanelColumn(FList[I]).Title);
-      Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',TPanelColumn(FList[I]).FuncString);
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Width', TPanelColumn(FList[I]).Width);
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Align', Integer(TPanelColumn(FList[I]).Align));
-      //---------------------
-      Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FontName',TPanelColumn(FList[I]).FontName);
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize', TPanelColumn(FList[I]).FontSize);
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle', Integer(TPanelColumn(FList[I]).FontStyle));
-      Ini.WriteBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor', TPanelColumn(FList[I]).Overcolor);
-
-      if TPanelColumn(FList[I]).TextColor <>clNone then
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor', TPanelColumn(FList[I]).TextColor);
-      if TPanelColumn(FList[I]).Background <>clNone then
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Background', TPanelColumn(FList[I]).Background);
-      if TPanelColumn(FList[I]).Background2 <>clNone then
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Background2', TPanelColumn(FList[I]).Background2);
-      if TPanelColumn(FList[I]).MarkColor <>clNone then
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor', TPanelColumn(FList[I]).MarkColor);
-      if TPanelColumn(FList[I]).CursorColor <>clNone then
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor', TPanelColumn(FList[I]).CursorColor);
-      if TPanelColumn(FList[I]).CursorText <>clNone then
-      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText', TPanelColumn(FList[I]).CursorText);
-    end;
-
-  Ini.WriteBool(fSetName, 'CustomView', FCustomView);
-  Ini.WriteBool(fSetName, 'CursorBorder', GetCursorBorder);
-  if GetCursorBorderColor <> clNone then
-    Ini.WriteInteger(fSetName, 'CursorBorderColor', GetCursorBorderColor);
-end;
-
 procedure TPanelColumnsClass.Save(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I: Integer;
@@ -761,9 +812,10 @@ var
   AColumn: TPanelColumn;
 begin
   AConfig.SetValue(ANode, 'CustomView', FCustomView);
-  AConfig.SetAttr(ANode, 'CursorBorder/Enabled', GetCursorBorder);
-  if GetCursorBorderColor <> clNone then
-    AConfig.SetValue(ANode, 'CursorBorder/Color', GetCursorBorderColor);
+  AConfig.SetAttr(ANode, 'CursorBorder/Enabled', FCursorBorder);
+  if FCursorBorderColor <> clNone then
+    AConfig.SetValue(ANode, 'CursorBorder/Color', FCursorBorderColor);
+  AConfig.SetAttr(ANode, 'UseFrameCursor', FUseFrameCursor);
 
   ANode := AConfig.FindNode(ANode, 'Columns', True);
   AConfig.ClearNode(ANode);
@@ -777,9 +829,7 @@ begin
       AConfig.AddValue(SubNode, 'FuncString', AColumn.FuncString);
       AConfig.AddValue(SubNode, 'Width', AColumn.Width);
       AConfig.AddValue(SubNode, 'Align', Integer(AColumn.Align));
-      AConfig.SetFont(SubNode, 'Font', AColumn.FontName,
-                      AColumn.FontSize, Integer(AColumn.FontStyle));
-      AConfig.AddValue(SubNode, 'Overcolor', AColumn.Overcolor);
+      AConfig.SetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle));
 
       if AColumn.TextColor <> clNone then
         AConfig.AddValue(SubNode, 'TextColor', AColumn.TextColor);
@@ -793,6 +843,14 @@ begin
         AConfig.AddValue(SubNode, 'CursorColor', AColumn.CursorColor);
       if AColumn.CursorText <> clNone then
         AConfig.AddValue(SubNode, 'CursorText', AColumn.CursorText);
+      if AColumn.InactiveCursorColor <> clNone then
+        AConfig.AddValue(SubNode, 'InactiveCursorColor', AColumn.InactiveCursorColor);
+      if AColumn.InactiveMarkColor <> clNone then
+        AConfig.AddValue(SubNode, 'InactiveMarkColor', AColumn.InactiveMarkColor);
+
+      AConfig.AddValue(SubNode, 'UseInvertedSelection', AColumn.UseInvertedSelection);
+      AConfig.AddValue(SubNode, 'UseInactiveSelColor', AColumn.UseInactiveSelColor);
+      AConfig.AddValue(SubNode, 'Overcolor', AColumn.Overcolor);
     end;
 end;
 
@@ -802,6 +860,54 @@ begin
     Exit;
   TPanelColumn(Flist[Index]).Free;
   FList.Delete(Index);
+end;
+
+function TPanelColumnsClass.GetSignature:dword;
+  procedure ProgressSignatureWithThisString(sSomething:string);
+  begin
+    if length(sSomething) > 0 then
+      Result := crc32(Result, @sSomething[1], length(sSomething));
+  end;
+
+var
+  iPanelColumnIndex: integer;
+  iFunction: integer;
+begin
+  result:=$00000000;
+
+  for iPanelColumnIndex := 0 to pred(Count) do
+  begin
+    with TPanelColumn(Flist[iPanelColumnIndex]) do
+    begin
+      ProgressSignatureWithThisString(Title);
+      for iFunction:=0 to pred(FuncList.Count) do ProgressSignatureWithThisString(FuncList.Strings[iFunction]);
+      Result := crc32(Result, @Width, sizeof(Width));
+      Result := crc32(Result, @Align, sizeof(Align));
+      if FCustomView then
+      begin
+        ProgressSignatureWithThisString(FontName);
+        Result := crc32(Result, @FontSize, sizeof(FontSize));
+        Result := crc32(Result, @FontStyle, sizeof(FontStyle));
+        Result := crc32(Result, @TextColor, sizeof(TextColor));
+        Result := crc32(Result, @Background, sizeof(Background));
+        Result := crc32(Result, @Background2, sizeof(Background2));
+        Result := crc32(Result, @MarkColor, sizeof(MarkColor));
+        Result := crc32(Result, @CursorColor, sizeof(CursorColor));
+        Result := crc32(Result, @CursorText, sizeof(CursorText));
+        Result := crc32(Result, @InactiveCursorColor, sizeof(InactiveCursorColor));
+        Result := crc32(Result, @InactiveMarkColor, sizeof(InactiveMarkColor));
+        Result := crc32(Result, @UseInvertedSelection, sizeof(UseInvertedSelection));
+        Result := crc32(Result, @UseInactiveSelColor, sizeof(UseInactiveSelColor));
+        Result := crc32(Result, @Overcolor, sizeof(Overcolor));
+      end;
+    end;
+  end;
+
+  ProgressSignatureWithThisString(fSetName);
+  Result := crc32(Result, @FCustomView, sizeof(FCustomView));
+  Result := crc32(Result, @FCursorBorder, sizeof(FCursorBorder));
+  Result := crc32(Result, @FCursorBorderColor, sizeof(FCursorBorderColor));
+  Result := crc32(Result, @FUseFrameCursor, sizeof(FUseFrameCursor));
 end;
 
 { TPanelColumn }
@@ -981,19 +1087,6 @@ begin
   end;
 end;
 
-procedure TPanelColumnsList.Save(Ini: TIniFileEx);
-var
-  I: Integer;
-begin
-  Ini.EraseSection('ColumnsSet');
-  Ini.WriteInteger('ColumnsSet', 'ColumnsSetCount', FSet.Count);
-  for I := 0 to FSet.Count - 1 do
-    begin
-      Ini.WriteString('ColumnsSet', 'ColumnsSet' + IntToStr(I + 1) + 'Name', FSet[i]);
-      TPanelColumnsClass(Fset.Objects[i]).Save(ini, FSet[i]);
-    end;
-end;
-
 procedure TPanelColumnsList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I:       Integer;
@@ -1094,7 +1187,6 @@ end;
 
 constructor TColPrm.Create;
 begin
-  Self.Overcolor   := True;
   Self.FontName    := gFonts[dcfMain].Name;
   Self.FontSize    := gFonts[dcfMain].Size;
   Self.FontStyle   := gFonts[dcfMain].Style;
@@ -1104,6 +1196,11 @@ begin
   Self.MarkColor   := gMarkColor;
   Self.CursorColor := gCursorColor;
   Self.CursorText  := gCursorText;
+  Self.InactiveCursorColor := gInactiveCursorColor;
+  Self.InactiveMarkColor   := gInactiveMarkColor;
+  Self.UseInvertedSelection:= gUseInvertedSelection;
+  Self.UseInactiveSelColor:= gUseInactiveSelColor;
+  Self.Overcolor   := gAllowOverColor;
 end;
 
 end.
