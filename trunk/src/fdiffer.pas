@@ -350,7 +350,11 @@ begin
       StatusBar.Panels[1].Text := rsDiffModifies + IntToStr(modifies);
       StatusBar.Panels[2].Text := rsDiffAdds + IntToStr(adds);
       StatusBar.Panels[3].Text := rsDiffDeletes + IntToStr(deletes);
-      if (modifies = 0) and (adds = 0) and (deletes = 0) then ShowIdentical;
+      if FShowIdentical then
+      begin
+        FShowIdentical:= (modifies = 0) and (adds = 0) and (deletes = 0);
+        if FShowIdentical then ShowIdentical;
+      end;
     end;
   finally
     SynDiffEditLeft.FinishCompare;
@@ -504,9 +508,9 @@ procedure TfrmDiffer.actAboutExecute(Sender: TObject);
 begin
   ShowMessage('Internal Differ tool of Double Commander.' + LineEnding + LineEnding +
               'It is inspired by Flavio Etrusco''s Pariter tool.' + LineEnding +
-              'You can find it on: http://sourceforge.net/projects/pariter/' + LineEnding +
+              'You can find it on: http://sourceforge.net/projects/pariter' + LineEnding +
               'It is based on Angus Johnson''s excellent TDiff component.' + LineEnding +
-              'You can find it on: http://www.users.on.net/johnson/delphi/');
+              'You can find it on: http://www.users.on.net/johnson/delphi');
 end;
 
 procedure TfrmDiffer.actEditCopyExecute(Sender: TObject);
@@ -699,22 +703,23 @@ begin
   actStartCompare.Enabled := True;
   actCancelCompare.Enabled := False;
   actBinaryCompare.Enabled := True;
-  if (BinaryDiffList.Count = 0) then ShowIdentical;
+  if FShowIdentical then
+  begin
+    FShowIdentical:= (BinaryDiffList.Count = 0);
+    if FShowIdentical then ShowIdentical;
+  end;
 end;
 
 procedure TfrmDiffer.ShowIdentical;
 var
   Message: String;
 begin
-  if FShowIdentical then
-  begin
-    Message:= rsDiffFilesIdentical + LineEnding + LineEnding;
-    Message+= edtFileNameLeft.Text + LineEnding + edtFileNameRight.Text;
-    if MessageDlg(rsToolDiffer, Message, mtWarning, [mbClose, mbCancel], 0, mbClose) = mrClose then
-      Close
-    else begin
-      FShowIdentical:= False;
-    end;
+  Message:= rsDiffFilesIdentical + LineEnding + LineEnding;
+  Message+= edtFileNameLeft.Text + LineEnding + edtFileNameRight.Text;
+  if MessageDlg(rsToolDiffer, Message, mtWarning, [mbClose, mbCancel], 0, mbClose) = mrClose then
+    Close
+  else begin
+    FShowIdentical:= False;
   end;
 end;
 
