@@ -448,7 +448,6 @@ function InitGlobs: Boolean;
 function LoadGlobs: Boolean;
 procedure SaveGlobs;
 procedure LoadIniConfig;
-procedure SaveIniConfig;
 procedure LoadXmlConfig;
 procedure SaveXmlConfig;
 procedure ConvertIniToXml;
@@ -571,8 +570,6 @@ end;
 
 procedure SaveCfgMainConfig;
 begin
-  if Assigned(gIni) then
-    SaveIniConfig;
   SaveXmlConfig;
 
   // Force saving config to file.
@@ -1511,17 +1508,16 @@ begin
         FreeAndNil(gIni)
       else
       begin
-	      if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite or fmShareDenyWrite) then
-	      begin
-	        FreeAndNil(gIni);
+        if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite or fmShareDenyWrite) then
+        begin
+          FreeAndNil(gIni);
           gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite or fmShareDenyWrite);
-	      end
-        else
-	      begin
+        end
+        else begin
           DCDebug('Warning: Config file "' + gpGlobalCfgDir + 'doublecmd.ini' +
                   '" is not accessible for writing. Configuration will not be saved.');
-	      end;
-	    end;
+        end;
+      end;
     end;
 
     // Check user directory for INI config.
@@ -1941,163 +1937,6 @@ var
   gWDXPlugins.Load(gIni);
   gWFXPlugins.Load(gIni);
   gWLXPlugins.Load(gIni);
-end;
-
-procedure SaveIniConfig;
-begin
-  { Layout page }
-
-  gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
-  gIni.WriteBool('ButtonBar', 'FlatIcons', gToolBarFlat);
-  gIni.WriteInteger('ButtonBar', 'ButtonHeight', gToolBarButtonSize);
-  gIni.WriteInteger('ButtonBar', 'SmallIconSize', gToolBarIconSize);
-  gIni.WriteBool('Layout', 'DriveBar1', gDriveBar1);
-  gIni.WriteBool('Layout', 'DriveBar2', gDriveBar2);
-  gIni.WriteBool('Layout', 'DriveBarFlat', gDriveBarFlat);
-  gIni.WriteBool('Layout', 'DriveMenuButton', gDrivesListButton);
-  gIni.WriteBool('Layout', 'DirectoryTabs', gDirectoryTabs);
-  gIni.WriteBool('Layout', 'CurDir', gCurDir);
-  gIni.WriteBool('Layout', 'TabHeader', gTabHeader);
-  gIni.WriteBool('Layout', 'StatusBar', gStatusBar);
-  gIni.WriteBool('Layout', 'CmdLine', gCmdLine);
-  gIni.WriteBool('Layout', 'LogWindow', gLogWindow);
-  gIni.WriteBool('Layout', 'TermWindow', gTermWindow);
-  gIni.WriteBool('Layout', 'KeyButtons', gKeyButtons);
-  gIni.WriteBool('Layout', 'InterfaceFlat', gInterfaceFlat);
-
-  gIni.WriteBool('Configuration', 'ShowSystemFiles', gShowSystemFiles);
-  gIni.WriteString('Configuration', 'Language', gPOFileName);
-  gIni.WriteString('Configuration', 'RunInTerm', gRunInTermStayOpenCmd);
-  gIni.WriteBool('Configuration', 'OnlyOnce', gOnlyOneAppInstance);
-  if gSortCaseSensitivity = cstNotSensitive then
-    gIni.WriteBool('Configuration', 'CaseSensitiveSort', False)
-  else
-    gIni.WriteBool('Configuration', 'CaseSensitiveSort', True);
-  gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
-
-  gIni.WriteInteger('Configuration', 'FileSizeFormat', Ord(gFileSizeFormat));
-  gIni.WriteInteger('Configuration', 'ScrollMode', Integer(gScrollMode));
-  gIni.WriteBool('Configuration', 'MinimizeToTray', gMinimizeToTray);
-  gIni.WriteBool('Configuration', 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
-  gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
-  gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
-  gIni.WriteBool('Configuration', 'SpaceMovesDown', gSpaceMovesDown);
-
-  {$IFNDEF LCLCARBON}
-  // Under Mac OS X loading file list in separate thread are very very slow
-  // so disable and hide this option under Mac OS X Carbon
-  gIni.WriteBool('Configuration', 'ListFilesInThread', gListFilesInThread);
-  {$ENDIF}
-  gIni.WriteBool('Configuration', 'LoadIconsSeparately', gLoadIconsSeparately);
-
-  gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
-  gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
-
-  gIni.WriteBool('Configuration', 'AutoFillColumns', gAutoFillColumns);
-  gIni.WriteInteger('Configuration', 'AutoSizeColumn', gAutoSizeColumn);
-
-  gIni.WriteInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions));
-  gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);
-  gIni.WriteInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition));
-
-  gIni.WriteBool('Configuration', 'UseExtEdit', gExternalTools[etEditor].Enabled);
-  gIni.WriteBool('Configuration', 'UseExtView', gExternalTools[etViewer].Enabled);
-  gIni.WriteBool('Configuration', 'UseExtDiff', gExternalTools[etDiffer].Enabled);
-
-  gIni.WriteString('Configuration', 'ExtEdit', gExternalTools[etEditor].Path);
-  gIni.WriteString('Configuration', 'ExtView', gExternalTools[etViewer].Path);
-  gIni.WriteString('Configuration', 'ExtDiff', gExternalTools[etDiffer].Path);
-  gIni.WriteString('Configuration', 'RunTerm', gRunTermCmd);
-
-  gIni.WriteString('Configuration', 'LuaLib', gLuaLib);
-
-  { Fonts }
-  gIni.WriteString('Configuration', 'Font.Name', gFonts[dcfMain].Name);
-  gIni.WriteString('Editor', 'Font.Name', gFonts[dcfEditor].Name);
-  gIni.WriteString('Viewer', 'Font.Name', gFonts[dcfViewer].Name);
-
-  gIni.WriteInteger('Configuration', 'Font.Size', gFonts[dcfMain].Size);
-  gIni.WriteInteger('Editor', 'Font.Size', gFonts[dcfEditor].Size);
-  gIni.WriteInteger('Viewer', 'Font.Size', gFonts[dcfViewer].Size);
-
-  gIni.WriteInteger('Configuration', 'Font.Style', Integer(gFonts[dcfMain].Style));
-  gIni.WriteInteger('Editor', 'Font.Style', Integer(gFonts[dcfEditor].Style));
-  gIni.WriteInteger('Viewer', 'Font.Style', Integer(gFonts[dcfViewer].Style));
-  { Colors }
-  gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
-  gIni.WriteInteger('Colors', 'BackColor', gBackColor);
-  gIni.WriteInteger('Colors', 'BackColor2', gBackColor2);
-  gIni.WriteInteger('Colors', 'MarkColor', gMarkColor);
-  gIni.WriteInteger('Colors', 'CursorColor', gCursorColor);
-  gIni.WriteInteger('Colors', 'CursorText', gCursorText);
-  gIni.WriteBool('Colors', 'UseInvertedSelection', gUseInvertedSelection);
-  gIni.WriteBool('Colors', 'UseInactiveSelColor', gUseInactiveSelColor);
-  gIni.WriteInteger('Colors', 'InactivePanelBrightness', gInactivePanelBrightness);
-  gIni.WriteBool('Colors', 'UseFrameCursor', gUseFrameCursor);
-
-  { File operations }
-  gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
-  gIni.WriteBool('Configuration', 'SkipFileOpError', gSkipFileOpError);
-  gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
-  gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
-  gIni.WriteInteger('Configuration', 'WipePassNumber', gWipePassNumber);
-  gIni.WriteBool('Configuration', 'ProcessComments', gProcessComments);
-  gIni.WriteBool('Configuration', 'RenameSelOnlyName', gRenameSelOnlyName);
-  gIni.WriteBool('Configuration', 'ShowCopyTabSelectPanel', gShowCopyTabSelectPanel);
-  gIni.WriteBool('Configuration', 'UseTrash', gUseTrash);
-  gIni.WriteBool('Configuration', 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
-
-  { Log }
-  gIni.WriteBool('Configuration', 'LogFile', gLogFile);
-  gIni.WriteBool('Configuration', 'LogFileWithDateInName', gLogFileWithDateInName);
-  gIni.WriteString('Configuration', 'LogFileName', gLogFileName);
-  gIni.WriteInteger('Configuration', 'LogOptions', Integer(gLogOptions));
-  { Configuration page }
-  gIni.WriteBool('Configuration', 'SaveDirHistory', gSaveDirHistory);
-  gIni.WriteBool('Configuration', 'SaveCmdLineHistory', gSaveCmdLineHistory);
-  gIni.WriteBool('Configuration', 'SaveFileMaskHistory', gSaveFileMaskHistory);
-  { Quick Search page}
-  gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', qsmBeginning in gQuickSearchOptions.Match);
-  gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', qsmEnding in gQuickSearchOptions.Match);
-  { Misc page }
-  gIni.WriteBool('Configuration', 'GridVertLine', gGridVertLine);
-  gIni.WriteBool('Configuration', 'GridHorzLine', gGridHorzLine);
-  gIni.WriteBool('Configuration', 'ShowWarningMessages', gShowWarningMessages);
-  gIni.WriteBool('Configuration', 'DirBrackets', gDirBrackets);
-  gIni.WriteInteger('Configuration', 'ShowToolTipMode', Integer(gShowToolTipMode));
-  { Auto refresh page }
-  gIni.WriteInteger('Configuration', 'WatchDirs', Integer(gWatchDirs));
-  gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);
-  { Icons page }
-  gIni.WriteInteger('Configuration', 'ShowIcons', Integer(gShowIconsNew));
-  gIni.WriteBool('Configuration', 'IconOverlays', gIconOverlays);
-  gIni.WriteInteger('Configuration', 'IconsSize', gIconsSizeNew);
-  { Ignore list page }
-  gIni.WriteBool('Configuration', 'IgnoreListFileEnabled', gIgnoreListFileEnabled);
-  gIni.WriteString('Configuration', 'IgnoreListFile', gIgnoreListFile);
-
-  gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
-
-  gIni.WriteBool('Viewer', 'Image.Stretch', gImageStretch);
-
-  { Operations options }
-  gIni.WriteInteger('Operations', 'Symlink', Integer(gOperationOptionSymLinks));
-  gIni.WriteBool('Operations', 'CorrectLinks', gOperationOptionCorrectLinks);
-  gIni.WriteInteger('Operations', 'FileExists', Integer(gOperationOptionFileExists));
-  gIni.WriteInteger('Operations', 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
-  gIni.WriteBool('Operations', 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
-
-  gColorExt.SaveIni;
-
-  { Search template list }
-  gSearchTemplateList.SaveToIni(gIni);
-
-  { Plugins }
-  gDSXPlugins.Save(gIni);
-  gWCXPlugins.Save(gIni);
-  gWDXPlugins.Save(gIni);
-  gWFXPlugins.Save(gIni);
-  gWLXPlugins.Save(gIni);
 end;
 
 procedure LoadXmlConfig;
