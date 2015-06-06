@@ -758,8 +758,9 @@ end;
 
 procedure TPanelColumnsClass.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  AColumn: TPanelColumn;
+  Quality: Integer;
   SubNode: TXmlNode;
+  AColumn: TPanelColumn;
 begin
   FCustomView := AConfig.GetValue(ANode, 'CustomView', False);
   FCursorBorder := AConfig.GetAttr(ANode, 'CursorBorder/Enabled', gUseCursorBorder);
@@ -783,8 +784,8 @@ begin
         AColumn.FuncString := AConfig.GetValue(SubNode, 'FuncString', '');
         AColumn.Width := AConfig.GetValue(SubNode, 'Width', 50);
         AColumn.Align := TAlignment(AConfig.GetValue(SubNode, 'Align', Integer(0)));
-        AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle),
-                        gFonts[dcfMain].Name, gFonts[dcfMain].Size, Integer(gFonts[dcfMain].Style));
+        AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle), Quality,
+                        gFonts[dcfMain].Name, gFonts[dcfMain].Size, Integer(gFonts[dcfMain].Style), Quality);
         AColumn.TextColor := TColor(AConfig.GetValue(SubNode, 'TextColor', gForeColor));
         AColumn.Background := TColor(AConfig.GetValue(SubNode, 'Background', gBackColor));
         AColumn.Background2 := TColor(AConfig.GetValue(SubNode, 'Background2', gBackColor2));
@@ -829,7 +830,8 @@ begin
       AConfig.AddValue(SubNode, 'FuncString', AColumn.FuncString);
       AConfig.AddValue(SubNode, 'Width', AColumn.Width);
       AConfig.AddValue(SubNode, 'Align', Integer(AColumn.Align));
-      AConfig.SetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle));
+      AConfig.SetFont(SubNode, 'Font', AColumn.FontName,
+                      AColumn.FontSize, Integer(AColumn.FontStyle), 0);
 
       if AColumn.TextColor <> clNone then
         AConfig.AddValue(SubNode, 'TextColor', AColumn.TextColor);

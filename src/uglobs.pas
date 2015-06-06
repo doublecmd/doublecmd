@@ -86,6 +86,7 @@ type
     Name: String;
     Size: Integer;
     Style: TFontStyles;
+    Quality: TFontQuality;
   end;
   TDCFontsOptions = array[TDCFont] of TDCFontOptions;
 
@@ -896,9 +897,10 @@ procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
 begin
   with Options do
   begin
-    Name  := Font.Name;
-    Size  := Font.Size;
-    Style := Font.Style;
+    Name    := Font.Name;
+    Size    := Font.Size;
+    Style   := Font.Style;
+    Quality := Font.Quality;
   end;
 end;
 
@@ -906,9 +908,10 @@ procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
 begin
   with Options do
   begin
-    Font.Name  := Name;
-    Font.Size  := Size;
-    Font.Style := Style;
+    Font.Name    := Name;
+    Font.Size    := Size;
+    Font.Style   := Style;
+    Font.Quality := Quality;
   end;
 end;
 
@@ -1153,21 +1156,27 @@ begin
   gFonts[dcfMain].Name := 'default';
   gFonts[dcfMain].Size := 10;
   gFonts[dcfMain].Style := [fsBold];
+  gFonts[dcfMain].Quality := fqDefault;
   gFonts[dcfEditor].Name := MonoSpaceFont;
   gFonts[dcfEditor].Size := 14;
   gFonts[dcfEditor].Style := [];
+  gFonts[dcfEditor].Quality := fqDefault;
   gFonts[dcfViewer].Name := MonoSpaceFont;
   gFonts[dcfViewer].Size := 14;
   gFonts[dcfViewer].Style := [];
+  gFonts[dcfViewer].Quality := fqDefault;
   gFonts[dcfLog].Name := MonoSpaceFont;
   gFonts[dcfLog].Size := 12;
   gFonts[dcfLog].Style := [];
+  gFonts[dcfLog].Quality := fqDefault;
   gFonts[dcfViewerBook].Name := 'default';
   gFonts[dcfViewerBook].Size := 16;
   gFonts[dcfViewerBook].Style := [fsBold];
+  gFonts[dcfViewerBook].Quality := fqDefault;
   gFonts[dcfConsole].Name := MonoSpaceFont;
   gFonts[dcfConsole].Size := 12;
   gFonts[dcfConsole].Style := [];
+  gFonts[dcfConsole].Quality := fqDefault;
 
   { Colors page }
   gUseCursorBorder := False;
@@ -1956,8 +1965,8 @@ procedure LoadXmlConfig;
   procedure GetDCFont(Node: TXmlNode; var FontOptions: TDCFontOptions);
   begin
     if Assigned(Node) then
-      gConfig.GetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style),
-                                FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style));
+      gConfig.GetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style), Integer(FontOptions.Quality),
+                                FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style), Integer(FontOptions.Quality));
   end;
   procedure LoadOption(Node: TXmlNode; var Options: TDrivesListButtonOptions; Option: TDrivesListButtonOption; AName: String);
   var
@@ -2509,7 +2518,7 @@ procedure SaveXmlConfig;
   procedure SetDCFont(Node: TXmlNode; const FontOptions: TDCFontOptions);
   begin
     if Assigned(Node) then
-      gConfig.SetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style));
+      gConfig.SetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style), Integer(FontOptions.Quality));
   end;
 var
   Root, Node, SubNode: TXmlNode;
