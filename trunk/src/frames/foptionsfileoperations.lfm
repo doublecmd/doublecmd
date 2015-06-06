@@ -4,15 +4,15 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
   ChildSizing.LeftRightSpacing = 6
   ClientHeight = 602
   ClientWidth = 734
-  DesignLeft = 360
-  DesignTop = 62
+  DesignLeft = 397
+  DesignTop = 178
   object gbUserInterface: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = gbExecutingOperations
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 301
+    Height = 272
     Top = 0
     Width = 722
     Anchors = [akTop, akLeft, akRight]
@@ -24,7 +24,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 284
+    ClientHeight = 254
     ClientWidth = 718
     TabOrder = 0
     object lblProgressKind: TLabel
@@ -33,8 +33,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Side = asrCenter
       Left = 10
       Height = 15
-      Top = 17
-      Width = 237
+      Top = 14
+      Width = 190
       BorderSpacing.Bottom = 10
       Caption = 'Show operations progress &initially in'
       FocusControl = cbProgressKind
@@ -46,13 +46,12 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = gbUserInterface
       AnchorSideRight.Control = gbUserInterface
       AnchorSideRight.Side = asrBottom
-      Left = 251
-      Height = 29
+      Left = 204
+      Height = 23
       Top = 10
-      Width = 457
+      Width = 504
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 0
-      OnChange = GenericSomethingChanged
+      ItemHeight = 15
       Style = csDropDownList
       TabOrder = 0
     end
@@ -61,11 +60,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbProgressKind
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 43
-      Width = 144
+      Height = 19
+      Top = 37
+      Width = 118
       Caption = 'D&rop readonly flag'
-      OnChange = GenericSomethingChanged
       TabOrder = 1
     end
     object cbRenameSelOnlyName: TCheckBox
@@ -73,11 +71,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbDropReadOnlyFlag
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 69
-      Width = 355
+      Height = 19
+      Top = 60
+      Width = 286
       Caption = 'Select &file name without extension when renaming'
-      OnChange = GenericSomethingChanged
       TabOrder = 2
     end
     object cbShowCopyTabSelectPanel: TCheckBox
@@ -85,11 +82,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbRenameSelOnlyName
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 95
-      Width = 303
+      Height = 19
+      Top = 83
+      Width = 247
       Caption = 'Sho&w tab select panel in copy/move dialog'
-      OnChange = GenericSomethingChanged
       TabOrder = 3
     end
     object cbDeleteToTrash: TCheckBox
@@ -97,9 +93,9 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbShowCopyTabSelectPanel
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 121
-      Width = 368
+      Height = 19
+      Top = 106
+      Width = 289
       Caption = 'Dele&te to recycle bin (Shift key reverses this setting)'
       OnChange = cbDeleteToTrashChange
       TabOrder = 4
@@ -109,9 +105,9 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = bvlConfirmations
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 174
-      Width = 123
+      Height = 19
+      Top = 156
+      Width = 102
       Caption = 'Cop&y operation'
       TabOrder = 5
     end
@@ -120,11 +116,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbCopyConfirmation
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 200
-      Width = 125
+      Height = 19
+      Top = 179
+      Width = 104
       Caption = '&Move operation'
-      OnChange = GenericSomethingChanged
       TabOrder = 6
     end
     object cbDeleteConfirmation: TCheckBox
@@ -132,11 +127,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbMoveConfirmation
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 226
-      Width = 133
+      Height = 19
+      Top = 202
+      Width = 107
       Caption = '&Delete operation'
-      OnChange = GenericSomethingChanged
       TabOrder = 7
     end
     object cbDeleteToTrashConfirmation: TCheckBox
@@ -144,11 +138,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbDeleteConfirmation
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 252
-      Width = 187
+      Height = 19
+      Top = 225
+      Width = 150
       Caption = 'D&elete to trash operation'
-      OnChange = GenericSomethingChanged
       TabOrder = 8
     end
     object bvlConfirmations: TDividerBevel
@@ -159,7 +152,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideRight.Side = asrBottom
       Left = 10
       Height = 15
-      Top = 155
+      Top = 137
       Width = 698
       Caption = 'Show confirmation window for:'
       Anchors = [akTop, akLeft, akRight]
@@ -174,8 +167,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 191
-    Top = 307
+    Height = 180
+    Top = 278
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -187,7 +180,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 174
+    ClientHeight = 162
     ClientWidth = 718
     TabOrder = 1
     object lblBufferSize: TLabel
@@ -196,8 +189,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Side = asrCenter
       Left = 10
       Height = 15
-      Top = 15
-      Width = 240
+      Top = 14
+      Width = 191
       BorderSpacing.Bottom = 10
       Caption = '&Buffer size for file operations (in KB):'
       FocusControl = edtBufferSize
@@ -208,11 +201,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbExecutingOperations
       AnchorSideBottom.Side = asrCenter
-      Left = 254
-      Height = 25
+      Left = 205
+      Height = 23
       Top = 10
       Width = 80
-      OnChange = GenericSomethingChanged
       TabOrder = 0
     end
     object lblWipePassNumber: TLabel
@@ -222,8 +214,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideBottom.Side = asrBottom
       Left = 10
       Height = 15
-      Top = 44
-      Width = 157
+      Top = 41
+      Width = 126
       BorderSpacing.Bottom = 10
       Caption = '&Number of wipe passes:'
       FocusControl = seWipePassNumber
@@ -234,11 +226,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edtBufferSize
       AnchorSideTop.Side = asrBottom
-      Left = 171
-      Height = 25
-      Top = 39
+      Left = 140
+      Height = 23
+      Top = 37
       Width = 50
-      OnChange = GenericSomethingChanged
       TabOrder = 1
     end
     object cbProcessComments: TCheckBox
@@ -246,9 +237,9 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = seWipePassNumber
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 68
-      Width = 259
+      Height = 19
+      Top = 64
+      Width = 211
       Caption = '&Process comments with files/folders'
       TabOrder = 2
     end
@@ -257,11 +248,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = cbProcessComments
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 94
-      Width = 389
+      Height = 19
+      Top = 87
+      Width = 315
       Caption = 'S&kip file operations errors and write them to log window'
-      OnChange = GenericSomethingChanged
       TabOrder = 3
     end
     object cmbTypeOfDuplicatedRename: TComboBox
@@ -271,11 +261,11 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideRight.Control = gbExecutingOperations
       AnchorSideRight.Side = asrBottom
       Left = 10
-      Height = 25
-      Top = 139
+      Height = 23
+      Top = 129
       Width = 698
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 0
+      ItemHeight = 15
       Items.Strings = (
         'DC legacy - Copy (x) filename.ext'
         'Windows - filename (x).ext'
@@ -292,7 +282,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideRight.Side = asrBottom
       Left = 10
       Height = 15
-      Top = 120
+      Top = 110
       Width = 698
       Caption = 'Duplicated name auto-rename style:'
       Anchors = [akTop, akLeft, akRight]
@@ -306,8 +296,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 103
-    Top = 504
+    Height = 95
+    Top = 464
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -317,18 +307,17 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     ChildSizing.TopBottomSpacing = 4
     ChildSizing.HorizontalSpacing = 4
     ChildSizing.VerticalSpacing = 4
-    ClientHeight = 86
+    ClientHeight = 77
     ClientWidth = 718
     TabOrder = 2
     object rbUseMmapInSearch: TRadioButton
       AnchorSideLeft.Control = gbFileSearch
       AnchorSideTop.Control = gbFileSearch
       Left = 10
-      Height = 22
+      Height = 19
       Top = 4
-      Width = 315
+      Width = 252
       Caption = 'Use memory mapping for search te&xt in files'
-      OnChange = GenericSomethingChanged
       TabOrder = 0
     end
     object rbUseStreamInSearch: TRadioButton
@@ -336,13 +325,12 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = rbUseMmapInSearch
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 32
-      Width = 245
+      Height = 19
+      Top = 29
+      Width = 192
       BorderSpacing.Top = 6
       Caption = '&Use stream for search text in files'
       Checked = True
-      OnChange = GenericSomethingChanged
       TabOrder = 1
       TabStop = True
     end
@@ -351,12 +339,11 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Control = rbUseStreamInSearch
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 60
-      Width = 202
+      Height = 19
+      Top = 54
+      Width = 163
       BorderSpacing.Top = 6
       Caption = '&Search for part of file name'
-      OnChange = GenericSomethingChanged
       TabOrder = 2
     end
   end

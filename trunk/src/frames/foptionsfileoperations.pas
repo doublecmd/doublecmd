@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File operations options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -61,10 +61,9 @@ type
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
     procedure cbDeleteToTrashChange(Sender: TObject);
-    procedure GenericSomethingChanged(Sender: TObject);
   private
     FLoading: Boolean;
-    FModificationTookPlace: Boolean;
+    FLastLoadedOptionSignature: dword;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -81,7 +80,8 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, uShowMsg, DCStrUtils, uGlobs, uLng, fOptionsHotkeys;
+  uComponentsSignature, fOptions, uShowMsg, DCStrUtils, uGlobs, uLng,
+  fOptionsHotkeys;
 
 { TfrmOptionsFileOperations }
 
@@ -110,7 +110,6 @@ begin
     HotkeysEditor := OptionsDialog.GetEditor(TfrmOptionsHotkeys);
     if Assigned(HotkeysEditor) then
       (HotkeysEditor as TfrmOptionsHotkeys).AddDeleteWithShiftHotkey(cbDeleteToTrash.Checked);
-    GenericSomethingChanged(Sender);
   end;
 end;
 
@@ -142,7 +141,7 @@ begin
   cmbTypeOfDuplicatedRename.ItemIndex := Integer(gTypeOfDuplicatedRename);
 
   FLoading := False;
-  FModificationTookPlace := False;
+  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 function TfrmOptionsFileOperations.Save: TOptionsEditorSaveFlags;
@@ -176,7 +175,7 @@ begin
   if cbDeleteToTrashConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDeleteToTrash);
   gTypeOfDuplicatedRename := tDuplicatedRename(cmbTypeOfDuplicatedRename.ItemIndex);
-  FModificationTookPlace := False;
+  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 constructor TfrmOptionsFileOperations.Create(TheOwner: TComponent);
@@ -185,16 +184,11 @@ begin
   FLoading := False;
 end;
 
-procedure TfrmOptionsFileOperations.GenericSomethingChanged(Sender: TObject);
-begin
-  FModificationTookPlace := True;
-end;
-
 function TfrmOptionsFileOperations.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
 var
   Answer: TMyMsgResult;
 begin
-  Result := not FModificationTookPlace;
+  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
 
   if not Result then
   begin

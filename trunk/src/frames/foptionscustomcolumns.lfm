@@ -1,125 +1,1436 @@
 inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
-  Height = 372
-  Width = 730
-  ClientHeight = 372
-  ClientWidth = 730
-  DesignTop = 20
-  object lblConfigColumns: TLabel[0]
-    AnchorSideTop.Control = cbbFileSystem
-    AnchorSideTop.Side = asrCenter
-    Left = 7
-    Height = 13
-    Top = 6
-    Width = 167
-    Caption = 'Con&figure columns for file system:'
-    FocusControl = cbbFileSystem
-    ParentColor = False
-  end
-  object cbbFileSystem: TComboBox[1]
-    AnchorSideLeft.Control = lblConfigColumns
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 178
-    Height = 24
-    Top = 0
-    Width = 546
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 4
-    BorderSpacing.Right = 6
-    ItemHeight = 0
-    ItemIndex = 0
-    Items.Strings = (
-      'General'
-    )
-    Style = csDropDownList
+  Height = 596
+  Width = 911
+  ChildSizing.LeftRightSpacing = 4
+  ChildSizing.TopBottomSpacing = 4
+  ClientHeight = 596
+  ClientWidth = 911
+  ParentShowHint = False
+  ShowHint = True
+  DesignLeft = 173
+  DesignTop = 175
+  object pnlConfigColumns: TPanel[0]
+    Left = 4
+    Height = 31
+    Top = 4
+    Width = 903
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.LeftRightSpacing = 4
+    ChildSizing.TopBottomSpacing = 4
+    ClientHeight = 31
+    ClientWidth = 903
     TabOrder = 0
-    Text = 'General'
-  end
-  object lstColumnsSets: TListBox[2]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = cbbFileSystem
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = pnlButtons
-    Left = 6
-    Height = 284
-    Top = 30
-    Width = 718
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 6
-    BorderSpacing.Bottom = 6
-    ItemHeight = 0
-    OnDblClick = btnEditColumnsSetClick
-    ScrollWidth = 716
-    TabOrder = 1
-    TopIndex = -1
-  end
-  object pnlButtons: TPanel[3]
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 7
-    Height = 46
-    Top = 320
-    Width = 717
-    Anchors = [akLeft, akRight, akBottom]
-    BorderSpacing.Right = 6
-    BorderSpacing.Bottom = 6
-    ClientHeight = 46
-    ClientWidth = 717
-    TabOrder = 2
-    object btnNewColumnsSet: TButton
-      AnchorSideLeft.Control = pnlButtons
-      Left = 7
-      Height = 32
-      Top = 7
-      Width = 118
-      BorderSpacing.Left = 6
-      Caption = '&New'
-      OnClick = btnNewColumnsSetClick
-      TabOrder = 0
+    object lblConfigColumns: TLabel
+      AnchorSideLeft.Control = pnlConfigColumns
+      AnchorSideTop.Control = cbConfigColumns
+      AnchorSideTop.Side = asrCenter
+      Left = 4
+      Height = 15
+      Top = 8
+      Width = 132
+      BorderSpacing.Right = 2
+      Caption = 'Con&figure columns view:'
+      FocusControl = cbConfigColumns
+      ParentColor = False
     end
-    object btnEditColumnsSet: TButton
-      AnchorSideLeft.Control = btnNewColumnsSet
+    object cbConfigColumns: TComboBox
+      AnchorSideLeft.Control = lblConfigColumns
       AnchorSideLeft.Side = asrBottom
-      Left = 131
-      Height = 32
-      Top = 7
-      Width = 116
-      BorderSpacing.Left = 6
-      Caption = '&Edit'
-      OnClick = btnEditColumnsSetClick
+      AnchorSideTop.Control = pnlConfigColumns
+      AnchorSideRight.Side = asrBottom
+      Left = 138
+      Height = 23
+      Top = 4
+      Width = 367
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 4
+      Constraints.MaxWidth = 440
+      Font.Style = [fsBold]
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'General'
+      )
+      OnChange = cbConfigColumnsChange
+      ParentFont = False
+      Style = csDropDownList
+      TabOrder = 0
+      Text = 'General'
+    end
+    object btnSaveConfigColumns: TButton
+      Tag = 1
+      AnchorSideLeft.Control = cbConfigColumns
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbConfigColumns
+      AnchorSideRight.Control = btnRenameConfigColumns
+      AnchorSideBottom.Control = cbConfigColumns
+      AnchorSideBottom.Side = asrBottom
+      Left = 509
+      Height = 23
+      Top = 4
+      Width = 50
+      Anchors = [akTop, akLeft, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 4
+      Caption = 'Save'
+      OnClick = btnSaveConfigColumnsClick
       TabOrder = 1
     end
-    object btnDelColumnsSet: TButton
-      AnchorSideRight.Control = btnCopyColumnsSet
-      Left = 481
-      Height = 32
-      Top = 7
-      Width = 112
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 6
-      Caption = '&Delete'
-      OnClick = btnDelColumnsSetClick
+    object btnRenameConfigColumns: TButton
+      Tag = 4
+      AnchorSideLeft.Control = btnNewConfig
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbConfigColumns
+      AnchorSideBottom.Control = cbConfigColumns
+      AnchorSideBottom.Side = asrBottom
+      Left = 685
+      Height = 23
+      Top = 4
+      Width = 69
+      Anchors = [akTop, akLeft, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 4
+      Caption = 'Rename'
+      OnClick = btnSaveConfigColumnsClick
+      TabOrder = 4
+    end
+    object btnSaveAsConfigColumns: TButton
+      Tag = 2
+      AnchorSideLeft.Control = btnSaveConfigColumns
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbConfigColumns
+      AnchorSideBottom.Control = cbConfigColumns
+      AnchorSideBottom.Side = asrBottom
+      Left = 563
+      Height = 23
+      Top = 4
+      Width = 64
+      Anchors = [akTop, akLeft, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 4
+      Caption = 'Save as'
+      OnClick = btnSaveConfigColumnsClick
       TabOrder = 2
     end
-    object btnCopyColumnsSet: TButton
-      AnchorSideRight.Control = pnlButtons
+    object btnDeleteConfigColumns: TButton
+      AnchorSideLeft.Control = btnRenameConfigColumns
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbConfigColumns
       AnchorSideRight.Side = asrBottom
-      Left = 599
-      Height = 32
-      Top = 7
-      Width = 111
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 6
-      Caption = 'C&opy'
-      OnClick = btnCopyColumnsSetClick
+      AnchorSideBottom.Control = cbConfigColumns
+      AnchorSideBottom.Side = asrBottom
+      Left = 758
+      Height = 23
+      Top = 4
+      Width = 59
+      Anchors = [akTop, akLeft, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 4
+      Caption = '&Delete'
+      OnClick = btnDeleteConfigColumnsClick
+      TabOrder = 5
+    end
+    object btnNewConfig: TButton
+      Tag = 3
+      AnchorSideLeft.Control = btnSaveAsConfigColumns
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbConfigColumns
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = cbConfigColumns
+      AnchorSideBottom.Side = asrBottom
+      Left = 631
+      Height = 23
+      Top = 4
+      Width = 50
+      Anchors = [akTop, akLeft, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 4
+      Caption = 'New'
+      OnClick = btnSaveConfigColumnsClick
       TabOrder = 3
     end
+  end
+  object pnlActualCont: TPanel[1]
+    Left = 4
+    Height = 557
+    Top = 35
+    Width = 903
+    Align = alClient
+    Anchors = [akTop, akLeft, akBottom]
+    ClientHeight = 557
+    ClientWidth = 903
+    TabOrder = 1
+    object pnlGeneralColumnsViewSettings: TPanel
+      Left = 1
+      Height = 30
+      Top = 156
+      Width = 901
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 8
+      ChildSizing.TopBottomSpacing = 4
+      ClientHeight = 30
+      ClientWidth = 901
+      TabOrder = 2
+      object chkUseCustomView: TCheckBox
+        AnchorSideLeft.Control = pnlGeneralColumnsViewSettings
+        AnchorSideTop.Control = cbCursorBorderColor
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 19
+        Top = 6
+        Width = 239
+        Caption = 'Use custom font and color for this view'
+        Font.Style = [fsBold]
+        OnChange = chkUseCustomViewChange
+        ParentFont = False
+        TabOrder = 0
+      end
+      object cbCursorBorder: TCheckBox
+        AnchorSideLeft.Control = chkUseCustomView
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbCursorBorderColor
+        AnchorSideTop.Side = asrCenter
+        Left = 282
+        Height = 19
+        Top = 6
+        Width = 93
+        BorderSpacing.Left = 35
+        Caption = 'Cursor border'
+        OnChange = cbCursorBorderChange
+        TabOrder = 1
+      end
+      object cbCursorBorderColor: TColorBox
+        AnchorSideLeft.Control = cbCursorBorder
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlGeneralColumnsViewSettings
+        Left = 375
+        Height = 22
+        Top = 4
+        Width = 144
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        ItemHeight = 16
+        OnChange = cbCursorBorderColorChange
+        TabOrder = 2
+      end
+      object btnCursorBorderColor: TButton
+        AnchorSideLeft.Control = cbCursorBorderColor
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbCursorBorderColor
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = cbCursorBorderColor
+        AnchorSideBottom.Side = asrBottom
+        Left = 520
+        Height = 22
+        Top = 4
+        Width = 28
+        Anchors = [akTop, akLeft, akBottom]
+        BorderSpacing.Left = 1
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnCursorBorderColorClick
+        TabOrder = 3
+      end
+      object cbUseFrameCursor: TCheckBox
+        AnchorSideLeft.Control = btnResetCursorBorder
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbCursorBorderColor
+        AnchorSideTop.Side = asrCenter
+        Left = 617
+        Height = 19
+        Top = 6
+        Width = 113
+        BorderSpacing.Left = 35
+        Caption = 'Use Frame Cursor'
+        OnChange = cbUseFrameCursorChange
+        TabOrder = 5
+      end
+      object btnResetCursorBorder: TButton
+        AnchorSideLeft.Control = btnCursorBorderColor
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnCursorBorderColor
+        AnchorSideBottom.Control = btnCursorBorderColor
+        AnchorSideBottom.Side = asrBottom
+        Left = 549
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 4
+        Width = 33
+        Anchors = [akTop, akLeft, akBottom]
+        BorderSpacing.Left = 1
+        Caption = 'R'
+        OnClick = btnResetCursorBorderClick
+        TabOrder = 4
+      end
+      object btnResetFrameCursor: TButton
+        AnchorSideLeft.Control = cbUseFrameCursor
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnCursorBorderColor
+        AnchorSideBottom.Control = btnCursorBorderColor
+        AnchorSideBottom.Side = asrBottom
+        Left = 731
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 4
+        Width = 33
+        Anchors = [akTop, akLeft, akBottom]
+        BorderSpacing.Left = 1
+        Caption = 'R'
+        OnClick = btnResetFrameCursorClick
+        TabOrder = 6
+      end
+      object btnGotoSetDefault: TButton
+        AnchorSideLeft.Control = btnResetFrameCursor
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnCursorBorderColor
+        AnchorSideBottom.Control = btnCursorBorderColor
+        AnchorSideBottom.Side = asrBottom
+        Left = 771
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 4
+        Width = 113
+        Anchors = [akTop, akLeft, akBottom]
+        AutoSize = True
+        BorderSpacing.Left = 7
+        Caption = 'Go to set default'
+        OnClick = btnGotoSetDefaultClick
+        TabOrder = 7
+        Visible = False
+      end
+    end
+    object stgColumns: TStringGrid
+      Left = 1
+      Height = 140
+      Top = 1
+      Width = 901
+      Align = alTop
+      ColCount = 7
+      Constraints.MinHeight = 80
+      FixedCols = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goSmoothScroll]
+      PopupMenu = pmStringGrid
+      RowCount = 3
+      TabOrder = 0
+      OnEditingDone = stgColumnsEditingDone
+      OnKeyDown = stgColumnsKeyDown
+      OnMouseDown = stgColumnsMouseDown
+      OnMouseMove = stgColumnsMouseMove
+      OnSelectEditor = stgColumnsSelectEditor
+      ColWidths = (
+        67
+        129
+        64
+        61
+        457
+        38
+        72
+      )
+      Cells = (
+        7
+        0
+        0
+        'Delete'
+        1
+        0
+        'Caption'
+        2
+        0
+        'Width'
+        3
+        0
+        'Align'
+        4
+        0
+        'Field contents'
+        5
+        0
+        'Move'
+        6
+        0
+        'Config'
+      )
+    end
+    object spGridArea: TSplitter
+      Cursor = crVSplit
+      Left = 1
+      Height = 15
+      Top = 141
+      Width = 901
+      Align = alTop
+      Beveled = True
+      MinSize = 15
+      ResizeAnchor = akTop
+    end
+    object pnlCustomColumnsViewSettings: TPanel
+      Left = 1
+      Height = 179
+      Top = 186
+      Width = 901
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 8
+      ClientHeight = 179
+      ClientWidth = 901
+      TabOrder = 3
+      object btnPrev: TButton
+        AnchorSideLeft.Control = pnlCustomColumnsViewSettings
+        AnchorSideTop.Control = pnlCustomColumnsViewSettings
+        AnchorSideRight.Control = btnAllCursorColor
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 8
+        Height = 25
+        Top = 0
+        Width = 71
+        Caption = 'Previous'
+        OnClick = btnPrevClick
+        TabOrder = 0
+      end
+      object btnNext: TButton
+        AnchorSideLeft.Control = btnPrev
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnPrev
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 79
+        Height = 25
+        Top = 0
+        Width = 50
+        AutoSize = True
+        Caption = 'Next'
+        OnClick = btnNextClick
+        TabOrder = 1
+      end
+      object lblFontName: TLabel
+        AnchorSideTop.Control = edtFont
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = edtFont
+        Left = 51
+        Height = 15
+        Top = 34
+        Width = 27
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'Font:'
+        ParentColor = False
+      end
+      object edtFont: TEdit
+        AnchorSideLeft.Control = btnNext
+        AnchorSideTop.Control = btnNext
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = btnFont
+        Left = 79
+        Height = 23
+        Top = 30
+        Width = 301
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 1
+        ReadOnly = True
+        TabOrder = 3
+      end
+      object btnFont: TBitBtn
+        AnchorSideLeft.Control = edtFont
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = edtFont
+        AnchorSideTop.Side = asrCenter
+        AnchorSideBottom.Side = asrBottom
+        Left = 381
+        Height = 22
+        Top = 30
+        Width = 40
+        BorderSpacing.Bottom = 2
+        Caption = '...'
+        OnClick = btnFontClick
+        TabOrder = 4
+      end
+      object lblFontSize: TLabel
+        AnchorSideLeft.Control = btnFont
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnFont
+        AnchorSideTop.Side = asrCenter
+        Left = 425
+        Height = 15
+        Top = 34
+        Width = 23
+        BorderSpacing.Left = 4
+        Caption = 'Size:'
+        ParentColor = False
+      end
+      object sneFontSize: TSpinEdit
+        AnchorSideLeft.Control = lblFontSize
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = edtFont
+        AnchorSideTop.Side = asrCenter
+        AnchorSideBottom.Side = asrBottom
+        Left = 449
+        Height = 23
+        Top = 30
+        Width = 48
+        BorderSpacing.Left = 1
+        MaxValue = 25
+        MinValue = 8
+        OnChange = sneFontSizeChange
+        TabOrder = 5
+        Value = 8
+      end
+      object btnResetFont: TButton
+        AnchorSideLeft.Control = sneFontSize
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = edtFont
+        AnchorSideTop.Side = asrCenter
+        AnchorSideBottom.Side = asrBottom
+        Left = 498
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 30
+        Width = 33
+        BorderSpacing.Left = 1
+        Caption = 'R'
+        OnClick = btnResetFontClick
+        TabOrder = 6
+      end
+      object btnAllFont: TButton
+        AnchorSideLeft.Control = btnResetFont
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = edtFont
+        AnchorSideTop.Side = asrCenter
+        Left = 532
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 30
+        Width = 40
+        BorderSpacing.Left = 1
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 7
+      end
+      object cbAllowOverColor: TCheckBox
+        Tag = 11
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetAllowOverColor
+        Left = 704
+        Height = 19
+        Top = 153
+        Width = 105
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'Allow Overcolor'
+        OnChange = cbAllowOvercolorChange
+        TabOrder = 46
+      end
+      object lblForeColor: TLabel
+        Tag = 1
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbForeColor
+        Left = 109
+        Height = 15
+        Top = 59
+        Width = 57
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'Text Color:'
+        ParentColor = False
+      end
+      object lblBackColor: TLabel
+        Tag = 2
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = lblForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 98
+        Height = 15
+        Top = 83
+        Width = 68
+        Anchors = [akTop, akRight]
+        Caption = 'BackGround:'
+        ParentColor = False
+      end
+      object lblBackColor2: TLabel
+        Tag = 3
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = lblForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 90
+        Height = 15
+        Top = 107
+        Width = 76
+        Anchors = [akTop, akRight]
+        Caption = 'Background 2:'
+        ParentColor = False
+      end
+      object lblMarkColor: TLabel
+        Tag = 4
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = lblForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 104
+        Height = 15
+        Top = 131
+        Width = 62
+        Anchors = [akTop, akRight]
+        Caption = 'Mark Color:'
+        ParentColor = False
+      end
+      object cbMarkColor: TColorBox
+        Tag = 4
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = cbForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 167
+        Height = 22
+        Top = 127
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 2
+        ItemHeight = 16
+        OnChange = cbMarkColorChange
+        TabOrder = 20
+      end
+      object cbBackColor2: TColorBox
+        Tag = 3
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = cbForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 167
+        Height = 22
+        Top = 103
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 2
+        ItemHeight = 16
+        OnChange = cbBackColor2Change
+        TabOrder = 16
+      end
+      object cbBackColor: TColorBox
+        Tag = 2
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = cbForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 167
+        Height = 22
+        Top = 79
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 2
+        ItemHeight = 16
+        OnChange = cbBackColorChange
+        TabOrder = 12
+      end
+      object cbForeColor: TColorBox
+        Tag = 1
+        AnchorSideTop.Control = edtFont
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = btnForeColor
+        Left = 167
+        Height = 22
+        Top = 55
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 2
+        BorderSpacing.Right = 1
+        ItemHeight = 16
+        OnChange = cbForeColorChange
+        ParentFont = False
+        TabOrder = 8
+      end
+      object btnForeColor: TButton
+        Tag = 1
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetForeColor
+        Left = 318
+        Height = 22
+        Top = 55
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnForeColorClick
+        TabOrder = 9
+      end
+      object btnBackColor: TButton
+        Tag = 2
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 318
+        Height = 22
+        Top = 79
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnBackColorClick
+        TabOrder = 13
+      end
+      object btnBackColor2: TButton
+        Tag = 3
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 318
+        Height = 22
+        Top = 103
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnBackColor2Click
+        TabOrder = 17
+      end
+      object btnMarkColor: TButton
+        Tag = 4
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 318
+        Height = 22
+        Top = 127
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnMarkColorClick
+        TabOrder = 21
+      end
+      object btnResetMarkColor: TButton
+        Tag = 4
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 347
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 127
+        Width = 33
+        Anchors = [akTop, akRight]
+        Caption = 'R'
+        OnClick = btnResetMarkColorClick
+        TabOrder = 22
+      end
+      object btnResetBackColor2: TButton
+        Tag = 3
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideRight.Control = btnResetForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 347
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 103
+        Width = 33
+        Anchors = [akTop, akRight]
+        Caption = 'R'
+        OnClick = btnResetBackColor2Click
+        TabOrder = 18
+      end
+      object btnResetBackColor: TButton
+        Tag = 2
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetForeColor
+        AnchorSideRight.Side = asrBottom
+        Left = 347
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 79
+        Width = 33
+        Anchors = [akTop, akRight]
+        Caption = 'R'
+        OnClick = btnResetBackColorClick
+        TabOrder = 14
+      end
+      object btnResetForeColor: TButton
+        Tag = 1
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnAllForeColor
+        AnchorSideBottom.Side = asrBottom
+        Left = 347
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 55
+        Width = 33
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'R'
+        OnClick = btnResetForeColorClick
+        TabOrder = 10
+      end
+      object btnAllForeColor: TButton
+        Tag = 1
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnFont
+        AnchorSideRight.Side = asrBottom
+        Left = 381
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 55
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 11
+      end
+      object btnAllBackColor: TButton
+        Tag = 2
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnFont
+        AnchorSideRight.Side = asrBottom
+        Left = 381
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 79
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 15
+      end
+      object btnAllBackColor2: TButton
+        Tag = 3
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnFont
+        AnchorSideRight.Side = asrBottom
+        Left = 381
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 103
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 19
+      end
+      object btnAllMarkColor: TButton
+        Tag = 4
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnFont
+        AnchorSideRight.Side = asrBottom
+        Left = 381
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 127
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 23
+      end
+      object lblInactiveMarkColor: TLabel
+        Tag = 8
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = lblCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 522
+        Height = 15
+        Top = 131
+        Width = 106
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'Inactive Mark Color:'
+        ParentColor = False
+      end
+      object lblInactiveCursorColor: TLabel
+        Tag = 7
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = lblCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 515
+        Height = 15
+        Top = 107
+        Width = 114
+        Anchors = [akTop, akRight]
+        Caption = 'Inactive Cursor Color:'
+        ParentColor = False
+      end
+      object lblCursorText: TLabel
+        Tag = 6
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = lblCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 566
+        Height = 15
+        Top = 83
+        Width = 63
+        Anchors = [akTop, akRight]
+        Caption = 'Cursor Text:'
+        ParentColor = False
+      end
+      object lblCursorColor: TLabel
+        Tag = 5
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbCursorColor
+        Left = 559
+        Height = 15
+        Top = 59
+        Width = 70
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'Cursor Color:'
+        ParentColor = False
+      end
+      object cbCursorColor: TColorBox
+        Tag = 5
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnCursorColor
+        Left = 630
+        Height = 22
+        Top = 55
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        ItemHeight = 16
+        OnChange = cbCursorColorChange
+        TabOrder = 24
+      end
+      object cbCursorText: TColorBox
+        Tag = 6
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 630
+        Height = 22
+        Top = 79
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        ItemHeight = 16
+        OnChange = cbCursorTextChange
+        TabOrder = 28
+      end
+      object cbInactiveCursorColor: TColorBox
+        Tag = 7
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 630
+        Height = 22
+        Top = 103
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        ItemHeight = 16
+        OnChange = cbInactiveCursorColorChange
+        TabOrder = 32
+      end
+      object cbInactiveMarkColor: TColorBox
+        Tag = 8
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 630
+        Height = 22
+        Top = 127
+        Width = 150
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+        Anchors = [akTop, akRight]
+        ItemHeight = 16
+        OnChange = cbInactiveMarkColorChange
+        TabOrder = 36
+      end
+      object btnInactiveMarkColor: TButton
+        Tag = 8
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 781
+        Height = 22
+        Top = 127
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnInactiveMarkColorClick
+        TabOrder = 37
+      end
+      object btnInactiveCursorColor: TButton
+        Tag = 7
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 781
+        Height = 22
+        Top = 103
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnInactiveCursorColorClick
+        TabOrder = 33
+      end
+      object btnCursorText: TButton
+        Tag = 6
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 781
+        Height = 22
+        Top = 79
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnCursorTextClick
+        TabOrder = 29
+      end
+      object btnCursorColor: TButton
+        Tag = 5
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetCursorColor
+        Left = 781
+        Height = 22
+        Top = 55
+        Width = 28
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnCursorColorClick
+        TabOrder = 25
+      end
+      object btnResetInactiveCursorColor: TButton
+        Tag = 7
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 810
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 103
+        Width = 33
+        Anchors = [akTop, akRight]
+        Caption = 'R'
+        OnClick = btnResetInactiveCursorColorClick
+        TabOrder = 34
+      end
+      object btnResetCursorText: TButton
+        Tag = 6
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 810
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 79
+        Width = 33
+        Anchors = [akTop, akRight]
+        Caption = 'R'
+        OnClick = btnResetCursorTextClick
+        TabOrder = 30
+      end
+      object btnResetCursorColor: TButton
+        Tag = 5
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnAllCursorColor
+        Left = 810
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 55
+        Width = 33
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'R'
+        OnClick = btnResetCursorColorClick
+        TabOrder = 26
+      end
+      object btnAllCursorColor: TButton
+        Tag = 5
+        AnchorSideTop.Control = cbForeColor
+        AnchorSideTop.Side = asrCenter
+        Left = 844
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 55
+        Width = 40
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 27
+      end
+      object btnAllCursorText: TButton
+        Tag = 6
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnAllCursorColor
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 844
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 79
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 31
+      end
+      object btnAllInactiveCursorColor: TButton
+        Tag = 7
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnAllCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 844
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 103
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 35
+      end
+      object btnAllInactiveMarkColor: TButton
+        Tag = 8
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnAllCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 844
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 127
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 39
+      end
+      object btnResetInactiveMarkColor: TButton
+        Tag = 8
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 810
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 127
+        Width = 33
+        Anchors = [akTop, akRight]
+        Caption = 'R'
+        OnClick = btnResetInactiveMarkColorClick
+        TabOrder = 38
+      end
+      object cbUseInvertedSelection: TCheckBox
+        Tag = 9
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetUseInvertedSelection
+        Left = 111
+        Height = 19
+        Top = 153
+        Width = 136
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'Use Inverted Selection'
+        OnChange = cbUseInvertedSelectionChange
+        TabOrder = 40
+      end
+      object cbUseInactiveSelColor: TCheckBox
+        Tag = 10
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetUseInactiveSelColor
+        Left = 387
+        Height = 19
+        Top = 153
+        Width = 166
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'Use Inactive Selection Color'
+        OnChange = cbUseInactiveSelColorChange
+        TabOrder = 43
+      end
+      object btnAllUseInvertedSelection: TButton
+        Tag = 9
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbMarkColor
+        AnchorSideRight.Side = asrBottom
+        Left = 282
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 151
+        Width = 35
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 42
+      end
+      object btnAllUseInactiveSelColor: TButton
+        Tag = 10
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = lblInactiveMarkColor
+        AnchorSideRight.Side = asrBottom
+        Left = 588
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 151
+        Width = 40
+        Anchors = [akTop, akRight]
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 45
+      end
+      object btnAllAllowOverColor: TButton
+        Tag = 11
+        AnchorSideTop.Control = btnAllInactiveMarkColor
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = btnAllCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 844
+        Height = 22
+        Hint = 'Apply modification to all columns'
+        Top = 151
+        Width = 40
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 2
+        BorderSpacing.Bottom = 6
+        Caption = 'All'
+        OnClick = btnAllForeColorClick
+        TabOrder = 48
+      end
+      object lblWorkingColumn: TLabel
+        AnchorSideLeft.Control = btnNext
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnPrev
+        AnchorSideTop.Side = asrCenter
+        Left = 134
+        Height = 15
+        Top = 5
+        Width = 113
+        BorderSpacing.Left = 5
+        Caption = 'Settings for column:'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object lblCurrentColumn: TLabel
+        AnchorSideLeft.Control = lblWorkingColumn
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnPrev
+        AnchorSideTop.Side = asrCenter
+        Left = 250
+        Height = 15
+        Top = 5
+        Width = 132
+        BorderSpacing.Left = 3
+        Caption = '[Current Column Name]'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object btnResetAllowOverColor: TButton
+        Tag = 11
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnResetCursorColor
+        AnchorSideRight.Side = asrBottom
+        Left = 810
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 151
+        Width = 33
+        Anchors = [akTop, akRight]
+        Caption = 'R'
+        OnClick = btnResetAllowOverColorClick
+        TabOrder = 47
+      end
+      object btnResetUseInvertedSelection: TButton
+        Tag = 9
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnAllUseInvertedSelection
+        Left = 248
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 151
+        Width = 33
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'R'
+        OnClick = btnResetUseInvertedSelectionClick
+        TabOrder = 41
+      end
+      object btnResetUseInactiveSelColor: TButton
+        Tag = 10
+        AnchorSideLeft.Control = btnCursorColor
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnAllAllowOverColor
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnAllUseInactiveSelColor
+        Left = 554
+        Height = 22
+        Hint = 'Reset to default'
+        Top = 151
+        Width = 33
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 1
+        Caption = 'R'
+        OnClick = btnResetUseInactiveSelColorClick
+        TabOrder = 44
+      end
+      object cbApplyChangeForAllColumns: TCheckBox
+        AnchorSideTop.Control = btnPrev
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        Left = 520
+        Height = 19
+        Top = 3
+        Width = 338
+        Caption = 'When clicking to change something, change for all columns'
+        OnChange = cbApplyChangeForAllColumnsChange
+        TabOrder = 2
+      end
+    end
+    object pnlPreviewCont: TPanel
+      Left = 1
+      Height = 191
+      Top = 365
+      Width = 901
+      Align = alClient
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 8
+      ClientHeight = 191
+      ClientWidth = 901
+      Color = clInactiveCaption
+      Constraints.MinHeight = 125
+      ParentColor = False
+      TabOrder = 4
+      object lblPreviewTop: TLabel
+        Left = 8
+        Height = 15
+        Top = 0
+        Width = 885
+        Align = alTop
+        Alignment = taCenter
+        Caption = 'Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings.'
+        Font.Color = clHighlight
+        ParentColor = False
+        ParentFont = False
+      end
+      object pnlLeft: TPanel
+        Left = 8
+        Height = 168
+        Top = 15
+        Width = 437
+        Align = alLeft
+        BorderSpacing.Bottom = 8
+        BevelOuter = bvNone
+        Constraints.MinWidth = 50
+        ParentColor = False
+        TabOrder = 0
+        OnEnter = pnlLeftEnter
+      end
+      object pnlRight: TPanel
+        Left = 456
+        Height = 168
+        Top = 15
+        Width = 437
+        Align = alClient
+        BorderSpacing.Bottom = 8
+        BevelOuter = bvNone
+        Constraints.MinWidth = 50
+        ParentColor = False
+        TabOrder = 2
+        OnEnter = pnlRightEnter
+      end
+      object spltBetweenPanels: TSplitter
+        Left = 445
+        Height = 176
+        Top = 15
+        Width = 11
+      end
+    end
+  end
+  object pmStringGrid: TPopupMenu[2]
+    left = 48
+    top = 72
+    object miAddColumn: TMenuItem
+      Caption = 'Add column'
+      OnClick = miAddColumnClick
+    end
+  end
+  object pmFields: TPopupMenu[3]
+    left = 136
+    top = 72
+  end
+  object dlgfont: TFontDialog[4]
+    MinFontSize = 0
+    MaxFontSize = 0
+    left = 216
+    top = 72
+  end
+  object dlgcolor: TColorDialog[5]
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 304
+    top = 72
   end
 end
