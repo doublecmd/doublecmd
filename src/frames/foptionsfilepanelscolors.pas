@@ -208,6 +208,8 @@ begin
   SetColorInColorBox(cbIndColor, gIndForeColor);
   SetColorInColorBox(cbIndBackColor, gIndBackColor);
   cbbUseGradientInd.Checked := gIndUseGradient;
+  cbbUseFrameCursorChange(cbbUseFrameCursor);
+  cbbUseInactiveSelColorChange(cbbUseInactiveSelColor);
 
   //3. Let's create our preview panels
   PreviewLeftPanel := TColumnsFileView.Create(pnlLeftPreview, TSampleForConfigFileSource.Create, SAMPLE_PATH);
@@ -400,14 +402,15 @@ end;
 { TfrmOptionsFilePanelsColors.cbbUseInactiveSelColorChange }
 procedure TfrmOptionsFilePanelsColors.cbbUseInactiveSelColorChange(Sender: TObject);
 begin
+  lblInactiveCursorColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
+  cbInactiveCursorColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
+  btnInactiveCursorColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
+  lblInactiveMarkColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
+  cbInactiveMarkColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
+  btnInactiveMarkColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
+
   if bLoadCompleted then
   begin
-    lblInactiveCursorColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
-    cbInactiveCursorColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
-    btnInactiveCursorColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
-    lblInactiveMarkColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
-    cbInactiveMarkColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
-    btnInactiveMarkColor.Enabled := cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled;
     if cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled then
     begin
       cbInactiveCursorColor.Font.Color := clDefault;
