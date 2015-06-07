@@ -23,11 +23,11 @@ unit uGlobs;
 interface
 
 uses
-  Classes, SysUtils, Controls, Forms, Types, uExts, uColorExt, Graphics, DCClassesUtf8,
-  uMultiArc, uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
-  uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, DCXmlConfig,
-  uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uHotDir, uSpecialDir,
-  uVariableMenuSupport;
+  Classes, SysUtils, Controls, Forms, Grids, Types, uExts, uColorExt, Graphics,
+  DCClassesUtf8, uMultiArc, uColumns, uHotkeyManager, uSearchTemplate,
+  uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
+  udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx,
+  uHotDir, uSpecialDir, uVariableMenuSupport;
 
 type
   { Configuration options }
@@ -212,6 +212,7 @@ var
 
   gAutoFillColumns: Boolean;
   gAutoSizeColumn: Integer;
+  gColumnsTitleStyle: TTitleStyle;
   gCustomColumnsChangeAllColumns: Boolean;
   
 
@@ -1125,6 +1126,7 @@ begin
   gWheelScrollLines:= Mouse.WheelScrollLines;
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
+  gColumnsTitleStyle := {$IFDEF LCLWIN32}tsNative{$ELSE}tsStandard{$ENDIF};
   gCustomColumnsChangeAllColumns := False;
   gDateTimeFormat := DefaultDateTimeFormat;
   gCutTextToColWidth := True;
@@ -2218,6 +2220,8 @@ begin
         gNewFilesPosition := TNewFilesPosition(GetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition)));
         gUpdatedFilesPosition := TUpdatedFilesPosition(GetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition)));
       end;
+      SubNode := FindNode(Node, 'ColumnsView');
+      gColumnsTitleStyle := TTitleStyle(GetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle)));
       SubNode := Node.FindNode('BriefView');
       if Assigned(SubNode) then
       begin
@@ -2663,6 +2667,8 @@ begin
     SetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode));
     SetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition));
     SetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition));
+    SubNode := FindNode(Node, 'ColumnsView', True);
+    SetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle));
     SubNode := FindNode(Node, 'BriefView', True);
     SetValue(SubNode, 'FileExtAligned', gBriefViewFileExtAligned);
     SubNode := FindNode(SubNode, 'Columns', True);
