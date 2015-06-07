@@ -31,6 +31,7 @@ type
     procedure TopLeftChanged; override;
     function  GetBorderWidth: Integer;
   protected
+    procedure SetColRowCount(Count: Integer);
     procedure DrawLines(aIdx, aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState);
     procedure PrepareColors(aFile: TDisplayFile; aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState);
     procedure UpdateView; virtual; abstract;
@@ -268,6 +269,19 @@ begin
     Result := 0;
 end;
 
+procedure TFileViewGrid.SetColRowCount(Count: Integer);
+var
+  aCol, aRow: Integer;
+begin
+  if CellToIndex(Col, Row) < 0 then
+  begin
+    FFileView.FUpdatingActiveFile := True;
+    IndexToCell(Count - 1, ACol, ARow);
+    MoveExtend(False, aCol, aRow);
+    FFileView.FUpdatingActiveFile := False;
+  end;
+end;
+
 procedure TFileViewGrid.DrawLines(aIdx, aCol, aRow: Integer; aRect: TRect;
   aState: TGridDrawState);
 begin
@@ -288,7 +302,7 @@ begin
   end;
 end;
 
-procedure TFileViewGrid.PrepareColors(AFile: TDisplayFile; aCol, aRow: Integer;
+procedure TFileViewGrid.PrepareColors(aFile: TDisplayFile; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
   TextColor: TColor = clDefault;
@@ -432,6 +446,9 @@ end;
 
 procedure TFileViewWithGrid.DisplayFileListChanged;
 begin
+  // Update grid col and row count
+  dgPanel.SetColRowCount(FFiles.Count);
+
   dgPanel.CalculateColRowCount;
   dgPanel.CalculateColumnWidth;
   SetFilesDisplayItems;
