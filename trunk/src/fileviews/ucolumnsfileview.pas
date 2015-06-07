@@ -47,6 +47,8 @@ type
     procedure InitializeWnd; override;
     procedure FinalizeWnd; override;
 
+    procedure DrawColumnText(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
+
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect;
               aState: TGridDrawState); override;
 
@@ -201,9 +203,6 @@ uses
   uFileFunctions,
   uFormCommands,
   fOptionsCustomColumns;
-
-const
-  SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
 
 type
   TEachViewCallbackReason = (evcrUpdateColumns);
@@ -1114,15 +1113,11 @@ begin
 
   DoubleBuffered := True;
   Align := alClient;
-  Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect,
-              goColSizing, goThumbTracking, goSmoothScroll];
+  Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
+              goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
 
   TitleStyle := tsStandard;
   TabStop := False;
-
-  TitleImageList:= TImageList.CreateSize(gIconsSize, gIconsSize);
-  TitleImageList.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdAscending)), nil);
-  TitleImageList.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdDescending)), nil);
 
   Self.Parent := AParent;
   UpdateView;
@@ -1244,6 +1239,25 @@ begin
   inherited FinalizeWnd;
 end;
 
+procedure TDrawGridEx.DrawColumnText(aCol, aRow: Integer; aRect: TRect;
+  aState: TGridDrawState);
+var
+  SortingDirection: TSortDirection;
+begin
+  SortingDirection := ColumnsView.FColumnsSortDirections[ACol];
+
+  if SortingDirection <> sdNone then
+  begin
+    PixMapManager.DrawBitmap(
+        PixMapManager.GetIconBySortingDirection(SortingDirection),
+        Canvas,
+        aRect.Left, aRect.Top + (RowHeights[aRow] - gIconsSize) div 2);
+    aRect.Left += gIconsSize;
+  end;
+
+  DrawCellText(aCol, aRow, aRect, aState, GetColumnTitle(aCol));
+end;
+
 function TDrawGridEx.GetFullVisibleRows: TRange;
 begin
   Result.First := GCache.FullVisibleGrid.Top;
@@ -1268,7 +1282,6 @@ var
   //------------------------------------------------------
   var
     TextStyle: TTextStyle;
-    SortingDirection: TSortDirection;
   begin
     SetCanvasFont(GetColumnFont(aCol, True));
     Canvas.Brush.Color := GetColumnColor(ACol, True);
@@ -1276,9 +1289,7 @@ var
     TextStyle := Canvas.TextStyle;
     TextStyle.Layout := tlCenter;
     Canvas.TextStyle := TextStyle;
-    Columns[aCol].Title.ImageLayout := blGlyphLeft;
-    SortingDirection := ColumnsView.FColumnsSortDirections[ACol];
-    Columns[aCol].Title.ImageIndex := SortingImageIndex[SortingDirection];
+
     DefaultDrawCell(aCol, aRow, aRect, aState);
   end; // of DrawHeader
   //------------------------------------------------------
@@ -1490,8 +1501,8 @@ begin
 
   if gdFixed in aState then
   begin
-    DrawFixed;  // Draw column headers
-    DrawCellGrid(aCol,aRow,aRect,aState);
+    DrawFixed; // Draw column headers
+    if TitleStyle <> tsNative then DrawCellGrid(aCol, aRow, aRect, aState);
   end
   else if ColumnsView.FFiles.Count > 0 then
   begin
