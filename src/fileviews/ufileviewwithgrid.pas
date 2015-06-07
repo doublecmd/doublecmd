@@ -397,7 +397,8 @@ begin
   RowCount := 1;
   ColCount := 1;
 
-  DefaultColWidth:= 200;
+  DefaultColWidth := 200;
+  BorderStyle := bsNone; // Border no need as grid inside pagectl
 
   Self.Parent := AParent;
 
@@ -710,6 +711,8 @@ var
   TabHeaderHeight: Integer;
 begin
   inherited DoUpdateView;
+  dgPanel.FocusRectVisible := gUseCursorBorder and not gUseFrameCursor;
+  dgPanel.FocusColor := gCursorBorderColor;
   dgPanel.UpdateView;
   TabHeader.Visible := gTabHeader;
   // Set rows of header.
