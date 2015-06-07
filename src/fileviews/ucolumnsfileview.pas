@@ -193,7 +193,7 @@ type
 implementation
 
 uses
-  LCLProc, Clipbrd, DCStrUtils, uLng, uGlobs, uPixmapManager, uDebug,
+  LCLProc, Buttons, Clipbrd, DCStrUtils, uLng, uGlobs, uPixmapManager, uDebug,
   uDCUtils, math, fMain, fOptions,
   uOrderedFileView,
   uFileSourceProperty,
@@ -201,6 +201,9 @@ uses
   uFileFunctions,
   uFormCommands,
   fOptionsCustomColumns;
+
+const
+  SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
 
 type
   TEachViewCallbackReason = (evcrUpdateColumns);
@@ -1117,6 +1120,10 @@ begin
   TitleStyle := tsStandard;
   TabStop := False;
 
+  TitleImageList:= TImageList.CreateSize(gIconsSize, gIconsSize);
+  TitleImageList.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdAscending)), nil);
+  TitleImageList.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdDescending)), nil);
+
   Self.Parent := AParent;
   UpdateView;
 end;
@@ -1254,52 +1261,27 @@ var
   ColumnsSet: TPanelColumnsClass;
 
   //------------------------------------------------------
-  //begin subprocedures
+  // begin subprocedures
   //------------------------------------------------------
 
   procedure DrawFixed;
   //------------------------------------------------------
   var
+    TextStyle: TTextStyle;
     SortingDirection: TSortDirection;
-    TitleX: Integer;
   begin
-    // Draw background.
-    Canvas.Brush.Color := GetColumnColor(ACol, True);
-    Canvas.FillRect(aRect);
-
     SetCanvasFont(GetColumnFont(aCol, True));
+    Canvas.Brush.Color := GetColumnColor(ACol, True);
 
-    iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
-
-    TitleX := 0;
-    s      := ColumnsSet.GetColumnTitle(ACol);
-
+    TextStyle := Canvas.TextStyle;
+    TextStyle.Layout := tlCenter;
+    Canvas.TextStyle := TextStyle;
+    Columns[aCol].Title.ImageLayout := blGlyphLeft;
     SortingDirection := ColumnsView.FColumnsSortDirections[ACol];
-    if SortingDirection <> sdNone then
-    begin
-      TitleX := TitleX + gIconsSize;
-      PixMapManager.DrawBitmap(
-          PixMapManager.GetIconBySortingDirection(SortingDirection),
-          Canvas,
-          aRect.Left, aRect.Top + (RowHeights[aRow] - gIconsSize) div 2);
-    end;
-
-    TitleX := max(TitleX, 4);
-
-    if gCutTextToColWidth then
-    begin
-      if (aRect.Right - aRect.Left) < TitleX then
-        // Column too small to display text.
-        Exit
-      else
-        while Canvas.TextWidth(s) - ((aRect.Right - aRect.Left) - TitleX) > 0 do
-          UTF8Delete(s, UTF8Length(s), 1);
-    end;
-
-    Canvas.TextOut(aRect.Left + TitleX, iTextTop, s);
+    Columns[aCol].Title.ImageIndex := SortingImageIndex[SortingDirection];
+    DefaultDrawCell(aCol, aRow, aRect, aState);
   end; // of DrawHeader
   //------------------------------------------------------
-
 
   procedure DrawIconCell;
   //------------------------------------------------------
