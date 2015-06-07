@@ -1116,7 +1116,7 @@ begin
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
               goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
 
-  TitleStyle := tsStandard;
+  TitleStyle := gColumnsTitleStyle;
   TabStop := False;
 
   Self.Parent := AParent;
