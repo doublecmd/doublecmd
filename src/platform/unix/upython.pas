@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Simple interface to the Python language
 
-   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 }
 
 unit uPython;
@@ -87,12 +87,13 @@ function  PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: 
 function  PythonRunFunction(Module: PPyObject; const FunctionName: UTF8String; FileList: TStrings): PPyObject; overload;
 
 var
+  PythonExe: String;
   HasPython: Boolean = False;
 
 implementation
 
 uses
-  dynlibs, dl;
+  dynlibs, dl, uMyUnix;
 
 procedure Py_DECREF(op: PPyObject);
 begin
@@ -194,11 +195,21 @@ begin
   Result:= PythonCallFunction(Module, FunctionName, pyArgs);
 end;
 
+function FindPythonExecutable: String;
+begin
+  if ExecutableInSystemPath('python2') then
+    Result:= 'python2'
+  else begin
+    Result:= 'python';
+  end;
+end;
+
 var
   libpython: TLibHandle;
 
 procedure Initialize;
 begin
+  PythonExe:= FindPythonExecutable;
   libpython:= TLibHandle(dlopen('libpython2.7.so.1.0', RTLD_NOW or RTLD_GLOBAL));
   HasPython:= libpython <> NilHandle;
   if HasPython then

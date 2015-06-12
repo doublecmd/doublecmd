@@ -37,7 +37,7 @@ var
 implementation
 
 uses
-  uDCUtils, uGlobs, uGlobsPaths, uOSUtils, uTrash;
+  uDCUtils, uGlobs, uGlobsPaths, uOSUtils, uTrash, uPython;
 
 var
   PythonScript: UTF8String = 'scripts/doublecmd-kde.py';
@@ -50,7 +50,7 @@ begin
   Args := ' openwith';
   for I := 0 to FileList.Count - 1 do
     Args+= ' ' + QuoteStr(FileList[I]);
-  Result:= ExecCmdFork('python ' + PythonScript + Args);
+  Result:= ExecCmdFork(PythonExe + ' ' + PythonScript + Args);
 end;
 
 function FileTrash(const FileName: UTF8String): Boolean;
@@ -65,7 +65,7 @@ begin
   begin
     PythonScript:= gpExePath + PythonScript;
     if ExecutableInSystemPath('kioclient') then FileTrashUtf8:= @FileTrash;
-    UseKde:= (fpSystemStatus('python ' + PythonScript + ' > /dev/null 2>&1') = 0);
+    UseKde:= (fpSystemStatus(PythonExe + ' ' + PythonScript + ' > /dev/null 2>&1') = 0);
   end;
 end;
 

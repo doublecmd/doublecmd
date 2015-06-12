@@ -68,7 +68,7 @@ var
 implementation
 
 uses
-  dbus, unixtype, fpjson, jsonparser, unix,
+  dbus, fpjson, jsonparser, unix,
   uGlobs, uGlobsPaths, uMyUnix, uPython;
 
 const
@@ -112,7 +112,7 @@ begin
     Print('Service found running.')
   else
     begin
-      Result:= fpSystemStatus('python ' + PythonScript) = 0;
+      Result:= fpSystemStatus(PythonExe + ' ' + PythonScript) = 0;
       if Result then
         Print('Service successfully started.');
     end;
