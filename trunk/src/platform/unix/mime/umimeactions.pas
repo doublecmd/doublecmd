@@ -443,6 +443,7 @@ begin
   // Get file mime type
   MimeTypes := GetFileMimeTypes(FileNames[0]);
   if Length(MimeTypes) = 0 then Exit;
+  SetFindPath(MimeAppsPath);
 
   for MimeType in MimeTypes do
   begin
