@@ -709,6 +709,7 @@ begin
     end;
   end;
   DoDirSeparators(Result);
+  Result := ExcludeFrontPathDelimiter(Result);
   Result := ExcludeTrailingPathDelimiter(Result);
 end;
 
