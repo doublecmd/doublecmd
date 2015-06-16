@@ -447,7 +447,7 @@ begin
 
           //Let's see if we could extract final filesize...
           if UTF8Pos('size=',UTF8LowerCase(LineToParse))>0 then
-            FStatistics.TotalBytes:=StrToInt(UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign)));
+            FStatistics.TotalBytes:=StrToInt64(UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign)));
 
           //Let's see if we could extract final CRC32...
           if UTF8Pos('crc32=',UTF8LowerCase(LineToParse))>0 then
