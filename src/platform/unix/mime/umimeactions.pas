@@ -114,6 +114,7 @@ begin
 
       if CurPos <= Length(entry^.ExecWithParams) then
         case entry^.ExecWithParams[CurPos] of
+          {
           'U':
             begin
               for i := 0 to fileList.Count - 1 do
@@ -130,7 +131,8 @@ begin
               Result := Result + QuoteStr(fileScheme + '//' + URIEncode(fileList[0]));
               filesAdded := True;
             end;
-          'F':
+          }
+          'F','U':
             begin
               for i := 0 to fileList.Count - 1 do
               begin
@@ -140,7 +142,7 @@ begin
               end;
               filesAdded := True;
             end;
-          'f':
+          'f','u':
             if fileList.Count > 0 then
             begin
               Result := Result + QuoteStr(fileList[0]);
