@@ -182,6 +182,10 @@ function EscapeDoubleQuotes(const Str: String): String;
      sh -c '<cmd1>' "<cmd2>" <cmd3>
 }
 function EscapeNoQuotes(const Str: String): String;
+{en
+   Split command line parameters into argument array
+}
+procedure SplitCommandArgs(const Params: String; out Args: TDynamicStringArray);
 {$ENDIF}
 {en
    Delete quotation characters from string
@@ -712,7 +716,7 @@ begin
 end;
 
 // Helper for RemoveQuotation and SplitCmdLine.
-procedure RemoveQuotationOrSplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray; bSplitArgs: Boolean);
+procedure RemoveQuotationOrSplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray; bSplitArgs: Boolean; bNoCmd: Boolean = False);
 var
   I : Integer;
   QuoteChar : Char;
@@ -723,7 +727,7 @@ var
   begin
     if bSplitArgs then
     begin
-      if sCommand = '' then
+      if (bNoCmd = False) and (sCommand = '') then
         sCommand := CurrentArg
       else
       begin
@@ -799,6 +803,13 @@ begin
     AddArgument;
   if (not bSplitArgs) then
     sCommand := CurrentArg;
+end;
+
+procedure SplitCommandArgs(const Params: String; out Args: TDynamicStringArray);
+var
+  Unused: String;
+begin
+  RemoveQuotationOrSplitCmdLine(Params, Unused, Args, True, True);
 end;
 {$ENDIF}
 
