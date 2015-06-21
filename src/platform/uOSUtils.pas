@@ -310,7 +310,8 @@ begin
 
     if sCmd = EmptyStr then Exit(False);
 
-    SplitCommandArgs(sParams, Args);
+    sCmd := UTF8ToSys(sCmd);
+    SplitCommandArgs(UTF8ToSys(sParams), Args);
 
     {$IFDEF DARWIN}
     // If we run application bundle (*.app) then
@@ -333,6 +334,7 @@ begin
         { Set child current directory }
         if Length(sStartPath) > 0 then
           mbSetCurrentDir(sStartPath);
+
         { The child does the actual exec, and then exits }
         if FpExecLP(sCmd, Args) = -1 then
           Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessageUTF8(fpgeterrno)]));
