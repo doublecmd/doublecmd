@@ -291,7 +291,6 @@ end;
 function ExecCmdFork(sCmd, sParams, sStartPath:String; bShowCommandLinePriorToExecute, bTerm : Boolean; bKeepTerminalOpen: tTerminalEndindMode) : Boolean;
 {$IFDEF UNIX}
 var
-  sCmdLine, Command : String;
   pid : LongInt;
   Args : TDynamicStringArray;
   WaitForPidThread: TWaitForPidThread;
@@ -309,30 +308,33 @@ begin
   begin
     if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdLaunch+': '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
 
-    sCmdLine := ConcatenateStrWithSpace(sCmd, sParams);
-    SplitCmdLine(UTF8ToSys(sCmdLine), Command, Args);
+    if sCmd = EmptyStr then Exit(False);
+
+    SplitCommandArgs(sParams, Args);
 
     {$IFDEF DARWIN}
     // If we run application bundle (*.app) then
     // execute it by 'open -a' command (see 'man open' for details)
-    if StrEnds(Command, '.app') then
+    if StrEnds(sCmd, '.app') then
     begin
       SetLength(Args, Length(Args) + 2);
       for pid := High(Args) downto Low(Args) + 2 do
         Args[pid]:= Args[pid - 2];
       Args[0] := '-a';
-      Args[1] := Command;
-      Command := 'open';
+      Args[1] := sCmd;
+      sCmd := 'open';
     end;
     {$ENDIF}
-    if Command = EmptyStr then Exit(False);
 
     pid := fpFork;
 
     if pid = 0 then
       begin
+        { Set child current directory }
+        if Length(sStartPath) > 0 then
+          mbSetCurrentDir(sStartPath);
         { The child does the actual exec, and then exits }
-        if FpExecLP(Command, Args) = -1 then
+        if FpExecLP(sCmd, Args) = -1 then
           Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessageUTF8(fpgeterrno)]));
 
         { If the FpExecLP fails, we return an exitvalue of 127, to let it be known }
@@ -340,7 +342,7 @@ begin
       end
     else if pid = -1 then         { Fork failed }
       begin
-        raise Exception.Create('Fork failed: ' + Command);
+        raise Exception.Create('Fork failed: ' + sCmd);
       end
     else if pid > 0 then          { Parent }
       begin
