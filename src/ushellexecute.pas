@@ -1004,7 +1004,6 @@ function ShellExecuteEx(sActionName, sFileName, sActiveDir: string): boolean;
 var
   aFile: TFile;
   sCmd, sParams, sStartPath: string;
-  bShowCommandLinePriorToExecute: boolean;
 begin
   Result := False;
 
@@ -1013,8 +1012,7 @@ begin
   try
     if gExts.GetExtActionCmd(aFile, sActionName, sCmd, sParams, sStartPath) then
     begin
-      sParams := PrepareParameter(sParams, aFile, [], @bShowCommandLinePriorToExecute);
-      Result := ProcessExtCommandFork(sCmd, sParams, sStartPath, nil, bShowCommandLinePriorToExecute);
+      Result := ProcessExtCommandFork(sCmd, sParams, sStartPath, aFile);
     end;
 
     if not Result then
