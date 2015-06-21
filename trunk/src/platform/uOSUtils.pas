@@ -310,7 +310,7 @@ begin
 
     if sCmd = EmptyStr then Exit(False);
 
-    sCmd := UTF8ToSys(sCmd);
+    sCmd := RemoveQuotation(UTF8ToSys(sCmd));
     SplitCommandArgs(UTF8ToSys(sParams), Args);
 
     {$IFDEF DARWIN}
