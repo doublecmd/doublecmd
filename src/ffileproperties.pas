@@ -5,7 +5,7 @@
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
    Copyright (C) 2003 Martin Matusu <xmat@volny.cz>
-   Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -122,6 +122,7 @@ type
     OriginalUser, OriginalGroup: String;
     FChangedProperties: Boolean;
 
+    function ShowError(const MessageFmt: String): TModalResult;
     procedure ShowPermissions(Mode: TFileAttrs);
     function ChangeProperties: Boolean;
     function CheckIfChangedProperties: Boolean;
@@ -265,19 +266,17 @@ begin
   // First set owner/group because it clears SUID bit.
   if bPerm then
   begin
-    if fplchown(PChar(UTF8ToSys(FFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
+    if fplchown(PAnsiChar(UTF8ToSys(FFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
                 StrToGID(cbxGroups.Text)) <> 0 then
       begin
-        if MessageDlg(Caption, Format(rsPropsErrChOwn, [FFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
-          Exit(False);
+        if ShowError(rsPropsErrChOwn) = mrCancel then Exit(False);
       end;
   end;
   if not FFiles[iCurrent].IsLink then
   begin
     if fpchmod(PAnsiChar(UTF8ToSys(FFiles[iCurrent].FullPath)), GetModeFromForm) <> 0 then
       begin
-        if MessageDlg(Caption, Format(rsPropsErrChMod, [FFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
-          Exit(False);
+        if ShowError(rsPropsErrChMod) = mrCancel then Exit(False);
       end;
   end;
 end;
@@ -326,37 +325,42 @@ begin
     if fpLastAccessTime in SupportedProperties then
       lblLastAccess.Caption := Properties[fpLastAccessTime].Format(FPropertyFormatter)
     else
-      lblLastAccess.Caption:='';
+      lblLastAccess.Caption := '';
 
     lblLastStChange.Visible := fpCreationTime in SupportedProperties;
     lblLastStChangeStr.Visible := fpCreationTime in SupportedProperties;
     if fpCreationTime in SupportedProperties then
       lblLastStChange.Caption := Properties[fpCreationTime].Format(FPropertyFormatter)
     else
-      lblLastStChange.Caption:='';
+      lblLastStChange.Caption := '';
 
     lblLastModif.Visible := fpModificationTime in SupportedProperties;
     lblLastModifStr.Visible := fpModificationTime in SupportedProperties;
     if fpModificationTime in SupportedProperties then
       lblLastModif.Caption := Properties[fpModificationTime].Format(FPropertyFormatter)
     else
-      lblLastModif.Caption:='';
+      lblLastModif.Caption := '';
 
     // Chown
     if isFileSystem and (fpLStat(PChar(UTF8ToSys(FullPath)), sb) = 0) then
     begin
       OriginalUser  := UIDToStr(sb.st_uid);
       OriginalGroup := GIDToStr(sb.st_gid);
-      iMyUID:= fpGetUID; //get user's UID
-      bPerm:= (iMyUID = sb.st_uid);
-      cbxUsers.Text:= OriginalUser;
-      if(imyUID = 0) then
-        GetUsers(cbxUsers.Items); //huh, a ROOT :))
-      cbxUsers.Enabled:= (imyUID = 0);
-      cbxGroups.Text:= OriginalGroup;
-      if(bPerm or (iMyUID = 0)) then
-        GetUsrGroups(iMyUID, cbxGroups.Items);
-      cbxGroups.Enabled:= (bPerm or (iMyUID = 0));
+      // Get current user UID
+      iMyUID := fpGetUID;
+      // Only owner or root can change owner
+      bPerm := (iMyUID = sb.st_uid) or (iMyUID = 0);
+
+      // Owner combo box
+      cbxUsers.Text := OriginalUser;
+      // Only root can change owner
+      cbxUsers.Enabled := (imyUID = 0);
+      if cbxUsers.Enabled then GetUsers(cbxUsers.Items);
+
+      // Group combo box
+      cbxGroups.Text := OriginalGroup;
+      cbxGroups.Enabled := bPerm;
+      if bPerm then GetUsrGroups(iMyUID, cbxGroups.Items);
     end;
 
     // Attributes
@@ -483,6 +487,12 @@ begin
       tmUpdateFolderSizeTimer(tmUpdateFolderSize);
       FFileSourceCalcStatisticsOperation := nil;
     end;
+end;
+
+function TfrmFileProperties.ShowError(const MessageFmt: String): TModalResult;
+begin
+  Result:= MessageDlg(Caption, Format(MessageFmt, [FFiles[iCurrent].FullPath]) +
+                      LineEnding + SysErrorMessageUTF8(fpgetErrNo), mtError, mbOKCancel, 0);
 end;
 
 procedure TfrmFileProperties.AllowChange(Allow: Boolean);
