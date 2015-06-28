@@ -62,11 +62,12 @@ type
                                       var SourceFiles: TFiles;
                                       TargetPath: String): TFileSourceOperation; override;
       function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
+      function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
     end;
 
 implementation
         uses uGioListOperation, uGioCopyOperation,  uDebug, DCDateTimeUtils, uShowMsg,
-          uGioDeleteOperation;
+          uGioDeleteOperation, uGioExecuteOperation;
 
 const
   MessageTitle = 'Double Commander';
@@ -75,7 +76,7 @@ const
 
 function TGioFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result:= [fsoList, fsoCopy, fsoCopyIn, fsoCopyOut, fsoDelete];
+  Result:= [fsoList, fsoCopy, fsoCopyIn, fsoCopyOut, fsoDelete, fsoExecute];
 end;
 
 class function TGioFileSource.CreateFile(const APath: String): TFile;
@@ -360,6 +361,15 @@ begin
   TargetFileSource := Self;
   FilesToDelete.Path:= FCurrentAddress + FilesToDelete.Path;
   Result := TGioDeleteOperation.Create(TargetFileSource, FilesToDelete);
+end;
+
+function TGioFileSource.CreateExecuteOperation(var ExecutableFile: TFile;
+  BasePath, Verb: String): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result:=  TGioExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
 end;
 
 end.
