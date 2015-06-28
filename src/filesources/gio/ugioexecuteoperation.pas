@@ -25,9 +25,6 @@ uses
   uGio;
 
 procedure TGioExecuteOperation.MainExecute;
-var
-  RemoteName: UTF8String;
-  iResult: LongInt;
 begin
   if GioOpen(AbsolutePath) then
     FExecuteOperationResult:= fseorSuccess
