@@ -84,7 +84,23 @@ type
 
 function NtfsHourTimeDelay(const SourceName, TargetName: UTF8String): Boolean;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
-function ExecCmdFork(sCmd:String; sParams:string=''; sStartPath:String=''; bShowCommandLinePriorToExecute:boolean=False; bTerm:Boolean=False; bKeepTerminalOpen:tTerminalEndindMode=termStayOpen):Boolean;
+{en
+   Execute command line
+}
+function ExecCmdFork(sCmd: String): Boolean;
+{en
+   Execute external commands
+   @param(sCmd The executable or command itself)
+   @param(sParams The optional paramters)
+   @param(sStartPath The initial working directory)
+   @param(bShowCommandLinePriorToExecute Flag indicating if we want the user to be prompted at the very last
+                                         seconds prior to launch execution by offering a dialog window where
+                                         he can adjust/confirm the three above parameters.)
+   @param(bTerm Flag indicating if it should be launch through terminal)
+   @param(bKeepTerminalOpen Value indicating the type of terminal to use (closed at the end, remain opened, etc.))
+}
+function ExecCmdFork(sCmd: String; sParams: String; sStartPath: String = ''; bShowCommandLinePriorToExecute: Boolean = False;
+                     bTerm: Boolean = False; bKeepTerminalOpen: tTerminalEndindMode = termStayOpen): Boolean;
 {en
    Opens a file or URL in the user's preferred application
    @param(URL File name or URL)
@@ -223,44 +239,6 @@ uses
   {$ENDIF}
   ;
 
-{$IFDEF UNIX}
-type
-  {en
-    Waits for a child process to finish and collects its exit status,
-    causing it to be released by the system (prevents defunct processes).
-
-    Instead of the wait-thread we could just ignore or handle SIGCHLD signal
-    for the process, but this way we don't interfere with the signal handling.
-    The downside is that there's a thread for every child process running.
-
-    Another method is to periodically do a cleanup, for example from OnIdle
-    or OnTimer event. Remember PIDs of spawned child processes and when
-    cleaning call FpWaitpid(PID, nil, WNOHANG) on each PID. Downside is they
-    are not released immediately after the child process finish (may be relevant
-    if we want to display exit status to the user).
-  }
-  TWaitForPidThread = class(TThread)
-  private
-    FPID: TPid;
-  protected
-    procedure Execute; override;
-  public
-    constructor Create(WaitForPid: TPid); overload;
-  end;
-
-  constructor TWaitForPidThread.Create(WaitForPid: TPid);
-  begin
-    inherited Create(True);
-    FPID := WaitForPid;
-    FreeOnTerminate := True;
-  end;
-
-  procedure TWaitForPidThread.Execute;
-  begin
-    while (FpWaitPid(FPID, nil, 0) = -1) and (fpgeterrno() = ESysEINTR) do;
-  end;
-{$ENDIF}
-
 function FileIsLinkToFolder(const FileName: UTF8String; out
   LinkTarget: UTF8String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
@@ -277,23 +255,10 @@ begin
 end;
 {$ENDIF}
 
-(* Execute external commands *)
-// Description of paramters:
-//   sCmd : The executable or command itself
-//   sParams : The optional paramters
-//   sStartPath : The initial working directory
-//   bShowCommandLinePriorToExecute : Flag indicating if we want the user to be prompted at the very last
-//                                    seconds prior to launch execution by offering a dialog window where
-//                                    he can adjust/confirm the three above parameters.
-//   bTerm : Flag indicating if it should be launch through terminal
-//   bKeepTerminalOpen : Value indicating the type of terminal to use (closed at the end, remain opened, etc.)
-//
 function ExecCmdFork(sCmd, sParams, sStartPath:String; bShowCommandLinePriorToExecute, bTerm : Boolean; bKeepTerminalOpen: tTerminalEndindMode) : Boolean;
 {$IFDEF UNIX}
 var
-  pid : LongInt;
   Args : TDynamicStringArray;
-  WaitForPidThread: TWaitForPidThread;
   bFlagKeepGoing: boolean = True;
 begin
   result:=False;
@@ -313,50 +278,15 @@ begin
     sCmd := RemoveQuotation(UTF8ToSys(sCmd));
     SplitCommandArgs(UTF8ToSys(sParams), Args);
 
-    {$IFDEF DARWIN}
-    // If we run application bundle (*.app) then
-    // execute it by 'open -a' command (see 'man open' for details)
-    if StrEnds(sCmd, '.app') then
+    Result := ExecuteCommand(sCmd, Args, sStartPath);
+
+    if (log_commandlineexecution in gLogOptions) then
     begin
-      SetLength(Args, Length(Args) + 2);
-      for pid := High(Args) downto Low(Args) + 2 do
-        Args[pid]:= Args[pid - 2];
-      Args[0] := '-a';
-      Args[1] := sCmd;
-      sCmd := 'open';
+      if Result then
+        logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Success!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath)
+      else
+        logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Failed!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
     end;
-    {$ENDIF}
-
-    pid := fpFork;
-
-    if pid = 0 then
-      begin
-        { Set child current directory }
-        if Length(sStartPath) > 0 then
-          mbSetCurrentDir(sStartPath);
-
-        { The child does the actual exec, and then exits }
-        if FpExecLP(sCmd, Args) = -1 then
-          Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessageUTF8(fpgeterrno)]));
-
-        { If the FpExecLP fails, we return an exitvalue of 127, to let it be known }
-        fpExit(127);
-      end
-    else if pid = -1 then         { Fork failed }
-      begin
-        raise Exception.Create('Fork failed: ' + sCmd);
-      end
-    else if pid > 0 then          { Parent }
-      begin
-        WaitForPidThread := TWaitForPidThread.Create(pid);
-        WaitForPidThread.Start;
-      end;
-
-    Result := (pid > 0);
-    if Result and (log_commandlineexecution in gLogOptions) then
-      logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Success!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath)
-    else
-      logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Failed!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
   end
   else
   begin
@@ -412,6 +342,51 @@ begin
   begin
     result:=True; //User abort, so let's fake all things completed.
   end;
+end;
+{$ENDIF}
+
+function ExecCmdFork(sCmd: String): Boolean;
+{$IFDEF UNIX}
+var
+  Command: String;
+  Args : TDynamicStringArray;
+begin
+  SplitCmdLine(sCmd, Command, Args);
+
+  if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdLaunch + ': ' + rsSimpleWordCommand + '=' + sCmd);
+
+  Result:= ExecuteCommand(Command, Args, EmptyStr);
+
+  if (log_commandlineexecution in gLogOptions) then
+  begin
+    if Result then
+      logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + 'Success!' + ' / ' + rsSimpleWordCommand + '=' + sCmd)
+    else
+      logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + 'Failed!' + ' / ' + rsSimpleWordCommand + '=' + sCmd);
+  end;
+end;
+{$ELSE}
+var
+  sFileName,
+  sParams: String;
+  ExecutionResult: HINST;
+begin
+  SplitCmdLine(sCmd, sFileName, sParams);
+  sFileName:= NormalizePathDelimiters(sFileName);
+
+  if (log_commandlineexecution in gLogOptions) then
+    logWrite(rsMsgLogExtCmdLaunch + ': ' + rsSimpleWordFilename + '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams);
+
+  ExecutionResult := ShellExecuteW(0, nil, PWideChar(UTF8Decode(sFileName)), PWideChar(UTF8Decode(sParams)), nil, SW_SHOW);
+
+  if (log_commandlineexecution in gLogOptions) then
+  begin
+    logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + IfThen((ExecutionResult > 32), 'Success!',
+             IntToStr(ExecutionResult) + ':' + SysErrorMessage(ExecutionResult)) +' / ' + rsSimpleWordFilename +
+             '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams);
+  end;
+
+  Result := (ExecutionResult > 32);
 end;
 {$ENDIF}
 

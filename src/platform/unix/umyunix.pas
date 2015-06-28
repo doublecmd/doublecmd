@@ -31,7 +31,7 @@ unit uMyUnix;
 interface
 
 uses
-  Classes, SysUtils, BaseUnix, uDrive;
+  Classes, SysUtils, BaseUnix, DCBasicTypes, uDrive;
 
 const
   libc = 'c';
@@ -205,6 +205,8 @@ function MountDrive(Drive: PDrive): Boolean;
 function UnmountDrive(Drive: PDrive): Boolean;
 function EjectDrive(Drive: PDrive): Boolean;
 
+function ExecuteCommand(Command: String; Args: TDynamicStringArray; StartPath: String): Boolean;
+
 {$IF DEFINED(BSD)}
 const
   MNT_WAIT = 1; // synchronously wait for I/O to complete
@@ -240,7 +242,7 @@ var
 implementation
 
 uses
-  URIParser, Unix, FileUtil, DCClassesUtf8, DCStrUtils, uDCUtils, DCBasicTypes, uOSUtils
+  URIParser, Unix, FileUtil, DCOSUtils, DCClassesUtf8, DCStrUtils, uDCUtils, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
@@ -579,14 +581,85 @@ begin
   Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
 end;
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-initialization
-  DesktopEnv := GetDesktopEnvironment;
-  {$IFDEF LINUX}
-  CheckPMount;
-  CheckUDisksCtl;
+function ExecuteCommand(Command: String; Args: TDynamicStringArray; StartPath: String): Boolean;
+var
+  pid : TPid;
+begin
+  {$IFDEF DARWIN}
+  // If we run application bundle (*.app) then
+  // execute it by 'open -a' command (see 'man open' for details)
+  if StrEnds(Command, '.app') then
+  begin
+    SetLength(Args, Length(Args) + 2);
+    for pid := High(Args) downto Low(Args) + 2 do
+      Args[pid]:= Args[pid - 2];
+    Args[0] := '-a';
+    Args[1] := Command;
+    Command := 'open';
+  end;
   {$ENDIF}
-{$ENDIF}
+
+  pid := fpFork;
+
+  if pid = 0 then
+    begin
+      { Set child current directory }
+      if Length(StartPath) > 0 then fpChdir(StartPath);
+
+      { The child does the actual exec, and then exits }
+      if FpExecLP(Command, Args) = -1 then
+        Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessage(fpgeterrno)]));
+
+      { If the FpExecLP fails, we return an exitvalue of 127, to let it be known }
+      fpExit(127);
+    end
+  else if pid = -1 then         { Fork failed }
+    begin
+      raise Exception.Create('Fork failed: ' + Command);
+    end
+  else if pid > 0 then          { Parent }
+    begin
+      // Success
+    end;
+
+  Result := (pid > 0);
+end;
+
+{
+  SIGCHLD handler
+}
+procedure handle_sigchld(signal: longint; info: psiginfo; context: psigcontext); cdecl;
+var
+  Status : cint;
+begin
+  while (fpWaitPid(-1, Status, WNOHANG) > 0) do;
+end;
+
+{
+  Reap zombie processes using a SIGCHLD handler
+}
+procedure RegisterHandler;
+var
+  sa: sigactionrec;
+begin
+  FillChar(sa, SizeOf(sa), #0);
+  sa.sa_handler := @handle_sigchld;
+  sa.sa_flags := SA_RESTART or SA_NOCLDSTOP;
+  if (fpSigAction(SIGCHLD, @sa, nil) = -1) then
+  begin
+    WriteLn(SysErrorMessage(GetLastOSError));
+  end;
+end;
+
+initialization
+  RegisterHandler;
+  {$IF NOT DEFINED(DARWIN)}
+    DesktopEnv := GetDesktopEnvironment;
+    {$IFDEF LINUX}
+      CheckPMount;
+      CheckUDisksCtl;
+    {$ENDIF}
+  {$ENDIF}
 
 end.
 
