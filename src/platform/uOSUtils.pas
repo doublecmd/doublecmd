@@ -467,12 +467,10 @@ function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) 
 var
   sbfs: TStatFS;
 begin
-    Result:= (fpStatFS(PChar(UTF8ToSys(Path)), @sbfs) = 0);
-    if not Result then Exit;
-    FreeSize := (Int64(sbfs.bavail)*sbfs.bsize);
-{$IF DEFINED(CPU32) or (FPC_VERSION>2) or ((FPC_VERSION=2) and ((FPC_RELEASE>2) or ((FPC_RELEASE=2) and (FPC_PATCH>=3))))}
-    TotalSize := (Int64(sbfs.blocks)*sbfs.bsize);
-{$ENDIF}
+  Result:= (fpStatFS(PChar(UTF8ToSys(Path)), @sbfs) = 0);
+  if not Result then Exit;
+  FreeSize := (Int64(sbfs.bavail) * sbfs.bsize);
+  TotalSize := (Int64(sbfs.blocks) * sbfs.bsize);
 end;
 {$ELSE}
 var
