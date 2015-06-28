@@ -61,6 +61,8 @@ type
       function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                       var SourceFiles: TFiles;
                                       TargetPath: String): TFileSourceOperation; override;
+      function CreateMoveOperation(var SourceFiles: TFiles;
+                                   TargetPath: String): TFileSourceOperation; override;
       function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
       function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
       function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
@@ -68,7 +70,8 @@ type
 
 implementation
         uses uGioListOperation, uGioCopyOperation,  uDebug, DCDateTimeUtils, uShowMsg,
-          uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation;
+          uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
+          uGioMoveOperation;
 
 const
   MessageTitle = 'Double Commander';
@@ -77,7 +80,7 @@ const
 
 function TGioFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result:= [fsoList, fsoCopy, fsoCopyIn, fsoCopyOut, fsoDelete, fsoExecute, fsoCreateDirectory];
+  Result:= [fsoList, fsoCopy, fsoCopyIn, fsoCopyOut, fsoDelete, fsoExecute, fsoCreateDirectory, fsoMove];
 end;
 
 class function TGioFileSource.CreateFile(const APath: String): TFile;
@@ -259,6 +262,7 @@ end;
 constructor TGioFileSource.Create(const URI: TURI);
 begin
   inherited Create(URI);
+  FOperationsClasses[fsoMove] := TGioMoveOperation.GetOperationClass;
 end;
 
 class function TGioFileSource.IsSupportedPath(const Path: String): Boolean;
@@ -353,6 +357,16 @@ begin
   SourceFileSource := Self;
   SourceFiles.Path:= FCurrentAddress + SourceFiles.Path;
   Result := TGioCopyOutOperation.Create(SourceFileSource, TargetFileSource, SourceFiles, TargetPath);
+end;
+
+function TGioFileSource.CreateMoveOperation(var SourceFiles: TFiles;
+  TargetPath: String): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  SourceFiles.Path:= FCurrentAddress + SourceFiles.Path;
+  Result := TGioMoveOperation.Create(TargetFileSource, SourceFiles, FCurrentAddress + TargetPath);
 end;
 
 function TGioFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
