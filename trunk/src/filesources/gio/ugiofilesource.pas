@@ -260,8 +260,18 @@ begin
 end;
 
 class function TGioFileSource.IsSupportedPath(const Path: String): Boolean;
+var
+  GVfs: PGVfs;
+  Schemes: PPgchar;
 begin
-  Result:= (Pos('file://', Path) = 1) or (Pos('ftp://', Path) = 1);
+  GVfs := g_vfs_get_default ();
+  Schemes := g_vfs_get_supported_uri_schemes (GVfs);
+  while Schemes^ <> nil do
+  begin
+    Result := (Pos(Schemes^ + '://', Path) = 1);
+    if Result then Exit;
+    Inc(Schemes);
+  end;
 end;
 
 function TGioFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize: Int64): Boolean;
