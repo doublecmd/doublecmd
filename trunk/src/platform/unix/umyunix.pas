@@ -346,22 +346,25 @@ end;
 
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 var
-  iniDesktop: TIniFileEx = nil;
   StatInfo: BaseUnix.Stat;
+  iniDesktop: TIniFileEx = nil;
 begin
   Result:= False;
   try
     iniDesktop:= TIniFileEx.Create(FileName, fmOpenRead);
-    if iniDesktop.ReadString('Desktop Entry', 'Type', EmptyStr) = 'Link' then
-    begin
-      LinkTarget:= iniDesktop.ReadString('Desktop Entry', 'URL', EmptyStr);
-      if not URIToFilename(LinkTarget, LinkTarget) then Exit;
-      if fpLStat(PAnsiChar(UTF8ToSys(LinkTarget)), StatInfo) <> 0 then Exit;
-      Result:= FPS_ISDIR(StatInfo.st_mode);
-    end;
-  finally
-    if Assigned(iniDesktop) then
+    try
+      if iniDesktop.ReadString('Desktop Entry', 'Type', EmptyStr) = 'Link' then
+      begin
+        LinkTarget:= iniDesktop.ReadString('Desktop Entry', 'URL', EmptyStr);
+        if not URIToFilename(LinkTarget, LinkTarget) then Exit;
+        if fpLStat(PAnsiChar(UTF8ToSys(LinkTarget)), StatInfo) <> 0 then Exit;
+        Result:= FPS_ISDIR(StatInfo.st_mode);
+      end;
+    finally
       FreeAndNil(iniDesktop);
+    end;
+  except
+    // Ignore
   end;
 end;
 
@@ -377,12 +380,15 @@ begin
   if Result and (Info.st_size >= SizeOf(dwSign)) then
   try
     fsExeScr := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
-    dwSign := fsExeScr.ReadDWord;
-    // ELF or #!
-    Result := ((dwSign = NtoBE($7F454C46)) or (Lo(dwSign) = NtoBE($2321)));
-  finally
-    if Assigned(fsExeScr) then
+    try
+      dwSign := fsExeScr.ReadDWord;
+      // ELF or #!
+      Result := ((dwSign = NtoBE($7F454C46)) or (Lo(dwSign) = NtoBE($2321)));
+    finally
       fsExeScr.Free;
+    end;
+  except
+    Result:= False;
   end;
 end;
 
