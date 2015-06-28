@@ -601,6 +601,7 @@ resourcestring
   rsCmdKindOfSort='Legacy sorted;A-Z sorted';
   rsMsgThisIsNowInClipboard = '"%s" is now in the clipboard';
   rsSimpleWordAll = 'All';
+  rsSimpleWordCommand = 'Command';
   rsSimpleWordCategory = 'Category';
   rsSimpleWordFilename = 'Filename';
   rsSimpleWordParameter = 'Param';
