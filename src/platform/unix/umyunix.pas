@@ -587,9 +587,46 @@ begin
   Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
 end;
 
+type
+  {en
+    Waits for a child process to finish and collects its exit status,
+    causing it to be released by the system (prevents defunct processes).
+
+    Instead of the wait-thread we could just ignore or handle SIGCHLD signal
+    for the process, but this way we don't interfere with the signal handling.
+    The downside is that there's a thread for every child process running.
+
+    Another method is to periodically do a cleanup, for example from OnIdle
+    or OnTimer event. Remember PIDs of spawned child processes and when
+    cleaning call FpWaitpid(PID, nil, WNOHANG) on each PID. Downside is they
+    are not released immediately after the child process finish (may be relevant
+    if we want to display exit status to the user).
+  }
+  TWaitForPidThread = class(TThread)
+  private
+    FPID: TPid;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(WaitForPid: TPid); overload;
+  end;
+
+  constructor TWaitForPidThread.Create(WaitForPid: TPid);
+  begin
+    inherited Create(True);
+    FPID := WaitForPid;
+    FreeOnTerminate := True;
+  end;
+
+  procedure TWaitForPidThread.Execute;
+  begin
+    while (FpWaitPid(FPID, nil, 0) = -1) and (fpgeterrno() = ESysEINTR) do;
+  end;
+
 function ExecuteCommand(Command: String; Args: TDynamicStringArray; StartPath: String): Boolean;
 var
   pid : TPid;
+  WaitForPidThread: TWaitForPidThread;
 begin
   {$IFDEF DARWIN}
   // If we run application bundle (*.app) then
@@ -625,47 +662,21 @@ begin
     end
   else if pid > 0 then          { Parent }
     begin
-      // Success
+      WaitForPidThread := TWaitForPidThread.Create(pid);
+      WaitForPidThread.Start;
     end;
 
   Result := (pid > 0);
 end;
 
-{
-  SIGCHLD handler
-}
-procedure handle_sigchld(signal: longint; info: psiginfo; context: psigcontext); cdecl;
-var
-  Status : cint;
-begin
-  while (fpWaitPid(-1, Status, WNOHANG) > 0) do;
-end;
-
-{
-  Reap zombie processes using a SIGCHLD handler
-}
-procedure RegisterHandler;
-var
-  sa: sigactionrec;
-begin
-  FillChar(sa, SizeOf(sa), #0);
-  sa.sa_handler := @handle_sigchld;
-  sa.sa_flags := SA_RESTART or SA_NOCLDSTOP;
-  if (fpSigAction(SIGCHLD, @sa, nil) = -1) then
-  begin
-    WriteLn(SysErrorMessage(GetLastOSError));
-  end;
-end;
-
+{$IF NOT DEFINED(DARWIN)}
 initialization
-  RegisterHandler;
-  {$IF NOT DEFINED(DARWIN)}
-    DesktopEnv := GetDesktopEnvironment;
-    {$IFDEF LINUX}
-      CheckPMount;
-      CheckUDisksCtl;
-    {$ENDIF}
+  DesktopEnv := GetDesktopEnvironment;
+  {$IFDEF LINUX}
+    CheckPMount;
+    CheckUDisksCtl;
   {$ENDIF}
+{$ENDIF}
 
 end.
 
