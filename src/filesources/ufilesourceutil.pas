@@ -115,17 +115,19 @@ begin
               DCDebug('Change directory to ', Operation.ResultString);
               with aFileView do
               begin
-                if (FileSource.IsClass(TFileSystemFileSource)) or
-                   (mbSetCurrentDir(ExcludeTrailingPathDelimiter(Operation.ResultString)) = False) then
-                  begin
-                    // Simply change path
-                    CurrentPath:= Operation.ResultString;
-                  end
-                else
-                  begin
-                    // Get a new filesystem file source
-                    AddFileSource(TFileSystemFileSource.GetFileSource, Operation.ResultString);
-                  end;
+                // If path is URI
+                if Pos('://', Operation.ResultString) > 0 then
+                  ChooseFileSource(aFileView, Operation.ResultString)
+                else if (FileSource.IsClass(TFileSystemFileSource)) or
+                        (mbSetCurrentDir(ExcludeTrailingPathDelimiter(Operation.ResultString)) = False) then
+                begin
+                  // Simply change path
+                  CurrentPath:= Operation.ResultString;
+                end
+                else begin
+                  // Get a new filesystem file source
+                  AddFileSource(TFileSystemFileSource.GetFileSource, Operation.ResultString);
+                end;
               end;
             end;
           end; // case
