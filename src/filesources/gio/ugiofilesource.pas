@@ -13,7 +13,7 @@ uses
 type
     IGioFileSource = interface(IRealFileSource)
       ['{6DC5BCCA-BDD5-43DA-A0D6-7BAA26D93B92}']
-      function MountPath(AFile: PGFile): Boolean;
+      function MountPath(AFile: PGFile; out AError: PGError): Boolean;
     end;
 
     { TGioFileSource }
@@ -31,7 +31,7 @@ type
       function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
     public
-      function MountPath(AFile: PGFile): Boolean;
+      function MountPath(AFile: PGFile; out AError: PGError): Boolean;
 
     public
       constructor Create(const URI: TURI); override;
@@ -277,7 +277,7 @@ begin
 
 end;
 
-function TGioFileSource.MountPath(AFile: PGFile): Boolean;
+function TGioFileSource.MountPath(AFile: PGFile; out AError: PGError): Boolean;
 var
   Operation: PGMountOperation;
 begin
@@ -291,7 +291,7 @@ begin
   g_main_loop_unref (MountLoop);
   g_object_unref (Operation);
   Result:= MountError = nil;
-  if not Result then g_error_free(MountError);
+  AError:= MountError;
 end;
 
 constructor TGioFileSource.Create(const URI: TURI);
