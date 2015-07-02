@@ -27,8 +27,7 @@ type
 implementation
 
 uses
-  LCLProc, uFile, DCDateTimeUtils,
-  DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uGioFileSourceUtil;
+  LCLProc, Dialogs, uFile, DCDateTimeUtils, uGioFileSourceUtil, uGObject2;
 
 {$DEFINE G_IO_ERROR:= g_io_error_quark()}
 
@@ -41,54 +40,54 @@ end;
 
 procedure TGioListOperation.MainExecute;
 var
-  f: PGFile;
-  en: PGFileEnumerator;
-  error, error_shortcut: PGError;
-  info: PGFileInfo;
-  target_uri: Pgchar;
-  aFile: TFile;
+  AFile: TFile;
+  AFolder: PGFile;
+  AError: PGError;
+  AInfo: PGFileInfo;
+  AFileEnum: PGFileEnumerator;
 begin
   FFiles.Clear;
   with FGioFileSource do
   begin
-    f:= g_file_new_for_commandline_arg (Pgchar(Path));
-    if Assigned(f) then
-    begin
+    AFolder:= g_file_new_for_commandline_arg(Pgchar(Path));
+    try
       while True do
       begin
-        error:= nil;
-      en := g_file_enumerate_children (f, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
-                                         G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @error);
-
-      //*  Mount the target  */
-      if (Assigned(error) and g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_MOUNTED)) then
-      begin
-        g_error_free (error);
-        FGioFileSource.MountPath(f);
-        //Result := vfs_handle_mount (globs, f);
-        //f (Result <> FS_FILE_OK) then
+        AError:= nil;
+        AFileEnum := g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
+                                                G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
+        // Mount the target
+        if (Assigned(AError) and g_error_matches (AError, G_IO_ERROR, G_IO_ERROR_NOT_MOUNTED)) then
         begin
-          //g_object_unref (PGObject(f));
-          //Exit;
+          g_error_free (AError); AError:= nil;
+          if FGioFileSource.MountPath(AFolder, AError) then
+            Continue
+          else begin
+            ShowError(AError);
+            Break;
+          end;
         end;
-        //else
-          continue;
+        // List files
+        try
+          AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
+          while Assigned(AInfo) do
+          begin
+            CheckOperationState;
+            AFile:= TGioFileSource.CreateFile(Path, AFolder, AInfo);
+            g_object_unref(AInfo);
+            FFiles.Add(AFile);
+            AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
+          end;
+          if Assigned(AError) then ShowError(AError);
+        finally
+          g_object_unref(AFileEnum);
+        end;
+        Break;
       end;
-
-      info:= g_file_enumerator_next_file (en, nil, @error);
-      while Assigned(info) do
-      begin
-
-        CheckOperationState;
-        aFile:= TGioFileSource.CreateFile(Path, f, info);
-        FFiles.Add(aFile);
-
-        info:= g_file_enumerator_next_file (en, nil, @error);
-      end;
-      Break;
-      end;
-      end;
-    end; // FGioFileSource
+    finally
+      g_object_unref(PGObject(AFolder));
+    end;
+  end; // FGioFileSource
 end;
 
 end.

@@ -16,12 +16,21 @@ const
                                                 FILE_ATTRIBUTE_UNIX_MODE +','+ FILE_ATTRIBUTE_UNIX_UID +','+
                                                 FILE_ATTRIBUTE_UNIX_GID;
 
-
+procedure ShowError(AError: PGError);
 
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
                        out FilesCount: Int64; out FilesSize: Int64);
 
 implementation
+
+uses
+  uShowMsg;
+
+procedure ShowError(AError: PGError);
+begin
+  msgError(nil, AError^.message);
+  g_error_free(AError);
+end;
 
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
   out FilesCount: Int64; out FilesSize: Int64);
