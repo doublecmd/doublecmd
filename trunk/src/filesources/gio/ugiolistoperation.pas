@@ -80,7 +80,7 @@ begin
       begin
 
         CheckOperationState;
-        aFile:= TGioFileSource.CreateFile(Path, info);
+        aFile:= TGioFileSource.CreateFile(Path, f, info);
         FFiles.Add(aFile);
 
         info:= g_file_enumerator_next_file (en, nil, @error);

@@ -40,8 +40,8 @@ type
 
       function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
-                                         class function CreateFile(const APath: String): TFile; override;
-                                         class function CreateFile(const APath: String; AFileInfo: PGFileInfo): TFile;
+      class function CreateFile(const APath: String): TFile; override;
+      class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile;
 
       function GetParentDir(sPath : String): String; override;
       function IsPathAtRoot(Path: String): Boolean; override;
@@ -73,7 +73,7 @@ type
 implementation
         uses uGioListOperation, uGioCopyOperation,  uDebug, DCDateTimeUtils, uShowMsg,
           uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
-          uGioMoveOperation, uGioSetFilePropertyOperation;
+          uGioMoveOperation, uGioSetFilePropertyOperation, DCFileAttributes, DCOSUtils;
 
 const
   MessageTitle = 'Double Commander';
@@ -103,14 +103,47 @@ begin
   end;
 end;
 
-class function TGioFileSource.CreateFile(const APath: String;
+class function TGioFileSource.CreateFile(const APath: String; AFolder: PGFile;
   AFileInfo: PGFileInfo): TFile;
+var
+  AFile: PGFile;
+  ATarget: Pgchar;
+  AFileType: TGFileType;
+  ASymlinkInfo: PGFileInfo;
 begin
   Result:= CreateFile(APath);
   Result.Name:= g_file_info_get_name(AFileInfo);
   Result.Size:= g_file_info_get_size (AFileInfo);
   Result.Attributes:= g_file_info_get_attribute_uint32 (AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
   Result.ModificationTime:= UnixFileTimeToDateTime(g_file_info_get_attribute_uint64 (AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
+  Result.LinkProperty := TFileLinkProperty.Create;
+
+  // Get a file's type (whether it is a regular file, symlink, etc).
+  AFileType:= g_file_info_get_file_type (AFileInfo);
+
+  if AFileType = G_FILE_TYPE_DIRECTORY then
+    begin
+      Result.Attributes:= Result.Attributes or S_IFDIR;
+    end
+  else if AFileType =  G_FILE_TYPE_SYMBOLIC_LINK then
+    begin
+      ATarget:= g_file_info_get_symlink_target(AFileInfo);
+      AFile:= g_file_get_child(AFolder, ATarget);
+
+      ASymlinkInfo := g_file_query_info (AFile, FILE_ATTRIBUTE_STANDARD_TYPE,
+                                         G_FILE_QUERY_INFO_NONE, nil, nil);
+
+      Result.LinkProperty.LinkTo := ATarget;
+      Result.LinkProperty.IsValid := Assigned(ASymlinkInfo);
+
+      if (Result.LinkProperty.IsValid) then
+      begin
+        AFileType:= g_file_info_get_file_type(ASymlinkInfo);
+        Result.LinkProperty.IsLinkToDirectory := (AFileType = G_FILE_TYPE_DIRECTORY);
+        g_object_unref(ASymlinkInfo);
+      end;
+      g_object_unref(PGObject(AFile));
+    end;
 end;
 
 function TGioFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;

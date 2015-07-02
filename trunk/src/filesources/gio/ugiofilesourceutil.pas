@@ -48,7 +48,7 @@ var
 
                 if (aFileName = '.') or (aFileName = '..') then Continue;
 
-        aFile:= TGioFileSource.CreateFile(srcPath, info);
+        aFile:= TGioFileSource.CreateFile(srcPath, AFolder, info);
         NewFiles.Add(aFile);
 
         if aFile.IsDirectory then
