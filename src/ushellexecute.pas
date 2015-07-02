@@ -344,9 +344,8 @@ var
         begin
           if state.files.Count > 0 then
           begin
-            for I := 0 to state.files.Count - 2 do
+            for I := 0 to state.files.Count - 1 do
               FileName += BuildFile(state.files[I]) + LineEndingA;
-            FileName += BuildFile(state.files[state.files.Count - 1]);
           end;
         end;
 
@@ -356,9 +355,8 @@ var
           begin
             FileName += LineEndingA;
 
-            for I := 0 to state.otherfiles.Count - 2 do
+            for I := 0 to state.otherfiles.Count - 1 do
               FileName += BuildFile(state.otherfiles[I]) + LineEndingA;
-            FileName += BuildFile(state.otherfiles[state.files.Count - 1]);
           end;
         end;
 
