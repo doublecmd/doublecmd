@@ -24,14 +24,6 @@ uses
                              SourceSize: Int64; SourceTime: TDateTime): UTF8String;
 
 type
-  // Additional data for the filesystem tree node.
-  TFileTreeNodeData = class
-  public
-    // True if any of the subnodes (recursively) are links.
-    SubnodesHaveLinks: Boolean;
-    // Whether directory or subdirectories have any elements that will not be copied/moved.
-    SubnodesHaveExclusions: Boolean;
-  end;
 
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
 
@@ -53,8 +45,8 @@ type
 
   TFileSystemTreeBuilder = class(TFileSourceTreeBuilder)
   protected
-    procedure AddFilesInDirectory(srcPath: String; CurrentNode: TFileTreeNode); override;
     procedure AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode); override;
+    procedure AddFilesInDirectory(srcPath: String; CurrentNode: TFileTreeNode); override;
   end;
 
   { TFileSystemOperationHelper }
