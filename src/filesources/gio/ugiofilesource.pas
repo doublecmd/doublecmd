@@ -38,6 +38,7 @@ type
 
       class function IsSupportedPath(const Path: String): Boolean; override;
 
+      function CreateDirectory(const Path: String): Boolean; override;
       function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
       class function CreateFile(const APath: String): TFile; override;
@@ -73,10 +74,8 @@ type
 implementation
         uses uGioListOperation, uGioCopyOperation,  uDebug, DCDateTimeUtils, uShowMsg,
           uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
-          uGioMoveOperation, uGioSetFilePropertyOperation, DCFileAttributes, DCOSUtils;
-
-const
-  MessageTitle = 'Double Commander';
+          uGioMoveOperation, uGioSetFilePropertyOperation, DCFileAttributes, DCOSUtils,
+          fGioAuthDlg;
 
 { TGioFileSource }
 
@@ -161,97 +160,65 @@ var
   UserName,
   Password,
   Domain: UTF8String;
-  anonymous: Boolean;
   password_save: TGPasswordSave;
   mount_handled: gboolean = FALSE;
   FileSource: TGioFileSource absolute user_data;
 begin
+  Inc(FileSource.MountTry);
 
-    Inc(FileSource.MountTry);
-
-    //*  First pass, look if we have a password to supply  */
-    if (FileSource.MountTry = 1) then
+  //*  First pass, look if we have a password to supply  */
+  if (FileSource.MountTry = 1) then
+  begin
+    if ((flags and G_ASK_PASSWORD_NEED_USERNAME <> 0) and (Length(FileSource.FURI.Username) > 0)) then
     begin
-      if ((flags and G_ASK_PASSWORD_NEED_USERNAME <> 0) and (Length(FileSource.FURI.Username) > 0)) then
-      begin
-        g_printf ('(WW) ask_password_cb: mount_try = %d, trying login with saved username...\n', [FileSource.MountTry]);
-        g_mount_operation_set_username (op, Pgchar(FileSource.FURI.Username));
-        mount_handled := TRUE;
-      end;
-      if ((flags and G_ASK_PASSWORD_NEED_PASSWORD <> 0) and (Length(FileSource.FURI.Password) > 0)) then
-      begin
-        g_printf ('(WW) ask_password_cb: mount_try = %d, trying login with saved password...\n', [FileSource.MountTry]);
-        g_mount_operation_set_password (op, Pgchar(FileSource.FURI.Password));
-        mount_handled := TRUE;
-      end;
-      if (flags and G_ASK_PASSWORD_ANONYMOUS_SUPPORTED <> 0) then
-      begin
-        g_printf ('(WW) ask_password_cb: mount_try = %d, trying FTP anonymous login...\n', [FileSource.MountTry]);
-        g_mount_operation_set_anonymous (op, TRUE);
-        g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
-        Exit;
-      end;
-      if (mount_handled) then
-      begin
-        g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
-        Exit;
-      end;
+      g_printf ('(WW) ask_password_cb: mount_try = %d, trying login with saved username...\n', [FileSource.MountTry]);
+      g_mount_operation_set_username (op, Pgchar(FileSource.FURI.Username));
+      mount_handled := TRUE;
     end;
-
-    //*  Ask user for password  */
-   // g_print ('(WW) ask_password_cb: mount_try = %d, message = "%s"\n', [globs^.mount_try, message]);
-    //end;
-
-    //*  Handle abort message from certain backends properly  */
-    //*   - e.g. SMB backends use this to mask multiple auth callbacks from smbclient  */
-    if ((default_user <> nil) and (strcomp(default_user, 'ABORT') = 0)) then
+    if ((flags and G_ASK_PASSWORD_NEED_PASSWORD <> 0) and (Length(FileSource.FURI.Password) > 0)) then
     begin
-      g_print ('(WW) default_user == "ABORT", aborting\n', []);
-      g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
+      g_printf ('(WW) ask_password_cb: mount_try = %d, trying login with saved password...\n', [FileSource.MountTry]);
+      g_mount_operation_set_password (op, Pgchar(FileSource.FURI.Password));
+      mount_handled := TRUE;
+    end;
+    if (mount_handled) then
+    begin
+      g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
       Exit;
     end;
+  end;
 
-    anonymous := FALSE;
-    password_save := G_PASSWORD_SAVE_NEVER;
+  //*  Handle abort message from certain backends properly  */
+  //*   - e.g. SMB backends use this to mask multiple auth callbacks from smbclient  */
+  if ((default_user <> nil) and (strcomp(default_user, 'ABORT') = 0)) then
+  begin
+    g_print ('(WW) default_user == "ABORT", aborting\n', []);
+    g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
+    Exit;
+  end;
 
-      //g_fprintf (stderr, '  (II) Spawning callback_ask_password (%p)...\n', [1]);
+  password_save := G_PASSWORD_SAVE_NEVER;
 
-      Username:= default_user;
-      Domain:= default_domain;
+  Username:= default_user;
+  Domain:= default_domain;
 
-      if (flags and G_ASK_PASSWORD_NEED_USERNAME <> 0) then
-      begin
-        if ShowInputQuery(MessageTitle, message, False, Username) then
-          g_mount_operation_set_username (op, Pgchar(Username))
-        else begin
-          g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
-          Exit;
-        end;
-      end;
-      if (flags and G_ASK_PASSWORD_NEED_DOMAIN <> 0) then
-      begin
-        if ShowInputQuery(MessageTitle, message, False, Domain) then
-          g_mount_operation_set_domain (op, Pgchar(Domain))
-        else begin
-          g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
-          Exit;
-        end;
-      end;
-      if (flags and G_ASK_PASSWORD_NEED_PASSWORD <> 0) then
-      begin
-        if ShowInputQuery(MessageTitle, message, True, Password) then
-          g_mount_operation_set_password (op, Pgchar(password))
-        else begin
-          g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
-          Exit;
-        end;
-      end;
-      if (flags and G_ASK_PASSWORD_ANONYMOUS_SUPPORTED <> 0) then
-        g_mount_operation_set_anonymous (op, anonymous);
-      if (flags and G_ASK_PASSWORD_SAVING_SUPPORTED <> 0) then
-        g_mount_operation_set_password_save (op, password_save);
+  if not ShowAuthDlg(message, flags, UserName, Domain, Password) then
+    g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED)
+  else begin
+    if (flags and G_ASK_PASSWORD_NEED_USERNAME <> 0) then
+      g_mount_operation_set_username (op, Pgchar(Username));
+    if (flags and G_ASK_PASSWORD_NEED_DOMAIN <> 0) then
+      g_mount_operation_set_domain (op, Pgchar(Domain));
+    if (flags and G_ASK_PASSWORD_NEED_PASSWORD <> 0) then
+      g_mount_operation_set_password (op, Pgchar(password));
+    if (flags and G_ASK_PASSWORD_ANONYMOUS_SUPPORTED <> 0) then
+      g_mount_operation_set_anonymous (op, True);
+  end;
 
-      g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
+  if (flags and G_ASK_PASSWORD_SAVING_SUPPORTED <> 0) then
+    g_mount_operation_set_password_save (op, password_save);
+
+  g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
 end;
 
 procedure mount_done_cb (object_: PGObject;
@@ -313,6 +280,15 @@ begin
     if Result then Exit;
     Inc(Schemes);
   end;
+end;
+
+function TGioFileSource.CreateDirectory(const Path: String): Boolean;
+var
+  AGFile: PGFile;
+begin
+  AGFile:= g_file_new_for_commandline_arg(Pgchar(Path));
+  Result:= g_file_make_directory_with_parents(AGFile, nil, nil);
+  g_object_unref(PGObject(AGFile));
 end;
 
 function TGioFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize: Int64): Boolean;
