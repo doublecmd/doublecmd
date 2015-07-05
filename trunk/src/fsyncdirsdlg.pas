@@ -4,7 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013  Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2015  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,6 +34,9 @@ uses
   uFileSourceCopyOperation, uFile, uFileSourceOperationMessageBoxesUI;
 
 type
+
+  TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteRight,
+    srsDoNothing);
 
   { TfrmSyncDirsDlg }
 
@@ -95,6 +98,7 @@ type
     FVisibleItems: TStringList;
     FSortIndex: Integer;
     FSortDesc: Boolean;
+    FFileExists: TSyncRecState;
     FFileSourceL, FFileSourceR: IFileSource;
     FCmpFileSourceL, FCmpFileSourceR: IFileSource;
     FCmpFilePathL, FCmpFilePathR: string;
@@ -125,6 +129,7 @@ resourcestring
   rsComparingPercent = 'Comparing... %d%% (ESC to cancel)';
   rsLeftToRightCopy = 'Left to Right: Copy %d files, total size: %d bytes';
   rsRightToLeftCopy = 'Right to Left: Copy %d files, total size: %d bytes';
+  rsDeleteRight = 'Right: Delete %d file(s)';
   rsFilesFound = 'Files found: %d  (Identical: %d, Different: %d, '
     + 'Unique left: %d, Unique right: %d)';
 
@@ -136,13 +141,11 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes,
-  uShowForm;
+  uShowForm, uFileSourceDeleteOperation;
 
 {$R *.lfm}
 
 type
-  TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight,
-    srsDoNothing);
 
   { TFileSyncRec }
 
@@ -152,8 +155,9 @@ type
     FState: TSyncRecState;
     FAction: TSyncRecState;
     FFileR, FFileL: TFile;
+    FForm: TfrmSyncDirsDlg;
   public
-    constructor Create(RelPath: string);
+    constructor Create(AForm: TfrmSyncDirsDlg; RelPath: string);
     destructor Destroy; override;
     procedure UpdateState(ignoreDate: Boolean);
   end;
@@ -280,8 +284,9 @@ begin
   Start;
 end;
 
-constructor TFileSyncRec.Create(RelPath: string);
+constructor TFileSyncRec.Create(AForm: TfrmSyncDirsDlg; RelPath: string);
 begin
+  FForm:= AForm;
   FRelPath := RelPath;
 end;
 
@@ -298,7 +303,7 @@ var
 begin
   FState := srsNotEq;
   if Assigned(FFileR) and not Assigned(FFileL) then
-    FState := srsCopyLeft
+    FState := FForm.FFileExists
   else
   if not Assigned(FFileR) and Assigned(FFileL) then
     FState := srsCopyRight
@@ -422,15 +427,33 @@ var
     end;
   end;
 
+  function DeleteFiles(FileSource: IFileSource; Files: TFiles): Boolean;
+  var
+    Operation: TFileSourceDeleteOperation;
+  begin
+    Operation:= FileSource.CreateDeleteOperation(Files) as TFileSourceDeleteOperation;
+    Operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+    try
+      Operation.Execute;
+      Result := Operation.Result = fsorFinished;
+    finally
+      Operation.Free;
+    end;
+  end;
+
 var
   i,
+  DeleteRightCount,
   CopyLeftCount, CopyRightCount: Integer;
   CopyLeftSize, CopyRightSize: Int64;
   fsr: TFileSyncRec;
+  DeleteRight,
   CopyLeft, CopyRight: Boolean;
+  DeleteRightFiles,
   CopyLeftFiles, CopyRightFiles: TFiles;
   Dest: string;
 begin
+  DeleteRightCount := 0;
   CopyLeftCount := 0; CopyRightCount := 0;
   CopyLeftSize := 0;  CopyRightSize := 0;
   for i := 0 to FVisibleItems.Count - 1 do
@@ -447,6 +470,10 @@ begin
         begin
           Inc(CopyRightCount);
           Inc(CopyRightSize, fsr.FFileL.Size);
+        end;
+      srsDeleteRight:
+        begin
+          Inc(DeleteRightCount);
         end;
       end;
     end;
@@ -468,6 +495,9 @@ begin
       chkLeftToRight.Checked := True;
       edRightPath.Enabled := True;
     end;
+    chkDeleteRight.Enabled := DeleteRightCount > 0;
+    chkDeleteRight.Checked := chkDeleteRight.Enabled;
+    chkDeleteRight.Caption := Format(rsDeleteRight, [DeleteRightCount]);
     chkLeftToRight.Caption :=
       Format(rsLeftToRightCopy, [CopyRightCount, CopyRightSize]);
     chkRightToLeft.Caption :=
@@ -481,12 +511,13 @@ begin
       end;
       CopyLeft := chkRightToLeft.Checked;
       CopyRight := chkLeftToRight.Checked;
-
+      DeleteRight := chkDeleteRight.Checked;
       i := 0;
       while i < FVisibleItems.Count do
       begin
         CopyLeftFiles := TFiles.Create('');
         CopyRightFiles := TFiles.Create('');
+        DeleteRightFiles := TFiles.Create('');
         if FVisibleItems.Objects[i] <> nil then
           repeat
             fsr := TFileSyncRec(FVisibleItems.Objects[i]);
@@ -496,6 +527,8 @@ begin
               if CopyRight then CopyRightFiles.Add(fsr.FFileL.Clone);
             srsCopyLeft:
               if CopyLeft then CopyLeftFiles.Add(fsr.FFileR.Clone);
+            srsDeleteRight:
+              if DeleteRight then DeleteRightFiles.Add(fsr.FFileR.Clone);
             end;
             i := i + 1;
           until (i = FVisibleItems.Count) or (FVisibleItems.Objects[i] = nil);
@@ -510,6 +543,11 @@ begin
           if not CopyFiles(FCmpFileSourceL, FCmpFileSourceR, CopyRightFiles,
             FCmpFilePathR + Dest) then Break;
         end else CopyRightFiles.Free;
+        if DeleteRightFiles.Count > 0 then
+        begin
+          if not DeleteFiles(FCmpFileSourceR, DeleteRightFiles) then Break;
+        end
+        else DeleteRightFiles.Free;
       end;
       btnCompare.Click;
     end;
@@ -655,11 +693,13 @@ begin
       ca := srsNotEq
     else
       ca := srsDoNothing;
+  srsDeleteRight:
+    ca := srsDoNothing;
   srsDoNothing:
     if Assigned(sr.FFileL) then
       ca := srsCopyRight
     else
-      ca := srsCopyLeft;
+      ca := FFileExists;
   end;
   sr.FAction := ca;
   MainDrawGrid.InvalidateRow(r);
@@ -856,6 +896,7 @@ begin
            and
            ((r.FState = srsCopyLeft) and filter.copyLeft or
             (r.FState = srsCopyRight) and filter.copyRight or
+            (r.FState = srsDeleteRight) and filter.copyLeft or
             (r.FState = srsEqual) and filter.eq or
             (r.FState = srsNotEq) and filter.neq or
             (r.FState = srsUnknown))
@@ -912,7 +953,7 @@ var
           begin
             j := it.IndexOf(f.Name);
             if j < 0 then
-              r := TFileSyncRec.Create(dir)
+              r := TFileSyncRec.Create(Self, dir)
             else
               r := TFileSyncRec(it.Objects[j]);
             if sideLeft then
@@ -1009,6 +1050,11 @@ begin
   ignoreDate := chkIgnoreDate.Checked;
   Subdirs := chkSubDirs.Checked;
   ByContent := chkByContent.Checked;
+  if chkAsymmetric.Checked then
+    FFileExists:= srsDeleteRight
+  else begin
+    FFileExists:= srsCopyLeft;
+  end;
   ScanDir('');
   if (FFoundItems.Count > 0) and chkByContent.Checked then
     CheckContentThread := TCheckContentThread.Create(Self);
@@ -1170,6 +1216,7 @@ begin
   SortIndex := 0;
   FSortDesc := False;
   MainDrawGrid.RowCount := 0;
+  chkAsymmetric.Enabled:= fsoDelete in FileView2.FileSource.GetOperationsTypes;
   FFileSourceOperationMessageBoxesUI := TFileSourceOperationMessageBoxesUI.Create;
 end;
 
