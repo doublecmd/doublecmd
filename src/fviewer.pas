@@ -220,7 +220,6 @@ type
     procedure miAbout2Click(Sender: TObject);
     procedure miSearchClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure miProcessClick(Sender: TObject);
     procedure miGraphicsClick(Sender: TObject);
     procedure miCopyToClipboardClick(Sender: TObject);
     procedure miSelectAllClick(Sender: TObject);
@@ -1453,6 +1452,11 @@ begin
   ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
   ColorBoxPaint.Selected := gImagePaintColor;
 
+  Image.Stretch:= miStretch.Checked;
+  Image.AutoSize:= not Image.Stretch;
+  Image.Proportional:= Image.Stretch;
+  Image.SetBounds(0, 0, sboxImage.ClientWidth, sboxImage.ClientHeight);
+
   FThumbSize := gThumbSize;
   DrawPreview.DefaultColWidth := FThumbSize.cx + 4;
   DrawPreview.DefaultRowHeight := FThumbSize.cy + DrawPreview.Canvas.TextHeight('Pp') + 6;
@@ -1644,40 +1648,6 @@ begin
   HotMan.UnRegister(Self);
 end;
 
-procedure TfrmViewer.miProcessClick(Sender: TObject);
-{var
-  sViewCmd:String;
-  sCurrName:String;}
-begin
-{  DCDebug('TfrmViewer.miProcessClick');
-  inherited;
-  miEdit.Visible:=True;
-  if not miProcess.Checked then
-  begin
-//    if ViewerControl.DataAccess=dtNothing then
-    ViewerControl.MapFile(FileList.Strings[iActiveFile]);
-    miProcess.Checked:=not miProcess.Checked;
-  end
-  else
-  begin
-    sCurrName:=FileList.Strings[iActiveFile];
-    sViewCmd:=gExts.GetCommandText(lowercase(ExtractFileExt(sCurrName)),'view');
-    if (sViewCmd='') then Exit;
-    sViewCmd:=Copy(sViewCmd, pos('=',sViewCmd)+1, length(sViewCmd));
-    // i known about range, but Copy correct this "bug"
-
-    sViewCmd:=StringReplace(sViewCmd,'%f',ExtractFileName(sCurrName),[rfReplaceAll]);
-    sViewCmd:=StringReplace(sViewCmd,'%d',ExtractFilePath(sCurrName),[rfReplaceAll]);
-    sViewCmd:=Trim(StringReplace(sViewCmd,'%p',sCurrName,[rfReplaceAll]));
-
-    ViewerControl.UnMapFile;
-    Status.Panels[2].Text:=IntToStr(ViewerControl.FileSize);
-    Status.Panels[3].Text:=sViewCmd;
-    miProcess.Checked:=not miProcess.Checked;
-  end;
-}
-end;
-
 procedure TfrmViewer.ReopenAsTextIfNeeded;
 begin
   if bImage or bAnimation or bPlugin then
@@ -1760,19 +1730,15 @@ var
 begin
   if miStretch.Checked then
      begin
-       Image.Stretch:=true;
-       Image.AutoSize := true;
-       //if gboxHightlight.Visible or gboxPaint.Visible then Image.Center:=false else Image.Center:=true;
-       Image.Center:=true;
-       if (Image.Picture.Width > sboxImage.ClientWidth) or  (Image.Picture.Height > sboxImage.ClientHeight) then
+       Image.Stretch:= True;
+       Image.AutoSize:= True;
+       Image.Center:= True;
+       if (Image.Picture.Width > sboxImage.ClientWidth) or (Image.Picture.Height > sboxImage.ClientHeight) then
          begin
-           Image.Left:= 0;
-           Image.Top:= 0;
-           Image.AutoSize := false;
-           Image.Width:= sboxImage.ClientWidth;
-           Image.Height:= sboxImage.ClientHeight;
-           sboxImage.HorzScrollBar.Visible:=false;
-           sboxImage.VertScrollBar.Visible:=false;
+           Image.AutoSize := False;
+           Image.SetBounds(0, 0, sboxImage.ClientWidth, sboxImage.ClientHeight);
+           sboxImage.HorzScrollBar.Visible:= False;
+           sboxImage.VertScrollBar.Visible:= False;
            // show image resolution and scale
            if Image.Picture.Width < Image.Width then
              begin
@@ -1807,6 +1773,10 @@ begin
       // show image resolution and scale
       Image.Left:= 0;
       Image.Top:= 0;
+      Image.Stretch:= False;
+      Image.AutoSize:= True;
+      sboxImage.HorzScrollBar.Visible:= Image.Width > sboxImage.ClientWidth;
+      sboxImage.VertScrollBar.Visible:= Image.Height > sboxImage.ClientHeight;
       if (Image.Picture.Width <> 0) and (Image.Picture.Height <> 0) then
         iScale:= 100 * (Image.Width * Image.Height) div (Image.Picture.Width * Image.Picture.Height);
       sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Height);
