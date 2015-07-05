@@ -631,9 +631,10 @@ begin
       TextOut(aRect.Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
     end else begin
       case r.FState of
-      srsNotEq:     Font.Color := clRed;
-      srsCopyLeft:  Font.Color := clBlue;
-      srsCopyRight: Font.Color := clGreen;
+      srsNotEq:       Font.Color := clRed;
+      srsCopyLeft:    Font.Color := clBlue;
+      srsCopyRight:   Font.Color := clGreen;
+      srsDeleteRight: Font.Color := clBlue;
       else Font.Color := clWindowText;
       end;
       if Assigned(r.FFileL) then
