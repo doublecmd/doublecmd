@@ -238,7 +238,7 @@ var
           For which file view the find dialog is executed,
           to get file source, current path and a list of selected files.)
 }
-procedure ShowFindDlg(FileView: TFileView);
+procedure ShowFindDlg(FileView: TFileView; const TemplateName: UTF8String);
 function ShowDefineTemplateDlg(var TemplateName: UTF8String): Boolean;
 function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
 
@@ -291,7 +291,7 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure ShowFindDlg(FileView: TFileView);
+procedure ShowFindDlg(FileView: TFileView; const TemplateName: UTF8String);
 var
   ASelectedFiles: TFiles = nil;
   I: Integer;
@@ -318,6 +318,15 @@ begin
       end;
     finally
       FreeAndNil(ASelectedFiles);
+    end;
+
+    if Length(TemplateName) > 0 then
+    begin
+      FUpdating:= True;
+      UpdateTemplatesList;
+      SelectTemplate(TemplateName);
+      LoadSelectedTemplate;
+      FUpdating:= False;
     end;
 
     ShowOnTop;
