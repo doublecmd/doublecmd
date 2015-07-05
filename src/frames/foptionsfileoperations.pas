@@ -27,7 +27,7 @@ unit fOptionsFileOperations;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, DividerBevel,
+  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, KASComboBox, DividerBevel,
   fOptionsFrame;
 
 type
@@ -43,17 +43,20 @@ type
     cbRenameSelOnlyName: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
     cbSkipFileOpError: TCheckBox;
-    cbProgressKind: TComboBox;
+    cbProgressKind: TComboBoxAutoWidth;
     cbCopyConfirmation: TCheckBox;
     cbMoveConfirmation: TCheckBox;
     cbDeleteConfirmation: TCheckBox;
     cbDeleteToTrashConfirmation: TCheckBox;
-    bvlTypeOfDuplicatedRename: TDividerBevel;
-    cmbTypeOfDuplicatedRename: TComboBox;
+    cbSearchDefaultTemplate: TComboBoxAutoWidth;
+    cmbTypeOfDuplicatedRename: TComboBoxAutoWidth;
+    dbTextSearch: TDividerBevel;
     edtBufferSize: TEdit;
     gbUserInterface: TGroupBox;
     gbFileSearch: TGroupBox;
     gbExecutingOperations: TGroupBox;
+    lblTypeOfDuplicatedRename: TLabel;
+    lblSearchDefaultTemplate: TLabel;
     lblBufferSize: TLabel;
     lblProgressKind: TLabel;
     lblWipePassNumber: TLabel;
@@ -64,6 +67,7 @@ type
   private
     FLoading: Boolean;
     FLastLoadedOptionSignature: dword;
+    procedure FillTemplatesList(ListItems: TStrings);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -97,6 +101,7 @@ end;
 
 procedure TfrmOptionsFileOperations.Init;
 begin
+  FillTemplatesList(cbSearchDefaultTemplate.Items);
   ParseLineToList(rsOptFileOperationsProgressKind, cbProgressKind.Items);
   ParseLineToList(rsOptTypeOfDuplicatedRename, cmbTypeOfDuplicatedRename.Items);
 end;
@@ -111,6 +116,12 @@ begin
     if Assigned(HotkeysEditor) then
       (HotkeysEditor as TfrmOptionsHotkeys).AddDeleteWithShiftHotkey(cbDeleteToTrash.Checked);
   end;
+end;
+
+procedure TfrmOptionsFileOperations.FillTemplatesList(ListItems: TStrings);
+begin
+  gSearchTemplateList.LoadToStringList(ListItems);
+  ListItems.Insert(0, rsOptHotkeysNoHotkey);
 end;
 
 procedure TfrmOptionsFileOperations.Load;
@@ -139,6 +150,9 @@ begin
   cbDeleteConfirmation.Checked        := focDelete in gFileOperationsConfirmations;
   cbDeleteToTrashConfirmation.Checked := focDeleteToTrash in gFileOperationsConfirmations;
   cmbTypeOfDuplicatedRename.ItemIndex := Integer(gTypeOfDuplicatedRename);
+
+  cbSearchDefaultTemplate.ItemIndex   := cbSearchDefaultTemplate.Items.IndexOf(gSearchDefaultTemplate);
+  if cbSearchDefaultTemplate.ItemIndex < 0 then cbSearchDefaultTemplate.ItemIndex := 0;
 
   FLoading := False;
   FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
@@ -175,6 +189,13 @@ begin
   if cbDeleteToTrashConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDeleteToTrash);
   gTypeOfDuplicatedRename := tDuplicatedRename(cmbTypeOfDuplicatedRename.ItemIndex);
+
+  if cbSearchDefaultTemplate.ItemIndex > 0 then
+    gSearchDefaultTemplate:= cbSearchDefaultTemplate.Text
+  else begin
+    gSearchDefaultTemplate:= EmptyStr;
+  end;
+
   FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
