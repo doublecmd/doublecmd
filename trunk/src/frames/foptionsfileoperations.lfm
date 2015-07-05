@@ -1,18 +1,18 @@
 inherited frmOptionsFileOperations: TfrmOptionsFileOperations
-  Height = 602
+  Height = 649
   Width = 734
   ChildSizing.LeftRightSpacing = 6
-  ClientHeight = 602
+  ClientHeight = 649
   ClientWidth = 734
-  DesignLeft = 397
-  DesignTop = 178
+  DesignLeft = 392
+  DesignTop = 17
   object gbUserInterface: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = gbExecutingOperations
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 272
+    Height = 274
     Top = 0
     Width = 722
     Anchors = [akTop, akLeft, akRight]
@@ -40,17 +40,15 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       FocusControl = cbProgressKind
       ParentColor = False
     end
-    object cbProgressKind: TComboBox
+    object cbProgressKind: TComboBoxAutoWidth
       AnchorSideLeft.Control = lblProgressKind
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbUserInterface
-      AnchorSideRight.Control = gbUserInterface
       AnchorSideRight.Side = asrBottom
       Left = 204
       Height = 23
       Top = 10
-      Width = 504
-      Anchors = [akTop, akLeft, akRight]
+      Width = 100
       ItemHeight = 15
       Style = csDropDownList
       TabOrder = 0
@@ -167,8 +165,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 180
-    Top = 278
+    Height = 163
+    Top = 280
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -180,7 +178,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 162
+    ClientHeight = 143
     ClientWidth = 718
     TabOrder = 1
     object lblBufferSize: TLabel
@@ -254,17 +252,28 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Caption = 'S&kip file operations errors and write them to log window'
       TabOrder = 3
     end
-    object cmbTypeOfDuplicatedRename: TComboBox
+    object lblTypeOfDuplicatedRename: TLabel
       AnchorSideLeft.Control = cbSkipFileOpError
-      AnchorSideTop.Control = bvlTypeOfDuplicatedRename
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbExecutingOperations
-      AnchorSideRight.Side = asrBottom
+      AnchorSideTop.Control = cmbTypeOfDuplicatedRename
+      AnchorSideTop.Side = asrCenter
       Left = 10
+      Height = 15
+      Top = 114
+      Width = 192
+      Caption = 'Duplicated name auto-rename style:'
+      ParentColor = False
+    end
+    object cmbTypeOfDuplicatedRename: TComboBoxAutoWidth
+      AnchorSideLeft.Control = lblTypeOfDuplicatedRename
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbSkipFileOpError
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 206
       Height = 23
-      Top = 129
-      Width = 698
-      Anchors = [akTop, akLeft, akRight]
+      Top = 110
+      Width = 100
+      BorderSpacing.Top = 4
       ItemHeight = 15
       Items.Strings = (
         'DC legacy - Copy (x) filename.ext'
@@ -274,20 +283,6 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Style = csDropDownList
       TabOrder = 4
     end
-    object bvlTypeOfDuplicatedRename: TDividerBevel
-      AnchorSideLeft.Control = cbSkipFileOpError
-      AnchorSideTop.Control = cbSkipFileOpError
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbExecutingOperations
-      AnchorSideRight.Side = asrBottom
-      Left = 10
-      Height = 15
-      Top = 110
-      Width = 698
-      Caption = 'Duplicated name auto-rename style:'
-      Anchors = [akTop, akLeft, akRight]
-      ParentFont = False
-    end
   end
   object gbFileSearch: TGroupBox[2]
     AnchorSideLeft.Control = Owner
@@ -296,8 +291,8 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 95
-    Top = 464
+    Height = 143
+    Top = 449
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -307,15 +302,16 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     ChildSizing.TopBottomSpacing = 4
     ChildSizing.HorizontalSpacing = 4
     ChildSizing.VerticalSpacing = 4
-    ClientHeight = 77
+    ClientHeight = 123
     ClientWidth = 718
     TabOrder = 2
     object rbUseMmapInSearch: TRadioButton
       AnchorSideLeft.Control = gbFileSearch
-      AnchorSideTop.Control = gbFileSearch
+      AnchorSideTop.Control = dbTextSearch
+      AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 4
+      Top = 75
       Width = 252
       Caption = 'Use memory mapping for search te&xt in files'
       TabOrder = 0
@@ -326,7 +322,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 29
+      Top = 100
       Width = 192
       BorderSpacing.Top = 6
       Caption = '&Use stream for search text in files'
@@ -336,15 +332,52 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     end
     object cbPartialNameSearch: TCheckBox
       AnchorSideLeft.Control = rbUseStreamInSearch
-      AnchorSideTop.Control = rbUseStreamInSearch
-      AnchorSideTop.Side = asrBottom
+      AnchorSideTop.Control = gbFileSearch
       Left = 10
       Height = 19
-      Top = 54
+      Top = 6
       Width = 163
       BorderSpacing.Top = 6
       Caption = '&Search for part of file name'
       TabOrder = 2
+    end
+    object dbTextSearch: TDividerBevel
+      AnchorSideLeft.Control = gbFileSearch
+      AnchorSideTop.Control = cbSearchDefaultTemplate
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbFileSearch
+      AnchorSideRight.Side = asrBottom
+      Left = 10
+      Height = 15
+      Top = 56
+      Width = 698
+      Caption = 'Text search in files'
+      Anchors = [akTop, akLeft, akRight]
+    end
+    object lblSearchDefaultTemplate: TLabel
+      AnchorSideLeft.Control = cbPartialNameSearch
+      AnchorSideTop.Control = cbSearchDefaultTemplate
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 15
+      Top = 33
+      Width = 128
+      Caption = 'Default search template:'
+      ParentColor = False
+    end
+    object cbSearchDefaultTemplate: TComboBoxAutoWidth
+      AnchorSideLeft.Control = lblSearchDefaultTemplate
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbPartialNameSearch
+      AnchorSideTop.Side = asrBottom
+      Left = 144
+      Height = 23
+      Top = 29
+      Width = 100
+      BorderSpacing.Left = 6
+      ItemHeight = 15
+      Style = csDropDownList
+      TabOrder = 3
     end
   end
 end
