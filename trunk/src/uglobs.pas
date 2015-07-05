@@ -365,6 +365,8 @@ var
   gShowToolTipMode: TShowToolTipMode;
   gThumbSize: TSize;
   gThumbSave: Boolean;
+  gSearchDefaultTemplate: String;
+  gSearchTemplateList: TSearchTemplateList;
 
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
@@ -374,7 +376,6 @@ var
   { Ignore list page }
   gIgnoreListFileEnabled: Boolean;
   gIgnoreListFile: UTF8String;
-  gSearchTemplateList: TSearchTemplateList;
 
   {HotKey Manager}
   HotMan:THotKeyManager;
@@ -1322,6 +1323,7 @@ begin
   gThumbSave := True;
   gThumbSize.cx := 128;
   gThumbSize.cy := 128;
+  gSearchDefaultTemplate := EmptyStr;
 
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];
@@ -2274,6 +2276,7 @@ begin
       gDragAndDropSaveUnicodeTextInUFT8 := GetValue(Node, 'DragAndDropSaveUnicodeTextInUFT8', gDragAndDropSaveUnicodeTextInUFT8);
       gOverwriteFolder := GetValue(Node, 'OverwriteFolder', gOverwriteFolder);
       gNtfsHourTimeDelay := GetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
+      gSearchDefaultTemplate := GetValue(Node, 'SearchDefaultTemplate', gSearchDefaultTemplate);
       gFileOperationsProgressKind := TFileOperationsProgressKind(GetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind)));
       gFileOperationsConfirmations := TFileOperationsConfirmations(GetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations)));
       // Operations options
@@ -2706,6 +2709,7 @@ begin
     SetValue(Node, 'DragAndDropSaveUnicodeTextInUFT8', gDragAndDropSaveUnicodeTextInUFT8);
     SetValue(Node, 'OverwriteFolder', gOverwriteFolder);
     SetValue(Node, 'NtfsHourTimeDelay', gNtfsHourTimeDelay);
+    SetValue(Node, 'SearchDefaultTemplate', gSearchDefaultTemplate);
     SetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind));
     SetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations));
     // Operations options

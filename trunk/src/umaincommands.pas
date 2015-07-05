@@ -2530,8 +2530,15 @@ begin
 end;
 
 procedure TMainCommands.cm_Search(const Params: array of string);
+var
+  TemplateName: String;
 begin
-  ShowFindDlg(frmMain.ActiveFrame);
+  if Length(Params) > 0 then
+    TemplateName:= Params[0]
+  else begin
+    TemplateName:= gSearchDefaultTemplate;
+  end;
+  ShowFindDlg(frmMain.ActiveFrame, TemplateName);
 end;
 
 procedure TMainCommands.cm_SyncDirs(const Params: array of string);
