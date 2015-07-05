@@ -98,6 +98,7 @@ type
     FVisibleItems: TStringList;
     FSortIndex: Integer;
     FSortDesc: Boolean;
+    FNtfsShift: Boolean;
     FFileExists: TSyncRecState;
     FFileSourceL, FFileSourceR: IFileSource;
     FCmpFileSourceL, FCmpFileSourceR: IFileSource;
@@ -141,7 +142,7 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes,
-  uShowForm, uFileSourceDeleteOperation;
+  uShowForm, uFileSourceDeleteOperation, uOSUtils;
 
 {$R *.lfm}
 
@@ -308,7 +309,7 @@ begin
   if not Assigned(FFileR) and Assigned(FFileL) then
     FState := srsCopyRight
   else begin
-    FileTimeDiff := FileTimeCompare(FFileL.ModificationTime, FFileR.ModificationTime, False);
+    FileTimeDiff := FileTimeCompare(FFileL.ModificationTime, FFileR.ModificationTime, FForm.FNtfsShift);
     if ((FileTimeDiff = 0) or ignoreDate) and (FFileL.Size = FFileR.Size) then
       FState := srsEqual
     else
@@ -1216,8 +1217,12 @@ begin
   SortIndex := 0;
   FSortDesc := False;
   MainDrawGrid.RowCount := 0;
-  chkAsymmetric.Enabled:= fsoDelete in FileView2.FileSource.GetOperationsTypes;
+  chkAsymmetric.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
   FFileSourceOperationMessageBoxesUI := TFileSourceOperationMessageBoxesUI.Create;
+  if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then
+  begin
+    FNtfsShift := gNtfsHourTimeDelay and NtfsHourTimeDelay(FileView1.CurrentPath, FileView2.CurrentPath);
+  end;
 end;
 
 destructor TfrmSyncDirsDlg.Destroy;
