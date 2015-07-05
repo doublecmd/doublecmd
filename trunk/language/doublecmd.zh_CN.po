@@ -14,6 +14,10 @@ msgstr ""
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr ""
 
+#: fsyncdirsdlg.rsdeleteright
+msgid "Right: Delete %d file(s)"
+msgstr ""
+
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr ""
@@ -5021,6 +5025,11 @@ msgctxt "tfrmoptionsfileassoc.miviewer.caption"
 msgid "Open in Viewer"
 msgstr "在查看器中打开"
 
+#: tfrmoptionsfileoperations.bvlconfirmations.caption
+msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
+msgid "Show confirmation window for:"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
 msgstr ""
@@ -5084,6 +5093,10 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "忽略文件操作错误，并记录到日志窗口"
 
+#: tfrmoptionsfileoperations.dbtextsearch.caption
+msgid "Text search in files"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr ""
@@ -5101,12 +5114,17 @@ msgstr ""
 msgid "&Buffer size for file operations (in KB):"
 msgstr ""
 
-#: tfrmoptionsfileoperations.lblconfirmations.caption
-msgid "Show confirmation window for:"
-msgstr ""
-
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
+msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
+msgid "Duplicated name auto-rename style:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
@@ -5129,10 +5147,6 @@ msgstr "使用内存映像搜索文本"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
 msgid "&Use stream for search text in files"
 msgstr "使用流搜索文本"
-
-#: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
-msgid "Duplicated name auto-rename style:"
-msgstr ""
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -8436,6 +8450,14 @@ msgstr "宽度"
 msgid "Customize column"
 msgstr "自定义列"
 
+#: ulng.rsconfigurationfileassociation
+msgid "Configure file association"
+msgstr ""
+
+#: ulng.rsconfirmexecution
+msgid "Confirming command line and parameters"
+msgstr ""
+
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
 msgstr ""
@@ -8478,6 +8500,10 @@ msgstr ""
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
+msgstr ""
+
+#: ulng.rsdifffilesidentical
+msgid "The two files are identical!"
 msgstr ""
 
 #: ulng.rsdiffmatches
@@ -8720,6 +8746,26 @@ msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "替换"
 
+#: ulng.rseditwithexternaleditor
+msgid "with external editor"
+msgstr ""
+
+#: ulng.rseditwithinternaleditor
+msgid "with internal editor"
+msgstr ""
+
+#: ulng.rsexecuteviashell
+msgid "Execute via shell"
+msgstr ""
+
+#: ulng.rsexecuteviaterminalclose
+msgid "Execute via terminal and close"
+msgstr ""
+
+#: ulng.rsexecuteviaterminalstayopen
+msgid "Execute via terminal and stay open"
+msgstr ""
+
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
 msgstr ""
@@ -8922,9 +8968,21 @@ msgstr "选择掩码"
 msgid "Input mask:"
 msgstr "输入掩码"
 
+#: ulng.rsmenuconfigurecolumnsalreadyexists
+msgid "A columns view with that name already exists."
+msgstr ""
+
+#: ulng.rsmenuconfigurecolumnssavetochange
+msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
+msgstr ""
+
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
 msgstr "配置自定义列"
+
+#: ulng.rsmenuconfigureentercustomcolumnname
+msgid "Enter new custom columns name"
+msgstr ""
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
@@ -8956,6 +9014,12 @@ msgstr ""
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr ""
+
+#: ulng.rsmnuopen
+#, fuzzy
+msgctxt "ulng.rsmnuopen"
+msgid "Open"
+msgstr "打开"
 
 #: ulng.rsmnuopenwith
 #, fuzzy
@@ -9019,6 +9083,13 @@ msgstr "移除所有非活动标签吗?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "这个标签页 (%s) 已锁定! 仍旧关闭吗?"
 
+#: ulng.rsmsgcolumnsmodifiedwanttosave
+msgid ""
+"Options regarding columns view have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr ""
@@ -9031,8 +9102,16 @@ msgstr "复制 %d 选中的文件/目录吗?"
 msgid "Copy selected \"%s\"?"
 msgstr "复制选中的 \"%s\" 吗?"
 
+#: ulng.rsmsgcreateanewfiletype
+msgid "< Create a new file type \"%s files\" >"
+msgstr ""
+
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgdefaultcustomactionname
+msgid "Custom action"
 msgstr ""
 
 #: ulng.rsmsgdeletepartiallycopied
@@ -9067,6 +9146,10 @@ msgstr "无效的磁盘"
 msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
 msgstr ""
 
+#: ulng.rsmsgentercustomaction
+msgid "Enter custom action name:"
+msgstr ""
+
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
 msgstr "输入文件扩展名:"
@@ -9074,6 +9157,10 @@ msgstr "输入文件扩展名:"
 #: ulng.rsmsgentername
 msgid "Enter name:"
 msgstr "输入名称:"
+
+#: ulng.rsmsgenternewfiletypename
+msgid "Enter name of new file type to create for extension \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -9199,6 +9286,20 @@ msgstr "要打包的文件太多"
 msgid "Archive format unknown"
 msgstr "位置的压缩格式"
 
+#: ulng.rsmsgfileassociationsextramodifiedwanttosave
+msgid ""
+"File extension associations extra options have been modified.\n"
+"\n"
+"Do you want to save before to exit?\n"
+msgstr ""
+
+#: ulng.rsmsgfileassociationsmodifiedwanttosave
+msgid ""
+"File extension associations have been modified.\n"
+"\n"
+"Do you want to save before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
 msgstr "文件 %s 已修改, 是否保存?"
@@ -9233,6 +9334,13 @@ msgstr ""
 
 #: ulng.rsmsgfileoperationsmodifiedwanttosave
 msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgfilepanelcolormodifiedwanttosave
+msgid ""
+"Options regarding panel color have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
@@ -9514,6 +9622,14 @@ msgstr "删除文件 %s"
 msgid "Error: "
 msgstr "错误:"
 
+#: ulng.rsmsglogextcmdlaunch
+msgid "Launch external"
+msgstr ""
+
+#: ulng.rsmsglogextcmdresult
+msgid "Result external"
+msgstr ""
+
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
 msgstr "解开文件 %s"
@@ -9533,6 +9649,13 @@ msgstr "创建目录 %s"
 #: ulng.rsmsglogmove
 msgid "Move file %s"
 msgstr "移动文件 %s"
+
+#: ulng.rsmsglogoptionsmodifiedwanttosave
+msgid ""
+"Options regarding log have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
@@ -9606,6 +9729,10 @@ msgstr "不能删除文件 %s"
 msgid "Not implemented."
 msgstr "没有实现。"
 
+#: ulng.rsmsgpanelpreview
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr ""
+
 #: ulng.rsmsgpassword
 msgid "Password:"
 msgstr ""
@@ -9643,6 +9770,10 @@ msgstr "删除(&D) %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "\"%s\" 已存在. 覆盖吗?"
 
+#: ulng.rsmsgproblemexecutingcommand
+msgid "Problem executing command (%s)"
+msgstr ""
+
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
 msgstr ""
@@ -9663,8 +9794,16 @@ msgstr "重命名/移动选中的 \"%s\" 吗?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "请重启Double Commander,使修改生效"
 
+#: ulng.rsmsgsekectfiletype
+msgid "Select to which file type to add extension \"%s\""
+msgstr ""
+
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
+msgstr ""
+
+#: ulng.rsmsgselectexecutablefile
+msgid "Select executable file for"
 msgstr ""
 
 #: ulng.rsmsgselectonlychecksumfiles
@@ -9763,7 +9902,7 @@ msgstr ""
 
 #: ulng.rsmsgtcconfignotfound
 msgid ""
-"Error! Cannot find the TC oncfiguration file:\n"
+"Error! Cannot find the TC configuration file:\n"
 "%s\n"
 msgstr ""
 
@@ -9789,8 +9928,19 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
+#: ulng.rsmsgterminaloptionsmodifiedwanttosave
+msgid ""
+"Options regarding terminal have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
+msgstr ""
+
+#: ulng.rsmsgtitleextnotinfiletype
+msgid "Extension of selected file is not in any recognized file types"
 msgstr ""
 
 #: ulng.rsmsgtoolbarerrornotsaved
@@ -9831,6 +9981,14 @@ msgstr ""
 msgid "URL:"
 msgstr ""
 
+#: ulng.rsmsguserdidnotsetextension
+msgid "<NO EXT>"
+msgstr ""
+
+#: ulng.rsmsguserdidnotsetname
+msgid "<NO NAME>"
+msgstr ""
+
 #: ulng.rsmsgusername
 msgid "User name:"
 msgstr ""
@@ -9854,6 +10012,10 @@ msgstr "擦除 %d 个选择的文件/目录?"
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
 msgstr "擦除选中的文件 \"%s\"?"
+
+#: ulng.rsmsgwithactionwith
+msgid "with"
+msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
 #, fuzzy
@@ -10213,6 +10375,7 @@ msgid "Change shortcut"
 msgstr ""
 
 #: ulng.rsopthotkeyscommand
+msgctxt "ulng.rsopthotkeyscommand"
 msgid "Command"
 msgstr ""
 
@@ -10336,6 +10499,10 @@ msgstr ""
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
+msgstr ""
+
+#: ulng.rsoptionseditorfileassicextra
+msgid "File associations extra"
 msgstr ""
 
 #: ulng.rsoptionseditorfileassoc
@@ -10613,6 +10780,41 @@ msgstr "所有"
 msgid "Category"
 msgstr ""
 
+#: ulng.rssimplewordcolumnsingular
+msgid "Column"
+msgstr ""
+
+#: ulng.rssimplewordcommand
+msgctxt "ulng.rssimplewordcommand"
+msgid "Command"
+msgstr ""
+
+#: ulng.rssimplewordfilename
+msgid "Filename"
+msgstr ""
+
+#: ulng.rssimplewordfiles
+msgid "files"
+msgstr ""
+
+#: ulng.rssimplewordparameter
+msgid "Param"
+msgstr ""
+
+#: ulng.rssimplewordpreview
+#, fuzzy
+msgctxt "ulng.rssimplewordpreview"
+msgid "Preview"
+msgstr "预览"
+
+#: ulng.rssimplewordresult
+msgid "Result"
+msgstr ""
+
+#: ulng.rssimplewordworkdir
+msgid "WorkDir"
+msgstr ""
+
 #: ulng.rssizeunitbytes
 msgid "Bytes"
 msgstr ""
@@ -10743,6 +10945,146 @@ msgstr "查看器"
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr ""
 
+#: ulng.rsvarbothpanelactivetoinactive
+msgid "Both panels, from active to inactive"
+msgstr ""
+
+#: ulng.rsvarbothpanellefttoright
+msgid "Both panels, from left to right"
+msgstr ""
+
+#: ulng.rsvarcurrentpath
+msgid "Path of panel"
+msgstr ""
+
+#: ulng.rsvarencloseelement
+msgid "Enclose each name in brackets or what you want"
+msgstr ""
+
+#: ulng.rsvarfilenamenoext
+msgid "Just filename, no extension"
+msgstr ""
+
+#: ulng.rsvarfullpath
+msgid "Complete filename (path+filename)"
+msgstr ""
+
+#: ulng.rsvarhelpwith
+msgid "Help with \"%\" variables"
+msgstr ""
+
+#: ulng.rsvarinputparam
+msgid "Will request request user to enter a parameter with a default suggested value"
+msgstr ""
+
+#: ulng.rsvarleftpanel
+msgid "Left panel"
+msgstr ""
+
+#: ulng.rsvarlistfilename
+msgid "Temporary filename of list of filenames"
+msgstr ""
+
+#: ulng.rsvarlistfullfilename
+msgid "Temporary filename of list of complete filenames (path+filename)"
+msgstr ""
+
+#: ulng.rsvarlistrelativefilename
+msgid "Temporary filename of list of filenames with relative path"
+msgstr ""
+
+#: ulng.rsvaronlyextension
+msgid "Only file extension"
+msgstr ""
+
+#: ulng.rsvaronlyfilename
+msgid "Only filename"
+msgstr ""
+
+#: ulng.rsvarotherexamples
+msgid "Other example of what's possible"
+msgstr ""
+
+#: ulng.rsvarpath
+msgid "Path, with ending delimiter"
+msgstr ""
+
+#: ulng.rsvarpercentchangetopound
+msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
+msgstr ""
+
+#: ulng.rsvarpercentsign
+msgid "Return the percent sign"
+msgstr ""
+
+#: ulng.rsvarpoundchangetopercent
+msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
+msgstr ""
+
+#: ulng.rsvarprependelement
+msgid "Prepend each name with \"-a \" or what you want"
+msgstr ""
+
+#: ulng.rsvarpromptuserforparam
+msgid "%[Prompt user for param;Default value proposed]"
+msgstr ""
+
+#: ulng.rsvarrelativepathandfilename
+msgid "Filename with relative path"
+msgstr ""
+
+#: ulng.rsvarrightpanel
+msgid "Right panel"
+msgstr ""
+
+#: ulng.rsvarsecondelementrightpanel
+msgid "Full path of second selected file in right panel"
+msgstr ""
+
+#: ulng.rsvarshowcommandprior
+msgid "Show command prior execute"
+msgstr ""
+
+#: ulng.rsvarsimplemessage
+msgid "%[Simple message]"
+msgstr ""
+
+#: ulng.rsvarsimpleshowmessage
+msgid "Will show a simple message"
+msgstr ""
+
+#: ulng.rsvarsourcepanel
+msgid "Active panel (source)"
+msgstr ""
+
+#: ulng.rsvartargetpanel
+msgid "Inactive panel (target)"
+msgstr ""
+
+#: ulng.rsvarwillbequoted
+msgid "Filenames will be quoted from here (default)"
+msgstr ""
+
+#: ulng.rsvarwilldointerminal
+msgid "Command will be done in terminal, remaining opened at the end"
+msgstr ""
+
+#: ulng.rsvarwillhaveendingdelimiter
+msgid "Paths will have ending delimiter"
+msgstr ""
+
+#: ulng.rsvarwillnotbequoted
+msgid "Filenames will not be quoted from here"
+msgstr ""
+
+#: ulng.rsvarwillnotdointerminal
+msgid "Command will be done in terminal, closed at the end"
+msgstr ""
+
+#: ulng.rsvarwillnothaveendingdelimiter
+msgid "Paths will not have ending delimiter (default)"
+msgstr ""
+
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
@@ -10759,6 +11101,14 @@ msgstr ""
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
+msgstr ""
+
+#: ulng.rsviewwithexternalviewer
+msgid "with external viewer"
+msgstr ""
+
+#: ulng.rsviewwithinternalviewer
+msgid "with internal viewer"
 msgstr ""
 
 #: ulng.rsxreplacements

@@ -15,6 +15,10 @@ msgstr ""
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr ""
 
+#: fsyncdirsdlg.rsdeleteright
+msgid "Right: Delete %d file(s)"
+msgstr ""
+
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr ""
@@ -5097,6 +5101,12 @@ msgctxt "tfrmoptionsfileassoc.miviewer.caption"
 msgid "Open in Viewer"
 msgstr "Otvoriť v prezerači"
 
+#: tfrmoptionsfileoperations.bvlconfirmations.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
+msgid "Show confirmation window for:"
+msgstr "Ukázať okno potvrdenia pre:"
+
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
 msgstr "Operácie kopírovania"
@@ -5159,6 +5169,10 @@ msgctxt "tfrmoptionsfileoperations.cbskipfileoperror.caption"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Preskočiť chyby súborových operácií a len ich zapísať do okna logov"
 
+#: tfrmoptionsfileoperations.dbtextsearch.caption
+msgid "Text search in files"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Vykonávanie operácií"
@@ -5176,13 +5190,18 @@ msgstr "Užívateľský interfejs"
 msgid "&Buffer size for file operations (in KB):"
 msgstr "Veľkosť zásobníka pre súborové operácie (v KB):"
 
-#: tfrmoptionsfileoperations.lblconfirmations.caption
-msgid "Show confirmation window for:"
-msgstr "Ukázať okno potvrdenia pre:"
-
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
 msgstr "Ukázať postup operácií &inicializovaný v"
+
+#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
+msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
+msgid "Duplicated name auto-rename style:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
@@ -5201,10 +5220,6 @@ msgstr "Použíť mapovanie pamäte pre hľadanie textu v súboroch"
 msgctxt "tfrmoptionsfileoperations.rbusestreaminsearch.caption"
 msgid "&Use stream for search text in files"
 msgstr "Po&užiť stream pre hľadanie textu v súboroch"
-
-#: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
-msgid "Duplicated name auto-rename style:"
-msgstr ""
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.btnbackcolor.caption"
@@ -8563,6 +8578,14 @@ msgstr "Šírka"
 msgid "Customize column"
 msgstr "Nastavenie stĺpcov:"
 
+#: ulng.rsconfigurationfileassociation
+msgid "Configure file association"
+msgstr ""
+
+#: ulng.rsconfirmexecution
+msgid "Confirming command line and parameters"
+msgstr ""
+
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
 msgstr "Kopírovanie (%d) %s"
@@ -8605,6 +8628,10 @@ msgstr ""
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
+msgstr ""
+
+#: ulng.rsdifffilesidentical
+msgid "The two files are identical!"
 msgstr ""
 
 #: ulng.rsdiffmatches
@@ -8853,6 +8880,26 @@ msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "Nahradiť"
 
+#: ulng.rseditwithexternaleditor
+msgid "with external editor"
+msgstr ""
+
+#: ulng.rseditwithinternaleditor
+msgid "with internal editor"
+msgstr ""
+
+#: ulng.rsexecuteviashell
+msgid "Execute via shell"
+msgstr ""
+
+#: ulng.rsexecuteviaterminalclose
+msgid "Execute via terminal and close"
+msgstr ""
+
+#: ulng.rsexecuteviaterminalstayopen
+msgid "Execute via terminal and stay open"
+msgstr ""
+
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
 msgstr ""
@@ -9053,9 +9100,21 @@ msgstr "Maska výberu"
 msgid "Input mask:"
 msgstr "Vstupná maska:"
 
+#: ulng.rsmenuconfigurecolumnsalreadyexists
+msgid "A columns view with that name already exists."
+msgstr ""
+
+#: ulng.rsmenuconfigurecolumnssavetochange
+msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
+msgstr ""
+
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
 msgstr "Konfigurovať užívateľské stĺpce"
+
+#: ulng.rsmenuconfigureentercustomcolumnname
+msgid "Enter new custom columns name"
+msgstr ""
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
@@ -9087,6 +9146,12 @@ msgstr "Nový"
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Nie je dostupné žiadne médium"
+
+#: ulng.rsmnuopen
+#, fuzzy
+msgctxt "ulng.rsmnuopen"
+msgid "Open"
+msgstr "Otvoriť"
 
 #: ulng.rsmnuopenwith
 #, fuzzy
@@ -9150,6 +9215,13 @@ msgstr "Odstrániť všetky neaktívne záložky?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Záložka (%s) je uzamknutá! Aj tak zavrieť?"
 
+#: ulng.rsmsgcolumnsmodifiedwanttosave
+msgid ""
+"Options regarding columns view have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Skutočne chcete skončiť?"
@@ -9162,8 +9234,16 @@ msgstr "Kopírovať %d vybraných súborov/zložek?"
 msgid "Copy selected \"%s\"?"
 msgstr "Kopírovať vybrané \"%s\"?"
 
+#: ulng.rsmsgcreateanewfiletype
+msgid "< Create a new file type \"%s files\" >"
+msgstr ""
+
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgdefaultcustomactionname
+msgid "Custom action"
 msgstr ""
 
 #: ulng.rsmsgdeletepartiallycopied
@@ -9198,6 +9278,10 @@ msgstr "Disk nie je dostupný"
 msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
 msgstr ""
 
+#: ulng.rsmsgentercustomaction
+msgid "Enter custom action name:"
+msgstr ""
+
 #: ulng.rsmsgenterfileext
 #, fuzzy
 msgid "Enter file extension:"
@@ -9206,6 +9290,10 @@ msgstr "Zadajte príponu súboru:"
 #: ulng.rsmsgentername
 msgid "Enter name:"
 msgstr "Zadajte názov:"
+
+#: ulng.rsmsgenternewfiletypename
+msgid "Enter name of new file type to create for extension \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -9331,6 +9419,20 @@ msgstr "Príliš mnoho súborov pre kompresiu"
 msgid "Archive format unknown"
 msgstr "Neznámy formát archívu"
 
+#: ulng.rsmsgfileassociationsextramodifiedwanttosave
+msgid ""
+"File extension associations extra options have been modified.\n"
+"\n"
+"Do you want to save before to exit?\n"
+msgstr ""
+
+#: ulng.rsmsgfileassociationsmodifiedwanttosave
+msgid ""
+"File extension associations have been modified.\n"
+"\n"
+"Do you want to save before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
 msgstr "Súbor %s bol zmenený, uložiť?"
@@ -9365,6 +9467,13 @@ msgstr "Niektoré súborové operácie ešte neboli dokončené. Ukončenie Doub
 
 #: ulng.rsmsgfileoperationsmodifiedwanttosave
 msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgfilepanelcolormodifiedwanttosave
+msgid ""
+"Options regarding panel color have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
@@ -9646,6 +9755,14 @@ msgstr "Zmazať súbor %s"
 msgid "Error: "
 msgstr "Chyba:"
 
+#: ulng.rsmsglogextcmdlaunch
+msgid "Launch external"
+msgstr ""
+
+#: ulng.rsmsglogextcmdresult
+msgid "Result external"
+msgstr ""
+
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
 msgstr "Rozbaliť súbor %s"
@@ -9665,6 +9782,13 @@ msgstr "Vytvoriť adresár %s"
 #: ulng.rsmsglogmove
 msgid "Move file %s"
 msgstr "Presunúť súbor %s"
+
+#: ulng.rsmsglogoptionsmodifiedwanttosave
+msgid ""
+"Options regarding log have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
@@ -9738,6 +9862,10 @@ msgstr "Nedá sa vymazať súbor %s"
 msgid "Not implemented."
 msgstr "Nie je zavedené."
 
+#: ulng.rsmsgpanelpreview
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr ""
+
 #: ulng.rsmsgpassword
 msgid "Password:"
 msgstr "Heslo:"
@@ -9776,6 +9904,10 @@ msgstr "&Vymazať %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Predvoľba \"%s\" už existuje. Nahradiť?"
 
+#: ulng.rsmsgproblemexecutingcommand
+msgid "Problem executing command (%s)"
+msgstr ""
+
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
 msgstr ""
@@ -9796,9 +9928,17 @@ msgstr "Premenovať/presunúť vybrané \"%s\"?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Prosím, na uplatnenie zmien reštartujte program"
 
+#: ulng.rsmsgsekectfiletype
+msgid "Select to which file type to add extension \"%s\""
+msgstr ""
+
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Vybrané: %s z %s, súbory: %d z %d, adresáre: %d of %d"
+
+#: ulng.rsmsgselectexecutablefile
+msgid "Select executable file for"
+msgstr ""
 
 #: ulng.rsmsgselectonlychecksumfiles
 #, fuzzy
@@ -9896,7 +10036,7 @@ msgstr "Cieľová cesta:"
 
 #: ulng.rsmsgtcconfignotfound
 msgid ""
-"Error! Cannot find the TC oncfiguration file:\n"
+"Error! Cannot find the TC configuration file:\n"
 "%s\n"
 msgstr ""
 
@@ -9922,8 +10062,19 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
+#: ulng.rsmsgterminaloptionsmodifiedwanttosave
+msgid ""
+"Options regarding terminal have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
+msgstr ""
+
+#: ulng.rsmsgtitleextnotinfiletype
+msgid "Extension of selected file is not in any recognized file types"
 msgstr ""
 
 #: ulng.rsmsgtoolbarerrornotsaved
@@ -9964,6 +10115,14 @@ msgstr ""
 msgid "URL:"
 msgstr "URL:"
 
+#: ulng.rsmsguserdidnotsetextension
+msgid "<NO EXT>"
+msgstr ""
+
+#: ulng.rsmsguserdidnotsetname
+msgid "<NO NAME>"
+msgstr ""
+
 #: ulng.rsmsgusername
 msgid "User name:"
 msgstr "Užívateľské meno:"
@@ -9989,6 +10148,10 @@ msgstr "Bezpečne zmazať %d vybraných súborov/zložek?"
 #, fuzzy
 msgid "Wipe selected \"%s\"?"
 msgstr "Bezpečne zmazať vybrané \"%s\"?"
+
+#: ulng.rsmsgwithactionwith
+msgid "with"
+msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
 #, fuzzy
@@ -10361,6 +10524,7 @@ msgid "Change shortcut"
 msgstr "Zmeniť skratku"
 
 #: ulng.rsopthotkeyscommand
+msgctxt "ulng.rsopthotkeyscommand"
 msgid "Command"
 msgstr "Príkaz"
 
@@ -10489,6 +10653,10 @@ msgstr ""
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
 msgstr "Tlačidlo zoznamu diskov"
+
+#: ulng.rsoptionseditorfileassicextra
+msgid "File associations extra"
+msgstr ""
 
 #: ulng.rsoptionseditorfileassoc
 msgctxt "ulng.rsoptionseditorfileassoc"
@@ -10769,6 +10937,42 @@ msgstr "Všetko"
 msgid "Category"
 msgstr ""
 
+#: ulng.rssimplewordcolumnsingular
+msgid "Column"
+msgstr ""
+
+#: ulng.rssimplewordcommand
+#, fuzzy
+msgctxt "ulng.rssimplewordcommand"
+msgid "Command"
+msgstr "Príkaz"
+
+#: ulng.rssimplewordfilename
+msgid "Filename"
+msgstr ""
+
+#: ulng.rssimplewordfiles
+msgid "files"
+msgstr ""
+
+#: ulng.rssimplewordparameter
+msgid "Param"
+msgstr ""
+
+#: ulng.rssimplewordpreview
+#, fuzzy
+msgctxt "ulng.rssimplewordpreview"
+msgid "Preview"
+msgstr "Náhľad"
+
+#: ulng.rssimplewordresult
+msgid "Result"
+msgstr ""
+
+#: ulng.rssimplewordworkdir
+msgid "WorkDir"
+msgstr ""
+
 #: ulng.rssizeunitbytes
 msgid "Bytes"
 msgstr "Bajtov"
@@ -10897,6 +11101,146 @@ msgstr "Prezerač"
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Prosím, založte do bug trackeru správu o tejto chybe s popisom, čo ste robili a s nasledujúcim súborom:%sStlačte %s pre pokračovanie alebo %s pre ukončenie programu."
 
+#: ulng.rsvarbothpanelactivetoinactive
+msgid "Both panels, from active to inactive"
+msgstr ""
+
+#: ulng.rsvarbothpanellefttoright
+msgid "Both panels, from left to right"
+msgstr ""
+
+#: ulng.rsvarcurrentpath
+msgid "Path of panel"
+msgstr ""
+
+#: ulng.rsvarencloseelement
+msgid "Enclose each name in brackets or what you want"
+msgstr ""
+
+#: ulng.rsvarfilenamenoext
+msgid "Just filename, no extension"
+msgstr ""
+
+#: ulng.rsvarfullpath
+msgid "Complete filename (path+filename)"
+msgstr ""
+
+#: ulng.rsvarhelpwith
+msgid "Help with \"%\" variables"
+msgstr ""
+
+#: ulng.rsvarinputparam
+msgid "Will request request user to enter a parameter with a default suggested value"
+msgstr ""
+
+#: ulng.rsvarleftpanel
+msgid "Left panel"
+msgstr ""
+
+#: ulng.rsvarlistfilename
+msgid "Temporary filename of list of filenames"
+msgstr ""
+
+#: ulng.rsvarlistfullfilename
+msgid "Temporary filename of list of complete filenames (path+filename)"
+msgstr ""
+
+#: ulng.rsvarlistrelativefilename
+msgid "Temporary filename of list of filenames with relative path"
+msgstr ""
+
+#: ulng.rsvaronlyextension
+msgid "Only file extension"
+msgstr ""
+
+#: ulng.rsvaronlyfilename
+msgid "Only filename"
+msgstr ""
+
+#: ulng.rsvarotherexamples
+msgid "Other example of what's possible"
+msgstr ""
+
+#: ulng.rsvarpath
+msgid "Path, with ending delimiter"
+msgstr ""
+
+#: ulng.rsvarpercentchangetopound
+msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
+msgstr ""
+
+#: ulng.rsvarpercentsign
+msgid "Return the percent sign"
+msgstr ""
+
+#: ulng.rsvarpoundchangetopercent
+msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
+msgstr ""
+
+#: ulng.rsvarprependelement
+msgid "Prepend each name with \"-a \" or what you want"
+msgstr ""
+
+#: ulng.rsvarpromptuserforparam
+msgid "%[Prompt user for param;Default value proposed]"
+msgstr ""
+
+#: ulng.rsvarrelativepathandfilename
+msgid "Filename with relative path"
+msgstr ""
+
+#: ulng.rsvarrightpanel
+msgid "Right panel"
+msgstr ""
+
+#: ulng.rsvarsecondelementrightpanel
+msgid "Full path of second selected file in right panel"
+msgstr ""
+
+#: ulng.rsvarshowcommandprior
+msgid "Show command prior execute"
+msgstr ""
+
+#: ulng.rsvarsimplemessage
+msgid "%[Simple message]"
+msgstr ""
+
+#: ulng.rsvarsimpleshowmessage
+msgid "Will show a simple message"
+msgstr ""
+
+#: ulng.rsvarsourcepanel
+msgid "Active panel (source)"
+msgstr ""
+
+#: ulng.rsvartargetpanel
+msgid "Inactive panel (target)"
+msgstr ""
+
+#: ulng.rsvarwillbequoted
+msgid "Filenames will be quoted from here (default)"
+msgstr ""
+
+#: ulng.rsvarwilldointerminal
+msgid "Command will be done in terminal, remaining opened at the end"
+msgstr ""
+
+#: ulng.rsvarwillhaveendingdelimiter
+msgid "Paths will have ending delimiter"
+msgstr ""
+
+#: ulng.rsvarwillnotbequoted
+msgid "Filenames will not be quoted from here"
+msgstr ""
+
+#: ulng.rsvarwillnotdointerminal
+msgid "Command will be done in terminal, closed at the end"
+msgstr ""
+
+#: ulng.rsvarwillnothaveendingdelimiter
+msgid "Paths will not have ending delimiter (default)"
+msgstr ""
+
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
@@ -10914,6 +11258,14 @@ msgstr "Kódovanie"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nebol nájdený!"
+
+#: ulng.rsviewwithexternalviewer
+msgid "with external viewer"
+msgstr ""
+
+#: ulng.rsviewwithinternalviewer
+msgid "with internal viewer"
+msgstr ""
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"

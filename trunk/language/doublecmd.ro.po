@@ -11,14 +11,17 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);;\n"
 "X-Generator: Virtaal 0.7.1\n"
 "X-Native-Language: Română\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Se compară...%d%% (ESC pentru a renunța)"
+
+#: fsyncdirsdlg.rsdeleteright
+msgid "Right: Delete %d file(s)"
+msgstr ""
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
@@ -3812,9 +3815,7 @@ msgstr "Permite o singură copie DC &la un moment dat"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
-"Aici puteți introduce unul sau mai multe dispozitive sau puncte de montare, "
-"separate prin \";\"."
+msgstr "Aici puteți introduce unul sau mai multe dispozitive sau puncte de montare, separate prin \";\"."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -4163,15 +4164,12 @@ msgstr "Șterge elementul selectat"
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
 msgid "Scan all hotdir's path to validate the ones that actually exist"
-msgstr ""
-"Scanează toată calea dosarului pentru a le valida pe cele care chiar există"
+msgstr "Scanează toată calea dosarului pentru a le valida pe cele care chiar există"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption"
 msgid "Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr ""
-"Scanează toată calea dosarului și a țintei pentru a le valida pe cele care "
-"chiar există"
+msgstr "Scanează toată calea dosarului și a țintei pentru a le valida pe cele care chiar există"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory Hotlist file (.hotlist)"
@@ -4353,21 +4351,15 @@ msgstr "Adăugare din cadrul principal:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr ""
-"Dintre toate formatele acceptate, întreabă de fiecare dată care să fie "
-"folosit"
+msgstr "Dintre toate formatele acceptate, întreabă de fiecare dată care să fie folosit"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr ""
-"Când se salvează text Unicode, salvează-l în format UTF8 (altfel va fi "
-"UTF16)"
+msgstr "Când se salvează text Unicode, salvează-l în format UTF8 (altfel va fi UTF16)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr ""
-"Când se glisează și fixează text, generează automat un nume de fișier "
-"(altfel utilizatorul va fi întrebat)"
+msgstr "Când se glisează și fixează text, generează automat un nume de fișier (altfel utilizatorul va fi întrebat)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -4379,21 +4371,15 @@ msgstr "Când se glisează și fixează text în cadre:"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr ""
-"Plasează formatul cel mai dorit în capul listei (folosește glisare și "
-"fixare):"
+msgstr "Plasează formatul cel mai dorit în capul listei (folosește glisare și fixare):"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
-msgstr ""
-"(dacă cel mai dorit nu este prezent, îl vom folosi pe cel de-al doilea și "
-"așa mai departe)"
+msgstr "(dacă cel mai dorit nu este prezent, îl vom folosi pe cel de-al doilea și așa mai departe)"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr ""
-"(nu va funcționa cu unele aplicații sură, așa că încercați să debifați dacă "
-"apar probleme)"
+msgstr "(nu va funcționa cu unele aplicații sură, așa că încercați să debifați dacă apar probleme)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -4667,6 +4653,12 @@ msgctxt "tfrmoptionsfileassoc.miviewer.caption"
 msgid "Open in Viewer"
 msgstr "Deschide în Vizualizator"
 
+#: tfrmoptionsfileoperations.bvlconfirmations.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
+msgid "Show confirmation window for:"
+msgstr "Arată fereastra de confirmare pentru:"
+
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
 msgstr "Operație de copiere (&y)"
@@ -4712,6 +4704,10 @@ msgstr "Arată panoul de selecție al filei în fereastra de dialog (&w)"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Sari peste erorile din operațiile cu fișiere și scrie-le în fereastra jurnal (&k)"
 
+#: tfrmoptionsfileoperations.dbtextsearch.caption
+msgid "Text search in files"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Operații în executare"
@@ -4729,13 +4725,19 @@ msgstr "Interfața cu utilizatorul"
 msgid "&Buffer size for file operations (in KB):"
 msgstr "Mărime tampon pentru operațiile cu fișiere (în K&B):"
 
-#: tfrmoptionsfileoperations.lblconfirmations.caption
-msgid "Show confirmation window for:"
-msgstr "Arată fereastra de confirmare pentru:"
-
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
 msgstr "Afișează progresul operațiilor &inițial în"
+
+#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
+msgid "Duplicated name auto-rename style:"
+msgstr "Stilul de auto-redenumire a numelor duplicate:"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
@@ -4748,10 +4750,6 @@ msgstr "Utilizează maparea memoriei pentru căutarea te&xtului în fișiere"
 #: tfrmoptionsfileoperations.rbusestreaminsearch.caption
 msgid "&Use stream for search text in files"
 msgstr "&Utilizează fluxarea pentru căutarea textului în fișiere"
-
-#: tfrmoptionsfileoperations.rgtypeofduplicatedrename.caption
-msgid "Duplicated name auto-rename style:"
-msgstr "Stilul de auto-redenumire a numelor duplicate:"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -5299,9 +5297,10 @@ msgid " Screen layout "
 msgstr " Aranjament ecran "
 
 #: tfrmoptionslog.btnrelativelogfile.hint
+#, fuzzy
 msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Unele funcții pentru a selecta calea potrivită"
 
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
@@ -5380,19 +5379,22 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Unele funcții pentru a selecta calea potrivită"
 
 #: tfrmoptionsmisc.btnrelativetcconfigfile.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Unele funcții pentru a selecta calea potrivită"
 
 #: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Unele funcții pentru a selecta calea potrivită"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
@@ -5507,9 +5509,7 @@ msgstr "Ajus&tare"
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr ""
-"Modulele de căutare permit utilizarea algoritmilor alternativi sau a "
-"uneltelor externe (&h precum \"locate\", etc.)"
+msgstr "Modulele de căutare permit utilizarea algoritmilor alternativi sau a uneltelor externe (&h precum \"locate\", etc.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
@@ -5529,9 +5529,7 @@ msgstr "Modulele pentru fișiere&le de sistem permit accesul la discurile inacce
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr ""
-"Modulele de vizualizare (&w) permit afișarea formatelor de fișier cum ar fi "
-"imagini, foi de calcul, baze de date etc. în Vizualizator (F3, Ctrl+Q)"
+msgstr "Modulele de vizualizare (&w) permit afișarea formatelor de fișier cum ar fi imagini, foi de calcul, baze de date etc. în Vizualizator (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -5761,9 +5759,10 @@ msgid "Parameter&s:"
 msgstr "Parametri(&s):"
 
 #: tfrmoptionstoolbar.lblhelponinternalcommand.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
 msgid "Help"
-msgstr ""
+msgstr "Ajutor"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
@@ -5816,14 +5815,16 @@ msgid "for a sub-tool bar"
 msgstr ""
 
 #: tfrmoptionstoolbar.mibackup.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.mibackup.caption"
 msgid "Backup..."
-msgstr ""
+msgstr "Copie de rezervă..."
 
 #: tfrmoptionstoolbar.miexport.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miexport.caption"
 msgid "Export..."
-msgstr ""
+msgstr "Exportă..."
 
 #: tfrmoptionstoolbar.miexportcurrent.caption
 msgid "Current toolbar..."
@@ -5845,14 +5846,16 @@ msgid "to a TC .BAR file (erase existing)"
 msgstr ""
 
 #: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "către un \"wincmd.ini\" al TC (păstrează pe cel existent)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "către un \"wincmd.ini\" al TC (șterge pe cel existent)"
 
 #: tfrmoptionstoolbar.miexportseparator1.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator1.caption"
@@ -5898,14 +5901,16 @@ msgid "to a TC .BAR file (erase existing)"
 msgstr ""
 
 #: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "către un \"wincmd.ini\" al TC (păstrează pe cel existent)"
 
 #: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "către un \"wincmd.ini\" al TC (șterge pe cel existent)"
 
 #: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
@@ -5928,9 +5933,10 @@ msgid "just prior current selection"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimport.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miimport.caption"
 msgid "Import..."
-msgstr ""
+msgstr "Importă..."
 
 #: tfrmoptionstoolbar.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
@@ -6074,9 +6080,10 @@ msgid "just prior current selection"
 msgstr ""
 
 #: tfrmoptionstoolbar.misearchandreplace.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "Caută și înlocuiește..."
 
 #: tfrmoptionstoolbar.miseparator1.caption
 msgctxt "tfrmoptionstoolbar.miseparator1.caption"
@@ -6709,9 +6716,10 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmsplitter.btnrelativeftchoice.hint
+#, fuzzy
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Unele funcții pentru a selecta calea potrivită"
 
 #: tfrmsplitter.caption
 msgctxt "TFRMSPLITTER.CAPTION"
@@ -7791,6 +7799,14 @@ msgstr "Lățime"
 msgid "Customize column"
 msgstr "Personalizează coloană"
 
+#: ulng.rsconfigurationfileassociation
+msgid "Configure file association"
+msgstr ""
+
+#: ulng.rsconfirmexecution
+msgid "Confirming command line and parameters"
+msgstr ""
+
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
 msgstr "Copiază (%d) %s"
@@ -7833,6 +7849,10 @@ msgstr ""
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
+msgstr ""
+
+#: ulng.rsdifffilesidentical
+msgid "The two files are identical!"
 msgstr ""
 
 #: ulng.rsdiffmatches
@@ -8065,6 +8085,26 @@ msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "Înlocuieşte"
 
+#: ulng.rseditwithexternaleditor
+msgid "with external editor"
+msgstr ""
+
+#: ulng.rseditwithinternaleditor
+msgid "with internal editor"
+msgstr ""
+
+#: ulng.rsexecuteviashell
+msgid "Execute via shell"
+msgstr ""
+
+#: ulng.rsexecuteviaterminalclose
+msgid "Execute via terminal and close"
+msgstr ""
+
+#: ulng.rsexecuteviaterminalstayopen
+msgid "Execute via terminal and stay open"
+msgstr ""
+
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
 msgstr ""
@@ -8269,9 +8309,21 @@ msgstr "Selectează masca"
 msgid "Input mask:"
 msgstr "Introduceți masca:"
 
+#: ulng.rsmenuconfigurecolumnsalreadyexists
+msgid "A columns view with that name already exists."
+msgstr ""
+
+#: ulng.rsmenuconfigurecolumnssavetochange
+msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
+msgstr ""
+
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
 msgstr "Configurează coloane personalizate"
+
+#: ulng.rsmenuconfigureentercustomcolumnname
+msgid "Enter new custom columns name"
+msgstr ""
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
@@ -8303,6 +8355,12 @@ msgstr "Nou"
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Niciun dispozitiv disponibil"
+
+#: ulng.rsmnuopen
+#, fuzzy
+msgctxt "ulng.rsmnuopen"
+msgid "Open"
+msgstr "Deschide"
 
 #: ulng.rsmnuopenwith
 msgid "Open with"
@@ -8362,6 +8420,13 @@ msgstr "Se înlătură toate filele inactive?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Această filă (%s) este blocată! Se închide oricum?"
 
+#: ulng.rsmsgcolumnsmodifiedwanttosave
+msgid ""
+"Options regarding columns view have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Sigur doriți să închideți?"
@@ -8374,8 +8439,16 @@ msgstr "Se copiază %d fișiere/dosare selectate?"
 msgid "Copy selected \"%s\"?"
 msgstr "Se copiază selecția \"%s\"?"
 
+#: ulng.rsmsgcreateanewfiletype
+msgid "< Create a new file type \"%s files\" >"
+msgstr ""
+
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgdefaultcustomactionname
+msgid "Custom action"
 msgstr ""
 
 #: ulng.rsmsgdeletepartiallycopied
@@ -8410,6 +8483,10 @@ msgstr "Discul nu este disponibil"
 msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
 msgstr ""
 
+#: ulng.rsmsgentercustomaction
+msgid "Enter custom action name:"
+msgstr ""
+
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
 msgstr "Introduceți extensia fișierului:"
@@ -8417,6 +8494,10 @@ msgstr "Introduceți extensia fișierului:"
 #: ulng.rsmsgentername
 msgid "Enter name:"
 msgstr "Introduceți numele:"
+
+#: ulng.rsmsgenternewfiletypename
+msgid "Enter name of new file type to create for extension \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -8542,6 +8623,20 @@ msgstr "Prea multe fișiere de împachetat"
 msgid "Archive format unknown"
 msgstr "Format necunoscut de arhivă"
 
+#: ulng.rsmsgfileassociationsextramodifiedwanttosave
+msgid ""
+"File extension associations extra options have been modified.\n"
+"\n"
+"Do you want to save before to exit?\n"
+msgstr ""
+
+#: ulng.rsmsgfileassociationsmodifiedwanttosave
+msgid ""
+"File extension associations have been modified.\n"
+"\n"
+"Do you want to save before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
 msgstr "Fișierul %s a fost modificat, doriți salvarea lui?"
@@ -8576,6 +8671,13 @@ msgstr "Câteva operații cu fișierele nu au fost finalizate. Închiderea Doubl
 
 #: ulng.rsmsgfileoperationsmodifiedwanttosave
 msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgfilepanelcolormodifiedwanttosave
+msgid ""
+"Options regarding panel color have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
@@ -8663,18 +8765,20 @@ msgid "Export selected"
 msgstr ""
 
 #: ulng.rsmsghotdirimportall
+#, fuzzy
 msgctxt "ulng.rsmsghotdirimportall"
 msgid "Import all!"
-msgstr ""
+msgstr "Importă toate!"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
 msgstr ""
 
 #: ulng.rsmsghotdirimportsel
+#, fuzzy
 msgctxt "ulng.rsmsghotdirimportsel"
 msgid "Import selected"
-msgstr ""
+msgstr "Importă selectate"
 
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
@@ -8857,6 +8961,14 @@ msgstr "Șterge fișierul %s"
 msgid "Error: "
 msgstr "Eroare: "
 
+#: ulng.rsmsglogextcmdlaunch
+msgid "Launch external"
+msgstr ""
+
+#: ulng.rsmsglogextcmdresult
+msgid "Result external"
+msgstr ""
+
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
 msgstr "Dezarhivare fișierul %s"
@@ -8876,6 +8988,13 @@ msgstr "Creează dosarul %s"
 #: ulng.rsmsglogmove
 msgid "Move file %s"
 msgstr "Mută fișierul %s"
+
+#: ulng.rsmsglogoptionsmodifiedwanttosave
+msgid ""
+"Options regarding log have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
@@ -8949,6 +9068,10 @@ msgstr "Nu poate fi șters fișierul %s"
 msgid "Not implemented."
 msgstr "Nu este implementat."
 
+#: ulng.rsmsgpanelpreview
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr ""
+
 #: ulng.rsmsgpassword
 msgid "Password:"
 msgstr "Parolă:"
@@ -8986,6 +9109,10 @@ msgstr "Șterge (&d) %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Fișierul predefinit \"%s\" există deja. Suprascrieți?"
 
+#: ulng.rsmsgproblemexecutingcommand
+msgid "Problem executing command (%s)"
+msgstr ""
+
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
 msgstr ""
@@ -9006,9 +9133,17 @@ msgstr "Se redenumește/mută \"%s\"?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Reporniți Double Commander pentru a aplica modificările"
 
+#: ulng.rsmsgsekectfiletype
+msgid "Select to which file type to add extension \"%s\""
+msgstr ""
+
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Selectate: %s din %s, fișiere: %d din %d, dosare: %d din %d"
+
+#: ulng.rsmsgselectexecutablefile
+msgid "Select executable file for"
+msgstr ""
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
@@ -9104,7 +9239,7 @@ msgstr "Calea țintei:"
 
 #: ulng.rsmsgtcconfignotfound
 msgid ""
-"Error! Cannot find the TC oncfiguration file:\n"
+"Error! Cannot find the TC configuration file:\n"
 "%s\n"
 msgstr ""
 
@@ -9130,8 +9265,19 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
+#: ulng.rsmsgterminaloptionsmodifiedwanttosave
+msgid ""
+"Options regarding terminal have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
+msgstr ""
+
+#: ulng.rsmsgtitleextnotinfiletype
+msgid "Extension of selected file is not in any recognized file types"
 msgstr ""
 
 #: ulng.rsmsgtoolbarerrornotsaved
@@ -9172,6 +9318,14 @@ msgstr ""
 msgid "URL:"
 msgstr "URL:"
 
+#: ulng.rsmsguserdidnotsetextension
+msgid "<NO EXT>"
+msgstr ""
+
+#: ulng.rsmsguserdidnotsetname
+msgid "<NO NAME>"
+msgstr ""
+
 #: ulng.rsmsgusername
 msgid "User name:"
 msgstr "Nume utilizator:"
@@ -9195,6 +9349,10 @@ msgstr "Se șterg definitiv %d fișiere/dosare selectate?"
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
 msgstr "Se șterge definitiv selecția \"%s\"?"
+
+#: ulng.rsmsgwithactionwith
+msgid "with"
+msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
@@ -9552,6 +9710,7 @@ msgid "Change shortcut"
 msgstr "Schimbă scurtătura"
 
 #: ulng.rsopthotkeyscommand
+msgctxt "ulng.rsopthotkeyscommand"
 msgid "Command"
 msgstr "Comandă"
 
@@ -9677,6 +9836,10 @@ msgstr "Trage și mută"
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
 msgstr "Butonul listei cu dispozitive"
+
+#: ulng.rsoptionseditorfileassicextra
+msgid "File associations extra"
+msgstr ""
 
 #: ulng.rsoptionseditorfileassoc
 msgctxt "ulng.rsoptionseditorfileassoc"
@@ -9842,9 +10005,7 @@ msgstr "Ascunde (&h) panoul cu filtre când nu este activ;Continuă salvarea mod
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
-"cu majuscule semnificative;potrivit setărilor locale (aAbBcC);mai întâi cu "
-"majuscule apoi cu minuscule (ABCabc)"
+msgstr "cu majuscule semnificative;potrivit setărilor locale (aAbBcC);mai întâi cu majuscule apoi cu minuscule (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
@@ -9951,6 +10112,42 @@ msgstr "Toate"
 
 #: ulng.rssimplewordcategory
 msgid "Category"
+msgstr ""
+
+#: ulng.rssimplewordcolumnsingular
+msgid "Column"
+msgstr ""
+
+#: ulng.rssimplewordcommand
+#, fuzzy
+msgctxt "ulng.rssimplewordcommand"
+msgid "Command"
+msgstr "Comandă"
+
+#: ulng.rssimplewordfilename
+msgid "Filename"
+msgstr ""
+
+#: ulng.rssimplewordfiles
+msgid "files"
+msgstr ""
+
+#: ulng.rssimplewordparameter
+msgid "Param"
+msgstr ""
+
+#: ulng.rssimplewordpreview
+#, fuzzy
+msgctxt "ulng.rssimplewordpreview"
+msgid "Preview"
+msgstr "Previzualizează"
+
+#: ulng.rssimplewordresult
+msgid "Result"
+msgstr ""
+
+#: ulng.rssimplewordworkdir
+msgid "WorkDir"
 msgstr ""
 
 #: ulng.rssizeunitbytes
@@ -10083,6 +10280,146 @@ msgstr "Vizualizator"
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Vă rugăm raportați această eroare la sistemul de urmărire a defecțiunilor cu o descriere a ceea ce făceați și a fișierelor implicate:%sApăsați %s pentru a continua sau %s pentru a părăsi programul."
 
+#: ulng.rsvarbothpanelactivetoinactive
+msgid "Both panels, from active to inactive"
+msgstr ""
+
+#: ulng.rsvarbothpanellefttoright
+msgid "Both panels, from left to right"
+msgstr ""
+
+#: ulng.rsvarcurrentpath
+msgid "Path of panel"
+msgstr ""
+
+#: ulng.rsvarencloseelement
+msgid "Enclose each name in brackets or what you want"
+msgstr ""
+
+#: ulng.rsvarfilenamenoext
+msgid "Just filename, no extension"
+msgstr ""
+
+#: ulng.rsvarfullpath
+msgid "Complete filename (path+filename)"
+msgstr ""
+
+#: ulng.rsvarhelpwith
+msgid "Help with \"%\" variables"
+msgstr ""
+
+#: ulng.rsvarinputparam
+msgid "Will request request user to enter a parameter with a default suggested value"
+msgstr ""
+
+#: ulng.rsvarleftpanel
+msgid "Left panel"
+msgstr ""
+
+#: ulng.rsvarlistfilename
+msgid "Temporary filename of list of filenames"
+msgstr ""
+
+#: ulng.rsvarlistfullfilename
+msgid "Temporary filename of list of complete filenames (path+filename)"
+msgstr ""
+
+#: ulng.rsvarlistrelativefilename
+msgid "Temporary filename of list of filenames with relative path"
+msgstr ""
+
+#: ulng.rsvaronlyextension
+msgid "Only file extension"
+msgstr ""
+
+#: ulng.rsvaronlyfilename
+msgid "Only filename"
+msgstr ""
+
+#: ulng.rsvarotherexamples
+msgid "Other example of what's possible"
+msgstr ""
+
+#: ulng.rsvarpath
+msgid "Path, with ending delimiter"
+msgstr ""
+
+#: ulng.rsvarpercentchangetopound
+msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
+msgstr ""
+
+#: ulng.rsvarpercentsign
+msgid "Return the percent sign"
+msgstr ""
+
+#: ulng.rsvarpoundchangetopercent
+msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
+msgstr ""
+
+#: ulng.rsvarprependelement
+msgid "Prepend each name with \"-a \" or what you want"
+msgstr ""
+
+#: ulng.rsvarpromptuserforparam
+msgid "%[Prompt user for param;Default value proposed]"
+msgstr ""
+
+#: ulng.rsvarrelativepathandfilename
+msgid "Filename with relative path"
+msgstr ""
+
+#: ulng.rsvarrightpanel
+msgid "Right panel"
+msgstr ""
+
+#: ulng.rsvarsecondelementrightpanel
+msgid "Full path of second selected file in right panel"
+msgstr ""
+
+#: ulng.rsvarshowcommandprior
+msgid "Show command prior execute"
+msgstr ""
+
+#: ulng.rsvarsimplemessage
+msgid "%[Simple message]"
+msgstr ""
+
+#: ulng.rsvarsimpleshowmessage
+msgid "Will show a simple message"
+msgstr ""
+
+#: ulng.rsvarsourcepanel
+msgid "Active panel (source)"
+msgstr ""
+
+#: ulng.rsvartargetpanel
+msgid "Inactive panel (target)"
+msgstr ""
+
+#: ulng.rsvarwillbequoted
+msgid "Filenames will be quoted from here (default)"
+msgstr ""
+
+#: ulng.rsvarwilldointerminal
+msgid "Command will be done in terminal, remaining opened at the end"
+msgstr ""
+
+#: ulng.rsvarwillhaveendingdelimiter
+msgid "Paths will have ending delimiter"
+msgstr ""
+
+#: ulng.rsvarwillnotbequoted
+msgid "Filenames will not be quoted from here"
+msgstr ""
+
+#: ulng.rsvarwillnotdointerminal
+msgid "Command will be done in terminal, closed at the end"
+msgstr ""
+
+#: ulng.rsvarwillnothaveendingdelimiter
+msgid "Paths will not have ending delimiter (default)"
+msgstr ""
+
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
@@ -10100,6 +10437,14 @@ msgstr "Codificare"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s nu a fost găsit!"
+
+#: ulng.rsviewwithexternalviewer
+msgid "with external viewer"
+msgstr ""
+
+#: ulng.rsviewwithinternalviewer
+msgid "with internal viewer"
+msgstr ""
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
