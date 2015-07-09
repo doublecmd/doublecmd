@@ -74,6 +74,7 @@ type
   TFTPSendEx = class(TFTPSend)
   private
     FUnicode: Boolean;
+    FSetTime: Boolean;
   protected
     function Connect: Boolean; override;
     procedure DoStatus(Response: Boolean; const Value: string); override;
@@ -83,6 +84,7 @@ type
   public
     constructor Create; reintroduce;
     function Login: Boolean; override;
+    function SetTime(const FileName: String; FileTime: TDateTime): Boolean;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
     function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; overload;
     function NetworkError(): Boolean;
@@ -184,17 +186,26 @@ begin
     begin
       for Index:= 0 to FFullResult.Count - 1 do
       begin
-        FUnicode:= Pos('UTF8', FFullResult[Index]) > 0;
-        if FUnicode then
-        begin
-          FTPCommand('OPTS UTF8 ON');
-          ClientToServer:= @SysToUTF8;
-          ServerToClient:= @UTF8ToSys;
-          Exit;
-        end;
+        if not FUnicode then FUnicode:= Pos('UTF8', FFullResult[Index]) > 0;
+        if not FSetTime then FSetTime:= Pos('MFMT', FFullResult[Index]) > 0;
+      end;
+      if FUnicode then
+      begin
+        FTPCommand('OPTS UTF8 ON');
+        ClientToServer:= @SysToUTF8;
+        ServerToClient:= @UTF8ToSys;
       end;
     end;
   end;
+end;
+
+function TFTPSendEx.SetTime(const FileName: String; FileTime: TDateTime): Boolean;
+var
+  Time: String;
+begin
+  if not FSetTime then Exit(False);
+  Time:= FormatDateTime('yyyymmddhhnnss', FileTime);
+  Result:= FTPCommand('MFMT ' + Time + ' ' + FileName) = 213;
 end;
 
 function TFTPSendEx.StoreFile(const FileName: string; Restore: Boolean): Boolean;
