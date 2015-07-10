@@ -21,6 +21,8 @@ type
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
   TCopyMoveFileFunction = function(source: PGFile; destination: PGFile; flags: TGFileCopyFlags; cancellable: PGCancellable; progress_callback: TGFileProgressCallback; progress_callback_data: gpointer; error: PPGError): gboolean; cdecl;
 
+  { TGioFileTreeNodeData }
+
   TGioFileTreeNodeData = class(TFileTreeNodeData)
     FollowLink: Boolean;
   end;
@@ -242,13 +244,17 @@ var
   AddedNode: TFileTreeNode;
   AddedIndex: Integer;
 begin
-  AddedIndex := CurrentNode.AddSubNode(aFile);
-  AddedNode := CurrentNode.SubNodes[AddedIndex];
-  AddedNode.Data := TGioFileTreeNodeData.Create;
+  if aFile.IsLinkToDirectory then
+    AddDirectory(aFile, CurrentNode)
+  else begin
+    AddedIndex := CurrentNode.AddSubNode(aFile);
+    AddedNode := CurrentNode.SubNodes[AddedIndex];
+    AddedNode.Data := TGioFileTreeNodeData.Create;
 
-  (AddedNode.Data as TGioFileTreeNodeData).FollowLink := True;
+    (AddedNode.Data as TGioFileTreeNodeData).FollowLink := True;
 
-  Inc(FFilesCount);
+    Inc(FFilesCount);
+  end;
 end;
 
 procedure TGioTreeBuilder.AddFilesInDirectory(srcPath: String;
