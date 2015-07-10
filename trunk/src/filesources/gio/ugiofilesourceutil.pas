@@ -383,11 +383,9 @@ begin
     fsoterNotExists:
       begin
         // Try moving whole directory tree. It can be done only if we don't have
-        // to process each subnode: if there are no links, or they're not being
-        // processed, if the files are not being renamed or excluded.
+        // to process each subnode: if the files are not being renamed or excluded.
         if (FCopyMoveFile = g_file_move) and
            (not FRenamingFiles) and
-           (NodeData.SubnodesHaveLinks = False) and
            (NodeData.SubnodesHaveExclusions = False) and
            g_file_move(src, dst, G_FILE_COPY_NOFOLLOW_SYMLINKS or G_FILE_COPY_NO_FALLBACK_FOR_MOVE, nil, nil, nil, nil)
            then
