@@ -21,17 +21,10 @@ type
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
   TCopyMoveFileFunction = function(source: PGFile; destination: PGFile; flags: TGFileCopyFlags; cancellable: PGCancellable; progress_callback: TGFileProgressCallback; progress_callback_data: gpointer; error: PPGError): gboolean; cdecl;
 
-  { TGioFileTreeNodeData }
-
-  TGioFileTreeNodeData = class(TFileTreeNodeData)
-    FollowLink: Boolean;
-  end;
-
   { TGioTreeBuilder }
 
   TGioTreeBuilder = class(TFileSourceTreeBuilder)
   protected
-    procedure AddLink(aFile: TFile; CurrentNode: TFileTreeNode); override;
     procedure AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode); override;
     procedure AddFilesInDirectory(srcPath: String; CurrentNode: TFileTreeNode); override;
   end;
@@ -108,7 +101,8 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
 implementation
 
 uses
-  Forms, StrUtils, DCDateTimeUtils, uFileProperty, uFileSourceOperationUI, uShowMsg, uLng, uGObject2;
+  Forms, StrUtils, DCDateTimeUtils, uFileProperty, uFileSourceOperationUI,
+  uShowMsg, uLng, uGObject2, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
 begin
@@ -225,35 +219,17 @@ end;
 
 { TGioTreeBuilder }
 
-procedure TGioTreeBuilder.AddLink(aFile: TFile; CurrentNode: TFileTreeNode);
-var
-  AddedNode: TFileTreeNode;
-  AddedIndex: Integer;
-begin
-  AddedIndex := CurrentNode.AddSubNode(aFile);
-  AddedNode := CurrentNode.SubNodes[AddedIndex];
-  AddedNode.Data := TGioFileTreeNodeData.Create;
-
-  (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
-
-  Inc(FFilesCount);
-end;
-
 procedure TGioTreeBuilder.AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode);
-var
-  AddedNode: TFileTreeNode;
-  AddedIndex: Integer;
 begin
+  aFile.Attributes:= aFile.Attributes and (not S_IFLNK);
+
   if aFile.IsLinkToDirectory then
-    AddDirectory(aFile, CurrentNode)
+  begin
+    aFile.Attributes:= aFile.Attributes or S_IFDIR;
+    AddDirectory(aFile, CurrentNode);
+  end
   else begin
-    AddedIndex := CurrentNode.AddSubNode(aFile);
-    AddedNode := CurrentNode.SubNodes[AddedIndex];
-    AddedNode.Data := TGioFileTreeNodeData.Create;
-
-    (AddedNode.Data as TGioFileTreeNodeData).FollowLink := True;
-
-    Inc(FFilesCount);
+    AddFile(aFile, CurrentNode);
   end;
 end;
 
@@ -463,14 +439,7 @@ end;
 function TGioOperationHelper.ProcessLink(aNode: TFileTreeNode;
   AbsoluteTargetFileName: String): Boolean;
 begin
-  if not (aNode.Data as TGioFileTreeNodeData).FollowLink then
-    Result:= ProcessFile(aNode, AbsoluteTargetFileName, G_FILE_COPY_NOFOLLOW_SYMLINKS)
-  else begin
-    if aNode.TheFile.IsLinkToDirectory then
-      Result := ProcessDirectory(aNode, AbsoluteTargetFileName)
-    else
-      Result := ProcessFile(aNode, AbsoluteTargetFileName, G_FILE_COPY_NONE);
-  end;
+  Result:= ProcessFile(aNode, AbsoluteTargetFileName, G_FILE_COPY_NOFOLLOW_SYMLINKS);
 end;
 
 function TGioOperationHelper.ProcessFile(aNode: TFileTreeNode;
@@ -586,12 +555,6 @@ var
     end;
   end;
 
-  function AllowCopyInto: Boolean;
-  begin
-    Result := SourceFile.IsDirectory or
-              (aNode.TheFile.IsLinkToDirectory and (aNode.Data as TGioFileTreeNodeData).FollowLink);
-  end;
-
 begin
   AInfo:= g_file_query_info(aTargetFile, FILE_ATTRIBUTE_STANDARD_TYPE + ',' +  FILE_ATTRIBUTE_STANDARD_SIZE +','+ FILE_ATTRIBUTE_TIME_MODIFIED, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
 
@@ -603,7 +566,7 @@ begin
     // Target exists - ask user what to do.
     if AFileType = G_FILE_TYPE_DIRECTORY then
     begin
-      Result := DoDirectoryExists(AllowCopyInto)
+      Result := DoDirectoryExists(SourceFile.IsDirectory)
     end
     else if AFileType = G_FILE_TYPE_SYMBOLIC_LINK then
     begin
@@ -613,7 +576,7 @@ begin
       begin
         AFileType:= g_file_info_get_file_type(ASymlinkInfo);
         if AFileType = G_FILE_TYPE_DIRECTORY then
-          Result := DoDirectoryExists(AllowCopyInto)
+          Result := DoDirectoryExists(SourceFile.IsDirectory)
         else begin
           Result := DoFileExists();
         end;
