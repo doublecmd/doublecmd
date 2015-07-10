@@ -46,7 +46,7 @@ type
     procedure AddItem(aFile: TFile; CurrentNode: TFileTreeNode);
     procedure AddFilesInDirectory(srcPath: String; CurrentNode: TFileTreeNode); virtual; abstract;
     procedure AddFile(aFile: TFile; CurrentNode: TFileTreeNode);
-    procedure AddLink(aFile: TFile; CurrentNode: TFileTreeNode);
+    procedure AddLink(aFile: TFile; CurrentNode: TFileTreeNode); virtual;
     procedure AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode); virtual; abstract;
     procedure AddDirectory(aFile: TFile; CurrentNode: TFileTreeNode);
     procedure DecideOnLink(aFile: TFile; CurrentNode: TFileTreeNode);
