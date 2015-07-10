@@ -466,10 +466,10 @@ begin
   if not (aNode.Data as TGioFileTreeNodeData).FollowLink then
     Result:= ProcessFile(aNode, AbsoluteTargetFileName, G_FILE_COPY_NOFOLLOW_SYMLINKS)
   else begin
-  if aNode.TheFile.IsLinkToDirectory then
-    Result := ProcessDirectory(aNode, AbsoluteTargetFileName)
-  else
-    Result := ProcessFile(aNode, AbsoluteTargetFileName, G_FILE_COPY_NONE);
+    if aNode.TheFile.IsLinkToDirectory then
+      Result := ProcessDirectory(aNode, AbsoluteTargetFileName)
+    else
+      Result := ProcessFile(aNode, AbsoluteTargetFileName, G_FILE_COPY_NONE);
   end;
 end;
 
@@ -586,16 +586,10 @@ var
     end;
   end;
 
-  function IsLinkFollowed: Boolean;
-  begin
-    // If link was followed then it's target is stored in a subnode.
-    Result := SourceFile.AttributesProperty.IsLink and (aNode.SubNodesCount > 0);
-  end;
-
   function AllowCopyInto: Boolean;
   begin
-    Result := SourceFile.AttributesProperty.IsDirectory or
-              (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory);
+    Result := SourceFile.IsDirectory or
+              (aNode.TheFile.IsLinkToDirectory and (aNode.Data as TGioFileTreeNodeData).FollowLink);
   end;
 
 begin
