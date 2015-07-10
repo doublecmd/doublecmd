@@ -53,6 +53,7 @@ end;
 destructor TGioMoveOperation.Destroy;
 begin
   inherited Destroy;
+  FreeAndNil(FSourceFilesTree);
 end;
 
 procedure TGioMoveOperation.Initialize;

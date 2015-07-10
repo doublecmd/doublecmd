@@ -78,6 +78,7 @@ end;
 destructor TGioCopyOperation.Destroy;
 begin
   inherited Destroy;
+  FreeAndNil(FSourceFilesTree);
 end;
 
 procedure TGioCopyOperation.Initialize;
