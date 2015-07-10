@@ -8,6 +8,7 @@ uses
   Classes, SysUtils, syncobjs,
   uFileSourceOperation,
   uFileSourceOperationTypes,
+  uFileSourceOperationOptions,
   uFileSource,
   uFile,
   uFileSourceCopyOperation;
@@ -33,6 +34,9 @@ type
     FSourceFiles: TFiles;
     FTargetPath: String;
     FRenameMask: String;
+
+  protected
+    FFileExistsOption: TFileSourceOperationOptionFileExists;
 
   protected
     function GetID: TFileSourceOperationType; override;
@@ -66,6 +70,7 @@ type
     function RetrieveStatistics: TFileSourceMoveOperationStatistics;
 
     property RenameMask: String read FRenameMask write FRenameMask;
+    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
   end;
 
 implementation
