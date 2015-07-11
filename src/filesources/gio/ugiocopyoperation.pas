@@ -73,7 +73,7 @@ type
 implementation
 
 uses
-  fGioCopyMoveOperationOptions, uGio2, uGlobs;
+  fGioCopyMoveOperationOptions, uGio2;
 
 constructor TGioCopyOperation.Create(aSourceFileSource: IFileSource;
                                             aTargetFileSource: IFileSource;
