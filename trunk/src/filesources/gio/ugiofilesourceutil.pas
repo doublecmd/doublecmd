@@ -5,16 +5,17 @@ unit uGioFileSourceUtil;
 interface
 
 uses
-  Classes, SysUtils, DCStrUtils, uFile, uFileSource, uFileSourceOperation, uFileSourceCopyOperation, uFileSystemUtil,
-  uFileSourceOperationOptions, uFileSourceTreeBuilder, uGioFileSource, uGLib2, uGio2, uLog, uGlobs;
+  Classes, SysUtils, DCStrUtils, uFile, uFileSource, uFileSourceOperation,
+  uFileSourceCopyOperation, uFileSystemUtil, uFileSourceOperationOptions,
+  uFileSourceTreeBuilder, uGioFileSource, uGLib2, uGio2, uLog, uGlobs;
 
 
 const
-  CONST_DEFAULT_QUERY_INFO_ATTRIBUTES = FILE_ATTRIBUTE_STANDARD_TYPE +','+ FILE_ATTRIBUTE_STANDARD_NAME +','+
-                                        FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME +','+ FILE_ATTRIBUTE_STANDARD_SIZE +','+
-                                        FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET +','+ FILE_ATTRIBUTE_TIME_MODIFIED +','+
-                                        FILE_ATTRIBUTE_TIME_ACCESS +','+ FILE_ATTRIBUTE_TIME_CREATED +','+
-                                        FILE_ATTRIBUTE_UNIX_MODE +','+ FILE_ATTRIBUTE_UNIX_UID +','+
+  CONST_DEFAULT_QUERY_INFO_ATTRIBUTES = FILE_ATTRIBUTE_STANDARD_TYPE + ',' + FILE_ATTRIBUTE_STANDARD_NAME + ',' +
+                                        FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME + ',' + FILE_ATTRIBUTE_STANDARD_SIZE + ',' +
+                                        FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET + ',' + FILE_ATTRIBUTE_TIME_MODIFIED + ',' +
+                                        FILE_ATTRIBUTE_TIME_ACCESS + ',' + FILE_ATTRIBUTE_TIME_CREATED + ',' +
+                                        FILE_ATTRIBUTE_UNIX_MODE + ',' + FILE_ATTRIBUTE_UNIX_UID + ',' +
                                         FILE_ATTRIBUTE_UNIX_GID;
 
 type
@@ -139,7 +140,10 @@ var
         aFile:= TGioFileSource.CreateFile(srcPath, AFolder, AInfo);
         NewFiles.Add(aFile);
 
-        if aFile.IsDirectory then
+        if aFile.IsLink then
+          begin
+          end
+        else if aFile.IsDirectory then
           begin
             if CountDirs then Inc(FilesCount);
             FillAndCountRec(srcPath + aFileName + PathDelim);
@@ -167,7 +171,7 @@ begin
 
     NewFiles.Add(aFile.Clone);
 
-    if aFile.AttributesProperty.IsDirectory {and (not aFile.LinkProperty.IsLinkToDirectory)} then
+    if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
       begin
         if CountDirs then
           Inc(FilesCount);
@@ -220,6 +224,7 @@ end;
 
 procedure TGioTreeBuilder.AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode);
 begin
+  // Add as normal file/directory
   aFile.Attributes:= aFile.Attributes and (not S_IFLNK);
 
   if aFile.IsLinkToDirectory then
@@ -355,20 +360,20 @@ end;
 function TGioOperationHelper.ProcessDirectory(aNode: TFileTreeNode;
   AbsoluteTargetFileName: String): Boolean;
 var
+  AError: PGError = nil;
   bRemoveDirectory: Boolean;
   NodeData: TFileTreeNodeData;
-  src, dst: PGFile;
-  AError: PGError = nil;
+  SourceFile, TargetFile: PGFile;
 begin
   NodeData := aNode.Data as TFileTreeNodeData;
 
-  src:= g_file_new_for_commandline_arg(Pgchar(aNode.TheFile.FullPath));
-  dst:= g_file_new_for_commandline_arg(Pgchar(AbsoluteTargetFileName));
+  SourceFile:= g_file_new_for_commandline_arg(Pgchar(aNode.TheFile.FullPath));
+  TargetFile:= g_file_new_for_commandline_arg(Pgchar(AbsoluteTargetFileName));
   try
   // If some files will not be moved then source directory cannot be deleted.
   bRemoveDirectory := (FCopyMoveFile = g_file_move) and (NodeData.SubnodesHaveExclusions = False);
 
-  case TargetExists(aNode, dst, AbsoluteTargetFileName) of
+  case TargetExists(aNode, TargetFile, AbsoluteTargetFileName) of
     fsoterSkip:
       begin
         Result := False;
@@ -382,7 +387,7 @@ begin
         if (FCopyMoveFile = g_file_move) and
            (not FRenamingFiles) and
            (NodeData.SubnodesHaveExclusions = False) and
-           g_file_move(src, dst, G_FILE_COPY_NOFOLLOW_SYMLINKS or G_FILE_COPY_NO_FALLBACK_FOR_MOVE, nil, nil, nil, nil)
+           g_file_move(SourceFile, TargetFile, G_FILE_COPY_NOFOLLOW_SYMLINKS or G_FILE_COPY_NO_FALLBACK_FOR_MOVE, nil, nil, nil, nil)
            then
         begin
           // Success.
@@ -393,7 +398,7 @@ begin
         else
         begin
           // Create target directory.
-          if g_file_make_directory_with_parents(dst, nil, @AError) then
+          if g_file_make_directory_with_parents(TargetFile, nil, @AError) then
           begin
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
@@ -420,12 +425,12 @@ begin
 
   if bRemoveDirectory and Result then
   begin
-    g_file_delete(src, nil, nil);
+    g_file_delete(SourceFile, nil, nil);
   end;
 
   finally
-    g_object_unref(PGObject(src));
-    g_object_unref(PGObject(dst));
+    g_object_unref(PGObject(SourceFile));
+    g_object_unref(PGObject(TargetFile));
   end;
 end;
 
