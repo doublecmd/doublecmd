@@ -465,6 +465,8 @@ begin
               Result:= True;
               Break;
             end;
+            fsoterNotExists:
+              FreeAndNil(AError);
           end;
         end
         else
