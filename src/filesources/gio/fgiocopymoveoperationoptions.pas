@@ -40,13 +40,15 @@ implementation
 {$R *.lfm}
 
 uses
-  WfxPlugin, uGlobs, uWfxPluginFileSource, uFileSourceOperationOptions;
+  DCStrUtils, uLng, uGlobs, uWfxPluginFileSource, uFileSourceOperationOptions;
 
 { TGioCopyMoveOperationOptionsUI }
 
 constructor TGioCopyMoveOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited Create(AOwner, AFileSource);
+
+  ParseLineToList(rsFileOpFileExistsOptions, cmbFileExists.Items);
 
   // Load default options.
   case gOperationOptionFileExists of
