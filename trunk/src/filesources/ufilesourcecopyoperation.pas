@@ -48,6 +48,7 @@ type
 
   protected
     FFileExistsOption: TFileSourceOperationOptionFileExists;
+    FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
   protected
     function GetID: TFileSourceOperationType; override;
@@ -84,6 +85,7 @@ type
 
     property RenameMask: String read FRenameMask write FRenameMask;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
   end;
 
   {en
