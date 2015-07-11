@@ -370,14 +370,14 @@ var
   aFile: TFile;
   aFileList: TStringList;
   aFileSource: ITempFileSystemFileSource;
-  aCopyOutOperation: TFileSourceCopyOutOperation;
+  aCopyOutOperation: TFileSourceCopyOperation;
   sCmd, sParams, sStartPath: string;
 begin
   if (State = fsosStopped) and (Operation.Result = fsorFinished) then
   begin
     aFileList := TStringList.Create;
     try
-      aCopyOutOperation := Operation as TFileSourceCopyOutOperation;
+      aCopyOutOperation := Operation as TFileSourceCopyOperation;
       aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
       ChangeFileListRoot(aFileSource.FileSystemRoot, aCopyOutOperation.SourceFiles);
 
