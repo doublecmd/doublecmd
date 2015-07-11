@@ -33,7 +33,7 @@ object GioCopyMoveOperationOptionsUI: TGioCopyMoveOperationOptionsUI
       FocusControl = cmbFileExists
       ParentColor = False
     end
-    object cmbFileExists: TComboBox
+    object cmbFileExists: TComboBoxAutoWidth
       Left = 140
       Height = 20
       Top = 5
