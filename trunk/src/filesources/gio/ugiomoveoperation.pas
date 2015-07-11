@@ -23,9 +23,6 @@ type
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
 
-protected
-//  function ProcessFile(const AFile: TFile; const ATargetPath: UTF8String): Boolean;
-
   public
     constructor Create(aFileSource: IFileSource;
                        var theSourceFiles: TFiles;
@@ -42,7 +39,7 @@ protected
 implementation
 
 uses
-  uFileSourceOperationOptions, uGio2, uGlobs;
+  uFileSourceOperationOptions, uGio2;
 
 constructor TGioMoveOperation.Create(aFileSource: IFileSource;
   var theSourceFiles: TFiles; aTargetPath: String);
