@@ -91,6 +91,7 @@ type
     procedure ProcessTree(aFileTree: TFileTree);
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property RenameMask: String read FRenameMask write FRenameMask;
   end;
 

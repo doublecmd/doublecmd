@@ -10,6 +10,7 @@ uses
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperationTypes,
+  uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFile,
   uGioFileSourceUtil;
@@ -25,6 +26,9 @@ type
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
+  protected
+    FSymLinkOption: TFileSourceOperationOptionSymLink;
+
   public
     constructor Create(aSourceFileSource: IFileSource;
                        aTargetFileSource: IFileSource;
@@ -39,6 +43,7 @@ type
 
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
+    property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
   end;
 
   {
@@ -93,9 +98,7 @@ begin
 
   TreeBuilder := TGioTreeBuilder.Create(@AskQuestion, @CheckOperationState);
   try
-    // TreeBuilder.SymLinkOption  := Self.SymLinkOption;
-    // TreeBuilder.SearchTemplate := Self.SearchTemplate;
-    // TreeBuilder.ExcludeEmptyTemplateDirectories := Self.ExcludeEmptyTemplateDirectories;
+    TreeBuilder.SymLinkOption  := Self.SymLinkOption;
 
     TreeBuilder.BuildFromFiles(SourceFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
@@ -118,6 +121,7 @@ begin
 
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.FileExistsOption := FileExistsOption;
+  FOperationHelper.DirExistsOption := DirExistsOption;
 
   FOperationHelper.Initialize;
 end;

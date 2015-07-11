@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls,
-  uFileSourceOperationOptionsUI,
+  uFileSourceOperationOptionsUI, KASComboBox,
   uGioCopyOperation,
   uGioMoveOperation;
 
@@ -15,8 +15,11 @@ type
   { TGioCopyMoveOperationOptionsUI }
 
   TGioCopyMoveOperationOptionsUI = class(TFileSourceOperationOptionsUI)
+    cbFollowLinks: TCheckBox;
+    cmbDirectoryExists: TComboBoxAutoWidth;
     cmbFileExists: TComboBox;
     grpOptions: TGroupBox;
+    lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
     pnlCheckboxes: TPanel;
     pnlComboBoxes: TPanel;
@@ -32,7 +35,11 @@ type
   TGioCopyOperationOptionsUI = class(TGioCopyMoveOperationOptionsUI)
   end;
 
+  { TGioMoveOperationOptionsUI }
+
   TGioMoveOperationOptionsUI = class(TGioCopyMoveOperationOptionsUI)
+  public
+    constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
   end;
 
 implementation
@@ -40,7 +47,7 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uLng, uGlobs, uWfxPluginFileSource, uFileSourceOperationOptions;
+  DCStrUtils, uLng, uGlobs, uFileSourceOperationOptions;
 
 { TGioCopyMoveOperationOptionsUI }
 
@@ -49,12 +56,25 @@ begin
   inherited Create(AOwner, AFileSource);
 
   ParseLineToList(rsFileOpFileExistsOptions, cmbFileExists.Items);
+  ParseLineToList(rsFileOpDirectoryExistsOptions, cmbDirectoryExists.Items);
 
   // Load default options.
   case gOperationOptionFileExists of
     fsoofeNone     : cmbFileExists.ItemIndex := 0;
     fsoofeOverwrite: cmbFileExists.ItemIndex := 1;
     fsoofeSkip     : cmbFileExists.ItemIndex := 2;
+  end;
+
+  case gOperationOptionDirectoryExists of
+    fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
+    fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 1;
+    fsoodeSkip     : cmbDirectoryExists.ItemIndex := 2;
+  end;
+
+  case gOperationOptionSymLinks of
+    fsooslFollow     : cbFollowLinks.State := cbChecked;
+    fsooslDontFollow : cbFollowLinks.State := cbUnchecked;
+    fsooslNone       : cbFollowLinks.State := cbGrayed;
   end;
 end;
 
@@ -81,6 +101,18 @@ begin
       1: FileExistsOption := fsoofeOverwrite;
       2: FileExistsOption := fsoofeSkip;
     end;
+
+    case cmbDirectoryExists.ItemIndex of
+      0: DirExistsOption := fsoodeNone;
+      1: DirExistsOption := fsoodeCopyInto;
+      2: DirExistsOption := fsoodeSkip;
+    end;
+
+    case cbFollowLinks.State of
+      cbChecked  : SymLinkOption := fsooslFollow;
+      cbUnchecked: SymLinkOption := fsooslDontFollow;
+      cbGrayed   : SymLinkOption := fsooslNone;
+    end;
   end;
 end;
 
@@ -94,7 +126,22 @@ begin
       1: FileExistsOption := fsoofeOverwrite;
       2: FileExistsOption := fsoofeSkip;
     end;
+
+    case cmbDirectoryExists.ItemIndex of
+      0: DirExistsOption := fsoodeNone;
+      1: DirExistsOption := fsoodeCopyInto;
+      2: DirExistsOption := fsoodeSkip;
+    end;
   end;
+end;
+
+{ TGioMoveOperationOptionsUI }
+
+constructor TGioMoveOperationOptionsUI.Create(AOwner: TComponent;
+  AFileSource: IInterface);
+begin
+  inherited Create(AOwner, AFileSource);
+  cbFollowLinks.Visible:= False;
 end;
 
 end.
