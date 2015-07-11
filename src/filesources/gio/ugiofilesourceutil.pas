@@ -94,6 +94,7 @@ type
   end;
 
 procedure ShowError(AError: PGError);
+procedure FreeAndNil(var AError: PGError); overload;
 
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
                        out FilesCount: Int64; out FilesSize: Int64);
@@ -119,23 +120,23 @@ var
   procedure FillAndCountRec(const srcPath: UTF8String);
   var
     AFolder: PGFile;
-    info: PGFileInfo;
-    en: PGFileEnumerator;
-    error: PGError;
+    AError: PGError;
+    AInfo: PGFileInfo;
     AFileName: Pgchar;
+    AFileEnum: PGFileEnumerator;
   begin
     AFolder:= g_file_new_for_commandline_arg (Pgchar(srcPath));
-    en := g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
-                                       G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @error);
+    AFileEnum:= g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
+                                           G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
 
-    info:= g_file_enumerator_next_file (en, nil, @error);
-          while Assigned(info) do
+    AInfo:= g_file_enumerator_next_file (AFileEnum, nil, @AError);
+    while Assigned(AInfo) do
+    begin
+      AFileName:= g_file_info_get_name(AInfo);
+
+      if (aFileName <> '.') and (aFileName <> '..') then
       begin
-        AFileName:= g_file_info_get_name(info);
-
-                if (aFileName = '.') or (aFileName = '..') then Continue;
-
-        aFile:= TGioFileSource.CreateFile(srcPath, AFolder, info);
+        aFile:= TGioFileSource.CreateFile(srcPath, AFolder, AInfo);
         NewFiles.Add(aFile);
 
         if aFile.IsDirectory then
@@ -148,9 +149,11 @@ var
             Inc(FilesSize, aFile.Size);
             Inc(FilesCount);
           end;
+       end;
 
-                info:= g_file_enumerator_next_file (en, nil, @error);
-      end;
+      AInfo:= g_file_enumerator_next_file (AFileEnum, nil, @AError);
+    end;
+    if Assigned(AError) then ShowError(AError);
   end;
 
 begin
@@ -180,13 +183,9 @@ end;
 
 function FileExistsMessage(SourceFile: TFile; TargetInfo: PGFileInfo; const TargetName: UTF8String): UTF8String;
 begin
-  Result:= rsMsgFileExistsOverwrite + LineEnding + TargetName + LineEnding;
-  if Assigned(TargetInfo) then
-  begin
-    Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(g_file_info_get_size(TargetInfo))),
-                             DateTimeToStr(UnixFileTimeToDateTime(g_file_info_get_attribute_uint64(TargetInfo, FILE_ATTRIBUTE_TIME_MODIFIED)))]) + LineEnding;
-    g_object_unref(TargetInfo);
-  end;
+  Result:= rsMsgFileExistsOverwrite + LineEnding + TargetName + LineEnding +
+           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(g_file_info_get_size(TargetInfo))),
+                  DateTimeToStr(UnixFileTimeToDateTime(g_file_info_get_attribute_uint64(TargetInfo, FILE_ATTRIBUTE_TIME_MODIFIED)))]) + LineEnding;
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + SourceFile.FullPath + LineEnding +
            Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceFile.Size)), DateTimeToStr(SourceFile.ModificationTime)]);
 end;
@@ -238,34 +237,30 @@ procedure TGioTreeBuilder.AddFilesInDirectory(srcPath: String;
 var
   AFile: TFile;
   AFolder: PGFile;
-  AError: PGError;
   AInfo: PGFileInfo;
+  AError: PGError = nil;
   AFileEnum: PGFileEnumerator;
 begin
   AFolder:= g_file_new_for_commandline_arg(Pgchar(srcPath));
   try
-    while True do
-    begin
-      AError:= nil;
-      AFileEnum := g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
-                                              G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
-      // List files
-      try
+    AFileEnum := g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
+                                            G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
+    // List files
+    try
+      AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
+      while Assigned(AInfo) do
+      begin
+        CheckOperationState;
+        AFile:= TGioFileSource.CreateFile(srcPath, AFolder, AInfo);
+        g_object_unref(AInfo);
+        AddItem(aFile, CurrentNode);
         AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
-        while Assigned(AInfo) do
-        begin
-          CheckOperationState;
-          AFile:= TGioFileSource.CreateFile(srcPath, AFolder, AInfo);
-          g_object_unref(AInfo);
-          AddItem(aFile, CurrentNode);
-          AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
-        end;
-        if Assigned(AError) then ShowError(AError);
-      finally
-        g_object_unref(AFileEnum);
       end;
-      Break;
+      if Assigned(AError) then ShowError(AError);
+    finally
+      g_object_unref(AFileEnum);
     end;
+
   finally
     g_object_unref(PGObject(AFolder));
   end;
