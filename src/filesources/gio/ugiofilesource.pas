@@ -265,6 +265,9 @@ constructor TGioFileSource.Create(const URI: TURI);
 begin
   inherited Create(URI);
   FOperationsClasses[fsoMove] := TGioMoveOperation.GetOperationClass;
+  FOperationsClasses[fsoCopy] := TGioCopyOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyIn] := TGioCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut] := TGioCopyOutOperation.GetOperationClass;
 end;
 
 class function TGioFileSource.IsSupportedPath(const Path: String): Boolean;

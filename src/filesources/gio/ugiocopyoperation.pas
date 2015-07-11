@@ -10,6 +10,7 @@ uses
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperationTypes,
+  uFileSourceOperationOptionsUI,
   uFile,
   uGioFileSourceUtil;
 
@@ -35,6 +36,8 @@ type
     procedure Initialize; override;
     procedure MainExecute; override;
     procedure Finalize; override;
+
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
   end;
 
@@ -65,7 +68,7 @@ type
 implementation
 
 uses
-  uGio2, uGlobs;
+  fGioCopyMoveOperationOptions, uGio2, uGlobs;
 
 constructor TGioCopyOperation.Create(aSourceFileSource: IFileSource;
                                             aTargetFileSource: IFileSource;
@@ -127,6 +130,11 @@ end;
 procedure TGioCopyOperation.Finalize;
 begin
   FOperationHelper.Free;
+end;
+
+class function TGioCopyOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result := TGioCopyOperationOptionsUI;
 end;
 
 { TGioCopyInOperation }
