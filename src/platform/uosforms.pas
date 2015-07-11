@@ -117,7 +117,7 @@ uses
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties, uJpegThumb
     {$IF NOT DEFINED(DARWIN)}
-    , uDCReadSVG, uMagickWand
+    , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule
     {$ELSE}
     , MacOSAll
     {$ENDIF}
@@ -382,6 +382,11 @@ var
 begin
   if fpGetUID = 0 then // if run under root
     MainForm.Caption:= MainForm.Caption + ' - ROOT PRIVILEGES';
+
+  {$IF NOT DEFINED(DARWIN)}
+  if HasGio then RegisterVirtualFileSource('GVfs', TGioFileSource, False);
+  {$ENDIF}
+
   {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
   FMain:= MainForm;
   Handler.Data:= MainForm;
