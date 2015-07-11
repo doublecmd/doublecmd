@@ -17,7 +17,7 @@ type
   TGioCopyMoveOperationOptionsUI = class(TFileSourceOperationOptionsUI)
     cbFollowLinks: TCheckBox;
     cmbDirectoryExists: TComboBoxAutoWidth;
-    cmbFileExists: TComboBox;
+    cmbFileExists: TComboBoxAutoWidth;
     grpOptions: TGroupBox;
     lblDirectoryExists: TLabel;
     lblFileExists: TLabel;
