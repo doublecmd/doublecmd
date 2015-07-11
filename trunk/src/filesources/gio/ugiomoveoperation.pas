@@ -88,6 +88,7 @@ begin
 
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.FileExistsOption := FileExistsOption;
+  FOperationHelper.DirExistsOption := DirExistsOption;
 
   FOperationHelper.Initialize;
 end;
