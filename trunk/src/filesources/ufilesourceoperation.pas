@@ -339,7 +339,6 @@ type
     class procedure RaiseAbortOperation;
 
     property ParentOperation: TFileSourceOperation read FParentOperation write FParentOperation;
-    property Thread: TThread read FThread;
 
   public
     constructor Create(const aFileSource: IInterface); virtual;
@@ -421,6 +420,7 @@ type
 
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; virtual;
 
+    property Thread: TThread read FThread;
     property Progress: Double read FProgress;
     property ID: TFileSourceOperationType read GetID;
     property State: TFileSourceOperationState read GetState;
