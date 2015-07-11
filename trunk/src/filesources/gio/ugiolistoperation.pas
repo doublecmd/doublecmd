@@ -42,8 +42,8 @@ procedure TGioListOperation.MainExecute;
 var
   AFile: TFile;
   AFolder: PGFile;
-  AError: PGError;
   AInfo: PGFileInfo;
+  AError: PGError = nil;
   AFileEnum: PGFileEnumerator;
 begin
   FFiles.Clear;
@@ -53,13 +53,12 @@ begin
     try
       while True do
       begin
-        AError:= nil;
         AFileEnum := g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
                                                 G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
         // Mount the target
         if (Assigned(AError) and g_error_matches (AError, G_IO_ERROR, G_IO_ERROR_NOT_MOUNTED)) then
         begin
-          g_error_free (AError); AError:= nil;
+          FreeAndNil(AError);
           if FGioFileSource.MountPath(AFolder, AError) then
             Continue
           else begin
