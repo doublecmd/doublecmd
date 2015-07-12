@@ -44,6 +44,7 @@ type
       class function CreateFile(const APath: String): TFile; override;
       class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile;
 
+      procedure Reload(const PathsToReload: TPathsArray); override;
       function GetParentDir(sPath : String): String; override;
       function IsPathAtRoot(Path: String): Boolean; override;
       function GetRootDir(sPath: String): String; override; overload;
@@ -143,6 +144,19 @@ begin
       end;
       g_object_unref(PGObject(AFile));
     end;
+end;
+
+procedure TGioFileSource.Reload(const PathsToReload: TPathsArray);
+var
+  Index: Integer;
+  PathList: TPathsArray;
+begin
+  SetLength(PathList, Length(PathsToReload));
+  for Index:= Low(PathsToReload) to High(PathsToReload) do
+  begin
+    PathList[Index]:= StringReplace(PathsToReload[Index], FCurrentAddress, '', []);
+  end;
+  inherited Reload(PathList);
 end;
 
 function TGioFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
