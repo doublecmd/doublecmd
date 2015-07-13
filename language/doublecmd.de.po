@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-04-12 19:50+0100\n"
+"PO-Revision-Date: 2015-07-07 19:50+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr "Vergleiche... %d%% (ESC zum Abbrechen)"
 
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
-msgstr ""
+msgstr "Lösche Datei(en) %d"
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
@@ -5290,7 +5290,7 @@ msgstr "&Fehler bei Datei-Operationen ignorieren und sie im Log-Fenster anzeigen
 
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
-msgstr ""
+msgstr "Textsuche in Dateien"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -5319,7 +5319,7 @@ msgstr "Ze&ige Operationsfortschritt von Anfang an"
 
 #: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
 msgid "Default search template:"
-msgstr ""
+msgstr "Standardvorlage für Suche:"
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 #, fuzzy
@@ -8786,11 +8786,11 @@ msgstr "Spalten anpassen"
 
 #: ulng.rsconfigurationfileassociation
 msgid "Configure file association"
-msgstr ""
+msgstr "Dateiverknüpfungen konfigurieren"
 
 #: ulng.rsconfirmexecution
 msgid "Confirming command line and parameters"
-msgstr ""
+msgstr "Befehlszeile und Parameter bestätigen"
 
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
@@ -8838,7 +8838,7 @@ msgstr " Löscht: "
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
-msgstr ""
+msgstr "Die Dateien sind identisch!"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
@@ -9084,15 +9084,15 @@ msgstr "Ersetzen"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
-msgstr ""
+msgstr "Mit externem Editor"
 
 #: ulng.rseditwithinternaleditor
 msgid "with internal editor"
-msgstr ""
+msgstr "Mit internem Editor"
 
 #: ulng.rsexecuteviashell
 msgid "Execute via shell"
-msgstr ""
+msgstr "Auf der Befehlszeile ausführen"
 
 #: ulng.rsexecuteviaterminalclose
 msgid "Execute via terminal and close"
@@ -9310,11 +9310,11 @@ msgstr "Eingabemaske:"
 
 #: ulng.rsmenuconfigurecolumnsalreadyexists
 msgid "A columns view with that name already exists."
-msgstr ""
+msgstr "Eine Spaltenansicht mit diesem Namen besteht bereits."
 
 #: ulng.rsmenuconfigurecolumnssavetochange
 msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr ""
+msgstr "Um das aktuelle Bearbeiten der Spaltenansicht zu verändern, die aktuelle entweder SPEICHERN, KOPIEREN oder LÖSCHEN"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -9322,7 +9322,7 @@ msgstr "Bearbeite angepasste Spalten"
 
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
-msgstr ""
+msgstr "Neuen angepassten Namen für die Spaltenansicht angeben"
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
@@ -9432,7 +9432,9 @@ msgid ""
 "Options regarding columns view have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr ""
+msgstr "Optionen zu den Spaltenansichten wurden verändert.\n
+"\n"
+"Sollen sie vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -9448,7 +9450,7 @@ msgstr "Markierte \"%s\" kopieren?"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
-msgstr ""
+msgstr "< Neuen Dateityp erstellen \"s Dateien\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
@@ -9456,7 +9458,7 @@ msgstr "Speicherort und Namen unter dem die Toolbar-Datei gespeichert werden sol
 
 #: ulng.rsmsgdefaultcustomactionname
 msgid "Custom action"
-msgstr ""
+msgstr "Angepasste Aktion"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
@@ -9492,7 +9494,7 @@ msgstr "Optionen für Drag && Drop wurden verändert. Soll gespeichert werden vo
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
-msgstr ""
+msgstr "Namen für die angepasste Aktion angeben:"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -9504,7 +9506,7 @@ msgstr "Namen eingeben:"
 
 #: ulng.rsmsgenternewfiletypename
 msgid "Enter name of new file type to create for extension \"%s\""
-msgstr ""
+msgstr "Bitte Namen für die neue Dateiendung \"%s\" angeben"
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -9635,14 +9637,18 @@ msgid ""
 "File extension associations extra options have been modified.\n"
 "\n"
 "Do you want to save before to exit?\n"
-msgstr ""
+msgstr "Besondere Optionen für Dateiendungen wurden verändert.\n
+"\n"
+"Sollen sie vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
 msgid ""
 "File extension associations have been modified.\n"
 "\n"
 "Do you want to save before to exit?\n"
-msgstr ""
+msgstr "Verknüpfungen für Dateiendungen wurden verändert.\n"
+"\n"
+"Sollen sie vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
@@ -9685,7 +9691,9 @@ msgid ""
 "Options regarding panel color have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr ""
+msgstr "Optionen für die Panelfarbe wurden verändert.\n"
+"\n"
+"Sollen sie vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -10150,7 +10158,7 @@ msgstr "Bitte DoubleCommander neustarten um die Änderungen zu übernehmen"
 
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
-msgstr ""
+msgstr "Bitte angeben welcher Dateityp die Endung \"%s\" bekommen soll"
 
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
@@ -10293,7 +10301,9 @@ msgid ""
 "Options regarding terminal have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr ""
+msgstr "Optionen die das Terminal betreffen wurden verändert.\n"
+"\n"
+"Sollen sie vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
