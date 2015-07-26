@@ -198,6 +198,9 @@ procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcess
 function GetPackerCaps : Integer; dcpcall;
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 
+var
+  gStartupInfo: TExtensionStartupInfo;
+
 implementation
 
 uses
@@ -230,7 +233,6 @@ var
   ProcessedFileName:  array [0..1023] of Char;
   ProcessedFileNameW: array [0..1023] of WideChar;
   ProcessedFileHostOS: RarHostSystem;
-  ExtensionStartupInfo: TExtensionStartupInfo;
 
 procedure StringToArrayA(src: AnsiString;
                          pDst: PAnsiChar;
@@ -377,7 +379,7 @@ begin
       // a password in single byte encoding. You need to copy a password
       // here.
       // P2 - contains the size of password buffer.
-      if not ExtensionStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PAnsiChar(P1), P2) then
+      if not gStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PAnsiChar(P1), P2) then
         Result := -1;
     end;
   end;
@@ -672,15 +674,16 @@ end;
 
 function GetPackerCaps: Integer; dcpcall;
 begin
-  Result := PK_CAPS_MULTIPLE or PK_CAPS_BY_CONTENT;
+  Result := PK_CAPS_MULTIPLE or PK_CAPS_BY_CONTENT or PK_CAPS_NEW or
+            PK_CAPS_MODIFY or PK_CAPS_DELETE or PK_CAPS_OPTIONS or PK_CAPS_ENCRYPT;
 end;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 begin
-  ExtensionStartupInfo := StartupInfo^;
+  gStartupInfo := StartupInfo^;
   if ModuleHandle = NilHandle then
   begin
-    ExtensionStartupInfo.MessageBox('Cannot load library ' + _unrar + '! Please check your installation.',
+    gStartupInfo.MessageBox('Cannot load library ' + _unrar + '! Please check your installation.',
                                     nil, MB_OK or MB_ICONERROR);
   end;
 end;

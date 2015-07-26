@@ -1,0 +1,182 @@
+object DialogBox: TDialogBox
+  Left = 373
+  Height = 282
+  Top = 194
+  Width = 320
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Options'
+  ChildSizing.LeftRightSpacing = 10
+  ChildSizing.TopBottomSpacing = 10
+  ClientHeight = 282
+  ClientWidth = 320
+  OnShow = DialogBoxShow
+  Position = poOwnerFormCenter
+  LCLVersion = '1.4.2.0'
+  object fnePath: TFileNameEdit
+    AnchorSideLeft.Control = lblPath
+    AnchorSideTop.Control = lblPath
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 23
+    Top = 31
+    Width = 296
+    FilterIndex = 0
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    BorderSpacing.Top = 6
+    MaxLength = 0
+    TabOrder = 0
+  end
+  object lblPath: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 10
+    Height = 15
+    Top = 10
+    Width = 143
+    Caption = 'Path to Win&RAR executable'
+    ParentColor = False
+  end
+  object gbOptions: TGroupBox
+    AnchorSideLeft.Control = cmbMethod
+    AnchorSideTop.Control = edtArgs
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 85
+    Top = 158
+    Width = 300
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    Caption = 'Archiving options'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 4
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 65
+    ClientWidth = 296
+    TabOrder = 2
+    object chkRecovery: TCheckBox
+      Left = 6
+      Height = 19
+      Top = 4
+      Width = 127
+      Caption = 'Add r&ecovery record'
+      TabOrder = 0
+    end
+    object chkEncrypt: TCheckBox
+      Left = 6
+      Height = 19
+      Top = 23
+      Width = 127
+      Caption = 'Encrypt file &names'
+      TabOrder = 1
+    end
+    object chkSolid: TCheckBox
+      Left = 6
+      Height = 19
+      Top = 42
+      Width = 127
+      Caption = 'Create &solid archive'
+      TabOrder = 2
+    end
+  end
+  object lblMethod: TLabel
+    AnchorSideLeft.Control = fnePath
+    AnchorSideTop.Control = fnePath
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 15
+    Top = 60
+    Width = 115
+    BorderSpacing.Top = 6
+    Caption = '&Compression method'
+    ParentColor = False
+  end
+  object cmbMethod: TComboBox
+    AnchorSideLeft.Control = lblMethod
+    AnchorSideTop.Control = lblMethod
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 23
+    Top = 79
+    Width = 300
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    ItemHeight = 15
+    ItemIndex = 3
+    Items.Strings = (
+      'Store'
+      'Fastest'
+      'Fast'
+      'Normal'
+      'Good'
+      'Best'
+    )
+    Style = csDropDownList
+    TabOrder = 1
+    Text = 'Normal'
+  end
+  object brnCancel: TButton
+    AnchorSideTop.Control = gbOptions
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 235
+    Height = 25
+    Top = 253
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 10
+    Caption = 'Cancel'
+    ModalResult = 2
+    OnClick = ButtonClick
+    TabOrder = 4
+  end
+  object btnSave: TButton
+    AnchorSideTop.Control = brnCancel
+    AnchorSideRight.Control = brnCancel
+    Left = 154
+    Height = 25
+    Top = 253
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
+    Caption = 'OK'
+    ModalResult = 1
+    OnClick = ButtonClick
+    TabOrder = 3
+  end
+  object lblArgs: TLabel
+    AnchorSideLeft.Control = cmbMethod
+    AnchorSideTop.Control = cmbMethod
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 15
+    Top = 108
+    Width = 117
+    BorderSpacing.Top = 6
+    Caption = 'Additional parameters'
+    ParentColor = False
+  end
+  object edtArgs: TEdit
+    AnchorSideLeft.Control = lblArgs
+    AnchorSideTop.Control = lblArgs
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 23
+    Top = 129
+    Width = 300
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    TabOrder = 5
+  end
+end
