@@ -306,7 +306,7 @@ var
   BufferSize: LongWord;
   fdOldFile: LongInt;
   fdNewFile: LongInt;
-  dwRead: LongWord;
+  dwRead: ssize_t;
   Written: Int64;
   FileSize: Int64;
   Percent: LongInt;
@@ -336,12 +336,11 @@ begin
         // Copy data
         repeat
           dwRead:= smbc_read(fdOldFile, Buffer, BufferSize);
-          if (fpgetCerrno <> 0) then Exit(FS_FILE_READERROR);
+          if (dwRead < 0) then Exit(FS_FILE_READERROR);
           if (dwRead > 0) then
           begin
             if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
               Exit(FS_FILE_WRITEERROR);
-            if (fpgetCerrno <> 0) then Exit(FS_FILE_WRITEERROR);
             Written:= Written + dwRead;
             // Calculate percent
             Percent:= (Written * 100) div FileSize;
@@ -370,7 +369,7 @@ var
   BufferSize: LongWord;
   fdOldFile: LongInt;
   fdNewFile: LongInt;
-  dwRead: LongWord;
+  dwRead: ssize_t;
   Written: Int64;
   FileSize: Int64;
   Percent: LongInt;
@@ -392,12 +391,11 @@ begin
     // Copy data
     repeat
       dwRead:= smbc_read(fdOldFile, Buffer, BufferSize);
-      if (fpgetCerrno <> 0) then Exit(FS_FILE_READERROR);
+      if (dwRead < 0) then Exit(FS_FILE_READERROR);
       if (dwRead > 0) then
       begin
         if fpWrite(fdNewFile, Buffer^, dwRead) <> dwRead then
           Exit(FS_FILE_WRITEERROR);
-        if (fpgeterrno <> 0) then Exit(FS_FILE_WRITEERROR);
         Written:= Written + dwRead;
         // Calculate percent
         Percent:= (Written * 100) div FileSize;
@@ -424,7 +422,7 @@ var
   BufferSize: LongWord;
   fdOldFile: LongInt;
   fdNewFile: LongInt;
-  dwRead: LongWord;
+  dwRead: TSsize;
   Written: Int64;
   FileSize: Int64;
   Percent: LongInt;
@@ -447,12 +445,11 @@ begin
         // Copy data
         repeat
           dwRead:= fpRead(fdOldFile, Buffer^, BufferSize);
-          if (fpgeterrno <> 0) then Exit(FS_FILE_READERROR);
+          if (dwRead < 0) then Exit(FS_FILE_READERROR);
           if (dwRead > 0) then
           begin
             if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
               Exit(FS_FILE_WRITEERROR);
-            if (fpgetCerrno <> 0) then Exit(FS_FILE_WRITEERROR);
             Written:= Written + dwRead;
             // Calculate percent
             Percent:= (Written * 100) div FileSize;
