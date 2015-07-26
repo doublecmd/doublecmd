@@ -1,7 +1,7 @@
 library unrar;
 
 uses
-  SysUtils, DynLibs, UnRARFunc;
+  SysUtils, DynLibs, UnRARFunc, RarFunc;
 
 exports
   { Mandatory }
@@ -18,7 +18,11 @@ exports
   SetProcessDataProc,
   SetProcessDataProcW,
   { Optional }
+  PackFilesW,
+  DeleteFilesW,
   GetPackerCaps,
+  ConfigurePacker,
+  PackSetDefaultParams,
   { Extension API }
   ExtensionInitialize;
 
