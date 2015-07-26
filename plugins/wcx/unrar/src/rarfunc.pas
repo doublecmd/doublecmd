@@ -89,14 +89,14 @@ begin
   end;
 end;
 
-procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); stdcall;
+procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); dcpcall;
 begin
   IniFileName:= dps^.DefaultIniName;
 
   LoadConfig;
 end;
 
-procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); stdcall;
+procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); dcpcall;
 begin
   CreateRarConfDlg;
 end;
