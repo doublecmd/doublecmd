@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains realization of Dialog API functions.
 
-    Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fDialogBox;
@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Types, Buttons, ExtCtrls, Extension;
+  Types, Buttons, ExtCtrls, EditBtn, Extension;
 
 type
 
@@ -38,9 +38,10 @@ type
   TDialogBox = class(TForm)
     DialogButton: TButton;
     DialogBitBtn: TBitBtn;
+    DialogFileNameEdit: TFileNameEdit;
     DialogComboBox: TComboBox;
     DialogListBox: TListBox;
-    DialogCheckBox: TCheckBox;    
+    DialogCheckBox: TCheckBox;
     DialogGroupBox: TGroupBox;
     DialogLabel: TLabel;
     DialogEdit: TEdit;
@@ -374,6 +375,8 @@ begin
         sText:= (Control as TGroupBox).Caption;
       if Control is TLabel then
         sText:= (Control as TLabel).Caption;
+      if Control is TFileNameEdit then
+        sText:= TFileNameEdit(Control).Text;
       Result:= PtrInt(PAnsiChar(sText));
     end;
   DM_KEYDOWN:
@@ -474,6 +477,8 @@ begin
         (Control as TGroupBox).Caption:= sText;
       if Control is TLabel then
         (Control as TLabel).Caption:= sText;
+      if Control is TFileNameEdit then
+        TFileNameEdit(Control).Text:= sText;
     end;
   DM_SHOWDIALOG:
     begin
@@ -691,4 +696,4 @@ initialization
   {.$I fdialogbox.lrs}
 
 end.
-
+
