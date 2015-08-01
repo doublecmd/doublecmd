@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -67,7 +67,7 @@ uses
   , gtk2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-  , Windows
+  , Windows, JwaNative, JwaNtStatus
   {$ENDIF}
   ;
 
@@ -295,27 +295,13 @@ const
   qtLibQt4PasRev = '23858';
 {$ENDIF}
 {$IF DEFINED(MSWINDOWS)}
-type
-  OSVERSIONINFOEX = record
-      dwOSVersionInfoSize : DWORD;
-      dwMajorVersion : DWORD;
-      dwMinorVersion : DWORD;
-      dwBuildNumber : DWORD;
-      dwPlatformId : DWORD;
-      szCSDVersion : array[0..127] of Char;
-      wServicePackMajor : WORD;
-      wServicePackMinor : WORD;
-      wSuiteMask : WORD;
-      wProductType : BYTE;
-      wReserved : BYTE;
-   end;
 const
   VER_NT_WORKSTATION       = $0000001;
   VER_NT_SERVER            = $0000003;
   PROCESSOR_ARCHITECTURE_AMD64 = 9;
 var
-  osvi: OSVERSIONINFOEX;
   si: SYSTEM_INFO;
+  osvi: TOsVersionInfoExW;
 {$ENDIF}
 begin
   TargetWS := LCLPlatform[WidgetSet.LCLPlatform];
@@ -323,10 +309,10 @@ begin
   {$IF DEFINED(MSWINDOWS)}
   OSVersion := 'Windows';
 
-  ZeroMemory(@osvi, SizeOf(OSVERSIONINFOEX));
-  osvi.dwOSVersionInfoSize := SizeOf(OSVERSIONINFOEX);
+  ZeroMemory(@osvi, SizeOf(TOsVersionInfoExW));
+  osvi.dwOSVersionInfoSize := SizeOf(TOsVersionInfoExW);
 
-  if GetVersionEx(@osvi) then
+  if (RtlGetVersion(@osvi) = STATUS_SUCCESS) or GetVersionExW(@osvi) then
   begin
     ZeroMemory(@si, SizeOf(si));
     TryGetNativeSystemInfo(si);
@@ -387,7 +373,19 @@ begin
                       OSVersion := OSVersion + ' 8'
                     else if (osvi.wProductType = VER_NT_SERVER) then
                       OSVersion := OSVersion + ' Server 2012';
+                 3: if (osvi.wProductType = VER_NT_WORKSTATION) then
+                      OSVersion := OSVersion + ' 8.1'
+                    else if (osvi.wProductType = VER_NT_SERVER) then
+                      OSVersion := OSVersion + ' Server 2012 R2';
                end;
+           10: case osvi.dwMinorVersion of
+                 0: if (osvi.wProductType = VER_NT_WORKSTATION) then
+                    begin
+                      OSVersion := OSVersion + ' 10';
+                      if osvi.wSuiteMask = $0300 then
+                        OSVersion := OSVersion + ' Home';
+                    end
+              end;
           end;
         end;
     end;
