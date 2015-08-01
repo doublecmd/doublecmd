@@ -67,7 +67,7 @@ uses
   , gtk2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-  , Windows, JwaNative, JwaNtStatus
+  , Windows, JwaNative, JwaNtStatus, JwaWinType
   {$ENDIF}
   ;
 
@@ -296,8 +296,6 @@ const
 {$ENDIF}
 {$IF DEFINED(MSWINDOWS)}
 const
-  VER_NT_WORKSTATION       = $0000001;
-  VER_NT_SERVER            = $0000003;
   PROCESSOR_ARCHITECTURE_AMD64 = 9;
 var
   si: SYSTEM_INFO;
@@ -382,7 +380,7 @@ begin
                  0: if (osvi.wProductType = VER_NT_WORKSTATION) then
                     begin
                       OSVersion := OSVersion + ' 10';
-                      if osvi.wSuiteMask = $0300 then
+                      if (osvi.wSuiteMask and VER_SUITE_PERSONAL <> 0) then
                         OSVersion := OSVersion + ' Home';
                     end
               end;
