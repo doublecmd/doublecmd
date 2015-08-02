@@ -146,8 +146,8 @@ begin
     end;
   FT_BOOLEAN:
     begin
-      FValue.Items.Add('Yes');
-      FValue.Items.Add('No');
+      FValue.Items.Add('True');
+      FValue.Items.Add('False');
       FValue.ItemIndex:= 0;
       FValue.Style:= csDropDownList;
       FOperator.Items.AddObject('=', TObject(PtrInt(poEqual)));
