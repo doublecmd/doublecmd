@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 003.007.000 |
+| Project : Ararat Synapse                                       | 003.007.002 |
 |==============================================================================|
 | Content: SSL support by OpenSSL                                              |
 |==============================================================================|
-| Copyright (c)1999-2012, Lukas Gebauer                                        |
+| Copyright (c)1999-2013, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,11 +33,12 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c)2002-2012.                |
+| Portions created by Lukas Gebauer are Copyright (c)2002-2013.                |
 | Portions created by Petr Fejfar are Copyright (c)2011-2012.                  |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
+|   Tomas Hajny (OS2 support)                                                  |
 |==============================================================================|
 | History: see HISTORY.HTM from distribution package                           |
 |          (Found at URL: http://www.ararat.cz/synapse/)                       |
@@ -87,10 +88,13 @@ uses
   synafpc,
 {$IFNDEF MSWINDOWS}
   {$IFDEF FPC}
-  BaseUnix, SysUtils;
+   {$IFDEF UNIX}
+  BaseUnix,
+   {$ENDIF UNIX}
   {$ELSE}
-   Libc, SysUtils;
+   Libc,
   {$ENDIF}
+  SysUtils;
 {$ELSE}
   Windows;
 {$ENDIF}
@@ -112,8 +116,18 @@ var
     DLLSSLName: string = 'libssl.dylib';
     DLLUtilName: string = 'libcrypto.dylib';
     {$ELSE}
+     {$IFDEF OS2}
+      {$IFDEF OS2GCC}
+    DLLSSLName: string = 'kssl.dll';
+    DLLUtilName: string = 'kcrypto.dll';
+      {$ELSE OS2GCC}
+    DLLSSLName: string = 'ssl.dll';
+    DLLUtilName: string = 'crypto.dll';
+      {$ENDIF OS2GCC}
+     {$ELSE OS2}
     DLLSSLName: string = 'libssl.so';
     DLLUtilName: string = 'libcrypto.so';
+     {$ENDIF OS2}
     {$ENDIF}
   {$ELSE}
   DLLSSLName: string = 'ssleay32.dll';
@@ -281,6 +295,16 @@ var
     SetLastError = False, CallingConvention= CallingConvention.cdecl,
     EntryPoint = 'TLSv1_method')]
     function SslMethodTLSV1:PSSL_METHOD;  external;
+
+  [DllImport(DLLSSLName, CharSet = CharSet.Ansi,
+    SetLastError = False, CallingConvention= CallingConvention.cdecl,
+    EntryPoint = 'TLSv1_1_method')]
+    function SslMethodTLSV11:PSSL_METHOD;  external;
+
+  [DllImport(DLLSSLName, CharSet = CharSet.Ansi,
+    SetLastError = False, CallingConvention= CallingConvention.cdecl,
+    EntryPoint = 'TLSv1_2_method')]
+    function SslMethodTLSV12:PSSL_METHOD;  external;
 
   [DllImport(DLLSSLName, CharSet = CharSet.Ansi,
     SetLastError = False, CallingConvention= CallingConvention.cdecl,
@@ -692,6 +716,8 @@ var
   function SslMethodV2:PSSL_METHOD;
   function SslMethodV3:PSSL_METHOD;
   function SslMethodTLSV1:PSSL_METHOD;
+  function SslMethodTLSV11:PSSL_METHOD;
+  function SslMethodTLSV12:PSSL_METHOD;
   function SslMethodV23:PSSL_METHOD;
   function SslCtxUsePrivateKey(ctx: PSSL_CTX; pkey: SslPtr):Integer;
   function SslCtxUsePrivateKeyASN1(pk: integer; ctx: PSSL_CTX; d: AnsiString; len: integer):Integer;
@@ -799,7 +825,11 @@ var
 
 implementation
 
-uses SyncObjs;
+uses
+{$IFDEF OS2}
+  Sockets,
+{$ENDIF OS2}
+  SyncObjs;
 
 {$IFNDEF CIL}
 type
@@ -814,6 +844,8 @@ type
   TSslMethodV2 = function:PSSL_METHOD; cdecl;
   TSslMethodV3 = function:PSSL_METHOD; cdecl;
   TSslMethodTLSV1 = function:PSSL_METHOD; cdecl;
+  TSslMethodTLSV11 = function:PSSL_METHOD; cdecl;
+  TSslMethodTLSV12 = function:PSSL_METHOD; cdecl;
   TSslMethodV23 = function:PSSL_METHOD; cdecl;
   TSslCtxUsePrivateKey = function(ctx: PSSL_CTX; pkey: sslptr):Integer; cdecl;
   TSslCtxUsePrivateKeyASN1 = function(pk: integer; ctx: PSSL_CTX; d: sslptr; len: integer):Integer; cdecl;
@@ -919,6 +951,8 @@ var
   _SslMethodV2: TSslMethodV2 = nil;
   _SslMethodV3: TSslMethodV3 = nil;
   _SslMethodTLSV1: TSslMethodTLSV1 = nil;
+  _SslMethodTLSV11: TSslMethodTLSV11 = nil;
+  _SslMethodTLSV12: TSslMethodTLSV12 = nil;
   _SslMethodV23: TSslMethodV23 = nil;
   _SslCtxUsePrivateKey: TSslCtxUsePrivateKey = nil;
   _SslCtxUsePrivateKeyASN1: TSslCtxUsePrivateKeyASN1 = nil;
@@ -1092,6 +1126,22 @@ function SslMethodTLSV1:PSSL_METHOD;
 begin
   if InitSSLInterface and Assigned(_SslMethodTLSV1) then
     Result := _SslMethodTLSV1
+  else
+    Result := nil;
+end;
+
+function SslMethodTLSV11:PSSL_METHOD;
+begin
+  if InitSSLInterface and Assigned(_SslMethodTLSV11) then
+    Result := _SslMethodTLSV11
+  else
+    Result := nil;
+end;
+
+function SslMethodTLSV12:PSSL_METHOD;
+begin
+  if InitSSLInterface and Assigned(_SslMethodTLSV12) then
+    Result := _SslMethodTLSV12
   else
     Result := nil;
 end;
@@ -1812,8 +1862,8 @@ begin
       SSLLibHandle := 1;
       SSLUtilHandle := 1;
 {$ELSE}
-      SSLLibHandle := LoadLib(DLLSSLName);
       SSLUtilHandle := LoadLib(DLLUtilName);
+      SSLLibHandle := LoadLib(DLLSSLName);
   {$IFDEF MSWINDOWS}
       if (SSLLibHandle = 0) then
         SSLLibHandle := LoadLib(DLLSSLName2);
@@ -1832,6 +1882,8 @@ begin
         _SslMethodV2 := GetProcAddr(SSLLibHandle, 'SSLv2_method');
         _SslMethodV3 := GetProcAddr(SSLLibHandle, 'SSLv3_method');
         _SslMethodTLSV1 := GetProcAddr(SSLLibHandle, 'TLSv1_method');
+        _SslMethodTLSV11 := GetProcAddr(SSLLibHandle, 'TLSv1_1_method');
+        _SslMethodTLSV12 := GetProcAddr(SSLLibHandle, 'TLSv1_2_method');
         _SslMethodV23 := GetProcAddr(SSLLibHandle, 'SSLv23_method');
         _SslCtxUsePrivateKey := GetProcAddr(SSLLibHandle, 'SSL_CTX_use_PrivateKey');
         _SslCtxUsePrivateKeyASN1 := GetProcAddr(SSLLibHandle, 'SSL_CTX_use_PrivateKey_ASN1');
@@ -1950,8 +2002,12 @@ begin
         if assigned(_CRYPTOnumlocks) and assigned(_CRYPTOsetlockingcallback) then
           InitLocks;
 {$ENDIF}
-        Result := True;
         SSLloaded := True;
+{$IFDEF OS2}
+        Result := InitEMXHandles;
+{$ELSE OS2}
+        Result := True;
+{$ENDIF OS2}
       end
       else
       begin
@@ -2023,6 +2079,8 @@ begin
     _SslMethodV2 := nil;
     _SslMethodV3 := nil;
     _SslMethodTLSV1 := nil;
+    _SslMethodTLSV11 := nil;
+    _SslMethodTLSV12 := nil;
     _SslMethodV23 := nil;
     _SslCtxUsePrivateKey := nil;
     _SslCtxUsePrivateKeyASN1 := nil;
