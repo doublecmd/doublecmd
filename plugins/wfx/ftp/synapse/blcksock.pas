@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 009.008.005 |
+| Project : Ararat Synapse                                       | 009.009.001 |
 |==============================================================================|
 | Content: Library base                                                        |
 |==============================================================================|
-| Copyright (c)1999-2012, Lukas Gebauer                                        |
+| Copyright (c)1999-2013, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,7 +33,7 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c)1999-2012.                |
+| Portions created by Lukas Gebauer are Copyright (c)1999-2013.                |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
@@ -113,7 +113,7 @@ uses
 
 const
 
-  SynapseRelease = '38';
+  SynapseRelease = '40';
 
   cLocalhost = '127.0.0.1';
   cAnyHost = '0.0.0.0';
@@ -244,6 +244,7 @@ type
     LT_SSLv3,
     LT_TLSv1,
     LT_TLSv1_1,
+    LT_TLSv1_2,
     LT_SSHv2
     );
 
@@ -314,6 +315,7 @@ type
     FStopFlag: Boolean;
     FNonblockSendTimeout: Integer;
     FHeartbeatRate: integer;
+    FConnectionTimeout: integer;
     {$IFNDEF ONCEWINSOCK}
     FWsaDataOnce: TWSADATA;
     {$ENDIF}
@@ -830,6 +832,10 @@ type
 
     {:Timeout for data sending by non-blocking socket mode.}
     property NonblockSendTimeout: Integer read FNonblockSendTimeout Write FNonblockSendTimeout;
+
+    {:Timeout for @link(Connect) call. Default value 0 means default system timeout.
+     Non-zero value means timeout in millisecond.}
+    property ConnectionTimeout: Integer read FConnectionTimeout write FConnectionTimeout;
 
     {:This event is called by various reasons. It is good for monitoring socket,
      create gauges for data transfers, etc.}
@@ -1547,6 +1553,7 @@ begin
   FStopFlag := False;
   FNonblockSendTimeout := 15000;
   FHeartbeatRate := 0;
+  FConnectionTimeout := 0;
   FOwner := nil;
 {$IFNDEF ONCEWINSOCK}
   if Stub = '' then
@@ -1914,13 +1921,26 @@ end;
 procedure TBlockSocket.Connect(IP, Port: string);
 var
   Sin: TVarSin;
+  b: boolean;
 begin
   SetSin(Sin, IP, Port);
   if FLastError = 0 then
   begin
     if FSocket = INVALID_SOCKET then
       InternalCreateSocket(Sin);
-    SockCheck(synsock.Connect(FSocket, Sin));
+    if FConnectionTimeout > 0 then
+    begin
+      // connect in non-blocking mode
+      b := NonBlockMode;
+      NonBlockMode := true;
+      SockCheck(synsock.Connect(FSocket, Sin));
+      if (FLastError = WSAEINPROGRESS) OR (FLastError = WSAEWOULDBLOCK) then
+        if not CanWrite(FConnectionTimeout) then
+          FLastError := WSAETIMEDOUT;
+      NonBlockMode := b;
+    end
+    else
+      SockCheck(synsock.Connect(FSocket, Sin));
     if FLastError = 0 then
       GetSins;
     FBuffer := '';
@@ -3631,7 +3651,8 @@ begin
   else
   begin
     Multicast.imr_multiaddr.S_addr := swapbytes(strtoip(MCastIP));
-    Multicast.imr_interface.S_addr := INADDR_ANY;
+//    Multicast.imr_interface.S_addr := INADDR_ANY;
+    Multicast.imr_interface.S_addr := FLocalSin.sin_addr.S_addr;
     SockCheck(synsock.SetSockOpt(FSocket, IPPROTO_IP, IP_ADD_MEMBERSHIP,
       PAnsiChar(@Multicast), SizeOf(Multicast)));
   end;
@@ -3657,7 +3678,8 @@ begin
   else
   begin
     Multicast.imr_multiaddr.S_addr := swapbytes(strtoip(MCastIP));
-    Multicast.imr_interface.S_addr := INADDR_ANY;
+//    Multicast.imr_interface.S_addr := INADDR_ANY;
+    Multicast.imr_interface.S_addr := FLocalSin.sin_addr.S_addr;
     SockCheck(synsock.SetSockOpt(FSocket, IPPROTO_IP, IP_DROP_MEMBERSHIP,
       PAnsiChar(@Multicast), SizeOf(Multicast)));
   end;
@@ -3885,7 +3907,7 @@ begin
       FHTTPTunnel := s[10] = '2';
   until (s = '') or (s = #$0d);
   if (FLasterror = 0) and not FHTTPTunnel then
-    FLastError := WSASYSNOTREADY;
+    FLastError := WSAECONNREFUSED;
   FHTTPTunnelRemoteIP := IP;
   FHTTPTunnelRemotePort := Port;
   ExceptCheck;

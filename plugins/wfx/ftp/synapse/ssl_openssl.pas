@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 001.002.000 |
+| Project : Ararat Synapse                                       | 001.002.001 |
 |==============================================================================|
 | Content: SSL support by OpenSSL                                              |
 |==============================================================================|
-| Copyright (c)1999-2008, Lukas Gebauer                                        |
+| Copyright (c)1999-2012, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -426,6 +426,10 @@ begin
       Fctx := SslCtxNew(SslMethodV3);
     LT_TLSv1:
       Fctx := SslCtxNew(SslMethodTLSV1);
+    LT_TLSv1_1:
+      Fctx := SslCtxNew(SslMethodTLSV11);
+    LT_TLSv1_2:
+      Fctx := SslCtxNew(SslMethodTLSV12);
     LT_all:
       Fctx := SslCtxNew(SslMethodV23);
   else
@@ -499,6 +503,8 @@ end;
 function TSSLOpenSSL.Connect: boolean;
 var
   x: integer;
+  b: boolean;
+  err: integer;
 begin
   Result := False;
   if FSocket.Socket = INVALID_SOCKET then
@@ -515,12 +521,36 @@ begin
       Exit;
     end;
     if SNIHost<>'' then
-      SSLCtrl(Fssl, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name, PAnsiChar(SNIHost));
-    x := sslconnect(FSsl);
-    if x < 1 then
+      SSLCtrl(Fssl, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name, PAnsiChar(AnsiString(SNIHost)));
+    if FSocket.ConnectionTimeout <= 0 then //do blocking call of SSL_Connect
     begin
-      SSLcheck;
-      Exit;
+      x := sslconnect(FSsl);
+      if x < 1 then
+      begin
+        SSLcheck;
+        Exit;
+      end;
+    end
+    else //do non-blocking call of SSL_Connect
+    begin
+      b := Fsocket.NonBlockMode;
+      Fsocket.NonBlockMode := true;
+      repeat
+        x := sslconnect(FSsl);
+        err := SslGetError(FSsl, x);
+        if err = SSL_ERROR_WANT_READ then
+          if not FSocket.CanRead(FSocket.ConnectionTimeout) then
+            break;
+        if err = SSL_ERROR_WANT_WRITE then
+          if not FSocket.CanWrite(FSocket.ConnectionTimeout) then
+            break;
+      until (err <> SSL_ERROR_WANT_READ) and (err <> SSL_ERROR_WANT_WRITE);
+      Fsocket.NonBlockMode := b;
+      if err <> SSL_ERROR_NONE then
+      begin
+        SSLcheck;
+        Exit;
+      end;
     end;
   if FverifyCert then
     if (GetVerifyCert <> 0) or (not DoVerifyCert) then
