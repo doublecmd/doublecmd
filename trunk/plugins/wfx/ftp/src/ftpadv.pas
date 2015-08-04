@@ -160,8 +160,17 @@ begin
 end;
 
 procedure TFTPSendEx.DoStatus(Response: Boolean; const Value: string);
+var
+  Index: Integer;
+  Message: String;
 begin
-  LogProc(PluginNumber, msgtype_details, PAnsiChar(ServerToClient(Value)));
+  Index:= Pos('PASS ', Value);
+  if Index = 0 then
+    Message:= ServerToClient(Value)
+  else begin
+    Message:= ServerToClient(Copy(Value, 1, Index + 4)) + '********';
+  end;
+  LogProc(PluginNumber, msgtype_details, PAnsiChar(Message));
   if FSock.LastError <> 0 then begin
     LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error: ' + FSock.LastErrorDesc));
   end;
