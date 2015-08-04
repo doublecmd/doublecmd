@@ -91,7 +91,7 @@ implementation
 uses
   Base64
   {$IFDEF MSWINDOWS}
-  , Windows
+  , Windows, ssl_winssl_lib
   {$ELSE}
   , UnixUtil
   {$ENDIF}
