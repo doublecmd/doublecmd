@@ -53,6 +53,14 @@ const
   SP_PROT_TLS1_CLIENT       =      $00000080;
   SP_PROT_TLS1              =      (SP_PROT_TLS1_SERVER or SP_PROT_TLS1_CLIENT);
 
+  SP_PROT_TLS1_1_SERVER     =      $00000100;
+  SP_PROT_TLS1_1_CLIENT     =      $00000200;
+  SP_PROT_TLS1_1            =      (SP_PROT_TLS1_1_SERVER or SP_PROT_TLS1_1_CLIENT);
+
+  SP_PROT_TLS1_2_SERVER     =      $00000400;
+  SP_PROT_TLS1_2_CLIENT     =      $00000800;
+  SP_PROT_TLS1_2            =      (SP_PROT_TLS1_2_SERVER or SP_PROT_TLS1_2_CLIENT);
+
 const
   UNISP_NAME_A = AnsiString('Microsoft Unified Security Protocol Provider');
   UNISP_NAME_W = WideString('Microsoft Unified Security Protocol Provider');
@@ -836,6 +844,16 @@ begin
   Result := PSSL_METHOD(SP_PROT_TLS1);
 end;
 
+function TLSv1_1_method(): PSSL_METHOD; cdecl;
+begin
+  Result := PSSL_METHOD(SP_PROT_TLS1_1);
+end;
+
+function TLSv1_2_method(): PSSL_METHOD; cdecl;
+begin
+  Result := PSSL_METHOD(SP_PROT_TLS1_2);
+end;
+
 procedure SSL_CTX_set_verify(ctx: PSSL_CTX; mode: cint; func: Pointer); cdecl;
 begin
   if (ctx <> nil) then ctx^.bVerify := mode <> 0;
@@ -865,6 +883,8 @@ exports
   SSLv2_method,
   SSLv3_method,
   TLSv1_method,
+  TLSv1_1_method,
+  TLSv1_2_method,
   SSL_CTX_set_verify,
   SSL_get_error;
 
