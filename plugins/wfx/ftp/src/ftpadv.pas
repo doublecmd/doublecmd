@@ -84,6 +84,7 @@ type
   public
     constructor Create; reintroduce;
     function Login: Boolean; override;
+    function List(Directory: String; NameList: Boolean): Boolean; override;
     function SetTime(const FileName: String; FileTime: TDateTime): Boolean;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
     function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; overload;
@@ -206,6 +207,12 @@ begin
       end;
     end;
   end;
+end;
+
+function TFTPSendEx.List(Directory: String; NameList: Boolean): Boolean;
+begin
+  Result:= inherited List(Directory, NameList);
+  if FDSock.LastError <> 0 then ReadResult;
 end;
 
 function TFTPSendEx.SetTime(const FileName: String; FileTime: TDateTime): Boolean;
