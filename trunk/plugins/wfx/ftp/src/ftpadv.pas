@@ -77,6 +77,7 @@ type
     FSetTime: Boolean;
   protected
     function Connect: Boolean; override;
+    function DataSocket: Boolean; override;
     procedure DoStatus(Response: Boolean; const Value: string); override;
   public
     ClientToServer,
@@ -160,6 +161,14 @@ begin
   if Result then LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
 end;
 
+function TFTPSendEx.DataSocket: Boolean;
+begin
+  Result:= inherited DataSocket;
+  if FDSock.LastError <> 0 then begin
+    LogProc(PluginNumber, msgtype_importanterror, PAnsiChar('DSOCK ERROR ' + FDSock.LastErrorDesc));
+  end;
+end;
+
 procedure TFTPSendEx.DoStatus(Response: Boolean; const Value: string);
 var
   Index: Integer;
@@ -173,7 +182,7 @@ begin
   end;
   LogProc(PluginNumber, msgtype_details, PAnsiChar(Message));
   if FSock.LastError <> 0 then begin
-    LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error: ' + FSock.LastErrorDesc));
+    LogProc(PluginNumber, msgtype_importanterror, PAnsiChar('CSOCK ERROR ' + FSock.LastErrorDesc));
   end;
 end;
 
