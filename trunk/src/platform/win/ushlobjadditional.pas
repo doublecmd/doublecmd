@@ -62,7 +62,7 @@ type
       function GetOverlayIconIndex(pidl : PItemIDList; var IconIndex : Integer) : HResult; stdcall;
    end; { IShellIconOverlay }
 
-function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
+function SHChangeIconDialog(hOwner: HWND; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
 function SHFileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
@@ -79,69 +79,29 @@ procedure OleCheckUTF8(Result: HResult);
 implementation
 
 uses
-  SysUtils, JwaShlGuid, ComObj;
+  SysUtils, ShellApi, JwaShlGuid, ComObj;
 
-const
-   Shell32 = 'shell32.dll';
-
-{ **** UBPFD *********** by delphibase.endimus.com ****
->> Calls icon selection dialog. Modified function for calling
-"Change icon" dialog.
-
-Dependencies: Windows, SysUtils
-Author:       Alex Sal'nikov, alex-co@narod.ru, Moscow
-Copyright:    Modified JVCL library
-Date:         15 july 2003 ã.
-***************************************************** }
-
-function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
+function SHChangeIconDialog(hOwner: HWND; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 type
-  TSHChangeIconProc = function(Wnd: HWND; szFileName: PChar; Reserved: Integer;
-                               var lpIconIndex: Integer): DWORD; stdcall;
-  TSHChangeIconProcW = function(Wnd: HWND; szFileName: PWideChar;Reserved: Integer;
-                                var lpIconIndex: Integer): DWORD; stdcall;
+  TSHChangeIconProcW = function(Wnd: HWND; szFileName: PWideChar; Reserved: Integer;
+                                var lpIconIndex: Integer): BOOL; stdcall;
 var
   ShellHandle: THandle;
-  SHChangeIcon: TSHChangeIconProc;
   SHChangeIconW: TSHChangeIconProcW;
-  Buf: array[0..MAX_PATH] of AnsiChar;
-  BufW: array[0..MAX_PATH] of WideChar;
+  FileNameW: array[0..MAX_PATH] of WideChar;
 begin
-  Result := False;
-  SHChangeIcon := nil;
-  SHChangeIconW := nil;
-  ShellHandle := Windows.LoadLibrary(PChar(Shell32));
-  try
-    if ShellHandle <> 0 then
-    begin
-      if Win32Platform = VER_PLATFORM_WIN32_NT then
-        SHChangeIconW := TSHChangeIconProcW(Windows.GetProcAddress(ShellHandle, PChar(62)))
-      else
-        SHChangeIcon := TSHChangeIconProc(Windows.GetProcAddress(ShellHandle, PChar(62)));
-    end;
-
+  Result := True;
+  IconIndex := 0;
+  ShellHandle := GetModuleHandle(Shell32);
+  if ShellHandle <> 0 then
+  begin
+    @SHChangeIconW := Windows.GetProcAddress(ShellHandle, PAnsiChar(62));
     if Assigned(SHChangeIconW) then
     begin
-      BufW := UTF8Decode(FileName);
-      Result := SHChangeIconW(hOwner, BufW, SizeOf(BufW), IconIndex) = 1;
-      if Result then
-        FileName := UTF8Encode(WideString(BufW));
+      FileNameW := UTF8Decode(FileName);
+      Result := SHChangeIconW(hOwner, FileNameW, SizeOf(FileNameW), IconIndex);
+      if Result then FileName := UTF8Encode(WideString(FileNameW));
     end
-    else if Assigned(SHChangeIcon) then
-    begin
-      Buf := UTF8ToAnsi(FileName);
-      Result := SHChangeIcon(hOwner, Buf, SizeOf(Buf), IconIndex) = 1;
-      if Result then
-        FileName := AnsiToUTF8(Buf);
-    end
-    else
-      begin
-        IconIndex := 0;
-        Result := True;
-      end;
-  finally
-    if ShellHandle <> 0 then
-      FreeLibrary(ShellHandle);
   end;
 end;
 
