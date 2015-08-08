@@ -78,6 +78,7 @@ begin
     0: iSize:= 16;
     1: iSize:= 22;
     2: iSize:= 32;
+    3: iSize:= 48;
   end;
   bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlIconExample.Color);
   imgIconExample.Picture.Bitmap.Assign(bmpTemp);
@@ -144,6 +145,7 @@ begin
     0: SelectedIconsSize := 16;
     1: SelectedIconsSize := 22;
     2: SelectedIconsSize := 32;
+    3: SelectedIconsSize := 48;
   else SelectedIconsSize := gIconsSizeNew;
   end;
 

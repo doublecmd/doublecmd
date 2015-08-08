@@ -40,6 +40,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
         '16x16'
         '22x22'
         '32x32'
+        '48x48'
       )
       OnChange = cbIconsSizeChange
       Style = csDropDownList
