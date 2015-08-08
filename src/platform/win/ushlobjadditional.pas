@@ -28,6 +28,9 @@ const
    { User canceled the current action }
    COPYENGINE_E_USER_CANCELLED: HRESULT = HRESULT($80270000);
 
+const
+  IID_IImageList: TGUID = '{46EB5926-582E-4017-9FDF-E8998DAA0950}';
+
 { IShellIconOverlay Interface }
 {
    Used to return the icon overlay index or its icon index for an IShellFolder object,
@@ -62,6 +65,7 @@ type
       function GetOverlayIconIndex(pidl : PItemIDList; var IconIndex : Integer) : HResult; stdcall;
    end; { IShellIconOverlay }
 
+function SHGetSystemImageList(iImageList: Integer): HIMAGELIST;
 function SHChangeIconDialog(hOwner: HWND; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
@@ -80,6 +84,43 @@ implementation
 
 uses
   SysUtils, ShellApi, JwaShlGuid, ComObj;
+
+function SHGetImageListFallback(iImageList: Integer; const riid: TGUID; var ImageList: HIMAGELIST): HRESULT; stdcall;
+var
+  FileInfo: TSHFileInfoW;
+  Flags: UINT = SHGFI_SYSICONINDEX;
+begin
+  if not IsEqualGUID(riid, IID_IImageList) then Exit(E_NOINTERFACE);
+  case iImageList of
+  SHIL_LARGE,
+  SHIL_EXTRALARGE:
+    Flags:= Flags or SHGFI_LARGEICON;
+  SHIL_SMALL:
+    Flags:= Flags or SHGFI_SMALLICON;
+  end;
+  ZeroMemory(@FileInfo, SizeOf(TSHFileInfoW));
+  ImageList:= SHGetFileInfoW('', 0, FileInfo, SizeOf(FileInfo), Flags);
+  if ImageList <> 0 then Exit(S_OK) else Exit(E_FAIL);
+end;
+
+function SHGetSystemImageList(iImageList: Integer): HIMAGELIST;
+var
+  ShellHandle: THandle;
+  SHGetImageList: function(iImageList: Integer; const riid: TGUID; var ImageList: HIMAGELIST): HRESULT; stdcall;
+begin
+  Result:= 0;
+  ShellHandle:= GetModuleHandle(Shell32);
+  if (ShellHandle <> 0) then
+  begin
+    @SHGetImageList:= GetProcAddress(ShellHandle, 'SHGetImageList');
+    if @SHGetImageList = nil then
+    begin
+      @SHGetImageList:= GetProcAddress(ShellHandle, PAnsiChar(727));
+      if @SHGetImageList = nil then SHGetImageList:= @SHGetImageListFallback;
+    end;
+    SHGetImageList(iImageList, IID_IImageList, Result);
+  end;
+end;
 
 function SHChangeIconDialog(hOwner: HWND; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 type

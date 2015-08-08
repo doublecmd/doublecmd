@@ -1170,7 +1170,6 @@ var
   systemVersion: SInt32;
 {$ELSEIF DEFINED(MSWINDOWS)}
 var
-  FileInfo : TSHFileInfoW;
   iIconSize : Integer;
 {$ENDIF}
 begin
@@ -1189,16 +1188,13 @@ begin
   CreateIconTheme;
 
   {$IFDEF MSWINDOWS}
-  if gIconsSize = 16 then
-    iIconSize := SHGFI_SMALLICON
-  else
-    iIconSize := SHGFI_LARGEICON;
+  case gIconsSize of
+    16: iIconSize := SHIL_SMALL;
+    32: iIconSize := SHIL_LARGE;
+    else iIconSize := SHIL_EXTRALARGE;
+  end;
 
-  FSysImgList := SHGetFileInfoW(PWideChar(UTF8Decode(mbGetCurrentDir)),
-                                0,
-                                FileInfo,
-                                SizeOf(FileInfo),
-                                SHGFI_SYSICONINDEX or iIconSize);
+  FSysImgList := SHGetSystemImageList(iIconSize);
   {$ENDIF}
 
   FPixmapsLock := syncobjs.TCriticalSection.Create;
@@ -1311,6 +1307,8 @@ begin
   // load emblems
   if gIconsSize = 22 then
     I:= 16
+  else if gIconsSize = 48 then
+    I:= 22
   else
     I:= gIconsSize div 2;
   FiEmblemLinkID:= CheckAddThemePixmap('emblem-symbolic-link', I);
@@ -1545,7 +1543,7 @@ begin
       else
         TrySetSize(gIconsSize, gIconsSize);
 
-      if (Height in [16, 32]) and (cx = Width) and (cy = Height) then
+      if (Height in [16, 32, 48]) and (cx = Width) and (cy = Height) then
         // for transparent
         ImageList_Draw(FSysImgList, iIndex - SystemIconIndexStart, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
