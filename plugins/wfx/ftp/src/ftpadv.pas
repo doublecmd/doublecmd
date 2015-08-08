@@ -189,6 +189,7 @@ end;
 constructor TFTPSendEx.Create;
 begin
   inherited Create;
+  FTimeout:= 30000;
   FDirectFile:= True;
   ClientToServer:= @Dummy;
   ServerToClient:= @Dummy;
@@ -219,9 +220,15 @@ begin
 end;
 
 function TFTPSendEx.List(Directory: String; NameList: Boolean): Boolean;
+var
+  Message: String;
 begin
   Result:= inherited List(Directory, NameList);
-  if FDSock.LastError <> 0 then ReadResult;
+  if (Result = False) and (FSock.WaitingData > 0) then
+  begin
+    Message:= FSock.RecvPacket(1000);
+    LogProc(PluginNumber, msgtype_importanterror, PAnsiChar(Message));
+  end;
 end;
 
 function TFTPSendEx.SetTime(const FileName: String; FileTime: TDateTime): Boolean;
