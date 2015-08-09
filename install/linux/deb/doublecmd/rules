@@ -49,7 +49,7 @@ override_dh_install:
 	# Copy copyright file
 	for pkg in `dh_listpackages` ; do \
 		install -d $(CURDIR)/debian/$$pkg/usr/share/doc/$$pkg ; \
-		install -m 644 install/linux/deb/doublecmd/copyright $(CURDIR)/debian/$$pkg/usr/share/doc/$$pkg/copyright ; \
+		install -m 644 $(CURDIR)/install/linux/deb/doublecmd/copyright $(CURDIR)/debian/$$pkg/usr/share/doc/$$pkg/copyright ; \
 	done
 
 	dh_install
