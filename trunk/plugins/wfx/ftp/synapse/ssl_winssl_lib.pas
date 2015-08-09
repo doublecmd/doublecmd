@@ -2,7 +2,7 @@
   SChannel to OpenSSL wrapper
 
   Copyright (c) 2008 Boris Krasnovskiy
-  Copyright (c) 2013 Alexander Koblov (pascal port)
+  Copyright (c) 2013-2015 Alexander Koblov (pascal port)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -24,10 +24,61 @@ unit ssl_winssl_lib;
 
 interface
 
+uses
+  Windows, SynSock, JwaSspi, CTypes;
+
+type
+  PSSL_CTX = ^SSL_CTX;
+  SSL_CTX = record
+    dwProtocol: DWORD;
+    bVerify: BOOL;
+  end;
+
+  PSSL_METHOD = ^SSL_METHOD;
+  SSL_METHOD = record
+    dummy: DWORD;
+  end;
+
+  PSSL = ^SSL;
+  SSL = record
+    s: TSocket;
+    ctx: PSSL_CTX;
+    hContext: CtxtHandle;
+    hCreds: CredHandle;
+    pbRecDataBuf: PByte;
+    cbRecDataBuf: LONG;
+    sbRecDataBuf: LONG;
+    pbIoBuffer: PByte;
+    cbIoBuffer: LONG;
+    sbIoBuffer: LONG;
+    exIoBuffer: BOOL;
+    rmshtdn: BOOL;
+  end;
+
+function SSL_library_init(): cint; cdecl;
+function SSL_set_fd(ssl: PSSL; fd: cint): cint; cdecl;
+function SSL_CTX_new(method: PSSL_METHOD): PSSL_CTX; cdecl;
+procedure SSL_CTX_free(ctx: PSSL_CTX); cdecl;
+function SSL_new(ctx: PSSL_CTX): PSSL; cdecl;
+procedure SSL_free(ssl: PSSL); cdecl;
+function SSL_connect(ssl: PSSL): cint; cdecl;
+function SSL_shutdown(ssl: PSSL): cint; cdecl;
+function SSL_read(ssl: PSSL; buf: PByte; num: cint): cint; cdecl;
+function SSL_write(ssl: PSSL; const buf: PByte; num: cint): cint; cdecl;
+function SSL_pending(ssl: PSSL): cint; cdecl;
+function SSLv23_method(): PSSL_METHOD; cdecl;
+function SSLv2_method(): PSSL_METHOD; cdecl;
+function SSLv3_method(): PSSL_METHOD; cdecl;
+function TLSv1_method(): PSSL_METHOD; cdecl;
+function TLSv1_1_method(): PSSL_METHOD; cdecl;
+function TLSv1_2_method(): PSSL_METHOD; cdecl;
+procedure SSL_CTX_set_verify(ctx: PSSL_CTX; mode: cint; func: Pointer); cdecl;
+function SSL_get_error (ssl: PSSL; ret: cint): cint; cdecl;
+
 implementation
 
 uses
-  Windows, JwaSspi, JwaWinError, CTypes, SynSock,
+  JwaWinError,
   ssl_openssl_lib, blcksock, ssl_openssl;
 
 const
@@ -65,33 +116,7 @@ const
   UNISP_NAME_A = AnsiString('Microsoft Unified Security Protocol Provider');
   UNISP_NAME_W = WideString('Microsoft Unified Security Protocol Provider');
 
-type
-  PSSL_CTX = ^SSL_CTX;
-  SSL_CTX = record
-    dwProtocol: DWORD;
-    bVerify: BOOL;
-  end;
 
-  PSSL_METHOD = ^SSL_METHOD;
-  SSL_METHOD = record
-    dummy: DWORD;
-  end;
-
-  PSSL = ^SSL;
-  SSL = record
-    s: TSocket;
-    ctx: PSSL_CTX;
-    hContext: CtxtHandle;
-    hCreds: CredHandle;
-    pbRecDataBuf: PByte;
-    cbRecDataBuf: LONG;
-    sbRecDataBuf: LONG;
-    pbIoBuffer: PByte;
-    cbIoBuffer: LONG;
-    sbIoBuffer: LONG;
-    exIoBuffer: BOOL;
-    rmshtdn: BOOL;
-  end;
 
 type
   ALG_ID = type cuint;
@@ -866,27 +891,6 @@ begin
   else
     Result := SSL_ERROR_ZERO_RETURN;
 end;
-
-exports
-  SSL_library_init,
-  SSL_set_fd,
-  SSL_CTX_new,
-  SSL_CTX_free,
-  SSL_new,
-  SSL_free,
-  SSL_connect,
-  SSL_shutdown,
-  SSL_read,
-  SSL_write,
-  SSL_pending,
-  SSLv23_method,
-  SSLv2_method,
-  SSLv3_method,
-  TLSv1_method,
-  TLSv1_1_method,
-  TLSv1_2_method,
-  SSL_CTX_set_verify,
-  SSL_get_error;
 
 var
   lpBuffer: TMemoryBasicInformation;

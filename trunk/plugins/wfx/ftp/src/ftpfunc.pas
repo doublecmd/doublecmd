@@ -98,7 +98,7 @@ var
 implementation
 
 uses
-  IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, ssl_openssl;
+  IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs;
 
 var
   ActiveConnectionList, ConnectionList: TStringList;

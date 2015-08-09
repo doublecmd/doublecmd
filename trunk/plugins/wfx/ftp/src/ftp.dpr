@@ -6,13 +6,18 @@ library ftp;
 
 uses
   Classes, FtpFunc, FtpUtils, FtpConfDlg
+  , ssl_openssl
 {$IF DEFINED(LINUX)}
   , ssl_gnutls_lib
+{$ELSEIF DEFINED(MSWINDOWS)}
+  , ssl_winssl_lib
 {$ENDIF}
   ;
 
 {$IF DEFINED(LINUX)}
 {$I ssl_gnutls_lib.inc}
+{$ELSEIF DEFINED(MSWINDOWS)}
+{$I ssl_winssl_lib.inc}
 {$ENDIF}
 
 exports
