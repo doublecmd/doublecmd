@@ -5,5 +5,5 @@ doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/p
 doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wdx/deb_wdx/deb_wdx.wdx
 doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wdx/rpm_wdx/rpm_wdx.wdx
 doublecmd-plugins: library-not-linked-against-libc usr/lib/doublecmd/plugins/wfx/ftp/ftp.wfx
+doublecmd-plugins: shlib-with-non-pic-code
 doublecmd-plugins: missing-depends-line
-
