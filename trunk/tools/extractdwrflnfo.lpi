@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -60,7 +60,9 @@
       </Debugging>
     </Linking>
     <Other>
-      <CompilerPath Value="$(CompPath)"/>
+      <Verbosity>
+        <ShowHints Value="False"/>
+      </Verbosity>
     </Other>
   </CompilerOptions>
 </CONFIG>
