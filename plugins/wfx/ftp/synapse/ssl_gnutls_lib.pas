@@ -1,7 +1,7 @@
 {
   GnuTLS to OpenSSL wrapper (based on GNUTLS-EXTRA)
 
-  Copyright (c) 2013 Alexander Koblov <alexx2000@mail.ru>
+  Copyright (c) 2013-2015 Alexander Koblov <alexx2000@mail.ru>
   Copyright (c) 2004, 2005, 2006 Free Software Foundation
   Copyright (c) 2002 Andrew McDonald <andrew@mcdonald.org.uk>
 
@@ -31,7 +31,7 @@ implementation
 
 uses
   SysUtils, CTypes, DynLibs,
-  ssl_openssl_lib, ssl_openssl, blcksock, windows;
+  ssl_openssl_lib, ssl_openssl, blcksock, dl;
 
 type
   gnutls_protocol_t =
@@ -206,6 +206,8 @@ var
   gnutls_cipher_get_key_size: function(algorithm: gnutls_cipher_algorithm_t): csize_t; cdecl;
 
   gnutls_strerror: function(error: cint): PAnsiChar; cdecl;
+
+  gnutls_check_version: function(const req_version: PAnsiChar): PAnsiChar; cdecl;
 
 (* Library initialisation functions *)
 
@@ -501,59 +503,72 @@ begin
   if (Result = nil) then raise Exception.Create(EmptyStr);
 end;
 
+const
+  libgnutls: array[0..2] of String = ('30', '28', '26');
 var
+  index: Integer;
+  dlinfo: dl_info;
   gnutls: TLibHandle = NilHandle;
-  lpBuffer: TMemoryBasicInformation;
 begin
-  gnutls:= LoadLibrary('libgnutls-28.dll');
-
-  if (gnutls <> NilHandle) then
-  begin
-    @gnutls_global_init:= SafeGetProcAddress(gnutls, 'gnutls_global_init');
-
-    @gnutls_init:= SafeGetProcAddress(gnutls, 'gnutls_init');
-    @gnutls_deinit:= SafeGetProcAddress(gnutls, 'gnutls_deinit');
-
-    @gnutls_priority_set_direct:= SafeGetProcAddress(gnutls, 'gnutls_priority_set_direct');
-    @gnutls_credentials_set:= SafeGetProcAddress(gnutls, 'gnutls_credentials_set');
-    @gnutls_certificate_set_x509_trust_file:= SafeGetProcAddress(gnutls, 'gnutls_certificate_set_x509_trust_file');
-    @gnutls_certificate_set_x509_key_file:= SafeGetProcAddress(gnutls, 'gnutls_certificate_set_x509_key_file');
-
-    @gnutls_certificate_allocate_credentials:= SafeGetProcAddress(gnutls, 'gnutls_certificate_allocate_credentials');
-    @gnutls_certificate_free_credentials:= SafeGetProcAddress(gnutls, 'gnutls_certificate_free_credentials');
-
-    @gnutls_transport_set_ptr:= SafeGetProcAddress(gnutls, 'gnutls_transport_set_ptr');
-    @gnutls_record_check_pending:= SafeGetProcAddress(gnutls, 'gnutls_record_check_pending');
-
-    @gnutls_handshake:= SafeGetProcAddress(gnutls, 'gnutls_handshake');
-    @gnutls_bye:= SafeGetProcAddress(gnutls, 'gnutls_bye');
-
-    @gnutls_record_send:= SafeGetProcAddress(gnutls, 'gnutls_record_send');
-    @gnutls_record_recv:= SafeGetProcAddress(gnutls, 'gnutls_record_recv');
-
-    @gnutls_protocol_get_version:= SafeGetProcAddress(gnutls, 'gnutls_protocol_get_version');
-    @gnutls_cipher_get:= SafeGetProcAddress(gnutls, 'gnutls_cipher_get');
-    @gnutls_kx_get:= SafeGetProcAddress(gnutls, 'gnutls_kx_get');
-    @gnutls_mac_get:= SafeGetProcAddress(gnutls, 'gnutls_mac_get');
-    @gnutls_compression_get:= SafeGetProcAddress(gnutls, 'gnutls_compression_get');
-    @gnutls_certificate_type_get:= SafeGetProcAddress(gnutls, 'gnutls_certificate_type_get');
-    @gnutls_cipher_suite_get_name:= SafeGetProcAddress(gnutls, 'gnutls_cipher_suite_get_name');
-    @gnutls_cipher_get_key_size:= SafeGetProcAddress(gnutls, 'gnutls_cipher_get_key_size');
-
-    @gnutls_strerror:= SafeGetProcAddress(gnutls, 'gnutls_strerror');
-  end;
-
   if (IsSSLloaded = False) then
   begin
-    if VirtualQuery(@lpBuffer, @lpBuffer, SizeOf(lpBuffer)) = SizeOf(lpBuffer) then
+    for index:= Low(libgnutls) to High(libgnutls) do
     begin
-      SetLength(DLLSSLName, MAX_PATH);
-      SetLength(DLLSSLName, GetModuleFileName(THandle(lpBuffer.AllocationBase),
-                                              PAnsiChar(DLLSSLName), MAX_PATH));
-      DLLUtilName := DLLSSLName;
+      gnutls:= LoadLibrary('libgnutls.so.' + libgnutls[index]);
+      if gnutls <> NilHandle then Break;
+    end;
 
-      if InitSSLInterface then
-        SSLImplementation := TSSLOpenSSL;
+    if (gnutls <> NilHandle) then
+    try
+      @gnutls_check_version:= SafeGetProcAddress(gnutls, 'gnutls_check_version');
+
+      if (gnutls_check_version('3.0.0') = nil) then raise Exception.Create(EmptyStr);
+
+      @gnutls_global_init:= SafeGetProcAddress(gnutls, 'gnutls_global_init');
+
+      @gnutls_init:= SafeGetProcAddress(gnutls, 'gnutls_init');
+      @gnutls_deinit:= SafeGetProcAddress(gnutls, 'gnutls_deinit');
+
+      @gnutls_priority_set_direct:= SafeGetProcAddress(gnutls, 'gnutls_priority_set_direct');
+      @gnutls_credentials_set:= SafeGetProcAddress(gnutls, 'gnutls_credentials_set');
+      @gnutls_certificate_set_x509_trust_file:= SafeGetProcAddress(gnutls, 'gnutls_certificate_set_x509_trust_file');
+      @gnutls_certificate_set_x509_key_file:= SafeGetProcAddress(gnutls, 'gnutls_certificate_set_x509_key_file');
+
+      @gnutls_certificate_allocate_credentials:= SafeGetProcAddress(gnutls, 'gnutls_certificate_allocate_credentials');
+      @gnutls_certificate_free_credentials:= SafeGetProcAddress(gnutls, 'gnutls_certificate_free_credentials');
+
+      @gnutls_transport_set_ptr:= SafeGetProcAddress(gnutls, 'gnutls_transport_set_ptr');
+      @gnutls_record_check_pending:= SafeGetProcAddress(gnutls, 'gnutls_record_check_pending');
+
+      @gnutls_handshake:= SafeGetProcAddress(gnutls, 'gnutls_handshake');
+      @gnutls_bye:= SafeGetProcAddress(gnutls, 'gnutls_bye');
+
+      @gnutls_record_send:= SafeGetProcAddress(gnutls, 'gnutls_record_send');
+      @gnutls_record_recv:= SafeGetProcAddress(gnutls, 'gnutls_record_recv');
+
+      @gnutls_protocol_get_version:= SafeGetProcAddress(gnutls, 'gnutls_protocol_get_version');
+      @gnutls_cipher_get:= SafeGetProcAddress(gnutls, 'gnutls_cipher_get');
+      @gnutls_kx_get:= SafeGetProcAddress(gnutls, 'gnutls_kx_get');
+      @gnutls_mac_get:= SafeGetProcAddress(gnutls, 'gnutls_mac_get');
+      @gnutls_compression_get:= SafeGetProcAddress(gnutls, 'gnutls_compression_get');
+      @gnutls_certificate_type_get:= SafeGetProcAddress(gnutls, 'gnutls_certificate_type_get');
+      @gnutls_cipher_suite_get_name:= SafeGetProcAddress(gnutls, 'gnutls_cipher_suite_get_name');
+      @gnutls_cipher_get_key_size:= SafeGetProcAddress(gnutls, 'gnutls_cipher_get_key_size');
+
+      @gnutls_strerror:= SafeGetProcAddress(gnutls, 'gnutls_strerror');
+
+
+      FillChar(dlinfo, SizeOf(dlinfo), 0);
+      if dladdr(@dlinfo, @dlinfo) <> 0 then
+      begin
+        DLLSSLName:= dlinfo.dli_fname;
+        DLLUtilName:= DLLSSLName;
+
+        if InitSSLInterface then
+          SSLImplementation:= TSSLOpenSSL;
+      end;
+    except
+      FreeLibrary(gnutls);
     end;
   end;
 
