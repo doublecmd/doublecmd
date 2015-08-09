@@ -27,11 +27,8 @@ unit ssl_gnutls_lib;
 
 interface
 
-implementation
-
 uses
-  SysUtils, CTypes, DynLibs,
-  ssl_openssl_lib, ssl_openssl, blcksock, dl;
+  CTypes;
 
 type
   gnutls_protocol_t =
@@ -168,6 +165,38 @@ type
     verify_callback: Pointer;
     verify_mode: cint;
   end;
+
+function SSL_library_init (): cint; cdecl;
+function SSL_CTX_new (method: PSSL_METHOD): PSSL_CTX; cdecl;
+procedure SSL_CTX_free (ctx: PSSL_CTX); cdecl;
+function SSL_CTX_use_certificate_file (ctx: PSSL_CTX; const certfile: PAnsiChar; certtype: gnutls_x509_crt_fmt_t): cint; cdecl;
+function SSL_CTX_use_PrivateKey_file (ctx: PSSL_CTX; const keyfile: PAnsiChar; keytype: gnutls_x509_crt_fmt_t): cint; cdecl;
+procedure SSL_CTX_set_verify (ctx: PSSL_CTX; verify_mode: cint;
+  		            verify_callback: pointer); cdecl;
+function SSL_new (ctx: PSSL_CTX): PSSL; cdecl;
+procedure SSL_free (ssl: PSSL); cdecl;
+function SSL_get_error (ssl: PSSL; ret: cint): cint; cdecl;
+function SSL_set_fd (ssl: PSSL; fd: cint): cint; cdecl;
+function SSL_pending (ssl: PSSL): cint; cdecl;
+function SSL_connect (ssl: PSSL): cint; cdecl;
+function SSL_shutdown (ssl: PSSL): cint; cdecl;
+function SSL_read (ssl: PSSL; buf: PByte; len: cint): cint; cdecl;
+function SSL_write (ssl: PSSL; const buf: PByte; len: cint): cint; cdecl;
+function SSLv23_method(): PSSL_METHOD; cdecl;
+function SSLv2_method(): PSSL_METHOD; cdecl;
+function SSLv3_method(): PSSL_METHOD; cdecl;
+function TLSv1_method(): PSSL_METHOD; cdecl;
+function SSL_get_current_cipher (ssl: PSSL): PSSL_CIPHER; cdecl;
+function SSL_CIPHER_get_name (cipher: PSSL_CIPHER): PAnsiChar; cdecl;
+function SSL_CIPHER_get_bits (cipher: PSSL_CIPHER; bits: pcint): cint; cdecl;
+function ERR_get_error (): culong; cdecl;
+function ERR_error_string (e: culong; buf: PAnsiChar): PAnsiChar; cdecl;
+
+implementation
+
+uses
+  SysUtils, DynLibs,
+  ssl_openssl_lib, ssl_openssl, blcksock, dl;
 
 threadvar
   last_error: cint;
@@ -470,32 +499,6 @@ function ERR_error_string (e: culong; buf: PAnsiChar): PAnsiChar; cdecl;
 begin
   Result := gnutls_strerror (-1 * cint(e));
 end;
-
-exports
-  SSL_library_init,
-  SSL_set_fd,
-  SSL_CTX_new,
-  SSL_CTX_free,
-  SSL_new,
-  SSL_free,
-  SSL_connect,
-  SSL_shutdown,
-  SSL_read,
-  SSL_write,
-  SSL_pending,
-  SSLv23_method,
-  SSLv2_method,
-  SSLv3_method,
-  TLSv1_method,
-  SSL_CTX_set_verify,
-  SSL_CTX_use_certificate_file,
-  SSL_CTX_use_PrivateKey_file,
-  SSL_get_error,
-  SSL_get_current_cipher,
-  SSL_CIPHER_get_name,
-  SSL_CIPHER_get_bits,
-  ERR_get_error,
-  ERR_error_string;
 
 function SafeGetProcAddress(Lib : TlibHandle; const ProcName : AnsiString) : Pointer;
 begin

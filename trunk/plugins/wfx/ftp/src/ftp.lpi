@@ -28,7 +28,7 @@
             <Filename Value="..\lib\ftp.wfx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
+            <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk;..\synapse"/>
             <OtherUnitFiles Value="..\synapse;..\..\..\..\sdk"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
@@ -129,7 +129,7 @@ end;"/>
       <Filename Value="..\lib\ftp.wfx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
+      <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk;..\synapse"/>
       <OtherUnitFiles Value="..\synapse;..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
