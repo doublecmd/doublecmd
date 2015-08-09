@@ -46,12 +46,6 @@ override_dh_install:
 	rm -rf $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/doc
 	find $(CURDIR)/debian/doublecmd-common/usr/share/ -type f | xargs chmod a-x ;
 
-	# Copy copyright file
-	for pkg in `dh_listpackages` ; do \
-		install -d $(CURDIR)/debian/$$pkg/usr/share/doc/$$pkg ; \
-		install -m 644 $(CURDIR)/install/linux/deb/doublecmd/copyright $(CURDIR)/debian/$$pkg/usr/share/doc/$$pkg/copyright ; \
-	done
-
 	dh_install
 
 override_dh_strip:
