@@ -7,6 +7,9 @@ library ftp;
 uses
   Classes, FtpFunc, FtpUtils, FtpConfDlg
   , ssl_openssl
+{$IF DEFINED(UNIX)}
+  , ssl_openssl_ver
+{$ENDIF}
 {$IF DEFINED(LINUX)}
   , ssl_gnutls_lib
 {$ELSEIF DEFINED(MSWINDOWS)}
