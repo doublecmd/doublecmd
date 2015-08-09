@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Double Commander
-Uptream-Contact: Alexander Koblov <alexx2000@mail.ru>
+Upstream-Contact: Alexander Koblov <alexx2000@mail.ru>
 Source: http://doublecmd.sourceforge.net/
 
 Files: *
@@ -29,7 +29,7 @@ Files: components/virtualtreeview/*
 Copyright: 2000-2003 Mike Lischke <public@delphi-gems.com>
            2002-2004 Ralf Junker <delphi@zeitungsjunge.de>
            2007 Marco Zehe <marco.zehe@googlemail.com>
-License: LGPL-2.1+
+License: MPL-1.1 or LGPL-2.1+
 
 Files: components/viewer/viewercontrol.pas
 Copyright: 2003-2004 Radek Červinka <radek.cervinka@centrum.cz>
@@ -45,12 +45,33 @@ Copyright: 2006 Nick Yakowlew <ya_nick@users.sourceforge.net>
 License: LGPL-2.1+
 
 Files: libraries/src/libbz2/*
+       plugins/wcx/zip/fparchive/abbzip2.pas
 Copyright: 1996-2010 Julian Seward <jseward@bzip.org>
 License: BSD-4-clause~bzip2
 
 Files: plugins/wfx/ftp/synapse/*
 Copyright: 1999-2012 Lukas Gebauer
 License: BSD-3-clause
+
+Files: plugins/wfx/ftp/synapse/ssl_winssl_lib.pas
+Copyright: 2008 Boris Krasnovskiy
+           2013 Alexander Koblov <alexx2000@mail.ru>
+License: GPL-2.0+
+
+Files: plugins/wfx/ftp/synapse/ssl_gnutls_lib.pas
+Copyright: 2002 Andrew McDonald <andrew@mcdonald.org.uk>
+           2004-2006 Free Software Foundation
+           2013 Alexander Koblov <alexx2000@mail.ru>
+License: GPL-2.0+
+
+Files: plugins/wfx/ftp/src/*
+       src/platform/unix/ujpegthumb.pas
+       src/platform/unix/ukeyfile.pas
+       src/platform/unix/upython.pas
+       src/platform/win/uNTFSLinks.pas
+       src/platform/win/uthumbnailprovider.pas
+Copyright: 2009-2015 Alexander Koblov <alexx2000@mail.ru>
+License: LGPL-2.1+
 
 Files: plugins/wdx/deb_wdx/src/minigzip.pas
 Copyright: 1995-1998 Jean-loup Gailly
@@ -63,23 +84,40 @@ License: GPL-2.0+
 
 Files: plugins/wfx/gvfs/*
 Copyright: 2008-2009 Tomas Bzatek <tbzatek@users.sourceforge.net>
-           2009-2010 Alexander Koblov <Alexx2000@mail.ru>
+           2009-2010 Alexander Koblov <alexx2000@mail.ru>
 License: LGPL-2.0+
 
 Files: plugins/wdx/rpm_wdx/*
        plugins/wcx/rpm/*
+       plugins/wcx/cpio/*
 Copyright: 2000-2002 Mandryka Yurij <braingroup@hotmail.ru>
-           2007 Alexander Koblov <Alexx2000@mail.ru>
+           2007 Alexander Koblov <alexx2000@mail.ru>
 License: GPL-2.0+
+
+Files: plugins/wcx/sevenzip/*
+Copyright: 2014-2015 Alexander Koblov <alexx2000@mail.ru>
+License: LGPL-2.1+
+
+Files: plugins/wcx/sevenzip/src/jcl/common/JclCompression.pas
+Copyright: 2004-2014 Matthias Thoma, Olivier Sannie (obones),
+           Florent Ouchet (outchy), Jan Goyvaerts (jgsoft),
+           Uwe Schuster (uschuster)
+License: MPL-1.1 or LGPL-2.1+
+
+Files: plugins/wcx/sevenzip/src/jcl/windows/sevenzip.pas
+       plugins/wcx/zip/lzma/*
+Copyright: 1999-2008 Igor Pavlov
+License: LGPL-2.1+
 
 Files: plugins/wcx/unbz2/bzip2/bzip2.pas
 Copyright: 2002 by Daniel Mantione
-           2007-2009 Alexander Koblov <Alexx2000@mail.ru>
+           2007-2009 Alexander Koblov <alexx2000@mail.ru>
 License: GPL-2.0+
 
 Files: plugins/wcx/zip/fparchive/*
+       plugins/wcx/zip/src/ZipApp.pas
 Copyright: 1997-2002 TurboPower Software
-           2007-2012 Alexander Koblov <Alexx2000@mail.ru>
+           2007-2012 Alexander Koblov <alexx2000@mail.ru>
 License: MPL-1.1
 
 Files: plugins/wcx/zip/fparchive/abxz.pas
@@ -87,25 +125,61 @@ Copyright: 2014-2015 Alexander Koblov <alexx2000@mail.ru>
 License: X11
 
 Files: plugins/wlx/WlxMplayer/src/qt4.pas
-Copyright: 2005-2011 by Jan Van hijfte
+Copyright: 2005-2011 Jan Van hijfte
 License: LGPL-3.0+
+
+Files: scripts/rabbit-vcs.py
+Copyright: 2009 Jason Heeris <jason.heeris@gmail.com>
+           2009 Bruce van der Kooij <brucevdkooij@gmail.com>
+           2009 Adam Plumb <adamplumb@gmail.com>
+           2014 Alexander Koblov <alexx2000@mail.ru>
+License: GPL-2.0+
 
 Files: src/platform/unix/uudev.pas
 Copyright: 2008 David Zeuthen <david@fubar.dk>
-           2014 Alexander Koblov <Alexx2000@mail.ru>
+           2014 Alexander Koblov <alexx2000@mail.ru>
 License: GPL-2.0+
+
+Files: src/platform/unix/uusersgroups.pas
+Copyright: 2003 Martin Matusu <xmat@volny.cz>
+License: GPL-2.0+
+
+Files: src/platform/unix/mime/umimetype.pas
+Copyright: 2007 Houng Jen Yee (PCMan) <pcman.tw@gmail.com>
+           2014-2015 Alexander Koblov <alexx2000@mail.ru>
+License: GPL-2.0+
+
+Files: src/platform/win/ugdiplus.pas
+Copyright: 2008 Alexander Koblov <alexx2000@mail.ru>
+License: LGPL-2.0+
+
+Files: src/fsyncdirsdlg.pas
+Copyright: 2013 Anton Panferov <ast.a_s@mail.ru>
+           2014 Alexander Koblov <alexx2000@mail.ru>
+License: GPL-2.0+
+
+Files: src/uhighlighterprocs.pas
+Copyright: 2000 Michael Hieke
+License: MPL-1.1 or GPL-2.0+
 
 Files: src/uparitercontrols.pas
 Copyright: 2004 Flavio Etrusco
-           2011 Alexander Koblov <Alexx2000@mail.ru>
+           2011 Alexander Koblov <alexx2000@mail.ru>
 License: BSD-2-clause
+
+Files: src/usyneditfiler.pas
+Copyright: 1999-2007 Lazarus development team
+License: MPL-1.1 or GPL-2.0+
 
 Files: src/ufindthread.pas
        src/ffileproperties.pas
        src/uColorExt.pas
        src/ufindfiles.pas
        src/uglobs.pas
-Copyright: 2003-2004 Radek Červinka <radek.cervinka@centrum.cz>
+       src/fFindDlg.pas
+       src/fmain.pas
+Copyright: 2002 Peter Cernoch <pcernoch@volny.cz>
+           2003-2004 Radek Červinka <radek.cervinka@centrum.cz>
            2003 Martin Matusu <xmat@volny.cz>
            2006-2012 Alexander Koblov <alexx2000@mail.ru>
            2008 Dmitry Kolomiets <B4rr4cuda@rambler.ru>
@@ -113,9 +187,10 @@ Copyright: 2003-2004 Radek Červinka <radek.cervinka@centrum.cz>
            2010 Przemysław Nagay <cobines@gmail.com>
 License: GPL-2.0+
 
-Files: src/udiffon*.pas
+Files: src/udiffond.pas
+       src/udiffonp.pas
 Copyright: 2001-2009 Angus Johnson <angusj@myrealbox.com>
-License: Other
+License: other~tdiff
  The code in the TDiff component is released as freeware
  provided you agree to the following terms & conditions:
  1. the copyright notice, terms and conditions are left unchanged
@@ -125,6 +200,26 @@ License: Other
     format and no acknowledgement is required. However, a
     discrete acknowledgement would be appreciated (eg. in a
     program's 'About Box').
+
+Files: src/uresample.pas
+Copyright: 1997-1998 Anders Melander <anders@melander.dk>
+           2009 Alexander Koblov <alexx2000@mail.ru>
+License: other~uresample
+ This software is copyrighted as noted above.  It may be freely copied,
+ modified, and redistributed, provided that the copyright notice(s) is
+ preserved on all copies.
+ .
+ There is no warranty or other guarantee of fitness for this software,
+ it is provided solely "as is".  Bug reports or fixes may be sent
+ to the author, who may or may not act on them as he desires.
+ .
+ You may not include this software in a program or other software product
+ without supplying the source, or without informing the end-user that the
+ source is available for no extra charge.
+ .
+ If you modify this software, you should include a notice in the "Revision
+ history" section giving the name of the person performing the modification,
+ the date of modification, and the reason for such modification.
 
 Files: debian/*
 Copyright: 2010-2013 Alexander Koblov <alexx2000@mail.ru>
@@ -309,13 +404,6 @@ License: MPL-1.1
  WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
  for the specific language governing rights and limitations under the
  License.
- .
- The Original Code is TurboPower Abbrevia
- .
- The Initial Developer of the Original Code is TurboPower Software
- .
- Portions created by the Initial Developer are Copyright (C) 1997-2002
- the Initial Developer. All Rights Reserved.
 
 License: X11
  Permission is hereby granted, free of charge, to any person obtaining a
