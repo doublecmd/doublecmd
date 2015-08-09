@@ -65,8 +65,7 @@ end;
 
 procedure Initialize;
 begin
-  // Register image handler and format
-  ImageHandlers.RegisterImageReader('Photoshop Document', 'PSD', TFPReaderPSD);
+  // Register image format
   TPicture.RegisterFileFormat('psd', 'Photoshop Document', TPhotoshopDocument);
 end;
 
