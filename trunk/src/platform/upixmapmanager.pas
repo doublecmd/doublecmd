@@ -46,7 +46,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, StringHashList,
-  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs
+  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD
   {$IF DEFINED(UNIX)}
     {$IF NOT DEFINED(DARWIN)}
     , contnrs, uDCReadSVG
