@@ -14,6 +14,8 @@ exports
   SSLv2_method,
   SSLv3_method,
   TLSv1_method,
+  TLSv1_1_method,
+  TLSv1_2_method,
   SSL_CTX_set_verify,
   SSL_CTX_use_certificate_file,
   SSL_CTX_use_PrivateKey_file,

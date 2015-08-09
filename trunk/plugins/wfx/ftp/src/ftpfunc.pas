@@ -29,7 +29,7 @@ interface
 
 uses
   SysUtils, Classes,
-  WfxPlugin, FtpSend, Extension;
+  WfxPlugin, Extension;
 
 type
 

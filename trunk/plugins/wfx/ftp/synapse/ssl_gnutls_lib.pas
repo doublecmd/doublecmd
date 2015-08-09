@@ -186,6 +186,8 @@ function SSLv23_method(): PSSL_METHOD; cdecl;
 function SSLv2_method(): PSSL_METHOD; cdecl;
 function SSLv3_method(): PSSL_METHOD; cdecl;
 function TLSv1_method(): PSSL_METHOD; cdecl;
+function TLSv1_1_method(): PSSL_METHOD; cdecl;
+function TLSv1_2_method(): PSSL_METHOD; cdecl;
 function SSL_get_current_cipher (ssl: PSSL): PSSL_CIPHER; cdecl;
 function SSL_CIPHER_get_name (cipher: PSSL_CIPHER): PAnsiChar; cdecl;
 function SSL_CIPHER_get_bits (cipher: PSSL_CIPHER; bits: pcint): cint; cdecl;
@@ -347,7 +349,7 @@ end;
 
 function SSL_set_fd (ssl: PSSL; fd: cint): cint; cdecl;
 begin
-  {$PUSH}{$HINTS OFF}
+  {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
   gnutls_transport_set_ptr (ssl^.gnutls_state, Pointer(fd));
   {$POP}
   Result := 1;
@@ -451,6 +453,26 @@ begin
   begin
     Result^.connend := GNUTLS_CLIENT;
     Result^.priorities := 'NONE:+VERS-TLS1.0:+CIPHER-ALL:+COMP-ALL:+RSA:+DHE-RSA:+DHE-DSS:+MAC-ALL';
+  end;
+end;
+
+function TLSv1_1_method: PSSL_METHOD; cdecl;
+begin
+  Result := GetMem(SizeOf(SSL_METHOD));
+  if Assigned(Result) then
+  begin
+    Result^.connend := GNUTLS_CLIENT;
+    Result^.priorities := 'NONE:+VERS-TLS1.1:+CIPHER-ALL:+COMP-ALL:+RSA:+DHE-RSA:+DHE-DSS:+MAC-ALL';
+  end;
+end;
+
+function TLSv1_2_method: PSSL_METHOD; cdecl;
+begin
+  Result := GetMem(SizeOf(SSL_METHOD));
+  if Assigned(Result) then
+  begin
+    Result^.connend := GNUTLS_CLIENT;
+    Result^.priorities := 'NONE:+VERS-TLS1.2:+CIPHER-ALL:+COMP-ALL:+RSA:+DHE-RSA:+DHE-DSS:+MAC-ALL';
   end;
 end;
 
