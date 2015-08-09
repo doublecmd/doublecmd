@@ -5,7 +5,15 @@ library ftp;
 {$ENDIF}
 
 uses
-  Classes, FtpFunc, FtpUtils, FtpConfDlg;
+  Classes, FtpFunc, FtpUtils, FtpConfDlg
+{$IF DEFINED(LINUX)}
+  , ssl_gnutls_lib
+{$ENDIF}
+  ;
+
+{$IF DEFINED(LINUX)}
+{$I ssl_gnutls_lib.inc}
+{$ENDIF}
 
 exports
   FsInit,
