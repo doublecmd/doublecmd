@@ -232,6 +232,8 @@ type
     destructor Destroy; override;
     //---------------------
     procedure Assign(Source: TWDXModuleList);
+    function IndexOfName(const AName: String): Integer;
+    //---------------------
     procedure Clear;
     procedure Exchange(Index1, Index2: Integer);
     procedure Load(Ini: TIniFileEx); overload;
@@ -324,6 +326,11 @@ begin
       Add(Name, FileName, DetectStr);
     end;
   end;
+end;
+
+function TWDXModuleList.IndexOfName(const AName: String): Integer;
+begin
+  Result := Flist.IndexOf(UpCase(AName));
 end;
 
 procedure TWDXModuleList.Clear;
@@ -1220,4 +1227,4 @@ begin
 end;
 
 end.
-
+
