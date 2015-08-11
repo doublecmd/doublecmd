@@ -257,6 +257,19 @@ begin
   else
     gWCXPlugins.Flags[I]:= 68;
 
+  // Wdx plugins
+  Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wdx' + PathDelim;
+
+  if gWdxPlugins.IndexOfName('deb_wdx') < 0 then
+  begin
+    gWdxPlugins.Add('deb_wdx', Folder + 'deb_wdx' + PathDelim + 'deb_wdx.wdx', 'EXT="DEB"');
+  end;
+
+  if gWdxPlugins.IndexOfName('rpm_wdx') < 0 then
+  begin
+    gWdxPlugins.Add('rpm_wdx', Folder + 'rpm_wdx' + PathDelim + 'rpm_wdx.wdx', 'EXT="RPM"');
+  end;
+
   // Wfx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wfx' + PathDelim;
 
