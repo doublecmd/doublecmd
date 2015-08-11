@@ -47,11 +47,11 @@ unzip %1 -d %BUILD_PACK_DIR%
 rem Copy needed files
 copy license.rtf             %BUILD_PACK_DIR%\
 copy doublecmd.wxs           %BUILD_PACK_DIR%\
-copy /Y doublecmd.xml        %BUILD_PACK_DIR%\doublecmd
 copy ..\..\src\doublecmd.ico %BUILD_PACK_DIR%\
 
 pushd %BUILD_PACK_DIR%
 
+del /Q doublecmd\doublecmd.xml
 move doublecmd "Double Commander"
 heat dir "Double Commander" -ag -cg HeatGroup -dr %PF% -var var.SourcePath -o include.wxs
 candle -arch %CPU_TARGET% -dProductVersion=%DC_VER% -dSourcePath="Double Commander" -dProgramFiles=%PF% doublecmd.wxs include.wxs
