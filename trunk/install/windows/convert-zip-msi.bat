@@ -1,5 +1,15 @@
+@echo off
 
 rem This script converts portable *.zip package to *.msi package
+
+rem Check command arguments
+if "%1" == "" (
+  echo.
+  echo Syntax:
+  echo.
+  echo   %~nx0 ^<Full path to portable .zip package^>
+  goto :eof
+)
 
 rem Path to Windows Installer XML (WiX) toolset
 set PATH=%PATH%;"C:\Program Files (x86)\WiX Toolset v3.9\bin"
