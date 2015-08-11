@@ -39,27 +39,4 @@
     <Size>32</Size>
     <ShowOverlays>True</ShowOverlays>
   </Icons>
-  <Plugins>
-    <DsxPlugins/>
-    <WcxPlugins/>
-    <WdxPlugins>
-      <WdxPlugin>
-        <Name>rpm_wdx</Name>
-        <Path>%commander_path%/plugins/wdx/rpm_wdx/rpm_wdx.wdx</Path>
-        <DetectString>EXT="RPM"</DetectString>
-      </WdxPlugin>
-      <WdxPlugin>
-        <Name>deb_wdx</Name>
-        <Path>%commander_path%/plugins/wdx/deb_wdx/deb_wdx.wdx</Path>
-        <DetectString>EXT="DEB"</DetectString>
-      </WdxPlugin>
-    </WdxPlugins>
-    <WfxPlugins>
-      <WfxPlugin Enabled="True">
-        <Name>FTP</Name>
-        <Path>%commander_path%/plugins/wfx/ftp/ftp.wfx</Path>
-      </WfxPlugin>
-    </WfxPlugins>
-    <WlxPlugins/>
-  </Plugins>
 </doublecmd>
