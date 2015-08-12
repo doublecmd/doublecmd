@@ -57,6 +57,10 @@ uses
 
 {$R *.res}
 
+{$IF DEFINED(MSWINDOWS)}
+{$R doublecmd.manifest.rc}
+{$ENDIF}
+
 {$IFDEF HEAPTRC}
 var
   LogPath: String;
