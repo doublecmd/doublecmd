@@ -13,7 +13,6 @@
       <AutoCreateForms Value="False"/>
       <Title Value="Double Commander"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
       </XPManifest>
