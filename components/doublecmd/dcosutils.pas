@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -180,7 +180,7 @@ implementation
 
 uses
 {$IF DEFINED(MSWINDOWS)}
-  Windows, JwaWinNetWk, DCDateTimeUtils,
+  Windows, JwaWinNetWk, DCDateTimeUtils, DCWindows,
 {$ENDIF}
 {$IF DEFINED(UNIX)}
   {$IF DEFINED(BSD)}
@@ -328,6 +328,14 @@ begin
     if not (mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) and
             mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime)) then
       Include(Result, caoCopyTime);
+  end;
+
+  if caoCopyOwnership in Options then
+  begin
+    if not CopyNtfsPermissions(sSrc, sDst) then
+    begin
+      Include(Result, caoCopyOwnership);
+    end;
   end;
 end;
 {$ELSE}  // *nix
