@@ -261,6 +261,10 @@ msgstr "Copiază atribute (&y)"
 msgid "Copy o&wnership"
 msgstr "Copiază posesor (&w)"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "Copiază d&ată/timp"
@@ -8610,6 +8614,10 @@ msgstr "Nu am putut seta data/timpul pentru \"%s\""
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "Nu am putut seta proprietarul/grupul pentru \"%s\""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

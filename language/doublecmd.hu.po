@@ -259,6 +259,10 @@ msgstr "&Attribútumok másolása"
 msgid "Copy o&wnership"
 msgstr "&Tulajdonos másolása"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "&Dátum/Idő másolása"
@@ -8951,6 +8955,10 @@ msgstr "Nem módosítható a dátum/idő : \"%s\""
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "Nem módosítható a tulajdonos/csoport : \"%s\""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

@@ -260,6 +260,10 @@ msgstr "Копі&ювати атрибути"
 msgid "Copy o&wnership"
 msgstr "Копіювати пра&ва"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 #| msgid "Copy date/time"
 msgid "Copy d&ate/time"
@@ -9118,6 +9122,10 @@ msgstr "Неможливо встановити дату/час для \"%s\""
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "Не вдається встановити права/групу для \"%s\""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

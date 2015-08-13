@@ -258,6 +258,10 @@ msgstr ""
 msgid "Copy o&wnership"
 msgstr "Презапис на &собствеността"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "Презапис на &времето и датата"
@@ -9364,6 +9368,10 @@ msgstr ""
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
 msgstr ""
 
 #: ulng.rsmsgerrsmallbuf

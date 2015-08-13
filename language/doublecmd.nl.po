@@ -257,6 +257,10 @@ msgstr "Kopiëer attributen"
 msgid "Copy o&wnership"
 msgstr "Kopiëer eigenaarschap"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "Kopiëer datum/tijd"
@@ -9249,6 +9253,10 @@ msgstr "Kan datum/tijd voor \"%s\" niet instellen"
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "Kan eigenaar/groep voor \"%s\" niet instellen"
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

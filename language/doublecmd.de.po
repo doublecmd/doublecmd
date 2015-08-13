@@ -262,6 +262,10 @@ msgstr "Attribute ko&pieren"
 msgid "Copy o&wnership"
 msgstr "Besitzer k&opieren"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 #, fuzzy
 #| msgid "Copy date/time"
@@ -9432,7 +9436,8 @@ msgid ""
 "Options regarding columns view have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr "Optionen zu den Spaltenansichten wurden verändert.\n
+msgstr ""
+"Optionen zu den Spaltenansichten wurden verändert.\n"
 "\n"
 "Sollen sie vor dem Beenden gespeichert werden?\n"
 
@@ -9620,6 +9625,10 @@ msgstr "Kann Datum/Zeit für  \"%s\" nicht setzen"
 msgid "Can not set owner/group for \"%s\""
 msgstr "Kann Besitzer/Gruppe für \"%s\" nicht erstellen"
 
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Puffer zu klein"
@@ -9637,7 +9646,8 @@ msgid ""
 "File extension associations extra options have been modified.\n"
 "\n"
 "Do you want to save before to exit?\n"
-msgstr "Besondere Optionen für Dateiendungen wurden verändert.\n
+msgstr ""
+"Besondere Optionen für Dateiendungen wurden verändert.\n"
 "\n"
 "Sollen sie vor dem Beenden gespeichert werden?\n"
 
@@ -9646,7 +9656,8 @@ msgid ""
 "File extension associations have been modified.\n"
 "\n"
 "Do you want to save before to exit?\n"
-msgstr "Verknüpfungen für Dateiendungen wurden verändert.\n"
+msgstr ""
+"Verknüpfungen für Dateiendungen wurden verändert.\n"
 "\n"
 "Sollen sie vor dem Beenden gespeichert werden?\n"
 
@@ -9691,7 +9702,8 @@ msgid ""
 "Options regarding panel color have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr "Optionen für die Panelfarbe wurden verändert.\n"
+msgstr ""
+"Optionen für die Panelfarbe wurden verändert.\n"
 "\n"
 "Sollen sie vor dem Beenden gespeichert werden?\n"
 
@@ -10301,7 +10313,8 @@ msgid ""
 "Options regarding terminal have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr "Optionen die das Terminal betreffen wurden verändert.\n"
+msgstr ""
+"Optionen die das Terminal betreffen wurden verändert.\n"
 "\n"
 "Sollen sie vor dem Beenden gespeichert werden?\n"
 

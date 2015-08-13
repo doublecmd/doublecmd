@@ -262,6 +262,10 @@ msgstr "Умножи& својства"
 msgid "Copy o&wnership"
 msgstr "Умножи в&ласништво"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "Умножи в&реме и датум"
@@ -8613,6 +8617,10 @@ msgstr "Нисам успео да поставим датум и време д�
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "Нисам успео да поставим власника/удружење датотеци %s“"
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

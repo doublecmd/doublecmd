@@ -262,6 +262,10 @@ msgstr "Kopírova&t atributy"
 msgid "Copy o&wnership"
 msgstr "Kopírovat v&lastnictví"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "Kopírovat d&atum/čas"
@@ -9053,6 +9057,10 @@ msgstr "Nelze nastavit datum/čas pro \"%s\""
 msgid "Can not set owner/group for \"%s\""
 msgstr "Nelze nastavit vlastníka/skupinu pro \"%s \""
 
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Vyrovnávací paměť je příliš malá"
@@ -10928,3 +10936,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+
