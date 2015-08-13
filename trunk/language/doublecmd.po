@@ -257,6 +257,10 @@ msgstr ""
 msgid "Copy o&wnership"
 msgstr ""
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr ""
@@ -562,11 +566,6 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr ""
 
-#: tfrmcopydlg.btncreatespecialqueue.caption
-msgctxt "TFRMCOPYDLG.BTNCREATESPECIALQUEUE.CAPTION"
-msgid "..."
-msgstr ""
-
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr ""
@@ -578,6 +577,36 @@ msgstr ""
 #: tfrmcopydlg.caption
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
+msgstr ""
+
+#: tfrmcopydlg.mnunewqueue.caption
+msgctxt "tfrmcopydlg.mnunewqueue.caption"
+msgid "New queue"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue1.caption
+msgctxt "tfrmcopydlg.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue2.caption
+msgctxt "tfrmcopydlg.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue3.caption
+msgctxt "tfrmcopydlg.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue4.caption
+msgctxt "tfrmcopydlg.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue5.caption
+msgctxt "tfrmcopydlg.mnuqueue5.caption"
+msgid "Queue 5"
 msgstr ""
 
 #: tfrmdescredit.actsavedescription.caption
@@ -8586,6 +8615,10 @@ msgstr ""
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
 msgstr ""
 
 #: ulng.rsmsgerrsmallbuf

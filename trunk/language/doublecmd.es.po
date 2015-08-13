@@ -264,6 +264,10 @@ msgstr "Copiar a&tributos"
 msgid "Copy o&wnership"
 msgstr "Copiar &propietario"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 #, fuzzy
 #| msgid "Copy date/time"
@@ -9523,6 +9527,10 @@ msgstr "No se puede fijar fecha/hora para \"%s\""
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "No se puede fijar propietario/grupo para \"%s\""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

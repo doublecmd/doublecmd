@@ -258,6 +258,10 @@ msgstr "複製屬性 (&Y)"
 msgid "Copy o&wnership"
 msgstr "複製擁有者 (&W)"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "複製日期/時間 (&A)"
@@ -9416,6 +9420,10 @@ msgstr "無法替【%s】設置日期/時間"
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "無法替【%s】設置擁有者/群組"
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

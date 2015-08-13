@@ -262,6 +262,10 @@ msgstr ""
 msgid "Copy o&wnership"
 msgstr ""
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr ""
@@ -9589,6 +9593,10 @@ msgstr "\"%s\" 의 날짜/시간을 설정할 수 없습니다"
 
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
 msgstr ""
 
 #: ulng.rsmsgerrsmallbuf

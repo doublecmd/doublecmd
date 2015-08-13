@@ -268,6 +268,10 @@ msgstr "Kopírovať atribút&y"
 msgid "Copy o&wnership"
 msgstr "Kopírovať vlastníka"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "Kopírov&ať dátum/čas"
@@ -9406,6 +9410,10 @@ msgstr "Nedá sa nastaviť dátum/čas pre \"%s\""
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "Nemôžem nastaviť majiteľa/skupinu pre \"%s\""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

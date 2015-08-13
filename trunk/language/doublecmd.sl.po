@@ -261,6 +261,10 @@ msgstr "&Kopiraj atribute"
 msgid "Copy o&wnership"
 msgstr "Kopiraj &lastništvo"
 
+#: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
+msgid "Copy &permissions"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
 msgstr "Kopiraj &datum in čas"
@@ -8604,6 +8608,10 @@ msgstr "Datuma in časa za datoteko \"%s\" ni mogoče določiti."
 #: ulng.rsmsgerrsetownership
 msgid "Can not set owner/group for \"%s\""
 msgstr "Ni mogoče določiti lastništva in skupine za \"%s\""
+
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
