@@ -26,6 +26,7 @@ type
     cbCopyOwnership: TCheckBox;
     cbExcludeEmptyDirectories: TCheckBox;
     cbReserveSpace: TCheckBox;
+    cbCopyPermissions: TCheckBox;
     cmbDirectoryExists: TComboBoxAutoWidth;
     cmbFileExists: TComboBoxAutoWidth;
     cmbSetPropertyError: TComboBoxAutoWidth;
@@ -111,6 +112,7 @@ begin
 
   {$IFDEF MSWINDOWS}
   cbCopyOwnership.Visible := False;
+  cbCopyPermissions.Visible := True;
   {$ENDIF}
 
   ParseLineToList(rsFileOpFileExistsOptions, cmbFileExists.Items);
@@ -150,6 +152,7 @@ begin
   cbCopyAttributes.Checked   := gOperationOptionCopyAttributes;
   cbCopyTime.Checked         := gOperationOptionCopyTime;
   cbCopyOwnership.Checked    := gOperationOptionCopyOwnership;
+  cbCopyPermissions.Checked  := gOperationOptionCopyPermissions;
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
 
   case gOperationOptionSymLinks of
@@ -196,10 +199,11 @@ begin
     2: gOperationOptionSetPropertyError := fsoospeIgnoreErrors;
   end;
 
-  gOperationOptionCopyAttributes := cbCopyAttributes.Checked;
-  gOperationOptionCopyTime       := cbCopyTime.Checked;
-  gOperationOptionCopyOwnership  := cbCopyOwnership.Checked;
-  gDropReadOnlyFlag              := cbDropReadOnlyFlag.Checked;
+  gOperationOptionCopyAttributes  := cbCopyAttributes.Checked;
+  gOperationOptionCopyTime        := cbCopyTime.Checked;
+  gOperationOptionCopyOwnership   := cbCopyOwnership.Checked;
+  gOperationOptionCopyPermissions := cbCopyPermissions.Checked;
+  gDropReadOnlyFlag               := cbDropReadOnlyFlag.Checked;
 
   case cbFollowLinks.State of
     cbChecked   : gOperationOptionSymLinks := fsooslFollow;
@@ -258,6 +262,7 @@ begin
     SetCopyOption(Options, caoCopyAttributes, cbCopyAttributes.Checked);
     SetCopyOption(Options, caoCopyTime, cbCopyTime.Checked);
     SetCopyOption(Options, caoCopyOwnership, cbCopyOwnership.Checked);
+    SetCopyOption(Options, caoCopyPermissions, cbCopyPermissions.Checked);
     SetCopyOption(Options, caoRemoveReadOnlyAttr, cbDropReadOnlyFlag.Checked);
     CopyAttributesOptions := Options;
     CorrectSymLinks := cbCorrectLinks.Checked;
@@ -309,6 +314,7 @@ begin
     SetCopyOption(Options, caoCopyAttributes, cbCopyAttributes.Checked);
     SetCopyOption(Options, caoCopyTime, cbCopyTime.Checked);
     SetCopyOption(Options, caoCopyOwnership, cbCopyOwnership.Checked);
+    SetCopyOption(Options, caoCopyPermissions, cbCopyPermissions.Checked);
     CopyAttributesOptions := Options;
     if Assigned(FTemplate) then
     begin
