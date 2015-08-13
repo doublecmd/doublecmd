@@ -745,6 +745,8 @@ begin
               AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFileName]), LineEnding);
             if caoCopyOwnership in CopyAttrResult then
               AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFileName]), LineEnding);
+            if caoCopyPermissions in CopyAttrResult then
+              AddStrWithSep(Msg, Format(rsMsgErrSetPermissions, [SourceFileName]), LineEnding);
 
             case AskQuestion(Msg, '',
                              [fsourSkip, fsourSkipAll, fsourIgnoreAll, fsourAbort],

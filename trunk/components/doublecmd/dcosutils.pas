@@ -42,6 +42,7 @@ type
   TCopyAttributesOption = (caoCopyAttributes,
                            caoCopyTime,
                            caoCopyOwnership,
+                           caoCopyPermissions,
                            caoRemoveReadOnlyAttr);
   TCopyAttributesOptions = set of TCopyAttributesOption;
 
@@ -330,11 +331,11 @@ begin
       Include(Result, caoCopyTime);
   end;
 
-  if caoCopyOwnership in Options then
+  if caoCopyPermissions in Options then
   begin
     if not CopyNtfsPermissions(sSrc, sDst) then
     begin
-      Include(Result, caoCopyOwnership);
+      Include(Result, caoCopyPermissions);
     end;
   end;
 end;

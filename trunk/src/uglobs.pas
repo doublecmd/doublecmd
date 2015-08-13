@@ -392,6 +392,7 @@ var
   gOperationOptionCopyAttributes: Boolean;
   gOperationOptionCopyTime: Boolean;
   gOperationOptionCopyOwnership: Boolean;
+  gOperationOptionCopyPermissions: Boolean;
 
   {Error file}
   gErrorFile: String;
@@ -1275,6 +1276,7 @@ begin
   gOperationOptionCopyAttributes := True;
   gOperationOptionCopyTime := True;
   gOperationOptionCopyOwnership := True;
+  gOperationOptionCopyPermissions := False;
 
 
   { Tabs page }
@@ -2293,6 +2295,7 @@ begin
         gOperationOptionCopyAttributes := GetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
         gOperationOptionCopyTime := GetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);
         gOperationOptionCopyOwnership := GetValue(SubNode, 'CopyOwnership', gOperationOptionCopyOwnership);
+        gOperationOptionCopyPermissions := GetValue(SubNode, 'CopyPermissions', gOperationOptionCopyPermissions);
       end;
     end;
 
@@ -2724,6 +2727,7 @@ begin
     SetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
     SetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);
     SetValue(SubNode, 'CopyOwnership', gOperationOptionCopyOwnership);
+    SetValue(SubNode, 'CopyPermissions', gOperationOptionCopyPermissions);
 
     { Tabs page }
     Node := FindNode(Root, 'Tabs', True);
