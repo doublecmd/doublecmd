@@ -663,11 +663,21 @@ begin
           end;
       end; // root path
     end // Verb = open
-  else if Pos('chmod', Verb) > 0 then
+  else if Pos('chmod', Verb) = 1 then
     begin
       if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
       begin
         if (FtpSend.FTPCommand('SITE' + #32 + Verb + #32 + sFileName) div 100) = 2 then
+          Result:= FS_EXEC_OK
+        else
+          Result := FS_EXEC_ERROR;
+      end;
+    end
+  else if Pos('quote', Verb) = 1 then
+    begin
+      if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
+      begin
+        if (FtpSend.FTPCommand(Copy(Verb, 7, MaxInt)) div 100) = 2 then
           Result:= FS_EXEC_OK
         else
           Result := FS_EXEC_ERROR;
