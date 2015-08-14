@@ -272,7 +272,7 @@ var
         if bTrailingDelimiter then
           Result := IncludeTrailingPathDelimiter(Result)
         else
-          Result := ExcludeTrailingPathDelimiter(Result);
+          Result := ExcludeBackPathDelimiter(Result);
       end;
     end;
 
@@ -311,7 +311,7 @@ var
       if bTrailingDelimiter then
         Result := IncludeTrailingPathDelimiter(Result)
       else
-        Result := ExcludeTrailingPathDelimiter(Result);
+        Result := ExcludeBackPathDelimiter(Result);
     end;
 
     if (fmQuote in state.functMod) then
