@@ -807,10 +807,18 @@ function FsMkDir(RemoteDir: PAnsiChar): BOOL; dcpcall;
 var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
+  sOldPath: AnsiString;
 begin
   Result := False;
   if GetConnectionByPath(RemoteDir, FtpSend, sPath) then
-    Result := FtpSend.CreateDir(sPath);
+  begin
+    sOldPath := FtpSend.GetCurrentDir;
+    if FtpSend.ChangeWorkingDir(sPath) then
+      Result := FtpSend.ChangeWorkingDir(sOldPath)
+    else begin
+      Result := FtpSend.CreateDir(sPath);
+    end;
+  end;
 end;
 
 function FsRemoveDir(RemoteName: PAnsiChar): BOOL; dcpcall;
