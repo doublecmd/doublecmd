@@ -57,11 +57,9 @@
          <ComponentRef Id="ApplicationShortcut" />
       </Feature>
 
-      <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
-
       <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
 
-      <UIRef Id="WixUI_InstallDir" />
+      <UIRef Id="WixUI_Minimal" />
 
    </Product>
 </Wix>
