@@ -370,14 +370,16 @@ var
   sFileName,
   sParams: String;
   ExecutionResult: HINST;
+  wsStartPath: UnicodeString;
 begin
   SplitCmdLine(sCmd, sFileName, sParams);
+  wsStartPath:= UTF8Decode(mbGetCurrentDir());
   sFileName:= NormalizePathDelimiters(sFileName);
 
   if (log_commandlineexecution in gLogOptions) then
     logWrite(rsMsgLogExtCmdLaunch + ': ' + rsSimpleWordFilename + '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams);
 
-  ExecutionResult := ShellExecuteW(0, nil, PWideChar(UTF8Decode(sFileName)), PWideChar(UTF8Decode(sParams)), nil, SW_SHOW);
+  ExecutionResult := ShellExecuteW(0, nil, PWideChar(UTF8Decode(sFileName)), PWideChar(UTF8Decode(sParams)), PWideChar(wsStartPath), SW_SHOW);
 
   if (log_commandlineexecution in gLogOptions) then
   begin
