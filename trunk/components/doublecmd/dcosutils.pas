@@ -223,6 +223,9 @@ const
                FILE_SHARE_READ,
                FILE_SHARE_WRITE,
                FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE);
+
+var
+  CurrentDirectory: UTF8String;
 {$ELSEIF DEFINED(UNIX)}
 const
   AccessModes: array[0..2] of LongInt  = (
@@ -1079,19 +1082,8 @@ end;
   
 function mbGetCurrentDir: UTF8String;
 {$IFDEF MSWINDOWS}
-var
-  iSize: Integer;
-  wsDir: WideString;
 begin
-  Result:= '';
-  iSize:= GetCurrentDirectoryW(0, nil);
-  if iSize > 0 then
-    begin
-      SetLength(wsDir, iSize);
-      GetCurrentDirectoryW(iSize, PWideChar(wsDir));
-      wsDir:= PWideChar(wsDir);
-      Result:= UTF8Encode(wsDir);
-    end;
+  Result:= CurrentDirectory;
 end;
 {$ELSE}
 begin
@@ -1103,7 +1095,9 @@ end;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wsNewDir: WideString;
+  Handle: THandle;
+  wsNewDir: UnicodeString;
+  FindData: TWin32FindDataW;
   NetResource: TNetResourceW;
 begin
   // Function WNetAddConnection2W works very slow
@@ -1116,9 +1110,14 @@ begin
     NetResource.lpRemoteName:= PWideChar(wsNewDir);
     WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
   end;
-  // MSDN says that the final character must be a backslash ('\').
-  wsNewDir:= wsNewDir + DirectorySeparator;
-  Result:= SetCurrentDirectoryW(PWideChar(wsNewDir));
+  wsNewDir:= wsNewDir + DirectorySeparator + '*';
+  Handle:= FindFirstFileW(PWideChar(wsNewDir), FindData);
+  Result:= (Handle <> INVALID_HANDLE_VALUE);
+  if Result then
+  begin
+    FindClose(Handle);
+    CurrentDirectory:= NewDir;
+  end;
 end;
 {$ELSE}
 begin
