@@ -38,6 +38,7 @@ begin
       Method:= gIni.ReadInteger('unrar', 'Method', 3);
       Recovery:= gIni.ReadBool('unrar', 'Recovery', False);
       Encrypt:= gIni.ReadBool('unrar', 'Encrypt', False);
+      Solid:= gIni.ReadBool('unrar', 'Solid', False);
     finally
       gIni.Free;
     end;
@@ -57,6 +58,7 @@ begin
       gIni.WriteInteger('unrar', 'Method', Method);
       gIni.WriteBool('unrar', 'Recovery', Recovery);
       gIni.WriteBool('unrar', 'Encrypt', Encrypt);
+      gIni.WriteBool('unrar', 'Solid', Solid);
     finally
       gIni.Free;
     end;
