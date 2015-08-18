@@ -491,12 +491,12 @@ uses
 const
   TKeyTypingModifierToNodeName: array[TKeyTypingModifier] of String =
     ('NoModifier', 'Alt', 'CtrlAlt');
-  DefaultDateTimeFormat = 'dd/mm/yy';
 
 type
   TLoadConfigProc = function(var ErrorMessage: String): Boolean;
 
 var
+  DefaultDateTimeFormat: String;
   // Double Commander version
   // loaded from configuration file
   gPreviousVersion: UTF8String = '';
@@ -1451,6 +1451,7 @@ begin
   gDirHistoryCount := 30;
   gFirstTextSearch := True;
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
+  DefaultDateTimeFormat := FormatSettings.ShortDateFormat + ' hh:nn:ss';
 end;
 
 function OpenConfig(var ErrorMessage: String): Boolean;
