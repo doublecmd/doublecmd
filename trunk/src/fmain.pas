@@ -3923,7 +3923,7 @@ begin
   I:= 0;
   sIndex:= '0';
   // create one tab in any way
-  sCurrentDir:= mbGetCurrentDir; // default path
+  sCurrentDir:= gpExePath; // default path
   sPath:= gIni.ReadString(TabsSection, sIndex + '_path', sCurrentDir);
   while True do
     begin
@@ -4046,7 +4046,7 @@ begin
       AFileViewFlags := [fvfDelayLoadingFiles]
     else
       AFileViewFlags := [];
-    AFileView := TColumnsFileView.Create(Page, aFileSource, mbGetCurrentDir, AFileViewFlags);
+    AFileView := TColumnsFileView.Create(Page, aFileSource, gpExePath, AFileViewFlags);
     AssignEvents(AFileView);
   end
   else if Assigned(RootNode) then
