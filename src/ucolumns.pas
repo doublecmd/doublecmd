@@ -703,9 +703,9 @@ begin
   // file size
   Add(rsColSize, Format(DCFunc, [TFileFunctionStrings[fsfSize]]), 70, taRightJustify);
   // file date/time
-  Add(rsColDate, Format(DCFunc, [TFileFunctionStrings[fsfModificationTime]]), 70, taRightJustify);
+  Add(rsColDate, Format(DCFunc, [TFileFunctionStrings[fsfModificationTime]]), 140, taRightJustify);
   // file attributes
-  Add(rsColAttr, Format(DCFunc, [TFileFunctionStrings[fsfAttr]]), 175, taLeftJustify);
+  Add(rsColAttr, Format(DCFunc, [TFileFunctionStrings[fsfAttr]]), 100, taLeftJustify);
 end;
 
 procedure TPanelColumnsClass.AddDefaultEverything;
