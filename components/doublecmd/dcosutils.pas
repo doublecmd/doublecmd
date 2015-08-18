@@ -1082,8 +1082,23 @@ end;
   
 function mbGetCurrentDir: UTF8String;
 {$IFDEF MSWINDOWS}
+var
+  dwSize: DWORD;
+  wsDir: UnicodeString;
 begin
-  Result:= CurrentDirectory;
+  if Length(CurrentDirectory) > 0 then
+    Result:= CurrentDirectory
+  else
+  begin
+    dwSize:= GetCurrentDirectoryW(0, nil);
+    if dwSize = 0 then
+      Result:= EmptyStr
+    else begin
+      SetLength(wsDir, dwSize + 1);
+      SetLength(wsDir, GetCurrentDirectoryW(dwSize, PWideChar(wsDir)));
+      Result:= UTF8Encode(wsDir);
+    end;
+  end;
 end;
 {$ELSE}
 begin
