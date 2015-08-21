@@ -55,7 +55,7 @@ implementation
 uses
   InterfaceBase
   {$IF DEFINED(UNIX)}
-  , DCOSUtils, uDCUtils, DCClassesUtf8
+  , BaseUnix, DCOSUtils, uDCUtils, DCClassesUtf8
     {$IFDEF DARWIN}
     , MacOSAll
     {$ENDIF}
@@ -234,6 +234,21 @@ begin
   end
   else
     Result := EmptyStr;
+end;
+
+function GetVersionNumber: String;
+var
+  Info: utsname;
+  I: Integer = 1;
+begin
+  if fpUname(Info) <> 0 then
+    Result := EmptyStr
+  else begin
+    Result := Info.release;
+    while (I <= Length(Result)) and (Result[I] in ['0'..'9', '.']) do
+      Inc(I);
+    Result := Copy(Result, 1, I - 1);
+  end;
 end;
 
 {$IFDEF DARWIN}
@@ -433,15 +448,20 @@ begin
 
   // Set default names.
   if OSVersion = EmptyStr then
+  begin
     {$IF DEFINED(LINUX)}
     OSVersion := 'Linux';
     {$ELSEIF DEFINED(DARWIN)}
     OSVersion := 'Darwin';  // MacOS
+    {$ELSEIF DEFINED(FREEBSD)}
+    OSVersion := 'FreeBSD';
     {$ELSEIF DEFINED(BSD)}
     OSVersion := 'BSD';
     {$ELSE}
     OSVersion := 'Unix';
     {$ENDIF}
+    OSVersion += ' ' + GetVersionNumber;
+  end;
   {$ENDIF}
 
   {$IFDEF LCLQT}
