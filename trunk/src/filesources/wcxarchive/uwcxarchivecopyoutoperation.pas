@@ -366,7 +366,15 @@ begin
       FreeAndNil(Header);
     end;
 
-    WcxModule.CloseArchive(ArcHandle);
+    iResult := WcxModule.CloseArchive(ArcHandle);
+
+    // Check for errors
+    if iResult <> E_SUCCESS then
+    begin
+      ShowError(Format(rsMsgLogError + rsMsgLogExtract,
+                       [FWcxArchiveFileSource.ArchiveFileName +
+                        ' - ' + GetErrorMsg(iResult)]), [log_arc_op]);
+    end;
 
     if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
 
