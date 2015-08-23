@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, Controls, Forms, Graphics,
   fFileOpDlg,
-  uFileSourceOperation, uOperationsManager;
+  uFileSourceOperation, uOperationsManager, uFileSourceOperationUI;
 
 type
 
@@ -37,6 +37,7 @@ type
 
   TOperationsPanel = class(TScrollBox)
   private
+    FUserInterface: TFileSourceOperationUI;
     FOperations, FQueues: TFPList;
     FParentWidth: Integer;
     procedure ClearItems;
@@ -62,7 +63,8 @@ uses
   LCLIntf, LCLType, Math,
   fViewOperations,
   uDCUtils,
-  uFileSourceOperationMisc;
+  uFileSourceOperationMisc,
+  uFileSourceOperationMessageBoxesUI;
 
 const
   MinimumHeight = 25;
@@ -139,6 +141,11 @@ procedure TOperationsPanel.OperationsManagerEvent(Item: TOperationsManagerItem; 
 begin
   UpdateItems;
   UpdateView;
+  if Event = omevOperationAdded then
+    Item.Operation.AddUserInterface(FUserInterface)
+  else if Event = omevOperationRemoved then begin
+    Item.Operation.RemoveUserInterface(FUserInterface);
+  end;
 end;
 
 procedure TOperationsPanel.ProgressWindowEvent(OperationHandle: TOperationHandle; Event: TOperationProgressWindowEvent);
@@ -262,6 +269,7 @@ begin
   inherited Create(AOwner);
   FOperations := TFPList.Create;
   FQueues := TFPList.Create;
+  FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
 
   OperationsManager.AddEventsListener(
     [omevOperationAdded, omevOperationRemoved, omevOperationMoved],
@@ -279,6 +287,7 @@ begin
     @ProgressWindowEvent);
 
   inherited Destroy;
+  FUserInterface.Free;
   FOperations.Free;
   FQueues.Free;
 end;
