@@ -8,7 +8,7 @@ This form used SynEdit and his Highlighters
 
 contributors:
 
-Copyright (C) 2006-2013 Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2015 Alexander Koblov (Alexx2000@mail.ru)
 
 }
 
@@ -20,7 +20,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
-  ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms;
+  ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm;
 
 type
 
@@ -159,6 +159,7 @@ type
     sEncodingIn,
     sEncodingOut,
     sOriginalText: String;
+    FWaitData: TEditorWaitData;
 
     procedure ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
     {en
@@ -175,6 +176,7 @@ type
     Function CreateNewTab:Integer; // return tab number
     Function OpenFileNewTab(const sFileName:String):Integer;
     }
+    destructor Destroy; override;
     {en
        Opens a file.
        @returns(@true if successful)
@@ -191,7 +193,8 @@ type
     property FileName: UTF8String read FFileName write SetFileName;
   end;
 
-  procedure ShowEditor(const sFileName:String);
+  procedure ShowEditor(WaitData: TEditorWaitData);
+  function ShowEditor(const sFileName: String): TfrmEditor;
 
 implementation
 
@@ -202,21 +205,27 @@ uses
   LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobs, fOptions,
   uOSUtils, uConvEncoding, uSynEditFiler, fOptionsEditorColors;
 
-procedure ShowEditor(const sFileName:String);
-var
-  editor: TfrmEditor;
+function ShowEditor(const sFileName: String): TfrmEditor;
 begin
-  editor := TfrmEditor.Create(Application);
+  Result := TfrmEditor.Create(Application);
 
   if sFileName = '' then
-    editor.actFileNew.Execute
+    Result.actFileNew.Execute
   else
   begin
-    if not editor.OpenFile(sFileName) then
+    if not Result.OpenFile(sFileName) then
       Exit;
   end;
 
-  editor.ShowOnTop;
+  Result.ShowOnTop;
+end;
+
+procedure ShowEditor(WaitData: TEditorWaitData);
+var
+  Editor: TfrmEditor;
+begin
+  Editor:= ShowEditor(WaitData.FileName);
+  Editor.FWaitData:= WaitData
 end;
 
 procedure TfrmEditor.FormCreate(Sender: TObject);
@@ -459,6 +468,12 @@ begin
 
   FFileName := AValue;
   Caption := FFileName;
+end;
+
+destructor TfrmEditor.Destroy;
+begin
+  inherited Destroy;
+  if Assigned(FWaitData) then EditDone(FWaitData);
 end;
 
 procedure TfrmEditor.actFileNewExecute(Sender: TObject);
