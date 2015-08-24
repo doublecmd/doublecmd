@@ -45,6 +45,8 @@ type
    function CommandsFilter(Command: String): Boolean;
    procedure OnCopyOutStateChanged(Operation: TFileSourceOperation;
                                    State: TFileSourceOperationState);
+   procedure OnEditCopyOutStateChanged(Operation: TFileSourceOperation;
+                                       State: TFileSourceOperationState);
    procedure OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
                                           State: TFileSourceOperationState);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
@@ -415,6 +417,47 @@ begin
 
     finally
       FreeAndNil(aFileList);
+    end;
+  end;
+end;
+
+procedure TMainCommands.OnEditCopyOutStateChanged(Operation: TFileSourceOperation;
+                                                  State: TFileSourceOperationState);
+var
+  aFile: TFile;
+  WaitData: TEditorWaitData;
+  aFileSource: ITempFileSystemFileSource;
+  aCopyOutOperation: TFileSourceCopyOperation;
+begin
+  if (State = fsosStopped) and (Operation.Result = fsorFinished) then
+  begin
+    aCopyOutOperation := Operation as TFileSourceCopyOperation;
+    aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
+
+    try
+      aFile := aCopyOutOperation.SourceFiles[0];
+
+      WaitData:= TEditorWaitData.Create;
+
+      try
+        WaitData.TargetPath:= aCopyOutOperation.SourceFiles.Path;
+
+        ChangeFileListRoot(aFileSource.FileSystemRoot, aCopyOutOperation.SourceFiles);
+
+        WaitData.FileName:= aFile.FullPath;
+        WaitData.SourceFileSource:= aFileSource;
+        WaitData.FileTime:= mbFileAge(WaitData.FileName);
+        WaitData.TargetFileSource:= aCopyOutOperation.FileSource as IFileSource;
+
+        ShowEditorByGlob(WaitData);
+      except
+        WaitData.Free;
+      end;
+    except
+      on e: EInvalidCommandLine do
+        MessageDlg(rsToolErrorOpeningEditor,
+          rsMsgInvalidCommandLine + ' (' + rsToolEditor + '):' + LineEnding + e.Message,
+          mtError, [mbOK], 0);
     end;
   end;
 end;
@@ -1657,15 +1700,18 @@ procedure TMainCommands.cm_Edit(const Params: array of string);
 var
   i: Integer;
   aFile: TFile;
+  TempFiles: TFiles;
   SelectedFiles: TFiles = nil;
+  Operation: TFileSourceOperation;
   sCmd, sParams, sStartPath: string;
+  TempFileSource: ITempFileSystemFileSource = nil;
 begin
   with frmMain do
   try
+    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     // If files are links to local files
     if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
       begin
-        SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
         for I := 0 to SelectedFiles.Count - 1 do
           begin
             aFile := SelectedFiles[I];
@@ -1674,14 +1720,33 @@ begin
       end
     // If files not directly accessible copy them to temp file source.
     else if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
+    begin
+      if not (fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) then
       begin
-        msgWarning(rsMsgNotImplemented);
+        msgWarning(rsMsgErrNotSupported);
         Exit;
-      end
-    else
-      begin
-        SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
       end;
+
+      TempFiles := SelectedFiles.Clone;
+
+      TempFileSource := TTempFileSystemFileSource.GetFileSource;
+
+      Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
+                       TempFileSource,
+                       TempFiles,
+                       TempFileSource.FileSystemRoot);
+
+      if Assigned(Operation) then
+      begin
+        Operation.AddStateChangedListener([fsosStopped], @OnEditCopyOutStateChanged);
+        OperationsManager.AddOperation(Operation);
+      end
+      else
+      begin
+        msgWarning(rsMsgErrNotSupported);
+      end;
+      Exit;
+    end;
 
     try
       for i := 0 to SelectedFiles.Count - 1 do
