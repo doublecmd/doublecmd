@@ -241,14 +241,12 @@ var
   Info: utsname;
   I: Integer = 1;
 begin
-  if fpUname(Info) <> 0 then
-    Result := EmptyStr
-  else begin
-    Result := Info.release;
-    while (I <= Length(Result)) and (Result[I] in ['0'..'9', '.']) do
-      Inc(I);
-    Result := Copy(Result, 1, I - 1);
-  end;
+  FillChar(Info, SizeOf(Info), 0);
+  fpUname(Info);
+  Result := Info.release;
+  while (I <= Length(Result)) and (Result[I] in ['0'..'9', '.']) do
+    Inc(I);
+  Result := Copy(Result, 1, I - 1);
 end;
 
 {$IFDEF DARWIN}

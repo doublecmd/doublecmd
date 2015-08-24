@@ -23,6 +23,7 @@
 unit uMyUnix;
 
 {$mode objfpc}{$H+}
+{$packrecords c}
 
 {$IF NOT DEFINED(LINUX)}
 {$DEFINE FPC_USE_LIBC}
@@ -31,7 +32,7 @@ unit uMyUnix;
 interface
 
 uses
-  Classes, SysUtils, BaseUnix, DCBasicTypes, uDrive;
+  Classes, SysUtils, BaseUnix, CTypes, DCBasicTypes, uDrive;
 
 const
   libc = 'c';
@@ -76,17 +77,23 @@ type
   PMountEntry = ^TMountEntry;
 
 type
-  __uid_t = DWORD;
-  __gid_t = DWORD;
   //en Password file entry record
   passwd = record
-    pw_name: PChar;   //en< user name
-    pw_passwd: PChar; //en< user password
-    pw_uid: __uid_t;  //en< user ID
-    pw_gid: __gid_t;  //en< group ID
-    pw_gecos: PChar;  //en< real name
-    pw_dir: PChar;    //en< home directory
-    pw_shell: PChar;  //en< shell program
+    pw_name: PChar;    //en< user name
+    pw_passwd: PChar;  //en< user password
+    pw_uid: uid_t;     //en< user ID
+    pw_gid: gid_t;     //en< group ID
+{$IF DEFINED(BSD)}
+    pw_change: time_t; //en< password change time
+    pw_class: PChar;   //en< user access class
+{$ENDIF}
+    pw_gecos: PChar;   //en< real name
+    pw_dir: PChar;     //en< home directory
+    pw_shell: PChar;   //en< shell program
+{$IF DEFINED(BSD)}
+    pw_expire: time_t; //en< account expiration
+    pw_fields: cint;   //en< internal: fields filled in
+{$ENDIF}
   end;
   TPasswordRecord = passwd;
   PPasswordRecord = ^TPasswordRecord;
@@ -94,7 +101,7 @@ type
   group = record
     gr_name: PChar;   //en< group name
     gr_passwd: PChar; //en< group password
-    gr_gid: __gid_t;  //en< group ID
+    gr_gid: gid_t;    //en< group ID
     gr_mem: ^PChar;   //en< group members
   end;
   TGroupRecord = group;
@@ -128,7 +135,7 @@ function endmntent(stream: PFILE): LongInt; cdecl; external libc name 'endmntent
    @returns(The function returns a pointer to a structure containing the broken-out
             fields of the record in the password database that matches the user ID)
 }
-function getpwuid(uid: __uid_t): PPasswordRecord; cdecl; external libc name 'getpwuid';
+function getpwuid(uid: uid_t): PPasswordRecord; cdecl; external libc name 'getpwuid';
 {en
    Get password file entry
    @param(name User name)
@@ -142,7 +149,7 @@ function getpwnam(const name: PChar): PPasswordRecord; cdecl; external libc name
    @returns(The function returns a pointer to a structure containing the broken-out
             fields of the record in the group database that matches the group ID)
 }
-function getgrgid(gid: __gid_t): PGroupRecord; cdecl; external libc name 'getgrgid';
+function getgrgid(gid: gid_t): PGroupRecord; cdecl; external libc name 'getgrgid';
 {en
    Get group file entry
    @param(name Group name)
