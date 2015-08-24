@@ -17,7 +17,7 @@ unit uShowForm;
 interface
 
 uses
-  Classes, DCBasicTypes, uFileSource;
+  Classes, DCBasicTypes, uFileSource, uFileSourceOperation;
 
 type
 
@@ -32,6 +32,9 @@ type
     TargetFileSource: IFileSource;
   public
     destructor Destroy; override;
+  protected
+    procedure OnCopyInStateChanged(Operation: TFileSourceOperation;
+                                   State: TFileSourceOperationState);
   end;
 
 procedure EditDone(WaitData: TEditorWaitData);
@@ -51,7 +54,7 @@ implementation
 uses
   SysUtils, Process, DCProcessUtf8, Dialogs,
   uShellExecute, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils,
-  uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils,
+  uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   uFile, uFileSourceCopyOperation, uFileSystemFileSource,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes;
 
@@ -253,6 +256,30 @@ begin
   inherited Destroy;
   SourceFileSource:= nil;
   TargetFileSource:= nil;
+end;
+
+procedure TEditorWaitData.OnCopyInStateChanged(Operation: TFileSourceOperation;
+                                               State: TFileSourceOperationState);
+var
+  aFileSource: ITempFileSystemFileSource;
+  aCopyOperation: TFileSourceCopyOperation;
+begin
+  if (State = fsosStopped) and (Operation.Result = fsorFinished) then
+  begin
+    aCopyOperation := Operation as TFileSourceCopyOperation;
+    aFileSource := aCopyOperation.SourceFileSource as ITempFileSystemFileSource;
+    with aCopyOperation.RetrieveStatistics do
+    begin
+      if DoneFiles <> TotalFiles then
+      begin
+        if msgYesNo(Operation.Thread, Format(rsMsgCouldNotCopyBackward, [LineEnding + aCopyOperation.SourceFiles[0].FullPath])) then
+        begin
+          aFileSource.DeleteOnDestroy:= False;
+        end;
+      end;
+    end;
+    Free;
+  end;
 end;
 
 { TEditorWaitThread }

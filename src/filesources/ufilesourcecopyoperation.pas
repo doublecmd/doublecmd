@@ -81,6 +81,7 @@ type
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
 
     property SourceFiles: TFiles read FSourceFiles;
+    property SourceFileSource: IFileSource read FSourceFileSource;
     property TargetFileSource: IFileSource read FTargetFileSource;
 
     property RenameMask: String read FRenameMask write FRenameMask;
