@@ -172,7 +172,7 @@ end;
 function TWfxPluginOperationHelper.ProcessFile(aFile: TFile;
   AbsoluteTargetFileName: String; var Statistics: TFileSourceCopyOperationStatistics): LongInt;
 var
-  iFlags: Integer;
+  iFlags: Integer = 0;
   RemoteInfo: TRemoteInfo;
   iTemp: TInt64Rec;
   bCopyMoveIn: Boolean;
@@ -186,14 +186,13 @@ begin
   begin
   { FCurrentFileSize:= aFile.Size;
   }
-      iFlags:= 0;
       with RemoteInfo do
       begin
-        iTemp.Value := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
+        iTemp.Value := aFile.Size;
         SizeLow := iTemp.Low;
         SizeHigh := iTemp.High;
-        LastWriteTime := DateTimeToWfxFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
-        Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
+        LastWriteTime := DateTimeToWfxFileTime(aFile.ModificationTime);
+        Attr := LongInt(aFile.Attributes);
       end;
       if (FMode = wpohmMove) then
         iFlags:= iFlags + FS_COPYFLAGS_MOVE;
@@ -221,8 +220,8 @@ begin
 
   with Statistics do
   begin
-    DoneFiles := DoneFiles + 1;
-    DoneBytes := OldDoneBytes + (aFile.Properties[fpSize] as TFileSizeProperty).Value;
+    if Result = FS_FILE_OK then DoneFiles := DoneFiles + 1;
+    DoneBytes := OldDoneBytes + aFile.Size;
     UpdateStatistics(Statistics);
   end;
 end;

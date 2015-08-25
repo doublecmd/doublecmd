@@ -150,7 +150,7 @@ resourcestring
   rsMsgUserDidNotSetExtension = '<NO EXT>';
   rsMsgUserDidNotSetName = '<NO NAME>';
   rsMsgProblemExecutingCommand = 'Problem executing command (%s)';
-  rsMsgCouldNotCopyBackward = 'Could not copy backward - do you want to keep the changed file %s?';
+  rsMsgCouldNotCopyBackward = 'Could not copy backward - do you want to keep the changed file?';
 
   //Hot Dir related
   rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu [%s]?'+#$0A+'Answering NO will delete only menu delimiters but will keep element inside sub-menu.';

@@ -269,6 +269,9 @@ begin
   begin
     LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
                       [FWcxArchiveFileSource.ArchiveFileName]), [log_arc_op], lmtSuccess);
+
+    FStatistics.DoneFiles:= FStatistics.TotalFiles;
+    UpdateStatistics(FStatistics);
   end;
 
   // Delete temporary TAR archive if needed
