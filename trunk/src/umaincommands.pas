@@ -2030,11 +2030,12 @@ end;
 procedure TMainCommands.cm_CheckSumCalc(const Params: array of string);
 var
   I: Integer;
-  bSeparateFile, bOpenFileAfterJobCompleted: Boolean;
-  HashAlgorithm: THashAlgorithm;
   sFileName: UTF8String;
   SelectedFiles: TFiles;
+  HashAlgorithm: THashAlgorithm;
+  QueueId: TOperationsManagerQueueIdentifier;
   Operation: TFileSourceCalcChecksumOperation;
+  bSeparateFile, bOpenFileAfterJobCompleted: Boolean;
 begin
   // This will work only for filesystem.
   // For other file sources use temp file system when it's done.
@@ -2072,7 +2073,7 @@ begin
       else
         sFileName:= ActiveFrame.CurrentPath + SelectedFiles[0].Name;
 
-      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm, bOpenFileAfterJobCompleted) then
+      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm, bOpenFileAfterJobCompleted, QueueId) then
       begin
         Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
                        SelectedFiles, ActiveFrame.CurrentPath, sFileName) as TFileSourceCalcChecksumOperation;
@@ -2085,7 +2086,7 @@ begin
           Operation.Algorithm := HashAlgorithm;
 
           // Start operation.
-          OperationsManager.AddOperation(Operation);
+          OperationsManager.AddOperation(Operation, QueueId, False);
         end
         else
         begin

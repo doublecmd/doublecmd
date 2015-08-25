@@ -1,4 +1,4 @@
-object frmCheckSumCalc: TfrmCheckSumCalc
+inherited frmCheckSumCalc: TfrmCheckSumCalc
   Left = 321
   Height = 400
   Top = 59
@@ -6,8 +6,6 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   AutoSize = True
   BorderIcons = [biSystemMenu]
   Caption = 'Calculate checksum...'
-  ChildSizing.LeftRightSpacing = 8
-  ChildSizing.TopBottomSpacing = 8
   ClientHeight = 400
   ClientWidth = 400
   Constraints.MinHeight = 400
@@ -16,112 +14,89 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'cbOpenAfterJobIsComplete.Checked;cbSeparateFile.Checked;lbHashAlgorithm.ItemIndex'
-  LCLVersion = '1.2.6.0'
-  object lblSaveTo: TLabel
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    Left = 10
-    Height = 15
-    Top = 8
-    Width = 130
-    BorderSpacing.Left = 10
-    BorderSpacing.Top = 8
-    Caption = '&Save checksum file(s) to:'
-    FocusControl = edtSaveTo
-    ParentColor = False
+  inherited pnlContent: TPanel
+    Height = 346
+    Width = 384
+    ClientHeight = 346
+    ClientWidth = 384
+    ParentColor = True
+    object lblSaveTo: TLabel[0]
+      Left = 0
+      Height = 15
+      Top = 0
+      Width = 130
+      Caption = '&Save checksum file(s) to:'
+      FocusControl = edtSaveTo
+      ParentColor = False
+    end
+    object edtSaveTo: TEdit[1]
+      AnchorSideLeft.Control = pnlContent
+      AnchorSideTop.Control = lblSaveTo
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlContent
+      AnchorSideRight.Side = asrBottom
+      Left = 0
+      Height = 23
+      Top = 21
+      Width = 384
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      TabOrder = 0
+    end
+    object cbSeparateFile: TCheckBox[2]
+      AnchorSideLeft.Control = edtSaveTo
+      AnchorSideTop.Control = edtSaveTo
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 19
+      Top = 50
+      Width = 242
+      BorderSpacing.Top = 6
+      Caption = 'C&reate separate checksum file for each file'
+      OnChange = cbSeparateFileChange
+      TabOrder = 1
+    end
+    object lbHashAlgorithm: TListBox[3]
+      AnchorSideLeft.Control = edtSaveTo
+      AnchorSideTop.Control = cbOpenAfterJobIsComplete
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = edtSaveTo
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Left = 0
+      Height = 244
+      Top = 100
+      Width = 384
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Top = 6
+      ItemHeight = 0
+      OnSelectionChange = lbHashAlgorithmSelectionChange
+      ScrollWidth = 150
+      TabOrder = 3
+    end
+    object cbOpenAfterJobIsComplete: TCheckBox[4]
+      AnchorSideLeft.Control = edtSaveTo
+      AnchorSideTop.Control = cbSeparateFile
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 19
+      Top = 75
+      Width = 243
+      BorderSpacing.Top = 6
+      Caption = 'Open checksum file after job is completed'
+      OnChange = cbSeparateFileChange
+      TabOrder = 2
+    end
   end
-  object edtSaveTo: TEdit
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = lblSaveTo
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 10
-    Height = 23
-    Top = 29
-    Width = 380
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 10
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 10
-    TabOrder = 0
-  end
-  object cbSeparateFile: TCheckBox
-    AnchorSideLeft.Control = edtSaveTo
-    AnchorSideTop.Control = edtSaveTo
-    AnchorSideTop.Side = asrBottom
-    Left = 10
-    Height = 19
-    Top = 58
-    Width = 242
-    BorderSpacing.Top = 6
-    Caption = 'C&reate separate checksum file for each file'
-    OnChange = cbSeparateFileChange
-    TabOrder = 1
-  end
-  object btnOK: TBitBtn
-    AnchorSideTop.Control = btnCancel
-    AnchorSideRight.Control = btnCancel
-    AnchorSideBottom.Side = asrBottom
-    Left = 184
-    Height = 32
-    Top = 356
-    Width = 100
-    Anchors = [akTop, akRight]
-    BorderSpacing.Right = 6
-    Caption = '&OK'
-    Default = True
-    Kind = bkOK
-    ModalResult = 1
-    TabOrder = 2
-  end
-  object btnCancel: TBitBtn
-    AnchorSideTop.Control = lbHashAlgorithm
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = edtSaveTo
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Side = asrBottom
-    Left = 290
-    Height = 32
-    Top = 356
-    Width = 100
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 12
-    Cancel = True
-    Caption = '&Cancel'
-    Kind = bkCancel
-    ModalResult = 2
-    TabOrder = 3
-  end
-  object lbHashAlgorithm: TListBox
-    AnchorSideLeft.Control = edtSaveTo
-    AnchorSideTop.Control = cbOpenAfterJobIsComplete
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = edtSaveTo
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Side = asrBottom
-    Left = 10
-    Height = 236
-    Top = 108
-    Width = 380
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Top = 6
-    ItemHeight = 0
-    OnSelectionChange = lbHashAlgorithmSelectionChange
-    ScrollWidth = 150
-    TabOrder = 4
-  end
-  object cbOpenAfterJobIsComplete: TCheckBox
-    AnchorSideLeft.Control = edtSaveTo
-    AnchorSideTop.Control = cbSeparateFile
-    AnchorSideTop.Side = asrBottom
-    Left = 10
-    Height = 19
-    Top = 83
-    Width = 243
-    BorderSpacing.Top = 6
-    Caption = 'Open checksum file after job is completed'
-    OnChange = cbSeparateFileChange
-    TabOrder = 5
+  inherited pnlButtons: TPanel
+    Top = 358
+    Width = 384
+    ClientWidth = 384
+    inherited btnCancel: TBitBtn
+      Left = 202
+    end
+    inherited btnOK: TBitBtn
+      Left = 296
+    end
   end
 end

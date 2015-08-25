@@ -28,15 +28,14 @@ unit fCheckSumCalc;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, uHash;
+  Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, fButtonForm, uHash,
+  uOperationsManager;
 
 type
 
   { TfrmCheckSumCalc }
 
-  TfrmCheckSumCalc = class(TForm)
-    btnOK: TBitBtn;
-    btnCancel: TBitBtn;
+  TfrmCheckSumCalc = class(TfrmButtonForm)
     cbSeparateFile: TCheckBox;
     cbOpenAfterJobIsComplete: TCheckBox;
     edtSaveTo: TEdit;
@@ -55,7 +54,8 @@ type
   end; 
 
 function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
-                          out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean): Boolean;
+                          out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
+                          out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
 function ShowCalcVerifyCheckSum(out Hash: String;
                                 out HashAlgorithm: THashAlgorithm): Boolean;
@@ -68,7 +68,8 @@ uses
   uGlobs, uLng;
 
 function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
-                          out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean): Boolean;
+  out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
+  out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 begin
   with TfrmCheckSumCalc.Create(Application) do
   try
@@ -81,6 +82,7 @@ begin
         SeparateFile:= cbSeparateFile.Checked;
         OpenFileAfterJobCompleted:=(cbOpenAfterJobIsComplete.Checked AND cbOpenAfterJobIsComplete.Enabled);
         HashAlgorithm:= FAlgorithm;
+        QueueId:= QueueIdentifier
       end;
   finally
     Free;
@@ -97,6 +99,8 @@ begin
     SessionProperties:= EmptyStr;
     Caption:= rsCheckSumVerifyTitle;
     cbSeparateFile.Visible:= False;
+    btnAddToQueue.Visible:= False;
+    btnCreateSpecialQueue.Visible:= False;
     cbOpenAfterJobIsComplete.Visible:= False;
     lbHashAlgorithm.OnSelectionChange:= nil;
     edtSaveTo.OnChange:= @edtSaveToChange;
