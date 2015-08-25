@@ -20,19 +20,17 @@ uses
   //Lazarus, Free-Pascal, etc.
   SysUtils, Classes, Forms, Dialogs, StdCtrls,
   //DC
-  uFileSource, uFile;
+  fButtonForm, uFileSource, uFile;
 
 type
   { TfrmLinker }
-  TfrmLinker = class(TForm)
+  TfrmLinker = class(TfrmButtonForm)
     lblFileName: TLabel;
     lstFile: TListBox;
     gbSaveTo: TGroupBox;
     edSave: TEdit;
     btnSave: TButton;
     grbxControl: TGroupBox;
-    btnOK: TButton;
-    btnExit: TButton;
     spbtnUp: TButton;
     spbtnDown: TButton;
     spbtnRem: TButton;
@@ -104,7 +102,7 @@ begin
             xFiles.Add(TFile(Objects[I]).Clone);
           end;
           Operation:= aFileSource.CreateCombineOperation(xFiles, edSave.Text) as TFileSourceCombineOperation;
-          OperationsManager.AddOperation(Operation);
+          OperationsManager.AddOperation(Operation, QueueIdentifier, False);
         finally
           FreeThenNil(xFiles);
         end;
