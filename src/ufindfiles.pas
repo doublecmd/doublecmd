@@ -442,6 +442,7 @@ end;
 function CheckFile(const SearchTemplate: TSearchTemplateRec; const FileChecks: TFindFileChecks; const AFile: TFile): Boolean;
 var
   IsDir: Boolean;
+  DirectoryName: String;
 begin
   Result := True;
   with SearchTemplate do
@@ -450,10 +451,9 @@ begin
 
     if (fpName in AFile.SupportedProperties) then
     begin
-      if IsDir then
-        Result := CheckDirectoryName(FileChecks, AFile.Name)
-      else
-        Result := CheckFileName(FileChecks, AFile.Name);
+      DirectoryName:= ExtractFileName(ExcludeTrailingBackslash(AFile.Path));
+      Result := CheckDirectoryName(FileChecks, DirectoryName);
+      if Result then Result := CheckFileName(FileChecks, AFile.Name);
     end;
 
     if Result and (fpModificationTime in AFile.SupportedProperties) then
