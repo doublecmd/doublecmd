@@ -613,11 +613,6 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "取消 (&C)"
 
-#: tfrmcopydlg.btncreatespecialqueue.caption
-msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
-msgid "..."
-msgstr "..."
-
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "選項 (&P)"
@@ -632,6 +627,42 @@ msgstr "將目前設定儲存為預設值 (&V)"
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "複製檔案"
+
+#: tfrmcopydlg.mnunewqueue.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnunewqueue.caption"
+msgid "New queue"
+msgstr "新增佇列"
+
+#: tfrmcopydlg.mnuqueue1.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr "佇列 1"
+
+#: tfrmcopydlg.mnuqueue2.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr "佇列 2"
+
+#: tfrmcopydlg.mnuqueue3.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr "佇列 3"
+
+#: tfrmcopydlg.mnuqueue4.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr "佇列 4"
+
+#: tfrmcopydlg.mnuqueue5.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr "佇列 5"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
@@ -8396,6 +8427,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #: tfrmviewoperations.mnunewqueue.caption
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
 msgid "New queue"
 msgstr "新增佇列"
 
@@ -8422,22 +8454,27 @@ msgid "Out of queue"
 msgstr "移出佇列"
 
 #: tfrmviewoperations.mnuqueue1.caption
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "佇列 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "佇列 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "佇列 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "佇列 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "佇列 5"
 
@@ -9240,6 +9277,10 @@ msgstr ""
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "你確定要退出嗎?"
+
+#: ulng.rsmsgcouldnotcopybackward
+msgid "Could not copy backward - do you want to keep the changed file?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"

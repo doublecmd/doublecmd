@@ -573,11 +573,6 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "&Cancelar"
 
-#: tfrmcopydlg.btncreatespecialqueue.caption
-msgctxt "TFRMCOPYDLG.BTNCREATESPECIALQUEUE.CAPTION"
-msgid "..."
-msgstr "..."
-
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "O&pções"
@@ -590,6 +585,42 @@ msgstr "Gra&var estas opções como predefinição"
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Copiar ficheiro(s)"
+
+#: tfrmcopydlg.mnunewqueue.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnunewqueue.caption"
+msgid "New queue"
+msgstr "Nova fila"
+
+#: tfrmcopydlg.mnuqueue1.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr "Fila 1"
+
+#: tfrmcopydlg.mnuqueue2.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr "Fila 2"
+
+#: tfrmcopydlg.mnuqueue3.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr "Fila 3"
+
+#: tfrmcopydlg.mnuqueue4.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr "Fila 4"
+
+#: tfrmcopydlg.mnuqueue5.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr "Fila 5"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
@@ -7593,6 +7624,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: tfrmviewoperations.mnunewqueue.caption
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
 msgid "New queue"
 msgstr "Nova fila"
 
@@ -7619,22 +7651,27 @@ msgid "Out of queue"
 msgstr "Fora da fila"
 
 #: tfrmviewoperations.mnuqueue1.caption
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "Fila 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "Fila 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "Fila 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "Fila 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "Fila 5"
 
@@ -8427,6 +8464,10 @@ msgstr ""
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Tem a certeza que quer desistir?"
+
+#: ulng.rsmsgcouldnotcopybackward
+msgid "Could not copy backward - do you want to keep the changed file?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"

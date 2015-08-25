@@ -624,11 +624,6 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "İptal"
 
-#: tfrmcopydlg.btncreatespecialqueue.caption
-msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
-msgid "..."
-msgstr "..."
-
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "Seçenekler"
@@ -643,6 +638,36 @@ msgstr "Bu seçenekleri varsayılan olarak kaydet"
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Dosya(lar)Kopyala"
+
+#: tfrmcopydlg.mnunewqueue.caption
+msgctxt "tfrmcopydlg.mnunewqueue.caption"
+msgid "New queue"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue1.caption
+msgctxt "tfrmcopydlg.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue2.caption
+msgctxt "tfrmcopydlg.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue3.caption
+msgctxt "tfrmcopydlg.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue4.caption
+msgctxt "tfrmcopydlg.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr ""
+
+#: tfrmcopydlg.mnuqueue5.caption
+msgctxt "tfrmcopydlg.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr ""
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
@@ -7878,6 +7903,7 @@ msgid "Cancel"
 msgstr "İptal"
 
 #: tfrmviewoperations.mnunewqueue.caption
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
 msgid "New queue"
 msgstr ""
 
@@ -7904,22 +7930,27 @@ msgid "Out of queue"
 msgstr ""
 
 #: tfrmviewoperations.mnuqueue1.caption
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr ""
 
 #: tfrmviewoperations.mnuqueue2.caption
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr ""
 
 #: tfrmviewoperations.mnuqueue3.caption
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr ""
 
 #: tfrmviewoperations.mnuqueue4.caption
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr ""
 
 #: tfrmviewoperations.mnuqueue5.caption
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr ""
 
@@ -8725,6 +8756,10 @@ msgstr ""
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Çıkmak istediğinizden emin misiniz?"
+
+#: ulng.rsmsgcouldnotcopybackward
+msgid "Could not copy backward - do you want to keep the changed file?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
