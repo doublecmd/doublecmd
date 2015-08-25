@@ -622,11 +622,6 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "&Cancel·la"
 
-#: tfrmcopydlg.btncreatespecialqueue.caption
-msgctxt "tfrmcopydlg.btncreatespecialqueue.caption"
-msgid "..."
-msgstr ""
-
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "O&pcions"
@@ -641,6 +636,42 @@ msgstr "Desa opcions per defecte"
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Copia fitxer(s)"
+
+#: tfrmcopydlg.mnunewqueue.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnunewqueue.caption"
+msgid "New queue"
+msgstr "Nova cua"
+
+#: tfrmcopydlg.mnuqueue1.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr "Cua 1"
+
+#: tfrmcopydlg.mnuqueue2.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr "Cua 2"
+
+#: tfrmcopydlg.mnuqueue3.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr "Cua 3"
+
+#: tfrmcopydlg.mnuqueue4.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr "Cua 4"
+
+#: tfrmcopydlg.mnuqueue5.caption
+#, fuzzy
+msgctxt "tfrmcopydlg.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr "Cua 5"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
@@ -8351,6 +8382,7 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #: tfrmviewoperations.mnunewqueue.caption
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
 msgid "New queue"
 msgstr "Nova cua"
 
@@ -8377,22 +8409,27 @@ msgid "Out of queue"
 msgstr "Fora de la cua"
 
 #: tfrmviewoperations.mnuqueue1.caption
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "Cua 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "Cua 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "Cua 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "Cua 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "Cua 5"
 
@@ -9195,6 +9232,10 @@ msgstr ""
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
+msgstr ""
+
+#: ulng.rsmsgcouldnotcopybackward
+msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr ""
 
 #: ulng.rsmsgcpfldr

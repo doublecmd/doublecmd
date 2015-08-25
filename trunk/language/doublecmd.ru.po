@@ -8530,6 +8530,10 @@ msgstr ""
 msgid "Are you sure you want to quit?"
 msgstr "Вы уверены что хотите выйти?"
 
+#: ulng.rsmsgcouldnotcopybackward
+msgid "Could not copy backward - do you want to keep the changed file?"
+msgstr ""
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Копировать %d выбранных файлов/каталогов?"
