@@ -56,7 +56,8 @@ uses
   uShellExecute, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils,
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   uFile, uFileSourceCopyOperation, uFileSystemFileSource,
-  uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes;
+  uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
+  uWcxArchiveFileSource, uWfxPluginFileSource;
 
 type
 
@@ -228,10 +229,11 @@ var
 begin
   with WaitData do
   try
-    if fsoCopyIn in TargetFileSource.GetOperationsTypes then
+    // File was modified
+    if mbFileAge(FileName) <> FileTime then
     begin
-      // File was modified
-      if mbFileAge(FileName) <> FileTime then
+      if (fsoCopyIn in TargetFileSource.GetOperationsTypes) and
+         ((TargetFileSource is TWcxArchiveFileSource) or (TargetFileSource is TWfxPluginFileSource)) then
       begin
         Files:= TFiles.Create(SourceFileSource.GetRootDir);
         Files.Add(TFileSystemFileSource.CreateFileFromFile(FileName));
@@ -239,9 +241,15 @@ begin
         // Copy file back
         if Assigned(Operation) then
         begin
+          Operation.AddStateChangedListener([fsosStopped], @OnCopyInStateChanged);
           Operation.FileExistsOption:= fsoofeOverwrite;
           OperationsManager.AddOperation(Operation);
+          WaitData:= nil; // Will be free in operation
         end;
+      end
+      else if msgYesNo(rsMsgCouldNotCopyBackward + LineEnding + FileName) then
+      begin
+        (SourceFileSource as ITempFileSystemFileSource).DeleteOnDestroy:= False;
       end;
     end;
   finally
@@ -264,7 +272,7 @@ var
   aFileSource: ITempFileSystemFileSource;
   aCopyOperation: TFileSourceCopyOperation;
 begin
-  if (State = fsosStopped) and (Operation.Result = fsorFinished) then
+  if (State = fsosStopped) then
   begin
     aCopyOperation := Operation as TFileSourceCopyOperation;
     aFileSource := aCopyOperation.SourceFileSource as ITempFileSystemFileSource;
@@ -272,7 +280,7 @@ begin
     begin
       if DoneFiles <> TotalFiles then
       begin
-        if msgYesNo(Operation.Thread, Format(rsMsgCouldNotCopyBackward, [LineEnding + aCopyOperation.SourceFiles[0].FullPath])) then
+        if msgYesNo(Operation.Thread, rsMsgCouldNotCopyBackward + LineEnding + aCopyOperation.SourceFiles[0].FullPath) then
         begin
           aFileSource.DeleteOnDestroy:= False;
         end;
