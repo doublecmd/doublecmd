@@ -189,7 +189,7 @@ end;
 constructor TFTPSendEx.Create;
 begin
   inherited Create;
-  FTimeout:= 30000;
+  FTimeout:= 15000;
   FDirectFile:= True;
   ClientToServer:= @Dummy;
   ServerToClient:= @Dummy;
