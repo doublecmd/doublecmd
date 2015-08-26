@@ -6,9 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls,
-  uFileSourceOperationOptionsUI,
-  uWcxArchiveCopyInOperation,
-  uWcxArchiveCopyOutOperation;
+  uFileSourceOperationOptionsUI;
 
 type
 
@@ -18,9 +16,6 @@ type
     cmbFileExists: TComboBox;
     grpOptions: TGroupBox;
     lblFileExists: TLabel;
-  private
-    procedure SetOperationOptions(CopyInOperation: TWcxArchiveCopyInOperation); overload;
-    procedure SetOperationOptions(CopyOutOperation: TWcxArchiveCopyOutOperation); overload;
   public
     constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
     procedure SaveOptions; override;
@@ -32,7 +27,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uFileSourceOperationOptions;
+  uGlobs, uFileSourceOperationOptions, uFileSourceCopyOperation;
 
 { TWcxArchiveCopyOperationOptionsUI }
 
@@ -55,29 +50,7 @@ end;
 
 procedure TWcxArchiveCopyOperationOptionsUI.SetOperationOptions(Operation: TObject);
 begin
-  if Operation is TWcxArchiveCopyInOperation then
-    SetOperationOptions(Operation as TWcxArchiveCopyInOperation)
-  else if Operation is TWcxArchiveCopyOutOperation then
-    SetOperationOptions(Operation as TWcxArchiveCopyOutOperation);
-end;
-
-procedure TWcxArchiveCopyOperationOptionsUI.SetOperationOptions(CopyInOperation: TWcxArchiveCopyInOperation);
-begin
-  {
-  with CopyInOperation do
-  begin
-    case cmbFileExists.ItemIndex of
-      0: FileExistsOption := fsoofeNone;
-      1: FileExistsOption := fsoofeOverwrite;
-      2: FileExistsOption := fsoofeSkip;
-    end;
-  end;
-  }
-end;
-
-procedure TWcxArchiveCopyOperationOptionsUI.SetOperationOptions(CopyOutOperation: TWcxArchiveCopyOutOperation);
-begin
-  with CopyOutOperation do
+  with Operation as TFileSourceCopyOperation do
   begin
     case cmbFileExists.ItemIndex of
       0: FileExistsOption := fsoofeNone;

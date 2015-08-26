@@ -11,7 +11,10 @@ uses
   uFileSource,
   uFileSourceOperation,
   uFile,
-  uWcxArchiveFileSource;
+  uWcxModule,
+  uWcxArchiveFileSource,
+  uFileSourceOperationOptions,
+  uFileSourceOperationOptionsUI;
 
 type
 
@@ -26,6 +29,7 @@ type
     FPackingFlags: Integer; // Packing flags passed to plugin
     FTarBefore: Boolean;      // Create TAR archive first
     FTarFileName: UTF8String; // Temporary TAR archive name
+    FFileList: TStringHashList;
 
     {en
       Convert TFiles into a string separated with #0 (format used by WCX).
@@ -41,6 +45,9 @@ type
     procedure SetChangeVolProc(hArcData: TArcHandle);
     procedure SetProcessDataProc(hArcData: TArcHandle);
 
+    function FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): UTF8String;
+    function FileExists(aSourceFile: TFile; aTargetHeader: TWcxHeader): TFileSourceOperationOptionFileExists;
+
   public
     constructor Create(aSourceFileSource: IFileSource;
                        aTargetFileSource: IFileSource;
@@ -54,6 +61,7 @@ type
     procedure Finalize; override;
 
     class procedure ClearCurrentOperation;
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
 
     property PackingFlags: Integer read FPackingFlags write FPackingFlags;
@@ -63,7 +71,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, DCStrUtils, uWCXmodule, uLng, uShowMsg,
+  LCLProc, FileUtil, StrUtils, DCStrUtils, uLng, uShowMsg, fWcxArchiveCopyOperationOptions,
   uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, DCOSUtils, uTarWriter;
 
 // ----------------------------------------------------------------------------
@@ -197,6 +205,8 @@ begin
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 
   FNeedsConnection:= (FWcxArchiveFileSource.WcxModule.BackgroundFlags and BACKGROUND_PACK = 0);
+
+  FFileList:= TStringHashList.Create(True);
 end;
 
 destructor TWcxArchiveCopyInOperation.Destroy;
@@ -205,10 +215,14 @@ begin
 
   inherited Destroy;
 
+  FreeAndNil(FFileList);
   FreeAndNil(FFullFilesTree);
 end;
 
 procedure TWcxArchiveCopyInOperation.Initialize;
+var
+  Item: TObject;
+  Index: Integer;
 begin
   // Is plugin allow multiple Operations?
   if FNeedsConnection then
@@ -220,17 +234,30 @@ begin
   FStatistics := RetrieveStatistics;
   FStatistics.CurrentFileDoneBytes := -1;
 
+  // Gets full list of files (recursive)
   FillAndCount(SourceFiles, False, False,
                FFullFilesTree,
                FStatistics.TotalFiles,
-               FStatistics.TotalBytes);     // gets full list of files (recursive)
+               FStatistics.TotalBytes);
+
+  // Need to check file existence
+  if FFileExistsOption <> fsoofeOverwrite then
+  begin
+    // Populate archive file list
+    for Index:= 0 to FWcxArchiveFileSource.ArchiveFileList.Count - 1 do
+    begin
+      Item:= FWcxArchiveFileSource.ArchiveFileList[Index];
+      FFileList.Add(UTF8LowerCase(TWcxHeader(Item).FileName), Item);
+    end;
+  end;
 end;
 
 procedure TWcxArchiveCopyInOperation.MainExecute;
 var
+  iResult: Integer;
+  sFileList: String;
   sDestPath: String;
   WcxModule: TWcxModule;
-  iResult: Longint;
 begin
   // Put to TAR archive if needed
   if FTarBefore and Tar then Exit;
@@ -251,11 +278,16 @@ begin
   SetChangeVolProc(wcxInvalidHandle);
   SetProcessDataProc(wcxInvalidHandle);
 
+  // Convert TFiles into UTF8String;
+  sFileList:= GetFileList(FFullFilesTree);
+  // Nothing to pack (user skip all files)
+  if sFileList = #0 then Exit;
+
   iResult := WcxModule.WcxPackFiles(
                FWcxArchiveFileSource.ArchiveFileName,
                sDestPath, // no trailing path delimiter here
                IncludeTrailingPathDelimiter(FFullFilesTree.Path), // end with path delimiter here
-               GetFileList(FFullFilesTree),  // Convert TFiles into UTF8String
+               sFileList,
                PackingFlags);
 
   // Check for errors.
@@ -300,15 +332,29 @@ end;
 
 function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;
 var
-  I        : Integer;
-  FileName : String;
+  I: Integer;
+  FileName: String;
+  Header: TWCXHeader;
+  ArchiveExists: Boolean;
 begin
   Result := '';
+
+  ArchiveExists := FFileList.Count > 0;
 
   for I := 0 to theFiles.Count - 1 do
     begin
       // Filenames must be relative to the current directory.
       FileName := ExtractDirLevel(theFiles.Path, theFiles[I].FullPath);
+
+      if ArchiveExists then
+      begin
+        Header:= TWcxHeader(FFileList[UTF8LowerCase(FileName)]);
+        if Assigned(Header) then
+        begin
+          if FileExists(theFiles[I], Header) = fsoofeSkip then
+            Continue;
+        end;
+      end;
 
       // Special treatment of directories.
       if theFiles[i].IsDirectory then
@@ -337,7 +383,7 @@ procedure TWcxArchiveCopyInOperation.ShowError(sMessage: String; logOptions: TLo
 begin
   if not gSkipFileOpError then
   begin
-    if AskQuestion(sMessage, '', [fsourSkip, fsourCancel],
+    if AskQuestion(sMessage, '', [fsourSkip, fsourAbort],
                    fsourSkip, fsourAbort) = fsourAbort then
     begin
       RaiseAbortOperation;
@@ -398,9 +444,114 @@ begin
   end;
 end;
 
+function TWcxArchiveCopyInOperation.FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): UTF8String;
+begin
+  Result:= rsMsgFileExistsOverwrite + LineEnding + aTargetHeader.FileName + LineEnding;
+
+  Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(aTargetHeader.UnpSize)),
+                           DateTimeToStr(WcxFileTimeToDateTime(aTargetHeader))]) + LineEnding;
+
+  Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + aSourceFile.FullPath + LineEnding +
+           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(aSourceFile.Size)), DateTimeToStr(aSourceFile.ModificationTime)]);
+end;
+
+function TWcxArchiveCopyInOperation.FileExists(aSourceFile: TFile;
+  aTargetHeader: TWcxHeader): TFileSourceOperationOptionFileExists;
+const
+  PossibleResponses: array[0..7] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteLarger,
+       fsourOverwriteAll, fsourSkipAll, fsourOverwriteSmaller,
+       fsourOverwriteOlder, fsourCancel);
+
+  function OverwriteOlder: TFileSourceOperationOptionFileExists;
+  begin
+    if aSourceFile.ModificationTime > WcxFileTimeToDateTime(aTargetHeader)  then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteSmaller: TFileSourceOperationOptionFileExists;
+  begin
+    if aSourceFile.Size > aTargetHeader.UnpSize then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+  function OverwriteLarger: TFileSourceOperationOptionFileExists;
+  begin
+    if aSourceFile.Size < aTargetHeader.UnpSize then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
+begin
+  case FFileExistsOption of
+    fsoofeNone:
+      begin
+        case AskQuestion(FileExistsMessage(aSourceFile, aTargetHeader), '',
+                         PossibleResponses, fsourOverwrite, fsourSkip) of
+          fsourOverwrite:
+            Result := fsoofeOverwrite;
+          fsourSkip:
+            Result := fsoofeSkip;
+          fsourOverwriteAll:
+            begin
+              FFileExistsOption := fsoofeOverwrite;
+              Result := fsoofeOverwrite;
+            end;
+          fsourSkipAll:
+            begin
+              FFileExistsOption := fsoofeSkip;
+              Result := fsoofeSkip;
+            end;
+          fsourOverwriteOlder:
+            begin
+              FFileExistsOption := fsoofeOverwriteOlder;
+              Result:= OverwriteOlder;
+            end;
+          fsourOverwriteSmaller:
+            begin
+              FFileExistsOption := fsoofeOverwriteSmaller;
+              Result:= OverwriteSmaller;
+            end;
+          fsourOverwriteLarger:
+            begin
+              FFileExistsOption := fsoofeOverwriteLarger;
+              Result:= OverwriteLarger;
+            end;
+          fsourNone,
+          fsourCancel:
+            RaiseAbortOperation;
+        end;
+      end;
+    fsoofeOverwriteOlder:
+      begin
+        Result:= OverwriteOlder;
+      end;
+    fsoofeOverwriteSmaller:
+      begin
+        Result:= OverwriteSmaller;
+      end;
+    fsoofeOverwriteLarger:
+      begin
+        Result:= OverwriteLarger;
+      end;
+    else
+      Result := FFileExistsOption;
+  end;
+end;
+
 class procedure TWcxArchiveCopyInOperation.ClearCurrentOperation;
 begin
   WcxCopyInOperationG := nil;
+end;
+
+class function TWcxArchiveCopyInOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result:= TWcxArchiveCopyOperationOptionsUI;
 end;
 
 function TWcxArchiveCopyInOperation.Tar: Boolean;
