@@ -340,7 +340,7 @@ end;
 
 function msgYesNo(const sMsg: UTF8String):Boolean;
 begin
-  Result:= MsgBox(sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
+  Result:= MsgBox(nil, sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
 end;
 
 function msgYesNo(Thread: TThread; const sMsg: UTF8String): Boolean;
