@@ -333,6 +333,7 @@ end;
 function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;
 var
   I: Integer;
+  SubPath: String;
   FileName: String;
   Header: TWCXHeader;
   ArchiveExists: Boolean;
@@ -340,26 +341,29 @@ begin
   Result := '';
 
   ArchiveExists := FFileList.Count > 0;
+  SubPath := UTF8LowerCase(ExcludeFrontPathDelimiter(TargetPath));
 
   for I := 0 to theFiles.Count - 1 do
     begin
       // Filenames must be relative to the current directory.
       FileName := ExtractDirLevel(theFiles.Path, theFiles[I].FullPath);
 
-      if ArchiveExists then
+      // Special treatment of directories.
+      if theFiles[i].IsDirectory then
       begin
-        Header:= TWcxHeader(FFileList[UTF8LowerCase(FileName)]);
+        // TC ends paths to directories to be packed with '\'.
+        FileName := IncludeTrailingPathDelimiter(FileName);
+      end
+      // Need to check file existence
+      else if ArchiveExists then
+      begin
+        Header := TWcxHeader(FFileList[SubPath + UTF8LowerCase(FileName)]);
         if Assigned(Header) then
         begin
           if FileExists(theFiles[I], Header) = fsoofeSkip then
             Continue;
         end;
       end;
-
-      // Special treatment of directories.
-      if theFiles[i].IsDirectory then
-        // TC ends paths to directories to be packed with '\'.
-        FileName := IncludeTrailingPathDelimiter(FileName);
 
       Result := Result + FileName + #0;
     end;
