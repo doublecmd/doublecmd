@@ -817,6 +817,9 @@ type
     function _AddRef: Integer; stdcall;
     function _Release: Integer; stdcall;
   public
+    PropNames: array of WideString;
+    PropValues: array of TPropVariant;
+  public
     class function MultipleItemContainer: Boolean; virtual;
     class function VolumeAccess: TJclStreamAccess; virtual;
     function ItemAccess: TJclStreamAccess; virtual;
@@ -6134,6 +6137,8 @@ end;
 
 procedure SetSevenzipArchiveCompressionProperties(AJclArchive: IInterface; ASevenzipArchive: IInterface);
 var
+  Index: Integer;
+  JclArchive: TJclCompressionArchive;
   PropertySetter: Sevenzip.ISetProperties;
   InArchive, OutArchive: Boolean;
   Unused: IInterface;
@@ -6271,9 +6276,18 @@ begin
         else
           AddWideStringProperty('S', IntToStr(Solid.SolidBlockSize) + 'F');
       end;
+
+      JclArchive := AJclArchive as TJclCompressionArchive;
+      for Index := Low(JclArchive.PropNames) to High(JclArchive.PropNames) do
+      begin
+        AddProperty(PWideChar(JclArchive.PropNames[Index]), JclArchive.PropValues[Index]);
+      end;
     end;
     if Length(PropNames) > 0 then
+    begin
       SevenZipCheck(PropertySetter.SetProperties(@PropNames[0], @PropValues[0], Length(PropNames)));
+      SetLength(JclArchive.PropNames, 0); SetLength(JclArchive.PropValues, 0);
+    end;
   end;
 end;
 

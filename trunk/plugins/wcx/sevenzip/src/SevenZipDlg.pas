@@ -219,7 +219,7 @@ begin
        clUltra:
          begin
            SetComboBox(hwndDlg, IDC_COMP_DICT, 192 * cMega);
-           SetComboBox(hwndDlg, IDC_COMP_WORD, 32);
+           SetComboBox(hwndDlg, IDC_COMP_WORD, 16);
            SetComboBox(hwndDlg, IDC_COMP_SOLID, 4 * cMega);
          end;
        end;
@@ -456,7 +456,7 @@ begin
 
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), Level <> clStore);
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), Level <> clStore);
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_SOLID), Level <> clStore);
+  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_SOLID), (Format = afSevenZip) and (Level <> clStore));
 
   if Level = clStore then
   begin

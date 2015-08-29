@@ -228,21 +228,21 @@ var
   Index: Integer;
   Start: Integer = 1;
   Parameters: WideString;
-  OutArchive: IOutArchive;
   Method: TJclCompressionMethod;
-  PropNames: array of PWideChar;
-  PropValues: array of TPropVariant;
-  PropertySetter: SevenZip.ISetProperties;
+  JclArchive: TJclCompressionArchive;
 
-  procedure AddProperty(const Name: PWideChar; const Value: TPropVariant);
+  procedure AddProperty(const Name: WideString; const Value: TPropVariant);
   begin
-    SetLength(PropNames, Length(PropNames)+1);
-    PropNames[High(PropNames)] := Name;
-    SetLength(PropValues, Length(PropValues)+1);
-    PropValues[High(PropValues)] := Value;
+    with JclArchive do
+    begin
+      SetLength(PropNames, Length(PropNames)+1);
+      PropNames[High(PropNames)] := Name;
+      SetLength(PropValues, Length(PropValues)+1);
+      PropValues[High(PropValues)] := Value;
+    end;
   end;
 
-  procedure AddCardinalProperty(const Name: PWideChar; Value: Cardinal);
+  procedure AddCardinalProperty(const Name: WideString; Value: Cardinal);
   var
     PropValue: TPropVariant;
   begin
@@ -251,7 +251,7 @@ var
     AddProperty(Name, PropValue);
   end;
 
-  procedure AddWideStringProperty(const Name: PWideChar; const Value: WideString);
+  procedure AddWideStringProperty(const Name: WideString; const Value: WideString);
   var
     PropValue: TPropVariant;
   begin
@@ -262,63 +262,51 @@ var
 
   procedure AddOption(Finish: Integer);
   var
-    Name: PWideChar;
     Option, Value: WideString;
   begin
     Option:= Copy(Parameters, Start, Finish - Start);
     Start:= Pos('=', Option);
     if Start = 0 then
     begin
-      Name:= SysAllocString(PWideChar(Option));
-      AddProperty(Name, TPropVariant(NULL));
+      AddProperty(Option, TPropVariant(NULL));
     end
     else begin
       Value:= Copy(Option, Start + 1, MaxInt);
       SetLength(Option, Start - 1);
-      Name:= SysAllocString(PWideChar(Option));
-      AddWideStringProperty(Name, Value);
+      AddWideStringProperty(Option, Value);
     end;
   end;
 
 begin
-  if AJclArchive is TJclSevenzipCompressArchive then
-    OutArchive:= (AJclArchive as TJclSevenzipCompressArchive).OutArchive
-  else begin
-    OutArchive:= (AJclArchive as TJclSevenzipUpdateArchive).OutArchive
-  end;
-  if Supports(OutArchive, SevenZip.ISetProperties, PropertySetter) and Assigned(PropertySetter) then
-  begin
-    // Set word size parameter
-    Method:= TJclCompressionMethod(PluginConfig[AFormat].Method);
-    case Method of
-      cmLZMA, cmLZMA2,
-      cmDeflate, cmDeflate64:
+  JclArchive:= AJclArchive as TJclCompressionArchive;
+  // Set word size parameter
+  Method:= TJclCompressionMethod(PluginConfig[AFormat].Method);
+  case Method of
+    cmLZMA, cmLZMA2,
+    cmDeflate, cmDeflate64:
         AddCardinalProperty('fb', PluginConfig[AFormat].WordSize);
-      cmPPMd:
+    cmPPMd:
         AddCardinalProperty('o', PluginConfig[AFormat].WordSize);
-    end;
-    Parameters:= PluginConfig[AFormat].Parameters;
-    // Set 7-zip compression method
-    if IsEqualGUID(CLSID_CFormat7z, PluginConfig[AFormat].ArchiveCLSID^) then
+  end;
+  Parameters:= PluginConfig[AFormat].Parameters;
+  // Set 7-zip compression method
+  if IsEqualGUID(CLSID_CFormat7z, PluginConfig[AFormat].ArchiveCLSID^) then
+  begin
+    Parameters:= Parameters + #32 + '0=' + MethodName[Method];
+  end;
+  // Parse additional parameters
+  Parameters:= Trim(Parameters);
+  if Length(Parameters) > 0 then
+  begin
+    for Index:= 1 to Length(Parameters) do
     begin
-      Parameters:= Parameters + #32 + '0=' + MethodName[Method];
-    end;
-    // Parse additional parameters
-    Parameters:= Trim(Parameters);
-    if Length(Parameters) > 0 then
-    begin
-      for Index:= 1 to Length(Parameters) do
+      if Parameters[Index] = #32 then
       begin
-        if Parameters[Index] = #32 then
-        begin
-          AddOption(Index);
-          Start:= Index + 1;
-        end;
+        AddOption(Index);
+        Start:= Index + 1;
       end;
-      AddOption(MaxInt);
     end;
-    if Length(PropNames) > 0 then
-      SevenZipCheck(PropertySetter.SetProperties(@PropNames[0], @PropValues[0], Length(PropNames)));
+    AddOption(MaxInt);
   end;
 end;
 
