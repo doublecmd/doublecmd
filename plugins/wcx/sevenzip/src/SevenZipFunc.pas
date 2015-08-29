@@ -308,14 +308,14 @@ begin
         end;
       end;
 
-      SetArchiveOptions(Archive);
-
       if (Archive is TJclUpdateArchive) then
       try
         TJclUpdateArchive(Archive).ListFiles;
       except
         Continue;
       end;
+
+      SetArchiveOptions(Archive);
 
       if Assigned(SubPath) then
       begin
