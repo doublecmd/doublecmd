@@ -362,20 +362,22 @@ procedure UpdateThread(hwndDlg: HWND; dwAlgoThreadMax: LongWord);
 var
   Index: LongWord;
   dwMaxThread: LongWord;
+  dwDefaultValue: DWORD;
   wsMaxThread: WideString;
-  dwNumberOfProcessors: DWORD;
+  dwHardwareThreads: DWORD;
 begin
   SendDlgItemMessage(hwndDlg, IDC_COMP_THREAD, CB_RESETCONTENT, 0, 0);
-  dwNumberOfProcessors:= GetNumberOfProcessors;
-  dwMaxThread:= dwNumberOfProcessors * 2;
+  dwHardwareThreads:= GetNumberOfProcessors;
+  dwDefaultValue:= dwHardwareThreads;
+  dwMaxThread:= dwHardwareThreads * 2;
   if dwMaxThread > dwAlgoThreadMax then dwMaxThread:= dwAlgoThreadMax;
-  if dwAlgoThreadMax < dwNumberOfProcessors then dwNumberOfProcessors:= dwAlgoThreadMax;
+  if dwAlgoThreadMax < dwDefaultValue then dwDefaultValue:= dwAlgoThreadMax;
   for Index:= 1 to dwMaxThread do
   begin
     ComboBoxAdd(hwndDlg, IDC_COMP_THREAD, IntToStr(Index), Index);
   end;
-  wsMaxThread:= '/ ' + IntToStr(dwMaxThread);
-  SendDlgItemMessage(hwndDlg, IDC_COMP_THREAD, CB_SETCURSEL, dwNumberOfProcessors - 1, 0);
+  wsMaxThread:= '/ ' + IntToStr(dwHardwareThreads);
+  SendDlgItemMessage(hwndDlg, IDC_COMP_THREAD, CB_SETCURSEL, dwDefaultValue - 1, 0);
   SendDlgItemMessageW(hwndDlg, IDC_MAX_THREAD, WM_SETTEXT, 0, LPARAM(PWideChar(wsMaxThread)));
 end;
 
@@ -383,6 +385,7 @@ procedure UpdateMethod(hwndDlg: HWND);
 var
   Index: Integer;
   Format: TArchiveFormat;
+  dwAlgoThreadMax: LongWord = 1;
   Method: TJclCompressionMethod;
 begin
   // Clear comboboxes
@@ -405,7 +408,6 @@ begin
       begin
         ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(DeflateWordSize[Index]), PtrInt(DeflateWordSize[Index]));
       end;
-      UpdateThread(hwndDlg, 1);
     end;
   cmDeflate64:
     begin
@@ -417,7 +419,6 @@ begin
       begin
         ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(Deflate64WordSize[Index]), PtrInt(Deflate64WordSize[Index]));
       end;
-      UpdateThread(hwndDlg, 128);
     end;
   cmLZMA,
   cmLZMA2:
@@ -430,7 +431,7 @@ begin
       begin
         ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(LZMAWordSize[Index]), PtrInt(LZMAWordSize[Index]));
       end;
-      UpdateThread(hwndDlg, 2);
+      dwAlgoThreadMax:= IfThen(Method = cmLZMA, 2, 32);
     end;
   cmBZip2:
     begin
@@ -438,7 +439,7 @@ begin
       begin
         ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(BZip2Dict[Index]), PtrInt(BZip2Dict[Index]));
       end;
-      UpdateThread(hwndDlg, 32);
+      dwAlgoThreadMax:= 32;
     end;
   cmPPMd:
     begin
@@ -450,12 +451,10 @@ begin
       begin
         ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(PPMdWordSize[Index]), PtrInt(PPMdWordSize[Index]));
       end;
-      UpdateThread(hwndDlg, 1);
-    end;
-    else begin
-      UpdateThread(hwndDlg, 1);
     end;
   end;
+  if Format = afZip then dwAlgoThreadMax:= 128;
+  UpdateThread(hwndDlg, dwAlgoThreadMax);
 end;
 
 procedure FillMethod(hwndDlg: HWND);
