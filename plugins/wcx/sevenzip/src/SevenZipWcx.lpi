@@ -20,10 +20,10 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="15"/>
-      <MinorVersionNr Value="4"/>
+      <MinorVersionNr Value="8"/>
       <RevisionNr Value="29"/>
       <CharSet Value="04B0"/>
-      <StringTable ProductVersion=""/>
+      <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2015 Alexander Koblov" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
