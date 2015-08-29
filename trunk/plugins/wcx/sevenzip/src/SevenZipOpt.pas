@@ -288,14 +288,13 @@ begin
     cmPPMd:
         AddCardinalProperty('o', PluginConfig[AFormat].WordSize);
   end;
-  Parameters:= PluginConfig[AFormat].Parameters;
   // Set 7-zip compression method
   if IsEqualGUID(CLSID_CFormat7z, PluginConfig[AFormat].ArchiveCLSID^) then
   begin
-    Parameters:= Parameters + #32 + '0=' + MethodName[Method];
+    AddWideStringProperty('0', MethodName[Method]);
   end;
   // Parse additional parameters
-  Parameters:= Trim(Parameters);
+  Parameters:= Trim(PluginConfig[AFormat].Parameters);
   if Length(Parameters) > 0 then
   begin
     for Index:= 1 to Length(Parameters) do
