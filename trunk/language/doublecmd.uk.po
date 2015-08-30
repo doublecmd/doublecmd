@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-04-25 23:09+0300\n"
+"PO-Revision-Date: 2015-08-25 23:33+0200\n"
 "Last-Translator: masterok <m_shein@ukr.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr "Порівняння... %d%% (ESC щоб скасувати)"
 
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
-msgstr ""
+msgstr "Справа: Видалити %d файл(и) "
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
@@ -118,7 +118,7 @@ msgstr "->"
 #: tfcolumnssetconf.btnok.caption
 msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfcolumnssetconf.btnprev.caption
 msgid "<-"
@@ -258,11 +258,11 @@ msgstr "Копі&ювати атрибути"
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
 #| msgid "Copy ownership"
 msgid "Copy o&wnership"
-msgstr "Копіювати пра&ва"
+msgstr "Копіювати &власника"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
 msgid "Copy &permissions"
-msgstr ""
+msgstr "Копіювати &права"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 #| msgid "Copy date/time"
@@ -383,7 +383,7 @@ msgstr "&Скасувати"
 #: tfrmattributesedit.btnok.caption
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmattributesedit.btnreset.caption
 msgid "&Reset"
@@ -520,10 +520,9 @@ msgstr "&Скасувати"
 #: tfrmchecksumcalc.btnok.caption
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmchecksumcalc.caption
-#, fuzzy
 #| msgid "Calculate check sum..."
 msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
@@ -531,7 +530,7 @@ msgstr "Розрахувати контрольну суму..."
 
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
-msgstr ""
+msgstr "Відкрити файл контрольної суми після розрахунку"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 #| msgid "Create separate checksum file for each file"
@@ -539,7 +538,6 @@ msgid "C&reate separate checksum file for each file"
 msgstr "Для кожного файлу ство&рити свій контрольний файл"
 
 #: tfrmchecksumcalc.lblsaveto.caption
-#, fuzzy
 #| msgid "&Save check sum file(s) to:"
 msgid "&Save checksum file(s) to:"
 msgstr "Зберегти файл(и) контрольних сум &як:"
@@ -617,44 +615,38 @@ msgid "Copy file(s)"
 msgstr "Копіювати файл(и)"
 
 #: tfrmcopydlg.mnunewqueue.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnunewqueue.caption"
 msgid "New queue"
 msgstr "Нова черга"
 
 #: tfrmcopydlg.mnuqueue1.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "Черга 1"
 
 #: tfrmcopydlg.mnuqueue2.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "Черга 2"
 
 #: tfrmcopydlg.mnuqueue3.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "Черга 3"
 
 #: tfrmcopydlg.mnuqueue4.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "Черга 4"
 
 #: tfrmcopydlg.mnuqueue5.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "Черга 5"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
-msgstr ""
+msgstr "Зберегти опис"
 
 #: tfrmdescredit.btncancel.caption
 #| msgid "Cancel"
@@ -665,11 +657,11 @@ msgstr "&Скасувати"
 #: tfrmdescredit.btnok.caption
 msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmdescredit.caption
 msgid "File/folder comment"
-msgstr "Коментар файлу/каталогу"
+msgstr "Коментар файлу/теки"
 
 #: tfrmdescredit.lbleditcommentfor.caption
 #| msgid "Edit comment for:"
@@ -1042,14 +1034,13 @@ msgstr "&Скасувати"
 #: tfrmedithotkey.btnok.caption
 msgctxt "TFRMEDITHOTKEY.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
 msgstr "Видалити останній ярлик з послідовності"
 
 #: tfrmedithotkey.cghkcontrols.caption
-#, fuzzy
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
 msgstr "Тільки для цих елементів керування"
@@ -1288,7 +1279,7 @@ msgstr "Редактор"
 #: tfrmeditor.help1.caption
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
-msgstr "Допомо&га"
+msgstr "Довід&ка"
 
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
@@ -1365,7 +1356,7 @@ msgstr "&Скасувати"
 #: tfrmeditsearchreplace.btnok.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -1423,13 +1414,13 @@ msgstr "&Скасувати"
 #| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "&Help"
-msgstr "Допомо&га"
+msgstr "Довід&ка"
 
 #: tfrmextractdlg.btnok.caption
 #| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
@@ -1501,7 +1492,7 @@ msgstr "В&низ"
 #: tfrmfileassoc.btnok.caption
 msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmfileassoc.btnremoveact.caption
 #| msgid "Remove"
@@ -1895,7 +1886,7 @@ msgstr "&Додати"
 #: tfrmfinddlg.btnattrshelp.caption
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
-msgstr "Допомо&га"
+msgstr "Довід&ка"
 
 #: tfrmfinddlg.btnclose.caption
 msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
@@ -1940,16 +1931,14 @@ msgid "S&ave"
 msgstr "Збере&гти"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
-#, fuzzy
 #| msgid "Save with starting path"
 msgid "Sa&ve with \"Start in directory\""
-msgstr "Зберегти шлях запуску"
+msgstr "З&берегти з \"Починати з каталога\""
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-#, fuzzy
 #| msgid "If starting path if saved then it will be restored when loading template. Use it if you want to fix searching to a certain directory."
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr "Якщо шлях запуску збережено, то його буде відновлено при завантаженні шаблону. Використовуйте його, якщо ви хочете виправити пошук в певній директорії."
+msgstr "Якщо шлях запуску збережено, то його буде відновлено при завантаженні шаблону. Використовуйте його, якщо ви хочете виправити пошук в певному каталозі."
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -2010,11 +1999,10 @@ msgid "Find &text in file"
 msgstr "&Шукати текст у файлі"
 
 #: tfrmfinddlg.cbfollowsymlinks.caption
-#, fuzzy
 #| msgid "Follow symlinks"
 msgctxt "tfrmfinddlg.cbfollowsymlinks.caption"
 msgid "Follow s&ymlinks"
-msgstr "Перейти за посиланнями"
+msgstr "Пере&йти за посиланнями"
 
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
@@ -2029,7 +2017,7 @@ msgstr "Н&е старші ніж:"
 #: tfrmfinddlg.cbpartialnamesearch.caption
 #| msgid "Search for part of file name "
 msgid "Searc&h for part of file name"
-msgstr "Шукати по &частині назви файлу"
+msgstr "Шукати по &частині імені файла"
 
 #: tfrmfinddlg.cbregexp.caption
 #| msgid "&Regular expressions"
@@ -2193,7 +2181,7 @@ msgstr "&Скасувати"
 #: tfrmhardlink.btnok.caption
 msgctxt "TFRMHARDLINK.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmhardlink.caption
 msgid "Create hard link"
@@ -2214,26 +2202,26 @@ msgstr "Ім'я п&осилання"
 #: tfrmhotdirexportimport.btnselectall.caption
 msgctxt "tfrmhotdirexportimport.btnselectall.caption"
 msgid "Import all!"
-msgstr ""
+msgstr "Імпортувати все!"
 
 #: tfrmhotdirexportimport.btnselectiondone.caption
 msgctxt "tfrmhotdirexportimport.btnselectiondone.caption"
 msgid "Import selected"
-msgstr ""
+msgstr "Імпортувати виділене"
 
 #: tfrmhotdirexportimport.caption
 msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
-msgstr ""
+msgstr "Виділіть елементи для імпотру"
 
 #: tfrmhotdirexportimport.lbhint.caption
 msgctxt "tfrmhotdirexportimport.lbhint.caption"
 msgid "When clicking a sub-menu, it will select the whole menu"
-msgstr ""
+msgstr "При клацанні на підменю, буде обрано все меню"
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
-msgstr ""
+msgstr "При утриманні CTRL можна вибирати кілька елементів"
 
 #: tfrmlinker.btnexit.caption
 #| msgid "Cancel"
@@ -2245,7 +2233,7 @@ msgstr "&Скасувати"
 #| msgid "OK"
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
@@ -2337,15 +2325,15 @@ msgstr "Розрахувати зайнятий об'&єм"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
-msgstr "Змінити теку"
+msgstr "Змінити каталог"
 
 #: tfrmmain.actchangedirtohome.caption
 msgid "Change directory to home"
-msgstr "Перейти в домашню теку"
+msgstr "Перейти в домашній каталог"
 
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
-msgstr "Перейти в батьківську теку"
+msgstr "Перейти в батьківський каталог"
 
 #: tfrmmain.actchangedirtoroot.caption
 msgid "Change directory to root"
@@ -2414,12 +2402,12 @@ msgstr "Порівняти за &вмістом"
 #: tfrmmain.actcomparedirectories.caption
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
 msgid "Compare Directories"
-msgstr "Порівняти каталоги"
+msgstr "Порівняти файли у каталогах"
 
 #: tfrmmain.actcomparedirectories.hint
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
-msgstr "Порівняти каталоги"
+msgstr "Порівняти файли у каталогах"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2578,26 +2566,23 @@ msgid "Open left drive list"
 msgstr "Відкрити список дисків зліва"
 
 #: tfrmmain.actloadselectionfromclip.caption
-#, fuzzy
 #| msgid "Load Selection From Clipboard"
 msgid "Load Selection from Clip&board"
 msgstr "Завантажити виділенння з б&уферу"
 
 #: tfrmmain.actloadselectionfromfile.caption
-#, fuzzy
 #| msgid "Load Selection From File"
 msgid "&Load Selection from File..."
 msgstr "Завантажити виділенння з ф&айлу..."
 
 #: tfrmmain.actloadtabs.caption
 msgid "&Load Tabs from File"
-msgstr ""
+msgstr "Завантажити вкладки &з файлу"
 
 #: tfrmmain.actmakedir.caption
-#, fuzzy
 #| msgid "Create directory"
 msgid "Create &Directory"
-msgstr "Каталог"
+msgstr "Створити ката&лог"
 
 #: tfrmmain.actmarkcurrentextension.caption
 #| msgid "Select all with same extension"
@@ -2678,7 +2663,7 @@ msgstr "Відкрити bar файл"
 #: tfrmmain.actopendirinnewtab.caption
 #| msgid "Open &folder in new tab"
 msgid "Open &Folder in a New Tab"
-msgstr "Відкрити каталог у новій вклад&ці"
+msgstr "Відкрити теку у новій вклад&ці"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
@@ -2778,14 +2763,13 @@ msgid "Sa&ve Selection"
 msgstr "&Зберегти виділенння"
 
 #: tfrmmain.actsaveselectiontofile.caption
-#, fuzzy
 #| msgid "Save Selection To File"
 msgid "Save S&election to File..."
 msgstr "Зберегти виділення у фай&л..."
 
 #: tfrmmain.actsavetabs.caption
 msgid "&Save Tabs to File"
-msgstr ""
+msgstr "Зберегти вкладки &до файлу"
 
 #: tfrmmain.actsearch.caption
 #| msgid "&Search"
@@ -2905,7 +2889,7 @@ msgstr "Перегляд мініатюр"
 
 #: tfrmmain.acttogglefullscreenconsole.caption
 msgid "Toggle fullscreen mode console"
-msgstr ""
+msgstr "Перейти до повноекранного режиму консолі"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
@@ -2945,7 +2929,7 @@ msgstr "Відвідати домашн&ю сторінку Double Commander"
 
 #: tfrmmain.actwipe.caption
 msgid "Wipe"
-msgstr "Стерти"
+msgstr "Очистити"
 
 #: tfrmmain.btnf10.caption
 #| msgid "Exit"
@@ -3320,7 +3304,7 @@ msgstr "&Файли"
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
-msgstr "&Допомога"
+msgstr "Дов&ідка"
 
 #: tfrmmain.mnumark.caption
 msgid "&Mark"
@@ -3392,7 +3376,7 @@ msgstr "Ви&значити..."
 #: tfrmmaskinputdlg.btnok.caption
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 #| msgid "Or select predefined selection type:"
@@ -3408,7 +3392,7 @@ msgstr "&Скасувати"
 #: tfrmmkdir.btnok.caption
 msgctxt "TFRMMKDIR.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmmkdir.caption
 msgid "Create new directory"
@@ -3711,7 +3695,7 @@ msgstr "[MMMM] Назва місяця (довга, \"грудень\")"
 
 #: tfrmmultirename.miname.caption
 msgid "[N] Name"
-msgstr "[N] Ім'я"
+msgstr "[N] Ім’я"
 
 #: tfrmmultirename.minamex.caption
 msgid "[Nx] Character at position x"
@@ -3731,7 +3715,7 @@ msgstr "Розширення..."
 
 #: tfrmmultirename.minextname.caption
 msgid "Name..."
-msgstr "Ім'я..."
+msgstr "Ім’я..."
 
 #: tfrmmultirename.miplugin.caption
 msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
@@ -3782,17 +3766,17 @@ msgstr "-"
 #: tfrmmultirename.stringgrid.columns[0].title.caption
 msgctxt "tfrmmultirename.stringgrid.columns[0].title.caption"
 msgid "Old File Name"
-msgstr "Старе ім’я файлу"
+msgstr "Старе ім’я файла"
 
 #: tfrmmultirename.stringgrid.columns[1].title.caption
 msgctxt "tfrmmultirename.stringgrid.columns[1].title.caption"
 msgid "New File Name"
-msgstr "Нове ім’я файлу"
+msgstr "Нове ім’я файла"
 
 #: tfrmmultirename.stringgrid.columns[2].title.caption
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
-msgstr "Шлях до файлу"
+msgstr "Шлях до файла"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -3820,7 +3804,6 @@ msgid "Multiple file names"
 msgstr "Кілька імен файлів"
 
 #: tfrmopenwith.milistoffiles.hint
-#, fuzzy
 msgid "%F"
 msgstr "%F"
 
@@ -3830,7 +3813,6 @@ msgid "Multiple URIs"
 msgstr "Кілька посилань"
 
 #: tfrmopenwith.milistofurls.hint
-#, fuzzy
 msgid "%U"
 msgstr "%U"
 
@@ -3840,7 +3822,6 @@ msgid "Single file name"
 msgstr "Одиночне ім’я"
 
 #: tfrmopenwith.misinglefilename.hint
-#, fuzzy
 msgid "%f"
 msgstr "%f"
 
@@ -3850,7 +3831,6 @@ msgid "Single URI"
 msgstr "Одиночне посилання"
 
 #: tfrmopenwith.misingleurl.hint
-#, fuzzy
 msgid "%u"
 msgstr "%u"
 
@@ -3869,7 +3849,7 @@ msgstr "С&касувати"
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmoptions.caption
 msgctxt "tfrmoptions.caption"
@@ -3878,7 +3858,7 @@ msgstr "Налаштування"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Будь-ласка, виберіть підсторінку, ця сторінка не містить налаштувань."
+msgstr "Будь ласка, виберіть підсторінку, ця сторінка не містить налаштувань."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 #| msgid "Auto Configure"
@@ -4061,31 +4041,31 @@ msgstr "Чорний список дискі&в"
 
 #: tfrmoptionsbriefview.gbcolumns.caption
 msgid "Columns size"
-msgstr ""
+msgstr "Розмір колонок"
 
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
-msgstr ""
+msgstr "Показувати розширення файлів"
 
 #: tfrmoptionsbriefview.rbaligned.caption
 msgid "ali&gned (with Tab)"
-msgstr ""
+msgstr "вирівнян&о (по Tab)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
-msgstr ""
+msgstr "одразу після &імені файлу"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
-msgstr ""
+msgstr "Автоматично"
 
 #: tfrmoptionsbriefview.rbusefixedcount.caption
 msgid "Fixed columns count"
-msgstr ""
+msgstr "Стала кількість колонок"
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
-msgstr ""
+msgstr "Стала ширниа колонок"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 #| msgid "Cut text to column width"
@@ -4179,7 +4159,7 @@ msgstr "Зберігати при виході"
 
 #: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
 msgid "Sort order of configuration order in left tree"
-msgstr ""
+msgstr "Сортіування конфігурації в лівому дереві"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
@@ -4234,91 +4214,91 @@ msgstr "На&лаштувати колонки для файлової сист�
 
 #: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
 msgid "Position of frame panel after the comparison:"
-msgstr ""
+msgstr "Позиція панелі після порівняння:"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgid "Add..."
-msgstr ""
+msgstr "Додати..."
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Backup..."
-msgstr ""
+msgstr "Резервн копіювання..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgid "Delete..."
-msgstr ""
+msgstr "Видалити..."
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "Export..."
-msgstr ""
+msgstr "Експортувати..."
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
 msgid "Help"
-msgstr ""
+msgstr "Довідка"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"
 msgid "Import..."
-msgstr ""
+msgstr "Імпорт..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
 msgid "Insert..."
-msgstr ""
+msgstr "Вставити..."
 
 #: tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption
 msgid "Miscellaneous..."
-msgstr ""
+msgstr "Різне..."
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Кілька функцій для вибору відповідного шляху"
 
 #: tfrmoptionsdirectoryhotlist.btnrelativetarget.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativetarget.hint"
 msgid "Some functions to select appropriate target"
-msgstr ""
+msgstr "Кілька функцій для вибору відповідного місця призначення"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
 msgid "Sort..."
-msgstr ""
+msgstr "Сортувати..."
 
 #: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
 msgid "When adding directory, add also target"
-msgstr ""
+msgstr "Додаючи каталог, додавати каталог призначення"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgid "Always expand tree"
-msgstr ""
+msgstr "Завжди розгортати дерево"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only valid environment variables"
-msgstr ""
+msgstr "Показувати лише дійсні змінні оточення"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In popup, show [path also]"
-msgstr ""
+msgstr "У спливаючому вікні показувати шлях"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
 msgid "Name, a-z"
-msgstr ""
+msgstr "Ім’я, a-z"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirtarget.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirtarget.text"
 msgid "Name, a-z"
-msgstr ""
+msgstr "Ім’я, a-z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr ""
+msgstr "Вибрані теки (можна сортувати перетягуванням)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgid "Other options"
-msgstr ""
+msgstr "Інші налаштування"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption"
@@ -4333,74 +4313,74 @@ msgstr "Шлях:"
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption"
 msgid "Target:"
-msgstr ""
+msgstr "Призначення:"
 
 #: tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miactiveframedirectory.caption"
 msgid "directory of the active frame"
-msgstr ""
+msgstr "теку активної панелі"
 
 #: tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miactiveinactiveframedirectory.caption"
 msgid "directories of the active && inactive frames"
-msgstr ""
+msgstr "теки активної &і неактивної панелей"
 
 #: tfrmoptionsdirectoryhotlist.miaddcommand.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcommand.caption"
 msgid "a command"
-msgstr ""
+msgstr "команду"
 
 #: tfrmoptionsdirectoryhotlist.miaddcommand2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcommand2.caption"
 msgid "Add a command"
-msgstr ""
+msgstr "Додати команду"
 
 #: tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected.caption"
 msgid "a copy of the selected entry"
-msgstr ""
+msgstr "копія виділеного елемента"
 
 #: tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddcopyofselected2.caption"
 msgid "Add a copy of the selected entry"
-msgstr ""
+msgstr "Додати копію виділеного елемента"
 
 #: tfrmoptionsdirectoryhotlist.miaddseparator.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator.caption"
 msgid "a separator"
-msgstr ""
+msgstr "роздільник"
 
 #: tfrmoptionsdirectoryhotlist.miaddseparator2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator2.caption"
 msgid "Add a separator"
-msgstr ""
+msgstr "Додати роздільник"
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu.caption"
 msgid "sub-menu"
-msgstr ""
+msgstr "підменю"
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption"
 msgid "Add sub-menu"
-msgstr ""
+msgstr "Додати підменю"
 
 #: tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption"
 msgid "directory I will browse to"
-msgstr ""
+msgstr "теку до якої я перейду"
 
 #: tfrmoptionsdirectoryhotlist.micollapseall.caption
 msgid "Collapse all"
-msgstr ""
+msgstr "Згорнути все"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgid "...current level of item(s) selected only"
-msgstr ""
+msgstr "...поточний рівень виділених елементів"
 
 #: tfrmoptionsdirectoryhotlist.micurrentselectedoractivedirectories.caption
 msgid "current selected or active directories of active frame"
-msgstr ""
+msgstr "...поточні виділені чи активні теки в поточній панелі"
 
 #: tfrmoptionsdirectoryhotlist.micutselection.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micutselection.caption"
@@ -4410,77 +4390,78 @@ msgstr "Вирізати"
 #: tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption"
 msgid "delete all!"
-msgstr ""
+msgstr "видалити все!"
 
 #: tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
-msgstr ""
+msgstr "підменю і всі його елементи"
 
 #: tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
-msgstr ""
+msgstr "тільки підменю без елементів"
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption"
 msgid "selected item"
-msgstr ""
+msgstr "виділений елемент"
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption"
 msgid "Delete selected item"
-msgstr ""
+msgstr "Видалити виділений елемент"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
 msgid "Scan all hotdir's path to validate the ones that actually exist"
-msgstr ""
+msgstr "Перевірити чи дійсні шляхи в обраних теках"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption"
 msgid "Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr ""
+msgstr "Перевірити чи існують шляхи в обраних каталогах і призначеннях"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory Hotlist file (.hotlist)"
-msgstr ""
+msgstr "у файл Обрані теки ((.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "у файл \"wincmd.ini\" від TC (лишити існуючий)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "у файл \"wincmd.ini\" від TC (видалити існуючий)"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to configure TC related info"
-msgstr ""
+msgstr "Перейти до налаштувань данних пов’язаних з ТС"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption"
 msgid "Go to configure TC related info"
-msgstr ""
+msgstr "Перейти до налаштувань данних пов’язаних з ТС"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
+#, fuzzy
 msgid "HotDirTestMenu"
-msgstr ""
+msgstr "HotDirTestMenu"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory Hotlist file (.hotlist)"
-msgstr ""
+msgstr "з файлу Обрані теки (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"wincmd.ini\" of TC"
-msgstr ""
+msgstr "з файла \"wincmd.ini\" від TC"
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
 msgid "Open all branches"
-msgstr ""
+msgstr "Відкрити всі гілки"
 
 #: tfrmoptionsdirectoryhotlist.mipasteselection.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mipasteselection.caption"
@@ -4489,28 +4470,28 @@ msgstr "Вставити"
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "Restore a backup of Directory Hotlist"
-msgstr ""
+msgstr "Відновити з резервної копії Обрані теки"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "Save a backup of current Directory Hotlist"
-msgstr ""
+msgstr "Зберегти резевну копію Обраних тек"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "Пошук і заміна..."
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceinpath.caption
 msgid "in path..."
-msgstr ""
+msgstr "на шляху..."
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceintargetpath.caption
 msgid "in target path..."
-msgstr ""
+msgstr "на шляху призначення..."
 
 #: tfrmoptionsdirectoryhotlist.misearchinreplaceinbothpaths.caption
 msgid "in path and target path..."
-msgstr ""
+msgstr "на шляху і шляху призначення..."
 
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
@@ -4579,58 +4560,58 @@ msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
 msgid "...everything, from A to Z!"
-msgstr ""
+msgstr "...все, від А до Я!"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgid "...single group of item(s) only"
-msgstr ""
+msgstr "...тільки одну групу елементів"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
 msgid "Sort single group of item(s) only"
-msgstr ""
+msgstr "Сортувати тількиодну групу елементів"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgid "...content of submenu(s) selected, no sublevel"
-msgstr ""
+msgstr "...вміст підменю виділено, без підрівнів"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
 msgid "...content of submenu(s) selected and all sublevels"
-msgstr ""
+msgstr "...вміст підменю виділено разом з підрівнями"
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
 msgid "Test resulting menu"
-msgstr ""
+msgstr "Перевірити меню"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory.caption"
 msgid "directory I will type"
-msgstr ""
+msgstr "теку, яку я введу"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitypethedirectory2.caption"
 msgid "Add directory I will type"
-msgstr ""
+msgstr "Додати теку яку я введу"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory3.caption
 msgid "Insert directory I will type"
-msgstr ""
+msgstr "Вставити теку яку я введу"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel:"
-msgstr ""
+msgstr "Додавання з головної панелі:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr ""
+msgstr "З усіх підтримуваних форматів, запитати, який з них щоразу використовувати"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr ""
+msgstr "При збереженні тексту Unicode, збережіть його у форматі UTF8 (інакше буде UTF16)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr ""
+msgstr "При перетягуванні тексті, давати ім’я автоматично (інакше питати користувача)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 #| msgid "Show confirmation dialog after drop"
@@ -4639,19 +4620,19 @@ msgstr "&Показувати діалог підтвердження при п�
 
 #: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
 msgid "When drag && dropping text into panels:"
-msgstr ""
+msgstr "При перетя&гуванні текста в панелі:"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr ""
+msgstr "Помістіть найбільш бажаний формат на початку списку (використовуйте перетя&гування):"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
-msgstr ""
+msgstr "(якщо найбільш бажаного немає, брати другий і так далі)"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr ""
+msgstr "(якщо з деякими додатками не працює, зніміть галочку)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 #| msgid "Show file system"
@@ -4952,7 +4933,6 @@ msgid "Open in Viewer"
 msgstr "Відкрити у переглядачі"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "Показувати вікно підтвердження для:"
@@ -4993,7 +4973,7 @@ msgstr "Операції &переміщення"
 #| msgid "Search for part of file name"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
 msgid "&Search for part of file name"
-msgstr "&Шукати по частині назви файлу"
+msgstr "&Шукати по частині імені файла"
 
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 #| msgid "Process comments with files/folders"
@@ -5021,7 +5001,7 @@ msgstr "Пропус&кати помилки при файлових опера�
 
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
-msgstr ""
+msgstr "Пошук тексту у файлах"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -5048,12 +5028,12 @@ msgstr "Показати прогрес &операцій спочатку в"
 
 #: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
 msgid "Default search template:"
-msgstr ""
+msgstr "Типовий шаблон для пошуку:"
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
-msgstr ""
+msgstr "Стиль автопереіменування співпадаючих імен:"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 #| msgid "Number of wipe passes:"
@@ -5210,7 +5190,7 @@ msgstr "Виділяти но&ві та оновлені файли"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr ""
+msgstr "Увімкнути &оперативне переіменування при подвійному клацанні на імені"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #| msgid "Load file list in separate thread"
@@ -5345,7 +5325,6 @@ msgid "Category &name:"
 msgstr "&Назва категорії:"
 
 #: tfrmoptionsfonts.btnselconsolefnt.caption
-#, fuzzy
 msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
 msgid "..."
 msgstr "..."
@@ -5377,7 +5356,7 @@ msgstr "..."
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr ""
+msgstr "Шрифт &консолі"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 #| msgid "Editor font"
@@ -5444,11 +5423,10 @@ msgid "Co&mmands:"
 msgstr "Ко&манди:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
-#, fuzzy
 #| msgid "Shortcut files:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "&Shortcut files:"
-msgstr "Ярлики"
+msgstr "&Ярлики:"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
@@ -5461,7 +5439,6 @@ msgid "Parameters"
 msgstr "Параметри"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
-#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
 msgstr "Елементи керування"
@@ -5707,16 +5684,16 @@ msgstr " Компоненти основного вікна "
 #: tfrmoptionslog.btnrelativelogfile.hint
 msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Деякі функції, щоб вибрати відповідний шлях"
 
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
 msgid "View log file content"
-msgstr ""
+msgstr "Переглянути вміст звіту"
 
 #: tfrmoptionslog.cbincludedateinlogfilename.caption
 msgid "Include date in log filename"
-msgstr ""
+msgstr "Додавати дату до імені звіту"
 
 #: tfrmoptionslog.cblogarcop.caption
 #| msgid "Pack/Unpack"
@@ -5761,7 +5738,7 @@ msgstr "Звіт &інформаційних повідомлень"
 
 #: tfrmoptionslog.cblogstartshutdown.caption
 msgid "Start/shutdown"
-msgstr ""
+msgstr "Пуск/Завершення роботи"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
@@ -5799,17 +5776,17 @@ msgstr ">>"
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Деякі функції, щоб вибрати відповідний шлях"
 
 #: tfrmoptionsmisc.btnrelativetcconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Деякі функції, щоб вибрати відповідний шлях"
 
 #: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
 msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Деякі функції, щоб вибрати відповідний шлях"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
@@ -5818,7 +5795,7 @@ msgstr "Видалити мініат&юри для не існуючих фай
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
-msgstr ""
+msgstr "Переглянути вміст звіту"
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -5841,19 +5818,19 @@ msgstr "Мініатюри"
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
-msgstr ""
+msgstr "Стосовно імпорту/експорту ТС:"
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
-msgstr ""
+msgstr "Файл налаштувань:"
 
 #: tfrmoptionsmisc.lbltcexecutable.caption
 msgid "TC executable:"
-msgstr ""
+msgstr "Виконуваний файл ТС:"
 
 #: tfrmoptionsmisc.lbltcpathfortool.caption
 msgid "Toolbar output path:"
-msgstr ""
+msgstr "Шлях до теки з панелями інструментів:"
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
@@ -6138,8 +6115,9 @@ msgid "&Insert new button"
 msgstr "В&ставити нову кнопку"
 
 #: tfrmoptionstoolbar.btnopencmddlg.caption
+#, fuzzy
 msgid "Select"
-msgstr ""
+msgstr "Виділення"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
@@ -6169,11 +6147,11 @@ msgstr ">>"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.caption
 msgid "Suggest"
-msgstr ""
+msgstr "Пропозиції"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr ""
+msgstr "DC буде пропонувати підказки на основі типу кнопки, команди і параметрів"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 #| msgid "Flat b&uttons"
@@ -6183,7 +6161,7 @@ msgstr "П&ласкі кнопки"
 
 #: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
-msgstr ""
+msgstr "Звітувати про помилки з командами"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -6215,7 +6193,7 @@ msgstr "Параметр&и:"
 #: tfrmoptionstoolbar.lblhelponinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
 msgid "Help"
-msgstr ""
+msgstr "Довідка"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
@@ -6259,62 +6237,62 @@ msgstr "Під&казка:"
 
 #: tfrmoptionstoolbar.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
-msgstr ""
+msgstr "Додати панель інструментів зі всіма командами DC"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
-msgstr ""
+msgstr "для зовнішньої команди"
 
 #: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
-msgstr ""
+msgstr "для внутрішньої команди"
 
 #: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
 msgid "for a separator"
-msgstr ""
+msgstr "для роздільника"
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
-msgstr ""
+msgstr "для підпанелі інструментів"
 
 #: tfrmoptionstoolbar.mibackup.caption
 msgctxt "tfrmoptionstoolbar.mibackup.caption"
 msgid "Backup..."
-msgstr ""
+msgstr "Резервне копіювання..."
 
 #: tfrmoptionstoolbar.miexport.caption
 msgctxt "tfrmoptionstoolbar.miexport.caption"
 msgid "Export..."
-msgstr ""
+msgstr "Експортувати..."
 
 #: tfrmoptionstoolbar.miexportcurrent.caption
 msgid "Current toolbar..."
-msgstr ""
+msgstr "Поточна панель інстументів..."
 
 #: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "у файл Панелі інструментів  (.toolbar)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr ""
+msgstr "у файл TC .BAR (лишити існуючий)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr ""
+msgstr "у файл TC .BAR (видалити існуючий)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "у файл  \"wincmd.ini\" від ТС (лишити існуючий)"
 
 #: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
 msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "у файл  \"wincmd.ini\" від ТС (видалити існуючий)"
 
 #: tfrmoptionstoolbar.miexportseparator1.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator1.caption"
@@ -6338,119 +6316,119 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miexporttop.caption
 msgid "Top toolbar..."
-msgstr ""
+msgstr "Головна панель інструментів..."
 
 #: tfrmoptionstoolbar.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
-msgstr ""
+msgstr "Зберегти резервну копію Панелі інструментів"
 
 #: tfrmoptionstoolbar.miexporttoptodcbar.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "у файл Панелі інструментів  (.toolbar)"
 
 #: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr ""
+msgstr "у файл TC .BAR (лишити існуючий)"
 
 #: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr ""
+msgstr "у файл TC .BAR (видалити існуючий)"
 
 #: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr ""
+msgstr "у файл  \"wincmd.ini\" від ТС (лишити існуючий)"
 
 #: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
 msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr ""
+msgstr "у файл  \"wincmd.ini\" від ТС (видалити існуючий)"
 
 #: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "одразу після обраного"
 
 #: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "як перший елемент"
 
 #: tfrmoptionstoolbar.miexternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "як останній елемент"
 
 #: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "одразу перед обраним"
 
 #: tfrmoptionstoolbar.miimport.caption
 msgctxt "tfrmoptionstoolbar.miimport.caption"
 msgid "Import..."
-msgstr ""
+msgstr "Імпортувати..."
 
 #: tfrmoptionstoolbar.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
-msgstr ""
+msgstr "Відновити з резервної копії Панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "додати до поточної панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "додати до нової панелі на поточній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "додати до нової панелі на головній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportbackupaddtop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "додати до головної панелі"
 
 #: tfrmoptionstoolbar.miimportbackupreplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "замінити головну панель інструментів"
 
 #: tfrmoptionstoolbar.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
-msgstr ""
+msgstr "з файлу Панель інструментів (.toolbar)"
 
 #: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "додати до поточної панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr ""
+msgstr "додати до нової панелі на поточній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "додати до нової панелі на головній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportdcbaraddtop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "додати до головної панелі"
 
 #: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "замінити головну панель інструментів"
 
 #: tfrmoptionstoolbar.miimportseparator.caption
 msgctxt "tfrmoptionstoolbar.miimportseparator.caption"
@@ -6459,86 +6437,86 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.miimporttcbar.caption
 msgid "from a single TC .BAR file"
-msgstr ""
+msgstr "з одного файлу ТС .BAR"
 
 #: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "додати до поточної панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "додати до нової панелі на поточній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "додати до нової панелі на головній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttcbaraddtop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "додати до головної панелі"
 
 #: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "замінити головну панель інструментів"
 
 #: tfrmoptionstoolbar.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
-msgstr ""
+msgstr "з файлу \"wincmd.ini\"  від ТС..."
 
 #: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddcurrent.caption"
 msgid "to add to current toolbar"
-msgstr ""
+msgstr "додати до поточної панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
 msgid "to add to a new toobar to current toolbar"
-msgstr ""
+msgstr "додати до нової панелі на поточній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "додати до нової панелі на головній панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttciniaddtop.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddtop.caption"
 msgid "to add to top toolbar"
-msgstr ""
+msgstr "додати до головної панелі"
 
 #: tfrmoptionstoolbar.miimporttcinireplacetop.caption
 msgctxt "tfrmoptionstoolbar.miimporttcinireplacetop.caption"
 msgid "to replace top toolbar"
-msgstr ""
+msgstr "замінити головну панель інструментів"
 
 #: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "одразу після обраного"
 
 #: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "as first element"
 
 #: tfrmoptionstoolbar.miinternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "як останній елемент"
 
 #: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "одразу перед обраним"
 
 #: tfrmoptionstoolbar.misearchandreplace.caption
 msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "Знайти і замінити..."
 
 #: tfrmoptionstoolbar.miseparator1.caption
 msgctxt "tfrmoptionstoolbar.miseparator1.caption"
@@ -6593,26 +6571,26 @@ msgstr "-"
 #: tfrmoptionstoolbar.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "одразу після обраного"
 
 #: tfrmoptionstoolbar.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
 msgid "as first element"
-msgstr ""
+msgstr "як перший елемент"
 
 #: tfrmoptionstoolbar.miseparatorlastelement.caption
 msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "як останній елемент"
 
 #: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "одразу перед обраним"
 
 #: tfrmoptionstoolbar.misrcrplallofall.caption
 msgid "in all of all the above..."
-msgstr ""
+msgstr "в усіх усіх вищезгаданих..."
 
 #: tfrmoptionstoolbar.misrcrplclickseparator.caption
 msgctxt "tfrmoptionstoolbar.misrcrplclickseparator.caption"
@@ -6621,39 +6599,39 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.misrcrplcommands.caption
 msgid "in all commands..."
-msgstr ""
+msgstr "у всіх командах..."
 
 #: tfrmoptionstoolbar.misrcrpliconnames.caption
 msgid "in all icon names..."
-msgstr ""
+msgstr "у всіх іменах іконок..."
 
 #: tfrmoptionstoolbar.misrcrplparameters.caption
 msgid "in all parameters..."
-msgstr ""
+msgstr "у всіх параметрах..."
 
 #: tfrmoptionstoolbar.misrcrplstartpath.caption
 msgid "in all start path..."
-msgstr ""
+msgstr "у всіх шляхах запуску..."
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
 msgid "just after current selection"
-msgstr ""
+msgstr "одразу після обраного"
 
 #: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarfirstelement.caption"
 msgid "as first element"
-msgstr ""
+msgstr "as first element"
 
 #: tfrmoptionstoolbar.misubtoolbarlastelement.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarlastelement.caption"
 msgid "as last element"
-msgstr ""
+msgstr "як останній елемент"
 
 #: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr ""
+msgstr "одразу перед обраним"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
@@ -6817,13 +6795,13 @@ msgstr "&Налаштувати"
 #| msgid "Help"
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
 msgid "&Help"
-msgstr "Допомо&га"
+msgstr "Довід&ка"
 
 #: tfrmpackdlg.btnok.caption
 #| msgid "OK"
 msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"
@@ -6994,15 +6972,15 @@ msgstr "Перемикання між режимами пошуку або фі�
 
 #: tfrmsearchplugin.btnadd.caption
 msgid "&More rules"
-msgstr ""
+msgstr "Д&одати правила"
 
 #: tfrmsearchplugin.btndelete.caption
 msgid "L&ess rules"
-msgstr ""
+msgstr "П&рибрати правила"
 
 #: tfrmsearchplugin.chkuseplugins.caption
 msgid "Use &content plugins, combine with:"
-msgstr ""
+msgstr "Використати контент-плагіни, комбінуючи з:"
 
 #: tfrmsearchplugin.headercontrol.sections[0].text
 msgctxt "tfrmsearchplugin.headercontrol.sections[0].text"
@@ -7011,11 +6989,11 @@ msgstr "Плагін"
 
 #: tfrmsearchplugin.headercontrol.sections[1].text
 msgid "Field"
-msgstr ""
+msgstr "Поле"
 
 #: tfrmsearchplugin.headercontrol.sections[2].text
 msgid "Operator"
-msgstr ""
+msgstr "Оператор"
 
 #: tfrmsearchplugin.headercontrol.sections[3].text
 msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
@@ -7024,11 +7002,11 @@ msgstr "Значення"
 
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
-msgstr ""
+msgstr "&AND (всі правила)"
 
 #: tfrmsearchplugin.rbor.caption
 msgid "&OR (any match)"
-msgstr ""
+msgstr "&OR (будь-яке правило)"
 
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
@@ -7043,18 +7021,17 @@ msgstr "&Закрити"
 #: tfrmselecttextrange.btppanel.helpbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
 msgid "&Help"
-msgstr "&Допомога"
+msgstr "До&відка"
 
 #: tfrmselecttextrange.btppanel.okbutton.caption
 msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmselecttextrange.lblselecttext.caption
-#, fuzzy
 #| msgid "Select the characters to insert:"
 msgid "&Select the characters to insert:"
-msgstr "Виберіть символи для вставки:"
+msgstr "Виберіть &символи для вставки:"
 
 #: tfrmsetfileproperties.btncancel.caption
 #| msgid "Cancel"
@@ -7065,7 +7042,7 @@ msgstr "&Скасувати"
 #: tfrmsetfileproperties.btnok.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmsetfileproperties.caption
 msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
@@ -7209,12 +7186,12 @@ msgstr "..."
 #| msgid "OK"
 msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Деякі функції, щоб вибрати відповідний шлях"
 
 #: tfrmsplitter.caption
 msgctxt "TFRMSPLITTER.CAPTION"
@@ -7223,7 +7200,7 @@ msgstr "Розбивка"
 
 #: tfrmsplitter.cbrequireacrc32verificationfile.caption
 msgid "Require a CRC32 verification file"
-msgstr ""
+msgstr "Створити файл контрольної суми"
 
 #: tfrmsplitter.cmbxsize.text
 msgid "1457664B - 3.5\""
@@ -7255,7 +7232,7 @@ msgstr "Кількіст&ь частин"
 
 #: tfrmsplitter.rbtnbyte.caption
 msgid "&Bytes"
-msgstr ""
+msgstr "&Байт"
 
 #: tfrmsplitter.rbtngigab.caption
 #| msgid "Gigabytes"
@@ -7297,11 +7274,11 @@ msgstr "Lazarus"
 
 #: tfrmstartingsplash.lbloperatingsystem.caption
 msgid "Operating System"
-msgstr ""
+msgstr "Операційна система"
 
 #: tfrmstartingsplash.lblplatform.caption
 msgid "Platform"
-msgstr ""
+msgstr "Платформа"
 
 #: tfrmstartingsplash.lblrevision.caption
 msgctxt "tfrmstartingsplash.lblrevision.caption"
@@ -7320,7 +7297,7 @@ msgstr "Версія"
 
 #: tfrmstartingsplash.lblwidgetsetver.caption
 msgid "WidgetsetVer"
-msgstr ""
+msgstr "Версія додатків"
 
 #: tfrmsymlink.btncancel.caption
 #| msgid "Cancel"
@@ -7331,18 +7308,17 @@ msgstr "&Скасувати"
 #: tfrmsymlink.btnok.caption
 msgctxt "TFRMSYMLINK.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmsymlink.caption
 msgid "Create symbolic link"
 msgstr "Створити симв. посилання"
 
 #: tfrmsymlink.lblexistingfile.caption
-#, fuzzy
 #| msgid "Destination that the link will point to"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"
-msgstr "Місце, на яке вказуватиме посилання"
+msgstr "&Місце, на яке вказуватиме посилання"
 
 #: tfrmsymlink.lbllinktocreate.caption
 #| msgid "Link name"
@@ -7453,11 +7429,11 @@ msgstr "Порівняти"
 
 #: tfrmsyncdirsdlg.menuitemviewleft.caption
 msgid "View left"
-msgstr ""
+msgstr "Вид зліва"
 
 #: tfrmsyncdirsdlg.menuitemviewright.caption
 msgid "View right"
-msgstr ""
+msgstr "Вид справа"
 
 #: tfrmsyncdirsdlg.sbcopyleft.caption
 msgctxt "tfrmsyncdirsdlg.sbcopyleft.caption"
@@ -7523,7 +7499,7 @@ msgstr "&Типовий"
 #| msgid "OK"
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Так"
+msgstr "&Гаразд"
 
 #: tfrmtweakplugin.btnremove.caption
 #| msgid "Remove"
@@ -7593,10 +7569,9 @@ msgid "&Description:"
 msgstr "Оп&ис:"
 
 #: tfrmtweakplugin.lbldetectstr.caption
-#, fuzzy
 #| msgid "Detect string:"
 msgid "D&etect string:"
-msgstr "Визначення рядка:"
+msgstr "Визна&чення рядка:"
 
 #: tfrmtweakplugin.lblextension.caption
 #| msgid "Extension:"
@@ -8214,6 +8189,11 @@ msgid ""
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
 msgstr ""
+"Цей файл не може бути знайдений проте може допомогти, щоб перевірити остаточну комбінацію файлів:\n"
+"%s\n"
+"\n"
+"Чи не могли б ви зробити його доступним і натиснути \"Гаразд \", коли будете готові, \n"
+"або натиснути \"Скасувати \", щоб продовжити без нього? \n"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -8225,11 +8205,11 @@ msgstr "Скасувати поточну операцію"
 
 #: ulng.rscaptionforaskingfilename
 msgid "Enter filename, with extension, for dropped text"
-msgstr ""
+msgstr "Введіть ім’я файла з розширенням для перетягнутого тексту"
 
 #: ulng.rscaptionfortextformattoimport
 msgid "Text format to import"
-msgstr ""
+msgstr "Формат тексту до імпорту"
 
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
@@ -8269,11 +8249,11 @@ msgstr "Буфер обміну не містить допустимих дан�
 
 #: ulng.rscmdcategorylistinorder
 msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr ""
+msgstr "Все;Активна панель;Ліва панель;Права панель;Файлові операції;Конфігурація;Мережа;Різне;Паралельний порт;Принтер;Відмітки;Безпека;Буфер обміну;FTP;Навігація;Довідка;Вікно;Командний рядок;Інструменти;Вигляд;Користувач;Вкладки;Сортування;Звіт"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
-msgstr ""
+msgstr "Класичне сортування;А-Я сортування"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -8335,11 +8315,11 @@ msgstr "Налаштування колонки"
 
 #: ulng.rsconfigurationfileassociation
 msgid "Configure file association"
-msgstr ""
+msgstr "Налаштування асоціацій з файлами"
 
 #: ulng.rsconfirmexecution
 msgid "Confirming command line and parameters"
-msgstr ""
+msgstr "Підтвердження командного рядка і параметрів"
 
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
@@ -8347,55 +8327,61 @@ msgstr "Копіювати (%d) %s"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
-msgstr ""
+msgstr "Імпортована панель інструментів DC"
 
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
-msgstr ""
+msgstr "Імпортована панель інструментів ТC"
 
 #: ulng.rsdefaultsuffixdroppedtext
+#, fuzzy
 msgid "_DroppedText"
-msgstr ""
+msgstr "_DroppedText"
 
 #: ulng.rsdefaultsuffixdroppedtexthtmlfilename
+#, fuzzy
 msgid "_DroppedHTMLtext"
-msgstr ""
+msgstr "_DroppedHTMLtext"
 
 #: ulng.rsdefaultsuffixdroppedtextrichtextfilename
+#, fuzzy
 msgid "_DroppedRichtext"
-msgstr ""
+msgstr "_DroppedRichtext"
 
 #: ulng.rsdefaultsuffixdroppedtextsimplefilename
+#, fuzzy
 msgid "_DroppedSimpleText"
-msgstr ""
+msgstr "_DroppedSimpleText"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
+#, fuzzy
 msgid "_DroppedUnicodeUTF16text"
-msgstr ""
+msgstr "_DroppedUnicodeUTF16text"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
+#, fuzzy
 msgid "_DroppedUnicodeUTF8text"
-msgstr ""
+msgstr "_DroppedUnicodeUTF8text"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
-msgstr ""
+msgstr "Додано:"
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
-msgstr ""
+msgstr "Видалено:"
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
-msgstr ""
+msgstr "Ці два файли ідентичні!"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr ""
+msgstr "Співпадінь:"
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
-msgstr ""
+msgstr "Змінено:"
 
 #: ulng.rsdlgallopcomplete
 #| msgid "All operations is complete"
@@ -8462,7 +8448,6 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: ulng.rsdlgbuttonother
-#, fuzzy
 msgid "Ot&her"
 msgstr "Ін&ший"
 
@@ -8475,7 +8460,6 @@ msgid "Overwrite &All"
 msgstr "Пере&записати все"
 
 #: ulng.rsdlgbuttonoverwritelarger
-#, fuzzy
 msgid "Overwrite All &Larger"
 msgstr "Перезаписати всі &великі"
 
@@ -8484,7 +8468,6 @@ msgid "Overwrite All Ol&der"
 msgstr "Замінити всі ста&рі"
 
 #: ulng.rsdlgbuttonoverwritesmaller
-#, fuzzy
 msgid "Overwrite All S&maller"
 msgstr "Перезаписати всі &маленькі"
 
@@ -8515,17 +8498,15 @@ msgstr "&Так"
 
 #: ulng.rsdlgcalcstatistics
 msgid "Calculate files and folders"
-msgstr "Підрахувати файли і папки"
+msgstr "Підрахувати файли і теки"
 
 #: ulng.rsdlgchecksumcalc
-#, fuzzy
 #| msgid "Calculate check sum..."
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate checksum..."
 msgstr "Розрахувати контрольну суму..."
 
 #: ulng.rsdlgchecksumverify
-#, fuzzy
 #| msgid "Verify check sum..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify checksum..."
@@ -8580,12 +8561,10 @@ msgid "Wipe file(s)"
 msgstr "Стерти файл(и)"
 
 #: ulng.rsdrivenolabel
-#, fuzzy
 msgid "<no label>"
 msgstr "<no label>"
 
 #: ulng.rsdrivenomedia
-#, fuzzy
 msgid "<no media>"
 msgstr "<no media>"
 
@@ -8634,27 +8613,27 @@ msgstr "Замінити"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
-msgstr ""
+msgstr "із зовнішнім редактором"
 
 #: ulng.rseditwithinternaleditor
 msgid "with internal editor"
-msgstr ""
+msgstr "з внутрішнім редактором"
 
 #: ulng.rsexecuteviashell
 msgid "Execute via shell"
-msgstr ""
+msgstr "Виконати через оболонку"
 
 #: ulng.rsexecuteviaterminalclose
 msgid "Execute via terminal and close"
-msgstr ""
+msgstr "Виконати через термінал і закрити"
 
 #: ulng.rsexecuteviaterminalstayopen
 msgid "Execute via terminal and stay open"
-msgstr ""
+msgstr "Виконати через термінал і лишити відкритим"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
-msgstr ""
+msgstr "Експортувати_з_DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
@@ -8806,7 +8785,7 @@ msgstr "Помилка створення жорсткого посилання.
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
-msgstr ""
+msgstr "Вибачте, нічого імпортувати!"
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
@@ -8814,6 +8793,9 @@ msgid ""
 "\n"
 "Are you sure you want to proceed?\n"
 msgstr ""
+"Увага! При відновленні файлу .hotlist з резервної копії,  буде стерто існуючий список.\n"
+"\n"
+"Ви впевнені, що хочете продовжити?\n"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -8826,7 +8808,7 @@ msgstr "Порівнювач"
 
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
-msgstr ""
+msgstr "Діалог редагування коментаря"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -8839,7 +8821,7 @@ msgstr "Переглядач"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
-msgstr ""
+msgstr "Не вдається знати файл типової панелі інструментів"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -8859,11 +8841,11 @@ msgstr "Вкажіть маску (роздільник - ';'):"
 
 #: ulng.rsmenuconfigurecolumnsalreadyexists
 msgid "A columns view with that name already exists."
-msgstr ""
+msgstr "Набір колонок з таким іменем вже існує."
 
 #: ulng.rsmenuconfigurecolumnssavetochange
-msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr ""
+msgid "To change current editing columns view, either SAVE, COPY or DELETE current editing one"
+msgstr "Для зміни поточного редагування набору колонок, або збереження, копійювання чи видалення одного"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -8871,7 +8853,7 @@ msgstr "Налаштувати набір колонок"
 
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
-msgstr ""
+msgstr "Введіть нове ім’я набору колонок"
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
@@ -8905,7 +8887,6 @@ msgid "No media available"
 msgstr "Немає доступних носіїв"
 
 #: ulng.rsmnuopen
-#, fuzzy
 msgctxt "ulng.rsmnuopen"
 msgid "Open"
 msgstr "Відкрити"
@@ -8948,6 +8929,10 @@ msgid ""
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
 msgstr ""
+"Не збігається контрольна сума для файлу:\n"
+"\"%s\"\n"
+"\n"
+"Бажаєте зберегти пошкоджений файл в будь-якому разі?\n"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -8975,6 +8960,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Опції відносно набору колонок було змінено.\n"
+"\n"
+"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -8982,7 +8970,7 @@ msgstr "Ви впевнені, що хочете вийти?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr ""
+msgstr "Не вдалося скопіювати назад - бажаєте зберегти змінений файл?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -8994,15 +8982,15 @@ msgstr "Копіювати виділене \"%s\"?"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
-msgstr ""
+msgstr "< Створення нового типу файла \"%s files\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
-msgstr ""
+msgstr "Введіть розташування і ім'я файлу, куди зберегти файл панелі інструментів"
 
 #: ulng.rsmsgdefaultcustomactionname
 msgid "Custom action"
-msgstr ""
+msgstr "Дії користувача"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
@@ -9034,15 +9022,15 @@ msgstr "Диск не доступний"
 
 #: ulng.rsmsgdraganddropmodifiedwanttosave
 msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Опції відноски перетягування мишею були змінені. Зберегти зміни перед виходом?"
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
-msgstr ""
+msgstr "Введіть ім’я дії користувача:"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
-msgstr "Введіть розширення файлу:"
+msgstr "Введіть розширення файла:"
 
 #: ulng.rsmsgentername
 msgid "Enter name:"
@@ -9050,7 +9038,7 @@ msgstr "Введіть ім'я:"
 
 #: ulng.rsmsgenternewfiletypename
 msgid "Enter name of new file type to create for extension \"%s\""
-msgstr ""
+msgstr "Введіть ім'я нового типу файла, щоб створити  розширення для \"%s\""
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -9166,7 +9154,7 @@ msgstr "Не вдається встановити права/групу для 
 
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
-msgstr ""
+msgstr "Не вдається встановити права для \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -9186,6 +9174,9 @@ msgid ""
 "\n"
 "Do you want to save before to exit?\n"
 msgstr ""
+"Додаткові опції асоціації розширення файлів було змінено.\n"
+"\n"
+"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
 msgid ""
@@ -9193,6 +9184,9 @@ msgid ""
 "\n"
 "Do you want to save before to exit?\n"
 msgstr ""
+"Асоціації розширеня файлів було змінено.\n"
+"\n"
+"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
@@ -9211,7 +9205,6 @@ msgid "File %s exists, overwrite?"
 msgstr "Файл %s існує, перезаписати?"
 
 #: ulng.rsmsgfileexistswithfile
-#, fuzzy
 msgid "With file:"
 msgstr "З файлу:"
 
@@ -9229,7 +9222,7 @@ msgstr "Деякі операції з файлами ще не завершен
 
 #: ulng.rsmsgfileoperationsmodifiedwanttosave
 msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Опції операцій з файлами було змінено. Збеергти зміни перед виходом?"
 
 #: ulng.rsmsgfilepanelcolormodifiedwanttosave
 msgid ""
@@ -9237,6 +9230,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Опції відносно кольору панелі були змінені.\n"
+"\n"
+"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -9248,7 +9244,7 @@ msgstr "Розмір файлу \"%s\" є занадто великим для �
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
-msgstr "Каталог %s існує, перезаписати?"
+msgstr "Тека %s існує, перезаписати?"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
@@ -9256,85 +9252,85 @@ msgstr "Прямувати за посиланням \"%s\"?"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
-msgstr ""
+msgstr "Виберіть текстовий формат для імпорту"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
-msgstr ""
+msgstr "Додати %d виділених тек"
 
 #: ulng.rsmsghotdiraddselecteddirectory
 msgid "Add selected dir: "
-msgstr ""
+msgstr "Додати виділений каталог:"
 
 #: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
-msgstr ""
+msgstr "Додати поточний каталог:"
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
-msgstr ""
+msgstr "Виконати каманду"
 
 #: ulng.rsmsghotdircommandsample
 msgid "cm_somthing"
-msgstr ""
+msgstr "cm_somthing"
 
 #: ulng.rsmsghotdirconfighotlist
 msgid "Configuration of Directory Hotlist"
-msgstr ""
+msgstr "Налаштування обраних каталогів"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr ""
+msgstr "Ви впевнені, що хочете видалити всі записи зі списку Обраних каталогів? (Шляху назад не буде!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
-msgstr ""
+msgstr "Це виконає наступну команду:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
-msgstr ""
+msgstr "Це Вибраний каталог по імені"
 
 #: ulng.rsmsghotdirdemopath
 msgid "This will change active frame to the following path:"
-msgstr ""
+msgstr "Це змінить активну панель на наступний шлях:"
 
 #: ulng.rsmsghotdirdemotarget
 msgid "And inactive frame would change to the following path:"
-msgstr ""
+msgstr "І змінить неактивну панель на наступний шлях:"
 
 #: ulng.rsmsghotdirerrorbackuping
 msgid "Error backuping entries..."
-msgstr ""
+msgstr "Помилка резервного копіювання..."
 
 #: ulng.rsmsghotdirerrorexporting
 msgid "Error exporting entries..."
-msgstr ""
+msgstr "Помилка експорту об’єктів..."
 
 #: ulng.rsmsghotdirexportall
 msgid "Export all!"
-msgstr ""
+msgstr "Експортувати все!"
 
 #: ulng.rsmsghotdirexporthotlist
 msgid "Export Directory Hotlist - Select the entries you want to export"
-msgstr ""
+msgstr "Експорт обраних каталогів - Виділіть об’єкти для експорту"
 
 #: ulng.rsmsghotdirexportsel
 msgid "Export selected"
-msgstr ""
+msgstr "Експотрувати виділене"
 
 #: ulng.rsmsghotdirimportall
 msgctxt "ulng.rsmsghotdirimportall"
 msgid "Import all!"
-msgstr ""
+msgstr "Імпортувати все!"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
-msgstr ""
+msgstr "Імпорт обраних каталогів - Виділіть об’єкти для експорту"
 
 #: ulng.rsmsghotdirimportsel
 msgctxt "ulng.rsmsghotdirimportsel"
 msgid "Import selected"
-msgstr ""
+msgstr "Імпортувати виділене"
 
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
@@ -9343,84 +9339,84 @@ msgstr "Шлях"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr ""
+msgstr "Знайдіть файл  \".hotlist\"  для імпорту"
 
 #: ulng.rsmsghotdirlocateprevioussave
 msgid "Select location and filename of previously saved Directory Hotlist file"
-msgstr ""
+msgstr "Виберіть розташування і ім’я раніше збереженого файла Обраних каталогів"
 
 #: ulng.rsmsghotdirmodifiedwanttosave
 msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Список обраних каталогів було змінено, зберегти перш ніж вийти?"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
-msgstr ""
+msgstr "Ім’я обраних каталогів"
 
 #: ulng.rsmsghotdirnbnewentries
 msgid "Number of new entries: %d"
-msgstr ""
+msgstr "Кількість нових елементів: %d"
 
 #: ulng.rsmsghotdirnothingtoexport
 msgid "Nothing selected to export!"
-msgstr ""
+msgstr "Нічого не вибрано для експорта!"
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
-msgstr ""
+msgstr "Шлях до Обраних каталогів"
 
 #: ulng.rsmsghotdirreaddselecteddirectory
 msgid "Re-Add selected dir: "
-msgstr ""
+msgstr "Передодати обраний каталог:"
 
 #: ulng.rsmsghotdirreaddthisdirectory
 msgid "Re-Add current dir: "
-msgstr ""
+msgstr "Передодати поточний каталог:"
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
-msgstr ""
+msgstr "Введіть розташування і ім'я файлу Обраних каталогів для відновлення"
 
 #: ulng.rsmsghotdirsimplecommand
 msgid "Command:"
-msgstr ""
+msgstr "Команди:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgid "(end of sub menu)"
-msgstr ""
+msgstr "(кінець підменю)"
 
 #: ulng.rsmsghotdirsimplemenu
 msgid "Menu name:"
-msgstr ""
+msgstr "Назва меню:"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
 msgid "Name:"
-msgstr "Ім'я:"
+msgstr "Назва:"
 
 #: ulng.rsmsghotdirsimpleseparator
 msgid "(separator)"
-msgstr ""
+msgstr "(роздільник)"
 
 #: ulng.rsmsghotdirsubmenuname
 msgid "Submenu name"
-msgstr ""
+msgstr "Назва підменю"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr ""
+msgstr "Обрані каталоги у призначенні"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
-msgstr ""
+msgstr "Визначте, як має бути відсортована активна панель після зміни каталога "
 
 #: ulng.rsmsghotdirtipordertarget
 msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
-msgstr ""
+msgstr "Визначте, як має бути відсортована НЕактивна панель після зміни каталога "
 
 #: ulng.rsmsghotdirtipspecialdirbut
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr ""
+msgstr "Деякі функції, щоб вибрати відповідний шлях - відносний, абсолютний, спеціальні папки Windows, тощо."
 
 #: ulng.rsmsghotdirtotalbackuped
 msgid ""
@@ -9428,24 +9424,29 @@ msgid ""
 "\n"
 "Backup filename: %s\n"
 msgstr ""
+"Всього об’єктів збережено: %d\n"
+"\n"
+"Ім’я резервного файла: %s\n"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
-msgstr ""
+msgstr "Всього записів експортовано:"
 
 #: ulng.rsmsghotdirwhattodelete
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
+"Ви хочете видалити всі елементи всередині підменю [%s]?\n"
+"Відповідь НІ видалить тільки роздільники і залишить елементи всередині підменю.\n"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
-msgstr ""
+msgstr "Введіть розташування і ім’я файла, куди зберегти файл Обраних каталогів"
 
 #: ulng.rsmsgincorrectfilelength
 msgid "Incorrect resulting filelength for file : \"%s\""
-msgstr ""
+msgstr "Невірна довжина файла : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
 msgid ""
@@ -9456,6 +9457,12 @@ msgid ""
 "\n"
 "Number of bytes still to write: %d\n"
 msgstr ""
+"Будь ласка, вставте наступний диск чи щось подібне.\n"
+"\n"
+"Це дозволить запис цього файла:\n"
+"\"%s\"\n"
+"\n"
+"Кількість вільних байт для запису:%d\n"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -9463,11 +9470,11 @@ msgstr "Помилка в командному рядку"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
-msgstr "Некоректне ім'я файлу"
+msgstr "Некоректне ім’я файла"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
-msgstr "Неправильний формат файлу конфігурації"
+msgstr "Неправильний формат файла конфігурації"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
@@ -9499,11 +9506,11 @@ msgstr "Завантаження списку файлів..."
 
 #: ulng.rsmsglocatetcconfiguation
 msgid "Locate TC configuration file (wincmd.ini)"
-msgstr ""
+msgstr "Знайдіть файл конфігурації TC (wincmd.ini)"
 
 #: ulng.rsmsglocatetcexecutable
 msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
-msgstr ""
+msgstr "Знадіть виконуваний файл ТС (totalcmd.exe or totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -9519,11 +9526,11 @@ msgstr "Помилка: "
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
-msgstr ""
+msgstr "Зовнішній запуск"
 
 #: ulng.rsmsglogextcmdresult
 msgid "Result external"
-msgstr ""
+msgstr "Зовнішній результат"
 
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
@@ -9551,6 +9558,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Опції відносно звіту було змінено.\n"
+"\n"
+"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
@@ -9574,11 +9584,11 @@ msgstr "Перевірка цілістності файлу %s"
 
 #: ulng.rsmsglogwipe
 msgid "Wipe file %s"
-msgstr ""
+msgstr "Знищення файлу %s"
 
 #: ulng.rsmsglogwipedir
 msgid "Wipe directory %s"
-msgstr ""
+msgstr "Знищення каталогу %s"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
@@ -9590,7 +9600,7 @@ msgstr "Будь ласка, введіть суперпароль:"
 
 #: ulng.rsmsgmiscellaneousmodifiedwanttosave
 msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Налаштування \"Різне\" змінено. Бажаєте зберегти налаштуваня перед виходом?"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -9626,7 +9636,7 @@ msgstr "Не реалізовано"
 
 #: ulng.rsmsgpanelpreview
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr ""
+msgstr "Нижче попередній перегляд. Ви можете переміщати курсор і вибрати файли, щоб отримати фактичний вигляд різних налаштувань."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
@@ -9638,7 +9648,7 @@ msgstr "Паролі відрізняються!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr "Будь-ласка, введіть пароль:"
+msgstr "Будь ласка, введіть пароль:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -9667,15 +9677,15 @@ msgstr "Шаблон \"%s\" вже існує. Перезаписати?"
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
-msgstr ""
+msgstr "Проблема виконання команди (%s)"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
-msgstr ""
+msgstr "Ім’я файла для перетягнутого тексту:"
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
-msgstr ""
+msgstr "Будь ласка, переконайтеся у доступності файла. Спробувати ще раз?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -9687,11 +9697,11 @@ msgstr "Перейменувати/перемістити вибраний \"%s\
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "Будь-ласка, перезапустіть Double Commander для того щоб зміни вступили в дію"
+msgstr "Будь ласка, перезапустіть Double Commander для того щоб зміни вступили в дію"
 
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
-msgstr ""
+msgstr "Виберіть тип файлу до якого треба додати розширення \"%s\""
 
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
@@ -9699,10 +9709,9 @@ msgstr "Виділено: %s з %s, фалів: %d з %d, папок: %d з %d"
 
 #: ulng.rsmsgselectexecutablefile
 msgid "Select executable file for"
-msgstr ""
+msgstr "Виберіть виконуваний файл"
 
 #: ulng.rsmsgselectonlychecksumfiles
-#, fuzzy
 #| msgid "Please select only check sum files!"
 msgid "Please select only checksum files!"
 msgstr "Виберіть лише файли контрольних сум!"
@@ -9717,71 +9726,71 @@ msgstr "Встановити мітку диску"
 
 #: ulng.rsmsgspecialdir
 msgid "Special Dirs"
-msgstr ""
+msgstr "Спеціальні теки"
 
 #: ulng.rsmsgspecialdiraddacti
 msgid "Add path from active frame"
-msgstr ""
+msgstr "Додати шлях від активного фрейма"
 
 #: ulng.rsmsgspecialdiraddnonacti
 msgid "Add path from inactive frame"
-msgstr ""
+msgstr "Додати шлях від неактивного фрейма"
 
 #: ulng.rsmsgspecialdirbrowssel
 msgid "Browse and use selected path"
-msgstr ""
+msgstr "Перейти і використати обраний шлях"
 
 #: ulng.rsmsgspecialdirenvvar
 msgid "Use environment variable..."
-msgstr ""
+msgstr "Використовуйте змінну оточення..."
 
 #: ulng.rsmsgspecialdirgotodc
 msgid "Go to Double Commander special path..."
-msgstr ""
+msgstr "Перейти до спеціальної теки DC..."
 
 #: ulng.rsmsgspecialdirgotoenvvar
 msgid "Go to environment variable..."
-msgstr ""
+msgstr "Перейти в змінну оточення..."
 
 #: ulng.rsmsgspecialdirgotoother
 msgid "Go to other Windows special folder..."
-msgstr ""
+msgstr "пеерйти у інші спеціальні папки Windows..."
 
 #: ulng.rsmsgspecialdirgototc
 msgid "Go to Windows special folder (TC)..."
-msgstr ""
+msgstr "Перейти у спеціальні теки Windows (ТС)..."
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
-msgstr ""
+msgstr "Зробити шлях відносним"
 
 #: ulng.rsmsgspecialdirmkdcrel
 msgid "Make relative to Double Commander special path..."
-msgstr ""
+msgstr "Зробити відносний шлях до спеціальної папки DC..."
 
 #: ulng.rsmsgspecialdirmkenvrel
 msgid "Make relative to environment variable..."
-msgstr ""
+msgstr "Зробити відносний шлях до змінної оточення..."
 
 #: ulng.rsmsgspecialdirmktctel
 msgid "Make relative to Windows special folder (TC)..."
-msgstr ""
+msgstr "Зробити відносний шлях до спеціальної теки (ТС)..."
 
 #: ulng.rsmsgspecialdirmkwnrel
 msgid "Make relative to other Windows special folder..."
-msgstr ""
+msgstr "Зробити відносний шлях до спеціальної теки Windows..."
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
-msgstr ""
+msgstr "Використовувати спеціальні шляхи DC..."
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
-msgstr ""
+msgstr "Використовувати іншу спеціальну папку Windows..."
 
 #: ulng.rsmsgspecialdirusetc
 msgid "Use Windows special folder (TC)..."
-msgstr ""
+msgstr "Використовувати спеціальну теку Windows (ТС)..."
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
@@ -9800,28 +9809,36 @@ msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s\n"
 msgstr ""
+"Помилка! Відсутній файл конфігурації ТС:\n"
+"%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
 msgstr ""
+"Помилка! Відсутній виконуваний файл ТС:\n"
+"%s\n"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
 msgstr ""
+"Помилка! ТС має бути закритий для цієї операції.\n"
+"Закрийте його і натисніть Гаразд або натисніть Скасувати.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
 msgstr ""
+"Помилка! Відсутня необхідна тека для Панелі інструментів ТС:\n"
+"%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
-msgstr ""
+msgstr "Введіть розташування і ім'я файлу, куди зберегти файл панелі інструментів ТС"
 
 #: ulng.rsmsgterminaloptionsmodifiedwanttosave
 msgid ""
@@ -9829,40 +9846,45 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Опції відносно термінала було змінено.\n"
+"\n"
+"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
-msgstr ""
+msgstr "\"%s\" тепер в буфері обміну"
 
 #: ulng.rsmsgtitleextnotinfiletype
 msgid "Extension of selected file is not in any recognized file types"
-msgstr ""
+msgstr "Розширення вибраного файлу немає у визнаних типах файлів"
 
 #: ulng.rsmsgtoolbarerrornotsaved
 msgid "Error! Problem saving toolbar!"
-msgstr ""
+msgstr "Помилка! Проблеми збереження панелі інструментів!"
 
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
-msgstr ""
+msgstr "Знайдіть файл \".toolbar\" для імпорту"
 
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
-msgstr ""
+msgstr "Знайдіть файл \".BAR\" для імпорту"
 
 #: ulng.rsmsgtoolbarmodifiedwanttosave
 msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Панель інструментів було змінено. Зберегти перед виходом?"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
-msgstr ""
+msgstr "Введіть розташування і ім'я файла Панелі інструментів для відновлення"
 
 #: ulng.rsmsgtoolbarsaved
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"
 msgstr ""
+"Збережено!\n"
+"Назва панелі інструментів: %s\n"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -9870,7 +9892,7 @@ msgstr "Виділено надто багато файлів."
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
-msgstr ""
+msgstr "Невизначений"
 
 #: ulng.rsmsgurl
 msgid "URL:"
@@ -9878,11 +9900,11 @@ msgstr "URL:"
 
 #: ulng.rsmsguserdidnotsetextension
 msgid "<NO EXT>"
-msgstr ""
+msgstr "<NO EXT>"
 
 #: ulng.rsmsguserdidnotsetname
 msgid "<NO NAME>"
-msgstr ""
+msgstr "<NO EXT>"
 
 #: ulng.rsmsgusername
 msgid "User name:"
@@ -9898,7 +9920,7 @@ msgstr "Мітка диску:"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr "Будь-ласка, введіть розмір тому:"
+msgstr "Будь ласка, введіть розмір тому:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -9910,7 +9932,7 @@ msgstr "Стерти обраний \"%s\"?"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
-msgstr ""
+msgstr "з"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
@@ -9921,19 +9943,16 @@ msgid "Aborted"
 msgstr "Перервано"
 
 #: ulng.rsopercalculatingchecksum
-#, fuzzy
 #| msgid "Calculating check sum"
 msgid "Calculating checksum"
 msgstr "Розрахунок контрольної суми"
 
 #: ulng.rsopercalculatingchecksumin
-#, fuzzy
 #| msgid "Calculating check sum in \"%s\""
 msgid "Calculating checksum in \"%s\""
 msgstr "Розрахунок контрольної суми в \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
-#, fuzzy
 #| msgid "Calculating check sum of \"%s\""
 msgid "Calculating checksum of \"%s\""
 msgstr "Розрахунок контрольної суми  \"%s\""
@@ -10067,14 +10086,12 @@ msgid "Setting property"
 msgstr "Встановлення властивостей"
 
 #: ulng.rsopersettingpropertyin
-#, fuzzy
 msgid "Setting property in \"%s\""
-msgstr "Встановлення прав в \"%s\""
+msgstr "Встановлення властивостей в \"%s\""
 
 #: ulng.rsopersettingpropertyof
-#, fuzzy
 msgid "Setting property of \"%s\""
-msgstr "Встановлення прав \"%s\""
+msgstr "Встановлення властивостей на \"%s\""
 
 #: ulng.rsopersplitting
 msgid "Splitting"
@@ -10109,19 +10126,16 @@ msgid "Testing \"%s\""
 msgstr "Тестування \"%s\""
 
 #: ulng.rsoperverifyingchecksum
-#, fuzzy
 #| msgid "Verifying check sum"
 msgid "Verifying checksum"
 msgstr "Перевірка контрольної суми"
 
 #: ulng.rsoperverifyingchecksumin
-#, fuzzy
 #| msgid "Verifying check sum in \"%s\""
 msgid "Verifying checksum in \"%s\""
 msgstr "Перевірка контрольної суми в \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
-#, fuzzy
 #| msgid "Verifying check sum of \"%s\""
 msgid "Verifying checksum of \"%s\""
 msgstr "Перевірка контрольної суми \"%s\""
@@ -10152,7 +10166,7 @@ msgstr "Опрацювання"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at beginning;Add at the end;Smart add"
-msgstr ""
+msgstr "Додати на початку;Додати в кінці;Розумне додавання"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
@@ -10219,11 +10233,11 @@ msgstr "Першої колонки;Останньої колонки;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr ""
+msgstr "Класичне типове сортування;У алфавітному порядку (мова в першу чергу)"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr ""
+msgstr "Активна панель зліва, неактивна панель зправа (класично);Ліва панель - зліва, права зправа"
 
 #: ulng.rsoptdisable
 msgid "Disable"
@@ -10319,7 +10333,6 @@ msgid "Hotkeys"
 msgstr "Гарячі клавіші"
 
 #: ulng.rsopthotkeysnohotkey
-#, fuzzy
 msgid "<none>"
 msgstr "<none>"
 
@@ -10329,7 +10342,6 @@ msgid "Parameters"
 msgstr "Параметри"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
-#, fuzzy
 msgid "Set shortcut to delete file"
 msgstr "Встановити ярлик для видалення файлу"
 
@@ -10420,7 +10432,7 @@ msgstr "Кнопки дисків"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
-msgstr ""
+msgstr "Додаткові асоціації файлу"
 
 #: ulng.rsoptionseditorfileassoc
 msgctxt "ulng.rsoptionseditorfileassoc"
@@ -10449,7 +10461,7 @@ msgstr "Типи файлів"
 #: ulng.rsoptionseditorfoldertabs
 msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
-msgstr "Вкладки каталогів"
+msgstr "Вкладки тек"
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -10524,7 +10536,7 @@ msgstr "Панель інструментів"
 
 #: ulng.rsoptionseditortoolbarcomplement
 msgid "Complements"
-msgstr ""
+msgstr "Доповнення"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -10581,10 +10593,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Файли;&Каталоги;Файли &і каталоги"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
 #| msgid "&Hide filter panel when not focused"
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "&Приховати панель фільтру якщо не у фокусі"
+msgstr "&Приховати панель фільтру якщо не у фокусі; Зберігайте налаштування модифікацій до наступної сесії"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -10603,17 +10614,15 @@ msgid "Top;Bottom;"
 msgstr "Зверху;Знизу"
 
 #: ulng.rsopttoolbarbuttontype
-#, fuzzy
 #| msgid "Separator;Internal command;External command;Menu"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
-msgstr "Роздільник;Внутрішні команди;Зовнішні команди;Меню"
+msgstr "&Роздільник;&Внутрішні команди;&Зовнішні команди;&Меню"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr ""
+msgstr "Класичний DC - Copy (x) filename.ext;Windows - filename (x).ext;Інший - filename(x).ext"
 
 #: ulng.rsoptupdatedfilesposition
-#, fuzzy
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "не змінювати положення; використовувати ті ж налаштування, як для нових файлів; сортувати по позиції"
 
@@ -10677,10 +10686,9 @@ msgstr "Результати пошуку"
 
 #: ulng.rssearchstatus
 msgid "SEARCH"
-msgstr ""
+msgstr "Пошук"
 
 #: ulng.rssearchtemplateunnamed
-#, fuzzy
 msgid "<unnamed template>"
 msgstr "<безіменний шаблон>"
 
@@ -10700,43 +10708,41 @@ msgstr "Всім"
 
 #: ulng.rssimplewordcategory
 msgid "Category"
-msgstr ""
+msgstr "Категорії"
 
 #: ulng.rssimplewordcolumnsingular
 msgid "Column"
-msgstr ""
+msgstr "Колонка"
 
 #: ulng.rssimplewordcommand
-#, fuzzy
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Команди"
 
 #: ulng.rssimplewordfilename
 msgid "Filename"
-msgstr ""
+msgstr "Ім’я"
 
 #: ulng.rssimplewordfiles
 msgid "files"
-msgstr ""
+msgstr "файли"
 
 #: ulng.rssimplewordparameter
 msgid "Param"
-msgstr ""
+msgstr "Параметр"
 
 #: ulng.rssimplewordpreview
-#, fuzzy
 msgctxt "ulng.rssimplewordpreview"
 msgid "Preview"
 msgstr "Попередній перегляд"
 
 #: ulng.rssimplewordresult
 msgid "Result"
-msgstr ""
+msgstr "Результат"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
-msgstr ""
+msgstr "РобТека"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
@@ -10870,143 +10876,147 @@ msgstr "При помилці зверніться до розробників. 
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
-msgstr ""
+msgstr "Обидві панелі, з активної в неактивну"
 
 #: ulng.rsvarbothpanellefttoright
 msgid "Both panels, from left to right"
-msgstr ""
+msgstr "Обидві панелі, з лівої в праву"
 
 #: ulng.rsvarcurrentpath
 msgid "Path of panel"
-msgstr ""
+msgstr "Шлях до панелі"
 
 #: ulng.rsvarencloseelement
 msgid "Enclose each name in brackets or what you want"
-msgstr ""
+msgstr "Заключіть кожне ім’я у дужки чи у щось інше"
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
-msgstr ""
+msgstr "Тільки ім’я, без розширення"
 
 #: ulng.rsvarfullpath
 msgid "Complete filename (path+filename)"
-msgstr ""
+msgstr "Повне ім'я файлу (шлях + ім'я файлу)"
 
 #: ulng.rsvarhelpwith
 msgid "Help with \"%\" variables"
-msgstr ""
+msgstr "Допомога зі змінними \"%\""
 
 #: ulng.rsvarinputparam
+#, fuzzy
 msgid "Will request request user to enter a parameter with a default suggested value"
-msgstr ""
+msgstr "Буде пропонувати користувачу ввести необхідне значення параметра (типово)"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
-msgstr ""
+msgstr "Ліва панель"
 
 #: ulng.rsvarlistfilename
 msgid "Temporary filename of list of filenames"
-msgstr ""
+msgstr "Тимчасове ім'я списку імен файлів"
 
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
-msgstr ""
+msgstr "Тимчасове ім'я списку повних імен файлів (шлях + ім'я файлу)"
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"
-msgstr ""
+msgstr "Тимчасове ім'я списку імен файлів з відносними шляхами"
 
 #: ulng.rsvaronlyextension
 msgid "Only file extension"
-msgstr ""
+msgstr "Тільки розширення файлу"
 
 #: ulng.rsvaronlyfilename
 msgid "Only filename"
-msgstr ""
+msgstr "Тільки ім’я файлу"
 
 #: ulng.rsvarotherexamples
 msgid "Other example of what's possible"
-msgstr ""
+msgstr "Інший приклад можливостей"
 
 #: ulng.rsvarpath
 msgid "Path, with ending delimiter"
-msgstr ""
+msgstr "Шлях з  роздільником в кінці"
 
 #: ulng.rsvarpercentchangetopound
+#, fuzzy
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
-msgstr ""
+msgstr "Звідси і до кінця рядка, індикатор відсотків змінної знак - \"#\""
 
 #: ulng.rsvarpercentsign
 msgid "Return the percent sign"
-msgstr ""
+msgstr "Повернути знак відсотків"
 
 #: ulng.rsvarpoundchangetopercent
+#, fuzzy
 msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
-msgstr ""
+msgstr "Звідси до кінця рядка, індикатор відсотків змінної повертається знак - \"%\""
 
 #: ulng.rsvarprependelement
+#, fuzzy
 msgid "Prepend each name with \"-a \" or what you want"
-msgstr ""
+msgstr "Попередньо очікуйте кожне ім’я з \"-a \" чи чого хочете"
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
-msgstr ""
+msgstr "%[Запитувати користувача;Пропонувати типове значення]"
 
 #: ulng.rsvarrelativepathandfilename
 msgid "Filename with relative path"
-msgstr ""
+msgstr "Ім’я файлу з відносним шляхом"
 
 #: ulng.rsvarrightpanel
 msgid "Right panel"
-msgstr ""
+msgstr "Права панель"
 
 #: ulng.rsvarsecondelementrightpanel
 msgid "Full path of second selected file in right panel"
-msgstr ""
+msgstr "Повний шлях другого вибраного файлу в правій панелі"
 
 #: ulng.rsvarshowcommandprior
 msgid "Show command prior execute"
-msgstr ""
+msgstr "Показати команду до виконання"
 
 #: ulng.rsvarsimplemessage
 msgid "%[Simple message]"
-msgstr ""
+msgstr "%[Просте повідомлення]"
 
 #: ulng.rsvarsimpleshowmessage
 msgid "Will show a simple message"
-msgstr ""
+msgstr "Покаже просте повідомлення"
 
 #: ulng.rsvarsourcepanel
 msgid "Active panel (source)"
-msgstr ""
+msgstr "Активна панель (джерело)"
 
 #: ulng.rsvartargetpanel
 msgid "Inactive panel (target)"
-msgstr ""
+msgstr "Неактивна панель (ціль)"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
-msgstr ""
+msgstr "Імена файлів будуть братися у лапки тут (типово)"
 
 #: ulng.rsvarwilldointerminal
 msgid "Command will be done in terminal, remaining opened at the end"
-msgstr ""
+msgstr "Команда буде виконана в терміналі, залишаючись відкритою в кінці"
 
 #: ulng.rsvarwillhaveendingdelimiter
 msgid "Paths will have ending delimiter"
-msgstr ""
+msgstr "Шлях буде завершуватися роздільником"
 
 #: ulng.rsvarwillnotbequoted
 msgid "Filenames will not be quoted from here"
-msgstr ""
+msgstr "Імена файлів не будуть братися тут у лапки"
 
 #: ulng.rsvarwillnotdointerminal
 msgid "Command will be done in terminal, closed at the end"
-msgstr ""
+msgstr "Команда буде виконана в терміналі, закритому в кінці"
 
 #: ulng.rsvarwillnothaveendingdelimiter
 msgid "Paths will not have ending delimiter (default)"
-msgstr ""
+msgstr "Шлях не буде завершуватися роздільником (типово)"
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
@@ -11028,17 +11038,17 @@ msgstr "%s не знайдено!"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
-msgstr ""
+msgstr "у зовнішньому переглядачі"
 
 #: ulng.rsviewwithinternalviewer
 msgid "with internal viewer"
-msgstr ""
+msgstr "у внутрішньому переглядачі"
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
-msgstr ""
+msgstr "Кількість замін: %d"
 
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
-msgstr ""
+msgstr "Заміна не відбулася."
 
