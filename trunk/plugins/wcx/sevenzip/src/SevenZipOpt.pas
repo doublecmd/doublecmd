@@ -199,7 +199,7 @@ var
 implementation
 
 uses
-  ActiveX;
+  ActiveX, SevenZipAdv;
 
 function GetNumberOfProcessors: LongWord;
 var
@@ -373,6 +373,7 @@ begin
     Ini:= TIniFile.Create(ConfigFile);
     try
       LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
+      LibraryPath:= UTF8Encode(ExpandEnvironmentStrings(UTF8Decode(LibraryPath)));
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);

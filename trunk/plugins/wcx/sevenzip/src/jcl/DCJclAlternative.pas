@@ -262,7 +262,7 @@ end;
 
 class function JclSysUtils.LoadModule(var Module: TModuleHandle; FileName: String): Boolean;
 begin
-  Module:= LoadLibrary(PAnsiChar(FileName));
+  Module:= LoadLibraryW(PWideChar(UTF8Decode(FileName)));
   Result:= Module <> INVALID_MODULEHANDLE_VALUE;
 end;
 
