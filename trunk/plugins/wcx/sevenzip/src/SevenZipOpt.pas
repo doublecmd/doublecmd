@@ -168,6 +168,9 @@ procedure SetArchiveOptions(AJclArchive: IInterface);
 procedure LoadConfiguration;
 procedure SaveConfiguration;
 
+const
+  DefaultIniName = 'sevenzip.ini';
+
 var
   ConfigFile: AnsiString;
   LibraryPath: AnsiString;
