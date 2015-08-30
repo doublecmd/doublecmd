@@ -56,10 +56,7 @@ type
 implementation
 {$R-}{$Q-}
 
-function LRot32(a, b: longword): longword;
-begin
-  Result:= (a shl b) or (a shr (32-b));
-end;
+{$macro on}{$define LRot32:=RolDWord}
 
 procedure TDCP_md5.Compress;
 var
