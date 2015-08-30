@@ -75,6 +75,7 @@ function FindCompressFormats(const AFileName: TFileName): TJclCompressArchiveCla
 function FindDecompressFormats(const AFileName: TFileName): TJclDecompressArchiveClassArray;
 
 function GetNestedArchiveName(const ArchiveName: UTF8String; Item: TJclCompressionItem): WideString;
+function ExpandEnvironmentStrings(const FileName: UnicodeString): UnicodeString;
 function WideExtractFilePath(const FileName: WideString): WideString;
 function GetModulePath(out ModulePath: AnsiString): Boolean;
 
@@ -432,6 +433,15 @@ begin
   end;
 end;
 
+function ExpandEnvironmentStrings(const FileName: UnicodeString): UnicodeString;
+var
+  dwSize: DWORD;
+begin
+  SetLength(Result, MAX_PATH + 1);
+  dwSize:= ExpandEnvironmentStringsW(PWideChar(FileName), PWideChar(Result), MAX_PATH);
+  if dwSize > 0 then SetLength(Result, dwSize - 1);
+end;
+
 function WideExtractFilePath(const FileName: WideString): WideString;
 var
   Index: Integer;
@@ -446,19 +456,15 @@ end;
 function GetModulePath(out ModulePath: AnsiString): Boolean;
 var
   lpBuffer: TMemoryBasicInformation;
-  ModuleName, ShortName: array[0..MAX_PATH] of WideChar;
+  ModuleName: array[0..MAX_PATH] of WideChar;
 begin
   Result:= VirtualQuery(@GetModulePath, @lpBuffer, SizeOf(lpBuffer)) = SizeOf(lpBuffer);
   if Result then
   begin
-    ModuleName[0]:= #0;
     Result:= GetModuleFileNameW(THandle(lpBuffer.AllocationBase), ModuleName, MAX_PATH) > 0;
     if Result then
     begin
-      if GetShortPathNameW(ModuleName, ShortName, MAX_PATH) > 0 then
-        ModulePath:= ExtractFilePath(WideString(ShortName))
-      else
-        ModulePath:= ExtractFilePath(WideString(ModuleName));
+      ModulePath:= ExtractFilePath(UTF8Encode(WideString(ModuleName)));
     end;
   end;
 end;

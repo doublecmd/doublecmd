@@ -413,13 +413,13 @@ begin
   // Load plugin configuration
   LoadConfiguration;
   // Try to find library path
-  if FileExists(LibraryPath) then
+  if FileExistsUTF8(LibraryPath) then
     SevenzipLibraryName:= LibraryPath
   else if GetModulePath(ModulePath) then
   begin
-    if FileExists(ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName) then
+    if FileExistsUTF8(ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName) then
       SevenzipLibraryName:= ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName
-    else if FileExists(ModulePath + SevenzipDefaultLibraryName) then begin
+    else if FileExistsUTF8(ModulePath + SevenzipDefaultLibraryName) then begin
       SevenzipLibraryName:= ModulePath + SevenzipDefaultLibraryName;
     end;
   end;
