@@ -409,13 +409,20 @@ var
   ModulePath: AnsiString;
 begin
   // Save configuration file name
-  ConfigFile:= ExtractFilePath(dps^.DefaultIniName) + 'sevenzip.ini';
+  ConfigFile:= ExtractFilePath(dps^.DefaultIniName) + DefaultIniName;
+  // Get plugin path
+  if GetModulePath(ModulePath) then
+  begin
+    // Use configuration from plugin path
+    if FileExistsUTF8(ModulePath + DefaultIniName) then
+      ConfigFile:= ModulePath + DefaultIniName;
+  end;
   // Load plugin configuration
   LoadConfiguration;
   // Try to find library path
   if FileExistsUTF8(LibraryPath) then
     SevenzipLibraryName:= LibraryPath
-  else if GetModulePath(ModulePath) then
+  else if Length(ModulePath) > 0 then
   begin
     if FileExistsUTF8(ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName) then
       SevenzipLibraryName:= ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName
