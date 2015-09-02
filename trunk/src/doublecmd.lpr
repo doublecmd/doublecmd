@@ -25,6 +25,7 @@ uses
   SysUtils,
   Forms,
   LCLVersion,
+  Math,
   {$IF DEFINED(NIGHTLY_BUILD)}
   un_lineinfo,
   {$ENDIF}
@@ -71,6 +72,9 @@ begin
 
   // Initialize random number generator
   Randomize;
+
+  // Disable invalid floating point operation exception
+  SetExceptionMask(GetExceptionMask + [exInvalidOp]);
 
   {$IF DEFINED(NIGHTLY_BUILD)}
   InitLineInfo;
