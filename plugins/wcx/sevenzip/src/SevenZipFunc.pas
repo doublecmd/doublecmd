@@ -49,7 +49,7 @@ implementation
 
 uses
   JwaWinBase, Windows, SysUtils, Classes, JclCompression, SevenZip, SevenZipAdv,
-  SevenZipDlg, SevenZipLng, SevenZipOpt, LazFileUtils, SyncObjs;
+  SevenZipDlg, SevenZipLng, SevenZipOpt, LazFileUtils, SyncObjs, LazUTF8;
 
 type
 
@@ -415,7 +415,7 @@ begin
   begin
     // Use configuration from plugin path
     if FileExistsUTF8(ModulePath + DefaultIniName) then
-      ConfigFile:= ModulePath + DefaultIniName;
+      ConfigFile:= UTF8ToSys(ModulePath) + DefaultIniName;
   end;
   // Load plugin configuration
   LoadConfiguration;
