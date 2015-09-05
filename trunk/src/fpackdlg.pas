@@ -340,7 +340,7 @@ begin
       until False;
     end;
 
-    if (rgPacker.Items.Count > 0) and (rgPacker.ItemIndex < 0) then
+    if (rgPacker.Items.Count > 0) and (rgPacker.ItemIndex < 0) and (not cbOtherPlugins.Checked) then
       rgPacker.ItemIndex := 0;
     if cbPackerList.Items.Count > 0 then
       begin
@@ -561,7 +561,10 @@ begin
     begin
       iIndex := cbPackerList.Items.Add(ArcType);
       if (gLastUsedPacker = ArcType) or (FExistsArchive and (FileExt = ArcType)) then
+      begin
         cbPackerList.ItemIndex := iIndex;
+        cbOtherPlugins.Checked := True;
+      end;
     end;
 end;
 
