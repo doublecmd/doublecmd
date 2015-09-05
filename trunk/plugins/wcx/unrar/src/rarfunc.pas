@@ -41,7 +41,7 @@ var
 implementation
 
 uses
-  Process, DCProcessUtf8, UnRARFunc, RarConfDlg;
+  Process, DCProcessUtf8, DCOSUtils, UnRARFunc, RarConfDlg;
 
 const
   UTF16LEBOM: WideChar = #$FEFF;
@@ -110,7 +110,7 @@ var
 begin
   Process := TProcessUtf8.Create(nil);
   try
-    Process.Executable:= WinRar;
+    Process.Executable:= mbExpandEnvironmentStrings(WinRar);
     Process.Parameters.Add('d');
     Process.Parameters.Add('-c-');
     Process.Parameters.Add('-r-');
@@ -156,7 +156,7 @@ var
 begin
   Process := TProcessUtf8.Create(nil);
   try
-    Process.Executable:= WinRar;
+    Process.Executable:= mbExpandEnvironmentStrings(WinRar);
     if (Flags and PK_PACK_MOVE_FILES <> 0) then
       Process.Parameters.Add('m')
     else begin

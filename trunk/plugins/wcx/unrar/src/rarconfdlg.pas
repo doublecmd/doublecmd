@@ -13,11 +13,11 @@ procedure CreateRarConfDlg;
 
 var
   Args: String;
-  WinRar: String;
   Method: Integer;
   Recovery: Boolean;
   Encrypt: Boolean;
   Solid: Boolean;
+  WinRar: String = '%ProgramFiles%\WinRAR\WinRAR.exe';
 
 implementation
 
@@ -34,7 +34,7 @@ begin
     gIni:= TIniFile.Create(IniFileName);
     try
       Args:= gIni.ReadString('unrar', 'Args', EmptyStr);
-      WinRar:= gIni.ReadString('unrar', 'Path', EmptyStr);
+      WinRar:= gIni.ReadString('unrar', 'Path', WinRar);
       Method:= gIni.ReadInteger('unrar', 'Method', 3);
       Recovery:= gIni.ReadBool('unrar', 'Recovery', False);
       Encrypt:= gIni.ReadBool('unrar', 'Encrypt', False);
