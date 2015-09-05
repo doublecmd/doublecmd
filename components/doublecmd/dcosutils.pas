@@ -173,6 +173,11 @@ function mbCompareFileNames(const FileName1, FileName2: UTF8String): Boolean;
 function mbSameFile(const FileName1, FileName2: String): Boolean;
 { Other functions }
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
+{en
+   Expands environment-variable strings and replaces
+   them with the values defined for the current user
+}
+function mbExpandEnvironmentStrings(const FileName: String): String;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 function mbLoadLibrary(const Name: UTF8String): TLibHandle;
 function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
@@ -1287,6 +1292,42 @@ end;
 {$ELSE}
 begin
   Result:= SysToUTF8(GetEnvironmentString(Index));
+end;
+{$ENDIF}
+
+function mbExpandEnvironmentStrings(const FileName: String): String;
+{$IF DEFINED(MSWINDOWS)}
+var
+  dwSize: DWORD;
+  wsResult: UnicodeString;
+begin
+  SetLength(wsResult, MAX_PATH + 1);
+  dwSize:= ExpandEnvironmentStringsW(PWideChar(UTF8Decode(FileName)), PWideChar(wsResult), MAX_PATH);
+  if (dwSize = 0) or (dwSize > MAX_PATH) then
+    Result:= FileName
+  else begin
+    SetLength(wsResult, dwSize - 1);
+    Result:= UTF8Encode(wsResult);
+  end;
+end;
+{$ELSE}
+var
+  Index: Integer = 1;
+  EnvCnt, EqualPos: Integer;
+  EnvVar, EnvName, EnvValue: String;
+begin
+  Result:= FileName;
+  EnvCnt:= GetEnvironmentVariableCount;
+  while (Index <= EnvCnt) and (Pos('$', Result) > 0) do
+  begin
+    EnvVar:= mbGetEnvironmentString(Index);
+    EqualPos:= Pos('=', EnvVar);
+    if EqualPos = 0 then Continue;
+    EnvName:= Copy(EnvVar, 1, EqualPos - 1);
+    EnvValue:= Copy(EnvVar, EqualPos + 1, MaxInt);
+    Result:= StringReplace(Result, '$' + EnvName, EnvValue, [rfReplaceAll, rfIgnoreCase]);
+    Inc(Index);
+  end;
 end;
 {$ENDIF}
 

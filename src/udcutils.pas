@@ -271,8 +271,7 @@ end;
 
 function ReplaceEnvVars(const sText: String): String;
 var
-  I, X, EqualPos: Integer;
-  EnvVar, EnvName, EnvValue: String;
+  I: Integer;
   MyYear, MyMonth, MyDay:word;
 begin
   Result:= sText;
@@ -319,24 +318,12 @@ begin
   end;
 
   //6th, if we don't have variable indication anymore, (% in windows for example), get out of here here, quick
-  if pos(VARDELIMITER, sText)=0 then Exit;
+  if pos(VARDELIMITER, sText) = 0 then Exit;
 
   //7th, if still we have variable there, let's scan through the environment variable.
   //     We got them in the "gSpecialDirList" but just in case some others were added on-the-fly
   //     between the moment the application started and the moment we might needed them
-  X:= GetEnvironmentVariableCount;
-  if X = 0 then Exit; //In the ridiculous possible situation where there is ZERO environment variable...
-  I:=1;
-  while (I<=X) AND (pos(VARDELIMITER,sText)<>0) do
-  begin
-    EnvVar:= mbGetEnvironmentString(I);
-    EqualPos:= PosEx('=', EnvVar, 2);
-    if EqualPos = 0 then Continue;
-    EnvName:= Copy(EnvVar, 1, EqualPos - 1);
-    EnvValue:= Copy(EnvVar, EqualPos + 1, MaxInt);
-    Result:= StringReplace(Result, VARDELIMITER + EnvName + VARDELIMITER_END, EnvValue, [rfReplaceAll, rfIgnoreCase]);
-    inc(I);
-  end;
+  Result:= mbExpandEnvironmentStrings(Result);
 end;
 
 function ReplaceTilde(const Path: String): String;
