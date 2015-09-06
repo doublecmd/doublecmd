@@ -32,13 +32,14 @@ uses
 
 type
   THashContext   = TDCP_hash;
-  THashAlgorithm = (HASH_HAVAL, HASH_MD4, HASH_MD5, HASH_RIPEMD128, HASH_RIPEMD160,
-                    HASH_SFV, HASH_SHA1, HASH_SHA256, HASH_SHA384, HASH_SHA512, HASH_TIGER
+  THashAlgorithm = (HASH_CRC32, HASH_HAVAL, HASH_MD4, HASH_MD5, HASH_RIPEMD128,
+                    HASH_RIPEMD160, HASH_SFV, HASH_SHA1, HASH_SHA256, HASH_SHA384,
+                    HASH_SHA512, HASH_TIGER
                     );
 
 var
   HashFileExt: array[THashAlgorithm] of String = (
-                 'haval', 'md4', 'md5', 'ripemd128', 'ripemd160',
+                 'crc32', 'haval', 'md4', 'md5', 'ripemd128', 'ripemd160',
                  'sfv', 'sha', 'sha256', 'sha384', 'sha512', 'tiger'
                );
 
@@ -55,18 +56,19 @@ function FileExtToHashAlg(const FileExt: String): THashAlgorithm;
 implementation
 
 uses
-  DCPhaval, DCPmd4, DCPmd5, DCPripemd128, DCPripemd160, DCPsfv, DCPsha1,
+  DCPhaval, DCPmd4, DCPmd5, DCPripemd128, DCPripemd160, DCPcrc32, DCPsha1,
   DCPsha256, DCPsha512, DCPtiger;
 
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 begin
   case Algorithm of
+    HASH_CRC32:      Context:= TDCP_crc32.Create(nil);
     HASH_HAVAL:      Context:= TDCP_haval.Create(nil);
     HASH_MD4:        Context:= TDCP_md4.Create(nil);
     HASH_MD5:        Context:= TDCP_md5.Create(nil);
     HASH_RIPEMD128:  Context:= TDCP_ripemd128.Create(nil);
     HASH_RIPEMD160:  Context:= TDCP_ripemd160.Create(nil);
-    HASH_SFV:        Context:= TDCP_sfv.Create(nil);
+    HASH_SFV:        Context:= TDCP_crc32.Create(nil);
     HASH_SHA1:       Context:= TDCP_sha1.Create(nil);
     HASH_SHA256:     Context:= TDCP_sha256.Create(nil);
     HASH_SHA384:     Context:= TDCP_sha384.Create(nil);
