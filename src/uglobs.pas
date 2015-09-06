@@ -309,6 +309,7 @@ var
 
   { File operations page }
   gCopyBlockSize : Integer;
+  gHashBlockSize : Integer;
   gUseMmapInSearch : Boolean;
   gPartialNameSearch: Boolean;
   gSkipFileOpError: Boolean;
@@ -1238,6 +1239,7 @@ begin
 
   { File operations page }
   gCopyBlockSize := 524288;
+  gHashBlockSize := 8388608;
   gUseMmapInSearch := False;
   gPartialNameSearch := True;
   gWipePassNumber := 1;
@@ -2259,6 +2261,7 @@ begin
     if Assigned(Node) then
     begin
       gCopyBlockSize := GetValue(Node, 'BufferSize', gCopyBlockSize);
+      gHashBlockSize := GetValue(Node, 'HashBufferSize', gHashBlockSize);
       gUseMmapInSearch := GetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
       gPartialNameSearch := GetValue(Node, 'PartialNameSearch', gPartialNameSearch);
       gWipePassNumber := GetValue(Node, 'WipePassNumber', gWipePassNumber);
@@ -2693,6 +2696,7 @@ begin
     { File operations page }
     Node := FindNode(Root, 'FileOperations', True);
     SetValue(Node, 'BufferSize', gCopyBlockSize);
+    SetValue(Node, 'HashBufferSize', gHashBlockSize);
     SetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
     SetValue(Node, 'PartialNameSearch', gPartialNameSearch);
     SetValue(Node, 'WipePassNumber', gWipePassNumber);
