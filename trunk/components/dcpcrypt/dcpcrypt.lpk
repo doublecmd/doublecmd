@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="dcpcrypt"/>
@@ -25,7 +25,6 @@
       </Linking>
       <Other>
         <CustomOptions Value="-Xd"/>
-        <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
     <Description Value="DCPcrypt Cryptographic Component Library
@@ -34,7 +33,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="18">
+    <Files Count="19">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -100,13 +99,17 @@ www.cityinthesky.co.uk/cryptography.html
         <Type Value="Include"/>
       </Item16>
       <Item17>
-        <Filename Value="Hashes/dcpsfv.pas"/>
-        <UnitName Value="DCPsfv"/>
+        <Filename Value="Hashes/dcpcrc32.pas"/>
+        <UnitName Value="DCPcrc32"/>
       </Item17>
       <Item18>
         <Filename Value="Hashes/DCPtiger.inc"/>
         <Type Value="Include"/>
       </Item18>
+      <Item19>
+        <Filename Value="Hashes/dccrc32.pp"/>
+        <UnitName Value="DCcrc32"/>
+      </Item19>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>
