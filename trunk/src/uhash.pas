@@ -32,15 +32,16 @@ uses
 
 type
   THashContext   = TDCP_hash;
-  THashAlgorithm = (HASH_CRC32, HASH_HAVAL, HASH_MD4, HASH_MD5, HASH_RIPEMD128,
-                    HASH_RIPEMD160, HASH_SFV, HASH_SHA1, HASH_SHA256, HASH_SHA384,
-                    HASH_SHA512, HASH_TIGER
+  THashAlgorithm = (HASH_BLAKE2S, HASH_BLAKE2SP, HASH_CRC32, HASH_HAVAL, HASH_MD4,
+                    HASH_MD5, HASH_RIPEMD128, HASH_RIPEMD160, HASH_SFV, HASH_SHA1,
+                    HASH_SHA256, HASH_SHA384, HASH_SHA512, HASH_TIGER
                     );
 
 var
   HashFileExt: array[THashAlgorithm] of String = (
-                 'crc32', 'haval', 'md4', 'md5', 'ripemd128', 'ripemd160',
-                 'sfv', 'sha', 'sha256', 'sha384', 'sha512', 'tiger'
+                 'blake2s', 'blake2sp', 'crc32', 'haval', 'md4', 'md5',
+                 'ripemd128', 'ripemd160', 'sfv', 'sha', 'sha256', 'sha384',
+                 'sha512', 'tiger'
                );
 
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
@@ -57,11 +58,13 @@ implementation
 
 uses
   DCPhaval, DCPmd4, DCPmd5, DCPripemd128, DCPripemd160, DCPcrc32, DCPsha1,
-  DCPsha256, DCPsha512, DCPtiger;
+  DCPsha256, DCPsha512, DCPtiger, DCPblake2;
 
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 begin
   case Algorithm of
+    HASH_BLAKE2S:    Context:= TDCP_blake2s.Create(nil);
+    HASH_BLAKE2SP:   Context:= TDCP_blake2sp.Create(nil);
     HASH_CRC32:      Context:= TDCP_crc32.Create(nil);
     HASH_HAVAL:      Context:= TDCP_haval.Create(nil);
     HASH_MD4:        Context:= TDCP_md4.Create(nil);
