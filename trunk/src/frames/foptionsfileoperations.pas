@@ -52,9 +52,11 @@ type
     cmbTypeOfDuplicatedRename: TComboBoxAutoWidth;
     dbTextSearch: TDividerBevel;
     edtBufferSize: TEdit;
+    edtHashBufferSize: TEdit;
     gbUserInterface: TGroupBox;
     gbFileSearch: TGroupBox;
     gbExecutingOperations: TGroupBox;
+    lblHashBufferSize: TLabel;
     lblTypeOfDuplicatedRename: TLabel;
     lblSearchDefaultTemplate: TLabel;
     lblBufferSize: TLabel;
@@ -129,6 +131,7 @@ begin
   FLoading := True;
 
   edtBufferSize.Text               := IntToStr(gCopyBlockSize div 1024);
+  edtHashBufferSize.Text           := IntToStr(gHashBlockSize div 1024);
   cbSkipFileOpError.Checked        := gSkipFileOpError;
   cbDropReadOnlyFlag.Checked       := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked        := gUseMmapInSearch;
@@ -162,7 +165,8 @@ function TfrmOptionsFileOperations.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 
-  gCopyBlockSize          := StrToIntDef(edtBufferSize.Text, gCopyBlockSize) * 1024;
+  gCopyBlockSize          := StrToIntDef(edtBufferSize.Text, gCopyBlockSize div 1024) * 1024;
+  gHashBlockSize          := StrToIntDef(edtHashBufferSize.Text, gHashBlockSize div 1024) * 1024;
   gSkipFileOpError        := cbSkipFileOpError.Checked;
   gDropReadOnlyFlag       := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch        := rbUseMmapInSearch.Checked;
