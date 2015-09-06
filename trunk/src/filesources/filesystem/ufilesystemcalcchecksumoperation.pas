@@ -274,6 +274,11 @@ var
 begin
   for I := 0 to FCheckSumFile.Count - 1 do
   begin
+    // Skip empty lines
+    if (Length(FCheckSumFile[I]) = 0) then Continue;
+    // Skip comments
+    if (FCheckSumFile[I][1] = ';') then Continue;
+
     FileName := Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt);
 
     AddFile(Path, FileName, FCheckSumFile.Names[I]);
