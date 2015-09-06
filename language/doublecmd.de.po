@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-07-07 19:50+0100\n"
+"PO-Revision-Date: 2015-09-07 20:10+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -264,7 +264,7 @@ msgstr "Besitzer k&opieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
 msgid "Copy &permissions"
-msgstr ""
+msgstr "Berechtigungen ko&pieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 #, fuzzy
@@ -9479,7 +9479,7 @@ msgstr "Soll DoubleCommander wirklich beendet werden?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr ""
+msgstr "Zurückkopieren nicht möglich - ssoll die veränderte Datei behalten werden?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -9663,7 +9663,7 @@ msgstr "Kann Besitzer/Gruppe für \"%s\" nicht erstellen"
 
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
-msgstr ""
+msgstr "Berechtigungen für \"%s\" können nicht gesetzt werden"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
