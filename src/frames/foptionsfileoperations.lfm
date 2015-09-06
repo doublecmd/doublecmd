@@ -165,7 +165,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 163
+    Height = 190
     Top = 280
     Width = 722
     Anchors = [akTop, akLeft, akRight]
@@ -178,7 +178,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 143
+    ClientHeight = 170
     ClientWidth = 718
     TabOrder = 1
     object lblBufferSize: TLabel
@@ -212,7 +212,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideBottom.Side = asrBottom
       Left = 10
       Height = 15
-      Top = 41
+      Top = 68
       Width = 126
       BorderSpacing.Bottom = 10
       Caption = '&Number of wipe passes:'
@@ -222,13 +222,13 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     object seWipePassNumber: TSpinEdit
       AnchorSideLeft.Control = lblWipePassNumber
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = edtBufferSize
+      AnchorSideTop.Control = edtHashBufferSize
       AnchorSideTop.Side = asrBottom
       Left = 140
       Height = 23
-      Top = 37
+      Top = 64
       Width = 50
-      TabOrder = 1
+      TabOrder = 2
     end
     object cbProcessComments: TCheckBox
       AnchorSideLeft.Control = lblBufferSize
@@ -236,10 +236,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 64
+      Top = 91
       Width = 211
       Caption = '&Process comments with files/folders'
-      TabOrder = 2
+      TabOrder = 3
     end
     object cbSkipFileOpError: TCheckBox
       AnchorSideLeft.Control = lblBufferSize
@@ -247,10 +247,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 87
+      Top = 114
       Width = 315
       Caption = 'S&kip file operations errors and write them to log window'
-      TabOrder = 3
+      TabOrder = 4
     end
     object lblTypeOfDuplicatedRename: TLabel
       AnchorSideLeft.Control = cbSkipFileOpError
@@ -258,7 +258,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideTop.Side = asrCenter
       Left = 10
       Height = 15
-      Top = 114
+      Top = 141
       Width = 192
       Caption = 'Duplicated name auto-rename style:'
       ParentColor = False
@@ -271,7 +271,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       AnchorSideRight.Side = asrBottom
       Left = 206
       Height = 23
-      Top = 110
+      Top = 137
       Width = 100
       BorderSpacing.Top = 4
       ItemHeight = 15
@@ -281,7 +281,32 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
         'Other - filename(x).ext'
       )
       Style = csDropDownList
-      TabOrder = 4
+      TabOrder = 5
+    end
+    object edtHashBufferSize: TEdit
+      AnchorSideLeft.Control = lblHashBufferSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edtBufferSize
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Side = asrCenter
+      Left = 216
+      Height = 23
+      Top = 37
+      Width = 80
+      TabOrder = 1
+    end
+    object lblHashBufferSize: TLabel
+      AnchorSideLeft.Control = gbExecutingOperations
+      AnchorSideTop.Control = edtHashBufferSize
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 15
+      Top = 41
+      Width = 202
+      BorderSpacing.Bottom = 10
+      Caption = 'Buffer size for &hash calculation (in KB):'
+      FocusControl = edtHashBufferSize
+      ParentColor = False
     end
   end
   object gbFileSearch: TGroupBox[2]
@@ -292,7 +317,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 143
-    Top = 449
+    Top = 476
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -314,7 +339,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Top = 75
       Width = 252
       Caption = 'Use memory mapping for search te&xt in files'
-      TabOrder = 0
+      TabOrder = 2
     end
     object rbUseStreamInSearch: TRadioButton
       AnchorSideLeft.Control = rbUseMmapInSearch
@@ -327,7 +352,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       BorderSpacing.Top = 6
       Caption = '&Use stream for search text in files'
       Checked = True
-      TabOrder = 1
+      TabOrder = 3
       TabStop = True
     end
     object cbPartialNameSearch: TCheckBox
@@ -339,7 +364,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Width = 163
       BorderSpacing.Top = 6
       Caption = '&Search for part of file name'
-      TabOrder = 2
+      TabOrder = 0
     end
     object dbTextSearch: TDividerBevel
       AnchorSideLeft.Control = gbFileSearch
@@ -377,7 +402,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       BorderSpacing.Left = 6
       ItemHeight = 15
       Style = csDropDownList
-      TabOrder = 3
+      TabOrder = 1
     end
   end
 end
