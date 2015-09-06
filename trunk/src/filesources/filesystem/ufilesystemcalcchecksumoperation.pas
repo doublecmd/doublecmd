@@ -129,7 +129,7 @@ begin
       InitializeVerifyMode;
   end;
 
-  FBufferSize := gCopyBlockSize;
+  FBufferSize := gHashBlockSize;
   GetMem(FBuffer, FBufferSize);
 end;
 
