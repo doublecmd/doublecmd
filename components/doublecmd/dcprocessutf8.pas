@@ -119,7 +119,7 @@ begin
   TA.nLength := SizeOf(TA);
 end;
 
-procedure InitStartupInfo(P: TProcess; var SI: TStartupInfoW);
+procedure InitStartupInfo(P: TProcess; var SI: STARTUPINFO);
 const
   SWC: array [TShowWindowOptions] of Cardinal =
     (0, SW_HIDE, SW_Maximize, SW_Minimize, SW_Restore, SW_Show,
@@ -172,7 +172,7 @@ begin
 end;
 
 
-procedure CreatePipes(var HI, HO, HE: THandle; var SI: TStartupInfoW;
+procedure CreatePipes(var HI, HO, HE: THandle; var SI: TStartupInfo;
   CE: Boolean; APipeBufferSize: Cardinal);
 begin
   CreatePipeHandles(SI.hStdInput, HI, APipeBufferSize);
@@ -218,7 +218,7 @@ var
   FProcessAttributes: TSecurityAttributes;
   FThreadAttributes: TSecurityAttributes;
   FProcessInformation: TProcessInformation;
-  FStartupInfo: TStartupInfoW;
+  FStartupInfo: STARTUPINFO;
   HI, HO, HE: THandle;
   Cmd: String;
 begin
@@ -288,4 +288,4 @@ end;
 {$ENDIF}
 
 end.
-
+
