@@ -150,6 +150,8 @@ begin
     FCallbackDataClass.UpdateProgressFunction:= nil;
     UpdateProgressFunction:= nil;
   end;
+  FileExistsOption := FOperationHelper.FileExistsOption;
+  FOperationHelper.Free;
 end;
 
 class function TWfxPluginMoveOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
