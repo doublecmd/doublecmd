@@ -200,6 +200,7 @@ end;
 
 procedure TFileSystemCopyOperation.Finalize;
 begin
+  FileExistsOption := FOperationHelper.FileExistsOption;
   FreeAndNil(FOperationHelper);
 end;
 

@@ -133,6 +133,7 @@ end;
 
 procedure TGioCopyOperation.Finalize;
 begin
+  FileExistsOption := FOperationHelper.FileExistsOption;
   FOperationHelper.Free;
 end;
 
