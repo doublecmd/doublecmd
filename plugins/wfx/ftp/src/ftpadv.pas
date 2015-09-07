@@ -85,6 +85,7 @@ type
   public
     constructor Create; reintroduce;
     function Login: Boolean; override;
+    procedure ParseRemote(Value: string); override;
     function List(Directory: String; NameList: Boolean): Boolean; override;
     function SetTime(const FileName: String; FileTime: TDateTime): Boolean;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
@@ -95,7 +96,7 @@ type
 implementation
 
 uses
-  LazUTF8, FtpFunc;
+  LazUTF8, FtpFunc, FtpUtils;
 
 function Dummy(const S: String): String;
 begin
@@ -216,6 +217,20 @@ begin
         ServerToClient:= @UTF8ToSys;
       end;
     end;
+  end;
+end;
+
+procedure TFTPSendEx.ParseRemote(Value: string);
+var
+  RemoteIP: String;
+begin
+  inherited ParseRemote(Value);
+  RemoteIP:= FSock.GetRemoteSinIP;
+  if FDataIP = '0.0.0.0' then FDataIP:= RemoteIP
+  else if IsIpPrivate(FDataIP) and (IsIpPrivate(RemoteIP) = False) then
+  begin
+    FDataIP:= RemoteIP;
+    DoStatus(False, 'Server reports local IP -> Redirect to: ' + FDataIP);
   end;
 end;
 

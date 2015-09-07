@@ -72,6 +72,8 @@ const
 const
   ftpProtocol = 'ftp://';
 
+function IsIpPrivate(Value: String): Boolean;
+
 function ModeStr2Mode(const sMode: String): Integer;
 
 function EncodeBase64(Data: AnsiString): AnsiString;
@@ -89,13 +91,54 @@ function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 implementation
 
 uses
-  Base64
+  Base64, synautil
   {$IFDEF MSWINDOWS}
   , Windows
   {$ELSE}
   , UnixUtil
   {$ENDIF}
   ;
+
+function StrToIp(Value: String): LongWord;
+var
+  S: String;
+  I, X: LongWord;
+begin
+  Result := 0;
+  for X := 0 to 3 do
+  begin
+    S := Fetch(Value, '.');
+    I := StrToIntDef(S, 0);
+    Result := (256 * Result) + I;
+  end;
+end;
+
+function IsIpPrivate(Value: String): Boolean;
+var
+  Index: Integer;
+  Binary: LongWord;
+const
+  PrivAddr: array [0..4, 0..1] of LongWord = (
+    // 10.0.0.0 - 10.255.255.255
+    (167772160, 184549375),          // Single Class A network
+    // 172.16.0.0 - 172.31.255.255
+    (2886729728, 2887778303),        // Contiguous range of 16 Class B blocks
+    // 192.168.0.0 - 192.168.255.255
+    (3232235520, 3232301055),        // Contiguous range of 256 Class C blocks
+    // 169.254.0.0 - 169.254.255.255
+    (2851995648, 2852061183),        // Link-local address
+    // 127.0.0.0 - 127.255.255.255
+    (2130706432, 2147483647)         // Loopback (localhost)
+  );
+begin
+ Binary:= StrToIp(Value);
+ for Index:= 0 to 4 do
+ begin
+   if (Binary >= PrivAddr[Index][0]) and (Binary <= PrivAddr[Index][1]) then
+     Exit(True)
+ end;
+ Result:= False;
+end;
 
 function ModeStr2Mode(const sMode: String): Integer;
 begin
