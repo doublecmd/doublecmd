@@ -42,24 +42,26 @@ uses
   uFile, uTypes;
 
 const
+  TextLineBreakValue: array[TTextLineBreakStyle] of String = (#10, #13#10, #13);
+
 {$IF DEFINED(UNIX)}
   NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', #10];
   DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
-VARDELIMITER='%';
-VARDELIMITER_END='%';
+  VARDELIMITER='%';
+  VARDELIMITER_END='%';
 {$ENDIF}
 
 {$IFDEF UNIX }
-VARDELIMITER='$';
-VARDELIMITER_END='';
+  VARDELIMITER='$';
+  VARDELIMITER_END='';
 {$ENDIF}
 
-EnvVarCommanderPath = '%COMMANDER_PATH%'; // Using '%' for backward compatibility
-EnvVarConfigPath    = '%DC_CONFIG_PATH%'; // Using '%' for backward compatibility
-EnvVarTodaysDate    = VARDELIMITER + 'DC_TODAYSDATE' + VARDELIMITER_END;
+  EnvVarCommanderPath = '%COMMANDER_PATH%'; // Using '%' for backward compatibility
+  EnvVarConfigPath    = '%DC_CONFIG_PATH%'; // Using '%' for backward compatibility
+  EnvVarTodaysDate    = VARDELIMITER + 'DC_TODAYSDATE' + VARDELIMITER_END;
 
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
@@ -245,6 +247,8 @@ procedure EnableControl(Control:  TControl; Enabled: Boolean);
 
 procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String);
 
+function GuessLineBreakStyle(const S: String): TTextLineBreakStyle;
+function GetTextRange(Strings: TStrings; Start, Finish: Integer): String;
 
 implementation
 
@@ -1185,6 +1189,67 @@ begin
       Control.Font.Color:= clGrayText;
     end;
   {$ENDIF}
+end;
+
+function GuessLineBreakStyle(const S: String): TTextLineBreakStyle;
+var
+  Start, Finish, Current: PAnsiChar;
+begin
+  Start:= PAnsiChar(S);
+  Finish:= Start + Length(S);
+  Current:= Start;
+  while Current + 2 < Finish do
+  begin
+    case Current[0] of
+      #10, #13:
+        begin
+          if (Current[0] = #13) then
+          begin
+            if (Current[1] = #10) then
+              Result:= tlbsCRLF
+            else
+              Result:= tlbsCR;
+          end
+          else begin
+            Result:= tlbsLF;
+          end;
+          Exit;
+        end;
+    end;
+    Inc(Current);
+  end;
+  Result:= DefaultTextLineBreakStyle;
+end;
+
+function GetTextRange(Strings: TStrings; Start, Finish: Integer): String;
+var
+  P: PAnsiChar;
+  S, NL: String;
+  I, L, NLS: LongInt;
+begin
+  with Strings do
+  begin
+    L:= 0;
+    NL:= TextLineBreakValue[TextLineBreakStyle];
+    NLS:= Length(NL);
+    for I:= Start to Finish do
+      L:= L + Length(Strings[I]) + NLS;
+    SetLength(Result, L);
+    P:= Pointer(Result);
+    for I:= Start to Finish do
+    begin
+      S:= Strings[I];
+      L:= Length(S);
+      if L <> 0 then
+        System.Move(Pointer(S)^, P^, L);
+      P:= P + L;
+      for L:= 1 to NLS do
+      begin
+        P^:= NL[L];
+        Inc(P);
+      end;
+    end;
+  end;
 end;
 
 end.
