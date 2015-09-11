@@ -201,9 +201,9 @@ implementation
 {$R *.lfm}
 
 uses
-  dmCommonData, dmHigh, SynEditTypes, SynEditLines, LCLType,
-  LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobs, fOptions,
-  uOSUtils, uConvEncoding, uSynEditFiler, fOptionsEditorColors;
+  dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
+  uLng, uShowMsg, fEditSearch, uGlobs, fOptions, DCClassesUtf8,
+  uOSUtils, uConvEncoding, fOptionsEditorColors, uDCUtils;
 
 function ShowEditor(const sFileName: String): TfrmEditor;
 begin
@@ -320,49 +320,73 @@ end;
 
 procedure TfrmEditor.actEditLineEndCrExecute(Sender: TObject);
 begin
-  with (Editor.Lines as TSynEditLines) do
-  FileWriteLineEndType:= sfleCr;
+  Editor.Lines.TextLineBreakStyle:= tlbsCR;
 end;
 
 procedure TfrmEditor.actEditLineEndCrLfExecute(Sender: TObject);
 begin
-  with (Editor.Lines as TSynEditLines) do
-  FileWriteLineEndType:= sfleCrLf;
+  Editor.Lines.TextLineBreakStyle:= tlbsCRLF;
 end;
 
 procedure TfrmEditor.actEditLineEndLfExecute(Sender: TObject);
 begin
-  with (Editor.Lines as TSynEditLines) do
-  FileWriteLineEndType:= sfleLf;
+  Editor.Lines.TextLineBreakStyle:= tlbsLF;
 end;
 
 function TfrmEditor.OpenFile(const aFileName: UTF8String): Boolean;
 var
-  Reader: TSynEditFileReader;
+  Buffer: AnsiString;
+  Reader: TFileStreamEx;
   Highlighter: TSynCustomHighlighter;
 begin
   Result := False;
   try
-    Reader := TSynEditFileReader.Create(aFileName);
+    Reader := TFileStreamEx.Create(aFileName, fmOpenRead or fmShareDenyNone);
     try
-      Editor.Lines.BeginUpdate;
-      try
-        Editor.Lines.Clear;
-        while not Reader.EOF do
-          Editor.Lines.Add(Reader.ReadLine);
-      finally
-        Editor.Lines.EndUpdate;
-      end;
+      SetLength(sOriginalText, Reader.Size);
+      Reader.Read(Pointer(sOriginalText)^, Length(sOriginalText));
     finally
-      with (Editor.Lines as TSynEditLines) do
-      FileWriteLineEndType:= Reader.LineEndType;
-      case Reader.LineEndType of
-        sfleCrLf: actEditLineEndCrLf.Checked:= True;
-        sfleCr:   actEditLineEndCr.Checked:= True;
-        sfleLf:   actEditLineEndLf.Checked:= True;
-      end;
       Reader.Free;
     end;
+
+    // Try to detect encoding by first 4 kb of text
+    Buffer := Copy(sOriginalText, 1, 4096);
+    sEncodingIn := DetectEncoding(Buffer);
+    ChooseEncoding(miEncodingIn, sEncodingIn);
+    sEncodingOut := sEncodingIn; // by default
+    ChooseEncoding(miEncodingOut, sEncodingOut);
+
+    // Try to guess line break style
+    with Editor.Lines do
+    begin
+      if (sEncodingIn <> EncodingUCS2LE) and (sEncodingIn <> EncodingUCS2BE) then
+        TextLineBreakStyle := GuessLineBreakStyle(Buffer)
+      else begin
+        sOriginalText := Copy(sOriginalText, 3, MaxInt); // Skip BOM
+        TextLineBreakStyle := GuessLineBreakStyle(ConvertEncoding(Buffer, sEncodingIn, EncodingUTF8));
+      end;
+
+      case TextLineBreakStyle of
+        tlbsCRLF: actEditLineEndCrLf.Checked := True;
+        tlbsCR:   actEditLineEndCr.Checked := True;
+        tlbsLF:   actEditLineEndLf.Checked := True;
+      end;
+    end;
+
+    // Convert encoding if needed
+    if sEncodingIn = EncodingUTF8 then
+      Buffer := sOriginalText
+    else begin
+      Buffer := ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
+    end;
+
+    // Load text into editor
+    Editor.Lines.Text := Buffer;
+
+    // Add empty line if needed
+    if (Length(Buffer) > 0) and (Buffer[Length(Buffer)] in [#10, #13]) then
+      Editor.Lines.Add(EmptyStr);
+
     Result := True;
   except
     on E: EFCreateError do
@@ -385,15 +409,6 @@ begin
       end;
   end;
 
-  // set up text encoding
-  sOriginalText := Editor.Lines.Text; // save original text
-  // try to detect encoding by first 4 kb of text
-  sEncodingIn := DetectEncoding(Copy(sOriginalText, 1, 4096));
-  ChooseEncoding(miEncodingIn, sEncodingIn);
-  sEncodingOut := sEncodingIn; // by default
-  ChooseEncoding(miEncodingOut, sEncodingOut);
-  if sEncodingIn <> EncodingUTF8 then
-    Editor.Lines.Text := ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
   // set up highlighter
   Highlighter := dmHighl.GetHighlighterByExt(ExtractFileExt(aFileName));
   UpdateHighlighter(Highlighter);
@@ -405,57 +420,70 @@ end;
 
 function TfrmEditor.SaveFile(const aFileName: UTF8String): Boolean;
 var
-  I: Integer;
+  TextOut: String;
   Encoding: String;
-  Writer: TSynEditFileWriter;
+  Writer: TFileStreamEx;
 begin
   Result := False;
   try
-    Writer := TSynEditFileWriter.Create(aFileName);
+    Writer := TFileStreamEx.Create(aFileName, fmCreate);
     try
       Encoding := NormalizeEncoding(sEncodingOut);
-      Writer.LineEndType := (Editor.Lines as TSynEditLines).FileWriteLineEndType;
-      // If file is empty and encoding UTF-8 with BOM then write only BOM
-      if (Editor.Lines.Count = 0) and (Encoding = EncodingUTF8BOM) then
-        Writer.Write(UTF8ToUTF8BOM(EmptyStr))
-      // If file has only one line then write it without line break
-      else if Editor.Lines.Count = 1 then
-        Writer.Write(ConvertEncoding(Editor.Lines[0], EncodingUTF8, sEncodingOut))
-      else if Editor.Lines.Count > 1 then
-        begin
-          Writer.WriteLine(ConvertEncoding(Editor.Lines[0], EncodingUTF8, sEncodingOut));
-          // Special case for UTF-8 and UTF-8 with BOM
-          if (Encoding = EncodingUTF8) or (Encoding = EncodingUTF8BOM) then
-            begin
-              for I := 1 to Editor.Lines.Count - 2 do
-                Writer.WriteLine(Editor.Lines[I]);
-              // Write last line without line break
-              Writer.Write(Editor.Lines[Editor.Lines.Count - 1]);
-            end
-          else
-            begin
-              for I := 1 to Editor.Lines.Count - 2 do
-                Writer.WriteLine(ConvertEncoding(Editor.Lines[I], EncodingUTF8, sEncodingOut));
-              // Write last line without line break
-              Writer.Write(ConvertEncoding(Editor.Lines[Editor.Lines.Count - 1], EncodingUTF8, sEncodingOut));
-            end;
+      // If file is empty and encoding with BOM then write only BOM
+      if (Editor.Lines.Count = 0) then
+      begin
+        if (Encoding = EncodingUTF8BOM) then
+          Writer.Write(UTF8BOM, SizeOf(UTF8BOM))
+        else if (Encoding = EncodingUCS2LE) then
+          Writer.Write(UTF16LEBOM, SizeOf(UTF16LEBOM))
+        else if (Encoding = EncodingUCS2BE) then
+          Writer.Write(UTF16BEBOM, SizeOf(UTF16BEBOM));
+      end
+      else begin
+        TextOut := EmptyStr;
+        if (Encoding = EncodingUCS2LE) then
+          TextOut := UTF16LEBOM
+        else if (Encoding = EncodingUCS2BE) then begin
+          TextOut := UTF16BEBOM
         end;
+        TextOut += ConvertEncoding(Editor.Lines[0], EncodingUTF8, sEncodingOut);
+        Writer.Write(Pointer(TextOut)^, Length(TextOut));
+
+        // If file has only one line then write it without line break
+        if Editor.Lines.Count > 1 then
+        begin
+          TextOut := TextLineBreakValue[Editor.Lines.TextLineBreakStyle];
+          TextOut += GetTextRange(Editor.Lines, 1, Editor.Lines.Count - 2);
+          // Special case for UTF-8 and UTF-8 with BOM
+          if (Encoding <> EncodingUTF8) and (Encoding <> EncodingUTF8BOM) then begin
+            TextOut:= ConvertEncoding(TextOut, EncodingUTF8, sEncodingOut);
+          end;
+          Writer.Write(Pointer(TextOut)^, Length(TextOut));
+          // Write last line without line break
+          TextOut:= Editor.Lines[Editor.Lines.Count - 1];
+          // Special case for UTF-8 and UTF-8 with BOM
+          if (Encoding <> EncodingUTF8) and (Encoding <> EncodingUTF8BOM) then begin
+            TextOut:= ConvertEncoding(TextOut, EncodingUTF8, sEncodingOut);
+          end;
+          Writer.Write(Pointer(TextOut)^, Length(TextOut));
+        end;
+      end;
     finally
       Writer.Free;
     end;
 
-    Editor.Modified:= False; // needed for the undo stack
+    Editor.Modified := False; // needed for the undo stack
     Editor.MarkTextAsSaved;
     Result := True;
   except
-    on e: EFCreateError do
+    on E: EFCreateError do
     begin
-      DCDebug(e.Message);
+      DCDebug(E.Message);
       msgWarning(rsMsgErrSaveFile + ' ' + aFileName);
     end;
-    on e: EFOpenError do
+    on E: EFOpenError do
     begin
-      DCDebug(e.Message);
+      DCDebug(E.Message);
       msgWarning(rsMsgErrSaveFile + ' ' + aFileName);
     end;
   end;
@@ -485,7 +513,6 @@ begin
   bNoname:=True;
   UpdateStatus;
 end;
-
 
 procedure TfrmEditor.EditorReplaceText(Sender: TObject; const ASearch,
   AReplace: string; Line, Column: integer; var ReplaceAction: TSynReplaceAction );
