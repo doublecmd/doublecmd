@@ -881,9 +881,12 @@ procedure TColumnsFileView.DoColumnResized(Sender: TObject;
   end;
 
 begin
-  GetColumnsClass.SetColumnWidth(ColumnIndex, ColumnNewSize);
-  UpdateWidth(frmMain.LeftTabs);
-  UpdateWidth(frmMain.RightTabs);
+  if gColumnsAutoSaveWidth then
+  begin
+    GetColumnsClass.SetColumnWidth(ColumnIndex, ColumnNewSize);
+    UpdateWidth(frmMain.LeftTabs);
+    UpdateWidth(frmMain.RightTabs);
+  end;
 end;
 
 procedure TColumnsFileView.MakeColumnsStrings(AFile: TDisplayFile);
