@@ -63,6 +63,7 @@
 @del /Q /S components\doublecmd\lib\*.*
 @del /Q /S components\gifanim\lib\*.*
 @del /Q /S components\KASToolBar\lib\*.*
+@del /Q /S components\multithreadprocs\lib\*.*
 @del /Q /S components\viewer\lib\*.*
 @del /Q /S components\ZVDateTimeCtrls\lib\*.*
 

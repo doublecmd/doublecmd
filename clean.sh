@@ -12,6 +12,7 @@ rm -rf components/dcpcrypt/lib/*
 rm -rf components/doublecmd/lib/*
 rm -rf components/gifanim/lib/*
 rm -rf components/KASToolBar/lib/*
+rm -rf components/multithreadprocs/lib/*
 rm -rf components/viewer/lib/*
 rm -rf components/ZVDateTimeCtrls/lib/*
 
