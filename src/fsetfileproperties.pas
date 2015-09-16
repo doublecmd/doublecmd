@@ -262,6 +262,9 @@ begin
   inherited Create(aOwner);
   FOperation:= aOperation;
   FChangeTriggersEnabled:= True;
+  ZVCreationDateTime.DateTime:= NullDate;
+  ZVLastWriteDateTime.DateTime:= NullDate;
+  ZVLastAccessDateTime.DateTime:= NullDate;
   // Enable only supported file properties
   with FOperation do
   begin

@@ -114,7 +114,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         TabOrder = 0
         Enabled = False
         TrailingSeparator = False
-        TextForNullDate = 'NULL'
+        TextForNullDate = ' '
         LeadingZeros = True
         Kind = dtkDateTime
         TimeFormat = tf24
@@ -142,7 +142,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         BorderSpacing.Right = 6
         Enabled = False
         TrailingSeparator = False
-        TextForNullDate = 'NULL'
+        TextForNullDate = ' '
         LeadingZeros = True
         Kind = dtkDateTime
         TimeFormat = tf24
@@ -169,7 +169,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         BorderSpacing.Top = 6
         Enabled = False
         TrailingSeparator = False
-        TextForNullDate = 'NULL'
+        TextForNullDate = ' '
         LeadingZeros = True
         Kind = dtkDateTime
         TimeFormat = tf24
