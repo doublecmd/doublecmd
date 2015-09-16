@@ -29,8 +29,8 @@ interface
 implementation
 
 uses
-  LCLIntf, Classes, SysUtils, GraphType, DynLibs, FileUtil, Types, Graphics,
-  CTypes, DCOSUtils, uThumbnails, uDebug, uClassesEx;
+  LCLIntf, Classes, SysUtils, DynLibs, FileUtil, Types, Graphics,
+  CTypes, DCOSUtils, uThumbnails, uDebug, uClassesEx, uGraphics;
 
 const
   MagickFalse = 0;
@@ -44,9 +44,6 @@ type
   MagickBooleanType = culong;
   ExceptionType = Word;
   PExceptionType = ^ExceptionType;
-
-type
-  TRawAccess = class(TPortableNetworkGraphic) end;
 
 {$PACKENUM 4}
 
@@ -86,17 +83,6 @@ var
   MagickResizeImage: function(wand: PMagickWand; const columns, rows: culong; const filter: FilterTypes; const blur: double): MagickBooleanType; cdecl;
   MagickSetImageFormat: function(wand: PMagickWand; const format: PAnsiChar): MagickBooleanType; cdecl;
   MagickGetImageBlob: function(wand: PMagickWand; length: Pcsize_t): PByte; cdecl;
-
-procedure BitmapAssign(Bitmap: TBitmap; Image: TPortableNetworkGraphic);
-var
-  RawImage: PRawImage;
-begin
-  RawImage:= TRawAccess(Image).GetRawImagePtr;
-  // Simply change raw image owner without data copy
-  Bitmap.LoadFromRawImage(RawImage^, True);
-  // Set image data pointer to nil, so it will not free double
-  RawImage^.ReleaseData;
-end;
 
 procedure RaiseWandException(Wand: PMagickWand);
 var
@@ -231,4 +217,4 @@ initialization
 finalization
   Finalize;
 
-end.
+end.
