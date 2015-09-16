@@ -327,10 +327,10 @@ begin
     else
       lblLastAccess.Caption := '';
 
-    lblLastStChange.Visible := fpCreationTime in SupportedProperties;
-    lblLastStChangeStr.Visible := fpCreationTime in SupportedProperties;
-    if fpCreationTime in SupportedProperties then
-      lblLastStChange.Caption := Properties[fpCreationTime].Format(FPropertyFormatter)
+    lblLastStChange.Visible := fpChangeTime in SupportedProperties;
+    lblLastStChangeStr.Visible := fpChangeTime in SupportedProperties;
+    if fpChangeTime in SupportedProperties then
+      lblLastStChange.Caption := Properties[fpChangeTime].Format(FPropertyFormatter)
     else
       lblLastStChange.Caption := '';
 

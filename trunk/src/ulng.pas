@@ -383,6 +383,7 @@ resourcestring
   rsFuncMTime = 'Modification date/time';
   rsFuncCTime = 'Creation date/time';
   rsFuncATime = 'Access date/time';
+  rsFuncHTime = 'Change date/time';
   rsFuncLinkTo = 'Link to';
   rsFuncNameNoExt = 'Name without extension';
   rsFuncType = 'Type';

@@ -17,6 +17,7 @@ type
     fpModificationTime,
     fpCreationTime,
     fpLastAccessTime,
+    fpChangeTime,
     fpLink,
     fpOwner,
     fpType,
@@ -170,6 +171,18 @@ type
   TFileLastAccessDateTimeProperty = class(TFileDateTimeProperty)
   public
     function Clone: TFileLastAccessDateTimeProperty; override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+  end;
+
+  { TFileChangeDateTimeProperty }
+
+  TFileChangeDateTimeProperty = class(TFileDateTimeProperty)
+  public
+    function Clone: TFileChangeDateTimeProperty; override;
 
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
@@ -649,6 +662,29 @@ begin
 end;
 
 function TFileLastAccessDateTimeProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result := Formatter.FormatDateTime(Self);
+end;
+
+// ----------------------------------------------------------------------------
+
+function TFileChangeDateTimeProperty.Clone: TFileChangeDateTimeProperty;
+begin
+  Result := TFileChangeDateTimeProperty.Create;
+  CloneTo(Result);
+end;
+
+class function TFileChangeDateTimeProperty.GetDescription: String;
+begin
+  Result := rsDateTimeDescription;
+end;
+
+class function TFileChangeDateTimeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpChangeTime;
+end;
+
+function TFileChangeDateTimeProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := Formatter.FormatDateTime(Self);
 end;
