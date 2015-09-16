@@ -221,7 +221,7 @@ begin
 
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
       FileTimeToDateTime(pStatInfo^.st_mtime));
-    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+    Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
       FileTimeToDateTime(pStatInfo^.st_ctime));
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
       FileTimeToDateTime(pStatInfo^.st_atime));
@@ -526,7 +526,7 @@ begin
     if ([fpAttributes,
          fpSize,
          fpModificationTime,
-         fpCreationTime,
+         fpChangeTime,
          fpLastAccessTime,
          fpOwner] * PropertiesToSet <> []) or
        ((uFileProperty.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
@@ -550,8 +550,8 @@ begin
       if not (fpModificationTime in AssignedProperties) then
         ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
           FileTimeToDateTime(StatInfo.st_mtime));
-      if not (fpCreationTime in AssignedProperties) then
-        CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+      if not (fpChangeTime in AssignedProperties) then
+        Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
           FileTimeToDateTime(StatInfo.st_ctime));
       if not (fpLastAccessTime in AssignedProperties) then
         LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
@@ -739,7 +739,11 @@ begin
           + [fpSize,
              fpAttributes,
              fpModificationTime,
+             {$IF DEFINED(MSWINDOWS)}
              fpCreationTime,
+             {$ELSE}
+             fpChangeTime,
+             {$ENDIF}
              fpLastAccessTime,
              uFileProperty.fpLink
             ];
@@ -751,7 +755,11 @@ begin
           + [fpSize,
              fpAttributes,
              fpModificationTime,
+             {$IF DEFINED(MSWINDOWS)}
              fpCreationTime,
+             {$ELSE}
+             fpChangeTime,
+             {$ENDIF}
              fpLastAccessTime,
              uFileProperty.fpLink,
              fpOwner,

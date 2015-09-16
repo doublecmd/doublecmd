@@ -40,6 +40,7 @@ type
                    fsfModificationTime,
                    fsfCreationTime,
                    fsfLastAccessTime,
+                   fsfChangeTime,
                    fsfLinkTo,
                    fsfNameNoExtension,
                    fsfType,
@@ -60,6 +61,7 @@ type
                'GETFILETIME',
                'GETFILECREATIONTIME',
                'GETFILELASTACCESSTIME',
+               'GETFILECHANGETIME',
                'GETFILELINKTO',
                'GETFILENAMENOEXT',
                'GETFILETYPE',
@@ -80,6 +82,7 @@ type
                [fpModificationTime],
                [fpCreationTime],
                [fpLastAccessTime],
+               [fpChangeTime],
                [fpLink],
                [fpName],
                [fpType],
@@ -245,6 +248,11 @@ begin
       fsfLastAccessTime:
         if fpLastAccessTime in AFile.SupportedProperties then
           Result := AFile.Properties[fpLastAccessTime].Format(
+            DefaultFilePropertyFormatter);
+
+      fsfChangeTime:
+        if fpChangeTime in AFile.SupportedProperties then
+          Result := AFile.Properties[fpChangeTime].Format(
             DefaultFilePropertyFormatter);
 
       fsfLinkTo:
@@ -418,6 +426,7 @@ begin
     Add(TFileFunctionStrings[fsfModificationTime] + '=' + rsFuncMTime);
     Add(TFileFunctionStrings[fsfCreationTime] + '=' + rsFuncCTime);
     Add(TFileFunctionStrings[fsfLastAccessTime] + '=' + rsFuncATime);
+    Add(TFileFunctionStrings[fsfChangeTime] + '=' + rsFuncHTime);
     Add(TFileFunctionStrings[fsfLinkTo] + '=' + rsFuncLinkTo);
     Add(TFileFunctionStrings[fsfNameNoExtension] + '=' + rsFuncNameNoExt);
     Add(TFileFunctionStrings[fsfType] + '=' + rsFuncType);
