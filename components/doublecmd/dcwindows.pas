@@ -30,6 +30,12 @@ uses
   Windows;
 
 {en
+   Converts file name in UTF-8 encoding to file name
+   with UTF-16 encoding with extended-length path prefix
+}
+function UnicodeLongName(const FileName: String): UnicodeString;
+
+{en
    Enable a privilege
    @param(hToken Access token handle)
    @param(lpszPrivilege Name of privilege to enable)
@@ -46,6 +52,15 @@ implementation
 
 uses
   JwaAclApi, JwaWinNT, JwaAccCtrl, JwaWinBase, JwaWinType;
+
+function UnicodeLongName(const FileName: String): UnicodeString;
+begin
+  if Pos('\\', FileName) = 0 then
+    Result := '\\?\' + UTF8Decode(FileName)
+  else begin
+    Result := '\\?\UNC\' + UTF8Decode(Copy(FileName, 3, MaxInt));
+  end;
+end;
 
 function EnablePrivilege(hToken: HANDLE; lpszPrivilege: LPCTSTR): Boolean;
 var

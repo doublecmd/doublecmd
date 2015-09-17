@@ -77,7 +77,7 @@ implementation
 uses
   LCLProc, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows, JwaWinNT, JwaWinBase, DCStrUtils, uGlobs, uOSUtils
+  ,Windows, JwaWinNT, JwaWinBase, DCWindows, DCStrUtils, uGlobs, uOSUtils
   {$ELSEIF DEFINED(LINUX)}
   ,inotify, BaseUnix, FileUtil
   {$ELSEIF DEFINED(BSD)}
@@ -1259,7 +1259,7 @@ end;
 procedure TOSWatch.CreateHandle;
 {$IF DEFINED(MSWINDOWS)}
 begin
-  FHandle := CreateFileW(PWideChar(UTF8Decode('\\?\' + FWatchPath)),
+  FHandle := CreateFileW(PWideChar(UnicodeLongName(FWatchPath)),
                FILE_LIST_DIRECTORY,
                CREATEFILEW_SHAREMODE,
                nil,
