@@ -2230,8 +2230,11 @@ begin
         gUpdatedFilesPosition := TUpdatedFilesPosition(GetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition)));
       end;
       SubNode := FindNode(Node, 'ColumnsView');
-      gColumnsAutoSaveWidth := GetValue(SubNode, 'AutoSaveWidth', gColumnsAutoSaveWidth);
-      gColumnsTitleStyle := TTitleStyle(GetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle)));
+      if Assigned(SubNode) then
+      begin
+        gColumnsAutoSaveWidth := GetValue(SubNode, 'AutoSaveWidth', gColumnsAutoSaveWidth);
+        gColumnsTitleStyle := TTitleStyle(GetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle)));
+      end;
       SubNode := Node.FindNode('BriefView');
       if Assigned(SubNode) then
       begin
