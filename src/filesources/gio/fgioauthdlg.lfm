@@ -138,6 +138,8 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     BevelOuter = bvNone
     ClientHeight = 72
     ClientWidth = 290
+    Color = clForm
+    ParentColor = False
     TabOrder = 0
     object lblUserName: TLabel
       AnchorSideLeft.Control = pnlUser
@@ -243,6 +245,8 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 40
     ClientWidth = 163
+    Color = clForm
+    ParentColor = False
     TabOrder = 1
     object rbAnonymous: TRadioButton
       Left = 0
