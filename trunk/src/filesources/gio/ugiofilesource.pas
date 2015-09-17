@@ -21,7 +21,7 @@ type
     TGioFileSource = class(TRealFileSource, IGioFileSource)
     private
       MountTry: Integer;
-      MountLoop: PGMainLoop;
+      MountLoop: PRTLEvent;
       MountError: PGError;
     private
 
@@ -254,8 +254,7 @@ begin
     g_print ('(EE) Error mounting location: %s\n', [FileSource.MountError^.message]);
   end;
 
-  g_main_loop_quit (FileSource.MountLoop);
-
+  RTLeventSetEvent(FileSource.MountLoop);
 end;
 
 function TGioFileSource.MountPath(AFile: PGFile; out AError: PGError): Boolean;
@@ -266,10 +265,10 @@ begin
   g_signal_connect_data (Operation, 'ask-password', TGCallback(@ask_password_cb), Self, nil, 0);
   //g_signal_connect (op, "ask-question", (GCallback)ask_question_cb, globs);
   MountTry:= 0;
-  MountLoop := g_main_loop_new(nil, False);
+  MountLoop:= RTLEventCreate;
   g_file_mount_enclosing_volume (AFile, G_MOUNT_MOUNT_NONE, Operation, nil, @mount_done_cb, Self);
-  g_main_loop_run (MountLoop);
-  g_main_loop_unref (MountLoop);
+  RTLeventWaitFor(MountLoop);
+  RTLeventdestroy(MountLoop);
   g_object_unref (Operation);
   Result:= MountError = nil;
   AError:= MountError;
