@@ -1132,12 +1132,9 @@ begin
   end;
   wsNewDir:= wsNewDir + DirectorySeparator + '*';
   Handle:= FindFirstFileW(PWideChar(wsNewDir), FindData);
-  Result:= (Handle <> INVALID_HANDLE_VALUE);
-  if Result then
-  begin
-    FindClose(Handle);
-    CurrentDirectory:= NewDir;
-  end;
+  Result:= GetLastError in [ERROR_SUCCESS, ERROR_FILE_NOT_FOUND];
+  if (Handle <> INVALID_HANDLE_VALUE) then FindClose(Handle);
+  if Result then CurrentDirectory:= NewDir;
 end;
 {$ELSE}
 begin
