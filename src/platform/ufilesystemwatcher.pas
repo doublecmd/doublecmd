@@ -70,6 +70,7 @@ type
     class procedure RemoveWatch(aWatchPath: UTF8String;
                                 aWatcherEvent: TFSWatcherEvent);
     class procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
+    class function CanWatch(const WatchPaths: array of String): Boolean;
   end;
 
 implementation
@@ -270,6 +271,25 @@ begin
       DestroyFileSystemWatcher;
   end;
 end;
+
+class function TFileSystemWatcher.CanWatch(const WatchPaths: array of String): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+var
+  Index: Integer;
+  DrivePath: UnicodeString;
+begin
+  for Index:= Low(WatchPaths) to High(WatchPaths) do
+  begin
+    DrivePath:= UnicodeString(Copy(WatchPaths[Index], 1, 3));
+    if GetDriveTypeW(PWideChar(DrivePath)) = DRIVE_REMOTE then Exit(False)
+  end;
+  Result:= True;
+end;
+{$ELSE}
+begin
+  Result:= True;
+end;
+{$ENDIF}
 
 // ----------------------------------------------------------------------------
 
