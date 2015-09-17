@@ -937,7 +937,7 @@ begin
         begin
           if IsActiveItemValid then
           begin
-            ProcessExtCommandFork(CurrentPath + GetActiveDisplayFile.FSFile.Name,'',CurrentPath,nil,True);
+            ProcessExtCommandFork(CurrentPath + GetActiveDisplayFile.FSFile.Name, '', CurrentPath, nil, True, True);
             Key := 0;
           end;
         end;
