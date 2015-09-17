@@ -5,9 +5,9 @@ unit uGioFileSource;
 interface
 
 uses
-  Classes, SysUtils, Dialogs, URIParser,
+  Classes, SysUtils, Dialogs, URIParser, SyncObjs,
   uFileSourceProperty, uFileSourceOperationTypes,
-  uRealFileSource, uFileSystemFileSource, uFileProperty, uFileSource,
+  uRealFileSource, uFileProperty, uFileSource,
   uFileSourceOperation, uFile, uGLib2, uGObject2, uGio2;
 
 type
@@ -21,11 +21,8 @@ type
     TGioFileSource = class(TRealFileSource, IGioFileSource)
     private
       MountTry: Integer;
-      MountLoop: PRTLEvent;
+      MountLoop: TSimpleEvent;
       MountError: PGError;
-    private
-
-            function GetOperationsTypes: TFileSourceOperationTypes; override;
 
     protected
       function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
@@ -52,6 +49,7 @@ type
 
       // Retrieve some properties of the file source.
       function GetProperties: TFileSourceProperties; override;
+      function GetOperationsTypes: TFileSourceOperationTypes; override;
 
       // These functions create an operation object specific to the file source.
       function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -73,10 +71,11 @@ type
     end;
 
 implementation
-        uses uGioListOperation, uGioCopyOperation,  uDebug, DCDateTimeUtils, uShowMsg,
-          uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
-          uGioMoveOperation, uGioSetFilePropertyOperation, DCFileAttributes, DCOSUtils,
-          fGioAuthDlg;
+
+uses
+  DCFileAttributes, DCDateTimeUtils, uGioListOperation, uGioCopyOperation,
+  uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
+  uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg;
 
 { TGioFileSource }
 
@@ -254,7 +253,7 @@ begin
     g_print ('(EE) Error mounting location: %s\n', [FileSource.MountError^.message]);
   end;
 
-  RTLeventSetEvent(FileSource.MountLoop);
+  FileSource.MountLoop.SetEvent;
 end;
 
 function TGioFileSource.MountPath(AFile: PGFile; out AError: PGError): Boolean;
@@ -265,10 +264,16 @@ begin
   g_signal_connect_data (Operation, 'ask-password', TGCallback(@ask_password_cb), Self, nil, 0);
   //g_signal_connect (op, "ask-question", (GCallback)ask_question_cb, globs);
   MountTry:= 0;
-  MountLoop:= RTLEventCreate;
+  MountError:= nil;
+  MountLoop:= TSimpleEvent.Create;
   g_file_mount_enclosing_volume (AFile, G_MOUNT_MOUNT_NONE, Operation, nil, @mount_done_cb, Self);
-  RTLeventWaitFor(MountLoop);
-  RTLeventdestroy(MountLoop);
+
+  repeat
+    if g_main_context_pending(g_main_context_default) then
+      g_main_context_iteration(g_main_context_default, False);
+  until MountLoop.WaitFor(1) <> wrTimeout;
+
+  MountLoop.Free;
   g_object_unref (Operation);
   Result:= MountError = nil;
   AError:= MountError;
