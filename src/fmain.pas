@@ -4735,8 +4735,8 @@ begin
           else
           begin
             try
-              SplitCmdLineToCmdParams(sCmd,sCmd, sParams); //TODO:Hum...
-              ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath, nil, bRunInTerm);
+              SplitCmdLineToCmdParams(sCmd, sCmd, sParams); //TODO:Hum...
+              ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath, nil, bRunInTerm, bRunInTerm);
             except
               on e: EInvalidCommandLine do
                 MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
