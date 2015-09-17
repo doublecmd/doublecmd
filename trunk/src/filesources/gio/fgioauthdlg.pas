@@ -28,7 +28,7 @@ type
     rbConnetAs: TRadioButton;
     procedure rbAnonymousChange(Sender: TObject);
   private
-    { private declarations }
+    procedure ShowThread;
   public
     { public declarations }
   end;
@@ -44,6 +44,7 @@ function ShowAuthDlg(const Message: String; var Flags: TGAskPasswordFlags;
 begin
   with TfrmGioAuthDialog.Create(Application) do
   try
+    Caption:= Application.Title;
     lblMessage.Caption:= Message;
     rbAnonymous.Checked:= (Flags and G_ASK_PASSWORD_ANONYMOUS_SUPPORTED <> 0);
     pnlConnect.Visible:= rbAnonymous.Checked;
@@ -53,7 +54,9 @@ begin
     lblDomain.Visible:= (Flags and G_ASK_PASSWORD_NEED_DOMAIN <> 0);
     edtDomain.Visible:= lblDomain.Visible;
 
-    Result:= ShowModal = mrOK;
+    TThread.Synchronize(nil, @ShowThread);
+
+    Result:= ModalResult = mrOK;
 
     if Result then
     begin
@@ -77,6 +80,11 @@ end;
 procedure TfrmGioAuthDialog.rbAnonymousChange(Sender: TObject);
 begin
   pnlUser.Enabled:= not rbAnonymous.Checked;
+end;
+
+procedure TfrmGioAuthDialog.ShowThread;
+begin
+  ShowModal;
 end;
 
 end.

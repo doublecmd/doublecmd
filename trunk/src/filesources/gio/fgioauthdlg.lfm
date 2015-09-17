@@ -11,7 +11,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
   ClientWidth = 375
   Constraints.MaxHeight = 215
   Constraints.MinWidth = 375
-  LCLVersion = '1.4.0.4'
+  LCLVersion = '1.4.2.0'
   object imgAuth: TImage
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -126,6 +126,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     }
   end
   object pnlUser: TPanel
+    AnchorSideLeft.Control = pnlConnect
     AnchorSideTop.Control = pnlConnect
     AnchorSideTop.Side = asrBottom
     Left = 72
@@ -153,6 +154,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       AnchorSideLeft.Control = lblUserName
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlUser
+      AnchorSideRight.Side = asrBottom
       Left = 90
       Height = 20
       Top = 0
@@ -265,13 +267,14 @@ object frmGioAuthDialog: TfrmGioAuthDialog
   object ButtonPanel: TButtonPanel
     AnchorSideTop.Control = pnlUser
     AnchorSideTop.Side = asrBottom
-    Left = 8
+    Left = 193
     Height = 28
-    Top = 177
-    Width = 359
+    Top = 171
+    Width = 174
     Align = alNone
-    Anchors = [akTop, akLeft, akRight]
+    Anchors = [akTop, akRight]
     BorderSpacing.Top = 16
+    BorderSpacing.Around = 0
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
