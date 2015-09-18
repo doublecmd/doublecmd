@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, Graphics;
 
-procedure BitmapAssign(Bitmap: TBitmap; Image: TPortableNetworkGraphic);
+procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
 
 implementation
 
@@ -37,9 +37,9 @@ uses
   GraphType;
 
 type
-  TRawAccess = class(TPortableNetworkGraphic) end;
+  TRawAccess = class(TRasterImage) end;
 
-procedure BitmapAssign(Bitmap: TBitmap; Image: TPortableNetworkGraphic);
+procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
 var
   RawImage: PRawImage;
 begin
