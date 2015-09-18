@@ -142,6 +142,12 @@ begin
           IncludeAttributes:= GetAttrFromForm(ExcludeAttributes);
         if NewProperties[fpAttributes] is TUnixFileAttributesProperty then
           IncludeAttributes:= GetModeFromForm(ExcludeAttributes);
+        // Nothing changed, clear new property
+        if (IncludeAttributes = 0) and (ExcludeAttributes = 0) then
+        begin
+          NewProperties[fpAttributes].Free;
+          NewProperties[fpAttributes]:= nil;
+        end;
       end;
     if chkCreationTime.Checked then
       (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= ZVCreationDateTime.DateTime
