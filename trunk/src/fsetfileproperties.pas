@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Change file properties dialog
 
-    Copyright (C) 2009-2014  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, Buttons,
-  EditBtn, uFileSourceSetFilePropertyOperation, DCBasicTypes, ZVDateTimePicker;
+  uFileSourceSetFilePropertyOperation, DCBasicTypes, ZVDateTimePicker;
 
 type
 
@@ -69,6 +69,7 @@ type
     lblAttrBitsStr: TLabel;
     lblAttrGroupStr: TLabel;
     lblAttrInfo: TLabel;
+    lblModeInfo: TLabel;
     lblAttrOtherStr: TLabel;
     lblAttrOwnerStr: TLabel;
     lblAttrText: TLabel;
@@ -103,8 +104,9 @@ type
     FChangeTriggersEnabled: Boolean;
     procedure ShowMode(Mode: TFileAttrs);
     procedure ShowAttr(Attr: TFileAttrs);
-    function GetModeFromForm: TFileAttrs;
-    function GetAttrFromForm: TFileAttrs;
+    procedure UpdateAllowGrayed(AllowGrayed: Boolean);
+    function GetModeFromForm(out ExcludeAttrs: TFileAttrs): TFileAttrs;
+    function GetAttrFromForm(out ExcludeAttrs: TFileAttrs): TFileAttrs;
   public
     constructor Create(aOwner: TComponent; const aOperation: TFileSourceSetFilePropertyOperation); reintroduce;
   end;
@@ -137,9 +139,9 @@ begin
     if fpAttributes in SupportedProperties then
       begin
         if NewProperties[fpAttributes] is TNtfsFileAttributesProperty then
-          (NewProperties[fpAttributes] as TNtfsFileAttributesProperty).Value:= GetAttrFromForm;
+          IncludeAttributes:= GetAttrFromForm(ExcludeAttributes);
         if NewProperties[fpAttributes] is TUnixFileAttributesProperty then
-          (NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value:= GetModeFromForm;
+          IncludeAttributes:= GetModeFromForm(ExcludeAttributes);
       end;
     if chkCreationTime.Checked then
       (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= ZVCreationDateTime.DateTime
@@ -167,11 +169,18 @@ begin
 end;
 
 procedure TfrmSetFileProperties.cbChangeModeClick(Sender: TObject);
+var
+  ExcludeAttrs: TFileAttrs;
+  CheckBox: TCheckBox absolute Sender;
 begin
   if FChangeTriggersEnabled then
   begin
     FChangeTriggersEnabled := False;
-    edtOctal.Text:= DecToOct(GetModeFromForm);
+    if CheckBox.State = cbGrayed then
+      edtOctal.Text:= EmptyStr
+    else begin
+      edtOctal.Text:= DecToOct(GetModeFromForm(ExcludeAttrs));
+    end;
     FChangeTriggersEnabled := True;
   end;
 end;
@@ -230,31 +239,99 @@ begin
   chkSystem.Checked:= ((Attr and FILE_ATTRIBUTE_SYSTEM) <> 0);
 end;
 
-function TfrmSetFileProperties.GetModeFromForm: TFileAttrs;
+procedure TfrmSetFileProperties.UpdateAllowGrayed(AllowGrayed: Boolean);
+var
+  Index: Integer;
 begin
-  Result:= 0;
-  if cbReadOwner.Checked then Result:= (Result or S_IRUSR);
-  if cbWriteOwner.Checked then Result:= (Result or S_IWUSR);
-  if cbExecOwner.Checked then Result:= (Result or S_IXUSR);
-  if cbReadGroup.Checked then Result:= (Result or S_IRGRP);
-  if cbWriteGroup.Checked then Result:= (Result or S_IWGRP);
-  if cbExecGroup.Checked then Result:= (Result or S_IXGRP);
-  if cbReadOther.Checked then Result:= (Result or S_IROTH);
-  if cbWriteOther.Checked then Result:= (Result or S_IWOTH);
-  if cbExecOther.Checked then Result:= (Result or S_IXOTH);
-
-  if cbSuid.Checked then Result:= (Result or S_ISUID);
-  if cbSgid.Checked then Result:= (Result or S_ISGID);
-  if cbSticky.Checked then Result:= (Result or S_ISVTX);
+  lblAttrInfo.Visible:= AllowGrayed;
+  for Index:= 0 to gbWinAttributes.ControlCount - 1 do
+  begin
+    if gbWinAttributes.Controls[Index] is TCheckBox then
+      TCheckBox(gbWinAttributes.Controls[Index]).AllowGrayed:= AllowGrayed;
+  end;
+  lblModeInfo.Visible:= AllowGrayed;
+  for Index:= 0 to gbUnixAttributes.ControlCount - 1 do
+  begin
+    if gbUnixAttributes.Controls[Index] is TCheckBox then
+      TCheckBox(gbUnixAttributes.Controls[Index]).AllowGrayed:= AllowGrayed;
+  end;
 end;
 
-function TfrmSetFileProperties.GetAttrFromForm: TFileAttrs;
+function TfrmSetFileProperties.GetModeFromForm(out ExcludeAttrs: TFileAttrs): TFileAttrs;
 begin
   Result:= 0;
-  if chkArchive.Checked then Result:= (Result or FILE_ATTRIBUTE_ARCHIVE);
-  if chkReadOnly.Checked then Result:= (Result or FILE_ATTRIBUTE_READONLY);
-  if chkHidden.Checked then Result:= (Result or FILE_ATTRIBUTE_HIDDEN);
-  if chkSystem.Checked then Result:= (Result or FILE_ATTRIBUTE_SYSTEM);
+  ExcludeAttrs:= 0;
+  case cbReadOwner.State of
+    cbChecked:  Result:= (Result or S_IRUSR);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IRUSR;
+  end;
+  case cbWriteOwner.State of
+    cbChecked: Result:= (Result or S_IWUSR);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IWUSR;
+  end;
+  case cbExecOwner.State of
+    cbChecked: Result:= (Result or S_IXUSR);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IXUSR;
+  end;
+  case cbReadGroup.State of
+    cbChecked: Result:= (Result or S_IRGRP);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IRGRP;
+  end;
+  case cbWriteGroup.State of
+    cbChecked: Result:= (Result or S_IWGRP);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IWGRP;
+  end;
+  case cbExecGroup.State of
+    cbChecked: Result:= (Result or S_IXGRP);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IXGRP;
+  end;
+  case cbReadOther.State of
+    cbChecked: Result:= (Result or S_IROTH);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IROTH;
+  end;
+  case cbWriteOther.State of
+    cbChecked: Result:= (Result or S_IWOTH);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IWOTH;
+  end;
+  case cbExecOther.State of
+    cbChecked: Result:= (Result or S_IXOTH);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_IXOTH;
+  end;
+
+  case cbSuid.State of
+    cbChecked: Result:= (Result or S_ISUID);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_ISUID;
+  end;
+  case cbSgid.State of
+    cbChecked: Result:= (Result or S_ISGID);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_ISGID;
+  end;
+  case cbSticky.State of
+    cbChecked: Result:= (Result or S_ISVTX);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or S_ISVTX;
+  end;
+end;
+
+function TfrmSetFileProperties.GetAttrFromForm(out ExcludeAttrs: TFileAttrs): TFileAttrs;
+begin
+  Result:= 0;
+  ExcludeAttrs:= 0;
+  case chkArchive.State of
+    cbChecked: Result:= (Result or FILE_ATTRIBUTE_ARCHIVE);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or FILE_ATTRIBUTE_ARCHIVE;
+  end;
+  case chkReadOnly.State of
+    cbChecked: Result:= (Result or FILE_ATTRIBUTE_READONLY);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or FILE_ATTRIBUTE_READONLY;
+  end;
+  case chkHidden.State of
+    cbChecked: Result:= (Result or FILE_ATTRIBUTE_HIDDEN);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or FILE_ATTRIBUTE_HIDDEN;
+  end;
+  case chkSystem.State of
+    cbChecked: Result:= (Result or FILE_ATTRIBUTE_SYSTEM);
+    cbUnchecked: ExcludeAttrs:= ExcludeAttrs or FILE_ATTRIBUTE_SYSTEM;
+  end;
 end;
 
 constructor TfrmSetFileProperties.Create(aOwner: TComponent; const aOperation: TFileSourceSetFilePropertyOperation);
@@ -270,16 +347,19 @@ begin
   begin
     if fpAttributes in SupportedProperties then
       begin
+        UpdateAllowGrayed((TargetFiles.Count > 1) or TargetFiles[0].IsDirectory);
         if NewProperties[fpAttributes] is TNtfsFileAttributesProperty then
-          begin
+        begin
+          if TargetFiles.Count = 1 then
             ShowAttr((NewProperties[fpAttributes] as TNtfsFileAttributesProperty).Value);
-            gbWinAttributes.Show;
-          end;
+          gbWinAttributes.Show;
+        end;
         if NewProperties[fpAttributes] is TUnixFileAttributesProperty then
-          begin
+        begin
+          if TargetFiles.Count = 1 then
             ShowMode((NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value);
-            gbUnixAttributes.Show;
-          end;
+          gbUnixAttributes.Show;
+        end;
       end;
     if (fpCreationTime in SupportedProperties) and Assigned(NewProperties[fpCreationTime]) then
       begin

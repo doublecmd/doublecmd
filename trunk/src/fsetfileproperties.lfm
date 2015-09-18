@@ -1,7 +1,7 @@
 object frmSetFileProperties: TfrmSetFileProperties
-  Left = 410
+  Left = 477
   Height = 593
-  Top = 247
+  Top = 127
   Width = 309
   AutoSize = True
   BorderIcons = [biSystemMenu]
@@ -11,7 +11,7 @@ object frmSetFileProperties: TfrmSetFileProperties
   ClientWidth = 309
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.2.6.0'
+  LCLVersion = '1.4.3.0'
   object btnOK: TBitBtn
     AnchorSideTop.Control = chkRecursive
     AnchorSideTop.Side = asrBottom
@@ -20,7 +20,7 @@ object frmSetFileProperties: TfrmSetFileProperties
     AnchorSideBottom.Side = asrBottom
     Left = 95
     Height = 26
-    Top = 491
+    Top = 518
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -43,7 +43,7 @@ object frmSetFileProperties: TfrmSetFileProperties
     AnchorSideBottom.Side = asrBottom
     Left = 201
     Height = 26
-    Top = 491
+    Top = 518
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -62,7 +62,7 @@ object frmSetFileProperties: TfrmSetFileProperties
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 19
-    Top = 466
+    Top = 493
     Width = 128
     BorderSpacing.Left = 12
     BorderSpacing.Top = 8
@@ -73,14 +73,14 @@ object frmSetFileProperties: TfrmSetFileProperties
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 111
+    Height = 113
     Top = 6
-    Width = 297
+    Width = 293
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Timestamp properties'
     ClientHeight = 93
-    ClientWidth = 293
+    ClientWidth = 289
     TabOrder = 0
     object DatesPanel: TPanel
       AnchorSideLeft.Control = ChecksPanel
@@ -91,13 +91,13 @@ object frmSetFileProperties: TfrmSetFileProperties
       Left = 96
       Height = 81
       Top = 6
-      Width = 197
+      Width = 193
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Around = 6
       BevelOuter = bvNone
       ClientHeight = 81
-      ClientWidth = 197
+      ClientWidth = 193
       TabOrder = 1
       object ZVCreationDateTime: TZVDateTimePicker
         AnchorSideLeft.Control = DatesPanel
@@ -107,7 +107,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         Left = 0
         Height = 23
         Top = 0
-        Width = 158
+        Width = 154
         CenturyFrom = 1941
         MaxDate = 2958465
         MinDate = -53780
@@ -133,7 +133,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         Left = 0
         Height = 23
         Top = 29
-        Width = 158
+        Width = 154
         CenturyFrom = 1941
         MaxDate = 2958465
         MinDate = -53780
@@ -161,7 +161,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         Left = 0
         Height = 23
         Top = 58
-        Width = 158
+        Width = 154
         CenturyFrom = 1941
         MaxDate = 2958465
         MinDate = -53780
@@ -187,7 +187,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 164
+        Left = 160
         Height = 21
         Top = 30
         Width = 23
@@ -239,7 +239,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 164
+        Left = 160
         Height = 20
         Top = 1
         Width = 23
@@ -291,7 +291,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 164
+        Left = 160
         Height = 21
         Top = 59
         Width = 23
@@ -405,8 +405,8 @@ object frmSetFileProperties: TfrmSetFileProperties
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 95
-    Top = 123
+    Height = 97
+    Top = 125
     Width = 297
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -423,9 +423,11 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 31
       Width = 58
+      AllowGrayed = True
       BorderSpacing.Bottom = 6
       Caption = 'System'
       OnClick = chkChangeAttrClick
+      State = cbGrayed
       TabOrder = 3
     end
     object chkHidden: TCheckBox
@@ -434,9 +436,11 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 6
       Width = 59
+      AllowGrayed = True
       Anchors = [akTop]
       Caption = 'Hidden'
       OnClick = chkChangeAttrClick
+      State = cbGrayed
       TabOrder = 2
     end
     object chkArchive: TCheckBox
@@ -446,10 +450,12 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 6
       Width = 60
+      AllowGrayed = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = 'Archive'
       OnClick = chkChangeAttrClick
+      State = cbGrayed
       TabOrder = 0
     end
     object chkReadOnly: TCheckBox
@@ -460,10 +466,12 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 31
       Width = 72
+      AllowGrayed = True
       BorderSpacing.Top = 6
       BorderSpacing.Bottom = 6
       Caption = 'Read only'
       OnClick = chkChangeAttrClick
+      State = cbGrayed
       TabOrder = 1
     end
     object lblAttrInfo: TLabel
@@ -480,7 +488,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       BorderSpacing.Bottom = 6
       Caption = '(gray field means unchanged value)'
       ParentColor = False
-      Visible = False
     end
   end
   object gbUnixAttributes: TGroupBox
@@ -490,14 +497,14 @@ object frmSetFileProperties: TfrmSetFileProperties
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 234
-    Top = 224
+    Height = 257
+    Top = 228
     Width = 297
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Attributes'
-    ClientHeight = 216
+    ClientHeight = 237
     ClientWidth = 293
     TabOrder = 2
     Visible = False
@@ -540,8 +547,10 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 21
       Width = 20
+      AllowGrayed = True
       Anchors = [akTop]
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 2
     end
     object cbWriteOwner: TCheckBox
@@ -550,8 +559,10 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 21
       Width = 20
+      AllowGrayed = True
       Anchors = [akTop]
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 1
     end
     object cbReadOwner: TCheckBox
@@ -562,9 +573,11 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 21
       Width = 20
+      AllowGrayed = True
       Anchors = [akTop]
       BorderSpacing.Top = 6
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 0
     end
     object lblAttrOwnerStr: TLabel
@@ -598,8 +611,10 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 46
       Width = 20
+      AllowGrayed = True
       BorderSpacing.Top = 6
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 3
     end
     object cbWriteGroup: TCheckBox
@@ -609,7 +624,9 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 46
       Width = 20
+      AllowGrayed = True
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 4
     end
     object cbExecGroup: TCheckBox
@@ -619,7 +636,9 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 46
       Width = 20
+      AllowGrayed = True
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 5
     end
     object lblAttrOtherStr: TLabel
@@ -641,8 +660,10 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 71
       Width = 20
+      AllowGrayed = True
       BorderSpacing.Top = 6
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 6
     end
     object cbWriteOther: TCheckBox
@@ -652,7 +673,9 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 71
       Width = 20
+      AllowGrayed = True
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 7
     end
     object cbExecOther: TCheckBox
@@ -662,7 +685,9 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 71
       Width = 20
+      AllowGrayed = True
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 8
     end
     object Bevel1: TBevel
@@ -688,9 +713,11 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 131
       Width = 51
+      AllowGrayed = True
       BorderSpacing.Top = 6
       Caption = 'Sticky'
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 11
     end
     object cbSgid: TCheckBox
@@ -701,9 +728,11 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 106
       Width = 45
+      AllowGrayed = True
       BorderSpacing.Top = 6
       Caption = 'SGID'
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 10
     end
     object cbSuid: TCheckBox
@@ -714,9 +743,11 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 19
       Top = 106
       Width = 45
+      AllowGrayed = True
       BorderSpacing.Top = 6
       Caption = 'SUID'
       OnClick = cbChangeModeClick
+      State = cbGrayed
       TabOrder = 9
     end
     object lblAttrBitsStr: TLabel
@@ -731,12 +762,12 @@ object frmSetFileProperties: TfrmSetFileProperties
       ParentColor = False
     end
     object Bevel2: TBevel
-      AnchorSideTop.Control = cbSticky
+      AnchorSideTop.Control = lblModeInfo
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 4
-      Top = 156
+      Top = 177
       Width = 289
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
@@ -751,7 +782,7 @@ object frmSetFileProperties: TfrmSetFileProperties
       AnchorSideTop.Side = asrCenter
       Left = 7
       Height = 15
-      Top = 170
+      Top = 191
       Width = 31
       Caption = 'Octal:'
       FocusControl = edtOctal
@@ -763,7 +794,7 @@ object frmSetFileProperties: TfrmSetFileProperties
       AnchorSideTop.Side = asrBottom
       Left = 97
       Height = 23
-      Top = 166
+      Top = 187
       Width = 80
       BorderSpacing.Top = 6
       MaxLength = 4
@@ -777,8 +808,8 @@ object frmSetFileProperties: TfrmSetFileProperties
       AnchorSideTop.Side = asrBottom
       Left = 7
       Height = 15
-      Top = 195
-      Width = 25
+      Top = 216
+      Width = 24
       BorderSpacing.Top = 6
       BorderSpacing.Bottom = 6
       Caption = 'Text:'
@@ -790,13 +821,27 @@ object frmSetFileProperties: TfrmSetFileProperties
       AnchorSideTop.Side = asrCenter
       Left = 97
       Height = 15
-      Top = 195
+      Top = 216
       Width = 55
       BorderSpacing.Bottom = 6
       Caption = '-----------'
       Font.Color = clBlack
       ParentColor = False
       ParentFont = False
+    end
+    object lblModeInfo: TLabel
+      AnchorSideLeft.Control = lblAttrBitsStr
+      AnchorSideTop.Control = cbSticky
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Left = 7
+      Height = 15
+      Top = 156
+      Width = 189
+      BorderSpacing.Top = 6
+      BorderSpacing.Bottom = 6
+      Caption = '(gray field means unchanged value)'
+      ParentColor = False
     end
   end
 end
