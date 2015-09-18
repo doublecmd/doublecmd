@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs,
+  DCBasicTypes,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSource,
@@ -89,7 +90,10 @@ type
     function GetErrorString(aFile: TFile; aProperty: TFileProperty): String;
 
     property FileSource: IFileSource read FFileSource;
-    property TargetFiles: TFiles read FTargetFiles;
+
+  public
+    IncludeAttributes: TFileAttrs;
+    ExcludeAttributes: TFileAttrs;
 
   public
     {en
@@ -112,6 +116,7 @@ type
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceSetFilePropertyOperationStatistics;
 
+    property TargetFiles: TFiles read FTargetFiles;
     property NewProperties: TFileProperties read FNewProperties;
     property TemplateFiles: TFiles read FTemplateFiles; // set by SetTemplateFiles because can't use "var" in properties
     property Recursive: Boolean read FRecursive write FRecursive;
@@ -261,6 +266,7 @@ end;
 procedure TFileSourceSetFilePropertyOperation.SetProperties(aFile: TFile;
                                                             aTemplateFile: TFile);
 var
+  FileAttrs: TFileAttrs;
   prop: TFilePropertyType;
   templateProperty: TFileProperty;
   bRetry: Boolean;
@@ -286,7 +292,21 @@ begin
 
         // Check if there is a new property to be set.
         if Assigned(templateProperty) then
+        begin
+          // Special case for attributes property
+          if templateProperty is TFileAttributesProperty then
+          begin
+            if (IncludeAttributes <> 0) or (ExcludeAttributes <> 0) then
+            begin
+              FileAttrs:= aFile.Attributes;
+              FileAttrs:= FileAttrs or IncludeAttributes;
+              FileAttrs:= FileAttrs and not ExcludeAttributes;
+              TFileAttributesProperty(templateProperty).Value:= FileAttrs;
+            end;
+          end;
+
           SetResult := SetNewProperty(aFile, templateProperty);
+        end;
       end;
 
       if SetResult = sfprError then
