@@ -192,6 +192,7 @@ type
 
   private
     FList: TFPList;
+    FFlat: Boolean;
     FOwnsObjects: Boolean;
     FPath: String; //<en path of all files
 
@@ -224,6 +225,7 @@ type
     property List: TFPList read FList;
     property OwnsObjects: Boolean read FOwnsObjects write FOwnsObjects;
     property Path: String read FPath write SetPath;
+    property Flat: Boolean read FFlat write FFlat;
 
   end;
 

@@ -241,6 +241,11 @@ begin
   else
     WcxCopyOutOperationT := Self;
 
+  // Extract without path from flat view
+  if not FExtractWithoutPath then begin
+    FExtractWithoutPath := SourceFiles.Flat;
+  end;
+
   // Check rename mask
   FRenamingFiles := (RenameMask <> '*.*') and (RenameMask <> '');
   if FRenamingFiles then SplitFileMask(RenameMask, FRenameNameMask, FRenameExtMask);
