@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  uOSUtils, DCStrUtils, uWCXmodule, uFile;
+  DCOSUtils, uOSUtils, DCStrUtils, uWCXmodule, uFile;
 
 constructor TWcxArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -35,9 +35,10 @@ end;
 procedure TWcxArchiveListOperation.MainExecute;
 var
   I : Integer;
-  CurrFileName : String;  // Current file name
-  ArcFileList: TList;
   aFile: TFile;
+  Header: TWcxHeader;
+  ArcFileList: TList;
+  CurrFileName : String;  // Current file name
 begin
   FFiles.Clear;
 
@@ -53,12 +54,20 @@ begin
   for I := 0 to ArcFileList.Count - 1 do
     begin
       CheckOperationState;
-      CurrFileName := PathDelim + TWCXHeader(ArcFileList.Items[I]).FileName;
 
-      if not IsInPath(Path, CurrFileName, False, False) then
+      Header := TWcxHeader(ArcFileList.Items[I]);
+      CurrFileName := PathDelim + Header.FileName;
+
+      if not IsInPath(Path, CurrFileName, FFlatView, False) then
         Continue;
 
-      aFile := TWcxArchiveFileSource.CreateFile(Path, TWCXHeader(ArcFileList.Items[I]));
+      if FFlatView = False then
+        aFile := TWcxArchiveFileSource.CreateFile(Path, Header)
+      else begin
+        if FPS_ISDIR(Header.FileAttr) then Continue;
+        aFile := TWcxArchiveFileSource.CreateFile(ExtractFilePath(CurrFileName), Header)
+      end;
+
       FFiles.Add(aFile);
     end;
 end;

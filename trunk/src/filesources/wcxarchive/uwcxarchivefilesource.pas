@@ -465,7 +465,7 @@ end;
 
 function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [fspUsesConnections];
+  Result := [fspUsesConnections, fspListFlatView];
 end;
 
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
