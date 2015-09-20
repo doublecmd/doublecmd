@@ -85,11 +85,25 @@ begin
   // Wcx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wcx' + PathDelim;
 
+  {$IF DEFINED(MSWINDOWS)}
+  I:= gWCXPlugins.IndexOfName('zip');
+  if I < 0 then
+    gWCXPlugins.Add('zip', 607, Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx')
+  else begin
+    // For zip used another plugin, so update path too
+    gWCXPlugins.FileName[I]:= Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx';
+  end;
+
+  I:= gWCXPlugins.IndexOfName('7z');
+  if I < 0 then
+    gWCXPlugins.Add('7z', 607, Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx');
+  {$ELSE}
   I:= gWCXPlugins.IndexOfName('zip');
   if I < 0 then
     gWCXPlugins.Add('zip', 607, Folder + 'zip' + PathDelim + 'zip.wcx')
   else
     gWCXPlugins.Flags[I]:= 607;
+  {$ENDIF}
 
   I:= gWCXPlugins.IndexOfName('tar');
   if I < 0 then
@@ -163,10 +177,6 @@ begin
     // For cpio used another plugin, so update path too
     gWCXPlugins.FileName[I]:= Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx';
   end;
-
-  I:= gWCXPlugins.IndexOfName('7z');
-  if I < 0 then
-    gWCXPlugins.Add('7z', 607, Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx');
 
   I:= gWCXPlugins.IndexOfName('arj');
   if I < 0 then
