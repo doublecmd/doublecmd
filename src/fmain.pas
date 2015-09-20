@@ -3151,7 +3151,6 @@ begin
       FileSource := ActiveFrame.FileSource;
     end;
     try
-      SourceFiles.Flat := ActiveFrame.FlatView;
       Result := CopyFiles(ActiveFrame.FileSource, FileSource,
                           SourceFiles, sDestPath, bShowDialog, QueueIdentifier);
       if Result then

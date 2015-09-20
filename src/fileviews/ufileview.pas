@@ -1563,6 +1563,7 @@ var
 begin
   Result := CloneSelectedFiles;
 
+  Result.Flat := FFlatView;
   // If no files are selected, add currently active file if it is valid.
   if (Result.Count = 0) then
   begin
