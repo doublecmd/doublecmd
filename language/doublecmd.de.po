@@ -9460,6 +9460,7 @@ msgid "Remove all inactive tabs?"
 msgstr "Alle in-aktiven Tabs entfernen?"
 
 #: ulng.rsmsgcloselockedtab
+#, fuzzy,badformat
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Dieser Tab ist gesperrt! Trotzdem schließen?"
 
@@ -9490,6 +9491,7 @@ msgid "Copy selected \"%s\"?"
 msgstr "Markierte \"%s\" kopieren?"
 
 #: ulng.rsmsgcreateanewfiletype
+#, fuzzy,badformat
 msgid "< Create a new file type \"%s files\" >"
 msgstr "< Neuen Dateityp erstellen \"s Dateien\" >"
 
@@ -9958,6 +9960,7 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Falsches Ergebnis der Dateilänge für: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy,badformat
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -9997,6 +10000,7 @@ msgid "This is not a valid plugin!"
 msgstr "Dies ist kein akzeptables Plugin"
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "Dieses Plugin wurde für Double Commander für %s erstellt. Es kann nicht für %s verwendet werden!"
 
@@ -10539,6 +10543,7 @@ msgid "Listing"
 msgstr "Liste auf"
 
 #: ulng.rsoperlistingin
+#, fuzzy,badformat
 msgid "Listing \"%s\""
 msgstr "Liste \"s%\" auf"
 

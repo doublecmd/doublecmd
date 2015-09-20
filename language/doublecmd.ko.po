@@ -10042,6 +10042,7 @@ msgid "Create symlink %s"
 msgstr "심링크 %s 생성"
 
 #: ulng.rsmsglogtest
+#, fuzzy,badformat
 msgid "Test file integrity %s"
 msgstr "파일 % 상태 테스트"
 
@@ -10774,6 +10775,7 @@ msgid "Description"
 msgstr "설명"
 
 #: ulng.rsopthotkeysedithotkey
+#, fuzzy,badformat
 msgid "Edit hotkey for %s"
 msgstr "%의 단축키 편집"
 

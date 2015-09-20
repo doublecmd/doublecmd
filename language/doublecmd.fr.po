@@ -375,7 +375,7 @@ msgid "Double Commander"
 msgstr "Double Commander"
 
 #: tfrmabout.lblversion.caption
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Version %s"
 msgctxt "tfrmabout.lblversion.caption"
 msgid "Version"
@@ -7537,7 +7537,7 @@ msgid "Double Commander"
 msgstr "Double Commander"
 
 #: tfrmstartingsplash.lblversion.caption
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Version %s"
 msgctxt "tfrmstartingsplash.lblversion.caption"
 msgid "Version"
@@ -9265,6 +9265,7 @@ msgid "Remove all inactive tabs?"
 msgstr "Fermer tous les onglets actifs ?"
 
 #: ulng.rsmsgcloselockedtab
+#, fuzzy,badformat
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Cet onglet est verrouillé ! Forcer la fermeture ?"
 
@@ -9980,6 +9981,7 @@ msgid "&Delete %s"
 msgstr "&Supprimer %s"
 
 #: ulng.rsmsgpresetalreadyexists
+#, fuzzy,badformat
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Ecraser la configuration existante ?"
 
@@ -10649,7 +10651,7 @@ msgid "Shortcut in use"
 msgstr "Raccourcis utilisé"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Shortcut %s is already used for %s."
 msgid "Shortcut %s is already used."
 msgstr "Le raccourcis %s est déjà utilisé pour %s."
@@ -10659,7 +10661,7 @@ msgid "Change it to %s?"
 msgstr "Modifier en %s ?"
 
 #: ulng.rsopthotkeysusedby
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "used by"
 msgid "used for %s in %s"
 msgstr "utilisé par"

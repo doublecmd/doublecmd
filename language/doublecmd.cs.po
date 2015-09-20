@@ -568,11 +568,6 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "&Zrušit"
 
-#: tfrmcopydlg.btncreatespecialqueue.caption
-msgctxt "TFRMCOPYDLG.BTNCREATESPECIALQUEUE.CAPTION"
-msgid "..."
-msgstr "..."
-
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
 msgstr "N&astavení"
@@ -8649,6 +8644,10 @@ msgstr "Nelze nastavit datum/čas pro \"%s\""
 msgid "Can not set owner/group for \"%s\""
 msgstr "Nelze nastavit vlastníka/skupinu pro \"%s \""
 
+#: ulng.rsmsgerrsetpermissions
+msgid "Can not set permissions for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Vyrovnávací paměť je příliš malá"
@@ -10523,3 +10522,4 @@ msgstr "Počet nahrazených: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Žádné nahrazení se nekonalo."
+

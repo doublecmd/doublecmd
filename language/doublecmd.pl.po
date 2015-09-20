@@ -9773,6 +9773,7 @@ msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do
 msgstr "Skrót %s do cm_Delete ma parametr, który zastępuje to ustawienie. Czy chcesz zmienić ten parametr, aby używać ustawienia globalnego?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, fuzzy,badformat
 msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "Skrót %s do cm_Delete musi mieć parametr zmieniajacy trafność skrótu % s. Czy chcesz zmienić?"

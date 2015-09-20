@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2015-09-13 22:23+0900\n"
+"PO-Revision-Date: 2015-09-20 16:32+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -2333,7 +2333,7 @@ msgstr "全ての表示されているカラムをコピー(&c)"
 
 #: tfrmmain.actcopyfullnamestoclip.caption
 msgid "Copy Filename(s) with Full &Path"
-msgstr "ファイル名（複数可）をフルパスでコピー(&P)"
+msgstr "ファイル名（複数可）をフルパスでクリップボードにコピー(&P)"
 
 #: tfrmmain.actcopynamestoclip.caption
 msgid "Copy &Filename(s) to Clipboard"
@@ -3951,7 +3951,7 @@ msgstr "終了時に保存"
 
 #: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
 msgid "Sort order of configuration order in left tree"
-msgstr "左側のツリーの構成順序の並べ替え順序"
+msgstr "←左側ツリー中での構成設定要素の並べ替え順序"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
@@ -5833,19 +5833,19 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
-msgstr "外部コマンドに対して"
+msgstr "外部コマンドを"
 
 #: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
-msgstr "内部コマンドに対して"
+msgstr "内部コマンドを"
 
 #: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
 msgid "for a separator"
-msgstr "区切りに対して"
+msgstr "区切りを"
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
-msgstr "サブツールバーに対して"
+msgstr "サブツールバーを"
 
 #: tfrmoptionstoolbar.mibackup.caption
 #, fuzzy
@@ -7851,6 +7851,7 @@ msgid "Confirming command line and parameters"
 msgstr ""
 
 #: ulng.rscopynametemplate
+#, fuzzy,badformat
 msgid "Copy (%d) %s"
 msgstr "コピー（％d）％s"
 
@@ -8943,6 +8944,7 @@ msgid "Total entries exported: "
 msgstr "エクスポートされた項目の合計："
 
 #: ulng.rsmsghotdirwhattodelete
+#, fuzzy,badformat
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -8957,6 +8959,7 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "結果であるファイルの長さが正しくありません： ＜%s＞"
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy,badformat
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -9727,10 +9730,10 @@ msgstr "プラグイン＜%s＞を右に関連づけ："
 msgid "First;Last;"
 msgstr "最初;最後;"
 
-# Languageの意味不明
+# 「アルファベット順（言語最初）」を選んでも、言語は最後になる。恐らく、ソートのキーの間違い。日本語訳はどちらでもよいように、曖昧にしました。
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr "古典的、遺産的仕様の順番;アルファベット順（それでも言語を最初に）"
+msgstr "クラッシックな順番;レガシーな順番;アルファベットの順番（表示言語は最初/最後に）"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
