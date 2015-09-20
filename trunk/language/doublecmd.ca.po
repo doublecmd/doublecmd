@@ -10542,6 +10542,7 @@ msgid "Description"
 msgstr "Descripció"
 
 #: ulng.rsopthotkeysedithotkey
+#, fuzzy,badformat
 msgid "Edit hotkey for %s"
 msgstr "Fixa Tecles ràpides"
 

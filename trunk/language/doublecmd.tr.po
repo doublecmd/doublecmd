@@ -8848,6 +8848,7 @@ msgid "Cannot copy file %s to %s"
 msgstr "Dosya %s kopyalanamıyor %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
+#, fuzzy,badformat
 msgid "There already exists a directory named \"%s\"."
 msgstr "Orada zaten o adda bir dizin var"
 
@@ -9395,6 +9396,7 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "Hedef sürücüde yeterli boşluk yok. Yeniden Dene?"
 
 #: ulng.rsmsgnotdelete
+#, fuzzy,badformat
 msgid "Can not delete file %s"
 msgstr "Dosya silinemiyor"
 
@@ -10105,7 +10107,7 @@ msgid "Shortcut in use"
 msgstr "Kısayol kullanımı"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Shortcut %s is already used for %s."
 msgid "Shortcut %s is already used."
 msgstr "Kısayol %s zaten kullanılıyor %s."
@@ -10115,7 +10117,7 @@ msgid "Change it to %s?"
 msgstr "Bunu değiştir %s?"
 
 #: ulng.rsopthotkeysusedby
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "used by"
 msgid "used for %s in %s"
 msgstr "tarafından kullanılan"

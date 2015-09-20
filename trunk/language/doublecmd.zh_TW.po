@@ -246,7 +246,6 @@ msgid "Choose template..."
 msgstr "選擇範本..."
 
 #: tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption
-#| msgid "Check free space"
 msgid "C&heck free space"
 msgstr "檢查可用空間 (&H)"
 
@@ -267,12 +266,10 @@ msgid "Copy d&ate/time"
 msgstr "複製日期/時間 (&A)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
-#| msgid "Correct links"
 msgid "Correct lin&ks"
 msgstr "修正連結 (&K)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
-#| msgid "Drop readonly flag"
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly fla&g"
 msgstr "丟棄唯讀屬性 (&G)"
@@ -282,7 +279,6 @@ msgid "E&xclude empty directories"
 msgstr "排除空白資料夾 (&X)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
-#| msgid "Follow links"
 msgid "Fo&llow links"
 msgstr "允許連結 (&L)"
 
@@ -299,12 +295,10 @@ msgid "Use file template"
 msgstr "使用檔案範本"
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
-#| msgid "When directory exists"
 msgid "When dir&ectory exists"
 msgstr "當資料夾存在時 (&E)"
 
 #: tfilesystemcopymoveoperationoptionsui.lblfileexists.caption
-#| msgid "When file exists"
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When &file exists"
 msgstr "當檔案存在時 (&F)"
@@ -388,18 +382,15 @@ msgid "Choose attributes"
 msgstr "選擇屬性"
 
 #: tfrmattributesedit.cbarchive.caption
-#| msgid "Archive"
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
 msgid "&Archive"
 msgstr "封存 (&A)"
 
 #: tfrmattributesedit.cbcompressed.caption
-#| msgid "Compressed"
 msgid "Co&mpressed"
 msgstr "壓縮 (&M)"
 
 #: tfrmattributesedit.cbdirectory.caption
-#| msgid "Directory"
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
 msgid "&Directory"
 msgstr "資料夾 (&D)"
@@ -1692,7 +1683,6 @@ msgid "Click on Close when the temporary file can be deleted!"
 msgstr "關閉時暫存檔會被刪除！"
 
 #: tfrmfileop.btncancel.caption
-#| msgid "Cancel"
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "取消 (&C)"
@@ -1788,7 +1778,6 @@ msgid "-----------"
 msgstr "-----------"
 
 #: tfrmfileproperties.lblattrtextstr.caption
-#| msgid "Representation in text:"
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "文字:"
@@ -1904,7 +1893,6 @@ msgid "???"
 msgstr "???"
 
 #: tfrmfileproperties.lblsymlinkstr.caption
-#| msgid "Symlink:"
 msgid "Symlink to:"
 msgstr "符號連結:"
 
@@ -2091,7 +2079,6 @@ msgid "&Regular expression"
 msgstr "規則運算式 (&R)"
 
 #: tfrmfinddlg.cbreplacetext.caption
-#| msgid "Re&place text"
 msgid "Re&place by"
 msgstr "取代文字 (&P)"
 
@@ -2258,7 +2245,6 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmhardlink.caption
-#| msgid "Create hardlink"
 msgid "Create hard link"
 msgstr "建立硬式連結"
 
@@ -2376,7 +2362,6 @@ msgid "Up"
 msgstr "上移"
 
 #: tfrmmain.actabout.caption
-#| msgid "About"
 msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "&About"
 msgstr "關於 (&A)"
@@ -2403,7 +2388,6 @@ msgid "Brief View"
 msgstr "簡要檢視"
 
 #: tfrmmain.actcalculatespace.caption
-#| msgid "Calculate &Occupied Space..."
 msgid "Calculate &Occupied Space"
 msgstr "計算佔用空間 (&O)"
 
@@ -2425,13 +2409,11 @@ msgid "Change directory to root"
 msgstr "變更到根資料夾"
 
 #: tfrmmain.actchecksumcalc.caption
-#| msgid "Calculate check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
 msgid "Calculate Check&sum..."
 msgstr "計算驗證碼... (&S)"
 
 #: tfrmmain.actchecksumverify.caption
-#| msgid "Verify check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "&Verify Checksum..."
 msgstr "校驗驗證碼... (&V)"
@@ -2526,7 +2508,6 @@ msgid "&Copy"
 msgstr "複製 (&C)"
 
 #: tfrmmain.actcountdircontent.caption
-#| msgid "Sho&w occupied space"
 msgid "Sho&w Occupied Space"
 msgstr "顯示佔用空間 (&W)"
 
@@ -2547,7 +2528,6 @@ msgid "Directory history"
 msgstr "資料夾歷史記錄"
 
 #: tfrmmain.actdirhotlist.caption
-#| msgid "Directory &hotlist"
 msgid "Directory &Hotlist"
 msgstr "常用資料夾列表 (&H)"
 
@@ -2559,7 +2539,6 @@ msgid "Edit"
 msgstr "編輯"
 
 #: tfrmmain.acteditcomment.caption
-#| msgid "Edit comment..."
 msgid "Edit Co&mment..."
 msgstr "編輯註解... (&M)"
 
@@ -2576,33 +2555,27 @@ msgid "Swap &Panels"
 msgstr "交換面板 (&P)"
 
 #: tfrmmain.actexit.caption
-#| msgid "Exit"
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
 msgstr "離開 (&X)"
 
 #: tfrmmain.actextractfiles.caption
-#| msgid "Extract files..."
 msgid "&Extract Files..."
 msgstr "解壓縮檔案... (&E)"
 
 #: tfrmmain.actfileassoc.caption
-#| msgid "File &associations..."
 msgid "File &Associations..."
 msgstr "檔案關聯... (&A)"
 
 #: tfrmmain.actfilelinker.caption
-#| msgid "Link files"
 msgid "Com&bine Files..."
 msgstr "合併檔案... (&B)"
 
 #: tfrmmain.actfileproperties.caption
-#| msgid "Show file properties"
 msgid "Show &File Properties"
 msgstr "顯示檔案內容 (&F)"
 
 #: tfrmmain.actfilespliter.caption
-#| msgid "Split file"
 msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Spl&it File..."
 msgstr "分割檔案... (&I)"
@@ -2624,13 +2597,11 @@ msgid "Place cursor on last file in list"
 msgstr "移到清單中最後一個檔案"
 
 #: tfrmmain.acthardlink.caption
-#| msgid "Create hard link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create &Hard Link..."
 msgstr "建立硬式連結... (&H)"
 
 #: tfrmmain.acthelpindex.caption
-#| msgid "Contents"
 msgid "&Contents"
 msgstr "內容 (&C)"
 
@@ -2639,7 +2610,6 @@ msgid "&Horizontal Panels Mode"
 msgstr "水平面板模式 (&H)"
 
 #: tfrmmain.actkeyboard.caption
-#| msgid "Keyboard"
 msgid "&Keyboard"
 msgstr "鍵盤配置 (&K)"
 
@@ -2676,7 +2646,6 @@ msgid "Select All with the Same E&xtension"
 msgstr "選擇所有相同副檔名 (&X)"
 
 #: tfrmmain.actmarkinvert.caption
-#| msgid "Invert Selections"
 msgid "&Invert Selection"
 msgstr "反向選擇 (&I)"
 
@@ -2685,17 +2654,14 @@ msgid "&Select All"
 msgstr "全選 (&S)"
 
 #: tfrmmain.actmarkminus.caption
-#| msgid "Unselect a group"
 msgid "Unselect a Gro&up..."
 msgstr "取消所選群組... (&U)"
 
 #: tfrmmain.actmarkplus.caption
-#| msgid "Select a group"
 msgid "Select a &Group..."
 msgstr "選擇群組 (&G)"
 
 #: tfrmmain.actmarkunmarkall.caption
-#| msgid "Unselect All"
 msgid "&Unselect All"
 msgstr "取消全選 (&U)"
 
@@ -2704,7 +2670,6 @@ msgid "Minimize window"
 msgstr "最小化視窗"
 
 #: tfrmmain.actmultirename.caption
-#| msgid "Multi Rename Tool"
 msgid "Multi &Rename Tool"
 msgstr "多重命名工具 (&R)"
 
@@ -2721,12 +2686,10 @@ msgid "Network &Quick Connect..."
 msgstr "快速連接網路 (&Q)"
 
 #: tfrmmain.actnewtab.caption
-#| msgid "&New tab"
 msgid "&New Tab"
 msgstr "新增分頁 (&N)"
 
 #: tfrmmain.actnexttab.caption
-#| msgid "Switch to nex&t tab"
 msgid "Switch to Nex&t Tab"
 msgstr "切換到下一個分頁 (&T)"
 
@@ -2744,7 +2707,6 @@ msgid "Open bar file"
 msgstr "開啟 bar 檔案"
 
 #: tfrmmain.actopendirinnewtab.caption
-#| msgid "Open &folder in new tab"
 msgid "Open &Folder in a New Tab"
 msgstr "在新分頁開啟資料夾 (&F)"
 
@@ -2757,12 +2719,10 @@ msgid "Operations &Viewer"
 msgstr "操作檢視器 (&V)"
 
 #: tfrmmain.actoptions.caption
-#| msgid "Options..."
 msgid "&Options..."
 msgstr "選項... (&O)"
 
 #: tfrmmain.actpackfiles.caption
-#| msgid "Pack files..."
 msgid "&Pack Files..."
 msgstr "壓縮檔案... (&P)"
 
@@ -2775,7 +2735,6 @@ msgid "&Paste"
 msgstr "貼上 (&P)"
 
 #: tfrmmain.actprevtab.caption
-#| msgid "Switch to &previous tab"
 msgid "Switch to &Previous Tab"
 msgstr "切換到上一個分頁 (&P)"
 
@@ -2823,7 +2782,6 @@ msgid "&Restore Selection"
 msgstr "回復所選項目 (&R)"
 
 #: tfrmmain.actreverseorder.caption
-#| msgid "Reverse order"
 msgid "Re&verse Order"
 msgstr "反向排序 (&V)"
 
@@ -2836,7 +2794,6 @@ msgid "Open right drive list"
 msgstr "開啟右面板磁碟清單"
 
 #: tfrmmain.actrunterm.caption
-#| msgid "Run Term"
 msgid "Run &Terminal"
 msgstr "開啟終端機 (&T)"
 
@@ -2853,7 +2810,6 @@ msgid "&Save Tabs to File"
 msgstr ""
 
 #: tfrmmain.actsearch.caption
-#| msgid "&Search"
 msgid "&Search..."
 msgstr "搜尋... (&S)"
 
@@ -2903,33 +2859,27 @@ msgid "Menu"
 msgstr "選單"
 
 #: tfrmmain.actshowsysfiles.caption
-#| msgid "Show hidden/system files"
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show &Hidden/System Files"
 msgstr "顯示/隱藏系統檔案 (&H)"
 
 #: tfrmmain.actsortbyattr.caption
-#| msgid "Sort by attrib"
 msgid "Sort by &Attributes"
 msgstr "依屬性排序 (&A)"
 
 #: tfrmmain.actsortbydate.caption
-#| msgid "Sort by date"
 msgid "Sort by &Date"
 msgstr "依日期排序 (&D)"
 
 #: tfrmmain.actsortbyext.caption
-#| msgid "Sort by extension"
 msgid "Sort by &Extension"
 msgstr "依副檔名排序 (&E)"
 
 #: tfrmmain.actsortbyname.caption
-#| msgid "Sort by name"
 msgid "Sort by &Name"
 msgstr "依檔名排序 (&N)"
 
 #: tfrmmain.actsortbysize.caption
-#| msgid "Sort by size"
 msgid "Sort by &Size"
 msgstr "依大小排序 (&S)"
 
@@ -2938,7 +2888,6 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr "啟用/停用不顯示在忽略清單下所設定的檔案或資料夾"
 
 #: tfrmmain.actsymlink.caption
-#| msgid "Create symbolic link..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
 msgstr "建立符號連結... (&L)"
@@ -3002,7 +2951,6 @@ msgid "Go to previous entry in history"
 msgstr "移到上一個歷史記錄"
 
 #: tfrmmain.actvisithomepage.caption
-#| msgid "&Visit Double Commander Web Site"
 msgid "&Visit Double Commander Website"
 msgstr "參觀 Double Commander 網站 (&V)"
 
@@ -3334,7 +3282,6 @@ msgid "Tab options"
 msgstr "分頁選項"
 
 #: tfrmmain.mitrayiconexit.caption
-#| msgid "Exit"
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "E&xit"
 msgstr "離開 (&X)"
@@ -3377,7 +3324,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.mnufiles.caption
-#| msgid "Files"
 msgid "&Files"
 msgstr "檔案 (&F)"
 
@@ -3655,7 +3601,6 @@ msgid "Regular e&xpressions"
 msgstr "使用規則運算式 (&X)"
 
 #: tfrmmultirename.cbusesubs.caption
-#| msgid "Use substitution"
 msgid "&Use substitution"
 msgstr "使用替代 (&U)"
 
@@ -3674,7 +3619,6 @@ msgid "1"
 msgstr "1"
 
 #: tfrmmultirename.extension.caption
-#| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E] 副檔名"
 
@@ -3699,12 +3643,10 @@ msgid "Presets"
 msgstr "預先配置"
 
 #: tfrmmultirename.lbext.caption
-#| msgid "Extension"
 msgid "&Extension"
 msgstr "副檔名 (&E)"
 
 #: tfrmmultirename.lbfind.caption
-#| msgid "Find..."
 msgid "&Find..."
 msgstr "尋找 (&F)"
 
@@ -3715,12 +3657,10 @@ msgid "&Interval"
 msgstr "間隔 (&I)"
 
 #: tfrmmultirename.lbname.caption
-#| msgid "File Name"
 msgid "File &Name"
 msgstr "檔案名稱 (&N)"
 
 #: tfrmmultirename.lbreplace.caption
-#| msgid "Replace..."
 msgid "Re&place..."
 msgstr "取代 (&P)"
 
@@ -3738,12 +3678,10 @@ msgid "&Width"
 msgstr "寬度 (&W)"
 
 #: tfrmmultirename.micounter.caption
-#| msgid "[C]ounter"
 msgid "[C] Counter"
 msgstr "[C] 計數器"
 
 #: tfrmmultirename.miday.caption
-#| msgid "[D]ay"
 msgid "[D] Day"
 msgstr "[D] 日"
 
@@ -3760,17 +3698,14 @@ msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
 msgstr "[DDDD] 每週日數 (整字, 例: \"monday\")"
 
 #: tfrmmultirename.miextensionx.caption
-#| msgid "[Ex]xtension"
 msgid "[Ex] Character at position x"
 msgstr "[Ex] 位置 x 的字元"
 
 #: tfrmmultirename.miextensionxx.caption
-#| msgid "[Ex:x]xtension"
 msgid "[Ex:y] Characters from position x to y"
 msgstr "[Ex:y] 從 x 到 y 位置的字元"
 
 #: tfrmmultirename.mihour.caption
-#| msgid "[h]our"
 msgid "[h] Hour"
 msgstr "[h] 小時"
 
@@ -3779,7 +3714,6 @@ msgid "[hh] Hour (2 digits)"
 msgstr "[hh] 小時 (2位數)"
 
 #: tfrmmultirename.miminute.caption
-#| msgid "Mi[n]ute"
 msgid "[n] Minute"
 msgstr "[n] 分"
 
@@ -3788,7 +3722,6 @@ msgid "[nn] Minute (2 digits)"
 msgstr "[nn] 分 (2位數)"
 
 #: tfrmmultirename.mimonth.caption
-#| msgid "[M]onth"
 msgid "[M] Month"
 msgstr "[M] 月"
 
@@ -3805,17 +3738,14 @@ msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr "[MMMM] 月份名稱 (整字, 例: \"january\")"
 
 #: tfrmmultirename.miname.caption
-#| msgid "[N]ame"
 msgid "[N] Name"
 msgstr "[N] 名稱"
 
 #: tfrmmultirename.minamex.caption
-#| msgid "[Nx]ame"
 msgid "[Nx] Character at position x"
 msgstr "[Nx] x 位置的字元"
 
 #: tfrmmultirename.minamexx.caption
-#| msgid "[Nx:x]ame"
 msgid "[Nx:y] Characters from position x to y"
 msgstr "[Nx:y] 從 x 到 y 位置的字元"
 
@@ -3838,7 +3768,6 @@ msgid "Plugin"
 msgstr "插件"
 
 #: tfrmmultirename.misecond.caption
-#| msgid "[s]econd"
 msgid "[s] Second"
 msgstr "[s] 秒"
 
@@ -3847,7 +3776,6 @@ msgid "[ss] Second (2 digits)"
 msgstr "[ss] 秒 (2位數)"
 
 #: tfrmmultirename.miyear.caption
-#| msgid "[Y] Year"
 msgid "[Y] Year (2 digits)"
 msgstr "[Y] 年 (2位數)"
 
@@ -4106,7 +4034,6 @@ msgid "General"
 msgstr "一般"
 
 #: tfrmoptionsautorefresh.cbwatchattributeschange.caption
-#| msgid "Also when &size, date, or attributes change"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION"
 msgid "When &size, date or attributes change"
 msgstr "當大小,日期或屬性改變時更新 (&S)"
@@ -4124,7 +4051,6 @@ msgid "When &files are created, deleted or renamed"
 msgstr "當檔案建立,刪除或重新命名時更新 (&F)"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
-#| msgid "Don't &react to updates while in the background"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHONLYFOREGROUND.CAPTION"
 msgid "When application is in the &background"
 msgstr "當應用程式在背景模式下執行時停用更新 (&B)"
@@ -5990,7 +5916,6 @@ msgid "File operation log file"
 msgstr "檔案操作記錄檔案"
 
 #: tfrmoptionslog.gblogfileop.caption
-#| msgid "Log operations:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION"
 msgid "Log operations"
 msgstr "操作記錄"
@@ -7513,7 +7438,6 @@ msgid "File name"
 msgstr "檔案名稱"
 
 #: tfrmsplitter.grbxsize.caption
-#| msgid "File size"
 msgid "Size and number of parts"
 msgstr "分割檔大小及數量"
 
@@ -7612,7 +7536,6 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmsymlink.caption
-#| msgid "Create symlink"
 msgid "Create symbolic link"
 msgstr "建立符號連結"
 
@@ -8394,7 +8317,6 @@ msgid "Select All"
 msgstr "全選"
 
 #: tfrmviewoperations.btnstartpause.caption
-#| msgid "Start"
 msgctxt "tfrmviewoperations.btnstartpause.caption"
 msgid "&Start"
 msgstr "開始 (&S)"
@@ -8844,13 +8766,11 @@ msgid "Move file(s)"
 msgstr "移動檔案"
 
 #: ulng.rsdlgoppause
-#| msgid "Pause"
 msgctxt "ulng.rsdlgoppause"
 msgid "Pau&se"
 msgstr "暫停 (&S)"
 
 #: ulng.rsdlgopstart
-#| msgid "Start"
 msgctxt "ulng.rsdlgopstart"
 msgid "&Start"
 msgstr "開始 (&S)"
@@ -8865,12 +8785,10 @@ msgid "Speed %s/s"
 msgstr "速度 %s/秒"
 
 #: ulng.rsdlgspeedtime
-#| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "速度 %s/秒, 剩餘時間 %s"
 
 #: ulng.rsdlgsplit
-#| msgid "Split file"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
 msgstr "分割"
@@ -9222,7 +9140,6 @@ msgid "Sort by"
 msgstr "排序方式"
 
 #: ulng.rsmnuumount
-#| msgid "Umount"
 msgid "Unmount"
 msgstr "卸載"
 
@@ -10798,7 +10715,6 @@ msgid "Plugins"
 msgstr "插件"
 
 #: ulng.rsoptionseditorquicksearch
-#| msgid "Quick search"
 msgctxt "ulng.rsoptionseditorquicksearch"
 msgid "Quick search/filter"
 msgstr "快速搜尋/篩選"

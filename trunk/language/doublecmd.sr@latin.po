@@ -4061,7 +4061,7 @@ msgid "Always expand tree"
 msgstr "Uvek širi stablo fascikli"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Show only valid %senv_var%s"
 msgid "Show only valid environment variables"
 msgstr "Prikazuj samo ispravne %env_var%"
@@ -9775,6 +9775,7 @@ msgid "Command"
 msgstr "Naredba"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, fuzzy,badformat
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Prečica za „cm_Delete“ ima odrednicu koja zaobilazi ove postavke. Da li želite da izmenite odrednicu i koristite opšte postavke?"
@@ -9819,6 +9820,7 @@ msgid "Set shortcut to delete file"
 msgstr "Postavi prečicu za brisanje datoteke"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Da bi ove postavke radile sa prečicom %s, prečica mora da bude dodeljena „cm_Delete“, ali je već dodeljena za %s. Da li želite da je promenite?"
 

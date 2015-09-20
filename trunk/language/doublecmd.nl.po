@@ -10220,7 +10220,7 @@ msgid "Setting property of \"%s\""
 msgstr "Instellen eigenschappen van \"%s\""
 
 #: ulng.rsopersplitting
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "SplittingSplitting \"%s\" to \"%s\""
 msgid "Splitting"
 msgstr "Bezig met splitseBezig met splitsen \"%s\" naar \"%s\""

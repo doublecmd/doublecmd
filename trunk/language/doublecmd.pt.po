@@ -8502,6 +8502,7 @@ msgid "Delete %d selected files/directories into trash can?"
 msgstr "Apagar %d ficheiros/pastas selecionados para a lata de lixo?"
 
 #: ulng.rsmsgdelsel
+#, fuzzy,badformat
 msgid "Delete selected \"%s\"?"
 msgstr "Apagar %d ficheiros/pastas selecionados?"
 
@@ -9389,6 +9390,7 @@ msgid "Wipe %d selected files/directories?"
 msgstr "Limpar %d ficheiros/pastas selecionados?"
 
 #: ulng.rsmsgwipesel
+#, fuzzy,badformat
 msgid "Wipe selected \"%s\"?"
 msgstr "Limpar \"s\" selecionados?"
 

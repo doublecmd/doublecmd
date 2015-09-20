@@ -1319,7 +1319,6 @@ msgid "C&ase sensitivity"
 msgstr "&Учитывать регистр"
 
 #: tfrmeditsearchreplace.cbsearchfromcursor.caption
-#| msgid "Search &from caret"
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
 msgid "S&earch from caret"
 msgstr "Искать от &курсора"
@@ -1360,19 +1359,16 @@ msgid "Direction"
 msgstr "Направление"
 
 #: tfrmextractdlg.btncancel.caption
-#| msgid "Cancel"
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "О&тмена"
 
 #: tfrmextractdlg.btnhelp.caption
-#| msgid "Help"
 msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "&Help"
 msgstr "Помощ&ь"
 
 #: tfrmextractdlg.btnok.caption
-#| msgid "OK"
 msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
@@ -1396,22 +1392,18 @@ msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Распаковать каждый &архив в отдельный каталог (с именем архива)"
 
 #: tfrmextractdlg.cboverwrite.caption
-#| msgid "&Overwrite existing files"
 msgid "O&verwrite existing files"
 msgstr "&Заменять существующие файлы"
 
 #: tfrmextractdlg.lblextractto.caption
-#| msgid "To the directory:"
 msgid "To the &directory:"
 msgstr "В &каталог:"
 
 #: tfrmextractdlg.lblfilemask.caption
-#| msgid "Extract files matching file mask:"
 msgid "&Extract files matching file mask:"
 msgstr "&Распаковать файлы согласно маске:"
 
 #: tfrmextractdlg.lblpassword.caption
-#| msgid "Password for encrypted files:"
 msgid "&Password for encrypted files:"
 msgstr "&Пароль (для зашифрованных файлов):"
 
@@ -1589,7 +1581,6 @@ msgid "Click on Close when the temporary file can be deleted!"
 msgstr "Нажмите \"Закрыть\", когда временный файл можно будет удалить!"
 
 #: tfrmfileop.btncancel.caption
-#| msgid "Cancel"
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "О&тмена"
@@ -1794,7 +1785,6 @@ msgid "???"
 msgstr ""
 
 #: tfrmfileproperties.lblsymlinkstr.caption
-#| msgid "Symlink:"
 msgid "Symlink to:"
 msgstr "Симв. ссылка"
 
@@ -1856,7 +1846,6 @@ msgid "&New search"
 msgstr "Н&овый поиск"
 
 #: tfrmfinddlg.btnsavetemplate.caption
-#| msgid "Save"
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
 msgstr "&Сохранить"
@@ -2110,7 +2099,6 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: tfrmhardlink.caption
-#| msgid "Create hardlink"
 msgid "Create hard link"
 msgstr "Создать жёсткую ссылку"
 
@@ -2276,13 +2264,11 @@ msgid "Clear log window"
 msgstr "Очистить окно протокола"
 
 #: tfrmmain.actclosealltabs.caption
-#| msgid "Remove &All Tabs"
 msgctxt "tfrmmain.actclosealltabs.caption"
 msgid "Close &All Tabs"
 msgstr "Закрыть &все вкладки"
 
 #: tfrmmain.actclosetab.caption
-#| msgid "&Remove Tab"
 msgctxt "tfrmmain.actclosetab.caption"
 msgid "&Close Tab"
 msgstr "&Закрыть вкладку"
@@ -2377,7 +2363,6 @@ msgid "Directory history"
 msgstr "История каталогов"
 
 #: tfrmmain.actdirhotlist.caption
-#| msgid "Directory &hotlist"
 msgid "Directory &Hotlist"
 msgstr "&Личный список каталогов"
 
@@ -2474,7 +2459,6 @@ msgid "Load Selection from Clip&board"
 msgstr "Загрузить выделение из &буфера"
 
 #: tfrmmain.actloadselectionfromfile.caption
-#| msgid "Load Selection From File"
 msgid "&Load Selection from File..."
 msgstr "Загрузить выделение из &файла..."
 
@@ -2616,7 +2600,6 @@ msgid "Rename"
 msgstr "Переименовать"
 
 #: tfrmmain.actrenametab.caption
-#| msgid "Re&name Tab"
 msgid "&Rename Tab"
 msgstr "Переи&меновать вкладку"
 
@@ -3834,7 +3817,6 @@ msgid "Refresh file list"
 msgstr "Обновлять список файлов"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
-#| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Al&ways show tray icon"
 msgstr "Вс&егда показывать иконку в трее"
@@ -5443,7 +5425,6 @@ msgid "Log operations"
 msgstr "Протоколируемые действия"
 
 #: tfrmoptionslog.gblogfilestatus.caption
-#| msgid "Operation status:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
 msgstr "Протоколировать операции со статусом"
@@ -5664,7 +5645,6 @@ msgid "Options"
 msgstr "Настройка"
 
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
-#| msgid "Exact name match:"
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
 msgid "Exact name match"
 msgstr "Точное соответствие имени"
@@ -5693,7 +5673,6 @@ msgid "Con&firm close all tabs"
 msgstr "По&дтверждать закрытие всех вкладок"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
-#| msgid "&Limit tab title length to:"
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
 msgid "&Limit tab title length to"
 msgstr "Ог&раничить размер заголовка до"
@@ -5734,7 +5713,6 @@ msgid "characters"
 msgstr "символов"
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#| msgid "&Tabs position"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
 msgstr "Положение &вкладок:"
@@ -5787,7 +5765,6 @@ msgid "Other..."
 msgstr "Другое..."
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
-#| msgid "Remove hotkey"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
 msgid "Remove hotke&y"
 msgstr "У&далить"
@@ -8072,13 +8049,11 @@ msgid "Calculate files and folders"
 msgstr "Посчитать файлы и каталоги"
 
 #: ulng.rsdlgchecksumcalc
-#| msgid "Calculate check sum..."
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate checksum..."
 msgstr "Посчитать контрольные суммы..."
 
 #: ulng.rsdlgchecksumverify
-#| msgid "Verify check sum..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify checksum..."
 msgstr "Проверить контрольные суммы..."
@@ -8457,7 +8432,6 @@ msgid "Open"
 msgstr "Открыть"
 
 #: ulng.rsmnuopenwith
-#| msgid "Open with ..."
 msgid "Open with"
 msgstr "Открыть с помощью"
 
@@ -9262,7 +9236,6 @@ msgid "Select executable file for"
 msgstr ""
 
 #: ulng.rsmsgselectonlychecksumfiles
-#| msgid "Please select only check sum files!"
 msgid "Please select only checksum files!"
 msgstr "Необходимо выбрать только файлы контрольных сумм!"
 
@@ -9482,7 +9455,6 @@ msgid "with"
 msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
-#| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С прописной;Каждое Слово С Прописной;"
 
@@ -9491,17 +9463,14 @@ msgid "Aborted"
 msgstr "Прервано"
 
 #: ulng.rsopercalculatingchecksum
-#| msgid "Calculating check sum"
 msgid "Calculating checksum"
 msgstr "Вычисление контрольной суммы"
 
 #: ulng.rsopercalculatingchecksumin
-#| msgid "Calculating check sum in \"%s\""
 msgid "Calculating checksum in \"%s\""
 msgstr "Вычисление контрольной суммы \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
-#| msgid "Calculating check sum of \"%s\""
 msgid "Calculating checksum of \"%s\""
 msgstr "Вычисление контрольной суммы \"%s\""
 
@@ -9673,17 +9642,14 @@ msgid "Testing \"%s\""
 msgstr "Проверка \"%s\""
 
 #: ulng.rsoperverifyingchecksum
-#| msgid "Verifying check sum"
 msgid "Verifying checksum"
 msgstr "Проверка контрольной суммы"
 
 #: ulng.rsoperverifyingchecksumin
-#| msgid "Verifying check sum in \"%s\""
 msgid "Verifying checksum in \"%s\""
 msgstr "Проверка контрольной суммы в \"%s'"
 
 #: ulng.rsoperverifyingchecksumof
-#| msgid "Verifying check sum of \"%s\""
 msgid "Verifying checksum of \"%s\""
 msgstr "Проверка контрольной суммы из \"%s\""
 
