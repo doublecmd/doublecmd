@@ -42,16 +42,16 @@ type
   TFileStreamEx = class(THandleStream)
   private
     FHandle: THandle;
-    FFileName: UTF8String;
+    FFileName: String;
   public
-    constructor Create(const AFileName: UTF8String; Mode: Word);
+    constructor Create(const AFileName: String; Mode: Word);
     destructor Destroy; override;
     {$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
     function ReadQWord: QWord;
     procedure WriteQWord(q: QWord);
     {$ENDIF}
     function Read(var Buffer; Count: LongInt): LongInt; override;
-    property FileName: UTF8String read FFileName;
+    property FileName: String read FFileName;
   end; 
 
   { TStringListEx }
@@ -77,8 +77,8 @@ type
   private
     FIniFileStream: TFileStreamEx;
     FReadOnly: Boolean;
-    function GetFileName: UTF8String;
-    procedure SetFileName(const AValue: UTF8String);
+    function GetFileName: String;
+    procedure SetFileName(const AValue: String);
   public
     constructor Create(const AFileName: String; Mode: Word); virtual;
     constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); override;
@@ -86,7 +86,7 @@ type
     procedure UpdateFile; override;
   public
     procedure Clear;
-    property FileName: UTF8String read GetFileName write SetFileName;
+    property FileName: String read GetFileName write SetFileName;
     property ReadOnly: Boolean read FReadOnly;
   end;
 
@@ -97,7 +97,7 @@ uses
 
 { TFileStreamEx }
 
-constructor TFileStreamEx.Create(const AFileName: UTF8String; Mode: Word);
+constructor TFileStreamEx.Create(const AFileName: String; Mode: Word);
 begin
   if (Mode and fmCreate) <> 0 then
     begin
@@ -201,12 +201,12 @@ end;
 
 { TIniFileEx }
 
-function TIniFileEx.GetFileName: UTF8String;
+function TIniFileEx.GetFileName: String;
 begin
   Result:= THackIniFile(Self).FFileName;
 end;
 
-procedure TIniFileEx.SetFileName(const AValue: UTF8String);
+procedure TIniFileEx.SetFileName(const AValue: String);
 begin
   THackIniFile(Self).FFileName:= AValue;
 end;
