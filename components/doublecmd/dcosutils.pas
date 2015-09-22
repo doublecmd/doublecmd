@@ -99,7 +99,7 @@ function GetTempName(PathPrefix: String): String;
    @param(FileMapRec TFileMapRec structure)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function MapFile(const sFileName : UTF8String; out FileMapRec : TFileMapRec) : Boolean;
+function MapFile(const sFileName : String; out FileMapRec : TFileMapRec) : Boolean;
 {en
    Unmap previously mapped file
    @param(FileMapRec TFileMapRec structure)
@@ -109,22 +109,22 @@ procedure UnMapFile(var FileMapRec : TFileMapRec);
 {en
    Convert from console to UTF8 encoding.
 }
-function ConsoleToUTF8(const Str: AnsiString): UTF8String;
+function ConsoleToUTF8(const Str: AnsiString): String;
 
 { File handling functions}
-function mbFileOpen(const FileName: UTF8String; Mode: Word): System.THandle;
-function mbFileCreate(const FileName: UTF8String): System.THandle; overload;
-function mbFileCreate(const FileName: UTF8String; ShareMode: Longint): System.THandle; overload;
-function mbFileCreate(const FileName: UTF8String; ShareMode: Longint; Rights: Longint): System.THandle; overload;
-function mbFileAge(const FileName: UTF8String): DCBasicTypes.TFileTime;
-function mbFileSame(const FirstName, SecondName: UTF8String): Boolean;
+function mbFileOpen(const FileName: String; Mode: Word): System.THandle;
+function mbFileCreate(const FileName: String): System.THandle; overload;
+function mbFileCreate(const FileName: String; ShareMode: Longint): System.THandle; overload;
+function mbFileCreate(const FileName: String; ShareMode: Longint; Rights: Longint): System.THandle; overload;
+function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
+function mbFileSame(const FirstName, SecondName: String): Boolean;
 // On success returns True.
-function mbFileGetTime(const FileName: UTF8String;
+function mbFileGetTime(const FileName: String;
                        var ModificationTime: DCBasicTypes.TFileTime;
                        var CreationTime    : DCBasicTypes.TFileTime;
                        var LastAccessTime  : DCBasicTypes.TFileTime): Boolean;
 // On success returns True.
-function mbFileSetTime(const FileName: UTF8String;
+function mbFileSetTime(const FileName: String;
                        ModificationTime: DCBasicTypes.TFileTime;
                        CreationTime    : DCBasicTypes.TFileTime = 0;
                        LastAccessTime  : DCBasicTypes.TFileTime = 0): Boolean;
@@ -134,52 +134,52 @@ function mbFileSetTime(const FileName: UTF8String;
    Even if the result is @false, we can't be sure a file by that name can be created,
    because there may still exist a directory or link by that name.
 }
-function mbFileExists(const FileName: UTF8String): Boolean;
-function mbFileAccess(const FileName: UTF8String; Mode: Word): Boolean;
-function mbFileGetAttr(const FileName: UTF8String): TFileAttrs; overload;
-function mbFileSetAttr(const FileName: UTF8String; Attr: TFileAttrs) : LongInt;
-function mbFileGetAttr(const FileName: UTF8String; out Attr: TSearchRec): Boolean; overload;
+function mbFileExists(const FileName: String): Boolean;
+function mbFileAccess(const FileName: String; Mode: Word): Boolean;
+function mbFileGetAttr(const FileName: String): TFileAttrs; overload;
+function mbFileSetAttr(const FileName: String; Attr: TFileAttrs) : LongInt;
+function mbFileGetAttr(const FileName: String; out Attr: TSearchRec): Boolean; overload;
 {en
    If any operation in Options is performed and does not succeed it is included
    in the result set. If all performed operations succeed the function returns empty set.
    For example for Options=[caoCopyTime, caoCopyOwnership] setting ownership
    doesn't succeed then the function returns [caoCopyOwnership].
 }
-function mbFileCopyAttr(const sSrc, sDst: UTF8String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
+function mbFileCopyAttr(const sSrc, sDst: String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
 // Returns True on success.
-function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
-function mbDeleteFile(const FileName: UTF8String): Boolean;
+function mbFileSetReadOnly(const FileName: String; ReadOnly: Boolean): Boolean;
+function mbDeleteFile(const FileName: String): Boolean;
 
-function mbRenameFile(const OldName: UTF8String; NewName: UTF8String): Boolean;
-function mbFileSize(const FileName: UTF8String): Int64;
+function mbRenameFile(const OldName: String; NewName: String): Boolean;
+function mbFileSize(const FileName: String): Int64;
 function FileFlush(Handle: System.THandle): Boolean;
 { Directory handling functions}
-function mbGetCurrentDir: UTF8String;
-function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
+function mbGetCurrentDir: String;
+function mbSetCurrentDir(const NewDir: String): Boolean;
 {en
    Checks if a given directory exists - it may be a real directory or a link to directory.
    Even if the result is @false, we can't be sure a directory by that name can be created,
    because there may still exist a file or link by that name.
 }
-function mbDirectoryExists(const Directory : UTF8String) : Boolean;
-function mbCreateDir(const NewDir: UTF8String): Boolean;
-function mbRemoveDir(const Dir: UTF8String): Boolean;
+function mbDirectoryExists(const Directory : String) : Boolean;
+function mbCreateDir(const NewDir: String): Boolean;
+function mbRemoveDir(const Dir: String): Boolean;
 {en
    Checks if any file system entry exists at given path.
    It can be file, directory, link, etc. (links are not followed).
 }
-function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
-function mbCompareFileNames(const FileName1, FileName2: UTF8String): Boolean;
+function mbFileSystemEntryExists(const Path: String): Boolean;
+function mbCompareFileNames(const FileName1, FileName2: String): Boolean;
 function mbSameFile(const FileName1, FileName2: String): Boolean;
 { Other functions }
-function mbGetEnvironmentString(Index : Integer) : UTF8String;
+function mbGetEnvironmentString(Index : Integer) : String;
 {en
    Expands environment-variable strings and replaces
    them with the values defined for the current user
 }
 function mbExpandEnvironmentStrings(const FileName: String): String;
-function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
-function mbLoadLibrary(const Name: UTF8String): TLibHandle;
+function mbSysErrorMessage(ErrorCode: Integer): String;
+function mbLoadLibrary(const Name: String): TLibHandle;
 function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
 
 implementation
@@ -230,7 +230,7 @@ const
                FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE);
 
 var
-  CurrentDirectory: UTF8String;
+  CurrentDirectory: String;
 {$ELSEIF DEFINED(UNIX)}
 const
   AccessModes: array[0..2] of LongInt  = (
@@ -310,7 +310,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCopyAttr(const sSrc, sDst: UTF8String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
+function mbFileCopyAttr(const sSrc, sDst: String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
 {$IFDEF MSWINDOWS}
 var
   Attr : TFileAttrs;
@@ -418,7 +418,7 @@ begin
   until not mbFileSystemEntryExists(Result);
 end;
 
-function MapFile(const sFileName : UTF8String; out FileMapRec : TFileMapRec) : Boolean;
+function MapFile(const sFileName : String; out FileMapRec : TFileMapRec) : Boolean;
 {$IFDEF MSWINDOWS}
 begin
   Result := False;
@@ -531,7 +531,7 @@ begin
 end;
 {$ENDIF}  
 
-function ConsoleToUTF8(const Str: AnsiString): UTF8String;
+function ConsoleToUTF8(const Str: AnsiString): String;
 {$IFDEF MSWINDOWS}
 var
   Dst: PChar;
@@ -546,7 +546,7 @@ begin
   {$ENDIF}
 end;
 
-function mbFileOpen(const FileName: UTF8String; Mode: Word): System.THandle;
+function mbFileOpen(const FileName: String; Mode: Word): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= CreateFileW(PWideChar(UTF8Decode(FileName)), AccessModes[Mode and 3],
@@ -559,7 +559,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String): System.THandle;
+function mbFileCreate(const FileName: String): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result := mbFileCreate(FileName, fmShareDenyWrite, 0);
@@ -570,7 +570,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String; ShareMode: Longint): System.THandle;
+function mbFileCreate(const FileName: String; ShareMode: Longint): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= mbFileCreate(FileName, ShareMode, 0);
@@ -585,7 +585,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String; ShareMode: Longint; Rights: Longint): System.THandle;
+function mbFileCreate(const FileName: String; ShareMode: Longint; Rights: Longint): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= CreateFileW(PWideChar(UTF8Decode(FileName)), GENERIC_READ or GENERIC_WRITE,
@@ -601,7 +601,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileAge(const FileName: UTF8String): DCBasicTypes.TFileTime;
+function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
 {$IFDEF MSWINDOWS}
 var
   Handle: System.THandle;
@@ -630,7 +630,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileSame(const FirstName, SecondName: UTF8String): Boolean;
+function mbFileSame(const FirstName, SecondName: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Handle: System.THandle;
@@ -672,7 +672,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileGetTime(const FileName: UTF8String;
+function mbFileGetTime(const FileName: String;
                        var ModificationTime: DCBasicTypes.TFileTime;
                        var CreationTime    : DCBasicTypes.TFileTime;
                        var LastAccessTime  : DCBasicTypes.TFileTime): Boolean;
@@ -715,7 +715,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileSetTime(const FileName: UTF8String;
+function mbFileSetTime(const FileName: String;
                        ModificationTime: DCBasicTypes.TFileTime;
                        CreationTime    : DCBasicTypes.TFileTime = 0;
                        LastAccessTime  : DCBasicTypes.TFileTime = 0): Boolean;
@@ -778,7 +778,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileExists(const FileName: UTF8String) : Boolean;
+function mbFileExists(const FileName: String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
   Attr: Dword;
@@ -803,7 +803,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileAccess(const FileName: UTF8String; Mode: Word): Boolean;
+function mbFileAccess(const FileName: String; Mode: Word): Boolean;
 {$IFDEF MSWINDOWS}
 const
   AccessMode: array[0..2] of DWORD  = (
@@ -843,7 +843,7 @@ end;
 {$R-}
 {$ENDIF}
 
-function mbFileGetAttr(const FileName: UTF8String): TFileAttrs;
+function mbFileGetAttr(const FileName: String): TFileAttrs;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -862,7 +862,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileSetAttr(const FileName: UTF8String; Attr: TFileAttrs): LongInt;
+function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): LongInt;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -879,7 +879,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileGetAttr(const FileName: UTF8String; out Attr: TSearchRec): Boolean;
+function mbFileGetAttr(const FileName: String; out Attr: TSearchRec): Boolean;
 {$IFDEF MSWINDOWS}
 var
   FileInfo: Windows.TWin32FileAttributeData;
@@ -913,7 +913,7 @@ end;
 {$UNDEF uOSUtilsRangeCheckOn}
 {$ENDIF}
 
-function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
+function mbFileSetReadOnly(const FileName: String; ReadOnly: Boolean): Boolean;
 {$IFDEF MSWINDOWS}
 var
   iAttr: DWORD;
@@ -939,7 +939,7 @@ begin
 end;
 {$ENDIF}
 
-function mbDeleteFile(const FileName: UTF8String): Boolean;
+function mbDeleteFile(const FileName: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -953,7 +953,7 @@ begin
 end;
 {$ENDIF}
 
-function mbRenameFile(const OldName: UTF8String; NewName: UTF8String): Boolean;
+function mbRenameFile(const OldName: String; NewName: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wOldName,
@@ -965,7 +965,7 @@ begin
 end;
 {$ELSE}
 var
-  tmpFileName: UTF8String;
+  tmpFileName: String;
   OldFileStat, NewFileStat: stat;
 begin
   if GetPathType(NewName) <> ptAbsolute then
@@ -1044,7 +1044,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileSize(const FileName: UTF8String): Int64;
+function mbFileSize(const FileName: String): Int64;
 {$IFDEF MSWINDOWS}
 var
   Handle: System.THandle;
@@ -1085,7 +1085,7 @@ begin
 end;  
 {$ENDIF}
   
-function mbGetCurrentDir: UTF8String;
+function mbGetCurrentDir: String;
 {$IFDEF MSWINDOWS}
 var
   dwSize: DWORD;
@@ -1112,7 +1112,7 @@ begin
 end;
 {$ENDIF}
 
-function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
+function mbSetCurrentDir(const NewDir: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Handle: THandle;
@@ -1142,7 +1142,7 @@ begin
 end;
 {$ENDIF}
 
-function mbDirectoryExists(const Directory: UTF8String) : Boolean;
+function mbDirectoryExists(const Directory: String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
   Attr:Dword;
@@ -1171,7 +1171,7 @@ begin
 end;
 {$ENDIF}
 
-function mbCreateDir(const NewDir: UTF8String): Boolean;
+function mbCreateDir(const NewDir: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wNewDir: WideString;
@@ -1185,7 +1185,7 @@ begin
 end;
 {$ENDIF}
 
-function mbRemoveDir(const Dir: UTF8String): Boolean;
+function mbRemoveDir(const Dir: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wDir: WideString;
@@ -1199,12 +1199,12 @@ begin
 end;
 {$ENDIF}
 
-function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
+function mbFileSystemEntryExists(const Path: String): Boolean;
 begin
   Result := mbFileGetAttr(Path) <> faInvalidAttributes;
 end;
 
-function mbCompareFileNames(const FileName1, FileName2: UTF8String): Boolean; inline;
+function mbCompareFileNames(const FileName1, FileName2: String): Boolean; inline;
 {$IF DEFINED(WINDOWS) OR DEFINED(DARWIN)}
 begin
   Result:= (WideCompareText(UTF8Decode(FileName1), UTF8Decode(FileName2)) = 0);
@@ -1266,7 +1266,7 @@ begin
 end;
 {$ENDIF}
 
-function mbGetEnvironmentString(Index: Integer): UTF8String;
+function mbGetEnvironmentString(Index: Integer): String;
 {$IFDEF MSWINDOWS}
 var
   hp, p: PWideChar;
@@ -1328,7 +1328,7 @@ begin
 end;
 {$ENDIF}
 
-function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
+function mbSysErrorMessage(ErrorCode: Integer): String;
 begin
   Result :=
 {$IFDEF WINDOWS}
@@ -1338,7 +1338,7 @@ begin
 {$ENDIF}
 end;
 
-function mbLoadLibrary(const Name: UTF8String): TLibHandle;
+function mbLoadLibrary(const Name: String): TLibHandle;
 {$IFDEF MSWINDOWS}
 var
   wsName: WideString;

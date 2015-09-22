@@ -39,7 +39,7 @@ type
 
   TXmlConfig = class
   private
-    FFileName: UTF8String;
+    FFileName: String;
     FDoc: TXMLDocument;
 
     function GetRootNode: TXmlNode;
@@ -47,7 +47,7 @@ type
 
   public
     constructor Create; virtual;
-    constructor Create(const AFileName: UTF8String; AutoLoad: Boolean = False); virtual;
+    constructor Create(const AFileName: String; AutoLoad: Boolean = False); virtual;
     destructor Destroy; override;
 
     procedure Clear;
@@ -57,30 +57,30 @@ type
     procedure DeleteNode(const Node: TDOMNode);
     procedure ClearNode(const Node: TDOMNode);
     function FindNode(const RootNode: TDOMNode; const Path: DOMString; bCreate: Boolean = False): TDOMNode;
-    function GetContent(const Node: TDOMNode): UTF8String;
+    function GetContent(const Node: TDOMNode): String;
     function IsEmpty: Boolean;
-    procedure SetContent(const Node: TDOMNode; const AValue: UTF8String);
+    procedure SetContent(const Node: TDOMNode; const AValue: String);
 
     // ------------------------------------------------------------------------
 
-    function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: UTF8String): UTF8String;
+    function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: String): String;
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Boolean): Boolean;
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Integer): Integer;
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Int64): Int64;
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Double): Double;
-    function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: UTF8String): UTF8String;
+    function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: String): String;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Boolean): Boolean;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Integer): Integer;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Int64): Int64;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Double): Double;
 
     // The Try... functions return True if the attribute/node was found and only then set AValue.
-    function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: UTF8String): Boolean;
+    function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: String): Boolean;
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Integer): Boolean;
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Double): Boolean;
-    function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: UTF8String): Boolean;
+    function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: String): Boolean;
     function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
     function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Integer): Boolean;
     function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
@@ -101,7 +101,7 @@ type
     procedure AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Double);
 
     // SetValue functions can only set values for unique paths.
-    procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: UTF8String);
+    procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: String);
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Boolean);
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Integer);
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Int64);
@@ -115,17 +115,17 @@ type
     // ------------------------------------------------------------------------
 
     procedure GetFont(const aNode: TXmlNode; Path: TXmlPath;
-                      out Name: UTF8String; out Size: Integer; out Style, Quality: Integer;
-                      const DefName: UTF8String; const DefSize: Integer; const DefStyle, DefQuality: Integer);
+                      out Name: String; out Size: Integer; out Style, Quality: Integer;
+                      const DefName: String; const DefSize: Integer; const DefStyle, DefQuality: Integer);
 
     procedure SetFont(const aNode: TXmlNode; Path: TXmlPath;
-                      const Name: UTF8String; const Size: Integer; const Style, Quality: Integer);
+                      const Name: String; const Size: Integer; const Style, Quality: Integer);
 
     // ------------------------------------------------------------------------
 
-    procedure ReadFromFile(const AFilename: UTF8String);
+    procedure ReadFromFile(const AFilename: String);
     procedure ReadFromStream(AStream: TStream);
-    procedure WriteToFile(const AFilename: UTF8String);
+    procedure WriteToFile(const AFilename: String);
     procedure WriteToStream(AStream: TStream);
 
     function Load: Boolean;
@@ -137,7 +137,7 @@ type
     }
     function GetPathFromNode(aNode: TDOMNode): String;
 
-    property FileName: UTF8String read FFileName write FFileName;
+    property FileName: String read FFileName write FFileName;
     property RootNode: TXmlNode read GetRootNode;
   end;
 
@@ -157,7 +157,7 @@ begin
   Clear;
 end;
 
-constructor TXmlConfig.Create(const AFileName: UTF8String; AutoLoad: Boolean);
+constructor TXmlConfig.Create(const AFileName: String; AutoLoad: Boolean);
 begin
   FFileName := AFileName;
   if not (AutoLoad and LoadBypassingErrors) then
@@ -184,7 +184,7 @@ end;
 
 // ------------------------------------------------------------------------
 
-function TXmlConfig.GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: UTF8String): UTF8String;
+function TXmlConfig.GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: String): String;
 begin
   if not TryGetAttr(RootNode, Path, Result) then
     Result := ADefault;
@@ -214,7 +214,7 @@ begin
     Result := ADefault;
 end;
 
-function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: UTF8String): Boolean;
+function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: String): Boolean;
 var
   Node: TDOMNode;
   Attr: TDOMAttr;
@@ -238,7 +238,7 @@ end;
 
 function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetAttr(RootNode, Path, sValue);
   if Result then
@@ -254,26 +254,26 @@ end;
 
 function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Integer): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetAttr(RootNode, Path, sValue) and TryStrToInt(sValue, AValue);
 end;
 
 function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetAttr(RootNode, Path, sValue) and TryStrToInt64(sValue, AValue);
 end;
 
 function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Double): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetAttr(RootNode, Path, sValue) and TryStrToFloat(sValue, AValue);
 end;
 
-function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: UTF8String): UTF8String;
+function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: String): String;
 var
   Node: TDOMNode;
 begin
@@ -291,7 +291,7 @@ end;
 
 function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Boolean): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   sValue := GetValue(RootNode, Path, '');
   if SameText(sValue, 'TRUE') then
@@ -317,7 +317,7 @@ begin
   Result := StrToFloatDef(GetValue(RootNode, Path, ''), ADefault);
 end;
 
-function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: UTF8String): Boolean;
+function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: String): Boolean;
 var
   Node: TDOMNode;
 begin
@@ -329,7 +329,7 @@ end;
 
 function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetValue(RootNode, Path, sValue);
   if Result then
@@ -345,21 +345,21 @@ end;
 
 function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Integer): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetValue(RootNode, Path, sValue) and TryStrToInt(sValue, AValue);
 end;
 
 function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetValue(RootNode, Path, sValue) and TryStrToInt64(sValue, AValue);
 end;
 
 function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Double): Boolean;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result := TryGetValue(RootNode, Path, sValue) and TryStrToFloat(sValue, AValue);
 end;
@@ -424,7 +424,7 @@ begin
   AddValue(RootNode, ValueName, FloatToStr(AValue));
 end;
 
-procedure TXmlConfig.SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: UTF8String);
+procedure TXmlConfig.SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: String);
 var
   Node: TDOMNode;
   NodePath, AttrName: DOMString;
@@ -489,7 +489,7 @@ end;
 
 // ----------------------------------------------------------------------------
 
-procedure TXmlConfig.ReadFromFile(const AFilename: UTF8String);
+procedure TXmlConfig.ReadFromFile(const AFilename: String);
 var
   FileStream: TStream;
   TmpDoc: TXMLDocument;
@@ -519,7 +519,7 @@ begin
   FDoc := TmpDoc;
 end;
 
-procedure TXmlConfig.WriteToFile(const AFilename: UTF8String);
+procedure TXmlConfig.WriteToFile(const AFilename: String);
 var
   FileStream: TStream;
 begin
@@ -711,12 +711,12 @@ begin
   end;
 end;
 
-function TXmlConfig.GetContent(const Node: TDOMNode): UTF8String;
+function TXmlConfig.GetContent(const Node: TDOMNode): String;
 begin
   Result := UTF16ToUTF8(Node.TextContent);
 end;
 
-procedure TXmlConfig.SetContent(const Node: TDOMNode; const AValue: UTF8String);
+procedure TXmlConfig.SetContent(const Node: TDOMNode; const AValue: String);
 begin
   Node.TextContent := UTF8ToUTF16(AValue);
 end;
@@ -733,8 +733,8 @@ begin
 end;
 
 procedure TXmlConfig.GetFont(const aNode: TXmlNode; Path: TXmlPath; out
-  Name: UTF8String; out Size: Integer; out Style, Quality: Integer;
-  const DefName: UTF8String; const DefSize: Integer; const DefStyle,
+  Name: String; out Size: Integer; out Style, Quality: Integer;
+  const DefName: String; const DefSize: Integer; const DefStyle,
   DefQuality: Integer);
 begin
   if Path <> '' then
@@ -746,7 +746,7 @@ begin
 end;
 
 procedure TXmlConfig.SetFont(const aNode: TXmlNode; Path: TXmlPath;
-  const Name: UTF8String; const Size: Integer; const Style, Quality: Integer);
+  const Name: String; const Size: Integer; const Style, Quality: Integer);
 begin
   if Path <> '' then
     Path := Path + '/';

@@ -37,7 +37,7 @@ type
    Checks if StringToCheck contains any of the single characters in
    PossibleCharacters. Only ASCII can be searched.
 }
-function ContainsOneOf(StringToCheck: UTF8String; PossibleCharacters: String): Boolean;
+function ContainsOneOf(StringToCheck: String; PossibleCharacters: String): Boolean;
 {en
    Convert known directory separators to the current directory separator.
 }
@@ -64,7 +64,7 @@ function GetParentDir(sPath : String) : String;
 {en
    Gets the deepest (longest) path that exist.
 }
-function GetDeepestExistingPath(const sPath : UTF8String) : UTF8String;
+function GetDeepestExistingPath(const sPath : String) : String;
 
 function GetSplitFileName(var sFileName, sPath : String) : String;
 function MakeFileName(const sPath, sFileNameDef : String) : String;
@@ -103,8 +103,8 @@ function ExtractOnlyFileExt(const FileName: string): string;
 {en
    Remove file extension with the '.' from file name.
 }
-function RemoveFileExt(const FileName: UTF8String): UTF8String;
-function ContainsWildcards(const Path: UTF8String): Boolean;
+function RemoveFileExt(const FileName: String): String;
+function ContainsWildcards(const Path: String): Boolean;
 {en
    Expands an absolute file path by removing all relative references.
    Processes '/../' and '/./'.
@@ -115,7 +115,7 @@ function ContainsWildcards(const Path: UTF8String): Boolean;
    @param(Path path to expand.)
 }
 function ExpandAbsolutePath(const Path: String): String;
-function HasPathInvalidCharacters(Path: UTF8String): Boolean;
+function HasPathInvalidCharacters(Path: String): Boolean;
 {en
   Checks if a file or directory belongs in the specified path.
   Only strings are compared, no file-system checks are done.
@@ -169,7 +169,7 @@ function ExcludeFrontPathDelimiter(s: String): String;
    Doesn't remove path delimiter if it is the only character in the path (root dir),
    so it is safer to use than ExcludeTrailingPathDelimiter, especially on Unix.
 }
-function ExcludeBackPathDelimiter(const Path: UTF8String): UTF8String;
+function ExcludeBackPathDelimiter(const Path: String): String;
 
 {en
    Return position of character in string begun from start position
@@ -212,10 +212,10 @@ function NumCountChars(const Char: Char; const S: String): Integer;
    @param(sText Text)
    @param(TextLineBreakStyle Text line break style)
 }
-function TrimRightLineEnding(const sText: UTF8String; TextLineBreakStyle: TTextLineBreakStyle): UTF8String;
-function mbCompareText(const s1, s2: UTF8String): PtrInt;
+function TrimRightLineEnding(const sText: String; TextLineBreakStyle: TTextLineBreakStyle): String;
+function mbCompareText(const s1, s2: String): PtrInt;
 
-function StrNewW(const mbString: UTF8String): PWideChar;
+function StrNewW(const mbString: String): PWideChar;
 procedure StrDisposeW(var pStr : PWideChar);
 function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
 function StrPCopyW(Dest: PWideChar; const Source: WideString): PWideChar;
@@ -360,7 +360,7 @@ begin
     end;
 end;
 
-function GetDeepestExistingPath(const sPath : UTF8String) : UTF8String;
+function GetDeepestExistingPath(const sPath : String) : String;
 begin
   Result := sPath;
   while Result <> EmptyStr do
@@ -488,7 +488,7 @@ begin
     Result := '';
 end;
 
-function RemoveFileExt(const FileName: UTF8String): UTF8String;
+function RemoveFileExt(const FileName: String): String;
 var
   I : LongInt;
   EndSep : Set of Char;
@@ -503,7 +503,7 @@ begin
     Result := FileName;
 end;
 
-function ContainsWildcards(const Path: UTF8String): Boolean;
+function ContainsWildcards(const Path: String): Boolean;
 begin
   Result := ContainsOneOf(Path, '*?');
 end;
@@ -540,7 +540,7 @@ begin
     end;
 end;
 
-function HasPathInvalidCharacters(Path: UTF8String): Boolean;
+function HasPathInvalidCharacters(Path: String): Boolean;
 begin
   Result := ContainsOneOf(Path, '*?');
 end;
@@ -619,7 +619,7 @@ begin
     Result := s;
 end;
 
-function ExcludeBackPathDelimiter(const Path: UTF8String): UTF8String;
+function ExcludeBackPathDelimiter(const Path: String): String;
 var
   L: Integer;
 begin
@@ -729,7 +729,7 @@ begin
       if S[I] = Char then Inc(Result);
 end;
 
-function TrimRightLineEnding(const sText: UTF8String; TextLineBreakStyle: TTextLineBreakStyle): UTF8String;
+function TrimRightLineEnding(const sText: String; TextLineBreakStyle: TTextLineBreakStyle): String;
 const
   TextLineBreakArray: array[TTextLineBreakStyle] of Integer = (1, 2, 1);
 var
@@ -740,14 +740,14 @@ begin
   Result:= Copy(sText, 1, L - I); // Copy without last line ending
 end;
 
-function mbCompareText(const s1, s2: UTF8String): PtrInt; inline;
+function mbCompareText(const s1, s2: String): PtrInt; inline;
 begin
 // From 0.9.31 LazUtils can be used but this package does not exist in 0.9.30.
 //  Result := LazUTF8.UTF8CompareText(s1, s2);
   Result := WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
 end;
 
-function StrNewW(const mbString: UTF8String): PWideChar;
+function StrNewW(const mbString: String): PWideChar;
 var
   wsString: WideString;
   iLength: PtrInt;
@@ -839,7 +839,7 @@ begin
     end;
 end;
 
-function ContainsOneOf(StringToCheck: UTF8String; PossibleCharacters: String): Boolean;
+function ContainsOneOf(StringToCheck: String; PossibleCharacters: String): Boolean;
 var
   i, j: SizeInt;
   pc : PChar;
