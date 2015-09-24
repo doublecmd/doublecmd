@@ -1071,6 +1071,8 @@ var
         //*AFTER* all the buttons have been added, let's update for TC the number of buttons now present.
         InnerTCBarConfigFile.WriteInteger(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONBAR_COUNT, TKASMenuItem(ToolItem).SubItems.Count);
 
+        InnerTCBarConfigFile.UpdateFile;
+
       finally
         InnerTCBarConfigFile.Free;
       end;
@@ -1116,6 +1118,8 @@ begin
       //*AFTER* all the buttons have been added, let's update for TC the number of buttons now present.
       MainTCBarConfigFile.WriteInteger(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONBAR_COUNT, TCMainIndexButton);
 
+      MainTCBarConfigFile.UpdateFile;
+
     finally
       MainTCBarConfigFile.Free;
     end;
@@ -1133,6 +1137,8 @@ begin
       //It "basically" works but have some annoying problem from here to thre.
       //So intentionnally, we don't use "ConvertStringToTCString(SaveDialog.Filename)"
       TCMainConfigFile.WriteString(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONBAR_SECTION, ansistring(Barfilename));
+
+      TCMainConfigFile.UpdateFile;
 
     finally
       TCMainConfigFile.Free;

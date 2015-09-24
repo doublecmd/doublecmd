@@ -573,6 +573,7 @@ begin
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_MIME_TYPE, MimeType);
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_NAME, ExtractFileName(DesktopEntry));
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_TYPE, KEY_FILE_DESKTOP_TYPE_APPLICATION);
+        DesktopFile.UpdateFile;
       finally
         DesktopFile.Free;
       end;
@@ -596,6 +597,7 @@ begin
         // Update default applications
         UpdateDesktop('Default Applications');
       end;
+      DesktopFile.UpdateFile;
       Result:= True;
     finally
       DesktopFile.Free;

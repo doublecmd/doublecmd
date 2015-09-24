@@ -1240,6 +1240,7 @@ begin
             end;
           end;
         end;
+        ConfigFile.UpdateFile;
       finally
         ConfigFile.Free;
       end;
