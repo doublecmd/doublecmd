@@ -30,12 +30,6 @@ interface
 uses
   Classes, RtlConsts, SysUtils, IniFiles;
 
-{$IF (FPC_VERSION = 2) and (FPC_RELEASE < 5)}
-const
-  { TFileStream create mode }
-  fmCreate        = $FF00;
-{$ENDIF}
-
 type
   { TFileStreamEx class }
 
@@ -46,10 +40,6 @@ type
   public
     constructor Create(const AFileName: String; Mode: Word);
     destructor Destroy; override;
-    {$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
-    function ReadQWord: QWord;
-    procedure WriteQWord(q: QWord);
-    {$ENDIF}
     function Read(var Buffer; Count: LongInt): LongInt; override;
     property FileName: String read FFileName;
   end; 
@@ -117,21 +107,6 @@ begin
   if Result = -1 then
     raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 end;
-
-{$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
-function TFileStreamEx.ReadQWord: QWord;
-var
-  q: QWord;
-begin
-  ReadBuffer(q, SizeOf(QWord));
-  ReadQWord:= q;
-end;
-
-procedure TFileStreamEx.WriteQWord(q: QWord);
-begin
-  WriteBuffer(q, SizeOf(QWord));
-end;
-{$ENDIF}
 
 { TStringListEx }
 
