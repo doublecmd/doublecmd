@@ -19,7 +19,7 @@ type
 
   TOnGetArchiveItem = procedure(ArchiveItem: TArchiveItem) of object;
   TGetFileAttr = function(sAttr: String): TFileAttrs;
-  TGetFileName = function(const Str: String): UTF8String;
+  TGetFileName = function(const Str: String): String;
 
   TKeyPos = record
     Index,
@@ -88,7 +88,7 @@ uses
   LCLProc, FileUtil, StrUtils, DCClassesUtf8, uDCUtils, DCOSUtils, uOSUtils,
   DCDateTimeUtils, uDebug, uShowMsg, uLng, DCFileAttributes;
 
-function GetUnixFileName(const Str: String): UTF8String;
+function GetUnixFileName(const Str: String): String;
 var
   I: Integer;
 begin
@@ -97,7 +97,7 @@ begin
     if Result[I] = '/' then Result[I]:= PathDelim;
 end;
 
-function GetWinFileName(const Str: String): UTF8String;
+function GetWinFileName(const Str: String): String;
 var
   I: Integer;
 begin
