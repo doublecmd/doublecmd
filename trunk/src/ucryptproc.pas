@@ -133,6 +133,8 @@ end;
 constructor TPasswordStore.Create(const AFileName: String);
 begin
   inherited Create(AFileName);
+
+  CacheUpdates:= False;
   if ReadOnly then DCDebug('Read only password store!');
   FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
 end;
