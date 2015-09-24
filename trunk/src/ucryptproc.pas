@@ -37,10 +37,8 @@ type
   private
     FMasterKey,
     FMasterKeyHash: AnsiString;
-    FInitialized: Boolean;
   public
     constructor Create(const AFileName: String); reintroduce;
-    destructor Destroy; override;
   public
     function HasMasterKey: Boolean;
     function CheckMasterKey: Boolean;
@@ -137,16 +135,6 @@ begin
   inherited Create(AFileName);
   if ReadOnly then DCDebug('Read only password store!');
   FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
-  // In case exception happens when opening file use this flag to
-  // allow WriteString in Destroy only when Create has been successful.
-  FInitialized := True;
-end;
-
-destructor TPasswordStore.Destroy;
-begin
-  if FInitialized and not ReadOnly then
-    WriteString('General', 'MasterKey', FMasterKeyHash);
-  inherited Destroy;
 end;
 
 function TPasswordStore.HasMasterKey: Boolean;
@@ -170,6 +158,7 @@ begin
     begin
       FMasterKeyHash:= MasterKeyHash;
       FMasterKey:= MasterKey;
+      WriteString('General', 'MasterKey', FMasterKeyHash);
       Result:= True;
     end
   else if SameText(FMasterKeyHash, MasterKeyHash) then
