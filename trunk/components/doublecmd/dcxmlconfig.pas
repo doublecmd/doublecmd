@@ -525,15 +525,27 @@ var
 begin
   FileStream := TFileStreamEx.Create(AFilename, fmCreate or fmShareDenyWrite);
   try
-    WriteXMLFile(FDoc, FileStream);
+    WriteToStream(FileStream);
   finally
     FileStream.Free;
   end;
 end;
 
 procedure TXmlConfig.WriteToStream(AStream: TStream);
+var
+  Position: Int64;
+  MemoryStream: TMemoryStream;
 begin
-  WriteXMLFile(FDoc, AStream);
+  MemoryStream:= TMemoryStream.Create;
+  try
+    WriteXMLFile(FDoc, MemoryStream);
+    Position:= AStream.Position;
+    AStream.Size:= MemoryStream.Size;
+    AStream.Position:= Position;
+    MemoryStream.SaveToStream(AStream);
+  finally
+    MemoryStream.Free;
+  end;
 end;
 
 function TXmlConfig.Load: Boolean;
