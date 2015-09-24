@@ -1712,6 +1712,7 @@ begin
         try
           Ini:= TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
           Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseConfigInProgramDirNew);
+          Ini.UpdateFile;
         finally
           FreeThenNil(Ini);
         end;

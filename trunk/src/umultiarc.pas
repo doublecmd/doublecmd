@@ -296,7 +296,6 @@ var
 begin
   IniFile:= TIniFileEx.Create(FileName, fmOpenWrite);
   try
-    IniFile.Clear;
     for I:= 0 to FList.Count - 1 do
     begin
       Section:= FList.Strings[I];
@@ -331,6 +330,7 @@ begin
       end;
     end;
     IniFile.WriteBool('MultiArc', 'FirstTime', False);
+    IniFile.UpdateFile;
   finally
     IniFile.Free;
   end;

@@ -160,6 +160,7 @@ begin
     gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
     gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
     gIni.WriteBool('Configuration', 'TarAutoHandle', gTarAutoHandle);
+    gIni.UpdateFile;
   finally
     gIni.Free;
   end;
