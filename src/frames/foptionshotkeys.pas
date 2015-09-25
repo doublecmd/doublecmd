@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Hotkeys options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -727,6 +727,8 @@ begin
   // Save hotkeys file name.
   if lbSCFilesList.ItemIndex >= 0 then
     gNameSCFile := lbSCFilesList.Items[lbSCFilesList.ItemIndex];
+
+  HotMan.Save(gpCfgDir + gNameSCFile);
 end;
 
 procedure TfrmOptionsHotkeys.SelectHotkey(Hotkey: THotkey);

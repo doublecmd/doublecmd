@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archivers options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Dialogs, Controls, uGlobs, uLng, uMultiArc, uSpecialDir;
+  Dialogs, Controls, uGlobs, uLng, uMultiArc, uSpecialDir, uGlobsPaths;
 
 const
   stgArchiveTitle                = 0;
@@ -329,6 +329,7 @@ end;
 function TfrmOptionsArchivers.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
+  gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
 end;
 
 end.
