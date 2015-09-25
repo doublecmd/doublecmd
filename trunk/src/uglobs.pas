@@ -547,11 +547,6 @@ begin
   end;
 end;
 
-procedure SaveCfgExts;
-begin
-  gExts.SaveXMLFile;
-end;
-
 procedure SaveCfgIgnoreList;
 var
   FileName: UTF8String;
@@ -562,16 +557,6 @@ begin
     mbForceDirectory(ExtractFileDir(FileName));
     glsIgnoreList.SaveToFile(FileName);
   end;
-end;
-
-procedure SaveCfgMultiArcList;
-begin
-  gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
-end;
-
-procedure SaveCfgHotkeys;
-begin
-  HotMan.Save(gpCfgDir + gNameSCFile);
 end;
 
 procedure SaveCfgMainConfig;
@@ -1733,15 +1718,9 @@ begin
       gConfig.FileName := gpCfgDir + 'doublecmd.xml';
     end;
 
-  if not mbFileExists(gpCfgDir + gNameSCFile) then
-    gNameSCFile := 'shortcuts.scf';
-
   if mbFileAccess(gpCfgDir, fmOpenWrite or fmShareDenyNone) then
   begin
-    SaveWithCheck(@SaveCfgExts, 'extensions configuration', ErrMsg);
     SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
-    SaveWithCheck(@SaveCfgMultiArcList, 'multi arc list', ErrMsg);
-    SaveWithCheck(@SaveCfgHotkeys, 'hotkeys', ErrMsg);
     SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
     SaveWithCheck(@SaveHistoryConfig, 'various history', ErrMsg);
 

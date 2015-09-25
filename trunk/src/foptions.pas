@@ -383,9 +383,16 @@ var
 begin
   { Save options from frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
+  begin
     if Assigned(FOptionsEditorList[I].Instance) then
+    try
       if oesfNeedsRestart in FOptionsEditorList[I].Instance.SaveSettings then
         NeedsRestart := True;
+    except
+      on E: Exception do
+        MessageDlg(FOptionsEditorList[I].Instance.GetTitle, E.Message, mtError, [mbOK], 0);
+    end;
+  end;
 
   if NeedsRestart then
     MessageDlg(rsMsgRestartForApplyChanges, mtInformation, [mbOK], 0);
