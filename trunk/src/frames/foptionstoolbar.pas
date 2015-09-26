@@ -225,6 +225,7 @@ type
     procedure GenericSomethingChanged(Sender: TObject);
 
   private
+    FUpdateHotKey: Boolean;
     FCurrentButton: TKASToolButton;
     FEditForm: TfrmEditHotkey;
     FFormCommands: IFormCommands;
@@ -275,7 +276,7 @@ uses
   uShellExecute, fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils,
   uShowMsg, DCClassesUtf8, fOptions, DCStrUtils, uGlobs, uLng, uOSForms,
   uDCUtils, uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir,
-  dmHelpManager;
+  dmHelpManager, uGlobsPaths;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';
@@ -396,6 +397,7 @@ begin
 
   FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
   FModificationTookPlace := False;
+  FUpdateHotKey := False;
 end;
 
 procedure TfrmOptionsToolbar.LoadCurrentButton;
@@ -587,6 +589,12 @@ begin
     Toolbar.SaveConfiguration(gConfig, ToolBarNode);
     FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
     FModificationTookPlace := False;
+  end;
+
+  if FUpdateHotKey then
+  begin
+    FUpdateHotKey := False;
+    HotMan.Save(gpCfgDir + gNameSCFile);
   end;
 
   Result := [];
@@ -919,6 +927,7 @@ begin
         RemoveHotkey(HMForm.Controls[I].Hotkeys, NormalItem);
     end;
     LoadCurrentButton;
+    FUpdateHotKey:= True;
   end;
 end;
 
@@ -1009,6 +1018,7 @@ begin
       if FEditForm.Execute(True, 'Main', cHotKeyCommand, TemplateHotkey, AControls, [ehoHideParams]) then
       begin
         LoadCurrentButton;
+        FUpdateHotKey:= True;
       end;
     finally
       TemplateHotkey.Free;
