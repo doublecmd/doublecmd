@@ -303,7 +303,7 @@ msgstr "ビットマップファイル"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
-msgstr "Black（黒）"
+msgstr "Black（黒色）"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
@@ -311,7 +311,7 @@ msgstr "空欄"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr "Blue（青）"
+msgstr "Blue（青色）"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -587,7 +587,7 @@ msgstr "Gray（灰色）"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
-msgstr "淡色文字"
+msgstr "淡色文字の色"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
@@ -956,7 +956,7 @@ msgstr "  修正済み "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
-msgstr "Money Green（マネーグリーン；深緑）"
+msgstr "Money Green（マネーグリーン；深緑色）"
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"

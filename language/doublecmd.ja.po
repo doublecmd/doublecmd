@@ -3,11 +3,11 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2015-09-20 16:32+0900\n"
+"PO-Revision-Date: 2015-09-24 20:45+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 日本語\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr "比較しています…  %d (ESCでキャンセル)"
 
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
-msgstr ""
+msgstr "右：%d 個のファイルを削除"
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
@@ -197,9 +197,7 @@ msgstr "0"
 
 #: tfcolumnssetconf.miaddcolumn.caption
 msgid "Add column"
-msgstr ""
-"カラム\n"
-"を追加\n"
+msgstr "カラムを追加"
 
 #: tfcolumnssetconf.pnlcusthead.caption
 msgid "Customize column:"
@@ -263,7 +261,7 @@ msgstr "所有権をコピー(&w)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
 msgid "Copy &permissions"
-msgstr ""
+msgstr "ファイル権限をコピー(&p)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 msgid "Copy d&ate/time"
@@ -584,37 +582,31 @@ msgid "Copy file(s)"
 msgstr "ファイルのコピー"
 
 #: tfrmcopydlg.mnunewqueue.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnunewqueue.caption"
 msgid "New queue"
 msgstr "新しいキュー"
 
 #: tfrmcopydlg.mnuqueue1.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "キュー1"
 
 #: tfrmcopydlg.mnuqueue2.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "キュー2"
 
 #: tfrmcopydlg.mnuqueue3.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "キュー3"
 
 #: tfrmcopydlg.mnuqueue4.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "キュー4"
 
 #: tfrmcopydlg.mnuqueue5.caption
-#, fuzzy
 msgctxt "tfrmcopydlg.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "キュー5"
@@ -2747,7 +2739,7 @@ msgstr "サムネイル表示"
 
 #: tfrmmain.acttogglefullscreenconsole.caption
 msgid "Toggle fullscreen mode console"
-msgstr ""
+msgstr "フルスクリーンモード・コンソールをトグル"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
@@ -3856,7 +3848,7 @@ msgstr "ドライブのブラックリスト(&b)"
 
 #: tfrmoptionsbriefview.gbcolumns.caption
 msgid "Columns size"
-msgstr ""
+msgstr "カラムサイズ"
 
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
@@ -3872,15 +3864,15 @@ msgstr "ファイル名の直後に(&d)"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
-msgstr ""
+msgstr "自動"
 
 #: tfrmoptionsbriefview.rbusefixedcount.caption
 msgid "Fixed columns count"
-msgstr ""
+msgstr "カラム数を固定"
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
-msgstr ""
+msgstr "カラムの幅を固定"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -4260,19 +4252,19 @@ msgstr "現在の「ディレクトリ・ホットリスト」のバックアッ
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "検索と置換…"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceinpath.caption
 msgid "in path..."
-msgstr ""
+msgstr "パス…"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceintargetpath.caption
 msgid "in target path..."
-msgstr ""
+msgstr "ターゲットパス…"
 
 #: tfrmoptionsdirectoryhotlist.misearchinreplaceinbothpaths.caption
 msgid "in path and target path..."
-msgstr ""
+msgstr "パスとターゲットパス…"
 
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MISEPARATOR1.CAPTION"
@@ -4290,13 +4282,11 @@ msgid "-"
 msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator12.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator12.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator13.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator13.caption"
 msgid "-"
 msgstr "-"
@@ -4689,7 +4679,6 @@ msgid "Open in Viewer"
 msgstr "ビューアで開く"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "確認ウィンドウの表示："
@@ -4741,7 +4730,7 @@ msgstr "ファイル操作エラーはスキップして、そのエラーをロ
 
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
-msgstr ""
+msgstr "ファイル中の文字列検索"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -4766,10 +4755,9 @@ msgstr "操作の進行状況を最初ここに表示(&i)："
 
 #: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
 msgid "Default search template:"
-msgstr ""
+msgstr "デフォルトの検索テンプレート："
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
 msgstr "重複した名前を自動的に変更するスタイル："
@@ -5012,7 +5000,6 @@ msgid "Category &name:"
 msgstr "カテゴリーの名前(&n)："
 
 #: tfrmoptionsfonts.btnselconsolefnt.caption
-#, fuzzy
 msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
 msgid "..."
 msgstr "…"
@@ -5044,7 +5031,7 @@ msgstr "…"
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr ""
+msgstr "コンソール・フォント(&C)"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
@@ -5724,7 +5711,7 @@ msgstr "新しいボタンを挿入(&I)"
 
 #: tfrmoptionstoolbar.btnopencmddlg.caption
 msgid "Select"
-msgstr ""
+msgstr "選択"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
@@ -5737,7 +5724,6 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstoolbar.btnother.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.btnother.caption"
 msgid "Other..."
 msgstr "その他…"
@@ -5754,11 +5740,11 @@ msgstr ">>"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.caption
 msgid "Suggest"
-msgstr ""
+msgstr "提案"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr ""
+msgstr "ボタンの種類、コマンド、パラメータに基づいてDCにツールチップを提案させる"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
@@ -5792,7 +5778,6 @@ msgid "Parameter&s:"
 msgstr "パラメータ(&s)："
 
 #: tfrmoptionstoolbar.lblhelponinternalcommand.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
 msgid "Help"
 msgstr "ヘルプ"
@@ -5829,7 +5814,7 @@ msgstr "ツールのヒント(&T)："
 
 #: tfrmoptionstoolbar.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
-msgstr ""
+msgstr "全てのDCコマンドを含むツールバーを追加する"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
@@ -5848,13 +5833,11 @@ msgid "for a sub-tool bar"
 msgstr "サブツールバーを"
 
 #: tfrmoptionstoolbar.mibackup.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.mibackup.caption"
 msgid "Backup..."
 msgstr "バックアップ…"
 
 #: tfrmoptionstoolbar.miexport.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.miexport.caption"
 msgid "Export..."
 msgstr "エクスポート…"
@@ -5962,7 +5945,6 @@ msgid "just prior current selection"
 msgstr "現在の選択の直前に"
 
 #: tfrmoptionstoolbar.miimport.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.miimport.caption"
 msgid "Import..."
 msgstr "インポート…"
@@ -6055,7 +6037,6 @@ msgid "to add to top toolbar"
 msgstr "トップツールバーに追加"
 
 #: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "トップツールバーを入れ替え"
@@ -6112,10 +6093,9 @@ msgstr "現在の選択の直前に"
 #: tfrmoptionstoolbar.misearchandreplace.caption
 msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "検索と置換…"
 
 #: tfrmoptionstoolbar.miseparator1.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.miseparator1.caption"
 msgid "-"
 msgstr "-"
@@ -6141,7 +6121,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator2.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.miseparator2.caption"
 msgid "-"
 msgstr "-"
@@ -6188,29 +6167,28 @@ msgstr "現在の選択の直前に"
 
 #: tfrmoptionstoolbar.misrcrplallofall.caption
 msgid "in all of all the above..."
-msgstr ""
+msgstr "上にある全ての項目の全てで…"
 
 #: tfrmoptionstoolbar.misrcrplclickseparator.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbar.misrcrplclickseparator.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionstoolbar.misrcrplcommands.caption
 msgid "in all commands..."
-msgstr ""
+msgstr "全てのコマンドで…"
 
 #: tfrmoptionstoolbar.misrcrpliconnames.caption
 msgid "in all icon names..."
-msgstr ""
+msgstr "全てのアイコン名で…"
 
 #: tfrmoptionstoolbar.misrcrplparameters.caption
 msgid "in all parameters..."
-msgstr ""
+msgstr "全てのパラメータで…"
 
 #: tfrmoptionstoolbar.misrcrplstartpath.caption
 msgid "in all start path..."
-msgstr ""
+msgstr "全ての開始パスで…"
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARAFTERCURRENT.CAPTION"
@@ -7778,11 +7756,11 @@ msgstr "クリップボードには、有効なツールバーのデータが含
 
 #: ulng.rscmdcategorylistinorder
 msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr ""
+msgstr "全て;アクティブパネル;左パネル;右パネル;ファイル操作;設定;ネットワーク;その他;パラレル・ポート;印刷;マーク;セキュリティ;クリップボード;FTP;ナビゲーション;ヘルプ;ウィンドウ;コマンドライン;ツール;ユーザ;タブ;ソーティング;ログ"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
-msgstr ""
+msgstr "レガシーな順のソート;A-Z順のソート"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -7844,11 +7822,11 @@ msgstr "カラムをカスタマイズ"
 
 #: ulng.rsconfigurationfileassociation
 msgid "Configure file association"
-msgstr ""
+msgstr "ファイルの関連づけを設定"
 
 #: ulng.rsconfirmexecution
 msgid "Confirming command line and parameters"
-msgstr ""
+msgstr "コマンドラインとパラメータを確認中"
 
 #: ulng.rscopynametemplate
 #, fuzzy,badformat
@@ -7903,7 +7881,7 @@ msgstr "削除："
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
-msgstr ""
+msgstr "2つのファイルは同じものです"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
@@ -8137,23 +8115,23 @@ msgstr "置換"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
-msgstr ""
+msgstr "外部エディタを使用"
 
 #: ulng.rseditwithinternaleditor
 msgid "with internal editor"
-msgstr ""
+msgstr "内部エディタを使用"
 
 #: ulng.rsexecuteviashell
 msgid "Execute via shell"
-msgstr ""
+msgstr "シェル内で実行"
 
 #: ulng.rsexecuteviaterminalclose
 msgid "Execute via terminal and close"
-msgstr ""
+msgstr "端末内で実行した後クローズ"
 
 #: ulng.rsexecuteviaterminalstayopen
 msgid "Execute via terminal and stay open"
-msgstr ""
+msgstr "端末内で実行した後開いたままにする"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
@@ -8367,11 +8345,11 @@ msgstr "入力マスク："
 
 #: ulng.rsmenuconfigurecolumnsalreadyexists
 msgid "A columns view with that name already exists."
-msgstr ""
+msgstr "その名前のカラムビューは既に存在します。"
 
 #: ulng.rsmenuconfigurecolumnssavetochange
 msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr ""
+msgstr "現在編集中のカラムビューを変更するためには、保存、コピーまたは削除します"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -8379,7 +8357,7 @@ msgstr "カスタム列の構成"
 
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
-msgstr ""
+msgstr "新しいカスタムカラム名を入力"
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
@@ -8413,7 +8391,6 @@ msgid "No media available"
 msgstr "利用可能なメディアがありません"
 
 #: ulng.rsmnuopen
-#, fuzzy
 msgctxt "ulng.rsmnuopen"
 msgid "Open"
 msgstr "開く"
@@ -8486,6 +8463,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"カラムビューに関するオプションが変更済みです。\n"
+"\n"
+"終了前に保存しますか？\n"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -8493,7 +8473,7 @@ msgstr "終了してもよろしいですか?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr ""
+msgstr "過去へのコピーができませんでした。変更したファイルを維持しますか？"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -8505,7 +8485,7 @@ msgstr "選択した＜%s＞をコピーしますか？"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
-msgstr ""
+msgstr "＜新しいファイルタイプ ”%s ファイル”＞"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
@@ -8513,7 +8493,7 @@ msgstr "DC ツールバー ファイルを保存する場所とファイル名�
 
 #: ulng.rsmsgdefaultcustomactionname
 msgid "Custom action"
-msgstr ""
+msgstr "カスタムアクション"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
@@ -8549,7 +8529,7 @@ msgstr "マウスのドラッグ&&ロップに関するオプションが変更�
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
-msgstr ""
+msgstr "カスタムアクション名を入力："
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -8560,8 +8540,9 @@ msgid "Enter name:"
 msgstr "ファイルの種類名を入力："
 
 #: ulng.rsmsgenternewfiletypename
+#, fuzzy,badformat
 msgid "Enter name of new file type to create for extension \"%s\""
-msgstr ""
+msgstr "拡張子＜＞のための新しいファイルタイプを入力"
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -8677,7 +8658,7 @@ msgstr "＜%s＞の所有者/グループを設定出来ません。"
 
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
-msgstr ""
+msgstr "＜%s＞のファイル権限が設定できません"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -8697,6 +8678,9 @@ msgid ""
 "\n"
 "Do you want to save before to exit?\n"
 msgstr ""
+"ファイルの拡張子の関連づけの追加オプションが変更されています。\n"
+"\n"
+"終了前に保存しますか？\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
 msgid ""
@@ -8704,6 +8688,9 @@ msgid ""
 "\n"
 "Do you want to save before to exit?\n"
 msgstr ""
+"ファイルの拡張子の関連づけが変更されています。\n"
+"\n"
+"終了前に保存しますか？\n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
@@ -8747,6 +8734,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"パネルの色に関するオプションが変更されています。\n"
+"\n"
+"終了前に保存しますか？\n"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -8937,18 +8927,22 @@ msgid ""
 "Total entries saved: %d\n"
 "\n"
 "Backup filename: %s\n"
-msgstr "保存された項目の合計： %d 個のバックアップ　ファイル名： %s"
+msgstr ""
+"保存された項目の合計： %d 個\n"
+"\n"
+"バックアップファイル名： %s\n"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr "エクスポートされた項目の合計："
 
 #: ulng.rsmsghotdirwhattodelete
-#, fuzzy,badformat
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
-msgstr "サブメニュー中の全ての項目を削除しますか？"
+msgstr ""
+"サブメニュー＜%s＞中の全ての項目を削除しますか？\n"
+"答えが「いいえ」の場合、メニューの区切りだけが消され、サブメニュー中の項目はそのまま残ります。\n"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -8959,7 +8953,6 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "結果であるファイルの長さが正しくありません： ＜%s＞"
 
 #: ulng.rsmsginsertnextdisk
-#, fuzzy,badformat
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -8967,7 +8960,12 @@ msgid ""
 "\"%s\"\n"
 "\n"
 "Number of bytes still to write: %d\n"
-msgstr "次のディスクまたは何か同様のものを挿入して下さい。"
+msgstr ""
+"次のディスクまたは何か同様のものを挿入して下さい。\n"
+"\n"
+"次のファイルを書き込むためのものです：\n"
+"＜%s＞\n"
+"残りの書き込みサイズ：＜%d＞バイト\n"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -9031,11 +9029,11 @@ msgstr "エラー："
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
-msgstr ""
+msgstr "外部コマンドを起動"
 
 #: ulng.rsmsglogextcmdresult
 msgid "Result external"
-msgstr ""
+msgstr "外部コマンドの結果"
 
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
@@ -9063,6 +9061,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"ログに関するオプションが変更されています。\n"
+"\n"
+"終了前に保存しますか？\n"
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
@@ -9138,7 +9139,7 @@ msgstr "機能は提供されていません。"
 
 #: ulng.rsmsgpanelpreview
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr ""
+msgstr "下に示すのはプレビューです。カーソルを動かしファイルを選択すれば、様々な設定のルック＆フィールが直ちに分かります。"
 
 #: ulng.rsmsgpassword
 msgid "Password:"
@@ -9179,7 +9180,7 @@ msgstr "プリセット＜%s＞が既に存在します。上書きしますか�
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
-msgstr ""
+msgstr "コマンド＜%s＞を実行中の問題"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
@@ -9203,7 +9204,7 @@ msgstr "諸々の変更を有効にするため、ダブル・コマンダーを
 
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
-msgstr ""
+msgstr "ファイルの拡張子＜%s＞をどのファイルタイプに追加するか選択"
 
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
@@ -9211,7 +9212,7 @@ msgstr "選択済みファイル：%sバイト（%sバイト中）ファイル�
 
 #: ulng.rsmsgselectexecutablefile
 msgid "Select executable file for"
-msgstr ""
+msgstr "実行するファイルを選択"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
@@ -9306,16 +9307,12 @@ msgid "Target path:"
 msgstr "ターゲットのパス："
 
 #: ulng.rsmsgtcconfignotfound
-#, fuzzy
-#| msgid ""
-#| "Error! Cannot find the TC oncfiguration file:\n"
-#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s\n"
 msgstr ""
 "エラー！：TCの設定ファイルが見つかりません：\n"
-"%s\n"
+"＜%s＞\n"
 
 # どの実行ファイルのこと？
 #: ulng.rsmsgtcexecutablenotfound
@@ -9354,14 +9351,18 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"端末にかんするオプションが変更されています。\n"
+"\n"
+"終了前に保存しますか？\n"
 
 #: ulng.rsmsgthisisnowinclipboard
+#, fuzzy,badformat
 msgid "\"%s\" is now in the clipboard"
-msgstr ""
+msgstr "＜”%”＞がクリップボードにあります"
 
 #: ulng.rsmsgtitleextnotinfiletype
 msgid "Extension of selected file is not in any recognized file types"
-msgstr ""
+msgstr "選択したファイルの拡張子は認識可能なファイルタイプにありません"
 
 #: ulng.rsmsgtoolbarerrornotsaved
 msgid "Error! Problem saving toolbar!"
@@ -9405,11 +9406,11 @@ msgstr "URL："
 
 #: ulng.rsmsguserdidnotsetextension
 msgid "<NO EXT>"
-msgstr ""
+msgstr "＜拡張子無し＞"
 
 #: ulng.rsmsguserdidnotsetname
 msgid "<NO NAME>"
-msgstr ""
+msgstr "＜名前無し＞"
 
 #: ulng.rsmsgusername
 msgid "User name:"
@@ -9437,7 +9438,7 @@ msgstr "選択した＜%s＞を完全削除（抹殺）しますか？"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
-msgstr ""
+msgstr "with"
 
 # 文脈不明
 #: ulng.rsmulrenfilenamestylelist
@@ -9928,7 +9929,7 @@ msgstr "ドライブリストボタン"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
-msgstr ""
+msgstr "ファイルの関連づけ（追加）"
 
 #: ulng.rsoptionseditorfileassoc
 msgctxt "ulng.rsoptionseditorfileassoc"
@@ -10089,10 +10090,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "ファイル;ディレクトリ;ファイルとディレクトリ(&F)"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused"
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "フォーカスが外れたらフィルターパネルを隠す(&H)"
+msgstr "フォーカスが外れたらフィルターパネルを隠す(&H);次のセッションのため設定の変更を保存"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -10182,7 +10181,7 @@ msgstr "検索結果"
 
 #: ulng.rssearchstatus
 msgid "SEARCH"
-msgstr ""
+msgstr "検索"
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
@@ -10197,50 +10196,47 @@ msgid "&Show help for %s"
 msgstr "＜%s＞のヘルプを表示(&S)"
 
 #: ulng.rssimplewordall
-#, fuzzy
 msgctxt "ulng.rssimplewordall"
 msgid "All"
 msgstr "全て"
 
 #: ulng.rssimplewordcategory
 msgid "Category"
-msgstr ""
+msgstr "カテゴリ"
 
 #: ulng.rssimplewordcolumnsingular
 msgid "Column"
-msgstr ""
+msgstr "カラム"
 
 #: ulng.rssimplewordcommand
-#, fuzzy
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "コマンド"
 
 #: ulng.rssimplewordfilename
 msgid "Filename"
-msgstr ""
+msgstr "ファイル名："
 
 #: ulng.rssimplewordfiles
 msgid "files"
-msgstr ""
+msgstr "ファイル"
 
 #: ulng.rssimplewordparameter
 msgid "Param"
-msgstr ""
+msgstr "パラメータ"
 
 #: ulng.rssimplewordpreview
-#, fuzzy
 msgctxt "ulng.rssimplewordpreview"
 msgid "Preview"
 msgstr "プレビュー"
 
 #: ulng.rssimplewordresult
 msgid "Result"
-msgstr ""
+msgstr "結果"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
-msgstr ""
+msgstr "作業ディレクトリ"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
@@ -10370,149 +10366,147 @@ msgstr "ビューア"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr ""
-"このエラーを「何をしている時に起きたかを書いて」次の＜%s＞ファイルと一緒に、バグ追跡システムに報告して下さい。\n"
-"＜%s＞を押して継続；または、＜%s＞を押してプログラムを終了。\n"
+msgstr "このエラーを「何をしている時に起きたかを書いて」次の＜%s＞ファイルと一緒に、バグ追跡システムに報告して下さい。＜%s＞を押して継続；または、＜%s＞を押してプログラムを終了。"
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
-msgstr ""
+msgstr "左右両パネル（アクティブから非アクティブへ）"
 
 #: ulng.rsvarbothpanellefttoright
 msgid "Both panels, from left to right"
-msgstr ""
+msgstr "左右両パネル（左から右へ）"
 
 #: ulng.rsvarcurrentpath
 msgid "Path of panel"
-msgstr ""
+msgstr "パネルのパス"
 
 #: ulng.rsvarencloseelement
 msgid "Enclose each name in brackets or what you want"
-msgstr ""
+msgstr "名前または何をしたいかを括弧で囲みます"
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
-msgstr ""
+msgstr "拡張子なしでファイル名のみ"
 
 #: ulng.rsvarfullpath
 msgid "Complete filename (path+filename)"
-msgstr ""
+msgstr "完全なファイル名（パス＋ファイル名）"
 
 #: ulng.rsvarhelpwith
 msgid "Help with \"%\" variables"
-msgstr ""
+msgstr "変数＜”%”＞のヘルプ"
 
 #: ulng.rsvarinputparam
 msgid "Will request request user to enter a parameter with a default suggested value"
-msgstr ""
+msgstr "デフォルトの推奨値つきでパラメータを入力するようユーザに求めます"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
-msgstr ""
+msgstr "左パネル"
 
 #: ulng.rsvarlistfilename
 msgid "Temporary filename of list of filenames"
-msgstr ""
+msgstr "ファイル名のリストを保存する一時ファイル名"
 
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
-msgstr ""
+msgstr "完全なファイル名（パス＋ファイル名）のリストを保存する一時ファイル名"
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"
-msgstr ""
+msgstr "相対パスでのファイル名のリストを保存する一時ファイル名"
 
 #: ulng.rsvaronlyextension
 msgid "Only file extension"
-msgstr ""
+msgstr "ファイル拡張子のみ"
 
 #: ulng.rsvaronlyfilename
 msgid "Only filename"
-msgstr ""
+msgstr "ファイル名のみ"
 
 #: ulng.rsvarotherexamples
 msgid "Other example of what's possible"
-msgstr ""
+msgstr "何が可能かを示す他の例"
 
 #: ulng.rsvarpath
 msgid "Path, with ending delimiter"
-msgstr ""
+msgstr "パス（行末の区切り文字付き）"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
-msgstr ""
+msgstr "この位置から行末まで（パーセント変数インジケータは”#”）"
 
 #: ulng.rsvarpercentsign
 msgid "Return the percent sign"
-msgstr ""
+msgstr "パーセント記号を返します"
 
 #: ulng.rsvarpoundchangetopercent
 msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
-msgstr ""
+msgstr "この位置から行末まで（パーセント変数インジケータは”%”）"
 
 #: ulng.rsvarprependelement
 msgid "Prepend each name with \"-a \" or what you want"
-msgstr ""
+msgstr "名前のの前に “-a” またはしたいことを付加"
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
-msgstr ""
+msgstr "%[パラメータの入力を求める;デフォルトの値を提案する]"
 
 #: ulng.rsvarrelativepathandfilename
 msgid "Filename with relative path"
-msgstr ""
+msgstr "相対パスでのファイル名"
 
 #: ulng.rsvarrightpanel
 msgid "Right panel"
-msgstr ""
+msgstr "右パネル"
 
 #: ulng.rsvarsecondelementrightpanel
 msgid "Full path of second selected file in right panel"
-msgstr ""
+msgstr "右パネル中で2番目に選択されたファイルのフルパス"
 
 #: ulng.rsvarshowcommandprior
 msgid "Show command prior execute"
-msgstr ""
+msgstr "実行前にコマンドを表示"
 
 #: ulng.rsvarsimplemessage
 msgid "%[Simple message]"
-msgstr ""
+msgstr "%[簡単なメッセージ]"
 
 #: ulng.rsvarsimpleshowmessage
 msgid "Will show a simple message"
-msgstr ""
+msgstr "簡単なメッセージが表示されます"
 
 #: ulng.rsvarsourcepanel
 msgid "Active panel (source)"
-msgstr ""
+msgstr "アクティブパネル（ソース）"
 
 #: ulng.rsvartargetpanel
 msgid "Inactive panel (target)"
-msgstr ""
+msgstr "非アクティブパネル（ターゲット）"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
-msgstr ""
+msgstr "ファイル名はここから引用されます（デフォルト）"
 
 #: ulng.rsvarwilldointerminal
 msgid "Command will be done in terminal, remaining opened at the end"
-msgstr ""
+msgstr "コマンドは端末で実行され、終了後も端末は開いたままです"
 
 #: ulng.rsvarwillhaveendingdelimiter
 msgid "Paths will have ending delimiter"
-msgstr ""
+msgstr "パスには行末の区切り文字がつきます"
 
 #: ulng.rsvarwillnotbequoted
 msgid "Filenames will not be quoted from here"
-msgstr ""
+msgstr "ファイル名はここから引用されることはありません"
 
 #: ulng.rsvarwillnotdointerminal
 msgid "Command will be done in terminal, closed at the end"
-msgstr ""
+msgstr "コマンドは端末で実行され、終了後に端末は閉じます"
 
 #: ulng.rsvarwillnothaveendingdelimiter
 msgid "Paths will not have ending delimiter (default)"
-msgstr ""
+msgstr "パスには行末の区切り文字がつきません（デフォルト）"
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
@@ -10534,17 +10528,17 @@ msgstr "＜%s＞はありません！"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
-msgstr ""
+msgstr "外部ビューアで"
 
 #: ulng.rsviewwithinternalviewer
 msgid "with internal viewer"
-msgstr ""
+msgstr "内部ビューアで"
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
-msgstr ""
+msgstr "置換の回数：%d"
 
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
-msgstr ""
+msgstr "置換は起こりませんでした。"
 
