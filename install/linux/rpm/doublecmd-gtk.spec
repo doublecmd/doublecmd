@@ -7,14 +7,14 @@ Summary:	Twin-panel (commander-style) file manager (GTK2)
 Version:	0.7.0
 Release:	1
 URL:		http://doublecmd.sourceforge.net
-Source0:	%{doublecmd}-%{version}.tar.gz
+Source0:	%{doublecmd}-%{version}.orig.tar.gz
 License:	GPL
 Group:		Applications/File
 BuildRequires:	fpc >= 2.6.0 fpc-src glib2-devel gtk2-devel lazarus >= 1.0.0
 %if 0%{?mandriva_version}
 BuildRequires:  libncurses-devel libdbus-1-devel libbzip2-devel
 %endif
-%if 0%{?fedora_version} >= 16
+%if 0%{?fedora_version} || 0%{?rhel}
 BuildRequires:  xorg-x11-devel ncurses-devel dbus-devel bzip2-devel
 %endif
 %if 0%{?suse_version} >= 1110
