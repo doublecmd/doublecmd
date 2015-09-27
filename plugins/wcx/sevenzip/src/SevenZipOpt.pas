@@ -265,13 +265,26 @@ var
 
   procedure AddOption(Finish: Integer);
   var
+    C: WideChar;
+    PropValue: TPropVariant;
     Option, Value: WideString;
   begin
     Option:= Copy(Parameters, Start, Finish - Start);
     Start:= Pos('=', Option);
     if Start = 0 then
     begin
-      AddProperty(Option, TPropVariant(NULL));
+      PropValue.vt:= VT_EMPTY;
+      C:= Option[Length(Option)];
+      if C = '+' then
+        Variant(PropValue):= True
+      else if C = '-' then begin
+        Variant(PropValue):= False;
+      end;
+      if (PropValue.vt <> VT_EMPTY) then
+      begin
+        Delete(Option, Length(Option), 1);
+      end;
+      AddProperty(Option, PropValue);
     end
     else begin
       Value:= Copy(Option, Start + 1, MaxInt);
