@@ -22,6 +22,7 @@
       <MajorVersionNr Value="15"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="27"/>
+      <BuildNr Value="1"/>
       <CharSet Value="04B0"/>
       <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2015 Alexander Koblov" ProductVersion=""/>
     </VersionInfo>
@@ -89,27 +90,22 @@
       <Unit0>
         <Filename Value="SevenZipWcx.dpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SevenZipWcx"/>
       </Unit0>
       <Unit1>
         <Filename Value="SevenZipFunc.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SevenZipFunc"/>
       </Unit1>
       <Unit2>
         <Filename Value="SevenZipAdv.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SevenZipAdv"/>
       </Unit2>
       <Unit3>
         <Filename Value="SevenZipDlg.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SevenZipDlg"/>
       </Unit3>
       <Unit4>
         <Filename Value="SevenZipLng.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SevenZipLng"/>
       </Unit4>
     </Units>
   </ProjectOptions>
