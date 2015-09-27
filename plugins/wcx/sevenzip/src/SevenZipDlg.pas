@@ -420,7 +420,7 @@ begin
     begin
       for Index:= Low(LZMADict) to High(LZMADict) do
       begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(LZMADict[Index]), PtrInt(LZMADict[Index]));
+        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(LZMADict[Index], False), PtrInt(LZMADict[Index]));
       end;
       for Index:= Low(LZMAWordSize) to High(LZMAWordSize) do
       begin
@@ -440,7 +440,7 @@ begin
     begin
       for Index:= Low(PPMdDict) to High(PPMdDict) do
       begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(PPMdDict[Index]), PtrInt(PPMdDict[Index]));
+        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(PPMdDict[Index], False), PtrInt(PPMdDict[Index]));
       end;
       for Index:= Low(PPMdWordSize) to High(PPMdWordSize) do
       begin

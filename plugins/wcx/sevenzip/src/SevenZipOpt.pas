@@ -62,7 +62,7 @@ const
    cKilo * 900
   );
 
-  LZMADict: array[0..12] of PtrInt =
+  LZMADict: array[0..21] of PtrInt =
   (
    cKilo * 64,
    cMega,
@@ -76,10 +76,19 @@ const
    cMega * 24,
    cMega * 32,
    cMega * 48,
-   cMega * 64
+   cMega * 64,
+   cMega * 96,
+   cMega * 128,
+   cMega * 192,
+   cMega * 256,
+   cMega * 384,
+   cMega * 512,
+   cMega * 768,
+   cMega * 1024,
+   cMega * 1536
   );
 
-  PPMdDict: array[0..17] of PtrInt =
+  PPMdDict: array[0..19] of PtrInt =
   (
    cMega,
    cMega * 2,
@@ -98,7 +107,9 @@ const
    cMega * 192,
    cMega * 256,
    cMega * 384,
-   cMega * 512
+   cMega * 512,
+   cMega * 768,
+   cMega * 1024
   );
 
   DeflateWordSize: array[0..11] of PtrInt =
@@ -170,7 +181,7 @@ type
   end;
 
 function GetNumberOfProcessors: LongWord;
-function FormatFileSize(ASize: Int64): UTF8String;
+function FormatFileSize(ASize: Int64; AGiga: Boolean = True): UTF8String;
 
 procedure SetArchiveOptions(AJclArchive: IInterface);
 
@@ -221,16 +232,16 @@ begin
   Result:= SystemInfo.dwNumberOfProcessors;
 end;
 
-function FormatFileSize(ASize: Int64): UTF8String;
+function FormatFileSize(ASize: Int64; AGiga: Boolean): UTF8String;
 begin
-  if (ASize div cGiga) > 0 then
-    Result:= IntToStr(ASize div cGiga) + 'Gb'
+  if ((ASize div cGiga) > 0) and AGiga then
+    Result:= IntToStr(ASize div cGiga) + ' GB'
   else
   if (ASize div cMega) >0 then
-    Result:= IntToStr(ASize div cMega) + 'Mb'
+    Result:= IntToStr(ASize div cMega) + ' MB'
   else
   if (ASize div cKilo) > 0 then
-    Result:= IntToStr(ASize div cKilo) + 'Kb'
+    Result:= IntToStr(ASize div cKilo) + ' KB'
   else
     Result:= IntToStr(ASize);
 end;
