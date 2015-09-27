@@ -22,7 +22,7 @@
       <MajorVersionNr Value="15"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="27"/>
-      <BuildNr Value="1"/>
+      <BuildNr Value="2"/>
       <CharSet Value="04B0"/>
       <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2015 Alexander Koblov" ProductVersion=""/>
     </VersionInfo>
