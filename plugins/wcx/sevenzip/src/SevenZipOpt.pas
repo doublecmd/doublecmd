@@ -140,8 +140,17 @@ const
 
 type
 
+  TCompressionLevel =
+  (
+    clStore    = 0,
+    clFastest  = 1,
+    clFast     = 3,
+    clNormal   = 5,
+    clMaximum  = 7,
+    clUltra    = 9
+  );
+
   TArchiveFormat = (afSevenZip, afBzip2, afGzip, afTar, afWim, afXz, afZip);
-  TCompressionLevel = (clStore, clFastest, clFast, clNormal, clMaximum, clUltra);
 
   PPasswordData = ^TPasswordData;
   TPasswordData = record

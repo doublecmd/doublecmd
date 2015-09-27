@@ -61,7 +61,7 @@ const
 
 function GetComboBox(hwndDlg: HWND; ItemID: Integer): PtrInt;
 var
-  Index, Count: Integer;
+  Index: Integer;
 begin
   Index:= SendDlgItemMessage(hwndDlg, ItemID, CB_GETCURSEL, 0, 0);
   Result:= SendDlgItemMessage(hwndDlg, ItemID, CB_GETITEMDATA, Index, 0);
@@ -217,16 +217,13 @@ end;
 
 procedure SetDefaultOptions(hwndDlg: HWND);
 var
-  Index: Integer;
   Level: TCompressionLevel;
   Method: TJclCompressionMethod;
 begin
-  // Get level index
-  Index:= SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_GETCURSEL, 0, 0);
-  Level:= TCompressionLevel(SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_GETITEMDATA, Index, 0));
-  // Get method index
-  Index:= SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_GETCURSEL, 0, 0);
-  Method:= TJclCompressionMethod(SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_GETITEMDATA, Index, 0));
+  // Get compression level
+  Level:= TCompressionLevel(GetComboBox(hwndDlg, IDC_COMP_LEVEL));
+  // Get compression method
+  Method:= TJclCompressionMethod(GetComboBox(hwndDlg, IDC_COMP_METHOD));
 
   case Method of
   cmDeflate,
@@ -343,9 +340,8 @@ var
   Level: TCompressionLevel;
 begin
   SendDlgItemMessage(hwndDlg, IDC_COMP_SOLID, CB_RESETCONTENT, 0, 0);
-  // Get Level index
-  Index:= SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_GETCURSEL, 0, 0);
-  Level:= TCompressionLevel(SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_GETITEMDATA, Index, 0));
+  // Get compression level
+  Level:= TCompressionLevel(GetComboBox(hwndDlg, IDC_COMP_LEVEL));
   Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
   if (Format in [afSevenZip]) and (Level <> clStore) then
   begin
@@ -393,9 +389,8 @@ begin
   SendDlgItemMessage(hwndDlg, IDC_COMP_WORD, CB_RESETCONTENT, 0, 0);
   Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), not (Format in [afTar, afWim]));
-  // Get method index
-  Index:= SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_GETCURSEL, 0, 0);
-  Method:= TJclCompressionMethod(SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_GETITEMDATA, Index, 0));
+  // Get Compression method
+  Method:= TJclCompressionMethod(GetComboBox(hwndDlg, IDC_COMP_METHOD));
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), (Format in [afSevenZip, afGzip, afXz, afZip]) and (Method <> cmBZip2));
   case Method of
   cmDeflate:
@@ -506,14 +501,12 @@ end;
 
 procedure UpdateFormat(hwndDlg: HWND);
 var
-  Index: Integer;
   Format: TArchiveFormat;
 begin
   // Clear comboboxes
   SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_RESETCONTENT, 0, 0);
-  // Get format index
-  Index:= SendDlgItemMessage(hwndDlg, IDC_COMP_FORMAT, CB_GETCURSEL, 0, 0);
-  Format:= TArchiveFormat(SendDlgItemMessage(hwndDlg, IDC_COMP_FORMAT, CB_GETITEMDATA, Index, 0));
+  // Get archive format
+  Format:= TArchiveFormat(GetComboBox(hwndDlg, IDC_COMP_FORMAT));
   SetWindowLongPtr(hwndDlg, GWLP_USERDATA, LONG_PTR(Format));
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_SOLID), Format = afSevenZip);
   // 7Zip and Zip
@@ -553,14 +546,12 @@ end;
 
 procedure UpdateLevel(hwndDlg: HWND; First: Boolean);
 var
-  Index: Integer;
   Format: TArchiveFormat;
   Level: TCompressionLevel;
 begin
   Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-  // Get Level index
-  Index:= SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_GETCURSEL, 0, 0);
-  Level:= TCompressionLevel(SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_GETITEMDATA, Index, 0));
+  // Get compression level
+  Level:= TCompressionLevel(GetComboBox(hwndDlg, IDC_COMP_LEVEL));
 
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), Level <> clStore);
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), Level <> clStore);
