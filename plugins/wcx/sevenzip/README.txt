@@ -1,3 +1,10 @@
+SevenZip plugin can store configuration in two places:
+
+1. If sevenzip.ini exists in plugin directory then plugin will use it
+
+2. Otherwise it will store sevenzip.ini in commander configuration directory
+
+
 SevenZip plugin search 7z.dll in next places:
 
 1. Path from sevenzip.ini
