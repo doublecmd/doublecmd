@@ -2195,7 +2195,7 @@ msgstr ""
 
 #: tfrmmain.actbriefview.caption
 msgctxt "tfrmmain.actbriefview.caption"
-msgid "Brief"
+msgid "Brief view"
 msgstr ""
 
 #: tfrmmain.actbriefview.hint
@@ -2288,6 +2288,15 @@ msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
 msgstr ""
 
+#: tfrmmain.actconfigdirhotlist.caption
+msgctxt "TFRMMAIN.ACTCONFIGDIRHOTLIST.CAPTION"
+msgid "Configuration of Directory Hotlist"
+msgstr ""
+
+#: tfrmmain.actconfigtoolbars.caption
+msgid "Configure toolbar"
+msgstr ""
+
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr ""
@@ -2313,6 +2322,14 @@ msgstr ""
 msgid "Copy files without asking for confirmation"
 msgstr ""
 
+#: tfrmmain.actcopypathnosepoffilestoclip.caption
+msgid "Copy Full Path of selected file(s) with no ending dir separator"
+msgstr ""
+
+#: tfrmmain.actcopypathoffilestoclip.caption
+msgid "Copy Full Path of selected file(s)"
+msgstr ""
+
 #: tfrmmain.actcopysamepanel.caption
 msgid "Copy to same panel"
 msgstr ""
@@ -2329,6 +2346,10 @@ msgstr ""
 msgid "Cu&t"
 msgstr ""
 
+#: tfrmmain.actdebugshowcommandparameters.caption
+msgid "Show Command Parameters"
+msgstr ""
+
 #: tfrmmain.actdelete.caption
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
@@ -2341,6 +2362,10 @@ msgstr ""
 
 #: tfrmmain.actdirhotlist.caption
 msgid "Directory &Hotlist"
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.caption
+msgid "Select any command and execute it"
 msgstr ""
 
 #: tfrmmain.actedit.caption
@@ -2423,12 +2448,52 @@ msgstr ""
 msgid "&Keyboard"
 msgstr ""
 
+#: tfrmmain.actleftbriefview.caption
+msgid "Brief view on left panel"
+msgstr ""
+
+#: tfrmmain.actleftcolumnsview.caption
+msgid "Columns view on left panel"
+msgstr ""
+
 #: tfrmmain.actleftequalright.caption
 msgid "Left &= Right"
 msgstr ""
 
+#: tfrmmain.actleftflatview.caption
+msgid "&Flat view on left panel"
+msgstr ""
+
 #: tfrmmain.actleftopendrives.caption
 msgid "Open left drive list"
+msgstr ""
+
+#: tfrmmain.actleftreverseorder.caption
+msgid "Re&verse order on left panel"
+msgstr ""
+
+#: tfrmmain.actleftsortbyattr.caption
+msgid "Sort left panel by &Attributes"
+msgstr ""
+
+#: tfrmmain.actleftsortbydate.caption
+msgid "Sort left panel by &Date"
+msgstr ""
+
+#: tfrmmain.actleftsortbyext.caption
+msgid "Sort left panel by &Extension"
+msgstr ""
+
+#: tfrmmain.actleftsortbyname.caption
+msgid "Sort left panel by &Name"
+msgstr ""
+
+#: tfrmmain.actleftsortbysize.caption
+msgid "Sort left panel by &Size"
+msgstr ""
+
+#: tfrmmain.actleftthumbview.caption
+msgid "Thumbnails view on left panel"
 msgstr ""
 
 #: tfrmmain.actloadselectionfromclip.caption
@@ -2588,12 +2653,52 @@ msgstr ""
 msgid "Re&verse Order"
 msgstr ""
 
+#: tfrmmain.actrightbriefview.caption
+msgid "Brief view on right panel"
+msgstr ""
+
+#: tfrmmain.actrightcolumnsview.caption
+msgid "Columns view on right panel"
+msgstr ""
+
 #: tfrmmain.actrightequalleft.caption
 msgid "Right &= Left"
 msgstr ""
 
+#: tfrmmain.actrightflatview.caption
+msgid "&Flat view on right panel"
+msgstr ""
+
 #: tfrmmain.actrightopendrives.caption
 msgid "Open right drive list"
+msgstr ""
+
+#: tfrmmain.actrightreverseorder.caption
+msgid "Re&verse order on right panel"
+msgstr ""
+
+#: tfrmmain.actrightsortbyattr.caption
+msgid "Sort right panel by &Attributes"
+msgstr ""
+
+#: tfrmmain.actrightsortbydate.caption
+msgid "Sort right panel by &Date"
+msgstr ""
+
+#: tfrmmain.actrightsortbyext.caption
+msgid "Sort right panel by &Extension"
+msgstr ""
+
+#: tfrmmain.actrightsortbyname.caption
+msgid "Sort right panel by &Name"
+msgstr ""
+
+#: tfrmmain.actrightsortbysize.caption
+msgid "Sort right panel by &Size"
+msgstr ""
+
+#: tfrmmain.actrightthumbview.caption
+msgid "Thumbnails view on right panel"
 msgstr ""
 
 #: tfrmmain.actrunterm.caption
@@ -2685,6 +2790,10 @@ msgstr ""
 msgid "Sort by &Size"
 msgstr ""
 
+#: tfrmmain.actsrcopendrives.caption
+msgid "Open drive list"
+msgstr ""
+
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
 msgstr ""
@@ -2716,7 +2825,7 @@ msgid "Thumbnails View"
 msgstr ""
 
 #: tfrmmain.acttogglefullscreenconsole.caption
-msgid "Toggle fullscreen mode console"
+msgid "Toggle  fullscreen mode console"
 msgstr ""
 
 #: tfrmmain.acttransferleft.caption
@@ -2725,6 +2834,10 @@ msgstr ""
 
 #: tfrmmain.acttransferright.caption
 msgid "Transfer dir under cursor to right window"
+msgstr ""
+
+#: tfrmmain.actuniversalsingledirectsort.caption
+msgid "Sort according to parameters"
 msgstr ""
 
 #: tfrmmain.actunmarkcurrentextension.caption
@@ -2748,12 +2861,20 @@ msgstr ""
 msgid "Go to previous entry in history"
 msgstr ""
 
+#: tfrmmain.actviewlogfile.caption
+msgid "View log file"
+msgstr ""
+
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
 msgstr ""
 
 #: tfrmmain.actwipe.caption
 msgid "Wipe"
+msgstr ""
+
+#: tfrmmain.actworkwithdirectoryhotlist.caption
+msgid "Work with Directory Hotlist and paramters"
 msgstr ""
 
 #: tfrmmain.btnf10.caption
@@ -2783,7 +2904,7 @@ msgstr ""
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT"
-msgid "Directory hotlist"
+msgid "Directory Hotlist"
 msgstr ""
 
 #: tfrmmain.btnleftequalright.caption
@@ -2828,6 +2949,11 @@ msgstr ""
 #: tfrmmain.btnrightdirectoryhotlist.caption
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
 msgid "*"
+msgstr ""
+
+#: tfrmmain.btnrightdirectoryhotlist.hint
+msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.HINT"
+msgid "Directory Hotlist"
 msgstr ""
 
 #: tfrmmain.btnrightequalleft.caption
@@ -3103,6 +3229,11 @@ msgstr ""
 
 #: tfrmmain.mnucmd.caption
 msgid "&Commands"
+msgstr ""
+
+#: tfrmmain.mnucmdconfigdirhotlist.caption
+msgctxt "TFRMMAIN.MNUCMDCONFIGDIRHOTLIST.CAPTION"
+msgid "Directory Hotlist"
 msgstr ""
 
 #: tfrmmain.mnuconfig.caption
@@ -8725,6 +8856,7 @@ msgid "cm_somthing"
 msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
+msgctxt "ulng.rsmsghotdirconfighotlist"
 msgid "Configuration of Directory Hotlist"
 msgstr ""
 
