@@ -488,16 +488,6 @@ msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr ""
 
-#: tfrmchecksumcalc.btncancel.caption
-msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr ""
-
-#: tfrmchecksumcalc.btnok.caption
-msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
-msgid "&OK"
-msgstr ""
-
 #: tfrmchecksumcalc.caption
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
 msgid "Calculate checksum..."
@@ -522,7 +512,7 @@ msgstr ""
 
 #: tfrmchecksumverify.caption
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
-msgid "Verify check sum..."
+msgid "Verify checksum..."
 msgstr ""
 
 #: tfrmconnectionmanager.btnadd.caption
@@ -2133,16 +2123,6 @@ msgstr ""
 msgid "Hold CTRL and click entries to select multiple ones"
 msgstr ""
 
-#: tfrmlinker.btnexit.caption
-msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "&Cancel"
-msgstr ""
-
-#: tfrmlinker.btnok.caption
-msgctxt "TFRMLINKER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr ""
-
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
@@ -2166,16 +2146,6 @@ msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
 msgid "&File name"
 msgstr ""
 
-#: tfrmlinker.spbtndel.caption
-msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
-msgid "&Delete"
-msgstr ""
-
-#: tfrmlinker.spbtndel.hint
-msgctxt "TFRMLINKER.SPBTNDEL.HINT"
-msgid "Delete"
-msgstr ""
-
 #: tfrmlinker.spbtndown.caption
 msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
 msgid "Do&wn"
@@ -2184,6 +2154,16 @@ msgstr ""
 #: tfrmlinker.spbtndown.hint
 msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
+msgstr ""
+
+#: tfrmlinker.spbtnrem.caption
+msgctxt "TFRMLINKER.SPBTNREM.CAPTION"
+msgid "&Remove"
+msgstr ""
+
+#: tfrmlinker.spbtnrem.hint
+msgctxt "TFRMLINKER.SPBTNREM.HINT"
+msgid "Delete"
 msgstr ""
 
 #: tfrmlinker.spbtnup.caption
@@ -8227,6 +8207,10 @@ msgstr ""
 #: ulng.rsfuncgroup
 msgctxt "ulng.rsfuncgroup"
 msgid "Group"
+msgstr ""
+
+#: ulng.rsfunchtime
+msgid "Change date/time"
 msgstr ""
 
 #: ulng.rsfunclinkto
