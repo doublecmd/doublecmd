@@ -136,10 +136,12 @@ msgid "BackGround:"
 msgstr "Háttér 1 :"
 
 #: tfcolumnssetconf.cbcursorborder.caption
+msgctxt "tfcolumnssetconf.cbcursorborder.caption"
 msgid "Cursor border"
 msgstr "Kurzor szegélye"
 
 #: tfcolumnssetconf.cbovercolor.caption
+msgctxt "tfcolumnssetconf.cbovercolor.caption"
 msgid "Allow Overcolor"
 msgstr "Átszínezés engedélyezése"
 
@@ -153,6 +155,7 @@ msgid "Text Color:"
 msgstr "Szöveg színe :"
 
 #: tfcolumnssetconf.label3.caption
+msgctxt "tfcolumnssetconf.label3.caption"
 msgid "Font:"
 msgstr "Betűtípus :"
 
@@ -196,6 +199,7 @@ msgid "0"
 msgstr "0"
 
 #: tfcolumnssetconf.miaddcolumn.caption
+msgctxt "tfcolumnssetconf.miaddcolumn.caption"
 msgid "Add column"
 msgstr "Oszlop hozzáadása"
 
@@ -490,16 +494,6 @@ msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Írás"
 
-#: tfrmchecksumcalc.btncancel.caption
-msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Mégsem"
-
-#: tfrmchecksumcalc.btnok.caption
-msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmchecksumcalc.caption
 #, fuzzy
 #| msgid "Calculate check sum..."
@@ -527,8 +521,10 @@ msgid "&Close"
 msgstr "&Bezárás"
 
 #: tfrmchecksumverify.caption
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
-msgid "Verify check sum..."
+msgid "Verify checksum..."
 msgstr "Ellenőrző összeg vizsgálata..."
 
 #: tfrmconnectionmanager.btnadd.caption
@@ -1268,6 +1264,7 @@ msgid "Open as"
 msgstr "Megnyitás mint"
 
 #: tfrmeditor.miencodingout.caption
+msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
 msgstr "Mentés mint"
 
@@ -2147,16 +2144,6 @@ msgstr ""
 msgid "Hold CTRL and click entries to select multiple ones"
 msgstr ""
 
-#: tfrmlinker.btnexit.caption
-msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "&Cancel"
-msgstr "&Kilépés"
-
-#: tfrmlinker.btnok.caption
-msgctxt "TFRMLINKER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
@@ -2180,16 +2167,6 @@ msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
 msgid "&File name"
 msgstr "&Fájl neve"
 
-#: tfrmlinker.spbtndel.caption
-msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
-msgid "&Delete"
-msgstr "&Törlés"
-
-#: tfrmlinker.spbtndel.hint
-msgctxt "TFRMLINKER.SPBTNDEL.HINT"
-msgid "Delete"
-msgstr "Törlés"
-
 #: tfrmlinker.spbtndown.caption
 msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
 msgid "Do&wn"
@@ -2199,6 +2176,18 @@ msgstr "&Le"
 msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "Le"
+
+#: tfrmlinker.spbtnrem.caption
+#, fuzzy
+msgctxt "tfrmlinker.spbtnrem.caption"
+msgid "&Remove"
+msgstr "&Eltávolítás"
+
+#: tfrmlinker.spbtnrem.hint
+#, fuzzy
+msgctxt "tfrmlinker.spbtnrem.hint"
+msgid "Delete"
+msgstr "Törlés"
 
 #: tfrmlinker.spbtnup.caption
 msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
@@ -2228,8 +2217,10 @@ msgid "Copy path to command line"
 msgstr "Útvonal másolása parancssorba"
 
 #: tfrmmain.actbriefview.caption
+#, fuzzy
+#| msgid "Brief"
 msgctxt "tfrmmain.actbriefview.caption"
-msgid "Brief"
+msgid "Brief view"
 msgstr "Rövid nézet"
 
 #: tfrmmain.actbriefview.hint
@@ -2322,6 +2313,15 @@ msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
 msgstr "Mappák összehasonlítása"
 
+#: tfrmmain.actconfigdirhotlist.caption
+msgctxt "tfrmmain.actconfigdirhotlist.caption"
+msgid "Configuration of Directory Hotlist"
+msgstr ""
+
+#: tfrmmain.actconfigtoolbars.caption
+msgid "Configure toolbar"
+msgstr ""
+
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr "Helyi menü megjelenítése"
@@ -2347,6 +2347,14 @@ msgstr "Fájlnév másolása a &vágólapra"
 msgid "Copy files without asking for confirmation"
 msgstr "Megerősítés nélküli másolás"
 
+#: tfrmmain.actcopypathnosepoffilestoclip.caption
+msgid "Copy Full Path of selected file(s) with no ending dir separator"
+msgstr ""
+
+#: tfrmmain.actcopypathoffilestoclip.caption
+msgid "Copy Full Path of selected file(s)"
+msgstr ""
+
 #: tfrmmain.actcopysamepanel.caption
 msgid "Copy to same panel"
 msgstr "Másolás ugyanarra a panelre"
@@ -2363,6 +2371,10 @@ msgstr "Elfoglalt &terület megjelenítése"
 msgid "Cu&t"
 msgstr "&Kivágás"
 
+#: tfrmmain.actdebugshowcommandparameters.caption
+msgid "Show Command Parameters"
+msgstr ""
+
 #: tfrmmain.actdelete.caption
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
@@ -2376,6 +2388,10 @@ msgstr "Könyvtár előzmények"
 #: tfrmmain.actdirhotlist.caption
 msgid "Directory &Hotlist"
 msgstr "Kedvenc &könyvtárak"
+
+#: tfrmmain.actdoanycmcommand.caption
+msgid "Select any command and execute it"
+msgstr ""
 
 #: tfrmmain.actedit.caption
 msgctxt "tfrmmain.actedit.caption"
@@ -2457,13 +2473,53 @@ msgstr "&Vízszintes elrendezés"
 msgid "&Keyboard"
 msgstr "Billentyűzet"
 
+#: tfrmmain.actleftbriefview.caption
+msgid "Brief view on left panel"
+msgstr ""
+
+#: tfrmmain.actleftcolumnsview.caption
+msgid "Columns view on left panel"
+msgstr ""
+
 #: tfrmmain.actleftequalright.caption
 msgid "Left &= Right"
 msgstr "Bal &= Jobb"
 
+#: tfrmmain.actleftflatview.caption
+msgid "&Flat view on left panel"
+msgstr ""
+
 #: tfrmmain.actleftopendrives.caption
 msgid "Open left drive list"
 msgstr "Baloldali meghajtólista megnyitása"
+
+#: tfrmmain.actleftreverseorder.caption
+msgid "Re&verse order on left panel"
+msgstr ""
+
+#: tfrmmain.actleftsortbyattr.caption
+msgid "Sort left panel by &Attributes"
+msgstr ""
+
+#: tfrmmain.actleftsortbydate.caption
+msgid "Sort left panel by &Date"
+msgstr ""
+
+#: tfrmmain.actleftsortbyext.caption
+msgid "Sort left panel by &Extension"
+msgstr ""
+
+#: tfrmmain.actleftsortbyname.caption
+msgid "Sort left panel by &Name"
+msgstr ""
+
+#: tfrmmain.actleftsortbysize.caption
+msgid "Sort left panel by &Size"
+msgstr ""
+
+#: tfrmmain.actleftthumbview.caption
+msgid "Thumbnails view on left panel"
+msgstr ""
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2622,13 +2678,53 @@ msgstr "Kijelölt &visszaállítása"
 msgid "Re&verse Order"
 msgstr "For&dított sorrend"
 
+#: tfrmmain.actrightbriefview.caption
+msgid "Brief view on right panel"
+msgstr ""
+
+#: tfrmmain.actrightcolumnsview.caption
+msgid "Columns view on right panel"
+msgstr ""
+
 #: tfrmmain.actrightequalleft.caption
 msgid "Right &= Left"
 msgstr "Jobb &= Bal"
 
+#: tfrmmain.actrightflatview.caption
+msgid "&Flat view on right panel"
+msgstr ""
+
 #: tfrmmain.actrightopendrives.caption
 msgid "Open right drive list"
 msgstr "Jobboldali meghajtólista megnyitása"
+
+#: tfrmmain.actrightreverseorder.caption
+msgid "Re&verse order on right panel"
+msgstr ""
+
+#: tfrmmain.actrightsortbyattr.caption
+msgid "Sort right panel by &Attributes"
+msgstr ""
+
+#: tfrmmain.actrightsortbydate.caption
+msgid "Sort right panel by &Date"
+msgstr ""
+
+#: tfrmmain.actrightsortbyext.caption
+msgid "Sort right panel by &Extension"
+msgstr ""
+
+#: tfrmmain.actrightsortbyname.caption
+msgid "Sort right panel by &Name"
+msgstr ""
+
+#: tfrmmain.actrightsortbysize.caption
+msgid "Sort right panel by &Size"
+msgstr ""
+
+#: tfrmmain.actrightthumbview.caption
+msgid "Thumbnails view on right panel"
+msgstr ""
 
 #: tfrmmain.actrunterm.caption
 msgid "Run &Terminal"
@@ -2719,6 +2815,10 @@ msgstr "Rendezés &név szerint"
 msgid "Sort by &Size"
 msgstr "Rendezés &méret szerint"
 
+#: tfrmmain.actsrcopendrives.caption
+msgid "Open drive list"
+msgstr ""
+
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
 msgstr "Kihagyási lista engedélyezése/kikapcsolása, hogy nem mutatja fájlneveket"
@@ -2761,6 +2861,10 @@ msgstr "Kurzor alatti mappa küldése a bal ablakba"
 msgid "Transfer dir under cursor to right window"
 msgstr "Kurzor alatti mappa küldése a jobb ablakba"
 
+#: tfrmmain.actuniversalsingledirectsort.caption
+msgid "Sort according to parameters"
+msgstr ""
+
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Összes azonos kiterjesztésű kijelölésének megszüntetése"
@@ -2782,6 +2886,10 @@ msgstr "Következő előzményre ugrik"
 msgid "Go to previous entry in history"
 msgstr "Előző előzményre ugrik"
 
+#: tfrmmain.actviewlogfile.caption
+msgid "View log file"
+msgstr ""
+
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
 msgstr "&Látogassa meg a Double Commander honlapját"
@@ -2789,6 +2897,10 @@ msgstr "&Látogassa meg a Double Commander honlapját"
 #: tfrmmain.actwipe.caption
 msgid "Wipe"
 msgstr "Eltöröl"
+
+#: tfrmmain.actworkwithdirectoryhotlist.caption
+msgid "Work with Directory Hotlist and paramters"
+msgstr ""
 
 #: tfrmmain.btnf10.caption
 msgctxt "tfrmmain.btnf10.caption"
@@ -2816,8 +2928,10 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
+#, fuzzy
+#| msgid "Directory hotlist"
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT"
-msgid "Directory hotlist"
+msgid "Directory Hotlist"
 msgstr "Kedvenc könyvtárak"
 
 #: tfrmmain.btnleftequalright.caption
@@ -2863,6 +2977,12 @@ msgstr "Ugrás a szülőkönyvtárba"
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
 msgid "*"
 msgstr "*"
+
+#: tfrmmain.btnrightdirectoryhotlist.hint
+#, fuzzy
+msgctxt "tfrmmain.btnrightdirectoryhotlist.hint"
+msgid "Directory Hotlist"
+msgstr "Kedvenc könyvtárak"
 
 #: tfrmmain.btnrightequalleft.caption
 msgctxt "tfrmmain.btnrightequalleft.caption"
@@ -3139,6 +3259,12 @@ msgstr "Mégsem"
 msgid "&Commands"
 msgstr "&Parancsok"
 
+#: tfrmmain.mnucmdconfigdirhotlist.caption
+#, fuzzy
+msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
+msgid "Directory Hotlist"
+msgstr "Kedvenc könyvtárak"
+
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Beállítások"
@@ -3217,6 +3343,84 @@ msgstr "Beillesztés"
 msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: tfrmmaincommandsdlg.btncancel.caption
+#, fuzzy
+msgctxt "tfrmmaincommandsdlg.btncancel.caption"
+msgid "&Cancel"
+msgstr "&Mégsem"
+
+#: tfrmmaincommandsdlg.btnok.caption
+#, fuzzy
+msgctxt "tfrmmaincommandsdlg.btnok.caption"
+msgid "&OK"
+msgstr "&OK"
+
+#: tfrmmaincommandsdlg.caption
+msgid "Select your internal command"
+msgstr ""
+
+#: tfrmmaincommandsdlg.cbcategorysortornot.text
+msgctxt "tfrmmaincommandsdlg.cbcategorysortornot.text"
+msgid "Legacy sorted"
+msgstr ""
+
+#: tfrmmaincommandsdlg.cbcommandssortornot.text
+msgctxt "tfrmmaincommandsdlg.cbcommandssortornot.text"
+msgid "Legacy sorted"
+msgstr ""
+
+#: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
+msgid "Select all categories by default"
+msgstr ""
+
+#: tfrmmaincommandsdlg.gbselection.caption
+msgid "Selection:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblcategory.caption
+msgid "&Categories:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblcommandname.caption
+msgid "Command &name:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
+msgid "&Filter:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblhint.caption
+msgid "Hint:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblhotkey.caption
+msgid "Hotkey:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommand.caption
+msgid "cm_name"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommandcategory.caption
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandcategory.caption"
+msgid "Category"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommandhelp.caption
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandhelp.caption"
+msgid "Help"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommandhint.caption
+msgid "Hint"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
+#, fuzzy
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
+msgid "Hotkey"
+msgstr "Gyorsbillentyű"
 
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
@@ -3726,6 +3930,11 @@ msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
 msgid "&Rename"
 msgstr "Át&nevezés"
 
+#: tfrmoptionsarchivers.btnrelativearchiver.hint
+msgctxt "tfrmoptionsarchivers.btnrelativearchiver.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmoptionsarchivers.chkmultiarcdebug.caption
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
 msgid "De&bug mode"
@@ -3983,35 +4192,520 @@ msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
 msgid "&User home directory"
 msgstr "Felhasználó &saját könyvtára"
 
-#: tfrmoptionscustomcolumns.btncopycolumnsset.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
-msgid "C&opy"
-msgstr "&Másolás"
+#: tfrmoptionscustomcolumns.btnallallowovercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.caption"
+msgid "All"
+msgstr "Mind"
 
-#: tfrmoptionscustomcolumns.btndelcolumnsset.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
+#: tfrmoptionscustomcolumns.btnallallowovercolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallbackcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallbackcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallbackcolor2.hint
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallcursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallcursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallcursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallcursortext.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallcursortext.hint
+msgctxt "tfrmoptionscustomcolumns.btnallcursortext.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallfont.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallfont.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallfont.hint
+msgctxt "tfrmoptionscustomcolumns.btnallfont.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallforecolor.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallforecolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallforecolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnallmarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnalluseinvertedselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.caption"
+msgid "All"
+msgstr "Mind"
+
+#: tfrmoptionscustomcolumns.btnalluseinvertedselection.hint
+msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnbackcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnbackcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btnbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnbackcolor2.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btncursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btncursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btncursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btncursortext.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption"
 msgid "&Delete"
 msgstr "&Törlés"
 
-#: tfrmoptionscustomcolumns.btneditcolumnsset.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
-msgid "&Edit"
-msgstr "S&zerkesztés"
+#: tfrmoptionscustomcolumns.btnfont.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
+msgid "..."
+msgstr "..."
 
-#: tfrmoptionscustomcolumns.btnnewcolumnsset.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
-msgid "&New"
-msgstr "Ú&j"
+#: tfrmoptionscustomcolumns.btnforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnforecolor.caption"
+msgid ">>"
+msgstr ">>"
 
-#: tfrmoptionscustomcolumns.cbbfilesystem.text
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.CBBFILESYSTEM.TEXT"
+#: tfrmoptionscustomcolumns.btngotosetdefault.caption
+msgid "Go to set default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btngotosetdefault.hint
+msgctxt "tfrmoptionscustomcolumns.btngotosetdefault.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btninactivemarkcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btnmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnmarkcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btnnewconfig.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnnewconfig.caption"
+msgid "New"
+msgstr "Új"
+
+#: tfrmoptionscustomcolumns.btnnext.caption
+msgid "Next"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnprev.caption
+msgid "Previous"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption"
+msgid "Rename"
+msgstr "Átnevezés"
+
+#: tfrmoptionscustomcolumns.btnresetallowovercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetallowovercolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor2.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetcursorborder.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetcursorborder.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetcursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetcursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetcursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetcursortext.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetfont.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetfont.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetfont.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetfont.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetforecolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetframecursor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetframecursor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetmarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption"
+msgid "Save as"
+msgstr "Mentés mint"
+
+#: tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption"
+msgid "Save"
+msgstr "Mentés"
+
+#: tfrmoptionscustomcolumns.cballowovercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.cballowovercolor.caption"
+msgid "Allow Overcolor"
+msgstr "Átszínezés engedélyezése"
+
+#: tfrmoptionscustomcolumns.cbapplychangeforallcolumns.caption
+msgid "When clicking to change something, change for all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.cbconfigcolumns.text
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.cbconfigcolumns.text"
 msgid "General"
 msgstr "Általános"
 
+#: tfrmoptionscustomcolumns.cbcursorborder.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.cbcursorborder.caption"
+msgid "Cursor border"
+msgstr "Kurzor szegélye"
+
+#: tfrmoptionscustomcolumns.cbuseframecursor.caption
+msgid "Use Frame Cursor"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.cbuseinactiveselcolor.caption
+msgid "Use Inactive Selection Color"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.cbuseinvertedselection.caption
+msgid "Use Inverted Selection"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.chkusecustomview.caption
+msgid "Use custom font and color for this view"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblbackcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
+msgid "BackGround:"
+msgstr "Háttér 1 :"
+
+#: tfrmoptionscustomcolumns.lblbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
+msgid "Background 2:"
+msgstr "Háttér 2 :"
+
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
+#, fuzzy
+#| msgid "Con&figure columns for file system:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
-msgid "Con&figure columns for file system:"
+msgid "Con&figure columns view:"
 msgstr "Fájlrendszer &oszlopok beállítása :"
+
+#: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
+msgid "[Current Column Name]"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblcursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblcursorcolor.caption"
+msgid "Cursor Color:"
+msgstr "Kurzorszín :"
+
+#: tfrmoptionscustomcolumns.lblcursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblcursortext.caption"
+msgid "Cursor Text:"
+msgstr "Kurzor szöveg :"
+
+#: tfrmoptionscustomcolumns.lblfontname.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblfontname.caption"
+msgid "Font:"
+msgstr "Betűtípus :"
+
+#: tfrmoptionscustomcolumns.lblfontsize.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblfontsize.caption"
+msgid "Size:"
+msgstr "Méret :"
+
+#: tfrmoptionscustomcolumns.lblforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
+msgid "Text Color:"
+msgstr "Szöveg színe :"
+
+#: tfrmoptionscustomcolumns.lblinactivecursorcolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblinactivecursorcolor.caption"
+msgid "Inactive Cursor Color:"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblinactivemarkcolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblinactivemarkcolor.caption"
+msgid "Inactive Mark Color:"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblmarkcolor.caption"
+msgid "Mark Color:"
+msgstr "Jelölő színe :"
+
+#: tfrmoptionscustomcolumns.lblpreviewtop.caption
+msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblworkingcolumn.caption
+msgid "Settings for column:"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.miaddcolumn.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.miaddcolumn.caption"
+msgid "Add column"
+msgstr "Oszlop hozzáadása"
 
 #: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
 msgid "Position of frame panel after the comparison:"
@@ -4585,10 +5279,30 @@ msgctxt "tfrmoptionsfileassoc.btnaddnewtype.caption"
 msgid "A&dd"
 msgstr "Hozzáa&dás"
 
+#: tfrmoptionsfileassoc.btncloneact.caption
+msgid "Clone"
+msgstr ""
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
 msgid "&Down"
 msgstr "&Le"
+
+#: tfrmoptionsfileassoc.btneditext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.btneditext.caption"
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: tfrmoptionsfileassoc.btninsertact.caption
+msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
+msgid "Insert"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btninsertext.caption
+msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
+msgid "Insert"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
@@ -4599,11 +5313,6 @@ msgstr "&Eltávolítás"
 msgctxt "tfrmoptionsfileassoc.btnremoveext.caption"
 msgid "Re&move"
 msgstr "&Eltávolítás"
-
-#: tfrmoptionsfileassoc.btnremoveicon.caption
-msgctxt "tfrmoptionsfileassoc.btnremoveicon.caption"
-msgid "X"
-msgstr "X"
 
 #: tfrmoptionsfileassoc.btnremovetype.caption
 msgctxt "tfrmoptionsfileassoc.btnremovetype.caption"
@@ -4620,6 +5329,26 @@ msgctxt "tfrmoptionsfileassoc.btnupact.caption"
 msgid "&Up"
 msgstr "&Fel"
 
+#: tfrmoptionsfileassoc.destartpath.hint
+msgid "Starting path of the command. Never quote this string."
+msgstr ""
+
+#: tfrmoptionsfileassoc.edbactionname.hint
+msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
+msgstr ""
+
+#: tfrmoptionsfileassoc.edtparams.hint
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgstr ""
+
+#: tfrmoptionsfileassoc.fnecommand.hint
+msgid "Command to execute. Long filename with space should be quoted."
+msgstr ""
+
+#: tfrmoptionsfileassoc.gbactiondescription.caption
+msgid "Action description:"
+msgstr ""
+
 #: tfrmoptionsfileassoc.gbactions.caption
 msgctxt "tfrmoptionsfileassoc.gbactions.caption"
 msgid "Actions"
@@ -4629,6 +5358,10 @@ msgstr "Műveletek"
 msgctxt "tfrmoptionsfileassoc.gbexts.caption"
 msgid "Extensions"
 msgstr "Kiterjesztések"
+
+#: tfrmoptionsfileassoc.gbexts.hint
+msgid "Can be sorted by drag & drop"
+msgstr ""
 
 #: tfrmoptionsfileassoc.gbfiletypes.caption
 msgctxt "tfrmoptionsfileassoc.gbfiletypes.caption"
@@ -4640,15 +5373,59 @@ msgctxt "tfrmoptionsfileassoc.gbicon.caption"
 msgid "Icon"
 msgstr "Ikon"
 
+#: tfrmoptionsfileassoc.lbactions.hint
+msgid "Actions may be sorted by drag & drop"
+msgstr ""
+
+#: tfrmoptionsfileassoc.lbexts.hint
+msgid "Extensions may be sorted by drag & drop"
+msgstr ""
+
+#: tfrmoptionsfileassoc.lbfiletypes.hint
+msgid "File types may be sorted by drag & drop"
+msgstr ""
+
 #: tfrmoptionsfileassoc.lblaction.caption
+#, fuzzy
+#| msgid "Action:"
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
-msgid "Action:"
+msgid "Action name:"
 msgstr "Művelet :"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
 msgid "&Command:"
 msgstr "&Parancs :"
+
+#: tfrmoptionsfileassoc.lblexternalparameters.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
+msgid "Parameter&s:"
+msgstr "Para&méterek"
+
+#: tfrmoptionsfileassoc.lblexternalparameters1.caption
+msgid "Start path:"
+msgstr ""
+
+#: tfrmoptionsfileassoc.lblstartpath.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
+msgid "Start pat&h:"
+msgstr "Ki&induló útvonal :"
+
+#: tfrmoptionsfileassoc.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfileassoc.menuitem3.caption
+msgid "Custom with..."
+msgstr ""
+
+#: tfrmoptionsfileassoc.micustom.caption
+msgid "Custom"
+msgstr ""
 
 #: tfrmoptionsfileassoc.miedit.caption
 msgctxt "tfrmoptionsfileassoc.miedit.caption"
@@ -4660,40 +5437,42 @@ msgctxt "tfrmoptionsfileassoc.mieditor.caption"
 msgid "Open in Editor"
 msgstr "Megnyitás szerkesztőben"
 
-#: tfrmoptionsfileassoc.mifilename.caption
-msgctxt "tfrmoptionsfileassoc.mifilename.caption"
-msgid "File name"
-msgstr "Fájl neve"
-
-#: tfrmoptionsfileassoc.mifilepath.caption
-msgctxt "tfrmoptionsfileassoc.mifilepath.caption"
-msgid "File path"
-msgstr "Fájl útvonala"
-
-#: tfrmoptionsfileassoc.mifullpath.caption
-msgctxt "tfrmoptionsfileassoc.mifullpath.caption"
-msgid "Full path"
-msgstr "Teljes elérési út"
+#: tfrmoptionsfileassoc.mieditwith.caption
+msgid "Edit with..."
+msgstr ""
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgctxt "tfrmoptionsfileassoc.migetoutputfromcommand.caption"
 msgid "Get output from command"
 msgstr "Parancs kimenetének kérése"
 
+#: tfrmoptionsfileassoc.miinternaleditor.caption
+msgid "Open in Internal Editor"
+msgstr ""
+
+#: tfrmoptionsfileassoc.miinternalviewer.caption
+msgid "Open in Internal Viewer"
+msgstr ""
+
 #: tfrmoptionsfileassoc.miopen.caption
 msgctxt "tfrmoptionsfileassoc.miopen.caption"
 msgid "Open"
 msgstr "Megnyitás"
 
+#: tfrmoptionsfileassoc.miopenwith.caption
+msgid "Open with..."
+msgstr ""
+
+#: tfrmoptionsfileassoc.miseparator.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.miseparator.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "tfrmoptionsfileassoc.mishell.caption"
 msgid "Run in terminal"
 msgstr "Futtatás terminálban"
-
-#: tfrmoptionsfileassoc.mivfs.caption
-msgctxt "tfrmoptionsfileassoc.mivfs.caption"
-msgid "Open in VFS"
-msgstr "Megnyitás VFS-ben"
 
 #: tfrmoptionsfileassoc.miview.caption
 msgctxt "tfrmoptionsfileassoc.miview.caption"
@@ -4704,6 +5483,55 @@ msgstr "Nézőke"
 msgctxt "tfrmoptionsfileassoc.miviewer.caption"
 msgid "Open in Viewer"
 msgstr "Megnyitás nézőkében"
+
+#: tfrmoptionsfileassoc.miviewwith.caption
+msgid "View with..."
+msgstr ""
+
+#: tfrmoptionsfileassoc.sbtnicon.hint
+msgid "Click me to change icon!"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbexecuteviashell.caption
+msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
+msgid "Execute via shell"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
+msgid "Extended context menu"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
+msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
+msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
+msgid "File association configuration"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
+msgid "Offer to add selection to file association when not included already"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
+msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
+msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
+msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
+msgid "Execute via terminal and close"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
+msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
+msgid "Execute via terminal and stay open"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
+msgid "Extended options items:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 #, fuzzy
@@ -4783,6 +5611,10 @@ msgstr "Felhasználói felület"
 msgid "&Buffer size for file operations (in KB):"
 msgstr "&Pufferméret fájlműveletekhez (kB) :"
 
+#: tfrmoptionsfileoperations.lblhashbuffersize.caption
+msgid "Buffer size for &hash calculation (in KB):"
+msgstr ""
+
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
 msgstr "Mű&ködő műveletek megjelenítése"
@@ -4821,6 +5653,12 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: tfrmoptionsfilepanelscolors.btncursorbordercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btncursorbordercolor.caption"
+msgid ">>"
+msgstr ">>"
+
 #: tfrmoptionsfilepanelscolors.btncursorcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION"
 msgid ">>"
@@ -4833,6 +5671,18 @@ msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnforecolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -4851,6 +5701,16 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
+msgid "Reset to DC default"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.cballowovercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.cballowovercolor.caption"
+msgid "Allow Overcolor"
+msgstr "Átszínezés engedélyezése"
+
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
 msgid "Use &Frame Cursor"
@@ -4860,20 +5720,25 @@ msgstr "Kurz&orkeret használata"
 msgid "Use &Gradient Indicator"
 msgstr "&Gradiens (lejtő) mutató használata"
 
+#: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
+msgid "Use Inactive Sel Color"
+msgstr ""
+
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
 msgid "U&se Inverted Selection"
 msgstr "Fordított kijelölé&s használata"
 
+#: tfrmoptionsfilepanelscolors.cbusecursorborder.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.cbusecursorborder.caption"
+msgid "Cursor border"
+msgstr "Kurzor szegélye"
+
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
 msgid "Drive Free Space Indicator"
 msgstr "Meghajtón a szabad terület mutató"
-
-#: tfrmoptionsfilepanelscolors.gbexample.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Példa"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
@@ -4895,6 +5760,16 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Te&xt:"
 msgstr "Kurzor s&zöveg :"
 
+#: tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption"
+msgid "Inactive Cursor Color:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption"
+msgid "Inactive Mark Color:"
+msgstr ""
+
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
 msgid "&Brightness level of inactive panel"
@@ -4912,6 +5787,10 @@ msgstr "Mutató &előtér szí&ne :"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
 msgid "&Mark Color:"
 msgstr "&Jelölő színe :"
+
+#: tfrmoptionsfilepanelscolors.lblpreview.caption
+msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
@@ -5141,6 +6020,24 @@ msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "&Shortcut files:"
 msgstr "Fájl rövidíté&sek :"
 
+#: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
+msgid "Command"
+msgstr "Parancs"
+
+#: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
+msgid "Hotkeys"
+msgstr "Gyorsbillentyűk"
+
+#: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
+msgid "Description"
+msgstr "Leírás"
+
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
@@ -5227,6 +6124,11 @@ msgstr "Kiválasztott nevek hozzáa&dása"
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSELWITHPATH.CAPTION"
 msgid "Add selected names with &full path"
 msgstr "&Kiválasztott nevek hozzáadása teljes elérési útvonallal"
+
+#: tfrmoptionsignorelist.btnrelativesavein.hint
+msgctxt "tfrmoptionsignorelist.btnrelativesavein.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
 
 #: tfrmoptionsignorelist.chkignoreenable.caption
 msgctxt "TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION"
@@ -5387,6 +6289,10 @@ msgstr ""
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
 msgid "&Pack/Unpack"
 msgstr "&Csomagolás/Kibontás"
+
+#: tfrmoptionslog.cblogcommandlineexecution.caption
+msgid "External command line execution"
+msgstr ""
 
 #: tfrmoptionslog.cblogcpmvln.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
@@ -5735,6 +6641,18 @@ msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
 msgstr "Fü&l pozíciók :"
 
+#: tfrmoptionsterminal.gbjustrunterminal.caption
+msgid "Command for just running terminal:"
+msgstr ""
+
+#: tfrmoptionsterminal.gbruninterminalclose.caption
+msgid "Command for running a command in terminal and close after:"
+msgstr ""
+
+#: tfrmoptionsterminal.gbruninterminalstayopen.caption
+msgid "Command for running a command in terminal and stay open:"
+msgstr ""
+
 #: tfrmoptionsterminal.lblruninterm.caption
 msgid "Run in &terminal:"
 msgstr "Futtatás &terminálban :"
@@ -5742,6 +6660,51 @@ msgstr "Futtatás &terminálban :"
 #: tfrmoptionsterminal.lblrunterm.caption
 msgid "Run t&erminal:"
 msgstr "T&erminál indítása :"
+
+#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
+msgid "{command} should normally present here to releft the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
+msgid "{command} should normally present here to releft the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
+msgid "Command:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtruntermparams.hint
+msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
+msgid "{command} should normally present here to releft the command to be run in terminal"
+msgstr ""
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
@@ -6020,7 +6983,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
@@ -6083,7 +7046,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
@@ -6112,7 +7075,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
@@ -6273,6 +7236,11 @@ msgstr ""
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "Gomb típusa"
+
+#: tfrmoptionstoolbase.btnrelativetoolpath.hint
+msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -6736,6 +7704,7 @@ msgid "Group"
 msgstr "Csoport"
 
 #: tfrmsetfileproperties.lblattrinfo.caption
+msgctxt "tfrmsetfileproperties.lblattrinfo.caption"
 msgid "(gray field means unchanged value)"
 msgstr "(szürke mező változatlan értéket jelent)"
 
@@ -6763,6 +7732,12 @@ msgstr "Szöveges megfelelő :"
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
 msgstr "Végrehajtás"
+
+#: tfrmsetfileproperties.lblmodeinfo.caption
+#, fuzzy
+msgctxt "tfrmsetfileproperties.lblmodeinfo.caption"
+msgid "(gray field means unchanged value)"
+msgstr "(szürke mező változatlan értéket jelent)"
 
 #: tfrmsetfileproperties.lbloctal.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -8182,14 +9157,17 @@ msgid "with internal editor"
 msgstr ""
 
 #: ulng.rsexecuteviashell
+msgctxt "ulng.rsexecuteviashell"
 msgid "Execute via shell"
 msgstr ""
 
 #: ulng.rsexecuteviaterminalclose
+msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
 msgstr ""
 
 #: ulng.rsexecuteviaterminalstayopen
+msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr ""
 
@@ -8303,6 +9281,10 @@ msgstr "Kiterjesztés"
 msgctxt "ulng.rsfuncgroup"
 msgid "Group"
 msgstr "Csoport"
+
+#: ulng.rsfunchtime
+msgid "Change date/time"
+msgstr ""
 
 #: ulng.rsfunclinkto
 msgid "Link to"
@@ -8817,6 +9799,7 @@ msgid "cm_somthing"
 msgstr ""
 
 #: ulng.rsmsghotdirconfighotlist
+msgctxt "ulng.rsmsghotdirconfighotlist"
 msgid "Configuration of Directory Hotlist"
 msgstr ""
 
@@ -8920,6 +9903,7 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
+msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
 msgstr ""
 
@@ -9163,6 +10147,7 @@ msgid "Not implemented."
 msgstr "Nincs leprogramozva."
 
 #: ulng.rsmsgpanelpreview
+msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
 msgstr ""
 
@@ -9833,6 +10818,7 @@ msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shor
 msgstr "A gyorsbillentyű \"%s\" a cm_Delete-hez paraméterváltozást igényel, hogy egyezzen \"%s\" gyorsbillentyűvel. Szeretné megváltoztatni?"
 
 #: ulng.rsopthotkeysdescription
+msgctxt "ulng.rsopthotkeysdescription"
 msgid "Description"
 msgstr "Leírás"
 
@@ -9850,6 +10836,7 @@ msgid "Hotkey"
 msgstr "Gyorsbillentyű"
 
 #: ulng.rsopthotkeyshotkeys
+msgctxt "ulng.rsopthotkeyshotkeys"
 msgid "Hotkeys"
 msgstr "Gyorsbillentyűk"
 
@@ -10222,6 +11209,7 @@ msgid "All"
 msgstr "Mind"
 
 #: ulng.rssimplewordcategory
+msgctxt "ulng.rssimplewordcategory"
 msgid "Category"
 msgstr ""
 
