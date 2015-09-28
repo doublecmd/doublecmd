@@ -2331,7 +2331,7 @@ object frmMain: TfrmMain
     object actToggleFullscreenConsole: TAction
       Tag = 17
       Category = 'Command Line'
-      Caption = 'Toggle  fullscreen mode console'
+      Caption = 'Toggle fullscreen mode console'
     end
   end
   object pmHotList: TPopupMenu
