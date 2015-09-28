@@ -2830,7 +2830,7 @@ msgid "Thumbnails View"
 msgstr ""
 
 #: tfrmmain.acttogglefullscreenconsole.caption
-msgid "Toggle  fullscreen mode console"
+msgid "Toggle fullscreen mode console"
 msgstr ""
 
 #: tfrmmain.acttransferleft.caption
@@ -6839,7 +6839,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
@@ -6868,7 +6868,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
@@ -6902,7 +6902,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
@@ -6931,7 +6931,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
