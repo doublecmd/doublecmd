@@ -134,10 +134,12 @@ msgid "BackGround:"
 msgstr "Achtergrond:"
 
 #: tfcolumnssetconf.cbcursorborder.caption
+msgctxt "tfcolumnssetconf.cbcursorborder.caption"
 msgid "Cursor border"
 msgstr "Cursor rand"
 
 #: tfcolumnssetconf.cbovercolor.caption
+msgctxt "tfcolumnssetconf.cbovercolor.caption"
 msgid "Allow Overcolor"
 msgstr "Toestaan  overkleur"
 
@@ -151,6 +153,7 @@ msgid "Text Color:"
 msgstr "Tekstkleur:"
 
 #: tfcolumnssetconf.label3.caption
+msgctxt "tfcolumnssetconf.label3.caption"
 msgid "Font:"
 msgstr "Lettertype:"
 
@@ -194,6 +197,7 @@ msgid "0"
 msgstr "0"
 
 #: tfcolumnssetconf.miaddcolumn.caption
+msgctxt "tfcolumnssetconf.miaddcolumn.caption"
 msgid "Add column"
 msgstr "Voeg kolom toe"
 
@@ -492,16 +496,6 @@ msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Schrijf"
 
-#: tfrmchecksumcalc.btncancel.caption
-msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Annuleer"
-
-#: tfrmchecksumcalc.btnok.caption
-msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK"
-
 #: tfrmchecksumcalc.caption
 msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
@@ -525,8 +519,10 @@ msgid "&Close"
 msgstr "&Sluit"
 
 #: tfrmchecksumverify.caption
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
-msgid "Verify check sum..."
+msgid "Verify checksum..."
 msgstr "Verifiëer checksom..."
 
 #: tfrmconnectionmanager.btnadd.caption
@@ -1290,6 +1286,7 @@ msgid "Open as"
 msgstr "Open als"
 
 #: tfrmeditor.miencodingout.caption
+msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
 msgstr "Opslaan als"
 
@@ -2255,20 +2252,6 @@ msgstr "Bij klikken op submenu, selecteert dit het hele menu"
 msgid "Hold CTRL and click entries to select multiple ones"
 msgstr "Druk CTRL en klik items om meerdere te selecteren"
 
-#: tfrmlinker.btnexit.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "&Cancel"
-msgstr "&Annuleer"
-
-#: tfrmlinker.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMLINKER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
@@ -2294,18 +2277,6 @@ msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
 msgid "&File name"
 msgstr "&Bestandsnaam"
 
-#: tfrmlinker.spbtndel.caption
-#, fuzzy
-#| msgid "Delete"
-msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
-msgid "&Delete"
-msgstr "&Verwijder"
-
-#: tfrmlinker.spbtndel.hint
-msgctxt "TFRMLINKER.SPBTNDEL.HINT"
-msgid "Delete"
-msgstr "Verwijder"
-
 #: tfrmlinker.spbtndown.caption
 #, fuzzy
 #| msgid "Down"
@@ -2317,6 +2288,19 @@ msgstr "Omlaag"
 msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "Omlaag"
+
+#: tfrmlinker.spbtnrem.caption
+#, fuzzy
+#| msgid "Remove"
+msgctxt "tfrmlinker.spbtnrem.caption"
+msgid "&Remove"
+msgstr "&Verwijder"
+
+#: tfrmlinker.spbtnrem.hint
+#, fuzzy
+msgctxt "tfrmlinker.spbtnrem.hint"
+msgid "Delete"
+msgstr "Verwijder"
 
 #: tfrmlinker.spbtnup.caption
 #, fuzzy
@@ -2350,8 +2334,10 @@ msgid "Copy path to command line"
 msgstr "Kopiëer pad naar opdrachtregel"
 
 #: tfrmmain.actbriefview.caption
+#, fuzzy
+#| msgid "Brief"
 msgctxt "tfrmmain.actbriefview.caption"
-msgid "Brief"
+msgid "Brief view"
 msgstr "Kort"
 
 #: tfrmmain.actbriefview.hint
@@ -2450,6 +2436,16 @@ msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
 msgstr "Vergelijk mappen"
 
+#: tfrmmain.actconfigdirhotlist.caption
+#, fuzzy
+msgctxt "tfrmmain.actconfigdirhotlist.caption"
+msgid "Configuration of Directory Hotlist"
+msgstr "Configuratie van directory hotlist"
+
+#: tfrmmain.actconfigtoolbars.caption
+msgid "Configure toolbar"
+msgstr ""
+
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr "Toon context menu"
@@ -2477,6 +2473,14 @@ msgstr "Kopiëer bestandsnaam(en) naar klembord"
 msgid "Copy files without asking for confirmation"
 msgstr "Kopiëer bestanden zonder bevestiging te vragen"
 
+#: tfrmmain.actcopypathnosepoffilestoclip.caption
+msgid "Copy Full Path of selected file(s) with no ending dir separator"
+msgstr ""
+
+#: tfrmmain.actcopypathoffilestoclip.caption
+msgid "Copy Full Path of selected file(s)"
+msgstr ""
+
 #: tfrmmain.actcopysamepanel.caption
 msgid "Copy to same panel"
 msgstr "Kopiëer naar zelfde panel"
@@ -2492,6 +2496,10 @@ msgstr "Toon bezette ruimte"
 #: tfrmmain.actcuttoclipboard.caption
 msgid "Cu&t"
 msgstr "Knippen"
+
+#: tfrmmain.actdebugshowcommandparameters.caption
+msgid "Show Command Parameters"
+msgstr ""
 
 #: tfrmmain.actdelete.caption
 #, fuzzy
@@ -2510,6 +2518,10 @@ msgstr "Directory geschiedenis"
 #| msgid "Directory &hotlist"
 msgid "Directory &Hotlist"
 msgstr "Directory &hotlist"
+
+#: tfrmmain.actdoanycmcommand.caption
+msgid "Select any command and execute it"
+msgstr ""
 
 #: tfrmmain.actedit.caption
 #, fuzzy
@@ -2613,13 +2625,53 @@ msgstr "&Horizontale panels modus"
 msgid "&Keyboard"
 msgstr "&Toetsenbord"
 
+#: tfrmmain.actleftbriefview.caption
+msgid "Brief view on left panel"
+msgstr ""
+
+#: tfrmmain.actleftcolumnsview.caption
+msgid "Columns view on left panel"
+msgstr ""
+
 #: tfrmmain.actleftequalright.caption
 msgid "Left &= Right"
 msgstr "Links &= Rechts"
 
+#: tfrmmain.actleftflatview.caption
+msgid "&Flat view on left panel"
+msgstr ""
+
 #: tfrmmain.actleftopendrives.caption
 msgid "Open left drive list"
 msgstr "Open linker drive lijst"
+
+#: tfrmmain.actleftreverseorder.caption
+msgid "Re&verse order on left panel"
+msgstr ""
+
+#: tfrmmain.actleftsortbyattr.caption
+msgid "Sort left panel by &Attributes"
+msgstr ""
+
+#: tfrmmain.actleftsortbydate.caption
+msgid "Sort left panel by &Date"
+msgstr ""
+
+#: tfrmmain.actleftsortbyext.caption
+msgid "Sort left panel by &Extension"
+msgstr ""
+
+#: tfrmmain.actleftsortbyname.caption
+msgid "Sort left panel by &Name"
+msgstr ""
+
+#: tfrmmain.actleftsortbysize.caption
+msgid "Sort left panel by &Size"
+msgstr ""
+
+#: tfrmmain.actleftthumbview.caption
+msgid "Thumbnails view on left panel"
+msgstr ""
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2810,13 +2862,53 @@ msgstr "&Herstel selectie"
 msgid "Re&verse Order"
 msgstr "Keer volgorde om"
 
+#: tfrmmain.actrightbriefview.caption
+msgid "Brief view on right panel"
+msgstr ""
+
+#: tfrmmain.actrightcolumnsview.caption
+msgid "Columns view on right panel"
+msgstr ""
+
 #: tfrmmain.actrightequalleft.caption
 msgid "Right &= Left"
 msgstr "Rechts &= Links"
 
+#: tfrmmain.actrightflatview.caption
+msgid "&Flat view on right panel"
+msgstr ""
+
 #: tfrmmain.actrightopendrives.caption
 msgid "Open right drive list"
 msgstr "Open rechter driver-lijst"
+
+#: tfrmmain.actrightreverseorder.caption
+msgid "Re&verse order on right panel"
+msgstr ""
+
+#: tfrmmain.actrightsortbyattr.caption
+msgid "Sort right panel by &Attributes"
+msgstr ""
+
+#: tfrmmain.actrightsortbydate.caption
+msgid "Sort right panel by &Date"
+msgstr ""
+
+#: tfrmmain.actrightsortbyext.caption
+msgid "Sort right panel by &Extension"
+msgstr ""
+
+#: tfrmmain.actrightsortbyname.caption
+msgid "Sort right panel by &Name"
+msgstr ""
+
+#: tfrmmain.actrightsortbysize.caption
+msgid "Sort right panel by &Size"
+msgstr ""
+
+#: tfrmmain.actrightthumbview.caption
+msgid "Thumbnails view on right panel"
+msgstr ""
 
 #: tfrmmain.actrunterm.caption
 #, fuzzy
@@ -2927,6 +3019,10 @@ msgstr "Sorteer op naam"
 msgid "Sort by &Size"
 msgstr "Sorteer op grootte"
 
+#: tfrmmain.actsrcopendrives.caption
+msgid "Open drive list"
+msgstr ""
+
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
 msgstr "In-/Uitschakelen negeer-lijstbestand om geen bestandsnamen te tonen"
@@ -2971,6 +3067,10 @@ msgstr "Verplaats map onder cursor naar linker panel"
 msgid "Transfer dir under cursor to right window"
 msgstr "Verplaats map onder cursor naar rechter panel"
 
+#: tfrmmain.actuniversalsingledirectsort.caption
+msgid "Sort according to parameters"
+msgstr ""
+
 #: tfrmmain.actunmarkcurrentextension.caption
 #, fuzzy
 #| msgid "Unselect all with same extension"
@@ -2996,6 +3096,10 @@ msgstr "Ga naar volgend item in geschiedenis"
 msgid "Go to previous entry in history"
 msgstr "Ga naar vorig item in geschiedenis"
 
+#: tfrmmain.actviewlogfile.caption
+msgid "View log file"
+msgstr ""
+
 #: tfrmmain.actvisithomepage.caption
 #, fuzzy
 #| msgid "&Visit Double Commander Web Site"
@@ -3005,6 +3109,10 @@ msgstr "&Bezoek de Double Commander website"
 #: tfrmmain.actwipe.caption
 msgid "Wipe"
 msgstr "Wis"
+
+#: tfrmmain.actworkwithdirectoryhotlist.caption
+msgid "Work with Directory Hotlist and paramters"
+msgstr ""
 
 #: tfrmmain.btnf10.caption
 msgctxt "tfrmmain.btnf10.caption"
@@ -3036,7 +3144,9 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
-msgid "Directory hotlist"
+#, fuzzy
+#| msgid "Directory hotlist"
+msgid "Directory Hotlist"
 msgstr "Directory hotlist"
 
 #: tfrmmain.btnleftequalright.caption
@@ -3079,6 +3189,12 @@ msgstr ""
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
 msgid "*"
 msgstr "*"
+
+#: tfrmmain.btnrightdirectoryhotlist.hint
+#, fuzzy
+msgctxt "tfrmmain.btnrightdirectoryhotlist.hint"
+msgid "Directory Hotlist"
+msgstr "Map hotlist"
 
 #: tfrmmain.btnrightequalleft.caption
 msgctxt "tfrmmain.btnrightequalleft.caption"
@@ -3357,6 +3473,12 @@ msgstr "Annuleer"
 msgid "&Commands"
 msgstr "&Opdrachten"
 
+#: tfrmmain.mnucmdconfigdirhotlist.caption
+#, fuzzy
+msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
+msgid "Directory Hotlist"
+msgstr "Map hotlist"
+
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "C&onfiguratie"
@@ -3439,6 +3561,86 @@ msgstr "Plak"
 msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: tfrmmaincommandsdlg.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
+msgctxt "tfrmmaincommandsdlg.btncancel.caption"
+msgid "&Cancel"
+msgstr "&Annuleer"
+
+#: tfrmmaincommandsdlg.btnok.caption
+#, fuzzy
+msgctxt "tfrmmaincommandsdlg.btnok.caption"
+msgid "&OK"
+msgstr "OK"
+
+#: tfrmmaincommandsdlg.caption
+msgid "Select your internal command"
+msgstr ""
+
+#: tfrmmaincommandsdlg.cbcategorysortornot.text
+msgctxt "tfrmmaincommandsdlg.cbcategorysortornot.text"
+msgid "Legacy sorted"
+msgstr ""
+
+#: tfrmmaincommandsdlg.cbcommandssortornot.text
+msgctxt "tfrmmaincommandsdlg.cbcommandssortornot.text"
+msgid "Legacy sorted"
+msgstr ""
+
+#: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
+msgid "Select all categories by default"
+msgstr ""
+
+#: tfrmmaincommandsdlg.gbselection.caption
+msgid "Selection:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblcategory.caption
+msgid "&Categories:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblcommandname.caption
+msgid "Command &name:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
+msgid "&Filter:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblhint.caption
+msgid "Hint:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblhotkey.caption
+msgid "Hotkey:"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommand.caption
+msgid "cm_name"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommandcategory.caption
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandcategory.caption"
+msgid "Category"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommandhelp.caption
+#, fuzzy
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandhelp.caption"
+msgid "Help"
+msgstr "Help"
+
+#: tfrmmaincommandsdlg.lblselectedcommandhint.caption
+msgid "Hint"
+msgstr ""
+
+#: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
+#, fuzzy
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
+msgid "Hotkey"
+msgstr "Hotkey"
 
 #: tfrmmaskinputdlg.btncancel.caption
 #, fuzzy
@@ -4017,6 +4219,12 @@ msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
 msgid "&Rename"
 msgstr "Hernoem"
 
+#: tfrmoptionsarchivers.btnrelativearchiver.hint
+#, fuzzy
+msgctxt "tfrmoptionsarchivers.btnrelativearchiver.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Sommige functies om geschikte pad te selecteren"
+
 #: tfrmoptionsarchivers.chkmultiarcdebug.caption
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
 msgid "De&bug mode"
@@ -4298,43 +4506,520 @@ msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
 msgid "&User home directory"
 msgstr "Gebruikers home map"
 
-#: tfrmoptionscustomcolumns.btncopycolumnsset.caption
+#: tfrmoptionscustomcolumns.btnallallowovercolor.caption
 #, fuzzy
-#| msgid "Copy"
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
-msgid "C&opy"
-msgstr "Kopiëer"
+msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.caption"
+msgid "All"
+msgstr "Alles"
 
-#: tfrmoptionscustomcolumns.btndelcolumnsset.caption
+#: tfrmoptionscustomcolumns.btnallallowovercolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallbackcolor.caption
 #, fuzzy
-#| msgid "Delete"
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallbackcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallbackcolor2.hint
+msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallcursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallcursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallcursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallcursortext.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallcursortext.hint
+msgctxt "tfrmoptionscustomcolumns.btnallcursortext.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallfont.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallfont.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallfont.hint
+msgctxt "tfrmoptionscustomcolumns.btnallfont.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallforecolor.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallforecolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallforecolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnallmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnallmarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnalluseinvertedselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.caption"
+msgid "All"
+msgstr "Alles"
+
+#: tfrmoptionscustomcolumns.btnalluseinvertedselection.hint
+msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
+msgid "Apply modification to all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnbackcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnbackcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btnbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnbackcolor2.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btncursorbordercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btncursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btncursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btncursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btncursortext.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption"
 msgid "&Delete"
 msgstr "Verwijder"
 
-#: tfrmoptionscustomcolumns.btneditcolumnsset.caption
+#: tfrmoptionscustomcolumns.btnfont.caption
 #, fuzzy
-#| msgid "Edit"
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
-msgid "&Edit"
-msgstr "Bewerk"
+msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
+msgid "..."
+msgstr "..."
 
-#: tfrmoptionscustomcolumns.btnnewcolumnsset.caption
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
-msgid "&New"
-msgstr "&Nieuw"
+#: tfrmoptionscustomcolumns.btnforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnforecolor.caption"
+msgid ">>"
+msgstr ">>"
 
-#: tfrmoptionscustomcolumns.cbbfilesystem.text
-msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.CBBFILESYSTEM.TEXT"
+#: tfrmoptionscustomcolumns.btngotosetdefault.caption
+msgid "Go to set default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btngotosetdefault.hint
+msgctxt "tfrmoptionscustomcolumns.btngotosetdefault.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btninactivemarkcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btnmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnmarkcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionscustomcolumns.btnnewconfig.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnnewconfig.caption"
+msgid "New"
+msgstr "Nieuw"
+
+#: tfrmoptionscustomcolumns.btnnext.caption
+msgid "Next"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnprev.caption
+msgid "Previous"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption"
+msgid "Rename"
+msgstr "Hernoem"
+
+#: tfrmoptionscustomcolumns.btnresetallowovercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetallowovercolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetbackcolor2.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetcursorborder.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetcursorborder.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetcursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetcursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetcursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetcursortext.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetfont.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetfont.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetfont.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetfont.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetforecolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetframecursor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetframecursor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetmarkcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption"
+msgid "R"
+msgstr "R"
+
+#: tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint
+msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint"
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption"
+msgid "Save as"
+msgstr "Opslaan als"
+
+#: tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption"
+msgid "Save"
+msgstr "Opslaan"
+
+#: tfrmoptionscustomcolumns.cballowovercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.cballowovercolor.caption"
+msgid "Allow Overcolor"
+msgstr "Toestaan  overkleur"
+
+#: tfrmoptionscustomcolumns.cbapplychangeforallcolumns.caption
+msgid "When clicking to change something, change for all columns"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.cbconfigcolumns.text
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.cbconfigcolumns.text"
 msgid "General"
 msgstr "Algemeen"
 
+#: tfrmoptionscustomcolumns.cbcursorborder.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.cbcursorborder.caption"
+msgid "Cursor border"
+msgstr "Cursor rand"
+
+#: tfrmoptionscustomcolumns.cbuseframecursor.caption
+msgid "Use Frame Cursor"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.cbuseinactiveselcolor.caption
+msgid "Use Inactive Selection Color"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.cbuseinvertedselection.caption
+msgid "Use Inverted Selection"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.chkusecustomview.caption
+msgid "Use custom font and color for this view"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblbackcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
+msgid "BackGround:"
+msgstr "Achtergrond:"
+
+#: tfrmoptionscustomcolumns.lblbackcolor2.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
+msgid "Background 2:"
+msgstr "Achtergrond 2:"
+
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
 #, fuzzy
-#| msgid "Configure columns for file system:"
+#| msgid "Con&figure columns for file system:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
-msgid "Con&figure columns for file system:"
+msgid "Con&figure columns view:"
 msgstr "Configureer kolommen voor bestandsysteem:"
+
+#: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
+msgid "[Current Column Name]"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblcursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblcursorcolor.caption"
+msgid "Cursor Color:"
+msgstr "Cursor kleur:"
+
+#: tfrmoptionscustomcolumns.lblcursortext.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblcursortext.caption"
+msgid "Cursor Text:"
+msgstr "Cursor tekst:"
+
+#: tfrmoptionscustomcolumns.lblfontname.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblfontname.caption"
+msgid "Font:"
+msgstr "Lettertype:"
+
+#: tfrmoptionscustomcolumns.lblfontsize.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblfontsize.caption"
+msgid "Size:"
+msgstr "Grootte:"
+
+#: tfrmoptionscustomcolumns.lblforecolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
+msgid "Text Color:"
+msgstr "Tekstkleur:"
+
+#: tfrmoptionscustomcolumns.lblinactivecursorcolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblinactivecursorcolor.caption"
+msgid "Inactive Cursor Color:"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblinactivemarkcolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblinactivemarkcolor.caption"
+msgid "Inactive Mark Color:"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblmarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.lblmarkcolor.caption"
+msgid "Mark Color:"
+msgstr "Markeer kleur:"
+
+#: tfrmoptionscustomcolumns.lblpreviewtop.caption
+msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr ""
+
+#: tfrmoptionscustomcolumns.lblworkingcolumn.caption
+msgid "Settings for column:"
+msgstr ""
+
+#: tfrmoptionscustomcolumns.miaddcolumn.caption
+#, fuzzy
+msgctxt "tfrmoptionscustomcolumns.miaddcolumn.caption"
+msgid "Add column"
+msgstr "Voeg kolom toe"
 
 #: tfrmoptionsdiffer.rgresultingframepositionaftercompare.caption
 msgid "Position of frame panel after the comparison:"
@@ -4915,12 +5600,32 @@ msgctxt "tfrmoptionsfileassoc.btnaddnewtype.caption"
 msgid "A&dd"
 msgstr "Voeg toe"
 
+#: tfrmoptionsfileassoc.btncloneact.caption
+msgid "Clone"
+msgstr ""
+
 #: tfrmoptionsfileassoc.btndownact.caption
 #, fuzzy
 #| msgid "Down"
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
 msgid "&Down"
 msgstr "Omlaag"
+
+#: tfrmoptionsfileassoc.btneditext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.btneditext.caption"
+msgid "Edit"
+msgstr "Bewerk"
+
+#: tfrmoptionsfileassoc.btninsertact.caption
+msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
+msgid "Insert"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btninsertext.caption
+msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
+msgid "Insert"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 #, fuzzy
@@ -4935,12 +5640,6 @@ msgstr "Verwijder"
 msgctxt "tfrmoptionsfileassoc.btnremoveext.caption"
 msgid "Re&move"
 msgstr "Verwijder"
-
-#: tfrmoptionsfileassoc.btnremoveicon.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassoc.btnremoveicon.caption"
-msgid "X"
-msgstr "X"
 
 #: tfrmoptionsfileassoc.btnremovetype.caption
 #, fuzzy
@@ -4963,6 +5662,26 @@ msgctxt "tfrmoptionsfileassoc.btnupact.caption"
 msgid "&Up"
 msgstr "Omhoog"
 
+#: tfrmoptionsfileassoc.destartpath.hint
+msgid "Starting path of the command. Never quote this string."
+msgstr ""
+
+#: tfrmoptionsfileassoc.edbactionname.hint
+msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
+msgstr ""
+
+#: tfrmoptionsfileassoc.edtparams.hint
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgstr ""
+
+#: tfrmoptionsfileassoc.fnecommand.hint
+msgid "Command to execute. Long filename with space should be quoted."
+msgstr ""
+
+#: tfrmoptionsfileassoc.gbactiondescription.caption
+msgid "Action description:"
+msgstr ""
+
 #: tfrmoptionsfileassoc.gbactions.caption
 msgctxt "tfrmoptionsfileassoc.gbactions.caption"
 msgid "Actions"
@@ -4972,6 +5691,10 @@ msgstr "Acties"
 msgctxt "tfrmoptionsfileassoc.gbexts.caption"
 msgid "Extensions"
 msgstr "Extensies"
+
+#: tfrmoptionsfileassoc.gbexts.hint
+msgid "Can be sorted by drag & drop"
+msgstr ""
 
 #: tfrmoptionsfileassoc.gbfiletypes.caption
 msgctxt "tfrmoptionsfileassoc.gbfiletypes.caption"
@@ -4983,15 +5706,59 @@ msgctxt "tfrmoptionsfileassoc.gbicon.caption"
 msgid "Icon"
 msgstr "Icoon"
 
+#: tfrmoptionsfileassoc.lbactions.hint
+msgid "Actions may be sorted by drag & drop"
+msgstr ""
+
+#: tfrmoptionsfileassoc.lbexts.hint
+msgid "Extensions may be sorted by drag & drop"
+msgstr ""
+
+#: tfrmoptionsfileassoc.lbfiletypes.hint
+msgid "File types may be sorted by drag & drop"
+msgstr ""
+
 #: tfrmoptionsfileassoc.lblaction.caption
+#, fuzzy
+#| msgid "Action:"
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
-msgid "Action:"
+msgid "Action name:"
 msgstr "Actie:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
 msgid "&Command:"
 msgstr "&Opdracht:"
+
+#: tfrmoptionsfileassoc.lblexternalparameters.caption
+msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
+msgid "Parameter&s:"
+msgstr ""
+
+#: tfrmoptionsfileassoc.lblexternalparameters1.caption
+msgid "Start path:"
+msgstr ""
+
+#: tfrmoptionsfileassoc.lblstartpath.caption
+#, fuzzy
+#| msgid "Start path:"
+msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
+msgid "Start pat&h:"
+msgstr "&Start pad:"
+
+#: tfrmoptionsfileassoc.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfileassoc.menuitem3.caption
+msgid "Custom with..."
+msgstr ""
+
+#: tfrmoptionsfileassoc.micustom.caption
+msgid "Custom"
+msgstr ""
 
 #: tfrmoptionsfileassoc.miedit.caption
 msgctxt "tfrmoptionsfileassoc.miedit.caption"
@@ -5003,40 +5770,42 @@ msgctxt "tfrmoptionsfileassoc.mieditor.caption"
 msgid "Open in Editor"
 msgstr "Openen in Editor"
 
-#: tfrmoptionsfileassoc.mifilename.caption
-msgctxt "tfrmoptionsfileassoc.mifilename.caption"
-msgid "File name"
-msgstr "Bestandsnaam"
-
-#: tfrmoptionsfileassoc.mifilepath.caption
-msgctxt "tfrmoptionsfileassoc.mifilepath.caption"
-msgid "File path"
-msgstr "Bestandspad"
-
-#: tfrmoptionsfileassoc.mifullpath.caption
-msgctxt "tfrmoptionsfileassoc.mifullpath.caption"
-msgid "Full path"
-msgstr "Volledig pad"
+#: tfrmoptionsfileassoc.mieditwith.caption
+msgid "Edit with..."
+msgstr ""
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgctxt "tfrmoptionsfileassoc.migetoutputfromcommand.caption"
 msgid "Get output from command"
 msgstr "Verkrijg uitvoer van opdracht"
 
+#: tfrmoptionsfileassoc.miinternaleditor.caption
+msgid "Open in Internal Editor"
+msgstr ""
+
+#: tfrmoptionsfileassoc.miinternalviewer.caption
+msgid "Open in Internal Viewer"
+msgstr ""
+
 #: tfrmoptionsfileassoc.miopen.caption
 msgctxt "tfrmoptionsfileassoc.miopen.caption"
 msgid "Open"
 msgstr "Openen"
 
+#: tfrmoptionsfileassoc.miopenwith.caption
+msgid "Open with..."
+msgstr ""
+
+#: tfrmoptionsfileassoc.miseparator.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileassoc.miseparator.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "tfrmoptionsfileassoc.mishell.caption"
 msgid "Run in terminal"
 msgstr "Uitvoeren in terminal"
-
-#: tfrmoptionsfileassoc.mivfs.caption
-msgctxt "tfrmoptionsfileassoc.mivfs.caption"
-msgid "Open in VFS"
-msgstr "Openenen in VFS"
 
 #: tfrmoptionsfileassoc.miview.caption
 #, fuzzy
@@ -5049,6 +5818,55 @@ msgstr "Overzicht"
 msgctxt "tfrmoptionsfileassoc.miviewer.caption"
 msgid "Open in Viewer"
 msgstr "Openen in Viewer"
+
+#: tfrmoptionsfileassoc.miviewwith.caption
+msgid "View with..."
+msgstr ""
+
+#: tfrmoptionsfileassoc.sbtnicon.hint
+msgid "Click me to change icon!"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbexecuteviashell.caption
+msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
+msgid "Execute via shell"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
+msgid "Extended context menu"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
+msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
+msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
+msgid "File association configuration"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
+msgid "Offer to add selection to file association when not included already"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
+msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
+msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
+msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
+msgid "Execute via terminal and close"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
+msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
+msgid "Execute via terminal and stay open"
+msgstr ""
+
+#: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
+msgid "Extended options items:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 #, fuzzy
@@ -5134,6 +5952,10 @@ msgstr "Gebruiker interface"
 msgid "&Buffer size for file operations (in KB):"
 msgstr "&Buffergrootte voor bestandsuitvoeringen (in KB):"
 
+#: tfrmoptionsfileoperations.lblhashbuffersize.caption
+msgid "Buffer size for &hash calculation (in KB):"
+msgstr ""
+
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
 msgstr "Toon uitvoeringen voortgang in het begin in"
@@ -5178,6 +6000,12 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: tfrmoptionsfilepanelscolors.btncursorbordercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btncursorbordercolor.caption"
+msgid ">>"
+msgstr ">>"
+
 #: tfrmoptionsfilepanelscolors.btncursorcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION"
 msgid ">>"
@@ -5190,6 +6018,18 @@ msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnforecolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -5208,6 +6048,16 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
+msgid "Reset to DC default"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.cballowovercolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.cballowovercolor.caption"
+msgid "Allow Overcolor"
+msgstr "Toestaan  overkleur"
+
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
 msgid "Use &Frame Cursor"
@@ -5217,6 +6067,10 @@ msgstr "Gebruik frame cursor"
 msgid "Use &Gradient Indicator"
 msgstr "Gebruik hellingshoek indicator"
 
+#: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
+msgid "Use Inactive Sel Color"
+msgstr ""
+
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 #, fuzzy
 #| msgid "Use Inverted Selection"
@@ -5224,15 +6078,16 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
 msgid "U&se Inverted Selection"
 msgstr "Gebruik geïnverteerde selectie"
 
+#: tfrmoptionsfilepanelscolors.cbusecursorborder.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.cbusecursorborder.caption"
+msgid "Cursor border"
+msgstr "Cursor rand"
+
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
 msgid "Drive Free Space Indicator"
 msgstr "Drive vrije ruimte indicator"
-
-#: tfrmoptionsfilepanelscolors.gbexample.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Voorbeeld"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 #, fuzzy
@@ -5262,6 +6117,16 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Te&xt:"
 msgstr "Cursor tekst:"
 
+#: tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption"
+msgid "Inactive Cursor Color:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption"
+msgid "Inactive Mark Color:"
+msgstr ""
+
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
 msgid "&Brightness level of inactive panel"
@@ -5281,6 +6146,10 @@ msgstr "&Indicator voorgrondkleur:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
 msgid "&Mark Color:"
 msgstr "Markeer kleur:"
+
+#: tfrmoptionsfilepanelscolors.lblpreview.caption
+msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 #, fuzzy
@@ -5540,6 +6409,23 @@ msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "&Shortcut files:"
 msgstr "&Shortcut bestanden:"
 
+#: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
+msgid "Command"
+msgstr "Opdracht"
+
+#: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
+msgid "Hotkeys"
+msgstr "Hotkeys"
+
+#: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
+msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
+msgid "Description"
+msgstr ""
+
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
@@ -5628,6 +6514,12 @@ msgstr "Voeg toe geselecteerde namen"
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSELWITHPATH.CAPTION"
 msgid "Add selected names with &full path"
 msgstr "Voeg geselecteerde namen met volledig pad toe"
+
+#: tfrmoptionsignorelist.btnrelativesavein.hint
+#, fuzzy
+msgctxt "tfrmoptionsignorelist.btnrelativesavein.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Sommige functies om passend pad te selecteren"
 
 #: tfrmoptionsignorelist.chkignoreenable.caption
 msgctxt "TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION"
@@ -5813,6 +6705,10 @@ msgstr "Incl. datum in log bestandsnaam"
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
 msgid "&Pack/Unpack"
 msgstr "Inpakken/Uitpakken"
+
+#: tfrmoptionslog.cblogcommandlineexecution.caption
+msgid "External command line execution"
+msgstr ""
 
 #: tfrmoptionslog.cblogcpmvln.caption
 #, fuzzy
@@ -6217,6 +7113,18 @@ msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
 msgstr "Tabs positie"
 
+#: tfrmoptionsterminal.gbjustrunterminal.caption
+msgid "Command for just running terminal:"
+msgstr ""
+
+#: tfrmoptionsterminal.gbruninterminalclose.caption
+msgid "Command for running a command in terminal and close after:"
+msgstr ""
+
+#: tfrmoptionsterminal.gbruninterminalstayopen.caption
+msgid "Command for running a command in terminal and stay open:"
+msgstr ""
+
 #: tfrmoptionsterminal.lblruninterm.caption
 msgid "Run in &terminal:"
 msgstr "Uitvoeren in terminal"
@@ -6224,6 +7132,54 @@ msgstr "Uitvoeren in terminal"
 #: tfrmoptionsterminal.lblrunterm.caption
 msgid "Run t&erminal:"
 msgstr "Uitvoeren terminal:"
+
+#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
+#, fuzzy
+msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+msgid "Command:"
+msgstr "Opdracht"
+
+#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
+msgid "{command} should normally present here to releft the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
+#, fuzzy
+msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
+msgid "Command:"
+msgstr "Opdracht"
+
+#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
+msgid "{command} should normally present here to releft the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
+#, fuzzy
+msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
+msgid "Command:"
+msgstr "Opdracht"
+
+#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
+msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: tfrmoptionsterminal.ledtruntermparams.hint
+msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
+msgid "{command} should normally present here to releft the command to be run in terminal"
+msgstr ""
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
@@ -6515,7 +7471,7 @@ msgstr "toevoegen aan huidige gereedschapsbalk"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
@@ -6579,9 +7535,9 @@ msgstr "toe te voegen aan huidige gereedschapsbalk"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
 #, fuzzy
-#| msgid "to add to a new toolbar to current toolbar"
+#| msgid "to add to a new toobar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr "toe te voegen aan nieuwe gereedschapsbalk aan huidige gereedschapsbalk"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
@@ -6610,8 +7566,10 @@ msgid "to add to current toolbar"
 msgstr "toe te voegen aan huidige gereedschapsbalk"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
+#, fuzzy
+#| msgid "to add to a new toobar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
-msgid "to add to a new toobar to current toolbar"
+msgid "to add to a new toolbar to current toolbar"
 msgstr "toe te voegen aan nieuwe gereedschapsbalk aan huidige gereedschapsbalk"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
@@ -6775,6 +7733,12 @@ msgstr "juist voor huidige selectie"
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "Knoptype"
+
+#: tfrmoptionstoolbase.btnrelativetoolpath.hint
+#, fuzzy
+msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Sommige functies om passend pad te selecteren"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -7264,6 +8228,7 @@ msgid "Group"
 msgstr "Groep"
 
 #: tfrmsetfileproperties.lblattrinfo.caption
+msgctxt "tfrmsetfileproperties.lblattrinfo.caption"
 msgid "(gray field means unchanged value)"
 msgstr ""
 
@@ -7291,6 +8256,11 @@ msgstr "Representatie in tekst:"
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
 msgstr "Voer uit"
+
+#: tfrmsetfileproperties.lblmodeinfo.caption
+msgctxt "tfrmsetfileproperties.lblmodeinfo.caption"
+msgid "(gray field means unchanged value)"
+msgstr ""
 
 #: tfrmsetfileproperties.lbloctal.caption
 #, fuzzy
@@ -8774,14 +9744,17 @@ msgid "with internal editor"
 msgstr ""
 
 #: ulng.rsexecuteviashell
+msgctxt "ulng.rsexecuteviashell"
 msgid "Execute via shell"
 msgstr ""
 
 #: ulng.rsexecuteviaterminalclose
+msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
 msgstr ""
 
 #: ulng.rsexecuteviaterminalstayopen
+msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr ""
 
@@ -8893,6 +9866,10 @@ msgstr "Extensie"
 msgctxt "ulng.rsfuncgroup"
 msgid "Group"
 msgstr "Groep"
+
+#: ulng.rsfunchtime
+msgid "Change date/time"
+msgstr ""
 
 #: ulng.rsfunclinkto
 msgid "Link to"
@@ -9409,6 +10386,7 @@ msgid "cm_somthing"
 msgstr "cm_somthing"
 
 #: ulng.rsmsghotdirconfighotlist
+msgctxt "ulng.rsmsghotdirconfighotlist"
 msgid "Configuration of Directory Hotlist"
 msgstr "Configuratie van directory hotlist"
 
@@ -9512,6 +10490,7 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr "Geef locatie en bestand van onderverdeling hotlist om te herstellen in"
 
 #: ulng.rsmsghotdirsimplecommand
+msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
 msgstr "Opdracht"
 
@@ -9764,6 +10743,7 @@ msgid "Not implemented."
 msgstr "Niet verwezenlijkt"
 
 #: ulng.rsmsgpanelpreview
+msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
 msgstr ""
 
@@ -10438,6 +11418,7 @@ msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shor
 msgstr "Shortcut %s voor cm_Delete heeft nodig een parameter gewijzigd om met shortcut %s overeen te komen. Wil je dit wijzigenOmschrijving"
 
 #: ulng.rsopthotkeysdescription
+msgctxt "ulng.rsopthotkeysdescription"
 msgid "Description"
 msgstr ""
 
@@ -10455,6 +11436,7 @@ msgid "Hotkey"
 msgstr "Hotkey"
 
 #: ulng.rsopthotkeyshotkeys
+msgctxt "ulng.rsopthotkeyshotkeys"
 msgid "Hotkeys"
 msgstr "Hotkeys"
 
@@ -10831,6 +11813,7 @@ msgid "All"
 msgstr "Alles"
 
 #: ulng.rssimplewordcategory
+msgctxt "ulng.rssimplewordcategory"
 msgid "Category"
 msgstr ""
 
