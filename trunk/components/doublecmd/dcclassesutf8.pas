@@ -60,7 +60,7 @@ type
     FReadOnly: Boolean;
   public
     constructor Create(const AFileName: String; Mode: Word); virtual;
-    constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); override;
+    constructor Create(const AFileName: String; AEscapeLineFeeds : Boolean = False); override;
     procedure UpdateFile; override;
   public
     property ReadOnly: Boolean read FReadOnly;
@@ -170,25 +170,34 @@ begin
 
   inherited Create(EmptyStr);
 
-  if mbFileExists(AFileName) and ((Mode and $03) <> fmOpenWrite) then
+  if ((Mode and $03) <> fmOpenWrite) then
   begin
-    slLines := TStringListEx.Create;
-    try
-      slLines.LoadFromFile(AFileName);
-      SetStrings(slLines);
-    finally
-      slLines.Free;
+    if mbFileExists(AFileName) then
+    begin
+      slLines := TStringListEx.Create;
+      try
+        slLines.LoadFromFile(AFileName);
+        SetStrings(slLines);
+      finally
+        slLines.Free;
+      end;
     end;
   end;
   Rename(AFileName, False);
 end;
 
-constructor TIniFileEx.Create(const AFileName: string; AEscapeLineFeeds: Boolean);
+constructor TIniFileEx.Create(const AFileName: String; AEscapeLineFeeds: Boolean);
+var
+  Mode: Word;
 begin
-  if mbFileAccess(AFileName, fmOpenReadWrite or fmShareDenyWrite) then
-    Create(AFileName, fmOpenReadWrite or fmShareDenyWrite)
-  else
-    Create(AFileName, fmOpenRead or fmShareDenyNone);
+  if not mbFileExists(AFileName) then
+    Mode := fmOpenWrite or fmShareDenyWrite
+  else if mbFileAccess(AFileName, fmOpenReadWrite or fmShareDenyWrite) then
+    Mode := fmOpenReadWrite or fmShareDenyWrite
+  else begin
+    Mode := fmOpenRead or fmShareDenyNone;
+  end;
+  Create(AFileName, Mode);
 end;
 
 procedure TIniFileEx.UpdateFile;
