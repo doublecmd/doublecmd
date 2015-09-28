@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-02-28 19:02+0300\n"
+"PO-Revision-Date: 2015-09-28 23:02+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -10,6 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -17,7 +18,7 @@ msgstr "Сравнение... %d%% (ESC для отмены)"
 
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
-msgstr ""
+msgstr "Справа: Удалить файлы (%d шт.)"
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
@@ -2165,13 +2166,11 @@ msgid "Down"
 msgstr "Вниз"
 
 #: tfrmlinker.spbtnrem.caption
-#, fuzzy
 msgctxt "tfrmlinker.spbtnrem.caption"
 msgid "&Remove"
 msgstr "Уда&лить"
 
 #: tfrmlinker.spbtnrem.hint
-#, fuzzy
 msgctxt "tfrmlinker.spbtnrem.hint"
 msgid "Delete"
 msgstr "Удалить"
@@ -3392,7 +3391,6 @@ msgid "Hint"
 msgstr ""
 
 #: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
-#, fuzzy
 msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
 msgid "Hotkey"
 msgstr "Горячая клавиша"
@@ -4337,25 +4335,21 @@ msgid "Reset to default"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btninactivemarkcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnmarkcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnmarkcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnnewconfig.caption"
 msgid "New"
 msgstr "Создать"
@@ -4369,7 +4363,6 @@ msgid "Previous"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption"
 msgid "Rename"
 msgstr "Переименовать"
@@ -4515,19 +4508,16 @@ msgid "Reset to default"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption"
 msgid "Save as"
 msgstr "Сохранить как"
 
 #: tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption"
 msgid "Save"
 msgstr "Сохранить"
 
 #: tfrmoptionscustomcolumns.cballowovercolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.cballowovercolor.caption"
 msgid "Allow Overcolor"
 msgstr "Раскраска файлов (вкл/откл)"
@@ -4537,13 +4527,11 @@ msgid "When clicking to change something, change for all columns"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.cbconfigcolumns.text
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.cbconfigcolumns.text"
 msgid "General"
 msgstr "Основные"
 
 #: tfrmoptionscustomcolumns.cbcursorborder.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.cbcursorborder.caption"
 msgid "Cursor border"
 msgstr "Рамка вокруг курсора"
@@ -4565,23 +4553,19 @@ msgid "Use custom font and color for this view"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
 msgid "BackGround:"
 msgstr "Фон &1"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
 msgstr "Фон &2"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#, fuzzy
-#| msgid "Con&figure columns for file system:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
 msgid "Con&figure columns view:"
-msgstr "&Настроить колонки для файловой системы:"
+msgstr "&Настроить колонки:"
 
 #: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
 msgid "[Current Column Name]"
@@ -10376,7 +10360,7 @@ msgstr ""
 
 #: ulng.rsmsguserdidnotsetname
 msgid "<NO NAME>"
-msgstr ""
+msgstr "<БЕЗ ИМЕНИ>"
 
 #: ulng.rsmsgusername
 msgid "User name:"
@@ -11366,7 +11350,7 @@ msgstr ""
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
-msgstr ""
+msgstr "Левая панель"
 
 #: ulng.rsvarlistfilename
 msgid "Temporary filename of list of filenames"
@@ -11422,7 +11406,7 @@ msgstr ""
 
 #: ulng.rsvarrightpanel
 msgid "Right panel"
-msgstr ""
+msgstr "Правая панель"
 
 #: ulng.rsvarsecondelementrightpanel
 msgid "Full path of second selected file in right panel"
