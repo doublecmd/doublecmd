@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-09-07 20:10+0100\n"
+"PO-Revision-Date: 2015-09-27 19:02+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -9460,9 +9460,8 @@ msgid "Remove all inactive tabs?"
 msgstr "Alle in-aktiven Tabs entfernen?"
 
 #: ulng.rsmsgcloselockedtab
-#, fuzzy,badformat
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr "Dieser Tab ist gesperrt! Trotzdem schließen?"
+msgstr "Dieser Tab (%s) ist gesperrt! Trotzdem schließen?"
 
 #: ulng.rsmsgcolumnsmodifiedwanttosave
 msgid ""
@@ -9491,9 +9490,8 @@ msgid "Copy selected \"%s\"?"
 msgstr "Markierte \"%s\" kopieren?"
 
 #: ulng.rsmsgcreateanewfiletype
-#, fuzzy,badformat
 msgid "< Create a new file type \"%s files\" >"
-msgstr "< Neuen Dateityp erstellen \"s Dateien\" >"
+msgstr "< Neuen Dateityp erstellen \"%s Dateien\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
@@ -9960,7 +9958,6 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Falsches Ergebnis der Dateilänge für: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
-#, fuzzy,badformat
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -9970,7 +9967,7 @@ msgid ""
 "Number of bytes still to write: %d\n"
 msgstr ""
 "Bitte nächste Disk oder ähnliches einlegen.\n"
-"Damit diese Datei geschrieben werden kann: %d\n"
+"Damit diese Datei geschrieben werden kann:\n"
 "\"%s\"\n"
 "\n"
 "Anzahl der noch zu schreibenden Bytes: %d\n"
@@ -10000,9 +9997,8 @@ msgid "This is not a valid plugin!"
 msgstr "Dies ist kein akzeptables Plugin"
 
 #: ulng.rsmsginvalidpluginarchitecture
-#, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "Dieses Plugin wurde für Double Commander für %s erstellt. Es kann nicht für %s verwendet werden!"
+msgstr "Dieses Plugin wurde für Double Commander für %s erstellt.%sEs kann nicht für %s verwendet werden!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -10543,9 +10539,8 @@ msgid "Listing"
 msgstr "Liste auf"
 
 #: ulng.rsoperlistingin
-#, fuzzy,badformat
 msgid "Listing \"%s\""
-msgstr "Liste \"s%\" auf"
+msgstr "Liste \"%s\" auf"
 
 #: ulng.rsopermoving
 msgid "Moving"
