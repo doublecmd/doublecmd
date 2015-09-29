@@ -243,7 +243,7 @@ begin
     if OpenMode = PK_OM_EXTRACT then
     begin
       Start;
-      Result:= Update;
+      Update;
     end;
     FArchive.Free;
     Free;
@@ -536,7 +536,10 @@ begin
     ReturnValue:= E_SUCCESS;
   except
     on E: Exception do
+    begin
       ReturnValue:= GetArchiveError(E);
+      MessageBox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+    end;
   end;
   Terminate;
   FProgress.SetEvent;
