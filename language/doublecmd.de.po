@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-09-27 19:02+0100\n"
+"PO-Revision-Date: 2015-09-29 19:32+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2304,7 +2304,7 @@ msgstr "Wird ein Untermenü ausgewählt, wird das ganze Menü ausgewählt"
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
-msgstr ""
+msgstr "Strg halten und Einträge anklicken um mehrere auszuwählen"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
@@ -2533,11 +2533,11 @@ msgstr "Datei(en) ohne Nachfrage kopieren"
 
 #: tfrmmain.actcopypathnosepoffilestoclip.caption
 msgid "Copy Full Path of selected file(s) with no ending dir separator"
-msgstr ""
+msgstr "Kopiere den kompletten Pfad der markierten Datei(en) ohne Verzeichnis-Trennzeichen am Ende (/)"
 
 #: tfrmmain.actcopypathoffilestoclip.caption
 msgid "Copy Full Path of selected file(s)"
-msgstr ""
+msgstr "Kopiere den kompletten Pfad der markierten Datei(en)"
 
 #: tfrmmain.actcopysamepanel.caption
 msgid "Copy to same panel"
@@ -2559,7 +2559,7 @@ msgstr "A&usschneiden"
 
 #: tfrmmain.actdebugshowcommandparameters.caption
 msgid "Show Command Parameters"
-msgstr ""
+msgstr "Zeige Befehlsparameter"
 
 #: tfrmmain.actdelete.caption
 #, fuzzy
@@ -2581,7 +2581,7 @@ msgstr "Verzeic&hnis-Favoriten"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Select any command and execute it"
-msgstr ""
+msgstr "Einen Befehl wählen und ausführen"
 
 #: tfrmmain.actedit.caption
 #, fuzzy
@@ -2689,11 +2689,11 @@ msgstr "&Tastatur"
 
 #: tfrmmain.actleftbriefview.caption
 msgid "Brief view on left panel"
-msgstr ""
+msgstr "Verkürzte Ansicht im linken Panel"
 
 #: tfrmmain.actleftcolumnsview.caption
 msgid "Columns view on left panel"
-msgstr ""
+msgstr "Spaltenansicht im linken Panel"
 
 #: tfrmmain.actleftequalright.caption
 msgid "Left &= Right"
@@ -2701,7 +2701,7 @@ msgstr "Links &= Rechts"
 
 #: tfrmmain.actleftflatview.caption
 msgid "&Flat view on left panel"
-msgstr ""
+msgstr "&Flache Ansicht im linken Panel"
 
 #: tfrmmain.actleftopendrives.caption
 msgid "Open left drive list"
@@ -2709,31 +2709,31 @@ msgstr "Öffne &linke Laufwerksliste"
 
 #: tfrmmain.actleftreverseorder.caption
 msgid "Re&verse order on left panel"
-msgstr ""
+msgstr "Umgekehrte Reihenfolge im linken Panel"
 
 #: tfrmmain.actleftsortbyattr.caption
 msgid "Sort left panel by &Attributes"
-msgstr ""
+msgstr "Linkes Panel nach &Attributen sortieren"
 
 #: tfrmmain.actleftsortbydate.caption
 msgid "Sort left panel by &Date"
-msgstr ""
+msgstr "Linkes Panel nach &Datum sortieren"
 
 #: tfrmmain.actleftsortbyext.caption
 msgid "Sort left panel by &Extension"
-msgstr ""
+msgstr "Linkes Panel nach &Dateiendung sortieren"
 
 #: tfrmmain.actleftsortbyname.caption
 msgid "Sort left panel by &Name"
-msgstr ""
+msgstr "Linkes Panel nach &Namen sortieren"
 
 #: tfrmmain.actleftsortbysize.caption
 msgid "Sort left panel by &Size"
-msgstr ""
+msgstr "Linkes Panel nach &Größe sortieren"
 
 #: tfrmmain.actleftthumbview.caption
 msgid "Thumbnails view on left panel"
-msgstr ""
+msgstr "Thumbnails-Ansicht im linken Panel"
 
 #: tfrmmain.actloadselectionfromclip.caption
 #, fuzzy
@@ -2942,11 +2942,11 @@ msgstr "&Umgekehrt anordnen"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
-msgstr ""
+msgstr "Verkürzte Ansicht im rechten Panel"
 
 #: tfrmmain.actrightcolumnsview.caption
 msgid "Columns view on right panel"
-msgstr ""
+msgstr "Spaltenansicht im rechten Panel"
 
 #: tfrmmain.actrightequalleft.caption
 msgid "Right &= Left"
@@ -2954,7 +2954,7 @@ msgstr "Rechts = L&inks"
 
 #: tfrmmain.actrightflatview.caption
 msgid "&Flat view on right panel"
-msgstr ""
+msgstr "&Flache Ansicht im rechten Panel"
 
 #: tfrmmain.actrightopendrives.caption
 msgid "Open right drive list"
@@ -2962,31 +2962,31 @@ msgstr "Öffne rechte Laufwerksliste"
 
 #: tfrmmain.actrightreverseorder.caption
 msgid "Re&verse order on right panel"
-msgstr ""
+msgstr "Umgekehrte Anordnung im rechten Panel"
 
 #: tfrmmain.actrightsortbyattr.caption
 msgid "Sort right panel by &Attributes"
-msgstr ""
+msgstr "Rechtes Panel nach &Attributen sortieren"
 
 #: tfrmmain.actrightsortbydate.caption
 msgid "Sort right panel by &Date"
-msgstr ""
+msgstr "Rechtes Panel nach &Datum sortieren"
 
 #: tfrmmain.actrightsortbyext.caption
 msgid "Sort right panel by &Extension"
-msgstr ""
+msgstr "Rechtes Panel nach &Dateiendung sortieren"
 
 #: tfrmmain.actrightsortbyname.caption
 msgid "Sort right panel by &Name"
-msgstr ""
+msgstr "Rechtes Panel nach &Namen sortieren"
 
 #: tfrmmain.actrightsortbysize.caption
 msgid "Sort right panel by &Size"
-msgstr ""
+msgstr "Rechtes Panel nach &Größe sortieren "
 
 #: tfrmmain.actrightthumbview.caption
 msgid "Thumbnails view on right panel"
-msgstr ""
+msgstr "Thumbnail-Ansicht im rechten Panel"
 
 #: tfrmmain.actrunterm.caption
 #, fuzzy
@@ -3109,7 +3109,7 @@ msgstr "Nach &Grösse sortieren"
 
 #: tfrmmain.actsrcopendrives.caption
 msgid "Open drive list"
-msgstr ""
+msgstr "Liste dder Laufwerke öffnen"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
@@ -3159,7 +3159,7 @@ msgstr "Bewege &markierten Ordner in das rechte Fenster"
 
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
-msgstr ""
+msgstr "Anhand von Parametern sortieren"
 
 #: tfrmmain.actunmarkcurrentextension.caption
 #, fuzzy
@@ -3188,7 +3188,7 @@ msgstr "Gehe zum vorherigen Eintrag in der Verlaufsliste"
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
-msgstr ""
+msgstr "Log-Datei betrachten"
 
 #: tfrmmain.actvisithomepage.caption
 #, fuzzy
@@ -3202,7 +3202,7 @@ msgstr "Löschen"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
 msgid "Work with Directory Hotlist and paramters"
-msgstr ""
+msgstr "Mit der Verzeichnis-Hotlist und Parametern arbeiten"
 
 #: tfrmmain.btnf10.caption
 #, fuzzy
@@ -3239,7 +3239,7 @@ msgstr "*"
 #, fuzzy
 #| msgid "Directory hotlist"
 msgid "Directory Hotlist"
-msgstr "Favoriten für Verzeichnisse anzeigen"
+msgstr "Verzeichnis-Hotlist"
 
 #: tfrmmain.btnleftequalright.caption
 msgctxt "tfrmmain.btnleftequalright.caption"
@@ -3286,7 +3286,7 @@ msgstr "*"
 #, fuzzy
 msgctxt "tfrmmain.btnrightdirectoryhotlist.hint"
 msgid "Directory Hotlist"
-msgstr "Verzeichnisfavoriten"
+msgstr "Verzeichnis-Hotlist"
 
 #: tfrmmain.btnrightequalleft.caption
 msgctxt "tfrmmain.btnrightequalleft.caption"
@@ -3569,7 +3569,7 @@ msgstr "&Befehle"
 #, fuzzy
 msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
 msgid "Directory Hotlist"
-msgstr "Verzeichnisfavoriten"
+msgstr "Verzeichnis-Hotlist"
 
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
@@ -5045,7 +5045,7 @@ msgstr "Erlaube Farb-Überschneidung"
 
 #: tfrmoptionscustomcolumns.cbapplychangeforallcolumns.caption
 msgid "When clicking to change something, change for all columns"
-msgstr ""
+msgstr "Wenn etwas geändert wird, das in allen Spalten ändern"
 
 #: tfrmoptionscustomcolumns.cbconfigcolumns.text
 #, fuzzy
@@ -5096,7 +5096,7 @@ msgstr "Bearbeite Spalten für Dateis&ystem"
 
 #: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
 msgid "[Current Column Name]"
-msgstr ""
+msgstr "[Aktuelle Bezeichnung der Spalte]"
 
 #: tfrmoptionscustomcolumns.lblcursorcolor.caption
 #, fuzzy
@@ -5791,7 +5791,7 @@ msgstr "&Hinzufügen"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
 msgid "Clone"
-msgstr ""
+msgstr "Klonen"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 #, fuzzy
@@ -5853,23 +5853,23 @@ msgstr "&Hoch"
 
 #: tfrmoptionsfileassoc.destartpath.hint
 msgid "Starting path of the command. Never quote this string."
-msgstr ""
+msgstr "Startpfad des Befehles. Nicht in Anführungstriche setzen!"
 
 #: tfrmoptionsfileassoc.edbactionname.hint
 msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
-msgstr ""
+msgstr "Name der Aktion. Wird nicht an das System übergeben, sondern dient nur der Identifizierung."
 
 #: tfrmoptionsfileassoc.edtparams.hint
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
-msgstr ""
+msgstr "Parameter für den Befehl. Lange Pfade mit Leerzeichen sollten in Anführungsstriche gesetzt werden."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Long filename with space should be quoted."
-msgstr ""
+msgstr "Befehl zum Ausführen. Lange Pfade mit Leerzeichen sollten in Anführungsstriche gesetzt werden."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description:"
-msgstr ""
+msgstr "Beschreibung der Aktion"
 
 #: tfrmoptionsfileassoc.gbactions.caption
 msgctxt "tfrmoptionsfileassoc.gbactions.caption"
@@ -5883,7 +5883,7 @@ msgstr "Endungen"
 
 #: tfrmoptionsfileassoc.gbexts.hint
 msgid "Can be sorted by drag & drop"
-msgstr ""
+msgstr "Kann durch Drag & Drop sortiert werden"
 
 #: tfrmoptionsfileassoc.gbfiletypes.caption
 msgctxt "tfrmoptionsfileassoc.gbfiletypes.caption"
@@ -5897,22 +5897,22 @@ msgstr "Icon"
 
 #: tfrmoptionsfileassoc.lbactions.hint
 msgid "Actions may be sorted by drag & drop"
-msgstr ""
+msgstr "Aktionen können durch Drag & Drop angeordnet werden"
 
 #: tfrmoptionsfileassoc.lbexts.hint
 msgid "Extensions may be sorted by drag & drop"
-msgstr ""
+msgstr "Endungen können durch Drag & Drop angeordnet werden"
 
 #: tfrmoptionsfileassoc.lbfiletypes.hint
 msgid "File types may be sorted by drag & drop"
-msgstr ""
+msgstr "Dateitypen können durch Drag & Drop angeordnet werden"
 
 #: tfrmoptionsfileassoc.lblaction.caption
 #, fuzzy
 #| msgid "Action:"
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
 msgid "Action name:"
-msgstr "Aktion:"
+msgstr "Name der Aktion:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
@@ -5963,7 +5963,7 @@ msgstr "im Editor öffnen"
 
 #: tfrmoptionsfileassoc.mieditwith.caption
 msgid "Edit with..."
-msgstr ""
+msgstr "Bearbeiten mit..."
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgctxt "tfrmoptionsfileassoc.migetoutputfromcommand.caption"
@@ -5972,11 +5972,11 @@ msgstr "Ausgabe aus Konsolen-Fenster entnehmen"
 
 #: tfrmoptionsfileassoc.miinternaleditor.caption
 msgid "Open in Internal Editor"
-msgstr ""
+msgstr "Im internen Editor öffnen"
 
 #: tfrmoptionsfileassoc.miinternalviewer.caption
 msgid "Open in Internal Viewer"
-msgstr ""
+msgstr "Im internen Betrachter öffnen"
 
 #: tfrmoptionsfileassoc.miopen.caption
 msgctxt "tfrmoptionsfileassoc.miopen.caption"
@@ -5985,7 +5985,7 @@ msgstr "Öffnen"
 
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
-msgstr ""
+msgstr "Öffnen mit..."
 
 #: tfrmoptionsfileassoc.miseparator.caption
 #, fuzzy
@@ -6012,11 +6012,11 @@ msgstr "In Betrachter öffnen"
 
 #: tfrmoptionsfileassoc.miviewwith.caption
 msgid "View with..."
-msgstr ""
+msgstr "Betrachten mit..."
 
 #: tfrmoptionsfileassoc.sbtnicon.hint
 msgid "Click me to change icon!"
-msgstr ""
+msgstr "Hier klicken um das Icon zu ändern!"
 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 #, fuzzy
@@ -6026,39 +6026,39 @@ msgstr "Auf der Befehlszeile ausführen"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
-msgstr ""
+msgstr "Erweitertes Kontextmenü"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
 msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr ""
+msgstr "Wenn die Dateityp-Verknüpfung genutzt wird, anbieten die aktuelle Datei hinzuzfügen, wenn nicht bereits in einem konfigurierten Typ enthalten"
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
-msgstr ""
+msgsKonfiguration der Dateitypen"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
 msgid "Offer to add selection to file association when not included already"
-msgstr ""
+msgstr "Anbieten die Auswahl zur Dateityp-Verknüpfung hinzuzfügen, wenn nicht bereits enthalten"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr ""
+msgstr "Wenn die Dateityp-Verknüpfung genutzt wird, anbieten die aktuelle Datei hinzuzfügen, wenn nicht bereits in einem konfigurierten Tpy enthalten"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
 msgid "Execute via terminal and close"
-msgstr ""
+msgstr "Im Terminal ausführen und schließen"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
 msgid "Execute via terminal and stay open"
-msgstr ""
+msgstr "Im Terminal ausführen und geöffnet lassen"
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
 msgid "Extended options items:"
-msgstr ""
+msgstr "Einträge für erweiterte Optionen:"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 #, fuzzy
@@ -6164,7 +6164,7 @@ msgstr "&Puffergröße für Dateioperationen (in KB)"
 
 #: tfrmoptionsfileoperations.lblhashbuffersize.caption
 msgid "Buffer size for &hash calculation (in KB):"
-msgstr ""
+msgstr "Puffergröße für die &Hash-Kalkulation (in KB):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 #, fuzzy
@@ -6263,7 +6263,7 @@ msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
-msgstr ""
+msgstr "Auf Standard-Einstellungen zurücksetzen"
 
 #: tfrmoptionsfilepanelscolors.cballowovercolor.caption
 #, fuzzy
@@ -6286,7 +6286,7 @@ msgstr "Ver&wende Farbverlauf als Indikator"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
-msgstr ""
+msgstr "Nutze inaktive Sel-Farbe"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 #, fuzzy
@@ -6337,12 +6337,12 @@ msgstr "Cursorte&xt"
 #: tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption"
 msgid "Inactive Cursor Color:"
-msgstr ""
+msgstr "Inaktive Cursor-Farbe"
 
 #: tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption"
 msgid "Inactive Mark Color:"
-msgstr ""
+msgstr "Inaktive Markierungsfarbe"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
 #, fuzzy
@@ -6372,7 +6372,7 @@ msgstr "&Markierungsfarbe"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
-msgstr ""
+msgstr "Unten ist eine Vorschau. Der Cursor kann bewegt werden und Dateien markiert um einen sofortigen Eindruck von den verschieden Einstellungen zu bekommen."
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 #, fuzzy
@@ -6990,7 +6990,7 @@ msgstr "&Packen / Entpacken"
 
 #: tfrmoptionslog.cblogcommandlineexecution.caption
 msgid "External command line execution"
-msgstr ""
+msgstr "Externe Befehlszeile ausführen"
 
 #: tfrmoptionslog.cblogcpmvln.caption
 #, fuzzy
@@ -7411,15 +7411,15 @@ msgstr "Rei&ter-Position"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
-msgstr ""
+msgstr "Befehl um das Terminal auszuführen"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr ""
+msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend zu schließen:"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr ""
+msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend offen zu halten:"
 
 #: tfrmoptionsterminal.lblruninterm.caption
 #, fuzzy
@@ -7442,12 +7442,12 @@ msgstr "Befehl"
 #: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parameter:"
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
 msgid "{command} should normally present here to releft the command to be run in terminal"
-msgstr ""
+msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
 
 #: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
 #, fuzzy
@@ -7458,12 +7458,12 @@ msgstr "Befehl"
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parameter:"
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
 msgid "{command} should normally present here to releft the command to be run in terminal"
-msgstr ""
+msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
 
 #: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
 #, fuzzy
@@ -7474,12 +7474,12 @@ msgstr "Befehl"
 #: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parameter:"
 
 #: tfrmoptionsterminal.ledtruntermparams.hint
 msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
 msgid "{command} should normally present here to releft the command to be run in terminal"
-msgstr ""
+msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 #, fuzzy
@@ -10114,12 +10114,12 @@ msgstr "Auf der Befehlszeile ausführen"
 #: ulng.rsexecuteviaterminalclose
 msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
-msgstr ""
+msgstr "Im Terminal ausführen und schließen"
 
 #: ulng.rsexecuteviaterminalstayopen
 msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
-msgstr ""
+msgstr "Im Terminal ausführen und offen lassen"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
@@ -10234,7 +10234,7 @@ msgstr "Gruppe"
 
 #: ulng.rsfunchtime
 msgid "Change date/time"
-msgstr ""
+msgstr "Datum/Zeit ändern"
 
 #: ulng.rsfunclinkto
 msgid "Link to"
@@ -11131,7 +11131,7 @@ msgstr "Nicht möglich."
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr ""
+msgstr "Unten ist eine Vorschau zu sehen. Der Cursor kann bewegt werden und Dateien markiert werden um einen Eindruck von den verschiedenen Einstellungen zu bekommen."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
