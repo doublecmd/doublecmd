@@ -271,9 +271,11 @@ function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;
 var
   I: Integer;
   Encrypt: Boolean;
+  AMessage: String;
   Password: WideString;
   FilePath: WideString;
   FileName: WideString;
+  SfxModule: String = '';
   FileNameUTF8: UTF8String;
   AProgress: TSevenZipUpdate;
   Archive: TJclCompressArchive;
@@ -282,11 +284,28 @@ begin
   if (Flags and PK_PACK_MOVE_FILES) <> 0 then Exit(E_NOT_SUPPORTED);
   FileNameUTF8 := UTF8Encode(WideString(PackedFile));
 
-  // If create new archive
-  if (GetFileAttributesW(PackedFile) = INVALID_FILE_ATTRIBUTES) then
-    AFormats := FindCompressFormats(FileNameUTF8)
-  else
-    AFormats := TJclCompressArchiveClassArray(FindUpdateFormats(FileNameUTF8));
+  // If update existing archive
+  if (GetFileAttributesW(PackedFile) <> INVALID_FILE_ATTRIBUTES) then
+    AFormats := TJclCompressArchiveClassArray(FindUpdateFormats(FileNameUTF8))
+  else begin
+    if not SameText(ExtractFileExt(FileNameUTF8), '.exe') then
+      AFormats := FindCompressFormats(FileNameUTF8)
+    else begin
+      // Only 7-Zip supports self-extract
+      SfxModule := ExtractFilePath(SevenzipLibraryName) + '7z.sfx';
+      if FileExistsUTF8(SfxModule) then
+      begin
+        SetLength(AFormats, 1);
+        AFormats[0] := TJcl7zCompressArchive;
+      end
+      else begin
+        AMessage := SysErrorMessage(GetLastError) + LineEnding;
+        AMessage += rsSevenZipSfxNotFound + LineEnding + SfxModule;
+        MessageBox(0, PAnsiChar(AMessage), nil, MB_OK or MB_ICONERROR);
+        Exit(E_NO_FILES);
+      end;
+    end;
+  end;
 
   for I := Low(AFormats) to High(AFormats) do
   begin
@@ -316,6 +335,11 @@ begin
       end;
 
       SetArchiveOptions(Archive);
+
+      if Archive is TJcl7zCompressArchive then
+      begin
+        TJcl7zCompressArchive(Archive).SfxModule := SfxModule;
+      end;
 
       if Assigned(SubPath) then
       begin

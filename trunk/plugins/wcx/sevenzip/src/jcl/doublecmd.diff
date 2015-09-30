@@ -1,9 +1,9 @@
- jcl/source/common/JclCompression.pas | 59 +++++++++++++++++++++++++++++++-----
+ jcl/source/common/JclCompression.pas | 67 +++++++++++++++++++++++++++++++-----
  jcl/source/windows/sevenzip.pas      |  8 ++---
- 2 files changed, 56 insertions(+), 11 deletions(-)
+ 2 files changed, 63 insertions(+), 12 deletions(-)
 
 diff --git a/jcl/source/common/JclCompression.pas b/jcl/source/common/JclCompression.pas
-index e5e6a2f..35ecd7e 100644
+index e5e6a2f..5934880 100644
 --- a/jcl/source/common/JclCompression.pas
 +++ b/jcl/source/common/JclCompression.pas
 @@ -44,8 +44,7 @@
@@ -94,17 +94,33 @@ index e5e6a2f..35ecd7e 100644
      property Password: WideString read FPassword write FPassword;
 
      property SupportsNestedArchive: Boolean read GetSupportsNestedArchive;
-@@ -2206,8 +2223,7 @@ const
+@@ -1193,6 +1210,7 @@ function GetArchiveFormats: TJclCompressionArchiveFormats;
+ type
+   TJclSevenzipCompressArchive = class(TJclCompressArchive, IInterface)
+   private
++    FSfxModule: String;
+     FOutArchive: IOutArchive;
+   protected
+     function GetItemClass: TJclCompressionItemClass; override;
+@@ -1203,6 +1221,7 @@ type
+     destructor Destroy; override;
+     procedure Compress; override;
+     property OutArchive: IOutArchive read GetOutArchive;
++    property SfxModule: String read FSfxModule write FSfxModule;
+   end;
+
+   // file formats
+@@ -2206,8 +2225,7 @@ const
  implementation
 
  uses
 -  JclUnicode, // WideSameText
 -  JclDateTime, JclFileUtils, JclResources, JclStrings, JclSysUtils;
-+  DCJclResources;
++  DCJclResources, DCJclCompression;
 
  const
    JclDefaultBufferSize = 131072; // 128k
-@@ -2218,6 +2234,8 @@ var
+@@ -2218,6 +2236,8 @@ var
    GlobalStreamFormats: TObject;
    GlobalArchiveFormats: TObject;
 
@@ -113,7 +129,7 @@ index e5e6a2f..35ecd7e 100644
  //=== { TJclCompressionStream } ==============================================
 
  constructor TJclCompressionStream.Create(AStream: TStream);
-@@ -3743,6 +3761,8 @@ begin
+@@ -3743,6 +3763,8 @@ begin
    end;
  end;
 
@@ -122,7 +138,7 @@ index e5e6a2f..35ecd7e 100644
  {$IFDEF MSWINDOWS}
 
  function OpenFileStream(const FileName: TFileName; StreamAccess: TJclStreamAccess): TStream;
-@@ -3887,7 +3907,7 @@ end;
+@@ -3887,7 +3909,7 @@ end;
  function TJclCompressionItem.GetNestedArchiveName: WideString;
  var
    ParentArchiveExtension, ArchiveFileName, ArchiveExtension: WideString;
@@ -131,7 +147,7 @@ index e5e6a2f..35ecd7e 100644
  begin
    if ipPackedName in ValidProperties then
      Result := PackedName
-@@ -3914,7 +3934,7 @@ begin
+@@ -3914,7 +3936,7 @@ begin
      else
      if ArchiveFileName <> '' then
      begin
@@ -140,7 +156,7 @@ index e5e6a2f..35ecd7e 100644
        try
          ExtensionMap.Delimiter := ';';
          ExtensionMap.DelimitedText := Archive.ArchiveSubExtensions;
-@@ -6117,6 +6137,8 @@ end;
+@@ -6117,6 +6139,8 @@ end;
 
  procedure SetSevenzipArchiveCompressionProperties(AJclArchive: IInterface; ASevenzipArchive: IInterface);
  var
@@ -149,7 +165,7 @@ index e5e6a2f..35ecd7e 100644
    PropertySetter: Sevenzip.ISetProperties;
    InArchive, OutArchive: Boolean;
    Unused: IInterface;
-@@ -6254,9 +6276,18 @@ begin
+@@ -6254,9 +6278,18 @@ begin
          else
            AddWideStringProperty('S', IntToStr(Solid.SolidBlockSize) + 'F');
        end;
@@ -168,7 +184,20 @@ index e5e6a2f..35ecd7e 100644
    end;
  end;
 
-@@ -7422,7 +7453,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
+@@ -6692,7 +6725,11 @@ begin
+     SplitStream := TJclDynamicSplitStream.Create(False);
+     SplitStream.OnVolume := NeedStream;
+     SplitStream.OnVolumeMaxSize := NeedStreamMaxSize;
+-    OutStream := TJclSevenzipOutStream.Create(SplitStream, True, False);
++    if Length(FSfxModule) > 0 then
++      OutStream := TSfxSevenzipOutStream.Create(SplitStream, FSfxModule)
++    else begin
++      OutStream := TJclSevenzipOutStream.Create(SplitStream, True, False);
++    end;
+     UpdateCallback := TJclSevenzipUpdateCallback.Create(Self);
+
+     SetSevenzipArchiveCompressionProperties(Self, OutArchive);
+@@ -7422,7 +7459,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -183,7 +212,7 @@ index e5e6a2f..35ecd7e 100644
    Result := S_OK;
  end;
 
-@@ -7456,7 +7494,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
+@@ -7456,7 +7500,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
