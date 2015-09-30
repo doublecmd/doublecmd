@@ -1210,6 +1210,7 @@ function GetArchiveFormats: TJclCompressionArchiveFormats;
 type
   TJclSevenzipCompressArchive = class(TJclCompressArchive, IInterface)
   private
+    FSfxModule: String;
     FOutArchive: IOutArchive;
   protected
     function GetItemClass: TJclCompressionItemClass; override;
@@ -1220,6 +1221,7 @@ type
     destructor Destroy; override;
     procedure Compress; override;
     property OutArchive: IOutArchive read GetOutArchive;
+    property SfxModule: String read FSfxModule write FSfxModule;
   end;
 
   // file formats
@@ -2223,7 +2225,7 @@ const
 implementation
 
 uses
-  DCJclResources;
+  DCJclResources, DCJclCompression;
 
 const
   JclDefaultBufferSize = 131072; // 128k
@@ -6723,7 +6725,11 @@ begin
     SplitStream := TJclDynamicSplitStream.Create(False);
     SplitStream.OnVolume := NeedStream;
     SplitStream.OnVolumeMaxSize := NeedStreamMaxSize;
-    OutStream := TJclSevenzipOutStream.Create(SplitStream, True, False);
+    if Length(FSfxModule) > 0 then
+      OutStream := TSfxSevenzipOutStream.Create(SplitStream, FSfxModule)
+    else begin
+      OutStream := TJclSevenzipOutStream.Create(SplitStream, True, False);
+    end;
     UpdateCallback := TJclSevenzipUpdateCallback.Create(Self);
 
     SetSevenzipArchiveCompressionProperties(Self, OutArchive);

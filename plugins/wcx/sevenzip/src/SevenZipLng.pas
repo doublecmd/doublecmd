@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin, language support
 
-  Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -31,6 +31,7 @@ uses
 
 resourcestring
   rsSevenZipLoadError = 'Failed to load 7z.dll';
+  rsSevenZipSfxNotFound = 'Cannot find specified SFX module';
 
 resourcestring
   rsCompressionLevelStore = 'Store';
