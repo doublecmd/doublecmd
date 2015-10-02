@@ -193,7 +193,7 @@ begin
       if aFileView.FileSource.IsClass(TFileSystemFileSource) then
         begin
           for I := 0 to aFiles.Count - 1 do // test all selected archives
-            begin
+            try
               // Check if there is a ArchiveFileSource for possible archive.
               ArchiveFileSource := GetArchiveFileSource(aFileView.FileSource, aFiles[i]);
 
@@ -228,6 +228,8 @@ begin
               end;
               // Short pause, so that all operations are not spawned at once.
               Sleep(100);
+            except
+              on E: Exception do msgError(E.Message + LineEnding + aFiles[i].FullPath);
             end; // for
         end
       else
