@@ -124,7 +124,7 @@ begin
   else if E is EAbFileNotFound then
     Result := E_EOPEN
   else if E is EAbUnhandledType then
-    Result := E_NOT_SUPPORTED
+    Result := E_UNKNOWN_FORMAT
   else if E is EFCreateError then
     Result := E_ECREATE
   else if E is EFOpenError then
