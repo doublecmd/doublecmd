@@ -414,8 +414,14 @@ var
   LineToParse: string;
   UserAnswer: TFileSourceOperationUIResponse;
 begin
-  result:=FALSE;
-  MaybeSummaryFilename:=SourceFiles[0].Path + SourceFiles[0].NameNoExt + ExtensionSeparator + 'CRC';
+  Result:= False;
+
+  //We just mimic TC who set in uppercase the "CRC" extension if the filename (without extension!) is made all with capital letters.
+  if SourceFiles[0].NameNoExt = UTF8UpperCase(SourceFiles[0].NameNoExt) then
+    MaybeSummaryFilename:= SourceFiles[0].Path + SourceFiles[0].NameNoExt + ExtensionSeparator + 'CRC'
+  else begin
+    MaybeSummaryFilename:= SourceFiles[0].Path + SourceFiles[0].NameNoExt + ExtensionSeparator + 'crc';
+  end;
 
   //If CRC32 verification file is not found, try to ask user to make it available for us or maybe continue without it if it is what user want
   UserAnswer:=fsourOk;
@@ -426,23 +432,23 @@ begin
 
   if mbFileExists(MaybeSummaryFilename) then
   begin
-    hSummaryFile:=mbFileOpen(MaybeSummaryFilename, fmOpenRead);
+    hSummaryFile:= mbFileOpen(MaybeSummaryFilename, fmOpenRead);
     try
-      while FileReadLn(hSummaryFile,LineToParse) do //"FileReadLn" return FALSE when we're at the end of the file! Wow! Let's use it for the loop control then!
+      while FileReadLn(hSummaryFile, LineToParse) do //"FileReadLn" return FALSE when we're at the end of the file! Wow! Let's use it for the loop control then!
       begin
-        PosOfEqualSign := UTF8Pos('=',LineToParse);
+        PosOfEqualSign := UTF8Pos('=', LineToParse);
         if PosOfEqualSign > 0 then //Investiguate *only* if the equal sign is present
         begin
-          //Let's see if we could extract final filename.
-          //We first look for a UTF8 filename style. If so, take it, if not, search for the ANSI flavor
-          if UTF8Pos('filenameutf8=',UTF8LowerCase(LineToParse))>0 then
+          // Let's see if we could extract final filename.
+          // We first look for a UTF8 filename style. If so, take it, if not, search for the ANSI flavor
+          if UTF8Pos('filenameutf8=', UTF8LowerCase(LineToParse)) > 0 then
           begin
-            TargetFile:=ExtractFilePath(TargetFile)+UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign));
+            TargetFile:= ExtractFilePath(TargetFile) + UTF8Copy(LineToParse, (PosOfEqualSign + 1), MaxInt);
           end
           else
           begin
-            if UTF8Pos('filename=',UTF8LowerCase(LineToParse))>0 then
-              TargetFile:=ExtractFilePath(TargetFile)+UTF8Copy(LineToParse,(PosOfEqualSign+1),(UTF8length(LineToParse)-PosOfEqualSign));
+            if Pos('filename=', LowerCase(LineToParse)) > 0 then
+              TargetFile:= ExtractFilePath(TargetFile) + AnsiToUtf8(Copy(LineToParse,(PosOfEqualSign + 1) ,MaxInt));
           end;
 
           //Let's see if we could extract final filesize...

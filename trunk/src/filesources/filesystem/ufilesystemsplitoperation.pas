@@ -76,21 +76,9 @@ end;
 //In the ANSI filename, he puts "_" to replace any UTF8 needed character, not present in regular ANSI set.
 //Let's do the same!
 //
-function ConvertStringToTCStringUTF8CharReplacedByUnderscore(sString: string): string;
-var
-  indexChar:integer;
+function ConvertStringToTCStringUTF8CharReplacedByUnderscore(const sString: string): string;
 begin
-  result:='';
-  {$IFDEF DEBUG}
-  DCDebug(Format('UTF8length(sString): %d',[UTF8length(sString)]));
-  {$ENDIF}
-  for indexChar:=1 to UTF8length(sString) do
-  begin
-    {$IFDEF DEBUG}
-    DCDebug(UTF8copy(sString,indexChar,1));
-    {$ENDIF}
-    if UTF8copy(sString,indexChar,1)=UTF8ToAnsi(UTF8copy(sString,indexChar,1)) then result:=result+UTF8copy(sString,indexChar,1) else result:=result+'_';
-  end;
+  Result:= StringReplace(Utf8ToAnsi(sString), '?', '_', [rfReplaceAll]);
 end;
 
 procedure TFileSystemSplitOperation.Initialize;
@@ -212,7 +200,7 @@ begin
           if RequireACRC32VerificationFile then
           begin
             //We just mimic TC who set in uppercase the "CRC" extension if the filename (without extension!) is made all with capital letters.
-            if SourceFile.NameNoExt = UpperCase(SourceFile.NameNoExt) then
+            if SourceFile.NameNoExt = UTF8UpperCase(SourceFile.NameNoExt) then
               SummaryFilename:= FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + 'CRC'
             else
               SummaryFilename:= FTargetpath + SourceFile.NameNoExt + ExtensionSeparator + 'crc';
