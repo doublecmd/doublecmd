@@ -18,7 +18,7 @@ unit uShowMsg;
 interface
 
 uses
-  Forms, Classes;
+  Forms, Classes, DCBasicTypes;
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
@@ -41,6 +41,7 @@ type
     procedure SyncMsgBox;
     procedure SyncMessageBox;
     procedure SyncInputQuery;
+    procedure SyncMessageChoiceBox;
   protected
     FThread: TThread;
     FCaption,
@@ -54,11 +55,13 @@ type
     FInputQueryResult: Boolean;
     FMsgBoxResult: TMyMsgResult;
     FMessageBoxResult: LongInt;
+    FChoices: TDynamicStringArray;
   public
     constructor Create(AThread: TThread);
     destructor Destroy;override;
     function ShowMsgBox(const sMsg: UTF8String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton) : TMyMsgResult;
     function ShowMessageBox(const AText, ACaption: UTF8String; Flags: LongInt): LongInt;
+    function ShowMessageChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer;
     function ShowInputQuery(const ACaption, APrompt: UTF8String; MaskInput: Boolean; var Value: UTF8String) : Boolean;
   end;
 
@@ -81,6 +84,9 @@ function MsgBox(const sMsg: UTF8String; const Buttons: array of TMyMsgButton; Bu
 function MsgBox(Thread: TThread; const sMsg: UTF8String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
 
 function MsgTest:TMyMsgResult;
+
+function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer; overload;
+function MsgChoiceBox(Thread: TThread; const Message: String; Buttons: TDynamicStringArray): Integer; overload;
 
 function ShowMessageBox(const AText, ACaption: UTF8String; Flags: LongInt): LongInt; overload;
 function ShowMessageBox(Thread: TThread; const AText, ACaption: UTF8String; Flags: LongInt): LongInt; overload;
@@ -125,6 +131,11 @@ begin
   FInputQueryResult := LCLIntf.RequestInput(FCaption, FMessage, FMaskInput, FValue);
 end;
 
+procedure TDialogMainThread.SyncMessageChoiceBox;
+begin
+  FMessageBoxResult:= MsgChoiceBox(FMessage, FChoices);
+end;
+
 constructor TDialogMainThread.Create(AThread : TThread);
 begin
   FThread:= AThread;
@@ -163,6 +174,17 @@ begin
   FFlags:= Flags;
 
   TThread.Synchronize(FThread, SyncMessageBox);
+
+  Result:= FMessageBoxResult;
+end;
+
+function TDialogMainThread.ShowMessageChoiceBox(const Message: String;
+  Buttons: TDynamicStringArray): Integer;
+begin
+  FMessage:= Message;
+  FChoices:= Buttons;
+
+  TThread.Synchronize(FThread, SyncMessageChoiceBox);
 
   Result:= FMessageBoxResult;
 end;
@@ -604,6 +626,77 @@ begin
     finally
       FreeAndNil(frmDialog);
     end; // with frmDialog
+end;
+
+function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer;
+const
+  cButtonSpace = 8;
+var
+  Index: Integer;
+  frmMsg: TfrmMsg;
+  CaptionWidth: Integer;
+  MinButtonWidth: Integer;
+begin
+  frmMsg:= TfrmMsg.Create(Application);
+  try
+    frmMsg.BorderStyle:= bsSingle;
+    frmMsg.Position:= poScreenCenter;
+    frmMsg.BorderIcons:= [biSystemMenu];
+    frmMsg.Caption:= Application.Title;
+
+    frmMsg.lblMsg.WordWrap:= True;
+    frmMsg.lblMsg.Caption:= Message;
+    frmMsg.Constraints.MaxWidth:= 600;
+
+    // Get default button width
+    with TButton.Create(nil) do
+    begin
+      MinButtonWidth:= GetDefaultWidth;
+      Free;
+    end;
+
+    // Calculate minimum button width
+    for Index:= Low(Buttons) to High(Buttons) do
+    begin
+      CaptionWidth:= frmMsg.Canvas.TextWidth(Buttons[Index]);
+      if CaptionWidth >= (MinButtonWidth - cButtonSpace) then
+        MinButtonWidth:= CaptionWidth + cButtonSpace;
+    end;
+
+    // Add all buttons
+    for Index:= Low(Buttons) to High(Buttons) do
+    begin
+      with TButton.Create(frmMsg) do
+      begin
+        Tag:= Index;
+        AutoSize:= True;
+        Caption:= Buttons[Index];
+        Parent:= frmMsg.pnlButtons;
+        OnClick:= frmMsg.ButtonClick;
+        Constraints.MinWidth:= MinButtonWidth;
+      end;
+    end;
+
+    frmMsg.ShowModal;
+    Result:= frmMsg.iSelected;
+
+  finally
+    frmMsg.Free;
+  end;
+end;
+
+function MsgChoiceBox(Thread: TThread; const Message: String;
+  Buttons: TDynamicStringArray): Integer;
+var
+  DialogMainThread : TDialogMainThread;
+begin
+  Result := -1;
+  DialogMainThread:= TDialogMainThread.Create(Thread);
+  try
+    Result:= DialogMainThread.ShowMessageChoiceBox(Message, Buttons);
+  finally
+    DialogMainThread.Free;
+  end;
 end;
 
 procedure msgLoadLng;

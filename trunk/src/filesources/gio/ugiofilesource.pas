@@ -75,7 +75,8 @@ implementation
 uses
   DCFileAttributes, DCDateTimeUtils, uGioListOperation, uGioCopyOperation,
   uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
-  uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg;
+  uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg,
+  DCBasicTypes, DCStrUtils, uShowMsg;
 
 { TGioFileSource }
 
@@ -234,6 +235,37 @@ begin
   g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
 end;
 
+procedure ask_question_cb(op: PGMountOperation;
+                          const message: Pgchar;
+                          const choices: PPgchar;
+                          user_data: gpointer);  cdecl;
+var
+  len: Integer = 0;
+  choice: Integer = -1;
+  buttons: TDynamicStringArray;
+begin
+  g_print('(WW) ask_question_cb: message = "%s"\n', [message]);
+
+  while (choices[len] <> nil) do
+  begin
+    AddString(buttons, StrPas(choices[len]));
+    g_print('(WW) ask_question_cb: choice[%d] = "%s"\n', [len, choices[len]]);
+    Inc(len);
+  end;
+
+  DCDebug('  (II) Spawning callback_ask_question...');
+  // At this moment, only SFTP uses ask_question and the second button is cancellation
+  choice:= MsgChoiceBox(nil, message, buttons);
+  g_print('    (II) Received choice = %d\n', [choice]);
+
+  if (choice < 0) then
+    g_mount_operation_reply(op, G_MOUNT_OPERATION_ABORTED)
+  else begin
+    g_mount_operation_set_choice(op, choice);
+    g_mount_operation_reply(op, G_MOUNT_OPERATION_HANDLED);
+  end;
+end;
+
 procedure mount_done_cb (object_: PGObject;
                            res: PGAsyncResult;
                            user_data: gpointer); cdecl;
@@ -261,8 +293,8 @@ var
   Operation: PGMountOperation;
 begin
   Operation:= g_mount_operation_new();
-  g_signal_connect_data (Operation, 'ask-password', TGCallback(@ask_password_cb), Self, nil, 0);
-  //g_signal_connect (op, "ask-question", (GCallback)ask_question_cb, globs);
+  g_signal_connect_data(Operation, 'ask-password', TGCallback(@ask_password_cb), Self, nil, 0);
+  g_signal_connect_data(Operation, 'ask-question', TGCallback(@ask_question_cb), Self, nil, 0);
   MountTry:= 0;
   MountError:= nil;
   MountLoop:= TSimpleEvent.Create;
