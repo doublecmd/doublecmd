@@ -273,7 +273,7 @@ begin
           end;
       end;
       // Save created thumb to cache
-      if gThumbSave and Assigned(Result) then
+      if gThumbSave and Assigned(Result) and not IsInPath(FThumbPath, sFullPathToFile, False, False) then
       begin
         Picture.Bitmap.Assign(Result);
         sExt:= GetPreviewFileExt(sExt);
@@ -354,4 +354,4 @@ begin
 end;
 
 end.
-
+
