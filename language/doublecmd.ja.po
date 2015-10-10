@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2015-09-27 22:42+0900\n"
+"PO-Revision-Date: 2015-10-10 07:09+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 日本語\n"
 "Language: ja\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -2710,7 +2710,7 @@ msgstr "右側パネルのサムネール表示"
 
 #: tfrmmain.actrunterm.caption
 msgid "Run &Terminal"
-msgstr "端末をここで実行(&T)"
+msgstr "端末をこのディレクトリで実行(&T)"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -6842,8 +6842,6 @@ msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
@@ -6873,8 +6871,6 @@ msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
@@ -6909,8 +6905,6 @@ msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
@@ -6940,8 +6934,6 @@ msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
@@ -8731,9 +8723,8 @@ msgid "Confirming command line and parameters"
 msgstr "コマンドラインとパラメータを確認中"
 
 #: ulng.rscopynametemplate
-#, fuzzy,badformat
 msgid "Copy (%d) %s"
-msgstr "コピー（％d）％s"
+msgstr "コピー(%d) %s"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
@@ -9449,9 +9440,8 @@ msgid "Enter name:"
 msgstr "ファイルの種類名を入力："
 
 #: ulng.rsmsgenternewfiletypename
-#, fuzzy,badformat
 msgid "Enter name of new file type to create for extension \"%s\""
-msgstr "拡張子＜＞のための新しいファイルタイプを入力"
+msgstr "拡張子＜%s＞のための新しいファイルタイプ名を入力"
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -10268,9 +10258,8 @@ msgstr ""
 "終了前に保存しますか？\n"
 
 #: ulng.rsmsgthisisnowinclipboard
-#, fuzzy,badformat
 msgid "\"%s\" is now in the clipboard"
-msgstr "＜”%”＞がクリップボードにあります"
+msgstr "＜”%s”＞が現在クリップボードにあります"
 
 #: ulng.rsmsgtitleextnotinfiletype
 msgid "Extension of selected file is not in any recognized file types"
@@ -10643,14 +10632,14 @@ msgstr "プラグイン＜%s＞を右に関連づけ："
 msgid "First;Last;"
 msgstr "最初;最後;"
 
-# 「アルファベット順（言語最初）」を選んでも、言語は最後になる。恐らく、ソートのキーの間違い。日本語訳はどちらでもよいように、曖昧にしました。
+# 「アルファベット順（言語最初）」を選んでも、言語は最後になる。恐らく、ソートのキーの間違い。
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr "クラッシックな順番;レガシーな順番;アルファベットの順番（表示言語は最初/最後に）"
+msgstr "クラッシックな順番;レガシーな順番;アルファベットの順番"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr "アクティブパネルを左に、非アクティブパネルを右に（遺産的な仕様）;左のパネルを左に、右を右に"
+msgstr "アクティブパネルを左に、非アクティブパネルを右に（レガシーな仕様）;左のパネルを左に、右のパネルを右に"
 
 #: ulng.rsoptdisable
 msgid "Disable"
