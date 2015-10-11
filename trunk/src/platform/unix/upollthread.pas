@@ -55,6 +55,7 @@ begin
     PollThread:= TPollThread.Create;
   end;
   PollThread.AddPoll(fd, events, handler, CloseOnDestroy);
+  Print('AddPoll ' + IntToStr(fd));
 end;
 
 procedure RemovePoll(fd: cint);
@@ -69,6 +70,7 @@ begin
       Break;
     end;
   end;
+  Print('RemovePoll ' + IntToStr(fd));
 end;
 
 { TPollThread }
