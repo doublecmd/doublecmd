@@ -237,7 +237,7 @@ begin
         uUDev.AddObserver(@FakeClass.OnUDisksNotify);
     end;
     DCDebug('Detecting mounts through /proc/self/mounts');
-    MountWatcher:= TMountWatcher.Create(True);
+    MountWatcher:= TMountWatcher.Create;
     MountWatcher.OnMountEvent:= @FakeClass.OnMountWatcherNotify;
     MountWatcher.Start;
   end;
