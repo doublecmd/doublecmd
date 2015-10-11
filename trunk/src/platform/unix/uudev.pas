@@ -49,20 +49,21 @@ var
 implementation
 
 uses
-  DynLibs, DCOSUtils, DCStrUtils, uDebug;
+  DynLibs, DCOSUtils, uDebug, uPollThread;
 
 type
 
-  { TMonitorThread }
+  { TMonitorObject }
 
-  TMonitorThread = class(TThread)
+  TMonitorObject = class
   private
     FAction: String;
     FDevicePath: String;
   private
     procedure ReceiveDevice;
-  protected
-    procedure Execute; override;
+    procedure Handler(Sender: TObject);
+  public
+    constructor Create;
   end;
 
 type
@@ -120,7 +121,7 @@ var
   udev: Pudev = nil;
   libudev: TLibHandle = NilHandle;
   udev_monitor: Pudev_monitor = nil;
-  udev_monitor_thread: TMonitorThread = nil;
+  udev_monitor_object: TMonitorObject = nil;
   observers: TUDisksObserverList = nil;
 
 const
@@ -526,7 +527,7 @@ begin
     Return:= udev_monitor_enable_receiving(udev_monitor);
     Assert(Return = 0, 'udev_monitor_enable_receiving');
     observers:= TUDisksObserverList.Create;
-    udev_monitor_thread:= TMonitorThread.Create(False);
+    udev_monitor_object:= TMonitorObject.Create;
   except
     Result:= False;
     udev_monitor_unref(udev_monitor);
@@ -536,7 +537,7 @@ end;
 
 procedure Finalize;
 begin
-  FreeAndNil(udev_monitor_thread);
+  FreeAndNil(udev_monitor_object);
   FreeAndNil(observers);
   udev_monitor_unref(udev_monitor);
 end;
@@ -554,7 +555,7 @@ end;
 
 { TMonitorThread }
 
-procedure TMonitorThread.ReceiveDevice;
+procedure TMonitorObject.ReceiveDevice;
 var
   I: Integer;
   Method: TUDisksMethod;
@@ -573,42 +574,33 @@ begin
     Observers[I](Method, FDevicePath);
 end;
 
-procedure TMonitorThread.Execute;
+procedure TMonitorObject.Handler(Sender: TObject);
 var
-  fds: TFDSet;
-  fd, ret: cint;
   device: Pudev_device;
 begin
-  // Get the file descriptor (fd) for the monitor
-  // This fd will get passed to select()
-  fd := udev_monitor_get_fd(udev_monitor);
-  Print('Begin monitoring');
-  while not Terminated do
+  // Make the call to ReceiveDevice the device
+  // select() ensured that this will not block
+  device:= udev_monitor_receive_device(udev_monitor);
+  if Assigned(device) then
   begin
-    fpFD_ZERO(fds);
-    fpFD_SET(fd, fds);
-    // Wait device event
-    ret:= fpSelect(fd + 1, @fds, nil, nil, 100);
-    // Check if our file descriptor has received data
-    if (ret > 0) and (fpFD_ISSET(fd, fds) = 1) then
-      begin
-    	// Make the call to ReceiveDevice the device
-      	// select() ensured that this will not block
-      	device:= udev_monitor_receive_device(udev_monitor);
-      	if Assigned(device) then
-        begin
-          FAction:= udev_device_get_action(device);
-          FDevicePath:= udev_device_get_syspath(device);
-          Synchronize(ReceiveDevice);
-      	  udev_device_unref(device);
-      	end;
-      end
-    else if (ret = -1) then
-      begin
-        Print(SysErrorMessage(fpGetErrNo));
-        Exit;
-      end;
-  end; // while
+    FAction:= udev_device_get_action(device);
+    FDevicePath:= udev_device_get_syspath(device);
+    TThread.Synchronize(nil, ReceiveDevice);
+    udev_device_unref(device);
+  end;
+end;
+
+constructor TMonitorObject.Create;
+var
+  fd: cint;
+begin
+  // Get the file descriptor (fd) for the monitor
+  // This fd will get passed to poll()
+  fd := udev_monitor_get_fd(udev_monitor);
+
+  AddPoll(fd, POLLIN, Handler, True);
+
+  Print('Begin monitoring');
 end;
 
 initialization
