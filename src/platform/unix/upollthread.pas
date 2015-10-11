@@ -8,6 +8,7 @@ uses
   Classes, SysUtils, Unix, BaseUnix;
 
 procedure AddPoll(fd: cint; events: cshort; handler: TNotifyEvent; CloseOnDestroy: Boolean = True);
+procedure RemovePoll(fd: cint);
 
 implementation
 
@@ -54,6 +55,20 @@ begin
     PollThread:= TPollThread.Create;
   end;
   PollThread.AddPoll(fd, events, handler, CloseOnDestroy);
+end;
+
+procedure RemovePoll(fd: cint);
+var
+  Index: Integer;
+begin
+  for Index:= 0 to PollThread.FCount - 1 do
+  begin
+    if PollThread.FDesc[Index].fd = fd then
+    begin
+      PollThread.FDesc[Index].events:= 0;
+      Break;
+    end;
+  end;
 end;
 
 { TPollThread }

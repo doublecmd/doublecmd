@@ -23,7 +23,6 @@ type
     FServernameByUser: String;
     {$IF DEFINED(UNIX)}
     FMyProgramCreateSemaphore:Boolean;
-    FPeekThread: TThreadID;
     {$ENDIF}
 
     procedure OnNative(Sender: TObject);
@@ -70,27 +69,9 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows,
   {$ELSEIF DEFINED(UNIX)}
-  ipc, baseunix,
+  ipc, baseunix, uPipeServer,
   {$ENDIF}
   Forms, StrUtils, FileUtil, uGlobs, uDebug;
-
-{$IF DEFINED(UNIX)}
-type
-  TUnixIPCServer = class(TSimpleIPCServer) end;
-
-function PeekMessage(Parameter: Pointer): PtrInt;
-var
-  UnixIPC: TUnixIPCServer absolute Parameter;
-begin
-  Result:= 0;
-  while UnixIPC.Active do
-  begin
-    if UnixIPC.PeekMessage(100, False) then
-      TThread.Synchronize(nil, @UnixIPC.ReadMessage);
-    Sleep(1); // Fix crash under OS X
-  end;
-end;
-{$ENDIF}
 
 { TUniqueInstance }
 
@@ -268,9 +249,6 @@ begin
   FServerIPC.ServerID:= FInstanceName;
   FServerIPC.Global:= True;
   FServerIPC.StartServer;
-  {$IF DEFINED(UNIX)}
-  FPeekThread:= BeginThread(@PeekMessage, FServerIPC);
-  {$ENDIF}
 end;
 
 procedure TUniqueInstance.StopListen;
@@ -278,12 +256,6 @@ begin
   DisposeMutex;
   if FServerIPC = nil then Exit;
   FServerIPC.StopServer;
-  {$IF DEFINED(UNIX)}
-  DCDebug('Waiting for UniqueInstance thread');
-  WaitForThreadTerminate(FPeekThread, 0);
-  DCDebug('Close UniqueInstance thread');
-  CloseThread(FPeekThread);
-  {$ENDIF}
 end;
 
 function TUniqueInstance.isAnotherDCRunningWhileIamRunning:boolean;

@@ -598,7 +598,7 @@ begin
   // This fd will get passed to poll()
   fd := udev_monitor_get_fd(udev_monitor);
 
-  AddPoll(fd, POLLIN, Handler, True);
+  AddPoll(fd, POLLIN, Handler, False);
 
   Print('Begin monitoring');
 end;
