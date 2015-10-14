@@ -82,6 +82,7 @@ begin
             3:
               begin
                 CommandLineParams.Client:= True;
+                CommandLineParams.NoSplash:= True;
               end;
             4:
               begin
@@ -100,7 +101,10 @@ begin
         CommandLineParams.ActiveRight:= (UpperCase(OptArg) = 'R');
       end;
       'T', 't': CommandLineParams.NewTab:= True;
-      'C', 'c': CommandLineParams.Client:= True;
+      'C', 'c': begin
+        CommandLineParams.Client:= True;
+        CommandLineParams.NoSplash:= True;
+      end;
       '?', ':': DCDebug ('Error with opt : ', OptOpt);
     end; { case }
   until Option = EndOfOptions;
