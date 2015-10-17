@@ -49,17 +49,18 @@ begin
     ArchiveType := ExtractOnlyFileExt(ArchiveFileName);
   end;
 
-  // Check if there is a registered WCX plugin for possible archive.
-  Result := FileSourceManager.Find(TWcxArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
-  if not Assigned(Result) then
-  begin
-    if ArchiveSign then
-      Result := TWcxArchiveFileSource.CreateByArchiveSign(SourceFileSource, ArchiveFileName)
-    else
-      Result := TWcxArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
-  end;
-  // Check if there is a registered MultiArc addon for possible archive.
-  if not Assigned(Result) then
+  try
+    // Check if there is a registered WCX plugin for possible archive.
+    Result := FileSourceManager.Find(TWcxArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
+    if not Assigned(Result) then
+    begin
+      if ArchiveSign then
+        Result := TWcxArchiveFileSource.CreateByArchiveSign(SourceFileSource, ArchiveFileName)
+      else
+        Result := TWcxArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
+    end;
+    // Check if there is a registered MultiArc addon for possible archive.
+    if not Assigned(Result) then
     begin
       Result := FileSourceManager.Find(TMultiArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
       if not Assigned(Result) then
@@ -70,6 +71,13 @@ begin
           Result := TMultiArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
       end;
     end;
+  except
+    on E: Exception do
+    begin
+      Result:= nil;
+      msgError(nil, E.Message + LineEnding + ArchiveFileName);
+    end;
+  end;
 end;
 
 function GetArchiveFileSource(SourceFileSource: IFileSource;
