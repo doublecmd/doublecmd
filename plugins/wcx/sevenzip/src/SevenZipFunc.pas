@@ -113,8 +113,11 @@ begin
     Result:= E_EWRITE
   else if E is ESevenZipAbort then
     Result:= E_EABORTED
-  else
+  else if Pos(HexStr(E_OUTOFMEMORY, 8), E.Message) > 0 then
+    Result:= E_NO_MEMORY
+  else begin
     Result:= E_UNKNOWN_FORMAT;
+  end;
 end;
 
 function WinToDosTime(const WinTime: TFILETIME; var DosTime: Cardinal): LongBool;
