@@ -5382,8 +5382,7 @@ end;
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
 var
   Index: Integer;
-  DrivePath: String;
-  HistoryPath: String;
+  DriveIndex: Integer;
   FoundPath: Boolean = False;
   aFileView, OtherFileView: TFileView;
 begin
@@ -5424,17 +5423,19 @@ begin
     else if (gGoToRoot = False) and aFileView.FileSource.IsClass(TFileSystemFileSource) and
             not mbCompareFileNames(ExtractRootDir(aFileView.CurrentPath), ExcludeTrailingPathDelimiter(Drive^.Path)) then
     begin
-      DrivePath:= IncludeTrailingPathDelimiter(Drive^.Path);
       for Index:= 0 to glsDirHistory.Count - 1 do
       begin
-        HistoryPath:= Copy(glsDirHistory[Index], 1, Length(DrivePath));
-        if mbCompareFileNames(HistoryPath, DrivePath) then
+        DriveIndex:= FindMatchingDrive(glsDirHistory[Index]);
+        if (DriveIndex >= 0) and (DriveIndex < DrivesList.Count) then
         begin
-          if mbDirectoryExists(ExcludeBackPathDelimiter(glsDirHistory[Index])) then
+          if mbCompareFileNames(Drive^.Path, DrivesList[DriveIndex]^.Path) then
           begin
-            SetFileSystemPath(aFileView, glsDirHistory[Index]);
-            FoundPath:= True;
-            Break;
+            if mbDirectoryExists(ExcludeBackPathDelimiter(glsDirHistory[Index])) then
+            begin
+              SetFileSystemPath(aFileView, glsDirHistory[Index]);
+              FoundPath:= True;
+              Break;
+            end;
           end;
         end;
       end;
