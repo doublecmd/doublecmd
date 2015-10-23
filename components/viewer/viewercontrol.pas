@@ -162,7 +162,7 @@ type
   protected
     FEncoding:           TViewerEncoding;
     FViewerMode:         TViewerMode;
-    FFileName:           UTF8String;
+    FFileName:           String;
     FFileHandle:         THandle;
     FFileSize:           Int64;
     FMappingHandle:      THandle;
@@ -279,15 +279,15 @@ type
     procedure WriteText;
     procedure WriteHex; virtual;
     procedure WriteBin;
-    function TransformText(const sText: UTF8String; const Xoffset: Integer): UTF8String;
+    function TransformText(const sText: String; const Xoffset: Integer): String;
     function TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
     function TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
 
     procedure AddLineOffset(iOffset: PtrInt); inline;
 
-    function MapFile(const sFileName: UTF8String): Boolean;
+    function MapFile(const sFileName: String): Boolean;
     procedure UnMapFile;
-    procedure SetFileName(const sFileName: UTF8String);
+    procedure SetFileName(const sFileName: String);
 
     procedure UpdateScrollbars;
 
@@ -311,7 +311,7 @@ type
        then it's possible there was no appropriate UTF-8 character for the
        next character of the current encoding.
     }
-    function GetNextCharAsUtf8(const iPosition: PtrInt; out CharLenInBytes: Integer): UTF8String;
+    function GetNextCharAsUtf8(const iPosition: PtrInt; out CharLenInBytes: Integer): String;
 
     procedure ReReadFile;
     function IsFileOpen: Boolean; inline;
@@ -398,9 +398,9 @@ type
     function IsVisible(const aPosition: PtrInt): Boolean; overload;
     procedure MakeVisible(const aPosition: PtrInt);
 
-    function ConvertToUTF8(const sText: AnsiString): UTF8String;
-    function ConvertFromUTF8(const sText: UTF8String): AnsiString;
-    function FindUtf8Text(iStartPos: PtrInt; const sSearchText: UTF8String;
+    function ConvertToUTF8(const sText: AnsiString): String;
+    function ConvertFromUTF8(const sText: String): AnsiString;
+    function FindUtf8Text(iStartPos: PtrInt; const sSearchText: String;
                           bCaseSensitive: Boolean; bSearchBackwards: Boolean): PtrInt;
 
     procedure ResetEncoding;
@@ -418,7 +418,7 @@ type
 
   published
     property ViewerMode: TViewerMode Read FViewerMode Write SetViewerMode default vmWrap;
-    property FileName: UTF8String Read FFileName Write SetFileName;
+    property FileName: String Read FFileName Write SetFileName;
     property Encoding: TViewerEncoding Read FEncoding Write SetEncoding default veAutoDetect;
     property OnPositionChanged: TNotifyEvent Read FOnPositionChanged Write FOnPositionChanged;
 
@@ -709,7 +709,7 @@ begin
   end;
 end;
 
-function TViewerControl.TransformText(const sText: UTF8String; const Xoffset: Integer): UTF8String;
+function TViewerControl.TransformText(const sText: String; const Xoffset: Integer): String;
 var
   c: AnsiChar;
   i: Integer;
@@ -1176,7 +1176,7 @@ begin
   HScroll (FHLowEnd-FHPosition);
 end;
 
-procedure TViewerControl.SetFileName(const sFileName: UTF8String);
+procedure TViewerControl.SetFileName(const sFileName: String);
 begin
   if not (csDesigning in ComponentState) then
   begin
@@ -1200,7 +1200,7 @@ begin
     FFileName  := sFileName;
 end;
 
-function TViewerControl.MapFile(const sFileName: UTF8String): Boolean;
+function TViewerControl.MapFile(const sFileName: String): Boolean;
 
   function ReadFile: Boolean; inline;
   begin
@@ -2361,7 +2361,7 @@ var
     charWidth: Integer;
     len: Integer = 0;
     CharLenInBytes: Integer;
-    s: UTF8String;
+    s: String;
   begin
     i := StartLine;
 
@@ -2726,7 +2726,7 @@ begin
   end;
 end;
 
-function TViewerControl.GetNextCharAsUtf8(const iPosition: PtrInt; out CharLenInBytes: Integer): UTF8String;
+function TViewerControl.GetNextCharAsUtf8(const iPosition: PtrInt; out CharLenInBytes: Integer): String;
 var
   u1: Word;
   s: string;
@@ -2777,7 +2777,7 @@ begin
     Result := '';
 end;
 
-function TViewerControl.ConvertToUTF8(const sText: AnsiString): UTF8String;
+function TViewerControl.ConvertToUTF8(const sText: AnsiString): String;
 begin
   if FEncoding = veAutoDetect then
     FEncoding := DetectEncoding;  // Force detect encoding.
@@ -2800,7 +2800,7 @@ begin
   end;
 end;
 
-function TViewerControl.ConvertFromUTF8(const sText: UTF8String): AnsiString;
+function TViewerControl.ConvertFromUTF8(const sText: String): AnsiString;
 begin
   if FEncoding = veAutoDetect then
     FEncoding := DetectEncoding;  // Force detect encoding.
@@ -3184,17 +3184,17 @@ begin
   end;
 end;
 
-function TViewerControl.FindUtf8Text(iStartPos: PtrInt; const sSearchText: UTF8String;
+function TViewerControl.FindUtf8Text(iStartPos: PtrInt; const sSearchText: String;
                                      bCaseSensitive: Boolean; bSearchBackwards: Boolean): PtrInt;
 var
   SearchTextLength: Integer;
-  sSearchChars: array of UTF8String;
+  sSearchChars: array of String;
   pCurrentAddr, pEndAddr: PtrInt;
   i, charLen: Integer;
 
   function sPos2(pAdr: PtrInt):Boolean;
   var
-    curChr:UTF8String;
+    curChr:String;
     i, charLen: Integer;
   begin
     Result := False;
