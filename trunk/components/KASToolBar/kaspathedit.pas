@@ -44,7 +44,7 @@ type
     FObjectTypes: TObjectTypes;
     FFileSortType: TFileSortType;
   private
-    procedure AutoComplete(const Path: UTF8String);
+    procedure AutoComplete(const Path: String);
     procedure SetObjectTypes(const AValue: TObjectTypes);
     procedure FormChangeBoundsEvent(Sender: TObject);
     procedure ListBoxClick(Sender: TObject);
@@ -109,10 +109,10 @@ end;
 
 { TKASPathEdit }
 
-procedure TKASPathEdit.AutoComplete(const Path: UTF8String);
+procedure TKASPathEdit.AutoComplete(const Path: String);
 var
   I: LongWord;
-  BasePath: UTF8String;
+  BasePath: String;
 begin
   FListBox.Clear;
   if Pos(PathDelim, Path) > 0 then

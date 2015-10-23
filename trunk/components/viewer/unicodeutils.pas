@@ -67,7 +67,7 @@ function UTF8ToUCS4(const UTF8Text: String): UCS4String;
 {en
    Replaces invalid UTF-8 characters with '?'.
 }
-function Utf8ReplaceBroken(const s: UTF8String): UTF8String;
+function Utf8ReplaceBroken(const s: String): String;
 
 implementation
 
@@ -482,7 +482,7 @@ begin
   SetLength(Result, Index);
 end;
 
-function Utf8ReplaceBroken(const s: UTF8String): UTF8String;
+function Utf8ReplaceBroken(const s: String): String;
 var
   Src, Dst, LastGoodPos: PByte;
   BytesLeft: Integer;
