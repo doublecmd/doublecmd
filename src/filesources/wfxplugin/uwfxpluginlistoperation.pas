@@ -18,9 +18,9 @@ type
   private
     FWfxPluginFileSource: IWfxPluginFileSource;
     FCallbackDataClass: TCallbackDataClass;
-    FCurrentPath: UTF8String;
+    FCurrentPath: String;
   protected
-    function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
+    function UpdateProgress(SourceName, TargetName: String; PercentDone: Integer): Integer;
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
     destructor Destroy; override;
@@ -35,7 +35,7 @@ implementation
 uses
   uOSUtils, DCStrUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
 
-function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: UTF8String;
+function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: String;
                                                 PercentDone: Integer): Integer;
 begin
   logWrite(rsMsgLoadingFileList + IntToStr(PercentDone) + '%', lmtInfo, False, False);

@@ -27,14 +27,14 @@ type
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
-    procedure CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
+    procedure CheckForErrors(const FileName: String; ExitStatus: LongInt);
 
   protected
     FExProcess: TExProcess;
-    FTempFile: UTF8String;
+    FTempFile: String;
     FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
-    procedure UpdateProgress(SourceName: UTF8String; IncSize: Int64);
+    procedure UpdateProgress(SourceName: String; IncSize: Int64);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
                                                     AState: TFileSourceOperationState);
 
@@ -97,7 +97,7 @@ var
   MultiArcItem: TMultiArcItem;
   aFile: TFile;
   sReadyCommand,
-  sCommandLine: UTF8String;
+  sCommandLine: String;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
   sCommandLine:= MultiArcItem.FTest;
@@ -194,7 +194,7 @@ begin
     logWrite(Thread, str, lmtInfo, True, False);
 end;
 
-procedure TMultiArchiveTestArchiveOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
+procedure TMultiArchiveTestArchiveOperation.CheckForErrors(const FileName: String; ExitStatus: LongInt);
 begin
   if ExitStatus > FErrorLevel then
     begin
@@ -209,7 +209,7 @@ begin
     end;
 end;
 
-procedure TMultiArchiveTestArchiveOperation.UpdateProgress(SourceName: UTF8String; IncSize: Int64);
+procedure TMultiArchiveTestArchiveOperation.UpdateProgress(SourceName: String; IncSize: Int64);
 begin
   with FStatistics do
   begin

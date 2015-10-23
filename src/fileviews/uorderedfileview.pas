@@ -45,8 +45,8 @@ type
     pmOperationsCancel: TPopupMenu;
     procedure lblFilterClick(Sender: TObject);
     procedure pmOperationsCancelClick(Sender: TObject);
-    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions);
-    procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
+    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions);
+    procedure quickSearchChangeFilter(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions);
     procedure quickSearchExecute(Sender: TObject);
     procedure quickSearchHide(Sender: TObject);
     procedure UpdateRangeSelectionState;
@@ -84,7 +84,7 @@ type
        Search and position in a file that matches name taking into account
        passed options.
     }
-    procedure SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions);
+    procedure SearchFile(SearchTerm: String; SearchOptions: TQuickSearchOptions);
     procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
@@ -452,7 +452,7 @@ begin
   end;
 end;
 
-procedure TOrderedFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
+procedure TOrderedFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions);
 begin
   Active := True;
 
@@ -466,7 +466,7 @@ begin
   lblFilter.Visible := Filtered;
 end;
 
-procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions);
+procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions);
 var
   Index, MaybeFoundIndex: PtrInt;
 begin
@@ -499,17 +499,17 @@ begin
     SetFocus;
 end;
 
-procedure TOrderedFileView.SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions);
+procedure TOrderedFileView.SearchFile(SearchTerm: String; SearchOptions: TQuickSearchOptions);
 var
   StartIndex, Index: PtrInt;
   Result: Boolean;
   sFileName,
   sSearchName,
   sSearchNameNoExt,
-  sSearchExt : UTF8String;
+  sSearchExt : String;
   AFile: TFile;
   uFileName: UnicodeString;
-  sPy: UTF8String;
+  sPy: String;
   Mask: TMask;
 
   function NextIndexWrap(Index: PtrInt): PtrInt;

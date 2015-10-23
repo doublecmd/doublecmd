@@ -36,11 +36,11 @@ uses
 {en
    Get file mime type.
 }
-function GetFileMimeType(const FileName: UTF8String): UTF8String;
+function GetFileMimeType(const FileName: String): String;
 {en
    Get file mime type with parents.
 }
-function GetFileMimeTypes(const FileName: UTF8String): TDynamicStringArray;
+function GetFileMimeTypes(const FileName: String): TDynamicStringArray;
 
 implementation
 
@@ -70,7 +70,7 @@ const
 var
   I: Integer;
   Cache: PMimeCache;
-  FileName: UTF8String;
+  FileName: String;
   Path: TDynamicStringArray;
 begin
   caches := TFPList.Create;
@@ -173,13 +173,13 @@ end;
  * efifciency, too. Otherwise, the function will try to get the basename of
  * the specified file again.
 *)
-function mime_type_get_by_file(const filepath: UTF8String; max_extent: cint): UTF8String;
+function mime_type_get_by_file(const filepath: String; max_extent: cint): String;
 var
   data: PByte;
   i, len: cint;
   fd: cint = -1;
   mime_type: PAnsiChar;
-  FileName: UTF8String;
+  FileName: String;
 begin
   FileName := ExtractFileName(FilePath);
   mime_type := mime_type_get_by_filename(PAnsiChar(FileName));
@@ -278,7 +278,7 @@ begin
   end;
 end;
 
-function GetFileMimeType(const FileName: UTF8String): UTF8String;
+function GetFileMimeType(const FileName: String): String;
 var
   Stat: TStat;
   MaxExtent: LongWord;
@@ -309,7 +309,7 @@ begin
     Result:= 'inode/socket';
 end;
 
-function GetFileMimeTypes(const FileName: UTF8String): TDynamicStringArray;
+function GetFileMimeTypes(const FileName: String): TDynamicStringArray;
 var
   MimeType: String;
 begin

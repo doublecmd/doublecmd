@@ -268,7 +268,7 @@ const
   DCIconRequired = True;
 var
   I, iDummy: integer;
-  sAct: UTF8String;
+  sAct: String;
   iMenuPositionInsertion: integer = 0;
   Always_Expanded_Action_Count: integer = 0;
   liiSource: TLazIntfImage = nil;

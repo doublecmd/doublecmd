@@ -25,8 +25,8 @@ type
     CancelSearchMode: TQuickSearchCancelMode;
   end;
 
-  TOnChangeSearch = procedure(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions) of Object;
-  TOnChangeFilter = procedure(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions) of Object;
+  TOnChangeSearch = procedure(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions) of Object;
+  TOnChangeFilter = procedure(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions) of Object;
   TOnExecute = procedure(Sender: TObject) of Object;
   TOnHide = procedure(Sender: TObject) of Object;
 

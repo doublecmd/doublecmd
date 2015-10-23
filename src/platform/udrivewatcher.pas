@@ -73,7 +73,7 @@ type
   TFakeClass = class
   public
     procedure OnMountWatcherNotify(Sender: TObject);
-    procedure OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
+    procedure OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: String);
   end;
 {$ENDIF}
 
@@ -322,7 +322,7 @@ begin
   Result := False;
 end;
 
-function UDisksGetDeviceInfo(const DeviceObjectPath: UTF8String;
+function UDisksGetDeviceInfo(const DeviceObjectPath: String;
                              const Devices: TUDisksDevicesInfos;
                              out DeviceInfo: TUDisksDeviceInfo): Boolean;
 var
@@ -689,7 +689,7 @@ var
   end;
 
   function UDisksGetDevice(const UDisksDevices: TUDisksDevicesInfos;
-                           var DeviceFile: String; out UDisksDeviceObject: UTF8String): Boolean;
+                           var DeviceFile: String; out UDisksDeviceObject: String): Boolean;
   begin
     // Handle "/dev/", "UUID=" and "LABEL=" through UDisks if available.
     if StrBegins(DeviceFile, 'UUID=') then
@@ -731,7 +731,7 @@ var
   I: Integer;
   UDisksDevices: TUDisksDevicesInfos;
   UDisksDevice: TUDisksDeviceInfo;
-  UDisksDeviceObject: UTF8String;
+  UDisksDeviceObject: String;
   DeviceFile: String;
   MountPoint: String;
   HandledByUDisks: Boolean = False;
@@ -1086,7 +1086,7 @@ begin
   DoDriveChanged(ADrive);
 end;
 
-procedure TFakeClass.OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
+procedure TFakeClass.OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: String);
 var
   Result: Boolean;
   ADrive: PDrive = nil;

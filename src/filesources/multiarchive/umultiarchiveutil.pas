@@ -30,7 +30,7 @@ type
   { TOutputParser }
 
   TOutputParser = class
-    FPassword: UTF8String;
+    FPassword: String;
     FMultiArcItem: TMultiArcItem;
     FExProcess: TExProcess;
   private
@@ -51,36 +51,36 @@ type
     FStartParsing: boolean;
     FFormatIndex: longint;
     FArchiveItem: TArchiveItem;
-    FArchiveName: UTF8String;
+    FArchiveName: String;
     FGetFileAttr: TGetFileAttr;
     FGetFileName: TGetFileName;
   protected
     procedure SplitFileName;
     function FixPosition(const Str: String; Key: TKeyPos): LongInt;
     function KeyPos(Key: char; out Position: TKeyPos): boolean;
-    function GetKeyValue(const str: String; Key: TKeyPos): UTF8String;
+    function GetKeyValue(const str: String; Key: TKeyPos): String;
     procedure OnReadLn(str: string);
     procedure OnQueryString(str: string);
     function CheckOut(const SubStr, Str: string): boolean;
   public
-    constructor Create(aMultiArcItem: TMultiArcItem; const anArchiveName: UTF8String);
+    constructor Create(aMultiArcItem: TMultiArcItem; const anArchiveName: String);
     destructor Destroy; override;
     procedure Prepare;
     procedure Execute;
-    property Password: UTF8String read FPassword write FPassword;
+    property Password: String read FPassword write FPassword;
     property OnGetArchiveItem: TOnGetArchiveItem read FOnGetArchiveItem write FOnGetArchiveItem;
   end;
 
-function ExtractErrorLevel(var Command: UTF8String): LongInt;
+function ExtractErrorLevel(var Command: String): LongInt;
 
-function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
+function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: String;
                                aFiles: TFiles = nil;
-                               sFileName: UTF8String = '';
-                               aDestPath: UTF8String = '';
-                               sTempFile: UTF8String = '';
-                               sPassword: UTF8String = '';
-                               sVolumeSize: UTF8String = '';
-                               sCustomParams: UTF8String = ''): string;
+                               sFileName: String = '';
+                               aDestPath: String = '';
+                               sTempFile: String = '';
+                               sPassword: String = '';
+                               sVolumeSize: String = '';
+                               sCustomParams: String = ''): string;
 
 implementation
 
@@ -178,7 +178,7 @@ begin
     end;
 end;
 
-function TOutputParser.GetKeyValue(const str: String; Key: TKeyPos): UTF8String;
+function TOutputParser.GetKeyValue(const str: String; Key: TKeyPos): String;
 begin
   Result:= Copy(str, FixPosition(str, Key), Key.Count);
 end;
@@ -279,7 +279,7 @@ begin
 end;
 
 constructor TOutputParser.Create(aMultiArcItem: TMultiArcItem;
-  const anArchiveName: UTF8String);
+  const anArchiveName: String);
 begin
   FMultiArcItem := aMultiArcItem;
   FArchiveName:= anArchiveName;
@@ -331,7 +331,7 @@ end;
 
 procedure TOutputParser.Prepare;
 var
-  sCommandLine: UTF8String;
+  sCommandLine: String;
 begin
   FStartParsing:= False;
   FFormatIndex:= 0;
@@ -351,7 +351,7 @@ begin
   end;
 end;
 
-function ExtractErrorLevel(var Command: UTF8String): LongInt;
+function ExtractErrorLevel(var Command: String): LongInt;
 var
   I, J: Integer;
   sErrorLevel: String;
@@ -369,14 +369,14 @@ begin
     end;
 end;
 
-function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
+function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: String;
                                aFiles: TFiles;
-                               sFileName: UTF8String;
-                               aDestPath: UTF8String;
-                               sTempFile: UTF8String;
-                               sPassword: UTF8String;
-                               sVolumeSize: UTF8String;
-                               sCustomParams: UTF8String): string;
+                               sFileName: String;
+                               aDestPath: String;
+                               sTempFile: String;
+                               sPassword: String;
+                               sVolumeSize: String;
+                               sCustomParams: String): string;
 type
   TFunctType = (ftNone, ftArchiverLongName, ftArchiverShortName,
     ftArchiveLongName, ftArchiveShortName,
@@ -401,7 +401,7 @@ var
   sOutput: string = '';
   parseStartIndex: integer;
 
-  function BuildName(const sFileName: UTF8String): UTF8String;
+  function BuildName(const sFileName: String): String;
   begin
     Result := sFileName;
     if fmNameOnly in state.FuncModifiers then
@@ -420,7 +420,7 @@ var
       Result := UTF8ToConsole(Result);
   end;
 
-  function BuildFileList(bShort: boolean): UTF8String;
+  function BuildFileList(bShort: boolean): String;
   var
     I: integer;
     FileList: TStringListEx;
@@ -445,7 +445,7 @@ var
     FileList.Free;
   end;
 
-  function BuildOutput: UTF8String;
+  function BuildOutput: String;
   begin
     case state.funct of
       ftArchiverLongName:
@@ -510,7 +510,7 @@ var
 
   procedure DoFunction;
   var
-    aOutput: UTF8String;
+    aOutput: String;
   begin
     aOutput:= BuildOutput;
     if (aOutput = EmptyStr) and (state.bracketStartIndex <> 0) then

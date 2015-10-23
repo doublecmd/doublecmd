@@ -180,7 +180,7 @@ type
     procedure InsertMask(const Mask:string;edChoose:Tedit);
     procedure InsertMask(const Mask:string;editNr:PtrInt);
     {Get new file name for file with ItemIndex}
-    function FreshText(ItemIndex: Integer): UTF8String;
+    function FreshText(ItemIndex: Integer): String;
     {Executes the main operation of renaming files}
     procedure RenameFiles;
     {Changes first char to uppercase and the rest to lowercase}
@@ -396,10 +396,10 @@ begin
   InsertMask('[Y]',ppNameMenu.Tag);
 end;
 
-function TfrmMultiRename.FreshText(ItemIndex: Integer): UTF8String;
+function TfrmMultiRename.FreshText(ItemIndex: Integer): String;
 var
   bError: Boolean;
-  sTmpName, sTmpExt: UTF8String;
+  sTmpName, sTmpExt: String;
 begin
   bError:= False;
 
@@ -874,7 +874,7 @@ var
   hFile: THandle;
   c: Integer;
   sNewName,
-  sResult: UTF8String;
+  sResult: String;
 begin
   try
     if cbLog.Checked then

@@ -19,12 +19,12 @@ type
   TFileSystemSplitOperation = class(TFileSourceSplitOperation)
   private
     FStatistics: TFileSourceSplitOperationStatistics; // local copy of statistics
-    FTargetpath: UTF8String;
+    FTargetpath: String;
     FBuffer: Pointer;
     FBufferSize: LongWord;
     FCheckFreeSpace: Boolean;
   protected
-    function Split(aSourceFileStream: TFileStreamEx; TargetFile: UTF8String): Boolean;
+    function Split(aSourceFileStream: TFileStreamEx; TargetFile: String): Boolean;
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -99,9 +99,9 @@ var
   iExt, CurrentFileIndex: Integer;
   iTotalDiskSize, iFreeDiskSize: Int64;
   SourceFileStream: TFileStreamEx = nil;
-  TargetFilename: UTF8String;
+  TargetFilename: String;
   hSummaryFile: THandle;
-  SummaryFilename:UTF8String;
+  SummaryFilename:String;
   respAutomaticSwapDisk: TFileSourceOperationUIResponse;
 begin
   try
@@ -230,7 +230,7 @@ procedure TFileSystemSplitOperation.Finalize;
 begin
 end;
 
-function TFileSystemSplitOperation.Split(aSourceFileStream: TFileStreamEx; TargetFile: UTF8String): Boolean;
+function TFileSystemSplitOperation.Split(aSourceFileStream: TFileStreamEx; TargetFile: String): Boolean;
 var
   TargetFileStream: TFileStreamEx = nil; // for safety exception handling
   iTotalDiskSize, iFreeDiskSize: Int64;

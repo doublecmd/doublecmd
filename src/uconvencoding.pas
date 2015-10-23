@@ -32,7 +32,7 @@ function DetectEncoding(const s: string): string;
 implementation
 
 uses
-  SysUtils, Classes, LCLProc, LConvEncoding, GetText,
+  SysUtils, Classes, LazUTF8, LConvEncoding, GetText,
   nsCore, nsUniversalDetector;
 
 var

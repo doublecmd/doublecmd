@@ -28,7 +28,7 @@ type
     FFullFilesTree: TFiles;
     FPackingFlags: Integer; // Packing flags passed to plugin
     FTarBefore: Boolean;      // Create TAR archive first
-    FTarFileName: UTF8String; // Temporary TAR archive name
+    FTarFileName: String; // Temporary TAR archive name
     FFileList: TStringHashList;
 
     {en
@@ -45,7 +45,7 @@ type
     procedure SetChangeVolProc(hArcData: TArcHandle);
     procedure SetProcessDataProc(hArcData: TArcHandle);
 
-    function FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): UTF8String;
+    function FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): String;
     function FileExists(aSourceFile: TFile; aTargetHeader: TWcxHeader): TFileSourceOperationOptionFileExists;
 
   public
@@ -87,7 +87,7 @@ threadvar
   // for plugins that supports background operations (see GetBackgroundFlags)
   WcxCopyInOperationT: TWcxArchiveCopyInOperation;
 
-function ChangeVolProc(var ArcName : UTF8String; Mode: LongInt): LongInt;
+function ChangeVolProc(var ArcName : String; Mode: LongInt): LongInt;
 begin
   Result:= 1;
   case Mode of
@@ -105,7 +105,7 @@ end;
 
 function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
-  sArcName: UTF8String;
+  sArcName: String;
 begin
   sArcName:= SysToUTF8(StrPas(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
@@ -115,7 +115,7 @@ end;
 
 function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
 var
-  sArcName: UTF8String;
+  sArcName: String;
 begin
   sArcName:= UTF8Encode(WideString(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
@@ -124,7 +124,7 @@ begin
 end;
 
 function ProcessDataProc(WcxCopyInOperation: TWcxArchiveCopyInOperation;
-                         FileName: UTF8String; Size: LongInt): LongInt;
+                         FileName: String; Size: LongInt): LongInt;
 begin
   //DCDebug('Working (' + IntToStr(GetCurrentThreadId) + ') ' + FileName + ' Size = ' + IntToStr(Size));
 
@@ -278,7 +278,7 @@ begin
   SetChangeVolProc(wcxInvalidHandle);
   SetProcessDataProc(wcxInvalidHandle);
 
-  // Convert TFiles into UTF8String;
+  // Convert TFiles into String;
   sFileList:= GetFileList(FFullFilesTree);
   // Nothing to pack (user skip all files)
   if sFileList = #0 then Exit;
@@ -448,7 +448,7 @@ begin
   end;
 end;
 
-function TWcxArchiveCopyInOperation.FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): UTF8String;
+function TWcxArchiveCopyInOperation.FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): String;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + aTargetHeader.FileName + LineEnding;
 

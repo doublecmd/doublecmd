@@ -154,7 +154,7 @@ type
     bSearchSelectionOnly:Boolean;
     bSearchWholeWords:Boolean;
     bSearchRegExp:Boolean;
-    FFileName: UTF8String;
+    FFileName: String;
     sSearchText, sReplaceText:String;
     sEncodingIn,
     sEncodingOut,
@@ -166,8 +166,8 @@ type
        Saves editor content to a file.
        @returns(@true if successful)
     }
-    function SaveFile(const aFileName: UTF8String): Boolean;
-    procedure SetFileName(const AValue: UTF8String);
+    function SaveFile(const aFileName: String): Boolean;
+    procedure SetFileName(const AValue: String);
 
   public
     { Public declarations }
@@ -181,7 +181,7 @@ type
        Opens a file.
        @returns(@true if successful)
     }
-    function OpenFile(const aFileName: UTF8String): Boolean;
+    function OpenFile(const aFileName: String): Boolean;
     procedure UpdateStatus;
     procedure SetEncodingIn(Sender:TObject);
     procedure SetEncodingOut(Sender:TObject);
@@ -190,7 +190,7 @@ type
     procedure DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
     procedure ShowSearchReplaceDialog(AReplace: boolean);
 
-    property FileName: UTF8String read FFileName write SetFileName;
+    property FileName: String read FFileName write SetFileName;
   end;
 
   procedure ShowEditor(WaitData: TEditorWaitData);
@@ -333,7 +333,7 @@ begin
   Editor.Lines.TextLineBreakStyle:= tlbsLF;
 end;
 
-function TfrmEditor.OpenFile(const aFileName: UTF8String): Boolean;
+function TfrmEditor.OpenFile(const aFileName: String): Boolean;
 var
   Buffer: AnsiString;
   Reader: TFileStreamEx;
@@ -418,7 +418,7 @@ begin
   UpdateStatus;
 end;
 
-function TfrmEditor.SaveFile(const aFileName: UTF8String): Boolean;
+function TfrmEditor.SaveFile(const aFileName: String): Boolean;
 var
   TextOut: String;
   Encoding: String;
@@ -489,7 +489,7 @@ begin
   end;
 end;
 
-procedure TfrmEditor.SetFileName(const AValue: UTF8String);
+procedure TfrmEditor.SetFileName(const AValue: String);
 begin
   if FFileName = AValue then
     Exit;

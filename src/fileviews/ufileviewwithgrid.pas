@@ -97,7 +97,7 @@ type
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
   end;
 
-  function FitFileName(const AFileName: UTF8String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): UTF8String;
+  function FitFileName(const AFileName: String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): String;
 
 implementation
 
@@ -107,7 +107,7 @@ uses
   uDCUtils, fMain,
   uFileFunctions;
 
-function FitFileName(const AFileName: UTF8String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): UTF8String;
+function FitFileName(const AFileName: String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): String;
 var
   Index: Integer;
 begin
@@ -652,7 +652,7 @@ end;
 procedure TFileViewWithGrid.UpdateFooterDetails;
 var
   AFile: TFile;
-  AFileName: UTF8String;
+  AFileName: String;
 begin
   if (FSelectedCount > 0) then
     lblDetails.Caption:= EmptyStr
@@ -820,7 +820,7 @@ end;
 procedure TFileViewWithGrid.UpdateFlatFileName;
 var
   AFile: TFile;
-  AFileName: UTF8String;
+  AFileName: String;
 begin
   AFile:= CloneActiveFile;
   if Assigned(AFile) then

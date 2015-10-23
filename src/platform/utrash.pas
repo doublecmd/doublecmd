@@ -30,12 +30,12 @@ uses
   Classes, SysUtils; 
 
 // 30.04.2009 - this function move files and folders to trash can.
-function mbDeleteToTrash(const FileName: UTF8String): Boolean;
+function mbDeleteToTrash(const FileName: String): Boolean;
 // 14.05.2009 - this funсtion checks trash availability.
-function mbCheckTrash(sPath: UTF8String): Boolean;
+function mbCheckTrash(sPath: String): Boolean;
 
 var
-  FileTrashUtf8: function(const FileName: UTF8String): Boolean;
+  FileTrashUtf8: function(const FileName: String): Boolean;
 
 implementation
 
@@ -52,7 +52,7 @@ uses
     {$ENDIF}
   {$ENDIF};
 
-function mbDeleteToTrash(const FileName: UTF8String): Boolean;
+function mbDeleteToTrash(const FileName: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
   wsFileName: WideString;
@@ -157,7 +157,7 @@ var
   sTopDir, sFileName,
   sTemp, sNow, sHomeDir,
   sTrashInfoFile,
-  sTrashDataFile: UTF8String;
+  sTrashDataFile: String;
   dtNow: TDateTime;
   st1, st2: Stat;
 
@@ -253,7 +253,7 @@ begin
 end;
 {$ENDIF}
 
-function mbCheckTrash(sPath: UTF8String): Boolean;
+function mbCheckTrash(sPath: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 const
   wsRoot: WideString = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\';

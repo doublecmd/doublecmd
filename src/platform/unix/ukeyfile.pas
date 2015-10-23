@@ -54,7 +54,7 @@ type
   private
     FGKeyFile: PGKeyFile;
   protected
-    function LoadFromFile(const AFileName: String; out AMessage: UTF8String): Boolean; inline;
+    function LoadFromFile(const AFileName: String; out AMessage: String): Boolean; inline;
   public
     constructor Create(const AFileName: String; AEscapeLineFeeds : Boolean = False); override;
     destructor Destroy; override;
@@ -73,14 +73,14 @@ uses
 
 { TKeyFile }
 
-function TKeyFile.LoadFromFile(const AFileName: String; out AMessage: UTF8String): Boolean;
+function TKeyFile.LoadFromFile(const AFileName: String; out AMessage: String): Boolean;
 var
   AChar: Pgchar;
   ALength: gsize;
   AContents: Pgchar;
   AError: PGError = nil;
 
-  function FormatMessage: UTF8String;
+  function FormatMessage: String;
   begin
     if Assigned(AError) then
     begin
@@ -116,7 +116,7 @@ end;
 
 constructor TKeyFile.Create(const AFileName: String; AEscapeLineFeeds: Boolean);
 var
-  AMessage: UTF8String;
+  AMessage: String;
 begin
   FGKeyFile:= g_key_file_new();
   if not LoadFromFile(AFileName, AMessage) then

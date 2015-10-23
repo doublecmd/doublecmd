@@ -35,7 +35,7 @@ type
 
   TSearchTemplate = class
   private
-    FTemplateName: UTF8String;
+    FTemplateName: String;
     FSearchRecord: TSearchTemplateRec;
     FFileChecks: TFindFileChecks;
     procedure MakeFileChecks;
@@ -44,7 +44,7 @@ type
     constructor Create;
     function CheckFile(const AFile: TFile): Boolean;
     property SearchRecord: TSearchTemplateRec read FSearchRecord write SetSearchRecord;
-    property TemplateName: UTF8String read FTemplateName write FTemplateName;
+    property TemplateName: String read FTemplateName write FTemplateName;
   end;
 
   { TSearchTemplateList }
@@ -52,7 +52,7 @@ type
   TSearchTemplateList = class(TList)
   private
     function GetTemplate(Index: Integer): TSearchTemplate;
-    function GetTemplate(const AName: UTF8String): TSearchTemplate;
+    function GetTemplate(const AName: String): TSearchTemplate;
   public
     procedure Clear; override;
     function Add(SearchTemplate: TSearchTemplate): Integer;
@@ -62,21 +62,21 @@ type
     procedure LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure SaveToIni(IniFile: TIniFileEx);
     procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
-    property TemplateByName[const AName: UTF8String]: TSearchTemplate read GetTemplate;
+    property TemplateByName[const AName: String]: TSearchTemplate read GetTemplate;
     property Templates[Index: Integer]: TSearchTemplate read GetTemplate;
   end;
 
 const
   cTemplateSign = '>';
 
-function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
+function IsMaskSearchTemplate(const sMask: String): Boolean; inline;
 
 implementation
 
 uses
  Variants, DCFileAttributes, DCBasicTypes, WdxPlugin, uWdxModule;
 
-function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
+function IsMaskSearchTemplate(const sMask: String): Boolean; inline;
 begin
   Result:= (Length(sMask) > 0) and (sMask[1] = cTemplateSign);
 end;
@@ -116,10 +116,10 @@ begin
   Result:= TSearchTemplate(Items[Index]);
 end;
 
-function TSearchTemplateList.GetTemplate(const AName: UTF8String): TSearchTemplate;
+function TSearchTemplateList.GetTemplate(const AName: String): TSearchTemplate;
 var
   I: Integer;
-  sName: UTF8String;
+  sName: String;
 begin
   Result:= nil;
 

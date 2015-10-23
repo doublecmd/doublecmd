@@ -255,7 +255,7 @@ type
     ActivePlugin:Integer;
     //---------------------
     function GetListerRect: TRect;
-    function CheckPlugins(const sFileName: UTF8String; bForce: Boolean = False): Boolean;
+    function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
     procedure AdjustImageSize;
@@ -281,8 +281,8 @@ type
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
-    procedure LoadFile(const aFileName: UTF8String);
-    procedure LoadNextFile(const aFileName: UTF8String);
+    procedure LoadFile(const aFileName: String);
+    procedure LoadNextFile(const aFileName: String);
     procedure LoadFile(iIndex:Integer);
     procedure ExitPluginMode;
 
@@ -383,7 +383,7 @@ begin
   tmp_all.Free;
 end;
 
-procedure TfrmViewer.LoadFile(const aFileName: UTF8String);
+procedure TfrmViewer.LoadFile(const aFileName: String);
 var
   i: Integer;
   dwFileAttributes: TFileAttrs;
@@ -435,7 +435,7 @@ begin
   end;
 end;
 
-procedure TfrmViewer.LoadNextFile(const aFileName: UTF8String);
+procedure TfrmViewer.LoadNextFile(const aFileName: String);
 var
   ShowFlags: Integer;
 begin
@@ -1012,7 +1012,7 @@ begin
   EndY:=0;
 end;
 
-function TfrmViewer.CheckPlugins(const sFileName: UTF8String; bForce: Boolean = False): Boolean;
+function TfrmViewer.CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
 var
   I: Integer;
   ShowFlags: Integer;
@@ -1216,7 +1216,7 @@ procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
   i,z,t, X, Y: Integer;
-  sExt, sName, shortName: UTF8String;
+  sExt, sName, shortName: String;
   bmpThumb: TBitmap;
 begin
   aRect:= Classes.Rect(aRect.Left + 2, aRect.Top + 2, aRect.Right - 2, aRect.Bottom - 2);
@@ -1964,7 +1964,7 @@ var
   PAdr: PtrInt;
   PAnsiAddr: PByte;
   bTextFound: Boolean;
-  sSearchTextU: UTF8String;
+  sSearchTextU: String;
   sSearchTextA: AnsiString;
   iSearchParameter: Integer;
   RecodeTable: TRecodeTable;

@@ -117,7 +117,7 @@ type
     function RetrieveStatistics: TFileSourceSetFilePropertyOperationStatistics;
 
     property TargetFiles: TFiles read FTargetFiles;
-    property NewProperties: TFileProperties read FNewProperties;
+    property NewProperties: TFileProperties read FNewProperties write FNewProperties;
     property TemplateFiles: TFiles read FTemplateFiles; // set by SetTemplateFiles because can't use "var" in properties
     property Recursive: Boolean read FRecursive write FRecursive;
     property SupportedProperties: TFilePropertiesTypes read FSupportedProperties;

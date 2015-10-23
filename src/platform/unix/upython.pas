@@ -81,10 +81,10 @@ procedure Py_XDECREF(op: PPyObject);
 function  PyStringToString(S: PPyObject): String;
 
 
-procedure PythonAddModulePath(const Path: UTF8String);
-function  PythonLoadModule(const ModuleName: UTF8String): PPyObject;
-function  PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: UTF8String): PPyObject; overload;
-function  PythonRunFunction(Module: PPyObject; const FunctionName: UTF8String; FileList: TStrings): PPyObject; overload;
+procedure PythonAddModulePath(const Path: String);
+function  PythonLoadModule(const ModuleName: String): PPyObject;
+function  PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: String): PPyObject; overload;
+function  PythonRunFunction(Module: PPyObject; const FunctionName: String; FileList: TStrings): PPyObject; overload;
 
 var
   PythonExe: String;
@@ -144,13 +144,13 @@ begin
   end;
 end;
 
-procedure PythonAddModulePath(const Path: UTF8String);
+procedure PythonAddModulePath(const Path: String);
 begin
   PyRun_SimpleString('import sys');
   PyRun_SimpleString(PAnsiChar('sys.path.append("' + Path + '")'));
 end;
 
-function PythonLoadModule(const ModuleName: UTF8String): PPyObject;
+function PythonLoadModule(const ModuleName: String): PPyObject;
 var
   pyName: PPyObject;
 begin
@@ -159,7 +159,7 @@ begin
   Py_DECREF(pyName);
 end;
 
-function PythonCallFunction(Module: PPyObject; const FunctionName: UTF8String; FunctionArg: PPyObject): PPyObject; overload;
+function PythonCallFunction(Module: PPyObject; const FunctionName: String; FunctionArg: PPyObject): PPyObject; overload;
 var
   pyFunc, pyArgs: PPyObject;
 begin
@@ -179,7 +179,7 @@ begin
   end;
 end;
 
-function PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: UTF8String): PPyObject;
+function PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: String): PPyObject;
 var
   pyArgs: PPyObject;
 begin
@@ -187,7 +187,7 @@ begin
   Result:= PythonCallFunction(Module, FunctionName, pyArgs);
 end;
 
-function PythonRunFunction(Module: PPyObject; const FunctionName: UTF8String; FileList: TStrings): PPyObject;
+function PythonRunFunction(Module: PPyObject; const FunctionName: String; FileList: TStrings): PPyObject;
 var
   pyArgs: PPyObject;
 begin

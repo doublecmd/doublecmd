@@ -48,11 +48,11 @@ type
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: UTF8String): Boolean;
+function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
 
 { DoDynamicFilesLinking:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-procedure DoDynamicFilesLinking(aFileSource: IFileSource; aFiles: TFiles; TargetPath, aFirstFilenameOfSeries: UTF8String);
+procedure DoDynamicFilesLinking(aFileSource: IFileSource; aFiles: TFiles; TargetPath, aFirstFilenameOfSeries: String);
 
 implementation
 
@@ -66,7 +66,7 @@ uses
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: UTF8String): Boolean;
+function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
 var
   I: Integer;
   xFiles: TFiles = nil;
@@ -115,7 +115,7 @@ end;
 
 { DoDynamicFilesLinking:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-procedure DoDynamicFilesLinking(aFileSource: IFileSource; aFiles: TFiles; TargetPath, aFirstFilenameOfSeries: UTF8String);
+procedure DoDynamicFilesLinking(aFileSource: IFileSource; aFiles: TFiles; TargetPath, aFirstFilenameOfSeries: String);
 var
   xFiles: TFiles = nil;
   Operation: TFileSourceCombineOperation = nil;

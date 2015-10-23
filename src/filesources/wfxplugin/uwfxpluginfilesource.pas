@@ -12,7 +12,7 @@ uses
 
 type
 
-  TUpdateProgress = function(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer of object;
+  TUpdateProgress = function(SourceName, TargetName: String; PercentDone: Integer): Integer of object;
 
   { IWfxPluginFileSource }
 
@@ -21,7 +21,7 @@ type
 
     procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
-    function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
+    function WfxCopyMove(sSourceFile, sTargetFile: String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
 
     function GetPluginNumber: LongInt;
@@ -54,7 +54,7 @@ type
   TWfxPluginFileSource = class(TFileSource, IWfxPluginFileSource)
   private
     FModuleFileName,
-    FPluginRootName: UTF8String;
+    FPluginRootName: String;
     FWFXModule: TWFXModule;
     FPluginNumber: LongInt;
     FCallbackDataClass: TCallbackDataClass;
@@ -84,11 +84,11 @@ type
   public
     procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
-    function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
+    function WfxCopyMove(sSourceFile, sTargetFile: String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
   public
     constructor Create(const URI: TURI); override;
-    constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
+    constructor Create(aModuleFileName, aPluginRootName: String); reintroduce;
     destructor Destroy; override;
 
     class function CreateFile(const APath: String): TFile; override;
@@ -177,7 +177,7 @@ var
 
 { CallBack functions }
 
-function MainProgressProc(PluginNr: Integer; SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
+function MainProgressProc(PluginNr: Integer; SourceName, TargetName: String; PercentDone: Integer): Integer;
 var
   CallbackDataClass: TCallbackDataClass;
 begin
@@ -206,7 +206,7 @@ end;
 function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; dcpcall;
 var
   sSourceName,
-  sTargetName: UTF8String;
+  sTargetName: String;
 begin
   sSourceName:= SysToUTF8(StrPas(SourceName));
   sTargetName:= SysToUTF8(StrPas(TargetName));
@@ -216,14 +216,14 @@ end;
 function MainProgressProcW(PluginNr: Integer; SourceName, TargetName: PWideChar; PercentDone: Integer): Integer; dcpcall;
 var
   sSourceName,
-  sTargetName: UTF8String;
+  sTargetName: String;
 begin
   sSourceName:= UTF8Encode(WideString(SourceName));
   sTargetName:= UTF8Encode(WideString(TargetName));
   Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
 end;
 
-procedure MainLogProc(PluginNr, MsgType: Integer; LogString: UTF8String);
+procedure MainLogProc(PluginNr, MsgType: Integer; LogString: String);
 var
   I: Integer;
   bLogFile: Boolean;
@@ -292,9 +292,9 @@ begin
   MainLogProc(PluginNr, MsgType, UTF8Encode(WideString(LogString)));
 end;
 
-function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText: UTF8String; var ReturnedText: UTF8String): Bool;
+function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText: String; var ReturnedText: String): Bool;
 var
-  sReq: UTF8String;
+  sReq: String;
 begin
   Result:= False;
   // Use operation UI for this?
@@ -366,7 +366,7 @@ function MainRequestProcA(PluginNr, RequestType: Integer; CustomTitle, CustomTex
 var
   sCustomTitle,
   sCustomText,
-  sReturnedText: UTF8String;
+  sReturnedText: String;
 begin
   sCustomTitle:= SysToUTF8(StrPas(CustomTitle));
   sCustomText:=  SysToUTF8(StrPas(CustomText));
@@ -383,7 +383,7 @@ function MainRequestProcW(PluginNr, RequestType: Integer; CustomTitle, CustomTex
 var
   sCustomTitle,
   sCustomText,
-  sReturnedText: UTF8String;
+  sReturnedText: String;
 begin
   sCustomTitle:= UTF8Encode(WideString(CustomTitle));
   sCustomText:=  UTF8Encode(WideString(CustomText));
@@ -396,7 +396,7 @@ begin
     end;
 end;
 
-function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName: UTF8String; var Password: UTF8String): Integer;
+function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName: String; var Password: String): Integer;
 const
   cPrefix = 'wfx';
 var
@@ -449,7 +449,7 @@ end;
 function CryptProcA(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PAnsiChar; MaxLen: Integer): Integer; dcpcall;
 var
   sConnectionName,
-  sPassword: UTF8String;
+  sPassword: String;
 begin
   sConnectionName:= SysToUTF8(StrPas(ConnectionName));
   sPassword:= SysToUTF8(StrPas(Password));
@@ -464,7 +464,7 @@ end;
 function CryptProcW(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PWideChar; MaxLen: Integer): Integer; dcpcall;
 var
   sConnectionName,
-  sPassword: UTF8String;
+  sPassword: String;
 begin
   sConnectionName:= UTF8Encode(WideString(ConnectionName));
   sPassword:= UTF8Encode(WideString(Password));
@@ -478,7 +478,7 @@ end;
 
 { TWfxPluginFileSource }
 
-constructor TWfxPluginFileSource.Create(aModuleFileName, aPluginRootName: UTF8String);
+constructor TWfxPluginFileSource.Create(aModuleFileName, aPluginRootName: String);
 begin
   inherited Create;
   FPluginNumber:= -1;
@@ -636,7 +636,7 @@ end;
 procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; CountDirs: Boolean;
   ExcludeRootDir: Boolean; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
 
-  procedure FillAndCountRec(const srcPath: UTF8String);
+  procedure FillAndCountRec(const srcPath: String);
   var
     FindData: TWfxFindData;
     Handle: THandle;
@@ -707,7 +707,7 @@ begin
   end;
 end;
 
-function TWfxPluginFileSource.WfxCopyMove(sSourceFile, sTargetFile: UTF8String;
+function TWfxPluginFileSource.WfxCopyMove(sSourceFile, sTargetFile: String;
                                           Flags: LongInt; RemoteInfo: PRemoteInfo;
                                           Internal, CopyMoveIn: Boolean): LongInt;
 var
@@ -734,7 +734,7 @@ end;
 
 constructor TWfxPluginFileSource.Create(const URI: TURI);
 var
-  sModuleFileName: UTF8String;
+  sModuleFileName: String;
 begin
   if gWFXPlugins.Count = 0 then Exit;
   // Check if there is a registered plugin for the name of the file system plugin.
@@ -839,7 +839,7 @@ end;
 
 function TWfxPluginFileSource.GetLocalName(var aFile: TFile): Boolean;
 var
-  sFileName: UTF8String;
+  sFileName: String;
 begin
   Result:= False;
   sFileName:= aFile.FullPath;
@@ -871,7 +871,7 @@ end;
 
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): IWfxPluginFileSource;
 var
-  sModuleFileName: UTF8String;
+  sModuleFileName: String;
 begin
   Result:= nil;
 

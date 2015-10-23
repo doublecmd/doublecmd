@@ -81,7 +81,7 @@ end;
 procedure TfrmConnectionManager.btnAddClick(Sender: TObject);
 var
   WfxPluginFileSource: IWfxPluginFileSource;
-  Connection: UTF8String;
+  Connection: String;
 begin
   {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Data)^.FileSource as IWfxPluginFileSource;
@@ -101,7 +101,7 @@ var
   WfxPluginFileSource: IWfxPluginFileSource;
   Connection,
   RemotePath,
-  RootPath: UTF8String;
+  RootPath: String;
 begin
   {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
@@ -129,7 +129,7 @@ end;
 procedure TfrmConnectionManager.btnDeleteClick(Sender: TObject);
 var
   WfxPluginFileSource: IWfxPluginFileSource;
-  Connection: UTF8String;
+  Connection: String;
 begin
   {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
@@ -149,7 +149,7 @@ end;
 procedure TfrmConnectionManager.btnEditClick(Sender: TObject);
 var
   WfxPluginFileSource: IWfxPluginFileSource;
-  Connection: UTF8String;
+  Connection: String;
 begin
   {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
@@ -180,7 +180,7 @@ var
   I, J: Integer;
   WfxPluginFileSource: IWfxPluginFileSource = nil;
   sModuleFileName,
-  Connection: UTF8String;
+  Connection: String;
   Node, SubNode: TTreeNode;
 begin
   {

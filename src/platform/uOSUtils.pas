@@ -82,8 +82,8 @@ type
     constructor Create; reintroduce;
   end;
 
-function NtfsHourTimeDelay(const SourceName, TargetName: UTF8String): Boolean;
-function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+function NtfsHourTimeDelay(const SourceName, TargetName: String): Boolean;
+function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
 {en
    Execute command line
 }
@@ -106,14 +106,14 @@ function ExecCmdFork(sCmd: String; sParams: String; sStartPath: String = ''; bSh
    @param(URL File name or URL)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function ShellExecute(URL: UTF8String): Boolean;
+function ShellExecute(URL: String): Boolean;
 function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) : Boolean;
 {en
    Get maximum file size for a mounted file system
    @param(Path The pathname of any file within the mounted file  system)
    @returns(The maximum file size for a mounted file system)
 }
-function GetDiskMaxFileSize(const Path : UTF8String) : Int64;
+function GetDiskMaxFileSize(const Path : String) : Int64;
 {en
    Create a hard link to a file
    @param(Path Name of file)
@@ -164,7 +164,7 @@ function GetAppConfigDir: String;
    Get the appropriate directory for the application's cache files
    @returns(The directory for the application's cache files)
 }
-function GetAppCacheDir: UTF8String;
+function GetAppCacheDir: String;
 function GetTempFolder: String;
 
 { Similar to "GetTempFolder" but that we can unilaterally delete at the end when closin application}
@@ -190,36 +190,36 @@ procedure FormatTerminal(var sCmd: String; var sParams: String; bKeepTerminalOpe
 {en
    Same as mbFileGetAttr, but dereferences any encountered links.
 }
-function mbFileGetAttrNoLinks(const FileName: UTF8String): TFileAttrs;
+function mbFileGetAttrNoLinks(const FileName: String): TFileAttrs;
 {en
    Convert file name to system encoding, if name can not be represented in
    current locale then use short file name under Windows.
 }
-function mbFileNameToSysEnc(const LongPath: UTF8String): String;
-function mbGetEnvironmentVariable(const sName: UTF8String): UTF8String;
-function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
+function mbFileNameToSysEnc(const LongPath: String): String;
+function mbGetEnvironmentVariable(const sName: String): String;
+function mbSetEnvironmentVariable(const sName, sValue: String): Boolean;
 {en
    Extract the root directory part of a file name.
    @returns(Drive letter under Windows and mount point under Unix)
 }
-function ExtractRootDir(const FileName: UTF8String): UTF8String;
+function ExtractRootDir(const FileName: String): String;
 
 procedure FixFormIcon(Handle: LCLType.HWND);
 procedure HideConsoleWindow;
 procedure FixDateNamesToUTF8;
 
-function ParamStrU(Param: Integer): UTF8String; overload;
-function ParamStrU(const Param: String): UTF8String; overload;
+function ParamStrU(Param: Integer): String; overload;
+function ParamStrU(const Param: String): String; overload;
 
 {en
   Get the current username of the current session
 }
-function GetCurrentUserName : UTF8String;
+function GetCurrentUserName : String;
 
 {en
   Get the current machine name
 }
-function GetComputerNetName: UTF8String;
+function GetComputerNetName: String;
 
 
 implementation
@@ -239,8 +239,8 @@ uses
   {$ENDIF}
   ;
 
-function FileIsLinkToFolder(const FileName: UTF8String; out
-  LinkTarget: UTF8String): Boolean;
+function FileIsLinkToFolder(const FileName: String; out
+  LinkTarget: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 begin
   Result:= False;
@@ -392,7 +392,7 @@ begin
 end;
 {$ENDIF}
 
-function ShellExecute(URL: UTF8String): Boolean;
+function ShellExecute(URL: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
   Return: HINST;
@@ -431,7 +431,7 @@ begin
 end;
 {$ELSE}
 var
-  sCmdLine: UTF8String;
+  sCmdLine: String;
 begin
   Result:= False;
   sCmdLine:= EmptyStr;
@@ -485,7 +485,7 @@ begin
 end;
 {$ENDIF}
 
-function GetDiskMaxFileSize(const Path: UTF8String): Int64;
+function GetDiskMaxFileSize(const Path: String): Int64;
 {$IFDEF UNIX}
 const
   MSDOS_SUPER_MAGIC = $4d44;
@@ -526,7 +526,7 @@ begin
 end;
 {$ENDIF}
 
-function NtfsHourTimeDelay(const SourceName, TargetName: UTF8String): Boolean;
+function NtfsHourTimeDelay(const SourceName, TargetName: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
  lpDummy: DWORD = 0;
@@ -821,7 +821,7 @@ begin
 end;
 {$ENDIF}
 
-function GetAppCacheDir: UTF8String;
+function GetAppCacheDir: String;
 {$IF DEFINED(MSWINDOWS)}
 var
   APath: array[0..MAX_PATH] of WideChar;
@@ -950,7 +950,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileGetAttrNoLinks(const FileName: UTF8String): TFileAttrs;
+function mbFileGetAttrNoLinks(const FileName: String): TFileAttrs;
 {$IFDEF UNIX}
 var
   Info: BaseUnix.Stat;
@@ -962,7 +962,7 @@ begin
 end;
 {$ELSE}
 var
-  LinkTarget: UTF8String;
+  LinkTarget: String;
 begin
   LinkTarget := mbReadAllLinks(FileName);
   if LinkTarget <> '' then
@@ -972,7 +972,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileNameToSysEnc(const LongPath: UTF8String): String;
+function mbFileNameToSysEnc(const LongPath: String): String;
 {$IFDEF MSWINDOWS}
 begin
   Result:= UTF8ToSys(LongPath);
@@ -985,7 +985,7 @@ begin
 end;
 {$ENDIF}
 
-function mbGetEnvironmentVariable(const sName: UTF8String): UTF8String;
+function mbGetEnvironmentVariable(const sName: String): String;
 {$IFDEF MSWINDOWS}
 var
   wsName: WideString;
@@ -1018,7 +1018,7 @@ begin
 end;
 {$ENDIF}
 
-function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
+function mbSetEnvironmentVariable(const sName, sValue: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wsName,
@@ -1034,7 +1034,7 @@ begin
 end;
 {$ENDIF}
 
-function ExtractRootDir(const FileName: UTF8String): UTF8String;
+function ExtractRootDir(const FileName: String): String;
 {$IFDEF UNIX}
 begin
   Result:= ExcludeTrailingPathDelimiter(FindMountPointPath(ExcludeTrailingPathDelimiter(FileName)));
@@ -1079,7 +1079,7 @@ begin
   end;
 end;
 
-function ParamStrU(Param: Integer): UTF8String;
+function ParamStrU(Param: Integer): String;
 {$IFDEF UNIX}
 begin
   Result:= SysToUTF8(ObjPas.ParamStr(Param));
@@ -1093,7 +1093,7 @@ begin
 end;
 {$ENDIF}
 
-function ParamStrU(const Param: String): UTF8String;
+function ParamStrU(const Param: String): String;
 {$IFDEF UNIX}
 begin
   Result:= SysToUTF8(Param);
@@ -1112,7 +1112,7 @@ begin
 end;
 
 { GetCurrentUserName }
-function GetCurrentUserName : UTF8String;
+function GetCurrentUserName : String;
 {$IF DEFINED(MSWINDOWS)}
 var
   wsUserName    : WideString;
@@ -1134,7 +1134,7 @@ end;
 {$ENDIF}
 
 { GetComputerNetName }
-function GetComputerNetName: UTF8String;
+function GetComputerNetName: String;
 {$IF DEFINED(MSWINDOWS)}
 var
   Size: DWORD = MAX_PATH;

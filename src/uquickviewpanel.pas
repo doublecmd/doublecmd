@@ -19,12 +19,12 @@ type
     FFileView: TFileView;
     FFileSource: IFileSource;
     FViewer: TfrmViewer;
-    FFileName: UTF8String;
+    FFileName: String;
   public
     constructor Create(TheOwner: TComponent; aParent: TFileViewPage); reintroduce;
     destructor Destroy; override;
     procedure CreateViewer(aFileView: TFileView);
-    procedure LoadFile(const aFileName: UTF8String);
+    procedure LoadFile(const aFileName: String);
     procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
   end;
 
@@ -96,7 +96,7 @@ begin
   FFileViewPage.FileView.Visible:= False;
 end;
 
-procedure TQuickViewPanel.LoadFile(const aFileName: UTF8String);
+procedure TQuickViewPanel.LoadFile(const aFileName: String);
 begin
   if FFirstFile then
     begin

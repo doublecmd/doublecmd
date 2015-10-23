@@ -153,17 +153,17 @@ type
      constructor Create;
      destructor Destroy; override;
 {    \\---------------------}
-      function Read_Pty(var str:UTF8String; const timeout: longint=10): longint; override; // Read info from pty
-      function Fork_pty(const rows,cols:integer; const cmd:UTF8string; const params:UTF8string=''):System.THandle; override; //Create new pty and start cmd
-      function Write_pty(const str:UTF8string):boolean; override; //write str to pty
+      function Read_Pty(var str:String; const timeout: longint=10): longint; override; // Read info from pty
+      function Fork_pty(const rows,cols:integer; const cmd:String; const params:String=''):System.THandle; override; //Create new pty and start cmd
+      function Write_pty(const str:String):boolean; override; //write str to pty
       //---------------------
       function SendBreak_pty():boolean; override; // ^C
       function SendSignal_pty(Sig:Cint):boolean; override;
       function SetScreenSize(aCols,aRows:integer):boolean; override;
-      function SetCurrentDir(const NewDir: UTF8String): Boolean; override;
+      function SetCurrentDir(const NewDir: String): Boolean; override;
       //---------------------
       function KillShell:LongInt; override;
-      function CSI_GetTaskId(const buf:UTF8string):integer; override; //get index of sequence in CSILast list
+      function CSI_GetTaskId(const buf:String):integer; override; //get index of sequence in CSILast list
    end;
    
      { TConThread }
@@ -174,7 +174,7 @@ type
      procedure CSIProc(NCode, Param: integer; ExParam: integer=0);
      procedure CSI_CaretTo(Y, X: integer);
      procedure CSI_Colors(const Param: integer);
-     procedure WriteS(const s: UTF8String);
+     procedure WriteS(const s: String);
    protected
      procedure Execute; override;
    public
@@ -193,7 +193,7 @@ uses
 
 { TUnixConThread }
 
-procedure TUnixConThread.WriteS(const s:UTF8String);
+procedure TUnixConThread.WriteS(const s:String);
 begin
 if not assigned(FOut) then exit;
 //Form1.CmdBox1.StopRead;
@@ -306,7 +306,7 @@ end;
 
 procedure TUnixConThread.AddSymbol;
 var SeqCode,SeqPrm,i,x:integer;
-    es,s:UTF8string;
+    es,s:String;
     esnow,CSINow:boolean;
 begin
 
@@ -424,7 +424,7 @@ end;
 
 { TUnixTerm }
 
-function TUnixTerm.CSI_GetTaskId(const buf:UTF8string):integer;
+function TUnixTerm.CSI_GetTaskId(const buf:String):integer;
 var Rez,L,R,M:integer;
 begin
  result:=0;
@@ -459,7 +459,7 @@ R:=Length(CSIList);
  result:=0;
 end;
 
-function TUnixTerm.Fork_pty(const rows, cols: integer; const cmd:UTF8string; const params:UTF8string=''): System.THandle;
+function TUnixTerm.Fork_pty(const rows, cols: integer; const cmd:String; const params:String=''): System.THandle;
 var ws:TWinSize;
     ChildPid:System.THandle;
 begin
@@ -492,7 +492,7 @@ Result:=ChildPid;
 end;
 
 
-function TUnixTerm.Read_Pty(var str:UTF8String; const timeout:longint=10):longint;
+function TUnixTerm.Read_Pty(var str:String; const timeout:longint=10):longint;
 var ifs:TFdSet;
     BytesRead:longint;
     buf:array [0..512] of char;
@@ -512,7 +512,7 @@ begin
   str:=copy(buf,0,BytesRead);
 end;
 
-function TUnixTerm.Write_pty(const str: UTF8string): boolean;
+function TUnixTerm.Write_pty(const str: String): boolean;
 var BytesWritten:TSize; i:integer;
 begin
   i:=1;
@@ -554,7 +554,7 @@ begin
   else Result:=false;
 end;
 
-function TUnixTerm.SetCurrentDir(const NewDir: UTF8String): Boolean;
+function TUnixTerm.SetCurrentDir(const NewDir: String): Boolean;
 begin
   Result:= Write_pty(' cd "' + NewDir + '"' + #13);
 end;

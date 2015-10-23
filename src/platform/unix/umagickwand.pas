@@ -96,7 +96,7 @@ begin
   Raise Exception.Create(ExceptionMessage);
 end;
 
-function GetThumbnail(const aFileName: UTF8String; aSize: TSize): Graphics.TBitmap;
+function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
   Memory: PByte;
   Wand: PMagickWand;

@@ -33,8 +33,8 @@ type
   TStringArray = array of string;
 
   TUDisksDeviceInfo = record
-    DeviceObjectPath: UTF8String;
-    DeviceFile: UTF8String;
+    DeviceObjectPath: String;
+    DeviceFile: String;
     DeviceIsDrive,
     DeviceIsSystemInternal,
     DeviceIsPartition,
@@ -46,11 +46,11 @@ type
     DriveIsMediaEjectable: Boolean;
     DeviceMountPaths: TStringArray;
     DevicePresentationHide: Boolean;
-    DevicePresentationName: UTF8String;
-    DevicePresentationIconName: UTF8String;
-    DeviceAutomountHint: UTF8String;  // Whether automatically mount or not
+    DevicePresentationName: String;
+    DevicePresentationIconName: String;
+    DeviceAutomountHint: String;  // Whether automatically mount or not
     DriveConnectionInterface,
-    DriveMedia: UTF8String; // Type of media currently in the drive.
+    DriveMedia: String; // Type of media currently in the drive.
     DriveMediaCompatibility: TStringArray; // Possible media types.
     DriveCanDetach: Boolean; // Hot-plugged device (USB, Firewire, etc.)
     IdUsage,
@@ -58,7 +58,7 @@ type
     IdVersion,
     IdUuid,
     IdLabel,
-    PartitionSlave: UTF8String; // Owner device if this is a partition
+    PartitionSlave: String; // Owner device if this is a partition
   end;
 
   TUDisksDevicesInfos = array of TUDisksDeviceInfo;
@@ -67,34 +67,34 @@ type
                    UDisks_DeviceRemoved,
                    UDisks_DeviceChanged);
 
-  TUDisksDeviceNotify = procedure(Reason: TUDisksMethod; const ObjectPath: UTF8String) of object;
+  TUDisksDeviceNotify = procedure(Reason: TUDisksMethod; const ObjectPath: String) of object;
 
   TUDisksObserverList = specialize TFPGList<TUDisksDeviceNotify>;
 
 const
   UDisksDevicePathPrefix  = '/org/freedesktop/UDisks/devices/';
 
-function UDisksObjectPathToDeviceFile(const ObjectPath: UTF8String): UTF8String;
-function DeviceFileToUDisksObjectPath(const DeviceFile: UTF8String): UTF8String;
+function UDisksObjectPathToDeviceFile(const ObjectPath: String): String;
+function DeviceFileToUDisksObjectPath(const DeviceFile: String): String;
 
-function GetObjectProperty(const ObjectPath: UTF8String;
-                           const PropertyName: UTF8String;
-                           out Value: UTF8String;
+function GetObjectProperty(const ObjectPath: String;
+                           const PropertyName: String;
+                           out Value: String;
                            IsPropertyAnObjectPath: Boolean = False): Boolean;
-function GetObjectProperty(const ObjectPath: UTF8String;
-                           const PropertyName: UTF8String;
+function GetObjectProperty(const ObjectPath: String;
+                           const PropertyName: String;
                            out Value: Boolean): Boolean;
-function GetObjectProperty(const ObjectPath: UTF8String;
-                           const PropertyName: UTF8String;
+function GetObjectProperty(const ObjectPath: String;
+                           const PropertyName: String;
                            out Value: TStringArray): Boolean;
-function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
+function GetDeviceInfo(const ObjectPath: String; out Info: TUDisksDeviceInfo): Boolean;
 function EnumerateDevices(out DevicesList: TStringArray): Boolean;
 function EnumerateDevices(out DevicesInfos: TUDisksDevicesInfos): Boolean;
-function Mount(const ObjectPath: UTF8String;
-               const FileSystemType: UTF8String;
+function Mount(const ObjectPath: String;
+               const FileSystemType: String;
                const Options: TStringArray;
-               out MountPath: UTF8String): Boolean;
-function Unmount(const ObjectPath: UTF8String; const Options: TStringArray): Boolean;
+               out MountPath: String): Boolean;
+function Unmount(const ObjectPath: String; const Options: TStringArray): Boolean;
 function Initialize: Boolean;
 procedure Finalize;
 procedure DispatchMessages;
@@ -170,7 +170,7 @@ begin
     Result := False;
 end;
 
-function UDisksObjectPathToDeviceFile(const ObjectPath: UTF8String): UTF8String;
+function UDisksObjectPathToDeviceFile(const ObjectPath: String): String;
 begin
   if LeftStr(ObjectPath, Length(UDisksDevicePathPrefix)) = UDisksDevicePathPrefix then
     Result := '/dev/' + Copy(ObjectPath, Length(UDisksDevicePathPrefix) + 1, MaxInt)
@@ -178,7 +178,7 @@ begin
     raise Exception.Create('Invalid object path: ' + ObjectPath);
 end;
 
-function DeviceFileToUDisksObjectPath(const DeviceFile: UTF8String): UTF8String;
+function DeviceFileToUDisksObjectPath(const DeviceFile: String): String;
 begin
   if LeftStr(DeviceFile, 5) = '/dev/' then
     Result := UDisksDevicePathPrefix + Copy(DeviceFile, 6, MaxInt)
@@ -186,7 +186,7 @@ begin
     raise Exception.Create('Invalid device file name: ' + DeviceFile);
 end;
 
-function GetObjectPath(message: PDBusMessage; out ObjectPath: UTF8String): Boolean;
+function GetObjectPath(message: PDBusMessage; out ObjectPath: String): Boolean;
 var
   object_path: PChar;
   got_args: dbus_bool_t;
@@ -334,8 +334,8 @@ begin
   end;
 end;
 
-function Invoke_GetProperty(const ObjectPath: UTF8String;
-                            const PropertyName: UTF8String;
+function Invoke_GetProperty(const ObjectPath: String;
+                            const PropertyName: String;
                             out reply: PDBusMessage; // reply needs to be freed by the caller.
                             pVariantIter: PDBusMessageIter): Boolean;
 var
@@ -396,9 +396,9 @@ begin
   end;
 end;
 
-function GetObjectProperty(const ObjectPath: UTF8String;
-                           const PropertyName: UTF8String;
-                           out Value: UTF8String;
+function GetObjectProperty(const ObjectPath: String;
+                           const PropertyName: String;
+                           out Value: String;
                            IsPropertyAnObjectPath: Boolean): Boolean;
 var
   reply: PDBusMessage;
@@ -418,8 +418,8 @@ begin
   end;
 end;
 
-function GetObjectProperty(const ObjectPath: UTF8String;
-                           const PropertyName: UTF8String;
+function GetObjectProperty(const ObjectPath: String;
+                           const PropertyName: String;
                            out Value: Boolean): Boolean;
 var
   reply: PDBusMessage;
@@ -436,8 +436,8 @@ begin
   end;
 end;
 
-function GetObjectProperty(const ObjectPath: UTF8String;
-                           const PropertyName: UTF8String;
+function GetObjectProperty(const ObjectPath: String;
+                           const PropertyName: String;
                            out Value: TStringArray): Boolean;
 var
   reply: PDBusMessage;
@@ -451,7 +451,7 @@ begin
   end;
 end;
 
-function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
+function GetDeviceInfo(const ObjectPath: String; out Info: TUDisksDeviceInfo): Boolean;
 begin
   // Description of properties:
   // http://hal.freedesktop.org/docs/udisks/Device.html
@@ -531,10 +531,10 @@ begin
   end;
 end;
 
-function Mount(const ObjectPath: UTF8String;
-               const FileSystemType: UTF8String;
+function Mount(const ObjectPath: String;
+               const FileSystemType: String;
                const Options: TStringArray;
-               out MountPath: UTF8String): Boolean;
+               out MountPath: String): Boolean;
 var
   message, reply: PDBusMessage;
   argsIter, arrayIter, replyIter: DBusMessageIter;
@@ -590,7 +590,7 @@ begin
   end;
 end;
 
-function Unmount(const ObjectPath: UTF8String; const Options: TStringArray): Boolean;
+function Unmount(const ObjectPath: String; const Options: TStringArray): Boolean;
 var
   message, reply: PDBusMessage;
   argsIter, arrayIter: DBusMessageIter;
@@ -656,7 +656,7 @@ function FilterFunc(connection: PDBusConnection;
                     message: PDBusMessage;
                     user_data: Pointer): DBusHandlerResult; cdecl;
 var
-  DeviceObjectPath: UTF8String;
+  DeviceObjectPath: String;
   i: Integer;
 begin
   if dbus_message_is_signal(message, 'org.freedesktop.DBus.Local', 'Disconnected') <> 0 then
@@ -726,7 +726,7 @@ function CheckUDisksService: Boolean;
 var
   udisks_exists: dbus_bool_t;
   start_reply: dbus_uint32_t;
-  daemon_version: UTF8String;
+  daemon_version: String;
 begin
   // Check if UDisks service is running.
   dbus_error_init(@error);

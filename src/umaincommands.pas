@@ -588,7 +588,7 @@ end;
 
 procedure TMainCommands.DoRenameTab(Page: TFileViewPage);
 var
-  sCaption: UTF8String;
+  sCaption: String;
 begin
   sCaption := Page.CurrentTitle;
   if InputQuery(rsMsgTabRenameCaption, rsMsgTabRenamePrompt, sCaption) then
@@ -625,7 +625,7 @@ procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Backgroun
 var
   aFile: TFile = nil;
   aFiles: TFiles = nil;
-  sPath, sName: UTF8String;
+  sPath, sName: String;
 begin
   with frmMain do
   begin
@@ -1839,7 +1839,7 @@ end;
 
 procedure TMainCommands.cm_MakeDir(const Params: array of string);
 var
-  sPath: UTF8String;
+  sPath: String;
   ActiveFile: TFile = nil;
   Operation: TFileSourceOperation = nil;
   UI: TFileSourceOperationMessageBoxesUI = nil;
@@ -2030,7 +2030,7 @@ end;
 procedure TMainCommands.cm_CheckSumCalc(const Params: array of string);
 var
   I: Integer;
-  sFileName: UTF8String;
+  sFileName: String;
   SelectedFiles: TFiles;
   HashAlgorithm: THashAlgorithm;
   QueueId: TOperationsManagerQueueIdentifier;
@@ -3242,7 +3242,7 @@ var
   I: Integer;
   aSelectedFiles: TFiles = nil;
   aFile: TFile;
-  aFirstFilenameOfSeries: UTF8String;
+  aFirstFilenameOfSeries: String;
 begin
   with frmMain, frmMain.ActiveFrame do
   begin

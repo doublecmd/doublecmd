@@ -88,7 +88,7 @@ end;
 procedure TFileViewHeader.PathEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
-  NewPath: UTF8String;
+  NewPath: String;
 begin
   case Key of
     VK_ESCAPE:
@@ -126,7 +126,7 @@ end;
 
 procedure TFileViewHeader.PathLabelClick(Sender: TObject);
 var
-  walkPath, dirNameToSelect: UTF8String;
+  walkPath, dirNameToSelect: String;
 begin
   FFileView.SetFocus;
 
@@ -183,7 +183,7 @@ end;
 
 procedure TFileViewHeader.AddressLabelClick(Sender: TObject);
 var
-  walkPath, dirNameToSelect: UTF8String;
+  walkPath, dirNameToSelect: String;
 begin
   FFileView.SetFocus;
 

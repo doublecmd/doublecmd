@@ -45,23 +45,23 @@ type
      {en
         Read info from pty
      }
-     function Read_pty(var Output: UTF8String; const TimeOut: LongInt = 10): LongInt; virtual; abstract;
+     function Read_pty(var Output: String; const TimeOut: LongInt = 10): LongInt; virtual; abstract;
      {en
         Create new pty and start cmd
      }
-     function Fork_pty(const RowCount, ColCount: Integer; const Command: UTF8String; const Params: UTF8String = ''): THandle; virtual; abstract;
+     function Fork_pty(const RowCount, ColCount: Integer; const Command: String; const Params: String = ''): THandle; virtual; abstract;
      {en
          Write string to pty
      }
-     function Write_pty(const Input: UTF8String): Boolean; virtual; abstract;
+     function Write_pty(const Input: String): Boolean; virtual; abstract;
      //---------------------
      function SendBreak_pty(): Boolean; virtual; abstract; // ^C
      function SendSignal_pty(Sig: Cint): Boolean; virtual; abstract;
      function SetScreenSize(ColCount, RowCount: Integer): Boolean; virtual; abstract;
-     function SetCurrentDir(const NewDir: UTF8String): Boolean; virtual; abstract;
+     function SetCurrentDir(const NewDir: String): Boolean; virtual; abstract;
      //---------------------
      function KillShell: LongInt; virtual; abstract;
-     function CSI_GetTaskId(const buf:UTF8string):integer; virtual; abstract; //get index of sequence in CSILast list
+     function CSI_GetTaskId(const buf:String):integer; virtual; abstract; //get index of sequence in CSILast list
      //---------------------}
      property ShellPid: THandle read FChildPid;
      property PtyPid: LongInt read Fpty;
@@ -73,7 +73,7 @@ type
   protected
     FLock: System.TRTLCriticalSection;
     FTerm: TTerminal;
-    FBuf: UTF8String;
+    FBuf: String;
     FRowsCount,
     FColsCount: Integer;
     FOut: TCmdBox;

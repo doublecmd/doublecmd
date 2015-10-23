@@ -103,7 +103,7 @@ uses
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 var
-  sValue: UTF8String;
+  sValue: String;
 begin
   Result:= False;
   sValue:= StrPas(Value);
@@ -119,7 +119,7 @@ begin
   Result:= ShowMessageBox(Text, Caption, Flags);
 end;
 
-procedure SetDialogBoxResourceLRS(LRSData: UTF8String);
+procedure SetDialogBoxResourceLRS(LRSData: String);
 var
   LResource: TLResource;
 begin
@@ -130,7 +130,7 @@ begin
     LazarusResources.Add('TDialogBox','FORMDATA', LRSData);
 end;
 
-procedure SetDialogBoxResourceLFM(LFMData: UTF8String);
+procedure SetDialogBoxResourceLFM(LFMData: String);
 var
   LFMStream: TStringStream = nil;
   BinStream: TStringStream = nil;
@@ -168,7 +168,7 @@ end;
 
 function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool;dcpcall;
 var
-  DataString: UTF8String;
+  DataString: String;
 begin
   if Assigned(LFMData) and (DataSize > 0) then
   begin
@@ -182,7 +182,7 @@ end;
 
 function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 var
-  DataString: UTF8String;
+  DataString: String;
 begin
   if Assigned(LRSData) and (DataSize > 0) then
   begin
@@ -217,7 +217,7 @@ function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: 
 var
   DialogBox: TDialogBox;
   Control: TControl;
-  sText: UTF8String;
+  sText: String;
   I: Integer;
   Rect: TRect;
   Key: Word;
@@ -601,7 +601,7 @@ end;
 
 procedure TDialogBox.EditChange(Sender: TObject);
 var
-  sText: UTF8String;
+  sText: String;
 begin
   if Assigned(fDlgProc) then
     begin

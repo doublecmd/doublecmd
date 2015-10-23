@@ -12,9 +12,9 @@ type
   { THintItem }
 
   THintItem = class
-    Name: UTF8String;
-    Mask: UTF8String;
-    Hint: UTF8String;
+    Name: String;
+    Mask: String;
+    Hint: String;
     function Clone: THintItem;
   end;
 
@@ -35,7 +35,7 @@ type
 
     procedure Clear;
 
-    function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): UTF8String;
+    function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
 
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -43,7 +43,7 @@ type
     property  HintItemList: THintItemList read FHintItemList;
   end;
 
-function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): UTF8String;
+function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
 
 implementation
 
@@ -55,9 +55,9 @@ uses
 {$ENDIF}
   ;
 
-function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): UTF8String;
+function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
 
-  function GetDefaultToolTip(const Hint: UTF8String): UTF8String;
+  function GetDefaultToolTip(const Hint: String): String;
   begin
     Result:= Hint;
     if fpModificationTime in aFile.SupportedProperties then
@@ -135,7 +135,7 @@ begin
 end;
 
 function TFileInfoToolTip.GetFileInfoToolTip(aFileSource: IFileSource;
-  const aFile: TFile): UTF8String;
+  const aFile: TFile): String;
 var
   I, J: Integer;
   HintItem: THintItem;
@@ -172,7 +172,7 @@ procedure TFileInfoToolTip.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   sMask,
   sName,
-  sHint: UTF8String;
+  sHint: String;
   MaskItem: THintItem;
 begin
   Clear;

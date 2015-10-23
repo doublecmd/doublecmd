@@ -691,7 +691,7 @@ end;
 { TfrmOptionsToolbar.btnOpenCmdDlgClick }
 procedure TfrmOptionsToolbar.btnOpenCmdDlgClick(Sender: TObject);
 var
-  WantedCommand:UTF8String;
+  WantedCommand:String;
   IndexMaybe:longint;
 begin
   if cbInternalCommand.ItemIndex=-1 then

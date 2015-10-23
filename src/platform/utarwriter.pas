@@ -91,14 +91,14 @@ type
     FTarHeader: TTarHeaderEx;
     FBasePath,
     FTargetPath,
-    FArchiveFileName: UTF8String;
+    FArchiveFileName: String;
     FBufferIn,
     FBufferOut: Pointer;
     FBufferSize: LongWord;
     FMemPack: TArcHandle;
     FLongName: array[0..Pred(LONGMAX)] of AnsiChar;
-    procedure WriteFakeHeader(const ItemName: UTF8String; IsFileName: Boolean; Offset: LongInt);
-    function MakeLongName(const FileName, LinkName: UTF8String;
+    procedure WriteFakeHeader(const ItemName: String; IsFileName: Boolean; Offset: LongInt);
+    function MakeLongName(const FileName, LinkName: String;
                           NameLen, LinkLen: LongInt): LongInt;
     function ReadData(BytesToRead: Int64): Int64;
     procedure WriteData(Buffer: Pointer; BytesToWrite: Int64);
@@ -110,16 +110,16 @@ type
     UpdateStatistics: TUpdateStatisticsFunction;
     DataWrite: TDataWriteProcedure;
     procedure ShowError(sMessage: String);
-    procedure AddFile(const FileName: UTF8String);
-    function WriteFile(const FileName: UTF8String; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
+    procedure AddFile(const FileName: String);
+    function WriteFile(const FileName: String; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
   public
-    constructor Create(ArchiveFileName: UTF8String;
+    constructor Create(ArchiveFileName: String;
                        AskQuestionFunction: TAskQuestionFunction;
                        AbortOperationFunction: TAbortOperationFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
                        UpdateStatisticsFunction: TUpdateStatisticsFunction
                        );
-    constructor Create(ArchiveFileName: UTF8String;
+    constructor Create(ArchiveFileName: String;
                        AskQuestionFunction: TAskQuestionFunction;
                        AbortOperationFunction: TAbortOperationFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
@@ -189,7 +189,7 @@ begin
 end;
 
 {$IF DEFINED(MSWINDOWS)}
-function GetFileInfo(const FileName: UTF8String; out FileInfo: TWin32FindDataW): Boolean;
+function GetFileInfo(const FileName: String; out FileInfo: TWin32FindDataW): Boolean;
 var
   Handle: System.THandle;
 begin
@@ -203,7 +203,7 @@ begin
     end;
 end;
 {$ELSEIF DEFINED(UNIX)}
-function GetFileInfo(const FileName: UTF8String; out FileInfo: BaseUnix.Stat): Boolean;
+function GetFileInfo(const FileName: String; out FileInfo: BaseUnix.Stat): Boolean;
 begin
   Result:= fpLStat(PAnsiChar(UTF8ToSys(FileName)), FileInfo) >= 0;
 end;
@@ -217,7 +217,7 @@ begin
   AbortOperation;
 end;
 
-constructor TTarWriter.Create(ArchiveFileName: UTF8String;
+constructor TTarWriter.Create(ArchiveFileName: String;
                               AskQuestionFunction: TAskQuestionFunction;
                               AbortOperationFunction: TAbortOperationFunction;
                               CheckOperationStateFunction: TCheckOperationStateFunction;
@@ -240,7 +240,7 @@ begin
   FMemPack:= 0;
 end;
 
-constructor TTarWriter.Create(ArchiveFileName: UTF8String;
+constructor TTarWriter.Create(ArchiveFileName: String;
                               AskQuestionFunction: TAskQuestionFunction;
                               AbortOperationFunction: TAbortOperationFunction;
                               CheckOperationStateFunction: TCheckOperationStateFunction;
@@ -287,12 +287,12 @@ begin
   end;
 end;
 
-procedure TTarWriter.AddFile(const FileName: UTF8String);
+procedure TTarWriter.AddFile(const FileName: String);
 {$IF DEFINED(MSWINDOWS)}
 var
   FileInfo: TWin32FindDataW;
   LinkName,
-  FileNameIn: UTF8String;
+  FileNameIn: String;
   FileMode: Cardinal;
   FileTime,
   FileSize: Int64;
@@ -358,7 +358,7 @@ end;
 var
   FileInfo: BaseUnix.Stat;
   LinkName,
-  FileNameIn: UTF8String;
+  FileNameIn: String;
   NameLen,
   LinkLen: LongInt;
 begin
@@ -426,7 +426,7 @@ begin
 end;
 {$ENDIF}
 
-procedure TTarWriter.WriteFakeHeader(const ItemName: UTF8String;
+procedure TTarWriter.WriteFakeHeader(const ItemName: String;
   IsFileName: Boolean; Offset: LongInt);
 var
   TarHeader: TTarHeaderEx;
@@ -464,7 +464,7 @@ begin
   end;
 end;
 
-function TTarWriter.MakeLongName(const FileName, LinkName: UTF8String;
+function TTarWriter.MakeLongName(const FileName, LinkName: String;
                                  NameLen, LinkLen: LongInt): LongInt;
 begin
   with FTarHeader do
@@ -636,7 +636,7 @@ begin
   until ((Taken = InLen) and (BytesToCompress <> 0)) or (Result = MEMPACK_DONE);
 end;
 
-function TTarWriter.WriteFile(const FileName: UTF8String; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
+function TTarWriter.WriteFile(const FileName: String; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
 var
   BytesRead, BytesToRead, BytesToWrite: Int64;
   TotalBytesToRead: Int64 = 0;

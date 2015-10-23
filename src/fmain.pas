@@ -611,7 +611,7 @@ type
     procedure DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
       APanel: TFilePanelSelect);
     procedure DriveListClose(Sender: TObject);
-    function  FindMatchingDrive(Path: UTF8String): Integer;
+    function  FindMatchingDrive(Path: String): Integer;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
@@ -3296,7 +3296,7 @@ procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
   ShiftEx : TShiftState;
-  CmdText : UTF8String;
+  CmdText : String;
 begin
   SetDragCursor(Shift);
 
@@ -4810,7 +4810,7 @@ end;
 
 procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
 
-  procedure AddTab(ANoteBook: TFileViewNotebook; aPath: UTF8String);
+  procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
   var
     Page: TFileViewPage;
     AFileView: TFileView;
@@ -4828,7 +4828,7 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
     ANoteBook.PageIndex := ANoteBook.PageCount - 1;
   end;
 
-  procedure LoadPanel(aNoteBook: TFileViewNotebook; aPath: UTF8String);
+  procedure LoadPanel(aNoteBook: TFileViewNotebook; aPath: String);
   begin
     if Length(aPath) <> 0 then
     begin
@@ -4962,11 +4962,11 @@ begin
   Result := (edtCommand.Visible and pnlCommand.Visible);
 end;
 
-function TfrmMain.FindMatchingDrive(Path: UTF8String): Integer;
+function TfrmMain.FindMatchingDrive(Path: String): Integer;
 var
   i : Integer;
   LongestPathLen: Integer = 0;
-  DrivePath: UTF8String;
+  DrivePath: String;
   DrivePathLen: PtrInt;
 begin
   Result := -1;
@@ -5240,7 +5240,7 @@ procedure TfrmMain.UpdatePrompt;
 const
   PTLen = 40;
 var
-  st: UTF8String;
+  st: String;
 begin
   if (fsoExecute in ActiveFrame.FileSource.GetOperationsTypes) then
   begin

@@ -123,7 +123,7 @@ end;
 
 procedure TfrmOptionsArchivers.btnMultiArcAddClick(Sender: TObject);
 var
-  sName: UTF8String;
+  sName: String;
   MultiArcItem: TMultiArcItem;
 begin
   if InputQuery(Caption, rsOptArchiveTypeName, sName) then
@@ -180,7 +180,7 @@ end;
 
 procedure TfrmOptionsArchivers.btnMultiArcRenameClick(Sender: TObject);
 var
-  sNewName: UTF8String;
+  sNewName: String;
 begin
   if lbxMultiArc.ItemIndex < 0 then Exit;
   sNewName:= lbxMultiArc.Items[lbxMultiArc.ItemIndex];

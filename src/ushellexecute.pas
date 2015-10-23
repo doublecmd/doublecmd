@@ -323,7 +323,7 @@ var
       Result := UTF8ToSys(Result);
   end;
 
-  function BuildFileList: UTF8String;
+  function BuildFileList: String;
   var
     I: integer;
     FileName: ansistring;

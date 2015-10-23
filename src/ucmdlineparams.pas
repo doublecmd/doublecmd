@@ -32,7 +32,7 @@ var
   Option: AnsiChar = #0;
   OptionIndex: LongInt = 0;
   Options: array[1..5] of TOption;
-  OptionUnknown: UTF8String;
+  OptionUnknown: String;
 begin
   FillChar(Options, SizeOf(Options), #0);
   with Options[1] do

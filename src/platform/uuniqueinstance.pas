@@ -16,7 +16,7 @@ type
   TUniqueInstance = class
   private
     FHandle: THandle;
-    FInstanceName: UTF8String;
+    FInstanceName: String;
     FServerIPC: TSimpleIPCServer;
     FClientIPC: TSimpleIPCClient;
     FOnMessage: TOnUniqueInstanceMessage;

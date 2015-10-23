@@ -30,7 +30,7 @@ type
     constructor Create(aTargetFileSource: IFileSource;
                        var aExecutableFile: TFile;
                        aCurrentPath,
-                       aVerb: UTF8String); override;
+                       aVerb: String); override;
 
     procedure Initialize; override;
     procedure MainExecute; override;
@@ -46,7 +46,7 @@ constructor TMultiArchiveExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
                 var aExecutableFile: TFile;
                 aCurrentPath,
-                aVerb: UTF8String);
+                aVerb: String);
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);

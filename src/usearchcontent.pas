@@ -51,7 +51,7 @@ type
     procedure SetField(AValue: String);
     procedure SetPlugin(AValue: String);
     procedure SetValue(AValue: Variant);
-    procedure SetComboBox(ComboBox: TComboBox; const Value, Error: UTF8String);
+    procedure SetComboBox(ComboBox: TComboBox; const Value, Error: String);
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -208,7 +208,7 @@ begin
 end;
 
 procedure TPluginPanel.SetComboBox(ComboBox: TComboBox; const Value,
-  Error: UTF8String);
+  Error: String);
 var
   Index: Integer;
 begin

@@ -211,7 +211,7 @@ end;
 
 procedure TCheckContentThread.Execute;
 
-  function CompareFiles(fn1, fn2: UTF8String; len: Int64): Boolean;
+  function CompareFiles(fn1, fn2: String; len: Int64): Boolean;
   const
     BUFLEN = 1024 * 32;
   var

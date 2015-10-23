@@ -97,7 +97,7 @@ type
        @returns(List of filenames or nil in case of an error.)
     }
     function GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
-    function SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:UTF8String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
+    function SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
 
     {en
        Retrieves the text from the CF_UNICODETEXT/CF_TEXT format, will store this in a single file
@@ -798,7 +798,7 @@ var
   i: Integer;
   DropInfo: TDragDropInfo;
   FileNames, DragTextModeOfferedList: TStringList;
-  SelectedFormatName:UTF8String;
+  SelectedFormatName:String;
   DropEffect: TDropEffect;
   Enum: IEnumFormatEtc;
   DragAndDropSupportedFormatList:TStringList;
@@ -988,7 +988,7 @@ begin
 end;
 
 { TFileDropTarget.SaveCfuContentToFile }
-function TFileDropTarget.SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:UTF8String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
+function TFileDropTarget.SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
 const
   TEMPFILENAME='CfuContentFile.bin';
 var
@@ -1066,7 +1066,7 @@ var
   DC_FileDescriptorW: FILEDESCRIPTORW;
   DC_FileDescriptor: FILEDESCRIPTOR;
   NumberOfFiles, CopyNumber, IndexFile: integer;
-  ActualFilename, DroppedTextFilename: UTF8String;
+  ActualFilename, DroppedTextFilename: String;
   SuffixStr: string;
   WantedCreationTime, WantedModificationTime, WantedLastAccessTime : DCBasicTypes.TFileTime;
 begin
@@ -1151,7 +1151,7 @@ var
   AnyPointer: Pointer;
   UnicodeCharPointer: PUnicodeChar;
   hFile: THandle;
-  DroppedTextFilename: UTF8String;
+  DroppedTextFilename: String;
   MyUnicodeString: UnicodeString;
 
   procedure SetDefaultFilename;

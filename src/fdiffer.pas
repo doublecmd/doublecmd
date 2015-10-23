@@ -221,10 +221,10 @@ type
     procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
     procedure ChooseEncoding(MenuItem: TMenuItem; Encoding: String);
     procedure FillEncodingMenu(TheOwner: TMenuItem; MenuHandler: TNotifyEvent; GroupIndex: LongInt);
-    procedure LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
-    procedure SaveToFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
-    procedure OpenFileLeft(const FileName: UTF8String);
-    procedure OpenFileRight(const FileName: UTF8String);
+    procedure LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
+    procedure SaveToFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
+    procedure OpenFileLeft(const FileName: String);
+    procedure OpenFileRight(const FileName: String);
     procedure SetEncodingLeft(Sender: TObject);
     procedure SetEncodingRight(Sender: TObject);
     procedure SynDiffEditEnter(Sender: TObject);
@@ -248,7 +248,7 @@ type
     procedure cm_SaveRight(const Params: array of string);
   end; 
 
-procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
+procedure ShowDiffer(const FileNameLeft, FileNameRight: String);
 
 implementation
 
@@ -261,7 +261,7 @@ uses
 const
   HotkeysCategory = 'Differ';
 
-procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
+procedure ShowDiffer(const FileNameLeft, FileNameRight: String);
 begin
   with TfrmDiffer.Create(Application) do
   begin
@@ -1021,7 +1021,7 @@ begin
     end;
 end;
 
-procedure TfrmDiffer.LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
+procedure TfrmDiffer.LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
 var
   fsFileStream: TFileStreamEx = nil;
 begin
@@ -1053,7 +1053,7 @@ begin
 end;
 
 procedure TfrmDiffer.SaveToFile(SynDiffEdit: TSynDiffEdit;
-  const FileName: UTF8String);
+  const FileName: String);
 var
   slStringList: TStringListEx;
 begin
@@ -1087,7 +1087,7 @@ begin
   end;
 end;
 
-procedure TfrmDiffer.OpenFileLeft(const FileName: UTF8String);
+procedure TfrmDiffer.OpenFileLeft(const FileName: String);
 begin
   if not mbFileExists(FileName) then Exit;
   if actBinaryCompare.Checked then
@@ -1106,7 +1106,7 @@ begin
   end;
 end;
 
-procedure TfrmDiffer.OpenFileRight(const FileName: UTF8String);
+procedure TfrmDiffer.OpenFileRight(const FileName: String);
 begin
   if not mbFileExists(FileName) then Exit;
   if actBinaryCompare.Checked then

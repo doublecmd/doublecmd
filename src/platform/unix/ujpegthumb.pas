@@ -32,7 +32,7 @@ uses
   Classes, SysUtils, Types, Graphics, FPReadJPEG, IntfGraphics, GraphType,
   DCClassesUtf8, uReSample, uThumbnails;
 
-function GetThumbnail(const aFileName: UTF8String; aSize: TSize): Graphics.TBitmap;
+function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
   Bitmap: TBitmap;
   RawImage: TRawImage;

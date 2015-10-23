@@ -28,14 +28,14 @@ type
   end; 
 
 function ShowSelectTextRangeDlg(TheOwner: TCustomForm; const ACaption,
-                                AText: UTF8String; out ASelection: TPoint): Boolean;
+                                AText: String; out ASelection: TPoint): Boolean;
 
 implementation
 
 {$R *.lfm}
 
 function ShowSelectTextRangeDlg(TheOwner: TCustomForm; const ACaption,
-                                AText: UTF8String; out ASelection: TPoint): Boolean;
+                                AText: String; out ASelection: TPoint): Boolean;
 begin
   with TfrmSelectTextRange.Create(TheOwner) do
   try

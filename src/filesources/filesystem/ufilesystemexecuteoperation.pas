@@ -30,7 +30,7 @@ type
     constructor Create(aTargetFileSource: IFileSource;
                        var aExecutableFile: TFile;
                        aCurrentPath,
-                       aVerb: UTF8String); override;
+                       aVerb: String); override;
 
     procedure Initialize; override;
     procedure MainExecute; override;
@@ -46,7 +46,7 @@ constructor TFileSystemExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
                 var aExecutableFile: TFile;
                 aCurrentPath,
-                aVerb: UTF8String);
+                aVerb: String);
 begin
   FFileSystemFileSource := aTargetFileSource as IFileSystemFileSource;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);

@@ -33,7 +33,7 @@ uses
    Returns a base directory relative to which user-specific data
    files should be written.
 }
-function GetUserDataDir: UTF8String;
+function GetUserDataDir: String;
 {en
    Returns an ordered list of base directories in which to access
    system-wide application data.
@@ -43,7 +43,7 @@ function GetSystemDataDirs: TDynamicStringArray;
    Returns a base directory in which to store user-specific application
    configuration information such as user preferences and settings.
 }
-function GetUserConfigDir: UTF8String;
+function GetUserConfigDir: String;
 {en
   Returns an ordered list of base directories in which to access
   system-wide configuration information.
@@ -56,14 +56,14 @@ function GetCurrentDesktop: TDynamicStringArray;
 {en
    Get desktop file path by desktop base file name.
 }
-function GetDesktopPath(const DesktopName: UTF8String): UTF8String;
+function GetDesktopPath(const DesktopName: String): String;
 
 implementation
 
 uses
   DCStrUtils, DCOSUtils, uOSUtils;
 
-function GetUserDataDir: UTF8String;
+function GetUserDataDir: String;
 begin
   Result:= mbGetEnvironmentVariable('XDG_DATA_HOME');
   if Length(Result) = 0 then begin
@@ -83,7 +83,7 @@ begin
   Result:= SplitString(Value, PathSeparator);
 end;
 
-function GetUserConfigDir: UTF8String;
+function GetUserConfigDir: String;
 begin
   Result:= mbGetEnvironmentVariable('XDG_CONFIG_HOME');
   if Length(Result) = 0 then begin
@@ -114,16 +114,16 @@ begin
   end;
 end;
 
-function GetDesktopPath(const DesktopName: UTF8String): UTF8String;
+function GetDesktopPath(const DesktopName: String): String;
 const
   PrefixDelim = '-';
 var
   Index: Integer;
   HasPrefix: Boolean;
-  FileName: UTF8String;
+  FileName: String;
   Path: TDynamicStringArray;
 
-  function DesktopExists(var DesktopPath: UTF8String): Boolean;
+  function DesktopExists(var DesktopPath: String): Boolean;
   var
     Prefix: PAnsiChar;
   begin

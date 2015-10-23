@@ -108,7 +108,7 @@ threadvar
   // for plugins that supports background operations (see GetBackgroundFlags)
   WcxCopyOutOperationT: TWcxArchiveCopyOutOperation;
 
-function ChangeVolProc(var ArcName : UTF8String; Mode: LongInt): LongInt;
+function ChangeVolProc(var ArcName : String; Mode: LongInt): LongInt;
 begin
   Result:= 1;
   case Mode of
@@ -126,7 +126,7 @@ end;
 
 function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
-  sArcName: UTF8String;
+  sArcName: String;
 begin
   sArcName:= SysToUTF8(StrPas(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
@@ -136,7 +136,7 @@ end;
 
 function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
 var
-  sArcName: UTF8String;
+  sArcName: String;
 begin
   sArcName:= UTF8Encode(WideString(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
@@ -145,7 +145,7 @@ begin
 end;
 
 function ProcessDataProc(WcxCopyOutOperation: TWcxArchiveCopyOutOperation;
-                         FileName: UTF8String; Size: LongInt): LongInt;
+                         FileName: String; Size: LongInt): LongInt;
 begin
   //DCDebug('Working (' + IntToStr(GetCurrentThreadId) + ') ' + FileName + ' Size = ' + IntToStr(Size));
 

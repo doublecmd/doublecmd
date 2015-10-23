@@ -221,7 +221,7 @@ var
 {$ENDIF}
 
 var
-  VKToCharArray: array[Low(Byte)..High(Byte)] of UTF8String;
+  VKToCharArray: array[Low(Byte)..High(Byte)] of String;
 
 {$IF DEFINED(LCLGTK)}
 function XKeycodeToKeysym(para1:PDisplay; para2:TKeyCode; index:integer):TKeySym;cdecl;external libX11;

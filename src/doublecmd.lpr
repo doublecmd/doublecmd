@@ -90,7 +90,9 @@ begin
 
   {$IFDEF MSWINDOWS}
   uMyWindows.InitErrorMode;
+  {$IF (FPC_FULLVERSION < 30000) OR DEFINED(DisableUTF8RTL)}
   uMyWindows.FixCommandLineToUTF8;
+  {$ENDIF}
   {$ENDIF}
 
   // Fix default BidiMode

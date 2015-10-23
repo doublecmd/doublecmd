@@ -30,7 +30,7 @@ type
     // Options
     FInfoOperation: LongInt;
   protected
-    function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
+    function UpdateProgress(SourceName, TargetName: String; PercentDone: Integer): Integer;
 
   public
     constructor Create(aFileSource: IFileSource;
@@ -54,7 +54,7 @@ uses
 
 // -- TWfxPluginMoveOperation ---------------------------------------------
 
-function TWfxPluginMoveOperation.UpdateProgress(SourceName, TargetName: UTF8String;
+function TWfxPluginMoveOperation.UpdateProgress(SourceName, TargetName: String;
                                                 PercentDone: Integer): Integer;
 var
   iTemp: Int64;

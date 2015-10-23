@@ -20,8 +20,8 @@ uses
                          out NewFiles: TFiles;
                          out FilesCount: Int64;
                          out FilesSize: Int64);
-  function FileExistsMessage(const TargetName, SourceName: UTF8String;
-                             SourceSize: Int64; SourceTime: TDateTime): UTF8String;
+  function FileExistsMessage(const TargetName, SourceName: String;
+                             SourceSize: Int64; SourceTime: TDateTime): String;
 
 type
 
@@ -226,8 +226,8 @@ begin
   end;
 end;
 
-function FileExistsMessage(const TargetName, SourceName: UTF8String;
-                           SourceSize: Int64; SourceTime: TDateTime): UTF8String;
+function FileExistsMessage(const TargetName, SourceName: String;
+                           SourceSize: Int64; SourceTime: TDateTime): String;
 var
   TargetInfo: TSearchRec;
 begin

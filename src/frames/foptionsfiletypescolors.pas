@@ -113,7 +113,7 @@ end;
 
 procedure TfrmOptionsFileTypesColors.btnSearchTemplateClick(Sender: TObject);
 var
-  sMask: UTF8String;
+  sMask: String;
   bTemplate: Boolean;
 begin
   sMask:= edtCategoryMask.Text;

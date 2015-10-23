@@ -43,10 +43,10 @@ type
   TFSWatcherEventTypes = set of TFSWatcherEventType;
 
   TFSWatcherEventData = record
-    Path: UTF8String;
+    Path: String;
     EventType: TFSWatcherEventType;
-    FileName: UTF8String;    // Valid for fswFileCreated, fswFileChanged, fswFileDeleted, fswFileRenamed
-    NewFileName: UTF8String; // Valid for fswFileRenamed
+    FileName: String;    // Valid for fswFileCreated, fswFileChanged, fswFileDeleted, fswFileRenamed
+    NewFileName: String; // Valid for fswFileRenamed
     UserData: Pointer;
   end;
   PFSWatcherEventData = ^TFSWatcherEventData;
@@ -63,11 +63,11 @@ type
     {en
        Returns @true if watch has been successfully added or already exists.
     }
-    class function AddWatch(aWatchPath: UTF8String;
+    class function AddWatch(aWatchPath: String;
                             aWatchFilter: TFSWatchFilter;
                             aWatcherEvent: TFSWatcherEvent;
                             UserData: Pointer = nil): Boolean;
-    class procedure RemoveWatch(aWatchPath: UTF8String;
+    class procedure RemoveWatch(aWatchPath: String;
                                 aWatcherEvent: TFSWatcherEvent);
     class procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
     class function CanWatch(const WatchPaths: array of String): Boolean;
@@ -96,14 +96,14 @@ var
   VAR_READDIRECTORYCHANGESW_BUFFERSIZE: DWORD = READDIRECTORYCHANGESW_BUFFERSIZE;
   CREATEFILEW_SHAREMODE: DWORD = FILE_SHARE_READ or FILE_SHARE_WRITE;
 
-function GetTargetPath(const Path: UTF8String): UTF8String;
+function GetTargetPath(const Path: String): String;
 begin
   Result := mbReadAllLinks(Path);
   if Result = EmptyStr then
     Result := Path;
 end;
 
-function GetDriveOfPath(const Path: UTF8String): UTF8String;
+function GetDriveOfPath(const Path: String): String;
 begin
   Result := ExtractFileDrive(GetTargetPath(Path)) + PathDelim;
 end;
@@ -115,8 +115,8 @@ type
     WatcherEvent: TFSWatcherEvent;
     WatchFilter: TFSWatchFilter;
     {$IF DEFINED(MSWINDOWS)}
-    RegisteredWatchPath: UTF8String; // Path that was registered to watch (for watching whole drive mode).
-    TargetWatchPath: UTF8String;     // What path is actually to be watched (for watching whole drive mode).
+    RegisteredWatchPath: String; // Path that was registered to watch (for watching whole drive mode).
+    TargetWatchPath: String;     // What path is actually to be watched (for watching whole drive mode).
     {$ENDIF}
   end;
   TOSWatchObservers = specialize TFPGObjectList<TOSWatchObserver>;
@@ -126,13 +126,13 @@ type
     FHandle: THandle;
     FObservers: TOSWatchObservers;
     FWatchFilter: TFSWatchFilter;
-    FWatchPath: UTF8String;
+    FWatchPath: String;
     {$IF DEFINED(MSWINDOWS)}
     FOverlapped: OVERLAPPED;
     FBuffer: PByte;
     FNotifyFilter: DWORD;
     FReferenceCount: LongInt;
-    FOldFileName: UTF8String; // for FILE_ACTION_RENAMED_OLD_NAME action
+    FOldFileName: String; // for FILE_ACTION_RENAMED_OLD_NAME action
     {$ENDIF}
     {$IF DEFINED(UNIX)}
     FNotifyHandle: THandle;
@@ -145,7 +145,7 @@ type
     procedure SetFilter(aWatchFilter: TFSWatchFilter);
     {$ENDIF}
   public
-    constructor Create(const aWatchPath: UTF8String
+    constructor Create(const aWatchPath: String
                        {$IFDEF UNIX}; aNotifyHandle: THandle{$ENDIF}); reintroduce;
     destructor Destroy; override;
     procedure UpdateFilter;
@@ -155,7 +155,7 @@ type
     {$ENDIF}
     property Handle: THandle read FHandle;
     property Observers: TOSWatchObservers read FObservers;
-    property WatchPath: UTF8String read FWatchPath;
+    property WatchPath: String read FWatchPath;
   end;
   TOSWatchs = specialize TFPGObjectList<TOSWatch>;
 
@@ -176,9 +176,9 @@ type
 
     procedure DoWatcherEvent;
     function GetWatchersCount: Integer;
-    function GetWatchPath(var aWatchPath: UTF8String): Boolean;
+    function GetWatchPath(var aWatchPath: String): Boolean;
     {$IF DEFINED(MSWINDOWS)}
-    function IsPathObserved(Watch: TOSWatch; FileName: UTF8String): Boolean;
+    function IsPathObserved(Watch: TOSWatch; FileName: String): Boolean;
     {$ENDIF}
     {en
        Call only under FWatcherLock.
@@ -197,11 +197,11 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Terminate;
-    function AddWatch(aWatchPath: UTF8String;
+    function AddWatch(aWatchPath: String;
                       aWatchFilter: TFSWatchFilter;
                       aWatcherEvent: TFSWatcherEvent;
                       UserData: Pointer = nil): Boolean;
-    procedure RemoveWatch(aWatchPath: UTF8String;
+    procedure RemoveWatch(aWatchPath: String;
                           aWatcherEvent: TFSWatcherEvent);
     procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
     property WatchersCount: Integer read GetWatchersCount;
@@ -239,7 +239,7 @@ begin
   end;
 end;
 
-class function TFileSystemWatcher.AddWatch(aWatchPath: UTF8String;
+class function TFileSystemWatcher.AddWatch(aWatchPath: String;
                                            aWatchFilter: TFSWatchFilter;
                                            aWatcherEvent: TFSWatcherEvent;
                                            UserData: Pointer = nil): Boolean;
@@ -251,7 +251,7 @@ begin
     Result := False;
 end;
 
-class procedure TFileSystemWatcher.RemoveWatch(aWatchPath: UTF8String;
+class procedure TFileSystemWatcher.RemoveWatch(aWatchPath: String;
                                                aWatcherEvent: TFSWatcherEvent);
 begin
   if Assigned(FileSystemWatcher) then
@@ -815,7 +815,7 @@ begin
   end; { try - finally }
 end;
 
-function TFileSystemWatcherImpl.GetWatchPath(var aWatchPath: UTF8String): Boolean;
+function TFileSystemWatcherImpl.GetWatchPath(var aWatchPath: String): Boolean;
 begin
   Result := True;
 {$IFDEF UNIX}
@@ -834,10 +834,10 @@ begin
 end;
 
 {$IF DEFINED(MSWINDOWS)}
-function TFileSystemWatcherImpl.IsPathObserved(Watch: TOSWatch; FileName: UTF8String): Boolean;
+function TFileSystemWatcherImpl.IsPathObserved(Watch: TOSWatch; FileName: String): Boolean;
 var
   j: Integer;
-  Path: UTF8String;
+  Path: String;
 begin
   Path := UTF8UpperCase(Watch.WatchPath + FileName);
 
@@ -966,7 +966,7 @@ begin
   TriggerTerminateEvent;
 end;
 
-function TFileSystemWatcherImpl.AddWatch(aWatchPath: UTF8String;
+function TFileSystemWatcherImpl.AddWatch(aWatchPath: String;
                                          aWatchFilter: TFSWatchFilter;
                                          aWatcherEvent: TFSWatcherEvent;
                                          UserData: Pointer): Boolean;
@@ -977,7 +977,7 @@ var
   i, j: Integer;
   WatcherIndex: Integer = -1;
   {$IFDEF MSWINDOWS}
-  RegisteredPath: UTF8String;
+  RegisteredPath: String;
   {$ENDIF}
 begin
   if (aWatchPath = '') or (aWatcherEvent = nil) then
@@ -1055,7 +1055,7 @@ begin
   end;
 end;
 
-procedure TFileSystemWatcherImpl.RemoveWatch(aWatchPath: UTF8String;
+procedure TFileSystemWatcherImpl.RemoveWatch(aWatchPath: String;
                                              aWatcherEvent: TFSWatcherEvent);
 var
   i: Integer;
@@ -1188,7 +1188,7 @@ end;
 
 { TOSWatch }
 
-constructor TOSWatch.Create(const aWatchPath: UTF8String
+constructor TOSWatch.Create(const aWatchPath: String
                             {$IFDEF UNIX}; aNotifyHandle: THandle{$ENDIF});
 begin
   FObservers := TOSWatchObservers.Create(True);

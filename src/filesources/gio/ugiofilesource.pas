@@ -173,7 +173,7 @@ procedure ask_password_cb (op: PGMountOperation;
 var
   UserName,
   Password,
-  Domain: UTF8String;
+  Domain: String;
   password_save: TGPasswordSave;
   mount_handled: gboolean = FALSE;
   FileSource: TGioFileSource absolute user_data;

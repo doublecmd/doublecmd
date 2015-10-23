@@ -58,11 +58,11 @@ function GetDesktopEntries(FileNames: TStringList): TList;
    Needs absolute file names.
    Returns a default application command line.
 }
-function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
+function GetDefaultAppCmd(FileNames: TStringList): String;
 {en
    Get desktop entry by desktop file name.
 }
-function GetDesktopEntry(const FileName: UTF8String): PDesktopFileEntry;
+function GetDesktopEntry(const FileName: String): PDesktopFileEntry;
 {en
    Adds a new action for given mimetype.
    @param(MimeType File mime type)
@@ -70,7 +70,7 @@ function GetDesktopEntry(const FileName: UTF8String): PDesktopFileEntry;
    @param(DefaultAction Set as default action for this mime type)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function AddDesktopEntry(const MimeType, DesktopEntry: UTF8String;
+function AddDesktopEntry(const MimeType, DesktopEntry: String;
                                    DefaultAction: Boolean): Boolean;
 
 function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
@@ -303,7 +303,7 @@ const
   MIME_INFO_CACHE = 'mimeinfo.cache';
 var
   MimeCache: TKeyFile;
-  FileName: UTF8String;
+  FileName: String;
   AValue: TDynamicStringArray;
 begin
   FileName:= IncludeTrailingBackslash(Path) + MIME_INFO_CACHE;
@@ -407,7 +407,7 @@ begin
   end;
 end;
 
-function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
+function GetDefaultAppCmd(FileNames: TStringList): String;
 var
   I: Integer;
   Action: String;
@@ -418,7 +418,7 @@ var
   MimeTypes: TDynamicStringArray;
   MimeAppsPath: TDynamicStringArray;
 
-  function GetAppExec: UTF8String;
+  function GetAppExec: String;
   begin
     if Length(Action) > 0 then
     begin
@@ -495,7 +495,7 @@ begin
   end; //for
 end;
 
-function GetDesktopEntry(const FileName: UTF8String): PDesktopFileEntry;
+function GetDesktopEntry(const FileName: String): PDesktopFileEntry;
 var
   DesktopEntryFile: TKeyFile;
 begin
@@ -538,15 +538,15 @@ begin
   end;
 end;
 
-function AddDesktopEntry(const MimeType, DesktopEntry: UTF8String; DefaultAction: Boolean): Boolean;
+function AddDesktopEntry(const MimeType, DesktopEntry: String; DefaultAction: Boolean): Boolean;
 var
-  CustomFile: UTF8String;
-  UserDataDir: UTF8String;
+  CustomFile: String;
+  UserDataDir: String;
   DesktopFile: TIniFileEx;
-  MimeTypeValue: UTF8String;
-  MimeApps: UTF8String = '/applications/mimeapps.list';
+  MimeTypeValue: String;
+  MimeApps: String = '/applications/mimeapps.list';
 
-  procedure UpdateDesktop(const Group: UTF8String);
+  procedure UpdateDesktop(const Group: String);
   begin
     // Read current actions of this mime type
     MimeTypeValue:= DesktopFile.ReadString(Group, MimeType, EmptyStr);

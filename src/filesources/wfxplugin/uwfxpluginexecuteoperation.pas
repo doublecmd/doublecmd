@@ -30,7 +30,7 @@ type
     constructor Create(aTargetFileSource: IFileSource;
                        var aExecutableFile: TFile;
                        aCurrentPath,
-                       aVerb: UTF8String); override;
+                       aVerb: String); override;
 
     procedure Initialize; override;
     procedure MainExecute; override;
@@ -46,7 +46,7 @@ constructor TWfxPluginExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
                 var aExecutableFile: TFile;
                 aCurrentPath,
-                aVerb: UTF8String);
+                aVerb: String);
 begin
   FWfxPluginFileSource := aTargetFileSource as IWfxPluginFileSource;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);
@@ -60,7 +60,7 @@ end;
 
 procedure TWfxPluginExecuteOperation.MainExecute;
 var
-  RemoteName: UTF8String;
+  RemoteName: String;
   iResult: LongInt;
 begin
     RemoteName:= AbsolutePath;

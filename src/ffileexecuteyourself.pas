@@ -46,7 +46,7 @@ type
   private
     FFileSource: IFileSource;
   public
-    constructor Create(TheOwner: TComponent; aFileSource: IFileSource; const FileName, FromPath: UTF8String); reintroduce;
+    constructor Create(TheOwner: TComponent; aFileSource: IFileSource; const FileName, FromPath: String); reintroduce;
     destructor Destroy; override;
   end; 
 
@@ -65,7 +65,7 @@ var
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation = nil;
   CurrentDir,
-  FileName: UTF8String;
+  FileName: String;
 begin
   Result:= False;
   try
@@ -117,7 +117,7 @@ begin
 end;
 
 constructor TfrmFileExecuteYourSelf.Create(TheOwner: TComponent;
-  aFileSource: IFileSource; const FileName, FromPath: UTF8String);
+  aFileSource: IFileSource; const FileName, FromPath: String);
 begin
   inherited Create(TheOwner);
   FFileSource:= aFileSource;

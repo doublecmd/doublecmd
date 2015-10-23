@@ -101,7 +101,7 @@ procedure TMultiArchiveCalcStatisticsOperation.ProcessSubDirs(const srcPath: Str
 var
   I: Integer;
   ArchiveItem: TArchiveItem;
-  CurrFileName: UTF8String;
+  CurrFileName: String;
   ModificationTime: TDateTime;
 begin
   for I:= 0 to FMultiArchiveFileSource.ArchiveFileList.Count - 1 do

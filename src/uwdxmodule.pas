@@ -728,7 +728,7 @@ var
   Rez: Integer;
   xFieldName: PAnsiChar;
   xUnits: PAnsiChar;
-  sFieldName: UTF8String;
+  sFieldName: String;
 begin
   if not Assigned(ContentGetSupportedField) then
     Exit;

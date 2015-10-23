@@ -11,7 +11,7 @@ type
 
   { TCreatePreviewHandler }
 
-  TCreatePreviewHandler = function(const aFileName: UTF8String; aSize: TSize): TBitmap;
+  TCreatePreviewHandler = function(const aFileName: String; aSize: TSize): TBitmap;
 
   { TBitmapList }
 
@@ -23,22 +23,22 @@ type
   private
     FBitmap: TBitmap;
     FBackColor: TColor;
-    FFileName: UTF8String;
-    FThumbPath: UTF8String;
+    FFileName: String;
+    FThumbPath: String;
     FProviderList: array of TCreatePreviewHandler; static;
   private
     procedure DoCreatePreviewText;
-    function GetPreviewFileExt(const sFileExt: UTF8String): UTF8String;
-    function GetPreviewFileName(const sFileName: UTF8String): UTF8String;
+    function GetPreviewFileExt(const sFileExt: String): String;
+    function GetPreviewFileName(const sFileName: String): String;
     function CreatePreviewImage(const Graphic: TGraphic): TBitmap;
     function ReadMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
     function WriteMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
-    class function ReadFileName(const aThumb: UTF8String; out aFileName: UTF8String): Boolean;
+    class function ReadFileName(const aThumb: String; out aFileName: String): Boolean;
   public
     constructor Create(BackColor: TColor);
     function CreatePreview(const aFile: TFile): TBitmap;
-    function CreatePreview(const FullPathToFile: UTF8String): TBitmap;
-    function RemovePreview(const FullPathToFile: UTF8String): Boolean;
+    function CreatePreview(const FullPathToFile: String): TBitmap;
+    function RemovePreview(const FullPathToFile: String): Boolean;
   public
     class procedure CompactCache;
     class procedure RegisterProvider(Provider: TCreatePreviewHandler);
@@ -54,7 +54,7 @@ uses
 const
   ThumbSign: QWord = $0000235448554D42; // '#0 #0 # T H U M B'
 
-function TThumbnailManager.GetPreviewFileExt(const sFileExt: UTF8String): UTF8String;
+function TThumbnailManager.GetPreviewFileExt(const sFileExt: String): String;
 begin
   if (sFileExt = 'jpg') or (sFileExt = 'jpeg') or (sFileExt = 'bmp') then
     Result:= 'jpg'
@@ -62,7 +62,7 @@ begin
     Result:= 'png';
 end;
 
-function TThumbnailManager.GetPreviewFileName(const sFileName: UTF8String): UTF8String;
+function TThumbnailManager.GetPreviewFileName(const sFileName: String): String;
 begin
   Result:= MD5Print(MD5String(sFileName));
 end;
@@ -160,8 +160,8 @@ begin
   end;
 end;
 
-class function TThumbnailManager.ReadFileName(const aThumb: UTF8String;
-                                              out  aFileName: UTF8String): Boolean;
+class function TThumbnailManager.ReadFileName(const aThumb: String;
+                                              out  aFileName: String): Boolean;
 var
   fsFileStream: TFileStreamEx;
 begin
@@ -192,9 +192,9 @@ begin
   if not mbDirectoryExists(FThumbPath) then mbForceDirectory(FThumbPath);
 end;
 
-function TThumbnailManager.RemovePreview(const FullPathToFile: UTF8String): Boolean;
+function TThumbnailManager.RemovePreview(const FullPathToFile: String): Boolean;
 var
-  sExt, sName: UTF8String;
+  sExt, sName: String;
 begin
   sExt:= GetPreviewFileExt(ExtractOnlyFileExt(FullPathToFile));
   sName:= GetPreviewFileName(FullPathToFile);
@@ -206,7 +206,7 @@ function TThumbnailManager.CreatePreview(const aFile: TFile): TBitmap;
 var
   I: Integer;
   sFullPathToFile, sThumbFileName,
-  sExt: UTF8String;
+  sExt: String;
   fsFileStream: TFileStreamEx = nil;
   Picture: TPicture = nil;
 begin
@@ -299,7 +299,7 @@ begin
   end;
 end;
 
-function TThumbnailManager.CreatePreview(const FullPathToFile: UTF8String): TBitmap;
+function TThumbnailManager.CreatePreview(const FullPathToFile: String): TBitmap;
 var
   aFile: TFile;
 begin
@@ -314,7 +314,7 @@ end;
 class procedure TThumbnailManager.CompactCache;
 var
   I: Integer;
-  aFileName: UTF8String;
+  aFileName: String;
   aFileList: TStringList;
 begin
   aFileList:= FindAllFiles(gpCacheDir + PathDelim + 'thumbnails');

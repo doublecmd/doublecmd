@@ -55,7 +55,7 @@ type
     Time : DCBasicTypes.TFileTime;  // modification time
     Size : Int64;
     Attr : TFileAttrs;
-    Name : UTF8String;
+    Name : String;
     ExcludeAttr : TFileAttrs;
 {$ifdef unix}
     FindHandle : Pointer;
@@ -76,7 +76,7 @@ type
 {$endif}
   end;
 
-function FindFirstEx (const Path : UTF8String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
+function FindFirstEx (const Path : String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
 function FindNextEx (var SearchRec : TSearchRecEx) : Longint;
 procedure FindCloseEx(var SearchRec: TSearchRecEx);
 function CheckAttrMask(DefaultAttr : TFileAttrs; sAttr : String; Attr : TFileAttrs) : Boolean;
@@ -139,7 +139,7 @@ begin
 end;
 {$ENDIF}
 
-function FindFirstEx (const Path : UTF8String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
+function FindFirstEx (const Path : String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
 {$IFDEF MSWINDOWS}
 var
   wPath: WideString;

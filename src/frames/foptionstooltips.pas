@@ -85,7 +85,7 @@ uses
 
 procedure TfrmOptionsToolTips.btnFieldsSearchTemplateClick(Sender: TObject);
 var
-  sMask: UTF8String;
+  sMask: String;
   bTemplate: Boolean;
 begin
   if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask) then

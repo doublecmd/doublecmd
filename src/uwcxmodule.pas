@@ -39,11 +39,11 @@ Type
   { Handles THeaderData and THeaderDataEx }
   TWCXHeader = class
   private
-    function PCharLToUTF8(CharString: PChar; MaxSize: Integer): UTF8String;
+    function PCharLToUTF8(CharString: PChar; MaxSize: Integer): String;
 
   public
-    ArcName: UTF8String;
-    FileName: UTF8String;
+    ArcName: String;
+    FileName: String;
     Flags,
     HostOS,
     FileCRC,
@@ -53,7 +53,7 @@ Type
     FileAttr: TFileAttrs;
     PackSize,
     UnpSize: Int64;
-    Cmt: UTF8String;
+    Cmt: String;
     CmtState: Longint;
 
     constructor Create(const Data: PHeaderData); overload;
@@ -120,11 +120,11 @@ Type
                            out HeaderData: TWCXHeader): Integer;
 
     function OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
-    function WcxProcessFile(hArcData: TArcHandle; Operation: LongInt; DestPath, DestName: UTF8String): LongInt;
-    function WcxPackFiles(PackedFile, SubPath, SrcPath, AddList: UTF8String; Flags: LongInt): LongInt;
-    function WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
-    function WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
-    function WcxStartMemPack(Options: LongInt;  FileName: UTF8String): TArcHandle;
+    function WcxProcessFile(hArcData: TArcHandle; Operation: LongInt; DestPath, DestName: String): LongInt;
+    function WcxPackFiles(PackedFile, SubPath, SrcPath, AddList: String; Flags: LongInt): LongInt;
+    function WcxDeleteFiles(PackedFile, DeleteList: String): LongInt;
+    function WcxCanYouHandleThisFile(FileName: String): Boolean;
+    function WcxStartMemPack(Options: LongInt;  FileName: String): TArcHandle;
     procedure WcxSetChangeVolProc(hArcData: TArcHandle; ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW);
     procedure WcxSetProcessDataProc(hArcData: TArcHandle; ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
     procedure WcxSetCryptCallback(CryptoNr, Flags: Integer; PkCryptProcA: TPkCryptProc; PkCryptProcW: TPkCryptProcW);
@@ -237,7 +237,7 @@ begin
 end;
 
 function TWcxModule.WcxProcessFile(hArcData: TArcHandle; Operation: LongInt;
-  DestPath, DestName: UTF8String): LongInt;
+  DestPath, DestName: String): LongInt;
 begin
   if Assigned(ProcessFileW) then
     begin
@@ -256,7 +256,7 @@ begin
 end;
 
 function TWcxModule.WcxPackFiles(PackedFile, SubPath, SrcPath,
-  AddList: UTF8String; Flags: LongInt): LongInt;
+  AddList: String; Flags: LongInt): LongInt;
 begin
   if Assigned(PackFilesW) then
     begin
@@ -278,7 +278,7 @@ begin
     end;
 end;
 
-function TWcxModule.WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
+function TWcxModule.WcxDeleteFiles(PackedFile, DeleteList: String): LongInt;
 begin
   if Assigned(DeleteFilesW) then
     Result:= DeleteFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(DeleteList)))
@@ -286,7 +286,7 @@ begin
     Result:= DeleteFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(DeleteList)));
 end;
 
-function TWcxModule.WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
+function TWcxModule.WcxCanYouHandleThisFile(FileName: String): Boolean;
 begin
   if Assigned(CanYouHandleThisFileW) then
     Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
@@ -296,7 +296,7 @@ begin
     Result:= True;
 end;
 
-function TWcxModule.WcxStartMemPack(Options: LongInt; FileName: UTF8String): TArcHandle;
+function TWcxModule.WcxStartMemPack(Options: LongInt; FileName: String): TArcHandle;
 begin
   if Assigned(StartMemPackW) then
     Result:= StartMemPackW(Options, PWideChar(UTF8Decode(FileName)))
@@ -843,7 +843,7 @@ constructor TWCXHeader.Create;
 begin
 end;
 
-function TWCXHeader.PCharLToUTF8(CharString: PChar; MaxSize: Integer): UTF8String;
+function TWCXHeader.PCharLToUTF8(CharString: PChar; MaxSize: Integer): String;
 var
   NameLength: Integer;
   TempString: AnsiString;

@@ -1011,10 +1011,10 @@ begin
     try
       case (ActionDispatcher and MASK_ACTION_WITH_WHAT) of
         {$IFDEF MSWINDOWS}
-        ACTION_WITH_WINCMDINI: WorkingDirectoryList.ImportTotalCommander(utf8string(OpenDialog.Filename));
+        ACTION_WITH_WINCMDINI: WorkingDirectoryList.ImportTotalCommander(String(OpenDialog.Filename));
         {$ENDIF}
-        ACTION_WITH_HOTLISTFILE: WorkingDirectoryList.ImportDoubleCommander(utf8string(OpenDialog.Filename));
-        ACTION_WITH_BACKUP: WorkingDirectoryList.ImportDoubleCommander(utf8string(OpenDialog.Filename));
+        ACTION_WITH_HOTLISTFILE: WorkingDirectoryList.ImportDoubleCommander(String(OpenDialog.Filename));
+        ACTION_WITH_BACKUP: WorkingDirectoryList.ImportDoubleCommander(String(OpenDialog.Filename));
       end;
 
       with Tfrmhotdirexportimport.Create(Application) do
