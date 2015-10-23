@@ -856,7 +856,7 @@ end;
 procedure TFileViewWithMainCtrl.MainControlShowHint(Sender: TObject; HintInfo: PHintInfo);
 var
   AFile: TDisplayFile;
-  sHint: UTF8String;
+  sHint: String;
 begin
   // Rewrite HintStr because when MainControl.Hint is empty
   // it would contain parent hint that is not correct behavior

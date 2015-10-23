@@ -133,43 +133,47 @@ end;
 { TfrmSetFileProperties }
 
 procedure TfrmSetFileProperties.btnOKClick(Sender: TObject);
+var
+  theNewProperties: TFileProperties;
 begin
   with FOperation do
   begin
+    theNewProperties:= NewProperties;
     if fpAttributes in SupportedProperties then
       begin
-        if NewProperties[fpAttributes] is TNtfsFileAttributesProperty then
+        if theNewProperties[fpAttributes] is TNtfsFileAttributesProperty then
           IncludeAttributes:= GetAttrFromForm(ExcludeAttributes);
-        if NewProperties[fpAttributes] is TUnixFileAttributesProperty then
+        if theNewProperties[fpAttributes] is TUnixFileAttributesProperty then
           IncludeAttributes:= GetModeFromForm(ExcludeAttributes);
         // Nothing changed, clear new property
         if (IncludeAttributes = 0) and (ExcludeAttributes = 0) then
         begin
-          NewProperties[fpAttributes].Free;
-          NewProperties[fpAttributes]:= nil;
+          theNewProperties[fpAttributes].Free;
+          theNewProperties[fpAttributes]:= nil;
         end;
       end;
     if chkCreationTime.Checked then
-      (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= ZVCreationDateTime.DateTime
+      (theNewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= ZVCreationDateTime.DateTime
     else
       begin
-        NewProperties[fpCreationTime].Free;
-        NewProperties[fpCreationTime]:= nil;
+        theNewProperties[fpCreationTime].Free;
+        theNewProperties[fpCreationTime]:= nil;
       end;
     if chkLastWriteTime.Checked then
-      (NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value:= ZVLastWriteDateTime.DateTime
+      (theNewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value:= ZVLastWriteDateTime.DateTime
     else
       begin
-        NewProperties[fpModificationTime].Free;
-        NewProperties[fpModificationTime]:= nil;
+        theNewProperties[fpModificationTime].Free;
+        theNewProperties[fpModificationTime]:= nil;
       end;
     if chkLastAccessTime.Checked then
-      (NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value:= ZVLastAccessDateTime.DateTime
+      (theNewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value:= ZVLastAccessDateTime.DateTime
     else
       begin
-        NewProperties[fpLastAccessTime].Free;
-        NewProperties[fpLastAccessTime]:= nil;
+        theNewProperties[fpLastAccessTime].Free;
+        theNewProperties[fpLastAccessTime]:= nil;
       end;
+    NewProperties:= theNewProperties;
     Recursive:= chkRecursive.Checked;
   end;
 end;

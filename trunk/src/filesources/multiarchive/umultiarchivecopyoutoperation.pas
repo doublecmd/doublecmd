@@ -26,7 +26,7 @@ type
     FFullFilesTreeToExtract: TFiles;  // source files including all files/dirs in subdirectories
 
     // Options
-    FPassword: UTF8String;
+    FPassword: String;
     FExtractWithoutPath: Boolean;
 
     {en
@@ -57,16 +57,16 @@ type
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
-    procedure CheckForErrors(const SourceName, TargetName: UTF8String; ExitStatus: LongInt);
+    procedure CheckForErrors(const SourceName, TargetName: String; ExitStatus: LongInt);
 
   protected
     FExProcess: TExProcess;
-    FTempFile: UTF8String;
-    FFileMask: UTF8String;
+    FTempFile: String;
+    FFileMask: String;
     FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
     procedure OnQueryString(str: string);
-    procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
+    procedure UpdateProgress(SourceName, TargetName: String; IncSize: Int64);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
                                                     AState: TFileSourceOperationState);
 
@@ -84,7 +84,7 @@ type
 
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
-    property Password: UTF8String read FPassword write FPassword;
+    property Password: String read FPassword write FPassword;
     property ExtractWithoutPath: Boolean read FExtractWithoutPath write FExtractWithoutPath;
   end;
 
@@ -149,13 +149,13 @@ procedure TMultiArchiveCopyOutOperation.MainExecute;
 var
   TargetFileName,
   SourcePath,
-  sTempDir: UTF8String;
+  sTempDir: String;
   CreatedPaths: TStringHashList = nil;
   I: Integer;
   aFile: TFile;
   MultiArcItem: TMultiArcItem;
   sReadyCommand,
-  sCommandLine: UTF8String;
+  sCommandLine: String;
   FilesToExtract: TFiles = nil;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
@@ -574,7 +574,7 @@ begin
 end;
 
 procedure TMultiArchiveCopyOutOperation.CheckForErrors(const SourceName,
-                                                       TargetName: UTF8String;
+                                                       TargetName: String;
                                                        ExitStatus: LongInt);
 begin
   if ExitStatus > FErrorLevel then
@@ -609,7 +609,7 @@ begin
 end;
 
 procedure TMultiArchiveCopyOutOperation.UpdateProgress(SourceName,
-  TargetName: UTF8String; IncSize: Int64);
+  TargetName: String; IncSize: Int64);
 begin
   with FStatistics do
   begin

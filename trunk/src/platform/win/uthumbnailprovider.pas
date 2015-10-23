@@ -64,7 +64,7 @@ var
   SHCreateItemFromParsingName: function(pszPath: LPCWSTR; const pbc: IBindCtx;
                                         const riid: TIID; out ppv): HRESULT; stdcall;
 
-function GetThumbnailOld(const aFileName: UTF8String; aSize: TSize; out Bitmap: HBITMAP): HRESULT;
+function GetThumbnailOld(const aFileName: String; aSize: TSize; out Bitmap: HBITMAP): HRESULT;
 var
   Folder,
   DesktopFolder: IShellFolder;
@@ -111,7 +111,7 @@ begin
   end; // SHGetDesktopFolder
 end;
 
-function GetThumbnailNew(const aFileName: UTF8String; aSize: TSize; out Bitmap: HBITMAP): HRESULT;
+function GetThumbnailNew(const aFileName: String; aSize: TSize; out Bitmap: HBITMAP): HRESULT;
 var
   ShellItemImage: IShellItemImageFactory;
 begin
@@ -123,7 +123,7 @@ begin
   end;
 end;
 
-function GetThumbnail(const aFileName: UTF8String; aSize: TSize): Graphics.TBitmap;
+function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
   Bitmap: HBITMAP;
   Status: HRESULT = E_FAIL;

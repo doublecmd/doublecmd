@@ -54,7 +54,7 @@ function FileReadLn(hFile: THandle; out S: String): Boolean;
 }
 procedure FileWriteLn(hFile: Integer; S: String);
 
-function GetNextCopyName(FileName: UTF8String): UTF8String;
+function GetNextCopyName(FileName: String): String;
 
 implementation
 
@@ -245,11 +245,11 @@ begin
   Result := True;
 end;
 
-function GetNextCopyName(FileName: UTF8String): UTF8String;
+function GetNextCopyName(FileName: String): String;
 var
   CopyNumber: Int64 = 1;
   sFilePath,
-  sFileName, SuffixStr: UTF8String;
+  sFileName, SuffixStr: String;
 begin
   sFilePath:= ExtractFilePath(FileName);
   sFileName:= ExtractFileName(FileName);

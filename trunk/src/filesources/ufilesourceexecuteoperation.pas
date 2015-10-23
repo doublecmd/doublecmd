@@ -29,12 +29,12 @@ type
     FFileSource: IFileSource;
     FCurrentPath: String;
     FExecutableFile: TFile;
-    FAbsolutePath: UTF8String;
-    FRelativePath: UTF8String;
-    FVerb: UTF8String;
+    FAbsolutePath: String;
+    FRelativePath: String;
+    FVerb: String;
 
   protected
-    FResultString: UTF8String;
+    FResultString: String;
     FExecuteOperationResult: TFileSourceExecuteOperationResult;
     function GetID: TFileSourceOperationType; override;
     procedure UpdateStatisticsAtStartTime; override;
@@ -52,18 +52,18 @@ type
     constructor Create(aTargetFileSource: IFileSource;
                        var aExecutableFile: TFile;
                        aCurrentPath,
-                       aVerb: UTF8String); virtual reintroduce;
+                       aVerb: String); virtual reintroduce;
 
     destructor Destroy; override;
 
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
 
-    property CurrentPath: UTF8String read FCurrentPath;
+    property CurrentPath: String read FCurrentPath;
     property ExecutableFile: TFile read FExecutableFile;
-    property ResultString: UTF8String read FResultString write FResultString;
-    property AbsolutePath: UTF8String read FAbsolutePath;
-    property RelativePath: UTF8String read FRelativePath;
-    property Verb: UTF8String read FVerb;
+    property ResultString: String read FResultString write FResultString;
+    property AbsolutePath: String read FAbsolutePath;
+    property RelativePath: String read FRelativePath;
+    property Verb: String read FVerb;
     property ExecuteOperationResult: TFileSourceExecuteOperationResult read FExecuteOperationResult;
   end;
 
@@ -76,7 +76,7 @@ constructor TFileSourceExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
                 var aExecutableFile: TFile;
                 aCurrentPath,
-                aVerb: UTF8String);
+                aVerb: String);
 begin
   inherited Create(aTargetFileSource);
 

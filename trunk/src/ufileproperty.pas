@@ -77,13 +77,13 @@ type
 
   TFileNameProperty = class(TFileProperty)
   private
-    FName: UTF8String;   // only name, no path
+    FName: String;   // only name, no path
 
-    procedure SetName(NewName: UTF8String);
+    procedure SetName(NewName: String);
 
   public
     constructor Create; override;
-    constructor Create(Name: UTF8String); virtual; overload;
+    constructor Create(Name: String); virtual; overload;
 
     function Clone: TFileNameProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
@@ -93,7 +93,7 @@ type
 
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
-    property Value: UTF8String read FName write SetName;
+    property Value: String read FName write SetName;
   end;
 
   TFileSizeProperty = class(TFileProperty)
@@ -435,7 +435,7 @@ begin
   Self.Create('');
 end;
 
-constructor TFileNameProperty.Create(Name: UTF8String);
+constructor TFileNameProperty.Create(Name: String);
 begin
   inherited Create;
   Value := Name;
@@ -475,7 +475,7 @@ begin
   Result := Formatter.FormatFileName(Self);
 end;
 
-procedure TFileNameProperty.SetName(NewName: UTF8String);
+procedure TFileNameProperty.SetName(NewName: String);
 var
   i: Integer;
 begin

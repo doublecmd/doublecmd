@@ -30,7 +30,7 @@ type
     constructor Create(aTargetFileSource: IFileSource;
                        var aExecutableFile: TFile;
                        aCurrentPath,
-                       aVerb: UTF8String); override;
+                       aVerb: String); override;
 
     procedure Initialize; override;
     procedure MainExecute; override;
@@ -46,7 +46,7 @@ constructor TVfsExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
                 var aExecutableFile: TFile;
                 aCurrentPath,
-                aVerb: UTF8String);
+                aVerb: String);
 begin
   FVfsFileSource := aTargetFileSource as IVfsFileSource;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);
@@ -59,7 +59,7 @@ end;
 
 procedure TVfsExecuteOperation.MainExecute;
 var
-  sFileName: UTF8String;
+  sFileName: String;
   WfxModule: TWfxModule = nil;
 begin
   FExecuteOperationResult:= fseorSuccess;

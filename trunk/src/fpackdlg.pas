@@ -66,14 +66,14 @@ type
     FTarExt,
     FArchiveExt,
     FArchiveName,
-    FArchiveType: UTF8String;
+    FArchiveType: String;
     FArchiveTypeCount: Integer;
     FHasFolder,
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
-    FCustomParams: UTF8String;
+    FCustomParams: String;
     procedure SwitchOptions(ArcTypeChange: Boolean);
-    procedure AddArchiveType(const FileExt, ArcType: UTF8String);
+    procedure AddArchiveType(const FileExt, ArcType: String);
   public
     { public declarations }
   end;
@@ -114,7 +114,7 @@ var
   procedure Pack(var FilesToPack: TFiles; QueueIdentifier: TOperationsManagerQueueIdentifier);
   var
     sPassword,
-    sPasswordTmp: UTF8String;
+    sPasswordTmp: String;
   begin
     with PackDialog do
     begin
@@ -536,7 +536,7 @@ begin
     end;
 end;
 
-procedure TfrmPackDlg.AddArchiveType(const FileExt, ArcType: UTF8String);
+procedure TfrmPackDlg.AddArchiveType(const FileExt, ArcType: String);
 var
   iIndex: Integer;
 begin

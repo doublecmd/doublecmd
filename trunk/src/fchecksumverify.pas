@@ -42,9 +42,9 @@ type
     procedure seCheckSumVerifySpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
   private
-    procedure AddHeader(const aText: UTF8String; aCount: Integer; aColor: TColor);
+    procedure AddHeader(const aText: String; aCount: Integer; aColor: TColor);
     procedure ProcessResult(const aResult: TDynamicStringArray;
-                            const aText: UTF8String; aColor: TColor);
+                            const aText: String; aColor: TColor);
   public
     { public declarations }
   end; 
@@ -107,7 +107,7 @@ begin
   FG:= TColor(PtrInt(seCheckSumVerify.Lines.Objects[Line - 1]));
 end;
 
-procedure TfrmCheckSumVerify.AddHeader(const aText: UTF8String; aCount: Integer; aColor: TColor);
+procedure TfrmCheckSumVerify.AddHeader(const aText: String; aCount: Integer; aColor: TColor);
 begin
   if aCount = 0 then
     seCheckSumVerify.Lines.Add(#32 + aText + #32 + IntToStr(aCount))
@@ -116,7 +116,7 @@ begin
 end;
 
 procedure TfrmCheckSumVerify.ProcessResult(const aResult: TDynamicStringArray;
-                                           const aText: UTF8String; aColor: TColor);
+                                           const aText: String; aColor: TColor);
 var
   I: Integer;
 begin

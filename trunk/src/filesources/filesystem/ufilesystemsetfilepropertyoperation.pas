@@ -23,7 +23,7 @@ type
     // Options.
     FSymLinkOption: TFileSourceOperationOptionSymLink;
 
-    function RenameFile(const OldName: UTF8String; NewName: UTF8String): TSetFilePropertyResult;
+    function RenameFile(const OldName: String; NewName: String): TSetFilePropertyResult;
 
   protected
     function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): TSetFilePropertyResult; override;
@@ -246,7 +246,7 @@ begin
   end;
 end;
 
-function TFileSystemSetFilePropertyOperation.RenameFile(const OldName: UTF8String; NewName: UTF8String): TSetFilePropertyResult;
+function TFileSystemSetFilePropertyOperation.RenameFile(const OldName: String; NewName: String): TSetFilePropertyResult;
 
   function AskIfOverwrite(Attrs: TFileAttrs): TFileSourceOperationUIResponse;
   var
@@ -287,7 +287,7 @@ function TFileSystemSetFilePropertyOperation.RenameFile(const OldName: UTF8Strin
 
 var
 {$IFDEF UNIX}
-  tmpFileName: UTF8String;
+  tmpFileName: String;
   OldFileStat, NewFileStat: stat;
 {$ELSE}
   NewFileAttrs: TFileAttrs;

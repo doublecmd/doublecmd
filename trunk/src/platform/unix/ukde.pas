@@ -40,12 +40,12 @@ uses
   uDCUtils, uGlobs, uGlobsPaths, uOSUtils, uTrash, uPython;
 
 var
-  PythonScript: UTF8String = 'scripts/doublecmd-kde.py';
+  PythonScript: String = 'scripts/doublecmd-kde.py';
 
 function ShowOpenWithDialog(const FileList: TStringList): Boolean;
 var
   I: Integer;
-  Args: UTF8String;
+  Args: String;
 begin
   Args := ' openwith';
   for I := 0 to FileList.Count - 1 do
@@ -53,7 +53,7 @@ begin
   Result:= ExecCmdFork(PythonExe + ' ' + PythonScript + Args);
 end;
 
-function FileTrash(const FileName: UTF8String): Boolean;
+function FileTrash(const FileName: String): Boolean;
 begin
   Result:= fpSystemStatus('kioclient move ' + QuoteStr(FileName) + ' trash:/') = 0;
 end;

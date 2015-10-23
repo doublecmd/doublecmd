@@ -46,11 +46,11 @@ type
     procedure DeleteAfterCurrent;
     function GetCount: Integer; // = FileSourcesCount
     function GetCurrentFileSource: IFileSource;
-    function GetCurrentPath: UTF8String;
-    function GetCurrentFilename: UTF8String;
+    function GetCurrentPath: String;
+    function GetCurrentFilename: String;
     function GetFileSource(Index: Integer): IFileSource;
-    function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
-    function GetFilename(FileSourceIndex, FilenameIndex: Integer): UTF8String;
+    function GetPath(FileSourceIndex, PathIndex: Integer): String;
+    function GetFilename(FileSourceIndex, FilenameIndex: Integer): String;
     function GetPathsCount(Index: Integer): Integer;
 
   public
@@ -60,10 +60,10 @@ type
     {$IFDEF DEBUG_HISTORY}
     procedure DebugShow;
     {$ENDIF}
-    procedure Add(aFileSource: IFileSource; aPath: UTF8String);
+    procedure Add(aFileSource: IFileSource; aPath: String);
     procedure AddFileSource(aFileSource: IFileSource);
-    procedure AddPath(aPath: UTF8String);
-    procedure SetFilenameForCurrentPath(aFilename: UTF8String);
+    procedure AddPath(aPath: String);
+    procedure SetFilenameForCurrentPath(aFilename: String);
     procedure Assign(otherHistory: TFileViewHistory);
     procedure DeleteFromCurrentFileSource;
     procedure SetIndexes(aFileSourceIndex: Integer; aCurrentPathIndex: Integer);
@@ -71,12 +71,12 @@ type
     property Count: Integer read GetCount;
     property CurrentFileSource: IFileSource read GetCurrentFileSource;
     property CurrentFileSourceIndex: Integer read FCurrentFileSource write FCurrentFileSource;
-    property CurrentPath: UTF8String read GetCurrentPath;
-    property CurrentFilename: UTF8String read GetCurrentFilename;
+    property CurrentPath: String read GetCurrentPath;
+    property CurrentFilename: String read GetCurrentFilename;
     property CurrentPathIndex: Integer read FCurrentPath write FCurrentPath;
     property FileSource[Index: Integer]: IFileSource read GetFileSource;
-    property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
-    property Filename[FileSourceIndex, FilenameIndex: Integer]: UTF8String read GetFilename;
+    property Path[FileSourceIndex, PathIndex: Integer]: String read GetPath;
+    property Filename[FileSourceIndex, FilenameIndex: Integer]: String read GetFilename;
     property PathsCount[Index: Integer]: Integer read GetPathsCount;
   end;
 
@@ -156,7 +156,7 @@ begin
     Result := nil;
 end;
 
-function TFileViewHistory.GetCurrentPath: UTF8String;
+function TFileViewHistory.GetCurrentPath: String;
 begin
   if (FCurrentFileSource >= 0) and (FCurrentPath >= 0) then
     Result := PFileViewHistoryEntry(FHistory[FCurrentFileSource])^.PathsList[FCurrentPath]
@@ -164,7 +164,7 @@ begin
     Result := EmptyStr;
 end;
 
-function TFileViewHistory.GetCurrentFilename: UTF8String;
+function TFileViewHistory.GetCurrentFilename: String;
 begin
   if (FCurrentFileSource >= 0) and (FCurrentPath >= 0) then
     Result := PFileViewHistoryEntry(FHistory[FCurrentFileSource])^.FilenamesList[FCurrentPath]
@@ -177,12 +177,12 @@ begin
   Result := PFileViewHistoryEntry(FHistory.Items[Index])^.FileSource;
 end;
 
-function TFileViewHistory.GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
+function TFileViewHistory.GetPath(FileSourceIndex, PathIndex: Integer): String;
 begin
   Result := PFileViewHistoryEntry(FHistory.Items[FileSourceIndex])^.PathsList.Strings[PathIndex];
 end;
 
-function TFileViewHistory.GetFilename(FileSourceIndex, FilenameIndex: Integer): UTF8String;
+function TFileViewHistory.GetFilename(FileSourceIndex, FilenameIndex: Integer): String;
 begin
   Result := PFileViewHistoryEntry(FHistory.Items[FileSourceIndex])^.FilenamesList.Strings[FilenameIndex];
 end;
@@ -192,7 +192,7 @@ begin
   Result := PFileViewHistoryEntry(FHistory.Items[Index])^.PathsList.Count;
 end;
 
-procedure TFileViewHistory.Add(aFileSource: IFileSource; aPath: UTF8String);
+procedure TFileViewHistory.Add(aFileSource: IFileSource; aPath: String);
 begin
   AddFileSource(aFileSource);
   AddPath(aPath);
@@ -222,7 +222,7 @@ begin
   FCurrentPath := -1;
 end;
 
-procedure TFileViewHistory.SetFilenameForCurrentPath(aFilename: UTF8String);
+procedure TFileViewHistory.SetFilenameForCurrentPath(aFilename: String);
 var
   aFilenames: TStringList;
 begin
@@ -234,7 +234,7 @@ begin
   end
 end;
 
-procedure TFileViewHistory.AddPath(aPath: UTF8String);
+procedure TFileViewHistory.AddPath(aPath: String);
 var
   aPaths: TStringList;
   aFilenames: TStringList;

@@ -382,7 +382,7 @@ function TFileSystemCalcChecksumOperation.VerifyChecksumProcessFile(
            aFile: TFile; ExpectedChecksum: String): Boolean;
 var
   sCheckSum: String;
-  sFileName: UTF8String;
+  sFileName: String;
 begin
   Result:= False;
   sFileName:= ExtractDirLevel(FFullFilesTree.Path, aFile.Path) + aFile.Name;

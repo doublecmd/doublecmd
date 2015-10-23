@@ -684,7 +684,7 @@ end;
 
 function TFileSystemFileSource.IsPathAtRoot(Path: String): Boolean;
 var
-  sPath: UTF8String;
+  sPath: String;
 begin
   sPath := ExcludeTrailingPathDelimiter(Path);
   if (Pos('\\', sPath) = 1) and (NumCountChars(PathDelim, sPath) = 3) then

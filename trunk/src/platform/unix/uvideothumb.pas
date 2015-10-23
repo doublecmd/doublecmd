@@ -91,7 +91,7 @@ var
   MaskList: TMaskList = nil;
   libffmpeg: TLibHandle = NilHandle;
 
-function GetThumbnail(const aFileName: UTF8String; aSize: TSize): Graphics.TBitmap;
+function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
   Data: Pimage_data;
   BlobStream: TBlobStream;

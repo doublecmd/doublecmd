@@ -89,7 +89,7 @@ var
 function GetGnomeTemplateMenu(out Items: TStringList): Boolean;
 var
   searchRec: TSearchRecEx;
-  templateDir: UTF8String;
+  templateDir: String;
   bmpBitmap: TBitmap = nil;
   userDirs: TStringList = nil;
 begin
@@ -135,10 +135,10 @@ var
   I: Integer;
   bmpBitmap: TBitmap = nil;
   desktopFile: TKeyFile = nil;
-  templateDir: array [0..1] of UTF8String;
+  templateDir: array [0..1] of String;
   searchRec: TSearchRecEx;
   templateName, templateIcon,
-  templatePath: UTF8String;
+  templatePath: String;
 begin
   Result:= False;
   try
@@ -232,7 +232,7 @@ end;
 procedure TShellContextMenu.TemplateContextMenuSelect(Sender: TObject);
 var
   SelectedItem: TMenuItem;
-  FileName: UTF8String;
+  FileName: String;
 begin
   // ShowMessage((Sender as TMenuItem).Hint);
 
@@ -625,7 +625,7 @@ var
   aFile: TFile = nil;
   sl: TStringList = nil;
   I, iDummy: Integer;
-  sAct, sCmd: UTF8String;
+  sAct, sCmd: String;
   mi, miActions, miSortBy: TMenuItem;
   AddActionsMenu: Boolean = False;
   AddOpenWithMenu: Boolean = False;

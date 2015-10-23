@@ -18,7 +18,7 @@ type
   private
     FFullFilesTreeToCombine: TFiles;  // source files including all files
     FStatistics: TFileSourceCombineOperationStatistics; // local copy of statistics
-    FTargetPath: UTF8String;
+    FTargetPath: String;
     FBuffer: Pointer;
     FBufferSize: LongWord;
     FCheckFreeSpace: Boolean;
@@ -29,7 +29,7 @@ type
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
     function TryToGetInfroFromTheCRC32VerificationFile:boolean;
-    procedure BegForPresenceOfThisFile(aFilename: UTF8String);
+    procedure BegForPresenceOfThisFile(aFilename: String);
 
   public
     constructor Create(aFileSource: IFileSource;
@@ -86,7 +86,7 @@ end;
 procedure TFileSystemCombineOperation.Initialize;
 var
   MaybeFileIndex: integer;
-  MaybeAdditionalSourceFilename: UTF8String;
+  MaybeAdditionalSourceFilename: String;
   MaybeFile: TFile;
 begin
   // If we're under "RequireDynamicMode", we have just ONE file in "SourceFiles" list,
@@ -140,7 +140,7 @@ var
   CurrentFileIndex: Integer;
   iTotalDiskSize, iFreeDiskSize: Int64;
   TargetFileStream: TFileStreamEx = nil;
-  DynamicNextFilename : UTF8String;
+  DynamicNextFilename : String;
   UserAnswer: TFileSourceOperationUIResponse;
 begin
   try
@@ -409,7 +409,7 @@ end;
 function TFileSystemCombineOperation.TryToGetInfroFromTheCRC32VerificationFile:boolean;
 var
   PosOfEqualSign: integer;
-  MaybeSummaryFilename: UTF8String;
+  MaybeSummaryFilename: String;
   hSummaryFile: THandle;
   LineToParse: string;
   UserAnswer: TFileSourceOperationUIResponse;
@@ -471,7 +471,7 @@ begin
 end;
 
 { TFileSystemCombineOperation.BegForPresenceOfThisFile }
-procedure TFileSystemCombineOperation.BegForPresenceOfThisFile(aFilename: UTF8String);
+procedure TFileSystemCombineOperation.BegForPresenceOfThisFile(aFilename: String);
 begin
   while not mbFileExists(aFilename) do
   begin

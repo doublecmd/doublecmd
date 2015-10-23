@@ -8,7 +8,7 @@ uses
   Classes, SysUtils; 
 
 function ExceptionToString: String;
-procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText: String = '');
+procedure WriteExceptionToFile(const aFileName: String; const ExceptionText: String = '');
 procedure WriteExceptionToErrorFile(const ExceptionText: String = ''); inline;
 procedure ShowExceptionDialog(const ExceptionText: String = '');
 procedure ShowException(e: Exception);
@@ -65,7 +65,7 @@ begin
     Result := Result + BackTraceStrFunc(Frames[FrameNumber]) + LineEnding;
 end;
 
-procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText: String);
+procedure WriteExceptionToFile(const aFileName: String; const ExceptionText: String);
 var
   f: System.Text;
 begin

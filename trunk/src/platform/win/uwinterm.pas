@@ -29,6 +29,11 @@ interface
 uses
   Classes, SysUtils, Windows, uTerminal;
 
+{$IF FPC_FULLVERSION < 30000}
+type
+  TStartupInfoW = TStartupInfo;
+{$ENDIF}
+
 type
 
    { TWinTerm }
@@ -37,7 +42,7 @@ type
    private
      FConsoleWindow: HWND;
      FSecurityAttributes: TSecurityAttributes;
-     FStartupInfo: TStartupInfo;
+     FStartupInfo: TStartupInfoW;
      FProcessInformation: TProcessInformation;
      PipeStdInRead,
      PipeStdInWrite,
@@ -47,17 +52,17 @@ type
      constructor Create;
      destructor Destroy; override;
      //---------------------
-     function Read_Pty(var Output: UTF8String; const TimeOut: LongInt = 10): LongInt; override; // Read info from pty
-     function Fork_pty(const RowCount, ColCount: Integer; const Command: UTF8String; const Params: UTF8String=''): THandle; override;//Create new pty and start cmd
-     function Write_pty(const Input: UTF8String): Boolean; override; //write str to pty
+     function Read_Pty(var Output: String; const TimeOut: LongInt = 10): LongInt; override; // Read info from pty
+     function Fork_pty(const RowCount, ColCount: Integer; const Command: String; const Params: String=''): THandle; override;//Create new pty and start cmd
+     function Write_pty(const Input: String): Boolean; override; //write str to pty
      //---------------------
      function SendBreak_pty(): Boolean;  override; // ^C
      function SendSignal_pty(Sig: Cint): Boolean; override;
      function SetScreenSize(ColCount, RowCount: Integer): Boolean; override;
-     function SetCurrentDir(const NewDir: UTF8String): Boolean; override;
+     function SetCurrentDir(const NewDir: String): Boolean; override;
      //---------------------
      function KillShell: LongInt; override;
-     function CSI_GetTaskId(const buf:UTF8string):integer; override;
+     function CSI_GetTaskId(const buf:String):integer; override;
    end;
 
   { TWinConThread }
@@ -97,7 +102,7 @@ begin
   inherited Destroy;
 end;
 
-function TWinTerm.Read_Pty(var Output: UTF8String; const timeout: LongInt): LongInt;
+function TWinTerm.Read_Pty(var Output: String; const timeout: LongInt): LongInt;
 var
   I: Integer;
   dwRead, BufSize, DesBufSize: DWORD;
@@ -136,8 +141,8 @@ begin
   Result:= dwRead;
 end;
 
-function TWinTerm.Fork_pty(const RowCount, ColCount: Integer; const Command: UTF8String;
-  const Params: UTF8String): THandle;
+function TWinTerm.Fork_pty(const RowCount, ColCount: Integer; const Command: String;
+  const Params: String): THandle;
 var
  hTmp1, hTmp2: THandle;
 begin
@@ -186,7 +191,7 @@ begin
   Result:= FProcessInformation.hProcess;
 end;
 
-function TWinTerm.Write_pty(const Input: UTF8String): Boolean;
+function TWinTerm.Write_pty(const Input: String): Boolean;
 var
   dwWritten, BufSize: DWORD;
   pcCommand: PChar;
@@ -213,7 +218,7 @@ begin
   Result:= False;
 end;
 
-function TWinTerm.SetCurrentDir(const NewDir: UTF8String): Boolean;
+function TWinTerm.SetCurrentDir(const NewDir: String): Boolean;
 begin
   Result:= Write_pty('cd /D "' + NewDir + '"' + #13#10);
 end;
@@ -233,7 +238,7 @@ begin
   end;
 end;
 
-function TWinTerm.CSI_GetTaskId(const buf:UTF8string):integer;
+function TWinTerm.CSI_GetTaskId(const buf:String):integer;
 begin
   Result := 0; // Dummy
 end;

@@ -73,45 +73,45 @@ function GetMountPointVolumeName(const Path: WideString): WideString;
    @param(sDrv  String specifying the root directory of a file system volume)
    @returns(The function returns @true if drive is ready, @false otherwise)
 }
-function mbDriveReady(const sDrv: UTF8String): Boolean;
+function mbDriveReady(const sDrv: String): Boolean;
 {en
    Get the label of a file system volume
    @param(sDrv  String specifying the root directory of a file system volume)
    @param(bVolReal @true if it a real file system volume)
    @returns(The function returns volume label)
 }
-function mbGetVolumeLabel(const sDrv: UTF8String; const bVolReal: Boolean): UTF8String;
+function mbGetVolumeLabel(const sDrv: String; const bVolReal: Boolean): String;
 {en
    Set the label of a file system volume
    @param(sRootPathName  String specifying the root directory of a file system volume)
    @param(sVolumeName String specifying a new name for the volume)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function mbSetVolumeLabel(sRootPathName, sVolumeName: UTF8String): Boolean;
+function mbSetVolumeLabel(sRootPathName, sVolumeName: String): Boolean;
 {en
    Wait for change disk label
    @param(sDrv  String specifying the root directory of a file system volume)
    @param(sCurLabel Current volume label)
 }
-procedure mbWaitLabelChange(const sDrv: UTF8String; const sCurLabel: UTF8String);
+procedure mbWaitLabelChange(const sDrv: String; const sCurLabel: String);
 {en
    Close CD/DVD drive
    @param(sDrv  String specifying the root directory of a drive)
 }
-procedure mbCloseCD(const sDrv: UTF8String);
+procedure mbCloseCD(const sDrv: String);
 {en
    Get remote file name by local file name
    @param(sLocalName String specifying the local file name)
    @returns(The function returns remote file name)
 }
-function mbGetRemoteFileName(const sLocalName: UTF8String): UTF8String;
+function mbGetRemoteFileName(const sLocalName: String): String;
 {en
    Retrieves the short path form of the specified path
    @param(sLongPath The path string)
    @param(sShortPath A string to receive the short form of the path that sLongPath specifies)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function mbGetShortPathName(const sLongPath: UTF8String; out sShortPath: AnsiString): Boolean;
+function mbGetShortPathName(const sLongPath: String; out sShortPath: AnsiString): Boolean;
 {en
    Retrieves owner of the file (user and group).
    Both user and group contain computer name.
@@ -134,7 +134,7 @@ function mbGetFileSystem(const sRootPath: String): String;
    Retrieves the actual number of bytes of disk storage used to store a specified file.
    @param(FileName The name of the file.)
 }
-function mbGetCompressedFileSize(const FileName: UTF8String): Int64;
+function mbGetCompressedFileSize(const FileName: String): Int64;
 {en
    This routine returns @true if the caller's
    process is a member of the Administrators local group.
@@ -162,7 +162,7 @@ var
   miiw: TMenuItemInfoW;
   wca: array[0..Pred(MAX_PATH)] of WideChar;
 begin
-  Result:= EmptyStr;
+  Result:= EmptyWideStr;
   FillChar(miiw, SizeOf(TMenuItemInfoW), 0);
   with miiw do
   begin
@@ -245,7 +245,7 @@ var
 begin
   I:= Pos('{', VolumeName);
   J:= Pos('}', VolumeName);
-  if (I = 0) or (J = 0) then Exit(EmptyStr);
+  if (I = 0) or (J = 0) then Exit(EmptyWideStr);
   Result:= Copy(VolumeName, I, J - I + 1);
 end;
 
@@ -259,14 +259,14 @@ begin
   FillByte(wsVolumeName, MAX_VOLUME_NAME, 0);
   wsPath:= IncludeTrailingPathDelimiter(Path);
   if not GetVolumeNameForVolumeMountPointW(PWideChar(wsPath), wsVolumeName, MAX_VOLUME_NAME) then
-    Result:= EmptyStr
+    Result:= EmptyWideStr
   else
     Result:= WideString(wsVolumeName);
 end;
 
 (* Drive ready *)
 
-function mbDriveReady(const sDrv: UTF8String): Boolean;
+function mbDriveReady(const sDrv: String): Boolean;
 var
   NotUsed: DWORD;
   wsDrv: WideString;
@@ -277,7 +277,7 @@ end;
 
 (* Disk label *)
 
-function mbGetVolumeLabel(const sDrv: UTF8String; const bVolReal: Boolean): UTF8String;
+function mbGetVolumeLabel(const sDrv: String; const bVolReal: Boolean): String;
 var
   WinVer: Byte;
   DriveType, NotUsed: DWORD;
@@ -310,7 +310,7 @@ end;
 
 (* Wait for change disk label *)
 
-function mbSetVolumeLabel(sRootPathName, sVolumeName: UTF8String): Boolean;
+function mbSetVolumeLabel(sRootPathName, sVolumeName: String): Boolean;
 var
   wsRootPathName,
   wsVolumeName: WideString;
@@ -320,9 +320,9 @@ begin
   Result:= SetVolumeLabelW(PWChar(wsRootPathName), PWChar(wsVolumeName));
 end;
 
-procedure mbWaitLabelChange(const sDrv: UTF8String; const sCurLabel: UTF8String);
+procedure mbWaitLabelChange(const sDrv: String; const sCurLabel: String);
 var
-  st1, st2: UTF8String;
+  st1, st2: String;
 begin
   if mbGetVolumeLabel(sDrv, True) = '' then
     Exit;
@@ -348,7 +348,7 @@ function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dw
 
 (* Close CD/DVD *)
 
-procedure mbCloseCD(const sDrv: UTF8String);
+procedure mbCloseCD(const sDrv: String);
 var
   OpenParms: MCI_OPEN_PARMS;
 begin
@@ -360,7 +360,7 @@ begin
   mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
 end;
 
-function mbGetRemoteFileName(const sLocalName: UTF8String): UTF8String;
+function mbGetRemoteFileName(const sLocalName: String): String;
 var
   wsLocalName: WideString;
   dwResult,
@@ -385,7 +385,7 @@ begin
   end;
 end;
 
-function mbGetShortPathName(const sLongPath: UTF8String; out sShortPath: AnsiString): Boolean;
+function mbGetShortPathName(const sLongPath: String; out sShortPath: AnsiString): Boolean;
 var
   wsLongPath,
   wsShortPath: WideString;
@@ -399,7 +399,7 @@ begin
   cchBuffer:= GetShortPathNameW(PWideChar(wsLongPath), PWideChar(wsShortPath), cchBuffer);
   if cchBuffer <> 0 then
     begin
-      sShortPath:= wsShortPath;
+      sShortPath:= AnsiString(wsShortPath);
       Result:= True;
     end;
 end;
@@ -576,7 +576,7 @@ begin
     Result := EmptyStr;
 end;
 
-function mbGetCompressedFileSize(const FileName: UTF8String): Int64;
+function mbGetCompressedFileSize(const FileName: String): Int64;
 begin
   Int64Rec(Result).Lo:= GetCompressedFileSizeW(PWideChar(UTF8Decode(FileName)), @Int64Rec(Result).Hi);
 end;
@@ -663,7 +663,7 @@ end;
 procedure FixCommandLineToUTF8;
 var
   I, nArgs: Integer;
-  sTemp: UTF8String;
+  sTemp: String;
   szArgList: PPWideChar;
   pwcCommandLine: PWideChar;
   lpFileName: array[0..Pred(MaxSmallInt)] of WideChar;

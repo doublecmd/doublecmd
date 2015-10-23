@@ -61,25 +61,25 @@ type
   protected
     FTheme,
     FThemeName: String;
-    FComment: UTF8String;
+    FComment: String;
     FInherits: TStringList;
     FOwnsInheritsObject: Boolean;
     FDirectories: TIconDirList;
     FBaseDirList: array of String;         //en> List of directories that have this theme's icons.
     FBaseDirListAtCreate: array of String; //en> Base dir list passed to Create
     function LoadIconDirInfo(const IniFile: TIniFileEx; const sIconDirName: String): PIconDirInfo;
-    function FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
+    function FindIconHelper(aIconName: String; AIconSize: Integer): String;
     function LoadThemeWithInherited(AInherits: TStringList): Boolean;
     procedure LoadParentTheme(AThemeName: String);
     procedure CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Integer);
   protected
-    function LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
+    function LookupIcon(AIconName: String; AIconSize: Integer): String;
     function CreateParentTheme(const sThemeName: String): TIconTheme; virtual;
   public
     constructor Create(sThemeName: String; BaseDirList: array of String); virtual;
     destructor Destroy; override;
     function Load: Boolean; virtual;
-    function FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
+    function FindIcon(AIconName: String; AIconSize: Integer): String;
     function DirectoryMatchesSize(SubDirIndex: Integer; AIconSize: Integer): Boolean;
     function DirectorySizeDistance(SubDirIndex: Integer; AIconSize: Integer): Integer;
     class function CutTrailingExtension(const AIconName: String): String;
@@ -98,7 +98,7 @@ var
 
 { TIconTheme }
 
-function LookupFallbackIcon (AIconName: String): UTF8String;
+function LookupFallbackIcon (AIconName: String): String;
 begin
 (*
   for each directory in $(basename list) {
@@ -291,7 +291,7 @@ begin
     end;
 end;
 
-function TIconTheme.FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
+function TIconTheme.FindIcon(AIconName: String; AIconSize: Integer): String;
 begin
   Result:= FindIconHelper(AIconName, AIconSize);
 {
@@ -300,7 +300,7 @@ begin
 }
 end;
 
-function TIconTheme.LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
+function TIconTheme.LookupIcon(AIconName: String; AIconSize: Integer): String;
 var
   I, J, FoundIndex: Integer;
   MinimalSize,
@@ -390,7 +390,7 @@ begin
   end;
 end;
 
-function TIconTheme.FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
+function TIconTheme.FindIconHelper(aIconName: String; AIconSize: Integer): String;
 var
   I: Integer;
 begin

@@ -177,7 +177,7 @@ begin
   end;
 end;
 
-function GetThumbnail(const aFileName: UTF8String; aSize: TSize): Graphics.TBitmap;
+function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
   Scale: Boolean;
   Cairo: Pcairo_t;

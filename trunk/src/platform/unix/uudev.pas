@@ -41,7 +41,7 @@ procedure AddObserver(Func: TUDisksDeviceNotify);
 procedure RemoveObserver(Func: TUDisksDeviceNotify);
 
 function EnumerateDevices(out DevicesInfos: TUDisksDevicesInfos): Boolean;
-function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean; overload;
+function GetDeviceInfo(const ObjectPath: String; out Info: TUDisksDeviceInfo): Boolean; overload;
 
 var
   HasUdev: Boolean = False;
@@ -230,7 +230,7 @@ begin
 end;
 
 function GetDeviceProperty(const Device: Pudev_device;
-                           const PropertyName: UTF8String;
+                           const PropertyName: String;
                            out Value: Boolean): Boolean; overload;
 var
   pacValue: PAnsiChar;
@@ -244,8 +244,8 @@ begin
 end;
 
 function GetDeviceProperty(const Device: Pudev_device;
-                           const PropertyName: UTF8String;
-                           out Value: UTF8String): Boolean; overload;
+                           const PropertyName: String;
+                           out Value: String): Boolean; overload;
 var
   pacValue: PAnsiChar;
 begin
@@ -258,8 +258,8 @@ begin
 end;
 
 function GetDeviceAttribute(const Device: Pudev_device;
-                            const AttributeName: UTF8String;
-                            out Value: UTF8String): Boolean; overload;
+                            const AttributeName: String;
+                            out Value: String): Boolean; overload;
 var
   pacValue: PAnsiChar;
 begin
@@ -272,17 +272,17 @@ begin
 end;
 
 function GetDeviceAttribute(const Device: Pudev_device;
-                            const AttributeName: UTF8String;
+                            const AttributeName: String;
                             out Value: Boolean): Boolean; overload;
 var
-  S: UTF8String;
+  S: String;
 begin
   Result:= GetDeviceAttribute(Device, AttributeName, S);
   if Result then Result:= TryStrToBool(S, Value);
 end;
 
 function GetDeviceAttribute(const SystemPath: String;
-                            const AttributeName: UTF8String;
+                            const AttributeName: String;
                             out Value: Boolean): Boolean; overload;
 var
   S: AnsiChar;
@@ -355,7 +355,7 @@ end;
 procedure GetDeviceInfo(SystemPath: PAnsiChar; Device: Pudev_device; out Info: TUDisksDeviceInfo); overload;
 var
   I: Integer;
-  Value: UTF8String;
+  Value: String;
 begin
   with Info do
   begin
@@ -500,7 +500,7 @@ begin
   Result:= Length(DevicesInfos) > 0;
 end;
 
-function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
+function GetDeviceInfo(const ObjectPath: String; out Info: TUDisksDeviceInfo): Boolean;
 var
   Device: Pudev_device;
 begin

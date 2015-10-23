@@ -55,7 +55,7 @@ type
     function CheckDirectoryName(const DirectoryName: String) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
-    function FindInFile(const sFileName: UTF8String;
+    function FindInFile(const sFileName: String;
                         sData: String; bCase, bRegExp: Boolean): Boolean;
   protected
     procedure Execute; override;
@@ -125,7 +125,7 @@ procedure TFindThread.Execute;
 var
   I: Integer;
   sr: TSearchRecEx;
-  sTemp, sPath: UTF8String;
+  sTemp, sPath: String;
 begin
   FreeOnTerminate := True;
 
@@ -181,7 +181,7 @@ begin
   end;
 end;
 
-function TFindThread.FindInFile(const sFileName: UTF8String; sData: String;
+function TFindThread.FindInFile(const sFileName: String; sData: String;
                                 bCase, bRegExp: Boolean): Boolean;
 var
   fs: TFileStreamEx;
@@ -419,7 +419,7 @@ end;
 procedure TFindThread.WalkAdr(const sNewDir:String);
 var
   sr: TSearchRecEx;
-  Path, SubPath: UTF8String;
+  Path, SubPath: String;
   IsLink: Boolean;
 begin
   if Terminated then

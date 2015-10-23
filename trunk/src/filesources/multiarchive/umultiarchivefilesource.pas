@@ -17,19 +17,19 @@ type
   IMultiArchiveFileSource = interface(IArchiveFileSource)
     ['{71BF41D3-1E40-4E84-83BB-B6D3E0DEB6FC}']
 
-    function GetPassword: UTF8String;
+    function GetPassword: String;
     function GetArcFileList: TObjectList;
     function GetMultiArcItem: TMultiArcItem;
 
     function FileIsLink(ArchiveItem: TArchiveItem): Boolean;
     function FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
 
-    procedure FillAndCount(const FileMask: UTF8String; Files: TFiles;
+    procedure FillAndCount(const FileMask: String; Files: TFiles;
                            CountDirs: Boolean;
                            out NewFiles: TFiles;
                            out FilesCount: Int64; out FilesSize: Int64);
 
-    property Password: UTF8String read GetPassword;
+    property Password: String read GetPassword;
     property ArchiveFileList: TObjectList read GetArcFileList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
   end;
@@ -38,7 +38,7 @@ type
 
   TMultiArchiveFileSource = class(TArchiveFileSource, IMultiArchiveFileSource)
   private
-    FPassword: UTF8String;
+    FPassword: String;
     FOutputParser: TOutputParser;
     FArcFileList : TObjectList;
     FMultiArcItem: TMultiArcItem;
@@ -47,7 +47,7 @@ type
     FLinkAttribute,
     FDirectoryAttribute: TFileAttrs;
 
-    function GetPassword: UTF8String;
+    function GetPassword: String;
     function GetMultiArcItem: TMultiArcItem;
     procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
 
@@ -66,7 +66,7 @@ type
     procedure DoReload(const PathsToReload: TPathsArray); override;
 
   public
-    procedure FillAndCount(const FileMask: UTF8String; Files: TFiles;
+    procedure FillAndCount(const FileMask: String; Files: TFiles;
                            CountDirs: Boolean;
                            out NewFiles: TFiles;
                            out FilesCount: Int64; out FilesSize: Int64);
@@ -116,7 +116,7 @@ type
     }
     class function CheckAddonByExt(anArchiveType: String): Boolean;
 
-    property Password: UTF8String read GetPassword;
+    property Password: String read GetPassword;
     property ArchiveFileList: TObjectList read GetArcFileList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
   end;
@@ -478,7 +478,7 @@ begin
   FArcFileList.Add(ArchiveItem);
 end;
 
-function TMultiArchiveFileSource.GetPassword: UTF8String;
+function TMultiArchiveFileSource.GetPassword: String;
 begin
   Result:= FPassword;
 end;
@@ -555,13 +555,13 @@ begin
   ReadArchive;
 end;
 
-procedure TMultiArchiveFileSource.FillAndCount(const FileMask: UTF8String; Files: TFiles;
+procedure TMultiArchiveFileSource.FillAndCount(const FileMask: String; Files: TFiles;
   CountDirs: Boolean; out NewFiles: TFiles; out FilesCount: Int64;
   out FilesSize: Int64);
 var
   I, J: Integer;
   ArchiveItem: TArchiveItem;
-  sFileName: UTF8String;
+  sFileName: String;
   aFile: TFile;
 begin
   NewFiles:= TFiles.Create(Files.Path);

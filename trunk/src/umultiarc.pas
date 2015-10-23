@@ -74,7 +74,7 @@ type
   TArchiveItem = class
     FileName,
     FileExt,
-    FileLink:  UTF8String;
+    FileLink:  String;
     PackSize,
     UnpSize: Int64;
     Year,
@@ -105,7 +105,7 @@ type
     FDescription,
     FExtension,
     FStart,
-    FEnd: UTF8String;
+    FEnd: String;
     FFormat: TStringList;
     FList,
     FExtract,
@@ -114,7 +114,7 @@ type
     FDelete,
     FAdd,
     FAddSelfExtract,
-    FPasswordQuery: UTF8String;
+    FPasswordQuery: String;
     FFormMode: Integer;
   public
     FEnabled: Boolean;
@@ -122,7 +122,7 @@ type
     FDebug: Boolean;
     constructor Create;
     destructor Destroy; override;
-    function CanYouHandleThisFile(const FileName: UTF8String): Boolean;
+    function CanYouHandleThisFile(const FileName: String): Boolean;
     property FID: AnsiString read FSignature write SetSignature;
     property FIDPos: AnsiString read FSignaturePosition write SetSignaturePosition;
     property FIDSeekRange: AnsiString read GetSignatureSeekRange write SetSignatureSeekRange;
@@ -135,18 +135,18 @@ type
   private
     function GetCount: LongInt;
     function GetItem(Index: Integer): TMultiArcItem;
-    function GetName(Index: Integer): UTF8String;
-    procedure SetName(Index: Integer; const AValue: UTF8String);
+    function GetName(Index: Integer): String;
+    procedure SetName(Index: Integer; const AValue: String);
   public
     constructor Create; virtual;
     destructor Destroy; override;
     procedure AutoConfigure;
     procedure Clear;
-    procedure LoadFromFile(const FileName: UTF8String);
-    procedure SaveToFile(const FileName: UTF8String);
-    function Add(const S: UTF8String; aMultiArcItem: TMultiArcItem): Integer;
+    procedure LoadFromFile(const FileName: String);
+    procedure SaveToFile(const FileName: String);
+    function Add(const S: String; aMultiArcItem: TMultiArcItem): Integer;
     procedure Delete(Index: Integer);
-    property Names[Index: Integer]: UTF8String read GetName write SetName;
+    property Names[Index: Integer]: String read GetName write SetName;
     property Items[Index: Integer]: TMultiArcItem read GetItem; default;
     property Count: LongInt read GetCount;
   end;
@@ -168,12 +168,12 @@ begin
   Result:= TMultiArcItem(FList.Objects[Index]);
 end;
 
-function TMultiArcList.GetName(Index: Integer): UTF8String;
+function TMultiArcList.GetName(Index: Integer): String;
 begin
   Result:= FList.Strings[Index];
 end;
 
-procedure TMultiArcList.SetName(Index: Integer; const AValue: UTF8String);
+procedure TMultiArcList.SetName(Index: Integer; const AValue: String);
 begin
   FList.Strings[Index]:= AValue;
 end;
@@ -193,7 +193,7 @@ end;
 procedure TMultiArcList.AutoConfigure;
 var
   I: Integer;
-  ExePath: UTF8String;
+  ExePath: String;
 begin
   for I:= 0 to Count - 1 do
   begin
@@ -223,13 +223,13 @@ begin
       end;
 end;
 
-procedure TMultiArcList.LoadFromFile(const FileName: UTF8String);
+procedure TMultiArcList.LoadFromFile(const FileName: String);
 var
   I, J: Integer;
   IniFile: TIniFileEx = nil;
   Sections: TStringList = nil;
   Section,
-  Format: UTF8String;
+  Format: String;
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
@@ -287,11 +287,11 @@ begin
   end;
 end;
 
-procedure TMultiArcList.SaveToFile(const FileName: UTF8String);
+procedure TMultiArcList.SaveToFile(const FileName: String);
 var
   I, J: Integer;
   IniFile: TIniFileEx;
-  Section: UTF8String;
+  Section: String;
   MultiArcItem: TMultiArcItem;
 begin
   IniFile:= TIniFileEx.Create(FileName, fmOpenWrite);
@@ -336,7 +336,7 @@ begin
   end;
 end;
 
-function TMultiArcList.Add(const S: UTF8String; aMultiArcItem: TMultiArcItem): Integer;
+function TMultiArcList.Add(const S: String; aMultiArcItem: TMultiArcItem): Integer;
 begin
   Result := FList.AddObject(S, aMultiArcItem);
 end;
@@ -434,7 +434,7 @@ begin
   inherited Destroy;
 end;
 
-function TMultiArcItem.CanYouHandleThisFile(const FileName: UTF8String): Boolean;
+function TMultiArcItem.CanYouHandleThisFile(const FileName: String): Boolean;
 var
   FileMapRec : TFileMapRec;
   hFile: THandle;

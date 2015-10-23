@@ -51,7 +51,7 @@ type
   );
 
 const
-  DesktopName: array[TDesktopEnvironment] of UTF8String = (
+  DesktopName: array[TDesktopEnvironment] of String = (
     'Unknown',
     'KDE',
     'GNOME',
@@ -186,22 +186,22 @@ function fpCloseDir(__dirp: pDir): cInt; inline;
 function fpSystemStatus(Command: string): cint;
 
 function GetDesktopEnvironment: TDesktopEnvironment;
-function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
 {en
    Checks if file is executable or script
    @param(FileName File name)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function FileIsUnixExecutable(const Filename: UTF8String): Boolean;
+function FileIsUnixExecutable(const Filename: String): Boolean;
 {en
    Find mount point of file system where file is located
    @param(FileName File name)
    @returns(Mount point of file system)
 }
-function FindMountPointPath(const FileName: UTF8String): UTF8String;
-function ExecutableInSystemPath(const FileName: UTF8String): Boolean;
-function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
-function GetFileMimeType(const FileName: UTF8String): UTF8String;
+function FindMountPointPath(const FileName: String): String;
+function ExecutableInSystemPath(const FileName: String): Boolean;
+function GetDefaultAppCmd(const FileName: String): String;
+function GetFileMimeType(const FileName: String): String;
 {en
    Fix separators in case they are broken UTF-8 characters
    (FPC takes only first byte as it doesn't support Unicode).
@@ -351,7 +351,7 @@ begin
     Exit(DE_XFCE);
 end;
 
-function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
 var
   StatInfo: BaseUnix.Stat;
   iniDesktop: TIniFileEx = nil;
@@ -375,7 +375,7 @@ begin
   end;
 end;
 
-function FileIsUnixExecutable(const FileName: UTF8String): Boolean;
+function FileIsUnixExecutable(const FileName: String): Boolean;
 var
   Info : Stat;
   dwSign : LongWord;
@@ -399,10 +399,10 @@ begin
   end;
 end;
 
-function FindMountPointPath(const FileName: UTF8String): UTF8String;
+function FindMountPointPath(const FileName: String): String;
 var
   I, J: LongInt;
-  sTemp: UTF8String;
+  sTemp: String;
   recStat: Stat;
   st_dev: QWord;
 begin
@@ -441,7 +441,7 @@ begin
   end;
 end;
 
-function ExecutableInSystemPath(const FileName: UTF8String): Boolean;
+function ExecutableInSystemPath(const FileName: String): Boolean;
 var
   I: Integer;
   Path: String;
@@ -457,7 +457,7 @@ begin
   Result:= False;
 end;
 
-function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
+function GetDefaultAppCmd(const FileName: String): String;
 {$IF NOT DEFINED(DARWIN)}
 var
   Filenames: TStringList;
@@ -475,7 +475,7 @@ begin
 end;
 {$ENDIF}
 
-function GetFileMimeType(const FileName: UTF8String): UTF8String;
+function GetFileMimeType(const FileName: String): String;
 {$IF NOT DEFINED(DARWIN)}
 begin
   Result:= uMimeType.GetFileMimeType(FileName);
@@ -513,7 +513,7 @@ function MountDrive(Drive: PDrive): Boolean;
 {$IFDEF LINUX}
 var
   Index: Integer;
-  MountPath: UTF8String;
+  MountPath: String;
 {$ENDIF}
 begin
   if not Drive^.IsMounted then

@@ -14,6 +14,8 @@
 
 unit uShowForm;
 
+{$mode objfpc}{$H+}
+
 interface
 
 uses

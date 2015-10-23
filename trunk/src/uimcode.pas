@@ -2,7 +2,7 @@ unit uIMCode;
 
 interface
 
-function MakeSpellCode(stText: UnicodeString): UTF8String;
+function MakeSpellCode(stText: UnicodeString): String;
 { iMode 二进制功能位说明
   X X X X X X X X X X X X X X X X
                             3 2 1
@@ -18,7 +18,7 @@ uses
   SysUtils;
 
 const
-  strChineseCharList: array [1..270] of UTF8String = (
+  strChineseCharList: array [1..270] of String = (
   'A阿啊锕嗄厑哎哀唉埃挨溾锿鎄啀捱皑凒溰嘊敳皚癌毐昹嗳矮蔼躷噯藹譪霭靄艾伌爱砹硋隘嗌塧嫒愛碍暧瑷僾壒嬡懓薆曖璦鴱皧瞹馤鑀鱫安侒峖桉氨庵谙萻腤鹌蓭誝鞌鞍盦馣鮟盫韽啽雸垵',
   'A俺唵埯铵隌揞罯銨犴岸按荌案胺豻堓婩暗貋儑錌黯肮岇昂昻枊盎醠凹坳垇柪軪爊敖厫隞嗷嗸嶅廒滶獒獓遨熬璈蔜翱聱螯翶謷翺鳌鏖鰲鷔鼇芺袄媪镺襖岙扷岰傲奡奥嫯慠骜奧嶴澳懊擙謸鏊',
                   'B八仈巴叭扒朳玐吧夿岜芭疤哵捌笆粑紦羓蚆釟豝鲃魞叐犮抜坺妭拔茇炦癹胈釛菝詙跋軷魃把靶坝弝爸垻罢鲅鮁覇矲霸壩灞欛挀掰白百佰柏栢捭竡粨摆擺襬呗拝败拜唄敗稗粺鞁薭贁兡瓸扳',
@@ -291,11 +291,11 @@ const
                   'Z左佐繓作坐阼岝岞怍侳柞祚胙唑座袏做葄蓙飵糳咗'
   );
 
-function MakeSpellCode(stText: UnicodeString): UTF8String;
+function MakeSpellCode(stText: UnicodeString): String;
 var
   c: UnicodeChar;
   len: Integer;
-  substr: UTF8String;
+  substr: String;
   usubstr: UnicodeString;
   I: Integer;
 begin

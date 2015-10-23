@@ -66,10 +66,10 @@ type
    end; { IShellIconOverlay }
 
 function SHGetSystemImageList(iImageList: Integer): HIMAGELIST;
-function SHChangeIconDialog(hOwner: HWND; var FileName: UTF8String; var IconIndex: Integer): Boolean;
-function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
-function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
-function SHFileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+function SHChangeIconDialog(hOwner: HWND; var FileName: String; var IconIndex: Integer): Boolean;
+function SHGetOverlayIconIndex(const sFilePath, sFileName: String): Integer;
+function SHGetInfoTip(const sFilePath, sFileName: String): String;
+function SHFileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
 
 function PathIsUNCA(pszPath: LPCSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCA';
 function PathIsUNCW(pwszPath: LPCWSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCW';
@@ -122,7 +122,7 @@ begin
   end;
 end;
 
-function SHChangeIconDialog(hOwner: HWND; var FileName: UTF8String; var IconIndex: Integer): Boolean;
+function SHChangeIconDialog(hOwner: HWND; var FileName: String; var IconIndex: Integer): Boolean;
 type
   TSHChangeIconProcW = function(Wnd: HWND; szFileName: PWideChar; Reserved: Integer;
                                 var lpIconIndex: Integer): BOOL; stdcall;
@@ -146,7 +146,7 @@ begin
   end;
 end;
 
-function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
+function SHGetOverlayIconIndex(const sFilePath, sFileName: String): Integer;
 var
   Folder,
   DesktopFolder: IShellFolder;
@@ -192,7 +192,7 @@ begin
   end; // SHGetDesktopFolder
 end;
 
-function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
+function SHGetInfoTip(const sFilePath, sFileName: String): String;
 var
   DesktopFolder, Folder: IShellFolder;
   pidlFolder: PItemIDList = nil;
@@ -230,7 +230,7 @@ begin
     end;
 end;
 
-function SHFileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+function SHFileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
 var
   Unknown: IUnknown;
   ShellLink: IShellLinkW;

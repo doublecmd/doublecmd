@@ -32,7 +32,7 @@ type
     procedure SetNeedsConnection(AValue: Boolean);
 
   protected
-    function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
+    function UpdateProgress(SourceName, TargetName: String; PercentDone: Integer): Integer;
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -70,7 +70,7 @@ begin
     FInfoOperation:= FS_STATUS_OP_PUT_SINGLE;
 end;
 
-function TWfxPluginCopyInOperation.UpdateProgress(SourceName,TargetName: UTF8String;
+function TWfxPluginCopyInOperation.UpdateProgress(SourceName,TargetName: String;
                                                   PercentDone: Integer): Integer;
 var
   iTemp: Int64;

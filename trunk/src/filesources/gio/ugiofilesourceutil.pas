@@ -119,7 +119,7 @@ var
   I: Integer;
   aFile: TFile;
 
-  procedure FillAndCountRec(const srcPath: UTF8String);
+  procedure FillAndCountRec(const srcPath: String);
   var
     AFolder: PGFile;
     AError: PGError;
@@ -186,7 +186,7 @@ begin
   end;
 end;
 
-function FileExistsMessage(SourceFile: TFile; TargetInfo: PGFileInfo; const TargetName: UTF8String): UTF8String;
+function FileExistsMessage(SourceFile: TFile; TargetInfo: PGFileInfo; const TargetName: String): String;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + TargetName + LineEnding +
            Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(g_file_info_get_size(TargetInfo))),

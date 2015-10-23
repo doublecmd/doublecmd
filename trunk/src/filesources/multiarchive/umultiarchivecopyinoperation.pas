@@ -24,27 +24,27 @@ type
     FFullFilesTree,
     FRemoveFilesTree: TFiles;
     FPackingFlags: Integer;
-    FPassword: UTF8String;
-    FVolumeSize: UTF8String;
-    FCustomParams: UTF8String;
+    FPassword: String;
+    FVolumeSize: String;
+    FCustomParams: String;
     FCallResult,
     FTarBefore: Boolean;      // Create TAR archive first
-    FTarFileName: UTF8String; // Temporary TAR archive name
+    FTarFileName: String; // Temporary TAR archive name
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
-    function CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt): Boolean;
-    procedure DeleteFile(const BasePath: UTF8String; aFile: TFile);
-    procedure DeleteFiles(const BasePath: UTF8String; aFiles: TFiles);
+    function CheckForErrors(const FileName: String; ExitStatus: LongInt): Boolean;
+    procedure DeleteFile(const BasePath: String; aFile: TFile);
+    procedure DeleteFiles(const BasePath: String; aFiles: TFiles);
 
   protected
     FExProcess: TExProcess;
-    FTempFile: UTF8String;
+    FTempFile: String;
     FErrorLevel: LongInt;
     function Tar: Boolean;
     procedure OnReadLn(str: string);
     procedure OperationProgressHandler;
-    procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
+    procedure UpdateProgress(SourceName, TargetName: String; IncSize: Int64);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
                                                     AState: TFileSourceOperationState);
 
@@ -61,9 +61,9 @@ type
     procedure Finalize; override;
 
     property PackingFlags: Integer read FPackingFlags write FPackingFlags;
-    property Password: UTF8String read FPassword write FPassword;
-    property VolumeSize: UTF8String read FVolumeSize write FVolumeSize;
-    property CustomParams: UTF8String read FCustomParams write FCustomParams;
+    property Password: String read FPassword write FPassword;
+    property VolumeSize: String read FVolumeSize write FVolumeSize;
+    property CustomParams: String read FCustomParams write FCustomParams;
     property TarBefore: Boolean read FTarBefore write FTarBefore;
   end;
 
@@ -131,7 +131,7 @@ var
   MultiArcItem: TMultiArcItem;
   aFile: TFile;
   sReadyCommand,
-  sCommandLine: UTF8String;
+  sCommandLine: String;
 begin
   // Put to TAR archive if needed
   if FTarBefore then Tar;
@@ -263,7 +263,7 @@ begin
   end;
 end;
 
-function TMultiArchiveCopyInOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt): Boolean;
+function TMultiArchiveCopyInOperation.CheckForErrors(const FileName: String; ExitStatus: LongInt): Boolean;
 begin
   if ExitStatus > FErrorLevel then
     begin
@@ -281,7 +281,7 @@ begin
   FCallResult:= Result;
 end;
 
-procedure TMultiArchiveCopyInOperation.DeleteFile(const BasePath: UTF8String; aFile: TFile);
+procedure TMultiArchiveCopyInOperation.DeleteFile(const BasePath: String; aFile: TFile);
 begin
   if aFile.IsDirectory then
     mbRemoveDir(BasePath + aFile.FullPath)
@@ -289,7 +289,7 @@ begin
     mbDeleteFile(BasePath + aFile.FullPath);
 end;
 
-procedure TMultiArchiveCopyInOperation.DeleteFiles(const BasePath: UTF8String; aFiles: TFiles);
+procedure TMultiArchiveCopyInOperation.DeleteFiles(const BasePath: String; aFiles: TFiles);
 var
   I: Integer;
   aFile: TFile;
@@ -353,7 +353,7 @@ begin
 end;
 
 procedure TMultiArchiveCopyInOperation.UpdateProgress(SourceName,
-  TargetName: UTF8String; IncSize: Int64);
+  TargetName: String; IncSize: Int64);
 begin
   with FStatistics do
   begin

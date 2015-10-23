@@ -27,7 +27,7 @@ type
   private
     FProviderName: array[0..MAX_PATH-1] of WideChar;
     function GetProviderName: WideString;
-    function IsNetworkPath(const Path: UTF8String): Boolean;
+    function IsNetworkPath(const Path: String): Boolean;
 
   protected
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
@@ -152,7 +152,7 @@ begin
   Result:= WideString(FProviderName);
 end;
 
-function TWinNetFileSource.IsNetworkPath(const Path: UTF8String): Boolean;
+function TWinNetFileSource.IsNetworkPath(const Path: String): Boolean;
 begin
   Result:= (NumCountChars(PathDelim, ExcludeTrailingPathDelimiter(Path)) < 3);
 end;

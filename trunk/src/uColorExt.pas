@@ -25,6 +25,8 @@
 
 unit uColorExt;
 
+{$mode objfpc}{$H+}
+
 interface
 
 uses

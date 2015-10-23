@@ -62,8 +62,8 @@ type
   public
     constructor Create(AOwner: TComponent; ATemp: Boolean); overload;
     procedure Assign(Source: TPersistent); override;
-    function LoadFromFile(const FileName: UTF8String): Boolean;
-    function SaveToFile(const FileName: UTF8String): Boolean;
+    function LoadFromFile(const FileName: String): Boolean;
+    function SaveToFile(const FileName: String): Boolean;
     function GetHighlighterByExt(const sExtension: string): TSynCustomHighlighter;
     procedure SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
     property Changed: Boolean read FChanged write FChanged;
@@ -173,7 +173,7 @@ var
   I: Integer = 0;
   J, K: Integer;
   aFile: TStringListEx;
-  s, sValue: UTF8String;
+  s, sValue: String;
   Highlighter: TSynCustomHighlighter;
   Attribute: TSynHighlighterAttributes;
 begin
@@ -325,7 +325,7 @@ begin
   end;
 end;
 
-function TdmHighl.LoadFromFile(const FileName: UTF8String): Boolean;
+function TdmHighl.LoadFromFile(const FileName: String): Boolean;
 var
   J: LongInt;
   Config: TXmlConfig = nil;
@@ -390,7 +390,7 @@ begin
   end;
 end;
 
-function TdmHighl.SaveToFile(const FileName: UTF8String): Boolean;
+function TdmHighl.SaveToFile(const FileName: String): Boolean;
 var
   I: LongInt;
   Config: TXmlConfig;

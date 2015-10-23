@@ -62,7 +62,7 @@ var
   // (There may be other running concurrently, but only one may report progress.)
   WcxDeleteOperation: TWcxArchiveDeleteOperation = nil;
 
-function ChangeVolProc(var ArcName : UTF8String; Mode: LongInt): LongInt;
+function ChangeVolProc(var ArcName : String; Mode: LongInt): LongInt;
 begin
   Result:= 1;
   case Mode of
@@ -80,7 +80,7 @@ end;
 
 function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
-  sArcName: UTF8String;
+  sArcName: String;
 begin
   sArcName:= SysToUTF8(StrPas(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
@@ -90,7 +90,7 @@ end;
 
 function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
 var
-  sArcName: UTF8String;
+  sArcName: String;
 begin
   sArcName:= UTF8Encode(WideString(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
@@ -98,7 +98,7 @@ begin
     StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
 end;
 
-function ProcessDataProc(FileName: UTF8String; Size: LongInt): LongInt;
+function ProcessDataProc(FileName: String; Size: LongInt): LongInt;
 begin
   //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
 

@@ -111,7 +111,7 @@ type
   procedure DateTimeOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
                                     var FileChecks: TFindFileChecks);
 
-  function CheckPlugin(const SearchTemplate: TSearchTemplateRec; const FileName: UTF8String) : Boolean;
+  function CheckPlugin(const SearchTemplate: TSearchTemplateRec; const FileName: String) : Boolean;
   function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String) : Boolean;
   function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String) : Boolean;
   function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String) : Boolean;
@@ -323,7 +323,7 @@ begin
 end;
 
 function CheckPlugin(const SearchTemplate: TSearchTemplateRec;
-  const FileName: UTF8String): Boolean;
+  const FileName: String): Boolean;
 var
   I: Integer;
   Work: Boolean;

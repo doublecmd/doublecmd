@@ -51,7 +51,7 @@ type
     { public declarations }
   end; 
 
-function ShowMaskInputDlg(const sCaption, sPrompt: UTF8String; slValueList: TStringList; var sValue: UTF8String): Boolean;
+function ShowMaskInputDlg(const sCaption, sPrompt: String; slValueList: TStringList; var sValue: String): Boolean;
 
 implementation
 
@@ -60,8 +60,8 @@ implementation
 uses
   fFindDlg, uGlobs, uSearchTemplate;
 
-function ShowMaskInputDlg(const sCaption, sPrompt: UTF8String;
-                                slValueList: TStringList; var sValue: UTF8String): Boolean;
+function ShowMaskInputDlg(const sCaption, sPrompt: String;
+                                slValueList: TStringList; var sValue: String): Boolean;
 var
   Index: Integer;
 begin
@@ -117,7 +117,7 @@ end;
 
 procedure TfrmMaskInputDlg.btnDefineTemplateClick(Sender: TObject);
 var
-  sTemplateName: UTF8String;
+  sTemplateName: String;
 begin
   if lbxSearchTemplate.ItemIndex >= 0 then
     sTemplateName:= lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];

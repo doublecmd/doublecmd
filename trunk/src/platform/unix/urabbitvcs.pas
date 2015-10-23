@@ -18,7 +18,7 @@ type
                 vscComplicated, vscCalculating, vscError, vscUnversioned);
 
 const
-  VcsStatusText: array[TVcsStatus] of UTF8String =
+  VcsStatusText: array[TVcsStatus] of String =
                                          (
                                          'normal',
                                          'modified',
@@ -36,7 +36,7 @@ const
                                          'unversioned'
                                          );
 
-  VcsStatusEmblems: array[TVcsStatus] of UTF8String =
+  VcsStatusEmblems: array[TVcsStatus] of String =
                                          (
                                          'emblem-rabbitvcs-normal',
                                          'emblem-rabbitvcs-modified',
@@ -57,7 +57,7 @@ const
 {en
    Requests a status check from the underlying status checker.
 }
-function CheckStatus(Path: UTF8String; Recurse: Boolean32 = False;
+function CheckStatus(Path: String; Recurse: Boolean32 = False;
                      Invalidate: Boolean32 = True; Summary: Boolean32 = False): string;
 
 procedure FillRabbitMenu(Menu: TPopupMenu; Paths: TStringList);
@@ -97,7 +97,7 @@ begin
     Result := False;
 end;
 
-function CheckService(const PythonScript: UTF8String): Boolean;
+function CheckService(const PythonScript: String): Boolean;
 var
   service_exists: dbus_bool_t;
 begin
@@ -118,7 +118,7 @@ begin
     end;
 end;
 
-function CheckStatus(Path: UTF8String; Recurse: Boolean32;
+function CheckStatus(Path: String; Recurse: Boolean32;
                      Invalidate: Boolean32; Summary: Boolean32): string;
 var
   Return: Boolean;
@@ -313,7 +313,7 @@ end;
 
 procedure Initialize;
 var
-  PythonPath: UTF8String;
+  PythonPath: String;
 begin
   dbus_error_init(@error);
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);

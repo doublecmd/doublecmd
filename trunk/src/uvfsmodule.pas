@@ -27,11 +27,11 @@ type
     function GetVfsModule(const S: String): TVfsModule;
   public
     destructor Destroy; override;
-    function GetFileSource(const Path: UTF8String): TFileSourceClass;
+    function GetFileSource(const Path: String): TFileSourceClass;
     property VfsModule[const S: String]: TVfsModule read GetVfsModule;
   end;
 
-procedure RegisterVirtualFileSource(AName: UTF8String;
+procedure RegisterVirtualFileSource(AName: String;
                                     AFileSourceClass: TFileSourceClass;
                                     Visible: Boolean = True);
 
@@ -43,7 +43,7 @@ var
 
 implementation
 
-procedure RegisterVirtualFileSource(AName: UTF8String;
+procedure RegisterVirtualFileSource(AName: String;
                                     AFileSourceClass: TFileSourceClass;
                                     Visible: Boolean = True);
 var
@@ -75,7 +75,7 @@ begin
   inherited Destroy;
 end;
 
-function TVfsModuleList.GetFileSource(const Path: UTF8String): TFileSourceClass;
+function TVfsModuleList.GetFileSource(const Path: String): TFileSourceClass;
 var
   I: Integer;
 begin

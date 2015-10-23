@@ -66,7 +66,7 @@ type
 
 { ShowSplitterFileForm:
   "TMainCommands.cm_FileSpliter" function from "uMainCommands.pas" is calling this routine.}
-function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: UTF8String): Boolean;
+function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: String): Boolean;
 
 implementation
 
@@ -82,7 +82,7 @@ uses
 
 { ShowSplitterFileForm:
   "TMainCommands.cm_FileSpliter" function from "uMainCommands.pas" is calling this routine.}
-function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: UTF8String): Boolean;
+function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: String): Boolean;
 var
   Operation: TFileSourceSplitOperation = nil;
   frmSplitter:TfrmSplitter;

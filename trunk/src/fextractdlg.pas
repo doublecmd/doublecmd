@@ -54,17 +54,17 @@ type
     procedure FormCreate(Sender: TObject);
   private
     { private declarations }
-    FArcType: UTF8String;
+    FArcType: String;
     procedure SwitchOptions;
     procedure ExtractArchive(ArchiveFileSource: IArchiveFileSource; TargetFileSource: IFileSource;
-                             const TargetPath: UTF8String);
+                             const TargetPath: String);
   public
     { public declarations }
   end;
 
 // Frees 'SourceFiles'.
 procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
-                         TargetFileSource: IFileSource; sDestPath: UTF8String);
+                         TargetFileSource: IFileSource; sDestPath: String);
 
 implementation
 
@@ -86,7 +86,7 @@ uses
   uMasks;
 
 procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
-                         TargetFileSource: IFileSource; sDestPath: UTF8String);
+                         TargetFileSource: IFileSource; sDestPath: String);
 var
   I: integer;
   Operation: TFileSourceOperation;
@@ -231,7 +231,7 @@ begin
 end;
 
 procedure TfrmExtractDlg.ExtractArchive(ArchiveFileSource: IArchiveFileSource;
-                                        TargetFileSource: IFileSource; const TargetPath: UTF8String);
+                                        TargetFileSource: IFileSource; const TargetPath: String);
 var
   FilesToExtract: TFiles;
   Operation: TFileSourceOperation;

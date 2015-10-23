@@ -124,8 +124,8 @@ type
     procedure CopyDirectoryHotlistToDirectoryHotlist(var DestinationDirectoryHotlist: TDirectoryHotlist);
     procedure LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode; FlagEraseOriginalOnes: boolean);
-    procedure ImportDoubleCommander(DoubleCommanderFilename: utf8string);
-    function ExportDoubleCommander(DoubleCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
+    procedure ImportDoubleCommander(DoubleCommanderFilename: String);
+    function ExportDoubleCommander(DoubleCommanderFilename: String; FlagEraseOriginalOnes: boolean): boolean;
     procedure PopulateMenuWithHotDir(mncmpMenuComponentToPopulate: TComponent; ProcedureWhenHotDirItemClicked, ProcedureWhenHotDirAddOrConfigClicked: TProcedureWhenClickOnMenuItem; KindHotDirMenuPopulation: TKindHotDirMenuPopulation; TagOffset: longint);
     function LoadTTreeView(ParamTreeView:TTreeView; DirectoryHotlistIndexToSelectIfAny:longint):TTreeNode;
     procedure RefreshFromTTreeView(ParamTreeView:TTreeView);
@@ -133,8 +133,8 @@ type
     function ComputeSignature:dword;
     property HotDir[Index: integer]: THotDir read GetHotDir;
     {$IFDEF MSWINDOWS}
-    function ImportTotalCommander(TotalCommanderFilename: utf8string): integer;
-    function ExportTotalCommander(TotalCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
+    function ImportTotalCommander(TotalCommanderFilename: String): integer;
+    function ExportTotalCommander(TotalCommanderFilename: String; FlagEraseOriginalOnes: boolean): boolean;
     {$ENDIF}
   end;
 
@@ -766,7 +766,7 @@ begin
 end;
 
 { TDirectoryHotlist.ImportDoubleCommander }
-procedure TDirectoryHotlist.ImportDoubleCommander(DoubleCommanderFilename: utf8string);
+procedure TDirectoryHotlist.ImportDoubleCommander(DoubleCommanderFilename: String);
 var
   DoubleCommanderXMLToImport: TXmlConfig;
   Root: TXmlNode;
@@ -784,7 +784,7 @@ begin
 end;
 
 { TDirectoryHotlist.ExportDoubleCommander }
-function TDirectoryHotlist.ExportDoubleCommander(DoubleCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
+function TDirectoryHotlist.ExportDoubleCommander(DoubleCommanderFilename: String; FlagEraseOriginalOnes: boolean): boolean;
 var
   DoubleCommanderXMLToImport: TXmlConfig;
   Root: TXmlNode;
@@ -1062,7 +1062,7 @@ end;
 
 {$IFDEF MSWINDOWS}
 { TDirectoryHotlist.ImportTotalCommander }
-function TDirectoryHotlist.ImportTotalCommander(TotalCommanderFilename: utf8string): integer;
+function TDirectoryHotlist.ImportTotalCommander(TotalCommanderFilename: String): integer;
 const
   CONFIGFILE_SECTIONNAME = 'DirMenu';
   CONFIGFILE_NAMEPREFIX = 'menu';
@@ -1163,7 +1163,7 @@ begin
 end;
 
 { TDirectoryHotlist.ExportTotalCommander }
-function TDirectoryHotlist.ExportTotalCommander(TotalCommanderFilename: utf8string; FlagEraseOriginalOnes: boolean): boolean;
+function TDirectoryHotlist.ExportTotalCommander(TotalCommanderFilename: String; FlagEraseOriginalOnes: boolean): boolean;
 const
   CONFIGFILE_SECTIONNAME = 'DirMenu';
   CONFIGFILE_NAMEPREFIX = 'menu';

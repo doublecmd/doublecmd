@@ -138,7 +138,7 @@ end;
 function TWfxPluginSetFilePropertyOperation.SetNewProperty(aFile: TFile;
                                                            aTemplateProperty: TFileProperty): TSetFilePropertyResult;
 var
-  FileName: UTF8String;
+  FileName: String;
   NewAttributes: TFileAttrs;
   ftTime: TFileTime;
 begin

@@ -194,7 +194,7 @@ type
     {en
        It is synchronized in GetIconByName->CheckAddPixmap.
     }
-    function GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
+    function GetIconByDesktopFile(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
   {$ENDIF}
   {$IF DEFINED(DARWIN)}
     function GetSystemFolderIcon: PtrInt;
@@ -287,9 +287,9 @@ type
     }
     function GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
     {$ELSEIF DEFINED(DARWIN)}
-    function GetApplicationBundleIcon(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
+    function GetApplicationBundleIcon(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
     {$ENDIF}
-    function GetIconByName(const AIconName: UTF8String): PtrInt;
+    function GetIconByName(const AIconName: String): PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetVirtualDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -898,11 +898,11 @@ begin
     end;
 end;
 
-function TPixMapManager.GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
+function TPixMapManager.GetIconByDesktopFile(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
 var
   I: PtrInt;
   iniDesktop: TIniFileEx = nil;
-  sIconName: UTF8String;
+  sIconName: String;
 begin
   try
     iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
@@ -932,13 +932,13 @@ end;
 
 {$ELSEIF DEFINED(DARWIN)}
 
-function TPixMapManager.GetApplicationBundleIcon(sFileName: UTF8String;
+function TPixMapManager.GetApplicationBundleIcon(sFileName: String;
   iDefaultIcon: PtrInt): PtrInt;
 var
   I, J: PtrInt;
   slInfoFile: TStringListEx = nil;
   sTemp,
-  sIconName: UTF8String;
+  sIconName: String;
 begin
   Result:= iDefaultIcon;
   slInfoFile:= TStringListEx.Create;
@@ -1021,7 +1021,7 @@ end;
 
 function TPixMapManager.LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 var
-  sIconFileName: UTF8String;
+  sIconFileName: String;
 {$IFDEF LCLGTK2}
   pbPicture: PGdkPixbuf = nil;
 {$ENDIF}
@@ -1062,7 +1062,7 @@ end;
 {$IFDEF DARWIN}
 function TPixMapManager.GetSystemFolderIcon: PtrInt;
 var
-  FileType: UTF8String;
+  FileType: String;
 begin
   FileType:= NSFileTypeForHFSTypeCode(kGenericFolderIcon).UTF8String;
   Result:= GetMimeIcon(FileType, gIconsSize);
@@ -1829,7 +1829,7 @@ begin
 end;
 {$ENDIF}
 
-function TPixMapManager.GetIconByName(const AIconName: UTF8String): PtrInt;
+function TPixMapManager.GetIconByName(const AIconName: String): PtrInt;
 begin
   Result := CheckAddPixmap(AIconName, gIconsSize);
 end;

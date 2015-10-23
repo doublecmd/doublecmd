@@ -18,7 +18,7 @@ function GetArchiveFileSource(SourceFileSource: IFileSource;
 
 procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 
-function FileIsArchive(const FileName: UTF8String): Boolean;
+function FileIsArchive(const FileName: String): Boolean;
 
 implementation
 
@@ -247,9 +247,9 @@ begin
   end;
 end;
 
-function FileIsArchive(const FileName: UTF8String): Boolean;
+function FileIsArchive(const FileName: String): Boolean;
 var
-  ArchiveType: UTF8String;
+  ArchiveType: String;
 begin
   ArchiveType:= ExtractOnlyFileExt(FileName);
   Result:= TWcxArchiveFileSource.CheckPluginByExt(ArchiveType) or

@@ -558,7 +558,7 @@ var
   WfxModule : TWFXmodule;
   sFileName,
   sPluginName,
-  sRootName: UTF8String;
+  sRootName: String;
 begin
   dmComData.OpenDialog.Filter := Format('File system plugins (%s)|%s', [WfxMask, WfxMask]);
   if dmComData.OpenDialog.Execute then

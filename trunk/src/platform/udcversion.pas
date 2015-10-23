@@ -95,7 +95,7 @@ const
    Reads file into strings.
    Returns @false if file not found or cannot be read.
 }
-function GetStringsFromFile(FileName: UTF8String; out sl: TStringListEx): Boolean;
+function GetStringsFromFile(FileName: String; out sl: TStringListEx): Boolean;
 begin
   Result := False;
   sl := nil;
@@ -115,7 +115,7 @@ end;
    Reads first line of file into a string.
    Returns @false if file not found or cannot be read.
 }
-function GetStringFromFile(FileName: UTF8String; out str: String): Boolean;
+function GetStringFromFile(FileName: String; out str: String): Boolean;
 var
   sl: TStringListEx;
 begin

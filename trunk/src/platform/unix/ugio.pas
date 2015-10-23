@@ -31,11 +31,11 @@ interface
 uses
   Classes, SysUtils, DCBasicTypes;
 
-function GioOpen(const Uri: UTF8String): Boolean;
-function GioGetIconTheme(const Scheme: UTF8String): UTF8String;
-function GioFileGetIcon(const FileName: UTF8String): UTF8String;
-function GioMimeTypeGetActions(const MimeType: UTF8String): TDynamicStringArray;
-function GioGetMimeType(const FileName: UTF8String; MaxExtent: LongWord): UTF8String;
+function GioOpen(const Uri: String): Boolean;
+function GioGetIconTheme(const Scheme: String): String;
+function GioFileGetIcon(const FileName: String): String;
+function GioMimeTypeGetActions(const MimeType: String): TDynamicStringArray;
+function GioGetMimeType(const FileName: String; MaxExtent: LongWord): String;
 
 var
   HasGio: Boolean = True;
@@ -45,7 +45,7 @@ implementation
 uses
   DCStrUtils, DCClassesUtf8, uGlib2, uGObject2, uGio2;
 
-function GioOpen(const Uri: UTF8String): Boolean;
+function GioOpen(const Uri: String): Boolean;
 var
   AFile: PGFile;
   AFileList: TGList;
@@ -75,7 +75,7 @@ begin
   end;
 end;
 
-function GioGetIconTheme(const Scheme: UTF8String): UTF8String;
+function GioGetIconTheme(const Scheme: String): String;
 var
   Theme: Pgchar;
   Settings: PGSettings;
@@ -106,7 +106,7 @@ begin
   end;
 end;
 
-function GioFileGetIcon(const FileName: UTF8String): UTF8String;
+function GioFileGetIcon(const FileName: String): String;
 var
   GFile: PGFile;
   GIcon: PGIcon;
@@ -129,7 +129,7 @@ begin
   g_object_unref(PGObject(GFile));
 end;
 
-function GioMimeTypeGetActions(const MimeType: UTF8String): TDynamicStringArray;
+function GioMimeTypeGetActions(const MimeType: String): TDynamicStringArray;
 var
   AppList,
   TempList: PGList;
@@ -149,7 +149,7 @@ begin
   end;
 end;
 
-function GioGetMimeType(const FileName: UTF8String; MaxExtent: LongWord): UTF8String;
+function GioGetMimeType(const FileName: String; MaxExtent: LongWord): String;
 var
   Size: gsize;
   MimeType: Pgchar;

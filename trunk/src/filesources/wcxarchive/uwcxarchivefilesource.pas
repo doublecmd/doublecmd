@@ -166,7 +166,7 @@ var
   WcxConnectionsLock: TCriticalSection; // used to synchronize access to connections
   WcxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
 
-function CryptProc(CryptoNumber: Integer; Mode: Integer; ArchiveName: UTF8String; var Password: UTF8String): Integer;
+function CryptProc(CryptoNumber: Integer; Mode: Integer; ArchiveName: String; var Password: String): Integer;
 const
   cPrefix = 'wcx';
 var
@@ -219,7 +219,7 @@ end;
 function CryptProcA(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PAnsiChar; MaxLen: Integer): Integer; dcpcall;
 var
   sArchiveName,
-  sPassword: UTF8String;
+  sPassword: String;
 begin
   sArchiveName:= SysToUTF8(StrPas(ArchiveName));
   sPassword:= SysToUTF8(StrPas(Password));
@@ -234,7 +234,7 @@ end;
 function CryptProcW(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PWideChar; MaxLen: Integer): Integer; dcpcall;
 var
   sArchiveName,
-  sPassword: UTF8String;
+  sPassword: String;
 begin
   sArchiveName:= UTF8Encode(WideString(ArchiveName));
   sPassword:= UTF8Encode(WideString(Password));

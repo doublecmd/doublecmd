@@ -57,7 +57,7 @@ const
     {$ENDIF}
     ;
 
-  PluginBinaryTypeString: array[TBinaryType] of UTF8String =
+  PluginBinaryTypeString: array[TBinaryType] of String =
     (
       'Unknown',
       'Windows 32 bit',
@@ -69,8 +69,8 @@ const
     );
 
 procedure UpdatePlugins;
-function CheckPlugin(var FileName: UTF8String): Boolean;
-function GetPluginBinaryType(const FileName: UTF8String): TBinaryType;
+function CheckPlugin(var FileName: String): Boolean;
+function GetPluginBinaryType(const FileName: String): TBinaryType;
 
 implementation
 
@@ -80,7 +80,7 @@ uses
 procedure UpdatePlugins;
 var
   I: Integer;
-  Folder: UTF8String;
+  Folder: String;
 begin
   // Wcx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wcx' + PathDelim;
@@ -306,7 +306,7 @@ begin
   {$ENDIF}
 end;
 
-function CheckPlugin(var FileName: UTF8String): Boolean;
+function CheckPlugin(var FileName: String): Boolean;
 var
   PluginType: TBinaryType;
 begin
@@ -331,7 +331,7 @@ begin
   Result:= False;
 end;
 
-function GetPluginBinaryType(const FileName: UTF8String): TBinaryType;
+function GetPluginBinaryType(const FileName: String): TBinaryType;
 var
   fsFileStream: TFileStreamEx;
 begin

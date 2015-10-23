@@ -47,13 +47,13 @@ type
     procedure FormShow(Sender: TObject);
     procedure lbHashAlgorithmSelectionChange(Sender: TObject; User: boolean);
   private
-    FFileName: UTF8String;
+    FFileName: String;
     FAlgorithm: THashAlgorithm;
   public
     { public declarations }
   end; 
 
-function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
+function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean;
                           out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
                           out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
@@ -67,7 +67,7 @@ implementation
 uses
   uGlobs, uLng;
 
-function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
+function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean;
   out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
   out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 begin

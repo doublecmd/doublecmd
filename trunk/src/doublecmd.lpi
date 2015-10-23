@@ -1108,6 +1108,7 @@ end;"/>
       <Unit127>
         <Filename Value="filesources\ufilesourcesetfilepropertyoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceSetFilePropertyOperation"/>
       </Unit127>
       <Unit128>
         <Filename Value="filesources\ufilesourcesplitoperation.pas"/>
@@ -1566,6 +1567,7 @@ end;"/>
         <Filename Value="frames\fsearchplugin.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
+        <UnitName Value="fSearchPlugin"/>
       </Unit220>
       <Unit221>
         <Filename Value="udiffonp.pas"/>

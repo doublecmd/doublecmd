@@ -101,7 +101,7 @@ procedure TWcxArchiveCalcStatisticsOperation.ProcessSubDirs(const srcPath: Strin
 var
   I: Integer;
   Header: TWCXHeader;
-  CurrFileName: UTF8String;
+  CurrFileName: String;
   ModificationTime: TDateTime;
 begin
   for I:= 0 to FWcxArchiveFileSource.ArchiveFileList.Count - 1 do

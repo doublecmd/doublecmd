@@ -16,7 +16,7 @@ type
 
   TFileSystemListOperation = class(TFileSourceListOperation)
   private
-    procedure FlatView(const APath: UTF8String);
+    procedure FlatView(const APath: String);
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
     procedure MainExecute; override;
@@ -27,7 +27,7 @@ implementation
 uses
   DCOSUtils, uFile, uFindEx, uOSUtils, uFileSystemFileSource;
 
-procedure TFileSystemListOperation.FlatView(const APath: UTF8String);
+procedure TFileSystemListOperation.FlatView(const APath: String);
 var
   AFile: TFile;
   sr: TSearchRecEx;

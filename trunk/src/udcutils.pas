@@ -79,7 +79,7 @@ function ReplaceTilde(const Path: String): String;
    @param(sFileName File name to expand.)
    @returns(Absolute file name.)
 }
-function mbExpandFileName(const sFileName: UTF8String): UTF8String;
+function mbExpandFileName(const sFileName: String): String;
 {en
    Convert file size to string representation in floating format (Kb, Mb, Gb)
    @param(iSize File size)
@@ -145,7 +145,7 @@ procedure ChangeFileListRoot(sNewRootPath: String; Files: TFiles);
    @param(sFileName File name)
    @returns(Executable name with system specific executable extension)
 }
-function FixExeExt(const sFileName: UTF8String): UTF8String;
+function FixExeExt(const sFileName: String): String;
 {en
    Delete quotes from string
    @param(Str String)
@@ -213,7 +213,7 @@ procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynami
 }
 procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
 {$ENDIF}
-function CompareStrings(const s1, s2: UTF8String; Natural: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt;
+function CompareStrings(const s1, s2: String; Natural: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt;
 
 procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
 {en
@@ -340,7 +340,7 @@ begin
     Result := Path;
 end;
 
-function mbExpandFileName(const sFileName: UTF8String): UTF8String;
+function mbExpandFileName(const sFileName: String): String;
 begin
   Result:= NormalizePathDelimiters(sFileName);
   Result:= ReplaceEnvVars(Result);
@@ -515,7 +515,7 @@ function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
 var
   I: Integer;
   sMask,
-  sFileName: UTF8String;
+  sFileName: String;
 begin
   Result:= False;
   for I:= 0 to MaskList.Count - 1 do
@@ -589,9 +589,9 @@ begin
   end;
 end;
 
-function FixExeExt(const sFileName: UTF8String): UTF8String;
+function FixExeExt(const sFileName: String): String;
 var
-  ExeExt: UTF8String;
+  ExeExt: String;
 begin
   Result:= sFileName;
   ExeExt:= GetExeExt;
@@ -868,7 +868,7 @@ begin
 end;
 {$ENDIF}
 
-function CompareStrings(const s1, s2: UTF8String; Natural: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt; inline;
+function CompareStrings(const s1, s2: String; Natural: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt; inline;
 begin
   if Natural then
     Result:= StrFloatCmpW(PWideChar(UTF8Decode(s1)), PWideChar(UTF8Decode(s2)), CaseSensitivity)

@@ -1091,7 +1091,7 @@ var
   procedure AddFile;
   var
     J: Integer;
-    S: UTF8String;
+    S: String;
   begin
     if AFile.FSFile.IsNameValid then
     begin

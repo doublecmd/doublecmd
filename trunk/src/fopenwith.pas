@@ -65,7 +65,7 @@ type
     procedure tvApplicationsDeletion(Sender: TObject; Node: TTreeNode);
     procedure tvApplicationsSelectionChanged(Sender: TObject);
   private
-    FMimeType: UTF8String;
+    FMimeType: String;
     FFileList: TStringList;
     procedure LoadApplicationList;
   public
@@ -198,7 +198,7 @@ end;
 
 procedure TfrmOpenWith.LoadApplicationList;
 const
-  Folders: array [1..2] of UTF8String = ('/.local/share/applications',
+  Folders: array [1..2] of String = ('/.local/share/applications',
                                          '/usr/share/applications');
 var
   I, J: Integer;

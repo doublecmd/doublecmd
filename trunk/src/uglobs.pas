@@ -377,7 +377,7 @@ var
 
   { Ignore list page }
   gIgnoreListFileEnabled: Boolean;
-  gIgnoreListFile: UTF8String;
+  gIgnoreListFile: String;
 
   {HotKey Manager}
   HotMan:THotKeyManager;
@@ -501,7 +501,7 @@ var
   DefaultDateTimeFormat: String;
   // Double Commander version
   // loaded from configuration file
-  gPreviousVersion: UTF8String = '';
+  gPreviousVersion: String = '';
   FInitList: array of TProcedure;
 
 function LoadConfigCheckErrors(LoadConfigProc: TLoadConfigProc;
@@ -549,7 +549,7 @@ end;
 
 procedure SaveCfgIgnoreList;
 var
-  FileName: UTF8String;
+  FileName: String;
 begin
   if gIgnoreListFileEnabled then
   begin
@@ -611,7 +611,7 @@ var
   Root: TXmlNode;
   History: TXmlConfig;
 
-  procedure LoadHistory(const NodeName: UTF8String; HistoryList: TStrings);
+  procedure LoadHistory(const NodeName: String; HistoryList: TStrings);
   var
     Node: TXmlNode;
   begin
@@ -660,7 +660,7 @@ var
   Root: TXmlNode;
   History: TXmlConfig;
 
-  procedure SaveHistory(const NodeName: UTF8String; HistoryList: TStrings);
+  procedure SaveHistory(const NodeName: String; HistoryList: TStrings);
   var
     I: Integer;
     Node, SubNode: TXmlNode;

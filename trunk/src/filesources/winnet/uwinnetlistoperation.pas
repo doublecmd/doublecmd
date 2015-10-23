@@ -44,7 +44,7 @@ var
   dwCount, dwBufferSize: DWORD;
   hEnum: THandle = INVALID_HANDLE_VALUE;
   lpBuffer: Pointer = nil;
-  FilePath: UTF8String;
+  FilePath: String;
   FileName: WideString;
 begin
   with FWinNetFileSource do

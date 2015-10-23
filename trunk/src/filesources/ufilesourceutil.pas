@@ -23,16 +23,16 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 }
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean; overload;
 
-function ChooseFileSource(aFileView: TFileView; const aPath: UTF8String): Boolean; overload;
+function ChooseFileSource(aFileView: TFileView; const aPath: String): Boolean; overload;
 
 function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean = False): Boolean;
 
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 
-procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
+procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
 
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
-                    const NewFileName: UTF8String; Interactive: Boolean): Boolean;
+                    const NewFileName: String; Interactive: Boolean): Boolean;
 
 function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
                               out OperationType: TFileSourceOperationType): Boolean;
@@ -176,10 +176,10 @@ begin
   end;
 end;
 
-function ChooseFileSource(aFileView: TFileView; const aPath: UTF8String): Boolean;
+function ChooseFileSource(aFileView: TFileView; const aPath: String): Boolean;
 var
   URI: TURI;
-  RemotePath: UTF8String;
+  RemotePath: String;
   FileSource: IFileSource;
   aFileSourceClass: TFileSourceClass;
 begin
@@ -255,7 +255,7 @@ end;
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 var
   SearchRec: TSearchRecEx;
-  sPath: UTF8String;
+  sPath: String;
 begin
   if not aFileView.FileSource.IsClass(TFileSystemFileSource) then
   begin
@@ -283,7 +283,7 @@ begin
   end;
 end;
 
-procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
+procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
 var
   i: Integer;
 begin
@@ -312,7 +312,7 @@ begin
 end;
 
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
-                    const NewFileName: UTF8String; Interactive: Boolean): Boolean;
+                    const NewFileName: String; Interactive: Boolean): Boolean;
 var
   aFiles: TFiles = nil;
   Operation: TFileSourceSetFilePropertyOperation = nil;

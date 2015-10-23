@@ -196,7 +196,7 @@ type
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
     FFrmAttributesEdit: TfrmAttributesEdit;
-    FLastTemplateName: UTF8String;
+    FLastTemplateName: String;
     FLastSearchTemplate: TSearchTemplate;
     FUpdateTimer: TTimer;
     FUpdating: Boolean;
@@ -238,8 +238,8 @@ var
           For which file view the find dialog is executed,
           to get file source, current path and a list of selected files.)
 }
-procedure ShowFindDlg(FileView: TFileView; const TemplateName: UTF8String);
-function ShowDefineTemplateDlg(var TemplateName: UTF8String): Boolean;
+procedure ShowFindDlg(FileView: TFileView; const TemplateName: String);
+function ShowDefineTemplateDlg(var TemplateName: String): Boolean;
 function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
 
 implementation
@@ -291,7 +291,7 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure ShowFindDlg(FileView: TFileView; const TemplateName: UTF8String);
+procedure ShowFindDlg(FileView: TFileView; const TemplateName: String);
 var
   ASelectedFiles: TFiles = nil;
   I: Integer;
@@ -333,7 +333,7 @@ begin
   end;
 end;
 
-function ShowDefineTemplateDlg(var TemplateName: UTF8String): Boolean;
+function ShowDefineTemplateDlg(var TemplateName: String): Boolean;
 var
   AIndex: Integer;
   AForm: TfrmFindDlg;
@@ -906,7 +906,7 @@ end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
-  sTemp, sPath : UTF8String;
+  sTemp, sPath : String;
   sr: TDsxSearchRecord;
   SearchTemplate, TmpTemplate: TSearchTemplateRec;
   PassedSelectedFiles: TStringList = nil;
@@ -1520,7 +1520,7 @@ end;
 
 function TfrmFindDlg.InvalidRegExpr(AChecked: Boolean; const ARegExpr: String): Boolean;
 var
-  sMsg: UTF8String;
+  sMsg: String;
 begin
   Result:= False;
   if AChecked then
@@ -1547,7 +1547,7 @@ end;
 
 procedure TfrmFindDlg.SaveTemplate(SaveStartingPath: Boolean);
 var
-  sName: UTF8String;
+  sName: String;
   SearchTemplate: TSearchTemplate;
   SearchRec: TSearchTemplateRec;
 begin

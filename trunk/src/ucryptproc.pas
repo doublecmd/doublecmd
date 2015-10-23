@@ -42,9 +42,9 @@ type
   public
     function HasMasterKey: Boolean;
     function CheckMasterKey: Boolean;
-    function WritePassword(Prefix, Name, Connection: UTF8String; const Password: AnsiString): Boolean;
-    function ReadPassword(Prefix, Name, Connection: UTF8String; out Password: AnsiString): Boolean;
-    function DeletePassword(Prefix, Name, Connection: UTF8String): Boolean;
+    function WritePassword(Prefix, Name, Connection: String; const Password: AnsiString): Boolean;
+    function ReadPassword(Prefix, Name, Connection: String; out Password: AnsiString): Boolean;
+    function DeletePassword(Prefix, Name, Connection: String): Boolean;
   end;
 
   { EEncryptDecryptFailed }
@@ -174,7 +174,7 @@ begin
     end;
 end;
 
-function TPasswordStore.WritePassword(Prefix, Name, Connection: UTF8String;
+function TPasswordStore.WritePassword(Prefix, Name, Connection: String;
                                       const Password: AnsiString): Boolean;
 var
   Data: AnsiString;
@@ -192,7 +192,7 @@ begin
   Result:= True;
 end;
 
-function TPasswordStore.ReadPassword(Prefix, Name, Connection: UTF8String;
+function TPasswordStore.ReadPassword(Prefix, Name, Connection: String;
                                      out Password: AnsiString): Boolean;
 var
   Data: AnsiString = '';
@@ -206,7 +206,7 @@ begin
   Result:= True;
 end;
 
-function TPasswordStore.DeletePassword(Prefix, Name, Connection: UTF8String): Boolean;
+function TPasswordStore.DeletePassword(Prefix, Name, Connection: String): Boolean;
 begin
   Result:= not ReadOnly;
   if Result then

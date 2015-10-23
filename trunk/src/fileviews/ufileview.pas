@@ -144,7 +144,7 @@ type
     function GetFileSource(Index: Integer): IFileSource;
     function GetFileSourcesCount: Integer;
     function GetFiltered: Boolean;
-    function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
+    function GetPath(FileSourceIndex, PathIndex: Integer): String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
     function GetSortingProperties: TFilePropertiesTypes;
     function GetSortingForSorter: TFileSortings;
@@ -491,7 +491,7 @@ type
     property FileSourcesCount: Integer read GetFileSourcesCount;
     property Flags: TFileViewFlags read FFlags write SetFlags;
     property FlatView: Boolean read FFlatView write FFlatView;
-    property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
+    property Path[FileSourceIndex, PathIndex: Integer]: String read GetPath;
     property PathsCount[FileSourceIndex: Integer]: Integer read GetPathsCount;
 
     property Sorting: TFileSortings read FSortings write SetSorting;
@@ -2844,7 +2844,7 @@ begin
   Result := Self.FileFilter <> EmptyStr;
 end;
 
-function TFileView.GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
+function TFileView.GetPath(FileSourceIndex, PathIndex: Integer): String;
 begin
   with FHistory do
   begin

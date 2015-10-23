@@ -30,7 +30,7 @@ type
     constructor Create(aTargetFileSource: IFileSource;
                        var aExecutableFile: TFile;
                        aCurrentPath,
-                       aVerb: UTF8String); override;
+                       aVerb: String); override;
 
     procedure MainExecute; override;
   end;
@@ -41,7 +41,7 @@ uses
   Windows, JwaWinNetWk, DCStrUtils, DCOSUtils;
 
 constructor TWinNetExecuteOperation.Create(aTargetFileSource: IFileSource;
-  var aExecutableFile: TFile; aCurrentPath, aVerb: UTF8String);
+  var aExecutableFile: TFile; aCurrentPath, aVerb: String);
 begin
   FWinNetFileSource := aTargetFileSource as IWinNetFileSource;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);

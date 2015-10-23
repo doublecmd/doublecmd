@@ -73,7 +73,7 @@ type
     property RenameMask: String read FRenameMask write FRenameMask;
   end;
 
-  function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
+  function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: String): Boolean;
 
   function WfxFileTimeToDateTime(FileTime : TWfxFileTime) : TDateTime; inline;
   function DateTimeToWfxFileTime(DateTime : TDateTime) : TWfxFileTime; inline;
@@ -84,7 +84,7 @@ uses
   uFileProcs, DCStrUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
   DCDateTimeUtils, DCBasicTypes;
 
-function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
+function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: String): Boolean;
 var
   RemoteInfo: TRemoteInfo;
   iTemp: TInt64Rec;
@@ -330,7 +330,7 @@ procedure TWfxPluginOperationHelper.ProcessFiles(aFiles: TFiles; var Statistics:
 var
   I: Integer;
   iResult: LongInt;
-  sTargetFile : UTF8String;
+  sTargetFile : String;
   aFile: TFile;
 begin
   FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');

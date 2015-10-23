@@ -52,8 +52,8 @@ type
     FileSize : Int64;
     Reserved0,
     Reserved1 : LongWord;
-    FileName : UTF8String;
-    AlternateFileName : UTF8String;
+    FileName : String;
+    AlternateFileName : String;
     case Boolean of
     True:  ( FindDataA: TWin32FindData;  );
     False: ( FindDataW: TWin32FindDataW; );
@@ -64,7 +64,7 @@ type
   TWFXModule = class
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
-    FModuleFileName: UTF8String;
+    FModuleFileName: String;
     FBackgroundFlags: Integer;
   public
   { Mandatory }
@@ -134,22 +134,22 @@ type
     ExtensionInitialize: TExtensionInitializeProc;
     ExtensionFinalize:   TExtensionFinalizeProc;
   public
-    function WfxFindFirst(Path: UTF8String; var FindData: TWfxFindData): THandle;
+    function WfxFindFirst(Path: String; var FindData: TWfxFindData): THandle;
     function WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
-    procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
-    function WfxExecuteFile(MainWin: HWND; var RemoteName: UTF8String; Verb: UTF8String): Integer;
-    function WfxRenMovFile(OldName, NewName: UTF8String; Move, OverWrite: Boolean; RemoteInfo: PRemoteInfo): Integer;
-    function WfxGetFile(RemoteName, LocalName: UTF8String; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer;
-    function WfxPutFile(LocalName, RemoteName: UTF8String; CopyFlags: Integer): Integer;
-    function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
+    procedure WfxStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
+    function WfxExecuteFile(MainWin: HWND; var RemoteName: String; Verb: String): Integer;
+    function WfxRenMovFile(OldName, NewName: String; Move, OverWrite: Boolean; RemoteInfo: PRemoteInfo): Integer;
+    function WfxGetFile(RemoteName, LocalName: String; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer;
+    function WfxPutFile(LocalName, RemoteName: String; CopyFlags: Integer): Integer;
+    function WfxSetAttr(RemoteName: String; NewAttr: LongInt): Boolean;
     {en
        Each of CreationTime, LastAccessTime, LastWriteTime may be @nil to leave the value unchanged.
     }
-    function WfxSetTime(RemoteName: UTF8String; pCreationTime, pLastAccessTime, pLastWriteTime: PWfxFileTime): Boolean;
-    function WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
-    function WfxRemoveDir(const sDirName: UTF8String): Boolean;
-    function WfxDeleteFile(const sFileName: UTF8String): Boolean;
-    function WfxGetLocalName(var sFileName: UTF8String): Boolean;
+    function WfxSetTime(RemoteName: String; pCreationTime, pLastAccessTime, pLastWriteTime: PWfxFileTime): Boolean;
+    function WfxMkDir(const sBasePath, sDirName: String): LongInt;
+    function WfxRemoveDir(const sDirName: String): Boolean;
+    function WfxDeleteFile(const sFileName: String): Boolean;
+    function WfxGetLocalName(var sFileName: String): Boolean;
     function WfxDisconnect(const DisconnectRoot: String): Boolean;
   public
     constructor Create;
@@ -159,7 +159,7 @@ type
     procedure VFSInit(Data: PtrInt);
 
     function VFSConfigure(Parent: THandle):Boolean;
-    function VFSRootName: UTF8String;
+    function VFSRootName: String;
 
     function IsLoaded: Boolean;
 
@@ -189,7 +189,7 @@ type
     property Enabled[Index: Integer]: Boolean read GetAEnabled write SetAEnabled;
   end;
 
-  function GetErrorMsg(iErrorMsg: LongInt): UTF8String;
+  function GetErrorMsg(iErrorMsg: LongInt): String;
 
 implementation
 
@@ -200,7 +200,7 @@ uses
 const
   WfxIniFileName = 'wfx.ini';
 
-function GetErrorMsg(iErrorMsg: LongInt): UTF8String;
+function GetErrorMsg(iErrorMsg: LongInt): String;
 begin
   case iErrorMsg of
   WFX_ERROR:
@@ -250,7 +250,7 @@ end;
 
 { TWFXModule }
 
-function TWFXModule.WfxFindFirst(Path: UTF8String; var FindData: TWfxFindData): THandle;
+function TWFXModule.WfxFindFirst(Path: String; var FindData: TWfxFindData): THandle;
 begin
   try
     if Assigned(FsFindFirstW) then
@@ -286,7 +286,7 @@ begin
     end;
 end;
 
-procedure TWFXModule.WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd,
+procedure TWFXModule.WfxStatusInfo(RemoteDir: String; InfoStartEnd,
   InfoOperation: Integer);
 begin
   if Assigned(FsStatusInfoW) then
@@ -295,7 +295,7 @@ begin
     FsStatusInfo(PAnsiChar(UTF8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
 end;
 
-function TWFXModule.WfxExecuteFile(MainWin: HWND; var RemoteName: UTF8String; Verb: UTF8String): Integer;
+function TWFXModule.WfxExecuteFile(MainWin: HWND; var RemoteName: String; Verb: String): Integer;
 var
   pacRemoteName: PAnsiChar;
   pwcRemoteName: PWideChar;
@@ -321,7 +321,7 @@ begin
     end;
 end;
 
-function TWFXModule.WfxRenMovFile(OldName, NewName: UTF8String; Move,
+function TWFXModule.WfxRenMovFile(OldName, NewName: String; Move,
                                   OverWrite: Boolean; RemoteInfo: PRemoteInfo): Integer;
 begin
   Result:= FS_FILE_NOTSUPPORTED;
@@ -331,7 +331,7 @@ begin
     Result:= FsRenMovFile(PAnsiChar(UTF8ToSys(OldName)), PAnsiChar(UTF8ToSys(NewName)), Move, OverWrite, RemoteInfo);
 end;
 
-function TWFXModule.WfxGetFile(RemoteName, LocalName: UTF8String;
+function TWFXModule.WfxGetFile(RemoteName, LocalName: String;
                                CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer;
 begin
   Result:= FS_FILE_NOTSUPPORTED;
@@ -341,7 +341,7 @@ begin
     Result:= FsGetFile(PAnsiChar(UTF8ToSys(RemoteName)), PAnsiChar(UTF8ToSys(LocalName)), CopyFlags, RemoteInfo);
 end;
 
-function TWFXModule.WfxPutFile(LocalName, RemoteName: UTF8String; CopyFlags: Integer): Integer;
+function TWFXModule.WfxPutFile(LocalName, RemoteName: String; CopyFlags: Integer): Integer;
 begin
   Result:= FS_FILE_NOTSUPPORTED;
   if Assigned(FsPutFileW) then
@@ -350,7 +350,7 @@ begin
     Result:= FsPutFile(PAnsiChar(UTF8ToSys(LocalName)), PAnsiChar(UTF8ToSys(RemoteName)), CopyFlags);
 end;
 
-function TWFXModule.WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
+function TWFXModule.WfxSetAttr(RemoteName: String; NewAttr: LongInt): Boolean;
 begin
   Result:= False;
   if Assigned(FsSetAttrW) then
@@ -359,7 +359,7 @@ begin
     Result:= FsSetAttr(PAnsiChar(UTF8ToSys(RemoteName)), NewAttr);
 end;
 
-function TWFXModule.WfxSetTime(RemoteName: UTF8String; pCreationTime,
+function TWFXModule.WfxSetTime(RemoteName: String; pCreationTime,
                                pLastAccessTime, pLastWriteTime: PWfxFileTime): Boolean;
 begin
   Result:= False;
@@ -369,7 +369,7 @@ begin
     Result:= FsSetTime(PAnsiChar(UTF8ToSys(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime);
 end;
 
-function TWFXModule.WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
+function TWFXModule.WfxMkDir(const sBasePath, sDirName: String): LongInt;
 begin
   Result:= WFX_NOTSUPPORTED;
   if Assigned(FsMkDirW) then
@@ -392,7 +392,7 @@ begin
     end;
 end;
 
-function TWFXModule.WfxRemoveDir(const sDirName: UTF8String): Boolean;
+function TWFXModule.WfxRemoveDir(const sDirName: String): Boolean;
 begin
   Result:= False;
   if Assigned(FsRemoveDirW) then
@@ -401,7 +401,7 @@ begin
     Result:= FsRemoveDir(PAnsiChar(UTF8ToSys(sDirName)));
 end;
 
-function TWFXModule.WfxDeleteFile(const sFileName: UTF8String): Boolean;
+function TWFXModule.WfxDeleteFile(const sFileName: String): Boolean;
 begin
   Result:= False;
   if Assigned(FsDeleteFileW) then
@@ -410,7 +410,7 @@ begin
     Result:= FsDeleteFile(PAnsiChar(UTF8ToSys(sFileName)));
 end;
 
-function TWFXModule.WfxGetLocalName(var sFileName: UTF8String): Boolean;
+function TWFXModule.WfxGetLocalName(var sFileName: String): Boolean;
 var
   pacRemoteName: PAnsiChar;
   pwcRemoteName: PWideChar;
@@ -666,7 +666,7 @@ end;
 
 function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
 var
-  RemoteName: UTF8String;
+  RemoteName: String;
 begin
   try
     RemoteName:= PathDelim;
@@ -682,7 +682,7 @@ begin
   end;
 end;
 
-function TWFXModule.VFSRootName: UTF8String;
+function TWFXModule.VFSRootName: String;
 var
   pcRootName : PAnsiChar;
 begin
