@@ -1002,11 +1002,12 @@ var
   i64Move:    Int64;
   dwSize:     LongInt;
   AnyPointer: PAnsiChar;
+  InnerFilename: String;
+  StgDocFile: WideString;
   msStream:   TMemoryStream;
-  InnerFilename: WideString;
 begin
   result:=FALSE;
-  InnerFilename:= UTF8Decode(ExtractFilepath(WantedFilename)) + TEMPFILENAME;
+  InnerFilename:= ExtractFilepath(WantedFilename) + TEMPFILENAME;
   Format.cfFormat := CFU_FILECONTENTS;
   Format.dwAspect := DVASPECT_CONTENT;
   Format.lindex := Index;
@@ -1018,7 +1019,8 @@ begin
     if Medium.TYMED = TYMED_ISTORAGE then
     begin
       iStg := IStorage(Medium.pstg);
-      StgCreateDocfile(PWideChar(InnerFilename), STGM_CREATE Or STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, iFile);
+      StgDocFile := UTF8Decode(InnerFilename);
+      StgCreateDocfile(PWideChar(StgDocFile), STGM_CREATE Or STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, iFile);
       tIID:=nil;
       iStg.CopyTo(0, tIID, nil, iFile);
       iFile.Commit(0);
@@ -1029,7 +1031,7 @@ begin
     begin
       AnyPointer := GlobalLock(Medium.HGLOBAL);
       try
-        hFile := mbFileCreate(UTF8Encode(InnerFilename));
+        hFile := mbFileCreate(InnerFilename);
         if hFile <> feInvalidHandle then
         begin
           FileWrite(hFile, AnyPointer^, GlobalSize(Medium.HGLOBAL));
@@ -1061,7 +1063,7 @@ begin
         pvStrm:=nil;
 
         msStream.Position:=0;
-        msStream.SaveToFile(InnerFilename);
+        msStream.SaveToFile(UTF8ToSys(InnerFilename));
         msStream.Free;
       end;
     end;
