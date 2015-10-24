@@ -109,6 +109,16 @@ begin
   end; // case
 end;
 
+function GetRecycleBinContextMenu(Handle: HWND): IContextMenu;
+var
+  PathPIDL: PItemIDList = nil;
+  DesktopFolder: IShellFolder;
+begin
+  OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
+  OleCheckUTF8(SHGetSpecialFolderLocation(Handle, CSIDL_BITBUCKET, PathPIDL));
+  DesktopFolder.GetUIObjectOf(Handle, 1, PathPIDL, IID_IContextMenu, nil, Result);
+end;
+
 function GetForegroundContextMenu(Handle: HWND; Files: TFiles): IContextMenu;
 type
   PPIDLArray = ^PItemIDList;
@@ -200,7 +210,9 @@ end;
 
 function GetShellContextMenu(Handle: HWND; Files: TFiles; Background: boolean): IContextMenu; inline;
 begin
-  if Background then
+  if Files = nil then
+    Result := GetRecycleBinContextMenu(Handle)
+  else if Background then
     Result := GetBackgroundContextMenu(Handle, Files)
   else
     Result := GetForegroundContextMenu(Handle, Files);
@@ -493,7 +505,7 @@ end;
 { TShellContextMenu.Create }
 constructor TShellContextMenu.Create(Parent: TWinControl; var Files: TFiles; Background: boolean; UserWishForContextMenu: TUserWishForContextMenu);
 var
-  UFlags: UINT = CMF_EXPLORE or CMF_CANRENAME;
+  UFlags: UINT = CMF_EXPLORE;
 begin
   // Replace window procedure
   {$PUSH}{$HINTS OFF}
@@ -504,9 +516,13 @@ begin
   FBackground := Background;
   FShellMenu := 0;
   FUserWishForContextMenu := UserWishForContextMenu;
+  if Assigned(Files) then begin
+    UFlags := UFlags or CMF_CANRENAME;
+  end;
   // Add extended verbs if shift key is down
-  if (ssShift in GetKeyShiftState) then
+  if (ssShift in GetKeyShiftState) then begin
     UFlags := UFlags or CMF_EXTENDEDVERBS;
+  end;
   try
     try
       FShellMenu1 := GetShellContextMenu(Parent.Handle, Files, Background);
@@ -569,74 +585,77 @@ begin
         try
           FormCommands := frmMain as IFormCommands;
 
-          aFile := FFiles[0];
-          if FBackground then // Add "Background" context menu specific items
+          if Assigned(FFiles) then
           begin
-            InnerExtActionList := TExtActionList.Create;
-
-            // Add commands to root of context menu
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_Refresh'), 'cm_Refresh', '', ''));
-            InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
-
-            // Add "Sort by" submenu
-            hActionsSubMenu := CreatePopupMenu;
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_ReverseOrder'), 'cm_ReverseOrder', '', ''));
-            InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
-
-            // Add separator
-            InsertMenuItemEx(hActionsSubMenu, 0, nil, 0, 0, MFT_SEPARATOR);
-
-            // Add "Sort by" items
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByAttr'), 'cm_SortByAttr', '', ''));
-            InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByDate'), 'cm_SortByDate', '', ''));
-            InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortBySize'), 'cm_SortBySize', '', ''));
-            InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByExt'), 'cm_SortByExt', '', ''));
-            InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByName'), 'cm_SortByName', '', ''));
-            InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
-
-            // Add submenu to context menu
-            InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuSortBy)), 1, 333, MFT_STRING);
-
-            // Add menu separator
-            InsertMenuItemEx(FShellMenu, 0, nil, 2, 0, MFT_SEPARATOR);
-
-            // Add commands to root of context menu
-            I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_PasteFromClipboard'), 'cm_PasteFromClipboard', '', ''));
-            InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 3, I + USER_CMD_ID, MFT_STRING);
-
-            // Add menu separator
-            InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
-          end
-          else  // Add "Actions" submenu
-          begin
-            InnerExtActionList := TExtActionList.Create;
-
-            if FUserWishForContextMenu = uwcmComplete then
+            aFile := FFiles[0];
+            if FBackground then // Add "Background" context menu specific items
             begin
+              InnerExtActionList := TExtActionList.Create;
+
+              // Add commands to root of context menu
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_Refresh'), 'cm_Refresh', '', ''));
+              InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
+
+              // Add "Sort by" submenu
               hActionsSubMenu := CreatePopupMenu;
-              CreateActionSubMenu(hActionsSubMenu, InnerExtActionList, aFile, ((FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory)));
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_ReverseOrder'), 'cm_ReverseOrder', '', ''));
+              InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
+
+              // Add separator
+              InsertMenuItemEx(hActionsSubMenu, 0, nil, 0, 0, MFT_SEPARATOR);
+
+              // Add "Sort by" items
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByAttr'), 'cm_SortByAttr', '', ''));
+              InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByDate'), 'cm_SortByDate', '', ''));
+              InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortBySize'), 'cm_SortBySize', '', ''));
+              InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByExt'), 'cm_SortByExt', '', ''));
+              InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_SortByName'), 'cm_SortByName', '', ''));
+              InsertMenuItemEx(hActionsSubMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 0, I + USER_CMD_ID, MFT_STRING);
+
+              // Add submenu to context menu
+              InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuSortBy)), 1, 333, MFT_STRING);
+
+              // Add menu separator
+              InsertMenuItemEx(FShellMenu, 0, nil, 2, 0, MFT_SEPARATOR);
+
+              // Add commands to root of context menu
+              I := InnerExtActionList.Add(TExtActionCommand.Create(FormCommands.GetCommandCaption('cm_PasteFromClipboard'), 'cm_PasteFromClipboard', '', ''));
+              InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(InnerExtActionList.ExtActionCommand[I].ActionName)), 3, I + USER_CMD_ID, MFT_STRING);
+
+              // Add menu separator
+              InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
             end
-            else
+            else  // Add "Actions" submenu
             begin
-              CreateActionSubMenu(FShellMenu, InnerExtActionList, aFile, ((FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory)));
-            end;
+              InnerExtActionList := TExtActionList.Create;
 
-            // Add Actions submenu (Will never be empty, we always have View and Edit...)
-            iCmd := GetMenuItemCount(FShellMenu) - 1;
-            for I := 0 to iCmd do
-            begin
-              if GetMenuItemType(FShellMenu, I, True) = MFT_SEPARATOR then
-                Break;
-            end;
+              if FUserWishForContextMenu = uwcmComplete then
+              begin
+                hActionsSubMenu := CreatePopupMenu;
+                CreateActionSubMenu(hActionsSubMenu, InnerExtActionList, aFile, ((FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory)));
+              end
+              else
+              begin
+                CreateActionSubMenu(FShellMenu, InnerExtActionList, aFile, ((FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory)));
+              end;
 
-            if FUserWishForContextMenu = uwcmComplete then
-              InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuActions)), I, 333, MFT_STRING);
+              // Add Actions submenu (Will never be empty, we always have View and Edit...)
+              iCmd := GetMenuItemCount(FShellMenu) - 1;
+              for I := 0 to iCmd do
+              begin
+                if GetMenuItemType(FShellMenu, I, True) = MFT_SEPARATOR then
+                  Break;
+              end;
+
+              if FUserWishForContextMenu = uwcmComplete then
+                InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuActions)), I, 333, MFT_STRING);
+            end;
+            { /Actions submenu }
           end;
-          { /Actions submenu }
           //------------------------------------------------------------------------------
           cmd := UINT(TrackPopupMenu(FShellMenu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, FParent.Handle, nil));
         finally

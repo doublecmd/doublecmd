@@ -453,6 +453,8 @@ type
     MainTrayIcon: TTrayIcon;
 
     procedure actExecute(Sender: TObject);
+    procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var Key: Word; Shift: TShiftState) ;
     function MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
@@ -967,6 +969,15 @@ begin
   cmd := (Sender as TAction).Name;
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
   Commands.Commands.ExecuteCommand(cmd, []);
+end;
+
+procedure TfrmMain.btnF8MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  Point: TPoint;
+begin
+  Point := (Sender as TControl).ClientToScreen(Classes.Point(X, Y));
+  ShowTrashContextMenu(Self, Point.X, Point.Y, nil);
 end;
 
 procedure TfrmMain.mnuAllOperStopClick(Sender: TObject);
