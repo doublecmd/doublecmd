@@ -198,7 +198,7 @@ uses
 
   //DC
   uOSUtils, fOptionsDragDrop, uShowMsg, UGlobs, DCStrUtils, DCOSUtils,
-  uClipboard, uLng, uDebug, DCClassesUtf8;
+  uClipboard, uLng, uDebug;
 
 var
   // Supported formats by the source.
@@ -996,13 +996,14 @@ var
   Medium : TSTGMedium;
   Ifile, iStg : IStorage;
   tIID : PGuid;
+  hFile: THandle;
   pvStrm: IStream;
   i64Size:    Int64;
   i64Move:    Int64;
   dwSize:     LongInt;
   AnyPointer: PAnsiChar;
   msStream:   TMemoryStream;
-  InnerFilename:WideString;
+  InnerFilename: WideString;
 begin
   result:=FALSE;
   InnerFilename:= UTF8Decode(ExtractFilepath(WantedFilename)) + TEMPFILENAME;
@@ -1028,16 +1029,16 @@ begin
     begin
       AnyPointer := GlobalLock(Medium.HGLOBAL);
       try
-        with TStringListEx.Create do
-        try
-          Text := StrPas(AnyPointer);
-          SaveToFile(UTF8Encode(InnerFilename));
-        finally
-          Free;
+        hFile := mbFileCreate(UTF8Encode(InnerFilename));
+        if hFile <> feInvalidHandle then
+        begin
+          FileWrite(hFile, AnyPointer^, GlobalSize(Medium.HGLOBAL));
+          FileClose(hFile);
         end;
       finally
         GlobalUnlock(Medium.HGLOBAL);
       end;
+      if Medium.PUnkForRelease = nil then GlobalFree(Medium.HGLOBAL);
     end
     else
     begin
