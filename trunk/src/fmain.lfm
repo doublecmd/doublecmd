@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.5'
+  LCLVersion = '1.4.4.0'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -935,6 +935,7 @@ object frmMain: TfrmMain
       Caption = 'Delete'
       Flat = True
       OnClick = btnF8Click
+      OnMouseDown = btnF8MouseDown
     end
     object btnF9: TSpeedButton
       Left = 568

@@ -89,6 +89,15 @@ procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Intege
 procedure ShowDriveContextMenu(Parent: TWinControl; ADrive: PDrive; X, Y : Integer;
                                CloseEvent: TNotifyEvent);
 {en
+   Show trash context menu
+   @param(Parent Parent window)
+   @param(X Screen X coordinate)
+   @param(Y Screen Y coordinate)
+   @param(CloseEvent Method called when popup menu is closed (optional))
+}
+procedure ShowTrashContextMenu(Parent: TWinControl; X, Y : Integer;
+                               CloseEvent: TNotifyEvent);
+{en
    Show open icon dialog
    @param(Owner Owner)
    @param(sFileName Icon file name)
@@ -400,7 +409,7 @@ procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Intege
                           Background: Boolean; CloseEvent: TNotifyEvent; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
 {$IFDEF MSWINDOWS}
 begin
-  if Files.Count = 0 then
+  if Assigned(Files) and (Files.Count = 0) then
   begin
     FreeAndNil(Files);
     Exit;
@@ -466,6 +475,20 @@ begin
     // show context menu
     ShellContextMenu.PopUp(X, Y);
   end;
+end;
+{$ENDIF}
+
+procedure ShowTrashContextMenu(Parent: TWinControl; X, Y: Integer;
+  CloseEvent: TNotifyEvent);
+{$IFDEF MSWINDOWS}
+var
+  Files: TFiles = nil;
+begin
+  ShowContextMenu(Parent, Files, X, Y, False, CloseEvent);
+end;
+{$ELSE}
+begin
+
 end;
 {$ENDIF}
 
