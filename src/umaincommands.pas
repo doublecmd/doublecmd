@@ -1223,6 +1223,7 @@ procedure TMainCommands.cm_Wipe(const Params: array of string);
 var
   theFilesToWipe: TFiles;
   Operation: TFileSourceOperation;
+  QueueId: TOperationsManagerQueueIdentifier;
 begin
   with frmMain.ActiveFrame do
   begin
@@ -1241,7 +1242,7 @@ begin
       if theFilesToWipe.Count = 0 then
         Exit;
 
-      if not msgYesNo(frmMain.GetFileDlgStr(rsMsgWipeSel, rsMsgWipeFlDr, theFilesToWipe)) then
+      if not ShowDeleteDialog(frmMain.GetFileDlgStr(rsMsgWipeSel, rsMsgWipeFlDr, theFilesToWipe), QueueId) then
         Exit;
 
       Operation := FileSource.CreateWipeOperation(theFilesToWipe);
@@ -1249,7 +1250,7 @@ begin
       if Assigned(Operation) then
       begin
         // Start operation.
-        OperationsManager.AddOperation(Operation);
+        OperationsManager.AddOperation(Operation, QueueId, False);
       end
       else
       begin
