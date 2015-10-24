@@ -976,8 +976,11 @@ procedure TfrmMain.btnF8MouseDown(Sender: TObject; Button: TMouseButton;
 var
   Point: TPoint;
 begin
-  Point := (Sender as TControl).ClientToScreen(Classes.Point(X, Y));
-  ShowTrashContextMenu(Self, Point.X, Point.Y, nil);
+  if Button = mbRight then
+  begin
+    Point := (Sender as TControl).ClientToScreen(Classes.Point(X, Y));
+    ShowTrashContextMenu(Self, Point.X, Point.Y, nil);
+  end;
 end;
 
 procedure TfrmMain.mnuAllOperStopClick(Sender: TObject);
