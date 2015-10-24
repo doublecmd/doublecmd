@@ -198,7 +198,7 @@ uses
 
   //DC
   uOSUtils, fOptionsDragDrop, uShowMsg, UGlobs, DCStrUtils, DCOSUtils,
-  uClipboard, uLng, uDebug;
+  uClipboard, uLng, uDebug, DCClassesUtf8;
 
 var
   // Supported formats by the source.
@@ -1000,16 +1000,17 @@ var
   i64Size:    Int64;
   i64Move:    Int64;
   dwSize:     LongInt;
+  AnyPointer: PAnsiChar;
   msStream:   TMemoryStream;
   InnerFilename:WideString;
 begin
   result:=FALSE;
-  InnerFilename:=ExtractFilepath(WantedFilename)+TEMPFILENAME;
+  InnerFilename:= UTF8Decode(ExtractFilepath(WantedFilename)) + TEMPFILENAME;
   Format.cfFormat := CFU_FILECONTENTS;
   Format.dwAspect := DVASPECT_CONTENT;
   Format.lindex := Index;
   Format.ptd := nil;
-  Format.TYMED := TYMED_ISTREAM OR TYMED_ISTORAGE;
+  Format.TYMED := TYMED_ISTREAM OR TYMED_ISTORAGE or TYMED_HGLOBAL;
 
   if dataObj.GetData(Format, Medium) = S_OK then
   begin
@@ -1022,6 +1023,21 @@ begin
       iFile.Commit(0);
       iFile := nil;
       iStg := nil;
+    end
+    else if Medium.Tymed = TYMED_HGLOBAL then
+    begin
+      AnyPointer := GlobalLock(Medium.HGLOBAL);
+      try
+        with TStringListEx.Create do
+        try
+          Text := StrPas(AnyPointer);
+          SaveToFile(UTF8Encode(InnerFilename));
+        finally
+          Free;
+        end;
+      finally
+        GlobalUnlock(Medium.HGLOBAL);
+      end;
     end
     else
     begin
