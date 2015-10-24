@@ -270,7 +270,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="223">
+    <Units Count="224">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1579,6 +1579,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDiffOND"/>
       </Unit222>
+      <Unit223>
+        <Filename Value="fdeletedlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmDeleteDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fDeleteDlg"/>
+      </Unit223>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

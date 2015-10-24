@@ -1,0 +1,57 @@
+inherited frmDeleteDlg: TfrmDeleteDlg
+  Left = 347
+  Height = 86
+  Top = 169
+  Width = 415
+  AutoSize = True
+  BorderStyle = bsDialog
+  ClientHeight = 86
+  ClientWidth = 415
+  Position = poOwnerFormCenter
+  inherited pnlContent: TPanel
+    Height = 1
+    Width = 399
+    Align = alTop
+    ClientHeight = 1
+    ClientWidth = 399
+    object lblMessage: TLabel[0]
+      AnchorSideLeft.Control = pnlContent
+      AnchorSideTop.Control = pnlContent
+      AnchorSideRight.Control = pnlContent
+      AnchorSideRight.Side = asrBottom
+      Left = 0
+      Height = 1
+      Top = 0
+      Width = 399
+      Anchors = [akTop, akLeft, akRight]
+      ParentColor = False
+      WordWrap = True
+    end
+  end
+  inherited pnlButtons: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = pnlContent
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Top = 41
+    Width = 399
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 32
+    ClientWidth = 399
+    inherited btnAddToQueue: TBitBtn
+      TabOrder = 3
+    end
+    inherited btnCreateSpecialQueue: TBitBtn
+      TabOrder = 2
+    end
+    inherited btnCancel: TBitBtn
+      Left = 217
+      TabOrder = 1
+    end
+    inherited btnOK: TBitBtn
+      Left = 311
+      TabOrder = 0
+    end
+  end
+end

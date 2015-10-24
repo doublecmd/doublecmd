@@ -316,7 +316,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil, uThumbFileView,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uTrash, uFileSystemCopyOperation, fOptionsFileAssoc,
+     uTrash, uFileSystemCopyOperation, fOptionsFileAssoc, fDeleteDlg,
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
@@ -1902,6 +1902,7 @@ var
   MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
   bRecycle: Boolean;
+  QueueId: TOperationsManagerQueueIdentifier;
   bConfirmation, HasConfirmationParam: Boolean;
   Param, ParamTrashCan: String;
   BoolValue: Boolean;
@@ -1982,8 +1983,7 @@ begin
     try
       if (theFilesToDelete.Count > 0) and
          ((not bConfirmation) or
-          (QuestionDlg('', frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete),
-           mtConfirmation, [mrYes, mrNo], 0) = mrYes)) then
+         (ShowDeleteDialog(frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete), QueueId))) then
       begin
         if FileSource.IsClass(TFileSystemFileSource) and
            frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
@@ -2012,7 +2012,7 @@ begin
             end;
 
           // Start operation.
-          OperationsManager.AddOperation(Operation);
+          OperationsManager.AddOperation(Operation, QueueId, False);
         end
         else
         begin
