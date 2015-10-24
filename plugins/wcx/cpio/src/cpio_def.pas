@@ -26,8 +26,8 @@ type
     mtime,
     filesize,
     namesize: Longword;
-    filename : UTF8String;
-    origname : UTF8String;
+    filename : String;
+    origname : String;
     IsOldHeader: Boolean;
   end;{CPIO_Header}
 

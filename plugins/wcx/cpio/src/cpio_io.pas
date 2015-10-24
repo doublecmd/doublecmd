@@ -28,7 +28,7 @@ type
   TStrBuf = array[1..260] of Char;
 
 function  CPIO_ReadHeader(var f : file; var header : CPIO_Header) : Boolean;
-function  IsCPIOArchive(FileName: UTF8String): Boolean;
+function  IsCPIOArchive(FileName: String): Boolean;
 
 function  AlignFilePointer(var f : file; align : Integer) : Boolean;
 procedure copy_str2buf(var buf : TStrBuf; s : AnsiString);
@@ -259,7 +259,7 @@ begin
   Result := True;
 end;
 
-function IsCPIOArchive(FileName: UTF8String): Boolean;
+function IsCPIOArchive(FileName: String): Boolean;
 type
   TAsciiHeader = array[0..5] of AnsiChar;
 const
