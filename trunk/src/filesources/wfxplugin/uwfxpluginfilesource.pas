@@ -160,7 +160,8 @@ uses
   uDebug, uLng, uCryptProc, DCFileAttributes, uConnectionManager, contnrs, syncobjs, fMain,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
-  uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation;
+  uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation,
+  DCConvertEncoding;
 
 const
   connCopyIn      = 0;
@@ -208,8 +209,8 @@ var
   sSourceName,
   sTargetName: String;
 begin
-  sSourceName:= SysToUTF8(StrPas(SourceName));
-  sTargetName:= SysToUTF8(StrPas(TargetName));
+  sSourceName:= CeSysToUtf8(StrPas(SourceName));
+  sTargetName:= CeSysToUtf8(StrPas(TargetName));
   Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
 end;
 
@@ -284,7 +285,7 @@ end;
 
 procedure MainLogProcA(PluginNr, MsgType: Integer; LogString: PAnsiChar); dcpcall;
 begin
-  MainLogProc(PluginNr, MsgType, SysToUTF8(StrPas(LogString)));
+  MainLogProc(PluginNr, MsgType, CeSysToUtf8(StrPas(LogString)));
 end;
 
 procedure MainLogProcW(PluginNr, MsgType: Integer; LogString: PWideChar); dcpcall;
@@ -368,14 +369,14 @@ var
   sCustomText,
   sReturnedText: String;
 begin
-  sCustomTitle:= SysToUTF8(StrPas(CustomTitle));
-  sCustomText:=  SysToUTF8(StrPas(CustomText));
-  sReturnedText:= SysToUTF8(StrPas(ReturnedText));
+  sCustomTitle:= CeSysToUtf8(StrPas(CustomTitle));
+  sCustomText:=  CeSysToUtf8(StrPas(CustomText));
+  sReturnedText:= CeSysToUtf8(StrPas(ReturnedText));
   Result:= MainRequestProc(PluginNr, RequestType, sCustomTitle, sCustomText, sReturnedText);
   if Result then
     begin
       if ReturnedText <> nil then
-        StrPLCopy(ReturnedText, UTF8ToSys(sReturnedText), MaxLen);
+        StrPLCopy(ReturnedText, CeUtf8ToSys(sReturnedText), MaxLen);
     end;
 end;
 
@@ -451,13 +452,13 @@ var
   sConnectionName,
   sPassword: String;
 begin
-  sConnectionName:= SysToUTF8(StrPas(ConnectionName));
-  sPassword:= SysToUTF8(StrPas(Password));
+  sConnectionName:= CeSysToUtf8(StrPas(ConnectionName));
+  sPassword:= CeSysToUtf8(StrPas(Password));
   Result:= CryptProc(PluginNr, CryptoNumber, Mode, sConnectionName, sPassword);
   if Result = FS_FILE_OK then
     begin
       if Password <> nil then
-        StrPLCopy(Password, UTF8ToSys(sPassword), MaxLen);
+        StrPLCopy(Password, CeUtf8ToSys(sPassword), MaxLen);
     end;
 end;
 

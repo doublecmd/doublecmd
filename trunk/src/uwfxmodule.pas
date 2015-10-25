@@ -195,7 +195,7 @@ implementation
 
 uses
   uLng, FileUtil, uGlobsPaths, uOSUtils, uWfxPluginUtil,
-  fDialogBox, uDebug, DCOSUtils, DCStrUtils;
+  fDialogBox, uDebug, DCOSUtils, DCStrUtils, DCConvertEncoding;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -237,8 +237,8 @@ begin
     // Convert file name
     if AnsiData then
       begin
-        FileName:= SysToUTF8(FindDataA.cFileName);
-        AlternateFileName:= SysToUTF8(FindDataA.cAlternateFileName);
+        FileName:= CeSysToUtf8(FindDataA.cFileName);
+        AlternateFileName:= CeSysToUtf8(FindDataA.cAlternateFileName);
       end
     else
       begin
@@ -260,7 +260,7 @@ begin
       end
     else if Assigned(FsFindFirst) then
       begin
-        Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindData.FindDataA);
+        Result:= FsFindFirst(PAnsiChar(CeUtf8ToSys(Path)), FindData.FindDataA);
         if Result <> wfxInvalidHandle then ConvertFindData(FindData, True);
       end;
   except
@@ -292,7 +292,7 @@ begin
   if Assigned(FsStatusInfoW) then
     FsStatusInfoW(PWideChar(UTF8Decode(RemoteDir)), InfoStartEnd, InfoOperation)
   else if Assigned(FsStatusInfo) then
-    FsStatusInfo(PAnsiChar(UTF8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
+    FsStatusInfo(PAnsiChar(CeUtf8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
 end;
 
 function TWFXModule.WfxExecuteFile(MainWin: HWND; var RemoteName: String; Verb: String): Integer;
@@ -313,10 +313,10 @@ begin
   else if Assigned(FsExecuteFile) then
     begin
       pacRemoteName:= GetMem(MAX_PATH);
-      StrPCopy(pacRemoteName, UTF8ToSys(RemoteName));
-      Result:= FsExecuteFile(MainWin, pacRemoteName, PAnsiChar(UTF8ToSys(Verb)));
+      StrPCopy(pacRemoteName, CeUtf8ToSys(RemoteName));
+      Result:= FsExecuteFile(MainWin, pacRemoteName, PAnsiChar(CeUtf8ToSys(Verb)));
       if Result = FS_EXEC_SYMLINK then
-          RemoteName:= SysToUTF8(StrPas(pacRemoteName));
+          RemoteName:= CeSysToUtf8(StrPas(pacRemoteName));
       FreeMem(pacRemoteName);
     end;
 end;
@@ -328,7 +328,7 @@ begin
   if Assigned(FsRenMovFileW) then
     Result:= FsRenMovFileW(PWideChar(UTF8Decode(OldName)), PWideChar(UTF8Decode(NewName)), Move, OverWrite, RemoteInfo)
   else if Assigned(FsRenMovFile) then
-    Result:= FsRenMovFile(PAnsiChar(UTF8ToSys(OldName)), PAnsiChar(UTF8ToSys(NewName)), Move, OverWrite, RemoteInfo);
+    Result:= FsRenMovFile(PAnsiChar(CeUtf8ToSys(OldName)), PAnsiChar(CeUtf8ToSys(NewName)), Move, OverWrite, RemoteInfo);
 end;
 
 function TWFXModule.WfxGetFile(RemoteName, LocalName: String;
@@ -338,7 +338,7 @@ begin
   if Assigned(FsGetFileW) then
     Result:= FsGetFileW(PWideChar(UTF8Decode(RemoteName)), PWideChar(UTF8Decode(LocalName)), CopyFlags, RemoteInfo)
   else if Assigned(FsGetFile) then
-    Result:= FsGetFile(PAnsiChar(UTF8ToSys(RemoteName)), PAnsiChar(UTF8ToSys(LocalName)), CopyFlags, RemoteInfo);
+    Result:= FsGetFile(PAnsiChar(CeUtf8ToSys(RemoteName)), PAnsiChar(CeUtf8ToSys(LocalName)), CopyFlags, RemoteInfo);
 end;
 
 function TWFXModule.WfxPutFile(LocalName, RemoteName: String; CopyFlags: Integer): Integer;
@@ -347,7 +347,7 @@ begin
   if Assigned(FsPutFileW) then
     Result:= FsPutFileW(PWideChar(UTF8Decode(LocalName)), PWideChar(UTF8Decode(RemoteName)), CopyFlags)
   else if Assigned(FsPutFile) then
-    Result:= FsPutFile(PAnsiChar(UTF8ToSys(LocalName)), PAnsiChar(UTF8ToSys(RemoteName)), CopyFlags);
+    Result:= FsPutFile(PAnsiChar(CeUtf8ToSys(LocalName)), PAnsiChar(CeUtf8ToSys(RemoteName)), CopyFlags);
 end;
 
 function TWFXModule.WfxSetAttr(RemoteName: String; NewAttr: LongInt): Boolean;
@@ -356,7 +356,7 @@ begin
   if Assigned(FsSetAttrW) then
     Result:= FsSetAttrW(PWideChar(UTF8Decode(RemoteName)), NewAttr)
   else if Assigned(FsSetAttr) then
-    Result:= FsSetAttr(PAnsiChar(UTF8ToSys(RemoteName)), NewAttr);
+    Result:= FsSetAttr(PAnsiChar(CeUtf8ToSys(RemoteName)), NewAttr);
 end;
 
 function TWFXModule.WfxSetTime(RemoteName: String; pCreationTime,
@@ -366,7 +366,7 @@ begin
   if Assigned(FsSetTimeW) then
     Result:= FsSetTimeW(PWideChar(UTF8Decode(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime)
   else if Assigned(FsSetTime) then
-    Result:= FsSetTime(PAnsiChar(UTF8ToSys(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime);
+    Result:= FsSetTime(PAnsiChar(CeUtf8ToSys(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime);
 end;
 
 function TWFXModule.WfxMkDir(const sBasePath, sDirName: String): LongInt;
@@ -384,7 +384,7 @@ begin
   else if Assigned(FsMkDir) then
     begin
       WfxStatusInfo(sBasePath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
-      if FsMkDir(PAnsiChar(UTF8ToSys(sDirName))) then
+      if FsMkDir(PAnsiChar(CeUtf8ToSys(sDirName))) then
         Result:= WFX_SUCCESS
       else
         Result:= WFX_ERROR;
@@ -398,7 +398,7 @@ begin
   if Assigned(FsRemoveDirW) then
     Result:= FsRemoveDirW(PWideChar(UTF8Decode(sDirName)))
   else if Assigned(FsRemoveDir) then
-    Result:= FsRemoveDir(PAnsiChar(UTF8ToSys(sDirName)));
+    Result:= FsRemoveDir(PAnsiChar(CeUtf8ToSys(sDirName)));
 end;
 
 function TWFXModule.WfxDeleteFile(const sFileName: String): Boolean;
@@ -407,7 +407,7 @@ begin
   if Assigned(FsDeleteFileW) then
     Result:= FsDeleteFileW(PWideChar(UTF8Decode(sFileName)))
   else if Assigned(FsDeleteFile) then
-    Result:= FsDeleteFile(PAnsiChar(UTF8ToSys(sFileName)));
+    Result:= FsDeleteFile(PAnsiChar(CeUtf8ToSys(sFileName)));
 end;
 
 function TWFXModule.WfxGetLocalName(var sFileName: String): Boolean;
@@ -428,10 +428,10 @@ begin
   else if Assigned(FsGetLocalName) then
     begin
       pacRemoteName:= GetMem(MAX_PATH);
-      StrPCopy(pacRemoteName, UTF8ToSys(sFileName));
+      StrPCopy(pacRemoteName, CeUtf8ToSys(sFileName));
       Result:= FsGetLocalName(pacRemoteName, MAX_PATH);
       if Result = True then
-        sFileName:= SysToUTF8(StrPas(pacRemoteName));
+        sFileName:= CeSysToUtf8(StrPas(pacRemoteName));
       FreeMem(pacRemoteName);
     end;
 end;
@@ -441,7 +441,7 @@ begin
   if Assigned(FsDisconnectW) then
     Result:= FsDisconnectW(PWideChar(UTF8Decode(DisconnectRoot)))
   else if Assigned(FsDisconnect) then
-    Result:= FsDisconnect(PAnsiChar(UTF8ToSys(DisconnectRoot)))
+    Result:= FsDisconnect(PAnsiChar(CeUtf8ToSys(DisconnectRoot)))
   else
     Result:= False;
 end;
