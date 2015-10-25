@@ -177,7 +177,7 @@ implementation
 
 uses
   SysUtils, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils, DCOSUtils,
-  DCDateTimeUtils, uDebug;
+  DCDateTimeUtils, DCConvertEncoding, uDebug;
 
 const
   WcxIniFileName = 'wcx.ini';
@@ -249,9 +249,9 @@ begin
   else if Assigned(ProcessFile) then
     begin
       if DestPath = EmptyStr then
-        Result:= ProcessFile(hArcData, Operation, nil, PAnsiChar(UTF8ToSys(DestName)))
+        Result:= ProcessFile(hArcData, Operation, nil, PAnsiChar(CeUtf8ToSys(DestName)))
       else
-        Result:= ProcessFile(hArcData, Operation, PAnsiChar(UTF8ToSys(DestPath)), PAnsiChar(UTF8ToSys(DestName)));
+        Result:= ProcessFile(hArcData, Operation, PAnsiChar(CeUtf8ToSys(DestPath)), PAnsiChar(CeUtf8ToSys(DestName)));
     end;
 end;
 
@@ -270,11 +270,11 @@ begin
   else if Assigned(PackFiles) then
     begin
       if SubPath = EmptyStr then
-        Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), nil,
-                           PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags)
+        Result:= PackFiles(PAnsiChar(CeUtf8ToSys(PackedFile)), nil,
+                           PAnsiChar(CeUtf8ToSys(SrcPath)), PAnsiChar(CeUtf8ToSys(AddList)), Flags)
       else
-        Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(SubPath)),
-                           PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags);
+        Result:= PackFiles(PAnsiChar(CeUtf8ToSys(PackedFile)), PAnsiChar(CeUtf8ToSys(SubPath)),
+                           PAnsiChar(CeUtf8ToSys(SrcPath)), PAnsiChar(CeUtf8ToSys(AddList)), Flags);
     end;
 end;
 
@@ -283,7 +283,7 @@ begin
   if Assigned(DeleteFilesW) then
     Result:= DeleteFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(DeleteList)))
   else if Assigned(DeleteFiles) then
-    Result:= DeleteFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(DeleteList)));
+    Result:= DeleteFiles(PAnsiChar(CeUtf8ToSys(PackedFile)), PAnsiChar(CeUtf8ToSys(DeleteList)));
 end;
 
 function TWcxModule.WcxCanYouHandleThisFile(FileName: String): Boolean;
@@ -291,7 +291,7 @@ begin
   if Assigned(CanYouHandleThisFileW) then
     Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
   else if Assigned(CanYouHandleThisFile) then
-    Result:= CanYouHandleThisFile(PAnsiChar(UTF8ToSys(FileName)))
+    Result:= CanYouHandleThisFile(PAnsiChar(CeUtf8ToSys(FileName)))
   else
     Result:= True;
 end;
@@ -301,7 +301,7 @@ begin
   if Assigned(StartMemPackW) then
     Result:= StartMemPackW(Options, PWideChar(UTF8Decode(FileName)))
   else if Assigned(StartMemPack) then
-    Result:= StartMemPack(Options, PAnsiChar(UTF8ToSys(FileName)));
+    Result:= StartMemPack(Options, PAnsiChar(CeUtf8ToSys(FileName)));
 end;
 
 procedure TWcxModule.WcxSetChangeVolProc(hArcData: TArcHandle;
@@ -853,7 +853,7 @@ begin
     NameLength := MaxSize;
 
   SetString(TempString, CharString, NameLength);
-  Result := SysToUTF8(TempString);
+  Result := CeSysToUtf8(TempString);
 end;
 
 // --

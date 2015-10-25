@@ -1309,6 +1309,7 @@ end;"/>
       <Unit171>
         <Filename Value="filesources\wcxarchive\uwcxarchivecopyinoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveCopyInOperation"/>
       </Unit171>
       <Unit172>
         <Filename Value="filesources\wcxarchive\uwcxarchivecopyoutoperation.pas"/>
@@ -1318,6 +1319,7 @@ end;"/>
       <Unit173>
         <Filename Value="filesources\wcxarchive\uwcxarchivedeleteoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveDeleteOperation"/>
       </Unit173>
       <Unit174>
         <Filename Value="filesources\wcxarchive\uwcxarchiveexecuteoperation.pas"/>
@@ -1336,6 +1338,7 @@ end;"/>
       <Unit177>
         <Filename Value="filesources\wcxarchive\uwcxarchivetestarchiveoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveTestArchiveOperation"/>
       </Unit177>
       <Unit178>
         <Filename Value="filesources\wfxplugin\fwfxplugincopymoveoperationoptions.pas"/>

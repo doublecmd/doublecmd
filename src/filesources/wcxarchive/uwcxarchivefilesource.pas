@@ -144,6 +144,7 @@ implementation
 uses
   LCLProc, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uOSUtils,
   DCDateTimeUtils,
+  DCConvertEncoding,
   FileUtil, uCryptProc,
   uWcxArchiveListOperation,
   uWcxArchiveCopyInOperation,
@@ -221,13 +222,13 @@ var
   sArchiveName,
   sPassword: String;
 begin
-  sArchiveName:= SysToUTF8(StrPas(ArchiveName));
-  sPassword:= SysToUTF8(StrPas(Password));
+  sArchiveName:= CeSysToUtf8(StrPas(ArchiveName));
+  sPassword:= CeSysToUtf8(StrPas(Password));
   Result:= CryptProc(CryptoNumber, Mode, sArchiveName, sPassword);
   if Result = E_SUCCESS then
     begin
       if Password <> nil then
-        StrPLCopy(Password, UTF8ToSys(sPassword), MaxLen);
+        StrPLCopy(Password, CeUtf8ToSys(sPassword), MaxLen);
     end;
 end;
 

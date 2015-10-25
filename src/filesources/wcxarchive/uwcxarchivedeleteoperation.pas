@@ -51,7 +51,7 @@ implementation
 
 uses
   DCOSUtils, DCStrUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, uMasks,
-  FileUtil, LCLProc;
+  FileUtil, LCLProc, DCConvertEncoding;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -82,10 +82,10 @@ function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: String;
 begin
-  sArcName:= SysToUTF8(StrPas(ArcName));
+  sArcName:= CeSysToUtf8(StrPas(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
   if Result <> 0 then
-    StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH);
+    StrPLCopy(ArcName, CeUtf8ToSys(sArcName), MAX_PATH);
 end;
 
 function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
@@ -139,7 +139,7 @@ end;
 
 function ProcessDataProcA(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(SysToUTF8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(CeSysToUtf8(StrPas(FileName)), Size);
 end;
 
 function ProcessDataProcW(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
