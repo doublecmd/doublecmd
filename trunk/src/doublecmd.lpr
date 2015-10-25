@@ -12,7 +12,10 @@ uses
   {$ENDIF}
   {$IFDEF UNIX}
   cthreads,
-  //cwstring,
+  {$IFNDEF HEAPTRC}
+  cmem,
+  {$ENDIF}
+  cwstring,
   clocale,
   {$IFDEF LCLGTK2}
   uOverlayScrollBarFix,
