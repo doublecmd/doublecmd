@@ -1,261 +1,258 @@
-object frmPackDlg: TfrmPackDlg
-  Left = 341
-  Height = 319
-  Top = 210
-  Width = 598
+inherited frmPackDlg: TfrmPackDlg
+  Left = 338
+  Height = 272
+  Width = 540
   HelpContext = 150
   ActiveControl = edtPackCmd
   AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Pack files'
-  ChildSizing.LeftRightSpacing = 5
-  ChildSizing.TopBottomSpacing = 5
-  ClientHeight = 319
-  ClientWidth = 598
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 272
+  ClientWidth = 540
   Constraints.MinHeight = 236
   Constraints.MinWidth = 482
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.1'
-  object lblPrompt: TLabel
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    Left = 5
-    Height = 18
-    Top = 5
-    Width = 145
-    Caption = 'Pack file(s) to the file:'
-    FocusControl = edtPackCmd
-    ParentColor = False
-    ShowAccelChar = False
-  end
-  object btnOk: TButton
-    AnchorSideTop.Control = pnlOptions
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = btnCancel
-    Left = 304
-    Height = 32
-    Top = 244
-    Width = 90
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 24
-    BorderSpacing.Right = 6
-    BorderSpacing.InnerBorder = 4
-    Caption = '&OK'
-    Default = True
-    ModalResult = 1
-    TabOrder = 6
-  end
-  object btnCancel: TButton
-    AnchorSideTop.Control = btnOk
-    AnchorSideRight.Control = btnHelp
-    Left = 400
-    Height = 32
-    Top = 244
-    Width = 90
-    Anchors = [akTop, akRight]
-    BorderSpacing.Right = 6
-    BorderSpacing.InnerBorder = 4
-    Cancel = True
-    Caption = '&Cancel'
-    ModalResult = 2
-    TabOrder = 7
-  end
-  object btnHelp: TButton
-    AnchorSideTop.Control = btnCancel
-    AnchorSideRight.Control = rgPacker
-    AnchorSideRight.Side = asrBottom
-    Left = 496
-    Height = 32
-    Top = 244
-    Width = 90
-    Anchors = [akTop, akRight]
-    BorderSpacing.InnerBorder = 4
-    Caption = '&Help'
-    TabOrder = 8
-  end
-  object edtPackCmd: TDirectoryEdit
-    AnchorSideLeft.Control = lblPrompt
-    AnchorSideTop.Control = lblPrompt
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = pnlOptions
-    AnchorSideRight.Side = asrBottom
-    Left = 5
-    Height = 28
-    Top = 23
-    Width = 351
-    OnAcceptDirectory = edtPackCmdAcceptDirectory
-    ShowHidden = False
-    ButtonWidth = 23
-    NumGlyphs = 1
-    Anchors = [akTop, akLeft, akRight]
-    MaxLength = 0
-    TabOrder = 0
-  end
-  object rgPacker: TRadioGroup
-    AnchorSideLeft.Control = edtPackCmd
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = lblPrompt
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 388
-    Height = 100
-    Top = 5
-    Width = 198
-    Anchors = [akTop, akLeft, akRight]
-    AutoFill = True
-    AutoSize = True
-    BorderSpacing.Left = 32
-    BorderSpacing.Right = 12
-    Caption = 'Packer'
-    ChildSizing.LeftRightSpacing = 6
-    ChildSizing.TopBottomSpacing = 6
-    ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
-    ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
-    ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
-    ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
-    ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ChildSizing.ControlsPerLine = 3
-    Columns = 3
-    Constraints.MinHeight = 100
-    Constraints.MinWidth = 100
-    OnClick = arbChange
-    TabOrder = 2
-  end
-  object cbPackerList: TComboBox
-    AnchorSideLeft.Control = cbOtherPlugins
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = rgPacker
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = rgPacker
-    AnchorSideRight.Side = asrBottom
-    Left = 442
-    Height = 30
-    Top = 111
-    Width = 136
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 8
-    Enabled = False
-    ItemHeight = 0
-    OnChange = cbOtherPluginsChange
-    ParentFont = False
-    Style = csDropDownList
-    TabOrder = 4
-    Visible = False
-  end
-  object btnConfig: TButton
-    AnchorSideLeft.Control = rgPacker
-    AnchorSideTop.Control = cbPackerList
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = rgPacker
-    AnchorSideRight.Side = asrBottom
-    Left = 394
-    Height = 32
-    Top = 147
-    Width = 186
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 6
-    BorderSpacing.InnerBorder = 4
-    Caption = 'Con&figure'
-    OnClick = btnConfigClick
-    TabOrder = 5
-  end
-  object cbOtherPlugins: TCheckBox
-    AnchorSideLeft.Control = rgPacker
-    AnchorSideTop.Control = cbPackerList
-    AnchorSideTop.Side = asrCenter
-    Left = 394
-    Height = 20
-    Top = 116
-    Width = 48
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    Caption = '=>'
-    Enabled = False
-    OnChange = cbOtherPluginsChange
-    TabOrder = 3
-    Visible = False
-  end
-  object pnlOptions: TPanel
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = edtPackCmd
-    AnchorSideTop.Side = asrBottom
-    Left = 5
-    Height = 161
-    Top = 59
-    Width = 351
-    AutoSize = True
-    BorderSpacing.Top = 8
-    BevelOuter = bvNone
-    ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 161
-    ClientWidth = 351
-    Constraints.MinWidth = 340
-    TabOrder = 1
-    object cbStoreDir: TCheckBox
+  inherited pnlContent: TPanel
+    Height = 179
+    Width = 532
+    Align = alNone
+    ClientHeight = 179
+    ClientWidth = 532
+    ParentColor = True
+    object lblPrompt: TLabel[0]
+      Left = 0
+      Height = 15
+      Top = 0
+      Width = 113
+      Caption = 'Pack file(s) to the file:'
+      FocusControl = edtPackCmd
+      ParentColor = False
+      ShowAccelChar = False
+    end
+    object edtPackCmd: TDirectoryEdit[1]
+      AnchorSideLeft.Control = lblPrompt
+      AnchorSideTop.Control = lblPrompt
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlOptions
+      AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 23
-      Top = 0
-      Width = 351
-      Caption = 'Also &pack path names (only recursed)'
-      Checked = True
-      State = cbChecked
+      Top = 15
+      Width = 340
+      OnAcceptDirectory = edtPackCmdAcceptDirectory
+      ShowHidden = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Anchors = [akTop, akLeft, akRight]
+      MaxLength = 0
       TabOrder = 0
     end
-    object cbMultivolume: TCheckBox
-      Left = 0
-      Height = 23
-      Top = 23
-      Width = 351
-      Caption = '&Multiple disk archive'
-      TabOrder = 1
-    end
-    object cbMoveToArchive: TCheckBox
-      Left = 0
-      Height = 23
-      Top = 46
-      Width = 351
-      Caption = 'Mo&ve to archive'
+    object rgPacker: TRadioGroup[2]
+      AnchorSideLeft.Control = edtPackCmd
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblPrompt
+      AnchorSideRight.Control = pnlContent
+      AnchorSideRight.Side = asrBottom
+      Left = 372
+      Height = 100
+      Top = 0
+      Width = 148
+      Anchors = [akTop, akLeft, akRight]
+      AutoFill = True
+      AutoSize = True
+      BorderSpacing.Left = 32
+      BorderSpacing.Right = 12
+      Caption = 'Packer'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
+      ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
+      ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
+      ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 3
+      Columns = 3
+      Constraints.MinHeight = 100
+      Constraints.MinWidth = 100
+      OnClick = arbChange
       TabOrder = 2
     end
-    object cbCreateSFX: TCheckBox
-      Left = 0
+    object cbPackerList: TComboBox[3]
+      AnchorSideLeft.Control = cbOtherPlugins
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = rgPacker
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = rgPacker
+      AnchorSideRight.Side = asrBottom
+      Left = 414
       Height = 23
-      Top = 69
-      Width = 351
-      Caption = 'Create self e&xtracting archive'
-      OnClick = cbCreateSFXClick
-      TabOrder = 3
-    end
-    object cbEncrypt: TCheckBox
-      Left = 0
-      Height = 23
-      Top = 92
-      Width = 351
-      Caption = 'Encr&ypt'
+      Top = 106
+      Width = 100
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
+      Enabled = False
+      ItemHeight = 15
+      OnChange = cbOtherPluginsChange
+      ParentFont = False
+      Style = csDropDownList
       TabOrder = 4
+      Visible = False
     end
-    object cbPutInTarFirst: TCheckBox
-      Left = 0
-      Height = 23
-      Top = 115
-      Width = 351
-      Caption = 'P&ut in the TAR archive first'
-      OnChange = cbPutInTarFirstChange
+    object btnConfig: TButton[4]
+      AnchorSideLeft.Control = rgPacker
+      AnchorSideTop.Control = cbPackerList
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = rgPacker
+      AnchorSideRight.Side = asrBottom
+      Left = 378
+      Height = 32
+      Top = 135
+      Width = 136
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = 'Con&figure'
+      OnClick = btnConfigClick
       TabOrder = 5
     end
-    object cbCreateSeparateArchives: TCheckBox
-      Left = 0
-      Height = 23
-      Top = 138
-      Width = 351
-      Caption = 'C&reate separate archives, one per selected file/dir'
-      OnChange = cbCreateSeparateArchivesChange
-      TabOrder = 6
+    object cbOtherPlugins: TCheckBox[5]
+      AnchorSideLeft.Control = rgPacker
+      AnchorSideTop.Control = cbPackerList
+      AnchorSideTop.Side = asrCenter
+      Left = 378
+      Height = 19
+      Top = 108
+      Width = 36
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = '=>'
+      Enabled = False
+      OnChange = cbOtherPluginsChange
+      TabOrder = 3
+      Visible = False
     end
+    object pnlOptions: TPanel[6]
+      AnchorSideTop.Control = edtPackCmd
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 133
+      Top = 46
+      Width = 340
+      AutoSize = True
+      BorderSpacing.Top = 8
+      BevelOuter = bvNone
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ClientHeight = 133
+      ClientWidth = 340
+      Constraints.MinWidth = 340
+      TabOrder = 1
+      object cbStoreDir: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 0
+        Width = 277
+        Caption = 'Also &pack path names (only recursed)'
+        Checked = True
+        State = cbChecked
+        TabOrder = 0
+      end
+      object cbMultivolume: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 19
+        Width = 277
+        Caption = '&Multiple disk archive'
+        TabOrder = 1
+      end
+      object cbMoveToArchive: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 38
+        Width = 277
+        Caption = 'Mo&ve to archive'
+        TabOrder = 2
+      end
+      object cbCreateSFX: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 57
+        Width = 277
+        Caption = 'Create self e&xtracting archive'
+        OnClick = cbCreateSFXClick
+        TabOrder = 3
+      end
+      object cbEncrypt: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 76
+        Width = 277
+        Caption = 'Encr&ypt'
+        TabOrder = 4
+      end
+      object cbPutInTarFirst: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 95
+        Width = 277
+        Caption = 'P&ut in the TAR archive first'
+        OnChange = cbPutInTarFirstChange
+        TabOrder = 5
+      end
+      object cbCreateSeparateArchives: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 114
+        Width = 277
+        Caption = 'C&reate separate archives, one per selected file/dir'
+        OnChange = cbCreateSeparateArchivesChange
+        TabOrder = 6
+      end
+    end
+  end
+  inherited pnlButtons: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = DividerBevel
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Top = 214
+    Width = 524
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
+    ClientWidth = 524
+    inherited btnCancel: TBitBtn
+      Left = 342
+    end
+    inherited btnOK: TBitBtn
+      Left = 436
+    end
+  end
+  object DividerBevel: TDividerBevel[2]
+    AnchorSideLeft.Control = pnlButtons
+    AnchorSideTop.Control = pnlContent
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = pnlButtons
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 15
+    Top = 193
+    Width = 524
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  inherited pmQueuePopup: TPopupMenu[3]
+    left = 264
+    top = 216
   end
 end
