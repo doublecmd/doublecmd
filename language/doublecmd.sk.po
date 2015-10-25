@@ -3212,6 +3212,7 @@ msgstr "*"
 #: tfrmmain.btnleftdirectoryhotlist.hint
 #, fuzzy
 #| msgid "Directory hotlist"
+msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
 msgstr "Hotlist zložiek"
 
@@ -7607,6 +7608,7 @@ msgid "to add to current toolbar"
 msgstr ""
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr ""
 
@@ -7996,33 +7998,12 @@ msgctxt "tfrmoptionsviewer.lblnumbercolumnsviewer.caption"
 msgid "&Number of columns in book viewer"
 msgstr "Počet stĺpcov v prezerači k&níh"
 
-#: tfrmpackdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Zrušiť"
-
 #: tfrmpackdlg.btnconfig.caption
 #, fuzzy
 #| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "&Konfigurovať"
-
-#: tfrmpackdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Pomoc"
-
-#: tfrmpackdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK"
 
 #: tfrmpackdlg.caption
 msgctxt "tfrmpackdlg.caption"
