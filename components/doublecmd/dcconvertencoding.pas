@@ -7,39 +7,48 @@ interface
 uses
   Classes, SysUtils; 
 
+{$IF (FPC_FULLVERSION >= 30000) AND NOT DEFINED(DisableUTF8RTL)}
+  {$DEFINE ReallyUseUTF8RTL}
+{$IFEND}
+
+{$IF NOT DECLARED(RawByteString)}
+type
+  RawByteString = AnsiString;
+{$IFEND}
+
 var
 
   {en
     Convert from OEM to System encoding, if needed
   }
-  CeOemToSys: function (const Source: String): String;
-  CeSysToOem: function (const Source: String): String;
+  CeOemToSys: function (const Source: String): RawByteString;
+  CeSysToOem: function (const Source: String): RawByteString;
 
   {en
     Convert from OEM to UTF-8 encoding, if needed
   }
-  CeOemToUtf8: function (const Source: String): String;
-  CeUtf8ToOem: function (const Source: String): String;
+  CeOemToUtf8: function (const Source: String): RawByteString;
+  CeUtf8ToOem: function (const Source: String): RawByteString;
 
   {en
     Convert from Ansi to System encoding, if needed
   }
-  CeAnsiToSys: function (const Source: String): String;
-  CeSysToAnsi: function (const Source: String): String;
+  CeAnsiToSys: function (const Source: String): RawByteString;
+  CeSysToAnsi: function (const Source: String): RawByteString;
 
   {en
     Convert from ANSI to UTF-8 encoding, if needed
   }
-  CeAnsiToUtf8: function (const Source: String): String;
-  CeUtf8ToAnsi: function (const Source: String): String;
+  CeAnsiToUtf8: function (const Source: String): RawByteString;
+  CeUtf8ToAnsi: function (const Source: String): RawByteString;
 
   {en
     Convert from Utf8 to System encoding, if needed
   }
-  CeUtf8ToSys: function (const Source: String): String;
-  CeSysToUtf8: function (const Source: String): String;
+  CeUtf8ToSys: function (const Source: String): RawByteString;
+  CeSysToUtf8: function (const Source: String): RawByteString;
 
-function CeRawToUtf8(const Source: String): String;
+function CeRawToUtf8(const Source: String): RawByteString;
 
 {$IF DEFINED(MSWINDOWS)}
 function CeTryEncode(const aValue: UnicodeString; aCodePage: Cardinal;
@@ -64,6 +73,11 @@ uses
   Windows
   {$ENDIF}
   ;
+
+{$IF DEFINED(ReallyUseUTF8RTL)}
+var
+  FileSystemCodePage: TSystemCodePage;
+{$ENDIF}
 
 function UTF8CharacterStrictLength(P: PAnsiChar): integer;
 begin
@@ -103,7 +117,7 @@ begin
     exit(0);
 end;
 
-function CeRawToUtf8(const Source: String): String;
+function CeRawToUtf8(const Source: String): RawByteString;
 var
   P: PAnsiChar;
   I, L: LongInt;
@@ -128,20 +142,40 @@ begin
   Result:= CeSysToUtf8(Source);
 end;
 
-function Dummy(const Source: String): String;
+function Dummy(const Source: String): RawByteString;
 begin
   Result:= Source;
 end;
 
-function Sys2UTF8(const Source: String): String;
+{$IF DEFINED(ReallyUseUTF8RTL)}
+
+function Sys2UTF8(const Source: String): RawByteString;
+begin
+  Result:= Source;
+  SetCodePage(Result, FileSystemCodePage, False);
+  SetCodePage(Result, CP_UTF8, True);
+end;
+
+function UTF82Sys(const Source: String): RawByteString;
+begin
+  Result:= Source;
+  SetCodePage(Result, CP_UTF8, False);
+  SetCodePage(Result, FileSystemCodePage, True);
+end;
+
+{$ELSE}
+
+function Sys2UTF8(const Source: String): RawByteString;
 begin
   Result:= UTF8Encode(Source);
 end;
 
-function UTF82Sys(const Source: String): String;
+function UTF82Sys(const Source: String): RawByteString;
 begin
   Result:= UTF8Decode(Source);
 end;
+
+{$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
 
@@ -176,7 +210,7 @@ begin
   Result := Length(aResult) > 0;
 end;
 
-function Oem2Utf8(const Source: String): String;
+function Oem2Utf8(const Source: String): RawByteString;
 var
   UnicodeResult: UnicodeString;
 begin
@@ -186,7 +220,7 @@ begin
     Result:= Source;
 end;
 
-function Utf82Oem(const Source: String): String;
+function Utf82Oem(const Source: String): RawByteString;
 var
   AnsiResult: AnsiString;
 begin
@@ -196,7 +230,7 @@ begin
     Result:= Source;
 end;
 
-function OEM2Ansi(const Source: String): String;
+function OEM2Ansi(const Source: String): RawByteString;
 var
   Dst: PAnsiChar;
 begin
@@ -207,7 +241,7 @@ begin
   FreeMem(Dst);
 end;
 
-function Ansi2OEM(const Source: String): String;
+function Ansi2OEM(const Source: String): RawByteString;
 var
   Dst: PAnsiChar;
 begin
@@ -295,49 +329,49 @@ begin
 end;
 {$ENDIF}
 
-function Oem2Utf8(const Source: String): String;
+function Oem2Utf8(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, EncodingOEM, EncodingUTF8);
 end;
 
-function Utf82Oem(const Source: String): String;
+function Utf82Oem(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, EncodingUTF8, EncodingOEM);
 end;
 
-function OEM2Sys(const Source: String): String;
+function OEM2Sys(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, EncodingOEM, SystemEncoding);
 end;
 
-function Sys2OEM(const Source: String): String;
+function Sys2OEM(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, SystemEncoding, EncodingOEM);
 end;
 
-function Ansi2Sys(const Source: String): String;
+function Ansi2Sys(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, EncodingANSI, SystemEncoding);
 end;
 
-function Sys2Ansi(const Source: String): String;
+function Sys2Ansi(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, SystemEncoding, EncodingANSI);
 end;
 
-function Ansi2Utf8(const Source: String): String;
+function Ansi2Utf8(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, EncodingANSI, EncodingUTF8);
 end;
 
-function Utf82Ansi(const Source: String): String;
+function Utf82Ansi(const Source: String): RawByteString;
 begin
   Result:= Source;
   Iconvert(Source, Result, EncodingUTF8, EncodingANSI);
@@ -410,6 +444,9 @@ end;
 {$ENDIF}
 
 initialization
+  {$IF DEFINED(ReallyUseUTF8RTL)}
+  FileSystemCodePage:= WideStringManager.GetStandardCodePageProc(scpFileSystemSingleByte);
+  {$ENDIF}
   Initialize;
 
 end.
