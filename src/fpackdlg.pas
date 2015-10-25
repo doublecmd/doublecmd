@@ -28,26 +28,26 @@ unit fPackDlg;
 interface
 
 uses
-  SysUtils, Forms, Controls, Dialogs, StdCtrls, EditBtn, ExtCtrls, uWcxArchiveFileSource,
-  uArchiveFileSource, uFile, uFileSource, Classes;
+  SysUtils, Forms, Controls, Dialogs, StdCtrls, EditBtn, ExtCtrls, Buttons,
+  Menus, DividerBevel, uWcxArchiveFileSource, uArchiveFileSource, uFile,
+  uFileSource, Classes, fButtonForm;
 
 type
 
   { TfrmPackDlg }
 
-  TfrmPackDlg = class(TForm)
+  TfrmPackDlg = class(TfrmButtonForm)
     btnConfig: TButton;
     btnHelp: TButton;
-    btnCancel: TButton;
     cbCreateSeparateArchives: TCheckBox;
     cbCreateSFX: TCheckBox;
     cbEncrypt: TCheckBox;
     cbMoveToArchive: TCheckBox;
     cbMultivolume: TCheckBox;
-    btnOk: TButton;
     cbPackerList: TComboBox;
     cbOtherPlugins: TCheckBox;
     cbPutInTarFirst: TCheckBox;
+    DividerBevel: TDividerBevel;
     edtPackCmd: TDirectoryEdit;
     lblPrompt: TLabel;
     cbStoreDir: TCheckBox;
@@ -111,7 +111,7 @@ var
   aFile: TFile = nil;
   aFiles: TFiles = nil;
 
-  procedure Pack(var FilesToPack: TFiles; QueueIdentifier: TOperationsManagerQueueIdentifier);
+  procedure Pack(var FilesToPack: TFiles; QueueId: TOperationsManagerQueueIdentifier);
   var
     sPassword,
     sPasswordTmp: String;
@@ -172,7 +172,7 @@ var
                 end;
 
               // Start operation.
-              OperationsManager.AddOperation(Operation, QueueIdentifier, False, True);
+              OperationsManager.AddOperation(Operation, QueueId, False, True);
             end;
         end;
     end;
@@ -259,10 +259,10 @@ begin
                       end;
 
                       // Pack current item, if files count > 1 then put to queue
-                      if (I > 0) then
+                      if (I > 0) and (QueueIdentifier = FreeOperationsQueueId) then
                         Pack(aFiles, SingleQueueId)
                       else
-                        Pack(aFiles, FreeOperationsQueueId);
+                        Pack(aFiles, QueueIdentifier);
                     finally
                       FreeAndNil(aFile);
                     end;
@@ -287,7 +287,7 @@ begin
                   end;
 
                   // Pack files
-                  Pack(Files, FreeOperationsQueueId);
+                  Pack(Files, QueueIdentifier);
                 end;
             end;
 
