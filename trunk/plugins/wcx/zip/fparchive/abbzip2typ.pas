@@ -325,7 +325,7 @@ var
   i: Integer;
   CurItem: TAbBzip2Item;
   UpdateArchive: Boolean;
-  TempFileName: UTF8String;
+  TempFileName: String;
   InputFileStream: TStream;
 begin
   if IsBzippedTar and TarAutoHandle then

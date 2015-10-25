@@ -527,7 +527,7 @@ end;
 function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
 var
   hFile: System.THandle;
-  TempPath : UTF8String;
+  TempPath : String;
 begin
   if mbDirectoryExists(Dir) then
     TempPath := IncludeTrailingPathDelimiter(Dir)
