@@ -3177,6 +3177,7 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
+msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
 msgstr ""
 
@@ -4755,9 +4756,10 @@ msgid "Reset to default"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
+#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
 #, fuzzy
@@ -7283,9 +7285,10 @@ msgid "Select"
 msgstr ""
 
 #: tfrmoptionstoolbar.btnopenfile.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: tfrmoptionstoolbar.btnopenicon.caption
 msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
@@ -7956,33 +7959,12 @@ msgctxt "tfrmoptionsviewer.lblnumbercolumnsviewer.caption"
 msgid "&Number of columns in book viewer"
 msgstr "Número de columnes en vista de llibre"
 
-#: tfrmpackdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Cancel·la"
-
 #: tfrmpackdlg.btnconfig.caption
 #, fuzzy
 #| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "&Configura"
-
-#: tfrmpackdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Ajuda"
-
-#: tfrmpackdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "Accepta"
 
 #: tfrmpackdlg.caption
 msgctxt "tfrmpackdlg.caption"

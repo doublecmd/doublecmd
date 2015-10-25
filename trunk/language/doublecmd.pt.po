@@ -7315,25 +7315,10 @@ msgstr "Cor de te&xto do livro"
 msgid "&Number of columns in book viewer"
 msgstr "&Número de colunas do livro"
 
-#: tfrmpackdlg.btncancel.caption
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Cancelar"
-
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "Con&figurar"
-
-#: tfrmpackdlg.btnhelp.caption
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "A&juda"
-
-#: tfrmpackdlg.btnok.caption
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Aceitar"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"

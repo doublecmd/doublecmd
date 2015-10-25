@@ -7218,25 +7218,10 @@ msgstr "ブックビューアのフォントの色(&F)"
 msgid "&Number of columns in book viewer"
 msgstr "ブックビューアのカラム数(&N)"
 
-#: tfrmpackdlg.btncancel.caption
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "キャンセル(&C)"
-
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "構成(&f)"
-
-#: tfrmpackdlg.btnhelp.caption
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "ヘルプ(&H)"
-
-#: tfrmpackdlg.btnok.caption
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK(&O)"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"

@@ -2912,6 +2912,7 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
+msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
 msgstr "Избранные каталоги"
 
@@ -7300,25 +7301,10 @@ msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
 msgstr "&Кол-во колонок"
 
-#: tfrmpackdlg.btncancel.caption
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "О&тмена"
-
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "&Настроить"
-
-#: tfrmpackdlg.btnhelp.caption
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Помощ&ь"
-
-#: tfrmpackdlg.btnok.caption
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&ОК"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"

@@ -3238,6 +3238,7 @@ msgstr "*"
 #: tfrmmain.btnleftdirectoryhotlist.hint
 #, fuzzy
 #| msgid "Directory hotlist"
+msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
 msgstr "Verzeichnis-Hotlist"
 
@@ -6035,7 +6036,7 @@ msgstr "Wenn die Dateityp-Verknüpfung genutzt wird, anbieten die aktuelle Datei
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
-msgsKonfiguration der Dateitypen"
+msgstr "Konfiguration der Dateitypen"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
 msgid "Offer to add selection to file association when not included already"
@@ -8213,33 +8214,12 @@ msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
 msgstr "A&nzahl der Spalten in der buchartigen Ansicht"
 
-#: tfrmpackdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Abbruch"
-
 #: tfrmpackdlg.btnconfig.caption
 #, fuzzy
 #| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "Kon&figurieren"
-
-#: tfrmpackdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "&Hilfe"
-
-#: tfrmpackdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"

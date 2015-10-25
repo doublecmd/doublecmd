@@ -3146,6 +3146,7 @@ msgstr "*"
 #: tfrmmain.btnleftdirectoryhotlist.hint
 #, fuzzy
 #| msgid "Directory hotlist"
+msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
 msgstr "Directory hotlist"
 
@@ -7875,33 +7876,12 @@ msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
 msgstr "&Aantal kolommen in boek viewer"
 
-#: tfrmpackdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Annuleer"
-
 #: tfrmpackdlg.btnconfig.caption
 #, fuzzy
 #| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "&Configureer"
-
-#: tfrmpackdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Help"
-
-#: tfrmpackdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"

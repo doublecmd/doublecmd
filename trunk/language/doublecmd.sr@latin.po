@@ -7323,25 +7323,10 @@ msgstr "&Slovni lik u pregledniku knjiga"
 msgid "&Number of columns in book viewer"
 msgstr "Broj stubaca u pregledniku knjiga"
 
-#: tfrmpackdlg.btncancel.caption
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Oktaži"
-
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "&Podesi"
-
-#: tfrmpackdlg.btnhelp.caption
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "&Pomoć"
-
-#: tfrmpackdlg.btnok.caption
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&U redu"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"

@@ -3183,6 +3183,7 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
+msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
 msgstr ""
 
@@ -6478,9 +6479,10 @@ msgid "Description"
 msgstr "Описание"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
-msgstr ""
+msgstr "Клавишно съчетание"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
@@ -7945,33 +7947,12 @@ msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
 msgstr "Брой на &стълбовете в книговидния преглед"
 
-#: tfrmpackdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Отказ"
-
 #: tfrmpackdlg.btnconfig.caption
 #, fuzzy
 #| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "&Настройка"
-
-#: tfrmpackdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Помощ"
-
-#: tfrmpackdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "Добре"
 
 #: tfrmpackdlg.caption
 msgctxt "TFRMPACKDLG.CAPTION"

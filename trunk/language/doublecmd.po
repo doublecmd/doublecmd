@@ -7214,24 +7214,9 @@ msgstr ""
 msgid "&Number of columns in book viewer"
 msgstr ""
 
-#: tfrmpackdlg.btncancel.caption
-msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr ""
-
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
-msgstr ""
-
-#: tfrmpackdlg.btnhelp.caption
-msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr ""
-
-#: tfrmpackdlg.btnok.caption
-msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
-msgid "&OK"
 msgstr ""
 
 #: tfrmpackdlg.caption
