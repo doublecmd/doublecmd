@@ -20,6 +20,7 @@ uses
   Gtk2Int,
   {$ENDIF}
   {$ENDIF}
+  DCConvertEncoding,
   Interfaces,
   LCLProc,
   Classes,

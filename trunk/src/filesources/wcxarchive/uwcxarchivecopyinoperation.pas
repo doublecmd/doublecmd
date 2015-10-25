@@ -72,7 +72,8 @@ implementation
 
 uses
   LCLProc, FileUtil, StrUtils, DCStrUtils, uLng, uShowMsg, fWcxArchiveCopyOperationOptions,
-  uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, DCOSUtils, uTarWriter;
+  uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, DCOSUtils, uTarWriter,
+  DCConvertEncoding;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -107,10 +108,10 @@ function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: String;
 begin
-  sArcName:= SysToUTF8(StrPas(ArcName));
+  sArcName:= CeSysToUtf8(StrPas(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
   if Result <> 0 then
-    StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH);
+    StrPLCopy(ArcName, CeUtf8ToSys(sArcName), MAX_PATH);
 end;
 
 function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
@@ -172,7 +173,7 @@ end;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyInOperationG, SysToUTF8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyInOperationG, CeSysToUtf8(StrPas(FileName)), Size);
 end;
 
 function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
@@ -182,7 +183,7 @@ end;
 
 function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyInOperationT, SysToUTF8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyInOperationT, CeSysToUtf8(StrPas(FileName)), Size);
 end;
 
 function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;

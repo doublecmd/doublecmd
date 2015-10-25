@@ -93,7 +93,7 @@ implementation
 uses
   Forms, LCLProc, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils,
   uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uFileSystemUtil,
-  uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes, uShowMsg;
+  uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes, uShowMsg, DCConvertEncoding;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -128,10 +128,10 @@ function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: String;
 begin
-  sArcName:= SysToUTF8(StrPas(ArcName));
+  sArcName:= CeSysToUtf8(StrPas(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
   if Result <> 0 then
-    StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH);
+    StrPLCopy(ArcName, CeUtf8ToSys(sArcName), MAX_PATH);
 end;
 
 function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
@@ -193,7 +193,7 @@ end;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationG, SysToUTF8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationG, CeSysToUtf8(StrPas(FileName)), Size);
 end;
 
 function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
@@ -203,7 +203,7 @@ end;
 
 function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationT, SysToUTF8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationT, CeSysToUtf8(StrPas(FileName)), Size);
 end;
 
 function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
