@@ -316,7 +316,7 @@ var
   I: Integer;
   CurItem: TAbXzItem;
   UpdateArchive: Boolean;
-  TempFileName: UTF8String;
+  TempFileName: String;
   InputFileStream: TStream;
   LzmaCompression: TLzmaCompression;
 begin

@@ -320,7 +320,7 @@ var
   I: Integer;
   CurItem: TAbLzmaItem;
   UpdateArchive: Boolean;
-  TempFileName: UTF8String;
+  TempFileName: String;
   InputFileStream: TStream;
 begin
   if IsLzmaTar and TarAutoHandle then

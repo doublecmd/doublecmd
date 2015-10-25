@@ -593,7 +593,7 @@ Index: AbBzip2Typ.pas
 --- AbBzip2Typ.pas	(revision 512)
 +++ AbBzip2Typ.pas	(working copy)
 @@ -86,7 +86,8 @@
- 
+
    protected
      { Inherited Abstract functions }
 -    function CreateItem(const FileSpec : string): TAbArchiveItem; override;
@@ -608,7 +608,7 @@ Index: AbBzip2Typ.pas
    StrUtils, SysUtils,
 -  AbBzip2, AbExcept, AbVMStrm, AbBitBkt;
 +  AbBzip2, AbExcept, AbVMStrm, AbBitBkt, DCOSUtils, DCClassesUtf8;
- 
+
  { ****************** Helper functions Not from Classes Above ***************** }
  function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
 @@ -131,8 +132,9 @@
@@ -621,7 +621,7 @@ Index: AbBzip2Typ.pas
 +  Buffer: array[0..Pred(AB_TAR_RECORDSIZE * 4)] of Byte;
  begin
    Result := atUnknown;
- 
+
 @@ -148,7 +150,8 @@
        try
          TarStream := TMemoryStream.Create;
@@ -708,7 +708,7 @@ Index: AbBzip2Typ.pas
    i: Integer;
    CurItem: TAbBzip2Item;
 +  UpdateArchive: Boolean;
-+  TempFileName: UTF8String;
++  TempFileName: String;
    InputFileStream: TStream;
  begin
    if IsBzippedTar and TarAutoHandle then
@@ -1730,23 +1730,23 @@ Index: AbUtils.pas
 -  Classes,
 -  AbCharset;
 +  Classes;
- 
- 
+
+
  type
 @@ -94,7 +94,8 @@
- 
+
  type
    TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
 -                    atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar);
 +                    atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar,
 +                    atXz, atXzippedTar, atLzma, atLzmaTar);
- 
- 
+
+
  {$IF NOT DECLARED(DWORD)}
 @@ -114,6 +115,12 @@
    {$ENDIF}
  {$IFEND}
- 
+
 +{ Unicode backwards compatibility types }
 +{$IF NOT DECLARED(RawByteString)}
 +type
@@ -1759,28 +1759,28 @@ Index: AbUtils.pas
 @@ -198,8 +205,13 @@
       because if you have a path x:\dir, and request x:\dir\sub1\sub2,
       (/dir and /dir/sub1/sub2 on Unix) it fails.}
- 
+
 +  function AbCreateSymlink( const LinksPointsTo, LinkName : String ): Boolean;
 +
    function AbCreateTempFile(const Dir : string) : string;
- 
+
 +  function AbReadSymlink( const LinkFile : String ): String;
 +    {Reads the name that a link points to.}
 +
    function AbGetTempDirectory : string;
      {-Return the system temp directory}
- 
+
 @@ -294,7 +306,7 @@
      Mode: {$IFDEF UNIX}mode_t{$ELSE}Cardinal{$ENDIF};
    end;
- 
+
 -  function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
 +  function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec; FollowLinks: Boolean = True) : Boolean;
- 
+
    function AbSwapLongEndianness(Value : LongInt): LongInt;
- 
+
 @@ -363,9 +375,14 @@
- 
+
  uses
    StrUtils,
 +  LazUTF8,
@@ -1790,7 +1790,7 @@ Index: AbUtils.pas
 +  DCOSUtils,
 +  DCStrUtils,
 +  DCDateTimeUtils;
- 
+
 +(*
  {$IF DEFINED(FPCUnixAPI)}
  function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
@@ -1800,7 +1800,7 @@ Index: AbUtils.pas
    external clib name 'nl_langinfo';
  {$IFEND}
 +*)
- 
+
  {===platform independent routines for platform dependent stuff=======}
  function ExtractShortName(const SR : TSearchRec) : string;
 @@ -410,16 +428,16 @@
@@ -1909,7 +1909,7 @@ Index: AbUtils.pas
 -  FileName: AbSysString;
 -{$ENDIF}
 +  hFile: System.THandle;
-+  TempPath : UTF8String;
++  TempPath : String;
  begin
 -  if DirectoryExists(Dir) then
 -    TempPath := Dir
@@ -2012,7 +2012,7 @@ Index: AbUtils.pas
    else Result := GetLastError;
  {$ENDIF MSWINDOWS}
 @@ -1166,12 +1193,7 @@
- 
+
  function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
  begin
 -  {$IFDEF MSWINDOWS}
@@ -2023,7 +2023,7 @@ Index: AbUtils.pas
 -  {$ENDIF}
 +  Result:= mbFileSetTime(aFileName, DateTimeToFileTime(aValue));
  end;
- 
+
  { -------------------------------------------------------------------------- }
 @@ -1188,7 +1210,8 @@
  { -------------------------------------------------------------------------- }
@@ -2053,7 +2053,7 @@ Index: AbUtils.pas
    case (Attr and $F000) of
      AB_FMODE_FILE, AB_FMODE_FILE2: { standard file }
 @@ -1225,21 +1250,20 @@
- 
+
    if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
      Result := Result or faReadOnly;
 -  {$WARN SYMBOL_PLATFORM ON}
@@ -2132,9 +2132,9 @@ Index: AbUtils.pas
  begin
  {$IFDEF MSWINDOWS}
 @@ -1326,10 +1353,10 @@
- 
+
    Result := '';
- 
+
 -  if GetVolumeInformation(PChar(Root), PChar(VolName), Length(VolName),
 +  if GetVolumeInformationW(PWideChar(Root), PWideChar(VolName), Length(VolName),
      nil, MaxLength, Flags, nil, NameSize)
@@ -2490,7 +2490,7 @@ Index: AbZipTyp.pas
        end;
      end;
    except
-@@ -733,15 +747,13 @@
+@@ -733,8 +747,7 @@
    leaves stream positioned at start of structure or at original
    position if not found }
  const
@@ -2500,6 +2500,7 @@ Index: AbZipTyp.pas
  var
    StartPos  : Int64;
    TailRec   : TAbZipEndOfCentralDirectoryRecord;
+@@ -741,7 +754,6 @@
    Buffer    : PAnsiChar;
    Offset    : Int64;
    TestPos   : PAnsiChar;
@@ -2507,7 +2508,7 @@ Index: AbZipTyp.pas
    BytesRead : Int64;
    BufSize   : Int64;
    CommentLen: integer;
-@@ -767,64 +779,48 @@
+@@ -767,7 +779,7 @@
     stream; we need to search for the tail signature}
 
    {get a buffer}
@@ -2516,6 +2517,7 @@ Index: AbZipTyp.pas
    GetMem(Buffer, BufSize);
    try
 
+@@ -774,57 +786,41 @@
      {start out searching backwards}
      Offset := -BufSize;
 
@@ -2643,12 +2645,9 @@ Index: AbZipTyp.pas
  function TAbZipItem.GetShannonFanoTreeCount : Byte;
  begin
    Result := FItemInfo.ShannonFanoTreeCount;
-@@ -1428,37 +1441,50 @@
-   FieldStream: TStream;
-   InfoZipField: PInfoZipUnicodePathRec;
+@@ -1430,12 +1443,13 @@
    UnicodeName: UnicodeString;
--  UTF8Name: AnsiString;
-+  UTF8Name: UTF8String;
+   UTF8Name: AnsiString;
    XceedField: PXceedUnicodePathRec;
 +  SystemCode: TAbZipHostOs;
  begin
@@ -2662,6 +2661,7 @@ Index: AbZipTyp.pas
    else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
       (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
       (InfoZipField.Version = 1) and
+@@ -1442,7 +1456,7 @@
       (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
      SetString(UTF8Name, InfoZipField.UnicodeName,
        FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
@@ -2670,6 +2670,7 @@ Index: AbZipTyp.pas
    end
    else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
       (FieldSize > SizeOf(TXceedUnicodePathRec)) and
+@@ -1449,16 +1463,28 @@
       (XceedField.Signature = Ab_XceedUnicodePathSignature) and
       (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
      SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
@@ -2706,15 +2707,6 @@ Index: AbZipTyp.pas
 
    { read ZIP64 extended header }
    FUncompressedSize := FItemInfo.UncompressedSize;
-@@ -1586,7 +1612,7 @@
-   {$IFDEF MSWINDOWS}
-   AnsiName : AnsiString;
-   {$ENDIF}
--  UTF8Name : AnsiString;
-+  UTF8Name : UTF8String;
-   FieldSize : Word;
-   I : Integer;
-   InfoZipField : PInfoZipUnicodePathRec;
 @@ -1596,24 +1622,20 @@
    {$IFDEF MSWINDOWS}
    FItemInfo.IsUTF8 := False;
@@ -2754,7 +2746,7 @@ Index: AbZipTyp.pas
      FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
      GetMem(InfoZipField, FieldSize);
      try
-@@ -1762,20 +1784,28 @@
+@@ -1762,11 +1784,11 @@
    inherited Destroy;
  end;
  { -------------------------------------------------------------------------- }
@@ -2769,6 +2761,7 @@ Index: AbZipTyp.pas
    Result := TAbZipItem.Create;
    with TAbZipItem( Result ) do begin
      CompressionMethod := cmDeflated;
+@@ -1773,9 +1795,17 @@
      GeneralPurposeBitFlag := 0;
      CompressedSize := 0;
      CRC32 := 0;

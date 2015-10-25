@@ -328,7 +328,7 @@ end;
 function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall;
 var
   Arc : TAbZipKitEx;
-  DestNameUtf8: UTF8String;
+  DestNameUtf8: String;
 begin
   Arc := TAbZipKitEx(Pointer(hArcData));
 
@@ -487,10 +487,10 @@ end;
 function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
 var
   Arc : TAbZipKitEx;
-  FilePath: UTF8String;
+  FilePath: String;
   FileName: WideString;
   sPassword: AnsiString;
-  sPackedFile: UTF8String;
+  sPackedFile: String;
 begin
   Arc := TAbZipKitEx.Create(nil);
   try
@@ -597,7 +597,7 @@ var
  Arc : TAbZipKitEx;
  pFileName : PWideChar;
  FileName : WideString;
- FileNameUTF8 : UTF8String;
+ FileNameUTF8 : String;
 begin
   Arc := TAbZipKitEx.Create(nil);
   try
