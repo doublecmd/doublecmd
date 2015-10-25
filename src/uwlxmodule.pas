@@ -157,7 +157,7 @@ type
 implementation
 
 uses
-  FileUtil, uDebug, DCOSUtils, uOSUtils, uGlobsPaths, uGlobs;
+  FileUtil, uDebug, DCOSUtils, DCConvertEncoding, uOSUtils, uGlobsPaths, uGlobs;
 
 const
   WlxIniFileName = 'wlx.ini';
@@ -288,7 +288,7 @@ begin
   if Assigned(ListLoadW) then
     FPluginWindow := ListLoadW(ParentWin, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
   else if Assigned(ListLoad) then
-    FPluginWindow := ListLoad(ParentWin, PAnsiChar(UTF8ToSys(FileToLoad)), ShowFlags)
+    FPluginWindow := ListLoad(ParentWin, PAnsiChar(CeUtf8ToSys(FileToLoad)), ShowFlags)
   else
     Exit(wlxInvalidHandle);
 
@@ -308,7 +308,7 @@ begin
   if Assigned(ListLoadNextW) then
     Result := ListLoadNextW(ParentWin, FPluginWindow, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
   else if Assigned(ListLoadNext) then
-    Result := ListLoadNext(ParentWin, FPluginWindow, PAnsiChar(UTF8ToSys(FileToLoad)), ShowFlags)
+    Result := ListLoadNext(ParentWin, FPluginWindow, PAnsiChar(CeUtf8ToSys(FileToLoad)), ShowFlags)
   else
     Result := LISTPLUGIN_ERROR;
 end;
@@ -356,7 +356,7 @@ begin
   if Assigned(ListSearchTextW) then
     Result := ListSearchTextW(FPluginWindow, PWideChar(UTF8Decode(SearchString)), SearchParameter)
   else if Assigned(ListSearchText) then
-    Result := ListSearchText(FPluginWindow, PAnsiChar(UTF8ToSys(SearchString)), SearchParameter)
+    Result := ListSearchText(FPluginWindow, PAnsiChar(CeUtf8ToSys(SearchString)), SearchParameter)
   else
     Result := LISTPLUGIN_ERROR;
 end;
@@ -426,7 +426,7 @@ begin
     Result := ListPrintW(FPluginWindow, PWideChar(UTF8Decode(FileToPrint)),
       PWideChar(UTF8Decode(DefPrinter)), PrintFlags, Margins)
   else if Assigned(ListPrint) then
-    Result := ListPrint(FPluginWindow, PAnsiChar(UTF8ToSys(FileToPrint)), PAnsiChar(UTF8ToSys(DefPrinter)),
+    Result := ListPrint(FPluginWindow, PAnsiChar(CeUtf8ToSys(FileToPrint)), PAnsiChar(CeUtf8ToSys(DefPrinter)),
       PrintFlags, Margins)
   else
     Result := LISTPLUGIN_ERROR;
@@ -460,7 +460,7 @@ begin
     Result := ListGetPreviewBitmapW(PWideChar(UTF8Decode(FileToLoad)), Width, Height,
       PChar(contentbuf), length(contentbuf))
   else if Assigned(ListGetPreviewBitmap) then
-    Result := ListGetPreviewBitmap(PAnsiChar(UTF8ToSys(FileToLoad)), Width, Height,
+    Result := ListGetPreviewBitmap(PAnsiChar(CeUtf8ToSys(FileToLoad)), Width, Height,
       PChar(contentbuf), length(contentbuf));
 end;
 
