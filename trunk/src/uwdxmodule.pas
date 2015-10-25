@@ -264,7 +264,7 @@ implementation
 
 uses
   StrUtils, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils, DCBasicTypes,
-  DCOSUtils, DCDateTimeUtils;
+  DCOSUtils, DCDateTimeUtils, DCConvertEncoding;
 
 const
   WdxIniFileName = 'wdx.ini';
@@ -671,7 +671,7 @@ begin
   if Assigned(ContentStopGetValueW) then
     ContentStopGetValueW(PWideChar(UTF8Decode(FileName)))
   else if Assigned(ContentStopGetValue) then
-      ContentStopGetValue(PAnsiChar(UTF8ToSys(FileName)));
+      ContentStopGetValue(PAnsiChar(CeUtf8ToSys(FileName)));
 end;
 
 function TPluginWDX.CallContentGetDefaultSortOrder(FieldIndex: Integer): Boolean;
@@ -740,7 +740,7 @@ begin
     Rez := ContentGetSupportedField(Index, xFieldName, xUnits, MaxLen);
     if Rez <> ft_nomorefields then
     begin
-      sFieldName := SysToUTF8(StrPas(xFieldName));
+      sFieldName := CeSysToUtf8(StrPas(xFieldName));
       I := FFieldsList.AddObject(sFieldName, TWdxField.Create);
       with TWdxField(FFieldsList.Objects[I]) do
       begin
@@ -802,7 +802,7 @@ begin
   if Assigned(ContentGetValueW) then
     Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
   else if Assigned(ContentGetValue) then
-    Rez := ContentGetValue(PAnsiChar(UTF8ToSys(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
+    Rez := ContentGetValue(PAnsiChar(CeUtf8ToSys(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
   case Rez of
     ft_fieldempty: Result := Null;
@@ -816,7 +816,7 @@ begin
 
     ft_multiplechoice,
     ft_string,
-    ft_fulltext: Result := SysToUTF8(AnsiString(PAnsiChar(@Buf[0])));
+    ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
     ft_stringw: Result := UTF8Encode(WideString(PWideChar(@Buf[0])));
     else
       Result := Null;
@@ -853,7 +853,7 @@ begin
   if Assigned(ContentGetValueW) then
     Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
   else if Assigned(ContentGetValue) then
-      Rez := ContentGetValue(PAnsiChar(UTF8ToSys(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
+      Rez := ContentGetValue(PAnsiChar(CeUtf8ToSys(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
   case Rez of
     ft_fieldempty: Result := '';
@@ -871,7 +871,7 @@ begin
 
     ft_multiplechoice,
     ft_string,
-    ft_fulltext: Result := SysToUTF8(AnsiString(PAnsiChar(@Buf[0])));
+    ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
     ft_stringw: Result := UTF8Encode(WideString(PWideChar(@Buf[0])));
       //TODO: FT_DELAYED,ft_ondemand
     else
