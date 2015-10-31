@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2015-09-07 13:23+0100\n"
+"PO-Revision-Date: 2015-10-29 13:43+0100\n"
 "Last-Translator: Lukáš Novotný <lenochod@tiscali.cz>\n"
 "Language-Team: pestasoft.com <info@pestasoft.com>\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,7 @@ msgstr "<-"
 
 #: tfcolumnssetconf.caption
 msgid "Configure custom columns view"
-msgstr "Nastavit vlastní pohled sloupců"
+msgstr "Nastavit vlastní sloupcové zobrazení"
 
 #: tfcolumnssetconf.cbackgrndlabel.caption
 msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
@@ -138,7 +138,7 @@ msgstr "Pozadí:"
 #: tfcolumnssetconf.cbcursorborder.caption
 msgctxt "tfcolumnssetconf.cbcursorborder.caption"
 msgid "Cursor border"
-msgstr "Okraj ukazatele"
+msgstr "Ohraničení kurzoru"
 
 #: tfcolumnssetconf.cbovercolor.caption
 msgctxt "tfcolumnssetconf.cbovercolor.caption"
@@ -176,12 +176,12 @@ msgstr "Nastavení pohledu č.:"
 #: tfcolumnssetconf.lblcursorcolor.caption
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
 msgid "Cursor Color:"
-msgstr "Barva kursoru:"
+msgstr "Barva kurzoru:"
 
 #: tfcolumnssetconf.lblcursortext.caption
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Text:"
-msgstr "Text kursoru:"
+msgstr "Text kurzoru:"
 
 #: tfcolumnssetconf.lblmarkcolor.caption
 msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
@@ -403,7 +403,7 @@ msgstr "&Adresář"
 
 #: tfrmattributesedit.cbencrypted.caption
 msgid "&Encrypted"
-msgstr "&Kódováno"
+msgstr "Š&ifrováno"
 
 #: tfrmattributesedit.cbhidden.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
@@ -517,8 +517,6 @@ msgid "&Close"
 msgstr "&Zavřít"
 
 #: tfrmchecksumverify.caption
-#, fuzzy
-#| msgid "Verify check sum..."
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify checksum..."
 msgstr "Kontrola kontrolního součtu..."
@@ -566,11 +564,11 @@ msgstr "&Zrušit"
 
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
-msgstr "N&astavení"
+msgstr "M&ožnosti"
 
 #: tfrmcopydlg.btnsaveoptions.caption
 msgid "Sa&ve these options as default"
-msgstr "Ul&ožit tyto předvolby jako výchozí"
+msgstr "Ul&ožit tyto možnosti jako výchozí"
 
 #: tfrmcopydlg.caption
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -974,7 +972,7 @@ msgstr "&Soubor"
 #: tfrmdiffer.mnuoptions.caption
 msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
-msgstr "&Předvolby"
+msgstr "M&ožnosti"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
@@ -1339,7 +1337,7 @@ msgstr "&Pouze celá slova"
 #: tfrmeditsearchreplace.gbsearchoptions.caption
 msgctxt "TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION"
 msgid "Option"
-msgstr "Předvolba"
+msgstr "Možnost"
 
 #: tfrmeditsearchreplace.lblreplacewith.caption
 msgctxt "TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION"
@@ -2130,7 +2128,7 @@ msgstr "Vyberte položky, které chcete importovat"
 
 #: tfrmhotdirexportimport.lbhint.caption
 msgid "When clicking a sub-menu, it will select the whole menu"
-msgstr "Při kliknutí na podmenu, bude vybráno celá menu"
+msgstr "Při kliknutí na podnabídku, bude vybrána celá nabídka"
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
@@ -2170,14 +2168,12 @@ msgid "Down"
 msgstr "Dolů"
 
 #: tfrmlinker.spbtnrem.caption
-#, fuzzy
-msgctxt "tfrmlinker.spbtnrem.caption"
+msgctxt "TFRMLINKER.SPBTNREM.CAPTION"
 msgid "&Remove"
 msgstr "&Smazat"
 
 #: tfrmlinker.spbtnrem.hint
-#, fuzzy
-msgctxt "tfrmlinker.spbtnrem.hint"
+msgctxt "TFRMLINKER.SPBTNREM.HINT"
 msgid "Delete"
 msgstr "Vymazat"
 
@@ -2209,15 +2205,13 @@ msgid "Copy path to command line"
 msgstr "Kopírovat cestu do příkazového řádku"
 
 #: tfrmmain.actbriefview.caption
-#, fuzzy
-#| msgid "Brief"
 msgctxt "tfrmmain.actbriefview.caption"
 msgid "Brief view"
-msgstr "Stručný"
+msgstr "Stručné zobrazení"
 
 #: tfrmmain.actbriefview.hint
 msgid "Brief View"
-msgstr "Stručný pohled"
+msgstr "Stručné zobrazení"
 
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
@@ -2306,18 +2300,17 @@ msgid "Compare Directories"
 msgstr "Porovnat adresáře"
 
 #: tfrmmain.actconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.actconfigdirhotlist.caption"
+msgctxt "TFRMMAIN.ACTCONFIGDIRHOTLIST.CAPTION"
 msgid "Configuration of Directory Hotlist"
-msgstr "Nastavit rychlé adresáře"
+msgstr "Nastavení rychlého adresáře"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Configure toolbar"
-msgstr ""
+msgstr "Konfigurace nástrojové lišty"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
-msgstr "Zobrazit kontextovou nabídku"
+msgstr "Zobrazit místní nabídku"
 
 #: tfrmmain.actcopy.caption
 msgctxt "tfrmmain.actcopy.caption"
@@ -2342,11 +2335,11 @@ msgstr "Kopírovat soubory bez dotazu na potvrzení"
 
 #: tfrmmain.actcopypathnosepoffilestoclip.caption
 msgid "Copy Full Path of selected file(s) with no ending dir separator"
-msgstr ""
+msgstr "Kopírovat úplnou cestu k vybraným souborům bez posledního oddělovače adresářů"
 
 #: tfrmmain.actcopypathoffilestoclip.caption
 msgid "Copy Full Path of selected file(s)"
-msgstr ""
+msgstr "Kopírovat úplnou cestu k vybraným souborům"
 
 #: tfrmmain.actcopysamepanel.caption
 msgid "Copy to same panel"
@@ -2366,7 +2359,7 @@ msgstr "Vyjmout"
 
 #: tfrmmain.actdebugshowcommandparameters.caption
 msgid "Show Command Parameters"
-msgstr ""
+msgstr "Zobrazit parametry příkazu"
 
 #: tfrmmain.actdelete.caption
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
@@ -2384,7 +2377,7 @@ msgstr "&Rychlé adresáře"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Select any command and execute it"
-msgstr ""
+msgstr "Vybrat jakýkoliv příkaz a spustit ho"
 
 #: tfrmmain.actedit.caption
 msgctxt "tfrmmain.actedit.caption"
@@ -2468,11 +2461,11 @@ msgstr "&Klávesnice"
 
 #: tfrmmain.actleftbriefview.caption
 msgid "Brief view on left panel"
-msgstr ""
+msgstr "Stručné zobrazení v levé záložce"
 
 #: tfrmmain.actleftcolumnsview.caption
 msgid "Columns view on left panel"
-msgstr ""
+msgstr "Sloupcové zobrazení v levé záložce"
 
 #: tfrmmain.actleftequalright.caption
 msgid "Left &= Right"
@@ -2480,7 +2473,7 @@ msgstr "Levý &= Pravý"
 
 #: tfrmmain.actleftflatview.caption
 msgid "&Flat view on left panel"
-msgstr ""
+msgstr "&Přímé zobrazení v levé záložce"
 
 #: tfrmmain.actleftopendrives.caption
 msgid "Open left drive list"
@@ -2488,31 +2481,31 @@ msgstr "Otevřít levý seznam disků"
 
 #: tfrmmain.actleftreverseorder.caption
 msgid "Re&verse order on left panel"
-msgstr ""
+msgstr "Opačné pořadí v le&vé záložce"
 
 #: tfrmmain.actleftsortbyattr.caption
 msgid "Sort left panel by &Attributes"
-msgstr ""
+msgstr "Seřadit levou záložku podle &atributů"
 
 #: tfrmmain.actleftsortbydate.caption
 msgid "Sort left panel by &Date"
-msgstr ""
+msgstr "Seřadit levou záložku podle &datumu"
 
 #: tfrmmain.actleftsortbyext.caption
 msgid "Sort left panel by &Extension"
-msgstr ""
+msgstr "S&eřadit levou záložku podle přípony"
 
 #: tfrmmain.actleftsortbyname.caption
 msgid "Sort left panel by &Name"
-msgstr ""
+msgstr "Seřadit levou záložku podle &názvu"
 
 #: tfrmmain.actleftsortbysize.caption
 msgid "Sort left panel by &Size"
-msgstr ""
+msgstr "Seřadit levou záložku podle veliko&sti"
 
 #: tfrmmain.actleftthumbview.caption
 msgid "Thumbnails view on left panel"
-msgstr ""
+msgstr "Zobrazit miniatury v levé záložce"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2564,11 +2557,11 @@ msgstr "Nástroj pro h&romadné přejmenování"
 
 #: tfrmmain.actnetworkconnect.caption
 msgid "Network &Connect..."
-msgstr "Síť &připojit..."
+msgstr "&Připojit síť..."
 
 #: tfrmmain.actnetworkdisconnect.caption
 msgid "Network &Disconnect"
-msgstr "Síť &odpojit"
+msgstr "&Odpojit síť"
 
 #: tfrmmain.actnetworkquickconnect.caption
 msgid "Network &Quick Connect..."
@@ -2610,7 +2603,7 @@ msgstr "&Prohlížeč operací"
 
 #: tfrmmain.actoptions.caption
 msgid "&Options..."
-msgstr "&Předvolby..."
+msgstr "M&ožnosti..."
 
 #: tfrmmain.actpackfiles.caption
 msgid "&Pack Files..."
@@ -2673,11 +2666,11 @@ msgstr "Obrácené &pořadí"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
-msgstr ""
+msgstr "Stručné zobrazení v pravé záložce"
 
 #: tfrmmain.actrightcolumnsview.caption
 msgid "Columns view on right panel"
-msgstr ""
+msgstr "Sloupcové zobrazení v pravé záložce"
 
 #: tfrmmain.actrightequalleft.caption
 msgid "Right &= Left"
@@ -2685,7 +2678,7 @@ msgstr "Pravý &= Levý"
 
 #: tfrmmain.actrightflatview.caption
 msgid "&Flat view on right panel"
-msgstr ""
+msgstr "&Přímé zobrazení v pravé záložce"
 
 #: tfrmmain.actrightopendrives.caption
 msgid "Open right drive list"
@@ -2693,31 +2686,31 @@ msgstr "Otevřít pravý seznam disků"
 
 #: tfrmmain.actrightreverseorder.caption
 msgid "Re&verse order on right panel"
-msgstr ""
+msgstr "Opačné pořadí v pra&vé záložce"
 
 #: tfrmmain.actrightsortbyattr.caption
 msgid "Sort right panel by &Attributes"
-msgstr ""
+msgstr "Seřadit pravou záložku podle &atributů"
 
 #: tfrmmain.actrightsortbydate.caption
 msgid "Sort right panel by &Date"
-msgstr ""
+msgstr "Seřadit pravou záložku podle &datumu"
 
 #: tfrmmain.actrightsortbyext.caption
 msgid "Sort right panel by &Extension"
-msgstr ""
+msgstr "S&eřadit pravou záložku podle přípony"
 
 #: tfrmmain.actrightsortbyname.caption
 msgid "Sort right panel by &Name"
-msgstr ""
+msgstr "Seřadit pravou záložku podle &názvu"
 
 #: tfrmmain.actrightsortbysize.caption
 msgid "Sort right panel by &Size"
-msgstr ""
+msgstr "Seřadit pravou záložku podle veliko&sti"
 
 #: tfrmmain.actrightthumbview.caption
 msgid "Thumbnails view on right panel"
-msgstr ""
+msgstr "Zobrazit miniatury v pravé záložce"
 
 #: tfrmmain.actrunterm.caption
 msgid "Run &Terminal"
@@ -2810,7 +2803,7 @@ msgstr "Řadit podle veliko&sti"
 
 #: tfrmmain.actsrcopendrives.caption
 msgid "Open drive list"
-msgstr ""
+msgstr "Otevřít seznam disků"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
@@ -2836,11 +2829,11 @@ msgstr "&Testovat archív(y)"
 #: tfrmmain.actthumbnailsview.caption
 msgctxt "tfrmmain.actthumbnailsview.caption"
 msgid "Thumbnails"
-msgstr "Náhledy"
+msgstr "Miniatury"
 
 #: tfrmmain.actthumbnailsview.hint
 msgid "Thumbnails View"
-msgstr "Pohled s náhledy"
+msgstr "Zobrazení miniatur"
 
 #: tfrmmain.acttogglefullscreenconsole.caption
 msgid "Toggle fullscreen mode console"
@@ -2848,15 +2841,15 @@ msgstr "Přepnout režim konzoly na celou obrazovku"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
-msgstr "Přenést adresář pod kursorem do levého okna"
+msgstr "Přenést adresář pod kurzorem do levého okna"
 
 #: tfrmmain.acttransferright.caption
 msgid "Transfer dir under cursor to right window"
-msgstr "Přenést adresář pod kursorem do pravého okna"
+msgstr "Přenést adresář pod kurzorem do pravého okna"
 
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
-msgstr ""
+msgstr "Seřadit podle parametrů"
 
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
@@ -2881,7 +2874,7 @@ msgstr "Jít na předchozí položku v historii"
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
-msgstr ""
+msgstr "Zobrazit soubor protokolu"
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -2893,7 +2886,7 @@ msgstr "Nevratně smazat"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
 msgid "Work with Directory Hotlist and paramters"
-msgstr ""
+msgstr "Pracovat s rychlýma adresářema a parametrama"
 
 #: tfrmmain.btnf10.caption
 msgctxt "tfrmmain.btnf10.caption"
@@ -2921,8 +2914,6 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
-#, fuzzy
-#| msgid "Directory hotlist"
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT"
 msgid "Directory Hotlist"
 msgstr "Rychlé adresáře"
@@ -2972,8 +2963,7 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnrightdirectoryhotlist.hint
-#, fuzzy
-msgctxt "tfrmmain.btnrightdirectoryhotlist.hint"
+msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.HINT"
 msgid "Directory Hotlist"
 msgstr "Rychlé adresáře"
 
@@ -3222,7 +3212,7 @@ msgstr "Vytvořit symbolický odkaz..."
 
 #: tfrmmain.mitaboptions.caption
 msgid "Tab options"
-msgstr "Předvolby záložky"
+msgstr "Možnosti záložky"
 
 #: tfrmmain.mitrayiconexit.caption
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
@@ -3253,8 +3243,7 @@ msgid "&Commands"
 msgstr "&Příkazy"
 
 #: tfrmmain.mnucmdconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
+msgctxt "TFRMMAIN.MNUCMDCONFIGDIRHOTLIST.CAPTION"
 msgid "Directory Hotlist"
 msgstr "Rychlé adresáře"
 
@@ -3297,7 +3286,7 @@ msgstr "&Zobrazit"
 #: tfrmmain.mnutaboptions.caption
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "&Options"
-msgstr "&Předvolby"
+msgstr "M&ožnosti"
 
 #: tfrmmain.mnutabs.caption
 msgid "&Tabs"
@@ -3338,84 +3327,79 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmaincommandsdlg.btncancel.caption
-#, fuzzy
-msgctxt "tfrmmaincommandsdlg.btncancel.caption"
+msgctxt "TFRMMAINCOMMANDSDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "&Zrušit"
 
 #: tfrmmaincommandsdlg.btnok.caption
-#, fuzzy
-msgctxt "tfrmmaincommandsdlg.btnok.caption"
+msgctxt "TFRMMAINCOMMANDSDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaincommandsdlg.caption
 msgid "Select your internal command"
-msgstr ""
+msgstr "Vyberte vnitřní příkaz"
 
 #: tfrmmaincommandsdlg.cbcategorysortornot.text
 msgctxt "tfrmmaincommandsdlg.cbcategorysortornot.text"
 msgid "Legacy sorted"
-msgstr ""
+msgstr "Starší řazení"
 
 #: tfrmmaincommandsdlg.cbcommandssortornot.text
-msgctxt "tfrmmaincommandsdlg.cbcommandssortornot.text"
+msgctxt "TFRMMAINCOMMANDSDLG.CBCOMMANDSSORTORNOT.TEXT"
 msgid "Legacy sorted"
-msgstr ""
+msgstr "Starší řazení"
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
-msgstr ""
+msgstr "Jako výchozí, vybrat všechny kategorie"
 
 #: tfrmmaincommandsdlg.gbselection.caption
 msgid "Selection:"
-msgstr ""
+msgstr "Vybráno:"
 
 #: tfrmmaincommandsdlg.lblcategory.caption
 msgid "&Categories:"
-msgstr ""
+msgstr "&Kategorie:"
 
 #: tfrmmaincommandsdlg.lblcommandname.caption
 msgid "Command &name:"
-msgstr ""
+msgstr "&Název příkazu:"
 
 #: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
 msgid "&Filter:"
-msgstr ""
+msgstr "&Filtr:"
 
 #: tfrmmaincommandsdlg.lblhint.caption
 msgid "Hint:"
-msgstr ""
+msgstr "Rada:"
 
 #: tfrmmaincommandsdlg.lblhotkey.caption
 msgid "Hotkey:"
-msgstr ""
+msgstr "Klávesová zkratka:"
 
 #: tfrmmaincommandsdlg.lblselectedcommand.caption
 msgid "cm_name"
-msgstr ""
+msgstr "cm_název"
 
 #: tfrmmaincommandsdlg.lblselectedcommandcategory.caption
-#, fuzzy
-msgctxt "tfrmmaincommandsdlg.lblselectedcommandcategory.caption"
+msgctxt "TFRMMAINCOMMANDSDLG.LBLSELECTEDCOMMANDCATEGORY.CAPTION"
 msgid "Category"
 msgstr "Kategorie"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhelp.caption
-#, fuzzy
-msgctxt "tfrmmaincommandsdlg.lblselectedcommandhelp.caption"
+msgctxt "TFRMMAINCOMMANDSDLG.LBLSELECTEDCOMMANDHELP.CAPTION"
 msgid "Help"
 msgstr "Nápověda"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhint.caption
 msgid "Hint"
-msgstr ""
+msgstr "Rada"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
-#, fuzzy
-msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
+msgctxt "TFRMMAINCOMMANDSDLG.LBLSELECTEDCOMMANDHOTKEY.CAPTION"
 msgid "Hotkey"
-msgstr "Horká klávesa"
+msgstr "Klávesová zkratka"
 
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
@@ -3894,7 +3878,7 @@ msgstr "&OK"
 #: tfrmoptions.caption
 msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
-msgstr "Předvolby"
+msgstr "Možnosti"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
@@ -3926,8 +3910,7 @@ msgid "&Rename"
 msgstr "&Přejmenovat"
 
 #: tfrmoptionsarchivers.btnrelativearchiver.hint
-#, fuzzy
-msgctxt "tfrmoptionsarchivers.btnrelativearchiver.hint"
+msgctxt "TFRMOPTIONSARCHIVERS.BTNRELATIVEARCHIVER.HINT"
 msgid "Some functions to select appropriate path"
 msgstr "Některé funkce pro výběr příslušné cesty"
 
@@ -3949,7 +3932,7 @@ msgstr "U&kázat výstup konzoly"
 #: tfrmoptionsarchivers.gbarchiveroptions.caption
 msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
 msgid "Options"
-msgstr "Předvolby"
+msgstr "Možnosti"
 
 #: tfrmoptionsarchivers.lblarchiveadd.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
@@ -4175,517 +4158,461 @@ msgid "&User home directory"
 msgstr "&Domovský adresář uživatele"
 
 #: tfrmoptionscustomcolumns.btnallallowovercolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLALLOWOVERCOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallallowovercolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLALLOWOVERCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLBACKCOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLBACKCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor2.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLBACKCOLOR2.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor2.hint
-msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLBACKCOLOR2.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallcursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLCURSORCOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallcursorcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLCURSORCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallcursortext.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallcursortext.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLCURSORTEXT.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallcursortext.hint
-msgctxt "tfrmoptionscustomcolumns.btnallcursortext.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLCURSORTEXT.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallfont.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallfont.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLFONT.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnallfont.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallforecolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallforecolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLFORECOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallforecolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnallforecolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLFORECOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLINACTIVECURSORCOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLINACTIVECURSORCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLINACTIVEMARKCOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLINACTIVEMARKCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnallmarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLMARKCOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnallmarkcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLMARKCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINACTIVESELCOLOR.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINACTIVESELCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnalluseinvertedselection.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINVERTEDSELECTION.CAPTION"
 msgid "All"
 msgstr "Vše"
 
 #: tfrmoptionscustomcolumns.btnalluseinvertedselection.hint
-msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINVERTEDSELECTION.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Provede úpravy pro všechny sloupce"
 
 #: tfrmoptionscustomcolumns.btnbackcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnbackcolor2.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnbackcolor2.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNBACKCOLOR2.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btncursorbordercolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btncursorbordercolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORBORDERCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btncursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btncursorcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btncursortext.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btncursortext.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCURSORTEXT.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btndeleteconfigcolumns.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELETECONFIGCOLUMNS.CAPTION"
 msgid "&Delete"
-msgstr "&Vymazat"
+msgstr "&Smazat"
 
 #: tfrmoptionscustomcolumns.btnfont.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFONT.CAPTION"
 msgid "..."
 msgstr "..."
 
 #: tfrmoptionscustomcolumns.btnforecolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnforecolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
-msgstr ""
+msgstr "Přejít na nastavení"
 
 #: tfrmoptionscustomcolumns.btngotosetdefault.hint
-msgctxt "tfrmoptionscustomcolumns.btngotosetdefault.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNGOTOSETDEFAULT.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVECURSORCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btninactivemarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btninactivemarkcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNINACTIVEMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnmarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnmarkcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btnnewconfig.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnnewconfig.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCONFIG.CAPTION"
 msgid "New"
 msgstr "Nový"
 
 #: tfrmoptionscustomcolumns.btnnext.caption
 msgid "Next"
-msgstr ""
+msgstr "Další"
 
 #: tfrmoptionscustomcolumns.btnprev.caption
 msgid "Previous"
-msgstr ""
+msgstr "Předchozí"
 
 #: tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRENAMECONFIGCOLUMNS.CAPTION"
 msgid "Rename"
 msgstr "Přejmenovat"
 
 #: tfrmoptionscustomcolumns.btnresetallowovercolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETALLOWOVERCOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetallowovercolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETALLOWOVERCOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETBACKCOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETBACKCOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETBACKCOLOR2.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETBACKCOLOR2.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetcursorborder.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETCURSORBORDER.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetcursorborder.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETCURSORCOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETCURSORCOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetcursortext.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETCURSORTEXT.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetcursortext.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETCURSORTEXT.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetfont.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetfont.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETFONT.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetfont.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetfont.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETFONT.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetforecolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETFORECOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetforecolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETFORECOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetframecursor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETFRAMECURSOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetframecursor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETFRAMECURSOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETINACTIVECURSORCOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETINACTIVECURSORCOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETINACTIVEMARKCOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETINACTIVEMARKCOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETMARKCOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETMARKCOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETUSEINACTIVESELCOLOR.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETUSEINACTIVESELCOLOR.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETUSEINVERTEDSELECTION.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr "O"
 
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint
-msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNRESETUSEINVERTEDSELECTION.HINT"
 msgid "Reset to default"
-msgstr ""
+msgstr "Obnoví na výchozí hodnoty"
 
 #: tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNSAVEASCONFIGCOLUMNS.CAPTION"
 msgid "Save as"
 msgstr "Uložit jako"
 
 #: tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.btnsaveconfigcolumns.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNSAVECONFIGCOLUMNS.CAPTION"
 msgid "Save"
 msgstr "Uložit"
 
 #: tfrmoptionscustomcolumns.cballowovercolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.cballowovercolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.CBALLOWOVERCOLOR.CAPTION"
 msgid "Allow Overcolor"
 msgstr "Povolit barvu přes"
 
 #: tfrmoptionscustomcolumns.cbapplychangeforallcolumns.caption
 msgid "When clicking to change something, change for all columns"
-msgstr ""
+msgstr "Při provedení jakékoliv změny ji aplikovat na všechny sloupce"
 
 #: tfrmoptionscustomcolumns.cbconfigcolumns.text
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.cbconfigcolumns.text"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.CBCONFIGCOLUMNS.TEXT"
 msgid "General"
 msgstr "Obecné"
 
 #: tfrmoptionscustomcolumns.cbcursorborder.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.cbcursorborder.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.CBCURSORBORDER.CAPTION"
 msgid "Cursor border"
-msgstr "Okraj ukazatele"
+msgstr "Ohraničení kurzoru"
 
 #: tfrmoptionscustomcolumns.cbuseframecursor.caption
 msgid "Use Frame Cursor"
-msgstr ""
+msgstr "Použít ohraničení kurzoru"
 
 #: tfrmoptionscustomcolumns.cbuseinactiveselcolor.caption
 msgid "Use Inactive Selection Color"
-msgstr ""
+msgstr "Použít barvu neaktivního výběru"
 
 #: tfrmoptionscustomcolumns.cbuseinvertedselection.caption
 msgid "Use Inverted Selection"
-msgstr ""
+msgstr "Použít obrácený výběr"
 
 #: tfrmoptionscustomcolumns.chkusecustomview.caption
 msgid "Use custom font and color for this view"
-msgstr ""
+msgstr "Použít vlastní písmo a barvu pro toto zobrazení"
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLBACKCOLOR.CAPTION"
 msgid "BackGround:"
 msgstr "Pozadí:"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLBACKCOLOR2.CAPTION"
 msgid "Background 2:"
 msgstr "Pozadí 2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#, fuzzy
-#| msgid "Con&figure columns for file system:"
 msgid "Con&figure columns view:"
-msgstr "Kon&figurace sloupců pro systém souborů:"
+msgstr "Kon&figurace sloupcového zobrazení:"
 
 #: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
 msgid "[Current Column Name]"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.lblcursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblcursorcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCURSORCOLOR.CAPTION"
 msgid "Cursor Color:"
-msgstr "Barva kursoru:"
+msgstr "Barva kurzoru:"
 
 #: tfrmoptionscustomcolumns.lblcursortext.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblcursortext.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Text:"
-msgstr "Text kursoru:"
+msgstr "Text kurzoru:"
 
 #: tfrmoptionscustomcolumns.lblfontname.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblfontname.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLFONTNAME.CAPTION"
 msgid "Font:"
 msgstr "Písmo:"
 
 #: tfrmoptionscustomcolumns.lblfontsize.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblfontsize.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLFONTSIZE.CAPTION"
 msgid "Size:"
 msgstr "Velikost:"
 
 #: tfrmoptionscustomcolumns.lblforecolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLFORECOLOR.CAPTION"
 msgid "Text Color:"
 msgstr "Barva písma:"
 
 #: tfrmoptionscustomcolumns.lblinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblinactivecursorcolor.caption"
 msgid "Inactive Cursor Color:"
-msgstr ""
+msgstr "Barva neaktivního kurzoru:"
 
 #: tfrmoptionscustomcolumns.lblinactivemarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblinactivemarkcolor.caption"
 msgid "Inactive Mark Color:"
-msgstr ""
+msgstr "Barva neaktivního označení:"
 
 #: tfrmoptionscustomcolumns.lblmarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblmarkcolor.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLMARKCOLOR.CAPTION"
 msgid "Mark Color:"
 msgstr "Barva označených:"
 
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLPREVIEWTOP.CAPTION"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Níže je náhled. Můžeme pohybovat kursorem a vybrat soubory, a okamžitě získáme aktuální vzhled podle různých nastavení."
+msgstr "Níže je náhled. Můžeme pohybovat kurzorem a vybrat soubory, a okamžitě získáme aktuální vzhled podle různých nastavení."
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
-msgstr ""
+msgstr "Nastavení pro sloupec:"
 
 #: tfrmoptionscustomcolumns.miaddcolumn.caption
-#, fuzzy
-msgctxt "tfrmoptionscustomcolumns.miaddcolumn.caption"
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.MIADDCOLUMN.CAPTION"
 msgid "Add column"
 msgstr "Přidat sloupec"
 
@@ -4775,7 +4702,7 @@ msgstr "Rychlé adresáře (lze přeskupit přetáhnutím)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgid "Other options"
-msgstr "Další "
+msgstr "Další možnosti"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.LBLEDITHOTDIRNAME.EDITLABEL.CAPTION"
@@ -4835,12 +4762,12 @@ msgstr "Přidat oddělovač"
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIADDSUBMENU.CAPTION"
 msgid "sub-menu"
-msgstr "podmenu"
+msgstr "podnabídka"
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIADDSUBMENU2.CAPTION"
 msgid "Add sub-menu"
-msgstr "Přidat podmenu"
+msgstr "Přidat podnabídku"
 
 #: tfrmoptionsdirectoryhotlist.mibrowsetodirectory.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIBROWSETODIRECTORY.CAPTION"
@@ -4872,12 +4799,12 @@ msgstr "vymazat vše!"
 #: tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIDELETECOMPLETESUBMENU.CAPTION"
 msgid "sub-menu and all its elements"
-msgstr "podmenu a všechny její prvky"
+msgstr "podnabídku a všechny její prvky"
 
 #: tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIDELETEJUSTSUBMENU.CAPTION"
 msgid "just sub-menu but keep elements"
-msgstr "jen podmenu, a prvky zůstanou"
+msgstr "jen podnabídky, prvky zůstanou"
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIDELETESELECTEDENTRY.CAPTION"
@@ -5048,16 +4975,16 @@ msgstr "Seřadit pouze jednu skupinu položek"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgid "...content of submenu(s) selected, no sublevel"
-msgstr "...obsah vybraného podmenu, ne podúrovně"
+msgstr "...obsah vybrané podnabídky, ne podúrovně"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
 msgid "...content of submenu(s) selected and all sublevels"
-msgstr "...obsah vybraného podmenu, a všech podúrovní"
+msgstr "...obsah vybrané podnabídky, a všech podúrovní"
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MITESTRESULTINGHOTLISTMENU.CAPTION"
 msgid "Test resulting menu"
-msgstr "Otestovat výsledné zobrazení menu"
+msgstr "Otestovat výsledné zobrazení nabídky"
 
 #: tfrmoptionsdirectoryhotlist.mitypethedirectory.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MITYPETHEDIRECTORY.CAPTION"
@@ -5087,7 +5014,7 @@ msgstr "Při ukládání textu Unicode ho uloží ve formátu UTF8 (jinak v UTF1
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr "Při upuštění textu, generovat název souboru automaticky (jinak vyzve uživatele)"
+msgstr "Po upuštění textu, generovat název souboru automaticky (jinak vyzve uživatele)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -5263,7 +5190,7 @@ msgstr "P&řidat"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
 msgid "Clone"
-msgstr ""
+msgstr "Klonovat"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNDOWNACT.CAPTION"
@@ -5271,20 +5198,19 @@ msgid "&Down"
 msgstr "&Dolů"
 
 #: tfrmoptionsfileassoc.btneditext.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassoc.btneditext.caption"
+msgctxt "TFRMOPTIONSFILEASSOC.BTNEDITEXT.CAPTION"
 msgid "Edit"
 msgstr "Upravit"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
 msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
 msgid "Insert"
-msgstr ""
+msgstr "Vložit"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
-msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
+msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
 msgid "Insert"
-msgstr ""
+msgstr "Vložit"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNREMOVEACT.CAPTION"
@@ -5313,23 +5239,23 @@ msgstr "&Nahoru"
 
 #: tfrmoptionsfileassoc.destartpath.hint
 msgid "Starting path of the command. Never quote this string."
-msgstr ""
+msgstr "Výchozí cesta k příkazu. Nikdy tento řetězec nevkládat do uvovozovek."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
 msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
-msgstr ""
+msgstr "Název akce. Není nikdy předán do systému, je to jen symbolické jméno vybrané od vás, pro vás"
 
 #: tfrmoptionsfileassoc.edtparams.hint
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
-msgstr ""
+msgstr "Parametr bude předán příkazu. Dlouhý název s mezerami by měly být uzavřen do uvozovek."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Long filename with space should be quoted."
-msgstr ""
+msgstr "Příkaz k vykonání. Dlouhý název s mezerou by měly být uzavřen do uvozovek."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description:"
-msgstr ""
+msgstr "Popis akce:"
 
 #: tfrmoptionsfileassoc.gbactions.caption
 msgctxt "TFRMOPTIONSFILEASSOC.GBACTIONS.CAPTION"
@@ -5343,7 +5269,7 @@ msgstr "Přípony"
 
 #: tfrmoptionsfileassoc.gbexts.hint
 msgid "Can be sorted by drag & drop"
-msgstr ""
+msgstr "Může být seřazeno přetáhnutím"
 
 #: tfrmoptionsfileassoc.gbfiletypes.caption
 msgctxt "TFRMOPTIONSFILEASSOC.GBFILETYPES.CAPTION"
@@ -5357,22 +5283,20 @@ msgstr "Ikona"
 
 #: tfrmoptionsfileassoc.lbactions.hint
 msgid "Actions may be sorted by drag & drop"
-msgstr ""
+msgstr "Akce mohou být seřazeny přetáhnutím"
 
 #: tfrmoptionsfileassoc.lbexts.hint
 msgid "Extensions may be sorted by drag & drop"
-msgstr ""
+msgstr "Přípony mohou být seřazeny přetáhnutím"
 
 #: tfrmoptionsfileassoc.lbfiletypes.hint
 msgid "File types may be sorted by drag & drop"
-msgstr ""
+msgstr "Typy souborů mohou být seřazeny přetáhnutím"
 
 #: tfrmoptionsfileassoc.lblaction.caption
-#, fuzzy
-#| msgid "Action:"
 msgctxt "TFRMOPTIONSFILEASSOC.LBLACTION.CAPTION"
 msgid "Action name:"
-msgstr "Akce:"
+msgstr "Název akce:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "TFRMOPTIONSFILEASSOC.LBLCOMMAND.CAPTION"
@@ -5380,34 +5304,31 @@ msgid "&Command:"
 msgstr "&Příkaz:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
+msgctxt "TFRMOPTIONSFILEASSOC.LBLEXTERNALPARAMETERS.CAPTION"
 msgid "Parameter&s:"
 msgstr "Parametr&y:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters1.caption
 msgid "Start path:"
-msgstr ""
+msgstr "Výchozí cesta:"
 
 #: tfrmoptionsfileassoc.lblstartpath.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
+msgctxt "TFRMOPTIONSFILEASSOC.LBLSTARTPATH.CAPTION"
 msgid "Start pat&h:"
 msgstr "Výchozí cest&a:"
 
 #: tfrmoptionsfileassoc.menuitem1.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
+msgctxt "TFRMOPTIONSFILEASSOC.MENUITEM1.CAPTION"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
-msgstr ""
+msgstr "Vlastní s..."
 
 #: tfrmoptionsfileassoc.micustom.caption
 msgid "Custom"
-msgstr ""
+msgstr "Vlastní"
 
 #: tfrmoptionsfileassoc.miedit.caption
 msgctxt "TFRMOPTIONSFILEASSOC.MIEDIT.CAPTION"
@@ -5421,7 +5342,7 @@ msgstr "Otevřít v editoru"
 
 #: tfrmoptionsfileassoc.mieditwith.caption
 msgid "Edit with..."
-msgstr ""
+msgstr "Upravit s..."
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgctxt "TFRMOPTIONSFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION"
@@ -5430,11 +5351,11 @@ msgstr "Získat výstup příkazu"
 
 #: tfrmoptionsfileassoc.miinternaleditor.caption
 msgid "Open in Internal Editor"
-msgstr ""
+msgstr "Otevřít s vnitřním editorem"
 
 #: tfrmoptionsfileassoc.miinternalviewer.caption
 msgid "Open in Internal Viewer"
-msgstr ""
+msgstr "Otevřít s vnitřním prohlížečem"
 
 #: tfrmoptionsfileassoc.miopen.caption
 msgctxt "TFRMOPTIONSFILEASSOC.MIOPEN.CAPTION"
@@ -5443,11 +5364,10 @@ msgstr "Otevřít"
 
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
-msgstr ""
+msgstr "Otevřít s..."
 
 #: tfrmoptionsfileassoc.miseparator.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassoc.miseparator.caption"
+msgctxt "TFRMOPTIONSFILEASSOC.MISEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -5468,34 +5388,33 @@ msgstr "Otevřít v prohlížeči"
 
 #: tfrmoptionsfileassoc.miviewwith.caption
 msgid "View with..."
-msgstr ""
+msgstr "Zobrazit s..."
 
 #: tfrmoptionsfileassoc.sbtnicon.hint
 msgid "Click me to change icon!"
-msgstr ""
+msgstr "Klikni pro změnu ikony!"
 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
+msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXECUTEVIASHELL.CAPTION"
 msgid "Execute via shell"
 msgstr "Spustit přes shell"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
-msgstr ""
+msgstr "Rozšířená místní nabídka"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
+msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr ""
+msgstr "Při přidružení souboru, nabídne přidat aktuální vybraný soubor, pokud již není zahrnut v seznamu nakonfigurovaných typů souboru"
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
-msgstr ""
+msgstr "Konfigurační soubor přidružení"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
 msgid "Offer to add selection to file association when not included already"
-msgstr ""
+msgstr "Nabídnout přidání přidružení souboru, pokud již není zahrnutý"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
@@ -5503,20 +5422,18 @@ msgid "When accessing file association, offer to add current selected file if no
 msgstr ""
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
+msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBOPENSYSTEMWITHTERMINALCLOSE.CAPTION"
 msgid "Execute via terminal and close"
 msgstr "Spustit přes terminál a zavřít"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
+msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBOPENSYSTEMWITHTERMINALSTAYOPEN.CAPTION"
 msgid "Execute via terminal and stay open"
-msgstr "Spustit přes terminál a ponechat otevřené"
+msgstr "Spustit přes terminál a ponechat otevřený"
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
 msgid "Extended options items:"
-msgstr ""
+msgstr "Rozšířené položky:"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.BVLCONFIRMATIONS.CAPTION"
@@ -5591,7 +5508,7 @@ msgstr "&Velikost vyrovnávací paměti pro operace se soubory (v KB):"
 
 #: tfrmoptionsfileoperations.lblhashbuffersize.caption
 msgid "Buffer size for &hash calculation (in KB):"
-msgstr ""
+msgstr "Velikost vyrovnávací paměti pro výpočet &hash (v KB):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
@@ -5629,8 +5546,7 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btncursorbordercolor.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilepanelscolors.btncursorbordercolor.caption"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORBORDERCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -5650,14 +5566,12 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINACTIVECURSORCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINACTIVEMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -5678,17 +5592,16 @@ msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
-msgstr ""
+msgstr "Obnovit DC na výchozí"
 
 #: tfrmoptionsfilepanelscolors.cballowovercolor.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilepanelscolors.cballowovercolor.caption"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBALLOWOVERCOLOR.CAPTION"
 msgid "Allow Overcolor"
 msgstr "Povolit barvu přes"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgid "Use &Frame Cursor"
-msgstr "Použít &rámce kurzoru"
+msgstr "Použít oh&raničení kurzoru"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
 msgid "Use &Gradient Indicator"
@@ -5696,17 +5609,16 @@ msgstr "Použít ukazatel &barevného přechodu"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
-msgstr ""
+msgstr "Barva pro výběr neaktivního"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 msgid "U&se Inverted Selection"
 msgstr "P&oužít obrácený výběr"
 
 #: tfrmoptionsfilepanelscolors.cbusecursorborder.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilepanelscolors.cbusecursorborder.caption"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBUSECURSORBORDER.CAPTION"
 msgid "Cursor border"
-msgstr "Okraj ukazatele"
+msgstr "Ohraničení kurzoru"
 
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
@@ -5725,22 +5637,22 @@ msgstr "Poz&adí 2:"
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
 msgid "C&ursor Color:"
-msgstr "B&arva kursoru:"
+msgstr "B&arva kurzoru:"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Te&xt:"
-msgstr "Te&xt kursoru:"
+msgstr "Te&xt kurzoru:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVECURSORCOLOR.CAPTION"
 msgid "Inactive Cursor Color:"
-msgstr ""
+msgstr "Barva neaktivního kurzoru:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEMARKCOLOR.CAPTION"
 msgid "Inactive Mark Color:"
-msgstr ""
+msgstr "Barva neaktivního označení:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
 msgid "&Brightness level of inactive panel"
@@ -5761,7 +5673,7 @@ msgstr "&Barva označených:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
-msgstr ""
+msgstr "Níže je náhled. Můžeme pohybovat kurzorem a vybrat soubory, a okamžitě získáme aktuální vzhled podle různých nastavení."
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
@@ -5801,7 +5713,7 @@ msgstr "Zobrazit s&ystémové a skryté soubory"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "&Při výběru souboru <mezerníkem> posunout kursor dolů na další soubor, jako při výběru klávesou <Insert>"
+msgstr "&Při výběru souboru <mezerníkem> posunout kurzor dolů na další soubor, jako při výběru klávesou <Insert>"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -5983,27 +5895,24 @@ msgid "&Shortcut files:"
 msgstr "&Soubory zástupců:"
 
 #: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-#, fuzzy
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
+msgctxt "TFRMOPTIONSHOTKEYS.STGCOMMANDS.COLUMNS[0].TITLE.CAPTION"
 msgid "Command"
 msgstr "Příkaz"
 
 #: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-#, fuzzy
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
+msgctxt "TFRMOPTIONSHOTKEYS.STGCOMMANDS.COLUMNS[1].TITLE.CAPTION"
 msgid "Hotkeys"
-msgstr "Horké klávesy"
+msgstr "Klávesové zkratky"
 
 #: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-#, fuzzy
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
+msgctxt "TFRMOPTIONSHOTKEYS.STGCOMMANDS.COLUMNS[2].TITLE.CAPTION"
 msgid "Description"
 msgstr "Popis"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
-msgstr "Horká klávesa"
+msgstr "Klávesová zkratka"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
@@ -6088,8 +5997,7 @@ msgid "Add selected names with &full path"
 msgstr "Přidat označené názvy s ú&plnou cestou"
 
 #: tfrmoptionsignorelist.btnrelativesavein.hint
-#, fuzzy
-msgctxt "tfrmoptionsignorelist.btnrelativesavein.hint"
+msgctxt "TFRMOPTIONSIGNORELIST.BTNRELATIVESAVEIN.HINT"
 msgid "Some functions to select appropriate path"
 msgstr "Některé funkce pro výběr příslušné cesty"
 
@@ -6159,7 +6067,7 @@ msgstr "Zobrazovat panel operací na pozadí"
 #: tfrmoptionslayout.cbproginmenubar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBPROGINMENUBAR.CAPTION"
 msgid "Show common progress in menu bar"
-msgstr "Zobrazovat běžný průběh v panelu nabídky"
+msgstr "Zobrazovat běžný průběh v liště nabídky"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
@@ -6255,7 +6163,7 @@ msgstr "&Komprese/Dekomprese"
 
 #: tfrmoptionslog.cblogcommandlineexecution.caption
 msgid "External command line execution"
-msgstr ""
+msgstr "Spuštění externího příkazového řádku"
 
 #: tfrmoptionslog.cblogcpmvln.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
@@ -6360,7 +6268,7 @@ msgstr "&Uložit miniatury ve vyrovnávací paměti"
 #: tfrmoptionsmisc.dblthumbnails.caption
 msgctxt "TFRMOPTIONSMISC.DBLTHUMBNAILS.CAPTION"
 msgid "Thumbnails"
-msgstr "Náhledy"
+msgstr "Miniatury"
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
@@ -6527,7 +6435,7 @@ msgstr "&Konec (poslední znak před . musí odpovídat zadanému)"
 #: tfrmoptionsquicksearchfilter.cgpoptions.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
 msgid "Options"
-msgstr "Předvolby"
+msgstr "Možnosti"
 
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
 msgid "Exact name match"
@@ -6603,15 +6511,15 @@ msgstr "Pozice zá&ložek"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
-msgstr ""
+msgstr "Příkaz pouze pro spuštění terminálu:"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr ""
+msgstr "Příkaz pro spuštění v terminálu a terminál se zavře:"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr ""
+msgstr "Příkaz pro spuštění v terminálu a terminál zůstane otevřený:"
 
 #: tfrmoptionsterminal.lblruninterm.caption
 msgid "Run in &terminal:"
@@ -6622,52 +6530,49 @@ msgid "Run t&erminal:"
 msgstr "Spustit t&erminál:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-#, fuzzy
-msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSECMD.EDITLABEL.CAPTION"
 msgid "Command:"
 msgstr "Příkaz:"
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parametry:"
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
 msgid "{command} should normally present here to releft the command to be run in terminal"
-msgstr ""
+msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
 
 #: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-#, fuzzy
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
+msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENCMD.EDITLABEL.CAPTION"
 msgid "Command:"
 msgstr "Příkaz:"
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
+msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.EDITLABEL.CAPTION"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parametry:"
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
+msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally present here to releft the command to be run in terminal"
-msgstr ""
+msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
 
 #: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-#, fuzzy
-msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
+msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMCMD.EDITLABEL.CAPTION"
 msgid "Command:"
 msgstr "Příkaz:"
 
 #: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
+msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.EDITLABEL.CAPTION"
 msgid "Parameters:"
-msgstr ""
+msgstr "Parametry:"
 
 #: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
+msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT"
 msgid "{command} should normally present here to releft the command to be run in terminal"
-msgstr ""
+msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"
@@ -6767,7 +6672,7 @@ msgstr "Klávesová zkratka:"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
 msgid "Ico&n:"
-msgstr "Iko&na:"
+msgstr "Ik&ona:"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
 msgid "Icon si&ze:"
@@ -6790,7 +6695,7 @@ msgstr "Výchozí cest&a:"
 
 #: tfrmoptionstoolbar.lbltooltip.caption
 msgid "&Tooltip:"
-msgstr "&Nástrojový tip:"
+msgstr "Nástro&jový tip:"
 
 #: tfrmoptionstoolbar.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
@@ -6802,7 +6707,7 @@ msgstr "pro externí příkaz"
 
 #: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
-msgstr "pro interní příkaz"
+msgstr "pro vnitřní příkaz"
 
 #: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
 msgid "for a separator"
@@ -6810,7 +6715,7 @@ msgstr "pro oddělovač"
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
-msgstr "pro podmenu nástrojové lišty"
+msgstr "pro podnabídku nástrojové lišty"
 
 #: tfrmoptionstoolbar.mibackup.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIBACKUP.CAPTION"
@@ -6939,8 +6844,6 @@ msgid "to add to current toolbar"
 msgstr "přidat do aktuální nástrojové lišty"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "přidat novou lištu do aktuální nástrojové lišty"
@@ -7004,8 +6907,6 @@ msgid "to add to current toolbar"
 msgstr "přidat do aktuální nástrojové lišty"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "přidat novou lištu do aktuální nástrojové lišty"
@@ -7035,8 +6936,6 @@ msgid "to add to current toolbar"
 msgstr "přidat do aktuální nástrojové lišty"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-#, fuzzy
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "přidat novou lištu do aktuální nástrojové lišty"
@@ -7201,8 +7100,7 @@ msgid "Button type"
 msgstr "Typ tlačítka"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
-#, fuzzy
-msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
+msgctxt "TFRMOPTIONSTOOLBASE.BTNRELATIVETOOLPATH.HINT"
 msgid "Some functions to select appropriate path"
 msgstr "Některé funkce pro výběr příslušné cesty"
 
@@ -7342,7 +7240,7 @@ msgstr "Sa&morozbalovací archív"
 
 #: tfrmpackdlg.cbencrypt.caption
 msgid "Encr&ypt"
-msgstr "Za&kódovat"
+msgstr "Zaši&frovat"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
 msgid "Mo&ve to archive"
@@ -7396,7 +7294,7 @@ msgstr "Atributy:"
 
 #: tfrmpackinfodlg.lblcompressionratio.caption
 msgid "Compression ratio:"
-msgstr "Kompresní poměr:"
+msgstr "Komprimační poměr:"
 
 #: tfrmpackinfodlg.lbldate.caption
 msgid "Date:"
@@ -7674,8 +7572,7 @@ msgid "Execute"
 msgstr "Spustit"
 
 #: tfrmsetfileproperties.lblmodeinfo.caption
-#, fuzzy
-msgctxt "tfrmsetfileproperties.lblmodeinfo.caption"
+msgctxt "TFRMSETFILEPROPERTIES.LBLMODEINFO.CAPTION"
 msgid "(gray field means unchanged value)"
 msgstr "(šedá pole znamenají nezměněné hodnoty)"
 
@@ -7742,7 +7639,7 @@ msgstr "&Cílový adresář"
 
 #: tfrmsplitter.lbfilesource.caption
 msgid "File &source"
-msgstr "Zdroj &souboru"
+msgstr "Zdrojový &soubor"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
@@ -8028,7 +7925,7 @@ msgstr "Může ma&zat soubory"
 
 #: tfrmtweakplugin.cbpk_caps_encrypt.caption
 msgid "Supports e&ncryption"
-msgstr "Podporuje kó&dování"
+msgstr "Po&dporuje šifrování"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
 msgid "Sho&w as normal files (hide packer icon)"
@@ -8052,7 +7949,7 @@ msgstr "Může vytvářet nové arch&ívy"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
 msgid "S&upports the options dialogbox"
-msgstr "P&odporuje dialog s nastavením"
+msgstr "P&odporuje okno s možnostmi"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
 msgid "Allow searchin&g for text in archives"
@@ -9095,7 +8992,7 @@ msgstr "s externím prohlížečem"
 
 #: ulng.rseditwithinternaleditor
 msgid "with internal editor"
-msgstr "s interním prohlížečem"
+msgstr "s vnitřním prohlížečem"
 
 #: ulng.rsexecuteviashell
 msgctxt "ulng.rsexecuteviashell"
@@ -9208,7 +9105,7 @@ msgstr "Komentář"
 
 #: ulng.rsfunccompressedsize
 msgid "Compressed size"
-msgstr "Stlačená velikost"
+msgstr "Komprimovaná velikost"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
@@ -9325,7 +9222,7 @@ msgstr "Vstupní maska:"
 
 #: ulng.rsmenuconfigurecolumnsalreadyexists
 msgid "A columns view with that name already exists."
-msgstr "Zobrazé sloupce s tímto názvem již existují."
+msgstr "Zobrazené sloupce s tímto názvem již existují."
 
 #: ulng.rsmenuconfigurecolumnssavetochange
 msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
@@ -9341,7 +9238,7 @@ msgstr "Zadejte nový název vlastních sloupců"
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
-msgstr "Nastavit tento vlastní pohled"
+msgstr "Nastavit vlastní sloupcové zobrazení"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -9443,7 +9340,7 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
-"Možnosti týkající se zobrazení sloupce byly změněny.\n"
+"Možnosti týkající se sloupcového zobrazení byly změněny.\n"
 "\n"
 "Chcete je před ukončením uložit?\n"
 
@@ -9601,7 +9498,7 @@ msgstr "Funkce není podporována!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr "Chyba v příkazu kontextové nabídky"
+msgstr "Chyba v příkazu místní nabídky"
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
@@ -9637,7 +9534,7 @@ msgstr "Nelze nastavit vlastníka/skupinu pro \"%s \""
 
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
-msgstr ""
+msgstr "Oprávnění pro \"%s\" nelze nastavit"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -9868,11 +9765,11 @@ msgstr "Příkaz:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgid "(end of sub menu)"
-msgstr "(konec v podmenu)"
+msgstr "(konec v podnabídce)"
 
 #: ulng.rsmsghotdirsimplemenu
 msgid "Menu name:"
-msgstr "Název menu:"
+msgstr "Název nabídky:"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
@@ -9885,11 +9782,11 @@ msgstr "(oddělovač)"
 
 #: ulng.rsmsghotdirsubmenuname
 msgid "Submenu name"
-msgstr "Název podmenu"
+msgstr "Název podnabídky"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr ""
+msgstr "Cíl rychlého adresáře"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
@@ -9922,8 +9819,8 @@ msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
-"Chcete smazat všechny prvky uvnitř podmenu [%s]?\n"
-"Odpověď NE smaže pouze oddělovače menu, ale nezmění prvek uvnitř podmenu.\n"
+"Chcete smazat všechny prvky uvnitř podnabídky [%s]?\n"
+"Odpověď NE smaže pouze oddělovače nabídky, ale nezmění prvek uvnitř podnabídky.\n"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -10122,7 +10019,7 @@ msgstr "Není implementováno."
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Níže je náhled. Můžeme pohybovat kursorem a vybrat soubory, a okamžitě získáme aktuální vzhled podle různých nastavení."
+msgstr "Níže je náhled. Můžeme pohybovat kurzorem a vybrat soubory, a okamžitě získáme aktuální vzhled podle různých nastavení."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
@@ -10503,7 +10400,7 @@ msgstr "Rozbalování"
 
 #: ulng.rsoperextractingfromto
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr "Načtení z \"%s\" do \"%s\""
+msgstr "Rozbaluji z \"%s\" do \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -10653,7 +10550,7 @@ msgstr "Smazat:"
 
 #: ulng.rsoptarchiveextractwithoutpath
 msgid "Extract without path:"
-msgstr "Extrahovat bez cesty:"
+msgstr "Rozbalit bez cesty:"
 
 #: ulng.rsoptarchiveformmode
 msgid "Format parsing mode:"
@@ -10805,12 +10702,12 @@ msgstr "Opravit parametr"
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
 msgid "Hotkey"
-msgstr "Horká klávesa"
+msgstr "Klávesová zkratka"
 
 #: ulng.rsopthotkeyshotkeys
 msgctxt "ulng.rsopthotkeyshotkeys"
 msgid "Hotkeys"
-msgstr "Horké klávesy"
+msgstr "Klávesové zkratky"
 
 #: ulng.rsopthotkeysnohotkey
 msgid "<none>"
@@ -10831,7 +10728,7 @@ msgstr "Pro toto nastavení, aby pracoval zástupce %s, musí zástupce %s být 
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "Zástupce %s pro cm_Delete je sekvence zkratek pro které nesmí být přidělena obrácená zkratka Shift. Toto nastavení nemusí fungovat."
+msgstr "Zástupce %s pro cm_Delete je sekvence zkratek pro které nesmí být přidělena obrácená klávesová zkratka Shift. Toto nastavení nemusí fungovat."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -11510,7 +11407,7 @@ msgstr "s externím prohlížečem"
 
 #: ulng.rsviewwithinternalviewer
 msgid "with internal viewer"
-msgstr "s interním prohlížečem"
+msgstr "s vnitřním prohlížečem"
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
@@ -11519,4 +11416,3 @@ msgstr "Počet nahrazených: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Žádné nahrazení se nekonalo."
-
