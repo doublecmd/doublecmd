@@ -4741,22 +4741,43 @@ begin
         end
       else
         begin
-          if gTermWindow and Assigned(Cons) then
+          {$IFDEF MSWINDOWS}
+          //Let's see if user typed something like "c:", "X:", etc. and if so, switch active panel to that drive (like TC)
+          if (length(sCmd)=2) AND (pos(':',sCmd)=2) then
           begin
-            sCmd:= ReplaceEnvVars(sCmd);
-            Cons.Terminal.Write_pty(sCmd + sLineBreak)
-          end
-          else
-          begin
-            try
-              SplitCmdLineToCmdParams(sCmd, sCmd, sParams); //TODO:Hum...
-              ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath, nil, bRunInTerm, bRunInTerm);
-            except
-              on e: EInvalidCommandLine do
-                MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+            iIndex:=0;
+
+            while (iIndex<DrivesList.Count) AND (sCmd<>'') do
+            begin
+              if lowercase(sCmd[1]) = lowercase(PDrive(DrivesList.Items[iIndex])^.DisplayName) then
+              begin
+                SetPanelDrive(PanelSelected, DrivesList.Items[iIndex],false);
+                sCmd:='';
+              end;
+              inc(iIndex);
             end;
           end;
-        end;
+          {$ENDIF}
+
+          if sCmd<>'' then
+          begin
+            if gTermWindow and Assigned(Cons) then
+            begin
+              sCmd:= ReplaceEnvVars(sCmd);
+              Cons.Terminal.Write_pty(sCmd + sLineBreak)
+            end
+            else
+            begin
+              try
+                SplitCmdLineToCmdParams(sCmd, sCmd, sParams); //TODO:Hum...
+                ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath, nil, bRunInTerm, bRunInTerm);
+              except
+                on e: EInvalidCommandLine do
+                  MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+              end;
+            end;
+          end;
+      end;
     end
   else
     begin
