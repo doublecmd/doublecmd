@@ -2058,6 +2058,10 @@ msgstr "Mida desde:"
 msgid "Si&ze to:"
 msgstr "Mida fins:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

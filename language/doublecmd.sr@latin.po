@@ -1929,6 +1929,10 @@ msgstr "Od &veličine:"
 msgid "Si&ze to:"
 msgstr "Do &veličine:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

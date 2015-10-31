@@ -1915,6 +1915,10 @@ msgstr "Розмір &від:"
 msgid "Si&ze to:"
 msgstr "Розмір &до:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

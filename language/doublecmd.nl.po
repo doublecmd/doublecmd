@@ -2010,6 +2010,10 @@ msgstr "Bestandsgrootte vanaf:"
 msgid "Si&ze to:"
 msgstr "Bestandsgrootte tot:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

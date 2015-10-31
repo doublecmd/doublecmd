@@ -2076,6 +2076,10 @@ msgstr "다음 크기에서:"
 msgid "Si&ze to:"
 msgstr "다음 크기까지:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
