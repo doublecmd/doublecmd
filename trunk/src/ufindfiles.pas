@@ -56,6 +56,7 @@ type
     IsPartialNameSearch: Boolean;
     FollowSymLinks: Boolean;
     AttributesPattern: String;
+    FindInArchives: Boolean;
     { Date/time }
     IsDateFrom,
     IsDateTo,

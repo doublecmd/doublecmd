@@ -29,7 +29,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks;
+  Classes, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks;
 
 type
 
@@ -51,6 +51,7 @@ type
     FFilesMasks: TMaskList;
     FExcludeFiles: TMaskList;
     FExcludeDirectories: TMaskList;
+    procedure FindInArchive(const FileName: String);
     function CheckFileName(const FileName: String) : Boolean;
     function CheckDirectoryName(const DirectoryName: String) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
@@ -79,7 +80,7 @@ implementation
 uses
   LCLProc, StrUtils, LConvEncoding, SynRegExpr, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
-  uLog;
+  uLog, uWCXmodule, WcxPlugin, Math, uDCUtils;
 
 { TFindThread }
 
@@ -328,6 +329,110 @@ begin
   end;
 end;
 
+procedure TFindThread.FindInArchive(const FileName: String);
+var
+  Index: Integer;
+  Header: TWcxHeader;
+
+  function CheckHeader: Boolean;
+  var
+    DirectoryName: String;
+  begin
+    with FSearchTemplate do
+    begin
+      DirectoryName:= ExtractFileName(ExtractFileDir(Header.FileName));
+      if not CheckDirectoryName(DirectoryName) then Exit(False);
+
+      if not CheckFileName(ExtractFileName(Header.FileName)) then
+        Exit(False);
+
+      if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
+        Result := CheckFileDateTime(FFileChecks, WcxFileTimeToDateTime(Header));
+
+      if (IsFileSizeFrom or IsFileSizeTo) and Result then
+        Result := CheckFileSize(FFileChecks, Header.UnpSize);
+
+      if Result then
+        Result := CheckFileAttributes(FFileChecks, Header.FileAttr);
+    end;
+  end;
+
+var
+  Flags: Integer;
+  Result: Boolean;
+  Operation: Integer;
+  TargetPath: String;
+  ArcHandle: TArcHandle;
+  TargetFileName: String;
+  WcxModule: TWcxModule = nil;
+begin
+  TargetPath:= ExtractOnlyFileExt(FileName);
+
+  for Index := 0 to gWCXPlugins.Count - 1 do
+  begin
+    if SameText(TargetPath, gWCXPlugins.Ext[Index]) and (gWCXPlugins.Enabled[Index]) then
+    begin
+      if FSearchTemplate.IsFindText and (gWCXPlugins.Flags[Index] and PK_CAPS_SEARCHTEXT = 0) then
+        Continue;
+      WcxModule:= gWCXPlugins.LoadModule(GetCmdDirFromEnvVar(gWCXPlugins.FileName[Index]));
+      Break;
+    end;
+  end;
+
+  if Assigned(WcxModule) then
+  begin
+    if FSearchTemplate.IsFindText then
+    begin
+      Flags:= PK_OM_EXTRACT;
+      Operation:= PK_EXTRACT;
+    end
+    else begin
+      Flags:= PK_OM_LIST;
+      Operation:= PK_SKIP;
+    end;
+
+    ArcHandle := WcxModule.OpenArchiveHandle(FileName, Flags, Index);
+
+    if ArcHandle <> 0 then
+    try
+      TargetPath:= GetTempName(GetTempFolder);
+      if not mbCreateDir(TargetPath) then Exit;
+
+      WcxModule.WcxSetChangeVolProc(ArcHandle, nil, nil);
+      WcxModule.WcxSetProcessDataProc(ArcHandle, nil, nil);
+
+      while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
+      begin
+        Result:= CheckHeader;
+        Flags:= IfThen(Result, Operation, PK_SKIP);
+        if Flags = PK_EXTRACT then TargetFileName:= TargetPath + PathDelim + ExtractFileName(Header.FileName);
+        if WcxModule.WcxProcessFile(ArcHandle, Flags, EmptyStr, TargetFileName) = E_SUCCESS then
+        begin
+          with FSearchTemplate do
+          begin
+            if Result and IsFindText then
+            begin
+              Result:= FindInFile(TargetFileName, FindText, CaseSensitive, TextRegExp);
+              if NotContainingText then Result:= not Result;
+              mbDeleteFile(TargetFileName);
+            end;
+          end;
+        end;
+        if Result then
+        begin
+          FFoundFile := IncludeTrailingBackslash(FileName) + Header.FileName;
+          Synchronize(@AddFile);
+          Inc(FFilesFound);
+        end;
+        FreeAndNil(Header);
+      end;
+      mbRemoveDir(TargetPath);
+    finally
+      WcxModule.CloseArchive(ArcHandle);
+    end;
+  end;
+end;
+
 function TFindThread.CheckFileName(const FileName: String): Boolean;
 begin
   with FFileChecks do
@@ -406,6 +511,9 @@ end;
 
 procedure TFindThread.DoFile(const sNewDir: String; const sr : TSearchRecEx);
 begin
+  if FSearchTemplate.FindInArchives then
+    FindInArchive(IncludeTrailingBackslash(sNewDir) + sr.Name);
+
   if CheckFile(sNewDir, sr) then
   begin
     FFoundFile := sNewDir + PathDelim + sr.Name;

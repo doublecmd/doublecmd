@@ -73,6 +73,7 @@ type
     cbUsePlugin: TCheckBox;
     cbSelectedFiles: TCheckBox;
     cbTextRegExp: TCheckBox;
+    cbFindInArchive: TCheckBox;
     cmbExcludeDirectories: TComboBoxWithDelItems;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
@@ -144,6 +145,7 @@ type
     procedure cbCaseSensChange(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
+    procedure cbFindInArchiveChange(Sender: TObject);
     procedure cbPartialNameSearchChange(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure cbTextRegExpChange(Sender: TObject);
@@ -537,7 +539,7 @@ begin
   EnableControl(cmbFindText, cbFindText.Checked);
   EnableControl(cmbEncoding, cbFindText.Checked);
   EnableControl(cbCaseSens, cbFindText.Checked);
-  EnableControl(cbReplaceText, cbFindText.Checked);
+  EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
   EnableControl(cbNotContainingText, cbFindText.Checked);
   EnableControl(cbTextRegExp, cbFindText.Checked);
   lblEncoding.Enabled:=cbFindText.Checked;
@@ -681,6 +683,14 @@ begin
   UpdateColor(ZVDateTo, cbDateTo.Checked);
 end;
 
+procedure TfrmFindDlg.cbFindInArchiveChange(Sender: TObject);
+begin
+  EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
+  if cbReplaceText.Checked then cbReplaceText.Checked := cbReplaceText.Enabled;
+  pnlResultsBottom.Enabled := not cbFindInArchive.Checked;
+  cbReplaceTextChange(cbReplaceText);
+end;
+
 procedure TfrmFindDlg.cbPartialNameSearchChange(Sender: TObject);
 begin
   if cbPartialNameSearch.Checked then cbRegExp.Checked:=False;
@@ -760,9 +770,10 @@ begin
     RegExp              := cbRegExp.Checked;
     IsPartialNameSearch := cbPartialNameSearch.Checked;
     FollowSymLinks      := cbFollowSymLinks.Checked;
+    FindInArchives      := cbFindInArchive.Checked;
 
     { File attributes }
-    AttributesPattern := edtAttrib.Text;
+    AttributesPattern   := edtAttrib.Text;
 
     { Date/time }
     DateTimeFrom := 0;
@@ -1299,6 +1310,7 @@ begin
     cbRegExp.Checked := RegExp;
     cbPartialNameSearch.Checked := IsPartialNameSearch;
     cbFollowSymLinks.Checked := FollowSymLinks;
+    cbFindInArchive.Checked := FindInArchives;
     // attributes
     edtAttrib.Text:= AttributesPattern;
     // file date/time
