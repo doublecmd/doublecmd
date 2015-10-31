@@ -41,6 +41,7 @@ const
 
   {$IF DEFINED(MSWINDOWS)}
   faFolder = faDirectory;
+  ReversePathDelim = '/';
   RunTermCmd = 'cmd.exe';  // default terminal
   RunTermParams = '';
   RunInTermStayOpenCmd = 'cmd.exe'; // default run in terminal command AND Stay open after command
@@ -51,6 +52,7 @@ const
   MonoSpaceFont = 'Fixedsys';
   {$ELSEIF DEFINED(UNIX)}
   faFolder = S_IFDIR;
+  ReversePathDelim = '\';
   {$IFDEF DARWIN)}
   RunTermCmd = '/Applications/Utilities/Terminal.app %D';  // default terminal
   RunTermParams = '';
