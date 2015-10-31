@@ -252,7 +252,7 @@ uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource, uFileSourceUtil,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
-  uFileViewNotebook, uKeyboard,
+  uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
   DCOSUtils, SynRegExpr;
 
 const
@@ -260,6 +260,15 @@ const
   ComboIndexToTimeUnit: array[0..6] of TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
   FileSizeUnitToComboIndex: array[TFileSizeUnit] of Integer = (0, 1, 2, 3, 4);
   ComboIndexToFileSizeUnit: array[0..4] of TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
+
+type
+
+  { TStringListTemp }
+
+  TStringListTemp = class(TStringList)
+  public
+    function AddObject(const S: String; AObject: TObject): Integer; override;
+  end;
 
 var
   GfrmFindDlgInstance: TfrmFindDlg = nil;
@@ -408,6 +417,16 @@ begin
   end;
 end;
 
+{ TStringListTemp }
+
+function TStringListTemp.AddObject(const S: String; AObject: TObject): Integer;
+begin
+  Result:= Count;
+  InsertItem(Result, S, AObject);
+end;
+
+{ TfrmFindDlg }
+
 procedure TfrmFindDlg.FormCreate(Sender: TObject);
 var
   I: Integer;
@@ -415,7 +434,7 @@ begin
   Height:= pnlFindFile.Height + 22;
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
-  FoundedStringCopy := TStringlist.Create;
+  FoundedStringCopy := TStringListTemp.Create;
   FoundedStringCopy.OnChange:=@FoundedStringCopyChanged;
 
   // load language
@@ -687,7 +706,9 @@ procedure TfrmFindDlg.cbFindInArchiveChange(Sender: TObject);
 begin
   EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
   if cbReplaceText.Checked then cbReplaceText.Checked := cbReplaceText.Enabled;
-  pnlResultsBottom.Enabled := not cbFindInArchive.Checked;
+  btnView.Enabled:= not cbFindInArchive.Checked;
+  btnEdit.Enabled:= not cbFindInArchive.Checked;
+  btnWorkWithFound.Enabled:= not cbFindInArchive.Checked;
   cbReplaceTextChange(cbReplaceText);
 end;
 
@@ -735,13 +756,39 @@ begin
 end;
 
 procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
+var
+  AFile: TFile = nil;
+  TargetFile: String;
+  ArchiveFile: String;
+  FileSource: IFileSource;
 begin
   if lsFoundedFiles.ItemIndex <> -1 then
-  begin
+  try
     StopSearch;
-    SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
-    frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+    if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
+    begin
+      TargetFile:= lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
+      ArchiveFile:= ExtractWord(1, TargetFile, [ReversePathDelim]);
+      TargetFile:= PathDelim + ExtractWord(2, TargetFile, [ReversePathDelim]);
+      AFile:= TFileSystemFileSource.CreateFileFromFile(ArchiveFile);
+      try
+        FileSource:= GetArchiveFileSource(TFileSystemFileSource.GetFileSource, AFile);
+      finally
+        AFile.Free;
+      end;
+      if Assigned(FileSource) then
+      begin
+        frmMain.ActiveFrame.AddFileSource(FileSource, ExtractFilePath(TargetFile));
+        frmMain.ActiveFrame.SetActiveFile(ExtractFileName(TargetFile));
+      end;
+    end
+    else begin
+      SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+      frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+    end;
     Close;
+  except
+    on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
   end;
 end;
 
@@ -1027,7 +1074,9 @@ var
 begin
   if FoundedStringCopy.Count > 0 then
   begin
-    sText:= FoundedStringCopy[FoundedStringCopy.Count - 1];
+    iTemp:= FoundedStringCopy.Count - 1;
+    Sender:= FoundedStringCopy.Objects[iTemp];
+    sText:= FoundedStringCopy[iTemp];
     iTemp:= Length(sText);
     if iTemp > lsFoundedFiles.Tag then
     begin
@@ -1036,7 +1085,7 @@ begin
       if iTemp > lsFoundedFiles.ScrollWidth then
         lsFoundedFiles.ScrollWidth:= iTemp + 32;
     end;
-    lsFoundedFiles.Items.Add(sText);
+    lsFoundedFiles.Items.AddObject(sText, Sender);
   end;
 end;
 

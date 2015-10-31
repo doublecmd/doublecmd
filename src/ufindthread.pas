@@ -64,6 +64,7 @@ type
     constructor Create(const AFindOptions: TSearchTemplateRec; SelectedFiles: TStringList);
     destructor Destroy; override;
     procedure AddFile;
+    procedure AddArchiveFile;
     procedure DoFile(const sNewDir: String; const sr : TSearchRecEx);
     procedure WalkAdr(const sNewDir: String);
     function IsAborting: Boolean;
@@ -169,6 +170,11 @@ end;
 procedure TFindThread.AddFile;
 begin
   FItems.Add(FFoundFile);
+end;
+
+procedure TFindThread.AddArchiveFile;
+begin
+  FItems.AddObject(FFoundFile, Self);
 end;
 
 function TFindThread.CheckDirectory(const CurrentDir, FolderName : String): Boolean;
@@ -420,8 +426,8 @@ begin
         end;
         if Result then
         begin
-          FFoundFile := IncludeTrailingBackslash(FileName) + Header.FileName;
-          Synchronize(@AddFile);
+          FFoundFile := FileName + ReversePathDelim + Header.FileName;
+          Synchronize(@AddArchiveFile);
           Inc(FFilesFound);
         end;
         FreeAndNil(Header);
