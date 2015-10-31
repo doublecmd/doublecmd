@@ -87,9 +87,9 @@ begin
 
   I:= gWCXPlugins.IndexOfName('zip');
   if I < 0 then
-    gWCXPlugins.Add('zip', 607, Folder + 'zip' + PathDelim + 'zip.wcx')
+    gWCXPlugins.Add('zip', 735, Folder + 'zip' + PathDelim + 'zip.wcx')
   else
-    gWCXPlugins.Flags[I]:= 607;
+    gWCXPlugins.Flags[I]:= 735;
 
   {$IF DEFINED(MSWINDOWS)}
   I:= gWCXPlugins.IndexOfName('7z');
@@ -99,9 +99,9 @@ begin
 
   I:= gWCXPlugins.IndexOfName('tar');
   if I < 0 then
-    gWCXPlugins.Add('tar', 95, Folder + 'zip' + PathDelim + 'zip.wcx')
+    gWCXPlugins.Add('tar', 223, Folder + 'zip' + PathDelim + 'zip.wcx')
   else
-    gWCXPlugins.Flags[I]:= 95;
+    gWCXPlugins.Flags[I]:= 223;
 
   I:= gWCXPlugins.IndexOfName('bz2');
   if I < 0 then
@@ -157,7 +157,9 @@ begin
 
   I:= gWCXPlugins.IndexOfName('zipx');
   if I < 0 then
-    gWCXPlugins.Add('zipx', 84, Folder + 'zip' + PathDelim + 'zip.wcx');
+    gWCXPlugins.Add('zipx', 212, Folder + 'zip' + PathDelim + 'zip.wcx')
+  else
+    gWCXPlugins.Flags[I]:= 212;
   {$ENDIF}
 
   {$IF DEFINED(MSWINDOWS)}
