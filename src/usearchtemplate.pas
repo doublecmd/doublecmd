@@ -261,6 +261,7 @@ begin
           IsPartialNameSearch:= AConfig.GetValue(ANode, 'IsPartialNameSearch', False);
           RegExp:= AConfig.GetValue(ANode, 'RegExp', False);
           FollowSymLinks:= AConfig.GetValue(ANode, 'FollowSymLinks', False);
+          FindInArchives:= AConfig.GetValue(ANode, 'FindInArchives', False);
           AttributesPattern:= AConfig.GetValue(ANode, 'AttributesPattern', '');
           // date/time
           IsDateFrom:= AConfig.GetValue(ANode, 'IsDateFrom', False);
@@ -405,6 +406,7 @@ begin
       AConfig.AddValue(SubNode, 'IsPartialNameSearch', IsPartialNameSearch);
       AConfig.AddValue(SubNode, 'RegExp', RegExp);
       AConfig.AddValue(SubNode, 'FollowSymLinks', FollowSymLinks);
+      AConfig.AddValue(SubNode, 'FindInArchives', FindInArchives);
       AConfig.AddValue(SubNode, 'AttributesPattern', AttributesPattern);
       // date/time
       AConfig.AddValue(SubNode, 'IsDateFrom', IsDateFrom);

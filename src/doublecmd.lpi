@@ -1569,7 +1569,9 @@ end;"/>
       <Unit220>
         <Filename Value="frames\fsearchplugin.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSearchPlugin"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fSearchPlugin"/>
       </Unit220>
       <Unit221>
