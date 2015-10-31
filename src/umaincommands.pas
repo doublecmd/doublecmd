@@ -317,7 +317,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil, uThumbFileView,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uTrash, uFileSystemCopyOperation, fOptionsFileAssoc, fDeleteDlg,
-     fViewOperations, uVfsModule, uMultiListFileSource, uExceptions,
+     fViewOperations, uVfsModule, uMultiListFileSource, uExceptions, uFileProcs,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fOptionsToolbar, fMainCommandsDlg, uConnectionManager
@@ -1841,7 +1841,10 @@ end;
 procedure TMainCommands.cm_MakeDir(const Params: array of string);
 var
   sPath: String;
+  Files: TFiles;
+  Directory: String;
   ActiveFile: TFile = nil;
+  bMakeViaCopy: Boolean = False;
   Operation: TFileSourceOperation = nil;
   UI: TFileSourceOperationMessageBoxesUI = nil;
 begin
@@ -1849,8 +1852,12 @@ begin
   try
     if not (fsoCreateDirectory in ActiveFrame.FileSource.GetOperationsTypes) then
     begin
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
+      if (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes) then
+        bMakeViaCopy := True
+      else begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
     end;
 
     ActiveFile := ActiveFrame.CloneActiveFile;
@@ -1861,6 +1868,26 @@ begin
 
     if not frmMkDir.ShowMkDir(sPath) then Exit;   // show makedir dialog
     if (sPath = EmptyStr) then Exit;
+
+    if bMakeViaCopy then
+    begin
+      Directory := GetTempName(GetTempFolderDeletableAtTheEnd);
+      if not mbForceDirectory(IncludeTrailingBackslash(Directory) + sPath) then
+      begin
+        MessageDlg(mbSysErrorMessage(GetLastOSError), mtError, [mbOK], 0);
+        Exit;
+      end;
+      Files := TFiles.Create(Directory);
+      sPath := IncludeTrailingBackslash(Directory) + ExtractWord(1, sPath, [PathDelim]);
+      Files.Add(TFileSystemFileSource.CreateFileFromFile(sPath));
+      Operation := ActiveFrame.FileSource.CreateCopyInOperation(TFileSystemFileSource.GetFileSource, Files, ActiveFrame.CurrentPath);
+      if Assigned(Operation) then
+      begin
+        OperationsManager.AddOperation(Operation);
+        Operation := nil;
+      end;
+      Exit;
+    end;
 
     Operation := ActiveFrame.FileSource.CreateCreateDirectoryOperation(ActiveFrame.CurrentPath, sPath);
     if Assigned(Operation) then
