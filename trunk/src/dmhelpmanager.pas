@@ -110,7 +110,12 @@ begin
         gHelpLang:= 'en';
     end;
 
-  HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang;
+  if mbDirectoryExists(gpExePath + 'doc' + PathDelim + gHelpLang) then
+    HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang
+  else begin
+    HTMLHelpDatabase.BaseURL:= 'http://doublecmd.github.io/doc/' + gHelpLang;
+  end;
+
   HTMLHelpDatabase.KeywordPrefix:= '/';
 
   {$IFDEF MSWindows}
