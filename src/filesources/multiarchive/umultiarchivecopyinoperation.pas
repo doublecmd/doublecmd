@@ -41,6 +41,7 @@ type
     FExProcess: TExProcess;
     FTempFile: String;
     FErrorLevel: LongInt;
+    FCommandLine: String;
     function Tar: Boolean;
     procedure OnReadLn(str: string);
     procedure OperationProgressHandler;
@@ -99,6 +100,20 @@ end;
 
 procedure TMultiArchiveCopyInOperation.Initialize;
 begin
+  with FMultiArchiveFileSource do
+  begin
+    if (ExtractFileExt(ArchiveFileName) = GetSfxExt) and (Length(MultiArcItem.FAddSelfExtract) <> 0) then
+      FCommandLine:= MultiArcItem.FAddSelfExtract
+    else
+      FCommandLine:= MultiArcItem.FAdd;
+  end;
+
+  if (TargetPath <> PathDelim) and (Pos('%R', FCommandLine) = 0) then
+  begin
+    AskQuestion('', rsMsgErrNotSupported, [fsourOk], fsourOk, fsourOk);
+    RaiseAbortOperation;
+  end;
+
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
   FExProcess.OnOperationProgress:= @OperationProgressHandler;
@@ -130,8 +145,7 @@ var
   sDestPath: String;
   MultiArcItem: TMultiArcItem;
   aFile: TFile;
-  sReadyCommand,
-  sCommandLine: String;
+  sReadyCommand: String;
 begin
   // Put to TAR archive if needed
   if FTarBefore then Tar;
@@ -142,16 +156,9 @@ begin
   sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
   sRootPath:= FFullFilesTree.Path;
   ChangeFileListRoot(EmptyStr, FFullFilesTree);
-  with FMultiArchiveFileSource do
-  begin
-    if (ExtractFileExt(ArchiveFileName) = GetSfxExt) and (Length(MultiArcItem.FAddSelfExtract) <> 0) then
-      sCommandLine:= MultiArcItem.FAddSelfExtract
-    else
-      sCommandLine:= MultiArcItem.FAdd;
-  end;
   // Get maximum acceptable command errorlevel
-  FErrorLevel:= ExtractErrorLevel(sCommandLine);
-  if Pos('%F', sCommandLine) <> 0 then // pack file by file
+  FErrorLevel:= ExtractErrorLevel(FCommandLine);
+  if Pos('%F', FCommandLine) <> 0 then // pack file by file
     for I:= FFullFilesTree.Count - 1 downto 0 do
     begin
       aFile:= FFullFilesTree[I];
@@ -159,7 +166,7 @@ begin
 
       sReadyCommand:= FormatArchiverCommand(
                                             MultiArcItem.FArchiver,
-                                            sCommandLine,
+                                            FCommandLine,
                                             FMultiArchiveFileSource.ArchiveFileName,
                                             nil,
                                             aFile.FullPath,
@@ -188,7 +195,7 @@ begin
     begin
       sReadyCommand:= FormatArchiverCommand(
                                             MultiArcItem.FArchiver,
-                                            sCommandLine,
+                                            FCommandLine,
                                             FMultiArchiveFileSource.ArchiveFileName,
                                             FFullFilesTree,
                                             EmptyStr,
