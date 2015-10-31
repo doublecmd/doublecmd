@@ -2058,6 +2058,10 @@ msgstr "Date&igröße ab:"
 msgid "Si&ze to:"
 msgstr "Bis Dateigr&öße"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

@@ -1942,6 +1942,10 @@ msgstr "&Filstørrelse fra:"
 msgid "Si&ze to:"
 msgstr "F&ilstørrelse til:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

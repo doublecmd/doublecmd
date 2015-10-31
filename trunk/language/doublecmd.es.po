@@ -2077,6 +2077,10 @@ msgstr "&Tamaño desde:"
 msgid "Si&ze to:"
 msgstr "Tamaño &hasta:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

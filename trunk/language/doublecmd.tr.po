@@ -2039,6 +2039,10 @@ msgstr "Büyüklükleri:"
 msgid "Si&ze to:"
 msgstr "En büyük dosya boyutu"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

@@ -2037,6 +2037,10 @@ msgstr "最小容量 (&I)："
 msgid "Si&ze to:"
 msgstr "最大容量 (&Z)："
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

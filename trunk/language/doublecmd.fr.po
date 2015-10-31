@@ -2068,6 +2068,10 @@ msgstr "Taille mini :"
 msgid "Si&ze to:"
 msgstr "Taille maxi :"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

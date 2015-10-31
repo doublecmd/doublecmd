@@ -1925,6 +1925,10 @@ msgstr "Măr&ime de la:"
 msgid "Si&ze to:"
 msgstr "Mărime (&z) până la:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"

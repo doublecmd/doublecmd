@@ -1915,6 +1915,10 @@ msgstr "Р&азмер от:"
 msgid "Si&ze to:"
 msgstr "Раз&мер до:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr "Искать в ар&хивах"
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
@@ -8035,7 +8039,7 @@ msgstr "Им&еет диалог настроек"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
 msgid "Allow searchin&g for text in archives"
-msgstr "Поз&воляет искать в архивах"
+msgstr "Поз&воляет искать текст в архивах"
 
 #: tfrmtweakplugin.lbldescription.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"

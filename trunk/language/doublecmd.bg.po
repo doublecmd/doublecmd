@@ -2024,6 +2024,10 @@ msgstr "Файлов размер от:"
 msgid "Si&ze to:"
 msgstr "Файлов размер до:"
 
+#: tfrmfinddlg.cbfindinarchive.caption
+msgid "Search in &archives"
+msgstr ""
+
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
