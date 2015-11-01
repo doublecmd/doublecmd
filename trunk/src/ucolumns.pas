@@ -234,6 +234,18 @@ implementation
 uses
   crc, uDebug, uLng, uGlobs;
 
+var
+  DefaultTitleHash: LongWord = 0;
+
+procedure UpdateDefaultTitleHash;
+var
+  Title: String = '';
+begin
+  DefaultTitleHash:= CRC32(0, nil, 0);
+  Title:= rsColName + rsColExt + rsColSize + rsColDate + rsColAttr;
+  DefaultTitleHash:= CRC32(DefaultTitleHash, Pointer(Title), Length(Title));
+end;
+
 function StrToAlign(str: String): TAlignment;
 begin
   if str = '<-' then
@@ -706,6 +718,8 @@ begin
   Add(rsColDate, Format(DCFunc, [TFileFunctionStrings[fsfModificationTime]]), 140, taRightJustify);
   // file attributes
   Add(rsColAttr, Format(DCFunc, [TFileFunctionStrings[fsfAttr]]), 100, taLeftJustify);
+  // Default title hash
+  UpdateDefaultTitleHash;
 end;
 
 procedure TPanelColumnsClass.AddDefaultEverything;
@@ -764,8 +778,10 @@ end;
 
 procedure TPanelColumnsClass.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  Quality: Integer;
+  Title: String;
+  Hash: LongWord;
   SubNode: TXmlNode;
+  Quality: Integer = 0;
   AColumn: TPanelColumn;
 begin
   FCustomView := AConfig.GetValue(ANode, 'CustomView', False);
@@ -809,7 +825,26 @@ begin
   end;
 
   if Count = 0 then
-    AddDefaultColumns;
+    AddDefaultColumns
+  else begin
+    Title:= EmptyStr;
+    for Quality:= 0 to Count - 1 do
+    begin
+      Title += TPanelColumn(Flist[Quality]).Title;
+    end;
+    Hash:= CRC32(0, nil, 0);
+    Hash:= CRC32(Hash, Pointer(Title), Length(Title));
+    if Hash = DefaultTitleHash then
+    begin
+      SetColumnTitle(0, rsColName);
+      SetColumnTitle(1, rsColExt);
+      SetColumnTitle(2, rsColSize);
+      SetColumnTitle(3, rsColDate);
+      SetColumnTitle(4, rsColAttr);
+      // Default title hash
+      UpdateDefaultTitleHash;
+    end;
+  end;
 end;
 
 procedure TPanelColumnsClass.Save(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -1075,6 +1110,7 @@ begin
   ANode := ANode.FindNode('ColumnsSets');
   if Assigned(ANode) then
   begin
+    DefaultTitleHash := AConfig.GetAttr(ANode, 'DefaultTitleHash', 0);
     ANode := ANode.FirstChild;
     while Assigned(ANode) do
     begin
@@ -1102,13 +1138,13 @@ var
 begin
   ANode := AConfig.FindNode(ANode, 'ColumnsSets', True);
   AConfig.ClearNode(ANode);
-
+  AConfig.SetAttr(ANode, 'DefaultTitleHash', DefaultTitleHash);
   for I := 0 to FSet.Count - 1 do
-    begin
-      SubNode := AConfig.AddNode(ANode, 'ColumnsSet');
-      AConfig.AddValue(SubNode, 'Name', FSet[I]);
-      TPanelColumnsClass(Fset.Objects[I]).Save(AConfig, SubNode);
-    end;
+  begin
+    SubNode := AConfig.AddNode(ANode, 'ColumnsSet');
+    AConfig.AddValue(SubNode, 'Name', FSet[I]);
+    TPanelColumnsClass(Fset.Objects[I]).Save(AConfig, SubNode);
+  end;
 end;
 
 function TPanelColumnsList.Add(Item: TPanelColumnsClass): Integer;
