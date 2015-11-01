@@ -120,6 +120,7 @@ type
        This is not needed on non-Windows because EraseBackground is not used there.
     }
     procedure EraseBackground(DC: HDC); override;
+    procedure WndProc(var Message: TLMessage); override;
     {$ENDIF}
     function AddPage: TFileViewPage;
     function InsertPage(Index: Integer): TFileViewPage; reintroduce;
@@ -161,7 +162,7 @@ uses
   , qt4, qtwidgets
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
-  , win32proc, Windows
+  , win32proc, Windows, Messages
   {$ENDIF}
   ;
 
@@ -651,6 +652,19 @@ begin
       FillRect(DC, ARect, HBRUSH(Brush.Reference.Handle));
     end;
     RestoreDC(DC, SaveIndex);
+  end;
+end;
+
+procedure TFileViewNotebook.WndProc(var Message: TLMessage);
+begin
+  inherited WndProc(Message);
+  if Message.Msg = TCM_ADJUSTRECT then
+  begin
+    if Message.WParam = 0 then
+      PRect(Message.LParam)^.Left := PRect(Message.LParam)^.Left - 2
+    else begin
+      PRect(Message.LParam)^.Left := PRect(Message.LParam)^.Left + 2;
+    end;
   end;
 end;
 {$ENDIF}
