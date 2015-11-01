@@ -1661,7 +1661,6 @@ begin
     LoadConfigCheckErrors(@LoadHistoryConfig, gpCfgDir + 'history.xml', ErrorMessage);
 
   { Localization }
-  DoLoadLng;
   msgLoadLng;
 
   FillFileFuncList;
@@ -1762,6 +1761,9 @@ var
 
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
   gPOFileName := gIni.ReadString('Configuration', 'Language', '?');
+
+  DoLoadLng;
+
   gRunInTermStayOpenCmd := gIni.ReadString('Configuration', 'RunInTerm', gRunInTermStayOpenCmd);
   gOnlyOneAppInstance:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
   if gIni.ReadBool('Configuration', 'CaseSensitiveSort', False) = False then
@@ -1990,6 +1992,8 @@ begin
 
     { Language page }
     gPOFileName := GetValue(Root, 'Language/POFileName', gPOFileName);
+
+    DoLoadLng;
 
     { Behaviours page }
     Node := Root.FindNode('Behaviours');
