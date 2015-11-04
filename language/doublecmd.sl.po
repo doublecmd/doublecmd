@@ -1368,21 +1368,6 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "Smer"
 
-#: tfrmextractdlg.btncancel.caption
-msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Prekliči"
-
-#: tfrmextractdlg.btnhelp.caption
-msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Pomo&č"
-
-#: tfrmextractdlg.btnok.caption
-msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "V &redu"
-
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"

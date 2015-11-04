@@ -1354,21 +1354,6 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "方向"
 
-#: tfrmextractdlg.btncancel.caption
-msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "キャンセル(&C)"
-
-#: tfrmextractdlg.btnhelp.caption
-msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "ヘルプ(&H)"
-
-#: tfrmextractdlg.btnok.caption
-msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK(&O)"
-
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
@@ -11434,3 +11419,4 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
+

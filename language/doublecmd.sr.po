@@ -1369,21 +1369,6 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "Смер"
 
-#: tfrmextractdlg.btncancel.caption
-msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Откажи"
-
-#: tfrmextractdlg.btnhelp.caption
-msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "&Помоћ"
-
-#: tfrmextractdlg.btnok.caption
-msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&У реду"
-
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"

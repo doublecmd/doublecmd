@@ -1354,21 +1354,6 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "Směr"
 
-#: tfrmextractdlg.btncancel.caption
-msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Zrušit"
-
-#: tfrmextractdlg.btnhelp.caption
-msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "&Nápověda"
-
-#: tfrmextractdlg.btnok.caption
-msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
@@ -5417,9 +5402,10 @@ msgid "Offer to add selection to file association when not included already"
 msgstr "Nabídnout přidání přidružení souboru, pokud již není zahrnutý"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
+#, fuzzy
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr ""
+msgstr "Při přidružení souboru, nabídne přidat aktuální vybraný soubor, pokud již není zahrnut v seznamu nakonfigurovaných typů souboru"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBOPENSYSTEMWITHTERMINALCLOSE.CAPTION"
@@ -11416,3 +11402,4 @@ msgstr "Počet nahrazených: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Žádné nahrazení se nekonalo."
+
