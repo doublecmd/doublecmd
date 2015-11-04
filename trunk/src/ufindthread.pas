@@ -410,6 +410,7 @@ begin
       while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
       begin
         Result:= CheckHeader;
+        if Terminated then Break;
         Flags:= IfThen(Result, Operation, PK_SKIP);
         if Flags = PK_EXTRACT then TargetFileName:= TargetPath + PathDelim + ExtractFileName(Header.FileName);
         if WcxModule.WcxProcessFile(ArcHandle, Flags, EmptyStr, TargetFileName) = E_SUCCESS then
