@@ -1427,27 +1427,6 @@ msgstr "&Bulmaya çalış:"
 msgid "Direction"
 msgstr "Yön"
 
-#: tfrmextractdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "İptal"
-
-#: tfrmextractdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Yardım"
-
-#: tfrmextractdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "TAMAM"
-
 #: tfrmextractdlg.caption
 msgctxt "tfrmextractdlg.caption"
 msgid "Unpack files"

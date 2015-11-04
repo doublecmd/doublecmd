@@ -1452,27 +1452,6 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "Dirección"
 
-#: tfrmextractdlg.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Cancelar"
-
-#: tfrmextractdlg.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "A&yuda"
-
-#: tfrmextractdlg.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Aceptar"
-
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
