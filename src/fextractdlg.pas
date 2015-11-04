@@ -28,25 +28,24 @@ unit fExtractDlg;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, EditBtn, ExtCtrls,
-  uFile, uFileSource, uArchiveFileSource;
+  Classes, SysUtils, Forms, Controls, StdCtrls, EditBtn, ExtCtrls, Buttons,
+  Menus, DividerBevel, uFile, uFileSource, uArchiveFileSource, fButtonForm,
+  uOperationsManager;
 
 type
 
   { TfrmExtractDlg }
 
-  TfrmExtractDlg = class(TForm)
+  TfrmExtractDlg = class(TfrmButtonForm)
     cbExtractPath: TCheckBox;
     cbInSeparateFolder: TCheckBox;
     cbOverwrite: TCheckBox;
+    DividerBevel: TDividerBevel;
     edtPassword: TEdit;
     edtExtractTo: TDirectoryEdit;
     lblExtractTo: TLabel;
     lblPassword: TLabel;
     cbFileMask: TComboBox;
-    btnOK: TButton;
-    btnCancel: TButton;
-    btnHelp: TButton;
     lblFileMask: TLabel;
     pnlCheckBoxes: TPanel;
     pnlLabels: TPanel;
@@ -57,7 +56,7 @@ type
     FArcType: String;
     procedure SwitchOptions;
     procedure ExtractArchive(ArchiveFileSource: IArchiveFileSource; TargetFileSource: IFileSource;
-                             const TargetPath: String);
+                             const TargetPath: String; QueueId: TOperationsManagerQueueIdentifier);
   public
     { public declarations }
   end;
@@ -82,7 +81,6 @@ uses
   uWcxArchiveFileSource,
   uWcxArchiveCopyOutOperation,
   uFileSourceOperationOptions,
-  uOperationsManager,
   uMasks;
 
 procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
@@ -145,7 +143,7 @@ begin
               if Assigned(Operation) then
               begin
                 // Start operation.
-                OperationsManager.AddOperation(Operation);
+                OperationsManager.AddOperation(Operation, QueueIdentifier, False);
               end
               else
                 msgWarning(rsMsgNotImplemented);
@@ -163,11 +161,12 @@ begin
                 // Check if there is a ArchiveFileSource for possible archive.
                 ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
 
-                // Extract current archive
-                ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath);
+                // Extract current item, if files count > 1 then put to queue
+                if (I > 0) and (QueueIdentifier = FreeOperationsQueueId) then
+                  ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, SingleQueueId)
+                else
+                  ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, QueueIdentifier);
 
-                // Short pause, so that all operations are not spawned at once.
-                Sleep(100);
               except
                 on E: Exception do
                 begin
@@ -231,7 +230,8 @@ begin
 end;
 
 procedure TfrmExtractDlg.ExtractArchive(ArchiveFileSource: IArchiveFileSource;
-                                        TargetFileSource: IFileSource; const TargetPath: String);
+  TargetFileSource: IFileSource; const TargetPath: String;
+  QueueId: TOperationsManagerQueueIdentifier);
 var
   FilesToExtract: TFiles;
   Operation: TFileSourceOperation;
@@ -284,7 +284,7 @@ begin
             end;
 
             // Start operation.
-            OperationsManager.AddOperation(Operation);
+            OperationsManager.AddOperation(Operation, QueueId, False);
           end
           else
             msgWarning(rsMsgNotImplemented);

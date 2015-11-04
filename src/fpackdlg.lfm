@@ -244,10 +244,10 @@ inherited frmPackDlg: TfrmPackDlg
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 15
-    Top = 193
+    Top = 191
     Width = 524
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Top = 6
+    BorderSpacing.Top = 4
     Font.Style = [fsBold]
     ParentFont = False
   end
