@@ -563,7 +563,7 @@ uses
   uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
   uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
-  fMain, uSearchResultFileSource, uFileSourceProperty;
+  fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -2335,6 +2335,7 @@ procedure TFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   HistoryNode, EntryNode, FSNode, PathsNode: TXmlNode;
   SortingsNode, SortingSubNode, SortFunctionNode: TXmlNode;
+  FileSourceClass: TFileSourceClass;
   sFSType, sPath, sFilename: String;
   aFileSource: IFileSource = nil;
   ActiveFSIndex: Integer = -1;
@@ -2393,7 +2394,11 @@ begin
             // Create file source based on saved configuration or create empty and
             // allow it to read its configuration from FSNode.
             if sFSType = 'FileSystem' then
-              aFileSource := TFileSystemFileSource.GetFileSource;
+              aFileSource := TFileSystemFileSource.GetFileSource
+            else begin
+              FileSourceClass := gVfsModuleList.FindFileSource(sFSType);
+              if Assigned(FileSourceClass) then aFileSource := FileSourceClass.Create;
+            end;
 
             if Assigned(aFileSource) then
             begin
@@ -2543,15 +2548,18 @@ begin
   for i := 0 to FileSourcesCount - 1 do
   begin
     // Currently saves only FileSystem.
-
-    if TFileSystemFileSource.ClassNameIs(FHistory.FileSource[i].ClassName) then
+    if FHistory.FileSource[i].IsClass(TFileSystemFileSource) then
     begin
       EntryNode := AConfig.AddNode(HistoryNode, 'Entry');
       if FHistory.CurrentFileSourceIndex = i then
         AConfig.SetAttr(EntryNode, 'Active', True);
 
       FSNode := AConfig.AddNode(EntryNode, 'FileSource');
-      AConfig.SetAttr(FSNode, 'Type', 'FileSystem');
+      if TFileSystemFileSource.ClassNameIs(FHistory.FileSource[i].ClassName) then
+        AConfig.SetAttr(FSNode, 'Type', 'FileSystem')
+      else begin
+        AConfig.SetAttr(FSNode, 'Type', FHistory.FileSource[i].ClassName);
+      end;
 
       // Save paths history.
       PathsNode := AConfig.AddNode(EntryNode, 'Paths');

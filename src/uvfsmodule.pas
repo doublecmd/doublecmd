@@ -28,6 +28,7 @@ type
   public
     destructor Destroy; override;
     function GetFileSource(const Path: String): TFileSourceClass;
+    function FindFileSource(const AClassName: String): TFileSourceClass;
     property VfsModule[const S: String]: TVfsModule read GetVfsModule;
   end;
 
@@ -84,6 +85,22 @@ begin
   with TVfsModule(Objects[I]) do
   begin
     if FileSourceClass.IsSupportedPath(Path) then
+    begin
+      Result:= FileSourceClass;
+      Break;
+    end;
+  end;
+end;
+
+function TVfsModuleList.FindFileSource(const AClassName: String): TFileSourceClass;
+var
+  I: Integer;
+begin
+  Result:= nil;
+  for I:= 0 to Count - 1 do
+  with TVfsModule(Objects[I]) do
+  begin
+    if FileSourceClass.ClassNameIs(AClassName) then
     begin
       Result:= FileSourceClass;
       Break;
