@@ -467,7 +467,7 @@ begin
   if FileIndex = InvalidFileIndex then
   begin
     SetDropFileIndex(-1);
-    Accept := True;
+    Accept := Sender <> Source;
     Exit;
   end;
 
