@@ -2105,7 +2105,7 @@ begin
   if Assigned(Page) then
   begin
     if Page.LockState = tlsPathResets then // if locked with directory change
-      Page.FileView.CurrentPath := Page.LockPath;
+      ChooseFileSource(Page.FileView, Page.LockPath);
 
     // Update selected drive only on non-active panel,
     // because active panel is updated on focus change.
