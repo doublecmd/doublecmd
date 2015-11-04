@@ -2416,7 +2416,7 @@ begin
                     sPath := AConfig.GetContent(PathsNode);
 
                     // Go to upper directory if it doesn't exist (filesystem only for now).
-                    if aFileSource.IsInterface(IFileSystemFileSource) then
+                    if TFileSystemFileSource.ClassNameIs(aFileSource.ClassName) then
                     begin
                       sPath := GetDeepestExistingPath(sPath);
                     end;
