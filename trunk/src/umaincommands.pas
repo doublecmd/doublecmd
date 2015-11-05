@@ -206,6 +206,7 @@ type
    procedure cm_ThumbnailsView(const Params: array of string);
    procedure cm_LeftThumbView(const Params: array of string);
    procedure cm_RightThumbView(const Params: array of string);
+   procedure cm_TreeView(const Params: array of string);
    procedure cm_CopyNamesToClip(const Params: array of string);
    procedure cm_FocusCmdLine(const Params: array of string);
    procedure cm_FileAssoc(const Params: array of string);
@@ -1697,6 +1698,17 @@ begin
   frmMain.ActiveFrame.SetFocus;
 end;
 
+procedure TMainCommands.cm_TreeView(const Params: array of string);
+begin
+  gSeparateTree := not gSeparateTree;
+  with frmMain do
+  begin
+    UpdateWindowView;
+    UpdateTreeViewPath;
+    MainSplitterPos:= MainSplitterPos;
+  end;
+end;
+
 procedure TMainCommands.cm_Edit(const Params: array of string);
 var
   i: Integer;
@@ -2252,6 +2264,7 @@ begin
   begin
     uGlobs.gShowSystemFiles:= not uGlobs.gShowSystemFiles;
     actShowSysFiles.Checked:= uGlobs.gShowSystemFiles;
+    UpdateTreeView;
     //repaint both panels
     FrameLeft.Reload;
     FrameRight.Reload;

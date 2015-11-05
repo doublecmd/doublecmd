@@ -294,6 +294,7 @@ type
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetVirtualDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
+    function GetFolderIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
     {en
        Returns default icon for a file.
        For example default folder icon for folder, default executable icon for *.exe, etc.
@@ -1993,6 +1994,19 @@ end;
 function TPixMapManager.GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
 begin
   Result := GetBitmap(FiArcIconID);
+  if Assigned(Result) then
+  begin
+    //  if need stretch icon
+    if (IconSize <> gIconsSize) then
+      begin
+        Result := StretchBitmap(Result, IconSize, clBackColor, True);
+      end;
+  end;
+end;
+
+function TPixMapManager.GetFolderIcon(IconSize: Integer; clBackColor: TColor): Graphics.TBitmap;
+begin
+  Result := GetBitmap(FiDirIconID);
   if Assigned(Result) then
   begin
     //  if need stretch icon
