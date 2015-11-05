@@ -40,7 +40,7 @@ unit fMain;
 interface
 
 uses
-  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
+  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList, ShellCtrls,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
@@ -97,6 +97,7 @@ type
     actCopyPathOfFilesToClip: TAction;
     actCopyPathNoSepOfFilesToClip: TAction;
     actDoAnyCmCommand: TAction;
+    actTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
     actRightReverseOrder: TAction;
@@ -201,6 +202,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuTreeView: TMenuItem;
     mnuCmdConfigDirHotlist: TMenuItem;
     mnuLoadTabs: TMenuItem;
     mnuSaveTabs: TMenuItem;
@@ -231,6 +233,7 @@ type
     miCompareDirectories: TMenuItem;
     miLine37: TMenuItem;
     miRenameTab: TMenuItem;
+    pnlMain: TPanel;
     tbChangeDir: TMenuItem;
     mnuShowHorizontalFilePanels: TMenuItem;
     miLine20: TMenuItem;
@@ -451,6 +454,8 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     MainTrayIcon: TTrayIcon;
+    TreeSplitter: TSplitter;
+    ShellTreeView: TShellTreeView;
 
     procedure actExecute(Sender: TObject);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
@@ -486,6 +491,11 @@ type
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; FileView: TFileView);
+    procedure ShellTreeViewDblClick(Sender: TObject);
+    procedure ShellTreeViewKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure ShellTreeViewMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure tbDeleteClick(Sender: TObject);
     procedure dskLeftToolButtonClick(Sender: TObject);
     procedure dskRightToolButtonClick(Sender: TObject);
@@ -534,6 +544,10 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure pmToolBarPopup(Sender: TObject);
+
+    procedure ShellTreeViewAdvancedCustomDrawItem(Sender: TCustomTreeView;
+      Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
+      var PaintImages, DefaultDraw: Boolean);
 
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
@@ -597,6 +611,7 @@ type
     procedure CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure SetMainSplitterPos(AValue: Double);
+    procedure SetPanelSelected(AValue: TFilePanelSelect);
     procedure UpdateActionIcons;
     procedure UpdateHotDirIcons;
     procedure TypeInCommandLine(Str: String);
@@ -688,6 +703,8 @@ type
                                         out DestPath, DestMask: String); overload;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure SetActiveFrame(FileView: TFileView);
+    procedure UpdateTreeViewPath;
+    procedure UpdateTreeView;
     procedure UpdateDiskCount;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
@@ -736,7 +753,7 @@ type
     {$ENDIF}
 
     property Commands: TMainCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
-    property SelectedPanel: TFilePanelSelect read PanelSelected;
+    property SelectedPanel: TFilePanelSelect read PanelSelected write SetPanelSelected;
     property LeftTabs: TFileViewNotebook read nbLeft;
     property RightTabs: TFileViewNotebook read nbRight;
     property MainSplitterPos: Double read FMainSplitterPos write SetMainSplitterPos;
@@ -751,7 +768,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uFileProcs,
+  uFileProcs, uShellContextMenu,
   Math, LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
@@ -907,6 +924,12 @@ begin
 
   MainFormCreate(Self);
 
+  // Separate tree
+  ShellTreeView.Images := TImageList.Create(Self);
+  ShellTreeView.Images.Width := gIconsSize;
+  ShellTreeView.Images.Height := gIconsSize;
+  ShellTreeView.Images.Add(PixMapManager.GetFolderIcon(gIconsSize, ShellTreeView.Color), nil);
+
   // Load command line history
   edtCommand.Items.Assign(glsCmdLineHistory);
 
@@ -952,6 +975,8 @@ begin
 
   // Update selected drive and free space before main form is shown,
   // otherwise there is a bit of delay.
+  UpdateTreeView;
+  UpdateTreeViewPath;
   UpdateSelectedDrives;
   UpdateFreeSpace(fpLeft);
   UpdateFreeSpace(fpRight);
@@ -1334,6 +1359,49 @@ begin
 
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(FileView);
+end;
+
+procedure TfrmMain.ShellTreeViewDblClick(Sender: TObject);
+begin
+  ShellTreeView.Tag := 1;
+  try
+    SetFileSystemPath(ActiveFrame, ShellTreeView.Path);
+  finally
+    ShellTreeView.Tag := 0;
+  end;
+end;
+
+procedure TfrmMain.ShellTreeViewKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_RETURN then ShellTreeViewDblClick(Sender);
+end;
+
+procedure TfrmMain.ShellTreeViewMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  AFile: TFile;
+  AFiles: TFiles;
+  APoint: TPoint;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  if Button = mbRight then
+  try
+    AFile:= TFileSystemFileSource.CreateFileFromFile(ShellTreeView.Path);
+    try
+      AFiles:= TFiles.Create(AFile.Path);
+      AFiles.Add(AFile);
+      APoint := ShellTreeView.ClientToScreen(Classes.Point(X, Y));
+      ShowContextMenu(ShellTreeView, AFiles, APoint.X, APoint.Y, False, nil);
+    finally
+      FreeAndNil(AFiles);
+    end;
+  except
+    on E: EContextMenuException do
+      ShowException(E)
+    else;
+  end;
+{$ENDIF}
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -3413,6 +3481,14 @@ begin
   tbPaste.Visible:= bPaste;
 end;
 
+procedure TfrmMain.ShellTreeViewAdvancedCustomDrawItem(Sender: TCustomTreeView;
+  Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
+  var PaintImages, DefaultDraw: Boolean);
+begin
+  Node.ImageIndex:= 0;
+  Node.SelectedIndex:= 0;
+end;
+
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
   if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
@@ -3639,6 +3715,7 @@ begin
             else begin
               glsDirHistory.Move(Index, 0);
             end;
+            UpdateTreeViewPath;
           end;
 
           UpdateSelectedDrive(ANoteBook);
@@ -3663,7 +3740,7 @@ begin
   if FileView.NotebookPage is TFileViewPage then
     begin
       Page := FileView.NotebookPage as TFileViewPage;
-      PanelSelected := Page.Notebook.Side;
+      SelectedPanel := Page.Notebook.Side;
       UpdateSelectedDrive(Page.Notebook);
       UpdatePrompt;
       UpdateFreeSpace(Page.Notebook.Side);
@@ -3687,7 +3764,7 @@ end;
 
 procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
-  PanelSelected:=panel;
+  SelectedPanel:= panel;
   SetActiveFrame(ActiveFrame);
 end;
 
@@ -3695,10 +3772,30 @@ procedure TfrmMain.SetActiveFrame(FileView: TFileView);
 begin
   FileView.SetFocus;
   if (fspDirectAccess in FileView.FileSource.GetProperties) then
-    begin
-      if gTermWindow and Assigned(Cons) then
-        Cons.Terminal.SetCurrentDir(FileView.CurrentPath);
-    end;
+  begin
+    if gTermWindow and Assigned(Cons) then
+      Cons.Terminal.SetCurrentDir(FileView.CurrentPath);
+  end;
+end;
+
+procedure TfrmMain.UpdateTreeViewPath;
+begin
+  if (gSeparateTree = False) or (ShellTreeView.Tag <> 0) then Exit;
+  if (fspDirectAccess in ActiveFrame.FileSource.Properties) then
+  try
+    ShellTreeView.Path := ActiveFrame.CurrentPath;
+  except
+    // Skip
+  end;
+end;
+
+procedure TfrmMain.UpdateTreeView;
+begin
+  if gShowSystemFiles then
+    ShellTreeView.ObjectTypes:= ShellTreeView.ObjectTypes + [otHidden]
+  else begin
+    ShellTreeView.ObjectTypes:= ShellTreeView.ObjectTypes - [otHidden];
+  end;
 end;
 
 function CompareDrives(Item1, Item2: Pointer): Integer;
@@ -4382,6 +4479,17 @@ begin
       end;
     end;
 
+    // Separate tree
+    TreeSplitter.Visible := gSeparateTree;
+    ShellTreeView.Visible := gSeparateTree;
+    if gSeparateTree then
+    begin
+      ShellTreeView.Font.Color := gForeColor;
+      ShellTreeView.BackgroundColor := gBackColor;
+      ShellTreeView.SelectionColor := gCursorColor;
+      FontOptionsToFont(gFonts[dcfMain], ShellTreeView.Font);
+    end;
+
     // Operations panel and menu
     if (gPanelOfOp = False) then
       FreeAndNil(FOperationsPanel)
@@ -4803,6 +4911,13 @@ procedure TfrmMain.SetMainSplitterPos(AValue: Double);
 begin
   if (AValue >= 0) and (AValue <= 100) then
     FMainSplitterPos:= AValue;
+end;
+
+procedure TfrmMain.SetPanelSelected(AValue: TFilePanelSelect);
+begin
+  if PanelSelected = AValue then Exit;
+  PanelSelected := AValue;
+  UpdateTreeViewPath;
 end;
 
 procedure TfrmMain.TypeInCommandLine(Str: String);
@@ -5312,9 +5427,9 @@ begin
   end;
   // Change program current path
   if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
-    begin
-      mbSetCurrentDir(ActiveFrame.CurrentPath);
-    end;
+  begin
+    mbSetCurrentDir(ActiveFrame.CurrentPath);
+  end;
 end;
 
 procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);

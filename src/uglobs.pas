@@ -112,7 +112,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 22;
+  hkVersion     = 23;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -184,6 +184,7 @@ var
   gHorizontalFilePanels,
   gShortFormatDriveInfo: Boolean;
   gDrivesListButtonOptions: TDrivesListButtonOptions;
+  gSeparateTree: Boolean;
 
   { Toolbar }
   gToolBarButtonSize,
@@ -779,6 +780,7 @@ begin
       AddIfNotExists(['Ctrl+Shift+F1'],[],'cm_ThumbnailsView');
       AddIfNotExists(['Ctrl+Shift+Enter'],[],'cm_AddPathAndFilenameToCmdLine');
       AddIfNotExists(['Ctrl+Shift+Tab'],[],'cm_PrevTab');
+      AddIfNotExists(['Ctrl+Shift+F8'],[],'cm_TreeView');
       AddIfNotExists(['Ctrl+Tab'],[],'cm_NextTab');
       AddIfNotExists(['Ctrl+Up'],[],'cm_OpenDirInNewTab');
       AddIfNotExists(['Ctrl+\'],[],'cm_ChangeDirToRoot');
@@ -1218,6 +1220,7 @@ begin
   gShortFormatDriveInfo := True;
   gHorizontalFilePanels := False;
   gDrivesListButtonOptions := [dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace];
+  gSeparateTree := False;
 
   { Keys page }
   gKeyTyping[ktmNone]    := ktaQuickSearch;
@@ -2183,6 +2186,7 @@ begin
           LoadOption(SubNode, gDrivesListButtonOptions, dlbShowFreeSpace, 'ShowFreeSpace');
         end;
       end;
+      gSeparateTree := GetValue(Node, 'SeparateTree', gSeparateTree);
       gDirectoryTabs := GetValue(Node, 'DirectoryTabs', gDirectoryTabs);
       gCurDir := GetValue(Node, 'CurrentDirectory', gCurDir);
       gTabHeader := GetValue(Node, 'TabHeader', gTabHeader);
@@ -2643,6 +2647,7 @@ begin
     SetValue(SubNode, 'ShowLabel', dlbShowLabel in gDrivesListButtonOptions);
     SetValue(SubNode, 'ShowFileSystem', dlbShowFileSystem in gDrivesListButtonOptions);
     SetValue(SubNode, 'ShowFreeSpace', dlbShowFreeSpace in gDrivesListButtonOptions);
+    SetValue(Node, 'SeparateTree', gSeparateTree);
     SetValue(Node, 'DirectoryTabs', gDirectoryTabs);
     SetValue(Node, 'CurrentDirectory', gCurDir);
     SetValue(Node, 'TabHeader', gTabHeader);
