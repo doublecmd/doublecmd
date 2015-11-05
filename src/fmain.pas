@@ -4480,6 +4480,7 @@ begin
     end;
 
     // Separate tree
+    actTreeView.Checked := gSeparateTree;
     TreeSplitter.Visible := gSeparateTree;
     ShellTreeView.Visible := gSeparateTree;
     if gSeparateTree then
