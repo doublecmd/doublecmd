@@ -976,16 +976,16 @@ object frmMain: TfrmMain
       Left = 568
       Height = 20
       Top = 0
-      Width = 111
+      Width = 110
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
     end
     object btnF10: TSpeedButton
-      Left = 679
+      Left = 678
       Height = 20
       Top = 0
-      Width = 81
+      Width = 82
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -2373,6 +2373,7 @@ object frmMain: TfrmMain
       Caption = 'Toggle fullscreen mode console'
     end
     object actTreeView: TAction
+      Tag = 16
       Category = 'Window'
       Caption = '&Tree View Panel'
       OnExecute = actExecute
