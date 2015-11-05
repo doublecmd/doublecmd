@@ -3140,6 +3140,10 @@ msgstr "Bewege markierten &Ordner in das linke Fenster"
 msgid "Transfer dir under cursor to right window"
 msgstr "Bewege &markierten Ordner in das rechte Fenster"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr "Anhand von Parametern sortieren"

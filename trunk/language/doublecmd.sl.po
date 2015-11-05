@@ -2852,6 +2852,10 @@ msgstr "Odpri označeno mapo desnega okna v levem oknu."
 msgid "Transfer dir under cursor to right window"
 msgstr "Odpri označeno mapo levega okna v desnem oknu."
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

@@ -3001,6 +3001,10 @@ msgstr "傳送指標行上的資料夾到左視窗"
 msgid "Transfer dir under cursor to right window"
 msgstr "傳送指標行上的資料夾到右視窗"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

@@ -3050,6 +3050,10 @@ msgstr "传输当前行到左窗口"
 msgid "Transfer dir under cursor to right window"
 msgstr "传输当前行到右窗口"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

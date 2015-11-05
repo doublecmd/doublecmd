@@ -2850,6 +2850,10 @@ msgstr "Trasferisci cartella evidenziata dal cursore nella finestra di sinistra"
 msgid "Transfer dir under cursor to right window"
 msgstr "Trasferisci cartella evidenziata dal cursore nella finestra di destra"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

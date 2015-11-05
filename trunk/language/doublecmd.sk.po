@@ -3116,6 +3116,10 @@ msgstr "Preniesť adresár pod kurzorom do ľavého okna"
 msgid "Transfer dir under cursor to right window"
 msgstr "Preniesť adresár pod kurzorom do pravého okna"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""
