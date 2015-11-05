@@ -2832,6 +2832,10 @@ msgstr "左のウィンドウにカーソルの下のディレクトリを転送
 msgid "Transfer dir under cursor to right window"
 msgstr "右のウィンドウにカーソルの下のディレクトリを転送"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr "パラメータに従ってソート"

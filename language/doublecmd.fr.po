@@ -3060,6 +3060,10 @@ msgstr "Déplacer le dossier sous le curseur dans le panneau à gauche"
 msgid "Transfer dir under cursor to right window"
 msgstr "Déplacer le dossier sous le curseur dans le panneau à droite"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

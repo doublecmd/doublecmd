@@ -2834,6 +2834,10 @@ msgstr "Открыть каталог под курсором на левой п
 msgid "Transfer dir under cursor to right window"
 msgstr "Открыть каталог под курсором на правой панели"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr "Дерево каталогов"
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

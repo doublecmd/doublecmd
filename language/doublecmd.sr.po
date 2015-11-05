@@ -2852,6 +2852,10 @@ msgstr "Премести фасциклу под показивачем на л�
 msgid "Transfer dir under cursor to right window"
 msgstr "Премести фасциклу под показивачем на десни прозор"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

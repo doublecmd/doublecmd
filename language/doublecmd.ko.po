@@ -3091,6 +3091,10 @@ msgstr "커서가 위치한 폴더를 왼쪽 창으로 전송"
 msgid "Transfer dir under cursor to right window"
 msgstr "커서가 위치한 폴더를 오른쪽 창으로 전송"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

@@ -2848,6 +2848,10 @@ msgstr "Transferă dosarul de sub cursor spre fereastra din stânga"
 msgid "Transfer dir under cursor to right window"
 msgstr "Transferă dosarul de sub cursor spre fereastra din dreapta"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

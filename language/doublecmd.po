@@ -2830,6 +2830,10 @@ msgstr ""
 msgid "Transfer dir under cursor to right window"
 msgstr ""
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

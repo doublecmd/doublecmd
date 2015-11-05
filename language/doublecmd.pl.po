@@ -2850,6 +2850,10 @@ msgstr "Otwórz ten katalog w lewym oknie"
 msgid "Transfer dir under cursor to right window"
 msgstr "Otwórz ten katalog w prawym oknie"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""

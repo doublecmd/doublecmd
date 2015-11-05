@@ -2852,6 +2852,10 @@ msgstr "Transferir a pasta sob o cursor para a janela esquerda"
 msgid "Transfer dir under cursor to right window"
 msgstr "Transferir a pasta sob o cursor para a janela direita"
 
+#: tfrmmain.acttreeview.caption
+msgid "&Tree View Panel"
+msgstr ""
+
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
 msgstr ""
