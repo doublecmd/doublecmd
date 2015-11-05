@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-09-29 19:32+0100\n"
+"PO-Revision-Date: 2015-11-04 18:12+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2039,7 +2039,7 @@ msgstr "Bis Dateigr&öße"
 
 #: tfrmfinddlg.cbfindinarchive.caption
 msgid "Search in &archives"
-msgstr ""
+msgstr "In &Archiv(en) suchen"
 
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
@@ -3092,7 +3092,7 @@ msgstr "Nach &Grösse sortieren"
 
 #: tfrmmain.actsrcopendrives.caption
 msgid "Open drive list"
-msgstr "Liste dder Laufwerke öffnen"
+msgstr "Liste der Laufwerke öffnen"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
