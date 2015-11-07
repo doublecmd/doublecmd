@@ -50,7 +50,7 @@ object frmMain: TfrmMain
     Top = 20
     Width = 121
     Align = alLeft
-    FileSortType = fstNone
+    FileSortType = fstAlphabet
     ReadOnly = True
     RightClickSelect = True
     ScrollBars = ssAutoBoth
