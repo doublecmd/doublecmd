@@ -147,7 +147,7 @@ uses
   LCLType, FileUtil, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
   uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
-  uFileSourceOperationOptions, uKeyboard, DCStrUtils;
+  uFileSourceOperationOptions, uKeyboard, DCStrUtils, DCUnix;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin

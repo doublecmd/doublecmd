@@ -166,14 +166,6 @@ function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrna
             insufficient space in the environment)
 }
 function setenv(const name, value: PChar; overwrite: LongInt): LongInt; cdecl; external libc name 'setenv';
-{en
-   Change owner and group of a file (does not follow symbolic links)
-   @param(path Full path to file)
-   @param(owner User ID)
-   @param(group Group ID)
-   @returns(On success, zero is returned. On error, -1 is returned, and errno is set appropriately)
-}
-function fpLChown(path : pChar; owner : TUid; group : TGid): cInt; {$IFDEF FPC_USE_LIBC}cdecl; external libc name 'lchown';{$ENDIF}
 
 {$IFDEF LINUX}
 function fpOpenDir(__name: PChar): pDir; cdecl; external libc name 'opendir';
@@ -270,15 +262,6 @@ const
 begin
   Result := do_syscall(syscall_nr_getfsstat, TSysParam(struct_statfs), TSysParam(buffsize), TSysParam(int_flags));
 end;
-{$ENDIF}
-
-{$IFNDEF FPC_USE_LIBC}
-
-function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
-begin
-  fpLChown:=do_syscall(syscall_nr_lchown,TSysParam(path),TSysParam(owner),TSysParam(group));
-end;
-
 {$ENDIF}
 
 {$IF NOT DEFINED(LINUX)}
