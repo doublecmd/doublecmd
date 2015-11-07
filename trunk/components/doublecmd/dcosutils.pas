@@ -189,13 +189,7 @@ uses
   Windows, JwaWinNetWk, DCDateTimeUtils, DCWindows,
 {$ENDIF}
 {$IF DEFINED(UNIX)}
-  {$IF DEFINED(BSD)}
-    {$DEFINE FPC_USE_LIBC}
-  {$ENDIF}
-  {$IF (NOT DEFINED(FPC_USE_LIBC)) OR (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
-  SysCall,
-  {$ENDIF}
-  BaseUnix, Unix, dl,
+  BaseUnix, Unix, dl, DCUnix,
 {$ENDIF}
   DCStrUtils, LazUTF8;
 
@@ -237,13 +231,6 @@ const
                 O_RdOnly,
                 O_WrOnly,
                 O_RdWr);
-
-function fpLChown(path : pChar; owner : TUid; group : TGid): cInt; {$IFDEF FPC_USE_LIBC}cdecl; external 'c' name 'lchown';{$ENDIF}
-{$IFNDEF FPC_USE_LIBC}
-begin
-  fpLChown:=do_syscall(syscall_nr_lchown,TSysParam(path),TSysParam(owner),TSysParam(group));
-end;
-{$ENDIF}
 {$ENDIF}
 
 (*Is Directory*)
