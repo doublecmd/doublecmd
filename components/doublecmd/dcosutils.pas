@@ -593,10 +593,8 @@ function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
 var
   Handle: System.THandle;
   FindData: TWin32FindDataW;
-  wFileName: WideString;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Handle := FindFirstFileW(PWChar(wFileName), FindData);
+  Handle := FindFirstFileW(PWideChar(UTF8Decode(FileName)), FindData);
   if Handle <> INVALID_HANDLE_VALUE then
     begin
       Windows.FindClose(Handle);
@@ -666,10 +664,8 @@ function mbFileGetTime(const FileName: String;
 {$IFDEF MSWINDOWS}
 var
   Handle: System.THandle;
-  wFileName: WideString;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Handle := CreateFileW(PWChar(wFileName),
+  Handle := CreateFileW(PWideChar(UTF8Decode(FileName)),
                         FILE_READ_ATTRIBUTES,
                         FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                         nil,
@@ -709,13 +705,11 @@ function mbFileSetTime(const FileName: String;
 {$IFDEF MSWINDOWS}
 var
   Handle: System.THandle;
-  wFileName: WideString;
   PWinModificationTime: Windows.LPFILETIME = nil;
   PWinCreationTime: Windows.LPFILETIME = nil;
   PWinLastAccessTime: Windows.LPFILETIME = nil;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Handle := CreateFileW(PWChar(wFileName),
+  Handle := CreateFileW(PWideChar(UTF8Decode(FileName)),
                         FILE_WRITE_ATTRIBUTES,
                         FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                         nil,
@@ -768,11 +762,9 @@ end;
 function mbFileExists(const FileName: String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
-  Attr: Dword;
-  wFileName: WideString;
+  Attr: DWORD;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Attr:= GetFileAttributesW(PWChar(wFileName));
+  Attr:= GetFileAttributesW(PWideChar(UTF8Decode(FileName)));
   if Attr <> DWORD(-1) then
     Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0
   else
@@ -799,16 +791,14 @@ const
                 GENERIC_READ or GENERIC_WRITE);
 var
   hFile: System.THandle;
-  wFileName: WideString;
   dwDesiredAccess: DWORD;
   dwShareMode: DWORD = 0;
 begin
-  wFileName:= UTF8Decode(FileName);
   dwDesiredAccess := AccessMode[Mode and 3];
   if Mode = fmOpenRead then // If checking Read mode no sharing mode given
     Mode := Mode or fmShareDenyNone;
   dwShareMode := ShareModes[(Mode and $F0) shr 4];
-  hFile:= CreateFileW(PWChar(wFileName), dwDesiredAccess, dwShareMode,
+  hFile:= CreateFileW(PWideChar(UTF8Decode(FileName)), dwDesiredAccess, dwShareMode,
                       nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
   Result := hFile <> INVALID_HANDLE_VALUE;
   if Result then
@@ -832,11 +822,8 @@ end;
 
 function mbFileGetAttr(const FileName: String): TFileAttrs;
 {$IFDEF MSWINDOWS}
-var
-  wFileName: WideString;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Result := GetFileAttributesW(PWChar(wFileName));
+  Result := GetFileAttributesW(PWideChar(UTF8Decode(FileName)));
 end;
 {$ELSE}
 var
@@ -851,11 +838,8 @@ end;
 
 function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): LongInt;
 {$IFDEF MSWINDOWS}
-var
-  wFileName: WideString;
 begin
-  wFileName:= UTF8Decode(FileName);
-  if SetFileAttributesW(PWChar(wFileName), Attr) then
+  if SetFileAttributesW(PWideChar(UTF8Decode(FileName)), Attr) then
     Result:= 0
   else
     Result:= GetLastError;
@@ -904,16 +888,16 @@ function mbFileSetReadOnly(const FileName: String; ReadOnly: Boolean): Boolean;
 {$IFDEF MSWINDOWS}
 var
   iAttr: DWORD;
-  wFileName: WideString;
+  wFileName: UnicodeString;
 begin
   wFileName:= UTF8Decode(FileName);
-  iAttr := GetFileAttributesW(PWChar(wFileName));
+  iAttr := GetFileAttributesW(PWideChar(wFileName));
   if iAttr = DWORD(-1) then Exit(False);
   if ReadOnly then
     iAttr:= iAttr or faReadOnly
   else
     iAttr:= iAttr and not faReadOnly;
-  Result:= SetFileAttributesW(PWChar(wFileName), iAttr) = True;
+  Result:= SetFileAttributesW(PWideChar(wFileName), iAttr) = True;
 end;
 {$ELSE}
 var
@@ -928,11 +912,8 @@ end;
 
 function mbDeleteFile(const FileName: String): Boolean;
 {$IFDEF MSWINDOWS}
-var
-  wFileName: WideString;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Result:= Windows.DeleteFileW(PWChar(wFileName));
+  Result:= Windows.DeleteFileW(PWideChar(UTF8Decode(FileName)));
 end;
 {$ELSE}
 begin
@@ -944,7 +925,7 @@ function mbRenameFile(const OldName: String; NewName: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wOldName,
-  wNewName: WideString;
+  wNewName: UnicodeString;
 begin
   wOldName:= UTF8Decode(OldName);
   wNewName:= UTF8Decode(NewName);
@@ -1036,11 +1017,9 @@ function mbFileSize(const FileName: String): Int64;
 var
   Handle: System.THandle;
   FindData: TWin32FindDataW;
-  wFileName: WideString;
 begin
   Result:= 0;
-  wFileName:= UTF8Decode(FileName);
-  Handle := FindFirstFileW(PWideChar(wFileName), FindData);
+  Handle := FindFirstFileW(PWideChar(UTF8Decode(FileName)), FindData);
   if Handle <> INVALID_HANDLE_VALUE then
     begin
       Windows.FindClose(Handle);
@@ -1132,11 +1111,9 @@ end;
 function mbDirectoryExists(const Directory: String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
-  Attr:Dword;
-  wDirectory: WideString;
+  Attr: DWORD;
 begin
-  wDirectory:= UTF8Decode(Directory);
-  Attr:= GetFileAttributesW(PWChar(wDirectory));
+  Attr:= GetFileAttributesW(PWideChar(UTF8Decode(Directory)));
   if Attr <> DWORD(-1) then
     Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0
   else
@@ -1160,11 +1137,8 @@ end;
 
 function mbCreateDir(const NewDir: String): Boolean;
 {$IFDEF MSWINDOWS}
-var
-  wNewDir: WideString;
 begin
-  wNewDir:= UTF8Decode(NewDir);
-  Result:= CreateDirectoryW(PWChar(wNewDir), nil);
+  Result:= CreateDirectoryW(PWideChar(UTF8Decode(NewDir)), nil);
 end;
 {$ELSE}
 begin
@@ -1174,11 +1148,8 @@ end;
 
 function mbRemoveDir(const Dir: String): Boolean;
 {$IFDEF MSWINDOWS}
-var
-  wDir: WideString;
 begin
-  wDir:= UTF8Decode(Dir);
-  Result:= RemoveDirectoryW(PWChar(wDir));
+  Result:= RemoveDirectoryW(PWideChar(UTF8Decode(Dir)));
 end;
 {$ELSE}
 begin
@@ -1269,7 +1240,7 @@ begin
           hp:= hp + lstrlenW(hp) + 1;
         end;
       if (hp^ <> #0) then
-        Result:= UTF8Encode(WideString(hp));
+        Result:= UTF8Encode(UnicodeString(hp));
     end;
   FreeEnvironmentStringsW(p);
 end;
@@ -1327,11 +1298,8 @@ end;
 
 function mbLoadLibrary(const Name: String): TLibHandle;
 {$IFDEF MSWINDOWS}
-var
-  wsName: WideString;
 begin
-  wsName:= UTF8Decode(Name);
-  Result:= LoadLibraryW(PWideChar(wsName));
+  Result:= LoadLibraryW(PWideChar(UTF8Decode(Name)));
 end;
 {$ELSE}
 begin
