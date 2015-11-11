@@ -83,7 +83,7 @@ procedure OleCheckUTF8(Result: HResult);
 implementation
 
 uses
-  SysUtils, ShellApi, JwaShlGuid, ComObj;
+  SysUtils, ShellApi, JwaShlGuid, ComObj, LazUTF8, DCConvertEncoding;
 
 function SHGetImageListFallback(iImageList: Integer; const riid: TGUID; var ImageList: HIMAGELIST): HRESULT; stdcall;
 var
@@ -141,7 +141,7 @@ begin
     begin
       FileNameW := UTF8Decode(FileName);
       Result := SHChangeIconW(hOwner, FileNameW, SizeOf(FileNameW), IconIndex);
-      if Result then FileName := UTF8Encode(WideString(FileNameW));
+      if Result then FileName := UTF16ToUTF8(UnicodeString(FileNameW));
     end
   end;
 end;
@@ -214,7 +214,7 @@ begin
             if Succeeded(Folder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, pidlFile, dwAttributes)) then
               if Succeeded(Folder.GetUIObjectOf(0, 1, pidlFile, IID_IQueryInfo, nil, queryInfo)) then
                 if Succeeded(queryInfo.GetInfoTip(QITIPF_USESLOWTIP, ppwszTip)) then
-                  Result:= UTF8Encode(WideString(ppwszTip));
+                  Result:= UTF16ToUTF8(WideString(ppwszTip));
           finally
             Folder:= nil;
             queryInfo:= nil;
@@ -249,7 +249,7 @@ begin
       if Failed(ShellLink.GetPath(pszFile, MAX_PATH, @FindData, 0)) then Exit;
       if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
       begin
-        LinkTarget := UTF8Encode(WideString(pszFile));
+        LinkTarget := UTF16ToUTF8(WideString(pszFile));
         Result := (LinkTarget <> EmptyStr);
       end;
     finally
@@ -262,7 +262,7 @@ end;
 
 procedure OleErrorUTF8(ErrorCode: HResult);
 begin
-  raise EOleError.Create(UTF8Encode(SysErrorMessage(ErrorCode)));
+  raise EOleError.Create(CeSysToUTF8(SysErrorMessage(ErrorCode)));
 end;
 
 procedure OleCheckUTF8(Result: HResult);

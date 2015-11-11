@@ -1067,7 +1067,7 @@ begin
     else begin
       SetLength(wsDir, dwSize + 1);
       SetLength(wsDir, GetCurrentDirectoryW(dwSize, PWideChar(wsDir)));
-      Result:= UTF8Encode(wsDir);
+      Result:= UTF16ToUTF8(wsDir);
     end;
   end;
 end;
@@ -1240,7 +1240,7 @@ begin
           hp:= hp + lstrlenW(hp) + 1;
         end;
       if (hp^ <> #0) then
-        Result:= UTF8Encode(UnicodeString(hp));
+        Result:= UTF16ToUTF8(UnicodeString(hp));
     end;
   FreeEnvironmentStringsW(p);
 end;
@@ -1262,7 +1262,7 @@ begin
     Result:= FileName
   else begin
     SetLength(wsResult, dwSize - 1);
-    Result:= UTF8Encode(wsResult);
+    Result:= UTF16ToUTF8(wsResult);
   end;
 end;
 {$ELSE}
@@ -1290,7 +1290,7 @@ function mbSysErrorMessage(ErrorCode: Integer): String;
 begin
   Result :=
 {$IFDEF WINDOWS}
-            UTF8Encode(SysErrorMessage(ErrorCode));
+            CeSysToUTF8(SysErrorMessage(ErrorCode));
 {$ELSE}
             SysToUTF8(SysErrorMessage(ErrorCode));
 {$ENDIF}

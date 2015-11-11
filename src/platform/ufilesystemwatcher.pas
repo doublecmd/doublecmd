@@ -78,7 +78,7 @@ implementation
 uses
   LCLProc, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows, JwaWinNT, JwaWinBase, DCWindows, DCStrUtils, uGlobs, uOSUtils
+  ,Windows, JwaWinNT, JwaWinBase, LazUTF8, DCWindows, DCStrUtils, uGlobs, uOSUtils
   {$ELSEIF DEFINED(LINUX)}
   ,inotify, BaseUnix, FileUtil
   {$ELSEIF DEFINED(BSD)}
@@ -371,7 +371,7 @@ begin
       case fnInfo^.Action of
         FILE_ACTION_ADDED:
           begin
-            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.FileName := UTF16ToUTF8(wFilename);
             FCurrentEventData.EventType := fswFileCreated;
             {$IFDEF DEBUG_WATCHER}
             DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Created file ',
@@ -380,7 +380,7 @@ begin
           end;
         FILE_ACTION_REMOVED:
           begin
-            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.FileName := UTF16ToUTF8(wFilename);
             FCurrentEventData.EventType := fswFileDeleted;
             {$IFDEF DEBUG_WATCHER}
             DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Deleted file ',
@@ -389,7 +389,7 @@ begin
           end;
         FILE_ACTION_MODIFIED:
           begin
-            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.FileName := UTF16ToUTF8(wFilename);
             FCurrentEventData.EventType := fswFileChanged;
             {$IFDEF DEBUG_WATCHER}
             DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Modified file ',
@@ -398,7 +398,7 @@ begin
           end;
         FILE_ACTION_RENAMED_OLD_NAME:
           begin
-            Watch.FOldFileName := UTF8Encode(wFilename);
+            Watch.FOldFileName := UTF16ToUTF8(wFilename);
             {$IFDEF DEBUG_WATCHER}
             DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename from ',
               IncludeTrailingPathDelimiter(Watch.WatchPath) + FCurrentEventData.FileName);
@@ -407,7 +407,7 @@ begin
         FILE_ACTION_RENAMED_NEW_NAME:
           begin
             FCurrentEventData.FileName := Watch.FOldFileName;
-            FCurrentEventData.NewFileName := UTF8Encode(wFilename);
+            FCurrentEventData.NewFileName := UTF16ToUTF8(wFilename);
             FCurrentEventData.EventType := fswFileRenamed;
             {$IFDEF DEBUG_WATCHER}
             DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename to ',

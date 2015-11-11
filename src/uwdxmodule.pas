@@ -263,8 +263,8 @@ type
 implementation
 
 uses
-  StrUtils, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils, DCBasicTypes,
-  DCOSUtils, DCDateTimeUtils, DCConvertEncoding;
+  StrUtils, LazUTF8, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils,
+  DCBasicTypes, DCOSUtils, DCDateTimeUtils, DCConvertEncoding;
 
 const
   WdxIniFileName = 'wdx.ini';
@@ -817,7 +817,7 @@ begin
     ft_multiplechoice,
     ft_string,
     ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
-    ft_stringw: Result := UTF8Encode(WideString(PWideChar(@Buf[0])));
+    ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
     else
       Result := Null;
   end;
@@ -872,7 +872,7 @@ begin
     ft_multiplechoice,
     ft_string,
     ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
-    ft_stringw: Result := UTF8Encode(WideString(PWideChar(@Buf[0])));
+    ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
       //TODO: FT_DELAYED,ft_ondemand
     else
       Result := '';

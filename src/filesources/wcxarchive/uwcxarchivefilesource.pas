@@ -237,8 +237,8 @@ var
   sArchiveName,
   sPassword: String;
 begin
-  sArchiveName:= UTF8Encode(WideString(ArchiveName));
-  sPassword:= UTF8Encode(WideString(Password));
+  sArchiveName:= UTF16ToUTF8(UnicodeString(ArchiveName));
+  sPassword:= UTF16ToUTF8(UnicodeString(Password));
   Result:= CryptProc(CryptoNumber, Mode, sArchiveName, sPassword);
   if Result = E_SUCCESS then
     begin

@@ -45,7 +45,7 @@ const
   REPARSE_DATA_HEADER_SIZE = 8;
   MOUNT_POINT_HEADER_SIZE  = 8;
   FILE_DOES_NOT_EXIST = DWORD(-1);
-  wsNativeFileNamePrefix : WideString = '\??\';
+  wsNativeFileNamePrefix : UnicodeString = '\??\';
 
 type
   {$packrecords c}
@@ -93,7 +93,7 @@ type
    @param(ALinkName The name of the symbolic link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateSymLink(ATargetName, ALinkName: WideString): Boolean;
+function CreateSymLink(ATargetName, ALinkName: UnicodeString): Boolean;
 {en
    Established a hard link beetwen an existing file and new file. This function
    is only supported on the NTFS file system, and only for files, not directories.
@@ -101,7 +101,7 @@ function CreateSymLink(ATargetName, ALinkName: WideString): Boolean;
    @param(ALinkName The name of the new hard link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateHardLink(AFileName, ALinkName: WideString): Boolean;
+function CreateHardLink(AFileName, ALinkName: UnicodeString): Boolean;
 {en
    Reads a symbolic link target.
    This function is only supported on the NTFS file system.
@@ -109,7 +109,7 @@ function CreateHardLink(AFileName, ALinkName: WideString): Boolean;
    @param(aTargetFileName The name of the target file/directory)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function ReadSymLink(aSymlinkFileName: WideString; out aTargetFileName: WideString): Boolean;
+function ReadSymLink(aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
 
 implementation
 
@@ -132,7 +132,7 @@ begin
   Result:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6);
 end;
 
-function _CreateHardLink_New(AFileName : WideString; ALinkName: WideString): Boolean;
+function _CreateHardLink_New(AFileName : UnicodeString; ALinkName: UnicodeString): Boolean;
 var
   hLib: THandle;
   CreateHardLinkW: TCreateHardLinkW;
@@ -156,7 +156,7 @@ begin
   Result:= CreateHardLinkW(PWideChar(ALinkName), PWideChar(AFileName), nil);
 end;
 
-function _CreateHardLink_Old(aExistingFileName, aFileName: WideString): Boolean;
+function _CreateHardLink_Old(aExistingFileName, aFileName: UnicodeString): Boolean;
 var
   hFile: THandle;
   lpBuffer: TWin32StreamId;
@@ -213,7 +213,7 @@ begin
   end;
 end;
 
-function CreateHardLink(AFileName, ALinkName: WideString): Boolean;
+function CreateHardLink(AFileName, ALinkName: UnicodeString): Boolean;
 var
   dwAttributes: DWORD;
 begin
@@ -233,7 +233,7 @@ begin
     Result:= _CreateHardLink_Old(AFileName, ALinkName)
 end;
 
-function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: WideString): boolean;
+function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: UnicodeString): boolean;
 var
   hLib: THandle;
   CreateSymbolicLinkW: TCreateSymbolicLinkW;
@@ -257,13 +257,13 @@ begin
   Result:= CreateSymbolicLinkW(PWideChar(ASymlinkFileName), PWideChar(ATargetFileName), SYMBOLIC_LINK_FLAG_FILE);
 end;
 
-function _CreateSymLink_Old(aTargetFileName, aSymlinkFileName: WideString): Boolean;
+function _CreateSymLink_Old(aTargetFileName, aSymlinkFileName: UnicodeString): Boolean;
 var
   hDevice: THandle;
   lpInBuffer: PReparseDataBuffer;
   nInBufferSize,
   dwPathBufferSize: DWORD;
-  wsNativeFileName: WideString;
+  wsNativeFileName: UnicodeString;
   lpBytesReturned: DWORD = 0;
 begin
   Result:= CreateDirectoryW(PWideChar(aSymlinkFileName), nil);
@@ -303,7 +303,7 @@ begin
   end;
 end;
 
-function CreateSymLink(ATargetName, ALinkName: WideString): Boolean;
+function CreateSymLink(ATargetName, ALinkName: UnicodeString): Boolean;
 var
   dwAttributes : DWORD;
 begin
@@ -315,7 +315,7 @@ begin
     Result:= _CreateSymLink_New(ATargetName, ALinkName);
 end;
 
-function ReadSymLink(aSymlinkFileName: WideString; out aTargetFileName: WideString): Boolean;
+function ReadSymLink(aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
 var
   hDevice: THandle;
   dwFileAttributes: DWORD;

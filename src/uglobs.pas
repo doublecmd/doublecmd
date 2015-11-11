@@ -1070,7 +1070,7 @@ begin
   SHGetSpecialFolderPathW(0, @FilePath[0], SpecialConstant, FALSE);
   if FilePath<>'' then
   begin
-    MaybePath:=IncludeTrailingPathDelimiter(UTF8Encode(WideString(FilePath)));
+    MaybePath:=IncludeTrailingPathDelimiter(UTF16ToUTF8(WideString(FilePath)));
     if mbFileExists(MaybePath+FilenameSearched) then result:=MaybePath+FilenameSearched;
   end;
 end;

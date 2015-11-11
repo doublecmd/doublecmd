@@ -219,8 +219,8 @@ var
   sSourceName,
   sTargetName: String;
 begin
-  sSourceName:= UTF8Encode(WideString(SourceName));
-  sTargetName:= UTF8Encode(WideString(TargetName));
+  sSourceName:= UTF16ToUTF8(UnicodeString(SourceName));
+  sTargetName:= UTF16ToUTF8(UnicodeString(TargetName));
   Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
 end;
 
@@ -290,7 +290,7 @@ end;
 
 procedure MainLogProcW(PluginNr, MsgType: Integer; LogString: PWideChar); dcpcall;
 begin
-  MainLogProc(PluginNr, MsgType, UTF8Encode(WideString(LogString)));
+  MainLogProc(PluginNr, MsgType, UTF16ToUTF8(UnicodeString(LogString)));
 end;
 
 function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText: String; var ReturnedText: String): Bool;
@@ -386,9 +386,9 @@ var
   sCustomText,
   sReturnedText: String;
 begin
-  sCustomTitle:= UTF8Encode(WideString(CustomTitle));
-  sCustomText:=  UTF8Encode(WideString(CustomText));
-  sReturnedText:= UTF8Encode(WideString(ReturnedText));
+  sCustomTitle:= UTF16ToUTF8(UnicodeString(CustomTitle));
+  sCustomText:=  UTF16ToUTF8(UnicodeString(CustomText));
+  sReturnedText:= UTF16ToUTF8(UnicodeString(ReturnedText));
   Result:= MainRequestProc(PluginNr, RequestType, sCustomTitle, sCustomText, sReturnedText);
   if Result then
     begin
@@ -467,8 +467,8 @@ var
   sConnectionName,
   sPassword: String;
 begin
-  sConnectionName:= UTF8Encode(WideString(ConnectionName));
-  sPassword:= UTF8Encode(WideString(Password));
+  sConnectionName:= UTF16ToUTF8(UnicodeString(ConnectionName));
+  sPassword:= UTF16ToUTF8(UnicodeString(Password));
   Result:= CryptProc(PluginNr, CryptoNumber, Mode, sConnectionName, sPassword);
   if Result = FS_FILE_OK then
     begin
