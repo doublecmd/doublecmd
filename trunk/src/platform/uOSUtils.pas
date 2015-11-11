@@ -230,8 +230,8 @@ uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
   fConfirmCommandLine, uLog
   {$IF DEFINED(MSWINDOWS)}
-  , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
-  , shlobj
+  , JwaWinCon, Windows, LazUTF8, uNTFSLinks, uMyWindows, JwaWinNetWk,
+    uShlObjAdditional, shlobj
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
@@ -597,12 +597,12 @@ function ReadSymLink(const LinkName : String) : String;
 {$IFDEF MSWINDOWS}
 var
   wsLinkName,
-  wsTarget: WideString;
+  wsTarget: UnicodeString;
 begin
   try
     wsLinkName:= UTF8Decode(LinkName);
     if uNTFSLinks.ReadSymLink(wsLinkName, wsTarget) then
-      Result := UTF8Encode(wsTarget)
+      Result := UTF16ToUTF8(wsTarget)
     else
       Result := '';
   except
@@ -683,7 +683,7 @@ function GetHomeDir : String;
 {$IFDEF MSWINDOWS}
 var
   iSize: Integer;
-  wHomeDir: WideString;
+  wHomeDir: UnicodeString;
 begin
   iSize:= GetEnvironmentVariableW('USERPROFILE', nil, 0);
   if iSize > 0 then
@@ -692,7 +692,7 @@ begin
       GetEnvironmentVariableW('USERPROFILE', PWChar(wHomeDir), iSize);
     end;
   Delete(wHomeDir, iSize, 1);
-  Result:= ExcludeBackPathDelimiter(UTF8Encode(wHomeDir));
+  Result:= ExcludeBackPathDelimiter(UTF16ToUTF8(wHomeDir));
 end;
 {$ELSE}
 begin
@@ -704,7 +704,7 @@ function GetShell : String;
 {$IFDEF MSWINDOWS}
 var
   iSize: Integer;
-  wShell: WideString;
+  wShell: UnicodeString;
 begin
   iSize:= GetEnvironmentVariableW('ComSpec', nil, 0);
   if iSize > 0 then
@@ -713,7 +713,7 @@ begin
       GetEnvironmentVariableW('ComSpec', PWChar(wShell), iSize);
     end;
   Delete(wShell, iSize, 1);
-  Result:= UTF8Encode(wShell);
+  Result:= UTF16ToUTF8(wShell);
 end;
 {$ELSE}
 begin
@@ -784,13 +784,13 @@ const
   SHGFP_TYPE_CURRENT = 0;
 var
   wPath: array[0..MAX_PATH-1] of WideChar;
-  wUser: WideString;
+  wUser: UnicodeString;
   dwLength: DWORD;
 begin
   if SUCCEEDED(SHGetFolderPathW(0, CSIDL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wPath[0])) or
      SUCCEEDED(SHGetFolderPathW(0, CSIDL_LOCAL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wPath[0])) then
   begin
-    Result := UTF8Encode(WideString(wPath));
+    Result := UTF16ToUTF8(WideString(wPath));
   end
   else
   begin
@@ -799,7 +799,7 @@ begin
     if GetUserNameW(PWideChar(wUser), @dwLength) then
     begin
       SetLength(wUser, dwLength - 1);
-      Result := GetTempDir + UTF8Encode(wUser);
+      Result := GetTempDir + UTF16ToUTF8(wUser);
     end
     else
       Result := EmptyStr;
@@ -829,7 +829,7 @@ var
   APath: array[0..MAX_PATH] of WideChar;
 begin
   if SHGetSpecialFolderPathW(0, APath, CSIDL_LOCAL_APPDATA, True) then
-    Result:= UTF8Encode(WideString(APath)) + DirectorySeparator + ApplicationName
+    Result:= UTF16ToUTF8(UnicodeString(APath)) + DirectorySeparator + ApplicationName
   else
     Result:= GetAppConfigDir;
 end;
@@ -990,7 +990,7 @@ end;
 function mbGetEnvironmentVariable(const sName: String): String;
 {$IFDEF MSWINDOWS}
 var
-  wsName: WideString;
+  wsName: UnicodeString;
   smallBuf: array[0..1023] of WideChar;
   largeBuf: PWideChar;
   dwResult: DWORD;
@@ -1006,13 +1006,13 @@ begin
     try
       dwResult := GetEnvironmentVariableW(PWideChar(wsName), largeBuf, dwResult);
       if dwResult > 0 then
-        Result := UTF8Encode(WideString(largeBuf));
+        Result := UTF16ToUTF8(UnicodeString(largeBuf));
     finally
       FreeMem(largeBuf);
     end;
   end
   else if dwResult > 0 then
-    Result := UTF8Encode(WideString(smallBuf));
+    Result := UTF16ToUTF8(UnicodeString(smallBuf));
 end;
 {$ELSE}
 begin
@@ -1117,14 +1117,14 @@ end;
 function GetCurrentUserName : String;
 {$IF DEFINED(MSWINDOWS)}
 var
-  wsUserName    : WideString;
+  wsUserName    : UnicodeString;
   dwUserNameLen : DWORD = UNLEN + 1;
 begin
   SetLength(wsUserName, dwUserNameLen);
   if GetUserNameW(PWideChar(wsUserName), dwUserNameLen) then
   begin
     SetLength(wsUserName, dwUserNameLen - 1);
-    Result := UTF8Encode(wsUserName);
+    Result := UTF16ToUTF8(wsUserName);
   end
   else
     Result := 'Unknown';
@@ -1143,7 +1143,7 @@ var
   Buffer: array[0..Pred(MAX_PATH)] of WideChar;
 begin
   if GetComputerNameW(Buffer, Size) then
-    Result := UTF8Encode(WideString(Buffer))
+    Result := UTF16ToUTF8(UnicodeString(Buffer))
   else
     Result := ''
 end;

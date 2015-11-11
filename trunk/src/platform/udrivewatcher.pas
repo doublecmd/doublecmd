@@ -61,7 +61,7 @@ uses
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-  uMyWindows, Windows, JwaDbt
+  uMyWindows, Windows, JwaDbt, LazUTF8
   {$ENDIF}
   ;
 
@@ -440,7 +440,7 @@ var
   DriveLetter: AnsiChar;
   DrivePath: String;
   Key: HKEY;
-  RegDrivePath: WideString;
+  RegDrivePath: UnicodeString;
   NetworkPath: array[0..Pred(MAX_PATH)] of WideChar;
   NetworkPathSize: DWORD = MAX_PATH * SizeOf(WideChar);
 begin
@@ -465,7 +465,7 @@ begin
           begin
             Path := DriveLetter + ':\';
             DisplayName := DriveLetter;
-            DriveLabel := UTF8Encode(WideString(NetworkPath));
+            DriveLabel := UTF16ToUTF8(UnicodeString(NetworkPath));
             DriveType := dtNetwork;
             AutoMount := True;
           end;

@@ -194,7 +194,7 @@ implementation
 uses
   //Lazarus, Free-Pascal, etc.
   LazUTF8, SysUtils, ShellAPI, ShlObj, LCLIntf, Win32Proc, ComObj,
-  DCDateTimeUtils, Forms,
+  DCDateTimeUtils, Forms, DCConvertEncoding,
 
   //DC
   uOSUtils, fOptionsDragDrop, uShowMsg, UGlobs, DCStrUtils, DCOSUtils,
@@ -440,7 +440,7 @@ begin
     else
     begin
       // Wide to Ansi
-      UriList := Utf8ToAnsi(UTF8Encode(wsUriList));
+      UriList := Utf8ToAnsi(UTF16ToUTF8(wsUriList));
 
       Result := MakeHGlobal(PAnsiChar(UriList),
                             Length(UriList) * SizeOf(AnsiChar));
@@ -969,10 +969,10 @@ begin
              // of a character was not possible, in which case filename is invalid.
              // This may happen if a non-Unicode application was the source.
              if Pos('?', FileName) = 0 then
-               Result.Add(UTF8Encode(FileName))
+               Result.Add(UTF16ToUTF8(FileName))
              else
                raise Exception.Create(rsMsgInvalidFilename + ': ' + LineEnding +
-                                      UTF8Encode(FileName));
+                                      UTF16ToUTF8(FileName));
           end;
 
         finally
@@ -1121,7 +1121,7 @@ begin
         begin
           MoveMemory(@DC_FileDescriptorW, AnyPointer, SizeOf(FILEDESCRIPTORW));
           AnyPointer:=AnyPointer+SizeOf(FILEDESCRIPTORW);
-          ActualFilename:=UTF8Encode(WideString(DC_FileDescriptorW.cFileName));
+          ActualFilename:=UTF16ToUTF8(UnicodeString(DC_FileDescriptorW.cFileName));
           WantedCreationTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftCreationTime);
           WantedModificationTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftLastWriteTime);
           WantedLastAccessTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftLastAccessTime);
@@ -1130,7 +1130,7 @@ begin
         begin
           MoveMemory(@DC_FileDescriptor, AnyPointer, SizeOf(FILEDESCRIPTOR));
           AnyPointer:=AnyPointer+SizeOf(FILEDESCRIPTOR);
-          ActualFilename:=UTF8Encode(AnsiString(DC_FileDescriptor.cFileName));
+          ActualFilename:=CeSysToUTF8(AnsiString(DC_FileDescriptor.cFileName));
           WantedCreationTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftCreationTime);
           WantedModificationTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftLastWriteTime);
           WantedLastAccessTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftLastAccessTime);

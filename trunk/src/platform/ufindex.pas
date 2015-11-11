@@ -86,7 +86,7 @@ implementation
 uses
   LCLProc, uDebug
   {$IFDEF MSWINDOWS}
-  , uMyWindows
+  , LazUTF8, uMyWindows
   {$ENDIF}
   {$IFDEF UNIX}
   , uMyUnix, Unix, FileUtil, DCOSUtils, DCFileAttributes
@@ -108,7 +108,7 @@ begin
     Time:= TWinFileTime(FindData.ftLastWriteTime);
     Size:= (Int64(FindData.nFileSizeHigh) shl 32) + FindData.nFileSizeLow;
     Attr:= FindData.dwFileAttributes;
-    Name:= UTF8Encode(WideString(FindData.cFileName));
+    Name:= UTF16ToUTF8(UnicodeString(FindData.cFileName));
   end;
   Result:= 0;
 end;

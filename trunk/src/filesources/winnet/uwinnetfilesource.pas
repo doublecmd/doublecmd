@@ -89,7 +89,7 @@ var
   ParentPath: TNetResourceW absolute lpBuffer;
   dwBufferSize: DWORD;
   dwResult: DWORD;
-  FilePath: WideString;
+  FilePath: UnicodeString;
 begin
   Result:= GetRootDir;
   if Pos('\\', sPath) = 1 then
@@ -111,8 +111,8 @@ begin
       msgError(mbSysErrorMessage(GetLastError))
     else
       begin
-        FilePath:= WideString(ParentPath.lpRemoteName);
-        Result := IncludeFrontPathDelimiter(UTF8Encode(FilePath));
+        FilePath:= UnicodeString(ParentPath.lpRemoteName);
+        Result := IncludeFrontPathDelimiter(UTF16ToUTF8(FilePath));
         Result := IncludeTrailingPathDelimiter(Result);
       end;
   end;

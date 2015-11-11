@@ -155,7 +155,7 @@ procedure FixCommandLineToUTF8;
 implementation
 
 uses
-  ShellAPI, MMSystem, JwaWinNetWk, uShlObjAdditional;
+  ShellAPI, MMSystem, JwaWinNetWk, LazUTF8, uShlObjAdditional;
 
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
 var
@@ -283,7 +283,7 @@ var
   DriveType, NotUsed: DWORD;
   Buf: array [0..MAX_PATH - 1] of WideChar;
   wsDrv,
-  wsResult: WideString;
+  wsResult: UnicodeString;
 begin
   Result:= '';
   wsDrv:= UTF8Decode(sDrv);
@@ -305,7 +305,7 @@ begin
     end
   else
     wsResult:= DisplayName(wsDrv);
-  Result:= UTF8Encode(wsResult);
+  Result:= UTF16ToUTF8(wsResult);
 end;
 
 (* Wait for change disk label *)
@@ -379,7 +379,7 @@ begin
         dwResult:= WNetGetUniversalNameW(PWideChar(wsLocalName), UNIVERSAL_NAME_INFO_LEVEL, lpBuffer, lpBufferSize);
       end;
     if dwResult = NO_ERROR then
-      Result:= UTF8Encode(WideString(lpBuffer^.lpUniversalName));
+      Result:= UTF16ToUTF8(WideString(lpBuffer^.lpUniversalName));
   finally
     FreeMem(lpBuffer);
   end;
@@ -388,7 +388,7 @@ end;
 function mbGetShortPathName(const sLongPath: String; out sShortPath: AnsiString): Boolean;
 var
   wsLongPath,
-  wsShortPath: WideString;
+  wsShortPath: UnicodeString;
   cchBuffer: DWORD;
 begin
   Result:= False;
@@ -406,7 +406,7 @@ end;
 
 function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
 var
-  wsMachineName: WideString;
+  wsMachineName: UnicodeString;
 
   function SidToDisplayString(sid: PSID; sidType: SID_NAME_USE): String;
   var
@@ -432,9 +432,9 @@ var
                            @SidType) then
       begin
         if pDomain[0] <> #0 then
-          Result := UTF8Encode(WideString(pDomain) + PathDelim + WideString(pName))
+          Result := UTF16ToUTF8(UnicodeString(pDomain) + PathDelim + UnicodeString(pName))
         else
-          Result := UTF8Encode(WideString(pName));
+          Result := UTF16ToUTF8(UnicodeString(pName));
       end
       else
         Result := EmptyStr;
@@ -555,7 +555,7 @@ var
 begin
   FillChar(SFI, SizeOf(SFI), 0);
   if SHGetFileInfoW(PWideChar(UTF8Decode(sPath)), 0, SFI, SizeOf(SFI), SHGFI_TYPENAME) <> 0 then
-    Result := UTF8Encode(WideString(SFI.szTypeName))
+    Result := UTF16ToUTF8(UnicodeString(SFI.szTypeName))
   else
     Result := EmptyStr;
 end;
@@ -570,7 +570,7 @@ begin
      GetVolumeInformationW(PWideChar(UTF8Decode(sRootPath)), nil, 0, nil,
                            NotUsed, NotUsed, Buf, SizeOf(Buf)) then
   begin
-    Result:= UTF8Encode(WideString(Buf));
+    Result:= UTF16ToUTF8(UnicodeString(Buf));
   end
   else
     Result := EmptyStr;
@@ -689,13 +689,13 @@ begin
     // Special case for ParamStr(0)
     I:= GetModuleFileNameW(0, lpFileName, MaxSmallInt);
     lpFileName[I]:= #0; // to be safe
-    sTemp:= UTF8Encode(WideString(lpFileName));
+    sTemp:= UTF16ToUTF8(UnicodeString(lpFileName));
     SysReAllocMem(argv[0], Length(sTemp) + 1);
     StrPCopy(argv[0], sTemp);
     // Process all other parameters
     for I:= 1 to nArgs - 1 do
     begin
-      sTemp:= UTF8Encode(WideString(szArgList[I]));
+      sTemp:= UTF16ToUTF8(UnicodeString(szArgList[I]));
       SysReAllocMem(argv[I], Length(sTemp) + 1);
       StrPCopy(argv[I], sTemp);
     end;

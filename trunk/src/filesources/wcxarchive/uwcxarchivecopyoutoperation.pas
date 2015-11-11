@@ -138,7 +138,7 @@ function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: String;
 begin
-  sArcName:= UTF8Encode(WideString(ArcName));
+  sArcName:= UTF16ToUTF8(UnicodeString(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
   if Result <> 0 then
     StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
@@ -198,7 +198,7 @@ end;
 
 function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationG, UTF8Encode(WideString(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationG, UTF16ToUTF8(UnicodeString(FileName)), Size);
 end;
 
 function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
@@ -208,7 +208,7 @@ end;
 
 function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationT, UTF8Encode(WideString(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationT, UTF16ToUTF8(UnicodeString(FileName)), Size);
 end;
 
 // ----------------------------------------------------------------------------

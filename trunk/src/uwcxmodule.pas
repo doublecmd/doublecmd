@@ -176,7 +176,7 @@ Type
 implementation
 
 uses
-  SysUtils, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils, DCOSUtils,
+  SysUtils, LazUTF8, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils, DCOSUtils,
   DCDateTimeUtils, DCConvertEncoding, uDebug;
 
 const
@@ -823,8 +823,8 @@ constructor TWCXHeader.Create(const Data: PHeaderDataExW);
   end;
 
 begin
-  ArcName  := UTF8Encode(WideString(Data^.ArcName));
-  FileName := UTF8Encode(WideString(Data^.FileName));
+  ArcName  := UTF16ToUTF8(UnicodeString(Data^.ArcName));
+  FileName := UTF16ToUTF8(UnicodeString(Data^.FileName));
   Flags    := Data^.Flags;
   HostOS   := Data^.HostOS;
   FileCRC  := Data^.FileCRC;

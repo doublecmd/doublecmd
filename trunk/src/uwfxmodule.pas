@@ -194,7 +194,7 @@ type
 implementation
 
 uses
-  uLng, FileUtil, uGlobsPaths, uOSUtils, uWfxPluginUtil,
+  LazUTF8, uLng, FileUtil, uGlobsPaths, uOSUtils, uWfxPluginUtil,
   fDialogBox, uDebug, DCOSUtils, DCStrUtils, DCConvertEncoding;
 
 const
@@ -242,8 +242,8 @@ begin
       end
     else
       begin
-        FileName:= UTF8Encode(WideString(FindDataW.cFileName));
-        AlternateFileName:= UTF8Encode(WideString(FindDataW.cAlternateFileName));
+        FileName:= UTF16ToUTF8(UnicodeString(FindDataW.cFileName));
+        AlternateFileName:= UTF16ToUTF8(UnicodeString(FindDataW.cAlternateFileName));
       end;
   end;
 end;
@@ -307,7 +307,7 @@ begin
       StrPCopyW(pwcRemoteName, UTF8Decode(RemoteName));
       Result:= FsExecuteFileW(MainWin, pwcRemoteName, PWideChar(UTF8Decode(Verb)));
       if Result = FS_EXEC_SYMLINK then
-          RemoteName:= UTF8Encode(WideString(pwcRemoteName));
+          RemoteName:= UTF16ToUTF8(UnicodeString(pwcRemoteName));
       FreeMem(pwcRemoteName);
     end
   else if Assigned(FsExecuteFile) then
@@ -422,7 +422,7 @@ begin
       StrPCopyW(pwcRemoteName, UTF8Decode(sFileName));
       Result:= FsGetLocalNameW(pwcRemoteName, MAX_PATH);
       if Result = True then
-        sFileName:= UTF8Encode(WideString(pwcRemoteName));
+        sFileName:= UTF16ToUTF8(UnicodeString(pwcRemoteName));
       FreeMem(pwcRemoteName);
     end
   else if Assigned(FsGetLocalName) then

@@ -45,7 +45,7 @@ var
   hEnum: THandle = INVALID_HANDLE_VALUE;
   lpBuffer: Pointer = nil;
   FilePath: String;
-  FileName: WideString;
+  FileName: UnicodeString;
 begin
   with FWinNetFileSource do
   try
@@ -77,8 +77,8 @@ begin
     begin
       CheckOperationState;
       aFile:= TWinNetFileSource.CreateFile(Path);
-      aFile.FullPath:= UTF8Encode(WideString(nFileList^.lpRemoteName));
-      aFile.CommentProperty.Value:= UTF8Encode(WideString(nFileList^.lpComment));
+      aFile.FullPath:= UTF16ToUTF8(UnicodeString(nFileList^.lpRemoteName));
+      aFile.CommentProperty.Value:= UTF16ToUTF8(UnicodeString(nFileList^.lpComment));
       if nFileList^.dwDisplayType = RESOURCEDISPLAYTYPE_SHARE then
         aFile.Attributes:= faFolder;
       FFiles.Add(aFile);
@@ -99,7 +99,7 @@ procedure TWinNetListOperation.ShareEnum;
 var
   I: DWORD;
   aFile: TFile;
-  ServerPath: WideString;
+  ServerPath: UnicodeString;
   dwResult: NET_API_STATUS;
   dwEntriesRead: DWORD = 0;
   dwTotalEntries: DWORD = 0;
@@ -118,8 +118,8 @@ begin
       begin
         CheckOperationState;
         aFile:= TWinNetFileSource.CreateFile(Path);
-        aFile.Name:= UTF8Encode(WideString(nFileList^.shi1_netname));
-        aFile.CommentProperty.Value:= UTF8Encode(WideString(nFileList^.shi1_remark));
+        aFile.Name:= UTF16ToUTF8(UnicodeString(nFileList^.shi1_netname));
+        aFile.CommentProperty.Value:= UTF16ToUTF8(UnicodeString(nFileList^.shi1_remark));
         case (nFileList^.shi1_type and $FF) of
           STYPE_DISKTREE:
             aFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY;
