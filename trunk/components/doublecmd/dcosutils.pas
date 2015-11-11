@@ -186,7 +186,7 @@ implementation
 
 uses
 {$IF DEFINED(MSWINDOWS)}
-  Windows, JwaWinNetWk, DCDateTimeUtils, DCWindows,
+  Windows, JwaWinNetWk, DCDateTimeUtils, DCWindows, DCConvertEncoding,
 {$ENDIF}
 {$IF DEFINED(UNIX)}
   BaseUnix, Unix, dl, DCUnix,
