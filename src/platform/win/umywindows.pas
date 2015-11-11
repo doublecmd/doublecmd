@@ -668,6 +668,9 @@ var
   pwcCommandLine: PWideChar;
   lpFileName: array[0..Pred(MaxSmallInt)] of WideChar;
 begin
+{$IF DEFINED(FPC_HAS_CPSTRING)}
+  if DefaultSystemCodePage = CP_UTF8 then Exit;
+{$ENDIF}
   pwcCommandLine:= GetCommandLineW();
   for I:= 0 to lstrlenW(pwcCommandLine) - 1 do
   begin
