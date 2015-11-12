@@ -83,7 +83,7 @@ procedure OleCheckUTF8(Result: HResult);
 implementation
 
 uses
-  SysUtils, ShellApi, JwaShlGuid, ComObj, LazUTF8, DCConvertEncoding;
+  SysUtils, ShellApi, JwaShlGuid, ComObj, LazUTF8;
 
 function SHGetImageListFallback(iImageList: Integer; const riid: TGUID; var ImageList: HIMAGELIST): HRESULT; stdcall;
 var
@@ -262,7 +262,7 @@ end;
 
 procedure OleErrorUTF8(ErrorCode: HResult);
 begin
-  raise EOleError.Create(CeSysToUTF8(SysErrorMessage(ErrorCode)));
+  raise EOleError.Create(SysToUTF8(SysErrorMessage(ErrorCode)));
 end;
 
 procedure OleCheckUTF8(Result: HResult);

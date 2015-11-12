@@ -1288,12 +1288,7 @@ end;
 
 function mbSysErrorMessage(ErrorCode: Integer): String;
 begin
-  Result :=
-{$IFDEF WINDOWS}
-            CeSysToUTF8(SysErrorMessage(ErrorCode));
-{$ELSE}
-            SysToUTF8(SysErrorMessage(ErrorCode));
-{$ENDIF}
+  Result := SysToUTF8(SysErrorMessage(ErrorCode));
 end;
 
 function mbLoadLibrary(const Name: String): TLibHandle;
