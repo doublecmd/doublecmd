@@ -340,7 +340,7 @@ var
   utb : BaseUnix.TUTimBuf;
   mode : TMode;
 begin
-  if fpLStat(PChar(UTF8ToSys(sSrc)), StatInfo) >= 0 then
+  if fpLStat(UTF8ToSys(sSrc), StatInfo) >= 0 then
   begin
     Result := [];
     if FPS_ISLNK(StatInfo.st_mode) then
@@ -360,7 +360,7 @@ begin
       begin
         utb.actime  := time_t(StatInfo.st_atime);  // last access time
         utb.modtime := time_t(StatInfo.st_mtime);  // last modification time
-        if fputime(PChar(UTF8ToSys(sDst)), @utb) <> 0 then
+        if fputime(UTF8ToSys(sDst), @utb) <> 0 then
           Include(Result, caoCopyTime);
       end;
 
@@ -377,7 +377,7 @@ begin
         mode := StatInfo.st_mode;
         if caoRemoveReadOnlyAttr in Options then
           mode := SetModeReadOnly(mode, False);
-        if fpChmod(PChar(UTF8ToSys(sDst)), mode) = -1 then
+        if fpChmod(UTF8ToSys(sDst), mode) = -1 then
         begin
           Include(Result, caoCopyAttributes);
         end;
@@ -447,7 +447,7 @@ begin
   with FileMapRec do
     begin
       MappedFile := nil;
-      FileHandle:= fpOpen(PChar(UTF8ToSys(sFileName)), O_RDONLY);
+      FileHandle:= fpOpen(UTF8ToSys(sFileName), O_RDONLY);
 
       if FileHandle = feInvalidHandle then Exit;
       if fpfstat(FileHandle, StatInfo) <> 0 then
@@ -688,7 +688,7 @@ end;
 var
   StatInfo : BaseUnix.Stat;
 begin
-  Result := fpLStat(PChar(UTF8ToSys(FileName)), StatInfo) >= 0;
+  Result := fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
   if Result then
   begin
     LastAccessTime   := StatInfo.st_atime;
@@ -750,7 +750,7 @@ begin
   begin
     if LastAccessTime<>0 then t.actime := time_t(LastAccessTime) else t.actime := time_t(CurrentLastAccessTime);
     if ModificationTime<>0 then t.modtime := time_t(ModificationTime) else t.modtime := time_t(CurrentModificationTime);
-    Result := (fputime(PChar(UTF8ToSys(FileName)), @t) <> -1);
+    Result := (fputime(UTF8ToSys(FileName), @t) <> -1);
   end
   else
   begin
@@ -846,7 +846,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= fpchmod(PChar(UTF8ToSys(FileName)), Attr);
+  Result:= fpchmod(UTF8ToSys(FileName), Attr);
 end;
 {$ENDIF}
 
@@ -869,7 +869,7 @@ end;
 var
   StatInfo: BaseUnix.Stat;
 begin
-  Result:= fpLStat(PAnsiChar(UTF8ToSys(FileName)), StatInfo) >= 0;
+  Result:= fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
   if Result then
   begin
     Attr.Time:= StatInfo.st_mtime;
@@ -904,9 +904,9 @@ var
   StatInfo: BaseUnix.Stat;
   mode: TMode;
 begin
-  if fpStat(PChar(UTF8ToSys(FileName)), StatInfo) <> 0 then Exit(False);
+  if fpStat(UTF8ToSys(FileName), StatInfo) <> 0 then Exit(False);
   mode := SetModeReadOnly(StatInfo.st_mode, ReadOnly);
-  Result:= fpchmod(PChar(UTF8ToSys(FileName)), mode) = 0;
+  Result:= fpchmod(UTF8ToSys(FileName), mode) = 0;
 end;
 {$ENDIF}
 
@@ -1104,7 +1104,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= fpChDir(PChar(UTF8ToSys(NewDir))) = 0;
+  Result:= fpChDir(UTF8ToSys(NewDir)) = 0;
 end;
 {$ENDIF}
 
@@ -1142,7 +1142,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= fpMkDir(PChar(UTF8ToSys(NewDir)), $1FF) = 0; // $1FF = &0777
+  Result:= fpMkDir(UTF8ToSys(NewDir), $1FF) = 0; // $1FF = &0777
 end;
 {$ENDIF}
 
@@ -1153,7 +1153,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= fpRmDir(PChar(UTF8ToSys(Dir))) = 0;
+  Result:= fpRmDir(UTF8ToSys(Dir)) = 0;
 end;
 {$ENDIF}
 
