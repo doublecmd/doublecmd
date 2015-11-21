@@ -348,7 +348,7 @@ begin
       if caoCopyOwnership in Options then
       begin
         // Only group/owner can be set for links.
-        if fpLChown(PChar(UTF8ToSys(sDst)), StatInfo.st_uid, StatInfo.st_gid) = -1 then
+        if fpLChown(sDst, StatInfo.st_uid, StatInfo.st_gid) = -1 then
         begin
           Include(Result, caoCopyOwnership);
         end;
