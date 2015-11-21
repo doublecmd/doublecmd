@@ -36,15 +36,18 @@ uses
    @param(group Group ID)
    @returns(On success, zero is returned. On error, -1 is returned, and errno is set appropriately)
 }
-function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
+function fpLChown(path : String; owner : TUid; group : TGid): cInt;
 
 implementation
 
-function lchown(path : pChar; owner : TUid; group : TGid): cInt; cdecl; external clib name 'lchown';
+uses
+  DCConvertEncoding;
 
-function fpLChown(path: pChar; owner: TUid; group: TGid): cInt;
+function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib name 'lchown';
+
+function fpLChown(path: String; owner: TUid; group: TGid): cInt;
 begin
-  Result := lchown(path, owner, group);
+  Result := lchown(PAnsiChar(CeUtf8ToSys(path)), owner, group);
   if Result = -1 then fpseterrno(fpgetCerrno);
 end;
 

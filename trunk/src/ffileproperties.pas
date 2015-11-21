@@ -266,7 +266,7 @@ begin
   // First set owner/group because it clears SUID bit.
   if bPerm then
   begin
-    if fplchown(PAnsiChar(UTF8ToSys(FFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
+    if fplchown(FFiles[iCurrent].FullPath, StrToUID(cbxUsers.Text),
                 StrToGID(cbxGroups.Text)) <> 0 then
       begin
         if ShowError(rsPropsErrChOwn) = mrCancel then Exit(False);
