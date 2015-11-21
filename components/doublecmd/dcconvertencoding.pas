@@ -7,10 +7,6 @@ interface
 uses
   Classes, SysUtils; 
 
-{$IF (FPC_FULLVERSION >= 30000) AND NOT DEFINED(DisableUTF8RTL)}
-  {$DEFINE ReallyUseUTF8RTL}
-{$IFEND}
-
 {$IF NOT DECLARED(RawByteString)}
 type
   RawByteString = AnsiString;
@@ -74,7 +70,7 @@ uses
   {$ENDIF}
   ;
 
-{$IF DEFINED(ReallyUseUTF8RTL)}
+{$IF DEFINED(FPC_HAS_CPSTRING)}
 var
   FileSystemCodePage: TSystemCodePage;
 {$ENDIF}
@@ -147,13 +143,16 @@ begin
   Result:= Source;
 end;
 
-{$IF DEFINED(ReallyUseUTF8RTL)}
+{$IF DEFINED(FPC_HAS_CPSTRING)}
 
 function Sys2UTF8(const Source: String): RawByteString;
 begin
   Result:= Source;
   SetCodePage(Result, FileSystemCodePage, False);
   SetCodePage(Result, CP_UTF8, True);
+  // Prevent another codepage appear in the strings
+  // we don't need codepage conversion magic in our code
+  SetCodePage(Result, DefaultSystemCodePage, False);
 end;
 
 function UTF82Sys(const Source: String): RawByteString;
@@ -161,6 +160,9 @@ begin
   Result:= Source;
   SetCodePage(Result, CP_UTF8, False);
   SetCodePage(Result, FileSystemCodePage, True);
+  // Prevent another codepage appear in the strings
+  // we don't need codepage conversion magic in our code
+  SetCodePage(Result, DefaultSystemCodePage, False);
 end;
 
 {$ELSE}
@@ -444,7 +446,7 @@ end;
 {$ENDIF}
 
 initialization
-  {$IF DEFINED(ReallyUseUTF8RTL)}
+  {$IF DEFINED(FPC_HAS_CPSTRING)}
   FileSystemCodePage:= WideStringManager.GetStandardCodePageProc(scpFileSystemSingleByte);
   {$ENDIF}
   Initialize;
