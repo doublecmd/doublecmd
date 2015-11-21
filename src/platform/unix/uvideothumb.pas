@@ -36,8 +36,8 @@ uses
 implementation
 
 uses
-  CTypes, DynLibs, Graphics, Types, LazUTF8, DCOSUtils, uThumbnails,
-  uClassesEx, uMasks, uGraphics;
+  CTypes, DynLibs, Graphics, Types, LazUTF8, DCOSUtils, DCConvertEncoding,
+  uThumbnails, uClassesEx, uMasks, uGraphics;
 
 type
   ThumbnailerImageType =
@@ -109,7 +109,7 @@ begin
       Data:= video_thumbnailer_create_image_data();
       if Assigned(Data) then
       try
-        if video_thumbnailer_generate_thumbnail_to_buffer(Thumb, PAnsiChar(UTF8ToSys(aFileName)), Data) = 0 then
+        if video_thumbnailer_generate_thumbnail_to_buffer(Thumb, PAnsiChar(CeUtf8ToSys(aFileName)), Data) = 0 then
         begin
           Bitmap:= TPortableNetworkGraphic.Create;
           BlobStream:= TBlobStream.Create(Data^.image_data_ptr, Data^.image_data_size);
