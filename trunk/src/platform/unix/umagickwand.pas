@@ -29,8 +29,8 @@ interface
 implementation
 
 uses
-  LCLIntf, Classes, SysUtils, DynLibs, FileUtil, Types, Graphics,
-  CTypes, DCOSUtils, uThumbnails, uDebug, uClassesEx, uGraphics;
+  LCLIntf, Classes, SysUtils, DynLibs, FileUtil, Types, Graphics, CTypes,
+  DCOSUtils, DCConvertEncoding, uThumbnails, uDebug, uClassesEx, uGraphics;
 
 const
   MagickFalse = 0;
@@ -116,7 +116,7 @@ begin
     Wand:= NewMagickWand;
 
     try
-      Status:= MagickReadImage(Wand, PAnsiChar(UTF8ToSys(aFileName)));
+      Status:= MagickReadImage(Wand, PAnsiChar(CeUtf8ToSys(aFileName)));
       try
         if (Status = MagickFalse) then RaiseWandException(Wand);
 
