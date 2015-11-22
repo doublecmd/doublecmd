@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-09-28 23:02+0300\n"
+"PO-Revision-Date: 2015-11-22 15:23+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -9316,6 +9316,10 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Команды"
 
+#: ulng.rsmnudisconnectnetworkdrive
+msgid "Disconnect Network Drive..."
+msgstr "Отключить сетевой диск..."
+
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
 msgid "Edit"
@@ -9324,6 +9328,10 @@ msgstr "Редактировать"
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Извлечь"
+
+#: ulng.rsmnumapnetworkdrive
+msgid "Map Network Drive..."
+msgstr "Подключить сетевой диск..."
 
 #: ulng.rsmnumount
 msgid "Mount"

@@ -9342,6 +9342,10 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Radnje"
 
+#: ulng.rsmnudisconnectnetworkdrive
+msgid "Disconnect Network Drive..."
+msgstr ""
+
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
 msgid "Edit"
@@ -9350,6 +9354,10 @@ msgstr "Uredi"
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Izbaci"
+
+#: ulng.rsmnumapnetworkdrive
+msgid "Map Network Drive..."
+msgstr ""
 
 #: ulng.rsmnumount
 msgid "Mount"
