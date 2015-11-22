@@ -121,7 +121,7 @@ uses
   , Menus, Graphics, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, InterfaceBase, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, LMessages, WSForms, LCLIntf
-  , uThumbnailProvider
+  , uThumbnailProvider, uFileSourceUtil, Dialogs
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties, uJpegThumb
@@ -362,12 +362,45 @@ begin
       CustomFormsZOrdered[I].BringToFront;
   end;
 end;
+
+procedure MenuHandler(Self, Sender: TObject);
+var
+  Ret: DWORD;
+  Res: TNetResourceA;
+  CDS: TConnectDlgStruct;
+begin
+  if (Sender as TMenuItem).Tag = 0 then
+  begin
+    ZeroMemory(@Res, SizeOf(TNetResourceA));
+    Res.dwType := RESOURCETYPE_DISK;
+    CDS.cbStructure := SizeOf(TConnectDlgStruct);
+    CDS.hwndOwner := frmMain.Handle;
+    CDS.lpConnRes := @Res;
+    CDS.dwFlags := 0;
+    Ret:= WNetConnectionDialog1(CDS);
+    if Ret = NO_ERROR then
+    begin
+      SetFileSystemPath(frmMain.ActiveFrame, AnsiChar(Int64(CDS.dwDevNum) + Ord('a') - 1) + ':\');
+    end
+    else if Ret <> DWORD(-1) then begin
+      MessageDlg(mbSysErrorMessage(Ret), mtError, [mbOK], 0);
+    end;
+  end
+  else begin
+    Ret:= WNetDisconnectDialog(fmain.frmMain.Handle, RESOURCETYPE_DISK);
+    case Ret of
+      NO_ERROR, DWORD(-1): ;
+      else MessageDlg(mbSysErrorMessage(Ret), mtError, [mbOK], 0);
+    end;
+  end;
+end;
 {$ENDIF}
 
 procedure MainFormCreate(MainForm : TCustomForm);
 {$IFDEF MSWINDOWS}
 var
   Handler: TMethod;
+  MenuItem: TMenuItem;
 begin
   Handler.Code:= @ActivateHandler;
   Handler.Data:= MainForm;
@@ -382,6 +415,28 @@ begin
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
   if (Win32MajorVersion > 5) and IsUserAdmin then // if run under administrator
     MainForm.Caption:= MainForm.Caption + ' - Administrator';
+
+  with frmMain do
+  begin
+    Handler.Code:= @MenuHandler;
+    Handler.Data:= MainForm;
+
+    MenuItem:= TMenuItem.Create(mnuMain);
+    MenuItem.Caption:= '-';
+    mnuNetwork.Add(MenuItem);
+
+    MenuItem:= TMenuItem.Create(mnuMain);
+    MenuItem.Caption:= rsMnuMapNetworkDrive;
+    MenuItem.Tag:= 0;
+    MenuItem.OnClick:= TNotifyEvent(Handler);
+    mnuNetwork.Add(MenuItem);
+
+    MenuItem:= TMenuItem.Create(mnuMain);
+    MenuItem.Caption:= rsMnuDisconnectNetworkDrive;
+    MenuItem.Tag:= 1;
+    MenuItem.OnClick:= TNotifyEvent(Handler);
+    mnuNetwork.Add(MenuItem);
+  end;
 end;
 {$ELSE}
 {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
