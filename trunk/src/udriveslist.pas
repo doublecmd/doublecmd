@@ -24,6 +24,10 @@ unit uDrivesList;
 
 {$mode objfpc}{$H+}
 
+{$IFDEF MSWINDOWS}
+    {$DEFINE ForceVirtualKeysShortcuts}
+{$ENDIF}
+
 interface
 
 uses
@@ -61,9 +65,10 @@ type
     procedure EnterEvent(Sender: TObject);
     procedure ExitEvent(Sender: TObject);
     procedure KeyDownEvent(Sender: TObject; var Key: Word; Shift: TShiftState);
+{$IFNDEF ForceVirtualKeysShortcuts}
     procedure KeyPressEvent(Sender: TObject; var Key: Char);
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
-
+{$ENDIF}
     procedure SelectDrive(ADriveIndex: Integer);
     procedure DoDriveSelected(ADriveIndex: Integer);
     procedure ShowContextMenu(ADriveIndex: Integer; X, Y: Integer);
@@ -174,8 +179,10 @@ begin
   OnEnter         := @EnterEvent;
   OnExit          := @ExitEvent;
   OnKeyDown       := @KeyDownEvent;
+{$IFNDEF ForceVirtualKeysShortcuts}
   OnKeyPress      := @KeyPressEvent;
   OnUTF8KeyPress  := @UTF8KeyPressEvent;
+{$ENDIF}
 end;
 
 procedure TDrivesListPopup.UpdateDrivesList(ADrivesList: TDrivesList);
@@ -461,9 +468,14 @@ begin
         ShowContextMenu(GetDriveIndexByRow(Row), Rect.Left, Rect.Top);
         Key := 0;
       end;
+{$IFDEF ForceVirtualKeysShortcuts}
+    else if (CheckShortcut(TUTF8Char(Char(Key)))) then
+      Key := 0;
+{$ENDIF}
   end;
 end;
 
+{$IFNDEF ForceVirtualKeysShortcuts}
 procedure TDrivesListPopup.KeyPressEvent(Sender: TObject; var Key: Char);
 begin
   if CheckShortcut(TUTF8Char(Key)) then
@@ -475,6 +487,7 @@ begin
   if CheckShortcut(UTF8Key) then
     UTF8Key := '';
 end;
+{$ENDIF}
 
 procedure TDrivesListPopup.SelectDrive(ADriveIndex: Integer);
 begin
@@ -551,7 +564,11 @@ begin
       if Length(Drive^.DisplayName) > 0 then
       begin
         Cells[1, RowNr] := Drive^.DisplayName;
+{$IFDEF ForceVirtualKeysShortcuts}
+        FShortCuts[I] := UTF8Copy(UpperCase(Drive^.DisplayName), 1, 1);
+{$ELSE}
         FShortCuts[I] := UTF8Copy(Drive^.DisplayName, 1, 1);
+{$ENDIF}
       end
       else
       begin
