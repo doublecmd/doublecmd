@@ -241,6 +241,9 @@ resourcestring
   rsMnuEject = 'Eject';
   rsMnuSortBy = 'Sort by';
   rsMnuNew = 'New';
+  // for main menu
+  rsMnuMapNetworkDrive = 'Map Network Drive...';
+  rsMnuDisconnectNetworkDrive = 'Disconnect Network Drive...';
   // wcx module messages
   rsMsgSelLocNextVol = 'Please select location of next volume';
   rsMsgNextVolUnpack = 'Next volume will be unpacked';
