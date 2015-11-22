@@ -7,7 +7,7 @@ inherited frmDeleteDlg: TfrmDeleteDlg
   BorderStyle = bsDialog
   ClientHeight = 86
   ClientWidth = 415
-  Position = poOwnerFormCenter
+  Position = poScreenCenter
   inherited pnlContent: TPanel
     Height = 1
     Width = 399
