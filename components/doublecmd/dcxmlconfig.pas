@@ -584,6 +584,7 @@ end;
 
 function TXmlConfig.Save: Boolean;
 var
+  bFileExists: Boolean;
   sTmpConfigFileName: String;
 begin
   Result := False;
@@ -591,12 +592,16 @@ begin
   if FFileName = '' then
     Exit;
 
+  bFileExists := mbFileExists(FileName);
   // Write to temporary file and if successfully written rename to proper name.
-  if (not mbFileExists(FileName)) or mbFileAccess(FileName, fmOpenWrite or fmShareDenyWrite) then
+  if (not bFileExists) or mbFileAccess(FileName, fmOpenWrite or fmShareDenyWrite) then
   begin
     sTmpConfigFileName := GetTempName(FileName);
     try
       WriteToFile(sTmpConfigFileName);
+      if bFileExists then begin
+        mbFileCopyAttr(FileName, sTmpConfigFileName, [caoCopyOwnership, caoCopyPermissions]);
+      end;
       if not mbRenameFile(sTmpConfigFileName, FileName) then
       begin
         mbDeleteFile(sTmpConfigFileName);
