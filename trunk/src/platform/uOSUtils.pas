@@ -234,7 +234,7 @@ uses
     uShlObjAdditional, shlobj
   {$ENDIF}
   {$IF DEFINED(UNIX)}
-  , BaseUnix, Unix, uMyUnix, dl
+  , DCConvertEncoding, BaseUnix, Unix, uMyUnix, dl
     {$IF NOT DEFINED(DARWIN)}
   , uGio, uClipboard
     {$ENDIF}
@@ -473,7 +473,7 @@ function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) 
 var
   sbfs: TStatFS;
 begin
-  Result:= (fpStatFS(PChar(UTF8ToSys(Path)), @sbfs) = 0);
+  Result:= (fpStatFS(PAnsiChar(CeUtf8ToSys(Path)), @sbfs) = 0);
   if not Result then Exit;
   FreeSize := (Int64(sbfs.bavail) * sbfs.bsize);
   TotalSize := (Int64(sbfs.blocks) * sbfs.bsize);
@@ -495,7 +495,7 @@ var
   sbfs: TStatFS;
 begin
   Result := High(Int64);
-  if (fpStatFS(PChar(UTF8ToSys(Path)), @sbfs) = 0) then
+  if (fpStatFS(PAnsiChar(CeUtf8ToSys(Path)), @sbfs) = 0) then
   begin
     {$IFDEF BSD}
     if (sbfs.ftype = MSDOS_SUPER_MAGIC) then
@@ -567,7 +567,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := (fplink(PChar(UTF8ToSys(Path)),PChar(UTF8ToSys(LinkName)))=0);
+  Result := (fplink(PAnsiChar(CeUtf8ToSys(Path)),PAnsiChar(CeUtf8ToSys(LinkName)))=0);
 end;
 {$ENDIF}
 
@@ -587,7 +587,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := (fpsymlink(PChar(UTF8ToSys(Path)),PChar(UTF8ToSys(LinkName)))=0);
+  Result := (fpsymlink(PAnsiChar(CeUtf8ToSys(Path)), PAnsiChar(CeUtf8ToSys(LinkName)))=0);
 end;
 {$ENDIF}
 
@@ -1032,7 +1032,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= (setenv(PChar(UTF8ToSys(sName)), PChar(UTF8ToSys(sValue)), 1) = 0);
+  Result:= (setenv(PAnsiChar(CeUtf8ToSys(sName)), PAnsiChar(CeUtf8ToSys(sValue)), 1) = 0);
 end;
 {$ENDIF}
 

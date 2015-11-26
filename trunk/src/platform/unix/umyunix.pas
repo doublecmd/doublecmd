@@ -347,7 +347,7 @@ begin
       begin
         LinkTarget:= iniDesktop.ReadString('Desktop Entry', 'URL', EmptyStr);
         if not URIToFilename(LinkTarget, LinkTarget) then Exit;
-        if fpLStat(PAnsiChar(UTF8ToSys(LinkTarget)), StatInfo) <> 0 then Exit;
+        if fpLStat(UTF8ToSys(LinkTarget), StatInfo) <> 0 then Exit;
         Result:= FPS_ISDIR(StatInfo.st_mode);
       end;
     finally
@@ -392,7 +392,7 @@ begin
   // Set root directory as mount point by default
   Result:= PathDelim;
   // Get stat info for original file
-  if (fpLStat(PChar(UTF8ToSys(FileName)), recStat) < 0) then Exit;
+  if (fpLStat(UTF8ToSys(FileName), recStat) < 0) then Exit;
   // Save device ID of original file
   st_dev:= recStat.st_dev;
   J:= Length(FileName);
@@ -405,7 +405,7 @@ begin
       else
         sTemp:= Copy(FileName, 1, I - 1);
       // Stat for current directory
-      if (fpLStat(PChar(UTF8ToSys(sTemp)), recStat) < 0) then Continue;
+      if (fpLStat(UTF8ToSys(sTemp), recStat) < 0) then Continue;
       // If it is a link then checking link destination
       if fpS_ISLNK(recStat.st_mode) then
       begin
