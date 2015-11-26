@@ -52,7 +52,7 @@ implementation
 
 uses
   {$IFDEF UNIX}
-  Unix, uMyUnix, uDebug
+  Unix, DCConvertEncoding, uMyUnix, uDebug
    {$IFDEF BSD}
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
@@ -757,7 +757,7 @@ begin
         if CheckMountEntry(pme) then
         begin
           DeviceFile := StrPas(pme^.mnt_fsname);
-          MountPoint := SysToUTF8(StrPas(pme^.mnt_dir));
+          MountPoint := CeSysToUtf8(StrPas(pme^.mnt_dir));
           if MountPoint <> PathDelim then
             MountPoint := ExcludeTrailingPathDelimiter(MountPoint);
 
@@ -998,7 +998,7 @@ begin
 
     with drive^ do
     begin
-      Path := SysToUTF8(fstab^.fs_file);
+      Path := CeSysToUtf8(fstab^.fs_file);
       DisplayName := ExtractFileName(Path);
       DriveLabel := Path;
       FileSystem := fstab^.fs_vfstype;
@@ -1058,7 +1058,7 @@ begin
 
     with drive^ do
     begin
-      Path := SysToUTF8(fs.mountpoint);
+      Path := CeSysToUtf8(fs.mountpoint);
       DisplayName := ExtractFileName(Path);
       DriveLabel := Path;
       FileSystem := fs.fstypename;

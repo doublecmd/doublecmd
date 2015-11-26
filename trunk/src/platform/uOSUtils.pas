@@ -817,7 +817,7 @@ var
 begin
   uinfo:= getpwuid(fpGetUID);
   if (uinfo <> nil) and (uinfo^.pw_dir <> '') then
-    Result:= SysToUTF8(uinfo^.pw_dir) + '/.config/' + ApplicationName
+    Result:= CeSysToUtf8(uinfo^.pw_dir) + '/.config/' + ApplicationName
   else
     Result:= ExcludeTrailingPathDelimiter(SysToUTF8(SysUtils.GetAppConfigDir(False)));
 end;
@@ -843,7 +843,7 @@ var
 begin
   uinfo:= getpwuid(fpGetUID);
   if (uinfo <> nil) and (uinfo^.pw_dir <> '') then
-    Result:= SysToUTF8(uinfo^.pw_dir) + '/.cache/' + ApplicationName
+    Result:= CeSysToUtf8(uinfo^.pw_dir) + '/.cache/' + ApplicationName
   else
     Result:= GetHomeDir + '/.cache/' + ApplicationName;
 end;
@@ -934,7 +934,7 @@ begin
   pme:= getmntent(mtab);
   while (pme <> nil) do
   begin
-    if SysToUTF8(pme.mnt_dir) = Drive^.Path then
+    if CeSysToUtf8(pme.mnt_dir) = Drive^.Path then
     begin
       Result:= True;
       Break;
