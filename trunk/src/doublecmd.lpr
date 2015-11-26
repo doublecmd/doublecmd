@@ -7,7 +7,7 @@ uses
   {$IFDEF DARWIN}
   uAppleMagnifiedModeFix,
   {$ENDIF}
-  {$IFDEF WIN64}
+  {$IF DEFINED(WIN64) AND (FPC_FULLVERSION < 30000)}
   uExceptionHandlerFix,
   {$ENDIF}
   {$IFDEF UNIX}
