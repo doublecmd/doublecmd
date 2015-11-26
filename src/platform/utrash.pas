@@ -199,8 +199,8 @@ begin
   // Get user home directory
   sHomeDir:= GetHomeDir;
   // Check if file in home directory
-  if (fpLStat(PChar(UTF8ToSys(sHomeDir)), st1) >= 0)
-     and (fpLStat(PChar(UTF8ToSys(FileName)), st2) >= 0)
+  if (fpLStat(UTF8ToSys(sHomeDir), st1) >= 0)
+     and (fpLStat(UTF8ToSys(FileName), st2) >= 0)
      and (st1.st_dev = st2.st_dev) then
   begin
     // Get trash directory in $XDG_DATA_HOME
@@ -219,7 +219,7 @@ begin
   sTopDir:= FindMountPointPath(FileName);
   // Try to use "$topdir/.Trash/$uid" directory
   sTemp:= sTopDir + trashFolder;
-  if (fpLStat(PChar(UTF8ToSys(sTemp)), st1) >= 0)
+  if (fpLStat(UTF8ToSys(sTemp), st1) >= 0)
      and fpS_ISDIR(st1.st_mode) and not fpS_ISLNK(st1.st_mode) then
     begin
       sTemp:= sTemp + PathDelim + sUserID;
@@ -234,7 +234,7 @@ begin
     end;
   // Try to use "$topdir/.Trash-$uid" directory
   sTemp:= sTopDir + trashFolder + '-' + sUserID;
-  if ((fpLStat(PChar(UTF8ToSys(sTemp)), st1) >= 0) and fpS_ISDIR(st1.st_mode)
+  if ((fpLStat(UTF8ToSys(sTemp), st1) >= 0) and fpS_ISDIR(st1.st_mode)
      and not fpS_ISLNK(st1.st_mode)) or mbCreateDir(sTemp) then
     begin
       // Create destination directories if needed

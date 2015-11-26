@@ -205,7 +205,7 @@ end;
 {$ELSEIF DEFINED(UNIX)}
 function GetFileInfo(const FileName: String; out FileInfo: BaseUnix.Stat): Boolean;
 begin
-  Result:= fpLStat(PAnsiChar(UTF8ToSys(FileName)), FileInfo) >= 0;
+  Result:= fpLStat(UTF8ToSys(FileName), FileInfo) >= 0;
 end;
 {$ENDIF}
 
