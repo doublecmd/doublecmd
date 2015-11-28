@@ -142,6 +142,7 @@ begin
   FileChecks.FilesMasks := SearchTemplate.FilesMasks;
   if SearchTemplate.IsPartialNameSearch then
   begin
+    sTemp:= EmptyStr;
     while (Length(FileChecks.FilesMasks) > 0) do
     begin
       sMask:= Copy2SymbDel(FileChecks.FilesMasks, ';');

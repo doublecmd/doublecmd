@@ -207,6 +207,8 @@ type
     //---------------------
     function CallContentGetDefaultSortOrder(FieldIndex: Integer): Boolean; override;
     function CallContentGetDetectString: String; override;
+    function CallContentGetValueV(FileName: String; FieldName: String; UnitName: String; flags: Integer): Variant; overload; override;
+    function CallContentGetValueV(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): Variant; overload; override;
     function CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String; overload; override;
     function CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String; overload; override;
     function CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer; override;
@@ -1130,6 +1132,18 @@ begin
   lua_call(L, 0, 1);
   Result := lua_tostring(L, -1);
   lua_pop(L, 1);
+end;
+
+function TLuaWdx.CallContentGetValueV(FileName: String; FieldName: String;
+  UnitName: String; flags: Integer): Variant;
+begin
+  Result := Unassigned;
+end;
+
+function TLuaWdx.CallContentGetValueV(FileName: String; FieldIndex,
+  UnitIndex: Integer; flags: Integer): Variant;
+begin
+  Result := Unassigned;
 end;
 
 function TLuaWdx.CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String;
