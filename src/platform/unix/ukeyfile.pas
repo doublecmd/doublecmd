@@ -64,6 +64,14 @@ type
     function ReadString(const Section, Ident, Default: String): String; override;
     function ReadLocaleString(const Section, Ident, Default: String): String; virtual;
     function ReadStringList(const Section, Ident: String): TDynamicStringArray; virtual;
+  protected
+    procedure WriteString(const Section, Ident, Value: String); override;
+    procedure ReadSection(const Section: string; Strings: TStrings); override;
+    procedure ReadSections(Strings: TStrings); override;
+    procedure ReadSectionValues(const Section: string; Strings: TStrings); override;
+    procedure EraseSection(const Section: string); override;
+    procedure DeleteKey(const Section, Ident: String); override;
+    procedure UpdateFile; override;
   end;
 
 implementation
@@ -189,6 +197,41 @@ begin
     end;
     g_strfreev(AValue);
   end;
+end;
+
+procedure TKeyFile.WriteString(const Section, Ident, Value: String);
+begin
+
+end;
+
+procedure TKeyFile.ReadSection(const Section: string; Strings: TStrings);
+begin
+
+end;
+
+procedure TKeyFile.ReadSections(Strings: TStrings);
+begin
+
+end;
+
+procedure TKeyFile.ReadSectionValues(const Section: string; Strings: TStrings);
+begin
+
+end;
+
+procedure TKeyFile.EraseSection(const Section: string);
+begin
+
+end;
+
+procedure TKeyFile.DeleteKey(const Section, Ident: String);
+begin
+
+end;
+
+procedure TKeyFile.UpdateFile;
+begin
+
 end;
 
 end.

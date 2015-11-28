@@ -15,7 +15,7 @@ function MakeSpellCode(stText: UnicodeString): String;
 implementation
 
 uses
-  SysUtils;
+  SysUtils, LazUTF8;
 
 const
   strChineseCharList: array [1..270] of String = (
@@ -322,7 +322,7 @@ begin
       end;
     end
     else
-      Result := Result + c;
+      Result := Result + UTF16ToUTF8(c);
   end;
 end;
 
