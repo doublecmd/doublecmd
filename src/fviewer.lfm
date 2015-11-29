@@ -50,7 +50,6 @@ inherited frmViewer: TfrmViewer
     0000
   }
   KeyPreview = True
-  Menu = MainMenu
   OnClose = frmViewerClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy

@@ -88,7 +88,6 @@ begin
   FViewer:= TfrmViewer.Create(Self, nil, True);
   FViewer.Parent:= Self;
   FViewer.BorderStyle:= bsNone;
-  FViewer.Menu:= nil;
   FViewer.Align:= alClient;
   FFirstFile:= True;
   FFileView:= aFileView;
