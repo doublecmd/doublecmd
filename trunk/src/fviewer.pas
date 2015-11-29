@@ -364,6 +364,7 @@ begin
   FFileSource := aFileSource;
   FLastSearchPos := -1;
   FThumbnailManager:= nil;
+  if not bQuickView then Menu:= MainMenu;
   FBitmapList:= TBitmapList.Create(True);
   FCommands := TFormCommands.Create(Self, actionList);
 end;
