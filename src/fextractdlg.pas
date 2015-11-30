@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File unpacking window
 
-   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -83,6 +83,15 @@ uses
   uFileSourceOperationOptions,
   uMasks;
 
+function GetTargetPath(FileSource: IArchiveFileSource; const TargetPath: String): String;
+begin
+  // if destination path is not absolute then extract to path there archive is located
+  if GetPathType(TargetPath) <> ptAbsolute then
+    Result := GetAbsoluteFileName(ExtractFilePath(FileSource.ArchiveFileName), TargetPath)
+  else
+    Result := IncludeTrailingPathDelimiter(TargetPath);
+end;
+
 procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
                          TargetFileSource: IFileSource; sDestPath: String);
 var
@@ -132,11 +141,7 @@ begin
           begin
             if fsoCopyOut in SourceFileSource.GetOperationsTypes then
             begin
-              // if destination path is null then extract to path there archive is located
-              if Length(sDestPath) = 0 then
-                sDestPath := ExtractFilePath((SourceFileSource as IArchiveFileSource).ArchiveFileName)
-              else
-                sDestPath := IncludeTrailingPathDelimiter(sDestPath);
+              sDestPath := GetTargetPath(SourceFileSource as IArchiveFileSource, sDestPath);
 
               Operation := SourceFileSource.CreateCopyOutOperation(TargetFileSource, SourceFiles, sDestPath);
 
@@ -247,11 +252,7 @@ begin
 
       if Assigned(FilesToExtract) then
         try
-          // if destination path is null then extract to path there archive is located
-          if Length(TargetPath) = 0 then
-            sTmpPath := ExtractFilePath(ArchiveFileSource.ArchiveFileName)
-          else
-            sTmpPath := IncludeTrailingPathDelimiter(TargetPath);
+          sTmpPath := GetTargetPath(ArchiveFileSource, TargetPath);
 
           // if each archive in separate folder
           if cbInSeparateFolder.Checked then
