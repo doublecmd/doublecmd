@@ -454,26 +454,31 @@ procedure TMultiArchiveFileSource.OnGetArchiveItem(ArchiveItem: TArchiveItem);
 var
   NameLength: Integer;
 begin
-  // Some archivers end directories with path delimiter. Delete it if present.
+  // Some archivers end directories with path delimiter.
+  // And not set directory attribute. So delete path
+  // delimiter if present and add directory attribute.
+  NameLength := Length(ArchiveItem.FileName);
+  if (ArchiveItem.FileName[NameLength] = PathDelim) then
+  begin
+    Delete(ArchiveItem.FileName, NameLength, 1);
+    ArchiveItem.Attributes := ArchiveItem.Attributes or FDirectoryAttribute;
+  end;
+
+  //****************************************************************************
+
+  // Workaround for archivers that don't give a list of folders
+  // or the list does not include all of the folders.
   if FileIsDirectory(ArchiveItem) then
-    begin
-      NameLength := Length(ArchiveItem.FileName);
-      if (ArchiveItem.FileName[NameLength] = PathDelim) then
-        Delete(ArchiveItem.FileName, NameLength, 1);
-
-      //****************************
-      (* Workaround for archivers that don't give a list of folders
-         or the list does not include all of the folders. *)
-
-      // Collect directories that the plugin supplies.
-      if (FExistsDirList.Find(ArchiveItem.FileName) < 0) then
-        FExistsDirList.Add(ArchiveItem.FileName);
-    end;
+  begin
+    // Collect directories that the plugin supplies.
+    if (FExistsDirList.Find(ArchiveItem.FileName) < 0) then
+      FExistsDirList.Add(ArchiveItem.FileName);
+  end;
 
   // Collect all directories.
   CollectDirs(PAnsiChar(ArchiveItem.FileName), FAllDirsList);
 
-  //****************************
+  //****************************************************************************
 
   FArcFileList.Add(ArchiveItem);
 end;
