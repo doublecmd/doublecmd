@@ -41,7 +41,6 @@ type
   TAbZipKitEx = class (TAbZipKit)
   private
     FOperationResult: LongInt;
-    FProcessDataProc  : TProcessDataProc;
     FProcessDataProcW : TProcessDataProcW;
     procedure AbArchiveItemProgressEvent(Sender : TObject; Item : TAbArchiveItem; Progress : Byte;
                                          var Abort : Boolean);
@@ -91,7 +90,6 @@ uses
   SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
 
 threadvar
-  gProcessDataProc : TProcessDataProc;
   gProcessDataProcW : TProcessDataProcW;
 
 procedure StringToArrayW(src: UnicodeString;
@@ -285,16 +283,7 @@ begin
 end;
 
 procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
-var
- Arc : TAbZipKitEx;
 begin
-  if (hArcData <> wcxInvalidHandle) then  // if archive is open
-   begin
-     Arc := TAbZipKitEx(Pointer(hArcData));
-     Arc.FProcessDataProc := pProcessDataProc;
-   end
-  else  // if archive is close
-    gProcessDataProc := pProcessDataProc;
 end;
 
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
@@ -458,7 +447,6 @@ begin
   inherited Create(AOwner);
 
   FOperationResult := E_SUCCESS;
-  FProcessDataProc  := nil;
   FProcessDataProcW := nil;
 
   TempDirectory := GetTempDir;
@@ -528,19 +516,12 @@ procedure TAbZipKitEx.AbArchiveItemProgressEvent(Sender: TObject;
 begin
   try
     if Assigned(FProcessDataProcW) then
-      begin
-        if Assigned(Item) then
-          Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress + 1000)) = 0)
-        else
-          Abort := (FProcessDataProcW(nil, -(Progress + 1000)) = 0);
-      end
-    else if Assigned(FProcessDataProc) then
-      begin
-        if Assigned(Item) then
-          Abort := (FProcessDataProc(PAnsiChar(Item.FileName), -(Progress + 1000)) = 0)
-        else
-          Abort := (FProcessDataProc(nil, -(Progress + 1000)) = 0);
-      end;
+    begin
+      if Assigned(Item) then
+        Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress + 1000)) = 0)
+      else
+        Abort := (FProcessDataProcW(nil, -(Progress + 1000)) = 0);
+    end;
   except
     Abort := True;
   end;
@@ -551,9 +532,7 @@ procedure TAbZipKitEx.AbArchiveProgressEvent(Sender: TObject;
 begin
   try
     if Assigned(FProcessDataProcW) then
-      Abort := (FProcessDataProcW(nil, -(Progress)) = 0)
-    else if Assigned(FProcessDataProc) then
-      Abort := (FProcessDataProc(nil, -(Progress)) = 0);
+      Abort := (FProcessDataProcW(nil, -(Progress)) = 0);
   except
     Abort := True;
   end;
