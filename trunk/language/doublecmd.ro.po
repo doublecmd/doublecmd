@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2015-04-13 19:43-0700\n"
+"PO-Revision-Date: 2015-12-01 15:48+0300\n"
 "Last-Translator: Maximilian Machedon <maximilian.machedon@gmail.com>\n"
 "Language-Team: Maximilian Machedon\n"
 "Language: ro\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
-msgstr "Se compară...%d%% (ESC pentru a renunța)"
+msgstr "Se compară... %d%% (ESC pentru a renunța)"
 
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
@@ -83,7 +83,7 @@ msgstr ">>"
 #: tfcolumnssetconf.btncancel.caption
 msgctxt "TFCOLUMNSSETCONF.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr "Renunţă"
+msgstr "Renunță"
 
 #: tfcolumnssetconf.btncursorbordercolor.caption
 msgctxt "TFCOLUMNSSETCONF.BTNCURSORBORDERCOLOR.CAPTION"
@@ -145,7 +145,7 @@ msgstr "Margine cursor"
 #: tfcolumnssetconf.cbovercolor.caption
 msgctxt "tfcolumnssetconf.cbovercolor.caption"
 msgid "Allow Overcolor"
-msgstr "Permite Supraculoare"
+msgstr "Permite Supra-culoare"
 
 #: tfcolumnssetconf.chkusecustomview.caption
 msgid "Use custom font and color"
@@ -577,7 +577,7 @@ msgstr "Sal&vează aceste opțiuni ca implicite"
 #: tfrmcopydlg.caption
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
-msgstr "Copiază fișer(e)"
+msgstr "Copiază fișier(e)"
 
 #: tfrmcopydlg.mnunewqueue.caption
 #, fuzzy
@@ -663,12 +663,12 @@ msgstr "Mod Binar"
 #: tfrmdiffer.actcancelcompare.caption
 msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.CAPTION"
 msgid "Cancel"
-msgstr "Renunţă"
+msgstr "Renunță"
 
 #: tfrmdiffer.actcancelcompare.hint
 msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
 msgid "Cancel"
-msgstr "Renunţă"
+msgstr "Renunță"
 
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
@@ -773,7 +773,7 @@ msgstr "Următoarea Diferență"
 #: tfrmdiffer.actnextdifference.hint
 msgctxt "TFRMDIFFER.ACTNEXTDIFFERENCE.HINT"
 msgid "Next Difference"
-msgstr "Următoarea diferență"
+msgstr "Următoarea Diferență"
 
 #: tfrmdiffer.actopenleft.caption
 msgid "Open Left..."
@@ -1057,12 +1057,12 @@ msgstr "Tăiere"
 #: tfrmeditor.acteditdelete.caption
 msgctxt "TFRMEDITOR.ACTEDITDELETE.CAPTION"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: tfrmeditor.acteditdelete.hint
 msgctxt "TFRMEDITOR.ACTEDITDELETE.HINT"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: tfrmeditor.acteditfind.caption
 msgctxt "tfrmeditor.acteditfind.caption"
@@ -1466,7 +1466,7 @@ msgstr "Asocieri de fișier"
 #: tfrmfileassoc.gbactions.caption
 msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
 msgid "Actions"
-msgstr "Actiuni"
+msgstr "Acțiuni"
 
 #: tfrmfileassoc.gbexts.caption
 msgctxt "tfrmfileassoc.gbexts.caption"
@@ -1927,7 +1927,7 @@ msgstr "Urmează legăturile simbolice (&y)"
 #: tfrmfinddlg.cbnotcontainingtext.caption
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
-msgstr "Găsește fișiere care NU c&onțin textul"
+msgstr "Găsește fișierele care NU c&onțin textul"
 
 #: tfrmfinddlg.cbnotolderthan.caption
 msgid "N&ot older than:"
@@ -2250,7 +2250,7 @@ msgstr "Curăță fișierul jurnal"
 
 #: tfrmmain.actclearlogwindow.caption
 msgid "Clear log window"
-msgstr "Goleşte fereastra de jurnal"
+msgstr "Golește fereastra de jurnal"
 
 #: tfrmmain.actclosealltabs.caption
 msgctxt "TFRMMAIN.ACTCLOSEALLTABS.CAPTION"
@@ -2365,7 +2365,7 @@ msgstr ""
 #: tfrmmain.actdelete.caption
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2825,7 +2825,7 @@ msgstr "Țintă &= Sursă"
 
 #: tfrmmain.acttestarchive.caption
 msgid "&Test Archive(s)"
-msgstr "&Testează Arhivă(e)"
+msgstr "&Testează Arhivă/Arhive"
 
 #: tfrmmain.actthumbnailsview.caption
 msgctxt "tfrmmain.actthumbnailsview.caption"
@@ -2896,7 +2896,7 @@ msgstr ""
 #: tfrmmain.btnf10.caption
 msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
-msgstr "Ieşire"
+msgstr "Ieșire"
 
 #: tfrmmain.btnf7.caption
 msgctxt "TFRMMAIN.BTNF7.CAPTION"
@@ -2906,7 +2906,7 @@ msgstr "Dosar"
 #: tfrmmain.btnf8.caption
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: tfrmmain.btnf9.caption
 msgctxt "tfrmmain.btnf9.caption"
@@ -3045,7 +3045,7 @@ msgstr "&80/20"
 #: tfrmmain.micancel.caption
 msgctxt "TFRMMAIN.MICANCEL.CAPTION"
 msgid "Cancel"
-msgstr "Renunţă"
+msgstr "Renunță"
 
 #: tfrmmain.micopy.caption
 msgid "Copy..."
@@ -3244,7 +3244,7 @@ msgstr "Pornește"
 #: tfrmmain.mnualloperstop.caption
 msgctxt "TFRMMAIN.MNUALLOPERSTOP.CAPTION"
 msgid "Cancel"
-msgstr "Renunţă"
+msgstr "Renunță"
 
 #: tfrmmain.mnucmd.caption
 msgid "&Commands"
@@ -3318,7 +3318,7 @@ msgstr "Taie"
 #: tfrmmain.tbdelete.caption
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: tfrmmain.tbedit.caption
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
@@ -3915,7 +3915,7 @@ msgstr "A&plică"
 #: tfrmoptionsarchivers.btnmultiarcdelete.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION"
 msgid "D&elete"
-msgstr "Şt&erge"
+msgstr "Șt&erge"
 
 #: tfrmoptionsarchivers.btnmultiarcrename.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
@@ -4062,7 +4062,7 @@ msgstr "Dispozitive interzise (&b)"
 
 #: tfrmoptionsbriefview.gbcolumns.caption
 msgid "Columns size"
-msgstr ""
+msgstr "Mărimea coloanelor"
 
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
@@ -4070,7 +4070,7 @@ msgstr "Arată extensiile fișierelor"
 
 #: tfrmoptionsbriefview.rbaligned.caption
 msgid "ali&gned (with Tab)"
-msgstr "aliniate (&g cu tabulatorul)"
+msgstr "aliniate (&g cu Tab)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
@@ -4078,15 +4078,15 @@ msgstr "imediat după numele fișie&rului"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: tfrmoptionsbriefview.rbusefixedcount.caption
 msgid "Fixed columns count"
-msgstr ""
+msgstr "Numărul coloanelor fixe"
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
-msgstr ""
+msgstr "Lățimea coloanelor fixe"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -4849,7 +4849,7 @@ msgstr "Restrânge toate"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgid "...current level of item(s) selected only"
-msgstr "...nivelul curent al intrărilor numai selectate"
+msgstr "...numai nivelul curent al intrării/intrărilor selectat(e)"
 
 #: tfrmoptionsdirectoryhotlist.micurrentselectedoractivedirectories.caption
 msgid "current selected or active directories of active frame"
@@ -5036,7 +5036,7 @@ msgstr "...totul, de la A la Z!"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgid "...single group of item(s) only"
-msgstr "...un singur grup de elemte"
+msgstr "...numai un grup de elemente"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
 msgid "Sort single group of item(s) only"
@@ -5777,7 +5777,7 @@ msgstr "Evidențiază fișiere noi și actualizate (&g)"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr ""
+msgstr "Activează &redenumirea când se face click de două ori pe un nume"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -5856,7 +5856,7 @@ msgstr ">>"
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
-msgstr "Şt&erge"
+msgstr "Șt&erge"
 
 #: tfrmoptionsfiletypescolors.btnsearchtemplate.hint
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT"
@@ -5917,7 +5917,7 @@ msgstr "..."
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr ""
+msgstr "Fontul &consolei"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
@@ -7238,7 +7238,7 @@ msgstr "A&plică"
 #: tfrmoptionstooltips.btndeletefields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
 msgid "D&elete"
-msgstr "Şt&erge"
+msgstr "Șt&erge"
 
 #: tfrmoptionstooltips.btnfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
@@ -7411,7 +7411,7 @@ msgstr "Dimensiunea originală:"
 
 #: tfrmpackinfodlg.lblpackedfile.caption
 msgid "File:"
-msgstr "Fişier:"
+msgstr "Fișier:"
 
 #: tfrmpackinfodlg.lblpackedsize.caption
 msgid "Packed size:"
@@ -8244,12 +8244,12 @@ msgstr "Decupează"
 #: tfrmviewer.btndeletefile.hint
 msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: tfrmviewer.btndeletefile1.hint
 msgctxt "TFRMVIEWER.BTNDELETEFILE1.HINT"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: tfrmviewer.btnfullscreen.hint
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
@@ -8778,7 +8778,7 @@ msgstr "Configurează"
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Șterge"
 
 #: ulng.rsconfcolfieldcont
 msgid "Field contents"
@@ -9082,7 +9082,7 @@ msgstr "Înainte (&f)"
 #: ulng.rseditsearchreplace
 msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
-msgstr "Înlocuieşte"
+msgstr "Înlocuiește"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
@@ -9471,7 +9471,7 @@ msgstr ""
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr "Se șterge fișierul parțial copiat?"
+msgstr "Se șterge fișierul copiat parțial?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
@@ -10774,7 +10774,7 @@ msgstr "Taste rapide"
 
 #: ulng.rsopthotkeysnohotkey
 msgid "<none>"
-msgstr "<none>"
+msgstr "<niciuna>"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
@@ -11122,7 +11122,7 @@ msgstr ""
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
-msgstr "<unnamed template>"
+msgstr ""
 
 #: ulng.rsselectdir
 msgid "Select a directory"
