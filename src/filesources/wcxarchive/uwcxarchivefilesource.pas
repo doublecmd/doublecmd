@@ -655,17 +655,22 @@ begin
   try
     while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
       begin
-        // Some plugins end directories with path delimiter. Delete it if present.
+        // Some plugins end directories with path delimiter.
+        // And not set directory attribute. So delete path
+        // delimiter if present and add directory attribute.
+        NameLength := Length(Header.FileName);
+        if (Header.FileName[NameLength] = PathDelim) then
+        begin
+          Delete(Header.FileName, NameLength, 1);
+          Header.FileAttr := Header.FileAttr or faFolder;
+        end;
+
+        //**********************************************************************
+
+        // Workaround for plugins that don't give a list of
+        // folders or the list does not include all of the folders.
         if FPS_ISDIR(Header.FileAttr) then
         begin
-          NameLength := Length(Header.FileName);
-          if (Header.FileName[NameLength] = PathDelim) then
-            Delete(Header.FileName, NameLength, 1);
-
-        //****************************
-        (* Workaround for plugins that don't give a list of folders
-           or the list does not include all of the folders. *)
-
           // Collect directories that the plugin supplies.
           if (ExistsDirList.Find(Header.FileName) < 0) then
             ExistsDirList.Add(Header.FileName);
@@ -674,7 +679,7 @@ begin
         // Collect all directories.
         CollectDirs(PAnsiChar(Header.FileName), AllDirsList);
 
-        //****************************
+        //**********************************************************************
 
         FArcFileList.Add(Header);
 

@@ -710,7 +710,6 @@ begin
   end;
   DoDirSeparators(Result);
   Result := ExcludeFrontPathDelimiter(Result);
-  Result := ExcludeTrailingPathDelimiter(Result);
 end;
 
 procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
