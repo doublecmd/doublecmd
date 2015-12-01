@@ -152,7 +152,7 @@ begin
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
     Arc.TarAutoHandle := gTarAutoHandle;
-    Arc.OpenArchive(UTF8Encode(UnicodeString(ArchiveData.ArcName)));
+    Arc.OpenArchive(UTF16ToUTF8(UnicodeString(ArchiveData.ArcName)));
     Arc.Tag := 0;
     Result := TArcHandle(Arc);
   except
@@ -232,7 +232,7 @@ begin
 
     PK_EXTRACT:
       begin
-        DestNameUtf8 := UTF8Encode(UnicodeString(DestName));
+        DestNameUtf8 := UTF16ToUTF8(UnicodeString(DestName));
         if (DestPath <> nil) and (DestPath[0] <> #0) then
           Arc.BaseDirectory := DestPath
         else
@@ -319,7 +319,7 @@ begin
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
     Arc.StoreOptions := Arc.StoreOptions + [soReplace];
 
-    sPackedFile := UTF8Encode(UnicodeString(PackedFile));
+    sPackedFile := UTF16ToUTF8(UnicodeString(PackedFile));
 
     if ((Flags and PK_PACK_ENCRYPT) <> 0) and
        (LowerCase(ExtractFileExt(sPackedFile)) = '.zip') then // only zip supports encryption
@@ -334,13 +334,13 @@ begin
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
 
-      Arc.BaseDirectory := UTF8Encode(UnicodeString(SrcPath));
+      Arc.BaseDirectory := UTF16ToUTF8(UnicodeString(SrcPath));
 
-      FilePath:= UTF8Encode(UnicodeString(SubPath));
+      FilePath:= UTF16ToUTF8(UnicodeString(SubPath));
       while True do
       begin
         FileName := UnicodeString(AddList);
-        Arc.Archive.AddEntry(UTF8Encode(FileName), FilePath);
+        Arc.Archive.AddEntry(UTF16ToUTF8(FileName), FilePath);
         if (AddList + Length(FileName) + 1)^ = #0 then
           Break;
         Inc(AddList, Length(FileName) + 1);
@@ -373,7 +373,7 @@ begin
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
     try
-      Arc.OpenArchive(UTF8Encode(UnicodeString(PackedFile)));
+      Arc.OpenArchive(UTF16ToUTF8(UnicodeString(PackedFile)));
 
       // Set this after opening archive, to get only progress of deleting.
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
@@ -385,7 +385,7 @@ begin
       begin
         FileName := pFileName;    // Convert PWideChar to UnicodeString (up to first #0).
 
-        FileNameUTF8 := UTF8Encode(FileName);
+        FileNameUTF8 := UTF16ToUTF8(FileName);
 
         // If ends with '.../*.*' or '.../' then delete directory.
         if StrEndsWith(FileNameUTF8, PathDelim + '*.*') or
@@ -427,7 +427,7 @@ end;
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall;
 begin
   try
-    Result:= (AbDetermineArcType(UTF8Encode(UnicodeString(FileName)), atUnknown) <> atUnknown);
+    Result:= (AbDetermineArcType(UTF16ToUTF8(UnicodeString(FileName)), atUnknown) <> atUnknown);
   except
     Result := False;
   end;
