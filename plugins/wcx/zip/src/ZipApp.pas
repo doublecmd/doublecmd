@@ -38,6 +38,13 @@ interface
 uses
   Classes, SysUtils, AbArcTyp, AbZipKit, AbUtils;
 
+const
+{$IF DEFINED(MSWINDOWS)}
+  faFolder = faDirectory;
+{$ELSE}
+  faFolder = AB_FMODE_DIR or AB_FPERMISSION_GENERIC or AB_FPERMISSION_OWNEREXECUTE;
+{$ENDIF}
+
 type
   { TAbArchiveItemHelper }
 

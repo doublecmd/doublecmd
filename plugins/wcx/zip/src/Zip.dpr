@@ -12,7 +12,6 @@ exports
   OpenArchive,
   OpenArchiveW,
   ReadHeader,
-  ReadHeaderEx,
   ReadHeaderExW,
   ProcessFile,
   ProcessFileW,
@@ -22,13 +21,10 @@ exports
   SetProcessDataProc,
   SetProcessDataProcW,
   { Optional }
-  PackFiles,
   PackFilesW,
-  DeleteFiles,
   DeleteFilesW,
   GetPackerCaps,
   ConfigurePacker,
-  CanYouHandleThisFile,
   CanYouHandleThisFileW,
   { Extension API }
   ExtensionInitialize;

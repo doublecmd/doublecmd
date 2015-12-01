@@ -59,7 +59,6 @@ type
 function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall;
 function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall;
 function ReadHeader(hArcData : TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall;
-function ReadHeaderEx(hArcData : TArcHandle; var HeaderData: THeaderDataEx) : Integer;dcpcall;
 function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
 function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;dcpcall;
 function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall;
@@ -69,13 +68,10 @@ procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolPr
 procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
 {Optional functions}
-function PackFiles(PackedFile: PChar;  SubPath: PChar;  SrcPath: PChar;  AddList: PChar;  Flags: Integer): Integer;dcpcall;
 function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
-function DeleteFiles(PackedFile, DeleteList : PChar) : Integer;dcpcall;
 function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall;
 function GetPackerCaps : Integer;dcpcall;
 procedure ConfigurePacker (Parent: HWND;  DllInstance: THandle);dcpcall;
-function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall;
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall;
 {Extension API}
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
@@ -98,7 +94,7 @@ threadvar
   gProcessDataProc : TProcessDataProc;
   gProcessDataProcW : TProcessDataProcW;
 
-procedure StringToArrayW(src: WideString;
+procedure StringToArrayW(src: UnicodeString;
                          pDst: PWideChar;
                          MaxDstLength: Integer);
 begin
@@ -140,28 +136,9 @@ end;
 // -- Exported functions ------------------------------------------------------
 
 function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall;
-var
-  Arc : TAbZipKitEx;
 begin
   Result := 0;
-  Arc := TAbZipKitEx.Create(nil);
-  try
-    Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
-    Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
-    Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-    Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
-
-    Arc.TarAutoHandle := gTarAutoHandle;
-    Arc.OpenArchive(ArchiveData.ArcName);
-    Arc.Tag := 0;
-    Result := TArcHandle(Arc);
-  except
-    on E: Exception do
-    begin
-      Arc.Free;
-      ArchiveData.OpenResult := GetArchiveError(E);
-    end;
-  end;
+  ArchiveData.OpenResult := E_NOT_SUPPORTED;
 end;
 
 function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall;
@@ -177,7 +154,7 @@ begin
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
     Arc.TarAutoHandle := gTarAutoHandle;
-    Arc.OpenArchive(UTF8Encode(WideString(ArchiveData.ArcName)));
+    Arc.OpenArchive(UTF8Encode(UnicodeString(ArchiveData.ArcName)));
     Arc.Tag := 0;
     Result := TArcHandle(Arc);
   except
@@ -190,55 +167,8 @@ begin
 end;
 
 function ReadHeader(hArcData : TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall;
-var
-  Arc : TAbZipKitEx;
-  sFileName : String;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
-  if Arc.Tag > Arc.Count - 1 then
-    Exit(E_END_ARCHIVE);
-
-  sFileName := Arc.GetFileName(Arc.Tag);
-
-  StrPLCopy(HeaderData.FileName, sFileName, SizeOf(HeaderData.FileName) - 1);
-
-  with Arc.Items[Arc.Tag] do
-    begin
-      HeaderData.PackSize     := CompressedSize;
-      HeaderData.UnpSize      := UncompressedSize;
-      HeaderData.FileCRC      := CRC32;
-      HeaderData.FileTime     := NativeLastModFileTime;
-      HeaderData.FileAttr     := NativeFileAttributes;
-    end;
-
-  Result := E_SUCCESS;
-end;
-
-function ReadHeaderEx(hArcData : TArcHandle; var HeaderData: THeaderDataEx) : Integer;dcpcall;
-var
-  Arc : TAbZipKitEx;
-  sFileName : String;
-begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
-  if Arc.Tag > Arc.Count - 1 then
-    Exit(E_END_ARCHIVE);
-
-  sFileName := Arc.GetFileName(Arc.Tag);
-
-  StrPLCopy(HeaderData.FileName, sFileName, SizeOf(HeaderData.FileName) - 1);
-
-  with Arc.Items[Arc.Tag] do
-    begin
-      HeaderData.PackSize     := Lo(CompressedSize);
-      HeaderData.PackSizeHigh := Hi(CompressedSize);
-      HeaderData.UnpSize      := Lo(UncompressedSize);
-      HeaderData.UnpSizeHigh  := Hi(UncompressedSize);
-      HeaderData.FileCRC      := CRC32;
-      HeaderData.FileTime     := NativeLastModFileTime;
-      HeaderData.FileAttr     := NativeFileAttributes;
-    end;
-
-  Result := E_SUCCESS;
+  Result := E_NOT_SUPPORTED;
 end;
 
 function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
@@ -263,66 +193,18 @@ begin
       HeaderData.FileCRC      := CRC32;
       HeaderData.FileTime     := NativeLastModFileTime;
       HeaderData.FileAttr     := NativeFileAttributes;
+
+      if IsDirectory then begin
+        HeaderData.FileAttr   := HeaderData.FileAttr or faFolder;
+      end;
     end;
 
   Result := E_SUCCESS;
 end;
 
 function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;dcpcall;
-var
-  Arc : TAbZipKitEx;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
-
-  try
-    Arc.FOperationResult := E_SUCCESS;
-
-    case Operation of
-    PK_TEST:
-      begin
-        Arc.TestItemAt(Arc.Tag);
-
-        // Show progress and ask if aborting.
-        if Assigned(Arc.FProcessDataProc) then
-        begin
-          if Arc.FProcessDataProc(PChar(Arc.Items[Arc.Tag].FileName),
-                                  Arc.Items[Arc.Tag].UncompressedSize) = 0
-          then
-            Arc.FOperationResult := E_EABORTED;
-        end;
-      end;
-
-    PK_EXTRACT:
-      begin
-        if (DestPath <> nil) and (DestPath[0] <> #0) then
-          Arc.BaseDirectory := DestPath
-        else
-          Arc.BaseDirectory := ExtractFilePath(DestName);
-        Arc.ExtractAt(Arc.Tag, DestName);
-
-        // Show progress and ask if aborting.
-        if Assigned(Arc.FProcessDataProc) then
-        begin
-          if Arc.FProcessDataProc(PChar(Arc.Items[Arc.Tag].FileName),
-                                  Arc.Items[Arc.Tag].UncompressedSize) = 0
-          then
-            Arc.FOperationResult := E_EABORTED;
-        end;
-      end;
-
-    PK_SKIP:
-      begin
-
-      end;
-    end; {case}
-
-  except
-    on E: Exception do
-      Arc.FOperationResult := GetArchiveError(E);
-  end;
-
-  Result:= Arc.FOperationResult;
-  Arc.Tag := Arc.Tag + 1;
+  Result := E_NOT_SUPPORTED;
 end;
 
 function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall;
@@ -352,7 +234,7 @@ begin
 
     PK_EXTRACT:
       begin
-        DestNameUtf8 := UTF8Encode(WideString(DestName));
+        DestNameUtf8 := UTF8Encode(UnicodeString(DestName));
         if (DestPath <> nil) and (DestPath[0] <> #0) then
           Arc.BaseDirectory := DestPath
         else
@@ -430,65 +312,11 @@ end;
 
 {Optional functions}
 
-function PackFiles(PackedFile: PChar;  SubPath: PChar;  SrcPath: PChar;  AddList: PChar;  Flags: Integer): Integer;dcpcall;
-var
-  Arc : TAbZipKitEx;
-  FilePath: AnsiString;
-  FileName: AnsiString;
-  sPassword: AnsiString;
-begin
-  Arc := TAbZipKitEx.Create(nil);
-  try
-    Arc.AutoSave := False;
-    Arc.TarAutoHandle:= True;
-    Arc.CompressionMethodToUse:= gCompressionMethodToUse;
-    Arc.DeflationOption:= gDeflationOption;
-    Arc.FProcessDataProc := gProcessDataProc;
-    Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-    Arc.StoreOptions := Arc.StoreOptions + [soReplace];
-
-    if ((Flags and PK_PACK_ENCRYPT) <> 0) and
-       (LowerCase(ExtractFileExt(PackedFile)) = '.zip') then // only zip supports encryption
-    begin
-      Arc.AbNeedPasswordEvent(Arc, sPassword);
-      Arc.Password:= sPassword;
-    end;
-
-    try
-      Arc.OpenArchive(PackedFile);
-
-      Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
-      Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
-
-      Arc.BaseDirectory := SrcPath;
-
-      FilePath:= AnsiString(SubPath);
-      while True do
-      begin
-        FileName := AnsiString(AddList);
-        Arc.Archive.AddEntry(FileName, FilePath);
-        if (AddList + Length(FileName) + 1)^ = #0 then
-          Break;
-        Inc(AddList, Length(FileName) + 1);
-      end;
-
-      Arc.Save;
-      Arc.CloseArchive;
-    except
-      on E: Exception do
-        Arc.FOperationResult := GetArchiveError(E);
-    end;
-  finally
-    Result := Arc.FOperationResult;
-    FreeAndNil(Arc);
-  end;
-end;
-
 function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
 var
   Arc : TAbZipKitEx;
   FilePath: String;
-  FileName: WideString;
+  FileName: UnicodeString;
   sPassword: AnsiString;
   sPackedFile: String;
 begin
@@ -502,7 +330,7 @@ begin
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
     Arc.StoreOptions := Arc.StoreOptions + [soReplace];
 
-    sPackedFile := UTF8Encode(WideString(PackedFile));
+    sPackedFile := UTF8Encode(UnicodeString(PackedFile));
 
     if ((Flags and PK_PACK_ENCRYPT) <> 0) and
        (LowerCase(ExtractFileExt(sPackedFile)) = '.zip') then // only zip supports encryption
@@ -517,12 +345,12 @@ begin
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
 
-      Arc.BaseDirectory := UTF8Encode(WideString(SrcPath));
+      Arc.BaseDirectory := UTF8Encode(UnicodeString(SrcPath));
 
-      FilePath:= UTF8Encode(WideString(SubPath));
+      FilePath:= UTF8Encode(UnicodeString(SubPath));
       while True do
       begin
-        FileName := WideString(AddList);
+        FileName := UnicodeString(AddList);
         Arc.Archive.AddEntry(UTF8Encode(FileName), FilePath);
         if (AddList + Length(FileName) + 1)^ = #0 then
           Break;
@@ -541,62 +369,11 @@ begin
   end;
 end;
 
-function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;dcpcall;
-var
- Arc : TAbZipKitEx;
- pFileName : PChar;
- FileName : String;
-begin
-  Arc := TAbZipKitEx.Create(nil);
-  try
-    Arc.TarAutoHandle:= True;
-    Arc.FProcessDataProc := gProcessDataProc;
-    Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-    Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
-
-    try
-      Arc.OpenArchive(PackedFile);
-
-      // Set this after opening archive, to get only progress of deleting.
-      Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
-      Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
-
-      // Parse file list.
-      pFileName := DeleteList;
-      while pFileName^ <> #0 do
-      begin
-        FileName := pFileName;    // Convert PChar to String (up to first #0).
-
-        // If ends with '.../*.*' or '.../' then delete directory.
-        if StrEndsWith(FileName, PathDelim + '*.*') or
-           StrEndsWith(FileName, PathDelim)
-        then
-          Arc.DeleteDirectoriesRecursively(ExtractFilePath(FileName))
-        else
-          Arc.DeleteFiles(FileName);
-
-        pFileName := pFileName + Length(FileName) + 1; // move after filename and ending #0
-        if pFileName^ = #0 then
-          Break;  // end of list
-      end;
-
-      Arc.Save;
-      Arc.CloseArchive;
-    except
-      on E: Exception do
-        Arc.FOperationResult := GetArchiveError(E);
-    end;
-  finally
-    Result := Arc.FOperationResult;
-    FreeAndNil(Arc);
-  end;
-end;
-
 function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall;
 var
  Arc : TAbZipKitEx;
  pFileName : PWideChar;
- FileName : WideString;
+ FileName : UnicodeString;
  FileNameUTF8 : String;
 begin
   Arc := TAbZipKitEx.Create(nil);
@@ -607,7 +384,7 @@ begin
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
     try
-      Arc.OpenArchive(UTF8Encode(WideString(PackedFile)));
+      Arc.OpenArchive(UTF8Encode(UnicodeString(PackedFile)));
 
       // Set this after opening archive, to get only progress of deleting.
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
@@ -617,7 +394,7 @@ begin
       pFileName := DeleteList;
       while pFileName^ <> #0 do
       begin
-        FileName := pFileName;    // Convert PWideChar to WideString (up to first #0).
+        FileName := pFileName;    // Convert PWideChar to UnicodeString (up to first #0).
 
         FileNameUTF8 := UTF8Encode(FileName);
 
@@ -658,19 +435,10 @@ begin
   CreateZipConfDlg;
 end;
 
-function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall;
-begin
-  try
-    Result:= (AbDetermineArcType(SysToUTF8(AnsiString(FileName)), atUnknown) <> atUnknown);
-  except
-    Result := False;
-  end;
-end;
-
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall;
 begin
   try
-    Result:= (AbDetermineArcType(UTF8Encode(WideString(FileName)), atUnknown) <> atUnknown);
+    Result:= (AbDetermineArcType(UTF8Encode(UnicodeString(FileName)), atUnknown) <> atUnknown);
   except
     Result := False;
   end;
@@ -710,6 +478,7 @@ begin
   end;
   DoDirSeparators(Result);
   Result := ExcludeFrontPathDelimiter(Result);
+  Result := ExcludeTrailingPathDelimiter(Result);
 end;
 
 procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
