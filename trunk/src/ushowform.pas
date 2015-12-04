@@ -234,6 +234,7 @@ begin
     // File was modified
     if mbFileAge(FileName) <> FileTime then
     begin
+      if not msgYesNo(Format(rsMsgCopyBackward, [ExtractFileName(FileName)])) then Exit;
       if (fsoCopyIn in TargetFileSource.GetOperationsTypes) and
          ((TargetFileSource is TWcxArchiveFileSource) or (TargetFileSource is TWfxPluginFileSource)) then
       begin
