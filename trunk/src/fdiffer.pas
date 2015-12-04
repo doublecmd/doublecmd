@@ -255,7 +255,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LCLProc, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
+  LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
   uShowMsg, DCClassesUtf8, dmCommonData, DCOSUtils;
 
 const
@@ -1038,7 +1038,7 @@ begin
       SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, SynDiffEdit.Encoding, EncodingUTF8);
     finally
       SynDiffEdit.EndUpdate;
-      FreeThenNil(fsFileStream);
+      FreeAndNil(fsFileStream);
     end;
   except
     on EFOpenError do
