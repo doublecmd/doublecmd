@@ -43,8 +43,10 @@ function FindMmapBM(const sFileName: String; const sFindData: String;
 function InitRecodeTable(Encoding: String; bCaseSensitive: Boolean): TRecodeTable;
 
 implementation
+
 uses
-  DCOSUtils,LConvEncoding, LCLProc;
+  DCOSUtils, LConvEncoding, LazUTF8;
+
 type
   TIntArray = array of Integer;
 

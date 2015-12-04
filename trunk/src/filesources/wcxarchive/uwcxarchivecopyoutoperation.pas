@@ -91,7 +91,7 @@ type
 implementation
 
 uses
-  Forms, LCLProc, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils,
+  Forms, LazUTF8, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils,
   uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uFileSystemUtil,
   uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes, uShowMsg, DCConvertEncoding;
 
@@ -533,7 +533,7 @@ begin
   finally
     FreeAndNil(PathsToCreate);
     FreeAndNil(DirsAttributes);
-    FreeThenNil(Directories);
+    FreeAndNil(Directories);
   end;
 end;
 

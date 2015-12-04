@@ -51,7 +51,7 @@ implementation
 
 uses
   DCOSUtils, DCStrUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, uMasks,
-  FileUtil, LCLProc, DCConvertEncoding;
+  FileUtil, LazUTF8, DCConvertEncoding;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
