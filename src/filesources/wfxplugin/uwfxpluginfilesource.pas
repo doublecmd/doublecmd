@@ -156,7 +156,7 @@ threadvar
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, DCStrUtils, uDCUtils, uLog,
+  LazUTF8, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, DCStrUtils, uDCUtils, uLog,
   uDebug, uLng, uCryptProc, DCFileAttributes, uConnectionManager, contnrs, syncobjs, fMain,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
@@ -523,7 +523,7 @@ destructor TWfxPluginFileSource.Destroy;
 begin
   if (FPluginNumber >= 0) and (FPluginNumber < WfxOperationList.Count) then
     WfxOperationList.Objects[FPluginNumber]:= nil;
-  FreeThenNil(FCallbackDataClass);
+  FreeAndNil(FCallbackDataClass);
   inherited Destroy;
 end;
 
@@ -1089,10 +1089,10 @@ initialization
   RegisterVirtualFileSource('WfxPlugin', TWfxPluginFileSource, False);
 
 finalization
-  FreeThenNil(WfxOperationList);
-  FreeThenNil(WfxConnections);
-  FreeThenNil(WfxConnectionsLock);
-  FreeThenNil(WfxOperationsQueue);
-  FreeThenNil(WfxOperationsQueueLock);
+  FreeAndNil(WfxOperationList);
+  FreeAndNil(WfxConnections);
+  FreeAndNil(WfxConnectionsLock);
+  FreeAndNil(WfxOperationsQueue);
+  FreeAndNil(WfxOperationsQueueLock);
 
 end.

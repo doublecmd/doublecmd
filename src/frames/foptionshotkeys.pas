@@ -122,7 +122,7 @@ implementation
 {$R *.lfm}
 
 uses
-  graphics, Forms, Controls, Dialogs, LCLProc, LCLVersion,
+  graphics, Forms, Controls, Dialogs, LazUTF8, LCLVersion,
   uFindEx, uGlobs, uGlobsPaths, uLng, uKeyboard, uFormCommands, DCStrUtils;
 
 const

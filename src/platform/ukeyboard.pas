@@ -141,7 +141,7 @@ implementation
 {$ENDIF}
 
 uses
-  LCLProc, LCLIntf
+  LCLProc, LCLIntf, LazUTF8
 {$IF DEFINED(MSWINDOWS)}
   , Windows, Win32Proc
 {$ENDIF}

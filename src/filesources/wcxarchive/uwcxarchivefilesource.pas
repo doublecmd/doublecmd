@@ -142,7 +142,7 @@ type
 implementation
 
 uses
-  LCLProc, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uOSUtils,
+  LazUTF8, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uOSUtils,
   DCDateTimeUtils,
   DCConvertEncoding,
   FileUtil, uCryptProc,
@@ -933,10 +933,10 @@ initialization
   WcxOperationsQueueLock := TCriticalSection.Create;
 
 finalization
-  FreeThenNil(WcxConnections);
-  FreeThenNil(WcxConnectionsLock);
-  FreeThenNil(WcxOperationsQueue);
-  FreeThenNil(WcxOperationsQueueLock);
+  FreeAndNil(WcxConnections);
+  FreeAndNil(WcxConnectionsLock);
+  FreeAndNil(WcxOperationsQueue);
+  FreeAndNil(WcxOperationsQueueLock);
 
 end.
 

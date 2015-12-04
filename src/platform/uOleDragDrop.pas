@@ -429,7 +429,7 @@ begin
 
     wsUriList := wsUriList
                + fileScheme + '//'  { don't put hostname }
-               + URIEncode(UTF8Decode(StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
+               + UTF8Decode(URIEncode(StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
   end;
 
   wsUriList := wsUriList + #0;

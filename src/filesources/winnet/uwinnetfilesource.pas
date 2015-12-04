@@ -79,7 +79,7 @@ type
 implementation
 
 uses
-  LCLProc, uWinNetListOperation, uWinNetExecuteOperation,
+  LazUTF8, uWinNetListOperation, uWinNetExecuteOperation,
   Windows, JwaWinNetWk, uVfsModule, uShowMsg, DCOSUtils, DCStrUtils;
 
 function TWinNetFileSource.GetParentDir(sPath: String): String;

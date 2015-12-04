@@ -28,7 +28,7 @@ type
 implementation
 
 uses
-  LCLProc, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
+  LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
   DCStrUtils, uShowMsg, DCOSUtils, uOSUtils;
 
 type
