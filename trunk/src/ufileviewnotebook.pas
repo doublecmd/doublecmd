@@ -151,7 +151,7 @@ implementation
 
 uses
   LCLIntf,
-  LCLProc,
+  LazUTF8,
   DCStrUtils,
   uGlobs,
   uArchiveFileSource
