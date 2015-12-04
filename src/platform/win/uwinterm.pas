@@ -80,7 +80,7 @@ type
 implementation
 
 uses
-  FileUtil, JwaWinCon, uOSUtils;
+  LazUTF8, JwaWinCon, uOSUtils;
 
 { TWinTerm }
 

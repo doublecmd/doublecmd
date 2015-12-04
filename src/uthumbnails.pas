@@ -48,7 +48,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, Forms, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
+  FileUtil, LazFileUtils, Forms, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
   uGlobsPaths, uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource;
 
 const
@@ -81,7 +81,7 @@ begin
     Result.SetSize(aSize.cx, aSize.cy);
     Stretch(bmpTemp, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
   finally
-    FreeThenNil(bmpTemp);
+    FreeAndNil(bmpTemp);
   end;
 end;
 

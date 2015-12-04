@@ -5,7 +5,7 @@ unit fQuickSearch;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, LCLType, LCLProc,
+  Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, LCLType,
   ExtCtrls, Buttons;
 
 type
@@ -96,6 +96,7 @@ type
 implementation
 
 uses
+  LazUTF8,
   uKeyboard,
   uGlobs,
   uFormCommands;
