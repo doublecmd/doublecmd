@@ -181,7 +181,7 @@ type
   end;
 
 function GetNumberOfProcessors: LongWord;
-function FormatFileSize(ASize: Int64; AGiga: Boolean = True): UTF8String;
+function FormatFileSize(ASize: Int64; AGiga: Boolean = True): String;
 
 procedure SetArchiveOptions(AJclArchive: IInterface);
 
@@ -222,7 +222,7 @@ var
 implementation
 
 uses
-  ActiveX, SevenZipAdv;
+  ActiveX, LazUTF8, SevenZipAdv;
 
 function GetNumberOfProcessors: LongWord;
 var
@@ -232,7 +232,7 @@ begin
   Result:= SystemInfo.dwNumberOfProcessors;
 end;
 
-function FormatFileSize(ASize: Int64; AGiga: Boolean): UTF8String;
+function FormatFileSize(ASize: Int64; AGiga: Boolean): String;
 begin
   if ((ASize div cGiga) > 0) and AGiga then
     Result:= IntToStr(ASize div cGiga) + ' GB'
@@ -409,7 +409,7 @@ begin
     Ini:= TIniFile.Create(ConfigFile);
     try
       LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
-      LibraryPath:= UTF8Encode(ExpandEnvironmentStrings(UTF8Decode(LibraryPath)));
+      LibraryPath:= Utf16ToUtf8(ExpandEnvironmentStrings(UTF8Decode(LibraryPath)));
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);

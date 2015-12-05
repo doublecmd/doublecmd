@@ -103,7 +103,7 @@ begin
   SaveConfiguration;
 end;
 
-function ComboBoxAdd(hwndDlg: HWND; ItemID: Integer; ItemText: UTF8String; ItemData: PtrInt): Integer;
+function ComboBoxAdd(hwndDlg: HWND; ItemID: Integer; ItemText: String; ItemData: PtrInt): Integer;
 var
   Text: WideString;
 begin

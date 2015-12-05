@@ -86,9 +86,9 @@ type
     OpenMode,
     OperationMode: Integer;
     ProcessIndex: Cardinal;
-    ArchiveName: UTF8String;
+    ArchiveName: String;
     ProcessArray: TCardinalArray;
-    FileName: array of UTF8String;
+    FileName: array of String;
     ProcessDataProc: TProcessDataProcW;
   public
     procedure Execute; override;
@@ -141,7 +141,7 @@ begin
     Index:= 0;
     ProcessIndex:= 0;
     OpenMode:= ArchiveData.OpenMode;
-    ArchiveName := UTF8Encode(WideString(ArchiveData.ArcName));
+    ArchiveName := Utf16ToUtf8(WideString(ArchiveData.ArcName));
     AFormats := FindDecompressFormats(ArchiveName);
     for I := Low(AFormats) to High(AFormats) do
     begin
@@ -215,11 +215,11 @@ begin
           begin
             if Assigned(DestPath) then
             begin
-              FileName[Index]:= IncludeTrailingPathDelimiter(UTF8Encode(WideString(DestPath))) +
-                                UTF8Encode(WideString(DestName));
+              FileName[Index]:= IncludeTrailingPathDelimiter(Utf16ToUtf8(WideString(DestPath))) +
+                                Utf16ToUtf8(WideString(DestName));
             end
             else begin
-              FileName[Index]:= UTF8Encode(WideString(DestName));
+              FileName[Index]:= Utf16ToUtf8(WideString(DestName));
             end;
           end;
           Result:= E_SUCCESS;
@@ -279,13 +279,13 @@ var
   FilePath: WideString;
   FileName: WideString;
   SfxModule: String = '';
-  FileNameUTF8: UTF8String;
+  FileNameUTF8: String;
   AProgress: TSevenZipUpdate;
   Archive: TJclCompressArchive;
   AFormats: TJclCompressArchiveClassArray;
 begin
   if (Flags and PK_PACK_MOVE_FILES) <> 0 then Exit(E_NOT_SUPPORTED);
-  FileNameUTF8 := UTF8Encode(WideString(PackedFile));
+  FileNameUTF8 := Utf16ToUtf8(WideString(PackedFile));
 
   // If update existing archive
   if (GetFileAttributesW(PackedFile) <> INVALID_FILE_ATTRIBUTES) then
@@ -354,7 +354,7 @@ begin
       while True do
       begin
         FileName := WideString(AddList);
-        FileNameUTF8:= UTF8Encode(WideString(SrcPath + FileName));
+        FileNameUTF8:= Utf16ToUtf8(WideString(SrcPath + FileName));
         if FileName[Length(FileName)] = PathDelim then
           Archive.AddDirectory(FilePath + FileName, FileNameUTF8)
         else
@@ -380,12 +380,12 @@ var
   PathEnd : WideChar;
   FileList : PWideChar;
   FileName : WideString;
-  FileNameUTF8 : UTF8String;
+  FileNameUTF8 : String;
   Archive: TJclUpdateArchive;
   AProgress: TSevenZipUpdate;
   AFormats: TJclUpdateArchiveClassArray;
 begin
-  FileNameUTF8 := UTF8Encode(WideString(PackedFile));
+  FileNameUTF8 := Utf16ToUtf8(WideString(PackedFile));
   AFormats := FindUpdateFormats(FileNameUTF8);
   for I := Low(AFormats) to High(AFormats) do
   begin
@@ -428,7 +428,7 @@ end;
 
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
 begin
-  Result:= FindDecompressFormats(UTF8Encode(WideString(FileName))) <> nil;
+  Result:= FindDecompressFormats(Utf16ToUtf8(WideString(FileName))) <> nil;
 end;
 
 procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); stdcall;

@@ -74,7 +74,7 @@ function FindUpdateFormats(const AFileName: TFileName): TJclUpdateArchiveClassAr
 function FindCompressFormats(const AFileName: TFileName): TJclCompressArchiveClassArray;
 function FindDecompressFormats(const AFileName: TFileName): TJclDecompressArchiveClassArray;
 
-function GetNestedArchiveName(const ArchiveName: UTF8String; Item: TJclCompressionItem): WideString;
+function GetNestedArchiveName(const ArchiveName: String; Item: TJclCompressionItem): WideString;
 function ExpandEnvironmentStrings(const FileName: UnicodeString): UnicodeString;
 function WideExtractFilePath(const FileName: WideString): WideString;
 function GetModulePath(out ModulePath: AnsiString): Boolean;
@@ -82,7 +82,7 @@ function GetModulePath(out ModulePath: AnsiString): Boolean;
 implementation
 
 uses
-  CTypes, ActiveX, Windows, LazFileUtils;
+  CTypes, ActiveX, Windows, LazFileUtils, LazUTF8;
 
 type
   TArchiveFormats = array of TArchiveFormat;
@@ -93,7 +93,7 @@ type
 
 type
   TArchiveFormatCache = record
-    ArchiveName: UTF8String;
+    ArchiveName: String;
     ArchiveClassArray: TJclCompressionArchiveClassArray;
   end;
 
@@ -421,9 +421,9 @@ begin
   end;
 end;
 
-function GetNestedArchiveName(const ArchiveName: UTF8String; Item: TJclCompressionItem): WideString;
+function GetNestedArchiveName(const ArchiveName: String; Item: TJclCompressionItem): WideString;
 var
-  Extension: UTF8String;
+  Extension: String;
 begin
   Result:= Item.NestedArchiveName;
   Extension:= LowerCase(ExtractFileExt(ArchiveName));
@@ -464,7 +464,7 @@ begin
     Result:= GetModuleFileNameW(THandle(lpBuffer.AllocationBase), ModuleName, MAX_PATH) > 0;
     if Result then
     begin
-      ModulePath:= ExtractFilePath(UTF8Encode(WideString(ModuleName)));
+      ModulePath:= ExtractFilePath(Utf16ToUtf8(WideString(ModuleName)));
     end;
   end;
 end;
