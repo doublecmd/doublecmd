@@ -130,28 +130,28 @@ begin
     end;
     SetLength(OutputBuffer, BufferSize);
     // Waits for the process output
-    SetLength(OutputBuffer, FProcess.output.Read(OutputBuffer[1], Length(OutputBuffer)));
+    SetLength(OutputBuffer, FProcess.Output.Read(OutputBuffer[1], Length(OutputBuffer)));
     // Cut the incoming stream to lines:
     FOutputLine:= FOutputLine + OutputBuffer; // Add to the accumulator
     P:= 1;
-    if not GetNextLine(FOutputLine, S, P) then // There are no complete lines yet
+    while GetNextLine(FOutputLine, S, P) do
+    begin
+      if FStop then Exit;
+      // Return the line without the CR/LF characters
+      if Assigned(FOnReadLn) then FOnReadLn(S);
+      // Update progress
+      if Assigned(FOnOperationProgress) then FOnOperationProgress();
+    end;
+    // Remove the processed lines from accumulator
+    Delete(FOutputLine, 1, P - 1);
+    // Check query string
+    if Length(FOutputLine) > 0 then
     begin
       if Assigned(FOnQueryString) and (Pos(FQueryString, FOutputLine) <> 0) then
       begin
         FOnQueryString(FOutputLine);
         FOutputLine:= EmptyStr;
       end;
-    end
-    else begin
-      repeat
-        if FStop then Exit;
-        // Return the line without the CR/LF characters
-        if Assigned(FOnReadLn) then FOnReadLn(S);
-        // Update progress
-        if Assigned(FOnOperationProgress) then FOnOperationProgress();
-      until not GetNextLine(FOutputLine, S, P);
-      // Remove the processed lines from accumulator
-      Delete(FOutputLine, 1, P - 1);
     end;
     // No more data, break
     if Length(OutputBuffer) = 0 then Break;

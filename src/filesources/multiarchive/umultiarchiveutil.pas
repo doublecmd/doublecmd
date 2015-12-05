@@ -265,9 +265,12 @@ procedure TOutputParser.OnQueryString(str: string);
 var
   pcPassword: PAnsiChar;
 begin
-  ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword);
-  pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + #13#10));
-  FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
+  if not ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword) then
+    FExProcess.Stop
+  else begin
+    pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + #13#10));
+    FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
+  end;
 end;
 
 function TOutputParser.CheckOut(const SubStr, Str: string): boolean;
