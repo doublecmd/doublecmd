@@ -71,7 +71,7 @@ procedure Register;
 implementation
 
 uses
-  LCLProc, Math
+  LazUTF8, Math
   {$IF DEFINED(LCLWIN32)}
   , ComObj
   {$ENDIF}

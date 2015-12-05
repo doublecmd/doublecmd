@@ -34,7 +34,7 @@ implementation
 {$R *.lfm}
 
 uses
-  FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils, DCStrUtils;
+  LazFileUtils, uLng, uGlobs, uLog, uShowMsg, uOSUtils, DCStrUtils;
 
 function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 begin
@@ -91,4 +91,4 @@ begin
   edtLinkToCreate.SelectAll;
 end;
 
-end.
+end.
