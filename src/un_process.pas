@@ -5,7 +5,7 @@ unit un_process;
 interface
 
 uses
-  Process, SysUtils, Math;
+  Process, SysUtils;
  
 type
 
@@ -41,11 +41,47 @@ type
 
 implementation
 
-uses
-  LCLProc;
-
 const
   BufferSize = 3000;
+
+function GetNextLine(const Value: String; var S: String; var N: Integer): Boolean;
+var
+  PS: PChar;
+  IP, L, P, K: Integer;
+begin
+  P:= N;
+  S:= '';
+  Result:= False;
+  L:= Length(Value);
+  if ((L - P) < 0) then Exit;
+  if ((L - P) = 0) and (not (Value[P] in [#10, #13])) then Exit;
+  PS:= PChar(Value) + P - 1;
+  IP:= P;
+  while ((L - P) >= 0) and (not (PS^ in [#10, #13])) do
+  begin
+    P:= P + 1;
+    Inc(PS);
+  end;
+  K:= P;
+  // Point to character after #13
+  if (P <= L) and (Value[P] = #13) then
+  begin
+    Inc(P);
+    Result:= True;
+  end;
+  // Point to character after #10
+  if (P <= L) and (Value[P] = #10) then
+  begin
+    Inc(P);
+    Result:= True;
+  end;
+  if Result then
+  begin
+    N:= P;
+    SetLength(S, K - IP);
+    System.Move(Value[IP], Pointer(S)^, K - IP);
+  end;
+end;
 
 { TExProcess }
 
@@ -64,73 +100,68 @@ end;
 
 procedure TExProcess.Execute;
 var
-  I, J: Integer;
-  OutputBuffer: String;
+  P: Integer;
+  S, OutputBuffer: String;
 begin
-  try
-    FProcess.Execute;
-    repeat
-      if Assigned(FOnOperationProgress) then
-        FOnOperationProgress();
-      if FStop then Exit;
-      // If no output yet
-      if FProcess.Output.NumBytesAvailable = 0 then
-        begin
-          if not FProcess.Running then
-            Break
-          else
-            begin
-              Sleep(1);
-              if Assigned(FOnQueryString) and (FProcess.Stderr.NumBytesAvailable > 0) then
-              begin
-                SetLength(OutputBuffer, BufferSize);
-                // Waits for the process output
-                SetLength(OutputBuffer, FProcess.Stderr.Read(OutputBuffer[1], Length(OutputBuffer)));
-                if (Pos(FQueryString, OutputBuffer) > 0) then FOnQueryString(OutputBuffer);
-                OutputBuffer:= EmptyStr;
-              end;
-              Continue;
-            end
-        end;
-      SetLength(OutputBuffer, BufferSize);
-      // Waits for the process output
-      SetLength(OutputBuffer, FProcess.output.Read(OutputBuffer[1], Length(OutputBuffer)));
-      // Cut the incoming stream to lines:
-      FOutputLine:= FOutputLine + OutputBuffer; // Add to the accumulator
-
-      // Detect the line breaks and cut.
-      repeat
-        if Assigned(FOnOperationProgress) then
-          FOnOperationProgress();
-        if FStop then Exit;
-        I:= Pos(#13, FOutputLine);
-        J:= Pos(#10, FOutputLine);
-        if I = 0 then I:= J;
-        if J = 0 then J:= I;
-        if (J = 0) then // There are no complete lines yet.
-          begin
-            if Assigned(FOnQueryString) and (Pos(FQueryString, FOutputLine) <> 0) then
-              begin
-                FOnQueryString(FOutputLine);
-                FOutputLine:= EmptyStr;
-              end;
-            Break;
-          end;
-        if Assigned(FOnReadLn) then
-          FOnReadLn(Copy(FOutputLine, 1, Min(I, J) - 1)); // Return the line without the CR/LF characters
-        // Remove the line from accumulator
-        FOutputLine:= Copy(FOutputLine, Max(I, J) + 1, Length(FOutputLine) - Max(I, J));
-      until False;
-      if Length(OutputBuffer) = 0 then Break;
-    until False;
+  S:= EmptyStr;
+  FProcess.Execute;
+  repeat
+    if Assigned(FOnOperationProgress) then
+      FOnOperationProgress();
     if FStop then Exit;
-    if (Length(FOutputLine) <> 0) and Assigned(FOnReadLn) then
-      FOnReadLn(FOutputLine);
-    OutputBuffer:= EmptyStr;
-    if Assigned(FOnReadLn) then
-      FOnReadLn(OutputBuffer); // Empty line to notify DC about process finish
-  finally
-  end;
+    // If no output yet
+    if FProcess.Output.NumBytesAvailable = 0 then
+    begin
+      if not FProcess.Running then
+        Break
+      else
+        begin
+          Sleep(1);
+          if Assigned(FOnQueryString) and (FProcess.Stderr.NumBytesAvailable > 0) then
+          begin
+            SetLength(OutputBuffer, BufferSize);
+            // Waits for the process output
+            SetLength(OutputBuffer, FProcess.Stderr.Read(OutputBuffer[1], Length(OutputBuffer)));
+            if (Pos(FQueryString, OutputBuffer) > 0) then FOnQueryString(OutputBuffer);
+            OutputBuffer:= EmptyStr;
+          end;
+          Continue;
+        end
+    end;
+    SetLength(OutputBuffer, BufferSize);
+    // Waits for the process output
+    SetLength(OutputBuffer, FProcess.output.Read(OutputBuffer[1], Length(OutputBuffer)));
+    // Cut the incoming stream to lines:
+    FOutputLine:= FOutputLine + OutputBuffer; // Add to the accumulator
+    P:= 1;
+    if not GetNextLine(FOutputLine, S, P) then // There are no complete lines yet
+    begin
+      if Assigned(FOnQueryString) and (Pos(FQueryString, FOutputLine) <> 0) then
+      begin
+        FOnQueryString(FOutputLine);
+        FOutputLine:= EmptyStr;
+      end;
+    end
+    else begin
+      repeat
+        if FStop then Exit;
+        // Return the line without the CR/LF characters
+        if Assigned(FOnReadLn) then FOnReadLn(S);
+        // Update progress
+        if Assigned(FOnOperationProgress) then FOnOperationProgress();
+      until not GetNextLine(FOutputLine, S, P);
+      // Remove the processed lines from accumulator
+      Delete(FOutputLine, 1, P - 1);
+    end;
+    // No more data, break
+    if Length(OutputBuffer) = 0 then Break;
+  until False;
+  if FStop then Exit;
+  if (Length(FOutputLine) <> 0) and Assigned(FOnReadLn) then
+    FOnReadLn(FOutputLine);
+  OutputBuffer:= EmptyStr;
+  if Assigned(FOnReadLn) then
+    FOnReadLn(OutputBuffer); // Empty line to notify DC about process finish
 end;
 
 procedure TExProcess.Stop;
