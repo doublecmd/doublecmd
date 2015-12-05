@@ -2184,8 +2184,11 @@ begin
       UpdateFreeSpace(Notebook.Side);
     end;
   end;
+
   if Assigned(QuickViewPanel) then
     Commands.cm_QuickView(['Close']);
+
+  UpdateTreeViewPath;
 end;
 
 procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
