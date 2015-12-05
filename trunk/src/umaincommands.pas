@@ -75,6 +75,7 @@ type
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    procedure DoShowMainMenu(bShow: Boolean);
    procedure DoShowCmdLineHistory(bNextCmdLine: Boolean);
+   procedure DoChangeDirToRoot(FileView: TFileView);
    //---------------------
 
  published
@@ -522,6 +523,24 @@ begin
       begin
         if edtCommand.ItemIndex < edtCommand.Items.Count - 1 then
           edtCommand.ItemIndex := edtCommand.ItemIndex + 1;
+      end;
+    end;
+  end;
+end;
+
+procedure TMainCommands.DoChangeDirToRoot(FileView: TFileView);
+var
+  Page: TFileViewPage;
+begin
+  with FileView do
+  begin
+    Page := TFileViewPage(NotebookPage);
+    if Assigned(Page) then
+    begin
+      if Page.LockState = tlsPathResets then
+        ChooseFileSource(FileView, Page.LockPath)
+      else begin
+        CurrentPath := FileSource.GetRootDir(CurrentPath);
       end;
     end;
   end;
@@ -3578,10 +3597,7 @@ end;
 
 procedure TMainCommands.cm_ChangeDirToRoot(const Params: array of string);
 begin
-  with frmMain.ActiveFrame do
-  begin
-    CurrentPath := FileSource.GetRootDir(CurrentPath);
-  end;
+  DoChangeDirToRoot(frmMain.ActiveFrame);
 end;
 
 procedure TMainCommands.cm_ChangeDirToHome(const Params: array of string);

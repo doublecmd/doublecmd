@@ -1350,7 +1350,7 @@ begin
   with FileView do
   begin
     if Button.Caption = DirectorySeparator then
-      CurrentPath := FileSource.GetRootDir(CurrentPath)
+      Commands.DoChangeDirToRoot(FileView)
     else if Button.Caption = '..' then
       ChangePathToParent(True)
     else if Button.Caption = '~' then
