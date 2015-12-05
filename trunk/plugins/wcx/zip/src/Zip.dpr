@@ -3,6 +3,7 @@ library Zip;
 
 
 uses
+  FPCAdds,
   SysUtils,
   Classes,
   ZipFunc in 'ZipFunc.pas';
