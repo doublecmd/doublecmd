@@ -448,7 +448,7 @@ begin
           else
           begin
             if Pos('filename=', LowerCase(LineToParse)) > 0 then
-              TargetFile:= ExtractFilePath(TargetFile) + CeAnsiToUtf8(Copy(LineToParse,(PosOfEqualSign + 1) ,MaxInt));
+              TargetFile:= ExtractFilePath(TargetFile) + CeSysToUtf8(Copy(LineToParse,(PosOfEqualSign + 1) ,MaxInt));
           end;
 
           //Let's see if we could extract final filesize...
