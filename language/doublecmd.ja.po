@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2015-11-23 07:07+0900\n"
+"PO-Revision-Date: 2015-12-05 21:00+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -7843,7 +7843,7 @@ msgstr "<"
 #: tfrmsyncdirsdlg.sbcopyright.caption
 msgctxt "TFRMSYNCDIRSDLG.SBCOPYRIGHT.CAPTION"
 msgid ">"
-msgstr "<"
+msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
@@ -9248,7 +9248,7 @@ msgstr "アクション"
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
-msgstr "ネットワーク ドライブの切断…"
+msgstr "ネットワークドライブの切断…"
 
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
@@ -9356,6 +9356,10 @@ msgstr ""
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "終了してもよろしいですか?"
+
+#: ulng.rsmsgcopybackward
+msgid "The file %s has changed. Do you want to copy it backward?"
+msgstr "ファイル %s は変更されました。過去に遡ってコピーしますか？"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
