@@ -139,7 +139,7 @@ procedure ShowSyncDirsDlg(FileView1, FileView2: TFileView);
 implementation
 
 uses
-  fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8,
+  fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes,
   uShowForm, uFileSourceDeleteOperation, uOSUtils;
