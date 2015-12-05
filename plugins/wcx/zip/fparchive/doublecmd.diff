@@ -2140,7 +2140,7 @@ Index: AbUtils.pas
      nil, MaxLength, Flags, nil, NameSize)
    then
 -    Result := VolName;
-+    Result := UTF8Encode(VolName);
++    Result := Utf16ToUtf8(VolName);
  {$ELSE}
    Result := ''; //Stop Gap, spanning support needs to be rethought for Unix
  {$ENDIF}
@@ -2428,7 +2428,7 @@ Index: AbZipTyp.pas
 
    public {properties}
      property CompressionMethodToUse : TAbZipSupportedMethod
-@@ -620,11 +621,13 @@
+@@ -620,11 +621,14 @@
    {$ENDIF}
    {$ENDIF}
    Math,
@@ -2438,13 +2438,14 @@ Index: AbZipTyp.pas
    AbVMStrm,
 -  SysUtils;
 +  SysUtils,
++  LazUTF8,
 +  DCOSUtils,
 +  DCClassesUtf8,
 +  DCConvertEncoding;
 
  function VerifyZip(Strm : TStream) : TAbArchiveType;
  { determine if stream appears to be in PkZip format }
-@@ -638,20 +641,31 @@
+@@ -638,20 +642,31 @@
    Result := atUnknown;
    try
      Strm.Position := 0;
@@ -2490,7 +2491,7 @@ Index: AbZipTyp.pas
        end;
      end;
    except
-@@ -733,8 +747,7 @@
+@@ -733,8 +748,7 @@
    leaves stream positioned at start of structure or at original
    position if not found }
  const
@@ -2500,7 +2501,7 @@ Index: AbZipTyp.pas
  var
    StartPos  : Int64;
    TailRec   : TAbZipEndOfCentralDirectoryRecord;
-@@ -741,7 +754,6 @@
+@@ -741,7 +755,6 @@
    Buffer    : PAnsiChar;
    Offset    : Int64;
    TestPos   : PAnsiChar;
@@ -2508,7 +2509,7 @@ Index: AbZipTyp.pas
    BytesRead : Int64;
    BufSize   : Int64;
    CommentLen: integer;
-@@ -767,7 +779,7 @@
+@@ -767,7 +780,7 @@
     stream; we need to search for the tail signature}
 
    {get a buffer}
@@ -2517,7 +2518,7 @@ Index: AbZipTyp.pas
    GetMem(Buffer, BufSize);
    try
 
-@@ -774,57 +786,41 @@
+@@ -774,57 +787,41 @@
      {start out searching backwards}
      Offset := -BufSize;
 
@@ -2602,7 +2603,7 @@ Index: AbZipTyp.pas
      end;
 
      {if we reach this point, the CD tail is not present}
-@@ -1195,12 +1191,13 @@
+@@ -1195,12 +1192,13 @@
  { TAbZipDirectoryFileFooter implementation ================================= }
  function TAbZipDirectoryFileFooter.GetIsZip64: Boolean;
  begin
@@ -2622,7 +2623,7 @@ Index: AbZipTyp.pas
  end;
  { -------------------------------------------------------------------------- }
  procedure TAbZipDirectoryFileFooter.LoadFromStream( Stream : TStream );
-@@ -1407,6 +1404,22 @@
+@@ -1407,6 +1405,22 @@
    Result := FItemInfo.FileName;
  end;
  { -------------------------------------------------------------------------- }
@@ -2645,7 +2646,7 @@ Index: AbZipTyp.pas
  function TAbZipItem.GetShannonFanoTreeCount : Byte;
  begin
    Result := FItemInfo.ShannonFanoTreeCount;
-@@ -1430,12 +1443,13 @@
+@@ -1430,12 +1444,13 @@
    UnicodeName: UnicodeString;
    UTF8Name: AnsiString;
    XceedField: PXceedUnicodePathRec;
@@ -2661,7 +2662,7 @@ Index: AbZipTyp.pas
    else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
       (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
       (InfoZipField.Version = 1) and
-@@ -1442,7 +1456,7 @@
+@@ -1442,7 +1457,7 @@
       (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
      SetString(UTF8Name, InfoZipField.UnicodeName,
        FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
@@ -2670,12 +2671,12 @@ Index: AbZipTyp.pas
    end
    else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
       (FieldSize > SizeOf(TXceedUnicodePathRec)) and
-@@ -1449,16 +1463,28 @@
+@@ -1449,16 +1464,28 @@
       (XceedField.Signature = Ab_XceedUnicodePathSignature) and
       (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
      SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
 -    FFileName := string(UnicodeName);
-+    FFileName := UTF8Encode(UnicodeName);
++    FFileName := Utf16ToUtf8(UnicodeName);
    end
 -  {$IFDEF MSWINDOWS}
 -  else if (GetACP <> GetOEMCP) and ((HostOS = hosDOS) or AbIsOEM(FItemInfo.FileName)) then begin
@@ -2691,7 +2692,7 @@ Index: AbZipTyp.pas
 +    if (GetACP <> GetOEMCP) and (SystemCode = hosDOS) then
 +      FFileName := CeOemToUtf8(FItemInfo.FileName)
 +    else if (GetACP <> GetOEMCP) and CeTryDecode(FItemInfo.FileName, CP_OEMCP, UnicodeName) then
-+      FFileName := UTF8Encode(UnicodeName)
++      FFileName := Utf16ToUtf8(UnicodeName)
 +    else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
 +      FFileName := CeAnsiToUtf8(FItemInfo.FileName)
 +    else
@@ -2707,7 +2708,7 @@ Index: AbZipTyp.pas
 
    { read ZIP64 extended header }
    FUncompressedSize := FItemInfo.UncompressedSize;
-@@ -1596,24 +1622,20 @@
+@@ -1596,24 +1623,20 @@
    {$IFDEF MSWINDOWS}
    FItemInfo.IsUTF8 := False;
    HostOS := hosDOS;
@@ -2737,7 +2738,7 @@ Index: AbZipTyp.pas
    {$ENDIF}
 
    UseExtraField := False;
-@@ -1626,7 +1648,7 @@
+@@ -1626,7 +1649,7 @@
      end;
 
    if UseExtraField then begin
@@ -2746,7 +2747,7 @@ Index: AbZipTyp.pas
      FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
      GetMem(InfoZipField, FieldSize);
      try
-@@ -1762,11 +1784,11 @@
+@@ -1762,11 +1785,11 @@
    inherited Destroy;
  end;
  { -------------------------------------------------------------------------- }
@@ -2761,7 +2762,7 @@ Index: AbZipTyp.pas
    Result := TAbZipItem.Create;
    with TAbZipItem( Result ) do begin
      CompressionMethod := cmDeflated;
-@@ -1773,9 +1795,17 @@
+@@ -1773,9 +1796,17 @@
      GeneralPurposeBitFlag := 0;
      CompressedSize := 0;
      CRC32 := 0;
@@ -2781,7 +2782,7 @@ Index: AbZipTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1930,8 +1960,8 @@
+@@ -1930,8 +1961,8 @@
      AbStripDots( lValue );
 
    for i := 1 to Length( lValue ) do
@@ -2792,7 +2793,7 @@ Index: AbZipTyp.pas
    Result := lValue;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1983,7 +2013,7 @@
+@@ -1983,7 +2014,7 @@
          FStatus := asInvalid; //TODO: Status updates are extremely inconsistent
          raise EAbUserAbort.Create;
        end;
@@ -2801,7 +2802,7 @@ Index: AbZipTyp.pas
        TailPosition := FindCentralDirectoryTail( FStream );
      end;
    end;
-@@ -2302,7 +2332,7 @@
+@@ -2302,7 +2333,7 @@
          if FOwnsStream then begin
            {need new stream to write}
            FreeAndNil(FStream);

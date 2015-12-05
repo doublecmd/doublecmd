@@ -1356,7 +1356,7 @@ begin
   if GetVolumeInformationW(PWideChar(Root), PWideChar(VolName), Length(VolName),
     nil, MaxLength, Flags, nil, NameSize)
   then
-    Result := UTF8Encode(VolName);
+    Result := Utf16ToUtf8(VolName);
 {$ELSE}
   Result := ''; //Stop Gap, spanning support needs to be rethought for Unix
 {$ENDIF}

@@ -625,6 +625,7 @@ uses
   AbExcept,
   AbVMStrm,
   SysUtils,
+  LazUTF8,
   DCOSUtils,
   DCClassesUtf8,
   DCConvertEncoding;
@@ -1463,7 +1464,7 @@ begin
      (XceedField.Signature = Ab_XceedUnicodePathSignature) and
      (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
     SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
-    FFileName := UTF8Encode(UnicodeName);
+    FFileName := Utf16ToUtf8(UnicodeName);
   end
   else
   begin
@@ -1472,7 +1473,7 @@ begin
     if (GetACP <> GetOEMCP) and (SystemCode = hosDOS) then
       FFileName := CeOemToUtf8(FItemInfo.FileName)
     else if (GetACP <> GetOEMCP) and CeTryDecode(FItemInfo.FileName, CP_OEMCP, UnicodeName) then
-      FFileName := UTF8Encode(UnicodeName)
+      FFileName := Utf16ToUtf8(UnicodeName)
     else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
       FFileName := CeAnsiToUtf8(FItemInfo.FileName)
     else
