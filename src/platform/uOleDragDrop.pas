@@ -409,7 +409,7 @@ begin
     end
     else
     begin
-      FileList := Utf8ToAnsi(Self.Files[0]) + #0;
+      FileList := CeUtf8ToAnsi(Self.Files[0]) + #0;
       Result := MakeHGlobal(PAnsiChar(FileList),
                             Length(FileList) * SizeOf(AnsiChar));
     end;
@@ -440,7 +440,7 @@ begin
     else
     begin
       // Wide to Ansi
-      UriList := Utf8ToAnsi(UTF16ToUTF8(wsUriList));
+      UriList := CeUtf8ToAnsi(UTF16ToUTF8(wsUriList));
 
       Result := MakeHGlobal(PAnsiChar(UriList),
                             Length(UriList) * SizeOf(AnsiChar));
@@ -628,7 +628,7 @@ begin
   else
   begin
     for I := 0 to Self.Files.Count - 1 do
-      FileList := FileList + Utf8ToAnsi(Self.Files[I]) + #0;
+      FileList := FileList + CeUtf8ToAnsi(Self.Files[I]) + #0;
 
     FileList := FileList + #0;
     { Определяем необходимый размер структуры }

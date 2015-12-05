@@ -47,7 +47,7 @@ uses
   LCLProc, crc,
 
   //DC
-  uOSUtils, DCOSUtils, uLng, uFileProcs;
+  DCConvertEncoding, uOSUtils, DCOSUtils, uLng, uFileProcs;
 
 constructor TFileSystemSplitOperation.Create(aFileSource: IFileSource;
                                                var aSourceFile: TFile;
@@ -78,7 +78,7 @@ end;
 //
 function ConvertStringToTCStringUTF8CharReplacedByUnderscore(const sString: string): string;
 begin
-  Result:= StringReplace(Utf8ToAnsi(sString), '?', '_', [rfReplaceAll]);
+  Result:= StringReplace(CeUtf8ToAnsi(sString), '?', '_', [rfReplaceAll]);
 end;
 
 procedure TFileSystemSplitOperation.Initialize;
