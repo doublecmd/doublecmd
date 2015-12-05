@@ -78,7 +78,7 @@ end;
 //
 function ConvertStringToTCStringUTF8CharReplacedByUnderscore(const sString: string): string;
 begin
-  Result:= StringReplace(CeUtf8ToAnsi(sString), '?', '_', [rfReplaceAll]);
+  Result:= StringReplace(CeUtf8ToSys(sString), '?', '_', [rfReplaceAll]);
 end;
 
 procedure TFileSystemSplitOperation.Initialize;
