@@ -79,7 +79,7 @@ uses
   //DC
   uFileProcs, uOSUtils, fOptionsMisc, uKASToolItemsExtended,
   DCClassesUtf8, DCOSUtils, uDebug, DCStrUtils, uPixMapManager, uShowMsg,
-  uDCUtils, uLng, uGlobs, uGlobsPaths;
+  uDCUtils, uLng, uGlobs, uGlobsPaths, DCConvertEncoding;
 type
   { TTCommandEquivalence }
   TTCommandEquivalence = record
@@ -691,7 +691,7 @@ begin
     end
     else
     begin
-      Result := AnsiToUtf8(Result);
+      Result := CeAnsiToUtf8(Result);
     end;
   end;
 end;
@@ -703,7 +703,7 @@ end;
 // So let's add the "$EF $BB $BF" only when it required.
 function ConvertStringToTCString(sString: string): ansistring;
 begin
-  if Utf8ToAnsi(sString) = sString then
+  if CeUtf8ToAnsi(sString) = sString then
     Result := sString
   else
     Result := AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF) + sString;

@@ -51,7 +51,7 @@ uses
 
   //DC
   uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource,
-  uFileProcs;
+  uFileProcs, DCConvertEncoding;
 
 { TFileSystemCombineOperation.Create }
 constructor TFileSystemCombineOperation.Create(aFileSource: IFileSource;
@@ -448,7 +448,7 @@ begin
           else
           begin
             if Pos('filename=', LowerCase(LineToParse)) > 0 then
-              TargetFile:= ExtractFilePath(TargetFile) + AnsiToUtf8(Copy(LineToParse,(PosOfEqualSign + 1) ,MaxInt));
+              TargetFile:= ExtractFilePath(TargetFile) + CeAnsiToUtf8(Copy(LineToParse,(PosOfEqualSign + 1) ,MaxInt));
           end;
 
           //Let's see if we could extract final filesize...
