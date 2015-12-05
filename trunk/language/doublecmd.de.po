@@ -10439,6 +10439,10 @@ msgstr ""
 msgid "Are you sure you want to quit?"
 msgstr "Soll DoubleCommander wirklich beendet werden?"
 
+#: ulng.rsmsgcopybackward
+msgid "The file %s has changed. Do you want to copy it backward?"
+msgstr ""
+
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr "Zurückkopieren nicht möglich - ssoll die veränderte Datei behalten werden?"

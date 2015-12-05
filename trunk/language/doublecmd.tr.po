@@ -9704,6 +9704,10 @@ msgstr ""
 msgid "Are you sure you want to quit?"
 msgstr "Çıkmak istediğinizden emin misiniz?"
 
+#: ulng.rsmsgcopybackward
+msgid "The file %s has changed. Do you want to copy it backward?"
+msgstr ""
+
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr ""
