@@ -1,7 +1,7 @@
 library unrar;
 
 uses
-  SysUtils, DynLibs, UnRARFunc
+  FPCAdds, SysUtils, DynLibs, UnRARFunc
   {$IF DEFINED(MSWINDOWS)}
   , RarFunc
   {$ENDIF}
