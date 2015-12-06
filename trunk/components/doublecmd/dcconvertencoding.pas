@@ -334,49 +334,49 @@ end;
 function Oem2Utf8(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingOEM, EncodingUTF8);
+  Iconvert(Source, String(Result), EncodingOEM, EncodingUTF8);
 end;
 
 function Utf82Oem(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingUTF8, EncodingOEM);
+  Iconvert(Source, String(Result), EncodingUTF8, EncodingOEM);
 end;
 
 function OEM2Sys(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingOEM, SystemEncoding);
+  Iconvert(Source, String(Result), EncodingOEM, SystemEncoding);
 end;
 
 function Sys2OEM(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, SystemEncoding, EncodingOEM);
+  Iconvert(Source, String(Result), SystemEncoding, EncodingOEM);
 end;
 
 function Ansi2Sys(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingANSI, SystemEncoding);
+  Iconvert(Source, String(Result), EncodingANSI, SystemEncoding);
 end;
 
 function Sys2Ansi(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, SystemEncoding, EncodingANSI);
+  Iconvert(Source, String(Result), SystemEncoding, EncodingANSI);
 end;
 
 function Ansi2Utf8(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingANSI, EncodingUTF8);
+  Iconvert(Source, String(Result), EncodingANSI, EncodingUTF8);
 end;
 
 function Utf82Ansi(const Source: String): RawByteString;
 begin
   Result:= Source;
-  Iconvert(Source, Result, EncodingUTF8, EncodingANSI);
+  Iconvert(Source, String(Result), EncodingUTF8, EncodingANSI);
 end;
 
 procedure Initialize;
