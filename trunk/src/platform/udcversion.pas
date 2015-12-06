@@ -77,9 +77,7 @@ const
   LCLPlatform: array[TLCLPlatform] of string = (
       'gtk1',
       'gtk2',
-{$if lcl_fullversion >= 1010000}
       'gtk3',
-{$endif}
       'win32/win64',
       'wince',
       'carbon',
@@ -303,10 +301,6 @@ end;
 {$ENDIF}
 
 procedure InitializeVersionInfo;
-{$IFDEF LCLQT}
-const
-  qtLibQt4PasRev = '23858';
-{$ENDIF}
 {$IF DEFINED(MSWINDOWS)}
 const
   PROCESSOR_ARCHITECTURE_AMD64 = 9;
@@ -463,12 +457,7 @@ begin
   {$ENDIF}
 
   {$IFDEF LCLQT}
-  {$IF RevisionStr >= qtLibQt4PasRev}
-  // Only since Lazarus 0.9.29 Qt bindings v2.1.
   WSVersion := 'Qt ' + QtVersion + ', libQt4Pas ';
-  {$ELSE}
-  WSVersion := 'libqt4intf ';
-  {$ENDIF}
 
   WSVersion := WSVersion + IntToStr((QT_VERSION shr 16) and 255) + '.' +
                            IntToStr((QT_VERSION shr  8) and 255) + '.' +
