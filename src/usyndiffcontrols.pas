@@ -540,8 +540,11 @@ end;
 { TStringsHelper }
 
 function TStringsHelper.GetKind(AIndex: Integer): TChangeKind;
+var
+  AKind: PtrInt;
 begin
-  Result:= TChangeKind(PtrInt(Objects[AIndex]) and KindMask);
+  AKind:= PtrInt(Objects[AIndex]);
+  Result:= TChangeKind(AKind and KindMask);
 end;
 
 function TStringsHelper.GetNumber(AIndex: Integer): PtrInt;
