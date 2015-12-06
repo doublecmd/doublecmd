@@ -41,7 +41,7 @@ var
 implementation
 
 uses
-  Process, DCProcessUtf8, DCOSUtils, UnRARFunc, RarConfDlg;
+  Process, LazUTF8, DCProcessUtf8, DCOSUtils, UnRARFunc, RarConfDlg;
 
 const
   UTF16LEBOM: WideChar = #$FEFF;
@@ -78,7 +78,7 @@ begin
     FileWrite(TempFile, FileList[1], Length(FileList) * SizeOf(WideChar));
     FileClose(TempFile);
 
-    Process.Parameters.Add('@' + UTF8Encode(FileName));
+    Process.Parameters.Add('@' + SysToUTF8(FileName));
 
     Process.Execute;
     Process.WaitOnExit;
@@ -103,8 +103,8 @@ end;
 
 function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; dcpcall;
 var
- FileName : WideString;
- FolderName: WideString;
+ FileName : UnicodeString;
+ FolderName: UnicodeString;
  Process : TProcessUtf8;
  FileList : UnicodeString;
 begin
@@ -114,14 +114,14 @@ begin
     Process.Parameters.Add('d');
     Process.Parameters.Add('-c-');
     Process.Parameters.Add('-r-');
-    Process.Parameters.Add(UTF8Encode(WideString(PackedFile)));
+    Process.Parameters.Add(UTF16ToUTF8(UnicodeString(PackedFile)));
 
     try
       // Parse file list
       FileList:= UTF16LEBOM;
       while DeleteList^ <> #0 do
       begin
-        FileName := DeleteList; // Convert PWideChar to WideString (up to first #0).
+        FileName := DeleteList; // Convert PWideChar to UnicodeString (up to first #0).
 
         FileList += FileName + LineEndingW;
 
@@ -148,8 +148,8 @@ end;
 
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
 var
-  FileName: WideString;
-  FolderName: WideString;
+  FileName: UnicodeString;
+  FolderName: UnicodeString;
   Process : TProcessUtf8;
   FileList: UnicodeString;
   Password: array[0..MAX_PATH] of AnsiChar;
@@ -195,15 +195,15 @@ begin
     // Destination path
     if Assigned(SubPath) then
     begin
-      Process.Parameters.Add('-ap' + UTF8Encode(WideString(SubPath)));
+      Process.Parameters.Add('-ap' + UTF16ToUTF8(UnicodeString(SubPath)));
     end;
 
-    Process.Parameters.Add(UTF8Encode(WideString(PackedFile)));
+    Process.Parameters.Add(UTF16ToUTF8(UnicodeString(PackedFile)));
 
     // Source path
     if Assigned(SrcPath) then
     begin
-      Process.CurrentDirectory:= UTF8Encode(WideString(SrcPath));
+      Process.CurrentDirectory:= UTF16ToUTF8(UnicodeString(SrcPath));
     end;
 
     try
@@ -211,7 +211,7 @@ begin
       FileList:= UTF16LEBOM;
       while AddList^ <> #0 do
       begin
-        FileName := WideString(AddList);
+        FileName := UnicodeString(AddList);
 
         FileList += FileName + LineEndingW;
 
