@@ -725,9 +725,9 @@ begin
                     cTabSpaces - (UTF8Length(Result) + Xoffset) mod cTabSpaces);
       else
         begin
-          {if c < ' ' then
+          if c < ' ' then
             Result := Result + ' '
-          else}
+          else
             Result := Result + c;
         end;
     end;
