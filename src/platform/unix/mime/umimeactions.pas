@@ -356,6 +356,7 @@ begin
 
   Result := TList.Create;
   SetFindPath(MimeAppsPath);
+  SetLength(ResultArray, 0);
 
   for MimeType in MimeTypes do
   begin

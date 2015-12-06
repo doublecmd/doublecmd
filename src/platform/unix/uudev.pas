@@ -473,6 +473,7 @@ var
   devices: Pudev_list_entry;
   enumerate: Pudev_enumerate;
 begin
+  SetLength(DevicesInfos, 0);
   // Create a list of the devices in the 'block' subsystem
   enumerate:= udev_enumerate_new(udev);
   udev_enumerate_add_match_subsystem(enumerate, 'block');
