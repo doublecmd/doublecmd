@@ -2507,7 +2507,11 @@ begin
   begin
     ActiveFrame.FileSource.Reload(ActiveFrame.CurrentPath);
     ActiveFrame.Reload(True);
-    if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then UpdateDiskCount;
+    if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+    begin
+      UpdateDiskCount;
+      UpdateSelectedDrives;
+    end;
   end;
 end;
 
