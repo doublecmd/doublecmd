@@ -2503,8 +2503,12 @@ end;
 
 procedure TMainCommands.cm_Refresh(const Params: array of string);
 begin
-  frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
-  frmMain.ActiveFrame.Reload(True);
+  with frmMain do
+  begin
+    ActiveFrame.FileSource.Reload(ActiveFrame.CurrentPath);
+    ActiveFrame.Reload(True);
+    if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then UpdateDiskCount;
+  end;
 end;
 
 //------------------------------------------------------
