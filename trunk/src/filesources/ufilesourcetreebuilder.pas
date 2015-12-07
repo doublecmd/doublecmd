@@ -239,9 +239,14 @@ var
 begin
   if Assigned(FFileTemplate) then
   begin
-    Matches := CheckFile(FFileTemplate.SearchRecord, FFileChecks, aFile);
-    if Matches and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-      Matches := CheckDirectoryNameRelative(FFileChecks, aFile.FullPath, FRootDir);
+    if AFile.IsDirectory or AFile.IsLinkToDirectory then
+    begin
+      Matches := CheckDirectoryName(FFileChecks, aFile.Name) and
+                 CheckDirectoryNameRelative(FFileChecks, aFile.FullPath, FRootDir);
+    end
+    else begin
+      Matches := CheckFile(FFileTemplate.SearchRecord, FFileChecks, aFile);
+    end;
     if not Matches then
     begin
       (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveExclusions := True;
