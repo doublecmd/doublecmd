@@ -184,6 +184,8 @@ type
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
     procedure UpdateColumnsView;
+  published
+    procedure cm_CopyFileDetailsToClip(const Params: array of string);
 
   end;
 
@@ -191,10 +193,9 @@ implementation
 
 uses
   LCLProc, Clipbrd, uLng, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, math, fMain, fOptions,
+  DCStrUtils, uDCUtils, math, fMain, fOptions,
   uOrderedFileView,
   uFileSourceProperty,
-  fColumnsSetConf,
   uKeyboard,
   uFileFunctions,
   uFormCommands,
@@ -366,19 +367,35 @@ begin
         begin
           NewSorting := Sorting;
           SortFunctions := PanelColumn.GetColumnFunctions;
+          if Length(SortFunctions) = 0 then Exit;
           ShiftState := GetKeyShiftStateEx;
           if [ssShift, ssCtrl] * ShiftState = [] then
           begin
             SortingDirection := GetSortDirection(NewSorting, SortFunctions);
             if SortingDirection = sdNone then
-              SortingDirection := uFileSorting.sdAscending
+            begin
+              // If there is no direction currently, sort "sdDescending" for size and date.
+    	      // Commonly, we search seek more often for most recent files then older any others.
+    	      // When sorting by size, often it is to find larger file to make room.
+    	      // Anyway, it makes DC like TC, and also, Windows Explorer do the same.
+              case SortFunctions[0] of
+                fsfSize, fsfModificationTime, fsfCreationTime, fsfLastAccessTime: SortingDirection:= uFileSorting.sdDescending;
+                else SortingDirection:= uFileSorting.sdAscending;
+              end;
+            end
             else
+            begin
               SortingDirection := ReverseSortDirection(SortingDirection);
+            end;
             NewSorting := nil;
           end
           else
           begin
-            SortingDirection := uFileSorting.sdAscending;
+            // If there is no direction currently, sort "sdDescending" for size and date (see previous comment).
+            case SortFunctions[0] of
+              fsfSize, fsfModificationTime, fsfCreationTime, fsfLastAccessTime: SortingDirection:= uFileSorting.sdDescending;
+              else SortingDirection:= uFileSorting.sdAscending;
+            end;
           end;
 
           AddOrUpdateSorting(NewSorting, SortFunctions, SortingDirection);
@@ -486,8 +503,8 @@ var
     // Draw focus rect.
     if not gUseFrameCursor and IsFocused and Active then
     begin
-      TargetCanvas.Pen.Color := ColumnsSet.GetCursorBorderColor;
-      TargetCanvas.Brush.Color := ColumnsSet.GetCursorBorderColor;
+      TargetCanvas.Pen.Color := ColumnsSet.CursorBorderColor;
+      TargetCanvas.Brush.Color := ColumnsSet.CursorBorderColor;
       TargetCanvas.FrameRect(ItemRect);
     end;
   end;
@@ -811,38 +828,58 @@ begin
   end;
 end;
 
-procedure TColumnsFileViewVTV.ColumnsMenuClick(Sender: TObject);
+procedure TColumnsFileViewVTV.cm_CopyFileDetailsToClip(const Params: array of string);
 var
-  frmColumnsSetConf: TfColumnsSetConf;
-  Index: Integer;
-  Msg: TEachViewCallbackMsg;
+  I: Integer;
+  AFile: TDisplayFile;
+  sl: TStringList = nil;
+
+  procedure AddFile;
+  var
+    J: Integer;
+    S: String;
+  begin
+    if AFile.FSFile.IsNameValid then
+    begin
+      S:= EmptyStr;
+      for J:= 0 to AFile.DisplayStrings.Count - 1 do
+      begin
+        S:= S + AFile.DisplayStrings[J] + #09;
+      end;
+      J:= Length(S);
+      if J > 0 then sl.Add(Copy(S, 1, J - 1));
+    end;
+  end;
+
+begin
+  if DisplayFiles.Count > 0 then
+  begin
+    sl:= TStringList.Create;
+    try
+      for I:= 0 to FFiles.Count - 1 do
+      begin
+        AFile:= FFiles[I];
+        if AFile.Selected then AddFile;
+      end;
+
+      if sl.Count = 0 then
+      begin
+        AFile:= GetActiveDisplayFile;
+        AddFile;
+      end;
+
+      Clipboard.Clear;   // prevent multiple formats in Clipboard
+      Clipboard.AsText:= TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
+    finally
+      FreeAndNil(sl);
+    end;
+  end;
+end;
+
+procedure TColumnsFileViewVTV.ColumnsMenuClick(Sender: TObject);
 begin
   Case (Sender as TMenuItem).Tag of
-    1000: //This
-          begin
-            frmColumnsSetConf := TfColumnsSetConf.Create(nil);
-            try
-              Msg.Reason := evcrUpdateColumns;
-              Msg.UpdatedColumnsSetName := ActiveColm;
-              {EDIT Set}
-              frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
-              Index:=ColSet.Items.IndexOf(ActiveColm);
-              frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
-              frmColumnsSetConf.Tag:=Index;
-              frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
-              {EDIT Set}
-              if frmColumnsSetConf.ShowModal = mrOK then
-              begin
-                // Force saving changes to config file.
-                SaveGlobs;
-                Msg.NewColumnsSetName := frmColumnsSetConf.GetColumnsClass.Name;
-                frmMain.ForEachView(@EachViewUpdateColumns, @Msg);
-              end;
-            finally
-              FreeAndNil(frmColumnsSetConf);
-            end;
-          end;
-    1001: //All columns
+    1001: //All columns, but current one will be selected.
           begin
             ShowOptions(TfrmOptionsCustomColumns);
           end;
@@ -1385,7 +1422,7 @@ begin
     BottomSpace := ClientHeight mod DefaultNodeHeight;
 
     Header.Options := [hoColumnResize, hoDblClickResize, hoDisableAnimatedResize,
-      hoOwnerDraw];
+      hoOwnerDraw, hoHotTrack];
 
     // Set rows of header.
     if gTabHeader then
@@ -1655,9 +1692,10 @@ var
     IsCursor: Boolean;
   //---------------------
   begin
-    PaintInfo.Canvas.Font.Name   := ColumnsSet.GetColumnFontName(ACol);
-    PaintInfo.Canvas.Font.Size   := ColumnsSet.GetColumnFontSize(ACol);
-    PaintInfo.Canvas.Font.Style  := ColumnsSet.GetColumnFontStyle(ACol);
+    PaintInfo.Canvas.Font.Name    := ColumnsSet.GetColumnFontName(ACol);
+    PaintInfo.Canvas.Font.Size    := ColumnsSet.GetColumnFontSize(ACol);
+    PaintInfo.Canvas.Font.Style   := ColumnsSet.GetColumnFontStyle(ACol);
+    PaintInfo.Canvas.Font.Quality := ColumnsSet.GetColumnFontQuality(ACol);
 
     IsCursor := IsFocused and ColumnsView.Active and (not gUseFrameCursor);
     // Set up default background color first.
