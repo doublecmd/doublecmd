@@ -1,574 +1,614 @@
 inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
-  Height = 520
-  Width = 600
-  ClientHeight = 520
-  ClientWidth = 600
+  Height = 658
+  Width = 730
+  ClientHeight = 658
+  ClientWidth = 730
   Constraints.MinHeight = 520
   Constraints.MinWidth = 600
   ParentShowHint = False
   PopupMenu = pmTreeView
   ShowHint = True
-  DesignLeft = 611
-  DesignTop = 265
+  DesignLeft = 395
+  DesignTop = 7
   object gbDirectoryHotlist: TGroupBox[0]
     Left = 6
-    Height = 508
+    Height = 646
     Top = 6
-    Width = 588
+    Width = 718
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Directory Hotlist (reorder by drag && drop)'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 490
-    ClientWidth = 584
+    ClientHeight = 626
+    ClientWidth = 714
     Color = clForm
     Constraints.MinHeight = 460
     Constraints.MinWidth = 548
     ParentColor = False
     TabOrder = 0
-    object tvDirectoryHotlist: TTreeView
+    object pnlClient: TPanel
       AnchorSideLeft.Control = gbDirectoryHotlist
       AnchorSideTop.Control = gbDirectoryHotlist
-      AnchorSideRight.Control = gbHotlistOtherOptions
+      AnchorSideRight.Control = gbDirectoryHotlist
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = pnlBottom
       Left = 6
-      Height = 381
+      Height = 524
       Top = 6
-      Width = 252
+      Width = 702
       Anchors = [akTop, akLeft, akRight, akBottom]
-      BorderSpacing.Right = 6
-      DefaultItemHeight = 18
-      DragMode = dmAutomatic
-      HotTrack = True
-      MultiSelect = True
-      MultiSelectStyle = [msControlSelect, msShiftSelect, msVisibleOnly, msSiblingOnly]
-      ParentColor = True
-      PopupMenu = pmTreeView
-      ReadOnly = True
-      ScrollBars = ssAutoBoth
-      SelectionColor = clBtnShadow
-      TabOrder = 0
-      ToolTips = False
-      OnDragDrop = tvDirectoryHotlistDragDrop
-      OnDragOver = tvDirectoryHotlistDragOver
-      OnEnter = tvDirectoryHotlistEnter
-      OnExit = tvDirectoryHotlistExit
-      OnSelectionChanged = tvDirectoryHotlistSelectionChanged
-      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHideSelection, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot]
-    end
-    object pnlButtons: TPanel
-      AnchorSideLeft.Control = gbHotlistOtherOptions
-      AnchorSideTop.Control = gbDirectoryHotlist
-      AnchorSideRight.Control = gbDirectoryHotlist
-      AnchorSideRight.Side = asrBottom
-      Left = 264
-      Height = 161
-      Top = 6
-      Width = 314
-      Anchors = [akTop, akLeft, akRight]
       BevelOuter = bvNone
-      ClientHeight = 161
-      ClientWidth = 314
-      Color = clForm
-      ParentColor = False
-      TabOrder = 4
-      OnResize = pnlButtonsResize
-      object btnInsert: TBitBtn
-        Tag = 1
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = pnlButtons
-        AnchorSideRight.Control = btnExport
-        Left = 8
-        Height = 25
+      ClientHeight = 524
+      ClientWidth = 702
+      TabOrder = 0
+      object tvDirectoryHotlist: TTreeView
+        AnchorSideLeft.Control = pnlClient
+        AnchorSideTop.Control = pnlClient
+        AnchorSideRight.Control = gbHotlistOtherOptions
+        AnchorSideBottom.Control = pnlClient
+        AnchorSideBottom.Side = asrBottom
+        Left = 0
+        Height = 524
         Top = 0
-        Width = 150
-        Anchors = [akTop, akRight]
+        Width = 382
+        Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Right = 6
-        Caption = 'Insert...'
-        OnClick = btnActionClick
+        DefaultItemHeight = 18
+        DragMode = dmAutomatic
+        HotTrack = True
+        MultiSelect = True
+        MultiSelectStyle = [msControlSelect, msShiftSelect, msVisibleOnly, msSiblingOnly]
+        ParentColor = True
+        PopupMenu = pmTreeView
+        ReadOnly = True
+        ScrollBars = ssAutoBoth
+        SelectionColor = clBtnShadow
         TabOrder = 0
+        ToolTips = False
+        OnDragDrop = tvDirectoryHotlistDragDrop
+        OnDragOver = tvDirectoryHotlistDragOver
+        OnEnter = tvDirectoryHotlistEnter
+        OnExit = tvDirectoryHotlistExit
+        OnSelectionChanged = tvDirectoryHotlistSelectionChanged
+        Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHideSelection, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot]
       end
-      object btnDelete: TBitBtn
-        Tag = 3
-        AnchorSideTop.Control = btnAdd
+      object gbHotlistOtherOptions: TGroupBox
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = rgWhereToAdd
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = btnBackup
-        Left = 8
-        Height = 25
-        Top = 62
-        Width = 150
+        AnchorSideRight.Control = pnlClient
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 388
+        Height = 114
+        Top = 253
+        Width = 314
         Anchors = [akTop, akRight]
-        BorderSpacing.Top = 6
-        BorderSpacing.Right = 6
-        Caption = 'Delete...'
-        OnClick = btnActionClick
+        AutoSize = True
+        Caption = 'Other options'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.TopBottomSpacing = 6
+        ClientHeight = 94
+        ClientWidth = 310
+        Constraints.MinWidth = 314
+        TabOrder = 3
+        object cbAddTarget: TCheckBox
+          Left = 6
+          Height = 19
+          Top = 6
+          Width = 225
+          Caption = 'When adding directory, add also target'
+          OnChange = GenericSomethingChanged
+          TabOrder = 0
+        end
+        object cbFullExpandTree: TCheckBox
+          AnchorSideLeft.Control = cbAddTarget
+          AnchorSideTop.Control = cbAddTarget
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 27
+          Width = 121
+          BorderSpacing.Top = 2
+          Caption = 'Always expand tree'
+          OnChange = cbFullExpandTreeChange
+          TabOrder = 1
+        end
+        object cbShowPathInPopup: TCheckBox
+          AnchorSideLeft.Control = cbAddTarget
+          AnchorSideTop.Control = cbFullExpandTree
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 48
+          Width = 161
+          BorderSpacing.Top = 2
+          Caption = 'In popup, show [path also]'
+          OnChange = GenericSomethingChanged
+          TabOrder = 2
+        end
+        object cbShowOnlyValidEnv: TCheckBox
+          AnchorSideLeft.Control = cbAddTarget
+          AnchorSideTop.Control = cbShowPathInPopup
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 69
+          Width = 223
+          BorderSpacing.Top = 2
+          Caption = 'Show only valid environment variables'
+          OnChange = GenericSomethingChanged
+          TabOrder = 3
+        end
+      end
+      object rgWhereToAdd: TRadioGroup
+        AnchorSideLeft.Control = gbHotlistOtherOptions
+        AnchorSideTop.Control = pnlButtons
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pnlClient
+        AnchorSideRight.Side = asrBottom
+        Left = 388
+        Height = 89
+        Top = 164
+        Width = 314
+        Anchors = [akTop, akLeft, akRight]
+        AutoFill = True
+        AutoSize = True
+        BorderSpacing.Top = 3
+        Caption = 'Addition from main panel:'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.TopBottomSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ClientHeight = 69
+        ClientWidth = 310
+        Items.Strings = (
+          'Add at beginning'
+          'Add at the end'
+          'Smart add'
+        )
         TabOrder = 2
       end
-      object btnExport: TBitBtn
-        Tag = 4
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = pnlButtons
-        AnchorSideRight.Control = pnlButtons
+      object pnlButtons: TPanel
+        AnchorSideLeft.Control = gbHotlistOtherOptions
+        AnchorSideTop.Control = pnlClient
+        AnchorSideRight.Control = pnlClient
         AnchorSideRight.Side = asrBottom
-        Left = 164
-        Height = 25
+        Left = 388
+        Height = 161
         Top = 0
-        Width = 150
-        Anchors = [akTop, akRight]
-        Caption = 'Export...'
-        OnClick = btnActionClick
-        TabOrder = 5
-      end
-      object btnImport: TBitBtn
-        Tag = 5
-        AnchorSideTop.Control = btnExport
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = pnlButtons
-        AnchorSideRight.Side = asrBottom
-        Left = 164
-        Height = 25
-        Top = 31
-        Width = 150
-        Anchors = [akTop, akRight]
-        BorderSpacing.Top = 6
-        Caption = 'Import...'
-        OnClick = btnActionClick
-        TabOrder = 6
-      end
-      object btnBackup: TBitBtn
-        Tag = 6
-        AnchorSideTop.Control = btnImport
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = pnlButtons
-        AnchorSideRight.Side = asrBottom
-        Left = 164
-        Height = 25
-        Top = 62
-        Width = 150
-        Anchors = [akTop, akRight]
-        BorderSpacing.Top = 6
-        Caption = 'Backup...'
-        OnClick = btnActionClick
-        TabOrder = 7
-      end
-      object btnMiscellaneous: TBitBtn
-        Tag = 7
-        AnchorSideTop.Control = btnSort
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = btnHelp
-        Left = 8
-        Height = 25
-        Top = 124
-        Width = 150
-        Anchors = [akTop, akRight]
-        BorderSpacing.Top = 6
-        BorderSpacing.Right = 6
-        Caption = 'Miscellaneous...'
-        OnClick = btnActionClick
-        TabOrder = 4
-      end
-      object btnAdd: TBitBtn
-        Tag = 2
-        AnchorSideTop.Control = btnInsert
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = btnImport
-        Left = 8
-        Height = 25
-        Top = 31
-        Width = 150
-        Anchors = [akTop, akRight]
-        BorderSpacing.Top = 6
-        BorderSpacing.Right = 6
-        Caption = 'Add...'
-        OnClick = btnActionClick
+        Width = 314
+        Anchors = [akTop, akLeft, akRight]
+        BevelOuter = bvNone
+        ClientHeight = 161
+        ClientWidth = 314
+        Color = clForm
+        ParentColor = False
         TabOrder = 1
-      end
-      object btnSort: TBitBtn
-        Tag = 8
-        AnchorSideTop.Control = btnDelete
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = btnBackup
-        Left = 8
-        Height = 25
-        Top = 93
-        Width = 150
-        Anchors = [akTop, akRight]
-        BorderSpacing.Top = 6
-        BorderSpacing.Right = 6
-        Caption = 'Sort...'
-        OnClick = btnActionClick
-        TabOrder = 3
-      end
-      object btnHelp: TBitBtn
-        AnchorSideTop.Control = btnMiscellaneous
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = pnlButtons
-        AnchorSideRight.Side = asrBottom
-        Left = 164
-        Height = 25
-        Top = 124
-        Width = 150
-        Anchors = [akTop, akRight]
-        Caption = 'Help'
-        OnClick = btnHelpClick
-        TabOrder = 8
+        OnResize = pnlButtonsResize
+        object btnInsert: TBitBtn
+          Tag = 1
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = pnlButtons
+          AnchorSideRight.Control = btnExport
+          Left = 8
+          Height = 25
+          Top = 0
+          Width = 150
+          Anchors = [akTop, akRight]
+          BorderSpacing.Right = 6
+          Caption = 'Insert...'
+          OnClick = btnActionClick
+          TabOrder = 0
+        end
+        object btnDelete: TBitBtn
+          Tag = 3
+          AnchorSideTop.Control = btnAdd
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnBackup
+          Left = 8
+          Height = 25
+          Top = 62
+          Width = 150
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          Caption = 'Delete...'
+          OnClick = btnActionClick
+          TabOrder = 2
+        end
+        object btnExport: TBitBtn
+          Tag = 4
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = pnlButtons
+          AnchorSideRight.Control = pnlButtons
+          AnchorSideRight.Side = asrBottom
+          Left = 164
+          Height = 25
+          Top = 0
+          Width = 150
+          Anchors = [akTop, akRight]
+          Caption = 'Export...'
+          OnClick = btnActionClick
+          TabOrder = 5
+        end
+        object btnImport: TBitBtn
+          Tag = 5
+          AnchorSideTop.Control = btnExport
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = pnlButtons
+          AnchorSideRight.Side = asrBottom
+          Left = 164
+          Height = 25
+          Top = 31
+          Width = 150
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 6
+          Caption = 'Import...'
+          OnClick = btnActionClick
+          TabOrder = 6
+        end
+        object btnBackup: TBitBtn
+          Tag = 6
+          AnchorSideTop.Control = btnImport
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = pnlButtons
+          AnchorSideRight.Side = asrBottom
+          Left = 164
+          Height = 25
+          Top = 62
+          Width = 150
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 6
+          Caption = 'Backup...'
+          OnClick = btnActionClick
+          TabOrder = 7
+        end
+        object btnMiscellaneous: TBitBtn
+          Tag = 7
+          AnchorSideTop.Control = btnSort
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnHelp
+          Left = 8
+          Height = 25
+          Top = 124
+          Width = 150
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          Caption = 'Miscellaneous...'
+          OnClick = btnActionClick
+          TabOrder = 4
+        end
+        object btnAdd: TBitBtn
+          Tag = 2
+          AnchorSideTop.Control = btnInsert
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnImport
+          Left = 8
+          Height = 25
+          Top = 31
+          Width = 150
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          Caption = 'Add...'
+          OnClick = btnActionClick
+          TabOrder = 1
+        end
+        object btnSort: TBitBtn
+          Tag = 8
+          AnchorSideTop.Control = btnDelete
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnBackup
+          Left = 8
+          Height = 25
+          Top = 93
+          Width = 150
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          Caption = 'Sort...'
+          OnClick = btnActionClick
+          TabOrder = 3
+        end
+        object btnHelp: TBitBtn
+          AnchorSideTop.Control = btnMiscellaneous
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = pnlButtons
+          AnchorSideRight.Side = asrBottom
+          Left = 164
+          Height = 25
+          Top = 124
+          Width = 150
+          Anchors = [akTop, akRight]
+          Caption = 'Help'
+          OnClick = btnHelpClick
+          TabOrder = 8
+        end
       end
     end
-    object rgWhereToAdd: TRadioGroup
-      AnchorSideLeft.Control = gbHotlistOtherOptions
-      AnchorSideTop.Control = pnlButtons
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbDirectoryHotlist
+    object pnlBottom: TPanel
       AnchorSideRight.Side = asrBottom
-      Left = 264
-      Height = 87
-      Top = 170
-      Width = 314
-      Anchors = [akTop, akLeft, akRight]
-      AutoFill = True
-      AutoSize = True
-      BorderSpacing.Top = 3
-      Caption = 'Addition from main panel:'
-      ChildSizing.LeftRightSpacing = 6
-      ChildSizing.TopBottomSpacing = 6
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
-      ChildSizing.ShrinkHorizontal = crsScaleChilds
-      ChildSizing.ShrinkVertical = crsScaleChilds
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ChildSizing.ControlsPerLine = 1
-      ClientHeight = 69
-      ClientWidth = 310
-      Items.Strings = (
-        'Add at beginning'
-        'Add at the end'
-        'Smart add'
-      )
-      TabOrder = 5
-    end
-    object gbHotlistOtherOptions: TGroupBox
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rgWhereToAdd
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbDirectoryHotlist
-      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = gbDirectoryHotlist
       AnchorSideBottom.Side = asrBottom
-      Left = 264
-      Height = 112
-      Top = 257
-      Width = 314
-      Anchors = [akTop, akRight]
-      AutoSize = True
-      Caption = 'Other options'
-      ChildSizing.LeftRightSpacing = 6
-      ChildSizing.TopBottomSpacing = 6
-      ClientHeight = 94
-      ClientWidth = 310
-      Constraints.MinWidth = 314
-      TabOrder = 6
-      object cbAddTarget: TCheckBox
-        Left = 6
-        Height = 19
-        Top = 6
-        Width = 225
-        Caption = 'When adding directory, add also target'
-        OnChange = GenericSomethingChanged
-        TabOrder = 0
-      end
-      object cbFullExpandTree: TCheckBox
-        AnchorSideLeft.Control = cbAddTarget
-        AnchorSideTop.Control = cbAddTarget
-        AnchorSideTop.Side = asrBottom
-        Left = 6
-        Height = 19
-        Top = 27
-        Width = 121
-        BorderSpacing.Top = 2
-        Caption = 'Always expand tree'
-        OnChange = cbFullExpandTreeChange
-        TabOrder = 1
-      end
-      object cbShowPathInPopup: TCheckBox
-        AnchorSideLeft.Control = cbAddTarget
-        AnchorSideTop.Control = cbFullExpandTree
-        AnchorSideTop.Side = asrBottom
-        Left = 6
-        Height = 19
-        Top = 48
-        Width = 161
-        BorderSpacing.Top = 2
-        Caption = 'In popup, show [path also]'
-        OnChange = GenericSomethingChanged
-        TabOrder = 2
-      end
-      object cbShowOnlyValidEnv: TCheckBox
-        AnchorSideLeft.Control = cbAddTarget
-        AnchorSideTop.Control = cbShowPathInPopup
-        AnchorSideTop.Side = asrBottom
-        Left = 6
-        Height = 19
-        Top = 69
-        Width = 223
-        BorderSpacing.Top = 2
-        Caption = 'Show only valid environment variables'
-        OnChange = GenericSomethingChanged
-        TabOrder = 3
-      end
-    end
-    object lbleditHotDirName: TLabeledEdit
-      Tag = 1
-      AnchorSideTop.Side = asrBottom
-      Left = 110
-      Height = 23
-      Top = 402
-      Width = 468
+      Left = 6
+      Height = 90
+      Top = 530
+      Width = 702
       Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Top = 9
-      EditLabel.AnchorSideTop.Control = lbleditHotDirName
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = lbleditHotDirName
-      EditLabel.AnchorSideBottom.Control = lbleditHotDirName
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 72
-      EditLabel.Height = 15
-      EditLabel.Top = 406
-      EditLabel.Width = 35
-      EditLabel.Caption = 'Name:'
-      EditLabel.ParentColor = False
-      EditLabel.ParentFont = False
-      LabelPosition = lpLeft
-      ParentFont = False
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 90
+      ClientWidth = 702
       TabOrder = 1
-      OnEnter = lbleditHotDirEnter
-      OnExit = lbleditHotDirExit
-      OnKeyPress = lbleditHotDirKeyPress
-    end
-    object lbleditHotDirPath: TLabeledEdit
-      Tag = 2
-      AnchorSideTop.Side = asrBottom
-      Left = 110
-      Height = 23
-      Top = 432
-      Width = 320
-      Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Top = 2
-      BorderSpacing.Right = 2
-      EditLabel.Tag = 2
-      EditLabel.AnchorSideTop.Control = lbleditHotDirPath
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = lbleditHotDirPath
-      EditLabel.AnchorSideBottom.Control = lbleditHotDirPath
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 80
-      EditLabel.Height = 15
-      EditLabel.Top = 436
-      EditLabel.Width = 27
-      EditLabel.Caption = 'Path:'
-      EditLabel.ParentColor = False
-      EditLabel.ParentFont = False
-      EditLabel.OnClick = anyRelativeAbsolutePathClick
-      LabelPosition = lpLeft
-      ParentFont = False
-      TabOrder = 2
-      OnEnter = lbleditHotDirEnter
-      OnExit = lbleditHotDirExit
-      OnKeyPress = lbleditHotDirKeyPress
-      OnMouseDown = lbleditHotDirMouseDown
-    end
-    object lbleditHotDirTarget: TLabeledEdit
-      Tag = 3
-      AnchorSideTop.Side = asrBottom
-      Left = 110
-      Height = 23
-      Top = 462
-      Width = 320
-      Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Top = 2
-      BorderSpacing.Right = 2
-      EditLabel.Tag = 3
-      EditLabel.AnchorSideTop.Control = lbleditHotDirTarget
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = lbleditHotDirTarget
-      EditLabel.AnchorSideBottom.Control = lbleditHotDirTarget
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 70
-      EditLabel.Height = 15
-      EditLabel.Top = 466
-      EditLabel.Width = 37
-      EditLabel.Caption = 'Target:'
-      EditLabel.ParentColor = False
-      EditLabel.ParentFont = False
-      EditLabel.OnClick = anyRelativeAbsolutePathClick
-      LabelPosition = lpLeft
-      ParentFont = False
-      TabOrder = 3
-      OnEnter = lbleditHotDirEnter
-      OnExit = lbleditHotDirExit
-      OnKeyPress = lbleditHotDirKeyPress
-      OnMouseDown = lbleditHotDirMouseDown
-    end
-    object btnRelativePath: TSpeedButton
-      Tag = 2
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = lbleditHotDirPath
-      AnchorSideBottom.Control = lbleditHotDirPath
-      AnchorSideBottom.Side = asrBottom
-      Left = 432
-      Height = 23
-      Hint = 'Some functions to select appropriate path'
-      Top = 432
-      Width = 23
-      Anchors = [akTop, akRight, akBottom]
-      BorderSpacing.Right = 2
-      Glyph.Data = {
-        36040000424D3604000000000000360000002800000010000000100000000100
-        20000000000000040000640000006400000000000000000000002C86D8702D88
-        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
-        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
-        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
-        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
-        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
-        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
-        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
-        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
-        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
-        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
-        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
-        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
-        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
-        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
-        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
-        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
-        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
-        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
-        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
-        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
-        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
-        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
-        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
-        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
-        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
-        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
-      }
-      OnClick = anyRelativeAbsolutePathClick
-      ParentFont = False
-    end
-    object btnRelativeTarget: TSpeedButton
-      Tag = 3
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = lbleditHotDirTarget
-      AnchorSideTop.Side = asrCenter
-      AnchorSideBottom.Control = lbleditHotDirTarget
-      AnchorSideBottom.Side = asrBottom
-      Left = 432
-      Height = 23
-      Hint = 'Some functions to select appropriate target'
-      Top = 462
-      Width = 23
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 2
-      Glyph.Data = {
-        36040000424D3604000000000000360000002800000010000000100000000100
-        20000000000000040000640000006400000000000000000000002C86D8702D88
-        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
-        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
-        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
-        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
-        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
-        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
-        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
-        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
-        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
-        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
-        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
-        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
-        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
-        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
-        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
-        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
-        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
-        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
-        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
-        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
-        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
-        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
-        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
-        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
-        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
-        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
-      }
-      OnClick = anyRelativeAbsolutePathClick
-      ParentFont = False
-    end
-    object cbSortHotDirPath: TComboBox
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Side = asrBottom
-      Left = 456
-      Height = 23
-      Top = 432
-      Width = 122
-      Anchors = [akRight, akBottom]
-      DropDownCount = 10
-      ItemHeight = 15
-      ItemIndex = 1
-      Items.Strings = (
-        'none'
-        'Name, a-z'
-        'Name, z-a'
-        'Ext, a-z'
-        'Ext, z-a'
-        'Size 9-0'
-        'Size 0-9'
-        'Date 9-0'
-        'Date 0-9'
-      )
-      OnChange = cbSortHotDirPathChange
-      ParentFont = False
-      Style = csDropDownList
-      TabOrder = 7
-      Text = 'Name, a-z'
-    end
-    object cbSortHotDirTarget: TComboBox
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Side = asrBottom
-      Left = 456
-      Height = 23
-      Top = 462
-      Width = 122
-      Anchors = [akRight, akBottom]
-      DropDownCount = 10
-      ItemHeight = 15
-      ItemIndex = 1
-      Items.Strings = (
-        'none'
-        'Name, a-z'
-        'Name, z-a'
-        'Ext, a-z'
-        'Ext, z-a'
-        'Size 9-0'
-        'Size 0-9'
-        'Date 9-0'
-        'Date 0-9'
-      )
-      OnChange = cbSortHotDirTargetChange
-      ParentFont = False
-      Style = csDropDownList
-      TabOrder = 8
-      Text = 'Name, a-z'
+      object lbleditHotDirName: TLabeledEdit
+        Tag = 1
+        AnchorSideTop.Control = pnlBottom
+        Left = 104
+        Height = 23
+        Top = 9
+        Width = 598
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 9
+        BorderSpacing.Bottom = 6
+        EditLabel.AnchorSideTop.Control = lbleditHotDirName
+        EditLabel.AnchorSideTop.Side = asrCenter
+        EditLabel.AnchorSideRight.Control = lbleditHotDirName
+        EditLabel.AnchorSideBottom.Side = asrBottom
+        EditLabel.Left = 66
+        EditLabel.Height = 15
+        EditLabel.Top = 13
+        EditLabel.Width = 35
+        EditLabel.Caption = 'Name:'
+        EditLabel.ParentColor = False
+        EditLabel.ParentFont = False
+        LabelPosition = lpLeft
+        ParentFont = False
+        TabOrder = 0
+        OnEnter = lbleditHotDirEnter
+        OnExit = lbleditHotDirExit
+        OnKeyPress = lbleditHotDirKeyPress
+      end
+      object lbleditHotDirPath: TLabeledEdit
+        Tag = 2
+        AnchorSideTop.Control = cbSortHotDirPath
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnRelativePath
+        Left = 104
+        Height = 23
+        Top = 38
+        Width = 449
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 2
+        BorderSpacing.Right = 2
+        EditLabel.Tag = 2
+        EditLabel.AnchorSideTop.Control = lbleditHotDirPath
+        EditLabel.AnchorSideTop.Side = asrCenter
+        EditLabel.AnchorSideRight.Control = lbleditHotDirPath
+        EditLabel.AnchorSideBottom.Side = asrBottom
+        EditLabel.Left = 74
+        EditLabel.Height = 15
+        EditLabel.Top = 42
+        EditLabel.Width = 27
+        EditLabel.Caption = 'Path:'
+        EditLabel.ParentColor = False
+        EditLabel.ParentFont = False
+        EditLabel.OnClick = anyRelativeAbsolutePathClick
+        LabelPosition = lpLeft
+        ParentFont = False
+        TabOrder = 1
+        OnEnter = lbleditHotDirEnter
+        OnExit = lbleditHotDirExit
+        OnKeyPress = lbleditHotDirKeyPress
+        OnMouseDown = lbleditHotDirMouseDown
+      end
+      object btnRelativePath: TSpeedButton
+        Tag = 2
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lbleditHotDirPath
+        AnchorSideRight.Control = cbSortHotDirPath
+        AnchorSideBottom.Control = lbleditHotDirPath
+        AnchorSideBottom.Side = asrBottom
+        Left = 555
+        Height = 23
+        Hint = 'Some functions to select appropriate path'
+        Top = 38
+        Width = 23
+        Anchors = [akTop, akRight, akBottom]
+        BorderSpacing.Right = 2
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        OnClick = anyRelativeAbsolutePathClick
+        ParentFont = False
+      end
+      object cbSortHotDirPath: TComboBox
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lbleditHotDirName
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 580
+        Height = 23
+        Top = 38
+        Width = 122
+        Anchors = [akTop, akRight]
+        BorderSpacing.Bottom = 6
+        DropDownCount = 10
+        ItemHeight = 15
+        ItemIndex = 1
+        Items.Strings = (
+          'none'
+          'Name, a-z'
+          'Name, z-a'
+          'Ext, a-z'
+          'Ext, z-a'
+          'Size 9-0'
+          'Size 0-9'
+          'Date 9-0'
+          'Date 0-9'
+        )
+        OnChange = cbSortHotDirPathChange
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 2
+        Text = 'Name, a-z'
+      end
+      object lbleditHotDirTarget: TLabeledEdit
+        Tag = 3
+        AnchorSideTop.Control = cbSortHotDirTarget
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnRelativeTarget
+        Left = 104
+        Height = 23
+        Top = 67
+        Width = 449
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 2
+        BorderSpacing.Right = 2
+        EditLabel.Tag = 3
+        EditLabel.AnchorSideTop.Control = lbleditHotDirTarget
+        EditLabel.AnchorSideTop.Side = asrCenter
+        EditLabel.AnchorSideRight.Control = lbleditHotDirTarget
+        EditLabel.AnchorSideBottom.Side = asrBottom
+        EditLabel.Left = 65
+        EditLabel.Height = 15
+        EditLabel.Top = 71
+        EditLabel.Width = 36
+        EditLabel.Caption = 'Target:'
+        EditLabel.ParentColor = False
+        EditLabel.ParentFont = False
+        EditLabel.OnClick = anyRelativeAbsolutePathClick
+        LabelPosition = lpLeft
+        ParentFont = False
+        TabOrder = 3
+        OnEnter = lbleditHotDirEnter
+        OnExit = lbleditHotDirExit
+        OnKeyPress = lbleditHotDirKeyPress
+        OnMouseDown = lbleditHotDirMouseDown
+      end
+      object btnRelativeTarget: TSpeedButton
+        Tag = 3
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lbleditHotDirTarget
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbSortHotDirTarget
+        AnchorSideBottom.Side = asrBottom
+        Left = 555
+        Height = 23
+        Hint = 'Some functions to select appropriate target'
+        Top = 67
+        Width = 23
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 2
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        OnClick = anyRelativeAbsolutePathClick
+        ParentFont = False
+      end
+      object cbSortHotDirTarget: TComboBox
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbSortHotDirPath
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 580
+        Height = 23
+        Top = 67
+        Width = 122
+        Anchors = [akTop, akRight]
+        DropDownCount = 10
+        ItemHeight = 15
+        ItemIndex = 1
+        Items.Strings = (
+          'none'
+          'Name, a-z'
+          'Name, z-a'
+          'Ext, a-z'
+          'Ext, z-a'
+          'Size 9-0'
+          'Size 0-9'
+          'Date 9-0'
+          'Date 0-9'
+        )
+        OnChange = cbSortHotDirTargetChange
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 4
+        Text = 'Name, a-z'
+      end
     end
   end
   object OpenDialog: TOpenDialog[1]
