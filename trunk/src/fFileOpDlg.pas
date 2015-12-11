@@ -1109,7 +1109,10 @@ end;
 initialization
   Initialize;
 
+// Workaround: Internal error 200130121
+{$IF (FPC_FULLVERSION < 030000) or (not DEFINED(WIN64))}
 finalization
   Finalize;
+{$ENDIF}
 
 end.
