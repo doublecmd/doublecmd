@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Configuration of HotDir
 
-   Copyright (C) 2009-2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -67,6 +67,8 @@ type
     miSeparator9: TMenuItem;
     miSortSingleGroup2: TMenuItem;
     miCurrentSelectedOrActiveDirectories: TMenuItem;
+    pnlBottom: TPanel;
+    pnlClient: TPanel;
     pmPathHelper: TPopupMenu;
     rgWhereToAdd: TRadioGroup;
     pnlButtons: TPanel;
@@ -2023,6 +2025,7 @@ end;
 { TfrmOptionsDirectoryHotlist.Init }
 procedure TfrmOptionsDirectoryHotlist.Init;
 begin
+  pnlBottom.Constraints.MinHeight := pnlBottom.Height;
   ParseLineToList(rsOptAddFromMainPanel, rgWhereToAdd.Items);
 end;
 
