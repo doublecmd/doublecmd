@@ -576,6 +576,9 @@ type
     QEventHook: QObject_hookH;
     function QObjectEventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl;
 {$ENDIF}
+{$IF DEFINED(LCLGTK2)}
+    procedure WindowStateUpdate(Data: PtrInt);
+{$ENDIF}
   private
     { Private declarations }
     FMainSplitterPos: Double;
@@ -797,6 +800,11 @@ var
 {$IFDEF LCLQT}
 var
   CloseQueryResult: Boolean = False;
+{$ENDIF}
+
+{$IFDEF LCLGTK2}
+var
+  MinimizedWindowButton: Boolean = False;
 {$ENDIF}
 
 var
@@ -1680,6 +1688,13 @@ begin
   end
 end;
 
+{$IF DEFINED(LCLGTK2)}
+procedure TfrmMain.WindowStateUpdate(Data: PtrInt);
+begin
+  Resizing(lastWindowState);
+end;
+{$ENDIF}
+
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 begin
   if FUpdateDiskCount and (WindowState <> wsMinimized) then
@@ -1688,11 +1703,23 @@ begin
     FUpdateDiskCount:= False;
   end;
 
+{$IF DEFINED(LCLGTK2)}
+  if MinimizedWindowButton then
+  begin
+    MinimizedWindowButton:= False;
+    Application.QueueAsyncCall(@WindowStateUpdate, 0);
+    Exit;
+  end;
+{$ENDIF}
+
   if WindowState = wsMinimized then
   begin  // Minimized
     MainToolBar.Top:= 0; // restore toolbar position
     if not HiddenToTray then
     begin
+{$IF DEFINED(LCLGTK2)}
+      MinimizedWindowButton:= True;
+{$ENDIF}
       if gMinimizeToTray or gAlwaysShowTrayIcon then
       begin
         HideToTray;
@@ -1704,7 +1731,7 @@ begin
       // We don't react to this message in this case.
       HiddenToTray := False;
 {$IF DEFINED(LCLGTK2)}
-      WindowState := lastWindowState;
+      Application.QueueAsyncCall(@WindowStateUpdate, 0);
 {$ENDIF}
     end;
   end
@@ -2008,9 +2035,8 @@ end;
 procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
 begin
   ActiveFrame.SetFocus;
-{$IF NOT DEFINED(LCLGTK2)}
+
   HiddenToTray := False;
-{$ENDIF}
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
