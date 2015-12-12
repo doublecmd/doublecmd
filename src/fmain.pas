@@ -748,14 +748,7 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams);
 
-    {$IF FPC_FULLVERSION < 020501}
-    // "implements" does not work in FPC < 2.5.1
-    function ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
-    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-    procedure GetCommandsList(List: TStrings);
-    {$ENDIF}
-
-    property Commands: TMainCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
+    property Commands: TMainCommands read FCommands implements IFormCommands;
     property SelectedPanel: TFilePanelSelect read PanelSelected write SetPanelSelected;
     property LeftTabs: TFileViewNotebook read nbLeft;
     property RightTabs: TFileViewNotebook read nbRight;
@@ -1642,23 +1635,6 @@ begin
     FreeAndNil(DropParams);
   end;
 end;
-
-{$IF FPC_FULLVERSION < 020501}
-function TfrmMain.ExecuteCommand(Command: string; const Params: array of string): TCommandFuncResult;
-begin
-  Result := Commands.Commands.ExecuteCommand(Command, Params);
-end;
-
-function TfrmMain.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-begin
-  Result := Commands.Commands.GetCommandCaption(Command, CaptionType);
-end;
-
-procedure TfrmMain.GetCommandsList(List: TStrings);
-begin
-  Commands.Commands.GetCommandsList(List);
-end;
-{$ENDIF}
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 begin
