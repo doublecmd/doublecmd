@@ -2124,10 +2124,8 @@ begin
 
     Commands.Commands.ExecuteCommand(Cmd, NoteBook.Name);
   end;
-  {$IF (lcl_fullversion >= 1020000)}
   // On click first the OnClick and then the Action.OnExecute is called
   MenuItem.Action.OnExecute:= @mnuTabMenuExecute;
-  {$ENDIF}
 end;
 
 procedure TfrmMain.nbPageAfterMouseDown(Data: PtrInt);
@@ -2422,10 +2420,8 @@ end;
 procedure TfrmMain.AppShowHint(var HintStr: string; var CanShow: Boolean;
   var HintInfo: THintInfo);
 begin
-{$IF (lcl_fullversion >= 1020000)}
   // Refresh monitor list
   Screen.UpdateMonitors;
-{$ENDIF}
 end;
 
 constructor TfrmMain.Create(TheOwner: TComponent);
@@ -5057,17 +5053,8 @@ end;
 
 procedure TfrmMain.SaveWindowState;
 var
-  //x: Integer;
   ANode: TXmlNode;
 begin
-  (* Save  columns widths *)
-  // Save columns settings for all colsets.
-{
-    for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount - 1 do
-      ColSet.GetColumnSet(ActiveColm).SetColumnWidth(x, dgPanel.ColWidths[x]);
-    ColSet.GetColumnSet(ActiveColm).Save(gIni);
-}
-
   (* Save all tabs *)
   SaveTabsXml(gConfig, nbLeft);
   SaveTabsXml(gConfig, nbRight);
