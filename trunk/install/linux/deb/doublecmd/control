@@ -104,11 +104,13 @@ Description: twin-panel (commander-style) file manager (plugins)
 
 Package: doublecmd-common
 Architecture: all
+Recommends: doublecmd-gtk | doublecmd-qt
 Depends: desktop-file-utils, ${misc:Depends}
 Suggests: doublecmd-help-en | doublecmd-help,
           libunrar0,
           mplayer2,
           rabbitvcs-core,
+          libffmpegthumbnailer4,
           xterm | x-terminal-emulator
 Description: twin-panel (commander-style) file manager
  Double Commander is a cross platform open source file manager
