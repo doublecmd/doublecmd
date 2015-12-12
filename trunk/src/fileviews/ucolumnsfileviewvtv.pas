@@ -31,6 +31,8 @@ type
   TColumnsDrawTreeRecord = record end; // We don't need anything in it, just Node^.Index.
   PColumnsDrawTreeRecord = ^TColumnsDrawTreeRecord;
 
+  TColumnResized = procedure (Sender: TObject; ColumnIndex: Integer; ColumnNewSize: Integer) of object;
+
   { TColumnsDrawTree }
 
   TColumnsDrawTree = class(TVirtualDrawTree)
@@ -87,6 +89,7 @@ type
 
     pmColumnsMenu: TPopupMenu;
     dgPanel: TColumnsDrawTree;
+    FOnColumnResized: TColumnResized;
 
     function GetColumnsClass: TPanelColumnsClass;
 
@@ -138,6 +141,7 @@ type
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelScroll(Sender: TBaseVirtualTree; DeltaX, DeltaY: Integer);
     procedure dgPanelResize(Sender: TObject);
+    procedure dgPanelColumnResize(Sender: TVTHeader; Column: TColumnIndex);
     procedure ColumnsMenuClick(Sender: TObject);
 
   protected
@@ -146,6 +150,7 @@ type
     procedure BeforeMakeFileList; override;
     procedure ClearAfterDragDrop; override;
     procedure DisplayFileListChanged; override;
+    procedure DoColumnResized(Sender: TObject; ColumnIndex: Integer; ColumnNewSize: Integer);
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
@@ -184,6 +189,8 @@ type
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
     procedure UpdateColumnsView;
+
+    property OnColumnResized: TColumnResized read FOnColumnResized write FOnColumnResized;
   published
     procedure cm_CopyFileDetailsToClip(const Params: array of string);
 
@@ -194,6 +201,7 @@ implementation
 uses
   LCLProc, Clipbrd, uLng, uGlobs, uPixmapManager, uDebug,
   DCStrUtils, uDCUtils, math, fMain, fOptions,
+  uFileViewNotebook,
   uOrderedFileView,
   uFileSourceProperty,
   uKeyboard,
@@ -576,6 +584,15 @@ begin
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
+procedure TColumnsFileViewVTV.dgPanelColumnResize(Sender: TVTHeader;
+  Column: TColumnIndex);
+begin
+  if Assigned(FOnColumnResized) then
+  begin
+    FOnColumnResized(Self, Column, Sender.Columns.Items[Column].Width);
+  end;
+end;
+
 procedure TColumnsFileViewVTV.ShowRenameFileEdit(AFile: TFile);
 var
   ALeft, ATop, AWidth, AHeight: Integer;
@@ -941,9 +958,15 @@ begin
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   dgPanel.OnScroll:= @dgPanelScroll;
   dgpanel.OnResize:= @dgPanelResize;
+  dgPanel.OnColumnResize:= @dgPanelColumnResize;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
+
+  if Assigned(NotebookPage) then
+  begin
+    FOnColumnResized:= @DoColumnResized;
+  end;
 end;
 
 destructor TColumnsFileViewVTV.Destroy;
@@ -1053,6 +1076,41 @@ begin
   Notify([fvnVisibleFilePropertiesChanged]);
 
   inherited;
+end;
+
+procedure TColumnsFileViewVTV.DoColumnResized(Sender: TObject;
+  ColumnIndex: Integer; ColumnNewSize: Integer);
+
+  procedure UpdateWidth(ANotebook: TFileViewNotebook);
+  var
+    I: Integer;
+    ColumnsView: TColumnsFileViewVTV;
+  begin
+    for I:= 0 to ANotebook.PageCount - 1 do
+    begin
+      if ANotebook.View[I] is TColumnsFileViewVTV then
+      begin
+        ColumnsView:= TColumnsFileViewVTV(ANotebook.View[I]);
+        if ColumnsView.ActiveColm = ActiveColm then
+        begin
+          with ColumnsView.dgPanel do
+          begin
+            Header.Columns.BeginUpdate;
+            Header.Columns.Items[ColumnIndex].Width:= ColumnNewSize;
+            Header.Columns.EndUpdate;
+          end;
+        end;
+      end;
+    end;
+  end;
+
+begin
+  if gColumnsAutoSaveWidth then
+  begin
+    GetColumnsClass.SetColumnWidth(ColumnIndex, ColumnNewSize);
+    UpdateWidth(frmMain.LeftTabs);
+    UpdateWidth(frmMain.RightTabs);
+  end;
 end;
 
 procedure TColumnsFileViewVTV.MakeColumnsStrings(AFile: TDisplayFile);
