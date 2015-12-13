@@ -42,8 +42,9 @@ uses
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
  Data: PtrInt;
- Text: UTF8String;
+ Text: String;
 begin
+  Result:= 0;
   with gStartupInfo do
   begin
     case Msg of
