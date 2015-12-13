@@ -80,8 +80,8 @@ function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAn
 { Extension API }
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 
-function ReadPassword(ConnectionName: UTF8String): AnsiString;
-function DeletePassword(ConnectionName: UTF8String): Boolean;
+function ReadPassword(ConnectionName: String): AnsiString;
+function DeletePassword(ConnectionName: String): Boolean;
 
 var
   gStartupInfo: TExtensionStartupInfo;
@@ -960,13 +960,13 @@ begin
   HasDialogAPI:= True;
 end;
 
-function ReadPassword(ConnectionName: UTF8String): AnsiString;
+function ReadPassword(ConnectionName: String): AnsiString;
 begin
   if CryptFunc(FS_CRYPT_LOAD_PASSWORD, ConnectionName, Result) <> FS_FILE_OK then
     Result:= EmptyStr;
 end;
 
-function DeletePassword(ConnectionName: UTF8String): Boolean;
+function DeletePassword(ConnectionName: String): Boolean;
 var
   Password: AnsiString;
 begin
