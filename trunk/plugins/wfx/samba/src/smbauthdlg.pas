@@ -19,8 +19,9 @@ uses
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; cdecl;
 var
  Data: PtrInt;
- Text: UTF8String;
+ Text: String;
 begin
+  Result:= 0;
   with ExtensionStartupInfo do
   begin
     case Msg of
