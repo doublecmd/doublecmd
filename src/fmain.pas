@@ -43,7 +43,7 @@ uses
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList, ShellCtrls,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
-  uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
+  uFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams
@@ -776,6 +776,8 @@ uses
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
+  {$ELSE}
+  , uColumnsFileView
   {$ENDIF}
   ;
 
@@ -3952,11 +3954,7 @@ begin
   if gDelayLoadingTabs then
     FileViewFlags := [fvfDelayLoadingFiles];
   if sType = 'columns' then
-    {$IFDEF COLUMNSFILEVIEW_VTV}
-    Result := TColumnsFileViewVTV.Create(Page, AConfig, ANode, FileViewFlags)
-    {$ELSE}
     Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags)
-    {$ENDIF}
   else if sType = 'brief' then
     Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else if sType = 'thumbnails' then
