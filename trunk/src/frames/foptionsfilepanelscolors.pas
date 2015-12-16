@@ -32,7 +32,14 @@ uses
   DividerBevel,
 
   //DC
-  uColumns, uColumnsFileView, fOptionsFrame;
+  uColumns, fOptionsFrame
+  {$IFDEF COLUMNSFILEVIEW_VTV}
+  , uColumnsFileViewVtv
+  {$ELSE}
+  , uColumnsFileView
+  {$ENDIF}
+  ;
+
 type
   { TfrmOptionsFilePanelsColors }
   TfrmOptionsFilePanelsColors = class(TOptionsEditor)

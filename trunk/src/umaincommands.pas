@@ -310,7 +310,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
-     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uColumnsFileView,
+     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
@@ -325,6 +325,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      fOptionsToolbar, fMainCommandsDlg, uConnectionManager
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
+     {$ELSE}
+     , uColumnsFileView
      {$ENDIF}
      ;
 
@@ -1632,11 +1634,7 @@ var
 begin
   with frmMain do
   begin
-    {$IFDEF COLUMNSFILEVIEW_VTV}
-    aFileView:= TColumnsFileViewVTV.Create(ActiveNotebook.ActivePage, ActiveFrame);
-    {$ELSE}
     aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
-    {$ENDIF}
     ActiveNotebook.ActivePage.FileView:= aFileView;
     ActiveFrame.SetFocus;
   end;
@@ -1648,11 +1646,7 @@ var
 begin
   with frmMain do
   begin
-    {$IFDEF COLUMNSFILEVIEW_VTV}
-    aFileView:= TColumnsFileViewVTV.Create(ActiveNotebook.ActivePage, ActiveFrame);
-    {$ELSE}
     aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft);
-    {$ENDIF}
     LeftTabs.ActivePage.FileView:= aFileView;
   end;
 end;
@@ -1663,11 +1657,7 @@ var
 begin
   with frmMain do
   begin
-    {$IFDEF COLUMNSFILEVIEW_VTV}
-    aFileView:= TColumnsFileViewVTV.Create(ActiveNotebook.ActivePage, ActiveFrame);
-    {$ELSE}
     aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight);
-    {$ENDIF}
     RightTabs.ActivePage.FileView:= aFileView;
   end;
 end;

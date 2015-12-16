@@ -201,6 +201,8 @@ type
 
   end;
 
+  TColumnsFileView = TColumnsFileViewVTV;
+
 implementation
 
 uses
