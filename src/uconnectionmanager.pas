@@ -149,6 +149,7 @@ var
   FileSourceRecord: PFileSourceRecord;
 begin
   ConnectionName:= GetConnectionName(Name, Path);
+  if WfxConnectionList.IndexOf(ConnectionName) >= 0 then Exit;
   FileSourceRecord:= NewFileSourceRecord(FileSource, Name, Path);
   WfxConnectionList.AddObject(ConnectionName, TObject(FileSourceRecord));
   with frmMain do
