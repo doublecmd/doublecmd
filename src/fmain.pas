@@ -771,7 +771,7 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
-  uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil,
+  uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager
   {$IFDEF COLUMNSFILEVIEW_VTV}
@@ -2976,11 +2976,13 @@ function TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
 var
   sDestination: String;
   sDstMaskTemp: String;
-  Operation: TFileSourceCopyOperation = nil;
-  OperationType: TFileSourceOperationType;
-  CopyDialog: TfrmCopyDlg = nil;
   FileSource: IFileSource;
+  TargetFiles: TFiles = nil;
+  CopyDialog: TfrmCopyDlg = nil;
+  OperationTemp: Boolean = False;
+  OperationType: TFileSourceOperationType;
   OperationClass: TFileSourceOperationClass;
+  Operation: TFileSourceCopyOperation = nil;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
 begin
   Result := False;
@@ -3020,6 +3022,14 @@ begin
       FileSource := TargetFileSource;
       OperationClass := TargetFileSource.GetOperationClass(fsoCopyIn);
     end
+    else if (fsoCopyOut in SourceFileSource.GetOperationsTypes) and
+            (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
+    begin
+      OperationTemp := True;
+      OperationType := fsoCopyOut;
+      FileSource := SourceFileSource;
+      OperationClass := SourceFileSource.GetOperationClass(fsoCopyOut);
+    end
     else
     begin
       msgWarning(rsMsgErrNotSupported);
@@ -3033,6 +3043,7 @@ begin
 
       CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy, FileSource, OperationOptionsUIClass);
       CopyDialog.edtDst.Text := sDestination;
+      CopyDialog.edtDst.ReadOnly := OperationTemp;
       CopyDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
 
       while True do
@@ -3064,6 +3075,22 @@ begin
     else
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
                                 SourceFiles.Path, TargetPath, sDstMaskTemp);
+
+    // Copy via temp directory
+    if OperationTemp then
+    begin
+      // Execute both operations in one new queue
+      if QueueIdentifier = FreeOperationsQueueId then
+        QueueIdentifier := OperationsManager.GetNewQueueIdentifier;
+      // Save real target
+      sDestination := TargetPath;
+      FileSource := TargetFileSource;
+      TargetFiles := SourceFiles.Clone;
+      // Replace target by temp directory
+      TargetFileSource := TTempFileSystemFileSource.Create();
+      TargetPath := TargetFileSource.GetRootDir;
+      ChangeFileListRoot(TargetPath, TargetFiles);
+    end;
 
     case OperationType of
       fsoCopy:
@@ -3102,7 +3129,28 @@ begin
     else
       msgWarning(rsMsgNotImplemented);
 
+    // Copy via temp directory
+    if OperationTemp and Result then
+    begin
+      // CopyIn from temp filesystem
+      Operation := FileSource.CreateCopyInOperation(
+                     TargetFileSource,
+                     TargetFiles,
+                     sDestination) as TFileSourceCopyOperation;
+
+      Result := Assigned(Operation);
+      if Result then
+      begin
+        if Assigned(CopyDialog) then
+          CopyDialog.SetOperationOptions(Operation);
+
+        // Start operation.
+        OperationsManager.AddOperation(Operation, QueueIdentifier, False, True);
+      end;
+    end;
+
   finally
+    FreeAndNil(TargetFiles);
     FreeAndNil(SourceFiles);
     FreeAndNil(CopyDialog);
   end;

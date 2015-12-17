@@ -242,19 +242,9 @@ begin
 end;
 
 procedure TfrmCopyDlg.mnuNewQueueClick(Sender: TObject);
-var
-  NewQueueId: TOperationsManagerQueueIdentifier;
 begin
-  for NewQueueId := Succ(FreeOperationsQueueId) to MaxInt do
-  with OperationsManager do
-  begin
-    if not Assigned(QueueByIdentifier[NewQueueId]) then
-    begin
-      FQueueIdentifier := NewQueueId;
-      ModalResult := btnAddToQueue.ModalResult;
-      Break;
-    end;
-  end;
+  FQueueIdentifier := OperationsManager.GetNewQueueIdentifier;
+  ModalResult := btnAddToQueue.ModalResult;
 end;
 
 procedure TfrmCopyDlg.mnuQueueNumberClick(Sender: TObject);
