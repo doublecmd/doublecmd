@@ -239,6 +239,7 @@ type
     }
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOrCreateQueue(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
+    function GetNewQueueIdentifier: TOperationsManagerQueueIdentifier;
 
     procedure PauseAll;
     procedure StopAll;
@@ -759,6 +760,19 @@ begin
   begin
     Result := TOperationsManagerQueue.Create(Identifier);
     FQueues.Add(Result);
+  end;
+end;
+
+function TOperationsManager.GetNewQueueIdentifier: TOperationsManagerQueueIdentifier;
+var
+  NewQueueId: TOperationsManagerQueueIdentifier;
+begin
+  for NewQueueId := Succ(FreeOperationsQueueId) to MaxInt do
+  begin
+    if not Assigned(QueueByIdentifier[NewQueueId]) then
+    begin
+      Exit(NewQueueId);
+    end;
   end;
 end;
 
