@@ -128,7 +128,7 @@ uses
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     {$ELSE}
-    , MacOSAll
+    , MacOSAll, uQuickLook
     {$ENDIF}
     {$IF NOT DEFINED(DARWIN)}
     , fOpenWith, uKde
