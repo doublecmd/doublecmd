@@ -49,7 +49,6 @@ function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
   ImageData: NSData;
   Bitmap: TTiffImage;
-  Options: NSDictionary;
   NewImage: NSImage = nil;
   WorkStream: TBlobStream;
   maxThumbnailSize: CGSize;
@@ -62,8 +61,7 @@ begin
   theFileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, theFileNameCFRef, kCFURLPOSIXPathStyle, False);
   try
     maxThumbnailSize.width:= aSize.cx; maxThumbnailSize.height:= aSize.cy;
-    Options:= NSDictionary.dictionaryWithObject_forKey(NSNumber.numberWithBool(False), id(kCFBooleanFalse));
-    ImageRef:= QLThumbnailImageCreate(kCFAllocatorDefault, theFileNameUrlRef, maxThumbnailSize, CFDictionaryRef(Options));
+    ImageRef:= QLThumbnailImageCreate(kCFAllocatorDefault, theFileNameUrlRef, maxThumbnailSize, nil);
     if ImageRef = nil then Exit(nil);
     BitmapImageRep:= NSBitmapImageRep.alloc();
     BitmapImageRep.initWithCGImage(ImageRef);
