@@ -89,6 +89,7 @@ begin
       WorkStream.Free;
     end;
     NewImage.release();
+    CFRelease(ImageRef);
   finally
     if Assigned(theFileNameCFRef) then
       CFRelease(theFileNameCFRef);
