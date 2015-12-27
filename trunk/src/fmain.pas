@@ -2190,6 +2190,7 @@ begin
   if Assigned(QuickViewPanel) then
     Commands.cm_QuickView(['Close']);
 
+  UpdatePrompt;
   UpdateTreeViewPath;
 end;
 
@@ -3793,7 +3794,6 @@ begin
       Page := FileView.NotebookPage as TFileViewPage;
       SelectedPanel := Page.Notebook.Side;
       UpdateSelectedDrive(Page.Notebook);
-      UpdatePrompt;
       UpdateFreeSpace(Page.Notebook.Side);
     end;
 end;
@@ -4966,6 +4966,7 @@ begin
   if PanelSelected = AValue then Exit;
   PanelSelected := AValue;
   UpdateTreeViewPath;
+  UpdatePrompt;
 end;
 
 procedure TfrmMain.TypeInCommandLine(Str: String);
