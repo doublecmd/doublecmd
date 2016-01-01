@@ -228,13 +228,13 @@ implementation
 
 uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
-  fConfirmCommandLine, uLog
+  fConfirmCommandLine, uLog, DCConvertEncoding
   {$IF DEFINED(MSWINDOWS)}
   , JwaWinCon, Windows, LazUTF8, uNTFSLinks, uMyWindows, JwaWinNetWk,
     uShlObjAdditional, shlobj
   {$ENDIF}
   {$IF DEFINED(UNIX)}
-  , DCConvertEncoding, BaseUnix, Unix, uMyUnix, dl
+  , BaseUnix, Unix, uMyUnix, dl
     {$IF NOT DEFINED(DARWIN)}
   , uGio, uClipboard
     {$ENDIF}
@@ -977,7 +977,7 @@ end;
 function mbFileNameToSysEnc(const LongPath: String): String;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= UTF8ToSys(LongPath);
+  Result:= CeUtf8ToSys(LongPath);
   if Pos('?', Result) <> 0 then
     mbGetShortPathName(LongPath, Result);
 end;
