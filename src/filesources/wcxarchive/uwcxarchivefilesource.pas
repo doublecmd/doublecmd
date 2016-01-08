@@ -659,7 +659,7 @@ begin
         // And not set directory attribute. So delete path
         // delimiter if present and add directory attribute.
         NameLength := Length(Header.FileName);
-        if (Header.FileName[NameLength] = PathDelim) then
+        if (NameLength > 0) and (Header.FileName[NameLength] = PathDelim) then
         begin
           Delete(Header.FileName, NameLength, 1);
           Header.FileAttr := Header.FileAttr or faFolder;
