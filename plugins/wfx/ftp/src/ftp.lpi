@@ -108,7 +108,6 @@ end;"/>
         <ComponentName Value="DialogBox"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="FtpConfDlg"/>
       </Unit2>
       <Unit3>
         <Filename Value="ftpfunc.pas"/>
