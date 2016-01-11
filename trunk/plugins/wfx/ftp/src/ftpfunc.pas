@@ -46,28 +46,28 @@ type
     PasswordChanged: Boolean;
   end;
 
-function FsInit(PluginNr: Integer; pProgressProc: TProgressProc;
-  pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; dcpcall;
+function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
+  pLogProc: TLogProcW; pRequestProc: TRequestProcW): Integer; dcpcall;
 
-function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; dcpcall;
-function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; dcpcall;
+function FsFindFirstW(Path: PWideChar; var FindData: TWin32FindDataW): THandle; dcpcall;
+function FsFindNextW(Hdl: THandle; var FindData: TWin32FindDataW): BOOL; dcpcall;
 function FsFindClose(Hdl: THandle): Integer; dcpcall;
 
-function FsExecuteFile(MainWin: THandle; RemoteName, Verb: PAnsiChar): Integer; dcpcall;
-function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
+function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall;
+function FsRenMovFileW(OldName, NewName: PWideChar; Move, OverWrite: BOOL;
   RemoteInfo: pRemoteInfo): Integer; dcpcall;
-function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
+function FsGetFileW(RemoteName, LocalName: PWideChar; CopyFlags: Integer;
   RemoteInfo: pRemoteInfo): Integer; dcpcall;
-function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer)
+function FsPutFileW(LocalName, RemoteName: PWideChar; CopyFlags: Integer)
   : Integer; dcpcall;
-function FsDeleteFile(RemoteName: PAnsiChar): BOOL; dcpcall;
+function FsDeleteFileW(RemoteName: PWideChar): BOOL; dcpcall;
 
-function FsMkDir(RemoteDir: PAnsiChar): BOOL; dcpcall;
-function FsRemoveDir(RemoteName: PAnsiChar): BOOL; dcpcall;
+function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall;
+function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall;
 
-function FsDisconnect(DisconnectRoot: PAnsiChar): BOOL; dcpcall;
+function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
 
-procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); dcpcall;
+procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall;
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall;
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall;
 { Network API }
@@ -80,25 +80,25 @@ function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAn
 { Extension API }
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 
-function ReadPassword(ConnectionName: String): AnsiString;
-function DeletePassword(ConnectionName: String): Boolean;
+function ReadPassword(ConnectionName: AnsiString): AnsiString;
+function DeletePassword(ConnectionName: AnsiString): Boolean;
 
 var
   gStartupInfo: TExtensionStartupInfo;
   gConnection: TConnection;
 
 var
-  LogProc: TLogProc;
-  CryptProc: TCryptProc;
+  LogProc: TLogProcW;
+  CryptProc: TCryptProcW;
   PluginNumber: Integer;
   CryptoNumber: Integer;
-  RequestProc: TRequestProc;
-  ProgressProc: TProgressProc;
+  RequestProc: TRequestProcW;
+  ProgressProc: TProgressProcW;
 
 implementation
 
 uses
-  IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs;
+  IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils, LazUTF8;
 
 var
   ActiveConnectionList, ConnectionList: TStringList;
@@ -193,22 +193,35 @@ begin
   end;
 end;
 
-function CryptFunc(Mode: LongInt; ConnectionName: AnsiString; var Password: AnsiString): LongInt;
+function CryptFunc(Mode: LongInt; ConnectionName: String; var Password: String): LongInt;
+var
+  APassword: UnicodeString;
+  AConnection: UnicodeString;
 begin
+  APassword:= UTF8Decode(Password);
+  AConnection:= UTF8Decode(ConnectionName);
   if (Mode = FS_CRYPT_LOAD_PASSWORD) or (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) then
-    SetLength(Password, MAX_PATH);
-  Result:= CryptProc(PluginNumber, CryptoNumber, Mode, PAnsiChar(ConnectionName), PAnsiChar(Password), MAX_PATH);
+  begin
+    SetLength(APassword, MAX_PATH);
+    FillChar(APassword[1], MAX_PATH * SizeOf(WideChar), #0);
+  end;
+  Result:= CryptProc(PluginNumber, CryptoNumber, Mode, PWideChar(AConnection), PWideChar(APassword), MAX_PATH);
+  if (Mode = FS_CRYPT_LOAD_PASSWORD) or (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) then
+  begin
+    Password:= UTF16ToUTF8(APassword);
+  end;
 end;
 
-function ShowPasswordDialog(out Password: AnsiString): Boolean;
+function ShowPasswordDialog(out Password: String): Boolean;
+var
+  APassword: UnicodeString;
 begin
-  SetLength(Password, MAX_PATH);
-  Password[1] := #0;
-  Result := RequestProc(PluginNumber, RT_Password, nil, nil, PAnsiChar(Password), MAX_PATH);
+  SetLength(APassword, MAX_PATH); APassword[1] := #0;
+  Result := RequestProc(PluginNumber, RT_Password, nil, nil, PWideChar(APassword), MAX_PATH);
   if Result then
-    Password:= PAnsiChar(Password) // truncate to #0
+    Password := UTF16ToUTF8(PWideChar(APassword)) // truncate to #0
   else
-    Password := '';
+    Password := EmptyStr;
 end;
 
 function FtpLogin(const Connection: TConnection; const FtpSend: TFTPSendEx): Boolean;
@@ -223,7 +236,7 @@ begin
       while sTemp <> EmptyStr do
         FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
       if Length(Connection.Path) > 0 then
-        FtpSend.ChangeWorkingDir(FtpSend.ClientToServer(Connection.Path));
+        FtpSend.ChangeWorkingDir(FtpSend.ClientToServer(UTF8Decode(Connection.Path)));
       Result := True;
     end;
    
@@ -245,7 +258,7 @@ begin
         //Server closed the connection, or network error occurred, or whatever else.
         //Attempt to reconnect and execute login sequence
         begin
-          LogProc(PluginNumber, msgtype_details, PAnsiChar('Network error detected, attempting to reconnect...'));
+          LogProc(PluginNumber, msgtype_details, PWideChar('Network error detected, attempting to reconnect...'));
           I:= ConnectionList.IndexOf(ConnectionName);
           if I >= 0 then
           begin
@@ -292,7 +305,7 @@ begin
         // try to connect
         if FtpLogin(Connection, FtpSend) then
           begin
-            LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + PathDelim + ConnectionName));
+            LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + UTF8Decode(ConnectionName)));
             ActiveConnectionList.AddObject(ConnectionName, FtpSend);
             Result:= True;
           end
@@ -308,12 +321,12 @@ end;
 
 function AddQuickConnection(const Connection: TConnection): Boolean;
 var
-  Text: PAnsiChar;
-  Temp: AnsiString;
+  Text: PWideChar;
+  Temp: UnicodeString;
 begin
   Result:= False;
   SetLength(Temp, MAX_PATH);
-  Text:= PAnsiChar(Temp); Text[0]:= #0;
+  Text:= PWideChar(Temp); Text[0]:= #0;
   if RequestProc(PluginNumber, RT_URL, nil, nil, Text, MAX_PATH) then
   begin
     Connection.Host := Text; Text[0]:= #0;
@@ -379,7 +392,7 @@ begin
   else
     begin
       SetLength(Temp, MAX_PATH); Temp[1]:= #0;
-      if RequestProc(PluginNumber, RT_Other, nil, nil, PAnsiChar(Temp), MAX_PATH) then
+      if RequestProc(PluginNumber, RT_Other, nil, nil, PWideChar(Temp), MAX_PATH) then
       begin
         gConnection.ConnectionName := PAnsiChar(Temp);
         if AddQuickConnection(gConnection) then
@@ -470,22 +483,22 @@ begin
   end;
 end;
 
-function GetConnectionByPath(const sPath: AnsiString; out FtpSend: TFTPSendEx;
+function GetConnectionByPath(const sPath: UnicodeString; out FtpSend: TFTPSendEx;
   out RemotePath: AnsiString): Boolean;
 var
   sConnName: AnsiString;
 begin
   Result := False;
   if (ExtractFileDir(sPath) = PathDelim) then Exit;
-  sConnName := ExtractConnectionName(sPath);
-  RemotePath := ExtractRemoteFileName(sPath);
+  sConnName := ExtractConnectionName(UTF16ToUTF8(sPath));
   Result:= FtpConnect(sConnName, FtpSend);
   if Result then begin
-    RemotePath:= FtpSend.ClientToServer(RemotePath);
+    RemotePath:= FtpSend.ClientToServer(sPath);
+    RemotePath:= ExtractRemoteFileName(RemotePath);
   end;
 end;
 
-function LocalFindNext(Hdl: THandle; var FindData: TWin32FindData): Boolean;
+function LocalFindNext(Hdl: THandle; var FindData: TWin32FindDataW): Boolean;
 var
   ListRec: PListRec absolute Hdl;
   I, RootCount: Integer;
@@ -497,7 +510,7 @@ begin
   FillChar(FindData, SizeOf(FindData), 0);
   if I < RootCount then
   begin
-    StrPCopy(FindData.cFileName, RootList[I]);
+    StrPCopy(FindData.cFileName, UTF8Decode(RootList[I]));
     FindData.dwFileAttributes := 0;
     Inc(ListRec^.Index);
     Result := True;
@@ -505,14 +518,14 @@ begin
   else if I - RootCount < ConnectionList.Count then
   begin
     Connection := TConnection(ConnectionList.Objects[I - RootCount]);
-    StrPCopy(FindData.cFileName, Connection.ConnectionName);
+    StrPCopy(FindData.cFileName, UTF8Decode(Connection.ConnectionName));
     FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
     Inc(ListRec^.Index);
     Result := True;
   end;
 end;
 
-function RemoteFindNext(Hdl: THandle; var FindData: TWin32FindData): Boolean;
+function RemoteFindNext(Hdl: THandle; var FindData: TWin32FindDataW): Boolean;
 var
   ListRec: PListRec absolute Hdl;
   I: Integer;
@@ -543,8 +556,8 @@ begin
     end;
 end;
 
-function FsInit(PluginNr: Integer; pProgressProc: TProgressProc;
-  pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; dcpcall;
+function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
+  pLogProc: TLogProcW; pRequestProc: TRequestProcW): Integer; dcpcall;
 begin
   ProgressProc := pProgressProc;
   LogProc := pLogProc;
@@ -554,7 +567,7 @@ begin
   Result := 0;
 end;
 
-function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; dcpcall;
+function FsFindFirstW(Path: PWideChar; var FindData: TWin32FindDataW): THandle; dcpcall;
 var
   ListRec: PListRec;
   sPath: AnsiString;
@@ -575,7 +588,7 @@ begin
     begin
       ListLock.Acquire;
       try
-        if GetConnectionByPath(IncludeTrailingPathDelimiter(Path), FtpSend, sPath) then
+        if GetConnectionByPath(Path + PathDelim, FtpSend, sPath) then
         begin
           ListRec.FtpSend := FtpSend;
           // Get directory listing
@@ -599,7 +612,7 @@ begin
     end;
 end;
 
-function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; dcpcall;
+function FsFindNextW(Hdl: THandle; var FindData: TWin32FindDataW): BOOL; dcpcall;
 var
   ListRec: PListRec absolute Hdl;
 begin
@@ -622,10 +635,11 @@ begin
   Result:= 0;
 end;
 
-function FsExecuteFile(MainWin: THandle; RemoteName, Verb: PAnsiChar): Integer; dcpcall;
+function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall;
 var
   FtpSend: TFTPSendEx;
-  sFileName: AnsiString;
+  asFileName: AnsiString;
+  wsFileName: UnicodeString;
 begin
   Result:= FS_EXEC_YOURSELF;
   if (RemoteName = '') then Exit;
@@ -634,26 +648,27 @@ begin
     begin
       if (ExtractFileDir(RemoteName) = PathDelim) then // root path
       begin
+        asFileName:= UTF16ToUTF8(RemoteName + 1);
         if RemoteName[1] <> '<' then // connection
           begin
-            if not FtpConnect(RemoteName + 1, FtpSend) then
+            if not FtpConnect(asFileName, FtpSend) then
               Result := FS_EXEC_OK
             else
               begin
-                sFileName := FtpSend.ServerToClient(FtpSend.GetCurrentDir);
-                sFileName := SetDirSeparators(RemoteName + sFileName);
-                StrPLCopy(RemoteName, sFileName, MAX_PATH);
+                wsFileName := FtpSend.ServerToClient(FtpSend.GetCurrentDir);
+                wsFileName := SetDirSeparators(RemoteName + wsFileName);
+                StrPLCopy(RemoteName, wsFileName, MAX_PATH);
                 Result := FS_EXEC_SYMLINK;
               end;
           end
         else  // special item
           begin
-            if (RemoteName + 1) = cAddConnection then
+            if asFileName = cAddConnection then
               begin
                 AddConnection;
                 Result:= FS_EXEC_OK;
               end
-            else if (RemoteName + 1) = cQuickConnection then
+            else if asFileName = cQuickConnection then
               begin
                 if QuickConnection then
                   Result := FS_EXEC_SYMLINK
@@ -663,21 +678,21 @@ begin
           end;
       end; // root path
     end // Verb = open
-  else if Pos('chmod', Verb) = 1 then
+  else if Pos('chmod', UnicodeString(Verb)) = 1 then
     begin
-      if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
+      if GetConnectionByPath(RemoteName, FtpSend, asFileName) then
       begin
-        if (FtpSend.FTPCommand('SITE' + #32 + Verb + #32 + sFileName) div 100) = 2 then
+        if (FtpSend.FTPCommand('SITE' + #32 + AnsiString(UnicodeString(Verb)) + #32 + asFileName) div 100) = 2 then
           Result:= FS_EXEC_OK
         else
           Result := FS_EXEC_ERROR;
       end;
     end
-  else if Pos('quote', Verb) = 1 then
+  else if Pos('quote', UnicodeString(Verb)) = 1 then
     begin
-      if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
+      if GetConnectionByPath(RemoteName, FtpSend, asFileName) then
       begin
-        if (FtpSend.FTPCommand(Copy(Verb, 7, MaxInt)) div 100) = 2 then
+        if (FtpSend.FTPCommand(AnsiString(Copy(Verb, 7, MaxInt))) div 100) = 2 then
           Result:= FS_EXEC_OK
         else
           Result := FS_EXEC_ERROR;
@@ -687,31 +702,32 @@ begin
     begin
       if (ExtractFileDir(RemoteName) = PathDelim) and not (RemoteName[1] in [#0, '<']) then // connection
       begin
-        EditConnection(RemoteName + 1);
+        EditConnection(UTF16ToUTF8(RemoteName + 1));
       end;
       Result:= FS_EXEC_OK;
     end;
 end;
 
-function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
+function FsRenMovFileW(OldName, NewName: PWideChar; Move, OverWrite: BOOL;
   RemoteInfo: pRemoteInfo): Integer; dcpcall;
 var
   I: Integer;
   FtpSend: TFTPSendEx;
-  sOldName, sNewName: AnsiString;
+  sOldName: AnsiString;
+  sNewName: AnsiString;
 begin
   Result := FS_FILE_NOTSUPPORTED;
 
   if not Move then Exit;
 
-  if (ExtractFileDir(OldName) = PathDelim) and (AnsiChar(OldName[1]) <> '<') then
+  if (ExtractFileDir(OldName) = PathDelim) and (WideChar(OldName[1]) <> '<') then
     begin
       I:= ConnectionList.IndexOf(OldName + 1);
       if I < 0 then
         Result:= FS_FILE_NOTFOUND
       else
         begin
-          ConnectionList[I]:= RepairConnectionName(NewName + 1);
+          ConnectionList[I]:= RepairConnectionName(UTF16ToUTF8(UnicodeString(NewName + 1)));
           TConnection(ConnectionList.Objects[I]).ConnectionName:= ConnectionList[I];
           WriteConnectionList;
           Result:= FS_FILE_OK;
@@ -719,8 +735,8 @@ begin
     end
   else if GetConnectionByPath(OldName, FtpSend, sOldName) then
     begin
-      sNewName := ExtractRemoteFileName(NewName);
-      sNewName := FtpSend.ClientToServer(sNewName);
+      sNewName := FtpSend.ClientToServer(NewName);
+      sNewName := ExtractRemoteFileName(sNewName);
       ProgressProc(PluginNumber, OldName, NewName, 0);
       if FtpSend.RenameFile(sOldName, sNewName) then
         begin
@@ -730,23 +746,25 @@ begin
     end;
 end;
 
-function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
+function FsGetFileW(RemoteName, LocalName: PWideChar; CopyFlags: Integer;
   RemoteInfo: pRemoteInfo): Integer; dcpcall;
 var
   FileSize: Int64;
   FtpSend: TFTPSendEx;
   sFileName: AnsiString;
+  FileName: AnsiString;
 begin
   Result := FS_FILE_READERROR;
   if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
   try
-    if FileExists(LocalName) and (CopyFlags and FS_COPYFLAGS_FORCE = 0) then
+    FileName:= UTF16ToUTF8(UnicodeString(LocalName));
+    if FileExistsUTF8(FileName) and (CopyFlags and FS_COPYFLAGS_FORCE = 0) then
     begin
       if not FtpSend.CanResume then Exit(FS_FILE_EXISTS);
       Exit(FS_FILE_EXISTSRESUMEALLOWED);
     end;
     FtpSend.DataStream.Clear;
-    FtpSend.DirectFileName := LocalName;
+    FtpSend.DirectFileName := FileName;
     Int64Rec(FileSize).Lo := RemoteInfo^.SizeLow;
     Int64Rec(FileSize).Hi := RemoteInfo^.SizeHigh;
     ProgressProc(PluginNumber, RemoteName, LocalName, 0);
@@ -762,21 +780,23 @@ begin
   end;
 end;
 
-function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; dcpcall;
+function FsPutFileW(LocalName, RemoteName: PWideChar; CopyFlags: Integer): Integer; dcpcall;
 var
   FtpSend: TFTPSendEx;
   sFileName: AnsiString;
+  FileName: AnsiString;
 begin
   Result := FS_FILE_WRITEERROR;
   if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
   try
+    FileName:= UTF16ToUTF8(UnicodeString(LocalName));
     if (CopyFlags and FS_COPYFLAGS_FORCE = 0) and (FtpSend.FileSize(sFileName) >= 0) then
     begin
       if not FtpSend.CanResume then Exit(FS_FILE_EXISTS);
       Exit(FS_FILE_EXISTSRESUMEALLOWED);
     end;
     FtpSend.DataStream.Clear;
-    FtpSend.DirectFileName := LocalName;
+    FtpSend.DirectFileName := FileName;
     ProgressProc(PluginNumber, LocalName, RemoteName, 0);
     if FtpSend.StoreFile(sFileName, (CopyFlags and FS_COPYFLAGS_RESUME) <> 0) then
     begin
@@ -790,20 +810,20 @@ begin
   end;
 end;
 
-function FsDeleteFile(RemoteName: PAnsiChar): BOOL; dcpcall;
+function FsDeleteFileW(RemoteName: PWideChar): BOOL; dcpcall;
 var
-  sFileName: AnsiString;
   FtpSend: TFTPSendEx;
+  sFileName: AnsiString;
 begin
   Result := False;
   // if root path then delete connection
-  if (ExtractFileDir(RemoteName) = PathDelim) and (AnsiChar(RemoteName[1]) <> '<') then
-    Result:= DeleteConnection(ExtractConnectionName(RemoteName))
+  if (ExtractFileDir(RemoteName) = PathDelim) and (RemoteName[1] <> '<') then
+    Result:= DeleteConnection(ExtractConnectionName(UTF16ToUTF8(RemoteName)))
   else if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
     Result := FtpSend.DeleteFile(sFileName);
 end;
 
-function FsMkDir(RemoteDir: PAnsiChar): BOOL; dcpcall;
+function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall;
 var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
@@ -821,7 +841,7 @@ begin
   end;
 end;
 
-function FsRemoveDir(RemoteName: PAnsiChar): BOOL; dcpcall;
+function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall;
 var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
@@ -831,23 +851,24 @@ begin
     Result := FtpSend.DeleteDir(sPath);
 end;
 
-function FsDisconnect(DisconnectRoot: PAnsiChar): BOOL; dcpcall;
+function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
 var
-  sTemp: AnsiString;
+  asTemp: AnsiString;
+  wsTemp: UnicodeString;
   FtpSend: TFTPSendEx;
 begin
   Result := False;
-  sTemp := ExcludeLeadingPathDelimiter(DisconnectRoot);
-  if GetConnectionByPath(sTemp, FtpSend, sTemp) then
+  wsTemp := ExcludeLeadingPathDelimiter(DisconnectRoot);
+  if GetConnectionByPath(wsTemp, FtpSend, asTemp) then
   begin
     Result := FtpSend.Logout;
-    LogProc(PluginNumber, MSGTYPE_DISCONNECT, PAnsiChar('DISCONNECT ' + DisconnectRoot));
+    LogProc(PluginNumber, MSGTYPE_DISCONNECT, PWideChar('DISCONNECT ' + DisconnectRoot));
     ActiveConnectionList.Delete(ActiveConnectionList.IndexOfObject(FtpSend));
     FreeAndNil(FtpSend);
   end;
 end;
 
-procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); dcpcall;
+procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall;
 begin
   CryptProc:= pCryptProc;
   CryptoNumber:= CryptoNr;
@@ -960,15 +981,16 @@ begin
   HasDialogAPI:= True;
 end;
 
-function ReadPassword(ConnectionName: String): AnsiString;
+function ReadPassword(ConnectionName: AnsiString): String;
 begin
+  Result:= EmptyStr;
   if CryptFunc(FS_CRYPT_LOAD_PASSWORD, ConnectionName, Result) <> FS_FILE_OK then
     Result:= EmptyStr;
 end;
 
-function DeletePassword(ConnectionName: String): Boolean;
+function DeletePassword(ConnectionName: AnsiString): Boolean;
 var
-  Password: AnsiString;
+  Password: String;
 begin
   Password:= EmptyStr;
   Result:= CryptFunc(FS_CRYPT_DELETE_PASSWORD, ConnectionName, Password) = FS_FILE_OK;

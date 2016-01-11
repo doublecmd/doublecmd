@@ -27,7 +27,7 @@ unit FtpAdv;
 interface
 
 uses
-  Classes, SysUtils, WfxPlugin, FtpSend;
+  Classes, SysUtils, WfxPlugin, FtpSend, LazUTF8Classes;
 
 type
 
@@ -51,23 +51,19 @@ type
 
   { TProgressStream }
 
-  TProgressStream = class(TFileStream)
+  TProgressStream = class(TFileStreamUTF8)
   public
     DoneSize: Int64;
     FileSize: Int64;
     PluginNumber: Integer;
-    ProgressProc: TProgressProc;
-    RemoteName, LocalName: PAnsiChar;
+    ProgressProc: TProgressProcW;
+    RemoteName, LocalName: PWideChar;
   private
     procedure DoProgress(Result: Integer);
   public
     function Read(var Buffer; Count: Longint): Longint; override;
     function Write(const Buffer; Count: Longint): Longint; override;
   end;
-
-  { TConvertEncoding }
-
-  TConvertEncoding = function(const S: String): String;
 
   { TFTPSendEx }
 
@@ -80,8 +76,8 @@ type
     function DataSocket: Boolean; override;
     procedure DoStatus(Response: Boolean; const Value: string); override;
   public
-    ClientToServer,
-    ServerToClient: TConvertEncoding;
+    ClientToServer: function(const Value: UnicodeString): AnsiString;
+    ServerToClient: function(const Value: AnsiString): UnicodeString;
   public
     constructor Create; reintroduce;
     function Login: Boolean; override;
@@ -96,11 +92,16 @@ type
 implementation
 
 uses
-  LazUTF8, FtpFunc, FtpUtils;
+  LazUTF8, LazFileUtils, FtpFunc, FtpUtils;
 
-function Dummy(const S: String): String;
+function WideToAnsi(const Value: UnicodeString): AnsiString;
 begin
-  Result:= S;
+  Result:= AnsiString(Value);
+end;
+
+function AnsiToWide(const Value: AnsiString): UnicodeString;
+begin
+  Result:= UnicodeString(Value);
 end;
 
 { TFTPListRecEx }
@@ -166,14 +167,14 @@ function TFTPSendEx.DataSocket: Boolean;
 begin
   Result:= inherited DataSocket;
   if FDSock.LastError <> 0 then begin
-    LogProc(PluginNumber, msgtype_importanterror, PAnsiChar('DSOCK ERROR ' + FDSock.LastErrorDesc));
+    LogProc(PluginNumber, msgtype_importanterror, PWideChar('DSOCK ERROR ' + UnicodeString(FDSock.LastErrorDesc)));
   end;
 end;
 
 procedure TFTPSendEx.DoStatus(Response: Boolean; const Value: string);
 var
   Index: Integer;
-  Message: String;
+  Message: UnicodeString;
 begin
   Index:= Pos('PASS ', Value);
   if Index = 0 then
@@ -181,9 +182,9 @@ begin
   else begin
     Message:= ServerToClient(Copy(Value, 1, Index + 4)) + '********';
   end;
-  LogProc(PluginNumber, msgtype_details, PAnsiChar(Message));
+  LogProc(PluginNumber, msgtype_details, PWideChar(Message));
   if FSock.LastError <> 0 then begin
-    LogProc(PluginNumber, msgtype_importanterror, PAnsiChar('CSOCK ERROR ' + FSock.LastErrorDesc));
+    LogProc(PluginNumber, msgtype_importanterror, PWideChar('CSOCK ERROR ' + UnicodeString(FSock.LastErrorDesc)));
   end;
 end;
 
@@ -192,8 +193,8 @@ begin
   inherited Create;
   FTimeout:= 15000;
   FDirectFile:= True;
-  ClientToServer:= @Dummy;
-  ServerToClient:= @Dummy;
+  ClientToServer:= @WideToAnsi;
+  ServerToClient:= @AnsiToWide;
 end;
 
 function TFTPSendEx.Login: Boolean;
@@ -213,8 +214,8 @@ begin
       if FUnicode then
       begin
         FTPCommand('OPTS UTF8 ON');
-        ClientToServer:= @SysToUTF8;
-        ServerToClient:= @UTF8ToSys;
+        ClientToServer:= @UTF16ToUTF8;
+        ServerToClient:= @UTF8ToUTF16;
       end;
     end;
   end;
@@ -236,13 +237,13 @@ end;
 
 function TFTPSendEx.List(Directory: String; NameList: Boolean): Boolean;
 var
-  Message: String;
+  Message: UnicodeString;
 begin
   Result:= inherited List(Directory, NameList);
   if (Result = False) and (FSock.WaitingData > 0) then
   begin
-    Message:= FSock.RecvPacket(1000);
-    LogProc(PluginNumber, msgtype_importanterror, PAnsiChar(Message));
+    Message:= UnicodeString(FSock.RecvPacket(1000));
+    LogProc(PluginNumber, msgtype_importanterror, PWideChar(Message));
   end;
 end;
 
@@ -273,8 +274,8 @@ begin
 
   SendStream.PluginNumber:= PluginNumber;
   SendStream.ProgressProc:= ProgressProc;
-  SendStream.LocalName:= PAnsiChar(FDirectFileName);
-  SendStream.RemoteName:= PAnsiChar(ServerToClient(FileName));
+  SendStream.LocalName:= PWideChar(UTF8Decode(FDirectFileName));
+  SendStream.RemoteName:= PWideChar(ServerToClient(FileName));
 
   try
     if not DataSocket then Exit;
@@ -312,7 +313,7 @@ begin
   if not DataSocket then Exit;
   Restore := Restore and FCanResume;
 
-  if Restore and FileExists(FDirectFileName) then
+  if Restore and FileExistsUTF8(FDirectFileName) then
     RetrStream := TProgressStream.Create(FDirectFileName, fmOpenWrite or fmShareExclusive)
   else begin
     RetrStream := TProgressStream.Create(FDirectFileName, fmCreate or fmShareDenyWrite)
@@ -321,8 +322,8 @@ begin
   RetrStream.FileSize := FileSize;
   RetrStream.PluginNumber := PluginNumber;
   RetrStream.ProgressProc := ProgressProc;
-  RetrStream.LocalName := PAnsiChar(FDirectFileName);
-  RetrStream.RemoteName := PAnsiChar(ServerToClient(FileName));
+  RetrStream.LocalName := PWideChar(UTF8Decode(FDirectFileName));
+  RetrStream.RemoteName := PWideChar(ServerToClient(FileName));
 
   try
     FTPCommand('TYPE I');
