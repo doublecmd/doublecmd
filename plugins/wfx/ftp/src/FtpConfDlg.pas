@@ -30,19 +30,21 @@ unit FtpConfDlg;
 interface
 
 uses
-  SysUtils, Extension;
+  SysUtils, Classes, Extension;
 
 function ShowFtpConfDlg: Boolean;
   
 implementation
 
 uses
-  LazUTF8, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib;
+  LazUTF8, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib, LConvEncoding;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
- Data: PtrInt;
- Text: String;
+  Data: PtrInt;
+  Text: String;
+  Index: Integer;
+  Encoding: TStringList;
 begin
   Result:= 0;
   with gStartupInfo do
@@ -50,6 +52,14 @@ begin
     case Msg of
       DN_INITDIALOG:
         begin
+          Encoding:= TStringList.Create;
+          GetSupportedEncodings(Encoding);
+          for Index:= 0 to Encoding.Count - 1 do
+          begin
+            Data:= PtrInt(PAnsiChar(Encoding[Index]));
+            SendDlgMsg(pDlg, 'cmbEncoding', DM_LISTADDSTR, Data, 0);
+          end;
+          Encoding.Free;
           Text:= gConnection.ConnectionName;
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtName', DM_SETTEXT, Data, 0);
