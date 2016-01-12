@@ -274,6 +274,61 @@ begin
     ConvertToUtf8:= @CP1258ToUTF8;
     ConvertFromUtf8:= @UTF8ToCP1258;
   end
+  else if AEncoding = EncodingCP437 then
+  begin
+    ConvertToUtf8:= @CP437ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP437;
+  end
+  else if AEncoding = EncodingCP850 then
+  begin
+    ConvertToUtf8:= @CP850ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP850;
+  end
+  else if AEncoding = EncodingCP852 then
+  begin
+    ConvertToUtf8:= @CP852ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP852;
+  end
+  else if AEncoding = EncodingCP866 then
+  begin
+    ConvertToUtf8:= @CP866ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP866;
+  end
+  else if AEncoding = EncodingCP874 then
+  begin
+    ConvertToUtf8:= @CP874ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP874;
+  end
+  else if AEncoding = EncodingCP932 then
+  begin
+    ConvertToUtf8:= @CP932ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP932;
+  end
+  else if AEncoding = EncodingCP936 then
+  begin
+    ConvertToUtf8:= @CP936ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP936;
+  end
+  else if AEncoding = EncodingCP949 then
+  begin
+    ConvertToUtf8:= @CP949ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP949;
+  end
+  else if AEncoding = EncodingCP950 then
+  begin
+    ConvertToUtf8:= @CP950ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP950;
+  end
+  else if AEncoding = EncodingCPKOI8 then
+  begin
+    ConvertToUtf8:= @KOI8ToUTF8;
+    ConvertFromUtf8:= @UTF8ToKOI8;
+  end
+  else if AEncoding = EncodingCPMac then
+  begin
+    ConvertToUtf8:= @MacintoshToUTF8;
+    ConvertFromUtf8:= @UTF8ToMacintosh;
+  end;
 end;
 
 function TFTPSendEx.Login: Boolean;
