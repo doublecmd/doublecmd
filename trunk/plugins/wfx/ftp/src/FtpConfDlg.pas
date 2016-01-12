@@ -30,7 +30,7 @@ unit FtpConfDlg;
 interface
 
 uses
-  SysUtils, Classes, Extension;
+  SysUtils, Extension;
 
 function ShowFtpConfDlg: Boolean;
   
@@ -43,8 +43,6 @@ function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: Pt
 var
   Data: PtrInt;
   Text: String;
-  Index: Integer;
-  Encoding: TStringList;
 begin
   Result:= 0;
   with gStartupInfo do
@@ -52,14 +50,10 @@ begin
     case Msg of
       DN_INITDIALOG:
         begin
-          Encoding:= TStringList.Create;
-          GetSupportedEncodings(Encoding);
-          for Index:= 0 to Encoding.Count - 1 do
-          begin
-            Data:= PtrInt(PAnsiChar(Encoding[Index]));
-            SendDlgMsg(pDlg, 'cmbEncoding', DM_LISTADDSTR, Data, 0);
-          end;
-          Encoding.Free;
+          Text:= gConnection.Encoding;
+          Data:= PtrInt(PAnsiChar(Text));
+          Data:= SendDlgMsg(pDlg, 'cmbEncoding', DM_LISTINDEXOF, 0, Data);
+          if Data >= 0 then SendDlgMsg(pDlg, 'cmbEncoding', DM_LISTSETITEMINDEX, Data, 0);
           Text:= gConnection.ConnectionName;
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtName', DM_SETTEXT, Data, 0);
@@ -149,6 +143,9 @@ begin
           end
         else if DlgItemName = 'btnOK' then
           begin
+            Data:= SendDlgMsg(pDlg, 'cmbEncoding', DM_GETTEXT, 0, 0);
+            Text:= PAnsiChar(Data);
+            gConnection.Encoding:= Text;
             Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
             gConnection.ConnectionName:= RepairConnectionName(Text);
