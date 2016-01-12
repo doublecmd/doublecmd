@@ -27,7 +27,7 @@ unit FtpAdv;
 interface
 
 uses
-  Classes, SysUtils, WfxPlugin, FtpSend, LazUTF8Classes;
+  Classes, SysUtils, WfxPlugin, FtpSend, LazUTF8Classes, LConvEncoding;
 
 type
 
@@ -71,15 +71,18 @@ type
   private
     FUnicode: Boolean;
     FSetTime: Boolean;
+  private
+    ConvertToUtf8,
+    ConvertFromUtf8: TConvertEncodingFunction;
   protected
     function Connect: Boolean; override;
     function DataSocket: Boolean; override;
     procedure DoStatus(Response: Boolean; const Value: string); override;
   public
-    ClientToServer: function(const Value: UnicodeString): AnsiString;
-    ServerToClient: function(const Value: AnsiString): UnicodeString;
+    function ClientToServer(const Value: UnicodeString): AnsiString;
+    function ServerToClient(const Value: AnsiString): UnicodeString;
   public
-    constructor Create; reintroduce;
+    constructor Create(const Encoding: String); reintroduce;
     function Login: Boolean; override;
     procedure ParseRemote(Value: string); override;
     function List(Directory: String; NameList: Boolean): Boolean; override;
@@ -92,16 +95,11 @@ type
 implementation
 
 uses
-  LazUTF8, LazFileUtils, FtpFunc, FtpUtils;
+  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, DCConvertEncoding;
 
-function WideToAnsi(const Value: UnicodeString): AnsiString;
+function Dummy(const S: String): String;
 begin
-  Result:= AnsiString(Value);
-end;
-
-function AnsiToWide(const Value: AnsiString): UnicodeString;
-begin
-  Result:= UnicodeString(Value);
+  Result:= S;
 end;
 
 { TFTPListRecEx }
@@ -188,13 +186,94 @@ begin
   end;
 end;
 
-constructor TFTPSendEx.Create;
+function TFTPSendEx.ClientToServer(const Value: UnicodeString): AnsiString;
+begin
+  Result:= ConvertFromUtf8(UTF16ToUTF8(Value));
+end;
+
+function TFTPSendEx.ServerToClient(const Value: AnsiString): UnicodeString;
+begin
+  Result:= UTF8ToUTF16(ConvertToUtf8(Value));
+end;
+
+constructor TFTPSendEx.Create(const Encoding: String);
+var
+  AEncoding: String;
 begin
   inherited Create;
   FTimeout:= 15000;
   FDirectFile:= True;
-  ClientToServer:= @WideToAnsi;
-  ServerToClient:= @AnsiToWide;
+
+  ConvertToUtf8:= @CeSysToUtf8;
+  ConvertFromUtf8:= @CeUtf8ToSys;
+
+  AEncoding:= NormalizeEncoding(Encoding);
+
+  if AEncoding = EncodingUTF8 then
+  begin
+    ConvertToUtf8:= @Dummy;
+    ConvertFromUtf8:= @Dummy;
+  end
+  else if AEncoding = EncodingCPIso1 then
+  begin
+    ConvertToUtf8:= @ISO_8859_1ToUTF8;
+    ConvertFromUtf8:= @UTF8ToISO_8859_1;
+  end
+  else if AEncoding = EncodingCPIso2 then
+  begin
+    ConvertToUtf8:= @ISO_8859_2ToUTF8;
+    ConvertFromUtf8:= @UTF8ToISO_8859_2;
+  end
+  else if AEncoding = EncodingCPIso15 then
+  begin
+    ConvertToUtf8:= @ISO_8859_15ToUTF8;
+    ConvertFromUtf8:= @UTF8ToISO_8859_15;
+  end
+  else if AEncoding = EncodingCP1250 then
+  begin
+    ConvertToUtf8:= @CP1250ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1250;
+  end
+  else if AEncoding = EncodingCP1251 then
+  begin
+    ConvertToUtf8:= @CP1251ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1251;
+  end
+  else if AEncoding = EncodingCP1252 then
+  begin
+    ConvertToUtf8:= @CP1252ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1252;
+  end
+  else if AEncoding = EncodingCP1253 then
+  begin
+    ConvertToUtf8:= @CP1253ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1253;
+  end
+  else if AEncoding = EncodingCP1254 then
+  begin
+    ConvertToUtf8:= @CP1254ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1254;
+  end
+  else if AEncoding = EncodingCP1255 then
+  begin
+    ConvertToUtf8:= @CP1255ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1255;
+  end
+  else if AEncoding = EncodingCP1256 then
+  begin
+    ConvertToUtf8:= @CP1256ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1256;
+  end
+  else if AEncoding = EncodingCP1257 then
+  begin
+    ConvertToUtf8:= @CP1257ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1257;
+  end
+  else if AEncoding = EncodingCP1258 then
+  begin
+    ConvertToUtf8:= @CP1258ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1258;
+  end
 end;
 
 function TFTPSendEx.Login: Boolean;
@@ -213,9 +292,9 @@ begin
       end;
       if FUnicode then
       begin
+        ConvertToUtf8:= @Dummy;
+        ConvertFromUtf8:= @Dummy;
         FTPCommand('OPTS UTF8 ON');
-        ClientToServer:= @UTF16ToUTF8;
-        ServerToClient:= @UTF8ToUTF16;
       end;
     end;
   end;
