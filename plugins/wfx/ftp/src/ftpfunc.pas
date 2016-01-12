@@ -283,7 +283,7 @@ begin
       if I >= 0 then
       begin
         Connection := TConnection(ConnectionList.Objects[I]);
-        FtpSend := TFTPSendEx.Create;
+        FtpSend := TFTPSendEx.Create(Connection.Encoding);
         FtpSend.TargetHost := Connection.Host;
         FtpSend.PassiveMode:= Connection.PassiveMode;
         FtpSend.AutoTLS:= Connection.AutoTLS;
