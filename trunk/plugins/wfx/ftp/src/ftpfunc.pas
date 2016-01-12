@@ -42,6 +42,7 @@ type
     MasterPassword: Boolean;
     PassiveMode: Boolean;
     AutoTLS: Boolean;
+    Encoding: AnsiString;
     InitCommands: AnsiString;
     PasswordChanged: Boolean;
   end;
@@ -142,6 +143,7 @@ begin
       Connection.Password := EmptyStr
     else
       Connection.Password := DecodeBase64(IniFile.ReadString('FTP', 'Connection' + sIndex + 'Password', EmptyStr));
+    Connection.Encoding := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Encoding', EmptyStr);
     Connection.PassiveMode:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'PassiveMode', True);
     Connection.AutoTLS:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'AutoTLS', False);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
@@ -173,6 +175,7 @@ begin
       IniFile.DeleteKey('FTP', 'Connection' + sIndex + 'Password')
     else
       IniFile.WriteString('FTP', 'Connection' + sIndex + 'Password', EncodeBase64(Connection.Password));
+    IniFile.WriteString('FTP', 'Connection' + sIndex + 'Encoding', Connection.Encoding);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'PassiveMode', Connection.PassiveMode);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'AutoTLS', Connection.AutoTLS);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
