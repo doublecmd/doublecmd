@@ -37,7 +37,7 @@ function ShowFtpConfDlg: Boolean;
 implementation
 
 uses
-  LazUTF8, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib, LConvEncoding;
+  LazUTF8, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
