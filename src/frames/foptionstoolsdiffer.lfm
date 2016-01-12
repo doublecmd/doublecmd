@@ -6,28 +6,35 @@ inherited frmOptionsDiffer: TfrmOptionsDiffer
   DesignLeft = 377
   DesignTop = 160
   inherited edtToolsParameters: TEdit
-    Top = 113
+    Height = 20
+    Top = 108
   end
   inherited fneToolsPath: TFileNameEdit
-    Top = 61
+    Height = 20
+    Top = 60
   end
   inherited lblToolsPath: TLabel
-    Height = 15
-    Width = 144
+    Height = 14
+    Width = 173
   end
   inherited lblToolsParameters: TLabel
-    Height = 15
-    Top = 94
-    Width = 117
+    Height = 14
+    Top = 90
+    Width = 140
   end
   inherited cbToolsKeepTerminalOpen: TCheckBox
-    Top = 169
+    Top = 161
+    Width = 350
   end
   inherited cbToolsRunInTerminal: TCheckBox
-    Top = 148
+    Top = 140
+    Width = 144
+  end
+  inherited cbToolsUseExternalProgram: TCheckBox
+    Width = 160
   end
   inherited btnRelativeToolPath: TSpeedButton
-    Top = 61
+    Top = 60
   end
   object rgResultingFramePositionAfterCompare: TRadioGroup[8]
     AnchorSideLeft.Control = edtToolsParameters
@@ -36,11 +43,12 @@ inherited frmOptionsDiffer: TfrmOptionsDiffer
     AnchorSideRight.Control = edtToolsParameters
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 65
-    Top = 200
+    Height = 58
+    Top = 192
     Width = 571
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
+    AutoSize = True
     BorderSpacing.Top = 12
     Caption = 'Position of frame panel after the comparison:'
     ChildSizing.LeftRightSpacing = 6
@@ -50,7 +58,7 @@ inherited frmOptionsDiffer: TfrmOptionsDiffer
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 47
+    ClientHeight = 40
     ClientWidth = 567
     ItemIndex = 0
     Items.Strings = (
