@@ -359,6 +359,7 @@ begin
     begin
       if ShowPasswordDialog(Connection.Password) then
       begin
+        Connection.PassiveMode:= True;
         Connection.ConnectionName:= cQuickConnection;
         Index:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
         Result:= FtpConnect(Connection.ConnectionName, FtpSend);
@@ -374,9 +375,10 @@ var
   Temp: AnsiString;
   bCancel: Boolean;
 begin
-  Result:= -1;
+  Result := -1;
   bCancel := True;
   gConnection := TConnection.Create;
+  gConnection.PassiveMode := True;
 
   if HasDialogAPI then
     begin

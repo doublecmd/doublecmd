@@ -5,7 +5,7 @@ library ftp;
 {$ENDIF}
 
 uses
-  Classes, FtpFunc, FtpUtils, FtpConfDlg
+  FPCAdds, Classes, FtpFunc, FtpUtils, FtpConfDlg
   , ssl_openssl
 {$IF DEFINED(UNIX)}
   , ssl_openssl_ver

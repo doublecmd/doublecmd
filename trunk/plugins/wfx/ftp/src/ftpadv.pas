@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -69,11 +69,12 @@ type
 
   TFTPSendEx = class(TFTPSend)
   private
+    FAuto: Boolean;
     FUnicode: Boolean;
     FSetTime: Boolean;
   private
-    ConvertToUtf8,
-    ConvertFromUtf8: TConvertEncodingFunction;
+    ConvertToUtf8: TConvertEncodingFunction;
+    ConvertFromUtf8: TConvertUTF8ToEncodingFunc;
   protected
     function Connect: Boolean; override;
     function DataSocket: Boolean; override;
@@ -100,6 +101,16 @@ uses
 function Dummy(const S: String): String;
 begin
   Result:= S;
+end;
+
+function Ymmud(const S: String {$IFDEF FPC_HAS_CPSTRING}; SetTargetCodePage: Boolean = False{$ENDIF}): RawByteString;
+begin
+  Result:= S;
+end;
+
+function Utf8ToSys(const S: String {$IFDEF FPC_HAS_CPSTRING}; SetTargetCodePage: Boolean = False{$ENDIF}): RawByteString;
+begin
+  Result:= CeUtf8ToSys(S);
 end;
 
 { TFTPListRecEx }
@@ -162,10 +173,13 @@ begin
 end;
 
 function TFTPSendEx.DataSocket: Boolean;
+var
+  Message: UnicodeString;
 begin
   Result:= inherited DataSocket;
   if FDSock.LastError <> 0 then begin
-    LogProc(PluginNumber, msgtype_importanterror, PWideChar('DSOCK ERROR ' + UnicodeString(FDSock.LastErrorDesc)));
+    Message:= UTF8ToUTF16(CeSysToUtf8(FDSock.LastErrorDesc));
+    LogProc(PluginNumber, msgtype_importanterror, PWideChar('DSOCK ERROR ' + Message));
   end;
 end;
 
@@ -182,7 +196,8 @@ begin
   end;
   LogProc(PluginNumber, msgtype_details, PWideChar(Message));
   if FSock.LastError <> 0 then begin
-    LogProc(PluginNumber, msgtype_importanterror, PWideChar('CSOCK ERROR ' + UnicodeString(FSock.LastErrorDesc)));
+    Message:= UTF8ToUTF16(CeSysToUtf8(FSock.LastErrorDesc));
+    LogProc(PluginNumber, msgtype_importanterror, PWideChar('CSOCK ERROR ' + Message));
   end;
 end;
 
@@ -205,14 +220,15 @@ begin
   FDirectFile:= True;
 
   ConvertToUtf8:= @CeSysToUtf8;
-  ConvertFromUtf8:= @CeUtf8ToSys;
+  ConvertFromUtf8:= @Utf8ToSys;
 
   AEncoding:= NormalizeEncoding(Encoding);
+  FAuto:= (AEncoding = '') or (AEncoding = 'auto');
 
   if AEncoding = EncodingUTF8 then
   begin
     ConvertToUtf8:= @Dummy;
-    ConvertFromUtf8:= @Dummy;
+    ConvertFromUtf8:= @Ymmud;
   end
   else if AEncoding = EncodingCPIso1 then
   begin
@@ -345,10 +361,10 @@ begin
         if not FUnicode then FUnicode:= Pos('UTF8', FFullResult[Index]) > 0;
         if not FSetTime then FSetTime:= Pos('MFMT', FFullResult[Index]) > 0;
       end;
-      if FUnicode then
+      if FUnicode and FAuto then
       begin
         ConvertToUtf8:= @Dummy;
-        ConvertFromUtf8:= @Dummy;
+        ConvertFromUtf8:= @Ymmud;
         FTPCommand('OPTS UTF8 ON');
       end;
     end;
