@@ -1789,6 +1789,7 @@ begin
       if (not IsDirectory) and
          (Ext <> 'exe') and
          (Ext <> 'ico') and
+         (Ext <> 'cur') and
          (Ext <> 'lnk') and
          (Ext <> 'url') then
       begin
