@@ -99,7 +99,6 @@ type
        Changes drawing colors depending on if this panel is active.
     }
     procedure DoActiveChanged; override;
-    procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); virtual; abstract;
     procedure DoLoadingFileListLongTime; override;
     procedure DoUpdateView; override;
     procedure FinalizeDragDropEx(AControl: TWinControl);
@@ -339,7 +338,6 @@ procedure TFileViewWithMainCtrl.DoUpdateView;
 begin
   inherited DoUpdateView;
   MainControl.Color := DimColor(gBackColor);
-  MainControl.ShowHint := (gShowToolTipMode <> []);
 end;
 
 procedure TFileViewWithMainCtrl.FinalizeDragDropEx(AControl: TWinControl);
@@ -795,14 +793,10 @@ begin
     begin
       FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
       if FileIndex <> FHintFileIndex then
-        begin
-          FHintFileIndex := FileIndex;
-          Application.CancelHint;
-          MainControl.Hint:= EmptyStr; // don't show by default
-
-          if IsFileIndexInRange(FileIndex) then
-            DoMainControlShowHint(FHintFileIndex, X, Y);
-        end;
+      begin
+        FHintFileIndex := FileIndex;
+        Application.CancelHint;
+      end;
     end;
 
   // Selection with right mouse button, if enabled.
@@ -858,30 +852,19 @@ var
   AFile: TDisplayFile;
   sHint: String;
 begin
-  // Rewrite HintStr because when MainControl.Hint is empty
-  // it would contain parent hint that is not correct behavior
-  HintInfo^.HintStr:= MainControl.Hint;
+  if not gShowToolTipMode then
+  begin
+    HintInfo^.HintStr:= EmptyStr;
+    Exit;
+  end;
 
-  if (HintInfo^.HintStr = EmptyStr) or not IsFileIndexInRange(FHintFileIndex) then
-    Exit; // don't show
+  if not IsFileIndexInRange(FHintFileIndex) then Exit;
 
   AFile := FFiles[FHintFileIndex];
-  if not AFile.FSFile.IsDirectory then
-    begin
-      sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
-      with HintInfo^ do
-      begin
-        if (sHint = EmptyStr) and (HintStr = #32) then  // no tooltip
-          HintStr:= EmptyStr
-        else if (sHint <> EmptyStr) then // has tooltip
-          begin
-            if HintStr = #32 then // without name
-              HintStr:= sHint
-            else
-              HintStr:= HintStr + LineEnding + sHint;
-          end;
-      end;
-    end;
+  HintInfo^.HintStr:= AFile.FSFile.Name;
+
+  sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
+  if (sHint <> EmptyStr) then HintInfo^.HintStr:= HintInfo^.HintStr + LineEnding + sHint;
 end;
 
 procedure TFileViewWithMainCtrl.MainControlUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);

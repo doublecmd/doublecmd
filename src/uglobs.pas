@@ -50,8 +50,6 @@ type
   TTabsPosition = (tbpos_top, tbpos_bottom);
   { Show icons mode }
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
-  { Show tooltip mode }
-  TShowToolTipMode = set of (stm_show_for_all, stm_only_large_name);
   TScrollMode = (smLineByLineCursor, smLineByLine, smPageByPage);
   { Sorting directories mode }
   TSortFolderMode = (sfmSortNameShowFirst, sfmSortLikeFileShowFirst, sfmSortLikeFile);
@@ -365,7 +363,7 @@ var
   gDirBrackets,
   gInplaceRename,
   gGoToRoot: Boolean;
-  gShowToolTipMode: TShowToolTipMode;
+  gShowToolTipMode: Boolean;
   gThumbSize: TSize;
   gThumbSave: Boolean;
   gSearchDefaultTemplate: String;
@@ -1313,7 +1311,7 @@ begin
   gShowPathInPopup:=FALSE;
   gShowOnlyValidEnv:=TRUE;
   gWhereToAddNewHotDir := ahdSmart;
-  gShowToolTipMode := [stm_show_for_all];
+  gShowToolTipMode := True;
   gThumbSave := True;
   gThumbSize.cx := 128;
   gThumbSize.cy := 128;
@@ -1888,7 +1886,7 @@ var
   gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
   gShowWarningMessages := gIni.ReadBool('Configuration', 'ShowWarningMessages', True);
   gDirBrackets:= gIni.ReadBool('Configuration', 'DirBrackets', True);
-  gShowToolTipMode:= TShowToolTipMode(gIni.ReadInteger('Configuration', 'ShowToolTipMode', Integer(gShowToolTipMode)));
+  gShowToolTipMode:= gIni.ReadBool('Configuration', 'ShowToolTipMode', gShowToolTipMode);
   { Auto refresh page }
   gWatchDirs := TWatchOptions(gIni.ReadInteger('Configuration', 'WatchDirs', Integer(gWatchDirs)));
   gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
@@ -2149,7 +2147,7 @@ begin
     Node := Root.FindNode('ToolTips');
     if Assigned(Node) then
     begin
-      gShowToolTipMode := TShowToolTipMode(GetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode)));
+      gShowToolTipMode := GetValue(Node, 'ShowToolTipMode', gShowToolTipMode);
       gFileInfoToolTip.Load(gConfig, Node);
     end;
 
@@ -2626,7 +2624,7 @@ begin
 
     { ToolTips page }
     Node := FindNode(Root, 'ToolTips', True);
-    SetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode));
+    SetValue(Node, 'ShowToolTipMode', gShowToolTipMode);
     gFileInfoToolTip.Save(gConfig, Node);
 
     { Layout page }

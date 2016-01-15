@@ -68,7 +68,6 @@ type
     procedure ClearAfterDragDrop; override;
     procedure AfterChangePath; override;
     procedure DisplayFileListChanged; override;
-    procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
     procedure DoOnResize; override;
     procedure FileSourceFileListLoaded; override;
     function GetActiveFileIndex: PtrInt; override;
@@ -830,26 +829,6 @@ begin
   finally
     AFile.Free;
   end;
-end;
-
-procedure TFileViewWithGrid.DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer);
-var
-  aRect: TRect;
-  ACol, ARow, iCol: Integer;
-  AFile: TDisplayFile;
-begin
-  AFile := FFiles[FileIndex];
-  dgPanel.IndexToCell(FileIndex, ACol, ARow);
-  aRect:= dgPanel.CellRect(ACol, ARow);
-  iCol:= aRect.Right - aRect.Left - 8;
-  if gShowIcons <> sim_none then
-    Dec(iCol, gIconsSize);
-  if iCol < dgPanel.Canvas.TextWidth(AFile.FSFile.Name) then // with file name
-    dgPanel.Hint:= AFile.FSFile.Name
-  else if (stm_only_large_name in gShowToolTipMode) then // don't show
-    Exit
-  else if not AFile.FSFile.IsDirectory then // without name
-    dgPanel.Hint:= #32;
 end;
 
 end.

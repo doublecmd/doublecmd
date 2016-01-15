@@ -157,7 +157,6 @@ type
     procedure DoColumnResized(Sender: TObject; ColumnIndex: Integer; ColumnNewSize: Integer);
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
-    procedure DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer); override;
     procedure DoUpdateView; override;
     function GetActiveFileIndex: PtrInt; override;
     function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; override;
@@ -1289,25 +1288,6 @@ begin
   end;
 
   inherited DoHandleKeyDown(Key, Shift);
-end;
-
-procedure TColumnsFileViewVTV.DoMainControlShowHint(FileIndex: PtrInt; X, Y: Integer);
-var
-  aRect: TRect;
-  iCol: Integer;
-  AFile: TDisplayFile;
-begin
-  AFile := FFiles[FileIndex];
-  aRect:= dgPanel.GetDisplayRect(PVirtualNode(AFile.DisplayItem), 0, False);
-  iCol:= aRect.Right - aRect.Left - 8;
-  if gShowIcons <> sim_none then
-    Dec(iCol, gIconsSize);
-  if iCol < dgPanel.Canvas.TextWidth(AFile.FSFile.Name) then // with file name
-    dgPanel.Hint:= AFile.FSFile.Name
-  else if (stm_only_large_name in gShowToolTipMode) then // don't show
-    Exit
-  else if not AFile.FSFile.IsDirectory then // without name
-    dgPanel.Hint:= #32;
 end;
 
 procedure TColumnsFileViewVTV.DoSelectionChanged(Node: PVirtualNode);
