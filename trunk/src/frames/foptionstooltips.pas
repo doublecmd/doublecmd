@@ -40,25 +40,23 @@ type
     btnApplyFields: TBitBtn;
     btnFieldsList: TButton;
     btnFieldsSearchTemplate: TBitBtn;
+    chkShowToolTip: TCheckBox;
     edtFieldsList: TEdit;
     edtFieldsMask: TEdit;
     edtFieldsName: TEdit;
     gbCustomFields: TGroupBox;
-    gbShowToolTip: TGroupBox;
     lblFieldsList: TLabel;
     lblFieldsMask: TLabel;
     lblFieldsName: TLabel;
     lsbCustomFields: TListBox;
     pnlEdit: TPanel;
     pmFields: TPopupMenu;
-    rbToolTipAllFiles: TRadioButton;
-    rbToolTipNone: TRadioButton;
-    rbToolTipOnlyLarge: TRadioButton;
     procedure btnAddFieldsClick(Sender: TObject);
     procedure btnApplyFieldsClick(Sender: TObject);
     procedure btnDeleteFieldsClick(Sender: TObject);
     procedure btnFieldsListClick(Sender: TObject);
     procedure btnFieldsSearchTemplateClick(Sender: TObject);
+    procedure chkShowToolTipChange(Sender: TObject);
     procedure miPluginClick(Sender: TObject);
     procedure lsbCustomFieldsSelectionChange(Sender: TObject; User: boolean);
   private
@@ -94,6 +92,11 @@ begin
       edtFieldsMask.Text:= sMask;
       edtFieldsMask.Enabled:= not bTemplate;
     end;
+end;
+
+procedure TfrmOptionsToolTips.chkShowToolTipChange(Sender: TObject);
+begin
+  gbCustomFields.Enabled:= chkShowToolTip.Checked;
 end;
 
 procedure TfrmOptionsToolTips.miPluginClick(Sender: TObject);
@@ -225,8 +228,8 @@ procedure TfrmOptionsToolTips.Load;
 var
   I: LongInt;
 begin
-  rbToolTipAllFiles.Checked:= (stm_show_for_all in gShowToolTipMode);
-  rbToolTipOnlyLarge.Checked:= (stm_only_large_name in gShowToolTipMode);
+  gbCustomFields.Enabled:= gShowToolTipMode;
+  chkShowToolTip.Checked:= gShowToolTipMode;
 
   FFileInfoToolTip.Assign(gFileInfoToolTip);
   for I:= 0 to FFileInfoToolTip.HintItemList.Count - 1 do
@@ -235,11 +238,7 @@ end;
 
 function TfrmOptionsToolTips.Save: TOptionsEditorSaveFlags;
 begin
-  gShowToolTipMode:= []; // Reset tool tip show mode
-  if rbToolTipAllFiles.Checked then
-    Include(gShowToolTipMode, stm_show_for_all);
-  if rbToolTipOnlyLarge.Checked then
-    Include(gShowToolTipMode, stm_only_large_name);
+  gShowToolTipMode:= chkShowToolTip.Checked;
 
   gFileInfoToolTip.Assign(FFileInfoToolTip);
   Result := [];
