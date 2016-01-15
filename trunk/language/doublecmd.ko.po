@@ -8022,15 +8022,17 @@ msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "템플릿..."
 
+#: tfrmoptionstooltips.chkshowtooltip.caption
+#, fuzzy
+#| msgid "Show tool tip"
+msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
+msgid "&Show tooltip for files in the file panel"
+msgstr "풍선 도움말 보이기"
+
 #: tfrmoptionstooltips.gbcustomfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
 msgid "Custom fields by file type"
 msgstr "파일 형식에 의한 사용자 필드"
-
-#: tfrmoptionstooltips.gbshowtooltip.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
-msgid "Show tool tip"
-msgstr "풍선 도움말 보이기"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 #, fuzzy
@@ -8052,27 +8054,6 @@ msgstr "카테고리 마스크:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
 msgstr "카테고리 이름:"
-
-#: tfrmoptionstooltips.rbtooltipallfiles.caption
-#, fuzzy
-#| msgid "Show tool tip for all files in file panel"
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Sho&w tool tip for all files in file panel"
-msgstr "파일 패널의 모든 파일에 풍선 도움말 보이기"
-
-#: tfrmoptionstooltips.rbtooltipnone.caption
-#, fuzzy
-#| msgid "Don't show"
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't &show"
-msgstr "보이지 않기"
-
-#: tfrmoptionstooltips.rbtooltiponlylarge.caption
-#, fuzzy
-#| msgid "Show tool tip for files in file panel if truncated"
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show &tool tip for files in file panel if truncated"
-msgstr "파일명이 잘릴 때 풍선 도움말로 파일명 표시"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 #, fuzzy

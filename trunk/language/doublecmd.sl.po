@@ -7150,15 +7150,17 @@ msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "Predloga ..."
 
+#: tfrmoptionstooltips.chkshowtooltip.caption
+#, fuzzy
+#| msgid "Show tool tip"
+msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
+msgid "&Show tooltip for files in the file panel"
+msgstr "Prikaz orodnih namigov"
+
 #: tfrmoptionstooltips.gbcustomfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
 msgid "Custom fields by file type"
 msgstr "Polja po meri (glede na vrsto datoteke)"
-
-#: tfrmoptionstooltips.gbshowtooltip.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
-msgid "Show tool tip"
-msgstr "Prikaz orodnih namigov"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
@@ -7174,21 +7176,6 @@ msgstr "&Maska kategorije:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
 msgstr "Ime &kategorije:"
-
-#: tfrmoptionstooltips.rbtooltipallfiles.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Sho&w tool tip for all files in file panel"
-msgstr "Pokaži &orodne namige za vse datoteke v oknu"
-
-#: tfrmoptionstooltips.rbtooltipnone.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't &show"
-msgstr "&Ne pokaži"
-
-#: tfrmoptionstooltips.rbtooltiponlylarge.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show &tool tip for files in file panel if truncated"
-msgstr "Pokaži orodne &namige za datoteke v oknu, če je vrednost prirezana"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"

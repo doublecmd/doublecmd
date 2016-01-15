@@ -7235,15 +7235,17 @@ msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "Szablon..."
 
+#: tfrmoptionstooltips.chkshowtooltip.caption
+#, fuzzy
+#| msgid "Show tool tip"
+msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
+msgid "&Show tooltip for files in the file panel"
+msgstr "Pokaż podpowiedzi"
+
 #: tfrmoptionstooltips.gbcustomfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
 msgid "Custom fields by file type"
 msgstr "Pola użytkownika wg typu pliku"
-
-#: tfrmoptionstooltips.gbshowtooltip.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
-msgid "Show tool tip"
-msgstr "Pokaż podpowiedzi"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
@@ -7259,21 +7261,6 @@ msgstr "Maska kategorii:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
 msgstr "Nazwa kategorii:"
-
-#: tfrmoptionstooltips.rbtooltipallfiles.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Sho&w tool tip for all files in file panel"
-msgstr "Pokazuj podpowiedzi dla wszystkich plików w panelu"
-
-#: tfrmoptionstooltips.rbtooltipnone.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't &show"
-msgstr "Nie pokazuj"
-
-#: tfrmoptionstooltips.rbtooltiponlylarge.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show &tool tip for files in file panel if truncated"
-msgstr "Pokazuj podpowiedzi dla plików jeśli panel plików nie jest widoczny w całości"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"

@@ -7322,15 +7322,17 @@ msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "Skabelon..."
 
+#: tfrmoptionstooltips.chkshowtooltip.caption
+#, fuzzy
+#| msgid "Show tool tip"
+msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
+msgid "&Show tooltip for files in the file panel"
+msgstr "Værktøjshjælp"
+
 #: tfrmoptionstooltips.gbcustomfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
 msgid "Custom fields by file type"
 msgstr "Tilpas felter efter filtype"
-
-#: tfrmoptionstooltips.gbshowtooltip.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
-msgid "Show tool tip"
-msgstr "Værktøjshjælp"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
@@ -7346,21 +7348,6 @@ msgstr "Kategori-filter:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
 msgstr "Kategori-navn:"
-
-#: tfrmoptionstooltips.rbtooltipallfiles.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Sho&w tool tip for all files in file panel"
-msgstr "Vis værktøjshjælp for alle filer i panel"
-
-#: tfrmoptionstooltips.rbtooltipnone.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't &show"
-msgstr "Vis ikke"
-
-#: tfrmoptionstooltips.rbtooltiponlylarge.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show &tool tip for files in file panel if truncated"
-msgstr "Vis værktøjshjælp for alle filer i panel, når filnavn afkortes"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "tfrmoptionsviewer.btnbackviewercolor.caption"

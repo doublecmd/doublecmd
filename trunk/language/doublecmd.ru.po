@@ -7219,15 +7219,15 @@ msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "Шаблон..."
 
+#: tfrmoptionstooltips.chkshowtooltip.caption
+msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
+msgid "&Show tooltip for files in the file panel"
+msgstr "Показывать всплывающие подсказки в файловой панели"
+
 #: tfrmoptionstooltips.gbcustomfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
 msgid "Custom fields by file type"
 msgstr "Дополнительные поля по типам файлов"
-
-#: tfrmoptionstooltips.gbshowtooltip.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
-msgid "Show tool tip"
-msgstr "Показывать всплывающие подсказки"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
@@ -7243,21 +7243,6 @@ msgstr "&Маска:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
 msgstr "&Наименование:"
-
-#: tfrmoptionstooltips.rbtooltipallfiles.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
-msgid "Sho&w tool tip for all files in file panel"
-msgstr "Д&ля всех файлов в файловой панели"
-
-#: tfrmoptionstooltips.rbtooltipnone.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
-msgid "Don't &show"
-msgstr "Н&е показывать"
-
-#: tfrmoptionstooltips.rbtooltiponlylarge.caption
-msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
-msgid "Show &tool tip for files in file panel if truncated"
-msgstr "Дл&я файлов с именами не помещающимися на панели"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
