@@ -9070,6 +9070,10 @@ msgstr "Quant a"
 msgid "Show as &Bin"
 msgstr "Mostra com &Binari"
 
+#: tfrmviewer.micenter.caption
+msgid "Center"
+msgstr ""
+
 #: tfrmviewer.micopytoclipboard.caption
 msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
@@ -9206,6 +9210,10 @@ msgstr ""
 msgctxt "tfrmviewer.mistretch.caption"
 msgid "Stretch"
 msgstr "Aprima"
+
+#: tfrmviewer.mistretchonlylarge.caption
+msgid "Stretch only large"
+msgstr ""
 
 #: tfrmviewer.mitext.caption
 msgid "Show as &Text"

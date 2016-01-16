@@ -8359,6 +8359,10 @@ msgstr "Info"
 msgid "Show as &Bin"
 msgstr "Mostra come file &binario"
 
+#: tfrmviewer.micenter.caption
+msgid "Center"
+msgstr ""
+
 #: tfrmviewer.micopytoclipboard.caption
 msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
@@ -8496,6 +8500,10 @@ msgstr "-"
 msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
 msgid "Stretch"
 msgstr "Stira"
+
+#: tfrmviewer.mistretchonlylarge.caption
+msgid "Stretch only large"
+msgstr ""
 
 #: tfrmviewer.mitext.caption
 msgid "Show as &Text"

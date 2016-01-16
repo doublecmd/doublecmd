@@ -9117,6 +9117,10 @@ msgstr "O programe"
 msgid "Show as &Bin"
 msgstr "Zobraziť &binárne"
 
+#: tfrmviewer.micenter.caption
+msgid "Center"
+msgstr ""
+
 #: tfrmviewer.micopytoclipboard.caption
 msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
@@ -9253,6 +9257,10 @@ msgstr "-"
 msgctxt "tfrmviewer.mistretch.caption"
 msgid "Stretch"
 msgstr "Roztiahnuť"
+
+#: tfrmviewer.mistretchonlylarge.caption
+msgid "Stretch only large"
+msgstr ""
 
 #: tfrmviewer.mitext.caption
 msgid "Show as &Text"

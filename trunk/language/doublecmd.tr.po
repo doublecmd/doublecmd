@@ -8609,6 +8609,10 @@ msgstr "Hakkında"
 msgid "Show as &Bin"
 msgstr "Ikili olarak göster&Bin dosyaları[0,1]"
 
+#: tfrmviewer.micenter.caption
+msgid "Center"
+msgstr ""
+
 #: tfrmviewer.micopytoclipboard.caption
 msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
@@ -8745,6 +8749,10 @@ msgstr "-"
 msgctxt "tfrmviewer.mistretch.caption"
 msgid "Stretch"
 msgstr "Çek-Düzelt"
+
+#: tfrmviewer.mistretchonlylarge.caption
+msgid "Stretch only large"
+msgstr ""
 
 #: tfrmviewer.mitext.caption
 msgid "Show as &Text"

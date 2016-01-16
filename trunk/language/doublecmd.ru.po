@@ -8344,6 +8344,10 @@ msgstr "О программе..."
 msgid "Show as &Bin"
 msgstr "В &двоичном виде (фиксированная длина строки)"
 
+#: tfrmviewer.micenter.caption
+msgid "Center"
+msgstr "По центру окна"
+
 #: tfrmviewer.micopytoclipboard.caption
 msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
@@ -8480,6 +8484,10 @@ msgstr "-"
 msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
 msgid "Stretch"
 msgstr "&Растянуть"
+
+#: tfrmviewer.mistretchonlylarge.caption
+msgid "Stretch only large"
+msgstr "Растягивать только большие"
 
 #: tfrmviewer.mitext.caption
 msgid "Show as &Text"
