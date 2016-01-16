@@ -579,6 +579,7 @@ type
 {$IF DEFINED(LCLGTK2)}
     procedure WindowStateUpdate(Data: PtrInt);
 {$ENDIF}
+    procedure WindowStateRefresh(Data: PtrInt);
   private
     { Private declarations }
     FMainSplitterPos: Double;
@@ -1719,6 +1720,10 @@ begin
     // future loading after restore from tray
     lastWindowState:=WindowState;
     HiddenToTray := False;
+  end;
+  // Workaround http://doublecmd.sourceforge.net/forum/viewtopic.php?f=10&t=3193
+  if WindowState <> wsMinimized then begin
+    Application.QueueAsyncCall(@WindowStateRefresh, 0);
   end;
 end;
 
@@ -5567,6 +5572,12 @@ begin
           mnuAllOperStart.Visible:= True;
         end;
     end;
+end;
+
+procedure TfrmMain.WindowStateRefresh(Data: PtrInt);
+begin
+  pnlMain.Width:= pnlMain.Width - 1;
+  pnlMain.Width:= pnlMain.Width + 1;
 end;
 
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
