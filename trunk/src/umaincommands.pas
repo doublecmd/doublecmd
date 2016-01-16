@@ -1243,6 +1243,7 @@ end;
 
 procedure TMainCommands.cm_Wipe(const Params: array of string);
 var
+  Message: String;
   theFilesToWipe: TFiles;
   Operation: TFileSourceOperation;
   QueueId: TOperationsManagerQueueIdentifier;
@@ -1264,7 +1265,8 @@ begin
       if theFilesToWipe.Count = 0 then
         Exit;
 
-      if not ShowDeleteDialog(frmMain.GetFileDlgStr(rsMsgWipeSel, rsMsgWipeFlDr, theFilesToWipe), QueueId) then
+      Message:= frmMain.GetFileDlgStr(rsMsgWipeSel, rsMsgWipeFlDr, theFilesToWipe);
+      if not ShowDeleteDialog(Message, FileSource, QueueId) then
         Exit;
 
       Operation := FileSource.CreateWipeOperation(theFilesToWipe);
@@ -1946,6 +1948,7 @@ end;
 procedure TMainCommands.cm_Delete(const Params: array of string);
 var
   I: Integer;
+  Message: String;
   theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
@@ -2030,9 +2033,10 @@ begin
 
     if Assigned(theFilesToDelete) then
     try
+      Message:= frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete);
       if (theFilesToDelete.Count > 0) and
          ((not bConfirmation) or
-         (ShowDeleteDialog(frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete), QueueId))) then
+         (ShowDeleteDialog(Message, FileSource, QueueId))) then
       begin
         if FileSource.IsClass(TFileSystemFileSource) and
            frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, Menus, uOperationsManager;
+  Buttons, Menus, uOperationsManager, uFileSource;
 
 type
 
@@ -35,6 +35,7 @@ type
     function GetQueueIdentifier: TOperationsManagerQueueIdentifier;
   public
     constructor Create(TheOwner: TComponent); override;
+    constructor Create(TheOwner: TComponent; FileSource: IFileSource); reintroduce;
     property QueueIdentifier: TOperationsManagerQueueIdentifier read GetQueueIdentifier;
   end;
 
@@ -42,6 +43,9 @@ var
   frmButtonForm: TfrmButtonForm;
 
 implementation
+
+uses
+  uFileSourceProperty;
 
 {$R *.lfm}
 
@@ -89,10 +93,22 @@ end;
 
 constructor TfrmButtonForm.Create(TheOwner: TComponent);
 begin
+  Create(TheOwner, nil);
+end;
+
+constructor TfrmButtonForm.Create(TheOwner: TComponent; FileSource: IFileSource);
+begin
   inherited Create(TheOwner);
 
-  if FQueueIdentifier = FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
+  if FQueueIdentifier <= FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
   btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
+
+  if Assigned(FileSource) and (fspListInMainThread in FileSource.Properties) then
+  begin
+    btnAddToQueue.Visible:= False;
+    FQueueIdentifier:= ModalQueueId;
+    btnCreateSpecialQueue.Visible:= btnAddToQueue.Visible;
+  end;
 end;
 
 end.
