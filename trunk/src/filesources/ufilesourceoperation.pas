@@ -336,6 +336,8 @@ type
     }
     procedure CheckOperationState;
 
+    procedure AppProcessMessages;
+
     class procedure RaiseAbortOperation;
 
     property ParentOperation: TFileSourceOperation read FParentOperation write FParentOperation;
@@ -438,7 +440,7 @@ type
 implementation
 
 uses
-  Forms, uFileSource, uFileSourceProperty, uDebug, uExceptions
+  InterfaceBase, Forms, uFileSource, uFileSourceProperty, uDebug, uExceptions
   {$IFNDEF fsoSynchronizeEvents}
   , uGuiMessageQueue
   {$ENDIF}
@@ -760,6 +762,12 @@ begin
 
     // else: we're left with fsosRunning
   end;
+end;
+
+procedure TFileSourceOperation.AppProcessMessages;
+begin
+  if GetCurrentThreadId = MainThreadID then
+    WidgetSet.AppProcessMessages;
 end;
 
 procedure TFileSourceOperation.UpdateStartTime(NewStartTime: TDateTime);
