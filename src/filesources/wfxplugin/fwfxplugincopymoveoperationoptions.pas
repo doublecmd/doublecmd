@@ -23,6 +23,7 @@ type
     lblFileExists: TLabel;
     pnlCheckboxes: TPanel;
     pnlComboBoxes: TPanel;
+    procedure cbWorkInBackgroundChange(Sender: TObject);
   private
     procedure SetOperationOptions(CopyOperation: TWfxPluginCopyOperation); overload;
     procedure SetOperationOptions(MoveOperation: TWfxPluginMoveOperation); overload;
@@ -59,7 +60,8 @@ implementation
 {$R *.lfm}
 
 uses
-  WfxPlugin, uGlobs, uWfxPluginFileSource, uFileSourceOperationOptions;
+  WfxPlugin, fCopyMoveDlg, uGlobs, uWfxPluginFileSource,
+  uFileSourceOperationOptions, uOperationsManager;
 
 { TWfxPluginCopyMoveOperationOptionsUI }
 
@@ -90,6 +92,21 @@ begin
     SetOperationOptions(Operation as TWfxPluginCopyInOperation)
   else if Operation is TWfxPluginCopyOutOperation then
     SetOperationOptions(Operation as TWfxPluginCopyOutOperation);
+end;
+
+procedure TWfxPluginCopyMoveOperationOptionsUI.cbWorkInBackgroundChange(
+  Sender: TObject);
+begin
+  with (Owner as TfrmCopyDlg) do
+  begin
+    if not cbWorkInBackground.Checked then
+      QueueIdentifier:= ModalQueueId
+    else begin
+      QueueIdentifier:= FreeOperationsQueueId;
+    end;
+    btnAddToQueue.Visible:= cbWorkInBackground.Checked;
+    btnCreateSpecialQueue.Visible:= btnAddToQueue.Visible;
+  end;
 end;
 
 procedure TWfxPluginCopyMoveOperationOptionsUI.SetOperationOptions(CopyOperation: TWfxPluginCopyOperation);

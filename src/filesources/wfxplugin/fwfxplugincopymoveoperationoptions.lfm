@@ -1,43 +1,42 @@
-inherited WfxPluginCopyMoveOperationOptionsUI: TWfxPluginCopyMoveOperationOptionsUI
+object WfxPluginCopyMoveOperationOptionsUI: TWfxPluginCopyMoveOperationOptionsUI
+  Left = 305
   Height = 158
+  Top = 222
   Width = 549
   AutoSize = True
-  BorderSpacing.Around = 6
   ClientHeight = 158
   ClientWidth = 549
-  TabOrder = 0
-  DesignLeft = 535
-  DesignTop = 391
-  object pnlComboBoxes: TPanel[0]
+  LCLVersion = '1.6.0.3'
+  object pnlComboBoxes: TPanel
     AnchorSideLeft.Control = Owner
     Left = 0
-    Height = 21
+    Height = 23
     Top = 0
-    Width = 182
+    Width = 186
     AutoSize = True
     BevelOuter = bvNone
     ChildSizing.HorizontalSpacing = 5
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 2
-    ClientHeight = 21
-    ClientWidth = 182
+    ClientHeight = 23
+    ClientWidth = 186
     TabOrder = 0
     object lblFileExists: TLabel
       Left = 0
-      Height = 14
-      Top = 3
-      Width = 77
+      Height = 15
+      Top = 4
+      Width = 81
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When file exists'
       FocusControl = cmbFileExists
       ParentColor = False
     end
     object cmbFileExists: TComboBox
-      Left = 82
-      Height = 21
+      Left = 86
+      Height = 23
       Top = 0
       Width = 100
-      ItemHeight = 13
+      ItemHeight = 15
       Items.Strings = (
         'Ask'
         'Overwrite'
@@ -47,29 +46,30 @@ inherited WfxPluginCopyMoveOperationOptionsUI: TWfxPluginCopyMoveOperationOption
       TabOrder = 0
     end
   end
-  object pnlCheckboxes: TPanel[1]
+  object pnlCheckboxes: TPanel
     AnchorSideLeft.Control = pnlComboBoxes
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = pnlComboBoxes
-    Left = 190
-    Height = 17
+    Left = 194
+    Height = 19
     Top = 0
-    Width = 224
+    Width = 246
     AutoSize = True
     BorderSpacing.Left = 8
     BevelOuter = bvNone
     BevelWidth = 8
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 17
-    ClientWidth = 224
+    ClientHeight = 19
+    ClientWidth = 246
     TabOrder = 1
     object cbWorkInBackground: TCheckBox
       Left = 0
-      Height = 17
+      Height = 19
       Top = 0
-      Width = 224
+      Width = 246
       Caption = 'Work in background (separate connection)'
+      OnChange = cbWorkInBackgroundChange
       TabOrder = 0
       Visible = False
     end

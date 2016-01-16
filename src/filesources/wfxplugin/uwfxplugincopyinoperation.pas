@@ -55,7 +55,7 @@ type
 implementation
 
 uses
-  fWfxPluginCopyMoveOperationOptions, WfxPlugin, uFileSystemUtil;
+  fWfxPluginCopyMoveOperationOptions, WfxPlugin, uFileSystemUtil, InterfaceBase;
 
 // -- TWfxPluginCopyInOperation ---------------------------------------------
 
@@ -93,6 +93,9 @@ begin
 
     UpdateStatistics(FStatistics);
   end;
+
+  if GetCurrentThreadId = MainThreadID then
+    WidgetSet.AppProcessMessages;
 
   CheckOperationState;
 end;

@@ -32,6 +32,7 @@ uses
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 function GetProgressString(const Progress: Double): String;
 procedure ShowOperation(OpManItem: TOperationsManagerItem);
+procedure ShowOperationModal(OpManItem: TOperationsManagerItem);
 
 implementation
 
@@ -63,6 +64,16 @@ begin
         Options := Options + [opwoStartMinimized];
       TfrmFileOp.ShowFor(OpManItem.Handle, Options);
     end;
+  end;
+end;
+
+procedure ShowOperationModal(OpManItem: TOperationsManagerItem);
+begin
+  with TfrmFileOp.Create(OpManItem.Queue.Identifier) do
+  try
+    ShowModal;
+  finally
+    Free;
   end;
 end;
 
