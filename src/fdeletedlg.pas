@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, Menus, StdCtrls, fButtonForm, uOperationsManager;
+  Buttons, Menus, StdCtrls, fButtonForm, uOperationsManager, uFileSource;
 
 type
 
@@ -20,14 +20,14 @@ type
     { public declarations }
   end;
 
-function ShowDeleteDialog(const Message: String; out QueueId: TOperationsManagerQueueIdentifier): Boolean;
+function ShowDeleteDialog(const Message: String; FileSource: IFileSource; out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
 implementation
 
-function ShowDeleteDialog(const Message: String; out
-  QueueId: TOperationsManagerQueueIdentifier): Boolean;
+function ShowDeleteDialog(const Message: String; FileSource: IFileSource;
+  out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 begin
-  with TfrmDeleteDlg.Create(Application) do
+  with TfrmDeleteDlg.Create(Application, FileSource) do
   begin
     Caption:= Application.Title;
     lblMessage.Caption:= Message;
