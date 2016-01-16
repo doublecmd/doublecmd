@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  DCBasicTypes, DCStrUtils, WfxPlugin, uWfxPluginUtil, DCDateTimeUtils;
+  DCBasicTypes, DCStrUtils, WfxPlugin, uWfxPluginUtil, DCDateTimeUtils, InterfaceBase;
 
 constructor TWfxPluginSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;
@@ -124,6 +124,9 @@ begin
       DoneFiles := DoneFiles + 1;
       UpdateStatistics(FStatistics);
     end;
+
+    if GetCurrentThreadId = MainThreadID then
+      WidgetSet.AppProcessMessages;
 
     CheckOperationState;
   end;
