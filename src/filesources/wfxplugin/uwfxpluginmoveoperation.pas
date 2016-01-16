@@ -78,6 +78,8 @@ begin
     UpdateStatistics(FStatistics);
   end;
 
+  AppProcessMessages;
+
   CheckOperationState;
 end;
 
