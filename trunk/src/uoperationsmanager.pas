@@ -277,7 +277,7 @@ var
 implementation
 
 uses
-  uDebug, uLng, uFileSourceOperationMisc;
+  uDebug, uLng, uFileSourceOperationMisc, uFileSourceProperty, uFileSource;
 
 type
   PEventsListItem = ^TEventsListItem;
@@ -620,7 +620,11 @@ end;
 
 function TOperationsManager.AddOperation(Operation: TFileSourceOperation; ShowProgress: Boolean): TOperationHandle;
 begin
-  Result := AddOperation(Operation, FreeOperationsQueueId, False, ShowProgress);
+  if fspListInMainThread in (Operation.FileSource as IFileSource).Properties then
+    Result := AddOperationModal(Operation)
+  else begin
+    Result := AddOperation(Operation, FreeOperationsQueueId, False, ShowProgress);
+  end;
 end;
 
 function TOperationsManager.AddOperation(
