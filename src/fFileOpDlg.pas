@@ -139,6 +139,7 @@ type
     destructor Destroy; override;
 
     procedure ExecuteModal; override;
+    function ShowModal: Integer; override;
 
     function CloseQuery: Boolean; override;
 
@@ -368,6 +369,13 @@ begin
       if Assigned(OpManItem) then OpManItem.Operation.Execute;
     end;
   end;
+end;
+
+function TfrmFileOp.ShowModal: Integer;
+begin
+  BorderStyle:= bsDialog;
+  ShowInTaskBar:= stNever;
+  Result:= inherited ShowModal;
 end;
 
 procedure TfrmFileOp.FinalizeOperation;
