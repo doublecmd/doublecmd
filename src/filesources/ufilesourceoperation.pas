@@ -699,7 +699,7 @@ begin
     FPauseEvent.WaitFor(INFINITE) // wait indefinitely
   else
   begin
-    while FPauseEvent.WaitFor(100) <> wrSignaled do
+    while FPauseEvent.WaitFor(100) = wrTimeout do
       WidgetSet.AppProcessMessages;
   end;
 end;
