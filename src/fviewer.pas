@@ -393,6 +393,7 @@ end;
 procedure TfrmViewer.LoadFile(const aFileName: String);
 var
   i: Integer;
+  aName: String;
   dwFileAttributes: TFileAttrs;
 begin
   dwFileAttributes := mbFileGetAttr(aFileName);
@@ -419,24 +420,26 @@ begin
   Screen.Cursor:= crHourGlass;
   try
     if FPS_ISDIR(dwFileAttributes) then
+      aName:= IncludeTrailingPathDelimiter(aFileName)
+    else begin
+      aName:= aFileName;
+    end;
+    if CheckPlugins(aName) then
+      ActivatePanel(nil)
+    else if FPS_ISDIR(dwFileAttributes) then
       begin
         ActivatePanel(pnlFolder);
         pnlFolder.Caption:= rsPropsFolder + ': ' + aFileName;
       end
+    else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
+      ActivatePanel(pnlImage)
     else
       begin
-        if CheckPlugins(aFileName) then
-          ActivatePanel(nil)
-        else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
-          ActivatePanel(pnlImage)
-        else
-          begin
-            ViewerControl.FileName := aFileName;
-            ActivatePanel(pnlText);
-          end;
-
-        Status.Panels[sbpFileName].Text:= aFileName;
+        ViewerControl.FileName := aFileName;
+        ActivatePanel(pnlText);
       end;
+
+    Status.Panels[sbpFileName].Text:= aFileName;
   finally
     Screen.Cursor:= crDefault;
   end;
@@ -1022,13 +1025,15 @@ end;
 function TfrmViewer.CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
 var
   I: Integer;
+  AFileName: String;
   ShowFlags: Integer;
   WlxModule: TWlxModule;
 begin
+  AFileName:= ExcludeTrailingBackslash(sFileName);
   ShowFlags:= IfThen(bForce, lcp_forceshow, 0) or PluginShowFlags;
   // DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   for I:= 0 to WlxPlugins.Count - 1 do
-  if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName, bForce) then
+  if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(AFileName, bForce) then
   begin
     DCDebug('I = ' + IntToStr(I));
     if not WlxPlugins.LoadModule(I) then Continue;
