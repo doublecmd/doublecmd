@@ -44,19 +44,26 @@ type
   {$ENDIF}
   end;
 
-  { TModalForm }
+  { TModalDialog }
 
-  TModalForm = class(TForm)
-  {$IF DEFINED(LCLWIN32)}
-  private
+  TModalDialog = class(TAloneForm)
+  protected
     FParentWindow: HWND;
     procedure CloseModal;
   protected
     procedure CreateParams(var Params: TCreateParams); override;
   public
+    procedure ExecuteModal; virtual;
     function ShowModal: Integer; override;
-  {$ENDIF}
   end;
+
+  { TModalForm }
+
+  {$IF DEFINED(LCLWIN32)}
+  TModalForm = class(TModalDialog);
+  {$ELSE}
+  TModalForm = class(TForm);
+  {$ENDIF}
 
 {en
    Must be called on main form create
@@ -116,11 +123,12 @@ procedure ShowOpenWithDialog(const FileList: TStringList);
 implementation
 
 uses
-  ExtDlgs, LCLProc, uConnectionManager
+  ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
+  uConnectionManager
   {$IF DEFINED(MSWINDOWS)}
-  , Menus, Graphics, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
-  , uTotalCommander, InterfaceBase, FileUtil, Windows, ShlObj, uShlObjAdditional
-  , uWinNetFileSource, uVfsModule, uLng, uMyWindows, LMessages, WSForms, LCLIntf
+  , ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
+  , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
+  , uWinNetFileSource, uVfsModule, uLng, uMyWindows
   , uThumbnailProvider, uFileSourceUtil, Dialogs
   {$ENDIF}
   {$IFDEF UNIX}
@@ -192,9 +200,11 @@ begin
     SetWindowLong(Handle, GWL_HWNDPARENT, 0);
 end;
 
-{ TModalForm }
+{$ENDIF}
 
-procedure TModalForm.CloseModal;
+{ TModalDialog }
+
+procedure TModalDialog.CloseModal;
 var
   CloseAction: TCloseAction;
 begin
@@ -217,7 +227,7 @@ begin
   end;
 end;
 
-procedure TModalForm.CreateParams(var Params: TCreateParams);
+procedure TModalDialog.CreateParams(var Params: TCreateParams);
 begin
   inherited CreateParams(Params);
   if FParentWindow <> 0 then
@@ -227,7 +237,35 @@ begin
   end;
 end;
 
-function TModalForm.ShowModal: Integer;
+procedure TModalDialog.ExecuteModal;
+begin
+  repeat
+    { Delphi calls Application.HandleMessage
+      But HandleMessage processes all pending events and then calls idle,
+      which will wait for new messages. Under Win32 there is always a next
+      message, so it works there. The LCL is OS independent, and so it uses
+      a better way: }
+    try
+      WidgetSet.AppProcessMessages; // process all events
+    except
+      if Application.CaptureExceptions then
+        Application.HandleException(Self)
+      else
+        raise;
+    end;
+    if Application.Terminated then
+      ModalResult := mrCancel;
+    if ModalResult <> 0 then
+    begin
+      CloseModal;
+      if ModalResult <> 0 then Break;
+    end;
+
+    Application.Idle(true);
+  until False;
+end;
+
+function TModalDialog.ShowModal: Integer;
 
   procedure RaiseShowModalImpossible;
   var
@@ -289,30 +327,8 @@ begin
           // Activate must happen after show
           Perform(CM_ACTIVATE, 0, 0);
           TWSCustomFormClass(WidgetSetClass).ShowModal(Self);
-          repeat
-            { Delphi calls Application.HandleMessage
-              But HandleMessage processes all pending events and then calls idle,
-              which will wait for new messages. Under Win32 there is always a next
-              message, so it works there. The LCL is OS independent, and so it uses
-              a better way: }
-            try
-              WidgetSet.AppProcessMessages; // process all events
-            except
-              if Application.CaptureExceptions then
-                Application.HandleException(Self)
-              else
-                raise;
-            end;
-            if Application.Terminated then
-              ModalResult := mrCancel;
-            if ModalResult <> 0 then
-            begin
-              CloseModal;
-              if ModalResult <> 0 then Break;
-            end;
 
-            Application.Idle(true);
-          until False;
+          ExecuteModal;
 
           Result := ModalResult;
           if HandleAllocated and (GetActiveWindow <> Handle) then
@@ -340,8 +356,6 @@ begin
       end;
     end;
 end;
-
-{$ENDIF}
 
 var
   ShellContextMenu : TShellContextMenu = nil;
