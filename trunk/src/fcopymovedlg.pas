@@ -62,6 +62,7 @@ type
     FOperationOptionsUI: TFileSourceOperationOptionsUI;
 
     function GetQueueIdentifier: TOperationsManagerQueueIdentifier;
+    procedure SetQueueIdentifier(AValue: TOperationsManagerQueueIdentifier);
     function ShowTabsSelector: integer;
     procedure TabsSelector(Sender: TObject);
     procedure TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
@@ -78,7 +79,7 @@ type
     constructor Create(TheOwner: TComponent); override;
     procedure SetOperationOptions(Operation: TFileSourceOperation);
 
-    property QueueIdentifier: TOperationsManagerQueueIdentifier read GetQueueIdentifier;
+    property QueueIdentifier: TOperationsManagerQueueIdentifier read GetQueueIdentifier write SetQueueIdentifier;
 
   published
     procedure cm_AddToQueue(const Params: array of String);
@@ -90,7 +91,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, DCStrUtils;
+  fMain, uFileSourceProperty, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, DCStrUtils;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -125,6 +126,7 @@ var
   Value: Integer;
   sQueueId: String;
 begin
+  if FQueueIdentifier = ModalQueueId then Exit;
   if GetParamValue(Params, 'queueid', sQueueId) and TryStrToInt(sQueueId, Value) then
     begin
       if Value < 0 then
@@ -220,6 +222,11 @@ begin
   Result:= FQueueIdentifier;
 end;
 
+procedure TfrmCopyDlg.SetQueueIdentifier(AValue: TOperationsManagerQueueIdentifier);
+begin
+  FQueueIdentifier:= AValue;
+end;
+
 procedure TfrmCopyDlg.frmCopyDlgShow(Sender: TObject);
 begin
   case FDialogType of
@@ -300,7 +307,8 @@ end;
 
 procedure TfrmCopyDlg.btnOKClick(Sender: TObject);
 begin
-  FQueueIdentifier := FreeOperationsQueueId;
+  if FQueueIdentifier <> ModalQueueId then
+    FQueueIdentifier := FreeOperationsQueueId;
 end;
 
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
@@ -352,7 +360,7 @@ begin
   ShowOptions(False);
 
   btnOK.Caption := rsDlgOpStart;
-  if FQueueIdentifier = FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
+  if FQueueIdentifier <= FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
   btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
 
   HMForm := HotMan.Register(Self, HotkeysCategory);
@@ -360,6 +368,13 @@ begin
 
   if Assigned(Hotkey) then
     btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
+
+  if fspListInMainThread in FFileSource.Properties then
+  begin
+    btnAddToQueue.Visible:= False;
+    FQueueIdentifier:= ModalQueueId;
+    btnCreateSpecialQueue.Visible:= btnAddToQueue.Visible;
+  end;
 end;
 
 procedure TfrmCopyDlg.FormDestroy(Sender: TObject);

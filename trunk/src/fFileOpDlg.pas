@@ -53,7 +53,7 @@ type
 
   { TfrmFileOp }
 
-  TfrmFileOp = class(TAloneForm)
+  TfrmFileOp = class(TModalDialog)
     btnCancel: TBitBtn;
     btnPauseStart: TBitBtn;
     btnViewOperations: TBitBtn;
@@ -137,6 +137,8 @@ type
     constructor Create(OperationHandle: TOperationHandle); reintroduce;
     constructor Create(QueueIdentifier: TOperationsManagerQueueIdentifier); reintroduce;
     destructor Destroy; override;
+
+    procedure ExecuteModal; override;
 
     function CloseQuery: Boolean; override;
 
@@ -352,6 +354,20 @@ destructor TfrmFileOp.Destroy;
 begin
   inherited Destroy;
   FreeAndNil(FUserInterface);
+end;
+
+procedure TfrmFileOp.ExecuteModal;
+var
+  OpManItem: TOperationsManagerItem;
+begin
+  if FOperationHandle <> InvalidOperationHandle then
+  begin
+    if Assigned(FUserInterface) then
+    begin
+      OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+      if Assigned(OpManItem) then OpManItem.Operation.Execute;
+    end;
+  end;
 end;
 
 procedure TfrmFileOp.FinalizeOperation;

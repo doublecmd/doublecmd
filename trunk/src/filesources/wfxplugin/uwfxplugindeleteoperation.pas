@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  DCOSUtils, uLng, WfxPlugin;
+  DCOSUtils, uLng, WfxPlugin, InterfaceBase;
 
 constructor TWfxPluginDeleteOperation.Create(aTargetFileSource: IFileSource;
                                              var theFilesToDelete: TFiles);
@@ -101,6 +101,9 @@ begin
 
       UpdateStatistics(FStatistics);
     end;
+
+    if GetCurrentThreadId = MainThreadID then
+      WidgetSet.AppProcessMessages;
 
     CheckOperationState;
   end;

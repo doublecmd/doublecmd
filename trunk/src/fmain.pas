@@ -46,7 +46,7 @@ uses
   uFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
-  uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams
+  uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
   {$IF DEFINED(LCLQT)}
   , Qt4, QtWidgets
   {$ELSEIF DEFINED(LCLGTK2)}
@@ -60,7 +60,7 @@ type
 
   { TfrmMain }
 
-  TfrmMain = class(TForm, IFormCommands)
+  TfrmMain = class(TAloneForm, IFormCommands)
     actExtractFiles: TAction;
     actAddPathToCmdLine: TAction;
     actFileAssoc: TAction;
@@ -766,7 +766,7 @@ implementation
 uses
   uFileProcs, uShellContextMenu,
   Math, LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
-  uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
+  uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,

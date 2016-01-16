@@ -38,6 +38,7 @@ type
 
 const
   InvalidOperationHandle = TOperationHandle(0);
+  ModalQueueId = Low(TOperationsManagerQueueIdentifier);
   FreeOperationsQueueId = 0;
   SingleQueueId = 1; // TODO: Hard-coded for now
 
@@ -229,6 +230,12 @@ type
                           QueueIdentifier: TOperationsManagerQueueIdentifier;
                           InsertAtFrontOfQueue: Boolean;
                           ShowProgress: Boolean = True): TOperationHandle;
+
+    {en
+       Adds an operation to the manager.
+       Execute operation in the main thread and show progress in modal window.
+    }
+    function AddOperationModal(Operation: TFileSourceOperation): TOperationHandle;
 
     {en
        Operations retrieved this way can be safely used from the main GUI thread.
@@ -625,6 +632,12 @@ var
   Thread: TOperationThread;
   Item: TOperationsManagerItem;
 begin
+  if QueueIdentifier = ModalQueueId then
+  begin
+    Result:= AddOperationModal(Operation);
+    Exit;
+  end;
+
   Result := InvalidOperationHandle;
 
   if Assigned(Operation) then
@@ -654,6 +667,43 @@ begin
         ShowOperation(Item);
 
         Thread.Start;
+
+      except
+        Item.Free;
+      end;
+    end;
+  end;
+end;
+
+function TOperationsManager.AddOperationModal(Operation: TFileSourceOperation): TOperationHandle;
+var
+  Thread: TOperationThread;
+  Item: TOperationsManagerItem;
+begin
+  Result := InvalidOperationHandle;
+
+  if Assigned(Operation) then
+  begin
+    Thread := TOperationThread.Create(True, Operation);
+    if Assigned(Thread) then
+    begin
+      if Assigned(Thread.FatalException) then
+        raise Thread.FatalException;
+
+      Item := TOperationsManagerItem.Create(GetNextUnusedHandle, Operation, Thread);
+      if Assigned(Item) then
+      try
+        Operation.PreventStart;
+
+        Result := Item.Handle;
+
+        Item.SetQueue(GetOrCreateQueue(FreeOperationsQueueId), False);
+
+        NotifyEvents(Item, [omevOperationAdded]);
+
+        ShowOperationModal(Item);
+
+        ThreadTerminatedEvent(Thread);
 
       except
         Item.Free;
