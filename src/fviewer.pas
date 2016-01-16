@@ -146,6 +146,8 @@ type
     miExit: TMenuItem;
     miImage: TMenuItem;
     miStretch: TMenuItem;
+    miStretchOnlyLarge: TMenuItem;
+    miCenter: TMenuItem;
     miText: TMenuItem;
     miBin: TMenuItem;
     miHex: TMenuItem;
@@ -216,6 +218,8 @@ type
       Shift: TShiftState);
     procedure miExitClick(Sender: TObject);
     procedure miStretchClick(Sender: TObject);
+    procedure miStretchOnlyLargeClick(Sender: TObject);
+    procedure miCenterClick(Sender: TObject);
     procedure miTextClick(Sender: TObject);
     procedure miAbout2Click(Sender: TObject);
     procedure miSearchClick(Sender: TObject);
@@ -226,6 +230,8 @@ type
     procedure miChangeEncodingClick(Sender:TObject);
     procedure ViewerPositionChanged(Sender:TObject);
     procedure miRotateClick(Sender: TObject);
+    function  PluginShowFlags : Integer;
+    procedure UpdateImagePlacement;
 
   private
     FileList: TStringList;
@@ -437,16 +443,13 @@ begin
 end;
 
 procedure TfrmViewer.LoadNextFile(const aFileName: String);
-var
-  ShowFlags: Integer;
 begin
   if bPlugin then
     with WlxPlugins.GetWlxModule(ActivePlugin) do
     begin
       if FileParamVSDetectStr(aFileName, False) then
       begin
-        ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
-        if CallListLoadNext(Self.Handle, aFileName, ShowFlags) <> LISTPLUGIN_ERROR then
+        if CallListLoadNext(Self.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
           Exit;
       end;
     end;
@@ -879,10 +882,6 @@ begin
   btnReload.Visible:=not(miFullScreen.Checked);
   Status.Visible:=not(miFullScreen.Checked);
   gboxSlideShow.Visible:=miFullScreen.Checked;
-
-  Image.Stretch:= miFullScreen.Checked;
-  Image.AutoSize:= not Image.Stretch;
-  Image.Proportional:= Image.Stretch;
   AdjustImageSize;
   ShowOnTop;
 end;
@@ -1013,14 +1012,20 @@ begin
   EndY:=0;
 end;
 
+function TfrmViewer.PluginShowFlags : Integer;
+begin
+  Result:= IfThen(miStretch.Checked, lcp_fittowindow, 0) or
+           IfThen(miCenter.Checked, lcp_center, 0) or
+           IfThen(miStretchOnlyLarge.Checked, lcp_fitlargeronly, 0)
+end;
+
 function TfrmViewer.CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
 var
   I: Integer;
   ShowFlags: Integer;
   WlxModule: TWlxModule;
 begin
-  ShowFlags:= IfThen(bForce, lcp_forceshow, 0);
-  ShowFlags:= ShowFlags or IfThen(miStretch.Checked, lcp_fittowindow, 0);
+  ShowFlags:= IfThen(bForce, lcp_forceshow, 0) or PluginShowFlags;
   // DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   for I:= 0 to WlxPlugins.Count - 1 do
   if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(sFileName, bForce) then
@@ -1148,9 +1153,6 @@ end;
 procedure TfrmViewer.miZoomClick(Sender: TObject);
 begin
   miStretch.Checked := false;
-  Image.Stretch:=true;
-  Image.Proportional:=true;
-  Image.AutoSize := false;
   if (sender=miZoomIn) or (sender=btnZoomIn)
   then
     begin
@@ -1300,6 +1302,8 @@ procedure TfrmViewer.frmViewerClose(Sender: TObject;
 begin
   CloseAction:=caFree;
   gImageStretch:= miStretch.Checked;
+  gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
+  gImageCenter:= miCenter.Checked;
   gPreviewVisible := miPreview.Checked;
   gImagePaintMode := ComboBoxPaint.text;
   gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
@@ -1354,30 +1358,39 @@ begin
   Close;
 end;
 
-procedure TfrmViewer.miStretchClick(Sender: TObject);
-var
-  ShowFlags: Integer;
+procedure TfrmViewer.UpdateImagePlacement;
 begin
-  miStretch.Checked:= not miStretch.Checked;
   if bImage then
   begin
-    Image.Stretch:= miStretch.Checked;
-    Image.AutoSize:= not Image.Stretch;
-    Image.Proportional:= Image.Stretch;
-    if gboxHightlight.Visible then UndoTmp;
-    if miStretch.Checked then
-      begin
-        gboxPaint.Visible:=false;
-        gboxHightlight.Visible:=false;
-        gboxView.Visible:=true;
-      end;
+    if gboxHightlight.Visible then 
+    begin
+      gboxPaint.Visible:=false;
+      gboxHightlight.Visible:=false;
+      gboxView.Visible:=true;
+      UndoTmp;
+    end;
     AdjustImageSize;
   end
   else if bPlugin then
-  begin
-    ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
-    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_newparams, ShowFlags)
-  end;
+    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_newparams , PluginShowFlags)
+end;
+
+procedure TfrmViewer.miStretchClick(Sender: TObject);
+begin
+  miStretch.Checked:= not miStretch.Checked;
+  UpdateImagePlacement;
+end;
+
+procedure TfrmViewer.miCenterClick(Sender: TObject);
+begin
+   miCenter.Checked:= not miCenter.Checked;
+   UpdateImagePlacement;
+end;
+
+procedure TfrmViewer.miStretchOnlyLargeClick(Sender: TObject);
+begin
+  miStretchOnlyLarge.Checked:= not miStretchOnlyLarge.Checked;
+  UpdateImagePlacement;
 end;
 
 procedure TfrmViewer.miTextClick(Sender: TObject);
@@ -1448,14 +1461,16 @@ begin
   
   sboxImage.DoubleBuffered := True;
   miStretch.Checked := gImageStretch;
+  miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;
+  miCenter.Checked := gImageCenter;
   miPreview.Checked := gPreviewVisible;
   ComboBoxPaint.Text := gImagePaintMode;
   ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
   ColorBoxPaint.Selected := gImagePaintColor;
 
-  Image.Stretch:= miStretch.Checked;
-  Image.AutoSize:= not Image.Stretch;
-  Image.Proportional:= Image.Stretch;
+  Image.Stretch:= True;
+  Image.AutoSize:= False;
+  Image.Proportional:= False;
   Image.SetBounds(0, 0, sboxImage.ClientWidth, sboxImage.ClientHeight);
 
   FThumbSize := gThumbSize;
@@ -1724,67 +1739,43 @@ end;
 // Adjust Image size (width and height) to sboxImage size
 procedure TfrmViewer.AdjustImageSize;
 const
-  fmtImageInfo = '%s (%s %%)';
+  fmtImageInfo = '%dx%d (%.0f %%)';
 var
-  sResolution: String;
-  iScale: Integer = 0;
+  dScaleFactor : Double = 1.0;
+  iLeft, iTop, iWidth, iHeight : Integer;
 begin
-  if miStretch.Checked then
-     begin
-       Image.Stretch:= True;
-       Image.AutoSize:= True;
-       Image.Center:= True;
-       if (Image.Picture.Width > sboxImage.ClientWidth) or (Image.Picture.Height > sboxImage.ClientHeight) then
-         begin
-           Image.AutoSize := False;
-           Image.SetBounds(0, 0, sboxImage.ClientWidth, sboxImage.ClientHeight);
-           sboxImage.HorzScrollBar.Visible:= False;
-           sboxImage.VertScrollBar.Visible:= False;
-           // show image resolution and scale
-           if Image.Picture.Width < Image.Width then
-             begin
-             iScale:= 100*(Image.Picture.Width * Image.ClientHeight) div (Image.Picture.Width* Image.Picture.Height);
-             sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Height);
-             end;
-           if Image.Picture.Height < Image.Height then
-             begin
-              iScale:= 100*(Image.ClientWidth * Image.Picture.Height) div (Image.Picture.Width* Image.Picture.Height);
-              sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Picture.Height);
-             end;
-           if (Image.Picture.Width >= Image.Width) and  (Image.Picture.Height >= Image.Height) then
-             begin
-              iScale:= 100*(Image.Width * Image.Height) div (Image.Picture.Width* Image.Picture.Height);
-              sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Height);
-             end;
-           Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
-           sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-           Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
-         end
-       else
-         begin
-           Image.Left:= (sboxImage.ClientWidth-Image.Picture.Width) div 2;        //move image to center
-           Image.Top:=  (sboxImage.ClientHeight-Image.Picture.Height) div 2;
-           sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-           Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
-           Status.Panels[sbpFullResolution].Text:= Status.Panels[2].Text;
-         end;
-     end
+  // Place and resize image
+  if (miStretch.Checked) then
+  begin
+    dScaleFactor:= Min(sboxImage.ClientWidth / Image.Picture.Width ,sboxImage.ClientHeight / Image.Picture.Height);
+    dScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (dScaleFactor > 1.0), 1.0, dScaleFactor);
+  end;
+
+  iWidth:= Trunc(Image.Picture.Width * dScaleFactor);
+  iHeight:= Trunc(Image.Picture.Height * dScaleFactor);
+  if (miCenter.Checked) then
+  begin
+    iLeft:= (sboxImage.ClientWidth - iWidth) div 2;
+    iTop:= (sboxImage.ClientHeight - iHeight) div 2;
+  end
   else
-    begin
-      // show image resolution and scale
-      Image.Left:= 0;
-      Image.Top:= 0;
-      Image.Stretch:= False;
-      Image.AutoSize:= True;
-      sboxImage.HorzScrollBar.Visible:= Image.Width > sboxImage.ClientWidth;
-      sboxImage.VertScrollBar.Visible:= Image.Height > sboxImage.ClientHeight;
-      if (Image.Picture.Width <> 0) and (Image.Picture.Height <> 0) then
-        iScale:= 100 * (Image.Width * Image.Height) div (Image.Picture.Width * Image.Picture.Height);
-      sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Height);
-      Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
-      sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-      Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
-    end;
+  begin
+    iLeft:= 0;
+    iTop:= 0;
+  end;
+  Image.SetBounds(Max(iLeft,0), Max(iTop,0), iWidth , iHeight);
+
+  // Update scrollbars
+  // TODO: fix - calculations are correct but it seems like scroll bars
+  // are being updated only after a second call to Form.Resize
+  if (iLeft < 0) then
+    sboxImage.HorzScrollBar.Position:= -iLeft;
+  if (iTop < 0) then
+    sboxImage.VertScrollBar.Position:= -iTop;
+
+  // Update status bar
+  Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [iWidth,iHeight,  100.0 * dScaleFactor]);
+  Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [Image.Picture.Width,Image.Picture.Height, 100.0]);
 end;
 
 // Try to rotate image
@@ -2171,18 +2162,17 @@ end;
 
 procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);
 var
-  I, ShowFlags: Integer;
+  I : Integer;
 begin
   I:= iActiveFile + 1;
   if I >= FileList.Count then
     I:= 0;
 
   if bPlugin then
-    begin
-      ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], ShowFlags) <> LISTPLUGIN_ERROR then
-        Exit;
-    end;
+  begin
+    if (WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+    Exit;
+  end;
   ExitPluginMode;
   if pnlPreview.Visible then
     begin
@@ -2199,18 +2189,18 @@ end;
 
 procedure TfrmViewer.cm_LoadPrevFile(const Params: array of string);
 var
-  I, ShowFlags: Integer;
+  I: Integer;
 begin
   I:= iActiveFile - 1;
   if I < 0 then
     I:= FileList.Count - 1;
 
   if bPlugin then
-    begin
-      ShowFlags:= IfThen(miStretch.Checked, lcp_fittowindow, 0);
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], ShowFlags) <> LISTPLUGIN_ERROR then
-        Exit;
-    end;
+  begin
+    if (WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+      Exit;
+
+  end;
   if pnlPreview.Visible then
     begin
       if DrawPreview.Col = 0  then

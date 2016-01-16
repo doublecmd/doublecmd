@@ -2405,6 +2405,14 @@ inherited frmViewer: TfrmViewer
         Caption = 'Stretch'
         OnClick = miStretchClick
       end
+      object miStretchOnlyLarge: TMenuItem
+        Caption = 'Stretch only large'
+        OnClick = miStretchOnlyLargeClick
+      end
+      object miCenter: TMenuItem
+        Caption = 'Center'
+        OnClick = miCenterClick
+      end
       object miRotate: TMenuItem
         Caption = 'Rotate'
         object mi90: TMenuItem
