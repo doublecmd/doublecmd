@@ -66,7 +66,8 @@ end;
 
 procedure TfrmButtonForm.btnOKClick(Sender: TObject);
 begin
-  FQueueIdentifier := FreeOperationsQueueId;
+  if FQueueIdentifier <> ModalQueueId then
+    FQueueIdentifier := FreeOperationsQueueId;
 end;
 
 procedure TfrmButtonForm.mnuNewQueueClick(Sender: TObject);
