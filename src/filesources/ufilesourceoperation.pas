@@ -113,7 +113,7 @@ type
     {en
        This event is used to wait for start and wait for unpausing.
     }
-    FPauseEvent: PRTLEvent;
+    FPauseEvent: TSimpleEvent;
 
     {en
        This event is used to wait for an available connection to TFileSource.
@@ -463,7 +463,7 @@ begin
   FState := fsosNotStarted;
   FDesiredState := fsosRunning;  // set for auto-start unless prevented by PreventStart
   FOperationResult := fsorFinished;
-  FPauseEvent := RTLEventCreate;
+  FPauseEvent := TSimpleEvent.Create;
   FConnectionAvailableEvent := TSimpleEvent.Create;
   FStateLock := TCriticalSection.Create;
   FEventsLock := TCriticalSection.Create;
@@ -510,14 +510,14 @@ begin
 
   // Just to be sure - set all events when we're destroying the object
   // in case the thread is still waiting (this should normally not happen).
-  RTLeventSetEvent(FPauseEvent);
+  FPauseEvent.SetEvent;
   FConnectionAvailableEvent.SetEvent;
 {$IFNDEF fsoSynchronizeEvents}
   RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
 {$ENDIF}
   RTLeventSetEvent(FUserInterfaceAssignedEvent);
 
-  RTLeventdestroy(FPauseEvent);
+  FreeAndNil(FPauseEvent);
   FreeAndNil(FConnectionAvailableEvent);
 {$IFNDEF fsoSynchronizeEvents}
   RTLeventdestroy(FNoEventsListenersCallsScheduledEvent);
@@ -691,16 +691,22 @@ begin
   try
     if not (GetDesiredState in DesiredStates) then
       Exit;
-    RTLeventResetEvent(FPauseEvent);
+    FPauseEvent.ResetEvent;
   finally
     FStateLock.Release;
   end;
-  RTLeventWaitFor(FPauseEvent); // wait indefinitely
+  if GetCurrentThreadId <> MainThreadID then
+    FPauseEvent.WaitFor(INFINITE) // wait indefinitely
+  else
+  begin
+    while FPauseEvent.WaitFor(100) <> wrSignaled do
+      WidgetSet.AppProcessMessages;
+  end;
 end;
 
 procedure TFileSourceOperation.DoUnPause;
 begin
-  RTLeventSetEvent(FPauseEvent);
+  FPauseEvent.SetEvent;
 end;
 
 function TFileSourceOperation.DoWaitForConnection: TWaitResult;
