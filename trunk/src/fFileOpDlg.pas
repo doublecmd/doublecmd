@@ -375,6 +375,8 @@ function TfrmFileOp.ShowModal: Integer;
 begin
   BorderStyle:= bsDialog;
   ShowInTaskBar:= stNever;
+  btnViewOperations.Visible:= False;
+  btnMinimizeToPanel.Visible:= False;
   Result:= inherited ShowModal;
 end;
 
