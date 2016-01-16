@@ -766,8 +766,11 @@ end;
 
 function TFileSourceOperation.AppProcessMessages(CheckState: Boolean): Boolean;
 begin
-  if GetCurrentThreadId = MainThreadID then
+  if GetCurrentThreadId <> MainThreadID then
   begin
+    if CheckState then CheckOperationState;
+  end
+  else begin
     WidgetSet.AppProcessMessages;
     if CheckState then
     try
