@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -351,7 +351,7 @@ begin
          SetActiveWindow(ActiveWindow);
         // Hide window when focus already changed back
         // to parent window to avoid blinking
-        ShowWindow(Handle, SW_HIDE);
+        LCLIntf.ShowWindow(Handle, SW_HIDE);
         Visible := False;
       end;
     end;
