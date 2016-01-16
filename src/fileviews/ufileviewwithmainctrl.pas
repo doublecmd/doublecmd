@@ -852,22 +852,19 @@ var
   sHint: String;
   AFile: TDisplayFile;
 begin
-  repeat
-    if not gShowToolTipMode then Break;
-
-    if not IsFileIndexInRange(FHintFileIndex) then Break;
-
-    AFile := FFiles[FHintFileIndex];
-    if AFile.FSFile.Name = '..' then Break;
-
-    HintInfo^.HintStr:= AFile.FSFile.Name;
-    sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
-    if (sHint <> EmptyStr) then begin
-      HintInfo^.HintStr:= HintInfo^.HintStr + LineEnding + sHint;
-    end;
-    Exit;
-  until False;
   HintInfo^.HintStr:= EmptyStr;
+
+  if not gShowToolTipMode then Exit;
+  if not IsFileIndexInRange(FHintFileIndex) then Exit;
+
+  AFile := FFiles[FHintFileIndex];
+  if AFile.FSFile.Name = '..' then Exit;
+
+  HintInfo^.HintStr:= AFile.FSFile.Name;
+  sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
+  if (sHint <> EmptyStr) then begin
+    HintInfo^.HintStr:= HintInfo^.HintStr + LineEnding + sHint;
+  end;
 end;
 
 procedure TFileViewWithMainCtrl.MainControlUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
