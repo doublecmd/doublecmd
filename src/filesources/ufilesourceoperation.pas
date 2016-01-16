@@ -336,7 +336,7 @@ type
     }
     procedure CheckOperationState;
 
-    procedure AppProcessMessages;
+    function AppProcessMessages(CheckState: Boolean = False): Boolean;
 
     class procedure RaiseAbortOperation;
 
@@ -764,10 +764,20 @@ begin
   end;
 end;
 
-procedure TFileSourceOperation.AppProcessMessages;
+function TFileSourceOperation.AppProcessMessages(CheckState: Boolean): Boolean;
 begin
   if GetCurrentThreadId = MainThreadID then
+  begin
     WidgetSet.AppProcessMessages;
+    if CheckState then
+    try
+      CheckOperationState;
+    except
+      on E: EFileSourceOperationAborting do
+        Exit(False);
+    end;
+  end;
+  Result:= True;
 end;
 
 procedure TFileSourceOperation.UpdateStartTime(NewStartTime: TDateTime);

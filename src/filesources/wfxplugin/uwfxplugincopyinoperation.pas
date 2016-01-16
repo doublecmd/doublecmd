@@ -94,9 +94,8 @@ begin
     UpdateStatistics(FStatistics);
   end;
 
-  AppProcessMessages;
-
-  CheckOperationState;
+  if not AppProcessMessages(True) then
+    Exit(1);
 end;
 
 constructor TWfxPluginCopyInOperation.Create(aSourceFileSource: IFileSource;

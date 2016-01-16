@@ -78,9 +78,8 @@ begin
     UpdateStatistics(FStatistics);
   end;
 
-  AppProcessMessages;
-
-  CheckOperationState;
+  if not AppProcessMessages(True) then
+    Exit(1);
 end;
 
 constructor TWfxPluginMoveOperation.Create(aFileSource: IFileSource;
