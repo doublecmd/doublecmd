@@ -3646,10 +3646,6 @@ msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: tfrmmodview.btnproportion.caption
-msgid "Pr"
-msgstr "比"
-
 #: tfrmmodview.caption
 msgctxt "TFRMMODVIEW.CAPTION"
 msgid "New Size"
@@ -12163,10 +12159,24 @@ msgstr "網路"
 msgid "Internal Viewer of Double Commander."
 msgstr "Double Commander 內部檢視器"
 
+#: ulng.rsviewbadquality
+msgid "Bad Quality"
+msgstr ""
+
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "正在編碼"
+
+#: ulng.rsviewimagetype
+msgid "Image Type"
+msgstr ""
+
+#: ulng.rsviewnewsize
+#, fuzzy
+msgctxt "ulng.rsviewnewsize"
+msgid "New Size"
+msgstr "新的大小"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"

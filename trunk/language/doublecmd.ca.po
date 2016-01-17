@@ -3729,10 +3729,6 @@ msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
 msgid "..."
 msgstr ""
 
-#: tfrmmodview.btnproportion.caption
-msgid "Pr"
-msgstr ""
-
 #: tfrmmodview.caption
 msgctxt "tfrmmodview.caption"
 msgid "New Size"
@@ -12176,10 +12172,24 @@ msgstr "Xarxa"
 msgid "Internal Viewer of Double Commander."
 msgstr "Visualitzador intern de Double Commander."
 
+#: ulng.rsviewbadquality
+msgid "Bad Quality"
+msgstr ""
+
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "Codificant"
+
+#: ulng.rsviewimagetype
+msgid "Image Type"
+msgstr ""
+
+#: ulng.rsviewnewsize
+#, fuzzy
+msgctxt "ulng.rsviewnewsize"
+msgid "New Size"
+msgstr "Nova Mida"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"

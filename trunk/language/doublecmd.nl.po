@@ -3697,10 +3697,6 @@ msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: tfrmmodview.btnproportion.caption
-msgid "Pr"
-msgstr ""
-
 #: tfrmmodview.caption
 msgctxt "TFRMMODVIEW.CAPTION"
 msgid "New Size"
@@ -12109,10 +12105,23 @@ msgstr "Netwerk"
 msgid "Internal Viewer of Double Commander."
 msgstr "Interne Viewer van Double Commander"
 
+#: ulng.rsviewbadquality
+msgid "Bad Quality"
+msgstr ""
+
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "Encodering"
+
+#: ulng.rsviewimagetype
+msgid "Image Type"
+msgstr ""
+
+#: ulng.rsviewnewsize
+msgctxt "ulng.rsviewnewsize"
+msgid "New Size"
+msgstr ""
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"

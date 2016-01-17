@@ -3767,10 +3767,6 @@ msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: tfrmmodview.btnproportion.caption
-msgid "Pr"
-msgstr ""
-
 #: tfrmmodview.caption
 msgctxt "tfrmmodview.caption"
 msgid "New Size"
@@ -12242,10 +12238,24 @@ msgstr "Sieť"
 msgid "Internal Viewer of Double Commander."
 msgstr "Interný prezerač Double Commandera."
 
+#: ulng.rsviewbadquality
+msgid "Bad Quality"
+msgstr ""
+
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "Kódovanie"
+
+#: ulng.rsviewimagetype
+msgid "Image Type"
+msgstr ""
+
+#: ulng.rsviewnewsize
+#, fuzzy
+msgctxt "ulng.rsviewnewsize"
+msgid "New Size"
+msgstr "Nová veľkosť"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
