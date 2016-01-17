@@ -2432,6 +2432,10 @@ msgctxt "tfrmmain.actclosealltabs.caption"
 msgid "Close &All Tabs"
 msgstr "Alle Reiter ent&fernen"
 
+#: tfrmmain.actcloseduplicatetabs.caption
+msgid "Close Duplicate Tabs"
+msgstr ""
+
 #: tfrmmain.actclosetab.caption
 #, fuzzy
 #| msgid "&Remove Tab"

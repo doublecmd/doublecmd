@@ -2243,6 +2243,10 @@ msgctxt "tfrmmain.actclosealltabs.caption"
 msgid "Close &All Tabs"
 msgstr "Закрыть &все вкладки"
 
+#: tfrmmain.actcloseduplicatetabs.caption
+msgid "Close Duplicate Tabs"
+msgstr "Закрыть &дубликаты вкладок"
+
 #: tfrmmain.actclosetab.caption
 msgctxt "tfrmmain.actclosetab.caption"
 msgid "&Close Tab"

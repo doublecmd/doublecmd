@@ -2394,6 +2394,10 @@ msgctxt "tfrmmain.actclosealltabs.caption"
 msgid "Close &All Tabs"
 msgstr "Премахване на вси&чки подпрозорци"
 
+#: tfrmmain.actcloseduplicatetabs.caption
+msgid "Close Duplicate Tabs"
+msgstr ""
+
 #: tfrmmain.actclosetab.caption
 #, fuzzy
 #| msgid "&Remove Tab"

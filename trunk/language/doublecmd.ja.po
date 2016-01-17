@@ -2241,6 +2241,10 @@ msgctxt "TFRMMAIN.ACTCLOSEALLTABS.CAPTION"
 msgid "Close &All Tabs"
 msgstr "すべてのタブを閉じる(&A)"
 
+#: tfrmmain.actcloseduplicatetabs.caption
+msgid "Close Duplicate Tabs"
+msgstr ""
+
 #: tfrmmain.actclosetab.caption
 msgctxt "TFRMMAIN.ACTCLOSETAB.CAPTION"
 msgid "&Close Tab"

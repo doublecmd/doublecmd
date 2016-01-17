@@ -2445,6 +2445,10 @@ msgctxt "tfrmmain.actclosealltabs.caption"
 msgid "Close &All Tabs"
 msgstr "모든 탭 제거(&A)"
 
+#: tfrmmain.actcloseduplicatetabs.caption
+msgid "Close Duplicate Tabs"
+msgstr ""
+
 #: tfrmmain.actclosetab.caption
 #, fuzzy
 #| msgid "&Remove Tab"
