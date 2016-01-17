@@ -1,4 +1,4 @@
-inherited frmModView: TfrmModView
+object frmModView: TfrmModView
   Left = 395
   Height = 319
   Top = 104
@@ -11,10 +11,12 @@ inherited frmModView: TfrmModView
   ClientHeight = 319
   ClientWidth = 488
   OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   Position = poOwnerFormCenter
-  object bplButtons: TButtonPanel[0]
+  LCLVersion = '1.6.0.3'
+  object bplButtons: TButtonPanel
     Left = 10
     Height = 34
     Top = 279
@@ -32,7 +34,7 @@ inherited frmModView: TfrmModView
     TabOrder = 0
     ShowButtons = [pbOK, pbCancel]
   end
-  object pnlMain: TPanel[1]
+  object pnlMain: TPanel
     Left = 10
     Height = 267
     Top = 6
@@ -69,9 +71,9 @@ inherited frmModView: TfrmModView
       end
       object lblQuality: TLabel
         Left = 32
-        Height = 16
+        Height = 15
         Top = 47
-        Width = 142
+        Width = 141
         Caption = 'Quality of compress to Jpg'
         Enabled = False
         ParentColor = False
@@ -152,10 +154,10 @@ inherited frmModView: TfrmModView
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = pnlCopyMoveFile
         AnchorSideRight.Control = btnPath1
-        Left = 34
+        Left = 38
         Height = 23
         Top = 5
-        Width = 402
+        Width = 398
         Alignment = taRightJustify
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 5
@@ -169,10 +171,10 @@ inherited frmModView: TfrmModView
         AnchorSideRight.Control = tePath1
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 34
+        Left = 38
         Height = 23
         Top = 34
-        Width = 402
+        Width = 398
         Alignment = taRightJustify
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
@@ -184,10 +186,10 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = tePath1
         AnchorSideRight.Side = asrBottom
-        Left = 34
+        Left = 38
         Height = 23
         Top = 63
-        Width = 402
+        Width = 398
         Alignment = taRightJustify
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
@@ -206,7 +208,6 @@ inherited frmModView: TfrmModView
         Anchors = [akTop, akRight, akBottom]
         BorderSpacing.Right = 5
         Caption = '...'
-        NumGlyphs = 0
         OnClick = btnPathClick
       end
       object tePath4: TEdit
@@ -215,10 +216,10 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = tePath1
         AnchorSideRight.Side = asrBottom
-        Left = 34
+        Left = 38
         Height = 23
         Top = 92
-        Width = 402
+        Width = 398
         Alignment = taRightJustify
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
@@ -231,10 +232,10 @@ inherited frmModView: TfrmModView
         AnchorSideRight.Control = tePath1
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 34
+        Left = 38
         Height = 23
         Top = 121
-        Width = 402
+        Width = 398
         Alignment = taRightJustify
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
@@ -245,7 +246,7 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = tePath1
         AnchorSideBottom.Control = tePath1
         AnchorSideBottom.Side = asrBottom
-        Left = 14
+        Left = 18
         Height = 23
         Top = 5
         Width = 20
@@ -260,7 +261,7 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = tePath2
         AnchorSideBottom.Control = tePath2
         AnchorSideBottom.Side = asrBottom
-        Left = 14
+        Left = 18
         Height = 23
         Top = 34
         Width = 20
@@ -272,7 +273,7 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = tePath3
         AnchorSideBottom.Control = tePath3
         AnchorSideBottom.Side = asrBottom
-        Left = 14
+        Left = 18
         Height = 23
         Top = 63
         Width = 20
@@ -284,7 +285,7 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = tePath4
         AnchorSideBottom.Control = tePath4
         AnchorSideBottom.Side = asrBottom
-        Left = 14
+        Left = 18
         Height = 23
         Top = 92
         Width = 20
@@ -296,7 +297,7 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = tePath5
         AnchorSideBottom.Control = tePath5
         AnchorSideBottom.Side = asrBottom
-        Left = 14
+        Left = 18
         Height = 23
         Top = 121
         Width = 20
@@ -317,7 +318,6 @@ inherited frmModView: TfrmModView
         Width = 21
         Anchors = [akTop, akLeft, akRight, akBottom]
         Caption = '...'
-        NumGlyphs = 0
         OnClick = btnPathClick
       end
       object btnPath3: TSpeedButton
@@ -333,7 +333,6 @@ inherited frmModView: TfrmModView
         Width = 21
         Anchors = [akTop, akLeft, akRight, akBottom]
         Caption = '...'
-        NumGlyphs = 0
         OnClick = btnPathClick
       end
       object btnPath4: TSpeedButton
@@ -349,7 +348,6 @@ inherited frmModView: TfrmModView
         Width = 21
         Anchors = [akTop, akLeft, akRight, akBottom]
         Caption = '...'
-        NumGlyphs = 0
         OnClick = btnPathClick
       end
       object btnPath5: TSpeedButton
@@ -365,17 +363,16 @@ inherited frmModView: TfrmModView
         Width = 21
         Anchors = [akTop, akLeft, akRight, akBottom]
         Caption = '...'
-        NumGlyphs = 0
         OnClick = btnPathClick
       end
       object lblPath1: TLabel
         AnchorSideTop.Control = rbPath1
         AnchorSideBottom.Control = rbPath1
         AnchorSideBottom.Side = asrBottom
-        Left = 1
+        Left = 5
         Height = 20
         Top = 6
-        Width = 7
+        Width = 6
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Left = 5
         BorderSpacing.Top = 1
@@ -387,10 +384,10 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = rbPath2
         AnchorSideBottom.Control = rbPath2
         AnchorSideBottom.Side = asrBottom
-        Left = 1
+        Left = 5
         Height = 20
         Top = 35
-        Width = 7
+        Width = 6
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Top = 1
         BorderSpacing.Bottom = 2
@@ -401,10 +398,10 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = rbPath3
         AnchorSideBottom.Control = rbPath3
         AnchorSideBottom.Side = asrBottom
-        Left = 1
+        Left = 5
         Height = 20
         Top = 64
-        Width = 7
+        Width = 6
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Top = 1
         BorderSpacing.Bottom = 2
@@ -415,10 +412,10 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = rbPath4
         AnchorSideBottom.Control = rbPath4
         AnchorSideBottom.Side = asrBottom
-        Left = 1
+        Left = 5
         Height = 20
         Top = 93
-        Width = 7
+        Width = 6
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Top = 1
         BorderSpacing.Bottom = 2
@@ -429,10 +426,10 @@ inherited frmModView: TfrmModView
         AnchorSideTop.Control = rbPath5
         AnchorSideBottom.Control = rbPath5
         AnchorSideBottom.Side = asrBottom
-        Left = 1
+        Left = 5
         Height = 20
         Top = 122
-        Width = 7
+        Width = 6
         Alignment = taCenter
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Top = 1
@@ -457,29 +454,29 @@ inherited frmModView: TfrmModView
       object lblHeight: TLabel
         AnchorSideTop.Control = teHeight
         AnchorSideTop.Side = asrCenter
-        Left = 4
-        Height = 16
+        Left = 6
+        Height = 15
         Top = 31
-        Width = 43
+        Width = 42
         Caption = 'Height :'
         ParentColor = False
       end
       object lblWidth: TLabel
         AnchorSideTop.Control = teWidth
         AnchorSideTop.Side = asrCenter
-        Left = 4
-        Height = 16
+        Left = 6
+        Height = 15
         Top = 4
-        Width = 39
+        Width = 38
         Caption = 'Width :'
         ParentColor = False
       end
       object teWidth: TEdit
         AnchorSideLeft.Control = lblWidth
         AnchorSideLeft.Side = asrBottom
-        Left = 53
+        Left = 54
         Height = 23
-        Top = 1
+        Top = 0
         Width = 82
         BorderSpacing.Left = 10
         OnKeyPress = teWidthKeyPress
@@ -491,9 +488,9 @@ inherited frmModView: TfrmModView
         AnchorSideLeft.Control = teWidth
         AnchorSideTop.Control = teWidth
         AnchorSideTop.Side = asrBottom
-        Left = 53
+        Left = 54
         Height = 23
-        Top = 28
+        Top = 27
         Width = 82
         BorderSpacing.Top = 4
         OnKeyPress = teHeightKeyPress
@@ -504,19 +501,83 @@ inherited frmModView: TfrmModView
       object btnProportion: TSpeedButton
         AnchorSideLeft.Control = teWidth
         AnchorSideLeft.Side = asrBottom
-        Left = 141
+        Left = 142
         Height = 32
-        Top = 9
+        Top = 8
         Width = 26
+        AllowAllUp = True
         BorderSpacing.Left = 6
-        Caption = 'Pr'
-        NumGlyphs = 0
+        Down = True
+        GroupIndex = 1
         OnClick = btnProportionClick
       end
     end
   end
-  object sddCopyMoveFile: TSelectDirectoryDialog[2]
+  object sddCopyMoveFile: TSelectDirectoryDialog
     left = 288
     top = 40
+  end
+  object ImageList: TImageList
+    Height = 24
+    Width = 9
+    left = 288
+    top = 112
+    Bitmap = {
+      4C69020000000900000018000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000535755565357
+      55FF535755FF535755FF535755FF535755FF5357555600000000000000005357
+      55FF8E8D8DFFE9E8E8FFE9E8E8FFE9E8E8FF908E8EFF535755FF000000000000
+      0000535755FFE9E8E8FF535755FF535755FF535755FFE9E8E8FF535755FF0000
+      000000000000535755FFE9E8E8FF535755FF53575500535755FFE9E8E8FF5357
+      55FF0000000000000000535755FFE9E8E8FF535755FF00000000535755FFE9E8
+      E8FF535755FF0000000000000000535755FFE9E8E8FF535755FF000000005357
+      55FFE9E8E8FF535755FF0000000000000000535755FFE9E8E8FF535755FF858A
+      88FF535755FFE9E8E8FF535755FF0000000000000000535755FF918F8FFF3634
+      2EFFECEEEEFF858A88FF918F8FFF535755FF0000000000000000535755445357
+      55FF36342EFFECEEEEFF858A88FF535755FF5357555600000000000000000000
+      00000000000036342EFFECEEEEFF858A88FF0000000000000000000000000000
+      0000000000000000000036342EFFECEEEEFF858A88FF00000000000000000000
+      00000000000053575544535755FF36342EFFECEEEEFF858A88FF535755FF5357
+      55440000000000000000535755FF999898FF36342EFFECEEEEFF858A88FF9795
+      95FF535755FF0000000000000000535755FFE9E8E8FF535755FF36342EFF5357
+      55FFE9E8E8FF535755FF0000000000000000535755FFE9E8E8FF535755FF0000
+      0000535755FFE9E8E8FF535755FF0000000000000000535755FFE9E8E8FF5357
+      55FF00000000535755FFE9E8E8FF535755FF0000000000000000535755FFE9E8
+      E8FF535755FF00000000535755FFE9E8E8FF535755FF00000000000000005357
+      55FFE9E8E8FF535755FF535755FF535755FFE9E8E8FF535755FF000000000000
+      0000535755FF9E9D9DFFE9E8E8FFE9E8E8FFE9E8E8FFBAB9B9FF535755FF0000
+      00005357550053575556535755FF535755FF535755FF535755FF535755FF5357
+      5556000000000000000000000000000000000000000000000000000000000000
+      0000535755000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000053575556535755FF535755FF5357
+      55FF535755FF535755FF535755560000000000000000535755FF8E8D8DFFE9E8
+      E8FFE9E8E8FFE9E8E8FF908E8EFF535755FF0000000000000000535755FFE9E8
+      E8FF535755FF535755FF535755FFE9E8E8FF535755FF00000000000000005357
+      55FFE9E8E8FF535755FFE9E8E800535755FFE9E8E8FF535755FF000000000000
+      0000535755FFE9E8E8FF535755FF53575500535755FFE9E8E8FF535755FF0000
+      000000000000535755FFE9E8E8FF535755FF53575500535755FFE9E8E8FF5357
+      55FF0000000000000000535755FFE9E8E8FF535755FF858A88FF535755FFE9E8
+      E8FF535755FF0000000000000000535755FF918F8FFF36342EFFECEEEEFF858A
+      88FF918F8FFF535755FF000000000000000053575544535755FF36342EFFECEE
+      EEFF858A88FF535755FF53575556000000000000000053575500918F8F003634
+      2EFFECEEEEFF858A88FF918F8F00535755000000000000000000535755005357
+      550036342E00ECEEEE00858A8800535755005357550000000000000000000000
+      00000000000036342E00ECEEEE00858A88000000000000000000000000000000
+      0000000000000000000036342E00ECEEEE00858A880000000000000000000000
+      000000000000535755005357550036342E00ECEEEE00858A8800535755005357
+      55000000000000000000535755009998980036342EFFECEEEEFF858A88FF9795
+      950053575500000000000000000053575544535755FF36342EFFECEEEEFF858A
+      88FF535755FF535755440000000000000000535755FF999898FF36342EFFECEE
+      EEFF858A88FF979595FF535755FF0000000000000000535755FFE9E8E8FF5357
+      55FF36342EFF535755FFE9E8E8FF535755FF0000000000000000535755FFE9E8
+      E8FF535755FF00000000535755FFE9E8E8FF535755FF00000000000000005357
+      55FFE9E8E8FF535755FF53575500535755FFE9E8E8FF535755FF000000000000
+      0000535755FFE9E8E8FF535755FFE9E8E800535755FFE9E8E8FF535755FF0000
+      000053575500535755FFE9E8E8FF535755FF535755FF535755FFE9E8E8FF5357
+      55FF0000000000000000535755FF9E9D9DFFE9E8E8FFE9E8E8FFE9E8E8FFBAB9
+      B9FF535755FF000000000000000053575556535755FF535755FF535755FF5357
+      55FF535755FF5357555600000000
+    }
   end
 end

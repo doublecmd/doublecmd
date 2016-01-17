@@ -824,13 +824,13 @@ begin
     FModSizeDialog.pnlSize.Visible:=false;
     FModSizeDialog.pnlCopyMoveFile.Visible :=false;
     FModSizeDialog.pnlQuality.Visible:=true;
-    FModSizeDialog.Caption:='Type of Image';
+    FModSizeDialog.Caption:= rsViewImageType;
     if FModSizeDialog.ShowModal = mrOk then
     begin
       if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
         SaveImageAs(FModSizeDialog.sExt,false,StrToInt(FModSizeDialog.teQuality.Text))
       else
-        msgError('Bad Quality');
+        msgError(rsViewBadQuality);
     end
   finally
     FreeAndNil(FModSizeDialog);
@@ -1518,9 +1518,9 @@ begin
     FModSizeDialog.pnlSize.Visible:= False;
     FModSizeDialog.pnlCopyMoveFile.Visible:= True;
     if Sender = btnMoveFile then
-      FModSizeDialog.Caption:= 'Move File'
+      FModSizeDialog.Caption:= rsDlgMv
     else
-      FModSizeDialog.Caption:= 'Copy File' ;
+      FModSizeDialog.Caption:= rsDlgCp;
     if FModSizeDialog.ShowModal = mrOk then
     begin
       if FModSizeDialog.Path = '' then
@@ -1645,7 +1645,7 @@ begin
     FModSizeDialog.pnlSize.Visible:=true;
     FModSizeDialog.teHeight.Text:= IntToStr(Image.Picture.Bitmap.Height);
     FModSizeDialog.teWidth.Text := IntToStr(Image.Picture.Bitmap.Width);
-    FModSizeDialog.Caption:= 'New Size';
+    FModSizeDialog.Caption:= rsViewNewSize;
     if FModSizeDialog.ShowModal = mrOk then
     begin
       Res(StrToInt(FModSizeDialog.teWidth.Text), StrToInt(FModSizeDialog.teHeight.Text));

@@ -20,6 +20,7 @@ type
     btnPath5: TSpeedButton;
     btnProportion: TSpeedButton;
     bplButtons: TButtonPanel;
+    ImageList: TImageList;
     lblHeight: TLabel;
     lblPath1: TLabel;
     lblPath2: TLabel;
@@ -57,6 +58,7 @@ type
     procedure btnPathClick(Sender: TObject);
     procedure btnProportionClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
     procedure rbBmpChange(Sender: TObject);
@@ -69,8 +71,7 @@ type
     procedure teHeightKeyPress(Sender: TObject; var Key: char);
     procedure teHeightKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure teQualityKeyPress(Sender: TObject; var Key: char);
-    procedure teQualityKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
-      );
+    procedure teQualityKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure teWidthKeyPress(Sender: TObject; var Key: char);
     procedure teWidthKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
@@ -90,7 +91,11 @@ uses
 
 procedure TfrmModView.btnProportionClick(Sender: TObject);
 begin
-  btnProportion.ShowCaption:= not (btnProportion.ShowCaption);
+  if btnProportion.Down then
+    ImageList.GetBitmap(0, btnProportion.Glyph)
+  else begin
+    ImageList.GetBitmap(1, btnProportion.Glyph);
+  end;
 end;
 
 procedure TfrmModView.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -100,6 +105,11 @@ begin
       gCopyMovePath3 := tePath3.Text;
       gCopyMovePath4 := tePath4.Text;
       gCopyMovePath5 := tePath5.Text;
+end;
+
+procedure TfrmModView.FormCreate(Sender: TObject);
+begin
+  ImageList.GetBitmap(0, btnProportion.Glyph);
 end;
 
 procedure TfrmModView.FormKeyPress(Sender: TObject; var Key: char);
@@ -274,10 +284,10 @@ end;
 procedure TfrmModView.teHeightKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if btnProportion.ShowCaption then
-   begin
-     teWidth.Text := IntToStr(round(StrToInt(teHeight.Text)*prX/prY));
-   end;
+  if btnProportion.Down then
+  begin
+    teWidth.Text := IntToStr(Round(StrToInt(teHeight.Text) * prX / prY));
+  end;
 end;
 
 procedure TfrmModView.teQualityKeyPress(Sender: TObject; var Key: char);
@@ -300,10 +310,10 @@ end;
 procedure TfrmModView.teWidthKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if btnProportion.ShowCaption then
-   begin
-     teHeight.Text := IntToStr(round(StrToInt(teWidth.Text)*prY/prX));
-   end;
+  if btnProportion.Down then
+  begin
+    teHeight.Text := IntToStr(Round(StrToInt(teWidth.Text) * prY / prX));
+  end;
 end;
 
 end.
