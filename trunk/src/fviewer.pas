@@ -255,6 +255,7 @@ type
     FThumbnailManager: TThumbnailManager;
     FBitmapList: TBitmapList;
     FCommands: TFormCommands;
+    FZoomFactor: Double;
 
     //---------------------
     WlxPlugins:TWLXModuleList;
@@ -369,6 +370,7 @@ begin
   inherited Create(TheOwner);
   FFileSource := aFileSource;
   FLastSearchPos := -1;
+  FZoomFactor := 1.0;
   FThumbnailManager:= nil;
   if not bQuickView then Menu:= MainMenu;
   FBitmapList:= TBitmapList.Create(True);
@@ -1157,18 +1159,14 @@ end;
 
 procedure TfrmViewer.miZoomClick(Sender: TObject);
 begin
-  miStretch.Checked := false;
-  if (sender=miZoomIn) or (sender=btnZoomIn)
-  then
-    begin
-      Image.Width:= Image.Width + round(0.118*Image.Picture.Width);
-      Image.Height:= Image.Height + round(0.118*Image.Picture.Height);
-    end
-  else
-    begin
-     Image.Width:= Image.Width-Round(0.1333*Image.Width);
-     Image.Height:= Image.Height-Round(0.133*Image.Height);
-    end;
+  miStretch.Checked := False;
+  FZoomFactor := Min(Image.ClientWidth / Image.Picture.Width,
+                     Image.ClientHeight / Image.Picture.Height);
+  if (Sender = miZoomIn) or (Sender = btnZoomIn) then
+    FZoomFactor := FZoomFactor * 1.1
+  else begin
+    FZoomFactor := FZoomFactor / 1.1;
+  end;
   AdjustImageSize;
 end;
 
@@ -1382,6 +1380,7 @@ end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
 begin
+  FZoomFactor:= 1.0;
   miStretch.Checked:= not miStretch.Checked;
   UpdateImagePlacement;
 end;
@@ -1746,9 +1745,11 @@ procedure TfrmViewer.AdjustImageSize;
 const
   fmtImageInfo = '%dx%d (%.0f %%)';
 var
-  dScaleFactor : Double = 1.0;
+  dScaleFactor : Double;
   iLeft, iTop, iWidth, iHeight : Integer;
 begin
+  dScaleFactor:= FZoomFactor;
+
   // Place and resize image
   if (miStretch.Checked) then
   begin
@@ -1891,6 +1892,7 @@ var
   fsFileStream: TFileStreamEx = nil;
   gifHeader: array[0..5] of AnsiChar;
 begin
+  FZoomFactor:= 1.0;
   sExt:= ExtractOnlyFileExt(sFilename);
   if SameText(sExt, 'gif') then
   begin
