@@ -2397,6 +2397,10 @@ msgstr "清除記錄視窗"
 msgid "Close &All Tabs"
 msgstr "關閉所有分頁 (&A)"
 
+#: tfrmmain.actcloseduplicatetabs.caption
+msgid "Close Duplicate Tabs"
+msgstr ""
+
 #: tfrmmain.actclosetab.caption
 msgid "&Close Tab"
 msgstr "關閉分頁 (&C)"

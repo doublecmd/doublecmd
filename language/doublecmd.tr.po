@@ -2393,6 +2393,10 @@ msgstr "Günlüğü Temizle penceresi"
 msgid "Close &All Tabs"
 msgstr ""
 
+#: tfrmmain.actcloseduplicatetabs.caption
+msgid "Close Duplicate Tabs"
+msgstr ""
+
 #: tfrmmain.actclosetab.caption
 msgid "&Close Tab"
 msgstr ""
