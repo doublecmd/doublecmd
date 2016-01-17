@@ -97,6 +97,7 @@ type
     actCopyPathOfFilesToClip: TAction;
     actCopyPathNoSepOfFilesToClip: TAction;
     actDoAnyCmCommand: TAction;
+    actCloseDuplicateTabs: TAction;
     actTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
@@ -202,6 +203,8 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuCloseDuplicateTabs: TMenuItem;
+    miCloseDuplicateTabs: TMenuItem;
     mnuTreeView: TMenuItem;
     mnuCmdConfigDirHotlist: TMenuItem;
     mnuLoadTabs: TMenuItem;

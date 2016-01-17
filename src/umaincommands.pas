@@ -132,7 +132,7 @@ type
    // 29. Make sure we see the expected icon and the expected tooltip.
    // 30. Make sure the actual button you added do the expected task.
    // 31. If command is using parameters, make sure you test the most cases of parameters.
-   // 32. If you added keyboard hosrtcut, make sure keyboard shortcut works.
+   // 32. If you added keyboard shortcut, make sure keyboard shortcut works.
    // 33. With the "cm_DoAnyCmCommand", go find in the "Internal Command Selector" the command you added.
    // 34. Make sure it's present there, under the appropriate category, sorted at the classic logical place.
    // 35. Make sure we see the shortcut if any and that the description is correct.
@@ -178,6 +178,7 @@ type
    procedure cm_RenameTab(const Params: array of string);
    procedure cm_CloseTab(const Params: array of string);
    procedure cm_CloseAllTabs(const Params: array of string);
+   procedure cm_CloseDuplicateTabs(const Params: array of string);
    procedure cm_NextTab(const Params: array of string);
    procedure cm_PrevTab(const Params: array of string);
    procedure cm_SaveTabs(const Params: array of string);
@@ -1335,6 +1336,91 @@ begin
           2: Break;    // cancel operation
         end;
 
+    ActiveFrame.SetFocus;
+  end;
+end;
+
+{ TMainCommands.cm_CloseDuplicateTabs }
+// Close tabs pointing to same dirs so at the end of action, only one tab for each dir is kept.
+// Tabs that are kept follow these rules of priority:
+//   -All the locked tabs are kept without asking question.
+//   -The one that has been user renamed by the user are eliminate IF a equivalent locked tab exist.
+//   -If a user rename tab point the same directoy as another tab but not renamed, no matter the order, we keep the renamed tab and eliminate the other.
+//   -If two equals low importance identical exist, we keep the one on left and elimitate the one on right.
+// At the end of the process, we stay in a tab that has the same path as where we were initally.
+procedure TMainCommands.cm_CloseDuplicateTabs(const Params: array of string);
+var
+  Param, sOriginalPath: String;
+  ANotebook: TFileViewNotebook;
+  iTabIndex, jTabIndex, jScore, tScore: Integer;
+  bFlagDeleted: boolean;
+begin
+  with frmMain do
+  begin
+    // 1. We determine wich tabs to work with.
+    Param := GetDefaultParam(Params);
+    if Param = 'LeftTabs' then ANotebook := LeftTabs
+      else if Param = 'RightTabs' then ANotebook := RightTabs
+        else ANotebook := ActiveNotebook;
+
+    // 2. We save to restore later the original directory of the active tab.
+    sOriginalPath := ANoteBook.Page[ANotebook.PageIndex].FileView.CurrentPath;
+
+    // 3. We start with the last tab and we go back to the first one.
+    //    Then, we compare with each one on the left of it.
+    //    We then delete one of them, if we can.
+    //    We work with a kind of score index and then with do a "case" to eliminate the right one.
+    jTabIndex := pred(ANotebook.PageCount);
+    while (jTabIndex>0) do
+    begin
+      jScore:=$0;
+      if (ANoteBook.Page[jTabIndex].PermanentTitle <> '') then jScore := (jScore OR $01);
+      if (ANoteBook.Page[jTabIndex].LockState <> tlsNormal) then jScore := (jScore OR $02);
+
+      iTabIndex := (jTabIndex-1);
+      bFlagDeleted := FALSE;
+      while (iTabIndex>=0) AND (bFlagDeleted=FALSE) do
+      begin
+        if mbCompareFileNames(ANoteBook.Page[iTabIndex].FileView.CurrentPath, ANoteBook.Page[jTabIndex].FileView.CurrentPath) then
+        begin
+          tScore:=jScore;
+          if (ANoteBook.Page[iTabIndex].PermanentTitle <> '') then tScore := (tScore OR $04);
+          if (ANoteBook.Page[iTabIndex].LockState <> tlsNormal) then tScore := (tScore OR $08);
+
+          case tScore of
+            $00, $04, $05, $08, $09, $0C, $0D: // We eliminate the one on right.
+              begin
+                RemovePage(ANotebook, jTabIndex, False);
+                bFlagDeleted:=TRUE;
+              end;
+
+            $01, $02, $03, $06, $07: // We eliminate the one on left.
+              begin
+                RemovePage(ANotebook, iTabIndex, False);
+                dec(jTabIndex); // If we eliminate one on left, the right tab now moved one position lower, we must take this in account.
+              end;
+          end;
+        end;
+        dec(iTabIndex);
+      end;
+      dec(jTabIndex);
+    end;
+
+    // 4. We attempt to select a tab with the actual original path from where we were.
+    if not mbCompareFileNames(ANoteBook.Page[ANotebook.PageIndex].FileView.CurrentPath , sOriginalPath) then
+    begin
+      iTabIndex:=0;
+      while (iTabIndex<ANotebook.PageCount) do
+        if mbCompareFileNames(ANoteBook.Page[iTabIndex].FileView.CurrentPath , sOriginalPath) then
+        begin
+          ANotebook.PageIndex:=iTabIndex;
+          iTabIndex:=ANotebook.PageCount;
+        end
+        else
+          inc(iTabIndex);
+    end;
+
+    // 4. Focus actual current panel so user will be ready to move through it.
     ActiveFrame.SetFocus;
   end;
 end;

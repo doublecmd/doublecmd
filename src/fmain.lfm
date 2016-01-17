@@ -1197,6 +1197,9 @@ object frmMain: TfrmMain
       object mnuCloseAllTabs: TMenuItem
         Action = actCloseAllTabs
       end
+      object mnuCloseDuplicateTabs: TMenuItem
+        Action = actCloseDuplicateTabs
+      end
       object miLine16: TMenuItem
         Caption = '-'
       end
@@ -2378,6 +2381,13 @@ object frmMain: TfrmMain
       Caption = '&Tree View Panel'
       OnExecute = actExecute
     end
+    object actCloseDuplicateTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Close Duplicate Tabs'
+      OnExecute = actExecute
+    end
+
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
@@ -3559,6 +3569,9 @@ object frmMain: TfrmMain
     object miCloseAllTabs: TMenuItem
       Action = actCloseAllTabs
       OnClick = mnuTabMenuClick
+    end
+    object miCloseDuplicateTabs: TMenuItem
+      Action = actCloseDuplicateTabs
     end
     object miLine19: TMenuItem
       Caption = '-'
