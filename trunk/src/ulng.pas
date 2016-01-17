@@ -353,6 +353,9 @@ resourcestring
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   rsViewNotFound = '%s not found!';
   rsViewEncoding = 'Encoding';
+  rsViewNewSize = 'New Size';
+  rsViewImageType = 'Image Type';
+  rsViewBadQuality = 'Bad Quality';
   // Editor
   rsEditGotoLineTitle = 'Goto Line';
   rsEditGotoLineQuery = 'Goto line:';
