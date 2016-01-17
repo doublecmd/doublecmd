@@ -557,7 +557,7 @@ procedure TfrmEditHotkey.SetCommand(NewCommand: String);
 begin
   FCommand := NewCommand;
   btnShowCommandHelp.Caption := Format(rsShowHelpFor, [FCommand]);
-  edtParameters.HelpKeyword := PathDelim+'cmds.html#' + FCommand;
+  edtParameters.HelpKeyword := '/cmds.html#' + FCommand;
 end;
 
 procedure TfrmEditHotkey.SetControls(const NewControls: TDynamicStringArray);
