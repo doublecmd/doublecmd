@@ -99,7 +99,7 @@ end;
 { TVariableMenuItem.HelpOnVariablesClick }
 procedure TVariableMenuItem.HelpOnVariablesClick(Sender: TObject);
 begin
-  ShowHelpForKeywordWithAnchor(PathDelim + 'Variables.html');
+  ShowHelpForKeywordWithAnchor('/Variables.html');
 end;
 
 { TSupportForVariableHelperMenu.Create }

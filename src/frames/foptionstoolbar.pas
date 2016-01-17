@@ -1147,7 +1147,7 @@ end;
 
 procedure TfrmOptionsToolbar.lblHelpOnInternalCommandClick(Sender: TObject);
 begin
-  ShowHelpForKeywordWithAnchor(PathDelim + 'cmds.html#' + cbInternalCommand.Text);
+  ShowHelpForKeywordWithAnchor('/cmds.html#' + cbInternalCommand.Text);
 end;
 
 class function TfrmOptionsToolbar.FindHotkey(NormalItem: TKASNormalItem; Hotkeys: THotkeys): THotkey;
