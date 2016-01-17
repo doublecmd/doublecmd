@@ -442,7 +442,7 @@ var
   Key: HKEY;
   RegDrivePath: UnicodeString;
   NetworkPath: array[0..Pred(MAX_PATH)] of WideChar;
-  NetworkPathSize: DWORD = MAX_PATH * SizeOf(WideChar);
+  NetworkPathSize: DWORD;
 begin
   Result := TDrivesList.Create;
   { fill list }
@@ -456,6 +456,7 @@ begin
       RegDrivePath := 'Network' + PathDelim + DriveLetter;
       if RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(RegDrivePath), 0, KEY_READ, Key) = ERROR_SUCCESS then
       begin
+        NetworkPathSize := MAX_PATH * SizeOf(WideChar);
         if RegQueryValueExW(Key, 'RemotePath', nil, nil, @NetworkPath, @NetworkPathSize) = ERROR_SUCCESS then
         begin
           New(Drive);
