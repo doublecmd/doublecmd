@@ -110,6 +110,10 @@ type
        Save all changes to description file
     }
     procedure SaveDescription;
+    {en
+       Reset last description file name
+    }
+    procedure Reset;
 
     {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5)) or ((FPC_VERSION = 2) and (FPC_RELEASE = 4) and (FPC_PATCH >= 4))}
     function Find(const S: string; out Index: Integer): Boolean; override;
@@ -412,6 +416,11 @@ begin
       on E: Exception do
         DCDebug('TDescription.SaveDescription - ' + E.Message);
     end;
+end;
+
+procedure TDescription.Reset;
+begin
+  FLastDescrFile:= EmptyStr;
 end;
 
 end.

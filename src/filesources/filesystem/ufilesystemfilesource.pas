@@ -110,6 +110,7 @@ type
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation; override;
     // ------------------------------------------------------
+    property Description: TDescription read FDescr;
   end;
 
   { TFileSystemFileSourceConnection }
@@ -267,7 +268,8 @@ end;
 constructor TFileSystemFileSource.Create;
 begin
   inherited Create;
-  FDescr:= nil;
+
+  FDescr := TDescription.Create(False);
 
   FOperationsClasses[fsoList]            := TFileSystemListOperation.GetOperationClass;
   FOperationsClasses[fsoCopy]            := TFileSystemCopyOperation.GetOperationClass;
@@ -621,8 +623,6 @@ begin
     if fpComment in PropertiesToSet then
     begin
       CommentProperty := TFileCommentProperty.Create;
-      if not Assigned(FDescr) then
-        FDescr := TDescription.Create(False);
       CommentProperty.Value := FDescr.ReadDescription(sFullPath);
     end;
   end;

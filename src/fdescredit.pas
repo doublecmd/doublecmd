@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Dialog for editing file comments.
 
-   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, ActnList, uDescr,
-  uFormCommands;
+  uFormCommands, uFileView;
 
 type
 
@@ -60,37 +60,48 @@ type
     procedure cm_SaveDescription(const Params: array of string);
   end; 
 
-function ShowDescrEditDlg(sFileName: String): Boolean;
+function ShowDescrEditDlg(const sFileName: String; FileView: TFileView): Boolean;
 
 implementation
 
 {$R *.lfm}
 
 uses
-  LCLType, LConvEncoding, DCStrUtils, uHotkeyManager, uLng, uGlobs;
+  LCLType, LConvEncoding, DCStrUtils, uHotkeyManager, uLng, uGlobs,
+  uFileSystemFileSource;
 
 const
   HotkeysCategory = 'Edit Comment Dialog';
 
-function ShowDescrEditDlg(sFileName: String): Boolean;
+function ShowDescrEditDlg(const sFileName: String; FileView: TFileView): Boolean;
 const
   nbsp = #194#160;
+var
+  FileSystem: Boolean;
 begin
   Result:= False;
+  FileSystem:= FileView.FileSource.IsClass(TFileSystemFileSource);
   with TfrmDescrEdit.Create(Application) do
-  begin
-    FDescr:= TDescription.Create(False);
+  try
+    if not FileSystem then
+      FDescr:= TDescription.Create(False)
+    else begin
+      FDescr:= (FileView.FileSource as TFileSystemFileSource).Description;
+      FDescr.Reset;
+    end;
     lblFileName.Caption:= sFileName;
-    // read description
+    // Read description
     memDescr.Lines.Text:= StringReplace(FDescr.ReadDescription(sFileName), nbsp, LineEnding, [rfReplaceAll]);
     DisplayEncoding;
     if ShowModal = mrOK then
-      begin
-        FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, nbsp, [rfReplaceAll]));
-        FDescr.SaveDescription;
-        Result:= True;
-      end;
-    FDescr.Free;
+    begin
+      FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, nbsp, [rfReplaceAll]));
+      FDescr.SaveDescription;
+      if FileSystem then FileView.Reload(True);
+      Result:= True;
+    end;
+    if not FileSystem then FDescr.Free;
+  finally
     Free;
   end;
 end;
