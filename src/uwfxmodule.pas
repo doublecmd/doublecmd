@@ -283,7 +283,8 @@ begin
     begin
       Result:= FsFindNext(Hdl, FindData.FindDataA);
       if Result then ConvertFindData(FindData, True);
-    end;
+    end
+  else Result:= False;
 end;
 
 procedure TWFXModule.WfxStatusInfo(RemoteDir: String; InfoStartEnd,
