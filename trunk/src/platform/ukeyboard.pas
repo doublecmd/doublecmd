@@ -143,7 +143,7 @@ implementation
 uses
   LCLProc, LCLIntf, LazUTF8
 {$IF DEFINED(MSWINDOWS)}
-  , Windows, Win32Proc
+  , Windows
 {$ENDIF}
 {$IF DEFINED(LCLGTK)}
   , Gdk, GLib
