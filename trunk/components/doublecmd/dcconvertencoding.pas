@@ -54,7 +54,7 @@ function CeTryDecode(const aValue: AnsiString; aCodePage: Cardinal;
 {$ELSEIF DEFINED(UNIX)}
 var
   SystemEncodingUtf8: Boolean = False;
-  SystemLanguage, SystemEncoding: String;
+  SystemLanguage, SystemEncoding, SystemLocale: String;
 {$ENDIF}
 
 implementation
@@ -322,12 +322,22 @@ begin
           Exit(False);
       end;
     end;
-  Language:= Copy(Lang, 1, 2);
+  I:= Pos('_', Lang);
+  if (I = 0) then
+    Language:= Lang
+  else begin
+    Language:= Copy(Lang, 1, I - 1);
+  end;
   I:= System.Pos('.', Lang);
   if (I > 0) then
+  begin
+    SystemLocale:= Copy(Lang, 1, I - 1);
     Encoding:= Copy(Lang, I + 1, Length(Lang) - I);
-  if Length(Encoding) = 0 then
+  end
+  else begin
+    SystemLocale:= Lang;
     Encoding:= EncodingUTF8;
+  end;
 end;
 {$ENDIF}
 
