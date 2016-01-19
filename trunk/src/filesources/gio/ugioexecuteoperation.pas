@@ -21,14 +21,27 @@ type
 implementation
 
 uses
-  uGio, uGio2, uGObject2, uGLib2;
+  uGio, uGio2, uGObject2, uGLib2, fFileProperties, uFile;
 
 procedure TGioExecuteOperation.MainExecute;
 var
   AFile: PGFile;
+  AFiles: TFiles;
   AInfo: PGFileInfo;
   AFileType: TGFileType;
 begin
+  if Verb = 'properties' then
+  begin
+    AFiles:= TFiles.Create(CurrentPath);
+    try
+      AFiles.Add(ExecutableFile.Clone);
+      ShowFileProperties(FileSource as IFileSource, AFiles);
+    finally
+      AFiles.Free;
+    end;
+    Exit;
+  end;
+
   AFile:= g_file_new_for_commandline_arg(Pgchar(AbsolutePath));
   try
     AInfo := g_file_query_info (AFile, FILE_ATTRIBUTE_STANDARD_TYPE + ',' +
