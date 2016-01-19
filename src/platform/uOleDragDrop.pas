@@ -193,7 +193,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LazUTF8, SysUtils, ShellAPI, ShlObj, LCLIntf, Win32Proc, ComObj,
+  LazUTF8, SysUtils, ShellAPI, ShlObj, LCLIntf, ComObj,
   DCDateTimeUtils, Forms, DCConvertEncoding,
 
   //DC
