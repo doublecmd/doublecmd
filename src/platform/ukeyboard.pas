@@ -795,7 +795,7 @@ begin
   if (not IsKeyDown(VK_LMENU)) and (not IsKeyDown(VK_RMENU)) then
     KeyboardState[VK_MENU] := 0;
 
-  if Win32Proc.UnicodeEnabledOS then
+  if (Win32Platform = VER_PLATFORM_WIN32_NT) then
     begin
       IntResult := Windows.ToUnicode(Key, 0, @KeyboardState, PWChar(wideChars),
                                      Length(wideChars), 0);

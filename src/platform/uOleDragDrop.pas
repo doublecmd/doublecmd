@@ -359,7 +359,7 @@ begin
   begin
     if formatEtc.CfFormat = CF_HDROP then
       begin
-        Result := CreateHDrop(Win32Proc.UnicodeEnabledOS)
+        Result := CreateHDrop(Win32Platform = VER_PLATFORM_WIN32_NT)
       end
     else if formatEtc.CfFormat = CFU_PREFERRED_DROPEFFECT then
       begin
