@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-01-16 18:50+0900\n"
+"PO-Revision-Date: 2016-01-19 21:00+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -2243,7 +2243,7 @@ msgstr "すべてのタブを閉じる(&A)"
 
 #: tfrmmain.actcloseduplicatetabs.caption
 msgid "Close Duplicate Tabs"
-msgstr ""
+msgstr "重複したタブを閉じる"
 
 #: tfrmmain.actclosetab.caption
 msgctxt "TFRMMAIN.ACTCLOSETAB.CAPTION"
@@ -8263,7 +8263,7 @@ msgstr "ゴミ箱として表示(&B)"
 
 #: tfrmviewer.micenter.caption
 msgid "Center"
-msgstr ""
+msgstr "センター"
 
 #: tfrmviewer.micopytoclipboard.caption
 msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
@@ -8405,7 +8405,7 @@ msgstr "引き延ばし"
 
 #: tfrmviewer.mistretchonlylarge.caption
 msgid "Stretch only large"
-msgstr ""
+msgstr "引き延ばしだけ"
 
 #: tfrmviewer.mitext.caption
 msgid "Show as &Text"
@@ -11406,7 +11406,7 @@ msgstr "ダブル・コマンダーの内部ビューア"
 
 #: ulng.rsviewbadquality
 msgid "Bad Quality"
-msgstr ""
+msgstr "劣悪な品質"
 
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
@@ -11415,10 +11415,9 @@ msgstr "エンコード"
 
 #: ulng.rsviewimagetype
 msgid "Image Type"
-msgstr ""
+msgstr "画像タイプ"
 
 #: ulng.rsviewnewsize
-#, fuzzy
 msgctxt "ulng.rsviewnewsize"
 msgid "New Size"
 msgstr "新しいサイズ"
