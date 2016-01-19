@@ -1322,7 +1322,7 @@ begin
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];
   gWatchDirsExclude := '';
-  gWatcherMode := fswmPreventDelete;
+  gWatcherMode := fswmAllowDelete;
 
   { Icons page }
   gShowIcons := sim_all_and_exe;
