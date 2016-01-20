@@ -25,26 +25,41 @@ uses Types;
 const
   QT_VERSION = 4 shl 16 + 5 shl 8 + 3;
   
-  
+
 {$IFDEF MSWINDOWS}
   Qt4PasLib = 'Qt4Pas5.dll';
-{$ELSE}
-  {$IFDEF DARWIN}
-    Qt4PasLib = '';
-    {$LINKFRAMEWORK Qt4Pas}
-  {$ELSE}
+{$ENDIF}
+
+{$IFDEF HAIKU}
+  Qt4PasLib = 'libQt4Pas.so.5';
+{$ENDIF}
+
+// Set qtopia yourself if using QTOPIA with QVFB on i386
+// ppc386 -dQTOPIA
+//{$IFDEF CPUARM}
+//  {$DEFINE QTOPIA}
+//{$ENDIF}
+
+{$IFDEF QTOPIA}
+  Qt4PasLib = 'libQt4Pas.so.5';
+{$ENDIF}
+
+{$IFNDEF QTOPIA}
+  {$IF DEFINED(LINUX) or DEFINED(FREEBSD) or DEFINED(NETBSD)}
+    {$DEFINE BINUX}
     Qt4PasLib = 'libQt4Pas.so.5';
-    {$IF DEFINED(LINUX) or DEFINED(FREEBSD) or DEFINED(NETBSD)}
-      {$DEFINE BINUX}
-    {$ENDIF}
   {$ENDIF}
 {$ENDIF}
 
+{$IFDEF DARWIN}
+  Qt4PasLib = '';
+  {$LINKFRAMEWORK Qt4Pas}
+{$ENDIF}
 
 type
 
   PLong = ^Long;
-{$ifdef CPU64 and not WIN64}
+{$if defined(CPU64) and not defined(WIN64)}
    Long = Int64;
 {$else}
    Long = LongInt;
@@ -617,7 +632,7 @@ QWebPage_hookH = class(QObject_hookH) end;
 QWebSettings_hookH = class(QObject_hookH) end;
 QWebView_hookH = class(QWidget_hookH) end;
 
-  QCoreApplicationEventFilter = function(Msg:PChar;Res:PLong):boolean cdecl;
+QCoreApplicationEventFilter = function(Msg:PChar;Res:PLong):boolean cdecl;
 QAbstractEventDispatcherEventFilter = function(Msg:PChar):boolean cdecl;
 QLCLItemDelegate_sizeHint_Override = procedure (option: QStyleOptionViewItemH; index: QModelIndexH; Size: PSize) of object cdecl;
 QLCLItemDelegate_paint_Override = procedure (painter : QPainterH; option: QStyleOptionViewItemH; index: QModelIndexH) of object cdecl;
@@ -719,7 +734,7 @@ type
     QtToolButtonIconOnly, QtToolButtonTextOnly, QtToolButtonTextBesideIcon, QtToolButtonTextUnderIcon );
 
   QtLayoutDirection = ( // Qt::LayoutDirection (1)
-    QtLeftToRight, QtRightToLeft );
+    QtLeftToRight, QtRightToLeft, QtLayoutDirectionAuto);
 
   QtCheckState = ( // Qt::CheckState (1)
     QtUnchecked, QtPartiallyChecked, QtChecked );
@@ -787,6 +802,10 @@ type
     QtAA_NativeWindows = 3,
     QtAA_DontCreateNativeWidgetSiblings = 4,
     QtAA_MacPluginApplication = 5,
+    {$IFDEF DARWIN}
+    QtAA_DontUseNativeMenuBar = 6, {$note QtAA_DontUseNativeMenuBar added for darwin and wince qt >=4.6 compat issue #20897}
+    QtAA_MacDontSwapCtrlAndMeta = 7, {$note QtAA_MacDontSwapCtrlAndMeta added for darwin qt >=4.6 compat issue #20897}
+    {$ENDIF}
     QtAA_AttributeCount );
 
 type
@@ -1852,7 +1871,7 @@ procedure QCoreApplication_removeTranslator(messageFile: QTranslatorH); cdecl; e
 procedure QCoreApplication_translate(retval: PWideString; context: PAnsiChar; key: PAnsiChar; disambiguation: PAnsiChar = nil; encoding: QCoreApplicationEncoding = QCoreApplicationCodecForTr); cdecl; external Qt4PasLib name 'QCoreApplication_translate';
 procedure QCoreApplication_translate(retval: PWideString; context: PAnsiChar; key: PAnsiChar; disambiguation: PAnsiChar; encoding: QCoreApplicationEncoding; n: Integer); cdecl; external Qt4PasLib name 'QCoreApplication_translate2';
 procedure QCoreApplication_flush(); cdecl; external Qt4PasLib name 'QCoreApplication_flush';
-{$ifdef BINUX or DARWIN or QTOPIA }
+{$if defined(BINUX) or defined(DARWIN) or defined(QTOPIA)}
 procedure QCoreApplication_watchUnixSignal(signal: Integer; watch: Boolean); cdecl; external Qt4PasLib name 'QCoreApplication_watchUnixSignal';
 {$endif}
 function QCoreApplication_setEventFilter(handle: QCoreApplicationH; filter: QCoreApplicationEventFilter): QCoreApplicationEventFilter; cdecl; external Qt4PasLib name 'QCoreApplication_setEventFilter';
@@ -1952,7 +1971,7 @@ const
 
 
 function QVariant_create(): QVariantH; cdecl; external Qt4PasLib name 'QVariant_create';
-procedure QVariant_destroy(handle: QVariantH); cdecl; external Qt4PasLib name 'QVariant_destroy'; 
+procedure QVariant_destroy(handle: QVariantH); cdecl; external Qt4PasLib name 'QVariant_destroy';
 function QVariant_create(typeOrUserType: Integer; copy: Pointer): QVariantH; cdecl; external Qt4PasLib name 'QVariant_create3';
 function QVariant_create(other: QVariantH): QVariantH; cdecl; external Qt4PasLib name 'QVariant_create4';
 function QVariant_create(s: QDataStreamH): QVariantH; cdecl; external Qt4PasLib name 'QVariant_create5';
@@ -4112,7 +4131,7 @@ function QApplication_x11EventFilter(handle: QApplicationH; AnonParam1: PEvent):
 function QApplication_x11ClientMessage(handle: QApplicationH; AnonParam1: QWidgetH; AnonParam2: PEvent; passive_only: Boolean): Integer; cdecl; external Qt4PasLib name 'QApplication_x11ClientMessage';
 function QApplication_x11ProcessEvent(handle: QApplicationH; AnonParam1: PEvent): Integer; cdecl; external Qt4PasLib name 'QApplication_x11ProcessEvent';
 {$endif}
-{$ifdef BINUX or MSWINDOWS or DARWIN }
+{$if defined(BINUX) or defined(MSWINDOWS) or defined(DARWIN)}
 function QApplication_isSessionRestored(handle: QApplicationH): Boolean; cdecl; external Qt4PasLib name 'QApplication_isSessionRestored';
 procedure QApplication_sessionId(handle: QApplicationH; retval: PWideString); cdecl; external Qt4PasLib name 'QApplication_sessionId';
 procedure QApplication_sessionKey(handle: QApplicationH; retval: PWideString); cdecl; external Qt4PasLib name 'QApplication_sessionKey';
@@ -4152,7 +4171,7 @@ type
   QApplication_lastWindowClosed_Event = procedure () of object cdecl;
   QApplication_focusChanged_Event = procedure (old: QWidgetH; now: QWidgetH) of object cdecl;
   QApplication_fontDatabaseChanged_Event = procedure () of object cdecl;
-{$ifdef BINUX or MSWINDOWS or DARWIN }
+{$if defined(BINUX) or defined(MSWINDOWS) or defined(DARWIN) }
   QApplication_commitDataRequest_Event = procedure (sessionManager: QSessionManagerH) of object cdecl;
   QApplication_saveStateRequest_Event = procedure (sessionManager: QSessionManagerH) of object cdecl;
 {$endif}
@@ -4583,7 +4602,7 @@ function QWidget_childAt(handle: QWidgetH; p: PQtPoint): QWidgetH; cdecl; extern
 function QWidget_x11Info(handle: QWidgetH): QX11InfoH; cdecl; external Qt4PasLib name 'QWidget_x11Info';
 function QWidget_x11PictureHandle(handle: QWidgetH): QtHANDLE; cdecl; external Qt4PasLib name 'QWidget_x11PictureHandle';
 {$endif}
-{$ifdef BINUX or DARWIN or QTOPIA }
+{$if defined(BINUX) or defined(DARWIN) or defined(QTOPIA)}
 function QWidget_handle(handle: QWidgetH): QtHANDLE; cdecl; external Qt4PasLib name 'QWidget_handle';
 {$endif}
 procedure QWidget_setAttribute(handle: QWidgetH; AnonParam1: QtWidgetAttribute; _on: Boolean = True); cdecl; external Qt4PasLib name 'QWidget_setAttribute';
@@ -5120,7 +5139,7 @@ procedure QCursor_hotSpot(handle: QCursorH; retval: PQtPoint); cdecl; external Q
 procedure QCursor_pos(retval: PQtPoint); cdecl; external Qt4PasLib name 'QCursor_pos';
 procedure QCursor_setPos(x: Integer; y: Integer); cdecl; external Qt4PasLib name 'QCursor_setPos';
 procedure QCursor_setPos(p: PQtPoint); cdecl; external Qt4PasLib name 'QCursor_setPos2';
-{$ifdef BINUX or DARWIN }
+{$if defined(BINUX) or defined(DARWIN)}
 function QCursor_handle(handle: QCursorH): QtHANDLE; cdecl; external Qt4PasLib name 'QCursor_handle';
 {$endif}
 {$ifdef BINUX }
@@ -5319,21 +5338,21 @@ type
   QShortcut_activatedAmbiguously_Event = procedure () of object cdecl;
 
 
-{$ifdef BINUX or MSWINDOWS or DARWIN }
+{$if defined(BINUX) or defined(MSWINDOWS) or defined(DARWIN)}
 
 type
   QSessionManagerRestartHint = ( // QSessionManager::RestartHint (1)
     QSessionManagerRestartIfRunning, QSessionManagerRestartAnyway, QSessionManagerRestartImmediately, QSessionManagerRestartNever );
 
 {$endif}
-{$ifdef BINUX or MSWINDOWS or DARWIN }
+{$if defined(BINUX) or defined(MSWINDOWS) or defined(DARWIN)}
 procedure QSessionManager_sessionId(handle: QSessionManagerH; retval: PWideString); cdecl; external Qt4PasLib name 'QSessionManager_sessionId';
 procedure QSessionManager_sessionKey(handle: QSessionManagerH; retval: PWideString); cdecl; external Qt4PasLib name 'QSessionManager_sessionKey';
 {$endif}
-{$ifdef BINUX or DARWIN }
+{$if defined(BINUX) or defined(DARWIN)}
 function QSessionManager_handle(handle: QSessionManagerH): Pointer; cdecl; external Qt4PasLib name 'QSessionManager_handle';
 {$endif}
-{$ifdef BINUX or MSWINDOWS or DARWIN }
+{$if defined(BINUX) or defined(MSWINDOWS) or defined(DARWIN)}
 function QSessionManager_allowsInteraction(handle: QSessionManagerH): Boolean; cdecl; external Qt4PasLib name 'QSessionManager_allowsInteraction';
 function QSessionManager_allowsErrorInteraction(handle: QSessionManagerH): Boolean; cdecl; external Qt4PasLib name 'QSessionManager_allowsErrorInteraction';
 procedure QSessionManager_release(handle: QSessionManagerH); cdecl; external Qt4PasLib name 'QSessionManager_release';
@@ -6158,7 +6177,7 @@ procedure QPrinter_paperRect(handle: QPrinterH; retval: PRect); cdecl; external 
 procedure QPrinter_pageRect(handle: QPrinterH; retval: PRect); cdecl; external Qt4PasLib name 'QPrinter_pageRect';
 procedure QPrinter_paperRect(handle: QPrinterH; retval: QRectFH; AnonParam1: QPrinterUnit); cdecl; external Qt4PasLib name 'QPrinter_paperRect2';
 procedure QPrinter_pageRect(handle: QPrinterH; retval: QRectFH; AnonParam1: QPrinterUnit); cdecl; external Qt4PasLib name 'QPrinter_pageRect2';
-{$ifdef BINUX or DARWIN or QTOPIA }
+{$if defined(BINUX) or defined(DARWIN) or defined(QTOPIA)}
 procedure QPrinter_printerSelectionOption(handle: QPrinterH; retval: PWideString); cdecl; external Qt4PasLib name 'QPrinter_printerSelectionOption';
 procedure QPrinter_setPrinterSelectionOption(handle: QPrinterH; AnonParam1: PWideString); cdecl; external Qt4PasLib name 'QPrinter_setPrinterSelectionOption';
 {$endif}
@@ -6468,7 +6487,7 @@ function QFont_rawMode(handle: QFontH): Boolean; cdecl; external Qt4PasLib name 
 procedure QFont_setRawMode(handle: QFontH; AnonParam1: Boolean); cdecl; external Qt4PasLib name 'QFont_setRawMode';
 function QFont_exactMatch(handle: QFontH): Boolean; cdecl; external Qt4PasLib name 'QFont_exactMatch';
 function QFont_isCopyOf(handle: QFontH; AnonParam1: QFontH): Boolean; cdecl; external Qt4PasLib name 'QFont_isCopyOf';
-{$ifdef BINUX or DARWIN or QTOPIA }
+{$if defined(BINUX) or defined(DARWIN) or defined(QTOPIA)}
 function QFont_handle(handle: QFontH): QtHANDLE; cdecl; external Qt4PasLib name 'QFont_handle';
 {$endif}
 procedure QFont_setRawName(handle: QFontH; AnonParam1: PWideString); cdecl; external Qt4PasLib name 'QFont_setRawName';
@@ -6484,7 +6503,7 @@ procedure QFont_insertSubstitutions(AnonParam1: PWideString; AnonParam2: QString
 procedure QFont_removeSubstitution(AnonParam1: PWideString); cdecl; external Qt4PasLib name 'QFont_removeSubstitution';
 procedure QFont_initialize(); cdecl; external Qt4PasLib name 'QFont_initialize';
 procedure QFont_cleanup(); cdecl; external Qt4PasLib name 'QFont_cleanup';
-{$ifdef BINUX or MSWINDOWS or DARWIN }
+{$if defined(BINUX) or defined(MSWINDOWS) or defined(DARWIN)}
 procedure QFont_cacheStatistics(); cdecl; external Qt4PasLib name 'QFont_cacheStatistics';
 {$endif}
 procedure QFont_defaultFamily(handle: QFontH; retval: PWideString); cdecl; external Qt4PasLib name 'QFont_defaultFamily';
@@ -7132,7 +7151,7 @@ procedure QPixmap_x11SetScreen(handle: QPixmapH; screen: Integer); cdecl; extern
 function QPixmap_x11Info(handle: QPixmapH): QX11InfoH; cdecl; external Qt4PasLib name 'QPixmap_x11Info';
 function QPixmap_x11PictureHandle(handle: QPixmapH): QtHANDLE; cdecl; external Qt4PasLib name 'QPixmap_x11PictureHandle';
 {$endif}
-{$ifdef BINUX or QTOPIA }
+{$if defined(BINUX) or defined(QTOPIA)}
 function QPixmap_handle(handle: QPixmapH): QtHANDLE; cdecl; external Qt4PasLib name 'QPixmap_handle';
 {$endif}
 function QPixmap_paintEngine(handle: QPixmapH): QPaintEngineH; cdecl; external Qt4PasLib name 'QPixmap_paintEngine';
@@ -9262,10 +9281,10 @@ type
     QListWidgetItemType = 0,
     QListWidgetItemUserType = 1000 );
 
-function QListWidgetItem_create(view: QListWidgetH = nil; _type: Integer = QListWidgetItemType): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_create';
+function QListWidgetItem_create(view: QListWidgetH = nil; _type: QListWidgetItemItemType = QListWidgetItemType): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_create';
 procedure QListWidgetItem_destroy(handle: QListWidgetItemH); cdecl; external Qt4PasLib name 'QListWidgetItem_destroy'; 
-function QListWidgetItem_create(text: PWideString; view: QListWidgetH = nil; _type: Integer = QListWidgetItemType): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_create2';
-function QListWidgetItem_create(icon: QIconH; text: PWideString; view: QListWidgetH = nil; _type: Integer = QListWidgetItemType): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_create3';
+function QListWidgetItem_create(text: PWideString; view: QListWidgetH = nil; _type: QListWidgetItemItemType = QListWidgetItemType): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_create2';
+function QListWidgetItem_create(icon: QIconH; text: PWideString; view: QListWidgetH = nil; _type: QListWidgetItemItemType = QListWidgetItemType): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_create3';
 function QListWidgetItem_create(other: QListWidgetItemH): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_create4';
 function QListWidgetItem_clone(handle: QListWidgetItemH): QListWidgetItemH; cdecl; external Qt4PasLib name 'QListWidgetItem_clone';
 function QListWidgetItem_listWidget(handle: QListWidgetItemH): QListWidgetH; cdecl; external Qt4PasLib name 'QListWidgetItem_listWidget';
@@ -9438,15 +9457,15 @@ type
     QTreeWidgetItemType = 0,
     QTreeWidgetItemUserType = 1000 );
 
-function QTreeWidgetItem_create(_type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create';
+function QTreeWidgetItem_create(_type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create';
 procedure QTreeWidgetItem_destroy(handle: QTreeWidgetItemH); cdecl; external Qt4PasLib name 'QTreeWidgetItem_destroy'; 
-function QTreeWidgetItem_create(strings: QStringListH; _type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create2';
-function QTreeWidgetItem_create(view: QTreeWidgetH; _type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create3';
-function QTreeWidgetItem_create(view: QTreeWidgetH; strings: QStringListH; _type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create4';
-function QTreeWidgetItem_create(view: QTreeWidgetH; after: QTreeWidgetItemH; _type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create5';
-function QTreeWidgetItem_create(parent: QTreeWidgetItemH; _type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create6';
-function QTreeWidgetItem_create(parent: QTreeWidgetItemH; strings: QStringListH; _type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create7';
-function QTreeWidgetItem_create(parent: QTreeWidgetItemH; after: QTreeWidgetItemH; _type: Integer = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create8';
+function QTreeWidgetItem_create(strings: QStringListH; _type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create2';
+function QTreeWidgetItem_create(view: QTreeWidgetH; _type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create3';
+function QTreeWidgetItem_create(view: QTreeWidgetH; strings: QStringListH; _type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create4';
+function QTreeWidgetItem_create(view: QTreeWidgetH; after: QTreeWidgetItemH; _type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create5';
+function QTreeWidgetItem_create(parent: QTreeWidgetItemH; _type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create6';
+function QTreeWidgetItem_create(parent: QTreeWidgetItemH; strings: QStringListH; _type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create7';
+function QTreeWidgetItem_create(parent: QTreeWidgetItemH; after: QTreeWidgetItemH; _type: QTreeWidgetItemItemType = QTreeWidgetItemType): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create8';
 function QTreeWidgetItem_create(other: QTreeWidgetItemH): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_create9';
 function QTreeWidgetItem_clone(handle: QTreeWidgetItemH): QTreeWidgetItemH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_clone';
 function QTreeWidgetItem_treeWidget(handle: QTreeWidgetItemH): QTreeWidgetH; cdecl; external Qt4PasLib name 'QTreeWidgetItem_treeWidget';
@@ -9931,10 +9950,10 @@ function QTableWidgetSelectionRange_rightColumn(handle: QTableWidgetSelectionRan
 function QTableWidgetSelectionRange_rowCount(handle: QTableWidgetSelectionRangeH): Integer; cdecl; external Qt4PasLib name 'QTableWidgetSelectionRange_rowCount';
 function QTableWidgetSelectionRange_columnCount(handle: QTableWidgetSelectionRangeH): Integer; cdecl; external Qt4PasLib name 'QTableWidgetSelectionRange_columnCount';
 
-function QTableWidgetItem_create(_type: Integer = QTableWidgetItemType): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_create';
+function QTableWidgetItem_create(_type: QTableWidgetItemItemType = QTableWidgetItemType): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_create';
 procedure QTableWidgetItem_destroy(handle: QTableWidgetItemH); cdecl; external Qt4PasLib name 'QTableWidgetItem_destroy'; 
-function QTableWidgetItem_create(text: PWideString; _type: Integer = QTableWidgetItemType): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_create2';
-function QTableWidgetItem_create(icon: QIconH; text: PWideString; _type: Integer = QTableWidgetItemType): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_create3';
+function QTableWidgetItem_create(text: PWideString; _type: QTableWidgetItemItemType = QTableWidgetItemType): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_create2';
+function QTableWidgetItem_create(icon: QIconH; text: PWideString; _type: QTableWidgetItemItemType = QTableWidgetItemType): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_create3';
 function QTableWidgetItem_create(other: QTableWidgetItemH): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_create4';
 function QTableWidgetItem_clone(handle: QTableWidgetItemH): QTableWidgetItemH; cdecl; external Qt4PasLib name 'QTableWidgetItem_clone';
 function QTableWidgetItem_tableWidget(handle: QTableWidgetItemH): QTableWidgetH; cdecl; external Qt4PasLib name 'QTableWidgetItem_tableWidget';
@@ -10487,7 +10506,7 @@ function QPrintDialog_create(printer: QPrinterH; parent: QWidgetH = nil): QPrint
 procedure QPrintDialog_destroy(handle: QPrintDialogH); cdecl; external Qt4PasLib name 'QPrintDialog_destroy'; 
 function QPrintDialog_create(parent: QWidgetH = nil): QPrintDialogH; cdecl; external Qt4PasLib name 'QPrintDialog_create2';
 function QPrintDialog_exec(handle: QPrintDialogH): Integer; cdecl; external Qt4PasLib name 'QPrintDialog_exec';
-{$ifdef BINUX or QTOPIA }
+{$if defined(BINUX) or defined(QTOPIA)}
 procedure QPrintDialog_accept(handle: QPrintDialogH); cdecl; external Qt4PasLib name 'QPrintDialog_accept';
 {$endif}
 procedure QPrintDialog_done(handle: QPrintDialogH; result: Integer); cdecl; external Qt4PasLib name 'QPrintDialog_done';
@@ -10495,7 +10514,7 @@ procedure QPrintDialog_setOption(handle: QPrintDialogH; option: QAbstractPrintDi
 function QPrintDialog_testOption(handle: QPrintDialogH; option: QAbstractPrintDialogPrintDialogOption): Boolean; cdecl; external Qt4PasLib name 'QPrintDialog_testOption';
 procedure QPrintDialog_setOptions(handle: QPrintDialogH; options: QAbstractPrintDialogPrintDialogOptions); cdecl; external Qt4PasLib name 'QPrintDialog_setOptions';
 function QPrintDialog_options(handle: QPrintDialogH): QAbstractPrintDialogPrintDialogOptions; cdecl; external Qt4PasLib name 'QPrintDialog_options';
-{$ifdef BINUX or DARWIN or QTOPIA }
+{$if defined(BINUX) or defined(DARWIN) or defined(QTOPIA)}
 procedure QPrintDialog_setVisible(handle: QPrintDialogH; visible: Boolean); cdecl; external Qt4PasLib name 'QPrintDialog_setVisible';
 {$endif}
 procedure QPrintDialog_open(handle: QPrintDialogH; receiver: QObjectH; member: PAnsiChar); cdecl; external Qt4PasLib name 'QPrintDialog_open';
@@ -11724,7 +11743,7 @@ procedure QStyleOption_fontMetrics(handle : QStyleOptionH; retval : QFontMetrics
 procedure QStyleOption_setFontMetrics(handle : QStyleOptionH; fontMetrics :  QFontMetricsH); cdecl; external Qt4PasLib name 'QStyleOption_setFontMetrics';
 procedure QStyleOption_palette(handle : QStyleOptionH; retval : QPaletteH ); cdecl; external Qt4PasLib name 'QStyleOption_palette';
 procedure QStyleOption_setPalette(handle : QStyleOptionH; palette :  QPaletteH); cdecl; external Qt4PasLib name 'QStyleOption_setPalette';
-function QStyleOption_create(version: Integer = QStyleOptionVersion; _type: Integer = QStyleOptionSO_Default): QStyleOptionH; cdecl; external Qt4PasLib name 'QStyleOption_create';
+function QStyleOption_create(version: QStyleOptionStyleOptionVersion = QStyleOptionVersion; _type: QStyleOptionOptionType = QStyleOptionSO_Default): QStyleOptionH; cdecl; external Qt4PasLib name 'QStyleOption_create';
 procedure QStyleOption_destroy(handle: QStyleOptionH); cdecl; external Qt4PasLib name 'QStyleOption_destroy'; 
 function QStyleOption_create(other: QStyleOptionH): QStyleOptionH; cdecl; external Qt4PasLib name 'QStyleOption_create2';
 procedure QStyleOption_init(handle: QStyleOptionH; w: QWidgetH); cdecl; external Qt4PasLib name 'QStyleOption_init';
@@ -12171,7 +12190,7 @@ function QStyleHintReturn_version(handle : QStyleHintReturnH) : Integer; cdecl; 
 procedure QStyleHintReturn_setVersion(handle : QStyleHintReturnH; version : Integer); cdecl; external Qt4PasLib name 'QStyleHintReturn_setVersion';
 function QStyleHintReturn__type(handle : QStyleHintReturnH) : Integer; cdecl; external Qt4PasLib name 'QStyleHintReturn__type';
 procedure QStyleHintReturn_setType(handle : QStyleHintReturnH; _type : Integer); cdecl; external Qt4PasLib name 'QStyleHintReturn_setType';
-function QStyleHintReturn_create(version: Integer = QStyleOptionVersion; _type: Integer = QStyleHintReturnSH_Default): QStyleHintReturnH; cdecl; external Qt4PasLib name 'QStyleHintReturn_create';
+function QStyleHintReturn_create(version: QStyleOptionStyleOptionVersion = QStyleOptionVersion; _type: QStyleHintReturnHintReturnType = QStyleHintReturnSH_Default): QStyleHintReturnH; cdecl; external Qt4PasLib name 'QStyleHintReturn_create';
 procedure QStyleHintReturn_destroy(handle: QStyleHintReturnH); cdecl; external Qt4PasLib name 'QStyleHintReturn_destroy'; 
 
 procedure QStyleHintReturnMask_region(handle : QStyleHintReturnMaskH; retval : QRegionH ); cdecl; external Qt4PasLib name 'QStyleHintReturnMask_region';
@@ -13341,7 +13360,7 @@ procedure QApplication_hook_destroy(handle: QApplication_hookH); cdecl; external
 procedure QApplication_hook_hook_lastWindowClosed(handle: QApplication_hookH; hook: QApplication_lastWindowClosed_Event); cdecl; external Qt4PasLib name 'QApplication_hook_hook_lastWindowClosed';
 procedure QApplication_hook_hook_focusChanged(handle: QApplication_hookH; hook: QApplication_focusChanged_Event); cdecl; external Qt4PasLib name 'QApplication_hook_hook_focusChanged';
 procedure QApplication_hook_hook_fontDatabaseChanged(handle: QApplication_hookH; hook: QApplication_fontDatabaseChanged_Event); cdecl; external Qt4PasLib name 'QApplication_hook_hook_fontDatabaseChanged';
-{$ifdef BINUX or MSWINDOWS or DARWIN }
+{$if defined(BINUX) or defined(MSWINDOWS) or defined(DARWIN)}
 procedure QApplication_hook_hook_commitDataRequest(handle: QApplication_hookH; hook: QApplication_commitDataRequest_Event); cdecl; external Qt4PasLib name 'QApplication_hook_hook_commitDataRequest';
 procedure QApplication_hook_hook_saveStateRequest(handle: QApplication_hookH; hook: QApplication_saveStateRequest_Event); cdecl; external Qt4PasLib name 'QApplication_hook_hook_saveStateRequest';
 {$endif}
