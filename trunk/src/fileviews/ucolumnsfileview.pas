@@ -379,6 +379,17 @@ begin
   Handled:= True;
   if not IsLoadingFileList then
   begin
+
+    if Shift=[ssCtrl] then
+    begin
+      gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
+      frmMain.FrameLeft.UpdateView;
+      frmMain.FrameRight.UpdateView;
+      Handled:=True;
+      Exit;
+    end;
+
+
     case gScrollMode of
       smLineByLine:
         for I:= 1 to gWheelScrollLines do
@@ -399,6 +410,16 @@ begin
   Handled:= True;
   if not IsLoadingFileList then
   begin
+
+    if Shift=[ssCtrl] then
+    begin
+      gFonts[dcfMain].Size:=gFonts[dcfMain].Size-1;
+      frmMain.FrameLeft.UpdateView;
+      frmMain.FrameRight.UpdateView;
+      Handled:=True;
+      Exit;
+    end;
+
     case gScrollMode of
       smLineByLine:
         for I:= 1 to gWheelScrollLines do

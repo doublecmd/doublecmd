@@ -20,7 +20,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
-  ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm;
+  ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm, types;
 
 type
 
@@ -117,6 +117,10 @@ type
     procedure actEditLineEndCrExecute(Sender: TObject);
     procedure actEditLineEndCrLfExecute(Sender: TObject);
     procedure actEditLineEndLfExecute(Sender: TObject);
+    procedure EditorMouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure EditorMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure actEditDeleteExecute(Sender: TObject);
     procedure actEditRedoExecute(Sender: TObject);
@@ -143,6 +147,10 @@ type
     procedure actEditRplcExecute(Sender: TObject);
     procedure actSave2Execute(Sender: TObject);
     procedure actConfHighExecute(Sender: TObject);
+    procedure FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
     procedure frmEditorClose(Sender: TObject; var CloseAction: TCloseAction);
   private
     { Private declarations }
@@ -331,6 +339,40 @@ end;
 procedure TfrmEditor.actEditLineEndLfExecute(Sender: TObject);
 begin
   Editor.Lines.TextLineBreakStyle:= tlbsLF;
+end;
+
+procedure TfrmEditor.EditorMouseWheelDown(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+var
+   t:integer;
+begin
+  if Shift=[ssCtrl] then
+  begin
+    t:=Editor.TopLine;
+    gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size-1;
+    FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
+    Editor.TopLine:=t;
+    Editor.Refresh;
+    Handled:=True;
+  end;
+
+end;
+
+procedure TfrmEditor.EditorMouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+var
+   t:integer;
+begin
+  if Shift=[ssCtrl] then
+  begin
+    t:=Editor.TopLine;
+    gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;
+    FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
+    Editor.TopLine:=t;
+    Editor.Refresh;
+    Handled:=True;
+  end;
+
 end;
 
 function TfrmEditor.OpenFile(const aFileName: String): Boolean;
@@ -932,6 +974,21 @@ end;
 procedure TfrmEditor.actConfHighExecute(Sender: TObject);
 begin
   ShowOptions(TfrmOptionsEditorColors);
+end;
+
+procedure TfrmEditor.FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+
+
+end;
+
+procedure TfrmEditor.FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+
+begin
+
+
 end;
 
 procedure TfrmEditor.frmEditorClose(Sender: TObject;

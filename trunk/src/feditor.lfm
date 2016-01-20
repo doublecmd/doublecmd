@@ -51,9 +51,11 @@ object frmEditor: TfrmEditor
   OnClose = frmEditorClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnMouseWheelDown = FormMouseWheelDown
+  OnMouseWheelUp = FormMouseWheelUp
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.2.6.0'
+  LCLVersion = '1.4.4.0'
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
@@ -92,8 +94,10 @@ object frmEditor: TfrmEditor
     TabOrder = 0
     OnKeyDown = EditorKeyDown
     OnKeyPress = EditorKeyPress
+    OnMouseWheelDown = EditorMouseWheelDown
+    OnMouseWheelUp = EditorMouseWheelUp
     BookMarkOptions.Xoffset = 48
-    Gutter.Width = 53
+    Gutter.Width = 57
     Gutter.MouseActions = <    
       item
         ClickCount = ccAny
@@ -499,12 +503,20 @@ object frmEditor: TfrmEditor
         ShiftMask = [ssShift, ssAlt, ssCtrl]
         Command = emcMouseLink
       end>
+    MouseTextActions = <>
     MouseSelActions = <    
       item
         ClickDir = cdDown
         Command = emcStartDragMove
       end>
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
+    SelectedColor.BackPriority = 50
+    SelectedColor.ForePriority = 50
+    SelectedColor.FramePriority = 50
+    SelectedColor.BoldPriority = 50
+    SelectedColor.ItalicPriority = 50
+    SelectedColor.UnderlinePriority = 50
+    SelectedColor.StrikeOutPriority = 50
     BracketHighlightStyle = sbhsBoth
     BracketMatchColor.Background = clNone
     BracketMatchColor.Foreground = clNone
@@ -525,7 +537,7 @@ object frmEditor: TfrmEditor
         MouseActions = <>
       end
       object SynGutterLineNumber1: TSynGutterLineNumber
-        Width = 13
+        Width = 17
         MouseActions = <>
         MarkupInfo.Background = clBtnFace
         MarkupInfo.Foreground = clNone
@@ -543,6 +555,8 @@ object frmEditor: TfrmEditor
       object SynGutterSeparator1: TSynGutterSeparator
         Width = 2
         MouseActions = <>
+        MarkupInfo.Background = clWhite
+        MarkupInfo.Foreground = clGray
       end
       object SynGutterCodeFolding1: TSynGutterCodeFolding
         MouseActions = <        
@@ -623,6 +637,7 @@ object frmEditor: TfrmEditor
     end
     object tbSeparator1: TToolButton
       Left = 70
+      Height = 22
       Top = 2
       Width = 10
       Style = tbsSeparator
@@ -644,6 +659,7 @@ object frmEditor: TfrmEditor
     end
     object tbSeparator2: TToolButton
       Left = 149
+      Height = 22
       Top = 2
       Width = 10
       Style = tbsSeparator
@@ -660,6 +676,7 @@ object frmEditor: TfrmEditor
     end
     object tbSeparator3: TToolButton
       Left = 205
+      Height = 22
       Top = 2
       Width = 10
       Style = tbsSeparator

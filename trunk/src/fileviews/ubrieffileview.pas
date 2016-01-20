@@ -322,8 +322,19 @@ end;
 
 function TBriefDrawGrid.DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean;
 begin
+
   if not FBriefView.IsLoadingFileList then
   begin
+
+    if Shift=[ssCtrl] then
+    begin
+      gFonts[dcfMain].Size:=gFonts[dcfMain].Size-1;
+      frmMain.FrameLeft.UpdateView;
+      frmMain.FrameRight.UpdateView;
+      Result:=True;
+      Exit;
+    end;
+
     Result:= inherited DoMouseWheelDown(Shift, MousePos);
     Result:= Perform(LM_HSCROLL, SB_LINERIGHT, 0) = 0;
   end
@@ -333,8 +344,20 @@ end;
 
 function TBriefDrawGrid.DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean;
 begin
+
   if not FBriefView.IsLoadingFileList then
   begin
+
+    if Shift=[ssCtrl] then
+    begin
+      gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
+      frmMain.FrameLeft.UpdateView;
+      frmMain.FrameRight.UpdateView;
+      Result:=True;
+      Exit;
+    end;
+
+
     Result:= inherited DoMouseWheelUp(Shift, MousePos);
     Result:= Perform(LM_HSCROLL, SB_LINELEFT, 0) = 0;
   end
