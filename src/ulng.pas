@@ -242,6 +242,8 @@ resourcestring
   rsMnuEject = 'Eject';
   rsMnuSortBy = 'Sort by';
   rsMnuNew = 'New';
+  rsMnuPackHere = 'Pack here...';
+  rsMnuExtractHere = 'Extract here...';
   // for main menu
   rsMnuMapNetworkDrive = 'Map Network Drive...';
   rsMnuDisconnectNetworkDrive = 'Disconnect Network Drive...';
