@@ -1134,21 +1134,30 @@ end;
 (* Pack files in archive by creating a new archive *)
 procedure TMainCommands.cm_PackFiles(const Params: array of string);
 var
+  Param: String;
+  TargetPath: String;
   SelectedFiles: TFiles;
 begin
   with frmMain do
   begin
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     try
-      if SelectedFiles.Count > 0 then
+      if SelectedFiles.Count = 0 then
+        msgWarning(rsMsgNoFilesSelected)
+      else begin
+        Param := GetDefaultParam(Params);
+        if Param = 'PackHere' then
+          TargetPath:= ActiveFrame.CurrentPath
+        else begin
+          TargetPath:= NotActiveFrame.CurrentPath;
+        end;
         ShowPackDlg(ActiveFrame.FileSource,
                     nil, // No specific target (create new)
                     SelectedFiles,
-                    NotActiveFrame.CurrentPath,
+                    TargetPath,
                     PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
-                   )
-      else
-        msgWarning(rsMsgNoFilesSelected);
+                   );
+      end;
     finally
       FreeAndNil(SelectedFiles);
     end;
@@ -1158,22 +1167,34 @@ end;
 // This command is needed for extracting whole archive by Alt+F9 (without opening it).
 procedure TMainCommands.cm_ExtractFiles(const Params: array of string);
 var
+  Param: String;
+  TargetPath: String;
   SelectedFiles: TFiles;
+  TargetFileSource: IFileSource;
 begin
   with frmMain do
   begin
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     if Assigned(SelectedFiles) then
     try
-      if SelectedFiles.Count > 0 then
+      if SelectedFiles.Count = 0 then
+        msgWarning(rsMsgNoFilesSelected)
+      else begin
+        Param := GetDefaultParam(Params);
+        if Param = 'ExtractHere' then
+        begin
+          TargetPath:= ActiveFrame.CurrentPath;
+          TargetFileSource:= ActiveFrame.FileSource;
+        end
+        else begin
+          TargetPath:= NotActiveFrame.CurrentPath;
+          TargetFileSource:= NotActiveFrame.FileSource;
+        end;
         ShowExtractDlg(ActiveFrame.FileSource, SelectedFiles,
-                       NotActiveFrame.FileSource, NotActiveFrame.CurrentPath)
-      else
-        msgWarning(rsMsgNoFilesSelected);
-
+                       TargetFileSource, TargetPath);
+      end;
     finally
-      if Assigned(SelectedFiles) then
-        FreeAndNil(SelectedFiles);
+      FreeAndNil(SelectedFiles);
     end;
   end;
 end;
