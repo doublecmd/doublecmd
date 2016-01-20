@@ -43,6 +43,8 @@ type
     FFiles: TFiles;
     FDrive: TDrive;
     FUserWishForContextMenu: TUserWishForContextMenu;
+    procedure PackHereSelect(Sender: TObject);
+    procedure ExtractHereSelect(Sender: TObject);
     procedure ContextMenuSelect(Sender: TObject);
     procedure TemplateContextMenuSelect(Sender: TObject);
     procedure DriveMountSelect(Sender: TObject);
@@ -63,7 +65,7 @@ implementation
 uses
   LCLProc, Dialogs, Graphics, uFindEx, uDCUtils,
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix,
-  fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts
+  fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSE}
@@ -196,6 +198,16 @@ begin
     Result:= GetGnomeTemplateMenu(Items);
   end;
 {$ENDIF}
+end;
+
+procedure TShellContextMenu.PackHereSelect(Sender: TObject);
+begin
+  frmMain.Commands.cm_PackFiles(['PackHere']);
+end;
+
+procedure TShellContextMenu.ExtractHereSelect(Sender: TObject);
+begin
+  frmMain.Commands.cm_ExtractFiles(['ExtractHere']);
 end;
 
 (* handling user commands from context menu *)
@@ -677,7 +689,27 @@ begin
         // Add "Open with" submenu if needed
         AddOpenWithMenu := FillOpenWithSubMenu;
 
-        // Add "Open with" menu
+        // Add delimiter menu
+        mi:=TMenuItem.Create(Self);
+        mi.Caption:='-';
+        Self.Items.Add(mi);
+
+        // Add "Pack here..."
+        mi:=TMenuItem.Create(Self);
+        mi.Caption:= rsMnuPackHere;
+        mi.OnClick:= Self.PackHereSelect;
+        Self.Items.Add(mi);
+
+        // Add "Extract here..."
+        if FileIsArchive(aFile.FullPath) then
+        begin
+          mi:=TMenuItem.Create(Self);
+          mi.Caption:= rsMnuExtractHere;
+          mi.OnClick:= Self.ExtractHereSelect;
+          Self.Items.Add(mi);
+        end;
+
+        // Add delimiter menu
         mi:=TMenuItem.Create(Self);
         mi.Caption:='-';
         Self.Items.Add(mi);
