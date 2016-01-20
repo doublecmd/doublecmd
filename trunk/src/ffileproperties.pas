@@ -393,16 +393,17 @@ begin
         lblType.Caption:=rsPropsUnknownType;
 
       lblSymlink.Visible := FPS_ISLNK(Attrs);
-      lblSymlinkStr.Visible := FPS_ISLNK(Attrs);
-      if FPS_ISLNK(Attrs) and isFileSystem then
+      lblSymlinkStr.Visible := lblSymlink.Visible;
+      if lblSymlink.Visible then
       begin
-        //lblSymlink.Caption := sLinkTo; // maybe make property for this
-        lblSymlink.Caption := ReadSymLink(FullPath);
-      end
-      else
-      begin
-        lblSymlink.Visible := False;
-        lblSymlinkStr.Visible := False;
+        if isFileSystem then
+          lblSymlink.Caption := ReadSymLink(FullPath)
+        else if (Assigned(LinkProperty) and LinkProperty.IsValid) then
+          lblSymlink.Caption := LinkProperty.LinkTo
+        else begin
+          lblSymlink.Visible := False;
+          lblSymlinkStr.Visible := False;
+        end;
       end;
     end
     else
