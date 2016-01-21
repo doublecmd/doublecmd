@@ -121,7 +121,7 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure EditorMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
-    procedure EditorPaint(Sender: TObject; ACanvas: TCanvas);
+
     procedure FormCreate(Sender: TObject);
     procedure actEditDeleteExecute(Sender: TObject);
     procedure actEditRedoExecute(Sender: TObject);
@@ -347,7 +347,7 @@ procedure TfrmEditor.EditorMouseWheelDown(Sender: TObject; Shift: TShiftState;
 var
    t:integer;
 begin
-  if Shift=[ssCtrl] then
+  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size>MIN_FONT_SIZE_EDITOR) then
   begin
     t:=Editor.TopLine;
     gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size-1;
@@ -364,7 +364,7 @@ procedure TfrmEditor.EditorMouseWheelUp(Sender: TObject; Shift: TShiftState;
 var
    t:integer;
 begin
-  if Shift=[ssCtrl] then
+  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size<MAX_FONT_SIZE_EDITOR) then
   begin
     t:=Editor.TopLine;
     gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;
@@ -376,10 +376,6 @@ begin
 
 end;
 
-procedure TfrmEditor.EditorPaint(Sender: TObject; ACanvas: TCanvas);
-begin
-  FontSizeCorrector;
-end;
 
 function TfrmEditor.OpenFile(const aFileName: String): Boolean;
 var

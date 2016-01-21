@@ -426,6 +426,10 @@ type
     property OnMouseDown;
     property OnMouseMove;
     property OnMouseUp;
+
+    property OnMouseWheelUp;
+    property OnMouseWheelDown;
+
     property Align;
     property Color;
     property Cursor default crIBeam;

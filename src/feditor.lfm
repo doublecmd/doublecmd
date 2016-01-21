@@ -529,7 +529,6 @@ object frmEditor: TfrmEditor
     LineHighlightColor.Background = clNone
     LineHighlightColor.Foreground = clNone
     OnChange = EditorChange
-    OnPaint = EditorPaint
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
     inline SynLeftGutterPartList1: TSynGutterPartList

@@ -381,7 +381,7 @@ begin
   if not IsLoadingFileList then
   begin
 
-    if Shift=[ssCtrl] then
+    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size<MAX_FONT_SIZE_MAIN) then
     begin
       gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
       frmMain.FrameLeft.UpdateView;
@@ -412,7 +412,7 @@ begin
   if not IsLoadingFileList then
   begin
 
-    if Shift=[ssCtrl] then
+    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size>MIN_FONT_SIZE_MAIN) then
     begin
       gFonts[dcfMain].Size:=gFonts[dcfMain].Size-1;
       frmMain.FrameLeft.UpdateView;
