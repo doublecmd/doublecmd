@@ -3,33 +3,59 @@ inherited frmOptionsViewer: TfrmOptionsViewer
   Width = 586
   ClientHeight = 513
   ClientWidth = 586
-  object gbViewerBookMode: TGroupBox[7]
+  DesignLeft = 384
+  DesignTop = 288
+  inherited edtToolsParameters: TEdit
+    Top = 113
+  end
+  inherited fneToolsPath: TFileNameEdit
+    Top = 61
+  end
+  inherited lblToolsPath: TLabel
+    Height = 15
+    Width = 144
+  end
+  inherited lblToolsParameters: TLabel
+    Height = 15
+    Top = 94
+    Width = 117
+  end
+  inherited cbToolsKeepTerminalOpen: TCheckBox
+    Top = 169
+  end
+  inherited cbToolsRunInTerminal: TCheckBox
+    Top = 148
+  end
+  inherited btnRelativeToolPath: TSpeedButton
+    Top = 61
+  end
+  object gbViewerBookMode: TGroupBox[8]
     AnchorSideLeft.Control = fneToolsPath
     AnchorSideTop.Control = cbToolsKeepTerminalOpen
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = fneToolsPath
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 244
-    Top = 186
-    Width = 554
+    Height = 250
+    Top = 200
+    Width = 525
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 12
     BorderSpacing.Bottom = 10
     Caption = 'Viewer Book Mode'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 226
-    ClientWidth = 550
+    ClientHeight = 230
+    ClientWidth = 521
     TabOrder = 5
     object lblBackgroundColorViewerBook: TLabel
       AnchorSideTop.Control = cbBackgroundColorViewerBook
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = cbBackgroundColorViewerBook
       Left = 8
-      Height = 13
-      Top = 13
-      Width = 154
+      Height = 15
+      Top = 12
+      Width = 174
       Caption = '&Background color in book viewer'
       FocusControl = cbBackgroundColorViewerBook
       ParentColor = False
@@ -38,8 +64,8 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideLeft.Control = cbFontColorViewerBook
       AnchorSideTop.Control = cbFontColorViewerBook
       AnchorSideTop.Side = asrBottom
-      Left = 182
-      Height = 21
+      Left = 202
+      Height = 23
       Top = 62
       Width = 36
       BorderSpacing.Top = 5
@@ -54,9 +80,9 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideTop.Control = seNumberColumnsViewer
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 13
+      Height = 15
       Top = 66
-      Width = 163
+      Width = 187
       Caption = '&Number of columns in book viewer'
       FocusControl = seNumberColumnsViewer
       ParentColor = False
@@ -70,21 +96,21 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideBottom.Control = seNumberColumnsViewer
       AnchorSideBottom.Side = asrBottom
       Left = 8
-      Height = 133
-      Top = 87
-      Width = 534
+      Height = 135
+      Top = 89
+      Width = 505
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Around = 8
       Caption = 'Example'
       ClientHeight = 115
-      ClientWidth = 530
+      ClientWidth = 501
       TabOrder = 4
       object pbViewerBook: TPaintBox
         Left = 5
         Height = 105
         Top = 5
-        Width = 520
+        Width = 491
         Align = alClient
         BorderSpacing.Around = 5
         OnPaint = pbViewerBookPaint
@@ -98,7 +124,7 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = cbFontColorViewerBook
       AnchorSideBottom.Side = asrBottom
-      Left = 510
+      Left = 481
       Height = 22
       Top = 35
       Width = 24
@@ -113,7 +139,7 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideTop.Control = cbBackgroundColorViewerBook
       AnchorSideBottom.Control = cbBackgroundColorViewerBook
       AnchorSideBottom.Side = asrBottom
-      Left = 510
+      Left = 481
       Height = 22
       Top = 8
       Width = 24
@@ -130,10 +156,10 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = cbBackgroundColorViewerBook
       AnchorSideRight.Side = asrBottom
-      Left = 182
+      Left = 202
       Height = 22
       Top = 35
-      Width = 324
+      Width = 275
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 5
@@ -146,9 +172,9 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideTop.Control = cbFontColorViewerBook
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 13
-      Top = 40
-      Width = 120
+      Height = 15
+      Top = 39
+      Width = 134
       BorderSpacing.Top = 10
       Caption = '&Font color in book viewer'
       FocusControl = cbFontColorViewerBook
@@ -158,10 +184,10 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideLeft.Control = lblBackgroundColorViewerBook
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = btnBackViewerColor
-      Left = 182
+      Left = 202
       Height = 22
       Top = 8
-      Width = 324
+      Width = 275
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 20
