@@ -5,6 +5,7 @@ set REVISION_INC=%1\dcrevision.inc
 
 del /Q %REVISION_TXT%
 del /Q %REVISION_INC%
+copy ..\units\dcrevision.inc %REVISION_INC%
 
 svnversion -n ..\ > %REVISION_TXT%
 
