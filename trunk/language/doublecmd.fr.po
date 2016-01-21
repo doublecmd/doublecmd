@@ -10108,6 +10108,10 @@ msgstr "Editer"
 msgid "Eject"
 msgstr "Ejecter"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -10140,6 +10144,10 @@ msgstr "Ouvrir avec..."
 #: ulng.rsmnuopenwithother
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
+msgstr ""
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
 msgstr ""
 
 #: ulng.rsmnusortby

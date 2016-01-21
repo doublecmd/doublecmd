@@ -9964,6 +9964,10 @@ msgstr "Bewerk"
 msgid "Eject"
 msgstr "Werp uit"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -9995,6 +9999,10 @@ msgstr "Open met"
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Ander..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"

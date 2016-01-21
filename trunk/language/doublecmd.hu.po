@@ -9390,6 +9390,10 @@ msgstr "Szerkesztés"
 msgid "Eject"
 msgstr "Kiadás"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -9421,6 +9425,10 @@ msgstr "Megnyitás ezzel ..."
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Más..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"

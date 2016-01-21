@@ -10035,6 +10035,10 @@ msgstr "編輯"
 msgid "Eject"
 msgstr "退出"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -10069,6 +10073,10 @@ msgstr "開啟..."
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "其它..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"

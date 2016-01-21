@@ -10279,6 +10279,10 @@ msgstr "편집"
 msgid "Eject"
 msgstr "꺼내기"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -10312,6 +10316,10 @@ msgstr "...로 열기"
 #: ulng.rsmnuopenwithother
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
+msgstr ""
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
 msgstr ""
 
 #: ulng.rsmnusortby

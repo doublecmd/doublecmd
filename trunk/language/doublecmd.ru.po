@@ -9322,6 +9322,10 @@ msgstr "Редактировать"
 msgid "Eject"
 msgstr "Извлечь"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr "Распаковать здесь..."
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr "Подключить сетевой диск..."
@@ -9352,6 +9356,10 @@ msgstr "Открыть с помощью"
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Другое..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr "Упаковать здесь..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
