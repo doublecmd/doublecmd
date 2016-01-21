@@ -52,6 +52,7 @@ type
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect;
               aState: TGridDrawState); override;
 
+
   public
     ColumnsOwnDim: TFunctionDime;
 

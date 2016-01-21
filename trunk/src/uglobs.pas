@@ -137,6 +137,14 @@ const
   DropTextUnicode_Index=2;
   DropTextSimpleText_Index=3;
 
+  { Global font sizes limitations }
+
+  MAX_MAIN_FONT_SIZE=50;
+  MIN_MAIN_FONT_SIZE=6;
+
+  MAX_EDITOR_FONT_SIZE=70;
+  MIN_EDITOR_FONT_SIZE=6;
+
 var
   { For localization }
   gPOFileName,
@@ -465,6 +473,7 @@ function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 
 procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
 procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
+procedure FontSizeCorrector;
 
 function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;
 function IsFileSystemWatcher: Boolean;
@@ -905,6 +914,15 @@ begin
     Font.Style   := Style;
     Font.Quality := Quality;
   end;
+end;
+
+procedure FontSizeCorrector;
+begin
+    if gFonts[dcfMain].Size>MAX_MAIN_FONT_SIZE then gFonts[dcfMain].Size:=MAX_MAIN_FONT_SIZE;
+    if gFonts[dcfMain].Size<MIN_MAIN_FONT_SIZE then gFonts[dcfMain].Size:=MIN_MAIN_FONT_SIZE;
+
+    if gFonts[dcfEditor].Size>MAX_EDITOR_FONT_SIZE then gFonts[dcfEditor].Size:=MAX_EDITOR_FONT_SIZE;
+    if gFonts[dcfEditor].Size<MIN_EDITOR_FONT_SIZE then gFonts[dcfEditor].Size:=MIN_EDITOR_FONT_SIZE;
 end;
 
 procedure OldKeysToNew(ActionEnabled: Boolean; ShiftState: TShiftState; Action: TKeyTypingAction);
