@@ -9252,6 +9252,10 @@ msgstr "編集"
 msgid "Eject"
 msgstr "取り出し"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr "ネットワークドライブの割り当て…"
@@ -9282,6 +9286,10 @@ msgstr "ファイルを開くアプリケーション"
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "その他…"
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"

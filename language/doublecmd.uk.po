@@ -9413,6 +9413,10 @@ msgstr "Редагувати"
 msgid "Eject"
 msgstr "Витягнути"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -9443,6 +9447,10 @@ msgstr "Відкрити з допомогою..."
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Інше..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"

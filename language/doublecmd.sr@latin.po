@@ -9350,6 +9350,10 @@ msgstr "Uredi"
 msgid "Eject"
 msgstr "Izbaci"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -9381,6 +9385,10 @@ msgstr "Otvori sa"
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Drugo..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"

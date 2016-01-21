@@ -9243,6 +9243,10 @@ msgstr "Upravit"
 msgid "Eject"
 msgstr "Vysunout"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -9273,6 +9277,10 @@ msgstr "Otevřít s"
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Ostatní..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"

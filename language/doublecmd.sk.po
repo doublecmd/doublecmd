@@ -10102,6 +10102,10 @@ msgstr "Upraviť"
 msgid "Eject"
 msgstr "Vysunúť"
 
+#: ulng.rsmnuextracthere
+msgid "Extract here..."
+msgstr ""
+
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
 msgstr ""
@@ -10135,6 +10139,10 @@ msgstr "Otvoriť s ..."
 msgctxt "ulng.rsmnuopenwithother"
 msgid "Other..."
 msgstr "Iné ..."
+
+#: ulng.rsmnupackhere
+msgid "Pack here..."
+msgstr ""
 
 #: ulng.rsmnusortby
 msgid "Sort by"
