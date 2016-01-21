@@ -139,11 +139,15 @@ const
 
   { Global font sizes limitations }
 
-  MAX_MAIN_FONT_SIZE=50;
-  MIN_MAIN_FONT_SIZE=6;
+  MAX_FONT_SIZE_MAIN=50;
+  MIN_FONT_SIZE_MAIN=6;
 
-  MAX_EDITOR_FONT_SIZE=70;
-  MIN_EDITOR_FONT_SIZE=6;
+  MAX_FONT_SIZE_EDITOR=70;
+  MIN_FONT_SIZE_EDITOR=6;
+
+  MAX_FONT_SIZE_VIEWER=70;
+  MIN_FONT_SIZE_VIEWER=6;
+
 
 var
   { For localization }
@@ -473,7 +477,7 @@ function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 
 procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
 procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
-procedure FontSizeCorrector;
+
 
 function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;
 function IsFileSystemWatcher: Boolean;
@@ -916,14 +920,6 @@ begin
   end;
 end;
 
-procedure FontSizeCorrector;
-begin
-    if gFonts[dcfMain].Size>MAX_MAIN_FONT_SIZE then gFonts[dcfMain].Size:=MAX_MAIN_FONT_SIZE;
-    if gFonts[dcfMain].Size<MIN_MAIN_FONT_SIZE then gFonts[dcfMain].Size:=MIN_MAIN_FONT_SIZE;
-
-    if gFonts[dcfEditor].Size>MAX_EDITOR_FONT_SIZE then gFonts[dcfEditor].Size:=MAX_EDITOR_FONT_SIZE;
-    if gFonts[dcfEditor].Size<MIN_EDITOR_FONT_SIZE then gFonts[dcfEditor].Size:=MIN_EDITOR_FONT_SIZE;
-end;
 
 procedure OldKeysToNew(ActionEnabled: Boolean; ShiftState: TShiftState; Action: TKeyTypingAction);
 var

@@ -2601,8 +2601,6 @@ procedure TFileView.UpdateView;
 var
   bLoadingFilelist: Boolean;
 begin
-  FontSizeCorrector;
-
   bLoadingFilelist := GetCurrentWorkType = fvwtCreate;
   StopWorkers;
 

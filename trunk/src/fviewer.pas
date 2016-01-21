@@ -204,6 +204,11 @@ type
     procedure miZoomClick(Sender: TObject);
     procedure PanelEditImageMouseEnter(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
+
+    procedure pnlTextMouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
     procedure sboxImageMouseEnter(Sender: TObject);
     procedure sboxImageMouseLeave(Sender: TObject);
     procedure sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -228,6 +233,10 @@ type
     procedure miCopyToClipboardClick(Sender: TObject);
     procedure miSelectAllClick(Sender: TObject);
     procedure miChangeEncodingClick(Sender:TObject);
+    procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure ViewerControlMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
     procedure ViewerPositionChanged(Sender:TObject);
     procedure miRotateClick(Sender: TObject);
     function  PluginShowFlags : Integer;
@@ -1180,6 +1189,26 @@ begin
   if bImage then AdjustImageSize;
 end;
 
+
+procedure TfrmViewer.pnlTextMouseWheelDown(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+
+end;
+
+procedure TfrmViewer.pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+  if Shift=[ssCtrl] then
+  begin
+    gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
+    pnlText.Font.Size:=gFonts[dcfMain].Size;
+    pnlText.Repaint;
+    Handled:=True;
+    Exit;
+  end;
+end;
+
 procedure TfrmViewer.sboxImageMouseEnter(Sender: TObject);
 begin
   if miFullScreen.Checked then TimerViewer.Enabled:=true;
@@ -1292,6 +1321,7 @@ begin
      Image.Cursor:=crNone;
     end;
 end;
+
 
 procedure TfrmViewer.ViewerControlMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -1713,6 +1743,32 @@ procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
 begin
   ViewerControl.EncodingName := (Sender as TMenuItem).Caption;
   Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+end;
+
+procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size>MIN_FONT_SIZE_VIEWER) then
+  begin
+    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size-1;
+    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
+    ViewerControl.Repaint;
+    Handled:=True;
+    Exit;
+  end;
+end;
+
+procedure TfrmViewer.ViewerControlMouseWheelUp(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size<MAX_FONT_SIZE_VIEWER) then
+  begin
+    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size+1;
+    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
+    ViewerControl.Repaint;
+    Handled:=True;
+    Exit;
+  end;
 end;
 
 function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
