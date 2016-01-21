@@ -20,7 +20,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
-  ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm, types;
+  ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm, types, Graphics;
 
 type
 
@@ -121,6 +121,7 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure EditorMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
+    procedure EditorPaint(Sender: TObject; ACanvas: TCanvas);
     procedure FormCreate(Sender: TObject);
     procedure actEditDeleteExecute(Sender: TObject);
     procedure actEditRedoExecute(Sender: TObject);
@@ -373,6 +374,11 @@ begin
     Handled:=True;
   end;
 
+end;
+
+procedure TfrmEditor.EditorPaint(Sender: TObject; ACanvas: TCanvas);
+begin
+  FontSizeCorrector;
 end;
 
 function TfrmEditor.OpenFile(const aFileName: String): Boolean;

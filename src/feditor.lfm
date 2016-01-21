@@ -1,7 +1,7 @@
 object frmEditor: TfrmEditor
-  Left = 100
+  Left = 255
   Height = 480
-  Top = 100
+  Top = 163
   Width = 640
   ActiveControl = Editor
   Caption = 'Editor'
@@ -529,6 +529,7 @@ object frmEditor: TfrmEditor
     LineHighlightColor.Background = clNone
     LineHighlightColor.Foreground = clNone
     OnChange = EditorChange
+    OnPaint = EditorPaint
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
     inline SynLeftGutterPartList1: TSynGutterPartList
