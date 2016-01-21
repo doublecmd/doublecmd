@@ -1,5 +1,6 @@
 @echo Clean up output directory
-@del /Q /S units\*.*
+@del /Q /S units\i386-win32-win32\*.*
+@del /Q /S units\x86_64-win64-win32\*.*
 @del /Q src\*.*~
 @del /Q src\*.~*
 @del /Q doublecmd.dbg
