@@ -13,7 +13,7 @@ IF ERRORLEVEL 1 goto EXIT
 
 set /P REVISION=<%REVISION_TXT%
 
-echo %REVISION% | find "Unversioned"
+echo %REVISION% | find "Unversioned" > nul
 
 IF NOT ERRORLEVEL 1 goto EXIT
 
