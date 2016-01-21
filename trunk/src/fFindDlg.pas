@@ -33,7 +33,7 @@ uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker, KASComboBox,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
-  uSearchTemplate, fSearchPlugin, uFileView;
+  uSearchTemplate, fSearchPlugin, uFileView, types;
 
 type
 
@@ -180,6 +180,14 @@ type
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure lsFoundedFilesKeyDown(Sender: TObject;
       var Key: Word; Shift: TShiftState);
+    procedure lsFoundedFilesMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure lsFoundedFilesMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure lsFoundedFilesMouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure lsFoundedFilesMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
     procedure miRemoveFromLlistClick(Sender: TObject);
     procedure miShowAllFoundClick(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
@@ -1442,6 +1450,85 @@ begin
         end;
       end;
     end;
+  end;
+end;
+
+procedure TfrmFindDlg.lsFoundedFilesMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  i:integer;
+  AFile: TFile;
+  AFiles: TFiles;
+  APoint: TPoint;
+begin
+  i:=lsFoundedFiles.ItemAtPos(Point(X,Y),False);
+
+  if Button=mbRight then
+  begin
+    if Shift=[ssCtrl] then lsFoundedFiles.ClearSelection;
+    if i>=0 then lsFoundedFiles.Selected[i]:=True;
+  end;
+end;
+
+procedure TfrmFindDlg.lsFoundedFilesMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if Button=mbRight then
+  begin
+
+    if Shift=[ssCtrl] then
+    begin
+      {$IF DEFINED(MSWINDOWS)}
+      {
+      try
+        AFile:= TFileSystemFileSource.CreateFileFromFile(ShellTreeView.Path);
+        try
+          AFiles:= TFiles.Create(AFile.Path);
+          AFiles.Add(AFile);
+          APoint := ShellTreeView.ClientToScreen(Classes.Point(X, Y));
+          ShowContextMenu(ShellTreeView, AFiles, APoint.X, APoint.Y, False, nil);
+        finally
+          FreeAndNil(AFiles);
+        end;
+      except
+        on E: EContextMenuException do
+          ShowException(E)
+        else;
+      end;
+      }
+      {$ENDIF}
+
+    end else
+    begin
+      PopupMenuFind.PopUp;
+    end;
+
+  end;
+end;
+
+procedure TfrmFindDlg.lsFoundedFilesMouseWheelDown(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size<MAX_FONT_SIZE_EDITOR) then
+  begin
+    //gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;
+    //FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
+
+    lsFoundedFiles.Font.Size:=lsFoundedFiles.Font.Size-1;
+    Handled:=True;
+  end;
+end;
+
+procedure TfrmFindDlg.lsFoundedFilesMouseWheelUp(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size<MAX_FONT_SIZE_EDITOR) then
+  begin
+    //gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;
+    //FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
+
+    lsFoundedFiles.Font.Size:=lsFoundedFiles.Font.Size+1;
+    Handled:=True;
   end;
 end;
 
