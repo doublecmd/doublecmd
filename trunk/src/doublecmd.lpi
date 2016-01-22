@@ -270,7 +270,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="224">
+    <Units Count="225">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1593,6 +1593,14 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fDeleteDlg"/>
       </Unit223>
+      <Unit224>
+        <Filename Value="frames\foptionstoolseditor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsEditor"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsToolsEditor"/>
+      </Unit224>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

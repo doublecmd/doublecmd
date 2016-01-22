@@ -27,7 +27,7 @@ uses
   DCClassesUtf8, uMultiArc, uColumns, uHotkeyManager, uSearchTemplate,
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx,
-  uHotDir, uSpecialDir, uVariableMenuSupport;
+  uHotDir, uSpecialDir, uVariableMenuSupport, SynEdit;
 
 type
   { Configuration options }
@@ -431,6 +431,9 @@ var
   gBookBackgroundColor,
   gBookFontColor: TColor;
   gTextPosition:PtrInt;
+
+  { Editor }
+  gEditorSynEditOptions: TSynEditorOptions;
 
   {SyncDirs}
   gSyncDirsSubdirs,
@@ -1376,6 +1379,9 @@ begin
   gBookFontColor := clWhite;
   gTextPosition:= 0;
   gViewerMode:= 0;
+
+  { Editor }
+  gEditorSynEditOptions := SYNEDIT_DEFAULT_OPTIONS;
 
   {SyncDirs}
   gSyncDirsSubdirs := False;
@@ -2464,6 +2470,13 @@ begin
       end;
     end;
 
+    { Editor }
+    Node := Root.FindNode('Editor');
+    if Assigned(Node) then
+    begin
+      gEditorSynEditOptions := TSynEditorOptions(GetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions)));
+    end;
+
     { SyncDirs }
     Node := Root.FindNode('SyncDirs');
     if Assigned(Node) then
@@ -2846,6 +2859,10 @@ begin
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
     SetValue(Node, 'FontColor', gBookFontColor);
     SetValue(Node, 'TextPosition', gTextPosition);
+
+    { Editor }
+    Node := FindNode(Root, 'Editor',True);
+    SetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions));
 
     { SyncDirs }
     Node := FindNode(Root, 'SyncDirs', True);
