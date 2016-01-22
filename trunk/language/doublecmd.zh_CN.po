@@ -2120,12 +2120,20 @@ msgstr "搜索子目录:"
 msgid "&Previous searches:"
 msgstr "最近搜索(&P)："
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr ""
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
+msgstr ""
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
 msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
@@ -5443,6 +5451,18 @@ msgstr ""
 msgid "Drives list"
 msgstr ""
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -7122,14 +7142,6 @@ msgstr ""
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr ""
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
 msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption

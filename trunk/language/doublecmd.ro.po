@@ -2031,6 +2031,10 @@ msgstr "Caută su&bdosarele:"
 msgid "&Previous searches:"
 msgstr "Căutări &precedente:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Înlătură din listă"
@@ -2038,6 +2042,10 @@ msgstr "Înlătură din listă"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Arată toate elementele găsite"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5121,6 +5129,18 @@ msgstr "Arată etichetă (&l)"
 msgid "Drives list"
 msgstr "Listă dispozitive"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6611,14 +6631,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Execută în &terminal:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Execută în t&erminal:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"

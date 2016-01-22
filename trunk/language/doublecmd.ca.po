@@ -2175,6 +2175,10 @@ msgstr "Cerca subcarpetes:"
 msgid "&Previous searches:"
 msgstr "Cerques prèvies:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Elimina de la lista"
@@ -2182,6 +2186,10 @@ msgstr "Elimina de la lista"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Mostra Tots els ítems trobats"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5491,6 +5499,18 @@ msgstr "Mostra etiqueta"
 msgid "Drives list"
 msgstr "Llista d'unitats"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -7188,20 +7208,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-#, fuzzy
-#| msgid "Run in terminal:"
-msgctxt "tfrmoptionsterminal.lblruninterm.caption"
-msgid "Run in &terminal:"
-msgstr "Executa en el terminal:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-#, fuzzy
-#| msgid "Run terminal:"
-msgctxt "tfrmoptionsterminal.lblrunterm.caption"
-msgid "Run t&erminal:"
-msgstr "Terminal:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"

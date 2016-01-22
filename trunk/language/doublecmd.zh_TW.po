@@ -2152,6 +2152,10 @@ msgstr "搜尋子目錄 (&B)："
 msgid "&Previous searches:"
 msgstr "歷史搜尋 (&P):"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "從清單移除"
@@ -2159,6 +2163,10 @@ msgstr "從清單移除"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "顯示找到的全部項目"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5399,6 +5407,18 @@ msgstr "顯示標籤 (&L)"
 msgid "Drives list"
 msgstr "磁碟清單"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 #, fuzzy
 #| msgid "Background"
@@ -7167,20 +7187,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-#, fuzzy
-#| msgid "Run in terminal:"
-msgctxt "TFRMOPTIONSTERMINAL.LBLRUNINTERM.CAPTION"
-msgid "Run in &terminal:"
-msgstr "使用終端機執行 (&T):"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-#, fuzzy
-#| msgid "Run terminal:"
-msgctxt "TFRMOPTIONSTERMINAL.LBLRUNTERM.CAPTION"
-msgid "Run t&erminal:"
-msgstr "開啟終端機 (&E):"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"

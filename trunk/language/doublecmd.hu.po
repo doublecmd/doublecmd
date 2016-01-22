@@ -2033,6 +2033,10 @@ msgstr "&Alkönyvtárak keresése :"
 msgid "&Previous searches:"
 msgstr "&Előző keresések :"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Eltávolít a listáról"
@@ -2040,6 +2044,10 @@ msgstr "Eltávolít a listáról"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Minden megtalált elem megjelenítése"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5136,6 +5144,18 @@ msgstr "Címke megje&lenítése"
 msgid "Drives list"
 msgstr "Meghajtólista"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6645,14 +6665,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Futtatás &terminálban :"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "T&erminál indítása :"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"

@@ -2194,6 +2194,10 @@ msgstr "하위 폴더 찾기(&B):"
 msgid "&Previous searches:"
 msgstr "이전 찾기(&P):"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "목록에서 제거"
@@ -2201,6 +2205,10 @@ msgstr "목록에서 제거"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "찾기 결과 모두 보기"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5509,6 +5517,18 @@ msgstr "레이블 표시하기"
 msgid "Drives list"
 msgstr "드라이브 목록"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 #, fuzzy
 #| msgid "Background"
@@ -7345,18 +7365,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-#, fuzzy
-#| msgid "Run in terminal:"
-msgid "Run in &terminal:"
-msgstr "명령 프롬프트에서 실행:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-#, fuzzy
-#| msgid "Run terminal:"
-msgid "Run t&erminal:"
-msgstr "명령 프롬프트 실행:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"

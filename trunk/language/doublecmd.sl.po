@@ -2028,6 +2028,10 @@ msgstr "Poišči tudi po &podrejenih mapah:"
 msgid "&Previous searches:"
 msgstr "&Shranjena iskanja:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Odstrani s seznama"
@@ -2035,6 +2039,10 @@ msgstr "Odstrani s seznama"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Pokaži vse najdene predmete"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5049,6 +5057,18 @@ msgstr "Pokaži &oznako"
 msgid "Drives list"
 msgstr "Seznam pogonov"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6521,14 +6541,6 @@ msgstr "Ukaz za izvedbo zaključenega ukaza v terminalu"
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Zaženi v &terminalu:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Odpri &terminal:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSECMD.EDITLABEL.CAPTION"
@@ -8566,6 +8578,13 @@ msgid "When file exists"
 msgstr "Če datoteka že obstaja,"
 
 #: ulng.msgtrytolocatecrcfile
+#, fuzzy
+#| msgid ""
+#| "This file cannot be found and could help to validate final combination of files:\n"
+#| "%s\n"
+#| "\n"
+#| "Could you make it available and press \"OK\" when ready,\n"
+#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -10183,6 +10202,10 @@ msgid "Target path:"
 msgstr "Ciljna pot:"
 
 #: ulng.rsmsgtcconfignotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration file:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s\n"
@@ -10191,6 +10214,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration executable:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
@@ -10199,6 +10226,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcisrunning
+#, fuzzy
+#| msgid ""
+#| "Error! TC is still running but it should be closed for this operation.\n"
+#| "Close it and press OK or press CANCEL to abort.\n"
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
@@ -10252,6 +10283,10 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr ""
 
 #: ulng.rsmsgtoolbarsaved
+#, fuzzy
+#| msgid ""
+#| "Saved!\n"
+#| "Toolbar filename: %s\n"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"

@@ -2187,6 +2187,10 @@ msgstr "Rechercher dans les sous-dossiers :"
 msgid "&Previous searches:"
 msgstr "Recherches &précédentes :"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Supprimer de la liste"
@@ -2194,6 +2198,10 @@ msgstr "Supprimer de la liste"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Afficher tous les éléments trouvés"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5452,6 +5460,18 @@ msgstr ""
 msgid "Drives list"
 msgstr ""
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -7159,20 +7179,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-#, fuzzy
-#| msgid "Run in terminal:"
-msgctxt "TFRMOPTIONSTERMINAL.LBLRUNINTERM.CAPTION"
-msgid "Run in &terminal:"
-msgstr "Exécuter dans un terminal :"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-#, fuzzy
-#| msgid "Run terminal:"
-msgctxt "TFRMOPTIONSTERMINAL.LBLRUNTERM.CAPTION"
-msgid "Run t&erminal:"
-msgstr "Lancer un terminal :"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"

@@ -2021,6 +2021,10 @@ msgstr "Глубина вло&женности подкаталогов:"
 msgid "&Previous searches:"
 msgstr "Сохранённые &шаблоны поиска:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr "Открыть в новой вкладке(ах)"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Убрать из списка"
@@ -2029,17 +2033,13 @@ msgstr "Убрать из списка"
 msgid "Show all found items"
 msgstr "Показать все найденные элементы"
 
-#: tfrmfinddlg.mishowinviewer.caption
-msgid "Show In Viewer"
-msgstr "Просмотр"
-
-#: tfrmfinddlg.miopeninnewtab.caption
-msgid "Open In New Tab(s)"
-msgstr "Открыть в новой вкладке(ах)"
-
 #: tfrmfinddlg.mishowineditor.caption
 msgid "Show In Editor"
 msgstr "Показать в редакторе"
+
+#: tfrmfinddlg.mishowinviewer.caption
+msgid "Show In Viewer"
+msgstr "Просмотр"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -5070,6 +5070,18 @@ msgstr "&Метка"
 msgid "Drives list"
 msgstr "Список дисков"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr "Прокручивать за конец строки"
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr "Показывать специальные символы"
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr "Опции встроенного редактора"
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6577,14 +6589,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Запуск в т&ерминале"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Запуск &терминала"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 #, fuzzy

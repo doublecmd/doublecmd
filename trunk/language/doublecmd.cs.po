@@ -2021,6 +2021,10 @@ msgstr "Prohledat po&dadresáře:"
 msgid "&Previous searches:"
 msgstr "&Předchozí hledání:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Odebrat ze seznamu"
@@ -2028,6 +2032,10 @@ msgstr "Odebrat ze seznamu"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Zobrazit všechny nalezené položky"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5041,6 +5049,18 @@ msgstr "Zobrazit &štítek"
 msgid "Drives list"
 msgstr "Seznam disků"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6510,14 +6530,6 @@ msgstr "Příkaz pro spuštění v terminálu a terminál se zavře:"
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr "Příkaz pro spuštění v terminálu a terminál zůstane otevřený:"
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Spustit v &terminálu:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Spustit t&erminál:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSECMD.EDITLABEL.CAPTION"
@@ -8554,6 +8566,13 @@ msgid "When file exists"
 msgstr "Pokud soubor existuje"
 
 #: ulng.msgtrytolocatecrcfile
+#, fuzzy
+#| msgid ""
+#| "This file cannot be found and could help to validate final combination of files:\n"
+#| "%s\n"
+#| "\n"
+#| "Could you make it available and press \"OK\" when ready,\n"
+#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -9154,6 +9173,11 @@ msgid "Sorry, nothing detected to import!"
 msgstr "Bohužel, není nic detekováno pro import!"
 
 #: ulng.rshotdirwarningabortrestorebackup
+#, fuzzy
+#| msgid ""
+#| "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+#| "\n"
+#| "Are you sure you want to proceed?\n"
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
@@ -9304,6 +9328,12 @@ msgid "Additional parameters for archiver command-line:"
 msgstr "Doplňující parametry pro archivátor příkazové řádky:"
 
 #: ulng.rsmsgbadcrc32
+#, fuzzy
+#| msgid ""
+#| "Bad CRC32 for resulting file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Do you want to keep the resulting corrupted file anyway?\n"
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
@@ -9336,6 +9366,11 @@ msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Záložka (%s) je uzamčena! Přesto zavřít?"
 
 #: ulng.rsmsgcolumnsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding columns view have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding columns view have been modified.\n"
 "\n"
@@ -9554,6 +9589,11 @@ msgid "Archive format unknown"
 msgstr "Neznámý formát archívu"
 
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "File extension associations extra options have been modified.\n"
+#| "\n"
+#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations extra options have been modified.\n"
 "\n"
@@ -9564,6 +9604,11 @@ msgstr ""
 "Chcete ho před ukončením uložit?\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "File extension associations have been modified.\n"
+#| "\n"
+#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations have been modified.\n"
 "\n"
@@ -9610,6 +9655,11 @@ msgid "Options regarding file operations have been modified. Do you want to save
 msgstr "Možnosti týkající se činnosti souborů byly upraveny. Chcete je před ukončením uložit?"
 
 #: ulng.rsmsgfilepanelcolormodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding panel color have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding panel color have been modified.\n"
 "\n"
@@ -9806,6 +9856,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Některé funkce pro výběr příslušné relativní nebo absolutní cesty, speciální složky Windows, atd."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy
+#| msgid ""
+#| "Total entries saved: %d\n"
+#| "\n"
+#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -9820,6 +9875,10 @@ msgid "Total entries exported: "
 msgstr "Celkem exportovaných položek: "
 
 #: ulng.rsmsghotdirwhattodelete
+#, fuzzy
+#| msgid ""
+#| "Do you want to delete all elements inside the sub-menu [%s]?\n"
+#| "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -9836,6 +9895,14 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Neplatný výsledek délky souboru pro soubor: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy
+#| msgid ""
+#| "Please insert next disk or something similar.\n"
+#| "\n"
+#| "It is to allow writing this file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -9940,6 +10007,11 @@ msgid "Move file %s"
 msgstr "Přesunout soubor %s"
 
 #: ulng.rsmsglogoptionsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding log have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding log have been modified.\n"
 "\n"
@@ -10192,6 +10264,10 @@ msgid "Target path:"
 msgstr "Cílová cesta:"
 
 #: ulng.rsmsgtcconfignotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration file:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s\n"
@@ -10200,6 +10276,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration executable:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
@@ -10208,6 +10288,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcisrunning
+#, fuzzy
+#| msgid ""
+#| "Error! TC is still running but it should be closed for this operation.\n"
+#| "Close it and press OK or press CANCEL to abort.\n"
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
@@ -10216,6 +10300,10 @@ msgstr ""
 "Ukončete ho a klikněte na OK nebo kliknutím na ZRUŠIT akci přerušte.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the desired wanted TC toolbar output folder:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
@@ -10228,6 +10316,11 @@ msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Zadání umístění a názvu souboru pro uložení souboru nástrojové lišty TC"
 
 #: ulng.rsmsgterminaloptionsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding terminal have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding terminal have been modified.\n"
 "\n"
@@ -10266,6 +10359,10 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Zadání umístění a názvu souboru pro obnovení nástrojové lišty"
 
 #: ulng.rsmsgtoolbarsaved
+#, fuzzy
+#| msgid ""
+#| "Saved!\n"
+#| "Toolbar filename: %s\n"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"

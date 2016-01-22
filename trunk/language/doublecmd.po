@@ -3000,10 +3000,6 @@ msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr ""
 
-#: tfrmmain.menuitem1.caption
-msgid "New Item1"
-msgstr ""
-
 #: tfrmmain.menuitem2.caption
 msgctxt "TFRMMAIN.MENUITEM2.CAPTION"
 msgid "-"
@@ -5049,6 +5045,18 @@ msgstr ""
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
+msgstr ""
+
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
 msgstr ""
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption

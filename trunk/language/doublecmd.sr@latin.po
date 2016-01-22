@@ -2035,6 +2035,10 @@ msgstr "traži u &podfasciklama:"
 msgid "&Previous searches:"
 msgstr "&Prethodne pretrage:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Ukloni sa spiska"
@@ -2042,6 +2046,10 @@ msgstr "Ukloni sa spiska"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Prikaži sve pronađene stavke"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5126,6 +5134,18 @@ msgstr "Prikaži natpis&"
 msgid "Drives list"
 msgstr "Spisak uređaja"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6612,14 +6632,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Pokreni u &terminalu:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Pokreni &terminal:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 #, fuzzy
@@ -8661,6 +8673,13 @@ msgid "When file exists"
 msgstr "Kada datoteka postoji"
 
 #: ulng.msgtrytolocatecrcfile
+#, fuzzy
+#| msgid ""
+#| "This file cannot be found and could help to validate final combination of files:\n"
+#| "%s\n"
+#| "\n"
+#| "Could you make it available and press \"OK\" when ready,\n"
+#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -9261,6 +9280,11 @@ msgid "Sorry, nothing detected to import!"
 msgstr "Žalim, nisam pronašao ništa za uvoz!"
 
 #: ulng.rshotdirwarningabortrestorebackup
+#, fuzzy
+#| msgid ""
+#| "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+#| "\n"
+#| "Are you sure you want to proceed?\n"
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
@@ -9412,6 +9436,12 @@ msgid "Additional parameters for archiver command-line:"
 msgstr "Dodatne odrednice za naredbenu liniju programa sažimanja:"
 
 #: ulng.rsmsgbadcrc32
+#, fuzzy
+#| msgid ""
+#| "Bad CRC32 for resulting file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Do you want to keep the resulting corrupted file anyway?\n"
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
@@ -9902,6 +9932,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Neke radnje za izbor određene putanje odnosne, apsolutne, naročite fascikle Vindouza, itd."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy
+#| msgid ""
+#| "Total entries saved: %d\n"
+#| "\n"
+#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -9916,6 +9951,10 @@ msgid "Total entries exported: "
 msgstr "Ukupna broj izvezenih stavki: "
 
 #: ulng.rsmsghotdirwhattodelete
+#, fuzzy
+#| msgid ""
+#| "Do you want to delete all elements inside the sub-menu [%s]?\n"
+#| "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -9932,6 +9971,14 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Netačna je izlazna dužina datoteke : „%s“"
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy
+#| msgid ""
+#| "Please insert next disk or something similar.\n"
+#| "\n"
+#| "It is to allow writing this file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
