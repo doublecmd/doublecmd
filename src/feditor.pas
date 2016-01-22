@@ -245,6 +245,7 @@ var
 begin
   InitPropStorage(Self);
 
+  Editor.Options:= gEditorSynEditOptions;
   FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
 
 // update menu highlighting

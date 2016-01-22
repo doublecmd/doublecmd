@@ -138,6 +138,7 @@ uses
   fOptionsTerminal,
   fOptionsToolbar,
   fOptionsTools,
+  fOptionsToolsEditor,
   fOptionsToolsDiffer,
   fOptionsEditorColors,
   fOptionsToolTips,

@@ -1,0 +1,86 @@
+inherited frmOptionsEditor: TfrmOptionsEditor
+  Height = 513
+  Width = 586
+  ClientHeight = 513
+  ClientWidth = 586
+  DesignLeft = 384
+  DesignTop = 288
+  inherited edtToolsParameters: TEdit
+    Height = 20
+    Top = 108
+  end
+  inherited fneToolsPath: TFileNameEdit
+    Height = 20
+    Top = 60
+  end
+  inherited lblToolsPath: TLabel
+    Height = 14
+    Width = 173
+  end
+  inherited lblToolsParameters: TLabel
+    Height = 14
+    Top = 90
+    Width = 140
+  end
+  inherited cbToolsKeepTerminalOpen: TCheckBox
+    Top = 161
+    Width = 350
+  end
+  inherited cbToolsRunInTerminal: TCheckBox
+    Top = 140
+    Width = 144
+  end
+  inherited cbToolsUseExternalProgram: TCheckBox
+    Width = 160
+  end
+  inherited btnRelativeToolPath: TSpeedButton
+    Top = 60
+  end
+  object gbInternalEditor: TGroupBox[8]
+    AnchorSideLeft.Control = fneToolsPath
+    AnchorSideTop.Control = cbToolsKeepTerminalOpen
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtToolsParameters
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 54
+    Top = 192
+    Width = 571
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 12
+    BorderSpacing.Bottom = 10
+    Caption = 'Internal editor options'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.HorizontalSpacing = 12
+    ChildSizing.EnlargeHorizontal = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 36
+    ClientWidth = 567
+    TabOrder = 5
+    object chkScrollPastEndLine: TCheckBox
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 6
+      Width = 257
+      BorderSpacing.Left = 6
+      Caption = 'Caret past end of line'
+      TabOrder = 0
+    end
+    object chkShowSpecialChars: TCheckBox
+      Left = 275
+      Height = 19
+      Top = 6
+      Width = 286
+      Caption = 'Show special characters'
+      TabOrder = 1
+    end
+  end
+  inherited pmPathHelper: TPopupMenu[9]
+    left = 424
+    top = 8
+  end
+end

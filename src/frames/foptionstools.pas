@@ -64,17 +64,6 @@ type
     class function GetTitle: String; override;
   end;
 
-  { TfrmOptionsEditor }
-
-  TfrmOptionsEditor = class(TfrmOptionsToolBase)
-  protected
-    procedure Init; override;
-  public
-    constructor Create(TheOwner: TComponent); override;
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
-  end;
-
 implementation
 
 {$R *.lfm}
@@ -179,30 +168,6 @@ begin
   gColCount := seNumberColumnsViewer.Value;
   gBookBackgroundColor := cbBackgroundColorViewerBook.Selected;
   gBookFontColor := cbFontColorViewerBook.Selected;
-end;
-
-{ TfrmOptionsEditor }
-
-procedure TfrmOptionsEditor.Init;
-begin
-  ExternalTool := etEditor;
-  inherited Init;
-end;
-
-constructor TfrmOptionsEditor.Create(TheOwner: TComponent);
-begin
-  inherited Create(TheOwner);
-  Name := 'frmOptionsEditor';
-end;
-
-class function TfrmOptionsEditor.GetIconIndex: Integer;
-begin
-  Result := 10;
-end;
-
-class function TfrmOptionsEditor.GetTitle: String;
-begin
-  Result := rsToolEditor;
 end;
 
 end.
