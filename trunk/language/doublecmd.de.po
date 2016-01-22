@@ -1597,7 +1597,7 @@ msgstr "Bearbeiten"
 #: tfrmfileassoc.mieditor.caption
 msgctxt "tfrmfileassoc.mieditor.caption"
 msgid "Open in Editor"
-msgstr "im Editor öffnen"
+msgstr "Im Editor öffnen"
 
 #: tfrmfileassoc.mifilename.caption
 msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
@@ -2175,6 +2175,10 @@ msgstr "Suche Unter&verzeichnisse"
 msgid "&Previous searches:"
 msgstr "&Vorherige Suche(n)"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr "In einem neuen Tab(s) öffnen"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Von der Liste entfernen"
@@ -2182,6 +2186,10 @@ msgstr "Von der Liste entfernen"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Alle gefundenen Einträge anzeigen"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr "Anzeigen Redakteur"
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -3313,6 +3321,10 @@ msgstr "Double Commander"
 msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr "Pfad"
+
+#: tfrmmain.menuitem1.caption
+msgid "New Item1"
+msgstr ""
 
 #: tfrmmain.menuitem2.caption
 msgctxt "TFRMMAIN.MENUITEM2.CAPTION"
@@ -7408,18 +7420,6 @@ msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend zu 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend offen zu halten:"
-
-#: tfrmoptionsterminal.lblruninterm.caption
-#, fuzzy
-#| msgid "Run in terminal:"
-msgid "Run in &terminal:"
-msgstr "Im Befehlszeilen-Fens&ter ausführen:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-#, fuzzy
-#| msgid "Run terminal:"
-msgid "Run t&erminal:"
-msgstr "Di&esen Befehls-Interpreter benutzen:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 #, fuzzy
