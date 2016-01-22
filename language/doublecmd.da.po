@@ -2048,6 +2048,10 @@ msgstr "Søg i under&mapper:"
 msgid "&Previous searches:"
 msgstr "&Tidligere søgninger:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Fjern fra liste"
@@ -2055,6 +2059,10 @@ msgstr "Fjern fra liste"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Vis alle fundne elementer"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5161,6 +5169,18 @@ msgstr "Vis drevnavn"
 msgid "Drives list"
 msgstr "Drev-valgboks"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6659,14 +6679,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Kør i &terminal:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Kør t&erminal:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 #, fuzzy
@@ -8749,6 +8761,13 @@ msgid "When file exists"
 msgstr "Hvis fil findes"
 
 #: ulng.msgtrytolocatecrcfile
+#, fuzzy
+#| msgid ""
+#| "This file cannot be found and could help to validate final combination of files:\n"
+#| "%s\n"
+#| "\n"
+#| "Could you make it available and press \"OK\" when ready,\n"
+#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -9995,6 +10014,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Nogle funktioner til at vælge egnet sti - relative, absolutte, særlige windowsmapper etc."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy
+#| msgid ""
+#| "Total entries saved: %d\n"
+#| "\n"
+#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -10008,6 +10032,10 @@ msgid "Total entries exported: "
 msgstr "Samlede antal eksportede posteringer: "
 
 #: ulng.rsmsghotdirwhattodelete
+#, fuzzy
+#| msgid ""
+#| "Do you want to delete all elements inside the sub-menu [%s]?\n"
+#| "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -10024,6 +10052,14 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Ugyldig fillængde for fil : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy
+#| msgid ""
+#| "Please insert next disk or something similar.\n"
+#| "\n"
+#| "It is to allow writing this file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -10388,7 +10424,7 @@ msgstr "Sti:"
 #: ulng.rsmsgtcconfignotfound
 #, fuzzy
 #| msgid ""
-#| "Error! Cannot find the TC oncfiguration file:\n"
+#| "Error! Cannot find the TC configuration file:\n"
 #| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
@@ -10398,6 +10434,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration executable:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
@@ -10406,6 +10446,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcisrunning
+#, fuzzy
+#| msgid ""
+#| "Error! TC is still running but it should be closed for this operation.\n"
+#| "Close it and press OK or press CANCEL to abort.\n"
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
@@ -10414,6 +10458,10 @@ msgstr ""
 "Luk TC og tryk OK eller tryk Annuller for at afbryde.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the desired wanted TC toolbar output folder:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
@@ -10461,6 +10509,10 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Indtast placering og filnavn på værktøjslinjen, der skal gendannes"
 
 #: ulng.rsmsgtoolbarsaved
+#, fuzzy
+#| msgid ""
+#| "Saved!\n"
+#| "Toolbar filename: %s\n"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"

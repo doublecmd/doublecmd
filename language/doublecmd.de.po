@@ -3322,10 +3322,6 @@ msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr "Pfad"
 
-#: tfrmmain.menuitem1.caption
-msgid "New Item1"
-msgstr ""
-
 #: tfrmmain.menuitem2.caption
 msgctxt "TFRMMAIN.MENUITEM2.CAPTION"
 msgid "-"
@@ -5604,6 +5600,18 @@ msgstr "Zeige &Laufwerksbezeichnung"
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
 msgstr "Laufwerksliste"
+
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 #, fuzzy
@@ -9625,6 +9633,13 @@ msgid "When file exists"
 msgstr "Wenn Datei vorhanden"
 
 #: ulng.msgtrytolocatecrcfile
+#, fuzzy
+#| msgid ""
+#| "This file cannot be found and could help to validate final combination of files:\n"
+#| "%s\n"
+#| "\n"
+#| "Could you make it available and press \"OK\" when ready,\n"
+#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -10237,6 +10252,11 @@ msgid "Sorry, nothing detected to import!"
 msgstr "Sorry, nichts erkannt zum Importieren!"
 
 #: ulng.rshotdirwarningabortrestorebackup
+#, fuzzy
+#| msgid ""
+#| "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+#| "\n"
+#| "Are you sure you want to proceed?\n"
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
@@ -10391,6 +10411,12 @@ msgid "Additional parameters for archiver command-line:"
 msgstr "Zusätzliche Parameter für die Befehlszeile des Packers:"
 
 #: ulng.rsmsgbadcrc32
+#, fuzzy
+#| msgid ""
+#| "Bad CRC32 for resulting file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Do you want to keep the resulting corrupted file anyway?\n"
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
@@ -10423,6 +10449,11 @@ msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Dieser Tab (%s) ist gesperrt! Trotzdem schließen?"
 
 #: ulng.rsmsgcolumnsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding columns view have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding columns view have been modified.\n"
 "\n"
@@ -10641,6 +10672,11 @@ msgid "Archive format unknown"
 msgstr "Archivformat unbekannt"
 
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "File extension associations extra options have been modified.\n"
+#| "\n"
+#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations extra options have been modified.\n"
 "\n"
@@ -10651,6 +10687,11 @@ msgstr ""
 "Sollen sie vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "File extension associations have been modified.\n"
+#| "\n"
+#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations have been modified.\n"
 "\n"
@@ -10697,6 +10738,11 @@ msgid "Options regarding file operations have been modified. Do you want to save
 msgstr "Optionen für Dateioperationen wurden verändert. Soll gespeichert werden vor dem Beenden?"
 
 #: ulng.rsmsgfilepanelcolormodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding panel color have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding panel color have been modified.\n"
 "\n"
@@ -10893,6 +10939,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Einige Funktionen zum Wählen eines relativen Pfades, absoluten Pfades, spezieler Ordner, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy
+#| msgid ""
+#| "Total entries saved: %d\n"
+#| "\n"
+#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -10907,6 +10958,10 @@ msgid "Total entries exported: "
 msgstr "Gesamtzahl der exportierten Einträge"
 
 #: ulng.rsmsghotdirwhattodelete
+#, fuzzy
+#| msgid ""
+#| "Do you want to delete all elements inside the sub-menu [%s]?\n"
+#| "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -10923,6 +10978,14 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Falsches Ergebnis der Dateilänge für: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy
+#| msgid ""
+#| "Please insert next disk or something similar.\n"
+#| "\n"
+#| "It is to allow writing this file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -11279,7 +11342,7 @@ msgstr "Zielpfad"
 #: ulng.rsmsgtcconfignotfound
 #, fuzzy
 #| msgid ""
-#| "Error! Cannot find the TC oncfiguration file:\n"
+#| "Error! Cannot find the TC configuration file:\n"
 #| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
@@ -11311,6 +11374,11 @@ msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
 #: ulng.rsmsgterminaloptionsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding terminal have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding terminal have been modified.\n"
 "\n"

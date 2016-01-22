@@ -2194,6 +2194,10 @@ msgstr "Buscar en su&bdirectorios:"
 msgid "&Previous searches:"
 msgstr "Búsquedas &previas:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Remover de la lista"
@@ -2201,6 +2205,10 @@ msgstr "Remover de la lista"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Mostrar todos los ítems encontrados"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5524,6 +5532,18 @@ msgstr "Mostrar eti&queta"
 msgid "Drives list"
 msgstr "Lista de unidades"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 #, fuzzy
 #| msgid "Background"
@@ -7309,18 +7329,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-#, fuzzy
-#| msgid "Run in terminal:"
-msgid "Run in &terminal:"
-msgstr "Ejecutar en &terminal:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-#, fuzzy
-#| msgid "Run terminal:"
-msgid "Run t&erminal:"
-msgstr "Ejecutar t&erminal:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 #, fuzzy
@@ -9517,6 +9525,13 @@ msgid "When file exists"
 msgstr "Cuando el archivo existe"
 
 #: ulng.msgtrytolocatecrcfile
+#, fuzzy
+#| msgid ""
+#| "This file cannot be found and could help to validate final combination of files:\n"
+#| "%s\n"
+#| "\n"
+#| "Could you make it available and press \"OK\" when ready,\n"
+#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -10130,6 +10145,11 @@ msgid "Sorry, nothing detected to import!"
 msgstr "Lo siento, no hay nada detectado para importar!"
 
 #: ulng.rshotdirwarningabortrestorebackup
+#, fuzzy
+#| msgid ""
+#| "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+#| "\n"
+#| "Are you sure you want to proceed?\n"
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
@@ -10283,6 +10303,12 @@ msgid "Additional parameters for archiver command-line:"
 msgstr "Parámetros adicionales para la línea de comandos:"
 
 #: ulng.rsmsgbadcrc32
+#, fuzzy
+#| msgid ""
+#| "Bad CRC32 for resulting file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Do you want to keep the resulting corrupted file anyway?\n"
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
@@ -10773,6 +10799,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Algunas funciones para seleccionar ruta apropiada relativa, absoluta, carpetas especiales de windows, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy
+#| msgid ""
+#| "Total entries saved: %d\n"
+#| "\n"
+#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -10787,6 +10818,10 @@ msgid "Total entries exported: "
 msgstr "Total entradas exportadas:"
 
 #: ulng.rsmsghotdirwhattodelete
+#, fuzzy
+#| msgid ""
+#| "Do you want to delete all elements inside the sub-menu [%s]?\n"
+#| "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -10803,6 +10838,14 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Longitud de archivo incorrecto en: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy
+#| msgid ""
+#| "Please insert next disk or something similar.\n"
+#| "\n"
+#| "It is to allow writing this file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -11160,7 +11203,7 @@ msgstr "Ruta destino:"
 #: ulng.rsmsgtcconfignotfound
 #, fuzzy
 #| msgid ""
-#| "Error! Cannot find the TC oncfiguration file:\n"
+#| "Error! Cannot find the TC configuration file:\n"
 #| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
@@ -11170,6 +11213,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration executable:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
@@ -11178,6 +11225,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcisrunning
+#, fuzzy
+#| msgid ""
+#| "Error! TC is still running but it should be closed for this operation.\n"
+#| "Close it and press OK or press CANCEL to abort.\n"
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
@@ -11186,6 +11237,10 @@ msgstr ""
 "Ciérrelo y pulse Aceptar o Cancelar para interrumpir.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the desired wanted TC toolbar output folder:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
@@ -11233,6 +11288,10 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Ingrese ubicación y nombre de archivo de donde recuperar Barra de herramientas"
 
 #: ulng.rsmsgtoolbarsaved
+#, fuzzy
+#| msgid ""
+#| "Saved!\n"
+#| "Toolbar filename: %s\n"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"

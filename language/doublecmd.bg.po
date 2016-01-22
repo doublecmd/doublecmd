@@ -2139,12 +2139,20 @@ msgstr "Търсене на по&дпапки:"
 msgid "&Previous searches:"
 msgstr "Пре&дишни търсения:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr ""
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
+msgstr ""
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
 msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
@@ -5480,6 +5488,18 @@ msgstr "Показване на &етикет"
 msgid "Drives list"
 msgstr "Списък на устройствата"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -7173,14 +7193,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Пускане в &терминала"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "&Пускане на терминала"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"

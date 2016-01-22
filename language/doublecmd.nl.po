@@ -2123,6 +2123,10 @@ msgstr "Doorzoek submappen:"
 msgid "&Previous searches:"
 msgstr "& vorige zoekopdrachten:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Verwijder uit lijst"
@@ -2130,6 +2134,10 @@ msgstr "Verwijder uit lijst"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Toon alle gevonden items"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5449,6 +5457,18 @@ msgstr "Toon label"
 msgid "Drives list"
 msgstr "Drives lijst"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 #, fuzzy
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -7112,14 +7132,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Uitvoeren in terminal"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Uitvoeren terminal:"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 #, fuzzy
@@ -9878,6 +9890,11 @@ msgid "Sorry, nothing detected to import!"
 msgstr "Sorry, niet gevonden bij importeren!"
 
 #: ulng.rshotdirwarningabortrestorebackup
+#, fuzzy
+#| msgid ""
+#| "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+#| "\n"
+#| "Are you sure you want to proceed?\n"
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
@@ -10514,6 +10531,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Enige functies om geschikte pad te selecteren, relatief, absoluut, windows speciale mappen, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy
+#| msgid ""
+#| "Total entries saved: %d\n"
+#| "\n"
+#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -10543,6 +10565,13 @@ msgstr "Onjuist resultaat bestandslengte voor bestand: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
 #, fuzzy,badformat
+#| msgid ""
+#| "Please insert next disk or something similar.\n"
+#| "\n"
+#| "It is to allow writing this file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -10898,7 +10927,7 @@ msgstr "Doelpad:"
 #: ulng.rsmsgtcconfignotfound
 #, fuzzy
 #| msgid ""
-#| "Error! Cannot find the TC oncfiguration file:\n"
+#| "Error! Cannot find the TC configuration file:\n"
 #| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
@@ -10909,12 +10938,19 @@ msgstr ""
 
 #: ulng.rsmsgtcexecutablenotfound
 #, fuzzy,badformat
+#| msgid ""
+#| "Error! Cannot find the TC configuration executable:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
 msgstr "Fout! Kan het bestand voor uitvoeren van TC-configuratie niet vinden:"
 
 #: ulng.rsmsgtcisrunning
+#, fuzzy
+#| msgid ""
+#| "Error! TC is still running but it should be closed for this operation.\n"
+#| "Close it and press OK or press CANCEL to abort.\n"
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
@@ -10924,6 +10960,9 @@ msgstr ""
 
 #: ulng.rsmsgtctoolbarnotfound
 #, fuzzy,badformat
+#| msgid ""
+#| "Error! Cannot find the desired wanted TC toolbar output folder:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
@@ -10971,6 +11010,10 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Geef locatie en bestandsnaam in van gereedschapsbalk om te herstellen"
 
 #: ulng.rsmsgtoolbarsaved
+#, fuzzy
+#| msgid ""
+#| "Saved!\n"
+#| "Toolbar filename: %s\n"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"

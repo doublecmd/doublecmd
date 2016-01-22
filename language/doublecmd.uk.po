@@ -2020,6 +2020,10 @@ msgstr "Шукати в під&каталогах:"
 msgid "&Previous searches:"
 msgstr "&Попередні пошуки:"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Видалити зі списку"
@@ -2027,6 +2031,10 @@ msgstr "Видалити зі списку"
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
 msgstr "Показати все знайдене"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -5131,6 +5139,18 @@ msgstr "Показувати &мітки"
 msgid "Drives list"
 msgstr "Список дисків"
 
+#: tfrmoptionseditor.chkscrollpastendline.caption
+msgid "Caret past end of line"
+msgstr ""
+
+#: tfrmoptionseditor.chkshowspecialchars.caption
+msgid "Show special characters"
+msgstr ""
+
+#: tfrmoptionseditor.gbinternaleditor.caption
+msgid "Internal editor options"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
@@ -6644,14 +6664,6 @@ msgstr ""
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr "Запустити у &терміналі:"
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
-msgstr "Запустити т&ермінал"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 #, fuzzy
@@ -8715,6 +8727,13 @@ msgid "When file exists"
 msgstr "Якщо файл існує"
 
 #: ulng.msgtrytolocatecrcfile
+#, fuzzy
+#| msgid ""
+#| "This file cannot be found and could help to validate final combination of files:\n"
+#| "%s\n"
+#| "\n"
+#| "Could you make it available and press \"OK\" when ready,\n"
+#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -9322,6 +9341,11 @@ msgid "Sorry, nothing detected to import!"
 msgstr "Вибачте, нічого імпортувати!"
 
 #: ulng.rshotdirwarningabortrestorebackup
+#, fuzzy
+#| msgid ""
+#| "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+#| "\n"
+#| "Are you sure you want to proceed?\n"
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
@@ -9474,6 +9498,12 @@ msgid "Additional parameters for archiver command-line:"
 msgstr "Додаткові параметри для командного рядка архіватора:"
 
 #: ulng.rsmsgbadcrc32
+#, fuzzy
+#| msgid ""
+#| "Bad CRC32 for resulting file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Do you want to keep the resulting corrupted file anyway?\n"
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
@@ -9506,6 +9536,11 @@ msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Закладка (%s) заблокована. Закрити?"
 
 #: ulng.rsmsgcolumnsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding columns view have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding columns view have been modified.\n"
 "\n"
@@ -9724,6 +9759,11 @@ msgid "Archive format unknown"
 msgstr "Архів пошкоджено або має невідомий формат"
 
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "File extension associations extra options have been modified.\n"
+#| "\n"
+#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations extra options have been modified.\n"
 "\n"
@@ -9734,6 +9774,11 @@ msgstr ""
 "Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "File extension associations have been modified.\n"
+#| "\n"
+#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations have been modified.\n"
 "\n"
@@ -9780,6 +9825,11 @@ msgid "Options regarding file operations have been modified. Do you want to save
 msgstr "Опції операцій з файлами було змінено. Збеергти зміни перед виходом?"
 
 #: ulng.rsmsgfilepanelcolormodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding panel color have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding panel color have been modified.\n"
 "\n"
@@ -9976,6 +10026,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Деякі функції, щоб вибрати відповідний шлях - відносний, абсолютний, спеціальні папки Windows, тощо."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy
+#| msgid ""
+#| "Total entries saved: %d\n"
+#| "\n"
+#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -9990,6 +10045,10 @@ msgid "Total entries exported: "
 msgstr "Всього записів експортовано:"
 
 #: ulng.rsmsghotdirwhattodelete
+#, fuzzy
+#| msgid ""
+#| "Do you want to delete all elements inside the sub-menu [%s]?\n"
+#| "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -10006,6 +10065,14 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Невірна довжина файла : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, fuzzy
+#| msgid ""
+#| "Please insert next disk or something similar.\n"
+#| "\n"
+#| "It is to allow writing this file:\n"
+#| "\"%s\"\n"
+#| "\n"
+#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -10110,6 +10177,11 @@ msgid "Move file %s"
 msgstr "Переміщення файлу %s"
 
 #: ulng.rsmsglogoptionsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding log have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding log have been modified.\n"
 "\n"
@@ -10362,6 +10434,10 @@ msgid "Target path:"
 msgstr "Шлях призначення:"
 
 #: ulng.rsmsgtcconfignotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration file:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s\n"
@@ -10370,6 +10446,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the TC configuration executable:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
@@ -10378,6 +10458,10 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcisrunning
+#, fuzzy
+#| msgid ""
+#| "Error! TC is still running but it should be closed for this operation.\n"
+#| "Close it and press OK or press CANCEL to abort.\n"
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
@@ -10386,6 +10470,10 @@ msgstr ""
 "Закрийте його і натисніть Гаразд або натисніть Скасувати.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
+#, fuzzy
+#| msgid ""
+#| "Error! Cannot find the desired wanted TC toolbar output folder:\n"
+#| "%s\n"
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
@@ -10398,6 +10486,11 @@ msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Введіть розташування і ім'я файлу, куди зберегти файл панелі інструментів ТС"
 
 #: ulng.rsmsgterminaloptionsmodifiedwanttosave
+#, fuzzy
+#| msgid ""
+#| "Options regarding terminal have been modified.\n"
+#| "\n"
+#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding terminal have been modified.\n"
 "\n"
@@ -10436,6 +10529,10 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Введіть розташування і ім'я файла Панелі інструментів для відновлення"
 
 #: ulng.rsmsgtoolbarsaved
+#, fuzzy
+#| msgid ""
+#| "Saved!\n"
+#| "Toolbar filename: %s\n"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"
