@@ -33,7 +33,8 @@ uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker, KASComboBox,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
-  uSearchTemplate, fSearchPlugin, uFileView, types;
+  uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,ShellCtrls,
+  uOSForms,uShellContextMenu,uExceptions,uFileSystemFileSource;
 
 type
 
@@ -102,6 +103,8 @@ type
     lblEncoding: TLabel;
     lsFoundedFiles: TListBox;
     CheksPanel: TPanel;
+    miOpenInNewTab: TMenuItem;
+    miShowInEditor: TMenuItem;
     miShowAllFound: TMenuItem;
     miRemoveFromLlist: TMenuItem;
     pnlDirectoriesDepth: TPanel;
@@ -188,8 +191,10 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure lsFoundedFilesMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
+    procedure miOpenInNewTabClick(Sender: TObject);
     procedure miRemoveFromLlistClick(Sender: TObject);
     procedure miShowAllFoundClick(Sender: TObject);
+    procedure miShowInEditorClick(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
     procedure pgcSearchChange(Sender: TObject);
     procedure seFileSizeFromChange(Sender: TObject);
@@ -229,6 +234,9 @@ type
   public
     class function Instance: TfrmFindDlg;
   public
+
+    LastClickResultsPath:string;
+
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure ClearFilter;
@@ -259,7 +267,7 @@ implementation
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource, uFileSourceUtil,
-  uSearchResultFileSource, uFile, uFileSystemFileSource,
+  uSearchResultFileSource, uFile,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
   DCOSUtils, SynRegExpr;
 
@@ -1463,44 +1471,75 @@ var
 begin
   i:=lsFoundedFiles.ItemAtPos(Point(X,Y),False);
 
-  if Button=mbRight then
+  if (i>=0) then
   begin
-    if Shift=[ssCtrl] then lsFoundedFiles.ClearSelection;
-    if i>=0 then lsFoundedFiles.Selected[i]:=True;
+    LastClickResultsPath:=GetDeepestExistingPath(lsFoundedFiles.Items[i]);
+
+    if (Button=mbRight)and(lsFoundedFiles.Selected[i]<>True) then
+    begin
+         lsFoundedFiles.ClearSelection;
+         lsFoundedFiles.Selected[i]:=True;
+    end;
   end;
 end;
 
 procedure TfrmFindDlg.lsFoundedFilesMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  i:integer;
+  sPath:string;
+  AFile: TFile;
+  AFiles: TFiles;
+
+  Panel:TFileView;
+  FileList :TFileTree;
+
+  pt: TPoint;
 begin
   if Button=mbRight then
   begin
 
-    if Shift=[ssCtrl] then
+    if Shift=[ssCtrl] then    // Show System context menu
     begin
+
       {$IF DEFINED(MSWINDOWS)}
-      {
-      try
-        AFile:= TFileSystemFileSource.CreateFileFromFile(ShellTreeView.Path);
         try
-          AFiles:= TFiles.Create(AFile.Path);
-          AFiles.Add(AFile);
-          APoint := ShellTreeView.ClientToScreen(Classes.Point(X, Y));
-          ShowContextMenu(ShellTreeView, AFiles, APoint.X, APoint.Y, False, nil);
-        finally
-          FreeAndNil(AFiles);
+          AFiles:= TFiles.Create(LastClickResultsPath);
+          AFiles.Path:=LastClickResultsPath;
+
+          i:=0;
+          while i<lsFoundedFiles.Count do
+          begin
+           if lsFoundedFiles.Selected[i] then
+           begin
+             sPath:=lsFoundedFiles.Items[i];
+             AFile:= TFileSystemFileSource.CreateFile(sPath);
+             AFiles.Add(aFile);
+           end;
+          inc(i);
+          end;
+
+          try
+            pt.X := X;
+            pt.Y := Y;
+            pt := ClientToScreen(pt);
+            ShowContextMenu(lsFoundedFiles, AFiles, pt.X, pt.Y, True, nil);
+          finally
+            FreeAndNil(AFiles);
+          end;
+
+
+        except
+          on E: EContextMenuException do
+            ShowException(E)
+          else;
         end;
-      except
-        on E: EContextMenuException do
-          ShowException(E)
-        else;
-      end;
-      }
+
       {$ENDIF}
 
     end else
     begin
-      PopupMenuFind.PopUp;
+      PopupMenuFind.PopUp;  // Show DC menu
     end;
 
   end;
@@ -1524,12 +1563,41 @@ procedure TfrmFindDlg.lsFoundedFilesMouseWheelUp(Sender: TObject;
 begin
   if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size<MAX_FONT_SIZE_EDITOR) then
   begin
-    //gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;
+    //gFonts[dcfFileSearchResults].Size:=gFonts[dcfFileSearchResults].Size+1;
     //FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
 
     lsFoundedFiles.Font.Size:=lsFoundedFiles.Font.Size+1;
     Handled:=True;
   end;
+end;
+
+procedure TfrmFindDlg.miOpenInNewTabClick(Sender: TObject);
+var
+  i,ind:integer;
+  sPath:string;
+
+  Notebook: TFileViewNotebook;
+  NewPage: TFileViewPage;
+
+begin
+  ind:=lsFoundedFiles.ItemIndex;
+  Notebook := frmMain.ActiveNotebook;
+
+  i:=0;
+  while i<lsFoundedFiles.Count do
+  begin
+    if lsFoundedFiles.Selected[i] then
+    begin
+      sPath :=lsFoundedFiles.Items[i];
+      sPath := GetDeepestExistingPath(sPath);
+
+      NewPage := Notebook.NewPage(Notebook.ActiveView);
+      NewPage.FileView.CurrentPath:=sPath;
+      NewPage.FileView.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[i]));
+    end;
+  inc(i);
+  end;
+
 end;
 
 procedure TfrmFindDlg.miRemoveFromLlistClick(Sender: TObject);
@@ -1552,6 +1620,12 @@ begin
   lsFoundedFiles.Items.AddStrings(FoundedStringCopy);
 
   miShowAllFound.Enabled:=False;
+end;
+
+procedure TfrmFindDlg.miShowInEditorClick(Sender: TObject);
+begin
+  if lsFoundedFiles.ItemIndex>=0 then
+     ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
 end;
 
 procedure TfrmFindDlg.miShowInViewerClick(Sender: TObject);
