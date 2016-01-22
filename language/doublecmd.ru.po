@@ -2033,6 +2033,14 @@ msgstr "Показать все найденные элементы"
 msgid "Show In Viewer"
 msgstr "Просмотр"
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr "Открыть в новой вкладке(ах)"
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
+msgstr "Показать в редакторе"
+
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
 msgstr "Расширенный"
