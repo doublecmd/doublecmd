@@ -2019,12 +2019,20 @@ msgstr ""
 msgid "&Previous searches:"
 msgstr ""
 
+#: tfrmfinddlg.miopeninnewtab.caption
+msgid "Open In New Tab(s)"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr ""
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
+msgstr ""
+
+#: tfrmfinddlg.mishowineditor.caption
+msgid "Show In Editor"
 msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
@@ -2990,6 +2998,10 @@ msgstr ""
 #: tfrmmain.lblcommandpath.caption
 msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
+msgstr ""
+
+#: tfrmmain.menuitem1.caption
+msgid "New Item1"
 msgstr ""
 
 #: tfrmmain.menuitem2.caption
@@ -6506,14 +6518,6 @@ msgstr ""
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr ""
-
-#: tfrmoptionsterminal.lblruninterm.caption
-msgid "Run in &terminal:"
-msgstr ""
-
-#: tfrmoptionsterminal.lblrunterm.caption
-msgid "Run t&erminal:"
 msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
