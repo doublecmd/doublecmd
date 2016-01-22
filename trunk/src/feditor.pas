@@ -212,7 +212,7 @@ implementation
 uses
   dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
   uLng, uShowMsg, fEditSearch, uGlobs, fOptions, DCClassesUtf8,
-  uOSUtils, uConvEncoding, fOptionsEditorColors, uDCUtils;
+  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils;
 
 function ShowEditor(const sFileName: String): TfrmEditor;
 begin
@@ -976,7 +976,7 @@ end;
 
 procedure TfrmEditor.actConfHighExecute(Sender: TObject);
 begin
-  ShowOptions(TfrmOptionsEditorColors);
+  ShowOptions(TfrmOptionsEditor);
 end;
 
 procedure TfrmEditor.FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
