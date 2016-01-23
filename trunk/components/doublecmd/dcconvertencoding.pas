@@ -274,6 +274,8 @@ end;
 
 {$ELSEIF DEFINED(UNIX)}
 
+{$I dcconvertencoding.inc}
+
 const
   EncodingUTF8 = 'UTF-8'; // UTF-8 Encoding
 
@@ -367,6 +369,33 @@ begin
 end;
 {$ENDIF}
 
+function FindEncoding: Boolean;
+var
+  Index: Integer;
+begin
+  // Try to find by language and country
+  for Index:= Low(charset_relation) to High(charset_relation) do
+  begin
+    if CompareStr(charset_relation[Index, 1], SystemLocale) = 0 then
+    begin
+      EncodingANSI:= charset_relation[Index, 2];
+      EncodingOEM:= charset_relation[Index, 3];
+      Exit(True);
+    end;
+  end;
+  // Try to find by language only
+  for Index:= Low(charset_relation) to High(charset_relation) do
+  begin
+    if CompareStr(charset_relation[Index, 0], SystemLanguage) = 0 then
+    begin
+      EncodingANSI:= charset_relation[Index, 2];
+      EncodingOEM:= charset_relation[Index, 3];
+      Exit(True);
+    end;
+  end;
+  Result:= False;
+end;
+
 function Oem2Utf8(const Source: String): RawByteString;
 begin
   Result:= Source;
@@ -417,7 +446,7 @@ end;
 
 procedure Initialize;
 var
-  Error: String;
+  Error: String = '';
 begin
   CeOemToSys:=   @Dummy;
   CeSysToOem:=   @Dummy;
@@ -437,23 +466,22 @@ begin
     begin
       SystemEncodingUtf8:= (SysUtils.CompareText(SystemEncoding, 'UTF-8') = 0) or
                            (SysUtils.CompareText(SystemEncoding, 'UTF8') = 0);
-      if (SystemLanguage = 'be') or (SystemLanguage = 'ru') or
-         (SystemLanguage = 'uk') then
+      if FindEncoding then
       begin
-        EncodingOEM:= 'CP866';
-        CeOemToSys:=  @OEM2Sys;
-        CeSysToOem:=  @Sys2OEM;
-        CeOemToUtf8:= @Oem2Utf8;
-        CeUtf8ToOem:= @Utf82Oem;
-      end;
-      if (SystemLanguage = 'be') or (SystemLanguage = 'bg') or
-         (SystemLanguage = 'ru') or (SystemLanguage = 'uk') then
-      begin
-        EncodingANSI:= 'CP1251';
-        CeAnsiToSys:=  @Ansi2Sys;
-        CeSysToAnsi:=  @Sys2Ansi;
-        CeAnsiToUtf8:= @Ansi2Utf8;
-        CeUtf8ToAnsi:= @Utf82Ansi;
+        if (Length(EncodingOEM) > 0) then
+        begin
+          CeOemToSys:=  @OEM2Sys;
+          CeSysToOem:=  @Sys2OEM;
+          CeOemToUtf8:= @Oem2Utf8;
+          CeUtf8ToOem:= @Utf82Oem;
+        end;
+        if (Length(EncodingANSI) > 0) then
+        begin
+          CeAnsiToSys:=  @Ansi2Sys;
+          CeSysToAnsi:=  @Sys2Ansi;
+          CeAnsiToUtf8:= @Ansi2Utf8;
+          CeUtf8ToAnsi:= @Utf82Ansi;
+        end;
       end;
       if not SystemEncodingUtf8 then
       begin
