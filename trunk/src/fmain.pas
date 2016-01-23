@@ -968,6 +968,8 @@ begin
     lastWindowState:=WindowState;
   // frost_asm end
 
+  UpdateActionIcons;
+
   UpdateWindowView;
 
 {$IFDEF LCLQT}
@@ -2450,6 +2452,8 @@ var
   iconImg: TPicture;
   actionName: TComponentName;
 begin
+  if not gIconsInMenus then Exit;
+
   actionLst.Images := nil;
   pmTabMenu.Images := nil;
   mnuMain.Images := nil;
@@ -4603,7 +4607,6 @@ begin
       UpdateFreeSpace(fpRight);
     end;
 
-    if gIconsInMenus then UpdateActionIcons;
     UpdateHotDirIcons; // Preferable to be loaded even if not required in popupmenu *because* in the tree it's a must, especially when checking for missing directories
     ShowTrayIcon(gAlwaysShowTrayIcon);
 
