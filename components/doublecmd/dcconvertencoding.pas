@@ -2,6 +2,10 @@ unit DCConvertEncoding;
 
 {$mode objfpc}{$H+}
 
+{$IF DEFINED(DARWIN)}
+{$modeswitch objectivec1}
+{$ENDIF}
+
 interface
 
 uses
@@ -63,7 +67,7 @@ uses
   {$IF DEFINED(UNIX)}
   iconvenc_dyn
     {$IF DEFINED(DARWIN)}
-    , MacOSAll
+    , MacOSAll, CocoaAll
     {$ENDIF}
   {$ELSEIF DEFINED(MSWINDOWS)}
   Windows
@@ -277,32 +281,45 @@ var
   EncodingOEM,           // OEM Encoding
   EncodingANSI: String;  // ANSI Encoding
 
-function GetSystemEncoding(out Language, Encoding: String): Boolean;
+function GetSystemEncoding: Boolean;
 {$IF DEFINED(DARWIN)}
 var
-  LanguageCFArray: CFArrayRef = nil;
+  Country: String;
+  CurrentLocale: NSLocale;
   LanguageCFRef: CFStringRef = nil;
+  LanguageCFArray: CFArrayRef = nil;
 begin
+  // System encoding
+  SystemEncoding:= EncodingUTF8;
+  // Get system language
   LanguageCFArray:= CFLocaleCopyPreferredLanguages;
   try
     Result:= CFArrayGetCount(LanguageCFArray) > 0;
     if Result then
     begin
       LanguageCFRef:= CFArrayGetValueAtIndex(LanguageCFArray, 0);
-      SetLength(Language, MAX_PATH);
+      SetLength(SystemLanguage, MAX_PATH);
       Result:= CFStringGetCString(LanguageCFRef,
-                                  PAnsiChar(Language),
+                                  PAnsiChar(SystemLanguage),
                                   MAX_PATH,
                                   kCFStringEncodingUTF8
                                   );
-      if Result then
-      begin
-        Encoding:= EncodingUTF8;
-        Language:= Copy(Language, 1, 2);
-      end;
     end;
   finally
     CFRelease(LanguageCFArray);
+  end;
+  if Result then
+  begin
+    // Crop to terminating zero
+    SystemLanguage:= PAnsiChar(SystemLanguage);
+    // Get system country
+    CurrentLocale:= NSLocale.currentLocale();
+    Country:= NSString(CurrentLocale.objectForKey(NSLocaleCountryCode)).UTF8String;
+    // Combine system locale
+    if (Length(SystemLanguage) > 0) and (Length(Country) > 0) then
+    begin
+      SystemLocale:= SystemLanguage + '_' + Country;
+    end;
   end;
 end;
 {$ELSE}
@@ -324,20 +341,29 @@ begin
     end;
   I:= Pos('_', Lang);
   if (I = 0) then
-    Language:= Lang
+    SystemLanguage:= Lang
   else begin
-    Language:= Copy(Lang, 1, I - 1);
+    SystemLanguage:= Copy(Lang, 1, I - 1);
   end;
   I:= System.Pos('.', Lang);
   if (I > 0) then
   begin
     SystemLocale:= Copy(Lang, 1, I - 1);
-    Encoding:= Copy(Lang, I + 1, Length(Lang) - I);
+    SystemEncoding:= Copy(Lang, I + 1, Length(Lang) - I);
   end
   else begin
     SystemLocale:= Lang;
-    Encoding:= EncodingUTF8;
+    SystemEncoding:= EncodingUTF8;
   end;
+end;
+{$ENDIF}
+
+{$IF DEFINED(DARWIN)}
+function InitIconv(var Error: String): Boolean;
+begin
+  Error:= EmptyStr;
+  Result:= TryLoadLib('libiconv.dylib', Error);
+  IconvLibFound:= IconvLibFound or Result;
 end;
 {$ENDIF}
 
@@ -405,7 +431,7 @@ begin
   CeUtf8ToAnsi:= @Dummy;
 
   // Try to get system encoding and initialize Iconv library
-  if not (GetSystemEncoding(SystemLanguage, SystemEncoding) and InitIconv(Error)) then
+  if not (GetSystemEncoding and InitIconv(Error)) then
     WriteLn(Error)
   else
     begin
