@@ -1523,7 +1523,7 @@ begin
             pt.X := X;
             pt.Y := Y;
             pt := ClientToScreen(pt);
-            ShowContextMenu(lsFoundedFiles, AFiles, pt.X, pt.Y, True, nil);
+            ShowContextMenu(lsFoundedFiles, AFiles, pt.X, pt.Y, False, nil);
           finally
             FreeAndNil(AFiles);
           end;
