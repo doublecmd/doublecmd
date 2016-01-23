@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-11-22 15:23+0300\n"
+"PO-Revision-Date: 2016-01-24 00:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -132,7 +132,7 @@ msgstr "Настройка набора колонок"
 #: tfcolumnssetconf.cbackgrndlabel.caption
 msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
 msgid "BackGround:"
-msgstr "Фон &1"
+msgstr "Фон &1:"
 
 #: tfcolumnssetconf.cbcursorborder.caption
 msgctxt "tfcolumnssetconf.cbcursorborder.caption"
@@ -142,7 +142,7 @@ msgstr "Рамка вокруг курсора"
 #: tfcolumnssetconf.cbovercolor.caption
 msgctxt "tfcolumnssetconf.cbovercolor.caption"
 msgid "Allow Overcolor"
-msgstr "Раскраска файлов (вкл/откл)"
+msgstr "Раскраска файлов"
 
 #: tfcolumnssetconf.chkusecustomview.caption
 msgid "Use custom font and color"
@@ -166,7 +166,7 @@ msgstr "Размер:"
 #: tfcolumnssetconf.lblbackground2.caption
 msgctxt "TFCOLUMNSSETCONF.LBLBACKGROUND2.CAPTION"
 msgid "Background 2:"
-msgstr "Фон &2"
+msgstr "Фон &2:"
 
 #: tfcolumnssetconf.lblconfigviewnr.caption
 msgid "Configure view nr:"
@@ -175,17 +175,17 @@ msgstr "Настройка набора номер:"
 #: tfcolumnssetconf.lblcursorcolor.caption
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
 msgid "Cursor Color:"
-msgstr "&Курсор"
+msgstr "Цвет курсора:"
 
 #: tfcolumnssetconf.lblcursortext.caption
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Text:"
-msgstr "Текст &под курсором"
+msgstr "Текст &под курсором:"
 
 #: tfcolumnssetconf.lblmarkcolor.caption
 msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
 msgid "Mark Color:"
-msgstr "&Выделение"
+msgstr "Цвет выделения:"
 
 #: tfcolumnssetconf.lblname.caption
 msgctxt "TFCOLUMNSSETCONF.LBLNAME.CAPTION"
@@ -2305,7 +2305,7 @@ msgstr "Настройка Избранных каталогов"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Configure toolbar"
-msgstr ""
+msgstr "Настройка панели инструментов"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2460,11 +2460,11 @@ msgstr "&Горячие клавиши"
 
 #: tfrmmain.actleftbriefview.caption
 msgid "Brief view on left panel"
-msgstr ""
+msgstr "Краткий вид в левой панели"
 
 #: tfrmmain.actleftcolumnsview.caption
 msgid "Columns view on left panel"
-msgstr ""
+msgstr "Колоночный вид в левой панели"
 
 #: tfrmmain.actleftequalright.caption
 msgid "Left &= Right"
@@ -2472,7 +2472,7 @@ msgstr "Левая &= Правая"
 
 #: tfrmmain.actleftflatview.caption
 msgid "&Flat view on left panel"
-msgstr ""
+msgstr "Показать все фа&йлы без подкаталогов в левой панели"
 
 #: tfrmmain.actleftopendrives.caption
 msgid "Open left drive list"
@@ -2504,7 +2504,7 @@ msgstr ""
 
 #: tfrmmain.actleftthumbview.caption
 msgid "Thumbnails view on left panel"
-msgstr ""
+msgstr "Просмотр эскизов в левой панели"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2665,11 +2665,11 @@ msgstr "Обра&тный п&орядок"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
-msgstr ""
+msgstr "Краткий вид в правой панели"
 
 #: tfrmmain.actrightcolumnsview.caption
 msgid "Columns view on right panel"
-msgstr ""
+msgstr "Колоночный вид в правой панели"
 
 #: tfrmmain.actrightequalleft.caption
 msgid "Right &= Left"
@@ -2677,7 +2677,7 @@ msgstr "Правая &= Левая"
 
 #: tfrmmain.actrightflatview.caption
 msgid "&Flat view on right panel"
-msgstr ""
+msgstr "Показать все фа&йлы без подкаталогов в правой панели"
 
 #: tfrmmain.actrightopendrives.caption
 msgid "Open right drive list"
@@ -2709,7 +2709,7 @@ msgstr ""
 
 #: tfrmmain.actrightthumbview.caption
 msgid "Thumbnails view on right panel"
-msgstr ""
+msgstr "Просмотр эскизов в правой панели"
 
 #: tfrmmain.actrunterm.caption
 msgid "Run &Terminal"
@@ -3352,31 +3352,31 @@ msgstr ""
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
-msgstr ""
+msgstr "Выбрать все категории по умолчанию"
 
 #: tfrmmaincommandsdlg.gbselection.caption
 msgid "Selection:"
-msgstr ""
+msgstr "Выбор:"
 
 #: tfrmmaincommandsdlg.lblcategory.caption
 msgid "&Categories:"
-msgstr ""
+msgstr "&Категории:"
 
 #: tfrmmaincommandsdlg.lblcommandname.caption
 msgid "Command &name:"
-msgstr ""
+msgstr "&Название команды:"
 
 #: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
 msgid "&Filter:"
-msgstr ""
+msgstr "&Фильтр:"
 
 #: tfrmmaincommandsdlg.lblhint.caption
 msgid "Hint:"
-msgstr ""
+msgstr "Подсказка:"
 
 #: tfrmmaincommandsdlg.lblhotkey.caption
 msgid "Hotkey:"
-msgstr ""
+msgstr "Горячая клавиша:"
 
 #: tfrmmaincommandsdlg.lblselectedcommand.caption
 msgid "cm_name"
@@ -3394,7 +3394,7 @@ msgstr "Помощь"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhint.caption
 msgid "Hint"
-msgstr ""
+msgstr "Подсказка"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
 msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
@@ -4175,7 +4175,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallallowovercolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.caption"
@@ -4185,7 +4185,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallbackcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor2.caption
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.caption"
@@ -4195,7 +4195,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallbackcolor2.hint
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallcursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.caption"
@@ -4205,7 +4205,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallcursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallcursortext.caption
 msgctxt "tfrmoptionscustomcolumns.btnallcursortext.caption"
@@ -4215,7 +4215,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallcursortext.hint
 msgctxt "tfrmoptionscustomcolumns.btnallcursortext.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallfont.caption
 msgctxt "tfrmoptionscustomcolumns.btnallfont.caption"
@@ -4225,7 +4225,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnallfont.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallforecolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallforecolor.caption"
@@ -4235,7 +4235,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallforecolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallforecolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption"
@@ -4245,7 +4245,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption"
@@ -4255,7 +4255,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnallmarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.caption"
@@ -4265,7 +4265,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnallmarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption"
@@ -4275,7 +4275,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnalluseinvertedselection.caption
 msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.caption"
@@ -4285,7 +4285,7 @@ msgstr "Все"
 #: tfrmoptionscustomcolumns.btnalluseinvertedselection.hint
 msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Применить изменения ко всем столбцам"
 
 #: tfrmoptionscustomcolumns.btnbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnbackcolor.caption"
@@ -4334,7 +4334,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btngotosetdefault.hint
 msgctxt "tfrmoptionscustomcolumns.btngotosetdefault.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
@@ -4358,11 +4358,11 @@ msgstr "Создать"
 
 #: tfrmoptionscustomcolumns.btnnext.caption
 msgid "Next"
-msgstr ""
+msgstr "Далее"
 
 #: tfrmoptionscustomcolumns.btnprev.caption
 msgid "Previous"
-msgstr ""
+msgstr "Назад"
 
 #: tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption
 msgctxt "tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption"
@@ -4377,7 +4377,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetallowovercolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.caption"
@@ -4387,7 +4387,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetbackcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.caption"
@@ -4397,7 +4397,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetcursorborder.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.caption"
@@ -4407,7 +4407,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetcursorborder.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.caption"
@@ -4417,7 +4417,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetcursortext.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.caption"
@@ -4427,7 +4427,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetcursortext.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetfont.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetfont.caption"
@@ -4437,7 +4437,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetfont.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetforecolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.caption"
@@ -4447,7 +4447,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetforecolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetframecursor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.caption"
@@ -4457,7 +4457,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetframecursor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption"
@@ -4467,7 +4467,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption"
@@ -4477,7 +4477,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.caption"
@@ -4487,7 +4487,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption"
@@ -4497,7 +4497,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption"
@@ -4507,7 +4507,7 @@ msgstr ""
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Восстановление значений по умолчанию"
 
 #: tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption
 msgctxt "tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption"
@@ -4522,7 +4522,7 @@ msgstr "Сохранить"
 #: tfrmoptionscustomcolumns.cballowovercolor.caption
 msgctxt "tfrmoptionscustomcolumns.cballowovercolor.caption"
 msgid "Allow Overcolor"
-msgstr "Раскраска файлов (вкл/откл)"
+msgstr "Раскраска файлов"
 
 #: tfrmoptionscustomcolumns.cbapplychangeforallcolumns.caption
 msgid "When clicking to change something, change for all columns"
@@ -4540,7 +4540,7 @@ msgstr "Рамка вокруг курсора"
 
 #: tfrmoptionscustomcolumns.cbuseframecursor.caption
 msgid "Use Frame Cursor"
-msgstr ""
+msgstr "Использовать курсор-рамку"
 
 #: tfrmoptionscustomcolumns.cbuseinactiveselcolor.caption
 msgid "Use Inactive Selection Color"
@@ -4552,17 +4552,17 @@ msgstr ""
 
 #: tfrmoptionscustomcolumns.chkusecustomview.caption
 msgid "Use custom font and color for this view"
-msgstr ""
+msgstr "Использовать пользовательский шрифт и цвет"
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
 msgid "BackGround:"
-msgstr "Фон &1"
+msgstr "Фон 1:"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
-msgstr "Фон &2"
+msgstr "Фон 2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
@@ -4574,50 +4574,44 @@ msgid "[Current Column Name]"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.lblcursorcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblcursorcolor.caption"
 msgid "Cursor Color:"
-msgstr "&Курсор"
+msgstr "Цвет курсора:"
 
 #: tfrmoptionscustomcolumns.lblcursortext.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblcursortext.caption"
 msgid "Cursor Text:"
-msgstr "Текст &под курсором"
+msgstr "Текст под курсором:"
 
 #: tfrmoptionscustomcolumns.lblfontname.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblfontname.caption"
 msgid "Font:"
 msgstr "Шрифт:"
 
 #: tfrmoptionscustomcolumns.lblfontsize.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblfontsize.caption"
 msgid "Size:"
 msgstr "Размер:"
 
 #: tfrmoptionscustomcolumns.lblforecolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
 msgid "Text Color:"
-msgstr "&Текст:"
+msgstr "Цвет текста:"
 
 #: tfrmoptionscustomcolumns.lblinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblinactivecursorcolor.caption"
 msgid "Inactive Cursor Color:"
-msgstr ""
+msgstr "Цвет неактивного курсора:"
 
 #: tfrmoptionscustomcolumns.lblinactivemarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblinactivemarkcolor.caption"
 msgid "Inactive Mark Color:"
-msgstr ""
+msgstr "Цвет неактивного выделения:"
 
 #: tfrmoptionscustomcolumns.lblmarkcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.lblmarkcolor.caption"
 msgid "Mark Color:"
-msgstr "&Выделение"
+msgstr "Цвет выделения:"
 
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
@@ -4629,7 +4623,6 @@ msgid "Settings for column:"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.miaddcolumn.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.miaddcolumn.caption"
 msgid "Add column"
 msgstr "Добавить колонку"
@@ -4904,15 +4897,15 @@ msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceinpath.caption
 msgid "in path..."
-msgstr ""
+msgstr "в пути..."
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplaceintargetpath.caption
 msgid "in target path..."
-msgstr ""
+msgstr "в целевом пути..."
 
 #: tfrmoptionsdirectoryhotlist.misearchinreplaceinbothpaths.caption
 msgid "in path and target path..."
-msgstr ""
+msgstr "в пути и целевом пути..."
 
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
@@ -5220,7 +5213,7 @@ msgstr "&Добавить"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
 msgid "Clone"
-msgstr ""
+msgstr "Клонировать"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
@@ -5228,7 +5221,6 @@ msgid "&Down"
 msgstr "&Вниз"
 
 #: tfrmoptionsfileassoc.btneditext.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btneditext.caption"
 msgid "Edit"
 msgstr "Редактировать"
@@ -5236,12 +5228,12 @@ msgstr "Редактировать"
 #: tfrmoptionsfileassoc.btninsertact.caption
 msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
 msgid "Insert"
-msgstr ""
+msgstr "Вставить"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
 msgid "Insert"
-msgstr ""
+msgstr "Вставить"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
@@ -5286,7 +5278,7 @@ msgstr ""
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description:"
-msgstr ""
+msgstr "Описание действия:"
 
 #: tfrmoptionsfileassoc.gbactions.caption
 msgctxt "tfrmoptionsfileassoc.gbactions.caption"
@@ -5325,11 +5317,9 @@ msgid "File types may be sorted by drag & drop"
 msgstr ""
 
 #: tfrmoptionsfileassoc.lblaction.caption
-#, fuzzy
-#| msgid "Action:"
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
 msgid "Action name:"
-msgstr "Действие:"
+msgstr "Название:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
@@ -5337,17 +5327,15 @@ msgid "&Command:"
 msgstr "&Команда:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
 msgid "Parameter&s:"
-msgstr "Параметры"
+msgstr "Параметры:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters1.caption
 msgid "Start path:"
-msgstr ""
+msgstr "Путь запуска:"
 
 #: tfrmoptionsfileassoc.lblstartpath.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "П&уть запуска:"
@@ -5378,7 +5366,7 @@ msgstr "Открыть в редакторе"
 
 #: tfrmoptionsfileassoc.mieditwith.caption
 msgid "Edit with..."
-msgstr ""
+msgstr "Редактировать с помощью..."
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgctxt "tfrmoptionsfileassoc.migetoutputfromcommand.caption"
@@ -5387,11 +5375,11 @@ msgstr "Получить вывод команды"
 
 #: tfrmoptionsfileassoc.miinternaleditor.caption
 msgid "Open in Internal Editor"
-msgstr ""
+msgstr "Открыть во встроенном редакторе"
 
 #: tfrmoptionsfileassoc.miinternalviewer.caption
 msgid "Open in Internal Viewer"
-msgstr ""
+msgstr "Открыть во встроенном просмотрщике"
 
 #: tfrmoptionsfileassoc.miopen.caption
 msgctxt "tfrmoptionsfileassoc.miopen.caption"
@@ -5400,7 +5388,7 @@ msgstr "Открыть"
 
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
-msgstr ""
+msgstr "Открыть с помощью..."
 
 #: tfrmoptionsfileassoc.miseparator.caption
 #, fuzzy
@@ -5425,7 +5413,7 @@ msgstr "Открыть в просмотрщике"
 
 #: tfrmoptionsfileassoc.miviewwith.caption
 msgid "View with..."
-msgstr ""
+msgstr "Просмотреть с помощью..."
 
 #: tfrmoptionsfileassoc.sbtnicon.hint
 msgid "Click me to change icon!"
@@ -5434,11 +5422,11 @@ msgstr ""
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
-msgstr ""
+msgstr "Запустить с помощью оболочки"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
-msgstr ""
+msgstr "Расширенное контекстное меню"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
 msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
@@ -5447,7 +5435,7 @@ msgstr ""
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
-msgstr ""
+msgstr "Настроить файловые ассоциации"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
 msgid "Offer to add selection to file association when not included already"
@@ -5461,16 +5449,16 @@ msgstr ""
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
 msgid "Execute via terminal and close"
-msgstr ""
+msgstr "Запустить в терминале и закрыть"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
 msgid "Execute via terminal and stay open"
-msgstr ""
+msgstr "Запустить в терминале и ожидать"
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
 msgid "Extended options items:"
-msgstr ""
+msgstr "Настройки дополнительных пунктов:"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
@@ -5530,7 +5518,7 @@ msgstr "Пропускать о&шибки при файловых операц�
 
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
-msgstr ""
+msgstr "Поиск текста в файлах"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -5551,7 +5539,7 @@ msgstr "Ра&змер буфера для файловых операций (К�
 
 #: tfrmoptionsfileoperations.lblhashbuffersize.caption
 msgid "Buffer size for &hash calculation (in KB):"
-msgstr ""
+msgstr "Размер буфера для вычисления &хэш (Кб):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
@@ -5559,7 +5547,7 @@ msgstr "Показыват&ь прогресс операций в"
 
 #: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
 msgid "Default search template:"
-msgstr ""
+msgstr "Шаблон поиска по умолчанию:"
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
@@ -5641,13 +5629,12 @@ msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
-msgstr ""
+msgstr "Сбросить на умолчания DC"
 
 #: tfrmoptionsfilepanelscolors.cballowovercolor.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.cballowovercolor.caption"
 msgid "Allow Overcolor"
-msgstr "Раскраска файлов (вкл/откл)"
+msgstr "Раскраска файлов"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
@@ -5668,7 +5655,6 @@ msgid "U&se Inverted Selection"
 msgstr "Инверсное в&ыделение"
 
 #: tfrmoptionsfilepanelscolors.cbusecursorborder.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.cbusecursorborder.caption"
 msgid "Cursor border"
 msgstr "Рамка вокруг курсора"
@@ -5686,27 +5672,27 @@ msgstr "&Фон 1:"
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
 msgid "Backg&round 2:"
-msgstr "Фо&н 2"
+msgstr "Фо&н 2:"
 
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
 msgid "C&ursor Color:"
-msgstr "&Курсор"
+msgstr "Цвет &курсора:"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Te&xt:"
-msgstr "Т&екст под курсором"
+msgstr "Т&екст под курсором:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblinactivecursorcolor.caption"
 msgid "Inactive Cursor Color:"
-msgstr ""
+msgstr "Цвет неактивного курсора:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblinactivemarkcolor.caption"
 msgid "Inactive Mark Color:"
-msgstr ""
+msgstr "Цвет неактивного выделения:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
@@ -5715,16 +5701,16 @@ msgstr "Уровень &яркости неактивной панели"
 
 #: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
 msgid "In&dicator Back Color:"
-msgstr "Цвет фона &индикатора"
+msgstr "Цвет фона &индикатора:"
 
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
-msgstr "&Цвет индикатора"
+msgstr "&Цвет индикатора:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
 msgid "&Mark Color:"
-msgstr "&Выделение"
+msgstr "Цвет &выделения:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -5782,7 +5768,7 @@ msgstr "Сортировка"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
-msgstr "&Чувствительность к регистру"
+msgstr "&Чувствительность к регистру:"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
 msgid "Incorrect format"
@@ -5847,7 +5833,7 @@ msgstr "Цвета по типу (сортировка перетаскиван�
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
 msgid "Category a&ttributes:"
-msgstr "&Атрибуты"
+msgstr "&Атрибуты:"
 
 #: tfrmoptionsfiletypescolors.lblcategorycolor.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION"
@@ -5957,19 +5943,16 @@ msgid "&Shortcut files:"
 msgstr "&Набор горячих клавиш:"
 
 #: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
 msgid "Command"
 msgstr "Команда"
 
 #: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
 msgid "Hotkeys"
 msgstr "Горячие клавиши"
 
 #: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
 msgid "Description"
 msgstr "Описание"
@@ -6591,7 +6574,6 @@ msgid "Command for running a command in terminal and stay open:"
 msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
 msgid "Command:"
 msgstr "Команда:"
@@ -6599,7 +6581,7 @@ msgstr "Команда:"
 #: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Параметры:"
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
@@ -6607,7 +6589,6 @@ msgid "{command} should normally present here to releft the command to be run in
 msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
 msgid "Command:"
 msgstr "Команда:"
@@ -6615,7 +6596,7 @@ msgstr "Команда:"
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Параметры:"
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
@@ -6623,7 +6604,6 @@ msgid "{command} should normally present here to releft the command to be run in
 msgstr ""
 
 #: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
 msgid "Command:"
 msgstr "Команда:"
@@ -6631,7 +6611,7 @@ msgstr "Команда:"
 #: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Параметры:"
 
 #: tfrmoptionsterminal.ledtruntermparams.hint
 msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
@@ -6660,7 +6640,7 @@ msgstr "&Вставить"
 
 #: tfrmoptionstoolbar.btnopencmddlg.caption
 msgid "Select"
-msgstr ""
+msgstr "Выбрать"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
@@ -6689,7 +6669,7 @@ msgstr ">>"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.caption
 msgid "Suggest"
-msgstr ""
+msgstr "Рекомендация"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
@@ -6721,12 +6701,12 @@ msgstr "Р&азмер панели:"
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
 msgid "Comman&d:"
-msgstr "Команда"
+msgstr "Команда:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
 msgid "Parameter&s:"
-msgstr "Параметры"
+msgstr "Параметры:"
 
 #: tfrmoptionstoolbar.lblhelponinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
@@ -6735,7 +6715,7 @@ msgstr "Помощь"
 
 #: tfrmoptionstoolbar.lblhotkey.caption
 msgid "Hot key:"
-msgstr "Горячая клавиша"
+msgstr "Горячая клавиша:"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
 msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
@@ -6750,12 +6730,12 @@ msgstr "Ра&змер значков:"
 #: tfrmoptionstoolbar.lblinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
-msgstr "Кома&нда"
+msgstr "Кома&нда:"
 
 #: tfrmoptionstoolbar.lblinternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
 msgid "&Parameters:"
-msgstr "Пара&метры"
+msgstr "Пара&метры:"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
 msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
@@ -6769,7 +6749,7 @@ msgstr "Подс&казка:"
 
 #: tfrmoptionstoolbar.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
-msgstr ""
+msgstr "Добавить панель инструментов со ВСЕМИ командами DC"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
@@ -7054,7 +7034,7 @@ msgstr "сразу перед текущей выбранной"
 #: tfrmoptionstoolbar.misearchandreplace.caption
 msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr ""
+msgstr "Найти и заменить..."
 
 #: tfrmoptionstoolbar.miseparator1.caption
 msgctxt "tfrmoptionstoolbar.miseparator1.caption"
@@ -7128,7 +7108,7 @@ msgstr "сразу перед текущей выбранной"
 
 #: tfrmoptionstoolbar.misrcrplallofall.caption
 msgid "in all of all the above..."
-msgstr ""
+msgstr "во всём из выше перечисленного..."
 
 #: tfrmoptionstoolbar.misrcrplclickseparator.caption
 msgctxt "tfrmoptionstoolbar.misrcrplclickseparator.caption"
@@ -7137,19 +7117,19 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.misrcrplcommands.caption
 msgid "in all commands..."
-msgstr ""
+msgstr "во всех командах..."
 
 #: tfrmoptionstoolbar.misrcrpliconnames.caption
 msgid "in all icon names..."
-msgstr ""
+msgstr "во всех файлах значка..."
 
 #: tfrmoptionstoolbar.misrcrplparameters.caption
 msgid "in all parameters..."
-msgstr ""
+msgstr "во всех параметрах..."
 
 #: tfrmoptionstoolbar.misrcrplstartpath.caption
 msgid "in all start path..."
-msgstr ""
+msgstr "во всех путях запуска..."
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
@@ -8714,11 +8694,11 @@ msgstr "Буфер обмена не содержит данных панели 
 
 #: ulng.rscmdcategorylistinorder
 msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr ""
+msgstr "Все;Активная панель;Левая панель;Правая панель;Файловые операции;Настройка;Сеть;Разное;Параллельный порт;Печать;Выделение; Безопасности;Буфер обмена;FTP;Навигация;Помощь;Окно;Командная строка;Инструменты;Вид;Пользователь;Вкладки;Сортировка;Протокол"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
-msgstr ""
+msgstr "Штатная сортировка;Алфавитная сортировка"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -8776,11 +8756,11 @@ msgstr "Ширина"
 
 #: ulng.rsconfcustheader
 msgid "Customize column"
-msgstr "Настроить колонку: "
+msgstr "Настроить колонку"
 
 #: ulng.rsconfigurationfileassociation
 msgid "Configure file association"
-msgstr ""
+msgstr "Настроить файловые ассоциации"
 
 #: ulng.rsconfirmexecution
 msgid "Confirming command line and parameters"
@@ -8832,7 +8812,7 @@ msgstr " Удалено: "
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
-msgstr ""
+msgstr "Эти два файла идентичны!"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
@@ -8927,7 +8907,7 @@ msgstr "Заменить более &старые"
 
 #: ulng.rsdlgbuttonoverwritesmaller
 msgid "Overwrite All S&maller"
-msgstr "Заменить &маленькие"
+msgstr "Заменить &меньшие"
 
 #: ulng.rsdlgbuttonrename
 msgctxt "ulng.rsdlgbuttonrename"
@@ -9066,26 +9046,26 @@ msgstr "Заменить"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
-msgstr ""
+msgstr "во внешнем редакторе"
 
 #: ulng.rseditwithinternaleditor
 msgid "with internal editor"
-msgstr ""
+msgstr "во встроенном редакторе"
 
 #: ulng.rsexecuteviashell
 msgctxt "ulng.rsexecuteviashell"
 msgid "Execute via shell"
-msgstr ""
+msgstr "Запустить с помощью оболочки"
 
 #: ulng.rsexecuteviaterminalclose
 msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
-msgstr ""
+msgstr "Запустить в терминале и закрыть"
 
 #: ulng.rsexecuteviaterminalstayopen
 msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
-msgstr ""
+msgstr "Запустить в терминале и ожидать"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
@@ -9198,7 +9178,7 @@ msgstr "Группа"
 
 #: ulng.rsfunchtime
 msgid "Change date/time"
-msgstr ""
+msgstr "Изменение даты/времени"
 
 #: ulng.rsfunclinkto
 msgid "Link to"
@@ -9298,7 +9278,7 @@ msgstr "Укажите маску файлов (разделитель - ';'):"
 
 #: ulng.rsmenuconfigurecolumnsalreadyexists
 msgid "A columns view with that name already exists."
-msgstr ""
+msgstr "Колоночный вид с таким именем уже существует."
 
 #: ulng.rsmenuconfigurecolumnssavetochange
 msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
@@ -9455,7 +9435,7 @@ msgstr "Копировать выделенное \"%s\"?"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
-msgstr ""
+msgstr "< Создать новый тип файла \"%s файлы\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
@@ -9800,7 +9780,7 @@ msgstr "Импортировать выделенный"
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
 msgid "Path"
-msgstr "Путь"
+msgstr "Путь:"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
@@ -10265,7 +10245,7 @@ msgstr "Новое имя вкладки:"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
-msgstr "Путь назначения:"
+msgstr "Целевой путь:"
 
 #: ulng.rsmsgtcconfignotfound
 msgid ""
@@ -10312,7 +10292,7 @@ msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
-msgstr ""
+msgstr "\"%s\" скопирован в буфер обмена"
 
 #: ulng.rsmsgtitleextnotinfiletype
 msgid "Extension of selected file is not in any recognized file types"
@@ -10360,7 +10340,7 @@ msgstr "URL:"
 
 #: ulng.rsmsguserdidnotsetextension
 msgid "<NO EXT>"
-msgstr ""
+msgstr "<БЕЗ ТИПА>"
 
 #: ulng.rsmsguserdidnotsetname
 msgid "<NO NAME>"
@@ -10880,7 +10860,7 @@ msgstr "Кнопка списка дисков"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
-msgstr ""
+msgstr "Файловые ассоциации (дополнительно)"
 
 #: ulng.rsoptionseditorfileassoc
 msgctxt "ulng.rsoptionseditorfileassoc"
@@ -11066,7 +11046,7 @@ msgstr "Разд&елитель;Внутрення&я команда;Вне&шн
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr "родной DC - Copy (x) filename.ext;Windows - filename (x).ext;другой - filename(x).ext"
+msgstr "Штатный - Копия (x) имяфайла.тип;Windows - имяфайла (x).тип;Другой - имяфайла(x).тип"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
@@ -11158,7 +11138,7 @@ msgstr "Категория"
 
 #: ulng.rssimplewordcolumnsingular
 msgid "Column"
-msgstr ""
+msgstr "Колонка"
 
 #: ulng.rssimplewordcommand
 msgctxt "ulng.rssimplewordcommand"
@@ -11171,7 +11151,7 @@ msgstr ""
 
 #: ulng.rssimplewordfiles
 msgid "files"
-msgstr ""
+msgstr "файлы"
 
 #: ulng.rssimplewordparameter
 msgid "Param"
@@ -11322,11 +11302,11 @@ msgstr "Пожалуйста сообщите о данной ошибке на 
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
-msgstr ""
+msgstr "Обе панели, из активной в неактивную"
 
 #: ulng.rsvarbothpanellefttoright
 msgid "Both panels, from left to right"
-msgstr ""
+msgstr "Обе панели, слева направо"
 
 #: ulng.rsvarcurrentpath
 msgid "Path of panel"
@@ -11338,11 +11318,11 @@ msgstr ""
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
-msgstr ""
+msgstr "Только имя файла, без расширения"
 
 #: ulng.rsvarfullpath
 msgid "Complete filename (path+filename)"
-msgstr ""
+msgstr "Полное имя файла (путь + имя файла)"
 
 #: ulng.rsvarhelpwith
 msgid "Help with \"%\" variables"
@@ -11370,11 +11350,11 @@ msgstr ""
 
 #: ulng.rsvaronlyextension
 msgid "Only file extension"
-msgstr ""
+msgstr "Только расширение файла"
 
 #: ulng.rsvaronlyfilename
 msgid "Only filename"
-msgstr ""
+msgstr "Только имя файла"
 
 #: ulng.rsvarotherexamples
 msgid "Other example of what's possible"
@@ -11430,11 +11410,11 @@ msgstr ""
 
 #: ulng.rsvarsourcepanel
 msgid "Active panel (source)"
-msgstr ""
+msgstr "Активная панель (источник)"
 
 #: ulng.rsvartargetpanel
 msgid "Inactive panel (target)"
-msgstr ""
+msgstr "Неактивная панель (назначение)"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
@@ -11493,11 +11473,11 @@ msgstr "%s не найден!"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
-msgstr ""
+msgstr "во внешнем просмотрщике"
 
 #: ulng.rsviewwithinternalviewer
 msgid "with internal viewer"
-msgstr ""
+msgstr "во встроенном просмотрщике"
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
@@ -11506,4 +11486,3 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
-
