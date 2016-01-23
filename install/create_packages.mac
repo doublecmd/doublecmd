@@ -12,16 +12,12 @@ BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
 # Create temp dir for building
 BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
 
-# DC revision number
-DC_REVISION=$(svnversion ../ | sed -e 's/\([0-9]*\).*/\1/')
-
 # Export from SVN
 rm -rf $BUILD_DC_TMP_DIR
 svn export ../ $BUILD_DC_TMP_DIR
 
 # Save revision number
-mkdir $BUILD_DC_TMP_DIR/.svn
-cp -a ../.svn/entries $BUILD_DC_TMP_DIR/.svn/
+DC_REVISION=$(linux/update-revision.sh ../ $BUILD_DC_TMP_DIR)
 
 # Set processor architecture
 if [ -z $CPU_TARGET ]; then
