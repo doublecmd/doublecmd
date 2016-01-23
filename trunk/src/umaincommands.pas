@@ -925,11 +925,22 @@ end;
 //------------------------------------------------------
 procedure TMainCommands.cm_Exchange(const Params: array of string);
 var
-  sDir: String;
+  ActiveView, NotActiveView: TFileView;
 begin
-  sDir:= FrmMain.ActiveFrame.CurrentPath;
-  FrmMain.ActiveFrame.CurrentPath:= FrmMain.NotActiveFrame.CurrentPath;
-  FrmMain.NotActiveFrame.CurrentPath:= sDir;
+  ActiveView:= frmMain.ActiveFrame;
+  NotActiveView:= frmMain.NotActiveFrame;
+  with frmMain do
+  begin
+    ActiveNotebook.ActivePage.RemoveComponent(ActiveView);
+    NotActiveNotebook.ActivePage.RemoveComponent(NotActiveView);
+
+    ActiveNotebook.ActivePage.FileView:= NotActiveView;
+    NotActiveNotebook.ActivePage.FileView:= ActiveView;
+
+    ActiveNotebook.ActivePage.InsertComponent(NotActiveView);
+    NotActiveNotebook.ActivePage.InsertComponent(ActiveView);
+  end;
+  NotActiveView.SetFocus;
 end;
 
 procedure TMainCommands.cm_ExecuteToolbarItem(const Params: array of string);
