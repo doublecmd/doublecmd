@@ -57,6 +57,10 @@ mkdir -p $DC_INSTALL_DIR/doc
 cp -r doc/en    $DC_INSTALL_DIR/doc/
 cp -a doc/*.txt $DC_INSTALL_DIR/doc/
 
+# Copy scripts
+mkdir -p $DC_INSTALL_DIR/scripts
+cp -a scripts/terminal.sh $DC_INSTALL_DIR/scripts/
+
 # Copy directories
 cp -r language $DC_INSTALL_DIR/
 cp -r pixmaps  $DC_INSTALL_DIR/
