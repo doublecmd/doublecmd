@@ -1393,11 +1393,13 @@ var
   AFile: TFile;
   AFiles: TFiles;
   APoint: TPoint;
+  AFileName: String;
 begin
 {$IF DEFINED(MSWINDOWS)}
   if Button = mbRight then
   try
-    AFile:= TFileSystemFileSource.CreateFileFromFile(ShellTreeView.Path);
+    AFileName:= ExcludeTrailingBackslash((ShellTreeView as TShellTreeView).Path);
+    AFile:= TFileSystemFileSource.CreateFileFromFile(AFileName);
     try
       AFiles:= TFiles.Create(AFile.Path);
       AFiles.Add(AFile);
