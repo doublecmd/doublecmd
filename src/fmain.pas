@@ -40,10 +40,10 @@ unit fMain;
 interface
 
 uses
-  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList, ShellCtrls,
+  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
-  uFileView, uFileSource, uFileViewNotebook, uFile,
+  uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
@@ -457,8 +457,9 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     MainTrayIcon: TTrayIcon;
+    TreePanel: TPanel;
     TreeSplitter: TSplitter;
-    ShellTreeView: TShellTreeView;
+    ShellTreeView: TCustomTreeView;
 
     procedure actExecute(Sender: TObject);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
@@ -708,6 +709,7 @@ type
                                         out DestPath, DestMask: String); overload;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure SetActiveFrame(FileView: TFileView);
+    procedure UpdateShellTreeView;
     procedure UpdateTreeViewPath;
     procedure UpdateTreeView;
     procedure UpdateDiskCount;
@@ -768,7 +770,7 @@ implementation
 
 uses
   uFileProcs, uShellContextMenu,
-  Math, LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
+  Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
@@ -781,6 +783,12 @@ uses
   , uColumnsFileViewVtv
   {$ELSE}
   , uColumnsFileView
+  {$ENDIF}
+  // TODO: remove when switch to Lazarus 1.6
+  {$IF (lcl_fullversion < 1060000)}
+  , uShellCtrls
+  {$ELSE}
+  , ShellCtrls
   {$ENDIF}
   ;
 
@@ -929,12 +937,6 @@ begin
     UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
 
   MainFormCreate(Self);
-
-  // Separate tree
-  ShellTreeView.Images := TImageList.Create(Self);
-  ShellTreeView.Images.Width := gIconsSize;
-  ShellTreeView.Images.Height := gIconsSize;
-  ShellTreeView.Images.Add(PixMapManager.GetFolderIcon(gIconsSize, ShellTreeView.Color), nil);
 
   // Load command line history
   edtCommand.Items.Assign(glsCmdLineHistory);
@@ -1373,7 +1375,7 @@ procedure TfrmMain.ShellTreeViewDblClick(Sender: TObject);
 begin
   ShellTreeView.Tag := 1;
   try
-    SetFileSystemPath(ActiveFrame, ShellTreeView.Path);
+    SetFileSystemPath(ActiveFrame, (ShellTreeView as TShellTreeView).Path);
   finally
     ShellTreeView.Tag := 0;
   end;
@@ -3836,12 +3838,59 @@ begin
   end;
 end;
 
+type
+  TCustomShellTreeViewCrack = class(TCustomShellTreeView);
+
+procedure TfrmMain.UpdateShellTreeView;
+begin
+  actTreeView.Checked := gSeparateTree;
+  TreeSplitter.Visible := gSeparateTree;
+  TreePanel.Visible := gSeparateTree;
+
+  if gSeparateTree and (ShellTreeView = nil) then
+  begin
+    ShellTreeView := TShellTreeView.Create(TreePanel);
+    ShellTreeView.Parent := TreePanel;
+    ShellTreeView.Align := alClient;
+    ShellTreeView.ScrollBars := ssAutoBoth;
+
+    with ShellTreeView as TShellTreeView do
+    begin
+      ReadOnly := True;
+      RightClickSelect := True;
+      TCustomShellTreeViewCrack(ShellTreeView).PopulateWithBaseFiles;
+
+      Images := TImageList.Create(Self);
+      Images.Width := gIconsSize;
+      Images.Height := gIconsSize;
+      Images.Add(PixMapManager.GetFolderIcon(gIconsSize, ShellTreeView.Color), nil);
+
+      OnKeyDown := @ShellTreeViewKeyDown;
+      OnMouseUp := @ShellTreeViewMouseUp;
+      OnDblClick := @ShellTreeViewDblClick;
+      OnAdvancedCustomDrawItem := @ShellTreeViewAdvancedCustomDrawItem;
+
+      Options := Options - [tvoThemedDraw];
+      Options := Options + [tvoReadOnly, tvoRightClickSelect];
+    end;
+  end;
+
+  if gSeparateTree then
+  begin
+    ShellTreeView.Font.Color := gForeColor;
+    ShellTreeView.BackgroundColor := gBackColor;
+    ShellTreeView.SelectionColor := gCursorColor;
+    FontOptionsToFont(gFonts[dcfMain], ShellTreeView.Font);
+  end;
+end;
+
 procedure TfrmMain.UpdateTreeViewPath;
 begin
-  if (gSeparateTree = False) or (ShellTreeView.Tag <> 0) then Exit;
+  if (gSeparateTree = False) then Exit;
+  if (ShellTreeView.Tag <> 0) then Exit;
   if (fspDirectAccess in ActiveFrame.FileSource.Properties) then
   try
-    ShellTreeView.Path := ActiveFrame.CurrentPath;
+    (ShellTreeView as TShellTreeView).Path := ActiveFrame.CurrentPath;
   except
     // Skip
   end;
@@ -3849,10 +3898,14 @@ end;
 
 procedure TfrmMain.UpdateTreeView;
 begin
-  if gShowSystemFiles then
-    ShellTreeView.ObjectTypes:= ShellTreeView.ObjectTypes + [otHidden]
-  else begin
-    ShellTreeView.ObjectTypes:= ShellTreeView.ObjectTypes - [otHidden];
+  if (ShellTreeView = nil) then Exit;
+  with (ShellTreeView as TShellTreeView) do
+  begin
+    if gShowSystemFiles then
+      ObjectTypes:= ObjectTypes + [otHidden]
+    else begin
+      ObjectTypes:= ObjectTypes - [otHidden];
+    end;
   end;
 end;
 
@@ -4534,16 +4587,7 @@ begin
     end;
 
     // Separate tree
-    actTreeView.Checked := gSeparateTree;
-    TreeSplitter.Visible := gSeparateTree;
-    ShellTreeView.Visible := gSeparateTree;
-    if gSeparateTree then
-    begin
-      ShellTreeView.Font.Color := gForeColor;
-      ShellTreeView.BackgroundColor := gBackColor;
-      ShellTreeView.SelectionColor := gCursorColor;
-      FontOptionsToFont(gFonts[dcfMain], ShellTreeView.Font);
-    end;
+    UpdateShellTreeView;
 
     // Operations panel and menu
     if (gPanelOfOp = False) then
