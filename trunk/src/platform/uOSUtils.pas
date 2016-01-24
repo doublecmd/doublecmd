@@ -57,8 +57,8 @@ const
   RunTermCmd = '/Applications/Utilities/Terminal.app %D';  // default terminal
   RunTermParams = '';
   RunInTerm = ''; // default run in terminal command
-  RunInTermStayOpenCmd = ''; // default run in terminal command AND Stay open after command
-  RunInTermStayOpenParams = '';
+  RunInTermStayOpenCmd = '%COMMANDER_PATH%/scripts/terminal.sh'; // default run in terminal command AND Stay open after command
+  RunInTermStayOpenParams = '{command}';
   RunInTermCloseCmd = ''; // default run in terminal command AND Close after command
   RunInTermCloseParams = '';
   MonoSpaceFont = 'Monaco';
@@ -748,10 +748,12 @@ begin
     sConfigParam := gRunInTermCloseParams;
   end;
 
-  if pos(CnstUserCommand,sConfigParam)<>0 then
+  sCmd := ReplaceEnvVars(sCmd);
+
+  if Pos(CnstUserCommand, sConfigParam) <> 0 then
     sParams := StringReplace(sConfigParam, CnstUserCommand, sParams , [rfIgnoreCase])
   else
-    sParams:=ConcatenateStrWithSpace(sConfigParam, sParams);
+    sParams := ConcatenateStrWithSpace(sConfigParam, sParams);
 
 {$ELSEIF DEFINED(MSWINDOWS)}
 //  if bKeepTerminalOpen then

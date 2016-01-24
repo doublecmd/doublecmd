@@ -111,7 +111,8 @@ if [ -z $CK_PORTABLE ]
     install -m 644 doc/*.txt  $DC_INSTALL_PREFIX/usr/share/doublecmd/doc
     ln -sf ../../share/doublecmd/doc $DC_INSTALL_DIR/doc
     # Copy scripts
-    cp -r scripts $DC_INSTALL_DIR/
+    install -d         $DC_INSTALL_DIR/scripts
+    cp -a scripts/*.py $DC_INSTALL_DIR/scripts/
     # Copy languages
     cp -r language $DC_INSTALL_PREFIX/usr/share/doublecmd
     ln -sf ../../share/doublecmd/language $DC_INSTALL_DIR/language
@@ -135,7 +136,9 @@ if [ -z $CK_PORTABLE ]
     # Copy directories
     cp -r language $DC_INSTALL_DIR/
     cp -r pixmaps  $DC_INSTALL_DIR/
-    cp -r scripts  $DC_INSTALL_DIR/
+    # Copy scripts
+    install -d         $DC_INSTALL_DIR/scripts
+    cp -a scripts/*.py $DC_INSTALL_DIR/scripts/
     # Copy libraries
     install -m 644 *.so*    $DC_INSTALL_DIR/
     # Copy DC icon
