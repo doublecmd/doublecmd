@@ -28,6 +28,10 @@ type
     procedure AddressLabelMouseEnter(Sender: TObject);
     procedure PathLabelDblClick(Sender: TObject);
     procedure tmViewHistoryMenuTimer(Sender: TObject);
+
+    procedure PathLabelMouseWheelUp(Sender: TObject;Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
+    procedure PathLabelMouseWheelDown(Sender: TObject;Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
+
   protected
     tmViewHistoryMenu: TTimer;
   public
@@ -153,6 +157,54 @@ begin
   frmMain.Commands.cm_ViewHistory([]);
 end;
 
+procedure TFileViewHeader.PathLabelMouseWheelUp(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
+begin
+  if ssCtrl in Shift then
+  begin
+{
+if (ssCtrl in Shift)and(gFonts[dcfFileViewHeader].Size<MAX_FONT_FILEVIEWHEADER) then
+     gFonts[dcfFileViewHeader].Size:=gFonts[dcfFileViewHeader].Size+1;
+     FAddressLabel.Font.Size:=gFonts[dcfFileViewHeader].Size;
+     FPathLabel.Font.Size:=FAddressLabel.Font.Size;
+     FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
+}
+
+     FAddressLabel.Font.Size:=FAddressLabel.Font.Size+1;
+     if FAddressLabel.Font.Size<9 then FAddressLabel.Font.Size:=9;
+     FPathLabel.Font.Size:=FAddressLabel.Font.Size;
+     FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
+
+     frmMain.FrameLeft.Repaint;
+     frmMain.FrameRight.Repaint;
+  end;
+end;
+
+procedure TFileViewHeader.PathLabelMouseWheelDown(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
+begin
+  if ssCtrl in Shift then
+  begin
+
+{
+if (ssCtrl in Shift)and(gFonts[dcfFileViewHeader].Size>MIN_FONT_FILEVIEWHEADER) then
+     gFonts[dcfFileViewHeader].Size:=gFonts[dcfFileViewHeader].Size+1;
+     FAddressLabel.Font.Size:=gFonts[dcfFileViewHeader].Size;
+     FPathLabel.Font.Size:=FAddressLabel.Font.Size;
+     FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
+}
+
+    FAddressLabel.Font.Size:=FAddressLabel.Font.Size-1;
+    if FAddressLabel.Font.Size<9 then FAddressLabel.Font.Size:=9;
+
+    FPathLabel.Font.Size:=FAddressLabel.Font.Size;
+    FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
+
+    frmMain.FrameLeft.Repaint;
+    frmMain.FrameRight.Repaint;
+  end;
+end;
+
 { TFileViewHeader.PathLabelDblClick }
 { -If we double-click on the the path label, it shows the Hot Dir popup menu at the cursor position.
   -If we click just once, after the 250ms of the timer, it shows the history.
@@ -246,6 +298,10 @@ begin
   FPathLabel.OnClick := @PathLabelClick;
   FPathLabel.OnDblClick := @PathLabelDblClick;
   FPathLabel.OnMouseUp := @PathLabelMouseUp;
+
+  FPathLabel.OnMouseWheelDown := @PathLabelMouseWheelDown;
+  FPathLabel.OnMouseWheelUp := @PathLabelMouseWheelUp;
+
 
   FAddressLabel.OnClick := @AddressLabelClick;
   FAddressLabel.OnMouseEnter:= @AddressLabelMouseEnter;
