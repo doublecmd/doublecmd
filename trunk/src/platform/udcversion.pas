@@ -49,6 +49,7 @@ var
   : String;
 
 procedure InitializeVersionInfo;
+function GetLazarusVersion: String;
 
 implementation
 
@@ -469,6 +470,14 @@ begin
                         IntToStr(gtk_minor_version) + '.' +
                         IntToStr(gtk_micro_version);
   {$ENDIF}
+end;
+
+function GetLazarusVersion: String;
+begin
+  Result:= lazVersion;
+  if Length(lazRevision) > 0 then begin
+    Result += '-' + lazRevision;
+  end;
 end;
 
 end.
