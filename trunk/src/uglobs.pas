@@ -1302,7 +1302,7 @@ begin
   { Log page }
   gLogFile := False;
   gLogFileWithDateInName := FALSE;
-  gLogFileName := gpCfgDir + 'doublecmd.log';
+  gLogFileName := EnvVarConfigPath + PathDelim + 'doublecmd.log';
   gLogOptions := [log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                   log_vfs_op, log_success, log_errors, log_info,
                   log_start_shutdown, log_commandlineexecution];
@@ -1359,7 +1359,7 @@ begin
 
   { Ignore list page }
   gIgnoreListFileEnabled := False;
-  gIgnoreListFile := gpCfgDir + 'ignorelist.txt';
+  gIgnoreListFile := EnvVarConfigPath + PathDelim + 'ignorelist.txt';
 
   {Viewer}
   gImageStretch := False;
@@ -1887,7 +1887,7 @@ var
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
   gLogFileWithDateInName := gIni. ReadBool('Configuration', 'LogFileWithDateInName', FALSE);
-  gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpCfgDir + 'doublecmd.log');
+  gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gLogFileName);
   gLogOptions := TLogOptions(gIni.ReadInteger('Configuration', 'LogOptions', Integer(gLogOptions)));
   { Configuration page }
   gSaveDirHistory := gIni.ReadBool('Configuration', 'SaveDirHistory', True);
@@ -1924,7 +1924,7 @@ var
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
   { Ignore list page }
   gIgnoreListFileEnabled:= gIni.ReadBool('Configuration', 'IgnoreListFileEnabled', False);
-  gIgnoreListFile:= gIni.ReadString('Configuration', 'IgnoreListFile', gpCfgDir + 'ignorelist.txt');
+  gIgnoreListFile:= gIni.ReadString('Configuration', 'IgnoreListFile', gIgnoreListFile);
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', True);
 
