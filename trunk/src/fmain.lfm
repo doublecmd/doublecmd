@@ -44,38 +44,29 @@ object frmMain: TfrmMain
     OnToolItemShortcutsHint = MainToolBarToolItemShortcutsHint
     GlyphSize = 16
   end
-  object ShellTreeView: TShellTreeView
+  object TreePanel: TPanel
     Left = 0
-    Height = 191
+    Height = 194
     Top = 20
     Width = 121
     Align = alLeft
-    FileSortType = fstAlphabet
-    ReadOnly = True
-    RightClickSelect = True
-    ScrollBars = ssAutoBoth
+    BevelOuter = bvNone
     TabOrder = 0
-    OnAdvancedCustomDrawItem = ShellTreeViewAdvancedCustomDrawItem
-    OnDblClick = ShellTreeViewDblClick
-    OnKeyDown = ShellTreeViewKeyDown
-    OnMouseUp = ShellTreeViewMouseUp
-    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
-    ObjectTypes = [otFolders]
   end
   object TreeSplitter: TSplitter
     Left = 121
-    Height = 191
+    Height = 194
     Top = 20
     Width = 5
   end
   object pnlMain: TPanel
     Left = 126
-    Height = 191
+    Height = 194
     Top = 20
     Width = 634
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 191
+    ClientHeight = 194
     ClientWidth = 634
     TabOrder = 5
     object pnlDisk: TPanel
@@ -159,24 +150,24 @@ object frmMain: TfrmMain
     end
     object pnlNotebooks: TPanel
       Left = 0
-      Height = 167
+      Height = 170
       Top = 24
       Width = 634
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 167
+      ClientHeight = 170
       ClientWidth = 634
       FullRepaint = False
       TabOrder = 1
       OnResize = pnlNotebooksResize
       object pnlLeft: TPanel
         Left = 0
-        Height = 167
+        Height = 170
         Top = 0
         Width = 511
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 167
+        ClientHeight = 170
         ClientWidth = 511
         TabOrder = 0
         OnDblClick = pnlLeftRightDblClick
@@ -297,12 +288,12 @@ object frmMain: TfrmMain
       end
       object pnlRight: TPanel
         Left = 511
-        Height = 167
+        Height = 170
         Top = 0
         Width = 123
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 167
+        ClientHeight = 170
         ClientWidth = 123
         TabOrder = 1
         OnDblClick = pnlLeftRightDblClick
@@ -438,7 +429,7 @@ object frmMain: TfrmMain
   object PanelAllProgress: TPanel
     Left = 0
     Height = 0
-    Top = 211
+    Top = 214
     Width = 760
     Align = alBottom
     AutoSize = True
@@ -449,7 +440,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 3
-    Top = 211
+    Top = 214
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -460,35 +451,35 @@ object frmMain: TfrmMain
   object pnlCommand: TPanel
     AnchorSideBottom.Control = LogSplitter
     Left = 0
-    Height = 81
-    Top = 214
+    Height = 78
+    Top = 217
     Width = 760
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 81
+    ClientHeight = 78
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 8
     object pnlCmdLine: TPanel
       Left = 0
-      Height = 27
+      Height = 24
       Top = 54
       Width = 760
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 2
-      ClientHeight = 27
+      ClientHeight = 24
       ClientWidth = 760
       TabOrder = 1
       object lblCommandPath: TLabel
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 6
-        Width = 24
+        Height = 14
+        Top = 5
+        Width = 28
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -499,13 +490,13 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 28
-        Height = 23
+        Left = 32
+        Height = 20
         Top = 2
-        Width = 732
+        Width = 728
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
-        ItemHeight = 15
+        ItemHeight = 14
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
         TabOrder = 0
@@ -884,11 +875,19 @@ object frmMain: TfrmMain
         ShortCut = 24642
       end>
     MouseActions = <>
+    MouseTextActions = <>
     MouseSelActions = <>
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.BackPriority = 50
+    SelectedColor.ForePriority = 50
+    SelectedColor.FramePriority = 50
+    SelectedColor.BoldPriority = 50
+    SelectedColor.ItalicPriority = 50
+    SelectedColor.UnderlinePriority = 50
+    SelectedColor.StrikeOutPriority = 50
     BracketHighlightStyle = sbhsBoth
     BracketMatchColor.Background = clNone
     BracketMatchColor.Foreground = clNone
@@ -925,55 +924,55 @@ object frmMain: TfrmMain
       Left = 0
       Height = 20
       Top = 0
-      Width = 89
+      Width = 88
       Action = actView
       Flat = True
     end
     object btnF4: TSpeedButton
-      Left = 89
+      Left = 88
       Height = 20
       Top = 0
-      Width = 84
+      Width = 83
       Action = actEdit
       Flat = True
     end
     object btnF5: TSpeedButton
-      Left = 173
+      Left = 171
       Height = 20
       Top = 0
-      Width = 92
+      Width = 91
       Action = actCopy
       Flat = True
     end
     object btnF6: TSpeedButton
-      Left = 265
+      Left = 262
       Height = 20
       Top = 0
-      Width = 94
+      Width = 91
       Action = actRename
       Flat = True
     end
     object btnF7: TSpeedButton
-      Left = 359
+      Left = 353
       Height = 20
       Top = 0
-      Width = 112
+      Width = 117
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
     end
     object btnF8: TSpeedButton
-      Left = 471
+      Left = 470
       Height = 20
       Top = 0
-      Width = 97
+      Width = 100
       Caption = 'Delete'
       Flat = True
       OnClick = btnF8Click
       OnMouseDown = btnF8MouseDown
     end
     object btnF9: TSpeedButton
-      Left = 568
+      Left = 570
       Height = 20
       Top = 0
       Width = 110
@@ -982,10 +981,10 @@ object frmMain: TfrmMain
       Flat = True
     end
     object btnF10: TSpeedButton
-      Left = 678
+      Left = 680
       Height = 20
       Top = 0
-      Width = 82
+      Width = 80
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -2387,7 +2386,6 @@ object frmMain: TfrmMain
       Caption = 'Close Duplicate Tabs'
       OnExecute = actExecute
     end
-
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
