@@ -369,7 +369,7 @@ begin
   if Assigned(Hotkey) then
     btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
 
-  if fspListInMainThread in FFileSource.Properties then
+  if Assigned(FFileSource) and (fspListInMainThread in FFileSource.Properties) then
   begin
     btnAddToQueue.Visible:= False;
     FQueueIdentifier:= ModalQueueId;
