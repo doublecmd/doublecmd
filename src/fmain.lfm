@@ -17,7 +17,7 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
-  SessionProperties = 'nbConsole.Height;seLogWindow.Height;ShellTreeView.Width'
+  SessionProperties = 'nbConsole.Height;seLogWindow.Height;TreePanel.Width'
   ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '1.4.4.0'
