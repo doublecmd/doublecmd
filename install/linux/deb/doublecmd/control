@@ -4,9 +4,9 @@ Priority: optional
 Maintainer: Pascal Packaging Team <pkg-pascal-devel@lists.alioth.debian.org>
 Uploaders: Graham Inggs <graham@nerve.org.za>
 Build-Depends: debhelper (>= 9),
-               fp-utils (>= 2.6.0),
-               fpc (>= 2.6.0),
-               lcl (>= 1.2),
+               fp-utils (>= 2.6.2),
+               fpc (>= 2.6.2),
+               lcl (>= 1.4),
                lcl-gtk2,
                lcl-qt4,
                libbz2-dev,
