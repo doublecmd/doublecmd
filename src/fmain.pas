@@ -98,6 +98,8 @@ type
     actCopyPathNoSepOfFilesToClip: TAction;
     actDoAnyCmCommand: TAction;
     actCloseDuplicateTabs: TAction;
+    actDeleteActiveGroup: TAction;
+    actNextGroup: TAction;
     actNewGroup: TAction;
     actRestoreActiveGroup: TAction;
     actTreeView: TAction;
@@ -205,6 +207,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    MenuItem1: TMenuItem;
     miLine34: TMenuItem;
 
     mnuRestoreActiveGroup: TMenuItem;
@@ -735,6 +738,7 @@ type
 
     procedure LoadGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure SaveGroupXml(AConfig: TXmlConfig; AGroupName: string);
+    procedure DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
 
     procedure CreateGroupsMainMenuItems; // add menu items on FormCreate if file 'groups.xml' is exists
     procedure ToggleConsole;
@@ -4392,13 +4396,7 @@ end;
 procedure TfrmMain.LoadGroupXml(AConfig: TXmlConfig;
   AGroupName: string);
 var
-  sPath, sViewType: String;
-  iActiveTab: Integer;
-  Page: TFileViewPage;
-  AFileView: TFileView;
-  AFileViewFlags: TFileViewFlags;
-  aFileSource: IFileSource;
-  aParentNode,RootNode, TabNode, ViewNode: TXmlNode;
+  aParentNode: TXmlNode;
 begin
 
   // 1) Verify - is the AGroupName exist in brunch GroupsNameBank?
@@ -4421,10 +4419,7 @@ end;
 procedure TfrmMain.SaveGroupXml(AConfig: TXmlConfig;
   AGroupName: string);
 var
-  I: Integer;
-  TabsSection: String;
-  Page: TFileViewPage;
-  ParentNode,RootNode, TabNode, ViewNode: TXmlNode;
+  ParentNode: TXmlNode;
 begin
 
   // 1) Write New group name to brunch GroupsNameBank
@@ -4436,6 +4431,14 @@ begin
 
   SaveTabsXml(AConfig,'Groups/'+AGroupName,nbLeft);
   SaveTabsXml(AConfig,'Groups/'+AGroupName,nbRight);
+
+end;
+
+procedure TfrmMain.DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
+var
+  ParentNode,RootNode, TabNode, ViewNode: TXmlNode;
+begin
+  ParentNode := AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank', True);
 
 end;
 

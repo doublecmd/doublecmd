@@ -186,10 +186,9 @@ type
 
    procedure cm_NewGroup(const Params: array of string);
    procedure cm_RestoreActiveGroup(const Params: array of string);
-   procedure cm_SaveGroup(const Params: array of string);
-   procedure cm_LoadGroup(const Params: array of string);
-
-
+   procedure cm_DeleteActiveGroup(const Params: array of string);
+   procedure cm_NextGroup(const Params: array of string);
+   procedure cm_PrevGroup(const Params: array of string);
 
 
    procedure cm_SetTabOptionNormal(const Params: array of string);
@@ -1597,16 +1596,53 @@ begin
   end;
 end;
 
+procedure TMainCommands.cm_DeleteActiveGroup(const Params: array of string);
+var
+   Config: TXmlConfig;
+begin
+  try
+    Config:= TXmlConfig.Create('groups.xml', True);
+    // Del active group in XML
+    frmMain.DeleteGroupXml(Config,frmMain.LastActiveGroup);
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
 
-procedure TMainCommands.cm_SaveGroup(const Params: array of string);
+
+procedure TMainCommands.cm_NextGroup(const Params: array of string);
+var
+  iAct,iStart,cnt:integer;
+  cItem:TMenuItem;
+begin
+  // Found index of first Group
+  iStart:=frmMain.mnuGroups.IndexOfCaption('-')+1;
+  if iStart>=frmMain.mnuGroups.Count then exit;  // if no groups - exit
+
+  // Found index of ative group
+  iAct:=frmMain.mnuGroups.IndexOfCaption(frmMain.LastActiveGroup);
+
+  cnt:=frmMain.mnuGroups.Count;
+  if iAct<iStart then iAct:=iStart else
+  if iAct<=(frmMain.mnuGroups.Count-2) then iAct:=iAct+1 else
+  if iAct=(frmMain.mnuGroups.Count-1) then iAct:=iStart;
+
+  // Set new active group
+  frmMain.LastActiveGroup:=frmMain.mnuGroups.Items[iAct].Caption;
+
+  // and update it
+  cm_RestoreActiveGroup([]);
+end;
+
+
+procedure TMainCommands.cm_PrevGroup(const Params: array of string);
 begin
 
 end;
 
-procedure TMainCommands.cm_LoadGroup(const Params: array of string);
-begin
 
-end;
+
 
 procedure TMainCommands.cm_SetTabOptionNormal(const Params: array of string);
 begin

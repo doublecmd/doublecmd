@@ -1240,11 +1240,12 @@ object frmMain: TfrmMain
       Caption = 'Groups'
       object mnuNewGroup: TMenuItem
         Action = actNewGroup
-        Caption = 'New Group'
       end
       object mnuRestoreActiveGroup: TMenuItem
         Action = actRestoreActiveGroup
-        Caption = 'Restore Active Group'
+      end
+      object MenuItem1: TMenuItem
+        Action = actDeleteActiveGroup
       end
       object miLine34: TMenuItem
         Caption = '-'
@@ -2401,12 +2402,22 @@ object frmMain: TfrmMain
       OnExecute = actExecute
     end
     object actNewGroup: TAction
-      Caption = 'actNewGroup'
+      Category = 'Groups'
+      Caption = 'New Group'
       OnExecute = actExecute
     end
     object actRestoreActiveGroup: TAction
-      Caption = 'actRestoreActiveGroup'
+      Category = 'Groups'
+      Caption = 'Restore Active Group'
       OnExecute = actExecute
+    end
+    object actNextGroup: TAction
+      Category = 'Groups'
+      Caption = 'Switch to next group'
+    end
+    object actDeleteActiveGroup: TAction
+      Category = 'Groups'
+      Caption = 'Delete active group'
     end
   end
   object pmHotList: TPopupMenu

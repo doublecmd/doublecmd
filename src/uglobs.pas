@@ -848,6 +848,7 @@ begin
       AddIfNotExists(['Ctrl+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');
+      AddIfNotExists(['Shift+Tab'],[],'cm_NextGroup');
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Viewer');
