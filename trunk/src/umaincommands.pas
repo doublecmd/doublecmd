@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu;
+  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus;
 
 type
 
@@ -183,6 +183,15 @@ type
    procedure cm_PrevTab(const Params: array of string);
    procedure cm_SaveTabs(const Params: array of string);
    procedure cm_LoadTabs(const Params: array of string);
+
+   procedure cm_NewGroup(const Params: array of string);
+   procedure cm_RestoreActiveGroup(const Params: array of string);
+   procedure cm_SaveGroup(const Params: array of string);
+   procedure cm_LoadGroup(const Params: array of string);
+
+
+
+
    procedure cm_SetTabOptionNormal(const Params: array of string);
    procedure cm_SetTabOptionPathLocked(const Params: array of string);
    procedure cm_SetTabOptionPathResets(const Params: array of string);
@@ -1479,9 +1488,10 @@ begin
     Config:= TXmlConfig.Create(dmComData.SaveDialog.FileName);
     with frmMain do
     try
-      SaveTabsXml(Config, LeftTabs);
-      SaveTabsXml(Config, RightTabs);
-      Config.Save;
+      SaveTabsXml(Config, 'Tabs/OpenedTabs', LeftTabs);
+      SaveTabsXml(Config, 'Tabs/OpenedTabs', RightTabs);
+//      Config.Save;
+      Config.WriteToFile(dmComData.SaveDialog.FileName);
     finally
       Config.Free;
     end;
@@ -1503,10 +1513,68 @@ begin
     with frmMain do
     try
       LeftTabs.DestroyAllPages;
-      LoadTabsXml(Config, LeftTabs);
+      LoadTabsXml(Config,'Tabs/OpenedTabs/', LeftTabs);
       FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
       RightTabs.DestroyAllPages;
-      LoadTabsXml(Config, RightTabs);
+      LoadTabsXml(Config,'Tabs/OpenedTabs/', RightTabs);
+      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
+
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
+
+
+
+procedure TMainCommands.cm_NewGroup(const Params: array of string);
+var
+  miGroup,miNewGroup:TMenuItem;
+  Config: TXmlConfig;
+  sNewGroup:string;
+begin
+
+  if not InputQuery(rsGroupNewGroup, rsGroupNewGroupName, sNewGroup) then Exit;
+
+  try
+    Config:= TXmlConfig.Create('groups.xml',True);
+    with frmMain do
+    try
+      SaveGroupXml(Config,sNewGroup);
+      Config.WriteToFile('groups.xml');
+
+      miNewGroup:=TMenuItem.Create(frmMain.mnuMain);
+      miNewGroup.Caption:=sNewGroup;
+      miNewGroup.Name:='miGrpName_'+sNewGroup;
+      miNewGroup.OnClick:=@mnuGroupNameTabsClick;
+      mnuGroups.Add(miNewGroup);
+
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+
+end;
+
+procedure TMainCommands.cm_RestoreActiveGroup(const Params: array of string);
+var
+  AFileName:string;
+  Config: TXmlConfig;
+begin
+
+  AFileName:= 'groups.xml';
+  try
+    Config:= TXmlConfig.Create(AFileName, True);
+    with frmMain do
+    try
+      LoadGroupXml(Config,LastActiveGroup);
+      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
       FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
     finally
       Config.Free;
@@ -1515,6 +1583,17 @@ begin
     on E: Exception do
       msgError(E.Message);
   end;
+end;
+
+
+procedure TMainCommands.cm_SaveGroup(const Params: array of string);
+begin
+
+end;
+
+procedure TMainCommands.cm_LoadGroup(const Params: array of string);
+begin
+
 end;
 
 procedure TMainCommands.cm_SetTabOptionNormal(const Params: array of string);

@@ -1,5 +1,5 @@
 object frmViewer: TfrmViewer
-  Left = 292
+  Left = 275
   Height = 480
   Top = 46
   Width = 640

@@ -127,7 +127,7 @@ begin
   DCDebug('Double Commander ' + dcVersion);
   DCDebug('Revision: ' + dcRevision);
   DCDebug('Build: ' + dcBuildDate);
-  DCDebug('Lazarus: ' + GetLazarusVersion);
+  DCDebug('Lazarus: ' + lazVersion + '-' + lazRevision);
   DCDebug('Free Pascal: ' + fpcVersion);
   DCDebug('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
   DCDebug('System: ' + OSVersion);

@@ -46,7 +46,7 @@ object frmMain: TfrmMain
   end
   object TreePanel: TPanel
     Left = 0
-    Height = 194
+    Height = 191
     Top = 20
     Width = 121
     Align = alLeft
@@ -55,18 +55,18 @@ object frmMain: TfrmMain
   end
   object TreeSplitter: TSplitter
     Left = 121
-    Height = 194
+    Height = 191
     Top = 20
     Width = 5
   end
   object pnlMain: TPanel
     Left = 126
-    Height = 194
+    Height = 191
     Top = 20
     Width = 634
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 194
+    ClientHeight = 191
     ClientWidth = 634
     TabOrder = 5
     object pnlDisk: TPanel
@@ -150,24 +150,24 @@ object frmMain: TfrmMain
     end
     object pnlNotebooks: TPanel
       Left = 0
-      Height = 170
+      Height = 167
       Top = 24
       Width = 634
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 170
+      ClientHeight = 167
       ClientWidth = 634
       FullRepaint = False
       TabOrder = 1
       OnResize = pnlNotebooksResize
       object pnlLeft: TPanel
         Left = 0
-        Height = 170
+        Height = 167
         Top = 0
         Width = 511
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 170
+        ClientHeight = 167
         ClientWidth = 511
         TabOrder = 0
         OnDblClick = pnlLeftRightDblClick
@@ -288,12 +288,12 @@ object frmMain: TfrmMain
       end
       object pnlRight: TPanel
         Left = 511
-        Height = 170
+        Height = 167
         Top = 0
         Width = 123
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 170
+        ClientHeight = 167
         ClientWidth = 123
         TabOrder = 1
         OnDblClick = pnlLeftRightDblClick
@@ -429,7 +429,7 @@ object frmMain: TfrmMain
   object PanelAllProgress: TPanel
     Left = 0
     Height = 0
-    Top = 214
+    Top = 211
     Width = 760
     Align = alBottom
     AutoSize = True
@@ -440,7 +440,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 3
-    Top = 214
+    Top = 211
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -451,35 +451,35 @@ object frmMain: TfrmMain
   object pnlCommand: TPanel
     AnchorSideBottom.Control = LogSplitter
     Left = 0
-    Height = 78
-    Top = 217
+    Height = 81
+    Top = 214
     Width = 760
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 78
+    ClientHeight = 81
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 8
     object pnlCmdLine: TPanel
       Left = 0
-      Height = 24
+      Height = 27
       Top = 54
       Width = 760
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 2
-      ClientHeight = 24
+      ClientHeight = 27
       ClientWidth = 760
       TabOrder = 1
       object lblCommandPath: TLabel
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 14
-        Top = 5
-        Width = 28
+        Height = 15
+        Top = 6
+        Width = 24
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -490,13 +490,13 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 32
-        Height = 20
+        Left = 28
+        Height = 23
         Top = 2
-        Width = 728
+        Width = 732
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
-        ItemHeight = 14
+        ItemHeight = 15
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
         TabOrder = 0
@@ -924,67 +924,67 @@ object frmMain: TfrmMain
       Left = 0
       Height = 20
       Top = 0
-      Width = 88
+      Width = 89
       Action = actView
       Flat = True
     end
     object btnF4: TSpeedButton
-      Left = 88
+      Left = 89
       Height = 20
       Top = 0
-      Width = 83
+      Width = 84
       Action = actEdit
       Flat = True
     end
     object btnF5: TSpeedButton
-      Left = 171
+      Left = 173
       Height = 20
       Top = 0
-      Width = 91
+      Width = 92
       Action = actCopy
       Flat = True
     end
     object btnF6: TSpeedButton
-      Left = 262
+      Left = 265
       Height = 20
       Top = 0
-      Width = 91
+      Width = 94
       Action = actRename
       Flat = True
     end
     object btnF7: TSpeedButton
-      Left = 353
+      Left = 359
       Height = 20
       Top = 0
-      Width = 117
+      Width = 112
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
     end
     object btnF8: TSpeedButton
-      Left = 470
+      Left = 471
       Height = 20
       Top = 0
-      Width = 100
+      Width = 97
       Caption = 'Delete'
       Flat = True
       OnClick = btnF8Click
       OnMouseDown = btnF8MouseDown
     end
     object btnF9: TSpeedButton
-      Left = 570
+      Left = 568
       Height = 20
       Top = 0
-      Width = 110
+      Width = 111
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
     end
     object btnF10: TSpeedButton
-      Left = 680
+      Left = 679
       Height = 20
       Top = 0
-      Width = 80
+      Width = 81
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -1234,6 +1234,20 @@ object frmMain: TfrmMain
       end
       object mnuLoadTabs: TMenuItem
         Action = actLoadTabs
+      end
+    end
+    object mnuGroups: TMenuItem
+      Caption = 'Groups'
+      object mnuNewGroup: TMenuItem
+        Action = actNewGroup
+        Caption = 'New Group'
+      end
+      object mnuRestoreActiveGroup: TMenuItem
+        Action = actRestoreActiveGroup
+        Caption = 'Restore Active Group'
+      end
+      object miLine34: TMenuItem
+        Caption = '-'
       end
     end
     object mnuShow: TMenuItem
@@ -2384,6 +2398,14 @@ object frmMain: TfrmMain
       Tag = 21
       Category = 'Tabs'
       Caption = 'Close Duplicate Tabs'
+      OnExecute = actExecute
+    end
+    object actNewGroup: TAction
+      Caption = 'actNewGroup'
+      OnExecute = actExecute
+    end
+    object actRestoreActiveGroup: TAction
+      Caption = 'actRestoreActiveGroup'
       OnExecute = actExecute
     end
   end

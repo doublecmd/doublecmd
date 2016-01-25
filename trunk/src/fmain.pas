@@ -98,6 +98,8 @@ type
     actCopyPathNoSepOfFilesToClip: TAction;
     actDoAnyCmCommand: TAction;
     actCloseDuplicateTabs: TAction;
+    actNewGroup: TAction;
+    actRestoreActiveGroup: TAction;
     actTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
@@ -203,6 +205,11 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    miLine34: TMenuItem;
+
+    mnuRestoreActiveGroup: TMenuItem;
+    mnuNewGroup: TMenuItem;
+    mnuGroups: TMenuItem;
     mnuCloseDuplicateTabs: TMenuItem;
     miCloseDuplicateTabs: TMenuItem;
     mnuTreeView: TMenuItem;
@@ -466,6 +473,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var Key: Word; Shift: TShiftState) ;
     function MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
+    procedure mnuGroupNameTabsClick(Sender: TObject);
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
     procedure mnuAllOperPauseClick(Sender: TObject);
@@ -658,6 +666,8 @@ type
     procedure SetDragCursor(Shift: TShiftState);
 
   public
+    LastActiveGroup:string; // name of groups user last clicked
+
     constructor Create(TheOwner: TComponent); override;
     Function ActiveFrame: TFileView;  // get Active frame
     Function NotActiveFrame: TFileView; // get NotActive frame :)
@@ -720,8 +730,13 @@ type
     procedure AssignEvents(AFileView: TFileView);
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True): LongInt;
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
-    procedure LoadTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
-    procedure SaveTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
+    procedure LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
+    procedure SaveTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
+
+    procedure LoadGroupXml(AConfig: TXmlConfig; AGroupName: string);
+    procedure SaveGroupXml(AConfig: TXmlConfig; AGroupName: string);
+
+    procedure CreateGroupsMainMenuItems; // add menu items on FormCreate if file 'groups.xml' is exists
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -982,6 +997,7 @@ begin
 {$ENDIF}
 
   LoadTabs;
+  CreateGroupsMainMenuItems;
 
   // Update selected drive and free space before main form is shown,
   // otherwise there is a bit of delay.
@@ -1329,6 +1345,17 @@ function TfrmMain.MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): St
 begin
   Result := ShortcutsToText(TfrmOptionsToolbar.GetShortcuts(ToolItem));
 end;
+
+procedure TfrmMain.mnuGroupNameTabsClick(Sender: TObject);
+var
+  AConfig:TXmlConfig;
+  AGroupName: string;
+begin
+  AGroupName := (Sender as TMenuItem).Name;
+  LastActiveGroup := Copy(AGroupName, 11, Length(AGroupName) - 4);
+  Commands.Commands.ExecuteCommand('cm_RestoreActiveGroup', []);
+end;
+
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);
 begin
@@ -4185,7 +4212,10 @@ begin
     ANoteBook.PageIndex := iActiveTab;
 end;
 
-procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
+
+
+procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
+// default was ABrunch: 'Tabs/OpenedTabs/'
 var
   sPath, sViewType: String;
   iActiveTab: Integer;
@@ -4196,9 +4226,9 @@ var
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
   if ANoteBook = nbLeft then
-    RootNode := AConfig.FindNode(AConfig.RootNode, 'Tabs/OpenedTabs/Left')
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ '/Left')
   else
-    RootNode := AConfig.FindNode(AConfig.RootNode, 'Tabs/OpenedTabs/Right');
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ '/Right');
 
   if Assigned(RootNode) then
   begin
@@ -4284,14 +4314,16 @@ begin
   end;
 end;
 
-procedure TfrmMain.SaveTabsXml(AConfig: TXmlConfig; ANoteBook: TFileViewNotebook);
+
+procedure TfrmMain.SaveTabsXml(AConfig: TXmlConfig;ABrunch:string; ANoteBook: TFileViewNotebook);
+// brunch was: 'Tabs/OpenedTabs'
 var
   I: Integer;
   TabsSection: String;
   Page: TFileViewPage;
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
-  RootNode := AConfig.FindNode(AConfig.RootNode, 'Tabs/OpenedTabs', True);
+  RootNode := AConfig.FindNode(AConfig.RootNode, ABrunch, True);
   if ANoteBook = nbLeft then
     TabsSection := 'Left'
   else
@@ -4310,6 +4342,101 @@ begin
       Page.SaveConfiguration(AConfig, TabNode);
       Page.FileView.SaveConfiguration(AConfig, ViewNode);
     end;
+end;
+
+
+procedure TfrmMain.CreateGroupsMainMenuItems;
+var
+  i,cnt:integer;
+  mitNewGroup:TMenuItem;
+  AConfig: TXmlConfig;
+  sNewGroup:string;
+  aParentNode:TXmlNode;
+begin
+
+  if not FileExists('groups.xml') then exit;
+
+  try
+    AConfig:= TXmlConfig.Create('groups.xml',True);
+
+    try
+      AConfig.Load;
+      aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/');
+
+      i:=0;
+      cnt:=aParentNode.ChildNodes.Count;
+      while(i<cnt)do
+      begin
+        sNewGroup:=aParentNode.ChildNodes[i].NodeName;
+
+        mitNewGroup:=TMenuItem.Create(frmMain.mnuMain);
+        mitNewGroup.Caption:=sNewGroup;
+        mitNewGroup.Name:='miGrpName_'+sNewGroup;
+        mitNewGroup.OnClick:=@mnuGroupNameTabsClick;
+
+        mnuGroups.Add(mitNewGroup);
+      inc(i);
+      end;
+
+    finally
+      AConfig.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+
+end;
+
+
+procedure TfrmMain.LoadGroupXml(AConfig: TXmlConfig;
+  AGroupName: string);
+var
+  sPath, sViewType: String;
+  iActiveTab: Integer;
+  Page: TFileViewPage;
+  AFileView: TFileView;
+  AFileViewFlags: TFileViewFlags;
+  aFileSource: IFileSource;
+  aParentNode,RootNode, TabNode, ViewNode: TXmlNode;
+begin
+
+  // 1) Verify - is the AGroupName exist in brunch GroupsNameBank?
+
+  aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/'+AGroupName);
+  if aParentNode= nil then exit;
+
+  // Load left tabs of group in XML Node: Groups/<GroupName>/Left
+
+  // 2) Save current active group data to brunch 'Groups/<AGroupName>'
+
+  LeftTabs.DestroyAllPages;
+  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbLeft);
+
+  RightTabs.DestroyAllPages;
+  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbRight);
+
+end;
+
+procedure TfrmMain.SaveGroupXml(AConfig: TXmlConfig;
+  AGroupName: string);
+var
+  I: Integer;
+  TabsSection: String;
+  Page: TFileViewPage;
+  ParentNode,RootNode, TabNode, ViewNode: TXmlNode;
+begin
+
+  // 1) Write New group name to brunch GroupsNameBank
+
+  ParentNode := AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank', True);
+  AConfig.AddNode(ParentNode,AGroupName);
+
+  // 2) Save current active group data to brunch 'Groups/<AGroupName>'
+
+  SaveTabsXml(AConfig,'Groups/'+AGroupName,nbLeft);
+  SaveTabsXml(AConfig,'Groups/'+AGroupName,nbRight);
+
 end;
 
 procedure TfrmMain.ToggleConsole;
@@ -5045,8 +5172,8 @@ begin
   end
   else
   begin
-    LoadTabsXml(gConfig, nbLeft);
-    LoadTabsXml(gConfig, nbRight);
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft);
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight);
   end;
 
   LoadTabsCommandLine(CommandLineParams);
@@ -5155,8 +5282,8 @@ var
   ANode: TXmlNode;
 begin
   (* Save all tabs *)
-  SaveTabsXml(gConfig, nbLeft);
-  SaveTabsXml(gConfig, nbRight);
+  LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft);
+  LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight);
 
   (* Save window bounds and state *)
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
