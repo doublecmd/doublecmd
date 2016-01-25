@@ -2566,6 +2566,10 @@ msgstr "Ра&зорвать соединение"
 msgid "Network &Quick Connect..."
 msgstr "&Новое соединение..."
 
+#: tfrmmain.actnewgroup.caption
+msgid "actNewGroup"
+msgstr "Новая группа"
+
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "Н&овая вкладка"
@@ -2654,6 +2658,10 @@ msgstr "Переименовать"
 #: tfrmmain.actrenametab.caption
 msgid "&Rename Tab"
 msgstr "Переи&меновать вкладку"
+
+#: tfrmmain.actrestoreactivegroup.caption
+msgid "actRestoreActiveGroup"
+msgstr "Восстановить текущую группу"
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -3133,6 +3141,12 @@ msgctxt "tfrmmain.miline33.caption"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline34.caption
+#, fuzzy
+msgctxt "tfrmmain.miline34.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
 msgid "-"
@@ -3265,6 +3279,10 @@ msgstr "-"
 msgid "&Files"
 msgstr "&Файлы"
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr ""
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3278,6 +3296,14 @@ msgstr "&Выделение"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Сеть"
+
+#: tfrmmain.mnunewgroup.caption
+msgid "New Group"
+msgstr ""
+
+#: tfrmmain.mnurestoreactivegroup.caption
+msgid "Restore Active Group"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9216,6 +9242,14 @@ msgstr "Размер"
 msgid "Type"
 msgstr "Тип"
 
+#: ulng.rsgroupnewgroup
+msgid "Creating new group"
+msgstr ""
+
+#: ulng.rsgroupnewgroupname
+msgid "Group name:"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Ошибка создания жёсткой ссылки."
@@ -11486,3 +11520,4 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+
