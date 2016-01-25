@@ -509,6 +509,11 @@ resourcestring
   rsZeroReplacement = 'No replacement took place.';
   rsXReplacements = 'Number of replacement: %d';
 
+  // Groups
+  rsGroupNewGroup = 'Creating new group';
+  rsGroupNewGroupName = 'Group name:';
+
+
   // Options editors
   rsOptionsEditorArchivers = 'Archivers';
   rsOptionsEditorAutoRefresh = 'Auto refresh';

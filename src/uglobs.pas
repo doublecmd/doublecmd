@@ -79,7 +79,7 @@ type
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
   TResultingFramePositionAfterCompare = (rfpacActiveOnLeft, rfpacLeftOnLeft);
 
-  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfFileSearchResults);
+  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfFileSearchResults, dcFileViewHeader);
   TDCFontOptions = record
     Name: String;
     Size: Integer;
@@ -150,6 +150,10 @@ const
 
   MAX_FONT_SIZE_FILE_SEARCH_RESULTS=70;
   MIN_FONT_SIZE_FILE_SEARCH_RESULTS=6;
+
+  MAX_FONT_SIZE_FILEVIEWHEADER=20;
+  MIN_FONT_SIZE_FILEVIEWHEADER=8;
+
 
 
 var

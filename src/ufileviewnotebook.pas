@@ -523,9 +523,14 @@ begin
 end;
 
 procedure TFileViewNotebook.DestroyAllPages;
+var
+   tPage:TFileViewPage;
 begin
   while PageCount > 0 do
-    Page[0].Free;
+  begin
+    tPage:=Page[0];
+    if tPage<>nil then FreeAndNil(tPage);
+  end;
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
