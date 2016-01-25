@@ -18,8 +18,13 @@ echo "clear" >> $SCRIPT_FILE
 printf -v DIR "%q" "$(pwd)"
 echo "cd $DIR" >> $SCRIPT_FILE
 
-# Copy over target command line
-echo "$@" >> $SCRIPT_FILE
+# Format target command line
+CMD=
+for VAR in "$@"
+do
+  printf -v CMD "$CMD %q" "$VAR"
+done
+echo "${CMD:1}" >> "$SCRIPT_FILE"
 
 # Make executable
 chmod +x "$SCRIPT_FILE"
