@@ -1564,8 +1564,10 @@ end;
 
 procedure TMainCommands.cm_RestoreActiveGroup(const Params: array of string);
 var
+  i,cnt:integer;
   AFileName:string;
   Config: TXmlConfig;
+  cItem:TMenuItem;
 begin
 
   AFileName:= 'groups.xml';
@@ -1573,9 +1575,19 @@ begin
     Config:= TXmlConfig.Create(AFileName, True);
     with frmMain do
     try
+      // Uncheck all groups
+      cnt:=mnuGroups.Count;
+      for i:=0 to cnt-1 do mnuGroups.Items[i].Checked:=False;
+
+      // Load active group
       LoadGroupXml(Config,LastActiveGroup);
       FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
       FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
+
+      // Check active group
+      cItem:=mnuGroups.Find(LastActiveGroup);
+      cItem.Checked:=True;
+
     finally
       Config.Free;
     end;
