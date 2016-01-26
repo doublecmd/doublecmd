@@ -99,6 +99,7 @@ type
     actDoAnyCmCommand: TAction;
     actCloseDuplicateTabs: TAction;
     actDeleteActiveGroup: TAction;
+    actRewriteActiveGroup: TAction;
     actNextGroup: TAction;
     actNewGroup: TAction;
     actRestoreActiveGroup: TAction;
@@ -207,8 +208,9 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
-    MenuItem1: TMenuItem;
-    miLine34: TMenuItem;
+    mnuDeleteActiveGroup: TMenuItem;
+    mnuRewriteActiveGroup: TMenuItem;
+    miLineStartGroups: TMenuItem;
 
     mnuRestoreActiveGroup: TMenuItem;
     mnuNewGroup: TMenuItem;
@@ -740,7 +742,7 @@ type
     procedure SaveGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
 
-    procedure CreateGroupsMainMenuItems; // add menu items on FormCreate if file 'groups.xml' is exists
+    procedure UpdateGroupsMainMenuItems; // add menu items on FormCreate if file 'groups.xml' is exists
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -1001,7 +1003,7 @@ begin
 {$ENDIF}
 
   LoadTabs;
-  CreateGroupsMainMenuItems;
+  UpdateGroupsMainMenuItems;
 
   // Update selected drive and free space before main form is shown,
   // otherwise there is a bit of delay.
@@ -4349,14 +4351,27 @@ begin
 end;
 
 
-procedure TfrmMain.CreateGroupsMainMenuItems;
+procedure TfrmMain.UpdateGroupsMainMenuItems;
 var
-  i,cnt:integer;
+  i,iBeg,iEnd,cnt:integer;
   mitNewGroup:TMenuItem;
   AConfig: TXmlConfig;
   sNewGroup:string;
   aParentNode:TXmlNode;
 begin
+
+  // Clear menu items if exist
+  iBeg:=mnuGroups.IndexOfCaption('-');
+  while mnuGroups.Count>(iBeg+1) do
+  begin
+    sNewGroup:=mnuGroups.Items[iBeg+1].Caption;
+    mnuGroups.Items[iBeg+1].Free;
+//    sNewGroup:=mnuGroups.Items[iBeg+1].Caption;
+//    mnuGroups.Delete(iBeg+1);
+  end;
+
+
+  // Create and add menu items
 
   if not FileExists('groups.xml') then exit;
 
@@ -4366,6 +4381,7 @@ begin
     try
       AConfig.Load;
       aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/');
+      if aParentNode=nil then begin ShowMessage('"groups.xml" are corrupted');exit;end;
 
       i:=0;
       cnt:=aParentNode.ChildNodes.Count;
@@ -4419,13 +4435,15 @@ end;
 procedure TfrmMain.SaveGroupXml(AConfig: TXmlConfig;
   AGroupName: string);
 var
-  ParentNode: TXmlNode;
+  ParentNode,cNode: TXmlNode;
 begin
 
   // 1) Write New group name to brunch GroupsNameBank
 
   ParentNode := AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank', True);
-  AConfig.AddNode(ParentNode,AGroupName);
+  cNode:=AConfig.FindNode(ParentNode,AGroupName,false);
+  if not Assigned(cNode) then                // if group with this name already exist - will owerwrite with new tabs, else - add node
+     AConfig.AddNode(ParentNode,AGroupName);
 
   // 2) Save current active group data to brunch 'Groups/<AGroupName>'
 
@@ -4436,10 +4454,19 @@ end;
 
 procedure TfrmMain.DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
 var
-  ParentNode,RootNode, TabNode, ViewNode: TXmlNode;
+  ParentNode: TXmlNode;
 begin
   ParentNode := AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank', True);
 
+  ParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/'+AGroupName);
+  if ParentNode=nil then exit;
+  AConfig.DeleteNode(ParentNode);
+
+  ParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/'+AGroupName);
+
+  ParentNode:=AConfig.FindNode(AConfig.RootNode, 'Groups/'+AGroupName);
+  if ParentNode=nil then exit;
+  AConfig.DeleteNode(ParentNode);
 end;
 
 procedure TfrmMain.ToggleConsole;

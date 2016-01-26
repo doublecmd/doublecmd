@@ -1238,16 +1238,20 @@ object frmMain: TfrmMain
     end
     object mnuGroups: TMenuItem
       Caption = 'Groups'
+      object mnuRewriteActiveGroup: TMenuItem
+        Action = actRewriteActiveGroup
+        Caption = 'Rewrite Active Group'
+      end
       object mnuNewGroup: TMenuItem
         Action = actNewGroup
       end
       object mnuRestoreActiveGroup: TMenuItem
         Action = actRestoreActiveGroup
       end
-      object MenuItem1: TMenuItem
+      object mnuDeleteActiveGroup: TMenuItem
         Action = actDeleteActiveGroup
       end
-      object miLine34: TMenuItem
+      object miLineStartGroups: TMenuItem
         Caption = '-'
       end
     end
@@ -2414,10 +2418,17 @@ object frmMain: TfrmMain
     object actNextGroup: TAction
       Category = 'Groups'
       Caption = 'Switch to next group'
+      OnExecute = actExecute
     end
     object actDeleteActiveGroup: TAction
       Category = 'Groups'
       Caption = 'Delete active group'
+      OnExecute = actExecute
+    end
+    object actRewriteActiveGroup: TAction
+      Category = 'Groups'
+      Caption = 'actRewriteActiveGroup'
+      OnExecute = actExecute
     end
   end
   object pmHotList: TPopupMenu
