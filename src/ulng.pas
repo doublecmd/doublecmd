@@ -511,7 +511,11 @@ resourcestring
 
   // Groups
   rsGroupNewGroup = 'Creating new group';
-  rsGroupNewGroupName = 'Group name:';
+  rsGroupNewGroupName  = 'Group name:';
+  rsGroupAlreadyExists = 'Group with entered name already exist, overwrite?';
+  rsGroupDeleteActive = 'Sure want to remove Active group from menu?';
+  rsGroupRewriteActive = 'Sure want to rewrite Active group with current tabs?';
+
 
 
   // Options editors

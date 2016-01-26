@@ -186,6 +186,7 @@ type
 
    procedure cm_NewGroup(const Params: array of string);
    procedure cm_RestoreActiveGroup(const Params: array of string);
+   procedure cm_RewriteActiveGroup(const Params: array of string);
    procedure cm_DeleteActiveGroup(const Params: array of string);
    procedure cm_NextGroup(const Params: array of string);
    procedure cm_PrevGroup(const Params: array of string);
@@ -1531,6 +1532,7 @@ end;
 
 procedure TMainCommands.cm_NewGroup(const Params: array of string);
 var
+  ParentNode,cNode: TXmlNode;
   miGroup,miNewGroup:TMenuItem;
   Config: TXmlConfig;
   sNewGroup:string;
@@ -1542,15 +1544,19 @@ begin
     Config:= TXmlConfig.Create('groups.xml',True);
     with frmMain do
     try
+
+      ParentNode := Config.FindNode(Config.RootNode, 'GroupsNameBank', True);
+      cNode:=Config.FindNode(ParentNode,sNewGroup,false);
+      if Assigned(cNode) then
+         if MessageDlg('',rsGroupAlreadyExists,
+            mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
+
       SaveGroupXml(Config,sNewGroup);
       Config.WriteToFile('groups.xml');
 
-      miNewGroup:=TMenuItem.Create(frmMain.mnuMain);
-      miNewGroup.Caption:=sNewGroup;
-      miNewGroup.Name:='miGrpName_'+sNewGroup;
-      miNewGroup.OnClick:=@mnuGroupNameTabsClick;
-      mnuGroups.Add(miNewGroup);
-
+      LastActiveGroup:=sNewGroup;
+      frmMain.UpdateGroupsMainMenuItems;
+      cm_RestoreActiveGroup([]);
     finally
       Config.Free;
     end;
@@ -1568,6 +1574,8 @@ var
   Config: TXmlConfig;
   cItem:TMenuItem;
 begin
+
+  if frmMain.LastActiveGroup='' then exit;
 
   AFileName:= 'groups.xml';
   try
@@ -1596,14 +1604,61 @@ begin
   end;
 end;
 
+procedure TMainCommands.cm_RewriteActiveGroup(const Params: array of string);
+var
+  i,cnt:integer;
+  AFileName:string;
+  Config: TXmlConfig;
+  cItem:TMenuItem;
+begin
+
+  if frmMain.LastActiveGroup='' then exit;
+
+  if MessageDlg('',rsGroupRewriteActive,
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
+
+  AFileName:= 'groups.xml';
+  try
+    Config:= TXmlConfig.Create(AFileName, True);
+    with frmMain do
+    try
+      // Re-save active group with current name
+      SaveGroupXml(Config,LastActiveGroup);
+      Config.WriteToFile(AFileName);
+      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
+      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
+
 procedure TMainCommands.cm_DeleteActiveGroup(const Params: array of string);
 var
    Config: TXmlConfig;
 begin
+
+  if frmMain.LastActiveGroup='' then exit;
+
+  if MessageDlg('',rsGroupDeleteActive,
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
+
   try
     Config:= TXmlConfig.Create('groups.xml', True);
-    // Del active group in XML
-    frmMain.DeleteGroupXml(Config,frmMain.LastActiveGroup);
+    try
+      // Del active group in XML
+      frmMain.DeleteGroupXml(Config,frmMain.LastActiveGroup);
+      Config.WriteToFile('groups.xml');
+
+      frmMain.LastActiveGroup:='';
+      frmMain.UpdateGroupsMainMenuItems;
+
+    finally
+      Config.Free;
+    end;
   except
     on E: Exception do
       msgError(E.Message);
@@ -1613,23 +1668,25 @@ end;
 
 procedure TMainCommands.cm_NextGroup(const Params: array of string);
 var
-  iAct,iStart,cnt:integer;
-  cItem:TMenuItem;
+  i,iStart:integer;
 begin
-  // Found index of first Group
-  iStart:=frmMain.mnuGroups.IndexOfCaption('-')+1;
-  if iStart>=frmMain.mnuGroups.Count then exit;  // if no groups - exit
 
-  // Found index of ative group
-  iAct:=frmMain.mnuGroups.IndexOfCaption(frmMain.LastActiveGroup);
+  with frmMain do
+  begin
+    if LastActiveGroup='' then exit;
 
-  cnt:=frmMain.mnuGroups.Count;
-  if iAct<iStart then iAct:=iStart else
-  if iAct<=(frmMain.mnuGroups.Count-2) then iAct:=iAct+1 else
-  if iAct=(frmMain.mnuGroups.Count-1) then iAct:=iStart;
+    // Found index of first Group
+    iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
+    if iStart>=mnuGroups.Count then exit;  // if no groups - exit
 
-  // Set new active group
-  frmMain.LastActiveGroup:=frmMain.mnuGroups.Items[iAct].Caption;
+    // Found index of ative group
+    i:=mnuGroups.IndexOfCaption(LastActiveGroup);
+
+    // Set new active group
+    if i=mnuGroups.Count-1 then i:=iStart else i:=i+1;
+    LastActiveGroup:=mnuGroups.Items[i].Caption;
+
+  end;
 
   // and update it
   cm_RestoreActiveGroup([]);
@@ -1637,10 +1694,29 @@ end;
 
 
 procedure TMainCommands.cm_PrevGroup(const Params: array of string);
+var
+  i,iStart:integer;
 begin
+  with frmMain do
+  begin
+    if LastActiveGroup='' then exit;
 
+    // Found index of first Group
+    iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
+    if iStart>=mnuGroups.Count then exit;  // if no groups - exit
+
+    // Found index of Active group
+    i:=mnuGroups.IndexOfCaption(LastActiveGroup);
+
+    // Set new active group
+    if i=iStart then i:=mnuGroups.Count-1 else i:=i-1;
+    LastActiveGroup:=mnuGroups.Items[i].Caption;
+
+  end;
+
+  // and update it
+  cm_RestoreActiveGroup([]);
 end;
-
 
 
 
