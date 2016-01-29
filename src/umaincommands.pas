@@ -101,15 +101,15 @@ type
    // RECIPE TO ADD A "cm_" COMMAND:
    //--------------------------------------------------------------------------
    // In this recipe, we use as an exemple the command "cm_SrcOpenDrives"
-   // 1. In "fMain" we add the action in the "actionLst".
-   // 2. Make sure we add it in the appropriate category.
-   // 3. The action name must start with "act" and have the exact same name as the "cm_" we want to add.
-   // 4. So if we want "cm_SrcOpenDrives", we name the action "actSrcOpenDrives".
-   // 5. By the way, "KEEP THE SAME SPELLING EVERYWHERE!".
-   // 6. The order in which the "cm_SrcOpenDrives" will appear, is the same as its position in the "actionLst".
-   // 7. So command is "cm_SrcOpenDrives", so keep writing "cm_SrcOpenDrives" and not "cm_srcopendrives" for example.
-   // 8. The only single place to have lowercases is for the icon name which will be "cm_srcopendrives" but it's the only one case.
-   // 9. Give an appropriate "caption" name for the command, so for our example "Open drive list"
+   // 1.  In "fMain" we add the action in the "actionLst".
+   // 2.  Make sure we add it in the appropriate category.
+   // 3.  The action name must start with "act" and have the exact same name as the "cm_" we want to add.
+   // 4.  So if we want "cm_SrcOpenDrives", we name the action "actSrcOpenDrives".
+   // 5.  By the way, "KEEP THE SAME SPELLING EVERYWHERE!".
+   // 6.  The order in which the "cm_SrcOpenDrives" will appear, is the same as its position in the "actionLst".
+   // 7.  So command is "cm_SrcOpenDrives", so keep writing "cm_SrcOpenDrives" and not "cm_srcopendrives" for example.
+   // 8.  The only single place to have lowercases is for the icon name which will be "cm_srcopendrives" but it's the only one case.
+   // 9.  Give an appropriate "caption" name for the command, so for our example "Open drive list"
    // 10. Set the "Tag" to the same number as the other command of the same category.
    // 11. In the "uMainCommands", for the type "TMainCommands", add the code for the command.
    // 12. The command name must start with "cm_" and ends with the same name as what we added for the "act".
@@ -121,7 +121,7 @@ type
    // 18. Store the file here: to path "pixmaps\dctheme\32x32\actions\".
    // 19. If command is a compatible on with TC, add it in unit "uTotalCommander".
    // 20. So with this example we add: "(TCCommand: 'cm_SrcOpenDrives'; TCIcon: -1; DCCommand: 'cm_SrcOpenDrives')".
-   // 21. If command needs to have a shortcut, go in unit "uGlobs", go to routine "LoadDefaultHotkeyBindings" and add the appropriate "AddIfNotExists".
+   // 21. If command needs to have a shortcut, go in unit "uGlobs", go to routine "LoadDefaultHotkeyBindings"(more detailed - read instructions in head of "LoadDefaultHotkeyBindings") and add the appropriate "AddIfNotExists".
    // 22. Don't abuse on adding keyboard shortcut! We must let some user's keys for user!
    // 23. For this example, we won't add a keyboard shortcut. TC does'nt have neither.
    // 24. Edit the file "doc\en\cmds.html" to add help for the command.
@@ -1590,10 +1590,7 @@ begin
       LoadGroupXml(Config,LastActiveGroup);
       FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
       FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
-
-      // Check active group
-      cItem:=mnuGroups.Find(LastActiveGroup);
-      cItem.Checked:=True;
+      UpdateGroupsMainMenuItems;
 
     finally
       Config.Free;
@@ -1673,19 +1670,16 @@ begin
 
   with frmMain do
   begin
-    if LastActiveGroup='' then exit;
-
     // Found index of first Group
     iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
-    if iStart>=mnuGroups.Count then exit;  // if no groups - exit
+    if mnuGroups.Count<iStart then exit;     // if no groups -exit
 
     // Found index of ative group
     i:=mnuGroups.IndexOfCaption(LastActiveGroup);
 
     // Set new active group
-    if i=mnuGroups.Count-1 then i:=iStart else i:=i+1;
+    if (i<iStart)or(i=mnuGroups.Count-1) then i:=iStart else i:=i+1;  // if user start program and don't click at group before press Shit+Tab, or current group - is last item
     LastActiveGroup:=mnuGroups.Items[i].Caption;
-
   end;
 
   // and update it
@@ -1699,19 +1693,16 @@ var
 begin
   with frmMain do
   begin
-    if LastActiveGroup='' then exit;
-
     // Found index of first Group
     iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
-    if iStart>=mnuGroups.Count then exit;  // if no groups - exit
+    if mnuGroups.Count<iStart then exit;  // if no groups - exit
 
     // Found index of Active group
     i:=mnuGroups.IndexOfCaption(LastActiveGroup);
 
     // Set new active group
-    if i=iStart then i:=mnuGroups.Count-1 else i:=i-1;
+    if (i=iStart)or(i<0) then i:=mnuGroups.Count-1 else i:=i-1;
     LastActiveGroup:=mnuGroups.Items[i].Caption;
-
   end;
 
   // and update it
