@@ -2365,6 +2365,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Удалить"
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr "Удалить текущую группу"
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2567,12 +2571,16 @@ msgid "Network &Quick Connect..."
 msgstr "&Новое соединение..."
 
 #: tfrmmain.actnewgroup.caption
-msgid "actNewGroup"
+msgid "New Group"
 msgstr "Новая группа"
 
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "Н&овая вкладка"
+
+#: tfrmmain.actnextgroup.caption
+msgid "Switch to next group"
+msgstr "Переключиться на следующую группу"
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2620,6 +2628,10 @@ msgstr "Установить позицию разделителя"
 msgid "&Paste"
 msgstr "&Вставить"
 
+#: tfrmmain.actprevgroup.caption
+msgid "Switch to previous group"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Переключиться на &предыдущую вкладку"
@@ -2660,7 +2672,7 @@ msgid "&Rename Tab"
 msgstr "Переи&меновать вкладку"
 
 #: tfrmmain.actrestoreactivegroup.caption
-msgid "actRestoreActiveGroup"
+msgid "Restore Active Group"
 msgstr "Восстановить текущую группу"
 
 #: tfrmmain.actrestoreselection.caption
@@ -2670,6 +2682,10 @@ msgstr "Восс&тановить выделение"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Обра&тный п&орядок"
+
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
+msgstr "Перезаписать текущую группу"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3141,12 +3157,6 @@ msgctxt "tfrmmain.miline33.caption"
 msgid "-"
 msgstr "-"
 
-#: tfrmmain.miline34.caption
-#, fuzzy
-msgctxt "tfrmmain.miline34.caption"
-msgid "-"
-msgstr "-"
-
 #: tfrmmain.miline37.caption
 msgctxt "TFRMMAIN.MILINE37.CAPTION"
 msgid "-"
@@ -3194,6 +3204,12 @@ msgstr "-"
 
 #: tfrmmain.miline9.caption
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.milinestartgroups.caption
+#, fuzzy
+msgctxt "tfrmmain.milinestartgroups.caption"
 msgid "-"
 msgstr "-"
 
@@ -3281,7 +3297,7 @@ msgstr "&Файлы"
 
 #: tfrmmain.mnugroups.caption
 msgid "Groups"
-msgstr ""
+msgstr "Группы"
 
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
@@ -3297,13 +3313,9 @@ msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Сеть"
 
-#: tfrmmain.mnunewgroup.caption
-msgid "New Group"
-msgstr ""
-
-#: tfrmmain.mnurestoreactivegroup.caption
-msgid "Restore Active Group"
-msgstr ""
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
+msgstr "Перезаписать текущую группу"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9242,13 +9254,25 @@ msgstr "Размер"
 msgid "Type"
 msgstr "Тип"
 
+#: ulng.rsgroupalreadyexists
+msgid "Group with entered name already exist, overwrite?"
+msgstr "Группа с таким именем уже существует, перезаписать ее?"
+
+#: ulng.rsgroupdeleteactive
+msgid "Sure want to remove Active group from menu?"
+msgstr "Уверены что хотите удалить активную группу из меню?"
+
 #: ulng.rsgroupnewgroup
 msgid "Creating new group"
-msgstr ""
+msgstr "Создание новой группы"
 
 #: ulng.rsgroupnewgroupname
 msgid "Group name:"
-msgstr ""
+msgstr "Имя группы:"
+
+#: ulng.rsgrouprewriteactive
+msgid "Sure want to rewrite Active group with current tabs?"
+msgstr "Уверены что хотите перезаписать активную группу текущими табами?"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
