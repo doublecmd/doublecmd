@@ -2430,6 +2430,11 @@ object frmMain: TfrmMain
       Caption = 'actRewriteActiveGroup'
       OnExecute = actExecute
     end
+    object actPrevGroup: TAction
+      Category = 'Groups'
+      Caption = 'Switch to previous group'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
