@@ -99,6 +99,7 @@ type
     actDoAnyCmCommand: TAction;
     actCloseDuplicateTabs: TAction;
     actDeleteActiveGroup: TAction;
+    actPrevGroup: TAction;
     actRewriteActiveGroup: TAction;
     actNextGroup: TAction;
     actNewGroup: TAction;
@@ -741,8 +742,8 @@ type
     procedure LoadGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure SaveGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
-
     procedure UpdateGroupsMainMenuItems; // add menu items on FormCreate if file 'groups.xml' is exists
+
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -1003,6 +1004,8 @@ begin
 {$ENDIF}
 
   LoadTabs;
+
+  LastActiveGroup:='';
   UpdateGroupsMainMenuItems;
 
   // Update selected drive and free space before main form is shown,
@@ -4232,9 +4235,9 @@ var
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
   if ANoteBook = nbLeft then
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ '/Left')
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ 'Left')
   else
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ '/Right');
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ 'Right');
 
   if Assigned(RootNode) then
   begin
@@ -4357,7 +4360,7 @@ var
   mitNewGroup:TMenuItem;
   AConfig: TXmlConfig;
   sNewGroup:string;
-  aParentNode:TXmlNode;
+  cNode, aParentNode:TXmlNode;
 begin
 
   // Clear menu items if exist
@@ -4366,10 +4369,7 @@ begin
   begin
     sNewGroup:=mnuGroups.Items[iBeg+1].Caption;
     mnuGroups.Items[iBeg+1].Free;
-//    sNewGroup:=mnuGroups.Items[iBeg+1].Caption;
-//    mnuGroups.Delete(iBeg+1);
   end;
-
 
   // Create and add menu items
 
@@ -4387,13 +4387,15 @@ begin
       cnt:=aParentNode.ChildNodes.Count;
       while(i<cnt)do
       begin
-        sNewGroup:=aParentNode.ChildNodes[i].NodeName;
+        cNode:=aParentNode.ChildNodes.Item[i];
+        sNewGroup:=AConfig.GetContent(cNode);
 
         mitNewGroup:=TMenuItem.Create(frmMain.mnuMain);
         mitNewGroup.Caption:=sNewGroup;
         mitNewGroup.Name:='miGrpName_'+sNewGroup;
         mitNewGroup.OnClick:=@mnuGroupNameTabsClick;
 
+        if sNewGroup=LastActiveGroup then mitNewGroup.Checked:=True else mitNewGroup.Checked:=False;
         mnuGroups.Add(mitNewGroup);
       inc(i);
       end;
@@ -4412,15 +4414,23 @@ end;
 procedure TfrmMain.LoadGroupXml(AConfig: TXmlConfig;
   AGroupName: string);
 var
-  aParentNode: TXmlNode;
+  i:integer;
+  s:string;
+  aParentNode,cNode: TXmlNode;
 begin
 
   // 1) Verify - is the AGroupName exist in brunch GroupsNameBank?
 
-  aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/'+AGroupName);
-  if aParentNode= nil then exit;
 
-  // Load left tabs of group in XML Node: Groups/<GroupName>/Left
+  aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank');
+  for i:=0 to aParentNode.ChildNodes.Count do
+  begin
+    cNode:=aParentNode.ChildNodes.Item[i];
+    s:=AConfig.GetContent(cNode);
+    if s=AGroupName then break;
+  end;
+
+  if s='' then exit; // if group with it name not found - exit
 
   // 2) Save current active group data to brunch 'Groups/<AGroupName>'
 
@@ -4437,19 +4447,15 @@ procedure TfrmMain.SaveGroupXml(AConfig: TXmlConfig;
 var
   ParentNode,cNode: TXmlNode;
 begin
-
   // 1) Write New group name to brunch GroupsNameBank
 
   ParentNode := AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank', True);
-  cNode:=AConfig.FindNode(ParentNode,AGroupName,false);
-  if not Assigned(cNode) then                // if group with this name already exist - will owerwrite with new tabs, else - add node
-     AConfig.AddNode(ParentNode,AGroupName);
+  AConfig.AddValue(ParentNode, 'G', AGroupName);  // add new value
 
   // 2) Save current active group data to brunch 'Groups/<AGroupName>'
 
   SaveTabsXml(AConfig,'Groups/'+AGroupName,nbLeft);
   SaveTabsXml(AConfig,'Groups/'+AGroupName,nbRight);
-
 end;
 
 procedure TfrmMain.DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
@@ -5281,6 +5287,7 @@ procedure TfrmMain.LoadWindowState;
 var
   ANode: TXmlNode;
 begin
+
   (* Load window bounds and state *)
   if Assigned(gIni) then
   begin
@@ -5305,6 +5312,8 @@ begin
         Self.WindowState := wsMaximized;
     end;
   end;
+
+
 end;
 
 procedure TfrmMain.SaveWindowState;
@@ -5312,8 +5321,8 @@ var
   ANode: TXmlNode;
 begin
   (* Save all tabs *)
-  LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft);
-  LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight);
+  SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft);
+  SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight);
 
   (* Save window bounds and state *)
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
