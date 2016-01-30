@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -104,6 +104,7 @@ function ExtractOnlyFileExt(const FileName: string): string;
    Remove file extension with the '.' from file name.
 }
 function RemoveFileExt(const FileName: String): String;
+function RemoveInvalidCharsFromFileName(const FileName: String): String;
 function ContainsWildcards(const Path: String): Boolean;
 {en
    Expands an absolute file path by removing all relative references.
@@ -508,6 +509,22 @@ begin
   Result := ContainsOneOf(Path, '*?');
 end;
 
+{ RemoveInvalidCharsFromFileName }
+function RemoveInvalidCharsFromFileName(const FileName: String): String;
+const
+{$IFDEF MSWINDOWS}
+  ForbiddenChars : set of char = ['<','>',':','"','/','\','|','?','*'];
+{$ELSE}
+ForbiddenChars : set of char = ['/'];
+{$ENDIF}
+var
+  I : LongInt;
+begin
+  Result:= '';
+  for I:= 1 to Length(FileName) do
+    if not (FileName[I] in ForbiddenChars) then
+      Result:=Result+FileName[I];
+end;
 
 function ExpandAbsolutePath(const Path: String): String;
 var
