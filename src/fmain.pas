@@ -40,7 +40,7 @@ unit fMain;
 interface
 
 uses
-  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList, ShellCtrls,
+  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion,
