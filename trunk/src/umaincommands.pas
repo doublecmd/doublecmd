@@ -330,6 +330,7 @@ type
    procedure cm_ReloadFavoriteTabs(const {%H-}Params: array of string);
    procedure cm_PreviousFavoriteTabs(const {%H-}Params: array of string);
    procedure cm_NextFavoriteTabs(const {%H-}Params: array of string);
+   procedure cm_ResaveFavoriteTabs(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -4465,6 +4466,35 @@ begin
       gFavoriteTabsList.Add(LocalFavoriteTabs);
       gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := LocalFavoriteTabs.UniqueID;
       //Don't free "LocalFavoriteTabs" since it needs to be in memory in our list now...
+    end;
+  end;
+end;
+
+{ TMainCommands.cm_ResaveFavoriteTabs }
+procedure TMainCommands.cm_ResaveFavoriteTabs(const Params: array of string);
+var
+  IndexLastFavoriteTabsLoaded:integer;
+  sParam:array[0..1] of string;
+  Options: IOptionsDialog;
+  Editor: TOptionsEditor;
+begin
+  IndexLastFavoriteTabsLoaded:=gFavoriteTabsList.GetIndexLastFavoriteTabsLoaded;
+  if IndexLastFavoriteTabsLoaded<>-1 then
+  begin
+    sParam[0]:='filename='+mbExpandFileName(gFavoriteTabsList.FavoriteTabs[IndexLastFavoriteTabsLoaded].FavoriteTabsSavedFilename);
+    if gFavoriteTabsSaveDirHistory then sParam[1]:='savedirhistory=yes' else sParam[1]:='savedirhistory=no';
+    cm_SaveTabs(sParam);
+    if not gFavoriteTabsNoNeedToConfigAfterReSave then
+    begin
+      Options := ShowOptions(TfrmOptionsFavoriteTabs);
+      Editor := Options.GetEditor(TfrmOptionsFavoriteTabs);
+      Application.ProcessMessages;
+      if Editor.CanFocus then  Editor.SetFocus;
+      TfrmOptionsFavoriteTabs(Editor).SubmitToAddOrConfigToFavoriteTabsDlg(ftaaocSaveExistingShowIt, '', '', IndexLastFavoriteTabsLoaded);
+    end
+    else
+    begin
+      msgOk(rsSimpleWordSaved);
     end;
   end;
 end;

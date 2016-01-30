@@ -515,6 +515,7 @@ type
     miSetAllTabsOptionPathResets: TMenuItem;
     miSetAllTabsOptionDirsInNewTab: TMenuItem;
     miOpenDirInNewTab: TMenuItem;
+    actResaveFavoriteTabs: TAction;
     procedure actExecute(Sender: TObject);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
