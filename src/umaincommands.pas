@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,11 +29,14 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus;
+  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs;
 
 type
 
   TCopyFileNamesToClipboard = (cfntcPathAndFileNames, cfntcJustFileNames, cfntcJustPathWithSeparator, cfntcPathWithoutSeparator);
+
+  { TProcedureDoingActionOnMultipleTabs }
+  TProcedureDoingActionOnMultipleTabs = procedure(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer) of object;
 
   { TMainCommands }
 
@@ -76,6 +79,17 @@ type
    procedure DoShowMainMenu(bShow: Boolean);
    procedure DoShowCmdLineHistory(bNextCmdLine: Boolean);
    procedure DoChangeDirToRoot(FileView: TFileView);
+   procedure GetAndSetMultitabsActionFromParams(const Params: array of string; var APanelSide:TTabsConfigLocation; var ActionOnLocked:boolean; var AskForLocked:integer);
+   procedure DoActionOnMultipleTabs(const Params: array of string; ProcedureDoingActionOnMultipleTabs: TProcedureDoingActionOnMultipleTabs);
+   procedure DoCloseAllTabs(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+   procedure DoCloseDuplicateTabs(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+   procedure DoSetAllTabsOptionNormal(ANotebook: TFileViewNotebook; var {%H-}bAbort: boolean; {%H-}bDoLocked: boolean; var {%H-}iAskForLocked: integer);
+   procedure DoSetAllTabsOptionPathLocked(ANotebook: TFileViewNotebook; var {%H-}bAbort: boolean; {%H-}bDoLocked: boolean; var {%H-}iAskForLocked: integer);
+   procedure DoAllTabsOptionPathResets(ANotebook: TFileViewNotebook; var {%H-}bAbort: boolean; {%H-}bDoLocked: boolean; var {%H-}iAskForLocked: integer);
+   procedure DoSetAllTabsOptionDirsInNewTab(ANotebook: TFileViewNotebook; var {%H-}bAbort: boolean; {%H-}bDoLocked: boolean; var {%H-}iAskForLocked: integer);
+   procedure DoOnClickMenuJobFavoriteTabs(Sender: TObject);
+   procedure DoActualLoadFavoriteTabs(IndexInListToLoad: integer);
+
    //---------------------
 
  published
@@ -183,15 +197,12 @@ type
    procedure cm_PrevTab(const Params: array of string);
    procedure cm_SaveTabs(const Params: array of string);
    procedure cm_LoadTabs(const Params: array of string);
-
    procedure cm_NewGroup(const Params: array of string);
    procedure cm_RestoreActiveGroup(const Params: array of string);
    procedure cm_RewriteActiveGroup(const Params: array of string);
    procedure cm_DeleteActiveGroup(const Params: array of string);
    procedure cm_NextGroup(const Params: array of string);
    procedure cm_PrevGroup(const Params: array of string);
-
-
    procedure cm_SetTabOptionNormal(const Params: array of string);
    procedure cm_SetTabOptionPathLocked(const Params: array of string);
    procedure cm_SetTabOptionPathResets(const Params: array of string);
@@ -308,6 +319,17 @@ type
    procedure cm_CopyPathOfFilesToClip(const Params: array of string);
    procedure cm_CopyPathNoSepOfFilesToClip(const Params: array of string);
    procedure cm_DoAnyCmCommand(const Params: array of string);
+   procedure cm_SetAllTabsOptionNormal(const Params: array of string);
+   procedure cm_SetAllTabsOptionPathLocked(const Params: array of string);
+   procedure cm_SetAllTabsOptionPathResets(const Params: array of string);
+   procedure cm_SetAllTabsOptionDirsInNewTab(const Params: array of string);
+   procedure cm_ConfigFolderTabs(const {%H-}Params: array of string);
+   procedure cm_ConfigFavoriteTabs(const {%H-}Params: array of string);
+   procedure cm_LoadFavoriteTabs(const {%H-}Params: array of string);
+   procedure cm_SaveFavoriteTabs(const {%H-}Params: array of string);
+   procedure cm_ReloadFavoriteTabs(const {%H-}Params: array of string);
+   procedure cm_PreviousFavoriteTabs(const {%H-}Params: array of string);
+   procedure cm_NextFavoriteTabs(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -332,7 +354,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions, uFileProcs,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
-     fOptionsToolbar, fMainCommandsDlg, uConnectionManager
+     fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -387,7 +409,9 @@ var
   aFileList: TStringList;
   aFileSource: ITempFileSystemFileSource;
   aCopyOutOperation: TFileSourceCopyOperation;
-  sCmd, sParams, sStartPath: string;
+  sCmd: string = '';
+  sParams: string = '';
+  sStartPath: string = '';
 begin
   if (State = fsosStopped) and (Operation.Result = fsorFinished) then
   begin
@@ -1351,120 +1375,25 @@ begin
     DoCloseTab(ActiveNotebook, ActiveNotebook.PageIndex);
 end;
 
+{ TMainCommands.cm_CloseAllTabs }
 procedure TMainCommands.cm_CloseAllTabs(const Params: array of string);
-var
-  I: Integer;
-  ANotebook: TFileViewNotebook;
-  Param: String;
 begin
   with frmMain do
   begin
     if (tb_confirm_close_all in gDirTabOptions) then
       if not msgYesNo(rsMsgCloseAllInActiveTabs) then Exit;
 
-    Param := GetDefaultParam(Params);
-    if Param = 'LeftTabs' then
-      ANotebook := LeftTabs
-    else if Param = 'RightTabs' then
-      ANotebook := RightTabs
-    else
-      ANotebook := ActiveNotebook;
-
-    for I := ANotebook.PageCount - 1 downto 0 do
-      if I <> ANotebook.PageIndex then
-        case RemovePage(ANotebook, I, False) of
-          1: Continue; // skip tab
-          2: Break;    // cancel operation
-        end;
-
-    ActiveFrame.SetFocus;
+    DoActionOnMultipleTabs(Params,@DoCloseAllTabs);
   end;
 end;
 
 { TMainCommands.cm_CloseDuplicateTabs }
-// Close tabs pointing to same dirs so at the end of action, only one tab for each dir is kept.
-// Tabs that are kept follow these rules of priority:
-//   -All the locked tabs are kept without asking question.
-//   -The one that has been user renamed by the user are eliminate IF a equivalent locked tab exist.
-//   -If a user rename tab point the same directoy as another tab but not renamed, no matter the order, we keep the renamed tab and eliminate the other.
-//   -If two equals low importance identical exist, we keep the one on left and elimitate the one on right.
-// At the end of the process, we stay in a tab that has the same path as where we were initally.
 procedure TMainCommands.cm_CloseDuplicateTabs(const Params: array of string);
-var
-  Param, sOriginalPath: String;
-  ANotebook: TFileViewNotebook;
-  iTabIndex, jTabIndex, jScore, tScore: Integer;
-  bFlagDeleted: boolean;
 begin
-  with frmMain do
-  begin
-    // 1. We determine wich tabs to work with.
-    Param := GetDefaultParam(Params);
-    if Param = 'LeftTabs' then ANotebook := LeftTabs
-      else if Param = 'RightTabs' then ANotebook := RightTabs
-        else ANotebook := ActiveNotebook;
-
-    // 2. We save to restore later the original directory of the active tab.
-    sOriginalPath := ANoteBook.Page[ANotebook.PageIndex].FileView.CurrentPath;
-
-    // 3. We start with the last tab and we go back to the first one.
-    //    Then, we compare with each one on the left of it.
-    //    We then delete one of them, if we can.
-    //    We work with a kind of score index and then with do a "case" to eliminate the right one.
-    jTabIndex := pred(ANotebook.PageCount);
-    while (jTabIndex>0) do
-    begin
-      jScore:=$0;
-      if (ANoteBook.Page[jTabIndex].PermanentTitle <> '') then jScore := (jScore OR $01);
-      if (ANoteBook.Page[jTabIndex].LockState <> tlsNormal) then jScore := (jScore OR $02);
-
-      iTabIndex := (jTabIndex-1);
-      bFlagDeleted := FALSE;
-      while (iTabIndex>=0) AND (bFlagDeleted=FALSE) do
-      begin
-        if mbCompareFileNames(ANoteBook.Page[iTabIndex].FileView.CurrentPath, ANoteBook.Page[jTabIndex].FileView.CurrentPath) then
-        begin
-          tScore:=jScore;
-          if (ANoteBook.Page[iTabIndex].PermanentTitle <> '') then tScore := (tScore OR $04);
-          if (ANoteBook.Page[iTabIndex].LockState <> tlsNormal) then tScore := (tScore OR $08);
-
-          case tScore of
-            $00, $04, $05, $08, $09, $0C, $0D: // We eliminate the one on right.
-              begin
-                RemovePage(ANotebook, jTabIndex, False);
-                bFlagDeleted:=TRUE;
-              end;
-
-            $01, $02, $03, $06, $07: // We eliminate the one on left.
-              begin
-                RemovePage(ANotebook, iTabIndex, False);
-                dec(jTabIndex); // If we eliminate one on left, the right tab now moved one position lower, we must take this in account.
-              end;
-          end;
-        end;
-        dec(iTabIndex);
-      end;
-      dec(jTabIndex);
-    end;
-
-    // 4. We attempt to select a tab with the actual original path from where we were.
-    if not mbCompareFileNames(ANoteBook.Page[ANotebook.PageIndex].FileView.CurrentPath , sOriginalPath) then
-    begin
-      iTabIndex:=0;
-      while (iTabIndex<ANotebook.PageCount) do
-        if mbCompareFileNames(ANoteBook.Page[iTabIndex].FileView.CurrentPath , sOriginalPath) then
-        begin
-          ANotebook.PageIndex:=iTabIndex;
-          iTabIndex:=ANotebook.PageCount;
-        end
-        else
-          inc(iTabIndex);
-    end;
-
-    // 4. Focus actual current panel so user will be ready to move through it.
-    ActiveFrame.SetFocus;
-  end;
+  DoActionOnMultipleTabs(Params,@DoCloseDuplicateTabs);
 end;
+
+
 
 procedure TMainCommands.cm_NextTab(const Params: array of string);
 begin
@@ -1476,240 +1405,204 @@ begin
   frmMain.ActiveNotebook.ActivatePrevTab;
 end;
 
+{ TMainCommands.cm_SaveTabs }
+// To respect legacy, we can invoke "cm_SaveTabs" with a single parameter and it will be a "DefaultParam", which means without any equal sign, directly the filename.
+// With the following code, we may have more descriptive parameters like the following:
+//         filename= : The giving parameter will be the output filename to save the tabs. If no "filename=" is specified, we will prompt user.
+//   savedirhistory= : We indicate if we want to save dir history or not.
 procedure TMainCommands.cm_SaveTabs(const Params: array of string);
 var
   Config: TXmlConfig;
+  Param, sValue: string;
+  boolValue: boolean;
+  bSaveDirHistory: boolean;
+  sOutputTabsFilename: string = '';
 begin
-  dmComData.SaveDialog.DefaultExt:= 'tab';
-  dmComData.SaveDialog.Filter:= '*.tab|*.tab';
-  dmComData.SaveDialog.FileName:= GetDefaultParam(Params);
-  if (Length(dmComData.SaveDialog.FileName) > 0) or dmComData.SaveDialog.Execute then
-  try
-    Config:= TXmlConfig.Create(dmComData.SaveDialog.FileName);
-    with frmMain do
-    try
-      SaveTabsXml(Config, 'Tabs/OpenedTabs', LeftTabs);
-      SaveTabsXml(Config, 'Tabs/OpenedTabs', RightTabs);
-//      Config.Save;
-      Config.WriteToFile(dmComData.SaveDialog.FileName);
-    finally
-      Config.Free;
+  // 1. We setup our default options.
+  bSaveDirHistory := gSaveDirHistory;
+
+  // 2. Let's parse the parameter to get the wanted ones. The default wanted parameter have been set in the "VAR" section
+  //    We need to respect legacy of this command where *before* it was possible to simply and directly have the wanted output filename.
+  //    Let's assume that if we have an "=" sign, it's can be a legacy usage but one with actual parameters.
+  if (length(Params)>0) then
+  begin
+    sOutputTabsFilename := GetDefaultParam(Params);
+    if pos('=',sOutputTabsFilename)<>0 then
+    begin
+      sOutputTabsFilename := '';
+      for Param in Params do
+      begin
+        if GetParamValue(Param, 'filename', sValue) then sOutputTabsFilename := sValue
+        else if GetParamBoolValue(Param, 'savedirhistory', boolValue) then bSaveDirHistory := boolValue;
+      end;
     end;
-  except
-    on E: Exception do
-      msgError(E.Message);
+  end;
+
+  // 3. If no output filename has been specified so far, let's request an output filename.
+  if sOutputTabsFilename='' then
+  begin
+    dmComData.SaveDialog.DefaultExt := 'tab';
+    dmComData.SaveDialog.Filter := '*.tab|*.tab';
+    if dmComData.SaveDialog.Execute then sOutputTabsFilename := dmComData.SaveDialog.FileName;
+  end;
+
+  // 4. If we get here with "sOutputTabsFilename<>''", we know what to save and where to save it.
+  if sOutputTabsFilename<>'' then
+  begin
+    try
+      Config := TXmlConfig.Create(sOutputTabsFilename);
+      try
+        frmMain.SaveTabsXml(Config, 'Tabs/OpenedTabs/', frmMain.LeftTabs, bSaveDirHistory);
+        frmMain.SaveTabsXml(Config, 'Tabs/OpenedTabs/', frmMain.RightTabs, bSaveDirHistory);
+        Config.Save;
+      finally
+        Config.Free;
+      end;
+
+    except
+      on E: Exception do msgError(E.Message);
+    end;
   end;
 end;
 
+{ TMainCommands.cm_LoadTabs }
+// To respect legacy, invoking "cm_LoadTabs" with no parameter will attempt to load tabs for both panels and prompt the user for a filename.
+// Still to respect lefacy, we can invoke "cm_LoadTabs" with a single parameter and it will be a "DefaultParam", which means without any equal sign, directly the filename.
+// With the following code, we may have more descriptive parameters like the following:
+//   filename   = The giving parameter will be the input filename to load the tabs from. If no "filename=" is specified, we will prompt user.
+//   loadleftto = Indicate where to load what was saved for left panel. It could be left to be like before but also now right, active, inactive, both and none.
+//   loadrightto= Indicate where to load what was saved for right panel. It could be right to be like before but also now left, active, inactive, both and none.
+//   keep       = This indicates if in the target notebook where tabs will be loaded if we remove first the target present or not. When keep is "false", which is the default, we flush them first. If "keep" is "true", we add the loaded tab to the existing ones.
 procedure TMainCommands.cm_LoadTabs(const Params: array of string);
 var
+  originalFilePanel:TFilePanelSelect;
+  sInputTabsFilename: string = '';
+  param, sValue: string;
   Config: TXmlConfig;
-begin
-  dmComData.OpenDialog.Filter:= '*.tab|*.tab';
-  dmComData.OpenDialog.FileName:= GetDefaultParam(Params);
-  if (Length(dmComData.OpenDialog.FileName) > 0) or dmComData.OpenDialog.Execute then
-  try
-    Config:= TXmlConfig.Create(dmComData.OpenDialog.FileName, True);
-    with frmMain do
-    try
-      LeftTabs.DestroyAllPages;
-      LoadTabsXml(Config,'Tabs/OpenedTabs/', LeftTabs);
-      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
-      RightTabs.DestroyAllPages;
-      LoadTabsXml(Config,'Tabs/OpenedTabs/', RightTabs);
-      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
+  TargetDestinationForLeft : TTabsConfigLocation = tclLeft;
+  TargetDestinationForRight : TTabsConfigLocation = tclRight;
+  DestinationToKeep : TTabsConfigLocation = tclNone;
+  bLeftTabsAlreadyDestroyed : boolean = False;
+  bRightTabsAlreadyDestroyed : boolean = False;
 
-    finally
-      Config.Free;
-    end;
-  except
-    on E: Exception do
-      msgError(E.Message);
-  end;
-end;
-
-
-
-procedure TMainCommands.cm_NewGroup(const Params: array of string);
-var
-  ParentNode,cNode: TXmlNode;
-  miGroup,miNewGroup:TMenuItem;
-  Config: TXmlConfig;
-  sNewGroup:string;
-begin
-
-  if not InputQuery(rsGroupNewGroup, rsGroupNewGroupName, sNewGroup) then Exit;
-
-  try
-    Config:= TXmlConfig.Create('groups.xml',True);
-    with frmMain do
-    try
-
-      ParentNode := Config.FindNode(Config.RootNode, 'GroupsNameBank', True);
-      cNode:=Config.FindNode(ParentNode,sNewGroup,false);
-      if Assigned(cNode) then
-         if MessageDlg('',rsGroupAlreadyExists,
-            mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
-
-      SaveGroupXml(Config,sNewGroup);
-      Config.WriteToFile('groups.xml');
-
-      LastActiveGroup:=sNewGroup;
-      frmMain.UpdateGroupsMainMenuItems;
-      cm_RestoreActiveGroup([]);
-    finally
-      Config.Free;
-    end;
-  except
-    on E: Exception do
-      msgError(E.Message);
-  end;
-
-end;
-
-procedure TMainCommands.cm_RestoreActiveGroup(const Params: array of string);
-var
-  i,cnt:integer;
-  AFileName:string;
-  Config: TXmlConfig;
-  cItem:TMenuItem;
-begin
-
-  if frmMain.LastActiveGroup='' then exit;
-
-  AFileName:= 'groups.xml';
-  try
-    Config:= TXmlConfig.Create(AFileName, True);
-    with frmMain do
-    try
-      // Uncheck all groups
-      cnt:=mnuGroups.Count;
-      for i:=0 to cnt-1 do mnuGroups.Items[i].Checked:=False;
-
-      // Load active group
-      LoadGroupXml(Config,LastActiveGroup);
-      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
-      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
-      UpdateGroupsMainMenuItems;
-
-    finally
-      Config.Free;
-    end;
-  except
-    on E: Exception do
-      msgError(E.Message);
-  end;
-end;
-
-procedure TMainCommands.cm_RewriteActiveGroup(const Params: array of string);
-var
-  i,cnt:integer;
-  AFileName:string;
-  Config: TXmlConfig;
-  cItem:TMenuItem;
-begin
-
-  if frmMain.LastActiveGroup='' then exit;
-
-  if MessageDlg('',rsGroupRewriteActive,
-    mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
-
-  AFileName:= 'groups.xml';
-  try
-    Config:= TXmlConfig.Create(AFileName, True);
-    with frmMain do
-    try
-      // Re-save active group with current name
-      SaveGroupXml(Config,LastActiveGroup);
-      Config.WriteToFile(AFileName);
-      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
-      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
-    finally
-      Config.Free;
-    end;
-  except
-    on E: Exception do
-      msgError(E.Message);
-  end;
-end;
-
-procedure TMainCommands.cm_DeleteActiveGroup(const Params: array of string);
-var
-   Config: TXmlConfig;
-begin
-
-  if frmMain.LastActiveGroup='' then exit;
-
-  if MessageDlg('',rsGroupDeleteActive,
-    mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
-
-  try
-    Config:= TXmlConfig.Create('groups.xml', True);
-    try
-      // Del active group in XML
-      frmMain.DeleteGroupXml(Config,frmMain.LastActiveGroup);
-      Config.WriteToFile('groups.xml');
-
-      frmMain.LastActiveGroup:='';
-      frmMain.UpdateGroupsMainMenuItems;
-
-    finally
-      Config.Free;
-    end;
-  except
-    on E: Exception do
-      msgError(E.Message);
-  end;
-end;
-
-
-procedure TMainCommands.cm_NextGroup(const Params: array of string);
-var
-  i,iStart:integer;
-begin
-
-  with frmMain do
+  function EvaluateSideResult(sParamValue:string; DefaultValue:TTabsConfigLocation):TTabsConfigLocation;
   begin
-    // Found index of first Group
-    iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
-    if mnuGroups.Count<iStart then exit;     // if no groups -exit
-
-    // Found index of ative group
-    i:=mnuGroups.IndexOfCaption(LastActiveGroup);
-
-    // Set new active group
-    if (i<iStart)or(i=mnuGroups.Count-1) then i:=iStart else i:=i+1;  // if user start program and don't click at group before press Shit+Tab, or current group - is last item
-    LastActiveGroup:=mnuGroups.Items[i].Caption;
+    result:=DefaultValue;
+    if sParamValue='left' then result := tclLeft else
+      if sParamValue='right' then result := tclRight else
+        if sParamValue='active' then result := tclActive else
+          if sParamValue='inactive' then result := tclInactive else
+            if sParamValue='both' then result := tclBoth else
+              if sParamValue='none' then result := tclNone;
   end;
 
-  // and update it
-  cm_RestoreActiveGroup([]);
-end;
-
-
-procedure TMainCommands.cm_PrevGroup(const Params: array of string);
-var
-  i,iStart:integer;
-begin
-  with frmMain do
+  // Actual routine that load from the specified "Source" section the info for the specified "Destination" frame.
+  procedure LoadThisToThis(Source, Destination:TTabsConfigLocation);
+  var
+    sSourceSectionName: string;
   begin
-    // Found index of first Group
-    iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
-    if mnuGroups.Count<iStart then exit;  // if no groups - exit
+    if Destination<>tclNone then
+    begin
+      with frmMain do
+      begin
+        // 1. Normalize our destination side and destination to keep in case params specified active/inactive
+        if ((Destination=tclActive) and (ActiveFrame=FrameLeft)) OR ((Destination=tclInactive) and (NotActiveFrame=FrameLeft)) then Destination:=tclLeft;
+        if ((Destination=tclActive) and (ActiveFrame=FrameRight)) OR ((Destination=tclInactive) and (NotActiveFrame=FrameRight)) then Destination:=tclRight;
+        if ((DestinationToKeep=tclActive) and (ActiveFrame=FrameLeft)) OR ((DestinationToKeep=tclInactive) and (NotActiveFrame=FrameLeft)) then DestinationToKeep:=tclLeft;
+        if ((DestinationToKeep=tclActive) and (ActiveFrame=FrameRight)) OR ((DestinationToKeep=tclInactive) and (NotActiveFrame=FrameRight)) then DestinationToKeep:=tclRight;
 
-    // Found index of Active group
-    i:=mnuGroups.IndexOfCaption(LastActiveGroup);
+        // 2. Setup our source section name.
+        case Source of
+          tclLeft: sSourceSectionName := 'Left';
+          tclRight: sSourceSectionName := 'Right';
+        end;
 
-    // Set new active group
-    if (i=iStart)or(i<0) then i:=mnuGroups.Count-1 else i:=i-1;
-    LastActiveGroup:=mnuGroups.Items[i].Caption;
+        // 3. Actual load infos from file.
+        if (Destination=tclLeft) OR (Destination=tclBoth) then
+        begin
+          if (DestinationToKeep<>tclLeft) AND (DestinationToKeep<>tclBoth) AND (not bLeftTabsAlreadyDestroyed) then
+          begin
+            frmMain.LeftTabs.DestroyAllPages;
+            bLeftTabsAlreadyDestroyed := True; // To don't delete it twice in case both target are left.
+          end;
+          LoadTabsXml(Config, 'Tabs/OpenedTabs', LeftTabs, sSourceSectionName);
+        end;
+
+        if (Destination=tclRight) OR (Destination=tclBoth) then
+        begin
+          if (DestinationToKeep<>tclRight) AND (DestinationToKeep<>tclBoth) AND (not bRightTabsAlreadyDestroyed) then
+          begin
+            frmMain.RightTabs.DestroyAllPages;
+            bRightTabsAlreadyDestroyed := True; // To don't delete it twice in case both target are right.
+          end;
+          LoadTabsXml(Config, 'Tabs/OpenedTabs', RightTabs, sSourceSectionName);
+        end;
+
+        // 4. Refresh content of tabs.
+        case Destination of
+          tclLeft: FrameLeft.Flags := FrameLeft.Flags - [fvfDelayLoadingFiles];
+          tclRight: FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
+          tclBoth:
+            begin
+              FrameLeft.Flags := FrameLeft.Flags - [fvfDelayLoadingFiles];
+              FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
+            end;
+        end;
+      end; // with frmMain do ...
+    end; // if Destination<>tclNone then
   end;
 
-  // and update it
-  cm_RestoreActiveGroup([]);
+begin
+  // 1. Note that most variable have been set with their default value in declaration.
+  originalFilePanel := frmMain.SelectedPanel;
+
+  // 2. Let's parse the parameter to get the wanted ones
+  //    We need to respect legacy of this command where *before* it was possible to simply and directly have the wanted input filename.
+  //    Let's assume that if we have an "=" sign, it's can't be a legacy usage but one with actual parameters.
+  if (length(Params)>0) then
+  begin
+    sInputTabsFilename:=GetDefaultParam(Params);
+    if pos('=',sInputTabsFilename)<>0 then
+    begin
+      sInputTabsFilename:='';
+      for Param in Params do
+      begin
+        if GetParamValue(Param, 'filename', sValue) then sInputTabsFilename := sValue
+        else if GetParamValue(Param, 'loadleftto', sValue) then TargetDestinationForLeft:=EvaluateSideResult(sValue,TargetDestinationForLeft)
+        else if GetParamValue(Param, 'loadrightto', sValue) then TargetDestinationForRight:=EvaluateSideResult(sValue,TargetDestinationForRight)
+        else if GetParamValue(Param, 'keep', sValue) then DestinationToKeep:=EvaluateSideResult(sValue,DestinationToKeep);
+      end;
+    end;
+  end;
+
+  // 3. If variable "sInputTabsFilename", we''ll request the user to provide an input filename.
+  if sInputTabsFilename='' then
+  begin
+    dmComData.OpenDialog.Filter:= '*.tab|*.tab';
+    dmComData.OpenDialog.FileName:= GetDefaultParam(Params);
+    if dmComData.OpenDialog.Execute then
+      sInputTabsFilename:=dmComData.OpenDialog.FileName;
+  end;
+
+  // 4. If we get here with "sInputTabsFilename<>''", we know what to load and from what to load it!
+  if sInputTabsFilename<>'' then
+  begin
+    try
+      Config:= TXmlConfig.Create(sInputTabsFilename, True);
+      try
+        LoadThisToThis(tclLeft, TargetDestinationForLeft);
+        LoadThisToThis(tclRight, TargetDestinationForRight);
+      finally
+        Config.Free;
+      end;
+    except
+      on E: Exception do msgError(E.Message);
+    end;
+  end;
+
+  frmMain.SelectedPanel := originalFilePanel;
+  frmMain.ActiveFrame.SetFocus;
 end;
-
-
 
 procedure TMainCommands.cm_SetTabOptionNormal(const Params: array of string);
 begin
@@ -1749,7 +1642,9 @@ var
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation;
   aFileSource: IFileSource;
-  sCmd, sParams, sStartPath:string;
+  sCmd: string = '';
+  sParams: string = '';
+  sStartPath: string = '';
 begin
   with frmMain do
   try
@@ -2039,8 +1934,10 @@ var
   TempFiles: TFiles;
   SelectedFiles: TFiles = nil;
   Operation: TFileSourceOperation;
-  sCmd, sParams, sStartPath: string;
   TempFileSource: ITempFileSystemFileSource = nil;
+  sCmd: string = '';
+  sParams: string = '';
+  sStartPath: string = '';
 begin
   with frmMain do
   try
@@ -2573,7 +2470,7 @@ end;
 
 procedure TMainCommands.cm_VisitHomePage(const Params: array of string);
 var
-  ErrMsg: String;
+  ErrMsg: String = '';
 begin
   dmHelpMgr.HTMLHelpDatabase.ShowURL('http://doublecmd.sourceforge.net','Double Commander Web Site', ErrMsg);
 end;
@@ -3331,7 +3228,9 @@ var
   hFile: System.THandle = 0;
   aFile: TFile;
   Attrs: TFileAttrs;
-  sCmd, sParams, sStartPath: string;
+  sCmd: string = '';
+  sParams: string = '';
+  sStartPath: string = '';
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', Params);
 
@@ -4139,12 +4038,604 @@ end;
 { TMainCommands.cm_DoAnyCmCommand }
 procedure TMainCommands.cm_DoAnyCmCommand(const Params: array of string);
 var
-  CommandReturnedToExecute:string;
+  CommandReturnedToExecute:string='';
 begin
   if ShowMainCommandDlgForm(gLastDoAnyCommand,CommandReturnedToExecute) then
   begin
     gLastDoAnyCommand := CommandReturnedToExecute;
     frmMain.Commands.Commands.ExecuteCommand(CommandReturnedToExecute, []);
+  end;
+end;
+
+{ TMainCommands.DoCloseAllTabs }
+procedure TMainCommands.DoCloseAllTabs(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+var
+  iPage: integer;
+begin
+  for iPage := ANotebook.PageCount - 1 downto 0 do
+    if (not bAbort) AND (iPage <> ANotebook.PageIndex) then
+      case frmMain.RemovePage(ANotebook, iPage, bDoLocked, iAskForLocked, True) of
+        1: Continue; // skip tab
+        2: bAbort := True; // cancel operation
+        3: iAskForLocked := 2; // user answered to delete them all, we won't ask anymore during the rest of this command
+      end;
+end;
+
+{ TMainCommands.DoCloseDuplicateTabs }
+// Close tabs pointing to same dirs so at the end of action, only one tab for each dir is kept.
+// Tabs that are kept follow these rules of priority:
+//   -All the locked tabs are kept without asking question *except* if "bDoLocked" is set, which means we want also to elimit double lock tab.
+//   -The one that has been user renamed by the user are eliminate IF a equivalent locked tab exist.
+//   -If a user rename tab point the same directoy as another tab but not renamed, no matter the order, we keep the renamed tab and eliminate the other.
+//   -A locked renamed tabs is stronger than a non-renamed tab locked so we eliminate the second one, the one not renamed.
+//   -If two equals importance identical exist, we keep the one on left and elimitate the one on right.
+// At the end of the process, we stay in a tab that has the same path as where we were initally.
+procedure TMainCommands.DoCloseDuplicateTabs(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+var
+  sOriginalPath: String;
+  iTabIndex, jTabIndex, jScore, tScore: Integer;
+  bFlagDeleted: boolean;
+begin
+  // 1. We save to restore later the original directory of the active tab.
+  sOriginalPath := ANoteBook.Page[ANotebook.PageIndex].FileView.CurrentPath;
+
+  // 2. We do the actual job.
+  jTabIndex := pred(ANotebook.PageCount);
+  while (not bAbort) AND (jTabIndex>0) do
+  begin
+    jScore:=$0;
+    if (ANoteBook.Page[jTabIndex].PermanentTitle <> '') then jScore := (jScore OR $01);
+    if (ANoteBook.Page[jTabIndex].LockState <> tlsNormal) then jScore := (jScore OR $02);
+
+    iTabIndex := (jTabIndex-1);
+    bFlagDeleted := FALSE;
+    while (not bAbort) AND (iTabIndex>=0) AND (bFlagDeleted=FALSE) do
+    begin
+      if mbCompareFileNames(ANoteBook.Page[iTabIndex].FileView.CurrentPath, ANoteBook.Page[jTabIndex].FileView.CurrentPath) then
+      begin
+        tScore:=jScore;
+        if (ANoteBook.Page[iTabIndex].PermanentTitle <> '') then tScore := (tScore OR $04);
+        if (ANoteBook.Page[iTabIndex].LockState <> tlsNormal) then tScore := (tScore OR $08);
+
+        case tScore of
+          $00, $04, $05, $08, $09, $0C, $0D: // We eliminate the one on right.
+            begin
+              frmMain.RemovePage(ANotebook, jTabIndex, False);
+              bFlagDeleted:=TRUE;
+            end;
+
+          $01, $02, $03, $06, $07: // We eliminate the one on left.
+            begin
+              frmMain.RemovePage(ANotebook, iTabIndex, False);
+              dec(jTabIndex); // If we eliminate one on left, the right tab now moved one position lower, we must take this in account.
+            end;
+
+          $0A, $0E, $0F: // We eliminate the one on right, EVEN if it is locked if specified.
+            begin
+              if bDoLocked then
+              begin
+                case frmMain.RemovePage(ANotebook, jTabIndex, bDoLocked, iAskForLocked, True) of
+                  0: bFlagDeleted:=True; // Standard Removed.
+                  1: begin end; // Skip tab, we keep going.
+                  2: bAbort := True; // Cancel operation!
+                  3:
+                    begin
+                      iAskForLocked := 2; // user answered to delete them all, we won't ask anymore during the rest of this command
+                      bFlagDeleted:=True;
+                    end;
+                end;
+
+
+              end;
+            end;
+
+          $0B: // We eliminate the one on left, EVEN if it is locked, if specified.
+            begin
+              if bDoLocked then
+              begin
+                case frmMain.RemovePage(ANotebook, iTabIndex, bDoLocked, iAskForLocked, True) of
+                  0: dec(jTabIndex); // If we eliminate one on left, the right tab now moved one position lower, we must take this in account.
+                  1: begin end; // Skip tab, we keep going.
+                  2: bAbort := True; // Cancel operation!
+                  3:
+                    begin
+                      iAskForLocked := 2; // user answered to delete them all, we won't ask anymore during the rest of this command
+                      dec(jTabIndex);
+                    end;
+                end;
+              end;
+            end;
+        end; // case tScore
+      end;
+      dec(iTabIndex);
+    end;
+    dec(jTabIndex);
+  end;
+
+  // 3. We attempt to select a tab with the actual original path from where we were.
+  if not mbCompareFileNames(ANoteBook.Page[ANotebook.PageIndex].FileView.CurrentPath , sOriginalPath) then
+  begin
+    iTabIndex:=0;
+    while (iTabIndex<ANotebook.PageCount) do
+      if mbCompareFileNames(ANoteBook.Page[iTabIndex].FileView.CurrentPath , sOriginalPath) then
+      begin
+        ANotebook.PageIndex:=iTabIndex;
+        iTabIndex:=ANotebook.PageCount;
+      end
+      else
+        inc(iTabIndex);
+  end;
+end;
+
+{ TMainCommands.DoSetAllTabsOptionNormal }
+procedure TMainCommands.DoSetAllTabsOptionNormal(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+var
+  iPage: integer;
+begin
+  for iPage:=0 to pred(ANoteBook.PageCount) do
+    ANoteBook.Page[iPage].LockState:=tlsNormal;
+end;
+
+{ TMainCommands.DoSetAllTabsOptionPathLocked }
+procedure TMainCommands.DoSetAllTabsOptionPathLocked(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+var
+  iPage: integer;
+begin
+  for iPage:=0 to pred(ANoteBook.PageCount) do
+    ANoteBook.Page[iPage].LockState:=tlsPathLocked;
+end;
+
+{ TMainCommands.DoAllTabsOptionPathResets }
+procedure TMainCommands.DoAllTabsOptionPathResets(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+var
+  iPage: integer;
+begin
+  for iPage:=0 to pred(ANoteBook.PageCount) do
+    ANoteBook.Page[iPage].LockState:=tlsPathResets;
+end;
+
+{ TMainCommands.DoSetAllTabsOptionDirsInNewTab }
+procedure TMainCommands.DoSetAllTabsOptionDirsInNewTab(ANotebook: TFileViewNotebook; var bAbort: boolean; bDoLocked: boolean; var iAskForLocked: integer);
+var
+  iPage: integer;
+begin
+  for iPage:=0 to pred(ANoteBook.PageCount) do
+    ANoteBook.Page[iPage].LockState:=tlsDirsInNewTab;
+end;
+
+{ TMainCommands.cm_SetAllTabsOptionNormal }
+procedure TMainCommands.cm_SetAllTabsOptionNormal(const Params: array of string);
+begin
+  DoActionOnMultipleTabs(Params,@DoSetAllTabsOptionNormal);
+end;
+
+{ TMainCommands.cm_SetAllTabsOptionPathLocked }
+procedure TMainCommands.cm_SetAllTabsOptionPathLocked(const Params: array of string);
+begin
+  DoActionOnMultipleTabs(Params,@DoSetAllTabsOptionPathLocked);
+end;
+
+{ TMainCommands.cm_SetAllTabsOptionPathResets }
+procedure TMainCommands.cm_SetAllTabsOptionPathResets(const Params: array of string);
+begin
+  DoActionOnMultipleTabs(Params,@DoAllTabsOptionPathResets);
+end;
+
+{ TMainCommands.cm_SetAllTabsOptionDirsInNewTab }
+procedure TMainCommands.cm_SetAllTabsOptionDirsInNewTab(const Params: array of string);
+begin
+  DoActionOnMultipleTabs(Params,@DoSetAllTabsOptionDirsInNewTab);
+end;
+
+{ TMainCommands.DoActionOnMultipleTabs }
+procedure TMainCommands.DoActionOnMultipleTabs(const Params: array of string; ProcedureDoingActionOnMultipleTabs: TProcedureDoingActionOnMultipleTabs);
+var
+  originalFilePanel:TFilePanelSelect;
+  SideOfAction : TTabsConfigLocation = tclActive;
+  bAbort: boolean = False;
+  bDoLocked: boolean = False;
+  iAskForLocked: integer = 0;
+begin
+  originalFilePanel := frmMain.SelectedPanel;
+  GetAndSetMultitabsActionFromParams(Params, SideOfAction, bDoLocked, iAskForLocked);
+
+  case SideOfAction of
+    tclLeft: ProcedureDoingActionOnMultipleTabs(frmMain.LeftTabs, bAbort, bDoLocked, iAskForLocked);
+    tclRight: ProcedureDoingActionOnMultipleTabs(frmMain.RightTabs, bAbort, bDoLocked, iAskForLocked);
+    tclActive: ProcedureDoingActionOnMultipleTabs(frmMain.ActiveNotebook, bAbort, bDoLocked, iAskForLocked);
+    tclInactive: ProcedureDoingActionOnMultipleTabs(frmMain.NotActiveNotebook, bAbort, bDoLocked, iAskForLocked);
+    tclBoth:
+      begin
+        ProcedureDoingActionOnMultipleTabs(frmMain.LeftTabs, bAbort, bDoLocked, iAskForLocked);
+        ProcedureDoingActionOnMultipleTabs(frmMain.RightTabs, bAbort, bDoLocked, iAskForLocked);
+      end;
+  end;
+
+  frmMain.SelectedPanel := originalFilePanel;
+  frmMain.ActiveFrame.SetFocus;
+end;
+
+{ TMainCommands.GetAndSetMultitabsActionFromParams }
+procedure TMainCommands.GetAndSetMultitabsActionFromParams(const Params: array of string; var APanelSide:TTabsConfigLocation; var ActionOnLocked:boolean; var AskForLocked:integer);
+var
+ Param, sValue: String;
+ boolValue: boolean;
+begin
+  Param := GetDefaultParam(Params);
+  ActionOnLocked := False;
+  AskForLocked := 0;
+
+  // 1. Evaluate if we're running from legacy parameter style.
+  if pos('=',Param)=0 then
+  begin
+    // 1.a. If yes, just watch for the magic word
+    if Param = 'LeftTabs' then APanelSide := tclLeft
+    else if Param = 'RightTabs' then APanelSide := tclRight
+    else if Param = 'ActiveTabs' then APanelSide := tclActive
+    else if Param = 'InactiveTabs' then APanelSide := tclInactive
+    else if Param = 'BothTabs' then APanelSide := tclBoth
+    else APanelSide := tclActive; // Legacy default is to close from Active Notebook.
+  end
+  else
+  begin
+    // 1.b. If no, let's parse it.
+
+    // 2. Let's set our default values.
+    APanelSide := tclActive;
+
+    // 3. Parsing may now begin!
+    for Param in Params do
+    begin
+      if GetParamValue(Param, 'side', sValue) then
+      begin
+        if sValue = 'left' then APanelSide := tclLeft
+        else if sValue = 'right' then APanelSide := tclRight
+        else if sValue = 'active' then APanelSide := tclActive
+        else if sValue = 'inactive' then APanelSide := tclInactive
+        else if sValue = 'both' then APanelSide := tclBoth;
+      end
+      else if GetParamBoolValue(Param, 'dolocked', boolValue) then ActionOnLocked := boolValue
+      else if GetParamBoolValue(Param, 'confirmlocked', boolValue) then
+      begin
+        if boolValue then AskForLocked:=1 else AskForLocked:=2;
+      end;
+    end;
+  end;
+end;
+
+{ TMainCommands.cm_ConfigFolderTabs }
+procedure TMainCommands.cm_ConfigFolderTabs(const Params: array of string);
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+begin
+  Options := ShowOptions(TfrmOptionsTabs);
+  Application.ProcessMessages;
+  Editor := Options.GetEditor(TfrmOptionsTabs);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
+end;
+
+{ TMainCommands.cm_ConfigFavoriteTabs }
+procedure TMainCommands.cm_ConfigFavoriteTabs(const Params: array of string);
+var
+  Options: IOptionsDialog;
+  Editor: TOptionsEditor;
+begin
+  Options := ShowOptions(TfrmOptionsFavoriteTabs);
+  Editor := Options.GetEditor(TfrmOptionsFavoriteTabs);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
+  TfrmOptionsFavoriteTabs(Editor).SubmitToAddOrConfigToFavoriteTabsDlg(ftaaocJustShowFavoriteTabsConfig, '', '', 0);
+end;
+
+{ TMainCommands.DoActualLoadFavoriteTabs }
+procedure TMainCommands.DoActualLoadFavoriteTabs(IndexInListToLoad: integer);
+var
+  params : array of string;
+begin
+  SetLength(params,4);
+  params[0] := 'filename=' + mbExpandFileName(gFavoriteTabsList.FavoriteTabs[IndexInListToLoad].FavoriteTabsSavedFilename);
+  params[1] := 'loadleftto=' + gsConfigLocationName[integer(gFavoriteTabsList.FavoriteTabs[IndexInListToLoad].DestinationForSavedLeftTabs)];
+  params[2] := 'loadrightto=' + gsConfigLocationName[integer(gFavoriteTabsList.FavoriteTabs[IndexInListToLoad].DestinationForSavedRightTabs)];
+  params[3] := 'keep=' + gsConfigLocationName[integer(gFavoriteTabsList.FavoriteTabs[IndexInListToLoad].ExistingTabsToKeep)];
+  cm_LoadTabs(params);
+  gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId:=gFavoriteTabsList.FavoriteTabs[IndexInListToLoad].UniqueID;
+end;
+
+
+{ TMainCommands.DoOnClickMenuJobFavoriteTabs }
+//  We're supposed to jump here when we get called by an item from a favorite tabs menu item.
+//  The value of "tag" will indicate us what to do.
+//  -A value below TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING ($10000) indicates we want to load tabs with what was saved in our favorite tabs list at the index of "tag".
+//  -A value higher than TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING ($10000) indicates we want to save our current tabs OVER the existing entry in our favorite tabs list at the index of "tag MOD TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING".
+procedure TMainCommands.DoOnClickMenuJobFavoriteTabs(Sender:TObject);
+var
+  params : array of string;
+  iActualFavoriteDirIndex: integer;
+  Options: IOptionsDialog;
+  Editor: TOptionsEditor;
+begin
+  with Sender as TComponent do
+  begin
+    case tag of
+      0 .. pred(TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING):  // We want to adjust our current tab from one in the favorite tabs.
+      begin
+        DoActualLoadFavoriteTabs(tag);
+      end;
+
+      TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING .. pred(TAGOFFSET_FAVTABS_SOMETHINGELSE): // We want to save our current tabs an existing favorite tabs entry.
+      begin
+        iActualFavoriteDirIndex := tag mod TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING;
+        SetLength(params,2);
+        params[0]:='filename='+mbExpandFileName(gFavoriteTabsList.FavoriteTabs[iActualFavoriteDirIndex].FavoriteTabsSavedFilename);
+        if gFavoriteTabsSaveDirHistory then params[1]:='savedirhistory=yes' else params[1]:='savedirhistory=no';
+        cm_SaveTabs(params);
+        gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId:=gFavoriteTabsList.FavoriteTabs[iActualFavoriteDirIndex].UniqueID; //Since we save that, let's assume it will be our last reference one.
+        if not gFavoriteTabsNoNeedToConfigAfterReSave then
+        begin
+          Options := ShowOptions(TfrmOptionsFavoriteTabs);
+          Editor := Options.GetEditor(TfrmOptionsFavoriteTabs);
+          Application.ProcessMessages;
+          if Editor.CanFocus then  Editor.SetFocus;
+          TfrmOptionsFavoriteTabs(Editor).SubmitToAddOrConfigToFavoriteTabsDlg(ftaaocSaveExistingShowIt, '', '', iActualFavoriteDirIndex);
+        end
+        else
+        begin
+          msgOk(rsSimpleWordSaved);
+        end;
+      end;
+
+    end; //case iDispatcher of ...
+  end;
+end;
+
+{ TMainCommands.cm_ReloadFavoriteTabs }
+procedure TMainCommands.cm_ReloadFavoriteTabs(const Params: array of string);
+var
+  IndexLastFavoriteTabsLoaded:integer;
+begin
+  IndexLastFavoriteTabsLoaded:=gFavoriteTabsList.GetIndexLastFavoriteTabsLoaded;
+  if IndexLastFavoriteTabsLoaded<>-1 then DoActualLoadFavoriteTabs(IndexLastFavoriteTabsLoaded);
+end;
+
+{ TMainCommands.cm_PreviousFavoriteTabs }
+procedure TMainCommands.cm_PreviousFavoriteTabs(const Params: array of string);
+var
+  IndexLastFavoriteTabsLoaded:integer;
+begin
+  IndexLastFavoriteTabsLoaded:=gFavoriteTabsList.GetIndexPreviousLastFavoriteTabsLoaded;
+  if IndexLastFavoriteTabsLoaded<>-1 then DoActualLoadFavoriteTabs(IndexLastFavoriteTabsLoaded);
+end;
+
+{ TMainCommands.cm_NextFavoriteTabs }
+procedure TMainCommands.cm_NextFavoriteTabs(const Params: array of string);
+var
+  IndexLastFavoriteTabsLoaded:integer;
+begin
+  IndexLastFavoriteTabsLoaded:=gFavoriteTabsList.GetIndexNextLastFavoriteTabsLoaded;
+  if IndexLastFavoriteTabsLoaded<>-1 then DoActualLoadFavoriteTabs(IndexLastFavoriteTabsLoaded);
+end;
+
+{ TMainCommands.cm_LoadFavoriteTabs }
+procedure TMainCommands.cm_LoadFavoriteTabs(const Params: array of string);
+var
+  p:TPoint;
+begin
+  gFavoriteTabsList.PopulateMenuWithFavoriteTabs(frmMain.pmFavoriteTabs, @DoOnClickMenuJobFavoriteTabs, ftmp_FAVTABSWITHCONFIG);
+  p:=Mouse.CursorPos;
+  frmMain.pmFavoriteTabs.Popup(p.X,p.Y);
+  Application.ProcessMessages;
+end;
+
+{ TMainCommands.cm_SaveFavoriteTabs }
+procedure TMainCommands.cm_SaveFavoriteTabs(const Params: array of string);
+var
+  sFavoriteTabsEntryName: string = '';
+  sFavoriteTabsSavedFilename: string = '';
+  Options: IOptionsDialog;
+  Editor: TOptionsEditor;
+  sParam: array[0..1] of string;
+  LocalFavoriteTabs: TFavoriteTabs;
+begin
+  if gFavoriteTabsList.GetSuggestedParamsForFavoriteTabs(frmMain.ActiveNotebook.ActivePage.CurrentTitle, sFavoriteTabsEntryName, sFavoriteTabsSavedFilename) then
+  begin
+    sParam[0]:='filename='+mbExpandFileName(sFavoriteTabsSavedFilename);
+    if gFavoriteTabsSaveDirHistory then sParam[1]:='savedirhistory=yes' else sParam[1]:='savedirhistory=no';
+    gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := GetNewUniqueID; //We need to "forget" our last loaded favorite tabs. Even if user would later refuse the save, let's forget the last loaded favorite tabs this way it will avoid any confusion, for the user.
+    cm_SaveTabs(sParam);
+    if not gFavoriteTabsNoNeedToConfigAfterSave then
+    begin
+      Options := ShowOptions(TfrmOptionsFavoriteTabs);
+      Editor := Options.GetEditor(TfrmOptionsFavoriteTabs);
+      Application.ProcessMessages;
+      if Editor.CanFocus then  Editor.SetFocus;
+      TfrmOptionsFavoriteTabs(Editor).SubmitToAddOrConfigToFavoriteTabsDlg(ftaaocAddToFavoriteTabs, sFavoriteTabsEntryName, sFavoriteTabsSavedFilename, 0);
+    end
+    else
+    begin
+      LocalFavoriteTabs := TFavoriteTabs.Create;
+      LocalFavoriteTabs.Dispatcher := fte_ACTUALFAVTABS;
+      LocalFavoriteTabs.FavoriteTabsName := sFavoriteTabsEntryName;
+      LocalFavoriteTabs.FavoriteTabsSavedFilename := sFavoriteTabsSavedFilename;
+      LocalFavoriteTabs.DestinationForSavedLeftTabs := gDefaultTargetPanelLeftSaved;
+      LocalFavoriteTabs.DestinationForSavedRightTabs := gDefaultTargetPanelRightSaved;
+      LocalFavoriteTabs.ExistingTabsToKeep := gDefaultExistingTabsToKeep;
+      msgWarning(rsMsgFavoriteTabsHasBeenAdded);
+      gFavoriteTabsList.Add(LocalFavoriteTabs);
+      gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := LocalFavoriteTabs.UniqueID;
+      //Don't free "LocalFavoriteTabs" since it needs to be in memory in our list now...
+    end;
+  end;
+end;
+
+procedure TMainCommands.cm_NewGroup(const Params: array of string);
+var
+  ParentNode,cNode: TXmlNode;
+  Config: TXmlConfig;
+  sNewGroup:string='';
+begin
+
+  if not InputQuery(rsGroupNewGroup, rsGroupNewGroupName, sNewGroup) then Exit;
+
+  try
+    Config:= TXmlConfig.Create('groups.xml',True);
+    with frmMain do
+    try
+
+      ParentNode := Config.FindNode(Config.RootNode, 'GroupsNameBank', True);
+      cNode:=Config.FindNode(ParentNode,sNewGroup,false);
+      if Assigned(cNode) then
+         if MessageDlg('',rsGroupAlreadyExists,
+            mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
+
+      SaveGroupXml(Config,sNewGroup);
+      Config.WriteToFile('groups.xml');
+
+      LastActiveGroup:=sNewGroup;
+      frmMain.UpdateGroupsMainMenuItems;
+      cm_RestoreActiveGroup([]);
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
+
+procedure TMainCommands.cm_RewriteActiveGroup(const Params: array of string);
+var
+  AFileName:string;
+  Config: TXmlConfig;
+begin
+  if frmMain.LastActiveGroup='' then exit;
+
+  if MessageDlg('',rsGroupRewriteActive,
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
+
+  AFileName:= 'groups.xml';
+  try
+    Config:= TXmlConfig.Create(AFileName, True);
+    with frmMain do
+    try
+      // Re-save active group with current name
+      SaveGroupXml(Config,LastActiveGroup);
+      Config.WriteToFile(AFileName);
+      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
+      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
+
+procedure TMainCommands.cm_PrevGroup(const Params: array of string);
+var
+  i,iStart:integer;
+begin
+  with frmMain do
+  begin
+    // Found index of first Group
+    iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
+    if mnuGroups.Count<iStart then exit;  // if no groups - exit
+
+    // Found index of Active group
+    i:=mnuGroups.IndexOfCaption(LastActiveGroup);
+
+    // Set new active group
+    if (i=iStart)or(i<0) then i:=mnuGroups.Count-1 else i:=i-1;
+    LastActiveGroup:=mnuGroups.Items[i].Caption;
+  end;
+
+  // and update it
+  cm_RestoreActiveGroup([]);
+end;
+
+procedure TMainCommands.cm_NextGroup(const Params: array of string);
+var
+  i,iStart:integer;
+begin
+  with frmMain do
+  begin
+    // Found index of first Group
+    iStart:=mnuGroups.IndexOf(miLineStartGroups)+1;
+    if mnuGroups.Count<iStart then exit;     // if no groups -exit
+
+    // Found index of ative group
+    i:=mnuGroups.IndexOfCaption(LastActiveGroup);
+
+    // Set new active group
+    if (i<iStart)or(i=mnuGroups.Count-1) then i:=iStart else i:=i+1;  // if user start program and don't click at group before press Shit+Tab, or current group - is last item
+    LastActiveGroup:=mnuGroups.Items[i].Caption;
+  end;
+
+  // and update it
+  cm_RestoreActiveGroup([]);
+end;
+
+procedure TMainCommands.cm_DeleteActiveGroup(const Params: array of string);
+var
+   Config: TXmlConfig;
+begin
+  if frmMain.LastActiveGroup='' then exit;
+
+  if MessageDlg('',rsGroupDeleteActive,
+    mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrNo then exit;
+
+  try
+    Config:= TXmlConfig.Create('groups.xml', True);
+    try
+      // Del active group in XML
+      frmMain.DeleteGroupXml(Config,frmMain.LastActiveGroup);
+      Config.WriteToFile('groups.xml');
+
+      frmMain.LastActiveGroup:='';
+      frmMain.UpdateGroupsMainMenuItems;
+
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
+
+procedure TMainCommands.cm_RestoreActiveGroup(const Params: array of string);
+var
+  i,cnt:integer;
+  AFileName:string;
+  Config: TXmlConfig;
+  cItem:TMenuItem;
+begin
+
+  if frmMain.LastActiveGroup='' then exit;
+
+  AFileName:= 'groups.xml';
+  try
+    Config:= TXmlConfig.Create(AFileName, True);
+    with frmMain do
+    try
+      // Uncheck all groups
+      cnt:=mnuGroups.Count;
+      for i:=0 to cnt-1 do mnuGroups.Items[i].Checked:=False;
+
+      // Load active group
+      LoadGroupXml(Config,LastActiveGroup);
+      FrameLeft.Flags:= FrameLeft.Flags - [fvfDelayLoadingFiles];
+      FrameRight.Flags:= FrameRight.Flags - [fvfDelayLoadingFiles];
+      UpdateGroupsMainMenuItems;
+
+    finally
+      Config.Free;
+    end;
+  except
+    on E: Exception do
+      msgError(E.Message);
   end;
 end;
 

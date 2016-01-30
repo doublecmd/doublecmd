@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Creates Total Commander fake window (some plugins don't work without it)
 
-    Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -193,7 +193,7 @@ const
     (TCCommand: 'cm_FontConfig'; TCIcon: 34; DCCommand: ''), //Conf: Font
     (TCCommand: 'cm_ColorConfig'; TCIcon: 34; DCCommand: ''), //Conf: Colors
     (TCCommand: 'cm_ConfTabChange'; TCIcon: 34; DCCommand: ''), //Conf: Tabstops
-    (TCCommand: 'cm_DirTabsConfig'; TCIcon: 34; DCCommand: ''), //Conf: Directory tabs
+    (TCCommand: 'cm_DirTabsConfig'; TCIcon: 34; DCCommand: 'cm_configfoldertabs'), //Conf: Directory tabs
     (TCCommand: 'cm_CustomColumnConfig'; TCIcon: 56; DCCommand: ''), //Conf: Custom colums
     (TCCommand: 'cm_CustomColumnDlg'; TCIcon: 56; DCCommand: ''), //Change current custom columns
     (TCCommand: 'cm_LanguageConfig'; TCIcon: 34; DCCommand: ''), //Conf: Language
@@ -765,7 +765,7 @@ end;
 
 { EnumTaskWindowsProc }
 // Routine used for the following "IsTotalCommanderSeemsRunning" routine.
-function EnumTaskWindowsProc(Wnd: THandle; List: TStrings): boolean; stdcall;
+function EnumTaskWindowsProc(Wnd: THandle; List{%H-}: TStrings): boolean; stdcall;
 var
   ClassName: PChar;
 begin
@@ -1020,7 +1020,8 @@ var
   procedure PossiblyRecursiveAddThisToolItemToConfigFile(ToolItem: TKASToolItem; TCBarConfigFile: TIniFileEx; TCIndexButton: integer);
   var
     sTCIndexButton: string;
-    TCIndexOfCommand, IndexItem: integer;
+    TCIndexOfCommand: integer = -1;
+    IndexItem: integer;
     TCCommand, TCIcon: string;
     InnerTCBarConfigFilename: string;
     InnerTCBarConfigFile: TIniFileEx;

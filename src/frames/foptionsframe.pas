@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Options frame page
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -135,6 +135,7 @@ uses
   fOptionsPlugins,
   fOptionsQuickSearchFilter,
   fOptionsTabs,
+  fOptionsFavoriteTabs,
   fOptionsTerminal,
   fOptionsToolbar,
   fOptionsTools,
@@ -265,7 +266,8 @@ var
   Mouse,
   Tools,
   Editor,
-  FileAssoc: TOptionsEditorRec;
+  FileAssoc,
+  FolderTabs: TOptionsEditorRec;
 begin
   Main.Add(TfrmOptionsLanguage);
   Main.Add(TfrmOptionsBehavior);
@@ -292,7 +294,8 @@ begin
   Layout.Add(TfrmOptionsDrivesListButton);
   Main.Add(TfrmOptionsToolbar);
   Main.Add(TfrmOptionsFileOperations);
-  Main.Add(TfrmOptionsTabs);
+  FolderTabs := Main.Add(TfrmOptionsTabs);
+  FolderTabs.Add(TfrmOptionsFavoriteTabs);
   Main.Add(TfrmOptionsLog);
   Main.Add(TfrmOptionsConfiguration);
   Main.Add(TfrmOptionsQuickSearchFilter);

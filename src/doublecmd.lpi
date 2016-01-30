@@ -270,7 +270,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="225">
+    <Units Count="227">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1594,13 +1594,25 @@ end;"/>
         <UnitName Value="fDeleteDlg"/>
       </Unit223>
       <Unit224>
+        <Filename Value="ufavoritetabs.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit224>
+      <Unit225>
+        <Filename Value="frames\foptionsfavoritetabs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsFavoriteTabs"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsFavoriteTabs"/>
+      </Unit225>
+      <Unit226>
         <Filename Value="frames\foptionstoolseditor.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsEditor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsToolsEditor"/>
-      </Unit224>
+      </Unit226>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -12,7 +12,7 @@
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
    Copyright (C) 2008  Vitaly Zotov (vitalyzotov@mail.ru)
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
 }
 
@@ -27,7 +27,7 @@ uses
   DCClassesUtf8, uMultiArc, uColumns, uHotkeyManager, uSearchTemplate,
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx,
-  uHotDir, uSpecialDir, uVariableMenuSupport, SynEdit;
+  uHotDir, uSpecialDir, uVariableMenuSupport, SynEdit, uFavoriteTabs;
 
 type
   { Configuration options }
@@ -45,7 +45,14 @@ type
                          tb_text_length_limit, tb_confirm_close_all,
                          tb_close_on_dbl_click, tb_open_new_in_foreground,
                          tb_open_new_near_current, tb_show_asterisk_for_locked,
-                         tb_activate_panel_on_click, tb_show_close_button);
+                         tb_activate_panel_on_click, tb_show_close_button,
+                         tb_close_duplicate_when_closing,
+                         tb_close_on_doubleclick, tb_show_drive_letter,
+                         tb_reusing_tab_when_possible,
+                         tb_confirm_close_locked_tab,
+                         tb_keep_renamed_when_back_normal);
+
+  TTabsOptionsDoubleClick = (tadc_Nothing, tadc_CloseTab, tadc_FavoriteTabs, tadc_TabsPopup);
 
   TTabsPosition = (tbpos_top, tbpos_bottom);
   { Show icons mode }
@@ -125,7 +132,8 @@ const
   // 6   - changed Behaviours/ShortFileSizeFormat to Behaviours/FileSizeFormat
   // 7   - changed Viewer/SaveThumbnails to Thumbnails/Save
   // 8   - changed Behaviours/BriefViewFileExtAligned to FilesViews/BriefView/FileExtAligned
-  ConfigVersion = 8;
+  // 9   - few new options regarding tabs
+  ConfigVersion = 9;
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
@@ -271,6 +279,17 @@ var
   gLastUsedPacker: String;
   gLastDoAnyCommand: String;
 
+  { Favorite Tabs }
+  gFavoriteTabsList:TFavoriteTabsList;
+  gWhereToAddNewFavoriteTabs: TPositionWhereToAddFavoriteTabs;
+  gFavoriteTabsFullExpandOrNot: boolean;
+  gFavoriteTabsSaveDirHistory: boolean;
+  gFavoriteTabsNoNeedToConfigAfterSave: boolean;
+  gFavoriteTabsNoNeedToConfigAfterReSave: boolean;
+  gDefaultTargetPanelLeftSaved: TTabsConfigLocation;
+  gDefaultTargetPanelRightSaved: TTabsConfigLocation;
+  gDefaultExistingTabsToKeep: TTabsConfigLocation;
+
   { Brief view page }
   gBriefViewFixedWidth: Integer;
   gBriefViewFixedCount: Integer;
@@ -351,6 +370,7 @@ var
 
   { Folder tabs page }
   gDirTabOptions : TTabsOptions;
+  gDirTabActionOnDoubleClick : TTabsOptionsDoubleClick;
   gDirTabLimit : Integer;
   gDirTabPosition : TTabsPosition;
 
@@ -1031,6 +1051,7 @@ begin
   gColorExt := TColorExt.Create;
   gFileInfoToolTip := TFileInfoToolTip.Create;
   gDirectoryHotlist := TDirectoryHotlist.Create;
+  gFavoriteTabsList := TFavoriteTabsList.Create;
   glsDirHistory := TStringListEx.Create;
   glsCmdLineHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
@@ -1061,6 +1082,7 @@ begin
   FreeThenNil(gSupportForVariableHelperMenu);
   FreeThenNil(gSpecialDirList);
   FreeThenNil(gDirectoryHotlist);
+  FreeThenNil(gFavoriteTabsList);
   FreeThenNil(glsMaskHistory);
   FreeThenNil(glsSearchHistory);
   FreeThenNil(glsSearchPathHistory);
@@ -1300,9 +1322,23 @@ begin
   gDirTabOptions := [tb_always_visible,
                      tb_confirm_close_all,
                      tb_show_asterisk_for_locked,
-                     tb_activate_panel_on_click];
+                     tb_activate_panel_on_click,
+                     tb_close_on_doubleclick,
+                     tb_reusing_tab_when_possible,
+                     tb_confirm_close_locked_tab];
+  gDirTabActionOnDoubleClick := tadc_FavoriteTabs;
   gDirTabLimit := 32;
   gDirTabPosition := tbpos_top;
+
+  { Favorite Tabs}
+  gWhereToAddNewFavoriteTabs := afte_Last;
+  gFavoriteTabsFullExpandOrNot := True;
+  gFavoriteTabsSaveDirHistory := False;
+  gFavoriteTabsNoNeedToConfigAfterSave := False;
+  gFavoriteTabsNoNeedToConfigAfterReSave := False;
+  gDefaultTargetPanelLeftSaved := tclLeft;
+  gDefaultTargetPanelRightSaved := tclRight;
+  gDefaultExistingTabsToKeep := tclNone;
 
   { Log page }
   gLogFile := False;
@@ -1448,6 +1484,7 @@ begin
   gColorExt.Clear;
   gFileInfoToolTip.Clear;
   gDirectoryHotlist.Clear;
+  gFavoriteTabsList.Clear;
   glsDirHistory.Clear;
   glsMaskHistory.Clear;
   glsSearchHistory.Clear;
@@ -1771,7 +1808,8 @@ var
   oldQuickFilterMode: TShiftState = [];
   glsHotDirTempoLegacyConversion:TStringListEx;
   LocalHotDir: THotDir;
-  IndexHotDir: integer;begin
+  IndexHotDir: integer;
+begin
   { Layout page }
 
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
@@ -1834,9 +1872,12 @@ var
   gAutoSizeColumn := gIni.ReadInteger('Configuration', 'AutoSizeColumn', 1);
   gCustomColumnsChangeAllColumns := gIni.ReadBool('Configuration', 'CustomColumnsChangeAllColumns', gCustomColumnsChangeAllColumns);
 
-  gDirTabOptions := TTabsOptions(gIni.ReadInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions)));
+  // Loading tabs relating option respecting legacy order of options setting and wanted default values.
+  // The legacy default choice will still be to close on double click if it was set to that before. But if it was not, let's set to Favorite Tabs, then, by default of first start of new version.
+  gDirTabOptions := TTabsOptions(gIni.ReadInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions)))+[tb_close_on_doubleclick, tb_reusing_tab_when_possible, tb_confirm_close_locked_tab];
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
   gDirTabPosition := TTabsPosition(gIni.ReadInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition)));
+  gDirTabActionOnDoubleClick := tadc_CloseTab;
 
   gExternalTools[etEditor].Enabled := gIni.ReadBool('Configuration', 'UseExtEdit', False);
   gExternalTools[etViewer].Enabled := gIni.ReadBool('Configuration', 'UseExtView', False);
@@ -2331,9 +2372,17 @@ begin
     Node := Root.FindNode('Tabs');
     if Assigned(Node) then
     begin
+      // Loading tabs relating option respecting legacy order of options setting and wanted default values.
+      // The default action on double click is to close tab simply to respect legacy of what it was doing hardcoded before.
       gDirTabOptions := TTabsOptions(GetValue(Node, 'Options', Integer(gDirTabOptions)));
+      if LoadedConfigVersion<9 then
+      begin
+        gDirTabOptions := gDirTabOptions + [tb_close_on_doubleclick , tb_reusing_tab_when_possible, tb_confirm_close_locked_tab]; //The "tb_close_on_doubleclick" is useless but anyway... :-)
+        gDirTabActionOnDoubleClick:=tadc_CloseTab;
+      end;
       gDirTabLimit := GetValue(Node, 'CharacterLimit', gDirTabLimit);
       gDirTabPosition := TTabsPosition(GetValue(Node, 'Position', Integer(gDirTabPosition)));
+      gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(GetValue(Node, 'ActionOnDoubleClick', Integer(tadc_CloseTab)));
     end;
 
     { Log page }
@@ -2448,6 +2497,9 @@ begin
     { Directories HotList }
     gDirectoryHotlist.LoadFromXML(gConfig, Root);
 
+    { Favorite Tabs }
+    gFavoriteTabsList.LoadFromXml(gConfig, Root);
+
     { Viewer }
     Node := Root.FindNode('Viewer');
     if Assigned(Node) then
@@ -2509,6 +2561,20 @@ begin
       gExecuteViaTerminalClose := GetValue(Node,'OpenSystemWithTerminalClose', gExecuteViaTerminalClose);
       gExecuteViaTerminalStayOpen := GetValue(Node,'OpenSystemWithTerminalStayOpen', gExecuteViaTerminalStayOpen);
       gIncludeFileAssociation := GetValue(Node,'IncludeFileAssociation',gIncludeFileAssociation);
+    end;
+
+    { Favorite Tabs }
+    Node := Root.FindNode('FavoriteTabsOptions');
+    if Assigned(Node) then
+    begin
+      gWhereToAddNewFavoriteTabs := TPositionWhereToAddFavoriteTabs(GetValue(Node, 'WhereToAdd', Integer(gWhereToAddNewFavoriteTabs)));
+      gFavoriteTabsFullExpandOrNot := GetValue(Node, 'Expand', gFavoriteTabsFullExpandOrNot);
+      gFavoriteTabsSaveDirHistory := GetValue(Node, 'DirHistory', gFavoriteTabsSaveDirHistory);
+      gFavoriteTabsNoNeedToConfigAfterSave := GetValue(Node, 'NoCfgAfterAdd', gFavoriteTabsNoNeedToConfigAfterSave);
+      gFavoriteTabsNoNeedToConfigAfterReSave := GetValue(Node, 'NoCfgAfterReAdd', gFavoriteTabsNoNeedToConfigAfterReSave);
+      gDefaultTargetPanelLeftSaved := TTabsConfigLocation(GetValue(Node, 'DfltLeftGoTo', Integer(gDefaultTargetPanelLeftSaved)));
+      gDefaultTargetPanelRightSaved := TTabsConfigLocation(GetValue(Node, 'DfltRightGoTo', Integer(gDefaultTargetPanelRightSaved)));
+      gDefaultExistingTabsToKeep := TTabsConfigLocation(GetValue(Node, 'DfltKeep', Integer(gDefaultExistingTabsToKeep)));
     end;
 
     { - Other - }
@@ -2774,6 +2840,7 @@ begin
     SetValue(Node, 'Options', Integer(gDirTabOptions));
     SetValue(Node, 'CharacterLimit', gDirTabLimit);
     SetValue(Node, 'Position', Integer(gDirTabPosition));
+    SetValue(Node, 'ActionOnDoubleClick',Integer(gDirTabActionOnDoubleClick));
 
     { Log page }
     Node := FindNode(Root, 'Log', True);
@@ -2845,6 +2912,9 @@ begin
     { Directories HotList }
     gDirectoryHotlist.SaveToXml(gConfig, Root, TRUE);
 
+    { Favorite Tabs }
+    gFavoriteTabsList.SaveToXml(gConfig, Root, TRUE);
+
     { Viewer }
     Node := FindNode(Root, 'Viewer',True);
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
@@ -2891,6 +2961,17 @@ begin
     SetValue(Node, 'OpenSystemWithTerminalClose', gExecuteViaTerminalClose);
     SetValue(Node, 'OpenSystemWithTerminalStayOpen', gExecuteViaTerminalStayOpen);
     SetValue(Node, 'IncludeFileAssociation', gIncludeFileAssociation);
+
+    { Favorite Tabs }
+    Node := FindNode(Root, 'FavoriteTabsOptions', True);
+    SetValue(Node, 'WhereToAdd', Integer(gWhereToAddNewFavoriteTabs));
+    SetValue(Node, 'Expand', gFavoriteTabsFullExpandOrNot);
+    SetValue(Node, 'DirHistory', gFavoriteTabsSaveDirHistory);
+    SetValue(Node, 'NoCfgAfterAdd', gFavoriteTabsNoNeedToConfigAfterSave);
+    SetValue(Node, 'NoCfgAfterReAdd', gFavoriteTabsNoNeedToConfigAfterReSave);
+    SetValue(Node, 'DfltLeftGoTo', Integer(gDefaultTargetPanelLeftSaved));
+    SetValue(Node, 'DfltRightGoTo', Integer(gDefaultTargetPanelRightSaved));
+    SetValue(Node, 'DfltKeep', Integer(gDefaultExistingTabsToKeep));
 
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);

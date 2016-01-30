@@ -1184,6 +1184,9 @@ object frmMain: TfrmMain
       object mnuNewTab: TMenuItem
         Action = actNewTab
       end
+      object mnuRenameTab: TMenuItem
+        Action = actRenameTab
+      end
       object mnuOpenDirInNewTab: TMenuItem
         Action = actOpenDirInNewTab
       end
@@ -1199,22 +1202,45 @@ object frmMain: TfrmMain
       object mnuCloseDuplicateTabs: TMenuItem
         Action = actCloseDuplicateTabs
       end
-      object miLine16: TMenuItem
+      object miLine11: TMenuItem
         Caption = '-'
       end
       object mnuTabOptions: TMenuItem
-        Caption = '&Options'
+        Caption = 'Tab &Options'
         object mnuTabOptionNormal: TMenuItem
           Action = actSetTabOptionNormal
+          GroupIndex = 1
+          RadioItem = True
         end
         object mnuTabOptionPathLocked: TMenuItem
           Action = actSetTabOptionPathLocked
+          GroupIndex = 1
+          RadioItem = True
         end
         object mnuTabOptionPathResets: TMenuItem
           Action = actSetTabOptionPathResets
+          GroupIndex = 1
+          RadioItem = True
         end
         object mnuTabOptionDirsInNewTabs: TMenuItem
           Action = actSetTabOptionDirsInNewTab
+          GroupIndex = 1
+          RadioItem = True
+        end
+        object miLine10: TMenuItem
+          Caption = '-'
+        end
+        object mnuSetAllTabsOptionNormal: TMenuItem
+          Action = actSetAllTabsOptionNormal
+        end
+        object mnuSetAllTabsOptionPathLocked: TMenuItem
+          Action = actSetAllTabsOptionPathLocked
+        end
+        object mnuSetAllTabsOptionPathResets: TMenuItem
+          Action = actSetAllTabsOptionPathResets
+        end
+        object mnuSetAllTabsOptionDirsInNewTab: TMenuItem
+          Action = actSetAllTabsOptionDirsInNewTab
         end
       end
       object miLine17: TMenuItem
@@ -1234,6 +1260,21 @@ object frmMain: TfrmMain
       end
       object mnuLoadTabs: TMenuItem
         Action = actLoadTabs
+      end
+      object mnuSaveFavoriteTabs: TMenuItem
+        Action = actSaveFavoriteTabs
+      end
+      object mnuLoadFavoriteTabs: TMenuItem
+        Action = actLoadFavoriteTabs
+      end
+      object miLine39: TMenuItem
+        Caption = '-'
+      end
+      object mnuConfigurationFolderTabs: TMenuItem
+        Action = actConfigFolderTabs
+      end
+      object mnuConfigurationFavoriteTabs: TMenuItem
+        Action = actConfigFavoriteTabs
       end
     end
     object mnuGroups: TMenuItem
@@ -1326,12 +1367,20 @@ object frmMain: TfrmMain
       object mnuConfigOptions: TMenuItem
         Action = actOptions
       end
+      object miLine40: TMenuItem
+        Caption = '-'
+      end
       object mnuCmdConfigDirHotlist: TMenuItem
         Action = actConfigDirHotList
-        Caption = 'Directory Hotlist'
+      end
+      object mnuConfigFavoriteTabs: TMenuItem
+        Action = actConfigFavoriteTabs
       end
       object mnuFileAssoc: TMenuItem
         Action = actFileAssoc
+      end
+      object mnuConfigFolderTabs: TMenuItem
+        Action = actConfigFolderTabs
       end
     end
     object mnuHelp: TMenuItem
@@ -1461,7 +1510,7 @@ object frmMain: TfrmMain
     object actConfigToolbars: TAction
       Tag = 5
       Category = 'Configuration'
-      Caption = 'Configure toolbar'
+      Caption = 'Toolbar...'
       OnExecute = actExecute
     end
     object actConfigDirHotList: TAction
@@ -1479,7 +1528,7 @@ object frmMain: TfrmMain
     object actFileAssoc: TAction
       Tag = 5
       Category = 'Configuration'
-      Caption = 'File &Associations...'
+      Caption = 'Configurationof File &Associations'
       OnExecute = actExecute
     end
     object actCompareContents: TAction
@@ -2406,33 +2455,102 @@ object frmMain: TfrmMain
       OnExecute = actExecute
     end
     object actNewGroup: TAction
+      Tag = 7
       Category = 'Groups'
       Caption = 'New Group'
       OnExecute = actExecute
     end
     object actRestoreActiveGroup: TAction
+      Tag = 7
       Category = 'Groups'
       Caption = 'Restore Active Group'
       OnExecute = actExecute
     end
     object actNextGroup: TAction
+      Tag = 7
       Category = 'Groups'
       Caption = 'Switch to next group'
       OnExecute = actExecute
     end
     object actDeleteActiveGroup: TAction
+      Tag = 7
       Category = 'Groups'
       Caption = 'Delete active group'
       OnExecute = actExecute
     end
     object actRewriteActiveGroup: TAction
+      Tag = 7
       Category = 'Groups'
       Caption = 'actRewriteActiveGroup'
       OnExecute = actExecute
     end
     object actPrevGroup: TAction
+      Tag = 7
       Category = 'Groups'
       Caption = 'Switch to previous group'
+      OnExecute = actExecute
+    end
+    object actConfigFavoriteTabs: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of Favorite Tabs'
+      OnExecute = actExecute
+    end
+    object actConfigFolderTabs: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of folder tabs'
+      OnExecute = actExecute
+    end
+    object actLoadFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Load tabs from Favorite Tabs'
+      OnExecute = actExecute
+    end
+    object actSaveFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Save current tabs to a New Favorite Tabs'
+      OnExecute = actExecute
+    end
+    object actReloadFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Reload the last Favorite Tabs loaded'
+    end
+    object actPreviousFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Load the Previous Favorite Tabs in the list'
+    end
+    object actNextFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Load the Next Favorite Tabs in the list'
+    end
+    object actSetAllTabsOptionNormal: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Set all tabs to Normal'
+      OnExecute = actExecute
+    end
+    object actSetAllTabsOptionPathLocked: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Set all tabs to Locked'
+      OnExecute = actExecute
+    end
+    object actSetAllTabsOptionPathResets: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'All tabs Locked with Dir Changes Allowed'
+      OnExecute = actExecute
+    end
+    object actSetAllTabsOptionDirsInNewTab: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'All tabs Locked with Dir Opened in New Tabs'
       OnExecute = actExecute
     end
   end
@@ -3606,6 +3724,10 @@ object frmMain: TfrmMain
       Action = actRenameTab
       OnClick = mnuTabMenuClick
     end
+    object miOpenDirInNewTab: TMenuItem
+      Action = actOpenDirInNewTab
+      OnClick = mnuTabMenuClick
+    end
     object miLine14: TMenuItem
       Caption = '-'
     end
@@ -3649,6 +3771,54 @@ object frmMain: TfrmMain
         RadioItem = True
         OnClick = mnuTabMenuClick
       end
+      object miLine16: TMenuItem
+        Caption = '-'
+      end
+      object miSetAllTabsOptionNormal: TMenuItem
+        Action = actSetAllTabsOptionNormal
+      end
+      object miSetAllTabsOptionPathLocked: TMenuItem
+        Action = actSetAllTabsOptionPathLocked
+      end
+      object miSetAllTabsOptionPathResets: TMenuItem
+        Action = actSetAllTabsOptionPathResets
+      end
+      object miSetAllTabsOptionDirsInNewTab: TMenuItem
+        Action = actSetAllTabsOptionDirsInNewTab
+      end
+    end
+    object miLine21: TMenuItem
+      Caption = '-'
+    end
+    object miNextTab: TMenuItem
+      Action = actNextTab
+    end
+    object miPrevTab: TMenuItem
+      Action = actPrevTab
+    end
+    object miLine23: TMenuItem
+      Caption = '-'
+    end
+    object miSaveTabs: TMenuItem
+      Action = actSaveTabs
+    end
+    object miLoadTabs: TMenuItem
+      Action = actLoadTabs
+    end
+    object miSaveFavoriteTabs: TMenuItem
+      Action = actSaveFavoriteTabs
+    end
+    object miLoadFavoriteTabs: TMenuItem
+      Action = actLoadFavoriteTabs
+    end
+    object miLine26: TMenuItem
+      Caption = '-'
+    end
+    object miConfigFolderTabs: TMenuItem
+      Action = actConfigFolderTabs
+    end
+    object miConfigFavoriteTabs: TMenuItem
+      Action = actConfigFavoriteTabs
     end
   end
   object pmTrayIconMenu: TPopupMenu
@@ -3709,5 +3879,10 @@ object frmMain: TfrmMain
   object imgLstDirectoryHotlist: TImageList
     left = 200
     top = 224
+  end
+  object pmFavoriteTabs: TPopupMenu
+    Images = imgLstActions
+    left = 128
+    top = 152
   end
 end

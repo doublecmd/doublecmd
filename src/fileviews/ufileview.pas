@@ -408,7 +408,7 @@ type
     procedure LoadConfiguration(Section: String; TabIndex: Integer); virtual;
     procedure SaveConfiguration(Section: String; TabIndex: Integer); virtual;
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
-    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); virtual;
 
     procedure UpdateView;
 
@@ -2512,7 +2512,7 @@ begin
   end;
 end;
 
-procedure TFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+procedure TFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean);
 var
   HistoryNode, EntryNode, FSNode, PathsNode, PathNode: TXmlNode;
   SortingsNode, SortingSubNode: TXmlNode;
@@ -2563,7 +2563,7 @@ begin
 
       // Save paths history.
       PathsNode := AConfig.AddNode(EntryNode, 'Paths');
-      if gSaveDirHistory then
+      if ASaveHistory then
       begin
         for j := 0 to FHistory.PathsCount[i] - 1 do
         begin

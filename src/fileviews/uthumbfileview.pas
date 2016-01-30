@@ -85,7 +85,7 @@ type
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
     function Clone(NewParent: TWinControl): TThumbFileView; override;
-    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
   end;
 
 implementation
@@ -677,9 +677,9 @@ begin
   Result := TThumbFileView.Create(NewParent, Self);
 end;
 
-procedure TThumbFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+procedure TThumbFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean);
 begin
-  inherited SaveConfiguration(AConfig, ANode);
+  inherited SaveConfiguration(AConfig, ANode, ASaveHistory);
 
   AConfig.SetAttr(ANode, 'Type', 'thumbnails');
 end;

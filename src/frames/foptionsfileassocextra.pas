@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Extra File Associations Configuration
 
-	Copyright (C) 2015  Alexander Koblov (alexx2000@mail.ru)
+	Copyright (C) 2016  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@ type
     cbOpenSystemWithTerminalStayOpen: TCheckBox;
     cbIncludeConfigFileAssoc: TCheckBox;
     gbExtendedContextMenuOptions: TGroupBox;
-    rgWhatFileAssociationsToOfferFirst: TRadioGroup;
     procedure cbExtendedContextMenuChange(Sender: TObject);
   protected
     procedure Load; override;
@@ -134,4 +133,4 @@ begin
 end;
 
 
-end.
+end.

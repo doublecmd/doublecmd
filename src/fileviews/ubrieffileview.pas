@@ -43,7 +43,7 @@ type
     function GetVisibleFilesIndexes: TRange; override;
   public
     function Clone(NewParent: TWinControl): TBriefFileView; override;
-    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
   end;
 
 implementation
@@ -529,9 +529,9 @@ begin
   Result := TBriefFileView.Create(NewParent, Self);
 end;
 
-procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean);
 begin
-  inherited SaveConfiguration(AConfig, ANode);
+  inherited SaveConfiguration(AConfig, ANode, ASaveHistory);
 
   AConfig.SetAttr(ANode, 'Type', 'brief');
 end;
