@@ -2522,10 +2522,6 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "刪除"
 
-#: tfrmmain.actdeleteactivegroup.caption
-msgid "Delete active group"
-msgstr ""
-
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2733,17 +2729,9 @@ msgstr "中斷連接網路 (&D)"
 msgid "Network &Quick Connect..."
 msgstr "快速連接網路 (&Q)"
 
-#: tfrmmain.actnewgroup.caption
-msgid "New Group"
-msgstr ""
-
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "新增分頁 (&N)"
-
-#: tfrmmain.actnextgroup.caption
-msgid "Switch to next group"
-msgstr ""
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2790,10 +2778,6 @@ msgstr "設置分隔位置"
 msgid "&Paste"
 msgstr "貼上 (&P)"
 
-#: tfrmmain.actprevgroup.caption
-msgid "Switch to previous group"
-msgstr ""
-
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "切換到上一個分頁 (&P)"
@@ -2837,10 +2821,6 @@ msgstr "重新命名"
 msgid "&Rename Tab"
 msgstr "重新命名分頁 (&R)"
 
-#: tfrmmain.actrestoreactivegroup.caption
-msgid "Restore Active Group"
-msgstr ""
-
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "回復所選項目 (&R)"
@@ -2848,10 +2828,6 @@ msgstr "回復所選項目 (&R)"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "反向排序 (&V)"
-
-#: tfrmmain.actrewriteactivegroup.caption
-msgid "actRewriteActiveGroup"
-msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3387,12 +3363,6 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmmain.milinestartgroups.caption
-#, fuzzy
-msgctxt "tfrmmain.milinestartgroups.caption"
-msgid "-"
-msgstr "-"
-
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "清除"
@@ -3476,10 +3446,6 @@ msgstr "-"
 msgid "&Files"
 msgstr "檔案 (&F)"
 
-#: tfrmmain.mnugroups.caption
-msgid "Groups"
-msgstr ""
-
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3493,10 +3459,6 @@ msgstr "標記 (&M)"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "網路"
-
-#: tfrmmain.mnurewriteactivegroup.caption
-msgid "Rewrite Active Group"
-msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9983,26 +9945,6 @@ msgstr "大小"
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "類型"
-
-#: ulng.rsgroupalreadyexists
-msgid "Group with entered name already exist, overwrite?"
-msgstr ""
-
-#: ulng.rsgroupdeleteactive
-msgid "Sure want to remove Active group from menu?"
-msgstr ""
-
-#: ulng.rsgroupnewgroup
-msgid "Creating new group"
-msgstr ""
-
-#: ulng.rsgroupnewgroupname
-msgid "Group name:"
-msgstr ""
-
-#: ulng.rsgrouprewriteactive
-msgid "Sure want to rewrite Active group with current tabs?"
-msgstr ""
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
